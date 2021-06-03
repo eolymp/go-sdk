@@ -9,6 +9,7 @@ package atlas
 import (
 	_ "github.com/eolymp/contracts/go/eolymp/annotations"
 	executor "github.com/eolymp/contracts/go/eolymp/executor"
+	wellknown "github.com/eolymp/contracts/go/eolymp/wellknown"
 	proto "github.com/golang/protobuf/proto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -3062,6 +3063,935 @@ func (x *DescribeCodeTemplateOutput) GetTemplate() *Template {
 	return nil
 }
 
+type CreateSolutionInput struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	ProblemId string    `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
+	Solution  *Solution `protobuf:"bytes,2,opt,name=solution,proto3" json:"solution,omitempty"`
+}
+
+func (x *CreateSolutionInput) Reset() {
+	*x = CreateSolutionInput{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_eolymp_atlas_atlas_proto_msgTypes[64]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *CreateSolutionInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateSolutionInput) ProtoMessage() {}
+
+func (x *CreateSolutionInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_atlas_proto_msgTypes[64]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateSolutionInput.ProtoReflect.Descriptor instead.
+func (*CreateSolutionInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_atlas_proto_rawDescGZIP(), []int{64}
+}
+
+func (x *CreateSolutionInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
+}
+
+func (x *CreateSolutionInput) GetSolution() *Solution {
+	if x != nil {
+		return x.Solution
+	}
+	return nil
+}
+
+type CreateSolutionOutput struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	SolutionId string `protobuf:"bytes,1,opt,name=solution_id,json=solutionId,proto3" json:"solution_id,omitempty"`
+}
+
+func (x *CreateSolutionOutput) Reset() {
+	*x = CreateSolutionOutput{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_eolymp_atlas_atlas_proto_msgTypes[65]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *CreateSolutionOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateSolutionOutput) ProtoMessage() {}
+
+func (x *CreateSolutionOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_atlas_proto_msgTypes[65]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateSolutionOutput.ProtoReflect.Descriptor instead.
+func (*CreateSolutionOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_atlas_proto_rawDescGZIP(), []int{65}
+}
+
+func (x *CreateSolutionOutput) GetSolutionId() string {
+	if x != nil {
+		return x.SolutionId
+	}
+	return ""
+}
+
+type UpdateSolutionInput struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	SolutionId string    `protobuf:"bytes,1,opt,name=solution_id,json=solutionId,proto3" json:"solution_id,omitempty"`
+	Solution   *Solution `protobuf:"bytes,2,opt,name=solution,proto3" json:"solution,omitempty"`
+}
+
+func (x *UpdateSolutionInput) Reset() {
+	*x = UpdateSolutionInput{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_eolymp_atlas_atlas_proto_msgTypes[66]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UpdateSolutionInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateSolutionInput) ProtoMessage() {}
+
+func (x *UpdateSolutionInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_atlas_proto_msgTypes[66]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateSolutionInput.ProtoReflect.Descriptor instead.
+func (*UpdateSolutionInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_atlas_proto_rawDescGZIP(), []int{66}
+}
+
+func (x *UpdateSolutionInput) GetSolutionId() string {
+	if x != nil {
+		return x.SolutionId
+	}
+	return ""
+}
+
+func (x *UpdateSolutionInput) GetSolution() *Solution {
+	if x != nil {
+		return x.Solution
+	}
+	return nil
+}
+
+type UpdateSolutionOutput struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *UpdateSolutionOutput) Reset() {
+	*x = UpdateSolutionOutput{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_eolymp_atlas_atlas_proto_msgTypes[67]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UpdateSolutionOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateSolutionOutput) ProtoMessage() {}
+
+func (x *UpdateSolutionOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_atlas_proto_msgTypes[67]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateSolutionOutput.ProtoReflect.Descriptor instead.
+func (*UpdateSolutionOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_atlas_proto_rawDescGZIP(), []int{67}
+}
+
+type DeleteSolutionInput struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	SolutionId string `protobuf:"bytes,1,opt,name=solution_id,json=solutionId,proto3" json:"solution_id,omitempty"`
+}
+
+func (x *DeleteSolutionInput) Reset() {
+	*x = DeleteSolutionInput{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_eolymp_atlas_atlas_proto_msgTypes[68]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *DeleteSolutionInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteSolutionInput) ProtoMessage() {}
+
+func (x *DeleteSolutionInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_atlas_proto_msgTypes[68]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteSolutionInput.ProtoReflect.Descriptor instead.
+func (*DeleteSolutionInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_atlas_proto_rawDescGZIP(), []int{68}
+}
+
+func (x *DeleteSolutionInput) GetSolutionId() string {
+	if x != nil {
+		return x.SolutionId
+	}
+	return ""
+}
+
+type DeleteSolutionOutput struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *DeleteSolutionOutput) Reset() {
+	*x = DeleteSolutionOutput{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_eolymp_atlas_atlas_proto_msgTypes[69]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *DeleteSolutionOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteSolutionOutput) ProtoMessage() {}
+
+func (x *DeleteSolutionOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_atlas_proto_msgTypes[69]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteSolutionOutput.ProtoReflect.Descriptor instead.
+func (*DeleteSolutionOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_atlas_proto_rawDescGZIP(), []int{69}
+}
+
+type ListSolutionsInput struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// pagination
+	Offset int32 `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
+	Size   int32 `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
+	// data filters
+	Filters *ListSolutionsInput_Filter `protobuf:"bytes,40,opt,name=filters,proto3" json:"filters,omitempty"`
+}
+
+func (x *ListSolutionsInput) Reset() {
+	*x = ListSolutionsInput{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_eolymp_atlas_atlas_proto_msgTypes[70]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ListSolutionsInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListSolutionsInput) ProtoMessage() {}
+
+func (x *ListSolutionsInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_atlas_proto_msgTypes[70]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListSolutionsInput.ProtoReflect.Descriptor instead.
+func (*ListSolutionsInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_atlas_proto_rawDescGZIP(), []int{70}
+}
+
+func (x *ListSolutionsInput) GetOffset() int32 {
+	if x != nil {
+		return x.Offset
+	}
+	return 0
+}
+
+func (x *ListSolutionsInput) GetSize() int32 {
+	if x != nil {
+		return x.Size
+	}
+	return 0
+}
+
+func (x *ListSolutionsInput) GetFilters() *ListSolutionsInput_Filter {
+	if x != nil {
+		return x.Filters
+	}
+	return nil
+}
+
+type ListSolutionsOutput struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Total int32       `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty"`
+	Items []*Solution `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
+}
+
+func (x *ListSolutionsOutput) Reset() {
+	*x = ListSolutionsOutput{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_eolymp_atlas_atlas_proto_msgTypes[71]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ListSolutionsOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListSolutionsOutput) ProtoMessage() {}
+
+func (x *ListSolutionsOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_atlas_proto_msgTypes[71]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListSolutionsOutput.ProtoReflect.Descriptor instead.
+func (*ListSolutionsOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_atlas_proto_rawDescGZIP(), []int{71}
+}
+
+func (x *ListSolutionsOutput) GetTotal() int32 {
+	if x != nil {
+		return x.Total
+	}
+	return 0
+}
+
+func (x *ListSolutionsOutput) GetItems() []*Solution {
+	if x != nil {
+		return x.Items
+	}
+	return nil
+}
+
+type DescribeSolutionInput struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	SolutionId string `protobuf:"bytes,1,opt,name=solution_id,json=solutionId,proto3" json:"solution_id,omitempty"`
+}
+
+func (x *DescribeSolutionInput) Reset() {
+	*x = DescribeSolutionInput{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_eolymp_atlas_atlas_proto_msgTypes[72]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *DescribeSolutionInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DescribeSolutionInput) ProtoMessage() {}
+
+func (x *DescribeSolutionInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_atlas_proto_msgTypes[72]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DescribeSolutionInput.ProtoReflect.Descriptor instead.
+func (*DescribeSolutionInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_atlas_proto_rawDescGZIP(), []int{72}
+}
+
+func (x *DescribeSolutionInput) GetSolutionId() string {
+	if x != nil {
+		return x.SolutionId
+	}
+	return ""
+}
+
+type DescribeSolutionOutput struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Solution *Solution `protobuf:"bytes,1,opt,name=solution,proto3" json:"solution,omitempty"`
+}
+
+func (x *DescribeSolutionOutput) Reset() {
+	*x = DescribeSolutionOutput{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_eolymp_atlas_atlas_proto_msgTypes[73]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *DescribeSolutionOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DescribeSolutionOutput) ProtoMessage() {}
+
+func (x *DescribeSolutionOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_atlas_proto_msgTypes[73]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DescribeSolutionOutput.ProtoReflect.Descriptor instead.
+func (*DescribeSolutionOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_atlas_proto_rawDescGZIP(), []int{73}
+}
+
+func (x *DescribeSolutionOutput) GetSolution() *Solution {
+	if x != nil {
+		return x.Solution
+	}
+	return nil
+}
+
+type PublishSolutionInput struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	SolutionId string `protobuf:"bytes,1,opt,name=solution_id,json=solutionId,proto3" json:"solution_id,omitempty"`
+}
+
+func (x *PublishSolutionInput) Reset() {
+	*x = PublishSolutionInput{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_eolymp_atlas_atlas_proto_msgTypes[74]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *PublishSolutionInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PublishSolutionInput) ProtoMessage() {}
+
+func (x *PublishSolutionInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_atlas_proto_msgTypes[74]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PublishSolutionInput.ProtoReflect.Descriptor instead.
+func (*PublishSolutionInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_atlas_proto_rawDescGZIP(), []int{74}
+}
+
+func (x *PublishSolutionInput) GetSolutionId() string {
+	if x != nil {
+		return x.SolutionId
+	}
+	return ""
+}
+
+type PublishSolutionOutput struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *PublishSolutionOutput) Reset() {
+	*x = PublishSolutionOutput{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_eolymp_atlas_atlas_proto_msgTypes[75]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *PublishSolutionOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PublishSolutionOutput) ProtoMessage() {}
+
+func (x *PublishSolutionOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_atlas_proto_msgTypes[75]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PublishSolutionOutput.ProtoReflect.Descriptor instead.
+func (*PublishSolutionOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_atlas_proto_rawDescGZIP(), []int{75}
+}
+
+type UnpublishSolutionInput struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	SolutionId string `protobuf:"bytes,1,opt,name=solution_id,json=solutionId,proto3" json:"solution_id,omitempty"`
+}
+
+func (x *UnpublishSolutionInput) Reset() {
+	*x = UnpublishSolutionInput{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_eolymp_atlas_atlas_proto_msgTypes[76]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UnpublishSolutionInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UnpublishSolutionInput) ProtoMessage() {}
+
+func (x *UnpublishSolutionInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_atlas_proto_msgTypes[76]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UnpublishSolutionInput.ProtoReflect.Descriptor instead.
+func (*UnpublishSolutionInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_atlas_proto_rawDescGZIP(), []int{76}
+}
+
+func (x *UnpublishSolutionInput) GetSolutionId() string {
+	if x != nil {
+		return x.SolutionId
+	}
+	return ""
+}
+
+type UnpublishSolutionOutput struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *UnpublishSolutionOutput) Reset() {
+	*x = UnpublishSolutionOutput{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_eolymp_atlas_atlas_proto_msgTypes[77]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UnpublishSolutionOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UnpublishSolutionOutput) ProtoMessage() {}
+
+func (x *UnpublishSolutionOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_atlas_proto_msgTypes[77]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UnpublishSolutionOutput.ProtoReflect.Descriptor instead.
+func (*UnpublishSolutionOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_atlas_proto_rawDescGZIP(), []int{77}
+}
+
+type ApproveSolutionInput struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	SolutionId string `protobuf:"bytes,1,opt,name=solution_id,json=solutionId,proto3" json:"solution_id,omitempty"`
+}
+
+func (x *ApproveSolutionInput) Reset() {
+	*x = ApproveSolutionInput{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_eolymp_atlas_atlas_proto_msgTypes[78]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ApproveSolutionInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ApproveSolutionInput) ProtoMessage() {}
+
+func (x *ApproveSolutionInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_atlas_proto_msgTypes[78]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ApproveSolutionInput.ProtoReflect.Descriptor instead.
+func (*ApproveSolutionInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_atlas_proto_rawDescGZIP(), []int{78}
+}
+
+func (x *ApproveSolutionInput) GetSolutionId() string {
+	if x != nil {
+		return x.SolutionId
+	}
+	return ""
+}
+
+type ApproveSolutionOutput struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *ApproveSolutionOutput) Reset() {
+	*x = ApproveSolutionOutput{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_eolymp_atlas_atlas_proto_msgTypes[79]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ApproveSolutionOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ApproveSolutionOutput) ProtoMessage() {}
+
+func (x *ApproveSolutionOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_atlas_proto_msgTypes[79]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ApproveSolutionOutput.ProtoReflect.Descriptor instead.
+func (*ApproveSolutionOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_atlas_proto_rawDescGZIP(), []int{79}
+}
+
+type RefuseSolutionInput struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	SolutionId string `protobuf:"bytes,1,opt,name=solution_id,json=solutionId,proto3" json:"solution_id,omitempty"`
+	Comment    string `protobuf:"bytes,2,opt,name=comment,proto3" json:"comment,omitempty"`
+}
+
+func (x *RefuseSolutionInput) Reset() {
+	*x = RefuseSolutionInput{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_eolymp_atlas_atlas_proto_msgTypes[80]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RefuseSolutionInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RefuseSolutionInput) ProtoMessage() {}
+
+func (x *RefuseSolutionInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_atlas_proto_msgTypes[80]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RefuseSolutionInput.ProtoReflect.Descriptor instead.
+func (*RefuseSolutionInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_atlas_proto_rawDescGZIP(), []int{80}
+}
+
+func (x *RefuseSolutionInput) GetSolutionId() string {
+	if x != nil {
+		return x.SolutionId
+	}
+	return ""
+}
+
+func (x *RefuseSolutionInput) GetComment() string {
+	if x != nil {
+		return x.Comment
+	}
+	return ""
+}
+
+type RefuseSolutionOutput struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *RefuseSolutionOutput) Reset() {
+	*x = RefuseSolutionOutput{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_eolymp_atlas_atlas_proto_msgTypes[81]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RefuseSolutionOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RefuseSolutionOutput) ProtoMessage() {}
+
+func (x *RefuseSolutionOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_atlas_proto_msgTypes[81]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RefuseSolutionOutput.ProtoReflect.Descriptor instead.
+func (*RefuseSolutionOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_atlas_proto_rawDescGZIP(), []int{81}
+}
+
+type ListSolutionsInput_Filter struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id               []*wellknown.ExpressionID   `protobuf:"bytes,1,rep,name=id,proto3" json:"id,omitempty"`
+	ProblemId        []*wellknown.ExpressionID   `protobuf:"bytes,2,rep,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
+	AuthorId         []*wellknown.ExpressionID   `protobuf:"bytes,3,rep,name=author_id,json=authorId,proto3" json:"author_id,omitempty"`
+	ModerationStatus []*wellknown.ExpressionEnum `protobuf:"bytes,4,rep,name=moderation_status,json=moderationStatus,proto3" json:"moderation_status,omitempty"`
+	Published        []*wellknown.ExpressionBool `protobuf:"bytes,5,rep,name=published,proto3" json:"published,omitempty"`
+	Lang             []*wellknown.ExpressionEnum `protobuf:"bytes,6,rep,name=lang,proto3" json:"lang,omitempty"`
+}
+
+func (x *ListSolutionsInput_Filter) Reset() {
+	*x = ListSolutionsInput_Filter{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_eolymp_atlas_atlas_proto_msgTypes[82]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ListSolutionsInput_Filter) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListSolutionsInput_Filter) ProtoMessage() {}
+
+func (x *ListSolutionsInput_Filter) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_atlas_proto_msgTypes[82]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListSolutionsInput_Filter.ProtoReflect.Descriptor instead.
+func (*ListSolutionsInput_Filter) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_atlas_proto_rawDescGZIP(), []int{70, 0}
+}
+
+func (x *ListSolutionsInput_Filter) GetId() []*wellknown.ExpressionID {
+	if x != nil {
+		return x.Id
+	}
+	return nil
+}
+
+func (x *ListSolutionsInput_Filter) GetProblemId() []*wellknown.ExpressionID {
+	if x != nil {
+		return x.ProblemId
+	}
+	return nil
+}
+
+func (x *ListSolutionsInput_Filter) GetAuthorId() []*wellknown.ExpressionID {
+	if x != nil {
+		return x.AuthorId
+	}
+	return nil
+}
+
+func (x *ListSolutionsInput_Filter) GetModerationStatus() []*wellknown.ExpressionEnum {
+	if x != nil {
+		return x.ModerationStatus
+	}
+	return nil
+}
+
+func (x *ListSolutionsInput_Filter) GetPublished() []*wellknown.ExpressionBool {
+	if x != nil {
+		return x.Published
+	}
+	return nil
+}
+
+func (x *ListSolutionsInput_Filter) GetLang() []*wellknown.ExpressionEnum {
+	if x != nil {
+		return x.Lang
+	}
+	return nil
+}
+
 var File_eolymp_atlas_atlas_proto protoreflect.FileDescriptor
 
 var file_eolymp_atlas_atlas_proto_rawDesc = []byte{
@@ -3077,11 +4007,15 @@ var file_eolymp_atlas_atlas_proto_rawDesc = []byte{
 	0x79, 0x6d, 0x70, 0x2f, 0x65, 0x78, 0x65, 0x63, 0x75, 0x74, 0x6f, 0x72, 0x2f, 0x76, 0x65, 0x72,
 	0x69, 0x66, 0x69, 0x65, 0x72, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x20, 0x65, 0x6f, 0x6c,
 	0x79, 0x6d, 0x70, 0x2f, 0x65, 0x78, 0x65, 0x63, 0x75, 0x74, 0x6f, 0x72, 0x2f, 0x69, 0x6e, 0x74,
-	0x65, 0x72, 0x61, 0x63, 0x74, 0x6f, 0x72, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x1d, 0x65,
-	0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x61, 0x74, 0x6c, 0x61, 0x73, 0x2f, 0x70, 0x65, 0x72, 0x6d,
-	0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x1a, 0x65, 0x6f,
-	0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x61, 0x74, 0x6c, 0x61, 0x73, 0x2f, 0x70, 0x72, 0x6f, 0x62, 0x6c,
-	0x65, 0x6d, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x1c, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70,
+	0x65, 0x72, 0x61, 0x63, 0x74, 0x6f, 0x72, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x21, 0x65,
+	0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x77, 0x65, 0x6c, 0x6c, 0x6b, 0x6e, 0x6f, 0x77, 0x6e, 0x2f,
+	0x65, 0x78, 0x70, 0x72, 0x65, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f,
+	0x1a, 0x1d, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x61, 0x74, 0x6c, 0x61, 0x73, 0x2f, 0x70,
+	0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a,
+	0x1a, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x61, 0x74, 0x6c, 0x61, 0x73, 0x2f, 0x70, 0x72,
+	0x6f, 0x62, 0x6c, 0x65, 0x6d, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x1b, 0x65, 0x6f, 0x6c,
+	0x79, 0x6d, 0x70, 0x2f, 0x61, 0x74, 0x6c, 0x61, 0x73, 0x2f, 0x73, 0x6f, 0x6c, 0x75, 0x74, 0x69,
+	0x6f, 0x6e, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x1c, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70,
 	0x2f, 0x61, 0x74, 0x6c, 0x61, 0x73, 0x2f, 0x73, 0x74, 0x61, 0x74, 0x65, 0x6d, 0x65, 0x6e, 0x74,
 	0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x17, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x61,
 	0x74, 0x6c, 0x61, 0x73, 0x2f, 0x74, 0x65, 0x73, 0x74, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a,
@@ -3341,7 +4275,99 @@ var file_eolymp_atlas_atlas_proto_rawDesc = []byte{
 	0x12, 0x32, 0x0a, 0x08, 0x74, 0x65, 0x6d, 0x70, 0x6c, 0x61, 0x74, 0x65, 0x18, 0x01, 0x20, 0x01,
 	0x28, 0x0b, 0x32, 0x16, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x61, 0x74, 0x6c, 0x61,
 	0x73, 0x2e, 0x54, 0x65, 0x6d, 0x70, 0x6c, 0x61, 0x74, 0x65, 0x52, 0x08, 0x74, 0x65, 0x6d, 0x70,
-	0x6c, 0x61, 0x74, 0x65, 0x32, 0xb4, 0x2d, 0x0a, 0x05, 0x41, 0x74, 0x6c, 0x61, 0x73, 0x12, 0xa1,
+	0x6c, 0x61, 0x74, 0x65, 0x22, 0x68, 0x0a, 0x13, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x53, 0x6f,
+	0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x6e, 0x70, 0x75, 0x74, 0x12, 0x1d, 0x0a, 0x0a, 0x70,
+	0x72, 0x6f, 0x62, 0x6c, 0x65, 0x6d, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x09, 0x70, 0x72, 0x6f, 0x62, 0x6c, 0x65, 0x6d, 0x49, 0x64, 0x12, 0x32, 0x0a, 0x08, 0x73, 0x6f,
+	0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x16, 0x2e, 0x65,
+	0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x61, 0x74, 0x6c, 0x61, 0x73, 0x2e, 0x53, 0x6f, 0x6c, 0x75,
+	0x74, 0x69, 0x6f, 0x6e, 0x52, 0x08, 0x73, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x37,
+	0x0a, 0x14, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x53, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e,
+	0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x12, 0x1f, 0x0a, 0x0b, 0x73, 0x6f, 0x6c, 0x75, 0x74, 0x69,
+	0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x73, 0x6f, 0x6c,
+	0x75, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x64, 0x22, 0x6a, 0x0a, 0x13, 0x55, 0x70, 0x64, 0x61, 0x74,
+	0x65, 0x53, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x6e, 0x70, 0x75, 0x74, 0x12, 0x1f,
+	0x0a, 0x0b, 0x73, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x0a, 0x73, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x64, 0x12,
+	0x32, 0x0a, 0x08, 0x73, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x0b, 0x32, 0x16, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x61, 0x74, 0x6c, 0x61, 0x73,
+	0x2e, 0x53, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x08, 0x73, 0x6f, 0x6c, 0x75, 0x74,
+	0x69, 0x6f, 0x6e, 0x22, 0x16, 0x0a, 0x14, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x53, 0x6f, 0x6c,
+	0x75, 0x74, 0x69, 0x6f, 0x6e, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x22, 0x36, 0x0a, 0x13, 0x44,
+	0x65, 0x6c, 0x65, 0x74, 0x65, 0x53, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x6e, 0x70,
+	0x75, 0x74, 0x12, 0x1f, 0x0a, 0x0b, 0x73, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69,
+	0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x73, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f,
+	0x6e, 0x49, 0x64, 0x22, 0x16, 0x0a, 0x14, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x53, 0x6f, 0x6c,
+	0x75, 0x74, 0x69, 0x6f, 0x6e, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x22, 0xff, 0x03, 0x0a, 0x12,
+	0x4c, 0x69, 0x73, 0x74, 0x53, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x49, 0x6e, 0x70,
+	0x75, 0x74, 0x12, 0x16, 0x0a, 0x06, 0x6f, 0x66, 0x66, 0x73, 0x65, 0x74, 0x18, 0x0a, 0x20, 0x01,
+	0x28, 0x05, 0x52, 0x06, 0x6f, 0x66, 0x66, 0x73, 0x65, 0x74, 0x12, 0x12, 0x0a, 0x04, 0x73, 0x69,
+	0x7a, 0x65, 0x18, 0x0b, 0x20, 0x01, 0x28, 0x05, 0x52, 0x04, 0x73, 0x69, 0x7a, 0x65, 0x12, 0x41,
+	0x0a, 0x07, 0x66, 0x69, 0x6c, 0x74, 0x65, 0x72, 0x73, 0x18, 0x28, 0x20, 0x01, 0x28, 0x0b, 0x32,
+	0x27, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x61, 0x74, 0x6c, 0x61, 0x73, 0x2e, 0x4c,
+	0x69, 0x73, 0x74, 0x53, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x49, 0x6e, 0x70, 0x75,
+	0x74, 0x2e, 0x46, 0x69, 0x6c, 0x74, 0x65, 0x72, 0x52, 0x07, 0x66, 0x69, 0x6c, 0x74, 0x65, 0x72,
+	0x73, 0x1a, 0xf9, 0x02, 0x0a, 0x06, 0x46, 0x69, 0x6c, 0x74, 0x65, 0x72, 0x12, 0x2e, 0x0a, 0x02,
+	0x69, 0x64, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x1e, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d,
+	0x70, 0x2e, 0x77, 0x65, 0x6c, 0x6c, 0x6b, 0x6e, 0x6f, 0x77, 0x6e, 0x2e, 0x45, 0x78, 0x70, 0x72,
+	0x65, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x49, 0x44, 0x52, 0x02, 0x69, 0x64, 0x12, 0x3d, 0x0a, 0x0a,
+	0x70, 0x72, 0x6f, 0x62, 0x6c, 0x65, 0x6d, 0x5f, 0x69, 0x64, 0x18, 0x02, 0x20, 0x03, 0x28, 0x0b,
+	0x32, 0x1e, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x77, 0x65, 0x6c, 0x6c, 0x6b, 0x6e,
+	0x6f, 0x77, 0x6e, 0x2e, 0x45, 0x78, 0x70, 0x72, 0x65, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x49, 0x44,
+	0x52, 0x09, 0x70, 0x72, 0x6f, 0x62, 0x6c, 0x65, 0x6d, 0x49, 0x64, 0x12, 0x3b, 0x0a, 0x09, 0x61,
+	0x75, 0x74, 0x68, 0x6f, 0x72, 0x5f, 0x69, 0x64, 0x18, 0x03, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x1e,
+	0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x77, 0x65, 0x6c, 0x6c, 0x6b, 0x6e, 0x6f, 0x77,
+	0x6e, 0x2e, 0x45, 0x78, 0x70, 0x72, 0x65, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x49, 0x44, 0x52, 0x08,
+	0x61, 0x75, 0x74, 0x68, 0x6f, 0x72, 0x49, 0x64, 0x12, 0x4d, 0x0a, 0x11, 0x6d, 0x6f, 0x64, 0x65,
+	0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x18, 0x04, 0x20,
+	0x03, 0x28, 0x0b, 0x32, 0x20, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x77, 0x65, 0x6c,
+	0x6c, 0x6b, 0x6e, 0x6f, 0x77, 0x6e, 0x2e, 0x45, 0x78, 0x70, 0x72, 0x65, 0x73, 0x73, 0x69, 0x6f,
+	0x6e, 0x45, 0x6e, 0x75, 0x6d, 0x52, 0x10, 0x6d, 0x6f, 0x64, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x3e, 0x0a, 0x09, 0x70, 0x75, 0x62, 0x6c, 0x69,
+	0x73, 0x68, 0x65, 0x64, 0x18, 0x05, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x20, 0x2e, 0x65, 0x6f, 0x6c,
+	0x79, 0x6d, 0x70, 0x2e, 0x77, 0x65, 0x6c, 0x6c, 0x6b, 0x6e, 0x6f, 0x77, 0x6e, 0x2e, 0x45, 0x78,
+	0x70, 0x72, 0x65, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x42, 0x6f, 0x6f, 0x6c, 0x52, 0x09, 0x70, 0x75,
+	0x62, 0x6c, 0x69, 0x73, 0x68, 0x65, 0x64, 0x12, 0x34, 0x0a, 0x04, 0x6c, 0x61, 0x6e, 0x67, 0x18,
+	0x06, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x20, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x77,
+	0x65, 0x6c, 0x6c, 0x6b, 0x6e, 0x6f, 0x77, 0x6e, 0x2e, 0x45, 0x78, 0x70, 0x72, 0x65, 0x73, 0x73,
+	0x69, 0x6f, 0x6e, 0x45, 0x6e, 0x75, 0x6d, 0x52, 0x04, 0x6c, 0x61, 0x6e, 0x67, 0x22, 0x59, 0x0a,
+	0x13, 0x4c, 0x69, 0x73, 0x74, 0x53, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x4f, 0x75,
+	0x74, 0x70, 0x75, 0x74, 0x12, 0x14, 0x0a, 0x05, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x05, 0x52, 0x05, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x12, 0x2c, 0x0a, 0x05, 0x69, 0x74,
+	0x65, 0x6d, 0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x16, 0x2e, 0x65, 0x6f, 0x6c, 0x79,
+	0x6d, 0x70, 0x2e, 0x61, 0x74, 0x6c, 0x61, 0x73, 0x2e, 0x53, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f,
+	0x6e, 0x52, 0x05, 0x69, 0x74, 0x65, 0x6d, 0x73, 0x22, 0x38, 0x0a, 0x15, 0x44, 0x65, 0x73, 0x63,
+	0x72, 0x69, 0x62, 0x65, 0x53, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x6e, 0x70, 0x75,
+	0x74, 0x12, 0x1f, 0x0a, 0x0b, 0x73, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x73, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e,
+	0x49, 0x64, 0x22, 0x4c, 0x0a, 0x16, 0x44, 0x65, 0x73, 0x63, 0x72, 0x69, 0x62, 0x65, 0x53, 0x6f,
+	0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x12, 0x32, 0x0a, 0x08,
+	0x73, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x16,
+	0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x61, 0x74, 0x6c, 0x61, 0x73, 0x2e, 0x53, 0x6f,
+	0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x08, 0x73, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e,
+	0x22, 0x37, 0x0a, 0x14, 0x50, 0x75, 0x62, 0x6c, 0x69, 0x73, 0x68, 0x53, 0x6f, 0x6c, 0x75, 0x74,
+	0x69, 0x6f, 0x6e, 0x49, 0x6e, 0x70, 0x75, 0x74, 0x12, 0x1f, 0x0a, 0x0b, 0x73, 0x6f, 0x6c, 0x75,
+	0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x73,
+	0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x64, 0x22, 0x17, 0x0a, 0x15, 0x50, 0x75, 0x62,
+	0x6c, 0x69, 0x73, 0x68, 0x53, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x4f, 0x75, 0x74, 0x70,
+	0x75, 0x74, 0x22, 0x39, 0x0a, 0x16, 0x55, 0x6e, 0x70, 0x75, 0x62, 0x6c, 0x69, 0x73, 0x68, 0x53,
+	0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x6e, 0x70, 0x75, 0x74, 0x12, 0x1f, 0x0a, 0x0b,
+	0x73, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x0a, 0x73, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x64, 0x22, 0x19, 0x0a,
+	0x17, 0x55, 0x6e, 0x70, 0x75, 0x62, 0x6c, 0x69, 0x73, 0x68, 0x53, 0x6f, 0x6c, 0x75, 0x74, 0x69,
+	0x6f, 0x6e, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x22, 0x37, 0x0a, 0x14, 0x41, 0x70, 0x70, 0x72,
+	0x6f, 0x76, 0x65, 0x53, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x6e, 0x70, 0x75, 0x74,
+	0x12, 0x1f, 0x0a, 0x0b, 0x73, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x73, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x49,
+	0x64, 0x22, 0x17, 0x0a, 0x15, 0x41, 0x70, 0x70, 0x72, 0x6f, 0x76, 0x65, 0x53, 0x6f, 0x6c, 0x75,
+	0x74, 0x69, 0x6f, 0x6e, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x22, 0x50, 0x0a, 0x13, 0x52, 0x65,
+	0x66, 0x75, 0x73, 0x65, 0x53, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x6e, 0x70, 0x75,
+	0x74, 0x12, 0x1f, 0x0a, 0x0b, 0x73, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x73, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e,
+	0x49, 0x64, 0x12, 0x18, 0x0a, 0x07, 0x63, 0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x18, 0x02, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x07, 0x63, 0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x22, 0x16, 0x0a, 0x14,
+	0x52, 0x65, 0x66, 0x75, 0x73, 0x65, 0x53, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x4f, 0x75,
+	0x74, 0x70, 0x75, 0x74, 0x32, 0x82, 0x39, 0x0a, 0x05, 0x41, 0x74, 0x6c, 0x61, 0x73, 0x12, 0xa1,
 	0x01, 0x0a, 0x0d, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x50, 0x72, 0x6f, 0x62, 0x6c, 0x65, 0x6d,
 	0x12, 0x20, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x61, 0x74, 0x6c, 0x61, 0x73, 0x2e,
 	0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x50, 0x72, 0x6f, 0x62, 0x6c, 0x65, 0x6d, 0x49, 0x6e, 0x70,
@@ -3704,11 +4730,104 @@ var file_eolymp_atlas_atlas_proto_rawDesc = []byte{
 	0xf5, 0xe2, 0x0a, 0x00, 0x00, 0xa0, 0x41, 0xf8, 0xe2, 0x0a, 0x64, 0x82, 0xd3, 0xe4, 0x93, 0x02,
 	0x2a, 0x12, 0x1e, 0x2f, 0x61, 0x74, 0x6c, 0x61, 0x73, 0x2f, 0x74, 0x65, 0x6d, 0x70, 0x6c, 0x61,
 	0x74, 0x65, 0x73, 0x2f, 0x7b, 0x74, 0x65, 0x6d, 0x70, 0x6c, 0x61, 0x74, 0x65, 0x5f, 0x69, 0x64,
-	0x7d, 0x62, 0x08, 0x74, 0x65, 0x6d, 0x70, 0x6c, 0x61, 0x74, 0x65, 0x42, 0x33, 0x5a, 0x31, 0x67,
-	0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70,
-	0x2f, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x73, 0x2f, 0x67, 0x6f, 0x2f, 0x65, 0x6f,
-	0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x61, 0x74, 0x6c, 0x61, 0x73, 0x3b, 0x61, 0x74, 0x6c, 0x61, 0x73,
-	0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x7d, 0x62, 0x08, 0x74, 0x65, 0x6d, 0x70, 0x6c, 0x61, 0x74, 0x65, 0x12, 0xa0, 0x01, 0x0a, 0x0e,
+	0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x53, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x21,
+	0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x61, 0x74, 0x6c, 0x61, 0x73, 0x2e, 0x43, 0x72,
+	0x65, 0x61, 0x74, 0x65, 0x53, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x6e, 0x70, 0x75,
+	0x74, 0x1a, 0x22, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x61, 0x74, 0x6c, 0x61, 0x73,
+	0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x53, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x4f,
+	0x75, 0x74, 0x70, 0x75, 0x74, 0x22, 0x47, 0xea, 0xe2, 0x0a, 0x0b, 0xf5, 0xe2, 0x0a, 0x00, 0x00,
+	0x80, 0x3f, 0xf8, 0xe2, 0x0a, 0x05, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x32, 0x22, 0x26, 0x2f, 0x61,
+	0x74, 0x6c, 0x61, 0x73, 0x2f, 0x70, 0x72, 0x6f, 0x62, 0x6c, 0x65, 0x6d, 0x73, 0x2f, 0x7b, 0x70,
+	0x72, 0x6f, 0x62, 0x6c, 0x65, 0x6d, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x73, 0x6f, 0x6c, 0x75, 0x74,
+	0x69, 0x6f, 0x6e, 0x73, 0x3a, 0x08, 0x73, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x98,
+	0x01, 0x0a, 0x0e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x53, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f,
+	0x6e, 0x12, 0x21, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x61, 0x74, 0x6c, 0x61, 0x73,
+	0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x53, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x49,
+	0x6e, 0x70, 0x75, 0x74, 0x1a, 0x22, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x61, 0x74,
+	0x6c, 0x61, 0x73, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x53, 0x6f, 0x6c, 0x75, 0x74, 0x69,
+	0x6f, 0x6e, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x22, 0x3f, 0xea, 0xe2, 0x0a, 0x0b, 0xf5, 0xe2,
+	0x0a, 0x00, 0x00, 0x80, 0x3f, 0xf8, 0xe2, 0x0a, 0x14, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x2a, 0x22,
+	0x1e, 0x2f, 0x61, 0x74, 0x6c, 0x61, 0x73, 0x2f, 0x73, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e,
+	0x73, 0x2f, 0x7b, 0x73, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x3a,
+	0x08, 0x73, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x8e, 0x01, 0x0a, 0x0e, 0x44, 0x65,
+	0x6c, 0x65, 0x74, 0x65, 0x53, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x21, 0x2e, 0x65,
+	0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x61, 0x74, 0x6c, 0x61, 0x73, 0x2e, 0x44, 0x65, 0x6c, 0x65,
+	0x74, 0x65, 0x53, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x6e, 0x70, 0x75, 0x74, 0x1a,
+	0x22, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x61, 0x74, 0x6c, 0x61, 0x73, 0x2e, 0x44,
+	0x65, 0x6c, 0x65, 0x74, 0x65, 0x53, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x4f, 0x75, 0x74,
+	0x70, 0x75, 0x74, 0x22, 0x35, 0xea, 0xe2, 0x0a, 0x0b, 0xf5, 0xe2, 0x0a, 0x00, 0x00, 0x80, 0x3f,
+	0xf8, 0xe2, 0x0a, 0x14, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x20, 0x2a, 0x1e, 0x2f, 0x61, 0x74, 0x6c,
+	0x61, 0x73, 0x2f, 0x73, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x2f, 0x7b, 0x73, 0x6f,
+	0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x12, 0x97, 0x01, 0x0a, 0x0d, 0x4c,
+	0x69, 0x73, 0x74, 0x53, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x12, 0x20, 0x2e, 0x65,
+	0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x61, 0x74, 0x6c, 0x61, 0x73, 0x2e, 0x4c, 0x69, 0x73, 0x74,
+	0x53, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x49, 0x6e, 0x70, 0x75, 0x74, 0x1a, 0x21,
+	0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x61, 0x74, 0x6c, 0x61, 0x73, 0x2e, 0x4c, 0x69,
+	0x73, 0x74, 0x53, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x4f, 0x75, 0x74, 0x70, 0x75,
+	0x74, 0x22, 0x41, 0x82, 0xe3, 0x0a, 0x16, 0x8a, 0xe3, 0x0a, 0x12, 0x61, 0x74, 0x6c, 0x61, 0x73,
+	0x3a, 0x70, 0x72, 0x6f, 0x62, 0x6c, 0x65, 0x6d, 0x3a, 0x72, 0x65, 0x61, 0x64, 0xea, 0xe2, 0x0a,
+	0x0b, 0xf5, 0xe2, 0x0a, 0x00, 0x00, 0xa0, 0x41, 0xf8, 0xe2, 0x0a, 0x64, 0x82, 0xd3, 0xe4, 0x93,
+	0x02, 0x12, 0x12, 0x10, 0x2f, 0x61, 0x74, 0x6c, 0x61, 0x73, 0x2f, 0x73, 0x6f, 0x6c, 0x75, 0x74,
+	0x69, 0x6f, 0x6e, 0x73, 0x12, 0xb8, 0x01, 0x0a, 0x10, 0x44, 0x65, 0x73, 0x63, 0x72, 0x69, 0x62,
+	0x65, 0x53, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x23, 0x2e, 0x65, 0x6f, 0x6c, 0x79,
+	0x6d, 0x70, 0x2e, 0x61, 0x74, 0x6c, 0x61, 0x73, 0x2e, 0x44, 0x65, 0x73, 0x63, 0x72, 0x69, 0x62,
+	0x65, 0x53, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x6e, 0x70, 0x75, 0x74, 0x1a, 0x24,
+	0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x61, 0x74, 0x6c, 0x61, 0x73, 0x2e, 0x44, 0x65,
+	0x73, 0x63, 0x72, 0x69, 0x62, 0x65, 0x53, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x4f, 0x75,
+	0x74, 0x70, 0x75, 0x74, 0x22, 0x59, 0x82, 0xe3, 0x0a, 0x16, 0x8a, 0xe3, 0x0a, 0x12, 0x61, 0x74,
+	0x6c, 0x61, 0x73, 0x3a, 0x70, 0x72, 0x6f, 0x62, 0x6c, 0x65, 0x6d, 0x3a, 0x72, 0x65, 0x61, 0x64,
+	0xea, 0xe2, 0x0a, 0x0b, 0xf5, 0xe2, 0x0a, 0x00, 0x00, 0xa0, 0x41, 0xf8, 0xe2, 0x0a, 0x64, 0x82,
+	0xd3, 0xe4, 0x93, 0x02, 0x2a, 0x12, 0x1e, 0x2f, 0x61, 0x74, 0x6c, 0x61, 0x73, 0x2f, 0x73, 0x6f,
+	0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x2f, 0x7b, 0x73, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f,
+	0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x62, 0x08, 0x73, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x12,
+	0x99, 0x01, 0x0a, 0x0f, 0x50, 0x75, 0x62, 0x6c, 0x69, 0x73, 0x68, 0x53, 0x6f, 0x6c, 0x75, 0x74,
+	0x69, 0x6f, 0x6e, 0x12, 0x22, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x61, 0x74, 0x6c,
+	0x61, 0x73, 0x2e, 0x50, 0x75, 0x62, 0x6c, 0x69, 0x73, 0x68, 0x53, 0x6f, 0x6c, 0x75, 0x74, 0x69,
+	0x6f, 0x6e, 0x49, 0x6e, 0x70, 0x75, 0x74, 0x1a, 0x23, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70,
+	0x2e, 0x61, 0x74, 0x6c, 0x61, 0x73, 0x2e, 0x50, 0x75, 0x62, 0x6c, 0x69, 0x73, 0x68, 0x53, 0x6f,
+	0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x22, 0x3d, 0xea, 0xe2,
+	0x0a, 0x0b, 0xf5, 0xe2, 0x0a, 0x00, 0x00, 0x80, 0x3f, 0xf8, 0xe2, 0x0a, 0x14, 0x82, 0xd3, 0xe4,
+	0x93, 0x02, 0x28, 0x22, 0x26, 0x2f, 0x61, 0x74, 0x6c, 0x61, 0x73, 0x2f, 0x73, 0x6f, 0x6c, 0x75,
+	0x74, 0x69, 0x6f, 0x6e, 0x73, 0x2f, 0x7b, 0x73, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x5f,
+	0x69, 0x64, 0x7d, 0x2f, 0x70, 0x75, 0x62, 0x6c, 0x69, 0x73, 0x68, 0x12, 0xa1, 0x01, 0x0a, 0x11,
+	0x55, 0x6e, 0x70, 0x75, 0x62, 0x6c, 0x69, 0x73, 0x68, 0x53, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f,
+	0x6e, 0x12, 0x24, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x61, 0x74, 0x6c, 0x61, 0x73,
+	0x2e, 0x55, 0x6e, 0x70, 0x75, 0x62, 0x6c, 0x69, 0x73, 0x68, 0x53, 0x6f, 0x6c, 0x75, 0x74, 0x69,
+	0x6f, 0x6e, 0x49, 0x6e, 0x70, 0x75, 0x74, 0x1a, 0x25, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70,
+	0x2e, 0x61, 0x74, 0x6c, 0x61, 0x73, 0x2e, 0x55, 0x6e, 0x70, 0x75, 0x62, 0x6c, 0x69, 0x73, 0x68,
+	0x53, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x22, 0x3f,
+	0xea, 0xe2, 0x0a, 0x0b, 0xf5, 0xe2, 0x0a, 0x00, 0x00, 0x80, 0x3f, 0xf8, 0xe2, 0x0a, 0x14, 0x82,
+	0xd3, 0xe4, 0x93, 0x02, 0x2a, 0x22, 0x28, 0x2f, 0x61, 0x74, 0x6c, 0x61, 0x73, 0x2f, 0x73, 0x6f,
+	0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x2f, 0x7b, 0x73, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f,
+	0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x75, 0x6e, 0x70, 0x75, 0x62, 0x6c, 0x69, 0x73, 0x68, 0x12,
+	0xb4, 0x01, 0x0a, 0x0f, 0x41, 0x70, 0x70, 0x72, 0x6f, 0x76, 0x65, 0x53, 0x6f, 0x6c, 0x75, 0x74,
+	0x69, 0x6f, 0x6e, 0x12, 0x22, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x61, 0x74, 0x6c,
+	0x61, 0x73, 0x2e, 0x41, 0x70, 0x70, 0x72, 0x6f, 0x76, 0x65, 0x53, 0x6f, 0x6c, 0x75, 0x74, 0x69,
+	0x6f, 0x6e, 0x49, 0x6e, 0x70, 0x75, 0x74, 0x1a, 0x23, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70,
+	0x2e, 0x61, 0x74, 0x6c, 0x61, 0x73, 0x2e, 0x41, 0x70, 0x70, 0x72, 0x6f, 0x76, 0x65, 0x53, 0x6f,
+	0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x22, 0x58, 0x82, 0xe3,
+	0x0a, 0x17, 0x8a, 0xe3, 0x0a, 0x13, 0x61, 0x74, 0x6c, 0x61, 0x73, 0x3a, 0x70, 0x72, 0x6f, 0x62,
+	0x6c, 0x65, 0x6d, 0x3a, 0x77, 0x72, 0x69, 0x74, 0x65, 0xea, 0xe2, 0x0a, 0x0b, 0xf5, 0xe2, 0x0a,
+	0x00, 0x00, 0x80, 0x3f, 0xf8, 0xe2, 0x0a, 0x14, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x28, 0x22, 0x26,
+	0x2f, 0x61, 0x74, 0x6c, 0x61, 0x73, 0x2f, 0x73, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x73,
+	0x2f, 0x7b, 0x73, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61,
+	0x70, 0x70, 0x72, 0x6f, 0x76, 0x65, 0x12, 0xb0, 0x01, 0x0a, 0x0e, 0x52, 0x65, 0x66, 0x75, 0x73,
+	0x65, 0x53, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x21, 0x2e, 0x65, 0x6f, 0x6c, 0x79,
+	0x6d, 0x70, 0x2e, 0x61, 0x74, 0x6c, 0x61, 0x73, 0x2e, 0x52, 0x65, 0x66, 0x75, 0x73, 0x65, 0x53,
+	0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x6e, 0x70, 0x75, 0x74, 0x1a, 0x22, 0x2e, 0x65,
+	0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x61, 0x74, 0x6c, 0x61, 0x73, 0x2e, 0x52, 0x65, 0x66, 0x75,
+	0x73, 0x65, 0x53, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74,
+	0x22, 0x57, 0x82, 0xe3, 0x0a, 0x17, 0x8a, 0xe3, 0x0a, 0x13, 0x61, 0x74, 0x6c, 0x61, 0x73, 0x3a,
+	0x70, 0x72, 0x6f, 0x62, 0x6c, 0x65, 0x6d, 0x3a, 0x77, 0x72, 0x69, 0x74, 0x65, 0xea, 0xe2, 0x0a,
+	0x0b, 0xf5, 0xe2, 0x0a, 0x00, 0x00, 0x80, 0x3f, 0xf8, 0xe2, 0x0a, 0x14, 0x82, 0xd3, 0xe4, 0x93,
+	0x02, 0x27, 0x22, 0x25, 0x2f, 0x61, 0x74, 0x6c, 0x61, 0x73, 0x2f, 0x73, 0x6f, 0x6c, 0x75, 0x74,
+	0x69, 0x6f, 0x6e, 0x73, 0x2f, 0x7b, 0x73, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69,
+	0x64, 0x7d, 0x2f, 0x72, 0x65, 0x66, 0x75, 0x73, 0x65, 0x42, 0x33, 0x5a, 0x31, 0x67, 0x69, 0x74,
+	0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x63,
+	0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x73, 0x2f, 0x67, 0x6f, 0x2f, 0x65, 0x6f, 0x6c, 0x79,
+	0x6d, 0x70, 0x2f, 0x61, 0x74, 0x6c, 0x61, 0x73, 0x3b, 0x61, 0x74, 0x6c, 0x61, 0x73, 0x62, 0x06,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -3723,7 +4842,7 @@ func file_eolymp_atlas_atlas_proto_rawDescGZIP() []byte {
 	return file_eolymp_atlas_atlas_proto_rawDescData
 }
 
-var file_eolymp_atlas_atlas_proto_msgTypes = make([]protoimpl.MessageInfo, 64)
+var file_eolymp_atlas_atlas_proto_msgTypes = make([]protoimpl.MessageInfo, 83)
 var file_eolymp_atlas_atlas_proto_goTypes = []interface{}{
 	(*ListProblemsInput)(nil),          // 0: eolymp.atlas.ListProblemsInput
 	(*ListProblemsOutput)(nil),         // 1: eolymp.atlas.ListProblemsOutput
@@ -3789,111 +4908,163 @@ var file_eolymp_atlas_atlas_proto_goTypes = []interface{}{
 	(*ListCodeTemplatesOutput)(nil),    // 61: eolymp.atlas.ListCodeTemplatesOutput
 	(*DescribeCodeTemplateInput)(nil),  // 62: eolymp.atlas.DescribeCodeTemplateInput
 	(*DescribeCodeTemplateOutput)(nil), // 63: eolymp.atlas.DescribeCodeTemplateOutput
-	(*Problem)(nil),                    // 64: eolymp.atlas.Problem
-	(*Statement)(nil),                  // 65: eolymp.atlas.Statement
-	(*executor.Verifier)(nil),          // 66: eolymp.executor.Verifier
-	(*executor.Interactor)(nil),        // 67: eolymp.executor.Interactor
-	(*Testset)(nil),                    // 68: eolymp.atlas.Testset
-	(*Test)(nil),                       // 69: eolymp.atlas.Test
-	(*Permission)(nil),                 // 70: eolymp.atlas.Permission
-	(*Template)(nil),                   // 71: eolymp.atlas.Template
+	(*CreateSolutionInput)(nil),        // 64: eolymp.atlas.CreateSolutionInput
+	(*CreateSolutionOutput)(nil),       // 65: eolymp.atlas.CreateSolutionOutput
+	(*UpdateSolutionInput)(nil),        // 66: eolymp.atlas.UpdateSolutionInput
+	(*UpdateSolutionOutput)(nil),       // 67: eolymp.atlas.UpdateSolutionOutput
+	(*DeleteSolutionInput)(nil),        // 68: eolymp.atlas.DeleteSolutionInput
+	(*DeleteSolutionOutput)(nil),       // 69: eolymp.atlas.DeleteSolutionOutput
+	(*ListSolutionsInput)(nil),         // 70: eolymp.atlas.ListSolutionsInput
+	(*ListSolutionsOutput)(nil),        // 71: eolymp.atlas.ListSolutionsOutput
+	(*DescribeSolutionInput)(nil),      // 72: eolymp.atlas.DescribeSolutionInput
+	(*DescribeSolutionOutput)(nil),     // 73: eolymp.atlas.DescribeSolutionOutput
+	(*PublishSolutionInput)(nil),       // 74: eolymp.atlas.PublishSolutionInput
+	(*PublishSolutionOutput)(nil),      // 75: eolymp.atlas.PublishSolutionOutput
+	(*UnpublishSolutionInput)(nil),     // 76: eolymp.atlas.UnpublishSolutionInput
+	(*UnpublishSolutionOutput)(nil),    // 77: eolymp.atlas.UnpublishSolutionOutput
+	(*ApproveSolutionInput)(nil),       // 78: eolymp.atlas.ApproveSolutionInput
+	(*ApproveSolutionOutput)(nil),      // 79: eolymp.atlas.ApproveSolutionOutput
+	(*RefuseSolutionInput)(nil),        // 80: eolymp.atlas.RefuseSolutionInput
+	(*RefuseSolutionOutput)(nil),       // 81: eolymp.atlas.RefuseSolutionOutput
+	(*ListSolutionsInput_Filter)(nil),  // 82: eolymp.atlas.ListSolutionsInput.Filter
+	(*Problem)(nil),                    // 83: eolymp.atlas.Problem
+	(*Statement)(nil),                  // 84: eolymp.atlas.Statement
+	(*executor.Verifier)(nil),          // 85: eolymp.executor.Verifier
+	(*executor.Interactor)(nil),        // 86: eolymp.executor.Interactor
+	(*Testset)(nil),                    // 87: eolymp.atlas.Testset
+	(*Test)(nil),                       // 88: eolymp.atlas.Test
+	(*Permission)(nil),                 // 89: eolymp.atlas.Permission
+	(*Template)(nil),                   // 90: eolymp.atlas.Template
+	(*Solution)(nil),                   // 91: eolymp.atlas.Solution
+	(*wellknown.ExpressionID)(nil),     // 92: eolymp.wellknown.ExpressionID
+	(*wellknown.ExpressionEnum)(nil),   // 93: eolymp.wellknown.ExpressionEnum
+	(*wellknown.ExpressionBool)(nil),   // 94: eolymp.wellknown.ExpressionBool
 }
 var file_eolymp_atlas_atlas_proto_depIdxs = []int32{
-	64, // 0: eolymp.atlas.ListProblemsOutput.items:type_name -> eolymp.atlas.Problem
-	64, // 1: eolymp.atlas.CreateProblemInput.problem:type_name -> eolymp.atlas.Problem
-	64, // 2: eolymp.atlas.DescribeProblemOutput.problem:type_name -> eolymp.atlas.Problem
-	65, // 3: eolymp.atlas.ListStatementsOutput.items:type_name -> eolymp.atlas.Statement
-	65, // 4: eolymp.atlas.DescribeStatementOutput.statement:type_name -> eolymp.atlas.Statement
-	65, // 5: eolymp.atlas.CreateStatementInput.statement:type_name -> eolymp.atlas.Statement
-	65, // 6: eolymp.atlas.UpdateStatementInput.statement:type_name -> eolymp.atlas.Statement
-	66, // 7: eolymp.atlas.UpdateVerifierInput.verifier:type_name -> eolymp.executor.Verifier
-	66, // 8: eolymp.atlas.DescribeVerifierOutput.verifier:type_name -> eolymp.executor.Verifier
-	67, // 9: eolymp.atlas.UpdateInteractorInput.interactor:type_name -> eolymp.executor.Interactor
-	67, // 10: eolymp.atlas.DescribeInteractorOutput.interactor:type_name -> eolymp.executor.Interactor
-	68, // 11: eolymp.atlas.ListTestsetsOutput.items:type_name -> eolymp.atlas.Testset
-	68, // 12: eolymp.atlas.DescribeTestsetOutput.testset:type_name -> eolymp.atlas.Testset
-	68, // 13: eolymp.atlas.CreateTestsetInput.testset:type_name -> eolymp.atlas.Testset
-	68, // 14: eolymp.atlas.UpdateTestsetInput.testset:type_name -> eolymp.atlas.Testset
-	69, // 15: eolymp.atlas.ListExamplesOutput.examples:type_name -> eolymp.atlas.Test
-	69, // 16: eolymp.atlas.ListTestsOutput.items:type_name -> eolymp.atlas.Test
-	69, // 17: eolymp.atlas.DescribeTestOutput.test:type_name -> eolymp.atlas.Test
-	69, // 18: eolymp.atlas.CreateTestInput.test:type_name -> eolymp.atlas.Test
-	69, // 19: eolymp.atlas.UpdateTestInput.test:type_name -> eolymp.atlas.Test
-	70, // 20: eolymp.atlas.ListPermissionsOutput.items:type_name -> eolymp.atlas.Permission
-	70, // 21: eolymp.atlas.GrantPermissionInput.permission:type_name -> eolymp.atlas.Permission
-	71, // 22: eolymp.atlas.CreateCodeTemplateInput.template:type_name -> eolymp.atlas.Template
-	71, // 23: eolymp.atlas.UpdateCodeTemplateInput.template:type_name -> eolymp.atlas.Template
-	71, // 24: eolymp.atlas.ListCodeTemplatesOutput.items:type_name -> eolymp.atlas.Template
-	71, // 25: eolymp.atlas.DescribeCodeTemplateOutput.template:type_name -> eolymp.atlas.Template
-	2,  // 26: eolymp.atlas.Atlas.CreateProblem:input_type -> eolymp.atlas.CreateProblemInput
-	4,  // 27: eolymp.atlas.Atlas.DeleteProblem:input_type -> eolymp.atlas.DeleteProblemInput
-	0,  // 28: eolymp.atlas.Atlas.ListProblems:input_type -> eolymp.atlas.ListProblemsInput
-	6,  // 29: eolymp.atlas.Atlas.DescribeProblem:input_type -> eolymp.atlas.DescribeProblemInput
-	36, // 30: eolymp.atlas.Atlas.ListExamples:input_type -> eolymp.atlas.ListExamplesInput
-	18, // 31: eolymp.atlas.Atlas.UpdateVerifier:input_type -> eolymp.atlas.UpdateVerifierInput
-	20, // 32: eolymp.atlas.Atlas.DescribeVerifier:input_type -> eolymp.atlas.DescribeVerifierInput
-	22, // 33: eolymp.atlas.Atlas.UpdateInteractor:input_type -> eolymp.atlas.UpdateInteractorInput
-	24, // 34: eolymp.atlas.Atlas.DescribeInteractor:input_type -> eolymp.atlas.DescribeInteractorInput
-	12, // 35: eolymp.atlas.Atlas.CreateStatement:input_type -> eolymp.atlas.CreateStatementInput
-	14, // 36: eolymp.atlas.Atlas.UpdateStatement:input_type -> eolymp.atlas.UpdateStatementInput
-	16, // 37: eolymp.atlas.Atlas.DeleteStatement:input_type -> eolymp.atlas.DeleteStatementInput
-	8,  // 38: eolymp.atlas.Atlas.ListStatements:input_type -> eolymp.atlas.ListStatementsInput
-	10, // 39: eolymp.atlas.Atlas.DescribeStatement:input_type -> eolymp.atlas.DescribeStatementInput
-	30, // 40: eolymp.atlas.Atlas.CreateTestset:input_type -> eolymp.atlas.CreateTestsetInput
-	32, // 41: eolymp.atlas.Atlas.UpdateTestset:input_type -> eolymp.atlas.UpdateTestsetInput
-	34, // 42: eolymp.atlas.Atlas.DeleteTestset:input_type -> eolymp.atlas.DeleteTestsetInput
-	26, // 43: eolymp.atlas.Atlas.ListTestsets:input_type -> eolymp.atlas.ListTestsetsInput
-	28, // 44: eolymp.atlas.Atlas.DescribeTestset:input_type -> eolymp.atlas.DescribeTestsetInput
-	42, // 45: eolymp.atlas.Atlas.CreateTest:input_type -> eolymp.atlas.CreateTestInput
-	44, // 46: eolymp.atlas.Atlas.UpdateTest:input_type -> eolymp.atlas.UpdateTestInput
-	46, // 47: eolymp.atlas.Atlas.DeleteTest:input_type -> eolymp.atlas.DeleteTestInput
-	38, // 48: eolymp.atlas.Atlas.ListTests:input_type -> eolymp.atlas.ListTestsInput
-	40, // 49: eolymp.atlas.Atlas.DescribeTest:input_type -> eolymp.atlas.DescribeTestInput
-	50, // 50: eolymp.atlas.Atlas.GrantPermission:input_type -> eolymp.atlas.GrantPermissionInput
-	52, // 51: eolymp.atlas.Atlas.RevokePermission:input_type -> eolymp.atlas.RevokePermissionInput
-	48, // 52: eolymp.atlas.Atlas.ListPermissions:input_type -> eolymp.atlas.ListPermissionsInput
-	54, // 53: eolymp.atlas.Atlas.CreateCodeTemplate:input_type -> eolymp.atlas.CreateCodeTemplateInput
-	56, // 54: eolymp.atlas.Atlas.UpdateCodeTemplate:input_type -> eolymp.atlas.UpdateCodeTemplateInput
-	58, // 55: eolymp.atlas.Atlas.DeleteCodeTemplate:input_type -> eolymp.atlas.DeleteCodeTemplateInput
-	60, // 56: eolymp.atlas.Atlas.ListCodeTemplates:input_type -> eolymp.atlas.ListCodeTemplatesInput
-	62, // 57: eolymp.atlas.Atlas.DescribeCodeTemplate:input_type -> eolymp.atlas.DescribeCodeTemplateInput
-	3,  // 58: eolymp.atlas.Atlas.CreateProblem:output_type -> eolymp.atlas.CreateProblemOutput
-	5,  // 59: eolymp.atlas.Atlas.DeleteProblem:output_type -> eolymp.atlas.DeleteProblemOutput
-	1,  // 60: eolymp.atlas.Atlas.ListProblems:output_type -> eolymp.atlas.ListProblemsOutput
-	7,  // 61: eolymp.atlas.Atlas.DescribeProblem:output_type -> eolymp.atlas.DescribeProblemOutput
-	37, // 62: eolymp.atlas.Atlas.ListExamples:output_type -> eolymp.atlas.ListExamplesOutput
-	19, // 63: eolymp.atlas.Atlas.UpdateVerifier:output_type -> eolymp.atlas.UpdateVerifierOutput
-	21, // 64: eolymp.atlas.Atlas.DescribeVerifier:output_type -> eolymp.atlas.DescribeVerifierOutput
-	23, // 65: eolymp.atlas.Atlas.UpdateInteractor:output_type -> eolymp.atlas.UpdateInteractorOutput
-	25, // 66: eolymp.atlas.Atlas.DescribeInteractor:output_type -> eolymp.atlas.DescribeInteractorOutput
-	13, // 67: eolymp.atlas.Atlas.CreateStatement:output_type -> eolymp.atlas.CreateStatementOutput
-	15, // 68: eolymp.atlas.Atlas.UpdateStatement:output_type -> eolymp.atlas.UpdateStatementOutput
-	17, // 69: eolymp.atlas.Atlas.DeleteStatement:output_type -> eolymp.atlas.DeleteStatementOutput
-	9,  // 70: eolymp.atlas.Atlas.ListStatements:output_type -> eolymp.atlas.ListStatementsOutput
-	11, // 71: eolymp.atlas.Atlas.DescribeStatement:output_type -> eolymp.atlas.DescribeStatementOutput
-	31, // 72: eolymp.atlas.Atlas.CreateTestset:output_type -> eolymp.atlas.CreateTestsetOutput
-	33, // 73: eolymp.atlas.Atlas.UpdateTestset:output_type -> eolymp.atlas.UpdateTestsetOutput
-	35, // 74: eolymp.atlas.Atlas.DeleteTestset:output_type -> eolymp.atlas.DeleteTestsetOutput
-	27, // 75: eolymp.atlas.Atlas.ListTestsets:output_type -> eolymp.atlas.ListTestsetsOutput
-	29, // 76: eolymp.atlas.Atlas.DescribeTestset:output_type -> eolymp.atlas.DescribeTestsetOutput
-	43, // 77: eolymp.atlas.Atlas.CreateTest:output_type -> eolymp.atlas.CreateTestOutput
-	45, // 78: eolymp.atlas.Atlas.UpdateTest:output_type -> eolymp.atlas.UpdateTestOutput
-	47, // 79: eolymp.atlas.Atlas.DeleteTest:output_type -> eolymp.atlas.DeleteTestOutput
-	39, // 80: eolymp.atlas.Atlas.ListTests:output_type -> eolymp.atlas.ListTestsOutput
-	41, // 81: eolymp.atlas.Atlas.DescribeTest:output_type -> eolymp.atlas.DescribeTestOutput
-	51, // 82: eolymp.atlas.Atlas.GrantPermission:output_type -> eolymp.atlas.GrantPermissionOutput
-	53, // 83: eolymp.atlas.Atlas.RevokePermission:output_type -> eolymp.atlas.RevokePermissionOutput
-	49, // 84: eolymp.atlas.Atlas.ListPermissions:output_type -> eolymp.atlas.ListPermissionsOutput
-	55, // 85: eolymp.atlas.Atlas.CreateCodeTemplate:output_type -> eolymp.atlas.CreateCodeTemplateOutput
-	57, // 86: eolymp.atlas.Atlas.UpdateCodeTemplate:output_type -> eolymp.atlas.UpdateCodeTemplateOutput
-	59, // 87: eolymp.atlas.Atlas.DeleteCodeTemplate:output_type -> eolymp.atlas.DeleteCodeTemplateOutput
-	61, // 88: eolymp.atlas.Atlas.ListCodeTemplates:output_type -> eolymp.atlas.ListCodeTemplatesOutput
-	63, // 89: eolymp.atlas.Atlas.DescribeCodeTemplate:output_type -> eolymp.atlas.DescribeCodeTemplateOutput
-	58, // [58:90] is the sub-list for method output_type
-	26, // [26:58] is the sub-list for method input_type
-	26, // [26:26] is the sub-list for extension type_name
-	26, // [26:26] is the sub-list for extension extendee
-	0,  // [0:26] is the sub-list for field type_name
+	83, // 0: eolymp.atlas.ListProblemsOutput.items:type_name -> eolymp.atlas.Problem
+	83, // 1: eolymp.atlas.CreateProblemInput.problem:type_name -> eolymp.atlas.Problem
+	83, // 2: eolymp.atlas.DescribeProblemOutput.problem:type_name -> eolymp.atlas.Problem
+	84, // 3: eolymp.atlas.ListStatementsOutput.items:type_name -> eolymp.atlas.Statement
+	84, // 4: eolymp.atlas.DescribeStatementOutput.statement:type_name -> eolymp.atlas.Statement
+	84, // 5: eolymp.atlas.CreateStatementInput.statement:type_name -> eolymp.atlas.Statement
+	84, // 6: eolymp.atlas.UpdateStatementInput.statement:type_name -> eolymp.atlas.Statement
+	85, // 7: eolymp.atlas.UpdateVerifierInput.verifier:type_name -> eolymp.executor.Verifier
+	85, // 8: eolymp.atlas.DescribeVerifierOutput.verifier:type_name -> eolymp.executor.Verifier
+	86, // 9: eolymp.atlas.UpdateInteractorInput.interactor:type_name -> eolymp.executor.Interactor
+	86, // 10: eolymp.atlas.DescribeInteractorOutput.interactor:type_name -> eolymp.executor.Interactor
+	87, // 11: eolymp.atlas.ListTestsetsOutput.items:type_name -> eolymp.atlas.Testset
+	87, // 12: eolymp.atlas.DescribeTestsetOutput.testset:type_name -> eolymp.atlas.Testset
+	87, // 13: eolymp.atlas.CreateTestsetInput.testset:type_name -> eolymp.atlas.Testset
+	87, // 14: eolymp.atlas.UpdateTestsetInput.testset:type_name -> eolymp.atlas.Testset
+	88, // 15: eolymp.atlas.ListExamplesOutput.examples:type_name -> eolymp.atlas.Test
+	88, // 16: eolymp.atlas.ListTestsOutput.items:type_name -> eolymp.atlas.Test
+	88, // 17: eolymp.atlas.DescribeTestOutput.test:type_name -> eolymp.atlas.Test
+	88, // 18: eolymp.atlas.CreateTestInput.test:type_name -> eolymp.atlas.Test
+	88, // 19: eolymp.atlas.UpdateTestInput.test:type_name -> eolymp.atlas.Test
+	89, // 20: eolymp.atlas.ListPermissionsOutput.items:type_name -> eolymp.atlas.Permission
+	89, // 21: eolymp.atlas.GrantPermissionInput.permission:type_name -> eolymp.atlas.Permission
+	90, // 22: eolymp.atlas.CreateCodeTemplateInput.template:type_name -> eolymp.atlas.Template
+	90, // 23: eolymp.atlas.UpdateCodeTemplateInput.template:type_name -> eolymp.atlas.Template
+	90, // 24: eolymp.atlas.ListCodeTemplatesOutput.items:type_name -> eolymp.atlas.Template
+	90, // 25: eolymp.atlas.DescribeCodeTemplateOutput.template:type_name -> eolymp.atlas.Template
+	91, // 26: eolymp.atlas.CreateSolutionInput.solution:type_name -> eolymp.atlas.Solution
+	91, // 27: eolymp.atlas.UpdateSolutionInput.solution:type_name -> eolymp.atlas.Solution
+	82, // 28: eolymp.atlas.ListSolutionsInput.filters:type_name -> eolymp.atlas.ListSolutionsInput.Filter
+	91, // 29: eolymp.atlas.ListSolutionsOutput.items:type_name -> eolymp.atlas.Solution
+	91, // 30: eolymp.atlas.DescribeSolutionOutput.solution:type_name -> eolymp.atlas.Solution
+	92, // 31: eolymp.atlas.ListSolutionsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	92, // 32: eolymp.atlas.ListSolutionsInput.Filter.problem_id:type_name -> eolymp.wellknown.ExpressionID
+	92, // 33: eolymp.atlas.ListSolutionsInput.Filter.author_id:type_name -> eolymp.wellknown.ExpressionID
+	93, // 34: eolymp.atlas.ListSolutionsInput.Filter.moderation_status:type_name -> eolymp.wellknown.ExpressionEnum
+	94, // 35: eolymp.atlas.ListSolutionsInput.Filter.published:type_name -> eolymp.wellknown.ExpressionBool
+	93, // 36: eolymp.atlas.ListSolutionsInput.Filter.lang:type_name -> eolymp.wellknown.ExpressionEnum
+	2,  // 37: eolymp.atlas.Atlas.CreateProblem:input_type -> eolymp.atlas.CreateProblemInput
+	4,  // 38: eolymp.atlas.Atlas.DeleteProblem:input_type -> eolymp.atlas.DeleteProblemInput
+	0,  // 39: eolymp.atlas.Atlas.ListProblems:input_type -> eolymp.atlas.ListProblemsInput
+	6,  // 40: eolymp.atlas.Atlas.DescribeProblem:input_type -> eolymp.atlas.DescribeProblemInput
+	36, // 41: eolymp.atlas.Atlas.ListExamples:input_type -> eolymp.atlas.ListExamplesInput
+	18, // 42: eolymp.atlas.Atlas.UpdateVerifier:input_type -> eolymp.atlas.UpdateVerifierInput
+	20, // 43: eolymp.atlas.Atlas.DescribeVerifier:input_type -> eolymp.atlas.DescribeVerifierInput
+	22, // 44: eolymp.atlas.Atlas.UpdateInteractor:input_type -> eolymp.atlas.UpdateInteractorInput
+	24, // 45: eolymp.atlas.Atlas.DescribeInteractor:input_type -> eolymp.atlas.DescribeInteractorInput
+	12, // 46: eolymp.atlas.Atlas.CreateStatement:input_type -> eolymp.atlas.CreateStatementInput
+	14, // 47: eolymp.atlas.Atlas.UpdateStatement:input_type -> eolymp.atlas.UpdateStatementInput
+	16, // 48: eolymp.atlas.Atlas.DeleteStatement:input_type -> eolymp.atlas.DeleteStatementInput
+	8,  // 49: eolymp.atlas.Atlas.ListStatements:input_type -> eolymp.atlas.ListStatementsInput
+	10, // 50: eolymp.atlas.Atlas.DescribeStatement:input_type -> eolymp.atlas.DescribeStatementInput
+	30, // 51: eolymp.atlas.Atlas.CreateTestset:input_type -> eolymp.atlas.CreateTestsetInput
+	32, // 52: eolymp.atlas.Atlas.UpdateTestset:input_type -> eolymp.atlas.UpdateTestsetInput
+	34, // 53: eolymp.atlas.Atlas.DeleteTestset:input_type -> eolymp.atlas.DeleteTestsetInput
+	26, // 54: eolymp.atlas.Atlas.ListTestsets:input_type -> eolymp.atlas.ListTestsetsInput
+	28, // 55: eolymp.atlas.Atlas.DescribeTestset:input_type -> eolymp.atlas.DescribeTestsetInput
+	42, // 56: eolymp.atlas.Atlas.CreateTest:input_type -> eolymp.atlas.CreateTestInput
+	44, // 57: eolymp.atlas.Atlas.UpdateTest:input_type -> eolymp.atlas.UpdateTestInput
+	46, // 58: eolymp.atlas.Atlas.DeleteTest:input_type -> eolymp.atlas.DeleteTestInput
+	38, // 59: eolymp.atlas.Atlas.ListTests:input_type -> eolymp.atlas.ListTestsInput
+	40, // 60: eolymp.atlas.Atlas.DescribeTest:input_type -> eolymp.atlas.DescribeTestInput
+	50, // 61: eolymp.atlas.Atlas.GrantPermission:input_type -> eolymp.atlas.GrantPermissionInput
+	52, // 62: eolymp.atlas.Atlas.RevokePermission:input_type -> eolymp.atlas.RevokePermissionInput
+	48, // 63: eolymp.atlas.Atlas.ListPermissions:input_type -> eolymp.atlas.ListPermissionsInput
+	54, // 64: eolymp.atlas.Atlas.CreateCodeTemplate:input_type -> eolymp.atlas.CreateCodeTemplateInput
+	56, // 65: eolymp.atlas.Atlas.UpdateCodeTemplate:input_type -> eolymp.atlas.UpdateCodeTemplateInput
+	58, // 66: eolymp.atlas.Atlas.DeleteCodeTemplate:input_type -> eolymp.atlas.DeleteCodeTemplateInput
+	60, // 67: eolymp.atlas.Atlas.ListCodeTemplates:input_type -> eolymp.atlas.ListCodeTemplatesInput
+	62, // 68: eolymp.atlas.Atlas.DescribeCodeTemplate:input_type -> eolymp.atlas.DescribeCodeTemplateInput
+	64, // 69: eolymp.atlas.Atlas.CreateSolution:input_type -> eolymp.atlas.CreateSolutionInput
+	66, // 70: eolymp.atlas.Atlas.UpdateSolution:input_type -> eolymp.atlas.UpdateSolutionInput
+	68, // 71: eolymp.atlas.Atlas.DeleteSolution:input_type -> eolymp.atlas.DeleteSolutionInput
+	70, // 72: eolymp.atlas.Atlas.ListSolutions:input_type -> eolymp.atlas.ListSolutionsInput
+	72, // 73: eolymp.atlas.Atlas.DescribeSolution:input_type -> eolymp.atlas.DescribeSolutionInput
+	74, // 74: eolymp.atlas.Atlas.PublishSolution:input_type -> eolymp.atlas.PublishSolutionInput
+	76, // 75: eolymp.atlas.Atlas.UnpublishSolution:input_type -> eolymp.atlas.UnpublishSolutionInput
+	78, // 76: eolymp.atlas.Atlas.ApproveSolution:input_type -> eolymp.atlas.ApproveSolutionInput
+	80, // 77: eolymp.atlas.Atlas.RefuseSolution:input_type -> eolymp.atlas.RefuseSolutionInput
+	3,  // 78: eolymp.atlas.Atlas.CreateProblem:output_type -> eolymp.atlas.CreateProblemOutput
+	5,  // 79: eolymp.atlas.Atlas.DeleteProblem:output_type -> eolymp.atlas.DeleteProblemOutput
+	1,  // 80: eolymp.atlas.Atlas.ListProblems:output_type -> eolymp.atlas.ListProblemsOutput
+	7,  // 81: eolymp.atlas.Atlas.DescribeProblem:output_type -> eolymp.atlas.DescribeProblemOutput
+	37, // 82: eolymp.atlas.Atlas.ListExamples:output_type -> eolymp.atlas.ListExamplesOutput
+	19, // 83: eolymp.atlas.Atlas.UpdateVerifier:output_type -> eolymp.atlas.UpdateVerifierOutput
+	21, // 84: eolymp.atlas.Atlas.DescribeVerifier:output_type -> eolymp.atlas.DescribeVerifierOutput
+	23, // 85: eolymp.atlas.Atlas.UpdateInteractor:output_type -> eolymp.atlas.UpdateInteractorOutput
+	25, // 86: eolymp.atlas.Atlas.DescribeInteractor:output_type -> eolymp.atlas.DescribeInteractorOutput
+	13, // 87: eolymp.atlas.Atlas.CreateStatement:output_type -> eolymp.atlas.CreateStatementOutput
+	15, // 88: eolymp.atlas.Atlas.UpdateStatement:output_type -> eolymp.atlas.UpdateStatementOutput
+	17, // 89: eolymp.atlas.Atlas.DeleteStatement:output_type -> eolymp.atlas.DeleteStatementOutput
+	9,  // 90: eolymp.atlas.Atlas.ListStatements:output_type -> eolymp.atlas.ListStatementsOutput
+	11, // 91: eolymp.atlas.Atlas.DescribeStatement:output_type -> eolymp.atlas.DescribeStatementOutput
+	31, // 92: eolymp.atlas.Atlas.CreateTestset:output_type -> eolymp.atlas.CreateTestsetOutput
+	33, // 93: eolymp.atlas.Atlas.UpdateTestset:output_type -> eolymp.atlas.UpdateTestsetOutput
+	35, // 94: eolymp.atlas.Atlas.DeleteTestset:output_type -> eolymp.atlas.DeleteTestsetOutput
+	27, // 95: eolymp.atlas.Atlas.ListTestsets:output_type -> eolymp.atlas.ListTestsetsOutput
+	29, // 96: eolymp.atlas.Atlas.DescribeTestset:output_type -> eolymp.atlas.DescribeTestsetOutput
+	43, // 97: eolymp.atlas.Atlas.CreateTest:output_type -> eolymp.atlas.CreateTestOutput
+	45, // 98: eolymp.atlas.Atlas.UpdateTest:output_type -> eolymp.atlas.UpdateTestOutput
+	47, // 99: eolymp.atlas.Atlas.DeleteTest:output_type -> eolymp.atlas.DeleteTestOutput
+	39, // 100: eolymp.atlas.Atlas.ListTests:output_type -> eolymp.atlas.ListTestsOutput
+	41, // 101: eolymp.atlas.Atlas.DescribeTest:output_type -> eolymp.atlas.DescribeTestOutput
+	51, // 102: eolymp.atlas.Atlas.GrantPermission:output_type -> eolymp.atlas.GrantPermissionOutput
+	53, // 103: eolymp.atlas.Atlas.RevokePermission:output_type -> eolymp.atlas.RevokePermissionOutput
+	49, // 104: eolymp.atlas.Atlas.ListPermissions:output_type -> eolymp.atlas.ListPermissionsOutput
+	55, // 105: eolymp.atlas.Atlas.CreateCodeTemplate:output_type -> eolymp.atlas.CreateCodeTemplateOutput
+	57, // 106: eolymp.atlas.Atlas.UpdateCodeTemplate:output_type -> eolymp.atlas.UpdateCodeTemplateOutput
+	59, // 107: eolymp.atlas.Atlas.DeleteCodeTemplate:output_type -> eolymp.atlas.DeleteCodeTemplateOutput
+	61, // 108: eolymp.atlas.Atlas.ListCodeTemplates:output_type -> eolymp.atlas.ListCodeTemplatesOutput
+	63, // 109: eolymp.atlas.Atlas.DescribeCodeTemplate:output_type -> eolymp.atlas.DescribeCodeTemplateOutput
+	65, // 110: eolymp.atlas.Atlas.CreateSolution:output_type -> eolymp.atlas.CreateSolutionOutput
+	67, // 111: eolymp.atlas.Atlas.UpdateSolution:output_type -> eolymp.atlas.UpdateSolutionOutput
+	69, // 112: eolymp.atlas.Atlas.DeleteSolution:output_type -> eolymp.atlas.DeleteSolutionOutput
+	71, // 113: eolymp.atlas.Atlas.ListSolutions:output_type -> eolymp.atlas.ListSolutionsOutput
+	73, // 114: eolymp.atlas.Atlas.DescribeSolution:output_type -> eolymp.atlas.DescribeSolutionOutput
+	75, // 115: eolymp.atlas.Atlas.PublishSolution:output_type -> eolymp.atlas.PublishSolutionOutput
+	77, // 116: eolymp.atlas.Atlas.UnpublishSolution:output_type -> eolymp.atlas.UnpublishSolutionOutput
+	79, // 117: eolymp.atlas.Atlas.ApproveSolution:output_type -> eolymp.atlas.ApproveSolutionOutput
+	81, // 118: eolymp.atlas.Atlas.RefuseSolution:output_type -> eolymp.atlas.RefuseSolutionOutput
+	78, // [78:119] is the sub-list for method output_type
+	37, // [37:78] is the sub-list for method input_type
+	37, // [37:37] is the sub-list for extension type_name
+	37, // [37:37] is the sub-list for extension extendee
+	0,  // [0:37] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_atlas_atlas_proto_init() }
@@ -3903,6 +5074,7 @@ func file_eolymp_atlas_atlas_proto_init() {
 	}
 	file_eolymp_atlas_permission_proto_init()
 	file_eolymp_atlas_problem_proto_init()
+	file_eolymp_atlas_solution_proto_init()
 	file_eolymp_atlas_statement_proto_init()
 	file_eolymp_atlas_test_proto_init()
 	file_eolymp_atlas_testset_proto_init()
@@ -4676,6 +5848,234 @@ func file_eolymp_atlas_atlas_proto_init() {
 				return nil
 			}
 		}
+		file_eolymp_atlas_atlas_proto_msgTypes[64].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CreateSolutionInput); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_eolymp_atlas_atlas_proto_msgTypes[65].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CreateSolutionOutput); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_eolymp_atlas_atlas_proto_msgTypes[66].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateSolutionInput); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_eolymp_atlas_atlas_proto_msgTypes[67].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateSolutionOutput); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_eolymp_atlas_atlas_proto_msgTypes[68].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DeleteSolutionInput); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_eolymp_atlas_atlas_proto_msgTypes[69].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DeleteSolutionOutput); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_eolymp_atlas_atlas_proto_msgTypes[70].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListSolutionsInput); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_eolymp_atlas_atlas_proto_msgTypes[71].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListSolutionsOutput); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_eolymp_atlas_atlas_proto_msgTypes[72].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DescribeSolutionInput); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_eolymp_atlas_atlas_proto_msgTypes[73].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DescribeSolutionOutput); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_eolymp_atlas_atlas_proto_msgTypes[74].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*PublishSolutionInput); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_eolymp_atlas_atlas_proto_msgTypes[75].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*PublishSolutionOutput); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_eolymp_atlas_atlas_proto_msgTypes[76].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UnpublishSolutionInput); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_eolymp_atlas_atlas_proto_msgTypes[77].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UnpublishSolutionOutput); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_eolymp_atlas_atlas_proto_msgTypes[78].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ApproveSolutionInput); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_eolymp_atlas_atlas_proto_msgTypes[79].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ApproveSolutionOutput); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_eolymp_atlas_atlas_proto_msgTypes[80].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RefuseSolutionInput); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_eolymp_atlas_atlas_proto_msgTypes[81].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RefuseSolutionOutput); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_eolymp_atlas_atlas_proto_msgTypes[82].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListSolutionsInput_Filter); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -4683,7 +6083,7 @@ func file_eolymp_atlas_atlas_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_eolymp_atlas_atlas_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   64,
+			NumMessages:   83,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

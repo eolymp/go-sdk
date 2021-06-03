@@ -395,3 +395,93 @@ func (s *AtlasService) DescribeCodeTemplate(ctx context.Context, in *DescribeCod
 
 	return out, nil
 }
+
+func (s *AtlasService) CreateSolution(ctx context.Context, in *CreateSolutionInput) (*CreateSolutionOutput, error) {
+	out := &CreateSolutionOutput{}
+
+	if err := s.invoke(ctx, "eolymp.atlas.Atlas/CreateSolution", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *AtlasService) UpdateSolution(ctx context.Context, in *UpdateSolutionInput) (*UpdateSolutionOutput, error) {
+	out := &UpdateSolutionOutput{}
+
+	if err := s.invoke(ctx, "eolymp.atlas.Atlas/UpdateSolution", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *AtlasService) DeleteSolution(ctx context.Context, in *DeleteSolutionInput) (*DeleteSolutionOutput, error) {
+	out := &DeleteSolutionOutput{}
+
+	if err := s.invoke(ctx, "eolymp.atlas.Atlas/DeleteSolution", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *AtlasService) ListSolutions(ctx context.Context, in *ListSolutionsInput) (*ListSolutionsOutput, error) {
+	out := &ListSolutionsOutput{}
+
+	if err := s.invoke(ctx, "eolymp.atlas.Atlas/ListSolutions", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *AtlasService) DescribeSolution(ctx context.Context, in *DescribeSolutionInput) (*DescribeSolutionOutput, error) {
+	out := &DescribeSolutionOutput{}
+
+	if err := s.invoke(ctx, "eolymp.atlas.Atlas/DescribeSolution", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *AtlasService) PublishSolution(ctx context.Context, in *PublishSolutionInput) (*PublishSolutionOutput, error) {
+	out := &PublishSolutionOutput{}
+
+	if err := s.invoke(ctx, "eolymp.atlas.Atlas/PublishSolution", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *AtlasService) UnpublishSolution(ctx context.Context, in *UnpublishSolutionInput) (*UnpublishSolutionOutput, error) {
+	out := &UnpublishSolutionOutput{}
+
+	if err := s.invoke(ctx, "eolymp.atlas.Atlas/UnpublishSolution", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *AtlasService) ApproveSolution(ctx context.Context, in *ApproveSolutionInput) (*ApproveSolutionOutput, error) {
+	out := &ApproveSolutionOutput{}
+
+	if err := s.invoke(ctx, "eolymp.atlas.Atlas/ApproveSolution", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *AtlasService) RefuseSolution(ctx context.Context, in *RefuseSolutionInput) (*RefuseSolutionOutput, error) {
+	out := &RefuseSolutionOutput{}
+
+	if err := s.invoke(ctx, "eolymp.atlas.Atlas/RefuseSolution", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

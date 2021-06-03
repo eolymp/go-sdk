@@ -161,6 +161,24 @@ func NewAtlasHandler(srv AtlasServer) http.Handler {
 	router.Handle("/eolymp.atlas.Atlas/ListCodeTemplates", _Atlas_ListCodeTemplates(srv)).Methods(http.MethodPost)
 	router.Handle("/twirp/eolymp.atlas.Atlas/DescribeCodeTemplate", _Atlas_DescribeCodeTemplate(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.atlas.Atlas/DescribeCodeTemplate", _Atlas_DescribeCodeTemplate(srv)).Methods(http.MethodPost)
+	router.Handle("/twirp/eolymp.atlas.Atlas/CreateSolution", _Atlas_CreateSolution(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.atlas.Atlas/CreateSolution", _Atlas_CreateSolution(srv)).Methods(http.MethodPost)
+	router.Handle("/twirp/eolymp.atlas.Atlas/UpdateSolution", _Atlas_UpdateSolution(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.atlas.Atlas/UpdateSolution", _Atlas_UpdateSolution(srv)).Methods(http.MethodPost)
+	router.Handle("/twirp/eolymp.atlas.Atlas/DeleteSolution", _Atlas_DeleteSolution(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.atlas.Atlas/DeleteSolution", _Atlas_DeleteSolution(srv)).Methods(http.MethodPost)
+	router.Handle("/twirp/eolymp.atlas.Atlas/ListSolutions", _Atlas_ListSolutions(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.atlas.Atlas/ListSolutions", _Atlas_ListSolutions(srv)).Methods(http.MethodPost)
+	router.Handle("/twirp/eolymp.atlas.Atlas/DescribeSolution", _Atlas_DescribeSolution(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.atlas.Atlas/DescribeSolution", _Atlas_DescribeSolution(srv)).Methods(http.MethodPost)
+	router.Handle("/twirp/eolymp.atlas.Atlas/PublishSolution", _Atlas_PublishSolution(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.atlas.Atlas/PublishSolution", _Atlas_PublishSolution(srv)).Methods(http.MethodPost)
+	router.Handle("/twirp/eolymp.atlas.Atlas/UnpublishSolution", _Atlas_UnpublishSolution(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.atlas.Atlas/UnpublishSolution", _Atlas_UnpublishSolution(srv)).Methods(http.MethodPost)
+	router.Handle("/twirp/eolymp.atlas.Atlas/ApproveSolution", _Atlas_ApproveSolution(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.atlas.Atlas/ApproveSolution", _Atlas_ApproveSolution(srv)).Methods(http.MethodPost)
+	router.Handle("/twirp/eolymp.atlas.Atlas/RefuseSolution", _Atlas_RefuseSolution(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.atlas.Atlas/RefuseSolution", _Atlas_RefuseSolution(srv)).Methods(http.MethodPost)
 	return router
 }
 
@@ -795,6 +813,186 @@ func _Atlas_DescribeCodeTemplate(srv AtlasServer) http.Handler {
 		}
 
 		out, err := srv.DescribeCodeTemplate(r.Context(), in)
+		if err != nil {
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Atlas_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Atlas_CreateSolution(srv AtlasServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &CreateSolutionInput{}
+
+		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.CreateSolution(r.Context(), in)
+		if err != nil {
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Atlas_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Atlas_UpdateSolution(srv AtlasServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UpdateSolutionInput{}
+
+		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.UpdateSolution(r.Context(), in)
+		if err != nil {
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Atlas_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Atlas_DeleteSolution(srv AtlasServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DeleteSolutionInput{}
+
+		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.DeleteSolution(r.Context(), in)
+		if err != nil {
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Atlas_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Atlas_ListSolutions(srv AtlasServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListSolutionsInput{}
+
+		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.ListSolutions(r.Context(), in)
+		if err != nil {
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Atlas_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Atlas_DescribeSolution(srv AtlasServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeSolutionInput{}
+
+		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.DescribeSolution(r.Context(), in)
+		if err != nil {
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Atlas_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Atlas_PublishSolution(srv AtlasServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &PublishSolutionInput{}
+
+		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.PublishSolution(r.Context(), in)
+		if err != nil {
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Atlas_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Atlas_UnpublishSolution(srv AtlasServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UnpublishSolutionInput{}
+
+		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.UnpublishSolution(r.Context(), in)
+		if err != nil {
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Atlas_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Atlas_ApproveSolution(srv AtlasServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ApproveSolutionInput{}
+
+		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.ApproveSolution(r.Context(), in)
+		if err != nil {
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Atlas_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Atlas_RefuseSolution(srv AtlasServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &RefuseSolutionInput{}
+
+		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.RefuseSolution(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return

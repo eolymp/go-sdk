@@ -50,6 +50,15 @@ type AtlasClient interface {
 	DeleteCodeTemplate(ctx context.Context, in *DeleteCodeTemplateInput, opts ...grpc.CallOption) (*DeleteCodeTemplateOutput, error)
 	ListCodeTemplates(ctx context.Context, in *ListCodeTemplatesInput, opts ...grpc.CallOption) (*ListCodeTemplatesOutput, error)
 	DescribeCodeTemplate(ctx context.Context, in *DescribeCodeTemplateInput, opts ...grpc.CallOption) (*DescribeCodeTemplateOutput, error)
+	CreateSolution(ctx context.Context, in *CreateSolutionInput, opts ...grpc.CallOption) (*CreateSolutionOutput, error)
+	UpdateSolution(ctx context.Context, in *UpdateSolutionInput, opts ...grpc.CallOption) (*UpdateSolutionOutput, error)
+	DeleteSolution(ctx context.Context, in *DeleteSolutionInput, opts ...grpc.CallOption) (*DeleteSolutionOutput, error)
+	ListSolutions(ctx context.Context, in *ListSolutionsInput, opts ...grpc.CallOption) (*ListSolutionsOutput, error)
+	DescribeSolution(ctx context.Context, in *DescribeSolutionInput, opts ...grpc.CallOption) (*DescribeSolutionOutput, error)
+	PublishSolution(ctx context.Context, in *PublishSolutionInput, opts ...grpc.CallOption) (*PublishSolutionOutput, error)
+	UnpublishSolution(ctx context.Context, in *UnpublishSolutionInput, opts ...grpc.CallOption) (*UnpublishSolutionOutput, error)
+	ApproveSolution(ctx context.Context, in *ApproveSolutionInput, opts ...grpc.CallOption) (*ApproveSolutionOutput, error)
+	RefuseSolution(ctx context.Context, in *RefuseSolutionInput, opts ...grpc.CallOption) (*RefuseSolutionOutput, error)
 }
 
 type atlasClient struct {
@@ -348,6 +357,87 @@ func (c *atlasClient) DescribeCodeTemplate(ctx context.Context, in *DescribeCode
 	return out, nil
 }
 
+func (c *atlasClient) CreateSolution(ctx context.Context, in *CreateSolutionInput, opts ...grpc.CallOption) (*CreateSolutionOutput, error) {
+	out := new(CreateSolutionOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.atlas.Atlas/CreateSolution", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *atlasClient) UpdateSolution(ctx context.Context, in *UpdateSolutionInput, opts ...grpc.CallOption) (*UpdateSolutionOutput, error) {
+	out := new(UpdateSolutionOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.atlas.Atlas/UpdateSolution", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *atlasClient) DeleteSolution(ctx context.Context, in *DeleteSolutionInput, opts ...grpc.CallOption) (*DeleteSolutionOutput, error) {
+	out := new(DeleteSolutionOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.atlas.Atlas/DeleteSolution", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *atlasClient) ListSolutions(ctx context.Context, in *ListSolutionsInput, opts ...grpc.CallOption) (*ListSolutionsOutput, error) {
+	out := new(ListSolutionsOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.atlas.Atlas/ListSolutions", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *atlasClient) DescribeSolution(ctx context.Context, in *DescribeSolutionInput, opts ...grpc.CallOption) (*DescribeSolutionOutput, error) {
+	out := new(DescribeSolutionOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.atlas.Atlas/DescribeSolution", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *atlasClient) PublishSolution(ctx context.Context, in *PublishSolutionInput, opts ...grpc.CallOption) (*PublishSolutionOutput, error) {
+	out := new(PublishSolutionOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.atlas.Atlas/PublishSolution", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *atlasClient) UnpublishSolution(ctx context.Context, in *UnpublishSolutionInput, opts ...grpc.CallOption) (*UnpublishSolutionOutput, error) {
+	out := new(UnpublishSolutionOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.atlas.Atlas/UnpublishSolution", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *atlasClient) ApproveSolution(ctx context.Context, in *ApproveSolutionInput, opts ...grpc.CallOption) (*ApproveSolutionOutput, error) {
+	out := new(ApproveSolutionOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.atlas.Atlas/ApproveSolution", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *atlasClient) RefuseSolution(ctx context.Context, in *RefuseSolutionInput, opts ...grpc.CallOption) (*RefuseSolutionOutput, error) {
+	out := new(RefuseSolutionOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.atlas.Atlas/RefuseSolution", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AtlasServer is the server API for Atlas service.
 // All implementations must embed UnimplementedAtlasServer
 // for forward compatibility
@@ -384,6 +474,15 @@ type AtlasServer interface {
 	DeleteCodeTemplate(context.Context, *DeleteCodeTemplateInput) (*DeleteCodeTemplateOutput, error)
 	ListCodeTemplates(context.Context, *ListCodeTemplatesInput) (*ListCodeTemplatesOutput, error)
 	DescribeCodeTemplate(context.Context, *DescribeCodeTemplateInput) (*DescribeCodeTemplateOutput, error)
+	CreateSolution(context.Context, *CreateSolutionInput) (*CreateSolutionOutput, error)
+	UpdateSolution(context.Context, *UpdateSolutionInput) (*UpdateSolutionOutput, error)
+	DeleteSolution(context.Context, *DeleteSolutionInput) (*DeleteSolutionOutput, error)
+	ListSolutions(context.Context, *ListSolutionsInput) (*ListSolutionsOutput, error)
+	DescribeSolution(context.Context, *DescribeSolutionInput) (*DescribeSolutionOutput, error)
+	PublishSolution(context.Context, *PublishSolutionInput) (*PublishSolutionOutput, error)
+	UnpublishSolution(context.Context, *UnpublishSolutionInput) (*UnpublishSolutionOutput, error)
+	ApproveSolution(context.Context, *ApproveSolutionInput) (*ApproveSolutionOutput, error)
+	RefuseSolution(context.Context, *RefuseSolutionInput) (*RefuseSolutionOutput, error)
 	mustEmbedUnimplementedAtlasServer()
 }
 
@@ -486,6 +585,33 @@ func (UnimplementedAtlasServer) ListCodeTemplates(context.Context, *ListCodeTemp
 }
 func (UnimplementedAtlasServer) DescribeCodeTemplate(context.Context, *DescribeCodeTemplateInput) (*DescribeCodeTemplateOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeCodeTemplate not implemented")
+}
+func (UnimplementedAtlasServer) CreateSolution(context.Context, *CreateSolutionInput) (*CreateSolutionOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateSolution not implemented")
+}
+func (UnimplementedAtlasServer) UpdateSolution(context.Context, *UpdateSolutionInput) (*UpdateSolutionOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateSolution not implemented")
+}
+func (UnimplementedAtlasServer) DeleteSolution(context.Context, *DeleteSolutionInput) (*DeleteSolutionOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteSolution not implemented")
+}
+func (UnimplementedAtlasServer) ListSolutions(context.Context, *ListSolutionsInput) (*ListSolutionsOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListSolutions not implemented")
+}
+func (UnimplementedAtlasServer) DescribeSolution(context.Context, *DescribeSolutionInput) (*DescribeSolutionOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeSolution not implemented")
+}
+func (UnimplementedAtlasServer) PublishSolution(context.Context, *PublishSolutionInput) (*PublishSolutionOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PublishSolution not implemented")
+}
+func (UnimplementedAtlasServer) UnpublishSolution(context.Context, *UnpublishSolutionInput) (*UnpublishSolutionOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UnpublishSolution not implemented")
+}
+func (UnimplementedAtlasServer) ApproveSolution(context.Context, *ApproveSolutionInput) (*ApproveSolutionOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ApproveSolution not implemented")
+}
+func (UnimplementedAtlasServer) RefuseSolution(context.Context, *RefuseSolutionInput) (*RefuseSolutionOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RefuseSolution not implemented")
 }
 func (UnimplementedAtlasServer) mustEmbedUnimplementedAtlasServer() {}
 
@@ -1076,6 +1202,168 @@ func _Atlas_DescribeCodeTemplate_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Atlas_CreateSolution_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateSolutionInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AtlasServer).CreateSolution(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.atlas.Atlas/CreateSolution",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AtlasServer).CreateSolution(ctx, req.(*CreateSolutionInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Atlas_UpdateSolution_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateSolutionInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AtlasServer).UpdateSolution(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.atlas.Atlas/UpdateSolution",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AtlasServer).UpdateSolution(ctx, req.(*UpdateSolutionInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Atlas_DeleteSolution_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteSolutionInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AtlasServer).DeleteSolution(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.atlas.Atlas/DeleteSolution",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AtlasServer).DeleteSolution(ctx, req.(*DeleteSolutionInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Atlas_ListSolutions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListSolutionsInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AtlasServer).ListSolutions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.atlas.Atlas/ListSolutions",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AtlasServer).ListSolutions(ctx, req.(*ListSolutionsInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Atlas_DescribeSolution_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeSolutionInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AtlasServer).DescribeSolution(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.atlas.Atlas/DescribeSolution",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AtlasServer).DescribeSolution(ctx, req.(*DescribeSolutionInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Atlas_PublishSolution_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PublishSolutionInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AtlasServer).PublishSolution(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.atlas.Atlas/PublishSolution",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AtlasServer).PublishSolution(ctx, req.(*PublishSolutionInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Atlas_UnpublishSolution_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UnpublishSolutionInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AtlasServer).UnpublishSolution(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.atlas.Atlas/UnpublishSolution",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AtlasServer).UnpublishSolution(ctx, req.(*UnpublishSolutionInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Atlas_ApproveSolution_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ApproveSolutionInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AtlasServer).ApproveSolution(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.atlas.Atlas/ApproveSolution",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AtlasServer).ApproveSolution(ctx, req.(*ApproveSolutionInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Atlas_RefuseSolution_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RefuseSolutionInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AtlasServer).RefuseSolution(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.atlas.Atlas/RefuseSolution",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AtlasServer).RefuseSolution(ctx, req.(*RefuseSolutionInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Atlas_ServiceDesc is the grpc.ServiceDesc for Atlas service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -1210,6 +1498,42 @@ var Atlas_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DescribeCodeTemplate",
 			Handler:    _Atlas_DescribeCodeTemplate_Handler,
+		},
+		{
+			MethodName: "CreateSolution",
+			Handler:    _Atlas_CreateSolution_Handler,
+		},
+		{
+			MethodName: "UpdateSolution",
+			Handler:    _Atlas_UpdateSolution_Handler,
+		},
+		{
+			MethodName: "DeleteSolution",
+			Handler:    _Atlas_DeleteSolution_Handler,
+		},
+		{
+			MethodName: "ListSolutions",
+			Handler:    _Atlas_ListSolutions_Handler,
+		},
+		{
+			MethodName: "DescribeSolution",
+			Handler:    _Atlas_DescribeSolution_Handler,
+		},
+		{
+			MethodName: "PublishSolution",
+			Handler:    _Atlas_PublishSolution_Handler,
+		},
+		{
+			MethodName: "UnpublishSolution",
+			Handler:    _Atlas_UnpublishSolution_Handler,
+		},
+		{
+			MethodName: "ApproveSolution",
+			Handler:    _Atlas_ApproveSolution_Handler,
+		},
+		{
+			MethodName: "RefuseSolution",
+			Handler:    _Atlas_RefuseSolution_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
