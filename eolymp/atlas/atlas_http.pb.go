@@ -179,6 +179,26 @@ func NewAtlasHandler(srv AtlasServer) http.Handler {
 	router.Handle("/eolymp.atlas.Atlas/ApproveSolution", _Atlas_ApproveSolution(srv)).Methods(http.MethodPost)
 	router.Handle("/twirp/eolymp.atlas.Atlas/RefuseSolution", _Atlas_RefuseSolution(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.atlas.Atlas/RefuseSolution", _Atlas_RefuseSolution(srv)).Methods(http.MethodPost)
+	router.Handle("/twirp/eolymp.atlas.Atlas/CreateCategory", _Atlas_CreateCategory(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.atlas.Atlas/CreateCategory", _Atlas_CreateCategory(srv)).Methods(http.MethodPost)
+	router.Handle("/twirp/eolymp.atlas.Atlas/UpdateCategory", _Atlas_UpdateCategory(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.atlas.Atlas/UpdateCategory", _Atlas_UpdateCategory(srv)).Methods(http.MethodPost)
+	router.Handle("/twirp/eolymp.atlas.Atlas/DeleteCategory", _Atlas_DeleteCategory(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.atlas.Atlas/DeleteCategory", _Atlas_DeleteCategory(srv)).Methods(http.MethodPost)
+	router.Handle("/twirp/eolymp.atlas.Atlas/ListCategories", _Atlas_ListCategories(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.atlas.Atlas/ListCategories", _Atlas_ListCategories(srv)).Methods(http.MethodPost)
+	router.Handle("/twirp/eolymp.atlas.Atlas/DescribeCategory", _Atlas_DescribeCategory(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.atlas.Atlas/DescribeCategory", _Atlas_DescribeCategory(srv)).Methods(http.MethodPost)
+	router.Handle("/twirp/eolymp.atlas.Atlas/AssignCategory", _Atlas_AssignCategory(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.atlas.Atlas/AssignCategory", _Atlas_AssignCategory(srv)).Methods(http.MethodPost)
+	router.Handle("/twirp/eolymp.atlas.Atlas/UnassignCategory", _Atlas_UnassignCategory(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.atlas.Atlas/UnassignCategory", _Atlas_UnassignCategory(srv)).Methods(http.MethodPost)
+	router.Handle("/twirp/eolymp.atlas.Atlas/CreateSubmission", _Atlas_CreateSubmission(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.atlas.Atlas/CreateSubmission", _Atlas_CreateSubmission(srv)).Methods(http.MethodPost)
+	router.Handle("/twirp/eolymp.atlas.Atlas/DescribeSubmission", _Atlas_DescribeSubmission(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.atlas.Atlas/DescribeSubmission", _Atlas_DescribeSubmission(srv)).Methods(http.MethodPost)
+	router.Handle("/twirp/eolymp.atlas.Atlas/DescribeScore", _Atlas_DescribeScore(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.atlas.Atlas/DescribeScore", _Atlas_DescribeScore(srv)).Methods(http.MethodPost)
 	return router
 }
 
@@ -993,6 +1013,206 @@ func _Atlas_RefuseSolution(srv AtlasServer) http.Handler {
 		}
 
 		out, err := srv.RefuseSolution(r.Context(), in)
+		if err != nil {
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Atlas_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Atlas_CreateCategory(srv AtlasServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &CreateCategoryInput{}
+
+		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.CreateCategory(r.Context(), in)
+		if err != nil {
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Atlas_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Atlas_UpdateCategory(srv AtlasServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UpdateCategoryInput{}
+
+		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.UpdateCategory(r.Context(), in)
+		if err != nil {
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Atlas_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Atlas_DeleteCategory(srv AtlasServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DeleteCategoryInput{}
+
+		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.DeleteCategory(r.Context(), in)
+		if err != nil {
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Atlas_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Atlas_ListCategories(srv AtlasServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListCategoriesInput{}
+
+		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.ListCategories(r.Context(), in)
+		if err != nil {
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Atlas_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Atlas_DescribeCategory(srv AtlasServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeCategoryInput{}
+
+		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.DescribeCategory(r.Context(), in)
+		if err != nil {
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Atlas_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Atlas_AssignCategory(srv AtlasServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &AssignCategoryInput{}
+
+		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.AssignCategory(r.Context(), in)
+		if err != nil {
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Atlas_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Atlas_UnassignCategory(srv AtlasServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UnassignCategoryInput{}
+
+		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.UnassignCategory(r.Context(), in)
+		if err != nil {
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Atlas_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Atlas_CreateSubmission(srv AtlasServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &CreateSubmissionInput{}
+
+		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.CreateSubmission(r.Context(), in)
+		if err != nil {
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Atlas_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Atlas_DescribeSubmission(srv AtlasServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeSubmissionInput{}
+
+		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.DescribeSubmission(r.Context(), in)
+		if err != nil {
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Atlas_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Atlas_DescribeScore(srv AtlasServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeScoreInput{}
+
+		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.DescribeScore(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return

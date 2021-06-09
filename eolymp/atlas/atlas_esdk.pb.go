@@ -485,3 +485,103 @@ func (s *AtlasService) RefuseSolution(ctx context.Context, in *RefuseSolutionInp
 
 	return out, nil
 }
+
+func (s *AtlasService) CreateCategory(ctx context.Context, in *CreateCategoryInput) (*CreateCategoryOutput, error) {
+	out := &CreateCategoryOutput{}
+
+	if err := s.invoke(ctx, "eolymp.atlas.Atlas/CreateCategory", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *AtlasService) UpdateCategory(ctx context.Context, in *UpdateCategoryInput) (*UpdateCategoryOutput, error) {
+	out := &UpdateCategoryOutput{}
+
+	if err := s.invoke(ctx, "eolymp.atlas.Atlas/UpdateCategory", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *AtlasService) DeleteCategory(ctx context.Context, in *DeleteCategoryInput) (*DeleteCategoryOutput, error) {
+	out := &DeleteCategoryOutput{}
+
+	if err := s.invoke(ctx, "eolymp.atlas.Atlas/DeleteCategory", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *AtlasService) ListCategories(ctx context.Context, in *ListCategoriesInput) (*ListCategoriesOutput, error) {
+	out := &ListCategoriesOutput{}
+
+	if err := s.invoke(ctx, "eolymp.atlas.Atlas/ListCategories", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *AtlasService) DescribeCategory(ctx context.Context, in *DescribeCategoryInput) (*DescribeCategoryOutput, error) {
+	out := &DescribeCategoryOutput{}
+
+	if err := s.invoke(ctx, "eolymp.atlas.Atlas/DescribeCategory", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *AtlasService) AssignCategory(ctx context.Context, in *AssignCategoryInput) (*AssignCategoryOutput, error) {
+	out := &AssignCategoryOutput{}
+
+	if err := s.invoke(ctx, "eolymp.atlas.Atlas/AssignCategory", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *AtlasService) UnassignCategory(ctx context.Context, in *UnassignCategoryInput) (*UnassignCategoryOutput, error) {
+	out := &UnassignCategoryOutput{}
+
+	if err := s.invoke(ctx, "eolymp.atlas.Atlas/UnassignCategory", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *AtlasService) CreateSubmission(ctx context.Context, in *CreateSubmissionInput) (*CreateSubmissionOutput, error) {
+	out := &CreateSubmissionOutput{}
+
+	if err := s.invoke(ctx, "eolymp.atlas.Atlas/CreateSubmission", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *AtlasService) DescribeSubmission(ctx context.Context, in *DescribeSubmissionInput) (*DescribeSubmissionOutput, error) {
+	out := &DescribeSubmissionOutput{}
+
+	if err := s.invoke(ctx, "eolymp.atlas.Atlas/DescribeSubmission", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *AtlasService) DescribeScore(ctx context.Context, in *DescribeScoreInput) (*DescribeScoreOutput, error) {
+	out := &DescribeScoreOutput{}
+
+	if err := s.invoke(ctx, "eolymp.atlas.Atlas/DescribeScore", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
