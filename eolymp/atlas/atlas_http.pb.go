@@ -105,6 +105,10 @@ func NewAtlasHandler(srv AtlasServer) http.Handler {
 	router.Handle("/eolymp.atlas.Atlas/ListProblems", _Atlas_ListProblems(srv)).Methods(http.MethodPost)
 	router.Handle("/twirp/eolymp.atlas.Atlas/DescribeProblem", _Atlas_DescribeProblem(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.atlas.Atlas/DescribeProblem", _Atlas_DescribeProblem(srv)).Methods(http.MethodPost)
+	router.Handle("/twirp/eolymp.atlas.Atlas/UpdateVisibility", _Atlas_UpdateVisibility(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.atlas.Atlas/UpdateVisibility", _Atlas_UpdateVisibility(srv)).Methods(http.MethodPost)
+	router.Handle("/twirp/eolymp.atlas.Atlas/UpdatePrivacy", _Atlas_UpdatePrivacy(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.atlas.Atlas/UpdatePrivacy", _Atlas_UpdatePrivacy(srv)).Methods(http.MethodPost)
 	router.Handle("/twirp/eolymp.atlas.Atlas/ListExamples", _Atlas_ListExamples(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.atlas.Atlas/ListExamples", _Atlas_ListExamples(srv)).Methods(http.MethodPost)
 	router.Handle("/twirp/eolymp.atlas.Atlas/UpdateVerifier", _Atlas_UpdateVerifier(srv)).Methods(http.MethodPost)
@@ -161,6 +165,14 @@ func NewAtlasHandler(srv AtlasServer) http.Handler {
 	router.Handle("/eolymp.atlas.Atlas/ListCodeTemplates", _Atlas_ListCodeTemplates(srv)).Methods(http.MethodPost)
 	router.Handle("/twirp/eolymp.atlas.Atlas/DescribeCodeTemplate", _Atlas_DescribeCodeTemplate(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.atlas.Atlas/DescribeCodeTemplate", _Atlas_DescribeCodeTemplate(srv)).Methods(http.MethodPost)
+	router.Handle("/twirp/eolymp.atlas.Atlas/DescribeChange", _Atlas_DescribeChange(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.atlas.Atlas/DescribeChange", _Atlas_DescribeChange(srv)).Methods(http.MethodPost)
+	router.Handle("/twirp/eolymp.atlas.Atlas/ListChanges", _Atlas_ListChanges(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.atlas.Atlas/ListChanges", _Atlas_ListChanges(srv)).Methods(http.MethodPost)
+	router.Handle("/twirp/eolymp.atlas.Atlas/ListProblemTop", _Atlas_ListProblemTop(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.atlas.Atlas/ListProblemTop", _Atlas_ListProblemTop(srv)).Methods(http.MethodPost)
+	router.Handle("/twirp/eolymp.atlas.Atlas/DescribeProblemGrading", _Atlas_DescribeProblemGrading(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.atlas.Atlas/DescribeProblemGrading", _Atlas_DescribeProblemGrading(srv)).Methods(http.MethodPost)
 	router.Handle("/twirp/eolymp.atlas.Atlas/CreateSolution", _Atlas_CreateSolution(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.atlas.Atlas/CreateSolution", _Atlas_CreateSolution(srv)).Methods(http.MethodPost)
 	router.Handle("/twirp/eolymp.atlas.Atlas/UpdateSolution", _Atlas_UpdateSolution(srv)).Methods(http.MethodPost)
@@ -273,6 +285,46 @@ func _Atlas_DescribeProblem(srv AtlasServer) http.Handler {
 		}
 
 		out, err := srv.DescribeProblem(r.Context(), in)
+		if err != nil {
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Atlas_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Atlas_UpdateVisibility(srv AtlasServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UpdateVisibilityInput{}
+
+		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.UpdateVisibility(r.Context(), in)
+		if err != nil {
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Atlas_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Atlas_UpdatePrivacy(srv AtlasServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UpdatePrivacyInput{}
+
+		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.UpdatePrivacy(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -833,6 +885,86 @@ func _Atlas_DescribeCodeTemplate(srv AtlasServer) http.Handler {
 		}
 
 		out, err := srv.DescribeCodeTemplate(r.Context(), in)
+		if err != nil {
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Atlas_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Atlas_DescribeChange(srv AtlasServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeChangeInput{}
+
+		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.DescribeChange(r.Context(), in)
+		if err != nil {
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Atlas_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Atlas_ListChanges(srv AtlasServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListChangesInput{}
+
+		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.ListChanges(r.Context(), in)
+		if err != nil {
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Atlas_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Atlas_ListProblemTop(srv AtlasServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListProblemTopInput{}
+
+		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.ListProblemTop(r.Context(), in)
+		if err != nil {
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Atlas_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Atlas_DescribeProblemGrading(srv AtlasServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeProblemGradingInput{}
+
+		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.DescribeProblemGrading(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return

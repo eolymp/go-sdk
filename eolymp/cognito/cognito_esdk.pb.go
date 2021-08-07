@@ -195,3 +195,33 @@ func (s *CognitoService) IntrospectQuota(ctx context.Context, in *IntrospectQuot
 
 	return out, nil
 }
+
+func (s *CognitoService) ListRoles(ctx context.Context, in *ListRolesInput) (*ListRolesOutput, error) {
+	out := &ListRolesOutput{}
+
+	if err := s.invoke(ctx, "eolymp.cognito.Cognito/ListRoles", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *CognitoService) UpdateRoles(ctx context.Context, in *UpdateRolesInput) (*UpdateRolesOutput, error) {
+	out := &UpdateRolesOutput{}
+
+	if err := s.invoke(ctx, "eolymp.cognito.Cognito/UpdateRoles", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *CognitoService) ListServiceEntitlements(ctx context.Context, in *ListServiceEntitlementsInput) (*ListServiceEntitlementsOutput, error) {
+	out := &ListServiceEntitlementsOutput{}
+
+	if err := s.invoke(ctx, "eolymp.cognito.Cognito/ListServiceEntitlements", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

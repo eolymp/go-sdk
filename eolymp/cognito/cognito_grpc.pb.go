@@ -18,32 +18,38 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type CognitoClient interface {
-	// Create oauth token
+	// Create oauth access token.
 	CreateToken(ctx context.Context, in *CreateTokenInput, opts ...grpc.CallOption) (*CreateTokenOutput, error)
-	// Introspect oauth token
+	// Introspect oauth token, returns access token details for a given token.
 	IntrospectToken(ctx context.Context, in *IntrospectTokenInput, opts ...grpc.CallOption) (*IntrospectTokenOutput, error)
-	// Create authorization code
+	// Create authorization code.
 	CreateAuthorization(ctx context.Context, in *CreateAuthorizationInput, opts ...grpc.CallOption) (*CreateAuthorizationOutput, error)
-	// Create user account
+	// Create user account.
 	CreateUser(ctx context.Context, in *CreateUserInput, opts ...grpc.CallOption) (*CreateUserOutput, error)
-	// Verify user email, takes email verification token and if it's correct changes email_status to CONFIRMED
+	// Verify user email, takes email verification token and if it's correct - changes email status to CONFIRMED.
 	VerifyEmail(ctx context.Context, in *VerifyEmailInput, opts ...grpc.CallOption) (*VerifyEmailOutput, error)
-	// Update user email, changes user's current email and sends verification token.
+	// Update user email, changes user's current email and starts email verification process.
 	UpdateEmail(ctx context.Context, in *UpdateEmailInput, opts ...grpc.CallOption) (*UpdateEmailOutput, error)
 	// Start access recovery procedure, this method will send recovery token to the user's email.
-	// This method will return OK even if email does not exist
+	// This method will return OK even if email does not exist.
 	StartRecovery(ctx context.Context, in *StartRecoveryInput, opts ...grpc.CallOption) (*StartRecoveryOutput, error)
 	// Finish recovery procedure by setting new password, this method requires token sent by email using `StartRecovery`
 	// method
 	CompleteRecovery(ctx context.Context, in *CompleteRecoverInput, opts ...grpc.CallOption) (*CompleteRecoverOutput, error)
-	// introspect user
+	// Introspect user, returns user profile for authenticated user.
 	IntrospectUser(ctx context.Context, in *IntrospectUserInput, opts ...grpc.CallOption) (*IntrospectUserOutput, error)
-	// describe user
+	// Describe user by ID.
 	DescribeUser(ctx context.Context, in *DescribeUserInput, opts ...grpc.CallOption) (*DescribeUserOutput, error)
-	// list users
+	// List users.
 	ListUsers(ctx context.Context, in *ListUsersInput, opts ...grpc.CallOption) (*ListUsersOutput, error)
-	// describe user quota
+	// Describe user's quota.
 	IntrospectQuota(ctx context.Context, in *IntrospectQuotaInput, opts ...grpc.CallOption) (*IntrospectQuotaOutput, error)
+	// List roles assigned to a user.
+	ListRoles(ctx context.Context, in *ListRolesInput, opts ...grpc.CallOption) (*ListRolesOutput, error)
+	// Update user's roles.
+	UpdateRoles(ctx context.Context, in *UpdateRolesInput, opts ...grpc.CallOption) (*UpdateRolesOutput, error)
+	// Lists entitlements granted to authenticated user.
+	ListServiceEntitlements(ctx context.Context, in *ListServiceEntitlementsInput, opts ...grpc.CallOption) (*ListServiceEntitlementsOutput, error)
 }
 
 type cognitoClient struct {
@@ -162,36 +168,69 @@ func (c *cognitoClient) IntrospectQuota(ctx context.Context, in *IntrospectQuota
 	return out, nil
 }
 
+func (c *cognitoClient) ListRoles(ctx context.Context, in *ListRolesInput, opts ...grpc.CallOption) (*ListRolesOutput, error) {
+	out := new(ListRolesOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.cognito.Cognito/ListRoles", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *cognitoClient) UpdateRoles(ctx context.Context, in *UpdateRolesInput, opts ...grpc.CallOption) (*UpdateRolesOutput, error) {
+	out := new(UpdateRolesOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.cognito.Cognito/UpdateRoles", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *cognitoClient) ListServiceEntitlements(ctx context.Context, in *ListServiceEntitlementsInput, opts ...grpc.CallOption) (*ListServiceEntitlementsOutput, error) {
+	out := new(ListServiceEntitlementsOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.cognito.Cognito/ListServiceEntitlements", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CognitoServer is the server API for Cognito service.
 // All implementations must embed UnimplementedCognitoServer
 // for forward compatibility
 type CognitoServer interface {
-	// Create oauth token
+	// Create oauth access token.
 	CreateToken(context.Context, *CreateTokenInput) (*CreateTokenOutput, error)
-	// Introspect oauth token
+	// Introspect oauth token, returns access token details for a given token.
 	IntrospectToken(context.Context, *IntrospectTokenInput) (*IntrospectTokenOutput, error)
-	// Create authorization code
+	// Create authorization code.
 	CreateAuthorization(context.Context, *CreateAuthorizationInput) (*CreateAuthorizationOutput, error)
-	// Create user account
+	// Create user account.
 	CreateUser(context.Context, *CreateUserInput) (*CreateUserOutput, error)
-	// Verify user email, takes email verification token and if it's correct changes email_status to CONFIRMED
+	// Verify user email, takes email verification token and if it's correct - changes email status to CONFIRMED.
 	VerifyEmail(context.Context, *VerifyEmailInput) (*VerifyEmailOutput, error)
-	// Update user email, changes user's current email and sends verification token.
+	// Update user email, changes user's current email and starts email verification process.
 	UpdateEmail(context.Context, *UpdateEmailInput) (*UpdateEmailOutput, error)
 	// Start access recovery procedure, this method will send recovery token to the user's email.
-	// This method will return OK even if email does not exist
+	// This method will return OK even if email does not exist.
 	StartRecovery(context.Context, *StartRecoveryInput) (*StartRecoveryOutput, error)
 	// Finish recovery procedure by setting new password, this method requires token sent by email using `StartRecovery`
 	// method
 	CompleteRecovery(context.Context, *CompleteRecoverInput) (*CompleteRecoverOutput, error)
-	// introspect user
+	// Introspect user, returns user profile for authenticated user.
 	IntrospectUser(context.Context, *IntrospectUserInput) (*IntrospectUserOutput, error)
-	// describe user
+	// Describe user by ID.
 	DescribeUser(context.Context, *DescribeUserInput) (*DescribeUserOutput, error)
-	// list users
+	// List users.
 	ListUsers(context.Context, *ListUsersInput) (*ListUsersOutput, error)
-	// describe user quota
+	// Describe user's quota.
 	IntrospectQuota(context.Context, *IntrospectQuotaInput) (*IntrospectQuotaOutput, error)
+	// List roles assigned to a user.
+	ListRoles(context.Context, *ListRolesInput) (*ListRolesOutput, error)
+	// Update user's roles.
+	UpdateRoles(context.Context, *UpdateRolesInput) (*UpdateRolesOutput, error)
+	// Lists entitlements granted to authenticated user.
+	ListServiceEntitlements(context.Context, *ListServiceEntitlementsInput) (*ListServiceEntitlementsOutput, error)
 	mustEmbedUnimplementedCognitoServer()
 }
 
@@ -234,6 +273,15 @@ func (UnimplementedCognitoServer) ListUsers(context.Context, *ListUsersInput) (*
 }
 func (UnimplementedCognitoServer) IntrospectQuota(context.Context, *IntrospectQuotaInput) (*IntrospectQuotaOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method IntrospectQuota not implemented")
+}
+func (UnimplementedCognitoServer) ListRoles(context.Context, *ListRolesInput) (*ListRolesOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListRoles not implemented")
+}
+func (UnimplementedCognitoServer) UpdateRoles(context.Context, *UpdateRolesInput) (*UpdateRolesOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateRoles not implemented")
+}
+func (UnimplementedCognitoServer) ListServiceEntitlements(context.Context, *ListServiceEntitlementsInput) (*ListServiceEntitlementsOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListServiceEntitlements not implemented")
 }
 func (UnimplementedCognitoServer) mustEmbedUnimplementedCognitoServer() {}
 
@@ -464,6 +512,60 @@ func _Cognito_IntrospectQuota_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Cognito_ListRoles_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListRolesInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CognitoServer).ListRoles(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.cognito.Cognito/ListRoles",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CognitoServer).ListRoles(ctx, req.(*ListRolesInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Cognito_UpdateRoles_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateRolesInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CognitoServer).UpdateRoles(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.cognito.Cognito/UpdateRoles",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CognitoServer).UpdateRoles(ctx, req.(*UpdateRolesInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Cognito_ListServiceEntitlements_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListServiceEntitlementsInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CognitoServer).ListServiceEntitlements(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.cognito.Cognito/ListServiceEntitlements",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CognitoServer).ListServiceEntitlements(ctx, req.(*ListServiceEntitlementsInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Cognito_ServiceDesc is the grpc.ServiceDesc for Cognito service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -518,6 +620,18 @@ var Cognito_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "IntrospectQuota",
 			Handler:    _Cognito_IntrospectQuota_Handler,
+		},
+		{
+			MethodName: "ListRoles",
+			Handler:    _Cognito_ListRoles_Handler,
+		},
+		{
+			MethodName: "UpdateRoles",
+			Handler:    _Cognito_UpdateRoles_Handler,
+		},
+		{
+			MethodName: "ListServiceEntitlements",
+			Handler:    _Cognito_ListServiceEntitlements_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

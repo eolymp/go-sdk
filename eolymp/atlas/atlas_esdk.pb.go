@@ -116,6 +116,26 @@ func (s *AtlasService) DescribeProblem(ctx context.Context, in *DescribeProblemI
 	return out, nil
 }
 
+func (s *AtlasService) UpdateVisibility(ctx context.Context, in *UpdateVisibilityInput) (*UpdateVisibilityOutput, error) {
+	out := &UpdateVisibilityOutput{}
+
+	if err := s.invoke(ctx, "eolymp.atlas.Atlas/UpdateVisibility", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *AtlasService) UpdatePrivacy(ctx context.Context, in *UpdatePrivacyInput) (*UpdatePrivacyOutput, error) {
+	out := &UpdatePrivacyOutput{}
+
+	if err := s.invoke(ctx, "eolymp.atlas.Atlas/UpdatePrivacy", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *AtlasService) ListExamples(ctx context.Context, in *ListExamplesInput) (*ListExamplesOutput, error) {
 	out := &ListExamplesOutput{}
 
@@ -390,6 +410,46 @@ func (s *AtlasService) DescribeCodeTemplate(ctx context.Context, in *DescribeCod
 	out := &DescribeCodeTemplateOutput{}
 
 	if err := s.invoke(ctx, "eolymp.atlas.Atlas/DescribeCodeTemplate", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *AtlasService) DescribeChange(ctx context.Context, in *DescribeChangeInput) (*DescribeChangeOutput, error) {
+	out := &DescribeChangeOutput{}
+
+	if err := s.invoke(ctx, "eolymp.atlas.Atlas/DescribeChange", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *AtlasService) ListChanges(ctx context.Context, in *ListChangesInput) (*ListChangesOutput, error) {
+	out := &ListChangesOutput{}
+
+	if err := s.invoke(ctx, "eolymp.atlas.Atlas/ListChanges", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *AtlasService) ListProblemTop(ctx context.Context, in *ListProblemTopInput) (*ListProblemTopOutput, error) {
+	out := &ListProblemTopOutput{}
+
+	if err := s.invoke(ctx, "eolymp.atlas.Atlas/ListProblemTop", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *AtlasService) DescribeProblemGrading(ctx context.Context, in *DescribeProblemGradingInput) (*DescribeProblemGradingOutput, error) {
+	out := &DescribeProblemGradingOutput{}
+
+	if err := s.invoke(ctx, "eolymp.atlas.Atlas/DescribeProblemGrading", in, out); err != nil {
 		return nil, err
 	}
 

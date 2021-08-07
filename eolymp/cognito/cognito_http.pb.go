@@ -121,6 +121,12 @@ func NewCognitoHandler(srv CognitoServer) http.Handler {
 	router.Handle("/eolymp.cognito.Cognito/ListUsers", _Cognito_ListUsers(srv)).Methods(http.MethodPost)
 	router.Handle("/twirp/eolymp.cognito.Cognito/IntrospectQuota", _Cognito_IntrospectQuota(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.cognito.Cognito/IntrospectQuota", _Cognito_IntrospectQuota(srv)).Methods(http.MethodPost)
+	router.Handle("/twirp/eolymp.cognito.Cognito/ListRoles", _Cognito_ListRoles(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.cognito.Cognito/ListRoles", _Cognito_ListRoles(srv)).Methods(http.MethodPost)
+	router.Handle("/twirp/eolymp.cognito.Cognito/UpdateRoles", _Cognito_UpdateRoles(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.cognito.Cognito/UpdateRoles", _Cognito_UpdateRoles(srv)).Methods(http.MethodPost)
+	router.Handle("/twirp/eolymp.cognito.Cognito/ListServiceEntitlements", _Cognito_ListServiceEntitlements(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.cognito.Cognito/ListServiceEntitlements", _Cognito_ListServiceEntitlements(srv)).Methods(http.MethodPost)
 	return router
 }
 
@@ -355,6 +361,66 @@ func _Cognito_IntrospectQuota(srv CognitoServer) http.Handler {
 		}
 
 		out, err := srv.IntrospectQuota(r.Context(), in)
+		if err != nil {
+			_Cognito_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Cognito_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Cognito_ListRoles(srv CognitoServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListRolesInput{}
+
+		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Cognito_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.ListRoles(r.Context(), in)
+		if err != nil {
+			_Cognito_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Cognito_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Cognito_UpdateRoles(srv CognitoServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UpdateRolesInput{}
+
+		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Cognito_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.UpdateRoles(r.Context(), in)
+		if err != nil {
+			_Cognito_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Cognito_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Cognito_ListServiceEntitlements(srv CognitoServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListServiceEntitlementsInput{}
+
+		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Cognito_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.ListServiceEntitlements(r.Context(), in)
 		if err != nil {
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return

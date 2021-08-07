@@ -22,6 +22,8 @@ type AtlasClient interface {
 	DeleteProblem(ctx context.Context, in *DeleteProblemInput, opts ...grpc.CallOption) (*DeleteProblemOutput, error)
 	ListProblems(ctx context.Context, in *ListProblemsInput, opts ...grpc.CallOption) (*ListProblemsOutput, error)
 	DescribeProblem(ctx context.Context, in *DescribeProblemInput, opts ...grpc.CallOption) (*DescribeProblemOutput, error)
+	UpdateVisibility(ctx context.Context, in *UpdateVisibilityInput, opts ...grpc.CallOption) (*UpdateVisibilityOutput, error)
+	UpdatePrivacy(ctx context.Context, in *UpdatePrivacyInput, opts ...grpc.CallOption) (*UpdatePrivacyOutput, error)
 	ListExamples(ctx context.Context, in *ListExamplesInput, opts ...grpc.CallOption) (*ListExamplesOutput, error)
 	UpdateVerifier(ctx context.Context, in *UpdateVerifierInput, opts ...grpc.CallOption) (*UpdateVerifierOutput, error)
 	DescribeVerifier(ctx context.Context, in *DescribeVerifierInput, opts ...grpc.CallOption) (*DescribeVerifierOutput, error)
@@ -50,6 +52,10 @@ type AtlasClient interface {
 	DeleteCodeTemplate(ctx context.Context, in *DeleteCodeTemplateInput, opts ...grpc.CallOption) (*DeleteCodeTemplateOutput, error)
 	ListCodeTemplates(ctx context.Context, in *ListCodeTemplatesInput, opts ...grpc.CallOption) (*ListCodeTemplatesOutput, error)
 	DescribeCodeTemplate(ctx context.Context, in *DescribeCodeTemplateInput, opts ...grpc.CallOption) (*DescribeCodeTemplateOutput, error)
+	DescribeChange(ctx context.Context, in *DescribeChangeInput, opts ...grpc.CallOption) (*DescribeChangeOutput, error)
+	ListChanges(ctx context.Context, in *ListChangesInput, opts ...grpc.CallOption) (*ListChangesOutput, error)
+	ListProblemTop(ctx context.Context, in *ListProblemTopInput, opts ...grpc.CallOption) (*ListProblemTopOutput, error)
+	DescribeProblemGrading(ctx context.Context, in *DescribeProblemGradingInput, opts ...grpc.CallOption) (*DescribeProblemGradingOutput, error)
 	CreateSolution(ctx context.Context, in *CreateSolutionInput, opts ...grpc.CallOption) (*CreateSolutionOutput, error)
 	UpdateSolution(ctx context.Context, in *UpdateSolutionInput, opts ...grpc.CallOption) (*UpdateSolutionOutput, error)
 	DeleteSolution(ctx context.Context, in *DeleteSolutionInput, opts ...grpc.CallOption) (*DeleteSolutionOutput, error)
@@ -109,6 +115,24 @@ func (c *atlasClient) ListProblems(ctx context.Context, in *ListProblemsInput, o
 func (c *atlasClient) DescribeProblem(ctx context.Context, in *DescribeProblemInput, opts ...grpc.CallOption) (*DescribeProblemOutput, error) {
 	out := new(DescribeProblemOutput)
 	err := c.cc.Invoke(ctx, "/eolymp.atlas.Atlas/DescribeProblem", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *atlasClient) UpdateVisibility(ctx context.Context, in *UpdateVisibilityInput, opts ...grpc.CallOption) (*UpdateVisibilityOutput, error) {
+	out := new(UpdateVisibilityOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.atlas.Atlas/UpdateVisibility", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *atlasClient) UpdatePrivacy(ctx context.Context, in *UpdatePrivacyInput, opts ...grpc.CallOption) (*UpdatePrivacyOutput, error) {
+	out := new(UpdatePrivacyOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.atlas.Atlas/UpdatePrivacy", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -367,6 +391,42 @@ func (c *atlasClient) DescribeCodeTemplate(ctx context.Context, in *DescribeCode
 	return out, nil
 }
 
+func (c *atlasClient) DescribeChange(ctx context.Context, in *DescribeChangeInput, opts ...grpc.CallOption) (*DescribeChangeOutput, error) {
+	out := new(DescribeChangeOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.atlas.Atlas/DescribeChange", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *atlasClient) ListChanges(ctx context.Context, in *ListChangesInput, opts ...grpc.CallOption) (*ListChangesOutput, error) {
+	out := new(ListChangesOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.atlas.Atlas/ListChanges", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *atlasClient) ListProblemTop(ctx context.Context, in *ListProblemTopInput, opts ...grpc.CallOption) (*ListProblemTopOutput, error) {
+	out := new(ListProblemTopOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.atlas.Atlas/ListProblemTop", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *atlasClient) DescribeProblemGrading(ctx context.Context, in *DescribeProblemGradingInput, opts ...grpc.CallOption) (*DescribeProblemGradingOutput, error) {
+	out := new(DescribeProblemGradingOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.atlas.Atlas/DescribeProblemGrading", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *atlasClient) CreateSolution(ctx context.Context, in *CreateSolutionInput, opts ...grpc.CallOption) (*CreateSolutionOutput, error) {
 	out := new(CreateSolutionOutput)
 	err := c.cc.Invoke(ctx, "/eolymp.atlas.Atlas/CreateSolution", in, out, opts...)
@@ -546,6 +606,8 @@ type AtlasServer interface {
 	DeleteProblem(context.Context, *DeleteProblemInput) (*DeleteProblemOutput, error)
 	ListProblems(context.Context, *ListProblemsInput) (*ListProblemsOutput, error)
 	DescribeProblem(context.Context, *DescribeProblemInput) (*DescribeProblemOutput, error)
+	UpdateVisibility(context.Context, *UpdateVisibilityInput) (*UpdateVisibilityOutput, error)
+	UpdatePrivacy(context.Context, *UpdatePrivacyInput) (*UpdatePrivacyOutput, error)
 	ListExamples(context.Context, *ListExamplesInput) (*ListExamplesOutput, error)
 	UpdateVerifier(context.Context, *UpdateVerifierInput) (*UpdateVerifierOutput, error)
 	DescribeVerifier(context.Context, *DescribeVerifierInput) (*DescribeVerifierOutput, error)
@@ -574,6 +636,10 @@ type AtlasServer interface {
 	DeleteCodeTemplate(context.Context, *DeleteCodeTemplateInput) (*DeleteCodeTemplateOutput, error)
 	ListCodeTemplates(context.Context, *ListCodeTemplatesInput) (*ListCodeTemplatesOutput, error)
 	DescribeCodeTemplate(context.Context, *DescribeCodeTemplateInput) (*DescribeCodeTemplateOutput, error)
+	DescribeChange(context.Context, *DescribeChangeInput) (*DescribeChangeOutput, error)
+	ListChanges(context.Context, *ListChangesInput) (*ListChangesOutput, error)
+	ListProblemTop(context.Context, *ListProblemTopInput) (*ListProblemTopOutput, error)
+	DescribeProblemGrading(context.Context, *DescribeProblemGradingInput) (*DescribeProblemGradingOutput, error)
 	CreateSolution(context.Context, *CreateSolutionInput) (*CreateSolutionOutput, error)
 	UpdateSolution(context.Context, *UpdateSolutionInput) (*UpdateSolutionOutput, error)
 	DeleteSolution(context.Context, *DeleteSolutionInput) (*DeleteSolutionOutput, error)
@@ -611,6 +677,12 @@ func (UnimplementedAtlasServer) ListProblems(context.Context, *ListProblemsInput
 }
 func (UnimplementedAtlasServer) DescribeProblem(context.Context, *DescribeProblemInput) (*DescribeProblemOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeProblem not implemented")
+}
+func (UnimplementedAtlasServer) UpdateVisibility(context.Context, *UpdateVisibilityInput) (*UpdateVisibilityOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateVisibility not implemented")
+}
+func (UnimplementedAtlasServer) UpdatePrivacy(context.Context, *UpdatePrivacyInput) (*UpdatePrivacyOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdatePrivacy not implemented")
 }
 func (UnimplementedAtlasServer) ListExamples(context.Context, *ListExamplesInput) (*ListExamplesOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListExamples not implemented")
@@ -695,6 +767,18 @@ func (UnimplementedAtlasServer) ListCodeTemplates(context.Context, *ListCodeTemp
 }
 func (UnimplementedAtlasServer) DescribeCodeTemplate(context.Context, *DescribeCodeTemplateInput) (*DescribeCodeTemplateOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeCodeTemplate not implemented")
+}
+func (UnimplementedAtlasServer) DescribeChange(context.Context, *DescribeChangeInput) (*DescribeChangeOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeChange not implemented")
+}
+func (UnimplementedAtlasServer) ListChanges(context.Context, *ListChangesInput) (*ListChangesOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListChanges not implemented")
+}
+func (UnimplementedAtlasServer) ListProblemTop(context.Context, *ListProblemTopInput) (*ListProblemTopOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListProblemTop not implemented")
+}
+func (UnimplementedAtlasServer) DescribeProblemGrading(context.Context, *DescribeProblemGradingInput) (*DescribeProblemGradingOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeProblemGrading not implemented")
 }
 func (UnimplementedAtlasServer) CreateSolution(context.Context, *CreateSolutionInput) (*CreateSolutionOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateSolution not implemented")
@@ -834,6 +918,42 @@ func _Atlas_DescribeProblem_Handler(srv interface{}, ctx context.Context, dec fu
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AtlasServer).DescribeProblem(ctx, req.(*DescribeProblemInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Atlas_UpdateVisibility_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateVisibilityInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AtlasServer).UpdateVisibility(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.atlas.Atlas/UpdateVisibility",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AtlasServer).UpdateVisibility(ctx, req.(*UpdateVisibilityInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Atlas_UpdatePrivacy_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdatePrivacyInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AtlasServer).UpdatePrivacy(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.atlas.Atlas/UpdatePrivacy",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AtlasServer).UpdatePrivacy(ctx, req.(*UpdatePrivacyInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1342,6 +1462,78 @@ func _Atlas_DescribeCodeTemplate_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Atlas_DescribeChange_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeChangeInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AtlasServer).DescribeChange(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.atlas.Atlas/DescribeChange",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AtlasServer).DescribeChange(ctx, req.(*DescribeChangeInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Atlas_ListChanges_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListChangesInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AtlasServer).ListChanges(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.atlas.Atlas/ListChanges",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AtlasServer).ListChanges(ctx, req.(*ListChangesInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Atlas_ListProblemTop_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListProblemTopInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AtlasServer).ListProblemTop(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.atlas.Atlas/ListProblemTop",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AtlasServer).ListProblemTop(ctx, req.(*ListProblemTopInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Atlas_DescribeProblemGrading_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeProblemGradingInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AtlasServer).DescribeProblemGrading(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.atlas.Atlas/DescribeProblemGrading",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AtlasServer).DescribeProblemGrading(ctx, req.(*DescribeProblemGradingInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Atlas_CreateSolution_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreateSolutionInput)
 	if err := dec(in); err != nil {
@@ -1708,6 +1900,14 @@ var Atlas_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Atlas_DescribeProblem_Handler,
 		},
 		{
+			MethodName: "UpdateVisibility",
+			Handler:    _Atlas_UpdateVisibility_Handler,
+		},
+		{
+			MethodName: "UpdatePrivacy",
+			Handler:    _Atlas_UpdatePrivacy_Handler,
+		},
+		{
 			MethodName: "ListExamples",
 			Handler:    _Atlas_ListExamples_Handler,
 		},
@@ -1818,6 +2018,22 @@ var Atlas_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DescribeCodeTemplate",
 			Handler:    _Atlas_DescribeCodeTemplate_Handler,
+		},
+		{
+			MethodName: "DescribeChange",
+			Handler:    _Atlas_DescribeChange_Handler,
+		},
+		{
+			MethodName: "ListChanges",
+			Handler:    _Atlas_ListChanges_Handler,
+		},
+		{
+			MethodName: "ListProblemTop",
+			Handler:    _Atlas_ListProblemTop_Handler,
+		},
+		{
+			MethodName: "DescribeProblemGrading",
+			Handler:    _Atlas_DescribeProblemGrading_Handler,
 		},
 		{
 			MethodName: "CreateSolution",
