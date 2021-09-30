@@ -4,13 +4,18 @@
 package playground
 
 import (
+	context "context"
+	oauth "github.com/eolymp/go-packages/oauth"
 	mux "github.com/gorilla/mux"
+	prometheus "github.com/prometheus/client_golang/prometheus"
+	promauto "github.com/prometheus/client_golang/prometheus/promauto"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
 	ioutil "io/ioutil"
 	http "net/http"
+	time "time"
 )
 
 // _Playground_HTTPReadRequestBody parses body into proto.Message
@@ -142,4 +147,88 @@ func _Playground_DescribeRun(srv PlaygroundServer) http.Handler {
 
 		_Playground_HTTPWriteResponse(w, out)
 	})
+}
+
+var promPlaygroundRequestLatency = promauto.NewHistogramVec(prometheus.HistogramOpts{
+	Name:    "playground_request_latency",
+	Help:    "Playground request latency",
+	Buckets: []float64{0.1, 0.4, 1, 5},
+}, []string{"method", "status"})
+
+type _PlaygroundLimiter interface {
+	Allow(context.Context, string, float64, int) bool
+}
+
+type PlaygroundInterceptor struct {
+	limiter _PlaygroundLimiter
+	server  PlaygroundServer
+}
+
+// NewPlaygroundInterceptor constructs additional middleware for a server based on annotations in proto files
+func NewPlaygroundInterceptor(srv PlaygroundServer, lim _PlaygroundLimiter) *PlaygroundInterceptor {
+	return &PlaygroundInterceptor{server: srv, limiter: lim}
+}
+
+func (i *PlaygroundInterceptor) CreateRun(ctx context.Context, in *CreateRunInput) (out *CreateRunOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promPlaygroundRequestLatency.WithLabelValues("eolymp.playground.Playground/CreateRun", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("playground:run:write") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: playground:run:write")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.playground.Playground/CreateRun", 0.16, 5) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.CreateRun(ctx, in)
+	return
+}
+
+func (i *PlaygroundInterceptor) DescribeRun(ctx context.Context, in *DescribeRunInput) (out *DescribeRunOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promPlaygroundRequestLatency.WithLabelValues("eolymp.playground.Playground/DescribeRun", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("playground:run:read") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: playground:run:read")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.playground.Playground/DescribeRun", 2, 10) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.DescribeRun(ctx, in)
+	return
 }

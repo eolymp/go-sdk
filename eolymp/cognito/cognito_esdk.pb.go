@@ -106,6 +106,26 @@ func (s *CognitoService) CreateAuthorization(ctx context.Context, in *CreateAuth
 	return out, nil
 }
 
+func (s *CognitoService) RevokeToken(ctx context.Context, in *RevokeTokenInput) (*RevokeTokenOutput, error) {
+	out := &RevokeTokenOutput{}
+
+	if err := s.invoke(ctx, "eolymp.cognito.Cognito/RevokeToken", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *CognitoService) Signout(ctx context.Context, in *SignoutInput) (*SignoutOutput, error) {
+	out := &SignoutOutput{}
+
+	if err := s.invoke(ctx, "eolymp.cognito.Cognito/Signout", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *CognitoService) CreateUser(ctx context.Context, in *CreateUserInput) (*CreateUserOutput, error) {
 	out := &CreateUserOutput{}
 
@@ -196,6 +216,16 @@ func (s *CognitoService) IntrospectQuota(ctx context.Context, in *IntrospectQuot
 	return out, nil
 }
 
+func (s *CognitoService) IntrospectRoles(ctx context.Context, in *IntrospectRolesInput) (*IntrospectRolesOutput, error) {
+	out := &IntrospectRolesOutput{}
+
+	if err := s.invoke(ctx, "eolymp.cognito.Cognito/IntrospectRoles", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *CognitoService) ListRoles(ctx context.Context, in *ListRolesInput) (*ListRolesOutput, error) {
 	out := &ListRolesOutput{}
 
@@ -216,10 +246,10 @@ func (s *CognitoService) UpdateRoles(ctx context.Context, in *UpdateRolesInput) 
 	return out, nil
 }
 
-func (s *CognitoService) ListServiceEntitlements(ctx context.Context, in *ListServiceEntitlementsInput) (*ListServiceEntitlementsOutput, error) {
-	out := &ListServiceEntitlementsOutput{}
+func (s *CognitoService) ListEntitlements(ctx context.Context, in *ListEntitlementsInput) (*ListEntitlementsOutput, error) {
+	out := &ListEntitlementsOutput{}
 
-	if err := s.invoke(ctx, "eolymp.cognito.Cognito/ListServiceEntitlements", in, out); err != nil {
+	if err := s.invoke(ctx, "eolymp.cognito.Cognito/ListEntitlements", in, out); err != nil {
 		return nil, err
 	}
 

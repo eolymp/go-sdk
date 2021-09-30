@@ -24,6 +24,10 @@ type CognitoClient interface {
 	IntrospectToken(ctx context.Context, in *IntrospectTokenInput, opts ...grpc.CallOption) (*IntrospectTokenOutput, error)
 	// Create authorization code.
 	CreateAuthorization(ctx context.Context, in *CreateAuthorizationInput, opts ...grpc.CallOption) (*CreateAuthorizationOutput, error)
+	// Revoke token disables given token and related tokens.
+	RevokeToken(ctx context.Context, in *RevokeTokenInput, opts ...grpc.CallOption) (*RevokeTokenOutput, error)
+	// Signout revokes all user's tokens or all tokens of current session.
+	Signout(ctx context.Context, in *SignoutInput, opts ...grpc.CallOption) (*SignoutOutput, error)
 	// Create user account.
 	CreateUser(ctx context.Context, in *CreateUserInput, opts ...grpc.CallOption) (*CreateUserOutput, error)
 	// Verify user email, takes email verification token and if it's correct - changes email status to CONFIRMED.
@@ -44,12 +48,14 @@ type CognitoClient interface {
 	ListUsers(ctx context.Context, in *ListUsersInput, opts ...grpc.CallOption) (*ListUsersOutput, error)
 	// Describe user's quota.
 	IntrospectQuota(ctx context.Context, in *IntrospectQuotaInput, opts ...grpc.CallOption) (*IntrospectQuotaOutput, error)
+	// List own roles.
+	IntrospectRoles(ctx context.Context, in *IntrospectRolesInput, opts ...grpc.CallOption) (*IntrospectRolesOutput, error)
 	// List roles assigned to a user.
 	ListRoles(ctx context.Context, in *ListRolesInput, opts ...grpc.CallOption) (*ListRolesOutput, error)
 	// Update user's roles.
 	UpdateRoles(ctx context.Context, in *UpdateRolesInput, opts ...grpc.CallOption) (*UpdateRolesOutput, error)
 	// Lists entitlements granted to authenticated user.
-	ListServiceEntitlements(ctx context.Context, in *ListServiceEntitlementsInput, opts ...grpc.CallOption) (*ListServiceEntitlementsOutput, error)
+	ListEntitlements(ctx context.Context, in *ListEntitlementsInput, opts ...grpc.CallOption) (*ListEntitlementsOutput, error)
 }
 
 type cognitoClient struct {
@@ -81,6 +87,24 @@ func (c *cognitoClient) IntrospectToken(ctx context.Context, in *IntrospectToken
 func (c *cognitoClient) CreateAuthorization(ctx context.Context, in *CreateAuthorizationInput, opts ...grpc.CallOption) (*CreateAuthorizationOutput, error) {
 	out := new(CreateAuthorizationOutput)
 	err := c.cc.Invoke(ctx, "/eolymp.cognito.Cognito/CreateAuthorization", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *cognitoClient) RevokeToken(ctx context.Context, in *RevokeTokenInput, opts ...grpc.CallOption) (*RevokeTokenOutput, error) {
+	out := new(RevokeTokenOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.cognito.Cognito/RevokeToken", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *cognitoClient) Signout(ctx context.Context, in *SignoutInput, opts ...grpc.CallOption) (*SignoutOutput, error) {
+	out := new(SignoutOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.cognito.Cognito/Signout", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -168,6 +192,15 @@ func (c *cognitoClient) IntrospectQuota(ctx context.Context, in *IntrospectQuota
 	return out, nil
 }
 
+func (c *cognitoClient) IntrospectRoles(ctx context.Context, in *IntrospectRolesInput, opts ...grpc.CallOption) (*IntrospectRolesOutput, error) {
+	out := new(IntrospectRolesOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.cognito.Cognito/IntrospectRoles", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *cognitoClient) ListRoles(ctx context.Context, in *ListRolesInput, opts ...grpc.CallOption) (*ListRolesOutput, error) {
 	out := new(ListRolesOutput)
 	err := c.cc.Invoke(ctx, "/eolymp.cognito.Cognito/ListRoles", in, out, opts...)
@@ -186,9 +219,9 @@ func (c *cognitoClient) UpdateRoles(ctx context.Context, in *UpdateRolesInput, o
 	return out, nil
 }
 
-func (c *cognitoClient) ListServiceEntitlements(ctx context.Context, in *ListServiceEntitlementsInput, opts ...grpc.CallOption) (*ListServiceEntitlementsOutput, error) {
-	out := new(ListServiceEntitlementsOutput)
-	err := c.cc.Invoke(ctx, "/eolymp.cognito.Cognito/ListServiceEntitlements", in, out, opts...)
+func (c *cognitoClient) ListEntitlements(ctx context.Context, in *ListEntitlementsInput, opts ...grpc.CallOption) (*ListEntitlementsOutput, error) {
+	out := new(ListEntitlementsOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.cognito.Cognito/ListEntitlements", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -205,6 +238,10 @@ type CognitoServer interface {
 	IntrospectToken(context.Context, *IntrospectTokenInput) (*IntrospectTokenOutput, error)
 	// Create authorization code.
 	CreateAuthorization(context.Context, *CreateAuthorizationInput) (*CreateAuthorizationOutput, error)
+	// Revoke token disables given token and related tokens.
+	RevokeToken(context.Context, *RevokeTokenInput) (*RevokeTokenOutput, error)
+	// Signout revokes all user's tokens or all tokens of current session.
+	Signout(context.Context, *SignoutInput) (*SignoutOutput, error)
 	// Create user account.
 	CreateUser(context.Context, *CreateUserInput) (*CreateUserOutput, error)
 	// Verify user email, takes email verification token and if it's correct - changes email status to CONFIRMED.
@@ -225,12 +262,14 @@ type CognitoServer interface {
 	ListUsers(context.Context, *ListUsersInput) (*ListUsersOutput, error)
 	// Describe user's quota.
 	IntrospectQuota(context.Context, *IntrospectQuotaInput) (*IntrospectQuotaOutput, error)
+	// List own roles.
+	IntrospectRoles(context.Context, *IntrospectRolesInput) (*IntrospectRolesOutput, error)
 	// List roles assigned to a user.
 	ListRoles(context.Context, *ListRolesInput) (*ListRolesOutput, error)
 	// Update user's roles.
 	UpdateRoles(context.Context, *UpdateRolesInput) (*UpdateRolesOutput, error)
 	// Lists entitlements granted to authenticated user.
-	ListServiceEntitlements(context.Context, *ListServiceEntitlementsInput) (*ListServiceEntitlementsOutput, error)
+	ListEntitlements(context.Context, *ListEntitlementsInput) (*ListEntitlementsOutput, error)
 	mustEmbedUnimplementedCognitoServer()
 }
 
@@ -246,6 +285,12 @@ func (UnimplementedCognitoServer) IntrospectToken(context.Context, *IntrospectTo
 }
 func (UnimplementedCognitoServer) CreateAuthorization(context.Context, *CreateAuthorizationInput) (*CreateAuthorizationOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateAuthorization not implemented")
+}
+func (UnimplementedCognitoServer) RevokeToken(context.Context, *RevokeTokenInput) (*RevokeTokenOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RevokeToken not implemented")
+}
+func (UnimplementedCognitoServer) Signout(context.Context, *SignoutInput) (*SignoutOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Signout not implemented")
 }
 func (UnimplementedCognitoServer) CreateUser(context.Context, *CreateUserInput) (*CreateUserOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateUser not implemented")
@@ -274,14 +319,17 @@ func (UnimplementedCognitoServer) ListUsers(context.Context, *ListUsersInput) (*
 func (UnimplementedCognitoServer) IntrospectQuota(context.Context, *IntrospectQuotaInput) (*IntrospectQuotaOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method IntrospectQuota not implemented")
 }
+func (UnimplementedCognitoServer) IntrospectRoles(context.Context, *IntrospectRolesInput) (*IntrospectRolesOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method IntrospectRoles not implemented")
+}
 func (UnimplementedCognitoServer) ListRoles(context.Context, *ListRolesInput) (*ListRolesOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListRoles not implemented")
 }
 func (UnimplementedCognitoServer) UpdateRoles(context.Context, *UpdateRolesInput) (*UpdateRolesOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateRoles not implemented")
 }
-func (UnimplementedCognitoServer) ListServiceEntitlements(context.Context, *ListServiceEntitlementsInput) (*ListServiceEntitlementsOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListServiceEntitlements not implemented")
+func (UnimplementedCognitoServer) ListEntitlements(context.Context, *ListEntitlementsInput) (*ListEntitlementsOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListEntitlements not implemented")
 }
 func (UnimplementedCognitoServer) mustEmbedUnimplementedCognitoServer() {}
 
@@ -346,6 +394,42 @@ func _Cognito_CreateAuthorization_Handler(srv interface{}, ctx context.Context, 
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(CognitoServer).CreateAuthorization(ctx, req.(*CreateAuthorizationInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Cognito_RevokeToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RevokeTokenInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CognitoServer).RevokeToken(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.cognito.Cognito/RevokeToken",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CognitoServer).RevokeToken(ctx, req.(*RevokeTokenInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Cognito_Signout_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SignoutInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CognitoServer).Signout(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.cognito.Cognito/Signout",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CognitoServer).Signout(ctx, req.(*SignoutInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -512,6 +596,24 @@ func _Cognito_IntrospectQuota_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Cognito_IntrospectRoles_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IntrospectRolesInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CognitoServer).IntrospectRoles(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.cognito.Cognito/IntrospectRoles",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CognitoServer).IntrospectRoles(ctx, req.(*IntrospectRolesInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Cognito_ListRoles_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListRolesInput)
 	if err := dec(in); err != nil {
@@ -548,20 +650,20 @@ func _Cognito_UpdateRoles_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Cognito_ListServiceEntitlements_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListServiceEntitlementsInput)
+func _Cognito_ListEntitlements_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListEntitlementsInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CognitoServer).ListServiceEntitlements(ctx, in)
+		return srv.(CognitoServer).ListEntitlements(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/eolymp.cognito.Cognito/ListServiceEntitlements",
+		FullMethod: "/eolymp.cognito.Cognito/ListEntitlements",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CognitoServer).ListServiceEntitlements(ctx, req.(*ListServiceEntitlementsInput))
+		return srv.(CognitoServer).ListEntitlements(ctx, req.(*ListEntitlementsInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -584,6 +686,14 @@ var Cognito_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateAuthorization",
 			Handler:    _Cognito_CreateAuthorization_Handler,
+		},
+		{
+			MethodName: "RevokeToken",
+			Handler:    _Cognito_RevokeToken_Handler,
+		},
+		{
+			MethodName: "Signout",
+			Handler:    _Cognito_Signout_Handler,
 		},
 		{
 			MethodName: "CreateUser",
@@ -622,6 +732,10 @@ var Cognito_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Cognito_IntrospectQuota_Handler,
 		},
 		{
+			MethodName: "IntrospectRoles",
+			Handler:    _Cognito_IntrospectRoles_Handler,
+		},
+		{
 			MethodName: "ListRoles",
 			Handler:    _Cognito_ListRoles_Handler,
 		},
@@ -630,8 +744,8 @@ var Cognito_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Cognito_UpdateRoles_Handler,
 		},
 		{
-			MethodName: "ListServiceEntitlements",
-			Handler:    _Cognito_ListServiceEntitlements_Handler,
+			MethodName: "ListEntitlements",
+			Handler:    _Cognito_ListEntitlements_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -4,13 +4,17 @@
 package executor
 
 import (
+	context "context"
 	mux "github.com/gorilla/mux"
+	prometheus "github.com/prometheus/client_golang/prometheus"
+	promauto "github.com/prometheus/client_golang/prometheus/promauto"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
 	ioutil "io/ioutil"
 	http "net/http"
+	time "time"
 )
 
 // _Executor_HTTPReadRequestBody parses body into proto.Message
@@ -208,4 +212,104 @@ func _Executor_DescribeCodeTemplate(srv ExecutorServer) http.Handler {
 
 		_Executor_HTTPWriteResponse(w, out)
 	})
+}
+
+var promExecutorRequestLatency = promauto.NewHistogramVec(prometheus.HistogramOpts{
+	Name:    "executor_request_latency",
+	Help:    "Executor request latency",
+	Buckets: []float64{0.1, 0.4, 1, 5},
+}, []string{"method", "status"})
+
+type _ExecutorLimiter interface {
+	Allow(context.Context, string, float64, int) bool
+}
+
+type ExecutorInterceptor struct {
+	limiter _ExecutorLimiter
+	server  ExecutorServer
+}
+
+// NewExecutorInterceptor constructs additional middleware for a server based on annotations in proto files
+func NewExecutorInterceptor(srv ExecutorServer, lim _ExecutorLimiter) *ExecutorInterceptor {
+	return &ExecutorInterceptor{server: srv, limiter: lim}
+}
+
+func (i *ExecutorInterceptor) DescribeLanguage(ctx context.Context, in *DescribeLanguageInput) (out *DescribeLanguageOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promExecutorRequestLatency.WithLabelValues("eolymp.executor.Executor/DescribeLanguage", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	out, err = i.server.DescribeLanguage(ctx, in)
+	return
+}
+
+func (i *ExecutorInterceptor) ListLanguages(ctx context.Context, in *ListLanguagesInput) (out *ListLanguagesOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promExecutorRequestLatency.WithLabelValues("eolymp.executor.Executor/ListLanguages", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	out, err = i.server.ListLanguages(ctx, in)
+	return
+}
+
+func (i *ExecutorInterceptor) DescribeRuntime(ctx context.Context, in *DescribeRuntimeInput) (out *DescribeRuntimeOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promExecutorRequestLatency.WithLabelValues("eolymp.executor.Executor/DescribeRuntime", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	out, err = i.server.DescribeRuntime(ctx, in)
+	return
+}
+
+func (i *ExecutorInterceptor) ListRuntime(ctx context.Context, in *ListRuntimeInput) (out *ListRuntimeOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promExecutorRequestLatency.WithLabelValues("eolymp.executor.Executor/ListRuntime", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	out, err = i.server.ListRuntime(ctx, in)
+	return
+}
+
+func (i *ExecutorInterceptor) DescribeCodeTemplate(ctx context.Context, in *DescribeCodeTemplateInput) (out *DescribeCodeTemplateOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promExecutorRequestLatency.WithLabelValues("eolymp.executor.Executor/DescribeCodeTemplate", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	out, err = i.server.DescribeCodeTemplate(ctx, in)
+	return
 }

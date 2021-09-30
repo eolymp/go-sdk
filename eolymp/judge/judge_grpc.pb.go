@@ -43,6 +43,10 @@ type JudgeClient interface {
 	ConfigureRuntime(ctx context.Context, in *ConfigureRuntimeInput, opts ...grpc.CallOption) (*ConfigureRuntimeOutput, error)
 	// DescribeRegistrationForm allows fetch registration form for the contest.
 	DescribeRuntime(ctx context.Context, in *DescribeRuntimeInput, opts ...grpc.CallOption) (*DescribeRuntimeOutput, error)
+	// ConfigureAppearance allows to configure contest website appearance.
+	ConfigureAppearance(ctx context.Context, in *ConfigureAppearanceInput, opts ...grpc.CallOption) (*ConfigureAppearanceOutput, error)
+	// DescribeAppearance allows fetch contest website appearance.
+	DescribeAppearance(ctx context.Context, in *DescribeAppearanceInput, opts ...grpc.CallOption) (*DescribeAppearanceOutput, error)
 	// SubmitRegistration allows participant to submit registration form data.
 	SubmitRegistration(ctx context.Context, in *SubmitRegistrationInput, opts ...grpc.CallOption) (*SubmitRegistrationOutput, error)
 	// DescribeRegistration allows participant to submit registration form data.
@@ -54,6 +58,8 @@ type JudgeClient interface {
 	UpdateProblem(ctx context.Context, in *UpdateProblemInput, opts ...grpc.CallOption) (*UpdateProblemOutput, error)
 	ListProblems(ctx context.Context, in *ListProblemsInput, opts ...grpc.CallOption) (*ListProblemsOutput, error)
 	DescribeProblem(ctx context.Context, in *DescribeProblemInput, opts ...grpc.CallOption) (*DescribeProblemOutput, error)
+	// Return code template for problem
+	DescribeCodeTemplate(ctx context.Context, in *DescribeCodeTemplateInput, opts ...grpc.CallOption) (*DescribeCodeTemplateOutput, error)
 	ListStatements(ctx context.Context, in *ListStatementsInput, opts ...grpc.CallOption) (*ListStatementsOutput, error)
 	ListExamples(ctx context.Context, in *ListExamplesInput, opts ...grpc.CallOption) (*ListExamplesOutput, error)
 	DeleteProblem(ctx context.Context, in *DeleteProblemInput, opts ...grpc.CallOption) (*DeleteProblemOutput, error)
@@ -62,14 +68,6 @@ type JudgeClient interface {
 	AddParticipant(ctx context.Context, in *AddParticipantInput, opts ...grpc.CallOption) (*AddParticipantOutput, error)
 	EnableParticipant(ctx context.Context, in *EnableParticipantInput, opts ...grpc.CallOption) (*EnableParticipantOutput, error)
 	DisableParticipant(ctx context.Context, in *DisableParticipantInput, opts ...grpc.CallOption) (*DisableParticipantOutput, error)
-	// Verify if passcode is required for the contest and if authenticated token has entered the passcode.
-	VerifyPasscode(ctx context.Context, in *VerifyPasscodeInput, opts ...grpc.CallOption) (*VerifyPasscodeOutput, error)
-	// Enter passcode marks current session as one authenticated by passcode.
-	EnterPasscode(ctx context.Context, in *EnterPasscodeInput, opts ...grpc.CallOption) (*EnterPasscodeOutput, error)
-	// Set a new passcode to the participant, if passcode was not set it will be now required
-	ResetPasscode(ctx context.Context, in *ResetPasscodeInput, opts ...grpc.CallOption) (*ResetPasscodeOutput, error)
-	// Remove passcode from participant and allow her to enter contest without passcode.
-	RemovePasscode(ctx context.Context, in *RemovePasscodeInput, opts ...grpc.CallOption) (*RemovePasscodeOutput, error)
 	RemoveParticipant(ctx context.Context, in *RemoveParticipantInput, opts ...grpc.CallOption) (*RemoveParticipantOutput, error)
 	ListParticipants(ctx context.Context, in *ListParticipantsInput, opts ...grpc.CallOption) (*ListParticipantsOutput, error)
 	DescribeParticipant(ctx context.Context, in *DescribeParticipantInput, opts ...grpc.CallOption) (*DescribeParticipantOutput, error)
@@ -79,6 +77,14 @@ type JudgeClient interface {
 	JoinContest(ctx context.Context, in *JoinContestInput, opts ...grpc.CallOption) (*JoinContestOutput, error)
 	// Allows a participant (currently authorized user) to start participating in the contest, see problems and submit solutions.
 	StartContest(ctx context.Context, in *StartContestInput, opts ...grpc.CallOption) (*StartContestOutput, error)
+	// Verify if passcode is required for the contest and if authenticated token has entered the passcode.
+	VerifyPasscode(ctx context.Context, in *VerifyPasscodeInput, opts ...grpc.CallOption) (*VerifyPasscodeOutput, error)
+	// Enter passcode marks current session as one authenticated by passcode.
+	EnterPasscode(ctx context.Context, in *EnterPasscodeInput, opts ...grpc.CallOption) (*EnterPasscodeOutput, error)
+	// Set a new passcode to the participant, if passcode was not set it will be now required
+	ResetPasscode(ctx context.Context, in *ResetPasscodeInput, opts ...grpc.CallOption) (*ResetPasscodeOutput, error)
+	// Remove passcode from participant and allow her to enter contest without passcode.
+	RemovePasscode(ctx context.Context, in *RemovePasscodeInput, opts ...grpc.CallOption) (*RemovePasscodeOutput, error)
 	// Creates submissions and triggers test process.
 	CreateSubmission(ctx context.Context, in *CreateSubmissionInput, opts ...grpc.CallOption) (*CreateSubmissionOutput, error)
 	ListSubmissions(ctx context.Context, in *ListSubmissionsInput, opts ...grpc.CallOption) (*ListSubmissionsOutput, error)
@@ -120,8 +126,26 @@ type JudgeClient interface {
 	DescribeAnnouncementStatus(ctx context.Context, in *DescribeAnnouncementStatusInput, opts ...grpc.CallOption) (*DescribeAnnouncementStatusOutput, error)
 	// List announcements of a contest
 	ListAnnouncements(ctx context.Context, in *ListAnnouncementsInput, opts ...grpc.CallOption) (*ListAnnouncementsOutput, error)
-	// Return code template for problem
-	DescribeCodeTemplate(ctx context.Context, in *DescribeCodeTemplateInput, opts ...grpc.CallOption) (*DescribeCodeTemplateOutput, error)
+	// Create scoreboard for a contest
+	CreateScoreboard(ctx context.Context, in *CreateScoreboardInput, opts ...grpc.CallOption) (*CreateScoreboardOutput, error)
+	// Update existing scoreboard in a contest
+	UpdateScoreboard(ctx context.Context, in *UpdateScoreboardInput, opts ...grpc.CallOption) (*UpdateScoreboardOutput, error)
+	// Rebuild scoreboard
+	RebuildScoreboard(ctx context.Context, in *RebuildScoreboardInput, opts ...grpc.CallOption) (*RebuildScoreboardOutput, error)
+	// Delete scoreboard
+	DeleteScoreboard(ctx context.Context, in *DeleteScoreboardInput, opts ...grpc.CallOption) (*DeleteScoreboardOutput, error)
+	// Describe scoreboard
+	DescribeScoreboard(ctx context.Context, in *DescribeScoreboardInput, opts ...grpc.CallOption) (*DescribeScoreboardOutput, error)
+	// Describe scoreboard
+	DescribeDefaultScoreboard(ctx context.Context, in *DescribeDefaultScoreboardInput, opts ...grpc.CallOption) (*DescribeDefaultScoreboardOutput, error)
+	ListScoreboards(ctx context.Context, in *ListScoreboardsInput, opts ...grpc.CallOption) (*ListScoreboardsOutput, error)
+	DescribeScoreboardRow(ctx context.Context, in *DescribeScoreboardRowInput, opts ...grpc.CallOption) (*DescribeScoreboardRowOutput, error)
+	DescribeDefaultScoreboardRow(ctx context.Context, in *DescribeDefaultScoreboardRowInput, opts ...grpc.CallOption) (*DescribeDefaultScoreboardRowOutput, error)
+	ListScoreboardRows(ctx context.Context, in *ListScoreboardRowsInput, opts ...grpc.CallOption) (*ListScoreboardRowsOutput, error)
+	ListDefaultScoreboardRows(ctx context.Context, in *ListDefaultScoreboardRowsInput, opts ...grpc.CallOption) (*ListDefaultScoreboardRowsOutput, error)
+	// Lists entitlements granted to authenticated user.
+	ListEntitlements(ctx context.Context, in *ListEntitlementsInput, opts ...grpc.CallOption) (*ListEntitlementsOutput, error)
+	ListActivities(ctx context.Context, in *ListActivitiesInput, opts ...grpc.CallOption) (*ListActivitiesOutput, error)
 }
 
 type judgeClient struct {
@@ -240,6 +264,24 @@ func (c *judgeClient) DescribeRuntime(ctx context.Context, in *DescribeRuntimeIn
 	return out, nil
 }
 
+func (c *judgeClient) ConfigureAppearance(ctx context.Context, in *ConfigureAppearanceInput, opts ...grpc.CallOption) (*ConfigureAppearanceOutput, error) {
+	out := new(ConfigureAppearanceOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/ConfigureAppearance", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *judgeClient) DescribeAppearance(ctx context.Context, in *DescribeAppearanceInput, opts ...grpc.CallOption) (*DescribeAppearanceOutput, error) {
+	out := new(DescribeAppearanceOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/DescribeAppearance", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *judgeClient) SubmitRegistration(ctx context.Context, in *SubmitRegistrationInput, opts ...grpc.CallOption) (*SubmitRegistrationOutput, error) {
 	out := new(SubmitRegistrationOutput)
 	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/SubmitRegistration", in, out, opts...)
@@ -297,6 +339,15 @@ func (c *judgeClient) ListProblems(ctx context.Context, in *ListProblemsInput, o
 func (c *judgeClient) DescribeProblem(ctx context.Context, in *DescribeProblemInput, opts ...grpc.CallOption) (*DescribeProblemOutput, error) {
 	out := new(DescribeProblemOutput)
 	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/DescribeProblem", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *judgeClient) DescribeCodeTemplate(ctx context.Context, in *DescribeCodeTemplateInput, opts ...grpc.CallOption) (*DescribeCodeTemplateOutput, error) {
+	out := new(DescribeCodeTemplateOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/DescribeCodeTemplate", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -366,42 +417,6 @@ func (c *judgeClient) DisableParticipant(ctx context.Context, in *DisablePartici
 	return out, nil
 }
 
-func (c *judgeClient) VerifyPasscode(ctx context.Context, in *VerifyPasscodeInput, opts ...grpc.CallOption) (*VerifyPasscodeOutput, error) {
-	out := new(VerifyPasscodeOutput)
-	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/VerifyPasscode", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *judgeClient) EnterPasscode(ctx context.Context, in *EnterPasscodeInput, opts ...grpc.CallOption) (*EnterPasscodeOutput, error) {
-	out := new(EnterPasscodeOutput)
-	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/EnterPasscode", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *judgeClient) ResetPasscode(ctx context.Context, in *ResetPasscodeInput, opts ...grpc.CallOption) (*ResetPasscodeOutput, error) {
-	out := new(ResetPasscodeOutput)
-	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/ResetPasscode", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *judgeClient) RemovePasscode(ctx context.Context, in *RemovePasscodeInput, opts ...grpc.CallOption) (*RemovePasscodeOutput, error) {
-	out := new(RemovePasscodeOutput)
-	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/RemovePasscode", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *judgeClient) RemoveParticipant(ctx context.Context, in *RemoveParticipantInput, opts ...grpc.CallOption) (*RemoveParticipantOutput, error) {
 	out := new(RemoveParticipantOutput)
 	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/RemoveParticipant", in, out, opts...)
@@ -450,6 +465,42 @@ func (c *judgeClient) JoinContest(ctx context.Context, in *JoinContestInput, opt
 func (c *judgeClient) StartContest(ctx context.Context, in *StartContestInput, opts ...grpc.CallOption) (*StartContestOutput, error) {
 	out := new(StartContestOutput)
 	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/StartContest", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *judgeClient) VerifyPasscode(ctx context.Context, in *VerifyPasscodeInput, opts ...grpc.CallOption) (*VerifyPasscodeOutput, error) {
+	out := new(VerifyPasscodeOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/VerifyPasscode", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *judgeClient) EnterPasscode(ctx context.Context, in *EnterPasscodeInput, opts ...grpc.CallOption) (*EnterPasscodeOutput, error) {
+	out := new(EnterPasscodeOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/EnterPasscode", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *judgeClient) ResetPasscode(ctx context.Context, in *ResetPasscodeInput, opts ...grpc.CallOption) (*ResetPasscodeOutput, error) {
+	out := new(ResetPasscodeOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/ResetPasscode", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *judgeClient) RemovePasscode(ctx context.Context, in *RemovePasscodeInput, opts ...grpc.CallOption) (*RemovePasscodeOutput, error) {
+	out := new(RemovePasscodeOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/RemovePasscode", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -654,9 +705,117 @@ func (c *judgeClient) ListAnnouncements(ctx context.Context, in *ListAnnouncemen
 	return out, nil
 }
 
-func (c *judgeClient) DescribeCodeTemplate(ctx context.Context, in *DescribeCodeTemplateInput, opts ...grpc.CallOption) (*DescribeCodeTemplateOutput, error) {
-	out := new(DescribeCodeTemplateOutput)
-	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/DescribeCodeTemplate", in, out, opts...)
+func (c *judgeClient) CreateScoreboard(ctx context.Context, in *CreateScoreboardInput, opts ...grpc.CallOption) (*CreateScoreboardOutput, error) {
+	out := new(CreateScoreboardOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/CreateScoreboard", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *judgeClient) UpdateScoreboard(ctx context.Context, in *UpdateScoreboardInput, opts ...grpc.CallOption) (*UpdateScoreboardOutput, error) {
+	out := new(UpdateScoreboardOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/UpdateScoreboard", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *judgeClient) RebuildScoreboard(ctx context.Context, in *RebuildScoreboardInput, opts ...grpc.CallOption) (*RebuildScoreboardOutput, error) {
+	out := new(RebuildScoreboardOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/RebuildScoreboard", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *judgeClient) DeleteScoreboard(ctx context.Context, in *DeleteScoreboardInput, opts ...grpc.CallOption) (*DeleteScoreboardOutput, error) {
+	out := new(DeleteScoreboardOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/DeleteScoreboard", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *judgeClient) DescribeScoreboard(ctx context.Context, in *DescribeScoreboardInput, opts ...grpc.CallOption) (*DescribeScoreboardOutput, error) {
+	out := new(DescribeScoreboardOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/DescribeScoreboard", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *judgeClient) DescribeDefaultScoreboard(ctx context.Context, in *DescribeDefaultScoreboardInput, opts ...grpc.CallOption) (*DescribeDefaultScoreboardOutput, error) {
+	out := new(DescribeDefaultScoreboardOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/DescribeDefaultScoreboard", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *judgeClient) ListScoreboards(ctx context.Context, in *ListScoreboardsInput, opts ...grpc.CallOption) (*ListScoreboardsOutput, error) {
+	out := new(ListScoreboardsOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/ListScoreboards", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *judgeClient) DescribeScoreboardRow(ctx context.Context, in *DescribeScoreboardRowInput, opts ...grpc.CallOption) (*DescribeScoreboardRowOutput, error) {
+	out := new(DescribeScoreboardRowOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/DescribeScoreboardRow", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *judgeClient) DescribeDefaultScoreboardRow(ctx context.Context, in *DescribeDefaultScoreboardRowInput, opts ...grpc.CallOption) (*DescribeDefaultScoreboardRowOutput, error) {
+	out := new(DescribeDefaultScoreboardRowOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/DescribeDefaultScoreboardRow", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *judgeClient) ListScoreboardRows(ctx context.Context, in *ListScoreboardRowsInput, opts ...grpc.CallOption) (*ListScoreboardRowsOutput, error) {
+	out := new(ListScoreboardRowsOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/ListScoreboardRows", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *judgeClient) ListDefaultScoreboardRows(ctx context.Context, in *ListDefaultScoreboardRowsInput, opts ...grpc.CallOption) (*ListDefaultScoreboardRowsOutput, error) {
+	out := new(ListDefaultScoreboardRowsOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/ListDefaultScoreboardRows", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *judgeClient) ListEntitlements(ctx context.Context, in *ListEntitlementsInput, opts ...grpc.CallOption) (*ListEntitlementsOutput, error) {
+	out := new(ListEntitlementsOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/ListEntitlements", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *judgeClient) ListActivities(ctx context.Context, in *ListActivitiesInput, opts ...grpc.CallOption) (*ListActivitiesOutput, error) {
+	out := new(ListActivitiesOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/ListActivities", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -692,6 +851,10 @@ type JudgeServer interface {
 	ConfigureRuntime(context.Context, *ConfigureRuntimeInput) (*ConfigureRuntimeOutput, error)
 	// DescribeRegistrationForm allows fetch registration form for the contest.
 	DescribeRuntime(context.Context, *DescribeRuntimeInput) (*DescribeRuntimeOutput, error)
+	// ConfigureAppearance allows to configure contest website appearance.
+	ConfigureAppearance(context.Context, *ConfigureAppearanceInput) (*ConfigureAppearanceOutput, error)
+	// DescribeAppearance allows fetch contest website appearance.
+	DescribeAppearance(context.Context, *DescribeAppearanceInput) (*DescribeAppearanceOutput, error)
 	// SubmitRegistration allows participant to submit registration form data.
 	SubmitRegistration(context.Context, *SubmitRegistrationInput) (*SubmitRegistrationOutput, error)
 	// DescribeRegistration allows participant to submit registration form data.
@@ -703,6 +866,8 @@ type JudgeServer interface {
 	UpdateProblem(context.Context, *UpdateProblemInput) (*UpdateProblemOutput, error)
 	ListProblems(context.Context, *ListProblemsInput) (*ListProblemsOutput, error)
 	DescribeProblem(context.Context, *DescribeProblemInput) (*DescribeProblemOutput, error)
+	// Return code template for problem
+	DescribeCodeTemplate(context.Context, *DescribeCodeTemplateInput) (*DescribeCodeTemplateOutput, error)
 	ListStatements(context.Context, *ListStatementsInput) (*ListStatementsOutput, error)
 	ListExamples(context.Context, *ListExamplesInput) (*ListExamplesOutput, error)
 	DeleteProblem(context.Context, *DeleteProblemInput) (*DeleteProblemOutput, error)
@@ -711,14 +876,6 @@ type JudgeServer interface {
 	AddParticipant(context.Context, *AddParticipantInput) (*AddParticipantOutput, error)
 	EnableParticipant(context.Context, *EnableParticipantInput) (*EnableParticipantOutput, error)
 	DisableParticipant(context.Context, *DisableParticipantInput) (*DisableParticipantOutput, error)
-	// Verify if passcode is required for the contest and if authenticated token has entered the passcode.
-	VerifyPasscode(context.Context, *VerifyPasscodeInput) (*VerifyPasscodeOutput, error)
-	// Enter passcode marks current session as one authenticated by passcode.
-	EnterPasscode(context.Context, *EnterPasscodeInput) (*EnterPasscodeOutput, error)
-	// Set a new passcode to the participant, if passcode was not set it will be now required
-	ResetPasscode(context.Context, *ResetPasscodeInput) (*ResetPasscodeOutput, error)
-	// Remove passcode from participant and allow her to enter contest without passcode.
-	RemovePasscode(context.Context, *RemovePasscodeInput) (*RemovePasscodeOutput, error)
 	RemoveParticipant(context.Context, *RemoveParticipantInput) (*RemoveParticipantOutput, error)
 	ListParticipants(context.Context, *ListParticipantsInput) (*ListParticipantsOutput, error)
 	DescribeParticipant(context.Context, *DescribeParticipantInput) (*DescribeParticipantOutput, error)
@@ -728,6 +885,14 @@ type JudgeServer interface {
 	JoinContest(context.Context, *JoinContestInput) (*JoinContestOutput, error)
 	// Allows a participant (currently authorized user) to start participating in the contest, see problems and submit solutions.
 	StartContest(context.Context, *StartContestInput) (*StartContestOutput, error)
+	// Verify if passcode is required for the contest and if authenticated token has entered the passcode.
+	VerifyPasscode(context.Context, *VerifyPasscodeInput) (*VerifyPasscodeOutput, error)
+	// Enter passcode marks current session as one authenticated by passcode.
+	EnterPasscode(context.Context, *EnterPasscodeInput) (*EnterPasscodeOutput, error)
+	// Set a new passcode to the participant, if passcode was not set it will be now required
+	ResetPasscode(context.Context, *ResetPasscodeInput) (*ResetPasscodeOutput, error)
+	// Remove passcode from participant and allow her to enter contest without passcode.
+	RemovePasscode(context.Context, *RemovePasscodeInput) (*RemovePasscodeOutput, error)
 	// Creates submissions and triggers test process.
 	CreateSubmission(context.Context, *CreateSubmissionInput) (*CreateSubmissionOutput, error)
 	ListSubmissions(context.Context, *ListSubmissionsInput) (*ListSubmissionsOutput, error)
@@ -769,8 +934,26 @@ type JudgeServer interface {
 	DescribeAnnouncementStatus(context.Context, *DescribeAnnouncementStatusInput) (*DescribeAnnouncementStatusOutput, error)
 	// List announcements of a contest
 	ListAnnouncements(context.Context, *ListAnnouncementsInput) (*ListAnnouncementsOutput, error)
-	// Return code template for problem
-	DescribeCodeTemplate(context.Context, *DescribeCodeTemplateInput) (*DescribeCodeTemplateOutput, error)
+	// Create scoreboard for a contest
+	CreateScoreboard(context.Context, *CreateScoreboardInput) (*CreateScoreboardOutput, error)
+	// Update existing scoreboard in a contest
+	UpdateScoreboard(context.Context, *UpdateScoreboardInput) (*UpdateScoreboardOutput, error)
+	// Rebuild scoreboard
+	RebuildScoreboard(context.Context, *RebuildScoreboardInput) (*RebuildScoreboardOutput, error)
+	// Delete scoreboard
+	DeleteScoreboard(context.Context, *DeleteScoreboardInput) (*DeleteScoreboardOutput, error)
+	// Describe scoreboard
+	DescribeScoreboard(context.Context, *DescribeScoreboardInput) (*DescribeScoreboardOutput, error)
+	// Describe scoreboard
+	DescribeDefaultScoreboard(context.Context, *DescribeDefaultScoreboardInput) (*DescribeDefaultScoreboardOutput, error)
+	ListScoreboards(context.Context, *ListScoreboardsInput) (*ListScoreboardsOutput, error)
+	DescribeScoreboardRow(context.Context, *DescribeScoreboardRowInput) (*DescribeScoreboardRowOutput, error)
+	DescribeDefaultScoreboardRow(context.Context, *DescribeDefaultScoreboardRowInput) (*DescribeDefaultScoreboardRowOutput, error)
+	ListScoreboardRows(context.Context, *ListScoreboardRowsInput) (*ListScoreboardRowsOutput, error)
+	ListDefaultScoreboardRows(context.Context, *ListDefaultScoreboardRowsInput) (*ListDefaultScoreboardRowsOutput, error)
+	// Lists entitlements granted to authenticated user.
+	ListEntitlements(context.Context, *ListEntitlementsInput) (*ListEntitlementsOutput, error)
+	ListActivities(context.Context, *ListActivitiesInput) (*ListActivitiesOutput, error)
 	mustEmbedUnimplementedJudgeServer()
 }
 
@@ -814,6 +997,12 @@ func (UnimplementedJudgeServer) ConfigureRuntime(context.Context, *ConfigureRunt
 func (UnimplementedJudgeServer) DescribeRuntime(context.Context, *DescribeRuntimeInput) (*DescribeRuntimeOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeRuntime not implemented")
 }
+func (UnimplementedJudgeServer) ConfigureAppearance(context.Context, *ConfigureAppearanceInput) (*ConfigureAppearanceOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ConfigureAppearance not implemented")
+}
+func (UnimplementedJudgeServer) DescribeAppearance(context.Context, *DescribeAppearanceInput) (*DescribeAppearanceOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeAppearance not implemented")
+}
 func (UnimplementedJudgeServer) SubmitRegistration(context.Context, *SubmitRegistrationInput) (*SubmitRegistrationOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SubmitRegistration not implemented")
 }
@@ -834,6 +1023,9 @@ func (UnimplementedJudgeServer) ListProblems(context.Context, *ListProblemsInput
 }
 func (UnimplementedJudgeServer) DescribeProblem(context.Context, *DescribeProblemInput) (*DescribeProblemOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeProblem not implemented")
+}
+func (UnimplementedJudgeServer) DescribeCodeTemplate(context.Context, *DescribeCodeTemplateInput) (*DescribeCodeTemplateOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeCodeTemplate not implemented")
 }
 func (UnimplementedJudgeServer) ListStatements(context.Context, *ListStatementsInput) (*ListStatementsOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListStatements not implemented")
@@ -856,18 +1048,6 @@ func (UnimplementedJudgeServer) EnableParticipant(context.Context, *EnablePartic
 func (UnimplementedJudgeServer) DisableParticipant(context.Context, *DisableParticipantInput) (*DisableParticipantOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DisableParticipant not implemented")
 }
-func (UnimplementedJudgeServer) VerifyPasscode(context.Context, *VerifyPasscodeInput) (*VerifyPasscodeOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method VerifyPasscode not implemented")
-}
-func (UnimplementedJudgeServer) EnterPasscode(context.Context, *EnterPasscodeInput) (*EnterPasscodeOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method EnterPasscode not implemented")
-}
-func (UnimplementedJudgeServer) ResetPasscode(context.Context, *ResetPasscodeInput) (*ResetPasscodeOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ResetPasscode not implemented")
-}
-func (UnimplementedJudgeServer) RemovePasscode(context.Context, *RemovePasscodeInput) (*RemovePasscodeOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method RemovePasscode not implemented")
-}
 func (UnimplementedJudgeServer) RemoveParticipant(context.Context, *RemoveParticipantInput) (*RemoveParticipantOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RemoveParticipant not implemented")
 }
@@ -885,6 +1065,18 @@ func (UnimplementedJudgeServer) JoinContest(context.Context, *JoinContestInput) 
 }
 func (UnimplementedJudgeServer) StartContest(context.Context, *StartContestInput) (*StartContestOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method StartContest not implemented")
+}
+func (UnimplementedJudgeServer) VerifyPasscode(context.Context, *VerifyPasscodeInput) (*VerifyPasscodeOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method VerifyPasscode not implemented")
+}
+func (UnimplementedJudgeServer) EnterPasscode(context.Context, *EnterPasscodeInput) (*EnterPasscodeOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method EnterPasscode not implemented")
+}
+func (UnimplementedJudgeServer) ResetPasscode(context.Context, *ResetPasscodeInput) (*ResetPasscodeOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ResetPasscode not implemented")
+}
+func (UnimplementedJudgeServer) RemovePasscode(context.Context, *RemovePasscodeInput) (*RemovePasscodeOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RemovePasscode not implemented")
 }
 func (UnimplementedJudgeServer) CreateSubmission(context.Context, *CreateSubmissionInput) (*CreateSubmissionOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateSubmission not implemented")
@@ -952,8 +1144,44 @@ func (UnimplementedJudgeServer) DescribeAnnouncementStatus(context.Context, *Des
 func (UnimplementedJudgeServer) ListAnnouncements(context.Context, *ListAnnouncementsInput) (*ListAnnouncementsOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListAnnouncements not implemented")
 }
-func (UnimplementedJudgeServer) DescribeCodeTemplate(context.Context, *DescribeCodeTemplateInput) (*DescribeCodeTemplateOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DescribeCodeTemplate not implemented")
+func (UnimplementedJudgeServer) CreateScoreboard(context.Context, *CreateScoreboardInput) (*CreateScoreboardOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateScoreboard not implemented")
+}
+func (UnimplementedJudgeServer) UpdateScoreboard(context.Context, *UpdateScoreboardInput) (*UpdateScoreboardOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateScoreboard not implemented")
+}
+func (UnimplementedJudgeServer) RebuildScoreboard(context.Context, *RebuildScoreboardInput) (*RebuildScoreboardOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RebuildScoreboard not implemented")
+}
+func (UnimplementedJudgeServer) DeleteScoreboard(context.Context, *DeleteScoreboardInput) (*DeleteScoreboardOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteScoreboard not implemented")
+}
+func (UnimplementedJudgeServer) DescribeScoreboard(context.Context, *DescribeScoreboardInput) (*DescribeScoreboardOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeScoreboard not implemented")
+}
+func (UnimplementedJudgeServer) DescribeDefaultScoreboard(context.Context, *DescribeDefaultScoreboardInput) (*DescribeDefaultScoreboardOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeDefaultScoreboard not implemented")
+}
+func (UnimplementedJudgeServer) ListScoreboards(context.Context, *ListScoreboardsInput) (*ListScoreboardsOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListScoreboards not implemented")
+}
+func (UnimplementedJudgeServer) DescribeScoreboardRow(context.Context, *DescribeScoreboardRowInput) (*DescribeScoreboardRowOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeScoreboardRow not implemented")
+}
+func (UnimplementedJudgeServer) DescribeDefaultScoreboardRow(context.Context, *DescribeDefaultScoreboardRowInput) (*DescribeDefaultScoreboardRowOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeDefaultScoreboardRow not implemented")
+}
+func (UnimplementedJudgeServer) ListScoreboardRows(context.Context, *ListScoreboardRowsInput) (*ListScoreboardRowsOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListScoreboardRows not implemented")
+}
+func (UnimplementedJudgeServer) ListDefaultScoreboardRows(context.Context, *ListDefaultScoreboardRowsInput) (*ListDefaultScoreboardRowsOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListDefaultScoreboardRows not implemented")
+}
+func (UnimplementedJudgeServer) ListEntitlements(context.Context, *ListEntitlementsInput) (*ListEntitlementsOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListEntitlements not implemented")
+}
+func (UnimplementedJudgeServer) ListActivities(context.Context, *ListActivitiesInput) (*ListActivitiesOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListActivities not implemented")
 }
 func (UnimplementedJudgeServer) mustEmbedUnimplementedJudgeServer() {}
 
@@ -1184,6 +1412,42 @@ func _Judge_DescribeRuntime_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Judge_ConfigureAppearance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ConfigureAppearanceInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(JudgeServer).ConfigureAppearance(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.judge.Judge/ConfigureAppearance",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(JudgeServer).ConfigureAppearance(ctx, req.(*ConfigureAppearanceInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Judge_DescribeAppearance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeAppearanceInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(JudgeServer).DescribeAppearance(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.judge.Judge/DescribeAppearance",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(JudgeServer).DescribeAppearance(ctx, req.(*DescribeAppearanceInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Judge_SubmitRegistration_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(SubmitRegistrationInput)
 	if err := dec(in); err != nil {
@@ -1306,6 +1570,24 @@ func _Judge_DescribeProblem_Handler(srv interface{}, ctx context.Context, dec fu
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(JudgeServer).DescribeProblem(ctx, req.(*DescribeProblemInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Judge_DescribeCodeTemplate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeCodeTemplateInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(JudgeServer).DescribeCodeTemplate(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.judge.Judge/DescribeCodeTemplate",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(JudgeServer).DescribeCodeTemplate(ctx, req.(*DescribeCodeTemplateInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1436,78 +1718,6 @@ func _Judge_DisableParticipant_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Judge_VerifyPasscode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(VerifyPasscodeInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(JudgeServer).VerifyPasscode(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/eolymp.judge.Judge/VerifyPasscode",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(JudgeServer).VerifyPasscode(ctx, req.(*VerifyPasscodeInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Judge_EnterPasscode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(EnterPasscodeInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(JudgeServer).EnterPasscode(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/eolymp.judge.Judge/EnterPasscode",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(JudgeServer).EnterPasscode(ctx, req.(*EnterPasscodeInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Judge_ResetPasscode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ResetPasscodeInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(JudgeServer).ResetPasscode(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/eolymp.judge.Judge/ResetPasscode",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(JudgeServer).ResetPasscode(ctx, req.(*ResetPasscodeInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Judge_RemovePasscode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RemovePasscodeInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(JudgeServer).RemovePasscode(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/eolymp.judge.Judge/RemovePasscode",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(JudgeServer).RemovePasscode(ctx, req.(*RemovePasscodeInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _Judge_RemoveParticipant_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(RemoveParticipantInput)
 	if err := dec(in); err != nil {
@@ -1612,6 +1822,78 @@ func _Judge_StartContest_Handler(srv interface{}, ctx context.Context, dec func(
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(JudgeServer).StartContest(ctx, req.(*StartContestInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Judge_VerifyPasscode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(VerifyPasscodeInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(JudgeServer).VerifyPasscode(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.judge.Judge/VerifyPasscode",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(JudgeServer).VerifyPasscode(ctx, req.(*VerifyPasscodeInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Judge_EnterPasscode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EnterPasscodeInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(JudgeServer).EnterPasscode(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.judge.Judge/EnterPasscode",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(JudgeServer).EnterPasscode(ctx, req.(*EnterPasscodeInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Judge_ResetPasscode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ResetPasscodeInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(JudgeServer).ResetPasscode(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.judge.Judge/ResetPasscode",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(JudgeServer).ResetPasscode(ctx, req.(*ResetPasscodeInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Judge_RemovePasscode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RemovePasscodeInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(JudgeServer).RemovePasscode(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.judge.Judge/RemovePasscode",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(JudgeServer).RemovePasscode(ctx, req.(*RemovePasscodeInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -2012,20 +2294,236 @@ func _Judge_ListAnnouncements_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Judge_DescribeCodeTemplate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DescribeCodeTemplateInput)
+func _Judge_CreateScoreboard_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateScoreboardInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(JudgeServer).DescribeCodeTemplate(ctx, in)
+		return srv.(JudgeServer).CreateScoreboard(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/eolymp.judge.Judge/DescribeCodeTemplate",
+		FullMethod: "/eolymp.judge.Judge/CreateScoreboard",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(JudgeServer).DescribeCodeTemplate(ctx, req.(*DescribeCodeTemplateInput))
+		return srv.(JudgeServer).CreateScoreboard(ctx, req.(*CreateScoreboardInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Judge_UpdateScoreboard_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateScoreboardInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(JudgeServer).UpdateScoreboard(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.judge.Judge/UpdateScoreboard",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(JudgeServer).UpdateScoreboard(ctx, req.(*UpdateScoreboardInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Judge_RebuildScoreboard_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RebuildScoreboardInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(JudgeServer).RebuildScoreboard(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.judge.Judge/RebuildScoreboard",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(JudgeServer).RebuildScoreboard(ctx, req.(*RebuildScoreboardInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Judge_DeleteScoreboard_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteScoreboardInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(JudgeServer).DeleteScoreboard(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.judge.Judge/DeleteScoreboard",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(JudgeServer).DeleteScoreboard(ctx, req.(*DeleteScoreboardInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Judge_DescribeScoreboard_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeScoreboardInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(JudgeServer).DescribeScoreboard(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.judge.Judge/DescribeScoreboard",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(JudgeServer).DescribeScoreboard(ctx, req.(*DescribeScoreboardInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Judge_DescribeDefaultScoreboard_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeDefaultScoreboardInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(JudgeServer).DescribeDefaultScoreboard(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.judge.Judge/DescribeDefaultScoreboard",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(JudgeServer).DescribeDefaultScoreboard(ctx, req.(*DescribeDefaultScoreboardInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Judge_ListScoreboards_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListScoreboardsInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(JudgeServer).ListScoreboards(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.judge.Judge/ListScoreboards",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(JudgeServer).ListScoreboards(ctx, req.(*ListScoreboardsInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Judge_DescribeScoreboardRow_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeScoreboardRowInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(JudgeServer).DescribeScoreboardRow(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.judge.Judge/DescribeScoreboardRow",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(JudgeServer).DescribeScoreboardRow(ctx, req.(*DescribeScoreboardRowInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Judge_DescribeDefaultScoreboardRow_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeDefaultScoreboardRowInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(JudgeServer).DescribeDefaultScoreboardRow(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.judge.Judge/DescribeDefaultScoreboardRow",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(JudgeServer).DescribeDefaultScoreboardRow(ctx, req.(*DescribeDefaultScoreboardRowInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Judge_ListScoreboardRows_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListScoreboardRowsInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(JudgeServer).ListScoreboardRows(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.judge.Judge/ListScoreboardRows",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(JudgeServer).ListScoreboardRows(ctx, req.(*ListScoreboardRowsInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Judge_ListDefaultScoreboardRows_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListDefaultScoreboardRowsInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(JudgeServer).ListDefaultScoreboardRows(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.judge.Judge/ListDefaultScoreboardRows",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(JudgeServer).ListDefaultScoreboardRows(ctx, req.(*ListDefaultScoreboardRowsInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Judge_ListEntitlements_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListEntitlementsInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(JudgeServer).ListEntitlements(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.judge.Judge/ListEntitlements",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(JudgeServer).ListEntitlements(ctx, req.(*ListEntitlementsInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Judge_ListActivities_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListActivitiesInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(JudgeServer).ListActivities(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.judge.Judge/ListActivities",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(JudgeServer).ListActivities(ctx, req.(*ListActivitiesInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -2086,6 +2584,14 @@ var Judge_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Judge_DescribeRuntime_Handler,
 		},
 		{
+			MethodName: "ConfigureAppearance",
+			Handler:    _Judge_ConfigureAppearance_Handler,
+		},
+		{
+			MethodName: "DescribeAppearance",
+			Handler:    _Judge_DescribeAppearance_Handler,
+		},
+		{
 			MethodName: "SubmitRegistration",
 			Handler:    _Judge_SubmitRegistration_Handler,
 		},
@@ -2112,6 +2618,10 @@ var Judge_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DescribeProblem",
 			Handler:    _Judge_DescribeProblem_Handler,
+		},
+		{
+			MethodName: "DescribeCodeTemplate",
+			Handler:    _Judge_DescribeCodeTemplate_Handler,
 		},
 		{
 			MethodName: "ListStatements",
@@ -2142,22 +2652,6 @@ var Judge_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Judge_DisableParticipant_Handler,
 		},
 		{
-			MethodName: "VerifyPasscode",
-			Handler:    _Judge_VerifyPasscode_Handler,
-		},
-		{
-			MethodName: "EnterPasscode",
-			Handler:    _Judge_EnterPasscode_Handler,
-		},
-		{
-			MethodName: "ResetPasscode",
-			Handler:    _Judge_ResetPasscode_Handler,
-		},
-		{
-			MethodName: "RemovePasscode",
-			Handler:    _Judge_RemovePasscode_Handler,
-		},
-		{
 			MethodName: "RemoveParticipant",
 			Handler:    _Judge_RemoveParticipant_Handler,
 		},
@@ -2180,6 +2674,22 @@ var Judge_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "StartContest",
 			Handler:    _Judge_StartContest_Handler,
+		},
+		{
+			MethodName: "VerifyPasscode",
+			Handler:    _Judge_VerifyPasscode_Handler,
+		},
+		{
+			MethodName: "EnterPasscode",
+			Handler:    _Judge_EnterPasscode_Handler,
+		},
+		{
+			MethodName: "ResetPasscode",
+			Handler:    _Judge_ResetPasscode_Handler,
+		},
+		{
+			MethodName: "RemovePasscode",
+			Handler:    _Judge_RemovePasscode_Handler,
 		},
 		{
 			MethodName: "CreateSubmission",
@@ -2270,8 +2780,56 @@ var Judge_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Judge_ListAnnouncements_Handler,
 		},
 		{
-			MethodName: "DescribeCodeTemplate",
-			Handler:    _Judge_DescribeCodeTemplate_Handler,
+			MethodName: "CreateScoreboard",
+			Handler:    _Judge_CreateScoreboard_Handler,
+		},
+		{
+			MethodName: "UpdateScoreboard",
+			Handler:    _Judge_UpdateScoreboard_Handler,
+		},
+		{
+			MethodName: "RebuildScoreboard",
+			Handler:    _Judge_RebuildScoreboard_Handler,
+		},
+		{
+			MethodName: "DeleteScoreboard",
+			Handler:    _Judge_DeleteScoreboard_Handler,
+		},
+		{
+			MethodName: "DescribeScoreboard",
+			Handler:    _Judge_DescribeScoreboard_Handler,
+		},
+		{
+			MethodName: "DescribeDefaultScoreboard",
+			Handler:    _Judge_DescribeDefaultScoreboard_Handler,
+		},
+		{
+			MethodName: "ListScoreboards",
+			Handler:    _Judge_ListScoreboards_Handler,
+		},
+		{
+			MethodName: "DescribeScoreboardRow",
+			Handler:    _Judge_DescribeScoreboardRow_Handler,
+		},
+		{
+			MethodName: "DescribeDefaultScoreboardRow",
+			Handler:    _Judge_DescribeDefaultScoreboardRow_Handler,
+		},
+		{
+			MethodName: "ListScoreboardRows",
+			Handler:    _Judge_ListScoreboardRows_Handler,
+		},
+		{
+			MethodName: "ListDefaultScoreboardRows",
+			Handler:    _Judge_ListDefaultScoreboardRows_Handler,
+		},
+		{
+			MethodName: "ListEntitlements",
+			Handler:    _Judge_ListEntitlements_Handler,
+		},
+		{
+			MethodName: "ListActivities",
+			Handler:    _Judge_ListActivities_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

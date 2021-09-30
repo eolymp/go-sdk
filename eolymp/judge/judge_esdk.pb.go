@@ -196,6 +196,26 @@ func (s *JudgeService) DescribeRuntime(ctx context.Context, in *DescribeRuntimeI
 	return out, nil
 }
 
+func (s *JudgeService) ConfigureAppearance(ctx context.Context, in *ConfigureAppearanceInput) (*ConfigureAppearanceOutput, error) {
+	out := &ConfigureAppearanceOutput{}
+
+	if err := s.invoke(ctx, "eolymp.judge.Judge/ConfigureAppearance", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *JudgeService) DescribeAppearance(ctx context.Context, in *DescribeAppearanceInput) (*DescribeAppearanceOutput, error) {
+	out := &DescribeAppearanceOutput{}
+
+	if err := s.invoke(ctx, "eolymp.judge.Judge/DescribeAppearance", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *JudgeService) SubmitRegistration(ctx context.Context, in *SubmitRegistrationInput) (*SubmitRegistrationOutput, error) {
 	out := &SubmitRegistrationOutput{}
 
@@ -260,6 +280,16 @@ func (s *JudgeService) DescribeProblem(ctx context.Context, in *DescribeProblemI
 	out := &DescribeProblemOutput{}
 
 	if err := s.invoke(ctx, "eolymp.judge.Judge/DescribeProblem", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *JudgeService) DescribeCodeTemplate(ctx context.Context, in *DescribeCodeTemplateInput) (*DescribeCodeTemplateOutput, error) {
+	out := &DescribeCodeTemplateOutput{}
+
+	if err := s.invoke(ctx, "eolymp.judge.Judge/DescribeCodeTemplate", in, out); err != nil {
 		return nil, err
 	}
 
@@ -336,46 +366,6 @@ func (s *JudgeService) DisableParticipant(ctx context.Context, in *DisablePartic
 	return out, nil
 }
 
-func (s *JudgeService) VerifyPasscode(ctx context.Context, in *VerifyPasscodeInput) (*VerifyPasscodeOutput, error) {
-	out := &VerifyPasscodeOutput{}
-
-	if err := s.invoke(ctx, "eolymp.judge.Judge/VerifyPasscode", in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *JudgeService) EnterPasscode(ctx context.Context, in *EnterPasscodeInput) (*EnterPasscodeOutput, error) {
-	out := &EnterPasscodeOutput{}
-
-	if err := s.invoke(ctx, "eolymp.judge.Judge/EnterPasscode", in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *JudgeService) ResetPasscode(ctx context.Context, in *ResetPasscodeInput) (*ResetPasscodeOutput, error) {
-	out := &ResetPasscodeOutput{}
-
-	if err := s.invoke(ctx, "eolymp.judge.Judge/ResetPasscode", in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *JudgeService) RemovePasscode(ctx context.Context, in *RemovePasscodeInput) (*RemovePasscodeOutput, error) {
-	out := &RemovePasscodeOutput{}
-
-	if err := s.invoke(ctx, "eolymp.judge.Judge/RemovePasscode", in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
 func (s *JudgeService) RemoveParticipant(ctx context.Context, in *RemoveParticipantInput) (*RemoveParticipantOutput, error) {
 	out := &RemoveParticipantOutput{}
 
@@ -430,6 +420,46 @@ func (s *JudgeService) StartContest(ctx context.Context, in *StartContestInput) 
 	out := &StartContestOutput{}
 
 	if err := s.invoke(ctx, "eolymp.judge.Judge/StartContest", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *JudgeService) VerifyPasscode(ctx context.Context, in *VerifyPasscodeInput) (*VerifyPasscodeOutput, error) {
+	out := &VerifyPasscodeOutput{}
+
+	if err := s.invoke(ctx, "eolymp.judge.Judge/VerifyPasscode", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *JudgeService) EnterPasscode(ctx context.Context, in *EnterPasscodeInput) (*EnterPasscodeOutput, error) {
+	out := &EnterPasscodeOutput{}
+
+	if err := s.invoke(ctx, "eolymp.judge.Judge/EnterPasscode", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *JudgeService) ResetPasscode(ctx context.Context, in *ResetPasscodeInput) (*ResetPasscodeOutput, error) {
+	out := &ResetPasscodeOutput{}
+
+	if err := s.invoke(ctx, "eolymp.judge.Judge/ResetPasscode", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *JudgeService) RemovePasscode(ctx context.Context, in *RemovePasscodeInput) (*RemovePasscodeOutput, error) {
+	out := &RemovePasscodeOutput{}
+
+	if err := s.invoke(ctx, "eolymp.judge.Judge/RemovePasscode", in, out); err != nil {
 		return nil, err
 	}
 
@@ -656,10 +686,130 @@ func (s *JudgeService) ListAnnouncements(ctx context.Context, in *ListAnnounceme
 	return out, nil
 }
 
-func (s *JudgeService) DescribeCodeTemplate(ctx context.Context, in *DescribeCodeTemplateInput) (*DescribeCodeTemplateOutput, error) {
-	out := &DescribeCodeTemplateOutput{}
+func (s *JudgeService) CreateScoreboard(ctx context.Context, in *CreateScoreboardInput) (*CreateScoreboardOutput, error) {
+	out := &CreateScoreboardOutput{}
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/DescribeCodeTemplate", in, out); err != nil {
+	if err := s.invoke(ctx, "eolymp.judge.Judge/CreateScoreboard", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *JudgeService) UpdateScoreboard(ctx context.Context, in *UpdateScoreboardInput) (*UpdateScoreboardOutput, error) {
+	out := &UpdateScoreboardOutput{}
+
+	if err := s.invoke(ctx, "eolymp.judge.Judge/UpdateScoreboard", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *JudgeService) RebuildScoreboard(ctx context.Context, in *RebuildScoreboardInput) (*RebuildScoreboardOutput, error) {
+	out := &RebuildScoreboardOutput{}
+
+	if err := s.invoke(ctx, "eolymp.judge.Judge/RebuildScoreboard", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *JudgeService) DeleteScoreboard(ctx context.Context, in *DeleteScoreboardInput) (*DeleteScoreboardOutput, error) {
+	out := &DeleteScoreboardOutput{}
+
+	if err := s.invoke(ctx, "eolymp.judge.Judge/DeleteScoreboard", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *JudgeService) DescribeScoreboard(ctx context.Context, in *DescribeScoreboardInput) (*DescribeScoreboardOutput, error) {
+	out := &DescribeScoreboardOutput{}
+
+	if err := s.invoke(ctx, "eolymp.judge.Judge/DescribeScoreboard", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *JudgeService) DescribeDefaultScoreboard(ctx context.Context, in *DescribeDefaultScoreboardInput) (*DescribeDefaultScoreboardOutput, error) {
+	out := &DescribeDefaultScoreboardOutput{}
+
+	if err := s.invoke(ctx, "eolymp.judge.Judge/DescribeDefaultScoreboard", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *JudgeService) ListScoreboards(ctx context.Context, in *ListScoreboardsInput) (*ListScoreboardsOutput, error) {
+	out := &ListScoreboardsOutput{}
+
+	if err := s.invoke(ctx, "eolymp.judge.Judge/ListScoreboards", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *JudgeService) DescribeScoreboardRow(ctx context.Context, in *DescribeScoreboardRowInput) (*DescribeScoreboardRowOutput, error) {
+	out := &DescribeScoreboardRowOutput{}
+
+	if err := s.invoke(ctx, "eolymp.judge.Judge/DescribeScoreboardRow", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *JudgeService) DescribeDefaultScoreboardRow(ctx context.Context, in *DescribeDefaultScoreboardRowInput) (*DescribeDefaultScoreboardRowOutput, error) {
+	out := &DescribeDefaultScoreboardRowOutput{}
+
+	if err := s.invoke(ctx, "eolymp.judge.Judge/DescribeDefaultScoreboardRow", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *JudgeService) ListScoreboardRows(ctx context.Context, in *ListScoreboardRowsInput) (*ListScoreboardRowsOutput, error) {
+	out := &ListScoreboardRowsOutput{}
+
+	if err := s.invoke(ctx, "eolymp.judge.Judge/ListScoreboardRows", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *JudgeService) ListDefaultScoreboardRows(ctx context.Context, in *ListDefaultScoreboardRowsInput) (*ListDefaultScoreboardRowsOutput, error) {
+	out := &ListDefaultScoreboardRowsOutput{}
+
+	if err := s.invoke(ctx, "eolymp.judge.Judge/ListDefaultScoreboardRows", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *JudgeService) ListEntitlements(ctx context.Context, in *ListEntitlementsInput) (*ListEntitlementsOutput, error) {
+	out := &ListEntitlementsOutput{}
+
+	if err := s.invoke(ctx, "eolymp.judge.Judge/ListEntitlements", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *JudgeService) ListActivities(ctx context.Context, in *ListActivitiesInput) (*ListActivitiesOutput, error) {
+	out := &ListActivitiesOutput{}
+
+	if err := s.invoke(ctx, "eolymp.judge.Judge/ListActivities", in, out); err != nil {
 		return nil, err
 	}
 

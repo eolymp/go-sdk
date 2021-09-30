@@ -4,13 +4,18 @@
 package atlas
 
 import (
+	context "context"
+	oauth "github.com/eolymp/go-packages/oauth"
 	mux "github.com/gorilla/mux"
+	prometheus "github.com/prometheus/client_golang/prometheus"
+	promauto "github.com/prometheus/client_golang/prometheus/promauto"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
 	ioutil "io/ioutil"
 	http "net/http"
+	time "time"
 )
 
 // _Atlas_HTTPReadRequestBody parses body into proto.Message
@@ -1352,4 +1357,1758 @@ func _Atlas_DescribeScore(srv AtlasServer) http.Handler {
 
 		_Atlas_HTTPWriteResponse(w, out)
 	})
+}
+
+var promAtlasRequestLatency = promauto.NewHistogramVec(prometheus.HistogramOpts{
+	Name:    "atlas_request_latency",
+	Help:    "Atlas request latency",
+	Buckets: []float64{0.1, 0.4, 1, 5},
+}, []string{"method", "status"})
+
+type _AtlasLimiter interface {
+	Allow(context.Context, string, float64, int) bool
+}
+
+type AtlasInterceptor struct {
+	limiter _AtlasLimiter
+	server  AtlasServer
+}
+
+// NewAtlasInterceptor constructs additional middleware for a server based on annotations in proto files
+func NewAtlasInterceptor(srv AtlasServer, lim _AtlasLimiter) *AtlasInterceptor {
+	return &AtlasInterceptor{server: srv, limiter: lim}
+}
+
+func (i *AtlasInterceptor) CreateProblem(ctx context.Context, in *CreateProblemInput) (out *CreateProblemOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/CreateProblem", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:problem:write") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/CreateProblem", 0.16, 5) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.CreateProblem(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) DeleteProblem(ctx context.Context, in *DeleteProblemInput) (out *DeleteProblemOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/DeleteProblem", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:problem:write") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/DeleteProblem", 0.16, 5) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.DeleteProblem(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) ListProblems(ctx context.Context, in *ListProblemsInput) (out *ListProblemsOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/ListProblems", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:problem:read") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:read")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/ListProblems", 20, 100) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.ListProblems(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) DescribeProblem(ctx context.Context, in *DescribeProblemInput) (out *DescribeProblemOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/DescribeProblem", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:problem:read") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:read")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/DescribeProblem", 20, 100) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.DescribeProblem(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) UpdateVisibility(ctx context.Context, in *UpdateVisibilityInput) (out *UpdateVisibilityOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/UpdateVisibility", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:problem:write") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/UpdateVisibility", 20, 100) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.UpdateVisibility(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) UpdatePrivacy(ctx context.Context, in *UpdatePrivacyInput) (out *UpdatePrivacyOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/UpdatePrivacy", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:problem:write") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/UpdatePrivacy", 20, 100) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.UpdatePrivacy(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) ListExamples(ctx context.Context, in *ListExamplesInput) (out *ListExamplesOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/ListExamples", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:problem:read") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:read")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/ListExamples", 20, 100) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.ListExamples(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) UpdateVerifier(ctx context.Context, in *UpdateVerifierInput) (out *UpdateVerifierOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/UpdateVerifier", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:problem:write") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/UpdateVerifier", 0.16, 5) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.UpdateVerifier(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) DescribeVerifier(ctx context.Context, in *DescribeVerifierInput) (out *DescribeVerifierOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/DescribeVerifier", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:problem:write") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/DescribeVerifier", 2, 10) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.DescribeVerifier(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) UpdateInteractor(ctx context.Context, in *UpdateInteractorInput) (out *UpdateInteractorOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/UpdateInteractor", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:problem:write") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/UpdateInteractor", 0.16, 5) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.UpdateInteractor(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) DescribeInteractor(ctx context.Context, in *DescribeInteractorInput) (out *DescribeInteractorOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/DescribeInteractor", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:problem:write") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/DescribeInteractor", 2, 10) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.DescribeInteractor(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) CreateStatement(ctx context.Context, in *CreateStatementInput) (out *CreateStatementOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/CreateStatement", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:problem:write") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/CreateStatement", 1, 5) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.CreateStatement(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) UpdateStatement(ctx context.Context, in *UpdateStatementInput) (out *UpdateStatementOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/UpdateStatement", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:problem:write") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/UpdateStatement", 1, 5) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.UpdateStatement(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) DeleteStatement(ctx context.Context, in *DeleteStatementInput) (out *DeleteStatementOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/DeleteStatement", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:problem:write") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/DeleteStatement", 1, 5) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.DeleteStatement(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) ListStatements(ctx context.Context, in *ListStatementsInput) (out *ListStatementsOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/ListStatements", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:problem:read") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:read")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/ListStatements", 20, 100) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.ListStatements(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) DescribeStatement(ctx context.Context, in *DescribeStatementInput) (out *DescribeStatementOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/DescribeStatement", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:problem:read") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:read")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/DescribeStatement", 20, 100) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.DescribeStatement(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) CreateTestset(ctx context.Context, in *CreateTestsetInput) (out *CreateTestsetOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/CreateTestset", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:problem:write") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/CreateTestset", 5, 50) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.CreateTestset(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) UpdateTestset(ctx context.Context, in *UpdateTestsetInput) (out *UpdateTestsetOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/UpdateTestset", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:problem:write") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/UpdateTestset", 5, 50) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.UpdateTestset(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) DeleteTestset(ctx context.Context, in *DeleteTestsetInput) (out *DeleteTestsetOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/DeleteTestset", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:problem:write") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/DeleteTestset", 5, 50) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.DeleteTestset(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) ListTestsets(ctx context.Context, in *ListTestsetsInput) (out *ListTestsetsOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/ListTestsets", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:problem:write") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/ListTestsets", 10, 50) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.ListTestsets(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) DescribeTestset(ctx context.Context, in *DescribeTestsetInput) (out *DescribeTestsetOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/DescribeTestset", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:problem:write") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/DescribeTestset", 10, 50) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.DescribeTestset(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) CreateTest(ctx context.Context, in *CreateTestInput) (out *CreateTestOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/CreateTest", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:problem:write") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/CreateTest", 10, 200) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.CreateTest(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) UpdateTest(ctx context.Context, in *UpdateTestInput) (out *UpdateTestOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/UpdateTest", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:problem:write") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/UpdateTest", 10, 200) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.UpdateTest(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) DeleteTest(ctx context.Context, in *DeleteTestInput) (out *DeleteTestOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/DeleteTest", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:problem:write") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/DeleteTest", 10, 200) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.DeleteTest(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) ListTests(ctx context.Context, in *ListTestsInput) (out *ListTestsOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/ListTests", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:problem:write") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/ListTests", 10, 50) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.ListTests(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) DescribeTest(ctx context.Context, in *DescribeTestInput) (out *DescribeTestOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/DescribeTest", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:problem:write") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/DescribeTest", 10, 50) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.DescribeTest(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) GrantPermission(ctx context.Context, in *GrantPermissionInput) (out *GrantPermissionOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/GrantPermission", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:permission:write") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:permission:write")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/GrantPermission", 0.16, 5) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.GrantPermission(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) RevokePermission(ctx context.Context, in *RevokePermissionInput) (out *RevokePermissionOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/RevokePermission", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:permission:write") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:permission:write")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/RevokePermission", 0.16, 5) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.RevokePermission(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) ListPermissions(ctx context.Context, in *ListPermissionsInput) (out *ListPermissionsOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/ListPermissions", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:permission:read") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:permission:read")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/ListPermissions", 0.16, 5) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.ListPermissions(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) CreateCodeTemplate(ctx context.Context, in *CreateCodeTemplateInput) (out *CreateCodeTemplateOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/CreateCodeTemplate", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:problem:write") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/CreateCodeTemplate", 0.16, 5) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.CreateCodeTemplate(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) UpdateCodeTemplate(ctx context.Context, in *UpdateCodeTemplateInput) (out *UpdateCodeTemplateOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/UpdateCodeTemplate", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:problem:write") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/UpdateCodeTemplate", 0.16, 5) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.UpdateCodeTemplate(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) DeleteCodeTemplate(ctx context.Context, in *DeleteCodeTemplateInput) (out *DeleteCodeTemplateOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/DeleteCodeTemplate", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:problem:write") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/DeleteCodeTemplate", 0.16, 5) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.DeleteCodeTemplate(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) ListCodeTemplates(ctx context.Context, in *ListCodeTemplatesInput) (out *ListCodeTemplatesOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/ListCodeTemplates", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:problem:read") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:read")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/ListCodeTemplates", 20, 100) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.ListCodeTemplates(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) DescribeCodeTemplate(ctx context.Context, in *DescribeCodeTemplateInput) (out *DescribeCodeTemplateOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/DescribeCodeTemplate", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:problem:read") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:read")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/DescribeCodeTemplate", 20, 100) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.DescribeCodeTemplate(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) DescribeChange(ctx context.Context, in *DescribeChangeInput) (out *DescribeChangeOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/DescribeChange", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:problem:write") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
+		return
+	}
+
+	out, err = i.server.DescribeChange(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) ListChanges(ctx context.Context, in *ListChangesInput) (out *ListChangesOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/ListChanges", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:problem:write") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
+		return
+	}
+
+	out, err = i.server.ListChanges(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) ListProblemTop(ctx context.Context, in *ListProblemTopInput) (out *ListProblemTopOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/ListProblemTop", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:problem:read") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:read")
+		return
+	}
+
+	out, err = i.server.ListProblemTop(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) DescribeProblemGrading(ctx context.Context, in *DescribeProblemGradingInput) (out *DescribeProblemGradingOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/DescribeProblemGrading", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:problem:read") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:read")
+		return
+	}
+
+	out, err = i.server.DescribeProblemGrading(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) CreateSolution(ctx context.Context, in *CreateSolutionInput) (out *CreateSolutionOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/CreateSolution", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/CreateSolution", 1, 5) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.CreateSolution(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) UpdateSolution(ctx context.Context, in *UpdateSolutionInput) (out *UpdateSolutionOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/UpdateSolution", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/UpdateSolution", 1, 20) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.UpdateSolution(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) DeleteSolution(ctx context.Context, in *DeleteSolutionInput) (out *DeleteSolutionOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/DeleteSolution", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/DeleteSolution", 1, 20) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.DeleteSolution(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) ListSolutions(ctx context.Context, in *ListSolutionsInput) (out *ListSolutionsOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/ListSolutions", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:problem:read") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:read")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/ListSolutions", 20, 100) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.ListSolutions(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) DescribeSolution(ctx context.Context, in *DescribeSolutionInput) (out *DescribeSolutionOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/DescribeSolution", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:problem:read") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:read")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/DescribeSolution", 20, 100) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.DescribeSolution(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) PublishSolution(ctx context.Context, in *PublishSolutionInput) (out *PublishSolutionOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/PublishSolution", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/PublishSolution", 1, 20) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.PublishSolution(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) UnpublishSolution(ctx context.Context, in *UnpublishSolutionInput) (out *UnpublishSolutionOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/UnpublishSolution", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/UnpublishSolution", 1, 20) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.UnpublishSolution(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) ApproveSolution(ctx context.Context, in *ApproveSolutionInput) (out *ApproveSolutionOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/ApproveSolution", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:problem:write") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/ApproveSolution", 1, 20) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.ApproveSolution(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) RefuseSolution(ctx context.Context, in *RefuseSolutionInput) (out *RefuseSolutionOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/RefuseSolution", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:problem:write") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/RefuseSolution", 1, 20) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.RefuseSolution(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) CreateCategory(ctx context.Context, in *CreateCategoryInput) (out *CreateCategoryOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/CreateCategory", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:category:write") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:category:write")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/CreateCategory", 0.16, 5) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.CreateCategory(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) UpdateCategory(ctx context.Context, in *UpdateCategoryInput) (out *UpdateCategoryOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/UpdateCategory", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:category:write") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:category:write")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/UpdateCategory", 0.16, 5) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.UpdateCategory(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) DeleteCategory(ctx context.Context, in *DeleteCategoryInput) (out *DeleteCategoryOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/DeleteCategory", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:category:write") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:category:write")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/DeleteCategory", 0.16, 5) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.DeleteCategory(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) ListCategories(ctx context.Context, in *ListCategoriesInput) (out *ListCategoriesOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/ListCategories", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:category:read") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:category:read")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/ListCategories", 20, 100) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.ListCategories(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) DescribeCategory(ctx context.Context, in *DescribeCategoryInput) (out *DescribeCategoryOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/DescribeCategory", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:category:read") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:category:read")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/DescribeCategory", 20, 100) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.DescribeCategory(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) AssignCategory(ctx context.Context, in *AssignCategoryInput) (out *AssignCategoryOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/AssignCategory", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:category:write") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:category:write")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/AssignCategory", 5, 20) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.AssignCategory(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) UnassignCategory(ctx context.Context, in *UnassignCategoryInput) (out *UnassignCategoryOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/UnassignCategory", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:category:write") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:category:write")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/UnassignCategory", 5, 20) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.UnassignCategory(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) CreateSubmission(ctx context.Context, in *CreateSubmissionInput) (out *CreateSubmissionOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/CreateSubmission", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:submission:write") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:submission:write")
+		return
+	}
+
+	out, err = i.server.CreateSubmission(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) DescribeSubmission(ctx context.Context, in *DescribeSubmissionInput) (out *DescribeSubmissionOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/DescribeSubmission", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:submission:read") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:submission:read")
+		return
+	}
+
+	out, err = i.server.DescribeSubmission(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) DescribeScore(ctx context.Context, in *DescribeScoreInput) (out *DescribeScoreOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/DescribeScore", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:submission:read") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:submission:read")
+		return
+	}
+
+	out, err = i.server.DescribeScore(ctx, in)
+	return
 }
