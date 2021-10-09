@@ -102,9 +102,7 @@ func _Playground_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 // NewPlaygroundHandler constructs new http.Handler for PlaygroundServer
 func NewPlaygroundHandler(srv PlaygroundServer) http.Handler {
 	router := mux.NewRouter()
-	router.Handle("/twirp/eolymp.playground.Playground/CreateRun", _Playground_CreateRun(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.playground.Playground/CreateRun", _Playground_CreateRun(srv)).Methods(http.MethodPost)
-	router.Handle("/twirp/eolymp.playground.Playground/DescribeRun", _Playground_DescribeRun(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.playground.Playground/DescribeRun", _Playground_DescribeRun(srv)).Methods(http.MethodPost)
 	return router
 }

@@ -5,6 +5,7 @@ package executor
 
 import (
 	context "context"
+	oauth "github.com/eolymp/go-packages/oauth"
 	mux "github.com/gorilla/mux"
 	prometheus "github.com/prometheus/client_golang/prometheus"
 	promauto "github.com/prometheus/client_golang/prometheus/promauto"
@@ -101,15 +102,10 @@ func _Executor_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 // NewExecutorHandler constructs new http.Handler for ExecutorServer
 func NewExecutorHandler(srv ExecutorServer) http.Handler {
 	router := mux.NewRouter()
-	router.Handle("/twirp/eolymp.executor.Executor/DescribeLanguage", _Executor_DescribeLanguage(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.executor.Executor/DescribeLanguage", _Executor_DescribeLanguage(srv)).Methods(http.MethodPost)
-	router.Handle("/twirp/eolymp.executor.Executor/ListLanguages", _Executor_ListLanguages(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.executor.Executor/ListLanguages", _Executor_ListLanguages(srv)).Methods(http.MethodPost)
-	router.Handle("/twirp/eolymp.executor.Executor/DescribeRuntime", _Executor_DescribeRuntime(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.executor.Executor/DescribeRuntime", _Executor_DescribeRuntime(srv)).Methods(http.MethodPost)
-	router.Handle("/twirp/eolymp.executor.Executor/ListRuntime", _Executor_ListRuntime(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.executor.Executor/ListRuntime", _Executor_ListRuntime(srv)).Methods(http.MethodPost)
-	router.Handle("/twirp/eolymp.executor.Executor/DescribeCodeTemplate", _Executor_DescribeCodeTemplate(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.executor.Executor/DescribeCodeTemplate", _Executor_DescribeCodeTemplate(srv)).Methods(http.MethodPost)
 	return router
 }
@@ -246,6 +242,22 @@ func (i *ExecutorInterceptor) DescribeLanguage(ctx context.Context, in *Describe
 			Observe(time.Since(start).Seconds())
 	}()
 
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("executor:runtime:read") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: executor:runtime:read")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.executor.Executor/DescribeLanguage", 20, 200) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
 	out, err = i.server.DescribeLanguage(ctx, in)
 	return
 }
@@ -261,6 +273,22 @@ func (i *ExecutorInterceptor) ListLanguages(ctx context.Context, in *ListLanguag
 		promExecutorRequestLatency.WithLabelValues("eolymp.executor.Executor/ListLanguages", s.Code().String()).
 			Observe(time.Since(start).Seconds())
 	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("executor:runtime:read") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: executor:runtime:read")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.executor.Executor/ListLanguages", 20, 200) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
 
 	out, err = i.server.ListLanguages(ctx, in)
 	return
@@ -278,6 +306,22 @@ func (i *ExecutorInterceptor) DescribeRuntime(ctx context.Context, in *DescribeR
 			Observe(time.Since(start).Seconds())
 	}()
 
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("executor:runtime:read") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: executor:runtime:read")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.executor.Executor/DescribeRuntime", 20, 200) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
 	out, err = i.server.DescribeRuntime(ctx, in)
 	return
 }
@@ -294,6 +338,22 @@ func (i *ExecutorInterceptor) ListRuntime(ctx context.Context, in *ListRuntimeIn
 			Observe(time.Since(start).Seconds())
 	}()
 
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("executor:runtime:read") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: executor:runtime:read")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.executor.Executor/ListRuntime", 20, 200) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
 	out, err = i.server.ListRuntime(ctx, in)
 	return
 }
@@ -309,6 +369,22 @@ func (i *ExecutorInterceptor) DescribeCodeTemplate(ctx context.Context, in *Desc
 		promExecutorRequestLatency.WithLabelValues("eolymp.executor.Executor/DescribeCodeTemplate", s.Code().String()).
 			Observe(time.Since(start).Seconds())
 	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("executor:runtime:read") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: executor:runtime:read")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.executor.Executor/DescribeCodeTemplate", 20, 200) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
 
 	out, err = i.server.DescribeCodeTemplate(ctx, in)
 	return

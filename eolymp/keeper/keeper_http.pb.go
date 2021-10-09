@@ -102,11 +102,8 @@ func _Keeper_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 // NewKeeperHandler constructs new http.Handler for KeeperServer
 func NewKeeperHandler(srv KeeperServer) http.Handler {
 	router := mux.NewRouter()
-	router.Handle("/twirp/eolymp.keeper.Keeper/CreateObject", _Keeper_CreateObject(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.keeper.Keeper/CreateObject", _Keeper_CreateObject(srv)).Methods(http.MethodPost)
-	router.Handle("/twirp/eolymp.keeper.Keeper/DescribeObject", _Keeper_DescribeObject(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.keeper.Keeper/DescribeObject", _Keeper_DescribeObject(srv)).Methods(http.MethodPost)
-	router.Handle("/twirp/eolymp.keeper.Keeper/DownloadObject", _Keeper_DownloadObject(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.keeper.Keeper/DownloadObject", _Keeper_DownloadObject(srv)).Methods(http.MethodPost)
 	return router
 }

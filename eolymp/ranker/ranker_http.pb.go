@@ -102,25 +102,15 @@ func _Ranker_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 // NewRankerHandler constructs new http.Handler for RankerServer
 func NewRankerHandler(srv RankerServer) http.Handler {
 	router := mux.NewRouter()
-	router.Handle("/twirp/eolymp.ranker.Ranker/CreateScoreboard", _Ranker_CreateScoreboard(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.ranker.Ranker/CreateScoreboard", _Ranker_CreateScoreboard(srv)).Methods(http.MethodPost)
-	router.Handle("/twirp/eolymp.ranker.Ranker/UpdateScoreboard", _Ranker_UpdateScoreboard(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.ranker.Ranker/UpdateScoreboard", _Ranker_UpdateScoreboard(srv)).Methods(http.MethodPost)
-	router.Handle("/twirp/eolymp.ranker.Ranker/RebuildScoreboard", _Ranker_RebuildScoreboard(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.ranker.Ranker/RebuildScoreboard", _Ranker_RebuildScoreboard(srv)).Methods(http.MethodPost)
-	router.Handle("/twirp/eolymp.ranker.Ranker/DeleteScoreboard", _Ranker_DeleteScoreboard(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.ranker.Ranker/DeleteScoreboard", _Ranker_DeleteScoreboard(srv)).Methods(http.MethodPost)
-	router.Handle("/twirp/eolymp.ranker.Ranker/LookupScoreboard", _Ranker_LookupScoreboard(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.ranker.Ranker/LookupScoreboard", _Ranker_LookupScoreboard(srv)).Methods(http.MethodPost)
-	router.Handle("/twirp/eolymp.ranker.Ranker/DescribeScoreboard", _Ranker_DescribeScoreboard(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.ranker.Ranker/DescribeScoreboard", _Ranker_DescribeScoreboard(srv)).Methods(http.MethodPost)
-	router.Handle("/twirp/eolymp.ranker.Ranker/ListScoreboards", _Ranker_ListScoreboards(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.ranker.Ranker/ListScoreboards", _Ranker_ListScoreboards(srv)).Methods(http.MethodPost)
-	router.Handle("/twirp/eolymp.ranker.Ranker/ListScoreboardRows", _Ranker_ListScoreboardRows(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.ranker.Ranker/ListScoreboardRows", _Ranker_ListScoreboardRows(srv)).Methods(http.MethodPost)
-	router.Handle("/twirp/eolymp.ranker.Ranker/AssignContest", _Ranker_AssignContest(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.ranker.Ranker/AssignContest", _Ranker_AssignContest(srv)).Methods(http.MethodPost)
-	router.Handle("/twirp/eolymp.ranker.Ranker/UnassignContest", _Ranker_UnassignContest(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.ranker.Ranker/UnassignContest", _Ranker_UnassignContest(srv)).Methods(http.MethodPost)
 	return router
 }

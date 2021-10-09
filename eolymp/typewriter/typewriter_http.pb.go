@@ -102,7 +102,6 @@ func _Typewriter_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 // NewTypewriterHandler constructs new http.Handler for TypewriterServer
 func NewTypewriterHandler(srv TypewriterServer) http.Handler {
 	router := mux.NewRouter()
-	router.Handle("/twirp/eolymp.typewriter.Typewriter/UploadAsset", _Typewriter_UploadAsset(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.typewriter.Typewriter/UploadAsset", _Typewriter_UploadAsset(srv)).Methods(http.MethodPost)
 	return router
 }

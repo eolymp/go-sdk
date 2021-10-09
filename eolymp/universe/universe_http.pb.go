@@ -102,29 +102,22 @@ func _Universe_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 // NewUniverseHandler constructs new http.Handler for UniverseServer
 func NewUniverseHandler(srv UniverseServer) http.Handler {
 	router := mux.NewRouter()
-	router.Handle("/twirp/eolymp.universe.Universe/CreateSpace", _Universe_CreateSpace(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.universe.Universe/CreateSpace", _Universe_CreateSpace(srv)).Methods(http.MethodPost)
-	router.Handle("/twirp/eolymp.universe.Universe/UpdateSpace", _Universe_UpdateSpace(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.universe.Universe/UpdateSpace", _Universe_UpdateSpace(srv)).Methods(http.MethodPost)
-	router.Handle("/twirp/eolymp.universe.Universe/DeleteSpace", _Universe_DeleteSpace(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.universe.Universe/DeleteSpace", _Universe_DeleteSpace(srv)).Methods(http.MethodPost)
-	router.Handle("/twirp/eolymp.universe.Universe/LookupSpace", _Universe_LookupSpace(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.universe.Universe/LookupSpace", _Universe_LookupSpace(srv)).Methods(http.MethodPost)
-	router.Handle("/twirp/eolymp.universe.Universe/DescribeSpace", _Universe_DescribeSpace(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.universe.Universe/DescribeSpace", _Universe_DescribeSpace(srv)).Methods(http.MethodPost)
-	router.Handle("/twirp/eolymp.universe.Universe/ListSpaces", _Universe_ListSpaces(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.universe.Universe/ListSpaces", _Universe_ListSpaces(srv)).Methods(http.MethodPost)
-	router.Handle("/twirp/eolymp.universe.Universe/AddMember", _Universe_AddMember(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.universe.Universe/GrantPermission", _Universe_GrantPermission(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.universe.Universe/RevokePermission", _Universe_RevokePermission(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.universe.Universe/DescribePermission", _Universe_DescribePermission(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.universe.Universe/IntrospectPermission", _Universe_IntrospectPermission(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.universe.Universe/ListPermissions", _Universe_ListPermissions(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.universe.Universe/AddMember", _Universe_AddMember(srv)).Methods(http.MethodPost)
-	router.Handle("/twirp/eolymp.universe.Universe/UpdateMember", _Universe_UpdateMember(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.universe.Universe/UpdateMember", _Universe_UpdateMember(srv)).Methods(http.MethodPost)
-	router.Handle("/twirp/eolymp.universe.Universe/RemoveMember", _Universe_RemoveMember(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.universe.Universe/RemoveMember", _Universe_RemoveMember(srv)).Methods(http.MethodPost)
-	router.Handle("/twirp/eolymp.universe.Universe/DescribeMember", _Universe_DescribeMember(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.universe.Universe/DescribeMember", _Universe_DescribeMember(srv)).Methods(http.MethodPost)
-	router.Handle("/twirp/eolymp.universe.Universe/IntrospectMember", _Universe_IntrospectMember(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.universe.Universe/IntrospectMember", _Universe_IntrospectMember(srv)).Methods(http.MethodPost)
-	router.Handle("/twirp/eolymp.universe.Universe/ListMembers", _Universe_ListMembers(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.universe.Universe/ListMembers", _Universe_ListMembers(srv)).Methods(http.MethodPost)
 	return router
 }
@@ -240,6 +233,106 @@ func _Universe_ListSpaces(srv UniverseServer) http.Handler {
 		}
 
 		out, err := srv.ListSpaces(r.Context(), in)
+		if err != nil {
+			_Universe_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Universe_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Universe_GrantPermission(srv UniverseServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &GrantPermissionInput{}
+
+		if err := _Universe_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Universe_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.GrantPermission(r.Context(), in)
+		if err != nil {
+			_Universe_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Universe_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Universe_RevokePermission(srv UniverseServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &RevokePermissionInput{}
+
+		if err := _Universe_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Universe_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.RevokePermission(r.Context(), in)
+		if err != nil {
+			_Universe_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Universe_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Universe_DescribePermission(srv UniverseServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribePermissionInput{}
+
+		if err := _Universe_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Universe_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.DescribePermission(r.Context(), in)
+		if err != nil {
+			_Universe_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Universe_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Universe_IntrospectPermission(srv UniverseServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &IntrospectPermissionInput{}
+
+		if err := _Universe_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Universe_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.IntrospectPermission(r.Context(), in)
+		if err != nil {
+			_Universe_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Universe_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Universe_ListPermissions(srv UniverseServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListPermissionsInput{}
+
+		if err := _Universe_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Universe_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.ListPermissions(r.Context(), in)
 		if err != nil {
 			_Universe_HTTPWriteErrorResponse(w, err)
 			return
@@ -567,6 +660,166 @@ func (i *UniverseInterceptor) ListSpaces(ctx context.Context, in *ListSpacesInpu
 	}
 
 	out, err = i.server.ListSpaces(ctx, in)
+	return
+}
+
+func (i *UniverseInterceptor) GrantPermission(ctx context.Context, in *GrantPermissionInput) (out *GrantPermissionOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promUniverseRequestLatency.WithLabelValues("eolymp.universe.Universe/GrantPermission", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("universe:space:write") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: universe:space:write")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.universe.Universe/GrantPermission", 5, 20) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.GrantPermission(ctx, in)
+	return
+}
+
+func (i *UniverseInterceptor) RevokePermission(ctx context.Context, in *RevokePermissionInput) (out *RevokePermissionOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promUniverseRequestLatency.WithLabelValues("eolymp.universe.Universe/RevokePermission", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("universe:space:write") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: universe:space:write")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.universe.Universe/RevokePermission", 5, 20) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.RevokePermission(ctx, in)
+	return
+}
+
+func (i *UniverseInterceptor) DescribePermission(ctx context.Context, in *DescribePermissionInput) (out *DescribePermissionOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promUniverseRequestLatency.WithLabelValues("eolymp.universe.Universe/DescribePermission", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("universe:space:read") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: universe:space:read")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.universe.Universe/DescribePermission", 5, 20) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.DescribePermission(ctx, in)
+	return
+}
+
+func (i *UniverseInterceptor) IntrospectPermission(ctx context.Context, in *IntrospectPermissionInput) (out *IntrospectPermissionOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promUniverseRequestLatency.WithLabelValues("eolymp.universe.Universe/IntrospectPermission", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("universe:space:read") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: universe:space:read")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.universe.Universe/IntrospectPermission", 5, 20) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.IntrospectPermission(ctx, in)
+	return
+}
+
+func (i *UniverseInterceptor) ListPermissions(ctx context.Context, in *ListPermissionsInput) (out *ListPermissionsOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promUniverseRequestLatency.WithLabelValues("eolymp.universe.Universe/ListPermissions", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("universe:space:read") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: universe:space:read")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.universe.Universe/ListPermissions", 5, 20) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.ListPermissions(ctx, in)
 	return
 }
 

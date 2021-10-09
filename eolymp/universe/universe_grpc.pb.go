@@ -30,6 +30,16 @@ type UniverseClient interface {
 	DescribeSpace(ctx context.Context, in *DescribeSpaceInput, opts ...grpc.CallOption) (*DescribeSpaceOutput, error)
 	// List spaces of a contest
 	ListSpaces(ctx context.Context, in *ListSpacesInput, opts ...grpc.CallOption) (*ListSpacesOutput, error)
+	// Add space permission
+	GrantPermission(ctx context.Context, in *GrantPermissionInput, opts ...grpc.CallOption) (*GrantPermissionOutput, error)
+	// Delete space permission
+	RevokePermission(ctx context.Context, in *RevokePermissionInput, opts ...grpc.CallOption) (*RevokePermissionOutput, error)
+	// Describe space permission
+	DescribePermission(ctx context.Context, in *DescribePermissionInput, opts ...grpc.CallOption) (*DescribePermissionOutput, error)
+	// Describe space permission
+	IntrospectPermission(ctx context.Context, in *IntrospectPermissionInput, opts ...grpc.CallOption) (*IntrospectPermissionOutput, error)
+	// List permissions in a space
+	ListPermissions(ctx context.Context, in *ListPermissionsInput, opts ...grpc.CallOption) (*ListPermissionsOutput, error)
 	// Add space member
 	AddMember(ctx context.Context, in *AddMemberInput, opts ...grpc.CallOption) (*AddMemberOutput, error)
 	// Update space member's details
@@ -106,6 +116,51 @@ func (c *universeClient) ListSpaces(ctx context.Context, in *ListSpacesInput, op
 	return out, nil
 }
 
+func (c *universeClient) GrantPermission(ctx context.Context, in *GrantPermissionInput, opts ...grpc.CallOption) (*GrantPermissionOutput, error) {
+	out := new(GrantPermissionOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.universe.Universe/GrantPermission", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *universeClient) RevokePermission(ctx context.Context, in *RevokePermissionInput, opts ...grpc.CallOption) (*RevokePermissionOutput, error) {
+	out := new(RevokePermissionOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.universe.Universe/RevokePermission", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *universeClient) DescribePermission(ctx context.Context, in *DescribePermissionInput, opts ...grpc.CallOption) (*DescribePermissionOutput, error) {
+	out := new(DescribePermissionOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.universe.Universe/DescribePermission", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *universeClient) IntrospectPermission(ctx context.Context, in *IntrospectPermissionInput, opts ...grpc.CallOption) (*IntrospectPermissionOutput, error) {
+	out := new(IntrospectPermissionOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.universe.Universe/IntrospectPermission", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *universeClient) ListPermissions(ctx context.Context, in *ListPermissionsInput, opts ...grpc.CallOption) (*ListPermissionsOutput, error) {
+	out := new(ListPermissionsOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.universe.Universe/ListPermissions", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *universeClient) AddMember(ctx context.Context, in *AddMemberInput, opts ...grpc.CallOption) (*AddMemberOutput, error) {
 	out := new(AddMemberOutput)
 	err := c.cc.Invoke(ctx, "/eolymp.universe.Universe/AddMember", in, out, opts...)
@@ -176,6 +231,16 @@ type UniverseServer interface {
 	DescribeSpace(context.Context, *DescribeSpaceInput) (*DescribeSpaceOutput, error)
 	// List spaces of a contest
 	ListSpaces(context.Context, *ListSpacesInput) (*ListSpacesOutput, error)
+	// Add space permission
+	GrantPermission(context.Context, *GrantPermissionInput) (*GrantPermissionOutput, error)
+	// Delete space permission
+	RevokePermission(context.Context, *RevokePermissionInput) (*RevokePermissionOutput, error)
+	// Describe space permission
+	DescribePermission(context.Context, *DescribePermissionInput) (*DescribePermissionOutput, error)
+	// Describe space permission
+	IntrospectPermission(context.Context, *IntrospectPermissionInput) (*IntrospectPermissionOutput, error)
+	// List permissions in a space
+	ListPermissions(context.Context, *ListPermissionsInput) (*ListPermissionsOutput, error)
 	// Add space member
 	AddMember(context.Context, *AddMemberInput) (*AddMemberOutput, error)
 	// Update space member's details
@@ -212,6 +277,21 @@ func (UnimplementedUniverseServer) DescribeSpace(context.Context, *DescribeSpace
 }
 func (UnimplementedUniverseServer) ListSpaces(context.Context, *ListSpacesInput) (*ListSpacesOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListSpaces not implemented")
+}
+func (UnimplementedUniverseServer) GrantPermission(context.Context, *GrantPermissionInput) (*GrantPermissionOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GrantPermission not implemented")
+}
+func (UnimplementedUniverseServer) RevokePermission(context.Context, *RevokePermissionInput) (*RevokePermissionOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RevokePermission not implemented")
+}
+func (UnimplementedUniverseServer) DescribePermission(context.Context, *DescribePermissionInput) (*DescribePermissionOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribePermission not implemented")
+}
+func (UnimplementedUniverseServer) IntrospectPermission(context.Context, *IntrospectPermissionInput) (*IntrospectPermissionOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method IntrospectPermission not implemented")
+}
+func (UnimplementedUniverseServer) ListPermissions(context.Context, *ListPermissionsInput) (*ListPermissionsOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListPermissions not implemented")
 }
 func (UnimplementedUniverseServer) AddMember(context.Context, *AddMemberInput) (*AddMemberOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddMember not implemented")
@@ -348,6 +428,96 @@ func _Universe_ListSpaces_Handler(srv interface{}, ctx context.Context, dec func
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UniverseServer).ListSpaces(ctx, req.(*ListSpacesInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Universe_GrantPermission_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GrantPermissionInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UniverseServer).GrantPermission(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.universe.Universe/GrantPermission",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UniverseServer).GrantPermission(ctx, req.(*GrantPermissionInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Universe_RevokePermission_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RevokePermissionInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UniverseServer).RevokePermission(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.universe.Universe/RevokePermission",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UniverseServer).RevokePermission(ctx, req.(*RevokePermissionInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Universe_DescribePermission_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribePermissionInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UniverseServer).DescribePermission(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.universe.Universe/DescribePermission",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UniverseServer).DescribePermission(ctx, req.(*DescribePermissionInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Universe_IntrospectPermission_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IntrospectPermissionInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UniverseServer).IntrospectPermission(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.universe.Universe/IntrospectPermission",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UniverseServer).IntrospectPermission(ctx, req.(*IntrospectPermissionInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Universe_ListPermissions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListPermissionsInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UniverseServer).ListPermissions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.universe.Universe/ListPermissions",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UniverseServer).ListPermissions(ctx, req.(*ListPermissionsInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -490,6 +660,26 @@ var Universe_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListSpaces",
 			Handler:    _Universe_ListSpaces_Handler,
+		},
+		{
+			MethodName: "GrantPermission",
+			Handler:    _Universe_GrantPermission_Handler,
+		},
+		{
+			MethodName: "RevokePermission",
+			Handler:    _Universe_RevokePermission_Handler,
+		},
+		{
+			MethodName: "DescribePermission",
+			Handler:    _Universe_DescribePermission_Handler,
+		},
+		{
+			MethodName: "IntrospectPermission",
+			Handler:    _Universe_IntrospectPermission_Handler,
+		},
+		{
+			MethodName: "ListPermissions",
+			Handler:    _Universe_ListPermissions_Handler,
 		},
 		{
 			MethodName: "AddMember",

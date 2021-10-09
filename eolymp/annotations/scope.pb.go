@@ -26,7 +26,7 @@ type Scope struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Scope []string `protobuf:"bytes,22065,rep,name=scope,proto3" json:"scope,omitempty"`
+	Scope []string `protobuf:"bytes,22065,rep,name=scope,proto3" json:"scope,omitempty"` // required OAuth scopes
 }
 
 func (x *Scope) Reset() {

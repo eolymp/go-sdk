@@ -136,6 +136,56 @@ func (s *UniverseService) ListSpaces(ctx context.Context, in *ListSpacesInput) (
 	return out, nil
 }
 
+func (s *UniverseService) GrantPermission(ctx context.Context, in *GrantPermissionInput) (*GrantPermissionOutput, error) {
+	out := &GrantPermissionOutput{}
+
+	if err := s.invoke(ctx, "eolymp.universe.Universe/GrantPermission", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *UniverseService) RevokePermission(ctx context.Context, in *RevokePermissionInput) (*RevokePermissionOutput, error) {
+	out := &RevokePermissionOutput{}
+
+	if err := s.invoke(ctx, "eolymp.universe.Universe/RevokePermission", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *UniverseService) DescribePermission(ctx context.Context, in *DescribePermissionInput) (*DescribePermissionOutput, error) {
+	out := &DescribePermissionOutput{}
+
+	if err := s.invoke(ctx, "eolymp.universe.Universe/DescribePermission", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *UniverseService) IntrospectPermission(ctx context.Context, in *IntrospectPermissionInput) (*IntrospectPermissionOutput, error) {
+	out := &IntrospectPermissionOutput{}
+
+	if err := s.invoke(ctx, "eolymp.universe.Universe/IntrospectPermission", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *UniverseService) ListPermissions(ctx context.Context, in *ListPermissionsInput) (*ListPermissionsOutput, error) {
+	out := &ListPermissionsOutput{}
+
+	if err := s.invoke(ctx, "eolymp.universe.Universe/ListPermissions", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *UniverseService) AddMember(ctx context.Context, in *AddMemberInput) (*AddMemberOutput, error) {
 	out := &AddMemberOutput{}
 
