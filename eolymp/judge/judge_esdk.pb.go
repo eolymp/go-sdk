@@ -366,6 +366,16 @@ func (s *JudgeService) DisableParticipant(ctx context.Context, in *DisablePartic
 	return out, nil
 }
 
+func (s *JudgeService) UpdateParticipant(ctx context.Context, in *UpdateParticipantInput) (*UpdateParticipantOutput, error) {
+	out := &UpdateParticipantOutput{}
+
+	if err := s.invoke(ctx, "eolymp.judge.Judge/UpdateParticipant", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *JudgeService) RemoveParticipant(ctx context.Context, in *RemoveParticipantInput) (*RemoveParticipantOutput, error) {
 	out := &RemoveParticipantOutput{}
 

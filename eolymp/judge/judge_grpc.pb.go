@@ -68,6 +68,7 @@ type JudgeClient interface {
 	AddParticipant(ctx context.Context, in *AddParticipantInput, opts ...grpc.CallOption) (*AddParticipantOutput, error)
 	EnableParticipant(ctx context.Context, in *EnableParticipantInput, opts ...grpc.CallOption) (*EnableParticipantOutput, error)
 	DisableParticipant(ctx context.Context, in *DisableParticipantInput, opts ...grpc.CallOption) (*DisableParticipantOutput, error)
+	UpdateParticipant(ctx context.Context, in *UpdateParticipantInput, opts ...grpc.CallOption) (*UpdateParticipantOutput, error)
 	RemoveParticipant(ctx context.Context, in *RemoveParticipantInput, opts ...grpc.CallOption) (*RemoveParticipantOutput, error)
 	ListParticipants(ctx context.Context, in *ListParticipantsInput, opts ...grpc.CallOption) (*ListParticipantsOutput, error)
 	DescribeParticipant(ctx context.Context, in *DescribeParticipantInput, opts ...grpc.CallOption) (*DescribeParticipantOutput, error)
@@ -411,6 +412,15 @@ func (c *judgeClient) EnableParticipant(ctx context.Context, in *EnableParticipa
 func (c *judgeClient) DisableParticipant(ctx context.Context, in *DisableParticipantInput, opts ...grpc.CallOption) (*DisableParticipantOutput, error) {
 	out := new(DisableParticipantOutput)
 	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/DisableParticipant", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *judgeClient) UpdateParticipant(ctx context.Context, in *UpdateParticipantInput, opts ...grpc.CallOption) (*UpdateParticipantOutput, error) {
+	out := new(UpdateParticipantOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/UpdateParticipant", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -876,6 +886,7 @@ type JudgeServer interface {
 	AddParticipant(context.Context, *AddParticipantInput) (*AddParticipantOutput, error)
 	EnableParticipant(context.Context, *EnableParticipantInput) (*EnableParticipantOutput, error)
 	DisableParticipant(context.Context, *DisableParticipantInput) (*DisableParticipantOutput, error)
+	UpdateParticipant(context.Context, *UpdateParticipantInput) (*UpdateParticipantOutput, error)
 	RemoveParticipant(context.Context, *RemoveParticipantInput) (*RemoveParticipantOutput, error)
 	ListParticipants(context.Context, *ListParticipantsInput) (*ListParticipantsOutput, error)
 	DescribeParticipant(context.Context, *DescribeParticipantInput) (*DescribeParticipantOutput, error)
@@ -1047,6 +1058,9 @@ func (UnimplementedJudgeServer) EnableParticipant(context.Context, *EnablePartic
 }
 func (UnimplementedJudgeServer) DisableParticipant(context.Context, *DisableParticipantInput) (*DisableParticipantOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DisableParticipant not implemented")
+}
+func (UnimplementedJudgeServer) UpdateParticipant(context.Context, *UpdateParticipantInput) (*UpdateParticipantOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateParticipant not implemented")
 }
 func (UnimplementedJudgeServer) RemoveParticipant(context.Context, *RemoveParticipantInput) (*RemoveParticipantOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RemoveParticipant not implemented")
@@ -1714,6 +1728,24 @@ func _Judge_DisableParticipant_Handler(srv interface{}, ctx context.Context, dec
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(JudgeServer).DisableParticipant(ctx, req.(*DisableParticipantInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Judge_UpdateParticipant_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateParticipantInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(JudgeServer).UpdateParticipant(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.judge.Judge/UpdateParticipant",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(JudgeServer).UpdateParticipant(ctx, req.(*UpdateParticipantInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -2650,6 +2682,10 @@ var Judge_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DisableParticipant",
 			Handler:    _Judge_DisableParticipant_Handler,
+		},
+		{
+			MethodName: "UpdateParticipant",
+			Handler:    _Judge_UpdateParticipant_Handler,
 		},
 		{
 			MethodName: "RemoveParticipant",

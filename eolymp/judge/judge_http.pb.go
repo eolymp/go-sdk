@@ -131,6 +131,7 @@ func NewJudgeHandler(srv JudgeServer) http.Handler {
 	router.Handle("/eolymp.judge.Judge/AddParticipant", _Judge_AddParticipant(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.judge.Judge/EnableParticipant", _Judge_EnableParticipant(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.judge.Judge/DisableParticipant", _Judge_DisableParticipant(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.judge.Judge/UpdateParticipant", _Judge_UpdateParticipant(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.judge.Judge/RemoveParticipant", _Judge_RemoveParticipant(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.judge.Judge/ListParticipants", _Judge_ListParticipants(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.judge.Judge/DescribeParticipant", _Judge_DescribeParticipant(srv)).Methods(http.MethodPost)
@@ -750,6 +751,26 @@ func _Judge_DisableParticipant(srv JudgeServer) http.Handler {
 		}
 
 		out, err := srv.DisableParticipant(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_UpdateParticipant(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UpdateParticipantInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.UpdateParticipant(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -2571,6 +2592,38 @@ func (i *JudgeInterceptor) DisableParticipant(ctx context.Context, in *DisablePa
 	}
 
 	out, err = i.server.DisableParticipant(ctx, in)
+	return
+}
+
+func (i *JudgeInterceptor) UpdateParticipant(ctx context.Context, in *UpdateParticipantInput) (out *UpdateParticipantOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/UpdateParticipant", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("judge:contest:write") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/UpdateParticipant", 1, 5) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.UpdateParticipant(ctx, in)
 	return
 }
 
