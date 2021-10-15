@@ -52,6 +52,11 @@ type AtlasClient interface {
 	DeleteCodeTemplate(ctx context.Context, in *DeleteCodeTemplateInput, opts ...grpc.CallOption) (*DeleteCodeTemplateOutput, error)
 	ListCodeTemplates(ctx context.Context, in *ListCodeTemplatesInput, opts ...grpc.CallOption) (*ListCodeTemplatesOutput, error)
 	DescribeCodeTemplate(ctx context.Context, in *DescribeCodeTemplateInput, opts ...grpc.CallOption) (*DescribeCodeTemplateOutput, error)
+	CreateAttachment(ctx context.Context, in *CreateAttachmentInput, opts ...grpc.CallOption) (*CreateAttachmentOutput, error)
+	UpdateAttachment(ctx context.Context, in *UpdateAttachmentInput, opts ...grpc.CallOption) (*UpdateAttachmentOutput, error)
+	DeleteAttachment(ctx context.Context, in *DeleteAttachmentInput, opts ...grpc.CallOption) (*DeleteAttachmentOutput, error)
+	ListAttachments(ctx context.Context, in *ListAttachmentsInput, opts ...grpc.CallOption) (*ListAttachmentsOutput, error)
+	DescribeAttachment(ctx context.Context, in *DescribeAttachmentInput, opts ...grpc.CallOption) (*DescribeAttachmentOutput, error)
 	DescribeChange(ctx context.Context, in *DescribeChangeInput, opts ...grpc.CallOption) (*DescribeChangeOutput, error)
 	ListChanges(ctx context.Context, in *ListChangesInput, opts ...grpc.CallOption) (*ListChangesOutput, error)
 	ListProblemTop(ctx context.Context, in *ListProblemTopInput, opts ...grpc.CallOption) (*ListProblemTopOutput, error)
@@ -391,6 +396,51 @@ func (c *atlasClient) DescribeCodeTemplate(ctx context.Context, in *DescribeCode
 	return out, nil
 }
 
+func (c *atlasClient) CreateAttachment(ctx context.Context, in *CreateAttachmentInput, opts ...grpc.CallOption) (*CreateAttachmentOutput, error) {
+	out := new(CreateAttachmentOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.atlas.Atlas/CreateAttachment", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *atlasClient) UpdateAttachment(ctx context.Context, in *UpdateAttachmentInput, opts ...grpc.CallOption) (*UpdateAttachmentOutput, error) {
+	out := new(UpdateAttachmentOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.atlas.Atlas/UpdateAttachment", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *atlasClient) DeleteAttachment(ctx context.Context, in *DeleteAttachmentInput, opts ...grpc.CallOption) (*DeleteAttachmentOutput, error) {
+	out := new(DeleteAttachmentOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.atlas.Atlas/DeleteAttachment", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *atlasClient) ListAttachments(ctx context.Context, in *ListAttachmentsInput, opts ...grpc.CallOption) (*ListAttachmentsOutput, error) {
+	out := new(ListAttachmentsOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.atlas.Atlas/ListAttachments", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *atlasClient) DescribeAttachment(ctx context.Context, in *DescribeAttachmentInput, opts ...grpc.CallOption) (*DescribeAttachmentOutput, error) {
+	out := new(DescribeAttachmentOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.atlas.Atlas/DescribeAttachment", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *atlasClient) DescribeChange(ctx context.Context, in *DescribeChangeInput, opts ...grpc.CallOption) (*DescribeChangeOutput, error) {
 	out := new(DescribeChangeOutput)
 	err := c.cc.Invoke(ctx, "/eolymp.atlas.Atlas/DescribeChange", in, out, opts...)
@@ -636,6 +686,11 @@ type AtlasServer interface {
 	DeleteCodeTemplate(context.Context, *DeleteCodeTemplateInput) (*DeleteCodeTemplateOutput, error)
 	ListCodeTemplates(context.Context, *ListCodeTemplatesInput) (*ListCodeTemplatesOutput, error)
 	DescribeCodeTemplate(context.Context, *DescribeCodeTemplateInput) (*DescribeCodeTemplateOutput, error)
+	CreateAttachment(context.Context, *CreateAttachmentInput) (*CreateAttachmentOutput, error)
+	UpdateAttachment(context.Context, *UpdateAttachmentInput) (*UpdateAttachmentOutput, error)
+	DeleteAttachment(context.Context, *DeleteAttachmentInput) (*DeleteAttachmentOutput, error)
+	ListAttachments(context.Context, *ListAttachmentsInput) (*ListAttachmentsOutput, error)
+	DescribeAttachment(context.Context, *DescribeAttachmentInput) (*DescribeAttachmentOutput, error)
 	DescribeChange(context.Context, *DescribeChangeInput) (*DescribeChangeOutput, error)
 	ListChanges(context.Context, *ListChangesInput) (*ListChangesOutput, error)
 	ListProblemTop(context.Context, *ListProblemTopInput) (*ListProblemTopOutput, error)
@@ -767,6 +822,21 @@ func (UnimplementedAtlasServer) ListCodeTemplates(context.Context, *ListCodeTemp
 }
 func (UnimplementedAtlasServer) DescribeCodeTemplate(context.Context, *DescribeCodeTemplateInput) (*DescribeCodeTemplateOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeCodeTemplate not implemented")
+}
+func (UnimplementedAtlasServer) CreateAttachment(context.Context, *CreateAttachmentInput) (*CreateAttachmentOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateAttachment not implemented")
+}
+func (UnimplementedAtlasServer) UpdateAttachment(context.Context, *UpdateAttachmentInput) (*UpdateAttachmentOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateAttachment not implemented")
+}
+func (UnimplementedAtlasServer) DeleteAttachment(context.Context, *DeleteAttachmentInput) (*DeleteAttachmentOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteAttachment not implemented")
+}
+func (UnimplementedAtlasServer) ListAttachments(context.Context, *ListAttachmentsInput) (*ListAttachmentsOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListAttachments not implemented")
+}
+func (UnimplementedAtlasServer) DescribeAttachment(context.Context, *DescribeAttachmentInput) (*DescribeAttachmentOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeAttachment not implemented")
 }
 func (UnimplementedAtlasServer) DescribeChange(context.Context, *DescribeChangeInput) (*DescribeChangeOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeChange not implemented")
@@ -1462,6 +1532,96 @@ func _Atlas_DescribeCodeTemplate_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Atlas_CreateAttachment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateAttachmentInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AtlasServer).CreateAttachment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.atlas.Atlas/CreateAttachment",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AtlasServer).CreateAttachment(ctx, req.(*CreateAttachmentInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Atlas_UpdateAttachment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateAttachmentInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AtlasServer).UpdateAttachment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.atlas.Atlas/UpdateAttachment",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AtlasServer).UpdateAttachment(ctx, req.(*UpdateAttachmentInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Atlas_DeleteAttachment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteAttachmentInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AtlasServer).DeleteAttachment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.atlas.Atlas/DeleteAttachment",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AtlasServer).DeleteAttachment(ctx, req.(*DeleteAttachmentInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Atlas_ListAttachments_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListAttachmentsInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AtlasServer).ListAttachments(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.atlas.Atlas/ListAttachments",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AtlasServer).ListAttachments(ctx, req.(*ListAttachmentsInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Atlas_DescribeAttachment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeAttachmentInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AtlasServer).DescribeAttachment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.atlas.Atlas/DescribeAttachment",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AtlasServer).DescribeAttachment(ctx, req.(*DescribeAttachmentInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Atlas_DescribeChange_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DescribeChangeInput)
 	if err := dec(in); err != nil {
@@ -2018,6 +2178,26 @@ var Atlas_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DescribeCodeTemplate",
 			Handler:    _Atlas_DescribeCodeTemplate_Handler,
+		},
+		{
+			MethodName: "CreateAttachment",
+			Handler:    _Atlas_CreateAttachment_Handler,
+		},
+		{
+			MethodName: "UpdateAttachment",
+			Handler:    _Atlas_UpdateAttachment_Handler,
+		},
+		{
+			MethodName: "DeleteAttachment",
+			Handler:    _Atlas_DeleteAttachment_Handler,
+		},
+		{
+			MethodName: "ListAttachments",
+			Handler:    _Atlas_ListAttachments_Handler,
+		},
+		{
+			MethodName: "DescribeAttachment",
+			Handler:    _Atlas_DescribeAttachment_Handler,
 		},
 		{
 			MethodName: "DescribeChange",

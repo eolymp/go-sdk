@@ -611,18 +611,7 @@ func (i *UniverseInterceptor) DescribeSpace(ctx context.Context, in *DescribeSpa
 			Observe(time.Since(start).Seconds())
 	}()
 
-	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("universe:space:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: universe:space:read")
-		return
-	}
-
-	if !i.limiter.Allow(ctx, "eolymp.universe.Universe/DescribeSpace", 5, 20) {
+	if !i.limiter.Allow(ctx, "eolymp.universe.Universe/DescribeSpace", 10, 100) {
 		err = status.Error(codes.ResourceExhausted, "too many requests")
 		return
 	}

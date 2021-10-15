@@ -416,6 +416,56 @@ func (s *AtlasService) DescribeCodeTemplate(ctx context.Context, in *DescribeCod
 	return out, nil
 }
 
+func (s *AtlasService) CreateAttachment(ctx context.Context, in *CreateAttachmentInput) (*CreateAttachmentOutput, error) {
+	out := &CreateAttachmentOutput{}
+
+	if err := s.invoke(ctx, "eolymp.atlas.Atlas/CreateAttachment", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *AtlasService) UpdateAttachment(ctx context.Context, in *UpdateAttachmentInput) (*UpdateAttachmentOutput, error) {
+	out := &UpdateAttachmentOutput{}
+
+	if err := s.invoke(ctx, "eolymp.atlas.Atlas/UpdateAttachment", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *AtlasService) DeleteAttachment(ctx context.Context, in *DeleteAttachmentInput) (*DeleteAttachmentOutput, error) {
+	out := &DeleteAttachmentOutput{}
+
+	if err := s.invoke(ctx, "eolymp.atlas.Atlas/DeleteAttachment", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *AtlasService) ListAttachments(ctx context.Context, in *ListAttachmentsInput) (*ListAttachmentsOutput, error) {
+	out := &ListAttachmentsOutput{}
+
+	if err := s.invoke(ctx, "eolymp.atlas.Atlas/ListAttachments", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *AtlasService) DescribeAttachment(ctx context.Context, in *DescribeAttachmentInput) (*DescribeAttachmentOutput, error) {
+	out := &DescribeAttachmentOutput{}
+
+	if err := s.invoke(ctx, "eolymp.atlas.Atlas/DescribeAttachment", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *AtlasService) DescribeChange(ctx context.Context, in *DescribeChangeInput) (*DescribeChangeOutput, error) {
 	out := &DescribeChangeOutput{}
 

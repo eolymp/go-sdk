@@ -136,6 +136,11 @@ func NewAtlasHandler(srv AtlasServer) http.Handler {
 	router.Handle("/eolymp.atlas.Atlas/DeleteCodeTemplate", _Atlas_DeleteCodeTemplate(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.atlas.Atlas/ListCodeTemplates", _Atlas_ListCodeTemplates(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.atlas.Atlas/DescribeCodeTemplate", _Atlas_DescribeCodeTemplate(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.atlas.Atlas/CreateAttachment", _Atlas_CreateAttachment(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.atlas.Atlas/UpdateAttachment", _Atlas_UpdateAttachment(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.atlas.Atlas/DeleteAttachment", _Atlas_DeleteAttachment(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.atlas.Atlas/ListAttachments", _Atlas_ListAttachments(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.atlas.Atlas/DescribeAttachment", _Atlas_DescribeAttachment(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.atlas.Atlas/DescribeChange", _Atlas_DescribeChange(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.atlas.Atlas/ListChanges", _Atlas_ListChanges(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.atlas.Atlas/ListProblemTop", _Atlas_ListProblemTop(srv)).Methods(http.MethodPost)
@@ -833,6 +838,106 @@ func _Atlas_DescribeCodeTemplate(srv AtlasServer) http.Handler {
 		}
 
 		out, err := srv.DescribeCodeTemplate(r.Context(), in)
+		if err != nil {
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Atlas_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Atlas_CreateAttachment(srv AtlasServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &CreateAttachmentInput{}
+
+		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.CreateAttachment(r.Context(), in)
+		if err != nil {
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Atlas_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Atlas_UpdateAttachment(srv AtlasServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UpdateAttachmentInput{}
+
+		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.UpdateAttachment(r.Context(), in)
+		if err != nil {
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Atlas_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Atlas_DeleteAttachment(srv AtlasServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DeleteAttachmentInput{}
+
+		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.DeleteAttachment(r.Context(), in)
+		if err != nil {
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Atlas_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Atlas_ListAttachments(srv AtlasServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListAttachmentsInput{}
+
+		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.ListAttachments(r.Context(), in)
+		if err != nil {
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Atlas_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Atlas_DescribeAttachment(srv AtlasServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeAttachmentInput{}
+
+		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.DescribeAttachment(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -2407,6 +2512,166 @@ func (i *AtlasInterceptor) DescribeCodeTemplate(ctx context.Context, in *Describ
 	}
 
 	out, err = i.server.DescribeCodeTemplate(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) CreateAttachment(ctx context.Context, in *CreateAttachmentInput) (out *CreateAttachmentOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/CreateAttachment", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:problem:write") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/CreateAttachment", 0.16, 5) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.CreateAttachment(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) UpdateAttachment(ctx context.Context, in *UpdateAttachmentInput) (out *UpdateAttachmentOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/UpdateAttachment", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:problem:write") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/UpdateAttachment", 0.16, 5) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.UpdateAttachment(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) DeleteAttachment(ctx context.Context, in *DeleteAttachmentInput) (out *DeleteAttachmentOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/DeleteAttachment", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:problem:write") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/DeleteAttachment", 0.16, 5) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.DeleteAttachment(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) ListAttachments(ctx context.Context, in *ListAttachmentsInput) (out *ListAttachmentsOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/ListAttachments", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:problem:read") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:read")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/ListAttachments", 20, 100) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.ListAttachments(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) DescribeAttachment(ctx context.Context, in *DescribeAttachmentInput) (out *DescribeAttachmentOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/DescribeAttachment", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("atlas:problem:read") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:read")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/DescribeAttachment", 20, 100) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.DescribeAttachment(ctx, in)
 	return
 }
 
