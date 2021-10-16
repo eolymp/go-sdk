@@ -306,6 +306,16 @@ func (s *JudgeService) ListStatements(ctx context.Context, in *ListStatementsInp
 	return out, nil
 }
 
+func (s *JudgeService) ListAttachments(ctx context.Context, in *ListAttachmentsInput) (*ListAttachmentsOutput, error) {
+	out := &ListAttachmentsOutput{}
+
+	if err := s.invoke(ctx, "eolymp.judge.Judge/ListAttachments", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *JudgeService) ListExamples(ctx context.Context, in *ListExamplesInput) (*ListExamplesOutput, error) {
 	out := &ListExamplesOutput{}
 

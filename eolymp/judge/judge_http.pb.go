@@ -125,6 +125,7 @@ func NewJudgeHandler(srv JudgeServer) http.Handler {
 	router.Handle("/eolymp.judge.Judge/DescribeProblem", _Judge_DescribeProblem(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.judge.Judge/DescribeCodeTemplate", _Judge_DescribeCodeTemplate(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.judge.Judge/ListStatements", _Judge_ListStatements(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.judge.Judge/ListAttachments", _Judge_ListAttachments(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.judge.Judge/ListExamples", _Judge_ListExamples(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.judge.Judge/DeleteProblem", _Judge_DeleteProblem(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.judge.Judge/RetestProblem", _Judge_RetestProblem(srv)).Methods(http.MethodPost)
@@ -631,6 +632,26 @@ func _Judge_ListStatements(srv JudgeServer) http.Handler {
 		}
 
 		out, err := srv.ListStatements(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_ListAttachments(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListAttachmentsInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.ListAttachments(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -2400,6 +2421,38 @@ func (i *JudgeInterceptor) ListStatements(ctx context.Context, in *ListStatement
 	}
 
 	out, err = i.server.ListStatements(ctx, in)
+	return
+}
+
+func (i *JudgeInterceptor) ListAttachments(ctx context.Context, in *ListAttachmentsInput) (out *ListAttachmentsOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/ListAttachments", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if !ok {
+		err = status.Error(codes.Unauthenticated, "unauthenticated")
+		return
+	}
+
+	if !token.Has("judge:contest:read") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/ListAttachments", 20, 100) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.ListAttachments(ctx, in)
 	return
 }
 

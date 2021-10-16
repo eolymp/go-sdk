@@ -61,6 +61,7 @@ type JudgeClient interface {
 	// Return code template for problem
 	DescribeCodeTemplate(ctx context.Context, in *DescribeCodeTemplateInput, opts ...grpc.CallOption) (*DescribeCodeTemplateOutput, error)
 	ListStatements(ctx context.Context, in *ListStatementsInput, opts ...grpc.CallOption) (*ListStatementsOutput, error)
+	ListAttachments(ctx context.Context, in *ListAttachmentsInput, opts ...grpc.CallOption) (*ListAttachmentsOutput, error)
 	ListExamples(ctx context.Context, in *ListExamplesInput, opts ...grpc.CallOption) (*ListExamplesOutput, error)
 	DeleteProblem(ctx context.Context, in *DeleteProblemInput, opts ...grpc.CallOption) (*DeleteProblemOutput, error)
 	// RetestProblem resets existing submissions for the problem and triggers testing process again.
@@ -358,6 +359,15 @@ func (c *judgeClient) DescribeCodeTemplate(ctx context.Context, in *DescribeCode
 func (c *judgeClient) ListStatements(ctx context.Context, in *ListStatementsInput, opts ...grpc.CallOption) (*ListStatementsOutput, error) {
 	out := new(ListStatementsOutput)
 	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/ListStatements", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *judgeClient) ListAttachments(ctx context.Context, in *ListAttachmentsInput, opts ...grpc.CallOption) (*ListAttachmentsOutput, error) {
+	out := new(ListAttachmentsOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/ListAttachments", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -879,6 +889,7 @@ type JudgeServer interface {
 	// Return code template for problem
 	DescribeCodeTemplate(context.Context, *DescribeCodeTemplateInput) (*DescribeCodeTemplateOutput, error)
 	ListStatements(context.Context, *ListStatementsInput) (*ListStatementsOutput, error)
+	ListAttachments(context.Context, *ListAttachmentsInput) (*ListAttachmentsOutput, error)
 	ListExamples(context.Context, *ListExamplesInput) (*ListExamplesOutput, error)
 	DeleteProblem(context.Context, *DeleteProblemInput) (*DeleteProblemOutput, error)
 	// RetestProblem resets existing submissions for the problem and triggers testing process again.
@@ -1040,6 +1051,9 @@ func (UnimplementedJudgeServer) DescribeCodeTemplate(context.Context, *DescribeC
 }
 func (UnimplementedJudgeServer) ListStatements(context.Context, *ListStatementsInput) (*ListStatementsOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListStatements not implemented")
+}
+func (UnimplementedJudgeServer) ListAttachments(context.Context, *ListAttachmentsInput) (*ListAttachmentsOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListAttachments not implemented")
 }
 func (UnimplementedJudgeServer) ListExamples(context.Context, *ListExamplesInput) (*ListExamplesOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListExamples not implemented")
@@ -1620,6 +1634,24 @@ func _Judge_ListStatements_Handler(srv interface{}, ctx context.Context, dec fun
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(JudgeServer).ListStatements(ctx, req.(*ListStatementsInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Judge_ListAttachments_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListAttachmentsInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(JudgeServer).ListAttachments(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.judge.Judge/ListAttachments",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(JudgeServer).ListAttachments(ctx, req.(*ListAttachmentsInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -2658,6 +2690,10 @@ var Judge_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListStatements",
 			Handler:    _Judge_ListStatements_Handler,
+		},
+		{
+			MethodName: "ListAttachments",
+			Handler:    _Judge_ListAttachments_Handler,
 		},
 		{
 			MethodName: "ListExamples",
