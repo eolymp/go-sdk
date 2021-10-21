@@ -141,6 +141,7 @@ type JudgeClient interface {
 	// Describe scoreboard
 	DescribeDefaultScoreboard(ctx context.Context, in *DescribeDefaultScoreboardInput, opts ...grpc.CallOption) (*DescribeDefaultScoreboardOutput, error)
 	ListScoreboards(ctx context.Context, in *ListScoreboardsInput, opts ...grpc.CallOption) (*ListScoreboardsOutput, error)
+	DescribeScoreboardFooter(ctx context.Context, in *DescribeScoreboardFooterInput, opts ...grpc.CallOption) (*DescribeScoreboardFooterOutput, error)
 	DescribeScoreboardRow(ctx context.Context, in *DescribeScoreboardRowInput, opts ...grpc.CallOption) (*DescribeScoreboardRowOutput, error)
 	DescribeDefaultScoreboardRow(ctx context.Context, in *DescribeDefaultScoreboardRowInput, opts ...grpc.CallOption) (*DescribeDefaultScoreboardRowOutput, error)
 	ListScoreboardRows(ctx context.Context, in *ListScoreboardRowsInput, opts ...grpc.CallOption) (*ListScoreboardRowsOutput, error)
@@ -788,6 +789,15 @@ func (c *judgeClient) ListScoreboards(ctx context.Context, in *ListScoreboardsIn
 	return out, nil
 }
 
+func (c *judgeClient) DescribeScoreboardFooter(ctx context.Context, in *DescribeScoreboardFooterInput, opts ...grpc.CallOption) (*DescribeScoreboardFooterOutput, error) {
+	out := new(DescribeScoreboardFooterOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/DescribeScoreboardFooter", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *judgeClient) DescribeScoreboardRow(ctx context.Context, in *DescribeScoreboardRowInput, opts ...grpc.CallOption) (*DescribeScoreboardRowOutput, error) {
 	out := new(DescribeScoreboardRowOutput)
 	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/DescribeScoreboardRow", in, out, opts...)
@@ -969,6 +979,7 @@ type JudgeServer interface {
 	// Describe scoreboard
 	DescribeDefaultScoreboard(context.Context, *DescribeDefaultScoreboardInput) (*DescribeDefaultScoreboardOutput, error)
 	ListScoreboards(context.Context, *ListScoreboardsInput) (*ListScoreboardsOutput, error)
+	DescribeScoreboardFooter(context.Context, *DescribeScoreboardFooterInput) (*DescribeScoreboardFooterOutput, error)
 	DescribeScoreboardRow(context.Context, *DescribeScoreboardRowInput) (*DescribeScoreboardRowOutput, error)
 	DescribeDefaultScoreboardRow(context.Context, *DescribeDefaultScoreboardRowInput) (*DescribeDefaultScoreboardRowOutput, error)
 	ListScoreboardRows(context.Context, *ListScoreboardRowsInput) (*ListScoreboardRowsOutput, error)
@@ -1192,6 +1203,9 @@ func (UnimplementedJudgeServer) DescribeDefaultScoreboard(context.Context, *Desc
 }
 func (UnimplementedJudgeServer) ListScoreboards(context.Context, *ListScoreboardsInput) (*ListScoreboardsOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListScoreboards not implemented")
+}
+func (UnimplementedJudgeServer) DescribeScoreboardFooter(context.Context, *DescribeScoreboardFooterInput) (*DescribeScoreboardFooterOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeScoreboardFooter not implemented")
 }
 func (UnimplementedJudgeServer) DescribeScoreboardRow(context.Context, *DescribeScoreboardRowInput) (*DescribeScoreboardRowOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeScoreboardRow not implemented")
@@ -2484,6 +2498,24 @@ func _Judge_ListScoreboards_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Judge_DescribeScoreboardFooter_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeScoreboardFooterInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(JudgeServer).DescribeScoreboardFooter(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.judge.Judge/DescribeScoreboardFooter",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(JudgeServer).DescribeScoreboardFooter(ctx, req.(*DescribeScoreboardFooterInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Judge_DescribeScoreboardRow_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DescribeScoreboardRowInput)
 	if err := dec(in); err != nil {
@@ -2878,6 +2910,10 @@ var Judge_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListScoreboards",
 			Handler:    _Judge_ListScoreboards_Handler,
+		},
+		{
+			MethodName: "DescribeScoreboardFooter",
+			Handler:    _Judge_DescribeScoreboardFooter_Handler,
 		},
 		{
 			MethodName: "DescribeScoreboardRow",

@@ -776,6 +776,16 @@ func (s *JudgeService) ListScoreboards(ctx context.Context, in *ListScoreboardsI
 	return out, nil
 }
 
+func (s *JudgeService) DescribeScoreboardFooter(ctx context.Context, in *DescribeScoreboardFooterInput) (*DescribeScoreboardFooterOutput, error) {
+	out := &DescribeScoreboardFooterOutput{}
+
+	if err := s.invoke(ctx, "eolymp.judge.Judge/DescribeScoreboardFooter", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *JudgeService) DescribeScoreboardRow(ctx context.Context, in *DescribeScoreboardRowInput) (*DescribeScoreboardRowOutput, error) {
 	out := &DescribeScoreboardRowOutput{}
 
