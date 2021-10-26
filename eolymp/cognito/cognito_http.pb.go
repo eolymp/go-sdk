@@ -747,12 +747,7 @@ func (i *CognitoInterceptor) DescribeUser(ctx context.Context, in *DescribeUserI
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("cognito:user:read") {
+	if ok && !token.Has("cognito:user:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: cognito:user:read")
 		return
 	}
@@ -779,12 +774,7 @@ func (i *CognitoInterceptor) ListUsers(ctx context.Context, in *ListUsersInput) 
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("cognito:user:read") {
+	if ok && !token.Has("cognito:user:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: cognito:user:read")
 		return
 	}
@@ -853,12 +843,7 @@ func (i *CognitoInterceptor) ListRoles(ctx context.Context, in *ListRolesInput) 
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("cognito:role:read") {
+	if ok && !token.Has("cognito:role:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: cognito:role:read")
 		return
 	}
@@ -885,12 +870,7 @@ func (i *CognitoInterceptor) UpdateRoles(ctx context.Context, in *UpdateRolesInp
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("cognito:role:read") {
+	if ok && !token.Has("cognito:role:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: cognito:role:read")
 		return
 	}

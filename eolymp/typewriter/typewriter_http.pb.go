@@ -159,12 +159,7 @@ func (i *TypewriterInterceptor) UploadAsset(ctx context.Context, in *UploadAsset
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("typewriter:asset:write") {
+	if ok && !token.Has("typewriter:asset:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: typewriter:asset:write")
 		return
 	}

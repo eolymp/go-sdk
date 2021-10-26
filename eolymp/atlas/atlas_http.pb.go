@@ -1440,12 +1440,7 @@ func (i *AtlasInterceptor) CreateProblem(ctx context.Context, in *CreateProblemI
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:problem:write") {
+	if ok && !token.Has("atlas:problem:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
 		return
 	}
@@ -1472,12 +1467,7 @@ func (i *AtlasInterceptor) DeleteProblem(ctx context.Context, in *DeleteProblemI
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:problem:write") {
+	if ok && !token.Has("atlas:problem:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
 		return
 	}
@@ -1504,12 +1494,7 @@ func (i *AtlasInterceptor) ListProblems(ctx context.Context, in *ListProblemsInp
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:problem:read") {
+	if ok && !token.Has("atlas:problem:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:read")
 		return
 	}
@@ -1536,12 +1521,7 @@ func (i *AtlasInterceptor) DescribeProblem(ctx context.Context, in *DescribeProb
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:problem:read") {
+	if ok && !token.Has("atlas:problem:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:read")
 		return
 	}
@@ -1568,12 +1548,7 @@ func (i *AtlasInterceptor) UpdateVisibility(ctx context.Context, in *UpdateVisib
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:problem:write") {
+	if ok && !token.Has("atlas:problem:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
 		return
 	}
@@ -1600,12 +1575,7 @@ func (i *AtlasInterceptor) UpdatePrivacy(ctx context.Context, in *UpdatePrivacyI
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:problem:write") {
+	if ok && !token.Has("atlas:problem:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
 		return
 	}
@@ -1632,12 +1602,7 @@ func (i *AtlasInterceptor) ListExamples(ctx context.Context, in *ListExamplesInp
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:problem:read") {
+	if ok && !token.Has("atlas:problem:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:read")
 		return
 	}
@@ -1664,12 +1629,7 @@ func (i *AtlasInterceptor) UpdateVerifier(ctx context.Context, in *UpdateVerifie
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:problem:write") {
+	if ok && !token.Has("atlas:problem:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
 		return
 	}
@@ -1696,12 +1656,7 @@ func (i *AtlasInterceptor) DescribeVerifier(ctx context.Context, in *DescribeVer
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:problem:write") {
+	if ok && !token.Has("atlas:problem:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
 		return
 	}
@@ -1728,12 +1683,7 @@ func (i *AtlasInterceptor) UpdateInteractor(ctx context.Context, in *UpdateInter
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:problem:write") {
+	if ok && !token.Has("atlas:problem:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
 		return
 	}
@@ -1760,12 +1710,7 @@ func (i *AtlasInterceptor) DescribeInteractor(ctx context.Context, in *DescribeI
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:problem:write") {
+	if ok && !token.Has("atlas:problem:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
 		return
 	}
@@ -1792,12 +1737,7 @@ func (i *AtlasInterceptor) CreateStatement(ctx context.Context, in *CreateStatem
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:problem:write") {
+	if ok && !token.Has("atlas:problem:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
 		return
 	}
@@ -1824,12 +1764,7 @@ func (i *AtlasInterceptor) UpdateStatement(ctx context.Context, in *UpdateStatem
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:problem:write") {
+	if ok && !token.Has("atlas:problem:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
 		return
 	}
@@ -1856,12 +1791,7 @@ func (i *AtlasInterceptor) DeleteStatement(ctx context.Context, in *DeleteStatem
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:problem:write") {
+	if ok && !token.Has("atlas:problem:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
 		return
 	}
@@ -1888,12 +1818,7 @@ func (i *AtlasInterceptor) ListStatements(ctx context.Context, in *ListStatement
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:problem:read") {
+	if ok && !token.Has("atlas:problem:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:read")
 		return
 	}
@@ -1920,12 +1845,7 @@ func (i *AtlasInterceptor) DescribeStatement(ctx context.Context, in *DescribeSt
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:problem:read") {
+	if ok && !token.Has("atlas:problem:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:read")
 		return
 	}
@@ -1952,12 +1872,7 @@ func (i *AtlasInterceptor) CreateTestset(ctx context.Context, in *CreateTestsetI
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:problem:write") {
+	if ok && !token.Has("atlas:problem:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
 		return
 	}
@@ -1984,12 +1899,7 @@ func (i *AtlasInterceptor) UpdateTestset(ctx context.Context, in *UpdateTestsetI
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:problem:write") {
+	if ok && !token.Has("atlas:problem:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
 		return
 	}
@@ -2016,12 +1926,7 @@ func (i *AtlasInterceptor) DeleteTestset(ctx context.Context, in *DeleteTestsetI
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:problem:write") {
+	if ok && !token.Has("atlas:problem:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
 		return
 	}
@@ -2048,12 +1953,7 @@ func (i *AtlasInterceptor) ListTestsets(ctx context.Context, in *ListTestsetsInp
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:problem:write") {
+	if ok && !token.Has("atlas:problem:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
 		return
 	}
@@ -2080,12 +1980,7 @@ func (i *AtlasInterceptor) DescribeTestset(ctx context.Context, in *DescribeTest
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:problem:write") {
+	if ok && !token.Has("atlas:problem:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
 		return
 	}
@@ -2112,12 +2007,7 @@ func (i *AtlasInterceptor) CreateTest(ctx context.Context, in *CreateTestInput) 
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:problem:write") {
+	if ok && !token.Has("atlas:problem:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
 		return
 	}
@@ -2144,12 +2034,7 @@ func (i *AtlasInterceptor) UpdateTest(ctx context.Context, in *UpdateTestInput) 
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:problem:write") {
+	if ok && !token.Has("atlas:problem:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
 		return
 	}
@@ -2176,12 +2061,7 @@ func (i *AtlasInterceptor) DeleteTest(ctx context.Context, in *DeleteTestInput) 
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:problem:write") {
+	if ok && !token.Has("atlas:problem:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
 		return
 	}
@@ -2208,12 +2088,7 @@ func (i *AtlasInterceptor) ListTests(ctx context.Context, in *ListTestsInput) (o
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:problem:write") {
+	if ok && !token.Has("atlas:problem:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
 		return
 	}
@@ -2240,12 +2115,7 @@ func (i *AtlasInterceptor) DescribeTest(ctx context.Context, in *DescribeTestInp
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:problem:write") {
+	if ok && !token.Has("atlas:problem:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
 		return
 	}
@@ -2272,12 +2142,7 @@ func (i *AtlasInterceptor) GrantPermission(ctx context.Context, in *GrantPermiss
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:permission:write") {
+	if ok && !token.Has("atlas:permission:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:permission:write")
 		return
 	}
@@ -2304,12 +2169,7 @@ func (i *AtlasInterceptor) RevokePermission(ctx context.Context, in *RevokePermi
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:permission:write") {
+	if ok && !token.Has("atlas:permission:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:permission:write")
 		return
 	}
@@ -2336,12 +2196,7 @@ func (i *AtlasInterceptor) ListPermissions(ctx context.Context, in *ListPermissi
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:permission:read") {
+	if ok && !token.Has("atlas:permission:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:permission:read")
 		return
 	}
@@ -2368,12 +2223,7 @@ func (i *AtlasInterceptor) CreateCodeTemplate(ctx context.Context, in *CreateCod
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:problem:write") {
+	if ok && !token.Has("atlas:problem:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
 		return
 	}
@@ -2400,12 +2250,7 @@ func (i *AtlasInterceptor) UpdateCodeTemplate(ctx context.Context, in *UpdateCod
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:problem:write") {
+	if ok && !token.Has("atlas:problem:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
 		return
 	}
@@ -2432,12 +2277,7 @@ func (i *AtlasInterceptor) DeleteCodeTemplate(ctx context.Context, in *DeleteCod
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:problem:write") {
+	if ok && !token.Has("atlas:problem:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
 		return
 	}
@@ -2464,12 +2304,7 @@ func (i *AtlasInterceptor) ListCodeTemplates(ctx context.Context, in *ListCodeTe
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:problem:read") {
+	if ok && !token.Has("atlas:problem:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:read")
 		return
 	}
@@ -2496,12 +2331,7 @@ func (i *AtlasInterceptor) DescribeCodeTemplate(ctx context.Context, in *Describ
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:problem:read") {
+	if ok && !token.Has("atlas:problem:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:read")
 		return
 	}
@@ -2528,12 +2358,7 @@ func (i *AtlasInterceptor) CreateAttachment(ctx context.Context, in *CreateAttac
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:problem:write") {
+	if ok && !token.Has("atlas:problem:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
 		return
 	}
@@ -2560,12 +2385,7 @@ func (i *AtlasInterceptor) UpdateAttachment(ctx context.Context, in *UpdateAttac
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:problem:write") {
+	if ok && !token.Has("atlas:problem:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
 		return
 	}
@@ -2592,12 +2412,7 @@ func (i *AtlasInterceptor) DeleteAttachment(ctx context.Context, in *DeleteAttac
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:problem:write") {
+	if ok && !token.Has("atlas:problem:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
 		return
 	}
@@ -2624,12 +2439,7 @@ func (i *AtlasInterceptor) ListAttachments(ctx context.Context, in *ListAttachme
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:problem:read") {
+	if ok && !token.Has("atlas:problem:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:read")
 		return
 	}
@@ -2656,12 +2466,7 @@ func (i *AtlasInterceptor) DescribeAttachment(ctx context.Context, in *DescribeA
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:problem:read") {
+	if ok && !token.Has("atlas:problem:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:read")
 		return
 	}
@@ -2688,12 +2493,7 @@ func (i *AtlasInterceptor) DescribeChange(ctx context.Context, in *DescribeChang
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:problem:write") {
+	if ok && !token.Has("atlas:problem:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
 		return
 	}
@@ -2715,12 +2515,7 @@ func (i *AtlasInterceptor) ListChanges(ctx context.Context, in *ListChangesInput
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:problem:write") {
+	if ok && !token.Has("atlas:problem:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
 		return
 	}
@@ -2742,12 +2537,7 @@ func (i *AtlasInterceptor) ListProblemTop(ctx context.Context, in *ListProblemTo
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:problem:read") {
+	if ok && !token.Has("atlas:problem:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:read")
 		return
 	}
@@ -2769,12 +2559,7 @@ func (i *AtlasInterceptor) DescribeProblemGrading(ctx context.Context, in *Descr
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:problem:read") {
+	if ok && !token.Has("atlas:problem:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:read")
 		return
 	}
@@ -2859,12 +2644,7 @@ func (i *AtlasInterceptor) ListSolutions(ctx context.Context, in *ListSolutionsI
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:problem:read") {
+	if ok && !token.Has("atlas:problem:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:read")
 		return
 	}
@@ -2891,12 +2671,7 @@ func (i *AtlasInterceptor) DescribeSolution(ctx context.Context, in *DescribeSol
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:problem:read") {
+	if ok && !token.Has("atlas:problem:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:read")
 		return
 	}
@@ -2965,12 +2740,7 @@ func (i *AtlasInterceptor) ApproveSolution(ctx context.Context, in *ApproveSolut
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:problem:write") {
+	if ok && !token.Has("atlas:problem:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
 		return
 	}
@@ -2997,12 +2767,7 @@ func (i *AtlasInterceptor) RefuseSolution(ctx context.Context, in *RefuseSolutio
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:problem:write") {
+	if ok && !token.Has("atlas:problem:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
 		return
 	}
@@ -3029,12 +2794,7 @@ func (i *AtlasInterceptor) CreateCategory(ctx context.Context, in *CreateCategor
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:category:write") {
+	if ok && !token.Has("atlas:category:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:category:write")
 		return
 	}
@@ -3061,12 +2821,7 @@ func (i *AtlasInterceptor) UpdateCategory(ctx context.Context, in *UpdateCategor
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:category:write") {
+	if ok && !token.Has("atlas:category:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:category:write")
 		return
 	}
@@ -3093,12 +2848,7 @@ func (i *AtlasInterceptor) DeleteCategory(ctx context.Context, in *DeleteCategor
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:category:write") {
+	if ok && !token.Has("atlas:category:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:category:write")
 		return
 	}
@@ -3125,12 +2875,7 @@ func (i *AtlasInterceptor) ListCategories(ctx context.Context, in *ListCategorie
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:category:read") {
+	if ok && !token.Has("atlas:category:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:category:read")
 		return
 	}
@@ -3157,12 +2902,7 @@ func (i *AtlasInterceptor) DescribeCategory(ctx context.Context, in *DescribeCat
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:category:read") {
+	if ok && !token.Has("atlas:category:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:category:read")
 		return
 	}
@@ -3189,12 +2929,7 @@ func (i *AtlasInterceptor) AssignCategory(ctx context.Context, in *AssignCategor
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:category:write") {
+	if ok && !token.Has("atlas:category:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:category:write")
 		return
 	}
@@ -3221,12 +2956,7 @@ func (i *AtlasInterceptor) UnassignCategory(ctx context.Context, in *UnassignCat
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:category:write") {
+	if ok && !token.Has("atlas:category:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:category:write")
 		return
 	}
@@ -3253,12 +2983,7 @@ func (i *AtlasInterceptor) CreateSubmission(ctx context.Context, in *CreateSubmi
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:submission:write") {
+	if ok && !token.Has("atlas:submission:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:submission:write")
 		return
 	}
@@ -3280,12 +3005,7 @@ func (i *AtlasInterceptor) DescribeSubmission(ctx context.Context, in *DescribeS
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:submission:read") {
+	if ok && !token.Has("atlas:submission:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:submission:read")
 		return
 	}
@@ -3307,12 +3027,7 @@ func (i *AtlasInterceptor) DescribeScore(ctx context.Context, in *DescribeScoreI
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:submission:read") {
+	if ok && !token.Has("atlas:submission:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:submission:read")
 		return
 	}

@@ -495,12 +495,7 @@ func (i *UniverseInterceptor) CreateSpace(ctx context.Context, in *CreateSpaceIn
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("universe:space:write") {
+	if ok && !token.Has("universe:space:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: universe:space:write")
 		return
 	}
@@ -527,12 +522,7 @@ func (i *UniverseInterceptor) UpdateSpace(ctx context.Context, in *UpdateSpaceIn
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("universe:space:write") {
+	if ok && !token.Has("universe:space:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: universe:space:write")
 		return
 	}
@@ -559,12 +549,7 @@ func (i *UniverseInterceptor) DeleteSpace(ctx context.Context, in *DeleteSpaceIn
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("universe:space:write") {
+	if ok && !token.Has("universe:space:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: universe:space:write")
 		return
 	}
@@ -633,12 +618,7 @@ func (i *UniverseInterceptor) ListSpaces(ctx context.Context, in *ListSpacesInpu
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("universe:space:read") {
+	if ok && !token.Has("universe:space:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: universe:space:read")
 		return
 	}
@@ -665,12 +645,7 @@ func (i *UniverseInterceptor) GrantPermission(ctx context.Context, in *GrantPerm
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("universe:space:write") {
+	if ok && !token.Has("universe:space:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: universe:space:write")
 		return
 	}
@@ -697,12 +672,7 @@ func (i *UniverseInterceptor) RevokePermission(ctx context.Context, in *RevokePe
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("universe:space:write") {
+	if ok && !token.Has("universe:space:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: universe:space:write")
 		return
 	}
@@ -729,12 +699,7 @@ func (i *UniverseInterceptor) DescribePermission(ctx context.Context, in *Descri
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("universe:space:read") {
+	if ok && !token.Has("universe:space:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: universe:space:read")
 		return
 	}
@@ -761,12 +726,7 @@ func (i *UniverseInterceptor) IntrospectPermission(ctx context.Context, in *Intr
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("universe:space:read") {
+	if ok && !token.Has("universe:space:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: universe:space:read")
 		return
 	}
@@ -793,12 +753,7 @@ func (i *UniverseInterceptor) ListPermissions(ctx context.Context, in *ListPermi
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("universe:space:read") {
+	if ok && !token.Has("universe:space:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: universe:space:read")
 		return
 	}
@@ -825,12 +780,7 @@ func (i *UniverseInterceptor) AddMember(ctx context.Context, in *AddMemberInput)
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("universe:space:write") {
+	if ok && !token.Has("universe:space:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: universe:space:write")
 		return
 	}
@@ -857,12 +807,7 @@ func (i *UniverseInterceptor) UpdateMember(ctx context.Context, in *UpdateMember
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("universe:space:write") {
+	if ok && !token.Has("universe:space:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: universe:space:write")
 		return
 	}
@@ -889,12 +834,7 @@ func (i *UniverseInterceptor) RemoveMember(ctx context.Context, in *RemoveMember
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("universe:space:write") {
+	if ok && !token.Has("universe:space:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: universe:space:write")
 		return
 	}
@@ -921,12 +861,7 @@ func (i *UniverseInterceptor) DescribeMember(ctx context.Context, in *DescribeMe
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("universe:space:read") {
+	if ok && !token.Has("universe:space:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: universe:space:read")
 		return
 	}
@@ -953,12 +888,7 @@ func (i *UniverseInterceptor) IntrospectMember(ctx context.Context, in *Introspe
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("universe:space:read") {
+	if ok && !token.Has("universe:space:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: universe:space:read")
 		return
 	}
@@ -985,12 +915,7 @@ func (i *UniverseInterceptor) ListMembers(ctx context.Context, in *ListMembersIn
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("universe:space:read") {
+	if ok && !token.Has("universe:space:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: universe:space:read")
 		return
 	}

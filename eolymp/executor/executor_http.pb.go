@@ -243,12 +243,7 @@ func (i *ExecutorInterceptor) DescribeLanguage(ctx context.Context, in *Describe
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("executor:runtime:read") {
+	if ok && !token.Has("executor:runtime:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: executor:runtime:read")
 		return
 	}
@@ -275,12 +270,7 @@ func (i *ExecutorInterceptor) ListLanguages(ctx context.Context, in *ListLanguag
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("executor:runtime:read") {
+	if ok && !token.Has("executor:runtime:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: executor:runtime:read")
 		return
 	}
@@ -307,12 +297,7 @@ func (i *ExecutorInterceptor) DescribeRuntime(ctx context.Context, in *DescribeR
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("executor:runtime:read") {
+	if ok && !token.Has("executor:runtime:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: executor:runtime:read")
 		return
 	}
@@ -339,12 +324,7 @@ func (i *ExecutorInterceptor) ListRuntime(ctx context.Context, in *ListRuntimeIn
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("executor:runtime:read") {
+	if ok && !token.Has("executor:runtime:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: executor:runtime:read")
 		return
 	}
@@ -371,12 +351,7 @@ func (i *ExecutorInterceptor) DescribeCodeTemplate(ctx context.Context, in *Desc
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("executor:runtime:read") {
+	if ok && !token.Has("executor:runtime:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: executor:runtime:read")
 		return
 	}

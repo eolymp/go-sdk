@@ -180,12 +180,7 @@ func (i *PlaygroundInterceptor) CreateRun(ctx context.Context, in *CreateRunInpu
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("playground:run:write") {
+	if ok && !token.Has("playground:run:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: playground:run:write")
 		return
 	}
@@ -212,12 +207,7 @@ func (i *PlaygroundInterceptor) DescribeRun(ctx context.Context, in *DescribeRun
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("playground:run:read") {
+	if ok && !token.Has("playground:run:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: playground:run:read")
 		return
 	}

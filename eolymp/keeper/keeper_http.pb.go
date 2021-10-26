@@ -201,12 +201,7 @@ func (i *KeeperInterceptor) CreateObject(ctx context.Context, in *CreateObjectIn
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("keeper:object:write") {
+	if ok && !token.Has("keeper:object:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: keeper:object:write")
 		return
 	}
@@ -233,12 +228,7 @@ func (i *KeeperInterceptor) DescribeObject(ctx context.Context, in *DescribeObje
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("keeper:object:read") {
+	if ok && !token.Has("keeper:object:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: keeper:object:read")
 		return
 	}
@@ -265,12 +255,7 @@ func (i *KeeperInterceptor) DownloadObject(ctx context.Context, in *DownloadObje
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("keeper:object:read") {
+	if ok && !token.Has("keeper:object:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: keeper:object:read")
 		return
 	}

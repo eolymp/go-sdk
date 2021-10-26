@@ -172,6 +172,7 @@ func NewJudgeHandler(srv JudgeServer) http.Handler {
 	router.Handle("/eolymp.judge.Judge/DescribeScoreboard", _Judge_DescribeScoreboard(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.judge.Judge/DescribeDefaultScoreboard", _Judge_DescribeDefaultScoreboard(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.judge.Judge/ListScoreboards", _Judge_ListScoreboards(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.judge.Judge/DescribeScoreboardHeader", _Judge_DescribeScoreboardHeader(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.judge.Judge/DescribeScoreboardFooter", _Judge_DescribeScoreboardFooter(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.judge.Judge/DescribeScoreboardRow", _Judge_DescribeScoreboardRow(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.judge.Judge/DescribeDefaultScoreboardRow", _Judge_DescribeDefaultScoreboardRow(srv)).Methods(http.MethodPost)
@@ -1582,6 +1583,26 @@ func _Judge_ListScoreboards(srv JudgeServer) http.Handler {
 	})
 }
 
+func _Judge_DescribeScoreboardHeader(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeScoreboardHeaderInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.DescribeScoreboardHeader(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
 func _Judge_DescribeScoreboardFooter(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeScoreboardFooterInput{}
@@ -1755,12 +1776,7 @@ func (i *JudgeInterceptor) CreateContest(ctx context.Context, in *CreateContestI
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:write") {
+	if ok && !token.Has("judge:contest:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
 		return
 	}
@@ -1787,12 +1803,7 @@ func (i *JudgeInterceptor) DeleteContest(ctx context.Context, in *DeleteContestI
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:write") {
+	if ok && !token.Has("judge:contest:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
 		return
 	}
@@ -1819,12 +1830,7 @@ func (i *JudgeInterceptor) UpdateContest(ctx context.Context, in *UpdateContestI
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:write") {
+	if ok && !token.Has("judge:contest:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
 		return
 	}
@@ -1914,12 +1920,7 @@ func (i *JudgeInterceptor) OpenContest(ctx context.Context, in *OpenContestInput
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:write") {
+	if ok && !token.Has("judge:contest:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
 		return
 	}
@@ -1946,12 +1947,7 @@ func (i *JudgeInterceptor) CloseContest(ctx context.Context, in *CloseContestInp
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:write") {
+	if ok && !token.Has("judge:contest:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
 		return
 	}
@@ -1978,12 +1974,7 @@ func (i *JudgeInterceptor) ConfigureRegistrationForm(ctx context.Context, in *Co
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:write") {
+	if ok && !token.Has("judge:contest:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
 		return
 	}
@@ -2010,12 +2001,7 @@ func (i *JudgeInterceptor) DescribeRegistrationForm(ctx context.Context, in *Des
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:read") {
+	if ok && !token.Has("judge:contest:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
 		return
 	}
@@ -2042,12 +2028,7 @@ func (i *JudgeInterceptor) ConfigureRuntime(ctx context.Context, in *ConfigureRu
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:write") {
+	if ok && !token.Has("judge:contest:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
 		return
 	}
@@ -2074,12 +2055,7 @@ func (i *JudgeInterceptor) DescribeRuntime(ctx context.Context, in *DescribeRunt
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:read") {
+	if ok && !token.Has("judge:contest:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
 		return
 	}
@@ -2106,12 +2082,7 @@ func (i *JudgeInterceptor) ConfigureAppearance(ctx context.Context, in *Configur
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:write") {
+	if ok && !token.Has("judge:contest:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
 		return
 	}
@@ -2138,12 +2109,7 @@ func (i *JudgeInterceptor) DescribeAppearance(ctx context.Context, in *DescribeA
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:read") {
+	if ok && !token.Has("judge:contest:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
 		return
 	}
@@ -2170,12 +2136,7 @@ func (i *JudgeInterceptor) SubmitRegistration(ctx context.Context, in *SubmitReg
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:participate") {
+	if ok && !token.Has("judge:contest:participate") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:participate")
 		return
 	}
@@ -2202,12 +2163,7 @@ func (i *JudgeInterceptor) DescribeRegistration(ctx context.Context, in *Describ
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:read") {
+	if ok && !token.Has("judge:contest:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
 		return
 	}
@@ -2234,12 +2190,7 @@ func (i *JudgeInterceptor) ImportProblem(ctx context.Context, in *ImportProblemI
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:write") {
+	if ok && !token.Has("judge:contest:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
 		return
 	}
@@ -2266,12 +2217,7 @@ func (i *JudgeInterceptor) SyncProblem(ctx context.Context, in *SyncProblemInput
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:write") {
+	if ok && !token.Has("judge:contest:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
 		return
 	}
@@ -2298,12 +2244,7 @@ func (i *JudgeInterceptor) UpdateProblem(ctx context.Context, in *UpdateProblemI
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:write") {
+	if ok && !token.Has("judge:contest:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
 		return
 	}
@@ -2330,12 +2271,7 @@ func (i *JudgeInterceptor) ListProblems(ctx context.Context, in *ListProblemsInp
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:read") {
+	if ok && !token.Has("judge:contest:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
 		return
 	}
@@ -2362,12 +2298,7 @@ func (i *JudgeInterceptor) DescribeProblem(ctx context.Context, in *DescribeProb
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:read") {
+	if ok && !token.Has("judge:contest:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
 		return
 	}
@@ -2394,12 +2325,7 @@ func (i *JudgeInterceptor) DescribeCodeTemplate(ctx context.Context, in *Describ
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:read") {
+	if ok && !token.Has("judge:contest:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
 		return
 	}
@@ -2426,12 +2352,7 @@ func (i *JudgeInterceptor) ListStatements(ctx context.Context, in *ListStatement
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:read") {
+	if ok && !token.Has("judge:contest:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
 		return
 	}
@@ -2458,12 +2379,7 @@ func (i *JudgeInterceptor) ListAttachments(ctx context.Context, in *ListAttachme
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:read") {
+	if ok && !token.Has("judge:contest:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
 		return
 	}
@@ -2490,12 +2406,7 @@ func (i *JudgeInterceptor) ListExamples(ctx context.Context, in *ListExamplesInp
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("atlas:problem:read") {
+	if ok && !token.Has("atlas:problem:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:read")
 		return
 	}
@@ -2522,12 +2433,7 @@ func (i *JudgeInterceptor) DeleteProblem(ctx context.Context, in *DeleteProblemI
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:write") {
+	if ok && !token.Has("judge:contest:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
 		return
 	}
@@ -2554,12 +2460,7 @@ func (i *JudgeInterceptor) RetestProblem(ctx context.Context, in *RetestProblemI
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:write") {
+	if ok && !token.Has("judge:contest:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
 		return
 	}
@@ -2586,12 +2487,7 @@ func (i *JudgeInterceptor) AddParticipant(ctx context.Context, in *AddParticipan
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:write") {
+	if ok && !token.Has("judge:contest:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
 		return
 	}
@@ -2618,12 +2514,7 @@ func (i *JudgeInterceptor) EnableParticipant(ctx context.Context, in *EnablePart
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:write") {
+	if ok && !token.Has("judge:contest:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
 		return
 	}
@@ -2650,12 +2541,7 @@ func (i *JudgeInterceptor) DisableParticipant(ctx context.Context, in *DisablePa
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:write") {
+	if ok && !token.Has("judge:contest:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
 		return
 	}
@@ -2682,12 +2568,7 @@ func (i *JudgeInterceptor) UpdateParticipant(ctx context.Context, in *UpdatePart
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:write") {
+	if ok && !token.Has("judge:contest:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
 		return
 	}
@@ -2714,12 +2595,7 @@ func (i *JudgeInterceptor) RemoveParticipant(ctx context.Context, in *RemovePart
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:write") {
+	if ok && !token.Has("judge:contest:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
 		return
 	}
@@ -2746,12 +2622,7 @@ func (i *JudgeInterceptor) ListParticipants(ctx context.Context, in *ListPartici
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:read") {
+	if ok && !token.Has("judge:contest:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
 		return
 	}
@@ -2778,12 +2649,7 @@ func (i *JudgeInterceptor) DescribeParticipant(ctx context.Context, in *Describe
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:read") {
+	if ok && !token.Has("judge:contest:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
 		return
 	}
@@ -2810,12 +2676,7 @@ func (i *JudgeInterceptor) IntrospectParticipant(ctx context.Context, in *Intros
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:read") {
+	if ok && !token.Has("judge:contest:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
 		return
 	}
@@ -2863,12 +2724,7 @@ func (i *JudgeInterceptor) StartContest(ctx context.Context, in *StartContestInp
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:participate") {
+	if ok && !token.Has("judge:contest:participate") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:participate")
 		return
 	}
@@ -2895,12 +2751,7 @@ func (i *JudgeInterceptor) VerifyPasscode(ctx context.Context, in *VerifyPasscod
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:read") {
+	if ok && !token.Has("judge:contest:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
 		return
 	}
@@ -2927,12 +2778,7 @@ func (i *JudgeInterceptor) EnterPasscode(ctx context.Context, in *EnterPasscodeI
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:read") {
+	if ok && !token.Has("judge:contest:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
 		return
 	}
@@ -2959,12 +2805,7 @@ func (i *JudgeInterceptor) ResetPasscode(ctx context.Context, in *ResetPasscodeI
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:write") {
+	if ok && !token.Has("judge:contest:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
 		return
 	}
@@ -2991,12 +2832,7 @@ func (i *JudgeInterceptor) RemovePasscode(ctx context.Context, in *RemovePasscod
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:write") {
+	if ok && !token.Has("judge:contest:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
 		return
 	}
@@ -3023,12 +2859,7 @@ func (i *JudgeInterceptor) CreateSubmission(ctx context.Context, in *CreateSubmi
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:participate") {
+	if ok && !token.Has("judge:contest:participate") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:participate")
 		return
 	}
@@ -3055,12 +2886,7 @@ func (i *JudgeInterceptor) ListSubmissions(ctx context.Context, in *ListSubmissi
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:read") {
+	if ok && !token.Has("judge:contest:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
 		return
 	}
@@ -3087,12 +2913,7 @@ func (i *JudgeInterceptor) DescribeSubmission(ctx context.Context, in *DescribeS
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:read") {
+	if ok && !token.Has("judge:contest:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
 		return
 	}
@@ -3119,12 +2940,7 @@ func (i *JudgeInterceptor) RetestSubmission(ctx context.Context, in *RetestSubmi
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:write") {
+	if ok && !token.Has("judge:contest:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
 		return
 	}
@@ -3151,12 +2967,7 @@ func (i *JudgeInterceptor) CreateTicket(ctx context.Context, in *CreateTicketInp
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:participate") {
+	if ok && !token.Has("judge:contest:participate") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:participate")
 		return
 	}
@@ -3183,12 +2994,7 @@ func (i *JudgeInterceptor) CloseTicket(ctx context.Context, in *CloseTicketInput
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:write") {
+	if ok && !token.Has("judge:contest:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
 		return
 	}
@@ -3215,12 +3021,7 @@ func (i *JudgeInterceptor) OpenTicket(ctx context.Context, in *OpenTicketInput) 
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:write") {
+	if ok && !token.Has("judge:contest:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
 		return
 	}
@@ -3247,12 +3048,7 @@ func (i *JudgeInterceptor) ReadTicket(ctx context.Context, in *ReadTicketInput) 
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:read") {
+	if ok && !token.Has("judge:contest:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
 		return
 	}
@@ -3279,12 +3075,7 @@ func (i *JudgeInterceptor) DeleteTicket(ctx context.Context, in *DeleteTicketInp
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:write") {
+	if ok && !token.Has("judge:contest:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
 		return
 	}
@@ -3311,12 +3102,7 @@ func (i *JudgeInterceptor) DescribeTicket(ctx context.Context, in *DescribeTicke
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:read") {
+	if ok && !token.Has("judge:contest:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
 		return
 	}
@@ -3343,12 +3129,7 @@ func (i *JudgeInterceptor) ListTickets(ctx context.Context, in *ListTicketsInput
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:read") {
+	if ok && !token.Has("judge:contest:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
 		return
 	}
@@ -3375,12 +3156,7 @@ func (i *JudgeInterceptor) ReplyTicket(ctx context.Context, in *ReplyTicketInput
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:participate") {
+	if ok && !token.Has("judge:contest:participate") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:participate")
 		return
 	}
@@ -3407,12 +3183,7 @@ func (i *JudgeInterceptor) ListReplies(ctx context.Context, in *ListRepliesInput
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:read") {
+	if ok && !token.Has("judge:contest:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
 		return
 	}
@@ -3439,12 +3210,7 @@ func (i *JudgeInterceptor) DeleteReply(ctx context.Context, in *DeleteReplyInput
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:write") {
+	if ok && !token.Has("judge:contest:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
 		return
 	}
@@ -3471,12 +3237,7 @@ func (i *JudgeInterceptor) UpdateReply(ctx context.Context, in *UpdateReplyInput
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:write") {
+	if ok && !token.Has("judge:contest:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
 		return
 	}
@@ -3503,12 +3264,7 @@ func (i *JudgeInterceptor) CreateAnnouncement(ctx context.Context, in *CreateAnn
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:write") {
+	if ok && !token.Has("judge:contest:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
 		return
 	}
@@ -3535,12 +3291,7 @@ func (i *JudgeInterceptor) UpdateAnnouncement(ctx context.Context, in *UpdateAnn
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:write") {
+	if ok && !token.Has("judge:contest:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
 		return
 	}
@@ -3567,12 +3318,7 @@ func (i *JudgeInterceptor) DeleteAnnouncement(ctx context.Context, in *DeleteAnn
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:write") {
+	if ok && !token.Has("judge:contest:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
 		return
 	}
@@ -3599,12 +3345,7 @@ func (i *JudgeInterceptor) ReadAnnouncement(ctx context.Context, in *ReadAnnounc
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:read") {
+	if ok && !token.Has("judge:contest:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
 		return
 	}
@@ -3631,12 +3372,7 @@ func (i *JudgeInterceptor) DescribeAnnouncement(ctx context.Context, in *Describ
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:read") {
+	if ok && !token.Has("judge:contest:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
 		return
 	}
@@ -3663,12 +3399,7 @@ func (i *JudgeInterceptor) DescribeAnnouncementStatus(ctx context.Context, in *D
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:read") {
+	if ok && !token.Has("judge:contest:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
 		return
 	}
@@ -3695,12 +3426,7 @@ func (i *JudgeInterceptor) ListAnnouncements(ctx context.Context, in *ListAnnoun
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:read") {
+	if ok && !token.Has("judge:contest:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
 		return
 	}
@@ -3727,12 +3453,7 @@ func (i *JudgeInterceptor) CreateScoreboard(ctx context.Context, in *CreateScore
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:write") {
+	if ok && !token.Has("judge:contest:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
 		return
 	}
@@ -3759,12 +3480,7 @@ func (i *JudgeInterceptor) UpdateScoreboard(ctx context.Context, in *UpdateScore
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:write") {
+	if ok && !token.Has("judge:contest:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
 		return
 	}
@@ -3791,12 +3507,7 @@ func (i *JudgeInterceptor) RebuildScoreboard(ctx context.Context, in *RebuildSco
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:write") {
+	if ok && !token.Has("judge:contest:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
 		return
 	}
@@ -3823,12 +3534,7 @@ func (i *JudgeInterceptor) DeleteScoreboard(ctx context.Context, in *DeleteScore
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:write") {
+	if ok && !token.Has("judge:contest:write") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
 		return
 	}
@@ -3855,12 +3561,7 @@ func (i *JudgeInterceptor) DescribeScoreboard(ctx context.Context, in *DescribeS
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:read") {
+	if ok && !token.Has("judge:contest:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
 		return
 	}
@@ -3887,12 +3588,7 @@ func (i *JudgeInterceptor) DescribeDefaultScoreboard(ctx context.Context, in *De
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:read") {
+	if ok && !token.Has("judge:contest:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
 		return
 	}
@@ -3919,12 +3615,7 @@ func (i *JudgeInterceptor) ListScoreboards(ctx context.Context, in *ListScoreboa
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:read") {
+	if ok && !token.Has("judge:contest:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
 		return
 	}
@@ -3935,6 +3626,33 @@ func (i *JudgeInterceptor) ListScoreboards(ctx context.Context, in *ListScoreboa
 	}
 
 	out, err = i.server.ListScoreboards(ctx, in)
+	return
+}
+
+func (i *JudgeInterceptor) DescribeScoreboardHeader(ctx context.Context, in *DescribeScoreboardHeaderInput) (out *DescribeScoreboardHeaderOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/DescribeScoreboardHeader", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if ok && !token.Has("judge:contest:read") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/DescribeScoreboardHeader", 10, 20) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.DescribeScoreboardHeader(ctx, in)
 	return
 }
 
@@ -3951,12 +3669,7 @@ func (i *JudgeInterceptor) DescribeScoreboardFooter(ctx context.Context, in *Des
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:read") {
+	if ok && !token.Has("judge:contest:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
 		return
 	}
@@ -3983,12 +3696,7 @@ func (i *JudgeInterceptor) DescribeScoreboardRow(ctx context.Context, in *Descri
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:read") {
+	if ok && !token.Has("judge:contest:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
 		return
 	}
@@ -4015,12 +3723,7 @@ func (i *JudgeInterceptor) DescribeDefaultScoreboardRow(ctx context.Context, in 
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:read") {
+	if ok && !token.Has("judge:contest:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
 		return
 	}
@@ -4047,12 +3750,7 @@ func (i *JudgeInterceptor) ListScoreboardRows(ctx context.Context, in *ListScore
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:read") {
+	if ok && !token.Has("judge:contest:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
 		return
 	}
@@ -4079,12 +3777,7 @@ func (i *JudgeInterceptor) ListDefaultScoreboardRows(ctx context.Context, in *Li
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:read") {
+	if ok && !token.Has("judge:contest:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
 		return
 	}
@@ -4132,12 +3825,7 @@ func (i *JudgeInterceptor) ListActivities(ctx context.Context, in *ListActivitie
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if !ok {
-		err = status.Error(codes.Unauthenticated, "unauthenticated")
-		return
-	}
-
-	if !token.Has("judge:contest:read") {
+	if ok && !token.Has("judge:contest:read") {
 		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
 		return
 	}

@@ -33,11 +33,14 @@ type RankerClient interface {
 	// List scoreboards of a contest
 	ListScoreboards(ctx context.Context, in *ListScoreboardsInput, opts ...grpc.CallOption) (*ListScoreboardsOutput, error)
 	// List scoreboards of a contest
+	DescribeScoreboardRow(ctx context.Context, in *DescribeScoreboardRowInput, opts ...grpc.CallOption) (*DescribeScoreboardRowOutput, error)
+	// List scoreboards of a contest
 	ListScoreboardRows(ctx context.Context, in *ListScoreboardRowsInput, opts ...grpc.CallOption) (*ListScoreboardRowsOutput, error)
-	// Assign contest to a scoreboard
-	AssignContest(ctx context.Context, in *AssignContestInput, opts ...grpc.CallOption) (*AssignContestOutput, error)
-	// Unassign contest to a scoreboard
-	UnassignContest(ctx context.Context, in *UnassignContestInput, opts ...grpc.CallOption) (*UnassignContestOutput, error)
+	AddScoreboardColumn(ctx context.Context, in *AddScoreboardColumnInput, opts ...grpc.CallOption) (*AddScoreboardColumnOutput, error)
+	DeleteScoreboardColumn(ctx context.Context, in *DeleteScoreboardColumnInput, opts ...grpc.CallOption) (*DeleteScoreboardColumnOutput, error)
+	DescribeScoreboardColumn(ctx context.Context, in *DescribeScoreboardColumnInput, opts ...grpc.CallOption) (*DescribeScoreboardColumnOutput, error)
+	// List scoreboards of a contest
+	ListScoreboardColumns(ctx context.Context, in *ListScoreboardColumnsInput, opts ...grpc.CallOption) (*ListScoreboardColumnsOutput, error)
 }
 
 type rankerClient struct {
@@ -111,6 +114,15 @@ func (c *rankerClient) ListScoreboards(ctx context.Context, in *ListScoreboardsI
 	return out, nil
 }
 
+func (c *rankerClient) DescribeScoreboardRow(ctx context.Context, in *DescribeScoreboardRowInput, opts ...grpc.CallOption) (*DescribeScoreboardRowOutput, error) {
+	out := new(DescribeScoreboardRowOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.ranker.Ranker/DescribeScoreboardRow", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *rankerClient) ListScoreboardRows(ctx context.Context, in *ListScoreboardRowsInput, opts ...grpc.CallOption) (*ListScoreboardRowsOutput, error) {
 	out := new(ListScoreboardRowsOutput)
 	err := c.cc.Invoke(ctx, "/eolymp.ranker.Ranker/ListScoreboardRows", in, out, opts...)
@@ -120,18 +132,36 @@ func (c *rankerClient) ListScoreboardRows(ctx context.Context, in *ListScoreboar
 	return out, nil
 }
 
-func (c *rankerClient) AssignContest(ctx context.Context, in *AssignContestInput, opts ...grpc.CallOption) (*AssignContestOutput, error) {
-	out := new(AssignContestOutput)
-	err := c.cc.Invoke(ctx, "/eolymp.ranker.Ranker/AssignContest", in, out, opts...)
+func (c *rankerClient) AddScoreboardColumn(ctx context.Context, in *AddScoreboardColumnInput, opts ...grpc.CallOption) (*AddScoreboardColumnOutput, error) {
+	out := new(AddScoreboardColumnOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.ranker.Ranker/AddScoreboardColumn", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *rankerClient) UnassignContest(ctx context.Context, in *UnassignContestInput, opts ...grpc.CallOption) (*UnassignContestOutput, error) {
-	out := new(UnassignContestOutput)
-	err := c.cc.Invoke(ctx, "/eolymp.ranker.Ranker/UnassignContest", in, out, opts...)
+func (c *rankerClient) DeleteScoreboardColumn(ctx context.Context, in *DeleteScoreboardColumnInput, opts ...grpc.CallOption) (*DeleteScoreboardColumnOutput, error) {
+	out := new(DeleteScoreboardColumnOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.ranker.Ranker/DeleteScoreboardColumn", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *rankerClient) DescribeScoreboardColumn(ctx context.Context, in *DescribeScoreboardColumnInput, opts ...grpc.CallOption) (*DescribeScoreboardColumnOutput, error) {
+	out := new(DescribeScoreboardColumnOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.ranker.Ranker/DescribeScoreboardColumn", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *rankerClient) ListScoreboardColumns(ctx context.Context, in *ListScoreboardColumnsInput, opts ...grpc.CallOption) (*ListScoreboardColumnsOutput, error) {
+	out := new(ListScoreboardColumnsOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.ranker.Ranker/ListScoreboardColumns", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -157,11 +187,14 @@ type RankerServer interface {
 	// List scoreboards of a contest
 	ListScoreboards(context.Context, *ListScoreboardsInput) (*ListScoreboardsOutput, error)
 	// List scoreboards of a contest
+	DescribeScoreboardRow(context.Context, *DescribeScoreboardRowInput) (*DescribeScoreboardRowOutput, error)
+	// List scoreboards of a contest
 	ListScoreboardRows(context.Context, *ListScoreboardRowsInput) (*ListScoreboardRowsOutput, error)
-	// Assign contest to a scoreboard
-	AssignContest(context.Context, *AssignContestInput) (*AssignContestOutput, error)
-	// Unassign contest to a scoreboard
-	UnassignContest(context.Context, *UnassignContestInput) (*UnassignContestOutput, error)
+	AddScoreboardColumn(context.Context, *AddScoreboardColumnInput) (*AddScoreboardColumnOutput, error)
+	DeleteScoreboardColumn(context.Context, *DeleteScoreboardColumnInput) (*DeleteScoreboardColumnOutput, error)
+	DescribeScoreboardColumn(context.Context, *DescribeScoreboardColumnInput) (*DescribeScoreboardColumnOutput, error)
+	// List scoreboards of a contest
+	ListScoreboardColumns(context.Context, *ListScoreboardColumnsInput) (*ListScoreboardColumnsOutput, error)
 	mustEmbedUnimplementedRankerServer()
 }
 
@@ -190,14 +223,23 @@ func (UnimplementedRankerServer) DescribeScoreboard(context.Context, *DescribeSc
 func (UnimplementedRankerServer) ListScoreboards(context.Context, *ListScoreboardsInput) (*ListScoreboardsOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListScoreboards not implemented")
 }
+func (UnimplementedRankerServer) DescribeScoreboardRow(context.Context, *DescribeScoreboardRowInput) (*DescribeScoreboardRowOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeScoreboardRow not implemented")
+}
 func (UnimplementedRankerServer) ListScoreboardRows(context.Context, *ListScoreboardRowsInput) (*ListScoreboardRowsOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListScoreboardRows not implemented")
 }
-func (UnimplementedRankerServer) AssignContest(context.Context, *AssignContestInput) (*AssignContestOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AssignContest not implemented")
+func (UnimplementedRankerServer) AddScoreboardColumn(context.Context, *AddScoreboardColumnInput) (*AddScoreboardColumnOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddScoreboardColumn not implemented")
 }
-func (UnimplementedRankerServer) UnassignContest(context.Context, *UnassignContestInput) (*UnassignContestOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UnassignContest not implemented")
+func (UnimplementedRankerServer) DeleteScoreboardColumn(context.Context, *DeleteScoreboardColumnInput) (*DeleteScoreboardColumnOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteScoreboardColumn not implemented")
+}
+func (UnimplementedRankerServer) DescribeScoreboardColumn(context.Context, *DescribeScoreboardColumnInput) (*DescribeScoreboardColumnOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeScoreboardColumn not implemented")
+}
+func (UnimplementedRankerServer) ListScoreboardColumns(context.Context, *ListScoreboardColumnsInput) (*ListScoreboardColumnsOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListScoreboardColumns not implemented")
 }
 func (UnimplementedRankerServer) mustEmbedUnimplementedRankerServer() {}
 
@@ -338,6 +380,24 @@ func _Ranker_ListScoreboards_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Ranker_DescribeScoreboardRow_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeScoreboardRowInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RankerServer).DescribeScoreboardRow(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.ranker.Ranker/DescribeScoreboardRow",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RankerServer).DescribeScoreboardRow(ctx, req.(*DescribeScoreboardRowInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Ranker_ListScoreboardRows_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListScoreboardRowsInput)
 	if err := dec(in); err != nil {
@@ -356,38 +416,74 @@ func _Ranker_ListScoreboardRows_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Ranker_AssignContest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AssignContestInput)
+func _Ranker_AddScoreboardColumn_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddScoreboardColumnInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(RankerServer).AssignContest(ctx, in)
+		return srv.(RankerServer).AddScoreboardColumn(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/eolymp.ranker.Ranker/AssignContest",
+		FullMethod: "/eolymp.ranker.Ranker/AddScoreboardColumn",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RankerServer).AssignContest(ctx, req.(*AssignContestInput))
+		return srv.(RankerServer).AddScoreboardColumn(ctx, req.(*AddScoreboardColumnInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Ranker_UnassignContest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UnassignContestInput)
+func _Ranker_DeleteScoreboardColumn_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteScoreboardColumnInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(RankerServer).UnassignContest(ctx, in)
+		return srv.(RankerServer).DeleteScoreboardColumn(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/eolymp.ranker.Ranker/UnassignContest",
+		FullMethod: "/eolymp.ranker.Ranker/DeleteScoreboardColumn",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RankerServer).UnassignContest(ctx, req.(*UnassignContestInput))
+		return srv.(RankerServer).DeleteScoreboardColumn(ctx, req.(*DeleteScoreboardColumnInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Ranker_DescribeScoreboardColumn_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeScoreboardColumnInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RankerServer).DescribeScoreboardColumn(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.ranker.Ranker/DescribeScoreboardColumn",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RankerServer).DescribeScoreboardColumn(ctx, req.(*DescribeScoreboardColumnInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Ranker_ListScoreboardColumns_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListScoreboardColumnsInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RankerServer).ListScoreboardColumns(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.ranker.Ranker/ListScoreboardColumns",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RankerServer).ListScoreboardColumns(ctx, req.(*ListScoreboardColumnsInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -428,16 +524,28 @@ var Ranker_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Ranker_ListScoreboards_Handler,
 		},
 		{
+			MethodName: "DescribeScoreboardRow",
+			Handler:    _Ranker_DescribeScoreboardRow_Handler,
+		},
+		{
 			MethodName: "ListScoreboardRows",
 			Handler:    _Ranker_ListScoreboardRows_Handler,
 		},
 		{
-			MethodName: "AssignContest",
-			Handler:    _Ranker_AssignContest_Handler,
+			MethodName: "AddScoreboardColumn",
+			Handler:    _Ranker_AddScoreboardColumn_Handler,
 		},
 		{
-			MethodName: "UnassignContest",
-			Handler:    _Ranker_UnassignContest_Handler,
+			MethodName: "DeleteScoreboardColumn",
+			Handler:    _Ranker_DeleteScoreboardColumn_Handler,
+		},
+		{
+			MethodName: "DescribeScoreboardColumn",
+			Handler:    _Ranker_DescribeScoreboardColumn_Handler,
+		},
+		{
+			MethodName: "ListScoreboardColumns",
+			Handler:    _Ranker_ListScoreboardColumns_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

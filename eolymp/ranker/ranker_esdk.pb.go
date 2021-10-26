@@ -146,6 +146,16 @@ func (s *RankerService) ListScoreboards(ctx context.Context, in *ListScoreboards
 	return out, nil
 }
 
+func (s *RankerService) DescribeScoreboardRow(ctx context.Context, in *DescribeScoreboardRowInput) (*DescribeScoreboardRowOutput, error) {
+	out := &DescribeScoreboardRowOutput{}
+
+	if err := s.invoke(ctx, "eolymp.ranker.Ranker/DescribeScoreboardRow", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *RankerService) ListScoreboardRows(ctx context.Context, in *ListScoreboardRowsInput) (*ListScoreboardRowsOutput, error) {
 	out := &ListScoreboardRowsOutput{}
 
@@ -156,20 +166,40 @@ func (s *RankerService) ListScoreboardRows(ctx context.Context, in *ListScoreboa
 	return out, nil
 }
 
-func (s *RankerService) AssignContest(ctx context.Context, in *AssignContestInput) (*AssignContestOutput, error) {
-	out := &AssignContestOutput{}
+func (s *RankerService) AddScoreboardColumn(ctx context.Context, in *AddScoreboardColumnInput) (*AddScoreboardColumnOutput, error) {
+	out := &AddScoreboardColumnOutput{}
 
-	if err := s.invoke(ctx, "eolymp.ranker.Ranker/AssignContest", in, out); err != nil {
+	if err := s.invoke(ctx, "eolymp.ranker.Ranker/AddScoreboardColumn", in, out); err != nil {
 		return nil, err
 	}
 
 	return out, nil
 }
 
-func (s *RankerService) UnassignContest(ctx context.Context, in *UnassignContestInput) (*UnassignContestOutput, error) {
-	out := &UnassignContestOutput{}
+func (s *RankerService) DeleteScoreboardColumn(ctx context.Context, in *DeleteScoreboardColumnInput) (*DeleteScoreboardColumnOutput, error) {
+	out := &DeleteScoreboardColumnOutput{}
 
-	if err := s.invoke(ctx, "eolymp.ranker.Ranker/UnassignContest", in, out); err != nil {
+	if err := s.invoke(ctx, "eolymp.ranker.Ranker/DeleteScoreboardColumn", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *RankerService) DescribeScoreboardColumn(ctx context.Context, in *DescribeScoreboardColumnInput) (*DescribeScoreboardColumnOutput, error) {
+	out := &DescribeScoreboardColumnOutput{}
+
+	if err := s.invoke(ctx, "eolymp.ranker.Ranker/DescribeScoreboardColumn", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *RankerService) ListScoreboardColumns(ctx context.Context, in *ListScoreboardColumnsInput) (*ListScoreboardColumnsOutput, error) {
+	out := &ListScoreboardColumnsOutput{}
+
+	if err := s.invoke(ctx, "eolymp.ranker.Ranker/ListScoreboardColumns", in, out); err != nil {
 		return nil, err
 	}
 
