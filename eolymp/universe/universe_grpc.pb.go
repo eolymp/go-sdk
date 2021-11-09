@@ -40,18 +40,6 @@ type UniverseClient interface {
 	IntrospectPermission(ctx context.Context, in *IntrospectPermissionInput, opts ...grpc.CallOption) (*IntrospectPermissionOutput, error)
 	// List permissions in a space
 	ListPermissions(ctx context.Context, in *ListPermissionsInput, opts ...grpc.CallOption) (*ListPermissionsOutput, error)
-	// Add space member
-	AddMember(ctx context.Context, in *AddMemberInput, opts ...grpc.CallOption) (*AddMemberOutput, error)
-	// Update space member's details
-	UpdateMember(ctx context.Context, in *UpdateMemberInput, opts ...grpc.CallOption) (*UpdateMemberOutput, error)
-	// Delete space member
-	RemoveMember(ctx context.Context, in *RemoveMemberInput, opts ...grpc.CallOption) (*RemoveMemberOutput, error)
-	// Describe space member
-	DescribeMember(ctx context.Context, in *DescribeMemberInput, opts ...grpc.CallOption) (*DescribeMemberOutput, error)
-	// Describe space member
-	IntrospectMember(ctx context.Context, in *IntrospectMemberInput, opts ...grpc.CallOption) (*IntrospectMemberOutput, error)
-	// List members in a space
-	ListMembers(ctx context.Context, in *ListMembersInput, opts ...grpc.CallOption) (*ListMembersOutput, error)
 }
 
 type universeClient struct {
@@ -161,60 +149,6 @@ func (c *universeClient) ListPermissions(ctx context.Context, in *ListPermission
 	return out, nil
 }
 
-func (c *universeClient) AddMember(ctx context.Context, in *AddMemberInput, opts ...grpc.CallOption) (*AddMemberOutput, error) {
-	out := new(AddMemberOutput)
-	err := c.cc.Invoke(ctx, "/eolymp.universe.Universe/AddMember", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *universeClient) UpdateMember(ctx context.Context, in *UpdateMemberInput, opts ...grpc.CallOption) (*UpdateMemberOutput, error) {
-	out := new(UpdateMemberOutput)
-	err := c.cc.Invoke(ctx, "/eolymp.universe.Universe/UpdateMember", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *universeClient) RemoveMember(ctx context.Context, in *RemoveMemberInput, opts ...grpc.CallOption) (*RemoveMemberOutput, error) {
-	out := new(RemoveMemberOutput)
-	err := c.cc.Invoke(ctx, "/eolymp.universe.Universe/RemoveMember", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *universeClient) DescribeMember(ctx context.Context, in *DescribeMemberInput, opts ...grpc.CallOption) (*DescribeMemberOutput, error) {
-	out := new(DescribeMemberOutput)
-	err := c.cc.Invoke(ctx, "/eolymp.universe.Universe/DescribeMember", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *universeClient) IntrospectMember(ctx context.Context, in *IntrospectMemberInput, opts ...grpc.CallOption) (*IntrospectMemberOutput, error) {
-	out := new(IntrospectMemberOutput)
-	err := c.cc.Invoke(ctx, "/eolymp.universe.Universe/IntrospectMember", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *universeClient) ListMembers(ctx context.Context, in *ListMembersInput, opts ...grpc.CallOption) (*ListMembersOutput, error) {
-	out := new(ListMembersOutput)
-	err := c.cc.Invoke(ctx, "/eolymp.universe.Universe/ListMembers", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // UniverseServer is the server API for Universe service.
 // All implementations must embed UnimplementedUniverseServer
 // for forward compatibility
@@ -241,18 +175,6 @@ type UniverseServer interface {
 	IntrospectPermission(context.Context, *IntrospectPermissionInput) (*IntrospectPermissionOutput, error)
 	// List permissions in a space
 	ListPermissions(context.Context, *ListPermissionsInput) (*ListPermissionsOutput, error)
-	// Add space member
-	AddMember(context.Context, *AddMemberInput) (*AddMemberOutput, error)
-	// Update space member's details
-	UpdateMember(context.Context, *UpdateMemberInput) (*UpdateMemberOutput, error)
-	// Delete space member
-	RemoveMember(context.Context, *RemoveMemberInput) (*RemoveMemberOutput, error)
-	// Describe space member
-	DescribeMember(context.Context, *DescribeMemberInput) (*DescribeMemberOutput, error)
-	// Describe space member
-	IntrospectMember(context.Context, *IntrospectMemberInput) (*IntrospectMemberOutput, error)
-	// List members in a space
-	ListMembers(context.Context, *ListMembersInput) (*ListMembersOutput, error)
 	mustEmbedUnimplementedUniverseServer()
 }
 
@@ -292,24 +214,6 @@ func (UnimplementedUniverseServer) IntrospectPermission(context.Context, *Intros
 }
 func (UnimplementedUniverseServer) ListPermissions(context.Context, *ListPermissionsInput) (*ListPermissionsOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListPermissions not implemented")
-}
-func (UnimplementedUniverseServer) AddMember(context.Context, *AddMemberInput) (*AddMemberOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AddMember not implemented")
-}
-func (UnimplementedUniverseServer) UpdateMember(context.Context, *UpdateMemberInput) (*UpdateMemberOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateMember not implemented")
-}
-func (UnimplementedUniverseServer) RemoveMember(context.Context, *RemoveMemberInput) (*RemoveMemberOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method RemoveMember not implemented")
-}
-func (UnimplementedUniverseServer) DescribeMember(context.Context, *DescribeMemberInput) (*DescribeMemberOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DescribeMember not implemented")
-}
-func (UnimplementedUniverseServer) IntrospectMember(context.Context, *IntrospectMemberInput) (*IntrospectMemberOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method IntrospectMember not implemented")
-}
-func (UnimplementedUniverseServer) ListMembers(context.Context, *ListMembersInput) (*ListMembersOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListMembers not implemented")
 }
 func (UnimplementedUniverseServer) mustEmbedUnimplementedUniverseServer() {}
 
@@ -522,114 +426,6 @@ func _Universe_ListPermissions_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Universe_AddMember_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AddMemberInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UniverseServer).AddMember(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/eolymp.universe.Universe/AddMember",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UniverseServer).AddMember(ctx, req.(*AddMemberInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Universe_UpdateMember_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateMemberInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UniverseServer).UpdateMember(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/eolymp.universe.Universe/UpdateMember",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UniverseServer).UpdateMember(ctx, req.(*UpdateMemberInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Universe_RemoveMember_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RemoveMemberInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UniverseServer).RemoveMember(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/eolymp.universe.Universe/RemoveMember",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UniverseServer).RemoveMember(ctx, req.(*RemoveMemberInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Universe_DescribeMember_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DescribeMemberInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UniverseServer).DescribeMember(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/eolymp.universe.Universe/DescribeMember",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UniverseServer).DescribeMember(ctx, req.(*DescribeMemberInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Universe_IntrospectMember_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(IntrospectMemberInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UniverseServer).IntrospectMember(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/eolymp.universe.Universe/IntrospectMember",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UniverseServer).IntrospectMember(ctx, req.(*IntrospectMemberInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Universe_ListMembers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListMembersInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UniverseServer).ListMembers(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/eolymp.universe.Universe/ListMembers",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UniverseServer).ListMembers(ctx, req.(*ListMembersInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // Universe_ServiceDesc is the grpc.ServiceDesc for Universe service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -680,30 +476,6 @@ var Universe_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListPermissions",
 			Handler:    _Universe_ListPermissions_Handler,
-		},
-		{
-			MethodName: "AddMember",
-			Handler:    _Universe_AddMember_Handler,
-		},
-		{
-			MethodName: "UpdateMember",
-			Handler:    _Universe_UpdateMember_Handler,
-		},
-		{
-			MethodName: "RemoveMember",
-			Handler:    _Universe_RemoveMember_Handler,
-		},
-		{
-			MethodName: "DescribeMember",
-			Handler:    _Universe_DescribeMember_Handler,
-		},
-		{
-			MethodName: "IntrospectMember",
-			Handler:    _Universe_IntrospectMember_Handler,
-		},
-		{
-			MethodName: "ListMembers",
-			Handler:    _Universe_ListMembers_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

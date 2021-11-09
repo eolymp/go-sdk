@@ -752,7 +752,7 @@ func (i *CognitoInterceptor) DescribeUser(ctx context.Context, in *DescribeUserI
 		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.cognito.Cognito/DescribeUser", 15, 100) {
+	if !i.limiter.Allow(ctx, "eolymp.cognito.Cognito/DescribeUser", 200, 500) {
 		err = status.Error(codes.ResourceExhausted, "too many requests")
 		return
 	}

@@ -106,7 +106,6 @@ func NewRankerHandler(srv RankerServer) http.Handler {
 	router.Handle("/eolymp.ranker.Ranker/UpdateScoreboard", _Ranker_UpdateScoreboard(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.ranker.Ranker/RebuildScoreboard", _Ranker_RebuildScoreboard(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.ranker.Ranker/DeleteScoreboard", _Ranker_DeleteScoreboard(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.ranker.Ranker/LookupScoreboard", _Ranker_LookupScoreboard(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.ranker.Ranker/DescribeScoreboard", _Ranker_DescribeScoreboard(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.ranker.Ranker/ListScoreboards", _Ranker_ListScoreboards(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.ranker.Ranker/DescribeScoreboardRow", _Ranker_DescribeScoreboardRow(srv)).Methods(http.MethodPost)
@@ -115,6 +114,7 @@ func NewRankerHandler(srv RankerServer) http.Handler {
 	router.Handle("/eolymp.ranker.Ranker/DeleteScoreboardColumn", _Ranker_DeleteScoreboardColumn(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.ranker.Ranker/DescribeScoreboardColumn", _Ranker_DescribeScoreboardColumn(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.ranker.Ranker/ListScoreboardColumns", _Ranker_ListScoreboardColumns(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.ranker.Ranker/ListActivities", _Ranker_ListActivities(srv)).Methods(http.MethodPost)
 	return router
 }
 
@@ -189,26 +189,6 @@ func _Ranker_DeleteScoreboard(srv RankerServer) http.Handler {
 		}
 
 		out, err := srv.DeleteScoreboard(r.Context(), in)
-		if err != nil {
-			_Ranker_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Ranker_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Ranker_LookupScoreboard(srv RankerServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &LookupScoreboardInput{}
-
-		if err := _Ranker_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Ranker_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.LookupScoreboard(r.Context(), in)
 		if err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
@@ -378,6 +358,26 @@ func _Ranker_ListScoreboardColumns(srv RankerServer) http.Handler {
 	})
 }
 
+func _Ranker_ListActivities(srv RankerServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListActivitiesInput{}
+
+		if err := _Ranker_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Ranker_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.ListActivities(r.Context(), in)
+		if err != nil {
+			_Ranker_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Ranker_HTTPWriteResponse(w, out)
+	})
+}
+
 var promRankerRequestLatency = promauto.NewHistogramVec(prometheus.HistogramOpts{
 	Name:    "ranker_request_latency",
 	Help:    "Ranker request latency",
@@ -503,33 +503,6 @@ func (i *RankerInterceptor) DeleteScoreboard(ctx context.Context, in *DeleteScor
 	}
 
 	out, err = i.server.DeleteScoreboard(ctx, in)
-	return
-}
-
-func (i *RankerInterceptor) LookupScoreboard(ctx context.Context, in *LookupScoreboardInput) (out *LookupScoreboardOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
-		}
-
-		promRankerRequestLatency.WithLabelValues("eolymp.ranker.Ranker/LookupScoreboard", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("ranker:scoreboard:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: ranker:scoreboard:read")
-		return
-	}
-
-	if !i.limiter.Allow(ctx, "eolymp.ranker.Ranker/LookupScoreboard", 10, 100) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.LookupScoreboard(ctx, in)
 	return
 }
 
@@ -746,5 +719,32 @@ func (i *RankerInterceptor) ListScoreboardColumns(ctx context.Context, in *ListS
 	}
 
 	out, err = i.server.ListScoreboardColumns(ctx, in)
+	return
+}
+
+func (i *RankerInterceptor) ListActivities(ctx context.Context, in *ListActivitiesInput) (out *ListActivitiesOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promRankerRequestLatency.WithLabelValues("eolymp.ranker.Ranker/ListActivities", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if ok && !token.Has("judge:contest:read") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.ranker.Ranker/ListActivities", 5, 20) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.ListActivities(ctx, in)
 	return
 }

@@ -116,16 +116,6 @@ func (s *RankerService) DeleteScoreboard(ctx context.Context, in *DeleteScoreboa
 	return out, nil
 }
 
-func (s *RankerService) LookupScoreboard(ctx context.Context, in *LookupScoreboardInput) (*LookupScoreboardOutput, error) {
-	out := &LookupScoreboardOutput{}
-
-	if err := s.invoke(ctx, "eolymp.ranker.Ranker/LookupScoreboard", in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
 func (s *RankerService) DescribeScoreboard(ctx context.Context, in *DescribeScoreboardInput) (*DescribeScoreboardOutput, error) {
 	out := &DescribeScoreboardOutput{}
 
@@ -200,6 +190,16 @@ func (s *RankerService) ListScoreboardColumns(ctx context.Context, in *ListScore
 	out := &ListScoreboardColumnsOutput{}
 
 	if err := s.invoke(ctx, "eolymp.ranker.Ranker/ListScoreboardColumns", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *RankerService) ListActivities(ctx context.Context, in *ListActivitiesInput) (*ListActivitiesOutput, error) {
+	out := &ListActivitiesOutput{}
+
+	if err := s.invoke(ctx, "eolymp.ranker.Ranker/ListActivities", in, out); err != nil {
 		return nil, err
 	}
 
