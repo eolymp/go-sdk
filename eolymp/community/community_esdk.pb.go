@@ -76,6 +76,26 @@ func (s *CommunityService) invoke(ctx context.Context, method string, in, out pr
 	return nil
 }
 
+func (s *CommunityService) JoinSpace(ctx context.Context, in *JoinSpaceInput) (*JoinSpaceOutput, error) {
+	out := &JoinSpaceOutput{}
+
+	if err := s.invoke(ctx, "eolymp.community.Community/JoinSpace", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *CommunityService) LeaveSpace(ctx context.Context, in *LeaveSpaceInput) (*LeaveSpaceOutput, error) {
+	out := &LeaveSpaceOutput{}
+
+	if err := s.invoke(ctx, "eolymp.community.Community/LeaveSpace", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *CommunityService) AddMember(ctx context.Context, in *AddMemberInput) (*AddMemberOutput, error) {
 	out := &AddMemberOutput{}
 

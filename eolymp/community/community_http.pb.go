@@ -102,6 +102,8 @@ func _Community_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 // NewCommunityHandler constructs new http.Handler for CommunityServer
 func NewCommunityHandler(srv CommunityServer) http.Handler {
 	router := mux.NewRouter()
+	router.Handle("/eolymp.community.Community/JoinSpace", _Community_JoinSpace(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.community.Community/LeaveSpace", _Community_LeaveSpace(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.community.Community/AddMember", _Community_AddMember(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.community.Community/UpdateMember", _Community_UpdateMember(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.community.Community/RemoveMember", _Community_RemoveMember(srv)).Methods(http.MethodPost)
@@ -114,6 +116,46 @@ func NewCommunityHandler(srv CommunityServer) http.Handler {
 	router.Handle("/eolymp.community.Community/DescribeAttribute", _Community_DescribeAttribute(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.community.Community/ListAttributes", _Community_ListAttributes(srv)).Methods(http.MethodPost)
 	return router
+}
+
+func _Community_JoinSpace(srv CommunityServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &JoinSpaceInput{}
+
+		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Community_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.JoinSpace(r.Context(), in)
+		if err != nil {
+			_Community_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Community_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Community_LeaveSpace(srv CommunityServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &LeaveSpaceInput{}
+
+		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Community_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.LeaveSpace(r.Context(), in)
+		if err != nil {
+			_Community_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Community_HTTPWriteResponse(w, out)
+	})
 }
 
 func _Community_AddMember(srv CommunityServer) http.Handler {
@@ -354,6 +396,60 @@ type CommunityInterceptor struct {
 // NewCommunityInterceptor constructs additional middleware for a server based on annotations in proto files
 func NewCommunityInterceptor(srv CommunityServer, lim _CommunityLimiter) *CommunityInterceptor {
 	return &CommunityInterceptor{server: srv, limiter: lim}
+}
+
+func (i *CommunityInterceptor) JoinSpace(ctx context.Context, in *JoinSpaceInput) (out *JoinSpaceOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promCommunityRequestLatency.WithLabelValues("eolymp.community.Community/JoinSpace", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if ok && !token.Has("community:member:join") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: community:member:join")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.community.Community/JoinSpace", 1, 10) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.JoinSpace(ctx, in)
+	return
+}
+
+func (i *CommunityInterceptor) LeaveSpace(ctx context.Context, in *LeaveSpaceInput) (out *LeaveSpaceOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promCommunityRequestLatency.WithLabelValues("eolymp.community.Community/LeaveSpace", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if ok && !token.Has("community:member:join") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: community:member:join")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.community.Community/LeaveSpace", 1, 10) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.LeaveSpace(ctx, in)
+	return
 }
 
 func (i *CommunityInterceptor) AddMember(ctx context.Context, in *AddMemberInput) (out *AddMemberOutput, err error) {

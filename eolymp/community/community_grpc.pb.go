@@ -18,6 +18,8 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type CommunityClient interface {
+	JoinSpace(ctx context.Context, in *JoinSpaceInput, opts ...grpc.CallOption) (*JoinSpaceOutput, error)
+	LeaveSpace(ctx context.Context, in *LeaveSpaceInput, opts ...grpc.CallOption) (*LeaveSpaceOutput, error)
 	AddMember(ctx context.Context, in *AddMemberInput, opts ...grpc.CallOption) (*AddMemberOutput, error)
 	UpdateMember(ctx context.Context, in *UpdateMemberInput, opts ...grpc.CallOption) (*UpdateMemberOutput, error)
 	RemoveMember(ctx context.Context, in *RemoveMemberInput, opts ...grpc.CallOption) (*RemoveMemberOutput, error)
@@ -37,6 +39,24 @@ type communityClient struct {
 
 func NewCommunityClient(cc grpc.ClientConnInterface) CommunityClient {
 	return &communityClient{cc}
+}
+
+func (c *communityClient) JoinSpace(ctx context.Context, in *JoinSpaceInput, opts ...grpc.CallOption) (*JoinSpaceOutput, error) {
+	out := new(JoinSpaceOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.community.Community/JoinSpace", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *communityClient) LeaveSpace(ctx context.Context, in *LeaveSpaceInput, opts ...grpc.CallOption) (*LeaveSpaceOutput, error) {
+	out := new(LeaveSpaceOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.community.Community/LeaveSpace", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *communityClient) AddMember(ctx context.Context, in *AddMemberInput, opts ...grpc.CallOption) (*AddMemberOutput, error) {
@@ -142,6 +162,8 @@ func (c *communityClient) ListAttributes(ctx context.Context, in *ListAttributes
 // All implementations must embed UnimplementedCommunityServer
 // for forward compatibility
 type CommunityServer interface {
+	JoinSpace(context.Context, *JoinSpaceInput) (*JoinSpaceOutput, error)
+	LeaveSpace(context.Context, *LeaveSpaceInput) (*LeaveSpaceOutput, error)
 	AddMember(context.Context, *AddMemberInput) (*AddMemberOutput, error)
 	UpdateMember(context.Context, *UpdateMemberInput) (*UpdateMemberOutput, error)
 	RemoveMember(context.Context, *RemoveMemberInput) (*RemoveMemberOutput, error)
@@ -160,6 +182,12 @@ type CommunityServer interface {
 type UnimplementedCommunityServer struct {
 }
 
+func (UnimplementedCommunityServer) JoinSpace(context.Context, *JoinSpaceInput) (*JoinSpaceOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method JoinSpace not implemented")
+}
+func (UnimplementedCommunityServer) LeaveSpace(context.Context, *LeaveSpaceInput) (*LeaveSpaceOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method LeaveSpace not implemented")
+}
 func (UnimplementedCommunityServer) AddMember(context.Context, *AddMemberInput) (*AddMemberOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddMember not implemented")
 }
@@ -204,6 +232,42 @@ type UnsafeCommunityServer interface {
 
 func RegisterCommunityServer(s grpc.ServiceRegistrar, srv CommunityServer) {
 	s.RegisterService(&Community_ServiceDesc, srv)
+}
+
+func _Community_JoinSpace_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(JoinSpaceInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CommunityServer).JoinSpace(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.community.Community/JoinSpace",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CommunityServer).JoinSpace(ctx, req.(*JoinSpaceInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Community_LeaveSpace_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LeaveSpaceInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CommunityServer).LeaveSpace(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.community.Community/LeaveSpace",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CommunityServer).LeaveSpace(ctx, req.(*LeaveSpaceInput))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _Community_AddMember_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -411,6 +475,14 @@ var Community_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "eolymp.community.Community",
 	HandlerType: (*CommunityServer)(nil),
 	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "JoinSpace",
+			Handler:    _Community_JoinSpace_Handler,
+		},
+		{
+			MethodName: "LeaveSpace",
+			Handler:    _Community_LeaveSpace_Handler,
+		},
 		{
 			MethodName: "AddMember",
 			Handler:    _Community_AddMember_Handler,
