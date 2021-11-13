@@ -96,6 +96,26 @@ func (s *CommunityService) LeaveSpace(ctx context.Context, in *LeaveSpaceInput) 
 	return out, nil
 }
 
+func (s *CommunityService) RegisterMember(ctx context.Context, in *RegisterMemberInput) (*RegisterMemberOutput, error) {
+	out := &RegisterMemberOutput{}
+
+	if err := s.invoke(ctx, "eolymp.community.Community/RegisterMember", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *CommunityService) IntrospectMember(ctx context.Context, in *IntrospectMemberInput) (*IntrospectMemberOutput, error) {
+	out := &IntrospectMemberOutput{}
+
+	if err := s.invoke(ctx, "eolymp.community.Community/IntrospectMember", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *CommunityService) AddMember(ctx context.Context, in *AddMemberInput) (*AddMemberOutput, error) {
 	out := &AddMemberOutput{}
 
@@ -130,16 +150,6 @@ func (s *CommunityService) DescribeMember(ctx context.Context, in *DescribeMembe
 	out := &DescribeMemberOutput{}
 
 	if err := s.invoke(ctx, "eolymp.community.Community/DescribeMember", in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *CommunityService) IntrospectMember(ctx context.Context, in *IntrospectMemberInput) (*IntrospectMemberOutput, error) {
-	out := &IntrospectMemberOutput{}
-
-	if err := s.invoke(ctx, "eolymp.community.Community/IntrospectMember", in, out); err != nil {
 		return nil, err
 	}
 

@@ -104,11 +104,12 @@ func NewCommunityHandler(srv CommunityServer) http.Handler {
 	router := mux.NewRouter()
 	router.Handle("/eolymp.community.Community/JoinSpace", _Community_JoinSpace(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.community.Community/LeaveSpace", _Community_LeaveSpace(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.community.Community/RegisterMember", _Community_RegisterMember(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.community.Community/IntrospectMember", _Community_IntrospectMember(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.community.Community/AddMember", _Community_AddMember(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.community.Community/UpdateMember", _Community_UpdateMember(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.community.Community/RemoveMember", _Community_RemoveMember(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.community.Community/DescribeMember", _Community_DescribeMember(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.community.Community/IntrospectMember", _Community_IntrospectMember(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.community.Community/ListMembers", _Community_ListMembers(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.community.Community/AddAttribute", _Community_AddAttribute(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.community.Community/UpdateAttribute", _Community_UpdateAttribute(srv)).Methods(http.MethodPost)
@@ -149,6 +150,46 @@ func _Community_LeaveSpace(srv CommunityServer) http.Handler {
 		}
 
 		out, err := srv.LeaveSpace(r.Context(), in)
+		if err != nil {
+			_Community_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Community_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Community_RegisterMember(srv CommunityServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &RegisterMemberInput{}
+
+		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Community_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.RegisterMember(r.Context(), in)
+		if err != nil {
+			_Community_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Community_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Community_IntrospectMember(srv CommunityServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &IntrospectMemberInput{}
+
+		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Community_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.IntrospectMember(r.Context(), in)
 		if err != nil {
 			_Community_HTTPWriteErrorResponse(w, err)
 			return
@@ -229,26 +270,6 @@ func _Community_DescribeMember(srv CommunityServer) http.Handler {
 		}
 
 		out, err := srv.DescribeMember(r.Context(), in)
-		if err != nil {
-			_Community_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Community_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Community_IntrospectMember(srv CommunityServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &IntrospectMemberInput{}
-
-		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Community_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.IntrospectMember(r.Context(), in)
 		if err != nil {
 			_Community_HTTPWriteErrorResponse(w, err)
 			return
@@ -452,6 +473,60 @@ func (i *CommunityInterceptor) LeaveSpace(ctx context.Context, in *LeaveSpaceInp
 	return
 }
 
+func (i *CommunityInterceptor) RegisterMember(ctx context.Context, in *RegisterMemberInput) (out *RegisterMemberOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promCommunityRequestLatency.WithLabelValues("eolymp.community.Community/RegisterMember", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if ok && !token.Has("community:member:write") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: community:member:write")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.community.Community/RegisterMember", 5, 20) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.RegisterMember(ctx, in)
+	return
+}
+
+func (i *CommunityInterceptor) IntrospectMember(ctx context.Context, in *IntrospectMemberInput) (out *IntrospectMemberOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promCommunityRequestLatency.WithLabelValues("eolymp.community.Community/IntrospectMember", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if ok && !token.Has("community:member:read") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: community:member:read")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.community.Community/IntrospectMember", 5, 20) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.IntrospectMember(ctx, in)
+	return
+}
+
 func (i *CommunityInterceptor) AddMember(ctx context.Context, in *AddMemberInput) (out *AddMemberOutput, err error) {
 	start := time.Now()
 	defer func() {
@@ -557,33 +632,6 @@ func (i *CommunityInterceptor) DescribeMember(ctx context.Context, in *DescribeM
 	}
 
 	out, err = i.server.DescribeMember(ctx, in)
-	return
-}
-
-func (i *CommunityInterceptor) IntrospectMember(ctx context.Context, in *IntrospectMemberInput) (out *IntrospectMemberOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
-		}
-
-		promCommunityRequestLatency.WithLabelValues("eolymp.community.Community/IntrospectMember", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("community:member:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: community:member:read")
-		return
-	}
-
-	if !i.limiter.Allow(ctx, "eolymp.community.Community/IntrospectMember", 5, 20) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.IntrospectMember(ctx, in)
 	return
 }
 

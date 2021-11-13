@@ -18,13 +18,18 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type CommunityClient interface {
+	// Add yourself to the space
 	JoinSpace(ctx context.Context, in *JoinSpaceInput, opts ...grpc.CallOption) (*JoinSpaceOutput, error)
+	// Remove yourself from the space
 	LeaveSpace(ctx context.Context, in *LeaveSpaceInput, opts ...grpc.CallOption) (*LeaveSpaceOutput, error)
+	// Update registration data (attribute values) about yourself
+	RegisterMember(ctx context.Context, in *RegisterMemberInput, opts ...grpc.CallOption) (*RegisterMemberOutput, error)
+	// Introspect member data
+	IntrospectMember(ctx context.Context, in *IntrospectMemberInput, opts ...grpc.CallOption) (*IntrospectMemberOutput, error)
 	AddMember(ctx context.Context, in *AddMemberInput, opts ...grpc.CallOption) (*AddMemberOutput, error)
 	UpdateMember(ctx context.Context, in *UpdateMemberInput, opts ...grpc.CallOption) (*UpdateMemberOutput, error)
 	RemoveMember(ctx context.Context, in *RemoveMemberInput, opts ...grpc.CallOption) (*RemoveMemberOutput, error)
 	DescribeMember(ctx context.Context, in *DescribeMemberInput, opts ...grpc.CallOption) (*DescribeMemberOutput, error)
-	IntrospectMember(ctx context.Context, in *IntrospectMemberInput, opts ...grpc.CallOption) (*IntrospectMemberOutput, error)
 	ListMembers(ctx context.Context, in *ListMembersInput, opts ...grpc.CallOption) (*ListMembersOutput, error)
 	AddAttribute(ctx context.Context, in *AddAttributeInput, opts ...grpc.CallOption) (*AddAttributeOutput, error)
 	UpdateAttribute(ctx context.Context, in *UpdateAttributeInput, opts ...grpc.CallOption) (*UpdateAttributeOutput, error)
@@ -53,6 +58,24 @@ func (c *communityClient) JoinSpace(ctx context.Context, in *JoinSpaceInput, opt
 func (c *communityClient) LeaveSpace(ctx context.Context, in *LeaveSpaceInput, opts ...grpc.CallOption) (*LeaveSpaceOutput, error) {
 	out := new(LeaveSpaceOutput)
 	err := c.cc.Invoke(ctx, "/eolymp.community.Community/LeaveSpace", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *communityClient) RegisterMember(ctx context.Context, in *RegisterMemberInput, opts ...grpc.CallOption) (*RegisterMemberOutput, error) {
+	out := new(RegisterMemberOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.community.Community/RegisterMember", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *communityClient) IntrospectMember(ctx context.Context, in *IntrospectMemberInput, opts ...grpc.CallOption) (*IntrospectMemberOutput, error) {
+	out := new(IntrospectMemberOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.community.Community/IntrospectMember", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -89,15 +112,6 @@ func (c *communityClient) RemoveMember(ctx context.Context, in *RemoveMemberInpu
 func (c *communityClient) DescribeMember(ctx context.Context, in *DescribeMemberInput, opts ...grpc.CallOption) (*DescribeMemberOutput, error) {
 	out := new(DescribeMemberOutput)
 	err := c.cc.Invoke(ctx, "/eolymp.community.Community/DescribeMember", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *communityClient) IntrospectMember(ctx context.Context, in *IntrospectMemberInput, opts ...grpc.CallOption) (*IntrospectMemberOutput, error) {
-	out := new(IntrospectMemberOutput)
-	err := c.cc.Invoke(ctx, "/eolymp.community.Community/IntrospectMember", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -162,13 +176,18 @@ func (c *communityClient) ListAttributes(ctx context.Context, in *ListAttributes
 // All implementations must embed UnimplementedCommunityServer
 // for forward compatibility
 type CommunityServer interface {
+	// Add yourself to the space
 	JoinSpace(context.Context, *JoinSpaceInput) (*JoinSpaceOutput, error)
+	// Remove yourself from the space
 	LeaveSpace(context.Context, *LeaveSpaceInput) (*LeaveSpaceOutput, error)
+	// Update registration data (attribute values) about yourself
+	RegisterMember(context.Context, *RegisterMemberInput) (*RegisterMemberOutput, error)
+	// Introspect member data
+	IntrospectMember(context.Context, *IntrospectMemberInput) (*IntrospectMemberOutput, error)
 	AddMember(context.Context, *AddMemberInput) (*AddMemberOutput, error)
 	UpdateMember(context.Context, *UpdateMemberInput) (*UpdateMemberOutput, error)
 	RemoveMember(context.Context, *RemoveMemberInput) (*RemoveMemberOutput, error)
 	DescribeMember(context.Context, *DescribeMemberInput) (*DescribeMemberOutput, error)
-	IntrospectMember(context.Context, *IntrospectMemberInput) (*IntrospectMemberOutput, error)
 	ListMembers(context.Context, *ListMembersInput) (*ListMembersOutput, error)
 	AddAttribute(context.Context, *AddAttributeInput) (*AddAttributeOutput, error)
 	UpdateAttribute(context.Context, *UpdateAttributeInput) (*UpdateAttributeOutput, error)
@@ -188,6 +207,12 @@ func (UnimplementedCommunityServer) JoinSpace(context.Context, *JoinSpaceInput) 
 func (UnimplementedCommunityServer) LeaveSpace(context.Context, *LeaveSpaceInput) (*LeaveSpaceOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method LeaveSpace not implemented")
 }
+func (UnimplementedCommunityServer) RegisterMember(context.Context, *RegisterMemberInput) (*RegisterMemberOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RegisterMember not implemented")
+}
+func (UnimplementedCommunityServer) IntrospectMember(context.Context, *IntrospectMemberInput) (*IntrospectMemberOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method IntrospectMember not implemented")
+}
 func (UnimplementedCommunityServer) AddMember(context.Context, *AddMemberInput) (*AddMemberOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddMember not implemented")
 }
@@ -199,9 +224,6 @@ func (UnimplementedCommunityServer) RemoveMember(context.Context, *RemoveMemberI
 }
 func (UnimplementedCommunityServer) DescribeMember(context.Context, *DescribeMemberInput) (*DescribeMemberOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeMember not implemented")
-}
-func (UnimplementedCommunityServer) IntrospectMember(context.Context, *IntrospectMemberInput) (*IntrospectMemberOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method IntrospectMember not implemented")
 }
 func (UnimplementedCommunityServer) ListMembers(context.Context, *ListMembersInput) (*ListMembersOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListMembers not implemented")
@@ -266,6 +288,42 @@ func _Community_LeaveSpace_Handler(srv interface{}, ctx context.Context, dec fun
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(CommunityServer).LeaveSpace(ctx, req.(*LeaveSpaceInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Community_RegisterMember_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RegisterMemberInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CommunityServer).RegisterMember(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.community.Community/RegisterMember",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CommunityServer).RegisterMember(ctx, req.(*RegisterMemberInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Community_IntrospectMember_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IntrospectMemberInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CommunityServer).IntrospectMember(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.community.Community/IntrospectMember",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CommunityServer).IntrospectMember(ctx, req.(*IntrospectMemberInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -338,24 +396,6 @@ func _Community_DescribeMember_Handler(srv interface{}, ctx context.Context, dec
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(CommunityServer).DescribeMember(ctx, req.(*DescribeMemberInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Community_IntrospectMember_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(IntrospectMemberInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(CommunityServer).IntrospectMember(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/eolymp.community.Community/IntrospectMember",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CommunityServer).IntrospectMember(ctx, req.(*IntrospectMemberInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -484,6 +524,14 @@ var Community_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Community_LeaveSpace_Handler,
 		},
 		{
+			MethodName: "RegisterMember",
+			Handler:    _Community_RegisterMember_Handler,
+		},
+		{
+			MethodName: "IntrospectMember",
+			Handler:    _Community_IntrospectMember_Handler,
+		},
+		{
 			MethodName: "AddMember",
 			Handler:    _Community_AddMember_Handler,
 		},
@@ -498,10 +546,6 @@ var Community_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DescribeMember",
 			Handler:    _Community_DescribeMember_Handler,
-		},
-		{
-			MethodName: "IntrospectMember",
-			Handler:    _Community_IntrospectMember_Handler,
 		},
 		{
 			MethodName: "ListMembers",
