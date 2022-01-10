@@ -107,6 +107,7 @@ func NewUniverseHandler(srv UniverseServer) http.Handler {
 	router.Handle("/eolymp.universe.Universe/DeleteSpace", _Universe_DeleteSpace(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.universe.Universe/LookupSpace", _Universe_LookupSpace(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.universe.Universe/DescribeSpace", _Universe_DescribeSpace(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.universe.Universe/DescribeQuota", _Universe_DescribeQuota(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.universe.Universe/ListSpaces", _Universe_ListSpaces(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.universe.Universe/GrantPermission", _Universe_GrantPermission(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.universe.Universe/RevokePermission", _Universe_RevokePermission(srv)).Methods(http.MethodPost)
@@ -207,6 +208,26 @@ func _Universe_DescribeSpace(srv UniverseServer) http.Handler {
 		}
 
 		out, err := srv.DescribeSpace(r.Context(), in)
+		if err != nil {
+			_Universe_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Universe_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Universe_DescribeQuota(srv UniverseServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeQuotaInput{}
+
+		if err := _Universe_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Universe_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.DescribeQuota(r.Context(), in)
 		if err != nil {
 			_Universe_HTTPWriteErrorResponse(w, err)
 			return
@@ -476,6 +497,27 @@ func (i *UniverseInterceptor) DescribeSpace(ctx context.Context, in *DescribeSpa
 	}
 
 	out, err = i.server.DescribeSpace(ctx, in)
+	return
+}
+
+func (i *UniverseInterceptor) DescribeQuota(ctx context.Context, in *DescribeQuotaInput) (out *DescribeQuotaOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promUniverseRequestLatency.WithLabelValues("eolymp.universe.Universe/DescribeQuota", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	if !i.limiter.Allow(ctx, "eolymp.universe.Universe/DescribeQuota", 10, 100) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.DescribeQuota(ctx, in)
 	return
 }
 

@@ -126,6 +126,16 @@ func (s *UniverseService) DescribeSpace(ctx context.Context, in *DescribeSpaceIn
 	return out, nil
 }
 
+func (s *UniverseService) DescribeQuota(ctx context.Context, in *DescribeQuotaInput) (*DescribeQuotaOutput, error) {
+	out := &DescribeQuotaOutput{}
+
+	if err := s.invoke(ctx, "eolymp.universe.Universe/DescribeQuota", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *UniverseService) ListSpaces(ctx context.Context, in *ListSpacesInput) (*ListSpacesOutput, error) {
 	out := &ListSpacesOutput{}
 
