@@ -156,26 +156,6 @@ func (s *JudgeService) CloseContest(ctx context.Context, in *CloseContestInput) 
 	return out, nil
 }
 
-func (s *JudgeService) ConfigureRegistrationForm(ctx context.Context, in *ConfigureRegistrationFormInput) (*ConfigureRegistrationFormOutput, error) {
-	out := &ConfigureRegistrationFormOutput{}
-
-	if err := s.invoke(ctx, "eolymp.judge.Judge/ConfigureRegistrationForm", in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *JudgeService) DescribeRegistrationForm(ctx context.Context, in *DescribeRegistrationFormInput) (*DescribeRegistrationFormOutput, error) {
-	out := &DescribeRegistrationFormOutput{}
-
-	if err := s.invoke(ctx, "eolymp.judge.Judge/DescribeRegistrationForm", in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
 func (s *JudgeService) ConfigureRuntime(ctx context.Context, in *ConfigureRuntimeInput) (*ConfigureRuntimeOutput, error) {
 	out := &ConfigureRuntimeOutput{}
 
@@ -216,20 +196,20 @@ func (s *JudgeService) DescribeAppearance(ctx context.Context, in *DescribeAppea
 	return out, nil
 }
 
-func (s *JudgeService) SubmitRegistration(ctx context.Context, in *SubmitRegistrationInput) (*SubmitRegistrationOutput, error) {
-	out := &SubmitRegistrationOutput{}
+func (s *JudgeService) ConfigureScoring(ctx context.Context, in *ConfigureScoringInput) (*ConfigureScoringOutput, error) {
+	out := &ConfigureScoringOutput{}
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/SubmitRegistration", in, out); err != nil {
+	if err := s.invoke(ctx, "eolymp.judge.Judge/ConfigureScoring", in, out); err != nil {
 		return nil, err
 	}
 
 	return out, nil
 }
 
-func (s *JudgeService) DescribeRegistration(ctx context.Context, in *DescribeRegistrationInput) (*DescribeRegistrationOutput, error) {
-	out := &DescribeRegistrationOutput{}
+func (s *JudgeService) DescribeScoring(ctx context.Context, in *DescribeScoringInput) (*DescribeScoringOutput, error) {
+	out := &DescribeScoringOutput{}
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/DescribeRegistration", in, out); err != nil {
+	if err := s.invoke(ctx, "eolymp.judge.Judge/DescribeScoring", in, out); err != nil {
 		return nil, err
 	}
 
@@ -706,6 +686,46 @@ func (s *JudgeService) ListAnnouncements(ctx context.Context, in *ListAnnounceme
 	return out, nil
 }
 
+func (s *JudgeService) IntrospectScore(ctx context.Context, in *IntrospectScoreInput) (*IntrospectScoreOutput, error) {
+	out := &IntrospectScoreOutput{}
+
+	if err := s.invoke(ctx, "eolymp.judge.Judge/IntrospectScore", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *JudgeService) DescribeScore(ctx context.Context, in *DescribeScoreInput) (*DescribeScoreOutput, error) {
+	out := &DescribeScoreOutput{}
+
+	if err := s.invoke(ctx, "eolymp.judge.Judge/DescribeScore", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *JudgeService) ImportScore(ctx context.Context, in *ImportScoreInput) (*ImportScoreOutput, error) {
+	out := &ImportScoreOutput{}
+
+	if err := s.invoke(ctx, "eolymp.judge.Judge/ImportScore", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *JudgeService) ListResult(ctx context.Context, in *ListResultInput) (*ListResultOutput, error) {
+	out := &ListResultOutput{}
+
+	if err := s.invoke(ctx, "eolymp.judge.Judge/ListResult", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *JudgeService) CreateScoreboard(ctx context.Context, in *CreateScoreboardInput) (*CreateScoreboardOutput, error) {
 	out := &CreateScoreboardOutput{}
 
@@ -726,10 +746,10 @@ func (s *JudgeService) UpdateScoreboard(ctx context.Context, in *UpdateScoreboar
 	return out, nil
 }
 
-func (s *JudgeService) RebuildScoreboard(ctx context.Context, in *RebuildScoreboardInput) (*RebuildScoreboardOutput, error) {
-	out := &RebuildScoreboardOutput{}
+func (s *JudgeService) RebuildScore(ctx context.Context, in *RebuildScoreInput) (*RebuildScoreOutput, error) {
+	out := &RebuildScoreOutput{}
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/RebuildScoreboard", in, out); err != nil {
+	if err := s.invoke(ctx, "eolymp.judge.Judge/RebuildScore", in, out); err != nil {
 		return nil, err
 	}
 

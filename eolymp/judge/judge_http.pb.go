@@ -110,14 +110,12 @@ func NewJudgeHandler(srv JudgeServer) http.Handler {
 	router.Handle("/eolymp.judge.Judge/ListContests", _Judge_ListContests(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.judge.Judge/OpenContest", _Judge_OpenContest(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.judge.Judge/CloseContest", _Judge_CloseContest(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.judge.Judge/ConfigureRegistrationForm", _Judge_ConfigureRegistrationForm(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.judge.Judge/DescribeRegistrationForm", _Judge_DescribeRegistrationForm(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.judge.Judge/ConfigureRuntime", _Judge_ConfigureRuntime(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.judge.Judge/DescribeRuntime", _Judge_DescribeRuntime(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.judge.Judge/ConfigureAppearance", _Judge_ConfigureAppearance(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.judge.Judge/DescribeAppearance", _Judge_DescribeAppearance(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.judge.Judge/SubmitRegistration", _Judge_SubmitRegistration(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.judge.Judge/DescribeRegistration", _Judge_DescribeRegistration(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.judge.Judge/ConfigureScoring", _Judge_ConfigureScoring(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.judge.Judge/DescribeScoring", _Judge_DescribeScoring(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.judge.Judge/ImportProblem", _Judge_ImportProblem(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.judge.Judge/SyncProblem", _Judge_SyncProblem(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.judge.Judge/UpdateProblem", _Judge_UpdateProblem(srv)).Methods(http.MethodPost)
@@ -165,9 +163,13 @@ func NewJudgeHandler(srv JudgeServer) http.Handler {
 	router.Handle("/eolymp.judge.Judge/DescribeAnnouncement", _Judge_DescribeAnnouncement(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.judge.Judge/DescribeAnnouncementStatus", _Judge_DescribeAnnouncementStatus(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.judge.Judge/ListAnnouncements", _Judge_ListAnnouncements(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.judge.Judge/IntrospectScore", _Judge_IntrospectScore(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.judge.Judge/DescribeScore", _Judge_DescribeScore(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.judge.Judge/ImportScore", _Judge_ImportScore(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.judge.Judge/ListResult", _Judge_ListResult(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.judge.Judge/CreateScoreboard", _Judge_CreateScoreboard(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.judge.Judge/UpdateScoreboard", _Judge_UpdateScoreboard(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.judge.Judge/RebuildScoreboard", _Judge_RebuildScoreboard(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.judge.Judge/RebuildScore", _Judge_RebuildScore(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.judge.Judge/DeleteScoreboard", _Judge_DeleteScoreboard(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.judge.Judge/DescribeScoreboard", _Judge_DescribeScoreboard(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.judge.Judge/DescribeDefaultScoreboard", _Judge_DescribeDefaultScoreboard(srv)).Methods(http.MethodPost)
@@ -343,46 +345,6 @@ func _Judge_CloseContest(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_ConfigureRegistrationForm(srv JudgeServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ConfigureRegistrationFormInput{}
-
-		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Judge_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.ConfigureRegistrationForm(r.Context(), in)
-		if err != nil {
-			_Judge_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Judge_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Judge_DescribeRegistrationForm(srv JudgeServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DescribeRegistrationFormInput{}
-
-		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Judge_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.DescribeRegistrationForm(r.Context(), in)
-		if err != nil {
-			_Judge_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Judge_HTTPWriteResponse(w, out)
-	})
-}
-
 func _Judge_ConfigureRuntime(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ConfigureRuntimeInput{}
@@ -463,9 +425,9 @@ func _Judge_DescribeAppearance(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_SubmitRegistration(srv JudgeServer) http.Handler {
+func _Judge_ConfigureScoring(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &SubmitRegistrationInput{}
+		in := &ConfigureScoringInput{}
 
 		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
@@ -473,7 +435,7 @@ func _Judge_SubmitRegistration(srv JudgeServer) http.Handler {
 			return
 		}
 
-		out, err := srv.SubmitRegistration(r.Context(), in)
+		out, err := srv.ConfigureScoring(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -483,9 +445,9 @@ func _Judge_SubmitRegistration(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_DescribeRegistration(srv JudgeServer) http.Handler {
+func _Judge_DescribeScoring(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DescribeRegistrationInput{}
+		in := &DescribeScoringInput{}
 
 		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
@@ -493,7 +455,7 @@ func _Judge_DescribeRegistration(srv JudgeServer) http.Handler {
 			return
 		}
 
-		out, err := srv.DescribeRegistration(r.Context(), in)
+		out, err := srv.DescribeScoring(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -1443,6 +1405,86 @@ func _Judge_ListAnnouncements(srv JudgeServer) http.Handler {
 	})
 }
 
+func _Judge_IntrospectScore(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &IntrospectScoreInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.IntrospectScore(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_DescribeScore(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeScoreInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.DescribeScore(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_ImportScore(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ImportScoreInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.ImportScore(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_ListResult(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListResultInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.ListResult(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
 func _Judge_CreateScoreboard(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateScoreboardInput{}
@@ -1483,9 +1525,9 @@ func _Judge_UpdateScoreboard(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_RebuildScoreboard(srv JudgeServer) http.Handler {
+func _Judge_RebuildScore(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &RebuildScoreboardInput{}
+		in := &RebuildScoreInput{}
 
 		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
@@ -1493,7 +1535,7 @@ func _Judge_RebuildScoreboard(srv JudgeServer) http.Handler {
 			return
 		}
 
-		out, err := srv.RebuildScoreboard(r.Context(), in)
+		out, err := srv.RebuildScore(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -1961,60 +2003,6 @@ func (i *JudgeInterceptor) CloseContest(ctx context.Context, in *CloseContestInp
 	return
 }
 
-func (i *JudgeInterceptor) ConfigureRegistrationForm(ctx context.Context, in *ConfigureRegistrationFormInput) (out *ConfigureRegistrationFormOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
-		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/ConfigureRegistrationForm", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
-		return
-	}
-
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/ConfigureRegistrationForm", 0.16, 5) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.ConfigureRegistrationForm(ctx, in)
-	return
-}
-
-func (i *JudgeInterceptor) DescribeRegistrationForm(ctx context.Context, in *DescribeRegistrationFormInput) (out *DescribeRegistrationFormOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
-		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/DescribeRegistrationForm", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
-		return
-	}
-
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/DescribeRegistrationForm", 1, 10) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.DescribeRegistrationForm(ctx, in)
-	return
-}
-
 func (i *JudgeInterceptor) ConfigureRuntime(ctx context.Context, in *ConfigureRuntimeInput) (out *ConfigureRuntimeOutput, err error) {
 	start := time.Now()
 	defer func() {
@@ -2123,7 +2111,7 @@ func (i *JudgeInterceptor) DescribeAppearance(ctx context.Context, in *DescribeA
 	return
 }
 
-func (i *JudgeInterceptor) SubmitRegistration(ctx context.Context, in *SubmitRegistrationInput) (out *SubmitRegistrationOutput, err error) {
+func (i *JudgeInterceptor) ConfigureScoring(ctx context.Context, in *ConfigureScoringInput) (out *ConfigureScoringOutput, err error) {
 	start := time.Now()
 	defer func() {
 		s, _ := status.FromError(err)
@@ -2131,26 +2119,26 @@ func (i *JudgeInterceptor) SubmitRegistration(ctx context.Context, in *SubmitReg
 			s = status.New(codes.OK, "OK")
 		}
 
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/SubmitRegistration", s.Code().String()).
+		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/ConfigureScoring", s.Code().String()).
 			Observe(time.Since(start).Seconds())
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:participate") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:participate")
+	if ok && !token.Has("judge:contest:write") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
 		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/SubmitRegistration", 1, 10) {
+	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/ConfigureScoring", 1, 5) {
 		err = status.Error(codes.ResourceExhausted, "too many requests")
 		return
 	}
 
-	out, err = i.server.SubmitRegistration(ctx, in)
+	out, err = i.server.ConfigureScoring(ctx, in)
 	return
 }
 
-func (i *JudgeInterceptor) DescribeRegistration(ctx context.Context, in *DescribeRegistrationInput) (out *DescribeRegistrationOutput, err error) {
+func (i *JudgeInterceptor) DescribeScoring(ctx context.Context, in *DescribeScoringInput) (out *DescribeScoringOutput, err error) {
 	start := time.Now()
 	defer func() {
 		s, _ := status.FromError(err)
@@ -2158,7 +2146,7 @@ func (i *JudgeInterceptor) DescribeRegistration(ctx context.Context, in *Describ
 			s = status.New(codes.OK, "OK")
 		}
 
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/DescribeRegistration", s.Code().String()).
+		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/DescribeScoring", s.Code().String()).
 			Observe(time.Since(start).Seconds())
 	}()
 
@@ -2168,12 +2156,12 @@ func (i *JudgeInterceptor) DescribeRegistration(ctx context.Context, in *Describ
 		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/DescribeRegistration", 20, 100) {
+	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/DescribeScoring", 10, 50) {
 		err = status.Error(codes.ResourceExhausted, "too many requests")
 		return
 	}
 
-	out, err = i.server.DescribeRegistration(ctx, in)
+	out, err = i.server.DescribeScoring(ctx, in)
 	return
 }
 
@@ -3440,6 +3428,114 @@ func (i *JudgeInterceptor) ListAnnouncements(ctx context.Context, in *ListAnnoun
 	return
 }
 
+func (i *JudgeInterceptor) IntrospectScore(ctx context.Context, in *IntrospectScoreInput) (out *IntrospectScoreOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/IntrospectScore", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if ok && !token.Has("judge:contest:read") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/IntrospectScore", 10, 50) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.IntrospectScore(ctx, in)
+	return
+}
+
+func (i *JudgeInterceptor) DescribeScore(ctx context.Context, in *DescribeScoreInput) (out *DescribeScoreOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/DescribeScore", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if ok && !token.Has("judge:contest:read") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/DescribeScore", 50, 200) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.DescribeScore(ctx, in)
+	return
+}
+
+func (i *JudgeInterceptor) ImportScore(ctx context.Context, in *ImportScoreInput) (out *ImportScoreOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/ImportScore", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if ok && !token.Has("judge:contest:read") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/ImportScore", 50, 200) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.ImportScore(ctx, in)
+	return
+}
+
+func (i *JudgeInterceptor) ListResult(ctx context.Context, in *ListResultInput) (out *ListResultOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/ListResult", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if ok && !token.Has("judge:contest:read") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/ListResult", 50, 200) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.ListResult(ctx, in)
+	return
+}
+
 func (i *JudgeInterceptor) CreateScoreboard(ctx context.Context, in *CreateScoreboardInput) (out *CreateScoreboardOutput, err error) {
 	start := time.Now()
 	defer func() {
@@ -3494,7 +3590,7 @@ func (i *JudgeInterceptor) UpdateScoreboard(ctx context.Context, in *UpdateScore
 	return
 }
 
-func (i *JudgeInterceptor) RebuildScoreboard(ctx context.Context, in *RebuildScoreboardInput) (out *RebuildScoreboardOutput, err error) {
+func (i *JudgeInterceptor) RebuildScore(ctx context.Context, in *RebuildScoreInput) (out *RebuildScoreOutput, err error) {
 	start := time.Now()
 	defer func() {
 		s, _ := status.FromError(err)
@@ -3502,7 +3598,7 @@ func (i *JudgeInterceptor) RebuildScoreboard(ctx context.Context, in *RebuildSco
 			s = status.New(codes.OK, "OK")
 		}
 
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/RebuildScoreboard", s.Code().String()).
+		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/RebuildScore", s.Code().String()).
 			Observe(time.Since(start).Seconds())
 	}()
 
@@ -3512,12 +3608,12 @@ func (i *JudgeInterceptor) RebuildScoreboard(ctx context.Context, in *RebuildSco
 		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/RebuildScoreboard", 2, 10) {
+	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/RebuildScore", 2, 10) {
 		err = status.Error(codes.ResourceExhausted, "too many requests")
 		return
 	}
 
-	out, err = i.server.RebuildScoreboard(ctx, in)
+	out, err = i.server.RebuildScore(ctx, in)
 	return
 }
 
