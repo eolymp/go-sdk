@@ -7143,8 +7143,24 @@ type ImportScoreInput struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ParticipantId string   `protobuf:"bytes,1,opt,name=participant_id,json=participantId,proto3" json:"participant_id,omitempty"`
-	Scores        []*Score `protobuf:"bytes,2,rep,name=scores,proto3" json:"scores,omitempty"`
+	ParticipantId string `protobuf:"bytes,1,opt,name=participant_id,json=participantId,proto3" json:"participant_id,omitempty"`
+	// Scores is an array of score snapshots at different time relative to the starting time.
+	//
+	// Each entry defines a complete snapshot (they do not accumulate automatically).
+	// These fields can be populated:
+	//   - offset - defines when snapshot was taken, it's an amount of time in seconds since participant started contest
+	//   - score - total score at the moment in time (suppose to be sum of scores in breakdown field, but not enforced)
+	//   - penalty - total penalty at the moment in time (suppose to be sum of penalty in breakdown field, but not enforced)
+	//   - breakdown - score breakdown by problem, nested fields are as follows:
+	//     - problem_id - self explanatory
+	//     - score - score as defined by contest format (for IOI: from 0 to 100, for ICPC 0 or 1)
+	//     - penalty - penalty as defined by contest format (for ICPC: solved_in/60 + attempts*20)
+	//     - percentage - percentage of scored points from 0 to 1 (1 means 100% or fully solved), this value does not depend on contest format
+	//     - attempts - number of attempts to solve problem before successful attempt
+	//     - solved_in - time in second to solve problem, since participant started contest, leave as 0 if not solved
+	//
+	// The rest of the fields are automatically calculated and ignored during import.
+	Scores []*Score `protobuf:"bytes,2,rep,name=scores,proto3" json:"scores,omitempty"`
 }
 
 func (x *ImportScoreInput) Reset() {
