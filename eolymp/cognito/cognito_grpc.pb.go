@@ -32,6 +32,11 @@ type CognitoClient interface {
 	RevokeToken(ctx context.Context, in *RevokeTokenInput, opts ...grpc.CallOption) (*RevokeTokenOutput, error)
 	// Signout revokes all user's tokens or all tokens of current session.
 	Signout(ctx context.Context, in *SignoutInput, opts ...grpc.CallOption) (*SignoutOutput, error)
+	// Create API key.
+	CreateAccessKey(ctx context.Context, in *CreateAccessKeyInput, opts ...grpc.CallOption) (*CreateAccessKeyOutput, error)
+	// Delete API key.
+	DeleteAccessKey(ctx context.Context, in *DeleteAccessKeyInput, opts ...grpc.CallOption) (*DeleteAccessKeyOutput, error)
+	ListAccessKeys(ctx context.Context, in *ListAccessKeysInput, opts ...grpc.CallOption) (*ListAccessKeysOutput, error)
 	// Create user account.
 	CreateUser(ctx context.Context, in *CreateUserInput, opts ...grpc.CallOption) (*CreateUserOutput, error)
 	// Verify user email, takes email verification token and if it's correct - changes email status to CONFIRMED.
@@ -109,6 +114,33 @@ func (c *cognitoClient) RevokeToken(ctx context.Context, in *RevokeTokenInput, o
 func (c *cognitoClient) Signout(ctx context.Context, in *SignoutInput, opts ...grpc.CallOption) (*SignoutOutput, error) {
 	out := new(SignoutOutput)
 	err := c.cc.Invoke(ctx, "/eolymp.cognito.Cognito/Signout", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *cognitoClient) CreateAccessKey(ctx context.Context, in *CreateAccessKeyInput, opts ...grpc.CallOption) (*CreateAccessKeyOutput, error) {
+	out := new(CreateAccessKeyOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.cognito.Cognito/CreateAccessKey", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *cognitoClient) DeleteAccessKey(ctx context.Context, in *DeleteAccessKeyInput, opts ...grpc.CallOption) (*DeleteAccessKeyOutput, error) {
+	out := new(DeleteAccessKeyOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.cognito.Cognito/DeleteAccessKey", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *cognitoClient) ListAccessKeys(ctx context.Context, in *ListAccessKeysInput, opts ...grpc.CallOption) (*ListAccessKeysOutput, error) {
+	out := new(ListAccessKeysOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.cognito.Cognito/ListAccessKeys", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -246,6 +278,11 @@ type CognitoServer interface {
 	RevokeToken(context.Context, *RevokeTokenInput) (*RevokeTokenOutput, error)
 	// Signout revokes all user's tokens or all tokens of current session.
 	Signout(context.Context, *SignoutInput) (*SignoutOutput, error)
+	// Create API key.
+	CreateAccessKey(context.Context, *CreateAccessKeyInput) (*CreateAccessKeyOutput, error)
+	// Delete API key.
+	DeleteAccessKey(context.Context, *DeleteAccessKeyInput) (*DeleteAccessKeyOutput, error)
+	ListAccessKeys(context.Context, *ListAccessKeysInput) (*ListAccessKeysOutput, error)
 	// Create user account.
 	CreateUser(context.Context, *CreateUserInput) (*CreateUserOutput, error)
 	// Verify user email, takes email verification token and if it's correct - changes email status to CONFIRMED.
@@ -295,6 +332,15 @@ func (UnimplementedCognitoServer) RevokeToken(context.Context, *RevokeTokenInput
 }
 func (UnimplementedCognitoServer) Signout(context.Context, *SignoutInput) (*SignoutOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Signout not implemented")
+}
+func (UnimplementedCognitoServer) CreateAccessKey(context.Context, *CreateAccessKeyInput) (*CreateAccessKeyOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateAccessKey not implemented")
+}
+func (UnimplementedCognitoServer) DeleteAccessKey(context.Context, *DeleteAccessKeyInput) (*DeleteAccessKeyOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteAccessKey not implemented")
+}
+func (UnimplementedCognitoServer) ListAccessKeys(context.Context, *ListAccessKeysInput) (*ListAccessKeysOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListAccessKeys not implemented")
 }
 func (UnimplementedCognitoServer) CreateUser(context.Context, *CreateUserInput) (*CreateUserOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateUser not implemented")
@@ -434,6 +480,60 @@ func _Cognito_Signout_Handler(srv interface{}, ctx context.Context, dec func(int
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(CognitoServer).Signout(ctx, req.(*SignoutInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Cognito_CreateAccessKey_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateAccessKeyInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CognitoServer).CreateAccessKey(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.cognito.Cognito/CreateAccessKey",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CognitoServer).CreateAccessKey(ctx, req.(*CreateAccessKeyInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Cognito_DeleteAccessKey_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteAccessKeyInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CognitoServer).DeleteAccessKey(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.cognito.Cognito/DeleteAccessKey",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CognitoServer).DeleteAccessKey(ctx, req.(*DeleteAccessKeyInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Cognito_ListAccessKeys_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListAccessKeysInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CognitoServer).ListAccessKeys(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.cognito.Cognito/ListAccessKeys",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CognitoServer).ListAccessKeys(ctx, req.(*ListAccessKeysInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -698,6 +798,18 @@ var Cognito_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Signout",
 			Handler:    _Cognito_Signout_Handler,
+		},
+		{
+			MethodName: "CreateAccessKey",
+			Handler:    _Cognito_CreateAccessKey_Handler,
+		},
+		{
+			MethodName: "DeleteAccessKey",
+			Handler:    _Cognito_DeleteAccessKey_Handler,
+		},
+		{
+			MethodName: "ListAccessKeys",
+			Handler:    _Cognito_ListAccessKeys_Handler,
 		},
 		{
 			MethodName: "CreateUser",

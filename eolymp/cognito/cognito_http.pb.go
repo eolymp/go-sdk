@@ -107,6 +107,9 @@ func NewCognitoHandler(srv CognitoServer) http.Handler {
 	router.Handle("/eolymp.cognito.Cognito/CreateAuthorization", _Cognito_CreateAuthorization(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.cognito.Cognito/RevokeToken", _Cognito_RevokeToken(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.cognito.Cognito/Signout", _Cognito_Signout(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.cognito.Cognito/CreateAccessKey", _Cognito_CreateAccessKey(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.cognito.Cognito/DeleteAccessKey", _Cognito_DeleteAccessKey(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.cognito.Cognito/ListAccessKeys", _Cognito_ListAccessKeys(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.cognito.Cognito/CreateUser", _Cognito_CreateUser(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.cognito.Cognito/VerifyEmail", _Cognito_VerifyEmail(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.cognito.Cognito/UpdateEmail", _Cognito_UpdateEmail(srv)).Methods(http.MethodPost)
@@ -214,6 +217,66 @@ func _Cognito_Signout(srv CognitoServer) http.Handler {
 		}
 
 		out, err := srv.Signout(r.Context(), in)
+		if err != nil {
+			_Cognito_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Cognito_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Cognito_CreateAccessKey(srv CognitoServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &CreateAccessKeyInput{}
+
+		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Cognito_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.CreateAccessKey(r.Context(), in)
+		if err != nil {
+			_Cognito_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Cognito_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Cognito_DeleteAccessKey(srv CognitoServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DeleteAccessKeyInput{}
+
+		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Cognito_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.DeleteAccessKey(r.Context(), in)
+		if err != nil {
+			_Cognito_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Cognito_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Cognito_ListAccessKeys(srv CognitoServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListAccessKeysInput{}
+
+		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Cognito_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.ListAccessKeys(r.Context(), in)
 		if err != nil {
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
@@ -605,6 +668,87 @@ func (i *CognitoInterceptor) Signout(ctx context.Context, in *SignoutInput) (out
 	}
 
 	out, err = i.server.Signout(ctx, in)
+	return
+}
+
+func (i *CognitoInterceptor) CreateAccessKey(ctx context.Context, in *CreateAccessKeyInput) (out *CreateAccessKeyOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promCognitoRequestLatency.WithLabelValues("eolymp.cognito.Cognito/CreateAccessKey", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if ok && !token.Has("cognito:access-key:write") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: cognito:access-key:write")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.cognito.Cognito/CreateAccessKey", 1, 10) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.CreateAccessKey(ctx, in)
+	return
+}
+
+func (i *CognitoInterceptor) DeleteAccessKey(ctx context.Context, in *DeleteAccessKeyInput) (out *DeleteAccessKeyOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promCognitoRequestLatency.WithLabelValues("eolymp.cognito.Cognito/DeleteAccessKey", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if ok && !token.Has("cognito:access-key:write") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: cognito:access-key:write")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.cognito.Cognito/DeleteAccessKey", 5, 50) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.DeleteAccessKey(ctx, in)
+	return
+}
+
+func (i *CognitoInterceptor) ListAccessKeys(ctx context.Context, in *ListAccessKeysInput) (out *ListAccessKeysOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promCognitoRequestLatency.WithLabelValues("eolymp.cognito.Cognito/ListAccessKeys", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if ok && !token.Has("cognito:access-key:read") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: cognito:access-key:read")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.cognito.Cognito/ListAccessKeys", 20, 100) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.ListAccessKeys(ctx, in)
 	return
 }
 

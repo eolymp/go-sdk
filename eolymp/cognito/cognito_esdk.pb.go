@@ -126,6 +126,36 @@ func (s *CognitoService) Signout(ctx context.Context, in *SignoutInput) (*Signou
 	return out, nil
 }
 
+func (s *CognitoService) CreateAccessKey(ctx context.Context, in *CreateAccessKeyInput) (*CreateAccessKeyOutput, error) {
+	out := &CreateAccessKeyOutput{}
+
+	if err := s.invoke(ctx, "eolymp.cognito.Cognito/CreateAccessKey", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *CognitoService) DeleteAccessKey(ctx context.Context, in *DeleteAccessKeyInput) (*DeleteAccessKeyOutput, error) {
+	out := &DeleteAccessKeyOutput{}
+
+	if err := s.invoke(ctx, "eolymp.cognito.Cognito/DeleteAccessKey", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *CognitoService) ListAccessKeys(ctx context.Context, in *ListAccessKeysInput) (*ListAccessKeysOutput, error) {
+	out := &ListAccessKeysOutput{}
+
+	if err := s.invoke(ctx, "eolymp.cognito.Cognito/ListAccessKeys", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *CognitoService) CreateUser(ctx context.Context, in *CreateUserInput) (*CreateUserOutput, error) {
 	out := &CreateUserOutput{}
 
