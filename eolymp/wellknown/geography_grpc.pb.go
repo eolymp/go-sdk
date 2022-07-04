@@ -4,7 +4,7 @@
 // - protoc             v3.12.2
 // source: eolymp/wellknown/geography.proto
 
-package playground
+package wellknown
 
 import (
 	context "context"
@@ -36,7 +36,7 @@ func NewGeographyClient(cc grpc.ClientConnInterface) GeographyClient {
 
 func (c *geographyClient) DescribeCountry(ctx context.Context, in *DescribeCountryInput, opts ...grpc.CallOption) (*DescribeCountryOutput, error) {
 	out := new(DescribeCountryOutput)
-	err := c.cc.Invoke(ctx, "/eolymp.playground.Geography/DescribeCountry", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/eolymp.wellknown.Geography/DescribeCountry", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -45,7 +45,7 @@ func (c *geographyClient) DescribeCountry(ctx context.Context, in *DescribeCount
 
 func (c *geographyClient) ListCountries(ctx context.Context, in *ListCountriesInput, opts ...grpc.CallOption) (*ListCountriesOutput, error) {
 	out := new(ListCountriesOutput)
-	err := c.cc.Invoke(ctx, "/eolymp.playground.Geography/ListCountries", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/eolymp.wellknown.Geography/ListCountries", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -94,7 +94,7 @@ func _Geography_DescribeCountry_Handler(srv interface{}, ctx context.Context, de
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/eolymp.playground.Geography/DescribeCountry",
+		FullMethod: "/eolymp.wellknown.Geography/DescribeCountry",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(GeographyServer).DescribeCountry(ctx, req.(*DescribeCountryInput))
@@ -112,7 +112,7 @@ func _Geography_ListCountries_Handler(srv interface{}, ctx context.Context, dec 
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/eolymp.playground.Geography/ListCountries",
+		FullMethod: "/eolymp.wellknown.Geography/ListCountries",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(GeographyServer).ListCountries(ctx, req.(*ListCountriesInput))
@@ -124,7 +124,7 @@ func _Geography_ListCountries_Handler(srv interface{}, ctx context.Context, dec 
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var Geography_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "eolymp.playground.Geography",
+	ServiceName: "eolymp.wellknown.Geography",
 	HandlerType: (*GeographyServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
