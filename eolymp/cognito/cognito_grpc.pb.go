@@ -43,6 +43,8 @@ type CognitoClient interface {
 	VerifyEmail(ctx context.Context, in *VerifyEmailInput, opts ...grpc.CallOption) (*VerifyEmailOutput, error)
 	// Update user email, changes user's current email and starts email verification process.
 	UpdateEmail(ctx context.Context, in *UpdateEmailInput, opts ...grpc.CallOption) (*UpdateEmailOutput, error)
+	// Update user email, changes user's current email and starts email verification process.
+	UpdateProfile(ctx context.Context, in *UpdateProfileInput, opts ...grpc.CallOption) (*UpdateProfileOutput, error)
 	// Start access recovery procedure, this method will send recovery token to the user's email.
 	// This method will return OK even if email does not exist.
 	StartRecovery(ctx context.Context, in *StartRecoveryInput, opts ...grpc.CallOption) (*StartRecoveryOutput, error)
@@ -174,6 +176,15 @@ func (c *cognitoClient) UpdateEmail(ctx context.Context, in *UpdateEmailInput, o
 	return out, nil
 }
 
+func (c *cognitoClient) UpdateProfile(ctx context.Context, in *UpdateProfileInput, opts ...grpc.CallOption) (*UpdateProfileOutput, error) {
+	out := new(UpdateProfileOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.cognito.Cognito/UpdateProfile", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *cognitoClient) StartRecovery(ctx context.Context, in *StartRecoveryInput, opts ...grpc.CallOption) (*StartRecoveryOutput, error) {
 	out := new(StartRecoveryOutput)
 	err := c.cc.Invoke(ctx, "/eolymp.cognito.Cognito/StartRecovery", in, out, opts...)
@@ -289,6 +300,8 @@ type CognitoServer interface {
 	VerifyEmail(context.Context, *VerifyEmailInput) (*VerifyEmailOutput, error)
 	// Update user email, changes user's current email and starts email verification process.
 	UpdateEmail(context.Context, *UpdateEmailInput) (*UpdateEmailOutput, error)
+	// Update user email, changes user's current email and starts email verification process.
+	UpdateProfile(context.Context, *UpdateProfileInput) (*UpdateProfileOutput, error)
 	// Start access recovery procedure, this method will send recovery token to the user's email.
 	// This method will return OK even if email does not exist.
 	StartRecovery(context.Context, *StartRecoveryInput) (*StartRecoveryOutput, error)
@@ -350,6 +363,9 @@ func (UnimplementedCognitoServer) VerifyEmail(context.Context, *VerifyEmailInput
 }
 func (UnimplementedCognitoServer) UpdateEmail(context.Context, *UpdateEmailInput) (*UpdateEmailOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateEmail not implemented")
+}
+func (UnimplementedCognitoServer) UpdateProfile(context.Context, *UpdateProfileInput) (*UpdateProfileOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateProfile not implemented")
 }
 func (UnimplementedCognitoServer) StartRecovery(context.Context, *StartRecoveryInput) (*StartRecoveryOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method StartRecovery not implemented")
@@ -592,6 +608,24 @@ func _Cognito_UpdateEmail_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Cognito_UpdateProfile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateProfileInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CognitoServer).UpdateProfile(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.cognito.Cognito/UpdateProfile",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CognitoServer).UpdateProfile(ctx, req.(*UpdateProfileInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Cognito_StartRecovery_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(StartRecoveryInput)
 	if err := dec(in); err != nil {
@@ -822,6 +856,10 @@ var Cognito_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateEmail",
 			Handler:    _Cognito_UpdateEmail_Handler,
+		},
+		{
+			MethodName: "UpdateProfile",
+			Handler:    _Cognito_UpdateProfile_Handler,
 		},
 		{
 			MethodName: "StartRecovery",

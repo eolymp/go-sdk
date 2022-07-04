@@ -186,6 +186,16 @@ func (s *CognitoService) UpdateEmail(ctx context.Context, in *UpdateEmailInput) 
 	return out, nil
 }
 
+func (s *CognitoService) UpdateProfile(ctx context.Context, in *UpdateProfileInput) (*UpdateProfileOutput, error) {
+	out := &UpdateProfileOutput{}
+
+	if err := s.invoke(ctx, "eolymp.cognito.Cognito/UpdateProfile", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *CognitoService) StartRecovery(ctx context.Context, in *StartRecoveryInput) (*StartRecoveryOutput, error) {
 	out := &StartRecoveryOutput{}
 
