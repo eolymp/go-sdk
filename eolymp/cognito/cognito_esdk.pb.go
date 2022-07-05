@@ -196,6 +196,26 @@ func (s *CognitoService) UpdateProfile(ctx context.Context, in *UpdateProfileInp
 	return out, nil
 }
 
+func (s *CognitoService) UpdatePicture(ctx context.Context, in *UpdatePictureInput) (*UpdatePictureOutput, error) {
+	out := &UpdatePictureOutput{}
+
+	if err := s.invoke(ctx, "eolymp.cognito.Cognito/UpdatePicture", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *CognitoService) UpdatePassword(ctx context.Context, in *UpdatePasswordInput) (*UpdatePasswordOutput, error) {
+	out := &UpdatePasswordOutput{}
+
+	if err := s.invoke(ctx, "eolymp.cognito.Cognito/UpdatePassword", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *CognitoService) StartRecovery(ctx context.Context, in *StartRecoveryInput) (*StartRecoveryOutput, error) {
 	out := &StartRecoveryOutput{}
 

@@ -114,6 +114,8 @@ func NewCognitoHandler(srv CognitoServer) http.Handler {
 	router.Handle("/eolymp.cognito.Cognito/VerifyEmail", _Cognito_VerifyEmail(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.cognito.Cognito/UpdateEmail", _Cognito_UpdateEmail(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.cognito.Cognito/UpdateProfile", _Cognito_UpdateProfile(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.cognito.Cognito/UpdatePicture", _Cognito_UpdatePicture(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.cognito.Cognito/UpdatePassword", _Cognito_UpdatePassword(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.cognito.Cognito/StartRecovery", _Cognito_StartRecovery(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.cognito.Cognito/CompleteRecovery", _Cognito_CompleteRecovery(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.cognito.Cognito/IntrospectUser", _Cognito_IntrospectUser(srv)).Methods(http.MethodPost)
@@ -358,6 +360,46 @@ func _Cognito_UpdateProfile(srv CognitoServer) http.Handler {
 		}
 
 		out, err := srv.UpdateProfile(r.Context(), in)
+		if err != nil {
+			_Cognito_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Cognito_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Cognito_UpdatePicture(srv CognitoServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UpdatePictureInput{}
+
+		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Cognito_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.UpdatePicture(r.Context(), in)
+		if err != nil {
+			_Cognito_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Cognito_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Cognito_UpdatePassword(srv CognitoServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UpdatePasswordInput{}
+
+		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Cognito_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.UpdatePassword(r.Context(), in)
 		if err != nil {
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
@@ -641,6 +683,12 @@ func (i *CognitoInterceptor) CreateAuthorization(ctx context.Context, in *Create
 			Observe(time.Since(start).Seconds())
 	}()
 
+	token, ok := oauth.TokenFromContext(ctx)
+	if ok && !token.Has("password_grant") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: password_grant")
+		return
+	}
+
 	if !i.limiter.Allow(ctx, "eolymp.cognito.Cognito/CreateAuthorization", 0.16, 10) {
 		err = status.Error(codes.ResourceExhausted, "too many requests")
 		return
@@ -857,6 +905,54 @@ func (i *CognitoInterceptor) UpdateProfile(ctx context.Context, in *UpdateProfil
 	return
 }
 
+func (i *CognitoInterceptor) UpdatePicture(ctx context.Context, in *UpdatePictureInput) (out *UpdatePictureOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promCognitoRequestLatency.WithLabelValues("eolymp.cognito.Cognito/UpdatePicture", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	if !i.limiter.Allow(ctx, "eolymp.cognito.Cognito/UpdatePicture", 1, 5) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.UpdatePicture(ctx, in)
+	return
+}
+
+func (i *CognitoInterceptor) UpdatePassword(ctx context.Context, in *UpdatePasswordInput) (out *UpdatePasswordOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promCognitoRequestLatency.WithLabelValues("eolymp.cognito.Cognito/UpdatePassword", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if ok && !token.Has("password_grant") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: password_grant")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.cognito.Cognito/UpdatePassword", 1, 5) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.UpdatePassword(ctx, in)
+	return
+}
+
 func (i *CognitoInterceptor) StartRecovery(ctx context.Context, in *StartRecoveryInput) (out *StartRecoveryOutput, err error) {
 	start := time.Now()
 	defer func() {
@@ -911,7 +1007,7 @@ func (i *CognitoInterceptor) IntrospectUser(ctx context.Context, in *IntrospectU
 			Observe(time.Since(start).Seconds())
 	}()
 
-	if !i.limiter.Allow(ctx, "eolymp.cognito.Cognito/IntrospectUser", 0.16, 10) {
+	if !i.limiter.Allow(ctx, "eolymp.cognito.Cognito/IntrospectUser", 10, 50) {
 		err = status.Error(codes.ResourceExhausted, "too many requests")
 		return
 	}
