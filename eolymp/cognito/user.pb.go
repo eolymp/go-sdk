@@ -75,22 +75,24 @@ type User struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id           string               `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`                                                                     // Unique identifier
-	Username     string               `protobuf:"bytes,2,opt,name=username,proto3" json:"username,omitempty"`                                                         // Username (handler)
-	Email        string               `protobuf:"bytes,3,opt,name=email,proto3" json:"email,omitempty"`                                                               // Email address (requires VIEW_PRIVATE_DATA entitlement)
-	Active       bool                 `protobuf:"varint,4,opt,name=active,proto3" json:"active,omitempty"`                                                            // Account is active, user can login
-	Rank         uint32               `protobuf:"varint,41,opt,name=rank,proto3" json:"rank,omitempty"`                                                               // Rank
-	RankTrend    User_RankTrend       `protobuf:"varint,42,opt,name=rank_trend,json=rankTrend,proto3,enum=eolymp.cognito.User_RankTrend" json:"rank_trend,omitempty"` // Rank trend (up or down)
-	Name         string               `protobuf:"bytes,10,opt,name=name,proto3" json:"name,omitempty"`                                                                // Full name
-	Picture      string               `protobuf:"bytes,11,opt,name=picture,proto3" json:"picture,omitempty"`                                                          // Profile picture
-	Company      string               `protobuf:"bytes,12,opt,name=company,proto3" json:"company,omitempty"`                                                          // Company
-	Occupation   string               `protobuf:"bytes,13,opt,name=occupation,proto3" json:"occupation,omitempty"`                                                    // Occupation
-	Country      string               `protobuf:"bytes,21,opt,name=country,proto3" json:"country,omitempty"`                                                          // Country code
-	City         string               `protobuf:"bytes,22,opt,name=city,proto3" json:"city,omitempty"`                                                                // City
-	EmailStatus  string               `protobuf:"bytes,32,opt,name=email_status,json=emailStatus,proto3" json:"email_status,omitempty"`                               // Email confirmation status (requires VIEW_PRIVATE_DATA entitlement)
-	Birthday     string               `protobuf:"bytes,33,opt,name=birthday,proto3" json:"birthday,omitempty"`                                                        // Birthday (requires VIEW_PRIVATE_DATA entitlement)
-	RegisteredOn *timestamp.Timestamp `protobuf:"bytes,34,opt,name=registered_on,json=registeredOn,proto3" json:"registered_on,omitempty"`                            // Exact time when user registered (requires VIEW_PRIVATE_DATA entitlement)
-	LastActivity *timestamp.Timestamp `protobuf:"bytes,35,opt,name=last_activity,json=lastActivity,proto3" json:"last_activity,omitempty"`                            // Exact time when user was last active (requires VIEW_PRIVATE_DATA entitlement)
+	Id                string               `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`                                                                     // Unique identifier
+	Username          string               `protobuf:"bytes,2,opt,name=username,proto3" json:"username,omitempty"`                                                         // Username (handler)
+	Email             string               `protobuf:"bytes,3,opt,name=email,proto3" json:"email,omitempty"`                                                               // Email address (requires VIEW_PRIVATE_DATA entitlement)
+	Active            bool                 `protobuf:"varint,4,opt,name=active,proto3" json:"active,omitempty"`                                                            // Account is active, user can login
+	Rank              uint32               `protobuf:"varint,41,opt,name=rank,proto3" json:"rank,omitempty"`                                                               // Rank
+	RankTrend         User_RankTrend       `protobuf:"varint,42,opt,name=rank_trend,json=rankTrend,proto3,enum=eolymp.cognito.User_RankTrend" json:"rank_trend,omitempty"` // Rank trend (up or down)
+	Name              string               `protobuf:"bytes,10,opt,name=name,proto3" json:"name,omitempty"`                                                                // Full name
+	Picture           string               `protobuf:"bytes,11,opt,name=picture,proto3" json:"picture,omitempty"`                                                          // Profile picture
+	Company           string               `protobuf:"bytes,12,opt,name=company,proto3" json:"company,omitempty"`                                                          // Company
+	Occupation        string               `protobuf:"bytes,13,opt,name=occupation,proto3" json:"occupation,omitempty"`                                                    // Occupation
+	Country           string               `protobuf:"bytes,21,opt,name=country,proto3" json:"country,omitempty"`                                                          // Country code
+	City              string               `protobuf:"bytes,22,opt,name=city,proto3" json:"city,omitempty"`                                                                // City
+	EmailStatus       string               `protobuf:"bytes,32,opt,name=email_status,json=emailStatus,proto3" json:"email_status,omitempty"`                               // Email confirmation status (requires VIEW_PRIVATE_DATA entitlement)
+	Birthday          string               `protobuf:"bytes,33,opt,name=birthday,proto3" json:"birthday,omitempty"`                                                        // Birthday (requires VIEW_PRIVATE_DATA entitlement)
+	RegisteredOn      *timestamp.Timestamp `protobuf:"bytes,34,opt,name=registered_on,json=registeredOn,proto3" json:"registered_on,omitempty"`                            // Exact time when user registered (requires VIEW_PRIVATE_DATA entitlement)
+	LastActivity      *timestamp.Timestamp `protobuf:"bytes,35,opt,name=last_activity,json=lastActivity,proto3" json:"last_activity,omitempty"`                            // Exact time when user was last active (requires VIEW_PRIVATE_DATA entitlement)
+	UsernameChangedOn *timestamp.Timestamp `protobuf:"bytes,36,opt,name=username_changed_on,json=usernameChangedOn,proto3" json:"username_changed_on,omitempty"`           // Exact time when user has changed username last time (requires VIEW_PRIVATE_DATA entitlement)
+	PasswordChangedOn *timestamp.Timestamp `protobuf:"bytes,37,opt,name=password_changed_on,json=passwordChangedOn,proto3" json:"password_changed_on,omitempty"`           // Exact time when user has changed password last time (requires VIEW_PRIVATE_DATA entitlement)
 }
 
 func (x *User) Reset() {
@@ -237,6 +239,20 @@ func (x *User) GetLastActivity() *timestamp.Timestamp {
 	return nil
 }
 
+func (x *User) GetUsernameChangedOn() *timestamp.Timestamp {
+	if x != nil {
+		return x.UsernameChangedOn
+	}
+	return nil
+}
+
+func (x *User) GetPasswordChangedOn() *timestamp.Timestamp {
+	if x != nil {
+		return x.PasswordChangedOn
+	}
+	return nil
+}
+
 var File_eolymp_cognito_user_proto protoreflect.FileDescriptor
 
 var file_eolymp_cognito_user_proto_rawDesc = []byte{
@@ -244,7 +260,7 @@ var file_eolymp_cognito_user_proto_rawDesc = []byte{
 	0x2f, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x0e, 0x65, 0x6f, 0x6c,
 	0x79, 0x6d, 0x70, 0x2e, 0x63, 0x6f, 0x67, 0x6e, 0x69, 0x74, 0x6f, 0x1a, 0x1f, 0x67, 0x6f, 0x6f,
 	0x67, 0x6c, 0x65, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2f, 0x74, 0x69, 0x6d,
-	0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0xb3, 0x04, 0x0a,
+	0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0xcb, 0x05, 0x0a,
 	0x04, 0x55, 0x73, 0x65, 0x72, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28,
 	0x09, 0x52, 0x02, 0x69, 0x64, 0x12, 0x1a, 0x0a, 0x08, 0x75, 0x73, 0x65, 0x72, 0x6e, 0x61, 0x6d,
 	0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x75, 0x73, 0x65, 0x72, 0x6e, 0x61, 0x6d,
@@ -277,14 +293,23 @@ var file_eolymp_cognito_user_proto_rawDesc = []byte{
 	0x5f, 0x61, 0x63, 0x74, 0x69, 0x76, 0x69, 0x74, 0x79, 0x18, 0x23, 0x20, 0x01, 0x28, 0x0b, 0x32,
 	0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75,
 	0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x52, 0x0c, 0x6c, 0x61, 0x73,
-	0x74, 0x41, 0x63, 0x74, 0x69, 0x76, 0x69, 0x74, 0x79, 0x22, 0x27, 0x0a, 0x09, 0x52, 0x61, 0x6e,
-	0x6b, 0x54, 0x72, 0x65, 0x6e, 0x64, 0x12, 0x08, 0x0a, 0x04, 0x4e, 0x4f, 0x4e, 0x45, 0x10, 0x00,
-	0x12, 0x06, 0x0a, 0x02, 0x55, 0x50, 0x10, 0x01, 0x12, 0x08, 0x0a, 0x04, 0x44, 0x4f, 0x57, 0x4e,
-	0x10, 0x02, 0x42, 0x37, 0x5a, 0x35, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d,
-	0x2f, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74,
-	0x73, 0x2f, 0x67, 0x6f, 0x2f, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x63, 0x6f, 0x67, 0x6e,
-	0x69, 0x74, 0x6f, 0x3b, 0x63, 0x6f, 0x67, 0x6e, 0x69, 0x74, 0x6f, 0x62, 0x06, 0x70, 0x72, 0x6f,
-	0x74, 0x6f, 0x33,
+	0x74, 0x41, 0x63, 0x74, 0x69, 0x76, 0x69, 0x74, 0x79, 0x12, 0x4a, 0x0a, 0x13, 0x75, 0x73, 0x65,
+	0x72, 0x6e, 0x61, 0x6d, 0x65, 0x5f, 0x63, 0x68, 0x61, 0x6e, 0x67, 0x65, 0x64, 0x5f, 0x6f, 0x6e,
+	0x18, 0x24, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61,
+	0x6d, 0x70, 0x52, 0x11, 0x75, 0x73, 0x65, 0x72, 0x6e, 0x61, 0x6d, 0x65, 0x43, 0x68, 0x61, 0x6e,
+	0x67, 0x65, 0x64, 0x4f, 0x6e, 0x12, 0x4a, 0x0a, 0x13, 0x70, 0x61, 0x73, 0x73, 0x77, 0x6f, 0x72,
+	0x64, 0x5f, 0x63, 0x68, 0x61, 0x6e, 0x67, 0x65, 0x64, 0x5f, 0x6f, 0x6e, 0x18, 0x25, 0x20, 0x01,
+	0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74,
+	0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x52, 0x11,
+	0x70, 0x61, 0x73, 0x73, 0x77, 0x6f, 0x72, 0x64, 0x43, 0x68, 0x61, 0x6e, 0x67, 0x65, 0x64, 0x4f,
+	0x6e, 0x22, 0x27, 0x0a, 0x09, 0x52, 0x61, 0x6e, 0x6b, 0x54, 0x72, 0x65, 0x6e, 0x64, 0x12, 0x08,
+	0x0a, 0x04, 0x4e, 0x4f, 0x4e, 0x45, 0x10, 0x00, 0x12, 0x06, 0x0a, 0x02, 0x55, 0x50, 0x10, 0x01,
+	0x12, 0x08, 0x0a, 0x04, 0x44, 0x4f, 0x57, 0x4e, 0x10, 0x02, 0x42, 0x37, 0x5a, 0x35, 0x67, 0x69,
+	0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f,
+	0x63, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x73, 0x2f, 0x67, 0x6f, 0x2f, 0x65, 0x6f, 0x6c,
+	0x79, 0x6d, 0x70, 0x2f, 0x63, 0x6f, 0x67, 0x6e, 0x69, 0x74, 0x6f, 0x3b, 0x63, 0x6f, 0x67, 0x6e,
+	0x69, 0x74, 0x6f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -310,11 +335,13 @@ var file_eolymp_cognito_user_proto_depIdxs = []int32{
 	0, // 0: eolymp.cognito.User.rank_trend:type_name -> eolymp.cognito.User.RankTrend
 	2, // 1: eolymp.cognito.User.registered_on:type_name -> google.protobuf.Timestamp
 	2, // 2: eolymp.cognito.User.last_activity:type_name -> google.protobuf.Timestamp
-	3, // [3:3] is the sub-list for method output_type
-	3, // [3:3] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	2, // 3: eolymp.cognito.User.username_changed_on:type_name -> google.protobuf.Timestamp
+	2, // 4: eolymp.cognito.User.password_changed_on:type_name -> google.protobuf.Timestamp
+	5, // [5:5] is the sub-list for method output_type
+	5, // [5:5] is the sub-list for method input_type
+	5, // [5:5] is the sub-list for extension type_name
+	5, // [5:5] is the sub-list for extension extendee
+	0, // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_cognito_user_proto_init() }
