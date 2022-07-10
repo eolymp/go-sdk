@@ -512,13 +512,7 @@ func (i *CommunityInterceptor) IntrospectMember(ctx context.Context, in *Introsp
 			Observe(time.Since(start).Seconds())
 	}()
 
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("community:member:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: community:member:read")
-		return
-	}
-
-	if !i.limiter.Allow(ctx, "eolymp.community.Community/IntrospectMember", 5, 20) {
+	if !i.limiter.Allow(ctx, "eolymp.community.Community/IntrospectMember", 10, 50) {
 		err = status.Error(codes.ResourceExhausted, "too many requests")
 		return
 	}

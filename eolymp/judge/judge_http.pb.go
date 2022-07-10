@@ -2394,8 +2394,8 @@ func (i *JudgeInterceptor) ListExamples(ctx context.Context, in *ListExamplesInp
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("atlas:problem:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:read")
+	if ok && !token.Has("judge:contest:read") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
 		return
 	}
 
@@ -2663,13 +2663,7 @@ func (i *JudgeInterceptor) IntrospectParticipant(ctx context.Context, in *Intros
 			Observe(time.Since(start).Seconds())
 	}()
 
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
-		return
-	}
-
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/IntrospectParticipant", 2, 10) {
+	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/IntrospectParticipant", 10, 50) {
 		err = status.Error(codes.ResourceExhausted, "too many requests")
 		return
 	}
@@ -2766,8 +2760,8 @@ func (i *JudgeInterceptor) EnterPasscode(ctx context.Context, in *EnterPasscodeI
 	}()
 
 	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
+	if ok && !token.Has("judge:contest:participate") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:participate")
 		return
 	}
 
@@ -3439,12 +3433,6 @@ func (i *JudgeInterceptor) IntrospectScore(ctx context.Context, in *IntrospectSc
 		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/IntrospectScore", s.Code().String()).
 			Observe(time.Since(start).Seconds())
 	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
-		return
-	}
 
 	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/IntrospectScore", 10, 50) {
 		err = status.Error(codes.ResourceExhausted, "too many requests")

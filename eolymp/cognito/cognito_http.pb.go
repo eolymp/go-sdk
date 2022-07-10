@@ -662,7 +662,7 @@ func (i *CognitoInterceptor) IntrospectToken(ctx context.Context, in *Introspect
 			Observe(time.Since(start).Seconds())
 	}()
 
-	if !i.limiter.Allow(ctx, "eolymp.cognito.Cognito/IntrospectToken", 1, 10) {
+	if !i.limiter.Allow(ctx, "eolymp.cognito.Cognito/IntrospectToken", 10, 50) {
 		err = status.Error(codes.ResourceExhausted, "too many requests")
 		return
 	}
@@ -1082,7 +1082,7 @@ func (i *CognitoInterceptor) IntrospectQuota(ctx context.Context, in *Introspect
 			Observe(time.Since(start).Seconds())
 	}()
 
-	if !i.limiter.Allow(ctx, "eolymp.cognito.Cognito/IntrospectQuota", 1, 10) {
+	if !i.limiter.Allow(ctx, "eolymp.cognito.Cognito/IntrospectQuota", 10, 50) {
 		err = status.Error(codes.ResourceExhausted, "too many requests")
 		return
 	}
@@ -1103,7 +1103,7 @@ func (i *CognitoInterceptor) IntrospectRoles(ctx context.Context, in *Introspect
 			Observe(time.Since(start).Seconds())
 	}()
 
-	if !i.limiter.Allow(ctx, "eolymp.cognito.Cognito/IntrospectRoles", 1, 10) {
+	if !i.limiter.Allow(ctx, "eolymp.cognito.Cognito/IntrospectRoles", 10, 50) {
 		err = status.Error(codes.ResourceExhausted, "too many requests")
 		return
 	}

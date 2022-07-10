@@ -641,13 +641,7 @@ func (i *UniverseInterceptor) IntrospectPermission(ctx context.Context, in *Intr
 			Observe(time.Since(start).Seconds())
 	}()
 
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("universe:space:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: universe:space:read")
-		return
-	}
-
-	if !i.limiter.Allow(ctx, "eolymp.universe.Universe/IntrospectPermission", 5, 20) {
+	if !i.limiter.Allow(ctx, "eolymp.universe.Universe/IntrospectPermission", 10, 50) {
 		err = status.Error(codes.ResourceExhausted, "too many requests")
 		return
 	}
