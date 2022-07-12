@@ -295,7 +295,7 @@ func (c *cognitoClient) ListEntitlements(ctx context.Context, in *ListEntitlemen
 }
 
 // CognitoServer is the server API for Cognito service.
-// All implementations must embed UnimplementedCognitoServer
+// All implementations should embed UnimplementedCognitoServer
 // for forward compatibility
 type CognitoServer interface {
 	// Create oauth access token.
@@ -344,10 +344,9 @@ type CognitoServer interface {
 	UpdateRoles(context.Context, *UpdateRolesInput) (*UpdateRolesOutput, error)
 	// Lists entitlements granted to authenticated user.
 	ListEntitlements(context.Context, *ListEntitlementsInput) (*ListEntitlementsOutput, error)
-	mustEmbedUnimplementedCognitoServer()
 }
 
-// UnimplementedCognitoServer must be embedded to have forward compatible implementations.
+// UnimplementedCognitoServer should be embedded to have forward compatible implementations.
 type UnimplementedCognitoServer struct {
 }
 
@@ -423,7 +422,6 @@ func (UnimplementedCognitoServer) UpdateRoles(context.Context, *UpdateRolesInput
 func (UnimplementedCognitoServer) ListEntitlements(context.Context, *ListEntitlementsInput) (*ListEntitlementsOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListEntitlements not implemented")
 }
-func (UnimplementedCognitoServer) mustEmbedUnimplementedCognitoServer() {}
 
 // UnsafeCognitoServer may be embedded to opt out of forward compatibility for this service.
 // Use of this interface is not recommended, as added methods to CognitoServer will

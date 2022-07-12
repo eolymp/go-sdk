@@ -63,16 +63,15 @@ func (c *keeperClient) DownloadObject(ctx context.Context, in *DownloadObjectInp
 }
 
 // KeeperServer is the server API for Keeper service.
-// All implementations must embed UnimplementedKeeperServer
+// All implementations should embed UnimplementedKeeperServer
 // for forward compatibility
 type KeeperServer interface {
 	CreateObject(context.Context, *CreateObjectInput) (*CreateObjectOutput, error)
 	DescribeObject(context.Context, *DescribeObjectInput) (*DescribeObjectOutput, error)
 	DownloadObject(context.Context, *DownloadObjectInput) (*DownloadObjectOutput, error)
-	mustEmbedUnimplementedKeeperServer()
 }
 
-// UnimplementedKeeperServer must be embedded to have forward compatible implementations.
+// UnimplementedKeeperServer should be embedded to have forward compatible implementations.
 type UnimplementedKeeperServer struct {
 }
 
@@ -85,7 +84,6 @@ func (UnimplementedKeeperServer) DescribeObject(context.Context, *DescribeObject
 func (UnimplementedKeeperServer) DownloadObject(context.Context, *DownloadObjectInput) (*DownloadObjectOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DownloadObject not implemented")
 }
-func (UnimplementedKeeperServer) mustEmbedUnimplementedKeeperServer() {}
 
 // UnsafeKeeperServer may be embedded to opt out of forward compatibility for this service.
 // Use of this interface is not recommended, as added methods to KeeperServer will

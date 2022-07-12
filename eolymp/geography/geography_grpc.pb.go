@@ -53,15 +53,14 @@ func (c *geographyClient) ListCountries(ctx context.Context, in *ListCountriesIn
 }
 
 // GeographyServer is the server API for Geography service.
-// All implementations must embed UnimplementedGeographyServer
+// All implementations should embed UnimplementedGeographyServer
 // for forward compatibility
 type GeographyServer interface {
 	DescribeCountry(context.Context, *DescribeCountryInput) (*DescribeCountryOutput, error)
 	ListCountries(context.Context, *ListCountriesInput) (*ListCountriesOutput, error)
-	mustEmbedUnimplementedGeographyServer()
 }
 
-// UnimplementedGeographyServer must be embedded to have forward compatible implementations.
+// UnimplementedGeographyServer should be embedded to have forward compatible implementations.
 type UnimplementedGeographyServer struct {
 }
 
@@ -71,7 +70,6 @@ func (UnimplementedGeographyServer) DescribeCountry(context.Context, *DescribeCo
 func (UnimplementedGeographyServer) ListCountries(context.Context, *ListCountriesInput) (*ListCountriesOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListCountries not implemented")
 }
-func (UnimplementedGeographyServer) mustEmbedUnimplementedGeographyServer() {}
 
 // UnsafeGeographyServer may be embedded to opt out of forward compatibility for this service.
 // Use of this interface is not recommended, as added methods to GeographyServer will

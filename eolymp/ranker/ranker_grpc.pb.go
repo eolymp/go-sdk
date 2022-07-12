@@ -172,7 +172,7 @@ func (c *rankerClient) ListActivities(ctx context.Context, in *ListActivitiesInp
 }
 
 // RankerServer is the server API for Ranker service.
-// All implementations must embed UnimplementedRankerServer
+// All implementations should embed UnimplementedRankerServer
 // for forward compatibility
 type RankerServer interface {
 	// Create a scoreboard
@@ -197,10 +197,9 @@ type RankerServer interface {
 	// List scoreboards of a contest
 	ListScoreboardColumns(context.Context, *ListScoreboardColumnsInput) (*ListScoreboardColumnsOutput, error)
 	ListActivities(context.Context, *ListActivitiesInput) (*ListActivitiesOutput, error)
-	mustEmbedUnimplementedRankerServer()
 }
 
-// UnimplementedRankerServer must be embedded to have forward compatible implementations.
+// UnimplementedRankerServer should be embedded to have forward compatible implementations.
 type UnimplementedRankerServer struct {
 }
 
@@ -243,7 +242,6 @@ func (UnimplementedRankerServer) ListScoreboardColumns(context.Context, *ListSco
 func (UnimplementedRankerServer) ListActivities(context.Context, *ListActivitiesInput) (*ListActivitiesOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListActivities not implemented")
 }
-func (UnimplementedRankerServer) mustEmbedUnimplementedRankerServer() {}
 
 // UnsafeRankerServer may be embedded to opt out of forward compatibility for this service.
 // Use of this interface is not recommended, as added methods to RankerServer will

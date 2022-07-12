@@ -165,7 +165,7 @@ func (c *universeClient) ListPermissions(ctx context.Context, in *ListPermission
 }
 
 // UniverseServer is the server API for Universe service.
-// All implementations must embed UnimplementedUniverseServer
+// All implementations should embed UnimplementedUniverseServer
 // for forward compatibility
 type UniverseServer interface {
 	// Create a space
@@ -192,10 +192,9 @@ type UniverseServer interface {
 	IntrospectPermission(context.Context, *IntrospectPermissionInput) (*IntrospectPermissionOutput, error)
 	// List permissions in a space
 	ListPermissions(context.Context, *ListPermissionsInput) (*ListPermissionsOutput, error)
-	mustEmbedUnimplementedUniverseServer()
 }
 
-// UnimplementedUniverseServer must be embedded to have forward compatible implementations.
+// UnimplementedUniverseServer should be embedded to have forward compatible implementations.
 type UnimplementedUniverseServer struct {
 }
 
@@ -235,7 +234,6 @@ func (UnimplementedUniverseServer) IntrospectPermission(context.Context, *Intros
 func (UnimplementedUniverseServer) ListPermissions(context.Context, *ListPermissionsInput) (*ListPermissionsOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListPermissions not implemented")
 }
-func (UnimplementedUniverseServer) mustEmbedUnimplementedUniverseServer() {}
 
 // UnsafeUniverseServer may be embedded to opt out of forward compatibility for this service.
 // Use of this interface is not recommended, as added methods to UniverseServer will

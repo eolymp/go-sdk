@@ -43,21 +43,19 @@ func (c *typewriterClient) UploadAsset(ctx context.Context, in *UploadAssetInput
 }
 
 // TypewriterServer is the server API for Typewriter service.
-// All implementations must embed UnimplementedTypewriterServer
+// All implementations should embed UnimplementedTypewriterServer
 // for forward compatibility
 type TypewriterServer interface {
 	UploadAsset(context.Context, *UploadAssetInput) (*UploadAssetOutput, error)
-	mustEmbedUnimplementedTypewriterServer()
 }
 
-// UnimplementedTypewriterServer must be embedded to have forward compatible implementations.
+// UnimplementedTypewriterServer should be embedded to have forward compatible implementations.
 type UnimplementedTypewriterServer struct {
 }
 
 func (UnimplementedTypewriterServer) UploadAsset(context.Context, *UploadAssetInput) (*UploadAssetOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UploadAsset not implemented")
 }
-func (UnimplementedTypewriterServer) mustEmbedUnimplementedTypewriterServer() {}
 
 // UnsafeTypewriterServer may be embedded to opt out of forward compatibility for this service.
 // Use of this interface is not recommended, as added methods to TypewriterServer will

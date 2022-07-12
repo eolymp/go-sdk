@@ -53,15 +53,14 @@ func (c *playgroundClient) DescribeRun(ctx context.Context, in *DescribeRunInput
 }
 
 // PlaygroundServer is the server API for Playground service.
-// All implementations must embed UnimplementedPlaygroundServer
+// All implementations should embed UnimplementedPlaygroundServer
 // for forward compatibility
 type PlaygroundServer interface {
 	CreateRun(context.Context, *CreateRunInput) (*CreateRunOutput, error)
 	DescribeRun(context.Context, *DescribeRunInput) (*DescribeRunOutput, error)
-	mustEmbedUnimplementedPlaygroundServer()
 }
 
-// UnimplementedPlaygroundServer must be embedded to have forward compatible implementations.
+// UnimplementedPlaygroundServer should be embedded to have forward compatible implementations.
 type UnimplementedPlaygroundServer struct {
 }
 
@@ -71,7 +70,6 @@ func (UnimplementedPlaygroundServer) CreateRun(context.Context, *CreateRunInput)
 func (UnimplementedPlaygroundServer) DescribeRun(context.Context, *DescribeRunInput) (*DescribeRunOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeRun not implemented")
 }
-func (UnimplementedPlaygroundServer) mustEmbedUnimplementedPlaygroundServer() {}
 
 // UnsafePlaygroundServer may be embedded to opt out of forward compatibility for this service.
 // Use of this interface is not recommended, as added methods to PlaygroundServer will

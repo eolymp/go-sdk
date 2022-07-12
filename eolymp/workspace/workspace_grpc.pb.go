@@ -123,7 +123,7 @@ func (c *workspaceClient) RemoveFile(ctx context.Context, in *RemoveFileInput, o
 }
 
 // WorkspaceServer is the server API for Workspace service.
-// All implementations must embed UnimplementedWorkspaceServer
+// All implementations should embed UnimplementedWorkspaceServer
 // for forward compatibility
 type WorkspaceServer interface {
 	DescribeProject(context.Context, *DescribeProjectInput) (*DescribeProjectOutput, error)
@@ -135,10 +135,9 @@ type WorkspaceServer interface {
 	DescribeFile(context.Context, *DescribeFileInput) (*DescribeFileOutput, error)
 	UploadFile(context.Context, *UploadFileInput) (*UploadFileOutput, error)
 	RemoveFile(context.Context, *RemoveFileInput) (*RemoveFileOutput, error)
-	mustEmbedUnimplementedWorkspaceServer()
 }
 
-// UnimplementedWorkspaceServer must be embedded to have forward compatible implementations.
+// UnimplementedWorkspaceServer should be embedded to have forward compatible implementations.
 type UnimplementedWorkspaceServer struct {
 }
 
@@ -169,7 +168,6 @@ func (UnimplementedWorkspaceServer) UploadFile(context.Context, *UploadFileInput
 func (UnimplementedWorkspaceServer) RemoveFile(context.Context, *RemoveFileInput) (*RemoveFileOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RemoveFile not implemented")
 }
-func (UnimplementedWorkspaceServer) mustEmbedUnimplementedWorkspaceServer() {}
 
 // UnsafeWorkspaceServer may be embedded to opt out of forward compatibility for this service.
 // Use of this interface is not recommended, as added methods to WorkspaceServer will

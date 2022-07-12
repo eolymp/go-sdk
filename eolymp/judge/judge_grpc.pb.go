@@ -887,7 +887,7 @@ func (c *judgeClient) ListActivities(ctx context.Context, in *ListActivitiesInpu
 }
 
 // JudgeServer is the server API for Judge service.
-// All implementations must embed UnimplementedJudgeServer
+// All implementations should embed UnimplementedJudgeServer
 // for forward compatibility
 type JudgeServer interface {
 	CreateContest(context.Context, *CreateContestInput) (*CreateContestOutput, error)
@@ -1024,10 +1024,9 @@ type JudgeServer interface {
 	// Lists entitlements granted to authenticated user.
 	ListEntitlements(context.Context, *ListEntitlementsInput) (*ListEntitlementsOutput, error)
 	ListActivities(context.Context, *ListActivitiesInput) (*ListActivitiesOutput, error)
-	mustEmbedUnimplementedJudgeServer()
 }
 
-// UnimplementedJudgeServer must be embedded to have forward compatible implementations.
+// UnimplementedJudgeServer should be embedded to have forward compatible implementations.
 type UnimplementedJudgeServer struct {
 }
 
@@ -1271,7 +1270,6 @@ func (UnimplementedJudgeServer) ListEntitlements(context.Context, *ListEntitleme
 func (UnimplementedJudgeServer) ListActivities(context.Context, *ListActivitiesInput) (*ListActivitiesOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListActivities not implemented")
 }
-func (UnimplementedJudgeServer) mustEmbedUnimplementedJudgeServer() {}
 
 // UnsafeJudgeServer may be embedded to opt out of forward compatibility for this service.
 // Use of this interface is not recommended, as added methods to JudgeServer will

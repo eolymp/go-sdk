@@ -177,7 +177,7 @@ func (c *communityClient) ListAttributes(ctx context.Context, in *ListAttributes
 }
 
 // CommunityServer is the server API for Community service.
-// All implementations must embed UnimplementedCommunityServer
+// All implementations should embed UnimplementedCommunityServer
 // for forward compatibility
 type CommunityServer interface {
 	// Add yourself to the space
@@ -198,10 +198,9 @@ type CommunityServer interface {
 	RemoveAttribute(context.Context, *RemoveAttributeInput) (*RemoveAttributeOutput, error)
 	DescribeAttribute(context.Context, *DescribeAttributeInput) (*DescribeAttributeOutput, error)
 	ListAttributes(context.Context, *ListAttributesInput) (*ListAttributesOutput, error)
-	mustEmbedUnimplementedCommunityServer()
 }
 
-// UnimplementedCommunityServer must be embedded to have forward compatible implementations.
+// UnimplementedCommunityServer should be embedded to have forward compatible implementations.
 type UnimplementedCommunityServer struct {
 }
 
@@ -247,7 +246,6 @@ func (UnimplementedCommunityServer) DescribeAttribute(context.Context, *Describe
 func (UnimplementedCommunityServer) ListAttributes(context.Context, *ListAttributesInput) (*ListAttributesOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListAttributes not implemented")
 }
-func (UnimplementedCommunityServer) mustEmbedUnimplementedCommunityServer() {}
 
 // UnsafeCommunityServer may be embedded to opt out of forward compatibility for this service.
 // Use of this interface is not recommended, as added methods to CommunityServer will

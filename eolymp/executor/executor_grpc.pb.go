@@ -83,7 +83,7 @@ func (c *executorClient) DescribeCodeTemplate(ctx context.Context, in *DescribeC
 }
 
 // ExecutorServer is the server API for Executor service.
-// All implementations must embed UnimplementedExecutorServer
+// All implementations should embed UnimplementedExecutorServer
 // for forward compatibility
 type ExecutorServer interface {
 	DescribeLanguage(context.Context, *DescribeLanguageInput) (*DescribeLanguageOutput, error)
@@ -91,10 +91,9 @@ type ExecutorServer interface {
 	DescribeRuntime(context.Context, *DescribeRuntimeInput) (*DescribeRuntimeOutput, error)
 	ListRuntime(context.Context, *ListRuntimeInput) (*ListRuntimeOutput, error)
 	DescribeCodeTemplate(context.Context, *DescribeCodeTemplateInput) (*DescribeCodeTemplateOutput, error)
-	mustEmbedUnimplementedExecutorServer()
 }
 
-// UnimplementedExecutorServer must be embedded to have forward compatible implementations.
+// UnimplementedExecutorServer should be embedded to have forward compatible implementations.
 type UnimplementedExecutorServer struct {
 }
 
@@ -113,7 +112,6 @@ func (UnimplementedExecutorServer) ListRuntime(context.Context, *ListRuntimeInpu
 func (UnimplementedExecutorServer) DescribeCodeTemplate(context.Context, *DescribeCodeTemplateInput) (*DescribeCodeTemplateOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeCodeTemplate not implemented")
 }
-func (UnimplementedExecutorServer) mustEmbedUnimplementedExecutorServer() {}
 
 // UnsafeExecutorServer may be embedded to opt out of forward compatibility for this service.
 // Use of this interface is not recommended, as added methods to ExecutorServer will

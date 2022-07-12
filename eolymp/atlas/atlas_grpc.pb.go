@@ -653,7 +653,7 @@ func (c *atlasClient) DescribeScore(ctx context.Context, in *DescribeScoreInput,
 }
 
 // AtlasServer is the server API for Atlas service.
-// All implementations must embed UnimplementedAtlasServer
+// All implementations should embed UnimplementedAtlasServer
 // for forward compatibility
 type AtlasServer interface {
 	CreateProblem(context.Context, *CreateProblemInput) (*CreateProblemOutput, error)
@@ -718,10 +718,9 @@ type AtlasServer interface {
 	CreateSubmission(context.Context, *CreateSubmissionInput) (*CreateSubmissionOutput, error)
 	DescribeSubmission(context.Context, *DescribeSubmissionInput) (*DescribeSubmissionOutput, error)
 	DescribeScore(context.Context, *DescribeScoreInput) (*DescribeScoreOutput, error)
-	mustEmbedUnimplementedAtlasServer()
 }
 
-// UnimplementedAtlasServer must be embedded to have forward compatible implementations.
+// UnimplementedAtlasServer should be embedded to have forward compatible implementations.
 type UnimplementedAtlasServer struct {
 }
 
@@ -911,7 +910,6 @@ func (UnimplementedAtlasServer) DescribeSubmission(context.Context, *DescribeSub
 func (UnimplementedAtlasServer) DescribeScore(context.Context, *DescribeScoreInput) (*DescribeScoreOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeScore not implemented")
 }
-func (UnimplementedAtlasServer) mustEmbedUnimplementedAtlasServer() {}
 
 // UnsafeAtlasServer may be embedded to opt out of forward compatibility for this service.
 // Use of this interface is not recommended, as added methods to AtlasServer will

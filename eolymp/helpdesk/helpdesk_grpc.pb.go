@@ -113,7 +113,7 @@ func (c *helpdeskClient) ListParents(ctx context.Context, in *ListParentsInput, 
 }
 
 // HelpdeskServer is the server API for Helpdesk service.
-// All implementations must embed UnimplementedHelpdeskServer
+// All implementations should embed UnimplementedHelpdeskServer
 // for forward compatibility
 type HelpdeskServer interface {
 	DescribeDocument(context.Context, *DescribeDocumentInput) (*DescribeDocumentOutput, error)
@@ -124,10 +124,9 @@ type HelpdeskServer interface {
 	DescribePath(context.Context, *DescribePathInput) (*DescribePathOutput, error)
 	ListPaths(context.Context, *ListPathsInput) (*ListPathsOutput, error)
 	ListParents(context.Context, *ListParentsInput) (*ListParentsOutput, error)
-	mustEmbedUnimplementedHelpdeskServer()
 }
 
-// UnimplementedHelpdeskServer must be embedded to have forward compatible implementations.
+// UnimplementedHelpdeskServer should be embedded to have forward compatible implementations.
 type UnimplementedHelpdeskServer struct {
 }
 
@@ -155,7 +154,6 @@ func (UnimplementedHelpdeskServer) ListPaths(context.Context, *ListPathsInput) (
 func (UnimplementedHelpdeskServer) ListParents(context.Context, *ListParentsInput) (*ListParentsOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListParents not implemented")
 }
-func (UnimplementedHelpdeskServer) mustEmbedUnimplementedHelpdeskServer() {}
 
 // UnsafeHelpdeskServer may be embedded to opt out of forward compatibility for this service.
 // Use of this interface is not recommended, as added methods to HelpdeskServer will
