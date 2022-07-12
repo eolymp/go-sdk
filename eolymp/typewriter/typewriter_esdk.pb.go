@@ -17,7 +17,7 @@ import (
 
 // NewTypewriter constructs client for Typewriter
 func NewTypewriter(cli TypewriterHTTPClient) *TypewriterService {
-	base := "https://api.e-olymp.com"
+	base := "https://api.eolymp.com"
 	if v := os.Getenv("EOLYMP_API_URL"); v != "" {
 		base = v
 	}
@@ -59,7 +59,12 @@ func (s *TypewriterService) invoke(ctx context.Context, method string, in, out p
 	}
 
 	if resp.StatusCode != 200 {
-		return fmt.Errorf("non-200 response code (%v)", resp.StatusCode)
+		data, err := ioutil.ReadAll(resp.Body)
+		if err != nil {
+			return fmt.Errorf("non-200 response code (%v)", resp.StatusCode)
+		}
+
+		return fmt.Errorf("non-200 response code (%v): %s", resp.StatusCode, data)
 	}
 
 	if out != nil {

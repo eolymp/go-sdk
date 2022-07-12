@@ -17,7 +17,7 @@ import (
 
 // NewAtlas constructs client for Atlas
 func NewAtlas(cli AtlasHTTPClient) *AtlasService {
-	base := "https://api.e-olymp.com"
+	base := "https://api.eolymp.com"
 	if v := os.Getenv("EOLYMP_API_URL"); v != "" {
 		base = v
 	}
@@ -59,7 +59,12 @@ func (s *AtlasService) invoke(ctx context.Context, method string, in, out proto.
 	}
 
 	if resp.StatusCode != 200 {
-		return fmt.Errorf("non-200 response code (%v)", resp.StatusCode)
+		data, err := ioutil.ReadAll(resp.Body)
+		if err != nil {
+			return fmt.Errorf("non-200 response code (%v)", resp.StatusCode)
+		}
+
+		return fmt.Errorf("non-200 response code (%v): %s", resp.StatusCode, data)
 	}
 
 	if out != nil {
