@@ -34,19 +34,24 @@ type HelpdeskService struct {
 }
 
 // invoke RPC method using twirp-like protocol
-func (s *HelpdeskService) invoke(ctx context.Context, method string, in, out proto.Message) error {
-	input, err := protojson.Marshal(in)
-	if err != nil {
-		return err
+func (s *HelpdeskService) invoke(ctx context.Context, method string, in, out proto.Message) (err error) {
+	input := []byte("{}")
+
+	if in != nil {
+		input, err = protojson.Marshal(in)
+		if err != nil {
+			return err
+		}
 	}
 
-	req, err := http.NewRequest(http.MethodPost, s.base+"/twirp/"+method, bytes.NewReader(input))
+	req, err := http.NewRequest(http.MethodPost, s.base+"/"+method, bytes.NewReader(input))
 	if err != nil {
 		return err
 	}
 
 	req.Header.Set("Accept", "application/json")
 	req.Header.Set("Content-Type", "application/json")
+
 	req = req.WithContext(ctx)
 
 	resp, err := s.cli.Do(req)
