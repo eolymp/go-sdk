@@ -8,6 +8,7 @@ package judge
 
 import (
 	_ "github.com/eolymp/go-sdk/eolymp/annotations"
+	atlas "github.com/eolymp/go-sdk/eolymp/atlas"
 	typewriter "github.com/eolymp/go-sdk/eolymp/typewriter"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -82,17 +83,17 @@ type Problem struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id                 string         `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`                                                                                  // globally problem ID
-	Index              uint32         `protobuf:"varint,2,opt,name=index,proto3" json:"index,omitempty"`                                                                           // problem index within contest
-	Score              float32        `protobuf:"fixed32,3,opt,name=score,proto3" json:"score,omitempty"`                                                                          // score for solving problem
-	BaseId             string         `protobuf:"bytes,4,opt,name=base_id,json=baseId,proto3" json:"base_id,omitempty"`                                                            // ID of the problem in database achieve
-	ContestId          string         `protobuf:"bytes,5,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`                                                   // contest
-	FeedbackPolicy     FeedbackPolicy `protobuf:"varint,10,opt,name=feedback_policy,json=feedbackPolicy,proto3,enum=eolymp.judge.FeedbackPolicy" json:"feedback_policy,omitempty"` // defines feedback policy for the problem
-	TimeLimit          uint32         `protobuf:"varint,200,opt,name=time_limit,json=timeLimit,proto3" json:"time_limit,omitempty"`                                                // in milliseconds
-	MemoryLimit        uint64         `protobuf:"varint,201,opt,name=memory_limit,json=memoryLimit,proto3" json:"memory_limit,omitempty"`                                          // in bytes
-	FileSizeLimit      uint64         `protobuf:"varint,202,opt,name=file_size_limit,json=fileSizeLimit,proto3" json:"file_size_limit,omitempty"`                                  // in bytes
-	SubmitLimit        uint32         `protobuf:"varint,203,opt,name=submit_limit,json=submitLimit,proto3" json:"submit_limit,omitempty"`                                          // in number of submits
-	ScoreByBestTestset bool           `protobuf:"varint,210,opt,name=score_by_best_testset,json=scoreByBestTestset,proto3" json:"score_by_best_testset,omitempty"`                 // problem score is calculated as sum of best score in each testset (best among all submissions)
+	Id                 string               `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`                                                                                  // globally problem ID
+	Index              uint32               `protobuf:"varint,2,opt,name=index,proto3" json:"index,omitempty"`                                                                           // problem index within contest
+	Score              float32              `protobuf:"fixed32,3,opt,name=score,proto3" json:"score,omitempty"`                                                                          // score for solving problem
+	BaseId             string               `protobuf:"bytes,4,opt,name=base_id,json=baseId,proto3" json:"base_id,omitempty"`                                                            // ID of the problem in database achieve
+	ContestId          string               `protobuf:"bytes,5,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`                                                   // contest
+	FeedbackPolicy     atlas.FeedbackPolicy `protobuf:"varint,10,opt,name=feedback_policy,json=feedbackPolicy,proto3,enum=eolymp.atlas.FeedbackPolicy" json:"feedback_policy,omitempty"` // defines feedback policy for the problem
+	TimeLimit          uint32               `protobuf:"varint,200,opt,name=time_limit,json=timeLimit,proto3" json:"time_limit,omitempty"`                                                // in milliseconds
+	MemoryLimit        uint64               `protobuf:"varint,201,opt,name=memory_limit,json=memoryLimit,proto3" json:"memory_limit,omitempty"`                                          // in bytes
+	FileSizeLimit      uint64               `protobuf:"varint,202,opt,name=file_size_limit,json=fileSizeLimit,proto3" json:"file_size_limit,omitempty"`                                  // in bytes
+	SubmitLimit        uint32               `protobuf:"varint,203,opt,name=submit_limit,json=submitLimit,proto3" json:"submit_limit,omitempty"`                                          // in number of submits
+	ScoreByBestTestset bool                 `protobuf:"varint,210,opt,name=score_by_best_testset,json=scoreByBestTestset,proto3" json:"score_by_best_testset,omitempty"`                 // problem score is calculated as sum of best score in each testset (best among all submissions)
 }
 
 func (x *Problem) Reset() {
@@ -162,11 +163,11 @@ func (x *Problem) GetContestId() string {
 	return ""
 }
 
-func (x *Problem) GetFeedbackPolicy() FeedbackPolicy {
+func (x *Problem) GetFeedbackPolicy() atlas.FeedbackPolicy {
 	if x != nil {
 		return x.FeedbackPolicy
 	}
-	return FeedbackPolicy_COMPLETE
+	return atlas.FeedbackPolicy(0)
 }
 
 func (x *Problem) GetTimeLimit() uint32 {
@@ -444,7 +445,7 @@ var file_eolymp_judge_problem_proto_rawDesc = []byte{
 	0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x6a, 0x75, 0x64, 0x67, 0x65, 0x1a, 0x21, 0x65, 0x6f, 0x6c, 0x79,
 	0x6d, 0x70, 0x2f, 0x61, 0x6e, 0x6e, 0x6f, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x2f, 0x72,
 	0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x1b, 0x65,
-	0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x6a, 0x75, 0x64, 0x67, 0x65, 0x2f, 0x66, 0x65, 0x65, 0x64,
+	0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x61, 0x74, 0x6c, 0x61, 0x73, 0x2f, 0x66, 0x65, 0x65, 0x64,
 	0x62, 0x61, 0x63, 0x6b, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x1d, 0x65, 0x6f, 0x6c, 0x79,
 	0x6d, 0x70, 0x2f, 0x74, 0x79, 0x70, 0x65, 0x77, 0x72, 0x69, 0x74, 0x65, 0x72, 0x2f, 0x62, 0x6c,
 	0x6f, 0x63, 0x6b, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0xd1, 0x07, 0x0a, 0x07, 0x50, 0x72,
@@ -457,8 +458,8 @@ var file_eolymp_judge_problem_proto_rawDesc = []byte{
 	0x6e, 0x74, 0x65, 0x73, 0x74, 0x5f, 0x69, 0x64, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09,
 	0x63, 0x6f, 0x6e, 0x74, 0x65, 0x73, 0x74, 0x49, 0x64, 0x12, 0x45, 0x0a, 0x0f, 0x66, 0x65, 0x65,
 	0x64, 0x62, 0x61, 0x63, 0x6b, 0x5f, 0x70, 0x6f, 0x6c, 0x69, 0x63, 0x79, 0x18, 0x0a, 0x20, 0x01,
-	0x28, 0x0e, 0x32, 0x1c, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x6a, 0x75, 0x64, 0x67,
-	0x65, 0x2e, 0x46, 0x65, 0x65, 0x64, 0x62, 0x61, 0x63, 0x6b, 0x50, 0x6f, 0x6c, 0x69, 0x63, 0x79,
+	0x28, 0x0e, 0x32, 0x1c, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x61, 0x74, 0x6c, 0x61,
+	0x73, 0x2e, 0x46, 0x65, 0x65, 0x64, 0x62, 0x61, 0x63, 0x6b, 0x50, 0x6f, 0x6c, 0x69, 0x63, 0x79,
 	0x52, 0x0e, 0x66, 0x65, 0x65, 0x64, 0x62, 0x61, 0x63, 0x6b, 0x50, 0x6f, 0x6c, 0x69, 0x63, 0x79,
 	0x12, 0x1e, 0x0a, 0x0a, 0x74, 0x69, 0x6d, 0x65, 0x5f, 0x6c, 0x69, 0x6d, 0x69, 0x74, 0x18, 0xc8,
 	0x01, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x09, 0x74, 0x69, 0x6d, 0x65, 0x4c, 0x69, 0x6d, 0x69, 0x74,
@@ -535,11 +536,11 @@ var file_eolymp_judge_problem_proto_goTypes = []interface{}{
 	(*Problem_Statement)(nil),     // 2: eolymp.judge.Problem.Statement
 	(*Problem_Test)(nil),          // 3: eolymp.judge.Problem.Test
 	(*Problem_Attachment)(nil),    // 4: eolymp.judge.Problem.Attachment
-	(FeedbackPolicy)(0),           // 5: eolymp.judge.FeedbackPolicy
+	(atlas.FeedbackPolicy)(0),     // 5: eolymp.atlas.FeedbackPolicy
 	(*typewriter.Container)(nil),  // 6: eolymp.typewriter.Container
 }
 var file_eolymp_judge_problem_proto_depIdxs = []int32{
-	5, // 0: eolymp.judge.Problem.feedback_policy:type_name -> eolymp.judge.FeedbackPolicy
+	5, // 0: eolymp.judge.Problem.feedback_policy:type_name -> eolymp.atlas.FeedbackPolicy
 	6, // 1: eolymp.judge.Problem.Statement.content_rich:type_name -> eolymp.typewriter.Container
 	0, // 2: eolymp.judge.Problem.Statement.format:type_name -> eolymp.judge.Problem.Statement.Format
 	3, // [3:3] is the sub-list for method output_type
@@ -554,7 +555,6 @@ func file_eolymp_judge_problem_proto_init() {
 	if File_eolymp_judge_problem_proto != nil {
 		return
 	}
-	file_eolymp_judge_feedback_proto_init()
 	if !protoimpl.UnsafeEnabled {
 		file_eolymp_judge_problem_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*Problem); i {
