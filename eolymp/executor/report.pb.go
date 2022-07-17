@@ -372,7 +372,7 @@ type Report_Actor struct {
 	Signature string `protobuf:"bytes,2,opt,name=signature,proto3" json:"signature,omitempty"`
 	// Error code defines type of error, if any
 	ErrorCode Report_Actor_Error `protobuf:"varint,10,opt,name=error_code,json=errorCode,proto3,enum=eolymp.executor.Report_Actor_Error" json:"error_code,omitempty"`
-	// Actor related error message, for example compilation error. If empty actor considered to be initialized correctly.
+	// Actor related error message, for example compilation error message
 	ErrorMessage string `protobuf:"bytes,11,opt,name=error_message,json=errorMessage,proto3" json:"error_message,omitempty"`
 }
 
