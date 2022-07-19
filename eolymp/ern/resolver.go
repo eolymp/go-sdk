@@ -5,6 +5,10 @@ import (
 	"errors"
 )
 
+func Resolve(ctx context.Context, r Resolver, ern Name) (map[string]any, error) {
+	return r.ResolveERN(ctx, r, ern)
+}
+
 type Resolver interface {
 	ResolveERN(context.Context, Resolver, Name) (map[string]any, error)
 }
