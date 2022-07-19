@@ -5,6 +5,12 @@ import (
 	"github.com/eolymp/go-sdk/eolymp/ern"
 )
 
+const (
+	SizeData255  = 183  // defines max length of byte slice which can be encoded into Data ERN under 255  bytes
+	SizeData1023 = 759  // defines max length of byte slice which can be encoded into Data ERN under 1023 bytes
+	SizeData5119 = 3831 // defines max length of byte slice which can be encoded into Data ERN under 5119 bytes
+)
+
 func FormatDataErn(data []byte) ern.Name {
 	return ern.Name{"ern", "data", base64.RawURLEncoding.EncodeToString(data)}
 }
