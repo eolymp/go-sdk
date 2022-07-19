@@ -54,17 +54,25 @@ func (e Name) Includes(parent Name) bool {
 }
 
 func (e Name) MarshalJSON() ([]byte, error) {
+	if e == nil {
+		return json.Marshal(nil)
+	}
+
 	return json.Marshal(e.String())
 }
 
 func (e *Name) UnmarshalJSON(data []byte) error {
-	var str string
+	var str *string
 
 	if err := json.Unmarshal(data, &str); err != nil {
 		return err
 	}
 
-	*e = Parse(str)
+	if str == nil {
+		*e = nil
+	} else {
+		*e = Parse(*str)
+	}
 
 	return nil
 }
@@ -72,6 +80,7 @@ func (e *Name) UnmarshalJSON(data []byte) error {
 func (e *Name) Scan(src interface{}) error {
 	switch v := src.(type) {
 	case nil:
+		*e = nil
 	case []uint8:
 		*e = Parse(string(v))
 	case string:

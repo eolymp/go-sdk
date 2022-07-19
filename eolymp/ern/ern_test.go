@@ -38,6 +38,7 @@ func TestERN_MarshalJSON(t *testing.T) {
 	}{
 		{ERN: "ern:parent:id:child:key", JSON: "\"ern:parent:id:child:key\""},
 		{ERN: "ern:parent:id", JSON: "\"ern:parent:id\""},
+		{ERN: "", JSON: "null"},
 	}
 
 	for _, tc := range tt {
@@ -64,6 +65,7 @@ func TestERN_UnmarshalJSON(t *testing.T) {
 		{ERN: "ern:parent:id:child:key", JSON: "\"ern:parent:id:child:key\""},
 		{ERN: "ern:parent:id:child:key", JSON: "\"ern:parent:id:child:key\""},
 		{ERN: "ern:parent:id", JSON: "\"ern:parent:id\""},
+		{ERN: "", JSON: "null"},
 	}
 
 	for _, tc := range tt {
@@ -88,6 +90,7 @@ func TestERN_MarshalBinary(t *testing.T) {
 	}{
 		{ERN: "ern:parent:id:child:key", Binary: "\"ern:parent:id:child:key\""},
 		{ERN: "ern:parent:id", Binary: "\"ern:parent:id\""},
+		{ERN: "", Binary: "null"},
 	}
 
 	for _, tc := range tt {
@@ -114,6 +117,7 @@ func TestERN_UnmarshalBinary(t *testing.T) {
 		{ERN: "ern:parent:id:child:key", Binary: "\"ern:parent:id:child:key\""},
 		{ERN: "ern:parent:id:child:key", Binary: "\"ern:parent:id:child:key\""},
 		{ERN: "ern:parent:id", Binary: "\"ern:parent:id\""},
+		{ERN: "", Binary: "null"},
 	}
 
 	for _, tc := range tt {
