@@ -6,19 +6,23 @@ import (
 )
 
 type Resolver interface {
-	ResolveERN(ctx context.Context, ern ERN) (any, error)
+	ResolveERN(context.Context, Resolver, ERN) (any, error)
 }
 
-type ResolverFunc func(ctx context.Context, ern ERN) (any, error)
+type ResolverFunc func(context.Context, Resolver, ERN) (any, error)
 
-func (f ResolverFunc) ResolveERN(ctx context.Context, ern ERN) (any, error) {
-	return f(ctx, ern)
+func (f ResolverFunc) ResolveERN(ctx context.Context, r Resolver, ern ERN) (any, error) {
+	return f(ctx, r, ern)
 }
 
 func NewResolver(rr ...Resolver) Resolver {
-	return ResolverFunc(func(ctx context.Context, ern ERN) (any, error) {
-		for _, r := range rr {
-			resource, err := r.ResolveERN(ctx, ern)
+	return ResolverFunc(func(ctx context.Context, r Resolver, ern ERN) (any, error) {
+		if !ern.Valid() {
+			return nil, MalformedErr{}
+		}
+
+		for _, rs := range rr {
+			resource, err := rs.ResolveERN(ctx, r, ern)
 			if errors.Is(err, InvalidErr{}) {
 				continue
 			}
