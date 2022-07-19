@@ -17,8 +17,8 @@ func Valid(ern string) bool {
 	return Parse(ern).Valid()
 }
 
-func Parent(ern string) string {
-	return Parse(ern).Parent().String()
+func Parent(ern string) ERN {
+	return Parse(ern).Parent()
 }
 
 func (e ERN) String() string {
