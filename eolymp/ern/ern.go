@@ -80,6 +80,14 @@ func (e *Name) Scan(src interface{}) error {
 }
 
 func (e Name) Value() (driver.Value, error) {
+	if e == nil {
+		return nil, nil
+	}
+
+	if !e.Valid() {
+		return nil, MalformedErr{}
+	}
+
 	return e.String(), nil
 }
 
