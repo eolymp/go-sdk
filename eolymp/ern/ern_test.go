@@ -68,7 +68,7 @@ func TestERN_UnmarshalJSON(t *testing.T) {
 
 	for _, tc := range tt {
 		t.Run(tc.ERN, func(t *testing.T) {
-			var e ern.ERN
+			var e ern.Name
 
 			if err := json.Unmarshal([]byte(tc.JSON), &e); err != nil {
 				t.Fatal("An error while marshalling: ", err)
@@ -118,7 +118,7 @@ func TestERN_UnmarshalBinary(t *testing.T) {
 
 	for _, tc := range tt {
 		t.Run(tc.ERN, func(t *testing.T) {
-			var e ern.ERN
+			var e ern.Name
 
 			if err := e.UnmarshalBinary([]byte(tc.Binary)); err != nil {
 				t.Fatal("An error while marshalling: ", err)

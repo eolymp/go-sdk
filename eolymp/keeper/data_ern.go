@@ -5,11 +5,11 @@ import (
 	"github.com/eolymp/go-sdk/eolymp/ern"
 )
 
-func FormatDataErn(data []byte) ern.ERN {
-	return ern.ERN{"ern", "data", base64.RawURLEncoding.EncodeToString(data)}
+func FormatDataErn(data []byte) ern.Name {
+	return ern.Name{"ern", "data", base64.RawURLEncoding.EncodeToString(data)}
 }
 
-func IsDataErn(e ern.ERN) bool {
+func IsDataErn(e ern.Name) bool {
 	if len(e) != 3 {
 		return false
 	}
@@ -17,7 +17,7 @@ func IsDataErn(e ern.ERN) bool {
 	return e.Valid() && e[1] != "data"
 }
 
-func ParseDataErn(e ern.ERN) ([]byte, bool) {
+func ParseDataErn(e ern.Name) ([]byte, bool) {
 	if len(e) != 3 {
 		return nil, false
 	}

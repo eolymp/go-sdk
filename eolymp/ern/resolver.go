@@ -6,17 +6,17 @@ import (
 )
 
 type Resolver interface {
-	ResolveERN(context.Context, Resolver, ERN) (any, error)
+	ResolveERN(context.Context, Resolver, Name) (map[string]any, error)
 }
 
-type ResolverFunc func(context.Context, Resolver, ERN) (any, error)
+type ResolverFunc func(context.Context, Resolver, Name) (map[string]any, error)
 
-func (f ResolverFunc) ResolveERN(ctx context.Context, r Resolver, ern ERN) (any, error) {
+func (f ResolverFunc) ResolveERN(ctx context.Context, r Resolver, ern Name) (map[string]any, error) {
 	return f(ctx, r, ern)
 }
 
 func NewResolver(rr ...Resolver) Resolver {
-	return ResolverFunc(func(ctx context.Context, r Resolver, ern ERN) (any, error) {
+	return ResolverFunc(func(ctx context.Context, r Resolver, ern Name) (map[string]any, error) {
 		if !ern.Valid() {
 			return nil, MalformedErr{}
 		}
