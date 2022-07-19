@@ -10,6 +10,10 @@ import (
 type Name []string
 
 func Parse(ern string) Name {
+	if ern == "" {
+		return nil
+	}
+
 	return strings.Split(ern, ":")
 }
 
