@@ -678,7 +678,7 @@ type Job_Step_Upload struct {
 	Optionally  bool   `protobuf:"varint,4,opt,name=optionally,proto3" json:"optionally,omitempty"`                        // If true, step won't fail if source file does not exist.
 	Ttl         uint32 `protobuf:"varint,5,opt,name=ttl,proto3" json:"ttl,omitempty"`                                      // Defines how long uploaded file should be stored (in seconds).
 	MaxSize     uint32 `protobuf:"varint,6,opt,name=max_size,json=maxSize,proto3" json:"max_size,omitempty"`               // Defines maximum file size (in bytes), if file exceeds this limit it will be trimmed.
-	MaxDataSize uint32 `protobuf:"varint,7,opt,name=max_data_size,json=maxDataSize,proto3" json:"max_data_size,omitempty"` // Max size (in bytes) for data ERN, data ERN can not exceed 1K (default value is 1KB), use force_upload to avoid data ERNs completely.
+	MaxDataSize uint32 `protobuf:"varint,7,opt,name=max_data_size,json=maxDataSize,proto3" json:"max_data_size,omitempty"` // Max size (in bytes) for data encoded as Data ERN, this value can not exceed 3831 bytes (produces ERN under 5KB). Default value is 759 bytes (produces ERNs under 1KB). Use force_upload to avoid data ERNs completely.
 	ForceUpload bool   `protobuf:"varint,8,opt,name=force_upload,json=forceUpload,proto3" json:"force_upload,omitempty"`   // Force upload to blob storage, by default upload action will encode small files into data ERN instead of uploading files to blob storage.
 }
 
