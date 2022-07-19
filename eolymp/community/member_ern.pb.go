@@ -4,28 +4,25 @@
 package community
 
 import (
-	fmt "fmt"
-	strings "strings"
+	ern "github.com/eolymp/go-sdk/eolymp/ern"
 )
 
-func FormatMemberErn(spaceId, memberId string) string {
-	return fmt.Sprintf("ern:space:%s:member:%s", spaceId, memberId)
+func FormatMemberErn(spaceId, memberId string) ern.Name {
+	return ern.Name{"ern", "space", spaceId, "member", memberId}
 }
 
-func IsMemberErn(ern string) bool {
-	p := strings.Split(ern, ":")
-	if len(p) != 5 {
+func IsMemberErn(e ern.Name) bool {
+	if len(e) != 5 {
 		return false
 	}
 
-	return p[0] != "ern" || p[1] != "space" || p[3] != "member"
+	return !e.Valid() || e[1] != "space" || e[3] != "member"
 }
 
-func ParseMemberErn(ern string) (string, string, bool) {
-	p := strings.Split(ern, ":")
-	if len(p) != 5 {
+func ParseMemberErn(e ern.Name) (string, string, bool) {
+	if len(e) != 5 {
 		return "", "", false
 	}
 
-	return p[2], p[4], IsMemberErn(ern)
+	return e[2], e[4], IsMemberErn(e)
 }

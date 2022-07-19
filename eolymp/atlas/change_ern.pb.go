@@ -4,28 +4,25 @@
 package atlas
 
 import (
-	fmt "fmt"
-	strings "strings"
+	ern "github.com/eolymp/go-sdk/eolymp/ern"
 )
 
-func FormatChangeErn(spaceId, problemId, attachmentId string) string {
-	return fmt.Sprintf("ern:space:%s:problem:%s:attachment:%s", spaceId, problemId, attachmentId)
+func FormatChangeErn(spaceId, problemId, attachmentId string) ern.Name {
+	return ern.Name{"ern", "space", spaceId, "problem", problemId, "attachment", attachmentId}
 }
 
-func IsChangeErn(ern string) bool {
-	p := strings.Split(ern, ":")
-	if len(p) != 7 {
+func IsChangeErn(e ern.Name) bool {
+	if len(e) != 7 {
 		return false
 	}
 
-	return p[0] != "ern" || p[1] != "space" || p[3] != "problem" || p[5] != "attachment"
+	return !e.Valid() || e[1] != "space" || e[3] != "problem" || e[5] != "attachment"
 }
 
-func ParseChangeErn(ern string) (string, string, string, bool) {
-	p := strings.Split(ern, ":")
-	if len(p) != 7 {
+func ParseChangeErn(e ern.Name) (string, string, string, bool) {
+	if len(e) != 7 {
 		return "", "", "", false
 	}
 
-	return p[2], p[4], p[6], IsChangeErn(ern)
+	return e[2], e[4], e[6], IsChangeErn(e)
 }

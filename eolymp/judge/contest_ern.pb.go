@@ -4,28 +4,25 @@
 package judge
 
 import (
-	fmt "fmt"
-	strings "strings"
+	ern "github.com/eolymp/go-sdk/eolymp/ern"
 )
 
-func FormatContestErn(spaceId, contestId string) string {
-	return fmt.Sprintf("ern:space:%s:contest:%s", spaceId, contestId)
+func FormatContestErn(spaceId, contestId string) ern.Name {
+	return ern.Name{"ern", "space", spaceId, "contest", contestId}
 }
 
-func IsContestErn(ern string) bool {
-	p := strings.Split(ern, ":")
-	if len(p) != 5 {
+func IsContestErn(e ern.Name) bool {
+	if len(e) != 5 {
 		return false
 	}
 
-	return p[0] != "ern" || p[1] != "space" || p[3] != "contest"
+	return !e.Valid() || e[1] != "space" || e[3] != "contest"
 }
 
-func ParseContestErn(ern string) (string, string, bool) {
-	p := strings.Split(ern, ":")
-	if len(p) != 5 {
+func ParseContestErn(e ern.Name) (string, string, bool) {
+	if len(e) != 5 {
 		return "", "", false
 	}
 
-	return p[2], p[4], IsContestErn(ern)
+	return e[2], e[4], IsContestErn(e)
 }

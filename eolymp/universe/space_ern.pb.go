@@ -4,28 +4,25 @@
 package universe
 
 import (
-	fmt "fmt"
-	strings "strings"
+	ern "github.com/eolymp/go-sdk/eolymp/ern"
 )
 
-func FormatSpaceErn(spaceId string) string {
-	return fmt.Sprintf("ern:space:%s", spaceId)
+func FormatSpaceErn(spaceId string) ern.Name {
+	return ern.Name{"ern", "space", spaceId}
 }
 
-func IsSpaceErn(ern string) bool {
-	p := strings.Split(ern, ":")
-	if len(p) != 3 {
+func IsSpaceErn(e ern.Name) bool {
+	if len(e) != 3 {
 		return false
 	}
 
-	return p[0] != "ern" || p[1] != "space"
+	return !e.Valid() || e[1] != "space"
 }
 
-func ParseSpaceErn(ern string) (string, bool) {
-	p := strings.Split(ern, ":")
-	if len(p) != 3 {
+func ParseSpaceErn(e ern.Name) (string, bool) {
+	if len(e) != 3 {
 		return "", false
 	}
 
-	return p[2], IsSpaceErn(ern)
+	return e[2], IsSpaceErn(e)
 }

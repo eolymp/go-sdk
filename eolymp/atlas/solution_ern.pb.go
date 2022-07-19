@@ -4,28 +4,25 @@
 package atlas
 
 import (
-	fmt "fmt"
-	strings "strings"
+	ern "github.com/eolymp/go-sdk/eolymp/ern"
 )
 
-func FormatSolutionErn(spaceId, problemId, solutionId string) string {
-	return fmt.Sprintf("ern:space:%s:problem:%s:solution:%s", spaceId, problemId, solutionId)
+func FormatSolutionErn(spaceId, problemId, solutionId string) ern.Name {
+	return ern.Name{"ern", "space", spaceId, "problem", problemId, "solution", solutionId}
 }
 
-func IsSolutionErn(ern string) bool {
-	p := strings.Split(ern, ":")
-	if len(p) != 7 {
+func IsSolutionErn(e ern.Name) bool {
+	if len(e) != 7 {
 		return false
 	}
 
-	return p[0] != "ern" || p[1] != "space" || p[3] != "problem" || p[5] != "solution"
+	return !e.Valid() || e[1] != "space" || e[3] != "problem" || e[5] != "solution"
 }
 
-func ParseSolutionErn(ern string) (string, string, string, bool) {
-	p := strings.Split(ern, ":")
-	if len(p) != 7 {
+func ParseSolutionErn(e ern.Name) (string, string, string, bool) {
+	if len(e) != 7 {
 		return "", "", "", false
 	}
 
-	return p[2], p[4], p[6], IsSolutionErn(ern)
+	return e[2], e[4], e[6], IsSolutionErn(e)
 }

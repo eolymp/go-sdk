@@ -4,28 +4,25 @@
 package atlas
 
 import (
-	fmt "fmt"
-	strings "strings"
+	ern "github.com/eolymp/go-sdk/eolymp/ern"
 )
 
-func FormatTemplateErn(spaceId, problemId, templateId string) string {
-	return fmt.Sprintf("ern:space:%s:problem:%s:template:%s", spaceId, problemId, templateId)
+func FormatTemplateErn(spaceId, problemId, templateId string) ern.Name {
+	return ern.Name{"ern", "space", spaceId, "problem", problemId, "template", templateId}
 }
 
-func IsTemplateErn(ern string) bool {
-	p := strings.Split(ern, ":")
-	if len(p) != 7 {
+func IsTemplateErn(e ern.Name) bool {
+	if len(e) != 7 {
 		return false
 	}
 
-	return p[0] != "ern" || p[1] != "space" || p[3] != "problem" || p[5] != "template"
+	return !e.Valid() || e[1] != "space" || e[3] != "problem" || e[5] != "template"
 }
 
-func ParseTemplateErn(ern string) (string, string, string, bool) {
-	p := strings.Split(ern, ":")
-	if len(p) != 7 {
+func ParseTemplateErn(e ern.Name) (string, string, string, bool) {
+	if len(e) != 7 {
 		return "", "", "", false
 	}
 
-	return p[2], p[4], p[6], IsTemplateErn(ern)
+	return e[2], e[4], e[6], IsTemplateErn(e)
 }

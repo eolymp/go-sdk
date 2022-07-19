@@ -4,28 +4,25 @@
 package workspace
 
 import (
-	fmt "fmt"
-	strings "strings"
+	ern "github.com/eolymp/go-sdk/eolymp/ern"
 )
 
-func FormatFileErn(projectId, fileName string) string {
-	return fmt.Sprintf("ern:project:%s:file:%s", projectId, fileName)
+func FormatFileErn(projectId, fileName string) ern.Name {
+	return ern.Name{"ern", "project", projectId, "file", fileName}
 }
 
-func IsFileErn(ern string) bool {
-	p := strings.Split(ern, ":")
-	if len(p) != 5 {
+func IsFileErn(e ern.Name) bool {
+	if len(e) != 5 {
 		return false
 	}
 
-	return p[0] != "ern" || p[1] != "project" || p[3] != "file"
+	return !e.Valid() || e[1] != "project" || e[3] != "file"
 }
 
-func ParseFileErn(ern string) (string, string, bool) {
-	p := strings.Split(ern, ":")
-	if len(p) != 5 {
+func ParseFileErn(e ern.Name) (string, string, bool) {
+	if len(e) != 5 {
 		return "", "", false
 	}
 
-	return p[2], p[4], IsFileErn(ern)
+	return e[2], e[4], IsFileErn(e)
 }

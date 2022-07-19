@@ -4,28 +4,25 @@
 package judge
 
 import (
-	fmt "fmt"
-	strings "strings"
+	ern "github.com/eolymp/go-sdk/eolymp/ern"
 )
 
-func FormatReplyErn(spaceId, contestId, ticketId, replyId string) string {
-	return fmt.Sprintf("ern:space:%s:contest:%s:ticket:%s:reply:%s", spaceId, contestId, ticketId, replyId)
+func FormatReplyErn(spaceId, contestId, ticketId, replyId string) ern.Name {
+	return ern.Name{"ern", "space", spaceId, "contest", contestId, "ticket", ticketId, "reply", replyId}
 }
 
-func IsReplyErn(ern string) bool {
-	p := strings.Split(ern, ":")
-	if len(p) != 9 {
+func IsReplyErn(e ern.Name) bool {
+	if len(e) != 9 {
 		return false
 	}
 
-	return p[0] != "ern" || p[1] != "space" || p[3] != "contest" || p[5] != "ticket" || p[7] != "reply"
+	return !e.Valid() || e[1] != "space" || e[3] != "contest" || e[5] != "ticket" || e[7] != "reply"
 }
 
-func ParseReplyErn(ern string) (string, string, string, string, bool) {
-	p := strings.Split(ern, ":")
-	if len(p) != 9 {
+func ParseReplyErn(e ern.Name) (string, string, string, string, bool) {
+	if len(e) != 9 {
 		return "", "", "", "", false
 	}
 
-	return p[2], p[4], p[6], p[8], IsReplyErn(ern)
+	return e[2], e[4], e[6], e[8], IsReplyErn(e)
 }

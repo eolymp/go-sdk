@@ -4,28 +4,25 @@
 package community
 
 import (
-	fmt "fmt"
-	strings "strings"
+	ern "github.com/eolymp/go-sdk/eolymp/ern"
 )
 
-func FormatAttributeErn(spaceId, attributeKey string) string {
-	return fmt.Sprintf("ern:space:%s:attribute:%s", spaceId, attributeKey)
+func FormatAttributeErn(spaceId, attributeKey string) ern.Name {
+	return ern.Name{"ern", "space", spaceId, "attribute", attributeKey}
 }
 
-func IsAttributeErn(ern string) bool {
-	p := strings.Split(ern, ":")
-	if len(p) != 5 {
+func IsAttributeErn(e ern.Name) bool {
+	if len(e) != 5 {
 		return false
 	}
 
-	return p[0] != "ern" || p[1] != "space" || p[3] != "attribute"
+	return !e.Valid() || e[1] != "space" || e[3] != "attribute"
 }
 
-func ParseAttributeErn(ern string) (string, string, bool) {
-	p := strings.Split(ern, ":")
-	if len(p) != 5 {
+func ParseAttributeErn(e ern.Name) (string, string, bool) {
+	if len(e) != 5 {
 		return "", "", false
 	}
 
-	return p[2], p[4], IsAttributeErn(ern)
+	return e[2], e[4], IsAttributeErn(e)
 }
