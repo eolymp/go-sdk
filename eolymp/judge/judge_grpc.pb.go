@@ -60,6 +60,8 @@ type JudgeClient interface {
 	DescribeProblem(ctx context.Context, in *DescribeProblemInput, opts ...grpc.CallOption) (*DescribeProblemOutput, error)
 	// Return code template for problem
 	DescribeCodeTemplate(ctx context.Context, in *DescribeCodeTemplateInput, opts ...grpc.CallOption) (*DescribeCodeTemplateOutput, error)
+	// Lookup template for a given runtime/language
+	LookupCodeTemplate(ctx context.Context, in *LookupCodeTemplateInput, opts ...grpc.CallOption) (*LookupCodeTemplateOutput, error)
 	ListStatements(ctx context.Context, in *ListStatementsInput, opts ...grpc.CallOption) (*ListStatementsOutput, error)
 	ListAttachments(ctx context.Context, in *ListAttachmentsInput, opts ...grpc.CallOption) (*ListAttachmentsOutput, error)
 	ListExamples(ctx context.Context, in *ListExamplesInput, opts ...grpc.CallOption) (*ListExamplesOutput, error)
@@ -340,6 +342,15 @@ func (c *judgeClient) DescribeProblem(ctx context.Context, in *DescribeProblemIn
 func (c *judgeClient) DescribeCodeTemplate(ctx context.Context, in *DescribeCodeTemplateInput, opts ...grpc.CallOption) (*DescribeCodeTemplateOutput, error) {
 	out := new(DescribeCodeTemplateOutput)
 	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/DescribeCodeTemplate", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *judgeClient) LookupCodeTemplate(ctx context.Context, in *LookupCodeTemplateInput, opts ...grpc.CallOption) (*LookupCodeTemplateOutput, error) {
+	out := new(LookupCodeTemplateOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/LookupCodeTemplate", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -928,6 +939,8 @@ type JudgeServer interface {
 	DescribeProblem(context.Context, *DescribeProblemInput) (*DescribeProblemOutput, error)
 	// Return code template for problem
 	DescribeCodeTemplate(context.Context, *DescribeCodeTemplateInput) (*DescribeCodeTemplateOutput, error)
+	// Lookup template for a given runtime/language
+	LookupCodeTemplate(context.Context, *LookupCodeTemplateInput) (*LookupCodeTemplateOutput, error)
 	ListStatements(context.Context, *ListStatementsInput) (*ListStatementsOutput, error)
 	ListAttachments(context.Context, *ListAttachmentsInput) (*ListAttachmentsOutput, error)
 	ListExamples(context.Context, *ListExamplesInput) (*ListExamplesOutput, error)
@@ -1089,6 +1102,9 @@ func (UnimplementedJudgeServer) DescribeProblem(context.Context, *DescribeProble
 }
 func (UnimplementedJudgeServer) DescribeCodeTemplate(context.Context, *DescribeCodeTemplateInput) (*DescribeCodeTemplateOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeCodeTemplate not implemented")
+}
+func (UnimplementedJudgeServer) LookupCodeTemplate(context.Context, *LookupCodeTemplateInput) (*LookupCodeTemplateOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method LookupCodeTemplate not implemented")
 }
 func (UnimplementedJudgeServer) ListStatements(context.Context, *ListStatementsInput) (*ListStatementsOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListStatements not implemented")
@@ -1638,6 +1654,24 @@ func _Judge_DescribeCodeTemplate_Handler(srv interface{}, ctx context.Context, d
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(JudgeServer).DescribeCodeTemplate(ctx, req.(*DescribeCodeTemplateInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Judge_LookupCodeTemplate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LookupCodeTemplateInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(JudgeServer).LookupCodeTemplate(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.judge.Judge/LookupCodeTemplate",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(JudgeServer).LookupCodeTemplate(ctx, req.(*LookupCodeTemplateInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -2808,6 +2842,10 @@ var Judge_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DescribeCodeTemplate",
 			Handler:    _Judge_DescribeCodeTemplate_Handler,
+		},
+		{
+			MethodName: "LookupCodeTemplate",
+			Handler:    _Judge_LookupCodeTemplate_Handler,
 		},
 		{
 			MethodName: "ListStatements",

@@ -122,6 +122,7 @@ func NewJudgeHandler(srv JudgeServer) http.Handler {
 	router.Handle("/eolymp.judge.Judge/ListProblems", _Judge_ListProblems(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.judge.Judge/DescribeProblem", _Judge_DescribeProblem(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.judge.Judge/DescribeCodeTemplate", _Judge_DescribeCodeTemplate(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.judge.Judge/LookupCodeTemplate", _Judge_LookupCodeTemplate(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.judge.Judge/ListStatements", _Judge_ListStatements(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.judge.Judge/ListAttachments", _Judge_ListAttachments(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.judge.Judge/ListExamples", _Judge_ListExamples(srv)).Methods(http.MethodPost)
@@ -576,6 +577,26 @@ func _Judge_DescribeCodeTemplate(srv JudgeServer) http.Handler {
 		}
 
 		out, err := srv.DescribeCodeTemplate(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_LookupCodeTemplate(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &LookupCodeTemplateInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.LookupCodeTemplate(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -2324,6 +2345,33 @@ func (i *JudgeInterceptor) DescribeCodeTemplate(ctx context.Context, in *Describ
 	}
 
 	out, err = i.server.DescribeCodeTemplate(ctx, in)
+	return
+}
+
+func (i *JudgeInterceptor) LookupCodeTemplate(ctx context.Context, in *LookupCodeTemplateInput) (out *LookupCodeTemplateOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/LookupCodeTemplate", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if ok && !token.Has("judge:contest:read") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
+		return
+	}
+
+	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/LookupCodeTemplate", 5, 20) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.LookupCodeTemplate(ctx, in)
 	return
 }
 

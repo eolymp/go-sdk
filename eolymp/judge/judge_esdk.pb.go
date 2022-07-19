@@ -286,6 +286,16 @@ func (s *JudgeService) DescribeCodeTemplate(ctx context.Context, in *DescribeCod
 	return out, nil
 }
 
+func (s *JudgeService) LookupCodeTemplate(ctx context.Context, in *LookupCodeTemplateInput) (*LookupCodeTemplateOutput, error) {
+	out := &LookupCodeTemplateOutput{}
+
+	if err := s.invoke(ctx, "eolymp.judge.Judge/LookupCodeTemplate", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *JudgeService) ListStatements(ctx context.Context, in *ListStatementsInput) (*ListStatementsOutput, error) {
 	out := &ListStatementsOutput{}
 
