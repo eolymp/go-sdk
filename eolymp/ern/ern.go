@@ -82,3 +82,11 @@ func (e *ERN) Scan(src interface{}) error {
 func (e ERN) Value() (driver.Value, error) {
 	return e.String(), nil
 }
+
+func (e ERN) MarshalBinary() ([]byte, error) {
+	return json.Marshal(e)
+}
+
+func (e *ERN) UnmarshalBinary(data []byte) error {
+	return json.Unmarshal(data, e)
+}
