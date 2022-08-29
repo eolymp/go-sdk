@@ -103,6 +103,8 @@ func NewGeographyHandler(srv GeographyServer) http.Handler {
 	router := mux.NewRouter()
 	router.Handle("/eolymp.geography.Geography/DescribeCountry", _Geography_DescribeCountry(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.geography.Geography/ListCountries", _Geography_ListCountries(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.geography.Geography/DescribeRegion", _Geography_DescribeRegion(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.geography.Geography/ListRegions", _Geography_ListRegions(srv)).Methods(http.MethodPost)
 	return router
 }
 
@@ -137,6 +139,46 @@ func _Geography_ListCountries(srv GeographyServer) http.Handler {
 		}
 
 		out, err := srv.ListCountries(r.Context(), in)
+		if err != nil {
+			_Geography_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Geography_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Geography_DescribeRegion(srv GeographyServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeRegionInput{}
+
+		if err := _Geography_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Geography_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.DescribeRegion(r.Context(), in)
+		if err != nil {
+			_Geography_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Geography_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Geography_ListRegions(srv GeographyServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListRegionsInput{}
+
+		if err := _Geography_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Geography_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.ListRegions(r.Context(), in)
 		if err != nil {
 			_Geography_HTTPWriteErrorResponse(w, err)
 			return
@@ -205,5 +247,47 @@ func (i *GeographyInterceptor) ListCountries(ctx context.Context, in *ListCountr
 	}
 
 	out, err = i.server.ListCountries(ctx, in)
+	return
+}
+
+func (i *GeographyInterceptor) DescribeRegion(ctx context.Context, in *DescribeRegionInput) (out *DescribeRegionOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promGeographyRequestLatency.WithLabelValues("eolymp.geography.Geography/DescribeRegion", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	if !i.limiter.Allow(ctx, "eolymp.geography.Geography/DescribeRegion", 50, 500) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.DescribeRegion(ctx, in)
+	return
+}
+
+func (i *GeographyInterceptor) ListRegions(ctx context.Context, in *ListRegionsInput) (out *ListRegionsOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promGeographyRequestLatency.WithLabelValues("eolymp.geography.Geography/ListRegions", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	if !i.limiter.Allow(ctx, "eolymp.geography.Geography/ListRegions", 50, 500) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.ListRegions(ctx, in)
 	return
 }

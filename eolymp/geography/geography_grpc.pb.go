@@ -24,6 +24,8 @@ const _ = grpc.SupportPackageIsVersion7
 type GeographyClient interface {
 	DescribeCountry(ctx context.Context, in *DescribeCountryInput, opts ...grpc.CallOption) (*DescribeCountryOutput, error)
 	ListCountries(ctx context.Context, in *ListCountriesInput, opts ...grpc.CallOption) (*ListCountriesOutput, error)
+	DescribeRegion(ctx context.Context, in *DescribeRegionInput, opts ...grpc.CallOption) (*DescribeRegionOutput, error)
+	ListRegions(ctx context.Context, in *ListRegionsInput, opts ...grpc.CallOption) (*ListRegionsOutput, error)
 }
 
 type geographyClient struct {
@@ -52,12 +54,32 @@ func (c *geographyClient) ListCountries(ctx context.Context, in *ListCountriesIn
 	return out, nil
 }
 
+func (c *geographyClient) DescribeRegion(ctx context.Context, in *DescribeRegionInput, opts ...grpc.CallOption) (*DescribeRegionOutput, error) {
+	out := new(DescribeRegionOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.geography.Geography/DescribeRegion", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *geographyClient) ListRegions(ctx context.Context, in *ListRegionsInput, opts ...grpc.CallOption) (*ListRegionsOutput, error) {
+	out := new(ListRegionsOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.geography.Geography/ListRegions", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // GeographyServer is the server API for Geography service.
 // All implementations should embed UnimplementedGeographyServer
 // for forward compatibility
 type GeographyServer interface {
 	DescribeCountry(context.Context, *DescribeCountryInput) (*DescribeCountryOutput, error)
 	ListCountries(context.Context, *ListCountriesInput) (*ListCountriesOutput, error)
+	DescribeRegion(context.Context, *DescribeRegionInput) (*DescribeRegionOutput, error)
+	ListRegions(context.Context, *ListRegionsInput) (*ListRegionsOutput, error)
 }
 
 // UnimplementedGeographyServer should be embedded to have forward compatible implementations.
@@ -69,6 +91,12 @@ func (UnimplementedGeographyServer) DescribeCountry(context.Context, *DescribeCo
 }
 func (UnimplementedGeographyServer) ListCountries(context.Context, *ListCountriesInput) (*ListCountriesOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListCountries not implemented")
+}
+func (UnimplementedGeographyServer) DescribeRegion(context.Context, *DescribeRegionInput) (*DescribeRegionOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeRegion not implemented")
+}
+func (UnimplementedGeographyServer) ListRegions(context.Context, *ListRegionsInput) (*ListRegionsOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListRegions not implemented")
 }
 
 // UnsafeGeographyServer may be embedded to opt out of forward compatibility for this service.
@@ -118,6 +146,42 @@ func _Geography_ListCountries_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Geography_DescribeRegion_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeRegionInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GeographyServer).DescribeRegion(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.geography.Geography/DescribeRegion",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GeographyServer).DescribeRegion(ctx, req.(*DescribeRegionInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Geography_ListRegions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListRegionsInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GeographyServer).ListRegions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.geography.Geography/ListRegions",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GeographyServer).ListRegions(ctx, req.(*ListRegionsInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Geography_ServiceDesc is the grpc.ServiceDesc for Geography service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -132,6 +196,14 @@ var Geography_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListCountries",
 			Handler:    _Geography_ListCountries_Handler,
+		},
+		{
+			MethodName: "DescribeRegion",
+			Handler:    _Geography_DescribeRegion_Handler,
+		},
+		{
+			MethodName: "ListRegions",
+			Handler:    _Geography_ListRegions_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

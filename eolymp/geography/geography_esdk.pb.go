@@ -105,3 +105,23 @@ func (s *GeographyService) ListCountries(ctx context.Context, in *ListCountriesI
 
 	return out, nil
 }
+
+func (s *GeographyService) DescribeRegion(ctx context.Context, in *DescribeRegionInput) (*DescribeRegionOutput, error) {
+	out := &DescribeRegionOutput{}
+
+	if err := s.invoke(ctx, "eolymp.geography.Geography/DescribeRegion", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *GeographyService) ListRegions(ctx context.Context, in *ListRegionsInput) (*ListRegionsOutput, error) {
+	out := &ListRegionsOutput{}
+
+	if err := s.invoke(ctx, "eolymp.geography.Geography/ListRegions", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
