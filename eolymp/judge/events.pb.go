@@ -295,12 +295,155 @@ func (x *TicketUpdatedEvent) GetReply() *Reply {
 	return nil
 }
 
+type ParticipantCreatedEvent struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Participant *Participant `protobuf:"bytes,1,opt,name=participant,proto3" json:"participant,omitempty"`
+}
+
+func (x *ParticipantCreatedEvent) Reset() {
+	*x = ParticipantCreatedEvent{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_eolymp_judge_events_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ParticipantCreatedEvent) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ParticipantCreatedEvent) ProtoMessage() {}
+
+func (x *ParticipantCreatedEvent) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_judge_events_proto_msgTypes[5]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ParticipantCreatedEvent.ProtoReflect.Descriptor instead.
+func (*ParticipantCreatedEvent) Descriptor() ([]byte, []int) {
+	return file_eolymp_judge_events_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *ParticipantCreatedEvent) GetParticipant() *Participant {
+	if x != nil {
+		return x.Participant
+	}
+	return nil
+}
+
+type ParticipantUpdatedEvent struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Participant *Participant `protobuf:"bytes,1,opt,name=participant,proto3" json:"participant,omitempty"`
+}
+
+func (x *ParticipantUpdatedEvent) Reset() {
+	*x = ParticipantUpdatedEvent{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_eolymp_judge_events_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ParticipantUpdatedEvent) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ParticipantUpdatedEvent) ProtoMessage() {}
+
+func (x *ParticipantUpdatedEvent) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_judge_events_proto_msgTypes[6]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ParticipantUpdatedEvent.ProtoReflect.Descriptor instead.
+func (*ParticipantUpdatedEvent) Descriptor() ([]byte, []int) {
+	return file_eolymp_judge_events_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *ParticipantUpdatedEvent) GetParticipant() *Participant {
+	if x != nil {
+		return x.Participant
+	}
+	return nil
+}
+
+type ParticipantDeletedEvent struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Participant *Participant `protobuf:"bytes,1,opt,name=participant,proto3" json:"participant,omitempty"`
+}
+
+func (x *ParticipantDeletedEvent) Reset() {
+	*x = ParticipantDeletedEvent{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_eolymp_judge_events_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ParticipantDeletedEvent) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ParticipantDeletedEvent) ProtoMessage() {}
+
+func (x *ParticipantDeletedEvent) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_judge_events_proto_msgTypes[7]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ParticipantDeletedEvent.ProtoReflect.Descriptor instead.
+func (*ParticipantDeletedEvent) Descriptor() ([]byte, []int) {
+	return file_eolymp_judge_events_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *ParticipantDeletedEvent) GetParticipant() *Participant {
+	if x != nil {
+		return x.Participant
+	}
+	return nil
+}
+
 var File_eolymp_judge_events_proto protoreflect.FileDescriptor
 
 var file_eolymp_judge_events_proto_rawDesc = []byte{
 	0x0a, 0x19, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x6a, 0x75, 0x64, 0x67, 0x65, 0x2f, 0x65,
 	0x76, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x0c, 0x65, 0x6f, 0x6c,
-	0x79, 0x6d, 0x70, 0x2e, 0x6a, 0x75, 0x64, 0x67, 0x65, 0x1a, 0x18, 0x65, 0x6f, 0x6c, 0x79, 0x6d,
+	0x79, 0x6d, 0x70, 0x2e, 0x6a, 0x75, 0x64, 0x67, 0x65, 0x1a, 0x1e, 0x65, 0x6f, 0x6c, 0x79, 0x6d,
+	0x70, 0x2f, 0x6a, 0x75, 0x64, 0x67, 0x65, 0x2f, 0x70, 0x61, 0x72, 0x74, 0x69, 0x63, 0x69, 0x70,
+	0x61, 0x6e, 0x74, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x18, 0x65, 0x6f, 0x6c, 0x79, 0x6d,
 	0x70, 0x2f, 0x6a, 0x75, 0x64, 0x67, 0x65, 0x2f, 0x72, 0x65, 0x70, 0x6c, 0x79, 0x2e, 0x70, 0x72,
 	0x6f, 0x74, 0x6f, 0x1a, 0x18, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x6a, 0x75, 0x64, 0x67,
 	0x65, 0x2f, 0x73, 0x63, 0x6f, 0x72, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x1d, 0x65,
@@ -340,11 +483,27 @@ var file_eolymp_judge_events_proto_rawDesc = []byte{
 	0x2e, 0x54, 0x69, 0x63, 0x6b, 0x65, 0x74, 0x52, 0x06, 0x74, 0x69, 0x63, 0x6b, 0x65, 0x74, 0x12,
 	0x29, 0x0a, 0x05, 0x72, 0x65, 0x70, 0x6c, 0x79, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x13,
 	0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x6a, 0x75, 0x64, 0x67, 0x65, 0x2e, 0x52, 0x65,
-	0x70, 0x6c, 0x79, 0x52, 0x05, 0x72, 0x65, 0x70, 0x6c, 0x79, 0x42, 0x2d, 0x5a, 0x2b, 0x67, 0x69,
-	0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f,
-	0x67, 0x6f, 0x2d, 0x73, 0x64, 0x6b, 0x2f, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x6a, 0x75,
-	0x64, 0x67, 0x65, 0x3b, 0x6a, 0x75, 0x64, 0x67, 0x65, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f,
-	0x33,
+	0x70, 0x6c, 0x79, 0x52, 0x05, 0x72, 0x65, 0x70, 0x6c, 0x79, 0x22, 0x56, 0x0a, 0x17, 0x50, 0x61,
+	0x72, 0x74, 0x69, 0x63, 0x69, 0x70, 0x61, 0x6e, 0x74, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x64,
+	0x45, 0x76, 0x65, 0x6e, 0x74, 0x12, 0x3b, 0x0a, 0x0b, 0x70, 0x61, 0x72, 0x74, 0x69, 0x63, 0x69,
+	0x70, 0x61, 0x6e, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x19, 0x2e, 0x65, 0x6f, 0x6c,
+	0x79, 0x6d, 0x70, 0x2e, 0x6a, 0x75, 0x64, 0x67, 0x65, 0x2e, 0x50, 0x61, 0x72, 0x74, 0x69, 0x63,
+	0x69, 0x70, 0x61, 0x6e, 0x74, 0x52, 0x0b, 0x70, 0x61, 0x72, 0x74, 0x69, 0x63, 0x69, 0x70, 0x61,
+	0x6e, 0x74, 0x22, 0x56, 0x0a, 0x17, 0x50, 0x61, 0x72, 0x74, 0x69, 0x63, 0x69, 0x70, 0x61, 0x6e,
+	0x74, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x64, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x12, 0x3b, 0x0a,
+	0x0b, 0x70, 0x61, 0x72, 0x74, 0x69, 0x63, 0x69, 0x70, 0x61, 0x6e, 0x74, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x0b, 0x32, 0x19, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x6a, 0x75, 0x64, 0x67,
+	0x65, 0x2e, 0x50, 0x61, 0x72, 0x74, 0x69, 0x63, 0x69, 0x70, 0x61, 0x6e, 0x74, 0x52, 0x0b, 0x70,
+	0x61, 0x72, 0x74, 0x69, 0x63, 0x69, 0x70, 0x61, 0x6e, 0x74, 0x22, 0x56, 0x0a, 0x17, 0x50, 0x61,
+	0x72, 0x74, 0x69, 0x63, 0x69, 0x70, 0x61, 0x6e, 0x74, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x64,
+	0x45, 0x76, 0x65, 0x6e, 0x74, 0x12, 0x3b, 0x0a, 0x0b, 0x70, 0x61, 0x72, 0x74, 0x69, 0x63, 0x69,
+	0x70, 0x61, 0x6e, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x19, 0x2e, 0x65, 0x6f, 0x6c,
+	0x79, 0x6d, 0x70, 0x2e, 0x6a, 0x75, 0x64, 0x67, 0x65, 0x2e, 0x50, 0x61, 0x72, 0x74, 0x69, 0x63,
+	0x69, 0x70, 0x61, 0x6e, 0x74, 0x52, 0x0b, 0x70, 0x61, 0x72, 0x74, 0x69, 0x63, 0x69, 0x70, 0x61,
+	0x6e, 0x74, 0x42, 0x2d, 0x5a, 0x2b, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d,
+	0x2f, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x67, 0x6f, 0x2d, 0x73, 0x64, 0x6b, 0x2f, 0x65,
+	0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x6a, 0x75, 0x64, 0x67, 0x65, 0x3b, 0x6a, 0x75, 0x64, 0x67,
+	0x65, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -359,29 +518,36 @@ func file_eolymp_judge_events_proto_rawDescGZIP() []byte {
 	return file_eolymp_judge_events_proto_rawDescData
 }
 
-var file_eolymp_judge_events_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_eolymp_judge_events_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_eolymp_judge_events_proto_goTypes = []interface{}{
 	(*SubmissionCompletedEvent)(nil), // 0: eolymp.judge.SubmissionCompletedEvent
 	(*RebuildScoreEvent)(nil),        // 1: eolymp.judge.RebuildScoreEvent
 	(*ScoreUpdatedEvent)(nil),        // 2: eolymp.judge.ScoreUpdatedEvent
 	(*TicketCreatedEvent)(nil),       // 3: eolymp.judge.TicketCreatedEvent
 	(*TicketUpdatedEvent)(nil),       // 4: eolymp.judge.TicketUpdatedEvent
-	(*Submission)(nil),               // 5: eolymp.judge.Submission
-	(*Score)(nil),                    // 6: eolymp.judge.Score
-	(*Ticket)(nil),                   // 7: eolymp.judge.Ticket
-	(*Reply)(nil),                    // 8: eolymp.judge.Reply
+	(*ParticipantCreatedEvent)(nil),  // 5: eolymp.judge.ParticipantCreatedEvent
+	(*ParticipantUpdatedEvent)(nil),  // 6: eolymp.judge.ParticipantUpdatedEvent
+	(*ParticipantDeletedEvent)(nil),  // 7: eolymp.judge.ParticipantDeletedEvent
+	(*Submission)(nil),               // 8: eolymp.judge.Submission
+	(*Score)(nil),                    // 9: eolymp.judge.Score
+	(*Ticket)(nil),                   // 10: eolymp.judge.Ticket
+	(*Reply)(nil),                    // 11: eolymp.judge.Reply
+	(*Participant)(nil),              // 12: eolymp.judge.Participant
 }
 var file_eolymp_judge_events_proto_depIdxs = []int32{
-	5, // 0: eolymp.judge.SubmissionCompletedEvent.submission:type_name -> eolymp.judge.Submission
-	6, // 1: eolymp.judge.ScoreUpdatedEvent.score:type_name -> eolymp.judge.Score
-	7, // 2: eolymp.judge.TicketCreatedEvent.ticket:type_name -> eolymp.judge.Ticket
-	7, // 3: eolymp.judge.TicketUpdatedEvent.ticket:type_name -> eolymp.judge.Ticket
-	8, // 4: eolymp.judge.TicketUpdatedEvent.reply:type_name -> eolymp.judge.Reply
-	5, // [5:5] is the sub-list for method output_type
-	5, // [5:5] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	8,  // 0: eolymp.judge.SubmissionCompletedEvent.submission:type_name -> eolymp.judge.Submission
+	9,  // 1: eolymp.judge.ScoreUpdatedEvent.score:type_name -> eolymp.judge.Score
+	10, // 2: eolymp.judge.TicketCreatedEvent.ticket:type_name -> eolymp.judge.Ticket
+	10, // 3: eolymp.judge.TicketUpdatedEvent.ticket:type_name -> eolymp.judge.Ticket
+	11, // 4: eolymp.judge.TicketUpdatedEvent.reply:type_name -> eolymp.judge.Reply
+	12, // 5: eolymp.judge.ParticipantCreatedEvent.participant:type_name -> eolymp.judge.Participant
+	12, // 6: eolymp.judge.ParticipantUpdatedEvent.participant:type_name -> eolymp.judge.Participant
+	12, // 7: eolymp.judge.ParticipantDeletedEvent.participant:type_name -> eolymp.judge.Participant
+	8,  // [8:8] is the sub-list for method output_type
+	8,  // [8:8] is the sub-list for method input_type
+	8,  // [8:8] is the sub-list for extension type_name
+	8,  // [8:8] is the sub-list for extension extendee
+	0,  // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_judge_events_proto_init() }
@@ -389,6 +555,7 @@ func file_eolymp_judge_events_proto_init() {
 	if File_eolymp_judge_events_proto != nil {
 		return
 	}
+	file_eolymp_judge_participant_proto_init()
 	file_eolymp_judge_reply_proto_init()
 	file_eolymp_judge_score_proto_init()
 	file_eolymp_judge_submission_proto_init()
@@ -454,6 +621,42 @@ func file_eolymp_judge_events_proto_init() {
 				return nil
 			}
 		}
+		file_eolymp_judge_events_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ParticipantCreatedEvent); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_eolymp_judge_events_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ParticipantUpdatedEvent); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_eolymp_judge_events_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ParticipantDeletedEvent); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -461,7 +664,7 @@ func file_eolymp_judge_events_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_eolymp_judge_events_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   5,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
