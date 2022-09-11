@@ -136,25 +136,8 @@ type JudgeClient interface {
 	ImportScore(ctx context.Context, in *ImportScoreInput, opts ...grpc.CallOption) (*ImportScoreOutput, error)
 	// ListResult retrieves scoreboard
 	ListResult(ctx context.Context, in *ListResultInput, opts ...grpc.CallOption) (*ListResultOutput, error)
-	// Create scoreboard for a contest
-	CreateScoreboard(ctx context.Context, in *CreateScoreboardInput, opts ...grpc.CallOption) (*CreateScoreboardOutput, error)
-	// Update existing scoreboard in a contest
-	UpdateScoreboard(ctx context.Context, in *UpdateScoreboardInput, opts ...grpc.CallOption) (*UpdateScoreboardOutput, error)
 	// Rebuild scoreboard
 	RebuildScore(ctx context.Context, in *RebuildScoreInput, opts ...grpc.CallOption) (*RebuildScoreOutput, error)
-	// Delete scoreboard
-	DeleteScoreboard(ctx context.Context, in *DeleteScoreboardInput, opts ...grpc.CallOption) (*DeleteScoreboardOutput, error)
-	// Describe scoreboard
-	DescribeScoreboard(ctx context.Context, in *DescribeScoreboardInput, opts ...grpc.CallOption) (*DescribeScoreboardOutput, error)
-	// Describe scoreboard
-	DescribeDefaultScoreboard(ctx context.Context, in *DescribeDefaultScoreboardInput, opts ...grpc.CallOption) (*DescribeDefaultScoreboardOutput, error)
-	ListScoreboards(ctx context.Context, in *ListScoreboardsInput, opts ...grpc.CallOption) (*ListScoreboardsOutput, error)
-	DescribeScoreboardHeader(ctx context.Context, in *DescribeScoreboardHeaderInput, opts ...grpc.CallOption) (*DescribeScoreboardHeaderOutput, error)
-	DescribeScoreboardFooter(ctx context.Context, in *DescribeScoreboardFooterInput, opts ...grpc.CallOption) (*DescribeScoreboardFooterOutput, error)
-	DescribeScoreboardRow(ctx context.Context, in *DescribeScoreboardRowInput, opts ...grpc.CallOption) (*DescribeScoreboardRowOutput, error)
-	DescribeDefaultScoreboardRow(ctx context.Context, in *DescribeDefaultScoreboardRowInput, opts ...grpc.CallOption) (*DescribeDefaultScoreboardRowOutput, error)
-	ListScoreboardRows(ctx context.Context, in *ListScoreboardRowsInput, opts ...grpc.CallOption) (*ListScoreboardRowsOutput, error)
-	ListDefaultScoreboardRows(ctx context.Context, in *ListDefaultScoreboardRowsInput, opts ...grpc.CallOption) (*ListDefaultScoreboardRowsOutput, error)
 	// Lists entitlements granted to authenticated user.
 	ListEntitlements(ctx context.Context, in *ListEntitlementsInput, opts ...grpc.CallOption) (*ListEntitlementsOutput, error)
 	ListActivities(ctx context.Context, in *ListActivitiesInput, opts ...grpc.CallOption) (*ListActivitiesOutput, error)
@@ -762,117 +745,9 @@ func (c *judgeClient) ListResult(ctx context.Context, in *ListResultInput, opts 
 	return out, nil
 }
 
-func (c *judgeClient) CreateScoreboard(ctx context.Context, in *CreateScoreboardInput, opts ...grpc.CallOption) (*CreateScoreboardOutput, error) {
-	out := new(CreateScoreboardOutput)
-	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/CreateScoreboard", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *judgeClient) UpdateScoreboard(ctx context.Context, in *UpdateScoreboardInput, opts ...grpc.CallOption) (*UpdateScoreboardOutput, error) {
-	out := new(UpdateScoreboardOutput)
-	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/UpdateScoreboard", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *judgeClient) RebuildScore(ctx context.Context, in *RebuildScoreInput, opts ...grpc.CallOption) (*RebuildScoreOutput, error) {
 	out := new(RebuildScoreOutput)
 	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/RebuildScore", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *judgeClient) DeleteScoreboard(ctx context.Context, in *DeleteScoreboardInput, opts ...grpc.CallOption) (*DeleteScoreboardOutput, error) {
-	out := new(DeleteScoreboardOutput)
-	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/DeleteScoreboard", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *judgeClient) DescribeScoreboard(ctx context.Context, in *DescribeScoreboardInput, opts ...grpc.CallOption) (*DescribeScoreboardOutput, error) {
-	out := new(DescribeScoreboardOutput)
-	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/DescribeScoreboard", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *judgeClient) DescribeDefaultScoreboard(ctx context.Context, in *DescribeDefaultScoreboardInput, opts ...grpc.CallOption) (*DescribeDefaultScoreboardOutput, error) {
-	out := new(DescribeDefaultScoreboardOutput)
-	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/DescribeDefaultScoreboard", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *judgeClient) ListScoreboards(ctx context.Context, in *ListScoreboardsInput, opts ...grpc.CallOption) (*ListScoreboardsOutput, error) {
-	out := new(ListScoreboardsOutput)
-	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/ListScoreboards", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *judgeClient) DescribeScoreboardHeader(ctx context.Context, in *DescribeScoreboardHeaderInput, opts ...grpc.CallOption) (*DescribeScoreboardHeaderOutput, error) {
-	out := new(DescribeScoreboardHeaderOutput)
-	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/DescribeScoreboardHeader", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *judgeClient) DescribeScoreboardFooter(ctx context.Context, in *DescribeScoreboardFooterInput, opts ...grpc.CallOption) (*DescribeScoreboardFooterOutput, error) {
-	out := new(DescribeScoreboardFooterOutput)
-	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/DescribeScoreboardFooter", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *judgeClient) DescribeScoreboardRow(ctx context.Context, in *DescribeScoreboardRowInput, opts ...grpc.CallOption) (*DescribeScoreboardRowOutput, error) {
-	out := new(DescribeScoreboardRowOutput)
-	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/DescribeScoreboardRow", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *judgeClient) DescribeDefaultScoreboardRow(ctx context.Context, in *DescribeDefaultScoreboardRowInput, opts ...grpc.CallOption) (*DescribeDefaultScoreboardRowOutput, error) {
-	out := new(DescribeDefaultScoreboardRowOutput)
-	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/DescribeDefaultScoreboardRow", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *judgeClient) ListScoreboardRows(ctx context.Context, in *ListScoreboardRowsInput, opts ...grpc.CallOption) (*ListScoreboardRowsOutput, error) {
-	out := new(ListScoreboardRowsOutput)
-	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/ListScoreboardRows", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *judgeClient) ListDefaultScoreboardRows(ctx context.Context, in *ListDefaultScoreboardRowsInput, opts ...grpc.CallOption) (*ListDefaultScoreboardRowsOutput, error) {
-	out := new(ListDefaultScoreboardRowsOutput)
-	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/ListDefaultScoreboardRows", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1015,25 +890,8 @@ type JudgeServer interface {
 	ImportScore(context.Context, *ImportScoreInput) (*ImportScoreOutput, error)
 	// ListResult retrieves scoreboard
 	ListResult(context.Context, *ListResultInput) (*ListResultOutput, error)
-	// Create scoreboard for a contest
-	CreateScoreboard(context.Context, *CreateScoreboardInput) (*CreateScoreboardOutput, error)
-	// Update existing scoreboard in a contest
-	UpdateScoreboard(context.Context, *UpdateScoreboardInput) (*UpdateScoreboardOutput, error)
 	// Rebuild scoreboard
 	RebuildScore(context.Context, *RebuildScoreInput) (*RebuildScoreOutput, error)
-	// Delete scoreboard
-	DeleteScoreboard(context.Context, *DeleteScoreboardInput) (*DeleteScoreboardOutput, error)
-	// Describe scoreboard
-	DescribeScoreboard(context.Context, *DescribeScoreboardInput) (*DescribeScoreboardOutput, error)
-	// Describe scoreboard
-	DescribeDefaultScoreboard(context.Context, *DescribeDefaultScoreboardInput) (*DescribeDefaultScoreboardOutput, error)
-	ListScoreboards(context.Context, *ListScoreboardsInput) (*ListScoreboardsOutput, error)
-	DescribeScoreboardHeader(context.Context, *DescribeScoreboardHeaderInput) (*DescribeScoreboardHeaderOutput, error)
-	DescribeScoreboardFooter(context.Context, *DescribeScoreboardFooterInput) (*DescribeScoreboardFooterOutput, error)
-	DescribeScoreboardRow(context.Context, *DescribeScoreboardRowInput) (*DescribeScoreboardRowOutput, error)
-	DescribeDefaultScoreboardRow(context.Context, *DescribeDefaultScoreboardRowInput) (*DescribeDefaultScoreboardRowOutput, error)
-	ListScoreboardRows(context.Context, *ListScoreboardRowsInput) (*ListScoreboardRowsOutput, error)
-	ListDefaultScoreboardRows(context.Context, *ListDefaultScoreboardRowsInput) (*ListDefaultScoreboardRowsOutput, error)
 	// Lists entitlements granted to authenticated user.
 	ListEntitlements(context.Context, *ListEntitlementsInput) (*ListEntitlementsOutput, error)
 	ListActivities(context.Context, *ListActivitiesInput) (*ListActivitiesOutput, error)
@@ -1241,44 +1099,8 @@ func (UnimplementedJudgeServer) ImportScore(context.Context, *ImportScoreInput) 
 func (UnimplementedJudgeServer) ListResult(context.Context, *ListResultInput) (*ListResultOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListResult not implemented")
 }
-func (UnimplementedJudgeServer) CreateScoreboard(context.Context, *CreateScoreboardInput) (*CreateScoreboardOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateScoreboard not implemented")
-}
-func (UnimplementedJudgeServer) UpdateScoreboard(context.Context, *UpdateScoreboardInput) (*UpdateScoreboardOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateScoreboard not implemented")
-}
 func (UnimplementedJudgeServer) RebuildScore(context.Context, *RebuildScoreInput) (*RebuildScoreOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RebuildScore not implemented")
-}
-func (UnimplementedJudgeServer) DeleteScoreboard(context.Context, *DeleteScoreboardInput) (*DeleteScoreboardOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteScoreboard not implemented")
-}
-func (UnimplementedJudgeServer) DescribeScoreboard(context.Context, *DescribeScoreboardInput) (*DescribeScoreboardOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DescribeScoreboard not implemented")
-}
-func (UnimplementedJudgeServer) DescribeDefaultScoreboard(context.Context, *DescribeDefaultScoreboardInput) (*DescribeDefaultScoreboardOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DescribeDefaultScoreboard not implemented")
-}
-func (UnimplementedJudgeServer) ListScoreboards(context.Context, *ListScoreboardsInput) (*ListScoreboardsOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListScoreboards not implemented")
-}
-func (UnimplementedJudgeServer) DescribeScoreboardHeader(context.Context, *DescribeScoreboardHeaderInput) (*DescribeScoreboardHeaderOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DescribeScoreboardHeader not implemented")
-}
-func (UnimplementedJudgeServer) DescribeScoreboardFooter(context.Context, *DescribeScoreboardFooterInput) (*DescribeScoreboardFooterOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DescribeScoreboardFooter not implemented")
-}
-func (UnimplementedJudgeServer) DescribeScoreboardRow(context.Context, *DescribeScoreboardRowInput) (*DescribeScoreboardRowOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DescribeScoreboardRow not implemented")
-}
-func (UnimplementedJudgeServer) DescribeDefaultScoreboardRow(context.Context, *DescribeDefaultScoreboardRowInput) (*DescribeDefaultScoreboardRowOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DescribeDefaultScoreboardRow not implemented")
-}
-func (UnimplementedJudgeServer) ListScoreboardRows(context.Context, *ListScoreboardRowsInput) (*ListScoreboardRowsOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListScoreboardRows not implemented")
-}
-func (UnimplementedJudgeServer) ListDefaultScoreboardRows(context.Context, *ListDefaultScoreboardRowsInput) (*ListDefaultScoreboardRowsOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListDefaultScoreboardRows not implemented")
 }
 func (UnimplementedJudgeServer) ListEntitlements(context.Context, *ListEntitlementsInput) (*ListEntitlementsOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListEntitlements not implemented")
@@ -2486,42 +2308,6 @@ func _Judge_ListResult_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Judge_CreateScoreboard_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateScoreboardInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(JudgeServer).CreateScoreboard(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/eolymp.judge.Judge/CreateScoreboard",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(JudgeServer).CreateScoreboard(ctx, req.(*CreateScoreboardInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Judge_UpdateScoreboard_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateScoreboardInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(JudgeServer).UpdateScoreboard(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/eolymp.judge.Judge/UpdateScoreboard",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(JudgeServer).UpdateScoreboard(ctx, req.(*UpdateScoreboardInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _Judge_RebuildScore_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(RebuildScoreInput)
 	if err := dec(in); err != nil {
@@ -2536,186 +2322,6 @@ func _Judge_RebuildScore_Handler(srv interface{}, ctx context.Context, dec func(
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(JudgeServer).RebuildScore(ctx, req.(*RebuildScoreInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Judge_DeleteScoreboard_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteScoreboardInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(JudgeServer).DeleteScoreboard(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/eolymp.judge.Judge/DeleteScoreboard",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(JudgeServer).DeleteScoreboard(ctx, req.(*DeleteScoreboardInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Judge_DescribeScoreboard_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DescribeScoreboardInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(JudgeServer).DescribeScoreboard(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/eolymp.judge.Judge/DescribeScoreboard",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(JudgeServer).DescribeScoreboard(ctx, req.(*DescribeScoreboardInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Judge_DescribeDefaultScoreboard_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DescribeDefaultScoreboardInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(JudgeServer).DescribeDefaultScoreboard(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/eolymp.judge.Judge/DescribeDefaultScoreboard",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(JudgeServer).DescribeDefaultScoreboard(ctx, req.(*DescribeDefaultScoreboardInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Judge_ListScoreboards_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListScoreboardsInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(JudgeServer).ListScoreboards(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/eolymp.judge.Judge/ListScoreboards",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(JudgeServer).ListScoreboards(ctx, req.(*ListScoreboardsInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Judge_DescribeScoreboardHeader_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DescribeScoreboardHeaderInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(JudgeServer).DescribeScoreboardHeader(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/eolymp.judge.Judge/DescribeScoreboardHeader",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(JudgeServer).DescribeScoreboardHeader(ctx, req.(*DescribeScoreboardHeaderInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Judge_DescribeScoreboardFooter_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DescribeScoreboardFooterInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(JudgeServer).DescribeScoreboardFooter(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/eolymp.judge.Judge/DescribeScoreboardFooter",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(JudgeServer).DescribeScoreboardFooter(ctx, req.(*DescribeScoreboardFooterInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Judge_DescribeScoreboardRow_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DescribeScoreboardRowInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(JudgeServer).DescribeScoreboardRow(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/eolymp.judge.Judge/DescribeScoreboardRow",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(JudgeServer).DescribeScoreboardRow(ctx, req.(*DescribeScoreboardRowInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Judge_DescribeDefaultScoreboardRow_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DescribeDefaultScoreboardRowInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(JudgeServer).DescribeDefaultScoreboardRow(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/eolymp.judge.Judge/DescribeDefaultScoreboardRow",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(JudgeServer).DescribeDefaultScoreboardRow(ctx, req.(*DescribeDefaultScoreboardRowInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Judge_ListScoreboardRows_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListScoreboardRowsInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(JudgeServer).ListScoreboardRows(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/eolymp.judge.Judge/ListScoreboardRows",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(JudgeServer).ListScoreboardRows(ctx, req.(*ListScoreboardRowsInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Judge_ListDefaultScoreboardRows_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListDefaultScoreboardRowsInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(JudgeServer).ListDefaultScoreboardRows(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/eolymp.judge.Judge/ListDefaultScoreboardRows",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(JudgeServer).ListDefaultScoreboardRows(ctx, req.(*ListDefaultScoreboardRowsInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -3028,56 +2634,8 @@ var Judge_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Judge_ListResult_Handler,
 		},
 		{
-			MethodName: "CreateScoreboard",
-			Handler:    _Judge_CreateScoreboard_Handler,
-		},
-		{
-			MethodName: "UpdateScoreboard",
-			Handler:    _Judge_UpdateScoreboard_Handler,
-		},
-		{
 			MethodName: "RebuildScore",
 			Handler:    _Judge_RebuildScore_Handler,
-		},
-		{
-			MethodName: "DeleteScoreboard",
-			Handler:    _Judge_DeleteScoreboard_Handler,
-		},
-		{
-			MethodName: "DescribeScoreboard",
-			Handler:    _Judge_DescribeScoreboard_Handler,
-		},
-		{
-			MethodName: "DescribeDefaultScoreboard",
-			Handler:    _Judge_DescribeDefaultScoreboard_Handler,
-		},
-		{
-			MethodName: "ListScoreboards",
-			Handler:    _Judge_ListScoreboards_Handler,
-		},
-		{
-			MethodName: "DescribeScoreboardHeader",
-			Handler:    _Judge_DescribeScoreboardHeader_Handler,
-		},
-		{
-			MethodName: "DescribeScoreboardFooter",
-			Handler:    _Judge_DescribeScoreboardFooter_Handler,
-		},
-		{
-			MethodName: "DescribeScoreboardRow",
-			Handler:    _Judge_DescribeScoreboardRow_Handler,
-		},
-		{
-			MethodName: "DescribeDefaultScoreboardRow",
-			Handler:    _Judge_DescribeDefaultScoreboardRow_Handler,
-		},
-		{
-			MethodName: "ListScoreboardRows",
-			Handler:    _Judge_ListScoreboardRows_Handler,
-		},
-		{
-			MethodName: "ListDefaultScoreboardRows",
-			Handler:    _Judge_ListDefaultScoreboardRows_Handler,
 		},
 		{
 			MethodName: "ListEntitlements",
