@@ -68,6 +68,8 @@ type CognitoClient interface {
 	UpdateRoles(ctx context.Context, in *UpdateRolesInput, opts ...grpc.CallOption) (*UpdateRolesOutput, error)
 	// Lists entitlements granted to authenticated user.
 	ListEntitlements(ctx context.Context, in *ListEntitlementsInput, opts ...grpc.CallOption) (*ListEntitlementsOutput, error)
+	// Lists entitlements granted to authenticated user.
+	SelfDestruct(ctx context.Context, in *SelfDestructInput, opts ...grpc.CallOption) (*SelfDestructOutput, error)
 }
 
 type cognitoClient struct {
@@ -294,6 +296,15 @@ func (c *cognitoClient) ListEntitlements(ctx context.Context, in *ListEntitlemen
 	return out, nil
 }
 
+func (c *cognitoClient) SelfDestruct(ctx context.Context, in *SelfDestructInput, opts ...grpc.CallOption) (*SelfDestructOutput, error) {
+	out := new(SelfDestructOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.cognito.Cognito/SelfDestruct", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CognitoServer is the server API for Cognito service.
 // All implementations should embed UnimplementedCognitoServer
 // for forward compatibility
@@ -344,6 +355,8 @@ type CognitoServer interface {
 	UpdateRoles(context.Context, *UpdateRolesInput) (*UpdateRolesOutput, error)
 	// Lists entitlements granted to authenticated user.
 	ListEntitlements(context.Context, *ListEntitlementsInput) (*ListEntitlementsOutput, error)
+	// Lists entitlements granted to authenticated user.
+	SelfDestruct(context.Context, *SelfDestructInput) (*SelfDestructOutput, error)
 }
 
 // UnimplementedCognitoServer should be embedded to have forward compatible implementations.
@@ -421,6 +434,9 @@ func (UnimplementedCognitoServer) UpdateRoles(context.Context, *UpdateRolesInput
 }
 func (UnimplementedCognitoServer) ListEntitlements(context.Context, *ListEntitlementsInput) (*ListEntitlementsOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListEntitlements not implemented")
+}
+func (UnimplementedCognitoServer) SelfDestruct(context.Context, *SelfDestructInput) (*SelfDestructOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SelfDestruct not implemented")
 }
 
 // UnsafeCognitoServer may be embedded to opt out of forward compatibility for this service.
@@ -866,6 +882,24 @@ func _Cognito_ListEntitlements_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Cognito_SelfDestruct_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SelfDestructInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CognitoServer).SelfDestruct(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.cognito.Cognito/SelfDestruct",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CognitoServer).SelfDestruct(ctx, req.(*SelfDestructInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Cognito_ServiceDesc is the grpc.ServiceDesc for Cognito service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -968,6 +1002,10 @@ var Cognito_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListEntitlements",
 			Handler:    _Cognito_ListEntitlements_Handler,
+		},
+		{
+			MethodName: "SelfDestruct",
+			Handler:    _Cognito_SelfDestruct_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

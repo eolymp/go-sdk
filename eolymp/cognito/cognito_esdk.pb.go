@@ -325,3 +325,13 @@ func (s *CognitoService) ListEntitlements(ctx context.Context, in *ListEntitleme
 
 	return out, nil
 }
+
+func (s *CognitoService) SelfDestruct(ctx context.Context, in *SelfDestructInput) (*SelfDestructOutput, error) {
+	out := &SelfDestructOutput{}
+
+	if err := s.invoke(ctx, "eolymp.cognito.Cognito/SelfDestruct", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

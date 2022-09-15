@@ -126,6 +126,7 @@ func NewCognitoHandler(srv CognitoServer) http.Handler {
 	router.Handle("/eolymp.cognito.Cognito/ListRoles", _Cognito_ListRoles(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.cognito.Cognito/UpdateRoles", _Cognito_UpdateRoles(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.cognito.Cognito/ListEntitlements", _Cognito_ListEntitlements(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.cognito.Cognito/SelfDestruct", _Cognito_SelfDestruct(srv)).Methods(http.MethodPost)
 	return router
 }
 
@@ -600,6 +601,26 @@ func _Cognito_ListEntitlements(srv CognitoServer) http.Handler {
 		}
 
 		out, err := srv.ListEntitlements(r.Context(), in)
+		if err != nil {
+			_Cognito_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Cognito_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Cognito_SelfDestruct(srv CognitoServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &SelfDestructInput{}
+
+		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Cognito_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.SelfDestruct(r.Context(), in)
 		if err != nil {
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
@@ -1184,5 +1205,26 @@ func (i *CognitoInterceptor) ListEntitlements(ctx context.Context, in *ListEntit
 	}
 
 	out, err = i.server.ListEntitlements(ctx, in)
+	return
+}
+
+func (i *CognitoInterceptor) SelfDestruct(ctx context.Context, in *SelfDestructInput) (out *SelfDestructOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promCognitoRequestLatency.WithLabelValues("eolymp.cognito.Cognito/SelfDestruct", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	if !i.limiter.Allow(ctx, "eolymp.cognito.Cognito/SelfDestruct", 1, 10) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.SelfDestruct(ctx, in)
 	return
 }
