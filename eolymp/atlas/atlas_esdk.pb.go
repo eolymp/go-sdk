@@ -696,6 +696,16 @@ func (s *AtlasService) DescribeSubmission(ctx context.Context, in *DescribeSubmi
 	return out, nil
 }
 
+func (s *AtlasService) RetestSubmission(ctx context.Context, in *RetestSubmissionInput) (*RetestSubmissionOutput, error) {
+	out := &RetestSubmissionOutput{}
+
+	if err := s.invoke(ctx, "eolymp.atlas.Atlas/RetestSubmission", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *AtlasService) DescribeScore(ctx context.Context, in *DescribeScoreInput) (*DescribeScoreOutput, error) {
 	out := &DescribeScoreOutput{}
 

@@ -83,6 +83,7 @@ type AtlasClient interface {
 	UnassignCategory(ctx context.Context, in *UnassignCategoryInput, opts ...grpc.CallOption) (*UnassignCategoryOutput, error)
 	CreateSubmission(ctx context.Context, in *CreateSubmissionInput, opts ...grpc.CallOption) (*CreateSubmissionOutput, error)
 	DescribeSubmission(ctx context.Context, in *DescribeSubmissionInput, opts ...grpc.CallOption) (*DescribeSubmissionOutput, error)
+	RetestSubmission(ctx context.Context, in *RetestSubmissionInput, opts ...grpc.CallOption) (*RetestSubmissionOutput, error)
 	DescribeScore(ctx context.Context, in *DescribeScoreInput, opts ...grpc.CallOption) (*DescribeScoreOutput, error)
 }
 
@@ -643,6 +644,15 @@ func (c *atlasClient) DescribeSubmission(ctx context.Context, in *DescribeSubmis
 	return out, nil
 }
 
+func (c *atlasClient) RetestSubmission(ctx context.Context, in *RetestSubmissionInput, opts ...grpc.CallOption) (*RetestSubmissionOutput, error) {
+	out := new(RetestSubmissionOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.atlas.Atlas/RetestSubmission", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *atlasClient) DescribeScore(ctx context.Context, in *DescribeScoreInput, opts ...grpc.CallOption) (*DescribeScoreOutput, error) {
 	out := new(DescribeScoreOutput)
 	err := c.cc.Invoke(ctx, "/eolymp.atlas.Atlas/DescribeScore", in, out, opts...)
@@ -717,6 +727,7 @@ type AtlasServer interface {
 	UnassignCategory(context.Context, *UnassignCategoryInput) (*UnassignCategoryOutput, error)
 	CreateSubmission(context.Context, *CreateSubmissionInput) (*CreateSubmissionOutput, error)
 	DescribeSubmission(context.Context, *DescribeSubmissionInput) (*DescribeSubmissionOutput, error)
+	RetestSubmission(context.Context, *RetestSubmissionInput) (*RetestSubmissionOutput, error)
 	DescribeScore(context.Context, *DescribeScoreInput) (*DescribeScoreOutput, error)
 }
 
@@ -906,6 +917,9 @@ func (UnimplementedAtlasServer) CreateSubmission(context.Context, *CreateSubmiss
 }
 func (UnimplementedAtlasServer) DescribeSubmission(context.Context, *DescribeSubmissionInput) (*DescribeSubmissionOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeSubmission not implemented")
+}
+func (UnimplementedAtlasServer) RetestSubmission(context.Context, *RetestSubmissionInput) (*RetestSubmissionOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RetestSubmission not implemented")
 }
 func (UnimplementedAtlasServer) DescribeScore(context.Context, *DescribeScoreInput) (*DescribeScoreOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeScore not implemented")
@@ -2020,6 +2034,24 @@ func _Atlas_DescribeSubmission_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Atlas_RetestSubmission_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RetestSubmissionInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AtlasServer).RetestSubmission(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.atlas.Atlas/RetestSubmission",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AtlasServer).RetestSubmission(ctx, req.(*RetestSubmissionInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Atlas_DescribeScore_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DescribeScoreInput)
 	if err := dec(in); err != nil {
@@ -2288,6 +2320,10 @@ var Atlas_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DescribeSubmission",
 			Handler:    _Atlas_DescribeSubmission_Handler,
+		},
+		{
+			MethodName: "RetestSubmission",
+			Handler:    _Atlas_RetestSubmission_Handler,
 		},
 		{
 			MethodName: "DescribeScore",

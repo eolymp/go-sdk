@@ -163,6 +163,7 @@ func NewAtlasHandler(srv AtlasServer) http.Handler {
 	router.Handle("/eolymp.atlas.Atlas/UnassignCategory", _Atlas_UnassignCategory(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.atlas.Atlas/CreateSubmission", _Atlas_CreateSubmission(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.atlas.Atlas/DescribeSubmission", _Atlas_DescribeSubmission(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.atlas.Atlas/RetestSubmission", _Atlas_RetestSubmission(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.atlas.Atlas/DescribeScore", _Atlas_DescribeScore(srv)).Methods(http.MethodPost)
 	return router
 }
@@ -1378,6 +1379,26 @@ func _Atlas_DescribeSubmission(srv AtlasServer) http.Handler {
 		}
 
 		out, err := srv.DescribeSubmission(r.Context(), in)
+		if err != nil {
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Atlas_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Atlas_RetestSubmission(srv AtlasServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &RetestSubmissionInput{}
+
+		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.RetestSubmission(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -3011,6 +3032,28 @@ func (i *AtlasInterceptor) DescribeSubmission(ctx context.Context, in *DescribeS
 	}
 
 	out, err = i.server.DescribeSubmission(ctx, in)
+	return
+}
+
+func (i *AtlasInterceptor) RetestSubmission(ctx context.Context, in *RetestSubmissionInput) (out *RetestSubmissionOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/RetestSubmission", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	token, ok := oauth.TokenFromContext(ctx)
+	if ok && !token.Has("atlas:submission:write") {
+		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:submission:write")
+		return
+	}
+
+	out, err = i.server.RetestSubmission(ctx, in)
 	return
 }
 
