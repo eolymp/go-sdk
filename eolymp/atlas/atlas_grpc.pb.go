@@ -29,6 +29,8 @@ type AtlasClient interface {
 	UpdateVisibility(ctx context.Context, in *UpdateVisibilityInput, opts ...grpc.CallOption) (*UpdateVisibilityOutput, error)
 	UpdatePrivacy(ctx context.Context, in *UpdatePrivacyInput, opts ...grpc.CallOption) (*UpdatePrivacyOutput, error)
 	ListExamples(ctx context.Context, in *ListExamplesInput, opts ...grpc.CallOption) (*ListExamplesOutput, error)
+	UpdateClassification(ctx context.Context, in *UpdateClassificationInput, opts ...grpc.CallOption) (*UpdateClassificationOutput, error)
+	DescribeClassification(ctx context.Context, in *DescribeClassificationInput, opts ...grpc.CallOption) (*DescribeClassificationOutput, error)
 	UpdateVerifier(ctx context.Context, in *UpdateVerifierInput, opts ...grpc.CallOption) (*UpdateVerifierOutput, error)
 	DescribeVerifier(ctx context.Context, in *DescribeVerifierInput, opts ...grpc.CallOption) (*DescribeVerifierOutput, error)
 	UpdateInteractor(ctx context.Context, in *UpdateInteractorInput, opts ...grpc.CallOption) (*UpdateInteractorOutput, error)
@@ -85,6 +87,11 @@ type AtlasClient interface {
 	DescribeSubmission(ctx context.Context, in *DescribeSubmissionInput, opts ...grpc.CallOption) (*DescribeSubmissionOutput, error)
 	RetestSubmission(ctx context.Context, in *RetestSubmissionInput, opts ...grpc.CallOption) (*RetestSubmissionOutput, error)
 	DescribeScore(ctx context.Context, in *DescribeScoreInput, opts ...grpc.CallOption) (*DescribeScoreOutput, error)
+	CreateTag(ctx context.Context, in *CreateTagInput, opts ...grpc.CallOption) (*CreateTagOutput, error)
+	UpdateTag(ctx context.Context, in *UpdateTagInput, opts ...grpc.CallOption) (*UpdateTagOutput, error)
+	DeleteTag(ctx context.Context, in *DeleteTagInput, opts ...grpc.CallOption) (*DeleteTagOutput, error)
+	ListTags(ctx context.Context, in *ListTagsInput, opts ...grpc.CallOption) (*ListTagsOutput, error)
+	DescribeTag(ctx context.Context, in *DescribeTagInput, opts ...grpc.CallOption) (*DescribeTagOutput, error)
 }
 
 type atlasClient struct {
@@ -152,6 +159,24 @@ func (c *atlasClient) UpdatePrivacy(ctx context.Context, in *UpdatePrivacyInput,
 func (c *atlasClient) ListExamples(ctx context.Context, in *ListExamplesInput, opts ...grpc.CallOption) (*ListExamplesOutput, error) {
 	out := new(ListExamplesOutput)
 	err := c.cc.Invoke(ctx, "/eolymp.atlas.Atlas/ListExamples", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *atlasClient) UpdateClassification(ctx context.Context, in *UpdateClassificationInput, opts ...grpc.CallOption) (*UpdateClassificationOutput, error) {
+	out := new(UpdateClassificationOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.atlas.Atlas/UpdateClassification", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *atlasClient) DescribeClassification(ctx context.Context, in *DescribeClassificationInput, opts ...grpc.CallOption) (*DescribeClassificationOutput, error) {
+	out := new(DescribeClassificationOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.atlas.Atlas/DescribeClassification", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -662,6 +687,51 @@ func (c *atlasClient) DescribeScore(ctx context.Context, in *DescribeScoreInput,
 	return out, nil
 }
 
+func (c *atlasClient) CreateTag(ctx context.Context, in *CreateTagInput, opts ...grpc.CallOption) (*CreateTagOutput, error) {
+	out := new(CreateTagOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.atlas.Atlas/CreateTag", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *atlasClient) UpdateTag(ctx context.Context, in *UpdateTagInput, opts ...grpc.CallOption) (*UpdateTagOutput, error) {
+	out := new(UpdateTagOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.atlas.Atlas/UpdateTag", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *atlasClient) DeleteTag(ctx context.Context, in *DeleteTagInput, opts ...grpc.CallOption) (*DeleteTagOutput, error) {
+	out := new(DeleteTagOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.atlas.Atlas/DeleteTag", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *atlasClient) ListTags(ctx context.Context, in *ListTagsInput, opts ...grpc.CallOption) (*ListTagsOutput, error) {
+	out := new(ListTagsOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.atlas.Atlas/ListTags", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *atlasClient) DescribeTag(ctx context.Context, in *DescribeTagInput, opts ...grpc.CallOption) (*DescribeTagOutput, error) {
+	out := new(DescribeTagOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.atlas.Atlas/DescribeTag", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AtlasServer is the server API for Atlas service.
 // All implementations should embed UnimplementedAtlasServer
 // for forward compatibility
@@ -673,6 +743,8 @@ type AtlasServer interface {
 	UpdateVisibility(context.Context, *UpdateVisibilityInput) (*UpdateVisibilityOutput, error)
 	UpdatePrivacy(context.Context, *UpdatePrivacyInput) (*UpdatePrivacyOutput, error)
 	ListExamples(context.Context, *ListExamplesInput) (*ListExamplesOutput, error)
+	UpdateClassification(context.Context, *UpdateClassificationInput) (*UpdateClassificationOutput, error)
+	DescribeClassification(context.Context, *DescribeClassificationInput) (*DescribeClassificationOutput, error)
 	UpdateVerifier(context.Context, *UpdateVerifierInput) (*UpdateVerifierOutput, error)
 	DescribeVerifier(context.Context, *DescribeVerifierInput) (*DescribeVerifierOutput, error)
 	UpdateInteractor(context.Context, *UpdateInteractorInput) (*UpdateInteractorOutput, error)
@@ -729,6 +801,11 @@ type AtlasServer interface {
 	DescribeSubmission(context.Context, *DescribeSubmissionInput) (*DescribeSubmissionOutput, error)
 	RetestSubmission(context.Context, *RetestSubmissionInput) (*RetestSubmissionOutput, error)
 	DescribeScore(context.Context, *DescribeScoreInput) (*DescribeScoreOutput, error)
+	CreateTag(context.Context, *CreateTagInput) (*CreateTagOutput, error)
+	UpdateTag(context.Context, *UpdateTagInput) (*UpdateTagOutput, error)
+	DeleteTag(context.Context, *DeleteTagInput) (*DeleteTagOutput, error)
+	ListTags(context.Context, *ListTagsInput) (*ListTagsOutput, error)
+	DescribeTag(context.Context, *DescribeTagInput) (*DescribeTagOutput, error)
 }
 
 // UnimplementedAtlasServer should be embedded to have forward compatible implementations.
@@ -755,6 +832,12 @@ func (UnimplementedAtlasServer) UpdatePrivacy(context.Context, *UpdatePrivacyInp
 }
 func (UnimplementedAtlasServer) ListExamples(context.Context, *ListExamplesInput) (*ListExamplesOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListExamples not implemented")
+}
+func (UnimplementedAtlasServer) UpdateClassification(context.Context, *UpdateClassificationInput) (*UpdateClassificationOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateClassification not implemented")
+}
+func (UnimplementedAtlasServer) DescribeClassification(context.Context, *DescribeClassificationInput) (*DescribeClassificationOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeClassification not implemented")
 }
 func (UnimplementedAtlasServer) UpdateVerifier(context.Context, *UpdateVerifierInput) (*UpdateVerifierOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateVerifier not implemented")
@@ -924,6 +1007,21 @@ func (UnimplementedAtlasServer) RetestSubmission(context.Context, *RetestSubmiss
 func (UnimplementedAtlasServer) DescribeScore(context.Context, *DescribeScoreInput) (*DescribeScoreOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeScore not implemented")
 }
+func (UnimplementedAtlasServer) CreateTag(context.Context, *CreateTagInput) (*CreateTagOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateTag not implemented")
+}
+func (UnimplementedAtlasServer) UpdateTag(context.Context, *UpdateTagInput) (*UpdateTagOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateTag not implemented")
+}
+func (UnimplementedAtlasServer) DeleteTag(context.Context, *DeleteTagInput) (*DeleteTagOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteTag not implemented")
+}
+func (UnimplementedAtlasServer) ListTags(context.Context, *ListTagsInput) (*ListTagsOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListTags not implemented")
+}
+func (UnimplementedAtlasServer) DescribeTag(context.Context, *DescribeTagInput) (*DescribeTagOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeTag not implemented")
+}
 
 // UnsafeAtlasServer may be embedded to opt out of forward compatibility for this service.
 // Use of this interface is not recommended, as added methods to AtlasServer will
@@ -1058,6 +1156,42 @@ func _Atlas_ListExamples_Handler(srv interface{}, ctx context.Context, dec func(
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AtlasServer).ListExamples(ctx, req.(*ListExamplesInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Atlas_UpdateClassification_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateClassificationInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AtlasServer).UpdateClassification(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.atlas.Atlas/UpdateClassification",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AtlasServer).UpdateClassification(ctx, req.(*UpdateClassificationInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Atlas_DescribeClassification_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeClassificationInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AtlasServer).DescribeClassification(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.atlas.Atlas/DescribeClassification",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AtlasServer).DescribeClassification(ctx, req.(*DescribeClassificationInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -2070,6 +2204,96 @@ func _Atlas_DescribeScore_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Atlas_CreateTag_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateTagInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AtlasServer).CreateTag(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.atlas.Atlas/CreateTag",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AtlasServer).CreateTag(ctx, req.(*CreateTagInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Atlas_UpdateTag_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateTagInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AtlasServer).UpdateTag(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.atlas.Atlas/UpdateTag",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AtlasServer).UpdateTag(ctx, req.(*UpdateTagInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Atlas_DeleteTag_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteTagInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AtlasServer).DeleteTag(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.atlas.Atlas/DeleteTag",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AtlasServer).DeleteTag(ctx, req.(*DeleteTagInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Atlas_ListTags_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListTagsInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AtlasServer).ListTags(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.atlas.Atlas/ListTags",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AtlasServer).ListTags(ctx, req.(*ListTagsInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Atlas_DescribeTag_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeTagInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AtlasServer).DescribeTag(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.atlas.Atlas/DescribeTag",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AtlasServer).DescribeTag(ctx, req.(*DescribeTagInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Atlas_ServiceDesc is the grpc.ServiceDesc for Atlas service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -2104,6 +2328,14 @@ var Atlas_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListExamples",
 			Handler:    _Atlas_ListExamples_Handler,
+		},
+		{
+			MethodName: "UpdateClassification",
+			Handler:    _Atlas_UpdateClassification_Handler,
+		},
+		{
+			MethodName: "DescribeClassification",
+			Handler:    _Atlas_DescribeClassification_Handler,
 		},
 		{
 			MethodName: "UpdateVerifier",
@@ -2328,6 +2560,26 @@ var Atlas_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DescribeScore",
 			Handler:    _Atlas_DescribeScore_Handler,
+		},
+		{
+			MethodName: "CreateTag",
+			Handler:    _Atlas_CreateTag_Handler,
+		},
+		{
+			MethodName: "UpdateTag",
+			Handler:    _Atlas_UpdateTag_Handler,
+		},
+		{
+			MethodName: "DeleteTag",
+			Handler:    _Atlas_DeleteTag_Handler,
+		},
+		{
+			MethodName: "ListTags",
+			Handler:    _Atlas_ListTags_Handler,
+		},
+		{
+			MethodName: "DescribeTag",
+			Handler:    _Atlas_DescribeTag_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
