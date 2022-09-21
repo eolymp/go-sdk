@@ -109,8 +109,6 @@ func NewAtlasHandler(srv AtlasServer) http.Handler {
 	router.Handle("/eolymp.atlas.Atlas/UpdateVisibility", _Atlas_UpdateVisibility(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.atlas.Atlas/UpdatePrivacy", _Atlas_UpdatePrivacy(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.atlas.Atlas/ListExamples", _Atlas_ListExamples(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.atlas.Atlas/UpdateTaxonomy", _Atlas_UpdateTaxonomy(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.atlas.Atlas/DescribeTaxonomy", _Atlas_DescribeTaxonomy(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.atlas.Atlas/UpdateVerifier", _Atlas_UpdateVerifier(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.atlas.Atlas/DescribeVerifier", _Atlas_DescribeVerifier(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.atlas.Atlas/UpdateInteractor", _Atlas_UpdateInteractor(srv)).Methods(http.MethodPost)
@@ -167,11 +165,6 @@ func NewAtlasHandler(srv AtlasServer) http.Handler {
 	router.Handle("/eolymp.atlas.Atlas/DescribeSubmission", _Atlas_DescribeSubmission(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.atlas.Atlas/RetestSubmission", _Atlas_RetestSubmission(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.atlas.Atlas/DescribeScore", _Atlas_DescribeScore(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.atlas.Atlas/CreateTag", _Atlas_CreateTag(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.atlas.Atlas/UpdateTag", _Atlas_UpdateTag(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.atlas.Atlas/DeleteTag", _Atlas_DeleteTag(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.atlas.Atlas/ListTags", _Atlas_ListTags(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.atlas.Atlas/DescribeTag", _Atlas_DescribeTag(srv)).Methods(http.MethodPost)
 	return router
 }
 
@@ -306,46 +299,6 @@ func _Atlas_ListExamples(srv AtlasServer) http.Handler {
 		}
 
 		out, err := srv.ListExamples(r.Context(), in)
-		if err != nil {
-			_Atlas_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Atlas_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Atlas_UpdateTaxonomy(srv AtlasServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &UpdateTaxonomyInput{}
-
-		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Atlas_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.UpdateTaxonomy(r.Context(), in)
-		if err != nil {
-			_Atlas_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Atlas_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Atlas_DescribeTaxonomy(srv AtlasServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DescribeTaxonomyInput{}
-
-		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Atlas_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.DescribeTaxonomy(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -1475,106 +1428,6 @@ func _Atlas_DescribeScore(srv AtlasServer) http.Handler {
 	})
 }
 
-func _Atlas_CreateTag(srv AtlasServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &CreateTagInput{}
-
-		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Atlas_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.CreateTag(r.Context(), in)
-		if err != nil {
-			_Atlas_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Atlas_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Atlas_UpdateTag(srv AtlasServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &UpdateTagInput{}
-
-		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Atlas_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.UpdateTag(r.Context(), in)
-		if err != nil {
-			_Atlas_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Atlas_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Atlas_DeleteTag(srv AtlasServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DeleteTagInput{}
-
-		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Atlas_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.DeleteTag(r.Context(), in)
-		if err != nil {
-			_Atlas_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Atlas_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Atlas_ListTags(srv AtlasServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ListTagsInput{}
-
-		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Atlas_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.ListTags(r.Context(), in)
-		if err != nil {
-			_Atlas_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Atlas_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Atlas_DescribeTag(srv AtlasServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DescribeTagInput{}
-
-		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Atlas_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.DescribeTag(r.Context(), in)
-		if err != nil {
-			_Atlas_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Atlas_HTTPWriteResponse(w, out)
-	})
-}
-
 var promAtlasRequestLatency = promauto.NewHistogramVec(prometheus.HistogramOpts{
 	Name:    "atlas_request_latency",
 	Help:    "Atlas request latency",
@@ -1781,60 +1634,6 @@ func (i *AtlasInterceptor) ListExamples(ctx context.Context, in *ListExamplesInp
 	}
 
 	out, err = i.server.ListExamples(ctx, in)
-	return
-}
-
-func (i *AtlasInterceptor) UpdateTaxonomy(ctx context.Context, in *UpdateTaxonomyInput) (out *UpdateTaxonomyOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
-		}
-
-		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/UpdateTaxonomy", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("atlas:problem:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:write")
-		return
-	}
-
-	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/UpdateTaxonomy", 0.16, 5) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.UpdateTaxonomy(ctx, in)
-	return
-}
-
-func (i *AtlasInterceptor) DescribeTaxonomy(ctx context.Context, in *DescribeTaxonomyInput) (out *DescribeTaxonomyOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
-		}
-
-		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/DescribeTaxonomy", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("atlas:problem:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:problem:read")
-		return
-	}
-
-	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/DescribeTaxonomy", 10, 100) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.DescribeTaxonomy(ctx, in)
 	return
 }
 
@@ -3277,125 +3076,5 @@ func (i *AtlasInterceptor) DescribeScore(ctx context.Context, in *DescribeScoreI
 	}
 
 	out, err = i.server.DescribeScore(ctx, in)
-	return
-}
-
-func (i *AtlasInterceptor) CreateTag(ctx context.Context, in *CreateTagInput) (out *CreateTagOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
-		}
-
-		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/CreateTag", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("atlas:tag:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:tag:write")
-		return
-	}
-
-	out, err = i.server.CreateTag(ctx, in)
-	return
-}
-
-func (i *AtlasInterceptor) UpdateTag(ctx context.Context, in *UpdateTagInput) (out *UpdateTagOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
-		}
-
-		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/UpdateTag", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("atlas:tag:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:tag:write")
-		return
-	}
-
-	out, err = i.server.UpdateTag(ctx, in)
-	return
-}
-
-func (i *AtlasInterceptor) DeleteTag(ctx context.Context, in *DeleteTagInput) (out *DeleteTagOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
-		}
-
-		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/DeleteTag", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("atlas:tag:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:tag:write")
-		return
-	}
-
-	out, err = i.server.DeleteTag(ctx, in)
-	return
-}
-
-func (i *AtlasInterceptor) ListTags(ctx context.Context, in *ListTagsInput) (out *ListTagsOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
-		}
-
-		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/ListTags", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("atlas:tag:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:tag:read")
-		return
-	}
-
-	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/ListTags", 20, 100) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.ListTags(ctx, in)
-	return
-}
-
-func (i *AtlasInterceptor) DescribeTag(ctx context.Context, in *DescribeTagInput) (out *DescribeTagOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
-		}
-
-		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/DescribeTag", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("atlas:tag:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: atlas:tag:read")
-		return
-	}
-
-	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/DescribeTag", 20, 100) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.DescribeTag(ctx, in)
 	return
 }

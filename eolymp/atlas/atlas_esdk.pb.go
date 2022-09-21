@@ -156,26 +156,6 @@ func (s *AtlasService) ListExamples(ctx context.Context, in *ListExamplesInput) 
 	return out, nil
 }
 
-func (s *AtlasService) UpdateTaxonomy(ctx context.Context, in *UpdateTaxonomyInput) (*UpdateTaxonomyOutput, error) {
-	out := &UpdateTaxonomyOutput{}
-
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/UpdateTaxonomy", in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *AtlasService) DescribeTaxonomy(ctx context.Context, in *DescribeTaxonomyInput) (*DescribeTaxonomyOutput, error) {
-	out := &DescribeTaxonomyOutput{}
-
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/DescribeTaxonomy", in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
 func (s *AtlasService) UpdateVerifier(ctx context.Context, in *UpdateVerifierInput) (*UpdateVerifierOutput, error) {
 	out := &UpdateVerifierOutput{}
 
@@ -730,56 +710,6 @@ func (s *AtlasService) DescribeScore(ctx context.Context, in *DescribeScoreInput
 	out := &DescribeScoreOutput{}
 
 	if err := s.invoke(ctx, "eolymp.atlas.Atlas/DescribeScore", in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *AtlasService) CreateTag(ctx context.Context, in *CreateTagInput) (*CreateTagOutput, error) {
-	out := &CreateTagOutput{}
-
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/CreateTag", in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *AtlasService) UpdateTag(ctx context.Context, in *UpdateTagInput) (*UpdateTagOutput, error) {
-	out := &UpdateTagOutput{}
-
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/UpdateTag", in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *AtlasService) DeleteTag(ctx context.Context, in *DeleteTagInput) (*DeleteTagOutput, error) {
-	out := &DeleteTagOutput{}
-
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/DeleteTag", in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *AtlasService) ListTags(ctx context.Context, in *ListTagsInput) (*ListTagsOutput, error) {
-	out := &ListTagsOutput{}
-
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/ListTags", in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *AtlasService) DescribeTag(ctx context.Context, in *DescribeTagInput) (*DescribeTagOutput, error) {
-	out := &DescribeTagOutput{}
-
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/DescribeTag", in, out); err != nil {
 		return nil, err
 	}
 
