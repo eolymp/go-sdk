@@ -156,20 +156,20 @@ func (s *AtlasService) ListExamples(ctx context.Context, in *ListExamplesInput) 
 	return out, nil
 }
 
-func (s *AtlasService) UpdateClassification(ctx context.Context, in *UpdateClassificationInput) (*UpdateClassificationOutput, error) {
-	out := &UpdateClassificationOutput{}
+func (s *AtlasService) UpdateTaxonomy(ctx context.Context, in *UpdateTaxonomyInput) (*UpdateTaxonomyOutput, error) {
+	out := &UpdateTaxonomyOutput{}
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/UpdateClassification", in, out); err != nil {
+	if err := s.invoke(ctx, "eolymp.atlas.Atlas/UpdateTaxonomy", in, out); err != nil {
 		return nil, err
 	}
 
 	return out, nil
 }
 
-func (s *AtlasService) DescribeClassification(ctx context.Context, in *DescribeClassificationInput) (*DescribeClassificationOutput, error) {
-	out := &DescribeClassificationOutput{}
+func (s *AtlasService) DescribeTaxonomy(ctx context.Context, in *DescribeTaxonomyInput) (*DescribeTaxonomyOutput, error) {
+	out := &DescribeTaxonomyOutput{}
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/DescribeClassification", in, out); err != nil {
+	if err := s.invoke(ctx, "eolymp.atlas.Atlas/DescribeTaxonomy", in, out); err != nil {
 		return nil, err
 	}
 

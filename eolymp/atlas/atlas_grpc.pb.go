@@ -29,8 +29,8 @@ type AtlasClient interface {
 	UpdateVisibility(ctx context.Context, in *UpdateVisibilityInput, opts ...grpc.CallOption) (*UpdateVisibilityOutput, error)
 	UpdatePrivacy(ctx context.Context, in *UpdatePrivacyInput, opts ...grpc.CallOption) (*UpdatePrivacyOutput, error)
 	ListExamples(ctx context.Context, in *ListExamplesInput, opts ...grpc.CallOption) (*ListExamplesOutput, error)
-	UpdateClassification(ctx context.Context, in *UpdateClassificationInput, opts ...grpc.CallOption) (*UpdateClassificationOutput, error)
-	DescribeClassification(ctx context.Context, in *DescribeClassificationInput, opts ...grpc.CallOption) (*DescribeClassificationOutput, error)
+	UpdateTaxonomy(ctx context.Context, in *UpdateTaxonomyInput, opts ...grpc.CallOption) (*UpdateTaxonomyOutput, error)
+	DescribeTaxonomy(ctx context.Context, in *DescribeTaxonomyInput, opts ...grpc.CallOption) (*DescribeTaxonomyOutput, error)
 	UpdateVerifier(ctx context.Context, in *UpdateVerifierInput, opts ...grpc.CallOption) (*UpdateVerifierOutput, error)
 	DescribeVerifier(ctx context.Context, in *DescribeVerifierInput, opts ...grpc.CallOption) (*DescribeVerifierOutput, error)
 	UpdateInteractor(ctx context.Context, in *UpdateInteractorInput, opts ...grpc.CallOption) (*UpdateInteractorOutput, error)
@@ -165,18 +165,18 @@ func (c *atlasClient) ListExamples(ctx context.Context, in *ListExamplesInput, o
 	return out, nil
 }
 
-func (c *atlasClient) UpdateClassification(ctx context.Context, in *UpdateClassificationInput, opts ...grpc.CallOption) (*UpdateClassificationOutput, error) {
-	out := new(UpdateClassificationOutput)
-	err := c.cc.Invoke(ctx, "/eolymp.atlas.Atlas/UpdateClassification", in, out, opts...)
+func (c *atlasClient) UpdateTaxonomy(ctx context.Context, in *UpdateTaxonomyInput, opts ...grpc.CallOption) (*UpdateTaxonomyOutput, error) {
+	out := new(UpdateTaxonomyOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.atlas.Atlas/UpdateTaxonomy", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *atlasClient) DescribeClassification(ctx context.Context, in *DescribeClassificationInput, opts ...grpc.CallOption) (*DescribeClassificationOutput, error) {
-	out := new(DescribeClassificationOutput)
-	err := c.cc.Invoke(ctx, "/eolymp.atlas.Atlas/DescribeClassification", in, out, opts...)
+func (c *atlasClient) DescribeTaxonomy(ctx context.Context, in *DescribeTaxonomyInput, opts ...grpc.CallOption) (*DescribeTaxonomyOutput, error) {
+	out := new(DescribeTaxonomyOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.atlas.Atlas/DescribeTaxonomy", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -743,8 +743,8 @@ type AtlasServer interface {
 	UpdateVisibility(context.Context, *UpdateVisibilityInput) (*UpdateVisibilityOutput, error)
 	UpdatePrivacy(context.Context, *UpdatePrivacyInput) (*UpdatePrivacyOutput, error)
 	ListExamples(context.Context, *ListExamplesInput) (*ListExamplesOutput, error)
-	UpdateClassification(context.Context, *UpdateClassificationInput) (*UpdateClassificationOutput, error)
-	DescribeClassification(context.Context, *DescribeClassificationInput) (*DescribeClassificationOutput, error)
+	UpdateTaxonomy(context.Context, *UpdateTaxonomyInput) (*UpdateTaxonomyOutput, error)
+	DescribeTaxonomy(context.Context, *DescribeTaxonomyInput) (*DescribeTaxonomyOutput, error)
 	UpdateVerifier(context.Context, *UpdateVerifierInput) (*UpdateVerifierOutput, error)
 	DescribeVerifier(context.Context, *DescribeVerifierInput) (*DescribeVerifierOutput, error)
 	UpdateInteractor(context.Context, *UpdateInteractorInput) (*UpdateInteractorOutput, error)
@@ -833,11 +833,11 @@ func (UnimplementedAtlasServer) UpdatePrivacy(context.Context, *UpdatePrivacyInp
 func (UnimplementedAtlasServer) ListExamples(context.Context, *ListExamplesInput) (*ListExamplesOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListExamples not implemented")
 }
-func (UnimplementedAtlasServer) UpdateClassification(context.Context, *UpdateClassificationInput) (*UpdateClassificationOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateClassification not implemented")
+func (UnimplementedAtlasServer) UpdateTaxonomy(context.Context, *UpdateTaxonomyInput) (*UpdateTaxonomyOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateTaxonomy not implemented")
 }
-func (UnimplementedAtlasServer) DescribeClassification(context.Context, *DescribeClassificationInput) (*DescribeClassificationOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DescribeClassification not implemented")
+func (UnimplementedAtlasServer) DescribeTaxonomy(context.Context, *DescribeTaxonomyInput) (*DescribeTaxonomyOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeTaxonomy not implemented")
 }
 func (UnimplementedAtlasServer) UpdateVerifier(context.Context, *UpdateVerifierInput) (*UpdateVerifierOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateVerifier not implemented")
@@ -1160,38 +1160,38 @@ func _Atlas_ListExamples_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Atlas_UpdateClassification_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateClassificationInput)
+func _Atlas_UpdateTaxonomy_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateTaxonomyInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AtlasServer).UpdateClassification(ctx, in)
+		return srv.(AtlasServer).UpdateTaxonomy(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/eolymp.atlas.Atlas/UpdateClassification",
+		FullMethod: "/eolymp.atlas.Atlas/UpdateTaxonomy",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AtlasServer).UpdateClassification(ctx, req.(*UpdateClassificationInput))
+		return srv.(AtlasServer).UpdateTaxonomy(ctx, req.(*UpdateTaxonomyInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Atlas_DescribeClassification_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DescribeClassificationInput)
+func _Atlas_DescribeTaxonomy_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeTaxonomyInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AtlasServer).DescribeClassification(ctx, in)
+		return srv.(AtlasServer).DescribeTaxonomy(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/eolymp.atlas.Atlas/DescribeClassification",
+		FullMethod: "/eolymp.atlas.Atlas/DescribeTaxonomy",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AtlasServer).DescribeClassification(ctx, req.(*DescribeClassificationInput))
+		return srv.(AtlasServer).DescribeTaxonomy(ctx, req.(*DescribeTaxonomyInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -2330,12 +2330,12 @@ var Atlas_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Atlas_ListExamples_Handler,
 		},
 		{
-			MethodName: "UpdateClassification",
-			Handler:    _Atlas_UpdateClassification_Handler,
+			MethodName: "UpdateTaxonomy",
+			Handler:    _Atlas_UpdateTaxonomy_Handler,
 		},
 		{
-			MethodName: "DescribeClassification",
-			Handler:    _Atlas_DescribeClassification_Handler,
+			MethodName: "DescribeTaxonomy",
+			Handler:    _Atlas_DescribeTaxonomy_Handler,
 		},
 		{
 			MethodName: "UpdateVerifier",

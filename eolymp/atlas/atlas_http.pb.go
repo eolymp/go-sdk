@@ -109,8 +109,8 @@ func NewAtlasHandler(srv AtlasServer) http.Handler {
 	router.Handle("/eolymp.atlas.Atlas/UpdateVisibility", _Atlas_UpdateVisibility(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.atlas.Atlas/UpdatePrivacy", _Atlas_UpdatePrivacy(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.atlas.Atlas/ListExamples", _Atlas_ListExamples(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.atlas.Atlas/UpdateClassification", _Atlas_UpdateClassification(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.atlas.Atlas/DescribeClassification", _Atlas_DescribeClassification(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.atlas.Atlas/UpdateTaxonomy", _Atlas_UpdateTaxonomy(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.atlas.Atlas/DescribeTaxonomy", _Atlas_DescribeTaxonomy(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.atlas.Atlas/UpdateVerifier", _Atlas_UpdateVerifier(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.atlas.Atlas/DescribeVerifier", _Atlas_DescribeVerifier(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.atlas.Atlas/UpdateInteractor", _Atlas_UpdateInteractor(srv)).Methods(http.MethodPost)
@@ -315,9 +315,9 @@ func _Atlas_ListExamples(srv AtlasServer) http.Handler {
 	})
 }
 
-func _Atlas_UpdateClassification(srv AtlasServer) http.Handler {
+func _Atlas_UpdateTaxonomy(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &UpdateClassificationInput{}
+		in := &UpdateTaxonomyInput{}
 
 		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
@@ -325,7 +325,7 @@ func _Atlas_UpdateClassification(srv AtlasServer) http.Handler {
 			return
 		}
 
-		out, err := srv.UpdateClassification(r.Context(), in)
+		out, err := srv.UpdateTaxonomy(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -335,9 +335,9 @@ func _Atlas_UpdateClassification(srv AtlasServer) http.Handler {
 	})
 }
 
-func _Atlas_DescribeClassification(srv AtlasServer) http.Handler {
+func _Atlas_DescribeTaxonomy(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DescribeClassificationInput{}
+		in := &DescribeTaxonomyInput{}
 
 		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
@@ -345,7 +345,7 @@ func _Atlas_DescribeClassification(srv AtlasServer) http.Handler {
 			return
 		}
 
-		out, err := srv.DescribeClassification(r.Context(), in)
+		out, err := srv.DescribeTaxonomy(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -1784,7 +1784,7 @@ func (i *AtlasInterceptor) ListExamples(ctx context.Context, in *ListExamplesInp
 	return
 }
 
-func (i *AtlasInterceptor) UpdateClassification(ctx context.Context, in *UpdateClassificationInput) (out *UpdateClassificationOutput, err error) {
+func (i *AtlasInterceptor) UpdateTaxonomy(ctx context.Context, in *UpdateTaxonomyInput) (out *UpdateTaxonomyOutput, err error) {
 	start := time.Now()
 	defer func() {
 		s, _ := status.FromError(err)
@@ -1792,7 +1792,7 @@ func (i *AtlasInterceptor) UpdateClassification(ctx context.Context, in *UpdateC
 			s = status.New(codes.OK, "OK")
 		}
 
-		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/UpdateClassification", s.Code().String()).
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/UpdateTaxonomy", s.Code().String()).
 			Observe(time.Since(start).Seconds())
 	}()
 
@@ -1802,16 +1802,16 @@ func (i *AtlasInterceptor) UpdateClassification(ctx context.Context, in *UpdateC
 		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/UpdateClassification", 0.16, 5) {
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/UpdateTaxonomy", 0.16, 5) {
 		err = status.Error(codes.ResourceExhausted, "too many requests")
 		return
 	}
 
-	out, err = i.server.UpdateClassification(ctx, in)
+	out, err = i.server.UpdateTaxonomy(ctx, in)
 	return
 }
 
-func (i *AtlasInterceptor) DescribeClassification(ctx context.Context, in *DescribeClassificationInput) (out *DescribeClassificationOutput, err error) {
+func (i *AtlasInterceptor) DescribeTaxonomy(ctx context.Context, in *DescribeTaxonomyInput) (out *DescribeTaxonomyOutput, err error) {
 	start := time.Now()
 	defer func() {
 		s, _ := status.FromError(err)
@@ -1819,7 +1819,7 @@ func (i *AtlasInterceptor) DescribeClassification(ctx context.Context, in *Descr
 			s = status.New(codes.OK, "OK")
 		}
 
-		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/DescribeClassification", s.Code().String()).
+		promAtlasRequestLatency.WithLabelValues("eolymp.atlas.Atlas/DescribeTaxonomy", s.Code().String()).
 			Observe(time.Since(start).Seconds())
 	}()
 
@@ -1829,12 +1829,12 @@ func (i *AtlasInterceptor) DescribeClassification(ctx context.Context, in *Descr
 		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/DescribeClassification", 10, 100) {
+	if !i.limiter.Allow(ctx, "eolymp.atlas.Atlas/DescribeTaxonomy", 10, 100) {
 		err = status.Error(codes.ResourceExhausted, "too many requests")
 		return
 	}
 
-	out, err = i.server.DescribeClassification(ctx, in)
+	out, err = i.server.DescribeTaxonomy(ctx, in)
 	return
 }
 
