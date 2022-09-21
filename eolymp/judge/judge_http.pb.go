@@ -2060,7 +2060,7 @@ func (i *JudgeInterceptor) DescribeProblem(ctx context.Context, in *DescribeProb
 		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/DescribeProblem", 20, 100) {
+	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/DescribeProblem", 20, 200) {
 		err = status.Error(codes.ResourceExhausted, "too many requests")
 		return
 	}
