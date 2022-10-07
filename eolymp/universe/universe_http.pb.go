@@ -117,6 +117,24 @@ func NewUniverseHandler(srv UniverseServer) http.Handler {
 	return router
 }
 
+// NewUniverseHandlerHttp constructs new http.Handler for UniverseServer
+func NewUniverseHandlerHttp(srv UniverseServer) http.Handler {
+	router := mux.NewRouter()
+	router.Handle("/universe/spaces", _Universe_CreateSpace_Rule0(srv)).Methods("POST")
+	router.Handle("/universe/spaces/{space_id}", _Universe_UpdateSpace_Rule0(srv)).Methods("PUT")
+	router.Handle("/universe/spaces/{space_id}", _Universe_DeleteSpace_Rule0(srv)).Methods("DELETE")
+	router.Handle("/universe/space-lookup/{key}", _Universe_LookupSpace_Rule0(srv)).Methods("GET")
+	router.Handle("/universe/spaces/{space_id}", _Universe_DescribeSpace_Rule0(srv)).Methods("GET")
+	router.Handle("/universe/spaces/{space_id}/quota", _Universe_DescribeQuota_Rule0(srv)).Methods("GET")
+	router.Handle("/universe/spaces", _Universe_ListSpaces_Rule0(srv)).Methods("GET")
+	router.Handle("/universe/spaces/{space_id}/permissions/{user_id}", _Universe_GrantPermission_Rule0(srv)).Methods("PUT")
+	router.Handle("/universe/spaces/{space_id}/permissions/{user_id}", _Universe_RevokePermission_Rule0(srv)).Methods("DELETE")
+	router.Handle("/universe/spaces/{space_id}/permissions/{user_id}", _Universe_DescribePermission_Rule0(srv)).Methods("GET")
+	router.Handle("/universe/spaces/{space_id}/introspect-permission", _Universe_IntrospectPermission_Rule0(srv)).Methods("GET")
+	router.Handle("/universe/spaces/{space_id}/permissions", _Universe_ListPermissions_Rule0(srv)).Methods("GET")
+	return router
+}
+
 func _Universe_CreateSpace(srv UniverseServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateSpaceInput{}
@@ -346,6 +364,279 @@ func _Universe_ListPermissions(srv UniverseServer) http.Handler {
 			_Universe_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		out, err := srv.ListPermissions(r.Context(), in)
+		if err != nil {
+			_Universe_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Universe_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Universe_CreateSpace_Rule0(srv UniverseServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &CreateSpaceInput{}
+
+		if err := _Universe_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Universe_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.CreateSpace(r.Context(), in)
+		if err != nil {
+			_Universe_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Universe_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Universe_UpdateSpace_Rule0(srv UniverseServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UpdateSpaceInput{}
+
+		if err := _Universe_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Universe_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.SpaceId = vars["space_id"]
+
+		out, err := srv.UpdateSpace(r.Context(), in)
+		if err != nil {
+			_Universe_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Universe_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Universe_DeleteSpace_Rule0(srv UniverseServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DeleteSpaceInput{}
+
+		if err := _Universe_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Universe_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.SpaceId = vars["space_id"]
+
+		out, err := srv.DeleteSpace(r.Context(), in)
+		if err != nil {
+			_Universe_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Universe_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Universe_LookupSpace_Rule0(srv UniverseServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &LookupSpaceInput{}
+
+		if err := _Universe_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Universe_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.Key = vars["key"]
+
+		out, err := srv.LookupSpace(r.Context(), in)
+		if err != nil {
+			_Universe_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Universe_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Universe_DescribeSpace_Rule0(srv UniverseServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeSpaceInput{}
+
+		if err := _Universe_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Universe_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.SpaceId = vars["space_id"]
+
+		out, err := srv.DescribeSpace(r.Context(), in)
+		if err != nil {
+			_Universe_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Universe_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Universe_DescribeQuota_Rule0(srv UniverseServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeQuotaInput{}
+
+		if err := _Universe_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Universe_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.SpaceId = vars["space_id"]
+
+		out, err := srv.DescribeQuota(r.Context(), in)
+		if err != nil {
+			_Universe_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Universe_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Universe_ListSpaces_Rule0(srv UniverseServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListSpacesInput{}
+
+		if err := _Universe_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Universe_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.ListSpaces(r.Context(), in)
+		if err != nil {
+			_Universe_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Universe_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Universe_GrantPermission_Rule0(srv UniverseServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &GrantPermissionInput{}
+
+		if err := _Universe_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Universe_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.SpaceId = vars["space_id"]
+		in.UserId = vars["user_id"]
+
+		out, err := srv.GrantPermission(r.Context(), in)
+		if err != nil {
+			_Universe_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Universe_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Universe_RevokePermission_Rule0(srv UniverseServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &RevokePermissionInput{}
+
+		if err := _Universe_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Universe_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.SpaceId = vars["space_id"]
+		in.UserId = vars["user_id"]
+
+		out, err := srv.RevokePermission(r.Context(), in)
+		if err != nil {
+			_Universe_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Universe_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Universe_DescribePermission_Rule0(srv UniverseServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribePermissionInput{}
+
+		if err := _Universe_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Universe_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.SpaceId = vars["space_id"]
+		in.UserId = vars["user_id"]
+
+		out, err := srv.DescribePermission(r.Context(), in)
+		if err != nil {
+			_Universe_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Universe_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Universe_IntrospectPermission_Rule0(srv UniverseServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &IntrospectPermissionInput{}
+
+		if err := _Universe_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Universe_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.SpaceId = vars["space_id"]
+
+		out, err := srv.IntrospectPermission(r.Context(), in)
+		if err != nil {
+			_Universe_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Universe_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Universe_ListPermissions_Rule0(srv UniverseServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListPermissionsInput{}
+
+		if err := _Universe_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Universe_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.SpaceId = vars["space_id"]
 
 		out, err := srv.ListPermissions(r.Context(), in)
 		if err != nil {

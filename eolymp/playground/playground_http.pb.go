@@ -107,6 +107,14 @@ func NewPlaygroundHandler(srv PlaygroundServer) http.Handler {
 	return router
 }
 
+// NewPlaygroundHandlerHttp constructs new http.Handler for PlaygroundServer
+func NewPlaygroundHandlerHttp(srv PlaygroundServer) http.Handler {
+	router := mux.NewRouter()
+	router.Handle("/playground/runs", _Playground_CreateRun_Rule0(srv)).Methods("POST")
+	router.Handle("/playground/runs/{run_id}", _Playground_DescribeRun_Rule0(srv)).Methods("GET")
+	return router
+}
+
 func _Playground_CreateRun(srv PlaygroundServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateRunInput{}
@@ -136,6 +144,49 @@ func _Playground_DescribeRun(srv PlaygroundServer) http.Handler {
 			_Playground_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		out, err := srv.DescribeRun(r.Context(), in)
+		if err != nil {
+			_Playground_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Playground_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Playground_CreateRun_Rule0(srv PlaygroundServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &CreateRunInput{}
+
+		if err := _Playground_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Playground_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.CreateRun(r.Context(), in)
+		if err != nil {
+			_Playground_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Playground_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Playground_DescribeRun_Rule0(srv PlaygroundServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeRunInput{}
+
+		if err := _Playground_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Playground_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.RunId = vars["run_id"]
 
 		out, err := srv.DescribeRun(r.Context(), in)
 		if err != nil {

@@ -174,6 +174,81 @@ func NewJudgeHandler(srv JudgeServer) http.Handler {
 	return router
 }
 
+// NewJudgeHandlerHttp constructs new http.Handler for JudgeServer
+func NewJudgeHandlerHttp(srv JudgeServer) http.Handler {
+	router := mux.NewRouter()
+	router.Handle("/contests", _Judge_CreateContest_Rule0(srv)).Methods("POST")
+	router.Handle("/contests/{contest_id}", _Judge_DeleteContest_Rule0(srv)).Methods("DELETE")
+	router.Handle("/contests/{contest_id}", _Judge_UpdateContest_Rule0(srv)).Methods("PUT")
+	router.Handle("/lookup-contest", _Judge_LookupContest_Rule0(srv)).Methods("GET")
+	router.Handle("/contests/{contest_id}", _Judge_DescribeContest_Rule0(srv)).Methods("GET")
+	router.Handle("/contests", _Judge_ListContests_Rule0(srv)).Methods("GET")
+	router.Handle("/contests/{contest_id}/open", _Judge_OpenContest_Rule0(srv)).Methods("POST")
+	router.Handle("/contests/{contest_id}/close", _Judge_CloseContest_Rule0(srv)).Methods("POST")
+	router.Handle("/contests/{contest_id}/runtime", _Judge_ConfigureRuntime_Rule0(srv)).Methods("POST")
+	router.Handle("/contests/{contest_id}/runtime", _Judge_DescribeRuntime_Rule0(srv)).Methods("GET")
+	router.Handle("/contests/{contest_id}/appearance", _Judge_ConfigureAppearance_Rule0(srv)).Methods("POST")
+	router.Handle("/contests/{contest_id}/appearance", _Judge_DescribeAppearance_Rule0(srv)).Methods("GET")
+	router.Handle("/contests/{contest_id}/scoring", _Judge_ConfigureScoring_Rule0(srv)).Methods("POST")
+	router.Handle("/contests/{contest_id}/scoring", _Judge_DescribeScoring_Rule0(srv)).Methods("GET")
+	router.Handle("/contests/{contest_id}/problems", _Judge_ImportProblem_Rule0(srv)).Methods("POST")
+	router.Handle("/contests/{contest_id}/problems/{problem_id}/sync", _Judge_SyncProblem_Rule0(srv)).Methods("POST")
+	router.Handle("/contests/{contest_id}/problems/{problem_id}", _Judge_UpdateProblem_Rule0(srv)).Methods("POST")
+	router.Handle("/contests/{contest_id}/problems", _Judge_ListProblems_Rule0(srv)).Methods("GET")
+	router.Handle("/contests/{contest_id}/problems/{problem_id}", _Judge_DescribeProblem_Rule0(srv)).Methods("GET")
+	router.Handle("/contests/{contest_id}/problems/{problem_id}/templates/{template_id}", _Judge_DescribeCodeTemplate_Rule0(srv)).Methods("GET")
+	router.Handle("/contests/{contest_id}/problems/{problem_id}/lookup-template", _Judge_LookupCodeTemplate_Rule0(srv)).Methods("GET")
+	router.Handle("/contests/{contest_id}/problems/{problem_id}/statements", _Judge_ListStatements_Rule0(srv)).Methods("GET")
+	router.Handle("/contests/{contest_id}/problems/{problem_id}/attachments", _Judge_ListAttachments_Rule0(srv)).Methods("GET")
+	router.Handle("/contests/{contest_id}/problems/{problem_id}/examples", _Judge_ListExamples_Rule0(srv)).Methods("GET")
+	router.Handle("/contests/{contest_id}/problems/{problem_id}", _Judge_DeleteProblem_Rule0(srv)).Methods("DELETE")
+	router.Handle("/contests/{contest_id}/problems/{problem_id}/retest", _Judge_RetestProblem_Rule0(srv)).Methods("GET")
+	router.Handle("/contests/{contest_id}/participants", _Judge_AddParticipant_Rule0(srv)).Methods("POST")
+	router.Handle("/contests/{contest_id}/participants/{participant_id}/enable", _Judge_EnableParticipant_Rule0(srv)).Methods("POST")
+	router.Handle("/contests/{contest_id}/participants/{participant_id}/disable", _Judge_DisableParticipant_Rule0(srv)).Methods("POST")
+	router.Handle("/contests/{contest_id}/participants/{participant_id}", _Judge_UpdateParticipant_Rule0(srv)).Methods("PUT")
+	router.Handle("/contests/{contest_id}/participants/{participant_id}", _Judge_RemoveParticipant_Rule0(srv)).Methods("DELETE")
+	router.Handle("/contests/{contest_id}/participants", _Judge_ListParticipants_Rule0(srv)).Methods("GET")
+	router.Handle("/contests/{contest_id}/participants/{participant_id}", _Judge_DescribeParticipant_Rule0(srv)).Methods("GET")
+	router.Handle("/contests/{contest_id}/introspect", _Judge_IntrospectParticipant_Rule0(srv)).Methods("GET")
+	router.Handle("/contests/{contest_id}/join", _Judge_JoinContest_Rule0(srv)).Methods("POST")
+	router.Handle("/contests/{contest_id}/start", _Judge_StartContest_Rule0(srv)).Methods("POST")
+	router.Handle("/contests/{contest_id}/verify-passcode", _Judge_VerifyPasscode_Rule0(srv)).Methods("POST")
+	router.Handle("/contests/{contest_id}/enter-passcode", _Judge_EnterPasscode_Rule0(srv)).Methods("POST")
+	router.Handle("/contests/{contest_id}/participants/{participant_id}/passcode", _Judge_ResetPasscode_Rule0(srv)).Methods("POST")
+	router.Handle("/contests/{contest_id}/participants/{participant_id}/passcode", _Judge_RemovePasscode_Rule0(srv)).Methods("DELETE")
+	router.Handle("/contests/{contest_id}/problems/{problem_id}/submissions", _Judge_CreateSubmission_Rule0(srv)).Methods("POST")
+	router.Handle("/contests/{contest_id}/submissions", _Judge_ListSubmissions_Rule0(srv)).Methods("GET")
+	router.Handle("/contests/{contest_id}/submissions/{submission_id}", _Judge_DescribeSubmission_Rule0(srv)).Methods("GET")
+	router.Handle("/contests/{contest_id}/submissions/{submission_id}/retest", _Judge_RetestSubmission_Rule0(srv)).Methods("GET")
+	router.Handle("/contests/{contest_id}/tickets", _Judge_CreateTicket_Rule0(srv)).Methods("POST")
+	router.Handle("/tickets/{ticket_id}/close", _Judge_CloseTicket_Rule0(srv)).Methods("POST")
+	router.Handle("/tickets/{ticket_id}/open", _Judge_OpenTicket_Rule0(srv)).Methods("POST")
+	router.Handle("/tickets/{ticket_id}/read", _Judge_ReadTicket_Rule0(srv)).Methods("POST")
+	router.Handle("/tickets/{ticket_id}", _Judge_DeleteTicket_Rule0(srv)).Methods("DELETE")
+	router.Handle("/tickets/{ticket_id}", _Judge_DescribeTicket_Rule0(srv)).Methods("GET")
+	router.Handle("/tickets", _Judge_ListTickets_Rule0(srv)).Methods("GET")
+	router.Handle("/tickets/{ticket_id}/replies", _Judge_ReplyTicket_Rule0(srv)).Methods("POST")
+	router.Handle("/tickets/{ticket_id}/replies", _Judge_ListReplies_Rule0(srv)).Methods("GET")
+	router.Handle("/tickets/{ticket_id}/replies/{reply_id}", _Judge_DeleteReply_Rule0(srv)).Methods("DELETE")
+	router.Handle("/tickets/{ticket_id}/replies/{reply_id}", _Judge_UpdateReply_Rule0(srv)).Methods("POST")
+	router.Handle("/contests/{contest_id}/announcements", _Judge_CreateAnnouncement_Rule0(srv)).Methods("POST")
+	router.Handle("/contests/{contest_id}/announcements/{announcement_id}", _Judge_UpdateAnnouncement_Rule0(srv)).Methods("POST")
+	router.Handle("/contests/{contest_id}/announcements/{announcement_id}", _Judge_DeleteAnnouncement_Rule0(srv)).Methods("DELETE")
+	router.Handle("/contests/{contest_id}/announcements/{announcement_id}/read", _Judge_ReadAnnouncement_Rule0(srv)).Methods("POST")
+	router.Handle("/contests/{contest_id}/announcements/{announcement_id}", _Judge_DescribeAnnouncement_Rule0(srv)).Methods("GET")
+	router.Handle("/contests/{contest_id}/announcements/{announcement_id}/status", _Judge_DescribeAnnouncementStatus_Rule0(srv)).Methods("GET")
+	router.Handle("/contests/{contest_id}/announcements", _Judge_ListAnnouncements_Rule0(srv)).Methods("GET")
+	router.Handle("/contests/{contest_id}/introspect/score", _Judge_IntrospectScore_Rule0(srv)).Methods("GET")
+	router.Handle("/contests/{contest_id}/participants/{participant_id}/score", _Judge_DescribeScore_Rule0(srv)).Methods("GET")
+	router.Handle("/contests/{contest_id}/participants/{participant_id}/scores", _Judge_ImportScore_Rule0(srv)).Methods("POST")
+	router.Handle("/contests/{contest_id}/results", _Judge_ListResult_Rule0(srv)).Methods("GET")
+	router.Handle("/contests/{contest_id}/rebuild", _Judge_RebuildScore_Rule0(srv)).Methods("POST")
+	router.Handle("/entitlements", _Judge_ListEntitlements_Rule0(srv)).Methods("GET")
+	router.Handle("/contests/{contest_id}/activities", _Judge_ListActivities_Rule0(srv)).Methods("GET")
+	return router
+}
+
 func _Judge_CreateContest(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateContestInput{}
@@ -1543,6 +1618,1608 @@ func _Judge_ListActivities(srv JudgeServer) http.Handler {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		out, err := srv.ListActivities(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_CreateContest_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &CreateContestInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.CreateContest(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_DeleteContest_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DeleteContestInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+
+		out, err := srv.DeleteContest(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_UpdateContest_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UpdateContestInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+
+		out, err := srv.UpdateContest(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_LookupContest_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &LookupContestInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.LookupContest(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_DescribeContest_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeContestInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+
+		out, err := srv.DescribeContest(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_ListContests_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListContestsInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.ListContests(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_OpenContest_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &OpenContestInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+
+		out, err := srv.OpenContest(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_CloseContest_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &CloseContestInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+
+		out, err := srv.CloseContest(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_ConfigureRuntime_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ConfigureRuntimeInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+
+		out, err := srv.ConfigureRuntime(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_DescribeRuntime_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeRuntimeInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+
+		out, err := srv.DescribeRuntime(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_ConfigureAppearance_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ConfigureAppearanceInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+
+		out, err := srv.ConfigureAppearance(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_DescribeAppearance_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeAppearanceInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+
+		out, err := srv.DescribeAppearance(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_ConfigureScoring_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ConfigureScoringInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+
+		out, err := srv.ConfigureScoring(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_DescribeScoring_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeScoringInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+
+		out, err := srv.DescribeScoring(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_ImportProblem_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ImportProblemInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+
+		out, err := srv.ImportProblem(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_SyncProblem_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &SyncProblemInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+		in.ProblemId = vars["problem_id"]
+
+		out, err := srv.SyncProblem(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_UpdateProblem_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UpdateProblemInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+		in.ProblemId = vars["problem_id"]
+
+		out, err := srv.UpdateProblem(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_ListProblems_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListProblemsInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+
+		out, err := srv.ListProblems(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_DescribeProblem_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeProblemInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+		in.ProblemId = vars["problem_id"]
+
+		out, err := srv.DescribeProblem(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_DescribeCodeTemplate_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeCodeTemplateInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+		in.ProblemId = vars["problem_id"]
+		in.TemplateId = vars["template_id"]
+
+		out, err := srv.DescribeCodeTemplate(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_LookupCodeTemplate_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &LookupCodeTemplateInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+		in.ProblemId = vars["problem_id"]
+
+		out, err := srv.LookupCodeTemplate(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_ListStatements_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListStatementsInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+		in.ProblemId = vars["problem_id"]
+
+		out, err := srv.ListStatements(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_ListAttachments_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListAttachmentsInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+		in.ProblemId = vars["problem_id"]
+
+		out, err := srv.ListAttachments(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_ListExamples_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListExamplesInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+		in.ProblemId = vars["problem_id"]
+
+		out, err := srv.ListExamples(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_DeleteProblem_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DeleteProblemInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+		in.ProblemId = vars["problem_id"]
+
+		out, err := srv.DeleteProblem(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_RetestProblem_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &RetestProblemInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+		in.ProblemId = vars["problem_id"]
+
+		out, err := srv.RetestProblem(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_AddParticipant_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &AddParticipantInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+
+		out, err := srv.AddParticipant(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_EnableParticipant_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &EnableParticipantInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+		in.ParticipantId = vars["participant_id"]
+
+		out, err := srv.EnableParticipant(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_DisableParticipant_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DisableParticipantInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+		in.ParticipantId = vars["participant_id"]
+
+		out, err := srv.DisableParticipant(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_UpdateParticipant_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UpdateParticipantInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+		in.ParticipantId = vars["participant_id"]
+
+		out, err := srv.UpdateParticipant(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_RemoveParticipant_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &RemoveParticipantInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+		in.ParticipantId = vars["participant_id"]
+
+		out, err := srv.RemoveParticipant(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_ListParticipants_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListParticipantsInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+
+		out, err := srv.ListParticipants(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_DescribeParticipant_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeParticipantInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+		in.ParticipantId = vars["participant_id"]
+
+		out, err := srv.DescribeParticipant(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_IntrospectParticipant_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &IntrospectParticipantInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+
+		out, err := srv.IntrospectParticipant(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_JoinContest_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &JoinContestInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+
+		out, err := srv.JoinContest(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_StartContest_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &StartContestInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+
+		out, err := srv.StartContest(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_VerifyPasscode_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &VerifyPasscodeInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+
+		out, err := srv.VerifyPasscode(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_EnterPasscode_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &EnterPasscodeInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+
+		out, err := srv.EnterPasscode(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_ResetPasscode_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ResetPasscodeInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+		in.ParticipantId = vars["participant_id"]
+
+		out, err := srv.ResetPasscode(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_RemovePasscode_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &RemovePasscodeInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+		in.ParticipantId = vars["participant_id"]
+
+		out, err := srv.RemovePasscode(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_CreateSubmission_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &CreateSubmissionInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+		in.ProblemId = vars["problem_id"]
+
+		out, err := srv.CreateSubmission(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_ListSubmissions_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListSubmissionsInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+
+		out, err := srv.ListSubmissions(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_DescribeSubmission_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeSubmissionInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+		in.SubmissionId = vars["submission_id"]
+
+		out, err := srv.DescribeSubmission(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_RetestSubmission_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &RetestSubmissionInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+		in.SubmissionId = vars["submission_id"]
+
+		out, err := srv.RetestSubmission(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_CreateTicket_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &CreateTicketInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+
+		out, err := srv.CreateTicket(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_CloseTicket_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &CloseTicketInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.TicketId = vars["ticket_id"]
+
+		out, err := srv.CloseTicket(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_OpenTicket_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &OpenTicketInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.TicketId = vars["ticket_id"]
+
+		out, err := srv.OpenTicket(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_ReadTicket_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ReadTicketInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.TicketId = vars["ticket_id"]
+
+		out, err := srv.ReadTicket(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_DeleteTicket_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DeleteTicketInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.TicketId = vars["ticket_id"]
+
+		out, err := srv.DeleteTicket(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_DescribeTicket_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeTicketInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.TicketId = vars["ticket_id"]
+
+		out, err := srv.DescribeTicket(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_ListTickets_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListTicketsInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.ListTickets(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_ReplyTicket_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ReplyTicketInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.TicketId = vars["ticket_id"]
+
+		out, err := srv.ReplyTicket(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_ListReplies_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListRepliesInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.TicketId = vars["ticket_id"]
+
+		out, err := srv.ListReplies(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_DeleteReply_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DeleteReplyInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.TicketId = vars["ticket_id"]
+		in.ReplyId = vars["reply_id"]
+
+		out, err := srv.DeleteReply(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_UpdateReply_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UpdateReplyInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.TicketId = vars["ticket_id"]
+		in.ReplyId = vars["reply_id"]
+
+		out, err := srv.UpdateReply(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_CreateAnnouncement_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &CreateAnnouncementInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+
+		out, err := srv.CreateAnnouncement(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_UpdateAnnouncement_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UpdateAnnouncementInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+		in.AnnouncementId = vars["announcement_id"]
+
+		out, err := srv.UpdateAnnouncement(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_DeleteAnnouncement_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DeleteAnnouncementInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+		in.AnnouncementId = vars["announcement_id"]
+
+		out, err := srv.DeleteAnnouncement(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_ReadAnnouncement_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ReadAnnouncementInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+		in.AnnouncementId = vars["announcement_id"]
+
+		out, err := srv.ReadAnnouncement(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_DescribeAnnouncement_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeAnnouncementInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+		in.AnnouncementId = vars["announcement_id"]
+
+		out, err := srv.DescribeAnnouncement(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_DescribeAnnouncementStatus_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeAnnouncementStatusInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+		in.AnnouncementId = vars["announcement_id"]
+
+		out, err := srv.DescribeAnnouncementStatus(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_ListAnnouncements_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListAnnouncementsInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+
+		out, err := srv.ListAnnouncements(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_IntrospectScore_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &IntrospectScoreInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+
+		out, err := srv.IntrospectScore(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_DescribeScore_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeScoreInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+		in.ParticipantId = vars["participant_id"]
+
+		out, err := srv.DescribeScore(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_ImportScore_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ImportScoreInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+		in.ParticipantId = vars["participant_id"]
+
+		out, err := srv.ImportScore(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_ListResult_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListResultInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+
+		out, err := srv.ListResult(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_RebuildScore_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &RebuildScoreInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+
+		out, err := srv.RebuildScore(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_ListEntitlements_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListEntitlementsInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.ListEntitlements(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_ListActivities_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListActivitiesInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 
 		out, err := srv.ListActivities(r.Context(), in)
 		if err != nil {

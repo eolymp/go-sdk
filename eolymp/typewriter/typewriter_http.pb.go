@@ -106,7 +106,34 @@ func NewTypewriterHandler(srv TypewriterServer) http.Handler {
 	return router
 }
 
+// NewTypewriterHandlerHttp constructs new http.Handler for TypewriterServer
+func NewTypewriterHandlerHttp(srv TypewriterServer) http.Handler {
+	router := mux.NewRouter()
+	router.Handle("", _Typewriter_UploadAsset_Rule0(srv)).Methods("")
+	return router
+}
+
 func _Typewriter_UploadAsset(srv TypewriterServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UploadAssetInput{}
+
+		if err := _Typewriter_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Typewriter_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.UploadAsset(r.Context(), in)
+		if err != nil {
+			_Typewriter_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Typewriter_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Typewriter_UploadAsset_Rule0(srv TypewriterServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UploadAssetInput{}
 

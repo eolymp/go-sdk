@@ -110,6 +110,17 @@ func NewExecutorHandler(srv ExecutorServer) http.Handler {
 	return router
 }
 
+// NewExecutorHandlerHttp constructs new http.Handler for ExecutorServer
+func NewExecutorHandlerHttp(srv ExecutorServer) http.Handler {
+	router := mux.NewRouter()
+	router.Handle("/executor/languages/{language_id}", _Executor_DescribeLanguage_Rule0(srv)).Methods("GET")
+	router.Handle("/executor/languages", _Executor_ListLanguages_Rule0(srv)).Methods("GET")
+	router.Handle("/executor/runtime/{runtime_id}", _Executor_DescribeRuntime_Rule0(srv)).Methods("GET")
+	router.Handle("/executor/runtime", _Executor_ListRuntime_Rule0(srv)).Methods("GET")
+	router.Handle("/executor/runtime/{runtime_id}/template", _Executor_DescribeCodeTemplate_Rule0(srv)).Methods("GET")
+	return router
+}
+
 func _Executor_DescribeLanguage(srv ExecutorServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeLanguageInput{}
@@ -199,6 +210,115 @@ func _Executor_DescribeCodeTemplate(srv ExecutorServer) http.Handler {
 			_Executor_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		out, err := srv.DescribeCodeTemplate(r.Context(), in)
+		if err != nil {
+			_Executor_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Executor_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Executor_DescribeLanguage_Rule0(srv ExecutorServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeLanguageInput{}
+
+		if err := _Executor_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Executor_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.LanguageId = vars["language_id"]
+
+		out, err := srv.DescribeLanguage(r.Context(), in)
+		if err != nil {
+			_Executor_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Executor_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Executor_ListLanguages_Rule0(srv ExecutorServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListLanguagesInput{}
+
+		if err := _Executor_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Executor_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.ListLanguages(r.Context(), in)
+		if err != nil {
+			_Executor_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Executor_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Executor_DescribeRuntime_Rule0(srv ExecutorServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeRuntimeInput{}
+
+		if err := _Executor_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Executor_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.RuntimeId = vars["runtime_id"]
+
+		out, err := srv.DescribeRuntime(r.Context(), in)
+		if err != nil {
+			_Executor_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Executor_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Executor_ListRuntime_Rule0(srv ExecutorServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListRuntimeInput{}
+
+		if err := _Executor_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Executor_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.ListRuntime(r.Context(), in)
+		if err != nil {
+			_Executor_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Executor_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Executor_DescribeCodeTemplate_Rule0(srv ExecutorServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeCodeTemplateInput{}
+
+		if err := _Executor_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Executor_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.RuntimeId = vars["runtime_id"]
 
 		out, err := srv.DescribeCodeTemplate(r.Context(), in)
 		if err != nil {
