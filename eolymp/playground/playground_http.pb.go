@@ -107,11 +107,15 @@ func NewPlaygroundHandler(srv PlaygroundServer) http.Handler {
 	return router
 }
 
+// PlaygroundPrefix defines prefix for routes of this service
+const PlaygroundPrefix = "/playground"
+
 // NewPlaygroundHandlerHttp constructs new http.Handler for PlaygroundServer
-func NewPlaygroundHandlerHttp(srv PlaygroundServer) http.Handler {
+// This constructor creates http.Handler, the actual implementation might change at any moment
+func NewPlaygroundHandlerHttp(srv PlaygroundServer, prefix string) http.Handler {
 	router := mux.NewRouter()
-	router.Handle("/playground/runs", _Playground_CreateRun_Rule0(srv)).Methods("POST")
-	router.Handle("/playground/runs/{run_id}", _Playground_DescribeRun_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/playground/playground/runs", _Playground_CreateRun_Rule0(srv)).Methods("POST")
+	router.Handle(prefix+"/playground/playground/runs/{run_id}", _Playground_DescribeRun_Rule0(srv)).Methods("GET")
 	return router
 }
 

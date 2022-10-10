@@ -108,13 +108,17 @@ func NewGeographyHandler(srv GeographyServer) http.Handler {
 	return router
 }
 
+// GeographyPrefix defines prefix for routes of this service
+const GeographyPrefix = "/geography"
+
 // NewGeographyHandlerHttp constructs new http.Handler for GeographyServer
-func NewGeographyHandlerHttp(srv GeographyServer) http.Handler {
+// This constructor creates http.Handler, the actual implementation might change at any moment
+func NewGeographyHandlerHttp(srv GeographyServer, prefix string) http.Handler {
 	router := mux.NewRouter()
-	router.Handle("/geography/countries/{country_id}", _Geography_DescribeCountry_Rule0(srv)).Methods("GET")
-	router.Handle("/geography/countries", _Geography_ListCountries_Rule0(srv)).Methods("GET")
-	router.Handle("/geography/regions/{region_id}", _Geography_DescribeRegion_Rule0(srv)).Methods("GET")
-	router.Handle("/geography/countries/{country_id}/regions", _Geography_ListRegions_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/geography/geography/countries/{country_id}", _Geography_DescribeCountry_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/geography/geography/countries", _Geography_ListCountries_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/geography/geography/regions/{region_id}", _Geography_DescribeRegion_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/geography/geography/countries/{country_id}/regions", _Geography_ListRegions_Rule0(srv)).Methods("GET")
 	return router
 }
 

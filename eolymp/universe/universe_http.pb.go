@@ -117,21 +117,25 @@ func NewUniverseHandler(srv UniverseServer) http.Handler {
 	return router
 }
 
+// UniversePrefix defines prefix for routes of this service
+const UniversePrefix = "/universe"
+
 // NewUniverseHandlerHttp constructs new http.Handler for UniverseServer
-func NewUniverseHandlerHttp(srv UniverseServer) http.Handler {
+// This constructor creates http.Handler, the actual implementation might change at any moment
+func NewUniverseHandlerHttp(srv UniverseServer, prefix string) http.Handler {
 	router := mux.NewRouter()
-	router.Handle("/universe/spaces", _Universe_CreateSpace_Rule0(srv)).Methods("POST")
-	router.Handle("/universe/spaces/{space_id}", _Universe_UpdateSpace_Rule0(srv)).Methods("PUT")
-	router.Handle("/universe/spaces/{space_id}", _Universe_DeleteSpace_Rule0(srv)).Methods("DELETE")
-	router.Handle("/universe/space-lookup/{key}", _Universe_LookupSpace_Rule0(srv)).Methods("GET")
-	router.Handle("/universe/spaces/{space_id}", _Universe_DescribeSpace_Rule0(srv)).Methods("GET")
-	router.Handle("/universe/spaces/{space_id}/quota", _Universe_DescribeQuota_Rule0(srv)).Methods("GET")
-	router.Handle("/universe/spaces", _Universe_ListSpaces_Rule0(srv)).Methods("GET")
-	router.Handle("/universe/spaces/{space_id}/permissions/{user_id}", _Universe_GrantPermission_Rule0(srv)).Methods("PUT")
-	router.Handle("/universe/spaces/{space_id}/permissions/{user_id}", _Universe_RevokePermission_Rule0(srv)).Methods("DELETE")
-	router.Handle("/universe/spaces/{space_id}/permissions/{user_id}", _Universe_DescribePermission_Rule0(srv)).Methods("GET")
-	router.Handle("/universe/spaces/{space_id}/introspect-permission", _Universe_IntrospectPermission_Rule0(srv)).Methods("GET")
-	router.Handle("/universe/spaces/{space_id}/permissions", _Universe_ListPermissions_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/universe/universe/spaces", _Universe_CreateSpace_Rule0(srv)).Methods("POST")
+	router.Handle(prefix+"/universe/universe/spaces/{space_id}", _Universe_UpdateSpace_Rule0(srv)).Methods("PUT")
+	router.Handle(prefix+"/universe/universe/spaces/{space_id}", _Universe_DeleteSpace_Rule0(srv)).Methods("DELETE")
+	router.Handle(prefix+"/universe/universe/space-lookup/{key}", _Universe_LookupSpace_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/universe/universe/spaces/{space_id}", _Universe_DescribeSpace_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/universe/universe/spaces/{space_id}/quota", _Universe_DescribeQuota_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/universe/universe/spaces", _Universe_ListSpaces_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/universe/universe/spaces/{space_id}/permissions/{user_id}", _Universe_GrantPermission_Rule0(srv)).Methods("PUT")
+	router.Handle(prefix+"/universe/universe/spaces/{space_id}/permissions/{user_id}", _Universe_RevokePermission_Rule0(srv)).Methods("DELETE")
+	router.Handle(prefix+"/universe/universe/spaces/{space_id}/permissions/{user_id}", _Universe_DescribePermission_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/universe/universe/spaces/{space_id}/introspect-permission", _Universe_IntrospectPermission_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/universe/universe/spaces/{space_id}/permissions", _Universe_ListPermissions_Rule0(srv)).Methods("GET")
 	return router
 }
 

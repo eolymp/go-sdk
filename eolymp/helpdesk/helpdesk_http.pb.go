@@ -113,17 +113,21 @@ func NewHelpdeskHandler(srv HelpdeskServer) http.Handler {
 	return router
 }
 
+// HelpdeskPrefix defines prefix for routes of this service
+const HelpdeskPrefix = "/helpdesk"
+
 // NewHelpdeskHandlerHttp constructs new http.Handler for HelpdeskServer
-func NewHelpdeskHandlerHttp(srv HelpdeskServer) http.Handler {
+// This constructor creates http.Handler, the actual implementation might change at any moment
+func NewHelpdeskHandlerHttp(srv HelpdeskServer, prefix string) http.Handler {
 	router := mux.NewRouter()
-	router.Handle("/helpdesk/document/{document_id}", _Helpdesk_DescribeDocument_Rule0(srv)).Methods("GET")
-	router.Handle("/helpdesk/documents/", _Helpdesk_ListDocuments_Rule0(srv)).Methods("GET")
-	router.Handle("/helpdesk/document", _Helpdesk_CreateDocument_Rule0(srv)).Methods("POST")
-	router.Handle("/helpdesk/document/{document_id}", _Helpdesk_UpdateDocument_Rule0(srv)).Methods("PUT")
-	router.Handle("/helpdesk/document/{document_id}", _Helpdesk_DeleteDocument_Rule0(srv)).Methods("DELETE")
-	router.Handle("/helpdesk/paths/{path}", _Helpdesk_DescribePath_Rule0(srv)).Methods("GET")
-	router.Handle("/helpdesk/paths", _Helpdesk_ListPaths_Rule0(srv)).Methods("GET")
-	router.Handle("/helpdesk/paths/{path}/parents", _Helpdesk_ListParents_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/helpdesk/helpdesk/document/{document_id}", _Helpdesk_DescribeDocument_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/helpdesk/helpdesk/documents/", _Helpdesk_ListDocuments_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/helpdesk/helpdesk/document", _Helpdesk_CreateDocument_Rule0(srv)).Methods("POST")
+	router.Handle(prefix+"/helpdesk/helpdesk/document/{document_id}", _Helpdesk_UpdateDocument_Rule0(srv)).Methods("PUT")
+	router.Handle(prefix+"/helpdesk/helpdesk/document/{document_id}", _Helpdesk_DeleteDocument_Rule0(srv)).Methods("DELETE")
+	router.Handle(prefix+"/helpdesk/helpdesk/paths/{path}", _Helpdesk_DescribePath_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/helpdesk/helpdesk/paths", _Helpdesk_ListPaths_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/helpdesk/helpdesk/paths/{path}/parents", _Helpdesk_ListParents_Rule0(srv)).Methods("GET")
 	return router
 }
 
