@@ -129,20 +129,63 @@ const RankerPrefix = ""
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func NewRankerHandlerHttp(srv RankerServer, prefix string) http.Handler {
 	router := mux.NewRouter()
-	router.Handle(prefix+"/ranker/scoreboards", _Ranker_CreateScoreboard_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/ranker/scoreboards/{scoreboard_id}", _Ranker_UpdateScoreboard_Rule0(srv)).Methods("PUT")
-	router.Handle(prefix+"/ranker/scoreboards/{scoreboard_id}/rebuild", _Ranker_RebuildScoreboard_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/ranker/scoreboards/{scoreboard_id}", _Ranker_DeleteScoreboard_Rule0(srv)).Methods("DELETE")
-	router.Handle(prefix+"/ranker/scoreboards/{scoreboard_id}", _Ranker_DescribeScoreboard_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/ranker/scoreboard-lookup/{scoreboard_key}", _Ranker_DescribeScoreboard_Rule1(srv)).Methods("GET")
-	router.Handle(prefix+"/ranker/scoreboards", _Ranker_ListScoreboards_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/ranker/scoreboards/{scoreboard_id}/rows/{member_id}", _Ranker_DescribeScoreboardRow_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/ranker/scoreboards/{scoreboard_id}/rows", _Ranker_ListScoreboardRows_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/ranker/scoreboards/{scoreboard_id}/columns", _Ranker_AddScoreboardColumn_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/ranker/columns/{column_id}", _Ranker_DeleteScoreboardColumn_Rule0(srv)).Methods("DELETE")
-	router.Handle(prefix+"/ranker/columns/{column_id}", _Ranker_DescribeScoreboardColumn_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/ranker/scoreboards/{scoreboard_id}/columns", _Ranker_ListScoreboardColumns_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/ranker/scoreboards/{scoreboard_id}/activities", _Ranker_ListActivities_Rule0(srv)).Methods("GET")
+
+	router.Handle(prefix+"/ranker/scoreboards", _Ranker_CreateScoreboard_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.ranker.Ranker.CreateScoreboard")
+
+	router.Handle(prefix+"/ranker/scoreboards/{scoreboard_id}", _Ranker_UpdateScoreboard_Rule0(srv)).
+		Methods("PUT").
+		Name("eolymp.ranker.Ranker.UpdateScoreboard")
+
+	router.Handle(prefix+"/ranker/scoreboards/{scoreboard_id}/rebuild", _Ranker_RebuildScoreboard_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.ranker.Ranker.RebuildScoreboard")
+
+	router.Handle(prefix+"/ranker/scoreboards/{scoreboard_id}", _Ranker_DeleteScoreboard_Rule0(srv)).
+		Methods("DELETE").
+		Name("eolymp.ranker.Ranker.DeleteScoreboard")
+
+	router.Handle(prefix+"/ranker/scoreboards/{scoreboard_id}", _Ranker_DescribeScoreboard_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.ranker.Ranker.DescribeScoreboard")
+
+	router.Handle(prefix+"/ranker/scoreboard-lookup/{scoreboard_key}", _Ranker_DescribeScoreboard_Rule1(srv)).
+		Methods("GET").
+		Name("eolymp.ranker.Ranker.DescribeScoreboard")
+
+	router.Handle(prefix+"/ranker/scoreboards", _Ranker_ListScoreboards_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.ranker.Ranker.ListScoreboards")
+
+	router.Handle(prefix+"/ranker/scoreboards/{scoreboard_id}/rows/{member_id}", _Ranker_DescribeScoreboardRow_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.ranker.Ranker.DescribeScoreboardRow")
+
+	router.Handle(prefix+"/ranker/scoreboards/{scoreboard_id}/rows", _Ranker_ListScoreboardRows_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.ranker.Ranker.ListScoreboardRows")
+
+	router.Handle(prefix+"/ranker/scoreboards/{scoreboard_id}/columns", _Ranker_AddScoreboardColumn_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.ranker.Ranker.AddScoreboardColumn")
+
+	router.Handle(prefix+"/ranker/columns/{column_id}", _Ranker_DeleteScoreboardColumn_Rule0(srv)).
+		Methods("DELETE").
+		Name("eolymp.ranker.Ranker.DeleteScoreboardColumn")
+
+	router.Handle(prefix+"/ranker/columns/{column_id}", _Ranker_DescribeScoreboardColumn_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.ranker.Ranker.DescribeScoreboardColumn")
+
+	router.Handle(prefix+"/ranker/scoreboards/{scoreboard_id}/columns", _Ranker_ListScoreboardColumns_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.ranker.Ranker.ListScoreboardColumns")
+
+	router.Handle(prefix+"/ranker/scoreboards/{scoreboard_id}/activities", _Ranker_ListActivities_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.ranker.Ranker.ListActivities")
+
 	return router
 }
 

@@ -117,6 +117,7 @@ const TypewriterPrefix = ""
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func NewTypewriterHandlerHttp(srv TypewriterServer, prefix string) http.Handler {
 	router := mux.NewRouter()
+
 	return router
 }
 

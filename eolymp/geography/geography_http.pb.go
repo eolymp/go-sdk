@@ -119,10 +119,23 @@ const GeographyPrefix = ""
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func NewGeographyHandlerHttp(srv GeographyServer, prefix string) http.Handler {
 	router := mux.NewRouter()
-	router.Handle(prefix+"/geography/countries/{country_id}", _Geography_DescribeCountry_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/geography/countries", _Geography_ListCountries_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/geography/regions/{region_id}", _Geography_DescribeRegion_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/geography/countries/{country_id}/regions", _Geography_ListRegions_Rule0(srv)).Methods("GET")
+
+	router.Handle(prefix+"/geography/countries/{country_id}", _Geography_DescribeCountry_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.geography.Geography.DescribeCountry")
+
+	router.Handle(prefix+"/geography/countries", _Geography_ListCountries_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.geography.Geography.ListCountries")
+
+	router.Handle(prefix+"/geography/regions/{region_id}", _Geography_DescribeRegion_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.geography.Geography.DescribeRegion")
+
+	router.Handle(prefix+"/geography/countries/{country_id}/regions", _Geography_ListRegions_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.geography.Geography.ListRegions")
+
 	return router
 }
 

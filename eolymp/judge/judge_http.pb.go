@@ -185,75 +185,283 @@ const JudgePrefix = ""
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func NewJudgeHandlerHttp(srv JudgeServer, prefix string) http.Handler {
 	router := mux.NewRouter()
-	router.Handle(prefix+"/contests/__lookup", _Judge_LookupContest_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/contests", _Judge_CreateContest_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/contests/{contest_id}", _Judge_DeleteContest_Rule0(srv)).Methods("DELETE")
-	router.Handle(prefix+"/contests/{contest_id}", _Judge_UpdateContest_Rule0(srv)).Methods("PUT")
-	router.Handle(prefix+"/contests/{contest_id}", _Judge_DescribeContest_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/contests", _Judge_ListContests_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/contests/{contest_id}/open", _Judge_OpenContest_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/contests/{contest_id}/close", _Judge_CloseContest_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/contests/{contest_id}/runtime", _Judge_ConfigureRuntime_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/contests/{contest_id}/runtime", _Judge_DescribeRuntime_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/contests/{contest_id}/appearance", _Judge_ConfigureAppearance_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/contests/{contest_id}/appearance", _Judge_DescribeAppearance_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/contests/{contest_id}/scoring", _Judge_ConfigureScoring_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/contests/{contest_id}/scoring", _Judge_DescribeScoring_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/contests/{contest_id}/problems", _Judge_ImportProblem_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}/sync", _Judge_SyncProblem_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}", _Judge_UpdateProblem_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/contests/{contest_id}/problems", _Judge_ListProblems_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}", _Judge_DescribeProblem_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}/templates/{template_id}", _Judge_DescribeCodeTemplate_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}/lookup-template", _Judge_LookupCodeTemplate_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}/statements", _Judge_ListStatements_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}/attachments", _Judge_ListAttachments_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}/examples", _Judge_ListExamples_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}", _Judge_DeleteProblem_Rule0(srv)).Methods("DELETE")
-	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}/retest", _Judge_RetestProblem_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/contests/{contest_id}/participants", _Judge_AddParticipant_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/enable", _Judge_EnableParticipant_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/disable", _Judge_DisableParticipant_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}", _Judge_UpdateParticipant_Rule0(srv)).Methods("PUT")
-	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}", _Judge_RemoveParticipant_Rule0(srv)).Methods("DELETE")
-	router.Handle(prefix+"/contests/{contest_id}/participants", _Judge_ListParticipants_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}", _Judge_DescribeParticipant_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/contests/{contest_id}/introspect", _Judge_IntrospectParticipant_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/contests/{contest_id}/join", _Judge_JoinContest_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/contests/{contest_id}/start", _Judge_StartContest_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/contests/{contest_id}/verify-passcode", _Judge_VerifyPasscode_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/contests/{contest_id}/enter-passcode", _Judge_EnterPasscode_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/passcode", _Judge_ResetPasscode_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/passcode", _Judge_RemovePasscode_Rule0(srv)).Methods("DELETE")
-	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}/submissions", _Judge_CreateSubmission_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/contests/{contest_id}/submissions", _Judge_ListSubmissions_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/contests/{contest_id}/submissions/{submission_id}", _Judge_DescribeSubmission_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/contests/{contest_id}/submissions/{submission_id}/retest", _Judge_RetestSubmission_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/contests/{contest_id}/tickets", _Judge_CreateTicket_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/tickets/{ticket_id}/close", _Judge_CloseTicket_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/tickets/{ticket_id}/open", _Judge_OpenTicket_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/tickets/{ticket_id}/read", _Judge_ReadTicket_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/tickets/{ticket_id}", _Judge_DeleteTicket_Rule0(srv)).Methods("DELETE")
-	router.Handle(prefix+"/tickets/{ticket_id}", _Judge_DescribeTicket_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/tickets", _Judge_ListTickets_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/tickets/{ticket_id}/replies", _Judge_ReplyTicket_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/tickets/{ticket_id}/replies", _Judge_ListReplies_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/tickets/{ticket_id}/replies/{reply_id}", _Judge_DeleteReply_Rule0(srv)).Methods("DELETE")
-	router.Handle(prefix+"/tickets/{ticket_id}/replies/{reply_id}", _Judge_UpdateReply_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/contests/{contest_id}/announcements", _Judge_CreateAnnouncement_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/contests/{contest_id}/announcements/{announcement_id}", _Judge_UpdateAnnouncement_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/contests/{contest_id}/announcements/{announcement_id}", _Judge_DeleteAnnouncement_Rule0(srv)).Methods("DELETE")
-	router.Handle(prefix+"/contests/{contest_id}/announcements/{announcement_id}/read", _Judge_ReadAnnouncement_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/contests/{contest_id}/announcements/{announcement_id}", _Judge_DescribeAnnouncement_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/contests/{contest_id}/announcements/{announcement_id}/status", _Judge_DescribeAnnouncementStatus_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/contests/{contest_id}/announcements", _Judge_ListAnnouncements_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/contests/{contest_id}/introspect/score", _Judge_IntrospectScore_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/score", _Judge_DescribeScore_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/scores", _Judge_ImportScore_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/contests/{contest_id}/results", _Judge_ListResult_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/contests/{contest_id}/rebuild", _Judge_RebuildScore_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/__judge/entitlements", _Judge_ListEntitlements_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/contests/{contest_id}/activities", _Judge_ListActivities_Rule0(srv)).Methods("GET")
+
+	router.Handle(prefix+"/contests/__lookup", _Judge_LookupContest_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.judge.Judge.LookupContest")
+
+	router.Handle(prefix+"/contests", _Judge_CreateContest_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.judge.Judge.CreateContest")
+
+	router.Handle(prefix+"/contests/{contest_id}", _Judge_DeleteContest_Rule0(srv)).
+		Methods("DELETE").
+		Name("eolymp.judge.Judge.DeleteContest")
+
+	router.Handle(prefix+"/contests/{contest_id}", _Judge_UpdateContest_Rule0(srv)).
+		Methods("PUT").
+		Name("eolymp.judge.Judge.UpdateContest")
+
+	router.Handle(prefix+"/contests/{contest_id}", _Judge_DescribeContest_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.judge.Judge.DescribeContest")
+
+	router.Handle(prefix+"/contests", _Judge_ListContests_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.judge.Judge.ListContests")
+
+	router.Handle(prefix+"/contests/{contest_id}/open", _Judge_OpenContest_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.judge.Judge.OpenContest")
+
+	router.Handle(prefix+"/contests/{contest_id}/close", _Judge_CloseContest_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.judge.Judge.CloseContest")
+
+	router.Handle(prefix+"/contests/{contest_id}/runtime", _Judge_ConfigureRuntime_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.judge.Judge.ConfigureRuntime")
+
+	router.Handle(prefix+"/contests/{contest_id}/runtime", _Judge_DescribeRuntime_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.judge.Judge.DescribeRuntime")
+
+	router.Handle(prefix+"/contests/{contest_id}/appearance", _Judge_ConfigureAppearance_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.judge.Judge.ConfigureAppearance")
+
+	router.Handle(prefix+"/contests/{contest_id}/appearance", _Judge_DescribeAppearance_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.judge.Judge.DescribeAppearance")
+
+	router.Handle(prefix+"/contests/{contest_id}/scoring", _Judge_ConfigureScoring_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.judge.Judge.ConfigureScoring")
+
+	router.Handle(prefix+"/contests/{contest_id}/scoring", _Judge_DescribeScoring_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.judge.Judge.DescribeScoring")
+
+	router.Handle(prefix+"/contests/{contest_id}/problems", _Judge_ImportProblem_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.judge.Judge.ImportProblem")
+
+	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}/sync", _Judge_SyncProblem_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.judge.Judge.SyncProblem")
+
+	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}", _Judge_UpdateProblem_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.judge.Judge.UpdateProblem")
+
+	router.Handle(prefix+"/contests/{contest_id}/problems", _Judge_ListProblems_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.judge.Judge.ListProblems")
+
+	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}", _Judge_DescribeProblem_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.judge.Judge.DescribeProblem")
+
+	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}/templates/{template_id}", _Judge_DescribeCodeTemplate_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.judge.Judge.DescribeCodeTemplate")
+
+	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}/lookup-template", _Judge_LookupCodeTemplate_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.judge.Judge.LookupCodeTemplate")
+
+	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}/statements", _Judge_ListStatements_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.judge.Judge.ListStatements")
+
+	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}/attachments", _Judge_ListAttachments_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.judge.Judge.ListAttachments")
+
+	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}/examples", _Judge_ListExamples_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.judge.Judge.ListExamples")
+
+	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}", _Judge_DeleteProblem_Rule0(srv)).
+		Methods("DELETE").
+		Name("eolymp.judge.Judge.DeleteProblem")
+
+	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}/retest", _Judge_RetestProblem_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.judge.Judge.RetestProblem")
+
+	router.Handle(prefix+"/contests/{contest_id}/participants", _Judge_AddParticipant_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.judge.Judge.AddParticipant")
+
+	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/enable", _Judge_EnableParticipant_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.judge.Judge.EnableParticipant")
+
+	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/disable", _Judge_DisableParticipant_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.judge.Judge.DisableParticipant")
+
+	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}", _Judge_UpdateParticipant_Rule0(srv)).
+		Methods("PUT").
+		Name("eolymp.judge.Judge.UpdateParticipant")
+
+	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}", _Judge_RemoveParticipant_Rule0(srv)).
+		Methods("DELETE").
+		Name("eolymp.judge.Judge.RemoveParticipant")
+
+	router.Handle(prefix+"/contests/{contest_id}/participants", _Judge_ListParticipants_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.judge.Judge.ListParticipants")
+
+	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}", _Judge_DescribeParticipant_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.judge.Judge.DescribeParticipant")
+
+	router.Handle(prefix+"/contests/{contest_id}/introspect", _Judge_IntrospectParticipant_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.judge.Judge.IntrospectParticipant")
+
+	router.Handle(prefix+"/contests/{contest_id}/join", _Judge_JoinContest_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.judge.Judge.JoinContest")
+
+	router.Handle(prefix+"/contests/{contest_id}/start", _Judge_StartContest_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.judge.Judge.StartContest")
+
+	router.Handle(prefix+"/contests/{contest_id}/verify-passcode", _Judge_VerifyPasscode_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.judge.Judge.VerifyPasscode")
+
+	router.Handle(prefix+"/contests/{contest_id}/enter-passcode", _Judge_EnterPasscode_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.judge.Judge.EnterPasscode")
+
+	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/passcode", _Judge_ResetPasscode_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.judge.Judge.ResetPasscode")
+
+	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/passcode", _Judge_RemovePasscode_Rule0(srv)).
+		Methods("DELETE").
+		Name("eolymp.judge.Judge.RemovePasscode")
+
+	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}/submissions", _Judge_CreateSubmission_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.judge.Judge.CreateSubmission")
+
+	router.Handle(prefix+"/contests/{contest_id}/submissions", _Judge_ListSubmissions_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.judge.Judge.ListSubmissions")
+
+	router.Handle(prefix+"/contests/{contest_id}/submissions/{submission_id}", _Judge_DescribeSubmission_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.judge.Judge.DescribeSubmission")
+
+	router.Handle(prefix+"/contests/{contest_id}/submissions/{submission_id}/retest", _Judge_RetestSubmission_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.judge.Judge.RetestSubmission")
+
+	router.Handle(prefix+"/contests/{contest_id}/tickets", _Judge_CreateTicket_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.judge.Judge.CreateTicket")
+
+	router.Handle(prefix+"/tickets/{ticket_id}/close", _Judge_CloseTicket_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.judge.Judge.CloseTicket")
+
+	router.Handle(prefix+"/tickets/{ticket_id}/open", _Judge_OpenTicket_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.judge.Judge.OpenTicket")
+
+	router.Handle(prefix+"/tickets/{ticket_id}/read", _Judge_ReadTicket_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.judge.Judge.ReadTicket")
+
+	router.Handle(prefix+"/tickets/{ticket_id}", _Judge_DeleteTicket_Rule0(srv)).
+		Methods("DELETE").
+		Name("eolymp.judge.Judge.DeleteTicket")
+
+	router.Handle(prefix+"/tickets/{ticket_id}", _Judge_DescribeTicket_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.judge.Judge.DescribeTicket")
+
+	router.Handle(prefix+"/tickets", _Judge_ListTickets_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.judge.Judge.ListTickets")
+
+	router.Handle(prefix+"/tickets/{ticket_id}/replies", _Judge_ReplyTicket_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.judge.Judge.ReplyTicket")
+
+	router.Handle(prefix+"/tickets/{ticket_id}/replies", _Judge_ListReplies_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.judge.Judge.ListReplies")
+
+	router.Handle(prefix+"/tickets/{ticket_id}/replies/{reply_id}", _Judge_DeleteReply_Rule0(srv)).
+		Methods("DELETE").
+		Name("eolymp.judge.Judge.DeleteReply")
+
+	router.Handle(prefix+"/tickets/{ticket_id}/replies/{reply_id}", _Judge_UpdateReply_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.judge.Judge.UpdateReply")
+
+	router.Handle(prefix+"/contests/{contest_id}/announcements", _Judge_CreateAnnouncement_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.judge.Judge.CreateAnnouncement")
+
+	router.Handle(prefix+"/contests/{contest_id}/announcements/{announcement_id}", _Judge_UpdateAnnouncement_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.judge.Judge.UpdateAnnouncement")
+
+	router.Handle(prefix+"/contests/{contest_id}/announcements/{announcement_id}", _Judge_DeleteAnnouncement_Rule0(srv)).
+		Methods("DELETE").
+		Name("eolymp.judge.Judge.DeleteAnnouncement")
+
+	router.Handle(prefix+"/contests/{contest_id}/announcements/{announcement_id}/read", _Judge_ReadAnnouncement_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.judge.Judge.ReadAnnouncement")
+
+	router.Handle(prefix+"/contests/{contest_id}/announcements/{announcement_id}", _Judge_DescribeAnnouncement_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.judge.Judge.DescribeAnnouncement")
+
+	router.Handle(prefix+"/contests/{contest_id}/announcements/{announcement_id}/status", _Judge_DescribeAnnouncementStatus_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.judge.Judge.DescribeAnnouncementStatus")
+
+	router.Handle(prefix+"/contests/{contest_id}/announcements", _Judge_ListAnnouncements_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.judge.Judge.ListAnnouncements")
+
+	router.Handle(prefix+"/contests/{contest_id}/introspect/score", _Judge_IntrospectScore_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.judge.Judge.IntrospectScore")
+
+	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/score", _Judge_DescribeScore_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.judge.Judge.DescribeScore")
+
+	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/scores", _Judge_ImportScore_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.judge.Judge.ImportScore")
+
+	router.Handle(prefix+"/contests/{contest_id}/results", _Judge_ListResult_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.judge.Judge.ListResult")
+
+	router.Handle(prefix+"/contests/{contest_id}/rebuild", _Judge_RebuildScore_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.judge.Judge.RebuildScore")
+
+	router.Handle(prefix+"/__judge/entitlements", _Judge_ListEntitlements_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.judge.Judge.ListEntitlements")
+
+	router.Handle(prefix+"/contests/{contest_id}/activities", _Judge_ListActivities_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.judge.Judge.ListActivities")
+
 	return router
 }
 

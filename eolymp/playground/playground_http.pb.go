@@ -118,8 +118,15 @@ const PlaygroundPrefix = ""
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func NewPlaygroundHandlerHttp(srv PlaygroundServer, prefix string) http.Handler {
 	router := mux.NewRouter()
-	router.Handle(prefix+"/playground/runs", _Playground_CreateRun_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/playground/runs/{run_id}", _Playground_DescribeRun_Rule0(srv)).Methods("GET")
+
+	router.Handle(prefix+"/playground/runs", _Playground_CreateRun_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.playground.Playground.CreateRun")
+
+	router.Handle(prefix+"/playground/runs/{run_id}", _Playground_DescribeRun_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.playground.Playground.DescribeRun")
+
 	return router
 }
 

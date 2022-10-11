@@ -130,20 +130,63 @@ const CommunityPrefix = ""
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func NewCommunityHandlerHttp(srv CommunityServer, prefix string) http.Handler {
 	router := mux.NewRouter()
-	router.Handle(prefix+"/members/_self", _Community_JoinSpace_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/members/_self", _Community_LeaveSpace_Rule0(srv)).Methods("DELETE")
-	router.Handle(prefix+"/members/_self/attributes", _Community_RegisterMember_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/members/_self", _Community_IntrospectMember_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/members", _Community_AddMember_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/members/{member_id}", _Community_UpdateMember_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/members/{member_id}", _Community_RemoveMember_Rule0(srv)).Methods("DELETE")
-	router.Handle(prefix+"/members/{member_id}", _Community_DescribeMember_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/members", _Community_ListMembers_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/attributes", _Community_AddAttribute_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/attributes/{attribute_key}", _Community_UpdateAttribute_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/attributes/{attribute_key}", _Community_RemoveAttribute_Rule0(srv)).Methods("DELETE")
-	router.Handle(prefix+"/attributes/{attribute_key}", _Community_DescribeAttribute_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/attributes", _Community_ListAttributes_Rule0(srv)).Methods("POST")
+
+	router.Handle(prefix+"/members/_self", _Community_JoinSpace_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.community.Community.JoinSpace")
+
+	router.Handle(prefix+"/members/_self", _Community_LeaveSpace_Rule0(srv)).
+		Methods("DELETE").
+		Name("eolymp.community.Community.LeaveSpace")
+
+	router.Handle(prefix+"/members/_self/attributes", _Community_RegisterMember_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.community.Community.RegisterMember")
+
+	router.Handle(prefix+"/members/_self", _Community_IntrospectMember_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.community.Community.IntrospectMember")
+
+	router.Handle(prefix+"/members", _Community_AddMember_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.community.Community.AddMember")
+
+	router.Handle(prefix+"/members/{member_id}", _Community_UpdateMember_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.community.Community.UpdateMember")
+
+	router.Handle(prefix+"/members/{member_id}", _Community_RemoveMember_Rule0(srv)).
+		Methods("DELETE").
+		Name("eolymp.community.Community.RemoveMember")
+
+	router.Handle(prefix+"/members/{member_id}", _Community_DescribeMember_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.community.Community.DescribeMember")
+
+	router.Handle(prefix+"/members", _Community_ListMembers_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.community.Community.ListMembers")
+
+	router.Handle(prefix+"/attributes", _Community_AddAttribute_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.community.Community.AddAttribute")
+
+	router.Handle(prefix+"/attributes/{attribute_key}", _Community_UpdateAttribute_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.community.Community.UpdateAttribute")
+
+	router.Handle(prefix+"/attributes/{attribute_key}", _Community_RemoveAttribute_Rule0(srv)).
+		Methods("DELETE").
+		Name("eolymp.community.Community.RemoveAttribute")
+
+	router.Handle(prefix+"/attributes/{attribute_key}", _Community_DescribeAttribute_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.community.Community.DescribeAttribute")
+
+	router.Handle(prefix+"/attributes", _Community_ListAttributes_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.community.Community.ListAttributes")
+
 	return router
 }
 

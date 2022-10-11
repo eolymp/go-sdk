@@ -124,14 +124,39 @@ const HelpdeskPrefix = ""
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func NewHelpdeskHandlerHttp(srv HelpdeskServer, prefix string) http.Handler {
 	router := mux.NewRouter()
-	router.Handle(prefix+"/helpdesk/document/{document_id}", _Helpdesk_DescribeDocument_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/helpdesk/documents", _Helpdesk_ListDocuments_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/helpdesk/document", _Helpdesk_CreateDocument_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/helpdesk/document/{document_id}", _Helpdesk_UpdateDocument_Rule0(srv)).Methods("PUT")
-	router.Handle(prefix+"/helpdesk/document/{document_id}", _Helpdesk_DeleteDocument_Rule0(srv)).Methods("DELETE")
-	router.Handle(prefix+"/helpdesk/paths/{path}", _Helpdesk_DescribePath_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/helpdesk/paths", _Helpdesk_ListPaths_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/helpdesk/paths/{path}/parents", _Helpdesk_ListParents_Rule0(srv)).Methods("GET")
+
+	router.Handle(prefix+"/helpdesk/document/{document_id}", _Helpdesk_DescribeDocument_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.helpdesk.Helpdesk.DescribeDocument")
+
+	router.Handle(prefix+"/helpdesk/documents", _Helpdesk_ListDocuments_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.helpdesk.Helpdesk.ListDocuments")
+
+	router.Handle(prefix+"/helpdesk/document", _Helpdesk_CreateDocument_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.helpdesk.Helpdesk.CreateDocument")
+
+	router.Handle(prefix+"/helpdesk/document/{document_id}", _Helpdesk_UpdateDocument_Rule0(srv)).
+		Methods("PUT").
+		Name("eolymp.helpdesk.Helpdesk.UpdateDocument")
+
+	router.Handle(prefix+"/helpdesk/document/{document_id}", _Helpdesk_DeleteDocument_Rule0(srv)).
+		Methods("DELETE").
+		Name("eolymp.helpdesk.Helpdesk.DeleteDocument")
+
+	router.Handle(prefix+"/helpdesk/paths/{path}", _Helpdesk_DescribePath_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.helpdesk.Helpdesk.DescribePath")
+
+	router.Handle(prefix+"/helpdesk/paths", _Helpdesk_ListPaths_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.helpdesk.Helpdesk.ListPaths")
+
+	router.Handle(prefix+"/helpdesk/paths/{path}/parents", _Helpdesk_ListParents_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.helpdesk.Helpdesk.ListParents")
+
 	return router
 }
 

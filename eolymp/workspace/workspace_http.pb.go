@@ -125,6 +125,7 @@ const WorkspacePrefix = ""
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func NewWorkspaceHandlerHttp(srv WorkspaceServer, prefix string) http.Handler {
 	router := mux.NewRouter()
+
 	return router
 }
 

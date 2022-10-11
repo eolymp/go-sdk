@@ -179,69 +179,259 @@ const AtlasPrefix = ""
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func NewAtlasHandlerHttp(srv AtlasServer, prefix string) http.Handler {
 	router := mux.NewRouter()
-	router.Handle(prefix+"/problems", _Atlas_CreateProblem_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/problems/{problem_id}", _Atlas_DeleteProblem_Rule0(srv)).Methods("DELETE")
-	router.Handle(prefix+"/problems", _Atlas_ListProblems_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/problems/{problem_id}", _Atlas_DescribeProblem_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/problems/{problem_id}/visibility", _Atlas_UpdateVisibility_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/problems/{problem_id}/privacy", _Atlas_UpdatePrivacy_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/problems/{problem_id}/examples", _Atlas_ListExamples_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/problems/{problem_id}/verifier", _Atlas_UpdateVerifier_Rule0(srv)).Methods("PUT")
-	router.Handle(prefix+"/problems/{problem_id}/verifier", _Atlas_DescribeVerifier_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/problems/{problem_id}/interactor", _Atlas_UpdateInteractor_Rule0(srv)).Methods("PUT")
-	router.Handle(prefix+"/problems/{problem_id}/interactor", _Atlas_DescribeInteractor_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/problems/{problem_id}/statements", _Atlas_CreateStatement_Rule0(srv)).Methods("PUT")
-	router.Handle(prefix+"/problems/{problem_id}/statements/{statement_id}", _Atlas_UpdateStatement_Rule0(srv)).Methods("PUT")
-	router.Handle(prefix+"/problems/{problem_id}/statements/{statement_id}", _Atlas_DeleteStatement_Rule0(srv)).Methods("DELETE")
-	router.Handle(prefix+"/problems/{problem_id}/statements", _Atlas_ListStatements_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/problems/{problem_id}/statements/{statement_id}", _Atlas_DescribeStatement_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/problems/{problem_id}/testsets", _Atlas_CreateTestset_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/problems/{problem_id}/testsets/{testset_id}", _Atlas_UpdateTestset_Rule0(srv)).Methods("PUT")
-	router.Handle(prefix+"/problems/{problem_id}/testsets/{testset_id}", _Atlas_DeleteTestset_Rule0(srv)).Methods("DELETE")
-	router.Handle(prefix+"/problems/{problem_id}/testsets", _Atlas_ListTestsets_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/problems/{problem_id}/testsets/{testset_id}", _Atlas_DescribeTestset_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/problems/{problem_id}/testsets/{testset_id}/tests", _Atlas_CreateTest_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/problems/{problem_id}/testsets/{testset_id}/tests/{test_id}", _Atlas_UpdateTest_Rule0(srv)).Methods("PUT")
-	router.Handle(prefix+"/problems/{problem_id}/testsets/{testset_id}/tests/{test_id}", _Atlas_DeleteTest_Rule0(srv)).Methods("DELETE")
-	router.Handle(prefix+"/problems/{problem_id}/testsets/{testset_id}/tests", _Atlas_ListTests_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/problems/{problem_id}/testsets/{testset_id}/tests/{test_id}", _Atlas_DescribeTest_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/problems/{problem_id}/permissions", _Atlas_GrantPermission_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/problems/{problem_id}/permissions/{user_id}", _Atlas_RevokePermission_Rule0(srv)).Methods("DELETE")
-	router.Handle(prefix+"/problems/{problem_id}/permissions", _Atlas_ListPermissions_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/problems/{problem_id}/templates", _Atlas_CreateCodeTemplate_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/problems/{problem_id}/templates/{template_id}", _Atlas_UpdateCodeTemplate_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/problems/{problem_id}/templates/{template_id}", _Atlas_DeleteCodeTemplate_Rule0(srv)).Methods("DELETE")
-	router.Handle(prefix+"/problems/{problem_id}/templates", _Atlas_ListCodeTemplates_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/problems/{problem_id}/templates/{template_id}", _Atlas_DescribeCodeTemplate_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/problems/{problem_id}/attachments", _Atlas_CreateAttachment_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/problems/{problem_id}/attachments/{attachment_id}", _Atlas_UpdateAttachment_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/problems/{problem_id}/attachments/{attachment_id}", _Atlas_DeleteAttachment_Rule0(srv)).Methods("DELETE")
-	router.Handle(prefix+"/problems/{problem_id}/attachments", _Atlas_ListAttachments_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/problems/{problem_id}/attachments/{attachment_id}", _Atlas_DescribeAttachment_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/problems/{problem_id}/changes/{change_id}", _Atlas_DescribeChange_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/problems/{problem_id}/changes", _Atlas_ListChanges_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/problems/{problem_id}/top", _Atlas_ListProblemTop_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/problems/{problem_id}/grading", _Atlas_DescribeProblemGrading_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/problems/{problem_id}/solutions", _Atlas_CreateSolution_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/problems/{problem_id}/solutions/{solution_id}", _Atlas_UpdateSolution_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/problems/{problem_id}/solutions/{solution_id}", _Atlas_DeleteSolution_Rule0(srv)).Methods("DELETE")
-	router.Handle(prefix+"/problems/{problem_id}/solutions", _Atlas_ListSolutions_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/problems/{problem_id}/solutions/{solution_id}", _Atlas_DescribeSolution_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/problems/{problem_id}/solutions/{solution_id}/publish", _Atlas_PublishSolution_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/problems/{problem_id}/solutions/{solution_id}/unpublish", _Atlas_UnpublishSolution_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/problems/{problem_id}/solutions/{solution_id}/approve", _Atlas_ApproveSolution_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/problems/{problem_id}/solutions/{solution_id}/refuse", _Atlas_RefuseSolution_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/categories", _Atlas_CreateCategory_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/categories/{category_id}", _Atlas_UpdateCategory_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/categories/{category_id}", _Atlas_DeleteCategory_Rule0(srv)).Methods("DELETE")
-	router.Handle(prefix+"/categories", _Atlas_ListCategories_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/categories/{category_id}", _Atlas_DescribeCategory_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/categories/{category_id}/problems/{problem_id}", _Atlas_AssignCategory_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/categories/{category_id}/problems/{problem_id}", _Atlas_UnassignCategory_Rule0(srv)).Methods("DELETE")
-	router.Handle(prefix+"/problems/{problem_id}/submissions", _Atlas_CreateSubmission_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/problems/{problem_id}/submissions/{submission_id}", _Atlas_DescribeSubmission_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/problems/{problem_id}/submissions/{submission_id}/retest", _Atlas_RetestSubmission_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/problems/{problem_id}/scores/{user_id}", _Atlas_DescribeScore_Rule0(srv)).Methods("GET")
+
+	router.Handle(prefix+"/problems", _Atlas_CreateProblem_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.atlas.Atlas.CreateProblem")
+
+	router.Handle(prefix+"/problems/{problem_id}", _Atlas_DeleteProblem_Rule0(srv)).
+		Methods("DELETE").
+		Name("eolymp.atlas.Atlas.DeleteProblem")
+
+	router.Handle(prefix+"/problems", _Atlas_ListProblems_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.atlas.Atlas.ListProblems")
+
+	router.Handle(prefix+"/problems/{problem_id}", _Atlas_DescribeProblem_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.atlas.Atlas.DescribeProblem")
+
+	router.Handle(prefix+"/problems/{problem_id}/visibility", _Atlas_UpdateVisibility_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.atlas.Atlas.UpdateVisibility")
+
+	router.Handle(prefix+"/problems/{problem_id}/privacy", _Atlas_UpdatePrivacy_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.atlas.Atlas.UpdatePrivacy")
+
+	router.Handle(prefix+"/problems/{problem_id}/examples", _Atlas_ListExamples_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.atlas.Atlas.ListExamples")
+
+	router.Handle(prefix+"/problems/{problem_id}/verifier", _Atlas_UpdateVerifier_Rule0(srv)).
+		Methods("PUT").
+		Name("eolymp.atlas.Atlas.UpdateVerifier")
+
+	router.Handle(prefix+"/problems/{problem_id}/verifier", _Atlas_DescribeVerifier_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.atlas.Atlas.DescribeVerifier")
+
+	router.Handle(prefix+"/problems/{problem_id}/interactor", _Atlas_UpdateInteractor_Rule0(srv)).
+		Methods("PUT").
+		Name("eolymp.atlas.Atlas.UpdateInteractor")
+
+	router.Handle(prefix+"/problems/{problem_id}/interactor", _Atlas_DescribeInteractor_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.atlas.Atlas.DescribeInteractor")
+
+	router.Handle(prefix+"/problems/{problem_id}/statements", _Atlas_CreateStatement_Rule0(srv)).
+		Methods("PUT").
+		Name("eolymp.atlas.Atlas.CreateStatement")
+
+	router.Handle(prefix+"/problems/{problem_id}/statements/{statement_id}", _Atlas_UpdateStatement_Rule0(srv)).
+		Methods("PUT").
+		Name("eolymp.atlas.Atlas.UpdateStatement")
+
+	router.Handle(prefix+"/problems/{problem_id}/statements/{statement_id}", _Atlas_DeleteStatement_Rule0(srv)).
+		Methods("DELETE").
+		Name("eolymp.atlas.Atlas.DeleteStatement")
+
+	router.Handle(prefix+"/problems/{problem_id}/statements", _Atlas_ListStatements_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.atlas.Atlas.ListStatements")
+
+	router.Handle(prefix+"/problems/{problem_id}/statements/{statement_id}", _Atlas_DescribeStatement_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.atlas.Atlas.DescribeStatement")
+
+	router.Handle(prefix+"/problems/{problem_id}/testsets", _Atlas_CreateTestset_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.atlas.Atlas.CreateTestset")
+
+	router.Handle(prefix+"/problems/{problem_id}/testsets/{testset_id}", _Atlas_UpdateTestset_Rule0(srv)).
+		Methods("PUT").
+		Name("eolymp.atlas.Atlas.UpdateTestset")
+
+	router.Handle(prefix+"/problems/{problem_id}/testsets/{testset_id}", _Atlas_DeleteTestset_Rule0(srv)).
+		Methods("DELETE").
+		Name("eolymp.atlas.Atlas.DeleteTestset")
+
+	router.Handle(prefix+"/problems/{problem_id}/testsets", _Atlas_ListTestsets_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.atlas.Atlas.ListTestsets")
+
+	router.Handle(prefix+"/problems/{problem_id}/testsets/{testset_id}", _Atlas_DescribeTestset_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.atlas.Atlas.DescribeTestset")
+
+	router.Handle(prefix+"/problems/{problem_id}/testsets/{testset_id}/tests", _Atlas_CreateTest_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.atlas.Atlas.CreateTest")
+
+	router.Handle(prefix+"/problems/{problem_id}/testsets/{testset_id}/tests/{test_id}", _Atlas_UpdateTest_Rule0(srv)).
+		Methods("PUT").
+		Name("eolymp.atlas.Atlas.UpdateTest")
+
+	router.Handle(prefix+"/problems/{problem_id}/testsets/{testset_id}/tests/{test_id}", _Atlas_DeleteTest_Rule0(srv)).
+		Methods("DELETE").
+		Name("eolymp.atlas.Atlas.DeleteTest")
+
+	router.Handle(prefix+"/problems/{problem_id}/testsets/{testset_id}/tests", _Atlas_ListTests_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.atlas.Atlas.ListTests")
+
+	router.Handle(prefix+"/problems/{problem_id}/testsets/{testset_id}/tests/{test_id}", _Atlas_DescribeTest_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.atlas.Atlas.DescribeTest")
+
+	router.Handle(prefix+"/problems/{problem_id}/permissions", _Atlas_GrantPermission_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.atlas.Atlas.GrantPermission")
+
+	router.Handle(prefix+"/problems/{problem_id}/permissions/{user_id}", _Atlas_RevokePermission_Rule0(srv)).
+		Methods("DELETE").
+		Name("eolymp.atlas.Atlas.RevokePermission")
+
+	router.Handle(prefix+"/problems/{problem_id}/permissions", _Atlas_ListPermissions_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.atlas.Atlas.ListPermissions")
+
+	router.Handle(prefix+"/problems/{problem_id}/templates", _Atlas_CreateCodeTemplate_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.atlas.Atlas.CreateCodeTemplate")
+
+	router.Handle(prefix+"/problems/{problem_id}/templates/{template_id}", _Atlas_UpdateCodeTemplate_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.atlas.Atlas.UpdateCodeTemplate")
+
+	router.Handle(prefix+"/problems/{problem_id}/templates/{template_id}", _Atlas_DeleteCodeTemplate_Rule0(srv)).
+		Methods("DELETE").
+		Name("eolymp.atlas.Atlas.DeleteCodeTemplate")
+
+	router.Handle(prefix+"/problems/{problem_id}/templates", _Atlas_ListCodeTemplates_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.atlas.Atlas.ListCodeTemplates")
+
+	router.Handle(prefix+"/problems/{problem_id}/templates/{template_id}", _Atlas_DescribeCodeTemplate_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.atlas.Atlas.DescribeCodeTemplate")
+
+	router.Handle(prefix+"/problems/{problem_id}/attachments", _Atlas_CreateAttachment_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.atlas.Atlas.CreateAttachment")
+
+	router.Handle(prefix+"/problems/{problem_id}/attachments/{attachment_id}", _Atlas_UpdateAttachment_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.atlas.Atlas.UpdateAttachment")
+
+	router.Handle(prefix+"/problems/{problem_id}/attachments/{attachment_id}", _Atlas_DeleteAttachment_Rule0(srv)).
+		Methods("DELETE").
+		Name("eolymp.atlas.Atlas.DeleteAttachment")
+
+	router.Handle(prefix+"/problems/{problem_id}/attachments", _Atlas_ListAttachments_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.atlas.Atlas.ListAttachments")
+
+	router.Handle(prefix+"/problems/{problem_id}/attachments/{attachment_id}", _Atlas_DescribeAttachment_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.atlas.Atlas.DescribeAttachment")
+
+	router.Handle(prefix+"/problems/{problem_id}/changes/{change_id}", _Atlas_DescribeChange_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.atlas.Atlas.DescribeChange")
+
+	router.Handle(prefix+"/problems/{problem_id}/changes", _Atlas_ListChanges_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.atlas.Atlas.ListChanges")
+
+	router.Handle(prefix+"/problems/{problem_id}/top", _Atlas_ListProblemTop_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.atlas.Atlas.ListProblemTop")
+
+	router.Handle(prefix+"/problems/{problem_id}/grading", _Atlas_DescribeProblemGrading_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.atlas.Atlas.DescribeProblemGrading")
+
+	router.Handle(prefix+"/problems/{problem_id}/solutions", _Atlas_CreateSolution_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.atlas.Atlas.CreateSolution")
+
+	router.Handle(prefix+"/problems/{problem_id}/solutions/{solution_id}", _Atlas_UpdateSolution_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.atlas.Atlas.UpdateSolution")
+
+	router.Handle(prefix+"/problems/{problem_id}/solutions/{solution_id}", _Atlas_DeleteSolution_Rule0(srv)).
+		Methods("DELETE").
+		Name("eolymp.atlas.Atlas.DeleteSolution")
+
+	router.Handle(prefix+"/problems/{problem_id}/solutions", _Atlas_ListSolutions_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.atlas.Atlas.ListSolutions")
+
+	router.Handle(prefix+"/problems/{problem_id}/solutions/{solution_id}", _Atlas_DescribeSolution_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.atlas.Atlas.DescribeSolution")
+
+	router.Handle(prefix+"/problems/{problem_id}/solutions/{solution_id}/publish", _Atlas_PublishSolution_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.atlas.Atlas.PublishSolution")
+
+	router.Handle(prefix+"/problems/{problem_id}/solutions/{solution_id}/unpublish", _Atlas_UnpublishSolution_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.atlas.Atlas.UnpublishSolution")
+
+	router.Handle(prefix+"/problems/{problem_id}/solutions/{solution_id}/approve", _Atlas_ApproveSolution_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.atlas.Atlas.ApproveSolution")
+
+	router.Handle(prefix+"/problems/{problem_id}/solutions/{solution_id}/refuse", _Atlas_RefuseSolution_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.atlas.Atlas.RefuseSolution")
+
+	router.Handle(prefix+"/categories", _Atlas_CreateCategory_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.atlas.Atlas.CreateCategory")
+
+	router.Handle(prefix+"/categories/{category_id}", _Atlas_UpdateCategory_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.atlas.Atlas.UpdateCategory")
+
+	router.Handle(prefix+"/categories/{category_id}", _Atlas_DeleteCategory_Rule0(srv)).
+		Methods("DELETE").
+		Name("eolymp.atlas.Atlas.DeleteCategory")
+
+	router.Handle(prefix+"/categories", _Atlas_ListCategories_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.atlas.Atlas.ListCategories")
+
+	router.Handle(prefix+"/categories/{category_id}", _Atlas_DescribeCategory_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.atlas.Atlas.DescribeCategory")
+
+	router.Handle(prefix+"/categories/{category_id}/problems/{problem_id}", _Atlas_AssignCategory_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.atlas.Atlas.AssignCategory")
+
+	router.Handle(prefix+"/categories/{category_id}/problems/{problem_id}", _Atlas_UnassignCategory_Rule0(srv)).
+		Methods("DELETE").
+		Name("eolymp.atlas.Atlas.UnassignCategory")
+
+	router.Handle(prefix+"/problems/{problem_id}/submissions", _Atlas_CreateSubmission_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.atlas.Atlas.CreateSubmission")
+
+	router.Handle(prefix+"/problems/{problem_id}/submissions/{submission_id}", _Atlas_DescribeSubmission_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.atlas.Atlas.DescribeSubmission")
+
+	router.Handle(prefix+"/problems/{problem_id}/submissions/{submission_id}/retest", _Atlas_RetestSubmission_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.atlas.Atlas.RetestSubmission")
+
+	router.Handle(prefix+"/problems/{problem_id}/scores/{user_id}", _Atlas_DescribeScore_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.atlas.Atlas.DescribeScore")
+
 	return router
 }
 

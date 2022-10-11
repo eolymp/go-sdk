@@ -141,26 +141,87 @@ const CognitoPrefix = ""
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func NewCognitoHandlerHttp(srv CognitoServer, prefix string) http.Handler {
 	router := mux.NewRouter()
-	router.Handle(prefix+"/access-keys", _Cognito_CreateAccessKey_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/access-keys/{key_id}", _Cognito_DeleteAccessKey_Rule0(srv)).Methods("DELETE")
-	router.Handle(prefix+"/access-keys", _Cognito_ListAccessKeys_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/users", _Cognito_CreateUser_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/users/{user_id}/verify", _Cognito_VerifyEmail_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/self/email", _Cognito_UpdateEmail_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/self", _Cognito_UpdateProfile_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/self/picture", _Cognito_UpdatePicture_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/self/password", _Cognito_UpdatePassword_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/self/recovery", _Cognito_StartRecovery_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/users/{user_id}/recover", _Cognito_CompleteRecovery_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/self", _Cognito_IntrospectUser_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/users/{user_id}", _Cognito_DescribeUser_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/users", _Cognito_ListUsers_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/self/quota", _Cognito_IntrospectQuota_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/self/roles", _Cognito_IntrospectRoles_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/users/{user_id}/roles", _Cognito_ListRoles_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/users/{user_id}/roles", _Cognito_UpdateRoles_Rule0(srv)).Methods("PUT")
-	router.Handle(prefix+"/__cognito/entitlements", _Cognito_ListEntitlements_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/self", _Cognito_SelfDestruct_Rule0(srv)).Methods("DELETE")
+
+	router.Handle(prefix+"/access-keys", _Cognito_CreateAccessKey_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.cognito.Cognito.CreateAccessKey")
+
+	router.Handle(prefix+"/access-keys/{key_id}", _Cognito_DeleteAccessKey_Rule0(srv)).
+		Methods("DELETE").
+		Name("eolymp.cognito.Cognito.DeleteAccessKey")
+
+	router.Handle(prefix+"/access-keys", _Cognito_ListAccessKeys_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.cognito.Cognito.ListAccessKeys")
+
+	router.Handle(prefix+"/users", _Cognito_CreateUser_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.cognito.Cognito.CreateUser")
+
+	router.Handle(prefix+"/users/{user_id}/verify", _Cognito_VerifyEmail_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.cognito.Cognito.VerifyEmail")
+
+	router.Handle(prefix+"/self/email", _Cognito_UpdateEmail_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.cognito.Cognito.UpdateEmail")
+
+	router.Handle(prefix+"/self", _Cognito_UpdateProfile_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.cognito.Cognito.UpdateProfile")
+
+	router.Handle(prefix+"/self/picture", _Cognito_UpdatePicture_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.cognito.Cognito.UpdatePicture")
+
+	router.Handle(prefix+"/self/password", _Cognito_UpdatePassword_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.cognito.Cognito.UpdatePassword")
+
+	router.Handle(prefix+"/self/recovery", _Cognito_StartRecovery_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.cognito.Cognito.StartRecovery")
+
+	router.Handle(prefix+"/users/{user_id}/recover", _Cognito_CompleteRecovery_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.cognito.Cognito.CompleteRecovery")
+
+	router.Handle(prefix+"/self", _Cognito_IntrospectUser_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.cognito.Cognito.IntrospectUser")
+
+	router.Handle(prefix+"/users/{user_id}", _Cognito_DescribeUser_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.cognito.Cognito.DescribeUser")
+
+	router.Handle(prefix+"/users", _Cognito_ListUsers_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.cognito.Cognito.ListUsers")
+
+	router.Handle(prefix+"/self/quota", _Cognito_IntrospectQuota_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.cognito.Cognito.IntrospectQuota")
+
+	router.Handle(prefix+"/self/roles", _Cognito_IntrospectRoles_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.cognito.Cognito.IntrospectRoles")
+
+	router.Handle(prefix+"/users/{user_id}/roles", _Cognito_ListRoles_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.cognito.Cognito.ListRoles")
+
+	router.Handle(prefix+"/users/{user_id}/roles", _Cognito_UpdateRoles_Rule0(srv)).
+		Methods("PUT").
+		Name("eolymp.cognito.Cognito.UpdateRoles")
+
+	router.Handle(prefix+"/__cognito/entitlements", _Cognito_ListEntitlements_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.cognito.Cognito.ListEntitlements")
+
+	router.Handle(prefix+"/self", _Cognito_SelfDestruct_Rule0(srv)).
+		Methods("DELETE").
+		Name("eolymp.cognito.Cognito.SelfDestruct")
+
 	return router
 }
 

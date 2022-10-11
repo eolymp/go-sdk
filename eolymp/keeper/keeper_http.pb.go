@@ -119,6 +119,7 @@ const KeeperPrefix = ""
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func NewKeeperHandlerHttp(srv KeeperServer, prefix string) http.Handler {
 	router := mux.NewRouter()
+
 	return router
 }
 
