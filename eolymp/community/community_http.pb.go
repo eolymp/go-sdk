@@ -130,6 +130,20 @@ const CommunityPrefix = "/community"
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func NewCommunityHandlerHttp(srv CommunityServer, prefix string) http.Handler {
 	router := mux.NewRouter()
+	router.Handle(prefix+"/community/_self", _Community_JoinSpace_Rule0(srv)).Methods("POST")
+	router.Handle(prefix+"/community/_self", _Community_LeaveSpace_Rule0(srv)).Methods("DELETE")
+	router.Handle(prefix+"/community/_self/attributes", _Community_RegisterMember_Rule0(srv)).Methods("POST")
+	router.Handle(prefix+"/community/_self", _Community_IntrospectMember_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/community/members", _Community_AddMember_Rule0(srv)).Methods("POST")
+	router.Handle(prefix+"/community/members/{member_id}", _Community_UpdateMember_Rule0(srv)).Methods("POST")
+	router.Handle(prefix+"/community/members/{member_id}", _Community_RemoveMember_Rule0(srv)).Methods("DELETE")
+	router.Handle(prefix+"/community/members/{member_id}", _Community_DescribeMember_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/community/members", _Community_ListMembers_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/community/attributes", _Community_AddAttribute_Rule0(srv)).Methods("POST")
+	router.Handle(prefix+"/community/attributes/{attribute_key}", _Community_UpdateAttribute_Rule0(srv)).Methods("POST")
+	router.Handle(prefix+"/community/attributes/{attribute_key}", _Community_RemoveAttribute_Rule0(srv)).Methods("DELETE")
+	router.Handle(prefix+"/community/attributes/{attribute_key}", _Community_DescribeAttribute_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/community/attributes", _Community_ListAttributes_Rule0(srv)).Methods("POST")
 	return router
 }
 
@@ -394,6 +408,304 @@ func _Community_DescribeAttribute(srv CommunityServer) http.Handler {
 }
 
 func _Community_ListAttributes(srv CommunityServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListAttributesInput{}
+
+		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Community_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.ListAttributes(r.Context(), in)
+		if err != nil {
+			_Community_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Community_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Community_JoinSpace_Rule0(srv CommunityServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &JoinSpaceInput{}
+
+		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Community_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.JoinSpace(r.Context(), in)
+		if err != nil {
+			_Community_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Community_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Community_LeaveSpace_Rule0(srv CommunityServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &LeaveSpaceInput{}
+
+		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Community_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.LeaveSpace(r.Context(), in)
+		if err != nil {
+			_Community_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Community_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Community_RegisterMember_Rule0(srv CommunityServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &RegisterMemberInput{}
+
+		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Community_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.RegisterMember(r.Context(), in)
+		if err != nil {
+			_Community_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Community_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Community_IntrospectMember_Rule0(srv CommunityServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &IntrospectMemberInput{}
+
+		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Community_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.IntrospectMember(r.Context(), in)
+		if err != nil {
+			_Community_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Community_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Community_AddMember_Rule0(srv CommunityServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &AddMemberInput{}
+
+		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Community_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.AddMember(r.Context(), in)
+		if err != nil {
+			_Community_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Community_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Community_UpdateMember_Rule0(srv CommunityServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UpdateMemberInput{}
+
+		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Community_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.MemberId = vars["member_id"]
+
+		out, err := srv.UpdateMember(r.Context(), in)
+		if err != nil {
+			_Community_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Community_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Community_RemoveMember_Rule0(srv CommunityServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &RemoveMemberInput{}
+
+		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Community_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.MemberId = vars["member_id"]
+
+		out, err := srv.RemoveMember(r.Context(), in)
+		if err != nil {
+			_Community_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Community_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Community_DescribeMember_Rule0(srv CommunityServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeMemberInput{}
+
+		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Community_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.MemberId = vars["member_id"]
+
+		out, err := srv.DescribeMember(r.Context(), in)
+		if err != nil {
+			_Community_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Community_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Community_ListMembers_Rule0(srv CommunityServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListMembersInput{}
+
+		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Community_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.ListMembers(r.Context(), in)
+		if err != nil {
+			_Community_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Community_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Community_AddAttribute_Rule0(srv CommunityServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &AddAttributeInput{}
+
+		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Community_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.AddAttribute(r.Context(), in)
+		if err != nil {
+			_Community_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Community_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Community_UpdateAttribute_Rule0(srv CommunityServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UpdateAttributeInput{}
+
+		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Community_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.AttributeKey = vars["attribute_key"]
+
+		out, err := srv.UpdateAttribute(r.Context(), in)
+		if err != nil {
+			_Community_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Community_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Community_RemoveAttribute_Rule0(srv CommunityServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &RemoveAttributeInput{}
+
+		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Community_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.AttributeKey = vars["attribute_key"]
+
+		out, err := srv.RemoveAttribute(r.Context(), in)
+		if err != nil {
+			_Community_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Community_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Community_DescribeAttribute_Rule0(srv CommunityServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeAttributeInput{}
+
+		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Community_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.AttributeKey = vars["attribute_key"]
+
+		out, err := srv.DescribeAttribute(r.Context(), in)
+		if err != nil {
+			_Community_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Community_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Community_ListAttributes_Rule0(srv CommunityServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListAttributesInput{}
 
