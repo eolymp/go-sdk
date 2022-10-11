@@ -3,7 +3,7 @@ module github.com/eolymp/go-sdk
 go 1.18
 
 require (
-	github.com/eolymp/go-packages v0.0.0-20220701233229-6d322f7f1ee1
+	github.com/eolymp/go-packages v0.0.0-20220821204400-c5a43fa1e223
 	github.com/gorilla/mux v1.8.0
 	github.com/prometheus/client_golang v1.12.2
 	google.golang.org/grpc v1.47.0
