@@ -15,8 +15,17 @@ import (
 	os "os"
 )
 
-// NewRanker constructs client for Ranker
-func NewRankerService(url string, cli RankerHTTPClient) *RankerService {
+type _RankerHttpClient interface {
+	Do(*http.Request) (*http.Response, error)
+}
+
+type RankerService struct {
+	base string
+	cli  _RankerHttpClient
+}
+
+// NewRankerHttpClient constructs client for Ranker
+func NewRankerHttpClient(url string, cli _RankerHttpClient) *RankerService {
 	if url == "" {
 		url = os.Getenv("EOLYMP_API_URL")
 		if url == "" {
@@ -27,17 +36,7 @@ func NewRankerService(url string, cli RankerHTTPClient) *RankerService {
 	return &RankerService{base: url, cli: cli}
 }
 
-type RankerHTTPClient interface {
-	Do(*http.Request) (*http.Response, error)
-}
-
-type RankerService struct {
-	base string
-	cli  RankerHTTPClient
-}
-
-// invoke RPC method using twirp-like protocol
-func (s *RankerService) invoke(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
+func (s *RankerService) do(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
 	input := []byte("{}")
 
 	if in != nil {
@@ -93,7 +92,7 @@ func (s *RankerService) CreateScoreboard(ctx context.Context, in *CreateScoreboa
 	out := &CreateScoreboardOutput{}
 	path := "/scoreboards"
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -109,7 +108,7 @@ func (s *RankerService) UpdateScoreboard(ctx context.Context, in *UpdateScoreboa
 		in.ScoreboardId = ""
 	}
 
-	if err := s.invoke(ctx, "PUT", path, in, out); err != nil {
+	if err := s.do(ctx, "PUT", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -125,7 +124,7 @@ func (s *RankerService) RebuildScoreboard(ctx context.Context, in *RebuildScoreb
 		in.ScoreboardId = ""
 	}
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -141,7 +140,7 @@ func (s *RankerService) DeleteScoreboard(ctx context.Context, in *DeleteScoreboa
 		in.ScoreboardId = ""
 	}
 
-	if err := s.invoke(ctx, "DELETE", path, in, out); err != nil {
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -157,7 +156,7 @@ func (s *RankerService) DescribeScoreboard(ctx context.Context, in *DescribeScor
 		in.ScoreboardId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -168,7 +167,7 @@ func (s *RankerService) ListScoreboards(ctx context.Context, in *ListScoreboards
 	out := &ListScoreboardsOutput{}
 	path := "/scoreboards"
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -185,7 +184,7 @@ func (s *RankerService) DescribeScoreboardRow(ctx context.Context, in *DescribeS
 		in.MemberId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -201,7 +200,7 @@ func (s *RankerService) ListScoreboardRows(ctx context.Context, in *ListScoreboa
 		in.ScoreboardId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -217,7 +216,7 @@ func (s *RankerService) AddScoreboardColumn(ctx context.Context, in *AddScoreboa
 		in.ScoreboardId = ""
 	}
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -234,7 +233,7 @@ func (s *RankerService) DeleteScoreboardColumn(ctx context.Context, in *DeleteSc
 		in.ColumnId = ""
 	}
 
-	if err := s.invoke(ctx, "DELETE", path, in, out); err != nil {
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -251,7 +250,7 @@ func (s *RankerService) DescribeScoreboardColumn(ctx context.Context, in *Descri
 		in.ColumnId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -267,7 +266,7 @@ func (s *RankerService) ListScoreboardColumns(ctx context.Context, in *ListScore
 		in.ScoreboardId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -283,7 +282,7 @@ func (s *RankerService) ListActivities(ctx context.Context, in *ListActivitiesIn
 		in.ScoreboardId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 

@@ -15,8 +15,17 @@ import (
 	os "os"
 )
 
-// NewJudge constructs client for Judge
-func NewJudgeService(url string, cli JudgeHTTPClient) *JudgeService {
+type _JudgeHttpClient interface {
+	Do(*http.Request) (*http.Response, error)
+}
+
+type JudgeService struct {
+	base string
+	cli  _JudgeHttpClient
+}
+
+// NewJudgeHttpClient constructs client for Judge
+func NewJudgeHttpClient(url string, cli _JudgeHttpClient) *JudgeService {
 	if url == "" {
 		url = os.Getenv("EOLYMP_API_URL")
 		if url == "" {
@@ -27,17 +36,7 @@ func NewJudgeService(url string, cli JudgeHTTPClient) *JudgeService {
 	return &JudgeService{base: url, cli: cli}
 }
 
-type JudgeHTTPClient interface {
-	Do(*http.Request) (*http.Response, error)
-}
-
-type JudgeService struct {
-	base string
-	cli  JudgeHTTPClient
-}
-
-// invoke RPC method using twirp-like protocol
-func (s *JudgeService) invoke(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
+func (s *JudgeService) do(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
 	input := []byte("{}")
 
 	if in != nil {
@@ -93,7 +92,7 @@ func (s *JudgeService) LookupContest(ctx context.Context, in *LookupContestInput
 	out := &LookupContestOutput{}
 	path := "/contests/__lookup"
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -104,7 +103,7 @@ func (s *JudgeService) CreateContest(ctx context.Context, in *CreateContestInput
 	out := &CreateContestOutput{}
 	path := "/contests"
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -120,7 +119,7 @@ func (s *JudgeService) DeleteContest(ctx context.Context, in *DeleteContestInput
 		in.ContestId = ""
 	}
 
-	if err := s.invoke(ctx, "DELETE", path, in, out); err != nil {
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -136,7 +135,7 @@ func (s *JudgeService) UpdateContest(ctx context.Context, in *UpdateContestInput
 		in.ContestId = ""
 	}
 
-	if err := s.invoke(ctx, "PUT", path, in, out); err != nil {
+	if err := s.do(ctx, "PUT", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -152,7 +151,7 @@ func (s *JudgeService) DescribeContest(ctx context.Context, in *DescribeContestI
 		in.ContestId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -163,7 +162,7 @@ func (s *JudgeService) ListContests(ctx context.Context, in *ListContestsInput) 
 	out := &ListContestsOutput{}
 	path := "/contests"
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -179,7 +178,7 @@ func (s *JudgeService) OpenContest(ctx context.Context, in *OpenContestInput) (*
 		in.ContestId = ""
 	}
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -195,7 +194,7 @@ func (s *JudgeService) CloseContest(ctx context.Context, in *CloseContestInput) 
 		in.ContestId = ""
 	}
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -211,7 +210,7 @@ func (s *JudgeService) ConfigureRuntime(ctx context.Context, in *ConfigureRuntim
 		in.ContestId = ""
 	}
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -227,7 +226,7 @@ func (s *JudgeService) DescribeRuntime(ctx context.Context, in *DescribeRuntimeI
 		in.ContestId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -243,7 +242,7 @@ func (s *JudgeService) ConfigureAppearance(ctx context.Context, in *ConfigureApp
 		in.ContestId = ""
 	}
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -259,7 +258,7 @@ func (s *JudgeService) DescribeAppearance(ctx context.Context, in *DescribeAppea
 		in.ContestId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -275,7 +274,7 @@ func (s *JudgeService) ConfigureScoring(ctx context.Context, in *ConfigureScorin
 		in.ContestId = ""
 	}
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -291,7 +290,7 @@ func (s *JudgeService) DescribeScoring(ctx context.Context, in *DescribeScoringI
 		in.ContestId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -307,7 +306,7 @@ func (s *JudgeService) ImportProblem(ctx context.Context, in *ImportProblemInput
 		in.ContestId = ""
 	}
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -324,7 +323,7 @@ func (s *JudgeService) SyncProblem(ctx context.Context, in *SyncProblemInput) (*
 		in.ProblemId = ""
 	}
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -341,7 +340,7 @@ func (s *JudgeService) UpdateProblem(ctx context.Context, in *UpdateProblemInput
 		in.ProblemId = ""
 	}
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -357,7 +356,7 @@ func (s *JudgeService) ListProblems(ctx context.Context, in *ListProblemsInput) 
 		in.ContestId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -374,7 +373,7 @@ func (s *JudgeService) DescribeProblem(ctx context.Context, in *DescribeProblemI
 		in.ProblemId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -392,7 +391,7 @@ func (s *JudgeService) DescribeCodeTemplate(ctx context.Context, in *DescribeCod
 		in.TemplateId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -409,7 +408,7 @@ func (s *JudgeService) LookupCodeTemplate(ctx context.Context, in *LookupCodeTem
 		in.ProblemId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -426,7 +425,7 @@ func (s *JudgeService) ListStatements(ctx context.Context, in *ListStatementsInp
 		in.ProblemId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -443,7 +442,7 @@ func (s *JudgeService) ListAttachments(ctx context.Context, in *ListAttachmentsI
 		in.ProblemId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -460,7 +459,7 @@ func (s *JudgeService) ListExamples(ctx context.Context, in *ListExamplesInput) 
 		in.ProblemId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -477,7 +476,7 @@ func (s *JudgeService) DeleteProblem(ctx context.Context, in *DeleteProblemInput
 		in.ProblemId = ""
 	}
 
-	if err := s.invoke(ctx, "DELETE", path, in, out); err != nil {
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -494,7 +493,7 @@ func (s *JudgeService) RetestProblem(ctx context.Context, in *RetestProblemInput
 		in.ProblemId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -510,7 +509,7 @@ func (s *JudgeService) AddParticipant(ctx context.Context, in *AddParticipantInp
 		in.ContestId = ""
 	}
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -527,7 +526,7 @@ func (s *JudgeService) EnableParticipant(ctx context.Context, in *EnableParticip
 		in.ParticipantId = ""
 	}
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -544,7 +543,7 @@ func (s *JudgeService) DisableParticipant(ctx context.Context, in *DisablePartic
 		in.ParticipantId = ""
 	}
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -561,7 +560,7 @@ func (s *JudgeService) UpdateParticipant(ctx context.Context, in *UpdateParticip
 		in.ParticipantId = ""
 	}
 
-	if err := s.invoke(ctx, "PUT", path, in, out); err != nil {
+	if err := s.do(ctx, "PUT", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -578,7 +577,7 @@ func (s *JudgeService) RemoveParticipant(ctx context.Context, in *RemoveParticip
 		in.ParticipantId = ""
 	}
 
-	if err := s.invoke(ctx, "DELETE", path, in, out); err != nil {
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -594,7 +593,7 @@ func (s *JudgeService) ListParticipants(ctx context.Context, in *ListParticipant
 		in.ContestId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -611,7 +610,7 @@ func (s *JudgeService) DescribeParticipant(ctx context.Context, in *DescribePart
 		in.ParticipantId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -627,7 +626,7 @@ func (s *JudgeService) IntrospectParticipant(ctx context.Context, in *Introspect
 		in.ContestId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -643,7 +642,7 @@ func (s *JudgeService) JoinContest(ctx context.Context, in *JoinContestInput) (*
 		in.ContestId = ""
 	}
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -659,7 +658,7 @@ func (s *JudgeService) StartContest(ctx context.Context, in *StartContestInput) 
 		in.ContestId = ""
 	}
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -675,7 +674,7 @@ func (s *JudgeService) VerifyPasscode(ctx context.Context, in *VerifyPasscodeInp
 		in.ContestId = ""
 	}
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -691,7 +690,7 @@ func (s *JudgeService) EnterPasscode(ctx context.Context, in *EnterPasscodeInput
 		in.ContestId = ""
 	}
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -708,7 +707,7 @@ func (s *JudgeService) ResetPasscode(ctx context.Context, in *ResetPasscodeInput
 		in.ParticipantId = ""
 	}
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -725,7 +724,7 @@ func (s *JudgeService) RemovePasscode(ctx context.Context, in *RemovePasscodeInp
 		in.ParticipantId = ""
 	}
 
-	if err := s.invoke(ctx, "DELETE", path, in, out); err != nil {
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -742,7 +741,7 @@ func (s *JudgeService) CreateSubmission(ctx context.Context, in *CreateSubmissio
 		in.ProblemId = ""
 	}
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -758,7 +757,7 @@ func (s *JudgeService) ListSubmissions(ctx context.Context, in *ListSubmissionsI
 		in.ContestId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -775,7 +774,7 @@ func (s *JudgeService) DescribeSubmission(ctx context.Context, in *DescribeSubmi
 		in.SubmissionId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -792,7 +791,7 @@ func (s *JudgeService) RetestSubmission(ctx context.Context, in *RetestSubmissio
 		in.SubmissionId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -808,7 +807,7 @@ func (s *JudgeService) CreateTicket(ctx context.Context, in *CreateTicketInput) 
 		in.ContestId = ""
 	}
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -824,7 +823,7 @@ func (s *JudgeService) CloseTicket(ctx context.Context, in *CloseTicketInput) (*
 		in.TicketId = ""
 	}
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -840,7 +839,7 @@ func (s *JudgeService) OpenTicket(ctx context.Context, in *OpenTicketInput) (*Op
 		in.TicketId = ""
 	}
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -856,7 +855,7 @@ func (s *JudgeService) ReadTicket(ctx context.Context, in *ReadTicketInput) (*Re
 		in.TicketId = ""
 	}
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -872,7 +871,7 @@ func (s *JudgeService) DeleteTicket(ctx context.Context, in *DeleteTicketInput) 
 		in.TicketId = ""
 	}
 
-	if err := s.invoke(ctx, "DELETE", path, in, out); err != nil {
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -888,7 +887,7 @@ func (s *JudgeService) DescribeTicket(ctx context.Context, in *DescribeTicketInp
 		in.TicketId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -899,7 +898,7 @@ func (s *JudgeService) ListTickets(ctx context.Context, in *ListTicketsInput) (*
 	out := &ListTicketsOutput{}
 	path := "/tickets"
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -915,7 +914,7 @@ func (s *JudgeService) ReplyTicket(ctx context.Context, in *ReplyTicketInput) (*
 		in.TicketId = ""
 	}
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -931,7 +930,7 @@ func (s *JudgeService) ListReplies(ctx context.Context, in *ListRepliesInput) (*
 		in.TicketId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -948,7 +947,7 @@ func (s *JudgeService) DeleteReply(ctx context.Context, in *DeleteReplyInput) (*
 		in.ReplyId = ""
 	}
 
-	if err := s.invoke(ctx, "DELETE", path, in, out); err != nil {
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -965,7 +964,7 @@ func (s *JudgeService) UpdateReply(ctx context.Context, in *UpdateReplyInput) (*
 		in.ReplyId = ""
 	}
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -981,7 +980,7 @@ func (s *JudgeService) CreateAnnouncement(ctx context.Context, in *CreateAnnounc
 		in.ContestId = ""
 	}
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -998,7 +997,7 @@ func (s *JudgeService) UpdateAnnouncement(ctx context.Context, in *UpdateAnnounc
 		in.AnnouncementId = ""
 	}
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -1015,7 +1014,7 @@ func (s *JudgeService) DeleteAnnouncement(ctx context.Context, in *DeleteAnnounc
 		in.AnnouncementId = ""
 	}
 
-	if err := s.invoke(ctx, "DELETE", path, in, out); err != nil {
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -1032,7 +1031,7 @@ func (s *JudgeService) ReadAnnouncement(ctx context.Context, in *ReadAnnouncemen
 		in.AnnouncementId = ""
 	}
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -1049,7 +1048,7 @@ func (s *JudgeService) DescribeAnnouncement(ctx context.Context, in *DescribeAnn
 		in.AnnouncementId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -1066,7 +1065,7 @@ func (s *JudgeService) DescribeAnnouncementStatus(ctx context.Context, in *Descr
 		in.AnnouncementId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -1082,7 +1081,7 @@ func (s *JudgeService) ListAnnouncements(ctx context.Context, in *ListAnnounceme
 		in.ContestId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -1098,7 +1097,7 @@ func (s *JudgeService) IntrospectScore(ctx context.Context, in *IntrospectScoreI
 		in.ContestId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -1115,7 +1114,7 @@ func (s *JudgeService) DescribeScore(ctx context.Context, in *DescribeScoreInput
 		in.ParticipantId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -1132,7 +1131,7 @@ func (s *JudgeService) ImportScore(ctx context.Context, in *ImportScoreInput) (*
 		in.ParticipantId = ""
 	}
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -1148,7 +1147,7 @@ func (s *JudgeService) ListResult(ctx context.Context, in *ListResultInput) (*Li
 		in.ContestId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -1164,7 +1163,7 @@ func (s *JudgeService) RebuildScore(ctx context.Context, in *RebuildScoreInput) 
 		in.ContestId = ""
 	}
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -1175,7 +1174,7 @@ func (s *JudgeService) ListEntitlements(ctx context.Context, in *ListEntitlement
 	out := &ListEntitlementsOutput{}
 	path := "/__judge/entitlements"
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -1191,7 +1190,7 @@ func (s *JudgeService) ListActivities(ctx context.Context, in *ListActivitiesInp
 		in.ContestId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 

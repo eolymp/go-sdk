@@ -15,8 +15,17 @@ import (
 	os "os"
 )
 
-// NewUniverse constructs client for Universe
-func NewUniverseService(url string, cli UniverseHTTPClient) *UniverseService {
+type _UniverseHttpClient interface {
+	Do(*http.Request) (*http.Response, error)
+}
+
+type UniverseService struct {
+	base string
+	cli  _UniverseHttpClient
+}
+
+// NewUniverseHttpClient constructs client for Universe
+func NewUniverseHttpClient(url string, cli _UniverseHttpClient) *UniverseService {
 	if url == "" {
 		url = os.Getenv("EOLYMP_API_URL")
 		if url == "" {
@@ -27,17 +36,7 @@ func NewUniverseService(url string, cli UniverseHTTPClient) *UniverseService {
 	return &UniverseService{base: url, cli: cli}
 }
 
-type UniverseHTTPClient interface {
-	Do(*http.Request) (*http.Response, error)
-}
-
-type UniverseService struct {
-	base string
-	cli  UniverseHTTPClient
-}
-
-// invoke RPC method using twirp-like protocol
-func (s *UniverseService) invoke(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
+func (s *UniverseService) do(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
 	input := []byte("{}")
 
 	if in != nil {
@@ -98,7 +97,7 @@ func (s *UniverseService) LookupSpace(ctx context.Context, in *LookupSpaceInput)
 		in.Key = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -109,7 +108,7 @@ func (s *UniverseService) CreateSpace(ctx context.Context, in *CreateSpaceInput)
 	out := &CreateSpaceOutput{}
 	path := "/spaces"
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -125,7 +124,7 @@ func (s *UniverseService) UpdateSpace(ctx context.Context, in *UpdateSpaceInput)
 		in.SpaceId = ""
 	}
 
-	if err := s.invoke(ctx, "PUT", path, in, out); err != nil {
+	if err := s.do(ctx, "PUT", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -141,7 +140,7 @@ func (s *UniverseService) DeleteSpace(ctx context.Context, in *DeleteSpaceInput)
 		in.SpaceId = ""
 	}
 
-	if err := s.invoke(ctx, "DELETE", path, in, out); err != nil {
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -157,7 +156,7 @@ func (s *UniverseService) DescribeSpace(ctx context.Context, in *DescribeSpaceIn
 		in.SpaceId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -173,7 +172,7 @@ func (s *UniverseService) DescribeQuota(ctx context.Context, in *DescribeQuotaIn
 		in.SpaceId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -184,7 +183,7 @@ func (s *UniverseService) ListSpaces(ctx context.Context, in *ListSpacesInput) (
 	out := &ListSpacesOutput{}
 	path := "/spaces"
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -201,7 +200,7 @@ func (s *UniverseService) GrantPermission(ctx context.Context, in *GrantPermissi
 		in.UserId = ""
 	}
 
-	if err := s.invoke(ctx, "PUT", path, in, out); err != nil {
+	if err := s.do(ctx, "PUT", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -218,7 +217,7 @@ func (s *UniverseService) RevokePermission(ctx context.Context, in *RevokePermis
 		in.UserId = ""
 	}
 
-	if err := s.invoke(ctx, "DELETE", path, in, out); err != nil {
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -235,7 +234,7 @@ func (s *UniverseService) DescribePermission(ctx context.Context, in *DescribePe
 		in.UserId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -251,7 +250,7 @@ func (s *UniverseService) IntrospectPermission(ctx context.Context, in *Introspe
 		in.SpaceId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -267,7 +266,7 @@ func (s *UniverseService) ListPermissions(ctx context.Context, in *ListPermissio
 		in.SpaceId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 

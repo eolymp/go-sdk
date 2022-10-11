@@ -15,8 +15,17 @@ import (
 	os "os"
 )
 
-// NewHelpdesk constructs client for Helpdesk
-func NewHelpdeskService(url string, cli HelpdeskHTTPClient) *HelpdeskService {
+type _HelpdeskHttpClient interface {
+	Do(*http.Request) (*http.Response, error)
+}
+
+type HelpdeskService struct {
+	base string
+	cli  _HelpdeskHttpClient
+}
+
+// NewHelpdeskHttpClient constructs client for Helpdesk
+func NewHelpdeskHttpClient(url string, cli _HelpdeskHttpClient) *HelpdeskService {
 	if url == "" {
 		url = os.Getenv("EOLYMP_API_URL")
 		if url == "" {
@@ -27,17 +36,7 @@ func NewHelpdeskService(url string, cli HelpdeskHTTPClient) *HelpdeskService {
 	return &HelpdeskService{base: url, cli: cli}
 }
 
-type HelpdeskHTTPClient interface {
-	Do(*http.Request) (*http.Response, error)
-}
-
-type HelpdeskService struct {
-	base string
-	cli  HelpdeskHTTPClient
-}
-
-// invoke RPC method using twirp-like protocol
-func (s *HelpdeskService) invoke(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
+func (s *HelpdeskService) do(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
 	input := []byte("{}")
 
 	if in != nil {
@@ -98,7 +97,7 @@ func (s *HelpdeskService) DescribeDocument(ctx context.Context, in *DescribeDocu
 		in.DocumentId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -109,7 +108,7 @@ func (s *HelpdeskService) ListDocuments(ctx context.Context, in *ListDocumentsIn
 	out := &ListDocumentsOutput{}
 	path := "/helpdesk/documents"
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -120,7 +119,7 @@ func (s *HelpdeskService) CreateDocument(ctx context.Context, in *CreateDocument
 	out := &CreateDocumentOutput{}
 	path := "/helpdesk/documents"
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -136,7 +135,7 @@ func (s *HelpdeskService) UpdateDocument(ctx context.Context, in *UpdateDocument
 		in.DocumentId = ""
 	}
 
-	if err := s.invoke(ctx, "PUT", path, in, out); err != nil {
+	if err := s.do(ctx, "PUT", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -152,7 +151,7 @@ func (s *HelpdeskService) DeleteDocument(ctx context.Context, in *DeleteDocument
 		in.DocumentId = ""
 	}
 
-	if err := s.invoke(ctx, "DELETE", path, in, out); err != nil {
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -168,7 +167,7 @@ func (s *HelpdeskService) DescribePath(ctx context.Context, in *DescribePathInpu
 		in.Path = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -179,7 +178,7 @@ func (s *HelpdeskService) ListPaths(ctx context.Context, in *ListPathsInput) (*L
 	out := &ListPathsOutput{}
 	path := "/helpdesk/paths"
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -195,7 +194,7 @@ func (s *HelpdeskService) ListParents(ctx context.Context, in *ListParentsInput)
 		in.Path = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 

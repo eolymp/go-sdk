@@ -14,8 +14,17 @@ import (
 	os "os"
 )
 
-// NewTypewriter constructs client for Typewriter
-func NewTypewriterService(url string, cli TypewriterHTTPClient) *TypewriterService {
+type _TypewriterHttpClient interface {
+	Do(*http.Request) (*http.Response, error)
+}
+
+type TypewriterService struct {
+	base string
+	cli  _TypewriterHttpClient
+}
+
+// NewTypewriterHttpClient constructs client for Typewriter
+func NewTypewriterHttpClient(url string, cli _TypewriterHttpClient) *TypewriterService {
 	if url == "" {
 		url = os.Getenv("EOLYMP_API_URL")
 		if url == "" {
@@ -26,17 +35,7 @@ func NewTypewriterService(url string, cli TypewriterHTTPClient) *TypewriterServi
 	return &TypewriterService{base: url, cli: cli}
 }
 
-type TypewriterHTTPClient interface {
-	Do(*http.Request) (*http.Response, error)
-}
-
-type TypewriterService struct {
-	base string
-	cli  TypewriterHTTPClient
-}
-
-// invoke RPC method using twirp-like protocol
-func (s *TypewriterService) invoke(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
+func (s *TypewriterService) do(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
 	input := []byte("{}")
 
 	if in != nil {
@@ -92,7 +91,7 @@ func (s *TypewriterService) UploadAsset(ctx context.Context, in *UploadAssetInpu
 	out := &UploadAssetOutput{}
 	path := "/assets"
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 

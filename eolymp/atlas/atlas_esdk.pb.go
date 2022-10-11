@@ -15,8 +15,17 @@ import (
 	os "os"
 )
 
-// NewAtlas constructs client for Atlas
-func NewAtlasService(url string, cli AtlasHTTPClient) *AtlasService {
+type _AtlasHttpClient interface {
+	Do(*http.Request) (*http.Response, error)
+}
+
+type AtlasService struct {
+	base string
+	cli  _AtlasHttpClient
+}
+
+// NewAtlasHttpClient constructs client for Atlas
+func NewAtlasHttpClient(url string, cli _AtlasHttpClient) *AtlasService {
 	if url == "" {
 		url = os.Getenv("EOLYMP_API_URL")
 		if url == "" {
@@ -27,17 +36,7 @@ func NewAtlasService(url string, cli AtlasHTTPClient) *AtlasService {
 	return &AtlasService{base: url, cli: cli}
 }
 
-type AtlasHTTPClient interface {
-	Do(*http.Request) (*http.Response, error)
-}
-
-type AtlasService struct {
-	base string
-	cli  AtlasHTTPClient
-}
-
-// invoke RPC method using twirp-like protocol
-func (s *AtlasService) invoke(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
+func (s *AtlasService) do(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
 	input := []byte("{}")
 
 	if in != nil {
@@ -93,7 +92,7 @@ func (s *AtlasService) CreateProblem(ctx context.Context, in *CreateProblemInput
 	out := &CreateProblemOutput{}
 	path := "/problems"
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -109,7 +108,7 @@ func (s *AtlasService) DeleteProblem(ctx context.Context, in *DeleteProblemInput
 		in.ProblemId = ""
 	}
 
-	if err := s.invoke(ctx, "DELETE", path, in, out); err != nil {
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -120,7 +119,7 @@ func (s *AtlasService) ListProblems(ctx context.Context, in *ListProblemsInput) 
 	out := &ListProblemsOutput{}
 	path := "/problems"
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -136,7 +135,7 @@ func (s *AtlasService) DescribeProblem(ctx context.Context, in *DescribeProblemI
 		in.ProblemId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -152,7 +151,7 @@ func (s *AtlasService) UpdateVisibility(ctx context.Context, in *UpdateVisibilit
 		in.ProblemId = ""
 	}
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -168,7 +167,7 @@ func (s *AtlasService) UpdatePrivacy(ctx context.Context, in *UpdatePrivacyInput
 		in.ProblemId = ""
 	}
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -184,7 +183,7 @@ func (s *AtlasService) ListExamples(ctx context.Context, in *ListExamplesInput) 
 		in.ProblemId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -200,7 +199,7 @@ func (s *AtlasService) UpdateVerifier(ctx context.Context, in *UpdateVerifierInp
 		in.ProblemId = ""
 	}
 
-	if err := s.invoke(ctx, "PUT", path, in, out); err != nil {
+	if err := s.do(ctx, "PUT", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -216,7 +215,7 @@ func (s *AtlasService) DescribeVerifier(ctx context.Context, in *DescribeVerifie
 		in.ProblemId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -232,7 +231,7 @@ func (s *AtlasService) UpdateInteractor(ctx context.Context, in *UpdateInteracto
 		in.ProblemId = ""
 	}
 
-	if err := s.invoke(ctx, "PUT", path, in, out); err != nil {
+	if err := s.do(ctx, "PUT", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -248,7 +247,7 @@ func (s *AtlasService) DescribeInteractor(ctx context.Context, in *DescribeInter
 		in.ProblemId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -264,7 +263,7 @@ func (s *AtlasService) CreateStatement(ctx context.Context, in *CreateStatementI
 		in.ProblemId = ""
 	}
 
-	if err := s.invoke(ctx, "PUT", path, in, out); err != nil {
+	if err := s.do(ctx, "PUT", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -281,7 +280,7 @@ func (s *AtlasService) UpdateStatement(ctx context.Context, in *UpdateStatementI
 		in.StatementId = ""
 	}
 
-	if err := s.invoke(ctx, "PUT", path, in, out); err != nil {
+	if err := s.do(ctx, "PUT", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -298,7 +297,7 @@ func (s *AtlasService) DeleteStatement(ctx context.Context, in *DeleteStatementI
 		in.StatementId = ""
 	}
 
-	if err := s.invoke(ctx, "DELETE", path, in, out); err != nil {
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -314,7 +313,7 @@ func (s *AtlasService) ListStatements(ctx context.Context, in *ListStatementsInp
 		in.ProblemId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -331,7 +330,7 @@ func (s *AtlasService) DescribeStatement(ctx context.Context, in *DescribeStatem
 		in.StatementId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -347,7 +346,7 @@ func (s *AtlasService) CreateTestset(ctx context.Context, in *CreateTestsetInput
 		in.ProblemId = ""
 	}
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -364,7 +363,7 @@ func (s *AtlasService) UpdateTestset(ctx context.Context, in *UpdateTestsetInput
 		in.TestsetId = ""
 	}
 
-	if err := s.invoke(ctx, "PUT", path, in, out); err != nil {
+	if err := s.do(ctx, "PUT", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -381,7 +380,7 @@ func (s *AtlasService) DeleteTestset(ctx context.Context, in *DeleteTestsetInput
 		in.TestsetId = ""
 	}
 
-	if err := s.invoke(ctx, "DELETE", path, in, out); err != nil {
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -397,7 +396,7 @@ func (s *AtlasService) ListTestsets(ctx context.Context, in *ListTestsetsInput) 
 		in.ProblemId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -414,7 +413,7 @@ func (s *AtlasService) DescribeTestset(ctx context.Context, in *DescribeTestsetI
 		in.TestsetId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -431,7 +430,7 @@ func (s *AtlasService) CreateTest(ctx context.Context, in *CreateTestInput) (*Cr
 		in.TestsetId = ""
 	}
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -449,7 +448,7 @@ func (s *AtlasService) UpdateTest(ctx context.Context, in *UpdateTestInput) (*Up
 		in.TestId = ""
 	}
 
-	if err := s.invoke(ctx, "PUT", path, in, out); err != nil {
+	if err := s.do(ctx, "PUT", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -467,7 +466,7 @@ func (s *AtlasService) DeleteTest(ctx context.Context, in *DeleteTestInput) (*De
 		in.TestId = ""
 	}
 
-	if err := s.invoke(ctx, "DELETE", path, in, out); err != nil {
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -484,7 +483,7 @@ func (s *AtlasService) ListTests(ctx context.Context, in *ListTestsInput) (*List
 		in.TestsetId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -502,7 +501,7 @@ func (s *AtlasService) DescribeTest(ctx context.Context, in *DescribeTestInput) 
 		in.TestId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -518,7 +517,7 @@ func (s *AtlasService) GrantPermission(ctx context.Context, in *GrantPermissionI
 		in.ProblemId = ""
 	}
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -535,7 +534,7 @@ func (s *AtlasService) RevokePermission(ctx context.Context, in *RevokePermissio
 		in.UserId = ""
 	}
 
-	if err := s.invoke(ctx, "DELETE", path, in, out); err != nil {
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -551,7 +550,7 @@ func (s *AtlasService) ListPermissions(ctx context.Context, in *ListPermissionsI
 		in.ProblemId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -567,7 +566,7 @@ func (s *AtlasService) CreateCodeTemplate(ctx context.Context, in *CreateCodeTem
 		in.ProblemId = ""
 	}
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -584,7 +583,7 @@ func (s *AtlasService) UpdateCodeTemplate(ctx context.Context, in *UpdateCodeTem
 		in.TemplateId = ""
 	}
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -601,7 +600,7 @@ func (s *AtlasService) DeleteCodeTemplate(ctx context.Context, in *DeleteCodeTem
 		in.TemplateId = ""
 	}
 
-	if err := s.invoke(ctx, "DELETE", path, in, out); err != nil {
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -617,7 +616,7 @@ func (s *AtlasService) ListCodeTemplates(ctx context.Context, in *ListCodeTempla
 		in.ProblemId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -634,7 +633,7 @@ func (s *AtlasService) DescribeCodeTemplate(ctx context.Context, in *DescribeCod
 		in.TemplateId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -650,7 +649,7 @@ func (s *AtlasService) CreateAttachment(ctx context.Context, in *CreateAttachmen
 		in.ProblemId = ""
 	}
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -667,7 +666,7 @@ func (s *AtlasService) UpdateAttachment(ctx context.Context, in *UpdateAttachmen
 		in.AttachmentId = ""
 	}
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -684,7 +683,7 @@ func (s *AtlasService) DeleteAttachment(ctx context.Context, in *DeleteAttachmen
 		in.AttachmentId = ""
 	}
 
-	if err := s.invoke(ctx, "DELETE", path, in, out); err != nil {
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -700,7 +699,7 @@ func (s *AtlasService) ListAttachments(ctx context.Context, in *ListAttachmentsI
 		in.ProblemId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -717,7 +716,7 @@ func (s *AtlasService) DescribeAttachment(ctx context.Context, in *DescribeAttac
 		in.AttachmentId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -734,7 +733,7 @@ func (s *AtlasService) DescribeChange(ctx context.Context, in *DescribeChangeInp
 		in.ChangeId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -750,7 +749,7 @@ func (s *AtlasService) ListChanges(ctx context.Context, in *ListChangesInput) (*
 		in.ProblemId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -766,7 +765,7 @@ func (s *AtlasService) ListProblemTop(ctx context.Context, in *ListProblemTopInp
 		in.ProblemId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -782,7 +781,7 @@ func (s *AtlasService) DescribeProblemGrading(ctx context.Context, in *DescribeP
 		in.ProblemId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -798,7 +797,7 @@ func (s *AtlasService) CreateSolution(ctx context.Context, in *CreateSolutionInp
 		in.ProblemId = ""
 	}
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -815,7 +814,7 @@ func (s *AtlasService) UpdateSolution(ctx context.Context, in *UpdateSolutionInp
 		in.SolutionId = ""
 	}
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -832,7 +831,7 @@ func (s *AtlasService) DeleteSolution(ctx context.Context, in *DeleteSolutionInp
 		in.SolutionId = ""
 	}
 
-	if err := s.invoke(ctx, "DELETE", path, in, out); err != nil {
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -848,7 +847,7 @@ func (s *AtlasService) ListSolutions(ctx context.Context, in *ListSolutionsInput
 		in.ProblemId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -865,7 +864,7 @@ func (s *AtlasService) DescribeSolution(ctx context.Context, in *DescribeSolutio
 		in.SolutionId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -882,7 +881,7 @@ func (s *AtlasService) PublishSolution(ctx context.Context, in *PublishSolutionI
 		in.SolutionId = ""
 	}
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -899,7 +898,7 @@ func (s *AtlasService) UnpublishSolution(ctx context.Context, in *UnpublishSolut
 		in.SolutionId = ""
 	}
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -916,7 +915,7 @@ func (s *AtlasService) ApproveSolution(ctx context.Context, in *ApproveSolutionI
 		in.SolutionId = ""
 	}
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -933,7 +932,7 @@ func (s *AtlasService) RefuseSolution(ctx context.Context, in *RefuseSolutionInp
 		in.SolutionId = ""
 	}
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -944,7 +943,7 @@ func (s *AtlasService) CreateCategory(ctx context.Context, in *CreateCategoryInp
 	out := &CreateCategoryOutput{}
 	path := "/categories"
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -960,7 +959,7 @@ func (s *AtlasService) UpdateCategory(ctx context.Context, in *UpdateCategoryInp
 		in.CategoryId = ""
 	}
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -976,7 +975,7 @@ func (s *AtlasService) DeleteCategory(ctx context.Context, in *DeleteCategoryInp
 		in.CategoryId = ""
 	}
 
-	if err := s.invoke(ctx, "DELETE", path, in, out); err != nil {
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -987,7 +986,7 @@ func (s *AtlasService) ListCategories(ctx context.Context, in *ListCategoriesInp
 	out := &ListCategoriesOutput{}
 	path := "/categories"
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -1003,7 +1002,7 @@ func (s *AtlasService) DescribeCategory(ctx context.Context, in *DescribeCategor
 		in.CategoryId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -1020,7 +1019,7 @@ func (s *AtlasService) AssignCategory(ctx context.Context, in *AssignCategoryInp
 		in.ProblemId = ""
 	}
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -1037,7 +1036,7 @@ func (s *AtlasService) UnassignCategory(ctx context.Context, in *UnassignCategor
 		in.ProblemId = ""
 	}
 
-	if err := s.invoke(ctx, "DELETE", path, in, out); err != nil {
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -1053,7 +1052,7 @@ func (s *AtlasService) CreateSubmission(ctx context.Context, in *CreateSubmissio
 		in.ProblemId = ""
 	}
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -1070,7 +1069,7 @@ func (s *AtlasService) DescribeSubmission(ctx context.Context, in *DescribeSubmi
 		in.SubmissionId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -1087,7 +1086,7 @@ func (s *AtlasService) RetestSubmission(ctx context.Context, in *RetestSubmissio
 		in.SubmissionId = ""
 	}
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -1104,7 +1103,7 @@ func (s *AtlasService) DescribeScore(ctx context.Context, in *DescribeScoreInput
 		in.UserId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 

@@ -15,8 +15,17 @@ import (
 	os "os"
 )
 
-// NewKeeper constructs client for Keeper
-func NewKeeperService(url string, cli KeeperHTTPClient) *KeeperService {
+type _KeeperHttpClient interface {
+	Do(*http.Request) (*http.Response, error)
+}
+
+type KeeperService struct {
+	base string
+	cli  _KeeperHttpClient
+}
+
+// NewKeeperHttpClient constructs client for Keeper
+func NewKeeperHttpClient(url string, cli _KeeperHttpClient) *KeeperService {
 	if url == "" {
 		url = os.Getenv("EOLYMP_API_URL")
 		if url == "" {
@@ -27,17 +36,7 @@ func NewKeeperService(url string, cli KeeperHTTPClient) *KeeperService {
 	return &KeeperService{base: url, cli: cli}
 }
 
-type KeeperHTTPClient interface {
-	Do(*http.Request) (*http.Response, error)
-}
-
-type KeeperService struct {
-	base string
-	cli  KeeperHTTPClient
-}
-
-// invoke RPC method using twirp-like protocol
-func (s *KeeperService) invoke(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
+func (s *KeeperService) do(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
 	input := []byte("{}")
 
 	if in != nil {
@@ -93,7 +92,7 @@ func (s *KeeperService) CreateObject(ctx context.Context, in *CreateObjectInput)
 	out := &CreateObjectOutput{}
 	path := "/objects"
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -109,7 +108,7 @@ func (s *KeeperService) DescribeObject(ctx context.Context, in *DescribeObjectIn
 		in.Key = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -125,7 +124,7 @@ func (s *KeeperService) DownloadObject(ctx context.Context, in *DownloadObjectIn
 		in.Key = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 

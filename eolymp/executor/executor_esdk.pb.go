@@ -15,8 +15,17 @@ import (
 	os "os"
 )
 
-// NewExecutor constructs client for Executor
-func NewExecutorService(url string, cli ExecutorHTTPClient) *ExecutorService {
+type _ExecutorHttpClient interface {
+	Do(*http.Request) (*http.Response, error)
+}
+
+type ExecutorService struct {
+	base string
+	cli  _ExecutorHttpClient
+}
+
+// NewExecutorHttpClient constructs client for Executor
+func NewExecutorHttpClient(url string, cli _ExecutorHttpClient) *ExecutorService {
 	if url == "" {
 		url = os.Getenv("EOLYMP_API_URL")
 		if url == "" {
@@ -27,17 +36,7 @@ func NewExecutorService(url string, cli ExecutorHTTPClient) *ExecutorService {
 	return &ExecutorService{base: url, cli: cli}
 }
 
-type ExecutorHTTPClient interface {
-	Do(*http.Request) (*http.Response, error)
-}
-
-type ExecutorService struct {
-	base string
-	cli  ExecutorHTTPClient
-}
-
-// invoke RPC method using twirp-like protocol
-func (s *ExecutorService) invoke(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
+func (s *ExecutorService) do(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
 	input := []byte("{}")
 
 	if in != nil {
@@ -98,7 +97,7 @@ func (s *ExecutorService) DescribeLanguage(ctx context.Context, in *DescribeLang
 		in.LanguageId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -109,7 +108,7 @@ func (s *ExecutorService) ListLanguages(ctx context.Context, in *ListLanguagesIn
 	out := &ListLanguagesOutput{}
 	path := "/languages"
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -125,7 +124,7 @@ func (s *ExecutorService) DescribeRuntime(ctx context.Context, in *DescribeRunti
 		in.RuntimeId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -136,7 +135,7 @@ func (s *ExecutorService) ListRuntime(ctx context.Context, in *ListRuntimeInput)
 	out := &ListRuntimeOutput{}
 	path := "/runtime"
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -152,7 +151,7 @@ func (s *ExecutorService) DescribeCodeTemplate(ctx context.Context, in *Describe
 		in.RuntimeId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 

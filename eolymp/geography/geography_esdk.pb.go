@@ -15,8 +15,17 @@ import (
 	os "os"
 )
 
-// NewGeography constructs client for Geography
-func NewGeographyService(url string, cli GeographyHTTPClient) *GeographyService {
+type _GeographyHttpClient interface {
+	Do(*http.Request) (*http.Response, error)
+}
+
+type GeographyService struct {
+	base string
+	cli  _GeographyHttpClient
+}
+
+// NewGeographyHttpClient constructs client for Geography
+func NewGeographyHttpClient(url string, cli _GeographyHttpClient) *GeographyService {
 	if url == "" {
 		url = os.Getenv("EOLYMP_API_URL")
 		if url == "" {
@@ -27,17 +36,7 @@ func NewGeographyService(url string, cli GeographyHTTPClient) *GeographyService 
 	return &GeographyService{base: url, cli: cli}
 }
 
-type GeographyHTTPClient interface {
-	Do(*http.Request) (*http.Response, error)
-}
-
-type GeographyService struct {
-	base string
-	cli  GeographyHTTPClient
-}
-
-// invoke RPC method using twirp-like protocol
-func (s *GeographyService) invoke(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
+func (s *GeographyService) do(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
 	input := []byte("{}")
 
 	if in != nil {
@@ -98,7 +97,7 @@ func (s *GeographyService) DescribeCountry(ctx context.Context, in *DescribeCoun
 		in.CountryId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -109,7 +108,7 @@ func (s *GeographyService) ListCountries(ctx context.Context, in *ListCountriesI
 	out := &ListCountriesOutput{}
 	path := "/geography/countries"
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -125,7 +124,7 @@ func (s *GeographyService) DescribeRegion(ctx context.Context, in *DescribeRegio
 		in.RegionId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -141,7 +140,7 @@ func (s *GeographyService) ListRegions(ctx context.Context, in *ListRegionsInput
 		in.CountryId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 

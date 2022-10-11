@@ -15,8 +15,17 @@ import (
 	os "os"
 )
 
-// NewPlayground constructs client for Playground
-func NewPlaygroundService(url string, cli PlaygroundHTTPClient) *PlaygroundService {
+type _PlaygroundHttpClient interface {
+	Do(*http.Request) (*http.Response, error)
+}
+
+type PlaygroundService struct {
+	base string
+	cli  _PlaygroundHttpClient
+}
+
+// NewPlaygroundHttpClient constructs client for Playground
+func NewPlaygroundHttpClient(url string, cli _PlaygroundHttpClient) *PlaygroundService {
 	if url == "" {
 		url = os.Getenv("EOLYMP_API_URL")
 		if url == "" {
@@ -27,17 +36,7 @@ func NewPlaygroundService(url string, cli PlaygroundHTTPClient) *PlaygroundServi
 	return &PlaygroundService{base: url, cli: cli}
 }
 
-type PlaygroundHTTPClient interface {
-	Do(*http.Request) (*http.Response, error)
-}
-
-type PlaygroundService struct {
-	base string
-	cli  PlaygroundHTTPClient
-}
-
-// invoke RPC method using twirp-like protocol
-func (s *PlaygroundService) invoke(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
+func (s *PlaygroundService) do(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
 	input := []byte("{}")
 
 	if in != nil {
@@ -93,7 +92,7 @@ func (s *PlaygroundService) CreateRun(ctx context.Context, in *CreateRunInput) (
 	out := &CreateRunOutput{}
 	path := "/playground/runs"
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -109,7 +108,7 @@ func (s *PlaygroundService) DescribeRun(ctx context.Context, in *DescribeRunInpu
 		in.RunId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 

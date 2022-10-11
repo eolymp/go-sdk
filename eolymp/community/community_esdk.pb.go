@@ -15,8 +15,17 @@ import (
 	os "os"
 )
 
-// NewCommunity constructs client for Community
-func NewCommunityService(url string, cli CommunityHTTPClient) *CommunityService {
+type _CommunityHttpClient interface {
+	Do(*http.Request) (*http.Response, error)
+}
+
+type CommunityService struct {
+	base string
+	cli  _CommunityHttpClient
+}
+
+// NewCommunityHttpClient constructs client for Community
+func NewCommunityHttpClient(url string, cli _CommunityHttpClient) *CommunityService {
 	if url == "" {
 		url = os.Getenv("EOLYMP_API_URL")
 		if url == "" {
@@ -27,17 +36,7 @@ func NewCommunityService(url string, cli CommunityHTTPClient) *CommunityService 
 	return &CommunityService{base: url, cli: cli}
 }
 
-type CommunityHTTPClient interface {
-	Do(*http.Request) (*http.Response, error)
-}
-
-type CommunityService struct {
-	base string
-	cli  CommunityHTTPClient
-}
-
-// invoke RPC method using twirp-like protocol
-func (s *CommunityService) invoke(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
+func (s *CommunityService) do(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
 	input := []byte("{}")
 
 	if in != nil {
@@ -93,7 +92,7 @@ func (s *CommunityService) JoinSpace(ctx context.Context, in *JoinSpaceInput) (*
 	out := &JoinSpaceOutput{}
 	path := "/members/_self"
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -104,7 +103,7 @@ func (s *CommunityService) LeaveSpace(ctx context.Context, in *LeaveSpaceInput) 
 	out := &LeaveSpaceOutput{}
 	path := "/members/_self"
 
-	if err := s.invoke(ctx, "DELETE", path, in, out); err != nil {
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -115,7 +114,7 @@ func (s *CommunityService) RegisterMember(ctx context.Context, in *RegisterMembe
 	out := &RegisterMemberOutput{}
 	path := "/members/_self/attributes"
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -126,7 +125,7 @@ func (s *CommunityService) IntrospectMember(ctx context.Context, in *IntrospectM
 	out := &IntrospectMemberOutput{}
 	path := "/members/_self"
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -137,7 +136,7 @@ func (s *CommunityService) AddMember(ctx context.Context, in *AddMemberInput) (*
 	out := &AddMemberOutput{}
 	path := "/members"
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -153,7 +152,7 @@ func (s *CommunityService) UpdateMember(ctx context.Context, in *UpdateMemberInp
 		in.MemberId = ""
 	}
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -169,7 +168,7 @@ func (s *CommunityService) RemoveMember(ctx context.Context, in *RemoveMemberInp
 		in.MemberId = ""
 	}
 
-	if err := s.invoke(ctx, "DELETE", path, in, out); err != nil {
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -185,7 +184,7 @@ func (s *CommunityService) DescribeMember(ctx context.Context, in *DescribeMembe
 		in.MemberId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -196,7 +195,7 @@ func (s *CommunityService) ListMembers(ctx context.Context, in *ListMembersInput
 	out := &ListMembersOutput{}
 	path := "/members"
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -207,7 +206,7 @@ func (s *CommunityService) AddAttribute(ctx context.Context, in *AddAttributeInp
 	out := &AddAttributeOutput{}
 	path := "/attributes"
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -223,7 +222,7 @@ func (s *CommunityService) UpdateAttribute(ctx context.Context, in *UpdateAttrib
 		in.AttributeKey = ""
 	}
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -239,7 +238,7 @@ func (s *CommunityService) RemoveAttribute(ctx context.Context, in *RemoveAttrib
 		in.AttributeKey = ""
 	}
 
-	if err := s.invoke(ctx, "DELETE", path, in, out); err != nil {
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -255,7 +254,7 @@ func (s *CommunityService) DescribeAttribute(ctx context.Context, in *DescribeAt
 		in.AttributeKey = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -266,7 +265,7 @@ func (s *CommunityService) ListAttributes(ctx context.Context, in *ListAttribute
 	out := &ListAttributesOutput{}
 	path := "/attributes"
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 

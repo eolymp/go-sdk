@@ -15,8 +15,17 @@ import (
 	os "os"
 )
 
-// NewCognito constructs client for Cognito
-func NewCognitoService(url string, cli CognitoHTTPClient) *CognitoService {
+type _CognitoHttpClient interface {
+	Do(*http.Request) (*http.Response, error)
+}
+
+type CognitoService struct {
+	base string
+	cli  _CognitoHttpClient
+}
+
+// NewCognitoHttpClient constructs client for Cognito
+func NewCognitoHttpClient(url string, cli _CognitoHttpClient) *CognitoService {
 	if url == "" {
 		url = os.Getenv("EOLYMP_API_URL")
 		if url == "" {
@@ -27,17 +36,7 @@ func NewCognitoService(url string, cli CognitoHTTPClient) *CognitoService {
 	return &CognitoService{base: url, cli: cli}
 }
 
-type CognitoHTTPClient interface {
-	Do(*http.Request) (*http.Response, error)
-}
-
-type CognitoService struct {
-	base string
-	cli  CognitoHTTPClient
-}
-
-// invoke RPC method using twirp-like protocol
-func (s *CognitoService) invoke(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
+func (s *CognitoService) do(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
 	input := []byte("{}")
 
 	if in != nil {
@@ -93,7 +92,7 @@ func (s *CognitoService) CreateAccessKey(ctx context.Context, in *CreateAccessKe
 	out := &CreateAccessKeyOutput{}
 	path := "/access-keys"
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -109,7 +108,7 @@ func (s *CognitoService) DeleteAccessKey(ctx context.Context, in *DeleteAccessKe
 		in.KeyId = ""
 	}
 
-	if err := s.invoke(ctx, "DELETE", path, in, out); err != nil {
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -120,7 +119,7 @@ func (s *CognitoService) ListAccessKeys(ctx context.Context, in *ListAccessKeysI
 	out := &ListAccessKeysOutput{}
 	path := "/access-keys"
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -131,7 +130,7 @@ func (s *CognitoService) CreateUser(ctx context.Context, in *CreateUserInput) (*
 	out := &CreateUserOutput{}
 	path := "/users"
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -147,7 +146,7 @@ func (s *CognitoService) VerifyEmail(ctx context.Context, in *VerifyEmailInput) 
 		in.UserId = ""
 	}
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -158,7 +157,7 @@ func (s *CognitoService) UpdateEmail(ctx context.Context, in *UpdateEmailInput) 
 	out := &UpdateEmailOutput{}
 	path := "/self/email"
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -169,7 +168,7 @@ func (s *CognitoService) UpdateProfile(ctx context.Context, in *UpdateProfileInp
 	out := &UpdateProfileOutput{}
 	path := "/self"
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -180,7 +179,7 @@ func (s *CognitoService) UpdatePicture(ctx context.Context, in *UpdatePictureInp
 	out := &UpdatePictureOutput{}
 	path := "/self/picture"
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -191,7 +190,7 @@ func (s *CognitoService) UpdatePassword(ctx context.Context, in *UpdatePasswordI
 	out := &UpdatePasswordOutput{}
 	path := "/self/password"
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -202,7 +201,7 @@ func (s *CognitoService) StartRecovery(ctx context.Context, in *StartRecoveryInp
 	out := &StartRecoveryOutput{}
 	path := "/self/recovery"
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -218,7 +217,7 @@ func (s *CognitoService) CompleteRecovery(ctx context.Context, in *CompleteRecov
 		in.UserId = ""
 	}
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -229,7 +228,7 @@ func (s *CognitoService) IntrospectUser(ctx context.Context, in *IntrospectUserI
 	out := &IntrospectUserOutput{}
 	path := "/self"
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -245,7 +244,7 @@ func (s *CognitoService) DescribeUser(ctx context.Context, in *DescribeUserInput
 		in.UserId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -256,7 +255,7 @@ func (s *CognitoService) ListUsers(ctx context.Context, in *ListUsersInput) (*Li
 	out := &ListUsersOutput{}
 	path := "/users"
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -267,7 +266,7 @@ func (s *CognitoService) IntrospectQuota(ctx context.Context, in *IntrospectQuot
 	out := &IntrospectQuotaOutput{}
 	path := "/self/quota"
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -278,7 +277,7 @@ func (s *CognitoService) IntrospectRoles(ctx context.Context, in *IntrospectRole
 	out := &IntrospectRolesOutput{}
 	path := "/self/roles"
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -294,7 +293,7 @@ func (s *CognitoService) ListRoles(ctx context.Context, in *ListRolesInput) (*Li
 		in.UserId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -310,7 +309,7 @@ func (s *CognitoService) UpdateRoles(ctx context.Context, in *UpdateRolesInput) 
 		in.UserId = ""
 	}
 
-	if err := s.invoke(ctx, "PUT", path, in, out); err != nil {
+	if err := s.do(ctx, "PUT", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -321,7 +320,7 @@ func (s *CognitoService) ListEntitlements(ctx context.Context, in *ListEntitleme
 	out := &ListEntitlementsOutput{}
 	path := "/__cognito/entitlements"
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -332,7 +331,7 @@ func (s *CognitoService) SelfDestruct(ctx context.Context, in *SelfDestructInput
 	out := &SelfDestructOutput{}
 	path := "/self"
 
-	if err := s.invoke(ctx, "DELETE", path, in, out); err != nil {
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 

@@ -15,8 +15,17 @@ import (
 	os "os"
 )
 
-// NewWorkspace constructs client for Workspace
-func NewWorkspaceService(url string, cli WorkspaceHTTPClient) *WorkspaceService {
+type _WorkspaceHttpClient interface {
+	Do(*http.Request) (*http.Response, error)
+}
+
+type WorkspaceService struct {
+	base string
+	cli  _WorkspaceHttpClient
+}
+
+// NewWorkspaceHttpClient constructs client for Workspace
+func NewWorkspaceHttpClient(url string, cli _WorkspaceHttpClient) *WorkspaceService {
 	if url == "" {
 		url = os.Getenv("EOLYMP_API_URL")
 		if url == "" {
@@ -27,17 +36,7 @@ func NewWorkspaceService(url string, cli WorkspaceHTTPClient) *WorkspaceService 
 	return &WorkspaceService{base: url, cli: cli}
 }
 
-type WorkspaceHTTPClient interface {
-	Do(*http.Request) (*http.Response, error)
-}
-
-type WorkspaceService struct {
-	base string
-	cli  WorkspaceHTTPClient
-}
-
-// invoke RPC method using twirp-like protocol
-func (s *WorkspaceService) invoke(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
+func (s *WorkspaceService) do(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
 	input := []byte("{}")
 
 	if in != nil {
@@ -98,7 +97,7 @@ func (s *WorkspaceService) DescribeProject(ctx context.Context, in *DescribeProj
 		in.ProjectId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -109,7 +108,7 @@ func (s *WorkspaceService) ListProjects(ctx context.Context, in *ListProjectsInp
 	out := &ListProjectsOutput{}
 	path := "/workspace/projects"
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -120,7 +119,7 @@ func (s *WorkspaceService) CreateProject(ctx context.Context, in *CreateProjectI
 	out := &CreateProjectOutput{}
 	path := "/workspace/projects"
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -136,7 +135,7 @@ func (s *WorkspaceService) UpdateProject(ctx context.Context, in *UpdateProjectI
 		in.ProjectId = ""
 	}
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -152,7 +151,7 @@ func (s *WorkspaceService) DeleteProject(ctx context.Context, in *DeleteProjectI
 		in.ProjectId = ""
 	}
 
-	if err := s.invoke(ctx, "DELETE", path, in, out); err != nil {
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -168,7 +167,7 @@ func (s *WorkspaceService) ListFiles(ctx context.Context, in *ListFilesInput) (*
 		in.ProjectId = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -185,7 +184,7 @@ func (s *WorkspaceService) DescribeFile(ctx context.Context, in *DescribeFileInp
 		in.Name = ""
 	}
 
-	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -201,7 +200,7 @@ func (s *WorkspaceService) UploadFile(ctx context.Context, in *UploadFileInput) 
 		in.ProjectId = ""
 	}
 
-	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -218,7 +217,7 @@ func (s *WorkspaceService) RemoveFile(ctx context.Context, in *RemoveFileInput) 
 		in.Name = ""
 	}
 
-	if err := s.invoke(ctx, "DELETE", path, in, out); err != nil {
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 
