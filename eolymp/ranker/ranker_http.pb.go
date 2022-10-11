@@ -123,26 +123,26 @@ func NewRankerHandler(srv RankerServer) http.Handler {
 }
 
 // RankerPrefix defines prefix for routes of this service
-const RankerPrefix = "/ranker"
+const RankerPrefix = ""
 
 // NewRankerHandlerHttp constructs new http.Handler for RankerServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func NewRankerHandlerHttp(srv RankerServer, prefix string) http.Handler {
 	router := mux.NewRouter()
-	router.Handle(prefix+"/ranker/ranker/scoreboards", _Ranker_CreateScoreboard_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/ranker/ranker/scoreboards/{scoreboard_id}", _Ranker_UpdateScoreboard_Rule0(srv)).Methods("PUT")
-	router.Handle(prefix+"/ranker/ranker/scoreboards/{scoreboard_id}/rebuild", _Ranker_RebuildScoreboard_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/ranker/ranker/scoreboards/{scoreboard_id}", _Ranker_DeleteScoreboard_Rule0(srv)).Methods("DELETE")
-	router.Handle(prefix+"/ranker/ranker/scoreboards/{scoreboard_id}", _Ranker_DescribeScoreboard_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/ranker/ranker/scoreboard-lookup/{scoreboard_key}", _Ranker_DescribeScoreboard_Rule1(srv)).Methods("GET")
-	router.Handle(prefix+"/ranker/ranker/scoreboards", _Ranker_ListScoreboards_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/ranker/ranker/scoreboards/{scoreboard_id}/rows/{member_id}", _Ranker_DescribeScoreboardRow_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/ranker/ranker/scoreboards/{scoreboard_id}/rows", _Ranker_ListScoreboardRows_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/ranker/ranker/scoreboards/{scoreboard_id}/columns", _Ranker_AddScoreboardColumn_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/ranker/ranker/columns/{column_id}", _Ranker_DeleteScoreboardColumn_Rule0(srv)).Methods("DELETE")
-	router.Handle(prefix+"/ranker/ranker/columns/{column_id}", _Ranker_DescribeScoreboardColumn_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/ranker/ranker/scoreboards/{scoreboard_id}/columns", _Ranker_ListScoreboardColumns_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/ranker/ranker/scoreboards/{scoreboard_id}/activities", _Ranker_ListActivities_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/ranker/scoreboards", _Ranker_CreateScoreboard_Rule0(srv)).Methods("POST")
+	router.Handle(prefix+"/ranker/scoreboards/{scoreboard_id}", _Ranker_UpdateScoreboard_Rule0(srv)).Methods("PUT")
+	router.Handle(prefix+"/ranker/scoreboards/{scoreboard_id}/rebuild", _Ranker_RebuildScoreboard_Rule0(srv)).Methods("POST")
+	router.Handle(prefix+"/ranker/scoreboards/{scoreboard_id}", _Ranker_DeleteScoreboard_Rule0(srv)).Methods("DELETE")
+	router.Handle(prefix+"/ranker/scoreboards/{scoreboard_id}", _Ranker_DescribeScoreboard_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/ranker/scoreboard-lookup/{scoreboard_key}", _Ranker_DescribeScoreboard_Rule1(srv)).Methods("GET")
+	router.Handle(prefix+"/ranker/scoreboards", _Ranker_ListScoreboards_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/ranker/scoreboards/{scoreboard_id}/rows/{member_id}", _Ranker_DescribeScoreboardRow_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/ranker/scoreboards/{scoreboard_id}/rows", _Ranker_ListScoreboardRows_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/ranker/scoreboards/{scoreboard_id}/columns", _Ranker_AddScoreboardColumn_Rule0(srv)).Methods("POST")
+	router.Handle(prefix+"/ranker/columns/{column_id}", _Ranker_DeleteScoreboardColumn_Rule0(srv)).Methods("DELETE")
+	router.Handle(prefix+"/ranker/columns/{column_id}", _Ranker_DescribeScoreboardColumn_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/ranker/scoreboards/{scoreboard_id}/columns", _Ranker_ListScoreboardColumns_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/ranker/scoreboards/{scoreboard_id}/activities", _Ranker_ListActivities_Rule0(srv)).Methods("GET")
 	return router
 }
 

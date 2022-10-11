@@ -119,7 +119,7 @@ func NewWorkspaceHandler(srv WorkspaceServer) http.Handler {
 }
 
 // WorkspacePrefix defines prefix for routes of this service
-const WorkspacePrefix = "/workspace"
+const WorkspacePrefix = ""
 
 // NewWorkspaceHandlerHttp constructs new http.Handler for WorkspaceServer
 // This constructor creates http.Handler, the actual implementation might change at any moment

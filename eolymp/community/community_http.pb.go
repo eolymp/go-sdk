@@ -124,26 +124,26 @@ func NewCommunityHandler(srv CommunityServer) http.Handler {
 }
 
 // CommunityPrefix defines prefix for routes of this service
-const CommunityPrefix = "/community"
+const CommunityPrefix = ""
 
 // NewCommunityHandlerHttp constructs new http.Handler for CommunityServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func NewCommunityHandlerHttp(srv CommunityServer, prefix string) http.Handler {
 	router := mux.NewRouter()
-	router.Handle(prefix+"/community/_self", _Community_JoinSpace_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/community/_self", _Community_LeaveSpace_Rule0(srv)).Methods("DELETE")
-	router.Handle(prefix+"/community/_self/attributes", _Community_RegisterMember_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/community/_self", _Community_IntrospectMember_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/community/members", _Community_AddMember_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/community/members/{member_id}", _Community_UpdateMember_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/community/members/{member_id}", _Community_RemoveMember_Rule0(srv)).Methods("DELETE")
-	router.Handle(prefix+"/community/members/{member_id}", _Community_DescribeMember_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/community/members", _Community_ListMembers_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/community/attributes", _Community_AddAttribute_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/community/attributes/{attribute_key}", _Community_UpdateAttribute_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/community/attributes/{attribute_key}", _Community_RemoveAttribute_Rule0(srv)).Methods("DELETE")
-	router.Handle(prefix+"/community/attributes/{attribute_key}", _Community_DescribeAttribute_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/community/attributes", _Community_ListAttributes_Rule0(srv)).Methods("POST")
+	router.Handle(prefix+"/members/_self", _Community_JoinSpace_Rule0(srv)).Methods("POST")
+	router.Handle(prefix+"/members/_self", _Community_LeaveSpace_Rule0(srv)).Methods("DELETE")
+	router.Handle(prefix+"/members/_self/attributes", _Community_RegisterMember_Rule0(srv)).Methods("POST")
+	router.Handle(prefix+"/members/_self", _Community_IntrospectMember_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/members", _Community_AddMember_Rule0(srv)).Methods("POST")
+	router.Handle(prefix+"/members/{member_id}", _Community_UpdateMember_Rule0(srv)).Methods("POST")
+	router.Handle(prefix+"/members/{member_id}", _Community_RemoveMember_Rule0(srv)).Methods("DELETE")
+	router.Handle(prefix+"/members/{member_id}", _Community_DescribeMember_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/members", _Community_ListMembers_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/attributes", _Community_AddAttribute_Rule0(srv)).Methods("POST")
+	router.Handle(prefix+"/attributes/{attribute_key}", _Community_UpdateAttribute_Rule0(srv)).Methods("POST")
+	router.Handle(prefix+"/attributes/{attribute_key}", _Community_RemoveAttribute_Rule0(srv)).Methods("DELETE")
+	router.Handle(prefix+"/attributes/{attribute_key}", _Community_DescribeAttribute_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/attributes", _Community_ListAttributes_Rule0(srv)).Methods("POST")
 	return router
 }
 

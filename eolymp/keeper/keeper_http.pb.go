@@ -113,7 +113,7 @@ func NewKeeperHandler(srv KeeperServer) http.Handler {
 }
 
 // KeeperPrefix defines prefix for routes of this service
-const KeeperPrefix = "/keeper"
+const KeeperPrefix = ""
 
 // NewKeeperHandlerHttp constructs new http.Handler for KeeperServer
 // This constructor creates http.Handler, the actual implementation might change at any moment

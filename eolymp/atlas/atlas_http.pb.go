@@ -173,7 +173,7 @@ func NewAtlasHandler(srv AtlasServer) http.Handler {
 }
 
 // AtlasPrefix defines prefix for routes of this service
-const AtlasPrefix = "/problems"
+const AtlasPrefix = ""
 
 // NewAtlasHandlerHttp constructs new http.Handler for AtlasServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
@@ -231,13 +231,13 @@ func NewAtlasHandlerHttp(srv AtlasServer, prefix string) http.Handler {
 	router.Handle(prefix+"/problems/{problem_id}/solutions/{solution_id}/unpublish", _Atlas_UnpublishSolution_Rule0(srv)).Methods("POST")
 	router.Handle(prefix+"/problems/{problem_id}/solutions/{solution_id}/approve", _Atlas_ApproveSolution_Rule0(srv)).Methods("POST")
 	router.Handle(prefix+"/problems/{problem_id}/solutions/{solution_id}/refuse", _Atlas_RefuseSolution_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/problems/__categories", _Atlas_CreateCategory_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/problems/__categories/{category_id}", _Atlas_UpdateCategory_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/problems/__categories/{category_id}", _Atlas_DeleteCategory_Rule0(srv)).Methods("DELETE")
-	router.Handle(prefix+"/problems/__categories", _Atlas_ListCategories_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/problems/__categories/{category_id}", _Atlas_DescribeCategory_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/problems/__categories/{category_id}/problems/{problem_id}", _Atlas_AssignCategory_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/problems/__categories/{category_id}/problems/{problem_id}", _Atlas_UnassignCategory_Rule0(srv)).Methods("DELETE")
+	router.Handle(prefix+"/categories", _Atlas_CreateCategory_Rule0(srv)).Methods("POST")
+	router.Handle(prefix+"/categories/{category_id}", _Atlas_UpdateCategory_Rule0(srv)).Methods("POST")
+	router.Handle(prefix+"/categories/{category_id}", _Atlas_DeleteCategory_Rule0(srv)).Methods("DELETE")
+	router.Handle(prefix+"/categories", _Atlas_ListCategories_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/categories/{category_id}", _Atlas_DescribeCategory_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/categories/{category_id}/problems/{problem_id}", _Atlas_AssignCategory_Rule0(srv)).Methods("POST")
+	router.Handle(prefix+"/categories/{category_id}/problems/{problem_id}", _Atlas_UnassignCategory_Rule0(srv)).Methods("DELETE")
 	router.Handle(prefix+"/problems/{problem_id}/submissions", _Atlas_CreateSubmission_Rule0(srv)).Methods("POST")
 	router.Handle(prefix+"/problems/{problem_id}/submissions/{submission_id}", _Atlas_DescribeSubmission_Rule0(srv)).Methods("GET")
 	router.Handle(prefix+"/problems/{problem_id}/submissions/{submission_id}/retest", _Atlas_RetestSubmission_Rule0(srv)).Methods("POST")

@@ -115,17 +115,17 @@ func NewExecutorHandler(srv ExecutorServer) http.Handler {
 }
 
 // ExecutorPrefix defines prefix for routes of this service
-const ExecutorPrefix = "/executor"
+const ExecutorPrefix = ""
 
 // NewExecutorHandlerHttp constructs new http.Handler for ExecutorServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func NewExecutorHandlerHttp(srv ExecutorServer, prefix string) http.Handler {
 	router := mux.NewRouter()
-	router.Handle(prefix+"/executor/executor/languages/{language_id}", _Executor_DescribeLanguage_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/executor/executor/languages", _Executor_ListLanguages_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/executor/executor/runtime/{runtime_id}", _Executor_DescribeRuntime_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/executor/executor/runtime", _Executor_ListRuntime_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/executor/executor/runtime/{runtime_id}/template", _Executor_DescribeCodeTemplate_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/executor/languages/{language_id}", _Executor_DescribeLanguage_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/executor/languages", _Executor_ListLanguages_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/executor/runtime/{runtime_id}", _Executor_DescribeRuntime_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/executor/runtime", _Executor_ListRuntime_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/executor/runtime/{runtime_id}/template", _Executor_DescribeCodeTemplate_Rule0(srv)).Methods("GET")
 	return router
 }
 
