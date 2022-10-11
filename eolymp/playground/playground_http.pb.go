@@ -198,7 +198,7 @@ func _Playground_DescribeRun_Rule0(srv PlaygroundServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.runId = vars["run_id"]
+		in.RunId = vars["run_id"]
 
 		out, err := srv.DescribeRun(r.Context(), in)
 		if err != nil {

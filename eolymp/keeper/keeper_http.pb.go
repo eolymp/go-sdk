@@ -223,7 +223,7 @@ func _Keeper_DescribeObject_Rule0(srv KeeperServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.key = vars["key"]
+		in.Key = vars["key"]
 
 		out, err := srv.DescribeObject(r.Context(), in)
 		if err != nil {
@@ -246,7 +246,7 @@ func _Keeper_DownloadObject_Rule0(srv KeeperServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.key = vars["key"]
+		in.Key = vars["key"]
 
 		out, err := srv.DownloadObject(r.Context(), in)
 		if err != nil {

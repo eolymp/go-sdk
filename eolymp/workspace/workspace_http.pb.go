@@ -353,7 +353,7 @@ func _Workspace_DescribeProject_Rule0(srv WorkspaceServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.projectId = vars["project_id"]
+		in.ProjectId = vars["project_id"]
 
 		out, err := srv.DescribeProject(r.Context(), in)
 		if err != nil {
@@ -416,7 +416,7 @@ func _Workspace_UpdateProject_Rule0(srv WorkspaceServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.projectId = vars["project_id"]
+		in.ProjectId = vars["project_id"]
 
 		out, err := srv.UpdateProject(r.Context(), in)
 		if err != nil {
@@ -439,7 +439,7 @@ func _Workspace_DeleteProject_Rule0(srv WorkspaceServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.projectId = vars["project_id"]
+		in.ProjectId = vars["project_id"]
 
 		out, err := srv.DeleteProject(r.Context(), in)
 		if err != nil {
@@ -462,7 +462,7 @@ func _Workspace_ListFiles_Rule0(srv WorkspaceServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.projectId = vars["project_id"]
+		in.ProjectId = vars["project_id"]
 
 		out, err := srv.ListFiles(r.Context(), in)
 		if err != nil {
@@ -485,8 +485,8 @@ func _Workspace_DescribeFile_Rule0(srv WorkspaceServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.projectId = vars["project_id"]
-		in.name = vars["name"]
+		in.ProjectId = vars["project_id"]
+		in.Name = vars["name"]
 
 		out, err := srv.DescribeFile(r.Context(), in)
 		if err != nil {
@@ -509,7 +509,7 @@ func _Workspace_UploadFile_Rule0(srv WorkspaceServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.projectId = vars["project_id"]
+		in.ProjectId = vars["project_id"]
 
 		out, err := srv.UploadFile(r.Context(), in)
 		if err != nil {
@@ -532,8 +532,8 @@ func _Workspace_RemoveFile_Rule0(srv WorkspaceServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.projectId = vars["project_id"]
-		in.name = vars["name"]
+		in.ProjectId = vars["project_id"]
+		in.Name = vars["name"]
 
 		out, err := srv.RemoveFile(r.Context(), in)
 		if err != nil {

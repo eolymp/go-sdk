@@ -328,7 +328,7 @@ func _Helpdesk_DescribeDocument_Rule0(srv HelpdeskServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.documentId = vars["document_id"]
+		in.DocumentId = vars["document_id"]
 
 		out, err := srv.DescribeDocument(r.Context(), in)
 		if err != nil {
@@ -391,7 +391,7 @@ func _Helpdesk_UpdateDocument_Rule0(srv HelpdeskServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.documentId = vars["document_id"]
+		in.DocumentId = vars["document_id"]
 
 		out, err := srv.UpdateDocument(r.Context(), in)
 		if err != nil {
@@ -414,7 +414,7 @@ func _Helpdesk_DeleteDocument_Rule0(srv HelpdeskServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.documentId = vars["document_id"]
+		in.DocumentId = vars["document_id"]
 
 		out, err := srv.DeleteDocument(r.Context(), in)
 		if err != nil {
@@ -437,7 +437,7 @@ func _Helpdesk_DescribePath_Rule0(srv HelpdeskServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.path = vars["path"]
+		in.Path = vars["path"]
 
 		out, err := srv.DescribePath(r.Context(), in)
 		if err != nil {
@@ -480,7 +480,7 @@ func _Helpdesk_ListParents_Rule0(srv HelpdeskServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.path = vars["path"]
+		in.Path = vars["path"]
 
 		out, err := srv.ListParents(r.Context(), in)
 		if err != nil {

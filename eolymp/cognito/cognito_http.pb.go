@@ -753,7 +753,7 @@ func _Cognito_DeleteAccessKey_Rule0(srv CognitoServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.keyId = vars["key_id"]
+		in.KeyId = vars["key_id"]
 
 		out, err := srv.DeleteAccessKey(r.Context(), in)
 		if err != nil {
@@ -816,7 +816,7 @@ func _Cognito_VerifyEmail_Rule0(srv CognitoServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.userId = vars["user_id"]
+		in.UserId = vars["user_id"]
 
 		out, err := srv.VerifyEmail(r.Context(), in)
 		if err != nil {
@@ -939,7 +939,7 @@ func _Cognito_CompleteRecovery_Rule0(srv CognitoServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.userId = vars["user_id"]
+		in.UserId = vars["user_id"]
 
 		out, err := srv.CompleteRecovery(r.Context(), in)
 		if err != nil {
@@ -982,7 +982,7 @@ func _Cognito_DescribeUser_Rule0(srv CognitoServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.userId = vars["user_id"]
+		in.UserId = vars["user_id"]
 
 		out, err := srv.DescribeUser(r.Context(), in)
 		if err != nil {
@@ -1065,7 +1065,7 @@ func _Cognito_ListRoles_Rule0(srv CognitoServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.userId = vars["user_id"]
+		in.UserId = vars["user_id"]
 
 		out, err := srv.ListRoles(r.Context(), in)
 		if err != nil {
@@ -1088,7 +1088,7 @@ func _Cognito_UpdateRoles_Rule0(srv CognitoServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.userId = vars["user_id"]
+		in.UserId = vars["user_id"]
 
 		out, err := srv.UpdateRoles(r.Context(), in)
 		if err != nil {

@@ -227,7 +227,7 @@ func _Geography_DescribeCountry_Rule0(srv GeographyServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.countryId = vars["country_id"]
+		in.CountryId = vars["country_id"]
 
 		out, err := srv.DescribeCountry(r.Context(), in)
 		if err != nil {
@@ -270,7 +270,7 @@ func _Geography_DescribeRegion_Rule0(srv GeographyServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.regionId = vars["region_id"]
+		in.RegionId = vars["region_id"]
 
 		out, err := srv.DescribeRegion(r.Context(), in)
 		if err != nil {
@@ -293,7 +293,7 @@ func _Geography_ListRegions_Rule0(srv GeographyServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.countryId = vars["country_id"]
+		in.CountryId = vars["country_id"]
 
 		out, err := srv.ListRegions(r.Context(), in)
 		if err != nil {

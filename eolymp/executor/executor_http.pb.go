@@ -253,7 +253,7 @@ func _Executor_DescribeLanguage_Rule0(srv ExecutorServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.languageId = vars["language_id"]
+		in.LanguageId = vars["language_id"]
 
 		out, err := srv.DescribeLanguage(r.Context(), in)
 		if err != nil {
@@ -296,7 +296,7 @@ func _Executor_DescribeRuntime_Rule0(srv ExecutorServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.runtimeId = vars["runtime_id"]
+		in.RuntimeId = vars["runtime_id"]
 
 		out, err := srv.DescribeRuntime(r.Context(), in)
 		if err != nil {
@@ -339,7 +339,7 @@ func _Executor_DescribeCodeTemplate_Rule0(srv ExecutorServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.runtimeId = vars["runtime_id"]
+		in.RuntimeId = vars["runtime_id"]
 
 		out, err := srv.DescribeCodeTemplate(r.Context(), in)
 		if err != nil {

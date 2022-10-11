@@ -1893,7 +1893,7 @@ func _Judge_DeleteContest_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.contestId = vars["contest_id"]
+		in.ContestId = vars["contest_id"]
 
 		out, err := srv.DeleteContest(r.Context(), in)
 		if err != nil {
@@ -1916,7 +1916,7 @@ func _Judge_UpdateContest_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.contestId = vars["contest_id"]
+		in.ContestId = vars["contest_id"]
 
 		out, err := srv.UpdateContest(r.Context(), in)
 		if err != nil {
@@ -1939,7 +1939,7 @@ func _Judge_DescribeContest_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.contestId = vars["contest_id"]
+		in.ContestId = vars["contest_id"]
 
 		out, err := srv.DescribeContest(r.Context(), in)
 		if err != nil {
@@ -1982,7 +1982,7 @@ func _Judge_OpenContest_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.contestId = vars["contest_id"]
+		in.ContestId = vars["contest_id"]
 
 		out, err := srv.OpenContest(r.Context(), in)
 		if err != nil {
@@ -2005,7 +2005,7 @@ func _Judge_CloseContest_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.contestId = vars["contest_id"]
+		in.ContestId = vars["contest_id"]
 
 		out, err := srv.CloseContest(r.Context(), in)
 		if err != nil {
@@ -2028,7 +2028,7 @@ func _Judge_ConfigureRuntime_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.contestId = vars["contest_id"]
+		in.ContestId = vars["contest_id"]
 
 		out, err := srv.ConfigureRuntime(r.Context(), in)
 		if err != nil {
@@ -2051,7 +2051,7 @@ func _Judge_DescribeRuntime_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.contestId = vars["contest_id"]
+		in.ContestId = vars["contest_id"]
 
 		out, err := srv.DescribeRuntime(r.Context(), in)
 		if err != nil {
@@ -2074,7 +2074,7 @@ func _Judge_ConfigureAppearance_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.contestId = vars["contest_id"]
+		in.ContestId = vars["contest_id"]
 
 		out, err := srv.ConfigureAppearance(r.Context(), in)
 		if err != nil {
@@ -2097,7 +2097,7 @@ func _Judge_DescribeAppearance_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.contestId = vars["contest_id"]
+		in.ContestId = vars["contest_id"]
 
 		out, err := srv.DescribeAppearance(r.Context(), in)
 		if err != nil {
@@ -2120,7 +2120,7 @@ func _Judge_ConfigureScoring_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.contestId = vars["contest_id"]
+		in.ContestId = vars["contest_id"]
 
 		out, err := srv.ConfigureScoring(r.Context(), in)
 		if err != nil {
@@ -2143,7 +2143,7 @@ func _Judge_DescribeScoring_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.contestId = vars["contest_id"]
+		in.ContestId = vars["contest_id"]
 
 		out, err := srv.DescribeScoring(r.Context(), in)
 		if err != nil {
@@ -2166,7 +2166,7 @@ func _Judge_ImportProblem_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.contestId = vars["contest_id"]
+		in.ContestId = vars["contest_id"]
 
 		out, err := srv.ImportProblem(r.Context(), in)
 		if err != nil {
@@ -2189,8 +2189,8 @@ func _Judge_SyncProblem_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.contestId = vars["contest_id"]
-		in.problemId = vars["problem_id"]
+		in.ContestId = vars["contest_id"]
+		in.ProblemId = vars["problem_id"]
 
 		out, err := srv.SyncProblem(r.Context(), in)
 		if err != nil {
@@ -2213,8 +2213,8 @@ func _Judge_UpdateProblem_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.contestId = vars["contest_id"]
-		in.problemId = vars["problem_id"]
+		in.ContestId = vars["contest_id"]
+		in.ProblemId = vars["problem_id"]
 
 		out, err := srv.UpdateProblem(r.Context(), in)
 		if err != nil {
@@ -2237,7 +2237,7 @@ func _Judge_ListProblems_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.contestId = vars["contest_id"]
+		in.ContestId = vars["contest_id"]
 
 		out, err := srv.ListProblems(r.Context(), in)
 		if err != nil {
@@ -2260,8 +2260,8 @@ func _Judge_DescribeProblem_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.contestId = vars["contest_id"]
-		in.problemId = vars["problem_id"]
+		in.ContestId = vars["contest_id"]
+		in.ProblemId = vars["problem_id"]
 
 		out, err := srv.DescribeProblem(r.Context(), in)
 		if err != nil {
@@ -2284,9 +2284,9 @@ func _Judge_DescribeCodeTemplate_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.contestId = vars["contest_id"]
-		in.problemId = vars["problem_id"]
-		in.templateId = vars["template_id"]
+		in.ContestId = vars["contest_id"]
+		in.ProblemId = vars["problem_id"]
+		in.TemplateId = vars["template_id"]
 
 		out, err := srv.DescribeCodeTemplate(r.Context(), in)
 		if err != nil {
@@ -2309,8 +2309,8 @@ func _Judge_LookupCodeTemplate_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.contestId = vars["contest_id"]
-		in.problemId = vars["problem_id"]
+		in.ContestId = vars["contest_id"]
+		in.ProblemId = vars["problem_id"]
 
 		out, err := srv.LookupCodeTemplate(r.Context(), in)
 		if err != nil {
@@ -2333,8 +2333,8 @@ func _Judge_ListStatements_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.contestId = vars["contest_id"]
-		in.problemId = vars["problem_id"]
+		in.ContestId = vars["contest_id"]
+		in.ProblemId = vars["problem_id"]
 
 		out, err := srv.ListStatements(r.Context(), in)
 		if err != nil {
@@ -2357,8 +2357,8 @@ func _Judge_ListAttachments_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.contestId = vars["contest_id"]
-		in.problemId = vars["problem_id"]
+		in.ContestId = vars["contest_id"]
+		in.ProblemId = vars["problem_id"]
 
 		out, err := srv.ListAttachments(r.Context(), in)
 		if err != nil {
@@ -2381,8 +2381,8 @@ func _Judge_ListExamples_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.contestId = vars["contest_id"]
-		in.problemId = vars["problem_id"]
+		in.ContestId = vars["contest_id"]
+		in.ProblemId = vars["problem_id"]
 
 		out, err := srv.ListExamples(r.Context(), in)
 		if err != nil {
@@ -2405,8 +2405,8 @@ func _Judge_DeleteProblem_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.contestId = vars["contest_id"]
-		in.problemId = vars["problem_id"]
+		in.ContestId = vars["contest_id"]
+		in.ProblemId = vars["problem_id"]
 
 		out, err := srv.DeleteProblem(r.Context(), in)
 		if err != nil {
@@ -2429,8 +2429,8 @@ func _Judge_RetestProblem_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.contestId = vars["contest_id"]
-		in.problemId = vars["problem_id"]
+		in.ContestId = vars["contest_id"]
+		in.ProblemId = vars["problem_id"]
 
 		out, err := srv.RetestProblem(r.Context(), in)
 		if err != nil {
@@ -2453,7 +2453,7 @@ func _Judge_AddParticipant_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.contestId = vars["contest_id"]
+		in.ContestId = vars["contest_id"]
 
 		out, err := srv.AddParticipant(r.Context(), in)
 		if err != nil {
@@ -2476,8 +2476,8 @@ func _Judge_EnableParticipant_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.contestId = vars["contest_id"]
-		in.participantId = vars["participant_id"]
+		in.ContestId = vars["contest_id"]
+		in.ParticipantId = vars["participant_id"]
 
 		out, err := srv.EnableParticipant(r.Context(), in)
 		if err != nil {
@@ -2500,8 +2500,8 @@ func _Judge_DisableParticipant_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.contestId = vars["contest_id"]
-		in.participantId = vars["participant_id"]
+		in.ContestId = vars["contest_id"]
+		in.ParticipantId = vars["participant_id"]
 
 		out, err := srv.DisableParticipant(r.Context(), in)
 		if err != nil {
@@ -2524,8 +2524,8 @@ func _Judge_UpdateParticipant_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.contestId = vars["contest_id"]
-		in.participantId = vars["participant_id"]
+		in.ContestId = vars["contest_id"]
+		in.ParticipantId = vars["participant_id"]
 
 		out, err := srv.UpdateParticipant(r.Context(), in)
 		if err != nil {
@@ -2548,8 +2548,8 @@ func _Judge_RemoveParticipant_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.contestId = vars["contest_id"]
-		in.participantId = vars["participant_id"]
+		in.ContestId = vars["contest_id"]
+		in.ParticipantId = vars["participant_id"]
 
 		out, err := srv.RemoveParticipant(r.Context(), in)
 		if err != nil {
@@ -2572,7 +2572,7 @@ func _Judge_ListParticipants_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.contestId = vars["contest_id"]
+		in.ContestId = vars["contest_id"]
 
 		out, err := srv.ListParticipants(r.Context(), in)
 		if err != nil {
@@ -2595,8 +2595,8 @@ func _Judge_DescribeParticipant_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.contestId = vars["contest_id"]
-		in.participantId = vars["participant_id"]
+		in.ContestId = vars["contest_id"]
+		in.ParticipantId = vars["participant_id"]
 
 		out, err := srv.DescribeParticipant(r.Context(), in)
 		if err != nil {
@@ -2619,7 +2619,7 @@ func _Judge_IntrospectParticipant_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.contestId = vars["contest_id"]
+		in.ContestId = vars["contest_id"]
 
 		out, err := srv.IntrospectParticipant(r.Context(), in)
 		if err != nil {
@@ -2642,7 +2642,7 @@ func _Judge_JoinContest_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.contestId = vars["contest_id"]
+		in.ContestId = vars["contest_id"]
 
 		out, err := srv.JoinContest(r.Context(), in)
 		if err != nil {
@@ -2665,7 +2665,7 @@ func _Judge_StartContest_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.contestId = vars["contest_id"]
+		in.ContestId = vars["contest_id"]
 
 		out, err := srv.StartContest(r.Context(), in)
 		if err != nil {
@@ -2688,7 +2688,7 @@ func _Judge_VerifyPasscode_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.contestId = vars["contest_id"]
+		in.ContestId = vars["contest_id"]
 
 		out, err := srv.VerifyPasscode(r.Context(), in)
 		if err != nil {
@@ -2711,7 +2711,7 @@ func _Judge_EnterPasscode_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.contestId = vars["contest_id"]
+		in.ContestId = vars["contest_id"]
 
 		out, err := srv.EnterPasscode(r.Context(), in)
 		if err != nil {
@@ -2734,8 +2734,8 @@ func _Judge_ResetPasscode_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.contestId = vars["contest_id"]
-		in.participantId = vars["participant_id"]
+		in.ContestId = vars["contest_id"]
+		in.ParticipantId = vars["participant_id"]
 
 		out, err := srv.ResetPasscode(r.Context(), in)
 		if err != nil {
@@ -2758,8 +2758,8 @@ func _Judge_RemovePasscode_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.contestId = vars["contest_id"]
-		in.participantId = vars["participant_id"]
+		in.ContestId = vars["contest_id"]
+		in.ParticipantId = vars["participant_id"]
 
 		out, err := srv.RemovePasscode(r.Context(), in)
 		if err != nil {
@@ -2782,8 +2782,8 @@ func _Judge_CreateSubmission_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.contestId = vars["contest_id"]
-		in.problemId = vars["problem_id"]
+		in.ContestId = vars["contest_id"]
+		in.ProblemId = vars["problem_id"]
 
 		out, err := srv.CreateSubmission(r.Context(), in)
 		if err != nil {
@@ -2806,7 +2806,7 @@ func _Judge_ListSubmissions_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.contestId = vars["contest_id"]
+		in.ContestId = vars["contest_id"]
 
 		out, err := srv.ListSubmissions(r.Context(), in)
 		if err != nil {
@@ -2829,8 +2829,8 @@ func _Judge_DescribeSubmission_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.contestId = vars["contest_id"]
-		in.submissionId = vars["submission_id"]
+		in.ContestId = vars["contest_id"]
+		in.SubmissionId = vars["submission_id"]
 
 		out, err := srv.DescribeSubmission(r.Context(), in)
 		if err != nil {
@@ -2853,8 +2853,8 @@ func _Judge_RetestSubmission_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.contestId = vars["contest_id"]
-		in.submissionId = vars["submission_id"]
+		in.ContestId = vars["contest_id"]
+		in.SubmissionId = vars["submission_id"]
 
 		out, err := srv.RetestSubmission(r.Context(), in)
 		if err != nil {
@@ -2877,7 +2877,7 @@ func _Judge_CreateTicket_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.contestId = vars["contest_id"]
+		in.ContestId = vars["contest_id"]
 
 		out, err := srv.CreateTicket(r.Context(), in)
 		if err != nil {
@@ -2900,7 +2900,7 @@ func _Judge_CloseTicket_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.ticketId = vars["ticket_id"]
+		in.TicketId = vars["ticket_id"]
 
 		out, err := srv.CloseTicket(r.Context(), in)
 		if err != nil {
@@ -2923,7 +2923,7 @@ func _Judge_OpenTicket_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.ticketId = vars["ticket_id"]
+		in.TicketId = vars["ticket_id"]
 
 		out, err := srv.OpenTicket(r.Context(), in)
 		if err != nil {
@@ -2946,7 +2946,7 @@ func _Judge_ReadTicket_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.ticketId = vars["ticket_id"]
+		in.TicketId = vars["ticket_id"]
 
 		out, err := srv.ReadTicket(r.Context(), in)
 		if err != nil {
@@ -2969,7 +2969,7 @@ func _Judge_DeleteTicket_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.ticketId = vars["ticket_id"]
+		in.TicketId = vars["ticket_id"]
 
 		out, err := srv.DeleteTicket(r.Context(), in)
 		if err != nil {
@@ -2992,7 +2992,7 @@ func _Judge_DescribeTicket_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.ticketId = vars["ticket_id"]
+		in.TicketId = vars["ticket_id"]
 
 		out, err := srv.DescribeTicket(r.Context(), in)
 		if err != nil {
@@ -3035,7 +3035,7 @@ func _Judge_ReplyTicket_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.ticketId = vars["ticket_id"]
+		in.TicketId = vars["ticket_id"]
 
 		out, err := srv.ReplyTicket(r.Context(), in)
 		if err != nil {
@@ -3058,7 +3058,7 @@ func _Judge_ListReplies_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.ticketId = vars["ticket_id"]
+		in.TicketId = vars["ticket_id"]
 
 		out, err := srv.ListReplies(r.Context(), in)
 		if err != nil {
@@ -3081,8 +3081,8 @@ func _Judge_DeleteReply_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.ticketId = vars["ticket_id"]
-		in.replyId = vars["reply_id"]
+		in.TicketId = vars["ticket_id"]
+		in.ReplyId = vars["reply_id"]
 
 		out, err := srv.DeleteReply(r.Context(), in)
 		if err != nil {
@@ -3105,8 +3105,8 @@ func _Judge_UpdateReply_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.ticketId = vars["ticket_id"]
-		in.replyId = vars["reply_id"]
+		in.TicketId = vars["ticket_id"]
+		in.ReplyId = vars["reply_id"]
 
 		out, err := srv.UpdateReply(r.Context(), in)
 		if err != nil {
@@ -3129,7 +3129,7 @@ func _Judge_CreateAnnouncement_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.contestId = vars["contest_id"]
+		in.ContestId = vars["contest_id"]
 
 		out, err := srv.CreateAnnouncement(r.Context(), in)
 		if err != nil {
@@ -3152,8 +3152,8 @@ func _Judge_UpdateAnnouncement_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.contestId = vars["contest_id"]
-		in.announcementId = vars["announcement_id"]
+		in.ContestId = vars["contest_id"]
+		in.AnnouncementId = vars["announcement_id"]
 
 		out, err := srv.UpdateAnnouncement(r.Context(), in)
 		if err != nil {
@@ -3176,8 +3176,8 @@ func _Judge_DeleteAnnouncement_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.contestId = vars["contest_id"]
-		in.announcementId = vars["announcement_id"]
+		in.ContestId = vars["contest_id"]
+		in.AnnouncementId = vars["announcement_id"]
 
 		out, err := srv.DeleteAnnouncement(r.Context(), in)
 		if err != nil {
@@ -3200,8 +3200,8 @@ func _Judge_ReadAnnouncement_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.contestId = vars["contest_id"]
-		in.announcementId = vars["announcement_id"]
+		in.ContestId = vars["contest_id"]
+		in.AnnouncementId = vars["announcement_id"]
 
 		out, err := srv.ReadAnnouncement(r.Context(), in)
 		if err != nil {
@@ -3224,8 +3224,8 @@ func _Judge_DescribeAnnouncement_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.contestId = vars["contest_id"]
-		in.announcementId = vars["announcement_id"]
+		in.ContestId = vars["contest_id"]
+		in.AnnouncementId = vars["announcement_id"]
 
 		out, err := srv.DescribeAnnouncement(r.Context(), in)
 		if err != nil {
@@ -3248,8 +3248,8 @@ func _Judge_DescribeAnnouncementStatus_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.contestId = vars["contest_id"]
-		in.announcementId = vars["announcement_id"]
+		in.ContestId = vars["contest_id"]
+		in.AnnouncementId = vars["announcement_id"]
 
 		out, err := srv.DescribeAnnouncementStatus(r.Context(), in)
 		if err != nil {
@@ -3272,7 +3272,7 @@ func _Judge_ListAnnouncements_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.contestId = vars["contest_id"]
+		in.ContestId = vars["contest_id"]
 
 		out, err := srv.ListAnnouncements(r.Context(), in)
 		if err != nil {
@@ -3295,7 +3295,7 @@ func _Judge_IntrospectScore_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.contestId = vars["contest_id"]
+		in.ContestId = vars["contest_id"]
 
 		out, err := srv.IntrospectScore(r.Context(), in)
 		if err != nil {
@@ -3318,8 +3318,8 @@ func _Judge_DescribeScore_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.contestId = vars["contest_id"]
-		in.participantId = vars["participant_id"]
+		in.ContestId = vars["contest_id"]
+		in.ParticipantId = vars["participant_id"]
 
 		out, err := srv.DescribeScore(r.Context(), in)
 		if err != nil {
@@ -3342,8 +3342,8 @@ func _Judge_ImportScore_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.contestId = vars["contest_id"]
-		in.participantId = vars["participant_id"]
+		in.ContestId = vars["contest_id"]
+		in.ParticipantId = vars["participant_id"]
 
 		out, err := srv.ImportScore(r.Context(), in)
 		if err != nil {
@@ -3366,7 +3366,7 @@ func _Judge_ListResult_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.contestId = vars["contest_id"]
+		in.ContestId = vars["contest_id"]
 
 		out, err := srv.ListResult(r.Context(), in)
 		if err != nil {
@@ -3389,7 +3389,7 @@ func _Judge_RebuildScore_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.contestId = vars["contest_id"]
+		in.ContestId = vars["contest_id"]
 
 		out, err := srv.RebuildScore(r.Context(), in)
 		if err != nil {
@@ -3432,7 +3432,7 @@ func _Judge_ListActivities_Rule0(srv JudgeServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.contestId = vars["contest_id"]
+		in.ContestId = vars["contest_id"]
 
 		out, err := srv.ListActivities(r.Context(), in)
 		if err != nil {

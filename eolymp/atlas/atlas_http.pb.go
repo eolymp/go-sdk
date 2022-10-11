@@ -1723,7 +1723,7 @@ func _Atlas_DeleteProblem_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.problemId = vars["problem_id"]
+		in.ProblemId = vars["problem_id"]
 
 		out, err := srv.DeleteProblem(r.Context(), in)
 		if err != nil {
@@ -1766,7 +1766,7 @@ func _Atlas_DescribeProblem_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.problemId = vars["problem_id"]
+		in.ProblemId = vars["problem_id"]
 
 		out, err := srv.DescribeProblem(r.Context(), in)
 		if err != nil {
@@ -1789,7 +1789,7 @@ func _Atlas_UpdateVisibility_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.problemId = vars["problem_id"]
+		in.ProblemId = vars["problem_id"]
 
 		out, err := srv.UpdateVisibility(r.Context(), in)
 		if err != nil {
@@ -1812,7 +1812,7 @@ func _Atlas_UpdatePrivacy_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.problemId = vars["problem_id"]
+		in.ProblemId = vars["problem_id"]
 
 		out, err := srv.UpdatePrivacy(r.Context(), in)
 		if err != nil {
@@ -1835,7 +1835,7 @@ func _Atlas_ListExamples_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.problemId = vars["problem_id"]
+		in.ProblemId = vars["problem_id"]
 
 		out, err := srv.ListExamples(r.Context(), in)
 		if err != nil {
@@ -1858,7 +1858,7 @@ func _Atlas_UpdateVerifier_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.problemId = vars["problem_id"]
+		in.ProblemId = vars["problem_id"]
 
 		out, err := srv.UpdateVerifier(r.Context(), in)
 		if err != nil {
@@ -1881,7 +1881,7 @@ func _Atlas_DescribeVerifier_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.problemId = vars["problem_id"]
+		in.ProblemId = vars["problem_id"]
 
 		out, err := srv.DescribeVerifier(r.Context(), in)
 		if err != nil {
@@ -1904,7 +1904,7 @@ func _Atlas_UpdateInteractor_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.problemId = vars["problem_id"]
+		in.ProblemId = vars["problem_id"]
 
 		out, err := srv.UpdateInteractor(r.Context(), in)
 		if err != nil {
@@ -1927,7 +1927,7 @@ func _Atlas_DescribeInteractor_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.problemId = vars["problem_id"]
+		in.ProblemId = vars["problem_id"]
 
 		out, err := srv.DescribeInteractor(r.Context(), in)
 		if err != nil {
@@ -1950,7 +1950,7 @@ func _Atlas_CreateStatement_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.problemId = vars["problem_id"]
+		in.ProblemId = vars["problem_id"]
 
 		out, err := srv.CreateStatement(r.Context(), in)
 		if err != nil {
@@ -1973,8 +1973,8 @@ func _Atlas_UpdateStatement_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.problemId = vars["problem_id"]
-		in.statementId = vars["statement_id"]
+		in.ProblemId = vars["problem_id"]
+		in.StatementId = vars["statement_id"]
 
 		out, err := srv.UpdateStatement(r.Context(), in)
 		if err != nil {
@@ -1997,8 +1997,8 @@ func _Atlas_DeleteStatement_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.problemId = vars["problem_id"]
-		in.statementId = vars["statement_id"]
+		in.ProblemId = vars["problem_id"]
+		in.StatementId = vars["statement_id"]
 
 		out, err := srv.DeleteStatement(r.Context(), in)
 		if err != nil {
@@ -2021,7 +2021,7 @@ func _Atlas_ListStatements_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.problemId = vars["problem_id"]
+		in.ProblemId = vars["problem_id"]
 
 		out, err := srv.ListStatements(r.Context(), in)
 		if err != nil {
@@ -2044,8 +2044,8 @@ func _Atlas_DescribeStatement_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.problemId = vars["problem_id"]
-		in.statementId = vars["statement_id"]
+		in.ProblemId = vars["problem_id"]
+		in.StatementId = vars["statement_id"]
 
 		out, err := srv.DescribeStatement(r.Context(), in)
 		if err != nil {
@@ -2068,7 +2068,7 @@ func _Atlas_CreateTestset_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.problemId = vars["problem_id"]
+		in.ProblemId = vars["problem_id"]
 
 		out, err := srv.CreateTestset(r.Context(), in)
 		if err != nil {
@@ -2091,8 +2091,8 @@ func _Atlas_UpdateTestset_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.problemId = vars["problem_id"]
-		in.testsetId = vars["testset_id"]
+		in.ProblemId = vars["problem_id"]
+		in.TestsetId = vars["testset_id"]
 
 		out, err := srv.UpdateTestset(r.Context(), in)
 		if err != nil {
@@ -2115,8 +2115,8 @@ func _Atlas_DeleteTestset_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.problemId = vars["problem_id"]
-		in.testsetId = vars["testset_id"]
+		in.ProblemId = vars["problem_id"]
+		in.TestsetId = vars["testset_id"]
 
 		out, err := srv.DeleteTestset(r.Context(), in)
 		if err != nil {
@@ -2139,7 +2139,7 @@ func _Atlas_ListTestsets_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.problemId = vars["problem_id"]
+		in.ProblemId = vars["problem_id"]
 
 		out, err := srv.ListTestsets(r.Context(), in)
 		if err != nil {
@@ -2162,8 +2162,8 @@ func _Atlas_DescribeTestset_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.problemId = vars["problem_id"]
-		in.testsetId = vars["testset_id"]
+		in.ProblemId = vars["problem_id"]
+		in.TestsetId = vars["testset_id"]
 
 		out, err := srv.DescribeTestset(r.Context(), in)
 		if err != nil {
@@ -2186,8 +2186,8 @@ func _Atlas_CreateTest_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.problemId = vars["problem_id"]
-		in.testsetId = vars["testset_id"]
+		in.ProblemId = vars["problem_id"]
+		in.TestsetId = vars["testset_id"]
 
 		out, err := srv.CreateTest(r.Context(), in)
 		if err != nil {
@@ -2210,9 +2210,9 @@ func _Atlas_UpdateTest_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.problemId = vars["problem_id"]
-		in.testsetId = vars["testset_id"]
-		in.testId = vars["test_id"]
+		in.ProblemId = vars["problem_id"]
+		in.TestsetId = vars["testset_id"]
+		in.TestId = vars["test_id"]
 
 		out, err := srv.UpdateTest(r.Context(), in)
 		if err != nil {
@@ -2235,9 +2235,9 @@ func _Atlas_DeleteTest_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.problemId = vars["problem_id"]
-		in.testsetId = vars["testset_id"]
-		in.testId = vars["test_id"]
+		in.ProblemId = vars["problem_id"]
+		in.TestsetId = vars["testset_id"]
+		in.TestId = vars["test_id"]
 
 		out, err := srv.DeleteTest(r.Context(), in)
 		if err != nil {
@@ -2260,8 +2260,8 @@ func _Atlas_ListTests_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.problemId = vars["problem_id"]
-		in.testsetId = vars["testset_id"]
+		in.ProblemId = vars["problem_id"]
+		in.TestsetId = vars["testset_id"]
 
 		out, err := srv.ListTests(r.Context(), in)
 		if err != nil {
@@ -2284,9 +2284,9 @@ func _Atlas_DescribeTest_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.problemId = vars["problem_id"]
-		in.testsetId = vars["testset_id"]
-		in.testId = vars["test_id"]
+		in.ProblemId = vars["problem_id"]
+		in.TestsetId = vars["testset_id"]
+		in.TestId = vars["test_id"]
 
 		out, err := srv.DescribeTest(r.Context(), in)
 		if err != nil {
@@ -2309,7 +2309,7 @@ func _Atlas_GrantPermission_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.problemId = vars["problem_id"]
+		in.ProblemId = vars["problem_id"]
 
 		out, err := srv.GrantPermission(r.Context(), in)
 		if err != nil {
@@ -2332,8 +2332,8 @@ func _Atlas_RevokePermission_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.problemId = vars["problem_id"]
-		in.userId = vars["user_id"]
+		in.ProblemId = vars["problem_id"]
+		in.UserId = vars["user_id"]
 
 		out, err := srv.RevokePermission(r.Context(), in)
 		if err != nil {
@@ -2356,7 +2356,7 @@ func _Atlas_ListPermissions_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.problemId = vars["problem_id"]
+		in.ProblemId = vars["problem_id"]
 
 		out, err := srv.ListPermissions(r.Context(), in)
 		if err != nil {
@@ -2379,7 +2379,7 @@ func _Atlas_CreateCodeTemplate_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.problemId = vars["problem_id"]
+		in.ProblemId = vars["problem_id"]
 
 		out, err := srv.CreateCodeTemplate(r.Context(), in)
 		if err != nil {
@@ -2402,8 +2402,8 @@ func _Atlas_UpdateCodeTemplate_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.problemId = vars["problem_id"]
-		in.templateId = vars["template_id"]
+		in.ProblemId = vars["problem_id"]
+		in.TemplateId = vars["template_id"]
 
 		out, err := srv.UpdateCodeTemplate(r.Context(), in)
 		if err != nil {
@@ -2426,8 +2426,8 @@ func _Atlas_DeleteCodeTemplate_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.problemId = vars["problem_id"]
-		in.templateId = vars["template_id"]
+		in.ProblemId = vars["problem_id"]
+		in.TemplateId = vars["template_id"]
 
 		out, err := srv.DeleteCodeTemplate(r.Context(), in)
 		if err != nil {
@@ -2450,7 +2450,7 @@ func _Atlas_ListCodeTemplates_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.problemId = vars["problem_id"]
+		in.ProblemId = vars["problem_id"]
 
 		out, err := srv.ListCodeTemplates(r.Context(), in)
 		if err != nil {
@@ -2473,8 +2473,8 @@ func _Atlas_DescribeCodeTemplate_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.problemId = vars["problem_id"]
-		in.templateId = vars["template_id"]
+		in.ProblemId = vars["problem_id"]
+		in.TemplateId = vars["template_id"]
 
 		out, err := srv.DescribeCodeTemplate(r.Context(), in)
 		if err != nil {
@@ -2497,7 +2497,7 @@ func _Atlas_CreateAttachment_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.problemId = vars["problem_id"]
+		in.ProblemId = vars["problem_id"]
 
 		out, err := srv.CreateAttachment(r.Context(), in)
 		if err != nil {
@@ -2520,8 +2520,8 @@ func _Atlas_UpdateAttachment_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.problemId = vars["problem_id"]
-		in.attachmentId = vars["attachment_id"]
+		in.ProblemId = vars["problem_id"]
+		in.AttachmentId = vars["attachment_id"]
 
 		out, err := srv.UpdateAttachment(r.Context(), in)
 		if err != nil {
@@ -2544,8 +2544,8 @@ func _Atlas_DeleteAttachment_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.problemId = vars["problem_id"]
-		in.attachmentId = vars["attachment_id"]
+		in.ProblemId = vars["problem_id"]
+		in.AttachmentId = vars["attachment_id"]
 
 		out, err := srv.DeleteAttachment(r.Context(), in)
 		if err != nil {
@@ -2568,7 +2568,7 @@ func _Atlas_ListAttachments_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.problemId = vars["problem_id"]
+		in.ProblemId = vars["problem_id"]
 
 		out, err := srv.ListAttachments(r.Context(), in)
 		if err != nil {
@@ -2591,8 +2591,8 @@ func _Atlas_DescribeAttachment_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.problemId = vars["problem_id"]
-		in.attachmentId = vars["attachment_id"]
+		in.ProblemId = vars["problem_id"]
+		in.AttachmentId = vars["attachment_id"]
 
 		out, err := srv.DescribeAttachment(r.Context(), in)
 		if err != nil {
@@ -2615,8 +2615,8 @@ func _Atlas_DescribeChange_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.problemId = vars["problem_id"]
-		in.changeId = vars["change_id"]
+		in.ProblemId = vars["problem_id"]
+		in.ChangeId = vars["change_id"]
 
 		out, err := srv.DescribeChange(r.Context(), in)
 		if err != nil {
@@ -2639,7 +2639,7 @@ func _Atlas_ListChanges_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.problemId = vars["problem_id"]
+		in.ProblemId = vars["problem_id"]
 
 		out, err := srv.ListChanges(r.Context(), in)
 		if err != nil {
@@ -2662,7 +2662,7 @@ func _Atlas_ListProblemTop_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.problemId = vars["problem_id"]
+		in.ProblemId = vars["problem_id"]
 
 		out, err := srv.ListProblemTop(r.Context(), in)
 		if err != nil {
@@ -2685,7 +2685,7 @@ func _Atlas_DescribeProblemGrading_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.problemId = vars["problem_id"]
+		in.ProblemId = vars["problem_id"]
 
 		out, err := srv.DescribeProblemGrading(r.Context(), in)
 		if err != nil {
@@ -2708,7 +2708,7 @@ func _Atlas_CreateSolution_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.problemId = vars["problem_id"]
+		in.ProblemId = vars["problem_id"]
 
 		out, err := srv.CreateSolution(r.Context(), in)
 		if err != nil {
@@ -2731,8 +2731,8 @@ func _Atlas_UpdateSolution_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.problemId = vars["problem_id"]
-		in.solutionId = vars["solution_id"]
+		in.ProblemId = vars["problem_id"]
+		in.SolutionId = vars["solution_id"]
 
 		out, err := srv.UpdateSolution(r.Context(), in)
 		if err != nil {
@@ -2755,8 +2755,8 @@ func _Atlas_DeleteSolution_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.problemId = vars["problem_id"]
-		in.solutionId = vars["solution_id"]
+		in.ProblemId = vars["problem_id"]
+		in.SolutionId = vars["solution_id"]
 
 		out, err := srv.DeleteSolution(r.Context(), in)
 		if err != nil {
@@ -2779,7 +2779,7 @@ func _Atlas_ListSolutions_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.problemId = vars["problem_id"]
+		in.ProblemId = vars["problem_id"]
 
 		out, err := srv.ListSolutions(r.Context(), in)
 		if err != nil {
@@ -2802,8 +2802,8 @@ func _Atlas_DescribeSolution_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.problemId = vars["problem_id"]
-		in.solutionId = vars["solution_id"]
+		in.ProblemId = vars["problem_id"]
+		in.SolutionId = vars["solution_id"]
 
 		out, err := srv.DescribeSolution(r.Context(), in)
 		if err != nil {
@@ -2826,8 +2826,8 @@ func _Atlas_PublishSolution_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.problemId = vars["problem_id"]
-		in.solutionId = vars["solution_id"]
+		in.ProblemId = vars["problem_id"]
+		in.SolutionId = vars["solution_id"]
 
 		out, err := srv.PublishSolution(r.Context(), in)
 		if err != nil {
@@ -2850,8 +2850,8 @@ func _Atlas_UnpublishSolution_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.problemId = vars["problem_id"]
-		in.solutionId = vars["solution_id"]
+		in.ProblemId = vars["problem_id"]
+		in.SolutionId = vars["solution_id"]
 
 		out, err := srv.UnpublishSolution(r.Context(), in)
 		if err != nil {
@@ -2874,8 +2874,8 @@ func _Atlas_ApproveSolution_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.problemId = vars["problem_id"]
-		in.solutionId = vars["solution_id"]
+		in.ProblemId = vars["problem_id"]
+		in.SolutionId = vars["solution_id"]
 
 		out, err := srv.ApproveSolution(r.Context(), in)
 		if err != nil {
@@ -2898,8 +2898,8 @@ func _Atlas_RefuseSolution_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.problemId = vars["problem_id"]
-		in.solutionId = vars["solution_id"]
+		in.ProblemId = vars["problem_id"]
+		in.SolutionId = vars["solution_id"]
 
 		out, err := srv.RefuseSolution(r.Context(), in)
 		if err != nil {
@@ -2942,7 +2942,7 @@ func _Atlas_UpdateCategory_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.categoryId = vars["category_id"]
+		in.CategoryId = vars["category_id"]
 
 		out, err := srv.UpdateCategory(r.Context(), in)
 		if err != nil {
@@ -2965,7 +2965,7 @@ func _Atlas_DeleteCategory_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.categoryId = vars["category_id"]
+		in.CategoryId = vars["category_id"]
 
 		out, err := srv.DeleteCategory(r.Context(), in)
 		if err != nil {
@@ -3008,7 +3008,7 @@ func _Atlas_DescribeCategory_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.categoryId = vars["category_id"]
+		in.CategoryId = vars["category_id"]
 
 		out, err := srv.DescribeCategory(r.Context(), in)
 		if err != nil {
@@ -3031,8 +3031,8 @@ func _Atlas_AssignCategory_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.categoryId = vars["category_id"]
-		in.problemId = vars["problem_id"]
+		in.CategoryId = vars["category_id"]
+		in.ProblemId = vars["problem_id"]
 
 		out, err := srv.AssignCategory(r.Context(), in)
 		if err != nil {
@@ -3055,8 +3055,8 @@ func _Atlas_UnassignCategory_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.categoryId = vars["category_id"]
-		in.problemId = vars["problem_id"]
+		in.CategoryId = vars["category_id"]
+		in.ProblemId = vars["problem_id"]
 
 		out, err := srv.UnassignCategory(r.Context(), in)
 		if err != nil {
@@ -3079,7 +3079,7 @@ func _Atlas_CreateSubmission_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.problemId = vars["problem_id"]
+		in.ProblemId = vars["problem_id"]
 
 		out, err := srv.CreateSubmission(r.Context(), in)
 		if err != nil {
@@ -3102,8 +3102,8 @@ func _Atlas_DescribeSubmission_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.problemId = vars["problem_id"]
-		in.submissionId = vars["submission_id"]
+		in.ProblemId = vars["problem_id"]
+		in.SubmissionId = vars["submission_id"]
 
 		out, err := srv.DescribeSubmission(r.Context(), in)
 		if err != nil {
@@ -3126,8 +3126,8 @@ func _Atlas_RetestSubmission_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.problemId = vars["problem_id"]
-		in.submissionId = vars["submission_id"]
+		in.ProblemId = vars["problem_id"]
+		in.SubmissionId = vars["submission_id"]
 
 		out, err := srv.RetestSubmission(r.Context(), in)
 		if err != nil {
@@ -3150,8 +3150,8 @@ func _Atlas_DescribeScore_Rule0(srv AtlasServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.problemId = vars["problem_id"]
-		in.userId = vars["user_id"]
+		in.ProblemId = vars["problem_id"]
+		in.UserId = vars["user_id"]
 
 		out, err := srv.DescribeScore(r.Context(), in)
 		if err != nil {
