@@ -25,6 +25,10 @@ func _Typewriter_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
 		return err
 	}
 
+	if len(data) == 0 {
+		return nil
+	}
+
 	if err := (protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal(data, v)); err != nil {
 		return err
 	}

@@ -22,14 +22,14 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UniverseClient interface {
+	// Lookup space by domain key
+	LookupSpace(ctx context.Context, in *LookupSpaceInput, opts ...grpc.CallOption) (*LookupSpaceOutput, error)
 	// Create a space
 	CreateSpace(ctx context.Context, in *CreateSpaceInput, opts ...grpc.CallOption) (*CreateSpaceOutput, error)
 	// Update existing space
 	UpdateSpace(ctx context.Context, in *UpdateSpaceInput, opts ...grpc.CallOption) (*UpdateSpaceOutput, error)
 	// Delete space
 	DeleteSpace(ctx context.Context, in *DeleteSpaceInput, opts ...grpc.CallOption) (*DeleteSpaceOutput, error)
-	// Lookup space by domain key
-	LookupSpace(ctx context.Context, in *LookupSpaceInput, opts ...grpc.CallOption) (*LookupSpaceOutput, error)
 	// Describe space
 	DescribeSpace(ctx context.Context, in *DescribeSpaceInput, opts ...grpc.CallOption) (*DescribeSpaceOutput, error)
 	// Describe quota
@@ -56,6 +56,15 @@ func NewUniverseClient(cc grpc.ClientConnInterface) UniverseClient {
 	return &universeClient{cc}
 }
 
+func (c *universeClient) LookupSpace(ctx context.Context, in *LookupSpaceInput, opts ...grpc.CallOption) (*LookupSpaceOutput, error) {
+	out := new(LookupSpaceOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.universe.Universe/LookupSpace", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *universeClient) CreateSpace(ctx context.Context, in *CreateSpaceInput, opts ...grpc.CallOption) (*CreateSpaceOutput, error) {
 	out := new(CreateSpaceOutput)
 	err := c.cc.Invoke(ctx, "/eolymp.universe.Universe/CreateSpace", in, out, opts...)
@@ -77,15 +86,6 @@ func (c *universeClient) UpdateSpace(ctx context.Context, in *UpdateSpaceInput, 
 func (c *universeClient) DeleteSpace(ctx context.Context, in *DeleteSpaceInput, opts ...grpc.CallOption) (*DeleteSpaceOutput, error) {
 	out := new(DeleteSpaceOutput)
 	err := c.cc.Invoke(ctx, "/eolymp.universe.Universe/DeleteSpace", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *universeClient) LookupSpace(ctx context.Context, in *LookupSpaceInput, opts ...grpc.CallOption) (*LookupSpaceOutput, error) {
-	out := new(LookupSpaceOutput)
-	err := c.cc.Invoke(ctx, "/eolymp.universe.Universe/LookupSpace", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -168,14 +168,14 @@ func (c *universeClient) ListPermissions(ctx context.Context, in *ListPermission
 // All implementations should embed UnimplementedUniverseServer
 // for forward compatibility
 type UniverseServer interface {
+	// Lookup space by domain key
+	LookupSpace(context.Context, *LookupSpaceInput) (*LookupSpaceOutput, error)
 	// Create a space
 	CreateSpace(context.Context, *CreateSpaceInput) (*CreateSpaceOutput, error)
 	// Update existing space
 	UpdateSpace(context.Context, *UpdateSpaceInput) (*UpdateSpaceOutput, error)
 	// Delete space
 	DeleteSpace(context.Context, *DeleteSpaceInput) (*DeleteSpaceOutput, error)
-	// Lookup space by domain key
-	LookupSpace(context.Context, *LookupSpaceInput) (*LookupSpaceOutput, error)
 	// Describe space
 	DescribeSpace(context.Context, *DescribeSpaceInput) (*DescribeSpaceOutput, error)
 	// Describe quota
@@ -198,6 +198,9 @@ type UniverseServer interface {
 type UnimplementedUniverseServer struct {
 }
 
+func (UnimplementedUniverseServer) LookupSpace(context.Context, *LookupSpaceInput) (*LookupSpaceOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method LookupSpace not implemented")
+}
 func (UnimplementedUniverseServer) CreateSpace(context.Context, *CreateSpaceInput) (*CreateSpaceOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateSpace not implemented")
 }
@@ -206,9 +209,6 @@ func (UnimplementedUniverseServer) UpdateSpace(context.Context, *UpdateSpaceInpu
 }
 func (UnimplementedUniverseServer) DeleteSpace(context.Context, *DeleteSpaceInput) (*DeleteSpaceOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteSpace not implemented")
-}
-func (UnimplementedUniverseServer) LookupSpace(context.Context, *LookupSpaceInput) (*LookupSpaceOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method LookupSpace not implemented")
 }
 func (UnimplementedUniverseServer) DescribeSpace(context.Context, *DescribeSpaceInput) (*DescribeSpaceOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeSpace not implemented")
@@ -244,6 +244,24 @@ type UnsafeUniverseServer interface {
 
 func RegisterUniverseServer(s grpc.ServiceRegistrar, srv UniverseServer) {
 	s.RegisterService(&Universe_ServiceDesc, srv)
+}
+
+func _Universe_LookupSpace_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LookupSpaceInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UniverseServer).LookupSpace(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.universe.Universe/LookupSpace",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UniverseServer).LookupSpace(ctx, req.(*LookupSpaceInput))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _Universe_CreateSpace_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -296,24 +314,6 @@ func _Universe_DeleteSpace_Handler(srv interface{}, ctx context.Context, dec fun
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UniverseServer).DeleteSpace(ctx, req.(*DeleteSpaceInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Universe_LookupSpace_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(LookupSpaceInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UniverseServer).LookupSpace(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/eolymp.universe.Universe/LookupSpace",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UniverseServer).LookupSpace(ctx, req.(*LookupSpaceInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -470,6 +470,10 @@ var Universe_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*UniverseServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
+			MethodName: "LookupSpace",
+			Handler:    _Universe_LookupSpace_Handler,
+		},
+		{
 			MethodName: "CreateSpace",
 			Handler:    _Universe_CreateSpace_Handler,
 		},
@@ -480,10 +484,6 @@ var Universe_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteSpace",
 			Handler:    _Universe_DeleteSpace_Handler,
-		},
-		{
-			MethodName: "LookupSpace",
-			Handler:    _Universe_LookupSpace_Handler,
 		},
 		{
 			MethodName: "DescribeSpace",

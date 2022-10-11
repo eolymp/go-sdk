@@ -25,6 +25,10 @@ func _Atlas_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
 		return err
 	}
 
+	if len(data) == 0 {
+		return nil
+	}
+
 	if err := (protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal(data, v)); err != nil {
 		return err
 	}
@@ -175,26 +179,26 @@ const AtlasPrefix = "/atlas"
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func NewAtlasHandlerHttp(srv AtlasServer, prefix string) http.Handler {
 	router := mux.NewRouter()
-	router.Handle(prefix+"/atlas/atlas/problems/", _Atlas_CreateProblem_Rule0(srv)).Methods("POST")
+	router.Handle(prefix+"/atlas/atlas/problems", _Atlas_CreateProblem_Rule0(srv)).Methods("POST")
 	router.Handle(prefix+"/atlas/atlas/problems/{problem_id}", _Atlas_DeleteProblem_Rule0(srv)).Methods("DELETE")
-	router.Handle(prefix+"/atlas/atlas/problems/", _Atlas_ListProblems_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/atlas/atlas/problems", _Atlas_ListProblems_Rule0(srv)).Methods("GET")
 	router.Handle(prefix+"/atlas/atlas/problems/{problem_id}", _Atlas_DescribeProblem_Rule0(srv)).Methods("GET")
 	router.Handle(prefix+"/atlas/atlas/problems/{problem_id}/visibility", _Atlas_UpdateVisibility_Rule0(srv)).Methods("POST")
 	router.Handle(prefix+"/atlas/atlas/problems/{problem_id}/privacy", _Atlas_UpdatePrivacy_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/atlas/atlas/problems/{problem_id}/examples/", _Atlas_ListExamples_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/atlas/atlas/problems/{problem_id}/examples", _Atlas_ListExamples_Rule0(srv)).Methods("GET")
 	router.Handle(prefix+"/atlas/atlas/problems/{problem_id}/verifier", _Atlas_UpdateVerifier_Rule0(srv)).Methods("PUT")
 	router.Handle(prefix+"/atlas/atlas/problems/{problem_id}/verifier", _Atlas_DescribeVerifier_Rule0(srv)).Methods("GET")
 	router.Handle(prefix+"/atlas/atlas/problems/{problem_id}/interactor", _Atlas_UpdateInteractor_Rule0(srv)).Methods("PUT")
 	router.Handle(prefix+"/atlas/atlas/problems/{problem_id}/interactor", _Atlas_DescribeInteractor_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/atlas/atlas/problems/{problem_id}/statements/", _Atlas_CreateStatement_Rule0(srv)).Methods("PUT")
+	router.Handle(prefix+"/atlas/atlas/problems/{problem_id}/statements", _Atlas_CreateStatement_Rule0(srv)).Methods("PUT")
 	router.Handle(prefix+"/atlas/atlas/statements/{statement_id}", _Atlas_UpdateStatement_Rule0(srv)).Methods("PUT")
 	router.Handle(prefix+"/atlas/atlas/statements/{statement_id}", _Atlas_DeleteStatement_Rule0(srv)).Methods("DELETE")
-	router.Handle(prefix+"/atlas/atlas/problems/{problem_id}/statements/", _Atlas_ListStatements_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/atlas/atlas/problems/{problem_id}/statements", _Atlas_ListStatements_Rule0(srv)).Methods("GET")
 	router.Handle(prefix+"/atlas/atlas/statements/{statement_id}", _Atlas_DescribeStatement_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/atlas/atlas/problems/{problem_id}/testsets/", _Atlas_CreateTestset_Rule0(srv)).Methods("POST")
+	router.Handle(prefix+"/atlas/atlas/problems/{problem_id}/testsets", _Atlas_CreateTestset_Rule0(srv)).Methods("POST")
 	router.Handle(prefix+"/atlas/atlas/testsets/{testset_id}", _Atlas_UpdateTestset_Rule0(srv)).Methods("PUT")
 	router.Handle(prefix+"/atlas/atlas/testsets/{testset_id}", _Atlas_DeleteTestset_Rule0(srv)).Methods("DELETE")
-	router.Handle(prefix+"/atlas/atlas/problems/{problem_id}/testsets/", _Atlas_ListTestsets_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/atlas/atlas/problems/{problem_id}/testsets", _Atlas_ListTestsets_Rule0(srv)).Methods("GET")
 	router.Handle(prefix+"/atlas/atlas/testsets/{testset_id}", _Atlas_DescribeTestset_Rule0(srv)).Methods("GET")
 	router.Handle(prefix+"/atlas/atlas/testsets/{testset_id}/tests", _Atlas_CreateTest_Rule0(srv)).Methods("POST")
 	router.Handle(prefix+"/atlas/atlas/tests/{test_id}", _Atlas_UpdateTest_Rule0(srv)).Methods("PUT")
@@ -227,10 +231,10 @@ func NewAtlasHandlerHttp(srv AtlasServer, prefix string) http.Handler {
 	router.Handle(prefix+"/atlas/atlas/solutions/{solution_id}/unpublish", _Atlas_UnpublishSolution_Rule0(srv)).Methods("POST")
 	router.Handle(prefix+"/atlas/atlas/solutions/{solution_id}/approve", _Atlas_ApproveSolution_Rule0(srv)).Methods("POST")
 	router.Handle(prefix+"/atlas/atlas/solutions/{solution_id}/refuse", _Atlas_RefuseSolution_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/atlas/atlas/categories/", _Atlas_CreateCategory_Rule0(srv)).Methods("POST")
+	router.Handle(prefix+"/atlas/atlas/categories", _Atlas_CreateCategory_Rule0(srv)).Methods("POST")
 	router.Handle(prefix+"/atlas/atlas/categories/{category_id}", _Atlas_UpdateCategory_Rule0(srv)).Methods("POST")
 	router.Handle(prefix+"/atlas/atlas/categories/{category_id}", _Atlas_DeleteCategory_Rule0(srv)).Methods("DELETE")
-	router.Handle(prefix+"/atlas/atlas/categories/", _Atlas_ListCategories_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/atlas/atlas/categories", _Atlas_ListCategories_Rule0(srv)).Methods("GET")
 	router.Handle(prefix+"/atlas/atlas/categories/{category_id}", _Atlas_DescribeCategory_Rule0(srv)).Methods("GET")
 	router.Handle(prefix+"/atlas/atlas/categories/{category_id}/problems/{problem_id}", _Atlas_AssignCategory_Rule0(srv)).Methods("POST")
 	router.Handle(prefix+"/atlas/atlas/categories/{category_id}/problems/{problem_id}", _Atlas_UnassignCategory_Rule0(srv)).Methods("DELETE")

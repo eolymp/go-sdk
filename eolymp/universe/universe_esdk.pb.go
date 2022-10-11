@@ -86,6 +86,16 @@ func (s *UniverseService) invoke(ctx context.Context, method string, in, out pro
 	return nil
 }
 
+func (s *UniverseService) LookupSpace(ctx context.Context, in *LookupSpaceInput) (*LookupSpaceOutput, error) {
+	out := &LookupSpaceOutput{}
+
+	if err := s.invoke(ctx, "eolymp.universe.Universe/LookupSpace", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *UniverseService) CreateSpace(ctx context.Context, in *CreateSpaceInput) (*CreateSpaceOutput, error) {
 	out := &CreateSpaceOutput{}
 
@@ -110,16 +120,6 @@ func (s *UniverseService) DeleteSpace(ctx context.Context, in *DeleteSpaceInput)
 	out := &DeleteSpaceOutput{}
 
 	if err := s.invoke(ctx, "eolymp.universe.Universe/DeleteSpace", in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *UniverseService) LookupSpace(ctx context.Context, in *LookupSpaceInput) (*LookupSpaceOutput, error) {
-	out := &LookupSpaceOutput{}
-
-	if err := s.invoke(ctx, "eolymp.universe.Universe/LookupSpace", in, out); err != nil {
 		return nil, err
 	}
 

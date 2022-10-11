@@ -25,6 +25,10 @@ func _Universe_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
 		return err
 	}
 
+	if len(data) == 0 {
+		return nil
+	}
+
 	if err := (protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal(data, v)); err != nil {
 		return err
 	}
@@ -102,10 +106,10 @@ func _Universe_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 // NewUniverseHandler constructs new http.Handler for UniverseServer
 func NewUniverseHandler(srv UniverseServer) http.Handler {
 	router := mux.NewRouter()
+	router.Handle("/eolymp.universe.Universe/LookupSpace", _Universe_LookupSpace(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.universe.Universe/CreateSpace", _Universe_CreateSpace(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.universe.Universe/UpdateSpace", _Universe_UpdateSpace(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.universe.Universe/DeleteSpace", _Universe_DeleteSpace(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.universe.Universe/LookupSpace", _Universe_LookupSpace(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.universe.Universe/DescribeSpace", _Universe_DescribeSpace(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.universe.Universe/DescribeQuota", _Universe_DescribeQuota(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.universe.Universe/ListSpaces", _Universe_ListSpaces(srv)).Methods(http.MethodPost)
@@ -118,25 +122,45 @@ func NewUniverseHandler(srv UniverseServer) http.Handler {
 }
 
 // UniversePrefix defines prefix for routes of this service
-const UniversePrefix = "/universe"
+const UniversePrefix = "/spaces"
 
 // NewUniverseHandlerHttp constructs new http.Handler for UniverseServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func NewUniverseHandlerHttp(srv UniverseServer, prefix string) http.Handler {
 	router := mux.NewRouter()
-	router.Handle(prefix+"/universe/universe/spaces", _Universe_CreateSpace_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/universe/universe/spaces/{space_id}", _Universe_UpdateSpace_Rule0(srv)).Methods("PUT")
-	router.Handle(prefix+"/universe/universe/spaces/{space_id}", _Universe_DeleteSpace_Rule0(srv)).Methods("DELETE")
-	router.Handle(prefix+"/universe/universe/space-lookup/{key}", _Universe_LookupSpace_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/universe/universe/spaces/{space_id}", _Universe_DescribeSpace_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/universe/universe/spaces/{space_id}/quota", _Universe_DescribeQuota_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/universe/universe/spaces", _Universe_ListSpaces_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/universe/universe/spaces/{space_id}/permissions/{user_id}", _Universe_GrantPermission_Rule0(srv)).Methods("PUT")
-	router.Handle(prefix+"/universe/universe/spaces/{space_id}/permissions/{user_id}", _Universe_RevokePermission_Rule0(srv)).Methods("DELETE")
-	router.Handle(prefix+"/universe/universe/spaces/{space_id}/permissions/{user_id}", _Universe_DescribePermission_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/universe/universe/spaces/{space_id}/introspect-permission", _Universe_IntrospectPermission_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/universe/universe/spaces/{space_id}/permissions", _Universe_ListPermissions_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/spaces/__lookup/{key}", _Universe_LookupSpace_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/spaces", _Universe_CreateSpace_Rule0(srv)).Methods("POST")
+	router.Handle(prefix+"/spaces/{space_id}", _Universe_UpdateSpace_Rule0(srv)).Methods("PUT")
+	router.Handle(prefix+"/spaces/{space_id}", _Universe_DeleteSpace_Rule0(srv)).Methods("DELETE")
+	router.Handle(prefix+"/spaces/{space_id}", _Universe_DescribeSpace_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/spaces/{space_id}/quota", _Universe_DescribeQuota_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/spaces", _Universe_ListSpaces_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/spaces/{space_id}/permissions/{user_id}", _Universe_GrantPermission_Rule0(srv)).Methods("PUT")
+	router.Handle(prefix+"/spaces/{space_id}/permissions/{user_id}", _Universe_RevokePermission_Rule0(srv)).Methods("DELETE")
+	router.Handle(prefix+"/spaces/{space_id}/permissions/{user_id}", _Universe_DescribePermission_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/spaces/{space_id}/introspect-permission", _Universe_IntrospectPermission_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/spaces/{space_id}/permissions", _Universe_ListPermissions_Rule0(srv)).Methods("GET")
 	return router
+}
+
+func _Universe_LookupSpace(srv UniverseServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &LookupSpaceInput{}
+
+		if err := _Universe_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Universe_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.LookupSpace(r.Context(), in)
+		if err != nil {
+			_Universe_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Universe_HTTPWriteResponse(w, out)
+	})
 }
 
 func _Universe_CreateSpace(srv UniverseServer) http.Handler {
@@ -190,26 +214,6 @@ func _Universe_DeleteSpace(srv UniverseServer) http.Handler {
 		}
 
 		out, err := srv.DeleteSpace(r.Context(), in)
-		if err != nil {
-			_Universe_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Universe_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Universe_LookupSpace(srv UniverseServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &LookupSpaceInput{}
-
-		if err := _Universe_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Universe_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.LookupSpace(r.Context(), in)
 		if err != nil {
 			_Universe_HTTPWriteErrorResponse(w, err)
 			return
@@ -379,6 +383,29 @@ func _Universe_ListPermissions(srv UniverseServer) http.Handler {
 	})
 }
 
+func _Universe_LookupSpace_Rule0(srv UniverseServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &LookupSpaceInput{}
+
+		if err := _Universe_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Universe_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.Key = vars["key"]
+
+		out, err := srv.LookupSpace(r.Context(), in)
+		if err != nil {
+			_Universe_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Universe_HTTPWriteResponse(w, out)
+	})
+}
+
 func _Universe_CreateSpace_Rule0(srv UniverseServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateSpaceInput{}
@@ -436,29 +463,6 @@ func _Universe_DeleteSpace_Rule0(srv UniverseServer) http.Handler {
 		in.SpaceId = vars["space_id"]
 
 		out, err := srv.DeleteSpace(r.Context(), in)
-		if err != nil {
-			_Universe_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Universe_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Universe_LookupSpace_Rule0(srv UniverseServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &LookupSpaceInput{}
-
-		if err := _Universe_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Universe_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.Key = vars["key"]
-
-		out, err := srv.LookupSpace(r.Context(), in)
 		if err != nil {
 			_Universe_HTTPWriteErrorResponse(w, err)
 			return
@@ -672,6 +676,27 @@ func NewUniverseInterceptor(srv UniverseServer, lim _UniverseLimiter) *UniverseI
 	return &UniverseInterceptor{server: srv, limiter: lim}
 }
 
+func (i *UniverseInterceptor) LookupSpace(ctx context.Context, in *LookupSpaceInput) (out *LookupSpaceOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promUniverseRequestLatency.WithLabelValues("eolymp.universe.Universe/LookupSpace", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	if !i.limiter.Allow(ctx, "eolymp.universe.Universe/LookupSpace", 10, 100) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.LookupSpace(ctx, in)
+	return
+}
+
 func (i *UniverseInterceptor) CreateSpace(ctx context.Context, in *CreateSpaceInput) (out *CreateSpaceOutput, err error) {
 	start := time.Now()
 	defer func() {
@@ -750,27 +775,6 @@ func (i *UniverseInterceptor) DeleteSpace(ctx context.Context, in *DeleteSpaceIn
 	}
 
 	out, err = i.server.DeleteSpace(ctx, in)
-	return
-}
-
-func (i *UniverseInterceptor) LookupSpace(ctx context.Context, in *LookupSpaceInput) (out *LookupSpaceOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
-		}
-
-		promUniverseRequestLatency.WithLabelValues("eolymp.universe.Universe/LookupSpace", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	if !i.limiter.Allow(ctx, "eolymp.universe.Universe/LookupSpace", 10, 100) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.LookupSpace(ctx, in)
 	return
 }
 

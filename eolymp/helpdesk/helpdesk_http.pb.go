@@ -25,6 +25,10 @@ func _Helpdesk_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
 		return err
 	}
 
+	if len(data) == 0 {
+		return nil
+	}
+
 	if err := (protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal(data, v)); err != nil {
 		return err
 	}
@@ -121,7 +125,7 @@ const HelpdeskPrefix = "/helpdesk"
 func NewHelpdeskHandlerHttp(srv HelpdeskServer, prefix string) http.Handler {
 	router := mux.NewRouter()
 	router.Handle(prefix+"/helpdesk/helpdesk/document/{document_id}", _Helpdesk_DescribeDocument_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/helpdesk/helpdesk/documents/", _Helpdesk_ListDocuments_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/helpdesk/helpdesk/documents", _Helpdesk_ListDocuments_Rule0(srv)).Methods("GET")
 	router.Handle(prefix+"/helpdesk/helpdesk/document", _Helpdesk_CreateDocument_Rule0(srv)).Methods("POST")
 	router.Handle(prefix+"/helpdesk/helpdesk/document/{document_id}", _Helpdesk_UpdateDocument_Rule0(srv)).Methods("PUT")
 	router.Handle(prefix+"/helpdesk/helpdesk/document/{document_id}", _Helpdesk_DeleteDocument_Rule0(srv)).Methods("DELETE")
