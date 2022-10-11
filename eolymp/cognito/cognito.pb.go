@@ -8,7 +8,6 @@ package cognito
 
 import (
 	_ "github.com/eolymp/go-sdk/eolymp/annotations"
-	cognito "github.com/eolymp/go-sdk/eolymp/cognito"
 	wellknown "github.com/eolymp/go-sdk/eolymp/wellknown"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -684,10 +683,10 @@ type IntrospectQuotaOutput struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ContestsPerUser        *cognito.Quota `protobuf:"bytes,10,opt,name=contests_per_user,json=contestsPerUser,proto3" json:"contests_per_user,omitempty"`                      // number of contests per user
-	ProblemsPerContest     *cognito.Quota `protobuf:"bytes,11,opt,name=problems_per_contest,json=problemsPerContest,proto3" json:"problems_per_contest,omitempty"`             // number of problems per contest
-	ParticipantsPerContest *cognito.Quota `protobuf:"bytes,12,opt,name=participants_per_contest,json=participantsPerContest,proto3" json:"participants_per_contest,omitempty"` // number of participants per contest
-	ProblemsPerUser        *cognito.Quota `protobuf:"bytes,20,opt,name=problems_per_user,json=problemsPerUser,proto3" json:"problems_per_user,omitempty"`                      // number of problems per user
+	ContestsPerUser        *Quota `protobuf:"bytes,10,opt,name=contests_per_user,json=contestsPerUser,proto3" json:"contests_per_user,omitempty"`                      // number of contests per user
+	ProblemsPerContest     *Quota `protobuf:"bytes,11,opt,name=problems_per_contest,json=problemsPerContest,proto3" json:"problems_per_contest,omitempty"`             // number of problems per contest
+	ParticipantsPerContest *Quota `protobuf:"bytes,12,opt,name=participants_per_contest,json=participantsPerContest,proto3" json:"participants_per_contest,omitempty"` // number of participants per contest
+	ProblemsPerUser        *Quota `protobuf:"bytes,20,opt,name=problems_per_user,json=problemsPerUser,proto3" json:"problems_per_user,omitempty"`                      // number of problems per user
 }
 
 func (x *IntrospectQuotaOutput) Reset() {
@@ -722,28 +721,28 @@ func (*IntrospectQuotaOutput) Descriptor() ([]byte, []int) {
 	return file_eolymp_cognito_cognito_proto_rawDescGZIP(), []int{7}
 }
 
-func (x *IntrospectQuotaOutput) GetContestsPerUser() *cognito.Quota {
+func (x *IntrospectQuotaOutput) GetContestsPerUser() *Quota {
 	if x != nil {
 		return x.ContestsPerUser
 	}
 	return nil
 }
 
-func (x *IntrospectQuotaOutput) GetProblemsPerContest() *cognito.Quota {
+func (x *IntrospectQuotaOutput) GetProblemsPerContest() *Quota {
 	if x != nil {
 		return x.ProblemsPerContest
 	}
 	return nil
 }
 
-func (x *IntrospectQuotaOutput) GetParticipantsPerContest() *cognito.Quota {
+func (x *IntrospectQuotaOutput) GetParticipantsPerContest() *Quota {
 	if x != nil {
 		return x.ParticipantsPerContest
 	}
 	return nil
 }
 
-func (x *IntrospectQuotaOutput) GetProblemsPerUser() *cognito.Quota {
+func (x *IntrospectQuotaOutput) GetProblemsPerUser() *Quota {
 	if x != nil {
 		return x.ProblemsPerUser
 	}
@@ -793,7 +792,7 @@ type IntrospectUserOutput struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	User *cognito.User `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
+	User *User `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
 }
 
 func (x *IntrospectUserOutput) Reset() {
@@ -828,7 +827,7 @@ func (*IntrospectUserOutput) Descriptor() ([]byte, []int) {
 	return file_eolymp_cognito_cognito_proto_rawDescGZIP(), []int{9}
 }
 
-func (x *IntrospectUserOutput) GetUser() *cognito.User {
+func (x *IntrospectUserOutput) GetUser() *User {
 	if x != nil {
 		return x.User
 	}
@@ -887,7 +886,7 @@ type DescribeUserOutput struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	User *cognito.User `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
+	User *User `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
 }
 
 func (x *DescribeUserOutput) Reset() {
@@ -922,7 +921,7 @@ func (*DescribeUserOutput) Descriptor() ([]byte, []int) {
 	return file_eolymp_cognito_cognito_proto_rawDescGZIP(), []int{11}
 }
 
-func (x *DescribeUserOutput) GetUser() *cognito.User {
+func (x *DescribeUserOutput) GetUser() *User {
 	if x != nil {
 		return x.User
 	}
@@ -999,8 +998,8 @@ type ListUsersOutput struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Total int32           `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty"`
-	Items []*cognito.User `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
+	Total int32   `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty"`
+	Items []*User `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
 }
 
 func (x *ListUsersOutput) Reset() {
@@ -1042,7 +1041,7 @@ func (x *ListUsersOutput) GetTotal() int32 {
 	return 0
 }
 
-func (x *ListUsersOutput) GetItems() []*cognito.User {
+func (x *ListUsersOutput) GetItems() []*User {
 	if x != nil {
 		return x.Items
 	}
@@ -2388,7 +2387,7 @@ type ListEntitlementsOutput struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Entitlements []cognito.Entitlement `protobuf:"varint,1,rep,packed,name=entitlements,proto3,enum=eolymp.cognito.Entitlement" json:"entitlements,omitempty"`
+	Entitlements []Entitlement `protobuf:"varint,1,rep,packed,name=entitlements,proto3,enum=eolymp.cognito.Entitlement" json:"entitlements,omitempty"`
 }
 
 func (x *ListEntitlementsOutput) Reset() {
@@ -2423,7 +2422,7 @@ func (*ListEntitlementsOutput) Descriptor() ([]byte, []int) {
 	return file_eolymp_cognito_cognito_proto_rawDescGZIP(), []int{39}
 }
 
-func (x *ListEntitlementsOutput) GetEntitlements() []cognito.Entitlement {
+func (x *ListEntitlementsOutput) GetEntitlements() []Entitlement {
 	if x != nil {
 		return x.Entitlements
 	}
@@ -2948,8 +2947,8 @@ type ListAccessKeysOutput struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Total int32                `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty"`
-	Items []*cognito.AccessKey `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
+	Total int32        `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty"`
+	Items []*AccessKey `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
 }
 
 func (x *ListAccessKeysOutput) Reset() {
@@ -2991,7 +2990,7 @@ func (x *ListAccessKeysOutput) GetTotal() int32 {
 	return 0
 }
 
-func (x *ListAccessKeysOutput) GetItems() []*cognito.AccessKey {
+func (x *ListAccessKeysOutput) GetItems() []*AccessKey {
 	if x != nil {
 		return x.Items
 	}
@@ -3601,11 +3600,11 @@ var file_eolymp_cognito_cognito_proto_rawDesc = []byte{
 	0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x63, 0x6f, 0x67, 0x6e, 0x69, 0x74, 0x6f, 0x2e, 0x53, 0x65,
 	0x6c, 0x66, 0x44, 0x65, 0x73, 0x74, 0x72, 0x75, 0x63, 0x74, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74,
 	0x22, 0x1c, 0xea, 0xe2, 0x0a, 0x0b, 0xf5, 0xe2, 0x0a, 0x00, 0x00, 0x80, 0x3f, 0xf8, 0xe2, 0x0a,
-	0x0a, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x07, 0x2a, 0x05, 0x2f, 0x73, 0x65, 0x6c, 0x66, 0x42, 0x29,
-	0x5a, 0x27, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x65, 0x6f, 0x6c,
+	0x0a, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x07, 0x2a, 0x05, 0x2f, 0x73, 0x65, 0x6c, 0x66, 0x42, 0x31,
+	0x5a, 0x2f, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x65, 0x6f, 0x6c,
 	0x79, 0x6d, 0x70, 0x2f, 0x67, 0x6f, 0x2d, 0x73, 0x64, 0x6b, 0x2f, 0x65, 0x6f, 0x6c, 0x79, 0x6d,
-	0x70, 0x3b, 0x63, 0x6f, 0x67, 0x6e, 0x69, 0x74, 0x6f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f,
-	0x33,
+	0x70, 0x2f, 0x63, 0x6f, 0x67, 0x6e, 0x69, 0x74, 0x6f, 0x3b, 0x63, 0x6f, 0x67, 0x6e, 0x69, 0x74,
+	0x6f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -3680,10 +3679,10 @@ var file_eolymp_cognito_cognito_proto_goTypes = []interface{}{
 	(*ListUsersInput_Filter)(nil),      // 54: eolymp.cognito.ListUsersInput.Filter
 	nil,                                // 55: eolymp.cognito.NotifyUserInput.ParametersEntry
 	(*timestamppb.Timestamp)(nil),      // 56: google.protobuf.Timestamp
-	(*cognito.Quota)(nil),              // 57: eolymp.cognito.Quota
-	(*cognito.User)(nil),               // 58: eolymp.cognito.User
-	(cognito.Entitlement)(0),           // 59: eolymp.cognito.Entitlement
-	(*cognito.AccessKey)(nil),          // 60: eolymp.cognito.AccessKey
+	(*Quota)(nil),                      // 57: eolymp.cognito.Quota
+	(*User)(nil),                       // 58: eolymp.cognito.User
+	(Entitlement)(0),                   // 59: eolymp.cognito.Entitlement
+	(*AccessKey)(nil),                  // 60: eolymp.cognito.AccessKey
 	(*wellknown.ExpressionID)(nil),     // 61: eolymp.wellknown.ExpressionID
 	(*wellknown.ExpressionString)(nil), // 62: eolymp.wellknown.ExpressionString
 }
@@ -3768,6 +3767,10 @@ func file_eolymp_cognito_cognito_proto_init() {
 	if File_eolymp_cognito_cognito_proto != nil {
 		return
 	}
+	file_eolymp_cognito_access_key_proto_init()
+	file_eolymp_cognito_entitlement_proto_init()
+	file_eolymp_cognito_quota_proto_init()
+	file_eolymp_cognito_user_proto_init()
 	if !protoimpl.UnsafeEnabled {
 		file_eolymp_cognito_cognito_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*CreateTokenInput); i {
