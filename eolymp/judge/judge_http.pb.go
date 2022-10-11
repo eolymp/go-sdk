@@ -106,10 +106,10 @@ func _Judge_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 // NewJudgeHandler constructs new http.Handler for JudgeServer
 func NewJudgeHandler(srv JudgeServer) http.Handler {
 	router := mux.NewRouter()
+	router.Handle("/eolymp.judge.Judge/LookupContest", _Judge_LookupContest(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.judge.Judge/CreateContest", _Judge_CreateContest(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.judge.Judge/DeleteContest", _Judge_DeleteContest(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.judge.Judge/UpdateContest", _Judge_UpdateContest(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.judge.Judge/LookupContest", _Judge_LookupContest(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.judge.Judge/DescribeContest", _Judge_DescribeContest(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.judge.Judge/ListContests", _Judge_ListContests(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.judge.Judge/OpenContest", _Judge_OpenContest(srv)).Methods(http.MethodPost)
@@ -179,82 +179,102 @@ func NewJudgeHandler(srv JudgeServer) http.Handler {
 }
 
 // JudgePrefix defines prefix for routes of this service
-const JudgePrefix = "/judge"
+const JudgePrefix = ""
 
 // NewJudgeHandlerHttp constructs new http.Handler for JudgeServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func NewJudgeHandlerHttp(srv JudgeServer, prefix string) http.Handler {
 	router := mux.NewRouter()
-	router.Handle(prefix+"/judge/contests", _Judge_CreateContest_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/judge/contests/{contest_id}", _Judge_DeleteContest_Rule0(srv)).Methods("DELETE")
-	router.Handle(prefix+"/judge/contests/{contest_id}", _Judge_UpdateContest_Rule0(srv)).Methods("PUT")
-	router.Handle(prefix+"/judge/lookup-contest", _Judge_LookupContest_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/judge/contests/{contest_id}", _Judge_DescribeContest_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/judge/contests", _Judge_ListContests_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/judge/contests/{contest_id}/open", _Judge_OpenContest_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/judge/contests/{contest_id}/close", _Judge_CloseContest_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/judge/contests/{contest_id}/runtime", _Judge_ConfigureRuntime_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/judge/contests/{contest_id}/runtime", _Judge_DescribeRuntime_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/judge/contests/{contest_id}/appearance", _Judge_ConfigureAppearance_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/judge/contests/{contest_id}/appearance", _Judge_DescribeAppearance_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/judge/contests/{contest_id}/scoring", _Judge_ConfigureScoring_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/judge/contests/{contest_id}/scoring", _Judge_DescribeScoring_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/judge/contests/{contest_id}/problems", _Judge_ImportProblem_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/judge/contests/{contest_id}/problems/{problem_id}/sync", _Judge_SyncProblem_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/judge/contests/{contest_id}/problems/{problem_id}", _Judge_UpdateProblem_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/judge/contests/{contest_id}/problems", _Judge_ListProblems_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/judge/contests/{contest_id}/problems/{problem_id}", _Judge_DescribeProblem_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/judge/contests/{contest_id}/problems/{problem_id}/templates/{template_id}", _Judge_DescribeCodeTemplate_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/judge/contests/{contest_id}/problems/{problem_id}/lookup-template", _Judge_LookupCodeTemplate_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/judge/contests/{contest_id}/problems/{problem_id}/statements", _Judge_ListStatements_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/judge/contests/{contest_id}/problems/{problem_id}/attachments", _Judge_ListAttachments_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/judge/contests/{contest_id}/problems/{problem_id}/examples", _Judge_ListExamples_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/judge/contests/{contest_id}/problems/{problem_id}", _Judge_DeleteProblem_Rule0(srv)).Methods("DELETE")
-	router.Handle(prefix+"/judge/contests/{contest_id}/problems/{problem_id}/retest", _Judge_RetestProblem_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/judge/contests/{contest_id}/participants", _Judge_AddParticipant_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/judge/contests/{contest_id}/participants/{participant_id}/enable", _Judge_EnableParticipant_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/judge/contests/{contest_id}/participants/{participant_id}/disable", _Judge_DisableParticipant_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/judge/contests/{contest_id}/participants/{participant_id}", _Judge_UpdateParticipant_Rule0(srv)).Methods("PUT")
-	router.Handle(prefix+"/judge/contests/{contest_id}/participants/{participant_id}", _Judge_RemoveParticipant_Rule0(srv)).Methods("DELETE")
-	router.Handle(prefix+"/judge/contests/{contest_id}/participants", _Judge_ListParticipants_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/judge/contests/{contest_id}/participants/{participant_id}", _Judge_DescribeParticipant_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/judge/contests/{contest_id}/introspect", _Judge_IntrospectParticipant_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/judge/contests/{contest_id}/join", _Judge_JoinContest_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/judge/contests/{contest_id}/start", _Judge_StartContest_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/judge/contests/{contest_id}/verify-passcode", _Judge_VerifyPasscode_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/judge/contests/{contest_id}/enter-passcode", _Judge_EnterPasscode_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/judge/contests/{contest_id}/participants/{participant_id}/passcode", _Judge_ResetPasscode_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/judge/contests/{contest_id}/participants/{participant_id}/passcode", _Judge_RemovePasscode_Rule0(srv)).Methods("DELETE")
-	router.Handle(prefix+"/judge/contests/{contest_id}/problems/{problem_id}/submissions", _Judge_CreateSubmission_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/judge/contests/{contest_id}/submissions", _Judge_ListSubmissions_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/judge/contests/{contest_id}/submissions/{submission_id}", _Judge_DescribeSubmission_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/judge/contests/{contest_id}/submissions/{submission_id}/retest", _Judge_RetestSubmission_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/judge/contests/{contest_id}/tickets", _Judge_CreateTicket_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/judge/tickets/{ticket_id}/close", _Judge_CloseTicket_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/judge/tickets/{ticket_id}/open", _Judge_OpenTicket_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/judge/tickets/{ticket_id}/read", _Judge_ReadTicket_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/judge/tickets/{ticket_id}", _Judge_DeleteTicket_Rule0(srv)).Methods("DELETE")
-	router.Handle(prefix+"/judge/tickets/{ticket_id}", _Judge_DescribeTicket_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/judge/tickets", _Judge_ListTickets_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/judge/tickets/{ticket_id}/replies", _Judge_ReplyTicket_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/judge/tickets/{ticket_id}/replies", _Judge_ListReplies_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/judge/tickets/{ticket_id}/replies/{reply_id}", _Judge_DeleteReply_Rule0(srv)).Methods("DELETE")
-	router.Handle(prefix+"/judge/tickets/{ticket_id}/replies/{reply_id}", _Judge_UpdateReply_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/judge/contests/{contest_id}/announcements", _Judge_CreateAnnouncement_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/judge/contests/{contest_id}/announcements/{announcement_id}", _Judge_UpdateAnnouncement_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/judge/contests/{contest_id}/announcements/{announcement_id}", _Judge_DeleteAnnouncement_Rule0(srv)).Methods("DELETE")
-	router.Handle(prefix+"/judge/contests/{contest_id}/announcements/{announcement_id}/read", _Judge_ReadAnnouncement_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/judge/contests/{contest_id}/announcements/{announcement_id}", _Judge_DescribeAnnouncement_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/judge/contests/{contest_id}/announcements/{announcement_id}/status", _Judge_DescribeAnnouncementStatus_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/judge/contests/{contest_id}/announcements", _Judge_ListAnnouncements_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/judge/contests/{contest_id}/introspect/score", _Judge_IntrospectScore_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/judge/contests/{contest_id}/participants/{participant_id}/score", _Judge_DescribeScore_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/judge/contests/{contest_id}/participants/{participant_id}/scores", _Judge_ImportScore_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/judge/contests/{contest_id}/results", _Judge_ListResult_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/judge/contests/{contest_id}/rebuild", _Judge_RebuildScore_Rule0(srv)).Methods("POST")
-	router.Handle(prefix+"/judge/entitlements", _Judge_ListEntitlements_Rule0(srv)).Methods("GET")
-	router.Handle(prefix+"/judge/contests/{contest_id}/activities", _Judge_ListActivities_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/contests/__lookup", _Judge_LookupContest_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/contests", _Judge_CreateContest_Rule0(srv)).Methods("POST")
+	router.Handle(prefix+"/contests/{contest_id}", _Judge_DeleteContest_Rule0(srv)).Methods("DELETE")
+	router.Handle(prefix+"/contests/{contest_id}", _Judge_UpdateContest_Rule0(srv)).Methods("PUT")
+	router.Handle(prefix+"/contests/{contest_id}", _Judge_DescribeContest_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/contests", _Judge_ListContests_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/contests/{contest_id}/open", _Judge_OpenContest_Rule0(srv)).Methods("POST")
+	router.Handle(prefix+"/contests/{contest_id}/close", _Judge_CloseContest_Rule0(srv)).Methods("POST")
+	router.Handle(prefix+"/contests/{contest_id}/runtime", _Judge_ConfigureRuntime_Rule0(srv)).Methods("POST")
+	router.Handle(prefix+"/contests/{contest_id}/runtime", _Judge_DescribeRuntime_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/contests/{contest_id}/appearance", _Judge_ConfigureAppearance_Rule0(srv)).Methods("POST")
+	router.Handle(prefix+"/contests/{contest_id}/appearance", _Judge_DescribeAppearance_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/contests/{contest_id}/scoring", _Judge_ConfigureScoring_Rule0(srv)).Methods("POST")
+	router.Handle(prefix+"/contests/{contest_id}/scoring", _Judge_DescribeScoring_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/contests/{contest_id}/problems", _Judge_ImportProblem_Rule0(srv)).Methods("POST")
+	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}/sync", _Judge_SyncProblem_Rule0(srv)).Methods("POST")
+	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}", _Judge_UpdateProblem_Rule0(srv)).Methods("POST")
+	router.Handle(prefix+"/contests/{contest_id}/problems", _Judge_ListProblems_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}", _Judge_DescribeProblem_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}/templates/{template_id}", _Judge_DescribeCodeTemplate_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}/lookup-template", _Judge_LookupCodeTemplate_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}/statements", _Judge_ListStatements_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}/attachments", _Judge_ListAttachments_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}/examples", _Judge_ListExamples_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}", _Judge_DeleteProblem_Rule0(srv)).Methods("DELETE")
+	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}/retest", _Judge_RetestProblem_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/contests/{contest_id}/participants", _Judge_AddParticipant_Rule0(srv)).Methods("POST")
+	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/enable", _Judge_EnableParticipant_Rule0(srv)).Methods("POST")
+	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/disable", _Judge_DisableParticipant_Rule0(srv)).Methods("POST")
+	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}", _Judge_UpdateParticipant_Rule0(srv)).Methods("PUT")
+	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}", _Judge_RemoveParticipant_Rule0(srv)).Methods("DELETE")
+	router.Handle(prefix+"/contests/{contest_id}/participants", _Judge_ListParticipants_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}", _Judge_DescribeParticipant_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/contests/{contest_id}/introspect", _Judge_IntrospectParticipant_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/contests/{contest_id}/join", _Judge_JoinContest_Rule0(srv)).Methods("POST")
+	router.Handle(prefix+"/contests/{contest_id}/start", _Judge_StartContest_Rule0(srv)).Methods("POST")
+	router.Handle(prefix+"/contests/{contest_id}/verify-passcode", _Judge_VerifyPasscode_Rule0(srv)).Methods("POST")
+	router.Handle(prefix+"/contests/{contest_id}/enter-passcode", _Judge_EnterPasscode_Rule0(srv)).Methods("POST")
+	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/passcode", _Judge_ResetPasscode_Rule0(srv)).Methods("POST")
+	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/passcode", _Judge_RemovePasscode_Rule0(srv)).Methods("DELETE")
+	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}/submissions", _Judge_CreateSubmission_Rule0(srv)).Methods("POST")
+	router.Handle(prefix+"/contests/{contest_id}/submissions", _Judge_ListSubmissions_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/contests/{contest_id}/submissions/{submission_id}", _Judge_DescribeSubmission_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/contests/{contest_id}/submissions/{submission_id}/retest", _Judge_RetestSubmission_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/contests/{contest_id}/tickets", _Judge_CreateTicket_Rule0(srv)).Methods("POST")
+	router.Handle(prefix+"/tickets/{ticket_id}/close", _Judge_CloseTicket_Rule0(srv)).Methods("POST")
+	router.Handle(prefix+"/tickets/{ticket_id}/open", _Judge_OpenTicket_Rule0(srv)).Methods("POST")
+	router.Handle(prefix+"/tickets/{ticket_id}/read", _Judge_ReadTicket_Rule0(srv)).Methods("POST")
+	router.Handle(prefix+"/tickets/{ticket_id}", _Judge_DeleteTicket_Rule0(srv)).Methods("DELETE")
+	router.Handle(prefix+"/tickets/{ticket_id}", _Judge_DescribeTicket_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/tickets", _Judge_ListTickets_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/tickets/{ticket_id}/replies", _Judge_ReplyTicket_Rule0(srv)).Methods("POST")
+	router.Handle(prefix+"/tickets/{ticket_id}/replies", _Judge_ListReplies_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/tickets/{ticket_id}/replies/{reply_id}", _Judge_DeleteReply_Rule0(srv)).Methods("DELETE")
+	router.Handle(prefix+"/tickets/{ticket_id}/replies/{reply_id}", _Judge_UpdateReply_Rule0(srv)).Methods("POST")
+	router.Handle(prefix+"/contests/{contest_id}/announcements", _Judge_CreateAnnouncement_Rule0(srv)).Methods("POST")
+	router.Handle(prefix+"/contests/{contest_id}/announcements/{announcement_id}", _Judge_UpdateAnnouncement_Rule0(srv)).Methods("POST")
+	router.Handle(prefix+"/contests/{contest_id}/announcements/{announcement_id}", _Judge_DeleteAnnouncement_Rule0(srv)).Methods("DELETE")
+	router.Handle(prefix+"/contests/{contest_id}/announcements/{announcement_id}/read", _Judge_ReadAnnouncement_Rule0(srv)).Methods("POST")
+	router.Handle(prefix+"/contests/{contest_id}/announcements/{announcement_id}", _Judge_DescribeAnnouncement_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/contests/{contest_id}/announcements/{announcement_id}/status", _Judge_DescribeAnnouncementStatus_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/contests/{contest_id}/announcements", _Judge_ListAnnouncements_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/contests/{contest_id}/introspect/score", _Judge_IntrospectScore_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/score", _Judge_DescribeScore_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/scores", _Judge_ImportScore_Rule0(srv)).Methods("POST")
+	router.Handle(prefix+"/contests/{contest_id}/results", _Judge_ListResult_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/contests/{contest_id}/rebuild", _Judge_RebuildScore_Rule0(srv)).Methods("POST")
+	router.Handle(prefix+"/__judge/entitlements", _Judge_ListEntitlements_Rule0(srv)).Methods("GET")
+	router.Handle(prefix+"/contests/{contest_id}/activities", _Judge_ListActivities_Rule0(srv)).Methods("GET")
 	return router
+}
+
+func _Judge_LookupContest(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &LookupContestInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.LookupContest(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
 }
 
 func _Judge_CreateContest(srv JudgeServer) http.Handler {
@@ -308,26 +328,6 @@ func _Judge_UpdateContest(srv JudgeServer) http.Handler {
 		}
 
 		out, err := srv.UpdateContest(r.Context(), in)
-		if err != nil {
-			_Judge_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Judge_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Judge_LookupContest(srv JudgeServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &LookupContestInput{}
-
-		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Judge_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.LookupContest(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -1637,6 +1637,26 @@ func _Judge_ListActivities(srv JudgeServer) http.Handler {
 	})
 }
 
+func _Judge_LookupContest_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &LookupContestInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.LookupContest(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
 func _Judge_CreateContest_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateContestInput{}
@@ -1694,26 +1714,6 @@ func _Judge_UpdateContest_Rule0(srv JudgeServer) http.Handler {
 		in.ContestId = vars["contest_id"]
 
 		out, err := srv.UpdateContest(r.Context(), in)
-		if err != nil {
-			_Judge_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Judge_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Judge_LookupContest_Rule0(srv JudgeServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &LookupContestInput{}
-
-		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Judge_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.LookupContest(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -3259,6 +3259,27 @@ func NewJudgeInterceptor(srv JudgeServer, lim _JudgeLimiter) *JudgeInterceptor {
 	return &JudgeInterceptor{server: srv, limiter: lim}
 }
 
+func (i *JudgeInterceptor) LookupContest(ctx context.Context, in *LookupContestInput) (out *LookupContestOutput, err error) {
+	start := time.Now()
+	defer func() {
+		s, _ := status.FromError(err)
+		if s == nil {
+			s = status.New(codes.OK, "OK")
+		}
+
+		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/LookupContest", s.Code().String()).
+			Observe(time.Since(start).Seconds())
+	}()
+
+	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/LookupContest", 50, 200) {
+		err = status.Error(codes.ResourceExhausted, "too many requests")
+		return
+	}
+
+	out, err = i.server.LookupContest(ctx, in)
+	return
+}
+
 func (i *JudgeInterceptor) CreateContest(ctx context.Context, in *CreateContestInput) (out *CreateContestOutput, err error) {
 	start := time.Now()
 	defer func() {
@@ -3337,27 +3358,6 @@ func (i *JudgeInterceptor) UpdateContest(ctx context.Context, in *UpdateContestI
 	}
 
 	out, err = i.server.UpdateContest(ctx, in)
-	return
-}
-
-func (i *JudgeInterceptor) LookupContest(ctx context.Context, in *LookupContestInput) (out *LookupContestOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
-		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/LookupContest", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/LookupContest", 50, 200) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.LookupContest(ctx, in)
 	return
 }
 

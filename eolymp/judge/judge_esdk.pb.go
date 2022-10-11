@@ -86,6 +86,16 @@ func (s *JudgeService) invoke(ctx context.Context, method string, in, out proto.
 	return nil
 }
 
+func (s *JudgeService) LookupContest(ctx context.Context, in *LookupContestInput) (*LookupContestOutput, error) {
+	out := &LookupContestOutput{}
+
+	if err := s.invoke(ctx, "eolymp.judge.Judge/LookupContest", in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *JudgeService) CreateContest(ctx context.Context, in *CreateContestInput) (*CreateContestOutput, error) {
 	out := &CreateContestOutput{}
 
@@ -110,16 +120,6 @@ func (s *JudgeService) UpdateContest(ctx context.Context, in *UpdateContestInput
 	out := &UpdateContestOutput{}
 
 	if err := s.invoke(ctx, "eolymp.judge.Judge/UpdateContest", in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *JudgeService) LookupContest(ctx context.Context, in *LookupContestInput) (*LookupContestOutput, error) {
-	out := &LookupContestOutput{}
-
-	if err := s.invoke(ctx, "eolymp.judge.Judge/LookupContest", in, out); err != nil {
 		return nil, err
 	}
 

@@ -22,15 +22,15 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type JudgeClient interface {
-	CreateContest(ctx context.Context, in *CreateContestInput, opts ...grpc.CallOption) (*CreateContestOutput, error)
-	DeleteContest(ctx context.Context, in *DeleteContestInput, opts ...grpc.CallOption) (*DeleteContestOutput, error)
-	UpdateContest(ctx context.Context, in *UpdateContestInput, opts ...grpc.CallOption) (*UpdateContestOutput, error)
 	// LookupContest fetches basic (possibly incomplete) contest information. Right now this method is very similar to
 	// DescribeContest, but looks up contest by domain name (key). Its purpose is different than DescribeContest, as
 	// it attempts to "probe" contest rather than fetch complete information.
 	//
 	// This is first API call made by contest-ui just to check if domain name can be resolved into Contest ID.
 	LookupContest(ctx context.Context, in *LookupContestInput, opts ...grpc.CallOption) (*LookupContestOutput, error)
+	CreateContest(ctx context.Context, in *CreateContestInput, opts ...grpc.CallOption) (*CreateContestOutput, error)
+	DeleteContest(ctx context.Context, in *DeleteContestInput, opts ...grpc.CallOption) (*DeleteContestOutput, error)
+	UpdateContest(ctx context.Context, in *UpdateContestInput, opts ...grpc.CallOption) (*UpdateContestOutput, error)
 	DescribeContest(ctx context.Context, in *DescribeContestInput, opts ...grpc.CallOption) (*DescribeContestOutput, error)
 	ListContests(ctx context.Context, in *ListContestsInput, opts ...grpc.CallOption) (*ListContestsOutput, error)
 	// Force-starts scheduled contest, this call also automatically changes starts_at to current time and adjusts
@@ -151,6 +151,15 @@ func NewJudgeClient(cc grpc.ClientConnInterface) JudgeClient {
 	return &judgeClient{cc}
 }
 
+func (c *judgeClient) LookupContest(ctx context.Context, in *LookupContestInput, opts ...grpc.CallOption) (*LookupContestOutput, error) {
+	out := new(LookupContestOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/LookupContest", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *judgeClient) CreateContest(ctx context.Context, in *CreateContestInput, opts ...grpc.CallOption) (*CreateContestOutput, error) {
 	out := new(CreateContestOutput)
 	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/CreateContest", in, out, opts...)
@@ -172,15 +181,6 @@ func (c *judgeClient) DeleteContest(ctx context.Context, in *DeleteContestInput,
 func (c *judgeClient) UpdateContest(ctx context.Context, in *UpdateContestInput, opts ...grpc.CallOption) (*UpdateContestOutput, error) {
 	out := new(UpdateContestOutput)
 	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/UpdateContest", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *judgeClient) LookupContest(ctx context.Context, in *LookupContestInput, opts ...grpc.CallOption) (*LookupContestOutput, error) {
-	out := new(LookupContestOutput)
-	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/LookupContest", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -776,15 +776,15 @@ func (c *judgeClient) ListActivities(ctx context.Context, in *ListActivitiesInpu
 // All implementations should embed UnimplementedJudgeServer
 // for forward compatibility
 type JudgeServer interface {
-	CreateContest(context.Context, *CreateContestInput) (*CreateContestOutput, error)
-	DeleteContest(context.Context, *DeleteContestInput) (*DeleteContestOutput, error)
-	UpdateContest(context.Context, *UpdateContestInput) (*UpdateContestOutput, error)
 	// LookupContest fetches basic (possibly incomplete) contest information. Right now this method is very similar to
 	// DescribeContest, but looks up contest by domain name (key). Its purpose is different than DescribeContest, as
 	// it attempts to "probe" contest rather than fetch complete information.
 	//
 	// This is first API call made by contest-ui just to check if domain name can be resolved into Contest ID.
 	LookupContest(context.Context, *LookupContestInput) (*LookupContestOutput, error)
+	CreateContest(context.Context, *CreateContestInput) (*CreateContestOutput, error)
+	DeleteContest(context.Context, *DeleteContestInput) (*DeleteContestOutput, error)
+	UpdateContest(context.Context, *UpdateContestInput) (*UpdateContestOutput, error)
 	DescribeContest(context.Context, *DescribeContestInput) (*DescribeContestOutput, error)
 	ListContests(context.Context, *ListContestsInput) (*ListContestsOutput, error)
 	// Force-starts scheduled contest, this call also automatically changes starts_at to current time and adjusts
@@ -901,6 +901,9 @@ type JudgeServer interface {
 type UnimplementedJudgeServer struct {
 }
 
+func (UnimplementedJudgeServer) LookupContest(context.Context, *LookupContestInput) (*LookupContestOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method LookupContest not implemented")
+}
 func (UnimplementedJudgeServer) CreateContest(context.Context, *CreateContestInput) (*CreateContestOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateContest not implemented")
 }
@@ -909,9 +912,6 @@ func (UnimplementedJudgeServer) DeleteContest(context.Context, *DeleteContestInp
 }
 func (UnimplementedJudgeServer) UpdateContest(context.Context, *UpdateContestInput) (*UpdateContestOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateContest not implemented")
-}
-func (UnimplementedJudgeServer) LookupContest(context.Context, *LookupContestInput) (*LookupContestOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method LookupContest not implemented")
 }
 func (UnimplementedJudgeServer) DescribeContest(context.Context, *DescribeContestInput) (*DescribeContestOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeContest not implemented")
@@ -1120,6 +1120,24 @@ func RegisterJudgeServer(s grpc.ServiceRegistrar, srv JudgeServer) {
 	s.RegisterService(&Judge_ServiceDesc, srv)
 }
 
+func _Judge_LookupContest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LookupContestInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(JudgeServer).LookupContest(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.judge.Judge/LookupContest",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(JudgeServer).LookupContest(ctx, req.(*LookupContestInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Judge_CreateContest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreateContestInput)
 	if err := dec(in); err != nil {
@@ -1170,24 +1188,6 @@ func _Judge_UpdateContest_Handler(srv interface{}, ctx context.Context, dec func
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(JudgeServer).UpdateContest(ctx, req.(*UpdateContestInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Judge_LookupContest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(LookupContestInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(JudgeServer).LookupContest(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/eolymp.judge.Judge/LookupContest",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(JudgeServer).LookupContest(ctx, req.(*LookupContestInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -2370,6 +2370,10 @@ var Judge_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*JudgeServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
+			MethodName: "LookupContest",
+			Handler:    _Judge_LookupContest_Handler,
+		},
+		{
 			MethodName: "CreateContest",
 			Handler:    _Judge_CreateContest_Handler,
 		},
@@ -2380,10 +2384,6 @@ var Judge_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateContest",
 			Handler:    _Judge_UpdateContest_Handler,
-		},
-		{
-			MethodName: "LookupContest",
-			Handler:    _Judge_LookupContest_Handler,
 		},
 		{
 			MethodName: "DescribeContest",
