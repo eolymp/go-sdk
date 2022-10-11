@@ -11,17 +11,20 @@ import (
 	proto "google.golang.org/protobuf/proto"
 	ioutil "io/ioutil"
 	http "net/http"
+	url "net/url"
 	os "os"
-	strings "strings"
 )
 
 // NewJudge constructs client for Judge
-func NewJudge(cli JudgeHTTPClient) *JudgeService {
-	base := "https://api.eolymp.com"
-	if v := os.Getenv("EOLYMP_API_URL"); v != "" {
-		base = v
+func NewJudgeService(url string, cli JudgeHTTPClient) *JudgeService {
+	if url == "" {
+		url = os.Getenv("EOLYMP_API_URL")
+		if url == "" {
+			url = "https://api.eolymp.com"
+		}
 	}
-	return &JudgeService{base: strings.TrimSuffix(base, "/"), cli: cli}
+
+	return &JudgeService{base: url, cli: cli}
 }
 
 type JudgeHTTPClient interface {
@@ -34,7 +37,7 @@ type JudgeService struct {
 }
 
 // invoke RPC method using twirp-like protocol
-func (s *JudgeService) invoke(ctx context.Context, method string, in, out proto.Message) (err error) {
+func (s *JudgeService) invoke(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
 	input := []byte("{}")
 
 	if in != nil {
@@ -44,7 +47,7 @@ func (s *JudgeService) invoke(ctx context.Context, method string, in, out proto.
 		}
 	}
 
-	req, err := http.NewRequest(http.MethodPost, s.base+"/"+method, bytes.NewReader(input))
+	req, err := http.NewRequest(verb, s.base+"/"+path, bytes.NewReader(input))
 	if err != nil {
 		return err
 	}
@@ -88,8 +91,9 @@ func (s *JudgeService) invoke(ctx context.Context, method string, in, out proto.
 
 func (s *JudgeService) LookupContest(ctx context.Context, in *LookupContestInput) (*LookupContestOutput, error) {
 	out := &LookupContestOutput{}
+	path := "/contests/__lookup"
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/LookupContest", in, out); err != nil {
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -98,8 +102,9 @@ func (s *JudgeService) LookupContest(ctx context.Context, in *LookupContestInput
 
 func (s *JudgeService) CreateContest(ctx context.Context, in *CreateContestInput) (*CreateContestOutput, error) {
 	out := &CreateContestOutput{}
+	path := "/contests"
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/CreateContest", in, out); err != nil {
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -108,8 +113,14 @@ func (s *JudgeService) CreateContest(ctx context.Context, in *CreateContestInput
 
 func (s *JudgeService) DeleteContest(ctx context.Context, in *DeleteContestInput) (*DeleteContestOutput, error) {
 	out := &DeleteContestOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId())
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/DeleteContest", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
+
+	if err := s.invoke(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -118,8 +129,14 @@ func (s *JudgeService) DeleteContest(ctx context.Context, in *DeleteContestInput
 
 func (s *JudgeService) UpdateContest(ctx context.Context, in *UpdateContestInput) (*UpdateContestOutput, error) {
 	out := &UpdateContestOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId())
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/UpdateContest", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
+
+	if err := s.invoke(ctx, "PUT", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -128,8 +145,14 @@ func (s *JudgeService) UpdateContest(ctx context.Context, in *UpdateContestInput
 
 func (s *JudgeService) DescribeContest(ctx context.Context, in *DescribeContestInput) (*DescribeContestOutput, error) {
 	out := &DescribeContestOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId())
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/DescribeContest", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -138,8 +161,9 @@ func (s *JudgeService) DescribeContest(ctx context.Context, in *DescribeContestI
 
 func (s *JudgeService) ListContests(ctx context.Context, in *ListContestsInput) (*ListContestsOutput, error) {
 	out := &ListContestsOutput{}
+	path := "/contests"
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/ListContests", in, out); err != nil {
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -148,8 +172,14 @@ func (s *JudgeService) ListContests(ctx context.Context, in *ListContestsInput) 
 
 func (s *JudgeService) OpenContest(ctx context.Context, in *OpenContestInput) (*OpenContestOutput, error) {
 	out := &OpenContestOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/open"
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/OpenContest", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
+
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -158,8 +188,14 @@ func (s *JudgeService) OpenContest(ctx context.Context, in *OpenContestInput) (*
 
 func (s *JudgeService) CloseContest(ctx context.Context, in *CloseContestInput) (*CloseContestOutput, error) {
 	out := &CloseContestOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/close"
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/CloseContest", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
+
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -168,8 +204,14 @@ func (s *JudgeService) CloseContest(ctx context.Context, in *CloseContestInput) 
 
 func (s *JudgeService) ConfigureRuntime(ctx context.Context, in *ConfigureRuntimeInput) (*ConfigureRuntimeOutput, error) {
 	out := &ConfigureRuntimeOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/runtime"
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/ConfigureRuntime", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
+
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -178,8 +220,14 @@ func (s *JudgeService) ConfigureRuntime(ctx context.Context, in *ConfigureRuntim
 
 func (s *JudgeService) DescribeRuntime(ctx context.Context, in *DescribeRuntimeInput) (*DescribeRuntimeOutput, error) {
 	out := &DescribeRuntimeOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/runtime"
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/DescribeRuntime", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -188,8 +236,14 @@ func (s *JudgeService) DescribeRuntime(ctx context.Context, in *DescribeRuntimeI
 
 func (s *JudgeService) ConfigureAppearance(ctx context.Context, in *ConfigureAppearanceInput) (*ConfigureAppearanceOutput, error) {
 	out := &ConfigureAppearanceOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/appearance"
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/ConfigureAppearance", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
+
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -198,8 +252,14 @@ func (s *JudgeService) ConfigureAppearance(ctx context.Context, in *ConfigureApp
 
 func (s *JudgeService) DescribeAppearance(ctx context.Context, in *DescribeAppearanceInput) (*DescribeAppearanceOutput, error) {
 	out := &DescribeAppearanceOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/appearance"
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/DescribeAppearance", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -208,8 +268,14 @@ func (s *JudgeService) DescribeAppearance(ctx context.Context, in *DescribeAppea
 
 func (s *JudgeService) ConfigureScoring(ctx context.Context, in *ConfigureScoringInput) (*ConfigureScoringOutput, error) {
 	out := &ConfigureScoringOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/scoring"
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/ConfigureScoring", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
+
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -218,8 +284,14 @@ func (s *JudgeService) ConfigureScoring(ctx context.Context, in *ConfigureScorin
 
 func (s *JudgeService) DescribeScoring(ctx context.Context, in *DescribeScoringInput) (*DescribeScoringOutput, error) {
 	out := &DescribeScoringOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/scoring"
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/DescribeScoring", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -228,8 +300,14 @@ func (s *JudgeService) DescribeScoring(ctx context.Context, in *DescribeScoringI
 
 func (s *JudgeService) ImportProblem(ctx context.Context, in *ImportProblemInput) (*ImportProblemOutput, error) {
 	out := &ImportProblemOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/problems"
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/ImportProblem", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
+
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -238,8 +316,15 @@ func (s *JudgeService) ImportProblem(ctx context.Context, in *ImportProblemInput
 
 func (s *JudgeService) SyncProblem(ctx context.Context, in *SyncProblemInput) (*SyncProblemOutput, error) {
 	out := &SyncProblemOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/problems/" + url.PathEscape(in.GetProblemId()) + "/sync"
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/SyncProblem", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+		in.ProblemId = ""
+	}
+
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -248,8 +333,15 @@ func (s *JudgeService) SyncProblem(ctx context.Context, in *SyncProblemInput) (*
 
 func (s *JudgeService) UpdateProblem(ctx context.Context, in *UpdateProblemInput) (*UpdateProblemOutput, error) {
 	out := &UpdateProblemOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/problems/" + url.PathEscape(in.GetProblemId())
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/UpdateProblem", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+		in.ProblemId = ""
+	}
+
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -258,8 +350,14 @@ func (s *JudgeService) UpdateProblem(ctx context.Context, in *UpdateProblemInput
 
 func (s *JudgeService) ListProblems(ctx context.Context, in *ListProblemsInput) (*ListProblemsOutput, error) {
 	out := &ListProblemsOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/problems"
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/ListProblems", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -268,8 +366,15 @@ func (s *JudgeService) ListProblems(ctx context.Context, in *ListProblemsInput) 
 
 func (s *JudgeService) DescribeProblem(ctx context.Context, in *DescribeProblemInput) (*DescribeProblemOutput, error) {
 	out := &DescribeProblemOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/problems/" + url.PathEscape(in.GetProblemId())
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/DescribeProblem", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+		in.ProblemId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -278,8 +383,16 @@ func (s *JudgeService) DescribeProblem(ctx context.Context, in *DescribeProblemI
 
 func (s *JudgeService) DescribeCodeTemplate(ctx context.Context, in *DescribeCodeTemplateInput) (*DescribeCodeTemplateOutput, error) {
 	out := &DescribeCodeTemplateOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/problems/" + url.PathEscape(in.GetProblemId()) + "/templates/" + url.PathEscape(in.GetTemplateId())
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/DescribeCodeTemplate", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+		in.ProblemId = ""
+		in.TemplateId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -288,8 +401,15 @@ func (s *JudgeService) DescribeCodeTemplate(ctx context.Context, in *DescribeCod
 
 func (s *JudgeService) LookupCodeTemplate(ctx context.Context, in *LookupCodeTemplateInput) (*LookupCodeTemplateOutput, error) {
 	out := &LookupCodeTemplateOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/problems/" + url.PathEscape(in.GetProblemId()) + "/lookup-template"
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/LookupCodeTemplate", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+		in.ProblemId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -298,8 +418,15 @@ func (s *JudgeService) LookupCodeTemplate(ctx context.Context, in *LookupCodeTem
 
 func (s *JudgeService) ListStatements(ctx context.Context, in *ListStatementsInput) (*ListStatementsOutput, error) {
 	out := &ListStatementsOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/problems/" + url.PathEscape(in.GetProblemId()) + "/statements"
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/ListStatements", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+		in.ProblemId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -308,8 +435,15 @@ func (s *JudgeService) ListStatements(ctx context.Context, in *ListStatementsInp
 
 func (s *JudgeService) ListAttachments(ctx context.Context, in *ListAttachmentsInput) (*ListAttachmentsOutput, error) {
 	out := &ListAttachmentsOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/problems/" + url.PathEscape(in.GetProblemId()) + "/attachments"
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/ListAttachments", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+		in.ProblemId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -318,8 +452,15 @@ func (s *JudgeService) ListAttachments(ctx context.Context, in *ListAttachmentsI
 
 func (s *JudgeService) ListExamples(ctx context.Context, in *ListExamplesInput) (*ListExamplesOutput, error) {
 	out := &ListExamplesOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/problems/" + url.PathEscape(in.GetProblemId()) + "/examples"
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/ListExamples", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+		in.ProblemId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -328,8 +469,15 @@ func (s *JudgeService) ListExamples(ctx context.Context, in *ListExamplesInput) 
 
 func (s *JudgeService) DeleteProblem(ctx context.Context, in *DeleteProblemInput) (*DeleteProblemOutput, error) {
 	out := &DeleteProblemOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/problems/" + url.PathEscape(in.GetProblemId())
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/DeleteProblem", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+		in.ProblemId = ""
+	}
+
+	if err := s.invoke(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -338,8 +486,15 @@ func (s *JudgeService) DeleteProblem(ctx context.Context, in *DeleteProblemInput
 
 func (s *JudgeService) RetestProblem(ctx context.Context, in *RetestProblemInput) (*RetestProblemOutput, error) {
 	out := &RetestProblemOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/problems/" + url.PathEscape(in.GetProblemId()) + "/retest"
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/RetestProblem", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+		in.ProblemId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -348,8 +503,14 @@ func (s *JudgeService) RetestProblem(ctx context.Context, in *RetestProblemInput
 
 func (s *JudgeService) AddParticipant(ctx context.Context, in *AddParticipantInput) (*AddParticipantOutput, error) {
 	out := &AddParticipantOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/participants"
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/AddParticipant", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
+
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -358,8 +519,15 @@ func (s *JudgeService) AddParticipant(ctx context.Context, in *AddParticipantInp
 
 func (s *JudgeService) EnableParticipant(ctx context.Context, in *EnableParticipantInput) (*EnableParticipantOutput, error) {
 	out := &EnableParticipantOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/participants/" + url.PathEscape(in.GetParticipantId()) + "/enable"
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/EnableParticipant", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+		in.ParticipantId = ""
+	}
+
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -368,8 +536,15 @@ func (s *JudgeService) EnableParticipant(ctx context.Context, in *EnableParticip
 
 func (s *JudgeService) DisableParticipant(ctx context.Context, in *DisableParticipantInput) (*DisableParticipantOutput, error) {
 	out := &DisableParticipantOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/participants/" + url.PathEscape(in.GetParticipantId()) + "/disable"
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/DisableParticipant", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+		in.ParticipantId = ""
+	}
+
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -378,8 +553,15 @@ func (s *JudgeService) DisableParticipant(ctx context.Context, in *DisablePartic
 
 func (s *JudgeService) UpdateParticipant(ctx context.Context, in *UpdateParticipantInput) (*UpdateParticipantOutput, error) {
 	out := &UpdateParticipantOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/participants/" + url.PathEscape(in.GetParticipantId())
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/UpdateParticipant", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+		in.ParticipantId = ""
+	}
+
+	if err := s.invoke(ctx, "PUT", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -388,8 +570,15 @@ func (s *JudgeService) UpdateParticipant(ctx context.Context, in *UpdateParticip
 
 func (s *JudgeService) RemoveParticipant(ctx context.Context, in *RemoveParticipantInput) (*RemoveParticipantOutput, error) {
 	out := &RemoveParticipantOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/participants/" + url.PathEscape(in.GetParticipantId())
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/RemoveParticipant", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+		in.ParticipantId = ""
+	}
+
+	if err := s.invoke(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -398,8 +587,14 @@ func (s *JudgeService) RemoveParticipant(ctx context.Context, in *RemoveParticip
 
 func (s *JudgeService) ListParticipants(ctx context.Context, in *ListParticipantsInput) (*ListParticipantsOutput, error) {
 	out := &ListParticipantsOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/participants"
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/ListParticipants", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -408,8 +603,15 @@ func (s *JudgeService) ListParticipants(ctx context.Context, in *ListParticipant
 
 func (s *JudgeService) DescribeParticipant(ctx context.Context, in *DescribeParticipantInput) (*DescribeParticipantOutput, error) {
 	out := &DescribeParticipantOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/participants/" + url.PathEscape(in.GetParticipantId())
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/DescribeParticipant", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+		in.ParticipantId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -418,8 +620,14 @@ func (s *JudgeService) DescribeParticipant(ctx context.Context, in *DescribePart
 
 func (s *JudgeService) IntrospectParticipant(ctx context.Context, in *IntrospectParticipantInput) (*IntrospectParticipantOutput, error) {
 	out := &IntrospectParticipantOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/introspect"
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/IntrospectParticipant", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -428,8 +636,14 @@ func (s *JudgeService) IntrospectParticipant(ctx context.Context, in *Introspect
 
 func (s *JudgeService) JoinContest(ctx context.Context, in *JoinContestInput) (*JoinContestOutput, error) {
 	out := &JoinContestOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/join"
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/JoinContest", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
+
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -438,8 +652,14 @@ func (s *JudgeService) JoinContest(ctx context.Context, in *JoinContestInput) (*
 
 func (s *JudgeService) StartContest(ctx context.Context, in *StartContestInput) (*StartContestOutput, error) {
 	out := &StartContestOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/start"
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/StartContest", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
+
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -448,8 +668,14 @@ func (s *JudgeService) StartContest(ctx context.Context, in *StartContestInput) 
 
 func (s *JudgeService) VerifyPasscode(ctx context.Context, in *VerifyPasscodeInput) (*VerifyPasscodeOutput, error) {
 	out := &VerifyPasscodeOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/verify-passcode"
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/VerifyPasscode", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
+
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -458,8 +684,14 @@ func (s *JudgeService) VerifyPasscode(ctx context.Context, in *VerifyPasscodeInp
 
 func (s *JudgeService) EnterPasscode(ctx context.Context, in *EnterPasscodeInput) (*EnterPasscodeOutput, error) {
 	out := &EnterPasscodeOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/enter-passcode"
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/EnterPasscode", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
+
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -468,8 +700,15 @@ func (s *JudgeService) EnterPasscode(ctx context.Context, in *EnterPasscodeInput
 
 func (s *JudgeService) ResetPasscode(ctx context.Context, in *ResetPasscodeInput) (*ResetPasscodeOutput, error) {
 	out := &ResetPasscodeOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/participants/" + url.PathEscape(in.GetParticipantId()) + "/passcode"
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/ResetPasscode", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+		in.ParticipantId = ""
+	}
+
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -478,8 +717,15 @@ func (s *JudgeService) ResetPasscode(ctx context.Context, in *ResetPasscodeInput
 
 func (s *JudgeService) RemovePasscode(ctx context.Context, in *RemovePasscodeInput) (*RemovePasscodeOutput, error) {
 	out := &RemovePasscodeOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/participants/" + url.PathEscape(in.GetParticipantId()) + "/passcode"
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/RemovePasscode", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+		in.ParticipantId = ""
+	}
+
+	if err := s.invoke(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -488,8 +734,15 @@ func (s *JudgeService) RemovePasscode(ctx context.Context, in *RemovePasscodeInp
 
 func (s *JudgeService) CreateSubmission(ctx context.Context, in *CreateSubmissionInput) (*CreateSubmissionOutput, error) {
 	out := &CreateSubmissionOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/problems/" + url.PathEscape(in.GetProblemId()) + "/submissions"
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/CreateSubmission", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+		in.ProblemId = ""
+	}
+
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -498,8 +751,14 @@ func (s *JudgeService) CreateSubmission(ctx context.Context, in *CreateSubmissio
 
 func (s *JudgeService) ListSubmissions(ctx context.Context, in *ListSubmissionsInput) (*ListSubmissionsOutput, error) {
 	out := &ListSubmissionsOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/submissions"
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/ListSubmissions", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -508,8 +767,15 @@ func (s *JudgeService) ListSubmissions(ctx context.Context, in *ListSubmissionsI
 
 func (s *JudgeService) DescribeSubmission(ctx context.Context, in *DescribeSubmissionInput) (*DescribeSubmissionOutput, error) {
 	out := &DescribeSubmissionOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/submissions/" + url.PathEscape(in.GetSubmissionId())
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/DescribeSubmission", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+		in.SubmissionId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -518,8 +784,15 @@ func (s *JudgeService) DescribeSubmission(ctx context.Context, in *DescribeSubmi
 
 func (s *JudgeService) RetestSubmission(ctx context.Context, in *RetestSubmissionInput) (*RetestSubmissionOutput, error) {
 	out := &RetestSubmissionOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/submissions/" + url.PathEscape(in.GetSubmissionId()) + "/retest"
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/RetestSubmission", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+		in.SubmissionId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -528,8 +801,14 @@ func (s *JudgeService) RetestSubmission(ctx context.Context, in *RetestSubmissio
 
 func (s *JudgeService) CreateTicket(ctx context.Context, in *CreateTicketInput) (*CreateTicketOutput, error) {
 	out := &CreateTicketOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/tickets"
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/CreateTicket", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
+
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -538,8 +817,14 @@ func (s *JudgeService) CreateTicket(ctx context.Context, in *CreateTicketInput) 
 
 func (s *JudgeService) CloseTicket(ctx context.Context, in *CloseTicketInput) (*CloseTicketOutput, error) {
 	out := &CloseTicketOutput{}
+	path := "/tickets/" + url.PathEscape(in.GetTicketId()) + "/close"
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/CloseTicket", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.TicketId = ""
+	}
+
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -548,8 +833,14 @@ func (s *JudgeService) CloseTicket(ctx context.Context, in *CloseTicketInput) (*
 
 func (s *JudgeService) OpenTicket(ctx context.Context, in *OpenTicketInput) (*OpenTicketOutput, error) {
 	out := &OpenTicketOutput{}
+	path := "/tickets/" + url.PathEscape(in.GetTicketId()) + "/open"
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/OpenTicket", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.TicketId = ""
+	}
+
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -558,8 +849,14 @@ func (s *JudgeService) OpenTicket(ctx context.Context, in *OpenTicketInput) (*Op
 
 func (s *JudgeService) ReadTicket(ctx context.Context, in *ReadTicketInput) (*ReadTicketOutput, error) {
 	out := &ReadTicketOutput{}
+	path := "/tickets/" + url.PathEscape(in.GetTicketId()) + "/read"
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/ReadTicket", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.TicketId = ""
+	}
+
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -568,8 +865,14 @@ func (s *JudgeService) ReadTicket(ctx context.Context, in *ReadTicketInput) (*Re
 
 func (s *JudgeService) DeleteTicket(ctx context.Context, in *DeleteTicketInput) (*DeleteTicketOutput, error) {
 	out := &DeleteTicketOutput{}
+	path := "/tickets/" + url.PathEscape(in.GetTicketId())
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/DeleteTicket", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.TicketId = ""
+	}
+
+	if err := s.invoke(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -578,8 +881,14 @@ func (s *JudgeService) DeleteTicket(ctx context.Context, in *DeleteTicketInput) 
 
 func (s *JudgeService) DescribeTicket(ctx context.Context, in *DescribeTicketInput) (*DescribeTicketOutput, error) {
 	out := &DescribeTicketOutput{}
+	path := "/tickets/" + url.PathEscape(in.GetTicketId())
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/DescribeTicket", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.TicketId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -588,8 +897,9 @@ func (s *JudgeService) DescribeTicket(ctx context.Context, in *DescribeTicketInp
 
 func (s *JudgeService) ListTickets(ctx context.Context, in *ListTicketsInput) (*ListTicketsOutput, error) {
 	out := &ListTicketsOutput{}
+	path := "/tickets"
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/ListTickets", in, out); err != nil {
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -598,8 +908,14 @@ func (s *JudgeService) ListTickets(ctx context.Context, in *ListTicketsInput) (*
 
 func (s *JudgeService) ReplyTicket(ctx context.Context, in *ReplyTicketInput) (*ReplyTicketOutput, error) {
 	out := &ReplyTicketOutput{}
+	path := "/tickets/" + url.PathEscape(in.GetTicketId()) + "/replies"
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/ReplyTicket", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.TicketId = ""
+	}
+
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -608,8 +924,14 @@ func (s *JudgeService) ReplyTicket(ctx context.Context, in *ReplyTicketInput) (*
 
 func (s *JudgeService) ListReplies(ctx context.Context, in *ListRepliesInput) (*ListRepliesOutput, error) {
 	out := &ListRepliesOutput{}
+	path := "/tickets/" + url.PathEscape(in.GetTicketId()) + "/replies"
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/ListReplies", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.TicketId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -618,8 +940,15 @@ func (s *JudgeService) ListReplies(ctx context.Context, in *ListRepliesInput) (*
 
 func (s *JudgeService) DeleteReply(ctx context.Context, in *DeleteReplyInput) (*DeleteReplyOutput, error) {
 	out := &DeleteReplyOutput{}
+	path := "/tickets/" + url.PathEscape(in.GetTicketId()) + "/replies/" + url.PathEscape(in.GetReplyId())
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/DeleteReply", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.TicketId = ""
+		in.ReplyId = ""
+	}
+
+	if err := s.invoke(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -628,8 +957,15 @@ func (s *JudgeService) DeleteReply(ctx context.Context, in *DeleteReplyInput) (*
 
 func (s *JudgeService) UpdateReply(ctx context.Context, in *UpdateReplyInput) (*UpdateReplyOutput, error) {
 	out := &UpdateReplyOutput{}
+	path := "/tickets/" + url.PathEscape(in.GetTicketId()) + "/replies/" + url.PathEscape(in.GetReplyId())
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/UpdateReply", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.TicketId = ""
+		in.ReplyId = ""
+	}
+
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -638,8 +974,14 @@ func (s *JudgeService) UpdateReply(ctx context.Context, in *UpdateReplyInput) (*
 
 func (s *JudgeService) CreateAnnouncement(ctx context.Context, in *CreateAnnouncementInput) (*CreateAnnouncementOutput, error) {
 	out := &CreateAnnouncementOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/announcements"
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/CreateAnnouncement", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
+
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -648,8 +990,15 @@ func (s *JudgeService) CreateAnnouncement(ctx context.Context, in *CreateAnnounc
 
 func (s *JudgeService) UpdateAnnouncement(ctx context.Context, in *UpdateAnnouncementInput) (*UpdateAnnouncementOutput, error) {
 	out := &UpdateAnnouncementOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/announcements/" + url.PathEscape(in.GetAnnouncementId())
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/UpdateAnnouncement", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+		in.AnnouncementId = ""
+	}
+
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -658,8 +1007,15 @@ func (s *JudgeService) UpdateAnnouncement(ctx context.Context, in *UpdateAnnounc
 
 func (s *JudgeService) DeleteAnnouncement(ctx context.Context, in *DeleteAnnouncementInput) (*DeleteAnnouncementOutput, error) {
 	out := &DeleteAnnouncementOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/announcements/" + url.PathEscape(in.GetAnnouncementId())
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/DeleteAnnouncement", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+		in.AnnouncementId = ""
+	}
+
+	if err := s.invoke(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -668,8 +1024,15 @@ func (s *JudgeService) DeleteAnnouncement(ctx context.Context, in *DeleteAnnounc
 
 func (s *JudgeService) ReadAnnouncement(ctx context.Context, in *ReadAnnouncementInput) (*ReadAnnouncementOutput, error) {
 	out := &ReadAnnouncementOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/announcements/" + url.PathEscape(in.GetAnnouncementId()) + "/read"
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/ReadAnnouncement", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+		in.AnnouncementId = ""
+	}
+
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -678,8 +1041,15 @@ func (s *JudgeService) ReadAnnouncement(ctx context.Context, in *ReadAnnouncemen
 
 func (s *JudgeService) DescribeAnnouncement(ctx context.Context, in *DescribeAnnouncementInput) (*DescribeAnnouncementOutput, error) {
 	out := &DescribeAnnouncementOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/announcements/" + url.PathEscape(in.GetAnnouncementId())
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/DescribeAnnouncement", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+		in.AnnouncementId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -688,8 +1058,15 @@ func (s *JudgeService) DescribeAnnouncement(ctx context.Context, in *DescribeAnn
 
 func (s *JudgeService) DescribeAnnouncementStatus(ctx context.Context, in *DescribeAnnouncementStatusInput) (*DescribeAnnouncementStatusOutput, error) {
 	out := &DescribeAnnouncementStatusOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/announcements/" + url.PathEscape(in.GetAnnouncementId()) + "/status"
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/DescribeAnnouncementStatus", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+		in.AnnouncementId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -698,8 +1075,14 @@ func (s *JudgeService) DescribeAnnouncementStatus(ctx context.Context, in *Descr
 
 func (s *JudgeService) ListAnnouncements(ctx context.Context, in *ListAnnouncementsInput) (*ListAnnouncementsOutput, error) {
 	out := &ListAnnouncementsOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/announcements"
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/ListAnnouncements", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -708,8 +1091,14 @@ func (s *JudgeService) ListAnnouncements(ctx context.Context, in *ListAnnounceme
 
 func (s *JudgeService) IntrospectScore(ctx context.Context, in *IntrospectScoreInput) (*IntrospectScoreOutput, error) {
 	out := &IntrospectScoreOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/introspect/score"
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/IntrospectScore", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -718,8 +1107,15 @@ func (s *JudgeService) IntrospectScore(ctx context.Context, in *IntrospectScoreI
 
 func (s *JudgeService) DescribeScore(ctx context.Context, in *DescribeScoreInput) (*DescribeScoreOutput, error) {
 	out := &DescribeScoreOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/participants/" + url.PathEscape(in.GetParticipantId()) + "/score"
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/DescribeScore", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+		in.ParticipantId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -728,8 +1124,15 @@ func (s *JudgeService) DescribeScore(ctx context.Context, in *DescribeScoreInput
 
 func (s *JudgeService) ImportScore(ctx context.Context, in *ImportScoreInput) (*ImportScoreOutput, error) {
 	out := &ImportScoreOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/participants/" + url.PathEscape(in.GetParticipantId()) + "/scores"
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/ImportScore", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+		in.ParticipantId = ""
+	}
+
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -738,8 +1141,14 @@ func (s *JudgeService) ImportScore(ctx context.Context, in *ImportScoreInput) (*
 
 func (s *JudgeService) ListResult(ctx context.Context, in *ListResultInput) (*ListResultOutput, error) {
 	out := &ListResultOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/results"
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/ListResult", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -748,8 +1157,14 @@ func (s *JudgeService) ListResult(ctx context.Context, in *ListResultInput) (*Li
 
 func (s *JudgeService) RebuildScore(ctx context.Context, in *RebuildScoreInput) (*RebuildScoreOutput, error) {
 	out := &RebuildScoreOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/rebuild"
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/RebuildScore", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
+
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -758,8 +1173,9 @@ func (s *JudgeService) RebuildScore(ctx context.Context, in *RebuildScoreInput) 
 
 func (s *JudgeService) ListEntitlements(ctx context.Context, in *ListEntitlementsInput) (*ListEntitlementsOutput, error) {
 	out := &ListEntitlementsOutput{}
+	path := "/__judge/entitlements"
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/ListEntitlements", in, out); err != nil {
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -768,8 +1184,14 @@ func (s *JudgeService) ListEntitlements(ctx context.Context, in *ListEntitlement
 
 func (s *JudgeService) ListActivities(ctx context.Context, in *ListActivitiesInput) (*ListActivitiesOutput, error) {
 	out := &ListActivitiesOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/activities"
 
-	if err := s.invoke(ctx, "eolymp.judge.Judge/ListActivities", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 

@@ -11,17 +11,20 @@ import (
 	proto "google.golang.org/protobuf/proto"
 	ioutil "io/ioutil"
 	http "net/http"
+	url "net/url"
 	os "os"
-	strings "strings"
 )
 
 // NewHelpdesk constructs client for Helpdesk
-func NewHelpdesk(cli HelpdeskHTTPClient) *HelpdeskService {
-	base := "https://api.eolymp.com"
-	if v := os.Getenv("EOLYMP_API_URL"); v != "" {
-		base = v
+func NewHelpdeskService(url string, cli HelpdeskHTTPClient) *HelpdeskService {
+	if url == "" {
+		url = os.Getenv("EOLYMP_API_URL")
+		if url == "" {
+			url = "https://api.eolymp.com"
+		}
 	}
-	return &HelpdeskService{base: strings.TrimSuffix(base, "/"), cli: cli}
+
+	return &HelpdeskService{base: url, cli: cli}
 }
 
 type HelpdeskHTTPClient interface {
@@ -34,7 +37,7 @@ type HelpdeskService struct {
 }
 
 // invoke RPC method using twirp-like protocol
-func (s *HelpdeskService) invoke(ctx context.Context, method string, in, out proto.Message) (err error) {
+func (s *HelpdeskService) invoke(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
 	input := []byte("{}")
 
 	if in != nil {
@@ -44,7 +47,7 @@ func (s *HelpdeskService) invoke(ctx context.Context, method string, in, out pro
 		}
 	}
 
-	req, err := http.NewRequest(http.MethodPost, s.base+"/"+method, bytes.NewReader(input))
+	req, err := http.NewRequest(verb, s.base+"/"+path, bytes.NewReader(input))
 	if err != nil {
 		return err
 	}
@@ -88,8 +91,14 @@ func (s *HelpdeskService) invoke(ctx context.Context, method string, in, out pro
 
 func (s *HelpdeskService) DescribeDocument(ctx context.Context, in *DescribeDocumentInput) (*DescribeDocumentOutput, error) {
 	out := &DescribeDocumentOutput{}
+	path := "/helpdesk/document/" + url.PathEscape(in.GetDocumentId())
 
-	if err := s.invoke(ctx, "eolymp.helpdesk.Helpdesk/DescribeDocument", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.DocumentId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -98,8 +107,9 @@ func (s *HelpdeskService) DescribeDocument(ctx context.Context, in *DescribeDocu
 
 func (s *HelpdeskService) ListDocuments(ctx context.Context, in *ListDocumentsInput) (*ListDocumentsOutput, error) {
 	out := &ListDocumentsOutput{}
+	path := "/helpdesk/documents"
 
-	if err := s.invoke(ctx, "eolymp.helpdesk.Helpdesk/ListDocuments", in, out); err != nil {
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -108,8 +118,9 @@ func (s *HelpdeskService) ListDocuments(ctx context.Context, in *ListDocumentsIn
 
 func (s *HelpdeskService) CreateDocument(ctx context.Context, in *CreateDocumentInput) (*CreateDocumentOutput, error) {
 	out := &CreateDocumentOutput{}
+	path := "/helpdesk/document"
 
-	if err := s.invoke(ctx, "eolymp.helpdesk.Helpdesk/CreateDocument", in, out); err != nil {
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -118,8 +129,14 @@ func (s *HelpdeskService) CreateDocument(ctx context.Context, in *CreateDocument
 
 func (s *HelpdeskService) UpdateDocument(ctx context.Context, in *UpdateDocumentInput) (*UpdateDocumentOutput, error) {
 	out := &UpdateDocumentOutput{}
+	path := "/helpdesk/document/" + url.PathEscape(in.GetDocumentId())
 
-	if err := s.invoke(ctx, "eolymp.helpdesk.Helpdesk/UpdateDocument", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.DocumentId = ""
+	}
+
+	if err := s.invoke(ctx, "PUT", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -128,8 +145,14 @@ func (s *HelpdeskService) UpdateDocument(ctx context.Context, in *UpdateDocument
 
 func (s *HelpdeskService) DeleteDocument(ctx context.Context, in *DeleteDocumentInput) (*DeleteDocumentOutput, error) {
 	out := &DeleteDocumentOutput{}
+	path := "/helpdesk/document/" + url.PathEscape(in.GetDocumentId())
 
-	if err := s.invoke(ctx, "eolymp.helpdesk.Helpdesk/DeleteDocument", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.DocumentId = ""
+	}
+
+	if err := s.invoke(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -138,8 +161,14 @@ func (s *HelpdeskService) DeleteDocument(ctx context.Context, in *DeleteDocument
 
 func (s *HelpdeskService) DescribePath(ctx context.Context, in *DescribePathInput) (*DescribePathOutput, error) {
 	out := &DescribePathOutput{}
+	path := "/helpdesk/paths/" + url.PathEscape(in.GetPath())
 
-	if err := s.invoke(ctx, "eolymp.helpdesk.Helpdesk/DescribePath", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.Path = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -148,8 +177,9 @@ func (s *HelpdeskService) DescribePath(ctx context.Context, in *DescribePathInpu
 
 func (s *HelpdeskService) ListPaths(ctx context.Context, in *ListPathsInput) (*ListPathsOutput, error) {
 	out := &ListPathsOutput{}
+	path := "/helpdesk/paths"
 
-	if err := s.invoke(ctx, "eolymp.helpdesk.Helpdesk/ListPaths", in, out); err != nil {
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -158,8 +188,14 @@ func (s *HelpdeskService) ListPaths(ctx context.Context, in *ListPathsInput) (*L
 
 func (s *HelpdeskService) ListParents(ctx context.Context, in *ListParentsInput) (*ListParentsOutput, error) {
 	out := &ListParentsOutput{}
+	path := "/helpdesk/paths/" + url.PathEscape(in.GetPath()) + "/parents"
 
-	if err := s.invoke(ctx, "eolymp.helpdesk.Helpdesk/ListParents", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.Path = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 

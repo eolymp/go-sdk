@@ -122,9 +122,6 @@ func NewRankerHandler(srv RankerServer) http.Handler {
 	return router
 }
 
-// RankerPrefix defines prefix for routes of this service
-const RankerPrefix = ""
-
 // NewRankerHandlerHttp constructs new http.Handler for RankerServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func NewRankerHandlerHttp(srv RankerServer, prefix string) http.Handler {
@@ -480,7 +477,7 @@ func _Ranker_UpdateScoreboard_Rule0(srv RankerServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.ScoreboardId = vars["scoreboard_id"]
+		in.scoreboardId = vars["scoreboard_id"]
 
 		out, err := srv.UpdateScoreboard(r.Context(), in)
 		if err != nil {
@@ -503,7 +500,7 @@ func _Ranker_RebuildScoreboard_Rule0(srv RankerServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.ScoreboardId = vars["scoreboard_id"]
+		in.scoreboardId = vars["scoreboard_id"]
 
 		out, err := srv.RebuildScoreboard(r.Context(), in)
 		if err != nil {
@@ -526,7 +523,7 @@ func _Ranker_DeleteScoreboard_Rule0(srv RankerServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.ScoreboardId = vars["scoreboard_id"]
+		in.scoreboardId = vars["scoreboard_id"]
 
 		out, err := srv.DeleteScoreboard(r.Context(), in)
 		if err != nil {
@@ -549,7 +546,7 @@ func _Ranker_DescribeScoreboard_Rule0(srv RankerServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.ScoreboardId = vars["scoreboard_id"]
+		in.scoreboardId = vars["scoreboard_id"]
 
 		out, err := srv.DescribeScoreboard(r.Context(), in)
 		if err != nil {
@@ -572,7 +569,7 @@ func _Ranker_DescribeScoreboard_Rule1(srv RankerServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.ScoreboardKey = vars["scoreboard_key"]
+		in.scoreboardKey = vars["scoreboard_key"]
 
 		out, err := srv.DescribeScoreboard(r.Context(), in)
 		if err != nil {
@@ -615,8 +612,8 @@ func _Ranker_DescribeScoreboardRow_Rule0(srv RankerServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.ScoreboardId = vars["scoreboard_id"]
-		in.MemberId = vars["member_id"]
+		in.scoreboardId = vars["scoreboard_id"]
+		in.memberId = vars["member_id"]
 
 		out, err := srv.DescribeScoreboardRow(r.Context(), in)
 		if err != nil {
@@ -639,7 +636,7 @@ func _Ranker_ListScoreboardRows_Rule0(srv RankerServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.ScoreboardId = vars["scoreboard_id"]
+		in.scoreboardId = vars["scoreboard_id"]
 
 		out, err := srv.ListScoreboardRows(r.Context(), in)
 		if err != nil {
@@ -662,7 +659,7 @@ func _Ranker_AddScoreboardColumn_Rule0(srv RankerServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.ScoreboardId = vars["scoreboard_id"]
+		in.scoreboardId = vars["scoreboard_id"]
 
 		out, err := srv.AddScoreboardColumn(r.Context(), in)
 		if err != nil {
@@ -685,7 +682,7 @@ func _Ranker_DeleteScoreboardColumn_Rule0(srv RankerServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.ColumnId = vars["column_id"]
+		in.columnId = vars["column_id"]
 
 		out, err := srv.DeleteScoreboardColumn(r.Context(), in)
 		if err != nil {
@@ -708,7 +705,7 @@ func _Ranker_DescribeScoreboardColumn_Rule0(srv RankerServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.ColumnId = vars["column_id"]
+		in.columnId = vars["column_id"]
 
 		out, err := srv.DescribeScoreboardColumn(r.Context(), in)
 		if err != nil {
@@ -731,7 +728,7 @@ func _Ranker_ListScoreboardColumns_Rule0(srv RankerServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.ScoreboardId = vars["scoreboard_id"]
+		in.scoreboardId = vars["scoreboard_id"]
 
 		out, err := srv.ListScoreboardColumns(r.Context(), in)
 		if err != nil {
@@ -754,7 +751,7 @@ func _Ranker_ListActivities_Rule0(srv RankerServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.ScoreboardId = vars["scoreboard_id"]
+		in.scoreboardId = vars["scoreboard_id"]
 
 		out, err := srv.ListActivities(r.Context(), in)
 		if err != nil {

@@ -11,17 +11,20 @@ import (
 	proto "google.golang.org/protobuf/proto"
 	ioutil "io/ioutil"
 	http "net/http"
+	url "net/url"
 	os "os"
-	strings "strings"
 )
 
 // NewExecutor constructs client for Executor
-func NewExecutor(cli ExecutorHTTPClient) *ExecutorService {
-	base := "https://api.eolymp.com"
-	if v := os.Getenv("EOLYMP_API_URL"); v != "" {
-		base = v
+func NewExecutorService(url string, cli ExecutorHTTPClient) *ExecutorService {
+	if url == "" {
+		url = os.Getenv("EOLYMP_API_URL")
+		if url == "" {
+			url = "https://api.eolymp.com"
+		}
 	}
-	return &ExecutorService{base: strings.TrimSuffix(base, "/"), cli: cli}
+
+	return &ExecutorService{base: url, cli: cli}
 }
 
 type ExecutorHTTPClient interface {
@@ -34,7 +37,7 @@ type ExecutorService struct {
 }
 
 // invoke RPC method using twirp-like protocol
-func (s *ExecutorService) invoke(ctx context.Context, method string, in, out proto.Message) (err error) {
+func (s *ExecutorService) invoke(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
 	input := []byte("{}")
 
 	if in != nil {
@@ -44,7 +47,7 @@ func (s *ExecutorService) invoke(ctx context.Context, method string, in, out pro
 		}
 	}
 
-	req, err := http.NewRequest(http.MethodPost, s.base+"/"+method, bytes.NewReader(input))
+	req, err := http.NewRequest(verb, s.base+"/"+path, bytes.NewReader(input))
 	if err != nil {
 		return err
 	}
@@ -88,8 +91,14 @@ func (s *ExecutorService) invoke(ctx context.Context, method string, in, out pro
 
 func (s *ExecutorService) DescribeLanguage(ctx context.Context, in *DescribeLanguageInput) (*DescribeLanguageOutput, error) {
 	out := &DescribeLanguageOutput{}
+	path := "/executor/languages/" + url.PathEscape(in.GetLanguageId())
 
-	if err := s.invoke(ctx, "eolymp.executor.Executor/DescribeLanguage", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.LanguageId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -98,8 +107,9 @@ func (s *ExecutorService) DescribeLanguage(ctx context.Context, in *DescribeLang
 
 func (s *ExecutorService) ListLanguages(ctx context.Context, in *ListLanguagesInput) (*ListLanguagesOutput, error) {
 	out := &ListLanguagesOutput{}
+	path := "/executor/languages"
 
-	if err := s.invoke(ctx, "eolymp.executor.Executor/ListLanguages", in, out); err != nil {
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -108,8 +118,14 @@ func (s *ExecutorService) ListLanguages(ctx context.Context, in *ListLanguagesIn
 
 func (s *ExecutorService) DescribeRuntime(ctx context.Context, in *DescribeRuntimeInput) (*DescribeRuntimeOutput, error) {
 	out := &DescribeRuntimeOutput{}
+	path := "/executor/runtime/" + url.PathEscape(in.GetRuntimeId())
 
-	if err := s.invoke(ctx, "eolymp.executor.Executor/DescribeRuntime", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.RuntimeId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -118,8 +134,9 @@ func (s *ExecutorService) DescribeRuntime(ctx context.Context, in *DescribeRunti
 
 func (s *ExecutorService) ListRuntime(ctx context.Context, in *ListRuntimeInput) (*ListRuntimeOutput, error) {
 	out := &ListRuntimeOutput{}
+	path := "/executor/runtime"
 
-	if err := s.invoke(ctx, "eolymp.executor.Executor/ListRuntime", in, out); err != nil {
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -128,8 +145,14 @@ func (s *ExecutorService) ListRuntime(ctx context.Context, in *ListRuntimeInput)
 
 func (s *ExecutorService) DescribeCodeTemplate(ctx context.Context, in *DescribeCodeTemplateInput) (*DescribeCodeTemplateOutput, error) {
 	out := &DescribeCodeTemplateOutput{}
+	path := "/executor/runtime/" + url.PathEscape(in.GetRuntimeId()) + "/template"
 
-	if err := s.invoke(ctx, "eolymp.executor.Executor/DescribeCodeTemplate", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.RuntimeId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 

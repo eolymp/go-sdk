@@ -112,9 +112,6 @@ func NewGeographyHandler(srv GeographyServer) http.Handler {
 	return router
 }
 
-// GeographyPrefix defines prefix for routes of this service
-const GeographyPrefix = ""
-
 // NewGeographyHandlerHttp constructs new http.Handler for GeographyServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func NewGeographyHandlerHttp(srv GeographyServer, prefix string) http.Handler {
@@ -230,7 +227,7 @@ func _Geography_DescribeCountry_Rule0(srv GeographyServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.CountryId = vars["country_id"]
+		in.countryId = vars["country_id"]
 
 		out, err := srv.DescribeCountry(r.Context(), in)
 		if err != nil {
@@ -273,7 +270,7 @@ func _Geography_DescribeRegion_Rule0(srv GeographyServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.RegionId = vars["region_id"]
+		in.regionId = vars["region_id"]
 
 		out, err := srv.DescribeRegion(r.Context(), in)
 		if err != nil {
@@ -296,7 +293,7 @@ func _Geography_ListRegions_Rule0(srv GeographyServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.CountryId = vars["country_id"]
+		in.countryId = vars["country_id"]
 
 		out, err := srv.ListRegions(r.Context(), in)
 		if err != nil {

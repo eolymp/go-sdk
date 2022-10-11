@@ -11,17 +11,20 @@ import (
 	proto "google.golang.org/protobuf/proto"
 	ioutil "io/ioutil"
 	http "net/http"
+	url "net/url"
 	os "os"
-	strings "strings"
 )
 
 // NewUniverse constructs client for Universe
-func NewUniverse(cli UniverseHTTPClient) *UniverseService {
-	base := "https://api.eolymp.com"
-	if v := os.Getenv("EOLYMP_API_URL"); v != "" {
-		base = v
+func NewUniverseService(url string, cli UniverseHTTPClient) *UniverseService {
+	if url == "" {
+		url = os.Getenv("EOLYMP_API_URL")
+		if url == "" {
+			url = "https://api.eolymp.com"
+		}
 	}
-	return &UniverseService{base: strings.TrimSuffix(base, "/"), cli: cli}
+
+	return &UniverseService{base: url, cli: cli}
 }
 
 type UniverseHTTPClient interface {
@@ -34,7 +37,7 @@ type UniverseService struct {
 }
 
 // invoke RPC method using twirp-like protocol
-func (s *UniverseService) invoke(ctx context.Context, method string, in, out proto.Message) (err error) {
+func (s *UniverseService) invoke(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
 	input := []byte("{}")
 
 	if in != nil {
@@ -44,7 +47,7 @@ func (s *UniverseService) invoke(ctx context.Context, method string, in, out pro
 		}
 	}
 
-	req, err := http.NewRequest(http.MethodPost, s.base+"/"+method, bytes.NewReader(input))
+	req, err := http.NewRequest(verb, s.base+"/"+path, bytes.NewReader(input))
 	if err != nil {
 		return err
 	}
@@ -88,8 +91,14 @@ func (s *UniverseService) invoke(ctx context.Context, method string, in, out pro
 
 func (s *UniverseService) LookupSpace(ctx context.Context, in *LookupSpaceInput) (*LookupSpaceOutput, error) {
 	out := &LookupSpaceOutput{}
+	path := "/spaces/__lookup/" + url.PathEscape(in.GetKey())
 
-	if err := s.invoke(ctx, "eolymp.universe.Universe/LookupSpace", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.Key = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -98,8 +107,9 @@ func (s *UniverseService) LookupSpace(ctx context.Context, in *LookupSpaceInput)
 
 func (s *UniverseService) CreateSpace(ctx context.Context, in *CreateSpaceInput) (*CreateSpaceOutput, error) {
 	out := &CreateSpaceOutput{}
+	path := "/spaces"
 
-	if err := s.invoke(ctx, "eolymp.universe.Universe/CreateSpace", in, out); err != nil {
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -108,8 +118,14 @@ func (s *UniverseService) CreateSpace(ctx context.Context, in *CreateSpaceInput)
 
 func (s *UniverseService) UpdateSpace(ctx context.Context, in *UpdateSpaceInput) (*UpdateSpaceOutput, error) {
 	out := &UpdateSpaceOutput{}
+	path := "/spaces/" + url.PathEscape(in.GetSpaceId())
 
-	if err := s.invoke(ctx, "eolymp.universe.Universe/UpdateSpace", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.SpaceId = ""
+	}
+
+	if err := s.invoke(ctx, "PUT", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -118,8 +134,14 @@ func (s *UniverseService) UpdateSpace(ctx context.Context, in *UpdateSpaceInput)
 
 func (s *UniverseService) DeleteSpace(ctx context.Context, in *DeleteSpaceInput) (*DeleteSpaceOutput, error) {
 	out := &DeleteSpaceOutput{}
+	path := "/spaces/" + url.PathEscape(in.GetSpaceId())
 
-	if err := s.invoke(ctx, "eolymp.universe.Universe/DeleteSpace", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.SpaceId = ""
+	}
+
+	if err := s.invoke(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -128,8 +150,14 @@ func (s *UniverseService) DeleteSpace(ctx context.Context, in *DeleteSpaceInput)
 
 func (s *UniverseService) DescribeSpace(ctx context.Context, in *DescribeSpaceInput) (*DescribeSpaceOutput, error) {
 	out := &DescribeSpaceOutput{}
+	path := "/spaces/" + url.PathEscape(in.GetSpaceId())
 
-	if err := s.invoke(ctx, "eolymp.universe.Universe/DescribeSpace", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.SpaceId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -138,8 +166,14 @@ func (s *UniverseService) DescribeSpace(ctx context.Context, in *DescribeSpaceIn
 
 func (s *UniverseService) DescribeQuota(ctx context.Context, in *DescribeQuotaInput) (*DescribeQuotaOutput, error) {
 	out := &DescribeQuotaOutput{}
+	path := "/spaces/" + url.PathEscape(in.GetSpaceId()) + "/quota"
 
-	if err := s.invoke(ctx, "eolymp.universe.Universe/DescribeQuota", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.SpaceId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -148,8 +182,9 @@ func (s *UniverseService) DescribeQuota(ctx context.Context, in *DescribeQuotaIn
 
 func (s *UniverseService) ListSpaces(ctx context.Context, in *ListSpacesInput) (*ListSpacesOutput, error) {
 	out := &ListSpacesOutput{}
+	path := "/spaces"
 
-	if err := s.invoke(ctx, "eolymp.universe.Universe/ListSpaces", in, out); err != nil {
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -158,8 +193,15 @@ func (s *UniverseService) ListSpaces(ctx context.Context, in *ListSpacesInput) (
 
 func (s *UniverseService) GrantPermission(ctx context.Context, in *GrantPermissionInput) (*GrantPermissionOutput, error) {
 	out := &GrantPermissionOutput{}
+	path := "/spaces/" + url.PathEscape(in.GetSpaceId()) + "/permissions/" + url.PathEscape(in.GetUserId())
 
-	if err := s.invoke(ctx, "eolymp.universe.Universe/GrantPermission", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.SpaceId = ""
+		in.UserId = ""
+	}
+
+	if err := s.invoke(ctx, "PUT", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -168,8 +210,15 @@ func (s *UniverseService) GrantPermission(ctx context.Context, in *GrantPermissi
 
 func (s *UniverseService) RevokePermission(ctx context.Context, in *RevokePermissionInput) (*RevokePermissionOutput, error) {
 	out := &RevokePermissionOutput{}
+	path := "/spaces/" + url.PathEscape(in.GetSpaceId()) + "/permissions/" + url.PathEscape(in.GetUserId())
 
-	if err := s.invoke(ctx, "eolymp.universe.Universe/RevokePermission", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.SpaceId = ""
+		in.UserId = ""
+	}
+
+	if err := s.invoke(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -178,8 +227,15 @@ func (s *UniverseService) RevokePermission(ctx context.Context, in *RevokePermis
 
 func (s *UniverseService) DescribePermission(ctx context.Context, in *DescribePermissionInput) (*DescribePermissionOutput, error) {
 	out := &DescribePermissionOutput{}
+	path := "/spaces/" + url.PathEscape(in.GetSpaceId()) + "/permissions/" + url.PathEscape(in.GetUserId())
 
-	if err := s.invoke(ctx, "eolymp.universe.Universe/DescribePermission", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.SpaceId = ""
+		in.UserId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -188,8 +244,14 @@ func (s *UniverseService) DescribePermission(ctx context.Context, in *DescribePe
 
 func (s *UniverseService) IntrospectPermission(ctx context.Context, in *IntrospectPermissionInput) (*IntrospectPermissionOutput, error) {
 	out := &IntrospectPermissionOutput{}
+	path := "/spaces/" + url.PathEscape(in.GetSpaceId()) + "/introspect-permission"
 
-	if err := s.invoke(ctx, "eolymp.universe.Universe/IntrospectPermission", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.SpaceId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -198,8 +260,14 @@ func (s *UniverseService) IntrospectPermission(ctx context.Context, in *Introspe
 
 func (s *UniverseService) ListPermissions(ctx context.Context, in *ListPermissionsInput) (*ListPermissionsOutput, error) {
 	out := &ListPermissionsOutput{}
+	path := "/spaces/" + url.PathEscape(in.GetSpaceId()) + "/permissions"
 
-	if err := s.invoke(ctx, "eolymp.universe.Universe/ListPermissions", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.SpaceId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 

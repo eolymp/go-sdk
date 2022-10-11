@@ -12,16 +12,18 @@ import (
 	ioutil "io/ioutil"
 	http "net/http"
 	os "os"
-	strings "strings"
 )
 
 // NewWorkspace constructs client for Workspace
-func NewWorkspace(cli WorkspaceHTTPClient) *WorkspaceService {
-	base := "https://api.eolymp.com"
-	if v := os.Getenv("EOLYMP_API_URL"); v != "" {
-		base = v
+func NewWorkspaceService(url string, cli WorkspaceHTTPClient) *WorkspaceService {
+	if url == "" {
+		url = os.Getenv("EOLYMP_API_URL")
+		if url == "" {
+			url = "https://api.eolymp.com"
+		}
 	}
-	return &WorkspaceService{base: strings.TrimSuffix(base, "/"), cli: cli}
+
+	return &WorkspaceService{base: url, cli: cli}
 }
 
 type WorkspaceHTTPClient interface {
@@ -34,7 +36,7 @@ type WorkspaceService struct {
 }
 
 // invoke RPC method using twirp-like protocol
-func (s *WorkspaceService) invoke(ctx context.Context, method string, in, out proto.Message) (err error) {
+func (s *WorkspaceService) invoke(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
 	input := []byte("{}")
 
 	if in != nil {
@@ -44,7 +46,7 @@ func (s *WorkspaceService) invoke(ctx context.Context, method string, in, out pr
 		}
 	}
 
-	req, err := http.NewRequest(http.MethodPost, s.base+"/"+method, bytes.NewReader(input))
+	req, err := http.NewRequest(verb, s.base+"/"+path, bytes.NewReader(input))
 	if err != nil {
 		return err
 	}
@@ -84,94 +86,4 @@ func (s *WorkspaceService) invoke(ctx context.Context, method string, in, out pr
 	}
 
 	return nil
-}
-
-func (s *WorkspaceService) DescribeProject(ctx context.Context, in *DescribeProjectInput) (*DescribeProjectOutput, error) {
-	out := &DescribeProjectOutput{}
-
-	if err := s.invoke(ctx, "eolymp.workspace.Workspace/DescribeProject", in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *WorkspaceService) ListProjects(ctx context.Context, in *ListProjectsInput) (*ListProjectsOutput, error) {
-	out := &ListProjectsOutput{}
-
-	if err := s.invoke(ctx, "eolymp.workspace.Workspace/ListProjects", in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *WorkspaceService) CreateProject(ctx context.Context, in *CreateProjectInput) (*CreateProjectOutput, error) {
-	out := &CreateProjectOutput{}
-
-	if err := s.invoke(ctx, "eolymp.workspace.Workspace/CreateProject", in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *WorkspaceService) UpdateProject(ctx context.Context, in *UpdateProjectInput) (*UpdateProjectOutput, error) {
-	out := &UpdateProjectOutput{}
-
-	if err := s.invoke(ctx, "eolymp.workspace.Workspace/UpdateProject", in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *WorkspaceService) DeleteProject(ctx context.Context, in *DeleteProjectInput) (*DeleteProjectOutput, error) {
-	out := &DeleteProjectOutput{}
-
-	if err := s.invoke(ctx, "eolymp.workspace.Workspace/DeleteProject", in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *WorkspaceService) ListFiles(ctx context.Context, in *ListFilesInput) (*ListFilesOutput, error) {
-	out := &ListFilesOutput{}
-
-	if err := s.invoke(ctx, "eolymp.workspace.Workspace/ListFiles", in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *WorkspaceService) DescribeFile(ctx context.Context, in *DescribeFileInput) (*DescribeFileOutput, error) {
-	out := &DescribeFileOutput{}
-
-	if err := s.invoke(ctx, "eolymp.workspace.Workspace/DescribeFile", in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *WorkspaceService) UploadFile(ctx context.Context, in *UploadFileInput) (*UploadFileOutput, error) {
-	out := &UploadFileOutput{}
-
-	if err := s.invoke(ctx, "eolymp.workspace.Workspace/UploadFile", in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *WorkspaceService) RemoveFile(ctx context.Context, in *RemoveFileInput) (*RemoveFileOutput, error) {
-	out := &RemoveFileOutput{}
-
-	if err := s.invoke(ctx, "eolymp.workspace.Workspace/RemoveFile", in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
 }

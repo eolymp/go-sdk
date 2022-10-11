@@ -117,9 +117,6 @@ func NewHelpdeskHandler(srv HelpdeskServer) http.Handler {
 	return router
 }
 
-// HelpdeskPrefix defines prefix for routes of this service
-const HelpdeskPrefix = ""
-
 // NewHelpdeskHandlerHttp constructs new http.Handler for HelpdeskServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func NewHelpdeskHandlerHttp(srv HelpdeskServer, prefix string) http.Handler {
@@ -331,7 +328,7 @@ func _Helpdesk_DescribeDocument_Rule0(srv HelpdeskServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.DocumentId = vars["document_id"]
+		in.documentId = vars["document_id"]
 
 		out, err := srv.DescribeDocument(r.Context(), in)
 		if err != nil {
@@ -394,7 +391,7 @@ func _Helpdesk_UpdateDocument_Rule0(srv HelpdeskServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.DocumentId = vars["document_id"]
+		in.documentId = vars["document_id"]
 
 		out, err := srv.UpdateDocument(r.Context(), in)
 		if err != nil {
@@ -417,7 +414,7 @@ func _Helpdesk_DeleteDocument_Rule0(srv HelpdeskServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.DocumentId = vars["document_id"]
+		in.documentId = vars["document_id"]
 
 		out, err := srv.DeleteDocument(r.Context(), in)
 		if err != nil {
@@ -440,7 +437,7 @@ func _Helpdesk_DescribePath_Rule0(srv HelpdeskServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.Path = vars["path"]
+		in.path = vars["path"]
 
 		out, err := srv.DescribePath(r.Context(), in)
 		if err != nil {
@@ -483,7 +480,7 @@ func _Helpdesk_ListParents_Rule0(srv HelpdeskServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.Path = vars["path"]
+		in.path = vars["path"]
 
 		out, err := srv.ListParents(r.Context(), in)
 		if err != nil {

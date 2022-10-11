@@ -134,9 +134,6 @@ func NewCognitoHandler(srv CognitoServer) http.Handler {
 	return router
 }
 
-// CognitoPrefix defines prefix for routes of this service
-const CognitoPrefix = ""
-
 // NewCognitoHandlerHttp constructs new http.Handler for CognitoServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func NewCognitoHandlerHttp(srv CognitoServer, prefix string) http.Handler {
@@ -756,7 +753,7 @@ func _Cognito_DeleteAccessKey_Rule0(srv CognitoServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.KeyId = vars["key_id"]
+		in.keyId = vars["key_id"]
 
 		out, err := srv.DeleteAccessKey(r.Context(), in)
 		if err != nil {
@@ -819,7 +816,7 @@ func _Cognito_VerifyEmail_Rule0(srv CognitoServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.UserId = vars["user_id"]
+		in.userId = vars["user_id"]
 
 		out, err := srv.VerifyEmail(r.Context(), in)
 		if err != nil {
@@ -942,7 +939,7 @@ func _Cognito_CompleteRecovery_Rule0(srv CognitoServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.UserId = vars["user_id"]
+		in.userId = vars["user_id"]
 
 		out, err := srv.CompleteRecovery(r.Context(), in)
 		if err != nil {
@@ -985,7 +982,7 @@ func _Cognito_DescribeUser_Rule0(srv CognitoServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.UserId = vars["user_id"]
+		in.userId = vars["user_id"]
 
 		out, err := srv.DescribeUser(r.Context(), in)
 		if err != nil {
@@ -1068,7 +1065,7 @@ func _Cognito_ListRoles_Rule0(srv CognitoServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.UserId = vars["user_id"]
+		in.userId = vars["user_id"]
 
 		out, err := srv.ListRoles(r.Context(), in)
 		if err != nil {
@@ -1091,7 +1088,7 @@ func _Cognito_UpdateRoles_Rule0(srv CognitoServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.UserId = vars["user_id"]
+		in.userId = vars["user_id"]
 
 		out, err := srv.UpdateRoles(r.Context(), in)
 		if err != nil {

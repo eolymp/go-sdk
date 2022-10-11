@@ -11,17 +11,20 @@ import (
 	proto "google.golang.org/protobuf/proto"
 	ioutil "io/ioutil"
 	http "net/http"
+	url "net/url"
 	os "os"
-	strings "strings"
 )
 
 // NewAtlas constructs client for Atlas
-func NewAtlas(cli AtlasHTTPClient) *AtlasService {
-	base := "https://api.eolymp.com"
-	if v := os.Getenv("EOLYMP_API_URL"); v != "" {
-		base = v
+func NewAtlasService(url string, cli AtlasHTTPClient) *AtlasService {
+	if url == "" {
+		url = os.Getenv("EOLYMP_API_URL")
+		if url == "" {
+			url = "https://api.eolymp.com"
+		}
 	}
-	return &AtlasService{base: strings.TrimSuffix(base, "/"), cli: cli}
+
+	return &AtlasService{base: url, cli: cli}
 }
 
 type AtlasHTTPClient interface {
@@ -34,7 +37,7 @@ type AtlasService struct {
 }
 
 // invoke RPC method using twirp-like protocol
-func (s *AtlasService) invoke(ctx context.Context, method string, in, out proto.Message) (err error) {
+func (s *AtlasService) invoke(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
 	input := []byte("{}")
 
 	if in != nil {
@@ -44,7 +47,7 @@ func (s *AtlasService) invoke(ctx context.Context, method string, in, out proto.
 		}
 	}
 
-	req, err := http.NewRequest(http.MethodPost, s.base+"/"+method, bytes.NewReader(input))
+	req, err := http.NewRequest(verb, s.base+"/"+path, bytes.NewReader(input))
 	if err != nil {
 		return err
 	}
@@ -88,8 +91,9 @@ func (s *AtlasService) invoke(ctx context.Context, method string, in, out proto.
 
 func (s *AtlasService) CreateProblem(ctx context.Context, in *CreateProblemInput) (*CreateProblemOutput, error) {
 	out := &CreateProblemOutput{}
+	path := "/problems"
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/CreateProblem", in, out); err != nil {
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -98,8 +102,14 @@ func (s *AtlasService) CreateProblem(ctx context.Context, in *CreateProblemInput
 
 func (s *AtlasService) DeleteProblem(ctx context.Context, in *DeleteProblemInput) (*DeleteProblemOutput, error) {
 	out := &DeleteProblemOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId())
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/DeleteProblem", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
+
+	if err := s.invoke(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -108,8 +118,9 @@ func (s *AtlasService) DeleteProblem(ctx context.Context, in *DeleteProblemInput
 
 func (s *AtlasService) ListProblems(ctx context.Context, in *ListProblemsInput) (*ListProblemsOutput, error) {
 	out := &ListProblemsOutput{}
+	path := "/problems"
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/ListProblems", in, out); err != nil {
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -118,8 +129,14 @@ func (s *AtlasService) ListProblems(ctx context.Context, in *ListProblemsInput) 
 
 func (s *AtlasService) DescribeProblem(ctx context.Context, in *DescribeProblemInput) (*DescribeProblemOutput, error) {
 	out := &DescribeProblemOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId())
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/DescribeProblem", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -128,8 +145,14 @@ func (s *AtlasService) DescribeProblem(ctx context.Context, in *DescribeProblemI
 
 func (s *AtlasService) UpdateVisibility(ctx context.Context, in *UpdateVisibilityInput) (*UpdateVisibilityOutput, error) {
 	out := &UpdateVisibilityOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/visibility"
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/UpdateVisibility", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
+
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -138,8 +161,14 @@ func (s *AtlasService) UpdateVisibility(ctx context.Context, in *UpdateVisibilit
 
 func (s *AtlasService) UpdatePrivacy(ctx context.Context, in *UpdatePrivacyInput) (*UpdatePrivacyOutput, error) {
 	out := &UpdatePrivacyOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/privacy"
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/UpdatePrivacy", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
+
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -148,8 +177,14 @@ func (s *AtlasService) UpdatePrivacy(ctx context.Context, in *UpdatePrivacyInput
 
 func (s *AtlasService) ListExamples(ctx context.Context, in *ListExamplesInput) (*ListExamplesOutput, error) {
 	out := &ListExamplesOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/examples"
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/ListExamples", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -158,8 +193,14 @@ func (s *AtlasService) ListExamples(ctx context.Context, in *ListExamplesInput) 
 
 func (s *AtlasService) UpdateVerifier(ctx context.Context, in *UpdateVerifierInput) (*UpdateVerifierOutput, error) {
 	out := &UpdateVerifierOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/verifier"
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/UpdateVerifier", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
+
+	if err := s.invoke(ctx, "PUT", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -168,8 +209,14 @@ func (s *AtlasService) UpdateVerifier(ctx context.Context, in *UpdateVerifierInp
 
 func (s *AtlasService) DescribeVerifier(ctx context.Context, in *DescribeVerifierInput) (*DescribeVerifierOutput, error) {
 	out := &DescribeVerifierOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/verifier"
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/DescribeVerifier", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -178,8 +225,14 @@ func (s *AtlasService) DescribeVerifier(ctx context.Context, in *DescribeVerifie
 
 func (s *AtlasService) UpdateInteractor(ctx context.Context, in *UpdateInteractorInput) (*UpdateInteractorOutput, error) {
 	out := &UpdateInteractorOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/interactor"
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/UpdateInteractor", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
+
+	if err := s.invoke(ctx, "PUT", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -188,8 +241,14 @@ func (s *AtlasService) UpdateInteractor(ctx context.Context, in *UpdateInteracto
 
 func (s *AtlasService) DescribeInteractor(ctx context.Context, in *DescribeInteractorInput) (*DescribeInteractorOutput, error) {
 	out := &DescribeInteractorOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/interactor"
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/DescribeInteractor", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -198,8 +257,14 @@ func (s *AtlasService) DescribeInteractor(ctx context.Context, in *DescribeInter
 
 func (s *AtlasService) CreateStatement(ctx context.Context, in *CreateStatementInput) (*CreateStatementOutput, error) {
 	out := &CreateStatementOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/statements"
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/CreateStatement", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
+
+	if err := s.invoke(ctx, "PUT", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -208,8 +273,15 @@ func (s *AtlasService) CreateStatement(ctx context.Context, in *CreateStatementI
 
 func (s *AtlasService) UpdateStatement(ctx context.Context, in *UpdateStatementInput) (*UpdateStatementOutput, error) {
 	out := &UpdateStatementOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/statements/" + url.PathEscape(in.GetStatementId())
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/UpdateStatement", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+		in.StatementId = ""
+	}
+
+	if err := s.invoke(ctx, "PUT", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -218,8 +290,15 @@ func (s *AtlasService) UpdateStatement(ctx context.Context, in *UpdateStatementI
 
 func (s *AtlasService) DeleteStatement(ctx context.Context, in *DeleteStatementInput) (*DeleteStatementOutput, error) {
 	out := &DeleteStatementOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/statements/" + url.PathEscape(in.GetStatementId())
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/DeleteStatement", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+		in.StatementId = ""
+	}
+
+	if err := s.invoke(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -228,8 +307,14 @@ func (s *AtlasService) DeleteStatement(ctx context.Context, in *DeleteStatementI
 
 func (s *AtlasService) ListStatements(ctx context.Context, in *ListStatementsInput) (*ListStatementsOutput, error) {
 	out := &ListStatementsOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/statements"
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/ListStatements", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -238,8 +323,15 @@ func (s *AtlasService) ListStatements(ctx context.Context, in *ListStatementsInp
 
 func (s *AtlasService) DescribeStatement(ctx context.Context, in *DescribeStatementInput) (*DescribeStatementOutput, error) {
 	out := &DescribeStatementOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/statements/" + url.PathEscape(in.GetStatementId())
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/DescribeStatement", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+		in.StatementId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -248,8 +340,14 @@ func (s *AtlasService) DescribeStatement(ctx context.Context, in *DescribeStatem
 
 func (s *AtlasService) CreateTestset(ctx context.Context, in *CreateTestsetInput) (*CreateTestsetOutput, error) {
 	out := &CreateTestsetOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/testsets"
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/CreateTestset", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
+
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -258,8 +356,15 @@ func (s *AtlasService) CreateTestset(ctx context.Context, in *CreateTestsetInput
 
 func (s *AtlasService) UpdateTestset(ctx context.Context, in *UpdateTestsetInput) (*UpdateTestsetOutput, error) {
 	out := &UpdateTestsetOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/testsets/" + url.PathEscape(in.GetTestsetId())
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/UpdateTestset", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+		in.TestsetId = ""
+	}
+
+	if err := s.invoke(ctx, "PUT", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -268,8 +373,15 @@ func (s *AtlasService) UpdateTestset(ctx context.Context, in *UpdateTestsetInput
 
 func (s *AtlasService) DeleteTestset(ctx context.Context, in *DeleteTestsetInput) (*DeleteTestsetOutput, error) {
 	out := &DeleteTestsetOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/testsets/" + url.PathEscape(in.GetTestsetId())
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/DeleteTestset", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+		in.TestsetId = ""
+	}
+
+	if err := s.invoke(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -278,8 +390,14 @@ func (s *AtlasService) DeleteTestset(ctx context.Context, in *DeleteTestsetInput
 
 func (s *AtlasService) ListTestsets(ctx context.Context, in *ListTestsetsInput) (*ListTestsetsOutput, error) {
 	out := &ListTestsetsOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/testsets"
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/ListTestsets", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -288,8 +406,15 @@ func (s *AtlasService) ListTestsets(ctx context.Context, in *ListTestsetsInput) 
 
 func (s *AtlasService) DescribeTestset(ctx context.Context, in *DescribeTestsetInput) (*DescribeTestsetOutput, error) {
 	out := &DescribeTestsetOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/testsets/" + url.PathEscape(in.GetTestsetId())
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/DescribeTestset", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+		in.TestsetId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -298,8 +423,15 @@ func (s *AtlasService) DescribeTestset(ctx context.Context, in *DescribeTestsetI
 
 func (s *AtlasService) CreateTest(ctx context.Context, in *CreateTestInput) (*CreateTestOutput, error) {
 	out := &CreateTestOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/testsets/" + url.PathEscape(in.GetTestsetId()) + "/tests"
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/CreateTest", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+		in.TestsetId = ""
+	}
+
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -308,8 +440,16 @@ func (s *AtlasService) CreateTest(ctx context.Context, in *CreateTestInput) (*Cr
 
 func (s *AtlasService) UpdateTest(ctx context.Context, in *UpdateTestInput) (*UpdateTestOutput, error) {
 	out := &UpdateTestOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/testsets/" + url.PathEscape(in.GetTestsetId()) + "/tests/" + url.PathEscape(in.GetTestId())
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/UpdateTest", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+		in.TestsetId = ""
+		in.TestId = ""
+	}
+
+	if err := s.invoke(ctx, "PUT", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -318,8 +458,16 @@ func (s *AtlasService) UpdateTest(ctx context.Context, in *UpdateTestInput) (*Up
 
 func (s *AtlasService) DeleteTest(ctx context.Context, in *DeleteTestInput) (*DeleteTestOutput, error) {
 	out := &DeleteTestOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/testsets/" + url.PathEscape(in.GetTestsetId()) + "/tests/" + url.PathEscape(in.GetTestId())
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/DeleteTest", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+		in.TestsetId = ""
+		in.TestId = ""
+	}
+
+	if err := s.invoke(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -328,8 +476,15 @@ func (s *AtlasService) DeleteTest(ctx context.Context, in *DeleteTestInput) (*De
 
 func (s *AtlasService) ListTests(ctx context.Context, in *ListTestsInput) (*ListTestsOutput, error) {
 	out := &ListTestsOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/testsets/" + url.PathEscape(in.GetTestsetId()) + "/tests"
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/ListTests", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+		in.TestsetId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -338,8 +493,16 @@ func (s *AtlasService) ListTests(ctx context.Context, in *ListTestsInput) (*List
 
 func (s *AtlasService) DescribeTest(ctx context.Context, in *DescribeTestInput) (*DescribeTestOutput, error) {
 	out := &DescribeTestOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/testsets/" + url.PathEscape(in.GetTestsetId()) + "/tests/" + url.PathEscape(in.GetTestId())
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/DescribeTest", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+		in.TestsetId = ""
+		in.TestId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -348,8 +511,14 @@ func (s *AtlasService) DescribeTest(ctx context.Context, in *DescribeTestInput) 
 
 func (s *AtlasService) GrantPermission(ctx context.Context, in *GrantPermissionInput) (*GrantPermissionOutput, error) {
 	out := &GrantPermissionOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/permissions"
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/GrantPermission", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
+
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -358,8 +527,15 @@ func (s *AtlasService) GrantPermission(ctx context.Context, in *GrantPermissionI
 
 func (s *AtlasService) RevokePermission(ctx context.Context, in *RevokePermissionInput) (*RevokePermissionOutput, error) {
 	out := &RevokePermissionOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/permissions/" + url.PathEscape(in.GetUserId())
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/RevokePermission", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+		in.UserId = ""
+	}
+
+	if err := s.invoke(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -368,8 +544,14 @@ func (s *AtlasService) RevokePermission(ctx context.Context, in *RevokePermissio
 
 func (s *AtlasService) ListPermissions(ctx context.Context, in *ListPermissionsInput) (*ListPermissionsOutput, error) {
 	out := &ListPermissionsOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/permissions"
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/ListPermissions", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -378,8 +560,14 @@ func (s *AtlasService) ListPermissions(ctx context.Context, in *ListPermissionsI
 
 func (s *AtlasService) CreateCodeTemplate(ctx context.Context, in *CreateCodeTemplateInput) (*CreateCodeTemplateOutput, error) {
 	out := &CreateCodeTemplateOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/templates"
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/CreateCodeTemplate", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
+
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -388,8 +576,15 @@ func (s *AtlasService) CreateCodeTemplate(ctx context.Context, in *CreateCodeTem
 
 func (s *AtlasService) UpdateCodeTemplate(ctx context.Context, in *UpdateCodeTemplateInput) (*UpdateCodeTemplateOutput, error) {
 	out := &UpdateCodeTemplateOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/templates/" + url.PathEscape(in.GetTemplateId())
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/UpdateCodeTemplate", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+		in.TemplateId = ""
+	}
+
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -398,8 +593,15 @@ func (s *AtlasService) UpdateCodeTemplate(ctx context.Context, in *UpdateCodeTem
 
 func (s *AtlasService) DeleteCodeTemplate(ctx context.Context, in *DeleteCodeTemplateInput) (*DeleteCodeTemplateOutput, error) {
 	out := &DeleteCodeTemplateOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/templates/" + url.PathEscape(in.GetTemplateId())
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/DeleteCodeTemplate", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+		in.TemplateId = ""
+	}
+
+	if err := s.invoke(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -408,8 +610,14 @@ func (s *AtlasService) DeleteCodeTemplate(ctx context.Context, in *DeleteCodeTem
 
 func (s *AtlasService) ListCodeTemplates(ctx context.Context, in *ListCodeTemplatesInput) (*ListCodeTemplatesOutput, error) {
 	out := &ListCodeTemplatesOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/templates"
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/ListCodeTemplates", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -418,8 +626,15 @@ func (s *AtlasService) ListCodeTemplates(ctx context.Context, in *ListCodeTempla
 
 func (s *AtlasService) DescribeCodeTemplate(ctx context.Context, in *DescribeCodeTemplateInput) (*DescribeCodeTemplateOutput, error) {
 	out := &DescribeCodeTemplateOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/templates/" + url.PathEscape(in.GetTemplateId())
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/DescribeCodeTemplate", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+		in.TemplateId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -428,8 +643,14 @@ func (s *AtlasService) DescribeCodeTemplate(ctx context.Context, in *DescribeCod
 
 func (s *AtlasService) CreateAttachment(ctx context.Context, in *CreateAttachmentInput) (*CreateAttachmentOutput, error) {
 	out := &CreateAttachmentOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/attachments"
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/CreateAttachment", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
+
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -438,8 +659,15 @@ func (s *AtlasService) CreateAttachment(ctx context.Context, in *CreateAttachmen
 
 func (s *AtlasService) UpdateAttachment(ctx context.Context, in *UpdateAttachmentInput) (*UpdateAttachmentOutput, error) {
 	out := &UpdateAttachmentOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/attachments/" + url.PathEscape(in.GetAttachmentId())
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/UpdateAttachment", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+		in.AttachmentId = ""
+	}
+
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -448,8 +676,15 @@ func (s *AtlasService) UpdateAttachment(ctx context.Context, in *UpdateAttachmen
 
 func (s *AtlasService) DeleteAttachment(ctx context.Context, in *DeleteAttachmentInput) (*DeleteAttachmentOutput, error) {
 	out := &DeleteAttachmentOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/attachments/" + url.PathEscape(in.GetAttachmentId())
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/DeleteAttachment", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+		in.AttachmentId = ""
+	}
+
+	if err := s.invoke(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -458,8 +693,14 @@ func (s *AtlasService) DeleteAttachment(ctx context.Context, in *DeleteAttachmen
 
 func (s *AtlasService) ListAttachments(ctx context.Context, in *ListAttachmentsInput) (*ListAttachmentsOutput, error) {
 	out := &ListAttachmentsOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/attachments"
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/ListAttachments", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -468,8 +709,15 @@ func (s *AtlasService) ListAttachments(ctx context.Context, in *ListAttachmentsI
 
 func (s *AtlasService) DescribeAttachment(ctx context.Context, in *DescribeAttachmentInput) (*DescribeAttachmentOutput, error) {
 	out := &DescribeAttachmentOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/attachments/" + url.PathEscape(in.GetAttachmentId())
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/DescribeAttachment", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+		in.AttachmentId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -478,8 +726,15 @@ func (s *AtlasService) DescribeAttachment(ctx context.Context, in *DescribeAttac
 
 func (s *AtlasService) DescribeChange(ctx context.Context, in *DescribeChangeInput) (*DescribeChangeOutput, error) {
 	out := &DescribeChangeOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/changes/" + url.PathEscape(in.GetChangeId())
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/DescribeChange", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+		in.ChangeId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -488,8 +743,14 @@ func (s *AtlasService) DescribeChange(ctx context.Context, in *DescribeChangeInp
 
 func (s *AtlasService) ListChanges(ctx context.Context, in *ListChangesInput) (*ListChangesOutput, error) {
 	out := &ListChangesOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/changes"
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/ListChanges", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -498,8 +759,14 @@ func (s *AtlasService) ListChanges(ctx context.Context, in *ListChangesInput) (*
 
 func (s *AtlasService) ListProblemTop(ctx context.Context, in *ListProblemTopInput) (*ListProblemTopOutput, error) {
 	out := &ListProblemTopOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/top"
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/ListProblemTop", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -508,8 +775,14 @@ func (s *AtlasService) ListProblemTop(ctx context.Context, in *ListProblemTopInp
 
 func (s *AtlasService) DescribeProblemGrading(ctx context.Context, in *DescribeProblemGradingInput) (*DescribeProblemGradingOutput, error) {
 	out := &DescribeProblemGradingOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/grading"
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/DescribeProblemGrading", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -518,8 +791,14 @@ func (s *AtlasService) DescribeProblemGrading(ctx context.Context, in *DescribeP
 
 func (s *AtlasService) CreateSolution(ctx context.Context, in *CreateSolutionInput) (*CreateSolutionOutput, error) {
 	out := &CreateSolutionOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/solutions"
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/CreateSolution", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
+
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -528,8 +807,15 @@ func (s *AtlasService) CreateSolution(ctx context.Context, in *CreateSolutionInp
 
 func (s *AtlasService) UpdateSolution(ctx context.Context, in *UpdateSolutionInput) (*UpdateSolutionOutput, error) {
 	out := &UpdateSolutionOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/solutions/" + url.PathEscape(in.GetSolutionId())
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/UpdateSolution", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+		in.SolutionId = ""
+	}
+
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -538,8 +824,15 @@ func (s *AtlasService) UpdateSolution(ctx context.Context, in *UpdateSolutionInp
 
 func (s *AtlasService) DeleteSolution(ctx context.Context, in *DeleteSolutionInput) (*DeleteSolutionOutput, error) {
 	out := &DeleteSolutionOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/solutions/" + url.PathEscape(in.GetSolutionId())
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/DeleteSolution", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+		in.SolutionId = ""
+	}
+
+	if err := s.invoke(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -548,8 +841,14 @@ func (s *AtlasService) DeleteSolution(ctx context.Context, in *DeleteSolutionInp
 
 func (s *AtlasService) ListSolutions(ctx context.Context, in *ListSolutionsInput) (*ListSolutionsOutput, error) {
 	out := &ListSolutionsOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/solutions"
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/ListSolutions", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -558,8 +857,15 @@ func (s *AtlasService) ListSolutions(ctx context.Context, in *ListSolutionsInput
 
 func (s *AtlasService) DescribeSolution(ctx context.Context, in *DescribeSolutionInput) (*DescribeSolutionOutput, error) {
 	out := &DescribeSolutionOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/solutions/" + url.PathEscape(in.GetSolutionId())
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/DescribeSolution", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+		in.SolutionId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -568,8 +874,15 @@ func (s *AtlasService) DescribeSolution(ctx context.Context, in *DescribeSolutio
 
 func (s *AtlasService) PublishSolution(ctx context.Context, in *PublishSolutionInput) (*PublishSolutionOutput, error) {
 	out := &PublishSolutionOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/solutions/" + url.PathEscape(in.GetSolutionId()) + "/publish"
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/PublishSolution", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+		in.SolutionId = ""
+	}
+
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -578,8 +891,15 @@ func (s *AtlasService) PublishSolution(ctx context.Context, in *PublishSolutionI
 
 func (s *AtlasService) UnpublishSolution(ctx context.Context, in *UnpublishSolutionInput) (*UnpublishSolutionOutput, error) {
 	out := &UnpublishSolutionOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/solutions/" + url.PathEscape(in.GetSolutionId()) + "/unpublish"
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/UnpublishSolution", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+		in.SolutionId = ""
+	}
+
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -588,8 +908,15 @@ func (s *AtlasService) UnpublishSolution(ctx context.Context, in *UnpublishSolut
 
 func (s *AtlasService) ApproveSolution(ctx context.Context, in *ApproveSolutionInput) (*ApproveSolutionOutput, error) {
 	out := &ApproveSolutionOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/solutions/" + url.PathEscape(in.GetSolutionId()) + "/approve"
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/ApproveSolution", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+		in.SolutionId = ""
+	}
+
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -598,8 +925,15 @@ func (s *AtlasService) ApproveSolution(ctx context.Context, in *ApproveSolutionI
 
 func (s *AtlasService) RefuseSolution(ctx context.Context, in *RefuseSolutionInput) (*RefuseSolutionOutput, error) {
 	out := &RefuseSolutionOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/solutions/" + url.PathEscape(in.GetSolutionId()) + "/refuse"
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/RefuseSolution", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+		in.SolutionId = ""
+	}
+
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -608,8 +942,9 @@ func (s *AtlasService) RefuseSolution(ctx context.Context, in *RefuseSolutionInp
 
 func (s *AtlasService) CreateCategory(ctx context.Context, in *CreateCategoryInput) (*CreateCategoryOutput, error) {
 	out := &CreateCategoryOutput{}
+	path := "/categories"
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/CreateCategory", in, out); err != nil {
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -618,8 +953,14 @@ func (s *AtlasService) CreateCategory(ctx context.Context, in *CreateCategoryInp
 
 func (s *AtlasService) UpdateCategory(ctx context.Context, in *UpdateCategoryInput) (*UpdateCategoryOutput, error) {
 	out := &UpdateCategoryOutput{}
+	path := "/categories/" + url.PathEscape(in.GetCategoryId())
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/UpdateCategory", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.CategoryId = ""
+	}
+
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -628,8 +969,14 @@ func (s *AtlasService) UpdateCategory(ctx context.Context, in *UpdateCategoryInp
 
 func (s *AtlasService) DeleteCategory(ctx context.Context, in *DeleteCategoryInput) (*DeleteCategoryOutput, error) {
 	out := &DeleteCategoryOutput{}
+	path := "/categories/" + url.PathEscape(in.GetCategoryId())
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/DeleteCategory", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.CategoryId = ""
+	}
+
+	if err := s.invoke(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -638,8 +985,9 @@ func (s *AtlasService) DeleteCategory(ctx context.Context, in *DeleteCategoryInp
 
 func (s *AtlasService) ListCategories(ctx context.Context, in *ListCategoriesInput) (*ListCategoriesOutput, error) {
 	out := &ListCategoriesOutput{}
+	path := "/categories"
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/ListCategories", in, out); err != nil {
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -648,8 +996,14 @@ func (s *AtlasService) ListCategories(ctx context.Context, in *ListCategoriesInp
 
 func (s *AtlasService) DescribeCategory(ctx context.Context, in *DescribeCategoryInput) (*DescribeCategoryOutput, error) {
 	out := &DescribeCategoryOutput{}
+	path := "/categories/" + url.PathEscape(in.GetCategoryId())
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/DescribeCategory", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.CategoryId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -658,8 +1012,15 @@ func (s *AtlasService) DescribeCategory(ctx context.Context, in *DescribeCategor
 
 func (s *AtlasService) AssignCategory(ctx context.Context, in *AssignCategoryInput) (*AssignCategoryOutput, error) {
 	out := &AssignCategoryOutput{}
+	path := "/categories/" + url.PathEscape(in.GetCategoryId()) + "/problems/" + url.PathEscape(in.GetProblemId())
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/AssignCategory", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.CategoryId = ""
+		in.ProblemId = ""
+	}
+
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -668,8 +1029,15 @@ func (s *AtlasService) AssignCategory(ctx context.Context, in *AssignCategoryInp
 
 func (s *AtlasService) UnassignCategory(ctx context.Context, in *UnassignCategoryInput) (*UnassignCategoryOutput, error) {
 	out := &UnassignCategoryOutput{}
+	path := "/categories/" + url.PathEscape(in.GetCategoryId()) + "/problems/" + url.PathEscape(in.GetProblemId())
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/UnassignCategory", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.CategoryId = ""
+		in.ProblemId = ""
+	}
+
+	if err := s.invoke(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -678,8 +1046,14 @@ func (s *AtlasService) UnassignCategory(ctx context.Context, in *UnassignCategor
 
 func (s *AtlasService) CreateSubmission(ctx context.Context, in *CreateSubmissionInput) (*CreateSubmissionOutput, error) {
 	out := &CreateSubmissionOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/submissions"
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/CreateSubmission", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
+
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -688,8 +1062,15 @@ func (s *AtlasService) CreateSubmission(ctx context.Context, in *CreateSubmissio
 
 func (s *AtlasService) DescribeSubmission(ctx context.Context, in *DescribeSubmissionInput) (*DescribeSubmissionOutput, error) {
 	out := &DescribeSubmissionOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/submissions/" + url.PathEscape(in.GetSubmissionId())
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/DescribeSubmission", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+		in.SubmissionId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -698,8 +1079,15 @@ func (s *AtlasService) DescribeSubmission(ctx context.Context, in *DescribeSubmi
 
 func (s *AtlasService) RetestSubmission(ctx context.Context, in *RetestSubmissionInput) (*RetestSubmissionOutput, error) {
 	out := &RetestSubmissionOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/submissions/" + url.PathEscape(in.GetSubmissionId()) + "/retest"
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/RetestSubmission", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+		in.SubmissionId = ""
+	}
+
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -708,8 +1096,15 @@ func (s *AtlasService) RetestSubmission(ctx context.Context, in *RetestSubmissio
 
 func (s *AtlasService) DescribeScore(ctx context.Context, in *DescribeScoreInput) (*DescribeScoreOutput, error) {
 	out := &DescribeScoreOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/scores/" + url.PathEscape(in.GetUserId())
 
-	if err := s.invoke(ctx, "eolymp.atlas.Atlas/DescribeScore", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+		in.UserId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 

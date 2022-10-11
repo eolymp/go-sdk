@@ -111,9 +111,6 @@ func NewPlaygroundHandler(srv PlaygroundServer) http.Handler {
 	return router
 }
 
-// PlaygroundPrefix defines prefix for routes of this service
-const PlaygroundPrefix = ""
-
 // NewPlaygroundHandlerHttp constructs new http.Handler for PlaygroundServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func NewPlaygroundHandlerHttp(srv PlaygroundServer, prefix string) http.Handler {
@@ -201,7 +198,7 @@ func _Playground_DescribeRun_Rule0(srv PlaygroundServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.RunId = vars["run_id"]
+		in.runId = vars["run_id"]
 
 		out, err := srv.DescribeRun(r.Context(), in)
 		if err != nil {

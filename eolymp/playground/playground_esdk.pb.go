@@ -11,17 +11,20 @@ import (
 	proto "google.golang.org/protobuf/proto"
 	ioutil "io/ioutil"
 	http "net/http"
+	url "net/url"
 	os "os"
-	strings "strings"
 )
 
 // NewPlayground constructs client for Playground
-func NewPlayground(cli PlaygroundHTTPClient) *PlaygroundService {
-	base := "https://api.eolymp.com"
-	if v := os.Getenv("EOLYMP_API_URL"); v != "" {
-		base = v
+func NewPlaygroundService(url string, cli PlaygroundHTTPClient) *PlaygroundService {
+	if url == "" {
+		url = os.Getenv("EOLYMP_API_URL")
+		if url == "" {
+			url = "https://api.eolymp.com"
+		}
 	}
-	return &PlaygroundService{base: strings.TrimSuffix(base, "/"), cli: cli}
+
+	return &PlaygroundService{base: url, cli: cli}
 }
 
 type PlaygroundHTTPClient interface {
@@ -34,7 +37,7 @@ type PlaygroundService struct {
 }
 
 // invoke RPC method using twirp-like protocol
-func (s *PlaygroundService) invoke(ctx context.Context, method string, in, out proto.Message) (err error) {
+func (s *PlaygroundService) invoke(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
 	input := []byte("{}")
 
 	if in != nil {
@@ -44,7 +47,7 @@ func (s *PlaygroundService) invoke(ctx context.Context, method string, in, out p
 		}
 	}
 
-	req, err := http.NewRequest(http.MethodPost, s.base+"/"+method, bytes.NewReader(input))
+	req, err := http.NewRequest(verb, s.base+"/"+path, bytes.NewReader(input))
 	if err != nil {
 		return err
 	}
@@ -88,8 +91,9 @@ func (s *PlaygroundService) invoke(ctx context.Context, method string, in, out p
 
 func (s *PlaygroundService) CreateRun(ctx context.Context, in *CreateRunInput) (*CreateRunOutput, error) {
 	out := &CreateRunOutput{}
+	path := "/playground/runs"
 
-	if err := s.invoke(ctx, "eolymp.playground.Playground/CreateRun", in, out); err != nil {
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -98,8 +102,14 @@ func (s *PlaygroundService) CreateRun(ctx context.Context, in *CreateRunInput) (
 
 func (s *PlaygroundService) DescribeRun(ctx context.Context, in *DescribeRunInput) (*DescribeRunOutput, error) {
 	out := &DescribeRunOutput{}
+	path := "/playground/runs/" + url.PathEscape(in.GetRunId())
 
-	if err := s.invoke(ctx, "eolymp.playground.Playground/DescribeRun", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.RunId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 

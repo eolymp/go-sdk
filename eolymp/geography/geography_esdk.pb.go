@@ -11,17 +11,20 @@ import (
 	proto "google.golang.org/protobuf/proto"
 	ioutil "io/ioutil"
 	http "net/http"
+	url "net/url"
 	os "os"
-	strings "strings"
 )
 
 // NewGeography constructs client for Geography
-func NewGeography(cli GeographyHTTPClient) *GeographyService {
-	base := "https://api.eolymp.com"
-	if v := os.Getenv("EOLYMP_API_URL"); v != "" {
-		base = v
+func NewGeographyService(url string, cli GeographyHTTPClient) *GeographyService {
+	if url == "" {
+		url = os.Getenv("EOLYMP_API_URL")
+		if url == "" {
+			url = "https://api.eolymp.com"
+		}
 	}
-	return &GeographyService{base: strings.TrimSuffix(base, "/"), cli: cli}
+
+	return &GeographyService{base: url, cli: cli}
 }
 
 type GeographyHTTPClient interface {
@@ -34,7 +37,7 @@ type GeographyService struct {
 }
 
 // invoke RPC method using twirp-like protocol
-func (s *GeographyService) invoke(ctx context.Context, method string, in, out proto.Message) (err error) {
+func (s *GeographyService) invoke(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
 	input := []byte("{}")
 
 	if in != nil {
@@ -44,7 +47,7 @@ func (s *GeographyService) invoke(ctx context.Context, method string, in, out pr
 		}
 	}
 
-	req, err := http.NewRequest(http.MethodPost, s.base+"/"+method, bytes.NewReader(input))
+	req, err := http.NewRequest(verb, s.base+"/"+path, bytes.NewReader(input))
 	if err != nil {
 		return err
 	}
@@ -88,8 +91,14 @@ func (s *GeographyService) invoke(ctx context.Context, method string, in, out pr
 
 func (s *GeographyService) DescribeCountry(ctx context.Context, in *DescribeCountryInput) (*DescribeCountryOutput, error) {
 	out := &DescribeCountryOutput{}
+	path := "/geography/countries/" + url.PathEscape(in.GetCountryId())
 
-	if err := s.invoke(ctx, "eolymp.geography.Geography/DescribeCountry", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.CountryId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -98,8 +107,9 @@ func (s *GeographyService) DescribeCountry(ctx context.Context, in *DescribeCoun
 
 func (s *GeographyService) ListCountries(ctx context.Context, in *ListCountriesInput) (*ListCountriesOutput, error) {
 	out := &ListCountriesOutput{}
+	path := "/geography/countries"
 
-	if err := s.invoke(ctx, "eolymp.geography.Geography/ListCountries", in, out); err != nil {
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -108,8 +118,14 @@ func (s *GeographyService) ListCountries(ctx context.Context, in *ListCountriesI
 
 func (s *GeographyService) DescribeRegion(ctx context.Context, in *DescribeRegionInput) (*DescribeRegionOutput, error) {
 	out := &DescribeRegionOutput{}
+	path := "/geography/regions/" + url.PathEscape(in.GetRegionId())
 
-	if err := s.invoke(ctx, "eolymp.geography.Geography/DescribeRegion", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.RegionId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -118,8 +134,14 @@ func (s *GeographyService) DescribeRegion(ctx context.Context, in *DescribeRegio
 
 func (s *GeographyService) ListRegions(ctx context.Context, in *ListRegionsInput) (*ListRegionsOutput, error) {
 	out := &ListRegionsOutput{}
+	path := "/geography/countries/" + url.PathEscape(in.GetCountryId()) + "/regions"
 
-	if err := s.invoke(ctx, "eolymp.geography.Geography/ListRegions", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.CountryId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 

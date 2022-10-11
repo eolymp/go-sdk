@@ -114,9 +114,6 @@ func NewExecutorHandler(srv ExecutorServer) http.Handler {
 	return router
 }
 
-// ExecutorPrefix defines prefix for routes of this service
-const ExecutorPrefix = ""
-
 // NewExecutorHandlerHttp constructs new http.Handler for ExecutorServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func NewExecutorHandlerHttp(srv ExecutorServer, prefix string) http.Handler {
@@ -256,7 +253,7 @@ func _Executor_DescribeLanguage_Rule0(srv ExecutorServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.LanguageId = vars["language_id"]
+		in.languageId = vars["language_id"]
 
 		out, err := srv.DescribeLanguage(r.Context(), in)
 		if err != nil {
@@ -299,7 +296,7 @@ func _Executor_DescribeRuntime_Rule0(srv ExecutorServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.RuntimeId = vars["runtime_id"]
+		in.runtimeId = vars["runtime_id"]
 
 		out, err := srv.DescribeRuntime(r.Context(), in)
 		if err != nil {
@@ -342,7 +339,7 @@ func _Executor_DescribeCodeTemplate_Rule0(srv ExecutorServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.RuntimeId = vars["runtime_id"]
+		in.runtimeId = vars["runtime_id"]
 
 		out, err := srv.DescribeCodeTemplate(r.Context(), in)
 		if err != nil {

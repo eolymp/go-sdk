@@ -12,16 +12,18 @@ import (
 	ioutil "io/ioutil"
 	http "net/http"
 	os "os"
-	strings "strings"
 )
 
 // NewKeeper constructs client for Keeper
-func NewKeeper(cli KeeperHTTPClient) *KeeperService {
-	base := "https://api.eolymp.com"
-	if v := os.Getenv("EOLYMP_API_URL"); v != "" {
-		base = v
+func NewKeeperService(url string, cli KeeperHTTPClient) *KeeperService {
+	if url == "" {
+		url = os.Getenv("EOLYMP_API_URL")
+		if url == "" {
+			url = "https://api.eolymp.com"
+		}
 	}
-	return &KeeperService{base: strings.TrimSuffix(base, "/"), cli: cli}
+
+	return &KeeperService{base: url, cli: cli}
 }
 
 type KeeperHTTPClient interface {
@@ -34,7 +36,7 @@ type KeeperService struct {
 }
 
 // invoke RPC method using twirp-like protocol
-func (s *KeeperService) invoke(ctx context.Context, method string, in, out proto.Message) (err error) {
+func (s *KeeperService) invoke(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
 	input := []byte("{}")
 
 	if in != nil {
@@ -44,7 +46,7 @@ func (s *KeeperService) invoke(ctx context.Context, method string, in, out proto
 		}
 	}
 
-	req, err := http.NewRequest(http.MethodPost, s.base+"/"+method, bytes.NewReader(input))
+	req, err := http.NewRequest(verb, s.base+"/"+path, bytes.NewReader(input))
 	if err != nil {
 		return err
 	}
@@ -84,34 +86,4 @@ func (s *KeeperService) invoke(ctx context.Context, method string, in, out proto
 	}
 
 	return nil
-}
-
-func (s *KeeperService) CreateObject(ctx context.Context, in *CreateObjectInput) (*CreateObjectOutput, error) {
-	out := &CreateObjectOutput{}
-
-	if err := s.invoke(ctx, "eolymp.keeper.Keeper/CreateObject", in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *KeeperService) DescribeObject(ctx context.Context, in *DescribeObjectInput) (*DescribeObjectOutput, error) {
-	out := &DescribeObjectOutput{}
-
-	if err := s.invoke(ctx, "eolymp.keeper.Keeper/DescribeObject", in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *KeeperService) DownloadObject(ctx context.Context, in *DownloadObjectInput) (*DownloadObjectOutput, error) {
-	out := &DownloadObjectOutput{}
-
-	if err := s.invoke(ctx, "eolymp.keeper.Keeper/DownloadObject", in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
 }

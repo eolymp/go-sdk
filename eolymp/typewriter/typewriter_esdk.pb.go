@@ -12,16 +12,18 @@ import (
 	ioutil "io/ioutil"
 	http "net/http"
 	os "os"
-	strings "strings"
 )
 
 // NewTypewriter constructs client for Typewriter
-func NewTypewriter(cli TypewriterHTTPClient) *TypewriterService {
-	base := "https://api.eolymp.com"
-	if v := os.Getenv("EOLYMP_API_URL"); v != "" {
-		base = v
+func NewTypewriterService(url string, cli TypewriterHTTPClient) *TypewriterService {
+	if url == "" {
+		url = os.Getenv("EOLYMP_API_URL")
+		if url == "" {
+			url = "https://api.eolymp.com"
+		}
 	}
-	return &TypewriterService{base: strings.TrimSuffix(base, "/"), cli: cli}
+
+	return &TypewriterService{base: url, cli: cli}
 }
 
 type TypewriterHTTPClient interface {
@@ -34,7 +36,7 @@ type TypewriterService struct {
 }
 
 // invoke RPC method using twirp-like protocol
-func (s *TypewriterService) invoke(ctx context.Context, method string, in, out proto.Message) (err error) {
+func (s *TypewriterService) invoke(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
 	input := []byte("{}")
 
 	if in != nil {
@@ -44,7 +46,7 @@ func (s *TypewriterService) invoke(ctx context.Context, method string, in, out p
 		}
 	}
 
-	req, err := http.NewRequest(http.MethodPost, s.base+"/"+method, bytes.NewReader(input))
+	req, err := http.NewRequest(verb, s.base+"/"+path, bytes.NewReader(input))
 	if err != nil {
 		return err
 	}
@@ -84,14 +86,4 @@ func (s *TypewriterService) invoke(ctx context.Context, method string, in, out p
 	}
 
 	return nil
-}
-
-func (s *TypewriterService) UploadAsset(ctx context.Context, in *UploadAssetInput) (*UploadAssetOutput, error) {
-	out := &UploadAssetOutput{}
-
-	if err := s.invoke(ctx, "eolymp.typewriter.Typewriter/UploadAsset", in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
 }

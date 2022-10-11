@@ -121,9 +121,6 @@ func NewUniverseHandler(srv UniverseServer) http.Handler {
 	return router
 }
 
-// UniversePrefix defines prefix for routes of this service
-const UniversePrefix = "/spaces"
-
 // NewUniverseHandlerHttp constructs new http.Handler for UniverseServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func NewUniverseHandlerHttp(srv UniverseServer, prefix string) http.Handler {
@@ -431,7 +428,7 @@ func _Universe_LookupSpace_Rule0(srv UniverseServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.Key = vars["key"]
+		in.key = vars["key"]
 
 		out, err := srv.LookupSpace(r.Context(), in)
 		if err != nil {
@@ -474,7 +471,7 @@ func _Universe_UpdateSpace_Rule0(srv UniverseServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.SpaceId = vars["space_id"]
+		in.spaceId = vars["space_id"]
 
 		out, err := srv.UpdateSpace(r.Context(), in)
 		if err != nil {
@@ -497,7 +494,7 @@ func _Universe_DeleteSpace_Rule0(srv UniverseServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.SpaceId = vars["space_id"]
+		in.spaceId = vars["space_id"]
 
 		out, err := srv.DeleteSpace(r.Context(), in)
 		if err != nil {
@@ -520,7 +517,7 @@ func _Universe_DescribeSpace_Rule0(srv UniverseServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.SpaceId = vars["space_id"]
+		in.spaceId = vars["space_id"]
 
 		out, err := srv.DescribeSpace(r.Context(), in)
 		if err != nil {
@@ -543,7 +540,7 @@ func _Universe_DescribeQuota_Rule0(srv UniverseServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.SpaceId = vars["space_id"]
+		in.spaceId = vars["space_id"]
 
 		out, err := srv.DescribeQuota(r.Context(), in)
 		if err != nil {
@@ -586,8 +583,8 @@ func _Universe_GrantPermission_Rule0(srv UniverseServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.SpaceId = vars["space_id"]
-		in.UserId = vars["user_id"]
+		in.spaceId = vars["space_id"]
+		in.userId = vars["user_id"]
 
 		out, err := srv.GrantPermission(r.Context(), in)
 		if err != nil {
@@ -610,8 +607,8 @@ func _Universe_RevokePermission_Rule0(srv UniverseServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.SpaceId = vars["space_id"]
-		in.UserId = vars["user_id"]
+		in.spaceId = vars["space_id"]
+		in.userId = vars["user_id"]
 
 		out, err := srv.RevokePermission(r.Context(), in)
 		if err != nil {
@@ -634,8 +631,8 @@ func _Universe_DescribePermission_Rule0(srv UniverseServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.SpaceId = vars["space_id"]
-		in.UserId = vars["user_id"]
+		in.spaceId = vars["space_id"]
+		in.userId = vars["user_id"]
 
 		out, err := srv.DescribePermission(r.Context(), in)
 		if err != nil {
@@ -658,7 +655,7 @@ func _Universe_IntrospectPermission_Rule0(srv UniverseServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.SpaceId = vars["space_id"]
+		in.spaceId = vars["space_id"]
 
 		out, err := srv.IntrospectPermission(r.Context(), in)
 		if err != nil {
@@ -681,7 +678,7 @@ func _Universe_ListPermissions_Rule0(srv UniverseServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.SpaceId = vars["space_id"]
+		in.spaceId = vars["space_id"]
 
 		out, err := srv.ListPermissions(r.Context(), in)
 		if err != nil {

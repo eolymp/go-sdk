@@ -11,17 +11,20 @@ import (
 	proto "google.golang.org/protobuf/proto"
 	ioutil "io/ioutil"
 	http "net/http"
+	url "net/url"
 	os "os"
-	strings "strings"
 )
 
 // NewCognito constructs client for Cognito
-func NewCognito(cli CognitoHTTPClient) *CognitoService {
-	base := "https://api.eolymp.com"
-	if v := os.Getenv("EOLYMP_API_URL"); v != "" {
-		base = v
+func NewCognitoService(url string, cli CognitoHTTPClient) *CognitoService {
+	if url == "" {
+		url = os.Getenv("EOLYMP_API_URL")
+		if url == "" {
+			url = "https://api.eolymp.com"
+		}
 	}
-	return &CognitoService{base: strings.TrimSuffix(base, "/"), cli: cli}
+
+	return &CognitoService{base: url, cli: cli}
 }
 
 type CognitoHTTPClient interface {
@@ -34,7 +37,7 @@ type CognitoService struct {
 }
 
 // invoke RPC method using twirp-like protocol
-func (s *CognitoService) invoke(ctx context.Context, method string, in, out proto.Message) (err error) {
+func (s *CognitoService) invoke(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
 	input := []byte("{}")
 
 	if in != nil {
@@ -44,7 +47,7 @@ func (s *CognitoService) invoke(ctx context.Context, method string, in, out prot
 		}
 	}
 
-	req, err := http.NewRequest(http.MethodPost, s.base+"/"+method, bytes.NewReader(input))
+	req, err := http.NewRequest(verb, s.base+"/"+path, bytes.NewReader(input))
 	if err != nil {
 		return err
 	}
@@ -86,60 +89,11 @@ func (s *CognitoService) invoke(ctx context.Context, method string, in, out prot
 	return nil
 }
 
-func (s *CognitoService) CreateToken(ctx context.Context, in *CreateTokenInput) (*CreateTokenOutput, error) {
-	out := &CreateTokenOutput{}
-
-	if err := s.invoke(ctx, "eolymp.cognito.Cognito/CreateToken", in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *CognitoService) IntrospectToken(ctx context.Context, in *IntrospectTokenInput) (*IntrospectTokenOutput, error) {
-	out := &IntrospectTokenOutput{}
-
-	if err := s.invoke(ctx, "eolymp.cognito.Cognito/IntrospectToken", in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *CognitoService) CreateAuthorization(ctx context.Context, in *CreateAuthorizationInput) (*CreateAuthorizationOutput, error) {
-	out := &CreateAuthorizationOutput{}
-
-	if err := s.invoke(ctx, "eolymp.cognito.Cognito/CreateAuthorization", in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *CognitoService) RevokeToken(ctx context.Context, in *RevokeTokenInput) (*RevokeTokenOutput, error) {
-	out := &RevokeTokenOutput{}
-
-	if err := s.invoke(ctx, "eolymp.cognito.Cognito/RevokeToken", in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *CognitoService) Signout(ctx context.Context, in *SignoutInput) (*SignoutOutput, error) {
-	out := &SignoutOutput{}
-
-	if err := s.invoke(ctx, "eolymp.cognito.Cognito/Signout", in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
 func (s *CognitoService) CreateAccessKey(ctx context.Context, in *CreateAccessKeyInput) (*CreateAccessKeyOutput, error) {
 	out := &CreateAccessKeyOutput{}
+	path := "/access-keys"
 
-	if err := s.invoke(ctx, "eolymp.cognito.Cognito/CreateAccessKey", in, out); err != nil {
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -148,8 +102,14 @@ func (s *CognitoService) CreateAccessKey(ctx context.Context, in *CreateAccessKe
 
 func (s *CognitoService) DeleteAccessKey(ctx context.Context, in *DeleteAccessKeyInput) (*DeleteAccessKeyOutput, error) {
 	out := &DeleteAccessKeyOutput{}
+	path := "/access-keys/" + url.PathEscape(in.GetKeyId())
 
-	if err := s.invoke(ctx, "eolymp.cognito.Cognito/DeleteAccessKey", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.KeyId = ""
+	}
+
+	if err := s.invoke(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -158,8 +118,9 @@ func (s *CognitoService) DeleteAccessKey(ctx context.Context, in *DeleteAccessKe
 
 func (s *CognitoService) ListAccessKeys(ctx context.Context, in *ListAccessKeysInput) (*ListAccessKeysOutput, error) {
 	out := &ListAccessKeysOutput{}
+	path := "/access-keys"
 
-	if err := s.invoke(ctx, "eolymp.cognito.Cognito/ListAccessKeys", in, out); err != nil {
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -168,8 +129,9 @@ func (s *CognitoService) ListAccessKeys(ctx context.Context, in *ListAccessKeysI
 
 func (s *CognitoService) CreateUser(ctx context.Context, in *CreateUserInput) (*CreateUserOutput, error) {
 	out := &CreateUserOutput{}
+	path := "/users"
 
-	if err := s.invoke(ctx, "eolymp.cognito.Cognito/CreateUser", in, out); err != nil {
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -178,8 +140,14 @@ func (s *CognitoService) CreateUser(ctx context.Context, in *CreateUserInput) (*
 
 func (s *CognitoService) VerifyEmail(ctx context.Context, in *VerifyEmailInput) (*VerifyEmailOutput, error) {
 	out := &VerifyEmailOutput{}
+	path := "/users/" + url.PathEscape(in.GetUserId()) + "/verify"
 
-	if err := s.invoke(ctx, "eolymp.cognito.Cognito/VerifyEmail", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.UserId = ""
+	}
+
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -188,8 +156,9 @@ func (s *CognitoService) VerifyEmail(ctx context.Context, in *VerifyEmailInput) 
 
 func (s *CognitoService) UpdateEmail(ctx context.Context, in *UpdateEmailInput) (*UpdateEmailOutput, error) {
 	out := &UpdateEmailOutput{}
+	path := "/self/email"
 
-	if err := s.invoke(ctx, "eolymp.cognito.Cognito/UpdateEmail", in, out); err != nil {
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -198,8 +167,9 @@ func (s *CognitoService) UpdateEmail(ctx context.Context, in *UpdateEmailInput) 
 
 func (s *CognitoService) UpdateProfile(ctx context.Context, in *UpdateProfileInput) (*UpdateProfileOutput, error) {
 	out := &UpdateProfileOutput{}
+	path := "/self"
 
-	if err := s.invoke(ctx, "eolymp.cognito.Cognito/UpdateProfile", in, out); err != nil {
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -208,8 +178,9 @@ func (s *CognitoService) UpdateProfile(ctx context.Context, in *UpdateProfileInp
 
 func (s *CognitoService) UpdatePicture(ctx context.Context, in *UpdatePictureInput) (*UpdatePictureOutput, error) {
 	out := &UpdatePictureOutput{}
+	path := "/self/picture"
 
-	if err := s.invoke(ctx, "eolymp.cognito.Cognito/UpdatePicture", in, out); err != nil {
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -218,8 +189,9 @@ func (s *CognitoService) UpdatePicture(ctx context.Context, in *UpdatePictureInp
 
 func (s *CognitoService) UpdatePassword(ctx context.Context, in *UpdatePasswordInput) (*UpdatePasswordOutput, error) {
 	out := &UpdatePasswordOutput{}
+	path := "/self/password"
 
-	if err := s.invoke(ctx, "eolymp.cognito.Cognito/UpdatePassword", in, out); err != nil {
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -228,8 +200,9 @@ func (s *CognitoService) UpdatePassword(ctx context.Context, in *UpdatePasswordI
 
 func (s *CognitoService) StartRecovery(ctx context.Context, in *StartRecoveryInput) (*StartRecoveryOutput, error) {
 	out := &StartRecoveryOutput{}
+	path := "/self/recovery"
 
-	if err := s.invoke(ctx, "eolymp.cognito.Cognito/StartRecovery", in, out); err != nil {
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -238,8 +211,14 @@ func (s *CognitoService) StartRecovery(ctx context.Context, in *StartRecoveryInp
 
 func (s *CognitoService) CompleteRecovery(ctx context.Context, in *CompleteRecoverInput) (*CompleteRecoverOutput, error) {
 	out := &CompleteRecoverOutput{}
+	path := "/users/" + url.PathEscape(in.GetUserId()) + "/recover"
 
-	if err := s.invoke(ctx, "eolymp.cognito.Cognito/CompleteRecovery", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.UserId = ""
+	}
+
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -248,8 +227,9 @@ func (s *CognitoService) CompleteRecovery(ctx context.Context, in *CompleteRecov
 
 func (s *CognitoService) IntrospectUser(ctx context.Context, in *IntrospectUserInput) (*IntrospectUserOutput, error) {
 	out := &IntrospectUserOutput{}
+	path := "/self"
 
-	if err := s.invoke(ctx, "eolymp.cognito.Cognito/IntrospectUser", in, out); err != nil {
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -258,8 +238,14 @@ func (s *CognitoService) IntrospectUser(ctx context.Context, in *IntrospectUserI
 
 func (s *CognitoService) DescribeUser(ctx context.Context, in *DescribeUserInput) (*DescribeUserOutput, error) {
 	out := &DescribeUserOutput{}
+	path := "/users/" + url.PathEscape(in.GetUserId())
 
-	if err := s.invoke(ctx, "eolymp.cognito.Cognito/DescribeUser", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.UserId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -268,8 +254,9 @@ func (s *CognitoService) DescribeUser(ctx context.Context, in *DescribeUserInput
 
 func (s *CognitoService) ListUsers(ctx context.Context, in *ListUsersInput) (*ListUsersOutput, error) {
 	out := &ListUsersOutput{}
+	path := "/users"
 
-	if err := s.invoke(ctx, "eolymp.cognito.Cognito/ListUsers", in, out); err != nil {
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -278,8 +265,9 @@ func (s *CognitoService) ListUsers(ctx context.Context, in *ListUsersInput) (*Li
 
 func (s *CognitoService) IntrospectQuota(ctx context.Context, in *IntrospectQuotaInput) (*IntrospectQuotaOutput, error) {
 	out := &IntrospectQuotaOutput{}
+	path := "/self/quota"
 
-	if err := s.invoke(ctx, "eolymp.cognito.Cognito/IntrospectQuota", in, out); err != nil {
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -288,8 +276,9 @@ func (s *CognitoService) IntrospectQuota(ctx context.Context, in *IntrospectQuot
 
 func (s *CognitoService) IntrospectRoles(ctx context.Context, in *IntrospectRolesInput) (*IntrospectRolesOutput, error) {
 	out := &IntrospectRolesOutput{}
+	path := "/self/roles"
 
-	if err := s.invoke(ctx, "eolymp.cognito.Cognito/IntrospectRoles", in, out); err != nil {
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -298,8 +287,14 @@ func (s *CognitoService) IntrospectRoles(ctx context.Context, in *IntrospectRole
 
 func (s *CognitoService) ListRoles(ctx context.Context, in *ListRolesInput) (*ListRolesOutput, error) {
 	out := &ListRolesOutput{}
+	path := "/users/" + url.PathEscape(in.GetUserId()) + "/roles"
 
-	if err := s.invoke(ctx, "eolymp.cognito.Cognito/ListRoles", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.UserId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -308,8 +303,14 @@ func (s *CognitoService) ListRoles(ctx context.Context, in *ListRolesInput) (*Li
 
 func (s *CognitoService) UpdateRoles(ctx context.Context, in *UpdateRolesInput) (*UpdateRolesOutput, error) {
 	out := &UpdateRolesOutput{}
+	path := "/users/" + url.PathEscape(in.GetUserId()) + "/roles"
 
-	if err := s.invoke(ctx, "eolymp.cognito.Cognito/UpdateRoles", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.UserId = ""
+	}
+
+	if err := s.invoke(ctx, "PUT", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -318,8 +319,9 @@ func (s *CognitoService) UpdateRoles(ctx context.Context, in *UpdateRolesInput) 
 
 func (s *CognitoService) ListEntitlements(ctx context.Context, in *ListEntitlementsInput) (*ListEntitlementsOutput, error) {
 	out := &ListEntitlementsOutput{}
+	path := "/__cognito/entitlements"
 
-	if err := s.invoke(ctx, "eolymp.cognito.Cognito/ListEntitlements", in, out); err != nil {
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -328,8 +330,9 @@ func (s *CognitoService) ListEntitlements(ctx context.Context, in *ListEntitleme
 
 func (s *CognitoService) SelfDestruct(ctx context.Context, in *SelfDestructInput) (*SelfDestructOutput, error) {
 	out := &SelfDestructOutput{}
+	path := "/self"
 
-	if err := s.invoke(ctx, "eolymp.cognito.Cognito/SelfDestruct", in, out); err != nil {
+	if err := s.invoke(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 

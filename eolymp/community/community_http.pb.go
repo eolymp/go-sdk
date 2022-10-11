@@ -123,9 +123,6 @@ func NewCommunityHandler(srv CommunityServer) http.Handler {
 	return router
 }
 
-// CommunityPrefix defines prefix for routes of this service
-const CommunityPrefix = ""
-
 // NewCommunityHandlerHttp constructs new http.Handler for CommunityServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func NewCommunityHandlerHttp(srv CommunityServer, prefix string) http.Handler {
@@ -581,7 +578,7 @@ func _Community_UpdateMember_Rule0(srv CommunityServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.MemberId = vars["member_id"]
+		in.memberId = vars["member_id"]
 
 		out, err := srv.UpdateMember(r.Context(), in)
 		if err != nil {
@@ -604,7 +601,7 @@ func _Community_RemoveMember_Rule0(srv CommunityServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.MemberId = vars["member_id"]
+		in.memberId = vars["member_id"]
 
 		out, err := srv.RemoveMember(r.Context(), in)
 		if err != nil {
@@ -627,7 +624,7 @@ func _Community_DescribeMember_Rule0(srv CommunityServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.MemberId = vars["member_id"]
+		in.memberId = vars["member_id"]
 
 		out, err := srv.DescribeMember(r.Context(), in)
 		if err != nil {
@@ -690,7 +687,7 @@ func _Community_UpdateAttribute_Rule0(srv CommunityServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.AttributeKey = vars["attribute_key"]
+		in.attributeKey = vars["attribute_key"]
 
 		out, err := srv.UpdateAttribute(r.Context(), in)
 		if err != nil {
@@ -713,7 +710,7 @@ func _Community_RemoveAttribute_Rule0(srv CommunityServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.AttributeKey = vars["attribute_key"]
+		in.attributeKey = vars["attribute_key"]
 
 		out, err := srv.RemoveAttribute(r.Context(), in)
 		if err != nil {
@@ -736,7 +733,7 @@ func _Community_DescribeAttribute_Rule0(srv CommunityServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.AttributeKey = vars["attribute_key"]
+		in.attributeKey = vars["attribute_key"]
 
 		out, err := srv.DescribeAttribute(r.Context(), in)
 		if err != nil {

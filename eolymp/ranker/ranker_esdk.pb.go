@@ -11,17 +11,20 @@ import (
 	proto "google.golang.org/protobuf/proto"
 	ioutil "io/ioutil"
 	http "net/http"
+	url "net/url"
 	os "os"
-	strings "strings"
 )
 
 // NewRanker constructs client for Ranker
-func NewRanker(cli RankerHTTPClient) *RankerService {
-	base := "https://api.eolymp.com"
-	if v := os.Getenv("EOLYMP_API_URL"); v != "" {
-		base = v
+func NewRankerService(url string, cli RankerHTTPClient) *RankerService {
+	if url == "" {
+		url = os.Getenv("EOLYMP_API_URL")
+		if url == "" {
+			url = "https://api.eolymp.com"
+		}
 	}
-	return &RankerService{base: strings.TrimSuffix(base, "/"), cli: cli}
+
+	return &RankerService{base: url, cli: cli}
 }
 
 type RankerHTTPClient interface {
@@ -34,7 +37,7 @@ type RankerService struct {
 }
 
 // invoke RPC method using twirp-like protocol
-func (s *RankerService) invoke(ctx context.Context, method string, in, out proto.Message) (err error) {
+func (s *RankerService) invoke(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
 	input := []byte("{}")
 
 	if in != nil {
@@ -44,7 +47,7 @@ func (s *RankerService) invoke(ctx context.Context, method string, in, out proto
 		}
 	}
 
-	req, err := http.NewRequest(http.MethodPost, s.base+"/"+method, bytes.NewReader(input))
+	req, err := http.NewRequest(verb, s.base+"/"+path, bytes.NewReader(input))
 	if err != nil {
 		return err
 	}
@@ -88,8 +91,9 @@ func (s *RankerService) invoke(ctx context.Context, method string, in, out proto
 
 func (s *RankerService) CreateScoreboard(ctx context.Context, in *CreateScoreboardInput) (*CreateScoreboardOutput, error) {
 	out := &CreateScoreboardOutput{}
+	path := "/ranker/scoreboards"
 
-	if err := s.invoke(ctx, "eolymp.ranker.Ranker/CreateScoreboard", in, out); err != nil {
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -98,8 +102,14 @@ func (s *RankerService) CreateScoreboard(ctx context.Context, in *CreateScoreboa
 
 func (s *RankerService) UpdateScoreboard(ctx context.Context, in *UpdateScoreboardInput) (*UpdateScoreboardOutput, error) {
 	out := &UpdateScoreboardOutput{}
+	path := "/ranker/scoreboards/" + url.PathEscape(in.GetScoreboardId())
 
-	if err := s.invoke(ctx, "eolymp.ranker.Ranker/UpdateScoreboard", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ScoreboardId = ""
+	}
+
+	if err := s.invoke(ctx, "PUT", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -108,8 +118,14 @@ func (s *RankerService) UpdateScoreboard(ctx context.Context, in *UpdateScoreboa
 
 func (s *RankerService) RebuildScoreboard(ctx context.Context, in *RebuildScoreboardInput) (*RebuildScoreboardOutput, error) {
 	out := &RebuildScoreboardOutput{}
+	path := "/ranker/scoreboards/" + url.PathEscape(in.GetScoreboardId()) + "/rebuild"
 
-	if err := s.invoke(ctx, "eolymp.ranker.Ranker/RebuildScoreboard", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ScoreboardId = ""
+	}
+
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -118,8 +134,14 @@ func (s *RankerService) RebuildScoreboard(ctx context.Context, in *RebuildScoreb
 
 func (s *RankerService) DeleteScoreboard(ctx context.Context, in *DeleteScoreboardInput) (*DeleteScoreboardOutput, error) {
 	out := &DeleteScoreboardOutput{}
+	path := "/ranker/scoreboards/" + url.PathEscape(in.GetScoreboardId())
 
-	if err := s.invoke(ctx, "eolymp.ranker.Ranker/DeleteScoreboard", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ScoreboardId = ""
+	}
+
+	if err := s.invoke(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -128,8 +150,14 @@ func (s *RankerService) DeleteScoreboard(ctx context.Context, in *DeleteScoreboa
 
 func (s *RankerService) DescribeScoreboard(ctx context.Context, in *DescribeScoreboardInput) (*DescribeScoreboardOutput, error) {
 	out := &DescribeScoreboardOutput{}
+	path := "/ranker/scoreboards/" + url.PathEscape(in.GetScoreboardId())
 
-	if err := s.invoke(ctx, "eolymp.ranker.Ranker/DescribeScoreboard", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ScoreboardId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -138,8 +166,9 @@ func (s *RankerService) DescribeScoreboard(ctx context.Context, in *DescribeScor
 
 func (s *RankerService) ListScoreboards(ctx context.Context, in *ListScoreboardsInput) (*ListScoreboardsOutput, error) {
 	out := &ListScoreboardsOutput{}
+	path := "/ranker/scoreboards"
 
-	if err := s.invoke(ctx, "eolymp.ranker.Ranker/ListScoreboards", in, out); err != nil {
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -148,8 +177,15 @@ func (s *RankerService) ListScoreboards(ctx context.Context, in *ListScoreboards
 
 func (s *RankerService) DescribeScoreboardRow(ctx context.Context, in *DescribeScoreboardRowInput) (*DescribeScoreboardRowOutput, error) {
 	out := &DescribeScoreboardRowOutput{}
+	path := "/ranker/scoreboards/" + url.PathEscape(in.GetScoreboardId()) + "/rows/" + url.PathEscape(in.GetMemberId())
 
-	if err := s.invoke(ctx, "eolymp.ranker.Ranker/DescribeScoreboardRow", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ScoreboardId = ""
+		in.MemberId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -158,8 +194,14 @@ func (s *RankerService) DescribeScoreboardRow(ctx context.Context, in *DescribeS
 
 func (s *RankerService) ListScoreboardRows(ctx context.Context, in *ListScoreboardRowsInput) (*ListScoreboardRowsOutput, error) {
 	out := &ListScoreboardRowsOutput{}
+	path := "/ranker/scoreboards/" + url.PathEscape(in.GetScoreboardId()) + "/rows"
 
-	if err := s.invoke(ctx, "eolymp.ranker.Ranker/ListScoreboardRows", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ScoreboardId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -168,8 +210,14 @@ func (s *RankerService) ListScoreboardRows(ctx context.Context, in *ListScoreboa
 
 func (s *RankerService) AddScoreboardColumn(ctx context.Context, in *AddScoreboardColumnInput) (*AddScoreboardColumnOutput, error) {
 	out := &AddScoreboardColumnOutput{}
+	path := "/ranker/scoreboards/" + url.PathEscape(in.GetScoreboardId()) + "/columns"
 
-	if err := s.invoke(ctx, "eolymp.ranker.Ranker/AddScoreboardColumn", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ScoreboardId = ""
+	}
+
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -178,8 +226,14 @@ func (s *RankerService) AddScoreboardColumn(ctx context.Context, in *AddScoreboa
 
 func (s *RankerService) DeleteScoreboardColumn(ctx context.Context, in *DeleteScoreboardColumnInput) (*DeleteScoreboardColumnOutput, error) {
 	out := &DeleteScoreboardColumnOutput{}
+	path := "/ranker/columns/" + url.PathEscape(in.GetColumnId())
 
-	if err := s.invoke(ctx, "eolymp.ranker.Ranker/DeleteScoreboardColumn", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ColumnId = ""
+	}
+
+	if err := s.invoke(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -188,8 +242,14 @@ func (s *RankerService) DeleteScoreboardColumn(ctx context.Context, in *DeleteSc
 
 func (s *RankerService) DescribeScoreboardColumn(ctx context.Context, in *DescribeScoreboardColumnInput) (*DescribeScoreboardColumnOutput, error) {
 	out := &DescribeScoreboardColumnOutput{}
+	path := "/ranker/columns/" + url.PathEscape(in.GetColumnId())
 
-	if err := s.invoke(ctx, "eolymp.ranker.Ranker/DescribeScoreboardColumn", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ColumnId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -198,8 +258,14 @@ func (s *RankerService) DescribeScoreboardColumn(ctx context.Context, in *Descri
 
 func (s *RankerService) ListScoreboardColumns(ctx context.Context, in *ListScoreboardColumnsInput) (*ListScoreboardColumnsOutput, error) {
 	out := &ListScoreboardColumnsOutput{}
+	path := "/ranker/scoreboards/" + url.PathEscape(in.GetScoreboardId()) + "/columns"
 
-	if err := s.invoke(ctx, "eolymp.ranker.Ranker/ListScoreboardColumns", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ScoreboardId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -208,8 +274,14 @@ func (s *RankerService) ListScoreboardColumns(ctx context.Context, in *ListScore
 
 func (s *RankerService) ListActivities(ctx context.Context, in *ListActivitiesInput) (*ListActivitiesOutput, error) {
 	out := &ListActivitiesOutput{}
+	path := "/ranker/scoreboards/" + url.PathEscape(in.GetScoreboardId()) + "/activities"
 
-	if err := s.invoke(ctx, "eolymp.ranker.Ranker/ListActivities", in, out); err != nil {
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ScoreboardId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 

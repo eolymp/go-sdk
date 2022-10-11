@@ -110,9 +110,6 @@ func NewTypewriterHandler(srv TypewriterServer) http.Handler {
 	return router
 }
 
-// TypewriterPrefix defines prefix for routes of this service
-const TypewriterPrefix = ""
-
 // NewTypewriterHandlerHttp constructs new http.Handler for TypewriterServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func NewTypewriterHandlerHttp(srv TypewriterServer, prefix string) http.Handler {
