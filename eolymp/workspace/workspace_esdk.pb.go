@@ -11,6 +11,7 @@ import (
 	proto "google.golang.org/protobuf/proto"
 	ioutil "io/ioutil"
 	http "net/http"
+	url "net/url"
 	os "os"
 )
 
@@ -86,4 +87,140 @@ func (s *WorkspaceService) invoke(ctx context.Context, verb, path string, in, ou
 	}
 
 	return nil
+}
+
+func (s *WorkspaceService) DescribeProject(ctx context.Context, in *DescribeProjectInput) (*DescribeProjectOutput, error) {
+	out := &DescribeProjectOutput{}
+	path := "/workspace/projects/" + url.PathEscape(in.GetProjectId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProjectId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *WorkspaceService) ListProjects(ctx context.Context, in *ListProjectsInput) (*ListProjectsOutput, error) {
+	out := &ListProjectsOutput{}
+	path := "/workspace/projects"
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *WorkspaceService) CreateProject(ctx context.Context, in *CreateProjectInput) (*CreateProjectOutput, error) {
+	out := &CreateProjectOutput{}
+	path := "/workspace/projects"
+
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *WorkspaceService) UpdateProject(ctx context.Context, in *UpdateProjectInput) (*UpdateProjectOutput, error) {
+	out := &UpdateProjectOutput{}
+	path := "/workspace/projects/" + url.PathEscape(in.GetProjectId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProjectId = ""
+	}
+
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *WorkspaceService) DeleteProject(ctx context.Context, in *DeleteProjectInput) (*DeleteProjectOutput, error) {
+	out := &DeleteProjectOutput{}
+	path := "/workspace/projects/" + url.PathEscape(in.GetProjectId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProjectId = ""
+	}
+
+	if err := s.invoke(ctx, "DELETE", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *WorkspaceService) ListFiles(ctx context.Context, in *ListFilesInput) (*ListFilesOutput, error) {
+	out := &ListFilesOutput{}
+	path := "/workspace/projects/" + url.PathEscape(in.GetProjectId()) + "/files"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProjectId = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *WorkspaceService) DescribeFile(ctx context.Context, in *DescribeFileInput) (*DescribeFileOutput, error) {
+	out := &DescribeFileOutput{}
+	path := "/workspace/projects/" + url.PathEscape(in.GetProjectId()) + "/files/" + url.PathEscape(in.GetName())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProjectId = ""
+		in.Name = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *WorkspaceService) UploadFile(ctx context.Context, in *UploadFileInput) (*UploadFileOutput, error) {
+	out := &UploadFileOutput{}
+	path := "/workspace/projects/" + url.PathEscape(in.GetProjectId()) + "/files"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProjectId = ""
+	}
+
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *WorkspaceService) RemoveFile(ctx context.Context, in *RemoveFileInput) (*RemoveFileOutput, error) {
+	out := &RemoveFileOutput{}
+	path := "/workspace/projects/" + url.PathEscape(in.GetProjectId()) + "/files/" + url.PathEscape(in.GetName())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProjectId = ""
+		in.Name = ""
+	}
+
+	if err := s.invoke(ctx, "DELETE", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
 }

@@ -117,6 +117,18 @@ func NewKeeperHandler(srv KeeperServer) http.Handler {
 func NewKeeperHandlerHttp(srv KeeperServer, prefix string) http.Handler {
 	router := mux.NewRouter()
 
+	router.Handle(prefix+"/objects", _Keeper_CreateObject_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.keeper.Keeper.CreateObject")
+
+	router.Handle(prefix+"/objects/{key}", _Keeper_DescribeObject_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.keeper.Keeper.DescribeObject")
+
+	router.Handle(prefix+"/objects/{key}/data", _Keeper_DownloadObject_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.keeper.Keeper.DownloadObject")
+
 	return router
 }
 
@@ -169,6 +181,72 @@ func _Keeper_DownloadObject(srv KeeperServer) http.Handler {
 			_Keeper_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		out, err := srv.DownloadObject(r.Context(), in)
+		if err != nil {
+			_Keeper_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Keeper_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Keeper_CreateObject_Rule0(srv KeeperServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &CreateObjectInput{}
+
+		if err := _Keeper_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Keeper_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.CreateObject(r.Context(), in)
+		if err != nil {
+			_Keeper_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Keeper_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Keeper_DescribeObject_Rule0(srv KeeperServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeObjectInput{}
+
+		if err := _Keeper_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Keeper_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.key = vars["key"]
+
+		out, err := srv.DescribeObject(r.Context(), in)
+		if err != nil {
+			_Keeper_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Keeper_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Keeper_DownloadObject_Rule0(srv KeeperServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DownloadObjectInput{}
+
+		if err := _Keeper_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Keeper_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.key = vars["key"]
 
 		out, err := srv.DownloadObject(r.Context(), in)
 		if err != nil {

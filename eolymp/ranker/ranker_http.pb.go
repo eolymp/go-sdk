@@ -127,59 +127,55 @@ func NewRankerHandler(srv RankerServer) http.Handler {
 func NewRankerHandlerHttp(srv RankerServer, prefix string) http.Handler {
 	router := mux.NewRouter()
 
-	router.Handle(prefix+"/ranker/scoreboards", _Ranker_CreateScoreboard_Rule0(srv)).
+	router.Handle(prefix+"/scoreboards", _Ranker_CreateScoreboard_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.ranker.Ranker.CreateScoreboard")
 
-	router.Handle(prefix+"/ranker/scoreboards/{scoreboard_id}", _Ranker_UpdateScoreboard_Rule0(srv)).
+	router.Handle(prefix+"/scoreboards/{scoreboard_id}", _Ranker_UpdateScoreboard_Rule0(srv)).
 		Methods("PUT").
 		Name("eolymp.ranker.Ranker.UpdateScoreboard")
 
-	router.Handle(prefix+"/ranker/scoreboards/{scoreboard_id}/rebuild", _Ranker_RebuildScoreboard_Rule0(srv)).
+	router.Handle(prefix+"/scoreboards/{scoreboard_id}/rebuild", _Ranker_RebuildScoreboard_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.ranker.Ranker.RebuildScoreboard")
 
-	router.Handle(prefix+"/ranker/scoreboards/{scoreboard_id}", _Ranker_DeleteScoreboard_Rule0(srv)).
+	router.Handle(prefix+"/scoreboards/{scoreboard_id}", _Ranker_DeleteScoreboard_Rule0(srv)).
 		Methods("DELETE").
 		Name("eolymp.ranker.Ranker.DeleteScoreboard")
 
-	router.Handle(prefix+"/ranker/scoreboards/{scoreboard_id}", _Ranker_DescribeScoreboard_Rule0(srv)).
+	router.Handle(prefix+"/scoreboards/{scoreboard_id}", _Ranker_DescribeScoreboard_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.ranker.Ranker.DescribeScoreboard")
 
-	router.Handle(prefix+"/ranker/scoreboard-lookup/{scoreboard_key}", _Ranker_DescribeScoreboard_Rule1(srv)).
-		Methods("GET").
-		Name("eolymp.ranker.Ranker.DescribeScoreboard")
-
-	router.Handle(prefix+"/ranker/scoreboards", _Ranker_ListScoreboards_Rule0(srv)).
+	router.Handle(prefix+"/scoreboards", _Ranker_ListScoreboards_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.ranker.Ranker.ListScoreboards")
 
-	router.Handle(prefix+"/ranker/scoreboards/{scoreboard_id}/rows/{member_id}", _Ranker_DescribeScoreboardRow_Rule0(srv)).
+	router.Handle(prefix+"/scoreboards/{scoreboard_id}/rows/{member_id}", _Ranker_DescribeScoreboardRow_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.ranker.Ranker.DescribeScoreboardRow")
 
-	router.Handle(prefix+"/ranker/scoreboards/{scoreboard_id}/rows", _Ranker_ListScoreboardRows_Rule0(srv)).
+	router.Handle(prefix+"/scoreboards/{scoreboard_id}/rows", _Ranker_ListScoreboardRows_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.ranker.Ranker.ListScoreboardRows")
 
-	router.Handle(prefix+"/ranker/scoreboards/{scoreboard_id}/columns", _Ranker_AddScoreboardColumn_Rule0(srv)).
+	router.Handle(prefix+"/scoreboards/{scoreboard_id}/columns", _Ranker_AddScoreboardColumn_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.ranker.Ranker.AddScoreboardColumn")
 
-	router.Handle(prefix+"/ranker/columns/{column_id}", _Ranker_DeleteScoreboardColumn_Rule0(srv)).
+	router.Handle(prefix+"/scoreboards/{scoreboard_id}/columns/{column_id}", _Ranker_DeleteScoreboardColumn_Rule0(srv)).
 		Methods("DELETE").
 		Name("eolymp.ranker.Ranker.DeleteScoreboardColumn")
 
-	router.Handle(prefix+"/ranker/columns/{column_id}", _Ranker_DescribeScoreboardColumn_Rule0(srv)).
+	router.Handle(prefix+"/scoreboards/{scoreboard_id}/columns/{column_id}", _Ranker_DescribeScoreboardColumn_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.ranker.Ranker.DescribeScoreboardColumn")
 
-	router.Handle(prefix+"/ranker/scoreboards/{scoreboard_id}/columns", _Ranker_ListScoreboardColumns_Rule0(srv)).
+	router.Handle(prefix+"/scoreboards/{scoreboard_id}/columns", _Ranker_ListScoreboardColumns_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.ranker.Ranker.ListScoreboardColumns")
 
-	router.Handle(prefix+"/ranker/scoreboards/{scoreboard_id}/activities", _Ranker_ListActivities_Rule0(srv)).
+	router.Handle(prefix+"/scoreboards/{scoreboard_id}/activities", _Ranker_ListActivities_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.ranker.Ranker.ListActivities")
 
@@ -558,29 +554,6 @@ func _Ranker_DescribeScoreboard_Rule0(srv RankerServer) http.Handler {
 	})
 }
 
-func _Ranker_DescribeScoreboard_Rule1(srv RankerServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DescribeScoreboardInput{}
-
-		if err := _Ranker_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Ranker_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.scoreboardKey = vars["scoreboard_key"]
-
-		out, err := srv.DescribeScoreboard(r.Context(), in)
-		if err != nil {
-			_Ranker_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Ranker_HTTPWriteResponse(w, out)
-	})
-}
-
 func _Ranker_ListScoreboards_Rule0(srv RankerServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListScoreboardsInput{}
@@ -682,6 +655,7 @@ func _Ranker_DeleteScoreboardColumn_Rule0(srv RankerServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
+		in.scoreboardId = vars["scoreboard_id"]
 		in.columnId = vars["column_id"]
 
 		out, err := srv.DeleteScoreboardColumn(r.Context(), in)
@@ -705,6 +679,7 @@ func _Ranker_DescribeScoreboardColumn_Rule0(srv RankerServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
+		in.scoreboardId = vars["scoreboard_id"]
 		in.columnId = vars["column_id"]
 
 		out, err := srv.DescribeScoreboardColumn(r.Context(), in)

@@ -11,6 +11,7 @@ import (
 	proto "google.golang.org/protobuf/proto"
 	ioutil "io/ioutil"
 	http "net/http"
+	url "net/url"
 	os "os"
 )
 
@@ -86,4 +87,47 @@ func (s *KeeperService) invoke(ctx context.Context, verb, path string, in, out p
 	}
 
 	return nil
+}
+
+func (s *KeeperService) CreateObject(ctx context.Context, in *CreateObjectInput) (*CreateObjectOutput, error) {
+	out := &CreateObjectOutput{}
+	path := "/objects"
+
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *KeeperService) DescribeObject(ctx context.Context, in *DescribeObjectInput) (*DescribeObjectOutput, error) {
+	out := &DescribeObjectOutput{}
+	path := "/objects/" + url.PathEscape(in.GetKey())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.Key = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *KeeperService) DownloadObject(ctx context.Context, in *DownloadObjectInput) (*DownloadObjectOutput, error) {
+	out := &DownloadObjectOutput{}
+	path := "/objects/" + url.PathEscape(in.GetKey()) + "/data"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.Key = ""
+	}
+
+	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
 }

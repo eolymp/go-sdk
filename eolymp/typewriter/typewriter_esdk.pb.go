@@ -87,3 +87,14 @@ func (s *TypewriterService) invoke(ctx context.Context, verb, path string, in, o
 
 	return nil
 }
+
+func (s *TypewriterService) UploadAsset(ctx context.Context, in *UploadAssetInput) (*UploadAssetOutput, error) {
+	out := &UploadAssetOutput{}
+	path := "/assets"
+
+	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

@@ -119,23 +119,23 @@ func NewExecutorHandler(srv ExecutorServer) http.Handler {
 func NewExecutorHandlerHttp(srv ExecutorServer, prefix string) http.Handler {
 	router := mux.NewRouter()
 
-	router.Handle(prefix+"/executor/languages/{language_id}", _Executor_DescribeLanguage_Rule0(srv)).
+	router.Handle(prefix+"/languages/{language_id}", _Executor_DescribeLanguage_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.executor.Executor.DescribeLanguage")
 
-	router.Handle(prefix+"/executor/languages", _Executor_ListLanguages_Rule0(srv)).
+	router.Handle(prefix+"/languages", _Executor_ListLanguages_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.executor.Executor.ListLanguages")
 
-	router.Handle(prefix+"/executor/runtime/{runtime_id}", _Executor_DescribeRuntime_Rule0(srv)).
+	router.Handle(prefix+"/runtime/{runtime_id}", _Executor_DescribeRuntime_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.executor.Executor.DescribeRuntime")
 
-	router.Handle(prefix+"/executor/runtime", _Executor_ListRuntime_Rule0(srv)).
+	router.Handle(prefix+"/runtime", _Executor_ListRuntime_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.executor.Executor.ListRuntime")
 
-	router.Handle(prefix+"/executor/runtime/{runtime_id}/template", _Executor_DescribeCodeTemplate_Rule0(srv)).
+	router.Handle(prefix+"/runtime/{runtime_id}/template", _Executor_DescribeCodeTemplate_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.executor.Executor.DescribeCodeTemplate")
 

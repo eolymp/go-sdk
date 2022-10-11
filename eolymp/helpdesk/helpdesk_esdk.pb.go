@@ -91,7 +91,7 @@ func (s *HelpdeskService) invoke(ctx context.Context, verb, path string, in, out
 
 func (s *HelpdeskService) DescribeDocument(ctx context.Context, in *DescribeDocumentInput) (*DescribeDocumentOutput, error) {
 	out := &DescribeDocumentOutput{}
-	path := "/helpdesk/document/" + url.PathEscape(in.GetDocumentId())
+	path := "/helpdesk/documents/" + url.PathEscape(in.GetDocumentId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
@@ -118,7 +118,7 @@ func (s *HelpdeskService) ListDocuments(ctx context.Context, in *ListDocumentsIn
 
 func (s *HelpdeskService) CreateDocument(ctx context.Context, in *CreateDocumentInput) (*CreateDocumentOutput, error) {
 	out := &CreateDocumentOutput{}
-	path := "/helpdesk/document"
+	path := "/helpdesk/documents"
 
 	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
@@ -129,7 +129,7 @@ func (s *HelpdeskService) CreateDocument(ctx context.Context, in *CreateDocument
 
 func (s *HelpdeskService) UpdateDocument(ctx context.Context, in *UpdateDocumentInput) (*UpdateDocumentOutput, error) {
 	out := &UpdateDocumentOutput{}
-	path := "/helpdesk/document/" + url.PathEscape(in.GetDocumentId())
+	path := "/helpdesk/documents/" + url.PathEscape(in.GetDocumentId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
@@ -145,7 +145,7 @@ func (s *HelpdeskService) UpdateDocument(ctx context.Context, in *UpdateDocument
 
 func (s *HelpdeskService) DeleteDocument(ctx context.Context, in *DeleteDocumentInput) (*DeleteDocumentOutput, error) {
 	out := &DeleteDocumentOutput{}
-	path := "/helpdesk/document/" + url.PathEscape(in.GetDocumentId())
+	path := "/helpdesk/documents/" + url.PathEscape(in.GetDocumentId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {

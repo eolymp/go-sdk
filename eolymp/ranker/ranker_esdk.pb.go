@@ -91,7 +91,7 @@ func (s *RankerService) invoke(ctx context.Context, verb, path string, in, out p
 
 func (s *RankerService) CreateScoreboard(ctx context.Context, in *CreateScoreboardInput) (*CreateScoreboardOutput, error) {
 	out := &CreateScoreboardOutput{}
-	path := "/ranker/scoreboards"
+	path := "/scoreboards"
 
 	if err := s.invoke(ctx, "POST", path, in, out); err != nil {
 		return nil, err
@@ -102,7 +102,7 @@ func (s *RankerService) CreateScoreboard(ctx context.Context, in *CreateScoreboa
 
 func (s *RankerService) UpdateScoreboard(ctx context.Context, in *UpdateScoreboardInput) (*UpdateScoreboardOutput, error) {
 	out := &UpdateScoreboardOutput{}
-	path := "/ranker/scoreboards/" + url.PathEscape(in.GetScoreboardId())
+	path := "/scoreboards/" + url.PathEscape(in.GetScoreboardId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
@@ -118,7 +118,7 @@ func (s *RankerService) UpdateScoreboard(ctx context.Context, in *UpdateScoreboa
 
 func (s *RankerService) RebuildScoreboard(ctx context.Context, in *RebuildScoreboardInput) (*RebuildScoreboardOutput, error) {
 	out := &RebuildScoreboardOutput{}
-	path := "/ranker/scoreboards/" + url.PathEscape(in.GetScoreboardId()) + "/rebuild"
+	path := "/scoreboards/" + url.PathEscape(in.GetScoreboardId()) + "/rebuild"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
@@ -134,7 +134,7 @@ func (s *RankerService) RebuildScoreboard(ctx context.Context, in *RebuildScoreb
 
 func (s *RankerService) DeleteScoreboard(ctx context.Context, in *DeleteScoreboardInput) (*DeleteScoreboardOutput, error) {
 	out := &DeleteScoreboardOutput{}
-	path := "/ranker/scoreboards/" + url.PathEscape(in.GetScoreboardId())
+	path := "/scoreboards/" + url.PathEscape(in.GetScoreboardId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
@@ -150,7 +150,7 @@ func (s *RankerService) DeleteScoreboard(ctx context.Context, in *DeleteScoreboa
 
 func (s *RankerService) DescribeScoreboard(ctx context.Context, in *DescribeScoreboardInput) (*DescribeScoreboardOutput, error) {
 	out := &DescribeScoreboardOutput{}
-	path := "/ranker/scoreboards/" + url.PathEscape(in.GetScoreboardId())
+	path := "/scoreboards/" + url.PathEscape(in.GetScoreboardId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
@@ -166,7 +166,7 @@ func (s *RankerService) DescribeScoreboard(ctx context.Context, in *DescribeScor
 
 func (s *RankerService) ListScoreboards(ctx context.Context, in *ListScoreboardsInput) (*ListScoreboardsOutput, error) {
 	out := &ListScoreboardsOutput{}
-	path := "/ranker/scoreboards"
+	path := "/scoreboards"
 
 	if err := s.invoke(ctx, "GET", path, in, out); err != nil {
 		return nil, err
@@ -177,7 +177,7 @@ func (s *RankerService) ListScoreboards(ctx context.Context, in *ListScoreboards
 
 func (s *RankerService) DescribeScoreboardRow(ctx context.Context, in *DescribeScoreboardRowInput) (*DescribeScoreboardRowOutput, error) {
 	out := &DescribeScoreboardRowOutput{}
-	path := "/ranker/scoreboards/" + url.PathEscape(in.GetScoreboardId()) + "/rows/" + url.PathEscape(in.GetMemberId())
+	path := "/scoreboards/" + url.PathEscape(in.GetScoreboardId()) + "/rows/" + url.PathEscape(in.GetMemberId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
@@ -194,7 +194,7 @@ func (s *RankerService) DescribeScoreboardRow(ctx context.Context, in *DescribeS
 
 func (s *RankerService) ListScoreboardRows(ctx context.Context, in *ListScoreboardRowsInput) (*ListScoreboardRowsOutput, error) {
 	out := &ListScoreboardRowsOutput{}
-	path := "/ranker/scoreboards/" + url.PathEscape(in.GetScoreboardId()) + "/rows"
+	path := "/scoreboards/" + url.PathEscape(in.GetScoreboardId()) + "/rows"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
@@ -210,7 +210,7 @@ func (s *RankerService) ListScoreboardRows(ctx context.Context, in *ListScoreboa
 
 func (s *RankerService) AddScoreboardColumn(ctx context.Context, in *AddScoreboardColumnInput) (*AddScoreboardColumnOutput, error) {
 	out := &AddScoreboardColumnOutput{}
-	path := "/ranker/scoreboards/" + url.PathEscape(in.GetScoreboardId()) + "/columns"
+	path := "/scoreboards/" + url.PathEscape(in.GetScoreboardId()) + "/columns"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
@@ -226,10 +226,11 @@ func (s *RankerService) AddScoreboardColumn(ctx context.Context, in *AddScoreboa
 
 func (s *RankerService) DeleteScoreboardColumn(ctx context.Context, in *DeleteScoreboardColumnInput) (*DeleteScoreboardColumnOutput, error) {
 	out := &DeleteScoreboardColumnOutput{}
-	path := "/ranker/columns/" + url.PathEscape(in.GetColumnId())
+	path := "/scoreboards/" + url.PathEscape(in.GetScoreboardId()) + "/columns/" + url.PathEscape(in.GetColumnId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ScoreboardId = ""
 		in.ColumnId = ""
 	}
 
@@ -242,10 +243,11 @@ func (s *RankerService) DeleteScoreboardColumn(ctx context.Context, in *DeleteSc
 
 func (s *RankerService) DescribeScoreboardColumn(ctx context.Context, in *DescribeScoreboardColumnInput) (*DescribeScoreboardColumnOutput, error) {
 	out := &DescribeScoreboardColumnOutput{}
-	path := "/ranker/columns/" + url.PathEscape(in.GetColumnId())
+	path := "/scoreboards/" + url.PathEscape(in.GetScoreboardId()) + "/columns/" + url.PathEscape(in.GetColumnId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ScoreboardId = ""
 		in.ColumnId = ""
 	}
 
@@ -258,7 +260,7 @@ func (s *RankerService) DescribeScoreboardColumn(ctx context.Context, in *Descri
 
 func (s *RankerService) ListScoreboardColumns(ctx context.Context, in *ListScoreboardColumnsInput) (*ListScoreboardColumnsOutput, error) {
 	out := &ListScoreboardColumnsOutput{}
-	path := "/ranker/scoreboards/" + url.PathEscape(in.GetScoreboardId()) + "/columns"
+	path := "/scoreboards/" + url.PathEscape(in.GetScoreboardId()) + "/columns"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
@@ -274,7 +276,7 @@ func (s *RankerService) ListScoreboardColumns(ctx context.Context, in *ListScore
 
 func (s *RankerService) ListActivities(ctx context.Context, in *ListActivitiesInput) (*ListActivitiesOutput, error) {
 	out := &ListActivitiesOutput{}
-	path := "/ranker/scoreboards/" + url.PathEscape(in.GetScoreboardId()) + "/activities"
+	path := "/scoreboards/" + url.PathEscape(in.GetScoreboardId()) + "/activities"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {

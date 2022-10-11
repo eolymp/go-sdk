@@ -122,7 +122,7 @@ func NewHelpdeskHandler(srv HelpdeskServer) http.Handler {
 func NewHelpdeskHandlerHttp(srv HelpdeskServer, prefix string) http.Handler {
 	router := mux.NewRouter()
 
-	router.Handle(prefix+"/helpdesk/document/{document_id}", _Helpdesk_DescribeDocument_Rule0(srv)).
+	router.Handle(prefix+"/helpdesk/documents/{document_id}", _Helpdesk_DescribeDocument_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.helpdesk.Helpdesk.DescribeDocument")
 
@@ -130,15 +130,15 @@ func NewHelpdeskHandlerHttp(srv HelpdeskServer, prefix string) http.Handler {
 		Methods("GET").
 		Name("eolymp.helpdesk.Helpdesk.ListDocuments")
 
-	router.Handle(prefix+"/helpdesk/document", _Helpdesk_CreateDocument_Rule0(srv)).
+	router.Handle(prefix+"/helpdesk/documents", _Helpdesk_CreateDocument_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.helpdesk.Helpdesk.CreateDocument")
 
-	router.Handle(prefix+"/helpdesk/document/{document_id}", _Helpdesk_UpdateDocument_Rule0(srv)).
+	router.Handle(prefix+"/helpdesk/documents/{document_id}", _Helpdesk_UpdateDocument_Rule0(srv)).
 		Methods("PUT").
 		Name("eolymp.helpdesk.Helpdesk.UpdateDocument")
 
-	router.Handle(prefix+"/helpdesk/document/{document_id}", _Helpdesk_DeleteDocument_Rule0(srv)).
+	router.Handle(prefix+"/helpdesk/documents/{document_id}", _Helpdesk_DeleteDocument_Rule0(srv)).
 		Methods("DELETE").
 		Name("eolymp.helpdesk.Helpdesk.DeleteDocument")
 

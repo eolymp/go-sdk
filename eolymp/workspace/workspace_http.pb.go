@@ -123,6 +123,42 @@ func NewWorkspaceHandler(srv WorkspaceServer) http.Handler {
 func NewWorkspaceHandlerHttp(srv WorkspaceServer, prefix string) http.Handler {
 	router := mux.NewRouter()
 
+	router.Handle(prefix+"/workspace/projects/{project_id}", _Workspace_DescribeProject_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.workspace.Workspace.DescribeProject")
+
+	router.Handle(prefix+"/workspace/projects", _Workspace_ListProjects_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.workspace.Workspace.ListProjects")
+
+	router.Handle(prefix+"/workspace/projects", _Workspace_CreateProject_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.workspace.Workspace.CreateProject")
+
+	router.Handle(prefix+"/workspace/projects/{project_id}", _Workspace_UpdateProject_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.workspace.Workspace.UpdateProject")
+
+	router.Handle(prefix+"/workspace/projects/{project_id}", _Workspace_DeleteProject_Rule0(srv)).
+		Methods("DELETE").
+		Name("eolymp.workspace.Workspace.DeleteProject")
+
+	router.Handle(prefix+"/workspace/projects/{project_id}/files", _Workspace_ListFiles_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.workspace.Workspace.ListFiles")
+
+	router.Handle(prefix+"/workspace/projects/{project_id}/files/{name}", _Workspace_DescribeFile_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.workspace.Workspace.DescribeFile")
+
+	router.Handle(prefix+"/workspace/projects/{project_id}/files", _Workspace_UploadFile_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.workspace.Workspace.UploadFile")
+
+	router.Handle(prefix+"/workspace/projects/{project_id}/files/{name}", _Workspace_RemoveFile_Rule0(srv)).
+		Methods("DELETE").
+		Name("eolymp.workspace.Workspace.RemoveFile")
+
 	return router
 }
 
@@ -295,6 +331,209 @@ func _Workspace_RemoveFile(srv WorkspaceServer) http.Handler {
 			_Workspace_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		out, err := srv.RemoveFile(r.Context(), in)
+		if err != nil {
+			_Workspace_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Workspace_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Workspace_DescribeProject_Rule0(srv WorkspaceServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeProjectInput{}
+
+		if err := _Workspace_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Workspace_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.projectId = vars["project_id"]
+
+		out, err := srv.DescribeProject(r.Context(), in)
+		if err != nil {
+			_Workspace_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Workspace_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Workspace_ListProjects_Rule0(srv WorkspaceServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListProjectsInput{}
+
+		if err := _Workspace_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Workspace_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.ListProjects(r.Context(), in)
+		if err != nil {
+			_Workspace_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Workspace_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Workspace_CreateProject_Rule0(srv WorkspaceServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &CreateProjectInput{}
+
+		if err := _Workspace_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Workspace_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.CreateProject(r.Context(), in)
+		if err != nil {
+			_Workspace_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Workspace_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Workspace_UpdateProject_Rule0(srv WorkspaceServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UpdateProjectInput{}
+
+		if err := _Workspace_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Workspace_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.projectId = vars["project_id"]
+
+		out, err := srv.UpdateProject(r.Context(), in)
+		if err != nil {
+			_Workspace_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Workspace_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Workspace_DeleteProject_Rule0(srv WorkspaceServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DeleteProjectInput{}
+
+		if err := _Workspace_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Workspace_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.projectId = vars["project_id"]
+
+		out, err := srv.DeleteProject(r.Context(), in)
+		if err != nil {
+			_Workspace_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Workspace_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Workspace_ListFiles_Rule0(srv WorkspaceServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListFilesInput{}
+
+		if err := _Workspace_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Workspace_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.projectId = vars["project_id"]
+
+		out, err := srv.ListFiles(r.Context(), in)
+		if err != nil {
+			_Workspace_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Workspace_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Workspace_DescribeFile_Rule0(srv WorkspaceServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeFileInput{}
+
+		if err := _Workspace_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Workspace_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.projectId = vars["project_id"]
+		in.name = vars["name"]
+
+		out, err := srv.DescribeFile(r.Context(), in)
+		if err != nil {
+			_Workspace_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Workspace_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Workspace_UploadFile_Rule0(srv WorkspaceServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UploadFileInput{}
+
+		if err := _Workspace_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Workspace_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.projectId = vars["project_id"]
+
+		out, err := srv.UploadFile(r.Context(), in)
+		if err != nil {
+			_Workspace_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Workspace_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Workspace_RemoveFile_Rule0(srv WorkspaceServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &RemoveFileInput{}
+
+		if err := _Workspace_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Workspace_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.projectId = vars["project_id"]
+		in.name = vars["name"]
 
 		out, err := srv.RemoveFile(r.Context(), in)
 		if err != nil {
