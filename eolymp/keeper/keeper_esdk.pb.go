@@ -47,7 +47,7 @@ func (s *KeeperService) invoke(ctx context.Context, verb, path string, in, out p
 		}
 	}
 
-	req, err := http.NewRequest(verb, s.base+"/"+path, bytes.NewReader(input))
+	req, err := http.NewRequest(verb, s.base+path, bytes.NewReader(input))
 	if err != nil {
 		return err
 	}
