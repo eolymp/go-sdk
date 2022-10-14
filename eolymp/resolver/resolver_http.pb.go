@@ -17,15 +17,25 @@ import (
 	time "time"
 )
 
+// _Resolver_HTTPReadQueryString parses body into proto.Message
+func _Resolver_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+	query := r.URL.Query().Get("q")
+	if query == "" {
+		return nil
+	}
+
+	if err := (protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal([]byte(query), v)); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // _Resolver_HTTPReadRequestBody parses body into proto.Message
 func _Resolver_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
 	data, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		return err
-	}
-
-	if len(data) == 0 {
-		return nil
 	}
 
 	if err := (protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal(data, v)); err != nil {
@@ -145,7 +155,7 @@ func _Resolver_ResolveName_Rule0(srv ResolverServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ResolveNameInput{}
 
-		if err := _Resolver_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Resolver_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Resolver_HTTPWriteErrorResponse(w, err)
 			return

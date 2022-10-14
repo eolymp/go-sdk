@@ -18,15 +18,25 @@ import (
 	time "time"
 )
 
+// _Community_HTTPReadQueryString parses body into proto.Message
+func _Community_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+	query := r.URL.Query().Get("q")
+	if query == "" {
+		return nil
+	}
+
+	if err := (protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal([]byte(query), v)); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // _Community_HTTPReadRequestBody parses body into proto.Message
 func _Community_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
 	data, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		return err
-	}
-
-	if len(data) == 0 {
-		return nil
 	}
 
 	if err := (protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal(data, v)); err != nil {
@@ -531,7 +541,7 @@ func _Community_IntrospectMember_Rule0(srv CommunityServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &IntrospectMemberInput{}
 
-		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Community_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Community_HTTPWriteErrorResponse(w, err)
 			return
@@ -617,7 +627,7 @@ func _Community_DescribeMember_Rule0(srv CommunityServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeMemberInput{}
 
-		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Community_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Community_HTTPWriteErrorResponse(w, err)
 			return
@@ -640,7 +650,7 @@ func _Community_ListMembers_Rule0(srv CommunityServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListMembersInput{}
 
-		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Community_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Community_HTTPWriteErrorResponse(w, err)
 			return
@@ -726,7 +736,7 @@ func _Community_DescribeAttribute_Rule0(srv CommunityServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeAttributeInput{}
 
-		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Community_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Community_HTTPWriteErrorResponse(w, err)
 			return

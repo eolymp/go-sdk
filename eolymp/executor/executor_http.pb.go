@@ -18,15 +18,25 @@ import (
 	time "time"
 )
 
+// _Executor_HTTPReadQueryString parses body into proto.Message
+func _Executor_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+	query := r.URL.Query().Get("q")
+	if query == "" {
+		return nil
+	}
+
+	if err := (protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal([]byte(query), v)); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // _Executor_HTTPReadRequestBody parses body into proto.Message
 func _Executor_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
 	data, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		return err
-	}
-
-	if len(data) == 0 {
-		return nil
 	}
 
 	if err := (protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal(data, v)); err != nil {
@@ -246,7 +256,7 @@ func _Executor_DescribeLanguage_Rule0(srv ExecutorServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeLanguageInput{}
 
-		if err := _Executor_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Executor_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Executor_HTTPWriteErrorResponse(w, err)
 			return
@@ -269,7 +279,7 @@ func _Executor_ListLanguages_Rule0(srv ExecutorServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListLanguagesInput{}
 
-		if err := _Executor_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Executor_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Executor_HTTPWriteErrorResponse(w, err)
 			return
@@ -289,7 +299,7 @@ func _Executor_DescribeRuntime_Rule0(srv ExecutorServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeRuntimeInput{}
 
-		if err := _Executor_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Executor_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Executor_HTTPWriteErrorResponse(w, err)
 			return
@@ -312,7 +322,7 @@ func _Executor_ListRuntime_Rule0(srv ExecutorServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListRuntimeInput{}
 
-		if err := _Executor_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Executor_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Executor_HTTPWriteErrorResponse(w, err)
 			return
@@ -332,7 +342,7 @@ func _Executor_DescribeCodeTemplate_Rule0(srv ExecutorServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeCodeTemplateInput{}
 
-		if err := _Executor_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Executor_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Executor_HTTPWriteErrorResponse(w, err)
 			return

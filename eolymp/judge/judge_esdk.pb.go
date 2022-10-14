@@ -9,6 +9,7 @@ import (
 	fmt "fmt"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
+	io "io"
 	ioutil "io/ioutil"
 	http "net/http"
 	url "net/url"
@@ -37,16 +38,27 @@ func NewJudgeHttpClient(url string, cli _JudgeHttpClient) *JudgeService {
 }
 
 func (s *JudgeService) do(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
-	input := []byte("{}")
+	var body io.Reader
 
 	if in != nil {
-		input, err = protojson.Marshal(in)
+		data, err := protojson.Marshal(in)
 		if err != nil {
 			return err
 		}
+
+		if verb != "GET" {
+			body = bytes.NewReader(data)
+		} else {
+			query := url.Values{"q": []string{string(data)}}
+			path = path + "?" + query.Encode()
+		}
 	}
 
-	req, err := http.NewRequest(verb, s.base+path, bytes.NewReader(input))
+	if in == nil && verb != "GET" {
+		body = bytes.NewReader([]byte("{}"))
+	}
+
+	req, err := http.NewRequest(verb, s.base+path, body)
 	if err != nil {
 		return err
 	}

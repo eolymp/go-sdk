@@ -18,15 +18,25 @@ import (
 	time "time"
 )
 
+// _Keeper_HTTPReadQueryString parses body into proto.Message
+func _Keeper_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+	query := r.URL.Query().Get("q")
+	if query == "" {
+		return nil
+	}
+
+	if err := (protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal([]byte(query), v)); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // _Keeper_HTTPReadRequestBody parses body into proto.Message
 func _Keeper_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
 	data, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		return err
-	}
-
-	if len(data) == 0 {
-		return nil
 	}
 
 	if err := (protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal(data, v)); err != nil {
@@ -216,7 +226,7 @@ func _Keeper_DescribeObject_Rule0(srv KeeperServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeObjectInput{}
 
-		if err := _Keeper_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Keeper_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Keeper_HTTPWriteErrorResponse(w, err)
 			return
@@ -239,7 +249,7 @@ func _Keeper_DownloadObject_Rule0(srv KeeperServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DownloadObjectInput{}
 
-		if err := _Keeper_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Keeper_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Keeper_HTTPWriteErrorResponse(w, err)
 			return

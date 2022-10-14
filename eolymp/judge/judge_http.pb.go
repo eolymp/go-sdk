@@ -18,15 +18,25 @@ import (
 	time "time"
 )
 
+// _Judge_HTTPReadQueryString parses body into proto.Message
+func _Judge_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+	query := r.URL.Query().Get("q")
+	if query == "" {
+		return nil
+	}
+
+	if err := (protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal([]byte(query), v)); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // _Judge_HTTPReadRequestBody parses body into proto.Message
 func _Judge_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
 	data, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		return err
-	}
-
-	if len(data) == 0 {
-		return nil
 	}
 
 	if err := (protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal(data, v)); err != nil {
@@ -1846,7 +1856,7 @@ func _Judge_LookupContest_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &LookupContestInput{}
 
-		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Judge_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -1932,7 +1942,7 @@ func _Judge_DescribeContest_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeContestInput{}
 
-		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Judge_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -1955,7 +1965,7 @@ func _Judge_ListContests_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListContestsInput{}
 
-		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Judge_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -2044,7 +2054,7 @@ func _Judge_DescribeRuntime_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeRuntimeInput{}
 
-		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Judge_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -2090,7 +2100,7 @@ func _Judge_DescribeAppearance_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeAppearanceInput{}
 
-		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Judge_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -2136,7 +2146,7 @@ func _Judge_DescribeScoring_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeScoringInput{}
 
-		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Judge_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -2230,7 +2240,7 @@ func _Judge_ListProblems_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListProblemsInput{}
 
-		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Judge_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -2253,7 +2263,7 @@ func _Judge_DescribeProblem_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeProblemInput{}
 
-		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Judge_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -2277,7 +2287,7 @@ func _Judge_DescribeCodeTemplate_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeCodeTemplateInput{}
 
-		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Judge_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -2302,7 +2312,7 @@ func _Judge_LookupCodeTemplate_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &LookupCodeTemplateInput{}
 
-		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Judge_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -2326,7 +2336,7 @@ func _Judge_ListStatements_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListStatementsInput{}
 
-		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Judge_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -2350,7 +2360,7 @@ func _Judge_ListAttachments_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListAttachmentsInput{}
 
-		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Judge_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -2374,7 +2384,7 @@ func _Judge_ListExamples_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListExamplesInput{}
 
-		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Judge_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -2422,7 +2432,7 @@ func _Judge_RetestProblem_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &RetestProblemInput{}
 
-		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Judge_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -2565,7 +2575,7 @@ func _Judge_ListParticipants_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListParticipantsInput{}
 
-		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Judge_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -2588,7 +2598,7 @@ func _Judge_DescribeParticipant_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeParticipantInput{}
 
-		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Judge_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -2612,7 +2622,7 @@ func _Judge_IntrospectParticipant_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &IntrospectParticipantInput{}
 
-		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Judge_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -2799,7 +2809,7 @@ func _Judge_ListSubmissions_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListSubmissionsInput{}
 
-		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Judge_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -2822,7 +2832,7 @@ func _Judge_DescribeSubmission_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeSubmissionInput{}
 
-		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Judge_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -2846,7 +2856,7 @@ func _Judge_RetestSubmission_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &RetestSubmissionInput{}
 
-		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Judge_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -2985,7 +2995,7 @@ func _Judge_DescribeTicket_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeTicketInput{}
 
-		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Judge_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -3008,7 +3018,7 @@ func _Judge_ListTickets_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListTicketsInput{}
 
-		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Judge_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -3051,7 +3061,7 @@ func _Judge_ListReplies_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListRepliesInput{}
 
-		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Judge_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -3217,7 +3227,7 @@ func _Judge_DescribeAnnouncement_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeAnnouncementInput{}
 
-		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Judge_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -3241,7 +3251,7 @@ func _Judge_DescribeAnnouncementStatus_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeAnnouncementStatusInput{}
 
-		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Judge_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -3265,7 +3275,7 @@ func _Judge_ListAnnouncements_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListAnnouncementsInput{}
 
-		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Judge_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -3288,7 +3298,7 @@ func _Judge_IntrospectScore_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &IntrospectScoreInput{}
 
-		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Judge_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -3311,7 +3321,7 @@ func _Judge_DescribeScore_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeScoreInput{}
 
-		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Judge_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -3359,7 +3369,7 @@ func _Judge_ListResult_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListResultInput{}
 
-		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Judge_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -3405,7 +3415,7 @@ func _Judge_ListEntitlements_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListEntitlementsInput{}
 
-		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Judge_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -3425,7 +3435,7 @@ func _Judge_ListActivities_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListActivitiesInput{}
 
-		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Judge_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return

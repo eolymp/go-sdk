@@ -18,15 +18,25 @@ import (
 	time "time"
 )
 
+// _Universe_HTTPReadQueryString parses body into proto.Message
+func _Universe_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+	query := r.URL.Query().Get("q")
+	if query == "" {
+		return nil
+	}
+
+	if err := (protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal([]byte(query), v)); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // _Universe_HTTPReadRequestBody parses body into proto.Message
 func _Universe_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
 	data, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		return err
-	}
-
-	if len(data) == 0 {
-		return nil
 	}
 
 	if err := (protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal(data, v)); err != nil {
@@ -421,7 +431,7 @@ func _Universe_LookupSpace_Rule0(srv UniverseServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &LookupSpaceInput{}
 
-		if err := _Universe_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Universe_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Universe_HTTPWriteErrorResponse(w, err)
 			return
@@ -510,7 +520,7 @@ func _Universe_DescribeSpace_Rule0(srv UniverseServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeSpaceInput{}
 
-		if err := _Universe_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Universe_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Universe_HTTPWriteErrorResponse(w, err)
 			return
@@ -533,7 +543,7 @@ func _Universe_DescribeQuota_Rule0(srv UniverseServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeQuotaInput{}
 
-		if err := _Universe_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Universe_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Universe_HTTPWriteErrorResponse(w, err)
 			return
@@ -556,7 +566,7 @@ func _Universe_ListSpaces_Rule0(srv UniverseServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListSpacesInput{}
 
-		if err := _Universe_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Universe_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Universe_HTTPWriteErrorResponse(w, err)
 			return
@@ -624,7 +634,7 @@ func _Universe_DescribePermission_Rule0(srv UniverseServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribePermissionInput{}
 
-		if err := _Universe_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Universe_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Universe_HTTPWriteErrorResponse(w, err)
 			return
@@ -648,7 +658,7 @@ func _Universe_IntrospectPermission_Rule0(srv UniverseServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &IntrospectPermissionInput{}
 
-		if err := _Universe_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Universe_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Universe_HTTPWriteErrorResponse(w, err)
 			return
@@ -671,7 +681,7 @@ func _Universe_ListPermissions_Rule0(srv UniverseServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListPermissionsInput{}
 
-		if err := _Universe_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Universe_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Universe_HTTPWriteErrorResponse(w, err)
 			return

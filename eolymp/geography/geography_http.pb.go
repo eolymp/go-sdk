@@ -17,15 +17,25 @@ import (
 	time "time"
 )
 
+// _Geography_HTTPReadQueryString parses body into proto.Message
+func _Geography_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+	query := r.URL.Query().Get("q")
+	if query == "" {
+		return nil
+	}
+
+	if err := (protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal([]byte(query), v)); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // _Geography_HTTPReadRequestBody parses body into proto.Message
 func _Geography_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
 	data, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		return err
-	}
-
-	if len(data) == 0 {
-		return nil
 	}
 
 	if err := (protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal(data, v)); err != nil {
@@ -220,7 +230,7 @@ func _Geography_DescribeCountry_Rule0(srv GeographyServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeCountryInput{}
 
-		if err := _Geography_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Geography_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Geography_HTTPWriteErrorResponse(w, err)
 			return
@@ -243,7 +253,7 @@ func _Geography_ListCountries_Rule0(srv GeographyServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListCountriesInput{}
 
-		if err := _Geography_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Geography_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Geography_HTTPWriteErrorResponse(w, err)
 			return
@@ -263,7 +273,7 @@ func _Geography_DescribeRegion_Rule0(srv GeographyServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeRegionInput{}
 
-		if err := _Geography_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Geography_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Geography_HTTPWriteErrorResponse(w, err)
 			return
@@ -286,7 +296,7 @@ func _Geography_ListRegions_Rule0(srv GeographyServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListRegionsInput{}
 
-		if err := _Geography_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Geography_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Geography_HTTPWriteErrorResponse(w, err)
 			return

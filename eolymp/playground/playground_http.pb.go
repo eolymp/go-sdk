@@ -18,15 +18,25 @@ import (
 	time "time"
 )
 
+// _Playground_HTTPReadQueryString parses body into proto.Message
+func _Playground_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+	query := r.URL.Query().Get("q")
+	if query == "" {
+		return nil
+	}
+
+	if err := (protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal([]byte(query), v)); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // _Playground_HTTPReadRequestBody parses body into proto.Message
 func _Playground_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
 	data, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		return err
-	}
-
-	if len(data) == 0 {
-		return nil
 	}
 
 	if err := (protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal(data, v)); err != nil {
@@ -191,7 +201,7 @@ func _Playground_DescribeRun_Rule0(srv PlaygroundServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeRunInput{}
 
-		if err := _Playground_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Playground_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Playground_HTTPWriteErrorResponse(w, err)
 			return

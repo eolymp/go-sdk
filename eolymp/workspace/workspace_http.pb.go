@@ -18,15 +18,25 @@ import (
 	time "time"
 )
 
+// _Workspace_HTTPReadQueryString parses body into proto.Message
+func _Workspace_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+	query := r.URL.Query().Get("q")
+	if query == "" {
+		return nil
+	}
+
+	if err := (protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal([]byte(query), v)); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // _Workspace_HTTPReadRequestBody parses body into proto.Message
 func _Workspace_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
 	data, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		return err
-	}
-
-	if len(data) == 0 {
-		return nil
 	}
 
 	if err := (protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal(data, v)); err != nil {
@@ -346,7 +356,7 @@ func _Workspace_DescribeProject_Rule0(srv WorkspaceServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeProjectInput{}
 
-		if err := _Workspace_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Workspace_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Workspace_HTTPWriteErrorResponse(w, err)
 			return
@@ -369,7 +379,7 @@ func _Workspace_ListProjects_Rule0(srv WorkspaceServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListProjectsInput{}
 
-		if err := _Workspace_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Workspace_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Workspace_HTTPWriteErrorResponse(w, err)
 			return
@@ -455,7 +465,7 @@ func _Workspace_ListFiles_Rule0(srv WorkspaceServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListFilesInput{}
 
-		if err := _Workspace_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Workspace_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Workspace_HTTPWriteErrorResponse(w, err)
 			return
@@ -478,7 +488,7 @@ func _Workspace_DescribeFile_Rule0(srv WorkspaceServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeFileInput{}
 
-		if err := _Workspace_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Workspace_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Workspace_HTTPWriteErrorResponse(w, err)
 			return

@@ -18,15 +18,25 @@ import (
 	time "time"
 )
 
+// _Cognito_HTTPReadQueryString parses body into proto.Message
+func _Cognito_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+	query := r.URL.Query().Get("q")
+	if query == "" {
+		return nil
+	}
+
+	if err := (protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal([]byte(query), v)); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // _Cognito_HTTPReadRequestBody parses body into proto.Message
 func _Cognito_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
 	data, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		return err
-	}
-
-	if len(data) == 0 {
-		return nil
 	}
 
 	if err := (protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal(data, v)); err != nil {
@@ -769,7 +779,7 @@ func _Cognito_ListAccessKeys_Rule0(srv CognitoServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListAccessKeysInput{}
 
-		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Cognito_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
@@ -955,7 +965,7 @@ func _Cognito_IntrospectUser_Rule0(srv CognitoServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &IntrospectUserInput{}
 
-		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Cognito_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
@@ -975,7 +985,7 @@ func _Cognito_DescribeUser_Rule0(srv CognitoServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeUserInput{}
 
-		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Cognito_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
@@ -998,7 +1008,7 @@ func _Cognito_ListUsers_Rule0(srv CognitoServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListUsersInput{}
 
-		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Cognito_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
@@ -1018,7 +1028,7 @@ func _Cognito_IntrospectQuota_Rule0(srv CognitoServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &IntrospectQuotaInput{}
 
-		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Cognito_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
@@ -1038,7 +1048,7 @@ func _Cognito_IntrospectRoles_Rule0(srv CognitoServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &IntrospectRolesInput{}
 
-		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Cognito_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
@@ -1058,7 +1068,7 @@ func _Cognito_ListRoles_Rule0(srv CognitoServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListRolesInput{}
 
-		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Cognito_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
@@ -1104,7 +1114,7 @@ func _Cognito_ListEntitlements_Rule0(srv CognitoServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListEntitlementsInput{}
 
-		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Cognito_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return

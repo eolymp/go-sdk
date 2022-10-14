@@ -18,15 +18,25 @@ import (
 	time "time"
 )
 
+// _Helpdesk_HTTPReadQueryString parses body into proto.Message
+func _Helpdesk_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+	query := r.URL.Query().Get("q")
+	if query == "" {
+		return nil
+	}
+
+	if err := (protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal([]byte(query), v)); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // _Helpdesk_HTTPReadRequestBody parses body into proto.Message
 func _Helpdesk_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
 	data, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		return err
-	}
-
-	if len(data) == 0 {
-		return nil
 	}
 
 	if err := (protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal(data, v)); err != nil {
@@ -321,7 +331,7 @@ func _Helpdesk_DescribeDocument_Rule0(srv HelpdeskServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeDocumentInput{}
 
-		if err := _Helpdesk_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Helpdesk_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Helpdesk_HTTPWriteErrorResponse(w, err)
 			return
@@ -344,7 +354,7 @@ func _Helpdesk_ListDocuments_Rule0(srv HelpdeskServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListDocumentsInput{}
 
-		if err := _Helpdesk_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Helpdesk_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Helpdesk_HTTPWriteErrorResponse(w, err)
 			return
@@ -430,7 +440,7 @@ func _Helpdesk_DescribePath_Rule0(srv HelpdeskServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribePathInput{}
 
-		if err := _Helpdesk_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Helpdesk_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Helpdesk_HTTPWriteErrorResponse(w, err)
 			return
@@ -453,7 +463,7 @@ func _Helpdesk_ListPaths_Rule0(srv HelpdeskServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListPathsInput{}
 
-		if err := _Helpdesk_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Helpdesk_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Helpdesk_HTTPWriteErrorResponse(w, err)
 			return
@@ -473,7 +483,7 @@ func _Helpdesk_ListParents_Rule0(srv HelpdeskServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListParentsInput{}
 
-		if err := _Helpdesk_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Helpdesk_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Helpdesk_HTTPWriteErrorResponse(w, err)
 			return
