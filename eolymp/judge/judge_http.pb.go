@@ -5,17 +5,13 @@ package judge
 
 import (
 	context "context"
-	oauth "github.com/eolymp/go-packages/oauth"
 	mux "github.com/gorilla/mux"
-	prometheus "github.com/prometheus/client_golang/prometheus"
-	promauto "github.com/prometheus/client_golang/prometheus/promauto"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
 	ioutil "io/ioutil"
 	http "net/http"
-	time "time"
 )
 
 // _Judge_HTTPReadQueryString parses body into proto.Message
@@ -3454,1843 +3450,1324 @@ func _Judge_ListActivities_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-var promJudgeRequestLatency = promauto.NewHistogramVec(prometheus.HistogramOpts{
-	Name:    "judge_request_latency",
-	Help:    "Judge request latency",
-	Buckets: []float64{0.1, 0.4, 1, 5},
-}, []string{"method", "status"})
-
-type _JudgeLimiter interface {
-	Allow(context.Context, string, float64, int) bool
-}
-
+type _JudgeMiddleware func(ctx context.Context, method string, in proto.Message, next func() (out proto.Message, err error))
 type JudgeInterceptor struct {
-	limiter _JudgeLimiter
-	server  JudgeServer
+	middleware []_JudgeMiddleware
+	server     JudgeServer
 }
 
 // NewJudgeInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewJudgeInterceptor(srv JudgeServer, lim _JudgeLimiter) *JudgeInterceptor {
-	return &JudgeInterceptor{server: srv, limiter: lim}
+func NewJudgeInterceptor(srv JudgeServer, middleware ..._JudgeMiddleware) *JudgeInterceptor {
+	return &JudgeInterceptor{server: srv, middleware: middleware}
 }
 
 func (i *JudgeInterceptor) LookupContest(ctx context.Context, in *LookupContestInput) (out *LookupContestOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
-		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/LookupContest", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/LookupContest", 50, 200) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
+	next := func() (proto.Message, error) {
+		out, err = i.server.LookupContest(ctx, in)
+		return out, err
 	}
 
-	out, err = i.server.LookupContest(ctx, in)
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/LookupContest", in, handler)
+			return out, err
+		}
+	}
+
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) CreateContest(ctx context.Context, in *CreateContestInput) (out *CreateContestOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.CreateContest(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/CreateContest", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/CreateContest", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/CreateContest", 0.08, 5) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.CreateContest(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) DeleteContest(ctx context.Context, in *DeleteContestInput) (out *DeleteContestOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.DeleteContest(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/DeleteContest", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/DeleteContest", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/DeleteContest", 1, 5) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.DeleteContest(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) UpdateContest(ctx context.Context, in *UpdateContestInput) (out *UpdateContestOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.UpdateContest(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/UpdateContest", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/UpdateContest", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/UpdateContest", 1, 5) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.UpdateContest(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) DescribeContest(ctx context.Context, in *DescribeContestInput) (out *DescribeContestOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
-		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/DescribeContest", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/DescribeContest", 10, 50) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
+	next := func() (proto.Message, error) {
+		out, err = i.server.DescribeContest(ctx, in)
+		return out, err
 	}
 
-	out, err = i.server.DescribeContest(ctx, in)
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/DescribeContest", in, handler)
+			return out, err
+		}
+	}
+
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) ListContests(ctx context.Context, in *ListContestsInput) (out *ListContestsOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
-		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/ListContests", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/ListContests", 1, 10) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
+	next := func() (proto.Message, error) {
+		out, err = i.server.ListContests(ctx, in)
+		return out, err
 	}
 
-	out, err = i.server.ListContests(ctx, in)
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/ListContests", in, handler)
+			return out, err
+		}
+	}
+
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) OpenContest(ctx context.Context, in *OpenContestInput) (out *OpenContestOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.OpenContest(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/OpenContest", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/OpenContest", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/OpenContest", 1, 5) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.OpenContest(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) CloseContest(ctx context.Context, in *CloseContestInput) (out *CloseContestOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.CloseContest(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/CloseContest", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/CloseContest", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/CloseContest", 1, 5) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.CloseContest(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) ConfigureRuntime(ctx context.Context, in *ConfigureRuntimeInput) (out *ConfigureRuntimeOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.ConfigureRuntime(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/ConfigureRuntime", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/ConfigureRuntime", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/ConfigureRuntime", 1, 5) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.ConfigureRuntime(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) DescribeRuntime(ctx context.Context, in *DescribeRuntimeInput) (out *DescribeRuntimeOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.DescribeRuntime(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/DescribeRuntime", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/DescribeRuntime", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/DescribeRuntime", 10, 50) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.DescribeRuntime(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) ConfigureAppearance(ctx context.Context, in *ConfigureAppearanceInput) (out *ConfigureAppearanceOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.ConfigureAppearance(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/ConfigureAppearance", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/ConfigureAppearance", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/ConfigureAppearance", 1, 5) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.ConfigureAppearance(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) DescribeAppearance(ctx context.Context, in *DescribeAppearanceInput) (out *DescribeAppearanceOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.DescribeAppearance(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/DescribeAppearance", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/DescribeAppearance", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/DescribeAppearance", 10, 50) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.DescribeAppearance(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) ConfigureScoring(ctx context.Context, in *ConfigureScoringInput) (out *ConfigureScoringOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.ConfigureScoring(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/ConfigureScoring", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/ConfigureScoring", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/ConfigureScoring", 1, 5) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.ConfigureScoring(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) DescribeScoring(ctx context.Context, in *DescribeScoringInput) (out *DescribeScoringOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.DescribeScoring(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/DescribeScoring", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/DescribeScoring", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/DescribeScoring", 10, 50) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.DescribeScoring(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) ImportProblem(ctx context.Context, in *ImportProblemInput) (out *ImportProblemOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.ImportProblem(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/ImportProblem", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/ImportProblem", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/ImportProblem", 1, 5) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.ImportProblem(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) SyncProblem(ctx context.Context, in *SyncProblemInput) (out *SyncProblemOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.SyncProblem(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/SyncProblem", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/SyncProblem", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/SyncProblem", 1, 5) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.SyncProblem(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) UpdateProblem(ctx context.Context, in *UpdateProblemInput) (out *UpdateProblemOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.UpdateProblem(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/UpdateProblem", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/UpdateProblem", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/UpdateProblem", 1, 5) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.UpdateProblem(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) ListProblems(ctx context.Context, in *ListProblemsInput) (out *ListProblemsOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.ListProblems(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/ListProblems", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/ListProblems", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/ListProblems", 3, 10) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.ListProblems(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) DescribeProblem(ctx context.Context, in *DescribeProblemInput) (out *DescribeProblemOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.DescribeProblem(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/DescribeProblem", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/DescribeProblem", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/DescribeProblem", 20, 200) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.DescribeProblem(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) DescribeCodeTemplate(ctx context.Context, in *DescribeCodeTemplateInput) (out *DescribeCodeTemplateOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.DescribeCodeTemplate(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/DescribeCodeTemplate", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/DescribeCodeTemplate", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/DescribeCodeTemplate", 5, 20) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.DescribeCodeTemplate(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) LookupCodeTemplate(ctx context.Context, in *LookupCodeTemplateInput) (out *LookupCodeTemplateOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.LookupCodeTemplate(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/LookupCodeTemplate", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/LookupCodeTemplate", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/LookupCodeTemplate", 5, 20) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.LookupCodeTemplate(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) ListStatements(ctx context.Context, in *ListStatementsInput) (out *ListStatementsOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.ListStatements(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/ListStatements", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/ListStatements", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/ListStatements", 20, 100) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.ListStatements(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) ListAttachments(ctx context.Context, in *ListAttachmentsInput) (out *ListAttachmentsOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.ListAttachments(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/ListAttachments", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/ListAttachments", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/ListAttachments", 20, 100) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.ListAttachments(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) ListExamples(ctx context.Context, in *ListExamplesInput) (out *ListExamplesOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.ListExamples(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/ListExamples", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/ListExamples", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/ListExamples", 20, 100) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.ListExamples(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) DeleteProblem(ctx context.Context, in *DeleteProblemInput) (out *DeleteProblemOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.DeleteProblem(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/DeleteProblem", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/DeleteProblem", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/DeleteProblem", 1, 5) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.DeleteProblem(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) RetestProblem(ctx context.Context, in *RetestProblemInput) (out *RetestProblemOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.RetestProblem(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/RetestProblem", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/RetestProblem", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/RetestProblem", 1, 5) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.RetestProblem(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) AddParticipant(ctx context.Context, in *AddParticipantInput) (out *AddParticipantOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.AddParticipant(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/AddParticipant", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/AddParticipant", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/AddParticipant", 1, 5) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.AddParticipant(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) EnableParticipant(ctx context.Context, in *EnableParticipantInput) (out *EnableParticipantOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.EnableParticipant(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/EnableParticipant", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/EnableParticipant", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/EnableParticipant", 10, 50) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.EnableParticipant(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) DisableParticipant(ctx context.Context, in *DisableParticipantInput) (out *DisableParticipantOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.DisableParticipant(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/DisableParticipant", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/DisableParticipant", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/DisableParticipant", 10, 50) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.DisableParticipant(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) UpdateParticipant(ctx context.Context, in *UpdateParticipantInput) (out *UpdateParticipantOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.UpdateParticipant(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/UpdateParticipant", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/UpdateParticipant", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/UpdateParticipant", 1, 5) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.UpdateParticipant(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) RemoveParticipant(ctx context.Context, in *RemoveParticipantInput) (out *RemoveParticipantOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.RemoveParticipant(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/RemoveParticipant", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/RemoveParticipant", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/RemoveParticipant", 1, 5) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.RemoveParticipant(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) ListParticipants(ctx context.Context, in *ListParticipantsInput) (out *ListParticipantsOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.ListParticipants(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/ListParticipants", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/ListParticipants", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/ListParticipants", 1, 5) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.ListParticipants(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) DescribeParticipant(ctx context.Context, in *DescribeParticipantInput) (out *DescribeParticipantOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.DescribeParticipant(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/DescribeParticipant", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/DescribeParticipant", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/DescribeParticipant", 50, 200) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.DescribeParticipant(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) IntrospectParticipant(ctx context.Context, in *IntrospectParticipantInput) (out *IntrospectParticipantOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
-		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/IntrospectParticipant", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/IntrospectParticipant", 10, 50) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
+	next := func() (proto.Message, error) {
+		out, err = i.server.IntrospectParticipant(ctx, in)
+		return out, err
 	}
 
-	out, err = i.server.IntrospectParticipant(ctx, in)
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/IntrospectParticipant", in, handler)
+			return out, err
+		}
+	}
+
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) JoinContest(ctx context.Context, in *JoinContestInput) (out *JoinContestOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
-		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/JoinContest", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/JoinContest", 1, 3) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
+	next := func() (proto.Message, error) {
+		out, err = i.server.JoinContest(ctx, in)
+		return out, err
 	}
 
-	out, err = i.server.JoinContest(ctx, in)
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/JoinContest", in, handler)
+			return out, err
+		}
+	}
+
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) StartContest(ctx context.Context, in *StartContestInput) (out *StartContestOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.StartContest(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/StartContest", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/StartContest", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:participate") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:participate")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/StartContest", 1, 3) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.StartContest(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) VerifyPasscode(ctx context.Context, in *VerifyPasscodeInput) (out *VerifyPasscodeOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.VerifyPasscode(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/VerifyPasscode", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/VerifyPasscode", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/VerifyPasscode", 10, 50) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.VerifyPasscode(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) EnterPasscode(ctx context.Context, in *EnterPasscodeInput) (out *EnterPasscodeOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.EnterPasscode(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/EnterPasscode", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/EnterPasscode", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:participate") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:participate")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/EnterPasscode", 10, 50) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.EnterPasscode(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) ResetPasscode(ctx context.Context, in *ResetPasscodeInput) (out *ResetPasscodeOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.ResetPasscode(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/ResetPasscode", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/ResetPasscode", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/ResetPasscode", 10, 50) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.ResetPasscode(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) RemovePasscode(ctx context.Context, in *RemovePasscodeInput) (out *RemovePasscodeOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.RemovePasscode(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/RemovePasscode", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/RemovePasscode", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/RemovePasscode", 10, 50) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.RemovePasscode(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) CreateSubmission(ctx context.Context, in *CreateSubmissionInput) (out *CreateSubmissionOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.CreateSubmission(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/CreateSubmission", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/CreateSubmission", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:participate") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:participate")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/CreateSubmission", 0.16, 10) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.CreateSubmission(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) ListSubmissions(ctx context.Context, in *ListSubmissionsInput) (out *ListSubmissionsOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.ListSubmissions(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/ListSubmissions", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/ListSubmissions", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/ListSubmissions", 1, 5) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.ListSubmissions(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) DescribeSubmission(ctx context.Context, in *DescribeSubmissionInput) (out *DescribeSubmissionOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.DescribeSubmission(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/DescribeSubmission", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/DescribeSubmission", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/DescribeSubmission", 2, 10) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.DescribeSubmission(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) RetestSubmission(ctx context.Context, in *RetestSubmissionInput) (out *RetestSubmissionOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.RetestSubmission(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/RetestSubmission", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/RetestSubmission", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/RetestSubmission", 10, 50) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.RetestSubmission(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) CreateTicket(ctx context.Context, in *CreateTicketInput) (out *CreateTicketOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.CreateTicket(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/CreateTicket", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/CreateTicket", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:participate") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:participate")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/CreateTicket", 1, 5) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.CreateTicket(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) CloseTicket(ctx context.Context, in *CloseTicketInput) (out *CloseTicketOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.CloseTicket(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/CloseTicket", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/CloseTicket", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/CloseTicket", 1, 5) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.CloseTicket(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) OpenTicket(ctx context.Context, in *OpenTicketInput) (out *OpenTicketOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.OpenTicket(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/OpenTicket", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/OpenTicket", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/OpenTicket", 1, 5) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.OpenTicket(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) ReadTicket(ctx context.Context, in *ReadTicketInput) (out *ReadTicketOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.ReadTicket(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/ReadTicket", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/ReadTicket", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/ReadTicket", 2, 10) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.ReadTicket(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) DeleteTicket(ctx context.Context, in *DeleteTicketInput) (out *DeleteTicketOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.DeleteTicket(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/DeleteTicket", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/DeleteTicket", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/DeleteTicket", 2, 10) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.DeleteTicket(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) DescribeTicket(ctx context.Context, in *DescribeTicketInput) (out *DescribeTicketOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.DescribeTicket(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/DescribeTicket", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/DescribeTicket", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/DescribeTicket", 2, 10) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.DescribeTicket(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) ListTickets(ctx context.Context, in *ListTicketsInput) (out *ListTicketsOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.ListTickets(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/ListTickets", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/ListTickets", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/ListTickets", 5, 20) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.ListTickets(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) ReplyTicket(ctx context.Context, in *ReplyTicketInput) (out *ReplyTicketOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.ReplyTicket(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/ReplyTicket", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/ReplyTicket", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:participate") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:participate")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/ReplyTicket", 0.16, 5) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.ReplyTicket(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) ListReplies(ctx context.Context, in *ListRepliesInput) (out *ListRepliesOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.ListReplies(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/ListReplies", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/ListReplies", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/ListReplies", 5, 20) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.ListReplies(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) DeleteReply(ctx context.Context, in *DeleteReplyInput) (out *DeleteReplyOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.DeleteReply(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/DeleteReply", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/DeleteReply", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/DeleteReply", 0.16, 5) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.DeleteReply(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) UpdateReply(ctx context.Context, in *UpdateReplyInput) (out *UpdateReplyOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.UpdateReply(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/UpdateReply", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/UpdateReply", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/UpdateReply", 0.16, 5) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.UpdateReply(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) CreateAnnouncement(ctx context.Context, in *CreateAnnouncementInput) (out *CreateAnnouncementOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.CreateAnnouncement(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/CreateAnnouncement", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/CreateAnnouncement", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/CreateAnnouncement", 1, 5) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.CreateAnnouncement(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) UpdateAnnouncement(ctx context.Context, in *UpdateAnnouncementInput) (out *UpdateAnnouncementOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.UpdateAnnouncement(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/UpdateAnnouncement", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/UpdateAnnouncement", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/UpdateAnnouncement", 1, 5) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.UpdateAnnouncement(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) DeleteAnnouncement(ctx context.Context, in *DeleteAnnouncementInput) (out *DeleteAnnouncementOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.DeleteAnnouncement(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/DeleteAnnouncement", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/DeleteAnnouncement", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/DeleteAnnouncement", 2, 10) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.DeleteAnnouncement(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) ReadAnnouncement(ctx context.Context, in *ReadAnnouncementInput) (out *ReadAnnouncementOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.ReadAnnouncement(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/ReadAnnouncement", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/ReadAnnouncement", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/ReadAnnouncement", 2, 10) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.ReadAnnouncement(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) DescribeAnnouncement(ctx context.Context, in *DescribeAnnouncementInput) (out *DescribeAnnouncementOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.DescribeAnnouncement(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/DescribeAnnouncement", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/DescribeAnnouncement", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/DescribeAnnouncement", 2, 10) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.DescribeAnnouncement(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) DescribeAnnouncementStatus(ctx context.Context, in *DescribeAnnouncementStatusInput) (out *DescribeAnnouncementStatusOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.DescribeAnnouncementStatus(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/DescribeAnnouncementStatus", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/DescribeAnnouncementStatus", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/DescribeAnnouncementStatus", 2, 10) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.DescribeAnnouncementStatus(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) ListAnnouncements(ctx context.Context, in *ListAnnouncementsInput) (out *ListAnnouncementsOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.ListAnnouncements(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/ListAnnouncements", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/ListAnnouncements", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/ListAnnouncements", 5, 20) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.ListAnnouncements(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) IntrospectScore(ctx context.Context, in *IntrospectScoreInput) (out *IntrospectScoreOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
-		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/IntrospectScore", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/IntrospectScore", 10, 50) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
+	next := func() (proto.Message, error) {
+		out, err = i.server.IntrospectScore(ctx, in)
+		return out, err
 	}
 
-	out, err = i.server.IntrospectScore(ctx, in)
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/IntrospectScore", in, handler)
+			return out, err
+		}
+	}
+
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) DescribeScore(ctx context.Context, in *DescribeScoreInput) (out *DescribeScoreOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.DescribeScore(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/DescribeScore", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/DescribeScore", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/DescribeScore", 50, 200) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.DescribeScore(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) ImportScore(ctx context.Context, in *ImportScoreInput) (out *ImportScoreOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.ImportScore(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/ImportScore", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/ImportScore", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/ImportScore", 50, 200) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.ImportScore(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) ListResult(ctx context.Context, in *ListResultInput) (out *ListResultOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.ListResult(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/ListResult", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/ListResult", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/ListResult", 50, 200) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.ListResult(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) RebuildScore(ctx context.Context, in *RebuildScoreInput) (out *RebuildScoreOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.RebuildScore(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/RebuildScore", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/RebuildScore", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/RebuildScore", 2, 10) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.RebuildScore(ctx, in)
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) ListEntitlements(ctx context.Context, in *ListEntitlementsInput) (out *ListEntitlementsOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
-		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/ListEntitlements", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/ListEntitlements", 5, 20) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
+	next := func() (proto.Message, error) {
+		out, err = i.server.ListEntitlements(ctx, in)
+		return out, err
 	}
 
-	out, err = i.server.ListEntitlements(ctx, in)
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/ListEntitlements", in, handler)
+			return out, err
+		}
+	}
+
+	next()
 	return
 }
 
 func (i *JudgeInterceptor) ListActivities(ctx context.Context, in *ListActivitiesInput) (out *ListActivitiesOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.ListActivities(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/ListActivities", in, handler)
+			return out, err
 		}
-
-		promJudgeRequestLatency.WithLabelValues("eolymp.judge.Judge/ListActivities", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.judge.Judge/ListActivities", 5, 20) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.ListActivities(ctx, in)
+	next()
 	return
 }

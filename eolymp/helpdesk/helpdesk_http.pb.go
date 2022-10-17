@@ -5,17 +5,13 @@ package helpdesk
 
 import (
 	context "context"
-	oauth "github.com/eolymp/go-packages/oauth"
 	mux "github.com/gorilla/mux"
-	prometheus "github.com/prometheus/client_golang/prometheus"
-	promauto "github.com/prometheus/client_golang/prometheus/promauto"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
 	ioutil "io/ioutil"
 	http "net/http"
-	time "time"
 )
 
 // _Helpdesk_HTTPReadQueryString parses body into proto.Message
@@ -502,238 +498,165 @@ func _Helpdesk_ListParents_Rule0(srv HelpdeskServer) http.Handler {
 	})
 }
 
-var promHelpdeskRequestLatency = promauto.NewHistogramVec(prometheus.HistogramOpts{
-	Name:    "helpdesk_request_latency",
-	Help:    "Helpdesk request latency",
-	Buckets: []float64{0.1, 0.4, 1, 5},
-}, []string{"method", "status"})
-
-type _HelpdeskLimiter interface {
-	Allow(context.Context, string, float64, int) bool
-}
-
+type _HelpdeskMiddleware func(ctx context.Context, method string, in proto.Message, next func() (out proto.Message, err error))
 type HelpdeskInterceptor struct {
-	limiter _HelpdeskLimiter
-	server  HelpdeskServer
+	middleware []_HelpdeskMiddleware
+	server     HelpdeskServer
 }
 
 // NewHelpdeskInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewHelpdeskInterceptor(srv HelpdeskServer, lim _HelpdeskLimiter) *HelpdeskInterceptor {
-	return &HelpdeskInterceptor{server: srv, limiter: lim}
+func NewHelpdeskInterceptor(srv HelpdeskServer, middleware ..._HelpdeskMiddleware) *HelpdeskInterceptor {
+	return &HelpdeskInterceptor{server: srv, middleware: middleware}
 }
 
 func (i *HelpdeskInterceptor) DescribeDocument(ctx context.Context, in *DescribeDocumentInput) (out *DescribeDocumentOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.DescribeDocument(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.helpdesk.Helpdesk/DescribeDocument", in, handler)
+			return out, err
 		}
-
-		promHelpdeskRequestLatency.WithLabelValues("eolymp.helpdesk.Helpdesk/DescribeDocument", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("helpdesk:document:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: helpdesk:document:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.helpdesk.Helpdesk/DescribeDocument", 20, 500) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.DescribeDocument(ctx, in)
+	next()
 	return
 }
 
 func (i *HelpdeskInterceptor) ListDocuments(ctx context.Context, in *ListDocumentsInput) (out *ListDocumentsOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.ListDocuments(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.helpdesk.Helpdesk/ListDocuments", in, handler)
+			return out, err
 		}
-
-		promHelpdeskRequestLatency.WithLabelValues("eolymp.helpdesk.Helpdesk/ListDocuments", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("helpdesk:document:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: helpdesk:document:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.helpdesk.Helpdesk/ListDocuments", 20, 100) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.ListDocuments(ctx, in)
+	next()
 	return
 }
 
 func (i *HelpdeskInterceptor) CreateDocument(ctx context.Context, in *CreateDocumentInput) (out *CreateDocumentOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.CreateDocument(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.helpdesk.Helpdesk/CreateDocument", in, handler)
+			return out, err
 		}
-
-		promHelpdeskRequestLatency.WithLabelValues("eolymp.helpdesk.Helpdesk/CreateDocument", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("helpdesk:document:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: helpdesk:document:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.helpdesk.Helpdesk/CreateDocument", 5, 50) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.CreateDocument(ctx, in)
+	next()
 	return
 }
 
 func (i *HelpdeskInterceptor) UpdateDocument(ctx context.Context, in *UpdateDocumentInput) (out *UpdateDocumentOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.UpdateDocument(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.helpdesk.Helpdesk/UpdateDocument", in, handler)
+			return out, err
 		}
-
-		promHelpdeskRequestLatency.WithLabelValues("eolymp.helpdesk.Helpdesk/UpdateDocument", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("helpdesk:document:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: helpdesk:document:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.helpdesk.Helpdesk/UpdateDocument", 5, 50) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.UpdateDocument(ctx, in)
+	next()
 	return
 }
 
 func (i *HelpdeskInterceptor) DeleteDocument(ctx context.Context, in *DeleteDocumentInput) (out *DeleteDocumentOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.DeleteDocument(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.helpdesk.Helpdesk/DeleteDocument", in, handler)
+			return out, err
 		}
-
-		promHelpdeskRequestLatency.WithLabelValues("eolymp.helpdesk.Helpdesk/DeleteDocument", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("helpdesk:document:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: helpdesk:document:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.helpdesk.Helpdesk/DeleteDocument", 5, 50) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.DeleteDocument(ctx, in)
+	next()
 	return
 }
 
 func (i *HelpdeskInterceptor) DescribePath(ctx context.Context, in *DescribePathInput) (out *DescribePathOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.DescribePath(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.helpdesk.Helpdesk/DescribePath", in, handler)
+			return out, err
 		}
-
-		promHelpdeskRequestLatency.WithLabelValues("eolymp.helpdesk.Helpdesk/DescribePath", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("helpdesk:document:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: helpdesk:document:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.helpdesk.Helpdesk/DescribePath", 20, 500) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.DescribePath(ctx, in)
+	next()
 	return
 }
 
 func (i *HelpdeskInterceptor) ListPaths(ctx context.Context, in *ListPathsInput) (out *ListPathsOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.ListPaths(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.helpdesk.Helpdesk/ListPaths", in, handler)
+			return out, err
 		}
-
-		promHelpdeskRequestLatency.WithLabelValues("eolymp.helpdesk.Helpdesk/ListPaths", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("helpdesk:document:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: helpdesk:document:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.helpdesk.Helpdesk/ListPaths", 20, 500) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.ListPaths(ctx, in)
+	next()
 	return
 }
 
 func (i *HelpdeskInterceptor) ListParents(ctx context.Context, in *ListParentsInput) (out *ListParentsOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.ListParents(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.helpdesk.Helpdesk/ListParents", in, handler)
+			return out, err
 		}
-
-		promHelpdeskRequestLatency.WithLabelValues("eolymp.helpdesk.Helpdesk/ListParents", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("helpdesk:document:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: helpdesk:document:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.helpdesk.Helpdesk/ListParents", 20, 500) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.ListParents(ctx, in)
+	next()
 	return
 }

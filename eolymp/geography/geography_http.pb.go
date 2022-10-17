@@ -6,15 +6,12 @@ package geography
 import (
 	context "context"
 	mux "github.com/gorilla/mux"
-	prometheus "github.com/prometheus/client_golang/prometheus"
-	promauto "github.com/prometheus/client_golang/prometheus/promauto"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
 	ioutil "io/ioutil"
 	http "net/http"
-	time "time"
 )
 
 // _Geography_HTTPReadQueryString parses body into proto.Message
@@ -315,106 +312,89 @@ func _Geography_ListRegions_Rule0(srv GeographyServer) http.Handler {
 	})
 }
 
-var promGeographyRequestLatency = promauto.NewHistogramVec(prometheus.HistogramOpts{
-	Name:    "geography_request_latency",
-	Help:    "Geography request latency",
-	Buckets: []float64{0.1, 0.4, 1, 5},
-}, []string{"method", "status"})
-
-type _GeographyLimiter interface {
-	Allow(context.Context, string, float64, int) bool
-}
-
+type _GeographyMiddleware func(ctx context.Context, method string, in proto.Message, next func() (out proto.Message, err error))
 type GeographyInterceptor struct {
-	limiter _GeographyLimiter
-	server  GeographyServer
+	middleware []_GeographyMiddleware
+	server     GeographyServer
 }
 
 // NewGeographyInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewGeographyInterceptor(srv GeographyServer, lim _GeographyLimiter) *GeographyInterceptor {
-	return &GeographyInterceptor{server: srv, limiter: lim}
+func NewGeographyInterceptor(srv GeographyServer, middleware ..._GeographyMiddleware) *GeographyInterceptor {
+	return &GeographyInterceptor{server: srv, middleware: middleware}
 }
 
 func (i *GeographyInterceptor) DescribeCountry(ctx context.Context, in *DescribeCountryInput) (out *DescribeCountryOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
-		}
-
-		promGeographyRequestLatency.WithLabelValues("eolymp.geography.Geography/DescribeCountry", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	if !i.limiter.Allow(ctx, "eolymp.geography.Geography/DescribeCountry", 50, 500) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
+	next := func() (proto.Message, error) {
+		out, err = i.server.DescribeCountry(ctx, in)
+		return out, err
 	}
 
-	out, err = i.server.DescribeCountry(ctx, in)
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.geography.Geography/DescribeCountry", in, handler)
+			return out, err
+		}
+	}
+
+	next()
 	return
 }
 
 func (i *GeographyInterceptor) ListCountries(ctx context.Context, in *ListCountriesInput) (out *ListCountriesOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
-		}
-
-		promGeographyRequestLatency.WithLabelValues("eolymp.geography.Geography/ListCountries", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	if !i.limiter.Allow(ctx, "eolymp.geography.Geography/ListCountries", 50, 500) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
+	next := func() (proto.Message, error) {
+		out, err = i.server.ListCountries(ctx, in)
+		return out, err
 	}
 
-	out, err = i.server.ListCountries(ctx, in)
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.geography.Geography/ListCountries", in, handler)
+			return out, err
+		}
+	}
+
+	next()
 	return
 }
 
 func (i *GeographyInterceptor) DescribeRegion(ctx context.Context, in *DescribeRegionInput) (out *DescribeRegionOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
-		}
-
-		promGeographyRequestLatency.WithLabelValues("eolymp.geography.Geography/DescribeRegion", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	if !i.limiter.Allow(ctx, "eolymp.geography.Geography/DescribeRegion", 50, 500) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
+	next := func() (proto.Message, error) {
+		out, err = i.server.DescribeRegion(ctx, in)
+		return out, err
 	}
 
-	out, err = i.server.DescribeRegion(ctx, in)
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.geography.Geography/DescribeRegion", in, handler)
+			return out, err
+		}
+	}
+
+	next()
 	return
 }
 
 func (i *GeographyInterceptor) ListRegions(ctx context.Context, in *ListRegionsInput) (out *ListRegionsOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
-		}
-
-		promGeographyRequestLatency.WithLabelValues("eolymp.geography.Geography/ListRegions", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	if !i.limiter.Allow(ctx, "eolymp.geography.Geography/ListRegions", 50, 500) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
+	next := func() (proto.Message, error) {
+		out, err = i.server.ListRegions(ctx, in)
+		return out, err
 	}
 
-	out, err = i.server.ListRegions(ctx, in)
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.geography.Geography/ListRegions", in, handler)
+			return out, err
+		}
+	}
+
+	next()
 	return
 }

@@ -5,17 +5,13 @@ package universe
 
 import (
 	context "context"
-	oauth "github.com/eolymp/go-packages/oauth"
 	mux "github.com/gorilla/mux"
-	prometheus "github.com/prometheus/client_golang/prometheus"
-	promauto "github.com/prometheus/client_golang/prometheus/promauto"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
 	ioutil "io/ioutil"
 	http "net/http"
-	time "time"
 )
 
 // _Universe_HTTPReadQueryString parses body into proto.Message
@@ -700,322 +696,241 @@ func _Universe_ListPermissions_Rule0(srv UniverseServer) http.Handler {
 	})
 }
 
-var promUniverseRequestLatency = promauto.NewHistogramVec(prometheus.HistogramOpts{
-	Name:    "universe_request_latency",
-	Help:    "Universe request latency",
-	Buckets: []float64{0.1, 0.4, 1, 5},
-}, []string{"method", "status"})
-
-type _UniverseLimiter interface {
-	Allow(context.Context, string, float64, int) bool
-}
-
+type _UniverseMiddleware func(ctx context.Context, method string, in proto.Message, next func() (out proto.Message, err error))
 type UniverseInterceptor struct {
-	limiter _UniverseLimiter
-	server  UniverseServer
+	middleware []_UniverseMiddleware
+	server     UniverseServer
 }
 
 // NewUniverseInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewUniverseInterceptor(srv UniverseServer, lim _UniverseLimiter) *UniverseInterceptor {
-	return &UniverseInterceptor{server: srv, limiter: lim}
+func NewUniverseInterceptor(srv UniverseServer, middleware ..._UniverseMiddleware) *UniverseInterceptor {
+	return &UniverseInterceptor{server: srv, middleware: middleware}
 }
 
 func (i *UniverseInterceptor) LookupSpace(ctx context.Context, in *LookupSpaceInput) (out *LookupSpaceOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
-		}
-
-		promUniverseRequestLatency.WithLabelValues("eolymp.universe.Universe/LookupSpace", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	if !i.limiter.Allow(ctx, "eolymp.universe.Universe/LookupSpace", 10, 100) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
+	next := func() (proto.Message, error) {
+		out, err = i.server.LookupSpace(ctx, in)
+		return out, err
 	}
 
-	out, err = i.server.LookupSpace(ctx, in)
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.universe.Universe/LookupSpace", in, handler)
+			return out, err
+		}
+	}
+
+	next()
 	return
 }
 
 func (i *UniverseInterceptor) CreateSpace(ctx context.Context, in *CreateSpaceInput) (out *CreateSpaceOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.CreateSpace(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.universe.Universe/CreateSpace", in, handler)
+			return out, err
 		}
-
-		promUniverseRequestLatency.WithLabelValues("eolymp.universe.Universe/CreateSpace", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("universe:space:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: universe:space:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.universe.Universe/CreateSpace", 1, 5) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.CreateSpace(ctx, in)
+	next()
 	return
 }
 
 func (i *UniverseInterceptor) UpdateSpace(ctx context.Context, in *UpdateSpaceInput) (out *UpdateSpaceOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.UpdateSpace(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.universe.Universe/UpdateSpace", in, handler)
+			return out, err
 		}
-
-		promUniverseRequestLatency.WithLabelValues("eolymp.universe.Universe/UpdateSpace", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("universe:space:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: universe:space:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.universe.Universe/UpdateSpace", 1, 5) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.UpdateSpace(ctx, in)
+	next()
 	return
 }
 
 func (i *UniverseInterceptor) DeleteSpace(ctx context.Context, in *DeleteSpaceInput) (out *DeleteSpaceOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.DeleteSpace(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.universe.Universe/DeleteSpace", in, handler)
+			return out, err
 		}
-
-		promUniverseRequestLatency.WithLabelValues("eolymp.universe.Universe/DeleteSpace", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("universe:space:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: universe:space:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.universe.Universe/DeleteSpace", 2, 10) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.DeleteSpace(ctx, in)
+	next()
 	return
 }
 
 func (i *UniverseInterceptor) DescribeSpace(ctx context.Context, in *DescribeSpaceInput) (out *DescribeSpaceOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
-		}
-
-		promUniverseRequestLatency.WithLabelValues("eolymp.universe.Universe/DescribeSpace", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	if !i.limiter.Allow(ctx, "eolymp.universe.Universe/DescribeSpace", 10, 100) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
+	next := func() (proto.Message, error) {
+		out, err = i.server.DescribeSpace(ctx, in)
+		return out, err
 	}
 
-	out, err = i.server.DescribeSpace(ctx, in)
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.universe.Universe/DescribeSpace", in, handler)
+			return out, err
+		}
+	}
+
+	next()
 	return
 }
 
 func (i *UniverseInterceptor) DescribeQuota(ctx context.Context, in *DescribeQuotaInput) (out *DescribeQuotaOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
-		}
-
-		promUniverseRequestLatency.WithLabelValues("eolymp.universe.Universe/DescribeQuota", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	if !i.limiter.Allow(ctx, "eolymp.universe.Universe/DescribeQuota", 10, 100) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
+	next := func() (proto.Message, error) {
+		out, err = i.server.DescribeQuota(ctx, in)
+		return out, err
 	}
 
-	out, err = i.server.DescribeQuota(ctx, in)
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.universe.Universe/DescribeQuota", in, handler)
+			return out, err
+		}
+	}
+
+	next()
 	return
 }
 
 func (i *UniverseInterceptor) ListSpaces(ctx context.Context, in *ListSpacesInput) (out *ListSpacesOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.ListSpaces(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.universe.Universe/ListSpaces", in, handler)
+			return out, err
 		}
-
-		promUniverseRequestLatency.WithLabelValues("eolymp.universe.Universe/ListSpaces", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("universe:space:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: universe:space:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.universe.Universe/ListSpaces", 5, 20) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.ListSpaces(ctx, in)
+	next()
 	return
 }
 
 func (i *UniverseInterceptor) GrantPermission(ctx context.Context, in *GrantPermissionInput) (out *GrantPermissionOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.GrantPermission(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.universe.Universe/GrantPermission", in, handler)
+			return out, err
 		}
-
-		promUniverseRequestLatency.WithLabelValues("eolymp.universe.Universe/GrantPermission", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("universe:space:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: universe:space:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.universe.Universe/GrantPermission", 5, 20) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.GrantPermission(ctx, in)
+	next()
 	return
 }
 
 func (i *UniverseInterceptor) RevokePermission(ctx context.Context, in *RevokePermissionInput) (out *RevokePermissionOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.RevokePermission(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.universe.Universe/RevokePermission", in, handler)
+			return out, err
 		}
-
-		promUniverseRequestLatency.WithLabelValues("eolymp.universe.Universe/RevokePermission", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("universe:space:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: universe:space:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.universe.Universe/RevokePermission", 5, 20) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.RevokePermission(ctx, in)
+	next()
 	return
 }
 
 func (i *UniverseInterceptor) DescribePermission(ctx context.Context, in *DescribePermissionInput) (out *DescribePermissionOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.DescribePermission(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.universe.Universe/DescribePermission", in, handler)
+			return out, err
 		}
-
-		promUniverseRequestLatency.WithLabelValues("eolymp.universe.Universe/DescribePermission", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("universe:space:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: universe:space:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.universe.Universe/DescribePermission", 5, 20) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.DescribePermission(ctx, in)
+	next()
 	return
 }
 
 func (i *UniverseInterceptor) IntrospectPermission(ctx context.Context, in *IntrospectPermissionInput) (out *IntrospectPermissionOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
-		}
-
-		promUniverseRequestLatency.WithLabelValues("eolymp.universe.Universe/IntrospectPermission", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	if !i.limiter.Allow(ctx, "eolymp.universe.Universe/IntrospectPermission", 10, 50) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
+	next := func() (proto.Message, error) {
+		out, err = i.server.IntrospectPermission(ctx, in)
+		return out, err
 	}
 
-	out, err = i.server.IntrospectPermission(ctx, in)
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.universe.Universe/IntrospectPermission", in, handler)
+			return out, err
+		}
+	}
+
+	next()
 	return
 }
 
 func (i *UniverseInterceptor) ListPermissions(ctx context.Context, in *ListPermissionsInput) (out *ListPermissionsOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.ListPermissions(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.universe.Universe/ListPermissions", in, handler)
+			return out, err
 		}
-
-		promUniverseRequestLatency.WithLabelValues("eolymp.universe.Universe/ListPermissions", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("universe:space:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: universe:space:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.universe.Universe/ListPermissions", 5, 20) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.ListPermissions(ctx, in)
+	next()
 	return
 }

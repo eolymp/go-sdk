@@ -5,17 +5,13 @@ package ranker
 
 import (
 	context "context"
-	oauth "github.com/eolymp/go-packages/oauth"
 	mux "github.com/gorilla/mux"
-	prometheus "github.com/prometheus/client_golang/prometheus"
-	promauto "github.com/prometheus/client_golang/prometheus/promauto"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
 	ioutil "io/ioutil"
 	http "net/http"
-	time "time"
 )
 
 // _Ranker_HTTPReadQueryString parses body into proto.Message
@@ -748,373 +744,260 @@ func _Ranker_ListActivities_Rule0(srv RankerServer) http.Handler {
 	})
 }
 
-var promRankerRequestLatency = promauto.NewHistogramVec(prometheus.HistogramOpts{
-	Name:    "ranker_request_latency",
-	Help:    "Ranker request latency",
-	Buckets: []float64{0.1, 0.4, 1, 5},
-}, []string{"method", "status"})
-
-type _RankerLimiter interface {
-	Allow(context.Context, string, float64, int) bool
-}
-
+type _RankerMiddleware func(ctx context.Context, method string, in proto.Message, next func() (out proto.Message, err error))
 type RankerInterceptor struct {
-	limiter _RankerLimiter
-	server  RankerServer
+	middleware []_RankerMiddleware
+	server     RankerServer
 }
 
 // NewRankerInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewRankerInterceptor(srv RankerServer, lim _RankerLimiter) *RankerInterceptor {
-	return &RankerInterceptor{server: srv, limiter: lim}
+func NewRankerInterceptor(srv RankerServer, middleware ..._RankerMiddleware) *RankerInterceptor {
+	return &RankerInterceptor{server: srv, middleware: middleware}
 }
 
 func (i *RankerInterceptor) CreateScoreboard(ctx context.Context, in *CreateScoreboardInput) (out *CreateScoreboardOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.CreateScoreboard(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.ranker.Ranker/CreateScoreboard", in, handler)
+			return out, err
 		}
-
-		promRankerRequestLatency.WithLabelValues("eolymp.ranker.Ranker/CreateScoreboard", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("ranker:scoreboard:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: ranker:scoreboard:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.ranker.Ranker/CreateScoreboard", 1, 5) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.CreateScoreboard(ctx, in)
+	next()
 	return
 }
 
 func (i *RankerInterceptor) UpdateScoreboard(ctx context.Context, in *UpdateScoreboardInput) (out *UpdateScoreboardOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.UpdateScoreboard(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.ranker.Ranker/UpdateScoreboard", in, handler)
+			return out, err
 		}
-
-		promRankerRequestLatency.WithLabelValues("eolymp.ranker.Ranker/UpdateScoreboard", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("ranker:scoreboard:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: ranker:scoreboard:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.ranker.Ranker/UpdateScoreboard", 1, 5) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.UpdateScoreboard(ctx, in)
+	next()
 	return
 }
 
 func (i *RankerInterceptor) RebuildScoreboard(ctx context.Context, in *RebuildScoreboardInput) (out *RebuildScoreboardOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.RebuildScoreboard(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.ranker.Ranker/RebuildScoreboard", in, handler)
+			return out, err
 		}
-
-		promRankerRequestLatency.WithLabelValues("eolymp.ranker.Ranker/RebuildScoreboard", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("ranker:scoreboard:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: ranker:scoreboard:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.ranker.Ranker/RebuildScoreboard", 1, 5) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.RebuildScoreboard(ctx, in)
+	next()
 	return
 }
 
 func (i *RankerInterceptor) DeleteScoreboard(ctx context.Context, in *DeleteScoreboardInput) (out *DeleteScoreboardOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.DeleteScoreboard(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.ranker.Ranker/DeleteScoreboard", in, handler)
+			return out, err
 		}
-
-		promRankerRequestLatency.WithLabelValues("eolymp.ranker.Ranker/DeleteScoreboard", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("ranker:scoreboard:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: ranker:scoreboard:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.ranker.Ranker/DeleteScoreboard", 2, 10) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.DeleteScoreboard(ctx, in)
+	next()
 	return
 }
 
 func (i *RankerInterceptor) DescribeScoreboard(ctx context.Context, in *DescribeScoreboardInput) (out *DescribeScoreboardOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.DescribeScoreboard(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.ranker.Ranker/DescribeScoreboard", in, handler)
+			return out, err
 		}
-
-		promRankerRequestLatency.WithLabelValues("eolymp.ranker.Ranker/DescribeScoreboard", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("ranker:scoreboard:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: ranker:scoreboard:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.ranker.Ranker/DescribeScoreboard", 5, 20) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.DescribeScoreboard(ctx, in)
+	next()
 	return
 }
 
 func (i *RankerInterceptor) ListScoreboards(ctx context.Context, in *ListScoreboardsInput) (out *ListScoreboardsOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.ListScoreboards(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.ranker.Ranker/ListScoreboards", in, handler)
+			return out, err
 		}
-
-		promRankerRequestLatency.WithLabelValues("eolymp.ranker.Ranker/ListScoreboards", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("ranker:scoreboard:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: ranker:scoreboard:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.ranker.Ranker/ListScoreboards", 5, 20) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.ListScoreboards(ctx, in)
+	next()
 	return
 }
 
 func (i *RankerInterceptor) DescribeScoreboardRow(ctx context.Context, in *DescribeScoreboardRowInput) (out *DescribeScoreboardRowOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.DescribeScoreboardRow(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.ranker.Ranker/DescribeScoreboardRow", in, handler)
+			return out, err
 		}
-
-		promRankerRequestLatency.WithLabelValues("eolymp.ranker.Ranker/DescribeScoreboardRow", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("ranker:scoreboard:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: ranker:scoreboard:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.ranker.Ranker/DescribeScoreboardRow", 10, 100) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.DescribeScoreboardRow(ctx, in)
+	next()
 	return
 }
 
 func (i *RankerInterceptor) ListScoreboardRows(ctx context.Context, in *ListScoreboardRowsInput) (out *ListScoreboardRowsOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.ListScoreboardRows(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.ranker.Ranker/ListScoreboardRows", in, handler)
+			return out, err
 		}
-
-		promRankerRequestLatency.WithLabelValues("eolymp.ranker.Ranker/ListScoreboardRows", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("ranker:scoreboard:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: ranker:scoreboard:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.ranker.Ranker/ListScoreboardRows", 10, 100) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.ListScoreboardRows(ctx, in)
+	next()
 	return
 }
 
 func (i *RankerInterceptor) AddScoreboardColumn(ctx context.Context, in *AddScoreboardColumnInput) (out *AddScoreboardColumnOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.AddScoreboardColumn(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.ranker.Ranker/AddScoreboardColumn", in, handler)
+			return out, err
 		}
-
-		promRankerRequestLatency.WithLabelValues("eolymp.ranker.Ranker/AddScoreboardColumn", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("ranker:scoreboard:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: ranker:scoreboard:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.ranker.Ranker/AddScoreboardColumn", 1, 5) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.AddScoreboardColumn(ctx, in)
+	next()
 	return
 }
 
 func (i *RankerInterceptor) DeleteScoreboardColumn(ctx context.Context, in *DeleteScoreboardColumnInput) (out *DeleteScoreboardColumnOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.DeleteScoreboardColumn(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.ranker.Ranker/DeleteScoreboardColumn", in, handler)
+			return out, err
 		}
-
-		promRankerRequestLatency.WithLabelValues("eolymp.ranker.Ranker/DeleteScoreboardColumn", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("ranker:scoreboard:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: ranker:scoreboard:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.ranker.Ranker/DeleteScoreboardColumn", 1, 5) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.DeleteScoreboardColumn(ctx, in)
+	next()
 	return
 }
 
 func (i *RankerInterceptor) DescribeScoreboardColumn(ctx context.Context, in *DescribeScoreboardColumnInput) (out *DescribeScoreboardColumnOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.DescribeScoreboardColumn(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.ranker.Ranker/DescribeScoreboardColumn", in, handler)
+			return out, err
 		}
-
-		promRankerRequestLatency.WithLabelValues("eolymp.ranker.Ranker/DescribeScoreboardColumn", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("ranker:scoreboard:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: ranker:scoreboard:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.ranker.Ranker/DescribeScoreboardColumn", 10, 100) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.DescribeScoreboardColumn(ctx, in)
+	next()
 	return
 }
 
 func (i *RankerInterceptor) ListScoreboardColumns(ctx context.Context, in *ListScoreboardColumnsInput) (out *ListScoreboardColumnsOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.ListScoreboardColumns(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.ranker.Ranker/ListScoreboardColumns", in, handler)
+			return out, err
 		}
-
-		promRankerRequestLatency.WithLabelValues("eolymp.ranker.Ranker/ListScoreboardColumns", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("ranker:scoreboard:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: ranker:scoreboard:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.ranker.Ranker/ListScoreboardColumns", 10, 100) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.ListScoreboardColumns(ctx, in)
+	next()
 	return
 }
 
 func (i *RankerInterceptor) ListActivities(ctx context.Context, in *ListActivitiesInput) (out *ListActivitiesOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.ListActivities(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.ranker.Ranker/ListActivities", in, handler)
+			return out, err
 		}
-
-		promRankerRequestLatency.WithLabelValues("eolymp.ranker.Ranker/ListActivities", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("judge:contest:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: judge:contest:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.ranker.Ranker/ListActivities", 5, 20) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.ListActivities(ctx, in)
+	next()
 	return
 }

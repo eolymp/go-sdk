@@ -5,17 +5,13 @@ package workspace
 
 import (
 	context "context"
-	oauth "github.com/eolymp/go-packages/oauth"
 	mux "github.com/gorilla/mux"
-	prometheus "github.com/prometheus/client_golang/prometheus"
-	promauto "github.com/prometheus/client_golang/prometheus/promauto"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
 	ioutil "io/ioutil"
 	http "net/http"
-	time "time"
 )
 
 // _Workspace_HTTPReadQueryString parses body into proto.Message
@@ -555,265 +551,184 @@ func _Workspace_RemoveFile_Rule0(srv WorkspaceServer) http.Handler {
 	})
 }
 
-var promWorkspaceRequestLatency = promauto.NewHistogramVec(prometheus.HistogramOpts{
-	Name:    "workspace_request_latency",
-	Help:    "Workspace request latency",
-	Buckets: []float64{0.1, 0.4, 1, 5},
-}, []string{"method", "status"})
-
-type _WorkspaceLimiter interface {
-	Allow(context.Context, string, float64, int) bool
-}
-
+type _WorkspaceMiddleware func(ctx context.Context, method string, in proto.Message, next func() (out proto.Message, err error))
 type WorkspaceInterceptor struct {
-	limiter _WorkspaceLimiter
-	server  WorkspaceServer
+	middleware []_WorkspaceMiddleware
+	server     WorkspaceServer
 }
 
 // NewWorkspaceInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewWorkspaceInterceptor(srv WorkspaceServer, lim _WorkspaceLimiter) *WorkspaceInterceptor {
-	return &WorkspaceInterceptor{server: srv, limiter: lim}
+func NewWorkspaceInterceptor(srv WorkspaceServer, middleware ..._WorkspaceMiddleware) *WorkspaceInterceptor {
+	return &WorkspaceInterceptor{server: srv, middleware: middleware}
 }
 
 func (i *WorkspaceInterceptor) DescribeProject(ctx context.Context, in *DescribeProjectInput) (out *DescribeProjectOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.DescribeProject(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.workspace.Workspace/DescribeProject", in, handler)
+			return out, err
 		}
-
-		promWorkspaceRequestLatency.WithLabelValues("eolymp.workspace.Workspace/DescribeProject", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("workspace:project:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: workspace:project:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.workspace.Workspace/DescribeProject", 20, 500) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.DescribeProject(ctx, in)
+	next()
 	return
 }
 
 func (i *WorkspaceInterceptor) ListProjects(ctx context.Context, in *ListProjectsInput) (out *ListProjectsOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.ListProjects(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.workspace.Workspace/ListProjects", in, handler)
+			return out, err
 		}
-
-		promWorkspaceRequestLatency.WithLabelValues("eolymp.workspace.Workspace/ListProjects", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("workspace:project:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: workspace:project:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.workspace.Workspace/ListProjects", 20, 100) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.ListProjects(ctx, in)
+	next()
 	return
 }
 
 func (i *WorkspaceInterceptor) CreateProject(ctx context.Context, in *CreateProjectInput) (out *CreateProjectOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.CreateProject(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.workspace.Workspace/CreateProject", in, handler)
+			return out, err
 		}
-
-		promWorkspaceRequestLatency.WithLabelValues("eolymp.workspace.Workspace/CreateProject", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("workspace:project:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: workspace:project:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.workspace.Workspace/CreateProject", 1, 10) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.CreateProject(ctx, in)
+	next()
 	return
 }
 
 func (i *WorkspaceInterceptor) UpdateProject(ctx context.Context, in *UpdateProjectInput) (out *UpdateProjectOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.UpdateProject(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.workspace.Workspace/UpdateProject", in, handler)
+			return out, err
 		}
-
-		promWorkspaceRequestLatency.WithLabelValues("eolymp.workspace.Workspace/UpdateProject", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("workspace:project:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: workspace:project:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.workspace.Workspace/UpdateProject", 5, 50) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.UpdateProject(ctx, in)
+	next()
 	return
 }
 
 func (i *WorkspaceInterceptor) DeleteProject(ctx context.Context, in *DeleteProjectInput) (out *DeleteProjectOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.DeleteProject(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.workspace.Workspace/DeleteProject", in, handler)
+			return out, err
 		}
-
-		promWorkspaceRequestLatency.WithLabelValues("eolymp.workspace.Workspace/DeleteProject", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("workspace:project:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: workspace:project:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.workspace.Workspace/DeleteProject", 5, 50) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.DeleteProject(ctx, in)
+	next()
 	return
 }
 
 func (i *WorkspaceInterceptor) ListFiles(ctx context.Context, in *ListFilesInput) (out *ListFilesOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.ListFiles(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.workspace.Workspace/ListFiles", in, handler)
+			return out, err
 		}
-
-		promWorkspaceRequestLatency.WithLabelValues("eolymp.workspace.Workspace/ListFiles", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("workspace:project:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: workspace:project:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.workspace.Workspace/ListFiles", 20, 100) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.ListFiles(ctx, in)
+	next()
 	return
 }
 
 func (i *WorkspaceInterceptor) DescribeFile(ctx context.Context, in *DescribeFileInput) (out *DescribeFileOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.DescribeFile(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.workspace.Workspace/DescribeFile", in, handler)
+			return out, err
 		}
-
-		promWorkspaceRequestLatency.WithLabelValues("eolymp.workspace.Workspace/DescribeFile", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("workspace:project:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: workspace:project:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.workspace.Workspace/DescribeFile", 5, 50) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.DescribeFile(ctx, in)
+	next()
 	return
 }
 
 func (i *WorkspaceInterceptor) UploadFile(ctx context.Context, in *UploadFileInput) (out *UploadFileOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.UploadFile(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.workspace.Workspace/UploadFile", in, handler)
+			return out, err
 		}
-
-		promWorkspaceRequestLatency.WithLabelValues("eolymp.workspace.Workspace/UploadFile", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("workspace:project:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: workspace:project:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.workspace.Workspace/UploadFile", 5, 50) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.UploadFile(ctx, in)
+	next()
 	return
 }
 
 func (i *WorkspaceInterceptor) RemoveFile(ctx context.Context, in *RemoveFileInput) (out *RemoveFileOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.RemoveFile(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.workspace.Workspace/RemoveFile", in, handler)
+			return out, err
 		}
-
-		promWorkspaceRequestLatency.WithLabelValues("eolymp.workspace.Workspace/RemoveFile", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("workspace:project:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: workspace:project:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.workspace.Workspace/RemoveFile", 5, 50) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.RemoveFile(ctx, in)
+	next()
 	return
 }

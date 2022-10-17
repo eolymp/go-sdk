@@ -5,17 +5,13 @@ package community
 
 import (
 	context "context"
-	oauth "github.com/eolymp/go-packages/oauth"
 	mux "github.com/gorilla/mux"
-	prometheus "github.com/prometheus/client_golang/prometheus"
-	promauto "github.com/prometheus/client_golang/prometheus/promauto"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
 	ioutil "io/ioutil"
 	http "net/http"
-	time "time"
 )
 
 // _Community_HTTPReadQueryString parses body into proto.Message
@@ -775,394 +771,279 @@ func _Community_ListAttributes_Rule0(srv CommunityServer) http.Handler {
 	})
 }
 
-var promCommunityRequestLatency = promauto.NewHistogramVec(prometheus.HistogramOpts{
-	Name:    "community_request_latency",
-	Help:    "Community request latency",
-	Buckets: []float64{0.1, 0.4, 1, 5},
-}, []string{"method", "status"})
-
-type _CommunityLimiter interface {
-	Allow(context.Context, string, float64, int) bool
-}
-
+type _CommunityMiddleware func(ctx context.Context, method string, in proto.Message, next func() (out proto.Message, err error))
 type CommunityInterceptor struct {
-	limiter _CommunityLimiter
-	server  CommunityServer
+	middleware []_CommunityMiddleware
+	server     CommunityServer
 }
 
 // NewCommunityInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewCommunityInterceptor(srv CommunityServer, lim _CommunityLimiter) *CommunityInterceptor {
-	return &CommunityInterceptor{server: srv, limiter: lim}
+func NewCommunityInterceptor(srv CommunityServer, middleware ..._CommunityMiddleware) *CommunityInterceptor {
+	return &CommunityInterceptor{server: srv, middleware: middleware}
 }
 
 func (i *CommunityInterceptor) JoinSpace(ctx context.Context, in *JoinSpaceInput) (out *JoinSpaceOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.JoinSpace(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.community.Community/JoinSpace", in, handler)
+			return out, err
 		}
-
-		promCommunityRequestLatency.WithLabelValues("eolymp.community.Community/JoinSpace", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("community:member:join") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: community:member:join")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.community.Community/JoinSpace", 1, 10) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.JoinSpace(ctx, in)
+	next()
 	return
 }
 
 func (i *CommunityInterceptor) LeaveSpace(ctx context.Context, in *LeaveSpaceInput) (out *LeaveSpaceOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.LeaveSpace(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.community.Community/LeaveSpace", in, handler)
+			return out, err
 		}
-
-		promCommunityRequestLatency.WithLabelValues("eolymp.community.Community/LeaveSpace", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("community:member:join") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: community:member:join")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.community.Community/LeaveSpace", 1, 10) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.LeaveSpace(ctx, in)
+	next()
 	return
 }
 
 func (i *CommunityInterceptor) RegisterMember(ctx context.Context, in *RegisterMemberInput) (out *RegisterMemberOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.RegisterMember(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.community.Community/RegisterMember", in, handler)
+			return out, err
 		}
-
-		promCommunityRequestLatency.WithLabelValues("eolymp.community.Community/RegisterMember", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("community:member:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: community:member:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.community.Community/RegisterMember", 5, 20) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.RegisterMember(ctx, in)
+	next()
 	return
 }
 
 func (i *CommunityInterceptor) IntrospectMember(ctx context.Context, in *IntrospectMemberInput) (out *IntrospectMemberOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
-		}
-
-		promCommunityRequestLatency.WithLabelValues("eolymp.community.Community/IntrospectMember", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	if !i.limiter.Allow(ctx, "eolymp.community.Community/IntrospectMember", 10, 50) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
+	next := func() (proto.Message, error) {
+		out, err = i.server.IntrospectMember(ctx, in)
+		return out, err
 	}
 
-	out, err = i.server.IntrospectMember(ctx, in)
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.community.Community/IntrospectMember", in, handler)
+			return out, err
+		}
+	}
+
+	next()
 	return
 }
 
 func (i *CommunityInterceptor) AddMember(ctx context.Context, in *AddMemberInput) (out *AddMemberOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.AddMember(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.community.Community/AddMember", in, handler)
+			return out, err
 		}
-
-		promCommunityRequestLatency.WithLabelValues("eolymp.community.Community/AddMember", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("community:member:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: community:member:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.community.Community/AddMember", 5, 20) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.AddMember(ctx, in)
+	next()
 	return
 }
 
 func (i *CommunityInterceptor) UpdateMember(ctx context.Context, in *UpdateMemberInput) (out *UpdateMemberOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.UpdateMember(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.community.Community/UpdateMember", in, handler)
+			return out, err
 		}
-
-		promCommunityRequestLatency.WithLabelValues("eolymp.community.Community/UpdateMember", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("community:member:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: community:member:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.community.Community/UpdateMember", 5, 20) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.UpdateMember(ctx, in)
+	next()
 	return
 }
 
 func (i *CommunityInterceptor) RemoveMember(ctx context.Context, in *RemoveMemberInput) (out *RemoveMemberOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.RemoveMember(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.community.Community/RemoveMember", in, handler)
+			return out, err
 		}
-
-		promCommunityRequestLatency.WithLabelValues("eolymp.community.Community/RemoveMember", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("community:member:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: community:member:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.community.Community/RemoveMember", 5, 20) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.RemoveMember(ctx, in)
+	next()
 	return
 }
 
 func (i *CommunityInterceptor) DescribeMember(ctx context.Context, in *DescribeMemberInput) (out *DescribeMemberOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.DescribeMember(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.community.Community/DescribeMember", in, handler)
+			return out, err
 		}
-
-		promCommunityRequestLatency.WithLabelValues("eolymp.community.Community/DescribeMember", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("community:member:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: community:member:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.community.Community/DescribeMember", 5, 20) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.DescribeMember(ctx, in)
+	next()
 	return
 }
 
 func (i *CommunityInterceptor) ListMembers(ctx context.Context, in *ListMembersInput) (out *ListMembersOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.ListMembers(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.community.Community/ListMembers", in, handler)
+			return out, err
 		}
-
-		promCommunityRequestLatency.WithLabelValues("eolymp.community.Community/ListMembers", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("community:member:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: community:member:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.community.Community/ListMembers", 5, 20) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.ListMembers(ctx, in)
+	next()
 	return
 }
 
 func (i *CommunityInterceptor) AddAttribute(ctx context.Context, in *AddAttributeInput) (out *AddAttributeOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.AddAttribute(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.community.Community/AddAttribute", in, handler)
+			return out, err
 		}
-
-		promCommunityRequestLatency.WithLabelValues("eolymp.community.Community/AddAttribute", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("community:member:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: community:member:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.community.Community/AddAttribute", 5, 20) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.AddAttribute(ctx, in)
+	next()
 	return
 }
 
 func (i *CommunityInterceptor) UpdateAttribute(ctx context.Context, in *UpdateAttributeInput) (out *UpdateAttributeOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.UpdateAttribute(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.community.Community/UpdateAttribute", in, handler)
+			return out, err
 		}
-
-		promCommunityRequestLatency.WithLabelValues("eolymp.community.Community/UpdateAttribute", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("community:member:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: community:member:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.community.Community/UpdateAttribute", 5, 20) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.UpdateAttribute(ctx, in)
+	next()
 	return
 }
 
 func (i *CommunityInterceptor) RemoveAttribute(ctx context.Context, in *RemoveAttributeInput) (out *RemoveAttributeOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.RemoveAttribute(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.community.Community/RemoveAttribute", in, handler)
+			return out, err
 		}
-
-		promCommunityRequestLatency.WithLabelValues("eolymp.community.Community/RemoveAttribute", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("community:member:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: community:member:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.community.Community/RemoveAttribute", 5, 20) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.RemoveAttribute(ctx, in)
+	next()
 	return
 }
 
 func (i *CommunityInterceptor) DescribeAttribute(ctx context.Context, in *DescribeAttributeInput) (out *DescribeAttributeOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.DescribeAttribute(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.community.Community/DescribeAttribute", in, handler)
+			return out, err
 		}
-
-		promCommunityRequestLatency.WithLabelValues("eolymp.community.Community/DescribeAttribute", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("community:member:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: community:member:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.community.Community/DescribeAttribute", 5, 20) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.DescribeAttribute(ctx, in)
+	next()
 	return
 }
 
 func (i *CommunityInterceptor) ListAttributes(ctx context.Context, in *ListAttributesInput) (out *ListAttributesOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.ListAttributes(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.community.Community/ListAttributes", in, handler)
+			return out, err
 		}
-
-		promCommunityRequestLatency.WithLabelValues("eolymp.community.Community/ListAttributes", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("community:member:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: community:member:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.community.Community/ListAttributes", 5, 20) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.ListAttributes(ctx, in)
+	next()
 	return
 }

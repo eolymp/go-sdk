@@ -5,17 +5,13 @@ package keeper
 
 import (
 	context "context"
-	oauth "github.com/eolymp/go-packages/oauth"
 	mux "github.com/gorilla/mux"
-	prometheus "github.com/prometheus/client_golang/prometheus"
-	promauto "github.com/prometheus/client_golang/prometheus/promauto"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
 	ioutil "io/ioutil"
 	http "net/http"
-	time "time"
 )
 
 // _Keeper_HTTPReadQueryString parses body into proto.Message
@@ -268,103 +264,70 @@ func _Keeper_DownloadObject_Rule0(srv KeeperServer) http.Handler {
 	})
 }
 
-var promKeeperRequestLatency = promauto.NewHistogramVec(prometheus.HistogramOpts{
-	Name:    "keeper_request_latency",
-	Help:    "Keeper request latency",
-	Buckets: []float64{0.1, 0.4, 1, 5},
-}, []string{"method", "status"})
-
-type _KeeperLimiter interface {
-	Allow(context.Context, string, float64, int) bool
-}
-
+type _KeeperMiddleware func(ctx context.Context, method string, in proto.Message, next func() (out proto.Message, err error))
 type KeeperInterceptor struct {
-	limiter _KeeperLimiter
-	server  KeeperServer
+	middleware []_KeeperMiddleware
+	server     KeeperServer
 }
 
 // NewKeeperInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewKeeperInterceptor(srv KeeperServer, lim _KeeperLimiter) *KeeperInterceptor {
-	return &KeeperInterceptor{server: srv, limiter: lim}
+func NewKeeperInterceptor(srv KeeperServer, middleware ..._KeeperMiddleware) *KeeperInterceptor {
+	return &KeeperInterceptor{server: srv, middleware: middleware}
 }
 
 func (i *KeeperInterceptor) CreateObject(ctx context.Context, in *CreateObjectInput) (out *CreateObjectOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.CreateObject(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.keeper.Keeper/CreateObject", in, handler)
+			return out, err
 		}
-
-		promKeeperRequestLatency.WithLabelValues("eolymp.keeper.Keeper/CreateObject", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("keeper:object:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: keeper:object:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.keeper.Keeper/CreateObject", 2, 500) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.CreateObject(ctx, in)
+	next()
 	return
 }
 
 func (i *KeeperInterceptor) DescribeObject(ctx context.Context, in *DescribeObjectInput) (out *DescribeObjectOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.DescribeObject(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.keeper.Keeper/DescribeObject", in, handler)
+			return out, err
 		}
-
-		promKeeperRequestLatency.WithLabelValues("eolymp.keeper.Keeper/DescribeObject", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("keeper:object:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: keeper:object:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.keeper.Keeper/DescribeObject", 50, 500) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.DescribeObject(ctx, in)
+	next()
 	return
 }
 
 func (i *KeeperInterceptor) DownloadObject(ctx context.Context, in *DownloadObjectInput) (out *DownloadObjectOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.DownloadObject(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.keeper.Keeper/DownloadObject", in, handler)
+			return out, err
 		}
-
-		promKeeperRequestLatency.WithLabelValues("eolymp.keeper.Keeper/DownloadObject", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("keeper:object:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: keeper:object:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.keeper.Keeper/DownloadObject", 50, 500) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.DownloadObject(ctx, in)
+	next()
 	return
 }

@@ -5,17 +5,13 @@ package typewriter
 
 import (
 	context "context"
-	oauth "github.com/eolymp/go-packages/oauth"
 	mux "github.com/gorilla/mux"
-	prometheus "github.com/prometheus/client_golang/prometheus"
-	promauto "github.com/prometheus/client_golang/prometheus/promauto"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
 	ioutil "io/ioutil"
 	http "net/http"
-	time "time"
 )
 
 // _Typewriter_HTTPReadQueryString parses body into proto.Message
@@ -172,49 +168,32 @@ func _Typewriter_UploadAsset_Rule0(srv TypewriterServer) http.Handler {
 	})
 }
 
-var promTypewriterRequestLatency = promauto.NewHistogramVec(prometheus.HistogramOpts{
-	Name:    "typewriter_request_latency",
-	Help:    "Typewriter request latency",
-	Buckets: []float64{0.1, 0.4, 1, 5},
-}, []string{"method", "status"})
-
-type _TypewriterLimiter interface {
-	Allow(context.Context, string, float64, int) bool
-}
-
+type _TypewriterMiddleware func(ctx context.Context, method string, in proto.Message, next func() (out proto.Message, err error))
 type TypewriterInterceptor struct {
-	limiter _TypewriterLimiter
-	server  TypewriterServer
+	middleware []_TypewriterMiddleware
+	server     TypewriterServer
 }
 
 // NewTypewriterInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewTypewriterInterceptor(srv TypewriterServer, lim _TypewriterLimiter) *TypewriterInterceptor {
-	return &TypewriterInterceptor{server: srv, limiter: lim}
+func NewTypewriterInterceptor(srv TypewriterServer, middleware ..._TypewriterMiddleware) *TypewriterInterceptor {
+	return &TypewriterInterceptor{server: srv, middleware: middleware}
 }
 
 func (i *TypewriterInterceptor) UploadAsset(ctx context.Context, in *UploadAssetInput) (out *UploadAssetOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.UploadAsset(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.typewriter.Typewriter/UploadAsset", in, handler)
+			return out, err
 		}
-
-		promTypewriterRequestLatency.WithLabelValues("eolymp.typewriter.Typewriter/UploadAsset", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("typewriter:asset:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: typewriter:asset:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.typewriter.Typewriter/UploadAsset", 2, 100) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.UploadAsset(ctx, in)
+	next()
 	return
 }

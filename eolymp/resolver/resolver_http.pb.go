@@ -6,15 +6,12 @@ package resolver
 import (
 	context "context"
 	mux "github.com/gorilla/mux"
-	prometheus "github.com/prometheus/client_golang/prometheus"
-	promauto "github.com/prometheus/client_golang/prometheus/promauto"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
 	ioutil "io/ioutil"
 	http "net/http"
-	time "time"
 )
 
 // _Resolver_HTTPReadQueryString parses body into proto.Message
@@ -174,43 +171,32 @@ func _Resolver_ResolveName_Rule0(srv ResolverServer) http.Handler {
 	})
 }
 
-var promResolverRequestLatency = promauto.NewHistogramVec(prometheus.HistogramOpts{
-	Name:    "resolver_request_latency",
-	Help:    "Resolver request latency",
-	Buckets: []float64{0.1, 0.4, 1, 5},
-}, []string{"method", "status"})
-
-type _ResolverLimiter interface {
-	Allow(context.Context, string, float64, int) bool
-}
-
+type _ResolverMiddleware func(ctx context.Context, method string, in proto.Message, next func() (out proto.Message, err error))
 type ResolverInterceptor struct {
-	limiter _ResolverLimiter
-	server  ResolverServer
+	middleware []_ResolverMiddleware
+	server     ResolverServer
 }
 
 // NewResolverInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewResolverInterceptor(srv ResolverServer, lim _ResolverLimiter) *ResolverInterceptor {
-	return &ResolverInterceptor{server: srv, limiter: lim}
+func NewResolverInterceptor(srv ResolverServer, middleware ..._ResolverMiddleware) *ResolverInterceptor {
+	return &ResolverInterceptor{server: srv, middleware: middleware}
 }
 
 func (i *ResolverInterceptor) ResolveName(ctx context.Context, in *ResolveNameInput) (out *ResolveNameOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
-		}
-
-		promResolverRequestLatency.WithLabelValues("eolymp.resolver.Resolver/ResolveName", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	if !i.limiter.Allow(ctx, "eolymp.resolver.Resolver/ResolveName", 50, 100) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
+	next := func() (proto.Message, error) {
+		out, err = i.server.ResolveName(ctx, in)
+		return out, err
 	}
 
-	out, err = i.server.ResolveName(ctx, in)
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.resolver.Resolver/ResolveName", in, handler)
+			return out, err
+		}
+	}
+
+	next()
 	return
 }

@@ -5,17 +5,13 @@ package executor
 
 import (
 	context "context"
-	oauth "github.com/eolymp/go-packages/oauth"
 	mux "github.com/gorilla/mux"
-	prometheus "github.com/prometheus/client_golang/prometheus"
-	promauto "github.com/prometheus/client_golang/prometheus/promauto"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
 	ioutil "io/ioutil"
 	http "net/http"
-	time "time"
 )
 
 // _Executor_HTTPReadQueryString parses body into proto.Message
@@ -361,157 +357,108 @@ func _Executor_DescribeCodeTemplate_Rule0(srv ExecutorServer) http.Handler {
 	})
 }
 
-var promExecutorRequestLatency = promauto.NewHistogramVec(prometheus.HistogramOpts{
-	Name:    "executor_request_latency",
-	Help:    "Executor request latency",
-	Buckets: []float64{0.1, 0.4, 1, 5},
-}, []string{"method", "status"})
-
-type _ExecutorLimiter interface {
-	Allow(context.Context, string, float64, int) bool
-}
-
+type _ExecutorMiddleware func(ctx context.Context, method string, in proto.Message, next func() (out proto.Message, err error))
 type ExecutorInterceptor struct {
-	limiter _ExecutorLimiter
-	server  ExecutorServer
+	middleware []_ExecutorMiddleware
+	server     ExecutorServer
 }
 
 // NewExecutorInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewExecutorInterceptor(srv ExecutorServer, lim _ExecutorLimiter) *ExecutorInterceptor {
-	return &ExecutorInterceptor{server: srv, limiter: lim}
+func NewExecutorInterceptor(srv ExecutorServer, middleware ..._ExecutorMiddleware) *ExecutorInterceptor {
+	return &ExecutorInterceptor{server: srv, middleware: middleware}
 }
 
 func (i *ExecutorInterceptor) DescribeLanguage(ctx context.Context, in *DescribeLanguageInput) (out *DescribeLanguageOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.DescribeLanguage(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.executor.Executor/DescribeLanguage", in, handler)
+			return out, err
 		}
-
-		promExecutorRequestLatency.WithLabelValues("eolymp.executor.Executor/DescribeLanguage", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("executor:runtime:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: executor:runtime:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.executor.Executor/DescribeLanguage", 20, 200) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.DescribeLanguage(ctx, in)
+	next()
 	return
 }
 
 func (i *ExecutorInterceptor) ListLanguages(ctx context.Context, in *ListLanguagesInput) (out *ListLanguagesOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.ListLanguages(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.executor.Executor/ListLanguages", in, handler)
+			return out, err
 		}
-
-		promExecutorRequestLatency.WithLabelValues("eolymp.executor.Executor/ListLanguages", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("executor:runtime:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: executor:runtime:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.executor.Executor/ListLanguages", 20, 200) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.ListLanguages(ctx, in)
+	next()
 	return
 }
 
 func (i *ExecutorInterceptor) DescribeRuntime(ctx context.Context, in *DescribeRuntimeInput) (out *DescribeRuntimeOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.DescribeRuntime(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.executor.Executor/DescribeRuntime", in, handler)
+			return out, err
 		}
-
-		promExecutorRequestLatency.WithLabelValues("eolymp.executor.Executor/DescribeRuntime", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("executor:runtime:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: executor:runtime:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.executor.Executor/DescribeRuntime", 20, 200) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.DescribeRuntime(ctx, in)
+	next()
 	return
 }
 
 func (i *ExecutorInterceptor) ListRuntime(ctx context.Context, in *ListRuntimeInput) (out *ListRuntimeOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.ListRuntime(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.executor.Executor/ListRuntime", in, handler)
+			return out, err
 		}
-
-		promExecutorRequestLatency.WithLabelValues("eolymp.executor.Executor/ListRuntime", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("executor:runtime:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: executor:runtime:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.executor.Executor/ListRuntime", 20, 200) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.ListRuntime(ctx, in)
+	next()
 	return
 }
 
 func (i *ExecutorInterceptor) DescribeCodeTemplate(ctx context.Context, in *DescribeCodeTemplateInput) (out *DescribeCodeTemplateOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.DescribeCodeTemplate(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.executor.Executor/DescribeCodeTemplate", in, handler)
+			return out, err
 		}
-
-		promExecutorRequestLatency.WithLabelValues("eolymp.executor.Executor/DescribeCodeTemplate", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("executor:runtime:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: executor:runtime:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.executor.Executor/DescribeCodeTemplate", 20, 200) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.DescribeCodeTemplate(ctx, in)
+	next()
 	return
 }

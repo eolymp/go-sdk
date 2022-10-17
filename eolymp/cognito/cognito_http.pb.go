@@ -5,17 +5,13 @@ package cognito
 
 import (
 	context "context"
-	oauth "github.com/eolymp/go-packages/oauth"
 	mux "github.com/gorilla/mux"
-	prometheus "github.com/prometheus/client_golang/prometheus"
-	promauto "github.com/prometheus/client_golang/prometheus/promauto"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
 	ioutil "io/ioutil"
 	http "net/http"
-	time "time"
 )
 
 // _Cognito_HTTPReadQueryString parses body into proto.Message
@@ -1174,601 +1170,488 @@ func _Cognito_SelfDestruct_Rule0(srv CognitoServer) http.Handler {
 	})
 }
 
-var promCognitoRequestLatency = promauto.NewHistogramVec(prometheus.HistogramOpts{
-	Name:    "cognito_request_latency",
-	Help:    "Cognito request latency",
-	Buckets: []float64{0.1, 0.4, 1, 5},
-}, []string{"method", "status"})
-
-type _CognitoLimiter interface {
-	Allow(context.Context, string, float64, int) bool
-}
-
+type _CognitoMiddleware func(ctx context.Context, method string, in proto.Message, next func() (out proto.Message, err error))
 type CognitoInterceptor struct {
-	limiter _CognitoLimiter
-	server  CognitoServer
+	middleware []_CognitoMiddleware
+	server     CognitoServer
 }
 
 // NewCognitoInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewCognitoInterceptor(srv CognitoServer, lim _CognitoLimiter) *CognitoInterceptor {
-	return &CognitoInterceptor{server: srv, limiter: lim}
+func NewCognitoInterceptor(srv CognitoServer, middleware ..._CognitoMiddleware) *CognitoInterceptor {
+	return &CognitoInterceptor{server: srv, middleware: middleware}
 }
 
 func (i *CognitoInterceptor) CreateToken(ctx context.Context, in *CreateTokenInput) (out *CreateTokenOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
-		}
-
-		promCognitoRequestLatency.WithLabelValues("eolymp.cognito.Cognito/CreateToken", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	if !i.limiter.Allow(ctx, "eolymp.cognito.Cognito/CreateToken", 30, 300) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
+	next := func() (proto.Message, error) {
+		out, err = i.server.CreateToken(ctx, in)
+		return out, err
 	}
 
-	out, err = i.server.CreateToken(ctx, in)
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.cognito.Cognito/CreateToken", in, handler)
+			return out, err
+		}
+	}
+
+	next()
 	return
 }
 
 func (i *CognitoInterceptor) IntrospectToken(ctx context.Context, in *IntrospectTokenInput) (out *IntrospectTokenOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
-		}
-
-		promCognitoRequestLatency.WithLabelValues("eolymp.cognito.Cognito/IntrospectToken", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	if !i.limiter.Allow(ctx, "eolymp.cognito.Cognito/IntrospectToken", 10, 50) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
+	next := func() (proto.Message, error) {
+		out, err = i.server.IntrospectToken(ctx, in)
+		return out, err
 	}
 
-	out, err = i.server.IntrospectToken(ctx, in)
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.cognito.Cognito/IntrospectToken", in, handler)
+			return out, err
+		}
+	}
+
+	next()
 	return
 }
 
 func (i *CognitoInterceptor) CreateAuthorization(ctx context.Context, in *CreateAuthorizationInput) (out *CreateAuthorizationOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.CreateAuthorization(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.cognito.Cognito/CreateAuthorization", in, handler)
+			return out, err
 		}
-
-		promCognitoRequestLatency.WithLabelValues("eolymp.cognito.Cognito/CreateAuthorization", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("password_grant") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: password_grant")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.cognito.Cognito/CreateAuthorization", 0.16, 10) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.CreateAuthorization(ctx, in)
+	next()
 	return
 }
 
 func (i *CognitoInterceptor) RevokeToken(ctx context.Context, in *RevokeTokenInput) (out *RevokeTokenOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
-		}
-
-		promCognitoRequestLatency.WithLabelValues("eolymp.cognito.Cognito/RevokeToken", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	if !i.limiter.Allow(ctx, "eolymp.cognito.Cognito/RevokeToken", 1, 10) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
+	next := func() (proto.Message, error) {
+		out, err = i.server.RevokeToken(ctx, in)
+		return out, err
 	}
 
-	out, err = i.server.RevokeToken(ctx, in)
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.cognito.Cognito/RevokeToken", in, handler)
+			return out, err
+		}
+	}
+
+	next()
 	return
 }
 
 func (i *CognitoInterceptor) Signout(ctx context.Context, in *SignoutInput) (out *SignoutOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
-		}
-
-		promCognitoRequestLatency.WithLabelValues("eolymp.cognito.Cognito/Signout", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	if !i.limiter.Allow(ctx, "eolymp.cognito.Cognito/Signout", 1, 10) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
+	next := func() (proto.Message, error) {
+		out, err = i.server.Signout(ctx, in)
+		return out, err
 	}
 
-	out, err = i.server.Signout(ctx, in)
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.cognito.Cognito/Signout", in, handler)
+			return out, err
+		}
+	}
+
+	next()
 	return
 }
 
 func (i *CognitoInterceptor) CreateAccessKey(ctx context.Context, in *CreateAccessKeyInput) (out *CreateAccessKeyOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.CreateAccessKey(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.cognito.Cognito/CreateAccessKey", in, handler)
+			return out, err
 		}
-
-		promCognitoRequestLatency.WithLabelValues("eolymp.cognito.Cognito/CreateAccessKey", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("cognito:access-key:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: cognito:access-key:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.cognito.Cognito/CreateAccessKey", 1, 10) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.CreateAccessKey(ctx, in)
+	next()
 	return
 }
 
 func (i *CognitoInterceptor) DeleteAccessKey(ctx context.Context, in *DeleteAccessKeyInput) (out *DeleteAccessKeyOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.DeleteAccessKey(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.cognito.Cognito/DeleteAccessKey", in, handler)
+			return out, err
 		}
-
-		promCognitoRequestLatency.WithLabelValues("eolymp.cognito.Cognito/DeleteAccessKey", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("cognito:access-key:write") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: cognito:access-key:write")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.cognito.Cognito/DeleteAccessKey", 5, 50) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.DeleteAccessKey(ctx, in)
+	next()
 	return
 }
 
 func (i *CognitoInterceptor) ListAccessKeys(ctx context.Context, in *ListAccessKeysInput) (out *ListAccessKeysOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.ListAccessKeys(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.cognito.Cognito/ListAccessKeys", in, handler)
+			return out, err
 		}
-
-		promCognitoRequestLatency.WithLabelValues("eolymp.cognito.Cognito/ListAccessKeys", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("cognito:access-key:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: cognito:access-key:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.cognito.Cognito/ListAccessKeys", 20, 100) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.ListAccessKeys(ctx, in)
+	next()
 	return
 }
 
 func (i *CognitoInterceptor) CreateUser(ctx context.Context, in *CreateUserInput) (out *CreateUserOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
-		}
-
-		promCognitoRequestLatency.WithLabelValues("eolymp.cognito.Cognito/CreateUser", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	if !i.limiter.Allow(ctx, "eolymp.cognito.Cognito/CreateUser", 10, 50) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
+	next := func() (proto.Message, error) {
+		out, err = i.server.CreateUser(ctx, in)
+		return out, err
 	}
 
-	out, err = i.server.CreateUser(ctx, in)
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.cognito.Cognito/CreateUser", in, handler)
+			return out, err
+		}
+	}
+
+	next()
 	return
 }
 
 func (i *CognitoInterceptor) VerifyEmail(ctx context.Context, in *VerifyEmailInput) (out *VerifyEmailOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
-		}
-
-		promCognitoRequestLatency.WithLabelValues("eolymp.cognito.Cognito/VerifyEmail", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	if !i.limiter.Allow(ctx, "eolymp.cognito.Cognito/VerifyEmail", 1, 1) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
+	next := func() (proto.Message, error) {
+		out, err = i.server.VerifyEmail(ctx, in)
+		return out, err
 	}
 
-	out, err = i.server.VerifyEmail(ctx, in)
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.cognito.Cognito/VerifyEmail", in, handler)
+			return out, err
+		}
+	}
+
+	next()
 	return
 }
 
 func (i *CognitoInterceptor) UpdateEmail(ctx context.Context, in *UpdateEmailInput) (out *UpdateEmailOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
-		}
-
-		promCognitoRequestLatency.WithLabelValues("eolymp.cognito.Cognito/UpdateEmail", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	if !i.limiter.Allow(ctx, "eolymp.cognito.Cognito/UpdateEmail", 1, 1) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
+	next := func() (proto.Message, error) {
+		out, err = i.server.UpdateEmail(ctx, in)
+		return out, err
 	}
 
-	out, err = i.server.UpdateEmail(ctx, in)
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.cognito.Cognito/UpdateEmail", in, handler)
+			return out, err
+		}
+	}
+
+	next()
 	return
 }
 
 func (i *CognitoInterceptor) UpdateProfile(ctx context.Context, in *UpdateProfileInput) (out *UpdateProfileOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
-		}
-
-		promCognitoRequestLatency.WithLabelValues("eolymp.cognito.Cognito/UpdateProfile", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	if !i.limiter.Allow(ctx, "eolymp.cognito.Cognito/UpdateProfile", 1, 5) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
+	next := func() (proto.Message, error) {
+		out, err = i.server.UpdateProfile(ctx, in)
+		return out, err
 	}
 
-	out, err = i.server.UpdateProfile(ctx, in)
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.cognito.Cognito/UpdateProfile", in, handler)
+			return out, err
+		}
+	}
+
+	next()
 	return
 }
 
 func (i *CognitoInterceptor) UpdatePicture(ctx context.Context, in *UpdatePictureInput) (out *UpdatePictureOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
-		}
-
-		promCognitoRequestLatency.WithLabelValues("eolymp.cognito.Cognito/UpdatePicture", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	if !i.limiter.Allow(ctx, "eolymp.cognito.Cognito/UpdatePicture", 1, 5) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
+	next := func() (proto.Message, error) {
+		out, err = i.server.UpdatePicture(ctx, in)
+		return out, err
 	}
 
-	out, err = i.server.UpdatePicture(ctx, in)
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.cognito.Cognito/UpdatePicture", in, handler)
+			return out, err
+		}
+	}
+
+	next()
 	return
 }
 
 func (i *CognitoInterceptor) UpdatePassword(ctx context.Context, in *UpdatePasswordInput) (out *UpdatePasswordOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.UpdatePassword(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.cognito.Cognito/UpdatePassword", in, handler)
+			return out, err
 		}
-
-		promCognitoRequestLatency.WithLabelValues("eolymp.cognito.Cognito/UpdatePassword", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("password_grant") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: password_grant")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.cognito.Cognito/UpdatePassword", 1, 5) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.UpdatePassword(ctx, in)
+	next()
 	return
 }
 
 func (i *CognitoInterceptor) StartRecovery(ctx context.Context, in *StartRecoveryInput) (out *StartRecoveryOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
-		}
-
-		promCognitoRequestLatency.WithLabelValues("eolymp.cognito.Cognito/StartRecovery", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	if !i.limiter.Allow(ctx, "eolymp.cognito.Cognito/StartRecovery", 10, 50) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
+	next := func() (proto.Message, error) {
+		out, err = i.server.StartRecovery(ctx, in)
+		return out, err
 	}
 
-	out, err = i.server.StartRecovery(ctx, in)
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.cognito.Cognito/StartRecovery", in, handler)
+			return out, err
+		}
+	}
+
+	next()
 	return
 }
 
 func (i *CognitoInterceptor) CompleteRecovery(ctx context.Context, in *CompleteRecoverInput) (out *CompleteRecoverOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
-		}
-
-		promCognitoRequestLatency.WithLabelValues("eolymp.cognito.Cognito/CompleteRecovery", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	if !i.limiter.Allow(ctx, "eolymp.cognito.Cognito/CompleteRecovery", 10, 50) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
+	next := func() (proto.Message, error) {
+		out, err = i.server.CompleteRecovery(ctx, in)
+		return out, err
 	}
 
-	out, err = i.server.CompleteRecovery(ctx, in)
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.cognito.Cognito/CompleteRecovery", in, handler)
+			return out, err
+		}
+	}
+
+	next()
 	return
 }
 
 func (i *CognitoInterceptor) IntrospectUser(ctx context.Context, in *IntrospectUserInput) (out *IntrospectUserOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
-		}
-
-		promCognitoRequestLatency.WithLabelValues("eolymp.cognito.Cognito/IntrospectUser", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	if !i.limiter.Allow(ctx, "eolymp.cognito.Cognito/IntrospectUser", 10, 50) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
+	next := func() (proto.Message, error) {
+		out, err = i.server.IntrospectUser(ctx, in)
+		return out, err
 	}
 
-	out, err = i.server.IntrospectUser(ctx, in)
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.cognito.Cognito/IntrospectUser", in, handler)
+			return out, err
+		}
+	}
+
+	next()
 	return
 }
 
 func (i *CognitoInterceptor) DescribeUser(ctx context.Context, in *DescribeUserInput) (out *DescribeUserOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.DescribeUser(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.cognito.Cognito/DescribeUser", in, handler)
+			return out, err
 		}
-
-		promCognitoRequestLatency.WithLabelValues("eolymp.cognito.Cognito/DescribeUser", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("cognito:user:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: cognito:user:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.cognito.Cognito/DescribeUser", 200, 500) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.DescribeUser(ctx, in)
+	next()
 	return
 }
 
 func (i *CognitoInterceptor) ListUsers(ctx context.Context, in *ListUsersInput) (out *ListUsersOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.ListUsers(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.cognito.Cognito/ListUsers", in, handler)
+			return out, err
 		}
-
-		promCognitoRequestLatency.WithLabelValues("eolymp.cognito.Cognito/ListUsers", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("cognito:user:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: cognito:user:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.cognito.Cognito/ListUsers", 15, 100) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.ListUsers(ctx, in)
+	next()
 	return
 }
 
 func (i *CognitoInterceptor) IntrospectQuota(ctx context.Context, in *IntrospectQuotaInput) (out *IntrospectQuotaOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
-		}
-
-		promCognitoRequestLatency.WithLabelValues("eolymp.cognito.Cognito/IntrospectQuota", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	if !i.limiter.Allow(ctx, "eolymp.cognito.Cognito/IntrospectQuota", 10, 50) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
+	next := func() (proto.Message, error) {
+		out, err = i.server.IntrospectQuota(ctx, in)
+		return out, err
 	}
 
-	out, err = i.server.IntrospectQuota(ctx, in)
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.cognito.Cognito/IntrospectQuota", in, handler)
+			return out, err
+		}
+	}
+
+	next()
 	return
 }
 
 func (i *CognitoInterceptor) IntrospectRoles(ctx context.Context, in *IntrospectRolesInput) (out *IntrospectRolesOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
-		}
-
-		promCognitoRequestLatency.WithLabelValues("eolymp.cognito.Cognito/IntrospectRoles", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	if !i.limiter.Allow(ctx, "eolymp.cognito.Cognito/IntrospectRoles", 10, 50) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
+	next := func() (proto.Message, error) {
+		out, err = i.server.IntrospectRoles(ctx, in)
+		return out, err
 	}
 
-	out, err = i.server.IntrospectRoles(ctx, in)
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.cognito.Cognito/IntrospectRoles", in, handler)
+			return out, err
+		}
+	}
+
+	next()
 	return
 }
 
 func (i *CognitoInterceptor) ListRoles(ctx context.Context, in *ListRolesInput) (out *ListRolesOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.ListRoles(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.cognito.Cognito/ListRoles", in, handler)
+			return out, err
 		}
-
-		promCognitoRequestLatency.WithLabelValues("eolymp.cognito.Cognito/ListRoles", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("cognito:role:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: cognito:role:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.cognito.Cognito/ListRoles", 1, 10) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.ListRoles(ctx, in)
+	next()
 	return
 }
 
 func (i *CognitoInterceptor) UpdateRoles(ctx context.Context, in *UpdateRolesInput) (out *UpdateRolesOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
+	next := func() (proto.Message, error) {
+		out, err = i.server.UpdateRoles(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.cognito.Cognito/UpdateRoles", in, handler)
+			return out, err
 		}
-
-		promCognitoRequestLatency.WithLabelValues("eolymp.cognito.Cognito/UpdateRoles", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	token, ok := oauth.TokenFromContext(ctx)
-	if ok && !token.Has("cognito:role:read") {
-		err = status.Error(codes.PermissionDenied, "required token scopes are missing: cognito:role:read")
-		return
 	}
 
-	if !i.limiter.Allow(ctx, "eolymp.cognito.Cognito/UpdateRoles", 1, 10) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
-	}
-
-	out, err = i.server.UpdateRoles(ctx, in)
+	next()
 	return
 }
 
 func (i *CognitoInterceptor) ListEntitlements(ctx context.Context, in *ListEntitlementsInput) (out *ListEntitlementsOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
-		}
-
-		promCognitoRequestLatency.WithLabelValues("eolymp.cognito.Cognito/ListEntitlements", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	if !i.limiter.Allow(ctx, "eolymp.cognito.Cognito/ListEntitlements", 1, 10) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
+	next := func() (proto.Message, error) {
+		out, err = i.server.ListEntitlements(ctx, in)
+		return out, err
 	}
 
-	out, err = i.server.ListEntitlements(ctx, in)
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.cognito.Cognito/ListEntitlements", in, handler)
+			return out, err
+		}
+	}
+
+	next()
 	return
 }
 
 func (i *CognitoInterceptor) SelfDestruct(ctx context.Context, in *SelfDestructInput) (out *SelfDestructOutput, err error) {
-	start := time.Now()
-	defer func() {
-		s, _ := status.FromError(err)
-		if s == nil {
-			s = status.New(codes.OK, "OK")
-		}
-
-		promCognitoRequestLatency.WithLabelValues("eolymp.cognito.Cognito/SelfDestruct", s.Code().String()).
-			Observe(time.Since(start).Seconds())
-	}()
-
-	if !i.limiter.Allow(ctx, "eolymp.cognito.Cognito/SelfDestruct", 1, 10) {
-		err = status.Error(codes.ResourceExhausted, "too many requests")
-		return
+	next := func() (proto.Message, error) {
+		out, err = i.server.SelfDestruct(ctx, in)
+		return out, err
 	}
 
-	out, err = i.server.SelfDestruct(ctx, in)
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.cognito.Cognito/SelfDestruct", in, handler)
+			return out, err
+		}
+	}
+
+	next()
 	return
 }
