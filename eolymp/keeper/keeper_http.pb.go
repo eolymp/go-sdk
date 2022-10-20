@@ -264,7 +264,7 @@ func _Keeper_DownloadObject_Rule0(srv KeeperServer) http.Handler {
 	})
 }
 
-type _KeeperMiddleware func(ctx context.Context, method string, in proto.Message, next func() (out proto.Message, err error))
+type _KeeperMiddleware = func(ctx context.Context, method string, in proto.Message, next func() (out proto.Message, err error))
 type KeeperInterceptor struct {
 	middleware []_KeeperMiddleware
 	server     KeeperServer

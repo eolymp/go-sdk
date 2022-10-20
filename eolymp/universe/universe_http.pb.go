@@ -696,7 +696,7 @@ func _Universe_ListPermissions_Rule0(srv UniverseServer) http.Handler {
 	})
 }
 
-type _UniverseMiddleware func(ctx context.Context, method string, in proto.Message, next func() (out proto.Message, err error))
+type _UniverseMiddleware = func(ctx context.Context, method string, in proto.Message, next func() (out proto.Message, err error))
 type UniverseInterceptor struct {
 	middleware []_UniverseMiddleware
 	server     UniverseServer

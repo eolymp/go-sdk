@@ -1170,7 +1170,7 @@ func _Cognito_SelfDestruct_Rule0(srv CognitoServer) http.Handler {
 	})
 }
 
-type _CognitoMiddleware func(ctx context.Context, method string, in proto.Message, next func() (out proto.Message, err error))
+type _CognitoMiddleware = func(ctx context.Context, method string, in proto.Message, next func() (out proto.Message, err error))
 type CognitoInterceptor struct {
 	middleware []_CognitoMiddleware
 	server     CognitoServer

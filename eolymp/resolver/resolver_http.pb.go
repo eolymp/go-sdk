@@ -171,7 +171,7 @@ func _Resolver_ResolveName_Rule0(srv ResolverServer) http.Handler {
 	})
 }
 
-type _ResolverMiddleware func(ctx context.Context, method string, in proto.Message, next func() (out proto.Message, err error))
+type _ResolverMiddleware = func(ctx context.Context, method string, in proto.Message, next func() (out proto.Message, err error))
 type ResolverInterceptor struct {
 	middleware []_ResolverMiddleware
 	server     ResolverServer

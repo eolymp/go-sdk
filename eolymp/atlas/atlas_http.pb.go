@@ -3169,7 +3169,7 @@ func _Atlas_DescribeScore_Rule0(srv AtlasServer) http.Handler {
 	})
 }
 
-type _AtlasMiddleware func(ctx context.Context, method string, in proto.Message, next func() (out proto.Message, err error))
+type _AtlasMiddleware = func(ctx context.Context, method string, in proto.Message, next func() (out proto.Message, err error))
 type AtlasInterceptor struct {
 	middleware []_AtlasMiddleware
 	server     AtlasServer

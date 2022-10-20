@@ -3594,7 +3594,7 @@ func _Judge_ListActivities_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-type _JudgeMiddleware func(ctx context.Context, method string, in proto.Message, next func() (out proto.Message, err error))
+type _JudgeMiddleware = func(ctx context.Context, method string, in proto.Message, next func() (out proto.Message, err error))
 type JudgeInterceptor struct {
 	middleware []_JudgeMiddleware
 	server     JudgeServer

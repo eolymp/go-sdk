@@ -744,7 +744,7 @@ func _Ranker_ListActivities_Rule0(srv RankerServer) http.Handler {
 	})
 }
 
-type _RankerMiddleware func(ctx context.Context, method string, in proto.Message, next func() (out proto.Message, err error))
+type _RankerMiddleware = func(ctx context.Context, method string, in proto.Message, next func() (out proto.Message, err error))
 type RankerInterceptor struct {
 	middleware []_RankerMiddleware
 	server     RankerServer

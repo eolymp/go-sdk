@@ -357,7 +357,7 @@ func _Executor_DescribeCodeTemplate_Rule0(srv ExecutorServer) http.Handler {
 	})
 }
 
-type _ExecutorMiddleware func(ctx context.Context, method string, in proto.Message, next func() (out proto.Message, err error))
+type _ExecutorMiddleware = func(ctx context.Context, method string, in proto.Message, next func() (out proto.Message, err error))
 type ExecutorInterceptor struct {
 	middleware []_ExecutorMiddleware
 	server     ExecutorServer

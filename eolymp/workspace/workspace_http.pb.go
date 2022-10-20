@@ -551,7 +551,7 @@ func _Workspace_RemoveFile_Rule0(srv WorkspaceServer) http.Handler {
 	})
 }
 
-type _WorkspaceMiddleware func(ctx context.Context, method string, in proto.Message, next func() (out proto.Message, err error))
+type _WorkspaceMiddleware = func(ctx context.Context, method string, in proto.Message, next func() (out proto.Message, err error))
 type WorkspaceInterceptor struct {
 	middleware []_WorkspaceMiddleware
 	server     WorkspaceServer

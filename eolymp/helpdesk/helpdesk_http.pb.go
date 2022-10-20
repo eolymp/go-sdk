@@ -498,7 +498,7 @@ func _Helpdesk_ListParents_Rule0(srv HelpdeskServer) http.Handler {
 	})
 }
 
-type _HelpdeskMiddleware func(ctx context.Context, method string, in proto.Message, next func() (out proto.Message, err error))
+type _HelpdeskMiddleware = func(ctx context.Context, method string, in proto.Message, next func() (out proto.Message, err error))
 type HelpdeskInterceptor struct {
 	middleware []_HelpdeskMiddleware
 	server     HelpdeskServer

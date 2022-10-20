@@ -216,7 +216,7 @@ func _Playground_DescribeRun_Rule0(srv PlaygroundServer) http.Handler {
 	})
 }
 
-type _PlaygroundMiddleware func(ctx context.Context, method string, in proto.Message, next func() (out proto.Message, err error))
+type _PlaygroundMiddleware = func(ctx context.Context, method string, in proto.Message, next func() (out proto.Message, err error))
 type PlaygroundInterceptor struct {
 	middleware []_PlaygroundMiddleware
 	server     PlaygroundServer

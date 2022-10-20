@@ -771,7 +771,7 @@ func _Community_ListAttributes_Rule0(srv CommunityServer) http.Handler {
 	})
 }
 
-type _CommunityMiddleware func(ctx context.Context, method string, in proto.Message, next func() (out proto.Message, err error))
+type _CommunityMiddleware = func(ctx context.Context, method string, in proto.Message, next func() (out proto.Message, err error))
 type CommunityInterceptor struct {
 	middleware []_CommunityMiddleware
 	server     CommunityServer

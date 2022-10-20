@@ -312,7 +312,7 @@ func _Geography_ListRegions_Rule0(srv GeographyServer) http.Handler {
 	})
 }
 
-type _GeographyMiddleware func(ctx context.Context, method string, in proto.Message, next func() (out proto.Message, err error))
+type _GeographyMiddleware = func(ctx context.Context, method string, in proto.Message, next func() (out proto.Message, err error))
 type GeographyInterceptor struct {
 	middleware []_GeographyMiddleware
 	server     GeographyServer

@@ -168,7 +168,7 @@ func _Typewriter_UploadAsset_Rule0(srv TypewriterServer) http.Handler {
 	})
 }
 
-type _TypewriterMiddleware func(ctx context.Context, method string, in proto.Message, next func() (out proto.Message, err error))
+type _TypewriterMiddleware = func(ctx context.Context, method string, in proto.Message, next func() (out proto.Message, err error))
 type TypewriterInterceptor struct {
 	middleware []_TypewriterMiddleware
 	server     TypewriterServer
