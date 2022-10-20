@@ -120,6 +120,9 @@ func NewJudgeHandler(srv JudgeServer) http.Handler {
 	router.Handle("/eolymp.judge.Judge/ListContests", _Judge_ListContests(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.judge.Judge/OpenContest", _Judge_OpenContest(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.judge.Judge/CloseContest", _Judge_CloseContest(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.judge.Judge/SuspendContest", _Judge_SuspendContest(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.judge.Judge/FreezeContest", _Judge_FreezeContest(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.judge.Judge/ResumeContest", _Judge_ResumeContest(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.judge.Judge/ConfigureRuntime", _Judge_ConfigureRuntime(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.judge.Judge/DescribeRuntime", _Judge_DescribeRuntime(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.judge.Judge/ConfigureAppearance", _Judge_ConfigureAppearance(srv)).Methods(http.MethodPost)
@@ -220,6 +223,18 @@ func NewJudgeHandlerHttp(srv JudgeServer, prefix string) http.Handler {
 	router.Handle(prefix+"/contests/{contest_id}/close", _Judge_CloseContest_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.judge.Judge.CloseContest")
+
+	router.Handle(prefix+"/contests/{contest_id}/suspend", _Judge_SuspendContest_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.judge.Judge.SuspendContest")
+
+	router.Handle(prefix+"/contests/{contest_id}/freeze", _Judge_FreezeContest_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.judge.Judge.FreezeContest")
+
+	router.Handle(prefix+"/contests/{contest_id}/resume", _Judge_ResumeContest_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.judge.Judge.ResumeContest")
 
 	router.Handle(prefix+"/contests/{contest_id}/runtime", _Judge_ConfigureRuntime_Rule0(srv)).
 		Methods("POST").
@@ -619,6 +634,66 @@ func _Judge_CloseContest(srv JudgeServer) http.Handler {
 		}
 
 		out, err := srv.CloseContest(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_SuspendContest(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &SuspendContestInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.SuspendContest(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_FreezeContest(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &FreezeContestInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.FreezeContest(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_ResumeContest(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ResumeContestInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.ResumeContest(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -2014,6 +2089,75 @@ func _Judge_CloseContest_Rule0(srv JudgeServer) http.Handler {
 		in.ContestId = vars["contest_id"]
 
 		out, err := srv.CloseContest(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_SuspendContest_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &SuspendContestInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+
+		out, err := srv.SuspendContest(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_FreezeContest_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &FreezeContestInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+
+		out, err := srv.FreezeContest(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_ResumeContest_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ResumeContestInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+
+		out, err := srv.ResumeContest(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -3605,6 +3749,63 @@ func (i *JudgeInterceptor) CloseContest(ctx context.Context, in *CloseContestInp
 
 		next = func() (proto.Message, error) {
 			mw(ctx, "eolymp.judge.Judge/CloseContest", in, handler)
+			return out, err
+		}
+	}
+
+	next()
+	return
+}
+
+func (i *JudgeInterceptor) SuspendContest(ctx context.Context, in *SuspendContestInput) (out *SuspendContestOutput, err error) {
+	next := func() (proto.Message, error) {
+		out, err = i.server.SuspendContest(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/SuspendContest", in, handler)
+			return out, err
+		}
+	}
+
+	next()
+	return
+}
+
+func (i *JudgeInterceptor) FreezeContest(ctx context.Context, in *FreezeContestInput) (out *FreezeContestOutput, err error) {
+	next := func() (proto.Message, error) {
+		out, err = i.server.FreezeContest(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/FreezeContest", in, handler)
+			return out, err
+		}
+	}
+
+	next()
+	return
+}
+
+func (i *JudgeInterceptor) ResumeContest(ctx context.Context, in *ResumeContestInput) (out *ResumeContestOutput, err error) {
+	next := func() (proto.Message, error) {
+		out, err = i.server.ResumeContest(ctx, in)
+		return out, err
+	}
+
+	for _, mw := range i.middleware {
+		handler := next
+
+		next = func() (proto.Message, error) {
+			mw(ctx, "eolymp.judge.Judge/ResumeContest", in, handler)
 			return out, err
 		}
 	}

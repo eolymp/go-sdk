@@ -38,6 +38,14 @@ type JudgeClient interface {
 	OpenContest(ctx context.Context, in *OpenContestInput, opts ...grpc.CallOption) (*OpenContestOutput, error)
 	// Force-finishes open contest, this method automatically changes ends_at to current time.
 	CloseContest(ctx context.Context, in *CloseContestInput, opts ...grpc.CallOption) (*CloseContestOutput, error)
+	// Temporarily stop contest and block participant's interface
+	// Use ResumeContest to switch contest back to a normal mode.
+	SuspendContest(ctx context.Context, in *SuspendContestInput, opts ...grpc.CallOption) (*SuspendContestOutput, error)
+	// Temporarily restrict submission function
+	// Use ResumeContest to switch contest back to a normal mode.
+	FreezeContest(ctx context.Context, in *FreezeContestInput, opts ...grpc.CallOption) (*FreezeContestOutput, error)
+	// Re-start suspended or frozen contest
+	ResumeContest(ctx context.Context, in *ResumeContestInput, opts ...grpc.CallOption) (*ResumeContestOutput, error)
 	// ConfigureRuntime allows to configure which runtimes will be available during contest.
 	// All available runtimes can be retrieved using `executor.ListRuntime` method.
 	ConfigureRuntime(ctx context.Context, in *ConfigureRuntimeInput, opts ...grpc.CallOption) (*ConfigureRuntimeOutput, error)
@@ -217,6 +225,33 @@ func (c *judgeClient) OpenContest(ctx context.Context, in *OpenContestInput, opt
 func (c *judgeClient) CloseContest(ctx context.Context, in *CloseContestInput, opts ...grpc.CallOption) (*CloseContestOutput, error) {
 	out := new(CloseContestOutput)
 	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/CloseContest", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *judgeClient) SuspendContest(ctx context.Context, in *SuspendContestInput, opts ...grpc.CallOption) (*SuspendContestOutput, error) {
+	out := new(SuspendContestOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/SuspendContest", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *judgeClient) FreezeContest(ctx context.Context, in *FreezeContestInput, opts ...grpc.CallOption) (*FreezeContestOutput, error) {
+	out := new(FreezeContestOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/FreezeContest", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *judgeClient) ResumeContest(ctx context.Context, in *ResumeContestInput, opts ...grpc.CallOption) (*ResumeContestOutput, error) {
+	out := new(ResumeContestOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/ResumeContest", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -792,6 +827,14 @@ type JudgeServer interface {
 	OpenContest(context.Context, *OpenContestInput) (*OpenContestOutput, error)
 	// Force-finishes open contest, this method automatically changes ends_at to current time.
 	CloseContest(context.Context, *CloseContestInput) (*CloseContestOutput, error)
+	// Temporarily stop contest and block participant's interface
+	// Use ResumeContest to switch contest back to a normal mode.
+	SuspendContest(context.Context, *SuspendContestInput) (*SuspendContestOutput, error)
+	// Temporarily restrict submission function
+	// Use ResumeContest to switch contest back to a normal mode.
+	FreezeContest(context.Context, *FreezeContestInput) (*FreezeContestOutput, error)
+	// Re-start suspended or frozen contest
+	ResumeContest(context.Context, *ResumeContestInput) (*ResumeContestOutput, error)
 	// ConfigureRuntime allows to configure which runtimes will be available during contest.
 	// All available runtimes can be retrieved using `executor.ListRuntime` method.
 	ConfigureRuntime(context.Context, *ConfigureRuntimeInput) (*ConfigureRuntimeOutput, error)
@@ -924,6 +967,15 @@ func (UnimplementedJudgeServer) OpenContest(context.Context, *OpenContestInput) 
 }
 func (UnimplementedJudgeServer) CloseContest(context.Context, *CloseContestInput) (*CloseContestOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CloseContest not implemented")
+}
+func (UnimplementedJudgeServer) SuspendContest(context.Context, *SuspendContestInput) (*SuspendContestOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SuspendContest not implemented")
+}
+func (UnimplementedJudgeServer) FreezeContest(context.Context, *FreezeContestInput) (*FreezeContestOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FreezeContest not implemented")
+}
+func (UnimplementedJudgeServer) ResumeContest(context.Context, *ResumeContestInput) (*ResumeContestOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ResumeContest not implemented")
 }
 func (UnimplementedJudgeServer) ConfigureRuntime(context.Context, *ConfigureRuntimeInput) (*ConfigureRuntimeOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ConfigureRuntime not implemented")
@@ -1260,6 +1312,60 @@ func _Judge_CloseContest_Handler(srv interface{}, ctx context.Context, dec func(
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(JudgeServer).CloseContest(ctx, req.(*CloseContestInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Judge_SuspendContest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SuspendContestInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(JudgeServer).SuspendContest(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.judge.Judge/SuspendContest",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(JudgeServer).SuspendContest(ctx, req.(*SuspendContestInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Judge_FreezeContest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FreezeContestInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(JudgeServer).FreezeContest(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.judge.Judge/FreezeContest",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(JudgeServer).FreezeContest(ctx, req.(*FreezeContestInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Judge_ResumeContest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ResumeContestInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(JudgeServer).ResumeContest(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.judge.Judge/ResumeContest",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(JudgeServer).ResumeContest(ctx, req.(*ResumeContestInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -2400,6 +2506,18 @@ var Judge_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CloseContest",
 			Handler:    _Judge_CloseContest_Handler,
+		},
+		{
+			MethodName: "SuspendContest",
+			Handler:    _Judge_SuspendContest_Handler,
+		},
+		{
+			MethodName: "FreezeContest",
+			Handler:    _Judge_FreezeContest_Handler,
+		},
+		{
+			MethodName: "ResumeContest",
+			Handler:    _Judge_ResumeContest_Handler,
 		},
 		{
 			MethodName: "ConfigureRuntime",

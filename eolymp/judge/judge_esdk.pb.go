@@ -213,6 +213,54 @@ func (s *JudgeService) CloseContest(ctx context.Context, in *CloseContestInput) 
 	return out, nil
 }
 
+func (s *JudgeService) SuspendContest(ctx context.Context, in *SuspendContestInput) (*SuspendContestOutput, error) {
+	out := &SuspendContestOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/suspend"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *JudgeService) FreezeContest(ctx context.Context, in *FreezeContestInput) (*FreezeContestOutput, error) {
+	out := &FreezeContestOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/freeze"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *JudgeService) ResumeContest(ctx context.Context, in *ResumeContestInput) (*ResumeContestOutput, error) {
+	out := &ResumeContestOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/resume"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *JudgeService) ConfigureRuntime(ctx context.Context, in *ConfigureRuntimeInput) (*ConfigureRuntimeOutput, error) {
 	out := &ConfigureRuntimeOutput{}
 	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/runtime"
