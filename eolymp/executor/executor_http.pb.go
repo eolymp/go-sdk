@@ -384,7 +384,7 @@ func (i *ExecutorInterceptor) DescribeLanguage(ctx context.Context, in *Describe
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.executor.Executor/DescribeLanguage", in, handler)
+			return mw(ctx, "eolymp.executor.Executor.DescribeLanguage", in, handler)
 		}
 	}
 
@@ -415,7 +415,7 @@ func (i *ExecutorInterceptor) ListLanguages(ctx context.Context, in *ListLanguag
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.executor.Executor/ListLanguages", in, handler)
+			return mw(ctx, "eolymp.executor.Executor.ListLanguages", in, handler)
 		}
 	}
 
@@ -446,7 +446,7 @@ func (i *ExecutorInterceptor) DescribeRuntime(ctx context.Context, in *DescribeR
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.executor.Executor/DescribeRuntime", in, handler)
+			return mw(ctx, "eolymp.executor.Executor.DescribeRuntime", in, handler)
 		}
 	}
 
@@ -477,7 +477,7 @@ func (i *ExecutorInterceptor) ListRuntime(ctx context.Context, in *ListRuntimeIn
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.executor.Executor/ListRuntime", in, handler)
+			return mw(ctx, "eolymp.executor.Executor.ListRuntime", in, handler)
 		}
 	}
 
@@ -508,7 +508,7 @@ func (i *ExecutorInterceptor) DescribeCodeTemplate(ctx context.Context, in *Desc
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.executor.Executor/DescribeCodeTemplate", in, handler)
+			return mw(ctx, "eolymp.executor.Executor.DescribeCodeTemplate", in, handler)
 		}
 	}
 

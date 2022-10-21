@@ -291,7 +291,7 @@ func (i *KeeperInterceptor) CreateObject(ctx context.Context, in *CreateObjectIn
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.keeper.Keeper/CreateObject", in, handler)
+			return mw(ctx, "eolymp.keeper.Keeper.CreateObject", in, handler)
 		}
 	}
 
@@ -322,7 +322,7 @@ func (i *KeeperInterceptor) DescribeObject(ctx context.Context, in *DescribeObje
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.keeper.Keeper/DescribeObject", in, handler)
+			return mw(ctx, "eolymp.keeper.Keeper.DescribeObject", in, handler)
 		}
 	}
 
@@ -353,7 +353,7 @@ func (i *KeeperInterceptor) DownloadObject(ctx context.Context, in *DownloadObje
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.keeper.Keeper/DownloadObject", in, handler)
+			return mw(ctx, "eolymp.keeper.Keeper.DownloadObject", in, handler)
 		}
 	}
 

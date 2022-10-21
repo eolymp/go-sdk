@@ -3621,7 +3621,7 @@ func (i *JudgeInterceptor) LookupContest(ctx context.Context, in *LookupContestI
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/LookupContest", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.LookupContest", in, handler)
 		}
 	}
 
@@ -3652,7 +3652,7 @@ func (i *JudgeInterceptor) CreateContest(ctx context.Context, in *CreateContestI
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/CreateContest", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.CreateContest", in, handler)
 		}
 	}
 
@@ -3683,7 +3683,7 @@ func (i *JudgeInterceptor) DeleteContest(ctx context.Context, in *DeleteContestI
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/DeleteContest", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.DeleteContest", in, handler)
 		}
 	}
 
@@ -3714,7 +3714,7 @@ func (i *JudgeInterceptor) UpdateContest(ctx context.Context, in *UpdateContestI
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/UpdateContest", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.UpdateContest", in, handler)
 		}
 	}
 
@@ -3745,7 +3745,7 @@ func (i *JudgeInterceptor) DescribeContest(ctx context.Context, in *DescribeCont
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/DescribeContest", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.DescribeContest", in, handler)
 		}
 	}
 
@@ -3776,7 +3776,7 @@ func (i *JudgeInterceptor) ListContests(ctx context.Context, in *ListContestsInp
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/ListContests", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.ListContests", in, handler)
 		}
 	}
 
@@ -3807,7 +3807,7 @@ func (i *JudgeInterceptor) OpenContest(ctx context.Context, in *OpenContestInput
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/OpenContest", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.OpenContest", in, handler)
 		}
 	}
 
@@ -3838,7 +3838,7 @@ func (i *JudgeInterceptor) CloseContest(ctx context.Context, in *CloseContestInp
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/CloseContest", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.CloseContest", in, handler)
 		}
 	}
 
@@ -3869,7 +3869,7 @@ func (i *JudgeInterceptor) SuspendContest(ctx context.Context, in *SuspendContes
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/SuspendContest", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.SuspendContest", in, handler)
 		}
 	}
 
@@ -3900,7 +3900,7 @@ func (i *JudgeInterceptor) FreezeContest(ctx context.Context, in *FreezeContestI
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/FreezeContest", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.FreezeContest", in, handler)
 		}
 	}
 
@@ -3931,7 +3931,7 @@ func (i *JudgeInterceptor) ResumeContest(ctx context.Context, in *ResumeContestI
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/ResumeContest", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.ResumeContest", in, handler)
 		}
 	}
 
@@ -3962,7 +3962,7 @@ func (i *JudgeInterceptor) ConfigureRuntime(ctx context.Context, in *ConfigureRu
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/ConfigureRuntime", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.ConfigureRuntime", in, handler)
 		}
 	}
 
@@ -3993,7 +3993,7 @@ func (i *JudgeInterceptor) DescribeRuntime(ctx context.Context, in *DescribeRunt
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/DescribeRuntime", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.DescribeRuntime", in, handler)
 		}
 	}
 
@@ -4024,7 +4024,7 @@ func (i *JudgeInterceptor) ConfigureAppearance(ctx context.Context, in *Configur
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/ConfigureAppearance", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.ConfigureAppearance", in, handler)
 		}
 	}
 
@@ -4055,7 +4055,7 @@ func (i *JudgeInterceptor) DescribeAppearance(ctx context.Context, in *DescribeA
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/DescribeAppearance", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.DescribeAppearance", in, handler)
 		}
 	}
 
@@ -4086,7 +4086,7 @@ func (i *JudgeInterceptor) ConfigureScoring(ctx context.Context, in *ConfigureSc
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/ConfigureScoring", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.ConfigureScoring", in, handler)
 		}
 	}
 
@@ -4117,7 +4117,7 @@ func (i *JudgeInterceptor) DescribeScoring(ctx context.Context, in *DescribeScor
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/DescribeScoring", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.DescribeScoring", in, handler)
 		}
 	}
 
@@ -4148,7 +4148,7 @@ func (i *JudgeInterceptor) ImportProblem(ctx context.Context, in *ImportProblemI
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/ImportProblem", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.ImportProblem", in, handler)
 		}
 	}
 
@@ -4179,7 +4179,7 @@ func (i *JudgeInterceptor) SyncProblem(ctx context.Context, in *SyncProblemInput
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/SyncProblem", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.SyncProblem", in, handler)
 		}
 	}
 
@@ -4210,7 +4210,7 @@ func (i *JudgeInterceptor) UpdateProblem(ctx context.Context, in *UpdateProblemI
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/UpdateProblem", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.UpdateProblem", in, handler)
 		}
 	}
 
@@ -4241,7 +4241,7 @@ func (i *JudgeInterceptor) ListProblems(ctx context.Context, in *ListProblemsInp
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/ListProblems", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.ListProblems", in, handler)
 		}
 	}
 
@@ -4272,7 +4272,7 @@ func (i *JudgeInterceptor) DescribeProblem(ctx context.Context, in *DescribeProb
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/DescribeProblem", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.DescribeProblem", in, handler)
 		}
 	}
 
@@ -4303,7 +4303,7 @@ func (i *JudgeInterceptor) DescribeCodeTemplate(ctx context.Context, in *Describ
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/DescribeCodeTemplate", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.DescribeCodeTemplate", in, handler)
 		}
 	}
 
@@ -4334,7 +4334,7 @@ func (i *JudgeInterceptor) LookupCodeTemplate(ctx context.Context, in *LookupCod
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/LookupCodeTemplate", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.LookupCodeTemplate", in, handler)
 		}
 	}
 
@@ -4365,7 +4365,7 @@ func (i *JudgeInterceptor) ListStatements(ctx context.Context, in *ListStatement
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/ListStatements", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.ListStatements", in, handler)
 		}
 	}
 
@@ -4396,7 +4396,7 @@ func (i *JudgeInterceptor) ListAttachments(ctx context.Context, in *ListAttachme
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/ListAttachments", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.ListAttachments", in, handler)
 		}
 	}
 
@@ -4427,7 +4427,7 @@ func (i *JudgeInterceptor) ListExamples(ctx context.Context, in *ListExamplesInp
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/ListExamples", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.ListExamples", in, handler)
 		}
 	}
 
@@ -4458,7 +4458,7 @@ func (i *JudgeInterceptor) DeleteProblem(ctx context.Context, in *DeleteProblemI
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/DeleteProblem", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.DeleteProblem", in, handler)
 		}
 	}
 
@@ -4489,7 +4489,7 @@ func (i *JudgeInterceptor) RetestProblem(ctx context.Context, in *RetestProblemI
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/RetestProblem", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.RetestProblem", in, handler)
 		}
 	}
 
@@ -4520,7 +4520,7 @@ func (i *JudgeInterceptor) AddParticipant(ctx context.Context, in *AddParticipan
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/AddParticipant", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.AddParticipant", in, handler)
 		}
 	}
 
@@ -4551,7 +4551,7 @@ func (i *JudgeInterceptor) EnableParticipant(ctx context.Context, in *EnablePart
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/EnableParticipant", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.EnableParticipant", in, handler)
 		}
 	}
 
@@ -4582,7 +4582,7 @@ func (i *JudgeInterceptor) DisableParticipant(ctx context.Context, in *DisablePa
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/DisableParticipant", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.DisableParticipant", in, handler)
 		}
 	}
 
@@ -4613,7 +4613,7 @@ func (i *JudgeInterceptor) UpdateParticipant(ctx context.Context, in *UpdatePart
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/UpdateParticipant", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.UpdateParticipant", in, handler)
 		}
 	}
 
@@ -4644,7 +4644,7 @@ func (i *JudgeInterceptor) RemoveParticipant(ctx context.Context, in *RemovePart
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/RemoveParticipant", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.RemoveParticipant", in, handler)
 		}
 	}
 
@@ -4675,7 +4675,7 @@ func (i *JudgeInterceptor) ListParticipants(ctx context.Context, in *ListPartici
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/ListParticipants", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.ListParticipants", in, handler)
 		}
 	}
 
@@ -4706,7 +4706,7 @@ func (i *JudgeInterceptor) DescribeParticipant(ctx context.Context, in *Describe
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/DescribeParticipant", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.DescribeParticipant", in, handler)
 		}
 	}
 
@@ -4737,7 +4737,7 @@ func (i *JudgeInterceptor) IntrospectParticipant(ctx context.Context, in *Intros
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/IntrospectParticipant", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.IntrospectParticipant", in, handler)
 		}
 	}
 
@@ -4768,7 +4768,7 @@ func (i *JudgeInterceptor) JoinContest(ctx context.Context, in *JoinContestInput
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/JoinContest", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.JoinContest", in, handler)
 		}
 	}
 
@@ -4799,7 +4799,7 @@ func (i *JudgeInterceptor) StartContest(ctx context.Context, in *StartContestInp
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/StartContest", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.StartContest", in, handler)
 		}
 	}
 
@@ -4830,7 +4830,7 @@ func (i *JudgeInterceptor) VerifyPasscode(ctx context.Context, in *VerifyPasscod
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/VerifyPasscode", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.VerifyPasscode", in, handler)
 		}
 	}
 
@@ -4861,7 +4861,7 @@ func (i *JudgeInterceptor) EnterPasscode(ctx context.Context, in *EnterPasscodeI
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/EnterPasscode", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.EnterPasscode", in, handler)
 		}
 	}
 
@@ -4892,7 +4892,7 @@ func (i *JudgeInterceptor) ResetPasscode(ctx context.Context, in *ResetPasscodeI
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/ResetPasscode", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.ResetPasscode", in, handler)
 		}
 	}
 
@@ -4923,7 +4923,7 @@ func (i *JudgeInterceptor) RemovePasscode(ctx context.Context, in *RemovePasscod
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/RemovePasscode", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.RemovePasscode", in, handler)
 		}
 	}
 
@@ -4954,7 +4954,7 @@ func (i *JudgeInterceptor) CreateSubmission(ctx context.Context, in *CreateSubmi
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/CreateSubmission", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.CreateSubmission", in, handler)
 		}
 	}
 
@@ -4985,7 +4985,7 @@ func (i *JudgeInterceptor) ListSubmissions(ctx context.Context, in *ListSubmissi
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/ListSubmissions", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.ListSubmissions", in, handler)
 		}
 	}
 
@@ -5016,7 +5016,7 @@ func (i *JudgeInterceptor) DescribeSubmission(ctx context.Context, in *DescribeS
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/DescribeSubmission", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.DescribeSubmission", in, handler)
 		}
 	}
 
@@ -5047,7 +5047,7 @@ func (i *JudgeInterceptor) RetestSubmission(ctx context.Context, in *RetestSubmi
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/RetestSubmission", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.RetestSubmission", in, handler)
 		}
 	}
 
@@ -5078,7 +5078,7 @@ func (i *JudgeInterceptor) CreateTicket(ctx context.Context, in *CreateTicketInp
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/CreateTicket", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.CreateTicket", in, handler)
 		}
 	}
 
@@ -5109,7 +5109,7 @@ func (i *JudgeInterceptor) CloseTicket(ctx context.Context, in *CloseTicketInput
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/CloseTicket", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.CloseTicket", in, handler)
 		}
 	}
 
@@ -5140,7 +5140,7 @@ func (i *JudgeInterceptor) OpenTicket(ctx context.Context, in *OpenTicketInput) 
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/OpenTicket", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.OpenTicket", in, handler)
 		}
 	}
 
@@ -5171,7 +5171,7 @@ func (i *JudgeInterceptor) ReadTicket(ctx context.Context, in *ReadTicketInput) 
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/ReadTicket", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.ReadTicket", in, handler)
 		}
 	}
 
@@ -5202,7 +5202,7 @@ func (i *JudgeInterceptor) DeleteTicket(ctx context.Context, in *DeleteTicketInp
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/DeleteTicket", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.DeleteTicket", in, handler)
 		}
 	}
 
@@ -5233,7 +5233,7 @@ func (i *JudgeInterceptor) DescribeTicket(ctx context.Context, in *DescribeTicke
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/DescribeTicket", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.DescribeTicket", in, handler)
 		}
 	}
 
@@ -5264,7 +5264,7 @@ func (i *JudgeInterceptor) ListTickets(ctx context.Context, in *ListTicketsInput
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/ListTickets", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.ListTickets", in, handler)
 		}
 	}
 
@@ -5295,7 +5295,7 @@ func (i *JudgeInterceptor) ReplyTicket(ctx context.Context, in *ReplyTicketInput
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/ReplyTicket", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.ReplyTicket", in, handler)
 		}
 	}
 
@@ -5326,7 +5326,7 @@ func (i *JudgeInterceptor) ListReplies(ctx context.Context, in *ListRepliesInput
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/ListReplies", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.ListReplies", in, handler)
 		}
 	}
 
@@ -5357,7 +5357,7 @@ func (i *JudgeInterceptor) DeleteReply(ctx context.Context, in *DeleteReplyInput
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/DeleteReply", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.DeleteReply", in, handler)
 		}
 	}
 
@@ -5388,7 +5388,7 @@ func (i *JudgeInterceptor) UpdateReply(ctx context.Context, in *UpdateReplyInput
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/UpdateReply", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.UpdateReply", in, handler)
 		}
 	}
 
@@ -5419,7 +5419,7 @@ func (i *JudgeInterceptor) CreateAnnouncement(ctx context.Context, in *CreateAnn
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/CreateAnnouncement", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.CreateAnnouncement", in, handler)
 		}
 	}
 
@@ -5450,7 +5450,7 @@ func (i *JudgeInterceptor) UpdateAnnouncement(ctx context.Context, in *UpdateAnn
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/UpdateAnnouncement", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.UpdateAnnouncement", in, handler)
 		}
 	}
 
@@ -5481,7 +5481,7 @@ func (i *JudgeInterceptor) DeleteAnnouncement(ctx context.Context, in *DeleteAnn
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/DeleteAnnouncement", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.DeleteAnnouncement", in, handler)
 		}
 	}
 
@@ -5512,7 +5512,7 @@ func (i *JudgeInterceptor) ReadAnnouncement(ctx context.Context, in *ReadAnnounc
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/ReadAnnouncement", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.ReadAnnouncement", in, handler)
 		}
 	}
 
@@ -5543,7 +5543,7 @@ func (i *JudgeInterceptor) DescribeAnnouncement(ctx context.Context, in *Describ
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/DescribeAnnouncement", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.DescribeAnnouncement", in, handler)
 		}
 	}
 
@@ -5574,7 +5574,7 @@ func (i *JudgeInterceptor) DescribeAnnouncementStatus(ctx context.Context, in *D
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/DescribeAnnouncementStatus", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.DescribeAnnouncementStatus", in, handler)
 		}
 	}
 
@@ -5605,7 +5605,7 @@ func (i *JudgeInterceptor) ListAnnouncements(ctx context.Context, in *ListAnnoun
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/ListAnnouncements", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.ListAnnouncements", in, handler)
 		}
 	}
 
@@ -5636,7 +5636,7 @@ func (i *JudgeInterceptor) IntrospectScore(ctx context.Context, in *IntrospectSc
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/IntrospectScore", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.IntrospectScore", in, handler)
 		}
 	}
 
@@ -5667,7 +5667,7 @@ func (i *JudgeInterceptor) DescribeScore(ctx context.Context, in *DescribeScoreI
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/DescribeScore", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.DescribeScore", in, handler)
 		}
 	}
 
@@ -5698,7 +5698,7 @@ func (i *JudgeInterceptor) ImportScore(ctx context.Context, in *ImportScoreInput
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/ImportScore", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.ImportScore", in, handler)
 		}
 	}
 
@@ -5729,7 +5729,7 @@ func (i *JudgeInterceptor) ListResult(ctx context.Context, in *ListResultInput) 
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/ListResult", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.ListResult", in, handler)
 		}
 	}
 
@@ -5760,7 +5760,7 @@ func (i *JudgeInterceptor) RebuildScore(ctx context.Context, in *RebuildScoreInp
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/RebuildScore", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.RebuildScore", in, handler)
 		}
 	}
 
@@ -5791,7 +5791,7 @@ func (i *JudgeInterceptor) ListEntitlements(ctx context.Context, in *ListEntitle
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/ListEntitlements", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.ListEntitlements", in, handler)
 		}
 	}
 
@@ -5822,7 +5822,7 @@ func (i *JudgeInterceptor) ListActivities(ctx context.Context, in *ListActivitie
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge/ListActivities", in, handler)
+			return mw(ctx, "eolymp.judge.Judge.ListActivities", in, handler)
 		}
 	}
 

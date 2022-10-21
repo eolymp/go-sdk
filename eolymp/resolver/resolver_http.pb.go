@@ -198,7 +198,7 @@ func (i *ResolverInterceptor) ResolveName(ctx context.Context, in *ResolveNameIn
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.resolver.Resolver/ResolveName", in, handler)
+			return mw(ctx, "eolymp.resolver.Resolver.ResolveName", in, handler)
 		}
 	}
 

@@ -339,7 +339,7 @@ func (i *GeographyInterceptor) DescribeCountry(ctx context.Context, in *Describe
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.geography.Geography/DescribeCountry", in, handler)
+			return mw(ctx, "eolymp.geography.Geography.DescribeCountry", in, handler)
 		}
 	}
 
@@ -370,7 +370,7 @@ func (i *GeographyInterceptor) ListCountries(ctx context.Context, in *ListCountr
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.geography.Geography/ListCountries", in, handler)
+			return mw(ctx, "eolymp.geography.Geography.ListCountries", in, handler)
 		}
 	}
 
@@ -401,7 +401,7 @@ func (i *GeographyInterceptor) DescribeRegion(ctx context.Context, in *DescribeR
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.geography.Geography/DescribeRegion", in, handler)
+			return mw(ctx, "eolymp.geography.Geography.DescribeRegion", in, handler)
 		}
 	}
 
@@ -432,7 +432,7 @@ func (i *GeographyInterceptor) ListRegions(ctx context.Context, in *ListRegionsI
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.geography.Geography/ListRegions", in, handler)
+			return mw(ctx, "eolymp.geography.Geography.ListRegions", in, handler)
 		}
 	}
 

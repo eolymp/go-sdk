@@ -195,7 +195,7 @@ func (i *TypewriterInterceptor) UploadAsset(ctx context.Context, in *UploadAsset
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.typewriter.Typewriter/UploadAsset", in, handler)
+			return mw(ctx, "eolymp.typewriter.Typewriter.UploadAsset", in, handler)
 		}
 	}
 

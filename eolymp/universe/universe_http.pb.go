@@ -723,7 +723,7 @@ func (i *UniverseInterceptor) LookupSpace(ctx context.Context, in *LookupSpaceIn
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.universe.Universe/LookupSpace", in, handler)
+			return mw(ctx, "eolymp.universe.Universe.LookupSpace", in, handler)
 		}
 	}
 
@@ -754,7 +754,7 @@ func (i *UniverseInterceptor) CreateSpace(ctx context.Context, in *CreateSpaceIn
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.universe.Universe/CreateSpace", in, handler)
+			return mw(ctx, "eolymp.universe.Universe.CreateSpace", in, handler)
 		}
 	}
 
@@ -785,7 +785,7 @@ func (i *UniverseInterceptor) UpdateSpace(ctx context.Context, in *UpdateSpaceIn
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.universe.Universe/UpdateSpace", in, handler)
+			return mw(ctx, "eolymp.universe.Universe.UpdateSpace", in, handler)
 		}
 	}
 
@@ -816,7 +816,7 @@ func (i *UniverseInterceptor) DeleteSpace(ctx context.Context, in *DeleteSpaceIn
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.universe.Universe/DeleteSpace", in, handler)
+			return mw(ctx, "eolymp.universe.Universe.DeleteSpace", in, handler)
 		}
 	}
 
@@ -847,7 +847,7 @@ func (i *UniverseInterceptor) DescribeSpace(ctx context.Context, in *DescribeSpa
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.universe.Universe/DescribeSpace", in, handler)
+			return mw(ctx, "eolymp.universe.Universe.DescribeSpace", in, handler)
 		}
 	}
 
@@ -878,7 +878,7 @@ func (i *UniverseInterceptor) DescribeQuota(ctx context.Context, in *DescribeQuo
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.universe.Universe/DescribeQuota", in, handler)
+			return mw(ctx, "eolymp.universe.Universe.DescribeQuota", in, handler)
 		}
 	}
 
@@ -909,7 +909,7 @@ func (i *UniverseInterceptor) ListSpaces(ctx context.Context, in *ListSpacesInpu
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.universe.Universe/ListSpaces", in, handler)
+			return mw(ctx, "eolymp.universe.Universe.ListSpaces", in, handler)
 		}
 	}
 
@@ -940,7 +940,7 @@ func (i *UniverseInterceptor) GrantPermission(ctx context.Context, in *GrantPerm
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.universe.Universe/GrantPermission", in, handler)
+			return mw(ctx, "eolymp.universe.Universe.GrantPermission", in, handler)
 		}
 	}
 
@@ -971,7 +971,7 @@ func (i *UniverseInterceptor) RevokePermission(ctx context.Context, in *RevokePe
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.universe.Universe/RevokePermission", in, handler)
+			return mw(ctx, "eolymp.universe.Universe.RevokePermission", in, handler)
 		}
 	}
 
@@ -1002,7 +1002,7 @@ func (i *UniverseInterceptor) DescribePermission(ctx context.Context, in *Descri
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.universe.Universe/DescribePermission", in, handler)
+			return mw(ctx, "eolymp.universe.Universe.DescribePermission", in, handler)
 		}
 	}
 
@@ -1033,7 +1033,7 @@ func (i *UniverseInterceptor) IntrospectPermission(ctx context.Context, in *Intr
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.universe.Universe/IntrospectPermission", in, handler)
+			return mw(ctx, "eolymp.universe.Universe.IntrospectPermission", in, handler)
 		}
 	}
 
@@ -1064,7 +1064,7 @@ func (i *UniverseInterceptor) ListPermissions(ctx context.Context, in *ListPermi
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.universe.Universe/ListPermissions", in, handler)
+			return mw(ctx, "eolymp.universe.Universe.ListPermissions", in, handler)
 		}
 	}
 

@@ -243,7 +243,7 @@ func (i *PlaygroundInterceptor) CreateRun(ctx context.Context, in *CreateRunInpu
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.playground.Playground/CreateRun", in, handler)
+			return mw(ctx, "eolymp.playground.Playground.CreateRun", in, handler)
 		}
 	}
 
@@ -274,7 +274,7 @@ func (i *PlaygroundInterceptor) DescribeRun(ctx context.Context, in *DescribeRun
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.playground.Playground/DescribeRun", in, handler)
+			return mw(ctx, "eolymp.playground.Playground.DescribeRun", in, handler)
 		}
 	}
 

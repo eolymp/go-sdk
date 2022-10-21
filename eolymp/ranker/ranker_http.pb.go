@@ -771,7 +771,7 @@ func (i *RankerInterceptor) CreateScoreboard(ctx context.Context, in *CreateScor
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.ranker.Ranker/CreateScoreboard", in, handler)
+			return mw(ctx, "eolymp.ranker.Ranker.CreateScoreboard", in, handler)
 		}
 	}
 
@@ -802,7 +802,7 @@ func (i *RankerInterceptor) UpdateScoreboard(ctx context.Context, in *UpdateScor
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.ranker.Ranker/UpdateScoreboard", in, handler)
+			return mw(ctx, "eolymp.ranker.Ranker.UpdateScoreboard", in, handler)
 		}
 	}
 
@@ -833,7 +833,7 @@ func (i *RankerInterceptor) RebuildScoreboard(ctx context.Context, in *RebuildSc
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.ranker.Ranker/RebuildScoreboard", in, handler)
+			return mw(ctx, "eolymp.ranker.Ranker.RebuildScoreboard", in, handler)
 		}
 	}
 
@@ -864,7 +864,7 @@ func (i *RankerInterceptor) DeleteScoreboard(ctx context.Context, in *DeleteScor
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.ranker.Ranker/DeleteScoreboard", in, handler)
+			return mw(ctx, "eolymp.ranker.Ranker.DeleteScoreboard", in, handler)
 		}
 	}
 
@@ -895,7 +895,7 @@ func (i *RankerInterceptor) DescribeScoreboard(ctx context.Context, in *Describe
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.ranker.Ranker/DescribeScoreboard", in, handler)
+			return mw(ctx, "eolymp.ranker.Ranker.DescribeScoreboard", in, handler)
 		}
 	}
 
@@ -926,7 +926,7 @@ func (i *RankerInterceptor) ListScoreboards(ctx context.Context, in *ListScorebo
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.ranker.Ranker/ListScoreboards", in, handler)
+			return mw(ctx, "eolymp.ranker.Ranker.ListScoreboards", in, handler)
 		}
 	}
 
@@ -957,7 +957,7 @@ func (i *RankerInterceptor) DescribeScoreboardRow(ctx context.Context, in *Descr
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.ranker.Ranker/DescribeScoreboardRow", in, handler)
+			return mw(ctx, "eolymp.ranker.Ranker.DescribeScoreboardRow", in, handler)
 		}
 	}
 
@@ -988,7 +988,7 @@ func (i *RankerInterceptor) ListScoreboardRows(ctx context.Context, in *ListScor
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.ranker.Ranker/ListScoreboardRows", in, handler)
+			return mw(ctx, "eolymp.ranker.Ranker.ListScoreboardRows", in, handler)
 		}
 	}
 
@@ -1019,7 +1019,7 @@ func (i *RankerInterceptor) AddScoreboardColumn(ctx context.Context, in *AddScor
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.ranker.Ranker/AddScoreboardColumn", in, handler)
+			return mw(ctx, "eolymp.ranker.Ranker.AddScoreboardColumn", in, handler)
 		}
 	}
 
@@ -1050,7 +1050,7 @@ func (i *RankerInterceptor) DeleteScoreboardColumn(ctx context.Context, in *Dele
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.ranker.Ranker/DeleteScoreboardColumn", in, handler)
+			return mw(ctx, "eolymp.ranker.Ranker.DeleteScoreboardColumn", in, handler)
 		}
 	}
 
@@ -1081,7 +1081,7 @@ func (i *RankerInterceptor) DescribeScoreboardColumn(ctx context.Context, in *De
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.ranker.Ranker/DescribeScoreboardColumn", in, handler)
+			return mw(ctx, "eolymp.ranker.Ranker.DescribeScoreboardColumn", in, handler)
 		}
 	}
 
@@ -1112,7 +1112,7 @@ func (i *RankerInterceptor) ListScoreboardColumns(ctx context.Context, in *ListS
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.ranker.Ranker/ListScoreboardColumns", in, handler)
+			return mw(ctx, "eolymp.ranker.Ranker.ListScoreboardColumns", in, handler)
 		}
 	}
 
@@ -1143,7 +1143,7 @@ func (i *RankerInterceptor) ListActivities(ctx context.Context, in *ListActiviti
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.ranker.Ranker/ListActivities", in, handler)
+			return mw(ctx, "eolymp.ranker.Ranker.ListActivities", in, handler)
 		}
 	}
 

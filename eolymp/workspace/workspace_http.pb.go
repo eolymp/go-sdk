@@ -578,7 +578,7 @@ func (i *WorkspaceInterceptor) DescribeProject(ctx context.Context, in *Describe
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.workspace.Workspace/DescribeProject", in, handler)
+			return mw(ctx, "eolymp.workspace.Workspace.DescribeProject", in, handler)
 		}
 	}
 
@@ -609,7 +609,7 @@ func (i *WorkspaceInterceptor) ListProjects(ctx context.Context, in *ListProject
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.workspace.Workspace/ListProjects", in, handler)
+			return mw(ctx, "eolymp.workspace.Workspace.ListProjects", in, handler)
 		}
 	}
 
@@ -640,7 +640,7 @@ func (i *WorkspaceInterceptor) CreateProject(ctx context.Context, in *CreateProj
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.workspace.Workspace/CreateProject", in, handler)
+			return mw(ctx, "eolymp.workspace.Workspace.CreateProject", in, handler)
 		}
 	}
 
@@ -671,7 +671,7 @@ func (i *WorkspaceInterceptor) UpdateProject(ctx context.Context, in *UpdateProj
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.workspace.Workspace/UpdateProject", in, handler)
+			return mw(ctx, "eolymp.workspace.Workspace.UpdateProject", in, handler)
 		}
 	}
 
@@ -702,7 +702,7 @@ func (i *WorkspaceInterceptor) DeleteProject(ctx context.Context, in *DeleteProj
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.workspace.Workspace/DeleteProject", in, handler)
+			return mw(ctx, "eolymp.workspace.Workspace.DeleteProject", in, handler)
 		}
 	}
 
@@ -733,7 +733,7 @@ func (i *WorkspaceInterceptor) ListFiles(ctx context.Context, in *ListFilesInput
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.workspace.Workspace/ListFiles", in, handler)
+			return mw(ctx, "eolymp.workspace.Workspace.ListFiles", in, handler)
 		}
 	}
 
@@ -764,7 +764,7 @@ func (i *WorkspaceInterceptor) DescribeFile(ctx context.Context, in *DescribeFil
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.workspace.Workspace/DescribeFile", in, handler)
+			return mw(ctx, "eolymp.workspace.Workspace.DescribeFile", in, handler)
 		}
 	}
 
@@ -795,7 +795,7 @@ func (i *WorkspaceInterceptor) UploadFile(ctx context.Context, in *UploadFileInp
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.workspace.Workspace/UploadFile", in, handler)
+			return mw(ctx, "eolymp.workspace.Workspace.UploadFile", in, handler)
 		}
 	}
 
@@ -826,7 +826,7 @@ func (i *WorkspaceInterceptor) RemoveFile(ctx context.Context, in *RemoveFileInp
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.workspace.Workspace/RemoveFile", in, handler)
+			return mw(ctx, "eolymp.workspace.Workspace.RemoveFile", in, handler)
 		}
 	}
 

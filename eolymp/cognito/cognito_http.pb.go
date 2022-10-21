@@ -1197,7 +1197,7 @@ func (i *CognitoInterceptor) CreateToken(ctx context.Context, in *CreateTokenInp
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito/CreateToken", in, handler)
+			return mw(ctx, "eolymp.cognito.Cognito.CreateToken", in, handler)
 		}
 	}
 
@@ -1228,7 +1228,7 @@ func (i *CognitoInterceptor) IntrospectToken(ctx context.Context, in *Introspect
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito/IntrospectToken", in, handler)
+			return mw(ctx, "eolymp.cognito.Cognito.IntrospectToken", in, handler)
 		}
 	}
 
@@ -1259,7 +1259,7 @@ func (i *CognitoInterceptor) CreateAuthorization(ctx context.Context, in *Create
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito/CreateAuthorization", in, handler)
+			return mw(ctx, "eolymp.cognito.Cognito.CreateAuthorization", in, handler)
 		}
 	}
 
@@ -1290,7 +1290,7 @@ func (i *CognitoInterceptor) RevokeToken(ctx context.Context, in *RevokeTokenInp
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito/RevokeToken", in, handler)
+			return mw(ctx, "eolymp.cognito.Cognito.RevokeToken", in, handler)
 		}
 	}
 
@@ -1321,7 +1321,7 @@ func (i *CognitoInterceptor) Signout(ctx context.Context, in *SignoutInput) (*Si
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito/Signout", in, handler)
+			return mw(ctx, "eolymp.cognito.Cognito.Signout", in, handler)
 		}
 	}
 
@@ -1352,7 +1352,7 @@ func (i *CognitoInterceptor) CreateAccessKey(ctx context.Context, in *CreateAcce
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito/CreateAccessKey", in, handler)
+			return mw(ctx, "eolymp.cognito.Cognito.CreateAccessKey", in, handler)
 		}
 	}
 
@@ -1383,7 +1383,7 @@ func (i *CognitoInterceptor) DeleteAccessKey(ctx context.Context, in *DeleteAcce
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito/DeleteAccessKey", in, handler)
+			return mw(ctx, "eolymp.cognito.Cognito.DeleteAccessKey", in, handler)
 		}
 	}
 
@@ -1414,7 +1414,7 @@ func (i *CognitoInterceptor) ListAccessKeys(ctx context.Context, in *ListAccessK
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito/ListAccessKeys", in, handler)
+			return mw(ctx, "eolymp.cognito.Cognito.ListAccessKeys", in, handler)
 		}
 	}
 
@@ -1445,7 +1445,7 @@ func (i *CognitoInterceptor) CreateUser(ctx context.Context, in *CreateUserInput
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito/CreateUser", in, handler)
+			return mw(ctx, "eolymp.cognito.Cognito.CreateUser", in, handler)
 		}
 	}
 
@@ -1476,7 +1476,7 @@ func (i *CognitoInterceptor) VerifyEmail(ctx context.Context, in *VerifyEmailInp
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito/VerifyEmail", in, handler)
+			return mw(ctx, "eolymp.cognito.Cognito.VerifyEmail", in, handler)
 		}
 	}
 
@@ -1507,7 +1507,7 @@ func (i *CognitoInterceptor) UpdateEmail(ctx context.Context, in *UpdateEmailInp
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito/UpdateEmail", in, handler)
+			return mw(ctx, "eolymp.cognito.Cognito.UpdateEmail", in, handler)
 		}
 	}
 
@@ -1538,7 +1538,7 @@ func (i *CognitoInterceptor) UpdateProfile(ctx context.Context, in *UpdateProfil
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito/UpdateProfile", in, handler)
+			return mw(ctx, "eolymp.cognito.Cognito.UpdateProfile", in, handler)
 		}
 	}
 
@@ -1569,7 +1569,7 @@ func (i *CognitoInterceptor) UpdatePicture(ctx context.Context, in *UpdatePictur
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito/UpdatePicture", in, handler)
+			return mw(ctx, "eolymp.cognito.Cognito.UpdatePicture", in, handler)
 		}
 	}
 
@@ -1600,7 +1600,7 @@ func (i *CognitoInterceptor) UpdatePassword(ctx context.Context, in *UpdatePassw
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito/UpdatePassword", in, handler)
+			return mw(ctx, "eolymp.cognito.Cognito.UpdatePassword", in, handler)
 		}
 	}
 
@@ -1631,7 +1631,7 @@ func (i *CognitoInterceptor) StartRecovery(ctx context.Context, in *StartRecover
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito/StartRecovery", in, handler)
+			return mw(ctx, "eolymp.cognito.Cognito.StartRecovery", in, handler)
 		}
 	}
 
@@ -1662,7 +1662,7 @@ func (i *CognitoInterceptor) CompleteRecovery(ctx context.Context, in *CompleteR
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito/CompleteRecovery", in, handler)
+			return mw(ctx, "eolymp.cognito.Cognito.CompleteRecovery", in, handler)
 		}
 	}
 
@@ -1693,7 +1693,7 @@ func (i *CognitoInterceptor) IntrospectUser(ctx context.Context, in *IntrospectU
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito/IntrospectUser", in, handler)
+			return mw(ctx, "eolymp.cognito.Cognito.IntrospectUser", in, handler)
 		}
 	}
 
@@ -1724,7 +1724,7 @@ func (i *CognitoInterceptor) DescribeUser(ctx context.Context, in *DescribeUserI
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito/DescribeUser", in, handler)
+			return mw(ctx, "eolymp.cognito.Cognito.DescribeUser", in, handler)
 		}
 	}
 
@@ -1755,7 +1755,7 @@ func (i *CognitoInterceptor) ListUsers(ctx context.Context, in *ListUsersInput) 
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito/ListUsers", in, handler)
+			return mw(ctx, "eolymp.cognito.Cognito.ListUsers", in, handler)
 		}
 	}
 
@@ -1786,7 +1786,7 @@ func (i *CognitoInterceptor) IntrospectQuota(ctx context.Context, in *Introspect
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito/IntrospectQuota", in, handler)
+			return mw(ctx, "eolymp.cognito.Cognito.IntrospectQuota", in, handler)
 		}
 	}
 
@@ -1817,7 +1817,7 @@ func (i *CognitoInterceptor) IntrospectRoles(ctx context.Context, in *Introspect
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito/IntrospectRoles", in, handler)
+			return mw(ctx, "eolymp.cognito.Cognito.IntrospectRoles", in, handler)
 		}
 	}
 
@@ -1848,7 +1848,7 @@ func (i *CognitoInterceptor) ListRoles(ctx context.Context, in *ListRolesInput) 
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito/ListRoles", in, handler)
+			return mw(ctx, "eolymp.cognito.Cognito.ListRoles", in, handler)
 		}
 	}
 
@@ -1879,7 +1879,7 @@ func (i *CognitoInterceptor) UpdateRoles(ctx context.Context, in *UpdateRolesInp
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito/UpdateRoles", in, handler)
+			return mw(ctx, "eolymp.cognito.Cognito.UpdateRoles", in, handler)
 		}
 	}
 
@@ -1910,7 +1910,7 @@ func (i *CognitoInterceptor) ListEntitlements(ctx context.Context, in *ListEntit
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito/ListEntitlements", in, handler)
+			return mw(ctx, "eolymp.cognito.Cognito.ListEntitlements", in, handler)
 		}
 	}
 
@@ -1941,7 +1941,7 @@ func (i *CognitoInterceptor) SelfDestruct(ctx context.Context, in *SelfDestructI
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito/SelfDestruct", in, handler)
+			return mw(ctx, "eolymp.cognito.Cognito.SelfDestruct", in, handler)
 		}
 	}
 

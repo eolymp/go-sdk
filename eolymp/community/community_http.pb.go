@@ -798,7 +798,7 @@ func (i *CommunityInterceptor) JoinSpace(ctx context.Context, in *JoinSpaceInput
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.community.Community/JoinSpace", in, handler)
+			return mw(ctx, "eolymp.community.Community.JoinSpace", in, handler)
 		}
 	}
 
@@ -829,7 +829,7 @@ func (i *CommunityInterceptor) LeaveSpace(ctx context.Context, in *LeaveSpaceInp
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.community.Community/LeaveSpace", in, handler)
+			return mw(ctx, "eolymp.community.Community.LeaveSpace", in, handler)
 		}
 	}
 
@@ -860,7 +860,7 @@ func (i *CommunityInterceptor) RegisterMember(ctx context.Context, in *RegisterM
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.community.Community/RegisterMember", in, handler)
+			return mw(ctx, "eolymp.community.Community.RegisterMember", in, handler)
 		}
 	}
 
@@ -891,7 +891,7 @@ func (i *CommunityInterceptor) IntrospectMember(ctx context.Context, in *Introsp
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.community.Community/IntrospectMember", in, handler)
+			return mw(ctx, "eolymp.community.Community.IntrospectMember", in, handler)
 		}
 	}
 
@@ -922,7 +922,7 @@ func (i *CommunityInterceptor) AddMember(ctx context.Context, in *AddMemberInput
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.community.Community/AddMember", in, handler)
+			return mw(ctx, "eolymp.community.Community.AddMember", in, handler)
 		}
 	}
 
@@ -953,7 +953,7 @@ func (i *CommunityInterceptor) UpdateMember(ctx context.Context, in *UpdateMembe
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.community.Community/UpdateMember", in, handler)
+			return mw(ctx, "eolymp.community.Community.UpdateMember", in, handler)
 		}
 	}
 
@@ -984,7 +984,7 @@ func (i *CommunityInterceptor) RemoveMember(ctx context.Context, in *RemoveMembe
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.community.Community/RemoveMember", in, handler)
+			return mw(ctx, "eolymp.community.Community.RemoveMember", in, handler)
 		}
 	}
 
@@ -1015,7 +1015,7 @@ func (i *CommunityInterceptor) DescribeMember(ctx context.Context, in *DescribeM
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.community.Community/DescribeMember", in, handler)
+			return mw(ctx, "eolymp.community.Community.DescribeMember", in, handler)
 		}
 	}
 
@@ -1046,7 +1046,7 @@ func (i *CommunityInterceptor) ListMembers(ctx context.Context, in *ListMembersI
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.community.Community/ListMembers", in, handler)
+			return mw(ctx, "eolymp.community.Community.ListMembers", in, handler)
 		}
 	}
 
@@ -1077,7 +1077,7 @@ func (i *CommunityInterceptor) AddAttribute(ctx context.Context, in *AddAttribut
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.community.Community/AddAttribute", in, handler)
+			return mw(ctx, "eolymp.community.Community.AddAttribute", in, handler)
 		}
 	}
 
@@ -1108,7 +1108,7 @@ func (i *CommunityInterceptor) UpdateAttribute(ctx context.Context, in *UpdateAt
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.community.Community/UpdateAttribute", in, handler)
+			return mw(ctx, "eolymp.community.Community.UpdateAttribute", in, handler)
 		}
 	}
 
@@ -1139,7 +1139,7 @@ func (i *CommunityInterceptor) RemoveAttribute(ctx context.Context, in *RemoveAt
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.community.Community/RemoveAttribute", in, handler)
+			return mw(ctx, "eolymp.community.Community.RemoveAttribute", in, handler)
 		}
 	}
 
@@ -1170,7 +1170,7 @@ func (i *CommunityInterceptor) DescribeAttribute(ctx context.Context, in *Descri
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.community.Community/DescribeAttribute", in, handler)
+			return mw(ctx, "eolymp.community.Community.DescribeAttribute", in, handler)
 		}
 	}
 
@@ -1201,7 +1201,7 @@ func (i *CommunityInterceptor) ListAttributes(ctx context.Context, in *ListAttri
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.community.Community/ListAttributes", in, handler)
+			return mw(ctx, "eolymp.community.Community.ListAttributes", in, handler)
 		}
 	}
 

@@ -525,7 +525,7 @@ func (i *HelpdeskInterceptor) DescribeDocument(ctx context.Context, in *Describe
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.helpdesk.Helpdesk/DescribeDocument", in, handler)
+			return mw(ctx, "eolymp.helpdesk.Helpdesk.DescribeDocument", in, handler)
 		}
 	}
 
@@ -556,7 +556,7 @@ func (i *HelpdeskInterceptor) ListDocuments(ctx context.Context, in *ListDocumen
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.helpdesk.Helpdesk/ListDocuments", in, handler)
+			return mw(ctx, "eolymp.helpdesk.Helpdesk.ListDocuments", in, handler)
 		}
 	}
 
@@ -587,7 +587,7 @@ func (i *HelpdeskInterceptor) CreateDocument(ctx context.Context, in *CreateDocu
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.helpdesk.Helpdesk/CreateDocument", in, handler)
+			return mw(ctx, "eolymp.helpdesk.Helpdesk.CreateDocument", in, handler)
 		}
 	}
 
@@ -618,7 +618,7 @@ func (i *HelpdeskInterceptor) UpdateDocument(ctx context.Context, in *UpdateDocu
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.helpdesk.Helpdesk/UpdateDocument", in, handler)
+			return mw(ctx, "eolymp.helpdesk.Helpdesk.UpdateDocument", in, handler)
 		}
 	}
 
@@ -649,7 +649,7 @@ func (i *HelpdeskInterceptor) DeleteDocument(ctx context.Context, in *DeleteDocu
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.helpdesk.Helpdesk/DeleteDocument", in, handler)
+			return mw(ctx, "eolymp.helpdesk.Helpdesk.DeleteDocument", in, handler)
 		}
 	}
 
@@ -680,7 +680,7 @@ func (i *HelpdeskInterceptor) DescribePath(ctx context.Context, in *DescribePath
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.helpdesk.Helpdesk/DescribePath", in, handler)
+			return mw(ctx, "eolymp.helpdesk.Helpdesk.DescribePath", in, handler)
 		}
 	}
 
@@ -711,7 +711,7 @@ func (i *HelpdeskInterceptor) ListPaths(ctx context.Context, in *ListPathsInput)
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.helpdesk.Helpdesk/ListPaths", in, handler)
+			return mw(ctx, "eolymp.helpdesk.Helpdesk.ListPaths", in, handler)
 		}
 	}
 
@@ -742,7 +742,7 @@ func (i *HelpdeskInterceptor) ListParents(ctx context.Context, in *ListParentsIn
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.helpdesk.Helpdesk/ListParents", in, handler)
+			return mw(ctx, "eolymp.helpdesk.Helpdesk.ListParents", in, handler)
 		}
 	}
 

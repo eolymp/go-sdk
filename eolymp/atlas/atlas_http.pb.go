@@ -3196,7 +3196,7 @@ func (i *AtlasInterceptor) CreateProblem(ctx context.Context, in *CreateProblemI
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/CreateProblem", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.CreateProblem", in, handler)
 		}
 	}
 
@@ -3227,7 +3227,7 @@ func (i *AtlasInterceptor) DeleteProblem(ctx context.Context, in *DeleteProblemI
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/DeleteProblem", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.DeleteProblem", in, handler)
 		}
 	}
 
@@ -3258,7 +3258,7 @@ func (i *AtlasInterceptor) ListProblems(ctx context.Context, in *ListProblemsInp
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/ListProblems", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.ListProblems", in, handler)
 		}
 	}
 
@@ -3289,7 +3289,7 @@ func (i *AtlasInterceptor) DescribeProblem(ctx context.Context, in *DescribeProb
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/DescribeProblem", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.DescribeProblem", in, handler)
 		}
 	}
 
@@ -3320,7 +3320,7 @@ func (i *AtlasInterceptor) UpdateVisibility(ctx context.Context, in *UpdateVisib
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/UpdateVisibility", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.UpdateVisibility", in, handler)
 		}
 	}
 
@@ -3351,7 +3351,7 @@ func (i *AtlasInterceptor) UpdatePrivacy(ctx context.Context, in *UpdatePrivacyI
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/UpdatePrivacy", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.UpdatePrivacy", in, handler)
 		}
 	}
 
@@ -3382,7 +3382,7 @@ func (i *AtlasInterceptor) ListExamples(ctx context.Context, in *ListExamplesInp
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/ListExamples", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.ListExamples", in, handler)
 		}
 	}
 
@@ -3413,7 +3413,7 @@ func (i *AtlasInterceptor) UpdateVerifier(ctx context.Context, in *UpdateVerifie
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/UpdateVerifier", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.UpdateVerifier", in, handler)
 		}
 	}
 
@@ -3444,7 +3444,7 @@ func (i *AtlasInterceptor) DescribeVerifier(ctx context.Context, in *DescribeVer
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/DescribeVerifier", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.DescribeVerifier", in, handler)
 		}
 	}
 
@@ -3475,7 +3475,7 @@ func (i *AtlasInterceptor) UpdateInteractor(ctx context.Context, in *UpdateInter
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/UpdateInteractor", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.UpdateInteractor", in, handler)
 		}
 	}
 
@@ -3506,7 +3506,7 @@ func (i *AtlasInterceptor) DescribeInteractor(ctx context.Context, in *DescribeI
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/DescribeInteractor", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.DescribeInteractor", in, handler)
 		}
 	}
 
@@ -3537,7 +3537,7 @@ func (i *AtlasInterceptor) CreateStatement(ctx context.Context, in *CreateStatem
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/CreateStatement", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.CreateStatement", in, handler)
 		}
 	}
 
@@ -3568,7 +3568,7 @@ func (i *AtlasInterceptor) UpdateStatement(ctx context.Context, in *UpdateStatem
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/UpdateStatement", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.UpdateStatement", in, handler)
 		}
 	}
 
@@ -3599,7 +3599,7 @@ func (i *AtlasInterceptor) DeleteStatement(ctx context.Context, in *DeleteStatem
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/DeleteStatement", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.DeleteStatement", in, handler)
 		}
 	}
 
@@ -3630,7 +3630,7 @@ func (i *AtlasInterceptor) ListStatements(ctx context.Context, in *ListStatement
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/ListStatements", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.ListStatements", in, handler)
 		}
 	}
 
@@ -3661,7 +3661,7 @@ func (i *AtlasInterceptor) DescribeStatement(ctx context.Context, in *DescribeSt
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/DescribeStatement", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.DescribeStatement", in, handler)
 		}
 	}
 
@@ -3692,7 +3692,7 @@ func (i *AtlasInterceptor) CreateTestset(ctx context.Context, in *CreateTestsetI
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/CreateTestset", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.CreateTestset", in, handler)
 		}
 	}
 
@@ -3723,7 +3723,7 @@ func (i *AtlasInterceptor) UpdateTestset(ctx context.Context, in *UpdateTestsetI
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/UpdateTestset", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.UpdateTestset", in, handler)
 		}
 	}
 
@@ -3754,7 +3754,7 @@ func (i *AtlasInterceptor) DeleteTestset(ctx context.Context, in *DeleteTestsetI
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/DeleteTestset", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.DeleteTestset", in, handler)
 		}
 	}
 
@@ -3785,7 +3785,7 @@ func (i *AtlasInterceptor) ListTestsets(ctx context.Context, in *ListTestsetsInp
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/ListTestsets", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.ListTestsets", in, handler)
 		}
 	}
 
@@ -3816,7 +3816,7 @@ func (i *AtlasInterceptor) DescribeTestset(ctx context.Context, in *DescribeTest
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/DescribeTestset", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.DescribeTestset", in, handler)
 		}
 	}
 
@@ -3847,7 +3847,7 @@ func (i *AtlasInterceptor) CreateTest(ctx context.Context, in *CreateTestInput) 
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/CreateTest", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.CreateTest", in, handler)
 		}
 	}
 
@@ -3878,7 +3878,7 @@ func (i *AtlasInterceptor) UpdateTest(ctx context.Context, in *UpdateTestInput) 
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/UpdateTest", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.UpdateTest", in, handler)
 		}
 	}
 
@@ -3909,7 +3909,7 @@ func (i *AtlasInterceptor) DeleteTest(ctx context.Context, in *DeleteTestInput) 
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/DeleteTest", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.DeleteTest", in, handler)
 		}
 	}
 
@@ -3940,7 +3940,7 @@ func (i *AtlasInterceptor) ListTests(ctx context.Context, in *ListTestsInput) (*
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/ListTests", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.ListTests", in, handler)
 		}
 	}
 
@@ -3971,7 +3971,7 @@ func (i *AtlasInterceptor) DescribeTest(ctx context.Context, in *DescribeTestInp
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/DescribeTest", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.DescribeTest", in, handler)
 		}
 	}
 
@@ -4002,7 +4002,7 @@ func (i *AtlasInterceptor) GrantPermission(ctx context.Context, in *GrantPermiss
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/GrantPermission", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.GrantPermission", in, handler)
 		}
 	}
 
@@ -4033,7 +4033,7 @@ func (i *AtlasInterceptor) RevokePermission(ctx context.Context, in *RevokePermi
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/RevokePermission", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.RevokePermission", in, handler)
 		}
 	}
 
@@ -4064,7 +4064,7 @@ func (i *AtlasInterceptor) ListPermissions(ctx context.Context, in *ListPermissi
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/ListPermissions", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.ListPermissions", in, handler)
 		}
 	}
 
@@ -4095,7 +4095,7 @@ func (i *AtlasInterceptor) CreateCodeTemplate(ctx context.Context, in *CreateCod
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/CreateCodeTemplate", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.CreateCodeTemplate", in, handler)
 		}
 	}
 
@@ -4126,7 +4126,7 @@ func (i *AtlasInterceptor) UpdateCodeTemplate(ctx context.Context, in *UpdateCod
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/UpdateCodeTemplate", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.UpdateCodeTemplate", in, handler)
 		}
 	}
 
@@ -4157,7 +4157,7 @@ func (i *AtlasInterceptor) DeleteCodeTemplate(ctx context.Context, in *DeleteCod
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/DeleteCodeTemplate", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.DeleteCodeTemplate", in, handler)
 		}
 	}
 
@@ -4188,7 +4188,7 @@ func (i *AtlasInterceptor) ListCodeTemplates(ctx context.Context, in *ListCodeTe
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/ListCodeTemplates", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.ListCodeTemplates", in, handler)
 		}
 	}
 
@@ -4219,7 +4219,7 @@ func (i *AtlasInterceptor) DescribeCodeTemplate(ctx context.Context, in *Describ
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/DescribeCodeTemplate", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.DescribeCodeTemplate", in, handler)
 		}
 	}
 
@@ -4250,7 +4250,7 @@ func (i *AtlasInterceptor) CreateAttachment(ctx context.Context, in *CreateAttac
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/CreateAttachment", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.CreateAttachment", in, handler)
 		}
 	}
 
@@ -4281,7 +4281,7 @@ func (i *AtlasInterceptor) UpdateAttachment(ctx context.Context, in *UpdateAttac
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/UpdateAttachment", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.UpdateAttachment", in, handler)
 		}
 	}
 
@@ -4312,7 +4312,7 @@ func (i *AtlasInterceptor) DeleteAttachment(ctx context.Context, in *DeleteAttac
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/DeleteAttachment", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.DeleteAttachment", in, handler)
 		}
 	}
 
@@ -4343,7 +4343,7 @@ func (i *AtlasInterceptor) ListAttachments(ctx context.Context, in *ListAttachme
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/ListAttachments", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.ListAttachments", in, handler)
 		}
 	}
 
@@ -4374,7 +4374,7 @@ func (i *AtlasInterceptor) DescribeAttachment(ctx context.Context, in *DescribeA
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/DescribeAttachment", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.DescribeAttachment", in, handler)
 		}
 	}
 
@@ -4405,7 +4405,7 @@ func (i *AtlasInterceptor) DescribeChange(ctx context.Context, in *DescribeChang
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/DescribeChange", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.DescribeChange", in, handler)
 		}
 	}
 
@@ -4436,7 +4436,7 @@ func (i *AtlasInterceptor) ListChanges(ctx context.Context, in *ListChangesInput
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/ListChanges", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.ListChanges", in, handler)
 		}
 	}
 
@@ -4467,7 +4467,7 @@ func (i *AtlasInterceptor) ListProblemTop(ctx context.Context, in *ListProblemTo
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/ListProblemTop", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.ListProblemTop", in, handler)
 		}
 	}
 
@@ -4498,7 +4498,7 @@ func (i *AtlasInterceptor) DescribeProblemGrading(ctx context.Context, in *Descr
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/DescribeProblemGrading", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.DescribeProblemGrading", in, handler)
 		}
 	}
 
@@ -4529,7 +4529,7 @@ func (i *AtlasInterceptor) CreateSolution(ctx context.Context, in *CreateSolutio
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/CreateSolution", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.CreateSolution", in, handler)
 		}
 	}
 
@@ -4560,7 +4560,7 @@ func (i *AtlasInterceptor) UpdateSolution(ctx context.Context, in *UpdateSolutio
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/UpdateSolution", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.UpdateSolution", in, handler)
 		}
 	}
 
@@ -4591,7 +4591,7 @@ func (i *AtlasInterceptor) DeleteSolution(ctx context.Context, in *DeleteSolutio
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/DeleteSolution", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.DeleteSolution", in, handler)
 		}
 	}
 
@@ -4622,7 +4622,7 @@ func (i *AtlasInterceptor) ListSolutions(ctx context.Context, in *ListSolutionsI
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/ListSolutions", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.ListSolutions", in, handler)
 		}
 	}
 
@@ -4653,7 +4653,7 @@ func (i *AtlasInterceptor) DescribeSolution(ctx context.Context, in *DescribeSol
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/DescribeSolution", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.DescribeSolution", in, handler)
 		}
 	}
 
@@ -4684,7 +4684,7 @@ func (i *AtlasInterceptor) PublishSolution(ctx context.Context, in *PublishSolut
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/PublishSolution", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.PublishSolution", in, handler)
 		}
 	}
 
@@ -4715,7 +4715,7 @@ func (i *AtlasInterceptor) UnpublishSolution(ctx context.Context, in *UnpublishS
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/UnpublishSolution", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.UnpublishSolution", in, handler)
 		}
 	}
 
@@ -4746,7 +4746,7 @@ func (i *AtlasInterceptor) ApproveSolution(ctx context.Context, in *ApproveSolut
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/ApproveSolution", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.ApproveSolution", in, handler)
 		}
 	}
 
@@ -4777,7 +4777,7 @@ func (i *AtlasInterceptor) RefuseSolution(ctx context.Context, in *RefuseSolutio
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/RefuseSolution", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.RefuseSolution", in, handler)
 		}
 	}
 
@@ -4808,7 +4808,7 @@ func (i *AtlasInterceptor) CreateCategory(ctx context.Context, in *CreateCategor
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/CreateCategory", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.CreateCategory", in, handler)
 		}
 	}
 
@@ -4839,7 +4839,7 @@ func (i *AtlasInterceptor) UpdateCategory(ctx context.Context, in *UpdateCategor
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/UpdateCategory", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.UpdateCategory", in, handler)
 		}
 	}
 
@@ -4870,7 +4870,7 @@ func (i *AtlasInterceptor) DeleteCategory(ctx context.Context, in *DeleteCategor
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/DeleteCategory", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.DeleteCategory", in, handler)
 		}
 	}
 
@@ -4901,7 +4901,7 @@ func (i *AtlasInterceptor) ListCategories(ctx context.Context, in *ListCategorie
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/ListCategories", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.ListCategories", in, handler)
 		}
 	}
 
@@ -4932,7 +4932,7 @@ func (i *AtlasInterceptor) DescribeCategory(ctx context.Context, in *DescribeCat
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/DescribeCategory", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.DescribeCategory", in, handler)
 		}
 	}
 
@@ -4963,7 +4963,7 @@ func (i *AtlasInterceptor) AssignCategory(ctx context.Context, in *AssignCategor
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/AssignCategory", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.AssignCategory", in, handler)
 		}
 	}
 
@@ -4994,7 +4994,7 @@ func (i *AtlasInterceptor) UnassignCategory(ctx context.Context, in *UnassignCat
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/UnassignCategory", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.UnassignCategory", in, handler)
 		}
 	}
 
@@ -5025,7 +5025,7 @@ func (i *AtlasInterceptor) CreateSubmission(ctx context.Context, in *CreateSubmi
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/CreateSubmission", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.CreateSubmission", in, handler)
 		}
 	}
 
@@ -5056,7 +5056,7 @@ func (i *AtlasInterceptor) DescribeSubmission(ctx context.Context, in *DescribeS
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/DescribeSubmission", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.DescribeSubmission", in, handler)
 		}
 	}
 
@@ -5087,7 +5087,7 @@ func (i *AtlasInterceptor) RetestSubmission(ctx context.Context, in *RetestSubmi
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/RetestSubmission", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.RetestSubmission", in, handler)
 		}
 	}
 
@@ -5118,7 +5118,7 @@ func (i *AtlasInterceptor) DescribeScore(ctx context.Context, in *DescribeScoreI
 		handler := next
 
 		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas/DescribeScore", in, handler)
+			return mw(ctx, "eolymp.atlas.Atlas.DescribeScore", in, handler)
 		}
 	}
 
