@@ -278,7 +278,7 @@ func NewKeeperInterceptor(srv KeeperServer, middleware ..._KeeperMiddleware) *Ke
 }
 
 func (i *KeeperInterceptor) CreateObject(ctx context.Context, in *CreateObjectInput) (*CreateObjectOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CreateObjectInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *CreateObjectInput, got %T", in))
@@ -288,14 +288,15 @@ func (i *KeeperInterceptor) CreateObject(ctx context.Context, in *CreateObjectIn
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.keeper.Keeper.CreateObject", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.keeper.Keeper.CreateObject", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -309,7 +310,7 @@ func (i *KeeperInterceptor) CreateObject(ctx context.Context, in *CreateObjectIn
 }
 
 func (i *KeeperInterceptor) DescribeObject(ctx context.Context, in *DescribeObjectInput) (*DescribeObjectOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeObjectInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeObjectInput, got %T", in))
@@ -319,14 +320,15 @@ func (i *KeeperInterceptor) DescribeObject(ctx context.Context, in *DescribeObje
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.keeper.Keeper.DescribeObject", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.keeper.Keeper.DescribeObject", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -340,7 +342,7 @@ func (i *KeeperInterceptor) DescribeObject(ctx context.Context, in *DescribeObje
 }
 
 func (i *KeeperInterceptor) DownloadObject(ctx context.Context, in *DownloadObjectInput) (*DownloadObjectOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DownloadObjectInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DownloadObjectInput, got %T", in))
@@ -350,14 +352,15 @@ func (i *KeeperInterceptor) DownloadObject(ctx context.Context, in *DownloadObje
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.keeper.Keeper.DownloadObject", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.keeper.Keeper.DownloadObject", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}

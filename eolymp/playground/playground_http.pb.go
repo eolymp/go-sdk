@@ -230,7 +230,7 @@ func NewPlaygroundInterceptor(srv PlaygroundServer, middleware ..._PlaygroundMid
 }
 
 func (i *PlaygroundInterceptor) CreateRun(ctx context.Context, in *CreateRunInput) (*CreateRunOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CreateRunInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *CreateRunInput, got %T", in))
@@ -240,14 +240,15 @@ func (i *PlaygroundInterceptor) CreateRun(ctx context.Context, in *CreateRunInpu
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.playground.Playground.CreateRun", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.playground.Playground.CreateRun", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -261,7 +262,7 @@ func (i *PlaygroundInterceptor) CreateRun(ctx context.Context, in *CreateRunInpu
 }
 
 func (i *PlaygroundInterceptor) DescribeRun(ctx context.Context, in *DescribeRunInput) (*DescribeRunOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeRunInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeRunInput, got %T", in))
@@ -271,14 +272,15 @@ func (i *PlaygroundInterceptor) DescribeRun(ctx context.Context, in *DescribeRun
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.playground.Playground.DescribeRun", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.playground.Playground.DescribeRun", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}

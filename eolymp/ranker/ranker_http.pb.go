@@ -758,7 +758,7 @@ func NewRankerInterceptor(srv RankerServer, middleware ..._RankerMiddleware) *Ra
 }
 
 func (i *RankerInterceptor) CreateScoreboard(ctx context.Context, in *CreateScoreboardInput) (*CreateScoreboardOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CreateScoreboardInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *CreateScoreboardInput, got %T", in))
@@ -768,14 +768,15 @@ func (i *RankerInterceptor) CreateScoreboard(ctx context.Context, in *CreateScor
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.ranker.Ranker.CreateScoreboard", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.ranker.Ranker.CreateScoreboard", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -789,7 +790,7 @@ func (i *RankerInterceptor) CreateScoreboard(ctx context.Context, in *CreateScor
 }
 
 func (i *RankerInterceptor) UpdateScoreboard(ctx context.Context, in *UpdateScoreboardInput) (*UpdateScoreboardOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdateScoreboardInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UpdateScoreboardInput, got %T", in))
@@ -799,14 +800,15 @@ func (i *RankerInterceptor) UpdateScoreboard(ctx context.Context, in *UpdateScor
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.ranker.Ranker.UpdateScoreboard", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.ranker.Ranker.UpdateScoreboard", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -820,7 +822,7 @@ func (i *RankerInterceptor) UpdateScoreboard(ctx context.Context, in *UpdateScor
 }
 
 func (i *RankerInterceptor) RebuildScoreboard(ctx context.Context, in *RebuildScoreboardInput) (*RebuildScoreboardOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*RebuildScoreboardInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *RebuildScoreboardInput, got %T", in))
@@ -830,14 +832,15 @@ func (i *RankerInterceptor) RebuildScoreboard(ctx context.Context, in *RebuildSc
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.ranker.Ranker.RebuildScoreboard", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.ranker.Ranker.RebuildScoreboard", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -851,7 +854,7 @@ func (i *RankerInterceptor) RebuildScoreboard(ctx context.Context, in *RebuildSc
 }
 
 func (i *RankerInterceptor) DeleteScoreboard(ctx context.Context, in *DeleteScoreboardInput) (*DeleteScoreboardOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DeleteScoreboardInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DeleteScoreboardInput, got %T", in))
@@ -861,14 +864,15 @@ func (i *RankerInterceptor) DeleteScoreboard(ctx context.Context, in *DeleteScor
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.ranker.Ranker.DeleteScoreboard", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.ranker.Ranker.DeleteScoreboard", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -882,7 +886,7 @@ func (i *RankerInterceptor) DeleteScoreboard(ctx context.Context, in *DeleteScor
 }
 
 func (i *RankerInterceptor) DescribeScoreboard(ctx context.Context, in *DescribeScoreboardInput) (*DescribeScoreboardOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeScoreboardInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeScoreboardInput, got %T", in))
@@ -892,14 +896,15 @@ func (i *RankerInterceptor) DescribeScoreboard(ctx context.Context, in *Describe
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.ranker.Ranker.DescribeScoreboard", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.ranker.Ranker.DescribeScoreboard", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -913,7 +918,7 @@ func (i *RankerInterceptor) DescribeScoreboard(ctx context.Context, in *Describe
 }
 
 func (i *RankerInterceptor) ListScoreboards(ctx context.Context, in *ListScoreboardsInput) (*ListScoreboardsOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListScoreboardsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListScoreboardsInput, got %T", in))
@@ -923,14 +928,15 @@ func (i *RankerInterceptor) ListScoreboards(ctx context.Context, in *ListScorebo
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.ranker.Ranker.ListScoreboards", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.ranker.Ranker.ListScoreboards", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -944,7 +950,7 @@ func (i *RankerInterceptor) ListScoreboards(ctx context.Context, in *ListScorebo
 }
 
 func (i *RankerInterceptor) DescribeScoreboardRow(ctx context.Context, in *DescribeScoreboardRowInput) (*DescribeScoreboardRowOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeScoreboardRowInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeScoreboardRowInput, got %T", in))
@@ -954,14 +960,15 @@ func (i *RankerInterceptor) DescribeScoreboardRow(ctx context.Context, in *Descr
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.ranker.Ranker.DescribeScoreboardRow", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.ranker.Ranker.DescribeScoreboardRow", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -975,7 +982,7 @@ func (i *RankerInterceptor) DescribeScoreboardRow(ctx context.Context, in *Descr
 }
 
 func (i *RankerInterceptor) ListScoreboardRows(ctx context.Context, in *ListScoreboardRowsInput) (*ListScoreboardRowsOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListScoreboardRowsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListScoreboardRowsInput, got %T", in))
@@ -985,14 +992,15 @@ func (i *RankerInterceptor) ListScoreboardRows(ctx context.Context, in *ListScor
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.ranker.Ranker.ListScoreboardRows", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.ranker.Ranker.ListScoreboardRows", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -1006,7 +1014,7 @@ func (i *RankerInterceptor) ListScoreboardRows(ctx context.Context, in *ListScor
 }
 
 func (i *RankerInterceptor) AddScoreboardColumn(ctx context.Context, in *AddScoreboardColumnInput) (*AddScoreboardColumnOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*AddScoreboardColumnInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *AddScoreboardColumnInput, got %T", in))
@@ -1016,14 +1024,15 @@ func (i *RankerInterceptor) AddScoreboardColumn(ctx context.Context, in *AddScor
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.ranker.Ranker.AddScoreboardColumn", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.ranker.Ranker.AddScoreboardColumn", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -1037,7 +1046,7 @@ func (i *RankerInterceptor) AddScoreboardColumn(ctx context.Context, in *AddScor
 }
 
 func (i *RankerInterceptor) DeleteScoreboardColumn(ctx context.Context, in *DeleteScoreboardColumnInput) (*DeleteScoreboardColumnOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DeleteScoreboardColumnInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DeleteScoreboardColumnInput, got %T", in))
@@ -1047,14 +1056,15 @@ func (i *RankerInterceptor) DeleteScoreboardColumn(ctx context.Context, in *Dele
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.ranker.Ranker.DeleteScoreboardColumn", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.ranker.Ranker.DeleteScoreboardColumn", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -1068,7 +1078,7 @@ func (i *RankerInterceptor) DeleteScoreboardColumn(ctx context.Context, in *Dele
 }
 
 func (i *RankerInterceptor) DescribeScoreboardColumn(ctx context.Context, in *DescribeScoreboardColumnInput) (*DescribeScoreboardColumnOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeScoreboardColumnInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeScoreboardColumnInput, got %T", in))
@@ -1078,14 +1088,15 @@ func (i *RankerInterceptor) DescribeScoreboardColumn(ctx context.Context, in *De
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.ranker.Ranker.DescribeScoreboardColumn", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.ranker.Ranker.DescribeScoreboardColumn", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -1099,7 +1110,7 @@ func (i *RankerInterceptor) DescribeScoreboardColumn(ctx context.Context, in *De
 }
 
 func (i *RankerInterceptor) ListScoreboardColumns(ctx context.Context, in *ListScoreboardColumnsInput) (*ListScoreboardColumnsOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListScoreboardColumnsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListScoreboardColumnsInput, got %T", in))
@@ -1109,14 +1120,15 @@ func (i *RankerInterceptor) ListScoreboardColumns(ctx context.Context, in *ListS
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.ranker.Ranker.ListScoreboardColumns", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.ranker.Ranker.ListScoreboardColumns", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -1130,7 +1142,7 @@ func (i *RankerInterceptor) ListScoreboardColumns(ctx context.Context, in *ListS
 }
 
 func (i *RankerInterceptor) ListActivities(ctx context.Context, in *ListActivitiesInput) (*ListActivitiesOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListActivitiesInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListActivitiesInput, got %T", in))
@@ -1140,14 +1152,15 @@ func (i *RankerInterceptor) ListActivities(ctx context.Context, in *ListActiviti
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.ranker.Ranker.ListActivities", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.ranker.Ranker.ListActivities", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}

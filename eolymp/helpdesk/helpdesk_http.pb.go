@@ -512,7 +512,7 @@ func NewHelpdeskInterceptor(srv HelpdeskServer, middleware ..._HelpdeskMiddlewar
 }
 
 func (i *HelpdeskInterceptor) DescribeDocument(ctx context.Context, in *DescribeDocumentInput) (*DescribeDocumentOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeDocumentInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeDocumentInput, got %T", in))
@@ -522,14 +522,15 @@ func (i *HelpdeskInterceptor) DescribeDocument(ctx context.Context, in *Describe
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.helpdesk.Helpdesk.DescribeDocument", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.helpdesk.Helpdesk.DescribeDocument", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -543,7 +544,7 @@ func (i *HelpdeskInterceptor) DescribeDocument(ctx context.Context, in *Describe
 }
 
 func (i *HelpdeskInterceptor) ListDocuments(ctx context.Context, in *ListDocumentsInput) (*ListDocumentsOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListDocumentsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListDocumentsInput, got %T", in))
@@ -553,14 +554,15 @@ func (i *HelpdeskInterceptor) ListDocuments(ctx context.Context, in *ListDocumen
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.helpdesk.Helpdesk.ListDocuments", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.helpdesk.Helpdesk.ListDocuments", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -574,7 +576,7 @@ func (i *HelpdeskInterceptor) ListDocuments(ctx context.Context, in *ListDocumen
 }
 
 func (i *HelpdeskInterceptor) CreateDocument(ctx context.Context, in *CreateDocumentInput) (*CreateDocumentOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CreateDocumentInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *CreateDocumentInput, got %T", in))
@@ -584,14 +586,15 @@ func (i *HelpdeskInterceptor) CreateDocument(ctx context.Context, in *CreateDocu
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.helpdesk.Helpdesk.CreateDocument", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.helpdesk.Helpdesk.CreateDocument", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -605,7 +608,7 @@ func (i *HelpdeskInterceptor) CreateDocument(ctx context.Context, in *CreateDocu
 }
 
 func (i *HelpdeskInterceptor) UpdateDocument(ctx context.Context, in *UpdateDocumentInput) (*UpdateDocumentOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdateDocumentInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UpdateDocumentInput, got %T", in))
@@ -615,14 +618,15 @@ func (i *HelpdeskInterceptor) UpdateDocument(ctx context.Context, in *UpdateDocu
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.helpdesk.Helpdesk.UpdateDocument", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.helpdesk.Helpdesk.UpdateDocument", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -636,7 +640,7 @@ func (i *HelpdeskInterceptor) UpdateDocument(ctx context.Context, in *UpdateDocu
 }
 
 func (i *HelpdeskInterceptor) DeleteDocument(ctx context.Context, in *DeleteDocumentInput) (*DeleteDocumentOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DeleteDocumentInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DeleteDocumentInput, got %T", in))
@@ -646,14 +650,15 @@ func (i *HelpdeskInterceptor) DeleteDocument(ctx context.Context, in *DeleteDocu
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.helpdesk.Helpdesk.DeleteDocument", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.helpdesk.Helpdesk.DeleteDocument", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -667,7 +672,7 @@ func (i *HelpdeskInterceptor) DeleteDocument(ctx context.Context, in *DeleteDocu
 }
 
 func (i *HelpdeskInterceptor) DescribePath(ctx context.Context, in *DescribePathInput) (*DescribePathOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribePathInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribePathInput, got %T", in))
@@ -677,14 +682,15 @@ func (i *HelpdeskInterceptor) DescribePath(ctx context.Context, in *DescribePath
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.helpdesk.Helpdesk.DescribePath", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.helpdesk.Helpdesk.DescribePath", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -698,7 +704,7 @@ func (i *HelpdeskInterceptor) DescribePath(ctx context.Context, in *DescribePath
 }
 
 func (i *HelpdeskInterceptor) ListPaths(ctx context.Context, in *ListPathsInput) (*ListPathsOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListPathsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListPathsInput, got %T", in))
@@ -708,14 +714,15 @@ func (i *HelpdeskInterceptor) ListPaths(ctx context.Context, in *ListPathsInput)
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.helpdesk.Helpdesk.ListPaths", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.helpdesk.Helpdesk.ListPaths", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -729,7 +736,7 @@ func (i *HelpdeskInterceptor) ListPaths(ctx context.Context, in *ListPathsInput)
 }
 
 func (i *HelpdeskInterceptor) ListParents(ctx context.Context, in *ListParentsInput) (*ListParentsOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListParentsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListParentsInput, got %T", in))
@@ -739,14 +746,15 @@ func (i *HelpdeskInterceptor) ListParents(ctx context.Context, in *ListParentsIn
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.helpdesk.Helpdesk.ListParents", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.helpdesk.Helpdesk.ListParents", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}

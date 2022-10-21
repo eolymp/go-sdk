@@ -565,7 +565,7 @@ func NewWorkspaceInterceptor(srv WorkspaceServer, middleware ..._WorkspaceMiddle
 }
 
 func (i *WorkspaceInterceptor) DescribeProject(ctx context.Context, in *DescribeProjectInput) (*DescribeProjectOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeProjectInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeProjectInput, got %T", in))
@@ -575,14 +575,15 @@ func (i *WorkspaceInterceptor) DescribeProject(ctx context.Context, in *Describe
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.workspace.Workspace.DescribeProject", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.workspace.Workspace.DescribeProject", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -596,7 +597,7 @@ func (i *WorkspaceInterceptor) DescribeProject(ctx context.Context, in *Describe
 }
 
 func (i *WorkspaceInterceptor) ListProjects(ctx context.Context, in *ListProjectsInput) (*ListProjectsOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListProjectsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListProjectsInput, got %T", in))
@@ -606,14 +607,15 @@ func (i *WorkspaceInterceptor) ListProjects(ctx context.Context, in *ListProject
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.workspace.Workspace.ListProjects", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.workspace.Workspace.ListProjects", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -627,7 +629,7 @@ func (i *WorkspaceInterceptor) ListProjects(ctx context.Context, in *ListProject
 }
 
 func (i *WorkspaceInterceptor) CreateProject(ctx context.Context, in *CreateProjectInput) (*CreateProjectOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CreateProjectInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *CreateProjectInput, got %T", in))
@@ -637,14 +639,15 @@ func (i *WorkspaceInterceptor) CreateProject(ctx context.Context, in *CreateProj
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.workspace.Workspace.CreateProject", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.workspace.Workspace.CreateProject", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -658,7 +661,7 @@ func (i *WorkspaceInterceptor) CreateProject(ctx context.Context, in *CreateProj
 }
 
 func (i *WorkspaceInterceptor) UpdateProject(ctx context.Context, in *UpdateProjectInput) (*UpdateProjectOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdateProjectInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UpdateProjectInput, got %T", in))
@@ -668,14 +671,15 @@ func (i *WorkspaceInterceptor) UpdateProject(ctx context.Context, in *UpdateProj
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.workspace.Workspace.UpdateProject", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.workspace.Workspace.UpdateProject", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -689,7 +693,7 @@ func (i *WorkspaceInterceptor) UpdateProject(ctx context.Context, in *UpdateProj
 }
 
 func (i *WorkspaceInterceptor) DeleteProject(ctx context.Context, in *DeleteProjectInput) (*DeleteProjectOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DeleteProjectInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DeleteProjectInput, got %T", in))
@@ -699,14 +703,15 @@ func (i *WorkspaceInterceptor) DeleteProject(ctx context.Context, in *DeleteProj
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.workspace.Workspace.DeleteProject", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.workspace.Workspace.DeleteProject", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -720,7 +725,7 @@ func (i *WorkspaceInterceptor) DeleteProject(ctx context.Context, in *DeleteProj
 }
 
 func (i *WorkspaceInterceptor) ListFiles(ctx context.Context, in *ListFilesInput) (*ListFilesOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListFilesInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListFilesInput, got %T", in))
@@ -730,14 +735,15 @@ func (i *WorkspaceInterceptor) ListFiles(ctx context.Context, in *ListFilesInput
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.workspace.Workspace.ListFiles", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.workspace.Workspace.ListFiles", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -751,7 +757,7 @@ func (i *WorkspaceInterceptor) ListFiles(ctx context.Context, in *ListFilesInput
 }
 
 func (i *WorkspaceInterceptor) DescribeFile(ctx context.Context, in *DescribeFileInput) (*DescribeFileOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeFileInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeFileInput, got %T", in))
@@ -761,14 +767,15 @@ func (i *WorkspaceInterceptor) DescribeFile(ctx context.Context, in *DescribeFil
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.workspace.Workspace.DescribeFile", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.workspace.Workspace.DescribeFile", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -782,7 +789,7 @@ func (i *WorkspaceInterceptor) DescribeFile(ctx context.Context, in *DescribeFil
 }
 
 func (i *WorkspaceInterceptor) UploadFile(ctx context.Context, in *UploadFileInput) (*UploadFileOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UploadFileInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UploadFileInput, got %T", in))
@@ -792,14 +799,15 @@ func (i *WorkspaceInterceptor) UploadFile(ctx context.Context, in *UploadFileInp
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.workspace.Workspace.UploadFile", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.workspace.Workspace.UploadFile", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -813,7 +821,7 @@ func (i *WorkspaceInterceptor) UploadFile(ctx context.Context, in *UploadFileInp
 }
 
 func (i *WorkspaceInterceptor) RemoveFile(ctx context.Context, in *RemoveFileInput) (*RemoveFileOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*RemoveFileInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *RemoveFileInput, got %T", in))
@@ -823,14 +831,15 @@ func (i *WorkspaceInterceptor) RemoveFile(ctx context.Context, in *RemoveFileInp
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.workspace.Workspace.RemoveFile", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.workspace.Workspace.RemoveFile", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}

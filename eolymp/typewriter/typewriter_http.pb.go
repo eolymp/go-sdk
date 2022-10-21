@@ -182,7 +182,7 @@ func NewTypewriterInterceptor(srv TypewriterServer, middleware ..._TypewriterMid
 }
 
 func (i *TypewriterInterceptor) UploadAsset(ctx context.Context, in *UploadAssetInput) (*UploadAssetOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UploadAssetInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UploadAssetInput, got %T", in))
@@ -192,14 +192,15 @@ func (i *TypewriterInterceptor) UploadAsset(ctx context.Context, in *UploadAsset
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.typewriter.Typewriter.UploadAsset", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.typewriter.Typewriter.UploadAsset", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}

@@ -326,7 +326,7 @@ func NewGeographyInterceptor(srv GeographyServer, middleware ..._GeographyMiddle
 }
 
 func (i *GeographyInterceptor) DescribeCountry(ctx context.Context, in *DescribeCountryInput) (*DescribeCountryOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeCountryInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeCountryInput, got %T", in))
@@ -336,14 +336,15 @@ func (i *GeographyInterceptor) DescribeCountry(ctx context.Context, in *Describe
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.geography.Geography.DescribeCountry", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.geography.Geography.DescribeCountry", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -357,7 +358,7 @@ func (i *GeographyInterceptor) DescribeCountry(ctx context.Context, in *Describe
 }
 
 func (i *GeographyInterceptor) ListCountries(ctx context.Context, in *ListCountriesInput) (*ListCountriesOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListCountriesInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListCountriesInput, got %T", in))
@@ -367,14 +368,15 @@ func (i *GeographyInterceptor) ListCountries(ctx context.Context, in *ListCountr
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.geography.Geography.ListCountries", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.geography.Geography.ListCountries", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -388,7 +390,7 @@ func (i *GeographyInterceptor) ListCountries(ctx context.Context, in *ListCountr
 }
 
 func (i *GeographyInterceptor) DescribeRegion(ctx context.Context, in *DescribeRegionInput) (*DescribeRegionOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeRegionInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeRegionInput, got %T", in))
@@ -398,14 +400,15 @@ func (i *GeographyInterceptor) DescribeRegion(ctx context.Context, in *DescribeR
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.geography.Geography.DescribeRegion", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.geography.Geography.DescribeRegion", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -419,7 +422,7 @@ func (i *GeographyInterceptor) DescribeRegion(ctx context.Context, in *DescribeR
 }
 
 func (i *GeographyInterceptor) ListRegions(ctx context.Context, in *ListRegionsInput) (*ListRegionsOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListRegionsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListRegionsInput, got %T", in))
@@ -429,14 +432,15 @@ func (i *GeographyInterceptor) ListRegions(ctx context.Context, in *ListRegionsI
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.geography.Geography.ListRegions", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.geography.Geography.ListRegions", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}

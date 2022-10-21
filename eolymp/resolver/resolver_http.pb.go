@@ -185,7 +185,7 @@ func NewResolverInterceptor(srv ResolverServer, middleware ..._ResolverMiddlewar
 }
 
 func (i *ResolverInterceptor) ResolveName(ctx context.Context, in *ResolveNameInput) (*ResolveNameOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ResolveNameInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ResolveNameInput, got %T", in))
@@ -195,14 +195,15 @@ func (i *ResolverInterceptor) ResolveName(ctx context.Context, in *ResolveNameIn
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.resolver.Resolver.ResolveName", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.resolver.Resolver.ResolveName", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}

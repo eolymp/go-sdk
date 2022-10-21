@@ -1184,7 +1184,7 @@ func NewCognitoInterceptor(srv CognitoServer, middleware ..._CognitoMiddleware) 
 }
 
 func (i *CognitoInterceptor) CreateToken(ctx context.Context, in *CreateTokenInput) (*CreateTokenOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CreateTokenInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *CreateTokenInput, got %T", in))
@@ -1194,14 +1194,15 @@ func (i *CognitoInterceptor) CreateToken(ctx context.Context, in *CreateTokenInp
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito.CreateToken", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.cognito.Cognito.CreateToken", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -1215,7 +1216,7 @@ func (i *CognitoInterceptor) CreateToken(ctx context.Context, in *CreateTokenInp
 }
 
 func (i *CognitoInterceptor) IntrospectToken(ctx context.Context, in *IntrospectTokenInput) (*IntrospectTokenOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*IntrospectTokenInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *IntrospectTokenInput, got %T", in))
@@ -1225,14 +1226,15 @@ func (i *CognitoInterceptor) IntrospectToken(ctx context.Context, in *Introspect
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito.IntrospectToken", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.cognito.Cognito.IntrospectToken", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -1246,7 +1248,7 @@ func (i *CognitoInterceptor) IntrospectToken(ctx context.Context, in *Introspect
 }
 
 func (i *CognitoInterceptor) CreateAuthorization(ctx context.Context, in *CreateAuthorizationInput) (*CreateAuthorizationOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CreateAuthorizationInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *CreateAuthorizationInput, got %T", in))
@@ -1256,14 +1258,15 @@ func (i *CognitoInterceptor) CreateAuthorization(ctx context.Context, in *Create
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito.CreateAuthorization", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.cognito.Cognito.CreateAuthorization", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -1277,7 +1280,7 @@ func (i *CognitoInterceptor) CreateAuthorization(ctx context.Context, in *Create
 }
 
 func (i *CognitoInterceptor) RevokeToken(ctx context.Context, in *RevokeTokenInput) (*RevokeTokenOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*RevokeTokenInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *RevokeTokenInput, got %T", in))
@@ -1287,14 +1290,15 @@ func (i *CognitoInterceptor) RevokeToken(ctx context.Context, in *RevokeTokenInp
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito.RevokeToken", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.cognito.Cognito.RevokeToken", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -1308,7 +1312,7 @@ func (i *CognitoInterceptor) RevokeToken(ctx context.Context, in *RevokeTokenInp
 }
 
 func (i *CognitoInterceptor) Signout(ctx context.Context, in *SignoutInput) (*SignoutOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*SignoutInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *SignoutInput, got %T", in))
@@ -1318,14 +1322,15 @@ func (i *CognitoInterceptor) Signout(ctx context.Context, in *SignoutInput) (*Si
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito.Signout", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.cognito.Cognito.Signout", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -1339,7 +1344,7 @@ func (i *CognitoInterceptor) Signout(ctx context.Context, in *SignoutInput) (*Si
 }
 
 func (i *CognitoInterceptor) CreateAccessKey(ctx context.Context, in *CreateAccessKeyInput) (*CreateAccessKeyOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CreateAccessKeyInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *CreateAccessKeyInput, got %T", in))
@@ -1349,14 +1354,15 @@ func (i *CognitoInterceptor) CreateAccessKey(ctx context.Context, in *CreateAcce
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito.CreateAccessKey", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.cognito.Cognito.CreateAccessKey", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -1370,7 +1376,7 @@ func (i *CognitoInterceptor) CreateAccessKey(ctx context.Context, in *CreateAcce
 }
 
 func (i *CognitoInterceptor) DeleteAccessKey(ctx context.Context, in *DeleteAccessKeyInput) (*DeleteAccessKeyOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DeleteAccessKeyInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DeleteAccessKeyInput, got %T", in))
@@ -1380,14 +1386,15 @@ func (i *CognitoInterceptor) DeleteAccessKey(ctx context.Context, in *DeleteAcce
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito.DeleteAccessKey", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.cognito.Cognito.DeleteAccessKey", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -1401,7 +1408,7 @@ func (i *CognitoInterceptor) DeleteAccessKey(ctx context.Context, in *DeleteAcce
 }
 
 func (i *CognitoInterceptor) ListAccessKeys(ctx context.Context, in *ListAccessKeysInput) (*ListAccessKeysOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListAccessKeysInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListAccessKeysInput, got %T", in))
@@ -1411,14 +1418,15 @@ func (i *CognitoInterceptor) ListAccessKeys(ctx context.Context, in *ListAccessK
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito.ListAccessKeys", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.cognito.Cognito.ListAccessKeys", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -1432,7 +1440,7 @@ func (i *CognitoInterceptor) ListAccessKeys(ctx context.Context, in *ListAccessK
 }
 
 func (i *CognitoInterceptor) CreateUser(ctx context.Context, in *CreateUserInput) (*CreateUserOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CreateUserInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *CreateUserInput, got %T", in))
@@ -1442,14 +1450,15 @@ func (i *CognitoInterceptor) CreateUser(ctx context.Context, in *CreateUserInput
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito.CreateUser", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.cognito.Cognito.CreateUser", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -1463,7 +1472,7 @@ func (i *CognitoInterceptor) CreateUser(ctx context.Context, in *CreateUserInput
 }
 
 func (i *CognitoInterceptor) VerifyEmail(ctx context.Context, in *VerifyEmailInput) (*VerifyEmailOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*VerifyEmailInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *VerifyEmailInput, got %T", in))
@@ -1473,14 +1482,15 @@ func (i *CognitoInterceptor) VerifyEmail(ctx context.Context, in *VerifyEmailInp
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito.VerifyEmail", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.cognito.Cognito.VerifyEmail", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -1494,7 +1504,7 @@ func (i *CognitoInterceptor) VerifyEmail(ctx context.Context, in *VerifyEmailInp
 }
 
 func (i *CognitoInterceptor) UpdateEmail(ctx context.Context, in *UpdateEmailInput) (*UpdateEmailOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdateEmailInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UpdateEmailInput, got %T", in))
@@ -1504,14 +1514,15 @@ func (i *CognitoInterceptor) UpdateEmail(ctx context.Context, in *UpdateEmailInp
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito.UpdateEmail", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.cognito.Cognito.UpdateEmail", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -1525,7 +1536,7 @@ func (i *CognitoInterceptor) UpdateEmail(ctx context.Context, in *UpdateEmailInp
 }
 
 func (i *CognitoInterceptor) UpdateProfile(ctx context.Context, in *UpdateProfileInput) (*UpdateProfileOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdateProfileInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UpdateProfileInput, got %T", in))
@@ -1535,14 +1546,15 @@ func (i *CognitoInterceptor) UpdateProfile(ctx context.Context, in *UpdateProfil
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito.UpdateProfile", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.cognito.Cognito.UpdateProfile", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -1556,7 +1568,7 @@ func (i *CognitoInterceptor) UpdateProfile(ctx context.Context, in *UpdateProfil
 }
 
 func (i *CognitoInterceptor) UpdatePicture(ctx context.Context, in *UpdatePictureInput) (*UpdatePictureOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdatePictureInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UpdatePictureInput, got %T", in))
@@ -1566,14 +1578,15 @@ func (i *CognitoInterceptor) UpdatePicture(ctx context.Context, in *UpdatePictur
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito.UpdatePicture", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.cognito.Cognito.UpdatePicture", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -1587,7 +1600,7 @@ func (i *CognitoInterceptor) UpdatePicture(ctx context.Context, in *UpdatePictur
 }
 
 func (i *CognitoInterceptor) UpdatePassword(ctx context.Context, in *UpdatePasswordInput) (*UpdatePasswordOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdatePasswordInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UpdatePasswordInput, got %T", in))
@@ -1597,14 +1610,15 @@ func (i *CognitoInterceptor) UpdatePassword(ctx context.Context, in *UpdatePassw
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito.UpdatePassword", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.cognito.Cognito.UpdatePassword", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -1618,7 +1632,7 @@ func (i *CognitoInterceptor) UpdatePassword(ctx context.Context, in *UpdatePassw
 }
 
 func (i *CognitoInterceptor) StartRecovery(ctx context.Context, in *StartRecoveryInput) (*StartRecoveryOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*StartRecoveryInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *StartRecoveryInput, got %T", in))
@@ -1628,14 +1642,15 @@ func (i *CognitoInterceptor) StartRecovery(ctx context.Context, in *StartRecover
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito.StartRecovery", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.cognito.Cognito.StartRecovery", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -1649,7 +1664,7 @@ func (i *CognitoInterceptor) StartRecovery(ctx context.Context, in *StartRecover
 }
 
 func (i *CognitoInterceptor) CompleteRecovery(ctx context.Context, in *CompleteRecoverInput) (*CompleteRecoverOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CompleteRecoverInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *CompleteRecoverInput, got %T", in))
@@ -1659,14 +1674,15 @@ func (i *CognitoInterceptor) CompleteRecovery(ctx context.Context, in *CompleteR
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito.CompleteRecovery", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.cognito.Cognito.CompleteRecovery", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -1680,7 +1696,7 @@ func (i *CognitoInterceptor) CompleteRecovery(ctx context.Context, in *CompleteR
 }
 
 func (i *CognitoInterceptor) IntrospectUser(ctx context.Context, in *IntrospectUserInput) (*IntrospectUserOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*IntrospectUserInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *IntrospectUserInput, got %T", in))
@@ -1690,14 +1706,15 @@ func (i *CognitoInterceptor) IntrospectUser(ctx context.Context, in *IntrospectU
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito.IntrospectUser", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.cognito.Cognito.IntrospectUser", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -1711,7 +1728,7 @@ func (i *CognitoInterceptor) IntrospectUser(ctx context.Context, in *IntrospectU
 }
 
 func (i *CognitoInterceptor) DescribeUser(ctx context.Context, in *DescribeUserInput) (*DescribeUserOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeUserInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeUserInput, got %T", in))
@@ -1721,14 +1738,15 @@ func (i *CognitoInterceptor) DescribeUser(ctx context.Context, in *DescribeUserI
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito.DescribeUser", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.cognito.Cognito.DescribeUser", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -1742,7 +1760,7 @@ func (i *CognitoInterceptor) DescribeUser(ctx context.Context, in *DescribeUserI
 }
 
 func (i *CognitoInterceptor) ListUsers(ctx context.Context, in *ListUsersInput) (*ListUsersOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListUsersInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListUsersInput, got %T", in))
@@ -1752,14 +1770,15 @@ func (i *CognitoInterceptor) ListUsers(ctx context.Context, in *ListUsersInput) 
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito.ListUsers", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.cognito.Cognito.ListUsers", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -1773,7 +1792,7 @@ func (i *CognitoInterceptor) ListUsers(ctx context.Context, in *ListUsersInput) 
 }
 
 func (i *CognitoInterceptor) IntrospectQuota(ctx context.Context, in *IntrospectQuotaInput) (*IntrospectQuotaOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*IntrospectQuotaInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *IntrospectQuotaInput, got %T", in))
@@ -1783,14 +1802,15 @@ func (i *CognitoInterceptor) IntrospectQuota(ctx context.Context, in *Introspect
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito.IntrospectQuota", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.cognito.Cognito.IntrospectQuota", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -1804,7 +1824,7 @@ func (i *CognitoInterceptor) IntrospectQuota(ctx context.Context, in *Introspect
 }
 
 func (i *CognitoInterceptor) IntrospectRoles(ctx context.Context, in *IntrospectRolesInput) (*IntrospectRolesOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*IntrospectRolesInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *IntrospectRolesInput, got %T", in))
@@ -1814,14 +1834,15 @@ func (i *CognitoInterceptor) IntrospectRoles(ctx context.Context, in *Introspect
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito.IntrospectRoles", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.cognito.Cognito.IntrospectRoles", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -1835,7 +1856,7 @@ func (i *CognitoInterceptor) IntrospectRoles(ctx context.Context, in *Introspect
 }
 
 func (i *CognitoInterceptor) ListRoles(ctx context.Context, in *ListRolesInput) (*ListRolesOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListRolesInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListRolesInput, got %T", in))
@@ -1845,14 +1866,15 @@ func (i *CognitoInterceptor) ListRoles(ctx context.Context, in *ListRolesInput) 
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito.ListRoles", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.cognito.Cognito.ListRoles", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -1866,7 +1888,7 @@ func (i *CognitoInterceptor) ListRoles(ctx context.Context, in *ListRolesInput) 
 }
 
 func (i *CognitoInterceptor) UpdateRoles(ctx context.Context, in *UpdateRolesInput) (*UpdateRolesOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdateRolesInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UpdateRolesInput, got %T", in))
@@ -1876,14 +1898,15 @@ func (i *CognitoInterceptor) UpdateRoles(ctx context.Context, in *UpdateRolesInp
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito.UpdateRoles", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.cognito.Cognito.UpdateRoles", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -1897,7 +1920,7 @@ func (i *CognitoInterceptor) UpdateRoles(ctx context.Context, in *UpdateRolesInp
 }
 
 func (i *CognitoInterceptor) ListEntitlements(ctx context.Context, in *ListEntitlementsInput) (*ListEntitlementsOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListEntitlementsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListEntitlementsInput, got %T", in))
@@ -1907,14 +1930,15 @@ func (i *CognitoInterceptor) ListEntitlements(ctx context.Context, in *ListEntit
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito.ListEntitlements", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.cognito.Cognito.ListEntitlements", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -1928,7 +1952,7 @@ func (i *CognitoInterceptor) ListEntitlements(ctx context.Context, in *ListEntit
 }
 
 func (i *CognitoInterceptor) SelfDestruct(ctx context.Context, in *SelfDestructInput) (*SelfDestructOutput, error) {
-	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*SelfDestructInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *SelfDestructInput, got %T", in))
@@ -1938,14 +1962,15 @@ func (i *CognitoInterceptor) SelfDestruct(ctx context.Context, in *SelfDestructI
 	}
 
 	for _, mw := range i.middleware {
-		handler := next
+		mw := mw
+		next := handler
 
-		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito.SelfDestruct", in, handler)
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.cognito.Cognito.SelfDestruct", in, next)
 		}
 	}
 
-	out, err := next(ctx, in)
+	out, err := handler(ctx, in)
 	if err != nil {
 		return nil, err
 	}
