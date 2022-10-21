@@ -5,6 +5,7 @@ package resolver
 
 import (
 	context "context"
+	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -171,7 +172,8 @@ func _Resolver_ResolveName_Rule0(srv ResolverServer) http.Handler {
 	})
 }
 
-type _ResolverMiddleware = func(ctx context.Context, method string, in proto.Message, next func() (out proto.Message, err error))
+type _ResolverHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
+type _ResolverMiddleware = func(ctx context.Context, method string, in proto.Message, handler _ResolverHandler) (out proto.Message, err error)
 type ResolverInterceptor struct {
 	middleware []_ResolverMiddleware
 	server     ResolverServer
@@ -182,21 +184,33 @@ func NewResolverInterceptor(srv ResolverServer, middleware ..._ResolverMiddlewar
 	return &ResolverInterceptor{server: srv, middleware: middleware}
 }
 
-func (i *ResolverInterceptor) ResolveName(ctx context.Context, in *ResolveNameInput) (out *ResolveNameOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.ResolveName(ctx, in)
-		return out, err
+func (i *ResolverInterceptor) ResolveName(ctx context.Context, in *ResolveNameInput) (*ResolveNameOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ResolveNameInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ResolveNameInput, got %T", in))
+		}
+
+		return i.server.ResolveName(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.resolver.Resolver/ResolveName", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.resolver.Resolver/ResolveName", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ResolveNameOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ResolveNameOutput, got %T", out))
+	}
+
+	return message, err
 }

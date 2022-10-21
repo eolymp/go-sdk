@@ -5,6 +5,7 @@ package executor
 
 import (
 	context "context"
+	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -357,7 +358,8 @@ func _Executor_DescribeCodeTemplate_Rule0(srv ExecutorServer) http.Handler {
 	})
 }
 
-type _ExecutorMiddleware = func(ctx context.Context, method string, in proto.Message, next func() (out proto.Message, err error))
+type _ExecutorHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
+type _ExecutorMiddleware = func(ctx context.Context, method string, in proto.Message, handler _ExecutorHandler) (out proto.Message, err error)
 type ExecutorInterceptor struct {
 	middleware []_ExecutorMiddleware
 	server     ExecutorServer
@@ -368,97 +370,157 @@ func NewExecutorInterceptor(srv ExecutorServer, middleware ..._ExecutorMiddlewar
 	return &ExecutorInterceptor{server: srv, middleware: middleware}
 }
 
-func (i *ExecutorInterceptor) DescribeLanguage(ctx context.Context, in *DescribeLanguageInput) (out *DescribeLanguageOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DescribeLanguage(ctx, in)
-		return out, err
+func (i *ExecutorInterceptor) DescribeLanguage(ctx context.Context, in *DescribeLanguageInput) (*DescribeLanguageOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeLanguageInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeLanguageInput, got %T", in))
+		}
+
+		return i.server.DescribeLanguage(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.executor.Executor/DescribeLanguage", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.executor.Executor/DescribeLanguage", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeLanguageOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeLanguageOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *ExecutorInterceptor) ListLanguages(ctx context.Context, in *ListLanguagesInput) (out *ListLanguagesOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.ListLanguages(ctx, in)
-		return out, err
+func (i *ExecutorInterceptor) ListLanguages(ctx context.Context, in *ListLanguagesInput) (*ListLanguagesOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListLanguagesInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListLanguagesInput, got %T", in))
+		}
+
+		return i.server.ListLanguages(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.executor.Executor/ListLanguages", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.executor.Executor/ListLanguages", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListLanguagesOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListLanguagesOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *ExecutorInterceptor) DescribeRuntime(ctx context.Context, in *DescribeRuntimeInput) (out *DescribeRuntimeOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DescribeRuntime(ctx, in)
-		return out, err
+func (i *ExecutorInterceptor) DescribeRuntime(ctx context.Context, in *DescribeRuntimeInput) (*DescribeRuntimeOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeRuntimeInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeRuntimeInput, got %T", in))
+		}
+
+		return i.server.DescribeRuntime(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.executor.Executor/DescribeRuntime", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.executor.Executor/DescribeRuntime", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeRuntimeOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeRuntimeOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *ExecutorInterceptor) ListRuntime(ctx context.Context, in *ListRuntimeInput) (out *ListRuntimeOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.ListRuntime(ctx, in)
-		return out, err
+func (i *ExecutorInterceptor) ListRuntime(ctx context.Context, in *ListRuntimeInput) (*ListRuntimeOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListRuntimeInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListRuntimeInput, got %T", in))
+		}
+
+		return i.server.ListRuntime(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.executor.Executor/ListRuntime", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.executor.Executor/ListRuntime", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListRuntimeOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListRuntimeOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *ExecutorInterceptor) DescribeCodeTemplate(ctx context.Context, in *DescribeCodeTemplateInput) (out *DescribeCodeTemplateOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DescribeCodeTemplate(ctx, in)
-		return out, err
+func (i *ExecutorInterceptor) DescribeCodeTemplate(ctx context.Context, in *DescribeCodeTemplateInput) (*DescribeCodeTemplateOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeCodeTemplateInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeCodeTemplateInput, got %T", in))
+		}
+
+		return i.server.DescribeCodeTemplate(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.executor.Executor/DescribeCodeTemplate", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.executor.Executor/DescribeCodeTemplate", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeCodeTemplateOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeCodeTemplateOutput, got %T", out))
+	}
+
+	return message, err
 }

@@ -5,6 +5,7 @@ package workspace
 
 import (
 	context "context"
+	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -551,7 +552,8 @@ func _Workspace_RemoveFile_Rule0(srv WorkspaceServer) http.Handler {
 	})
 }
 
-type _WorkspaceMiddleware = func(ctx context.Context, method string, in proto.Message, next func() (out proto.Message, err error))
+type _WorkspaceHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
+type _WorkspaceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _WorkspaceHandler) (out proto.Message, err error)
 type WorkspaceInterceptor struct {
 	middleware []_WorkspaceMiddleware
 	server     WorkspaceServer
@@ -562,173 +564,281 @@ func NewWorkspaceInterceptor(srv WorkspaceServer, middleware ..._WorkspaceMiddle
 	return &WorkspaceInterceptor{server: srv, middleware: middleware}
 }
 
-func (i *WorkspaceInterceptor) DescribeProject(ctx context.Context, in *DescribeProjectInput) (out *DescribeProjectOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DescribeProject(ctx, in)
-		return out, err
+func (i *WorkspaceInterceptor) DescribeProject(ctx context.Context, in *DescribeProjectInput) (*DescribeProjectOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeProjectInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeProjectInput, got %T", in))
+		}
+
+		return i.server.DescribeProject(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.workspace.Workspace/DescribeProject", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.workspace.Workspace/DescribeProject", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeProjectOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeProjectOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *WorkspaceInterceptor) ListProjects(ctx context.Context, in *ListProjectsInput) (out *ListProjectsOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.ListProjects(ctx, in)
-		return out, err
+func (i *WorkspaceInterceptor) ListProjects(ctx context.Context, in *ListProjectsInput) (*ListProjectsOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListProjectsInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListProjectsInput, got %T", in))
+		}
+
+		return i.server.ListProjects(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.workspace.Workspace/ListProjects", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.workspace.Workspace/ListProjects", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListProjectsOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListProjectsOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *WorkspaceInterceptor) CreateProject(ctx context.Context, in *CreateProjectInput) (out *CreateProjectOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.CreateProject(ctx, in)
-		return out, err
+func (i *WorkspaceInterceptor) CreateProject(ctx context.Context, in *CreateProjectInput) (*CreateProjectOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*CreateProjectInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *CreateProjectInput, got %T", in))
+		}
+
+		return i.server.CreateProject(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.workspace.Workspace/CreateProject", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.workspace.Workspace/CreateProject", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*CreateProjectOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *CreateProjectOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *WorkspaceInterceptor) UpdateProject(ctx context.Context, in *UpdateProjectInput) (out *UpdateProjectOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.UpdateProject(ctx, in)
-		return out, err
+func (i *WorkspaceInterceptor) UpdateProject(ctx context.Context, in *UpdateProjectInput) (*UpdateProjectOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*UpdateProjectInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *UpdateProjectInput, got %T", in))
+		}
+
+		return i.server.UpdateProject(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.workspace.Workspace/UpdateProject", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.workspace.Workspace/UpdateProject", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*UpdateProjectOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *UpdateProjectOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *WorkspaceInterceptor) DeleteProject(ctx context.Context, in *DeleteProjectInput) (out *DeleteProjectOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DeleteProject(ctx, in)
-		return out, err
+func (i *WorkspaceInterceptor) DeleteProject(ctx context.Context, in *DeleteProjectInput) (*DeleteProjectOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DeleteProjectInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DeleteProjectInput, got %T", in))
+		}
+
+		return i.server.DeleteProject(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.workspace.Workspace/DeleteProject", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.workspace.Workspace/DeleteProject", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DeleteProjectOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DeleteProjectOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *WorkspaceInterceptor) ListFiles(ctx context.Context, in *ListFilesInput) (out *ListFilesOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.ListFiles(ctx, in)
-		return out, err
+func (i *WorkspaceInterceptor) ListFiles(ctx context.Context, in *ListFilesInput) (*ListFilesOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListFilesInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListFilesInput, got %T", in))
+		}
+
+		return i.server.ListFiles(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.workspace.Workspace/ListFiles", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.workspace.Workspace/ListFiles", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListFilesOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListFilesOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *WorkspaceInterceptor) DescribeFile(ctx context.Context, in *DescribeFileInput) (out *DescribeFileOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DescribeFile(ctx, in)
-		return out, err
+func (i *WorkspaceInterceptor) DescribeFile(ctx context.Context, in *DescribeFileInput) (*DescribeFileOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeFileInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeFileInput, got %T", in))
+		}
+
+		return i.server.DescribeFile(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.workspace.Workspace/DescribeFile", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.workspace.Workspace/DescribeFile", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeFileOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeFileOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *WorkspaceInterceptor) UploadFile(ctx context.Context, in *UploadFileInput) (out *UploadFileOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.UploadFile(ctx, in)
-		return out, err
+func (i *WorkspaceInterceptor) UploadFile(ctx context.Context, in *UploadFileInput) (*UploadFileOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*UploadFileInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *UploadFileInput, got %T", in))
+		}
+
+		return i.server.UploadFile(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.workspace.Workspace/UploadFile", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.workspace.Workspace/UploadFile", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*UploadFileOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *UploadFileOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *WorkspaceInterceptor) RemoveFile(ctx context.Context, in *RemoveFileInput) (out *RemoveFileOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.RemoveFile(ctx, in)
-		return out, err
+func (i *WorkspaceInterceptor) RemoveFile(ctx context.Context, in *RemoveFileInput) (*RemoveFileOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*RemoveFileInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *RemoveFileInput, got %T", in))
+		}
+
+		return i.server.RemoveFile(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.workspace.Workspace/RemoveFile", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.workspace.Workspace/RemoveFile", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*RemoveFileOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *RemoveFileOutput, got %T", out))
+	}
+
+	return message, err
 }

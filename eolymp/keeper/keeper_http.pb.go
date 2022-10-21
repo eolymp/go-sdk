@@ -5,6 +5,7 @@ package keeper
 
 import (
 	context "context"
+	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -264,7 +265,8 @@ func _Keeper_DownloadObject_Rule0(srv KeeperServer) http.Handler {
 	})
 }
 
-type _KeeperMiddleware = func(ctx context.Context, method string, in proto.Message, next func() (out proto.Message, err error))
+type _KeeperHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
+type _KeeperMiddleware = func(ctx context.Context, method string, in proto.Message, handler _KeeperHandler) (out proto.Message, err error)
 type KeeperInterceptor struct {
 	middleware []_KeeperMiddleware
 	server     KeeperServer
@@ -275,59 +277,95 @@ func NewKeeperInterceptor(srv KeeperServer, middleware ..._KeeperMiddleware) *Ke
 	return &KeeperInterceptor{server: srv, middleware: middleware}
 }
 
-func (i *KeeperInterceptor) CreateObject(ctx context.Context, in *CreateObjectInput) (out *CreateObjectOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.CreateObject(ctx, in)
-		return out, err
+func (i *KeeperInterceptor) CreateObject(ctx context.Context, in *CreateObjectInput) (*CreateObjectOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*CreateObjectInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *CreateObjectInput, got %T", in))
+		}
+
+		return i.server.CreateObject(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.keeper.Keeper/CreateObject", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.keeper.Keeper/CreateObject", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*CreateObjectOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *CreateObjectOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *KeeperInterceptor) DescribeObject(ctx context.Context, in *DescribeObjectInput) (out *DescribeObjectOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DescribeObject(ctx, in)
-		return out, err
+func (i *KeeperInterceptor) DescribeObject(ctx context.Context, in *DescribeObjectInput) (*DescribeObjectOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeObjectInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeObjectInput, got %T", in))
+		}
+
+		return i.server.DescribeObject(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.keeper.Keeper/DescribeObject", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.keeper.Keeper/DescribeObject", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeObjectOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeObjectOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *KeeperInterceptor) DownloadObject(ctx context.Context, in *DownloadObjectInput) (out *DownloadObjectOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DownloadObject(ctx, in)
-		return out, err
+func (i *KeeperInterceptor) DownloadObject(ctx context.Context, in *DownloadObjectInput) (*DownloadObjectOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DownloadObjectInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DownloadObjectInput, got %T", in))
+		}
+
+		return i.server.DownloadObject(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.keeper.Keeper/DownloadObject", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.keeper.Keeper/DownloadObject", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DownloadObjectOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DownloadObjectOutput, got %T", out))
+	}
+
+	return message, err
 }

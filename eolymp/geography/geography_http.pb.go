@@ -5,6 +5,7 @@ package geography
 
 import (
 	context "context"
+	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -312,7 +313,8 @@ func _Geography_ListRegions_Rule0(srv GeographyServer) http.Handler {
 	})
 }
 
-type _GeographyMiddleware = func(ctx context.Context, method string, in proto.Message, next func() (out proto.Message, err error))
+type _GeographyHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
+type _GeographyMiddleware = func(ctx context.Context, method string, in proto.Message, handler _GeographyHandler) (out proto.Message, err error)
 type GeographyInterceptor struct {
 	middleware []_GeographyMiddleware
 	server     GeographyServer
@@ -323,78 +325,126 @@ func NewGeographyInterceptor(srv GeographyServer, middleware ..._GeographyMiddle
 	return &GeographyInterceptor{server: srv, middleware: middleware}
 }
 
-func (i *GeographyInterceptor) DescribeCountry(ctx context.Context, in *DescribeCountryInput) (out *DescribeCountryOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DescribeCountry(ctx, in)
-		return out, err
+func (i *GeographyInterceptor) DescribeCountry(ctx context.Context, in *DescribeCountryInput) (*DescribeCountryOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeCountryInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeCountryInput, got %T", in))
+		}
+
+		return i.server.DescribeCountry(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.geography.Geography/DescribeCountry", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.geography.Geography/DescribeCountry", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeCountryOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeCountryOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *GeographyInterceptor) ListCountries(ctx context.Context, in *ListCountriesInput) (out *ListCountriesOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.ListCountries(ctx, in)
-		return out, err
+func (i *GeographyInterceptor) ListCountries(ctx context.Context, in *ListCountriesInput) (*ListCountriesOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListCountriesInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListCountriesInput, got %T", in))
+		}
+
+		return i.server.ListCountries(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.geography.Geography/ListCountries", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.geography.Geography/ListCountries", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListCountriesOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListCountriesOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *GeographyInterceptor) DescribeRegion(ctx context.Context, in *DescribeRegionInput) (out *DescribeRegionOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DescribeRegion(ctx, in)
-		return out, err
+func (i *GeographyInterceptor) DescribeRegion(ctx context.Context, in *DescribeRegionInput) (*DescribeRegionOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeRegionInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeRegionInput, got %T", in))
+		}
+
+		return i.server.DescribeRegion(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.geography.Geography/DescribeRegion", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.geography.Geography/DescribeRegion", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeRegionOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeRegionOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *GeographyInterceptor) ListRegions(ctx context.Context, in *ListRegionsInput) (out *ListRegionsOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.ListRegions(ctx, in)
-		return out, err
+func (i *GeographyInterceptor) ListRegions(ctx context.Context, in *ListRegionsInput) (*ListRegionsOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListRegionsInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListRegionsInput, got %T", in))
+		}
+
+		return i.server.ListRegions(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.geography.Geography/ListRegions", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.geography.Geography/ListRegions", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListRegionsOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListRegionsOutput, got %T", out))
+	}
+
+	return message, err
 }

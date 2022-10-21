@@ -5,6 +5,7 @@ package judge
 
 import (
 	context "context"
+	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -3594,7 +3595,8 @@ func _Judge_ListActivities_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-type _JudgeMiddleware = func(ctx context.Context, method string, in proto.Message, next func() (out proto.Message, err error))
+type _JudgeHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
+type _JudgeMiddleware = func(ctx context.Context, method string, in proto.Message, handler _JudgeHandler) (out proto.Message, err error)
 type JudgeInterceptor struct {
 	middleware []_JudgeMiddleware
 	server     JudgeServer
@@ -3605,1370 +3607,2234 @@ func NewJudgeInterceptor(srv JudgeServer, middleware ..._JudgeMiddleware) *Judge
 	return &JudgeInterceptor{server: srv, middleware: middleware}
 }
 
-func (i *JudgeInterceptor) LookupContest(ctx context.Context, in *LookupContestInput) (out *LookupContestOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.LookupContest(ctx, in)
-		return out, err
+func (i *JudgeInterceptor) LookupContest(ctx context.Context, in *LookupContestInput) (*LookupContestOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*LookupContestInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *LookupContestInput, got %T", in))
+		}
+
+		return i.server.LookupContest(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/LookupContest", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/LookupContest", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*LookupContestOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *LookupContestOutput, got %T", out))
 	}
 
-	next()
-	return
+	return message, err
 }
 
-func (i *JudgeInterceptor) CreateContest(ctx context.Context, in *CreateContestInput) (out *CreateContestOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.CreateContest(ctx, in)
-		return out, err
+func (i *JudgeInterceptor) CreateContest(ctx context.Context, in *CreateContestInput) (*CreateContestOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*CreateContestInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *CreateContestInput, got %T", in))
+		}
+
+		return i.server.CreateContest(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/CreateContest", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/CreateContest", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*CreateContestOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *CreateContestOutput, got %T", out))
 	}
 
-	next()
-	return
+	return message, err
 }
+
+func (i *JudgeInterceptor) DeleteContest(ctx context.Context, in *DeleteContestInput) (*DeleteContestOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DeleteContestInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DeleteContestInput, got %T", in))
+		}
 
-func (i *JudgeInterceptor) DeleteContest(ctx context.Context, in *DeleteContestInput) (out *DeleteContestOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DeleteContest(ctx, in)
-		return out, err
+		return i.server.DeleteContest(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/DeleteContest", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/DeleteContest", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
 	}
 
-	next()
-	return
+	message, ok := out.(*DeleteContestOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DeleteContestOutput, got %T", out))
+	}
+
+	return message, err
 }
+
+func (i *JudgeInterceptor) UpdateContest(ctx context.Context, in *UpdateContestInput) (*UpdateContestOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*UpdateContestInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *UpdateContestInput, got %T", in))
+		}
 
-func (i *JudgeInterceptor) UpdateContest(ctx context.Context, in *UpdateContestInput) (out *UpdateContestOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.UpdateContest(ctx, in)
-		return out, err
+		return i.server.UpdateContest(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/UpdateContest", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/UpdateContest", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*UpdateContestOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *UpdateContestOutput, got %T", out))
+	}
+
+	return message, err
 }
+
+func (i *JudgeInterceptor) DescribeContest(ctx context.Context, in *DescribeContestInput) (*DescribeContestOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeContestInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeContestInput, got %T", in))
+		}
 
-func (i *JudgeInterceptor) DescribeContest(ctx context.Context, in *DescribeContestInput) (out *DescribeContestOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DescribeContest(ctx, in)
-		return out, err
+		return i.server.DescribeContest(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/DescribeContest", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/DescribeContest", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeContestOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeContestOutput, got %T", out))
 	}
 
-	next()
-	return
+	return message, err
 }
 
-func (i *JudgeInterceptor) ListContests(ctx context.Context, in *ListContestsInput) (out *ListContestsOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.ListContests(ctx, in)
-		return out, err
+func (i *JudgeInterceptor) ListContests(ctx context.Context, in *ListContestsInput) (*ListContestsOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListContestsInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListContestsInput, got %T", in))
+		}
+
+		return i.server.ListContests(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/ListContests", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/ListContests", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListContestsOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListContestsOutput, got %T", out))
 	}
 
-	next()
-	return
+	return message, err
 }
 
-func (i *JudgeInterceptor) OpenContest(ctx context.Context, in *OpenContestInput) (out *OpenContestOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.OpenContest(ctx, in)
-		return out, err
+func (i *JudgeInterceptor) OpenContest(ctx context.Context, in *OpenContestInput) (*OpenContestOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*OpenContestInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *OpenContestInput, got %T", in))
+		}
+
+		return i.server.OpenContest(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/OpenContest", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/OpenContest", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
 	}
 
-	next()
-	return
+	message, ok := out.(*OpenContestOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *OpenContestOutput, got %T", out))
+	}
+
+	return message, err
 }
+
+func (i *JudgeInterceptor) CloseContest(ctx context.Context, in *CloseContestInput) (*CloseContestOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*CloseContestInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *CloseContestInput, got %T", in))
+		}
 
-func (i *JudgeInterceptor) CloseContest(ctx context.Context, in *CloseContestInput) (out *CloseContestOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.CloseContest(ctx, in)
-		return out, err
+		return i.server.CloseContest(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/CloseContest", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/CloseContest", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*CloseContestOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *CloseContestOutput, got %T", out))
 	}
 
-	next()
-	return
+	return message, err
 }
+
+func (i *JudgeInterceptor) SuspendContest(ctx context.Context, in *SuspendContestInput) (*SuspendContestOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*SuspendContestInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *SuspendContestInput, got %T", in))
+		}
 
-func (i *JudgeInterceptor) SuspendContest(ctx context.Context, in *SuspendContestInput) (out *SuspendContestOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.SuspendContest(ctx, in)
-		return out, err
+		return i.server.SuspendContest(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/SuspendContest", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/SuspendContest", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*SuspendContestOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *SuspendContestOutput, got %T", out))
 	}
 
-	next()
-	return
+	return message, err
 }
 
-func (i *JudgeInterceptor) FreezeContest(ctx context.Context, in *FreezeContestInput) (out *FreezeContestOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.FreezeContest(ctx, in)
-		return out, err
+func (i *JudgeInterceptor) FreezeContest(ctx context.Context, in *FreezeContestInput) (*FreezeContestOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*FreezeContestInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *FreezeContestInput, got %T", in))
+		}
+
+		return i.server.FreezeContest(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/FreezeContest", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/FreezeContest", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*FreezeContestOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *FreezeContestOutput, got %T", out))
 	}
 
-	next()
-	return
+	return message, err
 }
 
-func (i *JudgeInterceptor) ResumeContest(ctx context.Context, in *ResumeContestInput) (out *ResumeContestOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.ResumeContest(ctx, in)
-		return out, err
+func (i *JudgeInterceptor) ResumeContest(ctx context.Context, in *ResumeContestInput) (*ResumeContestOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ResumeContestInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ResumeContestInput, got %T", in))
+		}
+
+		return i.server.ResumeContest(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/ResumeContest", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/ResumeContest", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ResumeContestOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ResumeContestOutput, got %T", out))
 	}
 
-	next()
-	return
+	return message, err
 }
+
+func (i *JudgeInterceptor) ConfigureRuntime(ctx context.Context, in *ConfigureRuntimeInput) (*ConfigureRuntimeOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ConfigureRuntimeInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ConfigureRuntimeInput, got %T", in))
+		}
 
-func (i *JudgeInterceptor) ConfigureRuntime(ctx context.Context, in *ConfigureRuntimeInput) (out *ConfigureRuntimeOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.ConfigureRuntime(ctx, in)
-		return out, err
+		return i.server.ConfigureRuntime(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/ConfigureRuntime", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/ConfigureRuntime", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
 	}
 
-	next()
-	return
+	message, ok := out.(*ConfigureRuntimeOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ConfigureRuntimeOutput, got %T", out))
+	}
+
+	return message, err
 }
+
+func (i *JudgeInterceptor) DescribeRuntime(ctx context.Context, in *DescribeRuntimeInput) (*DescribeRuntimeOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeRuntimeInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeRuntimeInput, got %T", in))
+		}
 
-func (i *JudgeInterceptor) DescribeRuntime(ctx context.Context, in *DescribeRuntimeInput) (out *DescribeRuntimeOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DescribeRuntime(ctx, in)
-		return out, err
+		return i.server.DescribeRuntime(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/DescribeRuntime", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/DescribeRuntime", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeRuntimeOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeRuntimeOutput, got %T", out))
+	}
+
+	return message, err
 }
+
+func (i *JudgeInterceptor) ConfigureAppearance(ctx context.Context, in *ConfigureAppearanceInput) (*ConfigureAppearanceOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ConfigureAppearanceInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ConfigureAppearanceInput, got %T", in))
+		}
 
-func (i *JudgeInterceptor) ConfigureAppearance(ctx context.Context, in *ConfigureAppearanceInput) (out *ConfigureAppearanceOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.ConfigureAppearance(ctx, in)
-		return out, err
+		return i.server.ConfigureAppearance(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/ConfigureAppearance", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/ConfigureAppearance", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ConfigureAppearanceOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ConfigureAppearanceOutput, got %T", out))
 	}
 
-	next()
-	return
+	return message, err
 }
 
-func (i *JudgeInterceptor) DescribeAppearance(ctx context.Context, in *DescribeAppearanceInput) (out *DescribeAppearanceOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DescribeAppearance(ctx, in)
-		return out, err
+func (i *JudgeInterceptor) DescribeAppearance(ctx context.Context, in *DescribeAppearanceInput) (*DescribeAppearanceOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeAppearanceInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeAppearanceInput, got %T", in))
+		}
+
+		return i.server.DescribeAppearance(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/DescribeAppearance", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/DescribeAppearance", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeAppearanceOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeAppearanceOutput, got %T", out))
 	}
 
-	next()
-	return
+	return message, err
 }
 
-func (i *JudgeInterceptor) ConfigureScoring(ctx context.Context, in *ConfigureScoringInput) (out *ConfigureScoringOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.ConfigureScoring(ctx, in)
-		return out, err
+func (i *JudgeInterceptor) ConfigureScoring(ctx context.Context, in *ConfigureScoringInput) (*ConfigureScoringOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ConfigureScoringInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ConfigureScoringInput, got %T", in))
+		}
+
+		return i.server.ConfigureScoring(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/ConfigureScoring", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/ConfigureScoring", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
 	}
 
-	next()
-	return
+	message, ok := out.(*ConfigureScoringOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ConfigureScoringOutput, got %T", out))
+	}
+
+	return message, err
 }
+
+func (i *JudgeInterceptor) DescribeScoring(ctx context.Context, in *DescribeScoringInput) (*DescribeScoringOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeScoringInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeScoringInput, got %T", in))
+		}
 
-func (i *JudgeInterceptor) DescribeScoring(ctx context.Context, in *DescribeScoringInput) (out *DescribeScoringOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DescribeScoring(ctx, in)
-		return out, err
+		return i.server.DescribeScoring(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/DescribeScoring", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/DescribeScoring", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeScoringOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeScoringOutput, got %T", out))
 	}
 
-	next()
-	return
+	return message, err
 }
+
+func (i *JudgeInterceptor) ImportProblem(ctx context.Context, in *ImportProblemInput) (*ImportProblemOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ImportProblemInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ImportProblemInput, got %T", in))
+		}
 
-func (i *JudgeInterceptor) ImportProblem(ctx context.Context, in *ImportProblemInput) (out *ImportProblemOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.ImportProblem(ctx, in)
-		return out, err
+		return i.server.ImportProblem(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/ImportProblem", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/ImportProblem", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ImportProblemOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ImportProblemOutput, got %T", out))
 	}
 
-	next()
-	return
+	return message, err
 }
 
-func (i *JudgeInterceptor) SyncProblem(ctx context.Context, in *SyncProblemInput) (out *SyncProblemOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.SyncProblem(ctx, in)
-		return out, err
+func (i *JudgeInterceptor) SyncProblem(ctx context.Context, in *SyncProblemInput) (*SyncProblemOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*SyncProblemInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *SyncProblemInput, got %T", in))
+		}
+
+		return i.server.SyncProblem(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/SyncProblem", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/SyncProblem", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*SyncProblemOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *SyncProblemOutput, got %T", out))
 	}
 
-	next()
-	return
+	return message, err
 }
 
-func (i *JudgeInterceptor) UpdateProblem(ctx context.Context, in *UpdateProblemInput) (out *UpdateProblemOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.UpdateProblem(ctx, in)
-		return out, err
+func (i *JudgeInterceptor) UpdateProblem(ctx context.Context, in *UpdateProblemInput) (*UpdateProblemOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*UpdateProblemInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *UpdateProblemInput, got %T", in))
+		}
+
+		return i.server.UpdateProblem(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/UpdateProblem", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/UpdateProblem", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*UpdateProblemOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *UpdateProblemOutput, got %T", out))
 	}
 
-	next()
-	return
+	return message, err
 }
+
+func (i *JudgeInterceptor) ListProblems(ctx context.Context, in *ListProblemsInput) (*ListProblemsOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListProblemsInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListProblemsInput, got %T", in))
+		}
 
-func (i *JudgeInterceptor) ListProblems(ctx context.Context, in *ListProblemsInput) (out *ListProblemsOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.ListProblems(ctx, in)
-		return out, err
+		return i.server.ListProblems(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/ListProblems", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/ListProblems", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
 	}
 
-	next()
-	return
+	message, ok := out.(*ListProblemsOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListProblemsOutput, got %T", out))
+	}
+
+	return message, err
 }
+
+func (i *JudgeInterceptor) DescribeProblem(ctx context.Context, in *DescribeProblemInput) (*DescribeProblemOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeProblemInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeProblemInput, got %T", in))
+		}
 
-func (i *JudgeInterceptor) DescribeProblem(ctx context.Context, in *DescribeProblemInput) (out *DescribeProblemOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DescribeProblem(ctx, in)
-		return out, err
+		return i.server.DescribeProblem(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/DescribeProblem", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/DescribeProblem", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeProblemOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeProblemOutput, got %T", out))
+	}
+
+	return message, err
 }
+
+func (i *JudgeInterceptor) DescribeCodeTemplate(ctx context.Context, in *DescribeCodeTemplateInput) (*DescribeCodeTemplateOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeCodeTemplateInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeCodeTemplateInput, got %T", in))
+		}
 
-func (i *JudgeInterceptor) DescribeCodeTemplate(ctx context.Context, in *DescribeCodeTemplateInput) (out *DescribeCodeTemplateOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DescribeCodeTemplate(ctx, in)
-		return out, err
+		return i.server.DescribeCodeTemplate(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/DescribeCodeTemplate", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/DescribeCodeTemplate", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeCodeTemplateOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeCodeTemplateOutput, got %T", out))
 	}
 
-	next()
-	return
+	return message, err
 }
 
-func (i *JudgeInterceptor) LookupCodeTemplate(ctx context.Context, in *LookupCodeTemplateInput) (out *LookupCodeTemplateOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.LookupCodeTemplate(ctx, in)
-		return out, err
+func (i *JudgeInterceptor) LookupCodeTemplate(ctx context.Context, in *LookupCodeTemplateInput) (*LookupCodeTemplateOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*LookupCodeTemplateInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *LookupCodeTemplateInput, got %T", in))
+		}
+
+		return i.server.LookupCodeTemplate(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/LookupCodeTemplate", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/LookupCodeTemplate", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*LookupCodeTemplateOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *LookupCodeTemplateOutput, got %T", out))
 	}
 
-	next()
-	return
+	return message, err
 }
 
-func (i *JudgeInterceptor) ListStatements(ctx context.Context, in *ListStatementsInput) (out *ListStatementsOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.ListStatements(ctx, in)
-		return out, err
+func (i *JudgeInterceptor) ListStatements(ctx context.Context, in *ListStatementsInput) (*ListStatementsOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListStatementsInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListStatementsInput, got %T", in))
+		}
+
+		return i.server.ListStatements(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/ListStatements", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/ListStatements", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
 	}
 
-	next()
-	return
+	message, ok := out.(*ListStatementsOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListStatementsOutput, got %T", out))
+	}
+
+	return message, err
 }
+
+func (i *JudgeInterceptor) ListAttachments(ctx context.Context, in *ListAttachmentsInput) (*ListAttachmentsOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListAttachmentsInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListAttachmentsInput, got %T", in))
+		}
 
-func (i *JudgeInterceptor) ListAttachments(ctx context.Context, in *ListAttachmentsInput) (out *ListAttachmentsOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.ListAttachments(ctx, in)
-		return out, err
+		return i.server.ListAttachments(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/ListAttachments", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/ListAttachments", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListAttachmentsOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListAttachmentsOutput, got %T", out))
 	}
 
-	next()
-	return
+	return message, err
 }
+
+func (i *JudgeInterceptor) ListExamples(ctx context.Context, in *ListExamplesInput) (*ListExamplesOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListExamplesInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListExamplesInput, got %T", in))
+		}
 
-func (i *JudgeInterceptor) ListExamples(ctx context.Context, in *ListExamplesInput) (out *ListExamplesOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.ListExamples(ctx, in)
-		return out, err
+		return i.server.ListExamples(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/ListExamples", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/ListExamples", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListExamplesOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListExamplesOutput, got %T", out))
 	}
 
-	next()
-	return
+	return message, err
 }
 
-func (i *JudgeInterceptor) DeleteProblem(ctx context.Context, in *DeleteProblemInput) (out *DeleteProblemOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DeleteProblem(ctx, in)
-		return out, err
+func (i *JudgeInterceptor) DeleteProblem(ctx context.Context, in *DeleteProblemInput) (*DeleteProblemOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DeleteProblemInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DeleteProblemInput, got %T", in))
+		}
+
+		return i.server.DeleteProblem(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/DeleteProblem", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/DeleteProblem", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DeleteProblemOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DeleteProblemOutput, got %T", out))
 	}
 
-	next()
-	return
+	return message, err
 }
 
-func (i *JudgeInterceptor) RetestProblem(ctx context.Context, in *RetestProblemInput) (out *RetestProblemOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.RetestProblem(ctx, in)
-		return out, err
+func (i *JudgeInterceptor) RetestProblem(ctx context.Context, in *RetestProblemInput) (*RetestProblemOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*RetestProblemInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *RetestProblemInput, got %T", in))
+		}
+
+		return i.server.RetestProblem(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/RetestProblem", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/RetestProblem", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*RetestProblemOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *RetestProblemOutput, got %T", out))
 	}
 
-	next()
-	return
+	return message, err
 }
+
+func (i *JudgeInterceptor) AddParticipant(ctx context.Context, in *AddParticipantInput) (*AddParticipantOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*AddParticipantInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *AddParticipantInput, got %T", in))
+		}
 
-func (i *JudgeInterceptor) AddParticipant(ctx context.Context, in *AddParticipantInput) (out *AddParticipantOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.AddParticipant(ctx, in)
-		return out, err
+		return i.server.AddParticipant(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/AddParticipant", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/AddParticipant", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
 	}
 
-	next()
-	return
+	message, ok := out.(*AddParticipantOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *AddParticipantOutput, got %T", out))
+	}
+
+	return message, err
 }
+
+func (i *JudgeInterceptor) EnableParticipant(ctx context.Context, in *EnableParticipantInput) (*EnableParticipantOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*EnableParticipantInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *EnableParticipantInput, got %T", in))
+		}
 
-func (i *JudgeInterceptor) EnableParticipant(ctx context.Context, in *EnableParticipantInput) (out *EnableParticipantOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.EnableParticipant(ctx, in)
-		return out, err
+		return i.server.EnableParticipant(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/EnableParticipant", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/EnableParticipant", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*EnableParticipantOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *EnableParticipantOutput, got %T", out))
+	}
+
+	return message, err
 }
+
+func (i *JudgeInterceptor) DisableParticipant(ctx context.Context, in *DisableParticipantInput) (*DisableParticipantOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DisableParticipantInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DisableParticipantInput, got %T", in))
+		}
 
-func (i *JudgeInterceptor) DisableParticipant(ctx context.Context, in *DisableParticipantInput) (out *DisableParticipantOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DisableParticipant(ctx, in)
-		return out, err
+		return i.server.DisableParticipant(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/DisableParticipant", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/DisableParticipant", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DisableParticipantOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DisableParticipantOutput, got %T", out))
 	}
 
-	next()
-	return
+	return message, err
 }
 
-func (i *JudgeInterceptor) UpdateParticipant(ctx context.Context, in *UpdateParticipantInput) (out *UpdateParticipantOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.UpdateParticipant(ctx, in)
-		return out, err
+func (i *JudgeInterceptor) UpdateParticipant(ctx context.Context, in *UpdateParticipantInput) (*UpdateParticipantOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*UpdateParticipantInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *UpdateParticipantInput, got %T", in))
+		}
+
+		return i.server.UpdateParticipant(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/UpdateParticipant", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/UpdateParticipant", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*UpdateParticipantOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *UpdateParticipantOutput, got %T", out))
 	}
 
-	next()
-	return
+	return message, err
 }
 
-func (i *JudgeInterceptor) RemoveParticipant(ctx context.Context, in *RemoveParticipantInput) (out *RemoveParticipantOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.RemoveParticipant(ctx, in)
-		return out, err
+func (i *JudgeInterceptor) RemoveParticipant(ctx context.Context, in *RemoveParticipantInput) (*RemoveParticipantOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*RemoveParticipantInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *RemoveParticipantInput, got %T", in))
+		}
+
+		return i.server.RemoveParticipant(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/RemoveParticipant", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/RemoveParticipant", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
 	}
 
-	next()
-	return
+	message, ok := out.(*RemoveParticipantOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *RemoveParticipantOutput, got %T", out))
+	}
+
+	return message, err
 }
+
+func (i *JudgeInterceptor) ListParticipants(ctx context.Context, in *ListParticipantsInput) (*ListParticipantsOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListParticipantsInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListParticipantsInput, got %T", in))
+		}
 
-func (i *JudgeInterceptor) ListParticipants(ctx context.Context, in *ListParticipantsInput) (out *ListParticipantsOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.ListParticipants(ctx, in)
-		return out, err
+		return i.server.ListParticipants(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/ListParticipants", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/ListParticipants", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListParticipantsOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListParticipantsOutput, got %T", out))
 	}
 
-	next()
-	return
+	return message, err
 }
+
+func (i *JudgeInterceptor) DescribeParticipant(ctx context.Context, in *DescribeParticipantInput) (*DescribeParticipantOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeParticipantInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeParticipantInput, got %T", in))
+		}
 
-func (i *JudgeInterceptor) DescribeParticipant(ctx context.Context, in *DescribeParticipantInput) (out *DescribeParticipantOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DescribeParticipant(ctx, in)
-		return out, err
+		return i.server.DescribeParticipant(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/DescribeParticipant", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/DescribeParticipant", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeParticipantOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeParticipantOutput, got %T", out))
 	}
 
-	next()
-	return
+	return message, err
 }
 
-func (i *JudgeInterceptor) IntrospectParticipant(ctx context.Context, in *IntrospectParticipantInput) (out *IntrospectParticipantOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.IntrospectParticipant(ctx, in)
-		return out, err
+func (i *JudgeInterceptor) IntrospectParticipant(ctx context.Context, in *IntrospectParticipantInput) (*IntrospectParticipantOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*IntrospectParticipantInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *IntrospectParticipantInput, got %T", in))
+		}
+
+		return i.server.IntrospectParticipant(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/IntrospectParticipant", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/IntrospectParticipant", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*IntrospectParticipantOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *IntrospectParticipantOutput, got %T", out))
 	}
 
-	next()
-	return
+	return message, err
 }
 
-func (i *JudgeInterceptor) JoinContest(ctx context.Context, in *JoinContestInput) (out *JoinContestOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.JoinContest(ctx, in)
-		return out, err
+func (i *JudgeInterceptor) JoinContest(ctx context.Context, in *JoinContestInput) (*JoinContestOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*JoinContestInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *JoinContestInput, got %T", in))
+		}
+
+		return i.server.JoinContest(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/JoinContest", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/JoinContest", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*JoinContestOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *JoinContestOutput, got %T", out))
 	}
 
-	next()
-	return
+	return message, err
 }
+
+func (i *JudgeInterceptor) StartContest(ctx context.Context, in *StartContestInput) (*StartContestOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*StartContestInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *StartContestInput, got %T", in))
+		}
 
-func (i *JudgeInterceptor) StartContest(ctx context.Context, in *StartContestInput) (out *StartContestOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.StartContest(ctx, in)
-		return out, err
+		return i.server.StartContest(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/StartContest", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/StartContest", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
 	}
 
-	next()
-	return
+	message, ok := out.(*StartContestOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *StartContestOutput, got %T", out))
+	}
+
+	return message, err
 }
+
+func (i *JudgeInterceptor) VerifyPasscode(ctx context.Context, in *VerifyPasscodeInput) (*VerifyPasscodeOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*VerifyPasscodeInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *VerifyPasscodeInput, got %T", in))
+		}
 
-func (i *JudgeInterceptor) VerifyPasscode(ctx context.Context, in *VerifyPasscodeInput) (out *VerifyPasscodeOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.VerifyPasscode(ctx, in)
-		return out, err
+		return i.server.VerifyPasscode(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/VerifyPasscode", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/VerifyPasscode", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*VerifyPasscodeOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *VerifyPasscodeOutput, got %T", out))
+	}
+
+	return message, err
 }
+
+func (i *JudgeInterceptor) EnterPasscode(ctx context.Context, in *EnterPasscodeInput) (*EnterPasscodeOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*EnterPasscodeInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *EnterPasscodeInput, got %T", in))
+		}
 
-func (i *JudgeInterceptor) EnterPasscode(ctx context.Context, in *EnterPasscodeInput) (out *EnterPasscodeOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.EnterPasscode(ctx, in)
-		return out, err
+		return i.server.EnterPasscode(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/EnterPasscode", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/EnterPasscode", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*EnterPasscodeOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *EnterPasscodeOutput, got %T", out))
 	}
 
-	next()
-	return
+	return message, err
 }
 
-func (i *JudgeInterceptor) ResetPasscode(ctx context.Context, in *ResetPasscodeInput) (out *ResetPasscodeOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.ResetPasscode(ctx, in)
-		return out, err
+func (i *JudgeInterceptor) ResetPasscode(ctx context.Context, in *ResetPasscodeInput) (*ResetPasscodeOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ResetPasscodeInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ResetPasscodeInput, got %T", in))
+		}
+
+		return i.server.ResetPasscode(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/ResetPasscode", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/ResetPasscode", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ResetPasscodeOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ResetPasscodeOutput, got %T", out))
 	}
 
-	next()
-	return
+	return message, err
 }
 
-func (i *JudgeInterceptor) RemovePasscode(ctx context.Context, in *RemovePasscodeInput) (out *RemovePasscodeOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.RemovePasscode(ctx, in)
-		return out, err
+func (i *JudgeInterceptor) RemovePasscode(ctx context.Context, in *RemovePasscodeInput) (*RemovePasscodeOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*RemovePasscodeInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *RemovePasscodeInput, got %T", in))
+		}
+
+		return i.server.RemovePasscode(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/RemovePasscode", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/RemovePasscode", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
 	}
 
-	next()
-	return
+	message, ok := out.(*RemovePasscodeOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *RemovePasscodeOutput, got %T", out))
+	}
+
+	return message, err
 }
+
+func (i *JudgeInterceptor) CreateSubmission(ctx context.Context, in *CreateSubmissionInput) (*CreateSubmissionOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*CreateSubmissionInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *CreateSubmissionInput, got %T", in))
+		}
 
-func (i *JudgeInterceptor) CreateSubmission(ctx context.Context, in *CreateSubmissionInput) (out *CreateSubmissionOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.CreateSubmission(ctx, in)
-		return out, err
+		return i.server.CreateSubmission(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/CreateSubmission", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/CreateSubmission", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*CreateSubmissionOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *CreateSubmissionOutput, got %T", out))
 	}
 
-	next()
-	return
+	return message, err
 }
+
+func (i *JudgeInterceptor) ListSubmissions(ctx context.Context, in *ListSubmissionsInput) (*ListSubmissionsOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListSubmissionsInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListSubmissionsInput, got %T", in))
+		}
 
-func (i *JudgeInterceptor) ListSubmissions(ctx context.Context, in *ListSubmissionsInput) (out *ListSubmissionsOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.ListSubmissions(ctx, in)
-		return out, err
+		return i.server.ListSubmissions(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/ListSubmissions", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/ListSubmissions", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListSubmissionsOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListSubmissionsOutput, got %T", out))
 	}
 
-	next()
-	return
+	return message, err
 }
 
-func (i *JudgeInterceptor) DescribeSubmission(ctx context.Context, in *DescribeSubmissionInput) (out *DescribeSubmissionOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DescribeSubmission(ctx, in)
-		return out, err
+func (i *JudgeInterceptor) DescribeSubmission(ctx context.Context, in *DescribeSubmissionInput) (*DescribeSubmissionOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeSubmissionInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeSubmissionInput, got %T", in))
+		}
+
+		return i.server.DescribeSubmission(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/DescribeSubmission", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/DescribeSubmission", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeSubmissionOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeSubmissionOutput, got %T", out))
 	}
 
-	next()
-	return
+	return message, err
 }
 
-func (i *JudgeInterceptor) RetestSubmission(ctx context.Context, in *RetestSubmissionInput) (out *RetestSubmissionOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.RetestSubmission(ctx, in)
-		return out, err
+func (i *JudgeInterceptor) RetestSubmission(ctx context.Context, in *RetestSubmissionInput) (*RetestSubmissionOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*RetestSubmissionInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *RetestSubmissionInput, got %T", in))
+		}
+
+		return i.server.RetestSubmission(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/RetestSubmission", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/RetestSubmission", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*RetestSubmissionOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *RetestSubmissionOutput, got %T", out))
 	}
 
-	next()
-	return
+	return message, err
 }
+
+func (i *JudgeInterceptor) CreateTicket(ctx context.Context, in *CreateTicketInput) (*CreateTicketOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*CreateTicketInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *CreateTicketInput, got %T", in))
+		}
 
-func (i *JudgeInterceptor) CreateTicket(ctx context.Context, in *CreateTicketInput) (out *CreateTicketOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.CreateTicket(ctx, in)
-		return out, err
+		return i.server.CreateTicket(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/CreateTicket", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/CreateTicket", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
 	}
 
-	next()
-	return
+	message, ok := out.(*CreateTicketOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *CreateTicketOutput, got %T", out))
+	}
+
+	return message, err
 }
+
+func (i *JudgeInterceptor) CloseTicket(ctx context.Context, in *CloseTicketInput) (*CloseTicketOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*CloseTicketInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *CloseTicketInput, got %T", in))
+		}
 
-func (i *JudgeInterceptor) CloseTicket(ctx context.Context, in *CloseTicketInput) (out *CloseTicketOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.CloseTicket(ctx, in)
-		return out, err
+		return i.server.CloseTicket(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/CloseTicket", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/CloseTicket", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*CloseTicketOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *CloseTicketOutput, got %T", out))
+	}
+
+	return message, err
 }
+
+func (i *JudgeInterceptor) OpenTicket(ctx context.Context, in *OpenTicketInput) (*OpenTicketOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*OpenTicketInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *OpenTicketInput, got %T", in))
+		}
 
-func (i *JudgeInterceptor) OpenTicket(ctx context.Context, in *OpenTicketInput) (out *OpenTicketOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.OpenTicket(ctx, in)
-		return out, err
+		return i.server.OpenTicket(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/OpenTicket", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/OpenTicket", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*OpenTicketOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *OpenTicketOutput, got %T", out))
 	}
 
-	next()
-	return
+	return message, err
 }
 
-func (i *JudgeInterceptor) ReadTicket(ctx context.Context, in *ReadTicketInput) (out *ReadTicketOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.ReadTicket(ctx, in)
-		return out, err
+func (i *JudgeInterceptor) ReadTicket(ctx context.Context, in *ReadTicketInput) (*ReadTicketOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ReadTicketInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ReadTicketInput, got %T", in))
+		}
+
+		return i.server.ReadTicket(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/ReadTicket", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/ReadTicket", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ReadTicketOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ReadTicketOutput, got %T", out))
 	}
 
-	next()
-	return
+	return message, err
 }
 
-func (i *JudgeInterceptor) DeleteTicket(ctx context.Context, in *DeleteTicketInput) (out *DeleteTicketOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DeleteTicket(ctx, in)
-		return out, err
+func (i *JudgeInterceptor) DeleteTicket(ctx context.Context, in *DeleteTicketInput) (*DeleteTicketOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DeleteTicketInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DeleteTicketInput, got %T", in))
+		}
+
+		return i.server.DeleteTicket(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/DeleteTicket", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/DeleteTicket", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
 	}
 
-	next()
-	return
+	message, ok := out.(*DeleteTicketOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DeleteTicketOutput, got %T", out))
+	}
+
+	return message, err
 }
+
+func (i *JudgeInterceptor) DescribeTicket(ctx context.Context, in *DescribeTicketInput) (*DescribeTicketOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeTicketInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeTicketInput, got %T", in))
+		}
 
-func (i *JudgeInterceptor) DescribeTicket(ctx context.Context, in *DescribeTicketInput) (out *DescribeTicketOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DescribeTicket(ctx, in)
-		return out, err
+		return i.server.DescribeTicket(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/DescribeTicket", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/DescribeTicket", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeTicketOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeTicketOutput, got %T", out))
 	}
 
-	next()
-	return
+	return message, err
 }
+
+func (i *JudgeInterceptor) ListTickets(ctx context.Context, in *ListTicketsInput) (*ListTicketsOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListTicketsInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListTicketsInput, got %T", in))
+		}
 
-func (i *JudgeInterceptor) ListTickets(ctx context.Context, in *ListTicketsInput) (out *ListTicketsOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.ListTickets(ctx, in)
-		return out, err
+		return i.server.ListTickets(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/ListTickets", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/ListTickets", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListTicketsOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListTicketsOutput, got %T", out))
 	}
 
-	next()
-	return
+	return message, err
 }
 
-func (i *JudgeInterceptor) ReplyTicket(ctx context.Context, in *ReplyTicketInput) (out *ReplyTicketOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.ReplyTicket(ctx, in)
-		return out, err
+func (i *JudgeInterceptor) ReplyTicket(ctx context.Context, in *ReplyTicketInput) (*ReplyTicketOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ReplyTicketInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ReplyTicketInput, got %T", in))
+		}
+
+		return i.server.ReplyTicket(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/ReplyTicket", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/ReplyTicket", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ReplyTicketOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ReplyTicketOutput, got %T", out))
 	}
 
-	next()
-	return
+	return message, err
 }
 
-func (i *JudgeInterceptor) ListReplies(ctx context.Context, in *ListRepliesInput) (out *ListRepliesOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.ListReplies(ctx, in)
-		return out, err
+func (i *JudgeInterceptor) ListReplies(ctx context.Context, in *ListRepliesInput) (*ListRepliesOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListRepliesInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListRepliesInput, got %T", in))
+		}
+
+		return i.server.ListReplies(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/ListReplies", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/ListReplies", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListRepliesOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListRepliesOutput, got %T", out))
 	}
 
-	next()
-	return
+	return message, err
 }
+
+func (i *JudgeInterceptor) DeleteReply(ctx context.Context, in *DeleteReplyInput) (*DeleteReplyOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DeleteReplyInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DeleteReplyInput, got %T", in))
+		}
 
-func (i *JudgeInterceptor) DeleteReply(ctx context.Context, in *DeleteReplyInput) (out *DeleteReplyOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DeleteReply(ctx, in)
-		return out, err
+		return i.server.DeleteReply(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/DeleteReply", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/DeleteReply", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
 	}
 
-	next()
-	return
+	message, ok := out.(*DeleteReplyOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DeleteReplyOutput, got %T", out))
+	}
+
+	return message, err
 }
+
+func (i *JudgeInterceptor) UpdateReply(ctx context.Context, in *UpdateReplyInput) (*UpdateReplyOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*UpdateReplyInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *UpdateReplyInput, got %T", in))
+		}
 
-func (i *JudgeInterceptor) UpdateReply(ctx context.Context, in *UpdateReplyInput) (out *UpdateReplyOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.UpdateReply(ctx, in)
-		return out, err
+		return i.server.UpdateReply(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/UpdateReply", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/UpdateReply", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*UpdateReplyOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *UpdateReplyOutput, got %T", out))
+	}
+
+	return message, err
 }
+
+func (i *JudgeInterceptor) CreateAnnouncement(ctx context.Context, in *CreateAnnouncementInput) (*CreateAnnouncementOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*CreateAnnouncementInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *CreateAnnouncementInput, got %T", in))
+		}
 
-func (i *JudgeInterceptor) CreateAnnouncement(ctx context.Context, in *CreateAnnouncementInput) (out *CreateAnnouncementOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.CreateAnnouncement(ctx, in)
-		return out, err
+		return i.server.CreateAnnouncement(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/CreateAnnouncement", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/CreateAnnouncement", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*CreateAnnouncementOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *CreateAnnouncementOutput, got %T", out))
 	}
 
-	next()
-	return
+	return message, err
 }
 
-func (i *JudgeInterceptor) UpdateAnnouncement(ctx context.Context, in *UpdateAnnouncementInput) (out *UpdateAnnouncementOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.UpdateAnnouncement(ctx, in)
-		return out, err
+func (i *JudgeInterceptor) UpdateAnnouncement(ctx context.Context, in *UpdateAnnouncementInput) (*UpdateAnnouncementOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*UpdateAnnouncementInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *UpdateAnnouncementInput, got %T", in))
+		}
+
+		return i.server.UpdateAnnouncement(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/UpdateAnnouncement", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/UpdateAnnouncement", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*UpdateAnnouncementOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *UpdateAnnouncementOutput, got %T", out))
 	}
 
-	next()
-	return
+	return message, err
 }
 
-func (i *JudgeInterceptor) DeleteAnnouncement(ctx context.Context, in *DeleteAnnouncementInput) (out *DeleteAnnouncementOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DeleteAnnouncement(ctx, in)
-		return out, err
+func (i *JudgeInterceptor) DeleteAnnouncement(ctx context.Context, in *DeleteAnnouncementInput) (*DeleteAnnouncementOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DeleteAnnouncementInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DeleteAnnouncementInput, got %T", in))
+		}
+
+		return i.server.DeleteAnnouncement(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/DeleteAnnouncement", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/DeleteAnnouncement", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
 	}
 
-	next()
-	return
+	message, ok := out.(*DeleteAnnouncementOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DeleteAnnouncementOutput, got %T", out))
+	}
+
+	return message, err
 }
+
+func (i *JudgeInterceptor) ReadAnnouncement(ctx context.Context, in *ReadAnnouncementInput) (*ReadAnnouncementOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ReadAnnouncementInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ReadAnnouncementInput, got %T", in))
+		}
 
-func (i *JudgeInterceptor) ReadAnnouncement(ctx context.Context, in *ReadAnnouncementInput) (out *ReadAnnouncementOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.ReadAnnouncement(ctx, in)
-		return out, err
+		return i.server.ReadAnnouncement(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/ReadAnnouncement", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/ReadAnnouncement", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ReadAnnouncementOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ReadAnnouncementOutput, got %T", out))
 	}
 
-	next()
-	return
+	return message, err
 }
+
+func (i *JudgeInterceptor) DescribeAnnouncement(ctx context.Context, in *DescribeAnnouncementInput) (*DescribeAnnouncementOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeAnnouncementInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeAnnouncementInput, got %T", in))
+		}
 
-func (i *JudgeInterceptor) DescribeAnnouncement(ctx context.Context, in *DescribeAnnouncementInput) (out *DescribeAnnouncementOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DescribeAnnouncement(ctx, in)
-		return out, err
+		return i.server.DescribeAnnouncement(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/DescribeAnnouncement", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/DescribeAnnouncement", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeAnnouncementOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeAnnouncementOutput, got %T", out))
 	}
 
-	next()
-	return
+	return message, err
 }
 
-func (i *JudgeInterceptor) DescribeAnnouncementStatus(ctx context.Context, in *DescribeAnnouncementStatusInput) (out *DescribeAnnouncementStatusOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DescribeAnnouncementStatus(ctx, in)
-		return out, err
+func (i *JudgeInterceptor) DescribeAnnouncementStatus(ctx context.Context, in *DescribeAnnouncementStatusInput) (*DescribeAnnouncementStatusOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeAnnouncementStatusInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeAnnouncementStatusInput, got %T", in))
+		}
+
+		return i.server.DescribeAnnouncementStatus(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/DescribeAnnouncementStatus", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/DescribeAnnouncementStatus", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeAnnouncementStatusOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeAnnouncementStatusOutput, got %T", out))
 	}
 
-	next()
-	return
+	return message, err
 }
 
-func (i *JudgeInterceptor) ListAnnouncements(ctx context.Context, in *ListAnnouncementsInput) (out *ListAnnouncementsOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.ListAnnouncements(ctx, in)
-		return out, err
+func (i *JudgeInterceptor) ListAnnouncements(ctx context.Context, in *ListAnnouncementsInput) (*ListAnnouncementsOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListAnnouncementsInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListAnnouncementsInput, got %T", in))
+		}
+
+		return i.server.ListAnnouncements(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/ListAnnouncements", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/ListAnnouncements", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListAnnouncementsOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListAnnouncementsOutput, got %T", out))
 	}
 
-	next()
-	return
+	return message, err
 }
+
+func (i *JudgeInterceptor) IntrospectScore(ctx context.Context, in *IntrospectScoreInput) (*IntrospectScoreOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*IntrospectScoreInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *IntrospectScoreInput, got %T", in))
+		}
 
-func (i *JudgeInterceptor) IntrospectScore(ctx context.Context, in *IntrospectScoreInput) (out *IntrospectScoreOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.IntrospectScore(ctx, in)
-		return out, err
+		return i.server.IntrospectScore(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/IntrospectScore", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/IntrospectScore", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
 	}
 
-	next()
-	return
+	message, ok := out.(*IntrospectScoreOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *IntrospectScoreOutput, got %T", out))
+	}
+
+	return message, err
 }
+
+func (i *JudgeInterceptor) DescribeScore(ctx context.Context, in *DescribeScoreInput) (*DescribeScoreOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeScoreInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeScoreInput, got %T", in))
+		}
 
-func (i *JudgeInterceptor) DescribeScore(ctx context.Context, in *DescribeScoreInput) (out *DescribeScoreOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DescribeScore(ctx, in)
-		return out, err
+		return i.server.DescribeScore(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/DescribeScore", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/DescribeScore", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeScoreOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeScoreOutput, got %T", out))
+	}
+
+	return message, err
 }
+
+func (i *JudgeInterceptor) ImportScore(ctx context.Context, in *ImportScoreInput) (*ImportScoreOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ImportScoreInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ImportScoreInput, got %T", in))
+		}
 
-func (i *JudgeInterceptor) ImportScore(ctx context.Context, in *ImportScoreInput) (out *ImportScoreOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.ImportScore(ctx, in)
-		return out, err
+		return i.server.ImportScore(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/ImportScore", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/ImportScore", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ImportScoreOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ImportScoreOutput, got %T", out))
 	}
 
-	next()
-	return
+	return message, err
 }
 
-func (i *JudgeInterceptor) ListResult(ctx context.Context, in *ListResultInput) (out *ListResultOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.ListResult(ctx, in)
-		return out, err
+func (i *JudgeInterceptor) ListResult(ctx context.Context, in *ListResultInput) (*ListResultOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListResultInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListResultInput, got %T", in))
+		}
+
+		return i.server.ListResult(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/ListResult", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/ListResult", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListResultOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListResultOutput, got %T", out))
 	}
 
-	next()
-	return
+	return message, err
 }
 
-func (i *JudgeInterceptor) RebuildScore(ctx context.Context, in *RebuildScoreInput) (out *RebuildScoreOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.RebuildScore(ctx, in)
-		return out, err
+func (i *JudgeInterceptor) RebuildScore(ctx context.Context, in *RebuildScoreInput) (*RebuildScoreOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*RebuildScoreInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *RebuildScoreInput, got %T", in))
+		}
+
+		return i.server.RebuildScore(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/RebuildScore", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/RebuildScore", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
 	}
 
-	next()
-	return
+	message, ok := out.(*RebuildScoreOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *RebuildScoreOutput, got %T", out))
+	}
+
+	return message, err
 }
+
+func (i *JudgeInterceptor) ListEntitlements(ctx context.Context, in *ListEntitlementsInput) (*ListEntitlementsOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListEntitlementsInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListEntitlementsInput, got %T", in))
+		}
 
-func (i *JudgeInterceptor) ListEntitlements(ctx context.Context, in *ListEntitlementsInput) (out *ListEntitlementsOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.ListEntitlements(ctx, in)
-		return out, err
+		return i.server.ListEntitlements(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/ListEntitlements", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/ListEntitlements", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListEntitlementsOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListEntitlementsOutput, got %T", out))
 	}
 
-	next()
-	return
+	return message, err
 }
+
+func (i *JudgeInterceptor) ListActivities(ctx context.Context, in *ListActivitiesInput) (*ListActivitiesOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListActivitiesInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListActivitiesInput, got %T", in))
+		}
 
-func (i *JudgeInterceptor) ListActivities(ctx context.Context, in *ListActivitiesInput) (out *ListActivitiesOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.ListActivities(ctx, in)
-		return out, err
+		return i.server.ListActivities(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.judge.Judge/ListActivities", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge/ListActivities", in, handler)
 		}
+	}
+
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListActivitiesOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListActivitiesOutput, got %T", out))
 	}
 
-	next()
-	return
+	return message, err
 }

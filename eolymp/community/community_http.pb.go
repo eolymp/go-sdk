@@ -5,6 +5,7 @@ package community
 
 import (
 	context "context"
+	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -771,7 +772,8 @@ func _Community_ListAttributes_Rule0(srv CommunityServer) http.Handler {
 	})
 }
 
-type _CommunityMiddleware = func(ctx context.Context, method string, in proto.Message, next func() (out proto.Message, err error))
+type _CommunityHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
+type _CommunityMiddleware = func(ctx context.Context, method string, in proto.Message, handler _CommunityHandler) (out proto.Message, err error)
 type CommunityInterceptor struct {
 	middleware []_CommunityMiddleware
 	server     CommunityServer
@@ -782,268 +784,436 @@ func NewCommunityInterceptor(srv CommunityServer, middleware ..._CommunityMiddle
 	return &CommunityInterceptor{server: srv, middleware: middleware}
 }
 
-func (i *CommunityInterceptor) JoinSpace(ctx context.Context, in *JoinSpaceInput) (out *JoinSpaceOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.JoinSpace(ctx, in)
-		return out, err
+func (i *CommunityInterceptor) JoinSpace(ctx context.Context, in *JoinSpaceInput) (*JoinSpaceOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*JoinSpaceInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *JoinSpaceInput, got %T", in))
+		}
+
+		return i.server.JoinSpace(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.community.Community/JoinSpace", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.community.Community/JoinSpace", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*JoinSpaceOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *JoinSpaceOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *CommunityInterceptor) LeaveSpace(ctx context.Context, in *LeaveSpaceInput) (out *LeaveSpaceOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.LeaveSpace(ctx, in)
-		return out, err
+func (i *CommunityInterceptor) LeaveSpace(ctx context.Context, in *LeaveSpaceInput) (*LeaveSpaceOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*LeaveSpaceInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *LeaveSpaceInput, got %T", in))
+		}
+
+		return i.server.LeaveSpace(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.community.Community/LeaveSpace", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.community.Community/LeaveSpace", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*LeaveSpaceOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *LeaveSpaceOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *CommunityInterceptor) RegisterMember(ctx context.Context, in *RegisterMemberInput) (out *RegisterMemberOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.RegisterMember(ctx, in)
-		return out, err
+func (i *CommunityInterceptor) RegisterMember(ctx context.Context, in *RegisterMemberInput) (*RegisterMemberOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*RegisterMemberInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *RegisterMemberInput, got %T", in))
+		}
+
+		return i.server.RegisterMember(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.community.Community/RegisterMember", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.community.Community/RegisterMember", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*RegisterMemberOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *RegisterMemberOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *CommunityInterceptor) IntrospectMember(ctx context.Context, in *IntrospectMemberInput) (out *IntrospectMemberOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.IntrospectMember(ctx, in)
-		return out, err
+func (i *CommunityInterceptor) IntrospectMember(ctx context.Context, in *IntrospectMemberInput) (*IntrospectMemberOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*IntrospectMemberInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *IntrospectMemberInput, got %T", in))
+		}
+
+		return i.server.IntrospectMember(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.community.Community/IntrospectMember", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.community.Community/IntrospectMember", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*IntrospectMemberOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *IntrospectMemberOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *CommunityInterceptor) AddMember(ctx context.Context, in *AddMemberInput) (out *AddMemberOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.AddMember(ctx, in)
-		return out, err
+func (i *CommunityInterceptor) AddMember(ctx context.Context, in *AddMemberInput) (*AddMemberOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*AddMemberInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *AddMemberInput, got %T", in))
+		}
+
+		return i.server.AddMember(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.community.Community/AddMember", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.community.Community/AddMember", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*AddMemberOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *AddMemberOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *CommunityInterceptor) UpdateMember(ctx context.Context, in *UpdateMemberInput) (out *UpdateMemberOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.UpdateMember(ctx, in)
-		return out, err
+func (i *CommunityInterceptor) UpdateMember(ctx context.Context, in *UpdateMemberInput) (*UpdateMemberOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*UpdateMemberInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *UpdateMemberInput, got %T", in))
+		}
+
+		return i.server.UpdateMember(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.community.Community/UpdateMember", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.community.Community/UpdateMember", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*UpdateMemberOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *UpdateMemberOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *CommunityInterceptor) RemoveMember(ctx context.Context, in *RemoveMemberInput) (out *RemoveMemberOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.RemoveMember(ctx, in)
-		return out, err
+func (i *CommunityInterceptor) RemoveMember(ctx context.Context, in *RemoveMemberInput) (*RemoveMemberOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*RemoveMemberInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *RemoveMemberInput, got %T", in))
+		}
+
+		return i.server.RemoveMember(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.community.Community/RemoveMember", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.community.Community/RemoveMember", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*RemoveMemberOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *RemoveMemberOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *CommunityInterceptor) DescribeMember(ctx context.Context, in *DescribeMemberInput) (out *DescribeMemberOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DescribeMember(ctx, in)
-		return out, err
+func (i *CommunityInterceptor) DescribeMember(ctx context.Context, in *DescribeMemberInput) (*DescribeMemberOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeMemberInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeMemberInput, got %T", in))
+		}
+
+		return i.server.DescribeMember(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.community.Community/DescribeMember", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.community.Community/DescribeMember", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeMemberOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeMemberOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *CommunityInterceptor) ListMembers(ctx context.Context, in *ListMembersInput) (out *ListMembersOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.ListMembers(ctx, in)
-		return out, err
+func (i *CommunityInterceptor) ListMembers(ctx context.Context, in *ListMembersInput) (*ListMembersOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListMembersInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListMembersInput, got %T", in))
+		}
+
+		return i.server.ListMembers(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.community.Community/ListMembers", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.community.Community/ListMembers", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListMembersOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListMembersOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *CommunityInterceptor) AddAttribute(ctx context.Context, in *AddAttributeInput) (out *AddAttributeOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.AddAttribute(ctx, in)
-		return out, err
+func (i *CommunityInterceptor) AddAttribute(ctx context.Context, in *AddAttributeInput) (*AddAttributeOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*AddAttributeInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *AddAttributeInput, got %T", in))
+		}
+
+		return i.server.AddAttribute(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.community.Community/AddAttribute", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.community.Community/AddAttribute", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*AddAttributeOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *AddAttributeOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *CommunityInterceptor) UpdateAttribute(ctx context.Context, in *UpdateAttributeInput) (out *UpdateAttributeOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.UpdateAttribute(ctx, in)
-		return out, err
+func (i *CommunityInterceptor) UpdateAttribute(ctx context.Context, in *UpdateAttributeInput) (*UpdateAttributeOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*UpdateAttributeInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *UpdateAttributeInput, got %T", in))
+		}
+
+		return i.server.UpdateAttribute(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.community.Community/UpdateAttribute", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.community.Community/UpdateAttribute", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*UpdateAttributeOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *UpdateAttributeOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *CommunityInterceptor) RemoveAttribute(ctx context.Context, in *RemoveAttributeInput) (out *RemoveAttributeOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.RemoveAttribute(ctx, in)
-		return out, err
+func (i *CommunityInterceptor) RemoveAttribute(ctx context.Context, in *RemoveAttributeInput) (*RemoveAttributeOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*RemoveAttributeInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *RemoveAttributeInput, got %T", in))
+		}
+
+		return i.server.RemoveAttribute(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.community.Community/RemoveAttribute", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.community.Community/RemoveAttribute", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*RemoveAttributeOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *RemoveAttributeOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *CommunityInterceptor) DescribeAttribute(ctx context.Context, in *DescribeAttributeInput) (out *DescribeAttributeOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DescribeAttribute(ctx, in)
-		return out, err
+func (i *CommunityInterceptor) DescribeAttribute(ctx context.Context, in *DescribeAttributeInput) (*DescribeAttributeOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeAttributeInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeAttributeInput, got %T", in))
+		}
+
+		return i.server.DescribeAttribute(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.community.Community/DescribeAttribute", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.community.Community/DescribeAttribute", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeAttributeOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeAttributeOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *CommunityInterceptor) ListAttributes(ctx context.Context, in *ListAttributesInput) (out *ListAttributesOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.ListAttributes(ctx, in)
-		return out, err
+func (i *CommunityInterceptor) ListAttributes(ctx context.Context, in *ListAttributesInput) (*ListAttributesOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListAttributesInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListAttributesInput, got %T", in))
+		}
+
+		return i.server.ListAttributes(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.community.Community/ListAttributes", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.community.Community/ListAttributes", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListAttributesOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListAttributesOutput, got %T", out))
+	}
+
+	return message, err
 }

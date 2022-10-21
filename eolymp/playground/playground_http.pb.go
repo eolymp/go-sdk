@@ -5,6 +5,7 @@ package playground
 
 import (
 	context "context"
+	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -216,7 +217,8 @@ func _Playground_DescribeRun_Rule0(srv PlaygroundServer) http.Handler {
 	})
 }
 
-type _PlaygroundMiddleware = func(ctx context.Context, method string, in proto.Message, next func() (out proto.Message, err error))
+type _PlaygroundHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
+type _PlaygroundMiddleware = func(ctx context.Context, method string, in proto.Message, handler _PlaygroundHandler) (out proto.Message, err error)
 type PlaygroundInterceptor struct {
 	middleware []_PlaygroundMiddleware
 	server     PlaygroundServer
@@ -227,40 +229,64 @@ func NewPlaygroundInterceptor(srv PlaygroundServer, middleware ..._PlaygroundMid
 	return &PlaygroundInterceptor{server: srv, middleware: middleware}
 }
 
-func (i *PlaygroundInterceptor) CreateRun(ctx context.Context, in *CreateRunInput) (out *CreateRunOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.CreateRun(ctx, in)
-		return out, err
+func (i *PlaygroundInterceptor) CreateRun(ctx context.Context, in *CreateRunInput) (*CreateRunOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*CreateRunInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *CreateRunInput, got %T", in))
+		}
+
+		return i.server.CreateRun(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.playground.Playground/CreateRun", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.playground.Playground/CreateRun", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*CreateRunOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *CreateRunOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *PlaygroundInterceptor) DescribeRun(ctx context.Context, in *DescribeRunInput) (out *DescribeRunOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DescribeRun(ctx, in)
-		return out, err
+func (i *PlaygroundInterceptor) DescribeRun(ctx context.Context, in *DescribeRunInput) (*DescribeRunOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeRunInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeRunInput, got %T", in))
+		}
+
+		return i.server.DescribeRun(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.playground.Playground/DescribeRun", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.playground.Playground/DescribeRun", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeRunOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeRunOutput, got %T", out))
+	}
+
+	return message, err
 }

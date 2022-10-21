@@ -5,6 +5,7 @@ package atlas
 
 import (
 	context "context"
+	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -3169,7 +3170,8 @@ func _Atlas_DescribeScore_Rule0(srv AtlasServer) http.Handler {
 	})
 }
 
-type _AtlasMiddleware = func(ctx context.Context, method string, in proto.Message, next func() (out proto.Message, err error))
+type _AtlasHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
+type _AtlasMiddleware = func(ctx context.Context, method string, in proto.Message, handler _AtlasHandler) (out proto.Message, err error)
 type AtlasInterceptor struct {
 	middleware []_AtlasMiddleware
 	server     AtlasServer
@@ -3180,1199 +3182,1955 @@ func NewAtlasInterceptor(srv AtlasServer, middleware ..._AtlasMiddleware) *Atlas
 	return &AtlasInterceptor{server: srv, middleware: middleware}
 }
 
-func (i *AtlasInterceptor) CreateProblem(ctx context.Context, in *CreateProblemInput) (out *CreateProblemOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.CreateProblem(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) CreateProblem(ctx context.Context, in *CreateProblemInput) (*CreateProblemOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*CreateProblemInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *CreateProblemInput, got %T", in))
+		}
+
+		return i.server.CreateProblem(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/CreateProblem", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/CreateProblem", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*CreateProblemOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *CreateProblemOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) DeleteProblem(ctx context.Context, in *DeleteProblemInput) (out *DeleteProblemOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DeleteProblem(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) DeleteProblem(ctx context.Context, in *DeleteProblemInput) (*DeleteProblemOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DeleteProblemInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DeleteProblemInput, got %T", in))
+		}
+
+		return i.server.DeleteProblem(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/DeleteProblem", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/DeleteProblem", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DeleteProblemOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DeleteProblemOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) ListProblems(ctx context.Context, in *ListProblemsInput) (out *ListProblemsOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.ListProblems(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) ListProblems(ctx context.Context, in *ListProblemsInput) (*ListProblemsOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListProblemsInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListProblemsInput, got %T", in))
+		}
+
+		return i.server.ListProblems(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/ListProblems", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/ListProblems", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListProblemsOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListProblemsOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) DescribeProblem(ctx context.Context, in *DescribeProblemInput) (out *DescribeProblemOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DescribeProblem(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) DescribeProblem(ctx context.Context, in *DescribeProblemInput) (*DescribeProblemOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeProblemInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeProblemInput, got %T", in))
+		}
+
+		return i.server.DescribeProblem(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/DescribeProblem", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/DescribeProblem", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeProblemOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeProblemOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) UpdateVisibility(ctx context.Context, in *UpdateVisibilityInput) (out *UpdateVisibilityOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.UpdateVisibility(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) UpdateVisibility(ctx context.Context, in *UpdateVisibilityInput) (*UpdateVisibilityOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*UpdateVisibilityInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *UpdateVisibilityInput, got %T", in))
+		}
+
+		return i.server.UpdateVisibility(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/UpdateVisibility", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/UpdateVisibility", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*UpdateVisibilityOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *UpdateVisibilityOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) UpdatePrivacy(ctx context.Context, in *UpdatePrivacyInput) (out *UpdatePrivacyOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.UpdatePrivacy(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) UpdatePrivacy(ctx context.Context, in *UpdatePrivacyInput) (*UpdatePrivacyOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*UpdatePrivacyInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *UpdatePrivacyInput, got %T", in))
+		}
+
+		return i.server.UpdatePrivacy(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/UpdatePrivacy", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/UpdatePrivacy", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*UpdatePrivacyOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *UpdatePrivacyOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) ListExamples(ctx context.Context, in *ListExamplesInput) (out *ListExamplesOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.ListExamples(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) ListExamples(ctx context.Context, in *ListExamplesInput) (*ListExamplesOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListExamplesInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListExamplesInput, got %T", in))
+		}
+
+		return i.server.ListExamples(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/ListExamples", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/ListExamples", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListExamplesOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListExamplesOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) UpdateVerifier(ctx context.Context, in *UpdateVerifierInput) (out *UpdateVerifierOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.UpdateVerifier(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) UpdateVerifier(ctx context.Context, in *UpdateVerifierInput) (*UpdateVerifierOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*UpdateVerifierInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *UpdateVerifierInput, got %T", in))
+		}
+
+		return i.server.UpdateVerifier(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/UpdateVerifier", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/UpdateVerifier", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*UpdateVerifierOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *UpdateVerifierOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) DescribeVerifier(ctx context.Context, in *DescribeVerifierInput) (out *DescribeVerifierOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DescribeVerifier(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) DescribeVerifier(ctx context.Context, in *DescribeVerifierInput) (*DescribeVerifierOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeVerifierInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeVerifierInput, got %T", in))
+		}
+
+		return i.server.DescribeVerifier(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/DescribeVerifier", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/DescribeVerifier", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeVerifierOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeVerifierOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) UpdateInteractor(ctx context.Context, in *UpdateInteractorInput) (out *UpdateInteractorOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.UpdateInteractor(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) UpdateInteractor(ctx context.Context, in *UpdateInteractorInput) (*UpdateInteractorOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*UpdateInteractorInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *UpdateInteractorInput, got %T", in))
+		}
+
+		return i.server.UpdateInteractor(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/UpdateInteractor", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/UpdateInteractor", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*UpdateInteractorOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *UpdateInteractorOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) DescribeInteractor(ctx context.Context, in *DescribeInteractorInput) (out *DescribeInteractorOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DescribeInteractor(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) DescribeInteractor(ctx context.Context, in *DescribeInteractorInput) (*DescribeInteractorOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeInteractorInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeInteractorInput, got %T", in))
+		}
+
+		return i.server.DescribeInteractor(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/DescribeInteractor", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/DescribeInteractor", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeInteractorOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeInteractorOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) CreateStatement(ctx context.Context, in *CreateStatementInput) (out *CreateStatementOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.CreateStatement(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) CreateStatement(ctx context.Context, in *CreateStatementInput) (*CreateStatementOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*CreateStatementInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *CreateStatementInput, got %T", in))
+		}
+
+		return i.server.CreateStatement(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/CreateStatement", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/CreateStatement", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*CreateStatementOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *CreateStatementOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) UpdateStatement(ctx context.Context, in *UpdateStatementInput) (out *UpdateStatementOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.UpdateStatement(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) UpdateStatement(ctx context.Context, in *UpdateStatementInput) (*UpdateStatementOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*UpdateStatementInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *UpdateStatementInput, got %T", in))
+		}
+
+		return i.server.UpdateStatement(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/UpdateStatement", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/UpdateStatement", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*UpdateStatementOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *UpdateStatementOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) DeleteStatement(ctx context.Context, in *DeleteStatementInput) (out *DeleteStatementOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DeleteStatement(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) DeleteStatement(ctx context.Context, in *DeleteStatementInput) (*DeleteStatementOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DeleteStatementInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DeleteStatementInput, got %T", in))
+		}
+
+		return i.server.DeleteStatement(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/DeleteStatement", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/DeleteStatement", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DeleteStatementOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DeleteStatementOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) ListStatements(ctx context.Context, in *ListStatementsInput) (out *ListStatementsOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.ListStatements(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) ListStatements(ctx context.Context, in *ListStatementsInput) (*ListStatementsOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListStatementsInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListStatementsInput, got %T", in))
+		}
+
+		return i.server.ListStatements(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/ListStatements", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/ListStatements", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListStatementsOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListStatementsOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) DescribeStatement(ctx context.Context, in *DescribeStatementInput) (out *DescribeStatementOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DescribeStatement(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) DescribeStatement(ctx context.Context, in *DescribeStatementInput) (*DescribeStatementOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeStatementInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeStatementInput, got %T", in))
+		}
+
+		return i.server.DescribeStatement(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/DescribeStatement", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/DescribeStatement", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeStatementOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeStatementOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) CreateTestset(ctx context.Context, in *CreateTestsetInput) (out *CreateTestsetOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.CreateTestset(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) CreateTestset(ctx context.Context, in *CreateTestsetInput) (*CreateTestsetOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*CreateTestsetInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *CreateTestsetInput, got %T", in))
+		}
+
+		return i.server.CreateTestset(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/CreateTestset", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/CreateTestset", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*CreateTestsetOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *CreateTestsetOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) UpdateTestset(ctx context.Context, in *UpdateTestsetInput) (out *UpdateTestsetOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.UpdateTestset(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) UpdateTestset(ctx context.Context, in *UpdateTestsetInput) (*UpdateTestsetOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*UpdateTestsetInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *UpdateTestsetInput, got %T", in))
+		}
+
+		return i.server.UpdateTestset(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/UpdateTestset", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/UpdateTestset", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*UpdateTestsetOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *UpdateTestsetOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) DeleteTestset(ctx context.Context, in *DeleteTestsetInput) (out *DeleteTestsetOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DeleteTestset(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) DeleteTestset(ctx context.Context, in *DeleteTestsetInput) (*DeleteTestsetOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DeleteTestsetInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DeleteTestsetInput, got %T", in))
+		}
+
+		return i.server.DeleteTestset(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/DeleteTestset", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/DeleteTestset", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DeleteTestsetOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DeleteTestsetOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) ListTestsets(ctx context.Context, in *ListTestsetsInput) (out *ListTestsetsOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.ListTestsets(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) ListTestsets(ctx context.Context, in *ListTestsetsInput) (*ListTestsetsOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListTestsetsInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListTestsetsInput, got %T", in))
+		}
+
+		return i.server.ListTestsets(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/ListTestsets", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/ListTestsets", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListTestsetsOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListTestsetsOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) DescribeTestset(ctx context.Context, in *DescribeTestsetInput) (out *DescribeTestsetOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DescribeTestset(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) DescribeTestset(ctx context.Context, in *DescribeTestsetInput) (*DescribeTestsetOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeTestsetInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeTestsetInput, got %T", in))
+		}
+
+		return i.server.DescribeTestset(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/DescribeTestset", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/DescribeTestset", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeTestsetOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeTestsetOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) CreateTest(ctx context.Context, in *CreateTestInput) (out *CreateTestOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.CreateTest(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) CreateTest(ctx context.Context, in *CreateTestInput) (*CreateTestOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*CreateTestInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *CreateTestInput, got %T", in))
+		}
+
+		return i.server.CreateTest(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/CreateTest", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/CreateTest", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*CreateTestOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *CreateTestOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) UpdateTest(ctx context.Context, in *UpdateTestInput) (out *UpdateTestOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.UpdateTest(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) UpdateTest(ctx context.Context, in *UpdateTestInput) (*UpdateTestOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*UpdateTestInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *UpdateTestInput, got %T", in))
+		}
+
+		return i.server.UpdateTest(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/UpdateTest", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/UpdateTest", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*UpdateTestOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *UpdateTestOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) DeleteTest(ctx context.Context, in *DeleteTestInput) (out *DeleteTestOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DeleteTest(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) DeleteTest(ctx context.Context, in *DeleteTestInput) (*DeleteTestOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DeleteTestInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DeleteTestInput, got %T", in))
+		}
+
+		return i.server.DeleteTest(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/DeleteTest", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/DeleteTest", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DeleteTestOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DeleteTestOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) ListTests(ctx context.Context, in *ListTestsInput) (out *ListTestsOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.ListTests(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) ListTests(ctx context.Context, in *ListTestsInput) (*ListTestsOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListTestsInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListTestsInput, got %T", in))
+		}
+
+		return i.server.ListTests(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/ListTests", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/ListTests", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListTestsOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListTestsOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) DescribeTest(ctx context.Context, in *DescribeTestInput) (out *DescribeTestOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DescribeTest(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) DescribeTest(ctx context.Context, in *DescribeTestInput) (*DescribeTestOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeTestInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeTestInput, got %T", in))
+		}
+
+		return i.server.DescribeTest(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/DescribeTest", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/DescribeTest", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeTestOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeTestOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) GrantPermission(ctx context.Context, in *GrantPermissionInput) (out *GrantPermissionOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.GrantPermission(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) GrantPermission(ctx context.Context, in *GrantPermissionInput) (*GrantPermissionOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*GrantPermissionInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *GrantPermissionInput, got %T", in))
+		}
+
+		return i.server.GrantPermission(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/GrantPermission", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/GrantPermission", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*GrantPermissionOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *GrantPermissionOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) RevokePermission(ctx context.Context, in *RevokePermissionInput) (out *RevokePermissionOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.RevokePermission(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) RevokePermission(ctx context.Context, in *RevokePermissionInput) (*RevokePermissionOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*RevokePermissionInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *RevokePermissionInput, got %T", in))
+		}
+
+		return i.server.RevokePermission(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/RevokePermission", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/RevokePermission", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*RevokePermissionOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *RevokePermissionOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) ListPermissions(ctx context.Context, in *ListPermissionsInput) (out *ListPermissionsOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.ListPermissions(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) ListPermissions(ctx context.Context, in *ListPermissionsInput) (*ListPermissionsOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListPermissionsInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListPermissionsInput, got %T", in))
+		}
+
+		return i.server.ListPermissions(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/ListPermissions", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/ListPermissions", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListPermissionsOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListPermissionsOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) CreateCodeTemplate(ctx context.Context, in *CreateCodeTemplateInput) (out *CreateCodeTemplateOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.CreateCodeTemplate(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) CreateCodeTemplate(ctx context.Context, in *CreateCodeTemplateInput) (*CreateCodeTemplateOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*CreateCodeTemplateInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *CreateCodeTemplateInput, got %T", in))
+		}
+
+		return i.server.CreateCodeTemplate(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/CreateCodeTemplate", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/CreateCodeTemplate", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*CreateCodeTemplateOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *CreateCodeTemplateOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) UpdateCodeTemplate(ctx context.Context, in *UpdateCodeTemplateInput) (out *UpdateCodeTemplateOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.UpdateCodeTemplate(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) UpdateCodeTemplate(ctx context.Context, in *UpdateCodeTemplateInput) (*UpdateCodeTemplateOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*UpdateCodeTemplateInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *UpdateCodeTemplateInput, got %T", in))
+		}
+
+		return i.server.UpdateCodeTemplate(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/UpdateCodeTemplate", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/UpdateCodeTemplate", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*UpdateCodeTemplateOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *UpdateCodeTemplateOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) DeleteCodeTemplate(ctx context.Context, in *DeleteCodeTemplateInput) (out *DeleteCodeTemplateOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DeleteCodeTemplate(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) DeleteCodeTemplate(ctx context.Context, in *DeleteCodeTemplateInput) (*DeleteCodeTemplateOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DeleteCodeTemplateInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DeleteCodeTemplateInput, got %T", in))
+		}
+
+		return i.server.DeleteCodeTemplate(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/DeleteCodeTemplate", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/DeleteCodeTemplate", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DeleteCodeTemplateOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DeleteCodeTemplateOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) ListCodeTemplates(ctx context.Context, in *ListCodeTemplatesInput) (out *ListCodeTemplatesOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.ListCodeTemplates(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) ListCodeTemplates(ctx context.Context, in *ListCodeTemplatesInput) (*ListCodeTemplatesOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListCodeTemplatesInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListCodeTemplatesInput, got %T", in))
+		}
+
+		return i.server.ListCodeTemplates(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/ListCodeTemplates", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/ListCodeTemplates", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListCodeTemplatesOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListCodeTemplatesOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) DescribeCodeTemplate(ctx context.Context, in *DescribeCodeTemplateInput) (out *DescribeCodeTemplateOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DescribeCodeTemplate(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) DescribeCodeTemplate(ctx context.Context, in *DescribeCodeTemplateInput) (*DescribeCodeTemplateOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeCodeTemplateInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeCodeTemplateInput, got %T", in))
+		}
+
+		return i.server.DescribeCodeTemplate(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/DescribeCodeTemplate", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/DescribeCodeTemplate", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeCodeTemplateOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeCodeTemplateOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) CreateAttachment(ctx context.Context, in *CreateAttachmentInput) (out *CreateAttachmentOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.CreateAttachment(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) CreateAttachment(ctx context.Context, in *CreateAttachmentInput) (*CreateAttachmentOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*CreateAttachmentInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *CreateAttachmentInput, got %T", in))
+		}
+
+		return i.server.CreateAttachment(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/CreateAttachment", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/CreateAttachment", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*CreateAttachmentOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *CreateAttachmentOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) UpdateAttachment(ctx context.Context, in *UpdateAttachmentInput) (out *UpdateAttachmentOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.UpdateAttachment(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) UpdateAttachment(ctx context.Context, in *UpdateAttachmentInput) (*UpdateAttachmentOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*UpdateAttachmentInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *UpdateAttachmentInput, got %T", in))
+		}
+
+		return i.server.UpdateAttachment(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/UpdateAttachment", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/UpdateAttachment", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*UpdateAttachmentOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *UpdateAttachmentOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) DeleteAttachment(ctx context.Context, in *DeleteAttachmentInput) (out *DeleteAttachmentOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DeleteAttachment(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) DeleteAttachment(ctx context.Context, in *DeleteAttachmentInput) (*DeleteAttachmentOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DeleteAttachmentInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DeleteAttachmentInput, got %T", in))
+		}
+
+		return i.server.DeleteAttachment(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/DeleteAttachment", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/DeleteAttachment", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DeleteAttachmentOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DeleteAttachmentOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) ListAttachments(ctx context.Context, in *ListAttachmentsInput) (out *ListAttachmentsOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.ListAttachments(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) ListAttachments(ctx context.Context, in *ListAttachmentsInput) (*ListAttachmentsOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListAttachmentsInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListAttachmentsInput, got %T", in))
+		}
+
+		return i.server.ListAttachments(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/ListAttachments", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/ListAttachments", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListAttachmentsOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListAttachmentsOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) DescribeAttachment(ctx context.Context, in *DescribeAttachmentInput) (out *DescribeAttachmentOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DescribeAttachment(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) DescribeAttachment(ctx context.Context, in *DescribeAttachmentInput) (*DescribeAttachmentOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeAttachmentInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeAttachmentInput, got %T", in))
+		}
+
+		return i.server.DescribeAttachment(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/DescribeAttachment", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/DescribeAttachment", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeAttachmentOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeAttachmentOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) DescribeChange(ctx context.Context, in *DescribeChangeInput) (out *DescribeChangeOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DescribeChange(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) DescribeChange(ctx context.Context, in *DescribeChangeInput) (*DescribeChangeOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeChangeInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeChangeInput, got %T", in))
+		}
+
+		return i.server.DescribeChange(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/DescribeChange", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/DescribeChange", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeChangeOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeChangeOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) ListChanges(ctx context.Context, in *ListChangesInput) (out *ListChangesOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.ListChanges(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) ListChanges(ctx context.Context, in *ListChangesInput) (*ListChangesOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListChangesInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListChangesInput, got %T", in))
+		}
+
+		return i.server.ListChanges(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/ListChanges", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/ListChanges", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListChangesOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListChangesOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) ListProblemTop(ctx context.Context, in *ListProblemTopInput) (out *ListProblemTopOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.ListProblemTop(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) ListProblemTop(ctx context.Context, in *ListProblemTopInput) (*ListProblemTopOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListProblemTopInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListProblemTopInput, got %T", in))
+		}
+
+		return i.server.ListProblemTop(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/ListProblemTop", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/ListProblemTop", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListProblemTopOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListProblemTopOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) DescribeProblemGrading(ctx context.Context, in *DescribeProblemGradingInput) (out *DescribeProblemGradingOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DescribeProblemGrading(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) DescribeProblemGrading(ctx context.Context, in *DescribeProblemGradingInput) (*DescribeProblemGradingOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeProblemGradingInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeProblemGradingInput, got %T", in))
+		}
+
+		return i.server.DescribeProblemGrading(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/DescribeProblemGrading", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/DescribeProblemGrading", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeProblemGradingOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeProblemGradingOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) CreateSolution(ctx context.Context, in *CreateSolutionInput) (out *CreateSolutionOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.CreateSolution(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) CreateSolution(ctx context.Context, in *CreateSolutionInput) (*CreateSolutionOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*CreateSolutionInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *CreateSolutionInput, got %T", in))
+		}
+
+		return i.server.CreateSolution(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/CreateSolution", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/CreateSolution", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*CreateSolutionOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *CreateSolutionOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) UpdateSolution(ctx context.Context, in *UpdateSolutionInput) (out *UpdateSolutionOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.UpdateSolution(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) UpdateSolution(ctx context.Context, in *UpdateSolutionInput) (*UpdateSolutionOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*UpdateSolutionInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *UpdateSolutionInput, got %T", in))
+		}
+
+		return i.server.UpdateSolution(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/UpdateSolution", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/UpdateSolution", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*UpdateSolutionOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *UpdateSolutionOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) DeleteSolution(ctx context.Context, in *DeleteSolutionInput) (out *DeleteSolutionOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DeleteSolution(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) DeleteSolution(ctx context.Context, in *DeleteSolutionInput) (*DeleteSolutionOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DeleteSolutionInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DeleteSolutionInput, got %T", in))
+		}
+
+		return i.server.DeleteSolution(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/DeleteSolution", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/DeleteSolution", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DeleteSolutionOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DeleteSolutionOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) ListSolutions(ctx context.Context, in *ListSolutionsInput) (out *ListSolutionsOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.ListSolutions(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) ListSolutions(ctx context.Context, in *ListSolutionsInput) (*ListSolutionsOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListSolutionsInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListSolutionsInput, got %T", in))
+		}
+
+		return i.server.ListSolutions(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/ListSolutions", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/ListSolutions", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListSolutionsOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListSolutionsOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) DescribeSolution(ctx context.Context, in *DescribeSolutionInput) (out *DescribeSolutionOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DescribeSolution(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) DescribeSolution(ctx context.Context, in *DescribeSolutionInput) (*DescribeSolutionOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeSolutionInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeSolutionInput, got %T", in))
+		}
+
+		return i.server.DescribeSolution(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/DescribeSolution", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/DescribeSolution", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeSolutionOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeSolutionOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) PublishSolution(ctx context.Context, in *PublishSolutionInput) (out *PublishSolutionOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.PublishSolution(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) PublishSolution(ctx context.Context, in *PublishSolutionInput) (*PublishSolutionOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*PublishSolutionInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *PublishSolutionInput, got %T", in))
+		}
+
+		return i.server.PublishSolution(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/PublishSolution", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/PublishSolution", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*PublishSolutionOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *PublishSolutionOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) UnpublishSolution(ctx context.Context, in *UnpublishSolutionInput) (out *UnpublishSolutionOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.UnpublishSolution(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) UnpublishSolution(ctx context.Context, in *UnpublishSolutionInput) (*UnpublishSolutionOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*UnpublishSolutionInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *UnpublishSolutionInput, got %T", in))
+		}
+
+		return i.server.UnpublishSolution(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/UnpublishSolution", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/UnpublishSolution", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*UnpublishSolutionOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *UnpublishSolutionOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) ApproveSolution(ctx context.Context, in *ApproveSolutionInput) (out *ApproveSolutionOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.ApproveSolution(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) ApproveSolution(ctx context.Context, in *ApproveSolutionInput) (*ApproveSolutionOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ApproveSolutionInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ApproveSolutionInput, got %T", in))
+		}
+
+		return i.server.ApproveSolution(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/ApproveSolution", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/ApproveSolution", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ApproveSolutionOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ApproveSolutionOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) RefuseSolution(ctx context.Context, in *RefuseSolutionInput) (out *RefuseSolutionOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.RefuseSolution(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) RefuseSolution(ctx context.Context, in *RefuseSolutionInput) (*RefuseSolutionOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*RefuseSolutionInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *RefuseSolutionInput, got %T", in))
+		}
+
+		return i.server.RefuseSolution(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/RefuseSolution", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/RefuseSolution", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*RefuseSolutionOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *RefuseSolutionOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) CreateCategory(ctx context.Context, in *CreateCategoryInput) (out *CreateCategoryOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.CreateCategory(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) CreateCategory(ctx context.Context, in *CreateCategoryInput) (*CreateCategoryOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*CreateCategoryInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *CreateCategoryInput, got %T", in))
+		}
+
+		return i.server.CreateCategory(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/CreateCategory", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/CreateCategory", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*CreateCategoryOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *CreateCategoryOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) UpdateCategory(ctx context.Context, in *UpdateCategoryInput) (out *UpdateCategoryOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.UpdateCategory(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) UpdateCategory(ctx context.Context, in *UpdateCategoryInput) (*UpdateCategoryOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*UpdateCategoryInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *UpdateCategoryInput, got %T", in))
+		}
+
+		return i.server.UpdateCategory(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/UpdateCategory", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/UpdateCategory", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*UpdateCategoryOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *UpdateCategoryOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) DeleteCategory(ctx context.Context, in *DeleteCategoryInput) (out *DeleteCategoryOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DeleteCategory(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) DeleteCategory(ctx context.Context, in *DeleteCategoryInput) (*DeleteCategoryOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DeleteCategoryInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DeleteCategoryInput, got %T", in))
+		}
+
+		return i.server.DeleteCategory(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/DeleteCategory", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/DeleteCategory", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DeleteCategoryOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DeleteCategoryOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) ListCategories(ctx context.Context, in *ListCategoriesInput) (out *ListCategoriesOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.ListCategories(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) ListCategories(ctx context.Context, in *ListCategoriesInput) (*ListCategoriesOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListCategoriesInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListCategoriesInput, got %T", in))
+		}
+
+		return i.server.ListCategories(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/ListCategories", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/ListCategories", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListCategoriesOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListCategoriesOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) DescribeCategory(ctx context.Context, in *DescribeCategoryInput) (out *DescribeCategoryOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DescribeCategory(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) DescribeCategory(ctx context.Context, in *DescribeCategoryInput) (*DescribeCategoryOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeCategoryInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeCategoryInput, got %T", in))
+		}
+
+		return i.server.DescribeCategory(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/DescribeCategory", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/DescribeCategory", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeCategoryOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeCategoryOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) AssignCategory(ctx context.Context, in *AssignCategoryInput) (out *AssignCategoryOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.AssignCategory(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) AssignCategory(ctx context.Context, in *AssignCategoryInput) (*AssignCategoryOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*AssignCategoryInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *AssignCategoryInput, got %T", in))
+		}
+
+		return i.server.AssignCategory(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/AssignCategory", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/AssignCategory", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*AssignCategoryOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *AssignCategoryOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) UnassignCategory(ctx context.Context, in *UnassignCategoryInput) (out *UnassignCategoryOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.UnassignCategory(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) UnassignCategory(ctx context.Context, in *UnassignCategoryInput) (*UnassignCategoryOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*UnassignCategoryInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *UnassignCategoryInput, got %T", in))
+		}
+
+		return i.server.UnassignCategory(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/UnassignCategory", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/UnassignCategory", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*UnassignCategoryOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *UnassignCategoryOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) CreateSubmission(ctx context.Context, in *CreateSubmissionInput) (out *CreateSubmissionOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.CreateSubmission(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) CreateSubmission(ctx context.Context, in *CreateSubmissionInput) (*CreateSubmissionOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*CreateSubmissionInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *CreateSubmissionInput, got %T", in))
+		}
+
+		return i.server.CreateSubmission(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/CreateSubmission", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/CreateSubmission", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*CreateSubmissionOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *CreateSubmissionOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) DescribeSubmission(ctx context.Context, in *DescribeSubmissionInput) (out *DescribeSubmissionOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DescribeSubmission(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) DescribeSubmission(ctx context.Context, in *DescribeSubmissionInput) (*DescribeSubmissionOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeSubmissionInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeSubmissionInput, got %T", in))
+		}
+
+		return i.server.DescribeSubmission(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/DescribeSubmission", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/DescribeSubmission", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeSubmissionOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeSubmissionOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) RetestSubmission(ctx context.Context, in *RetestSubmissionInput) (out *RetestSubmissionOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.RetestSubmission(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) RetestSubmission(ctx context.Context, in *RetestSubmissionInput) (*RetestSubmissionOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*RetestSubmissionInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *RetestSubmissionInput, got %T", in))
+		}
+
+		return i.server.RetestSubmission(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/RetestSubmission", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/RetestSubmission", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*RetestSubmissionOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *RetestSubmissionOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *AtlasInterceptor) DescribeScore(ctx context.Context, in *DescribeScoreInput) (out *DescribeScoreOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DescribeScore(ctx, in)
-		return out, err
+func (i *AtlasInterceptor) DescribeScore(ctx context.Context, in *DescribeScoreInput) (*DescribeScoreOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeScoreInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeScoreInput, got %T", in))
+		}
+
+		return i.server.DescribeScore(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.atlas.Atlas/DescribeScore", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas/DescribeScore", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeScoreOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeScoreOutput, got %T", out))
+	}
+
+	return message, err
 }

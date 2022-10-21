@@ -5,6 +5,7 @@ package universe
 
 import (
 	context "context"
+	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -696,7 +697,8 @@ func _Universe_ListPermissions_Rule0(srv UniverseServer) http.Handler {
 	})
 }
 
-type _UniverseMiddleware = func(ctx context.Context, method string, in proto.Message, next func() (out proto.Message, err error))
+type _UniverseHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
+type _UniverseMiddleware = func(ctx context.Context, method string, in proto.Message, handler _UniverseHandler) (out proto.Message, err error)
 type UniverseInterceptor struct {
 	middleware []_UniverseMiddleware
 	server     UniverseServer
@@ -707,230 +709,374 @@ func NewUniverseInterceptor(srv UniverseServer, middleware ..._UniverseMiddlewar
 	return &UniverseInterceptor{server: srv, middleware: middleware}
 }
 
-func (i *UniverseInterceptor) LookupSpace(ctx context.Context, in *LookupSpaceInput) (out *LookupSpaceOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.LookupSpace(ctx, in)
-		return out, err
+func (i *UniverseInterceptor) LookupSpace(ctx context.Context, in *LookupSpaceInput) (*LookupSpaceOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*LookupSpaceInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *LookupSpaceInput, got %T", in))
+		}
+
+		return i.server.LookupSpace(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.universe.Universe/LookupSpace", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.universe.Universe/LookupSpace", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*LookupSpaceOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *LookupSpaceOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *UniverseInterceptor) CreateSpace(ctx context.Context, in *CreateSpaceInput) (out *CreateSpaceOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.CreateSpace(ctx, in)
-		return out, err
+func (i *UniverseInterceptor) CreateSpace(ctx context.Context, in *CreateSpaceInput) (*CreateSpaceOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*CreateSpaceInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *CreateSpaceInput, got %T", in))
+		}
+
+		return i.server.CreateSpace(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.universe.Universe/CreateSpace", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.universe.Universe/CreateSpace", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*CreateSpaceOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *CreateSpaceOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *UniverseInterceptor) UpdateSpace(ctx context.Context, in *UpdateSpaceInput) (out *UpdateSpaceOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.UpdateSpace(ctx, in)
-		return out, err
+func (i *UniverseInterceptor) UpdateSpace(ctx context.Context, in *UpdateSpaceInput) (*UpdateSpaceOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*UpdateSpaceInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *UpdateSpaceInput, got %T", in))
+		}
+
+		return i.server.UpdateSpace(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.universe.Universe/UpdateSpace", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.universe.Universe/UpdateSpace", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*UpdateSpaceOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *UpdateSpaceOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *UniverseInterceptor) DeleteSpace(ctx context.Context, in *DeleteSpaceInput) (out *DeleteSpaceOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DeleteSpace(ctx, in)
-		return out, err
+func (i *UniverseInterceptor) DeleteSpace(ctx context.Context, in *DeleteSpaceInput) (*DeleteSpaceOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DeleteSpaceInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DeleteSpaceInput, got %T", in))
+		}
+
+		return i.server.DeleteSpace(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.universe.Universe/DeleteSpace", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.universe.Universe/DeleteSpace", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DeleteSpaceOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DeleteSpaceOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *UniverseInterceptor) DescribeSpace(ctx context.Context, in *DescribeSpaceInput) (out *DescribeSpaceOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DescribeSpace(ctx, in)
-		return out, err
+func (i *UniverseInterceptor) DescribeSpace(ctx context.Context, in *DescribeSpaceInput) (*DescribeSpaceOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeSpaceInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeSpaceInput, got %T", in))
+		}
+
+		return i.server.DescribeSpace(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.universe.Universe/DescribeSpace", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.universe.Universe/DescribeSpace", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeSpaceOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeSpaceOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *UniverseInterceptor) DescribeQuota(ctx context.Context, in *DescribeQuotaInput) (out *DescribeQuotaOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DescribeQuota(ctx, in)
-		return out, err
+func (i *UniverseInterceptor) DescribeQuota(ctx context.Context, in *DescribeQuotaInput) (*DescribeQuotaOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeQuotaInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeQuotaInput, got %T", in))
+		}
+
+		return i.server.DescribeQuota(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.universe.Universe/DescribeQuota", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.universe.Universe/DescribeQuota", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeQuotaOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeQuotaOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *UniverseInterceptor) ListSpaces(ctx context.Context, in *ListSpacesInput) (out *ListSpacesOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.ListSpaces(ctx, in)
-		return out, err
+func (i *UniverseInterceptor) ListSpaces(ctx context.Context, in *ListSpacesInput) (*ListSpacesOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListSpacesInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListSpacesInput, got %T", in))
+		}
+
+		return i.server.ListSpaces(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.universe.Universe/ListSpaces", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.universe.Universe/ListSpaces", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListSpacesOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListSpacesOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *UniverseInterceptor) GrantPermission(ctx context.Context, in *GrantPermissionInput) (out *GrantPermissionOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.GrantPermission(ctx, in)
-		return out, err
+func (i *UniverseInterceptor) GrantPermission(ctx context.Context, in *GrantPermissionInput) (*GrantPermissionOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*GrantPermissionInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *GrantPermissionInput, got %T", in))
+		}
+
+		return i.server.GrantPermission(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.universe.Universe/GrantPermission", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.universe.Universe/GrantPermission", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*GrantPermissionOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *GrantPermissionOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *UniverseInterceptor) RevokePermission(ctx context.Context, in *RevokePermissionInput) (out *RevokePermissionOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.RevokePermission(ctx, in)
-		return out, err
+func (i *UniverseInterceptor) RevokePermission(ctx context.Context, in *RevokePermissionInput) (*RevokePermissionOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*RevokePermissionInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *RevokePermissionInput, got %T", in))
+		}
+
+		return i.server.RevokePermission(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.universe.Universe/RevokePermission", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.universe.Universe/RevokePermission", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*RevokePermissionOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *RevokePermissionOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *UniverseInterceptor) DescribePermission(ctx context.Context, in *DescribePermissionInput) (out *DescribePermissionOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.DescribePermission(ctx, in)
-		return out, err
+func (i *UniverseInterceptor) DescribePermission(ctx context.Context, in *DescribePermissionInput) (*DescribePermissionOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribePermissionInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribePermissionInput, got %T", in))
+		}
+
+		return i.server.DescribePermission(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.universe.Universe/DescribePermission", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.universe.Universe/DescribePermission", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribePermissionOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribePermissionOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *UniverseInterceptor) IntrospectPermission(ctx context.Context, in *IntrospectPermissionInput) (out *IntrospectPermissionOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.IntrospectPermission(ctx, in)
-		return out, err
+func (i *UniverseInterceptor) IntrospectPermission(ctx context.Context, in *IntrospectPermissionInput) (*IntrospectPermissionOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*IntrospectPermissionInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *IntrospectPermissionInput, got %T", in))
+		}
+
+		return i.server.IntrospectPermission(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.universe.Universe/IntrospectPermission", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.universe.Universe/IntrospectPermission", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*IntrospectPermissionOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *IntrospectPermissionOutput, got %T", out))
+	}
+
+	return message, err
 }
 
-func (i *UniverseInterceptor) ListPermissions(ctx context.Context, in *ListPermissionsInput) (out *ListPermissionsOutput, err error) {
-	next := func() (proto.Message, error) {
-		out, err = i.server.ListPermissions(ctx, in)
-		return out, err
+func (i *UniverseInterceptor) ListPermissions(ctx context.Context, in *ListPermissionsInput) (*ListPermissionsOutput, error) {
+	next := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListPermissionsInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListPermissionsInput, got %T", in))
+		}
+
+		return i.server.ListPermissions(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
 		handler := next
 
-		next = func() (proto.Message, error) {
-			mw(ctx, "eolymp.universe.Universe/ListPermissions", in, handler)
-			return out, err
+		next = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.universe.Universe/ListPermissions", in, handler)
 		}
 	}
 
-	next()
-	return
+	out, err := next(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListPermissionsOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListPermissionsOutput, got %T", out))
+	}
+
+	return message, err
 }
