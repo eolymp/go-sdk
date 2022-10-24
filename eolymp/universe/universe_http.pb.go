@@ -120,6 +120,8 @@ func NewUniverseHandler(srv UniverseServer) http.Handler {
 	router.Handle("/eolymp.universe.Universe/DescribeSpace", _Universe_DescribeSpace(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.universe.Universe/DescribeQuota", _Universe_DescribeQuota(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.universe.Universe/ListSpaces", _Universe_ListSpaces(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.universe.Universe/DescribeAuth", _Universe_DescribeAuth(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.universe.Universe/ConfigureAuth", _Universe_ConfigureAuth(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.universe.Universe/GrantPermission", _Universe_GrantPermission(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.universe.Universe/RevokePermission", _Universe_RevokePermission(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.universe.Universe/DescribePermission", _Universe_DescribePermission(srv)).Methods(http.MethodPost)
@@ -160,6 +162,14 @@ func NewUniverseHandlerHttp(srv UniverseServer, prefix string) http.Handler {
 	router.Handle(prefix+"/spaces", _Universe_ListSpaces_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.universe.Universe.ListSpaces")
+
+	router.Handle(prefix+"/spaces/{space_id}/auth", _Universe_DescribeAuth_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.universe.Universe.DescribeAuth")
+
+	router.Handle(prefix+"/spaces/{space_id}/auth", _Universe_ConfigureAuth_Rule0(srv)).
+		Methods("PUT").
+		Name("eolymp.universe.Universe.ConfigureAuth")
 
 	router.Handle(prefix+"/spaces/{space_id}/permissions/{user_id}", _Universe_GrantPermission_Rule0(srv)).
 		Methods("PUT").
@@ -315,6 +325,46 @@ func _Universe_ListSpaces(srv UniverseServer) http.Handler {
 		}
 
 		out, err := srv.ListSpaces(r.Context(), in)
+		if err != nil {
+			_Universe_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Universe_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Universe_DescribeAuth(srv UniverseServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeAuthInput{}
+
+		if err := _Universe_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Universe_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.DescribeAuth(r.Context(), in)
+		if err != nil {
+			_Universe_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Universe_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Universe_ConfigureAuth(srv UniverseServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ConfigureAuthInput{}
+
+		if err := _Universe_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Universe_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.ConfigureAuth(r.Context(), in)
 		if err != nil {
 			_Universe_HTTPWriteErrorResponse(w, err)
 			return
@@ -570,6 +620,52 @@ func _Universe_ListSpaces_Rule0(srv UniverseServer) http.Handler {
 		}
 
 		out, err := srv.ListSpaces(r.Context(), in)
+		if err != nil {
+			_Universe_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Universe_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Universe_DescribeAuth_Rule0(srv UniverseServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeAuthInput{}
+
+		if err := _Universe_HTTPReadQueryString(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Universe_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.SpaceId = vars["space_id"]
+
+		out, err := srv.DescribeAuth(r.Context(), in)
+		if err != nil {
+			_Universe_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Universe_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Universe_ConfigureAuth_Rule0(srv UniverseServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ConfigureAuthInput{}
+
+		if err := _Universe_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Universe_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.SpaceId = vars["space_id"]
+
+		out, err := srv.ConfigureAuth(r.Context(), in)
 		if err != nil {
 			_Universe_HTTPWriteErrorResponse(w, err)
 			return
@@ -928,6 +1024,70 @@ func (i *UniverseInterceptor) ListSpaces(ctx context.Context, in *ListSpacesInpu
 	message, ok := out.(*ListSpacesOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *ListSpacesOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *UniverseInterceptor) DescribeAuth(ctx context.Context, in *DescribeAuthInput) (*DescribeAuthOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeAuthInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeAuthInput, got %T", in))
+		}
+
+		return i.server.DescribeAuth(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.universe.Universe.DescribeAuth", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeAuthOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeAuthOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *UniverseInterceptor) ConfigureAuth(ctx context.Context, in *ConfigureAuthInput) (*ConfigureAuthOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ConfigureAuthInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ConfigureAuthInput, got %T", in))
+		}
+
+		return i.server.ConfigureAuth(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.universe.Universe.ConfigureAuth", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ConfigureAuthOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ConfigureAuthOutput, got %T", out))
 	}
 
 	return message, err

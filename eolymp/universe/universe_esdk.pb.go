@@ -202,6 +202,38 @@ func (s *UniverseService) ListSpaces(ctx context.Context, in *ListSpacesInput) (
 	return out, nil
 }
 
+func (s *UniverseService) DescribeAuth(ctx context.Context, in *DescribeAuthInput) (*DescribeAuthOutput, error) {
+	out := &DescribeAuthOutput{}
+	path := "/spaces/" + url.PathEscape(in.GetSpaceId()) + "/auth"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.SpaceId = ""
+	}
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *UniverseService) ConfigureAuth(ctx context.Context, in *ConfigureAuthInput) (*ConfigureAuthOutput, error) {
+	out := &ConfigureAuthOutput{}
+	path := "/spaces/" + url.PathEscape(in.GetSpaceId()) + "/auth"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.SpaceId = ""
+	}
+
+	if err := s.do(ctx, "PUT", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *UniverseService) GrantPermission(ctx context.Context, in *GrantPermissionInput) (*GrantPermissionOutput, error) {
 	out := &GrantPermissionOutput{}
 	path := "/spaces/" + url.PathEscape(in.GetSpaceId()) + "/permissions/" + url.PathEscape(in.GetUserId())

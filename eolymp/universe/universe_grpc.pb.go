@@ -36,6 +36,10 @@ type UniverseClient interface {
 	DescribeQuota(ctx context.Context, in *DescribeQuotaInput, opts ...grpc.CallOption) (*DescribeQuotaOutput, error)
 	// List spaces of a contest
 	ListSpaces(ctx context.Context, in *ListSpacesInput, opts ...grpc.CallOption) (*ListSpacesOutput, error)
+	// Describe auth configuration
+	DescribeAuth(ctx context.Context, in *DescribeAuthInput, opts ...grpc.CallOption) (*DescribeAuthOutput, error)
+	// Update auth configuration
+	ConfigureAuth(ctx context.Context, in *ConfigureAuthInput, opts ...grpc.CallOption) (*ConfigureAuthOutput, error)
 	// Add space permission
 	GrantPermission(ctx context.Context, in *GrantPermissionInput, opts ...grpc.CallOption) (*GrantPermissionOutput, error)
 	// Delete space permission
@@ -119,6 +123,24 @@ func (c *universeClient) ListSpaces(ctx context.Context, in *ListSpacesInput, op
 	return out, nil
 }
 
+func (c *universeClient) DescribeAuth(ctx context.Context, in *DescribeAuthInput, opts ...grpc.CallOption) (*DescribeAuthOutput, error) {
+	out := new(DescribeAuthOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.universe.Universe/DescribeAuth", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *universeClient) ConfigureAuth(ctx context.Context, in *ConfigureAuthInput, opts ...grpc.CallOption) (*ConfigureAuthOutput, error) {
+	out := new(ConfigureAuthOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.universe.Universe/ConfigureAuth", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *universeClient) GrantPermission(ctx context.Context, in *GrantPermissionInput, opts ...grpc.CallOption) (*GrantPermissionOutput, error) {
 	out := new(GrantPermissionOutput)
 	err := c.cc.Invoke(ctx, "/eolymp.universe.Universe/GrantPermission", in, out, opts...)
@@ -182,6 +204,10 @@ type UniverseServer interface {
 	DescribeQuota(context.Context, *DescribeQuotaInput) (*DescribeQuotaOutput, error)
 	// List spaces of a contest
 	ListSpaces(context.Context, *ListSpacesInput) (*ListSpacesOutput, error)
+	// Describe auth configuration
+	DescribeAuth(context.Context, *DescribeAuthInput) (*DescribeAuthOutput, error)
+	// Update auth configuration
+	ConfigureAuth(context.Context, *ConfigureAuthInput) (*ConfigureAuthOutput, error)
 	// Add space permission
 	GrantPermission(context.Context, *GrantPermissionInput) (*GrantPermissionOutput, error)
 	// Delete space permission
@@ -218,6 +244,12 @@ func (UnimplementedUniverseServer) DescribeQuota(context.Context, *DescribeQuota
 }
 func (UnimplementedUniverseServer) ListSpaces(context.Context, *ListSpacesInput) (*ListSpacesOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListSpaces not implemented")
+}
+func (UnimplementedUniverseServer) DescribeAuth(context.Context, *DescribeAuthInput) (*DescribeAuthOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeAuth not implemented")
+}
+func (UnimplementedUniverseServer) ConfigureAuth(context.Context, *ConfigureAuthInput) (*ConfigureAuthOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ConfigureAuth not implemented")
 }
 func (UnimplementedUniverseServer) GrantPermission(context.Context, *GrantPermissionInput) (*GrantPermissionOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GrantPermission not implemented")
@@ -372,6 +404,42 @@ func _Universe_ListSpaces_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Universe_DescribeAuth_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeAuthInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UniverseServer).DescribeAuth(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.universe.Universe/DescribeAuth",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UniverseServer).DescribeAuth(ctx, req.(*DescribeAuthInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Universe_ConfigureAuth_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ConfigureAuthInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UniverseServer).ConfigureAuth(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.universe.Universe/ConfigureAuth",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UniverseServer).ConfigureAuth(ctx, req.(*ConfigureAuthInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Universe_GrantPermission_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GrantPermissionInput)
 	if err := dec(in); err != nil {
@@ -496,6 +564,14 @@ var Universe_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListSpaces",
 			Handler:    _Universe_ListSpaces_Handler,
+		},
+		{
+			MethodName: "DescribeAuth",
+			Handler:    _Universe_DescribeAuth_Handler,
+		},
+		{
+			MethodName: "ConfigureAuth",
+			Handler:    _Universe_ConfigureAuth_Handler,
 		},
 		{
 			MethodName: "GrantPermission",
