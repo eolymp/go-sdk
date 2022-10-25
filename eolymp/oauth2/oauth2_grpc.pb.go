@@ -22,7 +22,8 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type OAuth2Client interface {
-	CreateToken(ctx context.Context, in *CreateTokenInput, opts ...grpc.CallOption) (*CreateTokenOutput, error)
+	Token(ctx context.Context, in *TokenInput, opts ...grpc.CallOption) (*TokenOutput, error)
+	Authorize(ctx context.Context, in *AuthorizeInput, opts ...grpc.CallOption) (*AuthorizeOutput, error)
 }
 
 type oAuth2Client struct {
@@ -33,9 +34,18 @@ func NewOAuth2Client(cc grpc.ClientConnInterface) OAuth2Client {
 	return &oAuth2Client{cc}
 }
 
-func (c *oAuth2Client) CreateToken(ctx context.Context, in *CreateTokenInput, opts ...grpc.CallOption) (*CreateTokenOutput, error) {
-	out := new(CreateTokenOutput)
-	err := c.cc.Invoke(ctx, "/eolymp.oauth2.OAuth2/CreateToken", in, out, opts...)
+func (c *oAuth2Client) Token(ctx context.Context, in *TokenInput, opts ...grpc.CallOption) (*TokenOutput, error) {
+	out := new(TokenOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.oauth2.OAuth2/Token", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *oAuth2Client) Authorize(ctx context.Context, in *AuthorizeInput, opts ...grpc.CallOption) (*AuthorizeOutput, error) {
+	out := new(AuthorizeOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.oauth2.OAuth2/Authorize", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -46,15 +56,19 @@ func (c *oAuth2Client) CreateToken(ctx context.Context, in *CreateTokenInput, op
 // All implementations should embed UnimplementedOAuth2Server
 // for forward compatibility
 type OAuth2Server interface {
-	CreateToken(context.Context, *CreateTokenInput) (*CreateTokenOutput, error)
+	Token(context.Context, *TokenInput) (*TokenOutput, error)
+	Authorize(context.Context, *AuthorizeInput) (*AuthorizeOutput, error)
 }
 
 // UnimplementedOAuth2Server should be embedded to have forward compatible implementations.
 type UnimplementedOAuth2Server struct {
 }
 
-func (UnimplementedOAuth2Server) CreateToken(context.Context, *CreateTokenInput) (*CreateTokenOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateToken not implemented")
+func (UnimplementedOAuth2Server) Token(context.Context, *TokenInput) (*TokenOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Token not implemented")
+}
+func (UnimplementedOAuth2Server) Authorize(context.Context, *AuthorizeInput) (*AuthorizeOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Authorize not implemented")
 }
 
 // UnsafeOAuth2Server may be embedded to opt out of forward compatibility for this service.
@@ -68,20 +82,38 @@ func RegisterOAuth2Server(s grpc.ServiceRegistrar, srv OAuth2Server) {
 	s.RegisterService(&OAuth2_ServiceDesc, srv)
 }
 
-func _OAuth2_CreateToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateTokenInput)
+func _OAuth2_Token_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TokenInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(OAuth2Server).CreateToken(ctx, in)
+		return srv.(OAuth2Server).Token(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/eolymp.oauth2.OAuth2/CreateToken",
+		FullMethod: "/eolymp.oauth2.OAuth2/Token",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OAuth2Server).CreateToken(ctx, req.(*CreateTokenInput))
+		return srv.(OAuth2Server).Token(ctx, req.(*TokenInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OAuth2_Authorize_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AuthorizeInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OAuth2Server).Authorize(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.oauth2.OAuth2/Authorize",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OAuth2Server).Authorize(ctx, req.(*AuthorizeInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -94,8 +126,12 @@ var OAuth2_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*OAuth2Server)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "CreateToken",
-			Handler:    _OAuth2_CreateToken_Handler,
+			MethodName: "Token",
+			Handler:    _OAuth2_Token_Handler,
+		},
+		{
+			MethodName: "Authorize",
+			Handler:    _OAuth2_Authorize_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

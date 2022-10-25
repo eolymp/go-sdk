@@ -100,9 +100,20 @@ func (s *OAuth2Service) do(ctx context.Context, verb, path string, in, out proto
 	return nil
 }
 
-func (s *OAuth2Service) CreateToken(ctx context.Context, in *CreateTokenInput) (*CreateTokenOutput, error) {
-	out := &CreateTokenOutput{}
+func (s *OAuth2Service) Token(ctx context.Context, in *TokenInput) (*TokenOutput, error) {
+	out := &TokenOutput{}
 	path := "/oauth2/token"
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *OAuth2Service) Authorize(ctx context.Context, in *AuthorizeInput) (*AuthorizeOutput, error) {
+	out := &AuthorizeOutput{}
+	path := "/oauth2/authorize"
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
