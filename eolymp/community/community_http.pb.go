@@ -188,7 +188,7 @@ func NewCommunityHandlerHttp(srv CommunityServer, prefix string) http.Handler {
 		Name("eolymp.community.Community.DescribeAttribute")
 
 	router.Handle(prefix+"/attributes", _Community_ListAttributes_Rule0(srv)).
-		Methods("POST").
+		Methods("GET").
 		Name("eolymp.community.Community.ListAttributes")
 
 	return router
@@ -756,7 +756,7 @@ func _Community_ListAttributes_Rule0(srv CommunityServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListAttributesInput{}
 
-		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
+		if err := _Community_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Community_HTTPWriteErrorResponse(w, err)
 			return

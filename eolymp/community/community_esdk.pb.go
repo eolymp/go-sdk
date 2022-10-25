@@ -277,7 +277,7 @@ func (s *CommunityService) ListAttributes(ctx context.Context, in *ListAttribute
 	out := &ListAttributesOutput{}
 	path := "/attributes"
 
-	if err := s.do(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
