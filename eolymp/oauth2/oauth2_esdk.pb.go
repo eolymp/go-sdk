@@ -121,3 +121,14 @@ func (s *OAuth2Service) Authorize(ctx context.Context, in *AuthorizeInput) (*Aut
 
 	return out, nil
 }
+
+func (s *OAuth2Service) Callback(ctx context.Context, in *CallbackInput) (*CallbackOutput, error) {
+	out := &CallbackOutput{}
+	path := "/oauth2/callback"
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
