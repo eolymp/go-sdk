@@ -104,7 +104,7 @@ func (s *OAuth2Service) Token(ctx context.Context, in *TokenInput) (*TokenOutput
 	out := &TokenOutput{}
 	path := "/oauth2/token"
 
-	if err := s.do(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
