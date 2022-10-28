@@ -125,15 +125,15 @@ func NewOAuth2HandlerHttp(srv OAuth2Server, prefix string) http.Handler {
 	router := mux.NewRouter()
 
 	router.Handle(prefix+"/oauth2/token", _OAuth2_Token_Rule0(srv)).
-		Methods("POST").
+		Methods("GET").
 		Name("eolymp.oauth2.OAuth2.Token")
 
 	router.Handle(prefix+"/oauth2/authorize", _OAuth2_Authorize_Rule0(srv)).
-		Methods("POST").
+		Methods("GET").
 		Name("eolymp.oauth2.OAuth2.Authorize")
 
 	router.Handle(prefix+"/oauth2/callback", _OAuth2_Callback_Rule0(srv)).
-		Methods("POST").
+		Methods("GET").
 		Name("eolymp.oauth2.OAuth2.Callback")
 
 	return router
@@ -203,7 +203,7 @@ func _OAuth2_Token_Rule0(srv OAuth2Server) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &TokenInput{}
 
-		if err := _OAuth2_HTTPReadRequestBody(r, in); err != nil {
+		if err := _OAuth2_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_OAuth2_HTTPWriteErrorResponse(w, err)
 			return
@@ -223,7 +223,7 @@ func _OAuth2_Authorize_Rule0(srv OAuth2Server) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &AuthorizeInput{}
 
-		if err := _OAuth2_HTTPReadRequestBody(r, in); err != nil {
+		if err := _OAuth2_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_OAuth2_HTTPWriteErrorResponse(w, err)
 			return
@@ -243,7 +243,7 @@ func _OAuth2_Callback_Rule0(srv OAuth2Server) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CallbackInput{}
 
-		if err := _OAuth2_HTTPReadRequestBody(r, in); err != nil {
+		if err := _OAuth2_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_OAuth2_HTTPWriteErrorResponse(w, err)
 			return

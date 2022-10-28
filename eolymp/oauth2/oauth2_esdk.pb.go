@@ -104,7 +104,7 @@ func (s *OAuth2Service) Token(ctx context.Context, in *TokenInput) (*TokenOutput
 	out := &TokenOutput{}
 	path := "/oauth2/token"
 
-	if err := s.do(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -115,7 +115,7 @@ func (s *OAuth2Service) Authorize(ctx context.Context, in *AuthorizeInput) (*Aut
 	out := &AuthorizeOutput{}
 	path := "/oauth2/authorize"
 
-	if err := s.do(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -126,7 +126,7 @@ func (s *OAuth2Service) Callback(ctx context.Context, in *CallbackInput) (*Callb
 	out := &CallbackOutput{}
 	path := "/oauth2/callback"
 
-	if err := s.do(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
