@@ -202,9 +202,9 @@ func (s *UniverseService) ListSpaces(ctx context.Context, in *ListSpacesInput) (
 	return out, nil
 }
 
-func (s *UniverseService) DescribeAuth(ctx context.Context, in *DescribeAuthInput) (*DescribeAuthOutput, error) {
-	out := &DescribeAuthOutput{}
-	path := "/spaces/" + url.PathEscape(in.GetSpaceId()) + "/auth"
+func (s *UniverseService) DescribeIdentityProvider(ctx context.Context, in *DescribeIdentityProviderInput) (*DescribeIdentityProviderOutput, error) {
+	out := &DescribeIdentityProviderOutput{}
+	path := "/spaces/" + url.PathEscape(in.GetSpaceId()) + "/idp"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
@@ -218,9 +218,9 @@ func (s *UniverseService) DescribeAuth(ctx context.Context, in *DescribeAuthInpu
 	return out, nil
 }
 
-func (s *UniverseService) ConfigureAuth(ctx context.Context, in *ConfigureAuthInput) (*ConfigureAuthOutput, error) {
-	out := &ConfigureAuthOutput{}
-	path := "/spaces/" + url.PathEscape(in.GetSpaceId()) + "/auth"
+func (s *UniverseService) ConfigureIdentityProvider(ctx context.Context, in *ConfigureIdentityProviderInput) (*ConfigureIdentityProviderOutput, error) {
+	out := &ConfigureIdentityProviderOutput{}
+	path := "/spaces/" + url.PathEscape(in.GetSpaceId()) + "/idp"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
