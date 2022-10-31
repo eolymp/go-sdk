@@ -25,6 +25,7 @@ type OAuth2Client interface {
 	Token(ctx context.Context, in *TokenInput, opts ...grpc.CallOption) (*TokenOutput, error)
 	Authorize(ctx context.Context, in *AuthorizeInput, opts ...grpc.CallOption) (*AuthorizeOutput, error)
 	Callback(ctx context.Context, in *CallbackInput, opts ...grpc.CallOption) (*CallbackOutput, error)
+	UserInfo(ctx context.Context, in *UserInfoInput, opts ...grpc.CallOption) (*UserInfoOutput, error)
 }
 
 type oAuth2Client struct {
@@ -62,6 +63,15 @@ func (c *oAuth2Client) Callback(ctx context.Context, in *CallbackInput, opts ...
 	return out, nil
 }
 
+func (c *oAuth2Client) UserInfo(ctx context.Context, in *UserInfoInput, opts ...grpc.CallOption) (*UserInfoOutput, error) {
+	out := new(UserInfoOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.oauth2.OAuth2/UserInfo", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OAuth2Server is the server API for OAuth2 service.
 // All implementations should embed UnimplementedOAuth2Server
 // for forward compatibility
@@ -69,6 +79,7 @@ type OAuth2Server interface {
 	Token(context.Context, *TokenInput) (*TokenOutput, error)
 	Authorize(context.Context, *AuthorizeInput) (*AuthorizeOutput, error)
 	Callback(context.Context, *CallbackInput) (*CallbackOutput, error)
+	UserInfo(context.Context, *UserInfoInput) (*UserInfoOutput, error)
 }
 
 // UnimplementedOAuth2Server should be embedded to have forward compatible implementations.
@@ -83,6 +94,9 @@ func (UnimplementedOAuth2Server) Authorize(context.Context, *AuthorizeInput) (*A
 }
 func (UnimplementedOAuth2Server) Callback(context.Context, *CallbackInput) (*CallbackOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Callback not implemented")
+}
+func (UnimplementedOAuth2Server) UserInfo(context.Context, *UserInfoInput) (*UserInfoOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UserInfo not implemented")
 }
 
 // UnsafeOAuth2Server may be embedded to opt out of forward compatibility for this service.
@@ -150,6 +164,24 @@ func _OAuth2_Callback_Handler(srv interface{}, ctx context.Context, dec func(int
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OAuth2_UserInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserInfoInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OAuth2Server).UserInfo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.oauth2.OAuth2/UserInfo",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OAuth2Server).UserInfo(ctx, req.(*UserInfoInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // OAuth2_ServiceDesc is the grpc.ServiceDesc for OAuth2 service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -168,6 +200,10 @@ var OAuth2_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Callback",
 			Handler:    _OAuth2_Callback_Handler,
+		},
+		{
+			MethodName: "UserInfo",
+			Handler:    _OAuth2_UserInfo_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

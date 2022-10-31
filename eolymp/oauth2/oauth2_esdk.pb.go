@@ -132,3 +132,14 @@ func (s *OAuth2Service) Callback(ctx context.Context, in *CallbackInput) (*Callb
 
 	return out, nil
 }
+
+func (s *OAuth2Service) UserInfo(ctx context.Context, in *UserInfoInput) (*UserInfoOutput, error) {
+	out := &UserInfoOutput{}
+	path := "/oauth2/userinfo"
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
