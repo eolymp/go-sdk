@@ -146,6 +146,10 @@ func NewCognitoHandler(srv CognitoServer) http.Handler {
 func NewCognitoHandlerHttp(srv CognitoServer, prefix string) http.Handler {
 	router := mux.NewRouter()
 
+	router.Handle(prefix+"/self/authorize", _Cognito_CreateAuthorization_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.cognito.Cognito.CreateAuthorization")
+
 	router.Handle(prefix+"/self/signout", _Cognito_Signout_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.cognito.Cognito.Signout")
@@ -724,6 +728,26 @@ func _Cognito_SelfDestruct(srv CognitoServer) http.Handler {
 		}
 
 		out, err := srv.SelfDestruct(r.Context(), in)
+		if err != nil {
+			_Cognito_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Cognito_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Cognito_CreateAuthorization_Rule0(srv CognitoServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &CreateAuthorizationInput{}
+
+		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Cognito_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.CreateAuthorization(r.Context(), in)
 		if err != nil {
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
