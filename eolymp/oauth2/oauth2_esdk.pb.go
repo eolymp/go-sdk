@@ -144,6 +144,17 @@ func (s *OAuth2Service) UserInfo(ctx context.Context, in *UserInfoInput) (*UserI
 	return out, nil
 }
 
+func (s *OAuth2Service) Introspect(ctx context.Context, in *IntrospectInput) (*IntrospectOutput, error) {
+	out := &IntrospectOutput{}
+	path := "/oauth2/introspect"
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *OAuth2Service) Revoke(ctx context.Context, in *RevokeInput) (*RevokeOutput, error) {
 	out := &RevokeOutput{}
 	path := "/oauth2/revoke"

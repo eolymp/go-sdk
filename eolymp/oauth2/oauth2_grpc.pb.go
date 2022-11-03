@@ -26,6 +26,8 @@ type OAuth2Client interface {
 	Authorize(ctx context.Context, in *AuthorizeInput, opts ...grpc.CallOption) (*AuthorizeOutput, error)
 	Callback(ctx context.Context, in *CallbackInput, opts ...grpc.CallOption) (*CallbackOutput, error)
 	UserInfo(ctx context.Context, in *UserInfoInput, opts ...grpc.CallOption) (*UserInfoOutput, error)
+	// Introspect oauth token, returns access token details for a given token.
+	Introspect(ctx context.Context, in *IntrospectInput, opts ...grpc.CallOption) (*IntrospectOutput, error)
 	Revoke(ctx context.Context, in *RevokeInput, opts ...grpc.CallOption) (*RevokeOutput, error)
 }
 
@@ -73,6 +75,15 @@ func (c *oAuth2Client) UserInfo(ctx context.Context, in *UserInfoInput, opts ...
 	return out, nil
 }
 
+func (c *oAuth2Client) Introspect(ctx context.Context, in *IntrospectInput, opts ...grpc.CallOption) (*IntrospectOutput, error) {
+	out := new(IntrospectOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.oauth2.OAuth2/Introspect", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *oAuth2Client) Revoke(ctx context.Context, in *RevokeInput, opts ...grpc.CallOption) (*RevokeOutput, error) {
 	out := new(RevokeOutput)
 	err := c.cc.Invoke(ctx, "/eolymp.oauth2.OAuth2/Revoke", in, out, opts...)
@@ -90,6 +101,8 @@ type OAuth2Server interface {
 	Authorize(context.Context, *AuthorizeInput) (*AuthorizeOutput, error)
 	Callback(context.Context, *CallbackInput) (*CallbackOutput, error)
 	UserInfo(context.Context, *UserInfoInput) (*UserInfoOutput, error)
+	// Introspect oauth token, returns access token details for a given token.
+	Introspect(context.Context, *IntrospectInput) (*IntrospectOutput, error)
 	Revoke(context.Context, *RevokeInput) (*RevokeOutput, error)
 }
 
@@ -108,6 +121,9 @@ func (UnimplementedOAuth2Server) Callback(context.Context, *CallbackInput) (*Cal
 }
 func (UnimplementedOAuth2Server) UserInfo(context.Context, *UserInfoInput) (*UserInfoOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UserInfo not implemented")
+}
+func (UnimplementedOAuth2Server) Introspect(context.Context, *IntrospectInput) (*IntrospectOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Introspect not implemented")
 }
 func (UnimplementedOAuth2Server) Revoke(context.Context, *RevokeInput) (*RevokeOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Revoke not implemented")
@@ -196,6 +212,24 @@ func _OAuth2_UserInfo_Handler(srv interface{}, ctx context.Context, dec func(int
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OAuth2_Introspect_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IntrospectInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OAuth2Server).Introspect(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.oauth2.OAuth2/Introspect",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OAuth2Server).Introspect(ctx, req.(*IntrospectInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _OAuth2_Revoke_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(RevokeInput)
 	if err := dec(in); err != nil {
@@ -236,6 +270,10 @@ var OAuth2_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UserInfo",
 			Handler:    _OAuth2_UserInfo_Handler,
+		},
+		{
+			MethodName: "Introspect",
+			Handler:    _OAuth2_Introspect_Handler,
 		},
 		{
 			MethodName: "Revoke",

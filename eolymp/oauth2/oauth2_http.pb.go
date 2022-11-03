@@ -117,6 +117,7 @@ func NewOAuth2Handler(srv OAuth2Server) http.Handler {
 	router.Handle("/eolymp.oauth2.OAuth2/Authorize", _OAuth2_Authorize(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.oauth2.OAuth2/Callback", _OAuth2_Callback(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.oauth2.OAuth2/UserInfo", _OAuth2_UserInfo(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.oauth2.OAuth2/Introspect", _OAuth2_Introspect(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.oauth2.OAuth2/Revoke", _OAuth2_Revoke(srv)).Methods(http.MethodPost)
 	return router
 }
@@ -141,6 +142,10 @@ func NewOAuth2HandlerHttp(srv OAuth2Server, prefix string) http.Handler {
 	router.Handle(prefix+"/oauth2/userinfo", _OAuth2_UserInfo_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.oauth2.OAuth2.UserInfo")
+
+	router.Handle(prefix+"/oauth2/introspect", _OAuth2_Introspect_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.oauth2.OAuth2.Introspect")
 
 	router.Handle(prefix+"/oauth2/revoke", _OAuth2_Revoke_Rule0(srv)).
 		Methods("GET").
@@ -220,6 +225,26 @@ func _OAuth2_UserInfo(srv OAuth2Server) http.Handler {
 		}
 
 		out, err := srv.UserInfo(r.Context(), in)
+		if err != nil {
+			_OAuth2_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_OAuth2_HTTPWriteResponse(w, out)
+	})
+}
+
+func _OAuth2_Introspect(srv OAuth2Server) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &IntrospectInput{}
+
+		if err := _OAuth2_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_OAuth2_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.Introspect(r.Context(), in)
 		if err != nil {
 			_OAuth2_HTTPWriteErrorResponse(w, err)
 			return
@@ -320,6 +345,26 @@ func _OAuth2_UserInfo_Rule0(srv OAuth2Server) http.Handler {
 		}
 
 		out, err := srv.UserInfo(r.Context(), in)
+		if err != nil {
+			_OAuth2_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_OAuth2_HTTPWriteResponse(w, out)
+	})
+}
+
+func _OAuth2_Introspect_Rule0(srv OAuth2Server) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &IntrospectInput{}
+
+		if err := _OAuth2_HTTPReadQueryString(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_OAuth2_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.Introspect(r.Context(), in)
 		if err != nil {
 			_OAuth2_HTTPWriteErrorResponse(w, err)
 			return
@@ -484,6 +529,38 @@ func (i *OAuth2Interceptor) UserInfo(ctx context.Context, in *UserInfoInput) (*U
 	message, ok := out.(*UserInfoOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *UserInfoOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *OAuth2Interceptor) Introspect(ctx context.Context, in *IntrospectInput) (*IntrospectOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*IntrospectInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *IntrospectInput, got %T", in))
+		}
+
+		return i.server.Introspect(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.oauth2.OAuth2.Introspect", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*IntrospectOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *IntrospectOutput, got %T", out))
 	}
 
 	return message, err
