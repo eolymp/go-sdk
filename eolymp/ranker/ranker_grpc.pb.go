@@ -39,6 +39,7 @@ type RankerClient interface {
 	// List scoreboards of a contest
 	ListScoreboardRows(ctx context.Context, in *ListScoreboardRowsInput, opts ...grpc.CallOption) (*ListScoreboardRowsOutput, error)
 	AddScoreboardColumn(ctx context.Context, in *AddScoreboardColumnInput, opts ...grpc.CallOption) (*AddScoreboardColumnOutput, error)
+	UpdateScoreboardColumn(ctx context.Context, in *UpdateScoreboardColumnInput, opts ...grpc.CallOption) (*UpdateScoreboardColumnOutput, error)
 	DeleteScoreboardColumn(ctx context.Context, in *DeleteScoreboardColumnInput, opts ...grpc.CallOption) (*DeleteScoreboardColumnOutput, error)
 	DescribeScoreboardColumn(ctx context.Context, in *DescribeScoreboardColumnInput, opts ...grpc.CallOption) (*DescribeScoreboardColumnOutput, error)
 	// List scoreboards of a contest
@@ -135,6 +136,15 @@ func (c *rankerClient) AddScoreboardColumn(ctx context.Context, in *AddScoreboar
 	return out, nil
 }
 
+func (c *rankerClient) UpdateScoreboardColumn(ctx context.Context, in *UpdateScoreboardColumnInput, opts ...grpc.CallOption) (*UpdateScoreboardColumnOutput, error) {
+	out := new(UpdateScoreboardColumnOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.ranker.Ranker/UpdateScoreboardColumn", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *rankerClient) DeleteScoreboardColumn(ctx context.Context, in *DeleteScoreboardColumnInput, opts ...grpc.CallOption) (*DeleteScoreboardColumnOutput, error) {
 	out := new(DeleteScoreboardColumnOutput)
 	err := c.cc.Invoke(ctx, "/eolymp.ranker.Ranker/DeleteScoreboardColumn", in, out, opts...)
@@ -192,6 +202,7 @@ type RankerServer interface {
 	// List scoreboards of a contest
 	ListScoreboardRows(context.Context, *ListScoreboardRowsInput) (*ListScoreboardRowsOutput, error)
 	AddScoreboardColumn(context.Context, *AddScoreboardColumnInput) (*AddScoreboardColumnOutput, error)
+	UpdateScoreboardColumn(context.Context, *UpdateScoreboardColumnInput) (*UpdateScoreboardColumnOutput, error)
 	DeleteScoreboardColumn(context.Context, *DeleteScoreboardColumnInput) (*DeleteScoreboardColumnOutput, error)
 	DescribeScoreboardColumn(context.Context, *DescribeScoreboardColumnInput) (*DescribeScoreboardColumnOutput, error)
 	// List scoreboards of a contest
@@ -229,6 +240,9 @@ func (UnimplementedRankerServer) ListScoreboardRows(context.Context, *ListScoreb
 }
 func (UnimplementedRankerServer) AddScoreboardColumn(context.Context, *AddScoreboardColumnInput) (*AddScoreboardColumnOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddScoreboardColumn not implemented")
+}
+func (UnimplementedRankerServer) UpdateScoreboardColumn(context.Context, *UpdateScoreboardColumnInput) (*UpdateScoreboardColumnOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateScoreboardColumn not implemented")
 }
 func (UnimplementedRankerServer) DeleteScoreboardColumn(context.Context, *DeleteScoreboardColumnInput) (*DeleteScoreboardColumnOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteScoreboardColumn not implemented")
@@ -416,6 +430,24 @@ func _Ranker_AddScoreboardColumn_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Ranker_UpdateScoreboardColumn_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateScoreboardColumnInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RankerServer).UpdateScoreboardColumn(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.ranker.Ranker/UpdateScoreboardColumn",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RankerServer).UpdateScoreboardColumn(ctx, req.(*UpdateScoreboardColumnInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Ranker_DeleteScoreboardColumn_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DeleteScoreboardColumnInput)
 	if err := dec(in); err != nil {
@@ -530,6 +562,10 @@ var Ranker_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "AddScoreboardColumn",
 			Handler:    _Ranker_AddScoreboardColumn_Handler,
+		},
+		{
+			MethodName: "UpdateScoreboardColumn",
+			Handler:    _Ranker_UpdateScoreboardColumn_Handler,
 		},
 		{
 			MethodName: "DeleteScoreboardColumn",

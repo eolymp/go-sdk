@@ -122,6 +122,7 @@ func NewRankerHandler(srv RankerServer) http.Handler {
 	router.Handle("/eolymp.ranker.Ranker/DescribeScoreboardRow", _Ranker_DescribeScoreboardRow(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.ranker.Ranker/ListScoreboardRows", _Ranker_ListScoreboardRows(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.ranker.Ranker/AddScoreboardColumn", _Ranker_AddScoreboardColumn(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.ranker.Ranker/UpdateScoreboardColumn", _Ranker_UpdateScoreboardColumn(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.ranker.Ranker/DeleteScoreboardColumn", _Ranker_DeleteScoreboardColumn(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.ranker.Ranker/DescribeScoreboardColumn", _Ranker_DescribeScoreboardColumn(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.ranker.Ranker/ListScoreboardColumns", _Ranker_ListScoreboardColumns(srv)).Methods(http.MethodPost)
@@ -169,6 +170,10 @@ func NewRankerHandlerHttp(srv RankerServer, prefix string) http.Handler {
 	router.Handle(prefix+"/scoreboards/{scoreboard_id}/columns", _Ranker_AddScoreboardColumn_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.ranker.Ranker.AddScoreboardColumn")
+
+	router.Handle(prefix+"/scoreboards/{scoreboard_id}/columns/{column_id}", _Ranker_UpdateScoreboardColumn_Rule0(srv)).
+		Methods("PUT").
+		Name("eolymp.ranker.Ranker.UpdateScoreboardColumn")
 
 	router.Handle(prefix+"/scoreboards/{scoreboard_id}/columns/{column_id}", _Ranker_DeleteScoreboardColumn_Rule0(srv)).
 		Methods("DELETE").
@@ -360,6 +365,26 @@ func _Ranker_AddScoreboardColumn(srv RankerServer) http.Handler {
 		}
 
 		out, err := srv.AddScoreboardColumn(r.Context(), in)
+		if err != nil {
+			_Ranker_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Ranker_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Ranker_UpdateScoreboardColumn(srv RankerServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UpdateScoreboardColumnInput{}
+
+		if err := _Ranker_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Ranker_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.UpdateScoreboardColumn(r.Context(), in)
 		if err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
@@ -642,6 +667,30 @@ func _Ranker_AddScoreboardColumn_Rule0(srv RankerServer) http.Handler {
 		in.ScoreboardId = vars["scoreboard_id"]
 
 		out, err := srv.AddScoreboardColumn(r.Context(), in)
+		if err != nil {
+			_Ranker_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Ranker_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Ranker_UpdateScoreboardColumn_Rule0(srv RankerServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UpdateScoreboardColumnInput{}
+
+		if err := _Ranker_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Ranker_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ScoreboardId = vars["scoreboard_id"]
+		in.ColumnId = vars["column_id"]
+
+		out, err := srv.UpdateScoreboardColumn(r.Context(), in)
 		if err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
@@ -1040,6 +1089,38 @@ func (i *RankerInterceptor) AddScoreboardColumn(ctx context.Context, in *AddScor
 	message, ok := out.(*AddScoreboardColumnOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *AddScoreboardColumnOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *RankerInterceptor) UpdateScoreboardColumn(ctx context.Context, in *UpdateScoreboardColumnInput) (*UpdateScoreboardColumnOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*UpdateScoreboardColumnInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *UpdateScoreboardColumnInput, got %T", in))
+		}
+
+		return i.server.UpdateScoreboardColumn(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.ranker.Ranker.UpdateScoreboardColumn", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*UpdateScoreboardColumnOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *UpdateScoreboardColumnOutput, got %T", out))
 	}
 
 	return message, err

@@ -235,6 +235,23 @@ func (s *RankerService) AddScoreboardColumn(ctx context.Context, in *AddScoreboa
 	return out, nil
 }
 
+func (s *RankerService) UpdateScoreboardColumn(ctx context.Context, in *UpdateScoreboardColumnInput) (*UpdateScoreboardColumnOutput, error) {
+	out := &UpdateScoreboardColumnOutput{}
+	path := "/scoreboards/" + url.PathEscape(in.GetScoreboardId()) + "/columns/" + url.PathEscape(in.GetColumnId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ScoreboardId = ""
+		in.ColumnId = ""
+	}
+
+	if err := s.do(ctx, "PUT", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *RankerService) DeleteScoreboardColumn(ctx context.Context, in *DeleteScoreboardColumnInput) (*DeleteScoreboardColumnOutput, error) {
 	out := &DeleteScoreboardColumnOutput{}
 	path := "/scoreboards/" + url.PathEscape(in.GetScoreboardId()) + "/columns/" + url.PathEscape(in.GetColumnId())
