@@ -127,6 +127,8 @@ func NewCommunityHandler(srv CommunityServer) http.Handler {
 	router.Handle("/eolymp.community.Community/RemoveAttribute", _Community_RemoveAttribute(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.community.Community/DescribeAttribute", _Community_DescribeAttribute(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.community.Community/ListAttributes", _Community_ListAttributes(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.community.Community/DescribeIdentityProvider", _Community_DescribeIdentityProvider(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.community.Community/ConfigureIdentityProvider", _Community_ConfigureIdentityProvider(srv)).Methods(http.MethodPost)
 	return router
 }
 
@@ -190,6 +192,14 @@ func NewCommunityHandlerHttp(srv CommunityServer, prefix string) http.Handler {
 	router.Handle(prefix+"/attributes", _Community_ListAttributes_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.community.Community.ListAttributes")
+
+	router.Handle(prefix+"/idp", _Community_DescribeIdentityProvider_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.community.Community.DescribeIdentityProvider")
+
+	router.Handle(prefix+"/idp", _Community_ConfigureIdentityProvider_Rule0(srv)).
+		Methods("PUT").
+		Name("eolymp.community.Community.ConfigureIdentityProvider")
 
 	return router
 }
@@ -465,6 +475,46 @@ func _Community_ListAttributes(srv CommunityServer) http.Handler {
 		}
 
 		out, err := srv.ListAttributes(r.Context(), in)
+		if err != nil {
+			_Community_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Community_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Community_DescribeIdentityProvider(srv CommunityServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeIdentityProviderInput{}
+
+		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Community_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.DescribeIdentityProvider(r.Context(), in)
+		if err != nil {
+			_Community_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Community_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Community_ConfigureIdentityProvider(srv CommunityServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ConfigureIdentityProviderInput{}
+
+		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Community_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.ConfigureIdentityProvider(r.Context(), in)
 		if err != nil {
 			_Community_HTTPWriteErrorResponse(w, err)
 			return
@@ -763,6 +813,46 @@ func _Community_ListAttributes_Rule0(srv CommunityServer) http.Handler {
 		}
 
 		out, err := srv.ListAttributes(r.Context(), in)
+		if err != nil {
+			_Community_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Community_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Community_DescribeIdentityProvider_Rule0(srv CommunityServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeIdentityProviderInput{}
+
+		if err := _Community_HTTPReadQueryString(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Community_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.DescribeIdentityProvider(r.Context(), in)
+		if err != nil {
+			_Community_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Community_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Community_ConfigureIdentityProvider_Rule0(srv CommunityServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ConfigureIdentityProviderInput{}
+
+		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Community_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.ConfigureIdentityProvider(r.Context(), in)
 		if err != nil {
 			_Community_HTTPWriteErrorResponse(w, err)
 			return
@@ -1227,6 +1317,70 @@ func (i *CommunityInterceptor) ListAttributes(ctx context.Context, in *ListAttri
 	message, ok := out.(*ListAttributesOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *ListAttributesOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *CommunityInterceptor) DescribeIdentityProvider(ctx context.Context, in *DescribeIdentityProviderInput) (*DescribeIdentityProviderOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeIdentityProviderInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeIdentityProviderInput, got %T", in))
+		}
+
+		return i.server.DescribeIdentityProvider(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.community.Community.DescribeIdentityProvider", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeIdentityProviderOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeIdentityProviderOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *CommunityInterceptor) ConfigureIdentityProvider(ctx context.Context, in *ConfigureIdentityProviderInput) (*ConfigureIdentityProviderOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ConfigureIdentityProviderInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ConfigureIdentityProviderInput, got %T", in))
+		}
+
+		return i.server.ConfigureIdentityProvider(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.community.Community.ConfigureIdentityProvider", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ConfigureIdentityProviderOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ConfigureIdentityProviderOutput, got %T", out))
 	}
 
 	return message, err

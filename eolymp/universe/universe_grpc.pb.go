@@ -36,10 +36,6 @@ type UniverseClient interface {
 	DescribeQuota(ctx context.Context, in *DescribeQuotaInput, opts ...grpc.CallOption) (*DescribeQuotaOutput, error)
 	// List spaces of a contest
 	ListSpaces(ctx context.Context, in *ListSpacesInput, opts ...grpc.CallOption) (*ListSpacesOutput, error)
-	// Describe identity provider configuration
-	DescribeIdentityProvider(ctx context.Context, in *DescribeIdentityProviderInput, opts ...grpc.CallOption) (*DescribeIdentityProviderOutput, error)
-	// Update identity provider configuration
-	ConfigureIdentityProvider(ctx context.Context, in *ConfigureIdentityProviderInput, opts ...grpc.CallOption) (*ConfigureIdentityProviderOutput, error)
 	// Add space permission
 	GrantPermission(ctx context.Context, in *GrantPermissionInput, opts ...grpc.CallOption) (*GrantPermissionOutput, error)
 	// Delete space permission
@@ -123,24 +119,6 @@ func (c *universeClient) ListSpaces(ctx context.Context, in *ListSpacesInput, op
 	return out, nil
 }
 
-func (c *universeClient) DescribeIdentityProvider(ctx context.Context, in *DescribeIdentityProviderInput, opts ...grpc.CallOption) (*DescribeIdentityProviderOutput, error) {
-	out := new(DescribeIdentityProviderOutput)
-	err := c.cc.Invoke(ctx, "/eolymp.universe.Universe/DescribeIdentityProvider", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *universeClient) ConfigureIdentityProvider(ctx context.Context, in *ConfigureIdentityProviderInput, opts ...grpc.CallOption) (*ConfigureIdentityProviderOutput, error) {
-	out := new(ConfigureIdentityProviderOutput)
-	err := c.cc.Invoke(ctx, "/eolymp.universe.Universe/ConfigureIdentityProvider", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *universeClient) GrantPermission(ctx context.Context, in *GrantPermissionInput, opts ...grpc.CallOption) (*GrantPermissionOutput, error) {
 	out := new(GrantPermissionOutput)
 	err := c.cc.Invoke(ctx, "/eolymp.universe.Universe/GrantPermission", in, out, opts...)
@@ -204,10 +182,6 @@ type UniverseServer interface {
 	DescribeQuota(context.Context, *DescribeQuotaInput) (*DescribeQuotaOutput, error)
 	// List spaces of a contest
 	ListSpaces(context.Context, *ListSpacesInput) (*ListSpacesOutput, error)
-	// Describe identity provider configuration
-	DescribeIdentityProvider(context.Context, *DescribeIdentityProviderInput) (*DescribeIdentityProviderOutput, error)
-	// Update identity provider configuration
-	ConfigureIdentityProvider(context.Context, *ConfigureIdentityProviderInput) (*ConfigureIdentityProviderOutput, error)
 	// Add space permission
 	GrantPermission(context.Context, *GrantPermissionInput) (*GrantPermissionOutput, error)
 	// Delete space permission
@@ -244,12 +218,6 @@ func (UnimplementedUniverseServer) DescribeQuota(context.Context, *DescribeQuota
 }
 func (UnimplementedUniverseServer) ListSpaces(context.Context, *ListSpacesInput) (*ListSpacesOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListSpaces not implemented")
-}
-func (UnimplementedUniverseServer) DescribeIdentityProvider(context.Context, *DescribeIdentityProviderInput) (*DescribeIdentityProviderOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DescribeIdentityProvider not implemented")
-}
-func (UnimplementedUniverseServer) ConfigureIdentityProvider(context.Context, *ConfigureIdentityProviderInput) (*ConfigureIdentityProviderOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ConfigureIdentityProvider not implemented")
 }
 func (UnimplementedUniverseServer) GrantPermission(context.Context, *GrantPermissionInput) (*GrantPermissionOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GrantPermission not implemented")
@@ -404,42 +372,6 @@ func _Universe_ListSpaces_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Universe_DescribeIdentityProvider_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DescribeIdentityProviderInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UniverseServer).DescribeIdentityProvider(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/eolymp.universe.Universe/DescribeIdentityProvider",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UniverseServer).DescribeIdentityProvider(ctx, req.(*DescribeIdentityProviderInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Universe_ConfigureIdentityProvider_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ConfigureIdentityProviderInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UniverseServer).ConfigureIdentityProvider(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/eolymp.universe.Universe/ConfigureIdentityProvider",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UniverseServer).ConfigureIdentityProvider(ctx, req.(*ConfigureIdentityProviderInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _Universe_GrantPermission_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GrantPermissionInput)
 	if err := dec(in); err != nil {
@@ -564,14 +496,6 @@ var Universe_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListSpaces",
 			Handler:    _Universe_ListSpaces_Handler,
-		},
-		{
-			MethodName: "DescribeIdentityProvider",
-			Handler:    _Universe_DescribeIdentityProvider_Handler,
-		},
-		{
-			MethodName: "ConfigureIdentityProvider",
-			Handler:    _Universe_ConfigureIdentityProvider_Handler,
 		},
 		{
 			MethodName: "GrantPermission",

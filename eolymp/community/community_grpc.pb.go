@@ -40,6 +40,10 @@ type CommunityClient interface {
 	RemoveAttribute(ctx context.Context, in *RemoveAttributeInput, opts ...grpc.CallOption) (*RemoveAttributeOutput, error)
 	DescribeAttribute(ctx context.Context, in *DescribeAttributeInput, opts ...grpc.CallOption) (*DescribeAttributeOutput, error)
 	ListAttributes(ctx context.Context, in *ListAttributesInput, opts ...grpc.CallOption) (*ListAttributesOutput, error)
+	// Describe identity provider configuration
+	DescribeIdentityProvider(ctx context.Context, in *DescribeIdentityProviderInput, opts ...grpc.CallOption) (*DescribeIdentityProviderOutput, error)
+	// Update identity provider configuration
+	ConfigureIdentityProvider(ctx context.Context, in *ConfigureIdentityProviderInput, opts ...grpc.CallOption) (*ConfigureIdentityProviderOutput, error)
 }
 
 type communityClient struct {
@@ -176,6 +180,24 @@ func (c *communityClient) ListAttributes(ctx context.Context, in *ListAttributes
 	return out, nil
 }
 
+func (c *communityClient) DescribeIdentityProvider(ctx context.Context, in *DescribeIdentityProviderInput, opts ...grpc.CallOption) (*DescribeIdentityProviderOutput, error) {
+	out := new(DescribeIdentityProviderOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.community.Community/DescribeIdentityProvider", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *communityClient) ConfigureIdentityProvider(ctx context.Context, in *ConfigureIdentityProviderInput, opts ...grpc.CallOption) (*ConfigureIdentityProviderOutput, error) {
+	out := new(ConfigureIdentityProviderOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.community.Community/ConfigureIdentityProvider", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CommunityServer is the server API for Community service.
 // All implementations should embed UnimplementedCommunityServer
 // for forward compatibility
@@ -198,6 +220,10 @@ type CommunityServer interface {
 	RemoveAttribute(context.Context, *RemoveAttributeInput) (*RemoveAttributeOutput, error)
 	DescribeAttribute(context.Context, *DescribeAttributeInput) (*DescribeAttributeOutput, error)
 	ListAttributes(context.Context, *ListAttributesInput) (*ListAttributesOutput, error)
+	// Describe identity provider configuration
+	DescribeIdentityProvider(context.Context, *DescribeIdentityProviderInput) (*DescribeIdentityProviderOutput, error)
+	// Update identity provider configuration
+	ConfigureIdentityProvider(context.Context, *ConfigureIdentityProviderInput) (*ConfigureIdentityProviderOutput, error)
 }
 
 // UnimplementedCommunityServer should be embedded to have forward compatible implementations.
@@ -245,6 +271,12 @@ func (UnimplementedCommunityServer) DescribeAttribute(context.Context, *Describe
 }
 func (UnimplementedCommunityServer) ListAttributes(context.Context, *ListAttributesInput) (*ListAttributesOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListAttributes not implemented")
+}
+func (UnimplementedCommunityServer) DescribeIdentityProvider(context.Context, *DescribeIdentityProviderInput) (*DescribeIdentityProviderOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeIdentityProvider not implemented")
+}
+func (UnimplementedCommunityServer) ConfigureIdentityProvider(context.Context, *ConfigureIdentityProviderInput) (*ConfigureIdentityProviderOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ConfigureIdentityProvider not implemented")
 }
 
 // UnsafeCommunityServer may be embedded to opt out of forward compatibility for this service.
@@ -510,6 +542,42 @@ func _Community_ListAttributes_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Community_DescribeIdentityProvider_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeIdentityProviderInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CommunityServer).DescribeIdentityProvider(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.community.Community/DescribeIdentityProvider",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CommunityServer).DescribeIdentityProvider(ctx, req.(*DescribeIdentityProviderInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Community_ConfigureIdentityProvider_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ConfigureIdentityProviderInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CommunityServer).ConfigureIdentityProvider(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.community.Community/ConfigureIdentityProvider",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CommunityServer).ConfigureIdentityProvider(ctx, req.(*ConfigureIdentityProviderInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Community_ServiceDesc is the grpc.ServiceDesc for Community service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -572,6 +640,14 @@ var Community_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListAttributes",
 			Handler:    _Community_ListAttributes_Handler,
+		},
+		{
+			MethodName: "DescribeIdentityProvider",
+			Handler:    _Community_DescribeIdentityProvider_Handler,
+		},
+		{
+			MethodName: "ConfigureIdentityProvider",
+			Handler:    _Community_ConfigureIdentityProvider_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
