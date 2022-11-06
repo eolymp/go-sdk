@@ -102,7 +102,7 @@ func (s *ExecutorService) do(ctx context.Context, verb, path string, in, out pro
 
 func (s *ExecutorService) DescribeLanguage(ctx context.Context, in *DescribeLanguageInput) (*DescribeLanguageOutput, error) {
 	out := &DescribeLanguageOutput{}
-	path := "/languages/" + url.PathEscape(in.GetLanguageId())
+	path := "/exec/languages/" + url.PathEscape(in.GetLanguageId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
@@ -118,7 +118,7 @@ func (s *ExecutorService) DescribeLanguage(ctx context.Context, in *DescribeLang
 
 func (s *ExecutorService) ListLanguages(ctx context.Context, in *ListLanguagesInput) (*ListLanguagesOutput, error) {
 	out := &ListLanguagesOutput{}
-	path := "/languages"
+	path := "/exec/languages"
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
@@ -129,7 +129,7 @@ func (s *ExecutorService) ListLanguages(ctx context.Context, in *ListLanguagesIn
 
 func (s *ExecutorService) DescribeRuntime(ctx context.Context, in *DescribeRuntimeInput) (*DescribeRuntimeOutput, error) {
 	out := &DescribeRuntimeOutput{}
-	path := "/runtime/" + url.PathEscape(in.GetRuntimeId())
+	path := "/exec/runtime/" + url.PathEscape(in.GetRuntimeId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
@@ -145,7 +145,7 @@ func (s *ExecutorService) DescribeRuntime(ctx context.Context, in *DescribeRunti
 
 func (s *ExecutorService) ListRuntime(ctx context.Context, in *ListRuntimeInput) (*ListRuntimeOutput, error) {
 	out := &ListRuntimeOutput{}
-	path := "/runtime"
+	path := "/exec/runtime"
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
@@ -156,7 +156,7 @@ func (s *ExecutorService) ListRuntime(ctx context.Context, in *ListRuntimeInput)
 
 func (s *ExecutorService) DescribeCodeTemplate(ctx context.Context, in *DescribeCodeTemplateInput) (*DescribeCodeTemplateOutput, error) {
 	out := &DescribeCodeTemplateOutput{}
-	path := "/runtime/" + url.PathEscape(in.GetRuntimeId()) + "/template"
+	path := "/exec/runtime/" + url.PathEscape(in.GetRuntimeId()) + "/template"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
