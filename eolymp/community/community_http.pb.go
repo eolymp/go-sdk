@@ -122,6 +122,9 @@ func NewCommunityHandler(srv CommunityServer) http.Handler {
 	router.Handle("/eolymp.community.Community/RemoveMember", _Community_RemoveMember(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.community.Community/DescribeMember", _Community_DescribeMember(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.community.Community/ListMembers", _Community_ListMembers(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.community.Community/AddMemberIdentity", _Community_AddMemberIdentity(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.community.Community/UpdateMemberIdentity", _Community_UpdateMemberIdentity(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.community.Community/RemoveMemberIdentity", _Community_RemoveMemberIdentity(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.community.Community/AddAttribute", _Community_AddAttribute(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.community.Community/UpdateAttribute", _Community_UpdateAttribute(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.community.Community/RemoveAttribute", _Community_RemoveAttribute(srv)).Methods(http.MethodPost)
@@ -172,6 +175,18 @@ func NewCommunityHandlerHttp(srv CommunityServer, prefix string) http.Handler {
 	router.Handle(prefix+"/members", _Community_ListMembers_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.community.Community.ListMembers")
+
+	router.Handle(prefix+"/members/{member_id}/identities", _Community_AddMemberIdentity_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.community.Community.AddMemberIdentity")
+
+	router.Handle(prefix+"/members/{member_id}/identities/{identity_id}", _Community_UpdateMemberIdentity_Rule0(srv)).
+		Methods("PUT").
+		Name("eolymp.community.Community.UpdateMemberIdentity")
+
+	router.Handle(prefix+"/members/{member_id}/identities/{identity_id}", _Community_RemoveMemberIdentity_Rule0(srv)).
+		Methods("DELETE").
+		Name("eolymp.community.Community.RemoveMemberIdentity")
 
 	router.Handle(prefix+"/attributes", _Community_AddAttribute_Rule0(srv)).
 		Methods("POST").
@@ -375,6 +390,66 @@ func _Community_ListMembers(srv CommunityServer) http.Handler {
 		}
 
 		out, err := srv.ListMembers(r.Context(), in)
+		if err != nil {
+			_Community_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Community_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Community_AddMemberIdentity(srv CommunityServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &AddMemberIdentityInput{}
+
+		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Community_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.AddMemberIdentity(r.Context(), in)
+		if err != nil {
+			_Community_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Community_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Community_UpdateMemberIdentity(srv CommunityServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UpdateMemberIdentityInput{}
+
+		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Community_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.UpdateMemberIdentity(r.Context(), in)
+		if err != nil {
+			_Community_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Community_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Community_RemoveMemberIdentity(srv CommunityServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &RemoveMemberIdentityInput{}
+
+		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Community_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.RemoveMemberIdentity(r.Context(), in)
 		if err != nil {
 			_Community_HTTPWriteErrorResponse(w, err)
 			return
@@ -704,6 +779,77 @@ func _Community_ListMembers_Rule0(srv CommunityServer) http.Handler {
 		}
 
 		out, err := srv.ListMembers(r.Context(), in)
+		if err != nil {
+			_Community_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Community_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Community_AddMemberIdentity_Rule0(srv CommunityServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &AddMemberIdentityInput{}
+
+		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Community_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.MemberId = vars["member_id"]
+
+		out, err := srv.AddMemberIdentity(r.Context(), in)
+		if err != nil {
+			_Community_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Community_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Community_UpdateMemberIdentity_Rule0(srv CommunityServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UpdateMemberIdentityInput{}
+
+		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Community_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.MemberId = vars["member_id"]
+		in.IdentityId = vars["identity_id"]
+
+		out, err := srv.UpdateMemberIdentity(r.Context(), in)
+		if err != nil {
+			_Community_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Community_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Community_RemoveMemberIdentity_Rule0(srv CommunityServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &RemoveMemberIdentityInput{}
+
+		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Community_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.MemberId = vars["member_id"]
+		in.IdentityId = vars["identity_id"]
+
+		out, err := srv.RemoveMemberIdentity(r.Context(), in)
 		if err != nil {
 			_Community_HTTPWriteErrorResponse(w, err)
 			return
@@ -1157,6 +1303,102 @@ func (i *CommunityInterceptor) ListMembers(ctx context.Context, in *ListMembersI
 	message, ok := out.(*ListMembersOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *ListMembersOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *CommunityInterceptor) AddMemberIdentity(ctx context.Context, in *AddMemberIdentityInput) (*AddMemberIdentityOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*AddMemberIdentityInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *AddMemberIdentityInput, got %T", in))
+		}
+
+		return i.server.AddMemberIdentity(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.community.Community.AddMemberIdentity", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*AddMemberIdentityOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *AddMemberIdentityOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *CommunityInterceptor) UpdateMemberIdentity(ctx context.Context, in *UpdateMemberIdentityInput) (*UpdateMemberIdentityOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*UpdateMemberIdentityInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *UpdateMemberIdentityInput, got %T", in))
+		}
+
+		return i.server.UpdateMemberIdentity(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.community.Community.UpdateMemberIdentity", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*UpdateMemberIdentityOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *UpdateMemberIdentityOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *CommunityInterceptor) RemoveMemberIdentity(ctx context.Context, in *RemoveMemberIdentityInput) (*RemoveMemberIdentityOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*RemoveMemberIdentityInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *RemoveMemberIdentityInput, got %T", in))
+		}
+
+		return i.server.RemoveMemberIdentity(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.community.Community.RemoveMemberIdentity", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*RemoveMemberIdentityOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *RemoveMemberIdentityOutput, got %T", out))
 	}
 
 	return message, err

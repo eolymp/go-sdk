@@ -214,6 +214,56 @@ func (s *CommunityService) ListMembers(ctx context.Context, in *ListMembersInput
 	return out, nil
 }
 
+func (s *CommunityService) AddMemberIdentity(ctx context.Context, in *AddMemberIdentityInput) (*AddMemberIdentityOutput, error) {
+	out := &AddMemberIdentityOutput{}
+	path := "/members/" + url.PathEscape(in.GetMemberId()) + "/identities"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.MemberId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *CommunityService) UpdateMemberIdentity(ctx context.Context, in *UpdateMemberIdentityInput) (*UpdateMemberIdentityOutput, error) {
+	out := &UpdateMemberIdentityOutput{}
+	path := "/members/" + url.PathEscape(in.GetMemberId()) + "/identities/" + url.PathEscape(in.GetIdentityId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.MemberId = ""
+		in.IdentityId = ""
+	}
+
+	if err := s.do(ctx, "PUT", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *CommunityService) RemoveMemberIdentity(ctx context.Context, in *RemoveMemberIdentityInput) (*RemoveMemberIdentityOutput, error) {
+	out := &RemoveMemberIdentityOutput{}
+	path := "/members/" + url.PathEscape(in.GetMemberId()) + "/identities/" + url.PathEscape(in.GetIdentityId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.MemberId = ""
+		in.IdentityId = ""
+	}
+
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *CommunityService) AddAttribute(ctx context.Context, in *AddAttributeInput) (*AddAttributeOutput, error) {
 	out := &AddAttributeOutput{}
 	path := "/attributes"

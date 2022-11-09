@@ -35,6 +35,9 @@ type CommunityClient interface {
 	RemoveMember(ctx context.Context, in *RemoveMemberInput, opts ...grpc.CallOption) (*RemoveMemberOutput, error)
 	DescribeMember(ctx context.Context, in *DescribeMemberInput, opts ...grpc.CallOption) (*DescribeMemberOutput, error)
 	ListMembers(ctx context.Context, in *ListMembersInput, opts ...grpc.CallOption) (*ListMembersOutput, error)
+	AddMemberIdentity(ctx context.Context, in *AddMemberIdentityInput, opts ...grpc.CallOption) (*AddMemberIdentityOutput, error)
+	UpdateMemberIdentity(ctx context.Context, in *UpdateMemberIdentityInput, opts ...grpc.CallOption) (*UpdateMemberIdentityOutput, error)
+	RemoveMemberIdentity(ctx context.Context, in *RemoveMemberIdentityInput, opts ...grpc.CallOption) (*RemoveMemberIdentityOutput, error)
 	AddAttribute(ctx context.Context, in *AddAttributeInput, opts ...grpc.CallOption) (*AddAttributeOutput, error)
 	UpdateAttribute(ctx context.Context, in *UpdateAttributeInput, opts ...grpc.CallOption) (*UpdateAttributeOutput, error)
 	RemoveAttribute(ctx context.Context, in *RemoveAttributeInput, opts ...grpc.CallOption) (*RemoveAttributeOutput, error)
@@ -135,6 +138,33 @@ func (c *communityClient) ListMembers(ctx context.Context, in *ListMembersInput,
 	return out, nil
 }
 
+func (c *communityClient) AddMemberIdentity(ctx context.Context, in *AddMemberIdentityInput, opts ...grpc.CallOption) (*AddMemberIdentityOutput, error) {
+	out := new(AddMemberIdentityOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.community.Community/AddMemberIdentity", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *communityClient) UpdateMemberIdentity(ctx context.Context, in *UpdateMemberIdentityInput, opts ...grpc.CallOption) (*UpdateMemberIdentityOutput, error) {
+	out := new(UpdateMemberIdentityOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.community.Community/UpdateMemberIdentity", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *communityClient) RemoveMemberIdentity(ctx context.Context, in *RemoveMemberIdentityInput, opts ...grpc.CallOption) (*RemoveMemberIdentityOutput, error) {
+	out := new(RemoveMemberIdentityOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.community.Community/RemoveMemberIdentity", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *communityClient) AddAttribute(ctx context.Context, in *AddAttributeInput, opts ...grpc.CallOption) (*AddAttributeOutput, error) {
 	out := new(AddAttributeOutput)
 	err := c.cc.Invoke(ctx, "/eolymp.community.Community/AddAttribute", in, out, opts...)
@@ -215,6 +245,9 @@ type CommunityServer interface {
 	RemoveMember(context.Context, *RemoveMemberInput) (*RemoveMemberOutput, error)
 	DescribeMember(context.Context, *DescribeMemberInput) (*DescribeMemberOutput, error)
 	ListMembers(context.Context, *ListMembersInput) (*ListMembersOutput, error)
+	AddMemberIdentity(context.Context, *AddMemberIdentityInput) (*AddMemberIdentityOutput, error)
+	UpdateMemberIdentity(context.Context, *UpdateMemberIdentityInput) (*UpdateMemberIdentityOutput, error)
+	RemoveMemberIdentity(context.Context, *RemoveMemberIdentityInput) (*RemoveMemberIdentityOutput, error)
 	AddAttribute(context.Context, *AddAttributeInput) (*AddAttributeOutput, error)
 	UpdateAttribute(context.Context, *UpdateAttributeInput) (*UpdateAttributeOutput, error)
 	RemoveAttribute(context.Context, *RemoveAttributeInput) (*RemoveAttributeOutput, error)
@@ -256,6 +289,15 @@ func (UnimplementedCommunityServer) DescribeMember(context.Context, *DescribeMem
 }
 func (UnimplementedCommunityServer) ListMembers(context.Context, *ListMembersInput) (*ListMembersOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListMembers not implemented")
+}
+func (UnimplementedCommunityServer) AddMemberIdentity(context.Context, *AddMemberIdentityInput) (*AddMemberIdentityOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddMemberIdentity not implemented")
+}
+func (UnimplementedCommunityServer) UpdateMemberIdentity(context.Context, *UpdateMemberIdentityInput) (*UpdateMemberIdentityOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateMemberIdentity not implemented")
+}
+func (UnimplementedCommunityServer) RemoveMemberIdentity(context.Context, *RemoveMemberIdentityInput) (*RemoveMemberIdentityOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RemoveMemberIdentity not implemented")
 }
 func (UnimplementedCommunityServer) AddAttribute(context.Context, *AddAttributeInput) (*AddAttributeOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddAttribute not implemented")
@@ -452,6 +494,60 @@ func _Community_ListMembers_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Community_AddMemberIdentity_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddMemberIdentityInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CommunityServer).AddMemberIdentity(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.community.Community/AddMemberIdentity",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CommunityServer).AddMemberIdentity(ctx, req.(*AddMemberIdentityInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Community_UpdateMemberIdentity_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateMemberIdentityInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CommunityServer).UpdateMemberIdentity(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.community.Community/UpdateMemberIdentity",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CommunityServer).UpdateMemberIdentity(ctx, req.(*UpdateMemberIdentityInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Community_RemoveMemberIdentity_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RemoveMemberIdentityInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CommunityServer).RemoveMemberIdentity(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.community.Community/RemoveMemberIdentity",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CommunityServer).RemoveMemberIdentity(ctx, req.(*RemoveMemberIdentityInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Community_AddAttribute_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(AddAttributeInput)
 	if err := dec(in); err != nil {
@@ -620,6 +716,18 @@ var Community_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListMembers",
 			Handler:    _Community_ListMembers_Handler,
+		},
+		{
+			MethodName: "AddMemberIdentity",
+			Handler:    _Community_AddMemberIdentity_Handler,
+		},
+		{
+			MethodName: "UpdateMemberIdentity",
+			Handler:    _Community_UpdateMemberIdentity_Handler,
+		},
+		{
+			MethodName: "RemoveMemberIdentity",
+			Handler:    _Community_RemoveMemberIdentity_Handler,
 		},
 		{
 			MethodName: "AddAttribute",
