@@ -116,6 +116,7 @@ func NewHarmonyHandler(srv HarmonyServer) http.Handler {
 	router.Handle("/eolymp.harmony.Harmony/ListAgreements", _Harmony_ListAgreements(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.harmony.Harmony/GetConsent", _Harmony_GetConsent(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.harmony.Harmony/SetConsent", _Harmony_SetConsent(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.harmony.Harmony/FollowShortcut", _Harmony_FollowShortcut(srv)).Methods(http.MethodPost)
 	return router
 }
 
@@ -135,6 +136,10 @@ func NewHarmonyHandlerHttp(srv HarmonyServer, prefix string) http.Handler {
 	router.Handle(prefix+"/harmony/agreements/{agreement_id}/consent", _Harmony_SetConsent_Rule0(srv)).
 		Methods("PUT").
 		Name("eolymp.harmony.Harmony.SetConsent")
+
+	router.Handle(prefix+"/harmony/shortcuts/{shortcut_id}", _Harmony_FollowShortcut_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.harmony.Harmony.FollowShortcut")
 
 	return router
 }
@@ -190,6 +195,26 @@ func _Harmony_SetConsent(srv HarmonyServer) http.Handler {
 		}
 
 		out, err := srv.SetConsent(r.Context(), in)
+		if err != nil {
+			_Harmony_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Harmony_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Harmony_FollowShortcut(srv HarmonyServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &FollowShortcutInput{}
+
+		if err := _Harmony_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Harmony_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.FollowShortcut(r.Context(), in)
 		if err != nil {
 			_Harmony_HTTPWriteErrorResponse(w, err)
 			return
@@ -256,6 +281,29 @@ func _Harmony_SetConsent_Rule0(srv HarmonyServer) http.Handler {
 		in.AgreementId = vars["agreement_id"]
 
 		out, err := srv.SetConsent(r.Context(), in)
+		if err != nil {
+			_Harmony_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Harmony_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Harmony_FollowShortcut_Rule0(srv HarmonyServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &FollowShortcutInput{}
+
+		if err := _Harmony_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Harmony_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ShortcutId = vars["shortcut_id"]
+
+		out, err := srv.FollowShortcut(r.Context(), in)
 		if err != nil {
 			_Harmony_HTTPWriteErrorResponse(w, err)
 			return
@@ -368,6 +416,38 @@ func (i *HarmonyInterceptor) SetConsent(ctx context.Context, in *SetConsentInput
 	message, ok := out.(*SetConsentOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *SetConsentOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *HarmonyInterceptor) FollowShortcut(ctx context.Context, in *FollowShortcutInput) (*FollowShortcutOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*FollowShortcutInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *FollowShortcutInput, got %T", in))
+		}
+
+		return i.server.FollowShortcut(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.harmony.Harmony.FollowShortcut", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*FollowShortcutOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *FollowShortcutOutput, got %T", out))
 	}
 
 	return message, err

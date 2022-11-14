@@ -25,6 +25,7 @@ type HarmonyClient interface {
 	ListAgreements(ctx context.Context, in *ListAgreementsInput, opts ...grpc.CallOption) (*ListAgreementsOutput, error)
 	GetConsent(ctx context.Context, in *GetConsentInput, opts ...grpc.CallOption) (*GetConsentOutput, error)
 	SetConsent(ctx context.Context, in *SetConsentInput, opts ...grpc.CallOption) (*SetConsentOutput, error)
+	FollowShortcut(ctx context.Context, in *FollowShortcutInput, opts ...grpc.CallOption) (*FollowShortcutOutput, error)
 }
 
 type harmonyClient struct {
@@ -62,6 +63,15 @@ func (c *harmonyClient) SetConsent(ctx context.Context, in *SetConsentInput, opt
 	return out, nil
 }
 
+func (c *harmonyClient) FollowShortcut(ctx context.Context, in *FollowShortcutInput, opts ...grpc.CallOption) (*FollowShortcutOutput, error) {
+	out := new(FollowShortcutOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.harmony.Harmony/FollowShortcut", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // HarmonyServer is the server API for Harmony service.
 // All implementations should embed UnimplementedHarmonyServer
 // for forward compatibility
@@ -69,6 +79,7 @@ type HarmonyServer interface {
 	ListAgreements(context.Context, *ListAgreementsInput) (*ListAgreementsOutput, error)
 	GetConsent(context.Context, *GetConsentInput) (*GetConsentOutput, error)
 	SetConsent(context.Context, *SetConsentInput) (*SetConsentOutput, error)
+	FollowShortcut(context.Context, *FollowShortcutInput) (*FollowShortcutOutput, error)
 }
 
 // UnimplementedHarmonyServer should be embedded to have forward compatible implementations.
@@ -83,6 +94,9 @@ func (UnimplementedHarmonyServer) GetConsent(context.Context, *GetConsentInput) 
 }
 func (UnimplementedHarmonyServer) SetConsent(context.Context, *SetConsentInput) (*SetConsentOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SetConsent not implemented")
+}
+func (UnimplementedHarmonyServer) FollowShortcut(context.Context, *FollowShortcutInput) (*FollowShortcutOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FollowShortcut not implemented")
 }
 
 // UnsafeHarmonyServer may be embedded to opt out of forward compatibility for this service.
@@ -150,6 +164,24 @@ func _Harmony_SetConsent_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Harmony_FollowShortcut_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FollowShortcutInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HarmonyServer).FollowShortcut(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.harmony.Harmony/FollowShortcut",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HarmonyServer).FollowShortcut(ctx, req.(*FollowShortcutInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Harmony_ServiceDesc is the grpc.ServiceDesc for Harmony service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -168,6 +200,10 @@ var Harmony_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SetConsent",
 			Handler:    _Harmony_SetConsent_Handler,
+		},
+		{
+			MethodName: "FollowShortcut",
+			Handler:    _Harmony_FollowShortcut_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

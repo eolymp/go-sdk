@@ -142,3 +142,19 @@ func (s *HarmonyService) SetConsent(ctx context.Context, in *SetConsentInput) (*
 
 	return out, nil
 }
+
+func (s *HarmonyService) FollowShortcut(ctx context.Context, in *FollowShortcutInput) (*FollowShortcutOutput, error) {
+	out := &FollowShortcutOutput{}
+	path := "/harmony/shortcuts/" + url.PathEscape(in.GetShortcutId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ShortcutId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
