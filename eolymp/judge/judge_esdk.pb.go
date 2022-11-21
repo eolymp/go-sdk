@@ -1198,6 +1198,23 @@ func (s *JudgeService) ImportScore(ctx context.Context, in *ImportScoreInput) (*
 	return out, nil
 }
 
+func (s *JudgeService) ExportScore(ctx context.Context, in *ExportScoreInput) (*ExportScoreOutput, error) {
+	out := &ExportScoreOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/participants/" + url.PathEscape(in.GetParticipantId()) + "/scores"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+		in.ParticipantId = ""
+	}
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *JudgeService) ListResult(ctx context.Context, in *ListResultInput) (*ListResultOutput, error) {
 	out := &ListResultOutput{}
 	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/results"

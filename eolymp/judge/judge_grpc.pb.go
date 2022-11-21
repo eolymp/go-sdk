@@ -142,6 +142,8 @@ type JudgeClient interface {
 	DescribeScore(ctx context.Context, in *DescribeScoreInput, opts ...grpc.CallOption) (*DescribeScoreOutput, error)
 	// ImportScore for ghost participants
 	ImportScore(ctx context.Context, in *ImportScoreInput, opts ...grpc.CallOption) (*ImportScoreOutput, error)
+	// ExportScore for ghost participants
+	ExportScore(ctx context.Context, in *ExportScoreInput, opts ...grpc.CallOption) (*ExportScoreOutput, error)
 	// ListResult retrieves scoreboard
 	ListResult(ctx context.Context, in *ListResultInput, opts ...grpc.CallOption) (*ListResultOutput, error)
 	// Rebuild scoreboard
@@ -771,6 +773,15 @@ func (c *judgeClient) ImportScore(ctx context.Context, in *ImportScoreInput, opt
 	return out, nil
 }
 
+func (c *judgeClient) ExportScore(ctx context.Context, in *ExportScoreInput, opts ...grpc.CallOption) (*ExportScoreOutput, error) {
+	out := new(ExportScoreOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/ExportScore", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *judgeClient) ListResult(ctx context.Context, in *ListResultInput, opts ...grpc.CallOption) (*ListResultOutput, error) {
 	out := new(ListResultOutput)
 	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/ListResult", in, out, opts...)
@@ -931,6 +942,8 @@ type JudgeServer interface {
 	DescribeScore(context.Context, *DescribeScoreInput) (*DescribeScoreOutput, error)
 	// ImportScore for ghost participants
 	ImportScore(context.Context, *ImportScoreInput) (*ImportScoreOutput, error)
+	// ExportScore for ghost participants
+	ExportScore(context.Context, *ExportScoreInput) (*ExportScoreOutput, error)
 	// ListResult retrieves scoreboard
 	ListResult(context.Context, *ListResultInput) (*ListResultOutput, error)
 	// Rebuild scoreboard
@@ -1147,6 +1160,9 @@ func (UnimplementedJudgeServer) DescribeScore(context.Context, *DescribeScoreInp
 }
 func (UnimplementedJudgeServer) ImportScore(context.Context, *ImportScoreInput) (*ImportScoreOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ImportScore not implemented")
+}
+func (UnimplementedJudgeServer) ExportScore(context.Context, *ExportScoreInput) (*ExportScoreOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ExportScore not implemented")
 }
 func (UnimplementedJudgeServer) ListResult(context.Context, *ListResultInput) (*ListResultOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListResult not implemented")
@@ -2396,6 +2412,24 @@ func _Judge_ImportScore_Handler(srv interface{}, ctx context.Context, dec func(i
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Judge_ExportScore_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ExportScoreInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(JudgeServer).ExportScore(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.judge.Judge/ExportScore",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(JudgeServer).ExportScore(ctx, req.(*ExportScoreInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Judge_ListResult_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListResultInput)
 	if err := dec(in); err != nil {
@@ -2746,6 +2780,10 @@ var Judge_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ImportScore",
 			Handler:    _Judge_ImportScore_Handler,
+		},
+		{
+			MethodName: "ExportScore",
+			Handler:    _Judge_ExportScore_Handler,
 		},
 		{
 			MethodName: "ListResult",

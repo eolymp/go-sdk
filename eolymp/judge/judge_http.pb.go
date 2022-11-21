@@ -181,6 +181,7 @@ func NewJudgeHandler(srv JudgeServer) http.Handler {
 	router.Handle("/eolymp.judge.Judge/IntrospectScore", _Judge_IntrospectScore(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.judge.Judge/DescribeScore", _Judge_DescribeScore(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.judge.Judge/ImportScore", _Judge_ImportScore(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.judge.Judge/ExportScore", _Judge_ExportScore(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.judge.Judge/ListResult", _Judge_ListResult(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.judge.Judge/RebuildScore", _Judge_RebuildScore(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.judge.Judge/ListEntitlements", _Judge_ListEntitlements(srv)).Methods(http.MethodPost)
@@ -464,6 +465,10 @@ func NewJudgeHandlerHttp(srv JudgeServer, prefix string) http.Handler {
 	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/scores", _Judge_ImportScore_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.judge.Judge.ImportScore")
+
+	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/scores", _Judge_ExportScore_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.judge.Judge.ExportScore")
 
 	router.Handle(prefix+"/contests/{contest_id}/results", _Judge_ListResult_Rule0(srv)).
 		Methods("GET").
@@ -1835,6 +1840,26 @@ func _Judge_ImportScore(srv JudgeServer) http.Handler {
 		}
 
 		out, err := srv.ImportScore(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_ExportScore(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ExportScoreInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.ExportScore(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -3497,6 +3522,30 @@ func _Judge_ImportScore_Rule0(srv JudgeServer) http.Handler {
 		in.ParticipantId = vars["participant_id"]
 
 		out, err := srv.ImportScore(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_ExportScore_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ExportScoreInput{}
+
+		if err := _Judge_HTTPReadQueryString(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+		in.ParticipantId = vars["participant_id"]
+
+		out, err := srv.ExportScore(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -5778,6 +5827,38 @@ func (i *JudgeInterceptor) ImportScore(ctx context.Context, in *ImportScoreInput
 	message, ok := out.(*ImportScoreOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *ImportScoreOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *JudgeInterceptor) ExportScore(ctx context.Context, in *ExportScoreInput) (*ExportScoreOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ExportScoreInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ExportScoreInput, got %T", in))
+		}
+
+		return i.server.ExportScore(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge.ExportScore", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ExportScoreOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ExportScoreOutput, got %T", out))
 	}
 
 	return message, err
