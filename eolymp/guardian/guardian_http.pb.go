@@ -113,10 +113,10 @@ func _Guardian_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 // NewGuardianHandler constructs new http.Handler for GuardianServer
 func NewGuardianHandler(srv GuardianServer) http.Handler {
 	router := mux.NewRouter()
-	router.Handle("/eolymp.universe.Guardian/ListPolicies", _Guardian_ListPolicies(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.universe.Guardian/DescribePolicy", _Guardian_DescribePolicy(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.universe.Guardian/DefinePolicy", _Guardian_DefinePolicy(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.universe.Guardian/RemovePolicy", _Guardian_RemovePolicy(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.guardian.Guardian/ListPolicies", _Guardian_ListPolicies(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.guardian.Guardian/DescribePolicy", _Guardian_DescribePolicy(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.guardian.Guardian/DefinePolicy", _Guardian_DefinePolicy(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.guardian.Guardian/RemovePolicy", _Guardian_RemovePolicy(srv)).Methods(http.MethodPost)
 	return router
 }
 
@@ -127,19 +127,19 @@ func NewGuardianHandlerHttp(srv GuardianServer, prefix string) http.Handler {
 
 	router.Handle(prefix+"/policies", _Guardian_ListPolicies_Rule0(srv)).
 		Methods("GET").
-		Name("eolymp.universe.Guardian.ListPolicies")
+		Name("eolymp.guardian.Guardian.ListPolicies")
 
 	router.Handle(prefix+"/policies/{name}", _Guardian_DescribePolicy_Rule0(srv)).
 		Methods("GET").
-		Name("eolymp.universe.Guardian.DescribePolicy")
+		Name("eolymp.guardian.Guardian.DescribePolicy")
 
 	router.Handle(prefix+"/policies/{name}", _Guardian_DefinePolicy_Rule0(srv)).
 		Methods("PUT").
-		Name("eolymp.universe.Guardian.DefinePolicy")
+		Name("eolymp.guardian.Guardian.DefinePolicy")
 
 	router.Handle(prefix+"/policies/{name}", _Guardian_RemovePolicy_Rule0(srv)).
 		Methods("DELETE").
-		Name("eolymp.universe.Guardian.RemovePolicy")
+		Name("eolymp.guardian.Guardian.RemovePolicy")
 
 	return router
 }
@@ -340,7 +340,7 @@ func (i *GuardianInterceptor) ListPolicies(ctx context.Context, in *ListPolicies
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.universe.Guardian.ListPolicies", in, next)
+			return mw(ctx, "eolymp.guardian.Guardian.ListPolicies", in, next)
 		}
 	}
 
@@ -372,7 +372,7 @@ func (i *GuardianInterceptor) DescribePolicy(ctx context.Context, in *DescribePo
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.universe.Guardian.DescribePolicy", in, next)
+			return mw(ctx, "eolymp.guardian.Guardian.DescribePolicy", in, next)
 		}
 	}
 
@@ -404,7 +404,7 @@ func (i *GuardianInterceptor) DefinePolicy(ctx context.Context, in *DefinePolicy
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.universe.Guardian.DefinePolicy", in, next)
+			return mw(ctx, "eolymp.guardian.Guardian.DefinePolicy", in, next)
 		}
 	}
 
@@ -436,7 +436,7 @@ func (i *GuardianInterceptor) RemovePolicy(ctx context.Context, in *RemovePolicy
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.universe.Guardian.RemovePolicy", in, next)
+			return mw(ctx, "eolymp.guardian.Guardian.RemovePolicy", in, next)
 		}
 	}
 

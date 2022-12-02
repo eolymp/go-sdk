@@ -38,7 +38,7 @@ func NewGuardianClient(cc grpc.ClientConnInterface) GuardianClient {
 
 func (c *guardianClient) ListPolicies(ctx context.Context, in *ListPoliciesInput, opts ...grpc.CallOption) (*ListPoliciesOutput, error) {
 	out := new(ListPoliciesOutput)
-	err := c.cc.Invoke(ctx, "/eolymp.universe.Guardian/ListPolicies", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/eolymp.guardian.Guardian/ListPolicies", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -47,7 +47,7 @@ func (c *guardianClient) ListPolicies(ctx context.Context, in *ListPoliciesInput
 
 func (c *guardianClient) DescribePolicy(ctx context.Context, in *DescribePolicyInput, opts ...grpc.CallOption) (*DescribePolicyOutput, error) {
 	out := new(DescribePolicyOutput)
-	err := c.cc.Invoke(ctx, "/eolymp.universe.Guardian/DescribePolicy", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/eolymp.guardian.Guardian/DescribePolicy", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -56,7 +56,7 @@ func (c *guardianClient) DescribePolicy(ctx context.Context, in *DescribePolicyI
 
 func (c *guardianClient) DefinePolicy(ctx context.Context, in *DefinePolicyInput, opts ...grpc.CallOption) (*DefinePolicyOutput, error) {
 	out := new(DefinePolicyOutput)
-	err := c.cc.Invoke(ctx, "/eolymp.universe.Guardian/DefinePolicy", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/eolymp.guardian.Guardian/DefinePolicy", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -65,7 +65,7 @@ func (c *guardianClient) DefinePolicy(ctx context.Context, in *DefinePolicyInput
 
 func (c *guardianClient) RemovePolicy(ctx context.Context, in *RemovePolicyInput, opts ...grpc.CallOption) (*RemovePolicyOutput, error) {
 	out := new(RemovePolicyOutput)
-	err := c.cc.Invoke(ctx, "/eolymp.universe.Guardian/RemovePolicy", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/eolymp.guardian.Guardian/RemovePolicy", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -120,7 +120,7 @@ func _Guardian_ListPolicies_Handler(srv interface{}, ctx context.Context, dec fu
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/eolymp.universe.Guardian/ListPolicies",
+		FullMethod: "/eolymp.guardian.Guardian/ListPolicies",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(GuardianServer).ListPolicies(ctx, req.(*ListPoliciesInput))
@@ -138,7 +138,7 @@ func _Guardian_DescribePolicy_Handler(srv interface{}, ctx context.Context, dec 
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/eolymp.universe.Guardian/DescribePolicy",
+		FullMethod: "/eolymp.guardian.Guardian/DescribePolicy",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(GuardianServer).DescribePolicy(ctx, req.(*DescribePolicyInput))
@@ -156,7 +156,7 @@ func _Guardian_DefinePolicy_Handler(srv interface{}, ctx context.Context, dec fu
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/eolymp.universe.Guardian/DefinePolicy",
+		FullMethod: "/eolymp.guardian.Guardian/DefinePolicy",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(GuardianServer).DefinePolicy(ctx, req.(*DefinePolicyInput))
@@ -174,7 +174,7 @@ func _Guardian_RemovePolicy_Handler(srv interface{}, ctx context.Context, dec fu
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/eolymp.universe.Guardian/RemovePolicy",
+		FullMethod: "/eolymp.guardian.Guardian/RemovePolicy",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(GuardianServer).RemovePolicy(ctx, req.(*RemovePolicyInput))
@@ -186,7 +186,7 @@ func _Guardian_RemovePolicy_Handler(srv interface{}, ctx context.Context, dec fu
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var Guardian_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "eolymp.universe.Guardian",
+	ServiceName: "eolymp.guardian.Guardian",
 	HandlerType: (*GuardianServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
