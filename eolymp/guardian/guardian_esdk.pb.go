@@ -113,11 +113,11 @@ func (s *GuardianService) ListPolicies(ctx context.Context, in *ListPoliciesInpu
 
 func (s *GuardianService) DescribePolicy(ctx context.Context, in *DescribePolicyInput) (*DescribePolicyOutput, error) {
 	out := &DescribePolicyOutput{}
-	path := "/policies/" + url.PathEscape(in.GetName())
+	path := "/policies/" + url.PathEscape(in.GetId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.Name = ""
+		in.Id = ""
 	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
@@ -129,11 +129,11 @@ func (s *GuardianService) DescribePolicy(ctx context.Context, in *DescribePolicy
 
 func (s *GuardianService) DefinePolicy(ctx context.Context, in *DefinePolicyInput) (*DefinePolicyOutput, error) {
 	out := &DefinePolicyOutput{}
-	path := "/policies/" + url.PathEscape(in.GetName())
+	path := "/policies/" + url.PathEscape(in.GetId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.Name = ""
+		in.Id = ""
 	}
 
 	if err := s.do(ctx, "PUT", path, in, out); err != nil {
@@ -145,11 +145,11 @@ func (s *GuardianService) DefinePolicy(ctx context.Context, in *DefinePolicyInpu
 
 func (s *GuardianService) RemovePolicy(ctx context.Context, in *RemovePolicyInput) (*RemovePolicyOutput, error) {
 	out := &RemovePolicyOutput{}
-	path := "/policies/" + url.PathEscape(in.GetName())
+	path := "/policies/" + url.PathEscape(in.GetId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.Name = ""
+		in.Id = ""
 	}
 
 	if err := s.do(ctx, "DELETE", path, in, out); err != nil {

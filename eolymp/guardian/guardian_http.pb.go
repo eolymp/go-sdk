@@ -129,15 +129,15 @@ func NewGuardianHandlerHttp(srv GuardianServer, prefix string) http.Handler {
 		Methods("GET").
 		Name("eolymp.guardian.Guardian.ListPolicies")
 
-	router.Handle(prefix+"/policies/{name}", _Guardian_DescribePolicy_Rule0(srv)).
+	router.Handle(prefix+"/policies/{id}", _Guardian_DescribePolicy_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.guardian.Guardian.DescribePolicy")
 
-	router.Handle(prefix+"/policies/{name}", _Guardian_DefinePolicy_Rule0(srv)).
+	router.Handle(prefix+"/policies/{id}", _Guardian_DefinePolicy_Rule0(srv)).
 		Methods("PUT").
 		Name("eolymp.guardian.Guardian.DefinePolicy")
 
-	router.Handle(prefix+"/policies/{name}", _Guardian_RemovePolicy_Rule0(srv)).
+	router.Handle(prefix+"/policies/{id}", _Guardian_RemovePolicy_Rule0(srv)).
 		Methods("DELETE").
 		Name("eolymp.guardian.Guardian.RemovePolicy")
 
@@ -255,7 +255,7 @@ func _Guardian_DescribePolicy_Rule0(srv GuardianServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.Name = vars["name"]
+		in.Id = vars["id"]
 
 		out, err := srv.DescribePolicy(r.Context(), in)
 		if err != nil {
@@ -278,7 +278,7 @@ func _Guardian_DefinePolicy_Rule0(srv GuardianServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.Name = vars["name"]
+		in.Id = vars["id"]
 
 		out, err := srv.DefinePolicy(r.Context(), in)
 		if err != nil {
@@ -301,7 +301,7 @@ func _Guardian_RemovePolicy_Rule0(srv GuardianServer) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.Name = vars["name"]
+		in.Id = vars["id"]
 
 		out, err := srv.RemovePolicy(r.Context(), in)
 		if err != nil {
