@@ -747,7 +747,7 @@ func (x *GrantPermissionInput) GetRole() Permission_Role {
 	if x != nil {
 		return x.Role
 	}
-	return Permission_VIEWER
+	return Permission_NONE
 }
 
 func (x *GrantPermissionInput) GetUserId() string {
