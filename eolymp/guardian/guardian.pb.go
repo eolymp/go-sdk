@@ -318,7 +318,7 @@ func (*DefinePolicyOutput) Descriptor() ([]byte, []int) {
 	return file_eolymp_guardian_guardian_proto_rawDescGZIP(), []int{5}
 }
 
-type RemovePolicyInput struct {
+type DeletePolicyInput struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -326,8 +326,8 @@ type RemovePolicyInput struct {
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 }
 
-func (x *RemovePolicyInput) Reset() {
-	*x = RemovePolicyInput{}
+func (x *DeletePolicyInput) Reset() {
+	*x = DeletePolicyInput{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_eolymp_guardian_guardian_proto_msgTypes[6]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -335,13 +335,13 @@ func (x *RemovePolicyInput) Reset() {
 	}
 }
 
-func (x *RemovePolicyInput) String() string {
+func (x *DeletePolicyInput) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*RemovePolicyInput) ProtoMessage() {}
+func (*DeletePolicyInput) ProtoMessage() {}
 
-func (x *RemovePolicyInput) ProtoReflect() protoreflect.Message {
+func (x *DeletePolicyInput) ProtoReflect() protoreflect.Message {
 	mi := &file_eolymp_guardian_guardian_proto_msgTypes[6]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -353,26 +353,26 @@ func (x *RemovePolicyInput) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RemovePolicyInput.ProtoReflect.Descriptor instead.
-func (*RemovePolicyInput) Descriptor() ([]byte, []int) {
+// Deprecated: Use DeletePolicyInput.ProtoReflect.Descriptor instead.
+func (*DeletePolicyInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_guardian_guardian_proto_rawDescGZIP(), []int{6}
 }
 
-func (x *RemovePolicyInput) GetId() string {
+func (x *DeletePolicyInput) GetId() string {
 	if x != nil {
 		return x.Id
 	}
 	return ""
 }
 
-type RemovePolicyOutput struct {
+type DeletePolicyOutput struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 }
 
-func (x *RemovePolicyOutput) Reset() {
-	*x = RemovePolicyOutput{}
+func (x *DeletePolicyOutput) Reset() {
+	*x = DeletePolicyOutput{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_eolymp_guardian_guardian_proto_msgTypes[7]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -380,13 +380,13 @@ func (x *RemovePolicyOutput) Reset() {
 	}
 }
 
-func (x *RemovePolicyOutput) String() string {
+func (x *DeletePolicyOutput) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*RemovePolicyOutput) ProtoMessage() {}
+func (*DeletePolicyOutput) ProtoMessage() {}
 
-func (x *RemovePolicyOutput) ProtoReflect() protoreflect.Message {
+func (x *DeletePolicyOutput) ProtoReflect() protoreflect.Message {
 	mi := &file_eolymp_guardian_guardian_proto_msgTypes[7]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -398,8 +398,8 @@ func (x *RemovePolicyOutput) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RemovePolicyOutput.ProtoReflect.Descriptor instead.
-func (*RemovePolicyOutput) Descriptor() ([]byte, []int) {
+// Deprecated: Use DeletePolicyOutput.ProtoReflect.Descriptor instead.
+func (*DeletePolicyOutput) Descriptor() ([]byte, []int) {
 	return file_eolymp_guardian_guardian_proto_rawDescGZIP(), []int{7}
 }
 
@@ -540,10 +540,10 @@ var file_eolymp_guardian_guardian_proto_rawDesc = []byte{
 	0x01, 0x28, 0x0b, 0x32, 0x17, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x67, 0x75, 0x61,
 	0x72, 0x64, 0x69, 0x61, 0x6e, 0x2e, 0x50, 0x6f, 0x6c, 0x69, 0x63, 0x79, 0x52, 0x06, 0x70, 0x6f,
 	0x6c, 0x69, 0x63, 0x79, 0x22, 0x14, 0x0a, 0x12, 0x44, 0x65, 0x66, 0x69, 0x6e, 0x65, 0x50, 0x6f,
-	0x6c, 0x69, 0x63, 0x79, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x22, 0x23, 0x0a, 0x11, 0x52, 0x65,
-	0x6d, 0x6f, 0x76, 0x65, 0x50, 0x6f, 0x6c, 0x69, 0x63, 0x79, 0x49, 0x6e, 0x70, 0x75, 0x74, 0x12,
+	0x6c, 0x69, 0x63, 0x79, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x22, 0x23, 0x0a, 0x11, 0x44, 0x65,
+	0x6c, 0x65, 0x74, 0x65, 0x50, 0x6f, 0x6c, 0x69, 0x63, 0x79, 0x49, 0x6e, 0x70, 0x75, 0x74, 0x12,
 	0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x22,
-	0x14, 0x0a, 0x12, 0x52, 0x65, 0x6d, 0x6f, 0x76, 0x65, 0x50, 0x6f, 0x6c, 0x69, 0x63, 0x79, 0x4f,
+	0x14, 0x0a, 0x12, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x50, 0x6f, 0x6c, 0x69, 0x63, 0x79, 0x4f,
 	0x75, 0x74, 0x70, 0x75, 0x74, 0x22, 0x3f, 0x0a, 0x0d, 0x45, 0x76, 0x61, 0x6c, 0x75, 0x61, 0x74,
 	0x65, 0x49, 0x6e, 0x70, 0x75, 0x74, 0x12, 0x1a, 0x0a, 0x08, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72,
 	0x63, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72,
@@ -585,11 +585,11 @@ var file_eolymp_guardian_guardian_proto_rawDesc = []byte{
 	0x63, 0x79, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x22, 0x25, 0xea, 0xe2, 0x0a, 0x0b, 0xf5, 0xe2,
 	0x0a, 0x00, 0x00, 0x20, 0x41, 0xf8, 0xe2, 0x0a, 0x64, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x10, 0x1a,
 	0x0e, 0x2f, 0x70, 0x6f, 0x6c, 0x69, 0x63, 0x69, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x12,
-	0x7e, 0x0a, 0x0c, 0x52, 0x65, 0x6d, 0x6f, 0x76, 0x65, 0x50, 0x6f, 0x6c, 0x69, 0x63, 0x79, 0x12,
+	0x7e, 0x0a, 0x0c, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x50, 0x6f, 0x6c, 0x69, 0x63, 0x79, 0x12,
 	0x22, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x67, 0x75, 0x61, 0x72, 0x64, 0x69, 0x61,
-	0x6e, 0x2e, 0x52, 0x65, 0x6d, 0x6f, 0x76, 0x65, 0x50, 0x6f, 0x6c, 0x69, 0x63, 0x79, 0x49, 0x6e,
+	0x6e, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x50, 0x6f, 0x6c, 0x69, 0x63, 0x79, 0x49, 0x6e,
 	0x70, 0x75, 0x74, 0x1a, 0x23, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x67, 0x75, 0x61,
-	0x72, 0x64, 0x69, 0x61, 0x6e, 0x2e, 0x52, 0x65, 0x6d, 0x6f, 0x76, 0x65, 0x50, 0x6f, 0x6c, 0x69,
+	0x72, 0x64, 0x69, 0x61, 0x6e, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x50, 0x6f, 0x6c, 0x69,
 	0x63, 0x79, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x22, 0x25, 0xea, 0xe2, 0x0a, 0x0b, 0xf5, 0xe2,
 	0x0a, 0x00, 0x00, 0x20, 0x41, 0xf8, 0xe2, 0x0a, 0x64, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x10, 0x2a,
 	0x0e, 0x2f, 0x70, 0x6f, 0x6c, 0x69, 0x63, 0x69, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x12,
@@ -626,8 +626,8 @@ var file_eolymp_guardian_guardian_proto_goTypes = []interface{}{
 	(*DescribePolicyOutput)(nil), // 3: eolymp.guardian.DescribePolicyOutput
 	(*DefinePolicyInput)(nil),    // 4: eolymp.guardian.DefinePolicyInput
 	(*DefinePolicyOutput)(nil),   // 5: eolymp.guardian.DefinePolicyOutput
-	(*RemovePolicyInput)(nil),    // 6: eolymp.guardian.RemovePolicyInput
-	(*RemovePolicyOutput)(nil),   // 7: eolymp.guardian.RemovePolicyOutput
+	(*DeletePolicyInput)(nil),    // 6: eolymp.guardian.DeletePolicyInput
+	(*DeletePolicyOutput)(nil),   // 7: eolymp.guardian.DeletePolicyOutput
 	(*EvaluateInput)(nil),        // 8: eolymp.guardian.EvaluateInput
 	(*EvaluateOutput)(nil),       // 9: eolymp.guardian.EvaluateOutput
 	nil,                          // 10: eolymp.guardian.EvaluateOutput.ActionsEntry
@@ -643,12 +643,12 @@ var file_eolymp_guardian_guardian_proto_depIdxs = []int32{
 	0,  // 5: eolymp.guardian.Guardian.ListPolicies:input_type -> eolymp.guardian.ListPoliciesInput
 	2,  // 6: eolymp.guardian.Guardian.DescribePolicy:input_type -> eolymp.guardian.DescribePolicyInput
 	4,  // 7: eolymp.guardian.Guardian.DefinePolicy:input_type -> eolymp.guardian.DefinePolicyInput
-	6,  // 8: eolymp.guardian.Guardian.RemovePolicy:input_type -> eolymp.guardian.RemovePolicyInput
+	6,  // 8: eolymp.guardian.Guardian.DeletePolicy:input_type -> eolymp.guardian.DeletePolicyInput
 	8,  // 9: eolymp.guardian.Guardian.Evaluate:input_type -> eolymp.guardian.EvaluateInput
 	1,  // 10: eolymp.guardian.Guardian.ListPolicies:output_type -> eolymp.guardian.ListPoliciesOutput
 	3,  // 11: eolymp.guardian.Guardian.DescribePolicy:output_type -> eolymp.guardian.DescribePolicyOutput
 	5,  // 12: eolymp.guardian.Guardian.DefinePolicy:output_type -> eolymp.guardian.DefinePolicyOutput
-	7,  // 13: eolymp.guardian.Guardian.RemovePolicy:output_type -> eolymp.guardian.RemovePolicyOutput
+	7,  // 13: eolymp.guardian.Guardian.DeletePolicy:output_type -> eolymp.guardian.DeletePolicyOutput
 	9,  // 14: eolymp.guardian.Guardian.Evaluate:output_type -> eolymp.guardian.EvaluateOutput
 	10, // [10:15] is the sub-list for method output_type
 	5,  // [5:10] is the sub-list for method input_type
@@ -737,7 +737,7 @@ func file_eolymp_guardian_guardian_proto_init() {
 			}
 		}
 		file_eolymp_guardian_guardian_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RemovePolicyInput); i {
+			switch v := v.(*DeletePolicyInput); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -749,7 +749,7 @@ func file_eolymp_guardian_guardian_proto_init() {
 			}
 		}
 		file_eolymp_guardian_guardian_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RemovePolicyOutput); i {
+			switch v := v.(*DeletePolicyOutput); i {
 			case 0:
 				return &v.state
 			case 1:

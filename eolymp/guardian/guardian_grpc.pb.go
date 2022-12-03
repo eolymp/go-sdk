@@ -25,7 +25,7 @@ type GuardianClient interface {
 	ListPolicies(ctx context.Context, in *ListPoliciesInput, opts ...grpc.CallOption) (*ListPoliciesOutput, error)
 	DescribePolicy(ctx context.Context, in *DescribePolicyInput, opts ...grpc.CallOption) (*DescribePolicyOutput, error)
 	DefinePolicy(ctx context.Context, in *DefinePolicyInput, opts ...grpc.CallOption) (*DefinePolicyOutput, error)
-	RemovePolicy(ctx context.Context, in *RemovePolicyInput, opts ...grpc.CallOption) (*RemovePolicyOutput, error)
+	DeletePolicy(ctx context.Context, in *DeletePolicyInput, opts ...grpc.CallOption) (*DeletePolicyOutput, error)
 	Evaluate(ctx context.Context, in *EvaluateInput, opts ...grpc.CallOption) (*EvaluateOutput, error)
 }
 
@@ -64,9 +64,9 @@ func (c *guardianClient) DefinePolicy(ctx context.Context, in *DefinePolicyInput
 	return out, nil
 }
 
-func (c *guardianClient) RemovePolicy(ctx context.Context, in *RemovePolicyInput, opts ...grpc.CallOption) (*RemovePolicyOutput, error) {
-	out := new(RemovePolicyOutput)
-	err := c.cc.Invoke(ctx, "/eolymp.guardian.Guardian/RemovePolicy", in, out, opts...)
+func (c *guardianClient) DeletePolicy(ctx context.Context, in *DeletePolicyInput, opts ...grpc.CallOption) (*DeletePolicyOutput, error) {
+	out := new(DeletePolicyOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.guardian.Guardian/DeletePolicy", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -89,7 +89,7 @@ type GuardianServer interface {
 	ListPolicies(context.Context, *ListPoliciesInput) (*ListPoliciesOutput, error)
 	DescribePolicy(context.Context, *DescribePolicyInput) (*DescribePolicyOutput, error)
 	DefinePolicy(context.Context, *DefinePolicyInput) (*DefinePolicyOutput, error)
-	RemovePolicy(context.Context, *RemovePolicyInput) (*RemovePolicyOutput, error)
+	DeletePolicy(context.Context, *DeletePolicyInput) (*DeletePolicyOutput, error)
 	Evaluate(context.Context, *EvaluateInput) (*EvaluateOutput, error)
 }
 
@@ -106,8 +106,8 @@ func (UnimplementedGuardianServer) DescribePolicy(context.Context, *DescribePoli
 func (UnimplementedGuardianServer) DefinePolicy(context.Context, *DefinePolicyInput) (*DefinePolicyOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DefinePolicy not implemented")
 }
-func (UnimplementedGuardianServer) RemovePolicy(context.Context, *RemovePolicyInput) (*RemovePolicyOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method RemovePolicy not implemented")
+func (UnimplementedGuardianServer) DeletePolicy(context.Context, *DeletePolicyInput) (*DeletePolicyOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeletePolicy not implemented")
 }
 func (UnimplementedGuardianServer) Evaluate(context.Context, *EvaluateInput) (*EvaluateOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Evaluate not implemented")
@@ -178,20 +178,20 @@ func _Guardian_DefinePolicy_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Guardian_RemovePolicy_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RemovePolicyInput)
+func _Guardian_DeletePolicy_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeletePolicyInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(GuardianServer).RemovePolicy(ctx, in)
+		return srv.(GuardianServer).DeletePolicy(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/eolymp.guardian.Guardian/RemovePolicy",
+		FullMethod: "/eolymp.guardian.Guardian/DeletePolicy",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GuardianServer).RemovePolicy(ctx, req.(*RemovePolicyInput))
+		return srv.(GuardianServer).DeletePolicy(ctx, req.(*DeletePolicyInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -234,8 +234,8 @@ var Guardian_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Guardian_DefinePolicy_Handler,
 		},
 		{
-			MethodName: "RemovePolicy",
-			Handler:    _Guardian_RemovePolicy_Handler,
+			MethodName: "DeletePolicy",
+			Handler:    _Guardian_DeletePolicy_Handler,
 		},
 		{
 			MethodName: "Evaluate",

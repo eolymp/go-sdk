@@ -143,8 +143,8 @@ func (s *GuardianService) DefinePolicy(ctx context.Context, in *DefinePolicyInpu
 	return out, nil
 }
 
-func (s *GuardianService) RemovePolicy(ctx context.Context, in *RemovePolicyInput) (*RemovePolicyOutput, error) {
-	out := &RemovePolicyOutput{}
+func (s *GuardianService) DeletePolicy(ctx context.Context, in *DeletePolicyInput) (*DeletePolicyOutput, error) {
+	out := &DeletePolicyOutput{}
 	path := "/policies/" + url.PathEscape(in.GetId())
 
 	// Cleanup URL parameters to avoid any ambiguity

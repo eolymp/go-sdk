@@ -116,7 +116,7 @@ func NewGuardianHandler(srv GuardianServer) http.Handler {
 	router.Handle("/eolymp.guardian.Guardian/ListPolicies", _Guardian_ListPolicies(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.guardian.Guardian/DescribePolicy", _Guardian_DescribePolicy(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.guardian.Guardian/DefinePolicy", _Guardian_DefinePolicy(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.guardian.Guardian/RemovePolicy", _Guardian_RemovePolicy(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.guardian.Guardian/DeletePolicy", _Guardian_DeletePolicy(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.guardian.Guardian/Evaluate", _Guardian_Evaluate(srv)).Methods(http.MethodPost)
 	return router
 }
@@ -138,9 +138,9 @@ func NewGuardianHandlerHttp(srv GuardianServer, prefix string) http.Handler {
 		Methods("PUT").
 		Name("eolymp.guardian.Guardian.DefinePolicy")
 
-	router.Handle(prefix+"/policies/{id}", _Guardian_RemovePolicy_Rule0(srv)).
+	router.Handle(prefix+"/policies/{id}", _Guardian_DeletePolicy_Rule0(srv)).
 		Methods("DELETE").
-		Name("eolymp.guardian.Guardian.RemovePolicy")
+		Name("eolymp.guardian.Guardian.DeletePolicy")
 
 	router.Handle(prefix+"/evaluate", _Guardian_Evaluate_Rule0(srv)).
 		Methods("DELETE").
@@ -209,9 +209,9 @@ func _Guardian_DefinePolicy(srv GuardianServer) http.Handler {
 	})
 }
 
-func _Guardian_RemovePolicy(srv GuardianServer) http.Handler {
+func _Guardian_DeletePolicy(srv GuardianServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &RemovePolicyInput{}
+		in := &DeletePolicyInput{}
 
 		if err := _Guardian_HTTPReadRequestBody(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
@@ -219,7 +219,7 @@ func _Guardian_RemovePolicy(srv GuardianServer) http.Handler {
 			return
 		}
 
-		out, err := srv.RemovePolicy(r.Context(), in)
+		out, err := srv.DeletePolicy(r.Context(), in)
 		if err != nil {
 			_Guardian_HTTPWriteErrorResponse(w, err)
 			return
@@ -315,9 +315,9 @@ func _Guardian_DefinePolicy_Rule0(srv GuardianServer) http.Handler {
 	})
 }
 
-func _Guardian_RemovePolicy_Rule0(srv GuardianServer) http.Handler {
+func _Guardian_DeletePolicy_Rule0(srv GuardianServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &RemovePolicyInput{}
+		in := &DeletePolicyInput{}
 
 		if err := _Guardian_HTTPReadRequestBody(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
@@ -328,7 +328,7 @@ func _Guardian_RemovePolicy_Rule0(srv GuardianServer) http.Handler {
 		vars := mux.Vars(r)
 		in.Id = vars["id"]
 
-		out, err := srv.RemovePolicy(r.Context(), in)
+		out, err := srv.DeletePolicy(r.Context(), in)
 		if err != nil {
 			_Guardian_HTTPWriteErrorResponse(w, err)
 			return
@@ -466,14 +466,14 @@ func (i *GuardianInterceptor) DefinePolicy(ctx context.Context, in *DefinePolicy
 	return message, err
 }
 
-func (i *GuardianInterceptor) RemovePolicy(ctx context.Context, in *RemovePolicyInput) (*RemovePolicyOutput, error) {
+func (i *GuardianInterceptor) DeletePolicy(ctx context.Context, in *DeletePolicyInput) (*DeletePolicyOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*RemovePolicyInput)
+		message, ok := in.(*DeletePolicyInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *RemovePolicyInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *DeletePolicyInput, got %T", in))
 		}
 
-		return i.server.RemovePolicy(ctx, message)
+		return i.server.DeletePolicy(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
@@ -481,7 +481,7 @@ func (i *GuardianInterceptor) RemovePolicy(ctx context.Context, in *RemovePolicy
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.guardian.Guardian.RemovePolicy", in, next)
+			return mw(ctx, "eolymp.guardian.Guardian.DeletePolicy", in, next)
 		}
 	}
 
@@ -490,9 +490,9 @@ func (i *GuardianInterceptor) RemovePolicy(ctx context.Context, in *RemovePolicy
 		return nil, err
 	}
 
-	message, ok := out.(*RemovePolicyOutput)
+	message, ok := out.(*DeletePolicyOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *RemovePolicyOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *DeletePolicyOutput, got %T", out))
 	}
 
 	return message, err
