@@ -24,7 +24,8 @@ const _ = grpc.SupportPackageIsVersion7
 type GuardianClient interface {
 	ListPolicies(ctx context.Context, in *ListPoliciesInput, opts ...grpc.CallOption) (*ListPoliciesOutput, error)
 	DescribePolicy(ctx context.Context, in *DescribePolicyInput, opts ...grpc.CallOption) (*DescribePolicyOutput, error)
-	DefinePolicy(ctx context.Context, in *DefinePolicyInput, opts ...grpc.CallOption) (*DefinePolicyOutput, error)
+	CreatePolicy(ctx context.Context, in *CreatePolicyInput, opts ...grpc.CallOption) (*CreatePolicyOutput, error)
+	UpdatePolicy(ctx context.Context, in *UpdatePolicyInput, opts ...grpc.CallOption) (*UpdatePolicyOutput, error)
 	DeletePolicy(ctx context.Context, in *DeletePolicyInput, opts ...grpc.CallOption) (*DeletePolicyOutput, error)
 	Evaluate(ctx context.Context, in *EvaluateInput, opts ...grpc.CallOption) (*EvaluateOutput, error)
 }
@@ -55,9 +56,18 @@ func (c *guardianClient) DescribePolicy(ctx context.Context, in *DescribePolicyI
 	return out, nil
 }
 
-func (c *guardianClient) DefinePolicy(ctx context.Context, in *DefinePolicyInput, opts ...grpc.CallOption) (*DefinePolicyOutput, error) {
-	out := new(DefinePolicyOutput)
-	err := c.cc.Invoke(ctx, "/eolymp.guardian.Guardian/DefinePolicy", in, out, opts...)
+func (c *guardianClient) CreatePolicy(ctx context.Context, in *CreatePolicyInput, opts ...grpc.CallOption) (*CreatePolicyOutput, error) {
+	out := new(CreatePolicyOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.guardian.Guardian/CreatePolicy", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *guardianClient) UpdatePolicy(ctx context.Context, in *UpdatePolicyInput, opts ...grpc.CallOption) (*UpdatePolicyOutput, error) {
+	out := new(UpdatePolicyOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.guardian.Guardian/UpdatePolicy", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -88,7 +98,8 @@ func (c *guardianClient) Evaluate(ctx context.Context, in *EvaluateInput, opts .
 type GuardianServer interface {
 	ListPolicies(context.Context, *ListPoliciesInput) (*ListPoliciesOutput, error)
 	DescribePolicy(context.Context, *DescribePolicyInput) (*DescribePolicyOutput, error)
-	DefinePolicy(context.Context, *DefinePolicyInput) (*DefinePolicyOutput, error)
+	CreatePolicy(context.Context, *CreatePolicyInput) (*CreatePolicyOutput, error)
+	UpdatePolicy(context.Context, *UpdatePolicyInput) (*UpdatePolicyOutput, error)
 	DeletePolicy(context.Context, *DeletePolicyInput) (*DeletePolicyOutput, error)
 	Evaluate(context.Context, *EvaluateInput) (*EvaluateOutput, error)
 }
@@ -103,8 +114,11 @@ func (UnimplementedGuardianServer) ListPolicies(context.Context, *ListPoliciesIn
 func (UnimplementedGuardianServer) DescribePolicy(context.Context, *DescribePolicyInput) (*DescribePolicyOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribePolicy not implemented")
 }
-func (UnimplementedGuardianServer) DefinePolicy(context.Context, *DefinePolicyInput) (*DefinePolicyOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DefinePolicy not implemented")
+func (UnimplementedGuardianServer) CreatePolicy(context.Context, *CreatePolicyInput) (*CreatePolicyOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreatePolicy not implemented")
+}
+func (UnimplementedGuardianServer) UpdatePolicy(context.Context, *UpdatePolicyInput) (*UpdatePolicyOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdatePolicy not implemented")
 }
 func (UnimplementedGuardianServer) DeletePolicy(context.Context, *DeletePolicyInput) (*DeletePolicyOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeletePolicy not implemented")
@@ -160,20 +174,38 @@ func _Guardian_DescribePolicy_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Guardian_DefinePolicy_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DefinePolicyInput)
+func _Guardian_CreatePolicy_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreatePolicyInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(GuardianServer).DefinePolicy(ctx, in)
+		return srv.(GuardianServer).CreatePolicy(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/eolymp.guardian.Guardian/DefinePolicy",
+		FullMethod: "/eolymp.guardian.Guardian/CreatePolicy",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GuardianServer).DefinePolicy(ctx, req.(*DefinePolicyInput))
+		return srv.(GuardianServer).CreatePolicy(ctx, req.(*CreatePolicyInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Guardian_UpdatePolicy_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdatePolicyInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GuardianServer).UpdatePolicy(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.guardian.Guardian/UpdatePolicy",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GuardianServer).UpdatePolicy(ctx, req.(*UpdatePolicyInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -230,8 +262,12 @@ var Guardian_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Guardian_DescribePolicy_Handler,
 		},
 		{
-			MethodName: "DefinePolicy",
-			Handler:    _Guardian_DefinePolicy_Handler,
+			MethodName: "CreatePolicy",
+			Handler:    _Guardian_CreatePolicy_Handler,
+		},
+		{
+			MethodName: "UpdatePolicy",
+			Handler:    _Guardian_UpdatePolicy_Handler,
 		},
 		{
 			MethodName: "DeletePolicy",

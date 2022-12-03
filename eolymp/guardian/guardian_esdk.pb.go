@@ -127,8 +127,19 @@ func (s *GuardianService) DescribePolicy(ctx context.Context, in *DescribePolicy
 	return out, nil
 }
 
-func (s *GuardianService) DefinePolicy(ctx context.Context, in *DefinePolicyInput) (*DefinePolicyOutput, error) {
-	out := &DefinePolicyOutput{}
+func (s *GuardianService) CreatePolicy(ctx context.Context, in *CreatePolicyInput) (*CreatePolicyOutput, error) {
+	out := &CreatePolicyOutput{}
+	path := "/policies"
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *GuardianService) UpdatePolicy(ctx context.Context, in *UpdatePolicyInput) (*UpdatePolicyOutput, error) {
+	out := &UpdatePolicyOutput{}
 	path := "/policies/" + url.PathEscape(in.GetId())
 
 	// Cleanup URL parameters to avoid any ambiguity

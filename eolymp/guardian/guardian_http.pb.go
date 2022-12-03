@@ -115,7 +115,8 @@ func NewGuardianHandler(srv GuardianServer) http.Handler {
 	router := mux.NewRouter()
 	router.Handle("/eolymp.guardian.Guardian/ListPolicies", _Guardian_ListPolicies(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.guardian.Guardian/DescribePolicy", _Guardian_DescribePolicy(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.guardian.Guardian/DefinePolicy", _Guardian_DefinePolicy(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.guardian.Guardian/CreatePolicy", _Guardian_CreatePolicy(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.guardian.Guardian/UpdatePolicy", _Guardian_UpdatePolicy(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.guardian.Guardian/DeletePolicy", _Guardian_DeletePolicy(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.guardian.Guardian/Evaluate", _Guardian_Evaluate(srv)).Methods(http.MethodPost)
 	return router
@@ -134,9 +135,13 @@ func NewGuardianHandlerHttp(srv GuardianServer, prefix string) http.Handler {
 		Methods("GET").
 		Name("eolymp.guardian.Guardian.DescribePolicy")
 
-	router.Handle(prefix+"/policies/{id}", _Guardian_DefinePolicy_Rule0(srv)).
+	router.Handle(prefix+"/policies", _Guardian_CreatePolicy_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.guardian.Guardian.CreatePolicy")
+
+	router.Handle(prefix+"/policies/{id}", _Guardian_UpdatePolicy_Rule0(srv)).
 		Methods("PUT").
-		Name("eolymp.guardian.Guardian.DefinePolicy")
+		Name("eolymp.guardian.Guardian.UpdatePolicy")
 
 	router.Handle(prefix+"/policies/{id}", _Guardian_DeletePolicy_Rule0(srv)).
 		Methods("DELETE").
@@ -189,9 +194,9 @@ func _Guardian_DescribePolicy(srv GuardianServer) http.Handler {
 	})
 }
 
-func _Guardian_DefinePolicy(srv GuardianServer) http.Handler {
+func _Guardian_CreatePolicy(srv GuardianServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DefinePolicyInput{}
+		in := &CreatePolicyInput{}
 
 		if err := _Guardian_HTTPReadRequestBody(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
@@ -199,7 +204,27 @@ func _Guardian_DefinePolicy(srv GuardianServer) http.Handler {
 			return
 		}
 
-		out, err := srv.DefinePolicy(r.Context(), in)
+		out, err := srv.CreatePolicy(r.Context(), in)
+		if err != nil {
+			_Guardian_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Guardian_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Guardian_UpdatePolicy(srv GuardianServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UpdatePolicyInput{}
+
+		if err := _Guardian_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Guardian_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.UpdatePolicy(r.Context(), in)
 		if err != nil {
 			_Guardian_HTTPWriteErrorResponse(w, err)
 			return
@@ -292,9 +317,29 @@ func _Guardian_DescribePolicy_Rule0(srv GuardianServer) http.Handler {
 	})
 }
 
-func _Guardian_DefinePolicy_Rule0(srv GuardianServer) http.Handler {
+func _Guardian_CreatePolicy_Rule0(srv GuardianServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DefinePolicyInput{}
+		in := &CreatePolicyInput{}
+
+		if err := _Guardian_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Guardian_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.CreatePolicy(r.Context(), in)
+		if err != nil {
+			_Guardian_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Guardian_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Guardian_UpdatePolicy_Rule0(srv GuardianServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UpdatePolicyInput{}
 
 		if err := _Guardian_HTTPReadRequestBody(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
@@ -305,7 +350,7 @@ func _Guardian_DefinePolicy_Rule0(srv GuardianServer) http.Handler {
 		vars := mux.Vars(r)
 		in.Id = vars["id"]
 
-		out, err := srv.DefinePolicy(r.Context(), in)
+		out, err := srv.UpdatePolicy(r.Context(), in)
 		if err != nil {
 			_Guardian_HTTPWriteErrorResponse(w, err)
 			return
@@ -434,14 +479,14 @@ func (i *GuardianInterceptor) DescribePolicy(ctx context.Context, in *DescribePo
 	return message, err
 }
 
-func (i *GuardianInterceptor) DefinePolicy(ctx context.Context, in *DefinePolicyInput) (*DefinePolicyOutput, error) {
+func (i *GuardianInterceptor) CreatePolicy(ctx context.Context, in *CreatePolicyInput) (*CreatePolicyOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*DefinePolicyInput)
+		message, ok := in.(*CreatePolicyInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *DefinePolicyInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *CreatePolicyInput, got %T", in))
 		}
 
-		return i.server.DefinePolicy(ctx, message)
+		return i.server.CreatePolicy(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
@@ -449,7 +494,7 @@ func (i *GuardianInterceptor) DefinePolicy(ctx context.Context, in *DefinePolicy
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.guardian.Guardian.DefinePolicy", in, next)
+			return mw(ctx, "eolymp.guardian.Guardian.CreatePolicy", in, next)
 		}
 	}
 
@@ -458,9 +503,41 @@ func (i *GuardianInterceptor) DefinePolicy(ctx context.Context, in *DefinePolicy
 		return nil, err
 	}
 
-	message, ok := out.(*DefinePolicyOutput)
+	message, ok := out.(*CreatePolicyOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *DefinePolicyOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *CreatePolicyOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *GuardianInterceptor) UpdatePolicy(ctx context.Context, in *UpdatePolicyInput) (*UpdatePolicyOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*UpdatePolicyInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *UpdatePolicyInput, got %T", in))
+		}
+
+		return i.server.UpdatePolicy(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.guardian.Guardian.UpdatePolicy", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*UpdatePolicyOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *UpdatePolicyOutput, got %T", out))
 	}
 
 	return message, err
