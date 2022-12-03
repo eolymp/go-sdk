@@ -20,16 +20,17 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type PolicyCreatedEvent struct {
+type PolicyChangedEvent struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Policy *Policy `protobuf:"bytes,1,opt,name=policy,proto3" json:"policy,omitempty"`
+	Created *Policy `protobuf:"bytes,1,opt,name=created,proto3" json:"created,omitempty"`
+	Deleted *Policy `protobuf:"bytes,2,opt,name=deleted,proto3" json:"deleted,omitempty"`
 }
 
-func (x *PolicyCreatedEvent) Reset() {
-	*x = PolicyCreatedEvent{}
+func (x *PolicyChangedEvent) Reset() {
+	*x = PolicyChangedEvent{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_eolymp_guardian_events_proto_msgTypes[0]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -37,13 +38,13 @@ func (x *PolicyCreatedEvent) Reset() {
 	}
 }
 
-func (x *PolicyCreatedEvent) String() string {
+func (x *PolicyChangedEvent) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*PolicyCreatedEvent) ProtoMessage() {}
+func (*PolicyChangedEvent) ProtoMessage() {}
 
-func (x *PolicyCreatedEvent) ProtoReflect() protoreflect.Message {
+func (x *PolicyChangedEvent) ProtoReflect() protoreflect.Message {
 	mi := &file_eolymp_guardian_events_proto_msgTypes[0]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -55,108 +56,21 @@ func (x *PolicyCreatedEvent) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use PolicyCreatedEvent.ProtoReflect.Descriptor instead.
-func (*PolicyCreatedEvent) Descriptor() ([]byte, []int) {
+// Deprecated: Use PolicyChangedEvent.ProtoReflect.Descriptor instead.
+func (*PolicyChangedEvent) Descriptor() ([]byte, []int) {
 	return file_eolymp_guardian_events_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *PolicyCreatedEvent) GetPolicy() *Policy {
+func (x *PolicyChangedEvent) GetCreated() *Policy {
 	if x != nil {
-		return x.Policy
+		return x.Created
 	}
 	return nil
 }
 
-type PolicyUpdatedEvent struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Policy *Policy `protobuf:"bytes,1,opt,name=policy,proto3" json:"policy,omitempty"`
-}
-
-func (x *PolicyUpdatedEvent) Reset() {
-	*x = PolicyUpdatedEvent{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_eolymp_guardian_events_proto_msgTypes[1]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *PolicyUpdatedEvent) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*PolicyUpdatedEvent) ProtoMessage() {}
-
-func (x *PolicyUpdatedEvent) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_guardian_events_proto_msgTypes[1]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use PolicyUpdatedEvent.ProtoReflect.Descriptor instead.
-func (*PolicyUpdatedEvent) Descriptor() ([]byte, []int) {
-	return file_eolymp_guardian_events_proto_rawDescGZIP(), []int{1}
-}
-
-func (x *PolicyUpdatedEvent) GetPolicy() *Policy {
+func (x *PolicyChangedEvent) GetDeleted() *Policy {
 	if x != nil {
-		return x.Policy
-	}
-	return nil
-}
-
-type PolicyDeletedEvent struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Policy *Policy `protobuf:"bytes,1,opt,name=policy,proto3" json:"policy,omitempty"`
-}
-
-func (x *PolicyDeletedEvent) Reset() {
-	*x = PolicyDeletedEvent{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_eolymp_guardian_events_proto_msgTypes[2]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *PolicyDeletedEvent) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*PolicyDeletedEvent) ProtoMessage() {}
-
-func (x *PolicyDeletedEvent) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_guardian_events_proto_msgTypes[2]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use PolicyDeletedEvent.ProtoReflect.Descriptor instead.
-func (*PolicyDeletedEvent) Descriptor() ([]byte, []int) {
-	return file_eolymp_guardian_events_proto_rawDescGZIP(), []int{2}
-}
-
-func (x *PolicyDeletedEvent) GetPolicy() *Policy {
-	if x != nil {
-		return x.Policy
+		return x.Deleted
 	}
 	return nil
 }
@@ -168,24 +82,19 @@ var file_eolymp_guardian_events_proto_rawDesc = []byte{
 	0x6e, 0x2f, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x0f,
 	0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x67, 0x75, 0x61, 0x72, 0x64, 0x69, 0x61, 0x6e, 0x1a,
 	0x1c, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x67, 0x75, 0x61, 0x72, 0x64, 0x69, 0x61, 0x6e,
-	0x2f, 0x70, 0x6f, 0x6c, 0x69, 0x63, 0x79, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x45, 0x0a,
-	0x12, 0x50, 0x6f, 0x6c, 0x69, 0x63, 0x79, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x64, 0x45, 0x76,
-	0x65, 0x6e, 0x74, 0x12, 0x2f, 0x0a, 0x06, 0x70, 0x6f, 0x6c, 0x69, 0x63, 0x79, 0x18, 0x01, 0x20,
-	0x01, 0x28, 0x0b, 0x32, 0x17, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x67, 0x75, 0x61,
-	0x72, 0x64, 0x69, 0x61, 0x6e, 0x2e, 0x50, 0x6f, 0x6c, 0x69, 0x63, 0x79, 0x52, 0x06, 0x70, 0x6f,
-	0x6c, 0x69, 0x63, 0x79, 0x22, 0x45, 0x0a, 0x12, 0x50, 0x6f, 0x6c, 0x69, 0x63, 0x79, 0x55, 0x70,
-	0x64, 0x61, 0x74, 0x65, 0x64, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x12, 0x2f, 0x0a, 0x06, 0x70, 0x6f,
-	0x6c, 0x69, 0x63, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x17, 0x2e, 0x65, 0x6f, 0x6c,
-	0x79, 0x6d, 0x70, 0x2e, 0x67, 0x75, 0x61, 0x72, 0x64, 0x69, 0x61, 0x6e, 0x2e, 0x50, 0x6f, 0x6c,
-	0x69, 0x63, 0x79, 0x52, 0x06, 0x70, 0x6f, 0x6c, 0x69, 0x63, 0x79, 0x22, 0x45, 0x0a, 0x12, 0x50,
-	0x6f, 0x6c, 0x69, 0x63, 0x79, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x64, 0x45, 0x76, 0x65, 0x6e,
-	0x74, 0x12, 0x2f, 0x0a, 0x06, 0x70, 0x6f, 0x6c, 0x69, 0x63, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28,
-	0x0b, 0x32, 0x17, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x67, 0x75, 0x61, 0x72, 0x64,
-	0x69, 0x61, 0x6e, 0x2e, 0x50, 0x6f, 0x6c, 0x69, 0x63, 0x79, 0x52, 0x06, 0x70, 0x6f, 0x6c, 0x69,
-	0x63, 0x79, 0x42, 0x33, 0x5a, 0x31, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d,
-	0x2f, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x67, 0x6f, 0x2d, 0x73, 0x64, 0x6b, 0x2f, 0x65,
-	0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x67, 0x75, 0x61, 0x72, 0x64, 0x69, 0x61, 0x6e, 0x3b, 0x67,
-	0x75, 0x61, 0x72, 0x64, 0x69, 0x61, 0x6e, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x2f, 0x70, 0x6f, 0x6c, 0x69, 0x63, 0x79, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x7a, 0x0a,
+	0x12, 0x50, 0x6f, 0x6c, 0x69, 0x63, 0x79, 0x43, 0x68, 0x61, 0x6e, 0x67, 0x65, 0x64, 0x45, 0x76,
+	0x65, 0x6e, 0x74, 0x12, 0x31, 0x0a, 0x07, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x64, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x0b, 0x32, 0x17, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x67, 0x75,
+	0x61, 0x72, 0x64, 0x69, 0x61, 0x6e, 0x2e, 0x50, 0x6f, 0x6c, 0x69, 0x63, 0x79, 0x52, 0x07, 0x63,
+	0x72, 0x65, 0x61, 0x74, 0x65, 0x64, 0x12, 0x31, 0x0a, 0x07, 0x64, 0x65, 0x6c, 0x65, 0x74, 0x65,
+	0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x17, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70,
+	0x2e, 0x67, 0x75, 0x61, 0x72, 0x64, 0x69, 0x61, 0x6e, 0x2e, 0x50, 0x6f, 0x6c, 0x69, 0x63, 0x79,
+	0x52, 0x07, 0x64, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x64, 0x42, 0x33, 0x5a, 0x31, 0x67, 0x69, 0x74,
+	0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x67,
+	0x6f, 0x2d, 0x73, 0x64, 0x6b, 0x2f, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x67, 0x75, 0x61,
+	0x72, 0x64, 0x69, 0x61, 0x6e, 0x3b, 0x67, 0x75, 0x61, 0x72, 0x64, 0x69, 0x61, 0x6e, 0x62, 0x06,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -200,22 +109,19 @@ func file_eolymp_guardian_events_proto_rawDescGZIP() []byte {
 	return file_eolymp_guardian_events_proto_rawDescData
 }
 
-var file_eolymp_guardian_events_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_eolymp_guardian_events_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_eolymp_guardian_events_proto_goTypes = []interface{}{
-	(*PolicyCreatedEvent)(nil), // 0: eolymp.guardian.PolicyCreatedEvent
-	(*PolicyUpdatedEvent)(nil), // 1: eolymp.guardian.PolicyUpdatedEvent
-	(*PolicyDeletedEvent)(nil), // 2: eolymp.guardian.PolicyDeletedEvent
-	(*Policy)(nil),             // 3: eolymp.guardian.Policy
+	(*PolicyChangedEvent)(nil), // 0: eolymp.guardian.PolicyChangedEvent
+	(*Policy)(nil),             // 1: eolymp.guardian.Policy
 }
 var file_eolymp_guardian_events_proto_depIdxs = []int32{
-	3, // 0: eolymp.guardian.PolicyCreatedEvent.policy:type_name -> eolymp.guardian.Policy
-	3, // 1: eolymp.guardian.PolicyUpdatedEvent.policy:type_name -> eolymp.guardian.Policy
-	3, // 2: eolymp.guardian.PolicyDeletedEvent.policy:type_name -> eolymp.guardian.Policy
-	3, // [3:3] is the sub-list for method output_type
-	3, // [3:3] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	1, // 0: eolymp.guardian.PolicyChangedEvent.created:type_name -> eolymp.guardian.Policy
+	1, // 1: eolymp.guardian.PolicyChangedEvent.deleted:type_name -> eolymp.guardian.Policy
+	2, // [2:2] is the sub-list for method output_type
+	2, // [2:2] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_guardian_events_proto_init() }
@@ -226,31 +132,7 @@ func file_eolymp_guardian_events_proto_init() {
 	file_eolymp_guardian_policy_proto_init()
 	if !protoimpl.UnsafeEnabled {
 		file_eolymp_guardian_events_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*PolicyCreatedEvent); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_eolymp_guardian_events_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*PolicyUpdatedEvent); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_eolymp_guardian_events_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*PolicyDeletedEvent); i {
+			switch v := v.(*PolicyChangedEvent); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -268,7 +150,7 @@ func file_eolymp_guardian_events_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_eolymp_guardian_events_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   3,
+			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
