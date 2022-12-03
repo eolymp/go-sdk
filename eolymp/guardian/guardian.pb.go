@@ -502,8 +502,7 @@ type EvaluateInput struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Resource string   `protobuf:"bytes,1,opt,name=resource,proto3" json:"resource,omitempty"`
-	Args     []string `protobuf:"bytes,2,rep,name=args,proto3" json:"args,omitempty"`
+	Resource string `protobuf:"bytes,1,opt,name=resource,proto3" json:"resource,omitempty"`
 }
 
 func (x *EvaluateInput) Reset() {
@@ -545,19 +544,12 @@ func (x *EvaluateInput) GetResource() string {
 	return ""
 }
 
-func (x *EvaluateInput) GetArgs() []string {
-	if x != nil {
-		return x.Args
-	}
-	return nil
-}
-
 type EvaluateOutput struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Actions map[string]Statement_Effect `protobuf:"bytes,1,rep,name=actions,proto3" json:"actions,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"varint,2,opt,name=value,proto3,enum=eolymp.guardian.Statement_Effect"`
+	Statements []*Statement `protobuf:"bytes,1,rep,name=statements,proto3" json:"statements,omitempty"`
 }
 
 func (x *EvaluateOutput) Reset() {
@@ -592,9 +584,9 @@ func (*EvaluateOutput) Descriptor() ([]byte, []int) {
 	return file_eolymp_guardian_guardian_proto_rawDescGZIP(), []int{11}
 }
 
-func (x *EvaluateOutput) GetActions() map[string]Statement_Effect {
+func (x *EvaluateOutput) GetStatements() []*Statement {
 	if x != nil {
-		return x.Actions
+		return x.Statements
 	}
 	return nil
 }
@@ -645,23 +637,15 @@ var file_eolymp_guardian_guardian_proto_rawDesc = []byte{
 	0x70, 0x75, 0x74, 0x22, 0x23, 0x0a, 0x11, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x50, 0x6f, 0x6c,
 	0x69, 0x63, 0x79, 0x49, 0x6e, 0x70, 0x75, 0x74, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01,
 	0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x22, 0x14, 0x0a, 0x12, 0x44, 0x65, 0x6c, 0x65,
-	0x74, 0x65, 0x50, 0x6f, 0x6c, 0x69, 0x63, 0x79, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x22, 0x3f,
+	0x74, 0x65, 0x50, 0x6f, 0x6c, 0x69, 0x63, 0x79, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x22, 0x2b,
 	0x0a, 0x0d, 0x45, 0x76, 0x61, 0x6c, 0x75, 0x61, 0x74, 0x65, 0x49, 0x6e, 0x70, 0x75, 0x74, 0x12,
 	0x1a, 0x0a, 0x08, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28,
-	0x09, 0x52, 0x08, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x61,
-	0x72, 0x67, 0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x09, 0x52, 0x04, 0x61, 0x72, 0x67, 0x73, 0x22,
-	0xb7, 0x01, 0x0a, 0x0e, 0x45, 0x76, 0x61, 0x6c, 0x75, 0x61, 0x74, 0x65, 0x4f, 0x75, 0x74, 0x70,
-	0x75, 0x74, 0x12, 0x46, 0x0a, 0x07, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x18, 0x01, 0x20,
-	0x03, 0x28, 0x0b, 0x32, 0x2c, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x67, 0x75, 0x61,
-	0x72, 0x64, 0x69, 0x61, 0x6e, 0x2e, 0x45, 0x76, 0x61, 0x6c, 0x75, 0x61, 0x74, 0x65, 0x4f, 0x75,
-	0x74, 0x70, 0x75, 0x74, 0x2e, 0x41, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x45, 0x6e, 0x74, 0x72,
-	0x79, 0x52, 0x07, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x1a, 0x5d, 0x0a, 0x0c, 0x41, 0x63,
-	0x74, 0x69, 0x6f, 0x6e, 0x73, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65,
-	0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x37, 0x0a, 0x05,
-	0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x21, 0x2e, 0x65, 0x6f,
-	0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x67, 0x75, 0x61, 0x72, 0x64, 0x69, 0x61, 0x6e, 0x2e, 0x53, 0x74,
-	0x61, 0x74, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x2e, 0x45, 0x66, 0x66, 0x65, 0x63, 0x74, 0x52, 0x05,
-	0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x32, 0xf6, 0x05, 0x0a, 0x08, 0x47, 0x75,
+	0x09, 0x52, 0x08, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x22, 0x4c, 0x0a, 0x0e, 0x45,
+	0x76, 0x61, 0x6c, 0x75, 0x61, 0x74, 0x65, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x12, 0x3a, 0x0a,
+	0x0a, 0x73, 0x74, 0x61, 0x74, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28,
+	0x0b, 0x32, 0x1a, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x67, 0x75, 0x61, 0x72, 0x64,
+	0x69, 0x61, 0x6e, 0x2e, 0x53, 0x74, 0x61, 0x74, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x52, 0x0a, 0x73,
+	0x74, 0x61, 0x74, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x32, 0xf6, 0x05, 0x0a, 0x08, 0x47, 0x75,
 	0x61, 0x72, 0x64, 0x69, 0x61, 0x6e, 0x12, 0x79, 0x0a, 0x0c, 0x4c, 0x69, 0x73, 0x74, 0x50, 0x6f,
 	0x6c, 0x69, 0x63, 0x69, 0x65, 0x73, 0x12, 0x22, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e,
 	0x67, 0x75, 0x61, 0x72, 0x64, 0x69, 0x61, 0x6e, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x50, 0x6f, 0x6c,
@@ -727,7 +711,7 @@ func file_eolymp_guardian_guardian_proto_rawDescGZIP() []byte {
 	return file_eolymp_guardian_guardian_proto_rawDescData
 }
 
-var file_eolymp_guardian_guardian_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
+var file_eolymp_guardian_guardian_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
 var file_eolymp_guardian_guardian_proto_goTypes = []interface{}{
 	(*ListPoliciesInput)(nil),    // 0: eolymp.guardian.ListPoliciesInput
 	(*ListPoliciesOutput)(nil),   // 1: eolymp.guardian.ListPoliciesOutput
@@ -741,34 +725,32 @@ var file_eolymp_guardian_guardian_proto_goTypes = []interface{}{
 	(*DeletePolicyOutput)(nil),   // 9: eolymp.guardian.DeletePolicyOutput
 	(*EvaluateInput)(nil),        // 10: eolymp.guardian.EvaluateInput
 	(*EvaluateOutput)(nil),       // 11: eolymp.guardian.EvaluateOutput
-	nil,                          // 12: eolymp.guardian.EvaluateOutput.ActionsEntry
-	(*Policy)(nil),               // 13: eolymp.guardian.Policy
-	(Statement_Effect)(0),        // 14: eolymp.guardian.Statement.Effect
+	(*Policy)(nil),               // 12: eolymp.guardian.Policy
+	(*Statement)(nil),            // 13: eolymp.guardian.Statement
 }
 var file_eolymp_guardian_guardian_proto_depIdxs = []int32{
-	13, // 0: eolymp.guardian.ListPoliciesOutput.items:type_name -> eolymp.guardian.Policy
-	13, // 1: eolymp.guardian.DescribePolicyOutput.policy:type_name -> eolymp.guardian.Policy
-	13, // 2: eolymp.guardian.CreatePolicyInput.policy:type_name -> eolymp.guardian.Policy
-	13, // 3: eolymp.guardian.UpdatePolicyInput.policy:type_name -> eolymp.guardian.Policy
-	12, // 4: eolymp.guardian.EvaluateOutput.actions:type_name -> eolymp.guardian.EvaluateOutput.ActionsEntry
-	14, // 5: eolymp.guardian.EvaluateOutput.ActionsEntry.value:type_name -> eolymp.guardian.Statement.Effect
-	0,  // 6: eolymp.guardian.Guardian.ListPolicies:input_type -> eolymp.guardian.ListPoliciesInput
-	2,  // 7: eolymp.guardian.Guardian.DescribePolicy:input_type -> eolymp.guardian.DescribePolicyInput
-	4,  // 8: eolymp.guardian.Guardian.CreatePolicy:input_type -> eolymp.guardian.CreatePolicyInput
-	6,  // 9: eolymp.guardian.Guardian.UpdatePolicy:input_type -> eolymp.guardian.UpdatePolicyInput
-	8,  // 10: eolymp.guardian.Guardian.DeletePolicy:input_type -> eolymp.guardian.DeletePolicyInput
-	10, // 11: eolymp.guardian.Guardian.Evaluate:input_type -> eolymp.guardian.EvaluateInput
-	1,  // 12: eolymp.guardian.Guardian.ListPolicies:output_type -> eolymp.guardian.ListPoliciesOutput
-	3,  // 13: eolymp.guardian.Guardian.DescribePolicy:output_type -> eolymp.guardian.DescribePolicyOutput
-	5,  // 14: eolymp.guardian.Guardian.CreatePolicy:output_type -> eolymp.guardian.CreatePolicyOutput
-	7,  // 15: eolymp.guardian.Guardian.UpdatePolicy:output_type -> eolymp.guardian.UpdatePolicyOutput
-	9,  // 16: eolymp.guardian.Guardian.DeletePolicy:output_type -> eolymp.guardian.DeletePolicyOutput
-	11, // 17: eolymp.guardian.Guardian.Evaluate:output_type -> eolymp.guardian.EvaluateOutput
-	12, // [12:18] is the sub-list for method output_type
-	6,  // [6:12] is the sub-list for method input_type
-	6,  // [6:6] is the sub-list for extension type_name
-	6,  // [6:6] is the sub-list for extension extendee
-	0,  // [0:6] is the sub-list for field type_name
+	12, // 0: eolymp.guardian.ListPoliciesOutput.items:type_name -> eolymp.guardian.Policy
+	12, // 1: eolymp.guardian.DescribePolicyOutput.policy:type_name -> eolymp.guardian.Policy
+	12, // 2: eolymp.guardian.CreatePolicyInput.policy:type_name -> eolymp.guardian.Policy
+	12, // 3: eolymp.guardian.UpdatePolicyInput.policy:type_name -> eolymp.guardian.Policy
+	13, // 4: eolymp.guardian.EvaluateOutput.statements:type_name -> eolymp.guardian.Statement
+	0,  // 5: eolymp.guardian.Guardian.ListPolicies:input_type -> eolymp.guardian.ListPoliciesInput
+	2,  // 6: eolymp.guardian.Guardian.DescribePolicy:input_type -> eolymp.guardian.DescribePolicyInput
+	4,  // 7: eolymp.guardian.Guardian.CreatePolicy:input_type -> eolymp.guardian.CreatePolicyInput
+	6,  // 8: eolymp.guardian.Guardian.UpdatePolicy:input_type -> eolymp.guardian.UpdatePolicyInput
+	8,  // 9: eolymp.guardian.Guardian.DeletePolicy:input_type -> eolymp.guardian.DeletePolicyInput
+	10, // 10: eolymp.guardian.Guardian.Evaluate:input_type -> eolymp.guardian.EvaluateInput
+	1,  // 11: eolymp.guardian.Guardian.ListPolicies:output_type -> eolymp.guardian.ListPoliciesOutput
+	3,  // 12: eolymp.guardian.Guardian.DescribePolicy:output_type -> eolymp.guardian.DescribePolicyOutput
+	5,  // 13: eolymp.guardian.Guardian.CreatePolicy:output_type -> eolymp.guardian.CreatePolicyOutput
+	7,  // 14: eolymp.guardian.Guardian.UpdatePolicy:output_type -> eolymp.guardian.UpdatePolicyOutput
+	9,  // 15: eolymp.guardian.Guardian.DeletePolicy:output_type -> eolymp.guardian.DeletePolicyOutput
+	11, // 16: eolymp.guardian.Guardian.Evaluate:output_type -> eolymp.guardian.EvaluateOutput
+	11, // [11:17] is the sub-list for method output_type
+	5,  // [5:11] is the sub-list for method input_type
+	5,  // [5:5] is the sub-list for extension type_name
+	5,  // [5:5] is the sub-list for extension extendee
+	0,  // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_guardian_guardian_proto_init() }
@@ -929,7 +911,7 @@ func file_eolymp_guardian_guardian_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_eolymp_guardian_guardian_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   13,
+			NumMessages:   12,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
