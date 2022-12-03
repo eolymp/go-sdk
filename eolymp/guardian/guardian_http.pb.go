@@ -117,6 +117,7 @@ func NewGuardianHandler(srv GuardianServer) http.Handler {
 	router.Handle("/eolymp.guardian.Guardian/DescribePolicy", _Guardian_DescribePolicy(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.guardian.Guardian/DefinePolicy", _Guardian_DefinePolicy(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.guardian.Guardian/RemovePolicy", _Guardian_RemovePolicy(srv)).Methods(http.MethodPost)
+	router.Handle("/eolymp.guardian.Guardian/Evaluate", _Guardian_Evaluate(srv)).Methods(http.MethodPost)
 	return router
 }
 
@@ -140,6 +141,10 @@ func NewGuardianHandlerHttp(srv GuardianServer, prefix string) http.Handler {
 	router.Handle(prefix+"/policies/{id}", _Guardian_RemovePolicy_Rule0(srv)).
 		Methods("DELETE").
 		Name("eolymp.guardian.Guardian.RemovePolicy")
+
+	router.Handle(prefix+"/evaluate", _Guardian_Evaluate_Rule0(srv)).
+		Methods("DELETE").
+		Name("eolymp.guardian.Guardian.Evaluate")
 
 	return router
 }
@@ -215,6 +220,26 @@ func _Guardian_RemovePolicy(srv GuardianServer) http.Handler {
 		}
 
 		out, err := srv.RemovePolicy(r.Context(), in)
+		if err != nil {
+			_Guardian_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Guardian_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Guardian_Evaluate(srv GuardianServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &EvaluateInput{}
+
+		if err := _Guardian_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Guardian_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.Evaluate(r.Context(), in)
 		if err != nil {
 			_Guardian_HTTPWriteErrorResponse(w, err)
 			return
@@ -304,6 +329,26 @@ func _Guardian_RemovePolicy_Rule0(srv GuardianServer) http.Handler {
 		in.Id = vars["id"]
 
 		out, err := srv.RemovePolicy(r.Context(), in)
+		if err != nil {
+			_Guardian_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Guardian_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Guardian_Evaluate_Rule0(srv GuardianServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &EvaluateInput{}
+
+		if err := _Guardian_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Guardian_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.Evaluate(r.Context(), in)
 		if err != nil {
 			_Guardian_HTTPWriteErrorResponse(w, err)
 			return
@@ -448,6 +493,38 @@ func (i *GuardianInterceptor) RemovePolicy(ctx context.Context, in *RemovePolicy
 	message, ok := out.(*RemovePolicyOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *RemovePolicyOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *GuardianInterceptor) Evaluate(ctx context.Context, in *EvaluateInput) (*EvaluateOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*EvaluateInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *EvaluateInput, got %T", in))
+		}
+
+		return i.server.Evaluate(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.guardian.Guardian.Evaluate", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*EvaluateOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *EvaluateOutput, got %T", out))
 	}
 
 	return message, err

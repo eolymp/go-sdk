@@ -158,3 +158,14 @@ func (s *GuardianService) RemovePolicy(ctx context.Context, in *RemovePolicyInpu
 
 	return out, nil
 }
+
+func (s *GuardianService) Evaluate(ctx context.Context, in *EvaluateInput) (*EvaluateOutput, error) {
+	out := &EvaluateOutput{}
+	path := "/evaluate"
+
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

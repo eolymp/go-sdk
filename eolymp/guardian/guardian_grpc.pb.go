@@ -26,6 +26,7 @@ type GuardianClient interface {
 	DescribePolicy(ctx context.Context, in *DescribePolicyInput, opts ...grpc.CallOption) (*DescribePolicyOutput, error)
 	DefinePolicy(ctx context.Context, in *DefinePolicyInput, opts ...grpc.CallOption) (*DefinePolicyOutput, error)
 	RemovePolicy(ctx context.Context, in *RemovePolicyInput, opts ...grpc.CallOption) (*RemovePolicyOutput, error)
+	Evaluate(ctx context.Context, in *EvaluateInput, opts ...grpc.CallOption) (*EvaluateOutput, error)
 }
 
 type guardianClient struct {
@@ -72,6 +73,15 @@ func (c *guardianClient) RemovePolicy(ctx context.Context, in *RemovePolicyInput
 	return out, nil
 }
 
+func (c *guardianClient) Evaluate(ctx context.Context, in *EvaluateInput, opts ...grpc.CallOption) (*EvaluateOutput, error) {
+	out := new(EvaluateOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.guardian.Guardian/Evaluate", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // GuardianServer is the server API for Guardian service.
 // All implementations should embed UnimplementedGuardianServer
 // for forward compatibility
@@ -80,6 +90,7 @@ type GuardianServer interface {
 	DescribePolicy(context.Context, *DescribePolicyInput) (*DescribePolicyOutput, error)
 	DefinePolicy(context.Context, *DefinePolicyInput) (*DefinePolicyOutput, error)
 	RemovePolicy(context.Context, *RemovePolicyInput) (*RemovePolicyOutput, error)
+	Evaluate(context.Context, *EvaluateInput) (*EvaluateOutput, error)
 }
 
 // UnimplementedGuardianServer should be embedded to have forward compatible implementations.
@@ -97,6 +108,9 @@ func (UnimplementedGuardianServer) DefinePolicy(context.Context, *DefinePolicyIn
 }
 func (UnimplementedGuardianServer) RemovePolicy(context.Context, *RemovePolicyInput) (*RemovePolicyOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RemovePolicy not implemented")
+}
+func (UnimplementedGuardianServer) Evaluate(context.Context, *EvaluateInput) (*EvaluateOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Evaluate not implemented")
 }
 
 // UnsafeGuardianServer may be embedded to opt out of forward compatibility for this service.
@@ -182,6 +196,24 @@ func _Guardian_RemovePolicy_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Guardian_Evaluate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EvaluateInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GuardianServer).Evaluate(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.guardian.Guardian/Evaluate",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GuardianServer).Evaluate(ctx, req.(*EvaluateInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Guardian_ServiceDesc is the grpc.ServiceDesc for Guardian service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -204,6 +236,10 @@ var Guardian_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RemovePolicy",
 			Handler:    _Guardian_RemovePolicy_Handler,
+		},
+		{
+			MethodName: "Evaluate",
+			Handler:    _Guardian_Evaluate_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
