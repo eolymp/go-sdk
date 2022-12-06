@@ -113,6 +113,7 @@ func _Executor_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 // NewExecutorHandler constructs new http.Handler for ExecutorServer
 func NewExecutorHandler(srv ExecutorServer) http.Handler {
 	router := mux.NewRouter()
+	router.Handle("/eolymp.executor.Executor/CreateTask", _Executor_CreateTask(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.executor.Executor/DescribeLanguage", _Executor_DescribeLanguage(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.executor.Executor/ListLanguages", _Executor_ListLanguages(srv)).Methods(http.MethodPost)
 	router.Handle("/eolymp.executor.Executor/DescribeRuntime", _Executor_DescribeRuntime(srv)).Methods(http.MethodPost)
@@ -147,6 +148,26 @@ func NewExecutorHandlerHttp(srv ExecutorServer, prefix string) http.Handler {
 		Name("eolymp.executor.Executor.DescribeCodeTemplate")
 
 	return router
+}
+
+func _Executor_CreateTask(srv ExecutorServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &CreateTaskInput{}
+
+		if err := _Executor_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Executor_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.CreateTask(r.Context(), in)
+		if err != nil {
+			_Executor_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Executor_HTTPWriteResponse(w, out)
+	})
 }
 
 func _Executor_DescribeLanguage(srv ExecutorServer) http.Handler {
@@ -368,6 +389,38 @@ type ExecutorInterceptor struct {
 // NewExecutorInterceptor constructs additional middleware for a server based on annotations in proto files
 func NewExecutorInterceptor(srv ExecutorServer, middleware ..._ExecutorMiddleware) *ExecutorInterceptor {
 	return &ExecutorInterceptor{server: srv, middleware: middleware}
+}
+
+func (i *ExecutorInterceptor) CreateTask(ctx context.Context, in *CreateTaskInput) (*CreateTaskOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*CreateTaskInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *CreateTaskInput, got %T", in))
+		}
+
+		return i.server.CreateTask(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.executor.Executor.CreateTask", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*CreateTaskOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *CreateTaskOutput, got %T", out))
+	}
+
+	return message, err
 }
 
 func (i *ExecutorInterceptor) DescribeLanguage(ctx context.Context, in *DescribeLanguageInput) (*DescribeLanguageOutput, error) {

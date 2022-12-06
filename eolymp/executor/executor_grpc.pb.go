@@ -22,6 +22,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ExecutorClient interface {
+	CreateTask(ctx context.Context, in *CreateTaskInput, opts ...grpc.CallOption) (*CreateTaskOutput, error)
 	DescribeLanguage(ctx context.Context, in *DescribeLanguageInput, opts ...grpc.CallOption) (*DescribeLanguageOutput, error)
 	ListLanguages(ctx context.Context, in *ListLanguagesInput, opts ...grpc.CallOption) (*ListLanguagesOutput, error)
 	DescribeRuntime(ctx context.Context, in *DescribeRuntimeInput, opts ...grpc.CallOption) (*DescribeRuntimeOutput, error)
@@ -35,6 +36,15 @@ type executorClient struct {
 
 func NewExecutorClient(cc grpc.ClientConnInterface) ExecutorClient {
 	return &executorClient{cc}
+}
+
+func (c *executorClient) CreateTask(ctx context.Context, in *CreateTaskInput, opts ...grpc.CallOption) (*CreateTaskOutput, error) {
+	out := new(CreateTaskOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.executor.Executor/CreateTask", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *executorClient) DescribeLanguage(ctx context.Context, in *DescribeLanguageInput, opts ...grpc.CallOption) (*DescribeLanguageOutput, error) {
@@ -86,6 +96,7 @@ func (c *executorClient) DescribeCodeTemplate(ctx context.Context, in *DescribeC
 // All implementations should embed UnimplementedExecutorServer
 // for forward compatibility
 type ExecutorServer interface {
+	CreateTask(context.Context, *CreateTaskInput) (*CreateTaskOutput, error)
 	DescribeLanguage(context.Context, *DescribeLanguageInput) (*DescribeLanguageOutput, error)
 	ListLanguages(context.Context, *ListLanguagesInput) (*ListLanguagesOutput, error)
 	DescribeRuntime(context.Context, *DescribeRuntimeInput) (*DescribeRuntimeOutput, error)
@@ -97,6 +108,9 @@ type ExecutorServer interface {
 type UnimplementedExecutorServer struct {
 }
 
+func (UnimplementedExecutorServer) CreateTask(context.Context, *CreateTaskInput) (*CreateTaskOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateTask not implemented")
+}
 func (UnimplementedExecutorServer) DescribeLanguage(context.Context, *DescribeLanguageInput) (*DescribeLanguageOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeLanguage not implemented")
 }
@@ -122,6 +136,24 @@ type UnsafeExecutorServer interface {
 
 func RegisterExecutorServer(s grpc.ServiceRegistrar, srv ExecutorServer) {
 	s.RegisterService(&Executor_ServiceDesc, srv)
+}
+
+func _Executor_CreateTask_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateTaskInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ExecutorServer).CreateTask(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.executor.Executor/CreateTask",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ExecutorServer).CreateTask(ctx, req.(*CreateTaskInput))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _Executor_DescribeLanguage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -221,6 +253,10 @@ var Executor_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "eolymp.executor.Executor",
 	HandlerType: (*ExecutorServer)(nil),
 	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "CreateTask",
+			Handler:    _Executor_CreateTask_Handler,
+		},
 		{
 			MethodName: "DescribeLanguage",
 			Handler:    _Executor_DescribeLanguage_Handler,
