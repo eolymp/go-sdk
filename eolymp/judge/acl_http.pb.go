@@ -110,118 +110,21 @@ func _Acl_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	_, _ = w.Write(data)
 }
 
-// NewAclHandler constructs new http.Handler for AclServer
-func NewAclHandler(srv AclServer) http.Handler {
-	router := mux.NewRouter()
-	router.Handle("/eolymp.judge.Acl/GrantPermission", _Acl_GrantPermission(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.judge.Acl/RevokePermission", _Acl_RevokePermission(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.judge.Acl/DescribePermission", _Acl_DescribePermission(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.judge.Acl/ListPermissions", _Acl_ListPermissions(srv)).Methods(http.MethodPost)
-	return router
-}
-
-// NewAclHandlerHttp constructs new http.Handler for AclServer
+// RegisterAclHttpHandlers adds handlers for for AclServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func NewAclHandlerHttp(srv AclServer, prefix string) http.Handler {
-	router := mux.NewRouter()
-
+func RegisterAclHttpHandlers(router *mux.Router, prefix string, srv AclServer) {
 	router.Handle(prefix+"/permissions/{user_id}", _Acl_GrantPermission_Rule0(srv)).
 		Methods("PUT").
 		Name("eolymp.judge.Acl.GrantPermission")
-
 	router.Handle(prefix+"/permissions/{user_id}", _Acl_RevokePermission_Rule0(srv)).
 		Methods("DELETE").
 		Name("eolymp.judge.Acl.RevokePermission")
-
 	router.Handle(prefix+"/permissions/{user_id}", _Acl_DescribePermission_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.judge.Acl.DescribePermission")
-
 	router.Handle(prefix+"/permissions", _Acl_ListPermissions_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.judge.Acl.ListPermissions")
-
-	return router
-}
-
-func _Acl_GrantPermission(srv AclServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &GrantPermissionInput{}
-
-		if err := _Acl_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Acl_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.GrantPermission(r.Context(), in)
-		if err != nil {
-			_Acl_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Acl_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Acl_RevokePermission(srv AclServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &RevokePermissionInput{}
-
-		if err := _Acl_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Acl_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.RevokePermission(r.Context(), in)
-		if err != nil {
-			_Acl_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Acl_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Acl_DescribePermission(srv AclServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DescribePermissionInput{}
-
-		if err := _Acl_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Acl_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.DescribePermission(r.Context(), in)
-		if err != nil {
-			_Acl_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Acl_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Acl_ListPermissions(srv AclServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ListPermissionsInput{}
-
-		if err := _Acl_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Acl_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.ListPermissions(r.Context(), in)
-		if err != nil {
-			_Acl_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Acl_HTTPWriteResponse(w, out)
-	})
 }
 
 func _Acl_GrantPermission_Rule0(srv AclServer) http.Handler {

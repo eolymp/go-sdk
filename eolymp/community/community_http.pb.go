@@ -110,493 +110,66 @@ func _Community_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	_, _ = w.Write(data)
 }
 
-// NewCommunityHandler constructs new http.Handler for CommunityServer
-func NewCommunityHandler(srv CommunityServer) http.Handler {
-	router := mux.NewRouter()
-	router.Handle("/eolymp.community.Community/JoinSpace", _Community_JoinSpace(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.community.Community/LeaveSpace", _Community_LeaveSpace(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.community.Community/RegisterMember", _Community_RegisterMember(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.community.Community/IntrospectMember", _Community_IntrospectMember(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.community.Community/AddMember", _Community_AddMember(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.community.Community/UpdateMember", _Community_UpdateMember(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.community.Community/RemoveMember", _Community_RemoveMember(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.community.Community/DescribeMember", _Community_DescribeMember(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.community.Community/ListMembers", _Community_ListMembers(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.community.Community/AddMemberIdentity", _Community_AddMemberIdentity(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.community.Community/UpdateMemberIdentity", _Community_UpdateMemberIdentity(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.community.Community/RemoveMemberIdentity", _Community_RemoveMemberIdentity(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.community.Community/AddAttribute", _Community_AddAttribute(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.community.Community/UpdateAttribute", _Community_UpdateAttribute(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.community.Community/RemoveAttribute", _Community_RemoveAttribute(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.community.Community/DescribeAttribute", _Community_DescribeAttribute(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.community.Community/ListAttributes", _Community_ListAttributes(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.community.Community/DescribeIdentityProvider", _Community_DescribeIdentityProvider(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.community.Community/ConfigureIdentityProvider", _Community_ConfigureIdentityProvider(srv)).Methods(http.MethodPost)
-	return router
-}
-
-// NewCommunityHandlerHttp constructs new http.Handler for CommunityServer
+// RegisterCommunityHttpHandlers adds handlers for for CommunityServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func NewCommunityHandlerHttp(srv CommunityServer, prefix string) http.Handler {
-	router := mux.NewRouter()
-
+func RegisterCommunityHttpHandlers(router *mux.Router, prefix string, srv CommunityServer) {
 	router.Handle(prefix+"/members/_self", _Community_JoinSpace_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.community.Community.JoinSpace")
-
 	router.Handle(prefix+"/members/_self", _Community_LeaveSpace_Rule0(srv)).
 		Methods("DELETE").
 		Name("eolymp.community.Community.LeaveSpace")
-
 	router.Handle(prefix+"/members/_self/attributes", _Community_RegisterMember_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.community.Community.RegisterMember")
-
 	router.Handle(prefix+"/members/_self", _Community_IntrospectMember_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.community.Community.IntrospectMember")
-
 	router.Handle(prefix+"/members", _Community_AddMember_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.community.Community.AddMember")
-
 	router.Handle(prefix+"/members/{member_id}", _Community_UpdateMember_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.community.Community.UpdateMember")
-
 	router.Handle(prefix+"/members/{member_id}", _Community_RemoveMember_Rule0(srv)).
 		Methods("DELETE").
 		Name("eolymp.community.Community.RemoveMember")
-
 	router.Handle(prefix+"/members/{member_id}", _Community_DescribeMember_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.community.Community.DescribeMember")
-
 	router.Handle(prefix+"/members", _Community_ListMembers_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.community.Community.ListMembers")
-
 	router.Handle(prefix+"/members/{member_id}/identities", _Community_AddMemberIdentity_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.community.Community.AddMemberIdentity")
-
 	router.Handle(prefix+"/members/{member_id}/identities/{identity_id}", _Community_UpdateMemberIdentity_Rule0(srv)).
 		Methods("PUT").
 		Name("eolymp.community.Community.UpdateMemberIdentity")
-
 	router.Handle(prefix+"/members/{member_id}/identities/{identity_id}", _Community_RemoveMemberIdentity_Rule0(srv)).
 		Methods("DELETE").
 		Name("eolymp.community.Community.RemoveMemberIdentity")
-
 	router.Handle(prefix+"/attributes", _Community_AddAttribute_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.community.Community.AddAttribute")
-
 	router.Handle(prefix+"/attributes/{attribute_key}", _Community_UpdateAttribute_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.community.Community.UpdateAttribute")
-
 	router.Handle(prefix+"/attributes/{attribute_key}", _Community_RemoveAttribute_Rule0(srv)).
 		Methods("DELETE").
 		Name("eolymp.community.Community.RemoveAttribute")
-
 	router.Handle(prefix+"/attributes/{attribute_key}", _Community_DescribeAttribute_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.community.Community.DescribeAttribute")
-
 	router.Handle(prefix+"/attributes", _Community_ListAttributes_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.community.Community.ListAttributes")
-
 	router.Handle(prefix+"/idp", _Community_DescribeIdentityProvider_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.community.Community.DescribeIdentityProvider")
-
 	router.Handle(prefix+"/idp", _Community_ConfigureIdentityProvider_Rule0(srv)).
 		Methods("PUT").
 		Name("eolymp.community.Community.ConfigureIdentityProvider")
-
-	return router
-}
-
-func _Community_JoinSpace(srv CommunityServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &JoinSpaceInput{}
-
-		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Community_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.JoinSpace(r.Context(), in)
-		if err != nil {
-			_Community_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Community_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Community_LeaveSpace(srv CommunityServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &LeaveSpaceInput{}
-
-		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Community_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.LeaveSpace(r.Context(), in)
-		if err != nil {
-			_Community_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Community_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Community_RegisterMember(srv CommunityServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &RegisterMemberInput{}
-
-		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Community_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.RegisterMember(r.Context(), in)
-		if err != nil {
-			_Community_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Community_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Community_IntrospectMember(srv CommunityServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &IntrospectMemberInput{}
-
-		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Community_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.IntrospectMember(r.Context(), in)
-		if err != nil {
-			_Community_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Community_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Community_AddMember(srv CommunityServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &AddMemberInput{}
-
-		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Community_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.AddMember(r.Context(), in)
-		if err != nil {
-			_Community_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Community_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Community_UpdateMember(srv CommunityServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &UpdateMemberInput{}
-
-		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Community_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.UpdateMember(r.Context(), in)
-		if err != nil {
-			_Community_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Community_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Community_RemoveMember(srv CommunityServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &RemoveMemberInput{}
-
-		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Community_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.RemoveMember(r.Context(), in)
-		if err != nil {
-			_Community_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Community_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Community_DescribeMember(srv CommunityServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DescribeMemberInput{}
-
-		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Community_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.DescribeMember(r.Context(), in)
-		if err != nil {
-			_Community_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Community_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Community_ListMembers(srv CommunityServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ListMembersInput{}
-
-		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Community_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.ListMembers(r.Context(), in)
-		if err != nil {
-			_Community_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Community_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Community_AddMemberIdentity(srv CommunityServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &AddMemberIdentityInput{}
-
-		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Community_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.AddMemberIdentity(r.Context(), in)
-		if err != nil {
-			_Community_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Community_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Community_UpdateMemberIdentity(srv CommunityServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &UpdateMemberIdentityInput{}
-
-		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Community_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.UpdateMemberIdentity(r.Context(), in)
-		if err != nil {
-			_Community_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Community_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Community_RemoveMemberIdentity(srv CommunityServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &RemoveMemberIdentityInput{}
-
-		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Community_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.RemoveMemberIdentity(r.Context(), in)
-		if err != nil {
-			_Community_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Community_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Community_AddAttribute(srv CommunityServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &AddAttributeInput{}
-
-		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Community_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.AddAttribute(r.Context(), in)
-		if err != nil {
-			_Community_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Community_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Community_UpdateAttribute(srv CommunityServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &UpdateAttributeInput{}
-
-		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Community_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.UpdateAttribute(r.Context(), in)
-		if err != nil {
-			_Community_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Community_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Community_RemoveAttribute(srv CommunityServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &RemoveAttributeInput{}
-
-		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Community_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.RemoveAttribute(r.Context(), in)
-		if err != nil {
-			_Community_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Community_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Community_DescribeAttribute(srv CommunityServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DescribeAttributeInput{}
-
-		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Community_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.DescribeAttribute(r.Context(), in)
-		if err != nil {
-			_Community_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Community_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Community_ListAttributes(srv CommunityServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ListAttributesInput{}
-
-		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Community_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.ListAttributes(r.Context(), in)
-		if err != nil {
-			_Community_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Community_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Community_DescribeIdentityProvider(srv CommunityServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DescribeIdentityProviderInput{}
-
-		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Community_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.DescribeIdentityProvider(r.Context(), in)
-		if err != nil {
-			_Community_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Community_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Community_ConfigureIdentityProvider(srv CommunityServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ConfigureIdentityProviderInput{}
-
-		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Community_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.ConfigureIdentityProvider(r.Context(), in)
-		if err != nil {
-			_Community_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Community_HTTPWriteResponse(w, out)
-	})
 }
 
 func _Community_JoinSpace_Rule0(srv CommunityServer) http.Handler {

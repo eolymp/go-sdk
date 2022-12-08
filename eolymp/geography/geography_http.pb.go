@@ -110,118 +110,21 @@ func _Geography_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	_, _ = w.Write(data)
 }
 
-// NewGeographyHandler constructs new http.Handler for GeographyServer
-func NewGeographyHandler(srv GeographyServer) http.Handler {
-	router := mux.NewRouter()
-	router.Handle("/eolymp.geography.Geography/DescribeCountry", _Geography_DescribeCountry(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.geography.Geography/ListCountries", _Geography_ListCountries(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.geography.Geography/DescribeRegion", _Geography_DescribeRegion(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.geography.Geography/ListRegions", _Geography_ListRegions(srv)).Methods(http.MethodPost)
-	return router
-}
-
-// NewGeographyHandlerHttp constructs new http.Handler for GeographyServer
+// RegisterGeographyHttpHandlers adds handlers for for GeographyServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func NewGeographyHandlerHttp(srv GeographyServer, prefix string) http.Handler {
-	router := mux.NewRouter()
-
+func RegisterGeographyHttpHandlers(router *mux.Router, prefix string, srv GeographyServer) {
 	router.Handle(prefix+"/geography/countries/{country_id}", _Geography_DescribeCountry_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.geography.Geography.DescribeCountry")
-
 	router.Handle(prefix+"/geography/countries", _Geography_ListCountries_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.geography.Geography.ListCountries")
-
 	router.Handle(prefix+"/geography/regions/{region_id}", _Geography_DescribeRegion_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.geography.Geography.DescribeRegion")
-
 	router.Handle(prefix+"/geography/countries/{country_id}/regions", _Geography_ListRegions_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.geography.Geography.ListRegions")
-
-	return router
-}
-
-func _Geography_DescribeCountry(srv GeographyServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DescribeCountryInput{}
-
-		if err := _Geography_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Geography_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.DescribeCountry(r.Context(), in)
-		if err != nil {
-			_Geography_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Geography_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Geography_ListCountries(srv GeographyServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ListCountriesInput{}
-
-		if err := _Geography_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Geography_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.ListCountries(r.Context(), in)
-		if err != nil {
-			_Geography_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Geography_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Geography_DescribeRegion(srv GeographyServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DescribeRegionInput{}
-
-		if err := _Geography_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Geography_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.DescribeRegion(r.Context(), in)
-		if err != nil {
-			_Geography_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Geography_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Geography_ListRegions(srv GeographyServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ListRegionsInput{}
-
-		if err := _Geography_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Geography_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.ListRegions(r.Context(), in)
-		if err != nil {
-			_Geography_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Geography_HTTPWriteResponse(w, out)
-	})
 }
 
 func _Geography_DescribeCountry_Rule0(srv GeographyServer) http.Handler {

@@ -110,368 +110,51 @@ func _Ranker_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	_, _ = w.Write(data)
 }
 
-// NewRankerHandler constructs new http.Handler for RankerServer
-func NewRankerHandler(srv RankerServer) http.Handler {
-	router := mux.NewRouter()
-	router.Handle("/eolymp.ranker.Ranker/CreateScoreboard", _Ranker_CreateScoreboard(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.ranker.Ranker/UpdateScoreboard", _Ranker_UpdateScoreboard(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.ranker.Ranker/RebuildScoreboard", _Ranker_RebuildScoreboard(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.ranker.Ranker/DeleteScoreboard", _Ranker_DeleteScoreboard(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.ranker.Ranker/DescribeScoreboard", _Ranker_DescribeScoreboard(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.ranker.Ranker/ListScoreboards", _Ranker_ListScoreboards(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.ranker.Ranker/DescribeScoreboardRow", _Ranker_DescribeScoreboardRow(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.ranker.Ranker/ListScoreboardRows", _Ranker_ListScoreboardRows(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.ranker.Ranker/AddScoreboardColumn", _Ranker_AddScoreboardColumn(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.ranker.Ranker/UpdateScoreboardColumn", _Ranker_UpdateScoreboardColumn(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.ranker.Ranker/DeleteScoreboardColumn", _Ranker_DeleteScoreboardColumn(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.ranker.Ranker/DescribeScoreboardColumn", _Ranker_DescribeScoreboardColumn(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.ranker.Ranker/ListScoreboardColumns", _Ranker_ListScoreboardColumns(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.ranker.Ranker/ListActivities", _Ranker_ListActivities(srv)).Methods(http.MethodPost)
-	return router
-}
-
-// NewRankerHandlerHttp constructs new http.Handler for RankerServer
+// RegisterRankerHttpHandlers adds handlers for for RankerServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func NewRankerHandlerHttp(srv RankerServer, prefix string) http.Handler {
-	router := mux.NewRouter()
-
+func RegisterRankerHttpHandlers(router *mux.Router, prefix string, srv RankerServer) {
 	router.Handle(prefix+"/scoreboards", _Ranker_CreateScoreboard_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.ranker.Ranker.CreateScoreboard")
-
 	router.Handle(prefix+"/scoreboards/{scoreboard_id}", _Ranker_UpdateScoreboard_Rule0(srv)).
 		Methods("PUT").
 		Name("eolymp.ranker.Ranker.UpdateScoreboard")
-
 	router.Handle(prefix+"/scoreboards/{scoreboard_id}/rebuild", _Ranker_RebuildScoreboard_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.ranker.Ranker.RebuildScoreboard")
-
 	router.Handle(prefix+"/scoreboards/{scoreboard_id}", _Ranker_DeleteScoreboard_Rule0(srv)).
 		Methods("DELETE").
 		Name("eolymp.ranker.Ranker.DeleteScoreboard")
-
 	router.Handle(prefix+"/scoreboards/{scoreboard_id}", _Ranker_DescribeScoreboard_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.ranker.Ranker.DescribeScoreboard")
-
 	router.Handle(prefix+"/scoreboards", _Ranker_ListScoreboards_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.ranker.Ranker.ListScoreboards")
-
 	router.Handle(prefix+"/scoreboards/{scoreboard_id}/rows/{member_id}", _Ranker_DescribeScoreboardRow_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.ranker.Ranker.DescribeScoreboardRow")
-
 	router.Handle(prefix+"/scoreboards/{scoreboard_id}/rows", _Ranker_ListScoreboardRows_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.ranker.Ranker.ListScoreboardRows")
-
 	router.Handle(prefix+"/scoreboards/{scoreboard_id}/columns", _Ranker_AddScoreboardColumn_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.ranker.Ranker.AddScoreboardColumn")
-
 	router.Handle(prefix+"/scoreboards/{scoreboard_id}/columns/{column_id}", _Ranker_UpdateScoreboardColumn_Rule0(srv)).
 		Methods("PUT").
 		Name("eolymp.ranker.Ranker.UpdateScoreboardColumn")
-
 	router.Handle(prefix+"/scoreboards/{scoreboard_id}/columns/{column_id}", _Ranker_DeleteScoreboardColumn_Rule0(srv)).
 		Methods("DELETE").
 		Name("eolymp.ranker.Ranker.DeleteScoreboardColumn")
-
 	router.Handle(prefix+"/scoreboards/{scoreboard_id}/columns/{column_id}", _Ranker_DescribeScoreboardColumn_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.ranker.Ranker.DescribeScoreboardColumn")
-
 	router.Handle(prefix+"/scoreboards/{scoreboard_id}/columns", _Ranker_ListScoreboardColumns_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.ranker.Ranker.ListScoreboardColumns")
-
 	router.Handle(prefix+"/scoreboards/{scoreboard_id}/activities", _Ranker_ListActivities_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.ranker.Ranker.ListActivities")
-
-	return router
-}
-
-func _Ranker_CreateScoreboard(srv RankerServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &CreateScoreboardInput{}
-
-		if err := _Ranker_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Ranker_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.CreateScoreboard(r.Context(), in)
-		if err != nil {
-			_Ranker_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Ranker_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Ranker_UpdateScoreboard(srv RankerServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &UpdateScoreboardInput{}
-
-		if err := _Ranker_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Ranker_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.UpdateScoreboard(r.Context(), in)
-		if err != nil {
-			_Ranker_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Ranker_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Ranker_RebuildScoreboard(srv RankerServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &RebuildScoreboardInput{}
-
-		if err := _Ranker_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Ranker_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.RebuildScoreboard(r.Context(), in)
-		if err != nil {
-			_Ranker_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Ranker_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Ranker_DeleteScoreboard(srv RankerServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DeleteScoreboardInput{}
-
-		if err := _Ranker_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Ranker_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.DeleteScoreboard(r.Context(), in)
-		if err != nil {
-			_Ranker_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Ranker_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Ranker_DescribeScoreboard(srv RankerServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DescribeScoreboardInput{}
-
-		if err := _Ranker_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Ranker_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.DescribeScoreboard(r.Context(), in)
-		if err != nil {
-			_Ranker_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Ranker_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Ranker_ListScoreboards(srv RankerServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ListScoreboardsInput{}
-
-		if err := _Ranker_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Ranker_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.ListScoreboards(r.Context(), in)
-		if err != nil {
-			_Ranker_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Ranker_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Ranker_DescribeScoreboardRow(srv RankerServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DescribeScoreboardRowInput{}
-
-		if err := _Ranker_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Ranker_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.DescribeScoreboardRow(r.Context(), in)
-		if err != nil {
-			_Ranker_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Ranker_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Ranker_ListScoreboardRows(srv RankerServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ListScoreboardRowsInput{}
-
-		if err := _Ranker_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Ranker_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.ListScoreboardRows(r.Context(), in)
-		if err != nil {
-			_Ranker_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Ranker_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Ranker_AddScoreboardColumn(srv RankerServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &AddScoreboardColumnInput{}
-
-		if err := _Ranker_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Ranker_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.AddScoreboardColumn(r.Context(), in)
-		if err != nil {
-			_Ranker_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Ranker_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Ranker_UpdateScoreboardColumn(srv RankerServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &UpdateScoreboardColumnInput{}
-
-		if err := _Ranker_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Ranker_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.UpdateScoreboardColumn(r.Context(), in)
-		if err != nil {
-			_Ranker_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Ranker_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Ranker_DeleteScoreboardColumn(srv RankerServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DeleteScoreboardColumnInput{}
-
-		if err := _Ranker_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Ranker_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.DeleteScoreboardColumn(r.Context(), in)
-		if err != nil {
-			_Ranker_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Ranker_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Ranker_DescribeScoreboardColumn(srv RankerServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DescribeScoreboardColumnInput{}
-
-		if err := _Ranker_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Ranker_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.DescribeScoreboardColumn(r.Context(), in)
-		if err != nil {
-			_Ranker_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Ranker_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Ranker_ListScoreboardColumns(srv RankerServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ListScoreboardColumnsInput{}
-
-		if err := _Ranker_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Ranker_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.ListScoreboardColumns(r.Context(), in)
-		if err != nil {
-			_Ranker_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Ranker_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Ranker_ListActivities(srv RankerServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ListActivitiesInput{}
-
-		if err := _Ranker_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Ranker_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.ListActivities(r.Context(), in)
-		if err != nil {
-			_Ranker_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Ranker_HTTPWriteResponse(w, out)
-	})
 }
 
 func _Ranker_CreateScoreboard_Rule0(srv RankerServer) http.Handler {

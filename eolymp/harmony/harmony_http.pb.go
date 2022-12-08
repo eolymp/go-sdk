@@ -110,118 +110,21 @@ func _Harmony_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	_, _ = w.Write(data)
 }
 
-// NewHarmonyHandler constructs new http.Handler for HarmonyServer
-func NewHarmonyHandler(srv HarmonyServer) http.Handler {
-	router := mux.NewRouter()
-	router.Handle("/eolymp.harmony.Harmony/ListAgreements", _Harmony_ListAgreements(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.harmony.Harmony/GetConsent", _Harmony_GetConsent(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.harmony.Harmony/SetConsent", _Harmony_SetConsent(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.harmony.Harmony/FollowShortcut", _Harmony_FollowShortcut(srv)).Methods(http.MethodPost)
-	return router
-}
-
-// NewHarmonyHandlerHttp constructs new http.Handler for HarmonyServer
+// RegisterHarmonyHttpHandlers adds handlers for for HarmonyServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func NewHarmonyHandlerHttp(srv HarmonyServer, prefix string) http.Handler {
-	router := mux.NewRouter()
-
+func RegisterHarmonyHttpHandlers(router *mux.Router, prefix string, srv HarmonyServer) {
 	router.Handle(prefix+"/harmony/agreements", _Harmony_ListAgreements_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.harmony.Harmony.ListAgreements")
-
 	router.Handle(prefix+"/harmony/agreements/{agreement_id}/consent", _Harmony_GetConsent_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.harmony.Harmony.GetConsent")
-
 	router.Handle(prefix+"/harmony/agreements/{agreement_id}/consent", _Harmony_SetConsent_Rule0(srv)).
 		Methods("PUT").
 		Name("eolymp.harmony.Harmony.SetConsent")
-
 	router.Handle(prefix+"/harmony/shortcuts/{shortcut_id}", _Harmony_FollowShortcut_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.harmony.Harmony.FollowShortcut")
-
-	return router
-}
-
-func _Harmony_ListAgreements(srv HarmonyServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ListAgreementsInput{}
-
-		if err := _Harmony_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Harmony_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.ListAgreements(r.Context(), in)
-		if err != nil {
-			_Harmony_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Harmony_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Harmony_GetConsent(srv HarmonyServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &GetConsentInput{}
-
-		if err := _Harmony_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Harmony_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.GetConsent(r.Context(), in)
-		if err != nil {
-			_Harmony_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Harmony_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Harmony_SetConsent(srv HarmonyServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &SetConsentInput{}
-
-		if err := _Harmony_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Harmony_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.SetConsent(r.Context(), in)
-		if err != nil {
-			_Harmony_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Harmony_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Harmony_FollowShortcut(srv HarmonyServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &FollowShortcutInput{}
-
-		if err := _Harmony_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Harmony_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.FollowShortcut(r.Context(), in)
-		if err != nil {
-			_Harmony_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Harmony_HTTPWriteResponse(w, out)
-	})
 }
 
 func _Harmony_ListAgreements_Rule0(srv HarmonyServer) http.Handler {

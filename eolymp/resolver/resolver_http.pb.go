@@ -110,43 +110,12 @@ func _Resolver_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	_, _ = w.Write(data)
 }
 
-// NewResolverHandler constructs new http.Handler for ResolverServer
-func NewResolverHandler(srv ResolverServer) http.Handler {
-	router := mux.NewRouter()
-	router.Handle("/eolymp.resolver.Resolver/ResolveName", _Resolver_ResolveName(srv)).Methods(http.MethodPost)
-	return router
-}
-
-// NewResolverHandlerHttp constructs new http.Handler for ResolverServer
+// RegisterResolverHttpHandlers adds handlers for for ResolverServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func NewResolverHandlerHttp(srv ResolverServer, prefix string) http.Handler {
-	router := mux.NewRouter()
-
+func RegisterResolverHttpHandlers(router *mux.Router, prefix string, srv ResolverServer) {
 	router.Handle(prefix+"/names/{name}", _Resolver_ResolveName_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.resolver.Resolver.ResolveName")
-
-	return router
-}
-
-func _Resolver_ResolveName(srv ResolverServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ResolveNameInput{}
-
-		if err := _Resolver_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Resolver_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.ResolveName(r.Context(), in)
-		if err != nil {
-			_Resolver_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Resolver_HTTPWriteResponse(w, out)
-	})
 }
 
 func _Resolver_ResolveName_Rule0(srv ResolverServer) http.Handler {

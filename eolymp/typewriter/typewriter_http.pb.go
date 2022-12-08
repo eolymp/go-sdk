@@ -110,43 +110,12 @@ func _Typewriter_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	_, _ = w.Write(data)
 }
 
-// NewTypewriterHandler constructs new http.Handler for TypewriterServer
-func NewTypewriterHandler(srv TypewriterServer) http.Handler {
-	router := mux.NewRouter()
-	router.Handle("/eolymp.typewriter.Typewriter/UploadAsset", _Typewriter_UploadAsset(srv)).Methods(http.MethodPost)
-	return router
-}
-
-// NewTypewriterHandlerHttp constructs new http.Handler for TypewriterServer
+// RegisterTypewriterHttpHandlers adds handlers for for TypewriterServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func NewTypewriterHandlerHttp(srv TypewriterServer, prefix string) http.Handler {
-	router := mux.NewRouter()
-
+func RegisterTypewriterHttpHandlers(router *mux.Router, prefix string, srv TypewriterServer) {
 	router.Handle(prefix+"/assets", _Typewriter_UploadAsset_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.typewriter.Typewriter.UploadAsset")
-
-	return router
-}
-
-func _Typewriter_UploadAsset(srv TypewriterServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &UploadAssetInput{}
-
-		if err := _Typewriter_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Typewriter_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.UploadAsset(r.Context(), in)
-		if err != nil {
-			_Typewriter_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Typewriter_HTTPWriteResponse(w, out)
-	})
 }
 
 func _Typewriter_UploadAsset_Rule0(srv TypewriterServer) http.Handler {

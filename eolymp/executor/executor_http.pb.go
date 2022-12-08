@@ -110,164 +110,24 @@ func _Executor_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	_, _ = w.Write(data)
 }
 
-// NewExecutorHandler constructs new http.Handler for ExecutorServer
-func NewExecutorHandler(srv ExecutorServer) http.Handler {
-	router := mux.NewRouter()
-	router.Handle("/eolymp.executor.Executor/CreateTask", _Executor_CreateTask(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.executor.Executor/DescribeLanguage", _Executor_DescribeLanguage(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.executor.Executor/ListLanguages", _Executor_ListLanguages(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.executor.Executor/DescribeRuntime", _Executor_DescribeRuntime(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.executor.Executor/ListRuntime", _Executor_ListRuntime(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.executor.Executor/DescribeCodeTemplate", _Executor_DescribeCodeTemplate(srv)).Methods(http.MethodPost)
-	return router
-}
-
-// NewExecutorHandlerHttp constructs new http.Handler for ExecutorServer
+// RegisterExecutorHttpHandlers adds handlers for for ExecutorServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func NewExecutorHandlerHttp(srv ExecutorServer, prefix string) http.Handler {
-	router := mux.NewRouter()
-
+func RegisterExecutorHttpHandlers(router *mux.Router, prefix string, srv ExecutorServer) {
 	router.Handle(prefix+"/exec/languages/{language_id}", _Executor_DescribeLanguage_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.executor.Executor.DescribeLanguage")
-
 	router.Handle(prefix+"/exec/languages", _Executor_ListLanguages_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.executor.Executor.ListLanguages")
-
 	router.Handle(prefix+"/exec/runtime/{runtime_id}", _Executor_DescribeRuntime_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.executor.Executor.DescribeRuntime")
-
 	router.Handle(prefix+"/exec/runtime", _Executor_ListRuntime_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.executor.Executor.ListRuntime")
-
 	router.Handle(prefix+"/exec/runtime/{runtime_id}/template", _Executor_DescribeCodeTemplate_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.executor.Executor.DescribeCodeTemplate")
-
-	return router
-}
-
-func _Executor_CreateTask(srv ExecutorServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &CreateTaskInput{}
-
-		if err := _Executor_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Executor_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.CreateTask(r.Context(), in)
-		if err != nil {
-			_Executor_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Executor_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Executor_DescribeLanguage(srv ExecutorServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DescribeLanguageInput{}
-
-		if err := _Executor_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Executor_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.DescribeLanguage(r.Context(), in)
-		if err != nil {
-			_Executor_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Executor_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Executor_ListLanguages(srv ExecutorServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ListLanguagesInput{}
-
-		if err := _Executor_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Executor_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.ListLanguages(r.Context(), in)
-		if err != nil {
-			_Executor_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Executor_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Executor_DescribeRuntime(srv ExecutorServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DescribeRuntimeInput{}
-
-		if err := _Executor_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Executor_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.DescribeRuntime(r.Context(), in)
-		if err != nil {
-			_Executor_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Executor_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Executor_ListRuntime(srv ExecutorServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ListRuntimeInput{}
-
-		if err := _Executor_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Executor_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.ListRuntime(r.Context(), in)
-		if err != nil {
-			_Executor_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Executor_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Executor_DescribeCodeTemplate(srv ExecutorServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DescribeCodeTemplateInput{}
-
-		if err := _Executor_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Executor_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.DescribeCodeTemplate(r.Context(), in)
-		if err != nil {
-			_Executor_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Executor_HTTPWriteResponse(w, out)
-	})
 }
 
 func _Executor_DescribeLanguage_Rule0(srv ExecutorServer) http.Handler {

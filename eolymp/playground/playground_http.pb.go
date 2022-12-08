@@ -110,68 +110,15 @@ func _Playground_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	_, _ = w.Write(data)
 }
 
-// NewPlaygroundHandler constructs new http.Handler for PlaygroundServer
-func NewPlaygroundHandler(srv PlaygroundServer) http.Handler {
-	router := mux.NewRouter()
-	router.Handle("/eolymp.playground.Playground/CreateRun", _Playground_CreateRun(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.playground.Playground/DescribeRun", _Playground_DescribeRun(srv)).Methods(http.MethodPost)
-	return router
-}
-
-// NewPlaygroundHandlerHttp constructs new http.Handler for PlaygroundServer
+// RegisterPlaygroundHttpHandlers adds handlers for for PlaygroundServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func NewPlaygroundHandlerHttp(srv PlaygroundServer, prefix string) http.Handler {
-	router := mux.NewRouter()
-
+func RegisterPlaygroundHttpHandlers(router *mux.Router, prefix string, srv PlaygroundServer) {
 	router.Handle(prefix+"/playground/runs", _Playground_CreateRun_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.playground.Playground.CreateRun")
-
 	router.Handle(prefix+"/playground/runs/{run_id}", _Playground_DescribeRun_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.playground.Playground.DescribeRun")
-
-	return router
-}
-
-func _Playground_CreateRun(srv PlaygroundServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &CreateRunInput{}
-
-		if err := _Playground_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Playground_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.CreateRun(r.Context(), in)
-		if err != nil {
-			_Playground_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Playground_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Playground_DescribeRun(srv PlaygroundServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DescribeRunInput{}
-
-		if err := _Playground_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Playground_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.DescribeRun(r.Context(), in)
-		if err != nil {
-			_Playground_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Playground_HTTPWriteResponse(w, out)
-	})
 }
 
 func _Playground_CreateRun_Rule0(srv PlaygroundServer) http.Handler {

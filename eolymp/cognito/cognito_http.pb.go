@@ -110,631 +110,75 @@ func _Cognito_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	_, _ = w.Write(data)
 }
 
-// NewCognitoHandler constructs new http.Handler for CognitoServer
-func NewCognitoHandler(srv CognitoServer) http.Handler {
-	router := mux.NewRouter()
-	router.Handle("/eolymp.cognito.Cognito/CreateToken", _Cognito_CreateToken(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.cognito.Cognito/IntrospectToken", _Cognito_IntrospectToken(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.cognito.Cognito/CreateAuthorization", _Cognito_CreateAuthorization(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.cognito.Cognito/RevokeToken", _Cognito_RevokeToken(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.cognito.Cognito/Signout", _Cognito_Signout(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.cognito.Cognito/CreateAccessKey", _Cognito_CreateAccessKey(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.cognito.Cognito/DeleteAccessKey", _Cognito_DeleteAccessKey(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.cognito.Cognito/ListAccessKeys", _Cognito_ListAccessKeys(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.cognito.Cognito/CreateUser", _Cognito_CreateUser(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.cognito.Cognito/VerifyEmail", _Cognito_VerifyEmail(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.cognito.Cognito/UpdateEmail", _Cognito_UpdateEmail(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.cognito.Cognito/UpdateProfile", _Cognito_UpdateProfile(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.cognito.Cognito/UpdatePicture", _Cognito_UpdatePicture(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.cognito.Cognito/UpdatePassword", _Cognito_UpdatePassword(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.cognito.Cognito/StartRecovery", _Cognito_StartRecovery(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.cognito.Cognito/CompleteRecovery", _Cognito_CompleteRecovery(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.cognito.Cognito/IntrospectUser", _Cognito_IntrospectUser(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.cognito.Cognito/DescribeUser", _Cognito_DescribeUser(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.cognito.Cognito/ListUsers", _Cognito_ListUsers(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.cognito.Cognito/IntrospectQuota", _Cognito_IntrospectQuota(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.cognito.Cognito/IntrospectRoles", _Cognito_IntrospectRoles(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.cognito.Cognito/ListRoles", _Cognito_ListRoles(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.cognito.Cognito/UpdateRoles", _Cognito_UpdateRoles(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.cognito.Cognito/ListEntitlements", _Cognito_ListEntitlements(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.cognito.Cognito/SelfDestruct", _Cognito_SelfDestruct(srv)).Methods(http.MethodPost)
-	return router
-}
-
-// NewCognitoHandlerHttp constructs new http.Handler for CognitoServer
+// RegisterCognitoHttpHandlers adds handlers for for CognitoServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func NewCognitoHandlerHttp(srv CognitoServer, prefix string) http.Handler {
-	router := mux.NewRouter()
-
+func RegisterCognitoHttpHandlers(router *mux.Router, prefix string, srv CognitoServer) {
 	router.Handle(prefix+"/self/authorize", _Cognito_CreateAuthorization_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.cognito.Cognito.CreateAuthorization")
-
 	router.Handle(prefix+"/self/signout", _Cognito_Signout_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.cognito.Cognito.Signout")
-
 	router.Handle(prefix+"/access-keys", _Cognito_CreateAccessKey_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.cognito.Cognito.CreateAccessKey")
-
 	router.Handle(prefix+"/access-keys/{key_id}", _Cognito_DeleteAccessKey_Rule0(srv)).
 		Methods("DELETE").
 		Name("eolymp.cognito.Cognito.DeleteAccessKey")
-
 	router.Handle(prefix+"/access-keys", _Cognito_ListAccessKeys_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.cognito.Cognito.ListAccessKeys")
-
 	router.Handle(prefix+"/users", _Cognito_CreateUser_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.cognito.Cognito.CreateUser")
-
 	router.Handle(prefix+"/users/{user_id}/verify", _Cognito_VerifyEmail_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.cognito.Cognito.VerifyEmail")
-
 	router.Handle(prefix+"/self/email", _Cognito_UpdateEmail_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.cognito.Cognito.UpdateEmail")
-
 	router.Handle(prefix+"/self", _Cognito_UpdateProfile_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.cognito.Cognito.UpdateProfile")
-
 	router.Handle(prefix+"/self/picture", _Cognito_UpdatePicture_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.cognito.Cognito.UpdatePicture")
-
 	router.Handle(prefix+"/self/password", _Cognito_UpdatePassword_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.cognito.Cognito.UpdatePassword")
-
 	router.Handle(prefix+"/self/recovery", _Cognito_StartRecovery_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.cognito.Cognito.StartRecovery")
-
 	router.Handle(prefix+"/users/{user_id}/recover", _Cognito_CompleteRecovery_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.cognito.Cognito.CompleteRecovery")
-
 	router.Handle(prefix+"/self", _Cognito_IntrospectUser_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.cognito.Cognito.IntrospectUser")
-
 	router.Handle(prefix+"/users/{user_id}", _Cognito_DescribeUser_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.cognito.Cognito.DescribeUser")
-
 	router.Handle(prefix+"/users", _Cognito_ListUsers_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.cognito.Cognito.ListUsers")
-
 	router.Handle(prefix+"/self/quota", _Cognito_IntrospectQuota_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.cognito.Cognito.IntrospectQuota")
-
 	router.Handle(prefix+"/self/roles", _Cognito_IntrospectRoles_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.cognito.Cognito.IntrospectRoles")
-
 	router.Handle(prefix+"/users/{user_id}/roles", _Cognito_ListRoles_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.cognito.Cognito.ListRoles")
-
 	router.Handle(prefix+"/users/{user_id}/roles", _Cognito_UpdateRoles_Rule0(srv)).
 		Methods("PUT").
 		Name("eolymp.cognito.Cognito.UpdateRoles")
-
 	router.Handle(prefix+"/__cognito/entitlements", _Cognito_ListEntitlements_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.cognito.Cognito.ListEntitlements")
-
 	router.Handle(prefix+"/self", _Cognito_SelfDestruct_Rule0(srv)).
 		Methods("DELETE").
 		Name("eolymp.cognito.Cognito.SelfDestruct")
-
-	return router
-}
-
-func _Cognito_CreateToken(srv CognitoServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &CreateTokenInput{}
-
-		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.CreateToken(r.Context(), in)
-		if err != nil {
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Cognito_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Cognito_IntrospectToken(srv CognitoServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &IntrospectTokenInput{}
-
-		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.IntrospectToken(r.Context(), in)
-		if err != nil {
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Cognito_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Cognito_CreateAuthorization(srv CognitoServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &CreateAuthorizationInput{}
-
-		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.CreateAuthorization(r.Context(), in)
-		if err != nil {
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Cognito_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Cognito_RevokeToken(srv CognitoServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &RevokeTokenInput{}
-
-		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.RevokeToken(r.Context(), in)
-		if err != nil {
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Cognito_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Cognito_Signout(srv CognitoServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &SignoutInput{}
-
-		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.Signout(r.Context(), in)
-		if err != nil {
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Cognito_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Cognito_CreateAccessKey(srv CognitoServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &CreateAccessKeyInput{}
-
-		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.CreateAccessKey(r.Context(), in)
-		if err != nil {
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Cognito_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Cognito_DeleteAccessKey(srv CognitoServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DeleteAccessKeyInput{}
-
-		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.DeleteAccessKey(r.Context(), in)
-		if err != nil {
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Cognito_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Cognito_ListAccessKeys(srv CognitoServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ListAccessKeysInput{}
-
-		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.ListAccessKeys(r.Context(), in)
-		if err != nil {
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Cognito_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Cognito_CreateUser(srv CognitoServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &CreateUserInput{}
-
-		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.CreateUser(r.Context(), in)
-		if err != nil {
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Cognito_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Cognito_VerifyEmail(srv CognitoServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &VerifyEmailInput{}
-
-		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.VerifyEmail(r.Context(), in)
-		if err != nil {
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Cognito_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Cognito_UpdateEmail(srv CognitoServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &UpdateEmailInput{}
-
-		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.UpdateEmail(r.Context(), in)
-		if err != nil {
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Cognito_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Cognito_UpdateProfile(srv CognitoServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &UpdateProfileInput{}
-
-		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.UpdateProfile(r.Context(), in)
-		if err != nil {
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Cognito_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Cognito_UpdatePicture(srv CognitoServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &UpdatePictureInput{}
-
-		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.UpdatePicture(r.Context(), in)
-		if err != nil {
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Cognito_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Cognito_UpdatePassword(srv CognitoServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &UpdatePasswordInput{}
-
-		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.UpdatePassword(r.Context(), in)
-		if err != nil {
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Cognito_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Cognito_StartRecovery(srv CognitoServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &StartRecoveryInput{}
-
-		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.StartRecovery(r.Context(), in)
-		if err != nil {
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Cognito_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Cognito_CompleteRecovery(srv CognitoServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &CompleteRecoverInput{}
-
-		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.CompleteRecovery(r.Context(), in)
-		if err != nil {
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Cognito_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Cognito_IntrospectUser(srv CognitoServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &IntrospectUserInput{}
-
-		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.IntrospectUser(r.Context(), in)
-		if err != nil {
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Cognito_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Cognito_DescribeUser(srv CognitoServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DescribeUserInput{}
-
-		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.DescribeUser(r.Context(), in)
-		if err != nil {
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Cognito_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Cognito_ListUsers(srv CognitoServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ListUsersInput{}
-
-		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.ListUsers(r.Context(), in)
-		if err != nil {
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Cognito_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Cognito_IntrospectQuota(srv CognitoServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &IntrospectQuotaInput{}
-
-		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.IntrospectQuota(r.Context(), in)
-		if err != nil {
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Cognito_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Cognito_IntrospectRoles(srv CognitoServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &IntrospectRolesInput{}
-
-		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.IntrospectRoles(r.Context(), in)
-		if err != nil {
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Cognito_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Cognito_ListRoles(srv CognitoServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ListRolesInput{}
-
-		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.ListRoles(r.Context(), in)
-		if err != nil {
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Cognito_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Cognito_UpdateRoles(srv CognitoServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &UpdateRolesInput{}
-
-		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.UpdateRoles(r.Context(), in)
-		if err != nil {
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Cognito_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Cognito_ListEntitlements(srv CognitoServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ListEntitlementsInput{}
-
-		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.ListEntitlements(r.Context(), in)
-		if err != nil {
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Cognito_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Cognito_SelfDestruct(srv CognitoServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &SelfDestructInput{}
-
-		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.SelfDestruct(r.Context(), in)
-		if err != nil {
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Cognito_HTTPWriteResponse(w, out)
-	})
 }
 
 func _Cognito_CreateAuthorization_Rule0(srv CognitoServer) http.Handler {

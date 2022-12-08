@@ -110,218 +110,33 @@ func _Helpdesk_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	_, _ = w.Write(data)
 }
 
-// NewHelpdeskHandler constructs new http.Handler for HelpdeskServer
-func NewHelpdeskHandler(srv HelpdeskServer) http.Handler {
-	router := mux.NewRouter()
-	router.Handle("/eolymp.helpdesk.Helpdesk/DescribeDocument", _Helpdesk_DescribeDocument(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.helpdesk.Helpdesk/ListDocuments", _Helpdesk_ListDocuments(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.helpdesk.Helpdesk/CreateDocument", _Helpdesk_CreateDocument(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.helpdesk.Helpdesk/UpdateDocument", _Helpdesk_UpdateDocument(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.helpdesk.Helpdesk/DeleteDocument", _Helpdesk_DeleteDocument(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.helpdesk.Helpdesk/DescribePath", _Helpdesk_DescribePath(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.helpdesk.Helpdesk/ListPaths", _Helpdesk_ListPaths(srv)).Methods(http.MethodPost)
-	router.Handle("/eolymp.helpdesk.Helpdesk/ListParents", _Helpdesk_ListParents(srv)).Methods(http.MethodPost)
-	return router
-}
-
-// NewHelpdeskHandlerHttp constructs new http.Handler for HelpdeskServer
+// RegisterHelpdeskHttpHandlers adds handlers for for HelpdeskServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func NewHelpdeskHandlerHttp(srv HelpdeskServer, prefix string) http.Handler {
-	router := mux.NewRouter()
-
+func RegisterHelpdeskHttpHandlers(router *mux.Router, prefix string, srv HelpdeskServer) {
 	router.Handle(prefix+"/helpdesk/documents/{document_id}", _Helpdesk_DescribeDocument_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.helpdesk.Helpdesk.DescribeDocument")
-
 	router.Handle(prefix+"/helpdesk/documents", _Helpdesk_ListDocuments_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.helpdesk.Helpdesk.ListDocuments")
-
 	router.Handle(prefix+"/helpdesk/documents", _Helpdesk_CreateDocument_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.helpdesk.Helpdesk.CreateDocument")
-
 	router.Handle(prefix+"/helpdesk/documents/{document_id}", _Helpdesk_UpdateDocument_Rule0(srv)).
 		Methods("PUT").
 		Name("eolymp.helpdesk.Helpdesk.UpdateDocument")
-
 	router.Handle(prefix+"/helpdesk/documents/{document_id}", _Helpdesk_DeleteDocument_Rule0(srv)).
 		Methods("DELETE").
 		Name("eolymp.helpdesk.Helpdesk.DeleteDocument")
-
 	router.Handle(prefix+"/helpdesk/paths/{path}", _Helpdesk_DescribePath_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.helpdesk.Helpdesk.DescribePath")
-
 	router.Handle(prefix+"/helpdesk/paths", _Helpdesk_ListPaths_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.helpdesk.Helpdesk.ListPaths")
-
 	router.Handle(prefix+"/helpdesk/paths/{path}/parents", _Helpdesk_ListParents_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.helpdesk.Helpdesk.ListParents")
-
-	return router
-}
-
-func _Helpdesk_DescribeDocument(srv HelpdeskServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DescribeDocumentInput{}
-
-		if err := _Helpdesk_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Helpdesk_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.DescribeDocument(r.Context(), in)
-		if err != nil {
-			_Helpdesk_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Helpdesk_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Helpdesk_ListDocuments(srv HelpdeskServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ListDocumentsInput{}
-
-		if err := _Helpdesk_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Helpdesk_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.ListDocuments(r.Context(), in)
-		if err != nil {
-			_Helpdesk_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Helpdesk_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Helpdesk_CreateDocument(srv HelpdeskServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &CreateDocumentInput{}
-
-		if err := _Helpdesk_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Helpdesk_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.CreateDocument(r.Context(), in)
-		if err != nil {
-			_Helpdesk_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Helpdesk_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Helpdesk_UpdateDocument(srv HelpdeskServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &UpdateDocumentInput{}
-
-		if err := _Helpdesk_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Helpdesk_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.UpdateDocument(r.Context(), in)
-		if err != nil {
-			_Helpdesk_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Helpdesk_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Helpdesk_DeleteDocument(srv HelpdeskServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DeleteDocumentInput{}
-
-		if err := _Helpdesk_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Helpdesk_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.DeleteDocument(r.Context(), in)
-		if err != nil {
-			_Helpdesk_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Helpdesk_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Helpdesk_DescribePath(srv HelpdeskServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DescribePathInput{}
-
-		if err := _Helpdesk_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Helpdesk_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.DescribePath(r.Context(), in)
-		if err != nil {
-			_Helpdesk_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Helpdesk_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Helpdesk_ListPaths(srv HelpdeskServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ListPathsInput{}
-
-		if err := _Helpdesk_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Helpdesk_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.ListPaths(r.Context(), in)
-		if err != nil {
-			_Helpdesk_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Helpdesk_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Helpdesk_ListParents(srv HelpdeskServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ListParentsInput{}
-
-		if err := _Helpdesk_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Helpdesk_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.ListParents(r.Context(), in)
-		if err != nil {
-			_Helpdesk_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Helpdesk_HTTPWriteResponse(w, out)
-	})
 }
 
 func _Helpdesk_DescribeDocument_Rule0(srv HelpdeskServer) http.Handler {
