@@ -112,7 +112,7 @@ func _Ranker_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 
 // RegisterRankerHttpHandlers adds handlers for for RankerServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterRankerHttpHandlers(router *mux.Router, prefix string, srv RankerServer) {
+func RegisterRankerHttpHandlers(router *mux.Router, prefix string, srv RankerClient) {
 	router.Handle(prefix+"/scoreboards", _Ranker_CreateScoreboard_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.ranker.Ranker.CreateScoreboard")
@@ -157,7 +157,7 @@ func RegisterRankerHttpHandlers(router *mux.Router, prefix string, srv RankerSer
 		Name("eolymp.ranker.Ranker.ListActivities")
 }
 
-func _Ranker_CreateScoreboard_Rule0(srv RankerServer) http.Handler {
+func _Ranker_CreateScoreboard_Rule0(srv RankerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateScoreboardInput{}
 
@@ -177,7 +177,7 @@ func _Ranker_CreateScoreboard_Rule0(srv RankerServer) http.Handler {
 	})
 }
 
-func _Ranker_UpdateScoreboard_Rule0(srv RankerServer) http.Handler {
+func _Ranker_UpdateScoreboard_Rule0(srv RankerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateScoreboardInput{}
 
@@ -200,7 +200,7 @@ func _Ranker_UpdateScoreboard_Rule0(srv RankerServer) http.Handler {
 	})
 }
 
-func _Ranker_RebuildScoreboard_Rule0(srv RankerServer) http.Handler {
+func _Ranker_RebuildScoreboard_Rule0(srv RankerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &RebuildScoreboardInput{}
 
@@ -223,7 +223,7 @@ func _Ranker_RebuildScoreboard_Rule0(srv RankerServer) http.Handler {
 	})
 }
 
-func _Ranker_DeleteScoreboard_Rule0(srv RankerServer) http.Handler {
+func _Ranker_DeleteScoreboard_Rule0(srv RankerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteScoreboardInput{}
 
@@ -246,7 +246,7 @@ func _Ranker_DeleteScoreboard_Rule0(srv RankerServer) http.Handler {
 	})
 }
 
-func _Ranker_DescribeScoreboard_Rule0(srv RankerServer) http.Handler {
+func _Ranker_DescribeScoreboard_Rule0(srv RankerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeScoreboardInput{}
 
@@ -269,7 +269,7 @@ func _Ranker_DescribeScoreboard_Rule0(srv RankerServer) http.Handler {
 	})
 }
 
-func _Ranker_ListScoreboards_Rule0(srv RankerServer) http.Handler {
+func _Ranker_ListScoreboards_Rule0(srv RankerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListScoreboardsInput{}
 
@@ -289,7 +289,7 @@ func _Ranker_ListScoreboards_Rule0(srv RankerServer) http.Handler {
 	})
 }
 
-func _Ranker_DescribeScoreboardRow_Rule0(srv RankerServer) http.Handler {
+func _Ranker_DescribeScoreboardRow_Rule0(srv RankerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeScoreboardRowInput{}
 
@@ -313,7 +313,7 @@ func _Ranker_DescribeScoreboardRow_Rule0(srv RankerServer) http.Handler {
 	})
 }
 
-func _Ranker_ListScoreboardRows_Rule0(srv RankerServer) http.Handler {
+func _Ranker_ListScoreboardRows_Rule0(srv RankerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListScoreboardRowsInput{}
 
@@ -336,7 +336,7 @@ func _Ranker_ListScoreboardRows_Rule0(srv RankerServer) http.Handler {
 	})
 }
 
-func _Ranker_AddScoreboardColumn_Rule0(srv RankerServer) http.Handler {
+func _Ranker_AddScoreboardColumn_Rule0(srv RankerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &AddScoreboardColumnInput{}
 
@@ -359,7 +359,7 @@ func _Ranker_AddScoreboardColumn_Rule0(srv RankerServer) http.Handler {
 	})
 }
 
-func _Ranker_UpdateScoreboardColumn_Rule0(srv RankerServer) http.Handler {
+func _Ranker_UpdateScoreboardColumn_Rule0(srv RankerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateScoreboardColumnInput{}
 
@@ -383,7 +383,7 @@ func _Ranker_UpdateScoreboardColumn_Rule0(srv RankerServer) http.Handler {
 	})
 }
 
-func _Ranker_DeleteScoreboardColumn_Rule0(srv RankerServer) http.Handler {
+func _Ranker_DeleteScoreboardColumn_Rule0(srv RankerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteScoreboardColumnInput{}
 
@@ -407,7 +407,7 @@ func _Ranker_DeleteScoreboardColumn_Rule0(srv RankerServer) http.Handler {
 	})
 }
 
-func _Ranker_DescribeScoreboardColumn_Rule0(srv RankerServer) http.Handler {
+func _Ranker_DescribeScoreboardColumn_Rule0(srv RankerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeScoreboardColumnInput{}
 
@@ -431,7 +431,7 @@ func _Ranker_DescribeScoreboardColumn_Rule0(srv RankerServer) http.Handler {
 	})
 }
 
-func _Ranker_ListScoreboardColumns_Rule0(srv RankerServer) http.Handler {
+func _Ranker_ListScoreboardColumns_Rule0(srv RankerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListScoreboardColumnsInput{}
 
@@ -454,7 +454,7 @@ func _Ranker_ListScoreboardColumns_Rule0(srv RankerServer) http.Handler {
 	})
 }
 
-func _Ranker_ListActivities_Rule0(srv RankerServer) http.Handler {
+func _Ranker_ListActivities_Rule0(srv RankerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListActivitiesInput{}
 

@@ -112,7 +112,7 @@ func _Helpdesk_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 
 // RegisterHelpdeskHttpHandlers adds handlers for for HelpdeskServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterHelpdeskHttpHandlers(router *mux.Router, prefix string, srv HelpdeskServer) {
+func RegisterHelpdeskHttpHandlers(router *mux.Router, prefix string, srv HelpdeskClient) {
 	router.Handle(prefix+"/helpdesk/documents/{document_id}", _Helpdesk_DescribeDocument_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.helpdesk.Helpdesk.DescribeDocument")
@@ -139,7 +139,7 @@ func RegisterHelpdeskHttpHandlers(router *mux.Router, prefix string, srv Helpdes
 		Name("eolymp.helpdesk.Helpdesk.ListParents")
 }
 
-func _Helpdesk_DescribeDocument_Rule0(srv HelpdeskServer) http.Handler {
+func _Helpdesk_DescribeDocument_Rule0(srv HelpdeskClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeDocumentInput{}
 
@@ -162,7 +162,7 @@ func _Helpdesk_DescribeDocument_Rule0(srv HelpdeskServer) http.Handler {
 	})
 }
 
-func _Helpdesk_ListDocuments_Rule0(srv HelpdeskServer) http.Handler {
+func _Helpdesk_ListDocuments_Rule0(srv HelpdeskClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListDocumentsInput{}
 
@@ -182,7 +182,7 @@ func _Helpdesk_ListDocuments_Rule0(srv HelpdeskServer) http.Handler {
 	})
 }
 
-func _Helpdesk_CreateDocument_Rule0(srv HelpdeskServer) http.Handler {
+func _Helpdesk_CreateDocument_Rule0(srv HelpdeskClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateDocumentInput{}
 
@@ -202,7 +202,7 @@ func _Helpdesk_CreateDocument_Rule0(srv HelpdeskServer) http.Handler {
 	})
 }
 
-func _Helpdesk_UpdateDocument_Rule0(srv HelpdeskServer) http.Handler {
+func _Helpdesk_UpdateDocument_Rule0(srv HelpdeskClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateDocumentInput{}
 
@@ -225,7 +225,7 @@ func _Helpdesk_UpdateDocument_Rule0(srv HelpdeskServer) http.Handler {
 	})
 }
 
-func _Helpdesk_DeleteDocument_Rule0(srv HelpdeskServer) http.Handler {
+func _Helpdesk_DeleteDocument_Rule0(srv HelpdeskClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteDocumentInput{}
 
@@ -248,7 +248,7 @@ func _Helpdesk_DeleteDocument_Rule0(srv HelpdeskServer) http.Handler {
 	})
 }
 
-func _Helpdesk_DescribePath_Rule0(srv HelpdeskServer) http.Handler {
+func _Helpdesk_DescribePath_Rule0(srv HelpdeskClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribePathInput{}
 
@@ -271,7 +271,7 @@ func _Helpdesk_DescribePath_Rule0(srv HelpdeskServer) http.Handler {
 	})
 }
 
-func _Helpdesk_ListPaths_Rule0(srv HelpdeskServer) http.Handler {
+func _Helpdesk_ListPaths_Rule0(srv HelpdeskClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListPathsInput{}
 
@@ -291,7 +291,7 @@ func _Helpdesk_ListPaths_Rule0(srv HelpdeskServer) http.Handler {
 	})
 }
 
-func _Helpdesk_ListParents_Rule0(srv HelpdeskServer) http.Handler {
+func _Helpdesk_ListParents_Rule0(srv HelpdeskClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListParentsInput{}
 

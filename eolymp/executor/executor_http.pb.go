@@ -112,7 +112,7 @@ func _Executor_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 
 // RegisterExecutorHttpHandlers adds handlers for for ExecutorServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterExecutorHttpHandlers(router *mux.Router, prefix string, srv ExecutorServer) {
+func RegisterExecutorHttpHandlers(router *mux.Router, prefix string, srv ExecutorClient) {
 	router.Handle(prefix+"/exec/languages/{language_id}", _Executor_DescribeLanguage_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.executor.Executor.DescribeLanguage")
@@ -130,7 +130,7 @@ func RegisterExecutorHttpHandlers(router *mux.Router, prefix string, srv Executo
 		Name("eolymp.executor.Executor.DescribeCodeTemplate")
 }
 
-func _Executor_DescribeLanguage_Rule0(srv ExecutorServer) http.Handler {
+func _Executor_DescribeLanguage_Rule0(srv ExecutorClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeLanguageInput{}
 
@@ -153,7 +153,7 @@ func _Executor_DescribeLanguage_Rule0(srv ExecutorServer) http.Handler {
 	})
 }
 
-func _Executor_ListLanguages_Rule0(srv ExecutorServer) http.Handler {
+func _Executor_ListLanguages_Rule0(srv ExecutorClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListLanguagesInput{}
 
@@ -173,7 +173,7 @@ func _Executor_ListLanguages_Rule0(srv ExecutorServer) http.Handler {
 	})
 }
 
-func _Executor_DescribeRuntime_Rule0(srv ExecutorServer) http.Handler {
+func _Executor_DescribeRuntime_Rule0(srv ExecutorClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeRuntimeInput{}
 
@@ -196,7 +196,7 @@ func _Executor_DescribeRuntime_Rule0(srv ExecutorServer) http.Handler {
 	})
 }
 
-func _Executor_ListRuntime_Rule0(srv ExecutorServer) http.Handler {
+func _Executor_ListRuntime_Rule0(srv ExecutorClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListRuntimeInput{}
 
@@ -216,7 +216,7 @@ func _Executor_ListRuntime_Rule0(srv ExecutorServer) http.Handler {
 	})
 }
 
-func _Executor_DescribeCodeTemplate_Rule0(srv ExecutorServer) http.Handler {
+func _Executor_DescribeCodeTemplate_Rule0(srv ExecutorClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeCodeTemplateInput{}
 

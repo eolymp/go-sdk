@@ -112,7 +112,7 @@ func _OAuth2_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 
 // RegisterOAuth2HttpHandlers adds handlers for for OAuth2Server
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterOAuth2HttpHandlers(router *mux.Router, prefix string, srv OAuth2Server) {
+func RegisterOAuth2HttpHandlers(router *mux.Router, prefix string, srv OAuth2Client) {
 }
 
 type _OAuth2Handler = func(ctx context.Context, in proto.Message) (proto.Message, error)

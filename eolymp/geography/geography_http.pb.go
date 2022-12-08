@@ -112,7 +112,7 @@ func _Geography_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 
 // RegisterGeographyHttpHandlers adds handlers for for GeographyServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterGeographyHttpHandlers(router *mux.Router, prefix string, srv GeographyServer) {
+func RegisterGeographyHttpHandlers(router *mux.Router, prefix string, srv GeographyClient) {
 	router.Handle(prefix+"/geography/countries/{country_id}", _Geography_DescribeCountry_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.geography.Geography.DescribeCountry")
@@ -127,7 +127,7 @@ func RegisterGeographyHttpHandlers(router *mux.Router, prefix string, srv Geogra
 		Name("eolymp.geography.Geography.ListRegions")
 }
 
-func _Geography_DescribeCountry_Rule0(srv GeographyServer) http.Handler {
+func _Geography_DescribeCountry_Rule0(srv GeographyClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeCountryInput{}
 
@@ -150,7 +150,7 @@ func _Geography_DescribeCountry_Rule0(srv GeographyServer) http.Handler {
 	})
 }
 
-func _Geography_ListCountries_Rule0(srv GeographyServer) http.Handler {
+func _Geography_ListCountries_Rule0(srv GeographyClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListCountriesInput{}
 
@@ -170,7 +170,7 @@ func _Geography_ListCountries_Rule0(srv GeographyServer) http.Handler {
 	})
 }
 
-func _Geography_DescribeRegion_Rule0(srv GeographyServer) http.Handler {
+func _Geography_DescribeRegion_Rule0(srv GeographyClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeRegionInput{}
 
@@ -193,7 +193,7 @@ func _Geography_DescribeRegion_Rule0(srv GeographyServer) http.Handler {
 	})
 }
 
-func _Geography_ListRegions_Rule0(srv GeographyServer) http.Handler {
+func _Geography_ListRegions_Rule0(srv GeographyClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListRegionsInput{}
 

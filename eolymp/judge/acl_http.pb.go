@@ -112,7 +112,7 @@ func _Acl_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 
 // RegisterAclHttpHandlers adds handlers for for AclServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterAclHttpHandlers(router *mux.Router, prefix string, srv AclServer) {
+func RegisterAclHttpHandlers(router *mux.Router, prefix string, srv AclClient) {
 	router.Handle(prefix+"/permissions/{user_id}", _Acl_GrantPermission_Rule0(srv)).
 		Methods("PUT").
 		Name("eolymp.judge.Acl.GrantPermission")
@@ -127,7 +127,7 @@ func RegisterAclHttpHandlers(router *mux.Router, prefix string, srv AclServer) {
 		Name("eolymp.judge.Acl.ListPermissions")
 }
 
-func _Acl_GrantPermission_Rule0(srv AclServer) http.Handler {
+func _Acl_GrantPermission_Rule0(srv AclClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &GrantPermissionInput{}
 
@@ -150,7 +150,7 @@ func _Acl_GrantPermission_Rule0(srv AclServer) http.Handler {
 	})
 }
 
-func _Acl_RevokePermission_Rule0(srv AclServer) http.Handler {
+func _Acl_RevokePermission_Rule0(srv AclClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &RevokePermissionInput{}
 
@@ -173,7 +173,7 @@ func _Acl_RevokePermission_Rule0(srv AclServer) http.Handler {
 	})
 }
 
-func _Acl_DescribePermission_Rule0(srv AclServer) http.Handler {
+func _Acl_DescribePermission_Rule0(srv AclClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribePermissionInput{}
 
@@ -196,7 +196,7 @@ func _Acl_DescribePermission_Rule0(srv AclServer) http.Handler {
 	})
 }
 
-func _Acl_ListPermissions_Rule0(srv AclServer) http.Handler {
+func _Acl_ListPermissions_Rule0(srv AclClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListPermissionsInput{}
 

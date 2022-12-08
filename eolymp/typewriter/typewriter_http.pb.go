@@ -112,13 +112,13 @@ func _Typewriter_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 
 // RegisterTypewriterHttpHandlers adds handlers for for TypewriterServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterTypewriterHttpHandlers(router *mux.Router, prefix string, srv TypewriterServer) {
+func RegisterTypewriterHttpHandlers(router *mux.Router, prefix string, srv TypewriterClient) {
 	router.Handle(prefix+"/assets", _Typewriter_UploadAsset_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.typewriter.Typewriter.UploadAsset")
 }
 
-func _Typewriter_UploadAsset_Rule0(srv TypewriterServer) http.Handler {
+func _Typewriter_UploadAsset_Rule0(srv TypewriterClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UploadAssetInput{}
 

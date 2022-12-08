@@ -112,7 +112,7 @@ func _Keeper_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 
 // RegisterKeeperHttpHandlers adds handlers for for KeeperServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterKeeperHttpHandlers(router *mux.Router, prefix string, srv KeeperServer) {
+func RegisterKeeperHttpHandlers(router *mux.Router, prefix string, srv KeeperClient) {
 	router.Handle(prefix+"/objects", _Keeper_CreateObject_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.keeper.Keeper.CreateObject")
@@ -124,7 +124,7 @@ func RegisterKeeperHttpHandlers(router *mux.Router, prefix string, srv KeeperSer
 		Name("eolymp.keeper.Keeper.DownloadObject")
 }
 
-func _Keeper_CreateObject_Rule0(srv KeeperServer) http.Handler {
+func _Keeper_CreateObject_Rule0(srv KeeperClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateObjectInput{}
 
@@ -144,7 +144,7 @@ func _Keeper_CreateObject_Rule0(srv KeeperServer) http.Handler {
 	})
 }
 
-func _Keeper_DescribeObject_Rule0(srv KeeperServer) http.Handler {
+func _Keeper_DescribeObject_Rule0(srv KeeperClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeObjectInput{}
 
@@ -167,7 +167,7 @@ func _Keeper_DescribeObject_Rule0(srv KeeperServer) http.Handler {
 	})
 }
 
-func _Keeper_DownloadObject_Rule0(srv KeeperServer) http.Handler {
+func _Keeper_DownloadObject_Rule0(srv KeeperClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DownloadObjectInput{}
 

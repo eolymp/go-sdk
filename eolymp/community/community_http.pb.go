@@ -112,7 +112,7 @@ func _Community_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 
 // RegisterCommunityHttpHandlers adds handlers for for CommunityServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterCommunityHttpHandlers(router *mux.Router, prefix string, srv CommunityServer) {
+func RegisterCommunityHttpHandlers(router *mux.Router, prefix string, srv CommunityClient) {
 	router.Handle(prefix+"/members/_self", _Community_JoinSpace_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.community.Community.JoinSpace")
@@ -172,7 +172,7 @@ func RegisterCommunityHttpHandlers(router *mux.Router, prefix string, srv Commun
 		Name("eolymp.community.Community.ConfigureIdentityProvider")
 }
 
-func _Community_JoinSpace_Rule0(srv CommunityServer) http.Handler {
+func _Community_JoinSpace_Rule0(srv CommunityClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &JoinSpaceInput{}
 
@@ -192,7 +192,7 @@ func _Community_JoinSpace_Rule0(srv CommunityServer) http.Handler {
 	})
 }
 
-func _Community_LeaveSpace_Rule0(srv CommunityServer) http.Handler {
+func _Community_LeaveSpace_Rule0(srv CommunityClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &LeaveSpaceInput{}
 
@@ -212,7 +212,7 @@ func _Community_LeaveSpace_Rule0(srv CommunityServer) http.Handler {
 	})
 }
 
-func _Community_RegisterMember_Rule0(srv CommunityServer) http.Handler {
+func _Community_RegisterMember_Rule0(srv CommunityClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &RegisterMemberInput{}
 
@@ -232,7 +232,7 @@ func _Community_RegisterMember_Rule0(srv CommunityServer) http.Handler {
 	})
 }
 
-func _Community_IntrospectMember_Rule0(srv CommunityServer) http.Handler {
+func _Community_IntrospectMember_Rule0(srv CommunityClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &IntrospectMemberInput{}
 
@@ -252,7 +252,7 @@ func _Community_IntrospectMember_Rule0(srv CommunityServer) http.Handler {
 	})
 }
 
-func _Community_AddMember_Rule0(srv CommunityServer) http.Handler {
+func _Community_AddMember_Rule0(srv CommunityClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &AddMemberInput{}
 
@@ -272,7 +272,7 @@ func _Community_AddMember_Rule0(srv CommunityServer) http.Handler {
 	})
 }
 
-func _Community_UpdateMember_Rule0(srv CommunityServer) http.Handler {
+func _Community_UpdateMember_Rule0(srv CommunityClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateMemberInput{}
 
@@ -295,7 +295,7 @@ func _Community_UpdateMember_Rule0(srv CommunityServer) http.Handler {
 	})
 }
 
-func _Community_RemoveMember_Rule0(srv CommunityServer) http.Handler {
+func _Community_RemoveMember_Rule0(srv CommunityClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &RemoveMemberInput{}
 
@@ -318,7 +318,7 @@ func _Community_RemoveMember_Rule0(srv CommunityServer) http.Handler {
 	})
 }
 
-func _Community_DescribeMember_Rule0(srv CommunityServer) http.Handler {
+func _Community_DescribeMember_Rule0(srv CommunityClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeMemberInput{}
 
@@ -341,7 +341,7 @@ func _Community_DescribeMember_Rule0(srv CommunityServer) http.Handler {
 	})
 }
 
-func _Community_ListMembers_Rule0(srv CommunityServer) http.Handler {
+func _Community_ListMembers_Rule0(srv CommunityClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListMembersInput{}
 
@@ -361,7 +361,7 @@ func _Community_ListMembers_Rule0(srv CommunityServer) http.Handler {
 	})
 }
 
-func _Community_AddMemberIdentity_Rule0(srv CommunityServer) http.Handler {
+func _Community_AddMemberIdentity_Rule0(srv CommunityClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &AddMemberIdentityInput{}
 
@@ -384,7 +384,7 @@ func _Community_AddMemberIdentity_Rule0(srv CommunityServer) http.Handler {
 	})
 }
 
-func _Community_UpdateMemberIdentity_Rule0(srv CommunityServer) http.Handler {
+func _Community_UpdateMemberIdentity_Rule0(srv CommunityClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateMemberIdentityInput{}
 
@@ -408,7 +408,7 @@ func _Community_UpdateMemberIdentity_Rule0(srv CommunityServer) http.Handler {
 	})
 }
 
-func _Community_RemoveMemberIdentity_Rule0(srv CommunityServer) http.Handler {
+func _Community_RemoveMemberIdentity_Rule0(srv CommunityClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &RemoveMemberIdentityInput{}
 
@@ -432,7 +432,7 @@ func _Community_RemoveMemberIdentity_Rule0(srv CommunityServer) http.Handler {
 	})
 }
 
-func _Community_AddAttribute_Rule0(srv CommunityServer) http.Handler {
+func _Community_AddAttribute_Rule0(srv CommunityClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &AddAttributeInput{}
 
@@ -452,7 +452,7 @@ func _Community_AddAttribute_Rule0(srv CommunityServer) http.Handler {
 	})
 }
 
-func _Community_UpdateAttribute_Rule0(srv CommunityServer) http.Handler {
+func _Community_UpdateAttribute_Rule0(srv CommunityClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateAttributeInput{}
 
@@ -475,7 +475,7 @@ func _Community_UpdateAttribute_Rule0(srv CommunityServer) http.Handler {
 	})
 }
 
-func _Community_RemoveAttribute_Rule0(srv CommunityServer) http.Handler {
+func _Community_RemoveAttribute_Rule0(srv CommunityClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &RemoveAttributeInput{}
 
@@ -498,7 +498,7 @@ func _Community_RemoveAttribute_Rule0(srv CommunityServer) http.Handler {
 	})
 }
 
-func _Community_DescribeAttribute_Rule0(srv CommunityServer) http.Handler {
+func _Community_DescribeAttribute_Rule0(srv CommunityClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeAttributeInput{}
 
@@ -521,7 +521,7 @@ func _Community_DescribeAttribute_Rule0(srv CommunityServer) http.Handler {
 	})
 }
 
-func _Community_ListAttributes_Rule0(srv CommunityServer) http.Handler {
+func _Community_ListAttributes_Rule0(srv CommunityClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListAttributesInput{}
 
@@ -541,7 +541,7 @@ func _Community_ListAttributes_Rule0(srv CommunityServer) http.Handler {
 	})
 }
 
-func _Community_DescribeIdentityProvider_Rule0(srv CommunityServer) http.Handler {
+func _Community_DescribeIdentityProvider_Rule0(srv CommunityClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeIdentityProviderInput{}
 
@@ -561,7 +561,7 @@ func _Community_DescribeIdentityProvider_Rule0(srv CommunityServer) http.Handler
 	})
 }
 
-func _Community_ConfigureIdentityProvider_Rule0(srv CommunityServer) http.Handler {
+func _Community_ConfigureIdentityProvider_Rule0(srv CommunityClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ConfigureIdentityProviderInput{}
 

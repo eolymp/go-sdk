@@ -112,7 +112,7 @@ func _Cognito_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 
 // RegisterCognitoHttpHandlers adds handlers for for CognitoServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterCognitoHttpHandlers(router *mux.Router, prefix string, srv CognitoServer) {
+func RegisterCognitoHttpHandlers(router *mux.Router, prefix string, srv CognitoClient) {
 	router.Handle(prefix+"/self/authorize", _Cognito_CreateAuthorization_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.cognito.Cognito.CreateAuthorization")
@@ -181,7 +181,7 @@ func RegisterCognitoHttpHandlers(router *mux.Router, prefix string, srv CognitoS
 		Name("eolymp.cognito.Cognito.SelfDestruct")
 }
 
-func _Cognito_CreateAuthorization_Rule0(srv CognitoServer) http.Handler {
+func _Cognito_CreateAuthorization_Rule0(srv CognitoClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateAuthorizationInput{}
 
@@ -201,7 +201,7 @@ func _Cognito_CreateAuthorization_Rule0(srv CognitoServer) http.Handler {
 	})
 }
 
-func _Cognito_Signout_Rule0(srv CognitoServer) http.Handler {
+func _Cognito_Signout_Rule0(srv CognitoClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &SignoutInput{}
 
@@ -221,7 +221,7 @@ func _Cognito_Signout_Rule0(srv CognitoServer) http.Handler {
 	})
 }
 
-func _Cognito_CreateAccessKey_Rule0(srv CognitoServer) http.Handler {
+func _Cognito_CreateAccessKey_Rule0(srv CognitoClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateAccessKeyInput{}
 
@@ -241,7 +241,7 @@ func _Cognito_CreateAccessKey_Rule0(srv CognitoServer) http.Handler {
 	})
 }
 
-func _Cognito_DeleteAccessKey_Rule0(srv CognitoServer) http.Handler {
+func _Cognito_DeleteAccessKey_Rule0(srv CognitoClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteAccessKeyInput{}
 
@@ -264,7 +264,7 @@ func _Cognito_DeleteAccessKey_Rule0(srv CognitoServer) http.Handler {
 	})
 }
 
-func _Cognito_ListAccessKeys_Rule0(srv CognitoServer) http.Handler {
+func _Cognito_ListAccessKeys_Rule0(srv CognitoClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListAccessKeysInput{}
 
@@ -284,7 +284,7 @@ func _Cognito_ListAccessKeys_Rule0(srv CognitoServer) http.Handler {
 	})
 }
 
-func _Cognito_CreateUser_Rule0(srv CognitoServer) http.Handler {
+func _Cognito_CreateUser_Rule0(srv CognitoClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateUserInput{}
 
@@ -304,7 +304,7 @@ func _Cognito_CreateUser_Rule0(srv CognitoServer) http.Handler {
 	})
 }
 
-func _Cognito_VerifyEmail_Rule0(srv CognitoServer) http.Handler {
+func _Cognito_VerifyEmail_Rule0(srv CognitoClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &VerifyEmailInput{}
 
@@ -327,7 +327,7 @@ func _Cognito_VerifyEmail_Rule0(srv CognitoServer) http.Handler {
 	})
 }
 
-func _Cognito_UpdateEmail_Rule0(srv CognitoServer) http.Handler {
+func _Cognito_UpdateEmail_Rule0(srv CognitoClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateEmailInput{}
 
@@ -347,7 +347,7 @@ func _Cognito_UpdateEmail_Rule0(srv CognitoServer) http.Handler {
 	})
 }
 
-func _Cognito_UpdateProfile_Rule0(srv CognitoServer) http.Handler {
+func _Cognito_UpdateProfile_Rule0(srv CognitoClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateProfileInput{}
 
@@ -367,7 +367,7 @@ func _Cognito_UpdateProfile_Rule0(srv CognitoServer) http.Handler {
 	})
 }
 
-func _Cognito_UpdatePicture_Rule0(srv CognitoServer) http.Handler {
+func _Cognito_UpdatePicture_Rule0(srv CognitoClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdatePictureInput{}
 
@@ -387,7 +387,7 @@ func _Cognito_UpdatePicture_Rule0(srv CognitoServer) http.Handler {
 	})
 }
 
-func _Cognito_UpdatePassword_Rule0(srv CognitoServer) http.Handler {
+func _Cognito_UpdatePassword_Rule0(srv CognitoClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdatePasswordInput{}
 
@@ -407,7 +407,7 @@ func _Cognito_UpdatePassword_Rule0(srv CognitoServer) http.Handler {
 	})
 }
 
-func _Cognito_StartRecovery_Rule0(srv CognitoServer) http.Handler {
+func _Cognito_StartRecovery_Rule0(srv CognitoClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &StartRecoveryInput{}
 
@@ -427,7 +427,7 @@ func _Cognito_StartRecovery_Rule0(srv CognitoServer) http.Handler {
 	})
 }
 
-func _Cognito_CompleteRecovery_Rule0(srv CognitoServer) http.Handler {
+func _Cognito_CompleteRecovery_Rule0(srv CognitoClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CompleteRecoverInput{}
 
@@ -450,7 +450,7 @@ func _Cognito_CompleteRecovery_Rule0(srv CognitoServer) http.Handler {
 	})
 }
 
-func _Cognito_IntrospectUser_Rule0(srv CognitoServer) http.Handler {
+func _Cognito_IntrospectUser_Rule0(srv CognitoClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &IntrospectUserInput{}
 
@@ -470,7 +470,7 @@ func _Cognito_IntrospectUser_Rule0(srv CognitoServer) http.Handler {
 	})
 }
 
-func _Cognito_DescribeUser_Rule0(srv CognitoServer) http.Handler {
+func _Cognito_DescribeUser_Rule0(srv CognitoClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeUserInput{}
 
@@ -493,7 +493,7 @@ func _Cognito_DescribeUser_Rule0(srv CognitoServer) http.Handler {
 	})
 }
 
-func _Cognito_ListUsers_Rule0(srv CognitoServer) http.Handler {
+func _Cognito_ListUsers_Rule0(srv CognitoClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListUsersInput{}
 
@@ -513,7 +513,7 @@ func _Cognito_ListUsers_Rule0(srv CognitoServer) http.Handler {
 	})
 }
 
-func _Cognito_IntrospectQuota_Rule0(srv CognitoServer) http.Handler {
+func _Cognito_IntrospectQuota_Rule0(srv CognitoClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &IntrospectQuotaInput{}
 
@@ -533,7 +533,7 @@ func _Cognito_IntrospectQuota_Rule0(srv CognitoServer) http.Handler {
 	})
 }
 
-func _Cognito_IntrospectRoles_Rule0(srv CognitoServer) http.Handler {
+func _Cognito_IntrospectRoles_Rule0(srv CognitoClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &IntrospectRolesInput{}
 
@@ -553,7 +553,7 @@ func _Cognito_IntrospectRoles_Rule0(srv CognitoServer) http.Handler {
 	})
 }
 
-func _Cognito_ListRoles_Rule0(srv CognitoServer) http.Handler {
+func _Cognito_ListRoles_Rule0(srv CognitoClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListRolesInput{}
 
@@ -576,7 +576,7 @@ func _Cognito_ListRoles_Rule0(srv CognitoServer) http.Handler {
 	})
 }
 
-func _Cognito_UpdateRoles_Rule0(srv CognitoServer) http.Handler {
+func _Cognito_UpdateRoles_Rule0(srv CognitoClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateRolesInput{}
 
@@ -599,7 +599,7 @@ func _Cognito_UpdateRoles_Rule0(srv CognitoServer) http.Handler {
 	})
 }
 
-func _Cognito_ListEntitlements_Rule0(srv CognitoServer) http.Handler {
+func _Cognito_ListEntitlements_Rule0(srv CognitoClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListEntitlementsInput{}
 
@@ -619,7 +619,7 @@ func _Cognito_ListEntitlements_Rule0(srv CognitoServer) http.Handler {
 	})
 }
 
-func _Cognito_SelfDestruct_Rule0(srv CognitoServer) http.Handler {
+func _Cognito_SelfDestruct_Rule0(srv CognitoClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &SelfDestructInput{}
 
