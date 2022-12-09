@@ -45,6 +45,9 @@ type RankerClient interface {
 	// List scoreboards of a contest
 	ListScoreboardColumns(ctx context.Context, in *ListScoreboardColumnsInput, opts ...grpc.CallOption) (*ListScoreboardColumnsOutput, error)
 	ListActivities(ctx context.Context, in *ListActivitiesInput, opts ...grpc.CallOption) (*ListActivitiesOutput, error)
+	ScheduleAction(ctx context.Context, in *ScheduleActionInput, opts ...grpc.CallOption) (*ScheduleActionOutput, error)
+	UnscheduleAction(ctx context.Context, in *UnscheduleActionInput, opts ...grpc.CallOption) (*UnscheduleActionOutput, error)
+	ListScheduledActions(ctx context.Context, in *ListScheduledActionsInput, opts ...grpc.CallOption) (*ListScheduledActionsOutput, error)
 }
 
 type rankerClient struct {
@@ -181,6 +184,33 @@ func (c *rankerClient) ListActivities(ctx context.Context, in *ListActivitiesInp
 	return out, nil
 }
 
+func (c *rankerClient) ScheduleAction(ctx context.Context, in *ScheduleActionInput, opts ...grpc.CallOption) (*ScheduleActionOutput, error) {
+	out := new(ScheduleActionOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.ranker.Ranker/ScheduleAction", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *rankerClient) UnscheduleAction(ctx context.Context, in *UnscheduleActionInput, opts ...grpc.CallOption) (*UnscheduleActionOutput, error) {
+	out := new(UnscheduleActionOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.ranker.Ranker/UnscheduleAction", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *rankerClient) ListScheduledActions(ctx context.Context, in *ListScheduledActionsInput, opts ...grpc.CallOption) (*ListScheduledActionsOutput, error) {
+	out := new(ListScheduledActionsOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.ranker.Ranker/ListScheduledActions", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // RankerServer is the server API for Ranker service.
 // All implementations should embed UnimplementedRankerServer
 // for forward compatibility
@@ -208,6 +238,9 @@ type RankerServer interface {
 	// List scoreboards of a contest
 	ListScoreboardColumns(context.Context, *ListScoreboardColumnsInput) (*ListScoreboardColumnsOutput, error)
 	ListActivities(context.Context, *ListActivitiesInput) (*ListActivitiesOutput, error)
+	ScheduleAction(context.Context, *ScheduleActionInput) (*ScheduleActionOutput, error)
+	UnscheduleAction(context.Context, *UnscheduleActionInput) (*UnscheduleActionOutput, error)
+	ListScheduledActions(context.Context, *ListScheduledActionsInput) (*ListScheduledActionsOutput, error)
 }
 
 // UnimplementedRankerServer should be embedded to have forward compatible implementations.
@@ -255,6 +288,15 @@ func (UnimplementedRankerServer) ListScoreboardColumns(context.Context, *ListSco
 }
 func (UnimplementedRankerServer) ListActivities(context.Context, *ListActivitiesInput) (*ListActivitiesOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListActivities not implemented")
+}
+func (UnimplementedRankerServer) ScheduleAction(context.Context, *ScheduleActionInput) (*ScheduleActionOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ScheduleAction not implemented")
+}
+func (UnimplementedRankerServer) UnscheduleAction(context.Context, *UnscheduleActionInput) (*UnscheduleActionOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UnscheduleAction not implemented")
+}
+func (UnimplementedRankerServer) ListScheduledActions(context.Context, *ListScheduledActionsInput) (*ListScheduledActionsOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListScheduledActions not implemented")
 }
 
 // UnsafeRankerServer may be embedded to opt out of forward compatibility for this service.
@@ -520,6 +562,60 @@ func _Ranker_ListActivities_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Ranker_ScheduleAction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ScheduleActionInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RankerServer).ScheduleAction(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.ranker.Ranker/ScheduleAction",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RankerServer).ScheduleAction(ctx, req.(*ScheduleActionInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Ranker_UnscheduleAction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UnscheduleActionInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RankerServer).UnscheduleAction(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.ranker.Ranker/UnscheduleAction",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RankerServer).UnscheduleAction(ctx, req.(*UnscheduleActionInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Ranker_ListScheduledActions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListScheduledActionsInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RankerServer).ListScheduledActions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.ranker.Ranker/ListScheduledActions",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RankerServer).ListScheduledActions(ctx, req.(*ListScheduledActionsInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Ranker_ServiceDesc is the grpc.ServiceDesc for Ranker service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -582,6 +678,18 @@ var Ranker_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListActivities",
 			Handler:    _Ranker_ListActivities_Handler,
+		},
+		{
+			MethodName: "ScheduleAction",
+			Handler:    _Ranker_ScheduleAction_Handler,
+		},
+		{
+			MethodName: "UnscheduleAction",
+			Handler:    _Ranker_UnscheduleAction_Handler,
+		},
+		{
+			MethodName: "ListScheduledActions",
+			Handler:    _Ranker_ListScheduledActions_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

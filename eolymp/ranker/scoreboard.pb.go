@@ -141,6 +141,55 @@ func (Scoreboard_Column_Type) EnumDescriptor() ([]byte, []int) {
 	return file_eolymp_ranker_scoreboard_proto_rawDescGZIP(), []int{0, 1, 0}
 }
 
+type Scoreboard_Action_Type int32
+
+const (
+	Scoreboard_Action_NONE     Scoreboard_Action_Type = 0
+	Scoreboard_Action_FREEZE   Scoreboard_Action_Type = 1
+	Scoreboard_Action_UNFREEZE Scoreboard_Action_Type = 2
+)
+
+// Enum value maps for Scoreboard_Action_Type.
+var (
+	Scoreboard_Action_Type_name = map[int32]string{
+		0: "NONE",
+		1: "FREEZE",
+		2: "UNFREEZE",
+	}
+	Scoreboard_Action_Type_value = map[string]int32{
+		"NONE":     0,
+		"FREEZE":   1,
+		"UNFREEZE": 2,
+	}
+)
+
+func (x Scoreboard_Action_Type) Enum() *Scoreboard_Action_Type {
+	p := new(Scoreboard_Action_Type)
+	*p = x
+	return p
+}
+
+func (x Scoreboard_Action_Type) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (Scoreboard_Action_Type) Descriptor() protoreflect.EnumDescriptor {
+	return file_eolymp_ranker_scoreboard_proto_enumTypes[2].Descriptor()
+}
+
+func (Scoreboard_Action_Type) Type() protoreflect.EnumType {
+	return &file_eolymp_ranker_scoreboard_proto_enumTypes[2]
+}
+
+func (x Scoreboard_Action_Type) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use Scoreboard_Action_Type.Descriptor instead.
+func (Scoreboard_Action_Type) EnumDescriptor() ([]byte, []int) {
+	return file_eolymp_ranker_scoreboard_proto_rawDescGZIP(), []int{0, 4, 0}
+}
+
 type Scoreboard struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -646,6 +695,69 @@ func (x *Scoreboard_Segment) GetEndOffset() int32 {
 	return 0
 }
 
+type Scoreboard_Action struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id        string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	ExecuteAt *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=execute_at,json=executeAt,proto3" json:"execute_at,omitempty"`
+	Type      Scoreboard_Action_Type `protobuf:"varint,3,opt,name=type,proto3,enum=eolymp.ranker.Scoreboard_Action_Type" json:"type,omitempty"`
+}
+
+func (x *Scoreboard_Action) Reset() {
+	*x = Scoreboard_Action{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_eolymp_ranker_scoreboard_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *Scoreboard_Action) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Scoreboard_Action) ProtoMessage() {}
+
+func (x *Scoreboard_Action) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_ranker_scoreboard_proto_msgTypes[5]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Scoreboard_Action.ProtoReflect.Descriptor instead.
+func (*Scoreboard_Action) Descriptor() ([]byte, []int) {
+	return file_eolymp_ranker_scoreboard_proto_rawDescGZIP(), []int{0, 4}
+}
+
+func (x *Scoreboard_Action) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *Scoreboard_Action) GetExecuteAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.ExecuteAt
+	}
+	return nil
+}
+
+func (x *Scoreboard_Action) GetType() Scoreboard_Action_Type {
+	if x != nil {
+		return x.Type
+	}
+	return Scoreboard_Action_NONE
+}
+
 type Scoreboard_Row_Value struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -672,7 +784,7 @@ type Scoreboard_Row_Value struct {
 func (x *Scoreboard_Row_Value) Reset() {
 	*x = Scoreboard_Row_Value{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_eolymp_ranker_scoreboard_proto_msgTypes[5]
+		mi := &file_eolymp_ranker_scoreboard_proto_msgTypes[6]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -685,7 +797,7 @@ func (x *Scoreboard_Row_Value) String() string {
 func (*Scoreboard_Row_Value) ProtoMessage() {}
 
 func (x *Scoreboard_Row_Value) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_ranker_scoreboard_proto_msgTypes[5]
+	mi := &file_eolymp_ranker_scoreboard_proto_msgTypes[6]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -789,8 +901,8 @@ var file_eolymp_ranker_scoreboard_proto_rawDesc = []byte{
 	0x79, 0x6d, 0x70, 0x2f, 0x77, 0x65, 0x6c, 0x6c, 0x6b, 0x6e, 0x6f, 0x77, 0x6e, 0x2f, 0x64, 0x69,
 	0x72, 0x65, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x1f, 0x67,
 	0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2f, 0x74,
-	0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0xcd,
-	0x0e, 0x0a, 0x0a, 0x53, 0x63, 0x6f, 0x72, 0x65, 0x62, 0x6f, 0x61, 0x72, 0x64, 0x12, 0x0e, 0x0a,
+	0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x8a,
+	0x10, 0x0a, 0x0a, 0x53, 0x63, 0x6f, 0x72, 0x65, 0x62, 0x6f, 0x61, 0x72, 0x64, 0x12, 0x0e, 0x0a,
 	0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x12, 0x10, 0x0a,
 	0x03, 0x6b, 0x65, 0x79, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12,
 	0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e,
@@ -902,15 +1014,27 @@ var file_eolymp_ranker_scoreboard_proto_rawDesc = []byte{
 	0x61, 0x72, 0x74, 0x5f, 0x6f, 0x66, 0x66, 0x73, 0x65, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x05,
 	0x52, 0x0b, 0x73, 0x74, 0x61, 0x72, 0x74, 0x4f, 0x66, 0x66, 0x73, 0x65, 0x74, 0x12, 0x1d, 0x0a,
 	0x0a, 0x65, 0x6e, 0x64, 0x5f, 0x6f, 0x66, 0x66, 0x73, 0x65, 0x74, 0x18, 0x03, 0x20, 0x01, 0x28,
-	0x05, 0x52, 0x09, 0x65, 0x6e, 0x64, 0x4f, 0x66, 0x66, 0x73, 0x65, 0x74, 0x22, 0x40, 0x0a, 0x0c,
-	0x46, 0x65, 0x74, 0x63, 0x68, 0x69, 0x6e, 0x67, 0x4d, 0x6f, 0x64, 0x65, 0x12, 0x0a, 0x0a, 0x06,
-	0x41, 0x43, 0x54, 0x55, 0x41, 0x4c, 0x10, 0x00, 0x12, 0x0c, 0x0a, 0x08, 0x50, 0x55, 0x4e, 0x43,
-	0x54, 0x55, 0x41, 0x4c, 0x10, 0x01, 0x12, 0x0a, 0x0a, 0x06, 0x4c, 0x41, 0x54, 0x45, 0x53, 0x54,
-	0x10, 0x02, 0x12, 0x0a, 0x0a, 0x06, 0x46, 0x52, 0x4f, 0x5a, 0x45, 0x4e, 0x10, 0x03, 0x42, 0x2f,
-	0x5a, 0x2d, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x65, 0x6f, 0x6c,
-	0x79, 0x6d, 0x70, 0x2f, 0x67, 0x6f, 0x2d, 0x73, 0x64, 0x6b, 0x2f, 0x65, 0x6f, 0x6c, 0x79, 0x6d,
-	0x70, 0x2f, 0x72, 0x61, 0x6e, 0x6b, 0x65, 0x72, 0x3b, 0x72, 0x61, 0x6e, 0x6b, 0x65, 0x72, 0x62,
-	0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x05, 0x52, 0x09, 0x65, 0x6e, 0x64, 0x4f, 0x66, 0x66, 0x73, 0x65, 0x74, 0x1a, 0xba, 0x01, 0x0a,
+	0x06, 0x41, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x12, 0x39, 0x0a, 0x0a, 0x65, 0x78, 0x65, 0x63, 0x75,
+	0x74, 0x65, 0x5f, 0x61, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f,
+	0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69,
+	0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x52, 0x09, 0x65, 0x78, 0x65, 0x63, 0x75, 0x74, 0x65,
+	0x41, 0x74, 0x12, 0x39, 0x0a, 0x04, 0x74, 0x79, 0x70, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0e,
+	0x32, 0x25, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x72, 0x61, 0x6e, 0x6b, 0x65, 0x72,
+	0x2e, 0x53, 0x63, 0x6f, 0x72, 0x65, 0x62, 0x6f, 0x61, 0x72, 0x64, 0x2e, 0x41, 0x63, 0x74, 0x69,
+	0x6f, 0x6e, 0x2e, 0x54, 0x79, 0x70, 0x65, 0x52, 0x04, 0x74, 0x79, 0x70, 0x65, 0x22, 0x2a, 0x0a,
+	0x04, 0x54, 0x79, 0x70, 0x65, 0x12, 0x08, 0x0a, 0x04, 0x4e, 0x4f, 0x4e, 0x45, 0x10, 0x00, 0x12,
+	0x0a, 0x0a, 0x06, 0x46, 0x52, 0x45, 0x45, 0x5a, 0x45, 0x10, 0x01, 0x12, 0x0c, 0x0a, 0x08, 0x55,
+	0x4e, 0x46, 0x52, 0x45, 0x45, 0x5a, 0x45, 0x10, 0x02, 0x22, 0x40, 0x0a, 0x0c, 0x46, 0x65, 0x74,
+	0x63, 0x68, 0x69, 0x6e, 0x67, 0x4d, 0x6f, 0x64, 0x65, 0x12, 0x0a, 0x0a, 0x06, 0x41, 0x43, 0x54,
+	0x55, 0x41, 0x4c, 0x10, 0x00, 0x12, 0x0c, 0x0a, 0x08, 0x50, 0x55, 0x4e, 0x43, 0x54, 0x55, 0x41,
+	0x4c, 0x10, 0x01, 0x12, 0x0a, 0x0a, 0x06, 0x4c, 0x41, 0x54, 0x45, 0x53, 0x54, 0x10, 0x02, 0x12,
+	0x0a, 0x0a, 0x06, 0x46, 0x52, 0x4f, 0x5a, 0x45, 0x4e, 0x10, 0x03, 0x42, 0x2f, 0x5a, 0x2d, 0x67,
+	0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70,
+	0x2f, 0x67, 0x6f, 0x2d, 0x73, 0x64, 0x6b, 0x2f, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x72,
+	0x61, 0x6e, 0x6b, 0x65, 0x72, 0x3b, 0x72, 0x61, 0x6e, 0x6b, 0x65, 0x72, 0x62, 0x06, 0x70, 0x72,
+	0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -925,34 +1049,38 @@ func file_eolymp_ranker_scoreboard_proto_rawDescGZIP() []byte {
 	return file_eolymp_ranker_scoreboard_proto_rawDescData
 }
 
-var file_eolymp_ranker_scoreboard_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_eolymp_ranker_scoreboard_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_eolymp_ranker_scoreboard_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
+var file_eolymp_ranker_scoreboard_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_eolymp_ranker_scoreboard_proto_goTypes = []interface{}{
 	(Scoreboard_FetchingMode)(0),  // 0: eolymp.ranker.Scoreboard.FetchingMode
 	(Scoreboard_Column_Type)(0),   // 1: eolymp.ranker.Scoreboard.Column.Type
-	(*Scoreboard)(nil),            // 2: eolymp.ranker.Scoreboard
-	(*Scoreboard_Row)(nil),        // 3: eolymp.ranker.Scoreboard.Row
-	(*Scoreboard_Column)(nil),     // 4: eolymp.ranker.Scoreboard.Column
-	(*Scoreboard_Timeline)(nil),   // 5: eolymp.ranker.Scoreboard.Timeline
-	(*Scoreboard_Segment)(nil),    // 6: eolymp.ranker.Scoreboard.Segment
-	(*Scoreboard_Row_Value)(nil),  // 7: eolymp.ranker.Scoreboard.Row.Value
-	(wellknown.Direction)(0),      // 8: eolymp.wellknown.Direction
-	(Format)(0),                   // 9: eolymp.ranker.Format
-	(*timestamppb.Timestamp)(nil), // 10: google.protobuf.Timestamp
+	(Scoreboard_Action_Type)(0),   // 2: eolymp.ranker.Scoreboard.Action.Type
+	(*Scoreboard)(nil),            // 3: eolymp.ranker.Scoreboard
+	(*Scoreboard_Row)(nil),        // 4: eolymp.ranker.Scoreboard.Row
+	(*Scoreboard_Column)(nil),     // 5: eolymp.ranker.Scoreboard.Column
+	(*Scoreboard_Timeline)(nil),   // 6: eolymp.ranker.Scoreboard.Timeline
+	(*Scoreboard_Segment)(nil),    // 7: eolymp.ranker.Scoreboard.Segment
+	(*Scoreboard_Action)(nil),     // 8: eolymp.ranker.Scoreboard.Action
+	(*Scoreboard_Row_Value)(nil),  // 9: eolymp.ranker.Scoreboard.Row.Value
+	(wellknown.Direction)(0),      // 10: eolymp.wellknown.Direction
+	(Format)(0),                   // 11: eolymp.ranker.Format
+	(*timestamppb.Timestamp)(nil), // 12: google.protobuf.Timestamp
 }
 var file_eolymp_ranker_scoreboard_proto_depIdxs = []int32{
-	5,  // 0: eolymp.ranker.Scoreboard.timeline:type_name -> eolymp.ranker.Scoreboard.Timeline
-	8,  // 1: eolymp.ranker.Scoreboard.default_sort_order:type_name -> eolymp.wellknown.Direction
-	9,  // 2: eolymp.ranker.Scoreboard.format:type_name -> eolymp.ranker.Format
-	7,  // 3: eolymp.ranker.Scoreboard.Row.values:type_name -> eolymp.ranker.Scoreboard.Row.Value
+	6,  // 0: eolymp.ranker.Scoreboard.timeline:type_name -> eolymp.ranker.Scoreboard.Timeline
+	10, // 1: eolymp.ranker.Scoreboard.default_sort_order:type_name -> eolymp.wellknown.Direction
+	11, // 2: eolymp.ranker.Scoreboard.format:type_name -> eolymp.ranker.Format
+	9,  // 3: eolymp.ranker.Scoreboard.Row.values:type_name -> eolymp.ranker.Scoreboard.Row.Value
 	1,  // 4: eolymp.ranker.Scoreboard.Column.type:type_name -> eolymp.ranker.Scoreboard.Column.Type
-	6,  // 5: eolymp.ranker.Scoreboard.Timeline.segments:type_name -> eolymp.ranker.Scoreboard.Segment
-	10, // 6: eolymp.ranker.Scoreboard.Segment.starts_at:type_name -> google.protobuf.Timestamp
-	7,  // [7:7] is the sub-list for method output_type
-	7,  // [7:7] is the sub-list for method input_type
-	7,  // [7:7] is the sub-list for extension type_name
-	7,  // [7:7] is the sub-list for extension extendee
-	0,  // [0:7] is the sub-list for field type_name
+	7,  // 5: eolymp.ranker.Scoreboard.Timeline.segments:type_name -> eolymp.ranker.Scoreboard.Segment
+	12, // 6: eolymp.ranker.Scoreboard.Segment.starts_at:type_name -> google.protobuf.Timestamp
+	12, // 7: eolymp.ranker.Scoreboard.Action.execute_at:type_name -> google.protobuf.Timestamp
+	2,  // 8: eolymp.ranker.Scoreboard.Action.type:type_name -> eolymp.ranker.Scoreboard.Action.Type
+	9,  // [9:9] is the sub-list for method output_type
+	9,  // [9:9] is the sub-list for method input_type
+	9,  // [9:9] is the sub-list for extension type_name
+	9,  // [9:9] is the sub-list for extension extendee
+	0,  // [0:9] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_ranker_scoreboard_proto_init() }
@@ -1023,6 +1151,18 @@ func file_eolymp_ranker_scoreboard_proto_init() {
 			}
 		}
 		file_eolymp_ranker_scoreboard_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Scoreboard_Action); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_eolymp_ranker_scoreboard_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*Scoreboard_Row_Value); i {
 			case 0:
 				return &v.state
@@ -1040,8 +1180,8 @@ func file_eolymp_ranker_scoreboard_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_eolymp_ranker_scoreboard_proto_rawDesc,
-			NumEnums:      2,
-			NumMessages:   6,
+			NumEnums:      3,
+			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

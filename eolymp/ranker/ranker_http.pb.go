@@ -155,6 +155,15 @@ func RegisterRankerHttpHandlers(router *mux.Router, prefix string, srv RankerSer
 	router.Handle(prefix+"/scoreboards/{scoreboard_id}/activities", _Ranker_ListActivities_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.ranker.Ranker.ListActivities")
+	router.Handle(prefix+"/scoreboards/{scoreboard_id}/schedule", _Ranker_ScheduleAction_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.ranker.Ranker.ScheduleAction")
+	router.Handle(prefix+"/scoreboards/{scoreboard_id}/schedule/{action_id}", _Ranker_UnscheduleAction_Rule0(srv)).
+		Methods("DELETE").
+		Name("eolymp.ranker.Ranker.UnscheduleAction")
+	router.Handle(prefix+"/scoreboards/{scoreboard_id}/schedule", _Ranker_ListScheduledActions_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.ranker.Ranker.ListScheduledActions")
 }
 
 func _Ranker_CreateScoreboard_Rule0(srv RankerServer) http.Handler {
@@ -468,6 +477,76 @@ func _Ranker_ListActivities_Rule0(srv RankerServer) http.Handler {
 		in.ScoreboardId = vars["scoreboard_id"]
 
 		out, err := srv.ListActivities(r.Context(), in)
+		if err != nil {
+			_Ranker_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Ranker_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Ranker_ScheduleAction_Rule0(srv RankerServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ScheduleActionInput{}
+
+		if err := _Ranker_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Ranker_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ScoreboardId = vars["scoreboard_id"]
+
+		out, err := srv.ScheduleAction(r.Context(), in)
+		if err != nil {
+			_Ranker_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Ranker_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Ranker_UnscheduleAction_Rule0(srv RankerServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UnscheduleActionInput{}
+
+		if err := _Ranker_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Ranker_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ScoreboardId = vars["scoreboard_id"]
+		in.ActionId = vars["action_id"]
+
+		out, err := srv.UnscheduleAction(r.Context(), in)
+		if err != nil {
+			_Ranker_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Ranker_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Ranker_ListScheduledActions_Rule0(srv RankerServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListScheduledActionsInput{}
+
+		if err := _Ranker_HTTPReadQueryString(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Ranker_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ScoreboardId = vars["scoreboard_id"]
+
+		out, err := srv.ListScheduledActions(r.Context(), in)
 		if err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
@@ -932,6 +1011,102 @@ func (i *RankerInterceptor) ListActivities(ctx context.Context, in *ListActiviti
 	message, ok := out.(*ListActivitiesOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *ListActivitiesOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *RankerInterceptor) ScheduleAction(ctx context.Context, in *ScheduleActionInput) (*ScheduleActionOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ScheduleActionInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ScheduleActionInput, got %T", in))
+		}
+
+		return i.server.ScheduleAction(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.ranker.Ranker.ScheduleAction", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ScheduleActionOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ScheduleActionOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *RankerInterceptor) UnscheduleAction(ctx context.Context, in *UnscheduleActionInput) (*UnscheduleActionOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*UnscheduleActionInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *UnscheduleActionInput, got %T", in))
+		}
+
+		return i.server.UnscheduleAction(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.ranker.Ranker.UnscheduleAction", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*UnscheduleActionOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *UnscheduleActionOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *RankerInterceptor) ListScheduledActions(ctx context.Context, in *ListScheduledActionsInput) (*ListScheduledActionsOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListScheduledActionsInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListScheduledActionsInput, got %T", in))
+		}
+
+		return i.server.ListScheduledActions(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.ranker.Ranker.ListScheduledActions", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListScheduledActionsOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListScheduledActionsOutput, got %T", out))
 	}
 
 	return message, err

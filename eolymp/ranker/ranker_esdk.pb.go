@@ -317,3 +317,52 @@ func (s *RankerService) ListActivities(ctx context.Context, in *ListActivitiesIn
 
 	return out, nil
 }
+
+func (s *RankerService) ScheduleAction(ctx context.Context, in *ScheduleActionInput) (*ScheduleActionOutput, error) {
+	out := &ScheduleActionOutput{}
+	path := "/scoreboards/" + url.PathEscape(in.GetScoreboardId()) + "/schedule"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ScoreboardId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *RankerService) UnscheduleAction(ctx context.Context, in *UnscheduleActionInput) (*UnscheduleActionOutput, error) {
+	out := &UnscheduleActionOutput{}
+	path := "/scoreboards/" + url.PathEscape(in.GetScoreboardId()) + "/schedule/" + url.PathEscape(in.GetActionId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ScoreboardId = ""
+		in.ActionId = ""
+	}
+
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *RankerService) ListScheduledActions(ctx context.Context, in *ListScheduledActionsInput) (*ListScheduledActionsOutput, error) {
+	out := &ListScheduledActionsOutput{}
+	path := "/scoreboards/" + url.PathEscape(in.GetScoreboardId()) + "/schedule"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ScoreboardId = ""
+	}
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
