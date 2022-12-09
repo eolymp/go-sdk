@@ -112,7 +112,7 @@ func _Judge_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 
 // RegisterJudgeHttpHandlers adds handlers for for JudgeServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterJudgeHttpHandlers(router *mux.Router, prefix string, srv JudgeClient) {
+func RegisterJudgeHttpHandlers(router *mux.Router, prefix string, srv JudgeServer) {
 	router.Handle(prefix+"/contests/__lookup", _Judge_LookupContest_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.judge.Judge.LookupContest")
@@ -334,7 +334,7 @@ func RegisterJudgeHttpHandlers(router *mux.Router, prefix string, srv JudgeClien
 		Name("eolymp.judge.Judge.ListActivities")
 }
 
-func _Judge_LookupContest_Rule0(srv JudgeClient) http.Handler {
+func _Judge_LookupContest_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &LookupContestInput{}
 
@@ -354,7 +354,7 @@ func _Judge_LookupContest_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_CreateContest_Rule0(srv JudgeClient) http.Handler {
+func _Judge_CreateContest_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateContestInput{}
 
@@ -374,7 +374,7 @@ func _Judge_CreateContest_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_DeleteContest_Rule0(srv JudgeClient) http.Handler {
+func _Judge_DeleteContest_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteContestInput{}
 
@@ -397,7 +397,7 @@ func _Judge_DeleteContest_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_UpdateContest_Rule0(srv JudgeClient) http.Handler {
+func _Judge_UpdateContest_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateContestInput{}
 
@@ -420,7 +420,7 @@ func _Judge_UpdateContest_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_DescribeContest_Rule0(srv JudgeClient) http.Handler {
+func _Judge_DescribeContest_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeContestInput{}
 
@@ -443,7 +443,7 @@ func _Judge_DescribeContest_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_ListContests_Rule0(srv JudgeClient) http.Handler {
+func _Judge_ListContests_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListContestsInput{}
 
@@ -463,7 +463,7 @@ func _Judge_ListContests_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_OpenContest_Rule0(srv JudgeClient) http.Handler {
+func _Judge_OpenContest_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &OpenContestInput{}
 
@@ -486,7 +486,7 @@ func _Judge_OpenContest_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_CloseContest_Rule0(srv JudgeClient) http.Handler {
+func _Judge_CloseContest_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CloseContestInput{}
 
@@ -509,7 +509,7 @@ func _Judge_CloseContest_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_SuspendContest_Rule0(srv JudgeClient) http.Handler {
+func _Judge_SuspendContest_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &SuspendContestInput{}
 
@@ -532,7 +532,7 @@ func _Judge_SuspendContest_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_FreezeContest_Rule0(srv JudgeClient) http.Handler {
+func _Judge_FreezeContest_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &FreezeContestInput{}
 
@@ -555,7 +555,7 @@ func _Judge_FreezeContest_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_ResumeContest_Rule0(srv JudgeClient) http.Handler {
+func _Judge_ResumeContest_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ResumeContestInput{}
 
@@ -578,7 +578,7 @@ func _Judge_ResumeContest_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_ConfigureRuntime_Rule0(srv JudgeClient) http.Handler {
+func _Judge_ConfigureRuntime_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ConfigureRuntimeInput{}
 
@@ -601,7 +601,7 @@ func _Judge_ConfigureRuntime_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_DescribeRuntime_Rule0(srv JudgeClient) http.Handler {
+func _Judge_DescribeRuntime_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeRuntimeInput{}
 
@@ -624,7 +624,7 @@ func _Judge_DescribeRuntime_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_ConfigureAppearance_Rule0(srv JudgeClient) http.Handler {
+func _Judge_ConfigureAppearance_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ConfigureAppearanceInput{}
 
@@ -647,7 +647,7 @@ func _Judge_ConfigureAppearance_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_DescribeAppearance_Rule0(srv JudgeClient) http.Handler {
+func _Judge_DescribeAppearance_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeAppearanceInput{}
 
@@ -670,7 +670,7 @@ func _Judge_DescribeAppearance_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_ConfigureScoring_Rule0(srv JudgeClient) http.Handler {
+func _Judge_ConfigureScoring_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ConfigureScoringInput{}
 
@@ -693,7 +693,7 @@ func _Judge_ConfigureScoring_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_DescribeScoring_Rule0(srv JudgeClient) http.Handler {
+func _Judge_DescribeScoring_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeScoringInput{}
 
@@ -716,7 +716,7 @@ func _Judge_DescribeScoring_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_ImportProblem_Rule0(srv JudgeClient) http.Handler {
+func _Judge_ImportProblem_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ImportProblemInput{}
 
@@ -739,7 +739,7 @@ func _Judge_ImportProblem_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_SyncProblem_Rule0(srv JudgeClient) http.Handler {
+func _Judge_SyncProblem_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &SyncProblemInput{}
 
@@ -763,7 +763,7 @@ func _Judge_SyncProblem_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_UpdateProblem_Rule0(srv JudgeClient) http.Handler {
+func _Judge_UpdateProblem_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateProblemInput{}
 
@@ -787,7 +787,7 @@ func _Judge_UpdateProblem_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_ListProblems_Rule0(srv JudgeClient) http.Handler {
+func _Judge_ListProblems_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListProblemsInput{}
 
@@ -810,7 +810,7 @@ func _Judge_ListProblems_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_DescribeProblem_Rule0(srv JudgeClient) http.Handler {
+func _Judge_DescribeProblem_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeProblemInput{}
 
@@ -834,7 +834,7 @@ func _Judge_DescribeProblem_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_DescribeCodeTemplate_Rule0(srv JudgeClient) http.Handler {
+func _Judge_DescribeCodeTemplate_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeCodeTemplateInput{}
 
@@ -859,7 +859,7 @@ func _Judge_DescribeCodeTemplate_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_LookupCodeTemplate_Rule0(srv JudgeClient) http.Handler {
+func _Judge_LookupCodeTemplate_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &LookupCodeTemplateInput{}
 
@@ -883,7 +883,7 @@ func _Judge_LookupCodeTemplate_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_ListStatements_Rule0(srv JudgeClient) http.Handler {
+func _Judge_ListStatements_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListStatementsInput{}
 
@@ -907,7 +907,7 @@ func _Judge_ListStatements_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_ListAttachments_Rule0(srv JudgeClient) http.Handler {
+func _Judge_ListAttachments_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListAttachmentsInput{}
 
@@ -931,7 +931,7 @@ func _Judge_ListAttachments_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_ListExamples_Rule0(srv JudgeClient) http.Handler {
+func _Judge_ListExamples_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListExamplesInput{}
 
@@ -955,7 +955,7 @@ func _Judge_ListExamples_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_DeleteProblem_Rule0(srv JudgeClient) http.Handler {
+func _Judge_DeleteProblem_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteProblemInput{}
 
@@ -979,7 +979,7 @@ func _Judge_DeleteProblem_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_RetestProblem_Rule0(srv JudgeClient) http.Handler {
+func _Judge_RetestProblem_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &RetestProblemInput{}
 
@@ -1003,7 +1003,7 @@ func _Judge_RetestProblem_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_AddParticipant_Rule0(srv JudgeClient) http.Handler {
+func _Judge_AddParticipant_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &AddParticipantInput{}
 
@@ -1026,7 +1026,7 @@ func _Judge_AddParticipant_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_EnableParticipant_Rule0(srv JudgeClient) http.Handler {
+func _Judge_EnableParticipant_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &EnableParticipantInput{}
 
@@ -1050,7 +1050,7 @@ func _Judge_EnableParticipant_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_DisableParticipant_Rule0(srv JudgeClient) http.Handler {
+func _Judge_DisableParticipant_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DisableParticipantInput{}
 
@@ -1074,7 +1074,7 @@ func _Judge_DisableParticipant_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_UpdateParticipant_Rule0(srv JudgeClient) http.Handler {
+func _Judge_UpdateParticipant_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateParticipantInput{}
 
@@ -1098,7 +1098,7 @@ func _Judge_UpdateParticipant_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_RemoveParticipant_Rule0(srv JudgeClient) http.Handler {
+func _Judge_RemoveParticipant_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &RemoveParticipantInput{}
 
@@ -1122,7 +1122,7 @@ func _Judge_RemoveParticipant_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_ListParticipants_Rule0(srv JudgeClient) http.Handler {
+func _Judge_ListParticipants_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListParticipantsInput{}
 
@@ -1145,7 +1145,7 @@ func _Judge_ListParticipants_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_DescribeParticipant_Rule0(srv JudgeClient) http.Handler {
+func _Judge_DescribeParticipant_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeParticipantInput{}
 
@@ -1169,7 +1169,7 @@ func _Judge_DescribeParticipant_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_IntrospectParticipant_Rule0(srv JudgeClient) http.Handler {
+func _Judge_IntrospectParticipant_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &IntrospectParticipantInput{}
 
@@ -1192,7 +1192,7 @@ func _Judge_IntrospectParticipant_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_JoinContest_Rule0(srv JudgeClient) http.Handler {
+func _Judge_JoinContest_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &JoinContestInput{}
 
@@ -1215,7 +1215,7 @@ func _Judge_JoinContest_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_StartContest_Rule0(srv JudgeClient) http.Handler {
+func _Judge_StartContest_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &StartContestInput{}
 
@@ -1238,7 +1238,7 @@ func _Judge_StartContest_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_VerifyPasscode_Rule0(srv JudgeClient) http.Handler {
+func _Judge_VerifyPasscode_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &VerifyPasscodeInput{}
 
@@ -1261,7 +1261,7 @@ func _Judge_VerifyPasscode_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_EnterPasscode_Rule0(srv JudgeClient) http.Handler {
+func _Judge_EnterPasscode_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &EnterPasscodeInput{}
 
@@ -1284,7 +1284,7 @@ func _Judge_EnterPasscode_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_ResetPasscode_Rule0(srv JudgeClient) http.Handler {
+func _Judge_ResetPasscode_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ResetPasscodeInput{}
 
@@ -1308,7 +1308,7 @@ func _Judge_ResetPasscode_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_RemovePasscode_Rule0(srv JudgeClient) http.Handler {
+func _Judge_RemovePasscode_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &RemovePasscodeInput{}
 
@@ -1332,7 +1332,7 @@ func _Judge_RemovePasscode_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_CreateSubmission_Rule0(srv JudgeClient) http.Handler {
+func _Judge_CreateSubmission_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateSubmissionInput{}
 
@@ -1356,7 +1356,7 @@ func _Judge_CreateSubmission_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_ListSubmissions_Rule0(srv JudgeClient) http.Handler {
+func _Judge_ListSubmissions_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListSubmissionsInput{}
 
@@ -1379,7 +1379,7 @@ func _Judge_ListSubmissions_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_DescribeSubmission_Rule0(srv JudgeClient) http.Handler {
+func _Judge_DescribeSubmission_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeSubmissionInput{}
 
@@ -1403,7 +1403,7 @@ func _Judge_DescribeSubmission_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_RetestSubmission_Rule0(srv JudgeClient) http.Handler {
+func _Judge_RetestSubmission_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &RetestSubmissionInput{}
 
@@ -1427,7 +1427,7 @@ func _Judge_RetestSubmission_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_CreateTicket_Rule0(srv JudgeClient) http.Handler {
+func _Judge_CreateTicket_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateTicketInput{}
 
@@ -1450,7 +1450,7 @@ func _Judge_CreateTicket_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_CloseTicket_Rule0(srv JudgeClient) http.Handler {
+func _Judge_CloseTicket_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CloseTicketInput{}
 
@@ -1473,7 +1473,7 @@ func _Judge_CloseTicket_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_OpenTicket_Rule0(srv JudgeClient) http.Handler {
+func _Judge_OpenTicket_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &OpenTicketInput{}
 
@@ -1496,7 +1496,7 @@ func _Judge_OpenTicket_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_ReadTicket_Rule0(srv JudgeClient) http.Handler {
+func _Judge_ReadTicket_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ReadTicketInput{}
 
@@ -1519,7 +1519,7 @@ func _Judge_ReadTicket_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_DeleteTicket_Rule0(srv JudgeClient) http.Handler {
+func _Judge_DeleteTicket_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteTicketInput{}
 
@@ -1542,7 +1542,7 @@ func _Judge_DeleteTicket_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_DescribeTicket_Rule0(srv JudgeClient) http.Handler {
+func _Judge_DescribeTicket_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeTicketInput{}
 
@@ -1565,7 +1565,7 @@ func _Judge_DescribeTicket_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_ListTickets_Rule0(srv JudgeClient) http.Handler {
+func _Judge_ListTickets_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListTicketsInput{}
 
@@ -1585,7 +1585,7 @@ func _Judge_ListTickets_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_ReplyTicket_Rule0(srv JudgeClient) http.Handler {
+func _Judge_ReplyTicket_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ReplyTicketInput{}
 
@@ -1608,7 +1608,7 @@ func _Judge_ReplyTicket_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_ListReplies_Rule0(srv JudgeClient) http.Handler {
+func _Judge_ListReplies_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListRepliesInput{}
 
@@ -1631,7 +1631,7 @@ func _Judge_ListReplies_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_DeleteReply_Rule0(srv JudgeClient) http.Handler {
+func _Judge_DeleteReply_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteReplyInput{}
 
@@ -1655,7 +1655,7 @@ func _Judge_DeleteReply_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_UpdateReply_Rule0(srv JudgeClient) http.Handler {
+func _Judge_UpdateReply_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateReplyInput{}
 
@@ -1679,7 +1679,7 @@ func _Judge_UpdateReply_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_CreateAnnouncement_Rule0(srv JudgeClient) http.Handler {
+func _Judge_CreateAnnouncement_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateAnnouncementInput{}
 
@@ -1702,7 +1702,7 @@ func _Judge_CreateAnnouncement_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_UpdateAnnouncement_Rule0(srv JudgeClient) http.Handler {
+func _Judge_UpdateAnnouncement_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateAnnouncementInput{}
 
@@ -1726,7 +1726,7 @@ func _Judge_UpdateAnnouncement_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_DeleteAnnouncement_Rule0(srv JudgeClient) http.Handler {
+func _Judge_DeleteAnnouncement_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteAnnouncementInput{}
 
@@ -1750,7 +1750,7 @@ func _Judge_DeleteAnnouncement_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_ReadAnnouncement_Rule0(srv JudgeClient) http.Handler {
+func _Judge_ReadAnnouncement_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ReadAnnouncementInput{}
 
@@ -1774,7 +1774,7 @@ func _Judge_ReadAnnouncement_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_DescribeAnnouncement_Rule0(srv JudgeClient) http.Handler {
+func _Judge_DescribeAnnouncement_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeAnnouncementInput{}
 
@@ -1798,7 +1798,7 @@ func _Judge_DescribeAnnouncement_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_DescribeAnnouncementStatus_Rule0(srv JudgeClient) http.Handler {
+func _Judge_DescribeAnnouncementStatus_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeAnnouncementStatusInput{}
 
@@ -1822,7 +1822,7 @@ func _Judge_DescribeAnnouncementStatus_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_ListAnnouncements_Rule0(srv JudgeClient) http.Handler {
+func _Judge_ListAnnouncements_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListAnnouncementsInput{}
 
@@ -1845,7 +1845,7 @@ func _Judge_ListAnnouncements_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_IntrospectScore_Rule0(srv JudgeClient) http.Handler {
+func _Judge_IntrospectScore_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &IntrospectScoreInput{}
 
@@ -1868,7 +1868,7 @@ func _Judge_IntrospectScore_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_DescribeScore_Rule0(srv JudgeClient) http.Handler {
+func _Judge_DescribeScore_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeScoreInput{}
 
@@ -1892,7 +1892,7 @@ func _Judge_DescribeScore_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_ImportScore_Rule0(srv JudgeClient) http.Handler {
+func _Judge_ImportScore_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ImportScoreInput{}
 
@@ -1916,7 +1916,7 @@ func _Judge_ImportScore_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_ExportScore_Rule0(srv JudgeClient) http.Handler {
+func _Judge_ExportScore_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ExportScoreInput{}
 
@@ -1940,7 +1940,7 @@ func _Judge_ExportScore_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_ListResult_Rule0(srv JudgeClient) http.Handler {
+func _Judge_ListResult_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListResultInput{}
 
@@ -1963,7 +1963,7 @@ func _Judge_ListResult_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_RebuildScore_Rule0(srv JudgeClient) http.Handler {
+func _Judge_RebuildScore_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &RebuildScoreInput{}
 
@@ -1986,7 +1986,7 @@ func _Judge_RebuildScore_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_ListEntitlements_Rule0(srv JudgeClient) http.Handler {
+func _Judge_ListEntitlements_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListEntitlementsInput{}
 
@@ -2006,7 +2006,7 @@ func _Judge_ListEntitlements_Rule0(srv JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_ListActivities_Rule0(srv JudgeClient) http.Handler {
+func _Judge_ListActivities_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListActivitiesInput{}
 

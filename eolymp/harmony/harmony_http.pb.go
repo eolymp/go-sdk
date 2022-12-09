@@ -112,7 +112,7 @@ func _Harmony_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 
 // RegisterHarmonyHttpHandlers adds handlers for for HarmonyServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterHarmonyHttpHandlers(router *mux.Router, prefix string, srv HarmonyClient) {
+func RegisterHarmonyHttpHandlers(router *mux.Router, prefix string, srv HarmonyServer) {
 	router.Handle(prefix+"/harmony/agreements", _Harmony_ListAgreements_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.harmony.Harmony.ListAgreements")
@@ -127,7 +127,7 @@ func RegisterHarmonyHttpHandlers(router *mux.Router, prefix string, srv HarmonyC
 		Name("eolymp.harmony.Harmony.FollowShortcut")
 }
 
-func _Harmony_ListAgreements_Rule0(srv HarmonyClient) http.Handler {
+func _Harmony_ListAgreements_Rule0(srv HarmonyServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListAgreementsInput{}
 
@@ -147,7 +147,7 @@ func _Harmony_ListAgreements_Rule0(srv HarmonyClient) http.Handler {
 	})
 }
 
-func _Harmony_GetConsent_Rule0(srv HarmonyClient) http.Handler {
+func _Harmony_GetConsent_Rule0(srv HarmonyServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &GetConsentInput{}
 
@@ -170,7 +170,7 @@ func _Harmony_GetConsent_Rule0(srv HarmonyClient) http.Handler {
 	})
 }
 
-func _Harmony_SetConsent_Rule0(srv HarmonyClient) http.Handler {
+func _Harmony_SetConsent_Rule0(srv HarmonyServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &SetConsentInput{}
 
@@ -193,7 +193,7 @@ func _Harmony_SetConsent_Rule0(srv HarmonyClient) http.Handler {
 	})
 }
 
-func _Harmony_FollowShortcut_Rule0(srv HarmonyClient) http.Handler {
+func _Harmony_FollowShortcut_Rule0(srv HarmonyServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &FollowShortcutInput{}
 

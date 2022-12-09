@@ -112,7 +112,7 @@ func _Workspace_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 
 // RegisterWorkspaceHttpHandlers adds handlers for for WorkspaceServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterWorkspaceHttpHandlers(router *mux.Router, prefix string, srv WorkspaceClient) {
+func RegisterWorkspaceHttpHandlers(router *mux.Router, prefix string, srv WorkspaceServer) {
 	router.Handle(prefix+"/workspace/projects/{project_id}", _Workspace_DescribeProject_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.workspace.Workspace.DescribeProject")
@@ -142,7 +142,7 @@ func RegisterWorkspaceHttpHandlers(router *mux.Router, prefix string, srv Worksp
 		Name("eolymp.workspace.Workspace.RemoveFile")
 }
 
-func _Workspace_DescribeProject_Rule0(srv WorkspaceClient) http.Handler {
+func _Workspace_DescribeProject_Rule0(srv WorkspaceServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeProjectInput{}
 
@@ -165,7 +165,7 @@ func _Workspace_DescribeProject_Rule0(srv WorkspaceClient) http.Handler {
 	})
 }
 
-func _Workspace_ListProjects_Rule0(srv WorkspaceClient) http.Handler {
+func _Workspace_ListProjects_Rule0(srv WorkspaceServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListProjectsInput{}
 
@@ -185,7 +185,7 @@ func _Workspace_ListProjects_Rule0(srv WorkspaceClient) http.Handler {
 	})
 }
 
-func _Workspace_CreateProject_Rule0(srv WorkspaceClient) http.Handler {
+func _Workspace_CreateProject_Rule0(srv WorkspaceServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateProjectInput{}
 
@@ -205,7 +205,7 @@ func _Workspace_CreateProject_Rule0(srv WorkspaceClient) http.Handler {
 	})
 }
 
-func _Workspace_UpdateProject_Rule0(srv WorkspaceClient) http.Handler {
+func _Workspace_UpdateProject_Rule0(srv WorkspaceServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateProjectInput{}
 
@@ -228,7 +228,7 @@ func _Workspace_UpdateProject_Rule0(srv WorkspaceClient) http.Handler {
 	})
 }
 
-func _Workspace_DeleteProject_Rule0(srv WorkspaceClient) http.Handler {
+func _Workspace_DeleteProject_Rule0(srv WorkspaceServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteProjectInput{}
 
@@ -251,7 +251,7 @@ func _Workspace_DeleteProject_Rule0(srv WorkspaceClient) http.Handler {
 	})
 }
 
-func _Workspace_ListFiles_Rule0(srv WorkspaceClient) http.Handler {
+func _Workspace_ListFiles_Rule0(srv WorkspaceServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListFilesInput{}
 
@@ -274,7 +274,7 @@ func _Workspace_ListFiles_Rule0(srv WorkspaceClient) http.Handler {
 	})
 }
 
-func _Workspace_DescribeFile_Rule0(srv WorkspaceClient) http.Handler {
+func _Workspace_DescribeFile_Rule0(srv WorkspaceServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeFileInput{}
 
@@ -298,7 +298,7 @@ func _Workspace_DescribeFile_Rule0(srv WorkspaceClient) http.Handler {
 	})
 }
 
-func _Workspace_UploadFile_Rule0(srv WorkspaceClient) http.Handler {
+func _Workspace_UploadFile_Rule0(srv WorkspaceServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UploadFileInput{}
 
@@ -321,7 +321,7 @@ func _Workspace_UploadFile_Rule0(srv WorkspaceClient) http.Handler {
 	})
 }
 
-func _Workspace_RemoveFile_Rule0(srv WorkspaceClient) http.Handler {
+func _Workspace_RemoveFile_Rule0(srv WorkspaceServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &RemoveFileInput{}
 

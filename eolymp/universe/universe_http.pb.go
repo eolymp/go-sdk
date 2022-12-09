@@ -112,7 +112,7 @@ func _Universe_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 
 // RegisterUniverseHttpHandlers adds handlers for for UniverseServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterUniverseHttpHandlers(router *mux.Router, prefix string, srv UniverseClient) {
+func RegisterUniverseHttpHandlers(router *mux.Router, prefix string, srv UniverseServer) {
 	router.Handle(prefix+"/spaces/__lookup/{key}", _Universe_LookupSpace_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.universe.Universe.LookupSpace")
@@ -151,7 +151,7 @@ func RegisterUniverseHttpHandlers(router *mux.Router, prefix string, srv Univers
 		Name("eolymp.universe.Universe.ListPermissions")
 }
 
-func _Universe_LookupSpace_Rule0(srv UniverseClient) http.Handler {
+func _Universe_LookupSpace_Rule0(srv UniverseServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &LookupSpaceInput{}
 
@@ -174,7 +174,7 @@ func _Universe_LookupSpace_Rule0(srv UniverseClient) http.Handler {
 	})
 }
 
-func _Universe_CreateSpace_Rule0(srv UniverseClient) http.Handler {
+func _Universe_CreateSpace_Rule0(srv UniverseServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateSpaceInput{}
 
@@ -194,7 +194,7 @@ func _Universe_CreateSpace_Rule0(srv UniverseClient) http.Handler {
 	})
 }
 
-func _Universe_UpdateSpace_Rule0(srv UniverseClient) http.Handler {
+func _Universe_UpdateSpace_Rule0(srv UniverseServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateSpaceInput{}
 
@@ -217,7 +217,7 @@ func _Universe_UpdateSpace_Rule0(srv UniverseClient) http.Handler {
 	})
 }
 
-func _Universe_DeleteSpace_Rule0(srv UniverseClient) http.Handler {
+func _Universe_DeleteSpace_Rule0(srv UniverseServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteSpaceInput{}
 
@@ -240,7 +240,7 @@ func _Universe_DeleteSpace_Rule0(srv UniverseClient) http.Handler {
 	})
 }
 
-func _Universe_DescribeSpace_Rule0(srv UniverseClient) http.Handler {
+func _Universe_DescribeSpace_Rule0(srv UniverseServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeSpaceInput{}
 
@@ -263,7 +263,7 @@ func _Universe_DescribeSpace_Rule0(srv UniverseClient) http.Handler {
 	})
 }
 
-func _Universe_DescribeQuota_Rule0(srv UniverseClient) http.Handler {
+func _Universe_DescribeQuota_Rule0(srv UniverseServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeQuotaInput{}
 
@@ -286,7 +286,7 @@ func _Universe_DescribeQuota_Rule0(srv UniverseClient) http.Handler {
 	})
 }
 
-func _Universe_ListSpaces_Rule0(srv UniverseClient) http.Handler {
+func _Universe_ListSpaces_Rule0(srv UniverseServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListSpacesInput{}
 
@@ -306,7 +306,7 @@ func _Universe_ListSpaces_Rule0(srv UniverseClient) http.Handler {
 	})
 }
 
-func _Universe_GrantPermission_Rule0(srv UniverseClient) http.Handler {
+func _Universe_GrantPermission_Rule0(srv UniverseServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &GrantPermissionInput{}
 
@@ -330,7 +330,7 @@ func _Universe_GrantPermission_Rule0(srv UniverseClient) http.Handler {
 	})
 }
 
-func _Universe_RevokePermission_Rule0(srv UniverseClient) http.Handler {
+func _Universe_RevokePermission_Rule0(srv UniverseServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &RevokePermissionInput{}
 
@@ -354,7 +354,7 @@ func _Universe_RevokePermission_Rule0(srv UniverseClient) http.Handler {
 	})
 }
 
-func _Universe_DescribePermission_Rule0(srv UniverseClient) http.Handler {
+func _Universe_DescribePermission_Rule0(srv UniverseServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribePermissionInput{}
 
@@ -378,7 +378,7 @@ func _Universe_DescribePermission_Rule0(srv UniverseClient) http.Handler {
 	})
 }
 
-func _Universe_IntrospectPermission_Rule0(srv UniverseClient) http.Handler {
+func _Universe_IntrospectPermission_Rule0(srv UniverseServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &IntrospectPermissionInput{}
 
@@ -401,7 +401,7 @@ func _Universe_IntrospectPermission_Rule0(srv UniverseClient) http.Handler {
 	})
 }
 
-func _Universe_ListPermissions_Rule0(srv UniverseClient) http.Handler {
+func _Universe_ListPermissions_Rule0(srv UniverseServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListPermissionsInput{}
 

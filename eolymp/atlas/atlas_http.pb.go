@@ -112,7 +112,7 @@ func _Atlas_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 
 // RegisterAtlasHttpHandlers adds handlers for for AtlasServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterAtlasHttpHandlers(router *mux.Router, prefix string, srv AtlasClient) {
+func RegisterAtlasHttpHandlers(router *mux.Router, prefix string, srv AtlasServer) {
 	router.Handle(prefix+"/problems", _Atlas_CreateProblem_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.atlas.Atlas.CreateProblem")
@@ -304,7 +304,7 @@ func RegisterAtlasHttpHandlers(router *mux.Router, prefix string, srv AtlasClien
 		Name("eolymp.atlas.Atlas.DescribeScore")
 }
 
-func _Atlas_CreateProblem_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_CreateProblem_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateProblemInput{}
 
@@ -324,7 +324,7 @@ func _Atlas_CreateProblem_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_DeleteProblem_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_DeleteProblem_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteProblemInput{}
 
@@ -347,7 +347,7 @@ func _Atlas_DeleteProblem_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_ListProblems_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_ListProblems_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListProblemsInput{}
 
@@ -367,7 +367,7 @@ func _Atlas_ListProblems_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_DescribeProblem_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_DescribeProblem_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeProblemInput{}
 
@@ -390,7 +390,7 @@ func _Atlas_DescribeProblem_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_UpdateVisibility_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_UpdateVisibility_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateVisibilityInput{}
 
@@ -413,7 +413,7 @@ func _Atlas_UpdateVisibility_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_UpdatePrivacy_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_UpdatePrivacy_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdatePrivacyInput{}
 
@@ -436,7 +436,7 @@ func _Atlas_UpdatePrivacy_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_ListExamples_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_ListExamples_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListExamplesInput{}
 
@@ -459,7 +459,7 @@ func _Atlas_ListExamples_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_UpdateVerifier_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_UpdateVerifier_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateVerifierInput{}
 
@@ -482,7 +482,7 @@ func _Atlas_UpdateVerifier_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_DescribeVerifier_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_DescribeVerifier_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeVerifierInput{}
 
@@ -505,7 +505,7 @@ func _Atlas_DescribeVerifier_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_UpdateInteractor_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_UpdateInteractor_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateInteractorInput{}
 
@@ -528,7 +528,7 @@ func _Atlas_UpdateInteractor_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_DescribeInteractor_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_DescribeInteractor_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeInteractorInput{}
 
@@ -551,7 +551,7 @@ func _Atlas_DescribeInteractor_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_CreateStatement_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_CreateStatement_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateStatementInput{}
 
@@ -574,7 +574,7 @@ func _Atlas_CreateStatement_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_UpdateStatement_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_UpdateStatement_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateStatementInput{}
 
@@ -598,7 +598,7 @@ func _Atlas_UpdateStatement_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_DeleteStatement_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_DeleteStatement_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteStatementInput{}
 
@@ -622,7 +622,7 @@ func _Atlas_DeleteStatement_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_ListStatements_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_ListStatements_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListStatementsInput{}
 
@@ -645,7 +645,7 @@ func _Atlas_ListStatements_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_DescribeStatement_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_DescribeStatement_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeStatementInput{}
 
@@ -669,7 +669,7 @@ func _Atlas_DescribeStatement_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_CreateTestset_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_CreateTestset_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateTestsetInput{}
 
@@ -692,7 +692,7 @@ func _Atlas_CreateTestset_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_UpdateTestset_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_UpdateTestset_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateTestsetInput{}
 
@@ -716,7 +716,7 @@ func _Atlas_UpdateTestset_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_DeleteTestset_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_DeleteTestset_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteTestsetInput{}
 
@@ -740,7 +740,7 @@ func _Atlas_DeleteTestset_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_ListTestsets_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_ListTestsets_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListTestsetsInput{}
 
@@ -763,7 +763,7 @@ func _Atlas_ListTestsets_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_DescribeTestset_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_DescribeTestset_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeTestsetInput{}
 
@@ -787,7 +787,7 @@ func _Atlas_DescribeTestset_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_CreateTest_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_CreateTest_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateTestInput{}
 
@@ -811,7 +811,7 @@ func _Atlas_CreateTest_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_UpdateTest_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_UpdateTest_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateTestInput{}
 
@@ -836,7 +836,7 @@ func _Atlas_UpdateTest_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_DeleteTest_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_DeleteTest_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteTestInput{}
 
@@ -861,7 +861,7 @@ func _Atlas_DeleteTest_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_ListTests_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_ListTests_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListTestsInput{}
 
@@ -885,7 +885,7 @@ func _Atlas_ListTests_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_DescribeTest_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_DescribeTest_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeTestInput{}
 
@@ -910,7 +910,7 @@ func _Atlas_DescribeTest_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_GrantPermission_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_GrantPermission_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &GrantPermissionInput{}
 
@@ -933,7 +933,7 @@ func _Atlas_GrantPermission_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_RevokePermission_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_RevokePermission_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &RevokePermissionInput{}
 
@@ -957,7 +957,7 @@ func _Atlas_RevokePermission_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_ListPermissions_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_ListPermissions_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListPermissionsInput{}
 
@@ -980,7 +980,7 @@ func _Atlas_ListPermissions_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_CreateCodeTemplate_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_CreateCodeTemplate_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateCodeTemplateInput{}
 
@@ -1003,7 +1003,7 @@ func _Atlas_CreateCodeTemplate_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_UpdateCodeTemplate_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_UpdateCodeTemplate_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateCodeTemplateInput{}
 
@@ -1027,7 +1027,7 @@ func _Atlas_UpdateCodeTemplate_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_DeleteCodeTemplate_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_DeleteCodeTemplate_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteCodeTemplateInput{}
 
@@ -1051,7 +1051,7 @@ func _Atlas_DeleteCodeTemplate_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_ListCodeTemplates_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_ListCodeTemplates_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListCodeTemplatesInput{}
 
@@ -1074,7 +1074,7 @@ func _Atlas_ListCodeTemplates_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_DescribeCodeTemplate_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_DescribeCodeTemplate_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeCodeTemplateInput{}
 
@@ -1098,7 +1098,7 @@ func _Atlas_DescribeCodeTemplate_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_CreateAttachment_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_CreateAttachment_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateAttachmentInput{}
 
@@ -1121,7 +1121,7 @@ func _Atlas_CreateAttachment_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_UpdateAttachment_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_UpdateAttachment_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateAttachmentInput{}
 
@@ -1145,7 +1145,7 @@ func _Atlas_UpdateAttachment_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_DeleteAttachment_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_DeleteAttachment_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteAttachmentInput{}
 
@@ -1169,7 +1169,7 @@ func _Atlas_DeleteAttachment_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_ListAttachments_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_ListAttachments_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListAttachmentsInput{}
 
@@ -1192,7 +1192,7 @@ func _Atlas_ListAttachments_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_DescribeAttachment_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_DescribeAttachment_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeAttachmentInput{}
 
@@ -1216,7 +1216,7 @@ func _Atlas_DescribeAttachment_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_DescribeChange_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_DescribeChange_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeChangeInput{}
 
@@ -1240,7 +1240,7 @@ func _Atlas_DescribeChange_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_ListChanges_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_ListChanges_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListChangesInput{}
 
@@ -1263,7 +1263,7 @@ func _Atlas_ListChanges_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_ListProblemTop_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_ListProblemTop_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListProblemTopInput{}
 
@@ -1286,7 +1286,7 @@ func _Atlas_ListProblemTop_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_DescribeProblemGrading_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_DescribeProblemGrading_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeProblemGradingInput{}
 
@@ -1309,7 +1309,7 @@ func _Atlas_DescribeProblemGrading_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_CreateSolution_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_CreateSolution_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateSolutionInput{}
 
@@ -1332,7 +1332,7 @@ func _Atlas_CreateSolution_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_UpdateSolution_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_UpdateSolution_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateSolutionInput{}
 
@@ -1356,7 +1356,7 @@ func _Atlas_UpdateSolution_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_DeleteSolution_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_DeleteSolution_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteSolutionInput{}
 
@@ -1380,7 +1380,7 @@ func _Atlas_DeleteSolution_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_ListSolutions_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_ListSolutions_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListSolutionsInput{}
 
@@ -1403,7 +1403,7 @@ func _Atlas_ListSolutions_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_DescribeSolution_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_DescribeSolution_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeSolutionInput{}
 
@@ -1427,7 +1427,7 @@ func _Atlas_DescribeSolution_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_PublishSolution_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_PublishSolution_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &PublishSolutionInput{}
 
@@ -1451,7 +1451,7 @@ func _Atlas_PublishSolution_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_UnpublishSolution_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_UnpublishSolution_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UnpublishSolutionInput{}
 
@@ -1475,7 +1475,7 @@ func _Atlas_UnpublishSolution_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_ApproveSolution_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_ApproveSolution_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ApproveSolutionInput{}
 
@@ -1499,7 +1499,7 @@ func _Atlas_ApproveSolution_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_RefuseSolution_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_RefuseSolution_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &RefuseSolutionInput{}
 
@@ -1523,7 +1523,7 @@ func _Atlas_RefuseSolution_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_CreateCategory_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_CreateCategory_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateCategoryInput{}
 
@@ -1543,7 +1543,7 @@ func _Atlas_CreateCategory_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_UpdateCategory_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_UpdateCategory_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateCategoryInput{}
 
@@ -1566,7 +1566,7 @@ func _Atlas_UpdateCategory_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_DeleteCategory_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_DeleteCategory_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteCategoryInput{}
 
@@ -1589,7 +1589,7 @@ func _Atlas_DeleteCategory_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_ListCategories_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_ListCategories_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListCategoriesInput{}
 
@@ -1609,7 +1609,7 @@ func _Atlas_ListCategories_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_DescribeCategory_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_DescribeCategory_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeCategoryInput{}
 
@@ -1632,7 +1632,7 @@ func _Atlas_DescribeCategory_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_AssignCategory_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_AssignCategory_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &AssignCategoryInput{}
 
@@ -1656,7 +1656,7 @@ func _Atlas_AssignCategory_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_UnassignCategory_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_UnassignCategory_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UnassignCategoryInput{}
 
@@ -1680,7 +1680,7 @@ func _Atlas_UnassignCategory_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_CreateSubmission_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_CreateSubmission_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateSubmissionInput{}
 
@@ -1703,7 +1703,7 @@ func _Atlas_CreateSubmission_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_DescribeSubmission_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_DescribeSubmission_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeSubmissionInput{}
 
@@ -1727,7 +1727,7 @@ func _Atlas_DescribeSubmission_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_RetestSubmission_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_RetestSubmission_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &RetestSubmissionInput{}
 
@@ -1751,7 +1751,7 @@ func _Atlas_RetestSubmission_Rule0(srv AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_DescribeScore_Rule0(srv AtlasClient) http.Handler {
+func _Atlas_DescribeScore_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeScoreInput{}
 
