@@ -122,6 +122,15 @@ func RegisterKeeperHttpHandlers(router *mux.Router, prefix string, srv KeeperSer
 	router.Handle(prefix+"/objects/{key}/data", _Keeper_DownloadObject_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.keeper.Keeper.DownloadObject")
+	router.Handle(prefix+"/uploads", _Keeper_StartMultipartUpload_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.keeper.Keeper.StartMultipartUpload")
+	router.Handle(prefix+"/objects/{object_id}/parts", _Keeper_UploadPart_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.keeper.Keeper.UploadPart")
+	router.Handle(prefix+"/objects/{object_id}/complete", _Keeper_CompleteMultipartUpload_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.keeper.Keeper.CompleteMultipartUpload")
 }
 
 func _Keeper_CreateObject_Rule0(srv KeeperServer) http.Handler {
@@ -181,6 +190,72 @@ func _Keeper_DownloadObject_Rule0(srv KeeperServer) http.Handler {
 		in.Key = vars["key"]
 
 		out, err := srv.DownloadObject(r.Context(), in)
+		if err != nil {
+			_Keeper_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Keeper_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Keeper_StartMultipartUpload_Rule0(srv KeeperServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &StartMultipartUploadInput{}
+
+		if err := _Keeper_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Keeper_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.StartMultipartUpload(r.Context(), in)
+		if err != nil {
+			_Keeper_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Keeper_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Keeper_UploadPart_Rule0(srv KeeperServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UploadPartInput{}
+
+		if err := _Keeper_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Keeper_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ObjectId = vars["object_id"]
+
+		out, err := srv.UploadPart(r.Context(), in)
+		if err != nil {
+			_Keeper_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Keeper_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Keeper_CompleteMultipartUpload_Rule0(srv KeeperServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &CompleteMultipartUploadInput{}
+
+		if err := _Keeper_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Keeper_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ObjectId = vars["object_id"]
+
+		out, err := srv.CompleteMultipartUpload(r.Context(), in)
 		if err != nil {
 			_Keeper_HTTPWriteErrorResponse(w, err)
 			return
@@ -293,6 +368,102 @@ func (i *KeeperInterceptor) DownloadObject(ctx context.Context, in *DownloadObje
 	message, ok := out.(*DownloadObjectOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *DownloadObjectOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *KeeperInterceptor) StartMultipartUpload(ctx context.Context, in *StartMultipartUploadInput) (*StartMultipartUploadOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*StartMultipartUploadInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *StartMultipartUploadInput, got %T", in))
+		}
+
+		return i.server.StartMultipartUpload(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.keeper.Keeper.StartMultipartUpload", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*StartMultipartUploadOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *StartMultipartUploadOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *KeeperInterceptor) UploadPart(ctx context.Context, in *UploadPartInput) (*UploadPartOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*UploadPartInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *UploadPartInput, got %T", in))
+		}
+
+		return i.server.UploadPart(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.keeper.Keeper.UploadPart", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*UploadPartOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *UploadPartOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *KeeperInterceptor) CompleteMultipartUpload(ctx context.Context, in *CompleteMultipartUploadInput) (*CompleteMultipartUploadOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*CompleteMultipartUploadInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *CompleteMultipartUploadInput, got %T", in))
+		}
+
+		return i.server.CompleteMultipartUpload(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.keeper.Keeper.CompleteMultipartUpload", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*CompleteMultipartUploadOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *CompleteMultipartUploadOutput, got %T", out))
 	}
 
 	return message, err

@@ -142,3 +142,46 @@ func (s *KeeperService) DownloadObject(ctx context.Context, in *DownloadObjectIn
 
 	return out, nil
 }
+
+func (s *KeeperService) StartMultipartUpload(ctx context.Context, in *StartMultipartUploadInput) (*StartMultipartUploadOutput, error) {
+	out := &StartMultipartUploadOutput{}
+	path := "/uploads"
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *KeeperService) UploadPart(ctx context.Context, in *UploadPartInput) (*UploadPartOutput, error) {
+	out := &UploadPartOutput{}
+	path := "/objects/" + url.PathEscape(in.GetObjectId()) + "/parts"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ObjectId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *KeeperService) CompleteMultipartUpload(ctx context.Context, in *CompleteMultipartUploadInput) (*CompleteMultipartUploadOutput, error) {
+	out := &CompleteMultipartUploadOutput{}
+	path := "/objects/" + url.PathEscape(in.GetObjectId()) + "/complete"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ObjectId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

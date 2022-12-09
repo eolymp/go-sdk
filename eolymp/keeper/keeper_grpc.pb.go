@@ -25,6 +25,9 @@ type KeeperClient interface {
 	CreateObject(ctx context.Context, in *CreateObjectInput, opts ...grpc.CallOption) (*CreateObjectOutput, error)
 	DescribeObject(ctx context.Context, in *DescribeObjectInput, opts ...grpc.CallOption) (*DescribeObjectOutput, error)
 	DownloadObject(ctx context.Context, in *DownloadObjectInput, opts ...grpc.CallOption) (*DownloadObjectOutput, error)
+	StartMultipartUpload(ctx context.Context, in *StartMultipartUploadInput, opts ...grpc.CallOption) (*StartMultipartUploadOutput, error)
+	UploadPart(ctx context.Context, in *UploadPartInput, opts ...grpc.CallOption) (*UploadPartOutput, error)
+	CompleteMultipartUpload(ctx context.Context, in *CompleteMultipartUploadInput, opts ...grpc.CallOption) (*CompleteMultipartUploadOutput, error)
 }
 
 type keeperClient struct {
@@ -62,6 +65,33 @@ func (c *keeperClient) DownloadObject(ctx context.Context, in *DownloadObjectInp
 	return out, nil
 }
 
+func (c *keeperClient) StartMultipartUpload(ctx context.Context, in *StartMultipartUploadInput, opts ...grpc.CallOption) (*StartMultipartUploadOutput, error) {
+	out := new(StartMultipartUploadOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.keeper.Keeper/StartMultipartUpload", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *keeperClient) UploadPart(ctx context.Context, in *UploadPartInput, opts ...grpc.CallOption) (*UploadPartOutput, error) {
+	out := new(UploadPartOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.keeper.Keeper/UploadPart", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *keeperClient) CompleteMultipartUpload(ctx context.Context, in *CompleteMultipartUploadInput, opts ...grpc.CallOption) (*CompleteMultipartUploadOutput, error) {
+	out := new(CompleteMultipartUploadOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.keeper.Keeper/CompleteMultipartUpload", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // KeeperServer is the server API for Keeper service.
 // All implementations should embed UnimplementedKeeperServer
 // for forward compatibility
@@ -69,6 +99,9 @@ type KeeperServer interface {
 	CreateObject(context.Context, *CreateObjectInput) (*CreateObjectOutput, error)
 	DescribeObject(context.Context, *DescribeObjectInput) (*DescribeObjectOutput, error)
 	DownloadObject(context.Context, *DownloadObjectInput) (*DownloadObjectOutput, error)
+	StartMultipartUpload(context.Context, *StartMultipartUploadInput) (*StartMultipartUploadOutput, error)
+	UploadPart(context.Context, *UploadPartInput) (*UploadPartOutput, error)
+	CompleteMultipartUpload(context.Context, *CompleteMultipartUploadInput) (*CompleteMultipartUploadOutput, error)
 }
 
 // UnimplementedKeeperServer should be embedded to have forward compatible implementations.
@@ -83,6 +116,15 @@ func (UnimplementedKeeperServer) DescribeObject(context.Context, *DescribeObject
 }
 func (UnimplementedKeeperServer) DownloadObject(context.Context, *DownloadObjectInput) (*DownloadObjectOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DownloadObject not implemented")
+}
+func (UnimplementedKeeperServer) StartMultipartUpload(context.Context, *StartMultipartUploadInput) (*StartMultipartUploadOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method StartMultipartUpload not implemented")
+}
+func (UnimplementedKeeperServer) UploadPart(context.Context, *UploadPartInput) (*UploadPartOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UploadPart not implemented")
+}
+func (UnimplementedKeeperServer) CompleteMultipartUpload(context.Context, *CompleteMultipartUploadInput) (*CompleteMultipartUploadOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CompleteMultipartUpload not implemented")
 }
 
 // UnsafeKeeperServer may be embedded to opt out of forward compatibility for this service.
@@ -150,6 +192,60 @@ func _Keeper_DownloadObject_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Keeper_StartMultipartUpload_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(StartMultipartUploadInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(KeeperServer).StartMultipartUpload(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.keeper.Keeper/StartMultipartUpload",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(KeeperServer).StartMultipartUpload(ctx, req.(*StartMultipartUploadInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Keeper_UploadPart_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UploadPartInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(KeeperServer).UploadPart(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.keeper.Keeper/UploadPart",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(KeeperServer).UploadPart(ctx, req.(*UploadPartInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Keeper_CompleteMultipartUpload_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CompleteMultipartUploadInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(KeeperServer).CompleteMultipartUpload(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.keeper.Keeper/CompleteMultipartUpload",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(KeeperServer).CompleteMultipartUpload(ctx, req.(*CompleteMultipartUploadInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Keeper_ServiceDesc is the grpc.ServiceDesc for Keeper service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -168,6 +264,18 @@ var Keeper_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DownloadObject",
 			Handler:    _Keeper_DownloadObject_Handler,
+		},
+		{
+			MethodName: "StartMultipartUpload",
+			Handler:    _Keeper_StartMultipartUpload_Handler,
+		},
+		{
+			MethodName: "UploadPart",
+			Handler:    _Keeper_UploadPart_Handler,
+		},
+		{
+			MethodName: "CompleteMultipartUpload",
+			Handler:    _Keeper_CompleteMultipartUpload_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
