@@ -128,13 +128,13 @@ func RegisterHelpdeskHttpHandlers(router *mux.Router, prefix string, srv Helpdes
 	router.Handle(prefix+"/helpdesk/documents/{document_id}", _Helpdesk_DeleteDocument_Rule0(srv)).
 		Methods("DELETE").
 		Name("eolymp.helpdesk.Helpdesk.DeleteDocument")
-	router.Handle(prefix+"/helpdesk/paths/{path}", _Helpdesk_DescribePath_Rule0(srv)).
+	router.Handle(prefix+"/helpdesk/lookup/path", _Helpdesk_DescribePath_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.helpdesk.Helpdesk.DescribePath")
-	router.Handle(prefix+"/helpdesk/paths", _Helpdesk_ListPaths_Rule0(srv)).
+	router.Handle(prefix+"/helpdesk/lookup/paths", _Helpdesk_ListPaths_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.helpdesk.Helpdesk.ListPaths")
-	router.Handle(prefix+"/helpdesk/paths/{path}/parents", _Helpdesk_ListParents_Rule0(srv)).
+	router.Handle(prefix+"/helpdesk/lookup/parents", _Helpdesk_ListParents_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.helpdesk.Helpdesk.ListParents")
 }
@@ -258,9 +258,6 @@ func _Helpdesk_DescribePath_Rule0(srv HelpdeskServer) http.Handler {
 			return
 		}
 
-		vars := mux.Vars(r)
-		in.Path = vars["path"]
-
 		out, err := srv.DescribePath(r.Context(), in)
 		if err != nil {
 			_Helpdesk_HTTPWriteErrorResponse(w, err)
@@ -300,9 +297,6 @@ func _Helpdesk_ListParents_Rule0(srv HelpdeskServer) http.Handler {
 			_Helpdesk_HTTPWriteErrorResponse(w, err)
 			return
 		}
-
-		vars := mux.Vars(r)
-		in.Path = vars["path"]
 
 		out, err := srv.ListParents(r.Context(), in)
 		if err != nil {

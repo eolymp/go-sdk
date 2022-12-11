@@ -172,12 +172,7 @@ func (s *HelpdeskService) DeleteDocument(ctx context.Context, in *DeleteDocument
 
 func (s *HelpdeskService) DescribePath(ctx context.Context, in *DescribePathInput) (*DescribePathOutput, error) {
 	out := &DescribePathOutput{}
-	path := "/helpdesk/paths/" + url.PathEscape(in.GetPath())
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.Path = ""
-	}
+	path := "/helpdesk/lookup/path"
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
@@ -188,7 +183,7 @@ func (s *HelpdeskService) DescribePath(ctx context.Context, in *DescribePathInpu
 
 func (s *HelpdeskService) ListPaths(ctx context.Context, in *ListPathsInput) (*ListPathsOutput, error) {
 	out := &ListPathsOutput{}
-	path := "/helpdesk/paths"
+	path := "/helpdesk/lookup/paths"
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
@@ -199,12 +194,7 @@ func (s *HelpdeskService) ListPaths(ctx context.Context, in *ListPathsInput) (*L
 
 func (s *HelpdeskService) ListParents(ctx context.Context, in *ListParentsInput) (*ListParentsOutput, error) {
 	out := &ListParentsOutput{}
-	path := "/helpdesk/paths/" + url.PathEscape(in.GetPath()) + "/parents"
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.Path = ""
-	}
+	path := "/helpdesk/lookup/parents"
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
