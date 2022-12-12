@@ -131,6 +131,9 @@ func RegisterUniverseHttpHandlers(router *mux.Router, prefix string, srv Univers
 	router.Handle(prefix+"/spaces/{space_id}/quota", _Universe_DescribeQuota_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.universe.Universe.DescribeQuota")
+	router.Handle(prefix+"/spaces/{space_id}/quota", _Universe_UpdateQuota_Rule0(srv)).
+		Methods("PUT").
+		Name("eolymp.universe.Universe.UpdateQuota")
 	router.Handle(prefix+"/spaces", _Universe_ListSpaces_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.universe.Universe.ListSpaces")
@@ -277,6 +280,29 @@ func _Universe_DescribeQuota_Rule0(srv UniverseServer) http.Handler {
 		in.SpaceId = vars["space_id"]
 
 		out, err := srv.DescribeQuota(r.Context(), in)
+		if err != nil {
+			_Universe_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Universe_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Universe_UpdateQuota_Rule0(srv UniverseServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UpdateQuotaInput{}
+
+		if err := _Universe_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Universe_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.SpaceId = vars["space_id"]
+
+		out, err := srv.UpdateQuota(r.Context(), in)
 		if err != nil {
 			_Universe_HTTPWriteErrorResponse(w, err)
 			return
@@ -623,6 +649,38 @@ func (i *UniverseInterceptor) DescribeQuota(ctx context.Context, in *DescribeQuo
 	message, ok := out.(*DescribeQuotaOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *DescribeQuotaOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *UniverseInterceptor) UpdateQuota(ctx context.Context, in *UpdateQuotaInput) (*UpdateQuotaOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*UpdateQuotaInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *UpdateQuotaInput, got %T", in))
+		}
+
+		return i.server.UpdateQuota(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.universe.Universe.UpdateQuota", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*UpdateQuotaOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *UpdateQuotaOutput, got %T", out))
 	}
 
 	return message, err

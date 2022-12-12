@@ -191,6 +191,22 @@ func (s *UniverseService) DescribeQuota(ctx context.Context, in *DescribeQuotaIn
 	return out, nil
 }
 
+func (s *UniverseService) UpdateQuota(ctx context.Context, in *UpdateQuotaInput) (*UpdateQuotaOutput, error) {
+	out := &UpdateQuotaOutput{}
+	path := "/spaces/" + url.PathEscape(in.GetSpaceId()) + "/quota"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.SpaceId = ""
+	}
+
+	if err := s.do(ctx, "PUT", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *UniverseService) ListSpaces(ctx context.Context, in *ListSpacesInput) (*ListSpacesOutput, error) {
 	out := &ListSpacesOutput{}
 	path := "/spaces"

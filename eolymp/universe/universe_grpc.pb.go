@@ -34,6 +34,7 @@ type UniverseClient interface {
 	DescribeSpace(ctx context.Context, in *DescribeSpaceInput, opts ...grpc.CallOption) (*DescribeSpaceOutput, error)
 	// Describe quota
 	DescribeQuota(ctx context.Context, in *DescribeQuotaInput, opts ...grpc.CallOption) (*DescribeQuotaOutput, error)
+	UpdateQuota(ctx context.Context, in *UpdateQuotaInput, opts ...grpc.CallOption) (*UpdateQuotaOutput, error)
 	// List spaces of a contest
 	ListSpaces(ctx context.Context, in *ListSpacesInput, opts ...grpc.CallOption) (*ListSpacesOutput, error)
 	// Add space permission
@@ -110,6 +111,15 @@ func (c *universeClient) DescribeQuota(ctx context.Context, in *DescribeQuotaInp
 	return out, nil
 }
 
+func (c *universeClient) UpdateQuota(ctx context.Context, in *UpdateQuotaInput, opts ...grpc.CallOption) (*UpdateQuotaOutput, error) {
+	out := new(UpdateQuotaOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.universe.Universe/UpdateQuota", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *universeClient) ListSpaces(ctx context.Context, in *ListSpacesInput, opts ...grpc.CallOption) (*ListSpacesOutput, error) {
 	out := new(ListSpacesOutput)
 	err := c.cc.Invoke(ctx, "/eolymp.universe.Universe/ListSpaces", in, out, opts...)
@@ -180,6 +190,7 @@ type UniverseServer interface {
 	DescribeSpace(context.Context, *DescribeSpaceInput) (*DescribeSpaceOutput, error)
 	// Describe quota
 	DescribeQuota(context.Context, *DescribeQuotaInput) (*DescribeQuotaOutput, error)
+	UpdateQuota(context.Context, *UpdateQuotaInput) (*UpdateQuotaOutput, error)
 	// List spaces of a contest
 	ListSpaces(context.Context, *ListSpacesInput) (*ListSpacesOutput, error)
 	// Add space permission
@@ -215,6 +226,9 @@ func (UnimplementedUniverseServer) DescribeSpace(context.Context, *DescribeSpace
 }
 func (UnimplementedUniverseServer) DescribeQuota(context.Context, *DescribeQuotaInput) (*DescribeQuotaOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeQuota not implemented")
+}
+func (UnimplementedUniverseServer) UpdateQuota(context.Context, *UpdateQuotaInput) (*UpdateQuotaOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateQuota not implemented")
 }
 func (UnimplementedUniverseServer) ListSpaces(context.Context, *ListSpacesInput) (*ListSpacesOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListSpaces not implemented")
@@ -350,6 +364,24 @@ func _Universe_DescribeQuota_Handler(srv interface{}, ctx context.Context, dec f
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UniverseServer).DescribeQuota(ctx, req.(*DescribeQuotaInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Universe_UpdateQuota_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateQuotaInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UniverseServer).UpdateQuota(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.universe.Universe/UpdateQuota",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UniverseServer).UpdateQuota(ctx, req.(*UpdateQuotaInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -492,6 +524,10 @@ var Universe_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DescribeQuota",
 			Handler:    _Universe_DescribeQuota_Handler,
+		},
+		{
+			MethodName: "UpdateQuota",
+			Handler:    _Universe_UpdateQuota_Handler,
 		},
 		{
 			MethodName: "ListSpaces",
