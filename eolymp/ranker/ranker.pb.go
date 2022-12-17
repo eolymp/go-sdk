@@ -795,7 +795,7 @@ func (x *DescribeScoreboardRowInput) GetMode() Scoreboard_FetchingMode {
 	if x != nil {
 		return x.Mode
 	}
-	return Scoreboard_ACTUAL
+	return Scoreboard_LATEST
 }
 
 func (x *DescribeScoreboardRowInput) GetPunctualTime() uint32 {
@@ -934,7 +934,7 @@ func (x *ListScoreboardRowsInput) GetMode() Scoreboard_FetchingMode {
 	if x != nil {
 		return x.Mode
 	}
-	return Scoreboard_ACTUAL
+	return Scoreboard_LATEST
 }
 
 func (x *ListScoreboardRowsInput) GetPunctualTime() uint32 {
