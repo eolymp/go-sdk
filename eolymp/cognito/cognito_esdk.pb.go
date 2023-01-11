@@ -231,6 +231,17 @@ func (s *CognitoService) UpdatePassword(ctx context.Context, in *UpdatePasswordI
 	return out, nil
 }
 
+func (s *CognitoService) ResendEmailVerification(ctx context.Context, in *ResendEmailVerificationInput) (*ResendEmailVerificationOutput, error) {
+	out := &ResendEmailVerificationOutput{}
+	path := "/self/password"
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *CognitoService) StartRecovery(ctx context.Context, in *StartRecoveryInput) (*StartRecoveryOutput, error) {
 	out := &StartRecoveryOutput{}
 	path := "/self/recovery"

@@ -42,10 +42,12 @@ type CognitoClient interface {
 	// Verify user email, takes email verification token and if it's correct - changes email status to CONFIRMED.
 	VerifyEmail(ctx context.Context, in *VerifyEmailInput, opts ...grpc.CallOption) (*VerifyEmailOutput, error)
 	// Update user email, changes user's current email and starts email verification process.
+	// DEPRECATED: use UpdateProfile instead
 	UpdateEmail(ctx context.Context, in *UpdateEmailInput, opts ...grpc.CallOption) (*UpdateEmailOutput, error)
 	UpdateProfile(ctx context.Context, in *UpdateProfileInput, opts ...grpc.CallOption) (*UpdateProfileOutput, error)
 	UpdatePicture(ctx context.Context, in *UpdatePictureInput, opts ...grpc.CallOption) (*UpdatePictureOutput, error)
 	UpdatePassword(ctx context.Context, in *UpdatePasswordInput, opts ...grpc.CallOption) (*UpdatePasswordOutput, error)
+	ResendEmailVerification(ctx context.Context, in *ResendEmailVerificationInput, opts ...grpc.CallOption) (*ResendEmailVerificationOutput, error)
 	// Start access recovery procedure, this method will send recovery token to the user's email.
 	// This method will return OK even if email does not exist.
 	StartRecovery(ctx context.Context, in *StartRecoveryInput, opts ...grpc.CallOption) (*StartRecoveryOutput, error)
@@ -206,6 +208,15 @@ func (c *cognitoClient) UpdatePassword(ctx context.Context, in *UpdatePasswordIn
 	return out, nil
 }
 
+func (c *cognitoClient) ResendEmailVerification(ctx context.Context, in *ResendEmailVerificationInput, opts ...grpc.CallOption) (*ResendEmailVerificationOutput, error) {
+	out := new(ResendEmailVerificationOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.cognito.Cognito/ResendEmailVerification", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *cognitoClient) StartRecovery(ctx context.Context, in *StartRecoveryInput, opts ...grpc.CallOption) (*StartRecoveryOutput, error) {
 	out := new(StartRecoveryOutput)
 	err := c.cc.Invoke(ctx, "/eolymp.cognito.Cognito/StartRecovery", in, out, opts...)
@@ -329,10 +340,12 @@ type CognitoServer interface {
 	// Verify user email, takes email verification token and if it's correct - changes email status to CONFIRMED.
 	VerifyEmail(context.Context, *VerifyEmailInput) (*VerifyEmailOutput, error)
 	// Update user email, changes user's current email and starts email verification process.
+	// DEPRECATED: use UpdateProfile instead
 	UpdateEmail(context.Context, *UpdateEmailInput) (*UpdateEmailOutput, error)
 	UpdateProfile(context.Context, *UpdateProfileInput) (*UpdateProfileOutput, error)
 	UpdatePicture(context.Context, *UpdatePictureInput) (*UpdatePictureOutput, error)
 	UpdatePassword(context.Context, *UpdatePasswordInput) (*UpdatePasswordOutput, error)
+	ResendEmailVerification(context.Context, *ResendEmailVerificationInput) (*ResendEmailVerificationOutput, error)
 	// Start access recovery procedure, this method will send recovery token to the user's email.
 	// This method will return OK even if email does not exist.
 	StartRecovery(context.Context, *StartRecoveryInput) (*StartRecoveryOutput, error)
@@ -404,6 +417,9 @@ func (UnimplementedCognitoServer) UpdatePicture(context.Context, *UpdatePictureI
 }
 func (UnimplementedCognitoServer) UpdatePassword(context.Context, *UpdatePasswordInput) (*UpdatePasswordOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdatePassword not implemented")
+}
+func (UnimplementedCognitoServer) ResendEmailVerification(context.Context, *ResendEmailVerificationInput) (*ResendEmailVerificationOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ResendEmailVerification not implemented")
 }
 func (UnimplementedCognitoServer) StartRecovery(context.Context, *StartRecoveryInput) (*StartRecoveryOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method StartRecovery not implemented")
@@ -702,6 +718,24 @@ func _Cognito_UpdatePassword_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Cognito_ResendEmailVerification_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ResendEmailVerificationInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CognitoServer).ResendEmailVerification(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.cognito.Cognito/ResendEmailVerification",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CognitoServer).ResendEmailVerification(ctx, req.(*ResendEmailVerificationInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Cognito_StartRecovery_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(StartRecoveryInput)
 	if err := dec(in); err != nil {
@@ -962,6 +996,10 @@ var Cognito_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdatePassword",
 			Handler:    _Cognito_UpdatePassword_Handler,
+		},
+		{
+			MethodName: "ResendEmailVerification",
+			Handler:    _Cognito_ResendEmailVerification_Handler,
 		},
 		{
 			MethodName: "StartRecovery",

@@ -146,6 +146,9 @@ func RegisterCognitoHttpHandlers(router *mux.Router, prefix string, srv CognitoS
 	router.Handle(prefix+"/self/password", _Cognito_UpdatePassword_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.cognito.Cognito.UpdatePassword")
+	router.Handle(prefix+"/self/password", _Cognito_ResendEmailVerification_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.cognito.Cognito.ResendEmailVerification")
 	router.Handle(prefix+"/self/recovery", _Cognito_StartRecovery_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.cognito.Cognito.StartRecovery")
@@ -398,6 +401,26 @@ func _Cognito_UpdatePassword_Rule0(srv CognitoServer) http.Handler {
 		}
 
 		out, err := srv.UpdatePassword(r.Context(), in)
+		if err != nil {
+			_Cognito_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Cognito_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Cognito_ResendEmailVerification_Rule0(srv CognitoServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ResendEmailVerificationInput{}
+
+		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Cognito_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.ResendEmailVerification(r.Context(), in)
 		if err != nil {
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
@@ -1094,6 +1117,38 @@ func (i *CognitoInterceptor) UpdatePassword(ctx context.Context, in *UpdatePassw
 	message, ok := out.(*UpdatePasswordOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *UpdatePasswordOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *CognitoInterceptor) ResendEmailVerification(ctx context.Context, in *ResendEmailVerificationInput) (*ResendEmailVerificationOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ResendEmailVerificationInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ResendEmailVerificationInput, got %T", in))
+		}
+
+		return i.server.ResendEmailVerification(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.cognito.Cognito.ResendEmailVerification", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ResendEmailVerificationOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ResendEmailVerificationOutput, got %T", out))
 	}
 
 	return message, err
