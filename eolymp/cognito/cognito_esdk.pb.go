@@ -233,7 +233,7 @@ func (s *CognitoService) UpdatePassword(ctx context.Context, in *UpdatePasswordI
 
 func (s *CognitoService) ResendEmailVerification(ctx context.Context, in *ResendEmailVerificationInput) (*ResendEmailVerificationOutput, error) {
 	out := &ResendEmailVerificationOutput{}
-	path := "/self/password"
+	path := "/self/email/resend-verification"
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err

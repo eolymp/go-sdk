@@ -146,7 +146,7 @@ func RegisterCognitoHttpHandlers(router *mux.Router, prefix string, srv CognitoS
 	router.Handle(prefix+"/self/password", _Cognito_UpdatePassword_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.cognito.Cognito.UpdatePassword")
-	router.Handle(prefix+"/self/password", _Cognito_ResendEmailVerification_Rule0(srv)).
+	router.Handle(prefix+"/self/email/resend-verification", _Cognito_ResendEmailVerification_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.cognito.Cognito.ResendEmailVerification")
 	router.Handle(prefix+"/self/recovery", _Cognito_StartRecovery_Rule0(srv)).
