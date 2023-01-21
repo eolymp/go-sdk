@@ -23,14 +23,18 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type CognitoClient interface {
 	// Create oauth access token.
+	// DEPRECATED: use oauth service directly
 	CreateToken(ctx context.Context, in *CreateTokenInput, opts ...grpc.CallOption) (*CreateTokenOutput, error)
 	// Introspect oauth token, returns access token details for a given token.
+	// DEPRECATED: use oauth service directly
 	IntrospectToken(ctx context.Context, in *IntrospectTokenInput, opts ...grpc.CallOption) (*IntrospectTokenOutput, error)
-	// Create authorization code.
-	CreateAuthorization(ctx context.Context, in *CreateAuthorizationInput, opts ...grpc.CallOption) (*CreateAuthorizationOutput, error)
 	// Revoke token disables given token and related tokens.
+	// DEPRECATED: use oauth service directly
 	RevokeToken(ctx context.Context, in *RevokeTokenInput, opts ...grpc.CallOption) (*RevokeTokenOutput, error)
+	// Signin verifies user credentials and returns user object.
+	Singin(ctx context.Context, in *SinginInput, opts ...grpc.CallOption) (*SinginOutput, error)
 	// Signout revokes all user's tokens or all tokens of current session.
+	// DEPRECATED: use oauth service directly
 	Signout(ctx context.Context, in *SignoutInput, opts ...grpc.CallOption) (*SignoutOutput, error)
 	// Create API key.
 	CreateAccessKey(ctx context.Context, in *CreateAccessKeyInput, opts ...grpc.CallOption) (*CreateAccessKeyOutput, error)
@@ -100,18 +104,18 @@ func (c *cognitoClient) IntrospectToken(ctx context.Context, in *IntrospectToken
 	return out, nil
 }
 
-func (c *cognitoClient) CreateAuthorization(ctx context.Context, in *CreateAuthorizationInput, opts ...grpc.CallOption) (*CreateAuthorizationOutput, error) {
-	out := new(CreateAuthorizationOutput)
-	err := c.cc.Invoke(ctx, "/eolymp.cognito.Cognito/CreateAuthorization", in, out, opts...)
+func (c *cognitoClient) RevokeToken(ctx context.Context, in *RevokeTokenInput, opts ...grpc.CallOption) (*RevokeTokenOutput, error) {
+	out := new(RevokeTokenOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.cognito.Cognito/RevokeToken", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *cognitoClient) RevokeToken(ctx context.Context, in *RevokeTokenInput, opts ...grpc.CallOption) (*RevokeTokenOutput, error) {
-	out := new(RevokeTokenOutput)
-	err := c.cc.Invoke(ctx, "/eolymp.cognito.Cognito/RevokeToken", in, out, opts...)
+func (c *cognitoClient) Singin(ctx context.Context, in *SinginInput, opts ...grpc.CallOption) (*SinginOutput, error) {
+	out := new(SinginOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.cognito.Cognito/Singin", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -321,14 +325,18 @@ func (c *cognitoClient) SelfDestruct(ctx context.Context, in *SelfDestructInput,
 // for forward compatibility
 type CognitoServer interface {
 	// Create oauth access token.
+	// DEPRECATED: use oauth service directly
 	CreateToken(context.Context, *CreateTokenInput) (*CreateTokenOutput, error)
 	// Introspect oauth token, returns access token details for a given token.
+	// DEPRECATED: use oauth service directly
 	IntrospectToken(context.Context, *IntrospectTokenInput) (*IntrospectTokenOutput, error)
-	// Create authorization code.
-	CreateAuthorization(context.Context, *CreateAuthorizationInput) (*CreateAuthorizationOutput, error)
 	// Revoke token disables given token and related tokens.
+	// DEPRECATED: use oauth service directly
 	RevokeToken(context.Context, *RevokeTokenInput) (*RevokeTokenOutput, error)
+	// Signin verifies user credentials and returns user object.
+	Singin(context.Context, *SinginInput) (*SinginOutput, error)
 	// Signout revokes all user's tokens or all tokens of current session.
+	// DEPRECATED: use oauth service directly
 	Signout(context.Context, *SignoutInput) (*SignoutOutput, error)
 	// Create API key.
 	CreateAccessKey(context.Context, *CreateAccessKeyInput) (*CreateAccessKeyOutput, error)
@@ -382,11 +390,11 @@ func (UnimplementedCognitoServer) CreateToken(context.Context, *CreateTokenInput
 func (UnimplementedCognitoServer) IntrospectToken(context.Context, *IntrospectTokenInput) (*IntrospectTokenOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method IntrospectToken not implemented")
 }
-func (UnimplementedCognitoServer) CreateAuthorization(context.Context, *CreateAuthorizationInput) (*CreateAuthorizationOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateAuthorization not implemented")
-}
 func (UnimplementedCognitoServer) RevokeToken(context.Context, *RevokeTokenInput) (*RevokeTokenOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RevokeToken not implemented")
+}
+func (UnimplementedCognitoServer) Singin(context.Context, *SinginInput) (*SinginOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Singin not implemented")
 }
 func (UnimplementedCognitoServer) Signout(context.Context, *SignoutInput) (*SignoutOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Signout not implemented")
@@ -502,24 +510,6 @@ func _Cognito_IntrospectToken_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Cognito_CreateAuthorization_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateAuthorizationInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(CognitoServer).CreateAuthorization(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/eolymp.cognito.Cognito/CreateAuthorization",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CognitoServer).CreateAuthorization(ctx, req.(*CreateAuthorizationInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _Cognito_RevokeToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(RevokeTokenInput)
 	if err := dec(in); err != nil {
@@ -534,6 +524,24 @@ func _Cognito_RevokeToken_Handler(srv interface{}, ctx context.Context, dec func
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(CognitoServer).RevokeToken(ctx, req.(*RevokeTokenInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Cognito_Singin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SinginInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CognitoServer).Singin(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.cognito.Cognito/Singin",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CognitoServer).Singin(ctx, req.(*SinginInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -950,12 +958,12 @@ var Cognito_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Cognito_IntrospectToken_Handler,
 		},
 		{
-			MethodName: "CreateAuthorization",
-			Handler:    _Cognito_CreateAuthorization_Handler,
-		},
-		{
 			MethodName: "RevokeToken",
 			Handler:    _Cognito_RevokeToken_Handler,
+		},
+		{
+			MethodName: "Singin",
+			Handler:    _Cognito_Singin_Handler,
 		},
 		{
 			MethodName: "Signout",

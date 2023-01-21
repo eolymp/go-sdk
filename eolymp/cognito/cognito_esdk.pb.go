@@ -100,17 +100,6 @@ func (s *CognitoService) do(ctx context.Context, verb, path string, in, out prot
 	return nil
 }
 
-func (s *CognitoService) CreateAuthorization(ctx context.Context, in *CreateAuthorizationInput) (*CreateAuthorizationOutput, error) {
-	out := &CreateAuthorizationOutput{}
-	path := "/self/authorize"
-
-	if err := s.do(ctx, "POST", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
 func (s *CognitoService) Signout(ctx context.Context, in *SignoutInput) (*SignoutOutput, error) {
 	out := &SignoutOutput{}
 	path := "/self/signout"

@@ -113,9 +113,6 @@ func _Cognito_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 // RegisterCognitoHttpHandlers adds handlers for for CognitoServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterCognitoHttpHandlers(router *mux.Router, prefix string, srv CognitoServer) {
-	router.Handle(prefix+"/self/authorize", _Cognito_CreateAuthorization_Rule0(srv)).
-		Methods("POST").
-		Name("eolymp.cognito.Cognito.CreateAuthorization")
 	router.Handle(prefix+"/self/signout", _Cognito_Signout_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.cognito.Cognito.Signout")
@@ -182,26 +179,6 @@ func RegisterCognitoHttpHandlers(router *mux.Router, prefix string, srv CognitoS
 	router.Handle(prefix+"/self", _Cognito_SelfDestruct_Rule0(srv)).
 		Methods("DELETE").
 		Name("eolymp.cognito.Cognito.SelfDestruct")
-}
-
-func _Cognito_CreateAuthorization_Rule0(srv CognitoServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &CreateAuthorizationInput{}
-
-		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.CreateAuthorization(r.Context(), in)
-		if err != nil {
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Cognito_HTTPWriteResponse(w, out)
-	})
 }
 
 func _Cognito_Signout_Rule0(srv CognitoServer) http.Handler {
@@ -738,38 +715,6 @@ func (i *CognitoInterceptor) IntrospectToken(ctx context.Context, in *Introspect
 	return message, err
 }
 
-func (i *CognitoInterceptor) CreateAuthorization(ctx context.Context, in *CreateAuthorizationInput) (*CreateAuthorizationOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*CreateAuthorizationInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *CreateAuthorizationInput, got %T", in))
-		}
-
-		return i.server.CreateAuthorization(ctx, message)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito.CreateAuthorization", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*CreateAuthorizationOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *CreateAuthorizationOutput, got %T", out))
-	}
-
-	return message, err
-}
-
 func (i *CognitoInterceptor) RevokeToken(ctx context.Context, in *RevokeTokenInput) (*RevokeTokenOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*RevokeTokenInput)
@@ -797,6 +742,38 @@ func (i *CognitoInterceptor) RevokeToken(ctx context.Context, in *RevokeTokenInp
 	message, ok := out.(*RevokeTokenOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *RevokeTokenOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *CognitoInterceptor) Singin(ctx context.Context, in *SinginInput) (*SinginOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*SinginInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *SinginInput, got %T", in))
+		}
+
+		return i.server.Singin(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.cognito.Cognito.Singin", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*SinginOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *SinginOutput, got %T", out))
 	}
 
 	return message, err
