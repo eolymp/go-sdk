@@ -31,8 +31,6 @@ type CognitoClient interface {
 	// Revoke token disables given token and related tokens.
 	// DEPRECATED: use oauth service directly
 	RevokeToken(ctx context.Context, in *RevokeTokenInput, opts ...grpc.CallOption) (*RevokeTokenOutput, error)
-	// Signin verifies user credentials and returns user object.
-	Signin(ctx context.Context, in *SigninInput, opts ...grpc.CallOption) (*SigninOutput, error)
 	// Signout revokes all user's tokens or all tokens of current session.
 	// DEPRECATED: use oauth service directly
 	Signout(ctx context.Context, in *SignoutInput, opts ...grpc.CallOption) (*SignoutOutput, error)
@@ -107,15 +105,6 @@ func (c *cognitoClient) IntrospectToken(ctx context.Context, in *IntrospectToken
 func (c *cognitoClient) RevokeToken(ctx context.Context, in *RevokeTokenInput, opts ...grpc.CallOption) (*RevokeTokenOutput, error) {
 	out := new(RevokeTokenOutput)
 	err := c.cc.Invoke(ctx, "/eolymp.cognito.Cognito/RevokeToken", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *cognitoClient) Signin(ctx context.Context, in *SigninInput, opts ...grpc.CallOption) (*SigninOutput, error) {
-	out := new(SigninOutput)
-	err := c.cc.Invoke(ctx, "/eolymp.cognito.Cognito/Signin", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -333,8 +322,6 @@ type CognitoServer interface {
 	// Revoke token disables given token and related tokens.
 	// DEPRECATED: use oauth service directly
 	RevokeToken(context.Context, *RevokeTokenInput) (*RevokeTokenOutput, error)
-	// Signin verifies user credentials and returns user object.
-	Signin(context.Context, *SigninInput) (*SigninOutput, error)
 	// Signout revokes all user's tokens or all tokens of current session.
 	// DEPRECATED: use oauth service directly
 	Signout(context.Context, *SignoutInput) (*SignoutOutput, error)
@@ -392,9 +379,6 @@ func (UnimplementedCognitoServer) IntrospectToken(context.Context, *IntrospectTo
 }
 func (UnimplementedCognitoServer) RevokeToken(context.Context, *RevokeTokenInput) (*RevokeTokenOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RevokeToken not implemented")
-}
-func (UnimplementedCognitoServer) Signin(context.Context, *SigninInput) (*SigninOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Signin not implemented")
 }
 func (UnimplementedCognitoServer) Signout(context.Context, *SignoutInput) (*SignoutOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Signout not implemented")
@@ -524,24 +508,6 @@ func _Cognito_RevokeToken_Handler(srv interface{}, ctx context.Context, dec func
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(CognitoServer).RevokeToken(ctx, req.(*RevokeTokenInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Cognito_Signin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SigninInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(CognitoServer).Signin(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/eolymp.cognito.Cognito/Signin",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CognitoServer).Signin(ctx, req.(*SigninInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -960,10 +926,6 @@ var Cognito_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RevokeToken",
 			Handler:    _Cognito_RevokeToken_Handler,
-		},
-		{
-			MethodName: "Signin",
-			Handler:    _Cognito_Signin_Handler,
 		},
 		{
 			MethodName: "Signout",

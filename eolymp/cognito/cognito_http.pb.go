@@ -747,38 +747,6 @@ func (i *CognitoInterceptor) RevokeToken(ctx context.Context, in *RevokeTokenInp
 	return message, err
 }
 
-func (i *CognitoInterceptor) Signin(ctx context.Context, in *SigninInput) (*SigninOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*SigninInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *SigninInput, got %T", in))
-		}
-
-		return i.server.Signin(ctx, message)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito.Signin", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*SigninOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *SigninOutput, got %T", out))
-	}
-
-	return message, err
-}
-
 func (i *CognitoInterceptor) Signout(ctx context.Context, in *SignoutInput) (*SignoutOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*SignoutInput)
