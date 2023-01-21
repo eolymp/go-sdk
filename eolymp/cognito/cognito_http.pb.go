@@ -131,6 +131,9 @@ func RegisterCognitoHttpHandlers(router *mux.Router, prefix string, srv CognitoS
 	router.Handle(prefix+"/users/{user_id}/verify", _Cognito_VerifyEmail_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.cognito.Cognito.VerifyEmail")
+	router.Handle(prefix+"/self/email/resend-verification", _Cognito_ResendEmailVerification_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.cognito.Cognito.ResendEmailVerification")
 	router.Handle(prefix+"/self/email", _Cognito_UpdateEmail_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.cognito.Cognito.UpdateEmail")
@@ -143,15 +146,6 @@ func RegisterCognitoHttpHandlers(router *mux.Router, prefix string, srv CognitoS
 	router.Handle(prefix+"/self/password", _Cognito_UpdatePassword_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.cognito.Cognito.UpdatePassword")
-	router.Handle(prefix+"/self/email/resend-verification", _Cognito_ResendEmailVerification_Rule0(srv)).
-		Methods("POST").
-		Name("eolymp.cognito.Cognito.ResendEmailVerification")
-	router.Handle(prefix+"/self/recovery", _Cognito_StartRecovery_Rule0(srv)).
-		Methods("POST").
-		Name("eolymp.cognito.Cognito.StartRecovery")
-	router.Handle(prefix+"/users/{user_id}/recover", _Cognito_CompleteRecovery_Rule0(srv)).
-		Methods("POST").
-		Name("eolymp.cognito.Cognito.CompleteRecovery")
 	router.Handle(prefix+"/self", _Cognito_IntrospectUser_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.cognito.Cognito.IntrospectUser")
@@ -173,6 +167,12 @@ func RegisterCognitoHttpHandlers(router *mux.Router, prefix string, srv CognitoS
 	router.Handle(prefix+"/users/{user_id}/roles", _Cognito_UpdateRoles_Rule0(srv)).
 		Methods("PUT").
 		Name("eolymp.cognito.Cognito.UpdateRoles")
+	router.Handle(prefix+"/self/recovery", _Cognito_StartRecovery_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.cognito.Cognito.StartRecovery")
+	router.Handle(prefix+"/users/{user_id}/recover", _Cognito_CompleteRecovery_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.cognito.Cognito.CompleteRecovery")
 	router.Handle(prefix+"/__cognito/entitlements", _Cognito_ListEntitlements_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.cognito.Cognito.ListEntitlements")
@@ -307,6 +307,26 @@ func _Cognito_VerifyEmail_Rule0(srv CognitoServer) http.Handler {
 	})
 }
 
+func _Cognito_ResendEmailVerification_Rule0(srv CognitoServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ResendEmailVerificationInput{}
+
+		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Cognito_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.ResendEmailVerification(r.Context(), in)
+		if err != nil {
+			_Cognito_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Cognito_HTTPWriteResponse(w, out)
+	})
+}
+
 func _Cognito_UpdateEmail_Rule0(srv CognitoServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateEmailInput{}
@@ -378,69 +398,6 @@ func _Cognito_UpdatePassword_Rule0(srv CognitoServer) http.Handler {
 		}
 
 		out, err := srv.UpdatePassword(r.Context(), in)
-		if err != nil {
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Cognito_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Cognito_ResendEmailVerification_Rule0(srv CognitoServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ResendEmailVerificationInput{}
-
-		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.ResendEmailVerification(r.Context(), in)
-		if err != nil {
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Cognito_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Cognito_StartRecovery_Rule0(srv CognitoServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &StartRecoveryInput{}
-
-		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.StartRecovery(r.Context(), in)
-		if err != nil {
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Cognito_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Cognito_CompleteRecovery_Rule0(srv CognitoServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &CompleteRecoverInput{}
-
-		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.UserId = vars["user_id"]
-
-		out, err := srv.CompleteRecovery(r.Context(), in)
 		if err != nil {
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
@@ -599,6 +556,49 @@ func _Cognito_UpdateRoles_Rule0(srv CognitoServer) http.Handler {
 	})
 }
 
+func _Cognito_StartRecovery_Rule0(srv CognitoServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &StartRecoveryInput{}
+
+		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Cognito_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.StartRecovery(r.Context(), in)
+		if err != nil {
+			_Cognito_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Cognito_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Cognito_CompleteRecovery_Rule0(srv CognitoServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &CompleteRecoverInput{}
+
+		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Cognito_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.UserId = vars["user_id"]
+
+		out, err := srv.CompleteRecovery(r.Context(), in)
+		if err != nil {
+			_Cognito_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Cognito_HTTPWriteResponse(w, out)
+	})
+}
+
 func _Cognito_ListEntitlements_Rule0(srv CognitoServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListEntitlementsInput{}
@@ -747,14 +747,14 @@ func (i *CognitoInterceptor) RevokeToken(ctx context.Context, in *RevokeTokenInp
 	return message, err
 }
 
-func (i *CognitoInterceptor) Singin(ctx context.Context, in *SinginInput) (*SinginOutput, error) {
+func (i *CognitoInterceptor) Signin(ctx context.Context, in *SigninInput) (*SigninOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*SinginInput)
+		message, ok := in.(*SigninInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *SinginInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *SigninInput, got %T", in))
 		}
 
-		return i.server.Singin(ctx, message)
+		return i.server.Signin(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
@@ -762,7 +762,7 @@ func (i *CognitoInterceptor) Singin(ctx context.Context, in *SinginInput) (*Sing
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito.Singin", in, next)
+			return mw(ctx, "eolymp.cognito.Cognito.Signin", in, next)
 		}
 	}
 
@@ -771,9 +771,9 @@ func (i *CognitoInterceptor) Singin(ctx context.Context, in *SinginInput) (*Sing
 		return nil, err
 	}
 
-	message, ok := out.(*SinginOutput)
+	message, ok := out.(*SigninOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *SinginOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *SigninOutput, got %T", out))
 	}
 
 	return message, err
@@ -971,6 +971,38 @@ func (i *CognitoInterceptor) VerifyEmail(ctx context.Context, in *VerifyEmailInp
 	return message, err
 }
 
+func (i *CognitoInterceptor) ResendEmailVerification(ctx context.Context, in *ResendEmailVerificationInput) (*ResendEmailVerificationOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ResendEmailVerificationInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ResendEmailVerificationInput, got %T", in))
+		}
+
+		return i.server.ResendEmailVerification(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.cognito.Cognito.ResendEmailVerification", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ResendEmailVerificationOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ResendEmailVerificationOutput, got %T", out))
+	}
+
+	return message, err
+}
+
 func (i *CognitoInterceptor) UpdateEmail(ctx context.Context, in *UpdateEmailInput) (*UpdateEmailOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdateEmailInput)
@@ -1094,102 +1126,6 @@ func (i *CognitoInterceptor) UpdatePassword(ctx context.Context, in *UpdatePassw
 	message, ok := out.(*UpdatePasswordOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *UpdatePasswordOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *CognitoInterceptor) ResendEmailVerification(ctx context.Context, in *ResendEmailVerificationInput) (*ResendEmailVerificationOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*ResendEmailVerificationInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *ResendEmailVerificationInput, got %T", in))
-		}
-
-		return i.server.ResendEmailVerification(ctx, message)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito.ResendEmailVerification", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*ResendEmailVerificationOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *ResendEmailVerificationOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *CognitoInterceptor) StartRecovery(ctx context.Context, in *StartRecoveryInput) (*StartRecoveryOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*StartRecoveryInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *StartRecoveryInput, got %T", in))
-		}
-
-		return i.server.StartRecovery(ctx, message)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito.StartRecovery", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*StartRecoveryOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *StartRecoveryOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *CognitoInterceptor) CompleteRecovery(ctx context.Context, in *CompleteRecoverInput) (*CompleteRecoverOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*CompleteRecoverInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *CompleteRecoverInput, got %T", in))
-		}
-
-		return i.server.CompleteRecovery(ctx, message)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito.CompleteRecovery", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*CompleteRecoverOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *CompleteRecoverOutput, got %T", out))
 	}
 
 	return message, err
@@ -1414,6 +1350,70 @@ func (i *CognitoInterceptor) UpdateRoles(ctx context.Context, in *UpdateRolesInp
 	message, ok := out.(*UpdateRolesOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *UpdateRolesOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *CognitoInterceptor) StartRecovery(ctx context.Context, in *StartRecoveryInput) (*StartRecoveryOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*StartRecoveryInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *StartRecoveryInput, got %T", in))
+		}
+
+		return i.server.StartRecovery(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.cognito.Cognito.StartRecovery", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*StartRecoveryOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *StartRecoveryOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *CognitoInterceptor) CompleteRecovery(ctx context.Context, in *CompleteRecoverInput) (*CompleteRecoverOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*CompleteRecoverInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *CompleteRecoverInput, got %T", in))
+		}
+
+		return i.server.CompleteRecovery(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.cognito.Cognito.CompleteRecovery", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*CompleteRecoverOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *CompleteRecoverOutput, got %T", out))
 	}
 
 	return message, err

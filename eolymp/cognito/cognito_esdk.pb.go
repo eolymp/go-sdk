@@ -176,6 +176,17 @@ func (s *CognitoService) VerifyEmail(ctx context.Context, in *VerifyEmailInput) 
 	return out, nil
 }
 
+func (s *CognitoService) ResendEmailVerification(ctx context.Context, in *ResendEmailVerificationInput) (*ResendEmailVerificationOutput, error) {
+	out := &ResendEmailVerificationOutput{}
+	path := "/self/email/resend-verification"
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *CognitoService) UpdateEmail(ctx context.Context, in *UpdateEmailInput) (*UpdateEmailOutput, error) {
 	out := &UpdateEmailOutput{}
 	path := "/self/email"
@@ -212,44 +223,6 @@ func (s *CognitoService) UpdatePicture(ctx context.Context, in *UpdatePictureInp
 func (s *CognitoService) UpdatePassword(ctx context.Context, in *UpdatePasswordInput) (*UpdatePasswordOutput, error) {
 	out := &UpdatePasswordOutput{}
 	path := "/self/password"
-
-	if err := s.do(ctx, "POST", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *CognitoService) ResendEmailVerification(ctx context.Context, in *ResendEmailVerificationInput) (*ResendEmailVerificationOutput, error) {
-	out := &ResendEmailVerificationOutput{}
-	path := "/self/email/resend-verification"
-
-	if err := s.do(ctx, "POST", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *CognitoService) StartRecovery(ctx context.Context, in *StartRecoveryInput) (*StartRecoveryOutput, error) {
-	out := &StartRecoveryOutput{}
-	path := "/self/recovery"
-
-	if err := s.do(ctx, "POST", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *CognitoService) CompleteRecovery(ctx context.Context, in *CompleteRecoverInput) (*CompleteRecoverOutput, error) {
-	out := &CompleteRecoverOutput{}
-	path := "/users/" + url.PathEscape(in.GetUserId()) + "/recover"
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.UserId = ""
-	}
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
@@ -344,6 +317,33 @@ func (s *CognitoService) UpdateRoles(ctx context.Context, in *UpdateRolesInput) 
 	}
 
 	if err := s.do(ctx, "PUT", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *CognitoService) StartRecovery(ctx context.Context, in *StartRecoveryInput) (*StartRecoveryOutput, error) {
+	out := &StartRecoveryOutput{}
+	path := "/self/recovery"
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *CognitoService) CompleteRecovery(ctx context.Context, in *CompleteRecoverInput) (*CompleteRecoverOutput, error) {
+	out := &CompleteRecoverOutput{}
+	path := "/users/" + url.PathEscape(in.GetUserId()) + "/recover"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.UserId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
