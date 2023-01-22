@@ -137,6 +137,21 @@ func RegisterSupportHttpHandlers(router *mux.Router, prefix string, srv SupportS
 	router.Handle(prefix+"/helpdesk/tickets/{ticket_id}/close", _Support_CloseTicket_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.helpdesk.Support.CloseTicket")
+	router.Handle(prefix+"/helpdesk/tickets/{ticket_id}/comments", _Support_AddComment_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.helpdesk.Support.AddComment")
+	router.Handle(prefix+"/helpdesk/tickets/{ticket_id}/comments/{comment_id}", _Support_UpdateComment_Rule0(srv)).
+		Methods("PUT").
+		Name("eolymp.helpdesk.Support.UpdateComment")
+	router.Handle(prefix+"/helpdesk/tickets/{ticket_id}/comments/{comment_id}", _Support_DeleteComment_Rule0(srv)).
+		Methods("DELETE").
+		Name("eolymp.helpdesk.Support.DeleteComment")
+	router.Handle(prefix+"/helpdesk/tickets/{ticket_id}/comments", _Support_ListComments_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.helpdesk.Support.ListComments")
+	router.Handle(prefix+"/helpdesk/tickets/{ticket_id}/comments/{comment_id}", _Support_DescribeComment_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.helpdesk.Support.DescribeComment")
 }
 
 func _Support_CreateTicket_Rule0(srv SupportServer) http.Handler {
@@ -308,6 +323,124 @@ func _Support_CloseTicket_Rule0(srv SupportServer) http.Handler {
 		in.TicketId = vars["ticket_id"]
 
 		out, err := srv.CloseTicket(r.Context(), in)
+		if err != nil {
+			_Support_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Support_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Support_AddComment_Rule0(srv SupportServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &AddCommentInput{}
+
+		if err := _Support_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Support_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.TicketId = vars["ticket_id"]
+
+		out, err := srv.AddComment(r.Context(), in)
+		if err != nil {
+			_Support_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Support_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Support_UpdateComment_Rule0(srv SupportServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UpdateCommentInput{}
+
+		if err := _Support_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Support_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.TicketId = vars["ticket_id"]
+		in.CommentId = vars["comment_id"]
+
+		out, err := srv.UpdateComment(r.Context(), in)
+		if err != nil {
+			_Support_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Support_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Support_DeleteComment_Rule0(srv SupportServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DeleteCommentInput{}
+
+		if err := _Support_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Support_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.TicketId = vars["ticket_id"]
+		in.CommentId = vars["comment_id"]
+
+		out, err := srv.DeleteComment(r.Context(), in)
+		if err != nil {
+			_Support_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Support_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Support_ListComments_Rule0(srv SupportServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListCommentsInput{}
+
+		if err := _Support_HTTPReadQueryString(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Support_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.TicketId = vars["ticket_id"]
+
+		out, err := srv.ListComments(r.Context(), in)
+		if err != nil {
+			_Support_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Support_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Support_DescribeComment_Rule0(srv SupportServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeCommentInput{}
+
+		if err := _Support_HTTPReadQueryString(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Support_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.TicketId = vars["ticket_id"]
+		in.CommentId = vars["comment_id"]
+
+		out, err := srv.DescribeComment(r.Context(), in)
 		if err != nil {
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
@@ -580,6 +713,166 @@ func (i *SupportInterceptor) CloseTicket(ctx context.Context, in *CloseTicketInp
 	message, ok := out.(*CloseTicketOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *CloseTicketOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *SupportInterceptor) AddComment(ctx context.Context, in *AddCommentInput) (*AddCommentOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*AddCommentInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *AddCommentInput, got %T", in))
+		}
+
+		return i.server.AddComment(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.helpdesk.Support.AddComment", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*AddCommentOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *AddCommentOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *SupportInterceptor) UpdateComment(ctx context.Context, in *UpdateCommentInput) (*UpdateCommentOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*UpdateCommentInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *UpdateCommentInput, got %T", in))
+		}
+
+		return i.server.UpdateComment(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.helpdesk.Support.UpdateComment", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*UpdateCommentOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *UpdateCommentOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *SupportInterceptor) DeleteComment(ctx context.Context, in *DeleteCommentInput) (*DeleteCommentOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DeleteCommentInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DeleteCommentInput, got %T", in))
+		}
+
+		return i.server.DeleteComment(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.helpdesk.Support.DeleteComment", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DeleteCommentOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DeleteCommentOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *SupportInterceptor) ListComments(ctx context.Context, in *ListCommentsInput) (*ListCommentsOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListCommentsInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListCommentsInput, got %T", in))
+		}
+
+		return i.server.ListComments(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.helpdesk.Support.ListComments", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListCommentsOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListCommentsOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *SupportInterceptor) DescribeComment(ctx context.Context, in *DescribeCommentInput) (*DescribeCommentOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeCommentInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeCommentInput, got %T", in))
+		}
+
+		return i.server.DescribeComment(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.helpdesk.Support.DescribeComment", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeCommentOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeCommentOutput, got %T", out))
 	}
 
 	return message, err

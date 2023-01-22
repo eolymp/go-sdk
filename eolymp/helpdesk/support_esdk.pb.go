@@ -217,3 +217,86 @@ func (s *SupportService) CloseTicket(ctx context.Context, in *CloseTicketInput) 
 
 	return out, nil
 }
+
+func (s *SupportService) AddComment(ctx context.Context, in *AddCommentInput) (*AddCommentOutput, error) {
+	out := &AddCommentOutput{}
+	path := "/helpdesk/tickets/" + url.PathEscape(in.GetTicketId()) + "/comments"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.TicketId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *SupportService) UpdateComment(ctx context.Context, in *UpdateCommentInput) (*UpdateCommentOutput, error) {
+	out := &UpdateCommentOutput{}
+	path := "/helpdesk/tickets/" + url.PathEscape(in.GetTicketId()) + "/comments/" + url.PathEscape(in.GetCommentId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.TicketId = ""
+		in.CommentId = ""
+	}
+
+	if err := s.do(ctx, "PUT", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *SupportService) DeleteComment(ctx context.Context, in *DeleteCommentInput) (*DeleteCommentOutput, error) {
+	out := &DeleteCommentOutput{}
+	path := "/helpdesk/tickets/" + url.PathEscape(in.GetTicketId()) + "/comments/" + url.PathEscape(in.GetCommentId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.TicketId = ""
+		in.CommentId = ""
+	}
+
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *SupportService) ListComments(ctx context.Context, in *ListCommentsInput) (*ListCommentsOutput, error) {
+	out := &ListCommentsOutput{}
+	path := "/helpdesk/tickets/" + url.PathEscape(in.GetTicketId()) + "/comments"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.TicketId = ""
+	}
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *SupportService) DescribeComment(ctx context.Context, in *DescribeCommentInput) (*DescribeCommentOutput, error) {
+	out := &DescribeCommentOutput{}
+	path := "/helpdesk/tickets/" + url.PathEscape(in.GetTicketId()) + "/comments/" + url.PathEscape(in.GetCommentId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.TicketId = ""
+		in.CommentId = ""
+	}
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

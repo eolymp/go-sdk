@@ -30,6 +30,11 @@ type SupportClient interface {
 	ApproveTicket(ctx context.Context, in *ApproveTicketInput, opts ...grpc.CallOption) (*ApproveTicketOutput, error)
 	RejectTicket(ctx context.Context, in *RejectTicketInput, opts ...grpc.CallOption) (*RejectTicketOutput, error)
 	CloseTicket(ctx context.Context, in *CloseTicketInput, opts ...grpc.CallOption) (*CloseTicketOutput, error)
+	AddComment(ctx context.Context, in *AddCommentInput, opts ...grpc.CallOption) (*AddCommentOutput, error)
+	UpdateComment(ctx context.Context, in *UpdateCommentInput, opts ...grpc.CallOption) (*UpdateCommentOutput, error)
+	DeleteComment(ctx context.Context, in *DeleteCommentInput, opts ...grpc.CallOption) (*DeleteCommentOutput, error)
+	ListComments(ctx context.Context, in *ListCommentsInput, opts ...grpc.CallOption) (*ListCommentsOutput, error)
+	DescribeComment(ctx context.Context, in *DescribeCommentInput, opts ...grpc.CallOption) (*DescribeCommentOutput, error)
 }
 
 type supportClient struct {
@@ -112,6 +117,51 @@ func (c *supportClient) CloseTicket(ctx context.Context, in *CloseTicketInput, o
 	return out, nil
 }
 
+func (c *supportClient) AddComment(ctx context.Context, in *AddCommentInput, opts ...grpc.CallOption) (*AddCommentOutput, error) {
+	out := new(AddCommentOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.helpdesk.Support/AddComment", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *supportClient) UpdateComment(ctx context.Context, in *UpdateCommentInput, opts ...grpc.CallOption) (*UpdateCommentOutput, error) {
+	out := new(UpdateCommentOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.helpdesk.Support/UpdateComment", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *supportClient) DeleteComment(ctx context.Context, in *DeleteCommentInput, opts ...grpc.CallOption) (*DeleteCommentOutput, error) {
+	out := new(DeleteCommentOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.helpdesk.Support/DeleteComment", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *supportClient) ListComments(ctx context.Context, in *ListCommentsInput, opts ...grpc.CallOption) (*ListCommentsOutput, error) {
+	out := new(ListCommentsOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.helpdesk.Support/ListComments", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *supportClient) DescribeComment(ctx context.Context, in *DescribeCommentInput, opts ...grpc.CallOption) (*DescribeCommentOutput, error) {
+	out := new(DescribeCommentOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.helpdesk.Support/DescribeComment", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SupportServer is the server API for Support service.
 // All implementations should embed UnimplementedSupportServer
 // for forward compatibility
@@ -124,6 +174,11 @@ type SupportServer interface {
 	ApproveTicket(context.Context, *ApproveTicketInput) (*ApproveTicketOutput, error)
 	RejectTicket(context.Context, *RejectTicketInput) (*RejectTicketOutput, error)
 	CloseTicket(context.Context, *CloseTicketInput) (*CloseTicketOutput, error)
+	AddComment(context.Context, *AddCommentInput) (*AddCommentOutput, error)
+	UpdateComment(context.Context, *UpdateCommentInput) (*UpdateCommentOutput, error)
+	DeleteComment(context.Context, *DeleteCommentInput) (*DeleteCommentOutput, error)
+	ListComments(context.Context, *ListCommentsInput) (*ListCommentsOutput, error)
+	DescribeComment(context.Context, *DescribeCommentInput) (*DescribeCommentOutput, error)
 }
 
 // UnimplementedSupportServer should be embedded to have forward compatible implementations.
@@ -153,6 +208,21 @@ func (UnimplementedSupportServer) RejectTicket(context.Context, *RejectTicketInp
 }
 func (UnimplementedSupportServer) CloseTicket(context.Context, *CloseTicketInput) (*CloseTicketOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CloseTicket not implemented")
+}
+func (UnimplementedSupportServer) AddComment(context.Context, *AddCommentInput) (*AddCommentOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddComment not implemented")
+}
+func (UnimplementedSupportServer) UpdateComment(context.Context, *UpdateCommentInput) (*UpdateCommentOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateComment not implemented")
+}
+func (UnimplementedSupportServer) DeleteComment(context.Context, *DeleteCommentInput) (*DeleteCommentOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteComment not implemented")
+}
+func (UnimplementedSupportServer) ListComments(context.Context, *ListCommentsInput) (*ListCommentsOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListComments not implemented")
+}
+func (UnimplementedSupportServer) DescribeComment(context.Context, *DescribeCommentInput) (*DescribeCommentOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeComment not implemented")
 }
 
 // UnsafeSupportServer may be embedded to opt out of forward compatibility for this service.
@@ -310,6 +380,96 @@ func _Support_CloseTicket_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Support_AddComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddCommentInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SupportServer).AddComment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.helpdesk.Support/AddComment",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SupportServer).AddComment(ctx, req.(*AddCommentInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Support_UpdateComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateCommentInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SupportServer).UpdateComment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.helpdesk.Support/UpdateComment",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SupportServer).UpdateComment(ctx, req.(*UpdateCommentInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Support_DeleteComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteCommentInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SupportServer).DeleteComment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.helpdesk.Support/DeleteComment",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SupportServer).DeleteComment(ctx, req.(*DeleteCommentInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Support_ListComments_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListCommentsInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SupportServer).ListComments(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.helpdesk.Support/ListComments",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SupportServer).ListComments(ctx, req.(*ListCommentsInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Support_DescribeComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeCommentInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SupportServer).DescribeComment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.helpdesk.Support/DescribeComment",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SupportServer).DescribeComment(ctx, req.(*DescribeCommentInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Support_ServiceDesc is the grpc.ServiceDesc for Support service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -348,6 +508,26 @@ var Support_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CloseTicket",
 			Handler:    _Support_CloseTicket_Handler,
+		},
+		{
+			MethodName: "AddComment",
+			Handler:    _Support_AddComment_Handler,
+		},
+		{
+			MethodName: "UpdateComment",
+			Handler:    _Support_UpdateComment_Handler,
+		},
+		{
+			MethodName: "DeleteComment",
+			Handler:    _Support_DeleteComment_Handler,
+		},
+		{
+			MethodName: "ListComments",
+			Handler:    _Support_ListComments_Handler,
+		},
+		{
+			MethodName: "DescribeComment",
+			Handler:    _Support_DescribeComment_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
