@@ -38,7 +38,7 @@ type SupportClient interface {
 	CreateAutoReply(ctx context.Context, in *CreateAutoReplyInput, opts ...grpc.CallOption) (*CreateAutoReplyOutput, error)
 	UpdateAutoReply(ctx context.Context, in *UpdateAutoReplyInput, opts ...grpc.CallOption) (*UpdateAutoReplyOutput, error)
 	DeleteAutoReply(ctx context.Context, in *DeleteAutoReplyInput, opts ...grpc.CallOption) (*DeleteAutoReplyOutput, error)
-	ListAutoReplys(ctx context.Context, in *ListAutoRepliesInput, opts ...grpc.CallOption) (*ListAutoRepliesOutput, error)
+	ListAutoReplies(ctx context.Context, in *ListAutoRepliesInput, opts ...grpc.CallOption) (*ListAutoRepliesOutput, error)
 	DescribeAutoReply(ctx context.Context, in *DescribeAutoReplyInput, opts ...grpc.CallOption) (*DescribeAutoReplyOutput, error)
 }
 
@@ -194,9 +194,9 @@ func (c *supportClient) DeleteAutoReply(ctx context.Context, in *DeleteAutoReply
 	return out, nil
 }
 
-func (c *supportClient) ListAutoReplys(ctx context.Context, in *ListAutoRepliesInput, opts ...grpc.CallOption) (*ListAutoRepliesOutput, error) {
+func (c *supportClient) ListAutoReplies(ctx context.Context, in *ListAutoRepliesInput, opts ...grpc.CallOption) (*ListAutoRepliesOutput, error) {
 	out := new(ListAutoRepliesOutput)
-	err := c.cc.Invoke(ctx, "/eolymp.helpdesk.Support/ListAutoReplys", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/eolymp.helpdesk.Support/ListAutoReplies", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -232,7 +232,7 @@ type SupportServer interface {
 	CreateAutoReply(context.Context, *CreateAutoReplyInput) (*CreateAutoReplyOutput, error)
 	UpdateAutoReply(context.Context, *UpdateAutoReplyInput) (*UpdateAutoReplyOutput, error)
 	DeleteAutoReply(context.Context, *DeleteAutoReplyInput) (*DeleteAutoReplyOutput, error)
-	ListAutoReplys(context.Context, *ListAutoRepliesInput) (*ListAutoRepliesOutput, error)
+	ListAutoReplies(context.Context, *ListAutoRepliesInput) (*ListAutoRepliesOutput, error)
 	DescribeAutoReply(context.Context, *DescribeAutoReplyInput) (*DescribeAutoReplyOutput, error)
 }
 
@@ -288,8 +288,8 @@ func (UnimplementedSupportServer) UpdateAutoReply(context.Context, *UpdateAutoRe
 func (UnimplementedSupportServer) DeleteAutoReply(context.Context, *DeleteAutoReplyInput) (*DeleteAutoReplyOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteAutoReply not implemented")
 }
-func (UnimplementedSupportServer) ListAutoReplys(context.Context, *ListAutoRepliesInput) (*ListAutoRepliesOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListAutoReplys not implemented")
+func (UnimplementedSupportServer) ListAutoReplies(context.Context, *ListAutoRepliesInput) (*ListAutoRepliesOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListAutoReplies not implemented")
 }
 func (UnimplementedSupportServer) DescribeAutoReply(context.Context, *DescribeAutoReplyInput) (*DescribeAutoReplyOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeAutoReply not implemented")
@@ -594,20 +594,20 @@ func _Support_DeleteAutoReply_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Support_ListAutoReplys_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Support_ListAutoReplies_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListAutoRepliesInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(SupportServer).ListAutoReplys(ctx, in)
+		return srv.(SupportServer).ListAutoReplies(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/eolymp.helpdesk.Support/ListAutoReplys",
+		FullMethod: "/eolymp.helpdesk.Support/ListAutoReplies",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SupportServer).ListAutoReplys(ctx, req.(*ListAutoRepliesInput))
+		return srv.(SupportServer).ListAutoReplies(ctx, req.(*ListAutoRepliesInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -702,8 +702,8 @@ var Support_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Support_DeleteAutoReply_Handler,
 		},
 		{
-			MethodName: "ListAutoReplys",
-			Handler:    _Support_ListAutoReplys_Handler,
+			MethodName: "ListAutoReplies",
+			Handler:    _Support_ListAutoReplies_Handler,
 		},
 		{
 			MethodName: "DescribeAutoReply",

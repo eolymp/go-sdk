@@ -344,7 +344,7 @@ func (s *SupportService) DeleteAutoReply(ctx context.Context, in *DeleteAutoRepl
 	return out, nil
 }
 
-func (s *SupportService) ListAutoReplys(ctx context.Context, in *ListAutoRepliesInput) (*ListAutoRepliesOutput, error) {
+func (s *SupportService) ListAutoReplies(ctx context.Context, in *ListAutoRepliesInput) (*ListAutoRepliesOutput, error) {
 	out := &ListAutoRepliesOutput{}
 	path := "/helpdesk/autoreplies"
 

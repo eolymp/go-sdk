@@ -161,9 +161,9 @@ func RegisterSupportHttpHandlers(router *mux.Router, prefix string, srv SupportS
 	router.Handle(prefix+"/helpdesk/autoreplies/{reply_id}", _Support_DeleteAutoReply_Rule0(srv)).
 		Methods("DELETE").
 		Name("eolymp.helpdesk.Support.DeleteAutoReply")
-	router.Handle(prefix+"/helpdesk/autoreplies", _Support_ListAutoReplys_Rule0(srv)).
+	router.Handle(prefix+"/helpdesk/autoreplies", _Support_ListAutoReplies_Rule0(srv)).
 		Methods("GET").
-		Name("eolymp.helpdesk.Support.ListAutoReplys")
+		Name("eolymp.helpdesk.Support.ListAutoReplies")
 	router.Handle(prefix+"/helpdesk/autoreplies/{reply_id}", _Support_DescribeAutoReply_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.helpdesk.Support.DescribeAutoReply")
@@ -531,7 +531,7 @@ func _Support_DeleteAutoReply_Rule0(srv SupportServer) http.Handler {
 	})
 }
 
-func _Support_ListAutoReplys_Rule0(srv SupportServer) http.Handler {
+func _Support_ListAutoReplies_Rule0(srv SupportServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListAutoRepliesInput{}
 
@@ -541,7 +541,7 @@ func _Support_ListAutoReplys_Rule0(srv SupportServer) http.Handler {
 			return
 		}
 
-		out, err := srv.ListAutoReplys(r.Context(), in)
+		out, err := srv.ListAutoReplies(r.Context(), in)
 		if err != nil {
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
@@ -1098,14 +1098,14 @@ func (i *SupportInterceptor) DeleteAutoReply(ctx context.Context, in *DeleteAuto
 	return message, err
 }
 
-func (i *SupportInterceptor) ListAutoReplys(ctx context.Context, in *ListAutoRepliesInput) (*ListAutoRepliesOutput, error) {
+func (i *SupportInterceptor) ListAutoReplies(ctx context.Context, in *ListAutoRepliesInput) (*ListAutoRepliesOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListAutoRepliesInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListAutoRepliesInput, got %T", in))
 		}
 
-		return i.server.ListAutoReplys(ctx, message)
+		return i.server.ListAutoReplies(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
@@ -1113,7 +1113,7 @@ func (i *SupportInterceptor) ListAutoReplys(ctx context.Context, in *ListAutoRep
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.helpdesk.Support.ListAutoReplys", in, next)
+			return mw(ctx, "eolymp.helpdesk.Support.ListAutoReplies", in, next)
 		}
 	}
 
