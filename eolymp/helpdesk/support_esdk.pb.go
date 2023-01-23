@@ -300,3 +300,73 @@ func (s *SupportService) DescribeComment(ctx context.Context, in *DescribeCommen
 
 	return out, nil
 }
+
+func (s *SupportService) CreateAutoReply(ctx context.Context, in *CreateAutoReplyInput) (*CreateAutoReplyOutput, error) {
+	out := &CreateAutoReplyOutput{}
+	path := "/helpdesk/autoreplies"
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *SupportService) UpdateAutoReply(ctx context.Context, in *UpdateAutoReplyInput) (*UpdateAutoReplyOutput, error) {
+	out := &UpdateAutoReplyOutput{}
+	path := "/helpdesk/autoreplies/" + url.PathEscape(in.GetReplyId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ReplyId = ""
+	}
+
+	if err := s.do(ctx, "PUT", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *SupportService) DeleteAutoReply(ctx context.Context, in *DeleteAutoReplyInput) (*DeleteAutoReplyOutput, error) {
+	out := &DeleteAutoReplyOutput{}
+	path := "/helpdesk/autoreplies/" + url.PathEscape(in.GetReplyId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ReplyId = ""
+	}
+
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *SupportService) ListAutoReplys(ctx context.Context, in *ListAutoRepliesInput) (*ListAutoRepliesOutput, error) {
+	out := &ListAutoRepliesOutput{}
+	path := "/helpdesk/autoreplies"
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *SupportService) DescribeAutoReply(ctx context.Context, in *DescribeAutoReplyInput) (*DescribeAutoReplyOutput, error) {
+	out := &DescribeAutoReplyOutput{}
+	path := "/helpdesk/autoreplies/" + url.PathEscape(in.GetReplyId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ReplyId = ""
+	}
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

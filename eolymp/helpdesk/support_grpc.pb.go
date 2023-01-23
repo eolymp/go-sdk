@@ -35,6 +35,11 @@ type SupportClient interface {
 	DeleteComment(ctx context.Context, in *DeleteCommentInput, opts ...grpc.CallOption) (*DeleteCommentOutput, error)
 	ListComments(ctx context.Context, in *ListCommentsInput, opts ...grpc.CallOption) (*ListCommentsOutput, error)
 	DescribeComment(ctx context.Context, in *DescribeCommentInput, opts ...grpc.CallOption) (*DescribeCommentOutput, error)
+	CreateAutoReply(ctx context.Context, in *CreateAutoReplyInput, opts ...grpc.CallOption) (*CreateAutoReplyOutput, error)
+	UpdateAutoReply(ctx context.Context, in *UpdateAutoReplyInput, opts ...grpc.CallOption) (*UpdateAutoReplyOutput, error)
+	DeleteAutoReply(ctx context.Context, in *DeleteAutoReplyInput, opts ...grpc.CallOption) (*DeleteAutoReplyOutput, error)
+	ListAutoReplys(ctx context.Context, in *ListAutoRepliesInput, opts ...grpc.CallOption) (*ListAutoRepliesOutput, error)
+	DescribeAutoReply(ctx context.Context, in *DescribeAutoReplyInput, opts ...grpc.CallOption) (*DescribeAutoReplyOutput, error)
 }
 
 type supportClient struct {
@@ -162,6 +167,51 @@ func (c *supportClient) DescribeComment(ctx context.Context, in *DescribeComment
 	return out, nil
 }
 
+func (c *supportClient) CreateAutoReply(ctx context.Context, in *CreateAutoReplyInput, opts ...grpc.CallOption) (*CreateAutoReplyOutput, error) {
+	out := new(CreateAutoReplyOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.helpdesk.Support/CreateAutoReply", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *supportClient) UpdateAutoReply(ctx context.Context, in *UpdateAutoReplyInput, opts ...grpc.CallOption) (*UpdateAutoReplyOutput, error) {
+	out := new(UpdateAutoReplyOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.helpdesk.Support/UpdateAutoReply", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *supportClient) DeleteAutoReply(ctx context.Context, in *DeleteAutoReplyInput, opts ...grpc.CallOption) (*DeleteAutoReplyOutput, error) {
+	out := new(DeleteAutoReplyOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.helpdesk.Support/DeleteAutoReply", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *supportClient) ListAutoReplys(ctx context.Context, in *ListAutoRepliesInput, opts ...grpc.CallOption) (*ListAutoRepliesOutput, error) {
+	out := new(ListAutoRepliesOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.helpdesk.Support/ListAutoReplys", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *supportClient) DescribeAutoReply(ctx context.Context, in *DescribeAutoReplyInput, opts ...grpc.CallOption) (*DescribeAutoReplyOutput, error) {
+	out := new(DescribeAutoReplyOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.helpdesk.Support/DescribeAutoReply", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SupportServer is the server API for Support service.
 // All implementations should embed UnimplementedSupportServer
 // for forward compatibility
@@ -179,6 +229,11 @@ type SupportServer interface {
 	DeleteComment(context.Context, *DeleteCommentInput) (*DeleteCommentOutput, error)
 	ListComments(context.Context, *ListCommentsInput) (*ListCommentsOutput, error)
 	DescribeComment(context.Context, *DescribeCommentInput) (*DescribeCommentOutput, error)
+	CreateAutoReply(context.Context, *CreateAutoReplyInput) (*CreateAutoReplyOutput, error)
+	UpdateAutoReply(context.Context, *UpdateAutoReplyInput) (*UpdateAutoReplyOutput, error)
+	DeleteAutoReply(context.Context, *DeleteAutoReplyInput) (*DeleteAutoReplyOutput, error)
+	ListAutoReplys(context.Context, *ListAutoRepliesInput) (*ListAutoRepliesOutput, error)
+	DescribeAutoReply(context.Context, *DescribeAutoReplyInput) (*DescribeAutoReplyOutput, error)
 }
 
 // UnimplementedSupportServer should be embedded to have forward compatible implementations.
@@ -223,6 +278,21 @@ func (UnimplementedSupportServer) ListComments(context.Context, *ListCommentsInp
 }
 func (UnimplementedSupportServer) DescribeComment(context.Context, *DescribeCommentInput) (*DescribeCommentOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeComment not implemented")
+}
+func (UnimplementedSupportServer) CreateAutoReply(context.Context, *CreateAutoReplyInput) (*CreateAutoReplyOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateAutoReply not implemented")
+}
+func (UnimplementedSupportServer) UpdateAutoReply(context.Context, *UpdateAutoReplyInput) (*UpdateAutoReplyOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateAutoReply not implemented")
+}
+func (UnimplementedSupportServer) DeleteAutoReply(context.Context, *DeleteAutoReplyInput) (*DeleteAutoReplyOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteAutoReply not implemented")
+}
+func (UnimplementedSupportServer) ListAutoReplys(context.Context, *ListAutoRepliesInput) (*ListAutoRepliesOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListAutoReplys not implemented")
+}
+func (UnimplementedSupportServer) DescribeAutoReply(context.Context, *DescribeAutoReplyInput) (*DescribeAutoReplyOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeAutoReply not implemented")
 }
 
 // UnsafeSupportServer may be embedded to opt out of forward compatibility for this service.
@@ -470,6 +540,96 @@ func _Support_DescribeComment_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Support_CreateAutoReply_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateAutoReplyInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SupportServer).CreateAutoReply(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.helpdesk.Support/CreateAutoReply",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SupportServer).CreateAutoReply(ctx, req.(*CreateAutoReplyInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Support_UpdateAutoReply_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateAutoReplyInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SupportServer).UpdateAutoReply(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.helpdesk.Support/UpdateAutoReply",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SupportServer).UpdateAutoReply(ctx, req.(*UpdateAutoReplyInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Support_DeleteAutoReply_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteAutoReplyInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SupportServer).DeleteAutoReply(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.helpdesk.Support/DeleteAutoReply",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SupportServer).DeleteAutoReply(ctx, req.(*DeleteAutoReplyInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Support_ListAutoReplys_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListAutoRepliesInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SupportServer).ListAutoReplys(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.helpdesk.Support/ListAutoReplys",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SupportServer).ListAutoReplys(ctx, req.(*ListAutoRepliesInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Support_DescribeAutoReply_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeAutoReplyInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SupportServer).DescribeAutoReply(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.helpdesk.Support/DescribeAutoReply",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SupportServer).DescribeAutoReply(ctx, req.(*DescribeAutoReplyInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Support_ServiceDesc is the grpc.ServiceDesc for Support service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -528,6 +688,26 @@ var Support_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DescribeComment",
 			Handler:    _Support_DescribeComment_Handler,
+		},
+		{
+			MethodName: "CreateAutoReply",
+			Handler:    _Support_CreateAutoReply_Handler,
+		},
+		{
+			MethodName: "UpdateAutoReply",
+			Handler:    _Support_UpdateAutoReply_Handler,
+		},
+		{
+			MethodName: "DeleteAutoReply",
+			Handler:    _Support_DeleteAutoReply_Handler,
+		},
+		{
+			MethodName: "ListAutoReplys",
+			Handler:    _Support_ListAutoReplys_Handler,
+		},
+		{
+			MethodName: "DescribeAutoReply",
+			Handler:    _Support_DescribeAutoReply_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

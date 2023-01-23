@@ -152,6 +152,21 @@ func RegisterSupportHttpHandlers(router *mux.Router, prefix string, srv SupportS
 	router.Handle(prefix+"/helpdesk/tickets/{ticket_id}/comments/{comment_id}", _Support_DescribeComment_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.helpdesk.Support.DescribeComment")
+	router.Handle(prefix+"/helpdesk/autoreplies", _Support_CreateAutoReply_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.helpdesk.Support.CreateAutoReply")
+	router.Handle(prefix+"/helpdesk/autoreplies/{reply_id}", _Support_UpdateAutoReply_Rule0(srv)).
+		Methods("PUT").
+		Name("eolymp.helpdesk.Support.UpdateAutoReply")
+	router.Handle(prefix+"/helpdesk/autoreplies/{reply_id}", _Support_DeleteAutoReply_Rule0(srv)).
+		Methods("DELETE").
+		Name("eolymp.helpdesk.Support.DeleteAutoReply")
+	router.Handle(prefix+"/helpdesk/autoreplies", _Support_ListAutoReplys_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.helpdesk.Support.ListAutoReplys")
+	router.Handle(prefix+"/helpdesk/autoreplies/{reply_id}", _Support_DescribeAutoReply_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.helpdesk.Support.DescribeAutoReply")
 }
 
 func _Support_CreateTicket_Rule0(srv SupportServer) http.Handler {
@@ -441,6 +456,115 @@ func _Support_DescribeComment_Rule0(srv SupportServer) http.Handler {
 		in.CommentId = vars["comment_id"]
 
 		out, err := srv.DescribeComment(r.Context(), in)
+		if err != nil {
+			_Support_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Support_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Support_CreateAutoReply_Rule0(srv SupportServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &CreateAutoReplyInput{}
+
+		if err := _Support_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Support_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.CreateAutoReply(r.Context(), in)
+		if err != nil {
+			_Support_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Support_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Support_UpdateAutoReply_Rule0(srv SupportServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UpdateAutoReplyInput{}
+
+		if err := _Support_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Support_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ReplyId = vars["reply_id"]
+
+		out, err := srv.UpdateAutoReply(r.Context(), in)
+		if err != nil {
+			_Support_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Support_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Support_DeleteAutoReply_Rule0(srv SupportServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DeleteAutoReplyInput{}
+
+		if err := _Support_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Support_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ReplyId = vars["reply_id"]
+
+		out, err := srv.DeleteAutoReply(r.Context(), in)
+		if err != nil {
+			_Support_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Support_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Support_ListAutoReplys_Rule0(srv SupportServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListAutoRepliesInput{}
+
+		if err := _Support_HTTPReadQueryString(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Support_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.ListAutoReplys(r.Context(), in)
+		if err != nil {
+			_Support_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Support_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Support_DescribeAutoReply_Rule0(srv SupportServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeAutoReplyInput{}
+
+		if err := _Support_HTTPReadQueryString(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Support_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ReplyId = vars["reply_id"]
+
+		out, err := srv.DescribeAutoReply(r.Context(), in)
 		if err != nil {
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
@@ -873,6 +997,166 @@ func (i *SupportInterceptor) DescribeComment(ctx context.Context, in *DescribeCo
 	message, ok := out.(*DescribeCommentOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *DescribeCommentOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *SupportInterceptor) CreateAutoReply(ctx context.Context, in *CreateAutoReplyInput) (*CreateAutoReplyOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*CreateAutoReplyInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *CreateAutoReplyInput, got %T", in))
+		}
+
+		return i.server.CreateAutoReply(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.helpdesk.Support.CreateAutoReply", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*CreateAutoReplyOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *CreateAutoReplyOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *SupportInterceptor) UpdateAutoReply(ctx context.Context, in *UpdateAutoReplyInput) (*UpdateAutoReplyOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*UpdateAutoReplyInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *UpdateAutoReplyInput, got %T", in))
+		}
+
+		return i.server.UpdateAutoReply(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.helpdesk.Support.UpdateAutoReply", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*UpdateAutoReplyOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *UpdateAutoReplyOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *SupportInterceptor) DeleteAutoReply(ctx context.Context, in *DeleteAutoReplyInput) (*DeleteAutoReplyOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DeleteAutoReplyInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DeleteAutoReplyInput, got %T", in))
+		}
+
+		return i.server.DeleteAutoReply(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.helpdesk.Support.DeleteAutoReply", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DeleteAutoReplyOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DeleteAutoReplyOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *SupportInterceptor) ListAutoReplys(ctx context.Context, in *ListAutoRepliesInput) (*ListAutoRepliesOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListAutoRepliesInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListAutoRepliesInput, got %T", in))
+		}
+
+		return i.server.ListAutoReplys(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.helpdesk.Support.ListAutoReplys", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListAutoRepliesOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListAutoRepliesOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *SupportInterceptor) DescribeAutoReply(ctx context.Context, in *DescribeAutoReplyInput) (*DescribeAutoReplyOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeAutoReplyInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeAutoReplyInput, got %T", in))
+		}
+
+		return i.server.DescribeAutoReply(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.helpdesk.Support.DescribeAutoReply", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeAutoReplyOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeAutoReplyOutput, got %T", out))
 	}
 
 	return message, err
