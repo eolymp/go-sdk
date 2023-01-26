@@ -113,9 +113,202 @@ func _Typewriter_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 // RegisterTypewriterHttpHandlers adds handlers for for TypewriterServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterTypewriterHttpHandlers(router *mux.Router, prefix string, srv TypewriterServer) {
+	router.Handle(prefix+"/content/fragments/{fragment_id}", _Typewriter_DescribeFragment_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.typewriter.Typewriter.DescribeFragment")
+	router.Handle(prefix+"/content/fragments", _Typewriter_ListFragments_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.typewriter.Typewriter.ListFragments")
+	router.Handle(prefix+"/content/fragments", _Typewriter_CreateFragment_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.typewriter.Typewriter.CreateFragment")
+	router.Handle(prefix+"/content/fragments/{fragment_id}", _Typewriter_UpdateFragment_Rule0(srv)).
+		Methods("PUT").
+		Name("eolymp.typewriter.Typewriter.UpdateFragment")
+	router.Handle(prefix+"/content/fragments/{fragment_id}", _Typewriter_DeleteFragment_Rule0(srv)).
+		Methods("DELETE").
+		Name("eolymp.typewriter.Typewriter.DeleteFragment")
+	router.Handle(prefix+"/content/path", _Typewriter_DescribePath_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.typewriter.Typewriter.DescribePath")
+	router.Handle(prefix+"/content/paths", _Typewriter_ListPaths_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.typewriter.Typewriter.ListPaths")
+	router.Handle(prefix+"/content/parents", _Typewriter_ListParents_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.typewriter.Typewriter.ListParents")
 	router.Handle(prefix+"/assets", _Typewriter_UploadAsset_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.typewriter.Typewriter.UploadAsset")
+}
+
+func _Typewriter_DescribeFragment_Rule0(srv TypewriterServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeFragmentInput{}
+
+		if err := _Typewriter_HTTPReadQueryString(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Typewriter_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.FragmentId = vars["fragment_id"]
+
+		out, err := srv.DescribeFragment(r.Context(), in)
+		if err != nil {
+			_Typewriter_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Typewriter_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Typewriter_ListFragments_Rule0(srv TypewriterServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListFragmentsInput{}
+
+		if err := _Typewriter_HTTPReadQueryString(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Typewriter_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.ListFragments(r.Context(), in)
+		if err != nil {
+			_Typewriter_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Typewriter_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Typewriter_CreateFragment_Rule0(srv TypewriterServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &CreateFragmentInput{}
+
+		if err := _Typewriter_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Typewriter_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.CreateFragment(r.Context(), in)
+		if err != nil {
+			_Typewriter_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Typewriter_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Typewriter_UpdateFragment_Rule0(srv TypewriterServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UpdateFragmentInput{}
+
+		if err := _Typewriter_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Typewriter_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.FragmentId = vars["fragment_id"]
+
+		out, err := srv.UpdateFragment(r.Context(), in)
+		if err != nil {
+			_Typewriter_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Typewriter_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Typewriter_DeleteFragment_Rule0(srv TypewriterServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DeleteFragmentInput{}
+
+		if err := _Typewriter_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Typewriter_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.FragmentId = vars["fragment_id"]
+
+		out, err := srv.DeleteFragment(r.Context(), in)
+		if err != nil {
+			_Typewriter_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Typewriter_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Typewriter_DescribePath_Rule0(srv TypewriterServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribePathInput{}
+
+		if err := _Typewriter_HTTPReadQueryString(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Typewriter_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.DescribePath(r.Context(), in)
+		if err != nil {
+			_Typewriter_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Typewriter_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Typewriter_ListPaths_Rule0(srv TypewriterServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListPathsInput{}
+
+		if err := _Typewriter_HTTPReadQueryString(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Typewriter_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.ListPaths(r.Context(), in)
+		if err != nil {
+			_Typewriter_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Typewriter_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Typewriter_ListParents_Rule0(srv TypewriterServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListParentsInput{}
+
+		if err := _Typewriter_HTTPReadQueryString(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Typewriter_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.ListParents(r.Context(), in)
+		if err != nil {
+			_Typewriter_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Typewriter_HTTPWriteResponse(w, out)
+	})
 }
 
 func _Typewriter_UploadAsset_Rule0(srv TypewriterServer) http.Handler {
@@ -148,6 +341,262 @@ type TypewriterInterceptor struct {
 // NewTypewriterInterceptor constructs additional middleware for a server based on annotations in proto files
 func NewTypewriterInterceptor(srv TypewriterServer, middleware ..._TypewriterMiddleware) *TypewriterInterceptor {
 	return &TypewriterInterceptor{server: srv, middleware: middleware}
+}
+
+func (i *TypewriterInterceptor) DescribeFragment(ctx context.Context, in *DescribeFragmentInput) (*DescribeFragmentOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeFragmentInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeFragmentInput, got %T", in))
+		}
+
+		return i.server.DescribeFragment(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.typewriter.Typewriter.DescribeFragment", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeFragmentOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeFragmentOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *TypewriterInterceptor) ListFragments(ctx context.Context, in *ListFragmentsInput) (*ListFragmentsOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListFragmentsInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListFragmentsInput, got %T", in))
+		}
+
+		return i.server.ListFragments(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.typewriter.Typewriter.ListFragments", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListFragmentsOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListFragmentsOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *TypewriterInterceptor) CreateFragment(ctx context.Context, in *CreateFragmentInput) (*CreateFragmentOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*CreateFragmentInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *CreateFragmentInput, got %T", in))
+		}
+
+		return i.server.CreateFragment(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.typewriter.Typewriter.CreateFragment", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*CreateFragmentOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *CreateFragmentOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *TypewriterInterceptor) UpdateFragment(ctx context.Context, in *UpdateFragmentInput) (*UpdateFragmentOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*UpdateFragmentInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *UpdateFragmentInput, got %T", in))
+		}
+
+		return i.server.UpdateFragment(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.typewriter.Typewriter.UpdateFragment", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*UpdateFragmentOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *UpdateFragmentOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *TypewriterInterceptor) DeleteFragment(ctx context.Context, in *DeleteFragmentInput) (*DeleteFragmentOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DeleteFragmentInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DeleteFragmentInput, got %T", in))
+		}
+
+		return i.server.DeleteFragment(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.typewriter.Typewriter.DeleteFragment", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DeleteFragmentOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DeleteFragmentOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *TypewriterInterceptor) DescribePath(ctx context.Context, in *DescribePathInput) (*DescribePathOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribePathInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribePathInput, got %T", in))
+		}
+
+		return i.server.DescribePath(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.typewriter.Typewriter.DescribePath", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribePathOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribePathOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *TypewriterInterceptor) ListPaths(ctx context.Context, in *ListPathsInput) (*ListPathsOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListPathsInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListPathsInput, got %T", in))
+		}
+
+		return i.server.ListPaths(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.typewriter.Typewriter.ListPaths", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListPathsOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListPathsOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *TypewriterInterceptor) ListParents(ctx context.Context, in *ListParentsInput) (*ListParentsOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListParentsInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListParentsInput, got %T", in))
+		}
+
+		return i.server.ListParents(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.typewriter.Typewriter.ListParents", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListParentsOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListParentsOutput, got %T", out))
+	}
+
+	return message, err
 }
 
 func (i *TypewriterInterceptor) UploadAsset(ctx context.Context, in *UploadAssetInput) (*UploadAssetOutput, error) {

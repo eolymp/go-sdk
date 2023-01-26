@@ -22,6 +22,14 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type TypewriterClient interface {
+	DescribeFragment(ctx context.Context, in *DescribeFragmentInput, opts ...grpc.CallOption) (*DescribeFragmentOutput, error)
+	ListFragments(ctx context.Context, in *ListFragmentsInput, opts ...grpc.CallOption) (*ListFragmentsOutput, error)
+	CreateFragment(ctx context.Context, in *CreateFragmentInput, opts ...grpc.CallOption) (*CreateFragmentOutput, error)
+	UpdateFragment(ctx context.Context, in *UpdateFragmentInput, opts ...grpc.CallOption) (*UpdateFragmentOutput, error)
+	DeleteFragment(ctx context.Context, in *DeleteFragmentInput, opts ...grpc.CallOption) (*DeleteFragmentOutput, error)
+	DescribePath(ctx context.Context, in *DescribePathInput, opts ...grpc.CallOption) (*DescribePathOutput, error)
+	ListPaths(ctx context.Context, in *ListPathsInput, opts ...grpc.CallOption) (*ListPathsOutput, error)
+	ListParents(ctx context.Context, in *ListParentsInput, opts ...grpc.CallOption) (*ListParentsOutput, error)
 	UploadAsset(ctx context.Context, in *UploadAssetInput, opts ...grpc.CallOption) (*UploadAssetOutput, error)
 }
 
@@ -31,6 +39,78 @@ type typewriterClient struct {
 
 func NewTypewriterClient(cc grpc.ClientConnInterface) TypewriterClient {
 	return &typewriterClient{cc}
+}
+
+func (c *typewriterClient) DescribeFragment(ctx context.Context, in *DescribeFragmentInput, opts ...grpc.CallOption) (*DescribeFragmentOutput, error) {
+	out := new(DescribeFragmentOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.typewriter.Typewriter/DescribeFragment", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *typewriterClient) ListFragments(ctx context.Context, in *ListFragmentsInput, opts ...grpc.CallOption) (*ListFragmentsOutput, error) {
+	out := new(ListFragmentsOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.typewriter.Typewriter/ListFragments", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *typewriterClient) CreateFragment(ctx context.Context, in *CreateFragmentInput, opts ...grpc.CallOption) (*CreateFragmentOutput, error) {
+	out := new(CreateFragmentOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.typewriter.Typewriter/CreateFragment", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *typewriterClient) UpdateFragment(ctx context.Context, in *UpdateFragmentInput, opts ...grpc.CallOption) (*UpdateFragmentOutput, error) {
+	out := new(UpdateFragmentOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.typewriter.Typewriter/UpdateFragment", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *typewriterClient) DeleteFragment(ctx context.Context, in *DeleteFragmentInput, opts ...grpc.CallOption) (*DeleteFragmentOutput, error) {
+	out := new(DeleteFragmentOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.typewriter.Typewriter/DeleteFragment", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *typewriterClient) DescribePath(ctx context.Context, in *DescribePathInput, opts ...grpc.CallOption) (*DescribePathOutput, error) {
+	out := new(DescribePathOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.typewriter.Typewriter/DescribePath", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *typewriterClient) ListPaths(ctx context.Context, in *ListPathsInput, opts ...grpc.CallOption) (*ListPathsOutput, error) {
+	out := new(ListPathsOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.typewriter.Typewriter/ListPaths", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *typewriterClient) ListParents(ctx context.Context, in *ListParentsInput, opts ...grpc.CallOption) (*ListParentsOutput, error) {
+	out := new(ListParentsOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.typewriter.Typewriter/ListParents", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *typewriterClient) UploadAsset(ctx context.Context, in *UploadAssetInput, opts ...grpc.CallOption) (*UploadAssetOutput, error) {
@@ -46,6 +126,14 @@ func (c *typewriterClient) UploadAsset(ctx context.Context, in *UploadAssetInput
 // All implementations should embed UnimplementedTypewriterServer
 // for forward compatibility
 type TypewriterServer interface {
+	DescribeFragment(context.Context, *DescribeFragmentInput) (*DescribeFragmentOutput, error)
+	ListFragments(context.Context, *ListFragmentsInput) (*ListFragmentsOutput, error)
+	CreateFragment(context.Context, *CreateFragmentInput) (*CreateFragmentOutput, error)
+	UpdateFragment(context.Context, *UpdateFragmentInput) (*UpdateFragmentOutput, error)
+	DeleteFragment(context.Context, *DeleteFragmentInput) (*DeleteFragmentOutput, error)
+	DescribePath(context.Context, *DescribePathInput) (*DescribePathOutput, error)
+	ListPaths(context.Context, *ListPathsInput) (*ListPathsOutput, error)
+	ListParents(context.Context, *ListParentsInput) (*ListParentsOutput, error)
 	UploadAsset(context.Context, *UploadAssetInput) (*UploadAssetOutput, error)
 }
 
@@ -53,6 +141,30 @@ type TypewriterServer interface {
 type UnimplementedTypewriterServer struct {
 }
 
+func (UnimplementedTypewriterServer) DescribeFragment(context.Context, *DescribeFragmentInput) (*DescribeFragmentOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeFragment not implemented")
+}
+func (UnimplementedTypewriterServer) ListFragments(context.Context, *ListFragmentsInput) (*ListFragmentsOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListFragments not implemented")
+}
+func (UnimplementedTypewriterServer) CreateFragment(context.Context, *CreateFragmentInput) (*CreateFragmentOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateFragment not implemented")
+}
+func (UnimplementedTypewriterServer) UpdateFragment(context.Context, *UpdateFragmentInput) (*UpdateFragmentOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateFragment not implemented")
+}
+func (UnimplementedTypewriterServer) DeleteFragment(context.Context, *DeleteFragmentInput) (*DeleteFragmentOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteFragment not implemented")
+}
+func (UnimplementedTypewriterServer) DescribePath(context.Context, *DescribePathInput) (*DescribePathOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribePath not implemented")
+}
+func (UnimplementedTypewriterServer) ListPaths(context.Context, *ListPathsInput) (*ListPathsOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListPaths not implemented")
+}
+func (UnimplementedTypewriterServer) ListParents(context.Context, *ListParentsInput) (*ListParentsOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListParents not implemented")
+}
 func (UnimplementedTypewriterServer) UploadAsset(context.Context, *UploadAssetInput) (*UploadAssetOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UploadAsset not implemented")
 }
@@ -66,6 +178,150 @@ type UnsafeTypewriterServer interface {
 
 func RegisterTypewriterServer(s grpc.ServiceRegistrar, srv TypewriterServer) {
 	s.RegisterService(&Typewriter_ServiceDesc, srv)
+}
+
+func _Typewriter_DescribeFragment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeFragmentInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TypewriterServer).DescribeFragment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.typewriter.Typewriter/DescribeFragment",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TypewriterServer).DescribeFragment(ctx, req.(*DescribeFragmentInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Typewriter_ListFragments_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListFragmentsInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TypewriterServer).ListFragments(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.typewriter.Typewriter/ListFragments",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TypewriterServer).ListFragments(ctx, req.(*ListFragmentsInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Typewriter_CreateFragment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateFragmentInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TypewriterServer).CreateFragment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.typewriter.Typewriter/CreateFragment",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TypewriterServer).CreateFragment(ctx, req.(*CreateFragmentInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Typewriter_UpdateFragment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateFragmentInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TypewriterServer).UpdateFragment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.typewriter.Typewriter/UpdateFragment",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TypewriterServer).UpdateFragment(ctx, req.(*UpdateFragmentInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Typewriter_DeleteFragment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteFragmentInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TypewriterServer).DeleteFragment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.typewriter.Typewriter/DeleteFragment",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TypewriterServer).DeleteFragment(ctx, req.(*DeleteFragmentInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Typewriter_DescribePath_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribePathInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TypewriterServer).DescribePath(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.typewriter.Typewriter/DescribePath",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TypewriterServer).DescribePath(ctx, req.(*DescribePathInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Typewriter_ListPaths_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListPathsInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TypewriterServer).ListPaths(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.typewriter.Typewriter/ListPaths",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TypewriterServer).ListPaths(ctx, req.(*ListPathsInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Typewriter_ListParents_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListParentsInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TypewriterServer).ListParents(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.typewriter.Typewriter/ListParents",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TypewriterServer).ListParents(ctx, req.(*ListParentsInput))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _Typewriter_UploadAsset_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -93,6 +349,38 @@ var Typewriter_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "eolymp.typewriter.Typewriter",
 	HandlerType: (*TypewriterServer)(nil),
 	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "DescribeFragment",
+			Handler:    _Typewriter_DescribeFragment_Handler,
+		},
+		{
+			MethodName: "ListFragments",
+			Handler:    _Typewriter_ListFragments_Handler,
+		},
+		{
+			MethodName: "CreateFragment",
+			Handler:    _Typewriter_CreateFragment_Handler,
+		},
+		{
+			MethodName: "UpdateFragment",
+			Handler:    _Typewriter_UpdateFragment_Handler,
+		},
+		{
+			MethodName: "DeleteFragment",
+			Handler:    _Typewriter_DeleteFragment_Handler,
+		},
+		{
+			MethodName: "DescribePath",
+			Handler:    _Typewriter_DescribePath_Handler,
+		},
+		{
+			MethodName: "ListPaths",
+			Handler:    _Typewriter_ListPaths_Handler,
+		},
+		{
+			MethodName: "ListParents",
+			Handler:    _Typewriter_ListParents_Handler,
+		},
 		{
 			MethodName: "UploadAsset",
 			Handler:    _Typewriter_UploadAsset_Handler,
