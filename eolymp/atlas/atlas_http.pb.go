@@ -230,12 +230,9 @@ func RegisterAtlasHttpHandlers(router *mux.Router, prefix string, srv AtlasServe
 	router.Handle(prefix+"/problems/{problem_id}/attachments/{attachment_id}", _Atlas_DescribeAttachment_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.atlas.Atlas.DescribeAttachment")
-	router.Handle(prefix+"/problems/{problem_id}/changes/{change_id}", _Atlas_DescribeChange_Rule0(srv)).
+	router.Handle(prefix+"/problems/{problem_id}/versions", _Atlas_ListVersions_Rule0(srv)).
 		Methods("GET").
-		Name("eolymp.atlas.Atlas.DescribeChange")
-	router.Handle(prefix+"/problems/{problem_id}/changes", _Atlas_ListChanges_Rule0(srv)).
-		Methods("GET").
-		Name("eolymp.atlas.Atlas.ListChanges")
+		Name("eolymp.atlas.Atlas.ListVersions")
 	router.Handle(prefix+"/problems/{problem_id}/top", _Atlas_ListProblemTop_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.atlas.Atlas.ListProblemTop")
@@ -1216,33 +1213,9 @@ func _Atlas_DescribeAttachment_Rule0(srv AtlasServer) http.Handler {
 	})
 }
 
-func _Atlas_DescribeChange_Rule0(srv AtlasServer) http.Handler {
+func _Atlas_ListVersions_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DescribeChangeInput{}
-
-		if err := _Atlas_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Atlas_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.ProblemId = vars["problem_id"]
-		in.ChangeId = vars["change_id"]
-
-		out, err := srv.DescribeChange(r.Context(), in)
-		if err != nil {
-			_Atlas_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Atlas_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Atlas_ListChanges_Rule0(srv AtlasServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ListChangesInput{}
+		in := &ListVersionsInput{}
 
 		if err := _Atlas_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
@@ -1253,7 +1226,7 @@ func _Atlas_ListChanges_Rule0(srv AtlasServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
 
-		out, err := srv.ListChanges(r.Context(), in)
+		out, err := srv.ListVersions(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -3035,14 +3008,14 @@ func (i *AtlasInterceptor) DescribeAttachment(ctx context.Context, in *DescribeA
 	return message, err
 }
 
-func (i *AtlasInterceptor) DescribeChange(ctx context.Context, in *DescribeChangeInput) (*DescribeChangeOutput, error) {
+func (i *AtlasInterceptor) ListVersions(ctx context.Context, in *ListVersionsInput) (*ListVersionsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*DescribeChangeInput)
+		message, ok := in.(*ListVersionsInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *DescribeChangeInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *ListVersionsInput, got %T", in))
 		}
 
-		return i.server.DescribeChange(ctx, message)
+		return i.server.ListVersions(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
@@ -3050,7 +3023,7 @@ func (i *AtlasInterceptor) DescribeChange(ctx context.Context, in *DescribeChang
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas.DescribeChange", in, next)
+			return mw(ctx, "eolymp.atlas.Atlas.ListVersions", in, next)
 		}
 	}
 
@@ -3059,41 +3032,9 @@ func (i *AtlasInterceptor) DescribeChange(ctx context.Context, in *DescribeChang
 		return nil, err
 	}
 
-	message, ok := out.(*DescribeChangeOutput)
+	message, ok := out.(*ListVersionsOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *DescribeChangeOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *AtlasInterceptor) ListChanges(ctx context.Context, in *ListChangesInput) (*ListChangesOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*ListChangesInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *ListChangesInput, got %T", in))
-		}
-
-		return i.server.ListChanges(ctx, message)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas.ListChanges", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*ListChangesOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *ListChangesOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *ListVersionsOutput, got %T", out))
 	}
 
 	return message, err

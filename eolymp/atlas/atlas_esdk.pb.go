@@ -735,26 +735,9 @@ func (s *AtlasService) DescribeAttachment(ctx context.Context, in *DescribeAttac
 	return out, nil
 }
 
-func (s *AtlasService) DescribeChange(ctx context.Context, in *DescribeChangeInput) (*DescribeChangeOutput, error) {
-	out := &DescribeChangeOutput{}
-	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/changes/" + url.PathEscape(in.GetChangeId())
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.ProblemId = ""
-		in.ChangeId = ""
-	}
-
-	if err := s.do(ctx, "GET", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *AtlasService) ListChanges(ctx context.Context, in *ListChangesInput) (*ListChangesOutput, error) {
-	out := &ListChangesOutput{}
-	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/changes"
+func (s *AtlasService) ListVersions(ctx context.Context, in *ListVersionsInput) (*ListVersionsOutput, error) {
+	out := &ListVersionsOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/versions"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {

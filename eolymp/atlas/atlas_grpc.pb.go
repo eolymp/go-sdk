@@ -61,8 +61,7 @@ type AtlasClient interface {
 	DeleteAttachment(ctx context.Context, in *DeleteAttachmentInput, opts ...grpc.CallOption) (*DeleteAttachmentOutput, error)
 	ListAttachments(ctx context.Context, in *ListAttachmentsInput, opts ...grpc.CallOption) (*ListAttachmentsOutput, error)
 	DescribeAttachment(ctx context.Context, in *DescribeAttachmentInput, opts ...grpc.CallOption) (*DescribeAttachmentOutput, error)
-	DescribeChange(ctx context.Context, in *DescribeChangeInput, opts ...grpc.CallOption) (*DescribeChangeOutput, error)
-	ListChanges(ctx context.Context, in *ListChangesInput, opts ...grpc.CallOption) (*ListChangesOutput, error)
+	ListVersions(ctx context.Context, in *ListVersionsInput, opts ...grpc.CallOption) (*ListVersionsOutput, error)
 	ListProblemTop(ctx context.Context, in *ListProblemTopInput, opts ...grpc.CallOption) (*ListProblemTopOutput, error)
 	DescribeProblemGrading(ctx context.Context, in *DescribeProblemGradingInput, opts ...grpc.CallOption) (*DescribeProblemGradingOutput, error)
 	CreateSolution(ctx context.Context, in *CreateSolutionInput, opts ...grpc.CallOption) (*CreateSolutionOutput, error)
@@ -446,18 +445,9 @@ func (c *atlasClient) DescribeAttachment(ctx context.Context, in *DescribeAttach
 	return out, nil
 }
 
-func (c *atlasClient) DescribeChange(ctx context.Context, in *DescribeChangeInput, opts ...grpc.CallOption) (*DescribeChangeOutput, error) {
-	out := new(DescribeChangeOutput)
-	err := c.cc.Invoke(ctx, "/eolymp.atlas.Atlas/DescribeChange", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *atlasClient) ListChanges(ctx context.Context, in *ListChangesInput, opts ...grpc.CallOption) (*ListChangesOutput, error) {
-	out := new(ListChangesOutput)
-	err := c.cc.Invoke(ctx, "/eolymp.atlas.Atlas/ListChanges", in, out, opts...)
+func (c *atlasClient) ListVersions(ctx context.Context, in *ListVersionsInput, opts ...grpc.CallOption) (*ListVersionsOutput, error) {
+	out := new(ListVersionsOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.atlas.Atlas/ListVersions", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -705,8 +695,7 @@ type AtlasServer interface {
 	DeleteAttachment(context.Context, *DeleteAttachmentInput) (*DeleteAttachmentOutput, error)
 	ListAttachments(context.Context, *ListAttachmentsInput) (*ListAttachmentsOutput, error)
 	DescribeAttachment(context.Context, *DescribeAttachmentInput) (*DescribeAttachmentOutput, error)
-	DescribeChange(context.Context, *DescribeChangeInput) (*DescribeChangeOutput, error)
-	ListChanges(context.Context, *ListChangesInput) (*ListChangesOutput, error)
+	ListVersions(context.Context, *ListVersionsInput) (*ListVersionsOutput, error)
 	ListProblemTop(context.Context, *ListProblemTopInput) (*ListProblemTopOutput, error)
 	DescribeProblemGrading(context.Context, *DescribeProblemGradingInput) (*DescribeProblemGradingOutput, error)
 	CreateSolution(context.Context, *CreateSolutionInput) (*CreateSolutionOutput, error)
@@ -852,11 +841,8 @@ func (UnimplementedAtlasServer) ListAttachments(context.Context, *ListAttachment
 func (UnimplementedAtlasServer) DescribeAttachment(context.Context, *DescribeAttachmentInput) (*DescribeAttachmentOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeAttachment not implemented")
 }
-func (UnimplementedAtlasServer) DescribeChange(context.Context, *DescribeChangeInput) (*DescribeChangeOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DescribeChange not implemented")
-}
-func (UnimplementedAtlasServer) ListChanges(context.Context, *ListChangesInput) (*ListChangesOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListChanges not implemented")
+func (UnimplementedAtlasServer) ListVersions(context.Context, *ListVersionsInput) (*ListVersionsOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListVersions not implemented")
 }
 func (UnimplementedAtlasServer) ListProblemTop(context.Context, *ListProblemTopInput) (*ListProblemTopOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListProblemTop not implemented")
@@ -1638,38 +1624,20 @@ func _Atlas_DescribeAttachment_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Atlas_DescribeChange_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DescribeChangeInput)
+func _Atlas_ListVersions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListVersionsInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AtlasServer).DescribeChange(ctx, in)
+		return srv.(AtlasServer).ListVersions(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/eolymp.atlas.Atlas/DescribeChange",
+		FullMethod: "/eolymp.atlas.Atlas/ListVersions",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AtlasServer).DescribeChange(ctx, req.(*DescribeChangeInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Atlas_ListChanges_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListChangesInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AtlasServer).ListChanges(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/eolymp.atlas.Atlas/ListChanges",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AtlasServer).ListChanges(ctx, req.(*ListChangesInput))
+		return srv.(AtlasServer).ListVersions(ctx, req.(*ListVersionsInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -2234,12 +2202,8 @@ var Atlas_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Atlas_DescribeAttachment_Handler,
 		},
 		{
-			MethodName: "DescribeChange",
-			Handler:    _Atlas_DescribeChange_Handler,
-		},
-		{
-			MethodName: "ListChanges",
-			Handler:    _Atlas_ListChanges_Handler,
+			MethodName: "ListVersions",
+			Handler:    _Atlas_ListVersions_Handler,
 		},
 		{
 			MethodName: "ListProblemTop",
