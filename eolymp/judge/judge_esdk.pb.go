@@ -774,6 +774,23 @@ func (s *JudgeService) ResetPasscode(ctx context.Context, in *ResetPasscodeInput
 	return out, nil
 }
 
+func (s *JudgeService) SetPasscode(ctx context.Context, in *SetPasscodeInput) (*SetPasscodeOutput, error) {
+	out := &SetPasscodeOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/participants/" + url.PathEscape(in.GetParticipantId()) + "/passcode"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+		in.ParticipantId = ""
+	}
+
+	if err := s.do(ctx, "PUT", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *JudgeService) RemovePasscode(ctx context.Context, in *RemovePasscodeInput) (*RemovePasscodeOutput, error) {
 	out := &RemovePasscodeOutput{}
 	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/participants/" + url.PathEscape(in.GetParticipantId()) + "/passcode"

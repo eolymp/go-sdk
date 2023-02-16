@@ -95,6 +95,8 @@ type JudgeClient interface {
 	EnterPasscode(ctx context.Context, in *EnterPasscodeInput, opts ...grpc.CallOption) (*EnterPasscodeOutput, error)
 	// Set a new passcode to the participant, if passcode was not set it will be now required
 	ResetPasscode(ctx context.Context, in *ResetPasscodeInput, opts ...grpc.CallOption) (*ResetPasscodeOutput, error)
+	// Set a new passcode to the participant, if passcode was not set it will be now required
+	SetPasscode(ctx context.Context, in *SetPasscodeInput, opts ...grpc.CallOption) (*SetPasscodeOutput, error)
 	// Remove passcode from participant and allow her to enter contest without passcode.
 	RemovePasscode(ctx context.Context, in *RemovePasscodeInput, opts ...grpc.CallOption) (*RemovePasscodeOutput, error)
 	// Creates submissions and triggers test process.
@@ -539,6 +541,15 @@ func (c *judgeClient) ResetPasscode(ctx context.Context, in *ResetPasscodeInput,
 	return out, nil
 }
 
+func (c *judgeClient) SetPasscode(ctx context.Context, in *SetPasscodeInput, opts ...grpc.CallOption) (*SetPasscodeOutput, error) {
+	out := new(SetPasscodeOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/SetPasscode", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *judgeClient) RemovePasscode(ctx context.Context, in *RemovePasscodeInput, opts ...grpc.CallOption) (*RemovePasscodeOutput, error) {
 	out := new(RemovePasscodeOutput)
 	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/RemovePasscode", in, out, opts...)
@@ -895,6 +906,8 @@ type JudgeServer interface {
 	EnterPasscode(context.Context, *EnterPasscodeInput) (*EnterPasscodeOutput, error)
 	// Set a new passcode to the participant, if passcode was not set it will be now required
 	ResetPasscode(context.Context, *ResetPasscodeInput) (*ResetPasscodeOutput, error)
+	// Set a new passcode to the participant, if passcode was not set it will be now required
+	SetPasscode(context.Context, *SetPasscodeInput) (*SetPasscodeOutput, error)
 	// Remove passcode from participant and allow her to enter contest without passcode.
 	RemovePasscode(context.Context, *RemovePasscodeInput) (*RemovePasscodeOutput, error)
 	// Creates submissions and triggers test process.
@@ -1082,6 +1095,9 @@ func (UnimplementedJudgeServer) EnterPasscode(context.Context, *EnterPasscodeInp
 }
 func (UnimplementedJudgeServer) ResetPasscode(context.Context, *ResetPasscodeInput) (*ResetPasscodeOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ResetPasscode not implemented")
+}
+func (UnimplementedJudgeServer) SetPasscode(context.Context, *SetPasscodeInput) (*SetPasscodeOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SetPasscode not implemented")
 }
 func (UnimplementedJudgeServer) RemovePasscode(context.Context, *RemovePasscodeInput) (*RemovePasscodeOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RemovePasscode not implemented")
@@ -1944,6 +1960,24 @@ func _Judge_ResetPasscode_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Judge_SetPasscode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SetPasscodeInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(JudgeServer).SetPasscode(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.judge.Judge/SetPasscode",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(JudgeServer).SetPasscode(ctx, req.(*SetPasscodeInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Judge_RemovePasscode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(RemovePasscodeInput)
 	if err := dec(in); err != nil {
@@ -2676,6 +2710,10 @@ var Judge_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ResetPasscode",
 			Handler:    _Judge_ResetPasscode_Handler,
+		},
+		{
+			MethodName: "SetPasscode",
+			Handler:    _Judge_SetPasscode_Handler,
 		},
 		{
 			MethodName: "RemovePasscode",

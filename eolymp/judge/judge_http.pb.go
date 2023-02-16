@@ -239,6 +239,9 @@ func RegisterJudgeHttpHandlers(router *mux.Router, prefix string, srv JudgeServe
 	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/passcode", _Judge_ResetPasscode_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.judge.Judge.ResetPasscode")
+	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/passcode", _Judge_SetPasscode_Rule0(srv)).
+		Methods("PUT").
+		Name("eolymp.judge.Judge.SetPasscode")
 	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/passcode", _Judge_RemovePasscode_Rule0(srv)).
 		Methods("DELETE").
 		Name("eolymp.judge.Judge.RemovePasscode")
@@ -1299,6 +1302,30 @@ func _Judge_ResetPasscode_Rule0(srv JudgeServer) http.Handler {
 		in.ParticipantId = vars["participant_id"]
 
 		out, err := srv.ResetPasscode(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_SetPasscode_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &SetPasscodeInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+		in.ParticipantId = vars["participant_id"]
+
+		out, err := srv.SetPasscode(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -3380,6 +3407,38 @@ func (i *JudgeInterceptor) ResetPasscode(ctx context.Context, in *ResetPasscodeI
 	message, ok := out.(*ResetPasscodeOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *ResetPasscodeOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *JudgeInterceptor) SetPasscode(ctx context.Context, in *SetPasscodeInput) (*SetPasscodeOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*SetPasscodeInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *SetPasscodeInput, got %T", in))
+		}
+
+		return i.server.SetPasscode(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge.SetPasscode", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*SetPasscodeOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *SetPasscodeOutput, got %T", out))
 	}
 
 	return message, err
