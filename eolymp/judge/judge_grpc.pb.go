@@ -105,6 +105,8 @@ type JudgeClient interface {
 	DescribeSubmission(ctx context.Context, in *DescribeSubmissionInput, opts ...grpc.CallOption) (*DescribeSubmissionOutput, error)
 	// Resets submission results and triggers testing process.
 	RetestSubmission(ctx context.Context, in *RetestSubmissionInput, opts ...grpc.CallOption) (*RetestSubmissionOutput, error)
+	DeleteSubmission(ctx context.Context, in *DeleteSubmissionInput, opts ...grpc.CallOption) (*DeleteSubmissionOutput, error)
+	RestoreSubmission(ctx context.Context, in *RestoreSubmissionInput, opts ...grpc.CallOption) (*RestoreSubmissionOutput, error)
 	// Create a new ticket
 	CreateTicket(ctx context.Context, in *CreateTicketInput, opts ...grpc.CallOption) (*CreateTicketOutput, error)
 	// Mark ticket as Closed
@@ -595,6 +597,24 @@ func (c *judgeClient) RetestSubmission(ctx context.Context, in *RetestSubmission
 	return out, nil
 }
 
+func (c *judgeClient) DeleteSubmission(ctx context.Context, in *DeleteSubmissionInput, opts ...grpc.CallOption) (*DeleteSubmissionOutput, error) {
+	out := new(DeleteSubmissionOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/DeleteSubmission", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *judgeClient) RestoreSubmission(ctx context.Context, in *RestoreSubmissionInput, opts ...grpc.CallOption) (*RestoreSubmissionOutput, error) {
+	out := new(RestoreSubmissionOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/RestoreSubmission", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *judgeClient) CreateTicket(ctx context.Context, in *CreateTicketInput, opts ...grpc.CallOption) (*CreateTicketOutput, error) {
 	out := new(CreateTicketOutput)
 	err := c.cc.Invoke(ctx, "/eolymp.judge.Judge/CreateTicket", in, out, opts...)
@@ -916,6 +936,8 @@ type JudgeServer interface {
 	DescribeSubmission(context.Context, *DescribeSubmissionInput) (*DescribeSubmissionOutput, error)
 	// Resets submission results and triggers testing process.
 	RetestSubmission(context.Context, *RetestSubmissionInput) (*RetestSubmissionOutput, error)
+	DeleteSubmission(context.Context, *DeleteSubmissionInput) (*DeleteSubmissionOutput, error)
+	RestoreSubmission(context.Context, *RestoreSubmissionInput) (*RestoreSubmissionOutput, error)
 	// Create a new ticket
 	CreateTicket(context.Context, *CreateTicketInput) (*CreateTicketOutput, error)
 	// Mark ticket as Closed
@@ -1113,6 +1135,12 @@ func (UnimplementedJudgeServer) DescribeSubmission(context.Context, *DescribeSub
 }
 func (UnimplementedJudgeServer) RetestSubmission(context.Context, *RetestSubmissionInput) (*RetestSubmissionOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RetestSubmission not implemented")
+}
+func (UnimplementedJudgeServer) DeleteSubmission(context.Context, *DeleteSubmissionInput) (*DeleteSubmissionOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteSubmission not implemented")
+}
+func (UnimplementedJudgeServer) RestoreSubmission(context.Context, *RestoreSubmissionInput) (*RestoreSubmissionOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RestoreSubmission not implemented")
 }
 func (UnimplementedJudgeServer) CreateTicket(context.Context, *CreateTicketInput) (*CreateTicketOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateTicket not implemented")
@@ -2068,6 +2096,42 @@ func _Judge_RetestSubmission_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Judge_DeleteSubmission_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteSubmissionInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(JudgeServer).DeleteSubmission(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.judge.Judge/DeleteSubmission",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(JudgeServer).DeleteSubmission(ctx, req.(*DeleteSubmissionInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Judge_RestoreSubmission_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RestoreSubmissionInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(JudgeServer).RestoreSubmission(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.judge.Judge/RestoreSubmission",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(JudgeServer).RestoreSubmission(ctx, req.(*RestoreSubmissionInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Judge_CreateTicket_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreateTicketInput)
 	if err := dec(in); err != nil {
@@ -2734,6 +2798,14 @@ var Judge_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RetestSubmission",
 			Handler:    _Judge_RetestSubmission_Handler,
+		},
+		{
+			MethodName: "DeleteSubmission",
+			Handler:    _Judge_DeleteSubmission_Handler,
+		},
+		{
+			MethodName: "RestoreSubmission",
+			Handler:    _Judge_RestoreSubmission_Handler,
 		},
 		{
 			MethodName: "CreateTicket",

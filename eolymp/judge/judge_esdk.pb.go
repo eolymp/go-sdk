@@ -868,7 +868,41 @@ func (s *JudgeService) RetestSubmission(ctx context.Context, in *RetestSubmissio
 		in.SubmissionId = ""
 	}
 
-	if err := s.do(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *JudgeService) DeleteSubmission(ctx context.Context, in *DeleteSubmissionInput) (*DeleteSubmissionOutput, error) {
+	out := &DeleteSubmissionOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/submissions/" + url.PathEscape(in.GetSubmissionId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+		in.SubmissionId = ""
+	}
+
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *JudgeService) RestoreSubmission(ctx context.Context, in *RestoreSubmissionInput) (*RestoreSubmissionOutput, error) {
+	out := &RestoreSubmissionOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/submissions/" + url.PathEscape(in.GetSubmissionId()) + "/restore"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+		in.SubmissionId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 

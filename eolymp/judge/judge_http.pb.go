@@ -255,8 +255,14 @@ func RegisterJudgeHttpHandlers(router *mux.Router, prefix string, srv JudgeServe
 		Methods("GET").
 		Name("eolymp.judge.Judge.DescribeSubmission")
 	router.Handle(prefix+"/contests/{contest_id}/submissions/{submission_id}/retest", _Judge_RetestSubmission_Rule0(srv)).
-		Methods("GET").
+		Methods("POST").
 		Name("eolymp.judge.Judge.RetestSubmission")
+	router.Handle(prefix+"/contests/{contest_id}/submissions/{submission_id}", _Judge_DeleteSubmission_Rule0(srv)).
+		Methods("DELETE").
+		Name("eolymp.judge.Judge.DeleteSubmission")
+	router.Handle(prefix+"/contests/{contest_id}/submissions/{submission_id}/restore", _Judge_RestoreSubmission_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.judge.Judge.RestoreSubmission")
 	router.Handle(prefix+"/contests/{contest_id}/tickets", _Judge_CreateTicket_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.judge.Judge.CreateTicket")
@@ -1434,7 +1440,7 @@ func _Judge_RetestSubmission_Rule0(srv JudgeServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &RetestSubmissionInput{}
 
-		if err := _Judge_HTTPReadQueryString(r, in); err != nil {
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -1445,6 +1451,54 @@ func _Judge_RetestSubmission_Rule0(srv JudgeServer) http.Handler {
 		in.SubmissionId = vars["submission_id"]
 
 		out, err := srv.RetestSubmission(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_DeleteSubmission_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DeleteSubmissionInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+		in.SubmissionId = vars["submission_id"]
+
+		out, err := srv.DeleteSubmission(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_RestoreSubmission_Rule0(srv JudgeServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &RestoreSubmissionInput{}
+
+		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+		in.SubmissionId = vars["submission_id"]
+
+		out, err := srv.RestoreSubmission(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -3599,6 +3653,70 @@ func (i *JudgeInterceptor) RetestSubmission(ctx context.Context, in *RetestSubmi
 	message, ok := out.(*RetestSubmissionOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *RetestSubmissionOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *JudgeInterceptor) DeleteSubmission(ctx context.Context, in *DeleteSubmissionInput) (*DeleteSubmissionOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DeleteSubmissionInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DeleteSubmissionInput, got %T", in))
+		}
+
+		return i.server.DeleteSubmission(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge.DeleteSubmission", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DeleteSubmissionOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DeleteSubmissionOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *JudgeInterceptor) RestoreSubmission(ctx context.Context, in *RestoreSubmissionInput) (*RestoreSubmissionOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*RestoreSubmissionInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *RestoreSubmissionInput, got %T", in))
+		}
+
+		return i.server.RestoreSubmission(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge.RestoreSubmission", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*RestoreSubmissionOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *RestoreSubmissionOutput, got %T", out))
 	}
 
 	return message, err
