@@ -37,7 +37,20 @@ type AtlasClient interface {
 	UpdateStatement(ctx context.Context, in *UpdateStatementInput, opts ...grpc.CallOption) (*UpdateStatementOutput, error)
 	DeleteStatement(ctx context.Context, in *DeleteStatementInput, opts ...grpc.CallOption) (*DeleteStatementOutput, error)
 	ListStatements(ctx context.Context, in *ListStatementsInput, opts ...grpc.CallOption) (*ListStatementsOutput, error)
+	// DescribeStatement returns statement as it's stored in the database.
+	//
+	// This method should be used to fetch statement for editing, it returns statement in original format (HTML, Markdown,
+	// LaTeX or ECM) without resolving any embedded or computed values.
 	DescribeStatement(ctx context.Context, in *DescribeStatementInput, opts ...grpc.CallOption) (*DescribeStatementOutput, error)
+	// RenderStatement returns fully resolved statement in ECM format.
+	//
+	// This method should be used to fetch statement for viewing, it always returns statement as ECM tree (rather than
+	// HTML or LaTeX) and ensures any embedded or computed values are resolved.
+	RenderStatement(ctx context.Context, in *RenderStatementInput, opts ...grpc.CallOption) (*RenderStatementOutput, error)
+	// PreviewStatement renders unsaved statement.
+	//
+	// This method can be used to render statement before it has been saved.
+	PreviewStatement(ctx context.Context, in *PreviewStatementInput, opts ...grpc.CallOption) (*PreviewStatementOutput, error)
 	CreateTestset(ctx context.Context, in *CreateTestsetInput, opts ...grpc.CallOption) (*CreateTestsetOutput, error)
 	UpdateTestset(ctx context.Context, in *UpdateTestsetInput, opts ...grpc.CallOption) (*UpdateTestsetOutput, error)
 	DeleteTestset(ctx context.Context, in *DeleteTestsetInput, opts ...grpc.CallOption) (*DeleteTestsetOutput, error)
@@ -232,6 +245,24 @@ func (c *atlasClient) ListStatements(ctx context.Context, in *ListStatementsInpu
 func (c *atlasClient) DescribeStatement(ctx context.Context, in *DescribeStatementInput, opts ...grpc.CallOption) (*DescribeStatementOutput, error) {
 	out := new(DescribeStatementOutput)
 	err := c.cc.Invoke(ctx, "/eolymp.atlas.Atlas/DescribeStatement", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *atlasClient) RenderStatement(ctx context.Context, in *RenderStatementInput, opts ...grpc.CallOption) (*RenderStatementOutput, error) {
+	out := new(RenderStatementOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.atlas.Atlas/RenderStatement", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *atlasClient) PreviewStatement(ctx context.Context, in *PreviewStatementInput, opts ...grpc.CallOption) (*PreviewStatementOutput, error) {
+	out := new(PreviewStatementOutput)
+	err := c.cc.Invoke(ctx, "/eolymp.atlas.Atlas/PreviewStatement", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -671,7 +702,20 @@ type AtlasServer interface {
 	UpdateStatement(context.Context, *UpdateStatementInput) (*UpdateStatementOutput, error)
 	DeleteStatement(context.Context, *DeleteStatementInput) (*DeleteStatementOutput, error)
 	ListStatements(context.Context, *ListStatementsInput) (*ListStatementsOutput, error)
+	// DescribeStatement returns statement as it's stored in the database.
+	//
+	// This method should be used to fetch statement for editing, it returns statement in original format (HTML, Markdown,
+	// LaTeX or ECM) without resolving any embedded or computed values.
 	DescribeStatement(context.Context, *DescribeStatementInput) (*DescribeStatementOutput, error)
+	// RenderStatement returns fully resolved statement in ECM format.
+	//
+	// This method should be used to fetch statement for viewing, it always returns statement as ECM tree (rather than
+	// HTML or LaTeX) and ensures any embedded or computed values are resolved.
+	RenderStatement(context.Context, *RenderStatementInput) (*RenderStatementOutput, error)
+	// PreviewStatement renders unsaved statement.
+	//
+	// This method can be used to render statement before it has been saved.
+	PreviewStatement(context.Context, *PreviewStatementInput) (*PreviewStatementOutput, error)
 	CreateTestset(context.Context, *CreateTestsetInput) (*CreateTestsetOutput, error)
 	UpdateTestset(context.Context, *UpdateTestsetInput) (*UpdateTestsetOutput, error)
 	DeleteTestset(context.Context, *DeleteTestsetInput) (*DeleteTestsetOutput, error)
@@ -771,6 +815,12 @@ func (UnimplementedAtlasServer) ListStatements(context.Context, *ListStatementsI
 }
 func (UnimplementedAtlasServer) DescribeStatement(context.Context, *DescribeStatementInput) (*DescribeStatementOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeStatement not implemented")
+}
+func (UnimplementedAtlasServer) RenderStatement(context.Context, *RenderStatementInput) (*RenderStatementOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RenderStatement not implemented")
+}
+func (UnimplementedAtlasServer) PreviewStatement(context.Context, *PreviewStatementInput) (*PreviewStatementOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PreviewStatement not implemented")
 }
 func (UnimplementedAtlasServer) CreateTestset(context.Context, *CreateTestsetInput) (*CreateTestsetOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateTestset not implemented")
@@ -1206,6 +1256,42 @@ func _Atlas_DescribeStatement_Handler(srv interface{}, ctx context.Context, dec 
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AtlasServer).DescribeStatement(ctx, req.(*DescribeStatementInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Atlas_RenderStatement_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RenderStatementInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AtlasServer).RenderStatement(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.atlas.Atlas/RenderStatement",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AtlasServer).RenderStatement(ctx, req.(*RenderStatementInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Atlas_PreviewStatement_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PreviewStatementInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AtlasServer).PreviewStatement(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eolymp.atlas.Atlas/PreviewStatement",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AtlasServer).PreviewStatement(ctx, req.(*PreviewStatementInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -2108,6 +2194,14 @@ var Atlas_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DescribeStatement",
 			Handler:    _Atlas_DescribeStatement_Handler,
+		},
+		{
+			MethodName: "RenderStatement",
+			Handler:    _Atlas_RenderStatement_Handler,
+		},
+		{
+			MethodName: "PreviewStatement",
+			Handler:    _Atlas_PreviewStatement_Handler,
 		},
 		{
 			MethodName: "CreateTestset",

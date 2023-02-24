@@ -161,6 +161,12 @@ func RegisterAtlasHttpHandlers(router *mux.Router, prefix string, srv AtlasServe
 	router.Handle(prefix+"/problems/{problem_id}/statements/{statement_id}", _Atlas_DescribeStatement_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.atlas.Atlas.DescribeStatement")
+	router.Handle(prefix+"/problems/{problem_id}/statements/{statement_id}/render", _Atlas_RenderStatement_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.atlas.Atlas.RenderStatement")
+	router.Handle(prefix+"/problems/{problem_id}/renders", _Atlas_PreviewStatement_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.atlas.Atlas.PreviewStatement")
 	router.Handle(prefix+"/problems/{problem_id}/testsets", _Atlas_CreateTestset_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.atlas.Atlas.CreateTestset")
@@ -657,6 +663,53 @@ func _Atlas_DescribeStatement_Rule0(srv AtlasServer) http.Handler {
 		in.StatementId = vars["statement_id"]
 
 		out, err := srv.DescribeStatement(r.Context(), in)
+		if err != nil {
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Atlas_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Atlas_RenderStatement_Rule0(srv AtlasServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &RenderStatementInput{}
+
+		if err := _Atlas_HTTPReadQueryString(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
+		in.StatementId = vars["statement_id"]
+
+		out, err := srv.RenderStatement(r.Context(), in)
+		if err != nil {
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Atlas_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Atlas_PreviewStatement_Rule0(srv AtlasServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &PreviewStatementInput{}
+
+		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
+
+		out, err := srv.PreviewStatement(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -2267,6 +2320,70 @@ func (i *AtlasInterceptor) DescribeStatement(ctx context.Context, in *DescribeSt
 	message, ok := out.(*DescribeStatementOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *DescribeStatementOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *AtlasInterceptor) RenderStatement(ctx context.Context, in *RenderStatementInput) (*RenderStatementOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*RenderStatementInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *RenderStatementInput, got %T", in))
+		}
+
+		return i.server.RenderStatement(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas.RenderStatement", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*RenderStatementOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *RenderStatementOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *AtlasInterceptor) PreviewStatement(ctx context.Context, in *PreviewStatementInput) (*PreviewStatementOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*PreviewStatementInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *PreviewStatementInput, got %T", in))
+		}
+
+		return i.server.PreviewStatement(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas.PreviewStatement", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*PreviewStatementOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *PreviewStatementOutput, got %T", out))
 	}
 
 	return message, err
