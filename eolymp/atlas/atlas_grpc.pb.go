@@ -50,6 +50,7 @@ const (
 	Atlas_GrantPermission_FullMethodName        = "/eolymp.atlas.Atlas/GrantPermission"
 	Atlas_RevokePermission_FullMethodName       = "/eolymp.atlas.Atlas/RevokePermission"
 	Atlas_ListPermissions_FullMethodName        = "/eolymp.atlas.Atlas/ListPermissions"
+	Atlas_IntrospectPermission_FullMethodName   = "/eolymp.atlas.Atlas/IntrospectPermission"
 	Atlas_CreateCodeTemplate_FullMethodName     = "/eolymp.atlas.Atlas/CreateCodeTemplate"
 	Atlas_UpdateCodeTemplate_FullMethodName     = "/eolymp.atlas.Atlas/UpdateCodeTemplate"
 	Atlas_DeleteCodeTemplate_FullMethodName     = "/eolymp.atlas.Atlas/DeleteCodeTemplate"
@@ -131,6 +132,7 @@ type AtlasClient interface {
 	GrantPermission(ctx context.Context, in *GrantPermissionInput, opts ...grpc.CallOption) (*GrantPermissionOutput, error)
 	RevokePermission(ctx context.Context, in *RevokePermissionInput, opts ...grpc.CallOption) (*RevokePermissionOutput, error)
 	ListPermissions(ctx context.Context, in *ListPermissionsInput, opts ...grpc.CallOption) (*ListPermissionsOutput, error)
+	IntrospectPermission(ctx context.Context, in *IntrospectPermissionInput, opts ...grpc.CallOption) (*IntrospectPermissionOutput, error)
 	CreateCodeTemplate(ctx context.Context, in *CreateCodeTemplateInput, opts ...grpc.CallOption) (*CreateCodeTemplateOutput, error)
 	UpdateCodeTemplate(ctx context.Context, in *UpdateCodeTemplateInput, opts ...grpc.CallOption) (*UpdateCodeTemplateOutput, error)
 	DeleteCodeTemplate(ctx context.Context, in *DeleteCodeTemplateInput, opts ...grpc.CallOption) (*DeleteCodeTemplateOutput, error)
@@ -447,6 +449,15 @@ func (c *atlasClient) RevokePermission(ctx context.Context, in *RevokePermission
 func (c *atlasClient) ListPermissions(ctx context.Context, in *ListPermissionsInput, opts ...grpc.CallOption) (*ListPermissionsOutput, error) {
 	out := new(ListPermissionsOutput)
 	err := c.cc.Invoke(ctx, Atlas_ListPermissions_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *atlasClient) IntrospectPermission(ctx context.Context, in *IntrospectPermissionInput, opts ...grpc.CallOption) (*IntrospectPermissionOutput, error) {
+	out := new(IntrospectPermissionOutput)
+	err := c.cc.Invoke(ctx, Atlas_IntrospectPermission_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -796,6 +807,7 @@ type AtlasServer interface {
 	GrantPermission(context.Context, *GrantPermissionInput) (*GrantPermissionOutput, error)
 	RevokePermission(context.Context, *RevokePermissionInput) (*RevokePermissionOutput, error)
 	ListPermissions(context.Context, *ListPermissionsInput) (*ListPermissionsOutput, error)
+	IntrospectPermission(context.Context, *IntrospectPermissionInput) (*IntrospectPermissionOutput, error)
 	CreateCodeTemplate(context.Context, *CreateCodeTemplateInput) (*CreateCodeTemplateOutput, error)
 	UpdateCodeTemplate(context.Context, *UpdateCodeTemplateInput) (*UpdateCodeTemplateOutput, error)
 	DeleteCodeTemplate(context.Context, *DeleteCodeTemplateInput) (*DeleteCodeTemplateOutput, error)
@@ -927,6 +939,9 @@ func (UnimplementedAtlasServer) RevokePermission(context.Context, *RevokePermiss
 }
 func (UnimplementedAtlasServer) ListPermissions(context.Context, *ListPermissionsInput) (*ListPermissionsOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListPermissions not implemented")
+}
+func (UnimplementedAtlasServer) IntrospectPermission(context.Context, *IntrospectPermissionInput) (*IntrospectPermissionOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method IntrospectPermission not implemented")
 }
 func (UnimplementedAtlasServer) CreateCodeTemplate(context.Context, *CreateCodeTemplateInput) (*CreateCodeTemplateOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateCodeTemplate not implemented")
@@ -1593,6 +1608,24 @@ func _Atlas_ListPermissions_Handler(srv interface{}, ctx context.Context, dec fu
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AtlasServer).ListPermissions(ctx, req.(*ListPermissionsInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Atlas_IntrospectPermission_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IntrospectPermissionInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AtlasServer).IntrospectPermission(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Atlas_IntrospectPermission_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AtlasServer).IntrospectPermission(ctx, req.(*IntrospectPermissionInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -2321,6 +2354,10 @@ var Atlas_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListPermissions",
 			Handler:    _Atlas_ListPermissions_Handler,
+		},
+		{
+			MethodName: "IntrospectPermission",
+			Handler:    _Atlas_IntrospectPermission_Handler,
 		},
 		{
 			MethodName: "CreateCodeTemplate",

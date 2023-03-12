@@ -206,6 +206,9 @@ func RegisterAtlasHttpHandlers(router *mux.Router, prefix string, srv AtlasServe
 	router.Handle(prefix+"/problems/{problem_id}/permissions", _Atlas_ListPermissions_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.atlas.Atlas.ListPermissions")
+	router.Handle(prefix+"/problems/{problem_id}/introspect-permission", _Atlas_IntrospectPermission_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.atlas.Atlas.IntrospectPermission")
 	router.Handle(prefix+"/problems/{problem_id}/templates", _Atlas_CreateCodeTemplate_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.atlas.Atlas.CreateCodeTemplate")
@@ -1021,6 +1024,29 @@ func _Atlas_ListPermissions_Rule0(srv AtlasServer) http.Handler {
 		in.ProblemId = vars["problem_id"]
 
 		out, err := srv.ListPermissions(r.Context(), in)
+		if err != nil {
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Atlas_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Atlas_IntrospectPermission_Rule0(srv AtlasServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &IntrospectPermissionInput{}
+
+		if err := _Atlas_HTTPReadQueryString(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
+
+		out, err := srv.IntrospectPermission(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -2800,6 +2826,38 @@ func (i *AtlasInterceptor) ListPermissions(ctx context.Context, in *ListPermissi
 	message, ok := out.(*ListPermissionsOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *ListPermissionsOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *AtlasInterceptor) IntrospectPermission(ctx context.Context, in *IntrospectPermissionInput) (*IntrospectPermissionOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*IntrospectPermissionInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *IntrospectPermissionInput, got %T", in))
+		}
+
+		return i.server.IntrospectPermission(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas.IntrospectPermission", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*IntrospectPermissionOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *IntrospectPermissionOutput, got %T", out))
 	}
 
 	return message, err

@@ -602,6 +602,22 @@ func (s *AtlasService) ListPermissions(ctx context.Context, in *ListPermissionsI
 	return out, nil
 }
 
+func (s *AtlasService) IntrospectPermission(ctx context.Context, in *IntrospectPermissionInput) (*IntrospectPermissionOutput, error) {
+	out := &IntrospectPermissionOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/introspect-permission"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *AtlasService) CreateCodeTemplate(ctx context.Context, in *CreateCodeTemplateInput) (*CreateCodeTemplateOutput, error) {
 	out := &CreateCodeTemplateOutput{}
 	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/templates"
