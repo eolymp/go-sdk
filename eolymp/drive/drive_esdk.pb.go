@@ -102,7 +102,7 @@ func (s *DriveService) do(ctx context.Context, verb, path string, in, out proto.
 
 func (s *DriveService) DescribeFile(ctx context.Context, in *DescribeFileInput) (*DescribeFileOutput, error) {
 	out := &DescribeFileOutput{}
-	path := "/drive/files/" + url.PathEscape(in.GetFileId())
+	path := "/files/" + url.PathEscape(in.GetFileId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
@@ -118,7 +118,7 @@ func (s *DriveService) DescribeFile(ctx context.Context, in *DescribeFileInput) 
 
 func (s *DriveService) ListFiles(ctx context.Context, in *ListFilesInput) (*ListFilesOutput, error) {
 	out := &ListFilesOutput{}
-	path := "/drive/files"
+	path := "/files"
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
@@ -129,7 +129,7 @@ func (s *DriveService) ListFiles(ctx context.Context, in *ListFilesInput) (*List
 
 func (s *DriveService) CreateFile(ctx context.Context, in *CreateFileInput) (*CreateFileOutput, error) {
 	out := &CreateFileOutput{}
-	path := "/drive/files"
+	path := "/files"
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
@@ -140,7 +140,7 @@ func (s *DriveService) CreateFile(ctx context.Context, in *CreateFileInput) (*Cr
 
 func (s *DriveService) UpdateFile(ctx context.Context, in *UpdateFileInput) (*UpdateFileOutput, error) {
 	out := &UpdateFileOutput{}
-	path := "/drive/files/" + url.PathEscape(in.GetFileId())
+	path := "/files/" + url.PathEscape(in.GetFileId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
@@ -156,7 +156,7 @@ func (s *DriveService) UpdateFile(ctx context.Context, in *UpdateFileInput) (*Up
 
 func (s *DriveService) DeleteFile(ctx context.Context, in *DeleteFileInput) (*DeleteFileOutput, error) {
 	out := &DeleteFileOutput{}
-	path := "/drive/files/" + url.PathEscape(in.GetFileId())
+	path := "/files/" + url.PathEscape(in.GetFileId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
@@ -172,7 +172,7 @@ func (s *DriveService) DeleteFile(ctx context.Context, in *DeleteFileInput) (*De
 
 func (s *DriveService) StartMultipartUpload(ctx context.Context, in *StartMultipartUploadInput) (*StartMultipartUploadOutput, error) {
 	out := &StartMultipartUploadOutput{}
-	path := "/drive/uploads"
+	path := "/uploads"
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
@@ -183,7 +183,7 @@ func (s *DriveService) StartMultipartUpload(ctx context.Context, in *StartMultip
 
 func (s *DriveService) UploadPart(ctx context.Context, in *UploadPartInput) (*UploadPartOutput, error) {
 	out := &UploadPartOutput{}
-	path := "/drive/uploads/" + url.PathEscape(in.GetUploadId()) + "/parts"
+	path := "/uploads/" + url.PathEscape(in.GetUploadId()) + "/parts"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
@@ -199,7 +199,7 @@ func (s *DriveService) UploadPart(ctx context.Context, in *UploadPartInput) (*Up
 
 func (s *DriveService) CompleteMultipartUpload(ctx context.Context, in *CompleteMultipartUploadInput) (*CompleteMultipartUploadOutput, error) {
 	out := &CompleteMultipartUploadOutput{}
-	path := "/drive/uploads/" + url.PathEscape(in.GetUploadId()) + "/complete"
+	path := "/uploads/" + url.PathEscape(in.GetUploadId()) + "/complete"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {

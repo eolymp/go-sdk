@@ -113,28 +113,28 @@ func _Drive_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 // RegisterDriveHttpHandlers adds handlers for for DriveServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterDriveHttpHandlers(router *mux.Router, prefix string, srv DriveServer) {
-	router.Handle(prefix+"/drive/files/{file_id}", _Drive_DescribeFile_Rule0(srv)).
+	router.Handle(prefix+"/files/{file_id}", _Drive_DescribeFile_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.drive.Drive.DescribeFile")
-	router.Handle(prefix+"/drive/files", _Drive_ListFiles_Rule0(srv)).
+	router.Handle(prefix+"/files", _Drive_ListFiles_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.drive.Drive.ListFiles")
-	router.Handle(prefix+"/drive/files", _Drive_CreateFile_Rule0(srv)).
+	router.Handle(prefix+"/files", _Drive_CreateFile_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.drive.Drive.CreateFile")
-	router.Handle(prefix+"/drive/files/{file_id}", _Drive_UpdateFile_Rule0(srv)).
+	router.Handle(prefix+"/files/{file_id}", _Drive_UpdateFile_Rule0(srv)).
 		Methods("PUT").
 		Name("eolymp.drive.Drive.UpdateFile")
-	router.Handle(prefix+"/drive/files/{file_id}", _Drive_DeleteFile_Rule0(srv)).
+	router.Handle(prefix+"/files/{file_id}", _Drive_DeleteFile_Rule0(srv)).
 		Methods("DELETE").
 		Name("eolymp.drive.Drive.DeleteFile")
-	router.Handle(prefix+"/drive/uploads", _Drive_StartMultipartUpload_Rule0(srv)).
+	router.Handle(prefix+"/uploads", _Drive_StartMultipartUpload_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.drive.Drive.StartMultipartUpload")
-	router.Handle(prefix+"/drive/uploads/{upload_id}/parts", _Drive_UploadPart_Rule0(srv)).
+	router.Handle(prefix+"/uploads/{upload_id}/parts", _Drive_UploadPart_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.drive.Drive.UploadPart")
-	router.Handle(prefix+"/drive/uploads/{upload_id}/complete", _Drive_CompleteMultipartUpload_Rule0(srv)).
+	router.Handle(prefix+"/uploads/{upload_id}/complete", _Drive_CompleteMultipartUpload_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.drive.Drive.CompleteMultipartUpload")
 }
