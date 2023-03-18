@@ -113,15 +113,15 @@ func _Drive_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 // RegisterDriveHttpHandlers adds handlers for for DriveServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterDriveHttpHandlers(router *mux.Router, prefix string, srv DriveServer) {
+	router.Handle(prefix+"/files", _Drive_UploadFile_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.drive.Drive.UploadFile")
 	router.Handle(prefix+"/files/{file_id}", _Drive_DescribeFile_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.drive.Drive.DescribeFile")
 	router.Handle(prefix+"/files", _Drive_ListFiles_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.drive.Drive.ListFiles")
-	router.Handle(prefix+"/files", _Drive_CreateFile_Rule0(srv)).
-		Methods("POST").
-		Name("eolymp.drive.Drive.CreateFile")
 	router.Handle(prefix+"/files/{file_id}", _Drive_UpdateFile_Rule0(srv)).
 		Methods("PUT").
 		Name("eolymp.drive.Drive.UpdateFile")
@@ -131,12 +131,32 @@ func RegisterDriveHttpHandlers(router *mux.Router, prefix string, srv DriveServe
 	router.Handle(prefix+"/uploads", _Drive_StartMultipartUpload_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.drive.Drive.StartMultipartUpload")
-	router.Handle(prefix+"/uploads/{upload_id}/parts", _Drive_UploadPart_Rule0(srv)).
+	router.Handle(prefix+"/uploads/{upload_id}", _Drive_UploadPart_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.drive.Drive.UploadPart")
-	router.Handle(prefix+"/uploads/{upload_id}/complete", _Drive_CompleteMultipartUpload_Rule0(srv)).
-		Methods("POST").
+	router.Handle(prefix+"/uploads/{upload_id}", _Drive_CompleteMultipartUpload_Rule0(srv)).
+		Methods("PUT").
 		Name("eolymp.drive.Drive.CompleteMultipartUpload")
+}
+
+func _Drive_UploadFile_Rule0(srv DriveServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UploadFileInput{}
+
+		if err := _Drive_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Drive_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.UploadFile(r.Context(), in)
+		if err != nil {
+			_Drive_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Drive_HTTPWriteResponse(w, out)
+	})
 }
 
 func _Drive_DescribeFile_Rule0(srv DriveServer) http.Handler {
@@ -173,26 +193,6 @@ func _Drive_ListFiles_Rule0(srv DriveServer) http.Handler {
 		}
 
 		out, err := srv.ListFiles(r.Context(), in)
-		if err != nil {
-			_Drive_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Drive_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Drive_CreateFile_Rule0(srv DriveServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &CreateFileInput{}
-
-		if err := _Drive_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Drive_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.CreateFile(r.Context(), in)
 		if err != nil {
 			_Drive_HTTPWriteErrorResponse(w, err)
 			return
@@ -326,6 +326,38 @@ func NewDriveInterceptor(srv DriveServer, middleware ..._DriveMiddleware) *Drive
 	return &DriveInterceptor{server: srv, middleware: middleware}
 }
 
+func (i *DriveInterceptor) UploadFile(ctx context.Context, in *UploadFileInput) (*UploadFileOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*UploadFileInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *UploadFileInput, got %T", in))
+		}
+
+		return i.server.UploadFile(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.drive.Drive.UploadFile", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*UploadFileOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *UploadFileOutput, got %T", out))
+	}
+
+	return message, err
+}
+
 func (i *DriveInterceptor) DescribeFile(ctx context.Context, in *DescribeFileInput) (*DescribeFileOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeFileInput)
@@ -385,38 +417,6 @@ func (i *DriveInterceptor) ListFiles(ctx context.Context, in *ListFilesInput) (*
 	message, ok := out.(*ListFilesOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *ListFilesOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *DriveInterceptor) CreateFile(ctx context.Context, in *CreateFileInput) (*CreateFileOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*CreateFileInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *CreateFileInput, got %T", in))
-		}
-
-		return i.server.CreateFile(ctx, message)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.drive.Drive.CreateFile", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*CreateFileOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *CreateFileOutput, got %T", out))
 	}
 
 	return message, err

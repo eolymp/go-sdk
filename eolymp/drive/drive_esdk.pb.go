@@ -100,6 +100,17 @@ func (s *DriveService) do(ctx context.Context, verb, path string, in, out proto.
 	return nil
 }
 
+func (s *DriveService) UploadFile(ctx context.Context, in *UploadFileInput) (*UploadFileOutput, error) {
+	out := &UploadFileOutput{}
+	path := "/files"
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *DriveService) DescribeFile(ctx context.Context, in *DescribeFileInput) (*DescribeFileOutput, error) {
 	out := &DescribeFileOutput{}
 	path := "/files/" + url.PathEscape(in.GetFileId())
@@ -121,17 +132,6 @@ func (s *DriveService) ListFiles(ctx context.Context, in *ListFilesInput) (*List
 	path := "/files"
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *DriveService) CreateFile(ctx context.Context, in *CreateFileInput) (*CreateFileOutput, error) {
-	out := &CreateFileOutput{}
-	path := "/files"
-
-	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -183,7 +183,7 @@ func (s *DriveService) StartMultipartUpload(ctx context.Context, in *StartMultip
 
 func (s *DriveService) UploadPart(ctx context.Context, in *UploadPartInput) (*UploadPartOutput, error) {
 	out := &UploadPartOutput{}
-	path := "/uploads/" + url.PathEscape(in.GetUploadId()) + "/parts"
+	path := "/uploads/" + url.PathEscape(in.GetUploadId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
@@ -199,14 +199,14 @@ func (s *DriveService) UploadPart(ctx context.Context, in *UploadPartInput) (*Up
 
 func (s *DriveService) CompleteMultipartUpload(ctx context.Context, in *CompleteMultipartUploadInput) (*CompleteMultipartUploadOutput, error) {
 	out := &CompleteMultipartUploadOutput{}
-	path := "/uploads/" + url.PathEscape(in.GetUploadId()) + "/complete"
+	path := "/uploads/" + url.PathEscape(in.GetUploadId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
 		in.UploadId = ""
 	}
 
-	if err := s.do(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "PUT", path, in, out); err != nil {
 		return nil, err
 	}
 

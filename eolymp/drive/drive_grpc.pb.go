@@ -19,9 +19,9 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
+	Drive_UploadFile_FullMethodName              = "/eolymp.drive.Drive/UploadFile"
 	Drive_DescribeFile_FullMethodName            = "/eolymp.drive.Drive/DescribeFile"
 	Drive_ListFiles_FullMethodName               = "/eolymp.drive.Drive/ListFiles"
-	Drive_CreateFile_FullMethodName              = "/eolymp.drive.Drive/CreateFile"
 	Drive_UpdateFile_FullMethodName              = "/eolymp.drive.Drive/UpdateFile"
 	Drive_DeleteFile_FullMethodName              = "/eolymp.drive.Drive/DeleteFile"
 	Drive_StartMultipartUpload_FullMethodName    = "/eolymp.drive.Drive/StartMultipartUpload"
@@ -33,9 +33,9 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type DriveClient interface {
+	UploadFile(ctx context.Context, in *UploadFileInput, opts ...grpc.CallOption) (*UploadFileOutput, error)
 	DescribeFile(ctx context.Context, in *DescribeFileInput, opts ...grpc.CallOption) (*DescribeFileOutput, error)
 	ListFiles(ctx context.Context, in *ListFilesInput, opts ...grpc.CallOption) (*ListFilesOutput, error)
-	CreateFile(ctx context.Context, in *CreateFileInput, opts ...grpc.CallOption) (*CreateFileOutput, error)
 	UpdateFile(ctx context.Context, in *UpdateFileInput, opts ...grpc.CallOption) (*UpdateFileOutput, error)
 	DeleteFile(ctx context.Context, in *DeleteFileInput, opts ...grpc.CallOption) (*DeleteFileOutput, error)
 	StartMultipartUpload(ctx context.Context, in *StartMultipartUploadInput, opts ...grpc.CallOption) (*StartMultipartUploadOutput, error)
@@ -51,6 +51,15 @@ func NewDriveClient(cc grpc.ClientConnInterface) DriveClient {
 	return &driveClient{cc}
 }
 
+func (c *driveClient) UploadFile(ctx context.Context, in *UploadFileInput, opts ...grpc.CallOption) (*UploadFileOutput, error) {
+	out := new(UploadFileOutput)
+	err := c.cc.Invoke(ctx, Drive_UploadFile_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *driveClient) DescribeFile(ctx context.Context, in *DescribeFileInput, opts ...grpc.CallOption) (*DescribeFileOutput, error) {
 	out := new(DescribeFileOutput)
 	err := c.cc.Invoke(ctx, Drive_DescribeFile_FullMethodName, in, out, opts...)
@@ -63,15 +72,6 @@ func (c *driveClient) DescribeFile(ctx context.Context, in *DescribeFileInput, o
 func (c *driveClient) ListFiles(ctx context.Context, in *ListFilesInput, opts ...grpc.CallOption) (*ListFilesOutput, error) {
 	out := new(ListFilesOutput)
 	err := c.cc.Invoke(ctx, Drive_ListFiles_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *driveClient) CreateFile(ctx context.Context, in *CreateFileInput, opts ...grpc.CallOption) (*CreateFileOutput, error) {
-	out := new(CreateFileOutput)
-	err := c.cc.Invoke(ctx, Drive_CreateFile_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -127,9 +127,9 @@ func (c *driveClient) CompleteMultipartUpload(ctx context.Context, in *CompleteM
 // All implementations should embed UnimplementedDriveServer
 // for forward compatibility
 type DriveServer interface {
+	UploadFile(context.Context, *UploadFileInput) (*UploadFileOutput, error)
 	DescribeFile(context.Context, *DescribeFileInput) (*DescribeFileOutput, error)
 	ListFiles(context.Context, *ListFilesInput) (*ListFilesOutput, error)
-	CreateFile(context.Context, *CreateFileInput) (*CreateFileOutput, error)
 	UpdateFile(context.Context, *UpdateFileInput) (*UpdateFileOutput, error)
 	DeleteFile(context.Context, *DeleteFileInput) (*DeleteFileOutput, error)
 	StartMultipartUpload(context.Context, *StartMultipartUploadInput) (*StartMultipartUploadOutput, error)
@@ -141,14 +141,14 @@ type DriveServer interface {
 type UnimplementedDriveServer struct {
 }
 
+func (UnimplementedDriveServer) UploadFile(context.Context, *UploadFileInput) (*UploadFileOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UploadFile not implemented")
+}
 func (UnimplementedDriveServer) DescribeFile(context.Context, *DescribeFileInput) (*DescribeFileOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeFile not implemented")
 }
 func (UnimplementedDriveServer) ListFiles(context.Context, *ListFilesInput) (*ListFilesOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListFiles not implemented")
-}
-func (UnimplementedDriveServer) CreateFile(context.Context, *CreateFileInput) (*CreateFileOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateFile not implemented")
 }
 func (UnimplementedDriveServer) UpdateFile(context.Context, *UpdateFileInput) (*UpdateFileOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateFile not implemented")
@@ -175,6 +175,24 @@ type UnsafeDriveServer interface {
 
 func RegisterDriveServer(s grpc.ServiceRegistrar, srv DriveServer) {
 	s.RegisterService(&Drive_ServiceDesc, srv)
+}
+
+func _Drive_UploadFile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UploadFileInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DriveServer).UploadFile(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Drive_UploadFile_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DriveServer).UploadFile(ctx, req.(*UploadFileInput))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _Drive_DescribeFile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -209,24 +227,6 @@ func _Drive_ListFiles_Handler(srv interface{}, ctx context.Context, dec func(int
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(DriveServer).ListFiles(ctx, req.(*ListFilesInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Drive_CreateFile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateFileInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(DriveServer).CreateFile(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Drive_CreateFile_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DriveServer).CreateFile(ctx, req.(*CreateFileInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -329,16 +329,16 @@ var Drive_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*DriveServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
+			MethodName: "UploadFile",
+			Handler:    _Drive_UploadFile_Handler,
+		},
+		{
 			MethodName: "DescribeFile",
 			Handler:    _Drive_DescribeFile_Handler,
 		},
 		{
 			MethodName: "ListFiles",
 			Handler:    _Drive_ListFiles_Handler,
-		},
-		{
-			MethodName: "CreateFile",
-			Handler:    _Drive_CreateFile_Handler,
 		},
 		{
 			MethodName: "UpdateFile",
