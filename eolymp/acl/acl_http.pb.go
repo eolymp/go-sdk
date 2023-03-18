@@ -113,26 +113,26 @@ func _Acl_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 // RegisterAclHttpHandlers adds handlers for for AclServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterAclHttpHandlers(router *mux.Router, prefix string, srv AclServer) {
-	router.Handle(prefix+"/acl/{user_id}", _Acl_Grant_Rule0(srv)).
+	router.Handle(prefix+"/acl/{user_id}", _Acl_GrantPermission_Rule0(srv)).
 		Methods("PUT").
-		Name("eolymp.acl.Acl.Grant")
-	router.Handle(prefix+"/acl/{user_id}", _Acl_Revoke_Rule0(srv)).
+		Name("eolymp.acl.Acl.GrantPermission")
+	router.Handle(prefix+"/acl/{user_id}", _Acl_RevokePermission_Rule0(srv)).
 		Methods("DELETE").
-		Name("eolymp.acl.Acl.Revoke")
-	router.Handle(prefix+"/acl/{user_id}", _Acl_Describe_Rule0(srv)).
+		Name("eolymp.acl.Acl.RevokePermission")
+	router.Handle(prefix+"/acl/{user_id}", _Acl_DescribePermission_Rule0(srv)).
 		Methods("GET").
-		Name("eolymp.acl.Acl.Describe")
-	router.Handle(prefix+"/acl", _Acl_List_Rule0(srv)).
+		Name("eolymp.acl.Acl.DescribePermission")
+	router.Handle(prefix+"/acl", _Acl_ListPermission_Rule0(srv)).
 		Methods("GET").
-		Name("eolymp.acl.Acl.List")
-	router.Handle(prefix+"/whoami", _Acl_Introspect_Rule0(srv)).
+		Name("eolymp.acl.Acl.ListPermission")
+	router.Handle(prefix+"/whoami", _Acl_IntrospectPermission_Rule0(srv)).
 		Methods("GET").
-		Name("eolymp.acl.Acl.Introspect")
+		Name("eolymp.acl.Acl.IntrospectPermission")
 }
 
-func _Acl_Grant_Rule0(srv AclServer) http.Handler {
+func _Acl_GrantPermission_Rule0(srv AclServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &GrantInput{}
+		in := &GrantPermissionInput{}
 
 		if err := _Acl_HTTPReadRequestBody(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
@@ -143,7 +143,7 @@ func _Acl_Grant_Rule0(srv AclServer) http.Handler {
 		vars := mux.Vars(r)
 		in.UserId = vars["user_id"]
 
-		out, err := srv.Grant(r.Context(), in)
+		out, err := srv.GrantPermission(r.Context(), in)
 		if err != nil {
 			_Acl_HTTPWriteErrorResponse(w, err)
 			return
@@ -153,9 +153,9 @@ func _Acl_Grant_Rule0(srv AclServer) http.Handler {
 	})
 }
 
-func _Acl_Revoke_Rule0(srv AclServer) http.Handler {
+func _Acl_RevokePermission_Rule0(srv AclServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &RevokeInput{}
+		in := &RevokePermissionInput{}
 
 		if err := _Acl_HTTPReadRequestBody(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
@@ -166,7 +166,7 @@ func _Acl_Revoke_Rule0(srv AclServer) http.Handler {
 		vars := mux.Vars(r)
 		in.UserId = vars["user_id"]
 
-		out, err := srv.Revoke(r.Context(), in)
+		out, err := srv.RevokePermission(r.Context(), in)
 		if err != nil {
 			_Acl_HTTPWriteErrorResponse(w, err)
 			return
@@ -176,9 +176,9 @@ func _Acl_Revoke_Rule0(srv AclServer) http.Handler {
 	})
 }
 
-func _Acl_Describe_Rule0(srv AclServer) http.Handler {
+func _Acl_DescribePermission_Rule0(srv AclServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DescribeInput{}
+		in := &DescribePermissionInput{}
 
 		if err := _Acl_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
@@ -189,7 +189,7 @@ func _Acl_Describe_Rule0(srv AclServer) http.Handler {
 		vars := mux.Vars(r)
 		in.UserId = vars["user_id"]
 
-		out, err := srv.Describe(r.Context(), in)
+		out, err := srv.DescribePermission(r.Context(), in)
 		if err != nil {
 			_Acl_HTTPWriteErrorResponse(w, err)
 			return
@@ -199,9 +199,9 @@ func _Acl_Describe_Rule0(srv AclServer) http.Handler {
 	})
 }
 
-func _Acl_List_Rule0(srv AclServer) http.Handler {
+func _Acl_ListPermission_Rule0(srv AclServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ListInput{}
+		in := &ListPermissionInput{}
 
 		if err := _Acl_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
@@ -209,7 +209,7 @@ func _Acl_List_Rule0(srv AclServer) http.Handler {
 			return
 		}
 
-		out, err := srv.List(r.Context(), in)
+		out, err := srv.ListPermission(r.Context(), in)
 		if err != nil {
 			_Acl_HTTPWriteErrorResponse(w, err)
 			return
@@ -219,9 +219,9 @@ func _Acl_List_Rule0(srv AclServer) http.Handler {
 	})
 }
 
-func _Acl_Introspect_Rule0(srv AclServer) http.Handler {
+func _Acl_IntrospectPermission_Rule0(srv AclServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &IntrospectInput{}
+		in := &IntrospectPermissionInput{}
 
 		if err := _Acl_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
@@ -229,7 +229,7 @@ func _Acl_Introspect_Rule0(srv AclServer) http.Handler {
 			return
 		}
 
-		out, err := srv.Introspect(r.Context(), in)
+		out, err := srv.IntrospectPermission(r.Context(), in)
 		if err != nil {
 			_Acl_HTTPWriteErrorResponse(w, err)
 			return
@@ -251,14 +251,14 @@ func NewAclInterceptor(srv AclServer, middleware ..._AclMiddleware) *AclIntercep
 	return &AclInterceptor{server: srv, middleware: middleware}
 }
 
-func (i *AclInterceptor) Grant(ctx context.Context, in *GrantInput) (*GrantOutput, error) {
+func (i *AclInterceptor) GrantPermission(ctx context.Context, in *GrantPermissionInput) (*GrantPermissionOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*GrantInput)
+		message, ok := in.(*GrantPermissionInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *GrantInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *GrantPermissionInput, got %T", in))
 		}
 
-		return i.server.Grant(ctx, message)
+		return i.server.GrantPermission(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
@@ -266,7 +266,7 @@ func (i *AclInterceptor) Grant(ctx context.Context, in *GrantInput) (*GrantOutpu
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.acl.Acl.Grant", in, next)
+			return mw(ctx, "eolymp.acl.Acl.GrantPermission", in, next)
 		}
 	}
 
@@ -275,22 +275,22 @@ func (i *AclInterceptor) Grant(ctx context.Context, in *GrantInput) (*GrantOutpu
 		return nil, err
 	}
 
-	message, ok := out.(*GrantOutput)
+	message, ok := out.(*GrantPermissionOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *GrantOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *GrantPermissionOutput, got %T", out))
 	}
 
 	return message, err
 }
 
-func (i *AclInterceptor) Revoke(ctx context.Context, in *RevokeInput) (*RevokeOutput, error) {
+func (i *AclInterceptor) RevokePermission(ctx context.Context, in *RevokePermissionInput) (*RevokePermissionOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*RevokeInput)
+		message, ok := in.(*RevokePermissionInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *RevokeInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *RevokePermissionInput, got %T", in))
 		}
 
-		return i.server.Revoke(ctx, message)
+		return i.server.RevokePermission(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
@@ -298,7 +298,7 @@ func (i *AclInterceptor) Revoke(ctx context.Context, in *RevokeInput) (*RevokeOu
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.acl.Acl.Revoke", in, next)
+			return mw(ctx, "eolymp.acl.Acl.RevokePermission", in, next)
 		}
 	}
 
@@ -307,22 +307,22 @@ func (i *AclInterceptor) Revoke(ctx context.Context, in *RevokeInput) (*RevokeOu
 		return nil, err
 	}
 
-	message, ok := out.(*RevokeOutput)
+	message, ok := out.(*RevokePermissionOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *RevokeOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *RevokePermissionOutput, got %T", out))
 	}
 
 	return message, err
 }
 
-func (i *AclInterceptor) Describe(ctx context.Context, in *DescribeInput) (*DescribeOutput, error) {
+func (i *AclInterceptor) DescribePermission(ctx context.Context, in *DescribePermissionInput) (*DescribePermissionOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*DescribeInput)
+		message, ok := in.(*DescribePermissionInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *DescribeInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *DescribePermissionInput, got %T", in))
 		}
 
-		return i.server.Describe(ctx, message)
+		return i.server.DescribePermission(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
@@ -330,7 +330,7 @@ func (i *AclInterceptor) Describe(ctx context.Context, in *DescribeInput) (*Desc
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.acl.Acl.Describe", in, next)
+			return mw(ctx, "eolymp.acl.Acl.DescribePermission", in, next)
 		}
 	}
 
@@ -339,22 +339,22 @@ func (i *AclInterceptor) Describe(ctx context.Context, in *DescribeInput) (*Desc
 		return nil, err
 	}
 
-	message, ok := out.(*DescribeOutput)
+	message, ok := out.(*DescribePermissionOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *DescribeOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *DescribePermissionOutput, got %T", out))
 	}
 
 	return message, err
 }
 
-func (i *AclInterceptor) List(ctx context.Context, in *ListInput) (*ListOutput, error) {
+func (i *AclInterceptor) ListPermission(ctx context.Context, in *ListPermissionInput) (*ListPermissionOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*ListInput)
+		message, ok := in.(*ListPermissionInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *ListInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *ListPermissionInput, got %T", in))
 		}
 
-		return i.server.List(ctx, message)
+		return i.server.ListPermission(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
@@ -362,7 +362,7 @@ func (i *AclInterceptor) List(ctx context.Context, in *ListInput) (*ListOutput, 
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.acl.Acl.List", in, next)
+			return mw(ctx, "eolymp.acl.Acl.ListPermission", in, next)
 		}
 	}
 
@@ -371,22 +371,22 @@ func (i *AclInterceptor) List(ctx context.Context, in *ListInput) (*ListOutput, 
 		return nil, err
 	}
 
-	message, ok := out.(*ListOutput)
+	message, ok := out.(*ListPermissionOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *ListOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *ListPermissionOutput, got %T", out))
 	}
 
 	return message, err
 }
 
-func (i *AclInterceptor) Introspect(ctx context.Context, in *IntrospectInput) (*IntrospectOutput, error) {
+func (i *AclInterceptor) IntrospectPermission(ctx context.Context, in *IntrospectPermissionInput) (*IntrospectPermissionOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*IntrospectInput)
+		message, ok := in.(*IntrospectPermissionInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *IntrospectInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *IntrospectPermissionInput, got %T", in))
 		}
 
-		return i.server.Introspect(ctx, message)
+		return i.server.IntrospectPermission(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
@@ -394,7 +394,7 @@ func (i *AclInterceptor) Introspect(ctx context.Context, in *IntrospectInput) (*
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.acl.Acl.Introspect", in, next)
+			return mw(ctx, "eolymp.acl.Acl.IntrospectPermission", in, next)
 		}
 	}
 
@@ -403,9 +403,9 @@ func (i *AclInterceptor) Introspect(ctx context.Context, in *IntrospectInput) (*
 		return nil, err
 	}
 
-	message, ok := out.(*IntrospectOutput)
+	message, ok := out.(*IntrospectPermissionOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *IntrospectOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *IntrospectPermissionOutput, got %T", out))
 	}
 
 	return message, err

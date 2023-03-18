@@ -100,8 +100,8 @@ func (s *AclService) do(ctx context.Context, verb, path string, in, out proto.Me
 	return nil
 }
 
-func (s *AclService) Grant(ctx context.Context, in *GrantInput) (*GrantOutput, error) {
-	out := &GrantOutput{}
+func (s *AclService) GrantPermission(ctx context.Context, in *GrantPermissionInput) (*GrantPermissionOutput, error) {
+	out := &GrantPermissionOutput{}
 	path := "/acl/" + url.PathEscape(in.GetUserId())
 
 	// Cleanup URL parameters to avoid any ambiguity
@@ -116,8 +116,8 @@ func (s *AclService) Grant(ctx context.Context, in *GrantInput) (*GrantOutput, e
 	return out, nil
 }
 
-func (s *AclService) Revoke(ctx context.Context, in *RevokeInput) (*RevokeOutput, error) {
-	out := &RevokeOutput{}
+func (s *AclService) RevokePermission(ctx context.Context, in *RevokePermissionInput) (*RevokePermissionOutput, error) {
+	out := &RevokePermissionOutput{}
 	path := "/acl/" + url.PathEscape(in.GetUserId())
 
 	// Cleanup URL parameters to avoid any ambiguity
@@ -132,8 +132,8 @@ func (s *AclService) Revoke(ctx context.Context, in *RevokeInput) (*RevokeOutput
 	return out, nil
 }
 
-func (s *AclService) Describe(ctx context.Context, in *DescribeInput) (*DescribeOutput, error) {
-	out := &DescribeOutput{}
+func (s *AclService) DescribePermission(ctx context.Context, in *DescribePermissionInput) (*DescribePermissionOutput, error) {
+	out := &DescribePermissionOutput{}
 	path := "/acl/" + url.PathEscape(in.GetUserId())
 
 	// Cleanup URL parameters to avoid any ambiguity
@@ -148,8 +148,8 @@ func (s *AclService) Describe(ctx context.Context, in *DescribeInput) (*Describe
 	return out, nil
 }
 
-func (s *AclService) List(ctx context.Context, in *ListInput) (*ListOutput, error) {
-	out := &ListOutput{}
+func (s *AclService) ListPermission(ctx context.Context, in *ListPermissionInput) (*ListPermissionOutput, error) {
+	out := &ListPermissionOutput{}
 	path := "/acl"
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
@@ -159,8 +159,8 @@ func (s *AclService) List(ctx context.Context, in *ListInput) (*ListOutput, erro
 	return out, nil
 }
 
-func (s *AclService) Introspect(ctx context.Context, in *IntrospectInput) (*IntrospectOutput, error) {
-	out := &IntrospectOutput{}
+func (s *AclService) IntrospectPermission(ctx context.Context, in *IntrospectPermissionInput) (*IntrospectPermissionOutput, error) {
+	out := &IntrospectPermissionOutput{}
 	path := "/whoami"
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
