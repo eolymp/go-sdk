@@ -148,8 +148,8 @@ func (s *AclService) DescribePermission(ctx context.Context, in *DescribePermiss
 	return out, nil
 }
 
-func (s *AclService) ListPermission(ctx context.Context, in *ListPermissionInput) (*ListPermissionOutput, error) {
-	out := &ListPermissionOutput{}
+func (s *AclService) ListPermissions(ctx context.Context, in *ListPermissionsInput) (*ListPermissionsOutput, error) {
+	out := &ListPermissionsOutput{}
 	path := "/acl"
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {

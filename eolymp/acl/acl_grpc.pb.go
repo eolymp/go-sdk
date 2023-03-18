@@ -22,7 +22,7 @@ const (
 	Acl_GrantPermission_FullMethodName      = "/eolymp.acl.Acl/GrantPermission"
 	Acl_RevokePermission_FullMethodName     = "/eolymp.acl.Acl/RevokePermission"
 	Acl_DescribePermission_FullMethodName   = "/eolymp.acl.Acl/DescribePermission"
-	Acl_ListPermission_FullMethodName       = "/eolymp.acl.Acl/ListPermission"
+	Acl_ListPermissions_FullMethodName      = "/eolymp.acl.Acl/ListPermissions"
 	Acl_IntrospectPermission_FullMethodName = "/eolymp.acl.Acl/IntrospectPermission"
 )
 
@@ -33,7 +33,7 @@ type AclClient interface {
 	GrantPermission(ctx context.Context, in *GrantPermissionInput, opts ...grpc.CallOption) (*GrantPermissionOutput, error)
 	RevokePermission(ctx context.Context, in *RevokePermissionInput, opts ...grpc.CallOption) (*RevokePermissionOutput, error)
 	DescribePermission(ctx context.Context, in *DescribePermissionInput, opts ...grpc.CallOption) (*DescribePermissionOutput, error)
-	ListPermission(ctx context.Context, in *ListPermissionInput, opts ...grpc.CallOption) (*ListPermissionOutput, error)
+	ListPermissions(ctx context.Context, in *ListPermissionsInput, opts ...grpc.CallOption) (*ListPermissionsOutput, error)
 	IntrospectPermission(ctx context.Context, in *IntrospectPermissionInput, opts ...grpc.CallOption) (*IntrospectPermissionOutput, error)
 }
 
@@ -72,9 +72,9 @@ func (c *aclClient) DescribePermission(ctx context.Context, in *DescribePermissi
 	return out, nil
 }
 
-func (c *aclClient) ListPermission(ctx context.Context, in *ListPermissionInput, opts ...grpc.CallOption) (*ListPermissionOutput, error) {
-	out := new(ListPermissionOutput)
-	err := c.cc.Invoke(ctx, Acl_ListPermission_FullMethodName, in, out, opts...)
+func (c *aclClient) ListPermissions(ctx context.Context, in *ListPermissionsInput, opts ...grpc.CallOption) (*ListPermissionsOutput, error) {
+	out := new(ListPermissionsOutput)
+	err := c.cc.Invoke(ctx, Acl_ListPermissions_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -97,7 +97,7 @@ type AclServer interface {
 	GrantPermission(context.Context, *GrantPermissionInput) (*GrantPermissionOutput, error)
 	RevokePermission(context.Context, *RevokePermissionInput) (*RevokePermissionOutput, error)
 	DescribePermission(context.Context, *DescribePermissionInput) (*DescribePermissionOutput, error)
-	ListPermission(context.Context, *ListPermissionInput) (*ListPermissionOutput, error)
+	ListPermissions(context.Context, *ListPermissionsInput) (*ListPermissionsOutput, error)
 	IntrospectPermission(context.Context, *IntrospectPermissionInput) (*IntrospectPermissionOutput, error)
 }
 
@@ -114,8 +114,8 @@ func (UnimplementedAclServer) RevokePermission(context.Context, *RevokePermissio
 func (UnimplementedAclServer) DescribePermission(context.Context, *DescribePermissionInput) (*DescribePermissionOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribePermission not implemented")
 }
-func (UnimplementedAclServer) ListPermission(context.Context, *ListPermissionInput) (*ListPermissionOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListPermission not implemented")
+func (UnimplementedAclServer) ListPermissions(context.Context, *ListPermissionsInput) (*ListPermissionsOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListPermissions not implemented")
 }
 func (UnimplementedAclServer) IntrospectPermission(context.Context, *IntrospectPermissionInput) (*IntrospectPermissionOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method IntrospectPermission not implemented")
@@ -186,20 +186,20 @@ func _Acl_DescribePermission_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Acl_ListPermission_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListPermissionInput)
+func _Acl_ListPermissions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListPermissionsInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AclServer).ListPermission(ctx, in)
+		return srv.(AclServer).ListPermissions(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Acl_ListPermission_FullMethodName,
+		FullMethod: Acl_ListPermissions_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AclServer).ListPermission(ctx, req.(*ListPermissionInput))
+		return srv.(AclServer).ListPermissions(ctx, req.(*ListPermissionsInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -242,8 +242,8 @@ var Acl_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Acl_DescribePermission_Handler,
 		},
 		{
-			MethodName: "ListPermission",
-			Handler:    _Acl_ListPermission_Handler,
+			MethodName: "ListPermissions",
+			Handler:    _Acl_ListPermissions_Handler,
 		},
 		{
 			MethodName: "IntrospectPermission",
