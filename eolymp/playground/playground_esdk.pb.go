@@ -102,7 +102,7 @@ func (s *PlaygroundService) do(ctx context.Context, verb, path string, in, out p
 
 func (s *PlaygroundService) CreateRun(ctx context.Context, in *CreateRunInput) (*CreateRunOutput, error) {
 	out := &CreateRunOutput{}
-	path := "/playground/runs"
+	path := "/runs"
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
@@ -113,7 +113,7 @@ func (s *PlaygroundService) CreateRun(ctx context.Context, in *CreateRunInput) (
 
 func (s *PlaygroundService) DescribeRun(ctx context.Context, in *DescribeRunInput) (*DescribeRunOutput, error) {
 	out := &DescribeRunOutput{}
-	path := "/playground/runs/" + url.PathEscape(in.GetRunId())
+	path := "/runs/" + url.PathEscape(in.GetRunId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
