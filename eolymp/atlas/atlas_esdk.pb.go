@@ -349,23 +349,6 @@ func (s *AtlasService) DescribeStatement(ctx context.Context, in *DescribeStatem
 	return out, nil
 }
 
-func (s *AtlasService) RenderStatement(ctx context.Context, in *RenderStatementInput) (*RenderStatementOutput, error) {
-	out := &RenderStatementOutput{}
-	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/statements/" + url.PathEscape(in.GetStatementId()) + "/render"
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.ProblemId = ""
-		in.StatementId = ""
-	}
-
-	if err := s.do(ctx, "GET", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
 func (s *AtlasService) LookupStatement(ctx context.Context, in *LookupStatementInput) (*LookupStatementOutput, error) {
 	out := &LookupStatementOutput{}
 	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/translate"

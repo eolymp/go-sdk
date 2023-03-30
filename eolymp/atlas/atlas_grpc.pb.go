@@ -35,7 +35,6 @@ const (
 	Atlas_DeleteStatement_FullMethodName        = "/eolymp.atlas.Atlas/DeleteStatement"
 	Atlas_ListStatements_FullMethodName         = "/eolymp.atlas.Atlas/ListStatements"
 	Atlas_DescribeStatement_FullMethodName      = "/eolymp.atlas.Atlas/DescribeStatement"
-	Atlas_RenderStatement_FullMethodName        = "/eolymp.atlas.Atlas/RenderStatement"
 	Atlas_LookupStatement_FullMethodName        = "/eolymp.atlas.Atlas/LookupStatement"
 	Atlas_PreviewStatement_FullMethodName       = "/eolymp.atlas.Atlas/PreviewStatement"
 	Atlas_CreateTestset_FullMethodName          = "/eolymp.atlas.Atlas/CreateTestset"
@@ -106,18 +105,8 @@ type AtlasClient interface {
 	UpdateStatement(ctx context.Context, in *UpdateStatementInput, opts ...grpc.CallOption) (*UpdateStatementOutput, error)
 	DeleteStatement(ctx context.Context, in *DeleteStatementInput, opts ...grpc.CallOption) (*DeleteStatementOutput, error)
 	ListStatements(ctx context.Context, in *ListStatementsInput, opts ...grpc.CallOption) (*ListStatementsOutput, error)
-	// DescribeStatement returns statement as it's stored in the database.
-	//
-	// This method should be used to fetch statement for editing, it returns statement in original format (HTML, Markdown,
-	// LaTeX or ECM) without resolving any embedded or computed values.
+	// DescribeStatement returns statement.
 	DescribeStatement(ctx context.Context, in *DescribeStatementInput, opts ...grpc.CallOption) (*DescribeStatementOutput, error)
-	// RenderStatement returns fully resolved statement in ECM format.
-	//
-	// This method should be used to fetch statement for viewing, it always returns statement as ECM tree (rather than
-	// HTML or LaTeX) and ensures any embedded or computed values are resolved.
-	//
-	// Deprecated: use DescribeStatement with rendered=true
-	RenderStatement(ctx context.Context, in *RenderStatementInput, opts ...grpc.CallOption) (*RenderStatementOutput, error)
 	// LookupStatement finds a statement in one of the requested languages.
 	LookupStatement(ctx context.Context, in *LookupStatementInput, opts ...grpc.CallOption) (*LookupStatementOutput, error)
 	// PreviewStatement renders unsaved statement.
@@ -319,15 +308,6 @@ func (c *atlasClient) ListStatements(ctx context.Context, in *ListStatementsInpu
 func (c *atlasClient) DescribeStatement(ctx context.Context, in *DescribeStatementInput, opts ...grpc.CallOption) (*DescribeStatementOutput, error) {
 	out := new(DescribeStatementOutput)
 	err := c.cc.Invoke(ctx, Atlas_DescribeStatement_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *atlasClient) RenderStatement(ctx context.Context, in *RenderStatementInput, opts ...grpc.CallOption) (*RenderStatementOutput, error) {
-	out := new(RenderStatementOutput)
-	err := c.cc.Invoke(ctx, Atlas_RenderStatement_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -794,18 +774,8 @@ type AtlasServer interface {
 	UpdateStatement(context.Context, *UpdateStatementInput) (*UpdateStatementOutput, error)
 	DeleteStatement(context.Context, *DeleteStatementInput) (*DeleteStatementOutput, error)
 	ListStatements(context.Context, *ListStatementsInput) (*ListStatementsOutput, error)
-	// DescribeStatement returns statement as it's stored in the database.
-	//
-	// This method should be used to fetch statement for editing, it returns statement in original format (HTML, Markdown,
-	// LaTeX or ECM) without resolving any embedded or computed values.
+	// DescribeStatement returns statement.
 	DescribeStatement(context.Context, *DescribeStatementInput) (*DescribeStatementOutput, error)
-	// RenderStatement returns fully resolved statement in ECM format.
-	//
-	// This method should be used to fetch statement for viewing, it always returns statement as ECM tree (rather than
-	// HTML or LaTeX) and ensures any embedded or computed values are resolved.
-	//
-	// Deprecated: use DescribeStatement with rendered=true
-	RenderStatement(context.Context, *RenderStatementInput) (*RenderStatementOutput, error)
 	// LookupStatement finds a statement in one of the requested languages.
 	LookupStatement(context.Context, *LookupStatementInput) (*LookupStatementOutput, error)
 	// PreviewStatement renders unsaved statement.
@@ -912,9 +882,6 @@ func (UnimplementedAtlasServer) ListStatements(context.Context, *ListStatementsI
 }
 func (UnimplementedAtlasServer) DescribeStatement(context.Context, *DescribeStatementInput) (*DescribeStatementOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeStatement not implemented")
-}
-func (UnimplementedAtlasServer) RenderStatement(context.Context, *RenderStatementInput) (*RenderStatementOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method RenderStatement not implemented")
 }
 func (UnimplementedAtlasServer) LookupStatement(context.Context, *LookupStatementInput) (*LookupStatementOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method LookupStatement not implemented")
@@ -1359,24 +1326,6 @@ func _Atlas_DescribeStatement_Handler(srv interface{}, ctx context.Context, dec 
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AtlasServer).DescribeStatement(ctx, req.(*DescribeStatementInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Atlas_RenderStatement_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RenderStatementInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AtlasServer).RenderStatement(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Atlas_RenderStatement_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AtlasServer).RenderStatement(ctx, req.(*RenderStatementInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -2333,10 +2282,6 @@ var Atlas_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DescribeStatement",
 			Handler:    _Atlas_DescribeStatement_Handler,
-		},
-		{
-			MethodName: "RenderStatement",
-			Handler:    _Atlas_RenderStatement_Handler,
 		},
 		{
 			MethodName: "LookupStatement",
