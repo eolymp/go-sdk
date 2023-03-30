@@ -36,6 +36,7 @@ const (
 	Atlas_ListStatements_FullMethodName         = "/eolymp.atlas.Atlas/ListStatements"
 	Atlas_DescribeStatement_FullMethodName      = "/eolymp.atlas.Atlas/DescribeStatement"
 	Atlas_RenderStatement_FullMethodName        = "/eolymp.atlas.Atlas/RenderStatement"
+	Atlas_LookupStatement_FullMethodName        = "/eolymp.atlas.Atlas/LookupStatement"
 	Atlas_PreviewStatement_FullMethodName       = "/eolymp.atlas.Atlas/PreviewStatement"
 	Atlas_CreateTestset_FullMethodName          = "/eolymp.atlas.Atlas/CreateTestset"
 	Atlas_UpdateTestset_FullMethodName          = "/eolymp.atlas.Atlas/UpdateTestset"
@@ -114,7 +115,11 @@ type AtlasClient interface {
 	//
 	// This method should be used to fetch statement for viewing, it always returns statement as ECM tree (rather than
 	// HTML or LaTeX) and ensures any embedded or computed values are resolved.
+	//
+	// Deprecated: use DescribeStatement with rendered=true
 	RenderStatement(ctx context.Context, in *RenderStatementInput, opts ...grpc.CallOption) (*RenderStatementOutput, error)
+	// LookupStatement finds a statement in one of the requested languages.
+	LookupStatement(ctx context.Context, in *LookupStatementInput, opts ...grpc.CallOption) (*LookupStatementOutput, error)
 	// PreviewStatement renders unsaved statement.
 	//
 	// This method can be used to render statement before it has been saved.
@@ -323,6 +328,15 @@ func (c *atlasClient) DescribeStatement(ctx context.Context, in *DescribeStateme
 func (c *atlasClient) RenderStatement(ctx context.Context, in *RenderStatementInput, opts ...grpc.CallOption) (*RenderStatementOutput, error) {
 	out := new(RenderStatementOutput)
 	err := c.cc.Invoke(ctx, Atlas_RenderStatement_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *atlasClient) LookupStatement(ctx context.Context, in *LookupStatementInput, opts ...grpc.CallOption) (*LookupStatementOutput, error) {
+	out := new(LookupStatementOutput)
+	err := c.cc.Invoke(ctx, Atlas_LookupStatement_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -789,7 +803,11 @@ type AtlasServer interface {
 	//
 	// This method should be used to fetch statement for viewing, it always returns statement as ECM tree (rather than
 	// HTML or LaTeX) and ensures any embedded or computed values are resolved.
+	//
+	// Deprecated: use DescribeStatement with rendered=true
 	RenderStatement(context.Context, *RenderStatementInput) (*RenderStatementOutput, error)
+	// LookupStatement finds a statement in one of the requested languages.
+	LookupStatement(context.Context, *LookupStatementInput) (*LookupStatementOutput, error)
 	// PreviewStatement renders unsaved statement.
 	//
 	// This method can be used to render statement before it has been saved.
@@ -897,6 +915,9 @@ func (UnimplementedAtlasServer) DescribeStatement(context.Context, *DescribeStat
 }
 func (UnimplementedAtlasServer) RenderStatement(context.Context, *RenderStatementInput) (*RenderStatementOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RenderStatement not implemented")
+}
+func (UnimplementedAtlasServer) LookupStatement(context.Context, *LookupStatementInput) (*LookupStatementOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method LookupStatement not implemented")
 }
 func (UnimplementedAtlasServer) PreviewStatement(context.Context, *PreviewStatementInput) (*PreviewStatementOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PreviewStatement not implemented")
@@ -1356,6 +1377,24 @@ func _Atlas_RenderStatement_Handler(srv interface{}, ctx context.Context, dec fu
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AtlasServer).RenderStatement(ctx, req.(*RenderStatementInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Atlas_LookupStatement_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LookupStatementInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AtlasServer).LookupStatement(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Atlas_LookupStatement_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AtlasServer).LookupStatement(ctx, req.(*LookupStatementInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -2298,6 +2337,10 @@ var Atlas_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RenderStatement",
 			Handler:    _Atlas_RenderStatement_Handler,
+		},
+		{
+			MethodName: "LookupStatement",
+			Handler:    _Atlas_LookupStatement_Handler,
 		},
 		{
 			MethodName: "PreviewStatement",
