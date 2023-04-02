@@ -365,6 +365,23 @@ func (s *AtlasService) LookupStatement(ctx context.Context, in *LookupStatementI
 	return out, nil
 }
 
+func (s *AtlasService) RenderStatement(ctx context.Context, in *RenderStatementInput) (*RenderStatementOutput, error) {
+	out := &RenderStatementOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/statements/" + url.PathEscape(in.GetStatementId()) + "/render"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+		in.StatementId = ""
+	}
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *AtlasService) PreviewStatement(ctx context.Context, in *PreviewStatementInput) (*PreviewStatementOutput, error) {
 	out := &PreviewStatementOutput{}
 	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/renders"
