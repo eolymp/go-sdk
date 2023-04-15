@@ -26,14 +26,14 @@ const (
 	TestingService_CreateTestset_FullMethodName      = "/eolymp.atlas.TestingService/CreateTestset"
 	TestingService_UpdateTestset_FullMethodName      = "/eolymp.atlas.TestingService/UpdateTestset"
 	TestingService_DeleteTestset_FullMethodName      = "/eolymp.atlas.TestingService/DeleteTestset"
-	TestingService_ListTestsets_FullMethodName       = "/eolymp.atlas.TestingService/ListTestsets"
 	TestingService_DescribeTestset_FullMethodName    = "/eolymp.atlas.TestingService/DescribeTestset"
+	TestingService_ListTestsets_FullMethodName       = "/eolymp.atlas.TestingService/ListTestsets"
 	TestingService_CreateTest_FullMethodName         = "/eolymp.atlas.TestingService/CreateTest"
 	TestingService_UpdateTest_FullMethodName         = "/eolymp.atlas.TestingService/UpdateTest"
 	TestingService_DeleteTest_FullMethodName         = "/eolymp.atlas.TestingService/DeleteTest"
+	TestingService_DescribeTest_FullMethodName       = "/eolymp.atlas.TestingService/DescribeTest"
 	TestingService_ListTests_FullMethodName          = "/eolymp.atlas.TestingService/ListTests"
 	TestingService_ListExamples_FullMethodName       = "/eolymp.atlas.TestingService/ListExamples"
-	TestingService_DescribeTest_FullMethodName       = "/eolymp.atlas.TestingService/DescribeTest"
 )
 
 // TestingServiceClient is the client API for TestingService service.
@@ -47,14 +47,14 @@ type TestingServiceClient interface {
 	CreateTestset(ctx context.Context, in *CreateTestsetInput, opts ...grpc.CallOption) (*CreateTestsetOutput, error)
 	UpdateTestset(ctx context.Context, in *UpdateTestsetInput, opts ...grpc.CallOption) (*UpdateTestsetOutput, error)
 	DeleteTestset(ctx context.Context, in *DeleteTestsetInput, opts ...grpc.CallOption) (*DeleteTestsetOutput, error)
-	ListTestsets(ctx context.Context, in *ListTestsetsInput, opts ...grpc.CallOption) (*ListTestsetsOutput, error)
 	DescribeTestset(ctx context.Context, in *DescribeTestsetInput, opts ...grpc.CallOption) (*DescribeTestsetOutput, error)
+	ListTestsets(ctx context.Context, in *ListTestsetsInput, opts ...grpc.CallOption) (*ListTestsetsOutput, error)
 	CreateTest(ctx context.Context, in *CreateTestInput, opts ...grpc.CallOption) (*CreateTestOutput, error)
 	UpdateTest(ctx context.Context, in *UpdateTestInput, opts ...grpc.CallOption) (*UpdateTestOutput, error)
 	DeleteTest(ctx context.Context, in *DeleteTestInput, opts ...grpc.CallOption) (*DeleteTestOutput, error)
+	DescribeTest(ctx context.Context, in *DescribeTestInput, opts ...grpc.CallOption) (*DescribeTestOutput, error)
 	ListTests(ctx context.Context, in *ListTestsInput, opts ...grpc.CallOption) (*ListTestsOutput, error)
 	ListExamples(ctx context.Context, in *ListExamplesInput, opts ...grpc.CallOption) (*ListExamplesOutput, error)
-	DescribeTest(ctx context.Context, in *DescribeTestInput, opts ...grpc.CallOption) (*DescribeTestOutput, error)
 }
 
 type testingServiceClient struct {
@@ -128,18 +128,18 @@ func (c *testingServiceClient) DeleteTestset(ctx context.Context, in *DeleteTest
 	return out, nil
 }
 
-func (c *testingServiceClient) ListTestsets(ctx context.Context, in *ListTestsetsInput, opts ...grpc.CallOption) (*ListTestsetsOutput, error) {
-	out := new(ListTestsetsOutput)
-	err := c.cc.Invoke(ctx, TestingService_ListTestsets_FullMethodName, in, out, opts...)
+func (c *testingServiceClient) DescribeTestset(ctx context.Context, in *DescribeTestsetInput, opts ...grpc.CallOption) (*DescribeTestsetOutput, error) {
+	out := new(DescribeTestsetOutput)
+	err := c.cc.Invoke(ctx, TestingService_DescribeTestset_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *testingServiceClient) DescribeTestset(ctx context.Context, in *DescribeTestsetInput, opts ...grpc.CallOption) (*DescribeTestsetOutput, error) {
-	out := new(DescribeTestsetOutput)
-	err := c.cc.Invoke(ctx, TestingService_DescribeTestset_FullMethodName, in, out, opts...)
+func (c *testingServiceClient) ListTestsets(ctx context.Context, in *ListTestsetsInput, opts ...grpc.CallOption) (*ListTestsetsOutput, error) {
+	out := new(ListTestsetsOutput)
+	err := c.cc.Invoke(ctx, TestingService_ListTestsets_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -173,6 +173,15 @@ func (c *testingServiceClient) DeleteTest(ctx context.Context, in *DeleteTestInp
 	return out, nil
 }
 
+func (c *testingServiceClient) DescribeTest(ctx context.Context, in *DescribeTestInput, opts ...grpc.CallOption) (*DescribeTestOutput, error) {
+	out := new(DescribeTestOutput)
+	err := c.cc.Invoke(ctx, TestingService_DescribeTest_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *testingServiceClient) ListTests(ctx context.Context, in *ListTestsInput, opts ...grpc.CallOption) (*ListTestsOutput, error) {
 	out := new(ListTestsOutput)
 	err := c.cc.Invoke(ctx, TestingService_ListTests_FullMethodName, in, out, opts...)
@@ -191,15 +200,6 @@ func (c *testingServiceClient) ListExamples(ctx context.Context, in *ListExample
 	return out, nil
 }
 
-func (c *testingServiceClient) DescribeTest(ctx context.Context, in *DescribeTestInput, opts ...grpc.CallOption) (*DescribeTestOutput, error) {
-	out := new(DescribeTestOutput)
-	err := c.cc.Invoke(ctx, TestingService_DescribeTest_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // TestingServiceServer is the server API for TestingService service.
 // All implementations should embed UnimplementedTestingServiceServer
 // for forward compatibility
@@ -211,14 +211,14 @@ type TestingServiceServer interface {
 	CreateTestset(context.Context, *CreateTestsetInput) (*CreateTestsetOutput, error)
 	UpdateTestset(context.Context, *UpdateTestsetInput) (*UpdateTestsetOutput, error)
 	DeleteTestset(context.Context, *DeleteTestsetInput) (*DeleteTestsetOutput, error)
-	ListTestsets(context.Context, *ListTestsetsInput) (*ListTestsetsOutput, error)
 	DescribeTestset(context.Context, *DescribeTestsetInput) (*DescribeTestsetOutput, error)
+	ListTestsets(context.Context, *ListTestsetsInput) (*ListTestsetsOutput, error)
 	CreateTest(context.Context, *CreateTestInput) (*CreateTestOutput, error)
 	UpdateTest(context.Context, *UpdateTestInput) (*UpdateTestOutput, error)
 	DeleteTest(context.Context, *DeleteTestInput) (*DeleteTestOutput, error)
+	DescribeTest(context.Context, *DescribeTestInput) (*DescribeTestOutput, error)
 	ListTests(context.Context, *ListTestsInput) (*ListTestsOutput, error)
 	ListExamples(context.Context, *ListExamplesInput) (*ListExamplesOutput, error)
-	DescribeTest(context.Context, *DescribeTestInput) (*DescribeTestOutput, error)
 }
 
 // UnimplementedTestingServiceServer should be embedded to have forward compatible implementations.
@@ -246,11 +246,11 @@ func (UnimplementedTestingServiceServer) UpdateTestset(context.Context, *UpdateT
 func (UnimplementedTestingServiceServer) DeleteTestset(context.Context, *DeleteTestsetInput) (*DeleteTestsetOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteTestset not implemented")
 }
-func (UnimplementedTestingServiceServer) ListTestsets(context.Context, *ListTestsetsInput) (*ListTestsetsOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListTestsets not implemented")
-}
 func (UnimplementedTestingServiceServer) DescribeTestset(context.Context, *DescribeTestsetInput) (*DescribeTestsetOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeTestset not implemented")
+}
+func (UnimplementedTestingServiceServer) ListTestsets(context.Context, *ListTestsetsInput) (*ListTestsetsOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListTestsets not implemented")
 }
 func (UnimplementedTestingServiceServer) CreateTest(context.Context, *CreateTestInput) (*CreateTestOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateTest not implemented")
@@ -261,14 +261,14 @@ func (UnimplementedTestingServiceServer) UpdateTest(context.Context, *UpdateTest
 func (UnimplementedTestingServiceServer) DeleteTest(context.Context, *DeleteTestInput) (*DeleteTestOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteTest not implemented")
 }
+func (UnimplementedTestingServiceServer) DescribeTest(context.Context, *DescribeTestInput) (*DescribeTestOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeTest not implemented")
+}
 func (UnimplementedTestingServiceServer) ListTests(context.Context, *ListTestsInput) (*ListTestsOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListTests not implemented")
 }
 func (UnimplementedTestingServiceServer) ListExamples(context.Context, *ListExamplesInput) (*ListExamplesOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListExamples not implemented")
-}
-func (UnimplementedTestingServiceServer) DescribeTest(context.Context, *DescribeTestInput) (*DescribeTestOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DescribeTest not implemented")
 }
 
 // UnsafeTestingServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -408,24 +408,6 @@ func _TestingService_DeleteTestset_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
-func _TestingService_ListTestsets_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListTestsetsInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(TestingServiceServer).ListTestsets(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: TestingService_ListTestsets_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TestingServiceServer).ListTestsets(ctx, req.(*ListTestsetsInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _TestingService_DescribeTestset_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DescribeTestsetInput)
 	if err := dec(in); err != nil {
@@ -440,6 +422,24 @@ func _TestingService_DescribeTestset_Handler(srv interface{}, ctx context.Contex
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(TestingServiceServer).DescribeTestset(ctx, req.(*DescribeTestsetInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TestingService_ListTestsets_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListTestsetsInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TestingServiceServer).ListTestsets(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TestingService_ListTestsets_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TestingServiceServer).ListTestsets(ctx, req.(*ListTestsetsInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -498,6 +498,24 @@ func _TestingService_DeleteTest_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _TestingService_DescribeTest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeTestInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TestingServiceServer).DescribeTest(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TestingService_DescribeTest_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TestingServiceServer).DescribeTest(ctx, req.(*DescribeTestInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _TestingService_ListTests_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListTestsInput)
 	if err := dec(in); err != nil {
@@ -530,24 +548,6 @@ func _TestingService_ListExamples_Handler(srv interface{}, ctx context.Context, 
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(TestingServiceServer).ListExamples(ctx, req.(*ListExamplesInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _TestingService_DescribeTest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DescribeTestInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(TestingServiceServer).DescribeTest(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: TestingService_DescribeTest_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TestingServiceServer).DescribeTest(ctx, req.(*DescribeTestInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -588,12 +588,12 @@ var TestingService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _TestingService_DeleteTestset_Handler,
 		},
 		{
-			MethodName: "ListTestsets",
-			Handler:    _TestingService_ListTestsets_Handler,
-		},
-		{
 			MethodName: "DescribeTestset",
 			Handler:    _TestingService_DescribeTestset_Handler,
+		},
+		{
+			MethodName: "ListTestsets",
+			Handler:    _TestingService_ListTestsets_Handler,
 		},
 		{
 			MethodName: "CreateTest",
@@ -608,16 +608,16 @@ var TestingService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _TestingService_DeleteTest_Handler,
 		},
 		{
+			MethodName: "DescribeTest",
+			Handler:    _TestingService_DescribeTest_Handler,
+		},
+		{
 			MethodName: "ListTests",
 			Handler:    _TestingService_ListTests_Handler,
 		},
 		{
 			MethodName: "ListExamples",
 			Handler:    _TestingService_ListExamples_Handler,
-		},
-		{
-			MethodName: "DescribeTest",
-			Handler:    _TestingService_DescribeTest_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

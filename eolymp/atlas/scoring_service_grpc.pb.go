@@ -20,8 +20,8 @@ const _ = grpc.SupportPackageIsVersion7
 
 const (
 	ScoringService_DescribeScore_FullMethodName          = "/eolymp.atlas.ScoringService/DescribeScore"
-	ScoringService_ListProblemTop_FullMethodName         = "/eolymp.atlas.ScoringService/ListProblemTop"
 	ScoringService_DescribeProblemGrading_FullMethodName = "/eolymp.atlas.ScoringService/DescribeProblemGrading"
+	ScoringService_ListProblemTop_FullMethodName         = "/eolymp.atlas.ScoringService/ListProblemTop"
 )
 
 // ScoringServiceClient is the client API for ScoringService service.
@@ -29,8 +29,8 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ScoringServiceClient interface {
 	DescribeScore(ctx context.Context, in *DescribeScoreInput, opts ...grpc.CallOption) (*DescribeScoreOutput, error)
-	ListProblemTop(ctx context.Context, in *ListProblemTopInput, opts ...grpc.CallOption) (*ListProblemTopOutput, error)
 	DescribeProblemGrading(ctx context.Context, in *DescribeProblemGradingInput, opts ...grpc.CallOption) (*DescribeProblemGradingOutput, error)
+	ListProblemTop(ctx context.Context, in *ListProblemTopInput, opts ...grpc.CallOption) (*ListProblemTopOutput, error)
 }
 
 type scoringServiceClient struct {
@@ -50,18 +50,18 @@ func (c *scoringServiceClient) DescribeScore(ctx context.Context, in *DescribeSc
 	return out, nil
 }
 
-func (c *scoringServiceClient) ListProblemTop(ctx context.Context, in *ListProblemTopInput, opts ...grpc.CallOption) (*ListProblemTopOutput, error) {
-	out := new(ListProblemTopOutput)
-	err := c.cc.Invoke(ctx, ScoringService_ListProblemTop_FullMethodName, in, out, opts...)
+func (c *scoringServiceClient) DescribeProblemGrading(ctx context.Context, in *DescribeProblemGradingInput, opts ...grpc.CallOption) (*DescribeProblemGradingOutput, error) {
+	out := new(DescribeProblemGradingOutput)
+	err := c.cc.Invoke(ctx, ScoringService_DescribeProblemGrading_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *scoringServiceClient) DescribeProblemGrading(ctx context.Context, in *DescribeProblemGradingInput, opts ...grpc.CallOption) (*DescribeProblemGradingOutput, error) {
-	out := new(DescribeProblemGradingOutput)
-	err := c.cc.Invoke(ctx, ScoringService_DescribeProblemGrading_FullMethodName, in, out, opts...)
+func (c *scoringServiceClient) ListProblemTop(ctx context.Context, in *ListProblemTopInput, opts ...grpc.CallOption) (*ListProblemTopOutput, error) {
+	out := new(ListProblemTopOutput)
+	err := c.cc.Invoke(ctx, ScoringService_ListProblemTop_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -73,8 +73,8 @@ func (c *scoringServiceClient) DescribeProblemGrading(ctx context.Context, in *D
 // for forward compatibility
 type ScoringServiceServer interface {
 	DescribeScore(context.Context, *DescribeScoreInput) (*DescribeScoreOutput, error)
-	ListProblemTop(context.Context, *ListProblemTopInput) (*ListProblemTopOutput, error)
 	DescribeProblemGrading(context.Context, *DescribeProblemGradingInput) (*DescribeProblemGradingOutput, error)
+	ListProblemTop(context.Context, *ListProblemTopInput) (*ListProblemTopOutput, error)
 }
 
 // UnimplementedScoringServiceServer should be embedded to have forward compatible implementations.
@@ -84,11 +84,11 @@ type UnimplementedScoringServiceServer struct {
 func (UnimplementedScoringServiceServer) DescribeScore(context.Context, *DescribeScoreInput) (*DescribeScoreOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeScore not implemented")
 }
-func (UnimplementedScoringServiceServer) ListProblemTop(context.Context, *ListProblemTopInput) (*ListProblemTopOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListProblemTop not implemented")
-}
 func (UnimplementedScoringServiceServer) DescribeProblemGrading(context.Context, *DescribeProblemGradingInput) (*DescribeProblemGradingOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeProblemGrading not implemented")
+}
+func (UnimplementedScoringServiceServer) ListProblemTop(context.Context, *ListProblemTopInput) (*ListProblemTopOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListProblemTop not implemented")
 }
 
 // UnsafeScoringServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -120,24 +120,6 @@ func _ScoringService_DescribeScore_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ScoringService_ListProblemTop_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListProblemTopInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ScoringServiceServer).ListProblemTop(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ScoringService_ListProblemTop_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ScoringServiceServer).ListProblemTop(ctx, req.(*ListProblemTopInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _ScoringService_DescribeProblemGrading_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DescribeProblemGradingInput)
 	if err := dec(in); err != nil {
@@ -156,6 +138,24 @@ func _ScoringService_DescribeProblemGrading_Handler(srv interface{}, ctx context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ScoringService_ListProblemTop_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListProblemTopInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ScoringServiceServer).ListProblemTop(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ScoringService_ListProblemTop_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ScoringServiceServer).ListProblemTop(ctx, req.(*ListProblemTopInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ScoringService_ServiceDesc is the grpc.ServiceDesc for ScoringService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -168,12 +168,12 @@ var ScoringService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _ScoringService_DescribeScore_Handler,
 		},
 		{
-			MethodName: "ListProblemTop",
-			Handler:    _ScoringService_ListProblemTop_Handler,
-		},
-		{
 			MethodName: "DescribeProblemGrading",
 			Handler:    _ScoringService_DescribeProblemGrading_Handler,
+		},
+		{
+			MethodName: "ListProblemTop",
+			Handler:    _ScoringService_ListProblemTop_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

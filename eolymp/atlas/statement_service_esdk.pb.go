@@ -143,17 +143,6 @@ func (s *StatementServiceService) DeleteStatement(ctx context.Context, in *Delet
 	return out, nil
 }
 
-func (s *StatementServiceService) ListStatements(ctx context.Context, in *ListStatementsInput) (*ListStatementsOutput, error) {
-	out := &ListStatementsOutput{}
-	path := "/statements"
-
-	if err := s.do(ctx, "GET", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
 func (s *StatementServiceService) DescribeStatement(ctx context.Context, in *DescribeStatementInput) (*DescribeStatementOutput, error) {
 	out := &DescribeStatementOutput{}
 	path := "/statements/" + url.PathEscape(in.GetStatementId())
@@ -202,6 +191,17 @@ func (s *StatementServiceService) PreviewStatement(ctx context.Context, in *Prev
 	path := "/renders"
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *StatementServiceService) ListStatements(ctx context.Context, in *ListStatementsInput) (*ListStatementsOutput, error) {
+	out := &ListStatementsOutput{}
+	path := "/statements"
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 

@@ -111,22 +111,6 @@ func (s *SubmissionServiceService) CreateSubmission(ctx context.Context, in *Cre
 	return out, nil
 }
 
-func (s *SubmissionServiceService) DescribeSubmission(ctx context.Context, in *DescribeSubmissionInput) (*DescribeSubmissionOutput, error) {
-	out := &DescribeSubmissionOutput{}
-	path := "/submissions/" + url.PathEscape(in.GetSubmissionId())
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.SubmissionId = ""
-	}
-
-	if err := s.do(ctx, "GET", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
 func (s *SubmissionServiceService) RetestSubmission(ctx context.Context, in *RetestSubmissionInput) (*RetestSubmissionOutput, error) {
 	out := &RetestSubmissionOutput{}
 	path := "/submissions/" + url.PathEscape(in.GetSubmissionId()) + "/retest"
@@ -137,6 +121,22 @@ func (s *SubmissionServiceService) RetestSubmission(ctx context.Context, in *Ret
 	}
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *SubmissionServiceService) DescribeSubmission(ctx context.Context, in *DescribeSubmissionInput) (*DescribeSubmissionOutput, error) {
+	out := &DescribeSubmissionOutput{}
+	path := "/submissions/" + url.PathEscape(in.GetSubmissionId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.SubmissionId = ""
+	}
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 

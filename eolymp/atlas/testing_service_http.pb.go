@@ -134,12 +134,12 @@ func RegisterTestingServiceHttpHandlers(router *mux.Router, prefix string, srv T
 	router.Handle(prefix+"/testsets/{testset_id}", _TestingService_DeleteTestset_Rule0(srv)).
 		Methods("DELETE").
 		Name("eolymp.atlas.TestingService.DeleteTestset")
-	router.Handle(prefix+"/testsets", _TestingService_ListTestsets_Rule0(srv)).
-		Methods("GET").
-		Name("eolymp.atlas.TestingService.ListTestsets")
 	router.Handle(prefix+"/testsets/{testset_id}", _TestingService_DescribeTestset_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.atlas.TestingService.DescribeTestset")
+	router.Handle(prefix+"/testsets", _TestingService_ListTestsets_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.atlas.TestingService.ListTestsets")
 	router.Handle(prefix+"/testsets/{testset_id}/tests", _TestingService_CreateTest_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.atlas.TestingService.CreateTest")
@@ -149,15 +149,15 @@ func RegisterTestingServiceHttpHandlers(router *mux.Router, prefix string, srv T
 	router.Handle(prefix+"/testsets/{testset_id}/tests/{test_id}", _TestingService_DeleteTest_Rule0(srv)).
 		Methods("DELETE").
 		Name("eolymp.atlas.TestingService.DeleteTest")
+	router.Handle(prefix+"/testsets/{testset_id}/tests/{test_id}", _TestingService_DescribeTest_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.atlas.TestingService.DescribeTest")
 	router.Handle(prefix+"/testsets/{testset_id}/tests", _TestingService_ListTests_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.atlas.TestingService.ListTests")
 	router.Handle(prefix+"/examples", _TestingService_ListExamples_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.atlas.TestingService.ListExamples")
-	router.Handle(prefix+"/testsets/{testset_id}/tests/{test_id}", _TestingService_DescribeTest_Rule0(srv)).
-		Methods("GET").
-		Name("eolymp.atlas.TestingService.DescribeTest")
 }
 
 func _TestingService_UpdateChecker_Rule0(srv TestingServiceServer) http.Handler {
@@ -306,26 +306,6 @@ func _TestingService_DeleteTestset_Rule0(srv TestingServiceServer) http.Handler 
 	})
 }
 
-func _TestingService_ListTestsets_Rule0(srv TestingServiceServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ListTestsetsInput{}
-
-		if err := _TestingService_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_TestingService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.ListTestsets(r.Context(), in)
-		if err != nil {
-			_TestingService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_TestingService_HTTPWriteResponse(w, out)
-	})
-}
-
 func _TestingService_DescribeTestset_Rule0(srv TestingServiceServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeTestsetInput{}
@@ -340,6 +320,26 @@ func _TestingService_DescribeTestset_Rule0(srv TestingServiceServer) http.Handle
 		in.TestsetId = vars["testset_id"]
 
 		out, err := srv.DescribeTestset(r.Context(), in)
+		if err != nil {
+			_TestingService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_TestingService_HTTPWriteResponse(w, out)
+	})
+}
+
+func _TestingService_ListTestsets_Rule0(srv TestingServiceServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListTestsetsInput{}
+
+		if err := _TestingService_HTTPReadQueryString(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_TestingService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.ListTestsets(r.Context(), in)
 		if err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
@@ -420,6 +420,30 @@ func _TestingService_DeleteTest_Rule0(srv TestingServiceServer) http.Handler {
 	})
 }
 
+func _TestingService_DescribeTest_Rule0(srv TestingServiceServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeTestInput{}
+
+		if err := _TestingService_HTTPReadQueryString(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_TestingService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.TestsetId = vars["testset_id"]
+		in.TestId = vars["test_id"]
+
+		out, err := srv.DescribeTest(r.Context(), in)
+		if err != nil {
+			_TestingService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_TestingService_HTTPWriteResponse(w, out)
+	})
+}
+
 func _TestingService_ListTests_Rule0(srv TestingServiceServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListTestsInput{}
@@ -454,30 +478,6 @@ func _TestingService_ListExamples_Rule0(srv TestingServiceServer) http.Handler {
 		}
 
 		out, err := srv.ListExamples(r.Context(), in)
-		if err != nil {
-			_TestingService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_TestingService_HTTPWriteResponse(w, out)
-	})
-}
-
-func _TestingService_DescribeTest_Rule0(srv TestingServiceServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DescribeTestInput{}
-
-		if err := _TestingService_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_TestingService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.TestsetId = vars["testset_id"]
-		in.TestId = vars["test_id"]
-
-		out, err := srv.DescribeTest(r.Context(), in)
 		if err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
@@ -723,38 +723,6 @@ func (i *TestingServiceInterceptor) DeleteTestset(ctx context.Context, in *Delet
 	return message, err
 }
 
-func (i *TestingServiceInterceptor) ListTestsets(ctx context.Context, in *ListTestsetsInput) (*ListTestsetsOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*ListTestsetsInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *ListTestsetsInput, got %T", in))
-		}
-
-		return i.server.ListTestsets(ctx, message)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.TestingService.ListTestsets", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*ListTestsetsOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *ListTestsetsOutput, got %T", out))
-	}
-
-	return message, err
-}
-
 func (i *TestingServiceInterceptor) DescribeTestset(ctx context.Context, in *DescribeTestsetInput) (*DescribeTestsetOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeTestsetInput)
@@ -782,6 +750,38 @@ func (i *TestingServiceInterceptor) DescribeTestset(ctx context.Context, in *Des
 	message, ok := out.(*DescribeTestsetOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *DescribeTestsetOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *TestingServiceInterceptor) ListTestsets(ctx context.Context, in *ListTestsetsInput) (*ListTestsetsOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListTestsetsInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListTestsetsInput, got %T", in))
+		}
+
+		return i.server.ListTestsets(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.TestingService.ListTestsets", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListTestsetsOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListTestsetsOutput, got %T", out))
 	}
 
 	return message, err
@@ -883,6 +883,38 @@ func (i *TestingServiceInterceptor) DeleteTest(ctx context.Context, in *DeleteTe
 	return message, err
 }
 
+func (i *TestingServiceInterceptor) DescribeTest(ctx context.Context, in *DescribeTestInput) (*DescribeTestOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeTestInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeTestInput, got %T", in))
+		}
+
+		return i.server.DescribeTest(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.TestingService.DescribeTest", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeTestOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeTestOutput, got %T", out))
+	}
+
+	return message, err
+}
+
 func (i *TestingServiceInterceptor) ListTests(ctx context.Context, in *ListTestsInput) (*ListTestsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListTestsInput)
@@ -942,38 +974,6 @@ func (i *TestingServiceInterceptor) ListExamples(ctx context.Context, in *ListEx
 	message, ok := out.(*ListExamplesOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *ListExamplesOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *TestingServiceInterceptor) DescribeTest(ctx context.Context, in *DescribeTestInput) (*DescribeTestOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*DescribeTestInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *DescribeTestInput, got %T", in))
-		}
-
-		return i.server.DescribeTest(ctx, message)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.TestingService.DescribeTest", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*DescribeTestOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *DescribeTestOutput, got %T", out))
 	}
 
 	return message, err

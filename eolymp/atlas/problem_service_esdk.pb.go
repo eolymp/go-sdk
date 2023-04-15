@@ -127,17 +127,6 @@ func (s *ProblemServiceService) DeleteProblem(ctx context.Context, in *DeletePro
 	return out, nil
 }
 
-func (s *ProblemServiceService) ListProblems(ctx context.Context, in *ListProblemsInput) (*ListProblemsOutput, error) {
-	out := &ListProblemsOutput{}
-	path := "/problems"
-
-	if err := s.do(ctx, "GET", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
 func (s *ProblemServiceService) DescribeProblem(ctx context.Context, in *DescribeProblemInput) (*DescribeProblemOutput, error) {
 	out := &DescribeProblemOutput{}
 	path := "/problems/" + url.PathEscape(in.GetProblemId())
@@ -180,6 +169,17 @@ func (s *ProblemServiceService) UpdatePrivacy(ctx context.Context, in *UpdatePri
 	}
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *ProblemServiceService) ListProblems(ctx context.Context, in *ListProblemsInput) (*ListProblemsOutput, error) {
+	out := &ListProblemsOutput{}
+	path := "/problems"
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 

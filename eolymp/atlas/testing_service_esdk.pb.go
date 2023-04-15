@@ -187,17 +187,6 @@ func (s *TestingServiceService) DeleteTestset(ctx context.Context, in *DeleteTes
 	return out, nil
 }
 
-func (s *TestingServiceService) ListTestsets(ctx context.Context, in *ListTestsetsInput) (*ListTestsetsOutput, error) {
-	out := &ListTestsetsOutput{}
-	path := "/testsets"
-
-	if err := s.do(ctx, "GET", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
 func (s *TestingServiceService) DescribeTestset(ctx context.Context, in *DescribeTestsetInput) (*DescribeTestsetOutput, error) {
 	out := &DescribeTestsetOutput{}
 	path := "/testsets/" + url.PathEscape(in.GetTestsetId())
@@ -206,6 +195,17 @@ func (s *TestingServiceService) DescribeTestset(ctx context.Context, in *Describ
 	if in != nil {
 		in.TestsetId = ""
 	}
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *TestingServiceService) ListTestsets(ctx context.Context, in *ListTestsetsInput) (*ListTestsetsOutput, error) {
+	out := &ListTestsetsOutput{}
+	path := "/testsets"
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
@@ -264,6 +264,23 @@ func (s *TestingServiceService) DeleteTest(ctx context.Context, in *DeleteTestIn
 	return out, nil
 }
 
+func (s *TestingServiceService) DescribeTest(ctx context.Context, in *DescribeTestInput) (*DescribeTestOutput, error) {
+	out := &DescribeTestOutput{}
+	path := "/testsets/" + url.PathEscape(in.GetTestsetId()) + "/tests/" + url.PathEscape(in.GetTestId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.TestsetId = ""
+		in.TestId = ""
+	}
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *TestingServiceService) ListTests(ctx context.Context, in *ListTestsInput) (*ListTestsOutput, error) {
 	out := &ListTestsOutput{}
 	path := "/testsets/" + url.PathEscape(in.GetTestsetId()) + "/tests"
@@ -283,23 +300,6 @@ func (s *TestingServiceService) ListTests(ctx context.Context, in *ListTestsInpu
 func (s *TestingServiceService) ListExamples(ctx context.Context, in *ListExamplesInput) (*ListExamplesOutput, error) {
 	out := &ListExamplesOutput{}
 	path := "/examples"
-
-	if err := s.do(ctx, "GET", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *TestingServiceService) DescribeTest(ctx context.Context, in *DescribeTestInput) (*DescribeTestOutput, error) {
-	out := &DescribeTestOutput{}
-	path := "/testsets/" + url.PathEscape(in.GetTestsetId()) + "/tests/" + url.PathEscape(in.GetTestId())
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.TestsetId = ""
-		in.TestId = ""
-	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err

@@ -116,12 +116,12 @@ func RegisterSubmissionServiceHttpHandlers(router *mux.Router, prefix string, sr
 	router.Handle(prefix+"/submissions", _SubmissionService_CreateSubmission_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.atlas.SubmissionService.CreateSubmission")
-	router.Handle(prefix+"/submissions/{submission_id}", _SubmissionService_DescribeSubmission_Rule0(srv)).
-		Methods("GET").
-		Name("eolymp.atlas.SubmissionService.DescribeSubmission")
 	router.Handle(prefix+"/submissions/{submission_id}/retest", _SubmissionService_RetestSubmission_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.atlas.SubmissionService.RetestSubmission")
+	router.Handle(prefix+"/submissions/{submission_id}", _SubmissionService_DescribeSubmission_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.atlas.SubmissionService.DescribeSubmission")
 }
 
 func _SubmissionService_CreateSubmission_Rule0(srv SubmissionServiceServer) http.Handler {
@@ -135,29 +135,6 @@ func _SubmissionService_CreateSubmission_Rule0(srv SubmissionServiceServer) http
 		}
 
 		out, err := srv.CreateSubmission(r.Context(), in)
-		if err != nil {
-			_SubmissionService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_SubmissionService_HTTPWriteResponse(w, out)
-	})
-}
-
-func _SubmissionService_DescribeSubmission_Rule0(srv SubmissionServiceServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DescribeSubmissionInput{}
-
-		if err := _SubmissionService_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_SubmissionService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.SubmissionId = vars["submission_id"]
-
-		out, err := srv.DescribeSubmission(r.Context(), in)
 		if err != nil {
 			_SubmissionService_HTTPWriteErrorResponse(w, err)
 			return
@@ -181,6 +158,29 @@ func _SubmissionService_RetestSubmission_Rule0(srv SubmissionServiceServer) http
 		in.SubmissionId = vars["submission_id"]
 
 		out, err := srv.RetestSubmission(r.Context(), in)
+		if err != nil {
+			_SubmissionService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_SubmissionService_HTTPWriteResponse(w, out)
+	})
+}
+
+func _SubmissionService_DescribeSubmission_Rule0(srv SubmissionServiceServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeSubmissionInput{}
+
+		if err := _SubmissionService_HTTPReadQueryString(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_SubmissionService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.SubmissionId = vars["submission_id"]
+
+		out, err := srv.DescribeSubmission(r.Context(), in)
 		if err != nil {
 			_SubmissionService_HTTPWriteErrorResponse(w, err)
 			return
@@ -234,38 +234,6 @@ func (i *SubmissionServiceInterceptor) CreateSubmission(ctx context.Context, in 
 	return message, err
 }
 
-func (i *SubmissionServiceInterceptor) DescribeSubmission(ctx context.Context, in *DescribeSubmissionInput) (*DescribeSubmissionOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*DescribeSubmissionInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *DescribeSubmissionInput, got %T", in))
-		}
-
-		return i.server.DescribeSubmission(ctx, message)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.SubmissionService.DescribeSubmission", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*DescribeSubmissionOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *DescribeSubmissionOutput, got %T", out))
-	}
-
-	return message, err
-}
-
 func (i *SubmissionServiceInterceptor) RetestSubmission(ctx context.Context, in *RetestSubmissionInput) (*RetestSubmissionOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*RetestSubmissionInput)
@@ -293,6 +261,38 @@ func (i *SubmissionServiceInterceptor) RetestSubmission(ctx context.Context, in 
 	message, ok := out.(*RetestSubmissionOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *RetestSubmissionOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *SubmissionServiceInterceptor) DescribeSubmission(ctx context.Context, in *DescribeSubmissionInput) (*DescribeSubmissionOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeSubmissionInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeSubmissionInput, got %T", in))
+		}
+
+		return i.server.DescribeSubmission(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.SubmissionService.DescribeSubmission", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeSubmissionOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeSubmissionOutput, got %T", out))
 	}
 
 	return message, err

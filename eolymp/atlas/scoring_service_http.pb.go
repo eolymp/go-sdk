@@ -116,12 +116,12 @@ func RegisterScoringServiceHttpHandlers(router *mux.Router, prefix string, srv S
 	router.Handle(prefix+"/scores/{user_id}", _ScoringService_DescribeScore_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.atlas.ScoringService.DescribeScore")
-	router.Handle(prefix+"/top", _ScoringService_ListProblemTop_Rule0(srv)).
-		Methods("GET").
-		Name("eolymp.atlas.ScoringService.ListProblemTop")
 	router.Handle(prefix+"/grading", _ScoringService_DescribeProblemGrading_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.atlas.ScoringService.DescribeProblemGrading")
+	router.Handle(prefix+"/top", _ScoringService_ListProblemTop_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.atlas.ScoringService.ListProblemTop")
 }
 
 func _ScoringService_DescribeScore_Rule0(srv ScoringServiceServer) http.Handler {
@@ -147,26 +147,6 @@ func _ScoringService_DescribeScore_Rule0(srv ScoringServiceServer) http.Handler 
 	})
 }
 
-func _ScoringService_ListProblemTop_Rule0(srv ScoringServiceServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ListProblemTopInput{}
-
-		if err := _ScoringService_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_ScoringService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.ListProblemTop(r.Context(), in)
-		if err != nil {
-			_ScoringService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_ScoringService_HTTPWriteResponse(w, out)
-	})
-}
-
 func _ScoringService_DescribeProblemGrading_Rule0(srv ScoringServiceServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeProblemGradingInput{}
@@ -178,6 +158,26 @@ func _ScoringService_DescribeProblemGrading_Rule0(srv ScoringServiceServer) http
 		}
 
 		out, err := srv.DescribeProblemGrading(r.Context(), in)
+		if err != nil {
+			_ScoringService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ScoringService_HTTPWriteResponse(w, out)
+	})
+}
+
+func _ScoringService_ListProblemTop_Rule0(srv ScoringServiceServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListProblemTopInput{}
+
+		if err := _ScoringService_HTTPReadQueryString(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_ScoringService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.ListProblemTop(r.Context(), in)
 		if err != nil {
 			_ScoringService_HTTPWriteErrorResponse(w, err)
 			return
@@ -231,38 +231,6 @@ func (i *ScoringServiceInterceptor) DescribeScore(ctx context.Context, in *Descr
 	return message, err
 }
 
-func (i *ScoringServiceInterceptor) ListProblemTop(ctx context.Context, in *ListProblemTopInput) (*ListProblemTopOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*ListProblemTopInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *ListProblemTopInput, got %T", in))
-		}
-
-		return i.server.ListProblemTop(ctx, message)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.ScoringService.ListProblemTop", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*ListProblemTopOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *ListProblemTopOutput, got %T", out))
-	}
-
-	return message, err
-}
-
 func (i *ScoringServiceInterceptor) DescribeProblemGrading(ctx context.Context, in *DescribeProblemGradingInput) (*DescribeProblemGradingOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeProblemGradingInput)
@@ -290,6 +258,38 @@ func (i *ScoringServiceInterceptor) DescribeProblemGrading(ctx context.Context, 
 	message, ok := out.(*DescribeProblemGradingOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *DescribeProblemGradingOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *ScoringServiceInterceptor) ListProblemTop(ctx context.Context, in *ListProblemTopInput) (*ListProblemTopOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListProblemTopInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListProblemTopInput, got %T", in))
+		}
+
+		return i.server.ListProblemTop(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.ScoringService.ListProblemTop", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListProblemTopOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListProblemTopOutput, got %T", out))
 	}
 
 	return message, err

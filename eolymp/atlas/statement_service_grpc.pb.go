@@ -22,11 +22,11 @@ const (
 	StatementService_CreateStatement_FullMethodName   = "/eolymp.atlas.StatementService/CreateStatement"
 	StatementService_UpdateStatement_FullMethodName   = "/eolymp.atlas.StatementService/UpdateStatement"
 	StatementService_DeleteStatement_FullMethodName   = "/eolymp.atlas.StatementService/DeleteStatement"
-	StatementService_ListStatements_FullMethodName    = "/eolymp.atlas.StatementService/ListStatements"
 	StatementService_DescribeStatement_FullMethodName = "/eolymp.atlas.StatementService/DescribeStatement"
 	StatementService_LookupStatement_FullMethodName   = "/eolymp.atlas.StatementService/LookupStatement"
 	StatementService_RenderStatement_FullMethodName   = "/eolymp.atlas.StatementService/RenderStatement"
 	StatementService_PreviewStatement_FullMethodName  = "/eolymp.atlas.StatementService/PreviewStatement"
+	StatementService_ListStatements_FullMethodName    = "/eolymp.atlas.StatementService/ListStatements"
 )
 
 // StatementServiceClient is the client API for StatementService service.
@@ -36,7 +36,6 @@ type StatementServiceClient interface {
 	CreateStatement(ctx context.Context, in *CreateStatementInput, opts ...grpc.CallOption) (*CreateStatementOutput, error)
 	UpdateStatement(ctx context.Context, in *UpdateStatementInput, opts ...grpc.CallOption) (*UpdateStatementOutput, error)
 	DeleteStatement(ctx context.Context, in *DeleteStatementInput, opts ...grpc.CallOption) (*DeleteStatementOutput, error)
-	ListStatements(ctx context.Context, in *ListStatementsInput, opts ...grpc.CallOption) (*ListStatementsOutput, error)
 	// DescribeStatement returns statement.
 	DescribeStatement(ctx context.Context, in *DescribeStatementInput, opts ...grpc.CallOption) (*DescribeStatementOutput, error)
 	// LookupStatement finds a statement in one of the requested languages.
@@ -50,6 +49,7 @@ type StatementServiceClient interface {
 	//
 	// This method can be used to render statement before it has been saved.
 	PreviewStatement(ctx context.Context, in *PreviewStatementInput, opts ...grpc.CallOption) (*PreviewStatementOutput, error)
+	ListStatements(ctx context.Context, in *ListStatementsInput, opts ...grpc.CallOption) (*ListStatementsOutput, error)
 }
 
 type statementServiceClient struct {
@@ -81,15 +81,6 @@ func (c *statementServiceClient) UpdateStatement(ctx context.Context, in *Update
 func (c *statementServiceClient) DeleteStatement(ctx context.Context, in *DeleteStatementInput, opts ...grpc.CallOption) (*DeleteStatementOutput, error) {
 	out := new(DeleteStatementOutput)
 	err := c.cc.Invoke(ctx, StatementService_DeleteStatement_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *statementServiceClient) ListStatements(ctx context.Context, in *ListStatementsInput, opts ...grpc.CallOption) (*ListStatementsOutput, error) {
-	out := new(ListStatementsOutput)
-	err := c.cc.Invoke(ctx, StatementService_ListStatements_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -132,6 +123,15 @@ func (c *statementServiceClient) PreviewStatement(ctx context.Context, in *Previ
 	return out, nil
 }
 
+func (c *statementServiceClient) ListStatements(ctx context.Context, in *ListStatementsInput, opts ...grpc.CallOption) (*ListStatementsOutput, error) {
+	out := new(ListStatementsOutput)
+	err := c.cc.Invoke(ctx, StatementService_ListStatements_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // StatementServiceServer is the server API for StatementService service.
 // All implementations should embed UnimplementedStatementServiceServer
 // for forward compatibility
@@ -139,7 +139,6 @@ type StatementServiceServer interface {
 	CreateStatement(context.Context, *CreateStatementInput) (*CreateStatementOutput, error)
 	UpdateStatement(context.Context, *UpdateStatementInput) (*UpdateStatementOutput, error)
 	DeleteStatement(context.Context, *DeleteStatementInput) (*DeleteStatementOutput, error)
-	ListStatements(context.Context, *ListStatementsInput) (*ListStatementsOutput, error)
 	// DescribeStatement returns statement.
 	DescribeStatement(context.Context, *DescribeStatementInput) (*DescribeStatementOutput, error)
 	// LookupStatement finds a statement in one of the requested languages.
@@ -153,6 +152,7 @@ type StatementServiceServer interface {
 	//
 	// This method can be used to render statement before it has been saved.
 	PreviewStatement(context.Context, *PreviewStatementInput) (*PreviewStatementOutput, error)
+	ListStatements(context.Context, *ListStatementsInput) (*ListStatementsOutput, error)
 }
 
 // UnimplementedStatementServiceServer should be embedded to have forward compatible implementations.
@@ -168,9 +168,6 @@ func (UnimplementedStatementServiceServer) UpdateStatement(context.Context, *Upd
 func (UnimplementedStatementServiceServer) DeleteStatement(context.Context, *DeleteStatementInput) (*DeleteStatementOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteStatement not implemented")
 }
-func (UnimplementedStatementServiceServer) ListStatements(context.Context, *ListStatementsInput) (*ListStatementsOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListStatements not implemented")
-}
 func (UnimplementedStatementServiceServer) DescribeStatement(context.Context, *DescribeStatementInput) (*DescribeStatementOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeStatement not implemented")
 }
@@ -182,6 +179,9 @@ func (UnimplementedStatementServiceServer) RenderStatement(context.Context, *Ren
 }
 func (UnimplementedStatementServiceServer) PreviewStatement(context.Context, *PreviewStatementInput) (*PreviewStatementOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PreviewStatement not implemented")
+}
+func (UnimplementedStatementServiceServer) ListStatements(context.Context, *ListStatementsInput) (*ListStatementsOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListStatements not implemented")
 }
 
 // UnsafeStatementServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -245,24 +245,6 @@ func _StatementService_DeleteStatement_Handler(srv interface{}, ctx context.Cont
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(StatementServiceServer).DeleteStatement(ctx, req.(*DeleteStatementInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _StatementService_ListStatements_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListStatementsInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(StatementServiceServer).ListStatements(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: StatementService_ListStatements_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(StatementServiceServer).ListStatements(ctx, req.(*ListStatementsInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -339,6 +321,24 @@ func _StatementService_PreviewStatement_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _StatementService_ListStatements_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListStatementsInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StatementServiceServer).ListStatements(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StatementService_ListStatements_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StatementServiceServer).ListStatements(ctx, req.(*ListStatementsInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // StatementService_ServiceDesc is the grpc.ServiceDesc for StatementService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -359,10 +359,6 @@ var StatementService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _StatementService_DeleteStatement_Handler,
 		},
 		{
-			MethodName: "ListStatements",
-			Handler:    _StatementService_ListStatements_Handler,
-		},
-		{
 			MethodName: "DescribeStatement",
 			Handler:    _StatementService_DescribeStatement_Handler,
 		},
@@ -377,6 +373,10 @@ var StatementService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "PreviewStatement",
 			Handler:    _StatementService_PreviewStatement_Handler,
+		},
+		{
+			MethodName: "ListStatements",
+			Handler:    _StatementService_ListStatements_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

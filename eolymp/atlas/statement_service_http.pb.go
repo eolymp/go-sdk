@@ -122,9 +122,6 @@ func RegisterStatementServiceHttpHandlers(router *mux.Router, prefix string, srv
 	router.Handle(prefix+"/statements/{statement_id}", _StatementService_DeleteStatement_Rule0(srv)).
 		Methods("DELETE").
 		Name("eolymp.atlas.StatementService.DeleteStatement")
-	router.Handle(prefix+"/statements", _StatementService_ListStatements_Rule0(srv)).
-		Methods("GET").
-		Name("eolymp.atlas.StatementService.ListStatements")
 	router.Handle(prefix+"/statements/{statement_id}", _StatementService_DescribeStatement_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.atlas.StatementService.DescribeStatement")
@@ -137,6 +134,9 @@ func RegisterStatementServiceHttpHandlers(router *mux.Router, prefix string, srv
 	router.Handle(prefix+"/renders", _StatementService_PreviewStatement_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.atlas.StatementService.PreviewStatement")
+	router.Handle(prefix+"/statements", _StatementService_ListStatements_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.atlas.StatementService.ListStatements")
 }
 
 func _StatementService_CreateStatement_Rule0(srv StatementServiceServer) http.Handler {
@@ -196,26 +196,6 @@ func _StatementService_DeleteStatement_Rule0(srv StatementServiceServer) http.Ha
 		in.StatementId = vars["statement_id"]
 
 		out, err := srv.DeleteStatement(r.Context(), in)
-		if err != nil {
-			_StatementService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_StatementService_HTTPWriteResponse(w, out)
-	})
-}
-
-func _StatementService_ListStatements_Rule0(srv StatementServiceServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ListStatementsInput{}
-
-		if err := _StatementService_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_StatementService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.ListStatements(r.Context(), in)
 		if err != nil {
 			_StatementService_HTTPWriteErrorResponse(w, err)
 			return
@@ -302,6 +282,26 @@ func _StatementService_PreviewStatement_Rule0(srv StatementServiceServer) http.H
 		}
 
 		out, err := srv.PreviewStatement(r.Context(), in)
+		if err != nil {
+			_StatementService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_StatementService_HTTPWriteResponse(w, out)
+	})
+}
+
+func _StatementService_ListStatements_Rule0(srv StatementServiceServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListStatementsInput{}
+
+		if err := _StatementService_HTTPReadQueryString(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_StatementService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.ListStatements(r.Context(), in)
 		if err != nil {
 			_StatementService_HTTPWriteErrorResponse(w, err)
 			return
@@ -414,38 +414,6 @@ func (i *StatementServiceInterceptor) DeleteStatement(ctx context.Context, in *D
 	message, ok := out.(*DeleteStatementOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *DeleteStatementOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *StatementServiceInterceptor) ListStatements(ctx context.Context, in *ListStatementsInput) (*ListStatementsOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*ListStatementsInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *ListStatementsInput, got %T", in))
-		}
-
-		return i.server.ListStatements(ctx, message)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.StatementService.ListStatements", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*ListStatementsOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *ListStatementsOutput, got %T", out))
 	}
 
 	return message, err
@@ -574,6 +542,38 @@ func (i *StatementServiceInterceptor) PreviewStatement(ctx context.Context, in *
 	message, ok := out.(*PreviewStatementOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *PreviewStatementOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *StatementServiceInterceptor) ListStatements(ctx context.Context, in *ListStatementsInput) (*ListStatementsOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListStatementsInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListStatementsInput, got %T", in))
+		}
+
+		return i.server.ListStatements(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.StatementService.ListStatements", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListStatementsOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListStatementsOutput, got %T", out))
 	}
 
 	return message, err
