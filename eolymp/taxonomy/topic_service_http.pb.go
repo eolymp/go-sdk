@@ -128,6 +128,15 @@ func RegisterTopicServiceHttpHandlers(router *mux.Router, prefix string, srv Top
 	router.Handle(prefix+"/topics", _TopicService_ListTopics_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.taxonomy.TopicService.ListTopics")
+	router.Handle(prefix+"/topics/{topic_id}/translations/{locale}", _TopicService_TranslateTopic_Rule0(srv)).
+		Methods("PUT").
+		Name("eolymp.taxonomy.TopicService.TranslateTopic")
+	router.Handle(prefix+"/topics/{topic_id}/translations/{locale}", _TopicService_DeleteTranslation_Rule0(srv)).
+		Methods("DELETE").
+		Name("eolymp.taxonomy.TopicService.DeleteTranslation")
+	router.Handle(prefix+"/topics/{topic_id}/translations", _TopicService_ListTranslations_Rule0(srv)).
+		Methods("DELETE").
+		Name("eolymp.taxonomy.TopicService.ListTranslations")
 }
 
 func _TopicService_CreateTopic_Rule0(srv TopicServiceServer) http.Handler {
@@ -230,6 +239,77 @@ func _TopicService_ListTopics_Rule0(srv TopicServiceServer) http.Handler {
 		}
 
 		out, err := srv.ListTopics(r.Context(), in)
+		if err != nil {
+			_TopicService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_TopicService_HTTPWriteResponse(w, out)
+	})
+}
+
+func _TopicService_TranslateTopic_Rule0(srv TopicServiceServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &TranslateTopicInput{}
+
+		if err := _TopicService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_TopicService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.TopicId = vars["topic_id"]
+		in.Locale = vars["locale"]
+
+		out, err := srv.TranslateTopic(r.Context(), in)
+		if err != nil {
+			_TopicService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_TopicService_HTTPWriteResponse(w, out)
+	})
+}
+
+func _TopicService_DeleteTranslation_Rule0(srv TopicServiceServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DeleteTranslationInput{}
+
+		if err := _TopicService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_TopicService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.TopicId = vars["topic_id"]
+		in.Locale = vars["locale"]
+
+		out, err := srv.DeleteTranslation(r.Context(), in)
+		if err != nil {
+			_TopicService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_TopicService_HTTPWriteResponse(w, out)
+	})
+}
+
+func _TopicService_ListTranslations_Rule0(srv TopicServiceServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListTranslationsInput{}
+
+		if err := _TopicService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_TopicService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.TopicId = vars["topic_id"]
+
+		out, err := srv.ListTranslations(r.Context(), in)
 		if err != nil {
 			_TopicService_HTTPWriteErrorResponse(w, err)
 			return
@@ -406,6 +486,102 @@ func (i *TopicServiceInterceptor) ListTopics(ctx context.Context, in *ListTopics
 	message, ok := out.(*ListTopicsOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *ListTopicsOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *TopicServiceInterceptor) TranslateTopic(ctx context.Context, in *TranslateTopicInput) (*TranslateTopicOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*TranslateTopicInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *TranslateTopicInput, got %T", in))
+		}
+
+		return i.server.TranslateTopic(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.taxonomy.TopicService.TranslateTopic", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*TranslateTopicOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *TranslateTopicOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *TopicServiceInterceptor) DeleteTranslation(ctx context.Context, in *DeleteTranslationInput) (*DeleteTranslationOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DeleteTranslationInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DeleteTranslationInput, got %T", in))
+		}
+
+		return i.server.DeleteTranslation(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.taxonomy.TopicService.DeleteTranslation", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DeleteTranslationOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DeleteTranslationOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *TopicServiceInterceptor) ListTranslations(ctx context.Context, in *ListTranslationsInput) (*ListTranslationsOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListTranslationsInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListTranslationsInput, got %T", in))
+		}
+
+		return i.server.ListTranslations(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.taxonomy.TopicService.ListTranslations", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListTranslationsOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListTranslationsOutput, got %T", out))
 	}
 
 	return message, err

@@ -19,11 +19,14 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	TopicService_CreateTopic_FullMethodName   = "/eolymp.taxonomy.TopicService/CreateTopic"
-	TopicService_DeleteTopic_FullMethodName   = "/eolymp.taxonomy.TopicService/DeleteTopic"
-	TopicService_UpdateTopic_FullMethodName   = "/eolymp.taxonomy.TopicService/UpdateTopic"
-	TopicService_DescribeTopic_FullMethodName = "/eolymp.taxonomy.TopicService/DescribeTopic"
-	TopicService_ListTopics_FullMethodName    = "/eolymp.taxonomy.TopicService/ListTopics"
+	TopicService_CreateTopic_FullMethodName       = "/eolymp.taxonomy.TopicService/CreateTopic"
+	TopicService_DeleteTopic_FullMethodName       = "/eolymp.taxonomy.TopicService/DeleteTopic"
+	TopicService_UpdateTopic_FullMethodName       = "/eolymp.taxonomy.TopicService/UpdateTopic"
+	TopicService_DescribeTopic_FullMethodName     = "/eolymp.taxonomy.TopicService/DescribeTopic"
+	TopicService_ListTopics_FullMethodName        = "/eolymp.taxonomy.TopicService/ListTopics"
+	TopicService_TranslateTopic_FullMethodName    = "/eolymp.taxonomy.TopicService/TranslateTopic"
+	TopicService_DeleteTranslation_FullMethodName = "/eolymp.taxonomy.TopicService/DeleteTranslation"
+	TopicService_ListTranslations_FullMethodName  = "/eolymp.taxonomy.TopicService/ListTranslations"
 )
 
 // TopicServiceClient is the client API for TopicService service.
@@ -35,6 +38,9 @@ type TopicServiceClient interface {
 	UpdateTopic(ctx context.Context, in *UpdateTopicInput, opts ...grpc.CallOption) (*UpdateTopicOutput, error)
 	DescribeTopic(ctx context.Context, in *DescribeTopicInput, opts ...grpc.CallOption) (*DescribeTopicOutput, error)
 	ListTopics(ctx context.Context, in *ListTopicsInput, opts ...grpc.CallOption) (*ListTopicsOutput, error)
+	TranslateTopic(ctx context.Context, in *TranslateTopicInput, opts ...grpc.CallOption) (*TranslateTopicOutput, error)
+	DeleteTranslation(ctx context.Context, in *DeleteTranslationInput, opts ...grpc.CallOption) (*DeleteTranslationOutput, error)
+	ListTranslations(ctx context.Context, in *ListTranslationsInput, opts ...grpc.CallOption) (*ListTranslationsOutput, error)
 }
 
 type topicServiceClient struct {
@@ -90,6 +96,33 @@ func (c *topicServiceClient) ListTopics(ctx context.Context, in *ListTopicsInput
 	return out, nil
 }
 
+func (c *topicServiceClient) TranslateTopic(ctx context.Context, in *TranslateTopicInput, opts ...grpc.CallOption) (*TranslateTopicOutput, error) {
+	out := new(TranslateTopicOutput)
+	err := c.cc.Invoke(ctx, TopicService_TranslateTopic_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *topicServiceClient) DeleteTranslation(ctx context.Context, in *DeleteTranslationInput, opts ...grpc.CallOption) (*DeleteTranslationOutput, error) {
+	out := new(DeleteTranslationOutput)
+	err := c.cc.Invoke(ctx, TopicService_DeleteTranslation_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *topicServiceClient) ListTranslations(ctx context.Context, in *ListTranslationsInput, opts ...grpc.CallOption) (*ListTranslationsOutput, error) {
+	out := new(ListTranslationsOutput)
+	err := c.cc.Invoke(ctx, TopicService_ListTranslations_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // TopicServiceServer is the server API for TopicService service.
 // All implementations should embed UnimplementedTopicServiceServer
 // for forward compatibility
@@ -99,6 +132,9 @@ type TopicServiceServer interface {
 	UpdateTopic(context.Context, *UpdateTopicInput) (*UpdateTopicOutput, error)
 	DescribeTopic(context.Context, *DescribeTopicInput) (*DescribeTopicOutput, error)
 	ListTopics(context.Context, *ListTopicsInput) (*ListTopicsOutput, error)
+	TranslateTopic(context.Context, *TranslateTopicInput) (*TranslateTopicOutput, error)
+	DeleteTranslation(context.Context, *DeleteTranslationInput) (*DeleteTranslationOutput, error)
+	ListTranslations(context.Context, *ListTranslationsInput) (*ListTranslationsOutput, error)
 }
 
 // UnimplementedTopicServiceServer should be embedded to have forward compatible implementations.
@@ -119,6 +155,15 @@ func (UnimplementedTopicServiceServer) DescribeTopic(context.Context, *DescribeT
 }
 func (UnimplementedTopicServiceServer) ListTopics(context.Context, *ListTopicsInput) (*ListTopicsOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListTopics not implemented")
+}
+func (UnimplementedTopicServiceServer) TranslateTopic(context.Context, *TranslateTopicInput) (*TranslateTopicOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method TranslateTopic not implemented")
+}
+func (UnimplementedTopicServiceServer) DeleteTranslation(context.Context, *DeleteTranslationInput) (*DeleteTranslationOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteTranslation not implemented")
+}
+func (UnimplementedTopicServiceServer) ListTranslations(context.Context, *ListTranslationsInput) (*ListTranslationsOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListTranslations not implemented")
 }
 
 // UnsafeTopicServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -222,6 +267,60 @@ func _TopicService_ListTopics_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _TopicService_TranslateTopic_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TranslateTopicInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TopicServiceServer).TranslateTopic(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TopicService_TranslateTopic_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TopicServiceServer).TranslateTopic(ctx, req.(*TranslateTopicInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TopicService_DeleteTranslation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteTranslationInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TopicServiceServer).DeleteTranslation(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TopicService_DeleteTranslation_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TopicServiceServer).DeleteTranslation(ctx, req.(*DeleteTranslationInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TopicService_ListTranslations_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListTranslationsInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TopicServiceServer).ListTranslations(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TopicService_ListTranslations_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TopicServiceServer).ListTranslations(ctx, req.(*ListTranslationsInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // TopicService_ServiceDesc is the grpc.ServiceDesc for TopicService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -248,6 +347,18 @@ var TopicService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListTopics",
 			Handler:    _TopicService_ListTopics_Handler,
+		},
+		{
+			MethodName: "TranslateTopic",
+			Handler:    _TopicService_TranslateTopic_Handler,
+		},
+		{
+			MethodName: "DeleteTranslation",
+			Handler:    _TopicService_DeleteTranslation_Handler,
+		},
+		{
+			MethodName: "ListTranslations",
+			Handler:    _TopicService_ListTranslations_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
