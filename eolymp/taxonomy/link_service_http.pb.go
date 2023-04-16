@@ -113,17 +113,17 @@ func _LinkService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 // RegisterLinkServiceHttpHandlers adds handlers for for LinkServiceServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterLinkServiceHttpHandlers(router *mux.Router, prefix string, srv LinkServiceServer) {
-	router.Handle(prefix+"/topics", _LinkService_SetTopicLinks_Rule0(srv)).
+	router.Handle(prefix+"/topics", _LinkService_SetLinkedTopics_Rule0(srv)).
 		Methods("PUT").
-		Name("eolymp.taxonomy.LinkService.SetTopicLinks")
-	router.Handle(prefix+"/topics", _LinkService_GetTopicLinks_Rule0(srv)).
+		Name("eolymp.taxonomy.LinkService.SetLinkedTopics")
+	router.Handle(prefix+"/topics", _LinkService_GetLinkedTopics_Rule0(srv)).
 		Methods("GET").
-		Name("eolymp.taxonomy.LinkService.GetTopicLinks")
+		Name("eolymp.taxonomy.LinkService.GetLinkedTopics")
 }
 
-func _LinkService_SetTopicLinks_Rule0(srv LinkServiceServer) http.Handler {
+func _LinkService_SetLinkedTopics_Rule0(srv LinkServiceServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &SetTopicLinksInput{}
+		in := &SetLinkedTopicsInput{}
 
 		if err := _LinkService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
@@ -131,7 +131,7 @@ func _LinkService_SetTopicLinks_Rule0(srv LinkServiceServer) http.Handler {
 			return
 		}
 
-		out, err := srv.SetTopicLinks(r.Context(), in)
+		out, err := srv.SetLinkedTopics(r.Context(), in)
 		if err != nil {
 			_LinkService_HTTPWriteErrorResponse(w, err)
 			return
@@ -141,9 +141,9 @@ func _LinkService_SetTopicLinks_Rule0(srv LinkServiceServer) http.Handler {
 	})
 }
 
-func _LinkService_GetTopicLinks_Rule0(srv LinkServiceServer) http.Handler {
+func _LinkService_GetLinkedTopics_Rule0(srv LinkServiceServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &GetTopicLinksInput{}
+		in := &GetLinkedTopicsInput{}
 
 		if err := _LinkService_HTTPReadQueryString(r, in); err != nil {
 			err = status.New(codes.InvalidArgument, err.Error()).Err()
@@ -151,7 +151,7 @@ func _LinkService_GetTopicLinks_Rule0(srv LinkServiceServer) http.Handler {
 			return
 		}
 
-		out, err := srv.GetTopicLinks(r.Context(), in)
+		out, err := srv.GetLinkedTopics(r.Context(), in)
 		if err != nil {
 			_LinkService_HTTPWriteErrorResponse(w, err)
 			return
@@ -173,14 +173,14 @@ func NewLinkServiceInterceptor(srv LinkServiceServer, middleware ..._LinkService
 	return &LinkServiceInterceptor{server: srv, middleware: middleware}
 }
 
-func (i *LinkServiceInterceptor) SetTopicLinks(ctx context.Context, in *SetTopicLinksInput) (*SetTopicLinksOutput, error) {
+func (i *LinkServiceInterceptor) SetLinkedTopics(ctx context.Context, in *SetLinkedTopicsInput) (*SetLinkedTopicsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*SetTopicLinksInput)
+		message, ok := in.(*SetLinkedTopicsInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *SetTopicLinksInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *SetLinkedTopicsInput, got %T", in))
 		}
 
-		return i.server.SetTopicLinks(ctx, message)
+		return i.server.SetLinkedTopics(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
@@ -188,7 +188,7 @@ func (i *LinkServiceInterceptor) SetTopicLinks(ctx context.Context, in *SetTopic
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.taxonomy.LinkService.SetTopicLinks", in, next)
+			return mw(ctx, "eolymp.taxonomy.LinkService.SetLinkedTopics", in, next)
 		}
 	}
 
@@ -197,22 +197,22 @@ func (i *LinkServiceInterceptor) SetTopicLinks(ctx context.Context, in *SetTopic
 		return nil, err
 	}
 
-	message, ok := out.(*SetTopicLinksOutput)
+	message, ok := out.(*SetLinkedTopicsOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *SetTopicLinksOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *SetLinkedTopicsOutput, got %T", out))
 	}
 
 	return message, err
 }
 
-func (i *LinkServiceInterceptor) GetTopicLinks(ctx context.Context, in *GetTopicLinksInput) (*GetTopicLinksOutput, error) {
+func (i *LinkServiceInterceptor) GetLinkedTopics(ctx context.Context, in *GetLinkedTopicsInput) (*GetLinkedTopicsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*GetTopicLinksInput)
+		message, ok := in.(*GetLinkedTopicsInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *GetTopicLinksInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *GetLinkedTopicsInput, got %T", in))
 		}
 
-		return i.server.GetTopicLinks(ctx, message)
+		return i.server.GetLinkedTopics(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
@@ -220,7 +220,7 @@ func (i *LinkServiceInterceptor) GetTopicLinks(ctx context.Context, in *GetTopic
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.taxonomy.LinkService.GetTopicLinks", in, next)
+			return mw(ctx, "eolymp.taxonomy.LinkService.GetLinkedTopics", in, next)
 		}
 	}
 
@@ -229,9 +229,9 @@ func (i *LinkServiceInterceptor) GetTopicLinks(ctx context.Context, in *GetTopic
 		return nil, err
 	}
 
-	message, ok := out.(*GetTopicLinksOutput)
+	message, ok := out.(*GetLinkedTopicsOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *GetTopicLinksOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *GetLinkedTopicsOutput, got %T", out))
 	}
 
 	return message, err

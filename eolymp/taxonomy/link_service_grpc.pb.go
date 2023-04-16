@@ -19,8 +19,8 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	LinkService_SetTopicLinks_FullMethodName = "/eolymp.taxonomy.LinkService/SetTopicLinks"
-	LinkService_GetTopicLinks_FullMethodName = "/eolymp.taxonomy.LinkService/GetTopicLinks"
+	LinkService_SetLinkedTopics_FullMethodName = "/eolymp.taxonomy.LinkService/SetLinkedTopics"
+	LinkService_GetLinkedTopics_FullMethodName = "/eolymp.taxonomy.LinkService/GetLinkedTopics"
 )
 
 // LinkServiceClient is the client API for LinkService service.
@@ -28,9 +28,9 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type LinkServiceClient interface {
 	// this method will override all existing links
-	SetTopicLinks(ctx context.Context, in *SetTopicLinksInput, opts ...grpc.CallOption) (*SetTopicLinksOutput, error)
+	SetLinkedTopics(ctx context.Context, in *SetLinkedTopicsInput, opts ...grpc.CallOption) (*SetLinkedTopicsOutput, error)
 	// list topics linked to an entity
-	GetTopicLinks(ctx context.Context, in *GetTopicLinksInput, opts ...grpc.CallOption) (*GetTopicLinksOutput, error)
+	GetLinkedTopics(ctx context.Context, in *GetLinkedTopicsInput, opts ...grpc.CallOption) (*GetLinkedTopicsOutput, error)
 }
 
 type linkServiceClient struct {
@@ -41,18 +41,18 @@ func NewLinkServiceClient(cc grpc.ClientConnInterface) LinkServiceClient {
 	return &linkServiceClient{cc}
 }
 
-func (c *linkServiceClient) SetTopicLinks(ctx context.Context, in *SetTopicLinksInput, opts ...grpc.CallOption) (*SetTopicLinksOutput, error) {
-	out := new(SetTopicLinksOutput)
-	err := c.cc.Invoke(ctx, LinkService_SetTopicLinks_FullMethodName, in, out, opts...)
+func (c *linkServiceClient) SetLinkedTopics(ctx context.Context, in *SetLinkedTopicsInput, opts ...grpc.CallOption) (*SetLinkedTopicsOutput, error) {
+	out := new(SetLinkedTopicsOutput)
+	err := c.cc.Invoke(ctx, LinkService_SetLinkedTopics_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *linkServiceClient) GetTopicLinks(ctx context.Context, in *GetTopicLinksInput, opts ...grpc.CallOption) (*GetTopicLinksOutput, error) {
-	out := new(GetTopicLinksOutput)
-	err := c.cc.Invoke(ctx, LinkService_GetTopicLinks_FullMethodName, in, out, opts...)
+func (c *linkServiceClient) GetLinkedTopics(ctx context.Context, in *GetLinkedTopicsInput, opts ...grpc.CallOption) (*GetLinkedTopicsOutput, error) {
+	out := new(GetLinkedTopicsOutput)
+	err := c.cc.Invoke(ctx, LinkService_GetLinkedTopics_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -64,20 +64,20 @@ func (c *linkServiceClient) GetTopicLinks(ctx context.Context, in *GetTopicLinks
 // for forward compatibility
 type LinkServiceServer interface {
 	// this method will override all existing links
-	SetTopicLinks(context.Context, *SetTopicLinksInput) (*SetTopicLinksOutput, error)
+	SetLinkedTopics(context.Context, *SetLinkedTopicsInput) (*SetLinkedTopicsOutput, error)
 	// list topics linked to an entity
-	GetTopicLinks(context.Context, *GetTopicLinksInput) (*GetTopicLinksOutput, error)
+	GetLinkedTopics(context.Context, *GetLinkedTopicsInput) (*GetLinkedTopicsOutput, error)
 }
 
 // UnimplementedLinkServiceServer should be embedded to have forward compatible implementations.
 type UnimplementedLinkServiceServer struct {
 }
 
-func (UnimplementedLinkServiceServer) SetTopicLinks(context.Context, *SetTopicLinksInput) (*SetTopicLinksOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SetTopicLinks not implemented")
+func (UnimplementedLinkServiceServer) SetLinkedTopics(context.Context, *SetLinkedTopicsInput) (*SetLinkedTopicsOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SetLinkedTopics not implemented")
 }
-func (UnimplementedLinkServiceServer) GetTopicLinks(context.Context, *GetTopicLinksInput) (*GetTopicLinksOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetTopicLinks not implemented")
+func (UnimplementedLinkServiceServer) GetLinkedTopics(context.Context, *GetLinkedTopicsInput) (*GetLinkedTopicsOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetLinkedTopics not implemented")
 }
 
 // UnsafeLinkServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -91,38 +91,38 @@ func RegisterLinkServiceServer(s grpc.ServiceRegistrar, srv LinkServiceServer) {
 	s.RegisterService(&LinkService_ServiceDesc, srv)
 }
 
-func _LinkService_SetTopicLinks_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SetTopicLinksInput)
+func _LinkService_SetLinkedTopics_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SetLinkedTopicsInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(LinkServiceServer).SetTopicLinks(ctx, in)
+		return srv.(LinkServiceServer).SetLinkedTopics(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: LinkService_SetTopicLinks_FullMethodName,
+		FullMethod: LinkService_SetLinkedTopics_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(LinkServiceServer).SetTopicLinks(ctx, req.(*SetTopicLinksInput))
+		return srv.(LinkServiceServer).SetLinkedTopics(ctx, req.(*SetLinkedTopicsInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _LinkService_GetTopicLinks_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetTopicLinksInput)
+func _LinkService_GetLinkedTopics_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetLinkedTopicsInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(LinkServiceServer).GetTopicLinks(ctx, in)
+		return srv.(LinkServiceServer).GetLinkedTopics(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: LinkService_GetTopicLinks_FullMethodName,
+		FullMethod: LinkService_GetLinkedTopics_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(LinkServiceServer).GetTopicLinks(ctx, req.(*GetTopicLinksInput))
+		return srv.(LinkServiceServer).GetLinkedTopics(ctx, req.(*GetLinkedTopicsInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -135,12 +135,12 @@ var LinkService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*LinkServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "SetTopicLinks",
-			Handler:    _LinkService_SetTopicLinks_Handler,
+			MethodName: "SetLinkedTopics",
+			Handler:    _LinkService_SetLinkedTopics_Handler,
 		},
 		{
-			MethodName: "GetTopicLinks",
-			Handler:    _LinkService_GetTopicLinks_Handler,
+			MethodName: "GetLinkedTopics",
+			Handler:    _LinkService_GetLinkedTopics_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

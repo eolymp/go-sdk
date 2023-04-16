@@ -100,8 +100,8 @@ func (s *LinkServiceService) do(ctx context.Context, verb, path string, in, out 
 	return nil
 }
 
-func (s *LinkServiceService) SetTopicLinks(ctx context.Context, in *SetTopicLinksInput) (*SetTopicLinksOutput, error) {
-	out := &SetTopicLinksOutput{}
+func (s *LinkServiceService) SetLinkedTopics(ctx context.Context, in *SetLinkedTopicsInput) (*SetLinkedTopicsOutput, error) {
+	out := &SetLinkedTopicsOutput{}
 	path := "/topics"
 
 	if err := s.do(ctx, "PUT", path, in, out); err != nil {
@@ -111,8 +111,8 @@ func (s *LinkServiceService) SetTopicLinks(ctx context.Context, in *SetTopicLink
 	return out, nil
 }
 
-func (s *LinkServiceService) GetTopicLinks(ctx context.Context, in *GetTopicLinksInput) (*GetTopicLinksOutput, error) {
-	out := &GetTopicLinksOutput{}
+func (s *LinkServiceService) GetLinkedTopics(ctx context.Context, in *GetLinkedTopicsInput) (*GetLinkedTopicsOutput, error) {
+	out := &GetLinkedTopicsOutput{}
 	path := "/topics"
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
