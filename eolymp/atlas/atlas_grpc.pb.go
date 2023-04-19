@@ -25,6 +25,7 @@ const (
 	Atlas_DescribeProblem_FullMethodName        = "/eolymp.atlas.Atlas/DescribeProblem"
 	Atlas_UpdateVisibility_FullMethodName       = "/eolymp.atlas.Atlas/UpdateVisibility"
 	Atlas_UpdatePrivacy_FullMethodName          = "/eolymp.atlas.Atlas/UpdatePrivacy"
+	Atlas_UpdateProblem_FullMethodName          = "/eolymp.atlas.Atlas/UpdateProblem"
 	Atlas_ListExamples_FullMethodName           = "/eolymp.atlas.Atlas/ListExamples"
 	Atlas_UpdateVerifier_FullMethodName         = "/eolymp.atlas.Atlas/UpdateVerifier"
 	Atlas_DescribeVerifier_FullMethodName       = "/eolymp.atlas.Atlas/DescribeVerifier"
@@ -88,8 +89,11 @@ type AtlasClient interface {
 	DeleteProblem(ctx context.Context, in *DeleteProblemInput, opts ...grpc.CallOption) (*DeleteProblemOutput, error)
 	ListProblems(ctx context.Context, in *ListProblemsInput, opts ...grpc.CallOption) (*ListProblemsOutput, error)
 	DescribeProblem(ctx context.Context, in *DescribeProblemInput, opts ...grpc.CallOption) (*DescribeProblemOutput, error)
+	// deprecated: use UpdateProblem instead
 	UpdateVisibility(ctx context.Context, in *UpdateVisibilityInput, opts ...grpc.CallOption) (*UpdateVisibilityOutput, error)
+	// deprecated: use UpdateProblem instead
 	UpdatePrivacy(ctx context.Context, in *UpdatePrivacyInput, opts ...grpc.CallOption) (*UpdatePrivacyOutput, error)
+	UpdateProblem(ctx context.Context, in *UpdateProblemInput, opts ...grpc.CallOption) (*UpdateProblemOutput, error)
 	ListExamples(ctx context.Context, in *ListExamplesInput, opts ...grpc.CallOption) (*ListExamplesOutput, error)
 	UpdateVerifier(ctx context.Context, in *UpdateVerifierInput, opts ...grpc.CallOption) (*UpdateVerifierOutput, error)
 	DescribeVerifier(ctx context.Context, in *DescribeVerifierInput, opts ...grpc.CallOption) (*DescribeVerifierOutput, error)
@@ -122,9 +126,13 @@ type AtlasClient interface {
 	DeleteTest(ctx context.Context, in *DeleteTestInput, opts ...grpc.CallOption) (*DeleteTestOutput, error)
 	ListTests(ctx context.Context, in *ListTestsInput, opts ...grpc.CallOption) (*ListTestsOutput, error)
 	DescribeTest(ctx context.Context, in *DescribeTestInput, opts ...grpc.CallOption) (*DescribeTestOutput, error)
+	// deprecated: use eolymp.acl.AclService instead
 	GrantPermission(ctx context.Context, in *GrantPermissionInput, opts ...grpc.CallOption) (*GrantPermissionOutput, error)
+	// deprecated: use eolymp.acl.AclService instead
 	RevokePermission(ctx context.Context, in *RevokePermissionInput, opts ...grpc.CallOption) (*RevokePermissionOutput, error)
+	// deprecated: use eolymp.acl.AclService instead
 	ListPermissions(ctx context.Context, in *ListPermissionsInput, opts ...grpc.CallOption) (*ListPermissionsOutput, error)
+	// deprecated: use eolymp.acl.AclService instead
 	IntrospectPermission(ctx context.Context, in *IntrospectPermissionInput, opts ...grpc.CallOption) (*IntrospectPermissionOutput, error)
 	CreateCodeTemplate(ctx context.Context, in *CreateCodeTemplateInput, opts ...grpc.CallOption) (*CreateCodeTemplateOutput, error)
 	UpdateCodeTemplate(ctx context.Context, in *UpdateCodeTemplateInput, opts ...grpc.CallOption) (*UpdateCodeTemplateOutput, error)
@@ -139,14 +147,23 @@ type AtlasClient interface {
 	ListVersions(ctx context.Context, in *ListVersionsInput, opts ...grpc.CallOption) (*ListVersionsOutput, error)
 	ListProblemTop(ctx context.Context, in *ListProblemTopInput, opts ...grpc.CallOption) (*ListProblemTopOutput, error)
 	DescribeProblemGrading(ctx context.Context, in *DescribeProblemGradingInput, opts ...grpc.CallOption) (*DescribeProblemGradingOutput, error)
+	// deprecated: solutions are not supported anymore
 	CreateSolution(ctx context.Context, in *CreateSolutionInput, opts ...grpc.CallOption) (*CreateSolutionOutput, error)
+	// deprecated: solutions are not supported anymore
 	UpdateSolution(ctx context.Context, in *UpdateSolutionInput, opts ...grpc.CallOption) (*UpdateSolutionOutput, error)
+	// deprecated: solutions are not supported anymore
 	DeleteSolution(ctx context.Context, in *DeleteSolutionInput, opts ...grpc.CallOption) (*DeleteSolutionOutput, error)
+	// deprecated: solutions are not supported anymore
 	ListSolutions(ctx context.Context, in *ListSolutionsInput, opts ...grpc.CallOption) (*ListSolutionsOutput, error)
+	// deprecated: solutions are not supported anymore
 	DescribeSolution(ctx context.Context, in *DescribeSolutionInput, opts ...grpc.CallOption) (*DescribeSolutionOutput, error)
+	// deprecated: solutions are not supported anymore
 	PublishSolution(ctx context.Context, in *PublishSolutionInput, opts ...grpc.CallOption) (*PublishSolutionOutput, error)
+	// deprecated: solutions are not supported anymore
 	UnpublishSolution(ctx context.Context, in *UnpublishSolutionInput, opts ...grpc.CallOption) (*UnpublishSolutionOutput, error)
+	// deprecated: solutions are not supported anymore
 	ApproveSolution(ctx context.Context, in *ApproveSolutionInput, opts ...grpc.CallOption) (*ApproveSolutionOutput, error)
+	// deprecated: solutions are not supported anymore
 	RefuseSolution(ctx context.Context, in *RefuseSolutionInput, opts ...grpc.CallOption) (*RefuseSolutionOutput, error)
 	CreateSubmission(ctx context.Context, in *CreateSubmissionInput, opts ...grpc.CallOption) (*CreateSubmissionOutput, error)
 	DescribeSubmission(ctx context.Context, in *DescribeSubmissionInput, opts ...grpc.CallOption) (*DescribeSubmissionOutput, error)
@@ -210,6 +227,15 @@ func (c *atlasClient) UpdateVisibility(ctx context.Context, in *UpdateVisibility
 func (c *atlasClient) UpdatePrivacy(ctx context.Context, in *UpdatePrivacyInput, opts ...grpc.CallOption) (*UpdatePrivacyOutput, error) {
 	out := new(UpdatePrivacyOutput)
 	err := c.cc.Invoke(ctx, Atlas_UpdatePrivacy_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *atlasClient) UpdateProblem(ctx context.Context, in *UpdateProblemInput, opts ...grpc.CallOption) (*UpdateProblemOutput, error) {
+	out := new(UpdateProblemOutput)
+	err := c.cc.Invoke(ctx, Atlas_UpdateProblem_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -701,8 +727,11 @@ type AtlasServer interface {
 	DeleteProblem(context.Context, *DeleteProblemInput) (*DeleteProblemOutput, error)
 	ListProblems(context.Context, *ListProblemsInput) (*ListProblemsOutput, error)
 	DescribeProblem(context.Context, *DescribeProblemInput) (*DescribeProblemOutput, error)
+	// deprecated: use UpdateProblem instead
 	UpdateVisibility(context.Context, *UpdateVisibilityInput) (*UpdateVisibilityOutput, error)
+	// deprecated: use UpdateProblem instead
 	UpdatePrivacy(context.Context, *UpdatePrivacyInput) (*UpdatePrivacyOutput, error)
+	UpdateProblem(context.Context, *UpdateProblemInput) (*UpdateProblemOutput, error)
 	ListExamples(context.Context, *ListExamplesInput) (*ListExamplesOutput, error)
 	UpdateVerifier(context.Context, *UpdateVerifierInput) (*UpdateVerifierOutput, error)
 	DescribeVerifier(context.Context, *DescribeVerifierInput) (*DescribeVerifierOutput, error)
@@ -735,9 +764,13 @@ type AtlasServer interface {
 	DeleteTest(context.Context, *DeleteTestInput) (*DeleteTestOutput, error)
 	ListTests(context.Context, *ListTestsInput) (*ListTestsOutput, error)
 	DescribeTest(context.Context, *DescribeTestInput) (*DescribeTestOutput, error)
+	// deprecated: use eolymp.acl.AclService instead
 	GrantPermission(context.Context, *GrantPermissionInput) (*GrantPermissionOutput, error)
+	// deprecated: use eolymp.acl.AclService instead
 	RevokePermission(context.Context, *RevokePermissionInput) (*RevokePermissionOutput, error)
+	// deprecated: use eolymp.acl.AclService instead
 	ListPermissions(context.Context, *ListPermissionsInput) (*ListPermissionsOutput, error)
+	// deprecated: use eolymp.acl.AclService instead
 	IntrospectPermission(context.Context, *IntrospectPermissionInput) (*IntrospectPermissionOutput, error)
 	CreateCodeTemplate(context.Context, *CreateCodeTemplateInput) (*CreateCodeTemplateOutput, error)
 	UpdateCodeTemplate(context.Context, *UpdateCodeTemplateInput) (*UpdateCodeTemplateOutput, error)
@@ -752,14 +785,23 @@ type AtlasServer interface {
 	ListVersions(context.Context, *ListVersionsInput) (*ListVersionsOutput, error)
 	ListProblemTop(context.Context, *ListProblemTopInput) (*ListProblemTopOutput, error)
 	DescribeProblemGrading(context.Context, *DescribeProblemGradingInput) (*DescribeProblemGradingOutput, error)
+	// deprecated: solutions are not supported anymore
 	CreateSolution(context.Context, *CreateSolutionInput) (*CreateSolutionOutput, error)
+	// deprecated: solutions are not supported anymore
 	UpdateSolution(context.Context, *UpdateSolutionInput) (*UpdateSolutionOutput, error)
+	// deprecated: solutions are not supported anymore
 	DeleteSolution(context.Context, *DeleteSolutionInput) (*DeleteSolutionOutput, error)
+	// deprecated: solutions are not supported anymore
 	ListSolutions(context.Context, *ListSolutionsInput) (*ListSolutionsOutput, error)
+	// deprecated: solutions are not supported anymore
 	DescribeSolution(context.Context, *DescribeSolutionInput) (*DescribeSolutionOutput, error)
+	// deprecated: solutions are not supported anymore
 	PublishSolution(context.Context, *PublishSolutionInput) (*PublishSolutionOutput, error)
+	// deprecated: solutions are not supported anymore
 	UnpublishSolution(context.Context, *UnpublishSolutionInput) (*UnpublishSolutionOutput, error)
+	// deprecated: solutions are not supported anymore
 	ApproveSolution(context.Context, *ApproveSolutionInput) (*ApproveSolutionOutput, error)
+	// deprecated: solutions are not supported anymore
 	RefuseSolution(context.Context, *RefuseSolutionInput) (*RefuseSolutionOutput, error)
 	CreateSubmission(context.Context, *CreateSubmissionInput) (*CreateSubmissionOutput, error)
 	DescribeSubmission(context.Context, *DescribeSubmissionInput) (*DescribeSubmissionOutput, error)
@@ -788,6 +830,9 @@ func (UnimplementedAtlasServer) UpdateVisibility(context.Context, *UpdateVisibil
 }
 func (UnimplementedAtlasServer) UpdatePrivacy(context.Context, *UpdatePrivacyInput) (*UpdatePrivacyOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdatePrivacy not implemented")
+}
+func (UnimplementedAtlasServer) UpdateProblem(context.Context, *UpdateProblemInput) (*UpdateProblemOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateProblem not implemented")
 }
 func (UnimplementedAtlasServer) ListExamples(context.Context, *ListExamplesInput) (*ListExamplesOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListExamples not implemented")
@@ -1064,6 +1109,24 @@ func _Atlas_UpdatePrivacy_Handler(srv interface{}, ctx context.Context, dec func
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AtlasServer).UpdatePrivacy(ctx, req.(*UpdatePrivacyInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Atlas_UpdateProblem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateProblemInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AtlasServer).UpdateProblem(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Atlas_UpdateProblem_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AtlasServer).UpdateProblem(ctx, req.(*UpdateProblemInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -2052,6 +2115,10 @@ var Atlas_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdatePrivacy",
 			Handler:    _Atlas_UpdatePrivacy_Handler,
+		},
+		{
+			MethodName: "UpdateProblem",
+			Handler:    _Atlas_UpdateProblem_Handler,
 		},
 		{
 			MethodName: "ListExamples",

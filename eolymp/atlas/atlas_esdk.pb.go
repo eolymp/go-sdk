@@ -186,6 +186,22 @@ func (s *AtlasService) UpdatePrivacy(ctx context.Context, in *UpdatePrivacyInput
 	return out, nil
 }
 
+func (s *AtlasService) UpdateProblem(ctx context.Context, in *UpdateProblemInput) (*UpdateProblemOutput, error) {
+	out := &UpdateProblemOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
+
+	if err := s.do(ctx, "PUT", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *AtlasService) ListExamples(ctx context.Context, in *ListExamplesInput) (*ListExamplesOutput, error) {
 	out := &ListExamplesOutput{}
 	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/examples"

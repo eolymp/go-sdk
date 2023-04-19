@@ -131,6 +131,9 @@ func RegisterAtlasHttpHandlers(router *mux.Router, prefix string, srv AtlasServe
 	router.Handle(prefix+"/problems/{problem_id}/privacy", _Atlas_UpdatePrivacy_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.atlas.Atlas.UpdatePrivacy")
+	router.Handle(prefix+"/problems/{problem_id}", _Atlas_UpdateProblem_Rule0(srv)).
+		Methods("PUT").
+		Name("eolymp.atlas.Atlas.UpdateProblem")
 	router.Handle(prefix+"/problems/{problem_id}/examples", _Atlas_ListExamples_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.atlas.Atlas.ListExamples")
@@ -415,6 +418,29 @@ func _Atlas_UpdatePrivacy_Rule0(srv AtlasServer) http.Handler {
 		in.ProblemId = vars["problem_id"]
 
 		out, err := srv.UpdatePrivacy(r.Context(), in)
+		if err != nil {
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Atlas_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Atlas_UpdateProblem_Rule0(srv AtlasServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UpdateProblemInput{}
+
+		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
+
+		out, err := srv.UpdateProblem(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -1874,6 +1900,38 @@ func (i *AtlasInterceptor) UpdatePrivacy(ctx context.Context, in *UpdatePrivacyI
 	message, ok := out.(*UpdatePrivacyOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *UpdatePrivacyOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *AtlasInterceptor) UpdateProblem(ctx context.Context, in *UpdateProblemInput) (*UpdateProblemOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*UpdateProblemInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *UpdateProblemInput, got %T", in))
+		}
+
+		return i.server.UpdateProblem(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas.UpdateProblem", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*UpdateProblemOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *UpdateProblemOutput, got %T", out))
 	}
 
 	return message, err

@@ -111,6 +111,17 @@ func (s *ProblemServiceService) DeleteProblem(ctx context.Context, in *DeletePro
 	return out, nil
 }
 
+func (s *ProblemServiceService) UpdateProblem(ctx context.Context, in *UpdateProblemInput) (*UpdateProblemOutput, error) {
+	out := &UpdateProblemOutput{}
+	path := "/"
+
+	if err := s.do(ctx, "PUT", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *ProblemServiceService) DescribeProblem(ctx context.Context, in *DescribeProblemInput) (*DescribeProblemOutput, error) {
 	out := &DescribeProblemOutput{}
 	path := "/"
