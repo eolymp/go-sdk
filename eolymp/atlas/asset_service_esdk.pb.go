@@ -16,17 +16,17 @@ import (
 	os "os"
 )
 
-type _UploaderHttpClient interface {
+type _AssetServiceHttpClient interface {
 	Do(*http.Request) (*http.Response, error)
 }
 
-type UploaderService struct {
+type AssetServiceService struct {
 	base string
-	cli  _UploaderHttpClient
+	cli  _AssetServiceHttpClient
 }
 
-// NewUploaderHttpClient constructs client for Uploader
-func NewUploaderHttpClient(url string, cli _UploaderHttpClient) *UploaderService {
+// NewAssetServiceHttpClient constructs client for AssetService
+func NewAssetServiceHttpClient(url string, cli _AssetServiceHttpClient) *AssetServiceService {
 	if url == "" {
 		url = os.Getenv("EOLYMP_API_URL")
 		if url == "" {
@@ -34,10 +34,10 @@ func NewUploaderHttpClient(url string, cli _UploaderHttpClient) *UploaderService
 		}
 	}
 
-	return &UploaderService{base: url, cli: cli}
+	return &AssetServiceService{base: url, cli: cli}
 }
 
-func (s *UploaderService) do(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
+func (s *AssetServiceService) do(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
 	var body io.Reader
 
 	if in != nil {
@@ -100,7 +100,7 @@ func (s *UploaderService) do(ctx context.Context, verb, path string, in, out pro
 	return nil
 }
 
-func (s *UploaderService) UploadFile(ctx context.Context, in *UploadFileInput) (*UploadFileOutput, error) {
+func (s *AssetServiceService) UploadFile(ctx context.Context, in *UploadFileInput) (*UploadFileOutput, error) {
 	out := &UploadFileOutput{}
 	path := "/data/files"
 
@@ -111,7 +111,7 @@ func (s *UploaderService) UploadFile(ctx context.Context, in *UploadFileInput) (
 	return out, nil
 }
 
-func (s *UploaderService) StartMultipartUpload(ctx context.Context, in *StartMultipartUploadInput) (*StartMultipartUploadOutput, error) {
+func (s *AssetServiceService) StartMultipartUpload(ctx context.Context, in *StartMultipartUploadInput) (*StartMultipartUploadOutput, error) {
 	out := &StartMultipartUploadOutput{}
 	path := "/data/uploads"
 
@@ -122,7 +122,7 @@ func (s *UploaderService) StartMultipartUpload(ctx context.Context, in *StartMul
 	return out, nil
 }
 
-func (s *UploaderService) UploadPart(ctx context.Context, in *UploadPartInput) (*UploadPartOutput, error) {
+func (s *AssetServiceService) UploadPart(ctx context.Context, in *UploadPartInput) (*UploadPartOutput, error) {
 	out := &UploadPartOutput{}
 	path := "/data/uploads/" + url.PathEscape(in.GetUploadId())
 
@@ -138,7 +138,7 @@ func (s *UploaderService) UploadPart(ctx context.Context, in *UploadPartInput) (
 	return out, nil
 }
 
-func (s *UploaderService) CompleteMultipartUpload(ctx context.Context, in *CompleteMultipartUploadInput) (*CompleteMultipartUploadOutput, error) {
+func (s *AssetServiceService) CompleteMultipartUpload(ctx context.Context, in *CompleteMultipartUploadInput) (*CompleteMultipartUploadOutput, error) {
 	out := &CompleteMultipartUploadOutput{}
 	path := "/data/uploads/" + url.PathEscape(in.GetUploadId())
 

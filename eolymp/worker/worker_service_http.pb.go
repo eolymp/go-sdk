@@ -294,3 +294,283 @@ func (i *WorkerInterceptor) ListJobs(ctx context.Context, in *ListJobsInput) (*L
 
 	return message, err
 }
+
+// _WorkerService_HTTPReadQueryString parses body into proto.Message
+func _WorkerService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+	query := r.URL.Query().Get("q")
+	if query == "" {
+		return nil
+	}
+
+	if err := (protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal([]byte(query), v)); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// _WorkerService_HTTPReadRequestBody parses body into proto.Message
+func _WorkerService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
+	data, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		return err
+	}
+
+	if err := (protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal(data, v)); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// _WorkerService_HTTPWriteResponse writes proto.Message to HTTP response
+func _WorkerService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message) {
+	data, err := protojson.Marshal(v)
+	if err != nil {
+		_WorkerService_HTTPWriteErrorResponse(w, err)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+
+	_, _ = w.Write(data)
+}
+
+// _WorkerService_HTTPWriteErrorResponse writes error to HTTP response with error status code
+func _WorkerService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
+	s := status.Convert(e)
+
+	w.Header().Set("Content-Type", "application/json")
+
+	switch s.Code() {
+	case codes.OK:
+		w.WriteHeader(http.StatusOK)
+	case codes.Canceled:
+		w.WriteHeader(http.StatusGatewayTimeout)
+	case codes.Unknown:
+		w.WriteHeader(http.StatusInternalServerError)
+	case codes.InvalidArgument:
+		w.WriteHeader(http.StatusBadRequest)
+	case codes.DeadlineExceeded:
+		w.WriteHeader(http.StatusGatewayTimeout)
+	case codes.NotFound:
+		w.WriteHeader(http.StatusNotFound)
+	case codes.AlreadyExists:
+		w.WriteHeader(http.StatusConflict)
+	case codes.PermissionDenied:
+		w.WriteHeader(http.StatusForbidden)
+	case codes.ResourceExhausted:
+		w.WriteHeader(http.StatusTooManyRequests)
+	case codes.FailedPrecondition:
+		w.WriteHeader(http.StatusPreconditionFailed)
+	case codes.Aborted:
+		w.WriteHeader(http.StatusServiceUnavailable)
+	case codes.OutOfRange:
+		w.WriteHeader(http.StatusRequestedRangeNotSatisfiable)
+	case codes.Unimplemented:
+		w.WriteHeader(http.StatusNotImplemented)
+	case codes.Internal:
+		w.WriteHeader(http.StatusInternalServerError)
+	case codes.Unavailable:
+		w.WriteHeader(http.StatusServiceUnavailable)
+	case codes.DataLoss:
+		w.WriteHeader(http.StatusInternalServerError)
+	case codes.Unauthenticated:
+		w.WriteHeader(http.StatusUnauthorized)
+	default:
+		w.WriteHeader(http.StatusInternalServerError)
+	}
+
+	data, err := protojson.Marshal(s.Proto())
+	if err != nil {
+		panic(err)
+	}
+
+	_, _ = w.Write(data)
+}
+
+// RegisterWorkerServiceHttpHandlers adds handlers for for WorkerServiceServer
+// This constructor creates http.Handler, the actual implementation might change at any moment
+func RegisterWorkerServiceHttpHandlers(router *mux.Router, prefix string, srv WorkerServiceServer) {
+	router.Handle(prefix+"/jobs", _WorkerService_CreateJob_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.worker.WorkerService.CreateJob")
+	router.Handle(prefix+"/jobs/{job_id}", _WorkerService_DescribeJob_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.worker.WorkerService.DescribeJob")
+	router.Handle(prefix+"/jobs", _WorkerService_ListJobs_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.worker.WorkerService.ListJobs")
+}
+
+func _WorkerService_CreateJob_Rule0(srv WorkerServiceServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &CreateJobInput{}
+
+		if err := _WorkerService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_WorkerService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.CreateJob(r.Context(), in)
+		if err != nil {
+			_WorkerService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_WorkerService_HTTPWriteResponse(w, out)
+	})
+}
+
+func _WorkerService_DescribeJob_Rule0(srv WorkerServiceServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeJobInput{}
+
+		if err := _WorkerService_HTTPReadQueryString(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_WorkerService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.JobId = vars["job_id"]
+
+		out, err := srv.DescribeJob(r.Context(), in)
+		if err != nil {
+			_WorkerService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_WorkerService_HTTPWriteResponse(w, out)
+	})
+}
+
+func _WorkerService_ListJobs_Rule0(srv WorkerServiceServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListJobsInput{}
+
+		if err := _WorkerService_HTTPReadQueryString(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_WorkerService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.ListJobs(r.Context(), in)
+		if err != nil {
+			_WorkerService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_WorkerService_HTTPWriteResponse(w, out)
+	})
+}
+
+type _WorkerServiceHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
+type _WorkerServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _WorkerServiceHandler) (out proto.Message, err error)
+type WorkerServiceInterceptor struct {
+	middleware []_WorkerServiceMiddleware
+	server     WorkerServiceServer
+}
+
+// NewWorkerServiceInterceptor constructs additional middleware for a server based on annotations in proto files
+func NewWorkerServiceInterceptor(srv WorkerServiceServer, middleware ..._WorkerServiceMiddleware) *WorkerServiceInterceptor {
+	return &WorkerServiceInterceptor{server: srv, middleware: middleware}
+}
+
+func (i *WorkerServiceInterceptor) CreateJob(ctx context.Context, in *CreateJobInput) (*CreateJobOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*CreateJobInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *CreateJobInput, got %T", in))
+		}
+
+		return i.server.CreateJob(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.worker.WorkerService.CreateJob", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*CreateJobOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *CreateJobOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *WorkerServiceInterceptor) DescribeJob(ctx context.Context, in *DescribeJobInput) (*DescribeJobOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeJobInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeJobInput, got %T", in))
+		}
+
+		return i.server.DescribeJob(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.worker.WorkerService.DescribeJob", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeJobOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeJobOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *WorkerServiceInterceptor) ListJobs(ctx context.Context, in *ListJobsInput) (*ListJobsOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListJobsInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListJobsInput, got %T", in))
+		}
+
+		return i.server.ListJobs(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.worker.WorkerService.ListJobs", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListJobsOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListJobsOutput, got %T", out))
+	}
+
+	return message, err
+}

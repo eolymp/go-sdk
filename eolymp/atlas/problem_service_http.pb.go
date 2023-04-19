@@ -113,47 +113,21 @@ func _ProblemService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 // RegisterProblemServiceHttpHandlers adds handlers for for ProblemServiceServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterProblemServiceHttpHandlers(router *mux.Router, prefix string, srv ProblemServiceServer) {
-	router.Handle(prefix+"/problems", _ProblemService_CreateProblem_Rule0(srv)).
-		Methods("POST").
-		Name("eolymp.atlas.ProblemService.CreateProblem")
-	router.Handle(prefix+"/problems/{problem_id}", _ProblemService_DeleteProblem_Rule0(srv)).
+	router.Handle(prefix+"", _ProblemService_DeleteProblem_Rule0(srv)).
 		Methods("DELETE").
 		Name("eolymp.atlas.ProblemService.DeleteProblem")
-	router.Handle(prefix+"/problems/{problem_id}", _ProblemService_DescribeProblem_Rule0(srv)).
+	router.Handle(prefix+"", _ProblemService_DescribeProblem_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.atlas.ProblemService.DescribeProblem")
-	router.Handle(prefix+"/problems/{problem_id}/visibility", _ProblemService_UpdateVisibility_Rule0(srv)).
+	router.Handle(prefix+"/visibility", _ProblemService_UpdateVisibility_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.atlas.ProblemService.UpdateVisibility")
-	router.Handle(prefix+"/problems/{problem_id}/privacy", _ProblemService_UpdatePrivacy_Rule0(srv)).
+	router.Handle(prefix+"/privacy", _ProblemService_UpdatePrivacy_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.atlas.ProblemService.UpdatePrivacy")
-	router.Handle(prefix+"/problems", _ProblemService_ListProblems_Rule0(srv)).
-		Methods("GET").
-		Name("eolymp.atlas.ProblemService.ListProblems")
-	router.Handle(prefix+"/problems/{problem_id}/versions", _ProblemService_ListVersions_Rule0(srv)).
+	router.Handle(prefix+"/versions", _ProblemService_ListVersions_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.atlas.ProblemService.ListVersions")
-}
-
-func _ProblemService_CreateProblem_Rule0(srv ProblemServiceServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &CreateProblemInput{}
-
-		if err := _ProblemService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_ProblemService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.CreateProblem(r.Context(), in)
-		if err != nil {
-			_ProblemService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_ProblemService_HTTPWriteResponse(w, out)
-	})
 }
 
 func _ProblemService_DeleteProblem_Rule0(srv ProblemServiceServer) http.Handler {
@@ -165,9 +139,6 @@ func _ProblemService_DeleteProblem_Rule0(srv ProblemServiceServer) http.Handler 
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
 		}
-
-		vars := mux.Vars(r)
-		in.ProblemId = vars["problem_id"]
 
 		out, err := srv.DeleteProblem(r.Context(), in)
 		if err != nil {
@@ -189,9 +160,6 @@ func _ProblemService_DescribeProblem_Rule0(srv ProblemServiceServer) http.Handle
 			return
 		}
 
-		vars := mux.Vars(r)
-		in.ProblemId = vars["problem_id"]
-
 		out, err := srv.DescribeProblem(r.Context(), in)
 		if err != nil {
 			_ProblemService_HTTPWriteErrorResponse(w, err)
@@ -211,9 +179,6 @@ func _ProblemService_UpdateVisibility_Rule0(srv ProblemServiceServer) http.Handl
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
 		}
-
-		vars := mux.Vars(r)
-		in.ProblemId = vars["problem_id"]
 
 		out, err := srv.UpdateVisibility(r.Context(), in)
 		if err != nil {
@@ -235,30 +200,7 @@ func _ProblemService_UpdatePrivacy_Rule0(srv ProblemServiceServer) http.Handler 
 			return
 		}
 
-		vars := mux.Vars(r)
-		in.ProblemId = vars["problem_id"]
-
 		out, err := srv.UpdatePrivacy(r.Context(), in)
-		if err != nil {
-			_ProblemService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_ProblemService_HTTPWriteResponse(w, out)
-	})
-}
-
-func _ProblemService_ListProblems_Rule0(srv ProblemServiceServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ListProblemsInput{}
-
-		if err := _ProblemService_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_ProblemService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := srv.ListProblems(r.Context(), in)
 		if err != nil {
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
@@ -277,9 +219,6 @@ func _ProblemService_ListVersions_Rule0(srv ProblemServiceServer) http.Handler {
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
 		}
-
-		vars := mux.Vars(r)
-		in.ProblemId = vars["problem_id"]
 
 		out, err := srv.ListVersions(r.Context(), in)
 		if err != nil {
@@ -301,38 +240,6 @@ type ProblemServiceInterceptor struct {
 // NewProblemServiceInterceptor constructs additional middleware for a server based on annotations in proto files
 func NewProblemServiceInterceptor(srv ProblemServiceServer, middleware ..._ProblemServiceMiddleware) *ProblemServiceInterceptor {
 	return &ProblemServiceInterceptor{server: srv, middleware: middleware}
-}
-
-func (i *ProblemServiceInterceptor) CreateProblem(ctx context.Context, in *CreateProblemInput) (*CreateProblemOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*CreateProblemInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *CreateProblemInput, got %T", in))
-		}
-
-		return i.server.CreateProblem(ctx, message)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.ProblemService.CreateProblem", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*CreateProblemOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *CreateProblemOutput, got %T", out))
-	}
-
-	return message, err
 }
 
 func (i *ProblemServiceInterceptor) DeleteProblem(ctx context.Context, in *DeleteProblemInput) (*DeleteProblemOutput, error) {
@@ -458,38 +365,6 @@ func (i *ProblemServiceInterceptor) UpdatePrivacy(ctx context.Context, in *Updat
 	message, ok := out.(*UpdatePrivacyOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *UpdatePrivacyOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *ProblemServiceInterceptor) ListProblems(ctx context.Context, in *ListProblemsInput) (*ListProblemsOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*ListProblemsInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *ListProblemsInput, got %T", in))
-		}
-
-		return i.server.ListProblems(ctx, message)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.ProblemService.ListProblems", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*ListProblemsOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *ListProblemsOutput, got %T", out))
 	}
 
 	return message, err

@@ -74,13 +74,6 @@ const (
 	Atlas_UnpublishSolution_FullMethodName      = "/eolymp.atlas.Atlas/UnpublishSolution"
 	Atlas_ApproveSolution_FullMethodName        = "/eolymp.atlas.Atlas/ApproveSolution"
 	Atlas_RefuseSolution_FullMethodName         = "/eolymp.atlas.Atlas/RefuseSolution"
-	Atlas_CreateCategory_FullMethodName         = "/eolymp.atlas.Atlas/CreateCategory"
-	Atlas_UpdateCategory_FullMethodName         = "/eolymp.atlas.Atlas/UpdateCategory"
-	Atlas_DeleteCategory_FullMethodName         = "/eolymp.atlas.Atlas/DeleteCategory"
-	Atlas_ListCategories_FullMethodName         = "/eolymp.atlas.Atlas/ListCategories"
-	Atlas_DescribeCategory_FullMethodName       = "/eolymp.atlas.Atlas/DescribeCategory"
-	Atlas_AssignCategory_FullMethodName         = "/eolymp.atlas.Atlas/AssignCategory"
-	Atlas_UnassignCategory_FullMethodName       = "/eolymp.atlas.Atlas/UnassignCategory"
 	Atlas_CreateSubmission_FullMethodName       = "/eolymp.atlas.Atlas/CreateSubmission"
 	Atlas_DescribeSubmission_FullMethodName     = "/eolymp.atlas.Atlas/DescribeSubmission"
 	Atlas_RetestSubmission_FullMethodName       = "/eolymp.atlas.Atlas/RetestSubmission"
@@ -155,13 +148,6 @@ type AtlasClient interface {
 	UnpublishSolution(ctx context.Context, in *UnpublishSolutionInput, opts ...grpc.CallOption) (*UnpublishSolutionOutput, error)
 	ApproveSolution(ctx context.Context, in *ApproveSolutionInput, opts ...grpc.CallOption) (*ApproveSolutionOutput, error)
 	RefuseSolution(ctx context.Context, in *RefuseSolutionInput, opts ...grpc.CallOption) (*RefuseSolutionOutput, error)
-	CreateCategory(ctx context.Context, in *CreateCategoryInput, opts ...grpc.CallOption) (*CreateCategoryOutput, error)
-	UpdateCategory(ctx context.Context, in *UpdateCategoryInput, opts ...grpc.CallOption) (*UpdateCategoryOutput, error)
-	DeleteCategory(ctx context.Context, in *DeleteCategoryInput, opts ...grpc.CallOption) (*DeleteCategoryOutput, error)
-	ListCategories(ctx context.Context, in *ListCategoriesInput, opts ...grpc.CallOption) (*ListCategoriesOutput, error)
-	DescribeCategory(ctx context.Context, in *DescribeCategoryInput, opts ...grpc.CallOption) (*DescribeCategoryOutput, error)
-	AssignCategory(ctx context.Context, in *AssignCategoryInput, opts ...grpc.CallOption) (*AssignCategoryOutput, error)
-	UnassignCategory(ctx context.Context, in *UnassignCategoryInput, opts ...grpc.CallOption) (*UnassignCategoryOutput, error)
 	CreateSubmission(ctx context.Context, in *CreateSubmissionInput, opts ...grpc.CallOption) (*CreateSubmissionOutput, error)
 	DescribeSubmission(ctx context.Context, in *DescribeSubmissionInput, opts ...grpc.CallOption) (*DescribeSubmissionOutput, error)
 	RetestSubmission(ctx context.Context, in *RetestSubmissionInput, opts ...grpc.CallOption) (*RetestSubmissionOutput, error)
@@ -671,69 +657,6 @@ func (c *atlasClient) RefuseSolution(ctx context.Context, in *RefuseSolutionInpu
 	return out, nil
 }
 
-func (c *atlasClient) CreateCategory(ctx context.Context, in *CreateCategoryInput, opts ...grpc.CallOption) (*CreateCategoryOutput, error) {
-	out := new(CreateCategoryOutput)
-	err := c.cc.Invoke(ctx, Atlas_CreateCategory_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *atlasClient) UpdateCategory(ctx context.Context, in *UpdateCategoryInput, opts ...grpc.CallOption) (*UpdateCategoryOutput, error) {
-	out := new(UpdateCategoryOutput)
-	err := c.cc.Invoke(ctx, Atlas_UpdateCategory_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *atlasClient) DeleteCategory(ctx context.Context, in *DeleteCategoryInput, opts ...grpc.CallOption) (*DeleteCategoryOutput, error) {
-	out := new(DeleteCategoryOutput)
-	err := c.cc.Invoke(ctx, Atlas_DeleteCategory_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *atlasClient) ListCategories(ctx context.Context, in *ListCategoriesInput, opts ...grpc.CallOption) (*ListCategoriesOutput, error) {
-	out := new(ListCategoriesOutput)
-	err := c.cc.Invoke(ctx, Atlas_ListCategories_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *atlasClient) DescribeCategory(ctx context.Context, in *DescribeCategoryInput, opts ...grpc.CallOption) (*DescribeCategoryOutput, error) {
-	out := new(DescribeCategoryOutput)
-	err := c.cc.Invoke(ctx, Atlas_DescribeCategory_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *atlasClient) AssignCategory(ctx context.Context, in *AssignCategoryInput, opts ...grpc.CallOption) (*AssignCategoryOutput, error) {
-	out := new(AssignCategoryOutput)
-	err := c.cc.Invoke(ctx, Atlas_AssignCategory_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *atlasClient) UnassignCategory(ctx context.Context, in *UnassignCategoryInput, opts ...grpc.CallOption) (*UnassignCategoryOutput, error) {
-	out := new(UnassignCategoryOutput)
-	err := c.cc.Invoke(ctx, Atlas_UnassignCategory_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *atlasClient) CreateSubmission(ctx context.Context, in *CreateSubmissionInput, opts ...grpc.CallOption) (*CreateSubmissionOutput, error) {
 	out := new(CreateSubmissionOutput)
 	err := c.cc.Invoke(ctx, Atlas_CreateSubmission_FullMethodName, in, out, opts...)
@@ -838,13 +761,6 @@ type AtlasServer interface {
 	UnpublishSolution(context.Context, *UnpublishSolutionInput) (*UnpublishSolutionOutput, error)
 	ApproveSolution(context.Context, *ApproveSolutionInput) (*ApproveSolutionOutput, error)
 	RefuseSolution(context.Context, *RefuseSolutionInput) (*RefuseSolutionOutput, error)
-	CreateCategory(context.Context, *CreateCategoryInput) (*CreateCategoryOutput, error)
-	UpdateCategory(context.Context, *UpdateCategoryInput) (*UpdateCategoryOutput, error)
-	DeleteCategory(context.Context, *DeleteCategoryInput) (*DeleteCategoryOutput, error)
-	ListCategories(context.Context, *ListCategoriesInput) (*ListCategoriesOutput, error)
-	DescribeCategory(context.Context, *DescribeCategoryInput) (*DescribeCategoryOutput, error)
-	AssignCategory(context.Context, *AssignCategoryInput) (*AssignCategoryOutput, error)
-	UnassignCategory(context.Context, *UnassignCategoryInput) (*UnassignCategoryOutput, error)
 	CreateSubmission(context.Context, *CreateSubmissionInput) (*CreateSubmissionOutput, error)
 	DescribeSubmission(context.Context, *DescribeSubmissionInput) (*DescribeSubmissionOutput, error)
 	RetestSubmission(context.Context, *RetestSubmissionInput) (*RetestSubmissionOutput, error)
@@ -1019,27 +935,6 @@ func (UnimplementedAtlasServer) ApproveSolution(context.Context, *ApproveSolutio
 }
 func (UnimplementedAtlasServer) RefuseSolution(context.Context, *RefuseSolutionInput) (*RefuseSolutionOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RefuseSolution not implemented")
-}
-func (UnimplementedAtlasServer) CreateCategory(context.Context, *CreateCategoryInput) (*CreateCategoryOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateCategory not implemented")
-}
-func (UnimplementedAtlasServer) UpdateCategory(context.Context, *UpdateCategoryInput) (*UpdateCategoryOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateCategory not implemented")
-}
-func (UnimplementedAtlasServer) DeleteCategory(context.Context, *DeleteCategoryInput) (*DeleteCategoryOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteCategory not implemented")
-}
-func (UnimplementedAtlasServer) ListCategories(context.Context, *ListCategoriesInput) (*ListCategoriesOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListCategories not implemented")
-}
-func (UnimplementedAtlasServer) DescribeCategory(context.Context, *DescribeCategoryInput) (*DescribeCategoryOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DescribeCategory not implemented")
-}
-func (UnimplementedAtlasServer) AssignCategory(context.Context, *AssignCategoryInput) (*AssignCategoryOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AssignCategory not implemented")
-}
-func (UnimplementedAtlasServer) UnassignCategory(context.Context, *UnassignCategoryInput) (*UnassignCategoryOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UnassignCategory not implemented")
 }
 func (UnimplementedAtlasServer) CreateSubmission(context.Context, *CreateSubmissionInput) (*CreateSubmissionOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateSubmission not implemented")
@@ -2055,132 +1950,6 @@ func _Atlas_RefuseSolution_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Atlas_CreateCategory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateCategoryInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AtlasServer).CreateCategory(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Atlas_CreateCategory_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AtlasServer).CreateCategory(ctx, req.(*CreateCategoryInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Atlas_UpdateCategory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateCategoryInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AtlasServer).UpdateCategory(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Atlas_UpdateCategory_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AtlasServer).UpdateCategory(ctx, req.(*UpdateCategoryInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Atlas_DeleteCategory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteCategoryInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AtlasServer).DeleteCategory(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Atlas_DeleteCategory_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AtlasServer).DeleteCategory(ctx, req.(*DeleteCategoryInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Atlas_ListCategories_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListCategoriesInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AtlasServer).ListCategories(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Atlas_ListCategories_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AtlasServer).ListCategories(ctx, req.(*ListCategoriesInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Atlas_DescribeCategory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DescribeCategoryInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AtlasServer).DescribeCategory(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Atlas_DescribeCategory_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AtlasServer).DescribeCategory(ctx, req.(*DescribeCategoryInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Atlas_AssignCategory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AssignCategoryInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AtlasServer).AssignCategory(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Atlas_AssignCategory_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AtlasServer).AssignCategory(ctx, req.(*AssignCategoryInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Atlas_UnassignCategory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UnassignCategoryInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AtlasServer).UnassignCategory(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Atlas_UnassignCategory_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AtlasServer).UnassignCategory(ctx, req.(*UnassignCategoryInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _Atlas_CreateSubmission_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreateSubmissionInput)
 	if err := dec(in); err != nil {
@@ -2479,34 +2248,6 @@ var Atlas_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RefuseSolution",
 			Handler:    _Atlas_RefuseSolution_Handler,
-		},
-		{
-			MethodName: "CreateCategory",
-			Handler:    _Atlas_CreateCategory_Handler,
-		},
-		{
-			MethodName: "UpdateCategory",
-			Handler:    _Atlas_UpdateCategory_Handler,
-		},
-		{
-			MethodName: "DeleteCategory",
-			Handler:    _Atlas_DeleteCategory_Handler,
-		},
-		{
-			MethodName: "ListCategories",
-			Handler:    _Atlas_ListCategories_Handler,
-		},
-		{
-			MethodName: "DescribeCategory",
-			Handler:    _Atlas_DescribeCategory_Handler,
-		},
-		{
-			MethodName: "AssignCategory",
-			Handler:    _Atlas_AssignCategory_Handler,
-		},
-		{
-			MethodName: "UnassignCategory",
-			Handler:    _Atlas_UnassignCategory_Handler,
 		},
 		{
 			MethodName: "CreateSubmission",
