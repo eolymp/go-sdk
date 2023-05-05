@@ -119,6 +119,9 @@ func RegisterPlaygroundHttpHandlers(router *mux.Router, prefix string, srv Playg
 	router.Handle(prefix+"/runs/{run_id}", _Playground_DescribeRun_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.playground.Playground.DescribeRun")
+	router.Handle(prefix+"/runs/{run_id}/watch", _Playground_WatchRun_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.playground.Playground.WatchRun")
 }
 
 func _Playground_CreateRun_Rule0(srv PlaygroundServer) http.Handler {
@@ -155,6 +158,29 @@ func _Playground_DescribeRun_Rule0(srv PlaygroundServer) http.Handler {
 		in.RunId = vars["run_id"]
 
 		out, err := srv.DescribeRun(r.Context(), in)
+		if err != nil {
+			_Playground_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Playground_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Playground_WatchRun_Rule0(srv PlaygroundServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &WatchRunInput{}
+
+		if err := _Playground_HTTPReadQueryString(r, in); err != nil {
+			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			_Playground_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.RunId = vars["run_id"]
+
+		out, err := srv.WatchRun(r.Context(), in)
 		if err != nil {
 			_Playground_HTTPWriteErrorResponse(w, err)
 			return
@@ -235,6 +261,38 @@ func (i *PlaygroundInterceptor) DescribeRun(ctx context.Context, in *DescribeRun
 	message, ok := out.(*DescribeRunOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *DescribeRunOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *PlaygroundInterceptor) WatchRun(ctx context.Context, in *WatchRunInput) (*WatchRunOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*WatchRunInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *WatchRunInput, got %T", in))
+		}
+
+		return i.server.WatchRun(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.playground.Playground.WatchRun", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*WatchRunOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *WatchRunOutput, got %T", out))
 	}
 
 	return message, err

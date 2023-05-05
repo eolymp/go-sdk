@@ -21,6 +21,7 @@ const _ = grpc.SupportPackageIsVersion7
 const (
 	Playground_CreateRun_FullMethodName   = "/eolymp.playground.Playground/CreateRun"
 	Playground_DescribeRun_FullMethodName = "/eolymp.playground.Playground/DescribeRun"
+	Playground_WatchRun_FullMethodName    = "/eolymp.playground.Playground/WatchRun"
 )
 
 // PlaygroundClient is the client API for Playground service.
@@ -29,6 +30,7 @@ const (
 type PlaygroundClient interface {
 	CreateRun(ctx context.Context, in *CreateRunInput, opts ...grpc.CallOption) (*CreateRunOutput, error)
 	DescribeRun(ctx context.Context, in *DescribeRunInput, opts ...grpc.CallOption) (*DescribeRunOutput, error)
+	WatchRun(ctx context.Context, in *WatchRunInput, opts ...grpc.CallOption) (Playground_WatchRunClient, error)
 }
 
 type playgroundClient struct {
@@ -57,12 +59,45 @@ func (c *playgroundClient) DescribeRun(ctx context.Context, in *DescribeRunInput
 	return out, nil
 }
 
+func (c *playgroundClient) WatchRun(ctx context.Context, in *WatchRunInput, opts ...grpc.CallOption) (Playground_WatchRunClient, error) {
+	stream, err := c.cc.NewStream(ctx, &Playground_ServiceDesc.Streams[0], Playground_WatchRun_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &playgroundWatchRunClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type Playground_WatchRunClient interface {
+	Recv() (*WatchRunOutput, error)
+	grpc.ClientStream
+}
+
+type playgroundWatchRunClient struct {
+	grpc.ClientStream
+}
+
+func (x *playgroundWatchRunClient) Recv() (*WatchRunOutput, error) {
+	m := new(WatchRunOutput)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // PlaygroundServer is the server API for Playground service.
 // All implementations should embed UnimplementedPlaygroundServer
 // for forward compatibility
 type PlaygroundServer interface {
 	CreateRun(context.Context, *CreateRunInput) (*CreateRunOutput, error)
 	DescribeRun(context.Context, *DescribeRunInput) (*DescribeRunOutput, error)
+	WatchRun(*WatchRunInput, Playground_WatchRunServer) error
 }
 
 // UnimplementedPlaygroundServer should be embedded to have forward compatible implementations.
@@ -74,6 +109,9 @@ func (UnimplementedPlaygroundServer) CreateRun(context.Context, *CreateRunInput)
 }
 func (UnimplementedPlaygroundServer) DescribeRun(context.Context, *DescribeRunInput) (*DescribeRunOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeRun not implemented")
+}
+func (UnimplementedPlaygroundServer) WatchRun(*WatchRunInput, Playground_WatchRunServer) error {
+	return status.Errorf(codes.Unimplemented, "method WatchRun not implemented")
 }
 
 // UnsafePlaygroundServer may be embedded to opt out of forward compatibility for this service.
@@ -123,6 +161,27 @@ func _Playground_DescribeRun_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Playground_WatchRun_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(WatchRunInput)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(PlaygroundServer).WatchRun(m, &playgroundWatchRunServer{stream})
+}
+
+type Playground_WatchRunServer interface {
+	Send(*WatchRunOutput) error
+	grpc.ServerStream
+}
+
+type playgroundWatchRunServer struct {
+	grpc.ServerStream
+}
+
+func (x *playgroundWatchRunServer) Send(m *WatchRunOutput) error {
+	return x.ServerStream.SendMsg(m)
+}
+
 // Playground_ServiceDesc is the grpc.ServiceDesc for Playground service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -139,6 +198,12 @@ var Playground_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Playground_DescribeRun_Handler,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "WatchRun",
+			Handler:       _Playground_WatchRun_Handler,
+			ServerStreams: true,
+		},
+	},
 	Metadata: "eolymp/playground/playground.proto",
 }

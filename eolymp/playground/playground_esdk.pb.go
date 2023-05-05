@@ -126,3 +126,19 @@ func (s *PlaygroundService) DescribeRun(ctx context.Context, in *DescribeRunInpu
 
 	return out, nil
 }
+
+func (s *PlaygroundService) WatchRun(ctx context.Context, in *WatchRunInput) (*WatchRunOutput, error) {
+	out := &WatchRunOutput{}
+	path := "/runs/" + url.PathEscape(in.GetRunId()) + "/watch"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.RunId = ""
+	}
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
