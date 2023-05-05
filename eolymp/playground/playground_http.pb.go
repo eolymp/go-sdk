@@ -13,6 +13,7 @@ import (
 	proto "google.golang.org/protobuf/proto"
 	ioutil "io/ioutil"
 	http "net/http"
+	sync "sync"
 )
 
 // _Playground_HTTPReadQueryString parses body into proto.Message
@@ -110,6 +111,64 @@ func _Playground_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	_, _ = w.Write(data)
 }
 
+type _Playground_WatchRun_EventStream struct {
+	ctx    context.Context
+	sh     sync.Once
+	writer http.ResponseWriter
+}
+
+func (s *_Playground_WatchRun_EventStream) Send(m *WatchRunOutput) error {
+	return s.SendMsg(m)
+}
+
+func (s *_Playground_WatchRun_EventStream) SetHeader(metadata.MD) error {
+	return nil
+}
+
+func (s *_Playground_WatchRun_EventStream) SendHeader(metadata.MD) error {
+	return s.sendHeader()
+}
+
+func (s *_Playground_WatchRun_EventStream) SetTrailer(metadata.MD) {
+}
+
+func (s *_Playground_WatchRun_EventStream) Context() context.Context {
+	return s.ctx
+}
+
+func (s *_Playground_WatchRun_EventStream) SendMsg(m interface{}) error {
+	if err := s.sendHeader(); err != nil {
+		return err
+	}
+
+	if p, ok := m.(proto.Message); ok {
+		data, err := protojson.Marshal(p)
+		if err != nil {
+			return err
+		}
+
+		if _, err = fmt.Fprintln(s.writer, "data: ", data); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (s *_Playground_WatchRun_EventStream) RecvMsg(m interface{}) error {
+	return nil
+}
+
+func (s *_Playground_WatchRun_EventStream) sendHeader() error {
+	s.sh.Do(func() {
+		s.writer.Header().Set("Cache-Control", "no-store")
+		s.writer.Header().Set("Content-Type", "text/event-stream")
+		s.writer.WriteHeader(http.StatusOK)
+	})
+
+	return nil
+}
+
 // RegisterPlaygroundHttpHandlers adds handlers for for PlaygroundServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterPlaygroundHttpHandlers(router *mux.Router, prefix string, srv PlaygroundServer) {
@@ -180,13 +239,11 @@ func _Playground_WatchRun_Rule0(srv PlaygroundServer) http.Handler {
 		vars := mux.Vars(r)
 		in.RunId = vars["run_id"]
 
-		out, err := srv.WatchRun(r.Context(), in)
-		if err != nil {
+		stream := &_Playground_WatchRun_EventStream{writer: w, ctx: r.Context()}
+		if err := srv.WatchRun(in, stream); err != nil {
 			_Playground_HTTPWriteErrorResponse(w, err)
 			return
 		}
-
-		_Playground_HTTPWriteResponse(w, out)
 	})
 }
 
@@ -266,34 +323,6 @@ func (i *PlaygroundInterceptor) DescribeRun(ctx context.Context, in *DescribeRun
 	return message, err
 }
 
-func (i *PlaygroundInterceptor) WatchRun(ctx context.Context, in *WatchRunInput) (*WatchRunOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*WatchRunInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *WatchRunInput, got %T", in))
-		}
-
-		return i.server.WatchRun(ctx, message)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.playground.Playground.WatchRun", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*WatchRunOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *WatchRunOutput, got %T", out))
-	}
-
-	return message, err
+func (i *PlaygroundInterceptor) WatchRun(in *WatchRunInput, ss Playground_WatchRunServer) error {
+	return i.server.WatchRun(in, ss)
 }
