@@ -316,6 +316,9 @@ func RegisterAtlasHttpHandlers(router *mux.Router, prefix string, srv AtlasServe
 	router.Handle(prefix+"/problems/{problem_id}/submissions/{submission_id}/retest", _Atlas_RetestSubmission_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.atlas.Atlas.RetestSubmission")
+	router.Handle(prefix+"/submissions", _Atlas_ListSubmissions_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.atlas.Atlas.ListSubmissions")
 	router.Handle(prefix+"/problems/{problem_id}/scores/{user_id}", _Atlas_DescribeScore_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.atlas.Atlas.DescribeScore")
@@ -1364,6 +1367,26 @@ func _Atlas_RetestSubmission_Rule0(srv AtlasServer) http.Handler {
 		in.SubmissionId = vars["submission_id"]
 
 		out, err := srv.RetestSubmission(r.Context(), in)
+		if err != nil {
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Atlas_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Atlas_ListSubmissions_Rule0(srv AtlasServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListSubmissionsInput{}
+
+		if err := _Atlas_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.ListSubmissions(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -2844,6 +2867,38 @@ func (i *AtlasInterceptor) RetestSubmission(ctx context.Context, in *RetestSubmi
 	message, ok := out.(*RetestSubmissionOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *RetestSubmissionOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *AtlasInterceptor) ListSubmissions(ctx context.Context, in *ListSubmissionsInput) (*ListSubmissionsOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListSubmissionsInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListSubmissionsInput, got %T", in))
+		}
+
+		return i.server.ListSubmissions(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas.ListSubmissions", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListSubmissionsOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListSubmissionsOutput, got %T", out))
 	}
 
 	return message, err

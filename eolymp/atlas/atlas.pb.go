@@ -52,8 +52,8 @@ var file_eolymp_atlas_atlas_proto_rawDesc = []byte{
 	0x73, 0x2f, 0x73, 0x75, 0x62, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x5f, 0x73, 0x65, 0x72,
 	0x76, 0x69, 0x63, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x22, 0x65, 0x6f, 0x6c, 0x79,
 	0x6d, 0x70, 0x2f, 0x61, 0x74, 0x6c, 0x61, 0x73, 0x2f, 0x74, 0x65, 0x73, 0x74, 0x69, 0x6e, 0x67,
-	0x5f, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x32, 0xc5,
-	0x40, 0x0a, 0x05, 0x41, 0x74, 0x6c, 0x61, 0x73, 0x12, 0x91, 0x01, 0x0a, 0x0d, 0x43, 0x72, 0x65,
+	0x5f, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x32, 0xd5,
+	0x41, 0x0a, 0x05, 0x41, 0x74, 0x6c, 0x61, 0x73, 0x12, 0x91, 0x01, 0x0a, 0x0d, 0x43, 0x72, 0x65,
 	0x61, 0x74, 0x65, 0x50, 0x72, 0x6f, 0x62, 0x6c, 0x65, 0x6d, 0x12, 0x20, 0x2e, 0x65, 0x6f, 0x6c,
 	0x79, 0x6d, 0x70, 0x2e, 0x61, 0x74, 0x6c, 0x61, 0x73, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65,
 	0x50, 0x72, 0x6f, 0x62, 0x6c, 0x65, 0x6d, 0x49, 0x6e, 0x70, 0x75, 0x74, 0x1a, 0x21, 0x2e, 0x65,
@@ -559,7 +559,16 @@ var file_eolymp_atlas_atlas_proto_rawDesc = []byte{
 	0x73, 0x2f, 0x7b, 0x70, 0x72, 0x6f, 0x62, 0x6c, 0x65, 0x6d, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x73,
 	0x75, 0x62, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x2f, 0x7b, 0x73, 0x75, 0x62, 0x6d,
 	0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x72, 0x65, 0x74, 0x65, 0x73,
-	0x74, 0x12, 0xa2, 0x01, 0x0a, 0x0d, 0x44, 0x65, 0x73, 0x63, 0x72, 0x69, 0x62, 0x65, 0x53, 0x63,
+	0x74, 0x12, 0x8d, 0x01, 0x0a, 0x0f, 0x4c, 0x69, 0x73, 0x74, 0x53, 0x75, 0x62, 0x6d, 0x69, 0x73,
+	0x73, 0x69, 0x6f, 0x6e, 0x73, 0x12, 0x22, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x61,
+	0x74, 0x6c, 0x61, 0x73, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x53, 0x75, 0x62, 0x6d, 0x69, 0x73, 0x73,
+	0x69, 0x6f, 0x6e, 0x73, 0x49, 0x6e, 0x70, 0x75, 0x74, 0x1a, 0x23, 0x2e, 0x65, 0x6f, 0x6c, 0x79,
+	0x6d, 0x70, 0x2e, 0x61, 0x74, 0x6c, 0x61, 0x73, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x53, 0x75, 0x62,
+	0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x22, 0x31,
+	0x82, 0xe3, 0x0a, 0x19, 0x8a, 0xe3, 0x0a, 0x15, 0x61, 0x74, 0x6c, 0x61, 0x73, 0x3a, 0x73, 0x75,
+	0x62, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x3a, 0x72, 0x65, 0x61, 0x64, 0x82, 0xd3, 0xe4,
+	0x93, 0x02, 0x0e, 0x12, 0x0c, 0x2f, 0x73, 0x75, 0x62, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e,
+	0x73, 0x12, 0xa2, 0x01, 0x0a, 0x0d, 0x44, 0x65, 0x73, 0x63, 0x72, 0x69, 0x62, 0x65, 0x53, 0x63,
 	0x6f, 0x72, 0x65, 0x12, 0x20, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x61, 0x74, 0x6c,
 	0x61, 0x73, 0x2e, 0x44, 0x65, 0x73, 0x63, 0x72, 0x69, 0x62, 0x65, 0x53, 0x63, 0x6f, 0x72, 0x65,
 	0x49, 0x6e, 0x70, 0x75, 0x74, 0x1a, 0x21, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x61,
@@ -621,53 +630,55 @@ var file_eolymp_atlas_atlas_proto_goTypes = []interface{}{
 	(*CreateSubmissionInput)(nil),        // 42: eolymp.atlas.CreateSubmissionInput
 	(*DescribeSubmissionInput)(nil),      // 43: eolymp.atlas.DescribeSubmissionInput
 	(*RetestSubmissionInput)(nil),        // 44: eolymp.atlas.RetestSubmissionInput
-	(*DescribeScoreInput)(nil),           // 45: eolymp.atlas.DescribeScoreInput
-	(*CreateProblemOutput)(nil),          // 46: eolymp.atlas.CreateProblemOutput
-	(*DeleteProblemOutput)(nil),          // 47: eolymp.atlas.DeleteProblemOutput
-	(*ListProblemsOutput)(nil),           // 48: eolymp.atlas.ListProblemsOutput
-	(*DescribeProblemOutput)(nil),        // 49: eolymp.atlas.DescribeProblemOutput
-	(*UpdateProblemOutput)(nil),          // 50: eolymp.atlas.UpdateProblemOutput
-	(*SetBookmarkOutput)(nil),            // 51: eolymp.atlas.SetBookmarkOutput
-	(*ListExamplesOutput)(nil),           // 52: eolymp.atlas.ListExamplesOutput
-	(*UpdateVerifierOutput)(nil),         // 53: eolymp.atlas.UpdateVerifierOutput
-	(*DescribeVerifierOutput)(nil),       // 54: eolymp.atlas.DescribeVerifierOutput
-	(*UpdateInteractorOutput)(nil),       // 55: eolymp.atlas.UpdateInteractorOutput
-	(*DescribeInteractorOutput)(nil),     // 56: eolymp.atlas.DescribeInteractorOutput
-	(*CreateStatementOutput)(nil),        // 57: eolymp.atlas.CreateStatementOutput
-	(*UpdateStatementOutput)(nil),        // 58: eolymp.atlas.UpdateStatementOutput
-	(*DeleteStatementOutput)(nil),        // 59: eolymp.atlas.DeleteStatementOutput
-	(*ListStatementsOutput)(nil),         // 60: eolymp.atlas.ListStatementsOutput
-	(*DescribeStatementOutput)(nil),      // 61: eolymp.atlas.DescribeStatementOutput
-	(*LookupStatementOutput)(nil),        // 62: eolymp.atlas.LookupStatementOutput
-	(*RenderStatementOutput)(nil),        // 63: eolymp.atlas.RenderStatementOutput
-	(*PreviewStatementOutput)(nil),       // 64: eolymp.atlas.PreviewStatementOutput
-	(*CreateTestsetOutput)(nil),          // 65: eolymp.atlas.CreateTestsetOutput
-	(*UpdateTestsetOutput)(nil),          // 66: eolymp.atlas.UpdateTestsetOutput
-	(*DeleteTestsetOutput)(nil),          // 67: eolymp.atlas.DeleteTestsetOutput
-	(*ListTestsetsOutput)(nil),           // 68: eolymp.atlas.ListTestsetsOutput
-	(*DescribeTestsetOutput)(nil),        // 69: eolymp.atlas.DescribeTestsetOutput
-	(*CreateTestOutput)(nil),             // 70: eolymp.atlas.CreateTestOutput
-	(*UpdateTestOutput)(nil),             // 71: eolymp.atlas.UpdateTestOutput
-	(*DeleteTestOutput)(nil),             // 72: eolymp.atlas.DeleteTestOutput
-	(*ListTestsOutput)(nil),              // 73: eolymp.atlas.ListTestsOutput
-	(*DescribeTestOutput)(nil),           // 74: eolymp.atlas.DescribeTestOutput
-	(*CreateCodeTemplateOutput)(nil),     // 75: eolymp.atlas.CreateCodeTemplateOutput
-	(*UpdateCodeTemplateOutput)(nil),     // 76: eolymp.atlas.UpdateCodeTemplateOutput
-	(*DeleteCodeTemplateOutput)(nil),     // 77: eolymp.atlas.DeleteCodeTemplateOutput
-	(*ListCodeTemplatesOutput)(nil),      // 78: eolymp.atlas.ListCodeTemplatesOutput
-	(*DescribeCodeTemplateOutput)(nil),   // 79: eolymp.atlas.DescribeCodeTemplateOutput
-	(*CreateAttachmentOutput)(nil),       // 80: eolymp.atlas.CreateAttachmentOutput
-	(*UpdateAttachmentOutput)(nil),       // 81: eolymp.atlas.UpdateAttachmentOutput
-	(*DeleteAttachmentOutput)(nil),       // 82: eolymp.atlas.DeleteAttachmentOutput
-	(*ListAttachmentsOutput)(nil),        // 83: eolymp.atlas.ListAttachmentsOutput
-	(*DescribeAttachmentOutput)(nil),     // 84: eolymp.atlas.DescribeAttachmentOutput
-	(*ListVersionsOutput)(nil),           // 85: eolymp.atlas.ListVersionsOutput
-	(*ListProblemTopOutput)(nil),         // 86: eolymp.atlas.ListProblemTopOutput
-	(*DescribeProblemGradingOutput)(nil), // 87: eolymp.atlas.DescribeProblemGradingOutput
-	(*CreateSubmissionOutput)(nil),       // 88: eolymp.atlas.CreateSubmissionOutput
-	(*DescribeSubmissionOutput)(nil),     // 89: eolymp.atlas.DescribeSubmissionOutput
-	(*RetestSubmissionOutput)(nil),       // 90: eolymp.atlas.RetestSubmissionOutput
-	(*DescribeScoreOutput)(nil),          // 91: eolymp.atlas.DescribeScoreOutput
+	(*ListSubmissionsInput)(nil),         // 45: eolymp.atlas.ListSubmissionsInput
+	(*DescribeScoreInput)(nil),           // 46: eolymp.atlas.DescribeScoreInput
+	(*CreateProblemOutput)(nil),          // 47: eolymp.atlas.CreateProblemOutput
+	(*DeleteProblemOutput)(nil),          // 48: eolymp.atlas.DeleteProblemOutput
+	(*ListProblemsOutput)(nil),           // 49: eolymp.atlas.ListProblemsOutput
+	(*DescribeProblemOutput)(nil),        // 50: eolymp.atlas.DescribeProblemOutput
+	(*UpdateProblemOutput)(nil),          // 51: eolymp.atlas.UpdateProblemOutput
+	(*SetBookmarkOutput)(nil),            // 52: eolymp.atlas.SetBookmarkOutput
+	(*ListExamplesOutput)(nil),           // 53: eolymp.atlas.ListExamplesOutput
+	(*UpdateVerifierOutput)(nil),         // 54: eolymp.atlas.UpdateVerifierOutput
+	(*DescribeVerifierOutput)(nil),       // 55: eolymp.atlas.DescribeVerifierOutput
+	(*UpdateInteractorOutput)(nil),       // 56: eolymp.atlas.UpdateInteractorOutput
+	(*DescribeInteractorOutput)(nil),     // 57: eolymp.atlas.DescribeInteractorOutput
+	(*CreateStatementOutput)(nil),        // 58: eolymp.atlas.CreateStatementOutput
+	(*UpdateStatementOutput)(nil),        // 59: eolymp.atlas.UpdateStatementOutput
+	(*DeleteStatementOutput)(nil),        // 60: eolymp.atlas.DeleteStatementOutput
+	(*ListStatementsOutput)(nil),         // 61: eolymp.atlas.ListStatementsOutput
+	(*DescribeStatementOutput)(nil),      // 62: eolymp.atlas.DescribeStatementOutput
+	(*LookupStatementOutput)(nil),        // 63: eolymp.atlas.LookupStatementOutput
+	(*RenderStatementOutput)(nil),        // 64: eolymp.atlas.RenderStatementOutput
+	(*PreviewStatementOutput)(nil),       // 65: eolymp.atlas.PreviewStatementOutput
+	(*CreateTestsetOutput)(nil),          // 66: eolymp.atlas.CreateTestsetOutput
+	(*UpdateTestsetOutput)(nil),          // 67: eolymp.atlas.UpdateTestsetOutput
+	(*DeleteTestsetOutput)(nil),          // 68: eolymp.atlas.DeleteTestsetOutput
+	(*ListTestsetsOutput)(nil),           // 69: eolymp.atlas.ListTestsetsOutput
+	(*DescribeTestsetOutput)(nil),        // 70: eolymp.atlas.DescribeTestsetOutput
+	(*CreateTestOutput)(nil),             // 71: eolymp.atlas.CreateTestOutput
+	(*UpdateTestOutput)(nil),             // 72: eolymp.atlas.UpdateTestOutput
+	(*DeleteTestOutput)(nil),             // 73: eolymp.atlas.DeleteTestOutput
+	(*ListTestsOutput)(nil),              // 74: eolymp.atlas.ListTestsOutput
+	(*DescribeTestOutput)(nil),           // 75: eolymp.atlas.DescribeTestOutput
+	(*CreateCodeTemplateOutput)(nil),     // 76: eolymp.atlas.CreateCodeTemplateOutput
+	(*UpdateCodeTemplateOutput)(nil),     // 77: eolymp.atlas.UpdateCodeTemplateOutput
+	(*DeleteCodeTemplateOutput)(nil),     // 78: eolymp.atlas.DeleteCodeTemplateOutput
+	(*ListCodeTemplatesOutput)(nil),      // 79: eolymp.atlas.ListCodeTemplatesOutput
+	(*DescribeCodeTemplateOutput)(nil),   // 80: eolymp.atlas.DescribeCodeTemplateOutput
+	(*CreateAttachmentOutput)(nil),       // 81: eolymp.atlas.CreateAttachmentOutput
+	(*UpdateAttachmentOutput)(nil),       // 82: eolymp.atlas.UpdateAttachmentOutput
+	(*DeleteAttachmentOutput)(nil),       // 83: eolymp.atlas.DeleteAttachmentOutput
+	(*ListAttachmentsOutput)(nil),        // 84: eolymp.atlas.ListAttachmentsOutput
+	(*DescribeAttachmentOutput)(nil),     // 85: eolymp.atlas.DescribeAttachmentOutput
+	(*ListVersionsOutput)(nil),           // 86: eolymp.atlas.ListVersionsOutput
+	(*ListProblemTopOutput)(nil),         // 87: eolymp.atlas.ListProblemTopOutput
+	(*DescribeProblemGradingOutput)(nil), // 88: eolymp.atlas.DescribeProblemGradingOutput
+	(*CreateSubmissionOutput)(nil),       // 89: eolymp.atlas.CreateSubmissionOutput
+	(*DescribeSubmissionOutput)(nil),     // 90: eolymp.atlas.DescribeSubmissionOutput
+	(*RetestSubmissionOutput)(nil),       // 91: eolymp.atlas.RetestSubmissionOutput
+	(*ListSubmissionsOutput)(nil),        // 92: eolymp.atlas.ListSubmissionsOutput
+	(*DescribeScoreOutput)(nil),          // 93: eolymp.atlas.DescribeScoreOutput
 }
 var file_eolymp_atlas_atlas_proto_depIdxs = []int32{
 	0,  // 0: eolymp.atlas.Atlas.CreateProblem:input_type -> eolymp.atlas.CreateProblemInput
@@ -715,55 +726,57 @@ var file_eolymp_atlas_atlas_proto_depIdxs = []int32{
 	42, // 42: eolymp.atlas.Atlas.CreateSubmission:input_type -> eolymp.atlas.CreateSubmissionInput
 	43, // 43: eolymp.atlas.Atlas.DescribeSubmission:input_type -> eolymp.atlas.DescribeSubmissionInput
 	44, // 44: eolymp.atlas.Atlas.RetestSubmission:input_type -> eolymp.atlas.RetestSubmissionInput
-	45, // 45: eolymp.atlas.Atlas.DescribeScore:input_type -> eolymp.atlas.DescribeScoreInput
-	46, // 46: eolymp.atlas.Atlas.CreateProblem:output_type -> eolymp.atlas.CreateProblemOutput
-	47, // 47: eolymp.atlas.Atlas.DeleteProblem:output_type -> eolymp.atlas.DeleteProblemOutput
-	48, // 48: eolymp.atlas.Atlas.ListProblems:output_type -> eolymp.atlas.ListProblemsOutput
-	49, // 49: eolymp.atlas.Atlas.DescribeProblem:output_type -> eolymp.atlas.DescribeProblemOutput
-	50, // 50: eolymp.atlas.Atlas.UpdateProblem:output_type -> eolymp.atlas.UpdateProblemOutput
-	51, // 51: eolymp.atlas.Atlas.SetBookmark:output_type -> eolymp.atlas.SetBookmarkOutput
-	52, // 52: eolymp.atlas.Atlas.ListExamples:output_type -> eolymp.atlas.ListExamplesOutput
-	53, // 53: eolymp.atlas.Atlas.UpdateVerifier:output_type -> eolymp.atlas.UpdateVerifierOutput
-	54, // 54: eolymp.atlas.Atlas.DescribeVerifier:output_type -> eolymp.atlas.DescribeVerifierOutput
-	55, // 55: eolymp.atlas.Atlas.UpdateInteractor:output_type -> eolymp.atlas.UpdateInteractorOutput
-	56, // 56: eolymp.atlas.Atlas.DescribeInteractor:output_type -> eolymp.atlas.DescribeInteractorOutput
-	57, // 57: eolymp.atlas.Atlas.CreateStatement:output_type -> eolymp.atlas.CreateStatementOutput
-	58, // 58: eolymp.atlas.Atlas.UpdateStatement:output_type -> eolymp.atlas.UpdateStatementOutput
-	59, // 59: eolymp.atlas.Atlas.DeleteStatement:output_type -> eolymp.atlas.DeleteStatementOutput
-	60, // 60: eolymp.atlas.Atlas.ListStatements:output_type -> eolymp.atlas.ListStatementsOutput
-	61, // 61: eolymp.atlas.Atlas.DescribeStatement:output_type -> eolymp.atlas.DescribeStatementOutput
-	62, // 62: eolymp.atlas.Atlas.LookupStatement:output_type -> eolymp.atlas.LookupStatementOutput
-	63, // 63: eolymp.atlas.Atlas.RenderStatement:output_type -> eolymp.atlas.RenderStatementOutput
-	64, // 64: eolymp.atlas.Atlas.PreviewStatement:output_type -> eolymp.atlas.PreviewStatementOutput
-	65, // 65: eolymp.atlas.Atlas.CreateTestset:output_type -> eolymp.atlas.CreateTestsetOutput
-	66, // 66: eolymp.atlas.Atlas.UpdateTestset:output_type -> eolymp.atlas.UpdateTestsetOutput
-	67, // 67: eolymp.atlas.Atlas.DeleteTestset:output_type -> eolymp.atlas.DeleteTestsetOutput
-	68, // 68: eolymp.atlas.Atlas.ListTestsets:output_type -> eolymp.atlas.ListTestsetsOutput
-	69, // 69: eolymp.atlas.Atlas.DescribeTestset:output_type -> eolymp.atlas.DescribeTestsetOutput
-	70, // 70: eolymp.atlas.Atlas.CreateTest:output_type -> eolymp.atlas.CreateTestOutput
-	71, // 71: eolymp.atlas.Atlas.UpdateTest:output_type -> eolymp.atlas.UpdateTestOutput
-	72, // 72: eolymp.atlas.Atlas.DeleteTest:output_type -> eolymp.atlas.DeleteTestOutput
-	73, // 73: eolymp.atlas.Atlas.ListTests:output_type -> eolymp.atlas.ListTestsOutput
-	74, // 74: eolymp.atlas.Atlas.DescribeTest:output_type -> eolymp.atlas.DescribeTestOutput
-	75, // 75: eolymp.atlas.Atlas.CreateCodeTemplate:output_type -> eolymp.atlas.CreateCodeTemplateOutput
-	76, // 76: eolymp.atlas.Atlas.UpdateCodeTemplate:output_type -> eolymp.atlas.UpdateCodeTemplateOutput
-	77, // 77: eolymp.atlas.Atlas.DeleteCodeTemplate:output_type -> eolymp.atlas.DeleteCodeTemplateOutput
-	78, // 78: eolymp.atlas.Atlas.ListCodeTemplates:output_type -> eolymp.atlas.ListCodeTemplatesOutput
-	79, // 79: eolymp.atlas.Atlas.DescribeCodeTemplate:output_type -> eolymp.atlas.DescribeCodeTemplateOutput
-	80, // 80: eolymp.atlas.Atlas.CreateAttachment:output_type -> eolymp.atlas.CreateAttachmentOutput
-	81, // 81: eolymp.atlas.Atlas.UpdateAttachment:output_type -> eolymp.atlas.UpdateAttachmentOutput
-	82, // 82: eolymp.atlas.Atlas.DeleteAttachment:output_type -> eolymp.atlas.DeleteAttachmentOutput
-	83, // 83: eolymp.atlas.Atlas.ListAttachments:output_type -> eolymp.atlas.ListAttachmentsOutput
-	84, // 84: eolymp.atlas.Atlas.DescribeAttachment:output_type -> eolymp.atlas.DescribeAttachmentOutput
-	85, // 85: eolymp.atlas.Atlas.ListVersions:output_type -> eolymp.atlas.ListVersionsOutput
-	86, // 86: eolymp.atlas.Atlas.ListProblemTop:output_type -> eolymp.atlas.ListProblemTopOutput
-	87, // 87: eolymp.atlas.Atlas.DescribeProblemGrading:output_type -> eolymp.atlas.DescribeProblemGradingOutput
-	88, // 88: eolymp.atlas.Atlas.CreateSubmission:output_type -> eolymp.atlas.CreateSubmissionOutput
-	89, // 89: eolymp.atlas.Atlas.DescribeSubmission:output_type -> eolymp.atlas.DescribeSubmissionOutput
-	90, // 90: eolymp.atlas.Atlas.RetestSubmission:output_type -> eolymp.atlas.RetestSubmissionOutput
-	91, // 91: eolymp.atlas.Atlas.DescribeScore:output_type -> eolymp.atlas.DescribeScoreOutput
-	46, // [46:92] is the sub-list for method output_type
-	0,  // [0:46] is the sub-list for method input_type
+	45, // 45: eolymp.atlas.Atlas.ListSubmissions:input_type -> eolymp.atlas.ListSubmissionsInput
+	46, // 46: eolymp.atlas.Atlas.DescribeScore:input_type -> eolymp.atlas.DescribeScoreInput
+	47, // 47: eolymp.atlas.Atlas.CreateProblem:output_type -> eolymp.atlas.CreateProblemOutput
+	48, // 48: eolymp.atlas.Atlas.DeleteProblem:output_type -> eolymp.atlas.DeleteProblemOutput
+	49, // 49: eolymp.atlas.Atlas.ListProblems:output_type -> eolymp.atlas.ListProblemsOutput
+	50, // 50: eolymp.atlas.Atlas.DescribeProblem:output_type -> eolymp.atlas.DescribeProblemOutput
+	51, // 51: eolymp.atlas.Atlas.UpdateProblem:output_type -> eolymp.atlas.UpdateProblemOutput
+	52, // 52: eolymp.atlas.Atlas.SetBookmark:output_type -> eolymp.atlas.SetBookmarkOutput
+	53, // 53: eolymp.atlas.Atlas.ListExamples:output_type -> eolymp.atlas.ListExamplesOutput
+	54, // 54: eolymp.atlas.Atlas.UpdateVerifier:output_type -> eolymp.atlas.UpdateVerifierOutput
+	55, // 55: eolymp.atlas.Atlas.DescribeVerifier:output_type -> eolymp.atlas.DescribeVerifierOutput
+	56, // 56: eolymp.atlas.Atlas.UpdateInteractor:output_type -> eolymp.atlas.UpdateInteractorOutput
+	57, // 57: eolymp.atlas.Atlas.DescribeInteractor:output_type -> eolymp.atlas.DescribeInteractorOutput
+	58, // 58: eolymp.atlas.Atlas.CreateStatement:output_type -> eolymp.atlas.CreateStatementOutput
+	59, // 59: eolymp.atlas.Atlas.UpdateStatement:output_type -> eolymp.atlas.UpdateStatementOutput
+	60, // 60: eolymp.atlas.Atlas.DeleteStatement:output_type -> eolymp.atlas.DeleteStatementOutput
+	61, // 61: eolymp.atlas.Atlas.ListStatements:output_type -> eolymp.atlas.ListStatementsOutput
+	62, // 62: eolymp.atlas.Atlas.DescribeStatement:output_type -> eolymp.atlas.DescribeStatementOutput
+	63, // 63: eolymp.atlas.Atlas.LookupStatement:output_type -> eolymp.atlas.LookupStatementOutput
+	64, // 64: eolymp.atlas.Atlas.RenderStatement:output_type -> eolymp.atlas.RenderStatementOutput
+	65, // 65: eolymp.atlas.Atlas.PreviewStatement:output_type -> eolymp.atlas.PreviewStatementOutput
+	66, // 66: eolymp.atlas.Atlas.CreateTestset:output_type -> eolymp.atlas.CreateTestsetOutput
+	67, // 67: eolymp.atlas.Atlas.UpdateTestset:output_type -> eolymp.atlas.UpdateTestsetOutput
+	68, // 68: eolymp.atlas.Atlas.DeleteTestset:output_type -> eolymp.atlas.DeleteTestsetOutput
+	69, // 69: eolymp.atlas.Atlas.ListTestsets:output_type -> eolymp.atlas.ListTestsetsOutput
+	70, // 70: eolymp.atlas.Atlas.DescribeTestset:output_type -> eolymp.atlas.DescribeTestsetOutput
+	71, // 71: eolymp.atlas.Atlas.CreateTest:output_type -> eolymp.atlas.CreateTestOutput
+	72, // 72: eolymp.atlas.Atlas.UpdateTest:output_type -> eolymp.atlas.UpdateTestOutput
+	73, // 73: eolymp.atlas.Atlas.DeleteTest:output_type -> eolymp.atlas.DeleteTestOutput
+	74, // 74: eolymp.atlas.Atlas.ListTests:output_type -> eolymp.atlas.ListTestsOutput
+	75, // 75: eolymp.atlas.Atlas.DescribeTest:output_type -> eolymp.atlas.DescribeTestOutput
+	76, // 76: eolymp.atlas.Atlas.CreateCodeTemplate:output_type -> eolymp.atlas.CreateCodeTemplateOutput
+	77, // 77: eolymp.atlas.Atlas.UpdateCodeTemplate:output_type -> eolymp.atlas.UpdateCodeTemplateOutput
+	78, // 78: eolymp.atlas.Atlas.DeleteCodeTemplate:output_type -> eolymp.atlas.DeleteCodeTemplateOutput
+	79, // 79: eolymp.atlas.Atlas.ListCodeTemplates:output_type -> eolymp.atlas.ListCodeTemplatesOutput
+	80, // 80: eolymp.atlas.Atlas.DescribeCodeTemplate:output_type -> eolymp.atlas.DescribeCodeTemplateOutput
+	81, // 81: eolymp.atlas.Atlas.CreateAttachment:output_type -> eolymp.atlas.CreateAttachmentOutput
+	82, // 82: eolymp.atlas.Atlas.UpdateAttachment:output_type -> eolymp.atlas.UpdateAttachmentOutput
+	83, // 83: eolymp.atlas.Atlas.DeleteAttachment:output_type -> eolymp.atlas.DeleteAttachmentOutput
+	84, // 84: eolymp.atlas.Atlas.ListAttachments:output_type -> eolymp.atlas.ListAttachmentsOutput
+	85, // 85: eolymp.atlas.Atlas.DescribeAttachment:output_type -> eolymp.atlas.DescribeAttachmentOutput
+	86, // 86: eolymp.atlas.Atlas.ListVersions:output_type -> eolymp.atlas.ListVersionsOutput
+	87, // 87: eolymp.atlas.Atlas.ListProblemTop:output_type -> eolymp.atlas.ListProblemTopOutput
+	88, // 88: eolymp.atlas.Atlas.DescribeProblemGrading:output_type -> eolymp.atlas.DescribeProblemGradingOutput
+	89, // 89: eolymp.atlas.Atlas.CreateSubmission:output_type -> eolymp.atlas.CreateSubmissionOutput
+	90, // 90: eolymp.atlas.Atlas.DescribeSubmission:output_type -> eolymp.atlas.DescribeSubmissionOutput
+	91, // 91: eolymp.atlas.Atlas.RetestSubmission:output_type -> eolymp.atlas.RetestSubmissionOutput
+	92, // 92: eolymp.atlas.Atlas.ListSubmissions:output_type -> eolymp.atlas.ListSubmissionsOutput
+	93, // 93: eolymp.atlas.Atlas.DescribeScore:output_type -> eolymp.atlas.DescribeScoreOutput
+	47, // [47:94] is the sub-list for method output_type
+	0,  // [0:47] is the sub-list for method input_type
 	0,  // [0:0] is the sub-list for extension type_name
 	0,  // [0:0] is the sub-list for extension extendee
 	0,  // [0:0] is the sub-list for field type_name

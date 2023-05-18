@@ -833,6 +833,17 @@ func (s *AtlasService) RetestSubmission(ctx context.Context, in *RetestSubmissio
 	return out, nil
 }
 
+func (s *AtlasService) ListSubmissions(ctx context.Context, in *ListSubmissionsInput) (*ListSubmissionsOutput, error) {
+	out := &ListSubmissionsOutput{}
+	path := "/submissions"
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *AtlasService) DescribeScore(ctx context.Context, in *DescribeScoreInput) (*DescribeScoreOutput, error) {
 	out := &DescribeScoreOutput{}
 	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/scores/" + url.PathEscape(in.GetUserId())

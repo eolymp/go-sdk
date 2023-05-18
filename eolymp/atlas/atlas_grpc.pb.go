@@ -64,6 +64,7 @@ const (
 	Atlas_CreateSubmission_FullMethodName       = "/eolymp.atlas.Atlas/CreateSubmission"
 	Atlas_DescribeSubmission_FullMethodName     = "/eolymp.atlas.Atlas/DescribeSubmission"
 	Atlas_RetestSubmission_FullMethodName       = "/eolymp.atlas.Atlas/RetestSubmission"
+	Atlas_ListSubmissions_FullMethodName        = "/eolymp.atlas.Atlas/ListSubmissions"
 	Atlas_DescribeScore_FullMethodName          = "/eolymp.atlas.Atlas/DescribeScore"
 )
 
@@ -125,6 +126,7 @@ type AtlasClient interface {
 	CreateSubmission(ctx context.Context, in *CreateSubmissionInput, opts ...grpc.CallOption) (*CreateSubmissionOutput, error)
 	DescribeSubmission(ctx context.Context, in *DescribeSubmissionInput, opts ...grpc.CallOption) (*DescribeSubmissionOutput, error)
 	RetestSubmission(ctx context.Context, in *RetestSubmissionInput, opts ...grpc.CallOption) (*RetestSubmissionOutput, error)
+	ListSubmissions(ctx context.Context, in *ListSubmissionsInput, opts ...grpc.CallOption) (*ListSubmissionsOutput, error)
 	DescribeScore(ctx context.Context, in *DescribeScoreInput, opts ...grpc.CallOption) (*DescribeScoreOutput, error)
 }
 
@@ -541,6 +543,15 @@ func (c *atlasClient) RetestSubmission(ctx context.Context, in *RetestSubmission
 	return out, nil
 }
 
+func (c *atlasClient) ListSubmissions(ctx context.Context, in *ListSubmissionsInput, opts ...grpc.CallOption) (*ListSubmissionsOutput, error) {
+	out := new(ListSubmissionsOutput)
+	err := c.cc.Invoke(ctx, Atlas_ListSubmissions_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *atlasClient) DescribeScore(ctx context.Context, in *DescribeScoreInput, opts ...grpc.CallOption) (*DescribeScoreOutput, error) {
 	out := new(DescribeScoreOutput)
 	err := c.cc.Invoke(ctx, Atlas_DescribeScore_FullMethodName, in, out, opts...)
@@ -608,6 +619,7 @@ type AtlasServer interface {
 	CreateSubmission(context.Context, *CreateSubmissionInput) (*CreateSubmissionOutput, error)
 	DescribeSubmission(context.Context, *DescribeSubmissionInput) (*DescribeSubmissionOutput, error)
 	RetestSubmission(context.Context, *RetestSubmissionInput) (*RetestSubmissionOutput, error)
+	ListSubmissions(context.Context, *ListSubmissionsInput) (*ListSubmissionsOutput, error)
 	DescribeScore(context.Context, *DescribeScoreInput) (*DescribeScoreOutput, error)
 }
 
@@ -749,6 +761,9 @@ func (UnimplementedAtlasServer) DescribeSubmission(context.Context, *DescribeSub
 }
 func (UnimplementedAtlasServer) RetestSubmission(context.Context, *RetestSubmissionInput) (*RetestSubmissionOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RetestSubmission not implemented")
+}
+func (UnimplementedAtlasServer) ListSubmissions(context.Context, *ListSubmissionsInput) (*ListSubmissionsOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListSubmissions not implemented")
 }
 func (UnimplementedAtlasServer) DescribeScore(context.Context, *DescribeScoreInput) (*DescribeScoreOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeScore not implemented")
@@ -1575,6 +1590,24 @@ func _Atlas_RetestSubmission_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Atlas_ListSubmissions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListSubmissionsInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AtlasServer).ListSubmissions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Atlas_ListSubmissions_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AtlasServer).ListSubmissions(ctx, req.(*ListSubmissionsInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Atlas_DescribeScore_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DescribeScoreInput)
 	if err := dec(in); err != nil {
@@ -1779,6 +1812,10 @@ var Atlas_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RetestSubmission",
 			Handler:    _Atlas_RetestSubmission_Handler,
+		},
+		{
+			MethodName: "ListSubmissions",
+			Handler:    _Atlas_ListSubmissions_Handler,
 		},
 		{
 			MethodName: "DescribeScore",
