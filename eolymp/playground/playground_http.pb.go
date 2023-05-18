@@ -148,7 +148,7 @@ func (s *_Playground_WatchRun_EventStream) SendMsg(m interface{}) error {
 			return err
 		}
 
-		if _, err = fmt.Fprintln(s.writer, "data: ", data); err != nil {
+		if _, err = fmt.Fprintln(s.writer, "data: ", string(data)); err != nil {
 			return err
 		}
 	}
