@@ -7,6 +7,7 @@ import (
 	context "context"
 	fmt "fmt"
 	mux "github.com/gorilla/mux"
+	websocket "golang.org/x/net/websocket"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
@@ -110,6 +111,73 @@ func _Ranker_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	_, _ = w.Write(data)
 }
 
+// _Ranker_WebsocketErrorResponse writes error to websocket connection
+func _Ranker_WebsocketErrorResponse(conn *websocket.Conn, e error) {
+	switch status.Convert(e).Code() {
+	case codes.OK:
+		conn.WriteClose(1000)
+	case codes.Canceled:
+		conn.WriteClose(1000)
+	case codes.Unknown:
+		conn.WriteClose(1011)
+	case codes.InvalidArgument:
+		conn.WriteClose(1003)
+	case codes.DeadlineExceeded:
+		conn.WriteClose(1000)
+	case codes.NotFound:
+		conn.WriteClose(1000)
+	case codes.AlreadyExists:
+		conn.WriteClose(1000)
+	case codes.PermissionDenied:
+		conn.WriteClose(1000)
+	case codes.ResourceExhausted:
+		conn.WriteClose(1000)
+	case codes.FailedPrecondition:
+		conn.WriteClose(1000)
+	case codes.Aborted:
+		conn.WriteClose(1000)
+	case codes.OutOfRange:
+		conn.WriteClose(1000)
+	case codes.Unimplemented:
+		conn.WriteClose(1011)
+	case codes.Internal:
+		conn.WriteClose(1011)
+	case codes.Unavailable:
+		conn.WriteClose(1011)
+	case codes.DataLoss:
+		conn.WriteClose(1011)
+	case codes.Unauthenticated:
+		conn.WriteClose(1000)
+	default:
+		conn.WriteClose(1000)
+	}
+}
+
+// _Ranker_WebsocketCodec implements protobuf codec for websockets package
+var _Ranker_WebsocketCodec = websocket.Codec{
+	Marshal: func(v interface{}) ([]byte, byte, error) {
+		m, ok := v.(proto.Message)
+		if !ok {
+			panic(fmt.Errorf("invalid message type %T", v))
+		}
+
+		d, err := protojson.Marshal(m)
+		if err != nil {
+			return nil, 0, err
+		}
+
+		return d, websocket.TextFrame, err
+	},
+	Unmarshal: func(d []byte, t byte, v interface{}) error {
+		m, ok := v.(proto.Message)
+		if !ok {
+			panic(fmt.Errorf("invalid message type %T", v))
+		}
+
+		return protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal(d, m)
+	},
+}
+
 // RegisterRankerHttpHandlers adds handlers for for RankerServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterRankerHttpHandlers(router *mux.Router, prefix string, srv RankerServer) {
@@ -171,7 +239,7 @@ func _Ranker_CreateScoreboard_Rule0(srv RankerServer) http.Handler {
 		in := &CreateScoreboardInput{}
 
 		if err := _Ranker_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -191,7 +259,7 @@ func _Ranker_UpdateScoreboard_Rule0(srv RankerServer) http.Handler {
 		in := &UpdateScoreboardInput{}
 
 		if err := _Ranker_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -214,7 +282,7 @@ func _Ranker_RebuildScoreboard_Rule0(srv RankerServer) http.Handler {
 		in := &RebuildScoreboardInput{}
 
 		if err := _Ranker_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -237,7 +305,7 @@ func _Ranker_DeleteScoreboard_Rule0(srv RankerServer) http.Handler {
 		in := &DeleteScoreboardInput{}
 
 		if err := _Ranker_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -260,7 +328,7 @@ func _Ranker_DescribeScoreboard_Rule0(srv RankerServer) http.Handler {
 		in := &DescribeScoreboardInput{}
 
 		if err := _Ranker_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -283,7 +351,7 @@ func _Ranker_ListScoreboards_Rule0(srv RankerServer) http.Handler {
 		in := &ListScoreboardsInput{}
 
 		if err := _Ranker_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -303,7 +371,7 @@ func _Ranker_DescribeScoreboardRow_Rule0(srv RankerServer) http.Handler {
 		in := &DescribeScoreboardRowInput{}
 
 		if err := _Ranker_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -327,7 +395,7 @@ func _Ranker_ListScoreboardRows_Rule0(srv RankerServer) http.Handler {
 		in := &ListScoreboardRowsInput{}
 
 		if err := _Ranker_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -350,7 +418,7 @@ func _Ranker_AddScoreboardColumn_Rule0(srv RankerServer) http.Handler {
 		in := &AddScoreboardColumnInput{}
 
 		if err := _Ranker_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -373,7 +441,7 @@ func _Ranker_UpdateScoreboardColumn_Rule0(srv RankerServer) http.Handler {
 		in := &UpdateScoreboardColumnInput{}
 
 		if err := _Ranker_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -397,7 +465,7 @@ func _Ranker_DeleteScoreboardColumn_Rule0(srv RankerServer) http.Handler {
 		in := &DeleteScoreboardColumnInput{}
 
 		if err := _Ranker_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -421,7 +489,7 @@ func _Ranker_DescribeScoreboardColumn_Rule0(srv RankerServer) http.Handler {
 		in := &DescribeScoreboardColumnInput{}
 
 		if err := _Ranker_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -445,7 +513,7 @@ func _Ranker_ListScoreboardColumns_Rule0(srv RankerServer) http.Handler {
 		in := &ListScoreboardColumnsInput{}
 
 		if err := _Ranker_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -468,7 +536,7 @@ func _Ranker_ListActivities_Rule0(srv RankerServer) http.Handler {
 		in := &ListActivitiesInput{}
 
 		if err := _Ranker_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -491,7 +559,7 @@ func _Ranker_ScheduleAction_Rule0(srv RankerServer) http.Handler {
 		in := &ScheduleActionInput{}
 
 		if err := _Ranker_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -514,7 +582,7 @@ func _Ranker_UnscheduleAction_Rule0(srv RankerServer) http.Handler {
 		in := &UnscheduleActionInput{}
 
 		if err := _Ranker_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -538,7 +606,7 @@ func _Ranker_ListScheduledActions_Rule0(srv RankerServer) http.Handler {
 		in := &ListScheduledActionsInput{}
 
 		if err := _Ranker_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}

@@ -7,6 +7,7 @@ import (
 	context "context"
 	fmt "fmt"
 	mux "github.com/gorilla/mux"
+	websocket "golang.org/x/net/websocket"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
@@ -110,6 +111,73 @@ func _Support_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	_, _ = w.Write(data)
 }
 
+// _Support_WebsocketErrorResponse writes error to websocket connection
+func _Support_WebsocketErrorResponse(conn *websocket.Conn, e error) {
+	switch status.Convert(e).Code() {
+	case codes.OK:
+		conn.WriteClose(1000)
+	case codes.Canceled:
+		conn.WriteClose(1000)
+	case codes.Unknown:
+		conn.WriteClose(1011)
+	case codes.InvalidArgument:
+		conn.WriteClose(1003)
+	case codes.DeadlineExceeded:
+		conn.WriteClose(1000)
+	case codes.NotFound:
+		conn.WriteClose(1000)
+	case codes.AlreadyExists:
+		conn.WriteClose(1000)
+	case codes.PermissionDenied:
+		conn.WriteClose(1000)
+	case codes.ResourceExhausted:
+		conn.WriteClose(1000)
+	case codes.FailedPrecondition:
+		conn.WriteClose(1000)
+	case codes.Aborted:
+		conn.WriteClose(1000)
+	case codes.OutOfRange:
+		conn.WriteClose(1000)
+	case codes.Unimplemented:
+		conn.WriteClose(1011)
+	case codes.Internal:
+		conn.WriteClose(1011)
+	case codes.Unavailable:
+		conn.WriteClose(1011)
+	case codes.DataLoss:
+		conn.WriteClose(1011)
+	case codes.Unauthenticated:
+		conn.WriteClose(1000)
+	default:
+		conn.WriteClose(1000)
+	}
+}
+
+// _Support_WebsocketCodec implements protobuf codec for websockets package
+var _Support_WebsocketCodec = websocket.Codec{
+	Marshal: func(v interface{}) ([]byte, byte, error) {
+		m, ok := v.(proto.Message)
+		if !ok {
+			panic(fmt.Errorf("invalid message type %T", v))
+		}
+
+		d, err := protojson.Marshal(m)
+		if err != nil {
+			return nil, 0, err
+		}
+
+		return d, websocket.TextFrame, err
+	},
+	Unmarshal: func(d []byte, t byte, v interface{}) error {
+		m, ok := v.(proto.Message)
+		if !ok {
+			panic(fmt.Errorf("invalid message type %T", v))
+		}
+
+		return protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal(d, m)
+	},
+}
+
 // RegisterSupportHttpHandlers adds handlers for for SupportServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterSupportHttpHandlers(router *mux.Router, prefix string, srv SupportServer) {
@@ -174,7 +242,7 @@ func _Support_CreateTicket_Rule0(srv SupportServer) http.Handler {
 		in := &CreateTicketInput{}
 
 		if err := _Support_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -194,7 +262,7 @@ func _Support_UpdateTicket_Rule0(srv SupportServer) http.Handler {
 		in := &UpdateTicketInput{}
 
 		if err := _Support_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -217,7 +285,7 @@ func _Support_DeleteTicket_Rule0(srv SupportServer) http.Handler {
 		in := &DeleteTicketInput{}
 
 		if err := _Support_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -240,7 +308,7 @@ func _Support_DescribeTicket_Rule0(srv SupportServer) http.Handler {
 		in := &DescribeTicketInput{}
 
 		if err := _Support_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -263,7 +331,7 @@ func _Support_ListTickets_Rule0(srv SupportServer) http.Handler {
 		in := &ListTicketsInput{}
 
 		if err := _Support_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -283,7 +351,7 @@ func _Support_ApproveTicket_Rule0(srv SupportServer) http.Handler {
 		in := &ApproveTicketInput{}
 
 		if err := _Support_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -306,7 +374,7 @@ func _Support_RejectTicket_Rule0(srv SupportServer) http.Handler {
 		in := &RejectTicketInput{}
 
 		if err := _Support_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -329,7 +397,7 @@ func _Support_CloseTicket_Rule0(srv SupportServer) http.Handler {
 		in := &CloseTicketInput{}
 
 		if err := _Support_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -352,7 +420,7 @@ func _Support_AddComment_Rule0(srv SupportServer) http.Handler {
 		in := &AddCommentInput{}
 
 		if err := _Support_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -375,7 +443,7 @@ func _Support_UpdateComment_Rule0(srv SupportServer) http.Handler {
 		in := &UpdateCommentInput{}
 
 		if err := _Support_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -399,7 +467,7 @@ func _Support_DeleteComment_Rule0(srv SupportServer) http.Handler {
 		in := &DeleteCommentInput{}
 
 		if err := _Support_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -423,7 +491,7 @@ func _Support_ListComments_Rule0(srv SupportServer) http.Handler {
 		in := &ListCommentsInput{}
 
 		if err := _Support_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -446,7 +514,7 @@ func _Support_DescribeComment_Rule0(srv SupportServer) http.Handler {
 		in := &DescribeCommentInput{}
 
 		if err := _Support_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -470,7 +538,7 @@ func _Support_CreateAutoReply_Rule0(srv SupportServer) http.Handler {
 		in := &CreateAutoReplyInput{}
 
 		if err := _Support_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -490,7 +558,7 @@ func _Support_UpdateAutoReply_Rule0(srv SupportServer) http.Handler {
 		in := &UpdateAutoReplyInput{}
 
 		if err := _Support_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -513,7 +581,7 @@ func _Support_DeleteAutoReply_Rule0(srv SupportServer) http.Handler {
 		in := &DeleteAutoReplyInput{}
 
 		if err := _Support_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -536,7 +604,7 @@ func _Support_ListAutoReplies_Rule0(srv SupportServer) http.Handler {
 		in := &ListAutoRepliesInput{}
 
 		if err := _Support_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -556,7 +624,7 @@ func _Support_DescribeAutoReply_Rule0(srv SupportServer) http.Handler {
 		in := &DescribeAutoReplyInput{}
 
 		if err := _Support_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
 		}

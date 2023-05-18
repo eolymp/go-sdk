@@ -7,6 +7,7 @@ import (
 	context "context"
 	fmt "fmt"
 	mux "github.com/gorilla/mux"
+	websocket "golang.org/x/net/websocket"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
@@ -110,6 +111,73 @@ func _Typewriter_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	_, _ = w.Write(data)
 }
 
+// _Typewriter_WebsocketErrorResponse writes error to websocket connection
+func _Typewriter_WebsocketErrorResponse(conn *websocket.Conn, e error) {
+	switch status.Convert(e).Code() {
+	case codes.OK:
+		conn.WriteClose(1000)
+	case codes.Canceled:
+		conn.WriteClose(1000)
+	case codes.Unknown:
+		conn.WriteClose(1011)
+	case codes.InvalidArgument:
+		conn.WriteClose(1003)
+	case codes.DeadlineExceeded:
+		conn.WriteClose(1000)
+	case codes.NotFound:
+		conn.WriteClose(1000)
+	case codes.AlreadyExists:
+		conn.WriteClose(1000)
+	case codes.PermissionDenied:
+		conn.WriteClose(1000)
+	case codes.ResourceExhausted:
+		conn.WriteClose(1000)
+	case codes.FailedPrecondition:
+		conn.WriteClose(1000)
+	case codes.Aborted:
+		conn.WriteClose(1000)
+	case codes.OutOfRange:
+		conn.WriteClose(1000)
+	case codes.Unimplemented:
+		conn.WriteClose(1011)
+	case codes.Internal:
+		conn.WriteClose(1011)
+	case codes.Unavailable:
+		conn.WriteClose(1011)
+	case codes.DataLoss:
+		conn.WriteClose(1011)
+	case codes.Unauthenticated:
+		conn.WriteClose(1000)
+	default:
+		conn.WriteClose(1000)
+	}
+}
+
+// _Typewriter_WebsocketCodec implements protobuf codec for websockets package
+var _Typewriter_WebsocketCodec = websocket.Codec{
+	Marshal: func(v interface{}) ([]byte, byte, error) {
+		m, ok := v.(proto.Message)
+		if !ok {
+			panic(fmt.Errorf("invalid message type %T", v))
+		}
+
+		d, err := protojson.Marshal(m)
+		if err != nil {
+			return nil, 0, err
+		}
+
+		return d, websocket.TextFrame, err
+	},
+	Unmarshal: func(d []byte, t byte, v interface{}) error {
+		m, ok := v.(proto.Message)
+		if !ok {
+			panic(fmt.Errorf("invalid message type %T", v))
+		}
+
+		return protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal(d, m)
+	},
+}
+
 // RegisterTypewriterHttpHandlers adds handlers for for TypewriterServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterTypewriterHttpHandlers(router *mux.Router, prefix string, srv TypewriterServer) {
@@ -147,7 +215,7 @@ func _Typewriter_DescribeFragment_Rule0(srv TypewriterServer) http.Handler {
 		in := &DescribeFragmentInput{}
 
 		if err := _Typewriter_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Typewriter_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -170,7 +238,7 @@ func _Typewriter_ListFragments_Rule0(srv TypewriterServer) http.Handler {
 		in := &ListFragmentsInput{}
 
 		if err := _Typewriter_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Typewriter_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -190,7 +258,7 @@ func _Typewriter_CreateFragment_Rule0(srv TypewriterServer) http.Handler {
 		in := &CreateFragmentInput{}
 
 		if err := _Typewriter_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Typewriter_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -210,7 +278,7 @@ func _Typewriter_UpdateFragment_Rule0(srv TypewriterServer) http.Handler {
 		in := &UpdateFragmentInput{}
 
 		if err := _Typewriter_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Typewriter_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -233,7 +301,7 @@ func _Typewriter_DeleteFragment_Rule0(srv TypewriterServer) http.Handler {
 		in := &DeleteFragmentInput{}
 
 		if err := _Typewriter_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Typewriter_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -256,7 +324,7 @@ func _Typewriter_DescribePath_Rule0(srv TypewriterServer) http.Handler {
 		in := &DescribePathInput{}
 
 		if err := _Typewriter_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Typewriter_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -276,7 +344,7 @@ func _Typewriter_ListPaths_Rule0(srv TypewriterServer) http.Handler {
 		in := &ListPathsInput{}
 
 		if err := _Typewriter_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Typewriter_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -296,7 +364,7 @@ func _Typewriter_ListParents_Rule0(srv TypewriterServer) http.Handler {
 		in := &ListParentsInput{}
 
 		if err := _Typewriter_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Typewriter_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -316,7 +384,7 @@ func _Typewriter_UploadAsset_Rule0(srv TypewriterServer) http.Handler {
 		in := &UploadAssetInput{}
 
 		if err := _Typewriter_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Typewriter_HTTPWriteErrorResponse(w, err)
 			return
 		}

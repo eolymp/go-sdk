@@ -7,6 +7,7 @@ import (
 	context "context"
 	fmt "fmt"
 	mux "github.com/gorilla/mux"
+	websocket "golang.org/x/net/websocket"
 	codes "google.golang.org/grpc/codes"
 	metadata "google.golang.org/grpc/metadata"
 	status "google.golang.org/grpc/status"
@@ -14,7 +15,6 @@ import (
 	proto "google.golang.org/protobuf/proto"
 	ioutil "io/ioutil"
 	http "net/http"
-	sync "sync"
 )
 
 // _Playground_HTTPReadQueryString parses body into proto.Message
@@ -112,61 +112,102 @@ func _Playground_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	_, _ = w.Write(data)
 }
 
-type _Playground_WatchRun_EventStream struct {
-	ctx    context.Context
-	sh     sync.Once
-	writer http.ResponseWriter
+// _Playground_WebsocketErrorResponse writes error to websocket connection
+func _Playground_WebsocketErrorResponse(conn *websocket.Conn, e error) {
+	switch status.Convert(e).Code() {
+	case codes.OK:
+		conn.WriteClose(1000)
+	case codes.Canceled:
+		conn.WriteClose(1000)
+	case codes.Unknown:
+		conn.WriteClose(1011)
+	case codes.InvalidArgument:
+		conn.WriteClose(1003)
+	case codes.DeadlineExceeded:
+		conn.WriteClose(1000)
+	case codes.NotFound:
+		conn.WriteClose(1000)
+	case codes.AlreadyExists:
+		conn.WriteClose(1000)
+	case codes.PermissionDenied:
+		conn.WriteClose(1000)
+	case codes.ResourceExhausted:
+		conn.WriteClose(1000)
+	case codes.FailedPrecondition:
+		conn.WriteClose(1000)
+	case codes.Aborted:
+		conn.WriteClose(1000)
+	case codes.OutOfRange:
+		conn.WriteClose(1000)
+	case codes.Unimplemented:
+		conn.WriteClose(1011)
+	case codes.Internal:
+		conn.WriteClose(1011)
+	case codes.Unavailable:
+		conn.WriteClose(1011)
+	case codes.DataLoss:
+		conn.WriteClose(1011)
+	case codes.Unauthenticated:
+		conn.WriteClose(1000)
+	default:
+		conn.WriteClose(1000)
+	}
 }
 
-func (s *_Playground_WatchRun_EventStream) Send(m *WatchRunOutput) error {
+// _Playground_WebsocketCodec implements protobuf codec for websockets package
+var _Playground_WebsocketCodec = websocket.Codec{
+	Marshal: func(v interface{}) ([]byte, byte, error) {
+		m, ok := v.(proto.Message)
+		if !ok {
+			panic(fmt.Errorf("invalid message type %T", v))
+		}
+
+		d, err := protojson.Marshal(m)
+		if err != nil {
+			return nil, 0, err
+		}
+
+		return d, websocket.TextFrame, err
+	},
+	Unmarshal: func(d []byte, t byte, v interface{}) error {
+		m, ok := v.(proto.Message)
+		if !ok {
+			panic(fmt.Errorf("invalid message type %T", v))
+		}
+
+		return protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal(d, m)
+	},
+}
+
+type _Playground_WatchRun_WSStream struct {
+	ctx  context.Context
+	conn *websocket.Conn
+}
+
+func (s *_Playground_WatchRun_WSStream) Send(m *WatchRunOutput) error {
 	return s.SendMsg(m)
 }
 
-func (s *_Playground_WatchRun_EventStream) SetHeader(metadata.MD) error {
+func (s *_Playground_WatchRun_WSStream) SetHeader(metadata.MD) error {
 	return nil
 }
 
-func (s *_Playground_WatchRun_EventStream) SendHeader(metadata.MD) error {
-	return s.sendHeader()
+func (s *_Playground_WatchRun_WSStream) SendHeader(metadata.MD) error {
+	return nil
 }
 
-func (s *_Playground_WatchRun_EventStream) SetTrailer(metadata.MD) {
+func (s *_Playground_WatchRun_WSStream) SetTrailer(metadata.MD) {
 }
 
-func (s *_Playground_WatchRun_EventStream) Context() context.Context {
+func (s *_Playground_WatchRun_WSStream) Context() context.Context {
 	return s.ctx
 }
 
-func (s *_Playground_WatchRun_EventStream) SendMsg(m interface{}) error {
-	if err := s.sendHeader(); err != nil {
-		return err
-	}
-
-	if p, ok := m.(proto.Message); ok {
-		data, err := protojson.Marshal(p)
-		if err != nil {
-			return err
-		}
-
-		if _, err = fmt.Fprintln(s.writer, "data: ", string(data)); err != nil {
-			return err
-		}
-	}
-
-	return nil
+func (s *_Playground_WatchRun_WSStream) SendMsg(m interface{}) error {
+	return _Playground_WebsocketCodec.Send(s.conn, m)
 }
 
-func (s *_Playground_WatchRun_EventStream) RecvMsg(m interface{}) error {
-	return nil
-}
-
-func (s *_Playground_WatchRun_EventStream) sendHeader() error {
-	s.sh.Do(func() {
-		s.writer.Header().Set("Cache-Control", "no-store")
-		s.writer.Header().Set("Content-Type", "text/event-stream")
-		s.writer.WriteHeader(http.StatusOK)
-	})
-
+func (s *_Playground_WatchRun_WSStream) RecvMsg(m interface{}) error {
 	return nil
 }
 
@@ -189,7 +230,7 @@ func _Playground_CreateRun_Rule0(srv PlaygroundServer) http.Handler {
 		in := &CreateRunInput{}
 
 		if err := _Playground_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Playground_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -209,7 +250,7 @@ func _Playground_DescribeRun_Rule0(srv PlaygroundServer) http.Handler {
 		in := &DescribeRunInput{}
 
 		if err := _Playground_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Playground_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -228,22 +269,26 @@ func _Playground_DescribeRun_Rule0(srv PlaygroundServer) http.Handler {
 }
 
 func _Playground_WatchRun_Rule0(srv PlaygroundServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	return websocket.Handler(func(ws *websocket.Conn) {
 		in := &WatchRunInput{}
 
-		if err := _Playground_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
-			_Playground_HTTPWriteErrorResponse(w, err)
+		if err := _Playground_WebsocketCodec.Receive(ws, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_Playground_WebsocketErrorResponse(ws, err)
 			return
 		}
 
-		vars := mux.Vars(r)
+		vars := mux.Vars(ws.Request())
 		in.RunId = vars["run_id"]
 
-		stream := &_Playground_WatchRun_EventStream{writer: w, ctx: r.Context()}
+		stream := &_Playground_WatchRun_WSStream{conn: ws, ctx: ws.Request().Context()}
 		if err := srv.WatchRun(in, stream); err != nil {
-			_Playground_HTTPWriteErrorResponse(w, err)
+			_Playground_WebsocketErrorResponse(ws, err)
 			return
+		}
+
+		if err := ws.WriteClose(1000); err != nil {
+			panic(err)
 		}
 	})
 }

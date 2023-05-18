@@ -7,6 +7,7 @@ import (
 	context "context"
 	fmt "fmt"
 	mux "github.com/gorilla/mux"
+	websocket "golang.org/x/net/websocket"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
@@ -110,6 +111,73 @@ func _AssetService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	_, _ = w.Write(data)
 }
 
+// _AssetService_WebsocketErrorResponse writes error to websocket connection
+func _AssetService_WebsocketErrorResponse(conn *websocket.Conn, e error) {
+	switch status.Convert(e).Code() {
+	case codes.OK:
+		conn.WriteClose(1000)
+	case codes.Canceled:
+		conn.WriteClose(1000)
+	case codes.Unknown:
+		conn.WriteClose(1011)
+	case codes.InvalidArgument:
+		conn.WriteClose(1003)
+	case codes.DeadlineExceeded:
+		conn.WriteClose(1000)
+	case codes.NotFound:
+		conn.WriteClose(1000)
+	case codes.AlreadyExists:
+		conn.WriteClose(1000)
+	case codes.PermissionDenied:
+		conn.WriteClose(1000)
+	case codes.ResourceExhausted:
+		conn.WriteClose(1000)
+	case codes.FailedPrecondition:
+		conn.WriteClose(1000)
+	case codes.Aborted:
+		conn.WriteClose(1000)
+	case codes.OutOfRange:
+		conn.WriteClose(1000)
+	case codes.Unimplemented:
+		conn.WriteClose(1011)
+	case codes.Internal:
+		conn.WriteClose(1011)
+	case codes.Unavailable:
+		conn.WriteClose(1011)
+	case codes.DataLoss:
+		conn.WriteClose(1011)
+	case codes.Unauthenticated:
+		conn.WriteClose(1000)
+	default:
+		conn.WriteClose(1000)
+	}
+}
+
+// _AssetService_WebsocketCodec implements protobuf codec for websockets package
+var _AssetService_WebsocketCodec = websocket.Codec{
+	Marshal: func(v interface{}) ([]byte, byte, error) {
+		m, ok := v.(proto.Message)
+		if !ok {
+			panic(fmt.Errorf("invalid message type %T", v))
+		}
+
+		d, err := protojson.Marshal(m)
+		if err != nil {
+			return nil, 0, err
+		}
+
+		return d, websocket.TextFrame, err
+	},
+	Unmarshal: func(d []byte, t byte, v interface{}) error {
+		m, ok := v.(proto.Message)
+		if !ok {
+			panic(fmt.Errorf("invalid message type %T", v))
+		}
+
+		return protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal(d, m)
+	},
+}
+
 // RegisterAssetServiceHttpHandlers adds handlers for for AssetServiceServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterAssetServiceHttpHandlers(router *mux.Router, prefix string, srv AssetServiceServer) {
@@ -132,7 +200,7 @@ func _AssetService_UploadFile_Rule0(srv AssetServiceServer) http.Handler {
 		in := &UploadFileInput{}
 
 		if err := _AssetService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_AssetService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -152,7 +220,7 @@ func _AssetService_StartMultipartUpload_Rule0(srv AssetServiceServer) http.Handl
 		in := &StartMultipartUploadInput{}
 
 		if err := _AssetService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_AssetService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -172,7 +240,7 @@ func _AssetService_UploadPart_Rule0(srv AssetServiceServer) http.Handler {
 		in := &UploadPartInput{}
 
 		if err := _AssetService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_AssetService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -195,7 +263,7 @@ func _AssetService_CompleteMultipartUpload_Rule0(srv AssetServiceServer) http.Ha
 		in := &CompleteMultipartUploadInput{}
 
 		if err := _AssetService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_AssetService_HTTPWriteErrorResponse(w, err)
 			return
 		}

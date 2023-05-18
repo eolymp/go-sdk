@@ -7,6 +7,7 @@ import (
 	context "context"
 	fmt "fmt"
 	mux "github.com/gorilla/mux"
+	websocket "golang.org/x/net/websocket"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
@@ -108,6 +109,73 @@ func _Atlas_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	}
 
 	_, _ = w.Write(data)
+}
+
+// _Atlas_WebsocketErrorResponse writes error to websocket connection
+func _Atlas_WebsocketErrorResponse(conn *websocket.Conn, e error) {
+	switch status.Convert(e).Code() {
+	case codes.OK:
+		conn.WriteClose(1000)
+	case codes.Canceled:
+		conn.WriteClose(1000)
+	case codes.Unknown:
+		conn.WriteClose(1011)
+	case codes.InvalidArgument:
+		conn.WriteClose(1003)
+	case codes.DeadlineExceeded:
+		conn.WriteClose(1000)
+	case codes.NotFound:
+		conn.WriteClose(1000)
+	case codes.AlreadyExists:
+		conn.WriteClose(1000)
+	case codes.PermissionDenied:
+		conn.WriteClose(1000)
+	case codes.ResourceExhausted:
+		conn.WriteClose(1000)
+	case codes.FailedPrecondition:
+		conn.WriteClose(1000)
+	case codes.Aborted:
+		conn.WriteClose(1000)
+	case codes.OutOfRange:
+		conn.WriteClose(1000)
+	case codes.Unimplemented:
+		conn.WriteClose(1011)
+	case codes.Internal:
+		conn.WriteClose(1011)
+	case codes.Unavailable:
+		conn.WriteClose(1011)
+	case codes.DataLoss:
+		conn.WriteClose(1011)
+	case codes.Unauthenticated:
+		conn.WriteClose(1000)
+	default:
+		conn.WriteClose(1000)
+	}
+}
+
+// _Atlas_WebsocketCodec implements protobuf codec for websockets package
+var _Atlas_WebsocketCodec = websocket.Codec{
+	Marshal: func(v interface{}) ([]byte, byte, error) {
+		m, ok := v.(proto.Message)
+		if !ok {
+			panic(fmt.Errorf("invalid message type %T", v))
+		}
+
+		d, err := protojson.Marshal(m)
+		if err != nil {
+			return nil, 0, err
+		}
+
+		return d, websocket.TextFrame, err
+	},
+	Unmarshal: func(d []byte, t byte, v interface{}) error {
+		m, ok := v.(proto.Message)
+		if !ok {
+			panic(fmt.Errorf("invalid message type %T", v))
+		}
+
+		return protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal(d, m)
+	},
 }
 
 // RegisterAtlasHttpHandlers adds handlers for for AtlasServer
@@ -300,7 +368,7 @@ func _Atlas_CreateProblem_Rule0(srv AtlasServer) http.Handler {
 		in := &CreateProblemInput{}
 
 		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -320,7 +388,7 @@ func _Atlas_DeleteProblem_Rule0(srv AtlasServer) http.Handler {
 		in := &DeleteProblemInput{}
 
 		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -343,7 +411,7 @@ func _Atlas_ListProblems_Rule0(srv AtlasServer) http.Handler {
 		in := &ListProblemsInput{}
 
 		if err := _Atlas_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -363,7 +431,7 @@ func _Atlas_DescribeProblem_Rule0(srv AtlasServer) http.Handler {
 		in := &DescribeProblemInput{}
 
 		if err := _Atlas_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -386,7 +454,7 @@ func _Atlas_UpdateVisibility_Rule0(srv AtlasServer) http.Handler {
 		in := &UpdateVisibilityInput{}
 
 		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -409,7 +477,7 @@ func _Atlas_UpdatePrivacy_Rule0(srv AtlasServer) http.Handler {
 		in := &UpdatePrivacyInput{}
 
 		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -432,7 +500,7 @@ func _Atlas_UpdateProblem_Rule0(srv AtlasServer) http.Handler {
 		in := &UpdateProblemInput{}
 
 		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -455,7 +523,7 @@ func _Atlas_ListExamples_Rule0(srv AtlasServer) http.Handler {
 		in := &ListExamplesInput{}
 
 		if err := _Atlas_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -478,7 +546,7 @@ func _Atlas_UpdateVerifier_Rule0(srv AtlasServer) http.Handler {
 		in := &UpdateVerifierInput{}
 
 		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -501,7 +569,7 @@ func _Atlas_DescribeVerifier_Rule0(srv AtlasServer) http.Handler {
 		in := &DescribeVerifierInput{}
 
 		if err := _Atlas_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -524,7 +592,7 @@ func _Atlas_UpdateInteractor_Rule0(srv AtlasServer) http.Handler {
 		in := &UpdateInteractorInput{}
 
 		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -547,7 +615,7 @@ func _Atlas_DescribeInteractor_Rule0(srv AtlasServer) http.Handler {
 		in := &DescribeInteractorInput{}
 
 		if err := _Atlas_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -570,7 +638,7 @@ func _Atlas_CreateStatement_Rule0(srv AtlasServer) http.Handler {
 		in := &CreateStatementInput{}
 
 		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -593,7 +661,7 @@ func _Atlas_UpdateStatement_Rule0(srv AtlasServer) http.Handler {
 		in := &UpdateStatementInput{}
 
 		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -617,7 +685,7 @@ func _Atlas_DeleteStatement_Rule0(srv AtlasServer) http.Handler {
 		in := &DeleteStatementInput{}
 
 		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -641,7 +709,7 @@ func _Atlas_ListStatements_Rule0(srv AtlasServer) http.Handler {
 		in := &ListStatementsInput{}
 
 		if err := _Atlas_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -664,7 +732,7 @@ func _Atlas_DescribeStatement_Rule0(srv AtlasServer) http.Handler {
 		in := &DescribeStatementInput{}
 
 		if err := _Atlas_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -688,7 +756,7 @@ func _Atlas_LookupStatement_Rule0(srv AtlasServer) http.Handler {
 		in := &LookupStatementInput{}
 
 		if err := _Atlas_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -711,7 +779,7 @@ func _Atlas_RenderStatement_Rule0(srv AtlasServer) http.Handler {
 		in := &RenderStatementInput{}
 
 		if err := _Atlas_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -735,7 +803,7 @@ func _Atlas_PreviewStatement_Rule0(srv AtlasServer) http.Handler {
 		in := &PreviewStatementInput{}
 
 		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -758,7 +826,7 @@ func _Atlas_CreateTestset_Rule0(srv AtlasServer) http.Handler {
 		in := &CreateTestsetInput{}
 
 		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -781,7 +849,7 @@ func _Atlas_UpdateTestset_Rule0(srv AtlasServer) http.Handler {
 		in := &UpdateTestsetInput{}
 
 		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -805,7 +873,7 @@ func _Atlas_DeleteTestset_Rule0(srv AtlasServer) http.Handler {
 		in := &DeleteTestsetInput{}
 
 		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -829,7 +897,7 @@ func _Atlas_ListTestsets_Rule0(srv AtlasServer) http.Handler {
 		in := &ListTestsetsInput{}
 
 		if err := _Atlas_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -852,7 +920,7 @@ func _Atlas_DescribeTestset_Rule0(srv AtlasServer) http.Handler {
 		in := &DescribeTestsetInput{}
 
 		if err := _Atlas_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -876,7 +944,7 @@ func _Atlas_CreateTest_Rule0(srv AtlasServer) http.Handler {
 		in := &CreateTestInput{}
 
 		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -900,7 +968,7 @@ func _Atlas_UpdateTest_Rule0(srv AtlasServer) http.Handler {
 		in := &UpdateTestInput{}
 
 		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -925,7 +993,7 @@ func _Atlas_DeleteTest_Rule0(srv AtlasServer) http.Handler {
 		in := &DeleteTestInput{}
 
 		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -950,7 +1018,7 @@ func _Atlas_ListTests_Rule0(srv AtlasServer) http.Handler {
 		in := &ListTestsInput{}
 
 		if err := _Atlas_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -974,7 +1042,7 @@ func _Atlas_DescribeTest_Rule0(srv AtlasServer) http.Handler {
 		in := &DescribeTestInput{}
 
 		if err := _Atlas_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -999,7 +1067,7 @@ func _Atlas_GrantPermission_Rule0(srv AtlasServer) http.Handler {
 		in := &GrantPermissionInput{}
 
 		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -1022,7 +1090,7 @@ func _Atlas_RevokePermission_Rule0(srv AtlasServer) http.Handler {
 		in := &RevokePermissionInput{}
 
 		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -1046,7 +1114,7 @@ func _Atlas_ListPermissions_Rule0(srv AtlasServer) http.Handler {
 		in := &ListPermissionsInput{}
 
 		if err := _Atlas_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -1069,7 +1137,7 @@ func _Atlas_IntrospectPermission_Rule0(srv AtlasServer) http.Handler {
 		in := &IntrospectPermissionInput{}
 
 		if err := _Atlas_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -1092,7 +1160,7 @@ func _Atlas_CreateCodeTemplate_Rule0(srv AtlasServer) http.Handler {
 		in := &CreateCodeTemplateInput{}
 
 		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -1115,7 +1183,7 @@ func _Atlas_UpdateCodeTemplate_Rule0(srv AtlasServer) http.Handler {
 		in := &UpdateCodeTemplateInput{}
 
 		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -1139,7 +1207,7 @@ func _Atlas_DeleteCodeTemplate_Rule0(srv AtlasServer) http.Handler {
 		in := &DeleteCodeTemplateInput{}
 
 		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -1163,7 +1231,7 @@ func _Atlas_ListCodeTemplates_Rule0(srv AtlasServer) http.Handler {
 		in := &ListCodeTemplatesInput{}
 
 		if err := _Atlas_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -1186,7 +1254,7 @@ func _Atlas_DescribeCodeTemplate_Rule0(srv AtlasServer) http.Handler {
 		in := &DescribeCodeTemplateInput{}
 
 		if err := _Atlas_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -1210,7 +1278,7 @@ func _Atlas_CreateAttachment_Rule0(srv AtlasServer) http.Handler {
 		in := &CreateAttachmentInput{}
 
 		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -1233,7 +1301,7 @@ func _Atlas_UpdateAttachment_Rule0(srv AtlasServer) http.Handler {
 		in := &UpdateAttachmentInput{}
 
 		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -1257,7 +1325,7 @@ func _Atlas_DeleteAttachment_Rule0(srv AtlasServer) http.Handler {
 		in := &DeleteAttachmentInput{}
 
 		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -1281,7 +1349,7 @@ func _Atlas_ListAttachments_Rule0(srv AtlasServer) http.Handler {
 		in := &ListAttachmentsInput{}
 
 		if err := _Atlas_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -1304,7 +1372,7 @@ func _Atlas_DescribeAttachment_Rule0(srv AtlasServer) http.Handler {
 		in := &DescribeAttachmentInput{}
 
 		if err := _Atlas_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -1328,7 +1396,7 @@ func _Atlas_ListVersions_Rule0(srv AtlasServer) http.Handler {
 		in := &ListVersionsInput{}
 
 		if err := _Atlas_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -1351,7 +1419,7 @@ func _Atlas_ListProblemTop_Rule0(srv AtlasServer) http.Handler {
 		in := &ListProblemTopInput{}
 
 		if err := _Atlas_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -1374,7 +1442,7 @@ func _Atlas_DescribeProblemGrading_Rule0(srv AtlasServer) http.Handler {
 		in := &DescribeProblemGradingInput{}
 
 		if err := _Atlas_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -1397,7 +1465,7 @@ func _Atlas_CreateSolution_Rule0(srv AtlasServer) http.Handler {
 		in := &CreateSolutionInput{}
 
 		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -1420,7 +1488,7 @@ func _Atlas_UpdateSolution_Rule0(srv AtlasServer) http.Handler {
 		in := &UpdateSolutionInput{}
 
 		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -1444,7 +1512,7 @@ func _Atlas_DeleteSolution_Rule0(srv AtlasServer) http.Handler {
 		in := &DeleteSolutionInput{}
 
 		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -1468,7 +1536,7 @@ func _Atlas_ListSolutions_Rule0(srv AtlasServer) http.Handler {
 		in := &ListSolutionsInput{}
 
 		if err := _Atlas_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -1491,7 +1559,7 @@ func _Atlas_DescribeSolution_Rule0(srv AtlasServer) http.Handler {
 		in := &DescribeSolutionInput{}
 
 		if err := _Atlas_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -1515,7 +1583,7 @@ func _Atlas_PublishSolution_Rule0(srv AtlasServer) http.Handler {
 		in := &PublishSolutionInput{}
 
 		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -1539,7 +1607,7 @@ func _Atlas_UnpublishSolution_Rule0(srv AtlasServer) http.Handler {
 		in := &UnpublishSolutionInput{}
 
 		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -1563,7 +1631,7 @@ func _Atlas_ApproveSolution_Rule0(srv AtlasServer) http.Handler {
 		in := &ApproveSolutionInput{}
 
 		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -1587,7 +1655,7 @@ func _Atlas_RefuseSolution_Rule0(srv AtlasServer) http.Handler {
 		in := &RefuseSolutionInput{}
 
 		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -1611,7 +1679,7 @@ func _Atlas_CreateSubmission_Rule0(srv AtlasServer) http.Handler {
 		in := &CreateSubmissionInput{}
 
 		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -1634,7 +1702,7 @@ func _Atlas_DescribeSubmission_Rule0(srv AtlasServer) http.Handler {
 		in := &DescribeSubmissionInput{}
 
 		if err := _Atlas_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -1658,7 +1726,7 @@ func _Atlas_RetestSubmission_Rule0(srv AtlasServer) http.Handler {
 		in := &RetestSubmissionInput{}
 
 		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -1682,7 +1750,7 @@ func _Atlas_DescribeScore_Rule0(srv AtlasServer) http.Handler {
 		in := &DescribeScoreInput{}
 
 		if err := _Atlas_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}

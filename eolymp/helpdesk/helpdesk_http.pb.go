@@ -7,6 +7,7 @@ import (
 	context "context"
 	fmt "fmt"
 	mux "github.com/gorilla/mux"
+	websocket "golang.org/x/net/websocket"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
@@ -110,6 +111,73 @@ func _Helpdesk_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	_, _ = w.Write(data)
 }
 
+// _Helpdesk_WebsocketErrorResponse writes error to websocket connection
+func _Helpdesk_WebsocketErrorResponse(conn *websocket.Conn, e error) {
+	switch status.Convert(e).Code() {
+	case codes.OK:
+		conn.WriteClose(1000)
+	case codes.Canceled:
+		conn.WriteClose(1000)
+	case codes.Unknown:
+		conn.WriteClose(1011)
+	case codes.InvalidArgument:
+		conn.WriteClose(1003)
+	case codes.DeadlineExceeded:
+		conn.WriteClose(1000)
+	case codes.NotFound:
+		conn.WriteClose(1000)
+	case codes.AlreadyExists:
+		conn.WriteClose(1000)
+	case codes.PermissionDenied:
+		conn.WriteClose(1000)
+	case codes.ResourceExhausted:
+		conn.WriteClose(1000)
+	case codes.FailedPrecondition:
+		conn.WriteClose(1000)
+	case codes.Aborted:
+		conn.WriteClose(1000)
+	case codes.OutOfRange:
+		conn.WriteClose(1000)
+	case codes.Unimplemented:
+		conn.WriteClose(1011)
+	case codes.Internal:
+		conn.WriteClose(1011)
+	case codes.Unavailable:
+		conn.WriteClose(1011)
+	case codes.DataLoss:
+		conn.WriteClose(1011)
+	case codes.Unauthenticated:
+		conn.WriteClose(1000)
+	default:
+		conn.WriteClose(1000)
+	}
+}
+
+// _Helpdesk_WebsocketCodec implements protobuf codec for websockets package
+var _Helpdesk_WebsocketCodec = websocket.Codec{
+	Marshal: func(v interface{}) ([]byte, byte, error) {
+		m, ok := v.(proto.Message)
+		if !ok {
+			panic(fmt.Errorf("invalid message type %T", v))
+		}
+
+		d, err := protojson.Marshal(m)
+		if err != nil {
+			return nil, 0, err
+		}
+
+		return d, websocket.TextFrame, err
+	},
+	Unmarshal: func(d []byte, t byte, v interface{}) error {
+		m, ok := v.(proto.Message)
+		if !ok {
+			panic(fmt.Errorf("invalid message type %T", v))
+		}
+
+		return protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal(d, m)
+	},
+}
+
 // RegisterHelpdeskHttpHandlers adds handlers for for HelpdeskServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterHelpdeskHttpHandlers(router *mux.Router, prefix string, srv HelpdeskServer) {
@@ -144,7 +212,7 @@ func _Helpdesk_DescribeDocument_Rule0(srv HelpdeskServer) http.Handler {
 		in := &DescribeDocumentInput{}
 
 		if err := _Helpdesk_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Helpdesk_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -167,7 +235,7 @@ func _Helpdesk_ListDocuments_Rule0(srv HelpdeskServer) http.Handler {
 		in := &ListDocumentsInput{}
 
 		if err := _Helpdesk_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Helpdesk_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -187,7 +255,7 @@ func _Helpdesk_CreateDocument_Rule0(srv HelpdeskServer) http.Handler {
 		in := &CreateDocumentInput{}
 
 		if err := _Helpdesk_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Helpdesk_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -207,7 +275,7 @@ func _Helpdesk_UpdateDocument_Rule0(srv HelpdeskServer) http.Handler {
 		in := &UpdateDocumentInput{}
 
 		if err := _Helpdesk_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Helpdesk_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -230,7 +298,7 @@ func _Helpdesk_DeleteDocument_Rule0(srv HelpdeskServer) http.Handler {
 		in := &DeleteDocumentInput{}
 
 		if err := _Helpdesk_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Helpdesk_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -253,7 +321,7 @@ func _Helpdesk_DescribePath_Rule0(srv HelpdeskServer) http.Handler {
 		in := &DescribePathInput{}
 
 		if err := _Helpdesk_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Helpdesk_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -273,7 +341,7 @@ func _Helpdesk_ListPaths_Rule0(srv HelpdeskServer) http.Handler {
 		in := &ListPathsInput{}
 
 		if err := _Helpdesk_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Helpdesk_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -293,7 +361,7 @@ func _Helpdesk_ListParents_Rule0(srv HelpdeskServer) http.Handler {
 		in := &ListParentsInput{}
 
 		if err := _Helpdesk_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Helpdesk_HTTPWriteErrorResponse(w, err)
 			return
 		}

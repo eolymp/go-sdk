@@ -7,6 +7,7 @@ import (
 	context "context"
 	fmt "fmt"
 	mux "github.com/gorilla/mux"
+	websocket "golang.org/x/net/websocket"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
@@ -110,6 +111,73 @@ func _Community_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	_, _ = w.Write(data)
 }
 
+// _Community_WebsocketErrorResponse writes error to websocket connection
+func _Community_WebsocketErrorResponse(conn *websocket.Conn, e error) {
+	switch status.Convert(e).Code() {
+	case codes.OK:
+		conn.WriteClose(1000)
+	case codes.Canceled:
+		conn.WriteClose(1000)
+	case codes.Unknown:
+		conn.WriteClose(1011)
+	case codes.InvalidArgument:
+		conn.WriteClose(1003)
+	case codes.DeadlineExceeded:
+		conn.WriteClose(1000)
+	case codes.NotFound:
+		conn.WriteClose(1000)
+	case codes.AlreadyExists:
+		conn.WriteClose(1000)
+	case codes.PermissionDenied:
+		conn.WriteClose(1000)
+	case codes.ResourceExhausted:
+		conn.WriteClose(1000)
+	case codes.FailedPrecondition:
+		conn.WriteClose(1000)
+	case codes.Aborted:
+		conn.WriteClose(1000)
+	case codes.OutOfRange:
+		conn.WriteClose(1000)
+	case codes.Unimplemented:
+		conn.WriteClose(1011)
+	case codes.Internal:
+		conn.WriteClose(1011)
+	case codes.Unavailable:
+		conn.WriteClose(1011)
+	case codes.DataLoss:
+		conn.WriteClose(1011)
+	case codes.Unauthenticated:
+		conn.WriteClose(1000)
+	default:
+		conn.WriteClose(1000)
+	}
+}
+
+// _Community_WebsocketCodec implements protobuf codec for websockets package
+var _Community_WebsocketCodec = websocket.Codec{
+	Marshal: func(v interface{}) ([]byte, byte, error) {
+		m, ok := v.(proto.Message)
+		if !ok {
+			panic(fmt.Errorf("invalid message type %T", v))
+		}
+
+		d, err := protojson.Marshal(m)
+		if err != nil {
+			return nil, 0, err
+		}
+
+		return d, websocket.TextFrame, err
+	},
+	Unmarshal: func(d []byte, t byte, v interface{}) error {
+		m, ok := v.(proto.Message)
+		if !ok {
+			panic(fmt.Errorf("invalid message type %T", v))
+		}
+
+		return protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal(d, m)
+	},
+}
+
 // RegisterCommunityHttpHandlers adds handlers for for CommunityServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterCommunityHttpHandlers(router *mux.Router, prefix string, srv CommunityServer) {
@@ -177,7 +245,7 @@ func _Community_JoinSpace_Rule0(srv CommunityServer) http.Handler {
 		in := &JoinSpaceInput{}
 
 		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Community_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -197,7 +265,7 @@ func _Community_LeaveSpace_Rule0(srv CommunityServer) http.Handler {
 		in := &LeaveSpaceInput{}
 
 		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Community_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -217,7 +285,7 @@ func _Community_RegisterMember_Rule0(srv CommunityServer) http.Handler {
 		in := &RegisterMemberInput{}
 
 		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Community_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -237,7 +305,7 @@ func _Community_IntrospectMember_Rule0(srv CommunityServer) http.Handler {
 		in := &IntrospectMemberInput{}
 
 		if err := _Community_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Community_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -257,7 +325,7 @@ func _Community_AddMember_Rule0(srv CommunityServer) http.Handler {
 		in := &AddMemberInput{}
 
 		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Community_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -277,7 +345,7 @@ func _Community_UpdateMember_Rule0(srv CommunityServer) http.Handler {
 		in := &UpdateMemberInput{}
 
 		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Community_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -300,7 +368,7 @@ func _Community_RemoveMember_Rule0(srv CommunityServer) http.Handler {
 		in := &RemoveMemberInput{}
 
 		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Community_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -323,7 +391,7 @@ func _Community_DescribeMember_Rule0(srv CommunityServer) http.Handler {
 		in := &DescribeMemberInput{}
 
 		if err := _Community_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Community_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -346,7 +414,7 @@ func _Community_ListMembers_Rule0(srv CommunityServer) http.Handler {
 		in := &ListMembersInput{}
 
 		if err := _Community_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Community_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -366,7 +434,7 @@ func _Community_AddMemberIdentity_Rule0(srv CommunityServer) http.Handler {
 		in := &AddMemberIdentityInput{}
 
 		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Community_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -389,7 +457,7 @@ func _Community_UpdateMemberIdentity_Rule0(srv CommunityServer) http.Handler {
 		in := &UpdateMemberIdentityInput{}
 
 		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Community_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -413,7 +481,7 @@ func _Community_RemoveMemberIdentity_Rule0(srv CommunityServer) http.Handler {
 		in := &RemoveMemberIdentityInput{}
 
 		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Community_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -437,7 +505,7 @@ func _Community_AddAttribute_Rule0(srv CommunityServer) http.Handler {
 		in := &AddAttributeInput{}
 
 		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Community_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -457,7 +525,7 @@ func _Community_UpdateAttribute_Rule0(srv CommunityServer) http.Handler {
 		in := &UpdateAttributeInput{}
 
 		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Community_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -480,7 +548,7 @@ func _Community_RemoveAttribute_Rule0(srv CommunityServer) http.Handler {
 		in := &RemoveAttributeInput{}
 
 		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Community_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -503,7 +571,7 @@ func _Community_DescribeAttribute_Rule0(srv CommunityServer) http.Handler {
 		in := &DescribeAttributeInput{}
 
 		if err := _Community_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Community_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -526,7 +594,7 @@ func _Community_ListAttributes_Rule0(srv CommunityServer) http.Handler {
 		in := &ListAttributesInput{}
 
 		if err := _Community_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Community_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -546,7 +614,7 @@ func _Community_DescribeIdentityProvider_Rule0(srv CommunityServer) http.Handler
 		in := &DescribeIdentityProviderInput{}
 
 		if err := _Community_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Community_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -566,7 +634,7 @@ func _Community_ConfigureIdentityProvider_Rule0(srv CommunityServer) http.Handle
 		in := &ConfigureIdentityProviderInput{}
 
 		if err := _Community_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Community_HTTPWriteErrorResponse(w, err)
 			return
 		}

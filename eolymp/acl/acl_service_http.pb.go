@@ -7,6 +7,7 @@ import (
 	context "context"
 	fmt "fmt"
 	mux "github.com/gorilla/mux"
+	websocket "golang.org/x/net/websocket"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
@@ -110,6 +111,73 @@ func _Acl_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	_, _ = w.Write(data)
 }
 
+// _Acl_WebsocketErrorResponse writes error to websocket connection
+func _Acl_WebsocketErrorResponse(conn *websocket.Conn, e error) {
+	switch status.Convert(e).Code() {
+	case codes.OK:
+		conn.WriteClose(1000)
+	case codes.Canceled:
+		conn.WriteClose(1000)
+	case codes.Unknown:
+		conn.WriteClose(1011)
+	case codes.InvalidArgument:
+		conn.WriteClose(1003)
+	case codes.DeadlineExceeded:
+		conn.WriteClose(1000)
+	case codes.NotFound:
+		conn.WriteClose(1000)
+	case codes.AlreadyExists:
+		conn.WriteClose(1000)
+	case codes.PermissionDenied:
+		conn.WriteClose(1000)
+	case codes.ResourceExhausted:
+		conn.WriteClose(1000)
+	case codes.FailedPrecondition:
+		conn.WriteClose(1000)
+	case codes.Aborted:
+		conn.WriteClose(1000)
+	case codes.OutOfRange:
+		conn.WriteClose(1000)
+	case codes.Unimplemented:
+		conn.WriteClose(1011)
+	case codes.Internal:
+		conn.WriteClose(1011)
+	case codes.Unavailable:
+		conn.WriteClose(1011)
+	case codes.DataLoss:
+		conn.WriteClose(1011)
+	case codes.Unauthenticated:
+		conn.WriteClose(1000)
+	default:
+		conn.WriteClose(1000)
+	}
+}
+
+// _Acl_WebsocketCodec implements protobuf codec for websockets package
+var _Acl_WebsocketCodec = websocket.Codec{
+	Marshal: func(v interface{}) ([]byte, byte, error) {
+		m, ok := v.(proto.Message)
+		if !ok {
+			panic(fmt.Errorf("invalid message type %T", v))
+		}
+
+		d, err := protojson.Marshal(m)
+		if err != nil {
+			return nil, 0, err
+		}
+
+		return d, websocket.TextFrame, err
+	},
+	Unmarshal: func(d []byte, t byte, v interface{}) error {
+		m, ok := v.(proto.Message)
+		if !ok {
+			panic(fmt.Errorf("invalid message type %T", v))
+		}
+
+		return protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal(d, m)
+	},
+}
+
 // RegisterAclHttpHandlers adds handlers for for AclServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterAclHttpHandlers(router *mux.Router, prefix string, srv AclServer) {
@@ -135,7 +203,7 @@ func _Acl_GrantPermission_Rule0(srv AclServer) http.Handler {
 		in := &GrantPermissionInput{}
 
 		if err := _Acl_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Acl_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -158,7 +226,7 @@ func _Acl_RevokePermission_Rule0(srv AclServer) http.Handler {
 		in := &RevokePermissionInput{}
 
 		if err := _Acl_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Acl_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -181,7 +249,7 @@ func _Acl_DescribePermission_Rule0(srv AclServer) http.Handler {
 		in := &DescribePermissionInput{}
 
 		if err := _Acl_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Acl_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -204,7 +272,7 @@ func _Acl_ListPermissions_Rule0(srv AclServer) http.Handler {
 		in := &ListPermissionsInput{}
 
 		if err := _Acl_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Acl_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -224,7 +292,7 @@ func _Acl_IntrospectPermission_Rule0(srv AclServer) http.Handler {
 		in := &IntrospectPermissionInput{}
 
 		if err := _Acl_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_Acl_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -506,6 +574,73 @@ func _AclService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	_, _ = w.Write(data)
 }
 
+// _AclService_WebsocketErrorResponse writes error to websocket connection
+func _AclService_WebsocketErrorResponse(conn *websocket.Conn, e error) {
+	switch status.Convert(e).Code() {
+	case codes.OK:
+		conn.WriteClose(1000)
+	case codes.Canceled:
+		conn.WriteClose(1000)
+	case codes.Unknown:
+		conn.WriteClose(1011)
+	case codes.InvalidArgument:
+		conn.WriteClose(1003)
+	case codes.DeadlineExceeded:
+		conn.WriteClose(1000)
+	case codes.NotFound:
+		conn.WriteClose(1000)
+	case codes.AlreadyExists:
+		conn.WriteClose(1000)
+	case codes.PermissionDenied:
+		conn.WriteClose(1000)
+	case codes.ResourceExhausted:
+		conn.WriteClose(1000)
+	case codes.FailedPrecondition:
+		conn.WriteClose(1000)
+	case codes.Aborted:
+		conn.WriteClose(1000)
+	case codes.OutOfRange:
+		conn.WriteClose(1000)
+	case codes.Unimplemented:
+		conn.WriteClose(1011)
+	case codes.Internal:
+		conn.WriteClose(1011)
+	case codes.Unavailable:
+		conn.WriteClose(1011)
+	case codes.DataLoss:
+		conn.WriteClose(1011)
+	case codes.Unauthenticated:
+		conn.WriteClose(1000)
+	default:
+		conn.WriteClose(1000)
+	}
+}
+
+// _AclService_WebsocketCodec implements protobuf codec for websockets package
+var _AclService_WebsocketCodec = websocket.Codec{
+	Marshal: func(v interface{}) ([]byte, byte, error) {
+		m, ok := v.(proto.Message)
+		if !ok {
+			panic(fmt.Errorf("invalid message type %T", v))
+		}
+
+		d, err := protojson.Marshal(m)
+		if err != nil {
+			return nil, 0, err
+		}
+
+		return d, websocket.TextFrame, err
+	},
+	Unmarshal: func(d []byte, t byte, v interface{}) error {
+		m, ok := v.(proto.Message)
+		if !ok {
+			panic(fmt.Errorf("invalid message type %T", v))
+		}
+
+		return protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal(d, m)
+	},
+}
+
 // RegisterAclServiceHttpHandlers adds handlers for for AclServiceServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterAclServiceHttpHandlers(router *mux.Router, prefix string, srv AclServiceServer) {
@@ -531,7 +666,7 @@ func _AclService_GrantPermission_Rule0(srv AclServiceServer) http.Handler {
 		in := &GrantPermissionInput{}
 
 		if err := _AclService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_AclService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -554,7 +689,7 @@ func _AclService_RevokePermission_Rule0(srv AclServiceServer) http.Handler {
 		in := &RevokePermissionInput{}
 
 		if err := _AclService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_AclService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -577,7 +712,7 @@ func _AclService_DescribePermission_Rule0(srv AclServiceServer) http.Handler {
 		in := &DescribePermissionInput{}
 
 		if err := _AclService_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_AclService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -600,7 +735,7 @@ func _AclService_ListPermissions_Rule0(srv AclServiceServer) http.Handler {
 		in := &ListPermissionsInput{}
 
 		if err := _AclService_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_AclService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -620,7 +755,7 @@ func _AclService_IntrospectPermission_Rule0(srv AclServiceServer) http.Handler {
 		in := &IntrospectPermissionInput{}
 
 		if err := _AclService_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_AclService_HTTPWriteErrorResponse(w, err)
 			return
 		}

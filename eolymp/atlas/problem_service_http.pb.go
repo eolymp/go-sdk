@@ -7,6 +7,7 @@ import (
 	context "context"
 	fmt "fmt"
 	mux "github.com/gorilla/mux"
+	websocket "golang.org/x/net/websocket"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
@@ -110,6 +111,73 @@ func _ProblemService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	_, _ = w.Write(data)
 }
 
+// _ProblemService_WebsocketErrorResponse writes error to websocket connection
+func _ProblemService_WebsocketErrorResponse(conn *websocket.Conn, e error) {
+	switch status.Convert(e).Code() {
+	case codes.OK:
+		conn.WriteClose(1000)
+	case codes.Canceled:
+		conn.WriteClose(1000)
+	case codes.Unknown:
+		conn.WriteClose(1011)
+	case codes.InvalidArgument:
+		conn.WriteClose(1003)
+	case codes.DeadlineExceeded:
+		conn.WriteClose(1000)
+	case codes.NotFound:
+		conn.WriteClose(1000)
+	case codes.AlreadyExists:
+		conn.WriteClose(1000)
+	case codes.PermissionDenied:
+		conn.WriteClose(1000)
+	case codes.ResourceExhausted:
+		conn.WriteClose(1000)
+	case codes.FailedPrecondition:
+		conn.WriteClose(1000)
+	case codes.Aborted:
+		conn.WriteClose(1000)
+	case codes.OutOfRange:
+		conn.WriteClose(1000)
+	case codes.Unimplemented:
+		conn.WriteClose(1011)
+	case codes.Internal:
+		conn.WriteClose(1011)
+	case codes.Unavailable:
+		conn.WriteClose(1011)
+	case codes.DataLoss:
+		conn.WriteClose(1011)
+	case codes.Unauthenticated:
+		conn.WriteClose(1000)
+	default:
+		conn.WriteClose(1000)
+	}
+}
+
+// _ProblemService_WebsocketCodec implements protobuf codec for websockets package
+var _ProblemService_WebsocketCodec = websocket.Codec{
+	Marshal: func(v interface{}) ([]byte, byte, error) {
+		m, ok := v.(proto.Message)
+		if !ok {
+			panic(fmt.Errorf("invalid message type %T", v))
+		}
+
+		d, err := protojson.Marshal(m)
+		if err != nil {
+			return nil, 0, err
+		}
+
+		return d, websocket.TextFrame, err
+	},
+	Unmarshal: func(d []byte, t byte, v interface{}) error {
+		m, ok := v.(proto.Message)
+		if !ok {
+			panic(fmt.Errorf("invalid message type %T", v))
+		}
+
+		return protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal(d, m)
+	},
+}
+
 // RegisterProblemServiceHttpHandlers adds handlers for for ProblemServiceServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterProblemServiceHttpHandlers(router *mux.Router, prefix string, srv ProblemServiceServer) {
@@ -138,7 +206,7 @@ func _ProblemService_DeleteProblem_Rule0(srv ProblemServiceServer) http.Handler 
 		in := &DeleteProblemInput{}
 
 		if err := _ProblemService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -158,7 +226,7 @@ func _ProblemService_UpdateProblem_Rule0(srv ProblemServiceServer) http.Handler 
 		in := &UpdateProblemInput{}
 
 		if err := _ProblemService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -178,7 +246,7 @@ func _ProblemService_DescribeProblem_Rule0(srv ProblemServiceServer) http.Handle
 		in := &DescribeProblemInput{}
 
 		if err := _ProblemService_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -198,7 +266,7 @@ func _ProblemService_UpdateVisibility_Rule0(srv ProblemServiceServer) http.Handl
 		in := &UpdateVisibilityInput{}
 
 		if err := _ProblemService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -218,7 +286,7 @@ func _ProblemService_UpdatePrivacy_Rule0(srv ProblemServiceServer) http.Handler 
 		in := &UpdatePrivacyInput{}
 
 		if err := _ProblemService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -238,7 +306,7 @@ func _ProblemService_ListVersions_Rule0(srv ProblemServiceServer) http.Handler {
 		in := &ListVersionsInput{}
 
 		if err := _ProblemService_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
 		}

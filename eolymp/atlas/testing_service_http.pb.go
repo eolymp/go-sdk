@@ -7,6 +7,7 @@ import (
 	context "context"
 	fmt "fmt"
 	mux "github.com/gorilla/mux"
+	websocket "golang.org/x/net/websocket"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
@@ -110,6 +111,73 @@ func _TestingService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	_, _ = w.Write(data)
 }
 
+// _TestingService_WebsocketErrorResponse writes error to websocket connection
+func _TestingService_WebsocketErrorResponse(conn *websocket.Conn, e error) {
+	switch status.Convert(e).Code() {
+	case codes.OK:
+		conn.WriteClose(1000)
+	case codes.Canceled:
+		conn.WriteClose(1000)
+	case codes.Unknown:
+		conn.WriteClose(1011)
+	case codes.InvalidArgument:
+		conn.WriteClose(1003)
+	case codes.DeadlineExceeded:
+		conn.WriteClose(1000)
+	case codes.NotFound:
+		conn.WriteClose(1000)
+	case codes.AlreadyExists:
+		conn.WriteClose(1000)
+	case codes.PermissionDenied:
+		conn.WriteClose(1000)
+	case codes.ResourceExhausted:
+		conn.WriteClose(1000)
+	case codes.FailedPrecondition:
+		conn.WriteClose(1000)
+	case codes.Aborted:
+		conn.WriteClose(1000)
+	case codes.OutOfRange:
+		conn.WriteClose(1000)
+	case codes.Unimplemented:
+		conn.WriteClose(1011)
+	case codes.Internal:
+		conn.WriteClose(1011)
+	case codes.Unavailable:
+		conn.WriteClose(1011)
+	case codes.DataLoss:
+		conn.WriteClose(1011)
+	case codes.Unauthenticated:
+		conn.WriteClose(1000)
+	default:
+		conn.WriteClose(1000)
+	}
+}
+
+// _TestingService_WebsocketCodec implements protobuf codec for websockets package
+var _TestingService_WebsocketCodec = websocket.Codec{
+	Marshal: func(v interface{}) ([]byte, byte, error) {
+		m, ok := v.(proto.Message)
+		if !ok {
+			panic(fmt.Errorf("invalid message type %T", v))
+		}
+
+		d, err := protojson.Marshal(m)
+		if err != nil {
+			return nil, 0, err
+		}
+
+		return d, websocket.TextFrame, err
+	},
+	Unmarshal: func(d []byte, t byte, v interface{}) error {
+		m, ok := v.(proto.Message)
+		if !ok {
+			panic(fmt.Errorf("invalid message type %T", v))
+		}
+
+		return protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal(d, m)
+	},
+}
+
 // RegisterTestingServiceHttpHandlers adds handlers for for TestingServiceServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterTestingServiceHttpHandlers(router *mux.Router, prefix string, srv TestingServiceServer) {
@@ -165,7 +233,7 @@ func _TestingService_UpdateChecker_Rule0(srv TestingServiceServer) http.Handler 
 		in := &UpdateVerifierInput{}
 
 		if err := _TestingService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -185,7 +253,7 @@ func _TestingService_DescribeChecker_Rule0(srv TestingServiceServer) http.Handle
 		in := &DescribeVerifierInput{}
 
 		if err := _TestingService_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -205,7 +273,7 @@ func _TestingService_UpdateInteractor_Rule0(srv TestingServiceServer) http.Handl
 		in := &UpdateInteractorInput{}
 
 		if err := _TestingService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -225,7 +293,7 @@ func _TestingService_DescribeInteractor_Rule0(srv TestingServiceServer) http.Han
 		in := &DescribeInteractorInput{}
 
 		if err := _TestingService_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -245,7 +313,7 @@ func _TestingService_CreateTestset_Rule0(srv TestingServiceServer) http.Handler 
 		in := &CreateTestsetInput{}
 
 		if err := _TestingService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -265,7 +333,7 @@ func _TestingService_UpdateTestset_Rule0(srv TestingServiceServer) http.Handler 
 		in := &UpdateTestsetInput{}
 
 		if err := _TestingService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -288,7 +356,7 @@ func _TestingService_DeleteTestset_Rule0(srv TestingServiceServer) http.Handler 
 		in := &DeleteTestsetInput{}
 
 		if err := _TestingService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -311,7 +379,7 @@ func _TestingService_DescribeTestset_Rule0(srv TestingServiceServer) http.Handle
 		in := &DescribeTestsetInput{}
 
 		if err := _TestingService_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -334,7 +402,7 @@ func _TestingService_ListTestsets_Rule0(srv TestingServiceServer) http.Handler {
 		in := &ListTestsetsInput{}
 
 		if err := _TestingService_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -354,7 +422,7 @@ func _TestingService_CreateTest_Rule0(srv TestingServiceServer) http.Handler {
 		in := &CreateTestInput{}
 
 		if err := _TestingService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -377,7 +445,7 @@ func _TestingService_UpdateTest_Rule0(srv TestingServiceServer) http.Handler {
 		in := &UpdateTestInput{}
 
 		if err := _TestingService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -401,7 +469,7 @@ func _TestingService_DeleteTest_Rule0(srv TestingServiceServer) http.Handler {
 		in := &DeleteTestInput{}
 
 		if err := _TestingService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -425,7 +493,7 @@ func _TestingService_DescribeTest_Rule0(srv TestingServiceServer) http.Handler {
 		in := &DescribeTestInput{}
 
 		if err := _TestingService_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -449,7 +517,7 @@ func _TestingService_ListTests_Rule0(srv TestingServiceServer) http.Handler {
 		in := &ListTestsInput{}
 
 		if err := _TestingService_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -472,7 +540,7 @@ func _TestingService_ListExamples_Rule0(srv TestingServiceServer) http.Handler {
 		in := &ListExamplesInput{}
 
 		if err := _TestingService_HTTPReadQueryString(r, in); err != nil {
-			err = status.New(codes.InvalidArgument, err.Error()).Err()
+			err = status.Error(codes.InvalidArgument, err.Error())
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
