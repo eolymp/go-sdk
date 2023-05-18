@@ -23,9 +23,8 @@ const (
 	Atlas_DeleteProblem_FullMethodName          = "/eolymp.atlas.Atlas/DeleteProblem"
 	Atlas_ListProblems_FullMethodName           = "/eolymp.atlas.Atlas/ListProblems"
 	Atlas_DescribeProblem_FullMethodName        = "/eolymp.atlas.Atlas/DescribeProblem"
-	Atlas_UpdateVisibility_FullMethodName       = "/eolymp.atlas.Atlas/UpdateVisibility"
-	Atlas_UpdatePrivacy_FullMethodName          = "/eolymp.atlas.Atlas/UpdatePrivacy"
 	Atlas_UpdateProblem_FullMethodName          = "/eolymp.atlas.Atlas/UpdateProblem"
+	Atlas_SetBookmark_FullMethodName            = "/eolymp.atlas.Atlas/SetBookmark"
 	Atlas_ListExamples_FullMethodName           = "/eolymp.atlas.Atlas/ListExamples"
 	Atlas_UpdateVerifier_FullMethodName         = "/eolymp.atlas.Atlas/UpdateVerifier"
 	Atlas_DescribeVerifier_FullMethodName       = "/eolymp.atlas.Atlas/DescribeVerifier"
@@ -49,10 +48,6 @@ const (
 	Atlas_DeleteTest_FullMethodName             = "/eolymp.atlas.Atlas/DeleteTest"
 	Atlas_ListTests_FullMethodName              = "/eolymp.atlas.Atlas/ListTests"
 	Atlas_DescribeTest_FullMethodName           = "/eolymp.atlas.Atlas/DescribeTest"
-	Atlas_GrantPermission_FullMethodName        = "/eolymp.atlas.Atlas/GrantPermission"
-	Atlas_RevokePermission_FullMethodName       = "/eolymp.atlas.Atlas/RevokePermission"
-	Atlas_ListPermissions_FullMethodName        = "/eolymp.atlas.Atlas/ListPermissions"
-	Atlas_IntrospectPermission_FullMethodName   = "/eolymp.atlas.Atlas/IntrospectPermission"
 	Atlas_CreateCodeTemplate_FullMethodName     = "/eolymp.atlas.Atlas/CreateCodeTemplate"
 	Atlas_UpdateCodeTemplate_FullMethodName     = "/eolymp.atlas.Atlas/UpdateCodeTemplate"
 	Atlas_DeleteCodeTemplate_FullMethodName     = "/eolymp.atlas.Atlas/DeleteCodeTemplate"
@@ -66,15 +61,6 @@ const (
 	Atlas_ListVersions_FullMethodName           = "/eolymp.atlas.Atlas/ListVersions"
 	Atlas_ListProblemTop_FullMethodName         = "/eolymp.atlas.Atlas/ListProblemTop"
 	Atlas_DescribeProblemGrading_FullMethodName = "/eolymp.atlas.Atlas/DescribeProblemGrading"
-	Atlas_CreateSolution_FullMethodName         = "/eolymp.atlas.Atlas/CreateSolution"
-	Atlas_UpdateSolution_FullMethodName         = "/eolymp.atlas.Atlas/UpdateSolution"
-	Atlas_DeleteSolution_FullMethodName         = "/eolymp.atlas.Atlas/DeleteSolution"
-	Atlas_ListSolutions_FullMethodName          = "/eolymp.atlas.Atlas/ListSolutions"
-	Atlas_DescribeSolution_FullMethodName       = "/eolymp.atlas.Atlas/DescribeSolution"
-	Atlas_PublishSolution_FullMethodName        = "/eolymp.atlas.Atlas/PublishSolution"
-	Atlas_UnpublishSolution_FullMethodName      = "/eolymp.atlas.Atlas/UnpublishSolution"
-	Atlas_ApproveSolution_FullMethodName        = "/eolymp.atlas.Atlas/ApproveSolution"
-	Atlas_RefuseSolution_FullMethodName         = "/eolymp.atlas.Atlas/RefuseSolution"
 	Atlas_CreateSubmission_FullMethodName       = "/eolymp.atlas.Atlas/CreateSubmission"
 	Atlas_DescribeSubmission_FullMethodName     = "/eolymp.atlas.Atlas/DescribeSubmission"
 	Atlas_RetestSubmission_FullMethodName       = "/eolymp.atlas.Atlas/RetestSubmission"
@@ -89,11 +75,8 @@ type AtlasClient interface {
 	DeleteProblem(ctx context.Context, in *DeleteProblemInput, opts ...grpc.CallOption) (*DeleteProblemOutput, error)
 	ListProblems(ctx context.Context, in *ListProblemsInput, opts ...grpc.CallOption) (*ListProblemsOutput, error)
 	DescribeProblem(ctx context.Context, in *DescribeProblemInput, opts ...grpc.CallOption) (*DescribeProblemOutput, error)
-	// deprecated: use UpdateProblem instead
-	UpdateVisibility(ctx context.Context, in *UpdateVisibilityInput, opts ...grpc.CallOption) (*UpdateVisibilityOutput, error)
-	// deprecated: use UpdateProblem instead
-	UpdatePrivacy(ctx context.Context, in *UpdatePrivacyInput, opts ...grpc.CallOption) (*UpdatePrivacyOutput, error)
 	UpdateProblem(ctx context.Context, in *UpdateProblemInput, opts ...grpc.CallOption) (*UpdateProblemOutput, error)
+	SetBookmark(ctx context.Context, in *SetBookmarkInput, opts ...grpc.CallOption) (*SetBookmarkOutput, error)
 	ListExamples(ctx context.Context, in *ListExamplesInput, opts ...grpc.CallOption) (*ListExamplesOutput, error)
 	UpdateVerifier(ctx context.Context, in *UpdateVerifierInput, opts ...grpc.CallOption) (*UpdateVerifierOutput, error)
 	DescribeVerifier(ctx context.Context, in *DescribeVerifierInput, opts ...grpc.CallOption) (*DescribeVerifierOutput, error)
@@ -126,14 +109,6 @@ type AtlasClient interface {
 	DeleteTest(ctx context.Context, in *DeleteTestInput, opts ...grpc.CallOption) (*DeleteTestOutput, error)
 	ListTests(ctx context.Context, in *ListTestsInput, opts ...grpc.CallOption) (*ListTestsOutput, error)
 	DescribeTest(ctx context.Context, in *DescribeTestInput, opts ...grpc.CallOption) (*DescribeTestOutput, error)
-	// deprecated: use eolymp.acl.AclService instead
-	GrantPermission(ctx context.Context, in *GrantPermissionInput, opts ...grpc.CallOption) (*GrantPermissionOutput, error)
-	// deprecated: use eolymp.acl.AclService instead
-	RevokePermission(ctx context.Context, in *RevokePermissionInput, opts ...grpc.CallOption) (*RevokePermissionOutput, error)
-	// deprecated: use eolymp.acl.AclService instead
-	ListPermissions(ctx context.Context, in *ListPermissionsInput, opts ...grpc.CallOption) (*ListPermissionsOutput, error)
-	// deprecated: use eolymp.acl.AclService instead
-	IntrospectPermission(ctx context.Context, in *IntrospectPermissionInput, opts ...grpc.CallOption) (*IntrospectPermissionOutput, error)
 	CreateCodeTemplate(ctx context.Context, in *CreateCodeTemplateInput, opts ...grpc.CallOption) (*CreateCodeTemplateOutput, error)
 	UpdateCodeTemplate(ctx context.Context, in *UpdateCodeTemplateInput, opts ...grpc.CallOption) (*UpdateCodeTemplateOutput, error)
 	DeleteCodeTemplate(ctx context.Context, in *DeleteCodeTemplateInput, opts ...grpc.CallOption) (*DeleteCodeTemplateOutput, error)
@@ -147,24 +122,6 @@ type AtlasClient interface {
 	ListVersions(ctx context.Context, in *ListVersionsInput, opts ...grpc.CallOption) (*ListVersionsOutput, error)
 	ListProblemTop(ctx context.Context, in *ListProblemTopInput, opts ...grpc.CallOption) (*ListProblemTopOutput, error)
 	DescribeProblemGrading(ctx context.Context, in *DescribeProblemGradingInput, opts ...grpc.CallOption) (*DescribeProblemGradingOutput, error)
-	// deprecated: solutions are not supported anymore
-	CreateSolution(ctx context.Context, in *CreateSolutionInput, opts ...grpc.CallOption) (*CreateSolutionOutput, error)
-	// deprecated: solutions are not supported anymore
-	UpdateSolution(ctx context.Context, in *UpdateSolutionInput, opts ...grpc.CallOption) (*UpdateSolutionOutput, error)
-	// deprecated: solutions are not supported anymore
-	DeleteSolution(ctx context.Context, in *DeleteSolutionInput, opts ...grpc.CallOption) (*DeleteSolutionOutput, error)
-	// deprecated: solutions are not supported anymore
-	ListSolutions(ctx context.Context, in *ListSolutionsInput, opts ...grpc.CallOption) (*ListSolutionsOutput, error)
-	// deprecated: solutions are not supported anymore
-	DescribeSolution(ctx context.Context, in *DescribeSolutionInput, opts ...grpc.CallOption) (*DescribeSolutionOutput, error)
-	// deprecated: solutions are not supported anymore
-	PublishSolution(ctx context.Context, in *PublishSolutionInput, opts ...grpc.CallOption) (*PublishSolutionOutput, error)
-	// deprecated: solutions are not supported anymore
-	UnpublishSolution(ctx context.Context, in *UnpublishSolutionInput, opts ...grpc.CallOption) (*UnpublishSolutionOutput, error)
-	// deprecated: solutions are not supported anymore
-	ApproveSolution(ctx context.Context, in *ApproveSolutionInput, opts ...grpc.CallOption) (*ApproveSolutionOutput, error)
-	// deprecated: solutions are not supported anymore
-	RefuseSolution(ctx context.Context, in *RefuseSolutionInput, opts ...grpc.CallOption) (*RefuseSolutionOutput, error)
 	CreateSubmission(ctx context.Context, in *CreateSubmissionInput, opts ...grpc.CallOption) (*CreateSubmissionOutput, error)
 	DescribeSubmission(ctx context.Context, in *DescribeSubmissionInput, opts ...grpc.CallOption) (*DescribeSubmissionOutput, error)
 	RetestSubmission(ctx context.Context, in *RetestSubmissionInput, opts ...grpc.CallOption) (*RetestSubmissionOutput, error)
@@ -215,27 +172,18 @@ func (c *atlasClient) DescribeProblem(ctx context.Context, in *DescribeProblemIn
 	return out, nil
 }
 
-func (c *atlasClient) UpdateVisibility(ctx context.Context, in *UpdateVisibilityInput, opts ...grpc.CallOption) (*UpdateVisibilityOutput, error) {
-	out := new(UpdateVisibilityOutput)
-	err := c.cc.Invoke(ctx, Atlas_UpdateVisibility_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *atlasClient) UpdatePrivacy(ctx context.Context, in *UpdatePrivacyInput, opts ...grpc.CallOption) (*UpdatePrivacyOutput, error) {
-	out := new(UpdatePrivacyOutput)
-	err := c.cc.Invoke(ctx, Atlas_UpdatePrivacy_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *atlasClient) UpdateProblem(ctx context.Context, in *UpdateProblemInput, opts ...grpc.CallOption) (*UpdateProblemOutput, error) {
 	out := new(UpdateProblemOutput)
 	err := c.cc.Invoke(ctx, Atlas_UpdateProblem_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *atlasClient) SetBookmark(ctx context.Context, in *SetBookmarkInput, opts ...grpc.CallOption) (*SetBookmarkOutput, error) {
+	out := new(SetBookmarkOutput)
+	err := c.cc.Invoke(ctx, Atlas_SetBookmark_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -449,42 +397,6 @@ func (c *atlasClient) DescribeTest(ctx context.Context, in *DescribeTestInput, o
 	return out, nil
 }
 
-func (c *atlasClient) GrantPermission(ctx context.Context, in *GrantPermissionInput, opts ...grpc.CallOption) (*GrantPermissionOutput, error) {
-	out := new(GrantPermissionOutput)
-	err := c.cc.Invoke(ctx, Atlas_GrantPermission_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *atlasClient) RevokePermission(ctx context.Context, in *RevokePermissionInput, opts ...grpc.CallOption) (*RevokePermissionOutput, error) {
-	out := new(RevokePermissionOutput)
-	err := c.cc.Invoke(ctx, Atlas_RevokePermission_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *atlasClient) ListPermissions(ctx context.Context, in *ListPermissionsInput, opts ...grpc.CallOption) (*ListPermissionsOutput, error) {
-	out := new(ListPermissionsOutput)
-	err := c.cc.Invoke(ctx, Atlas_ListPermissions_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *atlasClient) IntrospectPermission(ctx context.Context, in *IntrospectPermissionInput, opts ...grpc.CallOption) (*IntrospectPermissionOutput, error) {
-	out := new(IntrospectPermissionOutput)
-	err := c.cc.Invoke(ctx, Atlas_IntrospectPermission_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *atlasClient) CreateCodeTemplate(ctx context.Context, in *CreateCodeTemplateInput, opts ...grpc.CallOption) (*CreateCodeTemplateOutput, error) {
 	out := new(CreateCodeTemplateOutput)
 	err := c.cc.Invoke(ctx, Atlas_CreateCodeTemplate_FullMethodName, in, out, opts...)
@@ -602,87 +514,6 @@ func (c *atlasClient) DescribeProblemGrading(ctx context.Context, in *DescribePr
 	return out, nil
 }
 
-func (c *atlasClient) CreateSolution(ctx context.Context, in *CreateSolutionInput, opts ...grpc.CallOption) (*CreateSolutionOutput, error) {
-	out := new(CreateSolutionOutput)
-	err := c.cc.Invoke(ctx, Atlas_CreateSolution_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *atlasClient) UpdateSolution(ctx context.Context, in *UpdateSolutionInput, opts ...grpc.CallOption) (*UpdateSolutionOutput, error) {
-	out := new(UpdateSolutionOutput)
-	err := c.cc.Invoke(ctx, Atlas_UpdateSolution_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *atlasClient) DeleteSolution(ctx context.Context, in *DeleteSolutionInput, opts ...grpc.CallOption) (*DeleteSolutionOutput, error) {
-	out := new(DeleteSolutionOutput)
-	err := c.cc.Invoke(ctx, Atlas_DeleteSolution_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *atlasClient) ListSolutions(ctx context.Context, in *ListSolutionsInput, opts ...grpc.CallOption) (*ListSolutionsOutput, error) {
-	out := new(ListSolutionsOutput)
-	err := c.cc.Invoke(ctx, Atlas_ListSolutions_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *atlasClient) DescribeSolution(ctx context.Context, in *DescribeSolutionInput, opts ...grpc.CallOption) (*DescribeSolutionOutput, error) {
-	out := new(DescribeSolutionOutput)
-	err := c.cc.Invoke(ctx, Atlas_DescribeSolution_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *atlasClient) PublishSolution(ctx context.Context, in *PublishSolutionInput, opts ...grpc.CallOption) (*PublishSolutionOutput, error) {
-	out := new(PublishSolutionOutput)
-	err := c.cc.Invoke(ctx, Atlas_PublishSolution_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *atlasClient) UnpublishSolution(ctx context.Context, in *UnpublishSolutionInput, opts ...grpc.CallOption) (*UnpublishSolutionOutput, error) {
-	out := new(UnpublishSolutionOutput)
-	err := c.cc.Invoke(ctx, Atlas_UnpublishSolution_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *atlasClient) ApproveSolution(ctx context.Context, in *ApproveSolutionInput, opts ...grpc.CallOption) (*ApproveSolutionOutput, error) {
-	out := new(ApproveSolutionOutput)
-	err := c.cc.Invoke(ctx, Atlas_ApproveSolution_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *atlasClient) RefuseSolution(ctx context.Context, in *RefuseSolutionInput, opts ...grpc.CallOption) (*RefuseSolutionOutput, error) {
-	out := new(RefuseSolutionOutput)
-	err := c.cc.Invoke(ctx, Atlas_RefuseSolution_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *atlasClient) CreateSubmission(ctx context.Context, in *CreateSubmissionInput, opts ...grpc.CallOption) (*CreateSubmissionOutput, error) {
 	out := new(CreateSubmissionOutput)
 	err := c.cc.Invoke(ctx, Atlas_CreateSubmission_FullMethodName, in, out, opts...)
@@ -727,11 +558,8 @@ type AtlasServer interface {
 	DeleteProblem(context.Context, *DeleteProblemInput) (*DeleteProblemOutput, error)
 	ListProblems(context.Context, *ListProblemsInput) (*ListProblemsOutput, error)
 	DescribeProblem(context.Context, *DescribeProblemInput) (*DescribeProblemOutput, error)
-	// deprecated: use UpdateProblem instead
-	UpdateVisibility(context.Context, *UpdateVisibilityInput) (*UpdateVisibilityOutput, error)
-	// deprecated: use UpdateProblem instead
-	UpdatePrivacy(context.Context, *UpdatePrivacyInput) (*UpdatePrivacyOutput, error)
 	UpdateProblem(context.Context, *UpdateProblemInput) (*UpdateProblemOutput, error)
+	SetBookmark(context.Context, *SetBookmarkInput) (*SetBookmarkOutput, error)
 	ListExamples(context.Context, *ListExamplesInput) (*ListExamplesOutput, error)
 	UpdateVerifier(context.Context, *UpdateVerifierInput) (*UpdateVerifierOutput, error)
 	DescribeVerifier(context.Context, *DescribeVerifierInput) (*DescribeVerifierOutput, error)
@@ -764,14 +592,6 @@ type AtlasServer interface {
 	DeleteTest(context.Context, *DeleteTestInput) (*DeleteTestOutput, error)
 	ListTests(context.Context, *ListTestsInput) (*ListTestsOutput, error)
 	DescribeTest(context.Context, *DescribeTestInput) (*DescribeTestOutput, error)
-	// deprecated: use eolymp.acl.AclService instead
-	GrantPermission(context.Context, *GrantPermissionInput) (*GrantPermissionOutput, error)
-	// deprecated: use eolymp.acl.AclService instead
-	RevokePermission(context.Context, *RevokePermissionInput) (*RevokePermissionOutput, error)
-	// deprecated: use eolymp.acl.AclService instead
-	ListPermissions(context.Context, *ListPermissionsInput) (*ListPermissionsOutput, error)
-	// deprecated: use eolymp.acl.AclService instead
-	IntrospectPermission(context.Context, *IntrospectPermissionInput) (*IntrospectPermissionOutput, error)
 	CreateCodeTemplate(context.Context, *CreateCodeTemplateInput) (*CreateCodeTemplateOutput, error)
 	UpdateCodeTemplate(context.Context, *UpdateCodeTemplateInput) (*UpdateCodeTemplateOutput, error)
 	DeleteCodeTemplate(context.Context, *DeleteCodeTemplateInput) (*DeleteCodeTemplateOutput, error)
@@ -785,24 +605,6 @@ type AtlasServer interface {
 	ListVersions(context.Context, *ListVersionsInput) (*ListVersionsOutput, error)
 	ListProblemTop(context.Context, *ListProblemTopInput) (*ListProblemTopOutput, error)
 	DescribeProblemGrading(context.Context, *DescribeProblemGradingInput) (*DescribeProblemGradingOutput, error)
-	// deprecated: solutions are not supported anymore
-	CreateSolution(context.Context, *CreateSolutionInput) (*CreateSolutionOutput, error)
-	// deprecated: solutions are not supported anymore
-	UpdateSolution(context.Context, *UpdateSolutionInput) (*UpdateSolutionOutput, error)
-	// deprecated: solutions are not supported anymore
-	DeleteSolution(context.Context, *DeleteSolutionInput) (*DeleteSolutionOutput, error)
-	// deprecated: solutions are not supported anymore
-	ListSolutions(context.Context, *ListSolutionsInput) (*ListSolutionsOutput, error)
-	// deprecated: solutions are not supported anymore
-	DescribeSolution(context.Context, *DescribeSolutionInput) (*DescribeSolutionOutput, error)
-	// deprecated: solutions are not supported anymore
-	PublishSolution(context.Context, *PublishSolutionInput) (*PublishSolutionOutput, error)
-	// deprecated: solutions are not supported anymore
-	UnpublishSolution(context.Context, *UnpublishSolutionInput) (*UnpublishSolutionOutput, error)
-	// deprecated: solutions are not supported anymore
-	ApproveSolution(context.Context, *ApproveSolutionInput) (*ApproveSolutionOutput, error)
-	// deprecated: solutions are not supported anymore
-	RefuseSolution(context.Context, *RefuseSolutionInput) (*RefuseSolutionOutput, error)
 	CreateSubmission(context.Context, *CreateSubmissionInput) (*CreateSubmissionOutput, error)
 	DescribeSubmission(context.Context, *DescribeSubmissionInput) (*DescribeSubmissionOutput, error)
 	RetestSubmission(context.Context, *RetestSubmissionInput) (*RetestSubmissionOutput, error)
@@ -825,14 +627,11 @@ func (UnimplementedAtlasServer) ListProblems(context.Context, *ListProblemsInput
 func (UnimplementedAtlasServer) DescribeProblem(context.Context, *DescribeProblemInput) (*DescribeProblemOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeProblem not implemented")
 }
-func (UnimplementedAtlasServer) UpdateVisibility(context.Context, *UpdateVisibilityInput) (*UpdateVisibilityOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateVisibility not implemented")
-}
-func (UnimplementedAtlasServer) UpdatePrivacy(context.Context, *UpdatePrivacyInput) (*UpdatePrivacyOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdatePrivacy not implemented")
-}
 func (UnimplementedAtlasServer) UpdateProblem(context.Context, *UpdateProblemInput) (*UpdateProblemOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateProblem not implemented")
+}
+func (UnimplementedAtlasServer) SetBookmark(context.Context, *SetBookmarkInput) (*SetBookmarkOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SetBookmark not implemented")
 }
 func (UnimplementedAtlasServer) ListExamples(context.Context, *ListExamplesInput) (*ListExamplesOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListExamples not implemented")
@@ -903,18 +702,6 @@ func (UnimplementedAtlasServer) ListTests(context.Context, *ListTestsInput) (*Li
 func (UnimplementedAtlasServer) DescribeTest(context.Context, *DescribeTestInput) (*DescribeTestOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeTest not implemented")
 }
-func (UnimplementedAtlasServer) GrantPermission(context.Context, *GrantPermissionInput) (*GrantPermissionOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GrantPermission not implemented")
-}
-func (UnimplementedAtlasServer) RevokePermission(context.Context, *RevokePermissionInput) (*RevokePermissionOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method RevokePermission not implemented")
-}
-func (UnimplementedAtlasServer) ListPermissions(context.Context, *ListPermissionsInput) (*ListPermissionsOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListPermissions not implemented")
-}
-func (UnimplementedAtlasServer) IntrospectPermission(context.Context, *IntrospectPermissionInput) (*IntrospectPermissionOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method IntrospectPermission not implemented")
-}
 func (UnimplementedAtlasServer) CreateCodeTemplate(context.Context, *CreateCodeTemplateInput) (*CreateCodeTemplateOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateCodeTemplate not implemented")
 }
@@ -953,33 +740,6 @@ func (UnimplementedAtlasServer) ListProblemTop(context.Context, *ListProblemTopI
 }
 func (UnimplementedAtlasServer) DescribeProblemGrading(context.Context, *DescribeProblemGradingInput) (*DescribeProblemGradingOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeProblemGrading not implemented")
-}
-func (UnimplementedAtlasServer) CreateSolution(context.Context, *CreateSolutionInput) (*CreateSolutionOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateSolution not implemented")
-}
-func (UnimplementedAtlasServer) UpdateSolution(context.Context, *UpdateSolutionInput) (*UpdateSolutionOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateSolution not implemented")
-}
-func (UnimplementedAtlasServer) DeleteSolution(context.Context, *DeleteSolutionInput) (*DeleteSolutionOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteSolution not implemented")
-}
-func (UnimplementedAtlasServer) ListSolutions(context.Context, *ListSolutionsInput) (*ListSolutionsOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListSolutions not implemented")
-}
-func (UnimplementedAtlasServer) DescribeSolution(context.Context, *DescribeSolutionInput) (*DescribeSolutionOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DescribeSolution not implemented")
-}
-func (UnimplementedAtlasServer) PublishSolution(context.Context, *PublishSolutionInput) (*PublishSolutionOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method PublishSolution not implemented")
-}
-func (UnimplementedAtlasServer) UnpublishSolution(context.Context, *UnpublishSolutionInput) (*UnpublishSolutionOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UnpublishSolution not implemented")
-}
-func (UnimplementedAtlasServer) ApproveSolution(context.Context, *ApproveSolutionInput) (*ApproveSolutionOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ApproveSolution not implemented")
-}
-func (UnimplementedAtlasServer) RefuseSolution(context.Context, *RefuseSolutionInput) (*RefuseSolutionOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method RefuseSolution not implemented")
 }
 func (UnimplementedAtlasServer) CreateSubmission(context.Context, *CreateSubmissionInput) (*CreateSubmissionOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateSubmission not implemented")
@@ -1077,42 +837,6 @@ func _Atlas_DescribeProblem_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Atlas_UpdateVisibility_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateVisibilityInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AtlasServer).UpdateVisibility(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Atlas_UpdateVisibility_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AtlasServer).UpdateVisibility(ctx, req.(*UpdateVisibilityInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Atlas_UpdatePrivacy_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdatePrivacyInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AtlasServer).UpdatePrivacy(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Atlas_UpdatePrivacy_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AtlasServer).UpdatePrivacy(ctx, req.(*UpdatePrivacyInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _Atlas_UpdateProblem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UpdateProblemInput)
 	if err := dec(in); err != nil {
@@ -1127,6 +851,24 @@ func _Atlas_UpdateProblem_Handler(srv interface{}, ctx context.Context, dec func
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AtlasServer).UpdateProblem(ctx, req.(*UpdateProblemInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Atlas_SetBookmark_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SetBookmarkInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AtlasServer).SetBookmark(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Atlas_SetBookmark_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AtlasServer).SetBookmark(ctx, req.(*SetBookmarkInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1545,78 +1287,6 @@ func _Atlas_DescribeTest_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Atlas_GrantPermission_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GrantPermissionInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AtlasServer).GrantPermission(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Atlas_GrantPermission_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AtlasServer).GrantPermission(ctx, req.(*GrantPermissionInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Atlas_RevokePermission_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RevokePermissionInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AtlasServer).RevokePermission(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Atlas_RevokePermission_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AtlasServer).RevokePermission(ctx, req.(*RevokePermissionInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Atlas_ListPermissions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListPermissionsInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AtlasServer).ListPermissions(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Atlas_ListPermissions_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AtlasServer).ListPermissions(ctx, req.(*ListPermissionsInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Atlas_IntrospectPermission_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(IntrospectPermissionInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AtlasServer).IntrospectPermission(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Atlas_IntrospectPermission_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AtlasServer).IntrospectPermission(ctx, req.(*IntrospectPermissionInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _Atlas_CreateCodeTemplate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreateCodeTemplateInput)
 	if err := dec(in); err != nil {
@@ -1851,168 +1521,6 @@ func _Atlas_DescribeProblemGrading_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Atlas_CreateSolution_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateSolutionInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AtlasServer).CreateSolution(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Atlas_CreateSolution_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AtlasServer).CreateSolution(ctx, req.(*CreateSolutionInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Atlas_UpdateSolution_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateSolutionInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AtlasServer).UpdateSolution(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Atlas_UpdateSolution_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AtlasServer).UpdateSolution(ctx, req.(*UpdateSolutionInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Atlas_DeleteSolution_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteSolutionInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AtlasServer).DeleteSolution(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Atlas_DeleteSolution_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AtlasServer).DeleteSolution(ctx, req.(*DeleteSolutionInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Atlas_ListSolutions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListSolutionsInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AtlasServer).ListSolutions(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Atlas_ListSolutions_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AtlasServer).ListSolutions(ctx, req.(*ListSolutionsInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Atlas_DescribeSolution_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DescribeSolutionInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AtlasServer).DescribeSolution(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Atlas_DescribeSolution_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AtlasServer).DescribeSolution(ctx, req.(*DescribeSolutionInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Atlas_PublishSolution_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PublishSolutionInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AtlasServer).PublishSolution(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Atlas_PublishSolution_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AtlasServer).PublishSolution(ctx, req.(*PublishSolutionInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Atlas_UnpublishSolution_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UnpublishSolutionInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AtlasServer).UnpublishSolution(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Atlas_UnpublishSolution_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AtlasServer).UnpublishSolution(ctx, req.(*UnpublishSolutionInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Atlas_ApproveSolution_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ApproveSolutionInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AtlasServer).ApproveSolution(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Atlas_ApproveSolution_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AtlasServer).ApproveSolution(ctx, req.(*ApproveSolutionInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Atlas_RefuseSolution_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RefuseSolutionInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AtlasServer).RefuseSolution(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Atlas_RefuseSolution_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AtlasServer).RefuseSolution(ctx, req.(*RefuseSolutionInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _Atlas_CreateSubmission_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreateSubmissionInput)
 	if err := dec(in); err != nil {
@@ -2109,16 +1617,12 @@ var Atlas_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Atlas_DescribeProblem_Handler,
 		},
 		{
-			MethodName: "UpdateVisibility",
-			Handler:    _Atlas_UpdateVisibility_Handler,
-		},
-		{
-			MethodName: "UpdatePrivacy",
-			Handler:    _Atlas_UpdatePrivacy_Handler,
-		},
-		{
 			MethodName: "UpdateProblem",
 			Handler:    _Atlas_UpdateProblem_Handler,
+		},
+		{
+			MethodName: "SetBookmark",
+			Handler:    _Atlas_SetBookmark_Handler,
 		},
 		{
 			MethodName: "ListExamples",
@@ -2213,22 +1717,6 @@ var Atlas_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Atlas_DescribeTest_Handler,
 		},
 		{
-			MethodName: "GrantPermission",
-			Handler:    _Atlas_GrantPermission_Handler,
-		},
-		{
-			MethodName: "RevokePermission",
-			Handler:    _Atlas_RevokePermission_Handler,
-		},
-		{
-			MethodName: "ListPermissions",
-			Handler:    _Atlas_ListPermissions_Handler,
-		},
-		{
-			MethodName: "IntrospectPermission",
-			Handler:    _Atlas_IntrospectPermission_Handler,
-		},
-		{
 			MethodName: "CreateCodeTemplate",
 			Handler:    _Atlas_CreateCodeTemplate_Handler,
 		},
@@ -2279,42 +1767,6 @@ var Atlas_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DescribeProblemGrading",
 			Handler:    _Atlas_DescribeProblemGrading_Handler,
-		},
-		{
-			MethodName: "CreateSolution",
-			Handler:    _Atlas_CreateSolution_Handler,
-		},
-		{
-			MethodName: "UpdateSolution",
-			Handler:    _Atlas_UpdateSolution_Handler,
-		},
-		{
-			MethodName: "DeleteSolution",
-			Handler:    _Atlas_DeleteSolution_Handler,
-		},
-		{
-			MethodName: "ListSolutions",
-			Handler:    _Atlas_ListSolutions_Handler,
-		},
-		{
-			MethodName: "DescribeSolution",
-			Handler:    _Atlas_DescribeSolution_Handler,
-		},
-		{
-			MethodName: "PublishSolution",
-			Handler:    _Atlas_PublishSolution_Handler,
-		},
-		{
-			MethodName: "UnpublishSolution",
-			Handler:    _Atlas_UnpublishSolution_Handler,
-		},
-		{
-			MethodName: "ApproveSolution",
-			Handler:    _Atlas_ApproveSolution_Handler,
-		},
-		{
-			MethodName: "RefuseSolution",
-			Handler:    _Atlas_RefuseSolution_Handler,
 		},
 		{
 			MethodName: "CreateSubmission",

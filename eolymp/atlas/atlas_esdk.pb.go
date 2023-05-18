@@ -154,38 +154,6 @@ func (s *AtlasService) DescribeProblem(ctx context.Context, in *DescribeProblemI
 	return out, nil
 }
 
-func (s *AtlasService) UpdateVisibility(ctx context.Context, in *UpdateVisibilityInput) (*UpdateVisibilityOutput, error) {
-	out := &UpdateVisibilityOutput{}
-	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/visibility"
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.ProblemId = ""
-	}
-
-	if err := s.do(ctx, "POST", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *AtlasService) UpdatePrivacy(ctx context.Context, in *UpdatePrivacyInput) (*UpdatePrivacyOutput, error) {
-	out := &UpdatePrivacyOutput{}
-	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/privacy"
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.ProblemId = ""
-	}
-
-	if err := s.do(ctx, "POST", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
 func (s *AtlasService) UpdateProblem(ctx context.Context, in *UpdateProblemInput) (*UpdateProblemOutput, error) {
 	out := &UpdateProblemOutput{}
 	path := "/problems/" + url.PathEscape(in.GetProblemId())
@@ -196,6 +164,22 @@ func (s *AtlasService) UpdateProblem(ctx context.Context, in *UpdateProblemInput
 	}
 
 	if err := s.do(ctx, "PUT", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *AtlasService) SetBookmark(ctx context.Context, in *SetBookmarkInput) (*SetBookmarkOutput, error) {
+	out := &SetBookmarkOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/bookmark"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -585,71 +569,6 @@ func (s *AtlasService) DescribeTest(ctx context.Context, in *DescribeTestInput) 
 	return out, nil
 }
 
-func (s *AtlasService) GrantPermission(ctx context.Context, in *GrantPermissionInput) (*GrantPermissionOutput, error) {
-	out := &GrantPermissionOutput{}
-	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/permissions"
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.ProblemId = ""
-	}
-
-	if err := s.do(ctx, "POST", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *AtlasService) RevokePermission(ctx context.Context, in *RevokePermissionInput) (*RevokePermissionOutput, error) {
-	out := &RevokePermissionOutput{}
-	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/permissions/" + url.PathEscape(in.GetUserId())
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.ProblemId = ""
-		in.UserId = ""
-	}
-
-	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *AtlasService) ListPermissions(ctx context.Context, in *ListPermissionsInput) (*ListPermissionsOutput, error) {
-	out := &ListPermissionsOutput{}
-	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/permissions"
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.ProblemId = ""
-	}
-
-	if err := s.do(ctx, "GET", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *AtlasService) IntrospectPermission(ctx context.Context, in *IntrospectPermissionInput) (*IntrospectPermissionOutput, error) {
-	out := &IntrospectPermissionOutput{}
-	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/introspect-permission"
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.ProblemId = ""
-	}
-
-	if err := s.do(ctx, "GET", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
 func (s *AtlasService) CreateCodeTemplate(ctx context.Context, in *CreateCodeTemplateInput) (*CreateCodeTemplateOutput, error) {
 	out := &CreateCodeTemplateOutput{}
 	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/templates"
@@ -858,157 +777,6 @@ func (s *AtlasService) DescribeProblemGrading(ctx context.Context, in *DescribeP
 	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *AtlasService) CreateSolution(ctx context.Context, in *CreateSolutionInput) (*CreateSolutionOutput, error) {
-	out := &CreateSolutionOutput{}
-	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/solutions"
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.ProblemId = ""
-	}
-
-	if err := s.do(ctx, "POST", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *AtlasService) UpdateSolution(ctx context.Context, in *UpdateSolutionInput) (*UpdateSolutionOutput, error) {
-	out := &UpdateSolutionOutput{}
-	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/solutions/" + url.PathEscape(in.GetSolutionId())
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.ProblemId = ""
-		in.SolutionId = ""
-	}
-
-	if err := s.do(ctx, "POST", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *AtlasService) DeleteSolution(ctx context.Context, in *DeleteSolutionInput) (*DeleteSolutionOutput, error) {
-	out := &DeleteSolutionOutput{}
-	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/solutions/" + url.PathEscape(in.GetSolutionId())
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.ProblemId = ""
-		in.SolutionId = ""
-	}
-
-	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *AtlasService) ListSolutions(ctx context.Context, in *ListSolutionsInput) (*ListSolutionsOutput, error) {
-	out := &ListSolutionsOutput{}
-	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/solutions"
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.ProblemId = ""
-	}
-
-	if err := s.do(ctx, "GET", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *AtlasService) DescribeSolution(ctx context.Context, in *DescribeSolutionInput) (*DescribeSolutionOutput, error) {
-	out := &DescribeSolutionOutput{}
-	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/solutions/" + url.PathEscape(in.GetSolutionId())
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.ProblemId = ""
-		in.SolutionId = ""
-	}
-
-	if err := s.do(ctx, "GET", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *AtlasService) PublishSolution(ctx context.Context, in *PublishSolutionInput) (*PublishSolutionOutput, error) {
-	out := &PublishSolutionOutput{}
-	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/solutions/" + url.PathEscape(in.GetSolutionId()) + "/publish"
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.ProblemId = ""
-		in.SolutionId = ""
-	}
-
-	if err := s.do(ctx, "POST", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *AtlasService) UnpublishSolution(ctx context.Context, in *UnpublishSolutionInput) (*UnpublishSolutionOutput, error) {
-	out := &UnpublishSolutionOutput{}
-	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/solutions/" + url.PathEscape(in.GetSolutionId()) + "/unpublish"
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.ProblemId = ""
-		in.SolutionId = ""
-	}
-
-	if err := s.do(ctx, "POST", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *AtlasService) ApproveSolution(ctx context.Context, in *ApproveSolutionInput) (*ApproveSolutionOutput, error) {
-	out := &ApproveSolutionOutput{}
-	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/solutions/" + url.PathEscape(in.GetSolutionId()) + "/approve"
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.ProblemId = ""
-		in.SolutionId = ""
-	}
-
-	if err := s.do(ctx, "POST", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *AtlasService) RefuseSolution(ctx context.Context, in *RefuseSolutionInput) (*RefuseSolutionOutput, error) {
-	out := &RefuseSolutionOutput{}
-	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/solutions/" + url.PathEscape(in.GetSolutionId()) + "/refuse"
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.ProblemId = ""
-		in.SolutionId = ""
-	}
-
-	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 

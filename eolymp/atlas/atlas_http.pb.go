@@ -193,15 +193,12 @@ func RegisterAtlasHttpHandlers(router *mux.Router, prefix string, srv AtlasServe
 	router.Handle(prefix+"/problems/{problem_id}", _Atlas_DescribeProblem_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.atlas.Atlas.DescribeProblem")
-	router.Handle(prefix+"/problems/{problem_id}/visibility", _Atlas_UpdateVisibility_Rule0(srv)).
-		Methods("POST").
-		Name("eolymp.atlas.Atlas.UpdateVisibility")
-	router.Handle(prefix+"/problems/{problem_id}/privacy", _Atlas_UpdatePrivacy_Rule0(srv)).
-		Methods("POST").
-		Name("eolymp.atlas.Atlas.UpdatePrivacy")
 	router.Handle(prefix+"/problems/{problem_id}", _Atlas_UpdateProblem_Rule0(srv)).
 		Methods("PUT").
 		Name("eolymp.atlas.Atlas.UpdateProblem")
+	router.Handle(prefix+"/problems/{problem_id}/bookmark", _Atlas_SetBookmark_Rule0(srv)).
+		Methods("POST").
+		Name("eolymp.atlas.Atlas.SetBookmark")
 	router.Handle(prefix+"/problems/{problem_id}/examples", _Atlas_ListExamples_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.atlas.Atlas.ListExamples")
@@ -271,18 +268,6 @@ func RegisterAtlasHttpHandlers(router *mux.Router, prefix string, srv AtlasServe
 	router.Handle(prefix+"/problems/{problem_id}/testsets/{testset_id}/tests/{test_id}", _Atlas_DescribeTest_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.atlas.Atlas.DescribeTest")
-	router.Handle(prefix+"/problems/{problem_id}/permissions", _Atlas_GrantPermission_Rule0(srv)).
-		Methods("POST").
-		Name("eolymp.atlas.Atlas.GrantPermission")
-	router.Handle(prefix+"/problems/{problem_id}/permissions/{user_id}", _Atlas_RevokePermission_Rule0(srv)).
-		Methods("DELETE").
-		Name("eolymp.atlas.Atlas.RevokePermission")
-	router.Handle(prefix+"/problems/{problem_id}/permissions", _Atlas_ListPermissions_Rule0(srv)).
-		Methods("GET").
-		Name("eolymp.atlas.Atlas.ListPermissions")
-	router.Handle(prefix+"/problems/{problem_id}/introspect-permission", _Atlas_IntrospectPermission_Rule0(srv)).
-		Methods("GET").
-		Name("eolymp.atlas.Atlas.IntrospectPermission")
 	router.Handle(prefix+"/problems/{problem_id}/templates", _Atlas_CreateCodeTemplate_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.atlas.Atlas.CreateCodeTemplate")
@@ -322,33 +307,6 @@ func RegisterAtlasHttpHandlers(router *mux.Router, prefix string, srv AtlasServe
 	router.Handle(prefix+"/problems/{problem_id}/grading", _Atlas_DescribeProblemGrading_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.atlas.Atlas.DescribeProblemGrading")
-	router.Handle(prefix+"/problems/{problem_id}/solutions", _Atlas_CreateSolution_Rule0(srv)).
-		Methods("POST").
-		Name("eolymp.atlas.Atlas.CreateSolution")
-	router.Handle(prefix+"/problems/{problem_id}/solutions/{solution_id}", _Atlas_UpdateSolution_Rule0(srv)).
-		Methods("POST").
-		Name("eolymp.atlas.Atlas.UpdateSolution")
-	router.Handle(prefix+"/problems/{problem_id}/solutions/{solution_id}", _Atlas_DeleteSolution_Rule0(srv)).
-		Methods("DELETE").
-		Name("eolymp.atlas.Atlas.DeleteSolution")
-	router.Handle(prefix+"/problems/{problem_id}/solutions", _Atlas_ListSolutions_Rule0(srv)).
-		Methods("GET").
-		Name("eolymp.atlas.Atlas.ListSolutions")
-	router.Handle(prefix+"/problems/{problem_id}/solutions/{solution_id}", _Atlas_DescribeSolution_Rule0(srv)).
-		Methods("GET").
-		Name("eolymp.atlas.Atlas.DescribeSolution")
-	router.Handle(prefix+"/problems/{problem_id}/solutions/{solution_id}/publish", _Atlas_PublishSolution_Rule0(srv)).
-		Methods("POST").
-		Name("eolymp.atlas.Atlas.PublishSolution")
-	router.Handle(prefix+"/problems/{problem_id}/solutions/{solution_id}/unpublish", _Atlas_UnpublishSolution_Rule0(srv)).
-		Methods("POST").
-		Name("eolymp.atlas.Atlas.UnpublishSolution")
-	router.Handle(prefix+"/problems/{problem_id}/solutions/{solution_id}/approve", _Atlas_ApproveSolution_Rule0(srv)).
-		Methods("POST").
-		Name("eolymp.atlas.Atlas.ApproveSolution")
-	router.Handle(prefix+"/problems/{problem_id}/solutions/{solution_id}/refuse", _Atlas_RefuseSolution_Rule0(srv)).
-		Methods("POST").
-		Name("eolymp.atlas.Atlas.RefuseSolution")
 	router.Handle(prefix+"/problems/{problem_id}/submissions", _Atlas_CreateSubmission_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.atlas.Atlas.CreateSubmission")
@@ -449,52 +407,6 @@ func _Atlas_DescribeProblem_Rule0(srv AtlasServer) http.Handler {
 	})
 }
 
-func _Atlas_UpdateVisibility_Rule0(srv AtlasServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &UpdateVisibilityInput{}
-
-		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_Atlas_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.ProblemId = vars["problem_id"]
-
-		out, err := srv.UpdateVisibility(r.Context(), in)
-		if err != nil {
-			_Atlas_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Atlas_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Atlas_UpdatePrivacy_Rule0(srv AtlasServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &UpdatePrivacyInput{}
-
-		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_Atlas_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.ProblemId = vars["problem_id"]
-
-		out, err := srv.UpdatePrivacy(r.Context(), in)
-		if err != nil {
-			_Atlas_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Atlas_HTTPWriteResponse(w, out)
-	})
-}
-
 func _Atlas_UpdateProblem_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateProblemInput{}
@@ -509,6 +421,29 @@ func _Atlas_UpdateProblem_Rule0(srv AtlasServer) http.Handler {
 		in.ProblemId = vars["problem_id"]
 
 		out, err := srv.UpdateProblem(r.Context(), in)
+		if err != nil {
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Atlas_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Atlas_SetBookmark_Rule0(srv AtlasServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &SetBookmarkInput{}
+
+		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
+
+		out, err := srv.SetBookmark(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -1062,99 +997,6 @@ func _Atlas_DescribeTest_Rule0(srv AtlasServer) http.Handler {
 	})
 }
 
-func _Atlas_GrantPermission_Rule0(srv AtlasServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &GrantPermissionInput{}
-
-		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_Atlas_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.ProblemId = vars["problem_id"]
-
-		out, err := srv.GrantPermission(r.Context(), in)
-		if err != nil {
-			_Atlas_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Atlas_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Atlas_RevokePermission_Rule0(srv AtlasServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &RevokePermissionInput{}
-
-		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_Atlas_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.ProblemId = vars["problem_id"]
-		in.UserId = vars["user_id"]
-
-		out, err := srv.RevokePermission(r.Context(), in)
-		if err != nil {
-			_Atlas_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Atlas_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Atlas_ListPermissions_Rule0(srv AtlasServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ListPermissionsInput{}
-
-		if err := _Atlas_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_Atlas_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.ProblemId = vars["problem_id"]
-
-		out, err := srv.ListPermissions(r.Context(), in)
-		if err != nil {
-			_Atlas_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Atlas_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Atlas_IntrospectPermission_Rule0(srv AtlasServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &IntrospectPermissionInput{}
-
-		if err := _Atlas_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_Atlas_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.ProblemId = vars["problem_id"]
-
-		out, err := srv.IntrospectPermission(r.Context(), in)
-		if err != nil {
-			_Atlas_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Atlas_HTTPWriteResponse(w, out)
-	})
-}
-
 func _Atlas_CreateCodeTemplate_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateCodeTemplateInput{}
@@ -1460,220 +1302,6 @@ func _Atlas_DescribeProblemGrading_Rule0(srv AtlasServer) http.Handler {
 	})
 }
 
-func _Atlas_CreateSolution_Rule0(srv AtlasServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &CreateSolutionInput{}
-
-		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_Atlas_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.ProblemId = vars["problem_id"]
-
-		out, err := srv.CreateSolution(r.Context(), in)
-		if err != nil {
-			_Atlas_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Atlas_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Atlas_UpdateSolution_Rule0(srv AtlasServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &UpdateSolutionInput{}
-
-		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_Atlas_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.ProblemId = vars["problem_id"]
-		in.SolutionId = vars["solution_id"]
-
-		out, err := srv.UpdateSolution(r.Context(), in)
-		if err != nil {
-			_Atlas_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Atlas_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Atlas_DeleteSolution_Rule0(srv AtlasServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DeleteSolutionInput{}
-
-		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_Atlas_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.ProblemId = vars["problem_id"]
-		in.SolutionId = vars["solution_id"]
-
-		out, err := srv.DeleteSolution(r.Context(), in)
-		if err != nil {
-			_Atlas_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Atlas_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Atlas_ListSolutions_Rule0(srv AtlasServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ListSolutionsInput{}
-
-		if err := _Atlas_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_Atlas_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.ProblemId = vars["problem_id"]
-
-		out, err := srv.ListSolutions(r.Context(), in)
-		if err != nil {
-			_Atlas_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Atlas_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Atlas_DescribeSolution_Rule0(srv AtlasServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DescribeSolutionInput{}
-
-		if err := _Atlas_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_Atlas_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.ProblemId = vars["problem_id"]
-		in.SolutionId = vars["solution_id"]
-
-		out, err := srv.DescribeSolution(r.Context(), in)
-		if err != nil {
-			_Atlas_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Atlas_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Atlas_PublishSolution_Rule0(srv AtlasServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &PublishSolutionInput{}
-
-		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_Atlas_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.ProblemId = vars["problem_id"]
-		in.SolutionId = vars["solution_id"]
-
-		out, err := srv.PublishSolution(r.Context(), in)
-		if err != nil {
-			_Atlas_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Atlas_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Atlas_UnpublishSolution_Rule0(srv AtlasServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &UnpublishSolutionInput{}
-
-		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_Atlas_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.ProblemId = vars["problem_id"]
-		in.SolutionId = vars["solution_id"]
-
-		out, err := srv.UnpublishSolution(r.Context(), in)
-		if err != nil {
-			_Atlas_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Atlas_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Atlas_ApproveSolution_Rule0(srv AtlasServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ApproveSolutionInput{}
-
-		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_Atlas_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.ProblemId = vars["problem_id"]
-		in.SolutionId = vars["solution_id"]
-
-		out, err := srv.ApproveSolution(r.Context(), in)
-		if err != nil {
-			_Atlas_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Atlas_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Atlas_RefuseSolution_Rule0(srv AtlasServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &RefuseSolutionInput{}
-
-		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_Atlas_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.ProblemId = vars["problem_id"]
-		in.SolutionId = vars["solution_id"]
-
-		out, err := srv.RefuseSolution(r.Context(), in)
-		if err != nil {
-			_Atlas_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Atlas_HTTPWriteResponse(w, out)
-	})
-}
-
 func _Atlas_CreateSubmission_Rule0(srv AtlasServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateSubmissionInput{}
@@ -1909,70 +1537,6 @@ func (i *AtlasInterceptor) DescribeProblem(ctx context.Context, in *DescribeProb
 	return message, err
 }
 
-func (i *AtlasInterceptor) UpdateVisibility(ctx context.Context, in *UpdateVisibilityInput) (*UpdateVisibilityOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*UpdateVisibilityInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *UpdateVisibilityInput, got %T", in))
-		}
-
-		return i.server.UpdateVisibility(ctx, message)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas.UpdateVisibility", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*UpdateVisibilityOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *UpdateVisibilityOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *AtlasInterceptor) UpdatePrivacy(ctx context.Context, in *UpdatePrivacyInput) (*UpdatePrivacyOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*UpdatePrivacyInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *UpdatePrivacyInput, got %T", in))
-		}
-
-		return i.server.UpdatePrivacy(ctx, message)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas.UpdatePrivacy", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*UpdatePrivacyOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *UpdatePrivacyOutput, got %T", out))
-	}
-
-	return message, err
-}
-
 func (i *AtlasInterceptor) UpdateProblem(ctx context.Context, in *UpdateProblemInput) (*UpdateProblemOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdateProblemInput)
@@ -2000,6 +1564,38 @@ func (i *AtlasInterceptor) UpdateProblem(ctx context.Context, in *UpdateProblemI
 	message, ok := out.(*UpdateProblemOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *UpdateProblemOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *AtlasInterceptor) SetBookmark(ctx context.Context, in *SetBookmarkInput) (*SetBookmarkOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*SetBookmarkInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *SetBookmarkInput, got %T", in))
+		}
+
+		return i.server.SetBookmark(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas.SetBookmark", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*SetBookmarkOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *SetBookmarkOutput, got %T", out))
 	}
 
 	return message, err
@@ -2741,134 +2337,6 @@ func (i *AtlasInterceptor) DescribeTest(ctx context.Context, in *DescribeTestInp
 	return message, err
 }
 
-func (i *AtlasInterceptor) GrantPermission(ctx context.Context, in *GrantPermissionInput) (*GrantPermissionOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*GrantPermissionInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *GrantPermissionInput, got %T", in))
-		}
-
-		return i.server.GrantPermission(ctx, message)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas.GrantPermission", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*GrantPermissionOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *GrantPermissionOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *AtlasInterceptor) RevokePermission(ctx context.Context, in *RevokePermissionInput) (*RevokePermissionOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*RevokePermissionInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *RevokePermissionInput, got %T", in))
-		}
-
-		return i.server.RevokePermission(ctx, message)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas.RevokePermission", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*RevokePermissionOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *RevokePermissionOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *AtlasInterceptor) ListPermissions(ctx context.Context, in *ListPermissionsInput) (*ListPermissionsOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*ListPermissionsInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *ListPermissionsInput, got %T", in))
-		}
-
-		return i.server.ListPermissions(ctx, message)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas.ListPermissions", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*ListPermissionsOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *ListPermissionsOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *AtlasInterceptor) IntrospectPermission(ctx context.Context, in *IntrospectPermissionInput) (*IntrospectPermissionOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*IntrospectPermissionInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *IntrospectPermissionInput, got %T", in))
-		}
-
-		return i.server.IntrospectPermission(ctx, message)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas.IntrospectPermission", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*IntrospectPermissionOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *IntrospectPermissionOutput, got %T", out))
-	}
-
-	return message, err
-}
-
 func (i *AtlasInterceptor) CreateCodeTemplate(ctx context.Context, in *CreateCodeTemplateInput) (*CreateCodeTemplateOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CreateCodeTemplateInput)
@@ -3280,294 +2748,6 @@ func (i *AtlasInterceptor) DescribeProblemGrading(ctx context.Context, in *Descr
 	message, ok := out.(*DescribeProblemGradingOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *DescribeProblemGradingOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *AtlasInterceptor) CreateSolution(ctx context.Context, in *CreateSolutionInput) (*CreateSolutionOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*CreateSolutionInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *CreateSolutionInput, got %T", in))
-		}
-
-		return i.server.CreateSolution(ctx, message)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas.CreateSolution", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*CreateSolutionOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *CreateSolutionOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *AtlasInterceptor) UpdateSolution(ctx context.Context, in *UpdateSolutionInput) (*UpdateSolutionOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*UpdateSolutionInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *UpdateSolutionInput, got %T", in))
-		}
-
-		return i.server.UpdateSolution(ctx, message)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas.UpdateSolution", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*UpdateSolutionOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *UpdateSolutionOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *AtlasInterceptor) DeleteSolution(ctx context.Context, in *DeleteSolutionInput) (*DeleteSolutionOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*DeleteSolutionInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *DeleteSolutionInput, got %T", in))
-		}
-
-		return i.server.DeleteSolution(ctx, message)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas.DeleteSolution", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*DeleteSolutionOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *DeleteSolutionOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *AtlasInterceptor) ListSolutions(ctx context.Context, in *ListSolutionsInput) (*ListSolutionsOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*ListSolutionsInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *ListSolutionsInput, got %T", in))
-		}
-
-		return i.server.ListSolutions(ctx, message)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas.ListSolutions", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*ListSolutionsOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *ListSolutionsOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *AtlasInterceptor) DescribeSolution(ctx context.Context, in *DescribeSolutionInput) (*DescribeSolutionOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*DescribeSolutionInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *DescribeSolutionInput, got %T", in))
-		}
-
-		return i.server.DescribeSolution(ctx, message)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas.DescribeSolution", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*DescribeSolutionOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *DescribeSolutionOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *AtlasInterceptor) PublishSolution(ctx context.Context, in *PublishSolutionInput) (*PublishSolutionOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*PublishSolutionInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *PublishSolutionInput, got %T", in))
-		}
-
-		return i.server.PublishSolution(ctx, message)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas.PublishSolution", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*PublishSolutionOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *PublishSolutionOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *AtlasInterceptor) UnpublishSolution(ctx context.Context, in *UnpublishSolutionInput) (*UnpublishSolutionOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*UnpublishSolutionInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *UnpublishSolutionInput, got %T", in))
-		}
-
-		return i.server.UnpublishSolution(ctx, message)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas.UnpublishSolution", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*UnpublishSolutionOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *UnpublishSolutionOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *AtlasInterceptor) ApproveSolution(ctx context.Context, in *ApproveSolutionInput) (*ApproveSolutionOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*ApproveSolutionInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *ApproveSolutionInput, got %T", in))
-		}
-
-		return i.server.ApproveSolution(ctx, message)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas.ApproveSolution", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*ApproveSolutionOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *ApproveSolutionOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *AtlasInterceptor) RefuseSolution(ctx context.Context, in *RefuseSolutionInput) (*RefuseSolutionOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*RefuseSolutionInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *RefuseSolutionInput, got %T", in))
-		}
-
-		return i.server.RefuseSolution(ctx, message)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas.RefuseSolution", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*RefuseSolutionOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *RefuseSolutionOutput, got %T", out))
 	}
 
 	return message, err

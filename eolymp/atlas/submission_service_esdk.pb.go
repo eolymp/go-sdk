@@ -142,3 +142,14 @@ func (s *SubmissionServiceService) DescribeSubmission(ctx context.Context, in *D
 
 	return out, nil
 }
+
+func (s *SubmissionServiceService) ListSubmissions(ctx context.Context, in *ListSubmissionsInput) (*ListSubmissionsOutput, error) {
+	out := &ListSubmissionsOutput{}
+	path := "/submissions"
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
