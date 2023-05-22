@@ -186,6 +186,22 @@ func (s *AtlasService) SetBookmark(ctx context.Context, in *SetBookmarkInput) (*
 	return out, nil
 }
 
+func (s *AtlasService) GetBookmark(ctx context.Context, in *GetBookmarkInput) (*GetBookmarkOutput, error) {
+	out := &GetBookmarkOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/bookmark"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *AtlasService) ListExamples(ctx context.Context, in *ListExamplesInput) (*ListExamplesOutput, error) {
 	out := &ListExamplesOutput{}
 	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/examples"

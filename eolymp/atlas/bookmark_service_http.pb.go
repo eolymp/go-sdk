@@ -181,9 +181,32 @@ var _BookmarkService_WebsocketCodec = websocket.Codec{
 // RegisterBookmarkServiceHttpHandlers adds handlers for for BookmarkServiceServer
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterBookmarkServiceHttpHandlers(router *mux.Router, prefix string, srv BookmarkServiceServer) {
+	router.Handle(prefix+"/bookmark", _BookmarkService_GetBookmark_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.atlas.BookmarkService.GetBookmark")
 	router.Handle(prefix+"/bookmark", _BookmarkService_SetBookmark_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.atlas.BookmarkService.SetBookmark")
+}
+
+func _BookmarkService_GetBookmark_Rule0(srv BookmarkServiceServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &GetBookmarkInput{}
+
+		if err := _BookmarkService_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_BookmarkService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.GetBookmark(r.Context(), in)
+		if err != nil {
+			_BookmarkService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_BookmarkService_HTTPWriteResponse(w, out)
+	})
 }
 
 func _BookmarkService_SetBookmark_Rule0(srv BookmarkServiceServer) http.Handler {
@@ -216,6 +239,38 @@ type BookmarkServiceInterceptor struct {
 // NewBookmarkServiceInterceptor constructs additional middleware for a server based on annotations in proto files
 func NewBookmarkServiceInterceptor(srv BookmarkServiceServer, middleware ..._BookmarkServiceMiddleware) *BookmarkServiceInterceptor {
 	return &BookmarkServiceInterceptor{server: srv, middleware: middleware}
+}
+
+func (i *BookmarkServiceInterceptor) GetBookmark(ctx context.Context, in *GetBookmarkInput) (*GetBookmarkOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*GetBookmarkInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *GetBookmarkInput, got %T", in))
+		}
+
+		return i.server.GetBookmark(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.BookmarkService.GetBookmark", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*GetBookmarkOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *GetBookmarkOutput, got %T", out))
+	}
+
+	return message, err
 }
 
 func (i *BookmarkServiceInterceptor) SetBookmark(ctx context.Context, in *SetBookmarkInput) (*SetBookmarkOutput, error) {

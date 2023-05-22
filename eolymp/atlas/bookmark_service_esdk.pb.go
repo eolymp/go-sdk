@@ -100,6 +100,17 @@ func (s *BookmarkServiceService) do(ctx context.Context, verb, path string, in, 
 	return nil
 }
 
+func (s *BookmarkServiceService) GetBookmark(ctx context.Context, in *GetBookmarkInput) (*GetBookmarkOutput, error) {
+	out := &GetBookmarkOutput{}
+	path := "/bookmark"
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *BookmarkServiceService) SetBookmark(ctx context.Context, in *SetBookmarkInput) (*SetBookmarkOutput, error) {
 	out := &SetBookmarkOutput{}
 	path := "/bookmark"

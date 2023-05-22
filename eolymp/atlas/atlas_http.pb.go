@@ -199,6 +199,9 @@ func RegisterAtlasHttpHandlers(router *mux.Router, prefix string, srv AtlasServe
 	router.Handle(prefix+"/problems/{problem_id}/bookmark", _Atlas_SetBookmark_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.atlas.Atlas.SetBookmark")
+	router.Handle(prefix+"/problems/{problem_id}/bookmark", _Atlas_GetBookmark_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.atlas.Atlas.GetBookmark")
 	router.Handle(prefix+"/problems/{problem_id}/examples", _Atlas_ListExamples_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.atlas.Atlas.ListExamples")
@@ -447,6 +450,29 @@ func _Atlas_SetBookmark_Rule0(srv AtlasServer) http.Handler {
 		in.ProblemId = vars["problem_id"]
 
 		out, err := srv.SetBookmark(r.Context(), in)
+		if err != nil {
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Atlas_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Atlas_GetBookmark_Rule0(srv AtlasServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &GetBookmarkInput{}
+
+		if err := _Atlas_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
+
+		out, err := srv.GetBookmark(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -1619,6 +1645,38 @@ func (i *AtlasInterceptor) SetBookmark(ctx context.Context, in *SetBookmarkInput
 	message, ok := out.(*SetBookmarkOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *SetBookmarkOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *AtlasInterceptor) GetBookmark(ctx context.Context, in *GetBookmarkInput) (*GetBookmarkOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*GetBookmarkInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *GetBookmarkInput, got %T", in))
+		}
+
+		return i.server.GetBookmark(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas.GetBookmark", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*GetBookmarkOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *GetBookmarkOutput, got %T", out))
 	}
 
 	return message, err

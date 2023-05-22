@@ -19,6 +19,7 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
+	BookmarkService_GetBookmark_FullMethodName = "/eolymp.atlas.BookmarkService/GetBookmark"
 	BookmarkService_SetBookmark_FullMethodName = "/eolymp.atlas.BookmarkService/SetBookmark"
 )
 
@@ -26,6 +27,7 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type BookmarkServiceClient interface {
+	GetBookmark(ctx context.Context, in *GetBookmarkInput, opts ...grpc.CallOption) (*GetBookmarkOutput, error)
 	SetBookmark(ctx context.Context, in *SetBookmarkInput, opts ...grpc.CallOption) (*SetBookmarkOutput, error)
 }
 
@@ -35,6 +37,15 @@ type bookmarkServiceClient struct {
 
 func NewBookmarkServiceClient(cc grpc.ClientConnInterface) BookmarkServiceClient {
 	return &bookmarkServiceClient{cc}
+}
+
+func (c *bookmarkServiceClient) GetBookmark(ctx context.Context, in *GetBookmarkInput, opts ...grpc.CallOption) (*GetBookmarkOutput, error) {
+	out := new(GetBookmarkOutput)
+	err := c.cc.Invoke(ctx, BookmarkService_GetBookmark_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *bookmarkServiceClient) SetBookmark(ctx context.Context, in *SetBookmarkInput, opts ...grpc.CallOption) (*SetBookmarkOutput, error) {
@@ -50,6 +61,7 @@ func (c *bookmarkServiceClient) SetBookmark(ctx context.Context, in *SetBookmark
 // All implementations should embed UnimplementedBookmarkServiceServer
 // for forward compatibility
 type BookmarkServiceServer interface {
+	GetBookmark(context.Context, *GetBookmarkInput) (*GetBookmarkOutput, error)
 	SetBookmark(context.Context, *SetBookmarkInput) (*SetBookmarkOutput, error)
 }
 
@@ -57,6 +69,9 @@ type BookmarkServiceServer interface {
 type UnimplementedBookmarkServiceServer struct {
 }
 
+func (UnimplementedBookmarkServiceServer) GetBookmark(context.Context, *GetBookmarkInput) (*GetBookmarkOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetBookmark not implemented")
+}
 func (UnimplementedBookmarkServiceServer) SetBookmark(context.Context, *SetBookmarkInput) (*SetBookmarkOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SetBookmark not implemented")
 }
@@ -70,6 +85,24 @@ type UnsafeBookmarkServiceServer interface {
 
 func RegisterBookmarkServiceServer(s grpc.ServiceRegistrar, srv BookmarkServiceServer) {
 	s.RegisterService(&BookmarkService_ServiceDesc, srv)
+}
+
+func _BookmarkService_GetBookmark_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetBookmarkInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BookmarkServiceServer).GetBookmark(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: BookmarkService_GetBookmark_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BookmarkServiceServer).GetBookmark(ctx, req.(*GetBookmarkInput))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _BookmarkService_SetBookmark_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -97,6 +130,10 @@ var BookmarkService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "eolymp.atlas.BookmarkService",
 	HandlerType: (*BookmarkServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetBookmark",
+			Handler:    _BookmarkService_GetBookmark_Handler,
+		},
 		{
 			MethodName: "SetBookmark",
 			Handler:    _BookmarkService_SetBookmark_Handler,

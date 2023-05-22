@@ -25,6 +25,7 @@ const (
 	Atlas_DescribeProblem_FullMethodName        = "/eolymp.atlas.Atlas/DescribeProblem"
 	Atlas_UpdateProblem_FullMethodName          = "/eolymp.atlas.Atlas/UpdateProblem"
 	Atlas_SetBookmark_FullMethodName            = "/eolymp.atlas.Atlas/SetBookmark"
+	Atlas_GetBookmark_FullMethodName            = "/eolymp.atlas.Atlas/GetBookmark"
 	Atlas_ListExamples_FullMethodName           = "/eolymp.atlas.Atlas/ListExamples"
 	Atlas_UpdateVerifier_FullMethodName         = "/eolymp.atlas.Atlas/UpdateVerifier"
 	Atlas_DescribeVerifier_FullMethodName       = "/eolymp.atlas.Atlas/DescribeVerifier"
@@ -78,6 +79,7 @@ type AtlasClient interface {
 	DescribeProblem(ctx context.Context, in *DescribeProblemInput, opts ...grpc.CallOption) (*DescribeProblemOutput, error)
 	UpdateProblem(ctx context.Context, in *UpdateProblemInput, opts ...grpc.CallOption) (*UpdateProblemOutput, error)
 	SetBookmark(ctx context.Context, in *SetBookmarkInput, opts ...grpc.CallOption) (*SetBookmarkOutput, error)
+	GetBookmark(ctx context.Context, in *GetBookmarkInput, opts ...grpc.CallOption) (*GetBookmarkOutput, error)
 	ListExamples(ctx context.Context, in *ListExamplesInput, opts ...grpc.CallOption) (*ListExamplesOutput, error)
 	UpdateVerifier(ctx context.Context, in *UpdateVerifierInput, opts ...grpc.CallOption) (*UpdateVerifierOutput, error)
 	DescribeVerifier(ctx context.Context, in *DescribeVerifierInput, opts ...grpc.CallOption) (*DescribeVerifierOutput, error)
@@ -186,6 +188,15 @@ func (c *atlasClient) UpdateProblem(ctx context.Context, in *UpdateProblemInput,
 func (c *atlasClient) SetBookmark(ctx context.Context, in *SetBookmarkInput, opts ...grpc.CallOption) (*SetBookmarkOutput, error) {
 	out := new(SetBookmarkOutput)
 	err := c.cc.Invoke(ctx, Atlas_SetBookmark_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *atlasClient) GetBookmark(ctx context.Context, in *GetBookmarkInput, opts ...grpc.CallOption) (*GetBookmarkOutput, error) {
+	out := new(GetBookmarkOutput)
+	err := c.cc.Invoke(ctx, Atlas_GetBookmark_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -571,6 +582,7 @@ type AtlasServer interface {
 	DescribeProblem(context.Context, *DescribeProblemInput) (*DescribeProblemOutput, error)
 	UpdateProblem(context.Context, *UpdateProblemInput) (*UpdateProblemOutput, error)
 	SetBookmark(context.Context, *SetBookmarkInput) (*SetBookmarkOutput, error)
+	GetBookmark(context.Context, *GetBookmarkInput) (*GetBookmarkOutput, error)
 	ListExamples(context.Context, *ListExamplesInput) (*ListExamplesOutput, error)
 	UpdateVerifier(context.Context, *UpdateVerifierInput) (*UpdateVerifierOutput, error)
 	DescribeVerifier(context.Context, *DescribeVerifierInput) (*DescribeVerifierOutput, error)
@@ -644,6 +656,9 @@ func (UnimplementedAtlasServer) UpdateProblem(context.Context, *UpdateProblemInp
 }
 func (UnimplementedAtlasServer) SetBookmark(context.Context, *SetBookmarkInput) (*SetBookmarkOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SetBookmark not implemented")
+}
+func (UnimplementedAtlasServer) GetBookmark(context.Context, *GetBookmarkInput) (*GetBookmarkOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetBookmark not implemented")
 }
 func (UnimplementedAtlasServer) ListExamples(context.Context, *ListExamplesInput) (*ListExamplesOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListExamples not implemented")
@@ -884,6 +899,24 @@ func _Atlas_SetBookmark_Handler(srv interface{}, ctx context.Context, dec func(i
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AtlasServer).SetBookmark(ctx, req.(*SetBookmarkInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Atlas_GetBookmark_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetBookmarkInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AtlasServer).GetBookmark(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Atlas_GetBookmark_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AtlasServer).GetBookmark(ctx, req.(*GetBookmarkInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1656,6 +1689,10 @@ var Atlas_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SetBookmark",
 			Handler:    _Atlas_SetBookmark_Handler,
+		},
+		{
+			MethodName: "GetBookmark",
+			Handler:    _Atlas_GetBookmark_Handler,
 		},
 		{
 			MethodName: "ListExamples",
