@@ -169,3 +169,14 @@ func (s *CodeTemplateServiceService) DescribeCodeTemplate(ctx context.Context, i
 
 	return out, nil
 }
+
+func (s *CodeTemplateServiceService) LookupCodeTemplate(ctx context.Context, in *LookupCodeTemplateInput) (*LookupCodeTemplateOutput, error) {
+	out := &LookupCodeTemplateOutput{}
+	path := "/template"
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

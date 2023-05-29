@@ -286,6 +286,9 @@ func RegisterAtlasHttpHandlers(router *mux.Router, prefix string, srv AtlasServe
 	router.Handle(prefix+"/problems/{problem_id}/templates/{template_id}", _Atlas_DescribeCodeTemplate_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.atlas.Atlas.DescribeCodeTemplate")
+	router.Handle(prefix+"/problems/{problem_id}/template", _Atlas_LookupCodeTemplate_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.atlas.Atlas.LookupCodeTemplate")
 	router.Handle(prefix+"/problems/{problem_id}/attachments", _Atlas_CreateAttachment_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.atlas.Atlas.CreateAttachment")
@@ -1135,6 +1138,29 @@ func _Atlas_DescribeCodeTemplate_Rule0(srv AtlasServer) http.Handler {
 		in.TemplateId = vars["template_id"]
 
 		out, err := srv.DescribeCodeTemplate(r.Context(), in)
+		if err != nil {
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Atlas_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Atlas_LookupCodeTemplate_Rule0(srv AtlasServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &LookupCodeTemplateInput{}
+
+		if err := _Atlas_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
+
+		out, err := srv.LookupCodeTemplate(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -2573,6 +2599,38 @@ func (i *AtlasInterceptor) DescribeCodeTemplate(ctx context.Context, in *Describ
 	message, ok := out.(*DescribeCodeTemplateOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *DescribeCodeTemplateOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *AtlasInterceptor) LookupCodeTemplate(ctx context.Context, in *LookupCodeTemplateInput) (*LookupCodeTemplateOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*LookupCodeTemplateInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *LookupCodeTemplateInput, got %T", in))
+		}
+
+		return i.server.LookupCodeTemplate(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas.LookupCodeTemplate", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*LookupCodeTemplateOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *LookupCodeTemplateOutput, got %T", out))
 	}
 
 	return message, err

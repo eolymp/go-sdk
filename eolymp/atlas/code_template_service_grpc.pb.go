@@ -24,6 +24,7 @@ const (
 	CodeTemplateService_DeleteCodeTemplate_FullMethodName   = "/eolymp.atlas.CodeTemplateService/DeleteCodeTemplate"
 	CodeTemplateService_ListCodeTemplates_FullMethodName    = "/eolymp.atlas.CodeTemplateService/ListCodeTemplates"
 	CodeTemplateService_DescribeCodeTemplate_FullMethodName = "/eolymp.atlas.CodeTemplateService/DescribeCodeTemplate"
+	CodeTemplateService_LookupCodeTemplate_FullMethodName   = "/eolymp.atlas.CodeTemplateService/LookupCodeTemplate"
 )
 
 // CodeTemplateServiceClient is the client API for CodeTemplateService service.
@@ -35,6 +36,7 @@ type CodeTemplateServiceClient interface {
 	DeleteCodeTemplate(ctx context.Context, in *DeleteCodeTemplateInput, opts ...grpc.CallOption) (*DeleteCodeTemplateOutput, error)
 	ListCodeTemplates(ctx context.Context, in *ListCodeTemplatesInput, opts ...grpc.CallOption) (*ListCodeTemplatesOutput, error)
 	DescribeCodeTemplate(ctx context.Context, in *DescribeCodeTemplateInput, opts ...grpc.CallOption) (*DescribeCodeTemplateOutput, error)
+	LookupCodeTemplate(ctx context.Context, in *LookupCodeTemplateInput, opts ...grpc.CallOption) (*LookupCodeTemplateOutput, error)
 }
 
 type codeTemplateServiceClient struct {
@@ -90,6 +92,15 @@ func (c *codeTemplateServiceClient) DescribeCodeTemplate(ctx context.Context, in
 	return out, nil
 }
 
+func (c *codeTemplateServiceClient) LookupCodeTemplate(ctx context.Context, in *LookupCodeTemplateInput, opts ...grpc.CallOption) (*LookupCodeTemplateOutput, error) {
+	out := new(LookupCodeTemplateOutput)
+	err := c.cc.Invoke(ctx, CodeTemplateService_LookupCodeTemplate_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CodeTemplateServiceServer is the server API for CodeTemplateService service.
 // All implementations should embed UnimplementedCodeTemplateServiceServer
 // for forward compatibility
@@ -99,6 +110,7 @@ type CodeTemplateServiceServer interface {
 	DeleteCodeTemplate(context.Context, *DeleteCodeTemplateInput) (*DeleteCodeTemplateOutput, error)
 	ListCodeTemplates(context.Context, *ListCodeTemplatesInput) (*ListCodeTemplatesOutput, error)
 	DescribeCodeTemplate(context.Context, *DescribeCodeTemplateInput) (*DescribeCodeTemplateOutput, error)
+	LookupCodeTemplate(context.Context, *LookupCodeTemplateInput) (*LookupCodeTemplateOutput, error)
 }
 
 // UnimplementedCodeTemplateServiceServer should be embedded to have forward compatible implementations.
@@ -119,6 +131,9 @@ func (UnimplementedCodeTemplateServiceServer) ListCodeTemplates(context.Context,
 }
 func (UnimplementedCodeTemplateServiceServer) DescribeCodeTemplate(context.Context, *DescribeCodeTemplateInput) (*DescribeCodeTemplateOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeCodeTemplate not implemented")
+}
+func (UnimplementedCodeTemplateServiceServer) LookupCodeTemplate(context.Context, *LookupCodeTemplateInput) (*LookupCodeTemplateOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method LookupCodeTemplate not implemented")
 }
 
 // UnsafeCodeTemplateServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -222,6 +237,24 @@ func _CodeTemplateService_DescribeCodeTemplate_Handler(srv interface{}, ctx cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CodeTemplateService_LookupCodeTemplate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LookupCodeTemplateInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CodeTemplateServiceServer).LookupCodeTemplate(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CodeTemplateService_LookupCodeTemplate_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CodeTemplateServiceServer).LookupCodeTemplate(ctx, req.(*LookupCodeTemplateInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // CodeTemplateService_ServiceDesc is the grpc.ServiceDesc for CodeTemplateService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -248,6 +281,10 @@ var CodeTemplateService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DescribeCodeTemplate",
 			Handler:    _CodeTemplateService_DescribeCodeTemplate_Handler,
+		},
+		{
+			MethodName: "LookupCodeTemplate",
+			Handler:    _CodeTemplateService_LookupCodeTemplate_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

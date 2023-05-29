@@ -668,6 +668,22 @@ func (s *AtlasService) DescribeCodeTemplate(ctx context.Context, in *DescribeCod
 	return out, nil
 }
 
+func (s *AtlasService) LookupCodeTemplate(ctx context.Context, in *LookupCodeTemplateInput) (*LookupCodeTemplateOutput, error) {
+	out := &LookupCodeTemplateOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/template"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *AtlasService) CreateAttachment(ctx context.Context, in *CreateAttachmentInput) (*CreateAttachmentOutput, error) {
 	out := &CreateAttachmentOutput{}
 	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/attachments"

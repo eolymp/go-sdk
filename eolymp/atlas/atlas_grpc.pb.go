@@ -54,6 +54,7 @@ const (
 	Atlas_DeleteCodeTemplate_FullMethodName     = "/eolymp.atlas.Atlas/DeleteCodeTemplate"
 	Atlas_ListCodeTemplates_FullMethodName      = "/eolymp.atlas.Atlas/ListCodeTemplates"
 	Atlas_DescribeCodeTemplate_FullMethodName   = "/eolymp.atlas.Atlas/DescribeCodeTemplate"
+	Atlas_LookupCodeTemplate_FullMethodName     = "/eolymp.atlas.Atlas/LookupCodeTemplate"
 	Atlas_CreateAttachment_FullMethodName       = "/eolymp.atlas.Atlas/CreateAttachment"
 	Atlas_UpdateAttachment_FullMethodName       = "/eolymp.atlas.Atlas/UpdateAttachment"
 	Atlas_DeleteAttachment_FullMethodName       = "/eolymp.atlas.Atlas/DeleteAttachment"
@@ -117,6 +118,7 @@ type AtlasClient interface {
 	DeleteCodeTemplate(ctx context.Context, in *DeleteCodeTemplateInput, opts ...grpc.CallOption) (*DeleteCodeTemplateOutput, error)
 	ListCodeTemplates(ctx context.Context, in *ListCodeTemplatesInput, opts ...grpc.CallOption) (*ListCodeTemplatesOutput, error)
 	DescribeCodeTemplate(ctx context.Context, in *DescribeCodeTemplateInput, opts ...grpc.CallOption) (*DescribeCodeTemplateOutput, error)
+	LookupCodeTemplate(ctx context.Context, in *LookupCodeTemplateInput, opts ...grpc.CallOption) (*LookupCodeTemplateOutput, error)
 	CreateAttachment(ctx context.Context, in *CreateAttachmentInput, opts ...grpc.CallOption) (*CreateAttachmentOutput, error)
 	UpdateAttachment(ctx context.Context, in *UpdateAttachmentInput, opts ...grpc.CallOption) (*UpdateAttachmentOutput, error)
 	DeleteAttachment(ctx context.Context, in *DeleteAttachmentInput, opts ...grpc.CallOption) (*DeleteAttachmentOutput, error)
@@ -455,6 +457,15 @@ func (c *atlasClient) DescribeCodeTemplate(ctx context.Context, in *DescribeCode
 	return out, nil
 }
 
+func (c *atlasClient) LookupCodeTemplate(ctx context.Context, in *LookupCodeTemplateInput, opts ...grpc.CallOption) (*LookupCodeTemplateOutput, error) {
+	out := new(LookupCodeTemplateOutput)
+	err := c.cc.Invoke(ctx, Atlas_LookupCodeTemplate_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *atlasClient) CreateAttachment(ctx context.Context, in *CreateAttachmentInput, opts ...grpc.CallOption) (*CreateAttachmentOutput, error) {
 	out := new(CreateAttachmentOutput)
 	err := c.cc.Invoke(ctx, Atlas_CreateAttachment_FullMethodName, in, out, opts...)
@@ -620,6 +631,7 @@ type AtlasServer interface {
 	DeleteCodeTemplate(context.Context, *DeleteCodeTemplateInput) (*DeleteCodeTemplateOutput, error)
 	ListCodeTemplates(context.Context, *ListCodeTemplatesInput) (*ListCodeTemplatesOutput, error)
 	DescribeCodeTemplate(context.Context, *DescribeCodeTemplateInput) (*DescribeCodeTemplateOutput, error)
+	LookupCodeTemplate(context.Context, *LookupCodeTemplateInput) (*LookupCodeTemplateOutput, error)
 	CreateAttachment(context.Context, *CreateAttachmentInput) (*CreateAttachmentOutput, error)
 	UpdateAttachment(context.Context, *UpdateAttachmentInput) (*UpdateAttachmentOutput, error)
 	DeleteAttachment(context.Context, *DeleteAttachmentInput) (*DeleteAttachmentOutput, error)
@@ -743,6 +755,9 @@ func (UnimplementedAtlasServer) ListCodeTemplates(context.Context, *ListCodeTemp
 }
 func (UnimplementedAtlasServer) DescribeCodeTemplate(context.Context, *DescribeCodeTemplateInput) (*DescribeCodeTemplateOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeCodeTemplate not implemented")
+}
+func (UnimplementedAtlasServer) LookupCodeTemplate(context.Context, *LookupCodeTemplateInput) (*LookupCodeTemplateOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method LookupCodeTemplate not implemented")
 }
 func (UnimplementedAtlasServer) CreateAttachment(context.Context, *CreateAttachmentInput) (*CreateAttachmentOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateAttachment not implemented")
@@ -1425,6 +1440,24 @@ func _Atlas_DescribeCodeTemplate_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Atlas_LookupCodeTemplate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LookupCodeTemplateInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AtlasServer).LookupCodeTemplate(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Atlas_LookupCodeTemplate_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AtlasServer).LookupCodeTemplate(ctx, req.(*LookupCodeTemplateInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Atlas_CreateAttachment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreateAttachmentInput)
 	if err := dec(in); err != nil {
@@ -1805,6 +1838,10 @@ var Atlas_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DescribeCodeTemplate",
 			Handler:    _Atlas_DescribeCodeTemplate_Handler,
+		},
+		{
+			MethodName: "LookupCodeTemplate",
+			Handler:    _Atlas_LookupCodeTemplate_Handler,
 		},
 		{
 			MethodName: "CreateAttachment",
