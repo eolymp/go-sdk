@@ -24,7 +24,6 @@ const (
 	StatementService_DeleteStatement_FullMethodName   = "/eolymp.atlas.StatementService/DeleteStatement"
 	StatementService_DescribeStatement_FullMethodName = "/eolymp.atlas.StatementService/DescribeStatement"
 	StatementService_LookupStatement_FullMethodName   = "/eolymp.atlas.StatementService/LookupStatement"
-	StatementService_RenderStatement_FullMethodName   = "/eolymp.atlas.StatementService/RenderStatement"
 	StatementService_PreviewStatement_FullMethodName  = "/eolymp.atlas.StatementService/PreviewStatement"
 	StatementService_ListStatements_FullMethodName    = "/eolymp.atlas.StatementService/ListStatements"
 )
@@ -40,11 +39,6 @@ type StatementServiceClient interface {
 	DescribeStatement(ctx context.Context, in *DescribeStatementInput, opts ...grpc.CallOption) (*DescribeStatementOutput, error)
 	// LookupStatement finds a statement in one of the requested languages.
 	LookupStatement(ctx context.Context, in *LookupStatementInput, opts ...grpc.CallOption) (*LookupStatementOutput, error)
-	// RenderStatement returns fully resolved statement in ECM format.
-	//
-	// This method should be used to fetch statement for viewing, it always returns statement as ECM tree (rather than
-	// HTML or LaTeX) and ensures any embedded or computed values are resolved.
-	RenderStatement(ctx context.Context, in *RenderStatementInput, opts ...grpc.CallOption) (*RenderStatementOutput, error)
 	// PreviewStatement renders unsaved statement.
 	//
 	// This method can be used to render statement before it has been saved.
@@ -105,15 +99,6 @@ func (c *statementServiceClient) LookupStatement(ctx context.Context, in *Lookup
 	return out, nil
 }
 
-func (c *statementServiceClient) RenderStatement(ctx context.Context, in *RenderStatementInput, opts ...grpc.CallOption) (*RenderStatementOutput, error) {
-	out := new(RenderStatementOutput)
-	err := c.cc.Invoke(ctx, StatementService_RenderStatement_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *statementServiceClient) PreviewStatement(ctx context.Context, in *PreviewStatementInput, opts ...grpc.CallOption) (*PreviewStatementOutput, error) {
 	out := new(PreviewStatementOutput)
 	err := c.cc.Invoke(ctx, StatementService_PreviewStatement_FullMethodName, in, out, opts...)
@@ -143,11 +128,6 @@ type StatementServiceServer interface {
 	DescribeStatement(context.Context, *DescribeStatementInput) (*DescribeStatementOutput, error)
 	// LookupStatement finds a statement in one of the requested languages.
 	LookupStatement(context.Context, *LookupStatementInput) (*LookupStatementOutput, error)
-	// RenderStatement returns fully resolved statement in ECM format.
-	//
-	// This method should be used to fetch statement for viewing, it always returns statement as ECM tree (rather than
-	// HTML or LaTeX) and ensures any embedded or computed values are resolved.
-	RenderStatement(context.Context, *RenderStatementInput) (*RenderStatementOutput, error)
 	// PreviewStatement renders unsaved statement.
 	//
 	// This method can be used to render statement before it has been saved.
@@ -173,9 +153,6 @@ func (UnimplementedStatementServiceServer) DescribeStatement(context.Context, *D
 }
 func (UnimplementedStatementServiceServer) LookupStatement(context.Context, *LookupStatementInput) (*LookupStatementOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method LookupStatement not implemented")
-}
-func (UnimplementedStatementServiceServer) RenderStatement(context.Context, *RenderStatementInput) (*RenderStatementOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method RenderStatement not implemented")
 }
 func (UnimplementedStatementServiceServer) PreviewStatement(context.Context, *PreviewStatementInput) (*PreviewStatementOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PreviewStatement not implemented")
@@ -285,24 +262,6 @@ func _StatementService_LookupStatement_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
-func _StatementService_RenderStatement_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RenderStatementInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(StatementServiceServer).RenderStatement(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: StatementService_RenderStatement_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(StatementServiceServer).RenderStatement(ctx, req.(*RenderStatementInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _StatementService_PreviewStatement_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(PreviewStatementInput)
 	if err := dec(in); err != nil {
@@ -365,10 +324,6 @@ var StatementService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "LookupStatement",
 			Handler:    _StatementService_LookupStatement_Handler,
-		},
-		{
-			MethodName: "RenderStatement",
-			Handler:    _StatementService_RenderStatement_Handler,
 		},
 		{
 			MethodName: "PreviewStatement",

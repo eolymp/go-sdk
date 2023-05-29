@@ -196,9 +196,6 @@ func RegisterEditorialServiceHttpHandlers(router *mux.Router, prefix string, srv
 	router.Handle(prefix+"/editorial", _EditorialService_LookupEditorial_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.atlas.EditorialService.LookupEditorial")
-	router.Handle(prefix+"/editorials/{editorial_id}/render", _EditorialService_RenderEditorial_Rule0(srv)).
-		Methods("GET").
-		Name("eolymp.atlas.EditorialService.RenderEditorial")
 	router.Handle(prefix+"/editorial/preview", _EditorialService_PreviewEditorial_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.atlas.EditorialService.PreviewEditorial")
@@ -307,29 +304,6 @@ func _EditorialService_LookupEditorial_Rule0(srv EditorialServiceServer) http.Ha
 		}
 
 		out, err := srv.LookupEditorial(r.Context(), in)
-		if err != nil {
-			_EditorialService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_EditorialService_HTTPWriteResponse(w, out)
-	})
-}
-
-func _EditorialService_RenderEditorial_Rule0(srv EditorialServiceServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &RenderEditorialInput{}
-
-		if err := _EditorialService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_EditorialService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.EditorialId = vars["editorial_id"]
-
-		out, err := srv.RenderEditorial(r.Context(), in)
 		if err != nil {
 			_EditorialService_HTTPWriteErrorResponse(w, err)
 			return
@@ -546,38 +520,6 @@ func (i *EditorialServiceInterceptor) LookupEditorial(ctx context.Context, in *L
 	message, ok := out.(*LookupEditorialOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *LookupEditorialOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *EditorialServiceInterceptor) RenderEditorial(ctx context.Context, in *RenderEditorialInput) (*RenderEditorialOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*RenderEditorialInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *RenderEditorialInput, got %T", in))
-		}
-
-		return i.server.RenderEditorial(ctx, message)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.EditorialService.RenderEditorial", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*RenderEditorialOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *RenderEditorialOutput, got %T", out))
 	}
 
 	return message, err

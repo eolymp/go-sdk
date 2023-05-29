@@ -196,9 +196,6 @@ func RegisterStatementServiceHttpHandlers(router *mux.Router, prefix string, srv
 	router.Handle(prefix+"/translate", _StatementService_LookupStatement_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.atlas.StatementService.LookupStatement")
-	router.Handle(prefix+"/statements/{statement_id}/render", _StatementService_RenderStatement_Rule0(srv)).
-		Methods("GET").
-		Name("eolymp.atlas.StatementService.RenderStatement")
 	router.Handle(prefix+"/renders", _StatementService_PreviewStatement_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.atlas.StatementService.PreviewStatement")
@@ -307,29 +304,6 @@ func _StatementService_LookupStatement_Rule0(srv StatementServiceServer) http.Ha
 		}
 
 		out, err := srv.LookupStatement(r.Context(), in)
-		if err != nil {
-			_StatementService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_StatementService_HTTPWriteResponse(w, out)
-	})
-}
-
-func _StatementService_RenderStatement_Rule0(srv StatementServiceServer) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &RenderStatementInput{}
-
-		if err := _StatementService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_StatementService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.StatementId = vars["statement_id"]
-
-		out, err := srv.RenderStatement(r.Context(), in)
 		if err != nil {
 			_StatementService_HTTPWriteErrorResponse(w, err)
 			return
@@ -546,38 +520,6 @@ func (i *StatementServiceInterceptor) LookupStatement(ctx context.Context, in *L
 	message, ok := out.(*LookupStatementOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *LookupStatementOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *StatementServiceInterceptor) RenderStatement(ctx context.Context, in *RenderStatementInput) (*RenderStatementOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*RenderStatementInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *RenderStatementInput, got %T", in))
-		}
-
-		return i.server.RenderStatement(ctx, message)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.StatementService.RenderStatement", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*RenderStatementOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *RenderStatementOutput, got %T", out))
 	}
 
 	return message, err

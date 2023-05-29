@@ -170,22 +170,6 @@ func (s *EditorialServiceService) LookupEditorial(ctx context.Context, in *Looku
 	return out, nil
 }
 
-func (s *EditorialServiceService) RenderEditorial(ctx context.Context, in *RenderEditorialInput) (*RenderEditorialOutput, error) {
-	out := &RenderEditorialOutput{}
-	path := "/editorials/" + url.PathEscape(in.GetEditorialId()) + "/render"
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.EditorialId = ""
-	}
-
-	if err := s.do(ctx, "GET", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
 func (s *EditorialServiceService) PreviewEditorial(ctx context.Context, in *PreviewEditorialInput) (*PreviewEditorialOutput, error) {
 	out := &PreviewEditorialOutput{}
 	path := "/editorial/preview"

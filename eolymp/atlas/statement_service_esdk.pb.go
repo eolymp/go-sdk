@@ -170,22 +170,6 @@ func (s *StatementServiceService) LookupStatement(ctx context.Context, in *Looku
 	return out, nil
 }
 
-func (s *StatementServiceService) RenderStatement(ctx context.Context, in *RenderStatementInput) (*RenderStatementOutput, error) {
-	out := &RenderStatementOutput{}
-	path := "/statements/" + url.PathEscape(in.GetStatementId()) + "/render"
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.StatementId = ""
-	}
-
-	if err := s.do(ctx, "GET", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
 func (s *StatementServiceService) PreviewStatement(ctx context.Context, in *PreviewStatementInput) (*PreviewStatementOutput, error) {
 	out := &PreviewStatementOutput{}
 	path := "/renders"

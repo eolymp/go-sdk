@@ -24,7 +24,6 @@ const (
 	EditorialService_DeleteEditorial_FullMethodName   = "/eolymp.atlas.EditorialService/DeleteEditorial"
 	EditorialService_DescribeEditorial_FullMethodName = "/eolymp.atlas.EditorialService/DescribeEditorial"
 	EditorialService_LookupEditorial_FullMethodName   = "/eolymp.atlas.EditorialService/LookupEditorial"
-	EditorialService_RenderEditorial_FullMethodName   = "/eolymp.atlas.EditorialService/RenderEditorial"
 	EditorialService_PreviewEditorial_FullMethodName  = "/eolymp.atlas.EditorialService/PreviewEditorial"
 	EditorialService_ListEditorials_FullMethodName    = "/eolymp.atlas.EditorialService/ListEditorials"
 )
@@ -40,11 +39,6 @@ type EditorialServiceClient interface {
 	DescribeEditorial(ctx context.Context, in *DescribeEditorialInput, opts ...grpc.CallOption) (*DescribeEditorialOutput, error)
 	// LookupEditorial finds an editorial for the requested locale.
 	LookupEditorial(ctx context.Context, in *LookupEditorialInput, opts ...grpc.CallOption) (*LookupEditorialOutput, error)
-	// RenderEditorial returns fully resolved editorial in ECM format.
-	//
-	// This method should be used to fetch editorial for viewing, it always returns editorial as ECM tree (rather than
-	// HTML or LaTeX) and ensures any embedded or computed values are resolved.
-	RenderEditorial(ctx context.Context, in *RenderEditorialInput, opts ...grpc.CallOption) (*RenderEditorialOutput, error)
 	// PreviewEditorial renders unsaved editorial.
 	//
 	// This method can be used to render editorial before it has been saved.
@@ -105,15 +99,6 @@ func (c *editorialServiceClient) LookupEditorial(ctx context.Context, in *Lookup
 	return out, nil
 }
 
-func (c *editorialServiceClient) RenderEditorial(ctx context.Context, in *RenderEditorialInput, opts ...grpc.CallOption) (*RenderEditorialOutput, error) {
-	out := new(RenderEditorialOutput)
-	err := c.cc.Invoke(ctx, EditorialService_RenderEditorial_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *editorialServiceClient) PreviewEditorial(ctx context.Context, in *PreviewEditorialInput, opts ...grpc.CallOption) (*PreviewEditorialOutput, error) {
 	out := new(PreviewEditorialOutput)
 	err := c.cc.Invoke(ctx, EditorialService_PreviewEditorial_FullMethodName, in, out, opts...)
@@ -143,11 +128,6 @@ type EditorialServiceServer interface {
 	DescribeEditorial(context.Context, *DescribeEditorialInput) (*DescribeEditorialOutput, error)
 	// LookupEditorial finds an editorial for the requested locale.
 	LookupEditorial(context.Context, *LookupEditorialInput) (*LookupEditorialOutput, error)
-	// RenderEditorial returns fully resolved editorial in ECM format.
-	//
-	// This method should be used to fetch editorial for viewing, it always returns editorial as ECM tree (rather than
-	// HTML or LaTeX) and ensures any embedded or computed values are resolved.
-	RenderEditorial(context.Context, *RenderEditorialInput) (*RenderEditorialOutput, error)
 	// PreviewEditorial renders unsaved editorial.
 	//
 	// This method can be used to render editorial before it has been saved.
@@ -173,9 +153,6 @@ func (UnimplementedEditorialServiceServer) DescribeEditorial(context.Context, *D
 }
 func (UnimplementedEditorialServiceServer) LookupEditorial(context.Context, *LookupEditorialInput) (*LookupEditorialOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method LookupEditorial not implemented")
-}
-func (UnimplementedEditorialServiceServer) RenderEditorial(context.Context, *RenderEditorialInput) (*RenderEditorialOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method RenderEditorial not implemented")
 }
 func (UnimplementedEditorialServiceServer) PreviewEditorial(context.Context, *PreviewEditorialInput) (*PreviewEditorialOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PreviewEditorial not implemented")
@@ -285,24 +262,6 @@ func _EditorialService_LookupEditorial_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
-func _EditorialService_RenderEditorial_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RenderEditorialInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(EditorialServiceServer).RenderEditorial(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: EditorialService_RenderEditorial_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(EditorialServiceServer).RenderEditorial(ctx, req.(*RenderEditorialInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _EditorialService_PreviewEditorial_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(PreviewEditorialInput)
 	if err := dec(in); err != nil {
@@ -365,10 +324,6 @@ var EditorialService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "LookupEditorial",
 			Handler:    _EditorialService_LookupEditorial_Handler,
-		},
-		{
-			MethodName: "RenderEditorial",
-			Handler:    _EditorialService_RenderEditorial_Handler,
 		},
 		{
 			MethodName: "PreviewEditorial",
