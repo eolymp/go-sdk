@@ -2,9 +2,9 @@
 // versions:
 // - protoc-gen-go-grpc v1.3.0
 // - protoc             v3.18.1
-// source: eolymp/localization/project_service.proto
+// source: eolymp/l10n/project_service.proto
 
-package localization
+package l10n
 
 import (
 	context "context"
@@ -19,8 +19,8 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	ProjectService_ListProjects_FullMethodName    = "/eolymp.localization.ProjectService/ListProjects"
-	ProjectService_DescribeProject_FullMethodName = "/eolymp.localization.ProjectService/DescribeProject"
+	ProjectService_ListProjects_FullMethodName    = "/eolymp.l10n.ProjectService/ListProjects"
+	ProjectService_DescribeProject_FullMethodName = "/eolymp.l10n.ProjectService/DescribeProject"
 )
 
 // ProjectServiceClient is the client API for ProjectService service.
@@ -127,7 +127,7 @@ func _ProjectService_DescribeProject_Handler(srv interface{}, ctx context.Contex
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var ProjectService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "eolymp.localization.ProjectService",
+	ServiceName: "eolymp.l10n.ProjectService",
 	HandlerType: (*ProjectServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -140,5 +140,5 @@ var ProjectService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "eolymp/localization/project_service.proto",
+	Metadata: "eolymp/l10n/project_service.proto",
 }
