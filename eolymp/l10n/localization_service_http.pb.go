@@ -205,6 +205,15 @@ func RegisterLocalizationServiceHttpHandlers(router *mux.Router, prefix string, 
 	router.Handle(prefix+"/terms", _LocalizationService_ImportTerms_Rule0(srv)).
 		Methods("PUT").
 		Name("eolymp.l10n.LocalizationService.ImportTerms")
+	router.Handle(prefix+"/locales/{locale_code}", _LocalizationService_AddLocale_Rule0(srv)).
+		Methods("PUT").
+		Name("eolymp.l10n.LocalizationService.AddLocale")
+	router.Handle(prefix+"/locales/{locale_code}", _LocalizationService_RemoveLocale_Rule0(srv)).
+		Methods("DELETE").
+		Name("eolymp.l10n.LocalizationService.RemoveLocale")
+	router.Handle(prefix+"/locales", _LocalizationService_ListLocales_Rule0(srv)).
+		Methods("GET").
+		Name("eolymp.l10n.LocalizationService.ListLocales")
 	router.Handle(prefix+"/terms/{term_id}/translations", _LocalizationService_TranslateTerm_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.l10n.LocalizationService.TranslateTerm")
@@ -214,6 +223,9 @@ func RegisterLocalizationServiceHttpHandlers(router *mux.Router, prefix string, 
 	router.Handle(prefix+"/terms/{term_id}/translations/{translation_id}", _LocalizationService_DeleteTranslation_Rule0(srv)).
 		Methods("DELETE").
 		Name("eolymp.l10n.LocalizationService.DeleteTranslation")
+	router.Handle(prefix+"/terms/{term_id}/suggestions/{locale}", _LocalizationService_SuggestTranslation_Rule0(srv)).
+		Methods("PUT").
+		Name("eolymp.l10n.LocalizationService.SuggestTranslation")
 	router.Handle(prefix+"/terms/{term_id}/translations/{translation_id}", _LocalizationService_UpdateTranslation_Rule0(srv)).
 		Methods("PUT").
 		Name("eolymp.l10n.LocalizationService.UpdateTranslation")
@@ -406,6 +418,72 @@ func _LocalizationService_ImportTerms_Rule0(srv LocalizationServiceServer) http.
 	})
 }
 
+func _LocalizationService_AddLocale_Rule0(srv LocalizationServiceServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &AddLocaleInput{}
+
+		if err := _LocalizationService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_LocalizationService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.LocaleCode = vars["locale_code"]
+
+		out, err := srv.AddLocale(r.Context(), in)
+		if err != nil {
+			_LocalizationService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_LocalizationService_HTTPWriteResponse(w, out)
+	})
+}
+
+func _LocalizationService_RemoveLocale_Rule0(srv LocalizationServiceServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &RemoveLocaleInput{}
+
+		if err := _LocalizationService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_LocalizationService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.LocaleCode = vars["locale_code"]
+
+		out, err := srv.RemoveLocale(r.Context(), in)
+		if err != nil {
+			_LocalizationService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_LocalizationService_HTTPWriteResponse(w, out)
+	})
+}
+
+func _LocalizationService_ListLocales_Rule0(srv LocalizationServiceServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListLocalesInput{}
+
+		if err := _LocalizationService_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_LocalizationService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := srv.ListLocales(r.Context(), in)
+		if err != nil {
+			_LocalizationService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_LocalizationService_HTTPWriteResponse(w, out)
+	})
+}
+
 func _LocalizationService_TranslateTerm_Rule0(srv LocalizationServiceServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &TranslateTermInput{}
@@ -467,6 +545,30 @@ func _LocalizationService_DeleteTranslation_Rule0(srv LocalizationServiceServer)
 		in.TranslationId = vars["translation_id"]
 
 		out, err := srv.DeleteTranslation(r.Context(), in)
+		if err != nil {
+			_LocalizationService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_LocalizationService_HTTPWriteResponse(w, out)
+	})
+}
+
+func _LocalizationService_SuggestTranslation_Rule0(srv LocalizationServiceServer) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &SuggestTranslationInput{}
+
+		if err := _LocalizationService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_LocalizationService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.TermId = vars["term_id"]
+		in.Locale = vars["locale"]
+
+		out, err := srv.SuggestTranslation(r.Context(), in)
 		if err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
@@ -862,6 +964,102 @@ func (i *LocalizationServiceInterceptor) ImportTerms(ctx context.Context, in *Im
 	return message, err
 }
 
+func (i *LocalizationServiceInterceptor) AddLocale(ctx context.Context, in *AddLocaleInput) (*AddLocaleOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*AddLocaleInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *AddLocaleInput, got %T", in))
+		}
+
+		return i.server.AddLocale(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.l10n.LocalizationService.AddLocale", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*AddLocaleOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *AddLocaleOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *LocalizationServiceInterceptor) RemoveLocale(ctx context.Context, in *RemoveLocaleInput) (*RemoveLocaleOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*RemoveLocaleInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *RemoveLocaleInput, got %T", in))
+		}
+
+		return i.server.RemoveLocale(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.l10n.LocalizationService.RemoveLocale", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*RemoveLocaleOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *RemoveLocaleOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *LocalizationServiceInterceptor) ListLocales(ctx context.Context, in *ListLocalesInput) (*ListLocalesOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListLocalesInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListLocalesInput, got %T", in))
+		}
+
+		return i.server.ListLocales(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.l10n.LocalizationService.ListLocales", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListLocalesOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListLocalesOutput, got %T", out))
+	}
+
+	return message, err
+}
+
 func (i *LocalizationServiceInterceptor) TranslateTerm(ctx context.Context, in *TranslateTermInput) (*TranslateTermOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*TranslateTermInput)
@@ -953,6 +1151,38 @@ func (i *LocalizationServiceInterceptor) DeleteTranslation(ctx context.Context, 
 	message, ok := out.(*DeleteTranslationOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *DeleteTranslationOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *LocalizationServiceInterceptor) SuggestTranslation(ctx context.Context, in *SuggestTranslationInput) (*SuggestTranslationOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*SuggestTranslationInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *SuggestTranslationInput, got %T", in))
+		}
+
+		return i.server.SuggestTranslation(ctx, message)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.l10n.LocalizationService.SuggestTranslation", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*SuggestTranslationOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *SuggestTranslationOutput, got %T", out))
 	}
 
 	return message, err

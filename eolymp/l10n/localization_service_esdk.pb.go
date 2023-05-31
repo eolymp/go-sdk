@@ -213,6 +213,49 @@ func (s *LocalizationServiceService) ImportTerms(ctx context.Context, in *Import
 	return out, nil
 }
 
+func (s *LocalizationServiceService) AddLocale(ctx context.Context, in *AddLocaleInput) (*AddLocaleOutput, error) {
+	out := &AddLocaleOutput{}
+	path := "/locales/" + url.PathEscape(in.GetLocaleCode())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.LocaleCode = ""
+	}
+
+	if err := s.do(ctx, "PUT", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *LocalizationServiceService) RemoveLocale(ctx context.Context, in *RemoveLocaleInput) (*RemoveLocaleOutput, error) {
+	out := &RemoveLocaleOutput{}
+	path := "/locales/" + url.PathEscape(in.GetLocaleCode())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.LocaleCode = ""
+	}
+
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *LocalizationServiceService) ListLocales(ctx context.Context, in *ListLocalesInput) (*ListLocalesOutput, error) {
+	out := &ListLocalesOutput{}
+	path := "/locales"
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *LocalizationServiceService) TranslateTerm(ctx context.Context, in *TranslateTermInput) (*TranslateTermOutput, error) {
 	out := &TranslateTermOutput{}
 	path := "/terms/" + url.PathEscape(in.GetTermId()) + "/translations"
@@ -256,6 +299,23 @@ func (s *LocalizationServiceService) DeleteTranslation(ctx context.Context, in *
 	}
 
 	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *LocalizationServiceService) SuggestTranslation(ctx context.Context, in *SuggestTranslationInput) (*SuggestTranslationOutput, error) {
+	out := &SuggestTranslationOutput{}
+	path := "/terms/" + url.PathEscape(in.GetTermId()) + "/suggestions/" + url.PathEscape(in.GetLocale())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.TermId = ""
+		in.Locale = ""
+	}
+
+	if err := s.do(ctx, "PUT", path, in, out); err != nil {
 		return nil, err
 	}
 

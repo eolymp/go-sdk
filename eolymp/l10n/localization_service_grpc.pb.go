@@ -27,9 +27,13 @@ const (
 	LocalizationService_DeleteTerm_FullMethodName         = "/eolymp.l10n.LocalizationService/DeleteTerm"
 	LocalizationService_DescribeTerm_FullMethodName       = "/eolymp.l10n.LocalizationService/DescribeTerm"
 	LocalizationService_ImportTerms_FullMethodName        = "/eolymp.l10n.LocalizationService/ImportTerms"
+	LocalizationService_AddLocale_FullMethodName          = "/eolymp.l10n.LocalizationService/AddLocale"
+	LocalizationService_RemoveLocale_FullMethodName       = "/eolymp.l10n.LocalizationService/RemoveLocale"
+	LocalizationService_ListLocales_FullMethodName        = "/eolymp.l10n.LocalizationService/ListLocales"
 	LocalizationService_TranslateTerm_FullMethodName      = "/eolymp.l10n.LocalizationService/TranslateTerm"
 	LocalizationService_ListTranslations_FullMethodName   = "/eolymp.l10n.LocalizationService/ListTranslations"
 	LocalizationService_DeleteTranslation_FullMethodName  = "/eolymp.l10n.LocalizationService/DeleteTranslation"
+	LocalizationService_SuggestTranslation_FullMethodName = "/eolymp.l10n.LocalizationService/SuggestTranslation"
 	LocalizationService_UpdateTranslation_FullMethodName  = "/eolymp.l10n.LocalizationService/UpdateTranslation"
 	LocalizationService_ApproveTranslation_FullMethodName = "/eolymp.l10n.LocalizationService/ApproveTranslation"
 	LocalizationService_RejectTranslation_FullMethodName  = "/eolymp.l10n.LocalizationService/RejectTranslation"
@@ -49,9 +53,13 @@ type LocalizationServiceClient interface {
 	DeleteTerm(ctx context.Context, in *DeleteTermInput, opts ...grpc.CallOption) (*DeleteTermOutput, error)
 	DescribeTerm(ctx context.Context, in *DescribeTermInput, opts ...grpc.CallOption) (*DescribeTermOutput, error)
 	ImportTerms(ctx context.Context, in *ImportTermsInput, opts ...grpc.CallOption) (*ImportTermsOutput, error)
+	AddLocale(ctx context.Context, in *AddLocaleInput, opts ...grpc.CallOption) (*AddLocaleOutput, error)
+	RemoveLocale(ctx context.Context, in *RemoveLocaleInput, opts ...grpc.CallOption) (*RemoveLocaleOutput, error)
+	ListLocales(ctx context.Context, in *ListLocalesInput, opts ...grpc.CallOption) (*ListLocalesOutput, error)
 	TranslateTerm(ctx context.Context, in *TranslateTermInput, opts ...grpc.CallOption) (*TranslateTermOutput, error)
 	ListTranslations(ctx context.Context, in *ListTranslationsInput, opts ...grpc.CallOption) (*ListTranslationsOutput, error)
 	DeleteTranslation(ctx context.Context, in *DeleteTranslationInput, opts ...grpc.CallOption) (*DeleteTranslationOutput, error)
+	SuggestTranslation(ctx context.Context, in *SuggestTranslationInput, opts ...grpc.CallOption) (*SuggestTranslationOutput, error)
 	UpdateTranslation(ctx context.Context, in *UpdateTranslationInput, opts ...grpc.CallOption) (*UpdateTranslationOutput, error)
 	ApproveTranslation(ctx context.Context, in *ApproveTranslationInput, opts ...grpc.CallOption) (*ApproveTranslationOutput, error)
 	RejectTranslation(ctx context.Context, in *RejectTranslationInput, opts ...grpc.CallOption) (*RejectTranslationOutput, error)
@@ -139,6 +147,33 @@ func (c *localizationServiceClient) ImportTerms(ctx context.Context, in *ImportT
 	return out, nil
 }
 
+func (c *localizationServiceClient) AddLocale(ctx context.Context, in *AddLocaleInput, opts ...grpc.CallOption) (*AddLocaleOutput, error) {
+	out := new(AddLocaleOutput)
+	err := c.cc.Invoke(ctx, LocalizationService_AddLocale_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *localizationServiceClient) RemoveLocale(ctx context.Context, in *RemoveLocaleInput, opts ...grpc.CallOption) (*RemoveLocaleOutput, error) {
+	out := new(RemoveLocaleOutput)
+	err := c.cc.Invoke(ctx, LocalizationService_RemoveLocale_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *localizationServiceClient) ListLocales(ctx context.Context, in *ListLocalesInput, opts ...grpc.CallOption) (*ListLocalesOutput, error) {
+	out := new(ListLocalesOutput)
+	err := c.cc.Invoke(ctx, LocalizationService_ListLocales_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *localizationServiceClient) TranslateTerm(ctx context.Context, in *TranslateTermInput, opts ...grpc.CallOption) (*TranslateTermOutput, error) {
 	out := new(TranslateTermOutput)
 	err := c.cc.Invoke(ctx, LocalizationService_TranslateTerm_FullMethodName, in, out, opts...)
@@ -160,6 +195,15 @@ func (c *localizationServiceClient) ListTranslations(ctx context.Context, in *Li
 func (c *localizationServiceClient) DeleteTranslation(ctx context.Context, in *DeleteTranslationInput, opts ...grpc.CallOption) (*DeleteTranslationOutput, error) {
 	out := new(DeleteTranslationOutput)
 	err := c.cc.Invoke(ctx, LocalizationService_DeleteTranslation_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *localizationServiceClient) SuggestTranslation(ctx context.Context, in *SuggestTranslationInput, opts ...grpc.CallOption) (*SuggestTranslationOutput, error) {
+	out := new(SuggestTranslationOutput)
+	err := c.cc.Invoke(ctx, LocalizationService_SuggestTranslation_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -223,9 +267,13 @@ type LocalizationServiceServer interface {
 	DeleteTerm(context.Context, *DeleteTermInput) (*DeleteTermOutput, error)
 	DescribeTerm(context.Context, *DescribeTermInput) (*DescribeTermOutput, error)
 	ImportTerms(context.Context, *ImportTermsInput) (*ImportTermsOutput, error)
+	AddLocale(context.Context, *AddLocaleInput) (*AddLocaleOutput, error)
+	RemoveLocale(context.Context, *RemoveLocaleInput) (*RemoveLocaleOutput, error)
+	ListLocales(context.Context, *ListLocalesInput) (*ListLocalesOutput, error)
 	TranslateTerm(context.Context, *TranslateTermInput) (*TranslateTermOutput, error)
 	ListTranslations(context.Context, *ListTranslationsInput) (*ListTranslationsOutput, error)
 	DeleteTranslation(context.Context, *DeleteTranslationInput) (*DeleteTranslationOutput, error)
+	SuggestTranslation(context.Context, *SuggestTranslationInput) (*SuggestTranslationOutput, error)
 	UpdateTranslation(context.Context, *UpdateTranslationInput) (*UpdateTranslationOutput, error)
 	ApproveTranslation(context.Context, *ApproveTranslationInput) (*ApproveTranslationOutput, error)
 	RejectTranslation(context.Context, *RejectTranslationInput) (*RejectTranslationOutput, error)
@@ -261,6 +309,15 @@ func (UnimplementedLocalizationServiceServer) DescribeTerm(context.Context, *Des
 func (UnimplementedLocalizationServiceServer) ImportTerms(context.Context, *ImportTermsInput) (*ImportTermsOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ImportTerms not implemented")
 }
+func (UnimplementedLocalizationServiceServer) AddLocale(context.Context, *AddLocaleInput) (*AddLocaleOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddLocale not implemented")
+}
+func (UnimplementedLocalizationServiceServer) RemoveLocale(context.Context, *RemoveLocaleInput) (*RemoveLocaleOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RemoveLocale not implemented")
+}
+func (UnimplementedLocalizationServiceServer) ListLocales(context.Context, *ListLocalesInput) (*ListLocalesOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListLocales not implemented")
+}
 func (UnimplementedLocalizationServiceServer) TranslateTerm(context.Context, *TranslateTermInput) (*TranslateTermOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method TranslateTerm not implemented")
 }
@@ -269,6 +326,9 @@ func (UnimplementedLocalizationServiceServer) ListTranslations(context.Context, 
 }
 func (UnimplementedLocalizationServiceServer) DeleteTranslation(context.Context, *DeleteTranslationInput) (*DeleteTranslationOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteTranslation not implemented")
+}
+func (UnimplementedLocalizationServiceServer) SuggestTranslation(context.Context, *SuggestTranslationInput) (*SuggestTranslationOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SuggestTranslation not implemented")
 }
 func (UnimplementedLocalizationServiceServer) UpdateTranslation(context.Context, *UpdateTranslationInput) (*UpdateTranslationOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateTranslation not implemented")
@@ -441,6 +501,60 @@ func _LocalizationService_ImportTerms_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _LocalizationService_AddLocale_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddLocaleInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LocalizationServiceServer).AddLocale(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: LocalizationService_AddLocale_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LocalizationServiceServer).AddLocale(ctx, req.(*AddLocaleInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _LocalizationService_RemoveLocale_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RemoveLocaleInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LocalizationServiceServer).RemoveLocale(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: LocalizationService_RemoveLocale_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LocalizationServiceServer).RemoveLocale(ctx, req.(*RemoveLocaleInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _LocalizationService_ListLocales_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListLocalesInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LocalizationServiceServer).ListLocales(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: LocalizationService_ListLocales_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LocalizationServiceServer).ListLocales(ctx, req.(*ListLocalesInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _LocalizationService_TranslateTerm_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(TranslateTermInput)
 	if err := dec(in); err != nil {
@@ -491,6 +605,24 @@ func _LocalizationService_DeleteTranslation_Handler(srv interface{}, ctx context
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(LocalizationServiceServer).DeleteTranslation(ctx, req.(*DeleteTranslationInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _LocalizationService_SuggestTranslation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SuggestTranslationInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LocalizationServiceServer).SuggestTranslation(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: LocalizationService_SuggestTranslation_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LocalizationServiceServer).SuggestTranslation(ctx, req.(*SuggestTranslationInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -625,6 +757,18 @@ var LocalizationService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _LocalizationService_ImportTerms_Handler,
 		},
 		{
+			MethodName: "AddLocale",
+			Handler:    _LocalizationService_AddLocale_Handler,
+		},
+		{
+			MethodName: "RemoveLocale",
+			Handler:    _LocalizationService_RemoveLocale_Handler,
+		},
+		{
+			MethodName: "ListLocales",
+			Handler:    _LocalizationService_ListLocales_Handler,
+		},
+		{
 			MethodName: "TranslateTerm",
 			Handler:    _LocalizationService_TranslateTerm_Handler,
 		},
@@ -635,6 +779,10 @@ var LocalizationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteTranslation",
 			Handler:    _LocalizationService_DeleteTranslation_Handler,
+		},
+		{
+			MethodName: "SuggestTranslation",
+			Handler:    _LocalizationService_SuggestTranslation_Handler,
 		},
 		{
 			MethodName: "UpdateTranslation",
