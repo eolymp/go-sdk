@@ -223,10 +223,10 @@ func RegisterLocalizationServiceHttpHandlers(router *mux.Router, prefix string, 
 	router.Handle(prefix+"/terms/{term_id}/translations/{translation_id}/reject", _LocalizationService_RejectTranslation_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.l10n.LocalizationService.RejectTranslation")
-	router.Handle(prefix+"/translations", _LocalizationService_ImportTranslations_Rule0(srv)).
+	router.Handle(prefix+"/translations/{locale}", _LocalizationService_ImportTranslations_Rule0(srv)).
 		Methods("PUT").
 		Name("eolymp.l10n.LocalizationService.ImportTranslations")
-	router.Handle(prefix+"/translations", _LocalizationService_ExportTranslations_Rule0(srv)).
+	router.Handle(prefix+"/translations/{locale}", _LocalizationService_ExportTranslations_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.l10n.LocalizationService.ExportTranslations")
 }
@@ -558,6 +558,9 @@ func _LocalizationService_ImportTranslations_Rule0(srv LocalizationServiceServer
 			return
 		}
 
+		vars := mux.Vars(r)
+		in.Locale = vars["locale"]
+
 		out, err := srv.ImportTranslations(r.Context(), in)
 		if err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
@@ -577,6 +580,9 @@ func _LocalizationService_ExportTranslations_Rule0(srv LocalizationServiceServer
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.Locale = vars["locale"]
 
 		out, err := srv.ExportTranslations(r.Context(), in)
 		if err != nil {

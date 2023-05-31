@@ -315,7 +315,12 @@ func (s *LocalizationServiceService) RejectTranslation(ctx context.Context, in *
 
 func (s *LocalizationServiceService) ImportTranslations(ctx context.Context, in *ImportTranslationsInput) (*ImportTranslationsOutput, error) {
 	out := &ImportTranslationsOutput{}
-	path := "/translations"
+	path := "/translations/" + url.PathEscape(in.GetLocale())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.Locale = ""
+	}
 
 	if err := s.do(ctx, "PUT", path, in, out); err != nil {
 		return nil, err
@@ -326,7 +331,12 @@ func (s *LocalizationServiceService) ImportTranslations(ctx context.Context, in 
 
 func (s *LocalizationServiceService) ExportTranslations(ctx context.Context, in *ExportTranslationsInput) (*ExportTranslationsOutput, error) {
 	out := &ExportTranslationsOutput{}
-	path := "/translations"
+	path := "/translations/" + url.PathEscape(in.GetLocale())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.Locale = ""
+	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
