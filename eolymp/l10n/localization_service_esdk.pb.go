@@ -256,8 +256,8 @@ func (s *LocalizationServiceService) ListLocales(ctx context.Context, in *ListLo
 	return out, nil
 }
 
-func (s *LocalizationServiceService) TranslateTerm(ctx context.Context, in *TranslateTermInput) (*TranslateTermOutput, error) {
-	out := &TranslateTermOutput{}
+func (s *LocalizationServiceService) AddTranslation(ctx context.Context, in *AddTranslationInput) (*AddTranslationOutput, error) {
+	out := &AddTranslationOutput{}
 	path := "/terms/" + url.PathEscape(in.GetTermId()) + "/translations"
 
 	// Cleanup URL parameters to avoid any ambiguity
