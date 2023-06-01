@@ -315,7 +315,7 @@ func (s *LocalizationServiceService) SuggestTranslation(ctx context.Context, in 
 		in.Locale = ""
 	}
 
-	if err := s.do(ctx, "PUT", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 

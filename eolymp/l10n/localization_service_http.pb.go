@@ -224,7 +224,7 @@ func RegisterLocalizationServiceHttpHandlers(router *mux.Router, prefix string, 
 		Methods("DELETE").
 		Name("eolymp.l10n.LocalizationService.DeleteTranslation")
 	router.Handle(prefix+"/terms/{term_id}/suggestions/{locale}", _LocalizationService_SuggestTranslation_Rule0(srv)).
-		Methods("PUT").
+		Methods("GET").
 		Name("eolymp.l10n.LocalizationService.SuggestTranslation")
 	router.Handle(prefix+"/terms/{term_id}/translations/{translation_id}", _LocalizationService_UpdateTranslation_Rule0(srv)).
 		Methods("PUT").
@@ -558,7 +558,7 @@ func _LocalizationService_SuggestTranslation_Rule0(srv LocalizationServiceServer
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &SuggestTranslationInput{}
 
-		if err := _LocalizationService_HTTPReadRequestBody(r, in); err != nil {
+		if err := _LocalizationService_HTTPReadQueryString(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
