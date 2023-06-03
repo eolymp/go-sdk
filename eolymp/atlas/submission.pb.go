@@ -245,7 +245,7 @@ type Submission struct {
 	SubmittedAt   *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=submitted_at,json=submittedAt,proto3" json:"submitted_at,omitempty"`          // time when submission was created
 	Lang          string                 `protobuf:"bytes,10,opt,name=lang,proto3" json:"lang,omitempty"`                                          // programming language
 	Source        string                 `protobuf:"bytes,11,opt,name=source,proto3" json:"source,omitempty"`                                      // source code
-	Signature     string                 `protobuf:"bytes,12,opt,name=signature,proto3" json:"signature,omitempty"`                                // source code
+	Signature     string                 `protobuf:"bytes,12,opt,name=signature,proto3" json:"signature,omitempty"`                                // source code signature
 	Status        Submission_Status      `protobuf:"varint,20,opt,name=status,proto3,enum=eolymp.atlas.Submission_Status" json:"status,omitempty"` // status (see explanation for enumeration values)
 	Error         string                 `protobuf:"bytes,21,opt,name=error,proto3" json:"error,omitempty"`                                        // error message in case status is ERROR
 	Cost          float32                `protobuf:"fixed32,30,opt,name=cost,proto3" json:"cost,omitempty"`                                        // maximum possible score for the submission

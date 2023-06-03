@@ -218,7 +218,7 @@ type Verifier_File struct {
 	unknownFields protoimpl.UnknownFields
 
 	Path      string `protobuf:"bytes,1,opt,name=path,proto3" json:"path,omitempty"`                            // Path where file should be placed (always relative to the workdir)
-	SourceErn string `protobuf:"bytes,2,opt,name=source_ern,json=sourceErn,proto3" json:"source_ern,omitempty"` // ERN defines how to fetch file content
+	SourceErn string `protobuf:"bytes,2,opt,name=source_ern,json=sourceErn,proto3" json:"source_ern,omitempty"` // deprecated
 	SourceUrl string `protobuf:"bytes,3,opt,name=source_url,json=sourceUrl,proto3" json:"source_url,omitempty"` // URL to download source file
 }
 

@@ -434,8 +434,8 @@ type DescribeCodeTemplateInput struct {
 
 	ProblemId   string `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	TemplateId  string `protobuf:"bytes,2,opt,name=template_id,json=templateId,proto3" json:"template_id,omitempty"`
-	TemplateErn string `protobuf:"bytes,9999,opt,name=template_ern,json=templateErn,proto3" json:"template_ern,omitempty"`
-	Version     uint32 `protobuf:"varint,100,opt,name=version,proto3" json:"version,omitempty"` // request data for specific problem version
+	TemplateErn string `protobuf:"bytes,9999,opt,name=template_ern,json=templateErn,proto3" json:"template_ern,omitempty"` // deprecated
+	Version     uint32 `protobuf:"varint,100,opt,name=version,proto3" json:"version,omitempty"`                            // request data for specific problem version
 }
 
 func (x *DescribeCodeTemplateInput) Reset() {
