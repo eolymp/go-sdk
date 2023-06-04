@@ -138,9 +138,9 @@ func (s *LocalizationServiceService) UpdateTerm(ctx context.Context, in *UpdateT
 	return out, nil
 }
 
-func (s *LocalizationServiceService) ApproveTerm(ctx context.Context, in *ApproveTermInput) (*ApproveTermOutput, error) {
-	out := &ApproveTermOutput{}
-	path := "/terms/" + url.PathEscape(in.GetTermId()) + "/approve"
+func (s *LocalizationServiceService) RestoreTerm(ctx context.Context, in *RestoreTermInput) (*RestoreTermOutput, error) {
+	out := &RestoreTermOutput{}
+	path := "/terms/" + url.PathEscape(in.GetTermId()) + "/restore"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
@@ -256,8 +256,8 @@ func (s *LocalizationServiceService) ListLocales(ctx context.Context, in *ListLo
 	return out, nil
 }
 
-func (s *LocalizationServiceService) AddTranslation(ctx context.Context, in *AddTranslationInput) (*AddTranslationOutput, error) {
-	out := &AddTranslationOutput{}
+func (s *LocalizationServiceService) TranslateTerm(ctx context.Context, in *TranslateTermInput) (*TranslateTermOutput, error) {
+	out := &TranslateTermOutput{}
 	path := "/terms/" + url.PathEscape(in.GetTermId()) + "/translations"
 
 	// Cleanup URL parameters to avoid any ambiguity

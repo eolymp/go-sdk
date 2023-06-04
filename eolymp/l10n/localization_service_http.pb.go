@@ -190,9 +190,9 @@ func RegisterLocalizationServiceHttpHandlers(router *mux.Router, prefix string, 
 	router.Handle(prefix+"/terms/{term_id}", _LocalizationService_UpdateTerm_Rule0(srv)).
 		Methods("PUT").
 		Name("eolymp.l10n.LocalizationService.UpdateTerm")
-	router.Handle(prefix+"/terms/{term_id}/approve", _LocalizationService_ApproveTerm_Rule0(srv)).
+	router.Handle(prefix+"/terms/{term_id}/restore", _LocalizationService_RestoreTerm_Rule0(srv)).
 		Methods("POST").
-		Name("eolymp.l10n.LocalizationService.ApproveTerm")
+		Name("eolymp.l10n.LocalizationService.RestoreTerm")
 	router.Handle(prefix+"/terms/{term_id}/deprecate", _LocalizationService_DeprecateTerm_Rule0(srv)).
 		Methods("POST").
 		Name("eolymp.l10n.LocalizationService.DeprecateTerm")
@@ -214,9 +214,9 @@ func RegisterLocalizationServiceHttpHandlers(router *mux.Router, prefix string, 
 	router.Handle(prefix+"/locales", _LocalizationService_ListLocales_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.l10n.LocalizationService.ListLocales")
-	router.Handle(prefix+"/terms/{term_id}/translations", _LocalizationService_AddTranslation_Rule0(srv)).
+	router.Handle(prefix+"/terms/{term_id}/translations", _LocalizationService_TranslateTerm_Rule0(srv)).
 		Methods("POST").
-		Name("eolymp.l10n.LocalizationService.AddTranslation")
+		Name("eolymp.l10n.LocalizationService.TranslateTerm")
 	router.Handle(prefix+"/terms/{term_id}/translations", _LocalizationService_ListTranslations_Rule0(srv)).
 		Methods("GET").
 		Name("eolymp.l10n.LocalizationService.ListTranslations")
@@ -306,9 +306,9 @@ func _LocalizationService_UpdateTerm_Rule0(srv LocalizationServiceServer) http.H
 	})
 }
 
-func _LocalizationService_ApproveTerm_Rule0(srv LocalizationServiceServer) http.Handler {
+func _LocalizationService_RestoreTerm_Rule0(srv LocalizationServiceServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ApproveTermInput{}
+		in := &RestoreTermInput{}
 
 		if err := _LocalizationService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
@@ -319,7 +319,7 @@ func _LocalizationService_ApproveTerm_Rule0(srv LocalizationServiceServer) http.
 		vars := mux.Vars(r)
 		in.TermId = vars["term_id"]
 
-		out, err := srv.ApproveTerm(r.Context(), in)
+		out, err := srv.RestoreTerm(r.Context(), in)
 		if err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
@@ -484,9 +484,9 @@ func _LocalizationService_ListLocales_Rule0(srv LocalizationServiceServer) http.
 	})
 }
 
-func _LocalizationService_AddTranslation_Rule0(srv LocalizationServiceServer) http.Handler {
+func _LocalizationService_TranslateTerm_Rule0(srv LocalizationServiceServer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &AddTranslationInput{}
+		in := &TranslateTermInput{}
 
 		if err := _LocalizationService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
@@ -497,7 +497,7 @@ func _LocalizationService_AddTranslation_Rule0(srv LocalizationServiceServer) ht
 		vars := mux.Vars(r)
 		in.TermId = vars["term_id"]
 
-		out, err := srv.AddTranslation(r.Context(), in)
+		out, err := srv.TranslateTerm(r.Context(), in)
 		if err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
@@ -804,14 +804,14 @@ func (i *LocalizationServiceInterceptor) UpdateTerm(ctx context.Context, in *Upd
 	return message, err
 }
 
-func (i *LocalizationServiceInterceptor) ApproveTerm(ctx context.Context, in *ApproveTermInput) (*ApproveTermOutput, error) {
+func (i *LocalizationServiceInterceptor) RestoreTerm(ctx context.Context, in *RestoreTermInput) (*RestoreTermOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*ApproveTermInput)
+		message, ok := in.(*RestoreTermInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *ApproveTermInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *RestoreTermInput, got %T", in))
 		}
 
-		return i.server.ApproveTerm(ctx, message)
+		return i.server.RestoreTerm(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
@@ -819,7 +819,7 @@ func (i *LocalizationServiceInterceptor) ApproveTerm(ctx context.Context, in *Ap
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.l10n.LocalizationService.ApproveTerm", in, next)
+			return mw(ctx, "eolymp.l10n.LocalizationService.RestoreTerm", in, next)
 		}
 	}
 
@@ -828,9 +828,9 @@ func (i *LocalizationServiceInterceptor) ApproveTerm(ctx context.Context, in *Ap
 		return nil, err
 	}
 
-	message, ok := out.(*ApproveTermOutput)
+	message, ok := out.(*RestoreTermOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *ApproveTermOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *RestoreTermOutput, got %T", out))
 	}
 
 	return message, err
@@ -1060,14 +1060,14 @@ func (i *LocalizationServiceInterceptor) ListLocales(ctx context.Context, in *Li
 	return message, err
 }
 
-func (i *LocalizationServiceInterceptor) AddTranslation(ctx context.Context, in *AddTranslationInput) (*AddTranslationOutput, error) {
+func (i *LocalizationServiceInterceptor) TranslateTerm(ctx context.Context, in *TranslateTermInput) (*TranslateTermOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*AddTranslationInput)
+		message, ok := in.(*TranslateTermInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *AddTranslationInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *TranslateTermInput, got %T", in))
 		}
 
-		return i.server.AddTranslation(ctx, message)
+		return i.server.TranslateTerm(ctx, message)
 	}
 
 	for _, mw := range i.middleware {
@@ -1075,7 +1075,7 @@ func (i *LocalizationServiceInterceptor) AddTranslation(ctx context.Context, in 
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.l10n.LocalizationService.AddTranslation", in, next)
+			return mw(ctx, "eolymp.l10n.LocalizationService.TranslateTerm", in, next)
 		}
 	}
 
@@ -1084,9 +1084,9 @@ func (i *LocalizationServiceInterceptor) AddTranslation(ctx context.Context, in 
 		return nil, err
 	}
 
-	message, ok := out.(*AddTranslationOutput)
+	message, ok := out.(*TranslateTermOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *AddTranslationOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *TranslateTermOutput, got %T", out))
 	}
 
 	return message, err
