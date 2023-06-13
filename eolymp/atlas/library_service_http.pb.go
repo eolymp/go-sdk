@@ -8,6 +8,7 @@ import (
 	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	websocket "golang.org/x/net/websocket"
+	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
@@ -178,24 +179,24 @@ var _LibraryService_WebsocketCodec = websocket.Codec{
 	},
 }
 
-// RegisterLibraryServiceHttpHandlers adds handlers for for LibraryServiceServer
+// RegisterLibraryServiceHttpHandlers adds handlers for for LibraryServiceClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterLibraryServiceHttpHandlers(router *mux.Router, prefix string, srv LibraryServiceServer) {
-	router.Handle(prefix+"/problems", _LibraryService_CreateProblem_Rule0(srv)).
+func RegisterLibraryServiceHttpHandlers(router *mux.Router, prefix string, cli LibraryServiceClient) {
+	router.Handle(prefix+"/problems", _LibraryService_CreateProblem_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.LibraryService.CreateProblem")
-	router.Handle(prefix+"/problems/{problem_id}", _LibraryService_DeleteProblem_Rule0(srv)).
+	router.Handle(prefix+"/problems/{problem_id}", _LibraryService_DeleteProblem_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.atlas.LibraryService.DeleteProblem")
-	router.Handle(prefix+"/problems/{problem_id}", _LibraryService_DescribeProblem_Rule0(srv)).
+	router.Handle(prefix+"/problems/{problem_id}", _LibraryService_DescribeProblem_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.LibraryService.DescribeProblem")
-	router.Handle(prefix+"/problems", _LibraryService_ListProblems_Rule0(srv)).
+	router.Handle(prefix+"/problems", _LibraryService_ListProblems_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.LibraryService.ListProblems")
 }
 
-func _LibraryService_CreateProblem_Rule0(srv LibraryServiceServer) http.Handler {
+func _LibraryService_CreateProblem_Rule0(cli LibraryServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateProblemInput{}
 
@@ -205,7 +206,7 @@ func _LibraryService_CreateProblem_Rule0(srv LibraryServiceServer) http.Handler 
 			return
 		}
 
-		out, err := srv.CreateProblem(r.Context(), in)
+		out, err := cli.CreateProblem(r.Context(), in)
 		if err != nil {
 			_LibraryService_HTTPWriteErrorResponse(w, err)
 			return
@@ -215,7 +216,7 @@ func _LibraryService_CreateProblem_Rule0(srv LibraryServiceServer) http.Handler 
 	})
 }
 
-func _LibraryService_DeleteProblem_Rule0(srv LibraryServiceServer) http.Handler {
+func _LibraryService_DeleteProblem_Rule0(cli LibraryServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteProblemInput{}
 
@@ -228,7 +229,7 @@ func _LibraryService_DeleteProblem_Rule0(srv LibraryServiceServer) http.Handler 
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
 
-		out, err := srv.DeleteProblem(r.Context(), in)
+		out, err := cli.DeleteProblem(r.Context(), in)
 		if err != nil {
 			_LibraryService_HTTPWriteErrorResponse(w, err)
 			return
@@ -238,7 +239,7 @@ func _LibraryService_DeleteProblem_Rule0(srv LibraryServiceServer) http.Handler 
 	})
 }
 
-func _LibraryService_DescribeProblem_Rule0(srv LibraryServiceServer) http.Handler {
+func _LibraryService_DescribeProblem_Rule0(cli LibraryServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeProblemInput{}
 
@@ -251,7 +252,7 @@ func _LibraryService_DescribeProblem_Rule0(srv LibraryServiceServer) http.Handle
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
 
-		out, err := srv.DescribeProblem(r.Context(), in)
+		out, err := cli.DescribeProblem(r.Context(), in)
 		if err != nil {
 			_LibraryService_HTTPWriteErrorResponse(w, err)
 			return
@@ -261,7 +262,7 @@ func _LibraryService_DescribeProblem_Rule0(srv LibraryServiceServer) http.Handle
 	})
 }
 
-func _LibraryService_ListProblems_Rule0(srv LibraryServiceServer) http.Handler {
+func _LibraryService_ListProblems_Rule0(cli LibraryServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListProblemsInput{}
 
@@ -271,7 +272,7 @@ func _LibraryService_ListProblems_Rule0(srv LibraryServiceServer) http.Handler {
 			return
 		}
 
-		out, err := srv.ListProblems(r.Context(), in)
+		out, err := cli.ListProblems(r.Context(), in)
 		if err != nil {
 			_LibraryService_HTTPWriteErrorResponse(w, err)
 			return
@@ -285,22 +286,22 @@ type _LibraryServiceHandler = func(ctx context.Context, in proto.Message) (proto
 type _LibraryServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _LibraryServiceHandler) (out proto.Message, err error)
 type LibraryServiceInterceptor struct {
 	middleware []_LibraryServiceMiddleware
-	server     LibraryServiceServer
+	client     LibraryServiceClient
 }
 
 // NewLibraryServiceInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewLibraryServiceInterceptor(srv LibraryServiceServer, middleware ..._LibraryServiceMiddleware) *LibraryServiceInterceptor {
-	return &LibraryServiceInterceptor{server: srv, middleware: middleware}
+func NewLibraryServiceInterceptor(cli LibraryServiceClient, middleware ..._LibraryServiceMiddleware) *LibraryServiceInterceptor {
+	return &LibraryServiceInterceptor{client: cli, middleware: middleware}
 }
 
-func (i *LibraryServiceInterceptor) CreateProblem(ctx context.Context, in *CreateProblemInput) (*CreateProblemOutput, error) {
+func (i *LibraryServiceInterceptor) CreateProblem(ctx context.Context, in *CreateProblemInput, opts ...grpc.CallOption) (*CreateProblemOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CreateProblemInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *CreateProblemInput, got %T", in))
 		}
 
-		return i.server.CreateProblem(ctx, message)
+		return i.client.CreateProblem(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -325,14 +326,14 @@ func (i *LibraryServiceInterceptor) CreateProblem(ctx context.Context, in *Creat
 	return message, err
 }
 
-func (i *LibraryServiceInterceptor) DeleteProblem(ctx context.Context, in *DeleteProblemInput) (*DeleteProblemOutput, error) {
+func (i *LibraryServiceInterceptor) DeleteProblem(ctx context.Context, in *DeleteProblemInput, opts ...grpc.CallOption) (*DeleteProblemOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DeleteProblemInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DeleteProblemInput, got %T", in))
 		}
 
-		return i.server.DeleteProblem(ctx, message)
+		return i.client.DeleteProblem(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -357,14 +358,14 @@ func (i *LibraryServiceInterceptor) DeleteProblem(ctx context.Context, in *Delet
 	return message, err
 }
 
-func (i *LibraryServiceInterceptor) DescribeProblem(ctx context.Context, in *DescribeProblemInput) (*DescribeProblemOutput, error) {
+func (i *LibraryServiceInterceptor) DescribeProblem(ctx context.Context, in *DescribeProblemInput, opts ...grpc.CallOption) (*DescribeProblemOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeProblemInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeProblemInput, got %T", in))
 		}
 
-		return i.server.DescribeProblem(ctx, message)
+		return i.client.DescribeProblem(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -389,14 +390,14 @@ func (i *LibraryServiceInterceptor) DescribeProblem(ctx context.Context, in *Des
 	return message, err
 }
 
-func (i *LibraryServiceInterceptor) ListProblems(ctx context.Context, in *ListProblemsInput) (*ListProblemsOutput, error) {
+func (i *LibraryServiceInterceptor) ListProblems(ctx context.Context, in *ListProblemsInput, opts ...grpc.CallOption) (*ListProblemsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListProblemsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListProblemsInput, got %T", in))
 		}
 
-		return i.server.ListProblems(ctx, message)
+		return i.client.ListProblems(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {

@@ -8,6 +8,7 @@ import (
 	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	websocket "golang.org/x/net/websocket"
+	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
@@ -178,18 +179,18 @@ var _BookmarkService_WebsocketCodec = websocket.Codec{
 	},
 }
 
-// RegisterBookmarkServiceHttpHandlers adds handlers for for BookmarkServiceServer
+// RegisterBookmarkServiceHttpHandlers adds handlers for for BookmarkServiceClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterBookmarkServiceHttpHandlers(router *mux.Router, prefix string, srv BookmarkServiceServer) {
-	router.Handle(prefix+"/bookmark", _BookmarkService_GetBookmark_Rule0(srv)).
+func RegisterBookmarkServiceHttpHandlers(router *mux.Router, prefix string, cli BookmarkServiceClient) {
+	router.Handle(prefix+"/bookmark", _BookmarkService_GetBookmark_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.BookmarkService.GetBookmark")
-	router.Handle(prefix+"/bookmark", _BookmarkService_SetBookmark_Rule0(srv)).
+	router.Handle(prefix+"/bookmark", _BookmarkService_SetBookmark_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.BookmarkService.SetBookmark")
 }
 
-func _BookmarkService_GetBookmark_Rule0(srv BookmarkServiceServer) http.Handler {
+func _BookmarkService_GetBookmark_Rule0(cli BookmarkServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &GetBookmarkInput{}
 
@@ -199,7 +200,7 @@ func _BookmarkService_GetBookmark_Rule0(srv BookmarkServiceServer) http.Handler 
 			return
 		}
 
-		out, err := srv.GetBookmark(r.Context(), in)
+		out, err := cli.GetBookmark(r.Context(), in)
 		if err != nil {
 			_BookmarkService_HTTPWriteErrorResponse(w, err)
 			return
@@ -209,7 +210,7 @@ func _BookmarkService_GetBookmark_Rule0(srv BookmarkServiceServer) http.Handler 
 	})
 }
 
-func _BookmarkService_SetBookmark_Rule0(srv BookmarkServiceServer) http.Handler {
+func _BookmarkService_SetBookmark_Rule0(cli BookmarkServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &SetBookmarkInput{}
 
@@ -219,7 +220,7 @@ func _BookmarkService_SetBookmark_Rule0(srv BookmarkServiceServer) http.Handler 
 			return
 		}
 
-		out, err := srv.SetBookmark(r.Context(), in)
+		out, err := cli.SetBookmark(r.Context(), in)
 		if err != nil {
 			_BookmarkService_HTTPWriteErrorResponse(w, err)
 			return
@@ -233,22 +234,22 @@ type _BookmarkServiceHandler = func(ctx context.Context, in proto.Message) (prot
 type _BookmarkServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _BookmarkServiceHandler) (out proto.Message, err error)
 type BookmarkServiceInterceptor struct {
 	middleware []_BookmarkServiceMiddleware
-	server     BookmarkServiceServer
+	client     BookmarkServiceClient
 }
 
 // NewBookmarkServiceInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewBookmarkServiceInterceptor(srv BookmarkServiceServer, middleware ..._BookmarkServiceMiddleware) *BookmarkServiceInterceptor {
-	return &BookmarkServiceInterceptor{server: srv, middleware: middleware}
+func NewBookmarkServiceInterceptor(cli BookmarkServiceClient, middleware ..._BookmarkServiceMiddleware) *BookmarkServiceInterceptor {
+	return &BookmarkServiceInterceptor{client: cli, middleware: middleware}
 }
 
-func (i *BookmarkServiceInterceptor) GetBookmark(ctx context.Context, in *GetBookmarkInput) (*GetBookmarkOutput, error) {
+func (i *BookmarkServiceInterceptor) GetBookmark(ctx context.Context, in *GetBookmarkInput, opts ...grpc.CallOption) (*GetBookmarkOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*GetBookmarkInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *GetBookmarkInput, got %T", in))
 		}
 
-		return i.server.GetBookmark(ctx, message)
+		return i.client.GetBookmark(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -273,14 +274,14 @@ func (i *BookmarkServiceInterceptor) GetBookmark(ctx context.Context, in *GetBoo
 	return message, err
 }
 
-func (i *BookmarkServiceInterceptor) SetBookmark(ctx context.Context, in *SetBookmarkInput) (*SetBookmarkOutput, error) {
+func (i *BookmarkServiceInterceptor) SetBookmark(ctx context.Context, in *SetBookmarkInput, opts ...grpc.CallOption) (*SetBookmarkOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*SetBookmarkInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *SetBookmarkInput, got %T", in))
 		}
 
-		return i.server.SetBookmark(ctx, message)
+		return i.client.SetBookmark(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {

@@ -8,6 +8,7 @@ import (
 	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	websocket "golang.org/x/net/websocket"
+	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
@@ -178,51 +179,51 @@ var _Universe_WebsocketCodec = websocket.Codec{
 	},
 }
 
-// RegisterUniverseHttpHandlers adds handlers for for UniverseServer
+// RegisterUniverseHttpHandlers adds handlers for for UniverseClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterUniverseHttpHandlers(router *mux.Router, prefix string, srv UniverseServer) {
-	router.Handle(prefix+"/spaces/__lookup/{key}", _Universe_LookupSpace_Rule0(srv)).
+func RegisterUniverseHttpHandlers(router *mux.Router, prefix string, cli UniverseClient) {
+	router.Handle(prefix+"/spaces/__lookup/{key}", _Universe_LookupSpace_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.universe.Universe.LookupSpace")
-	router.Handle(prefix+"/spaces", _Universe_CreateSpace_Rule0(srv)).
+	router.Handle(prefix+"/spaces", _Universe_CreateSpace_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.universe.Universe.CreateSpace")
-	router.Handle(prefix+"/spaces/{space_id}", _Universe_UpdateSpace_Rule0(srv)).
+	router.Handle(prefix+"/spaces/{space_id}", _Universe_UpdateSpace_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.universe.Universe.UpdateSpace")
-	router.Handle(prefix+"/spaces/{space_id}", _Universe_DeleteSpace_Rule0(srv)).
+	router.Handle(prefix+"/spaces/{space_id}", _Universe_DeleteSpace_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.universe.Universe.DeleteSpace")
-	router.Handle(prefix+"/spaces/{space_id}", _Universe_DescribeSpace_Rule0(srv)).
+	router.Handle(prefix+"/spaces/{space_id}", _Universe_DescribeSpace_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.universe.Universe.DescribeSpace")
-	router.Handle(prefix+"/spaces/{space_id}/quota", _Universe_DescribeQuota_Rule0(srv)).
+	router.Handle(prefix+"/spaces/{space_id}/quota", _Universe_DescribeQuota_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.universe.Universe.DescribeQuota")
-	router.Handle(prefix+"/spaces/{space_id}/quota", _Universe_UpdateQuota_Rule0(srv)).
+	router.Handle(prefix+"/spaces/{space_id}/quota", _Universe_UpdateQuota_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.universe.Universe.UpdateQuota")
-	router.Handle(prefix+"/spaces", _Universe_ListSpaces_Rule0(srv)).
+	router.Handle(prefix+"/spaces", _Universe_ListSpaces_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.universe.Universe.ListSpaces")
-	router.Handle(prefix+"/spaces/{space_id}/permissions/{user_id}", _Universe_GrantPermission_Rule0(srv)).
+	router.Handle(prefix+"/spaces/{space_id}/permissions/{user_id}", _Universe_GrantPermission_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.universe.Universe.GrantPermission")
-	router.Handle(prefix+"/spaces/{space_id}/permissions/{user_id}", _Universe_RevokePermission_Rule0(srv)).
+	router.Handle(prefix+"/spaces/{space_id}/permissions/{user_id}", _Universe_RevokePermission_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.universe.Universe.RevokePermission")
-	router.Handle(prefix+"/spaces/{space_id}/permissions/{user_id}", _Universe_DescribePermission_Rule0(srv)).
+	router.Handle(prefix+"/spaces/{space_id}/permissions/{user_id}", _Universe_DescribePermission_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.universe.Universe.DescribePermission")
-	router.Handle(prefix+"/spaces/{space_id}/introspect-permission", _Universe_IntrospectPermission_Rule0(srv)).
+	router.Handle(prefix+"/spaces/{space_id}/introspect-permission", _Universe_IntrospectPermission_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.universe.Universe.IntrospectPermission")
-	router.Handle(prefix+"/spaces/{space_id}/permissions", _Universe_ListPermissions_Rule0(srv)).
+	router.Handle(prefix+"/spaces/{space_id}/permissions", _Universe_ListPermissions_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.universe.Universe.ListPermissions")
 }
 
-func _Universe_LookupSpace_Rule0(srv UniverseServer) http.Handler {
+func _Universe_LookupSpace_Rule0(cli UniverseClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &LookupSpaceInput{}
 
@@ -235,7 +236,7 @@ func _Universe_LookupSpace_Rule0(srv UniverseServer) http.Handler {
 		vars := mux.Vars(r)
 		in.Key = vars["key"]
 
-		out, err := srv.LookupSpace(r.Context(), in)
+		out, err := cli.LookupSpace(r.Context(), in)
 		if err != nil {
 			_Universe_HTTPWriteErrorResponse(w, err)
 			return
@@ -245,7 +246,7 @@ func _Universe_LookupSpace_Rule0(srv UniverseServer) http.Handler {
 	})
 }
 
-func _Universe_CreateSpace_Rule0(srv UniverseServer) http.Handler {
+func _Universe_CreateSpace_Rule0(cli UniverseClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateSpaceInput{}
 
@@ -255,7 +256,7 @@ func _Universe_CreateSpace_Rule0(srv UniverseServer) http.Handler {
 			return
 		}
 
-		out, err := srv.CreateSpace(r.Context(), in)
+		out, err := cli.CreateSpace(r.Context(), in)
 		if err != nil {
 			_Universe_HTTPWriteErrorResponse(w, err)
 			return
@@ -265,7 +266,7 @@ func _Universe_CreateSpace_Rule0(srv UniverseServer) http.Handler {
 	})
 }
 
-func _Universe_UpdateSpace_Rule0(srv UniverseServer) http.Handler {
+func _Universe_UpdateSpace_Rule0(cli UniverseClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateSpaceInput{}
 
@@ -278,7 +279,7 @@ func _Universe_UpdateSpace_Rule0(srv UniverseServer) http.Handler {
 		vars := mux.Vars(r)
 		in.SpaceId = vars["space_id"]
 
-		out, err := srv.UpdateSpace(r.Context(), in)
+		out, err := cli.UpdateSpace(r.Context(), in)
 		if err != nil {
 			_Universe_HTTPWriteErrorResponse(w, err)
 			return
@@ -288,7 +289,7 @@ func _Universe_UpdateSpace_Rule0(srv UniverseServer) http.Handler {
 	})
 }
 
-func _Universe_DeleteSpace_Rule0(srv UniverseServer) http.Handler {
+func _Universe_DeleteSpace_Rule0(cli UniverseClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteSpaceInput{}
 
@@ -301,7 +302,7 @@ func _Universe_DeleteSpace_Rule0(srv UniverseServer) http.Handler {
 		vars := mux.Vars(r)
 		in.SpaceId = vars["space_id"]
 
-		out, err := srv.DeleteSpace(r.Context(), in)
+		out, err := cli.DeleteSpace(r.Context(), in)
 		if err != nil {
 			_Universe_HTTPWriteErrorResponse(w, err)
 			return
@@ -311,7 +312,7 @@ func _Universe_DeleteSpace_Rule0(srv UniverseServer) http.Handler {
 	})
 }
 
-func _Universe_DescribeSpace_Rule0(srv UniverseServer) http.Handler {
+func _Universe_DescribeSpace_Rule0(cli UniverseClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeSpaceInput{}
 
@@ -324,7 +325,7 @@ func _Universe_DescribeSpace_Rule0(srv UniverseServer) http.Handler {
 		vars := mux.Vars(r)
 		in.SpaceId = vars["space_id"]
 
-		out, err := srv.DescribeSpace(r.Context(), in)
+		out, err := cli.DescribeSpace(r.Context(), in)
 		if err != nil {
 			_Universe_HTTPWriteErrorResponse(w, err)
 			return
@@ -334,7 +335,7 @@ func _Universe_DescribeSpace_Rule0(srv UniverseServer) http.Handler {
 	})
 }
 
-func _Universe_DescribeQuota_Rule0(srv UniverseServer) http.Handler {
+func _Universe_DescribeQuota_Rule0(cli UniverseClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeQuotaInput{}
 
@@ -347,7 +348,7 @@ func _Universe_DescribeQuota_Rule0(srv UniverseServer) http.Handler {
 		vars := mux.Vars(r)
 		in.SpaceId = vars["space_id"]
 
-		out, err := srv.DescribeQuota(r.Context(), in)
+		out, err := cli.DescribeQuota(r.Context(), in)
 		if err != nil {
 			_Universe_HTTPWriteErrorResponse(w, err)
 			return
@@ -357,7 +358,7 @@ func _Universe_DescribeQuota_Rule0(srv UniverseServer) http.Handler {
 	})
 }
 
-func _Universe_UpdateQuota_Rule0(srv UniverseServer) http.Handler {
+func _Universe_UpdateQuota_Rule0(cli UniverseClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateQuotaInput{}
 
@@ -370,7 +371,7 @@ func _Universe_UpdateQuota_Rule0(srv UniverseServer) http.Handler {
 		vars := mux.Vars(r)
 		in.SpaceId = vars["space_id"]
 
-		out, err := srv.UpdateQuota(r.Context(), in)
+		out, err := cli.UpdateQuota(r.Context(), in)
 		if err != nil {
 			_Universe_HTTPWriteErrorResponse(w, err)
 			return
@@ -380,7 +381,7 @@ func _Universe_UpdateQuota_Rule0(srv UniverseServer) http.Handler {
 	})
 }
 
-func _Universe_ListSpaces_Rule0(srv UniverseServer) http.Handler {
+func _Universe_ListSpaces_Rule0(cli UniverseClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListSpacesInput{}
 
@@ -390,7 +391,7 @@ func _Universe_ListSpaces_Rule0(srv UniverseServer) http.Handler {
 			return
 		}
 
-		out, err := srv.ListSpaces(r.Context(), in)
+		out, err := cli.ListSpaces(r.Context(), in)
 		if err != nil {
 			_Universe_HTTPWriteErrorResponse(w, err)
 			return
@@ -400,7 +401,7 @@ func _Universe_ListSpaces_Rule0(srv UniverseServer) http.Handler {
 	})
 }
 
-func _Universe_GrantPermission_Rule0(srv UniverseServer) http.Handler {
+func _Universe_GrantPermission_Rule0(cli UniverseClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &GrantPermissionInput{}
 
@@ -414,7 +415,7 @@ func _Universe_GrantPermission_Rule0(srv UniverseServer) http.Handler {
 		in.SpaceId = vars["space_id"]
 		in.UserId = vars["user_id"]
 
-		out, err := srv.GrantPermission(r.Context(), in)
+		out, err := cli.GrantPermission(r.Context(), in)
 		if err != nil {
 			_Universe_HTTPWriteErrorResponse(w, err)
 			return
@@ -424,7 +425,7 @@ func _Universe_GrantPermission_Rule0(srv UniverseServer) http.Handler {
 	})
 }
 
-func _Universe_RevokePermission_Rule0(srv UniverseServer) http.Handler {
+func _Universe_RevokePermission_Rule0(cli UniverseClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &RevokePermissionInput{}
 
@@ -438,7 +439,7 @@ func _Universe_RevokePermission_Rule0(srv UniverseServer) http.Handler {
 		in.SpaceId = vars["space_id"]
 		in.UserId = vars["user_id"]
 
-		out, err := srv.RevokePermission(r.Context(), in)
+		out, err := cli.RevokePermission(r.Context(), in)
 		if err != nil {
 			_Universe_HTTPWriteErrorResponse(w, err)
 			return
@@ -448,7 +449,7 @@ func _Universe_RevokePermission_Rule0(srv UniverseServer) http.Handler {
 	})
 }
 
-func _Universe_DescribePermission_Rule0(srv UniverseServer) http.Handler {
+func _Universe_DescribePermission_Rule0(cli UniverseClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribePermissionInput{}
 
@@ -462,7 +463,7 @@ func _Universe_DescribePermission_Rule0(srv UniverseServer) http.Handler {
 		in.SpaceId = vars["space_id"]
 		in.UserId = vars["user_id"]
 
-		out, err := srv.DescribePermission(r.Context(), in)
+		out, err := cli.DescribePermission(r.Context(), in)
 		if err != nil {
 			_Universe_HTTPWriteErrorResponse(w, err)
 			return
@@ -472,7 +473,7 @@ func _Universe_DescribePermission_Rule0(srv UniverseServer) http.Handler {
 	})
 }
 
-func _Universe_IntrospectPermission_Rule0(srv UniverseServer) http.Handler {
+func _Universe_IntrospectPermission_Rule0(cli UniverseClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &IntrospectPermissionInput{}
 
@@ -485,7 +486,7 @@ func _Universe_IntrospectPermission_Rule0(srv UniverseServer) http.Handler {
 		vars := mux.Vars(r)
 		in.SpaceId = vars["space_id"]
 
-		out, err := srv.IntrospectPermission(r.Context(), in)
+		out, err := cli.IntrospectPermission(r.Context(), in)
 		if err != nil {
 			_Universe_HTTPWriteErrorResponse(w, err)
 			return
@@ -495,7 +496,7 @@ func _Universe_IntrospectPermission_Rule0(srv UniverseServer) http.Handler {
 	})
 }
 
-func _Universe_ListPermissions_Rule0(srv UniverseServer) http.Handler {
+func _Universe_ListPermissions_Rule0(cli UniverseClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListPermissionsInput{}
 
@@ -508,7 +509,7 @@ func _Universe_ListPermissions_Rule0(srv UniverseServer) http.Handler {
 		vars := mux.Vars(r)
 		in.SpaceId = vars["space_id"]
 
-		out, err := srv.ListPermissions(r.Context(), in)
+		out, err := cli.ListPermissions(r.Context(), in)
 		if err != nil {
 			_Universe_HTTPWriteErrorResponse(w, err)
 			return
@@ -522,22 +523,22 @@ type _UniverseHandler = func(ctx context.Context, in proto.Message) (proto.Messa
 type _UniverseMiddleware = func(ctx context.Context, method string, in proto.Message, handler _UniverseHandler) (out proto.Message, err error)
 type UniverseInterceptor struct {
 	middleware []_UniverseMiddleware
-	server     UniverseServer
+	client     UniverseClient
 }
 
 // NewUniverseInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewUniverseInterceptor(srv UniverseServer, middleware ..._UniverseMiddleware) *UniverseInterceptor {
-	return &UniverseInterceptor{server: srv, middleware: middleware}
+func NewUniverseInterceptor(cli UniverseClient, middleware ..._UniverseMiddleware) *UniverseInterceptor {
+	return &UniverseInterceptor{client: cli, middleware: middleware}
 }
 
-func (i *UniverseInterceptor) LookupSpace(ctx context.Context, in *LookupSpaceInput) (*LookupSpaceOutput, error) {
+func (i *UniverseInterceptor) LookupSpace(ctx context.Context, in *LookupSpaceInput, opts ...grpc.CallOption) (*LookupSpaceOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*LookupSpaceInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *LookupSpaceInput, got %T", in))
 		}
 
-		return i.server.LookupSpace(ctx, message)
+		return i.client.LookupSpace(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -562,14 +563,14 @@ func (i *UniverseInterceptor) LookupSpace(ctx context.Context, in *LookupSpaceIn
 	return message, err
 }
 
-func (i *UniverseInterceptor) CreateSpace(ctx context.Context, in *CreateSpaceInput) (*CreateSpaceOutput, error) {
+func (i *UniverseInterceptor) CreateSpace(ctx context.Context, in *CreateSpaceInput, opts ...grpc.CallOption) (*CreateSpaceOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CreateSpaceInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *CreateSpaceInput, got %T", in))
 		}
 
-		return i.server.CreateSpace(ctx, message)
+		return i.client.CreateSpace(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -594,14 +595,14 @@ func (i *UniverseInterceptor) CreateSpace(ctx context.Context, in *CreateSpaceIn
 	return message, err
 }
 
-func (i *UniverseInterceptor) UpdateSpace(ctx context.Context, in *UpdateSpaceInput) (*UpdateSpaceOutput, error) {
+func (i *UniverseInterceptor) UpdateSpace(ctx context.Context, in *UpdateSpaceInput, opts ...grpc.CallOption) (*UpdateSpaceOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdateSpaceInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UpdateSpaceInput, got %T", in))
 		}
 
-		return i.server.UpdateSpace(ctx, message)
+		return i.client.UpdateSpace(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -626,14 +627,14 @@ func (i *UniverseInterceptor) UpdateSpace(ctx context.Context, in *UpdateSpaceIn
 	return message, err
 }
 
-func (i *UniverseInterceptor) DeleteSpace(ctx context.Context, in *DeleteSpaceInput) (*DeleteSpaceOutput, error) {
+func (i *UniverseInterceptor) DeleteSpace(ctx context.Context, in *DeleteSpaceInput, opts ...grpc.CallOption) (*DeleteSpaceOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DeleteSpaceInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DeleteSpaceInput, got %T", in))
 		}
 
-		return i.server.DeleteSpace(ctx, message)
+		return i.client.DeleteSpace(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -658,14 +659,14 @@ func (i *UniverseInterceptor) DeleteSpace(ctx context.Context, in *DeleteSpaceIn
 	return message, err
 }
 
-func (i *UniverseInterceptor) DescribeSpace(ctx context.Context, in *DescribeSpaceInput) (*DescribeSpaceOutput, error) {
+func (i *UniverseInterceptor) DescribeSpace(ctx context.Context, in *DescribeSpaceInput, opts ...grpc.CallOption) (*DescribeSpaceOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeSpaceInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeSpaceInput, got %T", in))
 		}
 
-		return i.server.DescribeSpace(ctx, message)
+		return i.client.DescribeSpace(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -690,14 +691,14 @@ func (i *UniverseInterceptor) DescribeSpace(ctx context.Context, in *DescribeSpa
 	return message, err
 }
 
-func (i *UniverseInterceptor) DescribeQuota(ctx context.Context, in *DescribeQuotaInput) (*DescribeQuotaOutput, error) {
+func (i *UniverseInterceptor) DescribeQuota(ctx context.Context, in *DescribeQuotaInput, opts ...grpc.CallOption) (*DescribeQuotaOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeQuotaInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeQuotaInput, got %T", in))
 		}
 
-		return i.server.DescribeQuota(ctx, message)
+		return i.client.DescribeQuota(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -722,14 +723,14 @@ func (i *UniverseInterceptor) DescribeQuota(ctx context.Context, in *DescribeQuo
 	return message, err
 }
 
-func (i *UniverseInterceptor) UpdateQuota(ctx context.Context, in *UpdateQuotaInput) (*UpdateQuotaOutput, error) {
+func (i *UniverseInterceptor) UpdateQuota(ctx context.Context, in *UpdateQuotaInput, opts ...grpc.CallOption) (*UpdateQuotaOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdateQuotaInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UpdateQuotaInput, got %T", in))
 		}
 
-		return i.server.UpdateQuota(ctx, message)
+		return i.client.UpdateQuota(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -754,14 +755,14 @@ func (i *UniverseInterceptor) UpdateQuota(ctx context.Context, in *UpdateQuotaIn
 	return message, err
 }
 
-func (i *UniverseInterceptor) ListSpaces(ctx context.Context, in *ListSpacesInput) (*ListSpacesOutput, error) {
+func (i *UniverseInterceptor) ListSpaces(ctx context.Context, in *ListSpacesInput, opts ...grpc.CallOption) (*ListSpacesOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListSpacesInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListSpacesInput, got %T", in))
 		}
 
-		return i.server.ListSpaces(ctx, message)
+		return i.client.ListSpaces(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -786,14 +787,14 @@ func (i *UniverseInterceptor) ListSpaces(ctx context.Context, in *ListSpacesInpu
 	return message, err
 }
 
-func (i *UniverseInterceptor) GrantPermission(ctx context.Context, in *GrantPermissionInput) (*GrantPermissionOutput, error) {
+func (i *UniverseInterceptor) GrantPermission(ctx context.Context, in *GrantPermissionInput, opts ...grpc.CallOption) (*GrantPermissionOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*GrantPermissionInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *GrantPermissionInput, got %T", in))
 		}
 
-		return i.server.GrantPermission(ctx, message)
+		return i.client.GrantPermission(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -818,14 +819,14 @@ func (i *UniverseInterceptor) GrantPermission(ctx context.Context, in *GrantPerm
 	return message, err
 }
 
-func (i *UniverseInterceptor) RevokePermission(ctx context.Context, in *RevokePermissionInput) (*RevokePermissionOutput, error) {
+func (i *UniverseInterceptor) RevokePermission(ctx context.Context, in *RevokePermissionInput, opts ...grpc.CallOption) (*RevokePermissionOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*RevokePermissionInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *RevokePermissionInput, got %T", in))
 		}
 
-		return i.server.RevokePermission(ctx, message)
+		return i.client.RevokePermission(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -850,14 +851,14 @@ func (i *UniverseInterceptor) RevokePermission(ctx context.Context, in *RevokePe
 	return message, err
 }
 
-func (i *UniverseInterceptor) DescribePermission(ctx context.Context, in *DescribePermissionInput) (*DescribePermissionOutput, error) {
+func (i *UniverseInterceptor) DescribePermission(ctx context.Context, in *DescribePermissionInput, opts ...grpc.CallOption) (*DescribePermissionOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribePermissionInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribePermissionInput, got %T", in))
 		}
 
-		return i.server.DescribePermission(ctx, message)
+		return i.client.DescribePermission(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -882,14 +883,14 @@ func (i *UniverseInterceptor) DescribePermission(ctx context.Context, in *Descri
 	return message, err
 }
 
-func (i *UniverseInterceptor) IntrospectPermission(ctx context.Context, in *IntrospectPermissionInput) (*IntrospectPermissionOutput, error) {
+func (i *UniverseInterceptor) IntrospectPermission(ctx context.Context, in *IntrospectPermissionInput, opts ...grpc.CallOption) (*IntrospectPermissionOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*IntrospectPermissionInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *IntrospectPermissionInput, got %T", in))
 		}
 
-		return i.server.IntrospectPermission(ctx, message)
+		return i.client.IntrospectPermission(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -914,14 +915,14 @@ func (i *UniverseInterceptor) IntrospectPermission(ctx context.Context, in *Intr
 	return message, err
 }
 
-func (i *UniverseInterceptor) ListPermissions(ctx context.Context, in *ListPermissionsInput) (*ListPermissionsOutput, error) {
+func (i *UniverseInterceptor) ListPermissions(ctx context.Context, in *ListPermissionsInput, opts ...grpc.CallOption) (*ListPermissionsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListPermissionsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListPermissionsInput, got %T", in))
 		}
 
-		return i.server.ListPermissions(ctx, message)
+		return i.client.ListPermissions(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {

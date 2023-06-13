@@ -8,6 +8,7 @@ import (
 	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	websocket "golang.org/x/net/websocket"
+	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
@@ -178,21 +179,21 @@ var _ScoringService_WebsocketCodec = websocket.Codec{
 	},
 }
 
-// RegisterScoringServiceHttpHandlers adds handlers for for ScoringServiceServer
+// RegisterScoringServiceHttpHandlers adds handlers for for ScoringServiceClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterScoringServiceHttpHandlers(router *mux.Router, prefix string, srv ScoringServiceServer) {
-	router.Handle(prefix+"/scores/{user_id}", _ScoringService_DescribeScore_Rule0(srv)).
+func RegisterScoringServiceHttpHandlers(router *mux.Router, prefix string, cli ScoringServiceClient) {
+	router.Handle(prefix+"/scores/{user_id}", _ScoringService_DescribeScore_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.ScoringService.DescribeScore")
-	router.Handle(prefix+"/grading", _ScoringService_DescribeProblemGrading_Rule0(srv)).
+	router.Handle(prefix+"/grading", _ScoringService_DescribeProblemGrading_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.ScoringService.DescribeProblemGrading")
-	router.Handle(prefix+"/top", _ScoringService_ListProblemTop_Rule0(srv)).
+	router.Handle(prefix+"/top", _ScoringService_ListProblemTop_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.ScoringService.ListProblemTop")
 }
 
-func _ScoringService_DescribeScore_Rule0(srv ScoringServiceServer) http.Handler {
+func _ScoringService_DescribeScore_Rule0(cli ScoringServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeScoreInput{}
 
@@ -205,7 +206,7 @@ func _ScoringService_DescribeScore_Rule0(srv ScoringServiceServer) http.Handler 
 		vars := mux.Vars(r)
 		in.UserId = vars["user_id"]
 
-		out, err := srv.DescribeScore(r.Context(), in)
+		out, err := cli.DescribeScore(r.Context(), in)
 		if err != nil {
 			_ScoringService_HTTPWriteErrorResponse(w, err)
 			return
@@ -215,7 +216,7 @@ func _ScoringService_DescribeScore_Rule0(srv ScoringServiceServer) http.Handler 
 	})
 }
 
-func _ScoringService_DescribeProblemGrading_Rule0(srv ScoringServiceServer) http.Handler {
+func _ScoringService_DescribeProblemGrading_Rule0(cli ScoringServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeProblemGradingInput{}
 
@@ -225,7 +226,7 @@ func _ScoringService_DescribeProblemGrading_Rule0(srv ScoringServiceServer) http
 			return
 		}
 
-		out, err := srv.DescribeProblemGrading(r.Context(), in)
+		out, err := cli.DescribeProblemGrading(r.Context(), in)
 		if err != nil {
 			_ScoringService_HTTPWriteErrorResponse(w, err)
 			return
@@ -235,7 +236,7 @@ func _ScoringService_DescribeProblemGrading_Rule0(srv ScoringServiceServer) http
 	})
 }
 
-func _ScoringService_ListProblemTop_Rule0(srv ScoringServiceServer) http.Handler {
+func _ScoringService_ListProblemTop_Rule0(cli ScoringServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListProblemTopInput{}
 
@@ -245,7 +246,7 @@ func _ScoringService_ListProblemTop_Rule0(srv ScoringServiceServer) http.Handler
 			return
 		}
 
-		out, err := srv.ListProblemTop(r.Context(), in)
+		out, err := cli.ListProblemTop(r.Context(), in)
 		if err != nil {
 			_ScoringService_HTTPWriteErrorResponse(w, err)
 			return
@@ -259,22 +260,22 @@ type _ScoringServiceHandler = func(ctx context.Context, in proto.Message) (proto
 type _ScoringServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _ScoringServiceHandler) (out proto.Message, err error)
 type ScoringServiceInterceptor struct {
 	middleware []_ScoringServiceMiddleware
-	server     ScoringServiceServer
+	client     ScoringServiceClient
 }
 
 // NewScoringServiceInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewScoringServiceInterceptor(srv ScoringServiceServer, middleware ..._ScoringServiceMiddleware) *ScoringServiceInterceptor {
-	return &ScoringServiceInterceptor{server: srv, middleware: middleware}
+func NewScoringServiceInterceptor(cli ScoringServiceClient, middleware ..._ScoringServiceMiddleware) *ScoringServiceInterceptor {
+	return &ScoringServiceInterceptor{client: cli, middleware: middleware}
 }
 
-func (i *ScoringServiceInterceptor) DescribeScore(ctx context.Context, in *DescribeScoreInput) (*DescribeScoreOutput, error) {
+func (i *ScoringServiceInterceptor) DescribeScore(ctx context.Context, in *DescribeScoreInput, opts ...grpc.CallOption) (*DescribeScoreOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeScoreInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeScoreInput, got %T", in))
 		}
 
-		return i.server.DescribeScore(ctx, message)
+		return i.client.DescribeScore(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -299,14 +300,14 @@ func (i *ScoringServiceInterceptor) DescribeScore(ctx context.Context, in *Descr
 	return message, err
 }
 
-func (i *ScoringServiceInterceptor) DescribeProblemGrading(ctx context.Context, in *DescribeProblemGradingInput) (*DescribeProblemGradingOutput, error) {
+func (i *ScoringServiceInterceptor) DescribeProblemGrading(ctx context.Context, in *DescribeProblemGradingInput, opts ...grpc.CallOption) (*DescribeProblemGradingOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeProblemGradingInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeProblemGradingInput, got %T", in))
 		}
 
-		return i.server.DescribeProblemGrading(ctx, message)
+		return i.client.DescribeProblemGrading(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -331,14 +332,14 @@ func (i *ScoringServiceInterceptor) DescribeProblemGrading(ctx context.Context, 
 	return message, err
 }
 
-func (i *ScoringServiceInterceptor) ListProblemTop(ctx context.Context, in *ListProblemTopInput) (*ListProblemTopOutput, error) {
+func (i *ScoringServiceInterceptor) ListProblemTop(ctx context.Context, in *ListProblemTopInput, opts ...grpc.CallOption) (*ListProblemTopOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListProblemTopInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListProblemTopInput, got %T", in))
 		}
 
-		return i.server.ListProblemTop(ctx, message)
+		return i.client.ListProblemTop(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {

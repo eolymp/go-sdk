@@ -8,6 +8,7 @@ import (
 	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	websocket "golang.org/x/net/websocket"
+	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
@@ -178,36 +179,36 @@ var _Helpdesk_WebsocketCodec = websocket.Codec{
 	},
 }
 
-// RegisterHelpdeskHttpHandlers adds handlers for for HelpdeskServer
+// RegisterHelpdeskHttpHandlers adds handlers for for HelpdeskClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterHelpdeskHttpHandlers(router *mux.Router, prefix string, srv HelpdeskServer) {
-	router.Handle(prefix+"/helpdesk/documents/{document_id}", _Helpdesk_DescribeDocument_Rule0(srv)).
+func RegisterHelpdeskHttpHandlers(router *mux.Router, prefix string, cli HelpdeskClient) {
+	router.Handle(prefix+"/helpdesk/documents/{document_id}", _Helpdesk_DescribeDocument_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.helpdesk.Helpdesk.DescribeDocument")
-	router.Handle(prefix+"/helpdesk/documents", _Helpdesk_ListDocuments_Rule0(srv)).
+	router.Handle(prefix+"/helpdesk/documents", _Helpdesk_ListDocuments_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.helpdesk.Helpdesk.ListDocuments")
-	router.Handle(prefix+"/helpdesk/documents", _Helpdesk_CreateDocument_Rule0(srv)).
+	router.Handle(prefix+"/helpdesk/documents", _Helpdesk_CreateDocument_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.helpdesk.Helpdesk.CreateDocument")
-	router.Handle(prefix+"/helpdesk/documents/{document_id}", _Helpdesk_UpdateDocument_Rule0(srv)).
+	router.Handle(prefix+"/helpdesk/documents/{document_id}", _Helpdesk_UpdateDocument_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.helpdesk.Helpdesk.UpdateDocument")
-	router.Handle(prefix+"/helpdesk/documents/{document_id}", _Helpdesk_DeleteDocument_Rule0(srv)).
+	router.Handle(prefix+"/helpdesk/documents/{document_id}", _Helpdesk_DeleteDocument_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.helpdesk.Helpdesk.DeleteDocument")
-	router.Handle(prefix+"/helpdesk/lookup/path", _Helpdesk_DescribePath_Rule0(srv)).
+	router.Handle(prefix+"/helpdesk/lookup/path", _Helpdesk_DescribePath_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.helpdesk.Helpdesk.DescribePath")
-	router.Handle(prefix+"/helpdesk/lookup/paths", _Helpdesk_ListPaths_Rule0(srv)).
+	router.Handle(prefix+"/helpdesk/lookup/paths", _Helpdesk_ListPaths_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.helpdesk.Helpdesk.ListPaths")
-	router.Handle(prefix+"/helpdesk/lookup/parents", _Helpdesk_ListParents_Rule0(srv)).
+	router.Handle(prefix+"/helpdesk/lookup/parents", _Helpdesk_ListParents_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.helpdesk.Helpdesk.ListParents")
 }
 
-func _Helpdesk_DescribeDocument_Rule0(srv HelpdeskServer) http.Handler {
+func _Helpdesk_DescribeDocument_Rule0(cli HelpdeskClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeDocumentInput{}
 
@@ -220,7 +221,7 @@ func _Helpdesk_DescribeDocument_Rule0(srv HelpdeskServer) http.Handler {
 		vars := mux.Vars(r)
 		in.DocumentId = vars["document_id"]
 
-		out, err := srv.DescribeDocument(r.Context(), in)
+		out, err := cli.DescribeDocument(r.Context(), in)
 		if err != nil {
 			_Helpdesk_HTTPWriteErrorResponse(w, err)
 			return
@@ -230,7 +231,7 @@ func _Helpdesk_DescribeDocument_Rule0(srv HelpdeskServer) http.Handler {
 	})
 }
 
-func _Helpdesk_ListDocuments_Rule0(srv HelpdeskServer) http.Handler {
+func _Helpdesk_ListDocuments_Rule0(cli HelpdeskClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListDocumentsInput{}
 
@@ -240,7 +241,7 @@ func _Helpdesk_ListDocuments_Rule0(srv HelpdeskServer) http.Handler {
 			return
 		}
 
-		out, err := srv.ListDocuments(r.Context(), in)
+		out, err := cli.ListDocuments(r.Context(), in)
 		if err != nil {
 			_Helpdesk_HTTPWriteErrorResponse(w, err)
 			return
@@ -250,7 +251,7 @@ func _Helpdesk_ListDocuments_Rule0(srv HelpdeskServer) http.Handler {
 	})
 }
 
-func _Helpdesk_CreateDocument_Rule0(srv HelpdeskServer) http.Handler {
+func _Helpdesk_CreateDocument_Rule0(cli HelpdeskClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateDocumentInput{}
 
@@ -260,7 +261,7 @@ func _Helpdesk_CreateDocument_Rule0(srv HelpdeskServer) http.Handler {
 			return
 		}
 
-		out, err := srv.CreateDocument(r.Context(), in)
+		out, err := cli.CreateDocument(r.Context(), in)
 		if err != nil {
 			_Helpdesk_HTTPWriteErrorResponse(w, err)
 			return
@@ -270,7 +271,7 @@ func _Helpdesk_CreateDocument_Rule0(srv HelpdeskServer) http.Handler {
 	})
 }
 
-func _Helpdesk_UpdateDocument_Rule0(srv HelpdeskServer) http.Handler {
+func _Helpdesk_UpdateDocument_Rule0(cli HelpdeskClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateDocumentInput{}
 
@@ -283,7 +284,7 @@ func _Helpdesk_UpdateDocument_Rule0(srv HelpdeskServer) http.Handler {
 		vars := mux.Vars(r)
 		in.DocumentId = vars["document_id"]
 
-		out, err := srv.UpdateDocument(r.Context(), in)
+		out, err := cli.UpdateDocument(r.Context(), in)
 		if err != nil {
 			_Helpdesk_HTTPWriteErrorResponse(w, err)
 			return
@@ -293,7 +294,7 @@ func _Helpdesk_UpdateDocument_Rule0(srv HelpdeskServer) http.Handler {
 	})
 }
 
-func _Helpdesk_DeleteDocument_Rule0(srv HelpdeskServer) http.Handler {
+func _Helpdesk_DeleteDocument_Rule0(cli HelpdeskClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteDocumentInput{}
 
@@ -306,7 +307,7 @@ func _Helpdesk_DeleteDocument_Rule0(srv HelpdeskServer) http.Handler {
 		vars := mux.Vars(r)
 		in.DocumentId = vars["document_id"]
 
-		out, err := srv.DeleteDocument(r.Context(), in)
+		out, err := cli.DeleteDocument(r.Context(), in)
 		if err != nil {
 			_Helpdesk_HTTPWriteErrorResponse(w, err)
 			return
@@ -316,7 +317,7 @@ func _Helpdesk_DeleteDocument_Rule0(srv HelpdeskServer) http.Handler {
 	})
 }
 
-func _Helpdesk_DescribePath_Rule0(srv HelpdeskServer) http.Handler {
+func _Helpdesk_DescribePath_Rule0(cli HelpdeskClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribePathInput{}
 
@@ -326,7 +327,7 @@ func _Helpdesk_DescribePath_Rule0(srv HelpdeskServer) http.Handler {
 			return
 		}
 
-		out, err := srv.DescribePath(r.Context(), in)
+		out, err := cli.DescribePath(r.Context(), in)
 		if err != nil {
 			_Helpdesk_HTTPWriteErrorResponse(w, err)
 			return
@@ -336,7 +337,7 @@ func _Helpdesk_DescribePath_Rule0(srv HelpdeskServer) http.Handler {
 	})
 }
 
-func _Helpdesk_ListPaths_Rule0(srv HelpdeskServer) http.Handler {
+func _Helpdesk_ListPaths_Rule0(cli HelpdeskClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListPathsInput{}
 
@@ -346,7 +347,7 @@ func _Helpdesk_ListPaths_Rule0(srv HelpdeskServer) http.Handler {
 			return
 		}
 
-		out, err := srv.ListPaths(r.Context(), in)
+		out, err := cli.ListPaths(r.Context(), in)
 		if err != nil {
 			_Helpdesk_HTTPWriteErrorResponse(w, err)
 			return
@@ -356,7 +357,7 @@ func _Helpdesk_ListPaths_Rule0(srv HelpdeskServer) http.Handler {
 	})
 }
 
-func _Helpdesk_ListParents_Rule0(srv HelpdeskServer) http.Handler {
+func _Helpdesk_ListParents_Rule0(cli HelpdeskClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListParentsInput{}
 
@@ -366,7 +367,7 @@ func _Helpdesk_ListParents_Rule0(srv HelpdeskServer) http.Handler {
 			return
 		}
 
-		out, err := srv.ListParents(r.Context(), in)
+		out, err := cli.ListParents(r.Context(), in)
 		if err != nil {
 			_Helpdesk_HTTPWriteErrorResponse(w, err)
 			return
@@ -380,22 +381,22 @@ type _HelpdeskHandler = func(ctx context.Context, in proto.Message) (proto.Messa
 type _HelpdeskMiddleware = func(ctx context.Context, method string, in proto.Message, handler _HelpdeskHandler) (out proto.Message, err error)
 type HelpdeskInterceptor struct {
 	middleware []_HelpdeskMiddleware
-	server     HelpdeskServer
+	client     HelpdeskClient
 }
 
 // NewHelpdeskInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewHelpdeskInterceptor(srv HelpdeskServer, middleware ..._HelpdeskMiddleware) *HelpdeskInterceptor {
-	return &HelpdeskInterceptor{server: srv, middleware: middleware}
+func NewHelpdeskInterceptor(cli HelpdeskClient, middleware ..._HelpdeskMiddleware) *HelpdeskInterceptor {
+	return &HelpdeskInterceptor{client: cli, middleware: middleware}
 }
 
-func (i *HelpdeskInterceptor) DescribeDocument(ctx context.Context, in *DescribeDocumentInput) (*DescribeDocumentOutput, error) {
+func (i *HelpdeskInterceptor) DescribeDocument(ctx context.Context, in *DescribeDocumentInput, opts ...grpc.CallOption) (*DescribeDocumentOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeDocumentInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeDocumentInput, got %T", in))
 		}
 
-		return i.server.DescribeDocument(ctx, message)
+		return i.client.DescribeDocument(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -420,14 +421,14 @@ func (i *HelpdeskInterceptor) DescribeDocument(ctx context.Context, in *Describe
 	return message, err
 }
 
-func (i *HelpdeskInterceptor) ListDocuments(ctx context.Context, in *ListDocumentsInput) (*ListDocumentsOutput, error) {
+func (i *HelpdeskInterceptor) ListDocuments(ctx context.Context, in *ListDocumentsInput, opts ...grpc.CallOption) (*ListDocumentsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListDocumentsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListDocumentsInput, got %T", in))
 		}
 
-		return i.server.ListDocuments(ctx, message)
+		return i.client.ListDocuments(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -452,14 +453,14 @@ func (i *HelpdeskInterceptor) ListDocuments(ctx context.Context, in *ListDocumen
 	return message, err
 }
 
-func (i *HelpdeskInterceptor) CreateDocument(ctx context.Context, in *CreateDocumentInput) (*CreateDocumentOutput, error) {
+func (i *HelpdeskInterceptor) CreateDocument(ctx context.Context, in *CreateDocumentInput, opts ...grpc.CallOption) (*CreateDocumentOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CreateDocumentInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *CreateDocumentInput, got %T", in))
 		}
 
-		return i.server.CreateDocument(ctx, message)
+		return i.client.CreateDocument(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -484,14 +485,14 @@ func (i *HelpdeskInterceptor) CreateDocument(ctx context.Context, in *CreateDocu
 	return message, err
 }
 
-func (i *HelpdeskInterceptor) UpdateDocument(ctx context.Context, in *UpdateDocumentInput) (*UpdateDocumentOutput, error) {
+func (i *HelpdeskInterceptor) UpdateDocument(ctx context.Context, in *UpdateDocumentInput, opts ...grpc.CallOption) (*UpdateDocumentOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdateDocumentInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UpdateDocumentInput, got %T", in))
 		}
 
-		return i.server.UpdateDocument(ctx, message)
+		return i.client.UpdateDocument(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -516,14 +517,14 @@ func (i *HelpdeskInterceptor) UpdateDocument(ctx context.Context, in *UpdateDocu
 	return message, err
 }
 
-func (i *HelpdeskInterceptor) DeleteDocument(ctx context.Context, in *DeleteDocumentInput) (*DeleteDocumentOutput, error) {
+func (i *HelpdeskInterceptor) DeleteDocument(ctx context.Context, in *DeleteDocumentInput, opts ...grpc.CallOption) (*DeleteDocumentOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DeleteDocumentInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DeleteDocumentInput, got %T", in))
 		}
 
-		return i.server.DeleteDocument(ctx, message)
+		return i.client.DeleteDocument(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -548,14 +549,14 @@ func (i *HelpdeskInterceptor) DeleteDocument(ctx context.Context, in *DeleteDocu
 	return message, err
 }
 
-func (i *HelpdeskInterceptor) DescribePath(ctx context.Context, in *DescribePathInput) (*DescribePathOutput, error) {
+func (i *HelpdeskInterceptor) DescribePath(ctx context.Context, in *DescribePathInput, opts ...grpc.CallOption) (*DescribePathOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribePathInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribePathInput, got %T", in))
 		}
 
-		return i.server.DescribePath(ctx, message)
+		return i.client.DescribePath(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -580,14 +581,14 @@ func (i *HelpdeskInterceptor) DescribePath(ctx context.Context, in *DescribePath
 	return message, err
 }
 
-func (i *HelpdeskInterceptor) ListPaths(ctx context.Context, in *ListPathsInput) (*ListPathsOutput, error) {
+func (i *HelpdeskInterceptor) ListPaths(ctx context.Context, in *ListPathsInput, opts ...grpc.CallOption) (*ListPathsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListPathsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListPathsInput, got %T", in))
 		}
 
-		return i.server.ListPaths(ctx, message)
+		return i.client.ListPaths(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -612,14 +613,14 @@ func (i *HelpdeskInterceptor) ListPaths(ctx context.Context, in *ListPathsInput)
 	return message, err
 }
 
-func (i *HelpdeskInterceptor) ListParents(ctx context.Context, in *ListParentsInput) (*ListParentsOutput, error) {
+func (i *HelpdeskInterceptor) ListParents(ctx context.Context, in *ListParentsInput, opts ...grpc.CallOption) (*ListParentsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListParentsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListParentsInput, got %T", in))
 		}
 
-		return i.server.ListParents(ctx, message)
+		return i.client.ListParents(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {

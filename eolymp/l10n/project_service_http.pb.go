@@ -8,6 +8,7 @@ import (
 	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	websocket "golang.org/x/net/websocket"
+	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
@@ -178,18 +179,18 @@ var _ProjectService_WebsocketCodec = websocket.Codec{
 	},
 }
 
-// RegisterProjectServiceHttpHandlers adds handlers for for ProjectServiceServer
+// RegisterProjectServiceHttpHandlers adds handlers for for ProjectServiceClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterProjectServiceHttpHandlers(router *mux.Router, prefix string, srv ProjectServiceServer) {
-	router.Handle(prefix+"/projects", _ProjectService_ListProjects_Rule0(srv)).
+func RegisterProjectServiceHttpHandlers(router *mux.Router, prefix string, cli ProjectServiceClient) {
+	router.Handle(prefix+"/projects", _ProjectService_ListProjects_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.l10n.ProjectService.ListProjects")
-	router.Handle(prefix+"/projects/{project_id}", _ProjectService_DescribeProject_Rule0(srv)).
+	router.Handle(prefix+"/projects/{project_id}", _ProjectService_DescribeProject_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.l10n.ProjectService.DescribeProject")
 }
 
-func _ProjectService_ListProjects_Rule0(srv ProjectServiceServer) http.Handler {
+func _ProjectService_ListProjects_Rule0(cli ProjectServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListProjectsInput{}
 
@@ -199,7 +200,7 @@ func _ProjectService_ListProjects_Rule0(srv ProjectServiceServer) http.Handler {
 			return
 		}
 
-		out, err := srv.ListProjects(r.Context(), in)
+		out, err := cli.ListProjects(r.Context(), in)
 		if err != nil {
 			_ProjectService_HTTPWriteErrorResponse(w, err)
 			return
@@ -209,7 +210,7 @@ func _ProjectService_ListProjects_Rule0(srv ProjectServiceServer) http.Handler {
 	})
 }
 
-func _ProjectService_DescribeProject_Rule0(srv ProjectServiceServer) http.Handler {
+func _ProjectService_DescribeProject_Rule0(cli ProjectServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeProjectInput{}
 
@@ -222,7 +223,7 @@ func _ProjectService_DescribeProject_Rule0(srv ProjectServiceServer) http.Handle
 		vars := mux.Vars(r)
 		in.ProjectId = vars["project_id"]
 
-		out, err := srv.DescribeProject(r.Context(), in)
+		out, err := cli.DescribeProject(r.Context(), in)
 		if err != nil {
 			_ProjectService_HTTPWriteErrorResponse(w, err)
 			return
@@ -236,22 +237,22 @@ type _ProjectServiceHandler = func(ctx context.Context, in proto.Message) (proto
 type _ProjectServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _ProjectServiceHandler) (out proto.Message, err error)
 type ProjectServiceInterceptor struct {
 	middleware []_ProjectServiceMiddleware
-	server     ProjectServiceServer
+	client     ProjectServiceClient
 }
 
 // NewProjectServiceInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewProjectServiceInterceptor(srv ProjectServiceServer, middleware ..._ProjectServiceMiddleware) *ProjectServiceInterceptor {
-	return &ProjectServiceInterceptor{server: srv, middleware: middleware}
+func NewProjectServiceInterceptor(cli ProjectServiceClient, middleware ..._ProjectServiceMiddleware) *ProjectServiceInterceptor {
+	return &ProjectServiceInterceptor{client: cli, middleware: middleware}
 }
 
-func (i *ProjectServiceInterceptor) ListProjects(ctx context.Context, in *ListProjectsInput) (*ListProjectsOutput, error) {
+func (i *ProjectServiceInterceptor) ListProjects(ctx context.Context, in *ListProjectsInput, opts ...grpc.CallOption) (*ListProjectsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListProjectsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListProjectsInput, got %T", in))
 		}
 
-		return i.server.ListProjects(ctx, message)
+		return i.client.ListProjects(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -276,14 +277,14 @@ func (i *ProjectServiceInterceptor) ListProjects(ctx context.Context, in *ListPr
 	return message, err
 }
 
-func (i *ProjectServiceInterceptor) DescribeProject(ctx context.Context, in *DescribeProjectInput) (*DescribeProjectOutput, error) {
+func (i *ProjectServiceInterceptor) DescribeProject(ctx context.Context, in *DescribeProjectInput, opts ...grpc.CallOption) (*DescribeProjectOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeProjectInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeProjectInput, got %T", in))
 		}
 
-		return i.server.DescribeProject(ctx, message)
+		return i.client.DescribeProject(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {

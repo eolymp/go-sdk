@@ -8,6 +8,7 @@ import (
 	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	websocket "golang.org/x/net/websocket"
+	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
@@ -178,27 +179,27 @@ var _Executor_WebsocketCodec = websocket.Codec{
 	},
 }
 
-// RegisterExecutorHttpHandlers adds handlers for for ExecutorServer
+// RegisterExecutorHttpHandlers adds handlers for for ExecutorClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterExecutorHttpHandlers(router *mux.Router, prefix string, srv ExecutorServer) {
-	router.Handle(prefix+"/exec/languages/{language_id}", _Executor_DescribeLanguage_Rule0(srv)).
+func RegisterExecutorHttpHandlers(router *mux.Router, prefix string, cli ExecutorClient) {
+	router.Handle(prefix+"/exec/languages/{language_id}", _Executor_DescribeLanguage_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.executor.Executor.DescribeLanguage")
-	router.Handle(prefix+"/exec/languages", _Executor_ListLanguages_Rule0(srv)).
+	router.Handle(prefix+"/exec/languages", _Executor_ListLanguages_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.executor.Executor.ListLanguages")
-	router.Handle(prefix+"/exec/runtime/{runtime_id}", _Executor_DescribeRuntime_Rule0(srv)).
+	router.Handle(prefix+"/exec/runtime/{runtime_id}", _Executor_DescribeRuntime_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.executor.Executor.DescribeRuntime")
-	router.Handle(prefix+"/exec/runtime", _Executor_ListRuntime_Rule0(srv)).
+	router.Handle(prefix+"/exec/runtime", _Executor_ListRuntime_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.executor.Executor.ListRuntime")
-	router.Handle(prefix+"/exec/runtime/{runtime_id}/template", _Executor_DescribeCodeTemplate_Rule0(srv)).
+	router.Handle(prefix+"/exec/runtime/{runtime_id}/template", _Executor_DescribeCodeTemplate_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.executor.Executor.DescribeCodeTemplate")
 }
 
-func _Executor_DescribeLanguage_Rule0(srv ExecutorServer) http.Handler {
+func _Executor_DescribeLanguage_Rule0(cli ExecutorClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeLanguageInput{}
 
@@ -211,7 +212,7 @@ func _Executor_DescribeLanguage_Rule0(srv ExecutorServer) http.Handler {
 		vars := mux.Vars(r)
 		in.LanguageId = vars["language_id"]
 
-		out, err := srv.DescribeLanguage(r.Context(), in)
+		out, err := cli.DescribeLanguage(r.Context(), in)
 		if err != nil {
 			_Executor_HTTPWriteErrorResponse(w, err)
 			return
@@ -221,7 +222,7 @@ func _Executor_DescribeLanguage_Rule0(srv ExecutorServer) http.Handler {
 	})
 }
 
-func _Executor_ListLanguages_Rule0(srv ExecutorServer) http.Handler {
+func _Executor_ListLanguages_Rule0(cli ExecutorClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListLanguagesInput{}
 
@@ -231,7 +232,7 @@ func _Executor_ListLanguages_Rule0(srv ExecutorServer) http.Handler {
 			return
 		}
 
-		out, err := srv.ListLanguages(r.Context(), in)
+		out, err := cli.ListLanguages(r.Context(), in)
 		if err != nil {
 			_Executor_HTTPWriteErrorResponse(w, err)
 			return
@@ -241,7 +242,7 @@ func _Executor_ListLanguages_Rule0(srv ExecutorServer) http.Handler {
 	})
 }
 
-func _Executor_DescribeRuntime_Rule0(srv ExecutorServer) http.Handler {
+func _Executor_DescribeRuntime_Rule0(cli ExecutorClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeRuntimeInput{}
 
@@ -254,7 +255,7 @@ func _Executor_DescribeRuntime_Rule0(srv ExecutorServer) http.Handler {
 		vars := mux.Vars(r)
 		in.RuntimeId = vars["runtime_id"]
 
-		out, err := srv.DescribeRuntime(r.Context(), in)
+		out, err := cli.DescribeRuntime(r.Context(), in)
 		if err != nil {
 			_Executor_HTTPWriteErrorResponse(w, err)
 			return
@@ -264,7 +265,7 @@ func _Executor_DescribeRuntime_Rule0(srv ExecutorServer) http.Handler {
 	})
 }
 
-func _Executor_ListRuntime_Rule0(srv ExecutorServer) http.Handler {
+func _Executor_ListRuntime_Rule0(cli ExecutorClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListRuntimeInput{}
 
@@ -274,7 +275,7 @@ func _Executor_ListRuntime_Rule0(srv ExecutorServer) http.Handler {
 			return
 		}
 
-		out, err := srv.ListRuntime(r.Context(), in)
+		out, err := cli.ListRuntime(r.Context(), in)
 		if err != nil {
 			_Executor_HTTPWriteErrorResponse(w, err)
 			return
@@ -284,7 +285,7 @@ func _Executor_ListRuntime_Rule0(srv ExecutorServer) http.Handler {
 	})
 }
 
-func _Executor_DescribeCodeTemplate_Rule0(srv ExecutorServer) http.Handler {
+func _Executor_DescribeCodeTemplate_Rule0(cli ExecutorClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeCodeTemplateInput{}
 
@@ -297,7 +298,7 @@ func _Executor_DescribeCodeTemplate_Rule0(srv ExecutorServer) http.Handler {
 		vars := mux.Vars(r)
 		in.RuntimeId = vars["runtime_id"]
 
-		out, err := srv.DescribeCodeTemplate(r.Context(), in)
+		out, err := cli.DescribeCodeTemplate(r.Context(), in)
 		if err != nil {
 			_Executor_HTTPWriteErrorResponse(w, err)
 			return
@@ -311,22 +312,22 @@ type _ExecutorHandler = func(ctx context.Context, in proto.Message) (proto.Messa
 type _ExecutorMiddleware = func(ctx context.Context, method string, in proto.Message, handler _ExecutorHandler) (out proto.Message, err error)
 type ExecutorInterceptor struct {
 	middleware []_ExecutorMiddleware
-	server     ExecutorServer
+	client     ExecutorClient
 }
 
 // NewExecutorInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewExecutorInterceptor(srv ExecutorServer, middleware ..._ExecutorMiddleware) *ExecutorInterceptor {
-	return &ExecutorInterceptor{server: srv, middleware: middleware}
+func NewExecutorInterceptor(cli ExecutorClient, middleware ..._ExecutorMiddleware) *ExecutorInterceptor {
+	return &ExecutorInterceptor{client: cli, middleware: middleware}
 }
 
-func (i *ExecutorInterceptor) CreateTask(ctx context.Context, in *CreateTaskInput) (*CreateTaskOutput, error) {
+func (i *ExecutorInterceptor) CreateTask(ctx context.Context, in *CreateTaskInput, opts ...grpc.CallOption) (*CreateTaskOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CreateTaskInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *CreateTaskInput, got %T", in))
 		}
 
-		return i.server.CreateTask(ctx, message)
+		return i.client.CreateTask(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -351,14 +352,14 @@ func (i *ExecutorInterceptor) CreateTask(ctx context.Context, in *CreateTaskInpu
 	return message, err
 }
 
-func (i *ExecutorInterceptor) DescribeLanguage(ctx context.Context, in *DescribeLanguageInput) (*DescribeLanguageOutput, error) {
+func (i *ExecutorInterceptor) DescribeLanguage(ctx context.Context, in *DescribeLanguageInput, opts ...grpc.CallOption) (*DescribeLanguageOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeLanguageInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeLanguageInput, got %T", in))
 		}
 
-		return i.server.DescribeLanguage(ctx, message)
+		return i.client.DescribeLanguage(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -383,14 +384,14 @@ func (i *ExecutorInterceptor) DescribeLanguage(ctx context.Context, in *Describe
 	return message, err
 }
 
-func (i *ExecutorInterceptor) ListLanguages(ctx context.Context, in *ListLanguagesInput) (*ListLanguagesOutput, error) {
+func (i *ExecutorInterceptor) ListLanguages(ctx context.Context, in *ListLanguagesInput, opts ...grpc.CallOption) (*ListLanguagesOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListLanguagesInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListLanguagesInput, got %T", in))
 		}
 
-		return i.server.ListLanguages(ctx, message)
+		return i.client.ListLanguages(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -415,14 +416,14 @@ func (i *ExecutorInterceptor) ListLanguages(ctx context.Context, in *ListLanguag
 	return message, err
 }
 
-func (i *ExecutorInterceptor) DescribeRuntime(ctx context.Context, in *DescribeRuntimeInput) (*DescribeRuntimeOutput, error) {
+func (i *ExecutorInterceptor) DescribeRuntime(ctx context.Context, in *DescribeRuntimeInput, opts ...grpc.CallOption) (*DescribeRuntimeOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeRuntimeInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeRuntimeInput, got %T", in))
 		}
 
-		return i.server.DescribeRuntime(ctx, message)
+		return i.client.DescribeRuntime(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -447,14 +448,14 @@ func (i *ExecutorInterceptor) DescribeRuntime(ctx context.Context, in *DescribeR
 	return message, err
 }
 
-func (i *ExecutorInterceptor) ListRuntime(ctx context.Context, in *ListRuntimeInput) (*ListRuntimeOutput, error) {
+func (i *ExecutorInterceptor) ListRuntime(ctx context.Context, in *ListRuntimeInput, opts ...grpc.CallOption) (*ListRuntimeOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListRuntimeInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListRuntimeInput, got %T", in))
 		}
 
-		return i.server.ListRuntime(ctx, message)
+		return i.client.ListRuntime(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -479,14 +480,14 @@ func (i *ExecutorInterceptor) ListRuntime(ctx context.Context, in *ListRuntimeIn
 	return message, err
 }
 
-func (i *ExecutorInterceptor) DescribeCodeTemplate(ctx context.Context, in *DescribeCodeTemplateInput) (*DescribeCodeTemplateOutput, error) {
+func (i *ExecutorInterceptor) DescribeCodeTemplate(ctx context.Context, in *DescribeCodeTemplateInput, opts ...grpc.CallOption) (*DescribeCodeTemplateOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeCodeTemplateInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeCodeTemplateInput, got %T", in))
 		}
 
-		return i.server.DescribeCodeTemplate(ctx, message)
+		return i.client.DescribeCodeTemplate(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {

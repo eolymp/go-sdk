@@ -8,6 +8,7 @@ import (
 	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	websocket "golang.org/x/net/websocket"
+	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
@@ -178,57 +179,57 @@ var _TestingService_WebsocketCodec = websocket.Codec{
 	},
 }
 
-// RegisterTestingServiceHttpHandlers adds handlers for for TestingServiceServer
+// RegisterTestingServiceHttpHandlers adds handlers for for TestingServiceClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterTestingServiceHttpHandlers(router *mux.Router, prefix string, srv TestingServiceServer) {
-	router.Handle(prefix+"/verifier", _TestingService_UpdateChecker_Rule0(srv)).
+func RegisterTestingServiceHttpHandlers(router *mux.Router, prefix string, cli TestingServiceClient) {
+	router.Handle(prefix+"/verifier", _TestingService_UpdateChecker_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.atlas.TestingService.UpdateChecker")
-	router.Handle(prefix+"/verifier", _TestingService_DescribeChecker_Rule0(srv)).
+	router.Handle(prefix+"/verifier", _TestingService_DescribeChecker_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.TestingService.DescribeChecker")
-	router.Handle(prefix+"/interactor", _TestingService_UpdateInteractor_Rule0(srv)).
+	router.Handle(prefix+"/interactor", _TestingService_UpdateInteractor_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.atlas.TestingService.UpdateInteractor")
-	router.Handle(prefix+"/interactor", _TestingService_DescribeInteractor_Rule0(srv)).
+	router.Handle(prefix+"/interactor", _TestingService_DescribeInteractor_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.TestingService.DescribeInteractor")
-	router.Handle(prefix+"/testsets", _TestingService_CreateTestset_Rule0(srv)).
+	router.Handle(prefix+"/testsets", _TestingService_CreateTestset_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.TestingService.CreateTestset")
-	router.Handle(prefix+"/testsets/{testset_id}", _TestingService_UpdateTestset_Rule0(srv)).
+	router.Handle(prefix+"/testsets/{testset_id}", _TestingService_UpdateTestset_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.atlas.TestingService.UpdateTestset")
-	router.Handle(prefix+"/testsets/{testset_id}", _TestingService_DeleteTestset_Rule0(srv)).
+	router.Handle(prefix+"/testsets/{testset_id}", _TestingService_DeleteTestset_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.atlas.TestingService.DeleteTestset")
-	router.Handle(prefix+"/testsets/{testset_id}", _TestingService_DescribeTestset_Rule0(srv)).
+	router.Handle(prefix+"/testsets/{testset_id}", _TestingService_DescribeTestset_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.TestingService.DescribeTestset")
-	router.Handle(prefix+"/testsets", _TestingService_ListTestsets_Rule0(srv)).
+	router.Handle(prefix+"/testsets", _TestingService_ListTestsets_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.TestingService.ListTestsets")
-	router.Handle(prefix+"/testsets/{testset_id}/tests", _TestingService_CreateTest_Rule0(srv)).
+	router.Handle(prefix+"/testsets/{testset_id}/tests", _TestingService_CreateTest_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.TestingService.CreateTest")
-	router.Handle(prefix+"/testsets/{testset_id}/tests/{test_id}", _TestingService_UpdateTest_Rule0(srv)).
+	router.Handle(prefix+"/testsets/{testset_id}/tests/{test_id}", _TestingService_UpdateTest_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.atlas.TestingService.UpdateTest")
-	router.Handle(prefix+"/testsets/{testset_id}/tests/{test_id}", _TestingService_DeleteTest_Rule0(srv)).
+	router.Handle(prefix+"/testsets/{testset_id}/tests/{test_id}", _TestingService_DeleteTest_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.atlas.TestingService.DeleteTest")
-	router.Handle(prefix+"/testsets/{testset_id}/tests/{test_id}", _TestingService_DescribeTest_Rule0(srv)).
+	router.Handle(prefix+"/testsets/{testset_id}/tests/{test_id}", _TestingService_DescribeTest_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.TestingService.DescribeTest")
-	router.Handle(prefix+"/testsets/{testset_id}/tests", _TestingService_ListTests_Rule0(srv)).
+	router.Handle(prefix+"/testsets/{testset_id}/tests", _TestingService_ListTests_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.TestingService.ListTests")
-	router.Handle(prefix+"/examples", _TestingService_ListExamples_Rule0(srv)).
+	router.Handle(prefix+"/examples", _TestingService_ListExamples_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.TestingService.ListExamples")
 }
 
-func _TestingService_UpdateChecker_Rule0(srv TestingServiceServer) http.Handler {
+func _TestingService_UpdateChecker_Rule0(cli TestingServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateVerifierInput{}
 
@@ -238,7 +239,7 @@ func _TestingService_UpdateChecker_Rule0(srv TestingServiceServer) http.Handler 
 			return
 		}
 
-		out, err := srv.UpdateChecker(r.Context(), in)
+		out, err := cli.UpdateChecker(r.Context(), in)
 		if err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
@@ -248,7 +249,7 @@ func _TestingService_UpdateChecker_Rule0(srv TestingServiceServer) http.Handler 
 	})
 }
 
-func _TestingService_DescribeChecker_Rule0(srv TestingServiceServer) http.Handler {
+func _TestingService_DescribeChecker_Rule0(cli TestingServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeVerifierInput{}
 
@@ -258,7 +259,7 @@ func _TestingService_DescribeChecker_Rule0(srv TestingServiceServer) http.Handle
 			return
 		}
 
-		out, err := srv.DescribeChecker(r.Context(), in)
+		out, err := cli.DescribeChecker(r.Context(), in)
 		if err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
@@ -268,7 +269,7 @@ func _TestingService_DescribeChecker_Rule0(srv TestingServiceServer) http.Handle
 	})
 }
 
-func _TestingService_UpdateInteractor_Rule0(srv TestingServiceServer) http.Handler {
+func _TestingService_UpdateInteractor_Rule0(cli TestingServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateInteractorInput{}
 
@@ -278,7 +279,7 @@ func _TestingService_UpdateInteractor_Rule0(srv TestingServiceServer) http.Handl
 			return
 		}
 
-		out, err := srv.UpdateInteractor(r.Context(), in)
+		out, err := cli.UpdateInteractor(r.Context(), in)
 		if err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
@@ -288,7 +289,7 @@ func _TestingService_UpdateInteractor_Rule0(srv TestingServiceServer) http.Handl
 	})
 }
 
-func _TestingService_DescribeInteractor_Rule0(srv TestingServiceServer) http.Handler {
+func _TestingService_DescribeInteractor_Rule0(cli TestingServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeInteractorInput{}
 
@@ -298,7 +299,7 @@ func _TestingService_DescribeInteractor_Rule0(srv TestingServiceServer) http.Han
 			return
 		}
 
-		out, err := srv.DescribeInteractor(r.Context(), in)
+		out, err := cli.DescribeInteractor(r.Context(), in)
 		if err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
@@ -308,7 +309,7 @@ func _TestingService_DescribeInteractor_Rule0(srv TestingServiceServer) http.Han
 	})
 }
 
-func _TestingService_CreateTestset_Rule0(srv TestingServiceServer) http.Handler {
+func _TestingService_CreateTestset_Rule0(cli TestingServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateTestsetInput{}
 
@@ -318,7 +319,7 @@ func _TestingService_CreateTestset_Rule0(srv TestingServiceServer) http.Handler 
 			return
 		}
 
-		out, err := srv.CreateTestset(r.Context(), in)
+		out, err := cli.CreateTestset(r.Context(), in)
 		if err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
@@ -328,7 +329,7 @@ func _TestingService_CreateTestset_Rule0(srv TestingServiceServer) http.Handler 
 	})
 }
 
-func _TestingService_UpdateTestset_Rule0(srv TestingServiceServer) http.Handler {
+func _TestingService_UpdateTestset_Rule0(cli TestingServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateTestsetInput{}
 
@@ -341,7 +342,7 @@ func _TestingService_UpdateTestset_Rule0(srv TestingServiceServer) http.Handler 
 		vars := mux.Vars(r)
 		in.TestsetId = vars["testset_id"]
 
-		out, err := srv.UpdateTestset(r.Context(), in)
+		out, err := cli.UpdateTestset(r.Context(), in)
 		if err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
@@ -351,7 +352,7 @@ func _TestingService_UpdateTestset_Rule0(srv TestingServiceServer) http.Handler 
 	})
 }
 
-func _TestingService_DeleteTestset_Rule0(srv TestingServiceServer) http.Handler {
+func _TestingService_DeleteTestset_Rule0(cli TestingServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteTestsetInput{}
 
@@ -364,7 +365,7 @@ func _TestingService_DeleteTestset_Rule0(srv TestingServiceServer) http.Handler 
 		vars := mux.Vars(r)
 		in.TestsetId = vars["testset_id"]
 
-		out, err := srv.DeleteTestset(r.Context(), in)
+		out, err := cli.DeleteTestset(r.Context(), in)
 		if err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
@@ -374,7 +375,7 @@ func _TestingService_DeleteTestset_Rule0(srv TestingServiceServer) http.Handler 
 	})
 }
 
-func _TestingService_DescribeTestset_Rule0(srv TestingServiceServer) http.Handler {
+func _TestingService_DescribeTestset_Rule0(cli TestingServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeTestsetInput{}
 
@@ -387,7 +388,7 @@ func _TestingService_DescribeTestset_Rule0(srv TestingServiceServer) http.Handle
 		vars := mux.Vars(r)
 		in.TestsetId = vars["testset_id"]
 
-		out, err := srv.DescribeTestset(r.Context(), in)
+		out, err := cli.DescribeTestset(r.Context(), in)
 		if err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
@@ -397,7 +398,7 @@ func _TestingService_DescribeTestset_Rule0(srv TestingServiceServer) http.Handle
 	})
 }
 
-func _TestingService_ListTestsets_Rule0(srv TestingServiceServer) http.Handler {
+func _TestingService_ListTestsets_Rule0(cli TestingServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListTestsetsInput{}
 
@@ -407,7 +408,7 @@ func _TestingService_ListTestsets_Rule0(srv TestingServiceServer) http.Handler {
 			return
 		}
 
-		out, err := srv.ListTestsets(r.Context(), in)
+		out, err := cli.ListTestsets(r.Context(), in)
 		if err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
@@ -417,7 +418,7 @@ func _TestingService_ListTestsets_Rule0(srv TestingServiceServer) http.Handler {
 	})
 }
 
-func _TestingService_CreateTest_Rule0(srv TestingServiceServer) http.Handler {
+func _TestingService_CreateTest_Rule0(cli TestingServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateTestInput{}
 
@@ -430,7 +431,7 @@ func _TestingService_CreateTest_Rule0(srv TestingServiceServer) http.Handler {
 		vars := mux.Vars(r)
 		in.TestsetId = vars["testset_id"]
 
-		out, err := srv.CreateTest(r.Context(), in)
+		out, err := cli.CreateTest(r.Context(), in)
 		if err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
@@ -440,7 +441,7 @@ func _TestingService_CreateTest_Rule0(srv TestingServiceServer) http.Handler {
 	})
 }
 
-func _TestingService_UpdateTest_Rule0(srv TestingServiceServer) http.Handler {
+func _TestingService_UpdateTest_Rule0(cli TestingServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateTestInput{}
 
@@ -454,7 +455,7 @@ func _TestingService_UpdateTest_Rule0(srv TestingServiceServer) http.Handler {
 		in.TestsetId = vars["testset_id"]
 		in.TestId = vars["test_id"]
 
-		out, err := srv.UpdateTest(r.Context(), in)
+		out, err := cli.UpdateTest(r.Context(), in)
 		if err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
@@ -464,7 +465,7 @@ func _TestingService_UpdateTest_Rule0(srv TestingServiceServer) http.Handler {
 	})
 }
 
-func _TestingService_DeleteTest_Rule0(srv TestingServiceServer) http.Handler {
+func _TestingService_DeleteTest_Rule0(cli TestingServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteTestInput{}
 
@@ -478,7 +479,7 @@ func _TestingService_DeleteTest_Rule0(srv TestingServiceServer) http.Handler {
 		in.TestsetId = vars["testset_id"]
 		in.TestId = vars["test_id"]
 
-		out, err := srv.DeleteTest(r.Context(), in)
+		out, err := cli.DeleteTest(r.Context(), in)
 		if err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
@@ -488,7 +489,7 @@ func _TestingService_DeleteTest_Rule0(srv TestingServiceServer) http.Handler {
 	})
 }
 
-func _TestingService_DescribeTest_Rule0(srv TestingServiceServer) http.Handler {
+func _TestingService_DescribeTest_Rule0(cli TestingServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeTestInput{}
 
@@ -502,7 +503,7 @@ func _TestingService_DescribeTest_Rule0(srv TestingServiceServer) http.Handler {
 		in.TestsetId = vars["testset_id"]
 		in.TestId = vars["test_id"]
 
-		out, err := srv.DescribeTest(r.Context(), in)
+		out, err := cli.DescribeTest(r.Context(), in)
 		if err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
@@ -512,7 +513,7 @@ func _TestingService_DescribeTest_Rule0(srv TestingServiceServer) http.Handler {
 	})
 }
 
-func _TestingService_ListTests_Rule0(srv TestingServiceServer) http.Handler {
+func _TestingService_ListTests_Rule0(cli TestingServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListTestsInput{}
 
@@ -525,7 +526,7 @@ func _TestingService_ListTests_Rule0(srv TestingServiceServer) http.Handler {
 		vars := mux.Vars(r)
 		in.TestsetId = vars["testset_id"]
 
-		out, err := srv.ListTests(r.Context(), in)
+		out, err := cli.ListTests(r.Context(), in)
 		if err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
@@ -535,7 +536,7 @@ func _TestingService_ListTests_Rule0(srv TestingServiceServer) http.Handler {
 	})
 }
 
-func _TestingService_ListExamples_Rule0(srv TestingServiceServer) http.Handler {
+func _TestingService_ListExamples_Rule0(cli TestingServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListExamplesInput{}
 
@@ -545,7 +546,7 @@ func _TestingService_ListExamples_Rule0(srv TestingServiceServer) http.Handler {
 			return
 		}
 
-		out, err := srv.ListExamples(r.Context(), in)
+		out, err := cli.ListExamples(r.Context(), in)
 		if err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
@@ -559,22 +560,22 @@ type _TestingServiceHandler = func(ctx context.Context, in proto.Message) (proto
 type _TestingServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _TestingServiceHandler) (out proto.Message, err error)
 type TestingServiceInterceptor struct {
 	middleware []_TestingServiceMiddleware
-	server     TestingServiceServer
+	client     TestingServiceClient
 }
 
 // NewTestingServiceInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewTestingServiceInterceptor(srv TestingServiceServer, middleware ..._TestingServiceMiddleware) *TestingServiceInterceptor {
-	return &TestingServiceInterceptor{server: srv, middleware: middleware}
+func NewTestingServiceInterceptor(cli TestingServiceClient, middleware ..._TestingServiceMiddleware) *TestingServiceInterceptor {
+	return &TestingServiceInterceptor{client: cli, middleware: middleware}
 }
 
-func (i *TestingServiceInterceptor) UpdateChecker(ctx context.Context, in *UpdateVerifierInput) (*UpdateVerifierOutput, error) {
+func (i *TestingServiceInterceptor) UpdateChecker(ctx context.Context, in *UpdateVerifierInput, opts ...grpc.CallOption) (*UpdateVerifierOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdateVerifierInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UpdateVerifierInput, got %T", in))
 		}
 
-		return i.server.UpdateChecker(ctx, message)
+		return i.client.UpdateChecker(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -599,14 +600,14 @@ func (i *TestingServiceInterceptor) UpdateChecker(ctx context.Context, in *Updat
 	return message, err
 }
 
-func (i *TestingServiceInterceptor) DescribeChecker(ctx context.Context, in *DescribeVerifierInput) (*DescribeVerifierOutput, error) {
+func (i *TestingServiceInterceptor) DescribeChecker(ctx context.Context, in *DescribeVerifierInput, opts ...grpc.CallOption) (*DescribeVerifierOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeVerifierInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeVerifierInput, got %T", in))
 		}
 
-		return i.server.DescribeChecker(ctx, message)
+		return i.client.DescribeChecker(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -631,14 +632,14 @@ func (i *TestingServiceInterceptor) DescribeChecker(ctx context.Context, in *Des
 	return message, err
 }
 
-func (i *TestingServiceInterceptor) UpdateInteractor(ctx context.Context, in *UpdateInteractorInput) (*UpdateInteractorOutput, error) {
+func (i *TestingServiceInterceptor) UpdateInteractor(ctx context.Context, in *UpdateInteractorInput, opts ...grpc.CallOption) (*UpdateInteractorOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdateInteractorInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UpdateInteractorInput, got %T", in))
 		}
 
-		return i.server.UpdateInteractor(ctx, message)
+		return i.client.UpdateInteractor(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -663,14 +664,14 @@ func (i *TestingServiceInterceptor) UpdateInteractor(ctx context.Context, in *Up
 	return message, err
 }
 
-func (i *TestingServiceInterceptor) DescribeInteractor(ctx context.Context, in *DescribeInteractorInput) (*DescribeInteractorOutput, error) {
+func (i *TestingServiceInterceptor) DescribeInteractor(ctx context.Context, in *DescribeInteractorInput, opts ...grpc.CallOption) (*DescribeInteractorOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeInteractorInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeInteractorInput, got %T", in))
 		}
 
-		return i.server.DescribeInteractor(ctx, message)
+		return i.client.DescribeInteractor(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -695,14 +696,14 @@ func (i *TestingServiceInterceptor) DescribeInteractor(ctx context.Context, in *
 	return message, err
 }
 
-func (i *TestingServiceInterceptor) CreateTestset(ctx context.Context, in *CreateTestsetInput) (*CreateTestsetOutput, error) {
+func (i *TestingServiceInterceptor) CreateTestset(ctx context.Context, in *CreateTestsetInput, opts ...grpc.CallOption) (*CreateTestsetOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CreateTestsetInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *CreateTestsetInput, got %T", in))
 		}
 
-		return i.server.CreateTestset(ctx, message)
+		return i.client.CreateTestset(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -727,14 +728,14 @@ func (i *TestingServiceInterceptor) CreateTestset(ctx context.Context, in *Creat
 	return message, err
 }
 
-func (i *TestingServiceInterceptor) UpdateTestset(ctx context.Context, in *UpdateTestsetInput) (*UpdateTestsetOutput, error) {
+func (i *TestingServiceInterceptor) UpdateTestset(ctx context.Context, in *UpdateTestsetInput, opts ...grpc.CallOption) (*UpdateTestsetOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdateTestsetInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UpdateTestsetInput, got %T", in))
 		}
 
-		return i.server.UpdateTestset(ctx, message)
+		return i.client.UpdateTestset(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -759,14 +760,14 @@ func (i *TestingServiceInterceptor) UpdateTestset(ctx context.Context, in *Updat
 	return message, err
 }
 
-func (i *TestingServiceInterceptor) DeleteTestset(ctx context.Context, in *DeleteTestsetInput) (*DeleteTestsetOutput, error) {
+func (i *TestingServiceInterceptor) DeleteTestset(ctx context.Context, in *DeleteTestsetInput, opts ...grpc.CallOption) (*DeleteTestsetOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DeleteTestsetInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DeleteTestsetInput, got %T", in))
 		}
 
-		return i.server.DeleteTestset(ctx, message)
+		return i.client.DeleteTestset(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -791,14 +792,14 @@ func (i *TestingServiceInterceptor) DeleteTestset(ctx context.Context, in *Delet
 	return message, err
 }
 
-func (i *TestingServiceInterceptor) DescribeTestset(ctx context.Context, in *DescribeTestsetInput) (*DescribeTestsetOutput, error) {
+func (i *TestingServiceInterceptor) DescribeTestset(ctx context.Context, in *DescribeTestsetInput, opts ...grpc.CallOption) (*DescribeTestsetOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeTestsetInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeTestsetInput, got %T", in))
 		}
 
-		return i.server.DescribeTestset(ctx, message)
+		return i.client.DescribeTestset(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -823,14 +824,14 @@ func (i *TestingServiceInterceptor) DescribeTestset(ctx context.Context, in *Des
 	return message, err
 }
 
-func (i *TestingServiceInterceptor) ListTestsets(ctx context.Context, in *ListTestsetsInput) (*ListTestsetsOutput, error) {
+func (i *TestingServiceInterceptor) ListTestsets(ctx context.Context, in *ListTestsetsInput, opts ...grpc.CallOption) (*ListTestsetsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListTestsetsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListTestsetsInput, got %T", in))
 		}
 
-		return i.server.ListTestsets(ctx, message)
+		return i.client.ListTestsets(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -855,14 +856,14 @@ func (i *TestingServiceInterceptor) ListTestsets(ctx context.Context, in *ListTe
 	return message, err
 }
 
-func (i *TestingServiceInterceptor) CreateTest(ctx context.Context, in *CreateTestInput) (*CreateTestOutput, error) {
+func (i *TestingServiceInterceptor) CreateTest(ctx context.Context, in *CreateTestInput, opts ...grpc.CallOption) (*CreateTestOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CreateTestInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *CreateTestInput, got %T", in))
 		}
 
-		return i.server.CreateTest(ctx, message)
+		return i.client.CreateTest(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -887,14 +888,14 @@ func (i *TestingServiceInterceptor) CreateTest(ctx context.Context, in *CreateTe
 	return message, err
 }
 
-func (i *TestingServiceInterceptor) UpdateTest(ctx context.Context, in *UpdateTestInput) (*UpdateTestOutput, error) {
+func (i *TestingServiceInterceptor) UpdateTest(ctx context.Context, in *UpdateTestInput, opts ...grpc.CallOption) (*UpdateTestOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdateTestInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UpdateTestInput, got %T", in))
 		}
 
-		return i.server.UpdateTest(ctx, message)
+		return i.client.UpdateTest(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -919,14 +920,14 @@ func (i *TestingServiceInterceptor) UpdateTest(ctx context.Context, in *UpdateTe
 	return message, err
 }
 
-func (i *TestingServiceInterceptor) DeleteTest(ctx context.Context, in *DeleteTestInput) (*DeleteTestOutput, error) {
+func (i *TestingServiceInterceptor) DeleteTest(ctx context.Context, in *DeleteTestInput, opts ...grpc.CallOption) (*DeleteTestOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DeleteTestInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DeleteTestInput, got %T", in))
 		}
 
-		return i.server.DeleteTest(ctx, message)
+		return i.client.DeleteTest(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -951,14 +952,14 @@ func (i *TestingServiceInterceptor) DeleteTest(ctx context.Context, in *DeleteTe
 	return message, err
 }
 
-func (i *TestingServiceInterceptor) DescribeTest(ctx context.Context, in *DescribeTestInput) (*DescribeTestOutput, error) {
+func (i *TestingServiceInterceptor) DescribeTest(ctx context.Context, in *DescribeTestInput, opts ...grpc.CallOption) (*DescribeTestOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeTestInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeTestInput, got %T", in))
 		}
 
-		return i.server.DescribeTest(ctx, message)
+		return i.client.DescribeTest(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -983,14 +984,14 @@ func (i *TestingServiceInterceptor) DescribeTest(ctx context.Context, in *Descri
 	return message, err
 }
 
-func (i *TestingServiceInterceptor) ListTests(ctx context.Context, in *ListTestsInput) (*ListTestsOutput, error) {
+func (i *TestingServiceInterceptor) ListTests(ctx context.Context, in *ListTestsInput, opts ...grpc.CallOption) (*ListTestsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListTestsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListTestsInput, got %T", in))
 		}
 
-		return i.server.ListTests(ctx, message)
+		return i.client.ListTests(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1015,14 +1016,14 @@ func (i *TestingServiceInterceptor) ListTests(ctx context.Context, in *ListTests
 	return message, err
 }
 
-func (i *TestingServiceInterceptor) ListExamples(ctx context.Context, in *ListExamplesInput) (*ListExamplesOutput, error) {
+func (i *TestingServiceInterceptor) ListExamples(ctx context.Context, in *ListExamplesInput, opts ...grpc.CallOption) (*ListExamplesOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListExamplesInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListExamplesInput, got %T", in))
 		}
 
-		return i.server.ListExamples(ctx, message)
+		return i.client.ListExamples(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {

@@ -8,6 +8,7 @@ import (
 	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	websocket "golang.org/x/net/websocket"
+	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
@@ -178,24 +179,24 @@ var _SubmissionService_WebsocketCodec = websocket.Codec{
 	},
 }
 
-// RegisterSubmissionServiceHttpHandlers adds handlers for for SubmissionServiceServer
+// RegisterSubmissionServiceHttpHandlers adds handlers for for SubmissionServiceClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterSubmissionServiceHttpHandlers(router *mux.Router, prefix string, srv SubmissionServiceServer) {
-	router.Handle(prefix+"/submissions", _SubmissionService_CreateSubmission_Rule0(srv)).
+func RegisterSubmissionServiceHttpHandlers(router *mux.Router, prefix string, cli SubmissionServiceClient) {
+	router.Handle(prefix+"/submissions", _SubmissionService_CreateSubmission_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.SubmissionService.CreateSubmission")
-	router.Handle(prefix+"/submissions/{submission_id}/retest", _SubmissionService_RetestSubmission_Rule0(srv)).
+	router.Handle(prefix+"/submissions/{submission_id}/retest", _SubmissionService_RetestSubmission_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.SubmissionService.RetestSubmission")
-	router.Handle(prefix+"/submissions/{submission_id}", _SubmissionService_DescribeSubmission_Rule0(srv)).
+	router.Handle(prefix+"/submissions/{submission_id}", _SubmissionService_DescribeSubmission_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.SubmissionService.DescribeSubmission")
-	router.Handle(prefix+"/submissions", _SubmissionService_ListSubmissions_Rule0(srv)).
+	router.Handle(prefix+"/submissions", _SubmissionService_ListSubmissions_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.SubmissionService.ListSubmissions")
 }
 
-func _SubmissionService_CreateSubmission_Rule0(srv SubmissionServiceServer) http.Handler {
+func _SubmissionService_CreateSubmission_Rule0(cli SubmissionServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateSubmissionInput{}
 
@@ -205,7 +206,7 @@ func _SubmissionService_CreateSubmission_Rule0(srv SubmissionServiceServer) http
 			return
 		}
 
-		out, err := srv.CreateSubmission(r.Context(), in)
+		out, err := cli.CreateSubmission(r.Context(), in)
 		if err != nil {
 			_SubmissionService_HTTPWriteErrorResponse(w, err)
 			return
@@ -215,7 +216,7 @@ func _SubmissionService_CreateSubmission_Rule0(srv SubmissionServiceServer) http
 	})
 }
 
-func _SubmissionService_RetestSubmission_Rule0(srv SubmissionServiceServer) http.Handler {
+func _SubmissionService_RetestSubmission_Rule0(cli SubmissionServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &RetestSubmissionInput{}
 
@@ -228,7 +229,7 @@ func _SubmissionService_RetestSubmission_Rule0(srv SubmissionServiceServer) http
 		vars := mux.Vars(r)
 		in.SubmissionId = vars["submission_id"]
 
-		out, err := srv.RetestSubmission(r.Context(), in)
+		out, err := cli.RetestSubmission(r.Context(), in)
 		if err != nil {
 			_SubmissionService_HTTPWriteErrorResponse(w, err)
 			return
@@ -238,7 +239,7 @@ func _SubmissionService_RetestSubmission_Rule0(srv SubmissionServiceServer) http
 	})
 }
 
-func _SubmissionService_DescribeSubmission_Rule0(srv SubmissionServiceServer) http.Handler {
+func _SubmissionService_DescribeSubmission_Rule0(cli SubmissionServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeSubmissionInput{}
 
@@ -251,7 +252,7 @@ func _SubmissionService_DescribeSubmission_Rule0(srv SubmissionServiceServer) ht
 		vars := mux.Vars(r)
 		in.SubmissionId = vars["submission_id"]
 
-		out, err := srv.DescribeSubmission(r.Context(), in)
+		out, err := cli.DescribeSubmission(r.Context(), in)
 		if err != nil {
 			_SubmissionService_HTTPWriteErrorResponse(w, err)
 			return
@@ -261,7 +262,7 @@ func _SubmissionService_DescribeSubmission_Rule0(srv SubmissionServiceServer) ht
 	})
 }
 
-func _SubmissionService_ListSubmissions_Rule0(srv SubmissionServiceServer) http.Handler {
+func _SubmissionService_ListSubmissions_Rule0(cli SubmissionServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListSubmissionsInput{}
 
@@ -271,7 +272,7 @@ func _SubmissionService_ListSubmissions_Rule0(srv SubmissionServiceServer) http.
 			return
 		}
 
-		out, err := srv.ListSubmissions(r.Context(), in)
+		out, err := cli.ListSubmissions(r.Context(), in)
 		if err != nil {
 			_SubmissionService_HTTPWriteErrorResponse(w, err)
 			return
@@ -285,22 +286,22 @@ type _SubmissionServiceHandler = func(ctx context.Context, in proto.Message) (pr
 type _SubmissionServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _SubmissionServiceHandler) (out proto.Message, err error)
 type SubmissionServiceInterceptor struct {
 	middleware []_SubmissionServiceMiddleware
-	server     SubmissionServiceServer
+	client     SubmissionServiceClient
 }
 
 // NewSubmissionServiceInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewSubmissionServiceInterceptor(srv SubmissionServiceServer, middleware ..._SubmissionServiceMiddleware) *SubmissionServiceInterceptor {
-	return &SubmissionServiceInterceptor{server: srv, middleware: middleware}
+func NewSubmissionServiceInterceptor(cli SubmissionServiceClient, middleware ..._SubmissionServiceMiddleware) *SubmissionServiceInterceptor {
+	return &SubmissionServiceInterceptor{client: cli, middleware: middleware}
 }
 
-func (i *SubmissionServiceInterceptor) CreateSubmission(ctx context.Context, in *CreateSubmissionInput) (*CreateSubmissionOutput, error) {
+func (i *SubmissionServiceInterceptor) CreateSubmission(ctx context.Context, in *CreateSubmissionInput, opts ...grpc.CallOption) (*CreateSubmissionOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CreateSubmissionInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *CreateSubmissionInput, got %T", in))
 		}
 
-		return i.server.CreateSubmission(ctx, message)
+		return i.client.CreateSubmission(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -325,14 +326,14 @@ func (i *SubmissionServiceInterceptor) CreateSubmission(ctx context.Context, in 
 	return message, err
 }
 
-func (i *SubmissionServiceInterceptor) RetestSubmission(ctx context.Context, in *RetestSubmissionInput) (*RetestSubmissionOutput, error) {
+func (i *SubmissionServiceInterceptor) RetestSubmission(ctx context.Context, in *RetestSubmissionInput, opts ...grpc.CallOption) (*RetestSubmissionOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*RetestSubmissionInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *RetestSubmissionInput, got %T", in))
 		}
 
-		return i.server.RetestSubmission(ctx, message)
+		return i.client.RetestSubmission(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -357,14 +358,14 @@ func (i *SubmissionServiceInterceptor) RetestSubmission(ctx context.Context, in 
 	return message, err
 }
 
-func (i *SubmissionServiceInterceptor) DescribeSubmission(ctx context.Context, in *DescribeSubmissionInput) (*DescribeSubmissionOutput, error) {
+func (i *SubmissionServiceInterceptor) DescribeSubmission(ctx context.Context, in *DescribeSubmissionInput, opts ...grpc.CallOption) (*DescribeSubmissionOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeSubmissionInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeSubmissionInput, got %T", in))
 		}
 
-		return i.server.DescribeSubmission(ctx, message)
+		return i.client.DescribeSubmission(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -389,14 +390,14 @@ func (i *SubmissionServiceInterceptor) DescribeSubmission(ctx context.Context, i
 	return message, err
 }
 
-func (i *SubmissionServiceInterceptor) ListSubmissions(ctx context.Context, in *ListSubmissionsInput) (*ListSubmissionsOutput, error) {
+func (i *SubmissionServiceInterceptor) ListSubmissions(ctx context.Context, in *ListSubmissionsInput, opts ...grpc.CallOption) (*ListSubmissionsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListSubmissionsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListSubmissionsInput, got %T", in))
 		}
 
-		return i.server.ListSubmissions(ctx, message)
+		return i.client.ListSubmissions(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {

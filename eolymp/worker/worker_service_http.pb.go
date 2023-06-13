@@ -8,6 +8,7 @@ import (
 	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	websocket "golang.org/x/net/websocket"
+	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
@@ -178,21 +179,21 @@ var _Worker_WebsocketCodec = websocket.Codec{
 	},
 }
 
-// RegisterWorkerHttpHandlers adds handlers for for WorkerServer
+// RegisterWorkerHttpHandlers adds handlers for for WorkerClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterWorkerHttpHandlers(router *mux.Router, prefix string, srv WorkerServer) {
-	router.Handle(prefix+"/jobs", _Worker_CreateJob_Rule0(srv)).
+func RegisterWorkerHttpHandlers(router *mux.Router, prefix string, cli WorkerClient) {
+	router.Handle(prefix+"/jobs", _Worker_CreateJob_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.worker.Worker.CreateJob")
-	router.Handle(prefix+"/jobs/{job_id}", _Worker_DescribeJob_Rule0(srv)).
+	router.Handle(prefix+"/jobs/{job_id}", _Worker_DescribeJob_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.worker.Worker.DescribeJob")
-	router.Handle(prefix+"/jobs", _Worker_ListJobs_Rule0(srv)).
+	router.Handle(prefix+"/jobs", _Worker_ListJobs_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.worker.Worker.ListJobs")
 }
 
-func _Worker_CreateJob_Rule0(srv WorkerServer) http.Handler {
+func _Worker_CreateJob_Rule0(cli WorkerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateJobInput{}
 
@@ -202,7 +203,7 @@ func _Worker_CreateJob_Rule0(srv WorkerServer) http.Handler {
 			return
 		}
 
-		out, err := srv.CreateJob(r.Context(), in)
+		out, err := cli.CreateJob(r.Context(), in)
 		if err != nil {
 			_Worker_HTTPWriteErrorResponse(w, err)
 			return
@@ -212,7 +213,7 @@ func _Worker_CreateJob_Rule0(srv WorkerServer) http.Handler {
 	})
 }
 
-func _Worker_DescribeJob_Rule0(srv WorkerServer) http.Handler {
+func _Worker_DescribeJob_Rule0(cli WorkerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeJobInput{}
 
@@ -225,7 +226,7 @@ func _Worker_DescribeJob_Rule0(srv WorkerServer) http.Handler {
 		vars := mux.Vars(r)
 		in.JobId = vars["job_id"]
 
-		out, err := srv.DescribeJob(r.Context(), in)
+		out, err := cli.DescribeJob(r.Context(), in)
 		if err != nil {
 			_Worker_HTTPWriteErrorResponse(w, err)
 			return
@@ -235,7 +236,7 @@ func _Worker_DescribeJob_Rule0(srv WorkerServer) http.Handler {
 	})
 }
 
-func _Worker_ListJobs_Rule0(srv WorkerServer) http.Handler {
+func _Worker_ListJobs_Rule0(cli WorkerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListJobsInput{}
 
@@ -245,7 +246,7 @@ func _Worker_ListJobs_Rule0(srv WorkerServer) http.Handler {
 			return
 		}
 
-		out, err := srv.ListJobs(r.Context(), in)
+		out, err := cli.ListJobs(r.Context(), in)
 		if err != nil {
 			_Worker_HTTPWriteErrorResponse(w, err)
 			return
@@ -259,22 +260,22 @@ type _WorkerHandler = func(ctx context.Context, in proto.Message) (proto.Message
 type _WorkerMiddleware = func(ctx context.Context, method string, in proto.Message, handler _WorkerHandler) (out proto.Message, err error)
 type WorkerInterceptor struct {
 	middleware []_WorkerMiddleware
-	server     WorkerServer
+	client     WorkerClient
 }
 
 // NewWorkerInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewWorkerInterceptor(srv WorkerServer, middleware ..._WorkerMiddleware) *WorkerInterceptor {
-	return &WorkerInterceptor{server: srv, middleware: middleware}
+func NewWorkerInterceptor(cli WorkerClient, middleware ..._WorkerMiddleware) *WorkerInterceptor {
+	return &WorkerInterceptor{client: cli, middleware: middleware}
 }
 
-func (i *WorkerInterceptor) CreateJob(ctx context.Context, in *CreateJobInput) (*CreateJobOutput, error) {
+func (i *WorkerInterceptor) CreateJob(ctx context.Context, in *CreateJobInput, opts ...grpc.CallOption) (*CreateJobOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CreateJobInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *CreateJobInput, got %T", in))
 		}
 
-		return i.server.CreateJob(ctx, message)
+		return i.client.CreateJob(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -299,14 +300,14 @@ func (i *WorkerInterceptor) CreateJob(ctx context.Context, in *CreateJobInput) (
 	return message, err
 }
 
-func (i *WorkerInterceptor) DescribeJob(ctx context.Context, in *DescribeJobInput) (*DescribeJobOutput, error) {
+func (i *WorkerInterceptor) DescribeJob(ctx context.Context, in *DescribeJobInput, opts ...grpc.CallOption) (*DescribeJobOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeJobInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeJobInput, got %T", in))
 		}
 
-		return i.server.DescribeJob(ctx, message)
+		return i.client.DescribeJob(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -331,14 +332,14 @@ func (i *WorkerInterceptor) DescribeJob(ctx context.Context, in *DescribeJobInpu
 	return message, err
 }
 
-func (i *WorkerInterceptor) ListJobs(ctx context.Context, in *ListJobsInput) (*ListJobsOutput, error) {
+func (i *WorkerInterceptor) ListJobs(ctx context.Context, in *ListJobsInput, opts ...grpc.CallOption) (*ListJobsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListJobsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListJobsInput, got %T", in))
 		}
 
-		return i.server.ListJobs(ctx, message)
+		return i.client.ListJobs(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -525,21 +526,21 @@ var _WorkerService_WebsocketCodec = websocket.Codec{
 	},
 }
 
-// RegisterWorkerServiceHttpHandlers adds handlers for for WorkerServiceServer
+// RegisterWorkerServiceHttpHandlers adds handlers for for WorkerServiceClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterWorkerServiceHttpHandlers(router *mux.Router, prefix string, srv WorkerServiceServer) {
-	router.Handle(prefix+"/jobs", _WorkerService_CreateJob_Rule0(srv)).
+func RegisterWorkerServiceHttpHandlers(router *mux.Router, prefix string, cli WorkerServiceClient) {
+	router.Handle(prefix+"/jobs", _WorkerService_CreateJob_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.worker.WorkerService.CreateJob")
-	router.Handle(prefix+"/jobs/{job_id}", _WorkerService_DescribeJob_Rule0(srv)).
+	router.Handle(prefix+"/jobs/{job_id}", _WorkerService_DescribeJob_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.worker.WorkerService.DescribeJob")
-	router.Handle(prefix+"/jobs", _WorkerService_ListJobs_Rule0(srv)).
+	router.Handle(prefix+"/jobs", _WorkerService_ListJobs_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.worker.WorkerService.ListJobs")
 }
 
-func _WorkerService_CreateJob_Rule0(srv WorkerServiceServer) http.Handler {
+func _WorkerService_CreateJob_Rule0(cli WorkerServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateJobInput{}
 
@@ -549,7 +550,7 @@ func _WorkerService_CreateJob_Rule0(srv WorkerServiceServer) http.Handler {
 			return
 		}
 
-		out, err := srv.CreateJob(r.Context(), in)
+		out, err := cli.CreateJob(r.Context(), in)
 		if err != nil {
 			_WorkerService_HTTPWriteErrorResponse(w, err)
 			return
@@ -559,7 +560,7 @@ func _WorkerService_CreateJob_Rule0(srv WorkerServiceServer) http.Handler {
 	})
 }
 
-func _WorkerService_DescribeJob_Rule0(srv WorkerServiceServer) http.Handler {
+func _WorkerService_DescribeJob_Rule0(cli WorkerServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeJobInput{}
 
@@ -572,7 +573,7 @@ func _WorkerService_DescribeJob_Rule0(srv WorkerServiceServer) http.Handler {
 		vars := mux.Vars(r)
 		in.JobId = vars["job_id"]
 
-		out, err := srv.DescribeJob(r.Context(), in)
+		out, err := cli.DescribeJob(r.Context(), in)
 		if err != nil {
 			_WorkerService_HTTPWriteErrorResponse(w, err)
 			return
@@ -582,7 +583,7 @@ func _WorkerService_DescribeJob_Rule0(srv WorkerServiceServer) http.Handler {
 	})
 }
 
-func _WorkerService_ListJobs_Rule0(srv WorkerServiceServer) http.Handler {
+func _WorkerService_ListJobs_Rule0(cli WorkerServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListJobsInput{}
 
@@ -592,7 +593,7 @@ func _WorkerService_ListJobs_Rule0(srv WorkerServiceServer) http.Handler {
 			return
 		}
 
-		out, err := srv.ListJobs(r.Context(), in)
+		out, err := cli.ListJobs(r.Context(), in)
 		if err != nil {
 			_WorkerService_HTTPWriteErrorResponse(w, err)
 			return
@@ -606,22 +607,22 @@ type _WorkerServiceHandler = func(ctx context.Context, in proto.Message) (proto.
 type _WorkerServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _WorkerServiceHandler) (out proto.Message, err error)
 type WorkerServiceInterceptor struct {
 	middleware []_WorkerServiceMiddleware
-	server     WorkerServiceServer
+	client     WorkerServiceClient
 }
 
 // NewWorkerServiceInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewWorkerServiceInterceptor(srv WorkerServiceServer, middleware ..._WorkerServiceMiddleware) *WorkerServiceInterceptor {
-	return &WorkerServiceInterceptor{server: srv, middleware: middleware}
+func NewWorkerServiceInterceptor(cli WorkerServiceClient, middleware ..._WorkerServiceMiddleware) *WorkerServiceInterceptor {
+	return &WorkerServiceInterceptor{client: cli, middleware: middleware}
 }
 
-func (i *WorkerServiceInterceptor) CreateJob(ctx context.Context, in *CreateJobInput) (*CreateJobOutput, error) {
+func (i *WorkerServiceInterceptor) CreateJob(ctx context.Context, in *CreateJobInput, opts ...grpc.CallOption) (*CreateJobOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CreateJobInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *CreateJobInput, got %T", in))
 		}
 
-		return i.server.CreateJob(ctx, message)
+		return i.client.CreateJob(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -646,14 +647,14 @@ func (i *WorkerServiceInterceptor) CreateJob(ctx context.Context, in *CreateJobI
 	return message, err
 }
 
-func (i *WorkerServiceInterceptor) DescribeJob(ctx context.Context, in *DescribeJobInput) (*DescribeJobOutput, error) {
+func (i *WorkerServiceInterceptor) DescribeJob(ctx context.Context, in *DescribeJobInput, opts ...grpc.CallOption) (*DescribeJobOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeJobInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeJobInput, got %T", in))
 		}
 
-		return i.server.DescribeJob(ctx, message)
+		return i.client.DescribeJob(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -678,14 +679,14 @@ func (i *WorkerServiceInterceptor) DescribeJob(ctx context.Context, in *Describe
 	return message, err
 }
 
-func (i *WorkerServiceInterceptor) ListJobs(ctx context.Context, in *ListJobsInput) (*ListJobsOutput, error) {
+func (i *WorkerServiceInterceptor) ListJobs(ctx context.Context, in *ListJobsInput, opts ...grpc.CallOption) (*ListJobsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListJobsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListJobsInput, got %T", in))
 		}
 
-		return i.server.ListJobs(ctx, message)
+		return i.client.ListJobs(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {

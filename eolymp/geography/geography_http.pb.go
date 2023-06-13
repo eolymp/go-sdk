@@ -8,6 +8,7 @@ import (
 	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	websocket "golang.org/x/net/websocket"
+	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
@@ -178,24 +179,24 @@ var _Geography_WebsocketCodec = websocket.Codec{
 	},
 }
 
-// RegisterGeographyHttpHandlers adds handlers for for GeographyServer
+// RegisterGeographyHttpHandlers adds handlers for for GeographyClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterGeographyHttpHandlers(router *mux.Router, prefix string, srv GeographyServer) {
-	router.Handle(prefix+"/geography/countries/{country_id}", _Geography_DescribeCountry_Rule0(srv)).
+func RegisterGeographyHttpHandlers(router *mux.Router, prefix string, cli GeographyClient) {
+	router.Handle(prefix+"/geography/countries/{country_id}", _Geography_DescribeCountry_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.geography.Geography.DescribeCountry")
-	router.Handle(prefix+"/geography/countries", _Geography_ListCountries_Rule0(srv)).
+	router.Handle(prefix+"/geography/countries", _Geography_ListCountries_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.geography.Geography.ListCountries")
-	router.Handle(prefix+"/geography/regions/{region_id}", _Geography_DescribeRegion_Rule0(srv)).
+	router.Handle(prefix+"/geography/regions/{region_id}", _Geography_DescribeRegion_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.geography.Geography.DescribeRegion")
-	router.Handle(prefix+"/geography/countries/{country_id}/regions", _Geography_ListRegions_Rule0(srv)).
+	router.Handle(prefix+"/geography/countries/{country_id}/regions", _Geography_ListRegions_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.geography.Geography.ListRegions")
 }
 
-func _Geography_DescribeCountry_Rule0(srv GeographyServer) http.Handler {
+func _Geography_DescribeCountry_Rule0(cli GeographyClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeCountryInput{}
 
@@ -208,7 +209,7 @@ func _Geography_DescribeCountry_Rule0(srv GeographyServer) http.Handler {
 		vars := mux.Vars(r)
 		in.CountryId = vars["country_id"]
 
-		out, err := srv.DescribeCountry(r.Context(), in)
+		out, err := cli.DescribeCountry(r.Context(), in)
 		if err != nil {
 			_Geography_HTTPWriteErrorResponse(w, err)
 			return
@@ -218,7 +219,7 @@ func _Geography_DescribeCountry_Rule0(srv GeographyServer) http.Handler {
 	})
 }
 
-func _Geography_ListCountries_Rule0(srv GeographyServer) http.Handler {
+func _Geography_ListCountries_Rule0(cli GeographyClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListCountriesInput{}
 
@@ -228,7 +229,7 @@ func _Geography_ListCountries_Rule0(srv GeographyServer) http.Handler {
 			return
 		}
 
-		out, err := srv.ListCountries(r.Context(), in)
+		out, err := cli.ListCountries(r.Context(), in)
 		if err != nil {
 			_Geography_HTTPWriteErrorResponse(w, err)
 			return
@@ -238,7 +239,7 @@ func _Geography_ListCountries_Rule0(srv GeographyServer) http.Handler {
 	})
 }
 
-func _Geography_DescribeRegion_Rule0(srv GeographyServer) http.Handler {
+func _Geography_DescribeRegion_Rule0(cli GeographyClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeRegionInput{}
 
@@ -251,7 +252,7 @@ func _Geography_DescribeRegion_Rule0(srv GeographyServer) http.Handler {
 		vars := mux.Vars(r)
 		in.RegionId = vars["region_id"]
 
-		out, err := srv.DescribeRegion(r.Context(), in)
+		out, err := cli.DescribeRegion(r.Context(), in)
 		if err != nil {
 			_Geography_HTTPWriteErrorResponse(w, err)
 			return
@@ -261,7 +262,7 @@ func _Geography_DescribeRegion_Rule0(srv GeographyServer) http.Handler {
 	})
 }
 
-func _Geography_ListRegions_Rule0(srv GeographyServer) http.Handler {
+func _Geography_ListRegions_Rule0(cli GeographyClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListRegionsInput{}
 
@@ -274,7 +275,7 @@ func _Geography_ListRegions_Rule0(srv GeographyServer) http.Handler {
 		vars := mux.Vars(r)
 		in.CountryId = vars["country_id"]
 
-		out, err := srv.ListRegions(r.Context(), in)
+		out, err := cli.ListRegions(r.Context(), in)
 		if err != nil {
 			_Geography_HTTPWriteErrorResponse(w, err)
 			return
@@ -288,22 +289,22 @@ type _GeographyHandler = func(ctx context.Context, in proto.Message) (proto.Mess
 type _GeographyMiddleware = func(ctx context.Context, method string, in proto.Message, handler _GeographyHandler) (out proto.Message, err error)
 type GeographyInterceptor struct {
 	middleware []_GeographyMiddleware
-	server     GeographyServer
+	client     GeographyClient
 }
 
 // NewGeographyInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewGeographyInterceptor(srv GeographyServer, middleware ..._GeographyMiddleware) *GeographyInterceptor {
-	return &GeographyInterceptor{server: srv, middleware: middleware}
+func NewGeographyInterceptor(cli GeographyClient, middleware ..._GeographyMiddleware) *GeographyInterceptor {
+	return &GeographyInterceptor{client: cli, middleware: middleware}
 }
 
-func (i *GeographyInterceptor) DescribeCountry(ctx context.Context, in *DescribeCountryInput) (*DescribeCountryOutput, error) {
+func (i *GeographyInterceptor) DescribeCountry(ctx context.Context, in *DescribeCountryInput, opts ...grpc.CallOption) (*DescribeCountryOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeCountryInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeCountryInput, got %T", in))
 		}
 
-		return i.server.DescribeCountry(ctx, message)
+		return i.client.DescribeCountry(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -328,14 +329,14 @@ func (i *GeographyInterceptor) DescribeCountry(ctx context.Context, in *Describe
 	return message, err
 }
 
-func (i *GeographyInterceptor) ListCountries(ctx context.Context, in *ListCountriesInput) (*ListCountriesOutput, error) {
+func (i *GeographyInterceptor) ListCountries(ctx context.Context, in *ListCountriesInput, opts ...grpc.CallOption) (*ListCountriesOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListCountriesInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListCountriesInput, got %T", in))
 		}
 
-		return i.server.ListCountries(ctx, message)
+		return i.client.ListCountries(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -360,14 +361,14 @@ func (i *GeographyInterceptor) ListCountries(ctx context.Context, in *ListCountr
 	return message, err
 }
 
-func (i *GeographyInterceptor) DescribeRegion(ctx context.Context, in *DescribeRegionInput) (*DescribeRegionOutput, error) {
+func (i *GeographyInterceptor) DescribeRegion(ctx context.Context, in *DescribeRegionInput, opts ...grpc.CallOption) (*DescribeRegionOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeRegionInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeRegionInput, got %T", in))
 		}
 
-		return i.server.DescribeRegion(ctx, message)
+		return i.client.DescribeRegion(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -392,14 +393,14 @@ func (i *GeographyInterceptor) DescribeRegion(ctx context.Context, in *DescribeR
 	return message, err
 }
 
-func (i *GeographyInterceptor) ListRegions(ctx context.Context, in *ListRegionsInput) (*ListRegionsOutput, error) {
+func (i *GeographyInterceptor) ListRegions(ctx context.Context, in *ListRegionsInput, opts ...grpc.CallOption) (*ListRegionsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListRegionsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListRegionsInput, got %T", in))
 		}
 
-		return i.server.ListRegions(ctx, message)
+		return i.client.ListRegions(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {

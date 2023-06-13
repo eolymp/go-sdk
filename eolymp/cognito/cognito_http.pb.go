@@ -8,6 +8,7 @@ import (
 	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	websocket "golang.org/x/net/websocket"
+	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
@@ -178,78 +179,78 @@ var _Cognito_WebsocketCodec = websocket.Codec{
 	},
 }
 
-// RegisterCognitoHttpHandlers adds handlers for for CognitoServer
+// RegisterCognitoHttpHandlers adds handlers for for CognitoClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterCognitoHttpHandlers(router *mux.Router, prefix string, srv CognitoServer) {
-	router.Handle(prefix+"/self/signout", _Cognito_Signout_Rule0(srv)).
+func RegisterCognitoHttpHandlers(router *mux.Router, prefix string, cli CognitoClient) {
+	router.Handle(prefix+"/self/signout", _Cognito_Signout_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.cognito.Cognito.Signout")
-	router.Handle(prefix+"/access-keys", _Cognito_CreateAccessKey_Rule0(srv)).
+	router.Handle(prefix+"/access-keys", _Cognito_CreateAccessKey_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.cognito.Cognito.CreateAccessKey")
-	router.Handle(prefix+"/access-keys/{key_id}", _Cognito_DeleteAccessKey_Rule0(srv)).
+	router.Handle(prefix+"/access-keys/{key_id}", _Cognito_DeleteAccessKey_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.cognito.Cognito.DeleteAccessKey")
-	router.Handle(prefix+"/access-keys", _Cognito_ListAccessKeys_Rule0(srv)).
+	router.Handle(prefix+"/access-keys", _Cognito_ListAccessKeys_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.cognito.Cognito.ListAccessKeys")
-	router.Handle(prefix+"/users", _Cognito_CreateUser_Rule0(srv)).
+	router.Handle(prefix+"/users", _Cognito_CreateUser_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.cognito.Cognito.CreateUser")
-	router.Handle(prefix+"/users/{user_id}/verify", _Cognito_VerifyEmail_Rule0(srv)).
+	router.Handle(prefix+"/users/{user_id}/verify", _Cognito_VerifyEmail_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.cognito.Cognito.VerifyEmail")
-	router.Handle(prefix+"/self/email/resend-verification", _Cognito_ResendEmailVerification_Rule0(srv)).
+	router.Handle(prefix+"/self/email/resend-verification", _Cognito_ResendEmailVerification_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.cognito.Cognito.ResendEmailVerification")
-	router.Handle(prefix+"/self/email", _Cognito_UpdateEmail_Rule0(srv)).
+	router.Handle(prefix+"/self/email", _Cognito_UpdateEmail_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.cognito.Cognito.UpdateEmail")
-	router.Handle(prefix+"/self", _Cognito_UpdateProfile_Rule0(srv)).
+	router.Handle(prefix+"/self", _Cognito_UpdateProfile_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.cognito.Cognito.UpdateProfile")
-	router.Handle(prefix+"/self/picture", _Cognito_UpdatePicture_Rule0(srv)).
+	router.Handle(prefix+"/self/picture", _Cognito_UpdatePicture_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.cognito.Cognito.UpdatePicture")
-	router.Handle(prefix+"/self/password", _Cognito_UpdatePassword_Rule0(srv)).
+	router.Handle(prefix+"/self/password", _Cognito_UpdatePassword_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.cognito.Cognito.UpdatePassword")
-	router.Handle(prefix+"/self", _Cognito_IntrospectUser_Rule0(srv)).
+	router.Handle(prefix+"/self", _Cognito_IntrospectUser_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.cognito.Cognito.IntrospectUser")
-	router.Handle(prefix+"/users/{user_id}", _Cognito_DescribeUser_Rule0(srv)).
+	router.Handle(prefix+"/users/{user_id}", _Cognito_DescribeUser_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.cognito.Cognito.DescribeUser")
-	router.Handle(prefix+"/users", _Cognito_ListUsers_Rule0(srv)).
+	router.Handle(prefix+"/users", _Cognito_ListUsers_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.cognito.Cognito.ListUsers")
-	router.Handle(prefix+"/self/quota", _Cognito_IntrospectQuota_Rule0(srv)).
+	router.Handle(prefix+"/self/quota", _Cognito_IntrospectQuota_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.cognito.Cognito.IntrospectQuota")
-	router.Handle(prefix+"/self/roles", _Cognito_IntrospectRoles_Rule0(srv)).
+	router.Handle(prefix+"/self/roles", _Cognito_IntrospectRoles_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.cognito.Cognito.IntrospectRoles")
-	router.Handle(prefix+"/users/{user_id}/roles", _Cognito_ListRoles_Rule0(srv)).
+	router.Handle(prefix+"/users/{user_id}/roles", _Cognito_ListRoles_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.cognito.Cognito.ListRoles")
-	router.Handle(prefix+"/users/{user_id}/roles", _Cognito_UpdateRoles_Rule0(srv)).
+	router.Handle(prefix+"/users/{user_id}/roles", _Cognito_UpdateRoles_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.cognito.Cognito.UpdateRoles")
-	router.Handle(prefix+"/self/recovery", _Cognito_StartRecovery_Rule0(srv)).
+	router.Handle(prefix+"/self/recovery", _Cognito_StartRecovery_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.cognito.Cognito.StartRecovery")
-	router.Handle(prefix+"/users/{user_id}/recover", _Cognito_CompleteRecovery_Rule0(srv)).
+	router.Handle(prefix+"/users/{user_id}/recover", _Cognito_CompleteRecovery_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.cognito.Cognito.CompleteRecovery")
-	router.Handle(prefix+"/__cognito/entitlements", _Cognito_ListEntitlements_Rule0(srv)).
+	router.Handle(prefix+"/__cognito/entitlements", _Cognito_ListEntitlements_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.cognito.Cognito.ListEntitlements")
-	router.Handle(prefix+"/self", _Cognito_SelfDestruct_Rule0(srv)).
+	router.Handle(prefix+"/self", _Cognito_SelfDestruct_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.cognito.Cognito.SelfDestruct")
 }
 
-func _Cognito_Signout_Rule0(srv CognitoServer) http.Handler {
+func _Cognito_Signout_Rule0(cli CognitoClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &SignoutInput{}
 
@@ -259,7 +260,7 @@ func _Cognito_Signout_Rule0(srv CognitoServer) http.Handler {
 			return
 		}
 
-		out, err := srv.Signout(r.Context(), in)
+		out, err := cli.Signout(r.Context(), in)
 		if err != nil {
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
@@ -269,7 +270,7 @@ func _Cognito_Signout_Rule0(srv CognitoServer) http.Handler {
 	})
 }
 
-func _Cognito_CreateAccessKey_Rule0(srv CognitoServer) http.Handler {
+func _Cognito_CreateAccessKey_Rule0(cli CognitoClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateAccessKeyInput{}
 
@@ -279,7 +280,7 @@ func _Cognito_CreateAccessKey_Rule0(srv CognitoServer) http.Handler {
 			return
 		}
 
-		out, err := srv.CreateAccessKey(r.Context(), in)
+		out, err := cli.CreateAccessKey(r.Context(), in)
 		if err != nil {
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
@@ -289,7 +290,7 @@ func _Cognito_CreateAccessKey_Rule0(srv CognitoServer) http.Handler {
 	})
 }
 
-func _Cognito_DeleteAccessKey_Rule0(srv CognitoServer) http.Handler {
+func _Cognito_DeleteAccessKey_Rule0(cli CognitoClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteAccessKeyInput{}
 
@@ -302,7 +303,7 @@ func _Cognito_DeleteAccessKey_Rule0(srv CognitoServer) http.Handler {
 		vars := mux.Vars(r)
 		in.KeyId = vars["key_id"]
 
-		out, err := srv.DeleteAccessKey(r.Context(), in)
+		out, err := cli.DeleteAccessKey(r.Context(), in)
 		if err != nil {
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
@@ -312,7 +313,7 @@ func _Cognito_DeleteAccessKey_Rule0(srv CognitoServer) http.Handler {
 	})
 }
 
-func _Cognito_ListAccessKeys_Rule0(srv CognitoServer) http.Handler {
+func _Cognito_ListAccessKeys_Rule0(cli CognitoClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListAccessKeysInput{}
 
@@ -322,7 +323,7 @@ func _Cognito_ListAccessKeys_Rule0(srv CognitoServer) http.Handler {
 			return
 		}
 
-		out, err := srv.ListAccessKeys(r.Context(), in)
+		out, err := cli.ListAccessKeys(r.Context(), in)
 		if err != nil {
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
@@ -332,7 +333,7 @@ func _Cognito_ListAccessKeys_Rule0(srv CognitoServer) http.Handler {
 	})
 }
 
-func _Cognito_CreateUser_Rule0(srv CognitoServer) http.Handler {
+func _Cognito_CreateUser_Rule0(cli CognitoClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateUserInput{}
 
@@ -342,7 +343,7 @@ func _Cognito_CreateUser_Rule0(srv CognitoServer) http.Handler {
 			return
 		}
 
-		out, err := srv.CreateUser(r.Context(), in)
+		out, err := cli.CreateUser(r.Context(), in)
 		if err != nil {
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
@@ -352,7 +353,7 @@ func _Cognito_CreateUser_Rule0(srv CognitoServer) http.Handler {
 	})
 }
 
-func _Cognito_VerifyEmail_Rule0(srv CognitoServer) http.Handler {
+func _Cognito_VerifyEmail_Rule0(cli CognitoClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &VerifyEmailInput{}
 
@@ -365,7 +366,7 @@ func _Cognito_VerifyEmail_Rule0(srv CognitoServer) http.Handler {
 		vars := mux.Vars(r)
 		in.UserId = vars["user_id"]
 
-		out, err := srv.VerifyEmail(r.Context(), in)
+		out, err := cli.VerifyEmail(r.Context(), in)
 		if err != nil {
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
@@ -375,7 +376,7 @@ func _Cognito_VerifyEmail_Rule0(srv CognitoServer) http.Handler {
 	})
 }
 
-func _Cognito_ResendEmailVerification_Rule0(srv CognitoServer) http.Handler {
+func _Cognito_ResendEmailVerification_Rule0(cli CognitoClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ResendEmailVerificationInput{}
 
@@ -385,7 +386,7 @@ func _Cognito_ResendEmailVerification_Rule0(srv CognitoServer) http.Handler {
 			return
 		}
 
-		out, err := srv.ResendEmailVerification(r.Context(), in)
+		out, err := cli.ResendEmailVerification(r.Context(), in)
 		if err != nil {
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
@@ -395,7 +396,7 @@ func _Cognito_ResendEmailVerification_Rule0(srv CognitoServer) http.Handler {
 	})
 }
 
-func _Cognito_UpdateEmail_Rule0(srv CognitoServer) http.Handler {
+func _Cognito_UpdateEmail_Rule0(cli CognitoClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateEmailInput{}
 
@@ -405,7 +406,7 @@ func _Cognito_UpdateEmail_Rule0(srv CognitoServer) http.Handler {
 			return
 		}
 
-		out, err := srv.UpdateEmail(r.Context(), in)
+		out, err := cli.UpdateEmail(r.Context(), in)
 		if err != nil {
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
@@ -415,7 +416,7 @@ func _Cognito_UpdateEmail_Rule0(srv CognitoServer) http.Handler {
 	})
 }
 
-func _Cognito_UpdateProfile_Rule0(srv CognitoServer) http.Handler {
+func _Cognito_UpdateProfile_Rule0(cli CognitoClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateProfileInput{}
 
@@ -425,7 +426,7 @@ func _Cognito_UpdateProfile_Rule0(srv CognitoServer) http.Handler {
 			return
 		}
 
-		out, err := srv.UpdateProfile(r.Context(), in)
+		out, err := cli.UpdateProfile(r.Context(), in)
 		if err != nil {
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
@@ -435,7 +436,7 @@ func _Cognito_UpdateProfile_Rule0(srv CognitoServer) http.Handler {
 	})
 }
 
-func _Cognito_UpdatePicture_Rule0(srv CognitoServer) http.Handler {
+func _Cognito_UpdatePicture_Rule0(cli CognitoClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdatePictureInput{}
 
@@ -445,7 +446,7 @@ func _Cognito_UpdatePicture_Rule0(srv CognitoServer) http.Handler {
 			return
 		}
 
-		out, err := srv.UpdatePicture(r.Context(), in)
+		out, err := cli.UpdatePicture(r.Context(), in)
 		if err != nil {
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
@@ -455,7 +456,7 @@ func _Cognito_UpdatePicture_Rule0(srv CognitoServer) http.Handler {
 	})
 }
 
-func _Cognito_UpdatePassword_Rule0(srv CognitoServer) http.Handler {
+func _Cognito_UpdatePassword_Rule0(cli CognitoClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdatePasswordInput{}
 
@@ -465,7 +466,7 @@ func _Cognito_UpdatePassword_Rule0(srv CognitoServer) http.Handler {
 			return
 		}
 
-		out, err := srv.UpdatePassword(r.Context(), in)
+		out, err := cli.UpdatePassword(r.Context(), in)
 		if err != nil {
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
@@ -475,7 +476,7 @@ func _Cognito_UpdatePassword_Rule0(srv CognitoServer) http.Handler {
 	})
 }
 
-func _Cognito_IntrospectUser_Rule0(srv CognitoServer) http.Handler {
+func _Cognito_IntrospectUser_Rule0(cli CognitoClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &IntrospectUserInput{}
 
@@ -485,7 +486,7 @@ func _Cognito_IntrospectUser_Rule0(srv CognitoServer) http.Handler {
 			return
 		}
 
-		out, err := srv.IntrospectUser(r.Context(), in)
+		out, err := cli.IntrospectUser(r.Context(), in)
 		if err != nil {
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
@@ -495,7 +496,7 @@ func _Cognito_IntrospectUser_Rule0(srv CognitoServer) http.Handler {
 	})
 }
 
-func _Cognito_DescribeUser_Rule0(srv CognitoServer) http.Handler {
+func _Cognito_DescribeUser_Rule0(cli CognitoClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeUserInput{}
 
@@ -508,7 +509,7 @@ func _Cognito_DescribeUser_Rule0(srv CognitoServer) http.Handler {
 		vars := mux.Vars(r)
 		in.UserId = vars["user_id"]
 
-		out, err := srv.DescribeUser(r.Context(), in)
+		out, err := cli.DescribeUser(r.Context(), in)
 		if err != nil {
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
@@ -518,7 +519,7 @@ func _Cognito_DescribeUser_Rule0(srv CognitoServer) http.Handler {
 	})
 }
 
-func _Cognito_ListUsers_Rule0(srv CognitoServer) http.Handler {
+func _Cognito_ListUsers_Rule0(cli CognitoClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListUsersInput{}
 
@@ -528,7 +529,7 @@ func _Cognito_ListUsers_Rule0(srv CognitoServer) http.Handler {
 			return
 		}
 
-		out, err := srv.ListUsers(r.Context(), in)
+		out, err := cli.ListUsers(r.Context(), in)
 		if err != nil {
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
@@ -538,7 +539,7 @@ func _Cognito_ListUsers_Rule0(srv CognitoServer) http.Handler {
 	})
 }
 
-func _Cognito_IntrospectQuota_Rule0(srv CognitoServer) http.Handler {
+func _Cognito_IntrospectQuota_Rule0(cli CognitoClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &IntrospectQuotaInput{}
 
@@ -548,7 +549,7 @@ func _Cognito_IntrospectQuota_Rule0(srv CognitoServer) http.Handler {
 			return
 		}
 
-		out, err := srv.IntrospectQuota(r.Context(), in)
+		out, err := cli.IntrospectQuota(r.Context(), in)
 		if err != nil {
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
@@ -558,7 +559,7 @@ func _Cognito_IntrospectQuota_Rule0(srv CognitoServer) http.Handler {
 	})
 }
 
-func _Cognito_IntrospectRoles_Rule0(srv CognitoServer) http.Handler {
+func _Cognito_IntrospectRoles_Rule0(cli CognitoClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &IntrospectRolesInput{}
 
@@ -568,7 +569,7 @@ func _Cognito_IntrospectRoles_Rule0(srv CognitoServer) http.Handler {
 			return
 		}
 
-		out, err := srv.IntrospectRoles(r.Context(), in)
+		out, err := cli.IntrospectRoles(r.Context(), in)
 		if err != nil {
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
@@ -578,7 +579,7 @@ func _Cognito_IntrospectRoles_Rule0(srv CognitoServer) http.Handler {
 	})
 }
 
-func _Cognito_ListRoles_Rule0(srv CognitoServer) http.Handler {
+func _Cognito_ListRoles_Rule0(cli CognitoClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListRolesInput{}
 
@@ -591,7 +592,7 @@ func _Cognito_ListRoles_Rule0(srv CognitoServer) http.Handler {
 		vars := mux.Vars(r)
 		in.UserId = vars["user_id"]
 
-		out, err := srv.ListRoles(r.Context(), in)
+		out, err := cli.ListRoles(r.Context(), in)
 		if err != nil {
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
@@ -601,7 +602,7 @@ func _Cognito_ListRoles_Rule0(srv CognitoServer) http.Handler {
 	})
 }
 
-func _Cognito_UpdateRoles_Rule0(srv CognitoServer) http.Handler {
+func _Cognito_UpdateRoles_Rule0(cli CognitoClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateRolesInput{}
 
@@ -614,7 +615,7 @@ func _Cognito_UpdateRoles_Rule0(srv CognitoServer) http.Handler {
 		vars := mux.Vars(r)
 		in.UserId = vars["user_id"]
 
-		out, err := srv.UpdateRoles(r.Context(), in)
+		out, err := cli.UpdateRoles(r.Context(), in)
 		if err != nil {
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
@@ -624,7 +625,7 @@ func _Cognito_UpdateRoles_Rule0(srv CognitoServer) http.Handler {
 	})
 }
 
-func _Cognito_StartRecovery_Rule0(srv CognitoServer) http.Handler {
+func _Cognito_StartRecovery_Rule0(cli CognitoClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &StartRecoveryInput{}
 
@@ -634,7 +635,7 @@ func _Cognito_StartRecovery_Rule0(srv CognitoServer) http.Handler {
 			return
 		}
 
-		out, err := srv.StartRecovery(r.Context(), in)
+		out, err := cli.StartRecovery(r.Context(), in)
 		if err != nil {
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
@@ -644,7 +645,7 @@ func _Cognito_StartRecovery_Rule0(srv CognitoServer) http.Handler {
 	})
 }
 
-func _Cognito_CompleteRecovery_Rule0(srv CognitoServer) http.Handler {
+func _Cognito_CompleteRecovery_Rule0(cli CognitoClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CompleteRecoverInput{}
 
@@ -657,7 +658,7 @@ func _Cognito_CompleteRecovery_Rule0(srv CognitoServer) http.Handler {
 		vars := mux.Vars(r)
 		in.UserId = vars["user_id"]
 
-		out, err := srv.CompleteRecovery(r.Context(), in)
+		out, err := cli.CompleteRecovery(r.Context(), in)
 		if err != nil {
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
@@ -667,7 +668,7 @@ func _Cognito_CompleteRecovery_Rule0(srv CognitoServer) http.Handler {
 	})
 }
 
-func _Cognito_ListEntitlements_Rule0(srv CognitoServer) http.Handler {
+func _Cognito_ListEntitlements_Rule0(cli CognitoClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListEntitlementsInput{}
 
@@ -677,7 +678,7 @@ func _Cognito_ListEntitlements_Rule0(srv CognitoServer) http.Handler {
 			return
 		}
 
-		out, err := srv.ListEntitlements(r.Context(), in)
+		out, err := cli.ListEntitlements(r.Context(), in)
 		if err != nil {
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
@@ -687,7 +688,7 @@ func _Cognito_ListEntitlements_Rule0(srv CognitoServer) http.Handler {
 	})
 }
 
-func _Cognito_SelfDestruct_Rule0(srv CognitoServer) http.Handler {
+func _Cognito_SelfDestruct_Rule0(cli CognitoClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &SelfDestructInput{}
 
@@ -697,7 +698,7 @@ func _Cognito_SelfDestruct_Rule0(srv CognitoServer) http.Handler {
 			return
 		}
 
-		out, err := srv.SelfDestruct(r.Context(), in)
+		out, err := cli.SelfDestruct(r.Context(), in)
 		if err != nil {
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
@@ -711,22 +712,22 @@ type _CognitoHandler = func(ctx context.Context, in proto.Message) (proto.Messag
 type _CognitoMiddleware = func(ctx context.Context, method string, in proto.Message, handler _CognitoHandler) (out proto.Message, err error)
 type CognitoInterceptor struct {
 	middleware []_CognitoMiddleware
-	server     CognitoServer
+	client     CognitoClient
 }
 
 // NewCognitoInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewCognitoInterceptor(srv CognitoServer, middleware ..._CognitoMiddleware) *CognitoInterceptor {
-	return &CognitoInterceptor{server: srv, middleware: middleware}
+func NewCognitoInterceptor(cli CognitoClient, middleware ..._CognitoMiddleware) *CognitoInterceptor {
+	return &CognitoInterceptor{client: cli, middleware: middleware}
 }
 
-func (i *CognitoInterceptor) CreateToken(ctx context.Context, in *CreateTokenInput) (*CreateTokenOutput, error) {
+func (i *CognitoInterceptor) CreateToken(ctx context.Context, in *CreateTokenInput, opts ...grpc.CallOption) (*CreateTokenOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CreateTokenInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *CreateTokenInput, got %T", in))
 		}
 
-		return i.server.CreateToken(ctx, message)
+		return i.client.CreateToken(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -751,14 +752,14 @@ func (i *CognitoInterceptor) CreateToken(ctx context.Context, in *CreateTokenInp
 	return message, err
 }
 
-func (i *CognitoInterceptor) IntrospectToken(ctx context.Context, in *IntrospectTokenInput) (*IntrospectTokenOutput, error) {
+func (i *CognitoInterceptor) IntrospectToken(ctx context.Context, in *IntrospectTokenInput, opts ...grpc.CallOption) (*IntrospectTokenOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*IntrospectTokenInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *IntrospectTokenInput, got %T", in))
 		}
 
-		return i.server.IntrospectToken(ctx, message)
+		return i.client.IntrospectToken(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -783,14 +784,14 @@ func (i *CognitoInterceptor) IntrospectToken(ctx context.Context, in *Introspect
 	return message, err
 }
 
-func (i *CognitoInterceptor) RevokeToken(ctx context.Context, in *RevokeTokenInput) (*RevokeTokenOutput, error) {
+func (i *CognitoInterceptor) RevokeToken(ctx context.Context, in *RevokeTokenInput, opts ...grpc.CallOption) (*RevokeTokenOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*RevokeTokenInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *RevokeTokenInput, got %T", in))
 		}
 
-		return i.server.RevokeToken(ctx, message)
+		return i.client.RevokeToken(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -815,14 +816,14 @@ func (i *CognitoInterceptor) RevokeToken(ctx context.Context, in *RevokeTokenInp
 	return message, err
 }
 
-func (i *CognitoInterceptor) Signout(ctx context.Context, in *SignoutInput) (*SignoutOutput, error) {
+func (i *CognitoInterceptor) Signout(ctx context.Context, in *SignoutInput, opts ...grpc.CallOption) (*SignoutOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*SignoutInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *SignoutInput, got %T", in))
 		}
 
-		return i.server.Signout(ctx, message)
+		return i.client.Signout(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -847,14 +848,14 @@ func (i *CognitoInterceptor) Signout(ctx context.Context, in *SignoutInput) (*Si
 	return message, err
 }
 
-func (i *CognitoInterceptor) CreateAccessKey(ctx context.Context, in *CreateAccessKeyInput) (*CreateAccessKeyOutput, error) {
+func (i *CognitoInterceptor) CreateAccessKey(ctx context.Context, in *CreateAccessKeyInput, opts ...grpc.CallOption) (*CreateAccessKeyOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CreateAccessKeyInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *CreateAccessKeyInput, got %T", in))
 		}
 
-		return i.server.CreateAccessKey(ctx, message)
+		return i.client.CreateAccessKey(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -879,14 +880,14 @@ func (i *CognitoInterceptor) CreateAccessKey(ctx context.Context, in *CreateAcce
 	return message, err
 }
 
-func (i *CognitoInterceptor) DeleteAccessKey(ctx context.Context, in *DeleteAccessKeyInput) (*DeleteAccessKeyOutput, error) {
+func (i *CognitoInterceptor) DeleteAccessKey(ctx context.Context, in *DeleteAccessKeyInput, opts ...grpc.CallOption) (*DeleteAccessKeyOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DeleteAccessKeyInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DeleteAccessKeyInput, got %T", in))
 		}
 
-		return i.server.DeleteAccessKey(ctx, message)
+		return i.client.DeleteAccessKey(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -911,14 +912,14 @@ func (i *CognitoInterceptor) DeleteAccessKey(ctx context.Context, in *DeleteAcce
 	return message, err
 }
 
-func (i *CognitoInterceptor) ListAccessKeys(ctx context.Context, in *ListAccessKeysInput) (*ListAccessKeysOutput, error) {
+func (i *CognitoInterceptor) ListAccessKeys(ctx context.Context, in *ListAccessKeysInput, opts ...grpc.CallOption) (*ListAccessKeysOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListAccessKeysInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListAccessKeysInput, got %T", in))
 		}
 
-		return i.server.ListAccessKeys(ctx, message)
+		return i.client.ListAccessKeys(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -943,14 +944,14 @@ func (i *CognitoInterceptor) ListAccessKeys(ctx context.Context, in *ListAccessK
 	return message, err
 }
 
-func (i *CognitoInterceptor) CreateUser(ctx context.Context, in *CreateUserInput) (*CreateUserOutput, error) {
+func (i *CognitoInterceptor) CreateUser(ctx context.Context, in *CreateUserInput, opts ...grpc.CallOption) (*CreateUserOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CreateUserInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *CreateUserInput, got %T", in))
 		}
 
-		return i.server.CreateUser(ctx, message)
+		return i.client.CreateUser(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -975,14 +976,14 @@ func (i *CognitoInterceptor) CreateUser(ctx context.Context, in *CreateUserInput
 	return message, err
 }
 
-func (i *CognitoInterceptor) VerifyEmail(ctx context.Context, in *VerifyEmailInput) (*VerifyEmailOutput, error) {
+func (i *CognitoInterceptor) VerifyEmail(ctx context.Context, in *VerifyEmailInput, opts ...grpc.CallOption) (*VerifyEmailOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*VerifyEmailInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *VerifyEmailInput, got %T", in))
 		}
 
-		return i.server.VerifyEmail(ctx, message)
+		return i.client.VerifyEmail(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1007,14 +1008,14 @@ func (i *CognitoInterceptor) VerifyEmail(ctx context.Context, in *VerifyEmailInp
 	return message, err
 }
 
-func (i *CognitoInterceptor) ResendEmailVerification(ctx context.Context, in *ResendEmailVerificationInput) (*ResendEmailVerificationOutput, error) {
+func (i *CognitoInterceptor) ResendEmailVerification(ctx context.Context, in *ResendEmailVerificationInput, opts ...grpc.CallOption) (*ResendEmailVerificationOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ResendEmailVerificationInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ResendEmailVerificationInput, got %T", in))
 		}
 
-		return i.server.ResendEmailVerification(ctx, message)
+		return i.client.ResendEmailVerification(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1039,14 +1040,14 @@ func (i *CognitoInterceptor) ResendEmailVerification(ctx context.Context, in *Re
 	return message, err
 }
 
-func (i *CognitoInterceptor) UpdateEmail(ctx context.Context, in *UpdateEmailInput) (*UpdateEmailOutput, error) {
+func (i *CognitoInterceptor) UpdateEmail(ctx context.Context, in *UpdateEmailInput, opts ...grpc.CallOption) (*UpdateEmailOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdateEmailInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UpdateEmailInput, got %T", in))
 		}
 
-		return i.server.UpdateEmail(ctx, message)
+		return i.client.UpdateEmail(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1071,14 +1072,14 @@ func (i *CognitoInterceptor) UpdateEmail(ctx context.Context, in *UpdateEmailInp
 	return message, err
 }
 
-func (i *CognitoInterceptor) UpdateProfile(ctx context.Context, in *UpdateProfileInput) (*UpdateProfileOutput, error) {
+func (i *CognitoInterceptor) UpdateProfile(ctx context.Context, in *UpdateProfileInput, opts ...grpc.CallOption) (*UpdateProfileOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdateProfileInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UpdateProfileInput, got %T", in))
 		}
 
-		return i.server.UpdateProfile(ctx, message)
+		return i.client.UpdateProfile(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1103,14 +1104,14 @@ func (i *CognitoInterceptor) UpdateProfile(ctx context.Context, in *UpdateProfil
 	return message, err
 }
 
-func (i *CognitoInterceptor) UpdatePicture(ctx context.Context, in *UpdatePictureInput) (*UpdatePictureOutput, error) {
+func (i *CognitoInterceptor) UpdatePicture(ctx context.Context, in *UpdatePictureInput, opts ...grpc.CallOption) (*UpdatePictureOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdatePictureInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UpdatePictureInput, got %T", in))
 		}
 
-		return i.server.UpdatePicture(ctx, message)
+		return i.client.UpdatePicture(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1135,14 +1136,14 @@ func (i *CognitoInterceptor) UpdatePicture(ctx context.Context, in *UpdatePictur
 	return message, err
 }
 
-func (i *CognitoInterceptor) UpdatePassword(ctx context.Context, in *UpdatePasswordInput) (*UpdatePasswordOutput, error) {
+func (i *CognitoInterceptor) UpdatePassword(ctx context.Context, in *UpdatePasswordInput, opts ...grpc.CallOption) (*UpdatePasswordOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdatePasswordInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UpdatePasswordInput, got %T", in))
 		}
 
-		return i.server.UpdatePassword(ctx, message)
+		return i.client.UpdatePassword(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1167,14 +1168,14 @@ func (i *CognitoInterceptor) UpdatePassword(ctx context.Context, in *UpdatePassw
 	return message, err
 }
 
-func (i *CognitoInterceptor) IntrospectUser(ctx context.Context, in *IntrospectUserInput) (*IntrospectUserOutput, error) {
+func (i *CognitoInterceptor) IntrospectUser(ctx context.Context, in *IntrospectUserInput, opts ...grpc.CallOption) (*IntrospectUserOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*IntrospectUserInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *IntrospectUserInput, got %T", in))
 		}
 
-		return i.server.IntrospectUser(ctx, message)
+		return i.client.IntrospectUser(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1199,14 +1200,14 @@ func (i *CognitoInterceptor) IntrospectUser(ctx context.Context, in *IntrospectU
 	return message, err
 }
 
-func (i *CognitoInterceptor) DescribeUser(ctx context.Context, in *DescribeUserInput) (*DescribeUserOutput, error) {
+func (i *CognitoInterceptor) DescribeUser(ctx context.Context, in *DescribeUserInput, opts ...grpc.CallOption) (*DescribeUserOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeUserInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeUserInput, got %T", in))
 		}
 
-		return i.server.DescribeUser(ctx, message)
+		return i.client.DescribeUser(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1231,14 +1232,14 @@ func (i *CognitoInterceptor) DescribeUser(ctx context.Context, in *DescribeUserI
 	return message, err
 }
 
-func (i *CognitoInterceptor) ListUsers(ctx context.Context, in *ListUsersInput) (*ListUsersOutput, error) {
+func (i *CognitoInterceptor) ListUsers(ctx context.Context, in *ListUsersInput, opts ...grpc.CallOption) (*ListUsersOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListUsersInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListUsersInput, got %T", in))
 		}
 
-		return i.server.ListUsers(ctx, message)
+		return i.client.ListUsers(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1263,14 +1264,14 @@ func (i *CognitoInterceptor) ListUsers(ctx context.Context, in *ListUsersInput) 
 	return message, err
 }
 
-func (i *CognitoInterceptor) IntrospectQuota(ctx context.Context, in *IntrospectQuotaInput) (*IntrospectQuotaOutput, error) {
+func (i *CognitoInterceptor) IntrospectQuota(ctx context.Context, in *IntrospectQuotaInput, opts ...grpc.CallOption) (*IntrospectQuotaOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*IntrospectQuotaInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *IntrospectQuotaInput, got %T", in))
 		}
 
-		return i.server.IntrospectQuota(ctx, message)
+		return i.client.IntrospectQuota(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1295,14 +1296,14 @@ func (i *CognitoInterceptor) IntrospectQuota(ctx context.Context, in *Introspect
 	return message, err
 }
 
-func (i *CognitoInterceptor) IntrospectRoles(ctx context.Context, in *IntrospectRolesInput) (*IntrospectRolesOutput, error) {
+func (i *CognitoInterceptor) IntrospectRoles(ctx context.Context, in *IntrospectRolesInput, opts ...grpc.CallOption) (*IntrospectRolesOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*IntrospectRolesInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *IntrospectRolesInput, got %T", in))
 		}
 
-		return i.server.IntrospectRoles(ctx, message)
+		return i.client.IntrospectRoles(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1327,14 +1328,14 @@ func (i *CognitoInterceptor) IntrospectRoles(ctx context.Context, in *Introspect
 	return message, err
 }
 
-func (i *CognitoInterceptor) ListRoles(ctx context.Context, in *ListRolesInput) (*ListRolesOutput, error) {
+func (i *CognitoInterceptor) ListRoles(ctx context.Context, in *ListRolesInput, opts ...grpc.CallOption) (*ListRolesOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListRolesInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListRolesInput, got %T", in))
 		}
 
-		return i.server.ListRoles(ctx, message)
+		return i.client.ListRoles(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1359,14 +1360,14 @@ func (i *CognitoInterceptor) ListRoles(ctx context.Context, in *ListRolesInput) 
 	return message, err
 }
 
-func (i *CognitoInterceptor) UpdateRoles(ctx context.Context, in *UpdateRolesInput) (*UpdateRolesOutput, error) {
+func (i *CognitoInterceptor) UpdateRoles(ctx context.Context, in *UpdateRolesInput, opts ...grpc.CallOption) (*UpdateRolesOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdateRolesInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UpdateRolesInput, got %T", in))
 		}
 
-		return i.server.UpdateRoles(ctx, message)
+		return i.client.UpdateRoles(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1391,14 +1392,14 @@ func (i *CognitoInterceptor) UpdateRoles(ctx context.Context, in *UpdateRolesInp
 	return message, err
 }
 
-func (i *CognitoInterceptor) StartRecovery(ctx context.Context, in *StartRecoveryInput) (*StartRecoveryOutput, error) {
+func (i *CognitoInterceptor) StartRecovery(ctx context.Context, in *StartRecoveryInput, opts ...grpc.CallOption) (*StartRecoveryOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*StartRecoveryInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *StartRecoveryInput, got %T", in))
 		}
 
-		return i.server.StartRecovery(ctx, message)
+		return i.client.StartRecovery(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1423,14 +1424,14 @@ func (i *CognitoInterceptor) StartRecovery(ctx context.Context, in *StartRecover
 	return message, err
 }
 
-func (i *CognitoInterceptor) CompleteRecovery(ctx context.Context, in *CompleteRecoverInput) (*CompleteRecoverOutput, error) {
+func (i *CognitoInterceptor) CompleteRecovery(ctx context.Context, in *CompleteRecoverInput, opts ...grpc.CallOption) (*CompleteRecoverOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CompleteRecoverInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *CompleteRecoverInput, got %T", in))
 		}
 
-		return i.server.CompleteRecovery(ctx, message)
+		return i.client.CompleteRecovery(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1455,14 +1456,14 @@ func (i *CognitoInterceptor) CompleteRecovery(ctx context.Context, in *CompleteR
 	return message, err
 }
 
-func (i *CognitoInterceptor) ListEntitlements(ctx context.Context, in *ListEntitlementsInput) (*ListEntitlementsOutput, error) {
+func (i *CognitoInterceptor) ListEntitlements(ctx context.Context, in *ListEntitlementsInput, opts ...grpc.CallOption) (*ListEntitlementsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListEntitlementsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListEntitlementsInput, got %T", in))
 		}
 
-		return i.server.ListEntitlements(ctx, message)
+		return i.client.ListEntitlements(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1487,14 +1488,14 @@ func (i *CognitoInterceptor) ListEntitlements(ctx context.Context, in *ListEntit
 	return message, err
 }
 
-func (i *CognitoInterceptor) SelfDestruct(ctx context.Context, in *SelfDestructInput) (*SelfDestructOutput, error) {
+func (i *CognitoInterceptor) SelfDestruct(ctx context.Context, in *SelfDestructInput, opts ...grpc.CallOption) (*SelfDestructOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*SelfDestructInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *SelfDestructInput, got %T", in))
 		}
 
-		return i.server.SelfDestruct(ctx, message)
+		return i.client.SelfDestruct(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {

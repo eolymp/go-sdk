@@ -8,6 +8,7 @@ import (
 	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	websocket "golang.org/x/net/websocket"
+	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
@@ -178,24 +179,24 @@ var _AssetService_WebsocketCodec = websocket.Codec{
 	},
 }
 
-// RegisterAssetServiceHttpHandlers adds handlers for for AssetServiceServer
+// RegisterAssetServiceHttpHandlers adds handlers for for AssetServiceClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterAssetServiceHttpHandlers(router *mux.Router, prefix string, srv AssetServiceServer) {
-	router.Handle(prefix+"/data/files", _AssetService_UploadFile_Rule0(srv)).
+func RegisterAssetServiceHttpHandlers(router *mux.Router, prefix string, cli AssetServiceClient) {
+	router.Handle(prefix+"/data/files", _AssetService_UploadFile_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.AssetService.UploadFile")
-	router.Handle(prefix+"/data/uploads", _AssetService_StartMultipartUpload_Rule0(srv)).
+	router.Handle(prefix+"/data/uploads", _AssetService_StartMultipartUpload_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.atlas.AssetService.StartMultipartUpload")
-	router.Handle(prefix+"/data/uploads/{upload_id}", _AssetService_UploadPart_Rule0(srv)).
+	router.Handle(prefix+"/data/uploads/{upload_id}", _AssetService_UploadPart_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.AssetService.UploadPart")
-	router.Handle(prefix+"/data/uploads/{upload_id}", _AssetService_CompleteMultipartUpload_Rule0(srv)).
+	router.Handle(prefix+"/data/uploads/{upload_id}", _AssetService_CompleteMultipartUpload_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.atlas.AssetService.CompleteMultipartUpload")
 }
 
-func _AssetService_UploadFile_Rule0(srv AssetServiceServer) http.Handler {
+func _AssetService_UploadFile_Rule0(cli AssetServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UploadFileInput{}
 
@@ -205,7 +206,7 @@ func _AssetService_UploadFile_Rule0(srv AssetServiceServer) http.Handler {
 			return
 		}
 
-		out, err := srv.UploadFile(r.Context(), in)
+		out, err := cli.UploadFile(r.Context(), in)
 		if err != nil {
 			_AssetService_HTTPWriteErrorResponse(w, err)
 			return
@@ -215,7 +216,7 @@ func _AssetService_UploadFile_Rule0(srv AssetServiceServer) http.Handler {
 	})
 }
 
-func _AssetService_StartMultipartUpload_Rule0(srv AssetServiceServer) http.Handler {
+func _AssetService_StartMultipartUpload_Rule0(cli AssetServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &StartMultipartUploadInput{}
 
@@ -225,7 +226,7 @@ func _AssetService_StartMultipartUpload_Rule0(srv AssetServiceServer) http.Handl
 			return
 		}
 
-		out, err := srv.StartMultipartUpload(r.Context(), in)
+		out, err := cli.StartMultipartUpload(r.Context(), in)
 		if err != nil {
 			_AssetService_HTTPWriteErrorResponse(w, err)
 			return
@@ -235,7 +236,7 @@ func _AssetService_StartMultipartUpload_Rule0(srv AssetServiceServer) http.Handl
 	})
 }
 
-func _AssetService_UploadPart_Rule0(srv AssetServiceServer) http.Handler {
+func _AssetService_UploadPart_Rule0(cli AssetServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UploadPartInput{}
 
@@ -248,7 +249,7 @@ func _AssetService_UploadPart_Rule0(srv AssetServiceServer) http.Handler {
 		vars := mux.Vars(r)
 		in.UploadId = vars["upload_id"]
 
-		out, err := srv.UploadPart(r.Context(), in)
+		out, err := cli.UploadPart(r.Context(), in)
 		if err != nil {
 			_AssetService_HTTPWriteErrorResponse(w, err)
 			return
@@ -258,7 +259,7 @@ func _AssetService_UploadPart_Rule0(srv AssetServiceServer) http.Handler {
 	})
 }
 
-func _AssetService_CompleteMultipartUpload_Rule0(srv AssetServiceServer) http.Handler {
+func _AssetService_CompleteMultipartUpload_Rule0(cli AssetServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CompleteMultipartUploadInput{}
 
@@ -271,7 +272,7 @@ func _AssetService_CompleteMultipartUpload_Rule0(srv AssetServiceServer) http.Ha
 		vars := mux.Vars(r)
 		in.UploadId = vars["upload_id"]
 
-		out, err := srv.CompleteMultipartUpload(r.Context(), in)
+		out, err := cli.CompleteMultipartUpload(r.Context(), in)
 		if err != nil {
 			_AssetService_HTTPWriteErrorResponse(w, err)
 			return
@@ -285,22 +286,22 @@ type _AssetServiceHandler = func(ctx context.Context, in proto.Message) (proto.M
 type _AssetServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _AssetServiceHandler) (out proto.Message, err error)
 type AssetServiceInterceptor struct {
 	middleware []_AssetServiceMiddleware
-	server     AssetServiceServer
+	client     AssetServiceClient
 }
 
 // NewAssetServiceInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewAssetServiceInterceptor(srv AssetServiceServer, middleware ..._AssetServiceMiddleware) *AssetServiceInterceptor {
-	return &AssetServiceInterceptor{server: srv, middleware: middleware}
+func NewAssetServiceInterceptor(cli AssetServiceClient, middleware ..._AssetServiceMiddleware) *AssetServiceInterceptor {
+	return &AssetServiceInterceptor{client: cli, middleware: middleware}
 }
 
-func (i *AssetServiceInterceptor) UploadFile(ctx context.Context, in *UploadFileInput) (*UploadFileOutput, error) {
+func (i *AssetServiceInterceptor) UploadFile(ctx context.Context, in *UploadFileInput, opts ...grpc.CallOption) (*UploadFileOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UploadFileInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UploadFileInput, got %T", in))
 		}
 
-		return i.server.UploadFile(ctx, message)
+		return i.client.UploadFile(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -325,14 +326,14 @@ func (i *AssetServiceInterceptor) UploadFile(ctx context.Context, in *UploadFile
 	return message, err
 }
 
-func (i *AssetServiceInterceptor) StartMultipartUpload(ctx context.Context, in *StartMultipartUploadInput) (*StartMultipartUploadOutput, error) {
+func (i *AssetServiceInterceptor) StartMultipartUpload(ctx context.Context, in *StartMultipartUploadInput, opts ...grpc.CallOption) (*StartMultipartUploadOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*StartMultipartUploadInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *StartMultipartUploadInput, got %T", in))
 		}
 
-		return i.server.StartMultipartUpload(ctx, message)
+		return i.client.StartMultipartUpload(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -357,14 +358,14 @@ func (i *AssetServiceInterceptor) StartMultipartUpload(ctx context.Context, in *
 	return message, err
 }
 
-func (i *AssetServiceInterceptor) UploadPart(ctx context.Context, in *UploadPartInput) (*UploadPartOutput, error) {
+func (i *AssetServiceInterceptor) UploadPart(ctx context.Context, in *UploadPartInput, opts ...grpc.CallOption) (*UploadPartOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UploadPartInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UploadPartInput, got %T", in))
 		}
 
-		return i.server.UploadPart(ctx, message)
+		return i.client.UploadPart(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -389,14 +390,14 @@ func (i *AssetServiceInterceptor) UploadPart(ctx context.Context, in *UploadPart
 	return message, err
 }
 
-func (i *AssetServiceInterceptor) CompleteMultipartUpload(ctx context.Context, in *CompleteMultipartUploadInput) (*CompleteMultipartUploadOutput, error) {
+func (i *AssetServiceInterceptor) CompleteMultipartUpload(ctx context.Context, in *CompleteMultipartUploadInput, opts ...grpc.CallOption) (*CompleteMultipartUploadOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CompleteMultipartUploadInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *CompleteMultipartUploadInput, got %T", in))
 		}
 
-		return i.server.CompleteMultipartUpload(ctx, message)
+		return i.client.CompleteMultipartUpload(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {

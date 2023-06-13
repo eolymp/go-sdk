@@ -8,6 +8,7 @@ import (
 	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	websocket "golang.org/x/net/websocket"
+	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
@@ -178,30 +179,30 @@ var _DiscussionService_WebsocketCodec = websocket.Codec{
 	},
 }
 
-// RegisterDiscussionServiceHttpHandlers adds handlers for for DiscussionServiceServer
+// RegisterDiscussionServiceHttpHandlers adds handlers for for DiscussionServiceClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterDiscussionServiceHttpHandlers(router *mux.Router, prefix string, srv DiscussionServiceServer) {
-	router.Handle(prefix+"/discussions/{discussion_id}", _DiscussionService_DescribeDiscussion_Rule0(srv)).
+func RegisterDiscussionServiceHttpHandlers(router *mux.Router, prefix string, cli DiscussionServiceClient) {
+	router.Handle(prefix+"/discussions/{discussion_id}", _DiscussionService_DescribeDiscussion_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.discussion.DiscussionService.DescribeDiscussion")
-	router.Handle(prefix+"/discussions", _DiscussionService_ListDiscussions_Rule0(srv)).
+	router.Handle(prefix+"/discussions", _DiscussionService_ListDiscussions_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.discussion.DiscussionService.ListDiscussions")
-	router.Handle(prefix+"/discussions", _DiscussionService_CreateDiscussion_Rule0(srv)).
+	router.Handle(prefix+"/discussions", _DiscussionService_CreateDiscussion_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.discussion.DiscussionService.CreateDiscussion")
-	router.Handle(prefix+"/discussions/{discussion_id}", _DiscussionService_UpdateDiscussion_Rule0(srv)).
+	router.Handle(prefix+"/discussions/{discussion_id}", _DiscussionService_UpdateDiscussion_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.discussion.DiscussionService.UpdateDiscussion")
-	router.Handle(prefix+"/discussions/{discussion_id}", _DiscussionService_DeleteDiscussion_Rule0(srv)).
+	router.Handle(prefix+"/discussions/{discussion_id}", _DiscussionService_DeleteDiscussion_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.discussion.DiscussionService.DeleteDiscussion")
-	router.Handle(prefix+"/discussions/{discussion_id}/vote", _DiscussionService_VoteDiscussion_Rule0(srv)).
+	router.Handle(prefix+"/discussions/{discussion_id}/vote", _DiscussionService_VoteDiscussion_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.discussion.DiscussionService.VoteDiscussion")
 }
 
-func _DiscussionService_DescribeDiscussion_Rule0(srv DiscussionServiceServer) http.Handler {
+func _DiscussionService_DescribeDiscussion_Rule0(cli DiscussionServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeDiscussionInput{}
 
@@ -214,7 +215,7 @@ func _DiscussionService_DescribeDiscussion_Rule0(srv DiscussionServiceServer) ht
 		vars := mux.Vars(r)
 		in.DiscussionId = vars["discussion_id"]
 
-		out, err := srv.DescribeDiscussion(r.Context(), in)
+		out, err := cli.DescribeDiscussion(r.Context(), in)
 		if err != nil {
 			_DiscussionService_HTTPWriteErrorResponse(w, err)
 			return
@@ -224,7 +225,7 @@ func _DiscussionService_DescribeDiscussion_Rule0(srv DiscussionServiceServer) ht
 	})
 }
 
-func _DiscussionService_ListDiscussions_Rule0(srv DiscussionServiceServer) http.Handler {
+func _DiscussionService_ListDiscussions_Rule0(cli DiscussionServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListDiscussionsInput{}
 
@@ -234,7 +235,7 @@ func _DiscussionService_ListDiscussions_Rule0(srv DiscussionServiceServer) http.
 			return
 		}
 
-		out, err := srv.ListDiscussions(r.Context(), in)
+		out, err := cli.ListDiscussions(r.Context(), in)
 		if err != nil {
 			_DiscussionService_HTTPWriteErrorResponse(w, err)
 			return
@@ -244,7 +245,7 @@ func _DiscussionService_ListDiscussions_Rule0(srv DiscussionServiceServer) http.
 	})
 }
 
-func _DiscussionService_CreateDiscussion_Rule0(srv DiscussionServiceServer) http.Handler {
+func _DiscussionService_CreateDiscussion_Rule0(cli DiscussionServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateDiscussionInput{}
 
@@ -254,7 +255,7 @@ func _DiscussionService_CreateDiscussion_Rule0(srv DiscussionServiceServer) http
 			return
 		}
 
-		out, err := srv.CreateDiscussion(r.Context(), in)
+		out, err := cli.CreateDiscussion(r.Context(), in)
 		if err != nil {
 			_DiscussionService_HTTPWriteErrorResponse(w, err)
 			return
@@ -264,7 +265,7 @@ func _DiscussionService_CreateDiscussion_Rule0(srv DiscussionServiceServer) http
 	})
 }
 
-func _DiscussionService_UpdateDiscussion_Rule0(srv DiscussionServiceServer) http.Handler {
+func _DiscussionService_UpdateDiscussion_Rule0(cli DiscussionServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateDiscussionInput{}
 
@@ -277,7 +278,7 @@ func _DiscussionService_UpdateDiscussion_Rule0(srv DiscussionServiceServer) http
 		vars := mux.Vars(r)
 		in.DiscussionId = vars["discussion_id"]
 
-		out, err := srv.UpdateDiscussion(r.Context(), in)
+		out, err := cli.UpdateDiscussion(r.Context(), in)
 		if err != nil {
 			_DiscussionService_HTTPWriteErrorResponse(w, err)
 			return
@@ -287,7 +288,7 @@ func _DiscussionService_UpdateDiscussion_Rule0(srv DiscussionServiceServer) http
 	})
 }
 
-func _DiscussionService_DeleteDiscussion_Rule0(srv DiscussionServiceServer) http.Handler {
+func _DiscussionService_DeleteDiscussion_Rule0(cli DiscussionServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteDiscussionInput{}
 
@@ -300,7 +301,7 @@ func _DiscussionService_DeleteDiscussion_Rule0(srv DiscussionServiceServer) http
 		vars := mux.Vars(r)
 		in.DiscussionId = vars["discussion_id"]
 
-		out, err := srv.DeleteDiscussion(r.Context(), in)
+		out, err := cli.DeleteDiscussion(r.Context(), in)
 		if err != nil {
 			_DiscussionService_HTTPWriteErrorResponse(w, err)
 			return
@@ -310,7 +311,7 @@ func _DiscussionService_DeleteDiscussion_Rule0(srv DiscussionServiceServer) http
 	})
 }
 
-func _DiscussionService_VoteDiscussion_Rule0(srv DiscussionServiceServer) http.Handler {
+func _DiscussionService_VoteDiscussion_Rule0(cli DiscussionServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &VoteDiscussionInput{}
 
@@ -323,7 +324,7 @@ func _DiscussionService_VoteDiscussion_Rule0(srv DiscussionServiceServer) http.H
 		vars := mux.Vars(r)
 		in.DiscussionId = vars["discussion_id"]
 
-		out, err := srv.VoteDiscussion(r.Context(), in)
+		out, err := cli.VoteDiscussion(r.Context(), in)
 		if err != nil {
 			_DiscussionService_HTTPWriteErrorResponse(w, err)
 			return
@@ -337,22 +338,22 @@ type _DiscussionServiceHandler = func(ctx context.Context, in proto.Message) (pr
 type _DiscussionServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _DiscussionServiceHandler) (out proto.Message, err error)
 type DiscussionServiceInterceptor struct {
 	middleware []_DiscussionServiceMiddleware
-	server     DiscussionServiceServer
+	client     DiscussionServiceClient
 }
 
 // NewDiscussionServiceInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewDiscussionServiceInterceptor(srv DiscussionServiceServer, middleware ..._DiscussionServiceMiddleware) *DiscussionServiceInterceptor {
-	return &DiscussionServiceInterceptor{server: srv, middleware: middleware}
+func NewDiscussionServiceInterceptor(cli DiscussionServiceClient, middleware ..._DiscussionServiceMiddleware) *DiscussionServiceInterceptor {
+	return &DiscussionServiceInterceptor{client: cli, middleware: middleware}
 }
 
-func (i *DiscussionServiceInterceptor) DescribeDiscussion(ctx context.Context, in *DescribeDiscussionInput) (*DescribeDiscussionOutput, error) {
+func (i *DiscussionServiceInterceptor) DescribeDiscussion(ctx context.Context, in *DescribeDiscussionInput, opts ...grpc.CallOption) (*DescribeDiscussionOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeDiscussionInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeDiscussionInput, got %T", in))
 		}
 
-		return i.server.DescribeDiscussion(ctx, message)
+		return i.client.DescribeDiscussion(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -377,14 +378,14 @@ func (i *DiscussionServiceInterceptor) DescribeDiscussion(ctx context.Context, i
 	return message, err
 }
 
-func (i *DiscussionServiceInterceptor) ListDiscussions(ctx context.Context, in *ListDiscussionsInput) (*ListDiscussionsOutput, error) {
+func (i *DiscussionServiceInterceptor) ListDiscussions(ctx context.Context, in *ListDiscussionsInput, opts ...grpc.CallOption) (*ListDiscussionsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListDiscussionsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListDiscussionsInput, got %T", in))
 		}
 
-		return i.server.ListDiscussions(ctx, message)
+		return i.client.ListDiscussions(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -409,14 +410,14 @@ func (i *DiscussionServiceInterceptor) ListDiscussions(ctx context.Context, in *
 	return message, err
 }
 
-func (i *DiscussionServiceInterceptor) CreateDiscussion(ctx context.Context, in *CreateDiscussionInput) (*CreateDiscussionOutput, error) {
+func (i *DiscussionServiceInterceptor) CreateDiscussion(ctx context.Context, in *CreateDiscussionInput, opts ...grpc.CallOption) (*CreateDiscussionOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CreateDiscussionInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *CreateDiscussionInput, got %T", in))
 		}
 
-		return i.server.CreateDiscussion(ctx, message)
+		return i.client.CreateDiscussion(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -441,14 +442,14 @@ func (i *DiscussionServiceInterceptor) CreateDiscussion(ctx context.Context, in 
 	return message, err
 }
 
-func (i *DiscussionServiceInterceptor) UpdateDiscussion(ctx context.Context, in *UpdateDiscussionInput) (*UpdateDiscussionOutput, error) {
+func (i *DiscussionServiceInterceptor) UpdateDiscussion(ctx context.Context, in *UpdateDiscussionInput, opts ...grpc.CallOption) (*UpdateDiscussionOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdateDiscussionInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UpdateDiscussionInput, got %T", in))
 		}
 
-		return i.server.UpdateDiscussion(ctx, message)
+		return i.client.UpdateDiscussion(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -473,14 +474,14 @@ func (i *DiscussionServiceInterceptor) UpdateDiscussion(ctx context.Context, in 
 	return message, err
 }
 
-func (i *DiscussionServiceInterceptor) DeleteDiscussion(ctx context.Context, in *DeleteDiscussionInput) (*DeleteDiscussionOutput, error) {
+func (i *DiscussionServiceInterceptor) DeleteDiscussion(ctx context.Context, in *DeleteDiscussionInput, opts ...grpc.CallOption) (*DeleteDiscussionOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DeleteDiscussionInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DeleteDiscussionInput, got %T", in))
 		}
 
-		return i.server.DeleteDiscussion(ctx, message)
+		return i.client.DeleteDiscussion(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -505,14 +506,14 @@ func (i *DiscussionServiceInterceptor) DeleteDiscussion(ctx context.Context, in 
 	return message, err
 }
 
-func (i *DiscussionServiceInterceptor) VoteDiscussion(ctx context.Context, in *VoteDiscussionInput) (*VoteDiscussionOutput, error) {
+func (i *DiscussionServiceInterceptor) VoteDiscussion(ctx context.Context, in *VoteDiscussionInput, opts ...grpc.CallOption) (*VoteDiscussionOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*VoteDiscussionInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *VoteDiscussionInput, got %T", in))
 		}
 
-		return i.server.VoteDiscussion(ctx, message)
+		return i.client.VoteDiscussion(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {

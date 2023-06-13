@@ -8,6 +8,7 @@ import (
 	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	websocket "golang.org/x/net/websocket"
+	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
@@ -178,30 +179,30 @@ var _MessageService_WebsocketCodec = websocket.Codec{
 	},
 }
 
-// RegisterMessageServiceHttpHandlers adds handlers for for MessageServiceServer
+// RegisterMessageServiceHttpHandlers adds handlers for for MessageServiceClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterMessageServiceHttpHandlers(router *mux.Router, prefix string, srv MessageServiceServer) {
-	router.Handle(prefix+"/messages/{message_id}", _MessageService_DescribeMessage_Rule0(srv)).
+func RegisterMessageServiceHttpHandlers(router *mux.Router, prefix string, cli MessageServiceClient) {
+	router.Handle(prefix+"/messages/{message_id}", _MessageService_DescribeMessage_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.discussion.MessageService.DescribeMessage")
-	router.Handle(prefix+"/messages", _MessageService_ListMessages_Rule0(srv)).
+	router.Handle(prefix+"/messages", _MessageService_ListMessages_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.discussion.MessageService.ListMessages")
-	router.Handle(prefix+"/messages", _MessageService_PostMessage_Rule0(srv)).
+	router.Handle(prefix+"/messages", _MessageService_PostMessage_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.discussion.MessageService.PostMessage")
-	router.Handle(prefix+"/messages/{message_id}", _MessageService_UpdateMessage_Rule0(srv)).
+	router.Handle(prefix+"/messages/{message_id}", _MessageService_UpdateMessage_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.discussion.MessageService.UpdateMessage")
-	router.Handle(prefix+"/messages/{message_id}", _MessageService_DeleteMessage_Rule0(srv)).
+	router.Handle(prefix+"/messages/{message_id}", _MessageService_DeleteMessage_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.discussion.MessageService.DeleteMessage")
-	router.Handle(prefix+"/messages/{message_id}/vote", _MessageService_VoteMessage_Rule0(srv)).
+	router.Handle(prefix+"/messages/{message_id}/vote", _MessageService_VoteMessage_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.discussion.MessageService.VoteMessage")
 }
 
-func _MessageService_DescribeMessage_Rule0(srv MessageServiceServer) http.Handler {
+func _MessageService_DescribeMessage_Rule0(cli MessageServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeMessageInput{}
 
@@ -214,7 +215,7 @@ func _MessageService_DescribeMessage_Rule0(srv MessageServiceServer) http.Handle
 		vars := mux.Vars(r)
 		in.MessageId = vars["message_id"]
 
-		out, err := srv.DescribeMessage(r.Context(), in)
+		out, err := cli.DescribeMessage(r.Context(), in)
 		if err != nil {
 			_MessageService_HTTPWriteErrorResponse(w, err)
 			return
@@ -224,7 +225,7 @@ func _MessageService_DescribeMessage_Rule0(srv MessageServiceServer) http.Handle
 	})
 }
 
-func _MessageService_ListMessages_Rule0(srv MessageServiceServer) http.Handler {
+func _MessageService_ListMessages_Rule0(cli MessageServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListMessagesInput{}
 
@@ -234,7 +235,7 @@ func _MessageService_ListMessages_Rule0(srv MessageServiceServer) http.Handler {
 			return
 		}
 
-		out, err := srv.ListMessages(r.Context(), in)
+		out, err := cli.ListMessages(r.Context(), in)
 		if err != nil {
 			_MessageService_HTTPWriteErrorResponse(w, err)
 			return
@@ -244,7 +245,7 @@ func _MessageService_ListMessages_Rule0(srv MessageServiceServer) http.Handler {
 	})
 }
 
-func _MessageService_PostMessage_Rule0(srv MessageServiceServer) http.Handler {
+func _MessageService_PostMessage_Rule0(cli MessageServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &PostMessageInput{}
 
@@ -254,7 +255,7 @@ func _MessageService_PostMessage_Rule0(srv MessageServiceServer) http.Handler {
 			return
 		}
 
-		out, err := srv.PostMessage(r.Context(), in)
+		out, err := cli.PostMessage(r.Context(), in)
 		if err != nil {
 			_MessageService_HTTPWriteErrorResponse(w, err)
 			return
@@ -264,7 +265,7 @@ func _MessageService_PostMessage_Rule0(srv MessageServiceServer) http.Handler {
 	})
 }
 
-func _MessageService_UpdateMessage_Rule0(srv MessageServiceServer) http.Handler {
+func _MessageService_UpdateMessage_Rule0(cli MessageServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateMessageInput{}
 
@@ -277,7 +278,7 @@ func _MessageService_UpdateMessage_Rule0(srv MessageServiceServer) http.Handler 
 		vars := mux.Vars(r)
 		in.MessageId = vars["message_id"]
 
-		out, err := srv.UpdateMessage(r.Context(), in)
+		out, err := cli.UpdateMessage(r.Context(), in)
 		if err != nil {
 			_MessageService_HTTPWriteErrorResponse(w, err)
 			return
@@ -287,7 +288,7 @@ func _MessageService_UpdateMessage_Rule0(srv MessageServiceServer) http.Handler 
 	})
 }
 
-func _MessageService_DeleteMessage_Rule0(srv MessageServiceServer) http.Handler {
+func _MessageService_DeleteMessage_Rule0(cli MessageServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteMessageInput{}
 
@@ -300,7 +301,7 @@ func _MessageService_DeleteMessage_Rule0(srv MessageServiceServer) http.Handler 
 		vars := mux.Vars(r)
 		in.MessageId = vars["message_id"]
 
-		out, err := srv.DeleteMessage(r.Context(), in)
+		out, err := cli.DeleteMessage(r.Context(), in)
 		if err != nil {
 			_MessageService_HTTPWriteErrorResponse(w, err)
 			return
@@ -310,7 +311,7 @@ func _MessageService_DeleteMessage_Rule0(srv MessageServiceServer) http.Handler 
 	})
 }
 
-func _MessageService_VoteMessage_Rule0(srv MessageServiceServer) http.Handler {
+func _MessageService_VoteMessage_Rule0(cli MessageServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &VoteMessageInput{}
 
@@ -323,7 +324,7 @@ func _MessageService_VoteMessage_Rule0(srv MessageServiceServer) http.Handler {
 		vars := mux.Vars(r)
 		in.MessageId = vars["message_id"]
 
-		out, err := srv.VoteMessage(r.Context(), in)
+		out, err := cli.VoteMessage(r.Context(), in)
 		if err != nil {
 			_MessageService_HTTPWriteErrorResponse(w, err)
 			return
@@ -337,22 +338,22 @@ type _MessageServiceHandler = func(ctx context.Context, in proto.Message) (proto
 type _MessageServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _MessageServiceHandler) (out proto.Message, err error)
 type MessageServiceInterceptor struct {
 	middleware []_MessageServiceMiddleware
-	server     MessageServiceServer
+	client     MessageServiceClient
 }
 
 // NewMessageServiceInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewMessageServiceInterceptor(srv MessageServiceServer, middleware ..._MessageServiceMiddleware) *MessageServiceInterceptor {
-	return &MessageServiceInterceptor{server: srv, middleware: middleware}
+func NewMessageServiceInterceptor(cli MessageServiceClient, middleware ..._MessageServiceMiddleware) *MessageServiceInterceptor {
+	return &MessageServiceInterceptor{client: cli, middleware: middleware}
 }
 
-func (i *MessageServiceInterceptor) DescribeMessage(ctx context.Context, in *DescribeMessageInput) (*DescribeMessageOutput, error) {
+func (i *MessageServiceInterceptor) DescribeMessage(ctx context.Context, in *DescribeMessageInput, opts ...grpc.CallOption) (*DescribeMessageOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeMessageInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeMessageInput, got %T", in))
 		}
 
-		return i.server.DescribeMessage(ctx, message)
+		return i.client.DescribeMessage(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -377,14 +378,14 @@ func (i *MessageServiceInterceptor) DescribeMessage(ctx context.Context, in *Des
 	return message, err
 }
 
-func (i *MessageServiceInterceptor) ListMessages(ctx context.Context, in *ListMessagesInput) (*ListMessagesOutput, error) {
+func (i *MessageServiceInterceptor) ListMessages(ctx context.Context, in *ListMessagesInput, opts ...grpc.CallOption) (*ListMessagesOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListMessagesInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListMessagesInput, got %T", in))
 		}
 
-		return i.server.ListMessages(ctx, message)
+		return i.client.ListMessages(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -409,14 +410,14 @@ func (i *MessageServiceInterceptor) ListMessages(ctx context.Context, in *ListMe
 	return message, err
 }
 
-func (i *MessageServiceInterceptor) PostMessage(ctx context.Context, in *PostMessageInput) (*PostMessageOutput, error) {
+func (i *MessageServiceInterceptor) PostMessage(ctx context.Context, in *PostMessageInput, opts ...grpc.CallOption) (*PostMessageOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*PostMessageInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *PostMessageInput, got %T", in))
 		}
 
-		return i.server.PostMessage(ctx, message)
+		return i.client.PostMessage(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -441,14 +442,14 @@ func (i *MessageServiceInterceptor) PostMessage(ctx context.Context, in *PostMes
 	return message, err
 }
 
-func (i *MessageServiceInterceptor) UpdateMessage(ctx context.Context, in *UpdateMessageInput) (*UpdateMessageOutput, error) {
+func (i *MessageServiceInterceptor) UpdateMessage(ctx context.Context, in *UpdateMessageInput, opts ...grpc.CallOption) (*UpdateMessageOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdateMessageInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UpdateMessageInput, got %T", in))
 		}
 
-		return i.server.UpdateMessage(ctx, message)
+		return i.client.UpdateMessage(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -473,14 +474,14 @@ func (i *MessageServiceInterceptor) UpdateMessage(ctx context.Context, in *Updat
 	return message, err
 }
 
-func (i *MessageServiceInterceptor) DeleteMessage(ctx context.Context, in *DeleteMessageInput) (*DeleteMessageOutput, error) {
+func (i *MessageServiceInterceptor) DeleteMessage(ctx context.Context, in *DeleteMessageInput, opts ...grpc.CallOption) (*DeleteMessageOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DeleteMessageInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DeleteMessageInput, got %T", in))
 		}
 
-		return i.server.DeleteMessage(ctx, message)
+		return i.client.DeleteMessage(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -505,14 +506,14 @@ func (i *MessageServiceInterceptor) DeleteMessage(ctx context.Context, in *Delet
 	return message, err
 }
 
-func (i *MessageServiceInterceptor) VoteMessage(ctx context.Context, in *VoteMessageInput) (*VoteMessageOutput, error) {
+func (i *MessageServiceInterceptor) VoteMessage(ctx context.Context, in *VoteMessageInput, opts ...grpc.CallOption) (*VoteMessageOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*VoteMessageInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *VoteMessageInput, got %T", in))
 		}
 
-		return i.server.VoteMessage(ctx, message)
+		return i.client.VoteMessage(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {

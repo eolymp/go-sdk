@@ -8,6 +8,7 @@ import (
 	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	websocket "golang.org/x/net/websocket"
+	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
@@ -178,240 +179,240 @@ var _Judge_WebsocketCodec = websocket.Codec{
 	},
 }
 
-// RegisterJudgeHttpHandlers adds handlers for for JudgeServer
+// RegisterJudgeHttpHandlers adds handlers for for JudgeClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterJudgeHttpHandlers(router *mux.Router, prefix string, srv JudgeServer) {
-	router.Handle(prefix+"/contests/__lookup", _Judge_LookupContest_Rule0(srv)).
+func RegisterJudgeHttpHandlers(router *mux.Router, prefix string, cli JudgeClient) {
+	router.Handle(prefix+"/contests/__lookup", _Judge_LookupContest_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.Judge.LookupContest")
-	router.Handle(prefix+"/contests", _Judge_CreateContest_Rule0(srv)).
+	router.Handle(prefix+"/contests", _Judge_CreateContest_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.Judge.CreateContest")
-	router.Handle(prefix+"/contests/{contest_id}", _Judge_DeleteContest_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}", _Judge_DeleteContest_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.judge.Judge.DeleteContest")
-	router.Handle(prefix+"/contests/{contest_id}", _Judge_UpdateContest_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}", _Judge_UpdateContest_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.judge.Judge.UpdateContest")
-	router.Handle(prefix+"/contests/{contest_id}", _Judge_DescribeContest_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}", _Judge_DescribeContest_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.Judge.DescribeContest")
-	router.Handle(prefix+"/contests", _Judge_ListContests_Rule0(srv)).
+	router.Handle(prefix+"/contests", _Judge_ListContests_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.Judge.ListContests")
-	router.Handle(prefix+"/contests/{contest_id}/open", _Judge_OpenContest_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/open", _Judge_OpenContest_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.Judge.OpenContest")
-	router.Handle(prefix+"/contests/{contest_id}/close", _Judge_CloseContest_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/close", _Judge_CloseContest_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.Judge.CloseContest")
-	router.Handle(prefix+"/contests/{contest_id}/suspend", _Judge_SuspendContest_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/suspend", _Judge_SuspendContest_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.Judge.SuspendContest")
-	router.Handle(prefix+"/contests/{contest_id}/freeze", _Judge_FreezeContest_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/freeze", _Judge_FreezeContest_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.Judge.FreezeContest")
-	router.Handle(prefix+"/contests/{contest_id}/resume", _Judge_ResumeContest_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/resume", _Judge_ResumeContest_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.Judge.ResumeContest")
-	router.Handle(prefix+"/contests/{contest_id}/runtime", _Judge_ConfigureRuntime_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/runtime", _Judge_ConfigureRuntime_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.Judge.ConfigureRuntime")
-	router.Handle(prefix+"/contests/{contest_id}/runtime", _Judge_DescribeRuntime_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/runtime", _Judge_DescribeRuntime_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.Judge.DescribeRuntime")
-	router.Handle(prefix+"/contests/{contest_id}/appearance", _Judge_ConfigureAppearance_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/appearance", _Judge_ConfigureAppearance_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.Judge.ConfigureAppearance")
-	router.Handle(prefix+"/contests/{contest_id}/appearance", _Judge_DescribeAppearance_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/appearance", _Judge_DescribeAppearance_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.Judge.DescribeAppearance")
-	router.Handle(prefix+"/contests/{contest_id}/scoring", _Judge_ConfigureScoring_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/scoring", _Judge_ConfigureScoring_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.Judge.ConfigureScoring")
-	router.Handle(prefix+"/contests/{contest_id}/scoring", _Judge_DescribeScoring_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/scoring", _Judge_DescribeScoring_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.Judge.DescribeScoring")
-	router.Handle(prefix+"/contests/{contest_id}/problems", _Judge_ImportProblem_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/problems", _Judge_ImportProblem_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.Judge.ImportProblem")
-	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}/sync", _Judge_SyncProblem_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}/sync", _Judge_SyncProblem_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.Judge.SyncProblem")
-	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}", _Judge_UpdateProblem_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}", _Judge_UpdateProblem_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.Judge.UpdateProblem")
-	router.Handle(prefix+"/contests/{contest_id}/problems", _Judge_ListProblems_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/problems", _Judge_ListProblems_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.Judge.ListProblems")
-	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}", _Judge_DescribeProblem_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}", _Judge_DescribeProblem_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.Judge.DescribeProblem")
-	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}/templates/{template_id}", _Judge_DescribeCodeTemplate_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}/templates/{template_id}", _Judge_DescribeCodeTemplate_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.Judge.DescribeCodeTemplate")
-	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}/lookup-template", _Judge_LookupCodeTemplate_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}/lookup-template", _Judge_LookupCodeTemplate_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.Judge.LookupCodeTemplate")
-	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}/statements", _Judge_ListStatements_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}/statements", _Judge_ListStatements_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.Judge.ListStatements")
-	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}/attachments", _Judge_ListAttachments_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}/attachments", _Judge_ListAttachments_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.Judge.ListAttachments")
-	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}/examples", _Judge_ListExamples_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}/examples", _Judge_ListExamples_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.Judge.ListExamples")
-	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}", _Judge_DeleteProblem_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}", _Judge_DeleteProblem_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.judge.Judge.DeleteProblem")
-	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}/retest", _Judge_RetestProblem_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}/retest", _Judge_RetestProblem_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.Judge.RetestProblem")
-	router.Handle(prefix+"/contests/{contest_id}/participants", _Judge_AddParticipant_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/participants", _Judge_AddParticipant_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.Judge.AddParticipant")
-	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/enable", _Judge_EnableParticipant_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/enable", _Judge_EnableParticipant_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.Judge.EnableParticipant")
-	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/disable", _Judge_DisableParticipant_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/disable", _Judge_DisableParticipant_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.Judge.DisableParticipant")
-	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}", _Judge_UpdateParticipant_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}", _Judge_UpdateParticipant_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.judge.Judge.UpdateParticipant")
-	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}", _Judge_RemoveParticipant_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}", _Judge_RemoveParticipant_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.judge.Judge.RemoveParticipant")
-	router.Handle(prefix+"/contests/{contest_id}/participants", _Judge_ListParticipants_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/participants", _Judge_ListParticipants_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.Judge.ListParticipants")
-	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}", _Judge_DescribeParticipant_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}", _Judge_DescribeParticipant_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.Judge.DescribeParticipant")
-	router.Handle(prefix+"/contests/{contest_id}/introspect", _Judge_IntrospectParticipant_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/introspect", _Judge_IntrospectParticipant_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.Judge.IntrospectParticipant")
-	router.Handle(prefix+"/contests/{contest_id}/join", _Judge_JoinContest_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/join", _Judge_JoinContest_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.Judge.JoinContest")
-	router.Handle(prefix+"/contests/{contest_id}/start", _Judge_StartContest_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/start", _Judge_StartContest_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.Judge.StartContest")
-	router.Handle(prefix+"/contests/{contest_id}/verify-passcode", _Judge_VerifyPasscode_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/verify-passcode", _Judge_VerifyPasscode_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.Judge.VerifyPasscode")
-	router.Handle(prefix+"/contests/{contest_id}/enter-passcode", _Judge_EnterPasscode_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/enter-passcode", _Judge_EnterPasscode_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.Judge.EnterPasscode")
-	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/passcode", _Judge_ResetPasscode_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/passcode", _Judge_ResetPasscode_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.Judge.ResetPasscode")
-	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/passcode", _Judge_SetPasscode_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/passcode", _Judge_SetPasscode_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.judge.Judge.SetPasscode")
-	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/passcode", _Judge_RemovePasscode_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/passcode", _Judge_RemovePasscode_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.judge.Judge.RemovePasscode")
-	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}/submissions", _Judge_CreateSubmission_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}/submissions", _Judge_CreateSubmission_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.Judge.CreateSubmission")
-	router.Handle(prefix+"/contests/{contest_id}/submissions", _Judge_ListSubmissions_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/submissions", _Judge_ListSubmissions_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.Judge.ListSubmissions")
-	router.Handle(prefix+"/contests/{contest_id}/submissions/{submission_id}", _Judge_DescribeSubmission_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/submissions/{submission_id}", _Judge_DescribeSubmission_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.Judge.DescribeSubmission")
-	router.Handle(prefix+"/contests/{contest_id}/submissions/{submission_id}/retest", _Judge_RetestSubmission_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/submissions/{submission_id}/retest", _Judge_RetestSubmission_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.Judge.RetestSubmission")
-	router.Handle(prefix+"/contests/{contest_id}/submissions/{submission_id}", _Judge_DeleteSubmission_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/submissions/{submission_id}", _Judge_DeleteSubmission_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.judge.Judge.DeleteSubmission")
-	router.Handle(prefix+"/contests/{contest_id}/submissions/{submission_id}/restore", _Judge_RestoreSubmission_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/submissions/{submission_id}/restore", _Judge_RestoreSubmission_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.Judge.RestoreSubmission")
-	router.Handle(prefix+"/contests/{contest_id}/tickets", _Judge_CreateTicket_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/tickets", _Judge_CreateTicket_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.Judge.CreateTicket")
-	router.Handle(prefix+"/tickets/{ticket_id}/close", _Judge_CloseTicket_Rule0(srv)).
+	router.Handle(prefix+"/tickets/{ticket_id}/close", _Judge_CloseTicket_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.Judge.CloseTicket")
-	router.Handle(prefix+"/tickets/{ticket_id}/open", _Judge_OpenTicket_Rule0(srv)).
+	router.Handle(prefix+"/tickets/{ticket_id}/open", _Judge_OpenTicket_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.Judge.OpenTicket")
-	router.Handle(prefix+"/tickets/{ticket_id}/read", _Judge_ReadTicket_Rule0(srv)).
+	router.Handle(prefix+"/tickets/{ticket_id}/read", _Judge_ReadTicket_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.Judge.ReadTicket")
-	router.Handle(prefix+"/tickets/{ticket_id}", _Judge_DeleteTicket_Rule0(srv)).
+	router.Handle(prefix+"/tickets/{ticket_id}", _Judge_DeleteTicket_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.judge.Judge.DeleteTicket")
-	router.Handle(prefix+"/tickets/{ticket_id}", _Judge_DescribeTicket_Rule0(srv)).
+	router.Handle(prefix+"/tickets/{ticket_id}", _Judge_DescribeTicket_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.Judge.DescribeTicket")
-	router.Handle(prefix+"/tickets", _Judge_ListTickets_Rule0(srv)).
+	router.Handle(prefix+"/tickets", _Judge_ListTickets_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.Judge.ListTickets")
-	router.Handle(prefix+"/tickets/{ticket_id}/replies", _Judge_ReplyTicket_Rule0(srv)).
+	router.Handle(prefix+"/tickets/{ticket_id}/replies", _Judge_ReplyTicket_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.Judge.ReplyTicket")
-	router.Handle(prefix+"/tickets/{ticket_id}/replies", _Judge_ListReplies_Rule0(srv)).
+	router.Handle(prefix+"/tickets/{ticket_id}/replies", _Judge_ListReplies_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.Judge.ListReplies")
-	router.Handle(prefix+"/tickets/{ticket_id}/replies/{reply_id}", _Judge_DeleteReply_Rule0(srv)).
+	router.Handle(prefix+"/tickets/{ticket_id}/replies/{reply_id}", _Judge_DeleteReply_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.judge.Judge.DeleteReply")
-	router.Handle(prefix+"/tickets/{ticket_id}/replies/{reply_id}", _Judge_UpdateReply_Rule0(srv)).
+	router.Handle(prefix+"/tickets/{ticket_id}/replies/{reply_id}", _Judge_UpdateReply_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.Judge.UpdateReply")
-	router.Handle(prefix+"/contests/{contest_id}/announcements", _Judge_CreateAnnouncement_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/announcements", _Judge_CreateAnnouncement_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.Judge.CreateAnnouncement")
-	router.Handle(prefix+"/contests/{contest_id}/announcements/{announcement_id}", _Judge_UpdateAnnouncement_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/announcements/{announcement_id}", _Judge_UpdateAnnouncement_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.Judge.UpdateAnnouncement")
-	router.Handle(prefix+"/contests/{contest_id}/announcements/{announcement_id}", _Judge_DeleteAnnouncement_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/announcements/{announcement_id}", _Judge_DeleteAnnouncement_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.judge.Judge.DeleteAnnouncement")
-	router.Handle(prefix+"/contests/{contest_id}/announcements/{announcement_id}/read", _Judge_ReadAnnouncement_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/announcements/{announcement_id}/read", _Judge_ReadAnnouncement_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.Judge.ReadAnnouncement")
-	router.Handle(prefix+"/contests/{contest_id}/announcements/{announcement_id}", _Judge_DescribeAnnouncement_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/announcements/{announcement_id}", _Judge_DescribeAnnouncement_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.Judge.DescribeAnnouncement")
-	router.Handle(prefix+"/contests/{contest_id}/announcements/{announcement_id}/status", _Judge_DescribeAnnouncementStatus_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/announcements/{announcement_id}/status", _Judge_DescribeAnnouncementStatus_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.Judge.DescribeAnnouncementStatus")
-	router.Handle(prefix+"/contests/{contest_id}/announcements", _Judge_ListAnnouncements_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/announcements", _Judge_ListAnnouncements_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.Judge.ListAnnouncements")
-	router.Handle(prefix+"/contests/{contest_id}/introspect/score", _Judge_IntrospectScore_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/introspect/score", _Judge_IntrospectScore_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.Judge.IntrospectScore")
-	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/score", _Judge_DescribeScore_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/score", _Judge_DescribeScore_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.Judge.DescribeScore")
-	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/scores", _Judge_ImportScore_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/scores", _Judge_ImportScore_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.Judge.ImportScore")
-	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/scores", _Judge_ExportScore_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/scores", _Judge_ExportScore_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.Judge.ExportScore")
-	router.Handle(prefix+"/contests/{contest_id}/results", _Judge_ListResult_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/results", _Judge_ListResult_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.Judge.ListResult")
-	router.Handle(prefix+"/contests/{contest_id}/rebuild", _Judge_RebuildScore_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/rebuild", _Judge_RebuildScore_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.Judge.RebuildScore")
-	router.Handle(prefix+"/__judge/entitlements", _Judge_ListEntitlements_Rule0(srv)).
+	router.Handle(prefix+"/__judge/entitlements", _Judge_ListEntitlements_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.Judge.ListEntitlements")
-	router.Handle(prefix+"/contests/{contest_id}/activities", _Judge_ListActivities_Rule0(srv)).
+	router.Handle(prefix+"/contests/{contest_id}/activities", _Judge_ListActivities_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.Judge.ListActivities")
 }
 
-func _Judge_LookupContest_Rule0(srv JudgeServer) http.Handler {
+func _Judge_LookupContest_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &LookupContestInput{}
 
@@ -421,7 +422,7 @@ func _Judge_LookupContest_Rule0(srv JudgeServer) http.Handler {
 			return
 		}
 
-		out, err := srv.LookupContest(r.Context(), in)
+		out, err := cli.LookupContest(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -431,7 +432,7 @@ func _Judge_LookupContest_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_CreateContest_Rule0(srv JudgeServer) http.Handler {
+func _Judge_CreateContest_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateContestInput{}
 
@@ -441,7 +442,7 @@ func _Judge_CreateContest_Rule0(srv JudgeServer) http.Handler {
 			return
 		}
 
-		out, err := srv.CreateContest(r.Context(), in)
+		out, err := cli.CreateContest(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -451,7 +452,7 @@ func _Judge_CreateContest_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_DeleteContest_Rule0(srv JudgeServer) http.Handler {
+func _Judge_DeleteContest_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteContestInput{}
 
@@ -464,7 +465,7 @@ func _Judge_DeleteContest_Rule0(srv JudgeServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
 
-		out, err := srv.DeleteContest(r.Context(), in)
+		out, err := cli.DeleteContest(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -474,7 +475,7 @@ func _Judge_DeleteContest_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_UpdateContest_Rule0(srv JudgeServer) http.Handler {
+func _Judge_UpdateContest_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateContestInput{}
 
@@ -487,7 +488,7 @@ func _Judge_UpdateContest_Rule0(srv JudgeServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
 
-		out, err := srv.UpdateContest(r.Context(), in)
+		out, err := cli.UpdateContest(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -497,7 +498,7 @@ func _Judge_UpdateContest_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_DescribeContest_Rule0(srv JudgeServer) http.Handler {
+func _Judge_DescribeContest_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeContestInput{}
 
@@ -510,7 +511,7 @@ func _Judge_DescribeContest_Rule0(srv JudgeServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
 
-		out, err := srv.DescribeContest(r.Context(), in)
+		out, err := cli.DescribeContest(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -520,7 +521,7 @@ func _Judge_DescribeContest_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_ListContests_Rule0(srv JudgeServer) http.Handler {
+func _Judge_ListContests_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListContestsInput{}
 
@@ -530,7 +531,7 @@ func _Judge_ListContests_Rule0(srv JudgeServer) http.Handler {
 			return
 		}
 
-		out, err := srv.ListContests(r.Context(), in)
+		out, err := cli.ListContests(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -540,7 +541,7 @@ func _Judge_ListContests_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_OpenContest_Rule0(srv JudgeServer) http.Handler {
+func _Judge_OpenContest_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &OpenContestInput{}
 
@@ -553,7 +554,7 @@ func _Judge_OpenContest_Rule0(srv JudgeServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
 
-		out, err := srv.OpenContest(r.Context(), in)
+		out, err := cli.OpenContest(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -563,7 +564,7 @@ func _Judge_OpenContest_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_CloseContest_Rule0(srv JudgeServer) http.Handler {
+func _Judge_CloseContest_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CloseContestInput{}
 
@@ -576,7 +577,7 @@ func _Judge_CloseContest_Rule0(srv JudgeServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
 
-		out, err := srv.CloseContest(r.Context(), in)
+		out, err := cli.CloseContest(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -586,7 +587,7 @@ func _Judge_CloseContest_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_SuspendContest_Rule0(srv JudgeServer) http.Handler {
+func _Judge_SuspendContest_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &SuspendContestInput{}
 
@@ -599,7 +600,7 @@ func _Judge_SuspendContest_Rule0(srv JudgeServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
 
-		out, err := srv.SuspendContest(r.Context(), in)
+		out, err := cli.SuspendContest(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -609,7 +610,7 @@ func _Judge_SuspendContest_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_FreezeContest_Rule0(srv JudgeServer) http.Handler {
+func _Judge_FreezeContest_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &FreezeContestInput{}
 
@@ -622,7 +623,7 @@ func _Judge_FreezeContest_Rule0(srv JudgeServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
 
-		out, err := srv.FreezeContest(r.Context(), in)
+		out, err := cli.FreezeContest(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -632,7 +633,7 @@ func _Judge_FreezeContest_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_ResumeContest_Rule0(srv JudgeServer) http.Handler {
+func _Judge_ResumeContest_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ResumeContestInput{}
 
@@ -645,7 +646,7 @@ func _Judge_ResumeContest_Rule0(srv JudgeServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
 
-		out, err := srv.ResumeContest(r.Context(), in)
+		out, err := cli.ResumeContest(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -655,7 +656,7 @@ func _Judge_ResumeContest_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_ConfigureRuntime_Rule0(srv JudgeServer) http.Handler {
+func _Judge_ConfigureRuntime_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ConfigureRuntimeInput{}
 
@@ -668,7 +669,7 @@ func _Judge_ConfigureRuntime_Rule0(srv JudgeServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
 
-		out, err := srv.ConfigureRuntime(r.Context(), in)
+		out, err := cli.ConfigureRuntime(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -678,7 +679,7 @@ func _Judge_ConfigureRuntime_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_DescribeRuntime_Rule0(srv JudgeServer) http.Handler {
+func _Judge_DescribeRuntime_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeRuntimeInput{}
 
@@ -691,7 +692,7 @@ func _Judge_DescribeRuntime_Rule0(srv JudgeServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
 
-		out, err := srv.DescribeRuntime(r.Context(), in)
+		out, err := cli.DescribeRuntime(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -701,7 +702,7 @@ func _Judge_DescribeRuntime_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_ConfigureAppearance_Rule0(srv JudgeServer) http.Handler {
+func _Judge_ConfigureAppearance_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ConfigureAppearanceInput{}
 
@@ -714,7 +715,7 @@ func _Judge_ConfigureAppearance_Rule0(srv JudgeServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
 
-		out, err := srv.ConfigureAppearance(r.Context(), in)
+		out, err := cli.ConfigureAppearance(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -724,7 +725,7 @@ func _Judge_ConfigureAppearance_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_DescribeAppearance_Rule0(srv JudgeServer) http.Handler {
+func _Judge_DescribeAppearance_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeAppearanceInput{}
 
@@ -737,7 +738,7 @@ func _Judge_DescribeAppearance_Rule0(srv JudgeServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
 
-		out, err := srv.DescribeAppearance(r.Context(), in)
+		out, err := cli.DescribeAppearance(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -747,7 +748,7 @@ func _Judge_DescribeAppearance_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_ConfigureScoring_Rule0(srv JudgeServer) http.Handler {
+func _Judge_ConfigureScoring_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ConfigureScoringInput{}
 
@@ -760,7 +761,7 @@ func _Judge_ConfigureScoring_Rule0(srv JudgeServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
 
-		out, err := srv.ConfigureScoring(r.Context(), in)
+		out, err := cli.ConfigureScoring(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -770,7 +771,7 @@ func _Judge_ConfigureScoring_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_DescribeScoring_Rule0(srv JudgeServer) http.Handler {
+func _Judge_DescribeScoring_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeScoringInput{}
 
@@ -783,7 +784,7 @@ func _Judge_DescribeScoring_Rule0(srv JudgeServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
 
-		out, err := srv.DescribeScoring(r.Context(), in)
+		out, err := cli.DescribeScoring(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -793,7 +794,7 @@ func _Judge_DescribeScoring_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_ImportProblem_Rule0(srv JudgeServer) http.Handler {
+func _Judge_ImportProblem_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ImportProblemInput{}
 
@@ -806,7 +807,7 @@ func _Judge_ImportProblem_Rule0(srv JudgeServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
 
-		out, err := srv.ImportProblem(r.Context(), in)
+		out, err := cli.ImportProblem(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -816,7 +817,7 @@ func _Judge_ImportProblem_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_SyncProblem_Rule0(srv JudgeServer) http.Handler {
+func _Judge_SyncProblem_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &SyncProblemInput{}
 
@@ -830,7 +831,7 @@ func _Judge_SyncProblem_Rule0(srv JudgeServer) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.ProblemId = vars["problem_id"]
 
-		out, err := srv.SyncProblem(r.Context(), in)
+		out, err := cli.SyncProblem(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -840,7 +841,7 @@ func _Judge_SyncProblem_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_UpdateProblem_Rule0(srv JudgeServer) http.Handler {
+func _Judge_UpdateProblem_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateProblemInput{}
 
@@ -854,7 +855,7 @@ func _Judge_UpdateProblem_Rule0(srv JudgeServer) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.ProblemId = vars["problem_id"]
 
-		out, err := srv.UpdateProblem(r.Context(), in)
+		out, err := cli.UpdateProblem(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -864,7 +865,7 @@ func _Judge_UpdateProblem_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_ListProblems_Rule0(srv JudgeServer) http.Handler {
+func _Judge_ListProblems_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListProblemsInput{}
 
@@ -877,7 +878,7 @@ func _Judge_ListProblems_Rule0(srv JudgeServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
 
-		out, err := srv.ListProblems(r.Context(), in)
+		out, err := cli.ListProblems(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -887,7 +888,7 @@ func _Judge_ListProblems_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_DescribeProblem_Rule0(srv JudgeServer) http.Handler {
+func _Judge_DescribeProblem_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeProblemInput{}
 
@@ -901,7 +902,7 @@ func _Judge_DescribeProblem_Rule0(srv JudgeServer) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.ProblemId = vars["problem_id"]
 
-		out, err := srv.DescribeProblem(r.Context(), in)
+		out, err := cli.DescribeProblem(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -911,7 +912,7 @@ func _Judge_DescribeProblem_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_DescribeCodeTemplate_Rule0(srv JudgeServer) http.Handler {
+func _Judge_DescribeCodeTemplate_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeCodeTemplateInput{}
 
@@ -926,7 +927,7 @@ func _Judge_DescribeCodeTemplate_Rule0(srv JudgeServer) http.Handler {
 		in.ProblemId = vars["problem_id"]
 		in.TemplateId = vars["template_id"]
 
-		out, err := srv.DescribeCodeTemplate(r.Context(), in)
+		out, err := cli.DescribeCodeTemplate(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -936,7 +937,7 @@ func _Judge_DescribeCodeTemplate_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_LookupCodeTemplate_Rule0(srv JudgeServer) http.Handler {
+func _Judge_LookupCodeTemplate_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &LookupCodeTemplateInput{}
 
@@ -950,7 +951,7 @@ func _Judge_LookupCodeTemplate_Rule0(srv JudgeServer) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.ProblemId = vars["problem_id"]
 
-		out, err := srv.LookupCodeTemplate(r.Context(), in)
+		out, err := cli.LookupCodeTemplate(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -960,7 +961,7 @@ func _Judge_LookupCodeTemplate_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_ListStatements_Rule0(srv JudgeServer) http.Handler {
+func _Judge_ListStatements_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListStatementsInput{}
 
@@ -974,7 +975,7 @@ func _Judge_ListStatements_Rule0(srv JudgeServer) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.ProblemId = vars["problem_id"]
 
-		out, err := srv.ListStatements(r.Context(), in)
+		out, err := cli.ListStatements(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -984,7 +985,7 @@ func _Judge_ListStatements_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_ListAttachments_Rule0(srv JudgeServer) http.Handler {
+func _Judge_ListAttachments_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListAttachmentsInput{}
 
@@ -998,7 +999,7 @@ func _Judge_ListAttachments_Rule0(srv JudgeServer) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.ProblemId = vars["problem_id"]
 
-		out, err := srv.ListAttachments(r.Context(), in)
+		out, err := cli.ListAttachments(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -1008,7 +1009,7 @@ func _Judge_ListAttachments_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_ListExamples_Rule0(srv JudgeServer) http.Handler {
+func _Judge_ListExamples_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListExamplesInput{}
 
@@ -1022,7 +1023,7 @@ func _Judge_ListExamples_Rule0(srv JudgeServer) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.ProblemId = vars["problem_id"]
 
-		out, err := srv.ListExamples(r.Context(), in)
+		out, err := cli.ListExamples(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -1032,7 +1033,7 @@ func _Judge_ListExamples_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_DeleteProblem_Rule0(srv JudgeServer) http.Handler {
+func _Judge_DeleteProblem_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteProblemInput{}
 
@@ -1046,7 +1047,7 @@ func _Judge_DeleteProblem_Rule0(srv JudgeServer) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.ProblemId = vars["problem_id"]
 
-		out, err := srv.DeleteProblem(r.Context(), in)
+		out, err := cli.DeleteProblem(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -1056,7 +1057,7 @@ func _Judge_DeleteProblem_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_RetestProblem_Rule0(srv JudgeServer) http.Handler {
+func _Judge_RetestProblem_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &RetestProblemInput{}
 
@@ -1070,7 +1071,7 @@ func _Judge_RetestProblem_Rule0(srv JudgeServer) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.ProblemId = vars["problem_id"]
 
-		out, err := srv.RetestProblem(r.Context(), in)
+		out, err := cli.RetestProblem(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -1080,7 +1081,7 @@ func _Judge_RetestProblem_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_AddParticipant_Rule0(srv JudgeServer) http.Handler {
+func _Judge_AddParticipant_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &AddParticipantInput{}
 
@@ -1093,7 +1094,7 @@ func _Judge_AddParticipant_Rule0(srv JudgeServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
 
-		out, err := srv.AddParticipant(r.Context(), in)
+		out, err := cli.AddParticipant(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -1103,7 +1104,7 @@ func _Judge_AddParticipant_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_EnableParticipant_Rule0(srv JudgeServer) http.Handler {
+func _Judge_EnableParticipant_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &EnableParticipantInput{}
 
@@ -1117,7 +1118,7 @@ func _Judge_EnableParticipant_Rule0(srv JudgeServer) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.ParticipantId = vars["participant_id"]
 
-		out, err := srv.EnableParticipant(r.Context(), in)
+		out, err := cli.EnableParticipant(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -1127,7 +1128,7 @@ func _Judge_EnableParticipant_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_DisableParticipant_Rule0(srv JudgeServer) http.Handler {
+func _Judge_DisableParticipant_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DisableParticipantInput{}
 
@@ -1141,7 +1142,7 @@ func _Judge_DisableParticipant_Rule0(srv JudgeServer) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.ParticipantId = vars["participant_id"]
 
-		out, err := srv.DisableParticipant(r.Context(), in)
+		out, err := cli.DisableParticipant(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -1151,7 +1152,7 @@ func _Judge_DisableParticipant_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_UpdateParticipant_Rule0(srv JudgeServer) http.Handler {
+func _Judge_UpdateParticipant_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateParticipantInput{}
 
@@ -1165,7 +1166,7 @@ func _Judge_UpdateParticipant_Rule0(srv JudgeServer) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.ParticipantId = vars["participant_id"]
 
-		out, err := srv.UpdateParticipant(r.Context(), in)
+		out, err := cli.UpdateParticipant(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -1175,7 +1176,7 @@ func _Judge_UpdateParticipant_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_RemoveParticipant_Rule0(srv JudgeServer) http.Handler {
+func _Judge_RemoveParticipant_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &RemoveParticipantInput{}
 
@@ -1189,7 +1190,7 @@ func _Judge_RemoveParticipant_Rule0(srv JudgeServer) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.ParticipantId = vars["participant_id"]
 
-		out, err := srv.RemoveParticipant(r.Context(), in)
+		out, err := cli.RemoveParticipant(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -1199,7 +1200,7 @@ func _Judge_RemoveParticipant_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_ListParticipants_Rule0(srv JudgeServer) http.Handler {
+func _Judge_ListParticipants_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListParticipantsInput{}
 
@@ -1212,7 +1213,7 @@ func _Judge_ListParticipants_Rule0(srv JudgeServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
 
-		out, err := srv.ListParticipants(r.Context(), in)
+		out, err := cli.ListParticipants(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -1222,7 +1223,7 @@ func _Judge_ListParticipants_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_DescribeParticipant_Rule0(srv JudgeServer) http.Handler {
+func _Judge_DescribeParticipant_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeParticipantInput{}
 
@@ -1236,7 +1237,7 @@ func _Judge_DescribeParticipant_Rule0(srv JudgeServer) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.ParticipantId = vars["participant_id"]
 
-		out, err := srv.DescribeParticipant(r.Context(), in)
+		out, err := cli.DescribeParticipant(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -1246,7 +1247,7 @@ func _Judge_DescribeParticipant_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_IntrospectParticipant_Rule0(srv JudgeServer) http.Handler {
+func _Judge_IntrospectParticipant_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &IntrospectParticipantInput{}
 
@@ -1259,7 +1260,7 @@ func _Judge_IntrospectParticipant_Rule0(srv JudgeServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
 
-		out, err := srv.IntrospectParticipant(r.Context(), in)
+		out, err := cli.IntrospectParticipant(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -1269,7 +1270,7 @@ func _Judge_IntrospectParticipant_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_JoinContest_Rule0(srv JudgeServer) http.Handler {
+func _Judge_JoinContest_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &JoinContestInput{}
 
@@ -1282,7 +1283,7 @@ func _Judge_JoinContest_Rule0(srv JudgeServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
 
-		out, err := srv.JoinContest(r.Context(), in)
+		out, err := cli.JoinContest(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -1292,7 +1293,7 @@ func _Judge_JoinContest_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_StartContest_Rule0(srv JudgeServer) http.Handler {
+func _Judge_StartContest_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &StartContestInput{}
 
@@ -1305,7 +1306,7 @@ func _Judge_StartContest_Rule0(srv JudgeServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
 
-		out, err := srv.StartContest(r.Context(), in)
+		out, err := cli.StartContest(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -1315,7 +1316,7 @@ func _Judge_StartContest_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_VerifyPasscode_Rule0(srv JudgeServer) http.Handler {
+func _Judge_VerifyPasscode_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &VerifyPasscodeInput{}
 
@@ -1328,7 +1329,7 @@ func _Judge_VerifyPasscode_Rule0(srv JudgeServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
 
-		out, err := srv.VerifyPasscode(r.Context(), in)
+		out, err := cli.VerifyPasscode(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -1338,7 +1339,7 @@ func _Judge_VerifyPasscode_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_EnterPasscode_Rule0(srv JudgeServer) http.Handler {
+func _Judge_EnterPasscode_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &EnterPasscodeInput{}
 
@@ -1351,7 +1352,7 @@ func _Judge_EnterPasscode_Rule0(srv JudgeServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
 
-		out, err := srv.EnterPasscode(r.Context(), in)
+		out, err := cli.EnterPasscode(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -1361,7 +1362,7 @@ func _Judge_EnterPasscode_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_ResetPasscode_Rule0(srv JudgeServer) http.Handler {
+func _Judge_ResetPasscode_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ResetPasscodeInput{}
 
@@ -1375,7 +1376,7 @@ func _Judge_ResetPasscode_Rule0(srv JudgeServer) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.ParticipantId = vars["participant_id"]
 
-		out, err := srv.ResetPasscode(r.Context(), in)
+		out, err := cli.ResetPasscode(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -1385,7 +1386,7 @@ func _Judge_ResetPasscode_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_SetPasscode_Rule0(srv JudgeServer) http.Handler {
+func _Judge_SetPasscode_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &SetPasscodeInput{}
 
@@ -1399,7 +1400,7 @@ func _Judge_SetPasscode_Rule0(srv JudgeServer) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.ParticipantId = vars["participant_id"]
 
-		out, err := srv.SetPasscode(r.Context(), in)
+		out, err := cli.SetPasscode(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -1409,7 +1410,7 @@ func _Judge_SetPasscode_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_RemovePasscode_Rule0(srv JudgeServer) http.Handler {
+func _Judge_RemovePasscode_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &RemovePasscodeInput{}
 
@@ -1423,7 +1424,7 @@ func _Judge_RemovePasscode_Rule0(srv JudgeServer) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.ParticipantId = vars["participant_id"]
 
-		out, err := srv.RemovePasscode(r.Context(), in)
+		out, err := cli.RemovePasscode(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -1433,7 +1434,7 @@ func _Judge_RemovePasscode_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_CreateSubmission_Rule0(srv JudgeServer) http.Handler {
+func _Judge_CreateSubmission_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateSubmissionInput{}
 
@@ -1447,7 +1448,7 @@ func _Judge_CreateSubmission_Rule0(srv JudgeServer) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.ProblemId = vars["problem_id"]
 
-		out, err := srv.CreateSubmission(r.Context(), in)
+		out, err := cli.CreateSubmission(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -1457,7 +1458,7 @@ func _Judge_CreateSubmission_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_ListSubmissions_Rule0(srv JudgeServer) http.Handler {
+func _Judge_ListSubmissions_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListSubmissionsInput{}
 
@@ -1470,7 +1471,7 @@ func _Judge_ListSubmissions_Rule0(srv JudgeServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
 
-		out, err := srv.ListSubmissions(r.Context(), in)
+		out, err := cli.ListSubmissions(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -1480,7 +1481,7 @@ func _Judge_ListSubmissions_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_DescribeSubmission_Rule0(srv JudgeServer) http.Handler {
+func _Judge_DescribeSubmission_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeSubmissionInput{}
 
@@ -1494,7 +1495,7 @@ func _Judge_DescribeSubmission_Rule0(srv JudgeServer) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.SubmissionId = vars["submission_id"]
 
-		out, err := srv.DescribeSubmission(r.Context(), in)
+		out, err := cli.DescribeSubmission(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -1504,7 +1505,7 @@ func _Judge_DescribeSubmission_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_RetestSubmission_Rule0(srv JudgeServer) http.Handler {
+func _Judge_RetestSubmission_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &RetestSubmissionInput{}
 
@@ -1518,7 +1519,7 @@ func _Judge_RetestSubmission_Rule0(srv JudgeServer) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.SubmissionId = vars["submission_id"]
 
-		out, err := srv.RetestSubmission(r.Context(), in)
+		out, err := cli.RetestSubmission(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -1528,7 +1529,7 @@ func _Judge_RetestSubmission_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_DeleteSubmission_Rule0(srv JudgeServer) http.Handler {
+func _Judge_DeleteSubmission_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteSubmissionInput{}
 
@@ -1542,7 +1543,7 @@ func _Judge_DeleteSubmission_Rule0(srv JudgeServer) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.SubmissionId = vars["submission_id"]
 
-		out, err := srv.DeleteSubmission(r.Context(), in)
+		out, err := cli.DeleteSubmission(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -1552,7 +1553,7 @@ func _Judge_DeleteSubmission_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_RestoreSubmission_Rule0(srv JudgeServer) http.Handler {
+func _Judge_RestoreSubmission_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &RestoreSubmissionInput{}
 
@@ -1566,7 +1567,7 @@ func _Judge_RestoreSubmission_Rule0(srv JudgeServer) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.SubmissionId = vars["submission_id"]
 
-		out, err := srv.RestoreSubmission(r.Context(), in)
+		out, err := cli.RestoreSubmission(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -1576,7 +1577,7 @@ func _Judge_RestoreSubmission_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_CreateTicket_Rule0(srv JudgeServer) http.Handler {
+func _Judge_CreateTicket_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateTicketInput{}
 
@@ -1589,7 +1590,7 @@ func _Judge_CreateTicket_Rule0(srv JudgeServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
 
-		out, err := srv.CreateTicket(r.Context(), in)
+		out, err := cli.CreateTicket(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -1599,7 +1600,7 @@ func _Judge_CreateTicket_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_CloseTicket_Rule0(srv JudgeServer) http.Handler {
+func _Judge_CloseTicket_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CloseTicketInput{}
 
@@ -1612,7 +1613,7 @@ func _Judge_CloseTicket_Rule0(srv JudgeServer) http.Handler {
 		vars := mux.Vars(r)
 		in.TicketId = vars["ticket_id"]
 
-		out, err := srv.CloseTicket(r.Context(), in)
+		out, err := cli.CloseTicket(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -1622,7 +1623,7 @@ func _Judge_CloseTicket_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_OpenTicket_Rule0(srv JudgeServer) http.Handler {
+func _Judge_OpenTicket_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &OpenTicketInput{}
 
@@ -1635,7 +1636,7 @@ func _Judge_OpenTicket_Rule0(srv JudgeServer) http.Handler {
 		vars := mux.Vars(r)
 		in.TicketId = vars["ticket_id"]
 
-		out, err := srv.OpenTicket(r.Context(), in)
+		out, err := cli.OpenTicket(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -1645,7 +1646,7 @@ func _Judge_OpenTicket_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_ReadTicket_Rule0(srv JudgeServer) http.Handler {
+func _Judge_ReadTicket_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ReadTicketInput{}
 
@@ -1658,7 +1659,7 @@ func _Judge_ReadTicket_Rule0(srv JudgeServer) http.Handler {
 		vars := mux.Vars(r)
 		in.TicketId = vars["ticket_id"]
 
-		out, err := srv.ReadTicket(r.Context(), in)
+		out, err := cli.ReadTicket(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -1668,7 +1669,7 @@ func _Judge_ReadTicket_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_DeleteTicket_Rule0(srv JudgeServer) http.Handler {
+func _Judge_DeleteTicket_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteTicketInput{}
 
@@ -1681,7 +1682,7 @@ func _Judge_DeleteTicket_Rule0(srv JudgeServer) http.Handler {
 		vars := mux.Vars(r)
 		in.TicketId = vars["ticket_id"]
 
-		out, err := srv.DeleteTicket(r.Context(), in)
+		out, err := cli.DeleteTicket(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -1691,7 +1692,7 @@ func _Judge_DeleteTicket_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_DescribeTicket_Rule0(srv JudgeServer) http.Handler {
+func _Judge_DescribeTicket_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeTicketInput{}
 
@@ -1704,7 +1705,7 @@ func _Judge_DescribeTicket_Rule0(srv JudgeServer) http.Handler {
 		vars := mux.Vars(r)
 		in.TicketId = vars["ticket_id"]
 
-		out, err := srv.DescribeTicket(r.Context(), in)
+		out, err := cli.DescribeTicket(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -1714,7 +1715,7 @@ func _Judge_DescribeTicket_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_ListTickets_Rule0(srv JudgeServer) http.Handler {
+func _Judge_ListTickets_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListTicketsInput{}
 
@@ -1724,7 +1725,7 @@ func _Judge_ListTickets_Rule0(srv JudgeServer) http.Handler {
 			return
 		}
 
-		out, err := srv.ListTickets(r.Context(), in)
+		out, err := cli.ListTickets(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -1734,7 +1735,7 @@ func _Judge_ListTickets_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_ReplyTicket_Rule0(srv JudgeServer) http.Handler {
+func _Judge_ReplyTicket_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ReplyTicketInput{}
 
@@ -1747,7 +1748,7 @@ func _Judge_ReplyTicket_Rule0(srv JudgeServer) http.Handler {
 		vars := mux.Vars(r)
 		in.TicketId = vars["ticket_id"]
 
-		out, err := srv.ReplyTicket(r.Context(), in)
+		out, err := cli.ReplyTicket(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -1757,7 +1758,7 @@ func _Judge_ReplyTicket_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_ListReplies_Rule0(srv JudgeServer) http.Handler {
+func _Judge_ListReplies_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListRepliesInput{}
 
@@ -1770,7 +1771,7 @@ func _Judge_ListReplies_Rule0(srv JudgeServer) http.Handler {
 		vars := mux.Vars(r)
 		in.TicketId = vars["ticket_id"]
 
-		out, err := srv.ListReplies(r.Context(), in)
+		out, err := cli.ListReplies(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -1780,7 +1781,7 @@ func _Judge_ListReplies_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_DeleteReply_Rule0(srv JudgeServer) http.Handler {
+func _Judge_DeleteReply_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteReplyInput{}
 
@@ -1794,7 +1795,7 @@ func _Judge_DeleteReply_Rule0(srv JudgeServer) http.Handler {
 		in.TicketId = vars["ticket_id"]
 		in.ReplyId = vars["reply_id"]
 
-		out, err := srv.DeleteReply(r.Context(), in)
+		out, err := cli.DeleteReply(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -1804,7 +1805,7 @@ func _Judge_DeleteReply_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_UpdateReply_Rule0(srv JudgeServer) http.Handler {
+func _Judge_UpdateReply_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateReplyInput{}
 
@@ -1818,7 +1819,7 @@ func _Judge_UpdateReply_Rule0(srv JudgeServer) http.Handler {
 		in.TicketId = vars["ticket_id"]
 		in.ReplyId = vars["reply_id"]
 
-		out, err := srv.UpdateReply(r.Context(), in)
+		out, err := cli.UpdateReply(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -1828,7 +1829,7 @@ func _Judge_UpdateReply_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_CreateAnnouncement_Rule0(srv JudgeServer) http.Handler {
+func _Judge_CreateAnnouncement_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateAnnouncementInput{}
 
@@ -1841,7 +1842,7 @@ func _Judge_CreateAnnouncement_Rule0(srv JudgeServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
 
-		out, err := srv.CreateAnnouncement(r.Context(), in)
+		out, err := cli.CreateAnnouncement(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -1851,7 +1852,7 @@ func _Judge_CreateAnnouncement_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_UpdateAnnouncement_Rule0(srv JudgeServer) http.Handler {
+func _Judge_UpdateAnnouncement_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateAnnouncementInput{}
 
@@ -1865,7 +1866,7 @@ func _Judge_UpdateAnnouncement_Rule0(srv JudgeServer) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.AnnouncementId = vars["announcement_id"]
 
-		out, err := srv.UpdateAnnouncement(r.Context(), in)
+		out, err := cli.UpdateAnnouncement(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -1875,7 +1876,7 @@ func _Judge_UpdateAnnouncement_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_DeleteAnnouncement_Rule0(srv JudgeServer) http.Handler {
+func _Judge_DeleteAnnouncement_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteAnnouncementInput{}
 
@@ -1889,7 +1890,7 @@ func _Judge_DeleteAnnouncement_Rule0(srv JudgeServer) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.AnnouncementId = vars["announcement_id"]
 
-		out, err := srv.DeleteAnnouncement(r.Context(), in)
+		out, err := cli.DeleteAnnouncement(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -1899,7 +1900,7 @@ func _Judge_DeleteAnnouncement_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_ReadAnnouncement_Rule0(srv JudgeServer) http.Handler {
+func _Judge_ReadAnnouncement_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ReadAnnouncementInput{}
 
@@ -1913,7 +1914,7 @@ func _Judge_ReadAnnouncement_Rule0(srv JudgeServer) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.AnnouncementId = vars["announcement_id"]
 
-		out, err := srv.ReadAnnouncement(r.Context(), in)
+		out, err := cli.ReadAnnouncement(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -1923,7 +1924,7 @@ func _Judge_ReadAnnouncement_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_DescribeAnnouncement_Rule0(srv JudgeServer) http.Handler {
+func _Judge_DescribeAnnouncement_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeAnnouncementInput{}
 
@@ -1937,7 +1938,7 @@ func _Judge_DescribeAnnouncement_Rule0(srv JudgeServer) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.AnnouncementId = vars["announcement_id"]
 
-		out, err := srv.DescribeAnnouncement(r.Context(), in)
+		out, err := cli.DescribeAnnouncement(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -1947,7 +1948,7 @@ func _Judge_DescribeAnnouncement_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_DescribeAnnouncementStatus_Rule0(srv JudgeServer) http.Handler {
+func _Judge_DescribeAnnouncementStatus_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeAnnouncementStatusInput{}
 
@@ -1961,7 +1962,7 @@ func _Judge_DescribeAnnouncementStatus_Rule0(srv JudgeServer) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.AnnouncementId = vars["announcement_id"]
 
-		out, err := srv.DescribeAnnouncementStatus(r.Context(), in)
+		out, err := cli.DescribeAnnouncementStatus(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -1971,7 +1972,7 @@ func _Judge_DescribeAnnouncementStatus_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_ListAnnouncements_Rule0(srv JudgeServer) http.Handler {
+func _Judge_ListAnnouncements_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListAnnouncementsInput{}
 
@@ -1984,7 +1985,7 @@ func _Judge_ListAnnouncements_Rule0(srv JudgeServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
 
-		out, err := srv.ListAnnouncements(r.Context(), in)
+		out, err := cli.ListAnnouncements(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -1994,7 +1995,7 @@ func _Judge_ListAnnouncements_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_IntrospectScore_Rule0(srv JudgeServer) http.Handler {
+func _Judge_IntrospectScore_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &IntrospectScoreInput{}
 
@@ -2007,7 +2008,7 @@ func _Judge_IntrospectScore_Rule0(srv JudgeServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
 
-		out, err := srv.IntrospectScore(r.Context(), in)
+		out, err := cli.IntrospectScore(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -2017,7 +2018,7 @@ func _Judge_IntrospectScore_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_DescribeScore_Rule0(srv JudgeServer) http.Handler {
+func _Judge_DescribeScore_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeScoreInput{}
 
@@ -2031,7 +2032,7 @@ func _Judge_DescribeScore_Rule0(srv JudgeServer) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.ParticipantId = vars["participant_id"]
 
-		out, err := srv.DescribeScore(r.Context(), in)
+		out, err := cli.DescribeScore(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -2041,7 +2042,7 @@ func _Judge_DescribeScore_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_ImportScore_Rule0(srv JudgeServer) http.Handler {
+func _Judge_ImportScore_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ImportScoreInput{}
 
@@ -2055,7 +2056,7 @@ func _Judge_ImportScore_Rule0(srv JudgeServer) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.ParticipantId = vars["participant_id"]
 
-		out, err := srv.ImportScore(r.Context(), in)
+		out, err := cli.ImportScore(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -2065,7 +2066,7 @@ func _Judge_ImportScore_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_ExportScore_Rule0(srv JudgeServer) http.Handler {
+func _Judge_ExportScore_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ExportScoreInput{}
 
@@ -2079,7 +2080,7 @@ func _Judge_ExportScore_Rule0(srv JudgeServer) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.ParticipantId = vars["participant_id"]
 
-		out, err := srv.ExportScore(r.Context(), in)
+		out, err := cli.ExportScore(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -2089,7 +2090,7 @@ func _Judge_ExportScore_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_ListResult_Rule0(srv JudgeServer) http.Handler {
+func _Judge_ListResult_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListResultInput{}
 
@@ -2102,7 +2103,7 @@ func _Judge_ListResult_Rule0(srv JudgeServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
 
-		out, err := srv.ListResult(r.Context(), in)
+		out, err := cli.ListResult(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -2112,7 +2113,7 @@ func _Judge_ListResult_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_RebuildScore_Rule0(srv JudgeServer) http.Handler {
+func _Judge_RebuildScore_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &RebuildScoreInput{}
 
@@ -2125,7 +2126,7 @@ func _Judge_RebuildScore_Rule0(srv JudgeServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
 
-		out, err := srv.RebuildScore(r.Context(), in)
+		out, err := cli.RebuildScore(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -2135,7 +2136,7 @@ func _Judge_RebuildScore_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_ListEntitlements_Rule0(srv JudgeServer) http.Handler {
+func _Judge_ListEntitlements_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListEntitlementsInput{}
 
@@ -2145,7 +2146,7 @@ func _Judge_ListEntitlements_Rule0(srv JudgeServer) http.Handler {
 			return
 		}
 
-		out, err := srv.ListEntitlements(r.Context(), in)
+		out, err := cli.ListEntitlements(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -2155,7 +2156,7 @@ func _Judge_ListEntitlements_Rule0(srv JudgeServer) http.Handler {
 	})
 }
 
-func _Judge_ListActivities_Rule0(srv JudgeServer) http.Handler {
+func _Judge_ListActivities_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListActivitiesInput{}
 
@@ -2168,7 +2169,7 @@ func _Judge_ListActivities_Rule0(srv JudgeServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
 
-		out, err := srv.ListActivities(r.Context(), in)
+		out, err := cli.ListActivities(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -2182,22 +2183,22 @@ type _JudgeHandler = func(ctx context.Context, in proto.Message) (proto.Message,
 type _JudgeMiddleware = func(ctx context.Context, method string, in proto.Message, handler _JudgeHandler) (out proto.Message, err error)
 type JudgeInterceptor struct {
 	middleware []_JudgeMiddleware
-	server     JudgeServer
+	client     JudgeClient
 }
 
 // NewJudgeInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewJudgeInterceptor(srv JudgeServer, middleware ..._JudgeMiddleware) *JudgeInterceptor {
-	return &JudgeInterceptor{server: srv, middleware: middleware}
+func NewJudgeInterceptor(cli JudgeClient, middleware ..._JudgeMiddleware) *JudgeInterceptor {
+	return &JudgeInterceptor{client: cli, middleware: middleware}
 }
 
-func (i *JudgeInterceptor) LookupContest(ctx context.Context, in *LookupContestInput) (*LookupContestOutput, error) {
+func (i *JudgeInterceptor) LookupContest(ctx context.Context, in *LookupContestInput, opts ...grpc.CallOption) (*LookupContestOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*LookupContestInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *LookupContestInput, got %T", in))
 		}
 
-		return i.server.LookupContest(ctx, message)
+		return i.client.LookupContest(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2222,14 +2223,14 @@ func (i *JudgeInterceptor) LookupContest(ctx context.Context, in *LookupContestI
 	return message, err
 }
 
-func (i *JudgeInterceptor) CreateContest(ctx context.Context, in *CreateContestInput) (*CreateContestOutput, error) {
+func (i *JudgeInterceptor) CreateContest(ctx context.Context, in *CreateContestInput, opts ...grpc.CallOption) (*CreateContestOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CreateContestInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *CreateContestInput, got %T", in))
 		}
 
-		return i.server.CreateContest(ctx, message)
+		return i.client.CreateContest(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2254,14 +2255,14 @@ func (i *JudgeInterceptor) CreateContest(ctx context.Context, in *CreateContestI
 	return message, err
 }
 
-func (i *JudgeInterceptor) DeleteContest(ctx context.Context, in *DeleteContestInput) (*DeleteContestOutput, error) {
+func (i *JudgeInterceptor) DeleteContest(ctx context.Context, in *DeleteContestInput, opts ...grpc.CallOption) (*DeleteContestOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DeleteContestInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DeleteContestInput, got %T", in))
 		}
 
-		return i.server.DeleteContest(ctx, message)
+		return i.client.DeleteContest(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2286,14 +2287,14 @@ func (i *JudgeInterceptor) DeleteContest(ctx context.Context, in *DeleteContestI
 	return message, err
 }
 
-func (i *JudgeInterceptor) UpdateContest(ctx context.Context, in *UpdateContestInput) (*UpdateContestOutput, error) {
+func (i *JudgeInterceptor) UpdateContest(ctx context.Context, in *UpdateContestInput, opts ...grpc.CallOption) (*UpdateContestOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdateContestInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UpdateContestInput, got %T", in))
 		}
 
-		return i.server.UpdateContest(ctx, message)
+		return i.client.UpdateContest(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2318,14 +2319,14 @@ func (i *JudgeInterceptor) UpdateContest(ctx context.Context, in *UpdateContestI
 	return message, err
 }
 
-func (i *JudgeInterceptor) DescribeContest(ctx context.Context, in *DescribeContestInput) (*DescribeContestOutput, error) {
+func (i *JudgeInterceptor) DescribeContest(ctx context.Context, in *DescribeContestInput, opts ...grpc.CallOption) (*DescribeContestOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeContestInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeContestInput, got %T", in))
 		}
 
-		return i.server.DescribeContest(ctx, message)
+		return i.client.DescribeContest(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2350,14 +2351,14 @@ func (i *JudgeInterceptor) DescribeContest(ctx context.Context, in *DescribeCont
 	return message, err
 }
 
-func (i *JudgeInterceptor) ListContests(ctx context.Context, in *ListContestsInput) (*ListContestsOutput, error) {
+func (i *JudgeInterceptor) ListContests(ctx context.Context, in *ListContestsInput, opts ...grpc.CallOption) (*ListContestsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListContestsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListContestsInput, got %T", in))
 		}
 
-		return i.server.ListContests(ctx, message)
+		return i.client.ListContests(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2382,14 +2383,14 @@ func (i *JudgeInterceptor) ListContests(ctx context.Context, in *ListContestsInp
 	return message, err
 }
 
-func (i *JudgeInterceptor) OpenContest(ctx context.Context, in *OpenContestInput) (*OpenContestOutput, error) {
+func (i *JudgeInterceptor) OpenContest(ctx context.Context, in *OpenContestInput, opts ...grpc.CallOption) (*OpenContestOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*OpenContestInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *OpenContestInput, got %T", in))
 		}
 
-		return i.server.OpenContest(ctx, message)
+		return i.client.OpenContest(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2414,14 +2415,14 @@ func (i *JudgeInterceptor) OpenContest(ctx context.Context, in *OpenContestInput
 	return message, err
 }
 
-func (i *JudgeInterceptor) CloseContest(ctx context.Context, in *CloseContestInput) (*CloseContestOutput, error) {
+func (i *JudgeInterceptor) CloseContest(ctx context.Context, in *CloseContestInput, opts ...grpc.CallOption) (*CloseContestOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CloseContestInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *CloseContestInput, got %T", in))
 		}
 
-		return i.server.CloseContest(ctx, message)
+		return i.client.CloseContest(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2446,14 +2447,14 @@ func (i *JudgeInterceptor) CloseContest(ctx context.Context, in *CloseContestInp
 	return message, err
 }
 
-func (i *JudgeInterceptor) SuspendContest(ctx context.Context, in *SuspendContestInput) (*SuspendContestOutput, error) {
+func (i *JudgeInterceptor) SuspendContest(ctx context.Context, in *SuspendContestInput, opts ...grpc.CallOption) (*SuspendContestOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*SuspendContestInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *SuspendContestInput, got %T", in))
 		}
 
-		return i.server.SuspendContest(ctx, message)
+		return i.client.SuspendContest(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2478,14 +2479,14 @@ func (i *JudgeInterceptor) SuspendContest(ctx context.Context, in *SuspendContes
 	return message, err
 }
 
-func (i *JudgeInterceptor) FreezeContest(ctx context.Context, in *FreezeContestInput) (*FreezeContestOutput, error) {
+func (i *JudgeInterceptor) FreezeContest(ctx context.Context, in *FreezeContestInput, opts ...grpc.CallOption) (*FreezeContestOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*FreezeContestInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *FreezeContestInput, got %T", in))
 		}
 
-		return i.server.FreezeContest(ctx, message)
+		return i.client.FreezeContest(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2510,14 +2511,14 @@ func (i *JudgeInterceptor) FreezeContest(ctx context.Context, in *FreezeContestI
 	return message, err
 }
 
-func (i *JudgeInterceptor) ResumeContest(ctx context.Context, in *ResumeContestInput) (*ResumeContestOutput, error) {
+func (i *JudgeInterceptor) ResumeContest(ctx context.Context, in *ResumeContestInput, opts ...grpc.CallOption) (*ResumeContestOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ResumeContestInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ResumeContestInput, got %T", in))
 		}
 
-		return i.server.ResumeContest(ctx, message)
+		return i.client.ResumeContest(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2542,14 +2543,14 @@ func (i *JudgeInterceptor) ResumeContest(ctx context.Context, in *ResumeContestI
 	return message, err
 }
 
-func (i *JudgeInterceptor) ConfigureRuntime(ctx context.Context, in *ConfigureRuntimeInput) (*ConfigureRuntimeOutput, error) {
+func (i *JudgeInterceptor) ConfigureRuntime(ctx context.Context, in *ConfigureRuntimeInput, opts ...grpc.CallOption) (*ConfigureRuntimeOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ConfigureRuntimeInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ConfigureRuntimeInput, got %T", in))
 		}
 
-		return i.server.ConfigureRuntime(ctx, message)
+		return i.client.ConfigureRuntime(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2574,14 +2575,14 @@ func (i *JudgeInterceptor) ConfigureRuntime(ctx context.Context, in *ConfigureRu
 	return message, err
 }
 
-func (i *JudgeInterceptor) DescribeRuntime(ctx context.Context, in *DescribeRuntimeInput) (*DescribeRuntimeOutput, error) {
+func (i *JudgeInterceptor) DescribeRuntime(ctx context.Context, in *DescribeRuntimeInput, opts ...grpc.CallOption) (*DescribeRuntimeOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeRuntimeInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeRuntimeInput, got %T", in))
 		}
 
-		return i.server.DescribeRuntime(ctx, message)
+		return i.client.DescribeRuntime(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2606,14 +2607,14 @@ func (i *JudgeInterceptor) DescribeRuntime(ctx context.Context, in *DescribeRunt
 	return message, err
 }
 
-func (i *JudgeInterceptor) ConfigureAppearance(ctx context.Context, in *ConfigureAppearanceInput) (*ConfigureAppearanceOutput, error) {
+func (i *JudgeInterceptor) ConfigureAppearance(ctx context.Context, in *ConfigureAppearanceInput, opts ...grpc.CallOption) (*ConfigureAppearanceOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ConfigureAppearanceInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ConfigureAppearanceInput, got %T", in))
 		}
 
-		return i.server.ConfigureAppearance(ctx, message)
+		return i.client.ConfigureAppearance(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2638,14 +2639,14 @@ func (i *JudgeInterceptor) ConfigureAppearance(ctx context.Context, in *Configur
 	return message, err
 }
 
-func (i *JudgeInterceptor) DescribeAppearance(ctx context.Context, in *DescribeAppearanceInput) (*DescribeAppearanceOutput, error) {
+func (i *JudgeInterceptor) DescribeAppearance(ctx context.Context, in *DescribeAppearanceInput, opts ...grpc.CallOption) (*DescribeAppearanceOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeAppearanceInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeAppearanceInput, got %T", in))
 		}
 
-		return i.server.DescribeAppearance(ctx, message)
+		return i.client.DescribeAppearance(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2670,14 +2671,14 @@ func (i *JudgeInterceptor) DescribeAppearance(ctx context.Context, in *DescribeA
 	return message, err
 }
 
-func (i *JudgeInterceptor) ConfigureScoring(ctx context.Context, in *ConfigureScoringInput) (*ConfigureScoringOutput, error) {
+func (i *JudgeInterceptor) ConfigureScoring(ctx context.Context, in *ConfigureScoringInput, opts ...grpc.CallOption) (*ConfigureScoringOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ConfigureScoringInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ConfigureScoringInput, got %T", in))
 		}
 
-		return i.server.ConfigureScoring(ctx, message)
+		return i.client.ConfigureScoring(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2702,14 +2703,14 @@ func (i *JudgeInterceptor) ConfigureScoring(ctx context.Context, in *ConfigureSc
 	return message, err
 }
 
-func (i *JudgeInterceptor) DescribeScoring(ctx context.Context, in *DescribeScoringInput) (*DescribeScoringOutput, error) {
+func (i *JudgeInterceptor) DescribeScoring(ctx context.Context, in *DescribeScoringInput, opts ...grpc.CallOption) (*DescribeScoringOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeScoringInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeScoringInput, got %T", in))
 		}
 
-		return i.server.DescribeScoring(ctx, message)
+		return i.client.DescribeScoring(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2734,14 +2735,14 @@ func (i *JudgeInterceptor) DescribeScoring(ctx context.Context, in *DescribeScor
 	return message, err
 }
 
-func (i *JudgeInterceptor) ImportProblem(ctx context.Context, in *ImportProblemInput) (*ImportProblemOutput, error) {
+func (i *JudgeInterceptor) ImportProblem(ctx context.Context, in *ImportProblemInput, opts ...grpc.CallOption) (*ImportProblemOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ImportProblemInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ImportProblemInput, got %T", in))
 		}
 
-		return i.server.ImportProblem(ctx, message)
+		return i.client.ImportProblem(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2766,14 +2767,14 @@ func (i *JudgeInterceptor) ImportProblem(ctx context.Context, in *ImportProblemI
 	return message, err
 }
 
-func (i *JudgeInterceptor) SyncProblem(ctx context.Context, in *SyncProblemInput) (*SyncProblemOutput, error) {
+func (i *JudgeInterceptor) SyncProblem(ctx context.Context, in *SyncProblemInput, opts ...grpc.CallOption) (*SyncProblemOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*SyncProblemInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *SyncProblemInput, got %T", in))
 		}
 
-		return i.server.SyncProblem(ctx, message)
+		return i.client.SyncProblem(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2798,14 +2799,14 @@ func (i *JudgeInterceptor) SyncProblem(ctx context.Context, in *SyncProblemInput
 	return message, err
 }
 
-func (i *JudgeInterceptor) UpdateProblem(ctx context.Context, in *UpdateProblemInput) (*UpdateProblemOutput, error) {
+func (i *JudgeInterceptor) UpdateProblem(ctx context.Context, in *UpdateProblemInput, opts ...grpc.CallOption) (*UpdateProblemOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdateProblemInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UpdateProblemInput, got %T", in))
 		}
 
-		return i.server.UpdateProblem(ctx, message)
+		return i.client.UpdateProblem(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2830,14 +2831,14 @@ func (i *JudgeInterceptor) UpdateProblem(ctx context.Context, in *UpdateProblemI
 	return message, err
 }
 
-func (i *JudgeInterceptor) ListProblems(ctx context.Context, in *ListProblemsInput) (*ListProblemsOutput, error) {
+func (i *JudgeInterceptor) ListProblems(ctx context.Context, in *ListProblemsInput, opts ...grpc.CallOption) (*ListProblemsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListProblemsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListProblemsInput, got %T", in))
 		}
 
-		return i.server.ListProblems(ctx, message)
+		return i.client.ListProblems(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2862,14 +2863,14 @@ func (i *JudgeInterceptor) ListProblems(ctx context.Context, in *ListProblemsInp
 	return message, err
 }
 
-func (i *JudgeInterceptor) DescribeProblem(ctx context.Context, in *DescribeProblemInput) (*DescribeProblemOutput, error) {
+func (i *JudgeInterceptor) DescribeProblem(ctx context.Context, in *DescribeProblemInput, opts ...grpc.CallOption) (*DescribeProblemOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeProblemInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeProblemInput, got %T", in))
 		}
 
-		return i.server.DescribeProblem(ctx, message)
+		return i.client.DescribeProblem(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2894,14 +2895,14 @@ func (i *JudgeInterceptor) DescribeProblem(ctx context.Context, in *DescribeProb
 	return message, err
 }
 
-func (i *JudgeInterceptor) DescribeCodeTemplate(ctx context.Context, in *DescribeCodeTemplateInput) (*DescribeCodeTemplateOutput, error) {
+func (i *JudgeInterceptor) DescribeCodeTemplate(ctx context.Context, in *DescribeCodeTemplateInput, opts ...grpc.CallOption) (*DescribeCodeTemplateOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeCodeTemplateInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeCodeTemplateInput, got %T", in))
 		}
 
-		return i.server.DescribeCodeTemplate(ctx, message)
+		return i.client.DescribeCodeTemplate(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2926,14 +2927,14 @@ func (i *JudgeInterceptor) DescribeCodeTemplate(ctx context.Context, in *Describ
 	return message, err
 }
 
-func (i *JudgeInterceptor) LookupCodeTemplate(ctx context.Context, in *LookupCodeTemplateInput) (*LookupCodeTemplateOutput, error) {
+func (i *JudgeInterceptor) LookupCodeTemplate(ctx context.Context, in *LookupCodeTemplateInput, opts ...grpc.CallOption) (*LookupCodeTemplateOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*LookupCodeTemplateInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *LookupCodeTemplateInput, got %T", in))
 		}
 
-		return i.server.LookupCodeTemplate(ctx, message)
+		return i.client.LookupCodeTemplate(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2958,14 +2959,14 @@ func (i *JudgeInterceptor) LookupCodeTemplate(ctx context.Context, in *LookupCod
 	return message, err
 }
 
-func (i *JudgeInterceptor) ListStatements(ctx context.Context, in *ListStatementsInput) (*ListStatementsOutput, error) {
+func (i *JudgeInterceptor) ListStatements(ctx context.Context, in *ListStatementsInput, opts ...grpc.CallOption) (*ListStatementsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListStatementsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListStatementsInput, got %T", in))
 		}
 
-		return i.server.ListStatements(ctx, message)
+		return i.client.ListStatements(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2990,14 +2991,14 @@ func (i *JudgeInterceptor) ListStatements(ctx context.Context, in *ListStatement
 	return message, err
 }
 
-func (i *JudgeInterceptor) ListAttachments(ctx context.Context, in *ListAttachmentsInput) (*ListAttachmentsOutput, error) {
+func (i *JudgeInterceptor) ListAttachments(ctx context.Context, in *ListAttachmentsInput, opts ...grpc.CallOption) (*ListAttachmentsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListAttachmentsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListAttachmentsInput, got %T", in))
 		}
 
-		return i.server.ListAttachments(ctx, message)
+		return i.client.ListAttachments(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -3022,14 +3023,14 @@ func (i *JudgeInterceptor) ListAttachments(ctx context.Context, in *ListAttachme
 	return message, err
 }
 
-func (i *JudgeInterceptor) ListExamples(ctx context.Context, in *ListExamplesInput) (*ListExamplesOutput, error) {
+func (i *JudgeInterceptor) ListExamples(ctx context.Context, in *ListExamplesInput, opts ...grpc.CallOption) (*ListExamplesOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListExamplesInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListExamplesInput, got %T", in))
 		}
 
-		return i.server.ListExamples(ctx, message)
+		return i.client.ListExamples(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -3054,14 +3055,14 @@ func (i *JudgeInterceptor) ListExamples(ctx context.Context, in *ListExamplesInp
 	return message, err
 }
 
-func (i *JudgeInterceptor) DeleteProblem(ctx context.Context, in *DeleteProblemInput) (*DeleteProblemOutput, error) {
+func (i *JudgeInterceptor) DeleteProblem(ctx context.Context, in *DeleteProblemInput, opts ...grpc.CallOption) (*DeleteProblemOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DeleteProblemInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DeleteProblemInput, got %T", in))
 		}
 
-		return i.server.DeleteProblem(ctx, message)
+		return i.client.DeleteProblem(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -3086,14 +3087,14 @@ func (i *JudgeInterceptor) DeleteProblem(ctx context.Context, in *DeleteProblemI
 	return message, err
 }
 
-func (i *JudgeInterceptor) RetestProblem(ctx context.Context, in *RetestProblemInput) (*RetestProblemOutput, error) {
+func (i *JudgeInterceptor) RetestProblem(ctx context.Context, in *RetestProblemInput, opts ...grpc.CallOption) (*RetestProblemOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*RetestProblemInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *RetestProblemInput, got %T", in))
 		}
 
-		return i.server.RetestProblem(ctx, message)
+		return i.client.RetestProblem(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -3118,14 +3119,14 @@ func (i *JudgeInterceptor) RetestProblem(ctx context.Context, in *RetestProblemI
 	return message, err
 }
 
-func (i *JudgeInterceptor) AddParticipant(ctx context.Context, in *AddParticipantInput) (*AddParticipantOutput, error) {
+func (i *JudgeInterceptor) AddParticipant(ctx context.Context, in *AddParticipantInput, opts ...grpc.CallOption) (*AddParticipantOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*AddParticipantInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *AddParticipantInput, got %T", in))
 		}
 
-		return i.server.AddParticipant(ctx, message)
+		return i.client.AddParticipant(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -3150,14 +3151,14 @@ func (i *JudgeInterceptor) AddParticipant(ctx context.Context, in *AddParticipan
 	return message, err
 }
 
-func (i *JudgeInterceptor) EnableParticipant(ctx context.Context, in *EnableParticipantInput) (*EnableParticipantOutput, error) {
+func (i *JudgeInterceptor) EnableParticipant(ctx context.Context, in *EnableParticipantInput, opts ...grpc.CallOption) (*EnableParticipantOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*EnableParticipantInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *EnableParticipantInput, got %T", in))
 		}
 
-		return i.server.EnableParticipant(ctx, message)
+		return i.client.EnableParticipant(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -3182,14 +3183,14 @@ func (i *JudgeInterceptor) EnableParticipant(ctx context.Context, in *EnablePart
 	return message, err
 }
 
-func (i *JudgeInterceptor) DisableParticipant(ctx context.Context, in *DisableParticipantInput) (*DisableParticipantOutput, error) {
+func (i *JudgeInterceptor) DisableParticipant(ctx context.Context, in *DisableParticipantInput, opts ...grpc.CallOption) (*DisableParticipantOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DisableParticipantInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DisableParticipantInput, got %T", in))
 		}
 
-		return i.server.DisableParticipant(ctx, message)
+		return i.client.DisableParticipant(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -3214,14 +3215,14 @@ func (i *JudgeInterceptor) DisableParticipant(ctx context.Context, in *DisablePa
 	return message, err
 }
 
-func (i *JudgeInterceptor) UpdateParticipant(ctx context.Context, in *UpdateParticipantInput) (*UpdateParticipantOutput, error) {
+func (i *JudgeInterceptor) UpdateParticipant(ctx context.Context, in *UpdateParticipantInput, opts ...grpc.CallOption) (*UpdateParticipantOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdateParticipantInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UpdateParticipantInput, got %T", in))
 		}
 
-		return i.server.UpdateParticipant(ctx, message)
+		return i.client.UpdateParticipant(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -3246,14 +3247,14 @@ func (i *JudgeInterceptor) UpdateParticipant(ctx context.Context, in *UpdatePart
 	return message, err
 }
 
-func (i *JudgeInterceptor) RemoveParticipant(ctx context.Context, in *RemoveParticipantInput) (*RemoveParticipantOutput, error) {
+func (i *JudgeInterceptor) RemoveParticipant(ctx context.Context, in *RemoveParticipantInput, opts ...grpc.CallOption) (*RemoveParticipantOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*RemoveParticipantInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *RemoveParticipantInput, got %T", in))
 		}
 
-		return i.server.RemoveParticipant(ctx, message)
+		return i.client.RemoveParticipant(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -3278,14 +3279,14 @@ func (i *JudgeInterceptor) RemoveParticipant(ctx context.Context, in *RemovePart
 	return message, err
 }
 
-func (i *JudgeInterceptor) ListParticipants(ctx context.Context, in *ListParticipantsInput) (*ListParticipantsOutput, error) {
+func (i *JudgeInterceptor) ListParticipants(ctx context.Context, in *ListParticipantsInput, opts ...grpc.CallOption) (*ListParticipantsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListParticipantsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListParticipantsInput, got %T", in))
 		}
 
-		return i.server.ListParticipants(ctx, message)
+		return i.client.ListParticipants(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -3310,14 +3311,14 @@ func (i *JudgeInterceptor) ListParticipants(ctx context.Context, in *ListPartici
 	return message, err
 }
 
-func (i *JudgeInterceptor) DescribeParticipant(ctx context.Context, in *DescribeParticipantInput) (*DescribeParticipantOutput, error) {
+func (i *JudgeInterceptor) DescribeParticipant(ctx context.Context, in *DescribeParticipantInput, opts ...grpc.CallOption) (*DescribeParticipantOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeParticipantInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeParticipantInput, got %T", in))
 		}
 
-		return i.server.DescribeParticipant(ctx, message)
+		return i.client.DescribeParticipant(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -3342,14 +3343,14 @@ func (i *JudgeInterceptor) DescribeParticipant(ctx context.Context, in *Describe
 	return message, err
 }
 
-func (i *JudgeInterceptor) IntrospectParticipant(ctx context.Context, in *IntrospectParticipantInput) (*IntrospectParticipantOutput, error) {
+func (i *JudgeInterceptor) IntrospectParticipant(ctx context.Context, in *IntrospectParticipantInput, opts ...grpc.CallOption) (*IntrospectParticipantOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*IntrospectParticipantInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *IntrospectParticipantInput, got %T", in))
 		}
 
-		return i.server.IntrospectParticipant(ctx, message)
+		return i.client.IntrospectParticipant(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -3374,14 +3375,14 @@ func (i *JudgeInterceptor) IntrospectParticipant(ctx context.Context, in *Intros
 	return message, err
 }
 
-func (i *JudgeInterceptor) JoinContest(ctx context.Context, in *JoinContestInput) (*JoinContestOutput, error) {
+func (i *JudgeInterceptor) JoinContest(ctx context.Context, in *JoinContestInput, opts ...grpc.CallOption) (*JoinContestOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*JoinContestInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *JoinContestInput, got %T", in))
 		}
 
-		return i.server.JoinContest(ctx, message)
+		return i.client.JoinContest(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -3406,14 +3407,14 @@ func (i *JudgeInterceptor) JoinContest(ctx context.Context, in *JoinContestInput
 	return message, err
 }
 
-func (i *JudgeInterceptor) StartContest(ctx context.Context, in *StartContestInput) (*StartContestOutput, error) {
+func (i *JudgeInterceptor) StartContest(ctx context.Context, in *StartContestInput, opts ...grpc.CallOption) (*StartContestOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*StartContestInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *StartContestInput, got %T", in))
 		}
 
-		return i.server.StartContest(ctx, message)
+		return i.client.StartContest(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -3438,14 +3439,14 @@ func (i *JudgeInterceptor) StartContest(ctx context.Context, in *StartContestInp
 	return message, err
 }
 
-func (i *JudgeInterceptor) VerifyPasscode(ctx context.Context, in *VerifyPasscodeInput) (*VerifyPasscodeOutput, error) {
+func (i *JudgeInterceptor) VerifyPasscode(ctx context.Context, in *VerifyPasscodeInput, opts ...grpc.CallOption) (*VerifyPasscodeOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*VerifyPasscodeInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *VerifyPasscodeInput, got %T", in))
 		}
 
-		return i.server.VerifyPasscode(ctx, message)
+		return i.client.VerifyPasscode(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -3470,14 +3471,14 @@ func (i *JudgeInterceptor) VerifyPasscode(ctx context.Context, in *VerifyPasscod
 	return message, err
 }
 
-func (i *JudgeInterceptor) EnterPasscode(ctx context.Context, in *EnterPasscodeInput) (*EnterPasscodeOutput, error) {
+func (i *JudgeInterceptor) EnterPasscode(ctx context.Context, in *EnterPasscodeInput, opts ...grpc.CallOption) (*EnterPasscodeOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*EnterPasscodeInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *EnterPasscodeInput, got %T", in))
 		}
 
-		return i.server.EnterPasscode(ctx, message)
+		return i.client.EnterPasscode(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -3502,14 +3503,14 @@ func (i *JudgeInterceptor) EnterPasscode(ctx context.Context, in *EnterPasscodeI
 	return message, err
 }
 
-func (i *JudgeInterceptor) ResetPasscode(ctx context.Context, in *ResetPasscodeInput) (*ResetPasscodeOutput, error) {
+func (i *JudgeInterceptor) ResetPasscode(ctx context.Context, in *ResetPasscodeInput, opts ...grpc.CallOption) (*ResetPasscodeOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ResetPasscodeInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ResetPasscodeInput, got %T", in))
 		}
 
-		return i.server.ResetPasscode(ctx, message)
+		return i.client.ResetPasscode(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -3534,14 +3535,14 @@ func (i *JudgeInterceptor) ResetPasscode(ctx context.Context, in *ResetPasscodeI
 	return message, err
 }
 
-func (i *JudgeInterceptor) SetPasscode(ctx context.Context, in *SetPasscodeInput) (*SetPasscodeOutput, error) {
+func (i *JudgeInterceptor) SetPasscode(ctx context.Context, in *SetPasscodeInput, opts ...grpc.CallOption) (*SetPasscodeOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*SetPasscodeInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *SetPasscodeInput, got %T", in))
 		}
 
-		return i.server.SetPasscode(ctx, message)
+		return i.client.SetPasscode(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -3566,14 +3567,14 @@ func (i *JudgeInterceptor) SetPasscode(ctx context.Context, in *SetPasscodeInput
 	return message, err
 }
 
-func (i *JudgeInterceptor) RemovePasscode(ctx context.Context, in *RemovePasscodeInput) (*RemovePasscodeOutput, error) {
+func (i *JudgeInterceptor) RemovePasscode(ctx context.Context, in *RemovePasscodeInput, opts ...grpc.CallOption) (*RemovePasscodeOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*RemovePasscodeInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *RemovePasscodeInput, got %T", in))
 		}
 
-		return i.server.RemovePasscode(ctx, message)
+		return i.client.RemovePasscode(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -3598,14 +3599,14 @@ func (i *JudgeInterceptor) RemovePasscode(ctx context.Context, in *RemovePasscod
 	return message, err
 }
 
-func (i *JudgeInterceptor) CreateSubmission(ctx context.Context, in *CreateSubmissionInput) (*CreateSubmissionOutput, error) {
+func (i *JudgeInterceptor) CreateSubmission(ctx context.Context, in *CreateSubmissionInput, opts ...grpc.CallOption) (*CreateSubmissionOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CreateSubmissionInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *CreateSubmissionInput, got %T", in))
 		}
 
-		return i.server.CreateSubmission(ctx, message)
+		return i.client.CreateSubmission(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -3630,14 +3631,14 @@ func (i *JudgeInterceptor) CreateSubmission(ctx context.Context, in *CreateSubmi
 	return message, err
 }
 
-func (i *JudgeInterceptor) ListSubmissions(ctx context.Context, in *ListSubmissionsInput) (*ListSubmissionsOutput, error) {
+func (i *JudgeInterceptor) ListSubmissions(ctx context.Context, in *ListSubmissionsInput, opts ...grpc.CallOption) (*ListSubmissionsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListSubmissionsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListSubmissionsInput, got %T", in))
 		}
 
-		return i.server.ListSubmissions(ctx, message)
+		return i.client.ListSubmissions(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -3662,14 +3663,14 @@ func (i *JudgeInterceptor) ListSubmissions(ctx context.Context, in *ListSubmissi
 	return message, err
 }
 
-func (i *JudgeInterceptor) DescribeSubmission(ctx context.Context, in *DescribeSubmissionInput) (*DescribeSubmissionOutput, error) {
+func (i *JudgeInterceptor) DescribeSubmission(ctx context.Context, in *DescribeSubmissionInput, opts ...grpc.CallOption) (*DescribeSubmissionOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeSubmissionInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeSubmissionInput, got %T", in))
 		}
 
-		return i.server.DescribeSubmission(ctx, message)
+		return i.client.DescribeSubmission(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -3694,14 +3695,14 @@ func (i *JudgeInterceptor) DescribeSubmission(ctx context.Context, in *DescribeS
 	return message, err
 }
 
-func (i *JudgeInterceptor) RetestSubmission(ctx context.Context, in *RetestSubmissionInput) (*RetestSubmissionOutput, error) {
+func (i *JudgeInterceptor) RetestSubmission(ctx context.Context, in *RetestSubmissionInput, opts ...grpc.CallOption) (*RetestSubmissionOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*RetestSubmissionInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *RetestSubmissionInput, got %T", in))
 		}
 
-		return i.server.RetestSubmission(ctx, message)
+		return i.client.RetestSubmission(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -3726,14 +3727,14 @@ func (i *JudgeInterceptor) RetestSubmission(ctx context.Context, in *RetestSubmi
 	return message, err
 }
 
-func (i *JudgeInterceptor) DeleteSubmission(ctx context.Context, in *DeleteSubmissionInput) (*DeleteSubmissionOutput, error) {
+func (i *JudgeInterceptor) DeleteSubmission(ctx context.Context, in *DeleteSubmissionInput, opts ...grpc.CallOption) (*DeleteSubmissionOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DeleteSubmissionInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DeleteSubmissionInput, got %T", in))
 		}
 
-		return i.server.DeleteSubmission(ctx, message)
+		return i.client.DeleteSubmission(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -3758,14 +3759,14 @@ func (i *JudgeInterceptor) DeleteSubmission(ctx context.Context, in *DeleteSubmi
 	return message, err
 }
 
-func (i *JudgeInterceptor) RestoreSubmission(ctx context.Context, in *RestoreSubmissionInput) (*RestoreSubmissionOutput, error) {
+func (i *JudgeInterceptor) RestoreSubmission(ctx context.Context, in *RestoreSubmissionInput, opts ...grpc.CallOption) (*RestoreSubmissionOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*RestoreSubmissionInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *RestoreSubmissionInput, got %T", in))
 		}
 
-		return i.server.RestoreSubmission(ctx, message)
+		return i.client.RestoreSubmission(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -3790,14 +3791,14 @@ func (i *JudgeInterceptor) RestoreSubmission(ctx context.Context, in *RestoreSub
 	return message, err
 }
 
-func (i *JudgeInterceptor) CreateTicket(ctx context.Context, in *CreateTicketInput) (*CreateTicketOutput, error) {
+func (i *JudgeInterceptor) CreateTicket(ctx context.Context, in *CreateTicketInput, opts ...grpc.CallOption) (*CreateTicketOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CreateTicketInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *CreateTicketInput, got %T", in))
 		}
 
-		return i.server.CreateTicket(ctx, message)
+		return i.client.CreateTicket(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -3822,14 +3823,14 @@ func (i *JudgeInterceptor) CreateTicket(ctx context.Context, in *CreateTicketInp
 	return message, err
 }
 
-func (i *JudgeInterceptor) CloseTicket(ctx context.Context, in *CloseTicketInput) (*CloseTicketOutput, error) {
+func (i *JudgeInterceptor) CloseTicket(ctx context.Context, in *CloseTicketInput, opts ...grpc.CallOption) (*CloseTicketOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CloseTicketInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *CloseTicketInput, got %T", in))
 		}
 
-		return i.server.CloseTicket(ctx, message)
+		return i.client.CloseTicket(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -3854,14 +3855,14 @@ func (i *JudgeInterceptor) CloseTicket(ctx context.Context, in *CloseTicketInput
 	return message, err
 }
 
-func (i *JudgeInterceptor) OpenTicket(ctx context.Context, in *OpenTicketInput) (*OpenTicketOutput, error) {
+func (i *JudgeInterceptor) OpenTicket(ctx context.Context, in *OpenTicketInput, opts ...grpc.CallOption) (*OpenTicketOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*OpenTicketInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *OpenTicketInput, got %T", in))
 		}
 
-		return i.server.OpenTicket(ctx, message)
+		return i.client.OpenTicket(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -3886,14 +3887,14 @@ func (i *JudgeInterceptor) OpenTicket(ctx context.Context, in *OpenTicketInput) 
 	return message, err
 }
 
-func (i *JudgeInterceptor) ReadTicket(ctx context.Context, in *ReadTicketInput) (*ReadTicketOutput, error) {
+func (i *JudgeInterceptor) ReadTicket(ctx context.Context, in *ReadTicketInput, opts ...grpc.CallOption) (*ReadTicketOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ReadTicketInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ReadTicketInput, got %T", in))
 		}
 
-		return i.server.ReadTicket(ctx, message)
+		return i.client.ReadTicket(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -3918,14 +3919,14 @@ func (i *JudgeInterceptor) ReadTicket(ctx context.Context, in *ReadTicketInput) 
 	return message, err
 }
 
-func (i *JudgeInterceptor) DeleteTicket(ctx context.Context, in *DeleteTicketInput) (*DeleteTicketOutput, error) {
+func (i *JudgeInterceptor) DeleteTicket(ctx context.Context, in *DeleteTicketInput, opts ...grpc.CallOption) (*DeleteTicketOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DeleteTicketInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DeleteTicketInput, got %T", in))
 		}
 
-		return i.server.DeleteTicket(ctx, message)
+		return i.client.DeleteTicket(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -3950,14 +3951,14 @@ func (i *JudgeInterceptor) DeleteTicket(ctx context.Context, in *DeleteTicketInp
 	return message, err
 }
 
-func (i *JudgeInterceptor) DescribeTicket(ctx context.Context, in *DescribeTicketInput) (*DescribeTicketOutput, error) {
+func (i *JudgeInterceptor) DescribeTicket(ctx context.Context, in *DescribeTicketInput, opts ...grpc.CallOption) (*DescribeTicketOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeTicketInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeTicketInput, got %T", in))
 		}
 
-		return i.server.DescribeTicket(ctx, message)
+		return i.client.DescribeTicket(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -3982,14 +3983,14 @@ func (i *JudgeInterceptor) DescribeTicket(ctx context.Context, in *DescribeTicke
 	return message, err
 }
 
-func (i *JudgeInterceptor) ListTickets(ctx context.Context, in *ListTicketsInput) (*ListTicketsOutput, error) {
+func (i *JudgeInterceptor) ListTickets(ctx context.Context, in *ListTicketsInput, opts ...grpc.CallOption) (*ListTicketsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListTicketsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListTicketsInput, got %T", in))
 		}
 
-		return i.server.ListTickets(ctx, message)
+		return i.client.ListTickets(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -4014,14 +4015,14 @@ func (i *JudgeInterceptor) ListTickets(ctx context.Context, in *ListTicketsInput
 	return message, err
 }
 
-func (i *JudgeInterceptor) ReplyTicket(ctx context.Context, in *ReplyTicketInput) (*ReplyTicketOutput, error) {
+func (i *JudgeInterceptor) ReplyTicket(ctx context.Context, in *ReplyTicketInput, opts ...grpc.CallOption) (*ReplyTicketOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ReplyTicketInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ReplyTicketInput, got %T", in))
 		}
 
-		return i.server.ReplyTicket(ctx, message)
+		return i.client.ReplyTicket(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -4046,14 +4047,14 @@ func (i *JudgeInterceptor) ReplyTicket(ctx context.Context, in *ReplyTicketInput
 	return message, err
 }
 
-func (i *JudgeInterceptor) ListReplies(ctx context.Context, in *ListRepliesInput) (*ListRepliesOutput, error) {
+func (i *JudgeInterceptor) ListReplies(ctx context.Context, in *ListRepliesInput, opts ...grpc.CallOption) (*ListRepliesOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListRepliesInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListRepliesInput, got %T", in))
 		}
 
-		return i.server.ListReplies(ctx, message)
+		return i.client.ListReplies(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -4078,14 +4079,14 @@ func (i *JudgeInterceptor) ListReplies(ctx context.Context, in *ListRepliesInput
 	return message, err
 }
 
-func (i *JudgeInterceptor) DeleteReply(ctx context.Context, in *DeleteReplyInput) (*DeleteReplyOutput, error) {
+func (i *JudgeInterceptor) DeleteReply(ctx context.Context, in *DeleteReplyInput, opts ...grpc.CallOption) (*DeleteReplyOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DeleteReplyInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DeleteReplyInput, got %T", in))
 		}
 
-		return i.server.DeleteReply(ctx, message)
+		return i.client.DeleteReply(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -4110,14 +4111,14 @@ func (i *JudgeInterceptor) DeleteReply(ctx context.Context, in *DeleteReplyInput
 	return message, err
 }
 
-func (i *JudgeInterceptor) UpdateReply(ctx context.Context, in *UpdateReplyInput) (*UpdateReplyOutput, error) {
+func (i *JudgeInterceptor) UpdateReply(ctx context.Context, in *UpdateReplyInput, opts ...grpc.CallOption) (*UpdateReplyOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdateReplyInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UpdateReplyInput, got %T", in))
 		}
 
-		return i.server.UpdateReply(ctx, message)
+		return i.client.UpdateReply(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -4142,14 +4143,14 @@ func (i *JudgeInterceptor) UpdateReply(ctx context.Context, in *UpdateReplyInput
 	return message, err
 }
 
-func (i *JudgeInterceptor) CreateAnnouncement(ctx context.Context, in *CreateAnnouncementInput) (*CreateAnnouncementOutput, error) {
+func (i *JudgeInterceptor) CreateAnnouncement(ctx context.Context, in *CreateAnnouncementInput, opts ...grpc.CallOption) (*CreateAnnouncementOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CreateAnnouncementInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *CreateAnnouncementInput, got %T", in))
 		}
 
-		return i.server.CreateAnnouncement(ctx, message)
+		return i.client.CreateAnnouncement(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -4174,14 +4175,14 @@ func (i *JudgeInterceptor) CreateAnnouncement(ctx context.Context, in *CreateAnn
 	return message, err
 }
 
-func (i *JudgeInterceptor) UpdateAnnouncement(ctx context.Context, in *UpdateAnnouncementInput) (*UpdateAnnouncementOutput, error) {
+func (i *JudgeInterceptor) UpdateAnnouncement(ctx context.Context, in *UpdateAnnouncementInput, opts ...grpc.CallOption) (*UpdateAnnouncementOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdateAnnouncementInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UpdateAnnouncementInput, got %T", in))
 		}
 
-		return i.server.UpdateAnnouncement(ctx, message)
+		return i.client.UpdateAnnouncement(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -4206,14 +4207,14 @@ func (i *JudgeInterceptor) UpdateAnnouncement(ctx context.Context, in *UpdateAnn
 	return message, err
 }
 
-func (i *JudgeInterceptor) DeleteAnnouncement(ctx context.Context, in *DeleteAnnouncementInput) (*DeleteAnnouncementOutput, error) {
+func (i *JudgeInterceptor) DeleteAnnouncement(ctx context.Context, in *DeleteAnnouncementInput, opts ...grpc.CallOption) (*DeleteAnnouncementOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DeleteAnnouncementInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DeleteAnnouncementInput, got %T", in))
 		}
 
-		return i.server.DeleteAnnouncement(ctx, message)
+		return i.client.DeleteAnnouncement(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -4238,14 +4239,14 @@ func (i *JudgeInterceptor) DeleteAnnouncement(ctx context.Context, in *DeleteAnn
 	return message, err
 }
 
-func (i *JudgeInterceptor) ReadAnnouncement(ctx context.Context, in *ReadAnnouncementInput) (*ReadAnnouncementOutput, error) {
+func (i *JudgeInterceptor) ReadAnnouncement(ctx context.Context, in *ReadAnnouncementInput, opts ...grpc.CallOption) (*ReadAnnouncementOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ReadAnnouncementInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ReadAnnouncementInput, got %T", in))
 		}
 
-		return i.server.ReadAnnouncement(ctx, message)
+		return i.client.ReadAnnouncement(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -4270,14 +4271,14 @@ func (i *JudgeInterceptor) ReadAnnouncement(ctx context.Context, in *ReadAnnounc
 	return message, err
 }
 
-func (i *JudgeInterceptor) DescribeAnnouncement(ctx context.Context, in *DescribeAnnouncementInput) (*DescribeAnnouncementOutput, error) {
+func (i *JudgeInterceptor) DescribeAnnouncement(ctx context.Context, in *DescribeAnnouncementInput, opts ...grpc.CallOption) (*DescribeAnnouncementOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeAnnouncementInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeAnnouncementInput, got %T", in))
 		}
 
-		return i.server.DescribeAnnouncement(ctx, message)
+		return i.client.DescribeAnnouncement(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -4302,14 +4303,14 @@ func (i *JudgeInterceptor) DescribeAnnouncement(ctx context.Context, in *Describ
 	return message, err
 }
 
-func (i *JudgeInterceptor) DescribeAnnouncementStatus(ctx context.Context, in *DescribeAnnouncementStatusInput) (*DescribeAnnouncementStatusOutput, error) {
+func (i *JudgeInterceptor) DescribeAnnouncementStatus(ctx context.Context, in *DescribeAnnouncementStatusInput, opts ...grpc.CallOption) (*DescribeAnnouncementStatusOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeAnnouncementStatusInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeAnnouncementStatusInput, got %T", in))
 		}
 
-		return i.server.DescribeAnnouncementStatus(ctx, message)
+		return i.client.DescribeAnnouncementStatus(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -4334,14 +4335,14 @@ func (i *JudgeInterceptor) DescribeAnnouncementStatus(ctx context.Context, in *D
 	return message, err
 }
 
-func (i *JudgeInterceptor) ListAnnouncements(ctx context.Context, in *ListAnnouncementsInput) (*ListAnnouncementsOutput, error) {
+func (i *JudgeInterceptor) ListAnnouncements(ctx context.Context, in *ListAnnouncementsInput, opts ...grpc.CallOption) (*ListAnnouncementsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListAnnouncementsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListAnnouncementsInput, got %T", in))
 		}
 
-		return i.server.ListAnnouncements(ctx, message)
+		return i.client.ListAnnouncements(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -4366,14 +4367,14 @@ func (i *JudgeInterceptor) ListAnnouncements(ctx context.Context, in *ListAnnoun
 	return message, err
 }
 
-func (i *JudgeInterceptor) IntrospectScore(ctx context.Context, in *IntrospectScoreInput) (*IntrospectScoreOutput, error) {
+func (i *JudgeInterceptor) IntrospectScore(ctx context.Context, in *IntrospectScoreInput, opts ...grpc.CallOption) (*IntrospectScoreOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*IntrospectScoreInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *IntrospectScoreInput, got %T", in))
 		}
 
-		return i.server.IntrospectScore(ctx, message)
+		return i.client.IntrospectScore(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -4398,14 +4399,14 @@ func (i *JudgeInterceptor) IntrospectScore(ctx context.Context, in *IntrospectSc
 	return message, err
 }
 
-func (i *JudgeInterceptor) DescribeScore(ctx context.Context, in *DescribeScoreInput) (*DescribeScoreOutput, error) {
+func (i *JudgeInterceptor) DescribeScore(ctx context.Context, in *DescribeScoreInput, opts ...grpc.CallOption) (*DescribeScoreOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeScoreInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeScoreInput, got %T", in))
 		}
 
-		return i.server.DescribeScore(ctx, message)
+		return i.client.DescribeScore(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -4430,14 +4431,14 @@ func (i *JudgeInterceptor) DescribeScore(ctx context.Context, in *DescribeScoreI
 	return message, err
 }
 
-func (i *JudgeInterceptor) ImportScore(ctx context.Context, in *ImportScoreInput) (*ImportScoreOutput, error) {
+func (i *JudgeInterceptor) ImportScore(ctx context.Context, in *ImportScoreInput, opts ...grpc.CallOption) (*ImportScoreOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ImportScoreInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ImportScoreInput, got %T", in))
 		}
 
-		return i.server.ImportScore(ctx, message)
+		return i.client.ImportScore(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -4462,14 +4463,14 @@ func (i *JudgeInterceptor) ImportScore(ctx context.Context, in *ImportScoreInput
 	return message, err
 }
 
-func (i *JudgeInterceptor) ExportScore(ctx context.Context, in *ExportScoreInput) (*ExportScoreOutput, error) {
+func (i *JudgeInterceptor) ExportScore(ctx context.Context, in *ExportScoreInput, opts ...grpc.CallOption) (*ExportScoreOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ExportScoreInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ExportScoreInput, got %T", in))
 		}
 
-		return i.server.ExportScore(ctx, message)
+		return i.client.ExportScore(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -4494,14 +4495,14 @@ func (i *JudgeInterceptor) ExportScore(ctx context.Context, in *ExportScoreInput
 	return message, err
 }
 
-func (i *JudgeInterceptor) ListResult(ctx context.Context, in *ListResultInput) (*ListResultOutput, error) {
+func (i *JudgeInterceptor) ListResult(ctx context.Context, in *ListResultInput, opts ...grpc.CallOption) (*ListResultOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListResultInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListResultInput, got %T", in))
 		}
 
-		return i.server.ListResult(ctx, message)
+		return i.client.ListResult(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -4526,14 +4527,14 @@ func (i *JudgeInterceptor) ListResult(ctx context.Context, in *ListResultInput) 
 	return message, err
 }
 
-func (i *JudgeInterceptor) RebuildScore(ctx context.Context, in *RebuildScoreInput) (*RebuildScoreOutput, error) {
+func (i *JudgeInterceptor) RebuildScore(ctx context.Context, in *RebuildScoreInput, opts ...grpc.CallOption) (*RebuildScoreOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*RebuildScoreInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *RebuildScoreInput, got %T", in))
 		}
 
-		return i.server.RebuildScore(ctx, message)
+		return i.client.RebuildScore(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -4558,14 +4559,14 @@ func (i *JudgeInterceptor) RebuildScore(ctx context.Context, in *RebuildScoreInp
 	return message, err
 }
 
-func (i *JudgeInterceptor) ListEntitlements(ctx context.Context, in *ListEntitlementsInput) (*ListEntitlementsOutput, error) {
+func (i *JudgeInterceptor) ListEntitlements(ctx context.Context, in *ListEntitlementsInput, opts ...grpc.CallOption) (*ListEntitlementsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListEntitlementsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListEntitlementsInput, got %T", in))
 		}
 
-		return i.server.ListEntitlements(ctx, message)
+		return i.client.ListEntitlements(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -4590,14 +4591,14 @@ func (i *JudgeInterceptor) ListEntitlements(ctx context.Context, in *ListEntitle
 	return message, err
 }
 
-func (i *JudgeInterceptor) ListActivities(ctx context.Context, in *ListActivitiesInput) (*ListActivitiesOutput, error) {
+func (i *JudgeInterceptor) ListActivities(ctx context.Context, in *ListActivitiesInput, opts ...grpc.CallOption) (*ListActivitiesOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListActivitiesInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListActivitiesInput, got %T", in))
 		}
 
-		return i.server.ListActivities(ctx, message)
+		return i.client.ListActivities(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {

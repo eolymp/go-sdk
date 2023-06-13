@@ -8,6 +8,7 @@ import (
 	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	websocket "golang.org/x/net/websocket"
+	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
@@ -178,31 +179,31 @@ var _OAuth2_WebsocketCodec = websocket.Codec{
 	},
 }
 
-// RegisterOAuth2HttpHandlers adds handlers for for OAuth2Server
+// RegisterOAuth2HttpHandlers adds handlers for for OAuth2Client
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterOAuth2HttpHandlers(router *mux.Router, prefix string, srv OAuth2Server) {
+func RegisterOAuth2HttpHandlers(router *mux.Router, prefix string, cli OAuth2Client) {
 }
 
 type _OAuth2Handler = func(ctx context.Context, in proto.Message) (proto.Message, error)
 type _OAuth2Middleware = func(ctx context.Context, method string, in proto.Message, handler _OAuth2Handler) (out proto.Message, err error)
 type OAuth2Interceptor struct {
 	middleware []_OAuth2Middleware
-	server     OAuth2Server
+	client     OAuth2Client
 }
 
 // NewOAuth2Interceptor constructs additional middleware for a server based on annotations in proto files
-func NewOAuth2Interceptor(srv OAuth2Server, middleware ..._OAuth2Middleware) *OAuth2Interceptor {
-	return &OAuth2Interceptor{server: srv, middleware: middleware}
+func NewOAuth2Interceptor(cli OAuth2Client, middleware ..._OAuth2Middleware) *OAuth2Interceptor {
+	return &OAuth2Interceptor{client: cli, middleware: middleware}
 }
 
-func (i *OAuth2Interceptor) Token(ctx context.Context, in *TokenInput) (*TokenOutput, error) {
+func (i *OAuth2Interceptor) Token(ctx context.Context, in *TokenInput, opts ...grpc.CallOption) (*TokenOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*TokenInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *TokenInput, got %T", in))
 		}
 
-		return i.server.Token(ctx, message)
+		return i.client.Token(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -227,14 +228,14 @@ func (i *OAuth2Interceptor) Token(ctx context.Context, in *TokenInput) (*TokenOu
 	return message, err
 }
 
-func (i *OAuth2Interceptor) UserInfo(ctx context.Context, in *UserInfoInput) (*UserInfoOutput, error) {
+func (i *OAuth2Interceptor) UserInfo(ctx context.Context, in *UserInfoInput, opts ...grpc.CallOption) (*UserInfoOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UserInfoInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UserInfoInput, got %T", in))
 		}
 
-		return i.server.UserInfo(ctx, message)
+		return i.client.UserInfo(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -259,14 +260,14 @@ func (i *OAuth2Interceptor) UserInfo(ctx context.Context, in *UserInfoInput) (*U
 	return message, err
 }
 
-func (i *OAuth2Interceptor) Introspect(ctx context.Context, in *IntrospectInput) (*IntrospectOutput, error) {
+func (i *OAuth2Interceptor) Introspect(ctx context.Context, in *IntrospectInput, opts ...grpc.CallOption) (*IntrospectOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*IntrospectInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *IntrospectInput, got %T", in))
 		}
 
-		return i.server.Introspect(ctx, message)
+		return i.client.Introspect(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -291,14 +292,14 @@ func (i *OAuth2Interceptor) Introspect(ctx context.Context, in *IntrospectInput)
 	return message, err
 }
 
-func (i *OAuth2Interceptor) Revoke(ctx context.Context, in *RevokeInput) (*RevokeOutput, error) {
+func (i *OAuth2Interceptor) Revoke(ctx context.Context, in *RevokeInput, opts ...grpc.CallOption) (*RevokeOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*RevokeInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *RevokeInput, got %T", in))
 		}
 
-		return i.server.Revoke(ctx, message)
+		return i.client.Revoke(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -323,14 +324,14 @@ func (i *OAuth2Interceptor) Revoke(ctx context.Context, in *RevokeInput) (*Revok
 	return message, err
 }
 
-func (i *OAuth2Interceptor) AuthCode(ctx context.Context, in *AuthCodeInput) (*AuthCodeOutput, error) {
+func (i *OAuth2Interceptor) AuthCode(ctx context.Context, in *AuthCodeInput, opts ...grpc.CallOption) (*AuthCodeOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*AuthCodeInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *AuthCodeInput, got %T", in))
 		}
 
-		return i.server.AuthCode(ctx, message)
+		return i.client.AuthCode(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -355,14 +356,14 @@ func (i *OAuth2Interceptor) AuthCode(ctx context.Context, in *AuthCodeInput) (*A
 	return message, err
 }
 
-func (i *OAuth2Interceptor) Authorize(ctx context.Context, in *AuthorizeInput) (*AuthorizeOutput, error) {
+func (i *OAuth2Interceptor) Authorize(ctx context.Context, in *AuthorizeInput, opts ...grpc.CallOption) (*AuthorizeOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*AuthorizeInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *AuthorizeInput, got %T", in))
 		}
 
-		return i.server.Authorize(ctx, message)
+		return i.client.Authorize(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -387,14 +388,14 @@ func (i *OAuth2Interceptor) Authorize(ctx context.Context, in *AuthorizeInput) (
 	return message, err
 }
 
-func (i *OAuth2Interceptor) Callback(ctx context.Context, in *CallbackInput) (*CallbackOutput, error) {
+func (i *OAuth2Interceptor) Callback(ctx context.Context, in *CallbackInput, opts ...grpc.CallOption) (*CallbackOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CallbackInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *CallbackInput, got %T", in))
 		}
 
-		return i.server.Callback(ctx, message)
+		return i.client.Callback(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {

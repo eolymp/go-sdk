@@ -8,6 +8,7 @@ import (
 	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	websocket "golang.org/x/net/websocket"
+	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
@@ -178,33 +179,33 @@ var _StatementService_WebsocketCodec = websocket.Codec{
 	},
 }
 
-// RegisterStatementServiceHttpHandlers adds handlers for for StatementServiceServer
+// RegisterStatementServiceHttpHandlers adds handlers for for StatementServiceClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterStatementServiceHttpHandlers(router *mux.Router, prefix string, srv StatementServiceServer) {
-	router.Handle(prefix+"/statements", _StatementService_CreateStatement_Rule0(srv)).
+func RegisterStatementServiceHttpHandlers(router *mux.Router, prefix string, cli StatementServiceClient) {
+	router.Handle(prefix+"/statements", _StatementService_CreateStatement_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.atlas.StatementService.CreateStatement")
-	router.Handle(prefix+"/statements/{statement_id}", _StatementService_UpdateStatement_Rule0(srv)).
+	router.Handle(prefix+"/statements/{statement_id}", _StatementService_UpdateStatement_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.atlas.StatementService.UpdateStatement")
-	router.Handle(prefix+"/statements/{statement_id}", _StatementService_DeleteStatement_Rule0(srv)).
+	router.Handle(prefix+"/statements/{statement_id}", _StatementService_DeleteStatement_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.atlas.StatementService.DeleteStatement")
-	router.Handle(prefix+"/statements/{statement_id}", _StatementService_DescribeStatement_Rule0(srv)).
+	router.Handle(prefix+"/statements/{statement_id}", _StatementService_DescribeStatement_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.StatementService.DescribeStatement")
-	router.Handle(prefix+"/translate", _StatementService_LookupStatement_Rule0(srv)).
+	router.Handle(prefix+"/translate", _StatementService_LookupStatement_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.StatementService.LookupStatement")
-	router.Handle(prefix+"/renders", _StatementService_PreviewStatement_Rule0(srv)).
+	router.Handle(prefix+"/renders", _StatementService_PreviewStatement_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.StatementService.PreviewStatement")
-	router.Handle(prefix+"/statements", _StatementService_ListStatements_Rule0(srv)).
+	router.Handle(prefix+"/statements", _StatementService_ListStatements_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.StatementService.ListStatements")
 }
 
-func _StatementService_CreateStatement_Rule0(srv StatementServiceServer) http.Handler {
+func _StatementService_CreateStatement_Rule0(cli StatementServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateStatementInput{}
 
@@ -214,7 +215,7 @@ func _StatementService_CreateStatement_Rule0(srv StatementServiceServer) http.Ha
 			return
 		}
 
-		out, err := srv.CreateStatement(r.Context(), in)
+		out, err := cli.CreateStatement(r.Context(), in)
 		if err != nil {
 			_StatementService_HTTPWriteErrorResponse(w, err)
 			return
@@ -224,7 +225,7 @@ func _StatementService_CreateStatement_Rule0(srv StatementServiceServer) http.Ha
 	})
 }
 
-func _StatementService_UpdateStatement_Rule0(srv StatementServiceServer) http.Handler {
+func _StatementService_UpdateStatement_Rule0(cli StatementServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateStatementInput{}
 
@@ -237,7 +238,7 @@ func _StatementService_UpdateStatement_Rule0(srv StatementServiceServer) http.Ha
 		vars := mux.Vars(r)
 		in.StatementId = vars["statement_id"]
 
-		out, err := srv.UpdateStatement(r.Context(), in)
+		out, err := cli.UpdateStatement(r.Context(), in)
 		if err != nil {
 			_StatementService_HTTPWriteErrorResponse(w, err)
 			return
@@ -247,7 +248,7 @@ func _StatementService_UpdateStatement_Rule0(srv StatementServiceServer) http.Ha
 	})
 }
 
-func _StatementService_DeleteStatement_Rule0(srv StatementServiceServer) http.Handler {
+func _StatementService_DeleteStatement_Rule0(cli StatementServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteStatementInput{}
 
@@ -260,7 +261,7 @@ func _StatementService_DeleteStatement_Rule0(srv StatementServiceServer) http.Ha
 		vars := mux.Vars(r)
 		in.StatementId = vars["statement_id"]
 
-		out, err := srv.DeleteStatement(r.Context(), in)
+		out, err := cli.DeleteStatement(r.Context(), in)
 		if err != nil {
 			_StatementService_HTTPWriteErrorResponse(w, err)
 			return
@@ -270,7 +271,7 @@ func _StatementService_DeleteStatement_Rule0(srv StatementServiceServer) http.Ha
 	})
 }
 
-func _StatementService_DescribeStatement_Rule0(srv StatementServiceServer) http.Handler {
+func _StatementService_DescribeStatement_Rule0(cli StatementServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeStatementInput{}
 
@@ -283,7 +284,7 @@ func _StatementService_DescribeStatement_Rule0(srv StatementServiceServer) http.
 		vars := mux.Vars(r)
 		in.StatementId = vars["statement_id"]
 
-		out, err := srv.DescribeStatement(r.Context(), in)
+		out, err := cli.DescribeStatement(r.Context(), in)
 		if err != nil {
 			_StatementService_HTTPWriteErrorResponse(w, err)
 			return
@@ -293,7 +294,7 @@ func _StatementService_DescribeStatement_Rule0(srv StatementServiceServer) http.
 	})
 }
 
-func _StatementService_LookupStatement_Rule0(srv StatementServiceServer) http.Handler {
+func _StatementService_LookupStatement_Rule0(cli StatementServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &LookupStatementInput{}
 
@@ -303,7 +304,7 @@ func _StatementService_LookupStatement_Rule0(srv StatementServiceServer) http.Ha
 			return
 		}
 
-		out, err := srv.LookupStatement(r.Context(), in)
+		out, err := cli.LookupStatement(r.Context(), in)
 		if err != nil {
 			_StatementService_HTTPWriteErrorResponse(w, err)
 			return
@@ -313,7 +314,7 @@ func _StatementService_LookupStatement_Rule0(srv StatementServiceServer) http.Ha
 	})
 }
 
-func _StatementService_PreviewStatement_Rule0(srv StatementServiceServer) http.Handler {
+func _StatementService_PreviewStatement_Rule0(cli StatementServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &PreviewStatementInput{}
 
@@ -323,7 +324,7 @@ func _StatementService_PreviewStatement_Rule0(srv StatementServiceServer) http.H
 			return
 		}
 
-		out, err := srv.PreviewStatement(r.Context(), in)
+		out, err := cli.PreviewStatement(r.Context(), in)
 		if err != nil {
 			_StatementService_HTTPWriteErrorResponse(w, err)
 			return
@@ -333,7 +334,7 @@ func _StatementService_PreviewStatement_Rule0(srv StatementServiceServer) http.H
 	})
 }
 
-func _StatementService_ListStatements_Rule0(srv StatementServiceServer) http.Handler {
+func _StatementService_ListStatements_Rule0(cli StatementServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListStatementsInput{}
 
@@ -343,7 +344,7 @@ func _StatementService_ListStatements_Rule0(srv StatementServiceServer) http.Han
 			return
 		}
 
-		out, err := srv.ListStatements(r.Context(), in)
+		out, err := cli.ListStatements(r.Context(), in)
 		if err != nil {
 			_StatementService_HTTPWriteErrorResponse(w, err)
 			return
@@ -357,22 +358,22 @@ type _StatementServiceHandler = func(ctx context.Context, in proto.Message) (pro
 type _StatementServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _StatementServiceHandler) (out proto.Message, err error)
 type StatementServiceInterceptor struct {
 	middleware []_StatementServiceMiddleware
-	server     StatementServiceServer
+	client     StatementServiceClient
 }
 
 // NewStatementServiceInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewStatementServiceInterceptor(srv StatementServiceServer, middleware ..._StatementServiceMiddleware) *StatementServiceInterceptor {
-	return &StatementServiceInterceptor{server: srv, middleware: middleware}
+func NewStatementServiceInterceptor(cli StatementServiceClient, middleware ..._StatementServiceMiddleware) *StatementServiceInterceptor {
+	return &StatementServiceInterceptor{client: cli, middleware: middleware}
 }
 
-func (i *StatementServiceInterceptor) CreateStatement(ctx context.Context, in *CreateStatementInput) (*CreateStatementOutput, error) {
+func (i *StatementServiceInterceptor) CreateStatement(ctx context.Context, in *CreateStatementInput, opts ...grpc.CallOption) (*CreateStatementOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CreateStatementInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *CreateStatementInput, got %T", in))
 		}
 
-		return i.server.CreateStatement(ctx, message)
+		return i.client.CreateStatement(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -397,14 +398,14 @@ func (i *StatementServiceInterceptor) CreateStatement(ctx context.Context, in *C
 	return message, err
 }
 
-func (i *StatementServiceInterceptor) UpdateStatement(ctx context.Context, in *UpdateStatementInput) (*UpdateStatementOutput, error) {
+func (i *StatementServiceInterceptor) UpdateStatement(ctx context.Context, in *UpdateStatementInput, opts ...grpc.CallOption) (*UpdateStatementOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdateStatementInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UpdateStatementInput, got %T", in))
 		}
 
-		return i.server.UpdateStatement(ctx, message)
+		return i.client.UpdateStatement(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -429,14 +430,14 @@ func (i *StatementServiceInterceptor) UpdateStatement(ctx context.Context, in *U
 	return message, err
 }
 
-func (i *StatementServiceInterceptor) DeleteStatement(ctx context.Context, in *DeleteStatementInput) (*DeleteStatementOutput, error) {
+func (i *StatementServiceInterceptor) DeleteStatement(ctx context.Context, in *DeleteStatementInput, opts ...grpc.CallOption) (*DeleteStatementOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DeleteStatementInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DeleteStatementInput, got %T", in))
 		}
 
-		return i.server.DeleteStatement(ctx, message)
+		return i.client.DeleteStatement(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -461,14 +462,14 @@ func (i *StatementServiceInterceptor) DeleteStatement(ctx context.Context, in *D
 	return message, err
 }
 
-func (i *StatementServiceInterceptor) DescribeStatement(ctx context.Context, in *DescribeStatementInput) (*DescribeStatementOutput, error) {
+func (i *StatementServiceInterceptor) DescribeStatement(ctx context.Context, in *DescribeStatementInput, opts ...grpc.CallOption) (*DescribeStatementOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeStatementInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeStatementInput, got %T", in))
 		}
 
-		return i.server.DescribeStatement(ctx, message)
+		return i.client.DescribeStatement(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -493,14 +494,14 @@ func (i *StatementServiceInterceptor) DescribeStatement(ctx context.Context, in 
 	return message, err
 }
 
-func (i *StatementServiceInterceptor) LookupStatement(ctx context.Context, in *LookupStatementInput) (*LookupStatementOutput, error) {
+func (i *StatementServiceInterceptor) LookupStatement(ctx context.Context, in *LookupStatementInput, opts ...grpc.CallOption) (*LookupStatementOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*LookupStatementInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *LookupStatementInput, got %T", in))
 		}
 
-		return i.server.LookupStatement(ctx, message)
+		return i.client.LookupStatement(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -525,14 +526,14 @@ func (i *StatementServiceInterceptor) LookupStatement(ctx context.Context, in *L
 	return message, err
 }
 
-func (i *StatementServiceInterceptor) PreviewStatement(ctx context.Context, in *PreviewStatementInput) (*PreviewStatementOutput, error) {
+func (i *StatementServiceInterceptor) PreviewStatement(ctx context.Context, in *PreviewStatementInput, opts ...grpc.CallOption) (*PreviewStatementOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*PreviewStatementInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *PreviewStatementInput, got %T", in))
 		}
 
-		return i.server.PreviewStatement(ctx, message)
+		return i.client.PreviewStatement(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -557,14 +558,14 @@ func (i *StatementServiceInterceptor) PreviewStatement(ctx context.Context, in *
 	return message, err
 }
 
-func (i *StatementServiceInterceptor) ListStatements(ctx context.Context, in *ListStatementsInput) (*ListStatementsOutput, error) {
+func (i *StatementServiceInterceptor) ListStatements(ctx context.Context, in *ListStatementsInput, opts ...grpc.CallOption) (*ListStatementsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListStatementsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListStatementsInput, got %T", in))
 		}
 
-		return i.server.ListStatements(ctx, message)
+		return i.client.ListStatements(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {

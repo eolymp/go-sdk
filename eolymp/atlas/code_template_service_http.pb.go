@@ -8,6 +8,7 @@ import (
 	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	websocket "golang.org/x/net/websocket"
+	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
@@ -178,30 +179,30 @@ var _CodeTemplateService_WebsocketCodec = websocket.Codec{
 	},
 }
 
-// RegisterCodeTemplateServiceHttpHandlers adds handlers for for CodeTemplateServiceServer
+// RegisterCodeTemplateServiceHttpHandlers adds handlers for for CodeTemplateServiceClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterCodeTemplateServiceHttpHandlers(router *mux.Router, prefix string, srv CodeTemplateServiceServer) {
-	router.Handle(prefix+"/templates", _CodeTemplateService_CreateCodeTemplate_Rule0(srv)).
+func RegisterCodeTemplateServiceHttpHandlers(router *mux.Router, prefix string, cli CodeTemplateServiceClient) {
+	router.Handle(prefix+"/templates", _CodeTemplateService_CreateCodeTemplate_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.CodeTemplateService.CreateCodeTemplate")
-	router.Handle(prefix+"/templates/{template_id}", _CodeTemplateService_UpdateCodeTemplate_Rule0(srv)).
+	router.Handle(prefix+"/templates/{template_id}", _CodeTemplateService_UpdateCodeTemplate_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.CodeTemplateService.UpdateCodeTemplate")
-	router.Handle(prefix+"/templates/{template_id}", _CodeTemplateService_DeleteCodeTemplate_Rule0(srv)).
+	router.Handle(prefix+"/templates/{template_id}", _CodeTemplateService_DeleteCodeTemplate_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.atlas.CodeTemplateService.DeleteCodeTemplate")
-	router.Handle(prefix+"/templates", _CodeTemplateService_ListCodeTemplates_Rule0(srv)).
+	router.Handle(prefix+"/templates", _CodeTemplateService_ListCodeTemplates_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.CodeTemplateService.ListCodeTemplates")
-	router.Handle(prefix+"/templates/{template_id}", _CodeTemplateService_DescribeCodeTemplate_Rule0(srv)).
+	router.Handle(prefix+"/templates/{template_id}", _CodeTemplateService_DescribeCodeTemplate_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.CodeTemplateService.DescribeCodeTemplate")
-	router.Handle(prefix+"/template", _CodeTemplateService_LookupCodeTemplate_Rule0(srv)).
+	router.Handle(prefix+"/template", _CodeTemplateService_LookupCodeTemplate_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.CodeTemplateService.LookupCodeTemplate")
 }
 
-func _CodeTemplateService_CreateCodeTemplate_Rule0(srv CodeTemplateServiceServer) http.Handler {
+func _CodeTemplateService_CreateCodeTemplate_Rule0(cli CodeTemplateServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateCodeTemplateInput{}
 
@@ -211,7 +212,7 @@ func _CodeTemplateService_CreateCodeTemplate_Rule0(srv CodeTemplateServiceServer
 			return
 		}
 
-		out, err := srv.CreateCodeTemplate(r.Context(), in)
+		out, err := cli.CreateCodeTemplate(r.Context(), in)
 		if err != nil {
 			_CodeTemplateService_HTTPWriteErrorResponse(w, err)
 			return
@@ -221,7 +222,7 @@ func _CodeTemplateService_CreateCodeTemplate_Rule0(srv CodeTemplateServiceServer
 	})
 }
 
-func _CodeTemplateService_UpdateCodeTemplate_Rule0(srv CodeTemplateServiceServer) http.Handler {
+func _CodeTemplateService_UpdateCodeTemplate_Rule0(cli CodeTemplateServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateCodeTemplateInput{}
 
@@ -234,7 +235,7 @@ func _CodeTemplateService_UpdateCodeTemplate_Rule0(srv CodeTemplateServiceServer
 		vars := mux.Vars(r)
 		in.TemplateId = vars["template_id"]
 
-		out, err := srv.UpdateCodeTemplate(r.Context(), in)
+		out, err := cli.UpdateCodeTemplate(r.Context(), in)
 		if err != nil {
 			_CodeTemplateService_HTTPWriteErrorResponse(w, err)
 			return
@@ -244,7 +245,7 @@ func _CodeTemplateService_UpdateCodeTemplate_Rule0(srv CodeTemplateServiceServer
 	})
 }
 
-func _CodeTemplateService_DeleteCodeTemplate_Rule0(srv CodeTemplateServiceServer) http.Handler {
+func _CodeTemplateService_DeleteCodeTemplate_Rule0(cli CodeTemplateServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteCodeTemplateInput{}
 
@@ -257,7 +258,7 @@ func _CodeTemplateService_DeleteCodeTemplate_Rule0(srv CodeTemplateServiceServer
 		vars := mux.Vars(r)
 		in.TemplateId = vars["template_id"]
 
-		out, err := srv.DeleteCodeTemplate(r.Context(), in)
+		out, err := cli.DeleteCodeTemplate(r.Context(), in)
 		if err != nil {
 			_CodeTemplateService_HTTPWriteErrorResponse(w, err)
 			return
@@ -267,7 +268,7 @@ func _CodeTemplateService_DeleteCodeTemplate_Rule0(srv CodeTemplateServiceServer
 	})
 }
 
-func _CodeTemplateService_ListCodeTemplates_Rule0(srv CodeTemplateServiceServer) http.Handler {
+func _CodeTemplateService_ListCodeTemplates_Rule0(cli CodeTemplateServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListCodeTemplatesInput{}
 
@@ -277,7 +278,7 @@ func _CodeTemplateService_ListCodeTemplates_Rule0(srv CodeTemplateServiceServer)
 			return
 		}
 
-		out, err := srv.ListCodeTemplates(r.Context(), in)
+		out, err := cli.ListCodeTemplates(r.Context(), in)
 		if err != nil {
 			_CodeTemplateService_HTTPWriteErrorResponse(w, err)
 			return
@@ -287,7 +288,7 @@ func _CodeTemplateService_ListCodeTemplates_Rule0(srv CodeTemplateServiceServer)
 	})
 }
 
-func _CodeTemplateService_DescribeCodeTemplate_Rule0(srv CodeTemplateServiceServer) http.Handler {
+func _CodeTemplateService_DescribeCodeTemplate_Rule0(cli CodeTemplateServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeCodeTemplateInput{}
 
@@ -300,7 +301,7 @@ func _CodeTemplateService_DescribeCodeTemplate_Rule0(srv CodeTemplateServiceServ
 		vars := mux.Vars(r)
 		in.TemplateId = vars["template_id"]
 
-		out, err := srv.DescribeCodeTemplate(r.Context(), in)
+		out, err := cli.DescribeCodeTemplate(r.Context(), in)
 		if err != nil {
 			_CodeTemplateService_HTTPWriteErrorResponse(w, err)
 			return
@@ -310,7 +311,7 @@ func _CodeTemplateService_DescribeCodeTemplate_Rule0(srv CodeTemplateServiceServ
 	})
 }
 
-func _CodeTemplateService_LookupCodeTemplate_Rule0(srv CodeTemplateServiceServer) http.Handler {
+func _CodeTemplateService_LookupCodeTemplate_Rule0(cli CodeTemplateServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &LookupCodeTemplateInput{}
 
@@ -320,7 +321,7 @@ func _CodeTemplateService_LookupCodeTemplate_Rule0(srv CodeTemplateServiceServer
 			return
 		}
 
-		out, err := srv.LookupCodeTemplate(r.Context(), in)
+		out, err := cli.LookupCodeTemplate(r.Context(), in)
 		if err != nil {
 			_CodeTemplateService_HTTPWriteErrorResponse(w, err)
 			return
@@ -334,22 +335,22 @@ type _CodeTemplateServiceHandler = func(ctx context.Context, in proto.Message) (
 type _CodeTemplateServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _CodeTemplateServiceHandler) (out proto.Message, err error)
 type CodeTemplateServiceInterceptor struct {
 	middleware []_CodeTemplateServiceMiddleware
-	server     CodeTemplateServiceServer
+	client     CodeTemplateServiceClient
 }
 
 // NewCodeTemplateServiceInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewCodeTemplateServiceInterceptor(srv CodeTemplateServiceServer, middleware ..._CodeTemplateServiceMiddleware) *CodeTemplateServiceInterceptor {
-	return &CodeTemplateServiceInterceptor{server: srv, middleware: middleware}
+func NewCodeTemplateServiceInterceptor(cli CodeTemplateServiceClient, middleware ..._CodeTemplateServiceMiddleware) *CodeTemplateServiceInterceptor {
+	return &CodeTemplateServiceInterceptor{client: cli, middleware: middleware}
 }
 
-func (i *CodeTemplateServiceInterceptor) CreateCodeTemplate(ctx context.Context, in *CreateCodeTemplateInput) (*CreateCodeTemplateOutput, error) {
+func (i *CodeTemplateServiceInterceptor) CreateCodeTemplate(ctx context.Context, in *CreateCodeTemplateInput, opts ...grpc.CallOption) (*CreateCodeTemplateOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CreateCodeTemplateInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *CreateCodeTemplateInput, got %T", in))
 		}
 
-		return i.server.CreateCodeTemplate(ctx, message)
+		return i.client.CreateCodeTemplate(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -374,14 +375,14 @@ func (i *CodeTemplateServiceInterceptor) CreateCodeTemplate(ctx context.Context,
 	return message, err
 }
 
-func (i *CodeTemplateServiceInterceptor) UpdateCodeTemplate(ctx context.Context, in *UpdateCodeTemplateInput) (*UpdateCodeTemplateOutput, error) {
+func (i *CodeTemplateServiceInterceptor) UpdateCodeTemplate(ctx context.Context, in *UpdateCodeTemplateInput, opts ...grpc.CallOption) (*UpdateCodeTemplateOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdateCodeTemplateInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UpdateCodeTemplateInput, got %T", in))
 		}
 
-		return i.server.UpdateCodeTemplate(ctx, message)
+		return i.client.UpdateCodeTemplate(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -406,14 +407,14 @@ func (i *CodeTemplateServiceInterceptor) UpdateCodeTemplate(ctx context.Context,
 	return message, err
 }
 
-func (i *CodeTemplateServiceInterceptor) DeleteCodeTemplate(ctx context.Context, in *DeleteCodeTemplateInput) (*DeleteCodeTemplateOutput, error) {
+func (i *CodeTemplateServiceInterceptor) DeleteCodeTemplate(ctx context.Context, in *DeleteCodeTemplateInput, opts ...grpc.CallOption) (*DeleteCodeTemplateOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DeleteCodeTemplateInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DeleteCodeTemplateInput, got %T", in))
 		}
 
-		return i.server.DeleteCodeTemplate(ctx, message)
+		return i.client.DeleteCodeTemplate(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -438,14 +439,14 @@ func (i *CodeTemplateServiceInterceptor) DeleteCodeTemplate(ctx context.Context,
 	return message, err
 }
 
-func (i *CodeTemplateServiceInterceptor) ListCodeTemplates(ctx context.Context, in *ListCodeTemplatesInput) (*ListCodeTemplatesOutput, error) {
+func (i *CodeTemplateServiceInterceptor) ListCodeTemplates(ctx context.Context, in *ListCodeTemplatesInput, opts ...grpc.CallOption) (*ListCodeTemplatesOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListCodeTemplatesInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListCodeTemplatesInput, got %T", in))
 		}
 
-		return i.server.ListCodeTemplates(ctx, message)
+		return i.client.ListCodeTemplates(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -470,14 +471,14 @@ func (i *CodeTemplateServiceInterceptor) ListCodeTemplates(ctx context.Context, 
 	return message, err
 }
 
-func (i *CodeTemplateServiceInterceptor) DescribeCodeTemplate(ctx context.Context, in *DescribeCodeTemplateInput) (*DescribeCodeTemplateOutput, error) {
+func (i *CodeTemplateServiceInterceptor) DescribeCodeTemplate(ctx context.Context, in *DescribeCodeTemplateInput, opts ...grpc.CallOption) (*DescribeCodeTemplateOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeCodeTemplateInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeCodeTemplateInput, got %T", in))
 		}
 
-		return i.server.DescribeCodeTemplate(ctx, message)
+		return i.client.DescribeCodeTemplate(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -502,14 +503,14 @@ func (i *CodeTemplateServiceInterceptor) DescribeCodeTemplate(ctx context.Contex
 	return message, err
 }
 
-func (i *CodeTemplateServiceInterceptor) LookupCodeTemplate(ctx context.Context, in *LookupCodeTemplateInput) (*LookupCodeTemplateOutput, error) {
+func (i *CodeTemplateServiceInterceptor) LookupCodeTemplate(ctx context.Context, in *LookupCodeTemplateInput, opts ...grpc.CallOption) (*LookupCodeTemplateOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*LookupCodeTemplateInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *LookupCodeTemplateInput, got %T", in))
 		}
 
-		return i.server.LookupCodeTemplate(ctx, message)
+		return i.client.LookupCodeTemplate(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {

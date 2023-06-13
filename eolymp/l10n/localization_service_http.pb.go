@@ -8,6 +8,7 @@ import (
 	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	websocket "golang.org/x/net/websocket"
+	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
@@ -178,72 +179,72 @@ var _LocalizationService_WebsocketCodec = websocket.Codec{
 	},
 }
 
-// RegisterLocalizationServiceHttpHandlers adds handlers for for LocalizationServiceServer
+// RegisterLocalizationServiceHttpHandlers adds handlers for for LocalizationServiceClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterLocalizationServiceHttpHandlers(router *mux.Router, prefix string, srv LocalizationServiceServer) {
-	router.Handle(prefix+"/terms", _LocalizationService_CreateTerm_Rule0(srv)).
+func RegisterLocalizationServiceHttpHandlers(router *mux.Router, prefix string, cli LocalizationServiceClient) {
+	router.Handle(prefix+"/terms", _LocalizationService_CreateTerm_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.l10n.LocalizationService.CreateTerm")
-	router.Handle(prefix+"/terms", _LocalizationService_ListTerms_Rule0(srv)).
+	router.Handle(prefix+"/terms", _LocalizationService_ListTerms_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.l10n.LocalizationService.ListTerms")
-	router.Handle(prefix+"/terms/{term_id}", _LocalizationService_UpdateTerm_Rule0(srv)).
+	router.Handle(prefix+"/terms/{term_id}", _LocalizationService_UpdateTerm_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.l10n.LocalizationService.UpdateTerm")
-	router.Handle(prefix+"/terms/{term_id}/restore", _LocalizationService_RestoreTerm_Rule0(srv)).
+	router.Handle(prefix+"/terms/{term_id}/restore", _LocalizationService_RestoreTerm_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.l10n.LocalizationService.RestoreTerm")
-	router.Handle(prefix+"/terms/{term_id}/deprecate", _LocalizationService_DeprecateTerm_Rule0(srv)).
+	router.Handle(prefix+"/terms/{term_id}/deprecate", _LocalizationService_DeprecateTerm_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.l10n.LocalizationService.DeprecateTerm")
-	router.Handle(prefix+"/terms/{term_id}", _LocalizationService_DeleteTerm_Rule0(srv)).
+	router.Handle(prefix+"/terms/{term_id}", _LocalizationService_DeleteTerm_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.l10n.LocalizationService.DeleteTerm")
-	router.Handle(prefix+"/terms/{term_id}", _LocalizationService_DescribeTerm_Rule0(srv)).
+	router.Handle(prefix+"/terms/{term_id}", _LocalizationService_DescribeTerm_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.l10n.LocalizationService.DescribeTerm")
-	router.Handle(prefix+"/terms", _LocalizationService_ImportTerms_Rule0(srv)).
+	router.Handle(prefix+"/terms", _LocalizationService_ImportTerms_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.l10n.LocalizationService.ImportTerms")
-	router.Handle(prefix+"/locales/{locale_code}", _LocalizationService_AddLocale_Rule0(srv)).
+	router.Handle(prefix+"/locales/{locale_code}", _LocalizationService_AddLocale_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.l10n.LocalizationService.AddLocale")
-	router.Handle(prefix+"/locales/{locale_code}", _LocalizationService_RemoveLocale_Rule0(srv)).
+	router.Handle(prefix+"/locales/{locale_code}", _LocalizationService_RemoveLocale_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.l10n.LocalizationService.RemoveLocale")
-	router.Handle(prefix+"/locales", _LocalizationService_ListLocales_Rule0(srv)).
+	router.Handle(prefix+"/locales", _LocalizationService_ListLocales_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.l10n.LocalizationService.ListLocales")
-	router.Handle(prefix+"/terms/{term_id}/translations", _LocalizationService_TranslateTerm_Rule0(srv)).
+	router.Handle(prefix+"/terms/{term_id}/translations", _LocalizationService_TranslateTerm_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.l10n.LocalizationService.TranslateTerm")
-	router.Handle(prefix+"/terms/{term_id}/translations", _LocalizationService_ListTranslations_Rule0(srv)).
+	router.Handle(prefix+"/terms/{term_id}/translations", _LocalizationService_ListTranslations_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.l10n.LocalizationService.ListTranslations")
-	router.Handle(prefix+"/terms/{term_id}/translations/{translation_id}", _LocalizationService_DeleteTranslation_Rule0(srv)).
+	router.Handle(prefix+"/terms/{term_id}/translations/{translation_id}", _LocalizationService_DeleteTranslation_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.l10n.LocalizationService.DeleteTranslation")
-	router.Handle(prefix+"/terms/{term_id}/suggestions/{locale}", _LocalizationService_SuggestTranslation_Rule0(srv)).
+	router.Handle(prefix+"/terms/{term_id}/suggestions/{locale}", _LocalizationService_SuggestTranslation_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.l10n.LocalizationService.SuggestTranslation")
-	router.Handle(prefix+"/terms/{term_id}/translations/{translation_id}", _LocalizationService_UpdateTranslation_Rule0(srv)).
+	router.Handle(prefix+"/terms/{term_id}/translations/{translation_id}", _LocalizationService_UpdateTranslation_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.l10n.LocalizationService.UpdateTranslation")
-	router.Handle(prefix+"/terms/{term_id}/translations/{translation_id}/approve", _LocalizationService_ApproveTranslation_Rule0(srv)).
+	router.Handle(prefix+"/terms/{term_id}/translations/{translation_id}/approve", _LocalizationService_ApproveTranslation_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.l10n.LocalizationService.ApproveTranslation")
-	router.Handle(prefix+"/terms/{term_id}/translations/{translation_id}/reject", _LocalizationService_RejectTranslation_Rule0(srv)).
+	router.Handle(prefix+"/terms/{term_id}/translations/{translation_id}/reject", _LocalizationService_RejectTranslation_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.l10n.LocalizationService.RejectTranslation")
-	router.Handle(prefix+"/translations/{locale}", _LocalizationService_ImportTranslations_Rule0(srv)).
+	router.Handle(prefix+"/translations/{locale}", _LocalizationService_ImportTranslations_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.l10n.LocalizationService.ImportTranslations")
-	router.Handle(prefix+"/translations/{locale}", _LocalizationService_ExportTranslations_Rule0(srv)).
+	router.Handle(prefix+"/translations/{locale}", _LocalizationService_ExportTranslations_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.l10n.LocalizationService.ExportTranslations")
 }
 
-func _LocalizationService_CreateTerm_Rule0(srv LocalizationServiceServer) http.Handler {
+func _LocalizationService_CreateTerm_Rule0(cli LocalizationServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateTermInput{}
 
@@ -253,7 +254,7 @@ func _LocalizationService_CreateTerm_Rule0(srv LocalizationServiceServer) http.H
 			return
 		}
 
-		out, err := srv.CreateTerm(r.Context(), in)
+		out, err := cli.CreateTerm(r.Context(), in)
 		if err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
@@ -263,7 +264,7 @@ func _LocalizationService_CreateTerm_Rule0(srv LocalizationServiceServer) http.H
 	})
 }
 
-func _LocalizationService_ListTerms_Rule0(srv LocalizationServiceServer) http.Handler {
+func _LocalizationService_ListTerms_Rule0(cli LocalizationServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListTermsInput{}
 
@@ -273,7 +274,7 @@ func _LocalizationService_ListTerms_Rule0(srv LocalizationServiceServer) http.Ha
 			return
 		}
 
-		out, err := srv.ListTerms(r.Context(), in)
+		out, err := cli.ListTerms(r.Context(), in)
 		if err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
@@ -283,7 +284,7 @@ func _LocalizationService_ListTerms_Rule0(srv LocalizationServiceServer) http.Ha
 	})
 }
 
-func _LocalizationService_UpdateTerm_Rule0(srv LocalizationServiceServer) http.Handler {
+func _LocalizationService_UpdateTerm_Rule0(cli LocalizationServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateTermInput{}
 
@@ -296,7 +297,7 @@ func _LocalizationService_UpdateTerm_Rule0(srv LocalizationServiceServer) http.H
 		vars := mux.Vars(r)
 		in.TermId = vars["term_id"]
 
-		out, err := srv.UpdateTerm(r.Context(), in)
+		out, err := cli.UpdateTerm(r.Context(), in)
 		if err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
@@ -306,7 +307,7 @@ func _LocalizationService_UpdateTerm_Rule0(srv LocalizationServiceServer) http.H
 	})
 }
 
-func _LocalizationService_RestoreTerm_Rule0(srv LocalizationServiceServer) http.Handler {
+func _LocalizationService_RestoreTerm_Rule0(cli LocalizationServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &RestoreTermInput{}
 
@@ -319,7 +320,7 @@ func _LocalizationService_RestoreTerm_Rule0(srv LocalizationServiceServer) http.
 		vars := mux.Vars(r)
 		in.TermId = vars["term_id"]
 
-		out, err := srv.RestoreTerm(r.Context(), in)
+		out, err := cli.RestoreTerm(r.Context(), in)
 		if err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
@@ -329,7 +330,7 @@ func _LocalizationService_RestoreTerm_Rule0(srv LocalizationServiceServer) http.
 	})
 }
 
-func _LocalizationService_DeprecateTerm_Rule0(srv LocalizationServiceServer) http.Handler {
+func _LocalizationService_DeprecateTerm_Rule0(cli LocalizationServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeprecateTermInput{}
 
@@ -342,7 +343,7 @@ func _LocalizationService_DeprecateTerm_Rule0(srv LocalizationServiceServer) htt
 		vars := mux.Vars(r)
 		in.TermId = vars["term_id"]
 
-		out, err := srv.DeprecateTerm(r.Context(), in)
+		out, err := cli.DeprecateTerm(r.Context(), in)
 		if err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
@@ -352,7 +353,7 @@ func _LocalizationService_DeprecateTerm_Rule0(srv LocalizationServiceServer) htt
 	})
 }
 
-func _LocalizationService_DeleteTerm_Rule0(srv LocalizationServiceServer) http.Handler {
+func _LocalizationService_DeleteTerm_Rule0(cli LocalizationServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteTermInput{}
 
@@ -365,7 +366,7 @@ func _LocalizationService_DeleteTerm_Rule0(srv LocalizationServiceServer) http.H
 		vars := mux.Vars(r)
 		in.TermId = vars["term_id"]
 
-		out, err := srv.DeleteTerm(r.Context(), in)
+		out, err := cli.DeleteTerm(r.Context(), in)
 		if err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
@@ -375,7 +376,7 @@ func _LocalizationService_DeleteTerm_Rule0(srv LocalizationServiceServer) http.H
 	})
 }
 
-func _LocalizationService_DescribeTerm_Rule0(srv LocalizationServiceServer) http.Handler {
+func _LocalizationService_DescribeTerm_Rule0(cli LocalizationServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeTermInput{}
 
@@ -388,7 +389,7 @@ func _LocalizationService_DescribeTerm_Rule0(srv LocalizationServiceServer) http
 		vars := mux.Vars(r)
 		in.TermId = vars["term_id"]
 
-		out, err := srv.DescribeTerm(r.Context(), in)
+		out, err := cli.DescribeTerm(r.Context(), in)
 		if err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
@@ -398,7 +399,7 @@ func _LocalizationService_DescribeTerm_Rule0(srv LocalizationServiceServer) http
 	})
 }
 
-func _LocalizationService_ImportTerms_Rule0(srv LocalizationServiceServer) http.Handler {
+func _LocalizationService_ImportTerms_Rule0(cli LocalizationServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ImportTermsInput{}
 
@@ -408,7 +409,7 @@ func _LocalizationService_ImportTerms_Rule0(srv LocalizationServiceServer) http.
 			return
 		}
 
-		out, err := srv.ImportTerms(r.Context(), in)
+		out, err := cli.ImportTerms(r.Context(), in)
 		if err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
@@ -418,7 +419,7 @@ func _LocalizationService_ImportTerms_Rule0(srv LocalizationServiceServer) http.
 	})
 }
 
-func _LocalizationService_AddLocale_Rule0(srv LocalizationServiceServer) http.Handler {
+func _LocalizationService_AddLocale_Rule0(cli LocalizationServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &AddLocaleInput{}
 
@@ -431,7 +432,7 @@ func _LocalizationService_AddLocale_Rule0(srv LocalizationServiceServer) http.Ha
 		vars := mux.Vars(r)
 		in.LocaleCode = vars["locale_code"]
 
-		out, err := srv.AddLocale(r.Context(), in)
+		out, err := cli.AddLocale(r.Context(), in)
 		if err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
@@ -441,7 +442,7 @@ func _LocalizationService_AddLocale_Rule0(srv LocalizationServiceServer) http.Ha
 	})
 }
 
-func _LocalizationService_RemoveLocale_Rule0(srv LocalizationServiceServer) http.Handler {
+func _LocalizationService_RemoveLocale_Rule0(cli LocalizationServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &RemoveLocaleInput{}
 
@@ -454,7 +455,7 @@ func _LocalizationService_RemoveLocale_Rule0(srv LocalizationServiceServer) http
 		vars := mux.Vars(r)
 		in.LocaleCode = vars["locale_code"]
 
-		out, err := srv.RemoveLocale(r.Context(), in)
+		out, err := cli.RemoveLocale(r.Context(), in)
 		if err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
@@ -464,7 +465,7 @@ func _LocalizationService_RemoveLocale_Rule0(srv LocalizationServiceServer) http
 	})
 }
 
-func _LocalizationService_ListLocales_Rule0(srv LocalizationServiceServer) http.Handler {
+func _LocalizationService_ListLocales_Rule0(cli LocalizationServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListLocalesInput{}
 
@@ -474,7 +475,7 @@ func _LocalizationService_ListLocales_Rule0(srv LocalizationServiceServer) http.
 			return
 		}
 
-		out, err := srv.ListLocales(r.Context(), in)
+		out, err := cli.ListLocales(r.Context(), in)
 		if err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
@@ -484,7 +485,7 @@ func _LocalizationService_ListLocales_Rule0(srv LocalizationServiceServer) http.
 	})
 }
 
-func _LocalizationService_TranslateTerm_Rule0(srv LocalizationServiceServer) http.Handler {
+func _LocalizationService_TranslateTerm_Rule0(cli LocalizationServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &TranslateTermInput{}
 
@@ -497,7 +498,7 @@ func _LocalizationService_TranslateTerm_Rule0(srv LocalizationServiceServer) htt
 		vars := mux.Vars(r)
 		in.TermId = vars["term_id"]
 
-		out, err := srv.TranslateTerm(r.Context(), in)
+		out, err := cli.TranslateTerm(r.Context(), in)
 		if err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
@@ -507,7 +508,7 @@ func _LocalizationService_TranslateTerm_Rule0(srv LocalizationServiceServer) htt
 	})
 }
 
-func _LocalizationService_ListTranslations_Rule0(srv LocalizationServiceServer) http.Handler {
+func _LocalizationService_ListTranslations_Rule0(cli LocalizationServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListTranslationsInput{}
 
@@ -520,7 +521,7 @@ func _LocalizationService_ListTranslations_Rule0(srv LocalizationServiceServer) 
 		vars := mux.Vars(r)
 		in.TermId = vars["term_id"]
 
-		out, err := srv.ListTranslations(r.Context(), in)
+		out, err := cli.ListTranslations(r.Context(), in)
 		if err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
@@ -530,7 +531,7 @@ func _LocalizationService_ListTranslations_Rule0(srv LocalizationServiceServer) 
 	})
 }
 
-func _LocalizationService_DeleteTranslation_Rule0(srv LocalizationServiceServer) http.Handler {
+func _LocalizationService_DeleteTranslation_Rule0(cli LocalizationServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteTranslationInput{}
 
@@ -544,7 +545,7 @@ func _LocalizationService_DeleteTranslation_Rule0(srv LocalizationServiceServer)
 		in.TermId = vars["term_id"]
 		in.TranslationId = vars["translation_id"]
 
-		out, err := srv.DeleteTranslation(r.Context(), in)
+		out, err := cli.DeleteTranslation(r.Context(), in)
 		if err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
@@ -554,7 +555,7 @@ func _LocalizationService_DeleteTranslation_Rule0(srv LocalizationServiceServer)
 	})
 }
 
-func _LocalizationService_SuggestTranslation_Rule0(srv LocalizationServiceServer) http.Handler {
+func _LocalizationService_SuggestTranslation_Rule0(cli LocalizationServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &SuggestTranslationInput{}
 
@@ -568,7 +569,7 @@ func _LocalizationService_SuggestTranslation_Rule0(srv LocalizationServiceServer
 		in.TermId = vars["term_id"]
 		in.Locale = vars["locale"]
 
-		out, err := srv.SuggestTranslation(r.Context(), in)
+		out, err := cli.SuggestTranslation(r.Context(), in)
 		if err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
@@ -578,7 +579,7 @@ func _LocalizationService_SuggestTranslation_Rule0(srv LocalizationServiceServer
 	})
 }
 
-func _LocalizationService_UpdateTranslation_Rule0(srv LocalizationServiceServer) http.Handler {
+func _LocalizationService_UpdateTranslation_Rule0(cli LocalizationServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateTranslationInput{}
 
@@ -592,7 +593,7 @@ func _LocalizationService_UpdateTranslation_Rule0(srv LocalizationServiceServer)
 		in.TermId = vars["term_id"]
 		in.TranslationId = vars["translation_id"]
 
-		out, err := srv.UpdateTranslation(r.Context(), in)
+		out, err := cli.UpdateTranslation(r.Context(), in)
 		if err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
@@ -602,7 +603,7 @@ func _LocalizationService_UpdateTranslation_Rule0(srv LocalizationServiceServer)
 	})
 }
 
-func _LocalizationService_ApproveTranslation_Rule0(srv LocalizationServiceServer) http.Handler {
+func _LocalizationService_ApproveTranslation_Rule0(cli LocalizationServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ApproveTranslationInput{}
 
@@ -616,7 +617,7 @@ func _LocalizationService_ApproveTranslation_Rule0(srv LocalizationServiceServer
 		in.TermId = vars["term_id"]
 		in.TranslationId = vars["translation_id"]
 
-		out, err := srv.ApproveTranslation(r.Context(), in)
+		out, err := cli.ApproveTranslation(r.Context(), in)
 		if err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
@@ -626,7 +627,7 @@ func _LocalizationService_ApproveTranslation_Rule0(srv LocalizationServiceServer
 	})
 }
 
-func _LocalizationService_RejectTranslation_Rule0(srv LocalizationServiceServer) http.Handler {
+func _LocalizationService_RejectTranslation_Rule0(cli LocalizationServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &RejectTranslationInput{}
 
@@ -640,7 +641,7 @@ func _LocalizationService_RejectTranslation_Rule0(srv LocalizationServiceServer)
 		in.TermId = vars["term_id"]
 		in.TranslationId = vars["translation_id"]
 
-		out, err := srv.RejectTranslation(r.Context(), in)
+		out, err := cli.RejectTranslation(r.Context(), in)
 		if err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
@@ -650,7 +651,7 @@ func _LocalizationService_RejectTranslation_Rule0(srv LocalizationServiceServer)
 	})
 }
 
-func _LocalizationService_ImportTranslations_Rule0(srv LocalizationServiceServer) http.Handler {
+func _LocalizationService_ImportTranslations_Rule0(cli LocalizationServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ImportTranslationsInput{}
 
@@ -663,7 +664,7 @@ func _LocalizationService_ImportTranslations_Rule0(srv LocalizationServiceServer
 		vars := mux.Vars(r)
 		in.Locale = vars["locale"]
 
-		out, err := srv.ImportTranslations(r.Context(), in)
+		out, err := cli.ImportTranslations(r.Context(), in)
 		if err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
@@ -673,7 +674,7 @@ func _LocalizationService_ImportTranslations_Rule0(srv LocalizationServiceServer
 	})
 }
 
-func _LocalizationService_ExportTranslations_Rule0(srv LocalizationServiceServer) http.Handler {
+func _LocalizationService_ExportTranslations_Rule0(cli LocalizationServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ExportTranslationsInput{}
 
@@ -686,7 +687,7 @@ func _LocalizationService_ExportTranslations_Rule0(srv LocalizationServiceServer
 		vars := mux.Vars(r)
 		in.Locale = vars["locale"]
 
-		out, err := srv.ExportTranslations(r.Context(), in)
+		out, err := cli.ExportTranslations(r.Context(), in)
 		if err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
@@ -700,22 +701,22 @@ type _LocalizationServiceHandler = func(ctx context.Context, in proto.Message) (
 type _LocalizationServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _LocalizationServiceHandler) (out proto.Message, err error)
 type LocalizationServiceInterceptor struct {
 	middleware []_LocalizationServiceMiddleware
-	server     LocalizationServiceServer
+	client     LocalizationServiceClient
 }
 
 // NewLocalizationServiceInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewLocalizationServiceInterceptor(srv LocalizationServiceServer, middleware ..._LocalizationServiceMiddleware) *LocalizationServiceInterceptor {
-	return &LocalizationServiceInterceptor{server: srv, middleware: middleware}
+func NewLocalizationServiceInterceptor(cli LocalizationServiceClient, middleware ..._LocalizationServiceMiddleware) *LocalizationServiceInterceptor {
+	return &LocalizationServiceInterceptor{client: cli, middleware: middleware}
 }
 
-func (i *LocalizationServiceInterceptor) CreateTerm(ctx context.Context, in *CreateTermInput) (*CreateTermOutput, error) {
+func (i *LocalizationServiceInterceptor) CreateTerm(ctx context.Context, in *CreateTermInput, opts ...grpc.CallOption) (*CreateTermOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CreateTermInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *CreateTermInput, got %T", in))
 		}
 
-		return i.server.CreateTerm(ctx, message)
+		return i.client.CreateTerm(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -740,14 +741,14 @@ func (i *LocalizationServiceInterceptor) CreateTerm(ctx context.Context, in *Cre
 	return message, err
 }
 
-func (i *LocalizationServiceInterceptor) ListTerms(ctx context.Context, in *ListTermsInput) (*ListTermsOutput, error) {
+func (i *LocalizationServiceInterceptor) ListTerms(ctx context.Context, in *ListTermsInput, opts ...grpc.CallOption) (*ListTermsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListTermsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListTermsInput, got %T", in))
 		}
 
-		return i.server.ListTerms(ctx, message)
+		return i.client.ListTerms(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -772,14 +773,14 @@ func (i *LocalizationServiceInterceptor) ListTerms(ctx context.Context, in *List
 	return message, err
 }
 
-func (i *LocalizationServiceInterceptor) UpdateTerm(ctx context.Context, in *UpdateTermInput) (*UpdateTermOutput, error) {
+func (i *LocalizationServiceInterceptor) UpdateTerm(ctx context.Context, in *UpdateTermInput, opts ...grpc.CallOption) (*UpdateTermOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdateTermInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UpdateTermInput, got %T", in))
 		}
 
-		return i.server.UpdateTerm(ctx, message)
+		return i.client.UpdateTerm(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -804,14 +805,14 @@ func (i *LocalizationServiceInterceptor) UpdateTerm(ctx context.Context, in *Upd
 	return message, err
 }
 
-func (i *LocalizationServiceInterceptor) RestoreTerm(ctx context.Context, in *RestoreTermInput) (*RestoreTermOutput, error) {
+func (i *LocalizationServiceInterceptor) RestoreTerm(ctx context.Context, in *RestoreTermInput, opts ...grpc.CallOption) (*RestoreTermOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*RestoreTermInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *RestoreTermInput, got %T", in))
 		}
 
-		return i.server.RestoreTerm(ctx, message)
+		return i.client.RestoreTerm(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -836,14 +837,14 @@ func (i *LocalizationServiceInterceptor) RestoreTerm(ctx context.Context, in *Re
 	return message, err
 }
 
-func (i *LocalizationServiceInterceptor) DeprecateTerm(ctx context.Context, in *DeprecateTermInput) (*DeprecateTermOutput, error) {
+func (i *LocalizationServiceInterceptor) DeprecateTerm(ctx context.Context, in *DeprecateTermInput, opts ...grpc.CallOption) (*DeprecateTermOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DeprecateTermInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DeprecateTermInput, got %T", in))
 		}
 
-		return i.server.DeprecateTerm(ctx, message)
+		return i.client.DeprecateTerm(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -868,14 +869,14 @@ func (i *LocalizationServiceInterceptor) DeprecateTerm(ctx context.Context, in *
 	return message, err
 }
 
-func (i *LocalizationServiceInterceptor) DeleteTerm(ctx context.Context, in *DeleteTermInput) (*DeleteTermOutput, error) {
+func (i *LocalizationServiceInterceptor) DeleteTerm(ctx context.Context, in *DeleteTermInput, opts ...grpc.CallOption) (*DeleteTermOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DeleteTermInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DeleteTermInput, got %T", in))
 		}
 
-		return i.server.DeleteTerm(ctx, message)
+		return i.client.DeleteTerm(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -900,14 +901,14 @@ func (i *LocalizationServiceInterceptor) DeleteTerm(ctx context.Context, in *Del
 	return message, err
 }
 
-func (i *LocalizationServiceInterceptor) DescribeTerm(ctx context.Context, in *DescribeTermInput) (*DescribeTermOutput, error) {
+func (i *LocalizationServiceInterceptor) DescribeTerm(ctx context.Context, in *DescribeTermInput, opts ...grpc.CallOption) (*DescribeTermOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeTermInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeTermInput, got %T", in))
 		}
 
-		return i.server.DescribeTerm(ctx, message)
+		return i.client.DescribeTerm(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -932,14 +933,14 @@ func (i *LocalizationServiceInterceptor) DescribeTerm(ctx context.Context, in *D
 	return message, err
 }
 
-func (i *LocalizationServiceInterceptor) ImportTerms(ctx context.Context, in *ImportTermsInput) (*ImportTermsOutput, error) {
+func (i *LocalizationServiceInterceptor) ImportTerms(ctx context.Context, in *ImportTermsInput, opts ...grpc.CallOption) (*ImportTermsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ImportTermsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ImportTermsInput, got %T", in))
 		}
 
-		return i.server.ImportTerms(ctx, message)
+		return i.client.ImportTerms(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -964,14 +965,14 @@ func (i *LocalizationServiceInterceptor) ImportTerms(ctx context.Context, in *Im
 	return message, err
 }
 
-func (i *LocalizationServiceInterceptor) AddLocale(ctx context.Context, in *AddLocaleInput) (*AddLocaleOutput, error) {
+func (i *LocalizationServiceInterceptor) AddLocale(ctx context.Context, in *AddLocaleInput, opts ...grpc.CallOption) (*AddLocaleOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*AddLocaleInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *AddLocaleInput, got %T", in))
 		}
 
-		return i.server.AddLocale(ctx, message)
+		return i.client.AddLocale(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -996,14 +997,14 @@ func (i *LocalizationServiceInterceptor) AddLocale(ctx context.Context, in *AddL
 	return message, err
 }
 
-func (i *LocalizationServiceInterceptor) RemoveLocale(ctx context.Context, in *RemoveLocaleInput) (*RemoveLocaleOutput, error) {
+func (i *LocalizationServiceInterceptor) RemoveLocale(ctx context.Context, in *RemoveLocaleInput, opts ...grpc.CallOption) (*RemoveLocaleOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*RemoveLocaleInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *RemoveLocaleInput, got %T", in))
 		}
 
-		return i.server.RemoveLocale(ctx, message)
+		return i.client.RemoveLocale(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1028,14 +1029,14 @@ func (i *LocalizationServiceInterceptor) RemoveLocale(ctx context.Context, in *R
 	return message, err
 }
 
-func (i *LocalizationServiceInterceptor) ListLocales(ctx context.Context, in *ListLocalesInput) (*ListLocalesOutput, error) {
+func (i *LocalizationServiceInterceptor) ListLocales(ctx context.Context, in *ListLocalesInput, opts ...grpc.CallOption) (*ListLocalesOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListLocalesInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListLocalesInput, got %T", in))
 		}
 
-		return i.server.ListLocales(ctx, message)
+		return i.client.ListLocales(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1060,14 +1061,14 @@ func (i *LocalizationServiceInterceptor) ListLocales(ctx context.Context, in *Li
 	return message, err
 }
 
-func (i *LocalizationServiceInterceptor) TranslateTerm(ctx context.Context, in *TranslateTermInput) (*TranslateTermOutput, error) {
+func (i *LocalizationServiceInterceptor) TranslateTerm(ctx context.Context, in *TranslateTermInput, opts ...grpc.CallOption) (*TranslateTermOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*TranslateTermInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *TranslateTermInput, got %T", in))
 		}
 
-		return i.server.TranslateTerm(ctx, message)
+		return i.client.TranslateTerm(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1092,14 +1093,14 @@ func (i *LocalizationServiceInterceptor) TranslateTerm(ctx context.Context, in *
 	return message, err
 }
 
-func (i *LocalizationServiceInterceptor) ListTranslations(ctx context.Context, in *ListTranslationsInput) (*ListTranslationsOutput, error) {
+func (i *LocalizationServiceInterceptor) ListTranslations(ctx context.Context, in *ListTranslationsInput, opts ...grpc.CallOption) (*ListTranslationsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListTranslationsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListTranslationsInput, got %T", in))
 		}
 
-		return i.server.ListTranslations(ctx, message)
+		return i.client.ListTranslations(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1124,14 +1125,14 @@ func (i *LocalizationServiceInterceptor) ListTranslations(ctx context.Context, i
 	return message, err
 }
 
-func (i *LocalizationServiceInterceptor) DeleteTranslation(ctx context.Context, in *DeleteTranslationInput) (*DeleteTranslationOutput, error) {
+func (i *LocalizationServiceInterceptor) DeleteTranslation(ctx context.Context, in *DeleteTranslationInput, opts ...grpc.CallOption) (*DeleteTranslationOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DeleteTranslationInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DeleteTranslationInput, got %T", in))
 		}
 
-		return i.server.DeleteTranslation(ctx, message)
+		return i.client.DeleteTranslation(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1156,14 +1157,14 @@ func (i *LocalizationServiceInterceptor) DeleteTranslation(ctx context.Context, 
 	return message, err
 }
 
-func (i *LocalizationServiceInterceptor) SuggestTranslation(ctx context.Context, in *SuggestTranslationInput) (*SuggestTranslationOutput, error) {
+func (i *LocalizationServiceInterceptor) SuggestTranslation(ctx context.Context, in *SuggestTranslationInput, opts ...grpc.CallOption) (*SuggestTranslationOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*SuggestTranslationInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *SuggestTranslationInput, got %T", in))
 		}
 
-		return i.server.SuggestTranslation(ctx, message)
+		return i.client.SuggestTranslation(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1188,14 +1189,14 @@ func (i *LocalizationServiceInterceptor) SuggestTranslation(ctx context.Context,
 	return message, err
 }
 
-func (i *LocalizationServiceInterceptor) UpdateTranslation(ctx context.Context, in *UpdateTranslationInput) (*UpdateTranslationOutput, error) {
+func (i *LocalizationServiceInterceptor) UpdateTranslation(ctx context.Context, in *UpdateTranslationInput, opts ...grpc.CallOption) (*UpdateTranslationOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdateTranslationInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UpdateTranslationInput, got %T", in))
 		}
 
-		return i.server.UpdateTranslation(ctx, message)
+		return i.client.UpdateTranslation(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1220,14 +1221,14 @@ func (i *LocalizationServiceInterceptor) UpdateTranslation(ctx context.Context, 
 	return message, err
 }
 
-func (i *LocalizationServiceInterceptor) ApproveTranslation(ctx context.Context, in *ApproveTranslationInput) (*ApproveTranslationOutput, error) {
+func (i *LocalizationServiceInterceptor) ApproveTranslation(ctx context.Context, in *ApproveTranslationInput, opts ...grpc.CallOption) (*ApproveTranslationOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ApproveTranslationInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ApproveTranslationInput, got %T", in))
 		}
 
-		return i.server.ApproveTranslation(ctx, message)
+		return i.client.ApproveTranslation(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1252,14 +1253,14 @@ func (i *LocalizationServiceInterceptor) ApproveTranslation(ctx context.Context,
 	return message, err
 }
 
-func (i *LocalizationServiceInterceptor) RejectTranslation(ctx context.Context, in *RejectTranslationInput) (*RejectTranslationOutput, error) {
+func (i *LocalizationServiceInterceptor) RejectTranslation(ctx context.Context, in *RejectTranslationInput, opts ...grpc.CallOption) (*RejectTranslationOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*RejectTranslationInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *RejectTranslationInput, got %T", in))
 		}
 
-		return i.server.RejectTranslation(ctx, message)
+		return i.client.RejectTranslation(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1284,14 +1285,14 @@ func (i *LocalizationServiceInterceptor) RejectTranslation(ctx context.Context, 
 	return message, err
 }
 
-func (i *LocalizationServiceInterceptor) ImportTranslations(ctx context.Context, in *ImportTranslationsInput) (*ImportTranslationsOutput, error) {
+func (i *LocalizationServiceInterceptor) ImportTranslations(ctx context.Context, in *ImportTranslationsInput, opts ...grpc.CallOption) (*ImportTranslationsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ImportTranslationsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ImportTranslationsInput, got %T", in))
 		}
 
-		return i.server.ImportTranslations(ctx, message)
+		return i.client.ImportTranslations(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1316,14 +1317,14 @@ func (i *LocalizationServiceInterceptor) ImportTranslations(ctx context.Context,
 	return message, err
 }
 
-func (i *LocalizationServiceInterceptor) ExportTranslations(ctx context.Context, in *ExportTranslationsInput) (*ExportTranslationsOutput, error) {
+func (i *LocalizationServiceInterceptor) ExportTranslations(ctx context.Context, in *ExportTranslationsInput, opts ...grpc.CallOption) (*ExportTranslationsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ExportTranslationsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ExportTranslationsInput, got %T", in))
 		}
 
-		return i.server.ExportTranslations(ctx, message)
+		return i.client.ExportTranslations(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {

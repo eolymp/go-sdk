@@ -8,6 +8,7 @@ import (
 	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	websocket "golang.org/x/net/websocket"
+	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
@@ -178,27 +179,27 @@ var _AclService_WebsocketCodec = websocket.Codec{
 	},
 }
 
-// RegisterAclServiceHttpHandlers adds handlers for for AclServiceServer
+// RegisterAclServiceHttpHandlers adds handlers for for AclServiceClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterAclServiceHttpHandlers(router *mux.Router, prefix string, srv AclServiceServer) {
-	router.Handle(prefix+"/acl/{user_id}", _AclService_GrantPermission_Rule0(srv)).
+func RegisterAclServiceHttpHandlers(router *mux.Router, prefix string, cli AclServiceClient) {
+	router.Handle(prefix+"/acl/{user_id}", _AclService_GrantPermission_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.acl.AclService.GrantPermission")
-	router.Handle(prefix+"/acl/{user_id}", _AclService_RevokePermission_Rule0(srv)).
+	router.Handle(prefix+"/acl/{user_id}", _AclService_RevokePermission_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.acl.AclService.RevokePermission")
-	router.Handle(prefix+"/acl/{user_id}", _AclService_DescribePermission_Rule0(srv)).
+	router.Handle(prefix+"/acl/{user_id}", _AclService_DescribePermission_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.acl.AclService.DescribePermission")
-	router.Handle(prefix+"/acl", _AclService_ListPermissions_Rule0(srv)).
+	router.Handle(prefix+"/acl", _AclService_ListPermissions_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.acl.AclService.ListPermissions")
-	router.Handle(prefix+"/whoami", _AclService_IntrospectPermission_Rule0(srv)).
+	router.Handle(prefix+"/whoami", _AclService_IntrospectPermission_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.acl.AclService.IntrospectPermission")
 }
 
-func _AclService_GrantPermission_Rule0(srv AclServiceServer) http.Handler {
+func _AclService_GrantPermission_Rule0(cli AclServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &GrantPermissionInput{}
 
@@ -211,7 +212,7 @@ func _AclService_GrantPermission_Rule0(srv AclServiceServer) http.Handler {
 		vars := mux.Vars(r)
 		in.UserId = vars["user_id"]
 
-		out, err := srv.GrantPermission(r.Context(), in)
+		out, err := cli.GrantPermission(r.Context(), in)
 		if err != nil {
 			_AclService_HTTPWriteErrorResponse(w, err)
 			return
@@ -221,7 +222,7 @@ func _AclService_GrantPermission_Rule0(srv AclServiceServer) http.Handler {
 	})
 }
 
-func _AclService_RevokePermission_Rule0(srv AclServiceServer) http.Handler {
+func _AclService_RevokePermission_Rule0(cli AclServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &RevokePermissionInput{}
 
@@ -234,7 +235,7 @@ func _AclService_RevokePermission_Rule0(srv AclServiceServer) http.Handler {
 		vars := mux.Vars(r)
 		in.UserId = vars["user_id"]
 
-		out, err := srv.RevokePermission(r.Context(), in)
+		out, err := cli.RevokePermission(r.Context(), in)
 		if err != nil {
 			_AclService_HTTPWriteErrorResponse(w, err)
 			return
@@ -244,7 +245,7 @@ func _AclService_RevokePermission_Rule0(srv AclServiceServer) http.Handler {
 	})
 }
 
-func _AclService_DescribePermission_Rule0(srv AclServiceServer) http.Handler {
+func _AclService_DescribePermission_Rule0(cli AclServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribePermissionInput{}
 
@@ -257,7 +258,7 @@ func _AclService_DescribePermission_Rule0(srv AclServiceServer) http.Handler {
 		vars := mux.Vars(r)
 		in.UserId = vars["user_id"]
 
-		out, err := srv.DescribePermission(r.Context(), in)
+		out, err := cli.DescribePermission(r.Context(), in)
 		if err != nil {
 			_AclService_HTTPWriteErrorResponse(w, err)
 			return
@@ -267,7 +268,7 @@ func _AclService_DescribePermission_Rule0(srv AclServiceServer) http.Handler {
 	})
 }
 
-func _AclService_ListPermissions_Rule0(srv AclServiceServer) http.Handler {
+func _AclService_ListPermissions_Rule0(cli AclServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListPermissionsInput{}
 
@@ -277,7 +278,7 @@ func _AclService_ListPermissions_Rule0(srv AclServiceServer) http.Handler {
 			return
 		}
 
-		out, err := srv.ListPermissions(r.Context(), in)
+		out, err := cli.ListPermissions(r.Context(), in)
 		if err != nil {
 			_AclService_HTTPWriteErrorResponse(w, err)
 			return
@@ -287,7 +288,7 @@ func _AclService_ListPermissions_Rule0(srv AclServiceServer) http.Handler {
 	})
 }
 
-func _AclService_IntrospectPermission_Rule0(srv AclServiceServer) http.Handler {
+func _AclService_IntrospectPermission_Rule0(cli AclServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &IntrospectPermissionInput{}
 
@@ -297,7 +298,7 @@ func _AclService_IntrospectPermission_Rule0(srv AclServiceServer) http.Handler {
 			return
 		}
 
-		out, err := srv.IntrospectPermission(r.Context(), in)
+		out, err := cli.IntrospectPermission(r.Context(), in)
 		if err != nil {
 			_AclService_HTTPWriteErrorResponse(w, err)
 			return
@@ -311,22 +312,22 @@ type _AclServiceHandler = func(ctx context.Context, in proto.Message) (proto.Mes
 type _AclServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _AclServiceHandler) (out proto.Message, err error)
 type AclServiceInterceptor struct {
 	middleware []_AclServiceMiddleware
-	server     AclServiceServer
+	client     AclServiceClient
 }
 
 // NewAclServiceInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewAclServiceInterceptor(srv AclServiceServer, middleware ..._AclServiceMiddleware) *AclServiceInterceptor {
-	return &AclServiceInterceptor{server: srv, middleware: middleware}
+func NewAclServiceInterceptor(cli AclServiceClient, middleware ..._AclServiceMiddleware) *AclServiceInterceptor {
+	return &AclServiceInterceptor{client: cli, middleware: middleware}
 }
 
-func (i *AclServiceInterceptor) GrantPermission(ctx context.Context, in *GrantPermissionInput) (*GrantPermissionOutput, error) {
+func (i *AclServiceInterceptor) GrantPermission(ctx context.Context, in *GrantPermissionInput, opts ...grpc.CallOption) (*GrantPermissionOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*GrantPermissionInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *GrantPermissionInput, got %T", in))
 		}
 
-		return i.server.GrantPermission(ctx, message)
+		return i.client.GrantPermission(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -351,14 +352,14 @@ func (i *AclServiceInterceptor) GrantPermission(ctx context.Context, in *GrantPe
 	return message, err
 }
 
-func (i *AclServiceInterceptor) RevokePermission(ctx context.Context, in *RevokePermissionInput) (*RevokePermissionOutput, error) {
+func (i *AclServiceInterceptor) RevokePermission(ctx context.Context, in *RevokePermissionInput, opts ...grpc.CallOption) (*RevokePermissionOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*RevokePermissionInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *RevokePermissionInput, got %T", in))
 		}
 
-		return i.server.RevokePermission(ctx, message)
+		return i.client.RevokePermission(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -383,14 +384,14 @@ func (i *AclServiceInterceptor) RevokePermission(ctx context.Context, in *Revoke
 	return message, err
 }
 
-func (i *AclServiceInterceptor) DescribePermission(ctx context.Context, in *DescribePermissionInput) (*DescribePermissionOutput, error) {
+func (i *AclServiceInterceptor) DescribePermission(ctx context.Context, in *DescribePermissionInput, opts ...grpc.CallOption) (*DescribePermissionOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribePermissionInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribePermissionInput, got %T", in))
 		}
 
-		return i.server.DescribePermission(ctx, message)
+		return i.client.DescribePermission(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -415,14 +416,14 @@ func (i *AclServiceInterceptor) DescribePermission(ctx context.Context, in *Desc
 	return message, err
 }
 
-func (i *AclServiceInterceptor) ListPermissions(ctx context.Context, in *ListPermissionsInput) (*ListPermissionsOutput, error) {
+func (i *AclServiceInterceptor) ListPermissions(ctx context.Context, in *ListPermissionsInput, opts ...grpc.CallOption) (*ListPermissionsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListPermissionsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListPermissionsInput, got %T", in))
 		}
 
-		return i.server.ListPermissions(ctx, message)
+		return i.client.ListPermissions(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -447,14 +448,14 @@ func (i *AclServiceInterceptor) ListPermissions(ctx context.Context, in *ListPer
 	return message, err
 }
 
-func (i *AclServiceInterceptor) IntrospectPermission(ctx context.Context, in *IntrospectPermissionInput) (*IntrospectPermissionOutput, error) {
+func (i *AclServiceInterceptor) IntrospectPermission(ctx context.Context, in *IntrospectPermissionInput, opts ...grpc.CallOption) (*IntrospectPermissionOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*IntrospectPermissionInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *IntrospectPermissionInput, got %T", in))
 		}
 
-		return i.server.IntrospectPermission(ctx, message)
+		return i.client.IntrospectPermission(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {

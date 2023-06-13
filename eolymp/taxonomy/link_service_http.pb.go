@@ -8,6 +8,7 @@ import (
 	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	websocket "golang.org/x/net/websocket"
+	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
@@ -178,18 +179,18 @@ var _LinkService_WebsocketCodec = websocket.Codec{
 	},
 }
 
-// RegisterLinkServiceHttpHandlers adds handlers for for LinkServiceServer
+// RegisterLinkServiceHttpHandlers adds handlers for for LinkServiceClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterLinkServiceHttpHandlers(router *mux.Router, prefix string, srv LinkServiceServer) {
-	router.Handle(prefix+"/topics", _LinkService_SetLinkedTopics_Rule0(srv)).
+func RegisterLinkServiceHttpHandlers(router *mux.Router, prefix string, cli LinkServiceClient) {
+	router.Handle(prefix+"/topics", _LinkService_SetLinkedTopics_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.taxonomy.LinkService.SetLinkedTopics")
-	router.Handle(prefix+"/topics", _LinkService_GetLinkedTopics_Rule0(srv)).
+	router.Handle(prefix+"/topics", _LinkService_GetLinkedTopics_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.taxonomy.LinkService.GetLinkedTopics")
 }
 
-func _LinkService_SetLinkedTopics_Rule0(srv LinkServiceServer) http.Handler {
+func _LinkService_SetLinkedTopics_Rule0(cli LinkServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &SetLinkedTopicsInput{}
 
@@ -199,7 +200,7 @@ func _LinkService_SetLinkedTopics_Rule0(srv LinkServiceServer) http.Handler {
 			return
 		}
 
-		out, err := srv.SetLinkedTopics(r.Context(), in)
+		out, err := cli.SetLinkedTopics(r.Context(), in)
 		if err != nil {
 			_LinkService_HTTPWriteErrorResponse(w, err)
 			return
@@ -209,7 +210,7 @@ func _LinkService_SetLinkedTopics_Rule0(srv LinkServiceServer) http.Handler {
 	})
 }
 
-func _LinkService_GetLinkedTopics_Rule0(srv LinkServiceServer) http.Handler {
+func _LinkService_GetLinkedTopics_Rule0(cli LinkServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &GetLinkedTopicsInput{}
 
@@ -219,7 +220,7 @@ func _LinkService_GetLinkedTopics_Rule0(srv LinkServiceServer) http.Handler {
 			return
 		}
 
-		out, err := srv.GetLinkedTopics(r.Context(), in)
+		out, err := cli.GetLinkedTopics(r.Context(), in)
 		if err != nil {
 			_LinkService_HTTPWriteErrorResponse(w, err)
 			return
@@ -233,22 +234,22 @@ type _LinkServiceHandler = func(ctx context.Context, in proto.Message) (proto.Me
 type _LinkServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _LinkServiceHandler) (out proto.Message, err error)
 type LinkServiceInterceptor struct {
 	middleware []_LinkServiceMiddleware
-	server     LinkServiceServer
+	client     LinkServiceClient
 }
 
 // NewLinkServiceInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewLinkServiceInterceptor(srv LinkServiceServer, middleware ..._LinkServiceMiddleware) *LinkServiceInterceptor {
-	return &LinkServiceInterceptor{server: srv, middleware: middleware}
+func NewLinkServiceInterceptor(cli LinkServiceClient, middleware ..._LinkServiceMiddleware) *LinkServiceInterceptor {
+	return &LinkServiceInterceptor{client: cli, middleware: middleware}
 }
 
-func (i *LinkServiceInterceptor) SetLinkedTopics(ctx context.Context, in *SetLinkedTopicsInput) (*SetLinkedTopicsOutput, error) {
+func (i *LinkServiceInterceptor) SetLinkedTopics(ctx context.Context, in *SetLinkedTopicsInput, opts ...grpc.CallOption) (*SetLinkedTopicsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*SetLinkedTopicsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *SetLinkedTopicsInput, got %T", in))
 		}
 
-		return i.server.SetLinkedTopics(ctx, message)
+		return i.client.SetLinkedTopics(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -273,14 +274,14 @@ func (i *LinkServiceInterceptor) SetLinkedTopics(ctx context.Context, in *SetLin
 	return message, err
 }
 
-func (i *LinkServiceInterceptor) GetLinkedTopics(ctx context.Context, in *GetLinkedTopicsInput) (*GetLinkedTopicsOutput, error) {
+func (i *LinkServiceInterceptor) GetLinkedTopics(ctx context.Context, in *GetLinkedTopicsInput, opts ...grpc.CallOption) (*GetLinkedTopicsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*GetLinkedTopicsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *GetLinkedTopicsInput, got %T", in))
 		}
 
-		return i.server.GetLinkedTopics(ctx, message)
+		return i.client.GetLinkedTopics(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {

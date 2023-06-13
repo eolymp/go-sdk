@@ -8,6 +8,7 @@ import (
 	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	websocket "golang.org/x/net/websocket"
+	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
@@ -178,36 +179,36 @@ var _TopicService_WebsocketCodec = websocket.Codec{
 	},
 }
 
-// RegisterTopicServiceHttpHandlers adds handlers for for TopicServiceServer
+// RegisterTopicServiceHttpHandlers adds handlers for for TopicServiceClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterTopicServiceHttpHandlers(router *mux.Router, prefix string, srv TopicServiceServer) {
-	router.Handle(prefix+"/topics", _TopicService_CreateTopic_Rule0(srv)).
+func RegisterTopicServiceHttpHandlers(router *mux.Router, prefix string, cli TopicServiceClient) {
+	router.Handle(prefix+"/topics", _TopicService_CreateTopic_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.taxonomy.TopicService.CreateTopic")
-	router.Handle(prefix+"/topics/{topic_id}", _TopicService_DeleteTopic_Rule0(srv)).
+	router.Handle(prefix+"/topics/{topic_id}", _TopicService_DeleteTopic_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.taxonomy.TopicService.DeleteTopic")
-	router.Handle(prefix+"/topics/{topic_id}", _TopicService_UpdateTopic_Rule0(srv)).
+	router.Handle(prefix+"/topics/{topic_id}", _TopicService_UpdateTopic_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.taxonomy.TopicService.UpdateTopic")
-	router.Handle(prefix+"/topics/{topic_id}", _TopicService_DescribeTopic_Rule0(srv)).
+	router.Handle(prefix+"/topics/{topic_id}", _TopicService_DescribeTopic_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.taxonomy.TopicService.DescribeTopic")
-	router.Handle(prefix+"/topics", _TopicService_ListTopics_Rule0(srv)).
+	router.Handle(prefix+"/topics", _TopicService_ListTopics_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.taxonomy.TopicService.ListTopics")
-	router.Handle(prefix+"/topics/{topic_id}/translations/{locale}", _TopicService_TranslateTopic_Rule0(srv)).
+	router.Handle(prefix+"/topics/{topic_id}/translations/{locale}", _TopicService_TranslateTopic_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.taxonomy.TopicService.TranslateTopic")
-	router.Handle(prefix+"/topics/{topic_id}/translations/{locale}", _TopicService_DeleteTranslation_Rule0(srv)).
+	router.Handle(prefix+"/topics/{topic_id}/translations/{locale}", _TopicService_DeleteTranslation_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.taxonomy.TopicService.DeleteTranslation")
-	router.Handle(prefix+"/topics/{topic_id}/translations", _TopicService_ListTranslations_Rule0(srv)).
+	router.Handle(prefix+"/topics/{topic_id}/translations", _TopicService_ListTranslations_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.taxonomy.TopicService.ListTranslations")
 }
 
-func _TopicService_CreateTopic_Rule0(srv TopicServiceServer) http.Handler {
+func _TopicService_CreateTopic_Rule0(cli TopicServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateTopicInput{}
 
@@ -217,7 +218,7 @@ func _TopicService_CreateTopic_Rule0(srv TopicServiceServer) http.Handler {
 			return
 		}
 
-		out, err := srv.CreateTopic(r.Context(), in)
+		out, err := cli.CreateTopic(r.Context(), in)
 		if err != nil {
 			_TopicService_HTTPWriteErrorResponse(w, err)
 			return
@@ -227,7 +228,7 @@ func _TopicService_CreateTopic_Rule0(srv TopicServiceServer) http.Handler {
 	})
 }
 
-func _TopicService_DeleteTopic_Rule0(srv TopicServiceServer) http.Handler {
+func _TopicService_DeleteTopic_Rule0(cli TopicServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteTopicInput{}
 
@@ -240,7 +241,7 @@ func _TopicService_DeleteTopic_Rule0(srv TopicServiceServer) http.Handler {
 		vars := mux.Vars(r)
 		in.TopicId = vars["topic_id"]
 
-		out, err := srv.DeleteTopic(r.Context(), in)
+		out, err := cli.DeleteTopic(r.Context(), in)
 		if err != nil {
 			_TopicService_HTTPWriteErrorResponse(w, err)
 			return
@@ -250,7 +251,7 @@ func _TopicService_DeleteTopic_Rule0(srv TopicServiceServer) http.Handler {
 	})
 }
 
-func _TopicService_UpdateTopic_Rule0(srv TopicServiceServer) http.Handler {
+func _TopicService_UpdateTopic_Rule0(cli TopicServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateTopicInput{}
 
@@ -263,7 +264,7 @@ func _TopicService_UpdateTopic_Rule0(srv TopicServiceServer) http.Handler {
 		vars := mux.Vars(r)
 		in.TopicId = vars["topic_id"]
 
-		out, err := srv.UpdateTopic(r.Context(), in)
+		out, err := cli.UpdateTopic(r.Context(), in)
 		if err != nil {
 			_TopicService_HTTPWriteErrorResponse(w, err)
 			return
@@ -273,7 +274,7 @@ func _TopicService_UpdateTopic_Rule0(srv TopicServiceServer) http.Handler {
 	})
 }
 
-func _TopicService_DescribeTopic_Rule0(srv TopicServiceServer) http.Handler {
+func _TopicService_DescribeTopic_Rule0(cli TopicServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeTopicInput{}
 
@@ -286,7 +287,7 @@ func _TopicService_DescribeTopic_Rule0(srv TopicServiceServer) http.Handler {
 		vars := mux.Vars(r)
 		in.TopicId = vars["topic_id"]
 
-		out, err := srv.DescribeTopic(r.Context(), in)
+		out, err := cli.DescribeTopic(r.Context(), in)
 		if err != nil {
 			_TopicService_HTTPWriteErrorResponse(w, err)
 			return
@@ -296,7 +297,7 @@ func _TopicService_DescribeTopic_Rule0(srv TopicServiceServer) http.Handler {
 	})
 }
 
-func _TopicService_ListTopics_Rule0(srv TopicServiceServer) http.Handler {
+func _TopicService_ListTopics_Rule0(cli TopicServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListTopicsInput{}
 
@@ -306,7 +307,7 @@ func _TopicService_ListTopics_Rule0(srv TopicServiceServer) http.Handler {
 			return
 		}
 
-		out, err := srv.ListTopics(r.Context(), in)
+		out, err := cli.ListTopics(r.Context(), in)
 		if err != nil {
 			_TopicService_HTTPWriteErrorResponse(w, err)
 			return
@@ -316,7 +317,7 @@ func _TopicService_ListTopics_Rule0(srv TopicServiceServer) http.Handler {
 	})
 }
 
-func _TopicService_TranslateTopic_Rule0(srv TopicServiceServer) http.Handler {
+func _TopicService_TranslateTopic_Rule0(cli TopicServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &TranslateTopicInput{}
 
@@ -330,7 +331,7 @@ func _TopicService_TranslateTopic_Rule0(srv TopicServiceServer) http.Handler {
 		in.TopicId = vars["topic_id"]
 		in.Locale = vars["locale"]
 
-		out, err := srv.TranslateTopic(r.Context(), in)
+		out, err := cli.TranslateTopic(r.Context(), in)
 		if err != nil {
 			_TopicService_HTTPWriteErrorResponse(w, err)
 			return
@@ -340,7 +341,7 @@ func _TopicService_TranslateTopic_Rule0(srv TopicServiceServer) http.Handler {
 	})
 }
 
-func _TopicService_DeleteTranslation_Rule0(srv TopicServiceServer) http.Handler {
+func _TopicService_DeleteTranslation_Rule0(cli TopicServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteTranslationInput{}
 
@@ -354,7 +355,7 @@ func _TopicService_DeleteTranslation_Rule0(srv TopicServiceServer) http.Handler 
 		in.TopicId = vars["topic_id"]
 		in.Locale = vars["locale"]
 
-		out, err := srv.DeleteTranslation(r.Context(), in)
+		out, err := cli.DeleteTranslation(r.Context(), in)
 		if err != nil {
 			_TopicService_HTTPWriteErrorResponse(w, err)
 			return
@@ -364,7 +365,7 @@ func _TopicService_DeleteTranslation_Rule0(srv TopicServiceServer) http.Handler 
 	})
 }
 
-func _TopicService_ListTranslations_Rule0(srv TopicServiceServer) http.Handler {
+func _TopicService_ListTranslations_Rule0(cli TopicServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListTranslationsInput{}
 
@@ -377,7 +378,7 @@ func _TopicService_ListTranslations_Rule0(srv TopicServiceServer) http.Handler {
 		vars := mux.Vars(r)
 		in.TopicId = vars["topic_id"]
 
-		out, err := srv.ListTranslations(r.Context(), in)
+		out, err := cli.ListTranslations(r.Context(), in)
 		if err != nil {
 			_TopicService_HTTPWriteErrorResponse(w, err)
 			return
@@ -391,22 +392,22 @@ type _TopicServiceHandler = func(ctx context.Context, in proto.Message) (proto.M
 type _TopicServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _TopicServiceHandler) (out proto.Message, err error)
 type TopicServiceInterceptor struct {
 	middleware []_TopicServiceMiddleware
-	server     TopicServiceServer
+	client     TopicServiceClient
 }
 
 // NewTopicServiceInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewTopicServiceInterceptor(srv TopicServiceServer, middleware ..._TopicServiceMiddleware) *TopicServiceInterceptor {
-	return &TopicServiceInterceptor{server: srv, middleware: middleware}
+func NewTopicServiceInterceptor(cli TopicServiceClient, middleware ..._TopicServiceMiddleware) *TopicServiceInterceptor {
+	return &TopicServiceInterceptor{client: cli, middleware: middleware}
 }
 
-func (i *TopicServiceInterceptor) CreateTopic(ctx context.Context, in *CreateTopicInput) (*CreateTopicOutput, error) {
+func (i *TopicServiceInterceptor) CreateTopic(ctx context.Context, in *CreateTopicInput, opts ...grpc.CallOption) (*CreateTopicOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CreateTopicInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *CreateTopicInput, got %T", in))
 		}
 
-		return i.server.CreateTopic(ctx, message)
+		return i.client.CreateTopic(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -431,14 +432,14 @@ func (i *TopicServiceInterceptor) CreateTopic(ctx context.Context, in *CreateTop
 	return message, err
 }
 
-func (i *TopicServiceInterceptor) DeleteTopic(ctx context.Context, in *DeleteTopicInput) (*DeleteTopicOutput, error) {
+func (i *TopicServiceInterceptor) DeleteTopic(ctx context.Context, in *DeleteTopicInput, opts ...grpc.CallOption) (*DeleteTopicOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DeleteTopicInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DeleteTopicInput, got %T", in))
 		}
 
-		return i.server.DeleteTopic(ctx, message)
+		return i.client.DeleteTopic(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -463,14 +464,14 @@ func (i *TopicServiceInterceptor) DeleteTopic(ctx context.Context, in *DeleteTop
 	return message, err
 }
 
-func (i *TopicServiceInterceptor) UpdateTopic(ctx context.Context, in *UpdateTopicInput) (*UpdateTopicOutput, error) {
+func (i *TopicServiceInterceptor) UpdateTopic(ctx context.Context, in *UpdateTopicInput, opts ...grpc.CallOption) (*UpdateTopicOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdateTopicInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UpdateTopicInput, got %T", in))
 		}
 
-		return i.server.UpdateTopic(ctx, message)
+		return i.client.UpdateTopic(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -495,14 +496,14 @@ func (i *TopicServiceInterceptor) UpdateTopic(ctx context.Context, in *UpdateTop
 	return message, err
 }
 
-func (i *TopicServiceInterceptor) DescribeTopic(ctx context.Context, in *DescribeTopicInput) (*DescribeTopicOutput, error) {
+func (i *TopicServiceInterceptor) DescribeTopic(ctx context.Context, in *DescribeTopicInput, opts ...grpc.CallOption) (*DescribeTopicOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeTopicInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeTopicInput, got %T", in))
 		}
 
-		return i.server.DescribeTopic(ctx, message)
+		return i.client.DescribeTopic(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -527,14 +528,14 @@ func (i *TopicServiceInterceptor) DescribeTopic(ctx context.Context, in *Describ
 	return message, err
 }
 
-func (i *TopicServiceInterceptor) ListTopics(ctx context.Context, in *ListTopicsInput) (*ListTopicsOutput, error) {
+func (i *TopicServiceInterceptor) ListTopics(ctx context.Context, in *ListTopicsInput, opts ...grpc.CallOption) (*ListTopicsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListTopicsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListTopicsInput, got %T", in))
 		}
 
-		return i.server.ListTopics(ctx, message)
+		return i.client.ListTopics(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -559,14 +560,14 @@ func (i *TopicServiceInterceptor) ListTopics(ctx context.Context, in *ListTopics
 	return message, err
 }
 
-func (i *TopicServiceInterceptor) TranslateTopic(ctx context.Context, in *TranslateTopicInput) (*TranslateTopicOutput, error) {
+func (i *TopicServiceInterceptor) TranslateTopic(ctx context.Context, in *TranslateTopicInput, opts ...grpc.CallOption) (*TranslateTopicOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*TranslateTopicInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *TranslateTopicInput, got %T", in))
 		}
 
-		return i.server.TranslateTopic(ctx, message)
+		return i.client.TranslateTopic(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -591,14 +592,14 @@ func (i *TopicServiceInterceptor) TranslateTopic(ctx context.Context, in *Transl
 	return message, err
 }
 
-func (i *TopicServiceInterceptor) DeleteTranslation(ctx context.Context, in *DeleteTranslationInput) (*DeleteTranslationOutput, error) {
+func (i *TopicServiceInterceptor) DeleteTranslation(ctx context.Context, in *DeleteTranslationInput, opts ...grpc.CallOption) (*DeleteTranslationOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DeleteTranslationInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DeleteTranslationInput, got %T", in))
 		}
 
-		return i.server.DeleteTranslation(ctx, message)
+		return i.client.DeleteTranslation(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -623,14 +624,14 @@ func (i *TopicServiceInterceptor) DeleteTranslation(ctx context.Context, in *Del
 	return message, err
 }
 
-func (i *TopicServiceInterceptor) ListTranslations(ctx context.Context, in *ListTranslationsInput) (*ListTranslationsOutput, error) {
+func (i *TopicServiceInterceptor) ListTranslations(ctx context.Context, in *ListTranslationsInput, opts ...grpc.CallOption) (*ListTranslationsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListTranslationsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListTranslationsInput, got %T", in))
 		}
 
-		return i.server.ListTranslations(ctx, message)
+		return i.client.ListTranslations(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {

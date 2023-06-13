@@ -8,6 +8,7 @@ import (
 	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	websocket "golang.org/x/net/websocket"
+	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
@@ -178,15 +179,15 @@ var _Resolver_WebsocketCodec = websocket.Codec{
 	},
 }
 
-// RegisterResolverHttpHandlers adds handlers for for ResolverServer
+// RegisterResolverHttpHandlers adds handlers for for ResolverClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterResolverHttpHandlers(router *mux.Router, prefix string, srv ResolverServer) {
-	router.Handle(prefix+"/names/{name}", _Resolver_ResolveName_Rule0(srv)).
+func RegisterResolverHttpHandlers(router *mux.Router, prefix string, cli ResolverClient) {
+	router.Handle(prefix+"/names/{name}", _Resolver_ResolveName_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.resolver.Resolver.ResolveName")
 }
 
-func _Resolver_ResolveName_Rule0(srv ResolverServer) http.Handler {
+func _Resolver_ResolveName_Rule0(cli ResolverClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ResolveNameInput{}
 
@@ -199,7 +200,7 @@ func _Resolver_ResolveName_Rule0(srv ResolverServer) http.Handler {
 		vars := mux.Vars(r)
 		in.Name = vars["name"]
 
-		out, err := srv.ResolveName(r.Context(), in)
+		out, err := cli.ResolveName(r.Context(), in)
 		if err != nil {
 			_Resolver_HTTPWriteErrorResponse(w, err)
 			return
@@ -213,22 +214,22 @@ type _ResolverHandler = func(ctx context.Context, in proto.Message) (proto.Messa
 type _ResolverMiddleware = func(ctx context.Context, method string, in proto.Message, handler _ResolverHandler) (out proto.Message, err error)
 type ResolverInterceptor struct {
 	middleware []_ResolverMiddleware
-	server     ResolverServer
+	client     ResolverClient
 }
 
 // NewResolverInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewResolverInterceptor(srv ResolverServer, middleware ..._ResolverMiddleware) *ResolverInterceptor {
-	return &ResolverInterceptor{server: srv, middleware: middleware}
+func NewResolverInterceptor(cli ResolverClient, middleware ..._ResolverMiddleware) *ResolverInterceptor {
+	return &ResolverInterceptor{client: cli, middleware: middleware}
 }
 
-func (i *ResolverInterceptor) ResolveName(ctx context.Context, in *ResolveNameInput) (*ResolveNameOutput, error) {
+func (i *ResolverInterceptor) ResolveName(ctx context.Context, in *ResolveNameInput, opts ...grpc.CallOption) (*ResolveNameOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ResolveNameInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ResolveNameInput, got %T", in))
 		}
 
-		return i.server.ResolveName(ctx, message)
+		return i.client.ResolveName(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {

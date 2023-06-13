@@ -8,6 +8,7 @@ import (
 	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	websocket "golang.org/x/net/websocket"
+	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
@@ -178,15 +179,15 @@ var _Asset_WebsocketCodec = websocket.Codec{
 	},
 }
 
-// RegisterAssetHttpHandlers adds handlers for for AssetServer
+// RegisterAssetHttpHandlers adds handlers for for AssetClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterAssetHttpHandlers(router *mux.Router, prefix string, srv AssetServer) {
-	router.Handle(prefix+"/assets/images", _Asset_UploadImage_Rule0(srv)).
+func RegisterAssetHttpHandlers(router *mux.Router, prefix string, cli AssetClient) {
+	router.Handle(prefix+"/assets/images", _Asset_UploadImage_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.asset.Asset.UploadImage")
 }
 
-func _Asset_UploadImage_Rule0(srv AssetServer) http.Handler {
+func _Asset_UploadImage_Rule0(cli AssetClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UploadImageInput{}
 
@@ -196,7 +197,7 @@ func _Asset_UploadImage_Rule0(srv AssetServer) http.Handler {
 			return
 		}
 
-		out, err := srv.UploadImage(r.Context(), in)
+		out, err := cli.UploadImage(r.Context(), in)
 		if err != nil {
 			_Asset_HTTPWriteErrorResponse(w, err)
 			return
@@ -210,22 +211,22 @@ type _AssetHandler = func(ctx context.Context, in proto.Message) (proto.Message,
 type _AssetMiddleware = func(ctx context.Context, method string, in proto.Message, handler _AssetHandler) (out proto.Message, err error)
 type AssetInterceptor struct {
 	middleware []_AssetMiddleware
-	server     AssetServer
+	client     AssetClient
 }
 
 // NewAssetInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewAssetInterceptor(srv AssetServer, middleware ..._AssetMiddleware) *AssetInterceptor {
-	return &AssetInterceptor{server: srv, middleware: middleware}
+func NewAssetInterceptor(cli AssetClient, middleware ..._AssetMiddleware) *AssetInterceptor {
+	return &AssetInterceptor{client: cli, middleware: middleware}
 }
 
-func (i *AssetInterceptor) UploadImage(ctx context.Context, in *UploadImageInput) (*UploadImageOutput, error) {
+func (i *AssetInterceptor) UploadImage(ctx context.Context, in *UploadImageInput, opts ...grpc.CallOption) (*UploadImageOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UploadImageInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UploadImageInput, got %T", in))
 		}
 
-		return i.server.UploadImage(ctx, message)
+		return i.client.UploadImage(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {

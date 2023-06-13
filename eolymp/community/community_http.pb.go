@@ -8,6 +8,7 @@ import (
 	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	websocket "golang.org/x/net/websocket"
+	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
@@ -178,69 +179,69 @@ var _Community_WebsocketCodec = websocket.Codec{
 	},
 }
 
-// RegisterCommunityHttpHandlers adds handlers for for CommunityServer
+// RegisterCommunityHttpHandlers adds handlers for for CommunityClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterCommunityHttpHandlers(router *mux.Router, prefix string, srv CommunityServer) {
-	router.Handle(prefix+"/members/_self", _Community_JoinSpace_Rule0(srv)).
+func RegisterCommunityHttpHandlers(router *mux.Router, prefix string, cli CommunityClient) {
+	router.Handle(prefix+"/members/_self", _Community_JoinSpace_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.community.Community.JoinSpace")
-	router.Handle(prefix+"/members/_self", _Community_LeaveSpace_Rule0(srv)).
+	router.Handle(prefix+"/members/_self", _Community_LeaveSpace_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.community.Community.LeaveSpace")
-	router.Handle(prefix+"/members/_self/attributes", _Community_RegisterMember_Rule0(srv)).
+	router.Handle(prefix+"/members/_self/attributes", _Community_RegisterMember_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.community.Community.RegisterMember")
-	router.Handle(prefix+"/members/_self", _Community_IntrospectMember_Rule0(srv)).
+	router.Handle(prefix+"/members/_self", _Community_IntrospectMember_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.community.Community.IntrospectMember")
-	router.Handle(prefix+"/members", _Community_AddMember_Rule0(srv)).
+	router.Handle(prefix+"/members", _Community_AddMember_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.community.Community.AddMember")
-	router.Handle(prefix+"/members/{member_id}", _Community_UpdateMember_Rule0(srv)).
+	router.Handle(prefix+"/members/{member_id}", _Community_UpdateMember_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.community.Community.UpdateMember")
-	router.Handle(prefix+"/members/{member_id}", _Community_RemoveMember_Rule0(srv)).
+	router.Handle(prefix+"/members/{member_id}", _Community_RemoveMember_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.community.Community.RemoveMember")
-	router.Handle(prefix+"/members/{member_id}", _Community_DescribeMember_Rule0(srv)).
+	router.Handle(prefix+"/members/{member_id}", _Community_DescribeMember_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.community.Community.DescribeMember")
-	router.Handle(prefix+"/members", _Community_ListMembers_Rule0(srv)).
+	router.Handle(prefix+"/members", _Community_ListMembers_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.community.Community.ListMembers")
-	router.Handle(prefix+"/members/{member_id}/identities", _Community_AddMemberIdentity_Rule0(srv)).
+	router.Handle(prefix+"/members/{member_id}/identities", _Community_AddMemberIdentity_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.community.Community.AddMemberIdentity")
-	router.Handle(prefix+"/members/{member_id}/identities/{identity_id}", _Community_UpdateMemberIdentity_Rule0(srv)).
+	router.Handle(prefix+"/members/{member_id}/identities/{identity_id}", _Community_UpdateMemberIdentity_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.community.Community.UpdateMemberIdentity")
-	router.Handle(prefix+"/members/{member_id}/identities/{identity_id}", _Community_RemoveMemberIdentity_Rule0(srv)).
+	router.Handle(prefix+"/members/{member_id}/identities/{identity_id}", _Community_RemoveMemberIdentity_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.community.Community.RemoveMemberIdentity")
-	router.Handle(prefix+"/attributes", _Community_AddAttribute_Rule0(srv)).
+	router.Handle(prefix+"/attributes", _Community_AddAttribute_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.community.Community.AddAttribute")
-	router.Handle(prefix+"/attributes/{attribute_key}", _Community_UpdateAttribute_Rule0(srv)).
+	router.Handle(prefix+"/attributes/{attribute_key}", _Community_UpdateAttribute_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.community.Community.UpdateAttribute")
-	router.Handle(prefix+"/attributes/{attribute_key}", _Community_RemoveAttribute_Rule0(srv)).
+	router.Handle(prefix+"/attributes/{attribute_key}", _Community_RemoveAttribute_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.community.Community.RemoveAttribute")
-	router.Handle(prefix+"/attributes/{attribute_key}", _Community_DescribeAttribute_Rule0(srv)).
+	router.Handle(prefix+"/attributes/{attribute_key}", _Community_DescribeAttribute_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.community.Community.DescribeAttribute")
-	router.Handle(prefix+"/attributes", _Community_ListAttributes_Rule0(srv)).
+	router.Handle(prefix+"/attributes", _Community_ListAttributes_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.community.Community.ListAttributes")
-	router.Handle(prefix+"/idp", _Community_DescribeIdentityProvider_Rule0(srv)).
+	router.Handle(prefix+"/idp", _Community_DescribeIdentityProvider_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.community.Community.DescribeIdentityProvider")
-	router.Handle(prefix+"/idp", _Community_ConfigureIdentityProvider_Rule0(srv)).
+	router.Handle(prefix+"/idp", _Community_ConfigureIdentityProvider_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.community.Community.ConfigureIdentityProvider")
 }
 
-func _Community_JoinSpace_Rule0(srv CommunityServer) http.Handler {
+func _Community_JoinSpace_Rule0(cli CommunityClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &JoinSpaceInput{}
 
@@ -250,7 +251,7 @@ func _Community_JoinSpace_Rule0(srv CommunityServer) http.Handler {
 			return
 		}
 
-		out, err := srv.JoinSpace(r.Context(), in)
+		out, err := cli.JoinSpace(r.Context(), in)
 		if err != nil {
 			_Community_HTTPWriteErrorResponse(w, err)
 			return
@@ -260,7 +261,7 @@ func _Community_JoinSpace_Rule0(srv CommunityServer) http.Handler {
 	})
 }
 
-func _Community_LeaveSpace_Rule0(srv CommunityServer) http.Handler {
+func _Community_LeaveSpace_Rule0(cli CommunityClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &LeaveSpaceInput{}
 
@@ -270,7 +271,7 @@ func _Community_LeaveSpace_Rule0(srv CommunityServer) http.Handler {
 			return
 		}
 
-		out, err := srv.LeaveSpace(r.Context(), in)
+		out, err := cli.LeaveSpace(r.Context(), in)
 		if err != nil {
 			_Community_HTTPWriteErrorResponse(w, err)
 			return
@@ -280,7 +281,7 @@ func _Community_LeaveSpace_Rule0(srv CommunityServer) http.Handler {
 	})
 }
 
-func _Community_RegisterMember_Rule0(srv CommunityServer) http.Handler {
+func _Community_RegisterMember_Rule0(cli CommunityClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &RegisterMemberInput{}
 
@@ -290,7 +291,7 @@ func _Community_RegisterMember_Rule0(srv CommunityServer) http.Handler {
 			return
 		}
 
-		out, err := srv.RegisterMember(r.Context(), in)
+		out, err := cli.RegisterMember(r.Context(), in)
 		if err != nil {
 			_Community_HTTPWriteErrorResponse(w, err)
 			return
@@ -300,7 +301,7 @@ func _Community_RegisterMember_Rule0(srv CommunityServer) http.Handler {
 	})
 }
 
-func _Community_IntrospectMember_Rule0(srv CommunityServer) http.Handler {
+func _Community_IntrospectMember_Rule0(cli CommunityClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &IntrospectMemberInput{}
 
@@ -310,7 +311,7 @@ func _Community_IntrospectMember_Rule0(srv CommunityServer) http.Handler {
 			return
 		}
 
-		out, err := srv.IntrospectMember(r.Context(), in)
+		out, err := cli.IntrospectMember(r.Context(), in)
 		if err != nil {
 			_Community_HTTPWriteErrorResponse(w, err)
 			return
@@ -320,7 +321,7 @@ func _Community_IntrospectMember_Rule0(srv CommunityServer) http.Handler {
 	})
 }
 
-func _Community_AddMember_Rule0(srv CommunityServer) http.Handler {
+func _Community_AddMember_Rule0(cli CommunityClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &AddMemberInput{}
 
@@ -330,7 +331,7 @@ func _Community_AddMember_Rule0(srv CommunityServer) http.Handler {
 			return
 		}
 
-		out, err := srv.AddMember(r.Context(), in)
+		out, err := cli.AddMember(r.Context(), in)
 		if err != nil {
 			_Community_HTTPWriteErrorResponse(w, err)
 			return
@@ -340,7 +341,7 @@ func _Community_AddMember_Rule0(srv CommunityServer) http.Handler {
 	})
 }
 
-func _Community_UpdateMember_Rule0(srv CommunityServer) http.Handler {
+func _Community_UpdateMember_Rule0(cli CommunityClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateMemberInput{}
 
@@ -353,7 +354,7 @@ func _Community_UpdateMember_Rule0(srv CommunityServer) http.Handler {
 		vars := mux.Vars(r)
 		in.MemberId = vars["member_id"]
 
-		out, err := srv.UpdateMember(r.Context(), in)
+		out, err := cli.UpdateMember(r.Context(), in)
 		if err != nil {
 			_Community_HTTPWriteErrorResponse(w, err)
 			return
@@ -363,7 +364,7 @@ func _Community_UpdateMember_Rule0(srv CommunityServer) http.Handler {
 	})
 }
 
-func _Community_RemoveMember_Rule0(srv CommunityServer) http.Handler {
+func _Community_RemoveMember_Rule0(cli CommunityClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &RemoveMemberInput{}
 
@@ -376,7 +377,7 @@ func _Community_RemoveMember_Rule0(srv CommunityServer) http.Handler {
 		vars := mux.Vars(r)
 		in.MemberId = vars["member_id"]
 
-		out, err := srv.RemoveMember(r.Context(), in)
+		out, err := cli.RemoveMember(r.Context(), in)
 		if err != nil {
 			_Community_HTTPWriteErrorResponse(w, err)
 			return
@@ -386,7 +387,7 @@ func _Community_RemoveMember_Rule0(srv CommunityServer) http.Handler {
 	})
 }
 
-func _Community_DescribeMember_Rule0(srv CommunityServer) http.Handler {
+func _Community_DescribeMember_Rule0(cli CommunityClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeMemberInput{}
 
@@ -399,7 +400,7 @@ func _Community_DescribeMember_Rule0(srv CommunityServer) http.Handler {
 		vars := mux.Vars(r)
 		in.MemberId = vars["member_id"]
 
-		out, err := srv.DescribeMember(r.Context(), in)
+		out, err := cli.DescribeMember(r.Context(), in)
 		if err != nil {
 			_Community_HTTPWriteErrorResponse(w, err)
 			return
@@ -409,7 +410,7 @@ func _Community_DescribeMember_Rule0(srv CommunityServer) http.Handler {
 	})
 }
 
-func _Community_ListMembers_Rule0(srv CommunityServer) http.Handler {
+func _Community_ListMembers_Rule0(cli CommunityClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListMembersInput{}
 
@@ -419,7 +420,7 @@ func _Community_ListMembers_Rule0(srv CommunityServer) http.Handler {
 			return
 		}
 
-		out, err := srv.ListMembers(r.Context(), in)
+		out, err := cli.ListMembers(r.Context(), in)
 		if err != nil {
 			_Community_HTTPWriteErrorResponse(w, err)
 			return
@@ -429,7 +430,7 @@ func _Community_ListMembers_Rule0(srv CommunityServer) http.Handler {
 	})
 }
 
-func _Community_AddMemberIdentity_Rule0(srv CommunityServer) http.Handler {
+func _Community_AddMemberIdentity_Rule0(cli CommunityClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &AddMemberIdentityInput{}
 
@@ -442,7 +443,7 @@ func _Community_AddMemberIdentity_Rule0(srv CommunityServer) http.Handler {
 		vars := mux.Vars(r)
 		in.MemberId = vars["member_id"]
 
-		out, err := srv.AddMemberIdentity(r.Context(), in)
+		out, err := cli.AddMemberIdentity(r.Context(), in)
 		if err != nil {
 			_Community_HTTPWriteErrorResponse(w, err)
 			return
@@ -452,7 +453,7 @@ func _Community_AddMemberIdentity_Rule0(srv CommunityServer) http.Handler {
 	})
 }
 
-func _Community_UpdateMemberIdentity_Rule0(srv CommunityServer) http.Handler {
+func _Community_UpdateMemberIdentity_Rule0(cli CommunityClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateMemberIdentityInput{}
 
@@ -466,7 +467,7 @@ func _Community_UpdateMemberIdentity_Rule0(srv CommunityServer) http.Handler {
 		in.MemberId = vars["member_id"]
 		in.IdentityId = vars["identity_id"]
 
-		out, err := srv.UpdateMemberIdentity(r.Context(), in)
+		out, err := cli.UpdateMemberIdentity(r.Context(), in)
 		if err != nil {
 			_Community_HTTPWriteErrorResponse(w, err)
 			return
@@ -476,7 +477,7 @@ func _Community_UpdateMemberIdentity_Rule0(srv CommunityServer) http.Handler {
 	})
 }
 
-func _Community_RemoveMemberIdentity_Rule0(srv CommunityServer) http.Handler {
+func _Community_RemoveMemberIdentity_Rule0(cli CommunityClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &RemoveMemberIdentityInput{}
 
@@ -490,7 +491,7 @@ func _Community_RemoveMemberIdentity_Rule0(srv CommunityServer) http.Handler {
 		in.MemberId = vars["member_id"]
 		in.IdentityId = vars["identity_id"]
 
-		out, err := srv.RemoveMemberIdentity(r.Context(), in)
+		out, err := cli.RemoveMemberIdentity(r.Context(), in)
 		if err != nil {
 			_Community_HTTPWriteErrorResponse(w, err)
 			return
@@ -500,7 +501,7 @@ func _Community_RemoveMemberIdentity_Rule0(srv CommunityServer) http.Handler {
 	})
 }
 
-func _Community_AddAttribute_Rule0(srv CommunityServer) http.Handler {
+func _Community_AddAttribute_Rule0(cli CommunityClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &AddAttributeInput{}
 
@@ -510,7 +511,7 @@ func _Community_AddAttribute_Rule0(srv CommunityServer) http.Handler {
 			return
 		}
 
-		out, err := srv.AddAttribute(r.Context(), in)
+		out, err := cli.AddAttribute(r.Context(), in)
 		if err != nil {
 			_Community_HTTPWriteErrorResponse(w, err)
 			return
@@ -520,7 +521,7 @@ func _Community_AddAttribute_Rule0(srv CommunityServer) http.Handler {
 	})
 }
 
-func _Community_UpdateAttribute_Rule0(srv CommunityServer) http.Handler {
+func _Community_UpdateAttribute_Rule0(cli CommunityClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateAttributeInput{}
 
@@ -533,7 +534,7 @@ func _Community_UpdateAttribute_Rule0(srv CommunityServer) http.Handler {
 		vars := mux.Vars(r)
 		in.AttributeKey = vars["attribute_key"]
 
-		out, err := srv.UpdateAttribute(r.Context(), in)
+		out, err := cli.UpdateAttribute(r.Context(), in)
 		if err != nil {
 			_Community_HTTPWriteErrorResponse(w, err)
 			return
@@ -543,7 +544,7 @@ func _Community_UpdateAttribute_Rule0(srv CommunityServer) http.Handler {
 	})
 }
 
-func _Community_RemoveAttribute_Rule0(srv CommunityServer) http.Handler {
+func _Community_RemoveAttribute_Rule0(cli CommunityClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &RemoveAttributeInput{}
 
@@ -556,7 +557,7 @@ func _Community_RemoveAttribute_Rule0(srv CommunityServer) http.Handler {
 		vars := mux.Vars(r)
 		in.AttributeKey = vars["attribute_key"]
 
-		out, err := srv.RemoveAttribute(r.Context(), in)
+		out, err := cli.RemoveAttribute(r.Context(), in)
 		if err != nil {
 			_Community_HTTPWriteErrorResponse(w, err)
 			return
@@ -566,7 +567,7 @@ func _Community_RemoveAttribute_Rule0(srv CommunityServer) http.Handler {
 	})
 }
 
-func _Community_DescribeAttribute_Rule0(srv CommunityServer) http.Handler {
+func _Community_DescribeAttribute_Rule0(cli CommunityClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeAttributeInput{}
 
@@ -579,7 +580,7 @@ func _Community_DescribeAttribute_Rule0(srv CommunityServer) http.Handler {
 		vars := mux.Vars(r)
 		in.AttributeKey = vars["attribute_key"]
 
-		out, err := srv.DescribeAttribute(r.Context(), in)
+		out, err := cli.DescribeAttribute(r.Context(), in)
 		if err != nil {
 			_Community_HTTPWriteErrorResponse(w, err)
 			return
@@ -589,7 +590,7 @@ func _Community_DescribeAttribute_Rule0(srv CommunityServer) http.Handler {
 	})
 }
 
-func _Community_ListAttributes_Rule0(srv CommunityServer) http.Handler {
+func _Community_ListAttributes_Rule0(cli CommunityClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListAttributesInput{}
 
@@ -599,7 +600,7 @@ func _Community_ListAttributes_Rule0(srv CommunityServer) http.Handler {
 			return
 		}
 
-		out, err := srv.ListAttributes(r.Context(), in)
+		out, err := cli.ListAttributes(r.Context(), in)
 		if err != nil {
 			_Community_HTTPWriteErrorResponse(w, err)
 			return
@@ -609,7 +610,7 @@ func _Community_ListAttributes_Rule0(srv CommunityServer) http.Handler {
 	})
 }
 
-func _Community_DescribeIdentityProvider_Rule0(srv CommunityServer) http.Handler {
+func _Community_DescribeIdentityProvider_Rule0(cli CommunityClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeIdentityProviderInput{}
 
@@ -619,7 +620,7 @@ func _Community_DescribeIdentityProvider_Rule0(srv CommunityServer) http.Handler
 			return
 		}
 
-		out, err := srv.DescribeIdentityProvider(r.Context(), in)
+		out, err := cli.DescribeIdentityProvider(r.Context(), in)
 		if err != nil {
 			_Community_HTTPWriteErrorResponse(w, err)
 			return
@@ -629,7 +630,7 @@ func _Community_DescribeIdentityProvider_Rule0(srv CommunityServer) http.Handler
 	})
 }
 
-func _Community_ConfigureIdentityProvider_Rule0(srv CommunityServer) http.Handler {
+func _Community_ConfigureIdentityProvider_Rule0(cli CommunityClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ConfigureIdentityProviderInput{}
 
@@ -639,7 +640,7 @@ func _Community_ConfigureIdentityProvider_Rule0(srv CommunityServer) http.Handle
 			return
 		}
 
-		out, err := srv.ConfigureIdentityProvider(r.Context(), in)
+		out, err := cli.ConfigureIdentityProvider(r.Context(), in)
 		if err != nil {
 			_Community_HTTPWriteErrorResponse(w, err)
 			return
@@ -653,22 +654,22 @@ type _CommunityHandler = func(ctx context.Context, in proto.Message) (proto.Mess
 type _CommunityMiddleware = func(ctx context.Context, method string, in proto.Message, handler _CommunityHandler) (out proto.Message, err error)
 type CommunityInterceptor struct {
 	middleware []_CommunityMiddleware
-	server     CommunityServer
+	client     CommunityClient
 }
 
 // NewCommunityInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewCommunityInterceptor(srv CommunityServer, middleware ..._CommunityMiddleware) *CommunityInterceptor {
-	return &CommunityInterceptor{server: srv, middleware: middleware}
+func NewCommunityInterceptor(cli CommunityClient, middleware ..._CommunityMiddleware) *CommunityInterceptor {
+	return &CommunityInterceptor{client: cli, middleware: middleware}
 }
 
-func (i *CommunityInterceptor) JoinSpace(ctx context.Context, in *JoinSpaceInput) (*JoinSpaceOutput, error) {
+func (i *CommunityInterceptor) JoinSpace(ctx context.Context, in *JoinSpaceInput, opts ...grpc.CallOption) (*JoinSpaceOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*JoinSpaceInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *JoinSpaceInput, got %T", in))
 		}
 
-		return i.server.JoinSpace(ctx, message)
+		return i.client.JoinSpace(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -693,14 +694,14 @@ func (i *CommunityInterceptor) JoinSpace(ctx context.Context, in *JoinSpaceInput
 	return message, err
 }
 
-func (i *CommunityInterceptor) LeaveSpace(ctx context.Context, in *LeaveSpaceInput) (*LeaveSpaceOutput, error) {
+func (i *CommunityInterceptor) LeaveSpace(ctx context.Context, in *LeaveSpaceInput, opts ...grpc.CallOption) (*LeaveSpaceOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*LeaveSpaceInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *LeaveSpaceInput, got %T", in))
 		}
 
-		return i.server.LeaveSpace(ctx, message)
+		return i.client.LeaveSpace(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -725,14 +726,14 @@ func (i *CommunityInterceptor) LeaveSpace(ctx context.Context, in *LeaveSpaceInp
 	return message, err
 }
 
-func (i *CommunityInterceptor) RegisterMember(ctx context.Context, in *RegisterMemberInput) (*RegisterMemberOutput, error) {
+func (i *CommunityInterceptor) RegisterMember(ctx context.Context, in *RegisterMemberInput, opts ...grpc.CallOption) (*RegisterMemberOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*RegisterMemberInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *RegisterMemberInput, got %T", in))
 		}
 
-		return i.server.RegisterMember(ctx, message)
+		return i.client.RegisterMember(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -757,14 +758,14 @@ func (i *CommunityInterceptor) RegisterMember(ctx context.Context, in *RegisterM
 	return message, err
 }
 
-func (i *CommunityInterceptor) IntrospectMember(ctx context.Context, in *IntrospectMemberInput) (*IntrospectMemberOutput, error) {
+func (i *CommunityInterceptor) IntrospectMember(ctx context.Context, in *IntrospectMemberInput, opts ...grpc.CallOption) (*IntrospectMemberOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*IntrospectMemberInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *IntrospectMemberInput, got %T", in))
 		}
 
-		return i.server.IntrospectMember(ctx, message)
+		return i.client.IntrospectMember(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -789,14 +790,14 @@ func (i *CommunityInterceptor) IntrospectMember(ctx context.Context, in *Introsp
 	return message, err
 }
 
-func (i *CommunityInterceptor) AddMember(ctx context.Context, in *AddMemberInput) (*AddMemberOutput, error) {
+func (i *CommunityInterceptor) AddMember(ctx context.Context, in *AddMemberInput, opts ...grpc.CallOption) (*AddMemberOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*AddMemberInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *AddMemberInput, got %T", in))
 		}
 
-		return i.server.AddMember(ctx, message)
+		return i.client.AddMember(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -821,14 +822,14 @@ func (i *CommunityInterceptor) AddMember(ctx context.Context, in *AddMemberInput
 	return message, err
 }
 
-func (i *CommunityInterceptor) UpdateMember(ctx context.Context, in *UpdateMemberInput) (*UpdateMemberOutput, error) {
+func (i *CommunityInterceptor) UpdateMember(ctx context.Context, in *UpdateMemberInput, opts ...grpc.CallOption) (*UpdateMemberOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdateMemberInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UpdateMemberInput, got %T", in))
 		}
 
-		return i.server.UpdateMember(ctx, message)
+		return i.client.UpdateMember(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -853,14 +854,14 @@ func (i *CommunityInterceptor) UpdateMember(ctx context.Context, in *UpdateMembe
 	return message, err
 }
 
-func (i *CommunityInterceptor) RemoveMember(ctx context.Context, in *RemoveMemberInput) (*RemoveMemberOutput, error) {
+func (i *CommunityInterceptor) RemoveMember(ctx context.Context, in *RemoveMemberInput, opts ...grpc.CallOption) (*RemoveMemberOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*RemoveMemberInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *RemoveMemberInput, got %T", in))
 		}
 
-		return i.server.RemoveMember(ctx, message)
+		return i.client.RemoveMember(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -885,14 +886,14 @@ func (i *CommunityInterceptor) RemoveMember(ctx context.Context, in *RemoveMembe
 	return message, err
 }
 
-func (i *CommunityInterceptor) DescribeMember(ctx context.Context, in *DescribeMemberInput) (*DescribeMemberOutput, error) {
+func (i *CommunityInterceptor) DescribeMember(ctx context.Context, in *DescribeMemberInput, opts ...grpc.CallOption) (*DescribeMemberOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeMemberInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeMemberInput, got %T", in))
 		}
 
-		return i.server.DescribeMember(ctx, message)
+		return i.client.DescribeMember(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -917,14 +918,14 @@ func (i *CommunityInterceptor) DescribeMember(ctx context.Context, in *DescribeM
 	return message, err
 }
 
-func (i *CommunityInterceptor) ListMembers(ctx context.Context, in *ListMembersInput) (*ListMembersOutput, error) {
+func (i *CommunityInterceptor) ListMembers(ctx context.Context, in *ListMembersInput, opts ...grpc.CallOption) (*ListMembersOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListMembersInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListMembersInput, got %T", in))
 		}
 
-		return i.server.ListMembers(ctx, message)
+		return i.client.ListMembers(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -949,14 +950,14 @@ func (i *CommunityInterceptor) ListMembers(ctx context.Context, in *ListMembersI
 	return message, err
 }
 
-func (i *CommunityInterceptor) AddMemberIdentity(ctx context.Context, in *AddMemberIdentityInput) (*AddMemberIdentityOutput, error) {
+func (i *CommunityInterceptor) AddMemberIdentity(ctx context.Context, in *AddMemberIdentityInput, opts ...grpc.CallOption) (*AddMemberIdentityOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*AddMemberIdentityInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *AddMemberIdentityInput, got %T", in))
 		}
 
-		return i.server.AddMemberIdentity(ctx, message)
+		return i.client.AddMemberIdentity(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -981,14 +982,14 @@ func (i *CommunityInterceptor) AddMemberIdentity(ctx context.Context, in *AddMem
 	return message, err
 }
 
-func (i *CommunityInterceptor) UpdateMemberIdentity(ctx context.Context, in *UpdateMemberIdentityInput) (*UpdateMemberIdentityOutput, error) {
+func (i *CommunityInterceptor) UpdateMemberIdentity(ctx context.Context, in *UpdateMemberIdentityInput, opts ...grpc.CallOption) (*UpdateMemberIdentityOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdateMemberIdentityInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UpdateMemberIdentityInput, got %T", in))
 		}
 
-		return i.server.UpdateMemberIdentity(ctx, message)
+		return i.client.UpdateMemberIdentity(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1013,14 +1014,14 @@ func (i *CommunityInterceptor) UpdateMemberIdentity(ctx context.Context, in *Upd
 	return message, err
 }
 
-func (i *CommunityInterceptor) RemoveMemberIdentity(ctx context.Context, in *RemoveMemberIdentityInput) (*RemoveMemberIdentityOutput, error) {
+func (i *CommunityInterceptor) RemoveMemberIdentity(ctx context.Context, in *RemoveMemberIdentityInput, opts ...grpc.CallOption) (*RemoveMemberIdentityOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*RemoveMemberIdentityInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *RemoveMemberIdentityInput, got %T", in))
 		}
 
-		return i.server.RemoveMemberIdentity(ctx, message)
+		return i.client.RemoveMemberIdentity(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1045,14 +1046,14 @@ func (i *CommunityInterceptor) RemoveMemberIdentity(ctx context.Context, in *Rem
 	return message, err
 }
 
-func (i *CommunityInterceptor) AddAttribute(ctx context.Context, in *AddAttributeInput) (*AddAttributeOutput, error) {
+func (i *CommunityInterceptor) AddAttribute(ctx context.Context, in *AddAttributeInput, opts ...grpc.CallOption) (*AddAttributeOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*AddAttributeInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *AddAttributeInput, got %T", in))
 		}
 
-		return i.server.AddAttribute(ctx, message)
+		return i.client.AddAttribute(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1077,14 +1078,14 @@ func (i *CommunityInterceptor) AddAttribute(ctx context.Context, in *AddAttribut
 	return message, err
 }
 
-func (i *CommunityInterceptor) UpdateAttribute(ctx context.Context, in *UpdateAttributeInput) (*UpdateAttributeOutput, error) {
+func (i *CommunityInterceptor) UpdateAttribute(ctx context.Context, in *UpdateAttributeInput, opts ...grpc.CallOption) (*UpdateAttributeOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdateAttributeInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UpdateAttributeInput, got %T", in))
 		}
 
-		return i.server.UpdateAttribute(ctx, message)
+		return i.client.UpdateAttribute(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1109,14 +1110,14 @@ func (i *CommunityInterceptor) UpdateAttribute(ctx context.Context, in *UpdateAt
 	return message, err
 }
 
-func (i *CommunityInterceptor) RemoveAttribute(ctx context.Context, in *RemoveAttributeInput) (*RemoveAttributeOutput, error) {
+func (i *CommunityInterceptor) RemoveAttribute(ctx context.Context, in *RemoveAttributeInput, opts ...grpc.CallOption) (*RemoveAttributeOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*RemoveAttributeInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *RemoveAttributeInput, got %T", in))
 		}
 
-		return i.server.RemoveAttribute(ctx, message)
+		return i.client.RemoveAttribute(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1141,14 +1142,14 @@ func (i *CommunityInterceptor) RemoveAttribute(ctx context.Context, in *RemoveAt
 	return message, err
 }
 
-func (i *CommunityInterceptor) DescribeAttribute(ctx context.Context, in *DescribeAttributeInput) (*DescribeAttributeOutput, error) {
+func (i *CommunityInterceptor) DescribeAttribute(ctx context.Context, in *DescribeAttributeInput, opts ...grpc.CallOption) (*DescribeAttributeOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeAttributeInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeAttributeInput, got %T", in))
 		}
 
-		return i.server.DescribeAttribute(ctx, message)
+		return i.client.DescribeAttribute(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1173,14 +1174,14 @@ func (i *CommunityInterceptor) DescribeAttribute(ctx context.Context, in *Descri
 	return message, err
 }
 
-func (i *CommunityInterceptor) ListAttributes(ctx context.Context, in *ListAttributesInput) (*ListAttributesOutput, error) {
+func (i *CommunityInterceptor) ListAttributes(ctx context.Context, in *ListAttributesInput, opts ...grpc.CallOption) (*ListAttributesOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListAttributesInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListAttributesInput, got %T", in))
 		}
 
-		return i.server.ListAttributes(ctx, message)
+		return i.client.ListAttributes(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1205,14 +1206,14 @@ func (i *CommunityInterceptor) ListAttributes(ctx context.Context, in *ListAttri
 	return message, err
 }
 
-func (i *CommunityInterceptor) DescribeIdentityProvider(ctx context.Context, in *DescribeIdentityProviderInput) (*DescribeIdentityProviderOutput, error) {
+func (i *CommunityInterceptor) DescribeIdentityProvider(ctx context.Context, in *DescribeIdentityProviderInput, opts ...grpc.CallOption) (*DescribeIdentityProviderOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeIdentityProviderInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeIdentityProviderInput, got %T", in))
 		}
 
-		return i.server.DescribeIdentityProvider(ctx, message)
+		return i.client.DescribeIdentityProvider(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1237,14 +1238,14 @@ func (i *CommunityInterceptor) DescribeIdentityProvider(ctx context.Context, in 
 	return message, err
 }
 
-func (i *CommunityInterceptor) ConfigureIdentityProvider(ctx context.Context, in *ConfigureIdentityProviderInput) (*ConfigureIdentityProviderOutput, error) {
+func (i *CommunityInterceptor) ConfigureIdentityProvider(ctx context.Context, in *ConfigureIdentityProviderInput, opts ...grpc.CallOption) (*ConfigureIdentityProviderOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ConfigureIdentityProviderInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ConfigureIdentityProviderInput, got %T", in))
 		}
 
-		return i.server.ConfigureIdentityProvider(ctx, message)
+		return i.client.ConfigureIdentityProvider(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {

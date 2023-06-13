@@ -8,6 +8,7 @@ import (
 	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	websocket "golang.org/x/net/websocket"
+	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
@@ -178,27 +179,27 @@ var _ForumService_WebsocketCodec = websocket.Codec{
 	},
 }
 
-// RegisterForumServiceHttpHandlers adds handlers for for ForumServiceServer
+// RegisterForumServiceHttpHandlers adds handlers for for ForumServiceClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterForumServiceHttpHandlers(router *mux.Router, prefix string, srv ForumServiceServer) {
-	router.Handle(prefix+"/forums/{forum_id}", _ForumService_DescribeForum_Rule0(srv)).
+func RegisterForumServiceHttpHandlers(router *mux.Router, prefix string, cli ForumServiceClient) {
+	router.Handle(prefix+"/forums/{forum_id}", _ForumService_DescribeForum_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.discussion.ForumService.DescribeForum")
-	router.Handle(prefix+"/forums", _ForumService_ListForums_Rule0(srv)).
+	router.Handle(prefix+"/forums", _ForumService_ListForums_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.discussion.ForumService.ListForums")
-	router.Handle(prefix+"/forums", _ForumService_CreateForum_Rule0(srv)).
+	router.Handle(prefix+"/forums", _ForumService_CreateForum_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.discussion.ForumService.CreateForum")
-	router.Handle(prefix+"/forums/{forum_id}", _ForumService_UpdateForum_Rule0(srv)).
+	router.Handle(prefix+"/forums/{forum_id}", _ForumService_UpdateForum_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.discussion.ForumService.UpdateForum")
-	router.Handle(prefix+"/forums/{forum_id}", _ForumService_DeleteForum_Rule0(srv)).
+	router.Handle(prefix+"/forums/{forum_id}", _ForumService_DeleteForum_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.discussion.ForumService.DeleteForum")
 }
 
-func _ForumService_DescribeForum_Rule0(srv ForumServiceServer) http.Handler {
+func _ForumService_DescribeForum_Rule0(cli ForumServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeForumInput{}
 
@@ -211,7 +212,7 @@ func _ForumService_DescribeForum_Rule0(srv ForumServiceServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ForumId = vars["forum_id"]
 
-		out, err := srv.DescribeForum(r.Context(), in)
+		out, err := cli.DescribeForum(r.Context(), in)
 		if err != nil {
 			_ForumService_HTTPWriteErrorResponse(w, err)
 			return
@@ -221,7 +222,7 @@ func _ForumService_DescribeForum_Rule0(srv ForumServiceServer) http.Handler {
 	})
 }
 
-func _ForumService_ListForums_Rule0(srv ForumServiceServer) http.Handler {
+func _ForumService_ListForums_Rule0(cli ForumServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListForumsInput{}
 
@@ -231,7 +232,7 @@ func _ForumService_ListForums_Rule0(srv ForumServiceServer) http.Handler {
 			return
 		}
 
-		out, err := srv.ListForums(r.Context(), in)
+		out, err := cli.ListForums(r.Context(), in)
 		if err != nil {
 			_ForumService_HTTPWriteErrorResponse(w, err)
 			return
@@ -241,7 +242,7 @@ func _ForumService_ListForums_Rule0(srv ForumServiceServer) http.Handler {
 	})
 }
 
-func _ForumService_CreateForum_Rule0(srv ForumServiceServer) http.Handler {
+func _ForumService_CreateForum_Rule0(cli ForumServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateForumInput{}
 
@@ -251,7 +252,7 @@ func _ForumService_CreateForum_Rule0(srv ForumServiceServer) http.Handler {
 			return
 		}
 
-		out, err := srv.CreateForum(r.Context(), in)
+		out, err := cli.CreateForum(r.Context(), in)
 		if err != nil {
 			_ForumService_HTTPWriteErrorResponse(w, err)
 			return
@@ -261,7 +262,7 @@ func _ForumService_CreateForum_Rule0(srv ForumServiceServer) http.Handler {
 	})
 }
 
-func _ForumService_UpdateForum_Rule0(srv ForumServiceServer) http.Handler {
+func _ForumService_UpdateForum_Rule0(cli ForumServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateForumInput{}
 
@@ -274,7 +275,7 @@ func _ForumService_UpdateForum_Rule0(srv ForumServiceServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ForumId = vars["forum_id"]
 
-		out, err := srv.UpdateForum(r.Context(), in)
+		out, err := cli.UpdateForum(r.Context(), in)
 		if err != nil {
 			_ForumService_HTTPWriteErrorResponse(w, err)
 			return
@@ -284,7 +285,7 @@ func _ForumService_UpdateForum_Rule0(srv ForumServiceServer) http.Handler {
 	})
 }
 
-func _ForumService_DeleteForum_Rule0(srv ForumServiceServer) http.Handler {
+func _ForumService_DeleteForum_Rule0(cli ForumServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteForumInput{}
 
@@ -297,7 +298,7 @@ func _ForumService_DeleteForum_Rule0(srv ForumServiceServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ForumId = vars["forum_id"]
 
-		out, err := srv.DeleteForum(r.Context(), in)
+		out, err := cli.DeleteForum(r.Context(), in)
 		if err != nil {
 			_ForumService_HTTPWriteErrorResponse(w, err)
 			return
@@ -311,22 +312,22 @@ type _ForumServiceHandler = func(ctx context.Context, in proto.Message) (proto.M
 type _ForumServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _ForumServiceHandler) (out proto.Message, err error)
 type ForumServiceInterceptor struct {
 	middleware []_ForumServiceMiddleware
-	server     ForumServiceServer
+	client     ForumServiceClient
 }
 
 // NewForumServiceInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewForumServiceInterceptor(srv ForumServiceServer, middleware ..._ForumServiceMiddleware) *ForumServiceInterceptor {
-	return &ForumServiceInterceptor{server: srv, middleware: middleware}
+func NewForumServiceInterceptor(cli ForumServiceClient, middleware ..._ForumServiceMiddleware) *ForumServiceInterceptor {
+	return &ForumServiceInterceptor{client: cli, middleware: middleware}
 }
 
-func (i *ForumServiceInterceptor) DescribeForum(ctx context.Context, in *DescribeForumInput) (*DescribeForumOutput, error) {
+func (i *ForumServiceInterceptor) DescribeForum(ctx context.Context, in *DescribeForumInput, opts ...grpc.CallOption) (*DescribeForumOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeForumInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeForumInput, got %T", in))
 		}
 
-		return i.server.DescribeForum(ctx, message)
+		return i.client.DescribeForum(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -351,14 +352,14 @@ func (i *ForumServiceInterceptor) DescribeForum(ctx context.Context, in *Describ
 	return message, err
 }
 
-func (i *ForumServiceInterceptor) ListForums(ctx context.Context, in *ListForumsInput) (*ListForumsOutput, error) {
+func (i *ForumServiceInterceptor) ListForums(ctx context.Context, in *ListForumsInput, opts ...grpc.CallOption) (*ListForumsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListForumsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListForumsInput, got %T", in))
 		}
 
-		return i.server.ListForums(ctx, message)
+		return i.client.ListForums(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -383,14 +384,14 @@ func (i *ForumServiceInterceptor) ListForums(ctx context.Context, in *ListForums
 	return message, err
 }
 
-func (i *ForumServiceInterceptor) CreateForum(ctx context.Context, in *CreateForumInput) (*CreateForumOutput, error) {
+func (i *ForumServiceInterceptor) CreateForum(ctx context.Context, in *CreateForumInput, opts ...grpc.CallOption) (*CreateForumOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CreateForumInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *CreateForumInput, got %T", in))
 		}
 
-		return i.server.CreateForum(ctx, message)
+		return i.client.CreateForum(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -415,14 +416,14 @@ func (i *ForumServiceInterceptor) CreateForum(ctx context.Context, in *CreateFor
 	return message, err
 }
 
-func (i *ForumServiceInterceptor) UpdateForum(ctx context.Context, in *UpdateForumInput) (*UpdateForumOutput, error) {
+func (i *ForumServiceInterceptor) UpdateForum(ctx context.Context, in *UpdateForumInput, opts ...grpc.CallOption) (*UpdateForumOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdateForumInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UpdateForumInput, got %T", in))
 		}
 
-		return i.server.UpdateForum(ctx, message)
+		return i.client.UpdateForum(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -447,14 +448,14 @@ func (i *ForumServiceInterceptor) UpdateForum(ctx context.Context, in *UpdateFor
 	return message, err
 }
 
-func (i *ForumServiceInterceptor) DeleteForum(ctx context.Context, in *DeleteForumInput) (*DeleteForumOutput, error) {
+func (i *ForumServiceInterceptor) DeleteForum(ctx context.Context, in *DeleteForumInput, opts ...grpc.CallOption) (*DeleteForumOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DeleteForumInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DeleteForumInput, got %T", in))
 		}
 
-		return i.server.DeleteForum(ctx, message)
+		return i.client.DeleteForum(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {

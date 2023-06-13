@@ -8,6 +8,7 @@ import (
 	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	websocket "golang.org/x/net/websocket"
+	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
@@ -178,30 +179,30 @@ var _Keeper_WebsocketCodec = websocket.Codec{
 	},
 }
 
-// RegisterKeeperHttpHandlers adds handlers for for KeeperServer
+// RegisterKeeperHttpHandlers adds handlers for for KeeperClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterKeeperHttpHandlers(router *mux.Router, prefix string, srv KeeperServer) {
-	router.Handle(prefix+"/objects", _Keeper_CreateObject_Rule0(srv)).
+func RegisterKeeperHttpHandlers(router *mux.Router, prefix string, cli KeeperClient) {
+	router.Handle(prefix+"/objects", _Keeper_CreateObject_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.keeper.Keeper.CreateObject")
-	router.Handle(prefix+"/objects/{key}", _Keeper_DescribeObject_Rule0(srv)).
+	router.Handle(prefix+"/objects/{key}", _Keeper_DescribeObject_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.keeper.Keeper.DescribeObject")
-	router.Handle(prefix+"/objects/{key}/data", _Keeper_DownloadObject_Rule0(srv)).
+	router.Handle(prefix+"/objects/{key}/data", _Keeper_DownloadObject_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.keeper.Keeper.DownloadObject")
-	router.Handle(prefix+"/uploads", _Keeper_StartMultipartUpload_Rule0(srv)).
+	router.Handle(prefix+"/uploads", _Keeper_StartMultipartUpload_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.keeper.Keeper.StartMultipartUpload")
-	router.Handle(prefix+"/objects/{object_id}/parts", _Keeper_UploadPart_Rule0(srv)).
+	router.Handle(prefix+"/objects/{object_id}/parts", _Keeper_UploadPart_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.keeper.Keeper.UploadPart")
-	router.Handle(prefix+"/objects/{object_id}/complete", _Keeper_CompleteMultipartUpload_Rule0(srv)).
+	router.Handle(prefix+"/objects/{object_id}/complete", _Keeper_CompleteMultipartUpload_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.keeper.Keeper.CompleteMultipartUpload")
 }
 
-func _Keeper_CreateObject_Rule0(srv KeeperServer) http.Handler {
+func _Keeper_CreateObject_Rule0(cli KeeperClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateObjectInput{}
 
@@ -211,7 +212,7 @@ func _Keeper_CreateObject_Rule0(srv KeeperServer) http.Handler {
 			return
 		}
 
-		out, err := srv.CreateObject(r.Context(), in)
+		out, err := cli.CreateObject(r.Context(), in)
 		if err != nil {
 			_Keeper_HTTPWriteErrorResponse(w, err)
 			return
@@ -221,7 +222,7 @@ func _Keeper_CreateObject_Rule0(srv KeeperServer) http.Handler {
 	})
 }
 
-func _Keeper_DescribeObject_Rule0(srv KeeperServer) http.Handler {
+func _Keeper_DescribeObject_Rule0(cli KeeperClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeObjectInput{}
 
@@ -234,7 +235,7 @@ func _Keeper_DescribeObject_Rule0(srv KeeperServer) http.Handler {
 		vars := mux.Vars(r)
 		in.Key = vars["key"]
 
-		out, err := srv.DescribeObject(r.Context(), in)
+		out, err := cli.DescribeObject(r.Context(), in)
 		if err != nil {
 			_Keeper_HTTPWriteErrorResponse(w, err)
 			return
@@ -244,7 +245,7 @@ func _Keeper_DescribeObject_Rule0(srv KeeperServer) http.Handler {
 	})
 }
 
-func _Keeper_DownloadObject_Rule0(srv KeeperServer) http.Handler {
+func _Keeper_DownloadObject_Rule0(cli KeeperClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DownloadObjectInput{}
 
@@ -257,7 +258,7 @@ func _Keeper_DownloadObject_Rule0(srv KeeperServer) http.Handler {
 		vars := mux.Vars(r)
 		in.Key = vars["key"]
 
-		out, err := srv.DownloadObject(r.Context(), in)
+		out, err := cli.DownloadObject(r.Context(), in)
 		if err != nil {
 			_Keeper_HTTPWriteErrorResponse(w, err)
 			return
@@ -267,7 +268,7 @@ func _Keeper_DownloadObject_Rule0(srv KeeperServer) http.Handler {
 	})
 }
 
-func _Keeper_StartMultipartUpload_Rule0(srv KeeperServer) http.Handler {
+func _Keeper_StartMultipartUpload_Rule0(cli KeeperClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &StartMultipartUploadInput{}
 
@@ -277,7 +278,7 @@ func _Keeper_StartMultipartUpload_Rule0(srv KeeperServer) http.Handler {
 			return
 		}
 
-		out, err := srv.StartMultipartUpload(r.Context(), in)
+		out, err := cli.StartMultipartUpload(r.Context(), in)
 		if err != nil {
 			_Keeper_HTTPWriteErrorResponse(w, err)
 			return
@@ -287,7 +288,7 @@ func _Keeper_StartMultipartUpload_Rule0(srv KeeperServer) http.Handler {
 	})
 }
 
-func _Keeper_UploadPart_Rule0(srv KeeperServer) http.Handler {
+func _Keeper_UploadPart_Rule0(cli KeeperClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UploadPartInput{}
 
@@ -300,7 +301,7 @@ func _Keeper_UploadPart_Rule0(srv KeeperServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ObjectId = vars["object_id"]
 
-		out, err := srv.UploadPart(r.Context(), in)
+		out, err := cli.UploadPart(r.Context(), in)
 		if err != nil {
 			_Keeper_HTTPWriteErrorResponse(w, err)
 			return
@@ -310,7 +311,7 @@ func _Keeper_UploadPart_Rule0(srv KeeperServer) http.Handler {
 	})
 }
 
-func _Keeper_CompleteMultipartUpload_Rule0(srv KeeperServer) http.Handler {
+func _Keeper_CompleteMultipartUpload_Rule0(cli KeeperClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CompleteMultipartUploadInput{}
 
@@ -323,7 +324,7 @@ func _Keeper_CompleteMultipartUpload_Rule0(srv KeeperServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ObjectId = vars["object_id"]
 
-		out, err := srv.CompleteMultipartUpload(r.Context(), in)
+		out, err := cli.CompleteMultipartUpload(r.Context(), in)
 		if err != nil {
 			_Keeper_HTTPWriteErrorResponse(w, err)
 			return
@@ -337,22 +338,22 @@ type _KeeperHandler = func(ctx context.Context, in proto.Message) (proto.Message
 type _KeeperMiddleware = func(ctx context.Context, method string, in proto.Message, handler _KeeperHandler) (out proto.Message, err error)
 type KeeperInterceptor struct {
 	middleware []_KeeperMiddleware
-	server     KeeperServer
+	client     KeeperClient
 }
 
 // NewKeeperInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewKeeperInterceptor(srv KeeperServer, middleware ..._KeeperMiddleware) *KeeperInterceptor {
-	return &KeeperInterceptor{server: srv, middleware: middleware}
+func NewKeeperInterceptor(cli KeeperClient, middleware ..._KeeperMiddleware) *KeeperInterceptor {
+	return &KeeperInterceptor{client: cli, middleware: middleware}
 }
 
-func (i *KeeperInterceptor) CreateObject(ctx context.Context, in *CreateObjectInput) (*CreateObjectOutput, error) {
+func (i *KeeperInterceptor) CreateObject(ctx context.Context, in *CreateObjectInput, opts ...grpc.CallOption) (*CreateObjectOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CreateObjectInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *CreateObjectInput, got %T", in))
 		}
 
-		return i.server.CreateObject(ctx, message)
+		return i.client.CreateObject(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -377,14 +378,14 @@ func (i *KeeperInterceptor) CreateObject(ctx context.Context, in *CreateObjectIn
 	return message, err
 }
 
-func (i *KeeperInterceptor) DescribeObject(ctx context.Context, in *DescribeObjectInput) (*DescribeObjectOutput, error) {
+func (i *KeeperInterceptor) DescribeObject(ctx context.Context, in *DescribeObjectInput, opts ...grpc.CallOption) (*DescribeObjectOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeObjectInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeObjectInput, got %T", in))
 		}
 
-		return i.server.DescribeObject(ctx, message)
+		return i.client.DescribeObject(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -409,14 +410,14 @@ func (i *KeeperInterceptor) DescribeObject(ctx context.Context, in *DescribeObje
 	return message, err
 }
 
-func (i *KeeperInterceptor) DownloadObject(ctx context.Context, in *DownloadObjectInput) (*DownloadObjectOutput, error) {
+func (i *KeeperInterceptor) DownloadObject(ctx context.Context, in *DownloadObjectInput, opts ...grpc.CallOption) (*DownloadObjectOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DownloadObjectInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DownloadObjectInput, got %T", in))
 		}
 
-		return i.server.DownloadObject(ctx, message)
+		return i.client.DownloadObject(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -441,14 +442,14 @@ func (i *KeeperInterceptor) DownloadObject(ctx context.Context, in *DownloadObje
 	return message, err
 }
 
-func (i *KeeperInterceptor) StartMultipartUpload(ctx context.Context, in *StartMultipartUploadInput) (*StartMultipartUploadOutput, error) {
+func (i *KeeperInterceptor) StartMultipartUpload(ctx context.Context, in *StartMultipartUploadInput, opts ...grpc.CallOption) (*StartMultipartUploadOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*StartMultipartUploadInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *StartMultipartUploadInput, got %T", in))
 		}
 
-		return i.server.StartMultipartUpload(ctx, message)
+		return i.client.StartMultipartUpload(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -473,14 +474,14 @@ func (i *KeeperInterceptor) StartMultipartUpload(ctx context.Context, in *StartM
 	return message, err
 }
 
-func (i *KeeperInterceptor) UploadPart(ctx context.Context, in *UploadPartInput) (*UploadPartOutput, error) {
+func (i *KeeperInterceptor) UploadPart(ctx context.Context, in *UploadPartInput, opts ...grpc.CallOption) (*UploadPartOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UploadPartInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UploadPartInput, got %T", in))
 		}
 
-		return i.server.UploadPart(ctx, message)
+		return i.client.UploadPart(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -505,14 +506,14 @@ func (i *KeeperInterceptor) UploadPart(ctx context.Context, in *UploadPartInput)
 	return message, err
 }
 
-func (i *KeeperInterceptor) CompleteMultipartUpload(ctx context.Context, in *CompleteMultipartUploadInput) (*CompleteMultipartUploadOutput, error) {
+func (i *KeeperInterceptor) CompleteMultipartUpload(ctx context.Context, in *CompleteMultipartUploadInput, opts ...grpc.CallOption) (*CompleteMultipartUploadOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CompleteMultipartUploadInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *CompleteMultipartUploadInput, got %T", in))
 		}
 
-		return i.server.CompleteMultipartUpload(ctx, message)
+		return i.client.CompleteMultipartUpload(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {

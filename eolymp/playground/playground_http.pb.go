@@ -8,6 +8,7 @@ import (
 	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	websocket "golang.org/x/net/websocket"
+	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	metadata "google.golang.org/grpc/metadata"
 	status "google.golang.org/grpc/status"
@@ -211,21 +212,21 @@ func (s *_Playground_WatchRun_WSStream) RecvMsg(m interface{}) error {
 	return nil
 }
 
-// RegisterPlaygroundHttpHandlers adds handlers for for PlaygroundServer
+// RegisterPlaygroundHttpHandlers adds handlers for for PlaygroundClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterPlaygroundHttpHandlers(router *mux.Router, prefix string, srv PlaygroundServer) {
-	router.Handle(prefix+"/runs", _Playground_CreateRun_Rule0(srv)).
+func RegisterPlaygroundHttpHandlers(router *mux.Router, prefix string, cli PlaygroundClient) {
+	router.Handle(prefix+"/runs", _Playground_CreateRun_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.playground.Playground.CreateRun")
-	router.Handle(prefix+"/runs/{run_id}", _Playground_DescribeRun_Rule0(srv)).
+	router.Handle(prefix+"/runs/{run_id}", _Playground_DescribeRun_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.playground.Playground.DescribeRun")
-	router.Handle(prefix+"/runs/{run_id}/watch", _Playground_WatchRun_Rule0(srv)).
+	router.Handle(prefix+"/runs/{run_id}/watch", _Playground_WatchRun_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.playground.Playground.WatchRun")
 }
 
-func _Playground_CreateRun_Rule0(srv PlaygroundServer) http.Handler {
+func _Playground_CreateRun_Rule0(cli PlaygroundClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateRunInput{}
 
@@ -235,7 +236,7 @@ func _Playground_CreateRun_Rule0(srv PlaygroundServer) http.Handler {
 			return
 		}
 
-		out, err := srv.CreateRun(r.Context(), in)
+		out, err := cli.CreateRun(r.Context(), in)
 		if err != nil {
 			_Playground_HTTPWriteErrorResponse(w, err)
 			return
@@ -245,7 +246,7 @@ func _Playground_CreateRun_Rule0(srv PlaygroundServer) http.Handler {
 	})
 }
 
-func _Playground_DescribeRun_Rule0(srv PlaygroundServer) http.Handler {
+func _Playground_DescribeRun_Rule0(cli PlaygroundClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeRunInput{}
 
@@ -258,7 +259,7 @@ func _Playground_DescribeRun_Rule0(srv PlaygroundServer) http.Handler {
 		vars := mux.Vars(r)
 		in.RunId = vars["run_id"]
 
-		out, err := srv.DescribeRun(r.Context(), in)
+		out, err := cli.DescribeRun(r.Context(), in)
 		if err != nil {
 			_Playground_HTTPWriteErrorResponse(w, err)
 			return
@@ -268,25 +269,8 @@ func _Playground_DescribeRun_Rule0(srv PlaygroundServer) http.Handler {
 	})
 }
 
-func _Playground_WatchRun_Rule0(srv PlaygroundServer) http.Handler {
+func _Playground_WatchRun_Rule0(cli PlaygroundClient) http.Handler {
 	return websocket.Handler(func(ws *websocket.Conn) {
-		in := &WatchRunInput{}
-
-		if err := _Playground_WebsocketCodec.Receive(ws, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_Playground_WebsocketErrorResponse(ws, err)
-			return
-		}
-
-		vars := mux.Vars(ws.Request())
-		in.RunId = vars["run_id"]
-
-		stream := &_Playground_WatchRun_WSStream{conn: ws, ctx: ws.Request().Context()}
-		if err := srv.WatchRun(in, stream); err != nil {
-			_Playground_WebsocketErrorResponse(ws, err)
-			return
-		}
-
 		if err := ws.WriteClose(1000); err != nil {
 			panic(err)
 		}
@@ -297,22 +281,22 @@ type _PlaygroundHandler = func(ctx context.Context, in proto.Message) (proto.Mes
 type _PlaygroundMiddleware = func(ctx context.Context, method string, in proto.Message, handler _PlaygroundHandler) (out proto.Message, err error)
 type PlaygroundInterceptor struct {
 	middleware []_PlaygroundMiddleware
-	server     PlaygroundServer
+	client     PlaygroundClient
 }
 
 // NewPlaygroundInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewPlaygroundInterceptor(srv PlaygroundServer, middleware ..._PlaygroundMiddleware) *PlaygroundInterceptor {
-	return &PlaygroundInterceptor{server: srv, middleware: middleware}
+func NewPlaygroundInterceptor(cli PlaygroundClient, middleware ..._PlaygroundMiddleware) *PlaygroundInterceptor {
+	return &PlaygroundInterceptor{client: cli, middleware: middleware}
 }
 
-func (i *PlaygroundInterceptor) CreateRun(ctx context.Context, in *CreateRunInput) (*CreateRunOutput, error) {
+func (i *PlaygroundInterceptor) CreateRun(ctx context.Context, in *CreateRunInput, opts ...grpc.CallOption) (*CreateRunOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CreateRunInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *CreateRunInput, got %T", in))
 		}
 
-		return i.server.CreateRun(ctx, message)
+		return i.client.CreateRun(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -337,14 +321,14 @@ func (i *PlaygroundInterceptor) CreateRun(ctx context.Context, in *CreateRunInpu
 	return message, err
 }
 
-func (i *PlaygroundInterceptor) DescribeRun(ctx context.Context, in *DescribeRunInput) (*DescribeRunOutput, error) {
+func (i *PlaygroundInterceptor) DescribeRun(ctx context.Context, in *DescribeRunInput, opts ...grpc.CallOption) (*DescribeRunOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeRunInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeRunInput, got %T", in))
 		}
 
-		return i.server.DescribeRun(ctx, message)
+		return i.client.DescribeRun(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -369,6 +353,6 @@ func (i *PlaygroundInterceptor) DescribeRun(ctx context.Context, in *DescribeRun
 	return message, err
 }
 
-func (i *PlaygroundInterceptor) WatchRun(in *WatchRunInput, ss Playground_WatchRunServer) error {
-	return i.server.WatchRun(in, ss)
+func (i *PlaygroundInterceptor) WatchRun(ctx context.Context, in *WatchRunInput, opts ...grpc.CallOption) (Playground_WatchRunClient, error) {
+	return i.client.WatchRun(ctx, in, opts...)
 }

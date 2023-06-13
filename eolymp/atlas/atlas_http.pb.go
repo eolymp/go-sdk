@@ -8,6 +8,7 @@ import (
 	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	websocket "golang.org/x/net/websocket"
+	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
@@ -178,156 +179,156 @@ var _Atlas_WebsocketCodec = websocket.Codec{
 	},
 }
 
-// RegisterAtlasHttpHandlers adds handlers for for AtlasServer
+// RegisterAtlasHttpHandlers adds handlers for for AtlasClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterAtlasHttpHandlers(router *mux.Router, prefix string, srv AtlasServer) {
-	router.Handle(prefix+"/problems", _Atlas_CreateProblem_Rule0(srv)).
+func RegisterAtlasHttpHandlers(router *mux.Router, prefix string, cli AtlasClient) {
+	router.Handle(prefix+"/problems", _Atlas_CreateProblem_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.Atlas.CreateProblem")
-	router.Handle(prefix+"/problems/{problem_id}", _Atlas_DeleteProblem_Rule0(srv)).
+	router.Handle(prefix+"/problems/{problem_id}", _Atlas_DeleteProblem_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.atlas.Atlas.DeleteProblem")
-	router.Handle(prefix+"/problems", _Atlas_ListProblems_Rule0(srv)).
+	router.Handle(prefix+"/problems", _Atlas_ListProblems_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.Atlas.ListProblems")
-	router.Handle(prefix+"/problems/{problem_id}", _Atlas_DescribeProblem_Rule0(srv)).
+	router.Handle(prefix+"/problems/{problem_id}", _Atlas_DescribeProblem_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.Atlas.DescribeProblem")
-	router.Handle(prefix+"/problems/{problem_id}", _Atlas_UpdateProblem_Rule0(srv)).
+	router.Handle(prefix+"/problems/{problem_id}", _Atlas_UpdateProblem_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.atlas.Atlas.UpdateProblem")
-	router.Handle(prefix+"/problems/{problem_id}/bookmark", _Atlas_SetBookmark_Rule0(srv)).
+	router.Handle(prefix+"/problems/{problem_id}/bookmark", _Atlas_SetBookmark_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.Atlas.SetBookmark")
-	router.Handle(prefix+"/problems/{problem_id}/bookmark", _Atlas_GetBookmark_Rule0(srv)).
+	router.Handle(prefix+"/problems/{problem_id}/bookmark", _Atlas_GetBookmark_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.Atlas.GetBookmark")
-	router.Handle(prefix+"/problems/{problem_id}/examples", _Atlas_ListExamples_Rule0(srv)).
+	router.Handle(prefix+"/problems/{problem_id}/examples", _Atlas_ListExamples_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.Atlas.ListExamples")
-	router.Handle(prefix+"/problems/{problem_id}/verifier", _Atlas_UpdateVerifier_Rule0(srv)).
+	router.Handle(prefix+"/problems/{problem_id}/verifier", _Atlas_UpdateVerifier_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.atlas.Atlas.UpdateVerifier")
-	router.Handle(prefix+"/problems/{problem_id}/verifier", _Atlas_DescribeVerifier_Rule0(srv)).
+	router.Handle(prefix+"/problems/{problem_id}/verifier", _Atlas_DescribeVerifier_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.Atlas.DescribeVerifier")
-	router.Handle(prefix+"/problems/{problem_id}/interactor", _Atlas_UpdateInteractor_Rule0(srv)).
+	router.Handle(prefix+"/problems/{problem_id}/interactor", _Atlas_UpdateInteractor_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.atlas.Atlas.UpdateInteractor")
-	router.Handle(prefix+"/problems/{problem_id}/interactor", _Atlas_DescribeInteractor_Rule0(srv)).
+	router.Handle(prefix+"/problems/{problem_id}/interactor", _Atlas_DescribeInteractor_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.Atlas.DescribeInteractor")
-	router.Handle(prefix+"/problems/{problem_id}/statements", _Atlas_CreateStatement_Rule0(srv)).
+	router.Handle(prefix+"/problems/{problem_id}/statements", _Atlas_CreateStatement_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.atlas.Atlas.CreateStatement")
-	router.Handle(prefix+"/problems/{problem_id}/statements/{statement_id}", _Atlas_UpdateStatement_Rule0(srv)).
+	router.Handle(prefix+"/problems/{problem_id}/statements/{statement_id}", _Atlas_UpdateStatement_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.atlas.Atlas.UpdateStatement")
-	router.Handle(prefix+"/problems/{problem_id}/statements/{statement_id}", _Atlas_DeleteStatement_Rule0(srv)).
+	router.Handle(prefix+"/problems/{problem_id}/statements/{statement_id}", _Atlas_DeleteStatement_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.atlas.Atlas.DeleteStatement")
-	router.Handle(prefix+"/problems/{problem_id}/statements", _Atlas_ListStatements_Rule0(srv)).
+	router.Handle(prefix+"/problems/{problem_id}/statements", _Atlas_ListStatements_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.Atlas.ListStatements")
-	router.Handle(prefix+"/problems/{problem_id}/statements/{statement_id}", _Atlas_DescribeStatement_Rule0(srv)).
+	router.Handle(prefix+"/problems/{problem_id}/statements/{statement_id}", _Atlas_DescribeStatement_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.Atlas.DescribeStatement")
-	router.Handle(prefix+"/problems/{problem_id}/translate", _Atlas_LookupStatement_Rule0(srv)).
+	router.Handle(prefix+"/problems/{problem_id}/translate", _Atlas_LookupStatement_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.Atlas.LookupStatement")
-	router.Handle(prefix+"/problems/{problem_id}/renders", _Atlas_PreviewStatement_Rule0(srv)).
+	router.Handle(prefix+"/problems/{problem_id}/renders", _Atlas_PreviewStatement_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.Atlas.PreviewStatement")
-	router.Handle(prefix+"/problems/{problem_id}/testsets", _Atlas_CreateTestset_Rule0(srv)).
+	router.Handle(prefix+"/problems/{problem_id}/testsets", _Atlas_CreateTestset_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.Atlas.CreateTestset")
-	router.Handle(prefix+"/problems/{problem_id}/testsets/{testset_id}", _Atlas_UpdateTestset_Rule0(srv)).
+	router.Handle(prefix+"/problems/{problem_id}/testsets/{testset_id}", _Atlas_UpdateTestset_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.atlas.Atlas.UpdateTestset")
-	router.Handle(prefix+"/problems/{problem_id}/testsets/{testset_id}", _Atlas_DeleteTestset_Rule0(srv)).
+	router.Handle(prefix+"/problems/{problem_id}/testsets/{testset_id}", _Atlas_DeleteTestset_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.atlas.Atlas.DeleteTestset")
-	router.Handle(prefix+"/problems/{problem_id}/testsets", _Atlas_ListTestsets_Rule0(srv)).
+	router.Handle(prefix+"/problems/{problem_id}/testsets", _Atlas_ListTestsets_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.Atlas.ListTestsets")
-	router.Handle(prefix+"/problems/{problem_id}/testsets/{testset_id}", _Atlas_DescribeTestset_Rule0(srv)).
+	router.Handle(prefix+"/problems/{problem_id}/testsets/{testset_id}", _Atlas_DescribeTestset_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.Atlas.DescribeTestset")
-	router.Handle(prefix+"/problems/{problem_id}/testsets/{testset_id}/tests", _Atlas_CreateTest_Rule0(srv)).
+	router.Handle(prefix+"/problems/{problem_id}/testsets/{testset_id}/tests", _Atlas_CreateTest_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.Atlas.CreateTest")
-	router.Handle(prefix+"/problems/{problem_id}/testsets/{testset_id}/tests/{test_id}", _Atlas_UpdateTest_Rule0(srv)).
+	router.Handle(prefix+"/problems/{problem_id}/testsets/{testset_id}/tests/{test_id}", _Atlas_UpdateTest_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.atlas.Atlas.UpdateTest")
-	router.Handle(prefix+"/problems/{problem_id}/testsets/{testset_id}/tests/{test_id}", _Atlas_DeleteTest_Rule0(srv)).
+	router.Handle(prefix+"/problems/{problem_id}/testsets/{testset_id}/tests/{test_id}", _Atlas_DeleteTest_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.atlas.Atlas.DeleteTest")
-	router.Handle(prefix+"/problems/{problem_id}/testsets/{testset_id}/tests", _Atlas_ListTests_Rule0(srv)).
+	router.Handle(prefix+"/problems/{problem_id}/testsets/{testset_id}/tests", _Atlas_ListTests_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.Atlas.ListTests")
-	router.Handle(prefix+"/problems/{problem_id}/testsets/{testset_id}/tests/{test_id}", _Atlas_DescribeTest_Rule0(srv)).
+	router.Handle(prefix+"/problems/{problem_id}/testsets/{testset_id}/tests/{test_id}", _Atlas_DescribeTest_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.Atlas.DescribeTest")
-	router.Handle(prefix+"/problems/{problem_id}/templates", _Atlas_CreateCodeTemplate_Rule0(srv)).
+	router.Handle(prefix+"/problems/{problem_id}/templates", _Atlas_CreateCodeTemplate_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.Atlas.CreateCodeTemplate")
-	router.Handle(prefix+"/problems/{problem_id}/templates/{template_id}", _Atlas_UpdateCodeTemplate_Rule0(srv)).
+	router.Handle(prefix+"/problems/{problem_id}/templates/{template_id}", _Atlas_UpdateCodeTemplate_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.Atlas.UpdateCodeTemplate")
-	router.Handle(prefix+"/problems/{problem_id}/templates/{template_id}", _Atlas_DeleteCodeTemplate_Rule0(srv)).
+	router.Handle(prefix+"/problems/{problem_id}/templates/{template_id}", _Atlas_DeleteCodeTemplate_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.atlas.Atlas.DeleteCodeTemplate")
-	router.Handle(prefix+"/problems/{problem_id}/templates", _Atlas_ListCodeTemplates_Rule0(srv)).
+	router.Handle(prefix+"/problems/{problem_id}/templates", _Atlas_ListCodeTemplates_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.Atlas.ListCodeTemplates")
-	router.Handle(prefix+"/problems/{problem_id}/templates/{template_id}", _Atlas_DescribeCodeTemplate_Rule0(srv)).
+	router.Handle(prefix+"/problems/{problem_id}/templates/{template_id}", _Atlas_DescribeCodeTemplate_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.Atlas.DescribeCodeTemplate")
-	router.Handle(prefix+"/problems/{problem_id}/template", _Atlas_LookupCodeTemplate_Rule0(srv)).
+	router.Handle(prefix+"/problems/{problem_id}/template", _Atlas_LookupCodeTemplate_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.Atlas.LookupCodeTemplate")
-	router.Handle(prefix+"/problems/{problem_id}/attachments", _Atlas_CreateAttachment_Rule0(srv)).
+	router.Handle(prefix+"/problems/{problem_id}/attachments", _Atlas_CreateAttachment_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.Atlas.CreateAttachment")
-	router.Handle(prefix+"/problems/{problem_id}/attachments/{attachment_id}", _Atlas_UpdateAttachment_Rule0(srv)).
+	router.Handle(prefix+"/problems/{problem_id}/attachments/{attachment_id}", _Atlas_UpdateAttachment_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.Atlas.UpdateAttachment")
-	router.Handle(prefix+"/problems/{problem_id}/attachments/{attachment_id}", _Atlas_DeleteAttachment_Rule0(srv)).
+	router.Handle(prefix+"/problems/{problem_id}/attachments/{attachment_id}", _Atlas_DeleteAttachment_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.atlas.Atlas.DeleteAttachment")
-	router.Handle(prefix+"/problems/{problem_id}/attachments", _Atlas_ListAttachments_Rule0(srv)).
+	router.Handle(prefix+"/problems/{problem_id}/attachments", _Atlas_ListAttachments_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.Atlas.ListAttachments")
-	router.Handle(prefix+"/problems/{problem_id}/attachments/{attachment_id}", _Atlas_DescribeAttachment_Rule0(srv)).
+	router.Handle(prefix+"/problems/{problem_id}/attachments/{attachment_id}", _Atlas_DescribeAttachment_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.Atlas.DescribeAttachment")
-	router.Handle(prefix+"/problems/{problem_id}/versions", _Atlas_ListVersions_Rule0(srv)).
+	router.Handle(prefix+"/problems/{problem_id}/versions", _Atlas_ListVersions_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.Atlas.ListVersions")
-	router.Handle(prefix+"/problems/{problem_id}/top", _Atlas_ListProblemTop_Rule0(srv)).
+	router.Handle(prefix+"/problems/{problem_id}/top", _Atlas_ListProblemTop_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.Atlas.ListProblemTop")
-	router.Handle(prefix+"/problems/{problem_id}/grading", _Atlas_DescribeProblemGrading_Rule0(srv)).
+	router.Handle(prefix+"/problems/{problem_id}/grading", _Atlas_DescribeProblemGrading_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.Atlas.DescribeProblemGrading")
-	router.Handle(prefix+"/problems/{problem_id}/submissions", _Atlas_CreateSubmission_Rule0(srv)).
+	router.Handle(prefix+"/problems/{problem_id}/submissions", _Atlas_CreateSubmission_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.Atlas.CreateSubmission")
-	router.Handle(prefix+"/problems/{problem_id}/submissions/{submission_id}", _Atlas_DescribeSubmission_Rule0(srv)).
+	router.Handle(prefix+"/problems/{problem_id}/submissions/{submission_id}", _Atlas_DescribeSubmission_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.Atlas.DescribeSubmission")
-	router.Handle(prefix+"/problems/{problem_id}/submissions/{submission_id}/retest", _Atlas_RetestSubmission_Rule0(srv)).
+	router.Handle(prefix+"/problems/{problem_id}/submissions/{submission_id}/retest", _Atlas_RetestSubmission_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.Atlas.RetestSubmission")
-	router.Handle(prefix+"/submissions", _Atlas_ListSubmissions_Rule0(srv)).
+	router.Handle(prefix+"/submissions", _Atlas_ListSubmissions_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.Atlas.ListSubmissions")
-	router.Handle(prefix+"/problems/{problem_id}/scores/{user_id}", _Atlas_DescribeScore_Rule0(srv)).
+	router.Handle(prefix+"/problems/{problem_id}/scores/{user_id}", _Atlas_DescribeScore_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.Atlas.DescribeScore")
 }
 
-func _Atlas_CreateProblem_Rule0(srv AtlasServer) http.Handler {
+func _Atlas_CreateProblem_Rule0(cli AtlasClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateProblemInput{}
 
@@ -337,7 +338,7 @@ func _Atlas_CreateProblem_Rule0(srv AtlasServer) http.Handler {
 			return
 		}
 
-		out, err := srv.CreateProblem(r.Context(), in)
+		out, err := cli.CreateProblem(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -347,7 +348,7 @@ func _Atlas_CreateProblem_Rule0(srv AtlasServer) http.Handler {
 	})
 }
 
-func _Atlas_DeleteProblem_Rule0(srv AtlasServer) http.Handler {
+func _Atlas_DeleteProblem_Rule0(cli AtlasClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteProblemInput{}
 
@@ -360,7 +361,7 @@ func _Atlas_DeleteProblem_Rule0(srv AtlasServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
 
-		out, err := srv.DeleteProblem(r.Context(), in)
+		out, err := cli.DeleteProblem(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -370,7 +371,7 @@ func _Atlas_DeleteProblem_Rule0(srv AtlasServer) http.Handler {
 	})
 }
 
-func _Atlas_ListProblems_Rule0(srv AtlasServer) http.Handler {
+func _Atlas_ListProblems_Rule0(cli AtlasClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListProblemsInput{}
 
@@ -380,7 +381,7 @@ func _Atlas_ListProblems_Rule0(srv AtlasServer) http.Handler {
 			return
 		}
 
-		out, err := srv.ListProblems(r.Context(), in)
+		out, err := cli.ListProblems(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -390,7 +391,7 @@ func _Atlas_ListProblems_Rule0(srv AtlasServer) http.Handler {
 	})
 }
 
-func _Atlas_DescribeProblem_Rule0(srv AtlasServer) http.Handler {
+func _Atlas_DescribeProblem_Rule0(cli AtlasClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeProblemInput{}
 
@@ -403,7 +404,7 @@ func _Atlas_DescribeProblem_Rule0(srv AtlasServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
 
-		out, err := srv.DescribeProblem(r.Context(), in)
+		out, err := cli.DescribeProblem(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -413,7 +414,7 @@ func _Atlas_DescribeProblem_Rule0(srv AtlasServer) http.Handler {
 	})
 }
 
-func _Atlas_UpdateProblem_Rule0(srv AtlasServer) http.Handler {
+func _Atlas_UpdateProblem_Rule0(cli AtlasClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateProblemInput{}
 
@@ -426,7 +427,7 @@ func _Atlas_UpdateProblem_Rule0(srv AtlasServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
 
-		out, err := srv.UpdateProblem(r.Context(), in)
+		out, err := cli.UpdateProblem(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -436,7 +437,7 @@ func _Atlas_UpdateProblem_Rule0(srv AtlasServer) http.Handler {
 	})
 }
 
-func _Atlas_SetBookmark_Rule0(srv AtlasServer) http.Handler {
+func _Atlas_SetBookmark_Rule0(cli AtlasClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &SetBookmarkInput{}
 
@@ -449,7 +450,7 @@ func _Atlas_SetBookmark_Rule0(srv AtlasServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
 
-		out, err := srv.SetBookmark(r.Context(), in)
+		out, err := cli.SetBookmark(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -459,7 +460,7 @@ func _Atlas_SetBookmark_Rule0(srv AtlasServer) http.Handler {
 	})
 }
 
-func _Atlas_GetBookmark_Rule0(srv AtlasServer) http.Handler {
+func _Atlas_GetBookmark_Rule0(cli AtlasClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &GetBookmarkInput{}
 
@@ -472,7 +473,7 @@ func _Atlas_GetBookmark_Rule0(srv AtlasServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
 
-		out, err := srv.GetBookmark(r.Context(), in)
+		out, err := cli.GetBookmark(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -482,7 +483,7 @@ func _Atlas_GetBookmark_Rule0(srv AtlasServer) http.Handler {
 	})
 }
 
-func _Atlas_ListExamples_Rule0(srv AtlasServer) http.Handler {
+func _Atlas_ListExamples_Rule0(cli AtlasClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListExamplesInput{}
 
@@ -495,7 +496,7 @@ func _Atlas_ListExamples_Rule0(srv AtlasServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
 
-		out, err := srv.ListExamples(r.Context(), in)
+		out, err := cli.ListExamples(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -505,7 +506,7 @@ func _Atlas_ListExamples_Rule0(srv AtlasServer) http.Handler {
 	})
 }
 
-func _Atlas_UpdateVerifier_Rule0(srv AtlasServer) http.Handler {
+func _Atlas_UpdateVerifier_Rule0(cli AtlasClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateVerifierInput{}
 
@@ -518,7 +519,7 @@ func _Atlas_UpdateVerifier_Rule0(srv AtlasServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
 
-		out, err := srv.UpdateVerifier(r.Context(), in)
+		out, err := cli.UpdateVerifier(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -528,7 +529,7 @@ func _Atlas_UpdateVerifier_Rule0(srv AtlasServer) http.Handler {
 	})
 }
 
-func _Atlas_DescribeVerifier_Rule0(srv AtlasServer) http.Handler {
+func _Atlas_DescribeVerifier_Rule0(cli AtlasClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeVerifierInput{}
 
@@ -541,7 +542,7 @@ func _Atlas_DescribeVerifier_Rule0(srv AtlasServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
 
-		out, err := srv.DescribeVerifier(r.Context(), in)
+		out, err := cli.DescribeVerifier(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -551,7 +552,7 @@ func _Atlas_DescribeVerifier_Rule0(srv AtlasServer) http.Handler {
 	})
 }
 
-func _Atlas_UpdateInteractor_Rule0(srv AtlasServer) http.Handler {
+func _Atlas_UpdateInteractor_Rule0(cli AtlasClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateInteractorInput{}
 
@@ -564,7 +565,7 @@ func _Atlas_UpdateInteractor_Rule0(srv AtlasServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
 
-		out, err := srv.UpdateInteractor(r.Context(), in)
+		out, err := cli.UpdateInteractor(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -574,7 +575,7 @@ func _Atlas_UpdateInteractor_Rule0(srv AtlasServer) http.Handler {
 	})
 }
 
-func _Atlas_DescribeInteractor_Rule0(srv AtlasServer) http.Handler {
+func _Atlas_DescribeInteractor_Rule0(cli AtlasClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeInteractorInput{}
 
@@ -587,7 +588,7 @@ func _Atlas_DescribeInteractor_Rule0(srv AtlasServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
 
-		out, err := srv.DescribeInteractor(r.Context(), in)
+		out, err := cli.DescribeInteractor(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -597,7 +598,7 @@ func _Atlas_DescribeInteractor_Rule0(srv AtlasServer) http.Handler {
 	})
 }
 
-func _Atlas_CreateStatement_Rule0(srv AtlasServer) http.Handler {
+func _Atlas_CreateStatement_Rule0(cli AtlasClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateStatementInput{}
 
@@ -610,7 +611,7 @@ func _Atlas_CreateStatement_Rule0(srv AtlasServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
 
-		out, err := srv.CreateStatement(r.Context(), in)
+		out, err := cli.CreateStatement(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -620,7 +621,7 @@ func _Atlas_CreateStatement_Rule0(srv AtlasServer) http.Handler {
 	})
 }
 
-func _Atlas_UpdateStatement_Rule0(srv AtlasServer) http.Handler {
+func _Atlas_UpdateStatement_Rule0(cli AtlasClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateStatementInput{}
 
@@ -634,7 +635,7 @@ func _Atlas_UpdateStatement_Rule0(srv AtlasServer) http.Handler {
 		in.ProblemId = vars["problem_id"]
 		in.StatementId = vars["statement_id"]
 
-		out, err := srv.UpdateStatement(r.Context(), in)
+		out, err := cli.UpdateStatement(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -644,7 +645,7 @@ func _Atlas_UpdateStatement_Rule0(srv AtlasServer) http.Handler {
 	})
 }
 
-func _Atlas_DeleteStatement_Rule0(srv AtlasServer) http.Handler {
+func _Atlas_DeleteStatement_Rule0(cli AtlasClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteStatementInput{}
 
@@ -658,7 +659,7 @@ func _Atlas_DeleteStatement_Rule0(srv AtlasServer) http.Handler {
 		in.ProblemId = vars["problem_id"]
 		in.StatementId = vars["statement_id"]
 
-		out, err := srv.DeleteStatement(r.Context(), in)
+		out, err := cli.DeleteStatement(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -668,7 +669,7 @@ func _Atlas_DeleteStatement_Rule0(srv AtlasServer) http.Handler {
 	})
 }
 
-func _Atlas_ListStatements_Rule0(srv AtlasServer) http.Handler {
+func _Atlas_ListStatements_Rule0(cli AtlasClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListStatementsInput{}
 
@@ -681,7 +682,7 @@ func _Atlas_ListStatements_Rule0(srv AtlasServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
 
-		out, err := srv.ListStatements(r.Context(), in)
+		out, err := cli.ListStatements(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -691,7 +692,7 @@ func _Atlas_ListStatements_Rule0(srv AtlasServer) http.Handler {
 	})
 }
 
-func _Atlas_DescribeStatement_Rule0(srv AtlasServer) http.Handler {
+func _Atlas_DescribeStatement_Rule0(cli AtlasClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeStatementInput{}
 
@@ -705,7 +706,7 @@ func _Atlas_DescribeStatement_Rule0(srv AtlasServer) http.Handler {
 		in.ProblemId = vars["problem_id"]
 		in.StatementId = vars["statement_id"]
 
-		out, err := srv.DescribeStatement(r.Context(), in)
+		out, err := cli.DescribeStatement(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -715,7 +716,7 @@ func _Atlas_DescribeStatement_Rule0(srv AtlasServer) http.Handler {
 	})
 }
 
-func _Atlas_LookupStatement_Rule0(srv AtlasServer) http.Handler {
+func _Atlas_LookupStatement_Rule0(cli AtlasClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &LookupStatementInput{}
 
@@ -728,7 +729,7 @@ func _Atlas_LookupStatement_Rule0(srv AtlasServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
 
-		out, err := srv.LookupStatement(r.Context(), in)
+		out, err := cli.LookupStatement(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -738,7 +739,7 @@ func _Atlas_LookupStatement_Rule0(srv AtlasServer) http.Handler {
 	})
 }
 
-func _Atlas_PreviewStatement_Rule0(srv AtlasServer) http.Handler {
+func _Atlas_PreviewStatement_Rule0(cli AtlasClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &PreviewStatementInput{}
 
@@ -751,7 +752,7 @@ func _Atlas_PreviewStatement_Rule0(srv AtlasServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
 
-		out, err := srv.PreviewStatement(r.Context(), in)
+		out, err := cli.PreviewStatement(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -761,7 +762,7 @@ func _Atlas_PreviewStatement_Rule0(srv AtlasServer) http.Handler {
 	})
 }
 
-func _Atlas_CreateTestset_Rule0(srv AtlasServer) http.Handler {
+func _Atlas_CreateTestset_Rule0(cli AtlasClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateTestsetInput{}
 
@@ -774,7 +775,7 @@ func _Atlas_CreateTestset_Rule0(srv AtlasServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
 
-		out, err := srv.CreateTestset(r.Context(), in)
+		out, err := cli.CreateTestset(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -784,7 +785,7 @@ func _Atlas_CreateTestset_Rule0(srv AtlasServer) http.Handler {
 	})
 }
 
-func _Atlas_UpdateTestset_Rule0(srv AtlasServer) http.Handler {
+func _Atlas_UpdateTestset_Rule0(cli AtlasClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateTestsetInput{}
 
@@ -798,7 +799,7 @@ func _Atlas_UpdateTestset_Rule0(srv AtlasServer) http.Handler {
 		in.ProblemId = vars["problem_id"]
 		in.TestsetId = vars["testset_id"]
 
-		out, err := srv.UpdateTestset(r.Context(), in)
+		out, err := cli.UpdateTestset(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -808,7 +809,7 @@ func _Atlas_UpdateTestset_Rule0(srv AtlasServer) http.Handler {
 	})
 }
 
-func _Atlas_DeleteTestset_Rule0(srv AtlasServer) http.Handler {
+func _Atlas_DeleteTestset_Rule0(cli AtlasClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteTestsetInput{}
 
@@ -822,7 +823,7 @@ func _Atlas_DeleteTestset_Rule0(srv AtlasServer) http.Handler {
 		in.ProblemId = vars["problem_id"]
 		in.TestsetId = vars["testset_id"]
 
-		out, err := srv.DeleteTestset(r.Context(), in)
+		out, err := cli.DeleteTestset(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -832,7 +833,7 @@ func _Atlas_DeleteTestset_Rule0(srv AtlasServer) http.Handler {
 	})
 }
 
-func _Atlas_ListTestsets_Rule0(srv AtlasServer) http.Handler {
+func _Atlas_ListTestsets_Rule0(cli AtlasClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListTestsetsInput{}
 
@@ -845,7 +846,7 @@ func _Atlas_ListTestsets_Rule0(srv AtlasServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
 
-		out, err := srv.ListTestsets(r.Context(), in)
+		out, err := cli.ListTestsets(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -855,7 +856,7 @@ func _Atlas_ListTestsets_Rule0(srv AtlasServer) http.Handler {
 	})
 }
 
-func _Atlas_DescribeTestset_Rule0(srv AtlasServer) http.Handler {
+func _Atlas_DescribeTestset_Rule0(cli AtlasClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeTestsetInput{}
 
@@ -869,7 +870,7 @@ func _Atlas_DescribeTestset_Rule0(srv AtlasServer) http.Handler {
 		in.ProblemId = vars["problem_id"]
 		in.TestsetId = vars["testset_id"]
 
-		out, err := srv.DescribeTestset(r.Context(), in)
+		out, err := cli.DescribeTestset(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -879,7 +880,7 @@ func _Atlas_DescribeTestset_Rule0(srv AtlasServer) http.Handler {
 	})
 }
 
-func _Atlas_CreateTest_Rule0(srv AtlasServer) http.Handler {
+func _Atlas_CreateTest_Rule0(cli AtlasClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateTestInput{}
 
@@ -893,7 +894,7 @@ func _Atlas_CreateTest_Rule0(srv AtlasServer) http.Handler {
 		in.ProblemId = vars["problem_id"]
 		in.TestsetId = vars["testset_id"]
 
-		out, err := srv.CreateTest(r.Context(), in)
+		out, err := cli.CreateTest(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -903,7 +904,7 @@ func _Atlas_CreateTest_Rule0(srv AtlasServer) http.Handler {
 	})
 }
 
-func _Atlas_UpdateTest_Rule0(srv AtlasServer) http.Handler {
+func _Atlas_UpdateTest_Rule0(cli AtlasClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateTestInput{}
 
@@ -918,7 +919,7 @@ func _Atlas_UpdateTest_Rule0(srv AtlasServer) http.Handler {
 		in.TestsetId = vars["testset_id"]
 		in.TestId = vars["test_id"]
 
-		out, err := srv.UpdateTest(r.Context(), in)
+		out, err := cli.UpdateTest(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -928,7 +929,7 @@ func _Atlas_UpdateTest_Rule0(srv AtlasServer) http.Handler {
 	})
 }
 
-func _Atlas_DeleteTest_Rule0(srv AtlasServer) http.Handler {
+func _Atlas_DeleteTest_Rule0(cli AtlasClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteTestInput{}
 
@@ -943,7 +944,7 @@ func _Atlas_DeleteTest_Rule0(srv AtlasServer) http.Handler {
 		in.TestsetId = vars["testset_id"]
 		in.TestId = vars["test_id"]
 
-		out, err := srv.DeleteTest(r.Context(), in)
+		out, err := cli.DeleteTest(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -953,7 +954,7 @@ func _Atlas_DeleteTest_Rule0(srv AtlasServer) http.Handler {
 	})
 }
 
-func _Atlas_ListTests_Rule0(srv AtlasServer) http.Handler {
+func _Atlas_ListTests_Rule0(cli AtlasClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListTestsInput{}
 
@@ -967,7 +968,7 @@ func _Atlas_ListTests_Rule0(srv AtlasServer) http.Handler {
 		in.ProblemId = vars["problem_id"]
 		in.TestsetId = vars["testset_id"]
 
-		out, err := srv.ListTests(r.Context(), in)
+		out, err := cli.ListTests(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -977,7 +978,7 @@ func _Atlas_ListTests_Rule0(srv AtlasServer) http.Handler {
 	})
 }
 
-func _Atlas_DescribeTest_Rule0(srv AtlasServer) http.Handler {
+func _Atlas_DescribeTest_Rule0(cli AtlasClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeTestInput{}
 
@@ -992,7 +993,7 @@ func _Atlas_DescribeTest_Rule0(srv AtlasServer) http.Handler {
 		in.TestsetId = vars["testset_id"]
 		in.TestId = vars["test_id"]
 
-		out, err := srv.DescribeTest(r.Context(), in)
+		out, err := cli.DescribeTest(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -1002,7 +1003,7 @@ func _Atlas_DescribeTest_Rule0(srv AtlasServer) http.Handler {
 	})
 }
 
-func _Atlas_CreateCodeTemplate_Rule0(srv AtlasServer) http.Handler {
+func _Atlas_CreateCodeTemplate_Rule0(cli AtlasClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateCodeTemplateInput{}
 
@@ -1015,7 +1016,7 @@ func _Atlas_CreateCodeTemplate_Rule0(srv AtlasServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
 
-		out, err := srv.CreateCodeTemplate(r.Context(), in)
+		out, err := cli.CreateCodeTemplate(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -1025,7 +1026,7 @@ func _Atlas_CreateCodeTemplate_Rule0(srv AtlasServer) http.Handler {
 	})
 }
 
-func _Atlas_UpdateCodeTemplate_Rule0(srv AtlasServer) http.Handler {
+func _Atlas_UpdateCodeTemplate_Rule0(cli AtlasClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateCodeTemplateInput{}
 
@@ -1039,7 +1040,7 @@ func _Atlas_UpdateCodeTemplate_Rule0(srv AtlasServer) http.Handler {
 		in.ProblemId = vars["problem_id"]
 		in.TemplateId = vars["template_id"]
 
-		out, err := srv.UpdateCodeTemplate(r.Context(), in)
+		out, err := cli.UpdateCodeTemplate(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -1049,7 +1050,7 @@ func _Atlas_UpdateCodeTemplate_Rule0(srv AtlasServer) http.Handler {
 	})
 }
 
-func _Atlas_DeleteCodeTemplate_Rule0(srv AtlasServer) http.Handler {
+func _Atlas_DeleteCodeTemplate_Rule0(cli AtlasClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteCodeTemplateInput{}
 
@@ -1063,7 +1064,7 @@ func _Atlas_DeleteCodeTemplate_Rule0(srv AtlasServer) http.Handler {
 		in.ProblemId = vars["problem_id"]
 		in.TemplateId = vars["template_id"]
 
-		out, err := srv.DeleteCodeTemplate(r.Context(), in)
+		out, err := cli.DeleteCodeTemplate(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -1073,7 +1074,7 @@ func _Atlas_DeleteCodeTemplate_Rule0(srv AtlasServer) http.Handler {
 	})
 }
 
-func _Atlas_ListCodeTemplates_Rule0(srv AtlasServer) http.Handler {
+func _Atlas_ListCodeTemplates_Rule0(cli AtlasClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListCodeTemplatesInput{}
 
@@ -1086,7 +1087,7 @@ func _Atlas_ListCodeTemplates_Rule0(srv AtlasServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
 
-		out, err := srv.ListCodeTemplates(r.Context(), in)
+		out, err := cli.ListCodeTemplates(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -1096,7 +1097,7 @@ func _Atlas_ListCodeTemplates_Rule0(srv AtlasServer) http.Handler {
 	})
 }
 
-func _Atlas_DescribeCodeTemplate_Rule0(srv AtlasServer) http.Handler {
+func _Atlas_DescribeCodeTemplate_Rule0(cli AtlasClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeCodeTemplateInput{}
 
@@ -1110,7 +1111,7 @@ func _Atlas_DescribeCodeTemplate_Rule0(srv AtlasServer) http.Handler {
 		in.ProblemId = vars["problem_id"]
 		in.TemplateId = vars["template_id"]
 
-		out, err := srv.DescribeCodeTemplate(r.Context(), in)
+		out, err := cli.DescribeCodeTemplate(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -1120,7 +1121,7 @@ func _Atlas_DescribeCodeTemplate_Rule0(srv AtlasServer) http.Handler {
 	})
 }
 
-func _Atlas_LookupCodeTemplate_Rule0(srv AtlasServer) http.Handler {
+func _Atlas_LookupCodeTemplate_Rule0(cli AtlasClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &LookupCodeTemplateInput{}
 
@@ -1133,7 +1134,7 @@ func _Atlas_LookupCodeTemplate_Rule0(srv AtlasServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
 
-		out, err := srv.LookupCodeTemplate(r.Context(), in)
+		out, err := cli.LookupCodeTemplate(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -1143,7 +1144,7 @@ func _Atlas_LookupCodeTemplate_Rule0(srv AtlasServer) http.Handler {
 	})
 }
 
-func _Atlas_CreateAttachment_Rule0(srv AtlasServer) http.Handler {
+func _Atlas_CreateAttachment_Rule0(cli AtlasClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateAttachmentInput{}
 
@@ -1156,7 +1157,7 @@ func _Atlas_CreateAttachment_Rule0(srv AtlasServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
 
-		out, err := srv.CreateAttachment(r.Context(), in)
+		out, err := cli.CreateAttachment(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -1166,7 +1167,7 @@ func _Atlas_CreateAttachment_Rule0(srv AtlasServer) http.Handler {
 	})
 }
 
-func _Atlas_UpdateAttachment_Rule0(srv AtlasServer) http.Handler {
+func _Atlas_UpdateAttachment_Rule0(cli AtlasClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateAttachmentInput{}
 
@@ -1180,7 +1181,7 @@ func _Atlas_UpdateAttachment_Rule0(srv AtlasServer) http.Handler {
 		in.ProblemId = vars["problem_id"]
 		in.AttachmentId = vars["attachment_id"]
 
-		out, err := srv.UpdateAttachment(r.Context(), in)
+		out, err := cli.UpdateAttachment(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -1190,7 +1191,7 @@ func _Atlas_UpdateAttachment_Rule0(srv AtlasServer) http.Handler {
 	})
 }
 
-func _Atlas_DeleteAttachment_Rule0(srv AtlasServer) http.Handler {
+func _Atlas_DeleteAttachment_Rule0(cli AtlasClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteAttachmentInput{}
 
@@ -1204,7 +1205,7 @@ func _Atlas_DeleteAttachment_Rule0(srv AtlasServer) http.Handler {
 		in.ProblemId = vars["problem_id"]
 		in.AttachmentId = vars["attachment_id"]
 
-		out, err := srv.DeleteAttachment(r.Context(), in)
+		out, err := cli.DeleteAttachment(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -1214,7 +1215,7 @@ func _Atlas_DeleteAttachment_Rule0(srv AtlasServer) http.Handler {
 	})
 }
 
-func _Atlas_ListAttachments_Rule0(srv AtlasServer) http.Handler {
+func _Atlas_ListAttachments_Rule0(cli AtlasClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListAttachmentsInput{}
 
@@ -1227,7 +1228,7 @@ func _Atlas_ListAttachments_Rule0(srv AtlasServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
 
-		out, err := srv.ListAttachments(r.Context(), in)
+		out, err := cli.ListAttachments(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -1237,7 +1238,7 @@ func _Atlas_ListAttachments_Rule0(srv AtlasServer) http.Handler {
 	})
 }
 
-func _Atlas_DescribeAttachment_Rule0(srv AtlasServer) http.Handler {
+func _Atlas_DescribeAttachment_Rule0(cli AtlasClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeAttachmentInput{}
 
@@ -1251,7 +1252,7 @@ func _Atlas_DescribeAttachment_Rule0(srv AtlasServer) http.Handler {
 		in.ProblemId = vars["problem_id"]
 		in.AttachmentId = vars["attachment_id"]
 
-		out, err := srv.DescribeAttachment(r.Context(), in)
+		out, err := cli.DescribeAttachment(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -1261,7 +1262,7 @@ func _Atlas_DescribeAttachment_Rule0(srv AtlasServer) http.Handler {
 	})
 }
 
-func _Atlas_ListVersions_Rule0(srv AtlasServer) http.Handler {
+func _Atlas_ListVersions_Rule0(cli AtlasClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListVersionsInput{}
 
@@ -1274,7 +1275,7 @@ func _Atlas_ListVersions_Rule0(srv AtlasServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
 
-		out, err := srv.ListVersions(r.Context(), in)
+		out, err := cli.ListVersions(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -1284,7 +1285,7 @@ func _Atlas_ListVersions_Rule0(srv AtlasServer) http.Handler {
 	})
 }
 
-func _Atlas_ListProblemTop_Rule0(srv AtlasServer) http.Handler {
+func _Atlas_ListProblemTop_Rule0(cli AtlasClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListProblemTopInput{}
 
@@ -1297,7 +1298,7 @@ func _Atlas_ListProblemTop_Rule0(srv AtlasServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
 
-		out, err := srv.ListProblemTop(r.Context(), in)
+		out, err := cli.ListProblemTop(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -1307,7 +1308,7 @@ func _Atlas_ListProblemTop_Rule0(srv AtlasServer) http.Handler {
 	})
 }
 
-func _Atlas_DescribeProblemGrading_Rule0(srv AtlasServer) http.Handler {
+func _Atlas_DescribeProblemGrading_Rule0(cli AtlasClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeProblemGradingInput{}
 
@@ -1320,7 +1321,7 @@ func _Atlas_DescribeProblemGrading_Rule0(srv AtlasServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
 
-		out, err := srv.DescribeProblemGrading(r.Context(), in)
+		out, err := cli.DescribeProblemGrading(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -1330,7 +1331,7 @@ func _Atlas_DescribeProblemGrading_Rule0(srv AtlasServer) http.Handler {
 	})
 }
 
-func _Atlas_CreateSubmission_Rule0(srv AtlasServer) http.Handler {
+func _Atlas_CreateSubmission_Rule0(cli AtlasClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateSubmissionInput{}
 
@@ -1343,7 +1344,7 @@ func _Atlas_CreateSubmission_Rule0(srv AtlasServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
 
-		out, err := srv.CreateSubmission(r.Context(), in)
+		out, err := cli.CreateSubmission(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -1353,7 +1354,7 @@ func _Atlas_CreateSubmission_Rule0(srv AtlasServer) http.Handler {
 	})
 }
 
-func _Atlas_DescribeSubmission_Rule0(srv AtlasServer) http.Handler {
+func _Atlas_DescribeSubmission_Rule0(cli AtlasClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeSubmissionInput{}
 
@@ -1367,7 +1368,7 @@ func _Atlas_DescribeSubmission_Rule0(srv AtlasServer) http.Handler {
 		in.ProblemId = vars["problem_id"]
 		in.SubmissionId = vars["submission_id"]
 
-		out, err := srv.DescribeSubmission(r.Context(), in)
+		out, err := cli.DescribeSubmission(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -1377,7 +1378,7 @@ func _Atlas_DescribeSubmission_Rule0(srv AtlasServer) http.Handler {
 	})
 }
 
-func _Atlas_RetestSubmission_Rule0(srv AtlasServer) http.Handler {
+func _Atlas_RetestSubmission_Rule0(cli AtlasClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &RetestSubmissionInput{}
 
@@ -1391,7 +1392,7 @@ func _Atlas_RetestSubmission_Rule0(srv AtlasServer) http.Handler {
 		in.ProblemId = vars["problem_id"]
 		in.SubmissionId = vars["submission_id"]
 
-		out, err := srv.RetestSubmission(r.Context(), in)
+		out, err := cli.RetestSubmission(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -1401,7 +1402,7 @@ func _Atlas_RetestSubmission_Rule0(srv AtlasServer) http.Handler {
 	})
 }
 
-func _Atlas_ListSubmissions_Rule0(srv AtlasServer) http.Handler {
+func _Atlas_ListSubmissions_Rule0(cli AtlasClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListSubmissionsInput{}
 
@@ -1411,7 +1412,7 @@ func _Atlas_ListSubmissions_Rule0(srv AtlasServer) http.Handler {
 			return
 		}
 
-		out, err := srv.ListSubmissions(r.Context(), in)
+		out, err := cli.ListSubmissions(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -1421,7 +1422,7 @@ func _Atlas_ListSubmissions_Rule0(srv AtlasServer) http.Handler {
 	})
 }
 
-func _Atlas_DescribeScore_Rule0(srv AtlasServer) http.Handler {
+func _Atlas_DescribeScore_Rule0(cli AtlasClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeScoreInput{}
 
@@ -1435,7 +1436,7 @@ func _Atlas_DescribeScore_Rule0(srv AtlasServer) http.Handler {
 		in.ProblemId = vars["problem_id"]
 		in.UserId = vars["user_id"]
 
-		out, err := srv.DescribeScore(r.Context(), in)
+		out, err := cli.DescribeScore(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -1449,22 +1450,22 @@ type _AtlasHandler = func(ctx context.Context, in proto.Message) (proto.Message,
 type _AtlasMiddleware = func(ctx context.Context, method string, in proto.Message, handler _AtlasHandler) (out proto.Message, err error)
 type AtlasInterceptor struct {
 	middleware []_AtlasMiddleware
-	server     AtlasServer
+	client     AtlasClient
 }
 
 // NewAtlasInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewAtlasInterceptor(srv AtlasServer, middleware ..._AtlasMiddleware) *AtlasInterceptor {
-	return &AtlasInterceptor{server: srv, middleware: middleware}
+func NewAtlasInterceptor(cli AtlasClient, middleware ..._AtlasMiddleware) *AtlasInterceptor {
+	return &AtlasInterceptor{client: cli, middleware: middleware}
 }
 
-func (i *AtlasInterceptor) CreateProblem(ctx context.Context, in *CreateProblemInput) (*CreateProblemOutput, error) {
+func (i *AtlasInterceptor) CreateProblem(ctx context.Context, in *CreateProblemInput, opts ...grpc.CallOption) (*CreateProblemOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CreateProblemInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *CreateProblemInput, got %T", in))
 		}
 
-		return i.server.CreateProblem(ctx, message)
+		return i.client.CreateProblem(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1489,14 +1490,14 @@ func (i *AtlasInterceptor) CreateProblem(ctx context.Context, in *CreateProblemI
 	return message, err
 }
 
-func (i *AtlasInterceptor) DeleteProblem(ctx context.Context, in *DeleteProblemInput) (*DeleteProblemOutput, error) {
+func (i *AtlasInterceptor) DeleteProblem(ctx context.Context, in *DeleteProblemInput, opts ...grpc.CallOption) (*DeleteProblemOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DeleteProblemInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DeleteProblemInput, got %T", in))
 		}
 
-		return i.server.DeleteProblem(ctx, message)
+		return i.client.DeleteProblem(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1521,14 +1522,14 @@ func (i *AtlasInterceptor) DeleteProblem(ctx context.Context, in *DeleteProblemI
 	return message, err
 }
 
-func (i *AtlasInterceptor) ListProblems(ctx context.Context, in *ListProblemsInput) (*ListProblemsOutput, error) {
+func (i *AtlasInterceptor) ListProblems(ctx context.Context, in *ListProblemsInput, opts ...grpc.CallOption) (*ListProblemsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListProblemsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListProblemsInput, got %T", in))
 		}
 
-		return i.server.ListProblems(ctx, message)
+		return i.client.ListProblems(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1553,14 +1554,14 @@ func (i *AtlasInterceptor) ListProblems(ctx context.Context, in *ListProblemsInp
 	return message, err
 }
 
-func (i *AtlasInterceptor) DescribeProblem(ctx context.Context, in *DescribeProblemInput) (*DescribeProblemOutput, error) {
+func (i *AtlasInterceptor) DescribeProblem(ctx context.Context, in *DescribeProblemInput, opts ...grpc.CallOption) (*DescribeProblemOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeProblemInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeProblemInput, got %T", in))
 		}
 
-		return i.server.DescribeProblem(ctx, message)
+		return i.client.DescribeProblem(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1585,14 +1586,14 @@ func (i *AtlasInterceptor) DescribeProblem(ctx context.Context, in *DescribeProb
 	return message, err
 }
 
-func (i *AtlasInterceptor) UpdateProblem(ctx context.Context, in *UpdateProblemInput) (*UpdateProblemOutput, error) {
+func (i *AtlasInterceptor) UpdateProblem(ctx context.Context, in *UpdateProblemInput, opts ...grpc.CallOption) (*UpdateProblemOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdateProblemInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UpdateProblemInput, got %T", in))
 		}
 
-		return i.server.UpdateProblem(ctx, message)
+		return i.client.UpdateProblem(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1617,14 +1618,14 @@ func (i *AtlasInterceptor) UpdateProblem(ctx context.Context, in *UpdateProblemI
 	return message, err
 }
 
-func (i *AtlasInterceptor) SetBookmark(ctx context.Context, in *SetBookmarkInput) (*SetBookmarkOutput, error) {
+func (i *AtlasInterceptor) SetBookmark(ctx context.Context, in *SetBookmarkInput, opts ...grpc.CallOption) (*SetBookmarkOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*SetBookmarkInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *SetBookmarkInput, got %T", in))
 		}
 
-		return i.server.SetBookmark(ctx, message)
+		return i.client.SetBookmark(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1649,14 +1650,14 @@ func (i *AtlasInterceptor) SetBookmark(ctx context.Context, in *SetBookmarkInput
 	return message, err
 }
 
-func (i *AtlasInterceptor) GetBookmark(ctx context.Context, in *GetBookmarkInput) (*GetBookmarkOutput, error) {
+func (i *AtlasInterceptor) GetBookmark(ctx context.Context, in *GetBookmarkInput, opts ...grpc.CallOption) (*GetBookmarkOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*GetBookmarkInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *GetBookmarkInput, got %T", in))
 		}
 
-		return i.server.GetBookmark(ctx, message)
+		return i.client.GetBookmark(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1681,14 +1682,14 @@ func (i *AtlasInterceptor) GetBookmark(ctx context.Context, in *GetBookmarkInput
 	return message, err
 }
 
-func (i *AtlasInterceptor) ListExamples(ctx context.Context, in *ListExamplesInput) (*ListExamplesOutput, error) {
+func (i *AtlasInterceptor) ListExamples(ctx context.Context, in *ListExamplesInput, opts ...grpc.CallOption) (*ListExamplesOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListExamplesInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListExamplesInput, got %T", in))
 		}
 
-		return i.server.ListExamples(ctx, message)
+		return i.client.ListExamples(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1713,14 +1714,14 @@ func (i *AtlasInterceptor) ListExamples(ctx context.Context, in *ListExamplesInp
 	return message, err
 }
 
-func (i *AtlasInterceptor) UpdateVerifier(ctx context.Context, in *UpdateVerifierInput) (*UpdateVerifierOutput, error) {
+func (i *AtlasInterceptor) UpdateVerifier(ctx context.Context, in *UpdateVerifierInput, opts ...grpc.CallOption) (*UpdateVerifierOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdateVerifierInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UpdateVerifierInput, got %T", in))
 		}
 
-		return i.server.UpdateVerifier(ctx, message)
+		return i.client.UpdateVerifier(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1745,14 +1746,14 @@ func (i *AtlasInterceptor) UpdateVerifier(ctx context.Context, in *UpdateVerifie
 	return message, err
 }
 
-func (i *AtlasInterceptor) DescribeVerifier(ctx context.Context, in *DescribeVerifierInput) (*DescribeVerifierOutput, error) {
+func (i *AtlasInterceptor) DescribeVerifier(ctx context.Context, in *DescribeVerifierInput, opts ...grpc.CallOption) (*DescribeVerifierOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeVerifierInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeVerifierInput, got %T", in))
 		}
 
-		return i.server.DescribeVerifier(ctx, message)
+		return i.client.DescribeVerifier(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1777,14 +1778,14 @@ func (i *AtlasInterceptor) DescribeVerifier(ctx context.Context, in *DescribeVer
 	return message, err
 }
 
-func (i *AtlasInterceptor) UpdateInteractor(ctx context.Context, in *UpdateInteractorInput) (*UpdateInteractorOutput, error) {
+func (i *AtlasInterceptor) UpdateInteractor(ctx context.Context, in *UpdateInteractorInput, opts ...grpc.CallOption) (*UpdateInteractorOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdateInteractorInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UpdateInteractorInput, got %T", in))
 		}
 
-		return i.server.UpdateInteractor(ctx, message)
+		return i.client.UpdateInteractor(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1809,14 +1810,14 @@ func (i *AtlasInterceptor) UpdateInteractor(ctx context.Context, in *UpdateInter
 	return message, err
 }
 
-func (i *AtlasInterceptor) DescribeInteractor(ctx context.Context, in *DescribeInteractorInput) (*DescribeInteractorOutput, error) {
+func (i *AtlasInterceptor) DescribeInteractor(ctx context.Context, in *DescribeInteractorInput, opts ...grpc.CallOption) (*DescribeInteractorOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeInteractorInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeInteractorInput, got %T", in))
 		}
 
-		return i.server.DescribeInteractor(ctx, message)
+		return i.client.DescribeInteractor(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1841,14 +1842,14 @@ func (i *AtlasInterceptor) DescribeInteractor(ctx context.Context, in *DescribeI
 	return message, err
 }
 
-func (i *AtlasInterceptor) CreateStatement(ctx context.Context, in *CreateStatementInput) (*CreateStatementOutput, error) {
+func (i *AtlasInterceptor) CreateStatement(ctx context.Context, in *CreateStatementInput, opts ...grpc.CallOption) (*CreateStatementOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CreateStatementInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *CreateStatementInput, got %T", in))
 		}
 
-		return i.server.CreateStatement(ctx, message)
+		return i.client.CreateStatement(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1873,14 +1874,14 @@ func (i *AtlasInterceptor) CreateStatement(ctx context.Context, in *CreateStatem
 	return message, err
 }
 
-func (i *AtlasInterceptor) UpdateStatement(ctx context.Context, in *UpdateStatementInput) (*UpdateStatementOutput, error) {
+func (i *AtlasInterceptor) UpdateStatement(ctx context.Context, in *UpdateStatementInput, opts ...grpc.CallOption) (*UpdateStatementOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdateStatementInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UpdateStatementInput, got %T", in))
 		}
 
-		return i.server.UpdateStatement(ctx, message)
+		return i.client.UpdateStatement(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1905,14 +1906,14 @@ func (i *AtlasInterceptor) UpdateStatement(ctx context.Context, in *UpdateStatem
 	return message, err
 }
 
-func (i *AtlasInterceptor) DeleteStatement(ctx context.Context, in *DeleteStatementInput) (*DeleteStatementOutput, error) {
+func (i *AtlasInterceptor) DeleteStatement(ctx context.Context, in *DeleteStatementInput, opts ...grpc.CallOption) (*DeleteStatementOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DeleteStatementInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DeleteStatementInput, got %T", in))
 		}
 
-		return i.server.DeleteStatement(ctx, message)
+		return i.client.DeleteStatement(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1937,14 +1938,14 @@ func (i *AtlasInterceptor) DeleteStatement(ctx context.Context, in *DeleteStatem
 	return message, err
 }
 
-func (i *AtlasInterceptor) ListStatements(ctx context.Context, in *ListStatementsInput) (*ListStatementsOutput, error) {
+func (i *AtlasInterceptor) ListStatements(ctx context.Context, in *ListStatementsInput, opts ...grpc.CallOption) (*ListStatementsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListStatementsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListStatementsInput, got %T", in))
 		}
 
-		return i.server.ListStatements(ctx, message)
+		return i.client.ListStatements(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1969,14 +1970,14 @@ func (i *AtlasInterceptor) ListStatements(ctx context.Context, in *ListStatement
 	return message, err
 }
 
-func (i *AtlasInterceptor) DescribeStatement(ctx context.Context, in *DescribeStatementInput) (*DescribeStatementOutput, error) {
+func (i *AtlasInterceptor) DescribeStatement(ctx context.Context, in *DescribeStatementInput, opts ...grpc.CallOption) (*DescribeStatementOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeStatementInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeStatementInput, got %T", in))
 		}
 
-		return i.server.DescribeStatement(ctx, message)
+		return i.client.DescribeStatement(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2001,14 +2002,14 @@ func (i *AtlasInterceptor) DescribeStatement(ctx context.Context, in *DescribeSt
 	return message, err
 }
 
-func (i *AtlasInterceptor) LookupStatement(ctx context.Context, in *LookupStatementInput) (*LookupStatementOutput, error) {
+func (i *AtlasInterceptor) LookupStatement(ctx context.Context, in *LookupStatementInput, opts ...grpc.CallOption) (*LookupStatementOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*LookupStatementInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *LookupStatementInput, got %T", in))
 		}
 
-		return i.server.LookupStatement(ctx, message)
+		return i.client.LookupStatement(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2033,14 +2034,14 @@ func (i *AtlasInterceptor) LookupStatement(ctx context.Context, in *LookupStatem
 	return message, err
 }
 
-func (i *AtlasInterceptor) PreviewStatement(ctx context.Context, in *PreviewStatementInput) (*PreviewStatementOutput, error) {
+func (i *AtlasInterceptor) PreviewStatement(ctx context.Context, in *PreviewStatementInput, opts ...grpc.CallOption) (*PreviewStatementOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*PreviewStatementInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *PreviewStatementInput, got %T", in))
 		}
 
-		return i.server.PreviewStatement(ctx, message)
+		return i.client.PreviewStatement(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2065,14 +2066,14 @@ func (i *AtlasInterceptor) PreviewStatement(ctx context.Context, in *PreviewStat
 	return message, err
 }
 
-func (i *AtlasInterceptor) CreateTestset(ctx context.Context, in *CreateTestsetInput) (*CreateTestsetOutput, error) {
+func (i *AtlasInterceptor) CreateTestset(ctx context.Context, in *CreateTestsetInput, opts ...grpc.CallOption) (*CreateTestsetOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CreateTestsetInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *CreateTestsetInput, got %T", in))
 		}
 
-		return i.server.CreateTestset(ctx, message)
+		return i.client.CreateTestset(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2097,14 +2098,14 @@ func (i *AtlasInterceptor) CreateTestset(ctx context.Context, in *CreateTestsetI
 	return message, err
 }
 
-func (i *AtlasInterceptor) UpdateTestset(ctx context.Context, in *UpdateTestsetInput) (*UpdateTestsetOutput, error) {
+func (i *AtlasInterceptor) UpdateTestset(ctx context.Context, in *UpdateTestsetInput, opts ...grpc.CallOption) (*UpdateTestsetOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdateTestsetInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UpdateTestsetInput, got %T", in))
 		}
 
-		return i.server.UpdateTestset(ctx, message)
+		return i.client.UpdateTestset(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2129,14 +2130,14 @@ func (i *AtlasInterceptor) UpdateTestset(ctx context.Context, in *UpdateTestsetI
 	return message, err
 }
 
-func (i *AtlasInterceptor) DeleteTestset(ctx context.Context, in *DeleteTestsetInput) (*DeleteTestsetOutput, error) {
+func (i *AtlasInterceptor) DeleteTestset(ctx context.Context, in *DeleteTestsetInput, opts ...grpc.CallOption) (*DeleteTestsetOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DeleteTestsetInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DeleteTestsetInput, got %T", in))
 		}
 
-		return i.server.DeleteTestset(ctx, message)
+		return i.client.DeleteTestset(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2161,14 +2162,14 @@ func (i *AtlasInterceptor) DeleteTestset(ctx context.Context, in *DeleteTestsetI
 	return message, err
 }
 
-func (i *AtlasInterceptor) ListTestsets(ctx context.Context, in *ListTestsetsInput) (*ListTestsetsOutput, error) {
+func (i *AtlasInterceptor) ListTestsets(ctx context.Context, in *ListTestsetsInput, opts ...grpc.CallOption) (*ListTestsetsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListTestsetsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListTestsetsInput, got %T", in))
 		}
 
-		return i.server.ListTestsets(ctx, message)
+		return i.client.ListTestsets(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2193,14 +2194,14 @@ func (i *AtlasInterceptor) ListTestsets(ctx context.Context, in *ListTestsetsInp
 	return message, err
 }
 
-func (i *AtlasInterceptor) DescribeTestset(ctx context.Context, in *DescribeTestsetInput) (*DescribeTestsetOutput, error) {
+func (i *AtlasInterceptor) DescribeTestset(ctx context.Context, in *DescribeTestsetInput, opts ...grpc.CallOption) (*DescribeTestsetOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeTestsetInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeTestsetInput, got %T", in))
 		}
 
-		return i.server.DescribeTestset(ctx, message)
+		return i.client.DescribeTestset(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2225,14 +2226,14 @@ func (i *AtlasInterceptor) DescribeTestset(ctx context.Context, in *DescribeTest
 	return message, err
 }
 
-func (i *AtlasInterceptor) CreateTest(ctx context.Context, in *CreateTestInput) (*CreateTestOutput, error) {
+func (i *AtlasInterceptor) CreateTest(ctx context.Context, in *CreateTestInput, opts ...grpc.CallOption) (*CreateTestOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CreateTestInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *CreateTestInput, got %T", in))
 		}
 
-		return i.server.CreateTest(ctx, message)
+		return i.client.CreateTest(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2257,14 +2258,14 @@ func (i *AtlasInterceptor) CreateTest(ctx context.Context, in *CreateTestInput) 
 	return message, err
 }
 
-func (i *AtlasInterceptor) UpdateTest(ctx context.Context, in *UpdateTestInput) (*UpdateTestOutput, error) {
+func (i *AtlasInterceptor) UpdateTest(ctx context.Context, in *UpdateTestInput, opts ...grpc.CallOption) (*UpdateTestOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdateTestInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UpdateTestInput, got %T", in))
 		}
 
-		return i.server.UpdateTest(ctx, message)
+		return i.client.UpdateTest(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2289,14 +2290,14 @@ func (i *AtlasInterceptor) UpdateTest(ctx context.Context, in *UpdateTestInput) 
 	return message, err
 }
 
-func (i *AtlasInterceptor) DeleteTest(ctx context.Context, in *DeleteTestInput) (*DeleteTestOutput, error) {
+func (i *AtlasInterceptor) DeleteTest(ctx context.Context, in *DeleteTestInput, opts ...grpc.CallOption) (*DeleteTestOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DeleteTestInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DeleteTestInput, got %T", in))
 		}
 
-		return i.server.DeleteTest(ctx, message)
+		return i.client.DeleteTest(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2321,14 +2322,14 @@ func (i *AtlasInterceptor) DeleteTest(ctx context.Context, in *DeleteTestInput) 
 	return message, err
 }
 
-func (i *AtlasInterceptor) ListTests(ctx context.Context, in *ListTestsInput) (*ListTestsOutput, error) {
+func (i *AtlasInterceptor) ListTests(ctx context.Context, in *ListTestsInput, opts ...grpc.CallOption) (*ListTestsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListTestsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListTestsInput, got %T", in))
 		}
 
-		return i.server.ListTests(ctx, message)
+		return i.client.ListTests(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2353,14 +2354,14 @@ func (i *AtlasInterceptor) ListTests(ctx context.Context, in *ListTestsInput) (*
 	return message, err
 }
 
-func (i *AtlasInterceptor) DescribeTest(ctx context.Context, in *DescribeTestInput) (*DescribeTestOutput, error) {
+func (i *AtlasInterceptor) DescribeTest(ctx context.Context, in *DescribeTestInput, opts ...grpc.CallOption) (*DescribeTestOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeTestInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeTestInput, got %T", in))
 		}
 
-		return i.server.DescribeTest(ctx, message)
+		return i.client.DescribeTest(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2385,14 +2386,14 @@ func (i *AtlasInterceptor) DescribeTest(ctx context.Context, in *DescribeTestInp
 	return message, err
 }
 
-func (i *AtlasInterceptor) CreateCodeTemplate(ctx context.Context, in *CreateCodeTemplateInput) (*CreateCodeTemplateOutput, error) {
+func (i *AtlasInterceptor) CreateCodeTemplate(ctx context.Context, in *CreateCodeTemplateInput, opts ...grpc.CallOption) (*CreateCodeTemplateOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CreateCodeTemplateInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *CreateCodeTemplateInput, got %T", in))
 		}
 
-		return i.server.CreateCodeTemplate(ctx, message)
+		return i.client.CreateCodeTemplate(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2417,14 +2418,14 @@ func (i *AtlasInterceptor) CreateCodeTemplate(ctx context.Context, in *CreateCod
 	return message, err
 }
 
-func (i *AtlasInterceptor) UpdateCodeTemplate(ctx context.Context, in *UpdateCodeTemplateInput) (*UpdateCodeTemplateOutput, error) {
+func (i *AtlasInterceptor) UpdateCodeTemplate(ctx context.Context, in *UpdateCodeTemplateInput, opts ...grpc.CallOption) (*UpdateCodeTemplateOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdateCodeTemplateInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UpdateCodeTemplateInput, got %T", in))
 		}
 
-		return i.server.UpdateCodeTemplate(ctx, message)
+		return i.client.UpdateCodeTemplate(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2449,14 +2450,14 @@ func (i *AtlasInterceptor) UpdateCodeTemplate(ctx context.Context, in *UpdateCod
 	return message, err
 }
 
-func (i *AtlasInterceptor) DeleteCodeTemplate(ctx context.Context, in *DeleteCodeTemplateInput) (*DeleteCodeTemplateOutput, error) {
+func (i *AtlasInterceptor) DeleteCodeTemplate(ctx context.Context, in *DeleteCodeTemplateInput, opts ...grpc.CallOption) (*DeleteCodeTemplateOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DeleteCodeTemplateInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DeleteCodeTemplateInput, got %T", in))
 		}
 
-		return i.server.DeleteCodeTemplate(ctx, message)
+		return i.client.DeleteCodeTemplate(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2481,14 +2482,14 @@ func (i *AtlasInterceptor) DeleteCodeTemplate(ctx context.Context, in *DeleteCod
 	return message, err
 }
 
-func (i *AtlasInterceptor) ListCodeTemplates(ctx context.Context, in *ListCodeTemplatesInput) (*ListCodeTemplatesOutput, error) {
+func (i *AtlasInterceptor) ListCodeTemplates(ctx context.Context, in *ListCodeTemplatesInput, opts ...grpc.CallOption) (*ListCodeTemplatesOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListCodeTemplatesInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListCodeTemplatesInput, got %T", in))
 		}
 
-		return i.server.ListCodeTemplates(ctx, message)
+		return i.client.ListCodeTemplates(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2513,14 +2514,14 @@ func (i *AtlasInterceptor) ListCodeTemplates(ctx context.Context, in *ListCodeTe
 	return message, err
 }
 
-func (i *AtlasInterceptor) DescribeCodeTemplate(ctx context.Context, in *DescribeCodeTemplateInput) (*DescribeCodeTemplateOutput, error) {
+func (i *AtlasInterceptor) DescribeCodeTemplate(ctx context.Context, in *DescribeCodeTemplateInput, opts ...grpc.CallOption) (*DescribeCodeTemplateOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeCodeTemplateInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeCodeTemplateInput, got %T", in))
 		}
 
-		return i.server.DescribeCodeTemplate(ctx, message)
+		return i.client.DescribeCodeTemplate(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2545,14 +2546,14 @@ func (i *AtlasInterceptor) DescribeCodeTemplate(ctx context.Context, in *Describ
 	return message, err
 }
 
-func (i *AtlasInterceptor) LookupCodeTemplate(ctx context.Context, in *LookupCodeTemplateInput) (*LookupCodeTemplateOutput, error) {
+func (i *AtlasInterceptor) LookupCodeTemplate(ctx context.Context, in *LookupCodeTemplateInput, opts ...grpc.CallOption) (*LookupCodeTemplateOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*LookupCodeTemplateInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *LookupCodeTemplateInput, got %T", in))
 		}
 
-		return i.server.LookupCodeTemplate(ctx, message)
+		return i.client.LookupCodeTemplate(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2577,14 +2578,14 @@ func (i *AtlasInterceptor) LookupCodeTemplate(ctx context.Context, in *LookupCod
 	return message, err
 }
 
-func (i *AtlasInterceptor) CreateAttachment(ctx context.Context, in *CreateAttachmentInput) (*CreateAttachmentOutput, error) {
+func (i *AtlasInterceptor) CreateAttachment(ctx context.Context, in *CreateAttachmentInput, opts ...grpc.CallOption) (*CreateAttachmentOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CreateAttachmentInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *CreateAttachmentInput, got %T", in))
 		}
 
-		return i.server.CreateAttachment(ctx, message)
+		return i.client.CreateAttachment(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2609,14 +2610,14 @@ func (i *AtlasInterceptor) CreateAttachment(ctx context.Context, in *CreateAttac
 	return message, err
 }
 
-func (i *AtlasInterceptor) UpdateAttachment(ctx context.Context, in *UpdateAttachmentInput) (*UpdateAttachmentOutput, error) {
+func (i *AtlasInterceptor) UpdateAttachment(ctx context.Context, in *UpdateAttachmentInput, opts ...grpc.CallOption) (*UpdateAttachmentOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdateAttachmentInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UpdateAttachmentInput, got %T", in))
 		}
 
-		return i.server.UpdateAttachment(ctx, message)
+		return i.client.UpdateAttachment(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2641,14 +2642,14 @@ func (i *AtlasInterceptor) UpdateAttachment(ctx context.Context, in *UpdateAttac
 	return message, err
 }
 
-func (i *AtlasInterceptor) DeleteAttachment(ctx context.Context, in *DeleteAttachmentInput) (*DeleteAttachmentOutput, error) {
+func (i *AtlasInterceptor) DeleteAttachment(ctx context.Context, in *DeleteAttachmentInput, opts ...grpc.CallOption) (*DeleteAttachmentOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DeleteAttachmentInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DeleteAttachmentInput, got %T", in))
 		}
 
-		return i.server.DeleteAttachment(ctx, message)
+		return i.client.DeleteAttachment(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2673,14 +2674,14 @@ func (i *AtlasInterceptor) DeleteAttachment(ctx context.Context, in *DeleteAttac
 	return message, err
 }
 
-func (i *AtlasInterceptor) ListAttachments(ctx context.Context, in *ListAttachmentsInput) (*ListAttachmentsOutput, error) {
+func (i *AtlasInterceptor) ListAttachments(ctx context.Context, in *ListAttachmentsInput, opts ...grpc.CallOption) (*ListAttachmentsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListAttachmentsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListAttachmentsInput, got %T", in))
 		}
 
-		return i.server.ListAttachments(ctx, message)
+		return i.client.ListAttachments(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2705,14 +2706,14 @@ func (i *AtlasInterceptor) ListAttachments(ctx context.Context, in *ListAttachme
 	return message, err
 }
 
-func (i *AtlasInterceptor) DescribeAttachment(ctx context.Context, in *DescribeAttachmentInput) (*DescribeAttachmentOutput, error) {
+func (i *AtlasInterceptor) DescribeAttachment(ctx context.Context, in *DescribeAttachmentInput, opts ...grpc.CallOption) (*DescribeAttachmentOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeAttachmentInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeAttachmentInput, got %T", in))
 		}
 
-		return i.server.DescribeAttachment(ctx, message)
+		return i.client.DescribeAttachment(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2737,14 +2738,14 @@ func (i *AtlasInterceptor) DescribeAttachment(ctx context.Context, in *DescribeA
 	return message, err
 }
 
-func (i *AtlasInterceptor) ListVersions(ctx context.Context, in *ListVersionsInput) (*ListVersionsOutput, error) {
+func (i *AtlasInterceptor) ListVersions(ctx context.Context, in *ListVersionsInput, opts ...grpc.CallOption) (*ListVersionsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListVersionsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListVersionsInput, got %T", in))
 		}
 
-		return i.server.ListVersions(ctx, message)
+		return i.client.ListVersions(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2769,14 +2770,14 @@ func (i *AtlasInterceptor) ListVersions(ctx context.Context, in *ListVersionsInp
 	return message, err
 }
 
-func (i *AtlasInterceptor) ListProblemTop(ctx context.Context, in *ListProblemTopInput) (*ListProblemTopOutput, error) {
+func (i *AtlasInterceptor) ListProblemTop(ctx context.Context, in *ListProblemTopInput, opts ...grpc.CallOption) (*ListProblemTopOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListProblemTopInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListProblemTopInput, got %T", in))
 		}
 
-		return i.server.ListProblemTop(ctx, message)
+		return i.client.ListProblemTop(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2801,14 +2802,14 @@ func (i *AtlasInterceptor) ListProblemTop(ctx context.Context, in *ListProblemTo
 	return message, err
 }
 
-func (i *AtlasInterceptor) DescribeProblemGrading(ctx context.Context, in *DescribeProblemGradingInput) (*DescribeProblemGradingOutput, error) {
+func (i *AtlasInterceptor) DescribeProblemGrading(ctx context.Context, in *DescribeProblemGradingInput, opts ...grpc.CallOption) (*DescribeProblemGradingOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeProblemGradingInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeProblemGradingInput, got %T", in))
 		}
 
-		return i.server.DescribeProblemGrading(ctx, message)
+		return i.client.DescribeProblemGrading(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2833,14 +2834,14 @@ func (i *AtlasInterceptor) DescribeProblemGrading(ctx context.Context, in *Descr
 	return message, err
 }
 
-func (i *AtlasInterceptor) CreateSubmission(ctx context.Context, in *CreateSubmissionInput) (*CreateSubmissionOutput, error) {
+func (i *AtlasInterceptor) CreateSubmission(ctx context.Context, in *CreateSubmissionInput, opts ...grpc.CallOption) (*CreateSubmissionOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CreateSubmissionInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *CreateSubmissionInput, got %T", in))
 		}
 
-		return i.server.CreateSubmission(ctx, message)
+		return i.client.CreateSubmission(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2865,14 +2866,14 @@ func (i *AtlasInterceptor) CreateSubmission(ctx context.Context, in *CreateSubmi
 	return message, err
 }
 
-func (i *AtlasInterceptor) DescribeSubmission(ctx context.Context, in *DescribeSubmissionInput) (*DescribeSubmissionOutput, error) {
+func (i *AtlasInterceptor) DescribeSubmission(ctx context.Context, in *DescribeSubmissionInput, opts ...grpc.CallOption) (*DescribeSubmissionOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeSubmissionInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeSubmissionInput, got %T", in))
 		}
 
-		return i.server.DescribeSubmission(ctx, message)
+		return i.client.DescribeSubmission(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2897,14 +2898,14 @@ func (i *AtlasInterceptor) DescribeSubmission(ctx context.Context, in *DescribeS
 	return message, err
 }
 
-func (i *AtlasInterceptor) RetestSubmission(ctx context.Context, in *RetestSubmissionInput) (*RetestSubmissionOutput, error) {
+func (i *AtlasInterceptor) RetestSubmission(ctx context.Context, in *RetestSubmissionInput, opts ...grpc.CallOption) (*RetestSubmissionOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*RetestSubmissionInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *RetestSubmissionInput, got %T", in))
 		}
 
-		return i.server.RetestSubmission(ctx, message)
+		return i.client.RetestSubmission(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2929,14 +2930,14 @@ func (i *AtlasInterceptor) RetestSubmission(ctx context.Context, in *RetestSubmi
 	return message, err
 }
 
-func (i *AtlasInterceptor) ListSubmissions(ctx context.Context, in *ListSubmissionsInput) (*ListSubmissionsOutput, error) {
+func (i *AtlasInterceptor) ListSubmissions(ctx context.Context, in *ListSubmissionsInput, opts ...grpc.CallOption) (*ListSubmissionsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListSubmissionsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListSubmissionsInput, got %T", in))
 		}
 
-		return i.server.ListSubmissions(ctx, message)
+		return i.client.ListSubmissions(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2961,14 +2962,14 @@ func (i *AtlasInterceptor) ListSubmissions(ctx context.Context, in *ListSubmissi
 	return message, err
 }
 
-func (i *AtlasInterceptor) DescribeScore(ctx context.Context, in *DescribeScoreInput) (*DescribeScoreOutput, error) {
+func (i *AtlasInterceptor) DescribeScore(ctx context.Context, in *DescribeScoreInput, opts ...grpc.CallOption) (*DescribeScoreOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeScoreInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeScoreInput, got %T", in))
 		}
 
-		return i.server.DescribeScore(ctx, message)
+		return i.client.DescribeScore(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {

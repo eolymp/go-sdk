@@ -8,6 +8,7 @@ import (
 	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	websocket "golang.org/x/net/websocket"
+	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
@@ -178,27 +179,27 @@ var _AttachmentService_WebsocketCodec = websocket.Codec{
 	},
 }
 
-// RegisterAttachmentServiceHttpHandlers adds handlers for for AttachmentServiceServer
+// RegisterAttachmentServiceHttpHandlers adds handlers for for AttachmentServiceClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterAttachmentServiceHttpHandlers(router *mux.Router, prefix string, srv AttachmentServiceServer) {
-	router.Handle(prefix+"/attachments", _AttachmentService_CreateAttachment_Rule0(srv)).
+func RegisterAttachmentServiceHttpHandlers(router *mux.Router, prefix string, cli AttachmentServiceClient) {
+	router.Handle(prefix+"/attachments", _AttachmentService_CreateAttachment_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.AttachmentService.CreateAttachment")
-	router.Handle(prefix+"/attachments/{attachment_id}", _AttachmentService_UpdateAttachment_Rule0(srv)).
+	router.Handle(prefix+"/attachments/{attachment_id}", _AttachmentService_UpdateAttachment_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.AttachmentService.UpdateAttachment")
-	router.Handle(prefix+"/attachments/{attachment_id}", _AttachmentService_DeleteAttachment_Rule0(srv)).
+	router.Handle(prefix+"/attachments/{attachment_id}", _AttachmentService_DeleteAttachment_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.atlas.AttachmentService.DeleteAttachment")
-	router.Handle(prefix+"/attachments", _AttachmentService_ListAttachments_Rule0(srv)).
+	router.Handle(prefix+"/attachments", _AttachmentService_ListAttachments_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.AttachmentService.ListAttachments")
-	router.Handle(prefix+"/attachments/{attachment_id}", _AttachmentService_DescribeAttachment_Rule0(srv)).
+	router.Handle(prefix+"/attachments/{attachment_id}", _AttachmentService_DescribeAttachment_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.AttachmentService.DescribeAttachment")
 }
 
-func _AttachmentService_CreateAttachment_Rule0(srv AttachmentServiceServer) http.Handler {
+func _AttachmentService_CreateAttachment_Rule0(cli AttachmentServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateAttachmentInput{}
 
@@ -208,7 +209,7 @@ func _AttachmentService_CreateAttachment_Rule0(srv AttachmentServiceServer) http
 			return
 		}
 
-		out, err := srv.CreateAttachment(r.Context(), in)
+		out, err := cli.CreateAttachment(r.Context(), in)
 		if err != nil {
 			_AttachmentService_HTTPWriteErrorResponse(w, err)
 			return
@@ -218,7 +219,7 @@ func _AttachmentService_CreateAttachment_Rule0(srv AttachmentServiceServer) http
 	})
 }
 
-func _AttachmentService_UpdateAttachment_Rule0(srv AttachmentServiceServer) http.Handler {
+func _AttachmentService_UpdateAttachment_Rule0(cli AttachmentServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateAttachmentInput{}
 
@@ -231,7 +232,7 @@ func _AttachmentService_UpdateAttachment_Rule0(srv AttachmentServiceServer) http
 		vars := mux.Vars(r)
 		in.AttachmentId = vars["attachment_id"]
 
-		out, err := srv.UpdateAttachment(r.Context(), in)
+		out, err := cli.UpdateAttachment(r.Context(), in)
 		if err != nil {
 			_AttachmentService_HTTPWriteErrorResponse(w, err)
 			return
@@ -241,7 +242,7 @@ func _AttachmentService_UpdateAttachment_Rule0(srv AttachmentServiceServer) http
 	})
 }
 
-func _AttachmentService_DeleteAttachment_Rule0(srv AttachmentServiceServer) http.Handler {
+func _AttachmentService_DeleteAttachment_Rule0(cli AttachmentServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteAttachmentInput{}
 
@@ -254,7 +255,7 @@ func _AttachmentService_DeleteAttachment_Rule0(srv AttachmentServiceServer) http
 		vars := mux.Vars(r)
 		in.AttachmentId = vars["attachment_id"]
 
-		out, err := srv.DeleteAttachment(r.Context(), in)
+		out, err := cli.DeleteAttachment(r.Context(), in)
 		if err != nil {
 			_AttachmentService_HTTPWriteErrorResponse(w, err)
 			return
@@ -264,7 +265,7 @@ func _AttachmentService_DeleteAttachment_Rule0(srv AttachmentServiceServer) http
 	})
 }
 
-func _AttachmentService_ListAttachments_Rule0(srv AttachmentServiceServer) http.Handler {
+func _AttachmentService_ListAttachments_Rule0(cli AttachmentServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListAttachmentsInput{}
 
@@ -274,7 +275,7 @@ func _AttachmentService_ListAttachments_Rule0(srv AttachmentServiceServer) http.
 			return
 		}
 
-		out, err := srv.ListAttachments(r.Context(), in)
+		out, err := cli.ListAttachments(r.Context(), in)
 		if err != nil {
 			_AttachmentService_HTTPWriteErrorResponse(w, err)
 			return
@@ -284,7 +285,7 @@ func _AttachmentService_ListAttachments_Rule0(srv AttachmentServiceServer) http.
 	})
 }
 
-func _AttachmentService_DescribeAttachment_Rule0(srv AttachmentServiceServer) http.Handler {
+func _AttachmentService_DescribeAttachment_Rule0(cli AttachmentServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeAttachmentInput{}
 
@@ -297,7 +298,7 @@ func _AttachmentService_DescribeAttachment_Rule0(srv AttachmentServiceServer) ht
 		vars := mux.Vars(r)
 		in.AttachmentId = vars["attachment_id"]
 
-		out, err := srv.DescribeAttachment(r.Context(), in)
+		out, err := cli.DescribeAttachment(r.Context(), in)
 		if err != nil {
 			_AttachmentService_HTTPWriteErrorResponse(w, err)
 			return
@@ -311,22 +312,22 @@ type _AttachmentServiceHandler = func(ctx context.Context, in proto.Message) (pr
 type _AttachmentServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _AttachmentServiceHandler) (out proto.Message, err error)
 type AttachmentServiceInterceptor struct {
 	middleware []_AttachmentServiceMiddleware
-	server     AttachmentServiceServer
+	client     AttachmentServiceClient
 }
 
 // NewAttachmentServiceInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewAttachmentServiceInterceptor(srv AttachmentServiceServer, middleware ..._AttachmentServiceMiddleware) *AttachmentServiceInterceptor {
-	return &AttachmentServiceInterceptor{server: srv, middleware: middleware}
+func NewAttachmentServiceInterceptor(cli AttachmentServiceClient, middleware ..._AttachmentServiceMiddleware) *AttachmentServiceInterceptor {
+	return &AttachmentServiceInterceptor{client: cli, middleware: middleware}
 }
 
-func (i *AttachmentServiceInterceptor) CreateAttachment(ctx context.Context, in *CreateAttachmentInput) (*CreateAttachmentOutput, error) {
+func (i *AttachmentServiceInterceptor) CreateAttachment(ctx context.Context, in *CreateAttachmentInput, opts ...grpc.CallOption) (*CreateAttachmentOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CreateAttachmentInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *CreateAttachmentInput, got %T", in))
 		}
 
-		return i.server.CreateAttachment(ctx, message)
+		return i.client.CreateAttachment(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -351,14 +352,14 @@ func (i *AttachmentServiceInterceptor) CreateAttachment(ctx context.Context, in 
 	return message, err
 }
 
-func (i *AttachmentServiceInterceptor) UpdateAttachment(ctx context.Context, in *UpdateAttachmentInput) (*UpdateAttachmentOutput, error) {
+func (i *AttachmentServiceInterceptor) UpdateAttachment(ctx context.Context, in *UpdateAttachmentInput, opts ...grpc.CallOption) (*UpdateAttachmentOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdateAttachmentInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UpdateAttachmentInput, got %T", in))
 		}
 
-		return i.server.UpdateAttachment(ctx, message)
+		return i.client.UpdateAttachment(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -383,14 +384,14 @@ func (i *AttachmentServiceInterceptor) UpdateAttachment(ctx context.Context, in 
 	return message, err
 }
 
-func (i *AttachmentServiceInterceptor) DeleteAttachment(ctx context.Context, in *DeleteAttachmentInput) (*DeleteAttachmentOutput, error) {
+func (i *AttachmentServiceInterceptor) DeleteAttachment(ctx context.Context, in *DeleteAttachmentInput, opts ...grpc.CallOption) (*DeleteAttachmentOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DeleteAttachmentInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DeleteAttachmentInput, got %T", in))
 		}
 
-		return i.server.DeleteAttachment(ctx, message)
+		return i.client.DeleteAttachment(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -415,14 +416,14 @@ func (i *AttachmentServiceInterceptor) DeleteAttachment(ctx context.Context, in 
 	return message, err
 }
 
-func (i *AttachmentServiceInterceptor) ListAttachments(ctx context.Context, in *ListAttachmentsInput) (*ListAttachmentsOutput, error) {
+func (i *AttachmentServiceInterceptor) ListAttachments(ctx context.Context, in *ListAttachmentsInput, opts ...grpc.CallOption) (*ListAttachmentsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListAttachmentsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListAttachmentsInput, got %T", in))
 		}
 
-		return i.server.ListAttachments(ctx, message)
+		return i.client.ListAttachments(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -447,14 +448,14 @@ func (i *AttachmentServiceInterceptor) ListAttachments(ctx context.Context, in *
 	return message, err
 }
 
-func (i *AttachmentServiceInterceptor) DescribeAttachment(ctx context.Context, in *DescribeAttachmentInput) (*DescribeAttachmentOutput, error) {
+func (i *AttachmentServiceInterceptor) DescribeAttachment(ctx context.Context, in *DescribeAttachmentInput, opts ...grpc.CallOption) (*DescribeAttachmentOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeAttachmentInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeAttachmentInput, got %T", in))
 		}
 
-		return i.server.DescribeAttachment(ctx, message)
+		return i.client.DescribeAttachment(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {

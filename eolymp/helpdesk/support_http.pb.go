@@ -8,6 +8,7 @@ import (
 	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	websocket "golang.org/x/net/websocket"
+	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
@@ -178,66 +179,66 @@ var _Support_WebsocketCodec = websocket.Codec{
 	},
 }
 
-// RegisterSupportHttpHandlers adds handlers for for SupportServer
+// RegisterSupportHttpHandlers adds handlers for for SupportClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterSupportHttpHandlers(router *mux.Router, prefix string, srv SupportServer) {
-	router.Handle(prefix+"/helpdesk/tickets", _Support_CreateTicket_Rule0(srv)).
+func RegisterSupportHttpHandlers(router *mux.Router, prefix string, cli SupportClient) {
+	router.Handle(prefix+"/helpdesk/tickets", _Support_CreateTicket_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.helpdesk.Support.CreateTicket")
-	router.Handle(prefix+"/helpdesk/tickets/{ticket_id}", _Support_UpdateTicket_Rule0(srv)).
+	router.Handle(prefix+"/helpdesk/tickets/{ticket_id}", _Support_UpdateTicket_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.helpdesk.Support.UpdateTicket")
-	router.Handle(prefix+"/helpdesk/tickets/{ticket_id}", _Support_DeleteTicket_Rule0(srv)).
+	router.Handle(prefix+"/helpdesk/tickets/{ticket_id}", _Support_DeleteTicket_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.helpdesk.Support.DeleteTicket")
-	router.Handle(prefix+"/helpdesk/tickets/{ticket_id}", _Support_DescribeTicket_Rule0(srv)).
+	router.Handle(prefix+"/helpdesk/tickets/{ticket_id}", _Support_DescribeTicket_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.helpdesk.Support.DescribeTicket")
-	router.Handle(prefix+"/helpdesk/tickets", _Support_ListTickets_Rule0(srv)).
+	router.Handle(prefix+"/helpdesk/tickets", _Support_ListTickets_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.helpdesk.Support.ListTickets")
-	router.Handle(prefix+"/helpdesk/tickets/{ticket_id}/approve", _Support_ApproveTicket_Rule0(srv)).
+	router.Handle(prefix+"/helpdesk/tickets/{ticket_id}/approve", _Support_ApproveTicket_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.helpdesk.Support.ApproveTicket")
-	router.Handle(prefix+"/helpdesk/tickets/{ticket_id}/reject", _Support_RejectTicket_Rule0(srv)).
+	router.Handle(prefix+"/helpdesk/tickets/{ticket_id}/reject", _Support_RejectTicket_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.helpdesk.Support.RejectTicket")
-	router.Handle(prefix+"/helpdesk/tickets/{ticket_id}/close", _Support_CloseTicket_Rule0(srv)).
+	router.Handle(prefix+"/helpdesk/tickets/{ticket_id}/close", _Support_CloseTicket_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.helpdesk.Support.CloseTicket")
-	router.Handle(prefix+"/helpdesk/tickets/{ticket_id}/comments", _Support_AddComment_Rule0(srv)).
+	router.Handle(prefix+"/helpdesk/tickets/{ticket_id}/comments", _Support_AddComment_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.helpdesk.Support.AddComment")
-	router.Handle(prefix+"/helpdesk/tickets/{ticket_id}/comments/{comment_id}", _Support_UpdateComment_Rule0(srv)).
+	router.Handle(prefix+"/helpdesk/tickets/{ticket_id}/comments/{comment_id}", _Support_UpdateComment_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.helpdesk.Support.UpdateComment")
-	router.Handle(prefix+"/helpdesk/tickets/{ticket_id}/comments/{comment_id}", _Support_DeleteComment_Rule0(srv)).
+	router.Handle(prefix+"/helpdesk/tickets/{ticket_id}/comments/{comment_id}", _Support_DeleteComment_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.helpdesk.Support.DeleteComment")
-	router.Handle(prefix+"/helpdesk/tickets/{ticket_id}/comments", _Support_ListComments_Rule0(srv)).
+	router.Handle(prefix+"/helpdesk/tickets/{ticket_id}/comments", _Support_ListComments_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.helpdesk.Support.ListComments")
-	router.Handle(prefix+"/helpdesk/tickets/{ticket_id}/comments/{comment_id}", _Support_DescribeComment_Rule0(srv)).
+	router.Handle(prefix+"/helpdesk/tickets/{ticket_id}/comments/{comment_id}", _Support_DescribeComment_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.helpdesk.Support.DescribeComment")
-	router.Handle(prefix+"/helpdesk/autoreplies", _Support_CreateAutoReply_Rule0(srv)).
+	router.Handle(prefix+"/helpdesk/autoreplies", _Support_CreateAutoReply_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.helpdesk.Support.CreateAutoReply")
-	router.Handle(prefix+"/helpdesk/autoreplies/{reply_id}", _Support_UpdateAutoReply_Rule0(srv)).
+	router.Handle(prefix+"/helpdesk/autoreplies/{reply_id}", _Support_UpdateAutoReply_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.helpdesk.Support.UpdateAutoReply")
-	router.Handle(prefix+"/helpdesk/autoreplies/{reply_id}", _Support_DeleteAutoReply_Rule0(srv)).
+	router.Handle(prefix+"/helpdesk/autoreplies/{reply_id}", _Support_DeleteAutoReply_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.helpdesk.Support.DeleteAutoReply")
-	router.Handle(prefix+"/helpdesk/autoreplies", _Support_ListAutoReplies_Rule0(srv)).
+	router.Handle(prefix+"/helpdesk/autoreplies", _Support_ListAutoReplies_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.helpdesk.Support.ListAutoReplies")
-	router.Handle(prefix+"/helpdesk/autoreplies/{reply_id}", _Support_DescribeAutoReply_Rule0(srv)).
+	router.Handle(prefix+"/helpdesk/autoreplies/{reply_id}", _Support_DescribeAutoReply_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.helpdesk.Support.DescribeAutoReply")
 }
 
-func _Support_CreateTicket_Rule0(srv SupportServer) http.Handler {
+func _Support_CreateTicket_Rule0(cli SupportClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateTicketInput{}
 
@@ -247,7 +248,7 @@ func _Support_CreateTicket_Rule0(srv SupportServer) http.Handler {
 			return
 		}
 
-		out, err := srv.CreateTicket(r.Context(), in)
+		out, err := cli.CreateTicket(r.Context(), in)
 		if err != nil {
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
@@ -257,7 +258,7 @@ func _Support_CreateTicket_Rule0(srv SupportServer) http.Handler {
 	})
 }
 
-func _Support_UpdateTicket_Rule0(srv SupportServer) http.Handler {
+func _Support_UpdateTicket_Rule0(cli SupportClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateTicketInput{}
 
@@ -270,7 +271,7 @@ func _Support_UpdateTicket_Rule0(srv SupportServer) http.Handler {
 		vars := mux.Vars(r)
 		in.TicketId = vars["ticket_id"]
 
-		out, err := srv.UpdateTicket(r.Context(), in)
+		out, err := cli.UpdateTicket(r.Context(), in)
 		if err != nil {
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
@@ -280,7 +281,7 @@ func _Support_UpdateTicket_Rule0(srv SupportServer) http.Handler {
 	})
 }
 
-func _Support_DeleteTicket_Rule0(srv SupportServer) http.Handler {
+func _Support_DeleteTicket_Rule0(cli SupportClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteTicketInput{}
 
@@ -293,7 +294,7 @@ func _Support_DeleteTicket_Rule0(srv SupportServer) http.Handler {
 		vars := mux.Vars(r)
 		in.TicketId = vars["ticket_id"]
 
-		out, err := srv.DeleteTicket(r.Context(), in)
+		out, err := cli.DeleteTicket(r.Context(), in)
 		if err != nil {
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
@@ -303,7 +304,7 @@ func _Support_DeleteTicket_Rule0(srv SupportServer) http.Handler {
 	})
 }
 
-func _Support_DescribeTicket_Rule0(srv SupportServer) http.Handler {
+func _Support_DescribeTicket_Rule0(cli SupportClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeTicketInput{}
 
@@ -316,7 +317,7 @@ func _Support_DescribeTicket_Rule0(srv SupportServer) http.Handler {
 		vars := mux.Vars(r)
 		in.TicketId = vars["ticket_id"]
 
-		out, err := srv.DescribeTicket(r.Context(), in)
+		out, err := cli.DescribeTicket(r.Context(), in)
 		if err != nil {
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
@@ -326,7 +327,7 @@ func _Support_DescribeTicket_Rule0(srv SupportServer) http.Handler {
 	})
 }
 
-func _Support_ListTickets_Rule0(srv SupportServer) http.Handler {
+func _Support_ListTickets_Rule0(cli SupportClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListTicketsInput{}
 
@@ -336,7 +337,7 @@ func _Support_ListTickets_Rule0(srv SupportServer) http.Handler {
 			return
 		}
 
-		out, err := srv.ListTickets(r.Context(), in)
+		out, err := cli.ListTickets(r.Context(), in)
 		if err != nil {
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
@@ -346,7 +347,7 @@ func _Support_ListTickets_Rule0(srv SupportServer) http.Handler {
 	})
 }
 
-func _Support_ApproveTicket_Rule0(srv SupportServer) http.Handler {
+func _Support_ApproveTicket_Rule0(cli SupportClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ApproveTicketInput{}
 
@@ -359,7 +360,7 @@ func _Support_ApproveTicket_Rule0(srv SupportServer) http.Handler {
 		vars := mux.Vars(r)
 		in.TicketId = vars["ticket_id"]
 
-		out, err := srv.ApproveTicket(r.Context(), in)
+		out, err := cli.ApproveTicket(r.Context(), in)
 		if err != nil {
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
@@ -369,7 +370,7 @@ func _Support_ApproveTicket_Rule0(srv SupportServer) http.Handler {
 	})
 }
 
-func _Support_RejectTicket_Rule0(srv SupportServer) http.Handler {
+func _Support_RejectTicket_Rule0(cli SupportClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &RejectTicketInput{}
 
@@ -382,7 +383,7 @@ func _Support_RejectTicket_Rule0(srv SupportServer) http.Handler {
 		vars := mux.Vars(r)
 		in.TicketId = vars["ticket_id"]
 
-		out, err := srv.RejectTicket(r.Context(), in)
+		out, err := cli.RejectTicket(r.Context(), in)
 		if err != nil {
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
@@ -392,7 +393,7 @@ func _Support_RejectTicket_Rule0(srv SupportServer) http.Handler {
 	})
 }
 
-func _Support_CloseTicket_Rule0(srv SupportServer) http.Handler {
+func _Support_CloseTicket_Rule0(cli SupportClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CloseTicketInput{}
 
@@ -405,7 +406,7 @@ func _Support_CloseTicket_Rule0(srv SupportServer) http.Handler {
 		vars := mux.Vars(r)
 		in.TicketId = vars["ticket_id"]
 
-		out, err := srv.CloseTicket(r.Context(), in)
+		out, err := cli.CloseTicket(r.Context(), in)
 		if err != nil {
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
@@ -415,7 +416,7 @@ func _Support_CloseTicket_Rule0(srv SupportServer) http.Handler {
 	})
 }
 
-func _Support_AddComment_Rule0(srv SupportServer) http.Handler {
+func _Support_AddComment_Rule0(cli SupportClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &AddCommentInput{}
 
@@ -428,7 +429,7 @@ func _Support_AddComment_Rule0(srv SupportServer) http.Handler {
 		vars := mux.Vars(r)
 		in.TicketId = vars["ticket_id"]
 
-		out, err := srv.AddComment(r.Context(), in)
+		out, err := cli.AddComment(r.Context(), in)
 		if err != nil {
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
@@ -438,7 +439,7 @@ func _Support_AddComment_Rule0(srv SupportServer) http.Handler {
 	})
 }
 
-func _Support_UpdateComment_Rule0(srv SupportServer) http.Handler {
+func _Support_UpdateComment_Rule0(cli SupportClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateCommentInput{}
 
@@ -452,7 +453,7 @@ func _Support_UpdateComment_Rule0(srv SupportServer) http.Handler {
 		in.TicketId = vars["ticket_id"]
 		in.CommentId = vars["comment_id"]
 
-		out, err := srv.UpdateComment(r.Context(), in)
+		out, err := cli.UpdateComment(r.Context(), in)
 		if err != nil {
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
@@ -462,7 +463,7 @@ func _Support_UpdateComment_Rule0(srv SupportServer) http.Handler {
 	})
 }
 
-func _Support_DeleteComment_Rule0(srv SupportServer) http.Handler {
+func _Support_DeleteComment_Rule0(cli SupportClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteCommentInput{}
 
@@ -476,7 +477,7 @@ func _Support_DeleteComment_Rule0(srv SupportServer) http.Handler {
 		in.TicketId = vars["ticket_id"]
 		in.CommentId = vars["comment_id"]
 
-		out, err := srv.DeleteComment(r.Context(), in)
+		out, err := cli.DeleteComment(r.Context(), in)
 		if err != nil {
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
@@ -486,7 +487,7 @@ func _Support_DeleteComment_Rule0(srv SupportServer) http.Handler {
 	})
 }
 
-func _Support_ListComments_Rule0(srv SupportServer) http.Handler {
+func _Support_ListComments_Rule0(cli SupportClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListCommentsInput{}
 
@@ -499,7 +500,7 @@ func _Support_ListComments_Rule0(srv SupportServer) http.Handler {
 		vars := mux.Vars(r)
 		in.TicketId = vars["ticket_id"]
 
-		out, err := srv.ListComments(r.Context(), in)
+		out, err := cli.ListComments(r.Context(), in)
 		if err != nil {
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
@@ -509,7 +510,7 @@ func _Support_ListComments_Rule0(srv SupportServer) http.Handler {
 	})
 }
 
-func _Support_DescribeComment_Rule0(srv SupportServer) http.Handler {
+func _Support_DescribeComment_Rule0(cli SupportClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeCommentInput{}
 
@@ -523,7 +524,7 @@ func _Support_DescribeComment_Rule0(srv SupportServer) http.Handler {
 		in.TicketId = vars["ticket_id"]
 		in.CommentId = vars["comment_id"]
 
-		out, err := srv.DescribeComment(r.Context(), in)
+		out, err := cli.DescribeComment(r.Context(), in)
 		if err != nil {
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
@@ -533,7 +534,7 @@ func _Support_DescribeComment_Rule0(srv SupportServer) http.Handler {
 	})
 }
 
-func _Support_CreateAutoReply_Rule0(srv SupportServer) http.Handler {
+func _Support_CreateAutoReply_Rule0(cli SupportClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateAutoReplyInput{}
 
@@ -543,7 +544,7 @@ func _Support_CreateAutoReply_Rule0(srv SupportServer) http.Handler {
 			return
 		}
 
-		out, err := srv.CreateAutoReply(r.Context(), in)
+		out, err := cli.CreateAutoReply(r.Context(), in)
 		if err != nil {
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
@@ -553,7 +554,7 @@ func _Support_CreateAutoReply_Rule0(srv SupportServer) http.Handler {
 	})
 }
 
-func _Support_UpdateAutoReply_Rule0(srv SupportServer) http.Handler {
+func _Support_UpdateAutoReply_Rule0(cli SupportClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateAutoReplyInput{}
 
@@ -566,7 +567,7 @@ func _Support_UpdateAutoReply_Rule0(srv SupportServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ReplyId = vars["reply_id"]
 
-		out, err := srv.UpdateAutoReply(r.Context(), in)
+		out, err := cli.UpdateAutoReply(r.Context(), in)
 		if err != nil {
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
@@ -576,7 +577,7 @@ func _Support_UpdateAutoReply_Rule0(srv SupportServer) http.Handler {
 	})
 }
 
-func _Support_DeleteAutoReply_Rule0(srv SupportServer) http.Handler {
+func _Support_DeleteAutoReply_Rule0(cli SupportClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteAutoReplyInput{}
 
@@ -589,7 +590,7 @@ func _Support_DeleteAutoReply_Rule0(srv SupportServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ReplyId = vars["reply_id"]
 
-		out, err := srv.DeleteAutoReply(r.Context(), in)
+		out, err := cli.DeleteAutoReply(r.Context(), in)
 		if err != nil {
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
@@ -599,7 +600,7 @@ func _Support_DeleteAutoReply_Rule0(srv SupportServer) http.Handler {
 	})
 }
 
-func _Support_ListAutoReplies_Rule0(srv SupportServer) http.Handler {
+func _Support_ListAutoReplies_Rule0(cli SupportClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListAutoRepliesInput{}
 
@@ -609,7 +610,7 @@ func _Support_ListAutoReplies_Rule0(srv SupportServer) http.Handler {
 			return
 		}
 
-		out, err := srv.ListAutoReplies(r.Context(), in)
+		out, err := cli.ListAutoReplies(r.Context(), in)
 		if err != nil {
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
@@ -619,7 +620,7 @@ func _Support_ListAutoReplies_Rule0(srv SupportServer) http.Handler {
 	})
 }
 
-func _Support_DescribeAutoReply_Rule0(srv SupportServer) http.Handler {
+func _Support_DescribeAutoReply_Rule0(cli SupportClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeAutoReplyInput{}
 
@@ -632,7 +633,7 @@ func _Support_DescribeAutoReply_Rule0(srv SupportServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ReplyId = vars["reply_id"]
 
-		out, err := srv.DescribeAutoReply(r.Context(), in)
+		out, err := cli.DescribeAutoReply(r.Context(), in)
 		if err != nil {
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
@@ -646,22 +647,22 @@ type _SupportHandler = func(ctx context.Context, in proto.Message) (proto.Messag
 type _SupportMiddleware = func(ctx context.Context, method string, in proto.Message, handler _SupportHandler) (out proto.Message, err error)
 type SupportInterceptor struct {
 	middleware []_SupportMiddleware
-	server     SupportServer
+	client     SupportClient
 }
 
 // NewSupportInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewSupportInterceptor(srv SupportServer, middleware ..._SupportMiddleware) *SupportInterceptor {
-	return &SupportInterceptor{server: srv, middleware: middleware}
+func NewSupportInterceptor(cli SupportClient, middleware ..._SupportMiddleware) *SupportInterceptor {
+	return &SupportInterceptor{client: cli, middleware: middleware}
 }
 
-func (i *SupportInterceptor) CreateTicket(ctx context.Context, in *CreateTicketInput) (*CreateTicketOutput, error) {
+func (i *SupportInterceptor) CreateTicket(ctx context.Context, in *CreateTicketInput, opts ...grpc.CallOption) (*CreateTicketOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CreateTicketInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *CreateTicketInput, got %T", in))
 		}
 
-		return i.server.CreateTicket(ctx, message)
+		return i.client.CreateTicket(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -686,14 +687,14 @@ func (i *SupportInterceptor) CreateTicket(ctx context.Context, in *CreateTicketI
 	return message, err
 }
 
-func (i *SupportInterceptor) UpdateTicket(ctx context.Context, in *UpdateTicketInput) (*UpdateTicketOutput, error) {
+func (i *SupportInterceptor) UpdateTicket(ctx context.Context, in *UpdateTicketInput, opts ...grpc.CallOption) (*UpdateTicketOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdateTicketInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UpdateTicketInput, got %T", in))
 		}
 
-		return i.server.UpdateTicket(ctx, message)
+		return i.client.UpdateTicket(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -718,14 +719,14 @@ func (i *SupportInterceptor) UpdateTicket(ctx context.Context, in *UpdateTicketI
 	return message, err
 }
 
-func (i *SupportInterceptor) DeleteTicket(ctx context.Context, in *DeleteTicketInput) (*DeleteTicketOutput, error) {
+func (i *SupportInterceptor) DeleteTicket(ctx context.Context, in *DeleteTicketInput, opts ...grpc.CallOption) (*DeleteTicketOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DeleteTicketInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DeleteTicketInput, got %T", in))
 		}
 
-		return i.server.DeleteTicket(ctx, message)
+		return i.client.DeleteTicket(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -750,14 +751,14 @@ func (i *SupportInterceptor) DeleteTicket(ctx context.Context, in *DeleteTicketI
 	return message, err
 }
 
-func (i *SupportInterceptor) DescribeTicket(ctx context.Context, in *DescribeTicketInput) (*DescribeTicketOutput, error) {
+func (i *SupportInterceptor) DescribeTicket(ctx context.Context, in *DescribeTicketInput, opts ...grpc.CallOption) (*DescribeTicketOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeTicketInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeTicketInput, got %T", in))
 		}
 
-		return i.server.DescribeTicket(ctx, message)
+		return i.client.DescribeTicket(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -782,14 +783,14 @@ func (i *SupportInterceptor) DescribeTicket(ctx context.Context, in *DescribeTic
 	return message, err
 }
 
-func (i *SupportInterceptor) ListTickets(ctx context.Context, in *ListTicketsInput) (*ListTicketsOutput, error) {
+func (i *SupportInterceptor) ListTickets(ctx context.Context, in *ListTicketsInput, opts ...grpc.CallOption) (*ListTicketsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListTicketsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListTicketsInput, got %T", in))
 		}
 
-		return i.server.ListTickets(ctx, message)
+		return i.client.ListTickets(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -814,14 +815,14 @@ func (i *SupportInterceptor) ListTickets(ctx context.Context, in *ListTicketsInp
 	return message, err
 }
 
-func (i *SupportInterceptor) ApproveTicket(ctx context.Context, in *ApproveTicketInput) (*ApproveTicketOutput, error) {
+func (i *SupportInterceptor) ApproveTicket(ctx context.Context, in *ApproveTicketInput, opts ...grpc.CallOption) (*ApproveTicketOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ApproveTicketInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ApproveTicketInput, got %T", in))
 		}
 
-		return i.server.ApproveTicket(ctx, message)
+		return i.client.ApproveTicket(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -846,14 +847,14 @@ func (i *SupportInterceptor) ApproveTicket(ctx context.Context, in *ApproveTicke
 	return message, err
 }
 
-func (i *SupportInterceptor) RejectTicket(ctx context.Context, in *RejectTicketInput) (*RejectTicketOutput, error) {
+func (i *SupportInterceptor) RejectTicket(ctx context.Context, in *RejectTicketInput, opts ...grpc.CallOption) (*RejectTicketOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*RejectTicketInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *RejectTicketInput, got %T", in))
 		}
 
-		return i.server.RejectTicket(ctx, message)
+		return i.client.RejectTicket(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -878,14 +879,14 @@ func (i *SupportInterceptor) RejectTicket(ctx context.Context, in *RejectTicketI
 	return message, err
 }
 
-func (i *SupportInterceptor) CloseTicket(ctx context.Context, in *CloseTicketInput) (*CloseTicketOutput, error) {
+func (i *SupportInterceptor) CloseTicket(ctx context.Context, in *CloseTicketInput, opts ...grpc.CallOption) (*CloseTicketOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CloseTicketInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *CloseTicketInput, got %T", in))
 		}
 
-		return i.server.CloseTicket(ctx, message)
+		return i.client.CloseTicket(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -910,14 +911,14 @@ func (i *SupportInterceptor) CloseTicket(ctx context.Context, in *CloseTicketInp
 	return message, err
 }
 
-func (i *SupportInterceptor) AddComment(ctx context.Context, in *AddCommentInput) (*AddCommentOutput, error) {
+func (i *SupportInterceptor) AddComment(ctx context.Context, in *AddCommentInput, opts ...grpc.CallOption) (*AddCommentOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*AddCommentInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *AddCommentInput, got %T", in))
 		}
 
-		return i.server.AddComment(ctx, message)
+		return i.client.AddComment(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -942,14 +943,14 @@ func (i *SupportInterceptor) AddComment(ctx context.Context, in *AddCommentInput
 	return message, err
 }
 
-func (i *SupportInterceptor) UpdateComment(ctx context.Context, in *UpdateCommentInput) (*UpdateCommentOutput, error) {
+func (i *SupportInterceptor) UpdateComment(ctx context.Context, in *UpdateCommentInput, opts ...grpc.CallOption) (*UpdateCommentOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdateCommentInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UpdateCommentInput, got %T", in))
 		}
 
-		return i.server.UpdateComment(ctx, message)
+		return i.client.UpdateComment(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -974,14 +975,14 @@ func (i *SupportInterceptor) UpdateComment(ctx context.Context, in *UpdateCommen
 	return message, err
 }
 
-func (i *SupportInterceptor) DeleteComment(ctx context.Context, in *DeleteCommentInput) (*DeleteCommentOutput, error) {
+func (i *SupportInterceptor) DeleteComment(ctx context.Context, in *DeleteCommentInput, opts ...grpc.CallOption) (*DeleteCommentOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DeleteCommentInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DeleteCommentInput, got %T", in))
 		}
 
-		return i.server.DeleteComment(ctx, message)
+		return i.client.DeleteComment(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1006,14 +1007,14 @@ func (i *SupportInterceptor) DeleteComment(ctx context.Context, in *DeleteCommen
 	return message, err
 }
 
-func (i *SupportInterceptor) ListComments(ctx context.Context, in *ListCommentsInput) (*ListCommentsOutput, error) {
+func (i *SupportInterceptor) ListComments(ctx context.Context, in *ListCommentsInput, opts ...grpc.CallOption) (*ListCommentsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListCommentsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListCommentsInput, got %T", in))
 		}
 
-		return i.server.ListComments(ctx, message)
+		return i.client.ListComments(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1038,14 +1039,14 @@ func (i *SupportInterceptor) ListComments(ctx context.Context, in *ListCommentsI
 	return message, err
 }
 
-func (i *SupportInterceptor) DescribeComment(ctx context.Context, in *DescribeCommentInput) (*DescribeCommentOutput, error) {
+func (i *SupportInterceptor) DescribeComment(ctx context.Context, in *DescribeCommentInput, opts ...grpc.CallOption) (*DescribeCommentOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeCommentInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeCommentInput, got %T", in))
 		}
 
-		return i.server.DescribeComment(ctx, message)
+		return i.client.DescribeComment(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1070,14 +1071,14 @@ func (i *SupportInterceptor) DescribeComment(ctx context.Context, in *DescribeCo
 	return message, err
 }
 
-func (i *SupportInterceptor) CreateAutoReply(ctx context.Context, in *CreateAutoReplyInput) (*CreateAutoReplyOutput, error) {
+func (i *SupportInterceptor) CreateAutoReply(ctx context.Context, in *CreateAutoReplyInput, opts ...grpc.CallOption) (*CreateAutoReplyOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CreateAutoReplyInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *CreateAutoReplyInput, got %T", in))
 		}
 
-		return i.server.CreateAutoReply(ctx, message)
+		return i.client.CreateAutoReply(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1102,14 +1103,14 @@ func (i *SupportInterceptor) CreateAutoReply(ctx context.Context, in *CreateAuto
 	return message, err
 }
 
-func (i *SupportInterceptor) UpdateAutoReply(ctx context.Context, in *UpdateAutoReplyInput) (*UpdateAutoReplyOutput, error) {
+func (i *SupportInterceptor) UpdateAutoReply(ctx context.Context, in *UpdateAutoReplyInput, opts ...grpc.CallOption) (*UpdateAutoReplyOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdateAutoReplyInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UpdateAutoReplyInput, got %T", in))
 		}
 
-		return i.server.UpdateAutoReply(ctx, message)
+		return i.client.UpdateAutoReply(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1134,14 +1135,14 @@ func (i *SupportInterceptor) UpdateAutoReply(ctx context.Context, in *UpdateAuto
 	return message, err
 }
 
-func (i *SupportInterceptor) DeleteAutoReply(ctx context.Context, in *DeleteAutoReplyInput) (*DeleteAutoReplyOutput, error) {
+func (i *SupportInterceptor) DeleteAutoReply(ctx context.Context, in *DeleteAutoReplyInput, opts ...grpc.CallOption) (*DeleteAutoReplyOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DeleteAutoReplyInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DeleteAutoReplyInput, got %T", in))
 		}
 
-		return i.server.DeleteAutoReply(ctx, message)
+		return i.client.DeleteAutoReply(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1166,14 +1167,14 @@ func (i *SupportInterceptor) DeleteAutoReply(ctx context.Context, in *DeleteAuto
 	return message, err
 }
 
-func (i *SupportInterceptor) ListAutoReplies(ctx context.Context, in *ListAutoRepliesInput) (*ListAutoRepliesOutput, error) {
+func (i *SupportInterceptor) ListAutoReplies(ctx context.Context, in *ListAutoRepliesInput, opts ...grpc.CallOption) (*ListAutoRepliesOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListAutoRepliesInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListAutoRepliesInput, got %T", in))
 		}
 
-		return i.server.ListAutoReplies(ctx, message)
+		return i.client.ListAutoReplies(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1198,14 +1199,14 @@ func (i *SupportInterceptor) ListAutoReplies(ctx context.Context, in *ListAutoRe
 	return message, err
 }
 
-func (i *SupportInterceptor) DescribeAutoReply(ctx context.Context, in *DescribeAutoReplyInput) (*DescribeAutoReplyOutput, error) {
+func (i *SupportInterceptor) DescribeAutoReply(ctx context.Context, in *DescribeAutoReplyInput, opts ...grpc.CallOption) (*DescribeAutoReplyOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeAutoReplyInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeAutoReplyInput, got %T", in))
 		}
 
-		return i.server.DescribeAutoReply(ctx, message)
+		return i.client.DescribeAutoReply(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {

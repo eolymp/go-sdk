@@ -8,6 +8,7 @@ import (
 	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	websocket "golang.org/x/net/websocket"
+	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
@@ -178,24 +179,24 @@ var _Harmony_WebsocketCodec = websocket.Codec{
 	},
 }
 
-// RegisterHarmonyHttpHandlers adds handlers for for HarmonyServer
+// RegisterHarmonyHttpHandlers adds handlers for for HarmonyClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterHarmonyHttpHandlers(router *mux.Router, prefix string, srv HarmonyServer) {
-	router.Handle(prefix+"/harmony/agreements", _Harmony_ListAgreements_Rule0(srv)).
+func RegisterHarmonyHttpHandlers(router *mux.Router, prefix string, cli HarmonyClient) {
+	router.Handle(prefix+"/harmony/agreements", _Harmony_ListAgreements_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.harmony.Harmony.ListAgreements")
-	router.Handle(prefix+"/harmony/agreements/{agreement_id}/consent", _Harmony_GetConsent_Rule0(srv)).
+	router.Handle(prefix+"/harmony/agreements/{agreement_id}/consent", _Harmony_GetConsent_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.harmony.Harmony.GetConsent")
-	router.Handle(prefix+"/harmony/agreements/{agreement_id}/consent", _Harmony_SetConsent_Rule0(srv)).
+	router.Handle(prefix+"/harmony/agreements/{agreement_id}/consent", _Harmony_SetConsent_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.harmony.Harmony.SetConsent")
-	router.Handle(prefix+"/harmony/shortcuts/{shortcut_id}", _Harmony_FollowShortcut_Rule0(srv)).
+	router.Handle(prefix+"/harmony/shortcuts/{shortcut_id}", _Harmony_FollowShortcut_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.harmony.Harmony.FollowShortcut")
 }
 
-func _Harmony_ListAgreements_Rule0(srv HarmonyServer) http.Handler {
+func _Harmony_ListAgreements_Rule0(cli HarmonyClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListAgreementsInput{}
 
@@ -205,7 +206,7 @@ func _Harmony_ListAgreements_Rule0(srv HarmonyServer) http.Handler {
 			return
 		}
 
-		out, err := srv.ListAgreements(r.Context(), in)
+		out, err := cli.ListAgreements(r.Context(), in)
 		if err != nil {
 			_Harmony_HTTPWriteErrorResponse(w, err)
 			return
@@ -215,7 +216,7 @@ func _Harmony_ListAgreements_Rule0(srv HarmonyServer) http.Handler {
 	})
 }
 
-func _Harmony_GetConsent_Rule0(srv HarmonyServer) http.Handler {
+func _Harmony_GetConsent_Rule0(cli HarmonyClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &GetConsentInput{}
 
@@ -228,7 +229,7 @@ func _Harmony_GetConsent_Rule0(srv HarmonyServer) http.Handler {
 		vars := mux.Vars(r)
 		in.AgreementId = vars["agreement_id"]
 
-		out, err := srv.GetConsent(r.Context(), in)
+		out, err := cli.GetConsent(r.Context(), in)
 		if err != nil {
 			_Harmony_HTTPWriteErrorResponse(w, err)
 			return
@@ -238,7 +239,7 @@ func _Harmony_GetConsent_Rule0(srv HarmonyServer) http.Handler {
 	})
 }
 
-func _Harmony_SetConsent_Rule0(srv HarmonyServer) http.Handler {
+func _Harmony_SetConsent_Rule0(cli HarmonyClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &SetConsentInput{}
 
@@ -251,7 +252,7 @@ func _Harmony_SetConsent_Rule0(srv HarmonyServer) http.Handler {
 		vars := mux.Vars(r)
 		in.AgreementId = vars["agreement_id"]
 
-		out, err := srv.SetConsent(r.Context(), in)
+		out, err := cli.SetConsent(r.Context(), in)
 		if err != nil {
 			_Harmony_HTTPWriteErrorResponse(w, err)
 			return
@@ -261,7 +262,7 @@ func _Harmony_SetConsent_Rule0(srv HarmonyServer) http.Handler {
 	})
 }
 
-func _Harmony_FollowShortcut_Rule0(srv HarmonyServer) http.Handler {
+func _Harmony_FollowShortcut_Rule0(cli HarmonyClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &FollowShortcutInput{}
 
@@ -274,7 +275,7 @@ func _Harmony_FollowShortcut_Rule0(srv HarmonyServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ShortcutId = vars["shortcut_id"]
 
-		out, err := srv.FollowShortcut(r.Context(), in)
+		out, err := cli.FollowShortcut(r.Context(), in)
 		if err != nil {
 			_Harmony_HTTPWriteErrorResponse(w, err)
 			return
@@ -288,22 +289,22 @@ type _HarmonyHandler = func(ctx context.Context, in proto.Message) (proto.Messag
 type _HarmonyMiddleware = func(ctx context.Context, method string, in proto.Message, handler _HarmonyHandler) (out proto.Message, err error)
 type HarmonyInterceptor struct {
 	middleware []_HarmonyMiddleware
-	server     HarmonyServer
+	client     HarmonyClient
 }
 
 // NewHarmonyInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewHarmonyInterceptor(srv HarmonyServer, middleware ..._HarmonyMiddleware) *HarmonyInterceptor {
-	return &HarmonyInterceptor{server: srv, middleware: middleware}
+func NewHarmonyInterceptor(cli HarmonyClient, middleware ..._HarmonyMiddleware) *HarmonyInterceptor {
+	return &HarmonyInterceptor{client: cli, middleware: middleware}
 }
 
-func (i *HarmonyInterceptor) ListAgreements(ctx context.Context, in *ListAgreementsInput) (*ListAgreementsOutput, error) {
+func (i *HarmonyInterceptor) ListAgreements(ctx context.Context, in *ListAgreementsInput, opts ...grpc.CallOption) (*ListAgreementsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListAgreementsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListAgreementsInput, got %T", in))
 		}
 
-		return i.server.ListAgreements(ctx, message)
+		return i.client.ListAgreements(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -328,14 +329,14 @@ func (i *HarmonyInterceptor) ListAgreements(ctx context.Context, in *ListAgreeme
 	return message, err
 }
 
-func (i *HarmonyInterceptor) GetConsent(ctx context.Context, in *GetConsentInput) (*GetConsentOutput, error) {
+func (i *HarmonyInterceptor) GetConsent(ctx context.Context, in *GetConsentInput, opts ...grpc.CallOption) (*GetConsentOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*GetConsentInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *GetConsentInput, got %T", in))
 		}
 
-		return i.server.GetConsent(ctx, message)
+		return i.client.GetConsent(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -360,14 +361,14 @@ func (i *HarmonyInterceptor) GetConsent(ctx context.Context, in *GetConsentInput
 	return message, err
 }
 
-func (i *HarmonyInterceptor) SetConsent(ctx context.Context, in *SetConsentInput) (*SetConsentOutput, error) {
+func (i *HarmonyInterceptor) SetConsent(ctx context.Context, in *SetConsentInput, opts ...grpc.CallOption) (*SetConsentOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*SetConsentInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *SetConsentInput, got %T", in))
 		}
 
-		return i.server.SetConsent(ctx, message)
+		return i.client.SetConsent(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -392,14 +393,14 @@ func (i *HarmonyInterceptor) SetConsent(ctx context.Context, in *SetConsentInput
 	return message, err
 }
 
-func (i *HarmonyInterceptor) FollowShortcut(ctx context.Context, in *FollowShortcutInput) (*FollowShortcutOutput, error) {
+func (i *HarmonyInterceptor) FollowShortcut(ctx context.Context, in *FollowShortcutInput, opts ...grpc.CallOption) (*FollowShortcutOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*FollowShortcutInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *FollowShortcutInput, got %T", in))
 		}
 
-		return i.server.FollowShortcut(ctx, message)
+		return i.client.FollowShortcut(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {

@@ -8,6 +8,7 @@ import (
 	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	websocket "golang.org/x/net/websocket"
+	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
@@ -178,63 +179,63 @@ var _Ranker_WebsocketCodec = websocket.Codec{
 	},
 }
 
-// RegisterRankerHttpHandlers adds handlers for for RankerServer
+// RegisterRankerHttpHandlers adds handlers for for RankerClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterRankerHttpHandlers(router *mux.Router, prefix string, srv RankerServer) {
-	router.Handle(prefix+"/scoreboards", _Ranker_CreateScoreboard_Rule0(srv)).
+func RegisterRankerHttpHandlers(router *mux.Router, prefix string, cli RankerClient) {
+	router.Handle(prefix+"/scoreboards", _Ranker_CreateScoreboard_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.ranker.Ranker.CreateScoreboard")
-	router.Handle(prefix+"/scoreboards/{scoreboard_id}", _Ranker_UpdateScoreboard_Rule0(srv)).
+	router.Handle(prefix+"/scoreboards/{scoreboard_id}", _Ranker_UpdateScoreboard_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.ranker.Ranker.UpdateScoreboard")
-	router.Handle(prefix+"/scoreboards/{scoreboard_id}/rebuild", _Ranker_RebuildScoreboard_Rule0(srv)).
+	router.Handle(prefix+"/scoreboards/{scoreboard_id}/rebuild", _Ranker_RebuildScoreboard_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.ranker.Ranker.RebuildScoreboard")
-	router.Handle(prefix+"/scoreboards/{scoreboard_id}", _Ranker_DeleteScoreboard_Rule0(srv)).
+	router.Handle(prefix+"/scoreboards/{scoreboard_id}", _Ranker_DeleteScoreboard_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.ranker.Ranker.DeleteScoreboard")
-	router.Handle(prefix+"/scoreboards/{scoreboard_id}", _Ranker_DescribeScoreboard_Rule0(srv)).
+	router.Handle(prefix+"/scoreboards/{scoreboard_id}", _Ranker_DescribeScoreboard_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.ranker.Ranker.DescribeScoreboard")
-	router.Handle(prefix+"/scoreboards", _Ranker_ListScoreboards_Rule0(srv)).
+	router.Handle(prefix+"/scoreboards", _Ranker_ListScoreboards_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.ranker.Ranker.ListScoreboards")
-	router.Handle(prefix+"/scoreboards/{scoreboard_id}/rows/{member_id}", _Ranker_DescribeScoreboardRow_Rule0(srv)).
+	router.Handle(prefix+"/scoreboards/{scoreboard_id}/rows/{member_id}", _Ranker_DescribeScoreboardRow_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.ranker.Ranker.DescribeScoreboardRow")
-	router.Handle(prefix+"/scoreboards/{scoreboard_id}/rows", _Ranker_ListScoreboardRows_Rule0(srv)).
+	router.Handle(prefix+"/scoreboards/{scoreboard_id}/rows", _Ranker_ListScoreboardRows_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.ranker.Ranker.ListScoreboardRows")
-	router.Handle(prefix+"/scoreboards/{scoreboard_id}/columns", _Ranker_AddScoreboardColumn_Rule0(srv)).
+	router.Handle(prefix+"/scoreboards/{scoreboard_id}/columns", _Ranker_AddScoreboardColumn_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.ranker.Ranker.AddScoreboardColumn")
-	router.Handle(prefix+"/scoreboards/{scoreboard_id}/columns/{column_id}", _Ranker_UpdateScoreboardColumn_Rule0(srv)).
+	router.Handle(prefix+"/scoreboards/{scoreboard_id}/columns/{column_id}", _Ranker_UpdateScoreboardColumn_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.ranker.Ranker.UpdateScoreboardColumn")
-	router.Handle(prefix+"/scoreboards/{scoreboard_id}/columns/{column_id}", _Ranker_DeleteScoreboardColumn_Rule0(srv)).
+	router.Handle(prefix+"/scoreboards/{scoreboard_id}/columns/{column_id}", _Ranker_DeleteScoreboardColumn_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.ranker.Ranker.DeleteScoreboardColumn")
-	router.Handle(prefix+"/scoreboards/{scoreboard_id}/columns/{column_id}", _Ranker_DescribeScoreboardColumn_Rule0(srv)).
+	router.Handle(prefix+"/scoreboards/{scoreboard_id}/columns/{column_id}", _Ranker_DescribeScoreboardColumn_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.ranker.Ranker.DescribeScoreboardColumn")
-	router.Handle(prefix+"/scoreboards/{scoreboard_id}/columns", _Ranker_ListScoreboardColumns_Rule0(srv)).
+	router.Handle(prefix+"/scoreboards/{scoreboard_id}/columns", _Ranker_ListScoreboardColumns_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.ranker.Ranker.ListScoreboardColumns")
-	router.Handle(prefix+"/scoreboards/{scoreboard_id}/activities", _Ranker_ListActivities_Rule0(srv)).
+	router.Handle(prefix+"/scoreboards/{scoreboard_id}/activities", _Ranker_ListActivities_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.ranker.Ranker.ListActivities")
-	router.Handle(prefix+"/scoreboards/{scoreboard_id}/schedule", _Ranker_ScheduleAction_Rule0(srv)).
+	router.Handle(prefix+"/scoreboards/{scoreboard_id}/schedule", _Ranker_ScheduleAction_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.ranker.Ranker.ScheduleAction")
-	router.Handle(prefix+"/scoreboards/{scoreboard_id}/schedule/{action_id}", _Ranker_UnscheduleAction_Rule0(srv)).
+	router.Handle(prefix+"/scoreboards/{scoreboard_id}/schedule/{action_id}", _Ranker_UnscheduleAction_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.ranker.Ranker.UnscheduleAction")
-	router.Handle(prefix+"/scoreboards/{scoreboard_id}/schedule", _Ranker_ListScheduledActions_Rule0(srv)).
+	router.Handle(prefix+"/scoreboards/{scoreboard_id}/schedule", _Ranker_ListScheduledActions_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.ranker.Ranker.ListScheduledActions")
 }
 
-func _Ranker_CreateScoreboard_Rule0(srv RankerServer) http.Handler {
+func _Ranker_CreateScoreboard_Rule0(cli RankerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateScoreboardInput{}
 
@@ -244,7 +245,7 @@ func _Ranker_CreateScoreboard_Rule0(srv RankerServer) http.Handler {
 			return
 		}
 
-		out, err := srv.CreateScoreboard(r.Context(), in)
+		out, err := cli.CreateScoreboard(r.Context(), in)
 		if err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
@@ -254,7 +255,7 @@ func _Ranker_CreateScoreboard_Rule0(srv RankerServer) http.Handler {
 	})
 }
 
-func _Ranker_UpdateScoreboard_Rule0(srv RankerServer) http.Handler {
+func _Ranker_UpdateScoreboard_Rule0(cli RankerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateScoreboardInput{}
 
@@ -267,7 +268,7 @@ func _Ranker_UpdateScoreboard_Rule0(srv RankerServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ScoreboardId = vars["scoreboard_id"]
 
-		out, err := srv.UpdateScoreboard(r.Context(), in)
+		out, err := cli.UpdateScoreboard(r.Context(), in)
 		if err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
@@ -277,7 +278,7 @@ func _Ranker_UpdateScoreboard_Rule0(srv RankerServer) http.Handler {
 	})
 }
 
-func _Ranker_RebuildScoreboard_Rule0(srv RankerServer) http.Handler {
+func _Ranker_RebuildScoreboard_Rule0(cli RankerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &RebuildScoreboardInput{}
 
@@ -290,7 +291,7 @@ func _Ranker_RebuildScoreboard_Rule0(srv RankerServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ScoreboardId = vars["scoreboard_id"]
 
-		out, err := srv.RebuildScoreboard(r.Context(), in)
+		out, err := cli.RebuildScoreboard(r.Context(), in)
 		if err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
@@ -300,7 +301,7 @@ func _Ranker_RebuildScoreboard_Rule0(srv RankerServer) http.Handler {
 	})
 }
 
-func _Ranker_DeleteScoreboard_Rule0(srv RankerServer) http.Handler {
+func _Ranker_DeleteScoreboard_Rule0(cli RankerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteScoreboardInput{}
 
@@ -313,7 +314,7 @@ func _Ranker_DeleteScoreboard_Rule0(srv RankerServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ScoreboardId = vars["scoreboard_id"]
 
-		out, err := srv.DeleteScoreboard(r.Context(), in)
+		out, err := cli.DeleteScoreboard(r.Context(), in)
 		if err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
@@ -323,7 +324,7 @@ func _Ranker_DeleteScoreboard_Rule0(srv RankerServer) http.Handler {
 	})
 }
 
-func _Ranker_DescribeScoreboard_Rule0(srv RankerServer) http.Handler {
+func _Ranker_DescribeScoreboard_Rule0(cli RankerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeScoreboardInput{}
 
@@ -336,7 +337,7 @@ func _Ranker_DescribeScoreboard_Rule0(srv RankerServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ScoreboardId = vars["scoreboard_id"]
 
-		out, err := srv.DescribeScoreboard(r.Context(), in)
+		out, err := cli.DescribeScoreboard(r.Context(), in)
 		if err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
@@ -346,7 +347,7 @@ func _Ranker_DescribeScoreboard_Rule0(srv RankerServer) http.Handler {
 	})
 }
 
-func _Ranker_ListScoreboards_Rule0(srv RankerServer) http.Handler {
+func _Ranker_ListScoreboards_Rule0(cli RankerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListScoreboardsInput{}
 
@@ -356,7 +357,7 @@ func _Ranker_ListScoreboards_Rule0(srv RankerServer) http.Handler {
 			return
 		}
 
-		out, err := srv.ListScoreboards(r.Context(), in)
+		out, err := cli.ListScoreboards(r.Context(), in)
 		if err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
@@ -366,7 +367,7 @@ func _Ranker_ListScoreboards_Rule0(srv RankerServer) http.Handler {
 	})
 }
 
-func _Ranker_DescribeScoreboardRow_Rule0(srv RankerServer) http.Handler {
+func _Ranker_DescribeScoreboardRow_Rule0(cli RankerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeScoreboardRowInput{}
 
@@ -380,7 +381,7 @@ func _Ranker_DescribeScoreboardRow_Rule0(srv RankerServer) http.Handler {
 		in.ScoreboardId = vars["scoreboard_id"]
 		in.MemberId = vars["member_id"]
 
-		out, err := srv.DescribeScoreboardRow(r.Context(), in)
+		out, err := cli.DescribeScoreboardRow(r.Context(), in)
 		if err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
@@ -390,7 +391,7 @@ func _Ranker_DescribeScoreboardRow_Rule0(srv RankerServer) http.Handler {
 	})
 }
 
-func _Ranker_ListScoreboardRows_Rule0(srv RankerServer) http.Handler {
+func _Ranker_ListScoreboardRows_Rule0(cli RankerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListScoreboardRowsInput{}
 
@@ -403,7 +404,7 @@ func _Ranker_ListScoreboardRows_Rule0(srv RankerServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ScoreboardId = vars["scoreboard_id"]
 
-		out, err := srv.ListScoreboardRows(r.Context(), in)
+		out, err := cli.ListScoreboardRows(r.Context(), in)
 		if err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
@@ -413,7 +414,7 @@ func _Ranker_ListScoreboardRows_Rule0(srv RankerServer) http.Handler {
 	})
 }
 
-func _Ranker_AddScoreboardColumn_Rule0(srv RankerServer) http.Handler {
+func _Ranker_AddScoreboardColumn_Rule0(cli RankerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &AddScoreboardColumnInput{}
 
@@ -426,7 +427,7 @@ func _Ranker_AddScoreboardColumn_Rule0(srv RankerServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ScoreboardId = vars["scoreboard_id"]
 
-		out, err := srv.AddScoreboardColumn(r.Context(), in)
+		out, err := cli.AddScoreboardColumn(r.Context(), in)
 		if err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
@@ -436,7 +437,7 @@ func _Ranker_AddScoreboardColumn_Rule0(srv RankerServer) http.Handler {
 	})
 }
 
-func _Ranker_UpdateScoreboardColumn_Rule0(srv RankerServer) http.Handler {
+func _Ranker_UpdateScoreboardColumn_Rule0(cli RankerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateScoreboardColumnInput{}
 
@@ -450,7 +451,7 @@ func _Ranker_UpdateScoreboardColumn_Rule0(srv RankerServer) http.Handler {
 		in.ScoreboardId = vars["scoreboard_id"]
 		in.ColumnId = vars["column_id"]
 
-		out, err := srv.UpdateScoreboardColumn(r.Context(), in)
+		out, err := cli.UpdateScoreboardColumn(r.Context(), in)
 		if err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
@@ -460,7 +461,7 @@ func _Ranker_UpdateScoreboardColumn_Rule0(srv RankerServer) http.Handler {
 	})
 }
 
-func _Ranker_DeleteScoreboardColumn_Rule0(srv RankerServer) http.Handler {
+func _Ranker_DeleteScoreboardColumn_Rule0(cli RankerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteScoreboardColumnInput{}
 
@@ -474,7 +475,7 @@ func _Ranker_DeleteScoreboardColumn_Rule0(srv RankerServer) http.Handler {
 		in.ScoreboardId = vars["scoreboard_id"]
 		in.ColumnId = vars["column_id"]
 
-		out, err := srv.DeleteScoreboardColumn(r.Context(), in)
+		out, err := cli.DeleteScoreboardColumn(r.Context(), in)
 		if err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
@@ -484,7 +485,7 @@ func _Ranker_DeleteScoreboardColumn_Rule0(srv RankerServer) http.Handler {
 	})
 }
 
-func _Ranker_DescribeScoreboardColumn_Rule0(srv RankerServer) http.Handler {
+func _Ranker_DescribeScoreboardColumn_Rule0(cli RankerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeScoreboardColumnInput{}
 
@@ -498,7 +499,7 @@ func _Ranker_DescribeScoreboardColumn_Rule0(srv RankerServer) http.Handler {
 		in.ScoreboardId = vars["scoreboard_id"]
 		in.ColumnId = vars["column_id"]
 
-		out, err := srv.DescribeScoreboardColumn(r.Context(), in)
+		out, err := cli.DescribeScoreboardColumn(r.Context(), in)
 		if err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
@@ -508,7 +509,7 @@ func _Ranker_DescribeScoreboardColumn_Rule0(srv RankerServer) http.Handler {
 	})
 }
 
-func _Ranker_ListScoreboardColumns_Rule0(srv RankerServer) http.Handler {
+func _Ranker_ListScoreboardColumns_Rule0(cli RankerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListScoreboardColumnsInput{}
 
@@ -521,7 +522,7 @@ func _Ranker_ListScoreboardColumns_Rule0(srv RankerServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ScoreboardId = vars["scoreboard_id"]
 
-		out, err := srv.ListScoreboardColumns(r.Context(), in)
+		out, err := cli.ListScoreboardColumns(r.Context(), in)
 		if err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
@@ -531,7 +532,7 @@ func _Ranker_ListScoreboardColumns_Rule0(srv RankerServer) http.Handler {
 	})
 }
 
-func _Ranker_ListActivities_Rule0(srv RankerServer) http.Handler {
+func _Ranker_ListActivities_Rule0(cli RankerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListActivitiesInput{}
 
@@ -544,7 +545,7 @@ func _Ranker_ListActivities_Rule0(srv RankerServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ScoreboardId = vars["scoreboard_id"]
 
-		out, err := srv.ListActivities(r.Context(), in)
+		out, err := cli.ListActivities(r.Context(), in)
 		if err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
@@ -554,7 +555,7 @@ func _Ranker_ListActivities_Rule0(srv RankerServer) http.Handler {
 	})
 }
 
-func _Ranker_ScheduleAction_Rule0(srv RankerServer) http.Handler {
+func _Ranker_ScheduleAction_Rule0(cli RankerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ScheduleActionInput{}
 
@@ -567,7 +568,7 @@ func _Ranker_ScheduleAction_Rule0(srv RankerServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ScoreboardId = vars["scoreboard_id"]
 
-		out, err := srv.ScheduleAction(r.Context(), in)
+		out, err := cli.ScheduleAction(r.Context(), in)
 		if err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
@@ -577,7 +578,7 @@ func _Ranker_ScheduleAction_Rule0(srv RankerServer) http.Handler {
 	})
 }
 
-func _Ranker_UnscheduleAction_Rule0(srv RankerServer) http.Handler {
+func _Ranker_UnscheduleAction_Rule0(cli RankerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UnscheduleActionInput{}
 
@@ -591,7 +592,7 @@ func _Ranker_UnscheduleAction_Rule0(srv RankerServer) http.Handler {
 		in.ScoreboardId = vars["scoreboard_id"]
 		in.ActionId = vars["action_id"]
 
-		out, err := srv.UnscheduleAction(r.Context(), in)
+		out, err := cli.UnscheduleAction(r.Context(), in)
 		if err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
@@ -601,7 +602,7 @@ func _Ranker_UnscheduleAction_Rule0(srv RankerServer) http.Handler {
 	})
 }
 
-func _Ranker_ListScheduledActions_Rule0(srv RankerServer) http.Handler {
+func _Ranker_ListScheduledActions_Rule0(cli RankerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListScheduledActionsInput{}
 
@@ -614,7 +615,7 @@ func _Ranker_ListScheduledActions_Rule0(srv RankerServer) http.Handler {
 		vars := mux.Vars(r)
 		in.ScoreboardId = vars["scoreboard_id"]
 
-		out, err := srv.ListScheduledActions(r.Context(), in)
+		out, err := cli.ListScheduledActions(r.Context(), in)
 		if err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
@@ -628,22 +629,22 @@ type _RankerHandler = func(ctx context.Context, in proto.Message) (proto.Message
 type _RankerMiddleware = func(ctx context.Context, method string, in proto.Message, handler _RankerHandler) (out proto.Message, err error)
 type RankerInterceptor struct {
 	middleware []_RankerMiddleware
-	server     RankerServer
+	client     RankerClient
 }
 
 // NewRankerInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewRankerInterceptor(srv RankerServer, middleware ..._RankerMiddleware) *RankerInterceptor {
-	return &RankerInterceptor{server: srv, middleware: middleware}
+func NewRankerInterceptor(cli RankerClient, middleware ..._RankerMiddleware) *RankerInterceptor {
+	return &RankerInterceptor{client: cli, middleware: middleware}
 }
 
-func (i *RankerInterceptor) CreateScoreboard(ctx context.Context, in *CreateScoreboardInput) (*CreateScoreboardOutput, error) {
+func (i *RankerInterceptor) CreateScoreboard(ctx context.Context, in *CreateScoreboardInput, opts ...grpc.CallOption) (*CreateScoreboardOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CreateScoreboardInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *CreateScoreboardInput, got %T", in))
 		}
 
-		return i.server.CreateScoreboard(ctx, message)
+		return i.client.CreateScoreboard(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -668,14 +669,14 @@ func (i *RankerInterceptor) CreateScoreboard(ctx context.Context, in *CreateScor
 	return message, err
 }
 
-func (i *RankerInterceptor) UpdateScoreboard(ctx context.Context, in *UpdateScoreboardInput) (*UpdateScoreboardOutput, error) {
+func (i *RankerInterceptor) UpdateScoreboard(ctx context.Context, in *UpdateScoreboardInput, opts ...grpc.CallOption) (*UpdateScoreboardOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdateScoreboardInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UpdateScoreboardInput, got %T", in))
 		}
 
-		return i.server.UpdateScoreboard(ctx, message)
+		return i.client.UpdateScoreboard(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -700,14 +701,14 @@ func (i *RankerInterceptor) UpdateScoreboard(ctx context.Context, in *UpdateScor
 	return message, err
 }
 
-func (i *RankerInterceptor) RebuildScoreboard(ctx context.Context, in *RebuildScoreboardInput) (*RebuildScoreboardOutput, error) {
+func (i *RankerInterceptor) RebuildScoreboard(ctx context.Context, in *RebuildScoreboardInput, opts ...grpc.CallOption) (*RebuildScoreboardOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*RebuildScoreboardInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *RebuildScoreboardInput, got %T", in))
 		}
 
-		return i.server.RebuildScoreboard(ctx, message)
+		return i.client.RebuildScoreboard(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -732,14 +733,14 @@ func (i *RankerInterceptor) RebuildScoreboard(ctx context.Context, in *RebuildSc
 	return message, err
 }
 
-func (i *RankerInterceptor) DeleteScoreboard(ctx context.Context, in *DeleteScoreboardInput) (*DeleteScoreboardOutput, error) {
+func (i *RankerInterceptor) DeleteScoreboard(ctx context.Context, in *DeleteScoreboardInput, opts ...grpc.CallOption) (*DeleteScoreboardOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DeleteScoreboardInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DeleteScoreboardInput, got %T", in))
 		}
 
-		return i.server.DeleteScoreboard(ctx, message)
+		return i.client.DeleteScoreboard(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -764,14 +765,14 @@ func (i *RankerInterceptor) DeleteScoreboard(ctx context.Context, in *DeleteScor
 	return message, err
 }
 
-func (i *RankerInterceptor) DescribeScoreboard(ctx context.Context, in *DescribeScoreboardInput) (*DescribeScoreboardOutput, error) {
+func (i *RankerInterceptor) DescribeScoreboard(ctx context.Context, in *DescribeScoreboardInput, opts ...grpc.CallOption) (*DescribeScoreboardOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeScoreboardInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeScoreboardInput, got %T", in))
 		}
 
-		return i.server.DescribeScoreboard(ctx, message)
+		return i.client.DescribeScoreboard(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -796,14 +797,14 @@ func (i *RankerInterceptor) DescribeScoreboard(ctx context.Context, in *Describe
 	return message, err
 }
 
-func (i *RankerInterceptor) ListScoreboards(ctx context.Context, in *ListScoreboardsInput) (*ListScoreboardsOutput, error) {
+func (i *RankerInterceptor) ListScoreboards(ctx context.Context, in *ListScoreboardsInput, opts ...grpc.CallOption) (*ListScoreboardsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListScoreboardsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListScoreboardsInput, got %T", in))
 		}
 
-		return i.server.ListScoreboards(ctx, message)
+		return i.client.ListScoreboards(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -828,14 +829,14 @@ func (i *RankerInterceptor) ListScoreboards(ctx context.Context, in *ListScorebo
 	return message, err
 }
 
-func (i *RankerInterceptor) DescribeScoreboardRow(ctx context.Context, in *DescribeScoreboardRowInput) (*DescribeScoreboardRowOutput, error) {
+func (i *RankerInterceptor) DescribeScoreboardRow(ctx context.Context, in *DescribeScoreboardRowInput, opts ...grpc.CallOption) (*DescribeScoreboardRowOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeScoreboardRowInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeScoreboardRowInput, got %T", in))
 		}
 
-		return i.server.DescribeScoreboardRow(ctx, message)
+		return i.client.DescribeScoreboardRow(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -860,14 +861,14 @@ func (i *RankerInterceptor) DescribeScoreboardRow(ctx context.Context, in *Descr
 	return message, err
 }
 
-func (i *RankerInterceptor) ListScoreboardRows(ctx context.Context, in *ListScoreboardRowsInput) (*ListScoreboardRowsOutput, error) {
+func (i *RankerInterceptor) ListScoreboardRows(ctx context.Context, in *ListScoreboardRowsInput, opts ...grpc.CallOption) (*ListScoreboardRowsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListScoreboardRowsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListScoreboardRowsInput, got %T", in))
 		}
 
-		return i.server.ListScoreboardRows(ctx, message)
+		return i.client.ListScoreboardRows(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -892,14 +893,14 @@ func (i *RankerInterceptor) ListScoreboardRows(ctx context.Context, in *ListScor
 	return message, err
 }
 
-func (i *RankerInterceptor) AddScoreboardColumn(ctx context.Context, in *AddScoreboardColumnInput) (*AddScoreboardColumnOutput, error) {
+func (i *RankerInterceptor) AddScoreboardColumn(ctx context.Context, in *AddScoreboardColumnInput, opts ...grpc.CallOption) (*AddScoreboardColumnOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*AddScoreboardColumnInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *AddScoreboardColumnInput, got %T", in))
 		}
 
-		return i.server.AddScoreboardColumn(ctx, message)
+		return i.client.AddScoreboardColumn(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -924,14 +925,14 @@ func (i *RankerInterceptor) AddScoreboardColumn(ctx context.Context, in *AddScor
 	return message, err
 }
 
-func (i *RankerInterceptor) UpdateScoreboardColumn(ctx context.Context, in *UpdateScoreboardColumnInput) (*UpdateScoreboardColumnOutput, error) {
+func (i *RankerInterceptor) UpdateScoreboardColumn(ctx context.Context, in *UpdateScoreboardColumnInput, opts ...grpc.CallOption) (*UpdateScoreboardColumnOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdateScoreboardColumnInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UpdateScoreboardColumnInput, got %T", in))
 		}
 
-		return i.server.UpdateScoreboardColumn(ctx, message)
+		return i.client.UpdateScoreboardColumn(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -956,14 +957,14 @@ func (i *RankerInterceptor) UpdateScoreboardColumn(ctx context.Context, in *Upda
 	return message, err
 }
 
-func (i *RankerInterceptor) DeleteScoreboardColumn(ctx context.Context, in *DeleteScoreboardColumnInput) (*DeleteScoreboardColumnOutput, error) {
+func (i *RankerInterceptor) DeleteScoreboardColumn(ctx context.Context, in *DeleteScoreboardColumnInput, opts ...grpc.CallOption) (*DeleteScoreboardColumnOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DeleteScoreboardColumnInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DeleteScoreboardColumnInput, got %T", in))
 		}
 
-		return i.server.DeleteScoreboardColumn(ctx, message)
+		return i.client.DeleteScoreboardColumn(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -988,14 +989,14 @@ func (i *RankerInterceptor) DeleteScoreboardColumn(ctx context.Context, in *Dele
 	return message, err
 }
 
-func (i *RankerInterceptor) DescribeScoreboardColumn(ctx context.Context, in *DescribeScoreboardColumnInput) (*DescribeScoreboardColumnOutput, error) {
+func (i *RankerInterceptor) DescribeScoreboardColumn(ctx context.Context, in *DescribeScoreboardColumnInput, opts ...grpc.CallOption) (*DescribeScoreboardColumnOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeScoreboardColumnInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeScoreboardColumnInput, got %T", in))
 		}
 
-		return i.server.DescribeScoreboardColumn(ctx, message)
+		return i.client.DescribeScoreboardColumn(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1020,14 +1021,14 @@ func (i *RankerInterceptor) DescribeScoreboardColumn(ctx context.Context, in *De
 	return message, err
 }
 
-func (i *RankerInterceptor) ListScoreboardColumns(ctx context.Context, in *ListScoreboardColumnsInput) (*ListScoreboardColumnsOutput, error) {
+func (i *RankerInterceptor) ListScoreboardColumns(ctx context.Context, in *ListScoreboardColumnsInput, opts ...grpc.CallOption) (*ListScoreboardColumnsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListScoreboardColumnsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListScoreboardColumnsInput, got %T", in))
 		}
 
-		return i.server.ListScoreboardColumns(ctx, message)
+		return i.client.ListScoreboardColumns(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1052,14 +1053,14 @@ func (i *RankerInterceptor) ListScoreboardColumns(ctx context.Context, in *ListS
 	return message, err
 }
 
-func (i *RankerInterceptor) ListActivities(ctx context.Context, in *ListActivitiesInput) (*ListActivitiesOutput, error) {
+func (i *RankerInterceptor) ListActivities(ctx context.Context, in *ListActivitiesInput, opts ...grpc.CallOption) (*ListActivitiesOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListActivitiesInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListActivitiesInput, got %T", in))
 		}
 
-		return i.server.ListActivities(ctx, message)
+		return i.client.ListActivities(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1084,14 +1085,14 @@ func (i *RankerInterceptor) ListActivities(ctx context.Context, in *ListActiviti
 	return message, err
 }
 
-func (i *RankerInterceptor) ScheduleAction(ctx context.Context, in *ScheduleActionInput) (*ScheduleActionOutput, error) {
+func (i *RankerInterceptor) ScheduleAction(ctx context.Context, in *ScheduleActionInput, opts ...grpc.CallOption) (*ScheduleActionOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ScheduleActionInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ScheduleActionInput, got %T", in))
 		}
 
-		return i.server.ScheduleAction(ctx, message)
+		return i.client.ScheduleAction(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1116,14 +1117,14 @@ func (i *RankerInterceptor) ScheduleAction(ctx context.Context, in *ScheduleActi
 	return message, err
 }
 
-func (i *RankerInterceptor) UnscheduleAction(ctx context.Context, in *UnscheduleActionInput) (*UnscheduleActionOutput, error) {
+func (i *RankerInterceptor) UnscheduleAction(ctx context.Context, in *UnscheduleActionInput, opts ...grpc.CallOption) (*UnscheduleActionOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UnscheduleActionInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UnscheduleActionInput, got %T", in))
 		}
 
-		return i.server.UnscheduleAction(ctx, message)
+		return i.client.UnscheduleAction(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -1148,14 +1149,14 @@ func (i *RankerInterceptor) UnscheduleAction(ctx context.Context, in *Unschedule
 	return message, err
 }
 
-func (i *RankerInterceptor) ListScheduledActions(ctx context.Context, in *ListScheduledActionsInput) (*ListScheduledActionsOutput, error) {
+func (i *RankerInterceptor) ListScheduledActions(ctx context.Context, in *ListScheduledActionsInput, opts ...grpc.CallOption) (*ListScheduledActionsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListScheduledActionsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListScheduledActionsInput, got %T", in))
 		}
 
-		return i.server.ListScheduledActions(ctx, message)
+		return i.client.ListScheduledActions(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {

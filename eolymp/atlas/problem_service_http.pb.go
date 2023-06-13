@@ -8,6 +8,7 @@ import (
 	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	websocket "golang.org/x/net/websocket"
+	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
@@ -178,30 +179,30 @@ var _ProblemService_WebsocketCodec = websocket.Codec{
 	},
 }
 
-// RegisterProblemServiceHttpHandlers adds handlers for for ProblemServiceServer
+// RegisterProblemServiceHttpHandlers adds handlers for for ProblemServiceClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterProblemServiceHttpHandlers(router *mux.Router, prefix string, srv ProblemServiceServer) {
-	router.Handle(prefix+"", _ProblemService_DeleteProblem_Rule0(srv)).
+func RegisterProblemServiceHttpHandlers(router *mux.Router, prefix string, cli ProblemServiceClient) {
+	router.Handle(prefix+"", _ProblemService_DeleteProblem_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.atlas.ProblemService.DeleteProblem")
-	router.Handle(prefix+"", _ProblemService_UpdateProblem_Rule0(srv)).
+	router.Handle(prefix+"", _ProblemService_UpdateProblem_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.atlas.ProblemService.UpdateProblem")
-	router.Handle(prefix+"", _ProblemService_DescribeProblem_Rule0(srv)).
+	router.Handle(prefix+"", _ProblemService_DescribeProblem_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.ProblemService.DescribeProblem")
-	router.Handle(prefix+"/visibility", _ProblemService_UpdateVisibility_Rule0(srv)).
+	router.Handle(prefix+"/visibility", _ProblemService_UpdateVisibility_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.ProblemService.UpdateVisibility")
-	router.Handle(prefix+"/privacy", _ProblemService_UpdatePrivacy_Rule0(srv)).
+	router.Handle(prefix+"/privacy", _ProblemService_UpdatePrivacy_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.ProblemService.UpdatePrivacy")
-	router.Handle(prefix+"/versions", _ProblemService_ListVersions_Rule0(srv)).
+	router.Handle(prefix+"/versions", _ProblemService_ListVersions_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.ProblemService.ListVersions")
 }
 
-func _ProblemService_DeleteProblem_Rule0(srv ProblemServiceServer) http.Handler {
+func _ProblemService_DeleteProblem_Rule0(cli ProblemServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteProblemInput{}
 
@@ -211,7 +212,7 @@ func _ProblemService_DeleteProblem_Rule0(srv ProblemServiceServer) http.Handler 
 			return
 		}
 
-		out, err := srv.DeleteProblem(r.Context(), in)
+		out, err := cli.DeleteProblem(r.Context(), in)
 		if err != nil {
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
@@ -221,7 +222,7 @@ func _ProblemService_DeleteProblem_Rule0(srv ProblemServiceServer) http.Handler 
 	})
 }
 
-func _ProblemService_UpdateProblem_Rule0(srv ProblemServiceServer) http.Handler {
+func _ProblemService_UpdateProblem_Rule0(cli ProblemServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateProblemInput{}
 
@@ -231,7 +232,7 @@ func _ProblemService_UpdateProblem_Rule0(srv ProblemServiceServer) http.Handler 
 			return
 		}
 
-		out, err := srv.UpdateProblem(r.Context(), in)
+		out, err := cli.UpdateProblem(r.Context(), in)
 		if err != nil {
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
@@ -241,7 +242,7 @@ func _ProblemService_UpdateProblem_Rule0(srv ProblemServiceServer) http.Handler 
 	})
 }
 
-func _ProblemService_DescribeProblem_Rule0(srv ProblemServiceServer) http.Handler {
+func _ProblemService_DescribeProblem_Rule0(cli ProblemServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeProblemInput{}
 
@@ -251,7 +252,7 @@ func _ProblemService_DescribeProblem_Rule0(srv ProblemServiceServer) http.Handle
 			return
 		}
 
-		out, err := srv.DescribeProblem(r.Context(), in)
+		out, err := cli.DescribeProblem(r.Context(), in)
 		if err != nil {
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
@@ -261,7 +262,7 @@ func _ProblemService_DescribeProblem_Rule0(srv ProblemServiceServer) http.Handle
 	})
 }
 
-func _ProblemService_UpdateVisibility_Rule0(srv ProblemServiceServer) http.Handler {
+func _ProblemService_UpdateVisibility_Rule0(cli ProblemServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateVisibilityInput{}
 
@@ -271,7 +272,7 @@ func _ProblemService_UpdateVisibility_Rule0(srv ProblemServiceServer) http.Handl
 			return
 		}
 
-		out, err := srv.UpdateVisibility(r.Context(), in)
+		out, err := cli.UpdateVisibility(r.Context(), in)
 		if err != nil {
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
@@ -281,7 +282,7 @@ func _ProblemService_UpdateVisibility_Rule0(srv ProblemServiceServer) http.Handl
 	})
 }
 
-func _ProblemService_UpdatePrivacy_Rule0(srv ProblemServiceServer) http.Handler {
+func _ProblemService_UpdatePrivacy_Rule0(cli ProblemServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdatePrivacyInput{}
 
@@ -291,7 +292,7 @@ func _ProblemService_UpdatePrivacy_Rule0(srv ProblemServiceServer) http.Handler 
 			return
 		}
 
-		out, err := srv.UpdatePrivacy(r.Context(), in)
+		out, err := cli.UpdatePrivacy(r.Context(), in)
 		if err != nil {
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
@@ -301,7 +302,7 @@ func _ProblemService_UpdatePrivacy_Rule0(srv ProblemServiceServer) http.Handler 
 	})
 }
 
-func _ProblemService_ListVersions_Rule0(srv ProblemServiceServer) http.Handler {
+func _ProblemService_ListVersions_Rule0(cli ProblemServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListVersionsInput{}
 
@@ -311,7 +312,7 @@ func _ProblemService_ListVersions_Rule0(srv ProblemServiceServer) http.Handler {
 			return
 		}
 
-		out, err := srv.ListVersions(r.Context(), in)
+		out, err := cli.ListVersions(r.Context(), in)
 		if err != nil {
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
@@ -325,22 +326,22 @@ type _ProblemServiceHandler = func(ctx context.Context, in proto.Message) (proto
 type _ProblemServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _ProblemServiceHandler) (out proto.Message, err error)
 type ProblemServiceInterceptor struct {
 	middleware []_ProblemServiceMiddleware
-	server     ProblemServiceServer
+	client     ProblemServiceClient
 }
 
 // NewProblemServiceInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewProblemServiceInterceptor(srv ProblemServiceServer, middleware ..._ProblemServiceMiddleware) *ProblemServiceInterceptor {
-	return &ProblemServiceInterceptor{server: srv, middleware: middleware}
+func NewProblemServiceInterceptor(cli ProblemServiceClient, middleware ..._ProblemServiceMiddleware) *ProblemServiceInterceptor {
+	return &ProblemServiceInterceptor{client: cli, middleware: middleware}
 }
 
-func (i *ProblemServiceInterceptor) DeleteProblem(ctx context.Context, in *DeleteProblemInput) (*DeleteProblemOutput, error) {
+func (i *ProblemServiceInterceptor) DeleteProblem(ctx context.Context, in *DeleteProblemInput, opts ...grpc.CallOption) (*DeleteProblemOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DeleteProblemInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DeleteProblemInput, got %T", in))
 		}
 
-		return i.server.DeleteProblem(ctx, message)
+		return i.client.DeleteProblem(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -365,14 +366,14 @@ func (i *ProblemServiceInterceptor) DeleteProblem(ctx context.Context, in *Delet
 	return message, err
 }
 
-func (i *ProblemServiceInterceptor) UpdateProblem(ctx context.Context, in *UpdateProblemInput) (*UpdateProblemOutput, error) {
+func (i *ProblemServiceInterceptor) UpdateProblem(ctx context.Context, in *UpdateProblemInput, opts ...grpc.CallOption) (*UpdateProblemOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdateProblemInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UpdateProblemInput, got %T", in))
 		}
 
-		return i.server.UpdateProblem(ctx, message)
+		return i.client.UpdateProblem(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -397,14 +398,14 @@ func (i *ProblemServiceInterceptor) UpdateProblem(ctx context.Context, in *Updat
 	return message, err
 }
 
-func (i *ProblemServiceInterceptor) DescribeProblem(ctx context.Context, in *DescribeProblemInput) (*DescribeProblemOutput, error) {
+func (i *ProblemServiceInterceptor) DescribeProblem(ctx context.Context, in *DescribeProblemInput, opts ...grpc.CallOption) (*DescribeProblemOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeProblemInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DescribeProblemInput, got %T", in))
 		}
 
-		return i.server.DescribeProblem(ctx, message)
+		return i.client.DescribeProblem(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -429,14 +430,14 @@ func (i *ProblemServiceInterceptor) DescribeProblem(ctx context.Context, in *Des
 	return message, err
 }
 
-func (i *ProblemServiceInterceptor) UpdateVisibility(ctx context.Context, in *UpdateVisibilityInput) (*UpdateVisibilityOutput, error) {
+func (i *ProblemServiceInterceptor) UpdateVisibility(ctx context.Context, in *UpdateVisibilityInput, opts ...grpc.CallOption) (*UpdateVisibilityOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdateVisibilityInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UpdateVisibilityInput, got %T", in))
 		}
 
-		return i.server.UpdateVisibility(ctx, message)
+		return i.client.UpdateVisibility(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -461,14 +462,14 @@ func (i *ProblemServiceInterceptor) UpdateVisibility(ctx context.Context, in *Up
 	return message, err
 }
 
-func (i *ProblemServiceInterceptor) UpdatePrivacy(ctx context.Context, in *UpdatePrivacyInput) (*UpdatePrivacyOutput, error) {
+func (i *ProblemServiceInterceptor) UpdatePrivacy(ctx context.Context, in *UpdatePrivacyInput, opts ...grpc.CallOption) (*UpdatePrivacyOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdatePrivacyInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *UpdatePrivacyInput, got %T", in))
 		}
 
-		return i.server.UpdatePrivacy(ctx, message)
+		return i.client.UpdatePrivacy(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -493,14 +494,14 @@ func (i *ProblemServiceInterceptor) UpdatePrivacy(ctx context.Context, in *Updat
 	return message, err
 }
 
-func (i *ProblemServiceInterceptor) ListVersions(ctx context.Context, in *ListVersionsInput) (*ListVersionsOutput, error) {
+func (i *ProblemServiceInterceptor) ListVersions(ctx context.Context, in *ListVersionsInput, opts ...grpc.CallOption) (*ListVersionsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListVersionsInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *ListVersionsInput, got %T", in))
 		}
 
-		return i.server.ListVersions(ctx, message)
+		return i.client.ListVersions(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
