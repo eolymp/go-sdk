@@ -4,11 +4,10 @@
 // 	protoc        v3.18.1
 // source: eolymp/discussion/forum_service.proto
 
-package atlas
+package discussion
 
 import (
 	_ "github.com/eolymp/go-sdk/eolymp/annotations"
-	discussion "github.com/eolymp/go-sdk/eolymp/discussion"
 	wellknown "github.com/eolymp/go-sdk/eolymp/wellknown"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -83,7 +82,7 @@ type DescribeForumOutput struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Forum *discussion.Forum `protobuf:"bytes,1,opt,name=forum,proto3" json:"forum,omitempty"`
+	Forum *Forum `protobuf:"bytes,1,opt,name=forum,proto3" json:"forum,omitempty"`
 }
 
 func (x *DescribeForumOutput) Reset() {
@@ -118,7 +117,7 @@ func (*DescribeForumOutput) Descriptor() ([]byte, []int) {
 	return file_eolymp_discussion_forum_service_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *DescribeForumOutput) GetForum() *discussion.Forum {
+func (x *DescribeForumOutput) GetForum() *Forum {
 	if x != nil {
 		return x.Forum
 	}
@@ -203,8 +202,8 @@ type ListForumsOutput struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Total int32               `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty"`
-	Items []*discussion.Forum `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
+	Total int32    `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty"`
+	Items []*Forum `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
 }
 
 func (x *ListForumsOutput) Reset() {
@@ -246,7 +245,7 @@ func (x *ListForumsOutput) GetTotal() int32 {
 	return 0
 }
 
-func (x *ListForumsOutput) GetItems() []*discussion.Forum {
+func (x *ListForumsOutput) GetItems() []*Forum {
 	if x != nil {
 		return x.Items
 	}
@@ -258,7 +257,7 @@ type CreateForumInput struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Forum *discussion.Forum `protobuf:"bytes,1,opt,name=forum,proto3" json:"forum,omitempty"`
+	Forum *Forum `protobuf:"bytes,1,opt,name=forum,proto3" json:"forum,omitempty"`
 }
 
 func (x *CreateForumInput) Reset() {
@@ -293,7 +292,7 @@ func (*CreateForumInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_discussion_forum_service_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *CreateForumInput) GetForum() *discussion.Forum {
+func (x *CreateForumInput) GetForum() *Forum {
 	if x != nil {
 		return x.Forum
 	}
@@ -352,8 +351,8 @@ type UpdateForumInput struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ForumId string            `protobuf:"bytes,1,opt,name=forum_id,json=forumId,proto3" json:"forum_id,omitempty"`
-	Forum   *discussion.Forum `protobuf:"bytes,2,opt,name=forum,proto3" json:"forum,omitempty"`
+	ForumId string `protobuf:"bytes,1,opt,name=forum_id,json=forumId,proto3" json:"forum_id,omitempty"`
+	Forum   *Forum `protobuf:"bytes,2,opt,name=forum,proto3" json:"forum,omitempty"`
 }
 
 func (x *UpdateForumInput) Reset() {
@@ -395,7 +394,7 @@ func (x *UpdateForumInput) GetForumId() string {
 	return ""
 }
 
-func (x *UpdateForumInput) GetForum() *discussion.Forum {
+func (x *UpdateForumInput) GetForum() *Forum {
 	if x != nil {
 		return x.Forum
 	}
@@ -708,10 +707,11 @@ var file_eolymp_discussion_forum_service_proto_rawDesc = []byte{
 	0x16, 0x64, 0x69, 0x73, 0x63, 0x75, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x3a, 0x66, 0x6f, 0x72, 0x75,
 	0x6d, 0x3a, 0x77, 0x72, 0x69, 0x74, 0x65, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x14, 0x2a, 0x12, 0x2f,
 	0x66, 0x6f, 0x72, 0x75, 0x6d, 0x73, 0x2f, 0x7b, 0x66, 0x6f, 0x72, 0x75, 0x6d, 0x5f, 0x69, 0x64,
-	0x7d, 0x42, 0x2d, 0x5a, 0x2b, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f,
+	0x7d, 0x42, 0x37, 0x5a, 0x35, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f,
 	0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x67, 0x6f, 0x2d, 0x73, 0x64, 0x6b, 0x2f, 0x65, 0x6f,
-	0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x61, 0x74, 0x6c, 0x61, 0x73, 0x3b, 0x61, 0x74, 0x6c, 0x61, 0x73,
-	0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x64, 0x69, 0x73, 0x63, 0x75, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x3b,
+	0x64, 0x69, 0x73, 0x63, 0x75, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74,
+	0x6f, 0x33,
 }
 
 var (
@@ -739,7 +739,7 @@ var file_eolymp_discussion_forum_service_proto_goTypes = []interface{}{
 	(*DeleteForumInput)(nil),       // 8: eolymp.discussion.DeleteForumInput
 	(*DeleteForumOutput)(nil),      // 9: eolymp.discussion.DeleteForumOutput
 	(*ListForumsInput_Filter)(nil), // 10: eolymp.discussion.ListForumsInput.Filter
-	(*discussion.Forum)(nil),       // 11: eolymp.discussion.Forum
+	(*Forum)(nil),                  // 11: eolymp.discussion.Forum
 	(*wellknown.ExpressionID)(nil), // 12: eolymp.wellknown.ExpressionID
 }
 var file_eolymp_discussion_forum_service_proto_depIdxs = []int32{
@@ -772,6 +772,7 @@ func file_eolymp_discussion_forum_service_proto_init() {
 	if File_eolymp_discussion_forum_service_proto != nil {
 		return
 	}
+	file_eolymp_discussion_forum_proto_init()
 	if !protoimpl.UnsafeEnabled {
 		file_eolymp_discussion_forum_service_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*DescribeForumInput); i {

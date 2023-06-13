@@ -4,11 +4,10 @@
 // 	protoc        v3.18.1
 // source: eolymp/discussion/message_service.proto
 
-package atlas
+package discussion
 
 import (
 	_ "github.com/eolymp/go-sdk/eolymp/annotations"
-	discussion "github.com/eolymp/go-sdk/eolymp/discussion"
 	wellknown "github.com/eolymp/go-sdk/eolymp/wellknown"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -83,7 +82,7 @@ type DescribeMessageOutput struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Message *discussion.Message `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
+	Message *Message `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
 }
 
 func (x *DescribeMessageOutput) Reset() {
@@ -118,7 +117,7 @@ func (*DescribeMessageOutput) Descriptor() ([]byte, []int) {
 	return file_eolymp_discussion_message_service_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *DescribeMessageOutput) GetMessage() *discussion.Message {
+func (x *DescribeMessageOutput) GetMessage() *Message {
 	if x != nil {
 		return x.Message
 	}
@@ -211,8 +210,8 @@ type ListMessagesOutput struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Total int32                 `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty"`
-	Items []*discussion.Message `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
+	Total int32      `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty"`
+	Items []*Message `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
 }
 
 func (x *ListMessagesOutput) Reset() {
@@ -254,7 +253,7 @@ func (x *ListMessagesOutput) GetTotal() int32 {
 	return 0
 }
 
-func (x *ListMessagesOutput) GetItems() []*discussion.Message {
+func (x *ListMessagesOutput) GetItems() []*Message {
 	if x != nil {
 		return x.Items
 	}
@@ -266,8 +265,8 @@ type PostMessageInput struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Message *discussion.Message `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
-	ReplyTo string              `protobuf:"bytes,2,opt,name=reply_to,json=replyTo,proto3" json:"reply_to,omitempty"`
+	Message *Message `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
+	ReplyTo string   `protobuf:"bytes,2,opt,name=reply_to,json=replyTo,proto3" json:"reply_to,omitempty"`
 }
 
 func (x *PostMessageInput) Reset() {
@@ -302,7 +301,7 @@ func (*PostMessageInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_discussion_message_service_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *PostMessageInput) GetMessage() *discussion.Message {
+func (x *PostMessageInput) GetMessage() *Message {
 	if x != nil {
 		return x.Message
 	}
@@ -368,8 +367,8 @@ type UpdateMessageInput struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	MessageId string              `protobuf:"bytes,1,opt,name=message_id,json=messageId,proto3" json:"message_id,omitempty"`
-	Message   *discussion.Message `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	MessageId string   `protobuf:"bytes,1,opt,name=message_id,json=messageId,proto3" json:"message_id,omitempty"`
+	Message   *Message `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
 }
 
 func (x *UpdateMessageInput) Reset() {
@@ -411,7 +410,7 @@ func (x *UpdateMessageInput) GetMessageId() string {
 	return ""
 }
 
-func (x *UpdateMessageInput) GetMessage() *discussion.Message {
+func (x *UpdateMessageInput) GetMessage() *Message {
 	if x != nil {
 		return x.Message
 	}
@@ -843,10 +842,11 @@ var file_eolymp_discussion_message_service_proto_rawDesc = []byte{
 	0x6f, 0x6e, 0x3a, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x3a, 0x77, 0x72, 0x69, 0x74, 0x65,
 	0x82, 0xd3, 0xe4, 0x93, 0x02, 0x1d, 0x22, 0x1b, 0x2f, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65,
 	0x73, 0x2f, 0x7b, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x76,
-	0x6f, 0x74, 0x65, 0x42, 0x2d, 0x5a, 0x2b, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f,
+	0x6f, 0x74, 0x65, 0x42, 0x37, 0x5a, 0x35, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f,
 	0x6d, 0x2f, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x67, 0x6f, 0x2d, 0x73, 0x64, 0x6b, 0x2f,
-	0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x61, 0x74, 0x6c, 0x61, 0x73, 0x3b, 0x61, 0x74, 0x6c,
-	0x61, 0x73, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x64, 0x69, 0x73, 0x63, 0x75, 0x73, 0x73, 0x69, 0x6f,
+	0x6e, 0x3b, 0x64, 0x69, 0x73, 0x63, 0x75, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x62, 0x06, 0x70, 0x72,
+	0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -876,7 +876,7 @@ var file_eolymp_discussion_message_service_proto_goTypes = []interface{}{
 	(*VoteMessageInput)(nil),         // 10: eolymp.discussion.VoteMessageInput
 	(*VoteMessageOutput)(nil),        // 11: eolymp.discussion.VoteMessageOutput
 	(*ListMessagesInput_Filter)(nil), // 12: eolymp.discussion.ListMessagesInput.Filter
-	(*discussion.Message)(nil),       // 13: eolymp.discussion.Message
+	(*Message)(nil),                  // 13: eolymp.discussion.Message
 	(*wellknown.ExpressionID)(nil),   // 14: eolymp.wellknown.ExpressionID
 }
 var file_eolymp_discussion_message_service_proto_depIdxs = []int32{
@@ -910,6 +910,7 @@ func file_eolymp_discussion_message_service_proto_init() {
 	if File_eolymp_discussion_message_service_proto != nil {
 		return
 	}
+	file_eolymp_discussion_message_proto_init()
 	if !protoimpl.UnsafeEnabled {
 		file_eolymp_discussion_message_service_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*DescribeMessageInput); i {

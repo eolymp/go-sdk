@@ -4,11 +4,10 @@
 // 	protoc        v3.18.1
 // source: eolymp/discussion/discussion_service.proto
 
-package atlas
+package discussion
 
 import (
 	_ "github.com/eolymp/go-sdk/eolymp/annotations"
-	discussion "github.com/eolymp/go-sdk/eolymp/discussion"
 	wellknown "github.com/eolymp/go-sdk/eolymp/wellknown"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -83,7 +82,7 @@ type DescribeDiscussionOutput struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Discussion *discussion.Discussion `protobuf:"bytes,1,opt,name=discussion,proto3" json:"discussion,omitempty"`
+	Discussion *Discussion `protobuf:"bytes,1,opt,name=discussion,proto3" json:"discussion,omitempty"`
 }
 
 func (x *DescribeDiscussionOutput) Reset() {
@@ -118,7 +117,7 @@ func (*DescribeDiscussionOutput) Descriptor() ([]byte, []int) {
 	return file_eolymp_discussion_discussion_service_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *DescribeDiscussionOutput) GetDiscussion() *discussion.Discussion {
+func (x *DescribeDiscussionOutput) GetDiscussion() *Discussion {
 	if x != nil {
 		return x.Discussion
 	}
@@ -203,8 +202,8 @@ type ListDiscussionsOutput struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Total int32                    `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty"`
-	Items []*discussion.Discussion `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
+	Total int32         `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty"`
+	Items []*Discussion `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
 }
 
 func (x *ListDiscussionsOutput) Reset() {
@@ -246,7 +245,7 @@ func (x *ListDiscussionsOutput) GetTotal() int32 {
 	return 0
 }
 
-func (x *ListDiscussionsOutput) GetItems() []*discussion.Discussion {
+func (x *ListDiscussionsOutput) GetItems() []*Discussion {
 	if x != nil {
 		return x.Items
 	}
@@ -258,7 +257,7 @@ type CreateDiscussionInput struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Discussion *discussion.Discussion `protobuf:"bytes,1,opt,name=discussion,proto3" json:"discussion,omitempty"`
+	Discussion *Discussion `protobuf:"bytes,1,opt,name=discussion,proto3" json:"discussion,omitempty"`
 }
 
 func (x *CreateDiscussionInput) Reset() {
@@ -293,7 +292,7 @@ func (*CreateDiscussionInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_discussion_discussion_service_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *CreateDiscussionInput) GetDiscussion() *discussion.Discussion {
+func (x *CreateDiscussionInput) GetDiscussion() *Discussion {
 	if x != nil {
 		return x.Discussion
 	}
@@ -352,8 +351,8 @@ type UpdateDiscussionInput struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	DiscussionId string                 `protobuf:"bytes,1,opt,name=discussion_id,json=discussionId,proto3" json:"discussion_id,omitempty"`
-	Discussion   *discussion.Discussion `protobuf:"bytes,2,opt,name=discussion,proto3" json:"discussion,omitempty"`
+	DiscussionId string      `protobuf:"bytes,1,opt,name=discussion_id,json=discussionId,proto3" json:"discussion_id,omitempty"`
+	Discussion   *Discussion `protobuf:"bytes,2,opt,name=discussion,proto3" json:"discussion,omitempty"`
 }
 
 func (x *UpdateDiscussionInput) Reset() {
@@ -395,7 +394,7 @@ func (x *UpdateDiscussionInput) GetDiscussionId() string {
 	return ""
 }
 
-func (x *UpdateDiscussionInput) GetDiscussion() *discussion.Discussion {
+func (x *UpdateDiscussionInput) GetDiscussion() *Discussion {
 	if x != nil {
 		return x.Discussion
 	}
@@ -837,10 +836,11 @@ var file_eolymp_discussion_discussion_service_proto_rawDesc = []byte{
 	0x73, 0x63, 0x75, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x3a, 0x77, 0x72, 0x69, 0x74, 0x65, 0x82, 0xd3,
 	0xe4, 0x93, 0x02, 0x23, 0x22, 0x21, 0x2f, 0x64, 0x69, 0x73, 0x63, 0x75, 0x73, 0x73, 0x69, 0x6f,
 	0x6e, 0x73, 0x2f, 0x7b, 0x64, 0x69, 0x73, 0x63, 0x75, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x5f, 0x69,
-	0x64, 0x7d, 0x2f, 0x76, 0x6f, 0x74, 0x65, 0x42, 0x2d, 0x5a, 0x2b, 0x67, 0x69, 0x74, 0x68, 0x75,
+	0x64, 0x7d, 0x2f, 0x76, 0x6f, 0x74, 0x65, 0x42, 0x37, 0x5a, 0x35, 0x67, 0x69, 0x74, 0x68, 0x75,
 	0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x67, 0x6f, 0x2d,
-	0x73, 0x64, 0x6b, 0x2f, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x61, 0x74, 0x6c, 0x61, 0x73,
-	0x3b, 0x61, 0x74, 0x6c, 0x61, 0x73, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x73, 0x64, 0x6b, 0x2f, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x64, 0x69, 0x73, 0x63, 0x75,
+	0x73, 0x73, 0x69, 0x6f, 0x6e, 0x3b, 0x64, 0x69, 0x73, 0x63, 0x75, 0x73, 0x73, 0x69, 0x6f, 0x6e,
+	0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -870,7 +870,7 @@ var file_eolymp_discussion_discussion_service_proto_goTypes = []interface{}{
 	(*VoteDiscussionInput)(nil),         // 10: eolymp.discussion.VoteDiscussionInput
 	(*VoteDiscussionOutput)(nil),        // 11: eolymp.discussion.VoteDiscussionOutput
 	(*ListDiscussionsInput_Filter)(nil), // 12: eolymp.discussion.ListDiscussionsInput.Filter
-	(*discussion.Discussion)(nil),       // 13: eolymp.discussion.Discussion
+	(*Discussion)(nil),                  // 13: eolymp.discussion.Discussion
 	(*wellknown.ExpressionID)(nil),      // 14: eolymp.wellknown.ExpressionID
 }
 var file_eolymp_discussion_discussion_service_proto_depIdxs = []int32{
@@ -904,6 +904,7 @@ func file_eolymp_discussion_discussion_service_proto_init() {
 	if File_eolymp_discussion_discussion_service_proto != nil {
 		return
 	}
+	file_eolymp_discussion_discussion_proto_init()
 	if !protoimpl.UnsafeEnabled {
 		file_eolymp_discussion_discussion_service_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*DescribeDiscussionInput); i {

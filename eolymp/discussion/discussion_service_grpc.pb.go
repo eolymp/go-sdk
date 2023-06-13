@@ -4,7 +4,7 @@
 // - protoc             v3.18.1
 // source: eolymp/discussion/discussion_service.proto
 
-package atlas
+package discussion
 
 import (
 	context "context"
