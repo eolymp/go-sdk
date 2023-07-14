@@ -115,7 +115,7 @@ func (s *ExternalServiceService) AuthorizeCallback(ctx context.Context, in *Auth
 	out := &AuthorizeCallbackOutput{}
 	path := "/callback"
 
-	if err := s.do(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 

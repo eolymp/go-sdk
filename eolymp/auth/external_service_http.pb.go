@@ -186,7 +186,7 @@ func RegisterExternalServiceHttpHandlers(router *mux.Router, prefix string, cli 
 		Methods("POST").
 		Name("eolymp.auth.ExternalService.AuthorizeRequest")
 	router.Handle(prefix+"/callback", _ExternalService_AuthorizeCallback_Rule0(cli)).
-		Methods("GET").
+		Methods("POST").
 		Name("eolymp.auth.ExternalService.AuthorizeCallback")
 }
 
@@ -214,7 +214,7 @@ func _ExternalService_AuthorizeCallback_Rule0(cli ExternalServiceClient) http.Ha
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &AuthorizeCallbackInput{}
 
-		if err := _ExternalService_HTTPReadQueryString(r, in); err != nil {
+		if err := _ExternalService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
 			_ExternalService_HTTPWriteErrorResponse(w, err)
 			return
