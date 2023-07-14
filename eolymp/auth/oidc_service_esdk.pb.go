@@ -16,17 +16,17 @@ import (
 	os "os"
 )
 
-type _ExternalServiceHttpClient interface {
+type _OIDCServiceHttpClient interface {
 	Do(*http.Request) (*http.Response, error)
 }
 
-type ExternalServiceService struct {
+type OIDCServiceService struct {
 	base string
-	cli  _ExternalServiceHttpClient
+	cli  _OIDCServiceHttpClient
 }
 
-// NewExternalServiceHttpClient constructs client for ExternalService
-func NewExternalServiceHttpClient(url string, cli _ExternalServiceHttpClient) *ExternalServiceService {
+// NewOIDCServiceHttpClient constructs client for OIDCService
+func NewOIDCServiceHttpClient(url string, cli _OIDCServiceHttpClient) *OIDCServiceService {
 	if url == "" {
 		url = os.Getenv("EOLYMP_API_URL")
 		if url == "" {
@@ -34,10 +34,10 @@ func NewExternalServiceHttpClient(url string, cli _ExternalServiceHttpClient) *E
 		}
 	}
 
-	return &ExternalServiceService{base: url, cli: cli}
+	return &OIDCServiceService{base: url, cli: cli}
 }
 
-func (s *ExternalServiceService) do(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
+func (s *OIDCServiceService) do(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
 	var body io.Reader
 
 	if in != nil {
@@ -100,9 +100,9 @@ func (s *ExternalServiceService) do(ctx context.Context, verb, path string, in, 
 	return nil
 }
 
-func (s *ExternalServiceService) AuthorizeRequest(ctx context.Context, in *AuthorizeRequestInput) (*AuthorizeRequestOutput, error) {
-	out := &AuthorizeRequestOutput{}
-	path := "/authorize"
+func (s *OIDCServiceService) InitiateLogin(ctx context.Context, in *InitiateLoginInput) (*InitiateLoginOutput, error) {
+	out := &InitiateLoginOutput{}
+	path := "/oidc/initiate"
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
@@ -111,9 +111,9 @@ func (s *ExternalServiceService) AuthorizeRequest(ctx context.Context, in *Autho
 	return out, nil
 }
 
-func (s *ExternalServiceService) AuthorizeCallback(ctx context.Context, in *AuthorizeCallbackInput) (*AuthorizeCallbackOutput, error) {
-	out := &AuthorizeCallbackOutput{}
-	path := "/callback"
+func (s *OIDCServiceService) CompleteLogin(ctx context.Context, in *CompleteLoginInput) (*CompleteLoginOutput, error) {
+	out := &CompleteLoginOutput{}
+	path := "/oidc/callback"
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err

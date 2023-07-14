@@ -17,8 +17,8 @@ import (
 	http "net/http"
 )
 
-// _ExternalService_HTTPReadQueryString parses body into proto.Message
-func _ExternalService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+// _OIDCService_HTTPReadQueryString parses body into proto.Message
+func _OIDCService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
 	query := r.URL.Query().Get("q")
 	if query == "" {
 		return nil
@@ -31,8 +31,8 @@ func _ExternalService_HTTPReadQueryString(r *http.Request, v proto.Message) erro
 	return nil
 }
 
-// _ExternalService_HTTPReadRequestBody parses body into proto.Message
-func _ExternalService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
+// _OIDCService_HTTPReadRequestBody parses body into proto.Message
+func _OIDCService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
 	data, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		return err
@@ -45,11 +45,11 @@ func _ExternalService_HTTPReadRequestBody(r *http.Request, v proto.Message) erro
 	return nil
 }
 
-// _ExternalService_HTTPWriteResponse writes proto.Message to HTTP response
-func _ExternalService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message) {
+// _OIDCService_HTTPWriteResponse writes proto.Message to HTTP response
+func _OIDCService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message) {
 	data, err := protojson.Marshal(v)
 	if err != nil {
-		_ExternalService_HTTPWriteErrorResponse(w, err)
+		_OIDCService_HTTPWriteErrorResponse(w, err)
 		return
 	}
 
@@ -59,8 +59,8 @@ func _ExternalService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message) 
 	_, _ = w.Write(data)
 }
 
-// _ExternalService_HTTPWriteErrorResponse writes error to HTTP response with error status code
-func _ExternalService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
+// _OIDCService_HTTPWriteErrorResponse writes error to HTTP response with error status code
+func _OIDCService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
 
 	w.Header().Set("Content-Type", "application/json")
@@ -112,8 +112,8 @@ func _ExternalService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	_, _ = w.Write(data)
 }
 
-// _ExternalService_WebsocketErrorResponse writes error to websocket connection
-func _ExternalService_WebsocketErrorResponse(conn *websocket.Conn, e error) {
+// _OIDCService_WebsocketErrorResponse writes error to websocket connection
+func _OIDCService_WebsocketErrorResponse(conn *websocket.Conn, e error) {
 	switch status.Convert(e).Code() {
 	case codes.OK:
 		conn.WriteClose(1000)
@@ -154,8 +154,8 @@ func _ExternalService_WebsocketErrorResponse(conn *websocket.Conn, e error) {
 	}
 }
 
-// _ExternalService_WebsocketCodec implements protobuf codec for websockets package
-var _ExternalService_WebsocketCodec = websocket.Codec{
+// _OIDCService_WebsocketCodec implements protobuf codec for websockets package
+var _OIDCService_WebsocketCodec = websocket.Codec{
 	Marshal: func(v interface{}) ([]byte, byte, error) {
 		m, ok := v.(proto.Message)
 		if !ok {
@@ -179,77 +179,77 @@ var _ExternalService_WebsocketCodec = websocket.Codec{
 	},
 }
 
-// RegisterExternalServiceHttpHandlers adds handlers for for ExternalServiceClient
+// RegisterOIDCServiceHttpHandlers adds handlers for for OIDCServiceClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterExternalServiceHttpHandlers(router *mux.Router, prefix string, cli ExternalServiceClient) {
-	router.Handle(prefix+"/authorize", _ExternalService_AuthorizeRequest_Rule0(cli)).
+func RegisterOIDCServiceHttpHandlers(router *mux.Router, prefix string, cli OIDCServiceClient) {
+	router.Handle(prefix+"/oidc/initiate", _OIDCService_InitiateLogin_Rule0(cli)).
 		Methods("POST").
-		Name("eolymp.auth.ExternalService.AuthorizeRequest")
-	router.Handle(prefix+"/callback", _ExternalService_AuthorizeCallback_Rule0(cli)).
+		Name("eolymp.auth.OIDCService.InitiateLogin")
+	router.Handle(prefix+"/oidc/callback", _OIDCService_CompleteLogin_Rule0(cli)).
 		Methods("POST").
-		Name("eolymp.auth.ExternalService.AuthorizeCallback")
+		Name("eolymp.auth.OIDCService.CompleteLogin")
 }
 
-func _ExternalService_AuthorizeRequest_Rule0(cli ExternalServiceClient) http.Handler {
+func _OIDCService_InitiateLogin_Rule0(cli OIDCServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &AuthorizeRequestInput{}
+		in := &InitiateLoginInput{}
 
-		if err := _ExternalService_HTTPReadRequestBody(r, in); err != nil {
+		if err := _OIDCService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
-			_ExternalService_HTTPWriteErrorResponse(w, err)
+			_OIDCService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		out, err := cli.AuthorizeRequest(r.Context(), in)
+		out, err := cli.InitiateLogin(r.Context(), in)
 		if err != nil {
-			_ExternalService_HTTPWriteErrorResponse(w, err)
+			_OIDCService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_ExternalService_HTTPWriteResponse(w, out)
+		_OIDCService_HTTPWriteResponse(w, out)
 	})
 }
 
-func _ExternalService_AuthorizeCallback_Rule0(cli ExternalServiceClient) http.Handler {
+func _OIDCService_CompleteLogin_Rule0(cli OIDCServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &AuthorizeCallbackInput{}
+		in := &CompleteLoginInput{}
 
-		if err := _ExternalService_HTTPReadRequestBody(r, in); err != nil {
+		if err := _OIDCService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
-			_ExternalService_HTTPWriteErrorResponse(w, err)
+			_OIDCService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		out, err := cli.AuthorizeCallback(r.Context(), in)
+		out, err := cli.CompleteLogin(r.Context(), in)
 		if err != nil {
-			_ExternalService_HTTPWriteErrorResponse(w, err)
+			_OIDCService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_ExternalService_HTTPWriteResponse(w, out)
+		_OIDCService_HTTPWriteResponse(w, out)
 	})
 }
 
-type _ExternalServiceHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
-type _ExternalServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _ExternalServiceHandler) (out proto.Message, err error)
-type ExternalServiceInterceptor struct {
-	middleware []_ExternalServiceMiddleware
-	client     ExternalServiceClient
+type _OIDCServiceHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
+type _OIDCServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _OIDCServiceHandler) (out proto.Message, err error)
+type OIDCServiceInterceptor struct {
+	middleware []_OIDCServiceMiddleware
+	client     OIDCServiceClient
 }
 
-// NewExternalServiceInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewExternalServiceInterceptor(cli ExternalServiceClient, middleware ..._ExternalServiceMiddleware) *ExternalServiceInterceptor {
-	return &ExternalServiceInterceptor{client: cli, middleware: middleware}
+// NewOIDCServiceInterceptor constructs additional middleware for a server based on annotations in proto files
+func NewOIDCServiceInterceptor(cli OIDCServiceClient, middleware ..._OIDCServiceMiddleware) *OIDCServiceInterceptor {
+	return &OIDCServiceInterceptor{client: cli, middleware: middleware}
 }
 
-func (i *ExternalServiceInterceptor) AuthorizeRequest(ctx context.Context, in *AuthorizeRequestInput, opts ...grpc.CallOption) (*AuthorizeRequestOutput, error) {
+func (i *OIDCServiceInterceptor) InitiateLogin(ctx context.Context, in *InitiateLoginInput, opts ...grpc.CallOption) (*InitiateLoginOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*AuthorizeRequestInput)
+		message, ok := in.(*InitiateLoginInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *AuthorizeRequestInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *InitiateLoginInput, got %T", in))
 		}
 
-		return i.client.AuthorizeRequest(ctx, message, opts...)
+		return i.client.InitiateLogin(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -257,7 +257,7 @@ func (i *ExternalServiceInterceptor) AuthorizeRequest(ctx context.Context, in *A
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.auth.ExternalService.AuthorizeRequest", in, next)
+			return mw(ctx, "eolymp.auth.OIDCService.InitiateLogin", in, next)
 		}
 	}
 
@@ -266,22 +266,22 @@ func (i *ExternalServiceInterceptor) AuthorizeRequest(ctx context.Context, in *A
 		return nil, err
 	}
 
-	message, ok := out.(*AuthorizeRequestOutput)
+	message, ok := out.(*InitiateLoginOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *AuthorizeRequestOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *InitiateLoginOutput, got %T", out))
 	}
 
 	return message, err
 }
 
-func (i *ExternalServiceInterceptor) AuthorizeCallback(ctx context.Context, in *AuthorizeCallbackInput, opts ...grpc.CallOption) (*AuthorizeCallbackOutput, error) {
+func (i *OIDCServiceInterceptor) CompleteLogin(ctx context.Context, in *CompleteLoginInput, opts ...grpc.CallOption) (*CompleteLoginOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*AuthorizeCallbackInput)
+		message, ok := in.(*CompleteLoginInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *AuthorizeCallbackInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *CompleteLoginInput, got %T", in))
 		}
 
-		return i.client.AuthorizeCallback(ctx, message, opts...)
+		return i.client.CompleteLogin(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -289,7 +289,7 @@ func (i *ExternalServiceInterceptor) AuthorizeCallback(ctx context.Context, in *
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.auth.ExternalService.AuthorizeCallback", in, next)
+			return mw(ctx, "eolymp.auth.OIDCService.CompleteLogin", in, next)
 		}
 	}
 
@@ -298,9 +298,9 @@ func (i *ExternalServiceInterceptor) AuthorizeCallback(ctx context.Context, in *
 		return nil, err
 	}
 
-	message, ok := out.(*AuthorizeCallbackOutput)
+	message, ok := out.(*CompleteLoginOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *AuthorizeCallbackOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *CompleteLoginOutput, got %T", out))
 	}
 
 	return message, err
