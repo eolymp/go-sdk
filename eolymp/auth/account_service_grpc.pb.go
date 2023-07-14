@@ -2,9 +2,9 @@
 // versions:
 // - protoc-gen-go-grpc v1.3.0
 // - protoc             v3.18.1
-// source: eolymp/community/account_service.proto
+// source: eolymp/auth/account_service.proto
 
-package community
+package auth
 
 import (
 	context "context"
@@ -19,14 +19,14 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	AccountService_CreateAccount_FullMethodName        = "/eolymp.community.AccountService/CreateAccount"
-	AccountService_DescribeAccount_FullMethodName      = "/eolymp.community.AccountService/DescribeAccount"
-	AccountService_UpdateAccount_FullMethodName        = "/eolymp.community.AccountService/UpdateAccount"
-	AccountService_DeleteAccount_FullMethodName        = "/eolymp.community.AccountService/DeleteAccount"
-	AccountService_ResendVerification_FullMethodName   = "/eolymp.community.AccountService/ResendVerification"
-	AccountService_CompleteVerification_FullMethodName = "/eolymp.community.AccountService/CompleteVerification"
-	AccountService_StartRecovery_FullMethodName        = "/eolymp.community.AccountService/StartRecovery"
-	AccountService_CompleteRecovery_FullMethodName     = "/eolymp.community.AccountService/CompleteRecovery"
+	AccountService_CreateAccount_FullMethodName        = "/eolymp.auth.AccountService/CreateAccount"
+	AccountService_DescribeAccount_FullMethodName      = "/eolymp.auth.AccountService/DescribeAccount"
+	AccountService_UpdateAccount_FullMethodName        = "/eolymp.auth.AccountService/UpdateAccount"
+	AccountService_DeleteAccount_FullMethodName        = "/eolymp.auth.AccountService/DeleteAccount"
+	AccountService_ResendVerification_FullMethodName   = "/eolymp.auth.AccountService/ResendVerification"
+	AccountService_CompleteVerification_FullMethodName = "/eolymp.auth.AccountService/CompleteVerification"
+	AccountService_StartRecovery_FullMethodName        = "/eolymp.auth.AccountService/StartRecovery"
+	AccountService_CompleteRecovery_FullMethodName     = "/eolymp.auth.AccountService/CompleteRecovery"
 )
 
 // AccountServiceClient is the client API for AccountService service.
@@ -325,7 +325,7 @@ func _AccountService_CompleteRecovery_Handler(srv interface{}, ctx context.Conte
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var AccountService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "eolymp.community.AccountService",
+	ServiceName: "eolymp.auth.AccountService",
 	HandlerType: (*AccountServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -362,5 +362,5 @@ var AccountService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "eolymp/community/account_service.proto",
+	Metadata: "eolymp/auth/account_service.proto",
 }
