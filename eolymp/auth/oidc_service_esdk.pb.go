@@ -99,25 +99,3 @@ func (s *OIDCServiceService) do(ctx context.Context, verb, path string, in, out 
 
 	return nil
 }
-
-func (s *OIDCServiceService) InitiateLogin(ctx context.Context, in *InitiateLoginInput) (*InitiateLoginOutput, error) {
-	out := &InitiateLoginOutput{}
-	path := "/oidc/initiate"
-
-	if err := s.do(ctx, "POST", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *OIDCServiceService) CompleteLogin(ctx context.Context, in *CompleteLoginInput) (*CompleteLoginOutput, error) {
-	out := &CompleteLoginOutput{}
-	path := "/oidc/callback"
-
-	if err := s.do(ctx, "POST", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}

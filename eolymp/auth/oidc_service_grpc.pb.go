@@ -19,16 +19,16 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	OIDCService_InitiateLogin_FullMethodName = "/eolymp.auth.OIDCService/InitiateLogin"
-	OIDCService_CompleteLogin_FullMethodName = "/eolymp.auth.OIDCService/CompleteLogin"
+	OIDCService_AuthorizeRequest_FullMethodName  = "/eolymp.auth.OIDCService/AuthorizeRequest"
+	OIDCService_AuthorizeCallback_FullMethodName = "/eolymp.auth.OIDCService/AuthorizeCallback"
 )
 
 // OIDCServiceClient is the client API for OIDCService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type OIDCServiceClient interface {
-	InitiateLogin(ctx context.Context, in *InitiateLoginInput, opts ...grpc.CallOption) (*InitiateLoginOutput, error)
-	CompleteLogin(ctx context.Context, in *CompleteLoginInput, opts ...grpc.CallOption) (*CompleteLoginOutput, error)
+	AuthorizeRequest(ctx context.Context, in *AuthorizeRequestInput, opts ...grpc.CallOption) (*AuthorizeRequestOutput, error)
+	AuthorizeCallback(ctx context.Context, in *AuthorizeCallbackInput, opts ...grpc.CallOption) (*AuthorizeCallbackOutput, error)
 }
 
 type oIDCServiceClient struct {
@@ -39,18 +39,18 @@ func NewOIDCServiceClient(cc grpc.ClientConnInterface) OIDCServiceClient {
 	return &oIDCServiceClient{cc}
 }
 
-func (c *oIDCServiceClient) InitiateLogin(ctx context.Context, in *InitiateLoginInput, opts ...grpc.CallOption) (*InitiateLoginOutput, error) {
-	out := new(InitiateLoginOutput)
-	err := c.cc.Invoke(ctx, OIDCService_InitiateLogin_FullMethodName, in, out, opts...)
+func (c *oIDCServiceClient) AuthorizeRequest(ctx context.Context, in *AuthorizeRequestInput, opts ...grpc.CallOption) (*AuthorizeRequestOutput, error) {
+	out := new(AuthorizeRequestOutput)
+	err := c.cc.Invoke(ctx, OIDCService_AuthorizeRequest_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *oIDCServiceClient) CompleteLogin(ctx context.Context, in *CompleteLoginInput, opts ...grpc.CallOption) (*CompleteLoginOutput, error) {
-	out := new(CompleteLoginOutput)
-	err := c.cc.Invoke(ctx, OIDCService_CompleteLogin_FullMethodName, in, out, opts...)
+func (c *oIDCServiceClient) AuthorizeCallback(ctx context.Context, in *AuthorizeCallbackInput, opts ...grpc.CallOption) (*AuthorizeCallbackOutput, error) {
+	out := new(AuthorizeCallbackOutput)
+	err := c.cc.Invoke(ctx, OIDCService_AuthorizeCallback_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,19 +61,19 @@ func (c *oIDCServiceClient) CompleteLogin(ctx context.Context, in *CompleteLogin
 // All implementations should embed UnimplementedOIDCServiceServer
 // for forward compatibility
 type OIDCServiceServer interface {
-	InitiateLogin(context.Context, *InitiateLoginInput) (*InitiateLoginOutput, error)
-	CompleteLogin(context.Context, *CompleteLoginInput) (*CompleteLoginOutput, error)
+	AuthorizeRequest(context.Context, *AuthorizeRequestInput) (*AuthorizeRequestOutput, error)
+	AuthorizeCallback(context.Context, *AuthorizeCallbackInput) (*AuthorizeCallbackOutput, error)
 }
 
 // UnimplementedOIDCServiceServer should be embedded to have forward compatible implementations.
 type UnimplementedOIDCServiceServer struct {
 }
 
-func (UnimplementedOIDCServiceServer) InitiateLogin(context.Context, *InitiateLoginInput) (*InitiateLoginOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method InitiateLogin not implemented")
+func (UnimplementedOIDCServiceServer) AuthorizeRequest(context.Context, *AuthorizeRequestInput) (*AuthorizeRequestOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AuthorizeRequest not implemented")
 }
-func (UnimplementedOIDCServiceServer) CompleteLogin(context.Context, *CompleteLoginInput) (*CompleteLoginOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CompleteLogin not implemented")
+func (UnimplementedOIDCServiceServer) AuthorizeCallback(context.Context, *AuthorizeCallbackInput) (*AuthorizeCallbackOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AuthorizeCallback not implemented")
 }
 
 // UnsafeOIDCServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -87,38 +87,38 @@ func RegisterOIDCServiceServer(s grpc.ServiceRegistrar, srv OIDCServiceServer) {
 	s.RegisterService(&OIDCService_ServiceDesc, srv)
 }
 
-func _OIDCService_InitiateLogin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(InitiateLoginInput)
+func _OIDCService_AuthorizeRequest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AuthorizeRequestInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(OIDCServiceServer).InitiateLogin(ctx, in)
+		return srv.(OIDCServiceServer).AuthorizeRequest(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: OIDCService_InitiateLogin_FullMethodName,
+		FullMethod: OIDCService_AuthorizeRequest_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OIDCServiceServer).InitiateLogin(ctx, req.(*InitiateLoginInput))
+		return srv.(OIDCServiceServer).AuthorizeRequest(ctx, req.(*AuthorizeRequestInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _OIDCService_CompleteLogin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CompleteLoginInput)
+func _OIDCService_AuthorizeCallback_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AuthorizeCallbackInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(OIDCServiceServer).CompleteLogin(ctx, in)
+		return srv.(OIDCServiceServer).AuthorizeCallback(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: OIDCService_CompleteLogin_FullMethodName,
+		FullMethod: OIDCService_AuthorizeCallback_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OIDCServiceServer).CompleteLogin(ctx, req.(*CompleteLoginInput))
+		return srv.(OIDCServiceServer).AuthorizeCallback(ctx, req.(*AuthorizeCallbackInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -131,12 +131,12 @@ var OIDCService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*OIDCServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "InitiateLogin",
-			Handler:    _OIDCService_InitiateLogin_Handler,
+			MethodName: "AuthorizeRequest",
+			Handler:    _OIDCService_AuthorizeRequest_Handler,
 		},
 		{
-			MethodName: "CompleteLogin",
-			Handler:    _OIDCService_CompleteLogin_Handler,
+			MethodName: "AuthorizeCallback",
+			Handler:    _OIDCService_AuthorizeCallback_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

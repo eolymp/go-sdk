@@ -182,52 +182,6 @@ var _OIDCService_WebsocketCodec = websocket.Codec{
 // RegisterOIDCServiceHttpHandlers adds handlers for for OIDCServiceClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterOIDCServiceHttpHandlers(router *mux.Router, prefix string, cli OIDCServiceClient) {
-	router.Handle(prefix+"/oidc/initiate", _OIDCService_InitiateLogin_Rule0(cli)).
-		Methods("POST").
-		Name("eolymp.auth.OIDCService.InitiateLogin")
-	router.Handle(prefix+"/oidc/callback", _OIDCService_CompleteLogin_Rule0(cli)).
-		Methods("POST").
-		Name("eolymp.auth.OIDCService.CompleteLogin")
-}
-
-func _OIDCService_InitiateLogin_Rule0(cli OIDCServiceClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &InitiateLoginInput{}
-
-		if err := _OIDCService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_OIDCService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := cli.InitiateLogin(r.Context(), in)
-		if err != nil {
-			_OIDCService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_OIDCService_HTTPWriteResponse(w, out)
-	})
-}
-
-func _OIDCService_CompleteLogin_Rule0(cli OIDCServiceClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &CompleteLoginInput{}
-
-		if err := _OIDCService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_OIDCService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := cli.CompleteLogin(r.Context(), in)
-		if err != nil {
-			_OIDCService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_OIDCService_HTTPWriteResponse(w, out)
-	})
 }
 
 type _OIDCServiceHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
@@ -242,14 +196,14 @@ func NewOIDCServiceInterceptor(cli OIDCServiceClient, middleware ..._OIDCService
 	return &OIDCServiceInterceptor{client: cli, middleware: middleware}
 }
 
-func (i *OIDCServiceInterceptor) InitiateLogin(ctx context.Context, in *InitiateLoginInput, opts ...grpc.CallOption) (*InitiateLoginOutput, error) {
+func (i *OIDCServiceInterceptor) AuthorizeRequest(ctx context.Context, in *AuthorizeRequestInput, opts ...grpc.CallOption) (*AuthorizeRequestOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*InitiateLoginInput)
+		message, ok := in.(*AuthorizeRequestInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *InitiateLoginInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *AuthorizeRequestInput, got %T", in))
 		}
 
-		return i.client.InitiateLogin(ctx, message, opts...)
+		return i.client.AuthorizeRequest(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -257,7 +211,7 @@ func (i *OIDCServiceInterceptor) InitiateLogin(ctx context.Context, in *Initiate
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.auth.OIDCService.InitiateLogin", in, next)
+			return mw(ctx, "eolymp.auth.OIDCService.AuthorizeRequest", in, next)
 		}
 	}
 
@@ -266,22 +220,22 @@ func (i *OIDCServiceInterceptor) InitiateLogin(ctx context.Context, in *Initiate
 		return nil, err
 	}
 
-	message, ok := out.(*InitiateLoginOutput)
+	message, ok := out.(*AuthorizeRequestOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *InitiateLoginOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *AuthorizeRequestOutput, got %T", out))
 	}
 
 	return message, err
 }
 
-func (i *OIDCServiceInterceptor) CompleteLogin(ctx context.Context, in *CompleteLoginInput, opts ...grpc.CallOption) (*CompleteLoginOutput, error) {
+func (i *OIDCServiceInterceptor) AuthorizeCallback(ctx context.Context, in *AuthorizeCallbackInput, opts ...grpc.CallOption) (*AuthorizeCallbackOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*CompleteLoginInput)
+		message, ok := in.(*AuthorizeCallbackInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *CompleteLoginInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *AuthorizeCallbackInput, got %T", in))
 		}
 
-		return i.client.CompleteLogin(ctx, message, opts...)
+		return i.client.AuthorizeCallback(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -289,7 +243,7 @@ func (i *OIDCServiceInterceptor) CompleteLogin(ctx context.Context, in *Complete
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.auth.OIDCService.CompleteLogin", in, next)
+			return mw(ctx, "eolymp.auth.OIDCService.AuthorizeCallback", in, next)
 		}
 	}
 
@@ -298,9 +252,9 @@ func (i *OIDCServiceInterceptor) CompleteLogin(ctx context.Context, in *Complete
 		return nil, err
 	}
 
-	message, ok := out.(*CompleteLoginOutput)
+	message, ok := out.(*AuthorizeCallbackOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *CompleteLoginOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *AuthorizeCallbackOutput, got %T", out))
 	}
 
 	return message, err
