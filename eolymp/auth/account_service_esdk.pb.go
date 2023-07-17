@@ -133,6 +133,17 @@ func (s *AccountServiceService) UpdateAccount(ctx context.Context, in *UpdateAcc
 	return out, nil
 }
 
+func (s *AccountServiceService) UploadPicture(ctx context.Context, in *UploadPictureInput) (*UploadPictureOutput, error) {
+	out := &UploadPictureOutput{}
+	path := "/account/picture"
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *AccountServiceService) DeleteAccount(ctx context.Context, in *DeleteAccountInput) (*DeleteAccountOutput, error) {
 	out := &DeleteAccountOutput{}
 	path := "/account"

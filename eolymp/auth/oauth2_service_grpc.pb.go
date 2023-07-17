@@ -23,6 +23,7 @@ const (
 	OAuth2Service_IntrospectToken_FullMethodName = "/eolymp.auth.OAuth2Service/IntrospectToken"
 	OAuth2Service_RevokeToken_FullMethodName     = "/eolymp.auth.OAuth2Service/RevokeToken"
 	OAuth2Service_RequestAuth_FullMethodName     = "/eolymp.auth.OAuth2Service/RequestAuth"
+	OAuth2Service_UserInfo_FullMethodName        = "/eolymp.auth.OAuth2Service/UserInfo"
 )
 
 // OAuth2ServiceClient is the client API for OAuth2Service service.
@@ -37,6 +38,8 @@ type OAuth2ServiceClient interface {
 	RevokeToken(ctx context.Context, in *RevokeTokenInput, opts ...grpc.CallOption) (*RevokeTokenOutput, error)
 	// issues a new authorization code for the authenticated user
 	RequestAuth(ctx context.Context, in *RequestAuthInput, opts ...grpc.CallOption) (*RequestAuthOutput, error)
+	// returns claims for currently authenticated user
+	UserInfo(ctx context.Context, in *UserInfoInput, opts ...grpc.CallOption) (*UserInfoOutput, error)
 }
 
 type oAuth2ServiceClient struct {
@@ -83,6 +86,15 @@ func (c *oAuth2ServiceClient) RequestAuth(ctx context.Context, in *RequestAuthIn
 	return out, nil
 }
 
+func (c *oAuth2ServiceClient) UserInfo(ctx context.Context, in *UserInfoInput, opts ...grpc.CallOption) (*UserInfoOutput, error) {
+	out := new(UserInfoOutput)
+	err := c.cc.Invoke(ctx, OAuth2Service_UserInfo_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OAuth2ServiceServer is the server API for OAuth2Service service.
 // All implementations should embed UnimplementedOAuth2ServiceServer
 // for forward compatibility
@@ -95,6 +107,8 @@ type OAuth2ServiceServer interface {
 	RevokeToken(context.Context, *RevokeTokenInput) (*RevokeTokenOutput, error)
 	// issues a new authorization code for the authenticated user
 	RequestAuth(context.Context, *RequestAuthInput) (*RequestAuthOutput, error)
+	// returns claims for currently authenticated user
+	UserInfo(context.Context, *UserInfoInput) (*UserInfoOutput, error)
 }
 
 // UnimplementedOAuth2ServiceServer should be embedded to have forward compatible implementations.
@@ -112,6 +126,9 @@ func (UnimplementedOAuth2ServiceServer) RevokeToken(context.Context, *RevokeToke
 }
 func (UnimplementedOAuth2ServiceServer) RequestAuth(context.Context, *RequestAuthInput) (*RequestAuthOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RequestAuth not implemented")
+}
+func (UnimplementedOAuth2ServiceServer) UserInfo(context.Context, *UserInfoInput) (*UserInfoOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UserInfo not implemented")
 }
 
 // UnsafeOAuth2ServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -197,6 +214,24 @@ func _OAuth2Service_RequestAuth_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OAuth2Service_UserInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserInfoInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OAuth2ServiceServer).UserInfo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OAuth2Service_UserInfo_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OAuth2ServiceServer).UserInfo(ctx, req.(*UserInfoInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // OAuth2Service_ServiceDesc is the grpc.ServiceDesc for OAuth2Service service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -219,6 +254,10 @@ var OAuth2Service_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RequestAuth",
 			Handler:    _OAuth2Service_RequestAuth_Handler,
+		},
+		{
+			MethodName: "UserInfo",
+			Handler:    _OAuth2Service_UserInfo_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -323,3 +323,35 @@ func (i *OAuth2ServiceInterceptor) RequestAuth(ctx context.Context, in *RequestA
 
 	return message, err
 }
+
+func (i *OAuth2ServiceInterceptor) UserInfo(ctx context.Context, in *UserInfoInput, opts ...grpc.CallOption) (*UserInfoOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*UserInfoInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *UserInfoInput, got %T", in))
+		}
+
+		return i.client.UserInfo(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.auth.OAuth2Service.UserInfo", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*UserInfoOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *UserInfoOutput, got %T", out))
+	}
+
+	return message, err
+}

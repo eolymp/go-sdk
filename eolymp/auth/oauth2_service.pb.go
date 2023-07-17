@@ -636,6 +636,91 @@ func (x *RequestAuthOutput) GetRedirectUri() string {
 	return ""
 }
 
+type UserInfoInput struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *UserInfoInput) Reset() {
+	*x = UserInfoInput{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_eolymp_auth_oauth2_service_proto_msgTypes[8]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UserInfoInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UserInfoInput) ProtoMessage() {}
+
+func (x *UserInfoInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_auth_oauth2_service_proto_msgTypes[8]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UserInfoInput.ProtoReflect.Descriptor instead.
+func (*UserInfoInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_auth_oauth2_service_proto_rawDescGZIP(), []int{8}
+}
+
+type UserInfoOutput struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Claims *Claims `protobuf:"bytes,10,opt,name=claims,proto3" json:"claims,omitempty"`
+}
+
+func (x *UserInfoOutput) Reset() {
+	*x = UserInfoOutput{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_eolymp_auth_oauth2_service_proto_msgTypes[9]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UserInfoOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UserInfoOutput) ProtoMessage() {}
+
+func (x *UserInfoOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_auth_oauth2_service_proto_msgTypes[9]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UserInfoOutput.ProtoReflect.Descriptor instead.
+func (*UserInfoOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_auth_oauth2_service_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *UserInfoOutput) GetClaims() *Claims {
+	if x != nil {
+		return x.Claims
+	}
+	return nil
+}
+
 var File_eolymp_auth_oauth2_service_proto protoreflect.FileDescriptor
 
 var file_eolymp_auth_oauth2_service_proto_rawDesc = []byte{
@@ -729,7 +814,12 @@ var file_eolymp_auth_oauth2_service_proto_rawDesc = []byte{
 	0x09, 0x52, 0x11, 0x61, 0x75, 0x74, 0x68, 0x6f, 0x72, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e,
 	0x43, 0x6f, 0x64, 0x65, 0x12, 0x21, 0x0a, 0x0c, 0x72, 0x65, 0x64, 0x69, 0x72, 0x65, 0x63, 0x74,
 	0x5f, 0x75, 0x72, 0x69, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x72, 0x65, 0x64, 0x69,
-	0x72, 0x65, 0x63, 0x74, 0x55, 0x72, 0x69, 0x32, 0x98, 0x03, 0x0a, 0x0d, 0x4f, 0x41, 0x75, 0x74,
+	0x72, 0x65, 0x63, 0x74, 0x55, 0x72, 0x69, 0x22, 0x0f, 0x0a, 0x0d, 0x55, 0x73, 0x65, 0x72, 0x49,
+	0x6e, 0x66, 0x6f, 0x49, 0x6e, 0x70, 0x75, 0x74, 0x22, 0x3d, 0x0a, 0x0e, 0x55, 0x73, 0x65, 0x72,
+	0x49, 0x6e, 0x66, 0x6f, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x12, 0x2b, 0x0a, 0x06, 0x63, 0x6c,
+	0x61, 0x69, 0x6d, 0x73, 0x18, 0x0a, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x13, 0x2e, 0x65, 0x6f, 0x6c,
+	0x79, 0x6d, 0x70, 0x2e, 0x61, 0x75, 0x74, 0x68, 0x2e, 0x43, 0x6c, 0x61, 0x69, 0x6d, 0x73, 0x52,
+	0x06, 0x63, 0x6c, 0x61, 0x69, 0x6d, 0x73, 0x32, 0xef, 0x03, 0x0a, 0x0d, 0x4f, 0x41, 0x75, 0x74,
 	0x68, 0x32, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x5b, 0x0a, 0x0a, 0x49, 0x73, 0x73,
 	0x75, 0x65, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x12, 0x1c, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70,
 	0x2e, 0x61, 0x75, 0x74, 0x68, 0x2e, 0x49, 0x73, 0x73, 0x75, 0x65, 0x54, 0x6f, 0x6b, 0x65, 0x6e,
@@ -755,10 +845,15 @@ var file_eolymp_auth_oauth2_service_proto_rawDesc = []byte{
 	0x1a, 0x1e, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x61, 0x75, 0x74, 0x68, 0x2e, 0x52,
 	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x41, 0x75, 0x74, 0x68, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74,
 	0x22, 0x10, 0xea, 0xe2, 0x0a, 0x0c, 0xf5, 0xe2, 0x0a, 0x00, 0x00, 0xf0, 0x41, 0xf8, 0xe2, 0x0a,
-	0xac, 0x02, 0x42, 0x2b, 0x5a, 0x29, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d,
-	0x2f, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x67, 0x6f, 0x2d, 0x73, 0x64, 0x6b, 0x2f, 0x65,
-	0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x61, 0x75, 0x74, 0x68, 0x3b, 0x61, 0x75, 0x74, 0x68, 0x62,
-	0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0xac, 0x02, 0x12, 0x55, 0x0a, 0x08, 0x55, 0x73, 0x65, 0x72, 0x49, 0x6e, 0x66, 0x6f, 0x12, 0x1a,
+	0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x61, 0x75, 0x74, 0x68, 0x2e, 0x55, 0x73, 0x65,
+	0x72, 0x49, 0x6e, 0x66, 0x6f, 0x49, 0x6e, 0x70, 0x75, 0x74, 0x1a, 0x1b, 0x2e, 0x65, 0x6f, 0x6c,
+	0x79, 0x6d, 0x70, 0x2e, 0x61, 0x75, 0x74, 0x68, 0x2e, 0x55, 0x73, 0x65, 0x72, 0x49, 0x6e, 0x66,
+	0x6f, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x22, 0x10, 0xea, 0xe2, 0x0a, 0x0c, 0xf5, 0xe2, 0x0a,
+	0x00, 0x00, 0xf0, 0x41, 0xf8, 0xe2, 0x0a, 0xac, 0x02, 0x42, 0x2b, 0x5a, 0x29, 0x67, 0x69, 0x74,
+	0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x67,
+	0x6f, 0x2d, 0x73, 0x64, 0x6b, 0x2f, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x61, 0x75, 0x74,
+	0x68, 0x3b, 0x61, 0x75, 0x74, 0x68, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -774,7 +869,7 @@ func file_eolymp_auth_oauth2_service_proto_rawDescGZIP() []byte {
 }
 
 var file_eolymp_auth_oauth2_service_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_eolymp_auth_oauth2_service_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
+var file_eolymp_auth_oauth2_service_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_eolymp_auth_oauth2_service_proto_goTypes = []interface{}{
 	(IssueTokenInput_GrantType)(0), // 0: eolymp.auth.IssueTokenInput.GrantType
 	(*IssueTokenInput)(nil),        // 1: eolymp.auth.IssueTokenInput
@@ -785,26 +880,31 @@ var file_eolymp_auth_oauth2_service_proto_goTypes = []interface{}{
 	(*RevokeTokenOutput)(nil),      // 6: eolymp.auth.RevokeTokenOutput
 	(*RequestAuthInput)(nil),       // 7: eolymp.auth.RequestAuthInput
 	(*RequestAuthOutput)(nil),      // 8: eolymp.auth.RequestAuthOutput
-	(*timestamppb.Timestamp)(nil),  // 9: google.protobuf.Timestamp
-	(*Claims)(nil),                 // 10: eolymp.auth.Claims
+	(*UserInfoInput)(nil),          // 9: eolymp.auth.UserInfoInput
+	(*UserInfoOutput)(nil),         // 10: eolymp.auth.UserInfoOutput
+	(*timestamppb.Timestamp)(nil),  // 11: google.protobuf.Timestamp
+	(*Claims)(nil),                 // 12: eolymp.auth.Claims
 }
 var file_eolymp_auth_oauth2_service_proto_depIdxs = []int32{
 	0,  // 0: eolymp.auth.IssueTokenInput.grant_type:type_name -> eolymp.auth.IssueTokenInput.GrantType
-	9,  // 1: eolymp.auth.IntrospectTokenOutput.expire:type_name -> google.protobuf.Timestamp
-	10, // 2: eolymp.auth.IntrospectTokenOutput.claims:type_name -> eolymp.auth.Claims
-	1,  // 3: eolymp.auth.OAuth2Service.IssueToken:input_type -> eolymp.auth.IssueTokenInput
-	3,  // 4: eolymp.auth.OAuth2Service.IntrospectToken:input_type -> eolymp.auth.IntrospectTokenInput
-	5,  // 5: eolymp.auth.OAuth2Service.RevokeToken:input_type -> eolymp.auth.RevokeTokenInput
-	7,  // 6: eolymp.auth.OAuth2Service.RequestAuth:input_type -> eolymp.auth.RequestAuthInput
-	2,  // 7: eolymp.auth.OAuth2Service.IssueToken:output_type -> eolymp.auth.IssueTokenOutput
-	4,  // 8: eolymp.auth.OAuth2Service.IntrospectToken:output_type -> eolymp.auth.IntrospectTokenOutput
-	6,  // 9: eolymp.auth.OAuth2Service.RevokeToken:output_type -> eolymp.auth.RevokeTokenOutput
-	8,  // 10: eolymp.auth.OAuth2Service.RequestAuth:output_type -> eolymp.auth.RequestAuthOutput
-	7,  // [7:11] is the sub-list for method output_type
-	3,  // [3:7] is the sub-list for method input_type
-	3,  // [3:3] is the sub-list for extension type_name
-	3,  // [3:3] is the sub-list for extension extendee
-	0,  // [0:3] is the sub-list for field type_name
+	11, // 1: eolymp.auth.IntrospectTokenOutput.expire:type_name -> google.protobuf.Timestamp
+	12, // 2: eolymp.auth.IntrospectTokenOutput.claims:type_name -> eolymp.auth.Claims
+	12, // 3: eolymp.auth.UserInfoOutput.claims:type_name -> eolymp.auth.Claims
+	1,  // 4: eolymp.auth.OAuth2Service.IssueToken:input_type -> eolymp.auth.IssueTokenInput
+	3,  // 5: eolymp.auth.OAuth2Service.IntrospectToken:input_type -> eolymp.auth.IntrospectTokenInput
+	5,  // 6: eolymp.auth.OAuth2Service.RevokeToken:input_type -> eolymp.auth.RevokeTokenInput
+	7,  // 7: eolymp.auth.OAuth2Service.RequestAuth:input_type -> eolymp.auth.RequestAuthInput
+	9,  // 8: eolymp.auth.OAuth2Service.UserInfo:input_type -> eolymp.auth.UserInfoInput
+	2,  // 9: eolymp.auth.OAuth2Service.IssueToken:output_type -> eolymp.auth.IssueTokenOutput
+	4,  // 10: eolymp.auth.OAuth2Service.IntrospectToken:output_type -> eolymp.auth.IntrospectTokenOutput
+	6,  // 11: eolymp.auth.OAuth2Service.RevokeToken:output_type -> eolymp.auth.RevokeTokenOutput
+	8,  // 12: eolymp.auth.OAuth2Service.RequestAuth:output_type -> eolymp.auth.RequestAuthOutput
+	10, // 13: eolymp.auth.OAuth2Service.UserInfo:output_type -> eolymp.auth.UserInfoOutput
+	9,  // [9:14] is the sub-list for method output_type
+	4,  // [4:9] is the sub-list for method input_type
+	4,  // [4:4] is the sub-list for extension type_name
+	4,  // [4:4] is the sub-list for extension extendee
+	0,  // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_auth_oauth2_service_proto_init() }
@@ -910,6 +1010,30 @@ func file_eolymp_auth_oauth2_service_proto_init() {
 				return nil
 			}
 		}
+		file_eolymp_auth_oauth2_service_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UserInfoInput); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_eolymp_auth_oauth2_service_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UserInfoOutput); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -917,7 +1041,7 @@ func file_eolymp_auth_oauth2_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_eolymp_auth_oauth2_service_proto_rawDesc,
 			NumEnums:      1,
-			NumMessages:   8,
+			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

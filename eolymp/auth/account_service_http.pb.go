@@ -191,6 +191,9 @@ func RegisterAccountServiceHttpHandlers(router *mux.Router, prefix string, cli A
 	router.Handle(prefix+"/account", _AccountService_UpdateAccount_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.auth.AccountService.UpdateAccount")
+	router.Handle(prefix+"/account/picture", _AccountService_UploadPicture_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.auth.AccountService.UploadPicture")
 	router.Handle(prefix+"/account", _AccountService_DeleteAccount_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.auth.AccountService.DeleteAccount")
@@ -259,6 +262,26 @@ func _AccountService_UpdateAccount_Rule0(cli AccountServiceClient) http.Handler 
 		}
 
 		out, err := cli.UpdateAccount(r.Context(), in)
+		if err != nil {
+			_AccountService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_AccountService_HTTPWriteResponse(w, out)
+	})
+}
+
+func _AccountService_UploadPicture_Rule0(cli AccountServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UploadPictureInput{}
+
+		if err := _AccountService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_AccountService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := cli.UploadPicture(r.Context(), in)
 		if err != nil {
 			_AccountService_HTTPWriteErrorResponse(w, err)
 			return
@@ -471,6 +494,38 @@ func (i *AccountServiceInterceptor) UpdateAccount(ctx context.Context, in *Updat
 	message, ok := out.(*UpdateAccountOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *UpdateAccountOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *AccountServiceInterceptor) UploadPicture(ctx context.Context, in *UploadPictureInput, opts ...grpc.CallOption) (*UploadPictureOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*UploadPictureInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *UploadPictureInput, got %T", in))
+		}
+
+		return i.client.UploadPicture(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.auth.AccountService.UploadPicture", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*UploadPictureOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *UploadPictureOutput, got %T", out))
 	}
 
 	return message, err

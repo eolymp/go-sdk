@@ -22,6 +22,7 @@ const (
 	AccountService_CreateAccount_FullMethodName        = "/eolymp.auth.AccountService/CreateAccount"
 	AccountService_DescribeAccount_FullMethodName      = "/eolymp.auth.AccountService/DescribeAccount"
 	AccountService_UpdateAccount_FullMethodName        = "/eolymp.auth.AccountService/UpdateAccount"
+	AccountService_UploadPicture_FullMethodName        = "/eolymp.auth.AccountService/UploadPicture"
 	AccountService_DeleteAccount_FullMethodName        = "/eolymp.auth.AccountService/DeleteAccount"
 	AccountService_ResendVerification_FullMethodName   = "/eolymp.auth.AccountService/ResendVerification"
 	AccountService_CompleteVerification_FullMethodName = "/eolymp.auth.AccountService/CompleteVerification"
@@ -36,6 +37,7 @@ type AccountServiceClient interface {
 	CreateAccount(ctx context.Context, in *CreateAccountInput, opts ...grpc.CallOption) (*CreateAccountOutput, error)
 	DescribeAccount(ctx context.Context, in *DescribeAccountInput, opts ...grpc.CallOption) (*DescribeAccountOutput, error)
 	UpdateAccount(ctx context.Context, in *UpdateAccountInput, opts ...grpc.CallOption) (*UpdateAccountOutput, error)
+	UploadPicture(ctx context.Context, in *UploadPictureInput, opts ...grpc.CallOption) (*UploadPictureOutput, error)
 	DeleteAccount(ctx context.Context, in *DeleteAccountInput, opts ...grpc.CallOption) (*DeleteAccountOutput, error)
 	ResendVerification(ctx context.Context, in *ResendVerificationInput, opts ...grpc.CallOption) (*ResendVerificationOutput, error)
 	CompleteVerification(ctx context.Context, in *CompleteVerificationInput, opts ...grpc.CallOption) (*CompleteVerificationOutput, error)
@@ -72,6 +74,15 @@ func (c *accountServiceClient) DescribeAccount(ctx context.Context, in *Describe
 func (c *accountServiceClient) UpdateAccount(ctx context.Context, in *UpdateAccountInput, opts ...grpc.CallOption) (*UpdateAccountOutput, error) {
 	out := new(UpdateAccountOutput)
 	err := c.cc.Invoke(ctx, AccountService_UpdateAccount_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *accountServiceClient) UploadPicture(ctx context.Context, in *UploadPictureInput, opts ...grpc.CallOption) (*UploadPictureOutput, error) {
+	out := new(UploadPictureOutput)
+	err := c.cc.Invoke(ctx, AccountService_UploadPicture_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -130,6 +141,7 @@ type AccountServiceServer interface {
 	CreateAccount(context.Context, *CreateAccountInput) (*CreateAccountOutput, error)
 	DescribeAccount(context.Context, *DescribeAccountInput) (*DescribeAccountOutput, error)
 	UpdateAccount(context.Context, *UpdateAccountInput) (*UpdateAccountOutput, error)
+	UploadPicture(context.Context, *UploadPictureInput) (*UploadPictureOutput, error)
 	DeleteAccount(context.Context, *DeleteAccountInput) (*DeleteAccountOutput, error)
 	ResendVerification(context.Context, *ResendVerificationInput) (*ResendVerificationOutput, error)
 	CompleteVerification(context.Context, *CompleteVerificationInput) (*CompleteVerificationOutput, error)
@@ -149,6 +161,9 @@ func (UnimplementedAccountServiceServer) DescribeAccount(context.Context, *Descr
 }
 func (UnimplementedAccountServiceServer) UpdateAccount(context.Context, *UpdateAccountInput) (*UpdateAccountOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateAccount not implemented")
+}
+func (UnimplementedAccountServiceServer) UploadPicture(context.Context, *UploadPictureInput) (*UploadPictureOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UploadPicture not implemented")
 }
 func (UnimplementedAccountServiceServer) DeleteAccount(context.Context, *DeleteAccountInput) (*DeleteAccountOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteAccount not implemented")
@@ -227,6 +242,24 @@ func _AccountService_UpdateAccount_Handler(srv interface{}, ctx context.Context,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AccountServiceServer).UpdateAccount(ctx, req.(*UpdateAccountInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AccountService_UploadPicture_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UploadPictureInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountServiceServer).UploadPicture(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AccountService_UploadPicture_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountServiceServer).UploadPicture(ctx, req.(*UploadPictureInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -339,6 +372,10 @@ var AccountService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateAccount",
 			Handler:    _AccountService_UpdateAccount_Handler,
+		},
+		{
+			MethodName: "UploadPicture",
+			Handler:    _AccountService_UploadPicture_Handler,
 		},
 		{
 			MethodName: "DeleteAccount",
