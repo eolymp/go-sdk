@@ -16,17 +16,17 @@ import (
 	os "os"
 )
 
-type _OIDCServiceHttpClient interface {
+type _SSOServiceHttpClient interface {
 	Do(*http.Request) (*http.Response, error)
 }
 
-type OIDCServiceService struct {
+type SSOServiceService struct {
 	base string
-	cli  _OIDCServiceHttpClient
+	cli  _SSOServiceHttpClient
 }
 
-// NewOIDCServiceHttpClient constructs client for OIDCService
-func NewOIDCServiceHttpClient(url string, cli _OIDCServiceHttpClient) *OIDCServiceService {
+// NewSSOServiceHttpClient constructs client for SSOService
+func NewSSOServiceHttpClient(url string, cli _SSOServiceHttpClient) *SSOServiceService {
 	if url == "" {
 		url = os.Getenv("EOLYMP_API_URL")
 		if url == "" {
@@ -34,10 +34,10 @@ func NewOIDCServiceHttpClient(url string, cli _OIDCServiceHttpClient) *OIDCServi
 		}
 	}
 
-	return &OIDCServiceService{base: url, cli: cli}
+	return &SSOServiceService{base: url, cli: cli}
 }
 
-func (s *OIDCServiceService) do(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
+func (s *SSOServiceService) do(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
 	var body io.Reader
 
 	if in != nil {

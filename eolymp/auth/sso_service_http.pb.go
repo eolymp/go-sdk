@@ -17,8 +17,8 @@ import (
 	http "net/http"
 )
 
-// _OIDCService_HTTPReadQueryString parses body into proto.Message
-func _OIDCService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+// _SSOService_HTTPReadQueryString parses body into proto.Message
+func _SSOService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
 	query := r.URL.Query().Get("q")
 	if query == "" {
 		return nil
@@ -31,8 +31,8 @@ func _OIDCService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
 	return nil
 }
 
-// _OIDCService_HTTPReadRequestBody parses body into proto.Message
-func _OIDCService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
+// _SSOService_HTTPReadRequestBody parses body into proto.Message
+func _SSOService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
 	data, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		return err
@@ -45,11 +45,11 @@ func _OIDCService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
 	return nil
 }
 
-// _OIDCService_HTTPWriteResponse writes proto.Message to HTTP response
-func _OIDCService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message) {
+// _SSOService_HTTPWriteResponse writes proto.Message to HTTP response
+func _SSOService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message) {
 	data, err := protojson.Marshal(v)
 	if err != nil {
-		_OIDCService_HTTPWriteErrorResponse(w, err)
+		_SSOService_HTTPWriteErrorResponse(w, err)
 		return
 	}
 
@@ -59,8 +59,8 @@ func _OIDCService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message) {
 	_, _ = w.Write(data)
 }
 
-// _OIDCService_HTTPWriteErrorResponse writes error to HTTP response with error status code
-func _OIDCService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
+// _SSOService_HTTPWriteErrorResponse writes error to HTTP response with error status code
+func _SSOService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
 
 	w.Header().Set("Content-Type", "application/json")
@@ -112,8 +112,8 @@ func _OIDCService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	_, _ = w.Write(data)
 }
 
-// _OIDCService_WebsocketErrorResponse writes error to websocket connection
-func _OIDCService_WebsocketErrorResponse(conn *websocket.Conn, e error) {
+// _SSOService_WebsocketErrorResponse writes error to websocket connection
+func _SSOService_WebsocketErrorResponse(conn *websocket.Conn, e error) {
 	switch status.Convert(e).Code() {
 	case codes.OK:
 		conn.WriteClose(1000)
@@ -154,8 +154,8 @@ func _OIDCService_WebsocketErrorResponse(conn *websocket.Conn, e error) {
 	}
 }
 
-// _OIDCService_WebsocketCodec implements protobuf codec for websockets package
-var _OIDCService_WebsocketCodec = websocket.Codec{
+// _SSOService_WebsocketCodec implements protobuf codec for websockets package
+var _SSOService_WebsocketCodec = websocket.Codec{
 	Marshal: func(v interface{}) ([]byte, byte, error) {
 		m, ok := v.(proto.Message)
 		if !ok {
@@ -179,24 +179,24 @@ var _OIDCService_WebsocketCodec = websocket.Codec{
 	},
 }
 
-// RegisterOIDCServiceHttpHandlers adds handlers for for OIDCServiceClient
+// RegisterSSOServiceHttpHandlers adds handlers for for SSOServiceClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterOIDCServiceHttpHandlers(router *mux.Router, prefix string, cli OIDCServiceClient) {
+func RegisterSSOServiceHttpHandlers(router *mux.Router, prefix string, cli SSOServiceClient) {
 }
 
-type _OIDCServiceHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
-type _OIDCServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _OIDCServiceHandler) (out proto.Message, err error)
-type OIDCServiceInterceptor struct {
-	middleware []_OIDCServiceMiddleware
-	client     OIDCServiceClient
+type _SSOServiceHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
+type _SSOServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _SSOServiceHandler) (out proto.Message, err error)
+type SSOServiceInterceptor struct {
+	middleware []_SSOServiceMiddleware
+	client     SSOServiceClient
 }
 
-// NewOIDCServiceInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewOIDCServiceInterceptor(cli OIDCServiceClient, middleware ..._OIDCServiceMiddleware) *OIDCServiceInterceptor {
-	return &OIDCServiceInterceptor{client: cli, middleware: middleware}
+// NewSSOServiceInterceptor constructs additional middleware for a server based on annotations in proto files
+func NewSSOServiceInterceptor(cli SSOServiceClient, middleware ..._SSOServiceMiddleware) *SSOServiceInterceptor {
+	return &SSOServiceInterceptor{client: cli, middleware: middleware}
 }
 
-func (i *OIDCServiceInterceptor) AuthorizeRequest(ctx context.Context, in *AuthorizeRequestInput, opts ...grpc.CallOption) (*AuthorizeRequestOutput, error) {
+func (i *SSOServiceInterceptor) AuthorizeRequest(ctx context.Context, in *AuthorizeRequestInput, opts ...grpc.CallOption) (*AuthorizeRequestOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*AuthorizeRequestInput)
 		if !ok && in != nil {
@@ -211,7 +211,7 @@ func (i *OIDCServiceInterceptor) AuthorizeRequest(ctx context.Context, in *Autho
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.auth.OIDCService.AuthorizeRequest", in, next)
+			return mw(ctx, "eolymp.auth.SSOService.AuthorizeRequest", in, next)
 		}
 	}
 
@@ -228,7 +228,7 @@ func (i *OIDCServiceInterceptor) AuthorizeRequest(ctx context.Context, in *Autho
 	return message, err
 }
 
-func (i *OIDCServiceInterceptor) AuthorizeCallback(ctx context.Context, in *AuthorizeCallbackInput, opts ...grpc.CallOption) (*AuthorizeCallbackOutput, error) {
+func (i *SSOServiceInterceptor) AuthorizeCallback(ctx context.Context, in *AuthorizeCallbackInput, opts ...grpc.CallOption) (*AuthorizeCallbackOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*AuthorizeCallbackInput)
 		if !ok && in != nil {
@@ -243,7 +243,7 @@ func (i *OIDCServiceInterceptor) AuthorizeCallback(ctx context.Context, in *Auth
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.auth.OIDCService.AuthorizeCallback", in, next)
+			return mw(ctx, "eolymp.auth.SSOService.AuthorizeCallback", in, next)
 		}
 	}
 
