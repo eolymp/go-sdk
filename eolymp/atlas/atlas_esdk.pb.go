@@ -218,6 +218,38 @@ func (s *AtlasService) ListExamples(ctx context.Context, in *ListExamplesInput) 
 	return out, nil
 }
 
+func (s *AtlasService) UpdateTestingConfig(ctx context.Context, in *UpdateTestingConfigInput) (*UpdateTestingConfigOutput, error) {
+	out := &UpdateTestingConfigOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/testing"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
+
+	if err := s.do(ctx, "PUT", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *AtlasService) DescribeTestingConfig(ctx context.Context, in *DescribeTestingConfigInput) (*DescribeTestingConfigOutput, error) {
+	out := &DescribeTestingConfigOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/testing"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *AtlasService) UpdateVerifier(ctx context.Context, in *UpdateVerifierInput) (*UpdateVerifierOutput, error) {
 	out := &UpdateVerifierOutput{}
 	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/verifier"

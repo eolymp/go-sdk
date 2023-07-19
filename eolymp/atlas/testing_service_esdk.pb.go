@@ -100,6 +100,28 @@ func (s *TestingServiceService) do(ctx context.Context, verb, path string, in, o
 	return nil
 }
 
+func (s *TestingServiceService) UpdateTestingConfig(ctx context.Context, in *UpdateTestingConfigInput) (*UpdateTestingConfigOutput, error) {
+	out := &UpdateTestingConfigOutput{}
+	path := "/testing"
+
+	if err := s.do(ctx, "PUT", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *TestingServiceService) DescribeTestingConfig(ctx context.Context, in *DescribeTestingConfigInput) (*DescribeTestingConfigOutput, error) {
+	out := &DescribeTestingConfigOutput{}
+	path := "/testing"
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *TestingServiceService) UpdateChecker(ctx context.Context, in *UpdateVerifierInput) (*UpdateVerifierOutput, error) {
 	out := &UpdateVerifierOutput{}
 	path := "/verifier"

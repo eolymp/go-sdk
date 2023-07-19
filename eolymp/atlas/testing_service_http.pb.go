@@ -182,6 +182,12 @@ var _TestingService_WebsocketCodec = websocket.Codec{
 // RegisterTestingServiceHttpHandlers adds handlers for for TestingServiceClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterTestingServiceHttpHandlers(router *mux.Router, prefix string, cli TestingServiceClient) {
+	router.Handle(prefix+"/testing", _TestingService_UpdateTestingConfig_Rule0(cli)).
+		Methods("PUT").
+		Name("eolymp.atlas.TestingService.UpdateTestingConfig")
+	router.Handle(prefix+"/testing", _TestingService_DescribeTestingConfig_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.atlas.TestingService.DescribeTestingConfig")
 	router.Handle(prefix+"/verifier", _TestingService_UpdateChecker_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.atlas.TestingService.UpdateChecker")
@@ -227,6 +233,46 @@ func RegisterTestingServiceHttpHandlers(router *mux.Router, prefix string, cli T
 	router.Handle(prefix+"/examples", _TestingService_ListExamples_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.TestingService.ListExamples")
+}
+
+func _TestingService_UpdateTestingConfig_Rule0(cli TestingServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UpdateTestingConfigInput{}
+
+		if err := _TestingService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_TestingService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := cli.UpdateTestingConfig(r.Context(), in)
+		if err != nil {
+			_TestingService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_TestingService_HTTPWriteResponse(w, out)
+	})
+}
+
+func _TestingService_DescribeTestingConfig_Rule0(cli TestingServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeTestingConfigInput{}
+
+		if err := _TestingService_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_TestingService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := cli.DescribeTestingConfig(r.Context(), in)
+		if err != nil {
+			_TestingService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_TestingService_HTTPWriteResponse(w, out)
+	})
 }
 
 func _TestingService_UpdateChecker_Rule0(cli TestingServiceClient) http.Handler {
@@ -566,6 +612,70 @@ type TestingServiceInterceptor struct {
 // NewTestingServiceInterceptor constructs additional middleware for a server based on annotations in proto files
 func NewTestingServiceInterceptor(cli TestingServiceClient, middleware ..._TestingServiceMiddleware) *TestingServiceInterceptor {
 	return &TestingServiceInterceptor{client: cli, middleware: middleware}
+}
+
+func (i *TestingServiceInterceptor) UpdateTestingConfig(ctx context.Context, in *UpdateTestingConfigInput, opts ...grpc.CallOption) (*UpdateTestingConfigOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*UpdateTestingConfigInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *UpdateTestingConfigInput, got %T", in))
+		}
+
+		return i.client.UpdateTestingConfig(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.TestingService.UpdateTestingConfig", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*UpdateTestingConfigOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *UpdateTestingConfigOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *TestingServiceInterceptor) DescribeTestingConfig(ctx context.Context, in *DescribeTestingConfigInput, opts ...grpc.CallOption) (*DescribeTestingConfigOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeTestingConfigInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeTestingConfigInput, got %T", in))
+		}
+
+		return i.client.DescribeTestingConfig(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.TestingService.DescribeTestingConfig", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeTestingConfigOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeTestingConfigOutput, got %T", out))
+	}
+
+	return message, err
 }
 
 func (i *TestingServiceInterceptor) UpdateChecker(ctx context.Context, in *UpdateVerifierInput, opts ...grpc.CallOption) (*UpdateVerifierOutput, error) {

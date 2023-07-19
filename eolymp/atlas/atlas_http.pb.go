@@ -206,6 +206,12 @@ func RegisterAtlasHttpHandlers(router *mux.Router, prefix string, cli AtlasClien
 	router.Handle(prefix+"/problems/{problem_id}/examples", _Atlas_ListExamples_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.Atlas.ListExamples")
+	router.Handle(prefix+"/problems/{problem_id}/testing", _Atlas_UpdateTestingConfig_Rule0(cli)).
+		Methods("PUT").
+		Name("eolymp.atlas.Atlas.UpdateTestingConfig")
+	router.Handle(prefix+"/problems/{problem_id}/testing", _Atlas_DescribeTestingConfig_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.atlas.Atlas.DescribeTestingConfig")
 	router.Handle(prefix+"/problems/{problem_id}/verifier", _Atlas_UpdateVerifier_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.atlas.Atlas.UpdateVerifier")
@@ -497,6 +503,52 @@ func _Atlas_ListExamples_Rule0(cli AtlasClient) http.Handler {
 		in.ProblemId = vars["problem_id"]
 
 		out, err := cli.ListExamples(r.Context(), in)
+		if err != nil {
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Atlas_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Atlas_UpdateTestingConfig_Rule0(cli AtlasClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UpdateTestingConfigInput{}
+
+		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
+
+		out, err := cli.UpdateTestingConfig(r.Context(), in)
+		if err != nil {
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Atlas_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Atlas_DescribeTestingConfig_Rule0(cli AtlasClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeTestingConfigInput{}
+
+		if err := _Atlas_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
+
+		out, err := cli.DescribeTestingConfig(r.Context(), in)
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -1709,6 +1761,70 @@ func (i *AtlasInterceptor) ListExamples(ctx context.Context, in *ListExamplesInp
 	message, ok := out.(*ListExamplesOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *ListExamplesOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *AtlasInterceptor) UpdateTestingConfig(ctx context.Context, in *UpdateTestingConfigInput, opts ...grpc.CallOption) (*UpdateTestingConfigOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*UpdateTestingConfigInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *UpdateTestingConfigInput, got %T", in))
+		}
+
+		return i.client.UpdateTestingConfig(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas.UpdateTestingConfig", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*UpdateTestingConfigOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *UpdateTestingConfigOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *AtlasInterceptor) DescribeTestingConfig(ctx context.Context, in *DescribeTestingConfigInput, opts ...grpc.CallOption) (*DescribeTestingConfigOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeTestingConfigInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeTestingConfigInput, got %T", in))
+		}
+
+		return i.client.DescribeTestingConfig(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas.DescribeTestingConfig", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeTestingConfigOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeTestingConfigOutput, got %T", out))
 	}
 
 	return message, err

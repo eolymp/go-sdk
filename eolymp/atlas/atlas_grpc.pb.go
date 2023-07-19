@@ -27,6 +27,8 @@ const (
 	Atlas_SetBookmark_FullMethodName            = "/eolymp.atlas.Atlas/SetBookmark"
 	Atlas_GetBookmark_FullMethodName            = "/eolymp.atlas.Atlas/GetBookmark"
 	Atlas_ListExamples_FullMethodName           = "/eolymp.atlas.Atlas/ListExamples"
+	Atlas_UpdateTestingConfig_FullMethodName    = "/eolymp.atlas.Atlas/UpdateTestingConfig"
+	Atlas_DescribeTestingConfig_FullMethodName  = "/eolymp.atlas.Atlas/DescribeTestingConfig"
 	Atlas_UpdateVerifier_FullMethodName         = "/eolymp.atlas.Atlas/UpdateVerifier"
 	Atlas_DescribeVerifier_FullMethodName       = "/eolymp.atlas.Atlas/DescribeVerifier"
 	Atlas_UpdateInteractor_FullMethodName       = "/eolymp.atlas.Atlas/UpdateInteractor"
@@ -81,6 +83,8 @@ type AtlasClient interface {
 	SetBookmark(ctx context.Context, in *SetBookmarkInput, opts ...grpc.CallOption) (*SetBookmarkOutput, error)
 	GetBookmark(ctx context.Context, in *GetBookmarkInput, opts ...grpc.CallOption) (*GetBookmarkOutput, error)
 	ListExamples(ctx context.Context, in *ListExamplesInput, opts ...grpc.CallOption) (*ListExamplesOutput, error)
+	UpdateTestingConfig(ctx context.Context, in *UpdateTestingConfigInput, opts ...grpc.CallOption) (*UpdateTestingConfigOutput, error)
+	DescribeTestingConfig(ctx context.Context, in *DescribeTestingConfigInput, opts ...grpc.CallOption) (*DescribeTestingConfigOutput, error)
 	UpdateVerifier(ctx context.Context, in *UpdateVerifierInput, opts ...grpc.CallOption) (*UpdateVerifierOutput, error)
 	DescribeVerifier(ctx context.Context, in *DescribeVerifierInput, opts ...grpc.CallOption) (*DescribeVerifierOutput, error)
 	UpdateInteractor(ctx context.Context, in *UpdateInteractorInput, opts ...grpc.CallOption) (*UpdateInteractorOutput, error)
@@ -202,6 +206,24 @@ func (c *atlasClient) GetBookmark(ctx context.Context, in *GetBookmarkInput, opt
 func (c *atlasClient) ListExamples(ctx context.Context, in *ListExamplesInput, opts ...grpc.CallOption) (*ListExamplesOutput, error) {
 	out := new(ListExamplesOutput)
 	err := c.cc.Invoke(ctx, Atlas_ListExamples_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *atlasClient) UpdateTestingConfig(ctx context.Context, in *UpdateTestingConfigInput, opts ...grpc.CallOption) (*UpdateTestingConfigOutput, error) {
+	out := new(UpdateTestingConfigOutput)
+	err := c.cc.Invoke(ctx, Atlas_UpdateTestingConfig_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *atlasClient) DescribeTestingConfig(ctx context.Context, in *DescribeTestingConfigInput, opts ...grpc.CallOption) (*DescribeTestingConfigOutput, error) {
+	out := new(DescribeTestingConfigOutput)
+	err := c.cc.Invoke(ctx, Atlas_DescribeTestingConfig_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -580,6 +602,8 @@ type AtlasServer interface {
 	SetBookmark(context.Context, *SetBookmarkInput) (*SetBookmarkOutput, error)
 	GetBookmark(context.Context, *GetBookmarkInput) (*GetBookmarkOutput, error)
 	ListExamples(context.Context, *ListExamplesInput) (*ListExamplesOutput, error)
+	UpdateTestingConfig(context.Context, *UpdateTestingConfigInput) (*UpdateTestingConfigOutput, error)
+	DescribeTestingConfig(context.Context, *DescribeTestingConfigInput) (*DescribeTestingConfigOutput, error)
 	UpdateVerifier(context.Context, *UpdateVerifierInput) (*UpdateVerifierOutput, error)
 	DescribeVerifier(context.Context, *DescribeVerifierInput) (*DescribeVerifierOutput, error)
 	UpdateInteractor(context.Context, *UpdateInteractorInput) (*UpdateInteractorOutput, error)
@@ -654,6 +678,12 @@ func (UnimplementedAtlasServer) GetBookmark(context.Context, *GetBookmarkInput) 
 }
 func (UnimplementedAtlasServer) ListExamples(context.Context, *ListExamplesInput) (*ListExamplesOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListExamples not implemented")
+}
+func (UnimplementedAtlasServer) UpdateTestingConfig(context.Context, *UpdateTestingConfigInput) (*UpdateTestingConfigOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateTestingConfig not implemented")
+}
+func (UnimplementedAtlasServer) DescribeTestingConfig(context.Context, *DescribeTestingConfigInput) (*DescribeTestingConfigOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeTestingConfig not implemented")
 }
 func (UnimplementedAtlasServer) UpdateVerifier(context.Context, *UpdateVerifierInput) (*UpdateVerifierOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateVerifier not implemented")
@@ -927,6 +957,42 @@ func _Atlas_ListExamples_Handler(srv interface{}, ctx context.Context, dec func(
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AtlasServer).ListExamples(ctx, req.(*ListExamplesInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Atlas_UpdateTestingConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateTestingConfigInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AtlasServer).UpdateTestingConfig(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Atlas_UpdateTestingConfig_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AtlasServer).UpdateTestingConfig(ctx, req.(*UpdateTestingConfigInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Atlas_DescribeTestingConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeTestingConfigInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AtlasServer).DescribeTestingConfig(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Atlas_DescribeTestingConfig_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AtlasServer).DescribeTestingConfig(ctx, req.(*DescribeTestingConfigInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1689,6 +1755,14 @@ var Atlas_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListExamples",
 			Handler:    _Atlas_ListExamples_Handler,
+		},
+		{
+			MethodName: "UpdateTestingConfig",
+			Handler:    _Atlas_UpdateTestingConfig_Handler,
+		},
+		{
+			MethodName: "DescribeTestingConfig",
+			Handler:    _Atlas_DescribeTestingConfig_Handler,
 		},
 		{
 			MethodName: "UpdateVerifier",

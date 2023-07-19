@@ -19,27 +19,31 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	TestingService_UpdateChecker_FullMethodName      = "/eolymp.atlas.TestingService/UpdateChecker"
-	TestingService_DescribeChecker_FullMethodName    = "/eolymp.atlas.TestingService/DescribeChecker"
-	TestingService_UpdateInteractor_FullMethodName   = "/eolymp.atlas.TestingService/UpdateInteractor"
-	TestingService_DescribeInteractor_FullMethodName = "/eolymp.atlas.TestingService/DescribeInteractor"
-	TestingService_CreateTestset_FullMethodName      = "/eolymp.atlas.TestingService/CreateTestset"
-	TestingService_UpdateTestset_FullMethodName      = "/eolymp.atlas.TestingService/UpdateTestset"
-	TestingService_DeleteTestset_FullMethodName      = "/eolymp.atlas.TestingService/DeleteTestset"
-	TestingService_DescribeTestset_FullMethodName    = "/eolymp.atlas.TestingService/DescribeTestset"
-	TestingService_ListTestsets_FullMethodName       = "/eolymp.atlas.TestingService/ListTestsets"
-	TestingService_CreateTest_FullMethodName         = "/eolymp.atlas.TestingService/CreateTest"
-	TestingService_UpdateTest_FullMethodName         = "/eolymp.atlas.TestingService/UpdateTest"
-	TestingService_DeleteTest_FullMethodName         = "/eolymp.atlas.TestingService/DeleteTest"
-	TestingService_DescribeTest_FullMethodName       = "/eolymp.atlas.TestingService/DescribeTest"
-	TestingService_ListTests_FullMethodName          = "/eolymp.atlas.TestingService/ListTests"
-	TestingService_ListExamples_FullMethodName       = "/eolymp.atlas.TestingService/ListExamples"
+	TestingService_UpdateTestingConfig_FullMethodName   = "/eolymp.atlas.TestingService/UpdateTestingConfig"
+	TestingService_DescribeTestingConfig_FullMethodName = "/eolymp.atlas.TestingService/DescribeTestingConfig"
+	TestingService_UpdateChecker_FullMethodName         = "/eolymp.atlas.TestingService/UpdateChecker"
+	TestingService_DescribeChecker_FullMethodName       = "/eolymp.atlas.TestingService/DescribeChecker"
+	TestingService_UpdateInteractor_FullMethodName      = "/eolymp.atlas.TestingService/UpdateInteractor"
+	TestingService_DescribeInteractor_FullMethodName    = "/eolymp.atlas.TestingService/DescribeInteractor"
+	TestingService_CreateTestset_FullMethodName         = "/eolymp.atlas.TestingService/CreateTestset"
+	TestingService_UpdateTestset_FullMethodName         = "/eolymp.atlas.TestingService/UpdateTestset"
+	TestingService_DeleteTestset_FullMethodName         = "/eolymp.atlas.TestingService/DeleteTestset"
+	TestingService_DescribeTestset_FullMethodName       = "/eolymp.atlas.TestingService/DescribeTestset"
+	TestingService_ListTestsets_FullMethodName          = "/eolymp.atlas.TestingService/ListTestsets"
+	TestingService_CreateTest_FullMethodName            = "/eolymp.atlas.TestingService/CreateTest"
+	TestingService_UpdateTest_FullMethodName            = "/eolymp.atlas.TestingService/UpdateTest"
+	TestingService_DeleteTest_FullMethodName            = "/eolymp.atlas.TestingService/DeleteTest"
+	TestingService_DescribeTest_FullMethodName          = "/eolymp.atlas.TestingService/DescribeTest"
+	TestingService_ListTests_FullMethodName             = "/eolymp.atlas.TestingService/ListTests"
+	TestingService_ListExamples_FullMethodName          = "/eolymp.atlas.TestingService/ListExamples"
 )
 
 // TestingServiceClient is the client API for TestingService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type TestingServiceClient interface {
+	UpdateTestingConfig(ctx context.Context, in *UpdateTestingConfigInput, opts ...grpc.CallOption) (*UpdateTestingConfigOutput, error)
+	DescribeTestingConfig(ctx context.Context, in *DescribeTestingConfigInput, opts ...grpc.CallOption) (*DescribeTestingConfigOutput, error)
 	UpdateChecker(ctx context.Context, in *UpdateVerifierInput, opts ...grpc.CallOption) (*UpdateVerifierOutput, error)
 	DescribeChecker(ctx context.Context, in *DescribeVerifierInput, opts ...grpc.CallOption) (*DescribeVerifierOutput, error)
 	UpdateInteractor(ctx context.Context, in *UpdateInteractorInput, opts ...grpc.CallOption) (*UpdateInteractorOutput, error)
@@ -63,6 +67,24 @@ type testingServiceClient struct {
 
 func NewTestingServiceClient(cc grpc.ClientConnInterface) TestingServiceClient {
 	return &testingServiceClient{cc}
+}
+
+func (c *testingServiceClient) UpdateTestingConfig(ctx context.Context, in *UpdateTestingConfigInput, opts ...grpc.CallOption) (*UpdateTestingConfigOutput, error) {
+	out := new(UpdateTestingConfigOutput)
+	err := c.cc.Invoke(ctx, TestingService_UpdateTestingConfig_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *testingServiceClient) DescribeTestingConfig(ctx context.Context, in *DescribeTestingConfigInput, opts ...grpc.CallOption) (*DescribeTestingConfigOutput, error) {
+	out := new(DescribeTestingConfigOutput)
+	err := c.cc.Invoke(ctx, TestingService_DescribeTestingConfig_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *testingServiceClient) UpdateChecker(ctx context.Context, in *UpdateVerifierInput, opts ...grpc.CallOption) (*UpdateVerifierOutput, error) {
@@ -204,6 +226,8 @@ func (c *testingServiceClient) ListExamples(ctx context.Context, in *ListExample
 // All implementations should embed UnimplementedTestingServiceServer
 // for forward compatibility
 type TestingServiceServer interface {
+	UpdateTestingConfig(context.Context, *UpdateTestingConfigInput) (*UpdateTestingConfigOutput, error)
+	DescribeTestingConfig(context.Context, *DescribeTestingConfigInput) (*DescribeTestingConfigOutput, error)
 	UpdateChecker(context.Context, *UpdateVerifierInput) (*UpdateVerifierOutput, error)
 	DescribeChecker(context.Context, *DescribeVerifierInput) (*DescribeVerifierOutput, error)
 	UpdateInteractor(context.Context, *UpdateInteractorInput) (*UpdateInteractorOutput, error)
@@ -225,6 +249,12 @@ type TestingServiceServer interface {
 type UnimplementedTestingServiceServer struct {
 }
 
+func (UnimplementedTestingServiceServer) UpdateTestingConfig(context.Context, *UpdateTestingConfigInput) (*UpdateTestingConfigOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateTestingConfig not implemented")
+}
+func (UnimplementedTestingServiceServer) DescribeTestingConfig(context.Context, *DescribeTestingConfigInput) (*DescribeTestingConfigOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeTestingConfig not implemented")
+}
 func (UnimplementedTestingServiceServer) UpdateChecker(context.Context, *UpdateVerifierInput) (*UpdateVerifierOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateChecker not implemented")
 }
@@ -280,6 +310,42 @@ type UnsafeTestingServiceServer interface {
 
 func RegisterTestingServiceServer(s grpc.ServiceRegistrar, srv TestingServiceServer) {
 	s.RegisterService(&TestingService_ServiceDesc, srv)
+}
+
+func _TestingService_UpdateTestingConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateTestingConfigInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TestingServiceServer).UpdateTestingConfig(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TestingService_UpdateTestingConfig_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TestingServiceServer).UpdateTestingConfig(ctx, req.(*UpdateTestingConfigInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TestingService_DescribeTestingConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeTestingConfigInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TestingServiceServer).DescribeTestingConfig(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TestingService_DescribeTestingConfig_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TestingServiceServer).DescribeTestingConfig(ctx, req.(*DescribeTestingConfigInput))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _TestingService_UpdateChecker_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -559,6 +625,14 @@ var TestingService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "eolymp.atlas.TestingService",
 	HandlerType: (*TestingServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "UpdateTestingConfig",
+			Handler:    _TestingService_UpdateTestingConfig_Handler,
+		},
+		{
+			MethodName: "DescribeTestingConfig",
+			Handler:    _TestingService_DescribeTestingConfig_Handler,
+		},
 		{
 			MethodName: "UpdateChecker",
 			Handler:    _TestingService_UpdateChecker_Handler,
