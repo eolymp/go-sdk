@@ -188,9 +188,9 @@ func RegisterMemberServiceHttpHandlers(router *mux.Router, prefix string, cli Me
 	router.Handle(prefix+"/members/{member_id}", _MemberService_UpdateMember_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.community.MemberService.UpdateMember")
-	router.Handle(prefix+"/members/{member_id}", _MemberService_RemoveMember_Rule0(cli)).
+	router.Handle(prefix+"/members/{member_id}", _MemberService_DeleteMember_Rule0(cli)).
 		Methods("DELETE").
-		Name("eolymp.community.MemberService.RemoveMember")
+		Name("eolymp.community.MemberService.DeleteMember")
 	router.Handle(prefix+"/members/{member_id}/restore", _MemberService_RestoreMember_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.community.MemberService.RestoreMember")
@@ -251,9 +251,9 @@ func _MemberService_UpdateMember_Rule0(cli MemberServiceClient) http.Handler {
 	})
 }
 
-func _MemberService_RemoveMember_Rule0(cli MemberServiceClient) http.Handler {
+func _MemberService_DeleteMember_Rule0(cli MemberServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &RemoveMemberInput{}
+		in := &DeleteMemberInput{}
 
 		if err := _MemberService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
@@ -264,7 +264,7 @@ func _MemberService_RemoveMember_Rule0(cli MemberServiceClient) http.Handler {
 		vars := mux.Vars(r)
 		in.MemberId = vars["member_id"]
 
-		out, err := cli.RemoveMember(r.Context(), in)
+		out, err := cli.DeleteMember(r.Context(), in)
 		if err != nil {
 			_MemberService_HTTPWriteErrorResponse(w, err)
 			return
@@ -464,14 +464,14 @@ func (i *MemberServiceInterceptor) UpdateMember(ctx context.Context, in *UpdateM
 	return message, err
 }
 
-func (i *MemberServiceInterceptor) RemoveMember(ctx context.Context, in *RemoveMemberInput, opts ...grpc.CallOption) (*RemoveMemberOutput, error) {
+func (i *MemberServiceInterceptor) DeleteMember(ctx context.Context, in *DeleteMemberInput, opts ...grpc.CallOption) (*DeleteMemberOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*RemoveMemberInput)
+		message, ok := in.(*DeleteMemberInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *RemoveMemberInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *DeleteMemberInput, got %T", in))
 		}
 
-		return i.client.RemoveMember(ctx, message, opts...)
+		return i.client.DeleteMember(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -479,7 +479,7 @@ func (i *MemberServiceInterceptor) RemoveMember(ctx context.Context, in *RemoveM
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.community.MemberService.RemoveMember", in, next)
+			return mw(ctx, "eolymp.community.MemberService.DeleteMember", in, next)
 		}
 	}
 
@@ -488,9 +488,9 @@ func (i *MemberServiceInterceptor) RemoveMember(ctx context.Context, in *RemoveM
 		return nil, err
 	}
 
-	message, ok := out.(*RemoveMemberOutput)
+	message, ok := out.(*DeleteMemberOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *RemoveMemberOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *DeleteMemberOutput, got %T", out))
 	}
 
 	return message, err

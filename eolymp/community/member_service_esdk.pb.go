@@ -127,8 +127,8 @@ func (s *MemberServiceService) UpdateMember(ctx context.Context, in *UpdateMembe
 	return out, nil
 }
 
-func (s *MemberServiceService) RemoveMember(ctx context.Context, in *RemoveMemberInput) (*RemoveMemberOutput, error) {
-	out := &RemoveMemberOutput{}
+func (s *MemberServiceService) DeleteMember(ctx context.Context, in *DeleteMemberInput) (*DeleteMemberOutput, error) {
+	out := &DeleteMemberOutput{}
 	path := "/members/" + url.PathEscape(in.GetMemberId())
 
 	// Cleanup URL parameters to avoid any ambiguity
