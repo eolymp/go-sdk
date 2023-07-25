@@ -100,17 +100,6 @@ func (s *MembershipServiceService) do(ctx context.Context, verb, path string, in
 	return nil
 }
 
-func (s *MembershipServiceService) JoinSpace(ctx context.Context, in *JoinSpaceInput) (*JoinSpaceOutput, error) {
-	out := &JoinSpaceOutput{}
-	path := "/members/_self"
-
-	if err := s.do(ctx, "POST", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
 func (s *MembershipServiceService) DescribeMembership(ctx context.Context, in *DescribeMembershipInput) (*DescribeMembershipOutput, error) {
 	out := &DescribeMembershipOutput{}
 	path := "/members/_self"

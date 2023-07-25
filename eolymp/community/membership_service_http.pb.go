@@ -182,35 +182,12 @@ var _MembershipService_WebsocketCodec = websocket.Codec{
 // RegisterMembershipServiceHttpHandlers adds handlers for for MembershipServiceClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterMembershipServiceHttpHandlers(router *mux.Router, prefix string, cli MembershipServiceClient) {
-	router.Handle(prefix+"/members/_self", _MembershipService_JoinSpace_Rule0(cli)).
-		Methods("POST").
-		Name("eolymp.community.MembershipService.JoinSpace")
 	router.Handle(prefix+"/members/_self", _MembershipService_DescribeMembership_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.community.MembershipService.DescribeMembership")
 	router.Handle(prefix+"/members/_self/attributes", _MembershipService_UpdateMembership_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.community.MembershipService.UpdateMembership")
-}
-
-func _MembershipService_JoinSpace_Rule0(cli MembershipServiceClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &JoinSpaceInput{}
-
-		if err := _MembershipService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_MembershipService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := cli.JoinSpace(r.Context(), in)
-		if err != nil {
-			_MembershipService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_MembershipService_HTTPWriteResponse(w, out)
-	})
 }
 
 func _MembershipService_DescribeMembership_Rule0(cli MembershipServiceClient) http.Handler {
@@ -263,38 +240,6 @@ type MembershipServiceInterceptor struct {
 // NewMembershipServiceInterceptor constructs additional middleware for a server based on annotations in proto files
 func NewMembershipServiceInterceptor(cli MembershipServiceClient, middleware ..._MembershipServiceMiddleware) *MembershipServiceInterceptor {
 	return &MembershipServiceInterceptor{client: cli, middleware: middleware}
-}
-
-func (i *MembershipServiceInterceptor) JoinSpace(ctx context.Context, in *JoinSpaceInput, opts ...grpc.CallOption) (*JoinSpaceOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*JoinSpaceInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *JoinSpaceInput, got %T", in))
-		}
-
-		return i.client.JoinSpace(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.community.MembershipService.JoinSpace", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*JoinSpaceOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *JoinSpaceOutput, got %T", out))
-	}
-
-	return message, err
 }
 
 func (i *MembershipServiceInterceptor) DescribeMembership(ctx context.Context, in *DescribeMembershipInput, opts ...grpc.CallOption) (*DescribeMembershipOutput, error) {

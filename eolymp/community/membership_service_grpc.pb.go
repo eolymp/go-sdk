@@ -19,7 +19,6 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	MembershipService_JoinSpace_FullMethodName          = "/eolymp.community.MembershipService/JoinSpace"
 	MembershipService_DescribeMembership_FullMethodName = "/eolymp.community.MembershipService/DescribeMembership"
 	MembershipService_UpdateMembership_FullMethodName   = "/eolymp.community.MembershipService/UpdateMembership"
 )
@@ -28,8 +27,6 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type MembershipServiceClient interface {
-	// Add yourself to the space, for already authenticated user (for example using 3rd party IdP)
-	JoinSpace(ctx context.Context, in *JoinSpaceInput, opts ...grpc.CallOption) (*JoinSpaceOutput, error)
 	// Describe member profile for authenticated user
 	DescribeMembership(ctx context.Context, in *DescribeMembershipInput, opts ...grpc.CallOption) (*DescribeMembershipOutput, error)
 	// Update member profile for authenticated user
@@ -42,15 +39,6 @@ type membershipServiceClient struct {
 
 func NewMembershipServiceClient(cc grpc.ClientConnInterface) MembershipServiceClient {
 	return &membershipServiceClient{cc}
-}
-
-func (c *membershipServiceClient) JoinSpace(ctx context.Context, in *JoinSpaceInput, opts ...grpc.CallOption) (*JoinSpaceOutput, error) {
-	out := new(JoinSpaceOutput)
-	err := c.cc.Invoke(ctx, MembershipService_JoinSpace_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
 }
 
 func (c *membershipServiceClient) DescribeMembership(ctx context.Context, in *DescribeMembershipInput, opts ...grpc.CallOption) (*DescribeMembershipOutput, error) {
@@ -75,8 +63,6 @@ func (c *membershipServiceClient) UpdateMembership(ctx context.Context, in *Upda
 // All implementations should embed UnimplementedMembershipServiceServer
 // for forward compatibility
 type MembershipServiceServer interface {
-	// Add yourself to the space, for already authenticated user (for example using 3rd party IdP)
-	JoinSpace(context.Context, *JoinSpaceInput) (*JoinSpaceOutput, error)
 	// Describe member profile for authenticated user
 	DescribeMembership(context.Context, *DescribeMembershipInput) (*DescribeMembershipOutput, error)
 	// Update member profile for authenticated user
@@ -87,9 +73,6 @@ type MembershipServiceServer interface {
 type UnimplementedMembershipServiceServer struct {
 }
 
-func (UnimplementedMembershipServiceServer) JoinSpace(context.Context, *JoinSpaceInput) (*JoinSpaceOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method JoinSpace not implemented")
-}
 func (UnimplementedMembershipServiceServer) DescribeMembership(context.Context, *DescribeMembershipInput) (*DescribeMembershipOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeMembership not implemented")
 }
@@ -106,24 +89,6 @@ type UnsafeMembershipServiceServer interface {
 
 func RegisterMembershipServiceServer(s grpc.ServiceRegistrar, srv MembershipServiceServer) {
 	s.RegisterService(&MembershipService_ServiceDesc, srv)
-}
-
-func _MembershipService_JoinSpace_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(JoinSpaceInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(MembershipServiceServer).JoinSpace(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: MembershipService_JoinSpace_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MembershipServiceServer).JoinSpace(ctx, req.(*JoinSpaceInput))
-	}
-	return interceptor(ctx, in, info, handler)
 }
 
 func _MembershipService_DescribeMembership_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -169,10 +134,6 @@ var MembershipService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "eolymp.community.MembershipService",
 	HandlerType: (*MembershipServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
-		{
-			MethodName: "JoinSpace",
-			Handler:    _MembershipService_JoinSpace_Handler,
-		},
 		{
 			MethodName: "DescribeMembership",
 			Handler:    _MembershipService_DescribeMembership_Handler,
