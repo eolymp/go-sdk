@@ -17,8 +17,8 @@ import (
 	http "net/http"
 )
 
-// _IntrospectService_HTTPReadQueryString parses body into proto.Message
-func _IntrospectService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+// _EntitlementService_HTTPReadQueryString parses body into proto.Message
+func _EntitlementService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
 	query := r.URL.Query().Get("q")
 	if query == "" {
 		return nil
@@ -31,8 +31,8 @@ func _IntrospectService_HTTPReadQueryString(r *http.Request, v proto.Message) er
 	return nil
 }
 
-// _IntrospectService_HTTPReadRequestBody parses body into proto.Message
-func _IntrospectService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
+// _EntitlementService_HTTPReadRequestBody parses body into proto.Message
+func _EntitlementService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
 	data, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		return err
@@ -45,11 +45,11 @@ func _IntrospectService_HTTPReadRequestBody(r *http.Request, v proto.Message) er
 	return nil
 }
 
-// _IntrospectService_HTTPWriteResponse writes proto.Message to HTTP response
-func _IntrospectService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message) {
+// _EntitlementService_HTTPWriteResponse writes proto.Message to HTTP response
+func _EntitlementService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message) {
 	data, err := protojson.Marshal(v)
 	if err != nil {
-		_IntrospectService_HTTPWriteErrorResponse(w, err)
+		_EntitlementService_HTTPWriteErrorResponse(w, err)
 		return
 	}
 
@@ -59,8 +59,8 @@ func _IntrospectService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message
 	_, _ = w.Write(data)
 }
 
-// _IntrospectService_HTTPWriteErrorResponse writes error to HTTP response with error status code
-func _IntrospectService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
+// _EntitlementService_HTTPWriteErrorResponse writes error to HTTP response with error status code
+func _EntitlementService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
 
 	w.Header().Set("Content-Type", "application/json")
@@ -112,8 +112,8 @@ func _IntrospectService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	_, _ = w.Write(data)
 }
 
-// _IntrospectService_WebsocketErrorResponse writes error to websocket connection
-func _IntrospectService_WebsocketErrorResponse(conn *websocket.Conn, e error) {
+// _EntitlementService_WebsocketErrorResponse writes error to websocket connection
+func _EntitlementService_WebsocketErrorResponse(conn *websocket.Conn, e error) {
 	switch status.Convert(e).Code() {
 	case codes.OK:
 		conn.WriteClose(1000)
@@ -154,8 +154,8 @@ func _IntrospectService_WebsocketErrorResponse(conn *websocket.Conn, e error) {
 	}
 }
 
-// _IntrospectService_WebsocketCodec implements protobuf codec for websockets package
-var _IntrospectService_WebsocketCodec = websocket.Codec{
+// _EntitlementService_WebsocketCodec implements protobuf codec for websockets package
+var _EntitlementService_WebsocketCodec = websocket.Codec{
 	Marshal: func(v interface{}) ([]byte, byte, error) {
 		m, ok := v.(proto.Message)
 		if !ok {
@@ -179,47 +179,47 @@ var _IntrospectService_WebsocketCodec = websocket.Codec{
 	},
 }
 
-// RegisterIntrospectServiceHttpHandlers adds handlers for for IntrospectServiceClient
+// RegisterEntitlementServiceHttpHandlers adds handlers for for EntitlementServiceClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterIntrospectServiceHttpHandlers(router *mux.Router, prefix string, cli IntrospectServiceClient) {
-	router.Handle(prefix+"/__entitlements", _IntrospectService_IntrospectEntitlements_Rule0(cli)).
+func RegisterEntitlementServiceHttpHandlers(router *mux.Router, prefix string, cli EntitlementServiceClient) {
+	router.Handle(prefix+"/__entitlements", _EntitlementService_IntrospectEntitlements_Rule0(cli)).
 		Methods("GET").
-		Name("eolymp.acl.IntrospectService.IntrospectEntitlements")
+		Name("eolymp.acl.EntitlementService.IntrospectEntitlements")
 }
 
-func _IntrospectService_IntrospectEntitlements_Rule0(cli IntrospectServiceClient) http.Handler {
+func _EntitlementService_IntrospectEntitlements_Rule0(cli EntitlementServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &IntrospectEntitlementsInput{}
 
-		if err := _IntrospectService_HTTPReadQueryString(r, in); err != nil {
+		if err := _EntitlementService_HTTPReadQueryString(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
-			_IntrospectService_HTTPWriteErrorResponse(w, err)
+			_EntitlementService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
 		out, err := cli.IntrospectEntitlements(r.Context(), in)
 		if err != nil {
-			_IntrospectService_HTTPWriteErrorResponse(w, err)
+			_EntitlementService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_IntrospectService_HTTPWriteResponse(w, out)
+		_EntitlementService_HTTPWriteResponse(w, out)
 	})
 }
 
-type _IntrospectServiceHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
-type _IntrospectServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _IntrospectServiceHandler) (out proto.Message, err error)
-type IntrospectServiceInterceptor struct {
-	middleware []_IntrospectServiceMiddleware
-	client     IntrospectServiceClient
+type _EntitlementServiceHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
+type _EntitlementServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _EntitlementServiceHandler) (out proto.Message, err error)
+type EntitlementServiceInterceptor struct {
+	middleware []_EntitlementServiceMiddleware
+	client     EntitlementServiceClient
 }
 
-// NewIntrospectServiceInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewIntrospectServiceInterceptor(cli IntrospectServiceClient, middleware ..._IntrospectServiceMiddleware) *IntrospectServiceInterceptor {
-	return &IntrospectServiceInterceptor{client: cli, middleware: middleware}
+// NewEntitlementServiceInterceptor constructs additional middleware for a server based on annotations in proto files
+func NewEntitlementServiceInterceptor(cli EntitlementServiceClient, middleware ..._EntitlementServiceMiddleware) *EntitlementServiceInterceptor {
+	return &EntitlementServiceInterceptor{client: cli, middleware: middleware}
 }
 
-func (i *IntrospectServiceInterceptor) IntrospectEntitlements(ctx context.Context, in *IntrospectEntitlementsInput, opts ...grpc.CallOption) (*IntrospectEntitlementsOutput, error) {
+func (i *EntitlementServiceInterceptor) IntrospectEntitlements(ctx context.Context, in *IntrospectEntitlementsInput, opts ...grpc.CallOption) (*IntrospectEntitlementsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*IntrospectEntitlementsInput)
 		if !ok && in != nil {
@@ -234,7 +234,7 @@ func (i *IntrospectServiceInterceptor) IntrospectEntitlements(ctx context.Contex
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.acl.IntrospectService.IntrospectEntitlements", in, next)
+			return mw(ctx, "eolymp.acl.EntitlementService.IntrospectEntitlements", in, next)
 		}
 	}
 

@@ -16,17 +16,17 @@ import (
 	os "os"
 )
 
-type _IntrospectServiceHttpClient interface {
+type _EntitlementServiceHttpClient interface {
 	Do(*http.Request) (*http.Response, error)
 }
 
-type IntrospectServiceService struct {
+type EntitlementServiceService struct {
 	base string
-	cli  _IntrospectServiceHttpClient
+	cli  _EntitlementServiceHttpClient
 }
 
-// NewIntrospectServiceHttpClient constructs client for IntrospectService
-func NewIntrospectServiceHttpClient(url string, cli _IntrospectServiceHttpClient) *IntrospectServiceService {
+// NewEntitlementServiceHttpClient constructs client for EntitlementService
+func NewEntitlementServiceHttpClient(url string, cli _EntitlementServiceHttpClient) *EntitlementServiceService {
 	if url == "" {
 		url = os.Getenv("EOLYMP_API_URL")
 		if url == "" {
@@ -34,10 +34,10 @@ func NewIntrospectServiceHttpClient(url string, cli _IntrospectServiceHttpClient
 		}
 	}
 
-	return &IntrospectServiceService{base: url, cli: cli}
+	return &EntitlementServiceService{base: url, cli: cli}
 }
 
-func (s *IntrospectServiceService) do(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
+func (s *EntitlementServiceService) do(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
 	var body io.Reader
 
 	if in != nil {
@@ -100,7 +100,7 @@ func (s *IntrospectServiceService) do(ctx context.Context, verb, path string, in
 	return nil
 }
 
-func (s *IntrospectServiceService) IntrospectEntitlements(ctx context.Context, in *IntrospectEntitlementsInput) (*IntrospectEntitlementsOutput, error) {
+func (s *EntitlementServiceService) IntrospectEntitlements(ctx context.Context, in *IntrospectEntitlementsInput) (*IntrospectEntitlementsOutput, error) {
 	out := &IntrospectEntitlementsOutput{}
 	path := "/__entitlements"
 
