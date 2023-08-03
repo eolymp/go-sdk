@@ -42,7 +42,6 @@ const (
 	Cognito_UpdateRoles_FullMethodName             = "/eolymp.cognito.Cognito/UpdateRoles"
 	Cognito_StartRecovery_FullMethodName           = "/eolymp.cognito.Cognito/StartRecovery"
 	Cognito_CompleteRecovery_FullMethodName        = "/eolymp.cognito.Cognito/CompleteRecovery"
-	Cognito_ListEntitlements_FullMethodName        = "/eolymp.cognito.Cognito/ListEntitlements"
 	Cognito_SelfDestruct_FullMethodName            = "/eolymp.cognito.Cognito/SelfDestruct"
 )
 
@@ -98,9 +97,6 @@ type CognitoClient interface {
 	// Finish recovery procedure by setting new password, this method requires token sent by email using `StartRecovery`
 	// method
 	CompleteRecovery(ctx context.Context, in *CompleteRecoverInput, opts ...grpc.CallOption) (*CompleteRecoverOutput, error)
-	// Lists entitlements granted to authenticated user.
-	ListEntitlements(ctx context.Context, in *ListEntitlementsInput, opts ...grpc.CallOption) (*ListEntitlementsOutput, error)
-	// Lists entitlements granted to authenticated user.
 	SelfDestruct(ctx context.Context, in *SelfDestructInput, opts ...grpc.CallOption) (*SelfDestructOutput, error)
 }
 
@@ -319,15 +315,6 @@ func (c *cognitoClient) CompleteRecovery(ctx context.Context, in *CompleteRecove
 	return out, nil
 }
 
-func (c *cognitoClient) ListEntitlements(ctx context.Context, in *ListEntitlementsInput, opts ...grpc.CallOption) (*ListEntitlementsOutput, error) {
-	out := new(ListEntitlementsOutput)
-	err := c.cc.Invoke(ctx, Cognito_ListEntitlements_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *cognitoClient) SelfDestruct(ctx context.Context, in *SelfDestructInput, opts ...grpc.CallOption) (*SelfDestructOutput, error) {
 	out := new(SelfDestructOutput)
 	err := c.cc.Invoke(ctx, Cognito_SelfDestruct_FullMethodName, in, out, opts...)
@@ -389,9 +376,6 @@ type CognitoServer interface {
 	// Finish recovery procedure by setting new password, this method requires token sent by email using `StartRecovery`
 	// method
 	CompleteRecovery(context.Context, *CompleteRecoverInput) (*CompleteRecoverOutput, error)
-	// Lists entitlements granted to authenticated user.
-	ListEntitlements(context.Context, *ListEntitlementsInput) (*ListEntitlementsOutput, error)
-	// Lists entitlements granted to authenticated user.
 	SelfDestruct(context.Context, *SelfDestructInput) (*SelfDestructOutput, error)
 }
 
@@ -467,9 +451,6 @@ func (UnimplementedCognitoServer) StartRecovery(context.Context, *StartRecoveryI
 }
 func (UnimplementedCognitoServer) CompleteRecovery(context.Context, *CompleteRecoverInput) (*CompleteRecoverOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CompleteRecovery not implemented")
-}
-func (UnimplementedCognitoServer) ListEntitlements(context.Context, *ListEntitlementsInput) (*ListEntitlementsOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListEntitlements not implemented")
 }
 func (UnimplementedCognitoServer) SelfDestruct(context.Context, *SelfDestructInput) (*SelfDestructOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SelfDestruct not implemented")
@@ -900,24 +881,6 @@ func _Cognito_CompleteRecovery_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Cognito_ListEntitlements_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListEntitlementsInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(CognitoServer).ListEntitlements(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Cognito_ListEntitlements_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CognitoServer).ListEntitlements(ctx, req.(*ListEntitlementsInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _Cognito_SelfDestruct_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(SelfDestructInput)
 	if err := dec(in); err != nil {
@@ -1034,10 +997,6 @@ var Cognito_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CompleteRecovery",
 			Handler:    _Cognito_CompleteRecovery_Handler,
-		},
-		{
-			MethodName: "ListEntitlements",
-			Handler:    _Cognito_ListEntitlements_Handler,
 		},
 		{
 			MethodName: "SelfDestruct",

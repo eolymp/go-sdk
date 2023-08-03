@@ -1298,17 +1298,6 @@ func (s *JudgeService) RebuildScore(ctx context.Context, in *RebuildScoreInput) 
 	return out, nil
 }
 
-func (s *JudgeService) ListEntitlements(ctx context.Context, in *ListEntitlementsInput) (*ListEntitlementsOutput, error) {
-	out := &ListEntitlementsOutput{}
-	path := "/__judge/entitlements"
-
-	if err := s.do(ctx, "GET", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
 func (s *JudgeService) ListActivities(ctx context.Context, in *ListActivitiesInput) (*ListActivitiesOutput, error) {
 	out := &ListActivitiesOutput{}
 	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/activities"

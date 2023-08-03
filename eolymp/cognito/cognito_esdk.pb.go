@@ -350,17 +350,6 @@ func (s *CognitoService) CompleteRecovery(ctx context.Context, in *CompleteRecov
 	return out, nil
 }
 
-func (s *CognitoService) ListEntitlements(ctx context.Context, in *ListEntitlementsInput) (*ListEntitlementsOutput, error) {
-	out := &ListEntitlementsOutput{}
-	path := "/__cognito/entitlements"
-
-	if err := s.do(ctx, "GET", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
 func (s *CognitoService) SelfDestruct(ctx context.Context, in *SelfDestructInput) (*SelfDestructOutput, error) {
 	out := &SelfDestructOutput{}
 	path := "/self"

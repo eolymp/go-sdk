@@ -242,9 +242,6 @@ func RegisterCognitoHttpHandlers(router *mux.Router, prefix string, cli CognitoC
 	router.Handle(prefix+"/users/{user_id}/recover", _Cognito_CompleteRecovery_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.cognito.Cognito.CompleteRecovery")
-	router.Handle(prefix+"/__cognito/entitlements", _Cognito_ListEntitlements_Rule0(cli)).
-		Methods("GET").
-		Name("eolymp.cognito.Cognito.ListEntitlements")
 	router.Handle(prefix+"/self", _Cognito_SelfDestruct_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.cognito.Cognito.SelfDestruct")
@@ -659,26 +656,6 @@ func _Cognito_CompleteRecovery_Rule0(cli CognitoClient) http.Handler {
 		in.UserId = vars["user_id"]
 
 		out, err := cli.CompleteRecovery(r.Context(), in)
-		if err != nil {
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Cognito_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Cognito_ListEntitlements_Rule0(cli CognitoClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ListEntitlementsInput{}
-
-		if err := _Cognito_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := cli.ListEntitlements(r.Context(), in)
 		if err != nil {
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
@@ -1451,38 +1428,6 @@ func (i *CognitoInterceptor) CompleteRecovery(ctx context.Context, in *CompleteR
 	message, ok := out.(*CompleteRecoverOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *CompleteRecoverOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *CognitoInterceptor) ListEntitlements(ctx context.Context, in *ListEntitlementsInput, opts ...grpc.CallOption) (*ListEntitlementsOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*ListEntitlementsInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *ListEntitlementsInput, got %T", in))
-		}
-
-		return i.client.ListEntitlements(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito.ListEntitlements", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*ListEntitlementsOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *ListEntitlementsOutput, got %T", out))
 	}
 
 	return message, err

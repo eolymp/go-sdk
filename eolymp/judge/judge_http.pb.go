@@ -404,9 +404,6 @@ func RegisterJudgeHttpHandlers(router *mux.Router, prefix string, cli JudgeClien
 	router.Handle(prefix+"/contests/{contest_id}/rebuild", _Judge_RebuildScore_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.Judge.RebuildScore")
-	router.Handle(prefix+"/__judge/entitlements", _Judge_ListEntitlements_Rule0(cli)).
-		Methods("GET").
-		Name("eolymp.judge.Judge.ListEntitlements")
 	router.Handle(prefix+"/contests/{contest_id}/activities", _Judge_ListActivities_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.Judge.ListActivities")
@@ -2127,26 +2124,6 @@ func _Judge_RebuildScore_Rule0(cli JudgeClient) http.Handler {
 		in.ContestId = vars["contest_id"]
 
 		out, err := cli.RebuildScore(r.Context(), in)
-		if err != nil {
-			_Judge_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Judge_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Judge_ListEntitlements_Rule0(cli JudgeClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ListEntitlementsInput{}
-
-		if err := _Judge_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_Judge_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := cli.ListEntitlements(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -4554,38 +4531,6 @@ func (i *JudgeInterceptor) RebuildScore(ctx context.Context, in *RebuildScoreInp
 	message, ok := out.(*RebuildScoreOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *RebuildScoreOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *JudgeInterceptor) ListEntitlements(ctx context.Context, in *ListEntitlementsInput, opts ...grpc.CallOption) (*ListEntitlementsOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*ListEntitlementsInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *ListEntitlementsInput, got %T", in))
-		}
-
-		return i.client.ListEntitlements(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge.ListEntitlements", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*ListEntitlementsOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *ListEntitlementsOutput, got %T", out))
 	}
 
 	return message, err

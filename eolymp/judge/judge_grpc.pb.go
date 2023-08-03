@@ -93,7 +93,6 @@ const (
 	Judge_ExportScore_FullMethodName                = "/eolymp.judge.Judge/ExportScore"
 	Judge_ListResult_FullMethodName                 = "/eolymp.judge.Judge/ListResult"
 	Judge_RebuildScore_FullMethodName               = "/eolymp.judge.Judge/RebuildScore"
-	Judge_ListEntitlements_FullMethodName           = "/eolymp.judge.Judge/ListEntitlements"
 	Judge_ListActivities_FullMethodName             = "/eolymp.judge.Judge/ListActivities"
 )
 
@@ -231,8 +230,6 @@ type JudgeClient interface {
 	ListResult(ctx context.Context, in *ListResultInput, opts ...grpc.CallOption) (*ListResultOutput, error)
 	// Rebuild scoreboard
 	RebuildScore(ctx context.Context, in *RebuildScoreInput, opts ...grpc.CallOption) (*RebuildScoreOutput, error)
-	// Lists entitlements granted to authenticated user.
-	ListEntitlements(ctx context.Context, in *ListEntitlementsInput, opts ...grpc.CallOption) (*ListEntitlementsOutput, error)
 	ListActivities(ctx context.Context, in *ListActivitiesInput, opts ...grpc.CallOption) (*ListActivitiesOutput, error)
 }
 
@@ -910,15 +907,6 @@ func (c *judgeClient) RebuildScore(ctx context.Context, in *RebuildScoreInput, o
 	return out, nil
 }
 
-func (c *judgeClient) ListEntitlements(ctx context.Context, in *ListEntitlementsInput, opts ...grpc.CallOption) (*ListEntitlementsOutput, error) {
-	out := new(ListEntitlementsOutput)
-	err := c.cc.Invoke(ctx, Judge_ListEntitlements_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *judgeClient) ListActivities(ctx context.Context, in *ListActivitiesInput, opts ...grpc.CallOption) (*ListActivitiesOutput, error) {
 	out := new(ListActivitiesOutput)
 	err := c.cc.Invoke(ctx, Judge_ListActivities_FullMethodName, in, out, opts...)
@@ -1062,8 +1050,6 @@ type JudgeServer interface {
 	ListResult(context.Context, *ListResultInput) (*ListResultOutput, error)
 	// Rebuild scoreboard
 	RebuildScore(context.Context, *RebuildScoreInput) (*RebuildScoreOutput, error)
-	// Lists entitlements granted to authenticated user.
-	ListEntitlements(context.Context, *ListEntitlementsInput) (*ListEntitlementsOutput, error)
 	ListActivities(context.Context, *ListActivitiesInput) (*ListActivitiesOutput, error)
 }
 
@@ -1292,9 +1278,6 @@ func (UnimplementedJudgeServer) ListResult(context.Context, *ListResultInput) (*
 }
 func (UnimplementedJudgeServer) RebuildScore(context.Context, *RebuildScoreInput) (*RebuildScoreOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RebuildScore not implemented")
-}
-func (UnimplementedJudgeServer) ListEntitlements(context.Context, *ListEntitlementsInput) (*ListEntitlementsOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListEntitlements not implemented")
 }
 func (UnimplementedJudgeServer) ListActivities(context.Context, *ListActivitiesInput) (*ListActivitiesOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListActivities not implemented")
@@ -2643,24 +2626,6 @@ func _Judge_RebuildScore_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Judge_ListEntitlements_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListEntitlementsInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(JudgeServer).ListEntitlements(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Judge_ListEntitlements_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(JudgeServer).ListEntitlements(ctx, req.(*ListEntitlementsInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _Judge_ListActivities_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListActivitiesInput)
 	if err := dec(in); err != nil {
@@ -2981,10 +2946,6 @@ var Judge_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RebuildScore",
 			Handler:    _Judge_RebuildScore_Handler,
-		},
-		{
-			MethodName: "ListEntitlements",
-			Handler:    _Judge_ListEntitlements_Handler,
 		},
 		{
 			MethodName: "ListActivities",

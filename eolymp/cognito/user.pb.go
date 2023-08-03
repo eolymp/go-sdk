@@ -77,7 +77,7 @@ type User struct {
 
 	Id                string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`                                                                     // Unique identifier
 	Username          string                 `protobuf:"bytes,2,opt,name=username,proto3" json:"username,omitempty"`                                                         // Username (handler)
-	Email             string                 `protobuf:"bytes,3,opt,name=email,proto3" json:"email,omitempty"`                                                               // Email address (requires VIEW_PRIVATE_DATA entitlement)
+	Email             string                 `protobuf:"bytes,3,opt,name=email,proto3" json:"email,omitempty"`                                                               // Email address
 	Active            bool                   `protobuf:"varint,4,opt,name=active,proto3" json:"active,omitempty"`                                                            // Account is active, user can login
 	Rank              uint32                 `protobuf:"varint,41,opt,name=rank,proto3" json:"rank,omitempty"`                                                               // Rank
 	RankTrend         User_RankTrend         `protobuf:"varint,42,opt,name=rank_trend,json=rankTrend,proto3,enum=eolymp.cognito.User_RankTrend" json:"rank_trend,omitempty"` // Rank trend (up or down)
@@ -87,12 +87,12 @@ type User struct {
 	Occupation        string                 `protobuf:"bytes,13,opt,name=occupation,proto3" json:"occupation,omitempty"`                                                    // Occupation
 	Country           string                 `protobuf:"bytes,21,opt,name=country,proto3" json:"country,omitempty"`                                                          // Country code
 	City              string                 `protobuf:"bytes,22,opt,name=city,proto3" json:"city,omitempty"`                                                                // City
-	EmailStatus       string                 `protobuf:"bytes,32,opt,name=email_status,json=emailStatus,proto3" json:"email_status,omitempty"`                               // Email confirmation status (requires VIEW_PRIVATE_DATA entitlement)
-	Birthday          string                 `protobuf:"bytes,33,opt,name=birthday,proto3" json:"birthday,omitempty"`                                                        // Birthday (requires VIEW_PRIVATE_DATA entitlement)
-	RegisteredOn      *timestamppb.Timestamp `protobuf:"bytes,34,opt,name=registered_on,json=registeredOn,proto3" json:"registered_on,omitempty"`                            // Exact time when user registered (requires VIEW_PRIVATE_DATA entitlement)
-	LastActivity      *timestamppb.Timestamp `protobuf:"bytes,35,opt,name=last_activity,json=lastActivity,proto3" json:"last_activity,omitempty"`                            // Exact time when user was last active (requires VIEW_PRIVATE_DATA entitlement)
-	UsernameChangedOn *timestamppb.Timestamp `protobuf:"bytes,36,opt,name=username_changed_on,json=usernameChangedOn,proto3" json:"username_changed_on,omitempty"`           // Exact time when user has changed username last time (requires VIEW_PRIVATE_DATA entitlement)
-	PasswordChangedOn *timestamppb.Timestamp `protobuf:"bytes,37,opt,name=password_changed_on,json=passwordChangedOn,proto3" json:"password_changed_on,omitempty"`           // Exact time when user has changed password last time (requires VIEW_PRIVATE_DATA entitlement)
+	EmailStatus       string                 `protobuf:"bytes,32,opt,name=email_status,json=emailStatus,proto3" json:"email_status,omitempty"`                               // Email confirmation status
+	Birthday          string                 `protobuf:"bytes,33,opt,name=birthday,proto3" json:"birthday,omitempty"`                                                        // Birthday
+	RegisteredOn      *timestamppb.Timestamp `protobuf:"bytes,34,opt,name=registered_on,json=registeredOn,proto3" json:"registered_on,omitempty"`                            // Exact time when user registered
+	LastActivity      *timestamppb.Timestamp `protobuf:"bytes,35,opt,name=last_activity,json=lastActivity,proto3" json:"last_activity,omitempty"`                            // Exact time when user was last active
+	UsernameChangedOn *timestamppb.Timestamp `protobuf:"bytes,36,opt,name=username_changed_on,json=usernameChangedOn,proto3" json:"username_changed_on,omitempty"`           // Exact time when user has changed username last time
+	PasswordChangedOn *timestamppb.Timestamp `protobuf:"bytes,37,opt,name=password_changed_on,json=passwordChangedOn,proto3" json:"password_changed_on,omitempty"`           // Exact time when user has changed password last time
 	Locale            string                 `protobuf:"bytes,40,opt,name=locale,proto3" json:"locale,omitempty"`                                                            // Locale
 }
 
