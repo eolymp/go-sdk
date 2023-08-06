@@ -122,6 +122,17 @@ func (s *ProblemServiceService) UpdateProblem(ctx context.Context, in *UpdatePro
 	return out, nil
 }
 
+func (s *ProblemServiceService) SyncProblem(ctx context.Context, in *SyncProblemInput) (*SyncProblemOutput, error) {
+	out := &SyncProblemOutput{}
+	path := "/sync"
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *ProblemServiceService) DescribeProblem(ctx context.Context, in *DescribeProblemInput) (*DescribeProblemOutput, error) {
 	out := &DescribeProblemOutput{}
 	path := "/"

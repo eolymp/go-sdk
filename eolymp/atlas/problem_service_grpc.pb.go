@@ -21,6 +21,7 @@ const _ = grpc.SupportPackageIsVersion7
 const (
 	ProblemService_DeleteProblem_FullMethodName    = "/eolymp.atlas.ProblemService/DeleteProblem"
 	ProblemService_UpdateProblem_FullMethodName    = "/eolymp.atlas.ProblemService/UpdateProblem"
+	ProblemService_SyncProblem_FullMethodName      = "/eolymp.atlas.ProblemService/SyncProblem"
 	ProblemService_DescribeProblem_FullMethodName  = "/eolymp.atlas.ProblemService/DescribeProblem"
 	ProblemService_UpdateVisibility_FullMethodName = "/eolymp.atlas.ProblemService/UpdateVisibility"
 	ProblemService_UpdatePrivacy_FullMethodName    = "/eolymp.atlas.ProblemService/UpdatePrivacy"
@@ -33,6 +34,7 @@ const (
 type ProblemServiceClient interface {
 	DeleteProblem(ctx context.Context, in *DeleteProblemInput, opts ...grpc.CallOption) (*DeleteProblemOutput, error)
 	UpdateProblem(ctx context.Context, in *UpdateProblemInput, opts ...grpc.CallOption) (*UpdateProblemOutput, error)
+	SyncProblem(ctx context.Context, in *SyncProblemInput, opts ...grpc.CallOption) (*SyncProblemOutput, error)
 	DescribeProblem(ctx context.Context, in *DescribeProblemInput, opts ...grpc.CallOption) (*DescribeProblemOutput, error)
 	// deprecated: use UpdateProblem instead
 	UpdateVisibility(ctx context.Context, in *UpdateVisibilityInput, opts ...grpc.CallOption) (*UpdateVisibilityOutput, error)
@@ -61,6 +63,15 @@ func (c *problemServiceClient) DeleteProblem(ctx context.Context, in *DeleteProb
 func (c *problemServiceClient) UpdateProblem(ctx context.Context, in *UpdateProblemInput, opts ...grpc.CallOption) (*UpdateProblemOutput, error) {
 	out := new(UpdateProblemOutput)
 	err := c.cc.Invoke(ctx, ProblemService_UpdateProblem_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *problemServiceClient) SyncProblem(ctx context.Context, in *SyncProblemInput, opts ...grpc.CallOption) (*SyncProblemOutput, error) {
+	out := new(SyncProblemOutput)
+	err := c.cc.Invoke(ctx, ProblemService_SyncProblem_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -109,6 +120,7 @@ func (c *problemServiceClient) ListVersions(ctx context.Context, in *ListVersion
 type ProblemServiceServer interface {
 	DeleteProblem(context.Context, *DeleteProblemInput) (*DeleteProblemOutput, error)
 	UpdateProblem(context.Context, *UpdateProblemInput) (*UpdateProblemOutput, error)
+	SyncProblem(context.Context, *SyncProblemInput) (*SyncProblemOutput, error)
 	DescribeProblem(context.Context, *DescribeProblemInput) (*DescribeProblemOutput, error)
 	// deprecated: use UpdateProblem instead
 	UpdateVisibility(context.Context, *UpdateVisibilityInput) (*UpdateVisibilityOutput, error)
@@ -126,6 +138,9 @@ func (UnimplementedProblemServiceServer) DeleteProblem(context.Context, *DeleteP
 }
 func (UnimplementedProblemServiceServer) UpdateProblem(context.Context, *UpdateProblemInput) (*UpdateProblemOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateProblem not implemented")
+}
+func (UnimplementedProblemServiceServer) SyncProblem(context.Context, *SyncProblemInput) (*SyncProblemOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SyncProblem not implemented")
 }
 func (UnimplementedProblemServiceServer) DescribeProblem(context.Context, *DescribeProblemInput) (*DescribeProblemOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeProblem not implemented")
@@ -183,6 +198,24 @@ func _ProblemService_UpdateProblem_Handler(srv interface{}, ctx context.Context,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ProblemServiceServer).UpdateProblem(ctx, req.(*UpdateProblemInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ProblemService_SyncProblem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SyncProblemInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProblemServiceServer).SyncProblem(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProblemService_SyncProblem_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProblemServiceServer).SyncProblem(ctx, req.(*SyncProblemInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -273,6 +306,10 @@ var ProblemService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateProblem",
 			Handler:    _ProblemService_UpdateProblem_Handler,
+		},
+		{
+			MethodName: "SyncProblem",
+			Handler:    _ProblemService_SyncProblem_Handler,
 		},
 		{
 			MethodName: "DescribeProblem",

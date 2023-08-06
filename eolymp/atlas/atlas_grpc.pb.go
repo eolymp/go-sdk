@@ -24,6 +24,7 @@ const (
 	Atlas_ListProblems_FullMethodName           = "/eolymp.atlas.Atlas/ListProblems"
 	Atlas_DescribeProblem_FullMethodName        = "/eolymp.atlas.Atlas/DescribeProblem"
 	Atlas_UpdateProblem_FullMethodName          = "/eolymp.atlas.Atlas/UpdateProblem"
+	Atlas_SyncProblem_FullMethodName            = "/eolymp.atlas.Atlas/SyncProblem"
 	Atlas_SetBookmark_FullMethodName            = "/eolymp.atlas.Atlas/SetBookmark"
 	Atlas_GetBookmark_FullMethodName            = "/eolymp.atlas.Atlas/GetBookmark"
 	Atlas_ListExamples_FullMethodName           = "/eolymp.atlas.Atlas/ListExamples"
@@ -80,6 +81,7 @@ type AtlasClient interface {
 	ListProblems(ctx context.Context, in *ListProblemsInput, opts ...grpc.CallOption) (*ListProblemsOutput, error)
 	DescribeProblem(ctx context.Context, in *DescribeProblemInput, opts ...grpc.CallOption) (*DescribeProblemOutput, error)
 	UpdateProblem(ctx context.Context, in *UpdateProblemInput, opts ...grpc.CallOption) (*UpdateProblemOutput, error)
+	SyncProblem(ctx context.Context, in *SyncProblemInput, opts ...grpc.CallOption) (*SyncProblemOutput, error)
 	SetBookmark(ctx context.Context, in *SetBookmarkInput, opts ...grpc.CallOption) (*SetBookmarkOutput, error)
 	GetBookmark(ctx context.Context, in *GetBookmarkInput, opts ...grpc.CallOption) (*GetBookmarkOutput, error)
 	ListExamples(ctx context.Context, in *ListExamplesInput, opts ...grpc.CallOption) (*ListExamplesOutput, error)
@@ -179,6 +181,15 @@ func (c *atlasClient) DescribeProblem(ctx context.Context, in *DescribeProblemIn
 func (c *atlasClient) UpdateProblem(ctx context.Context, in *UpdateProblemInput, opts ...grpc.CallOption) (*UpdateProblemOutput, error) {
 	out := new(UpdateProblemOutput)
 	err := c.cc.Invoke(ctx, Atlas_UpdateProblem_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *atlasClient) SyncProblem(ctx context.Context, in *SyncProblemInput, opts ...grpc.CallOption) (*SyncProblemOutput, error) {
+	out := new(SyncProblemOutput)
+	err := c.cc.Invoke(ctx, Atlas_SyncProblem_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -599,6 +610,7 @@ type AtlasServer interface {
 	ListProblems(context.Context, *ListProblemsInput) (*ListProblemsOutput, error)
 	DescribeProblem(context.Context, *DescribeProblemInput) (*DescribeProblemOutput, error)
 	UpdateProblem(context.Context, *UpdateProblemInput) (*UpdateProblemOutput, error)
+	SyncProblem(context.Context, *SyncProblemInput) (*SyncProblemOutput, error)
 	SetBookmark(context.Context, *SetBookmarkInput) (*SetBookmarkOutput, error)
 	GetBookmark(context.Context, *GetBookmarkInput) (*GetBookmarkOutput, error)
 	ListExamples(context.Context, *ListExamplesInput) (*ListExamplesOutput, error)
@@ -669,6 +681,9 @@ func (UnimplementedAtlasServer) DescribeProblem(context.Context, *DescribeProble
 }
 func (UnimplementedAtlasServer) UpdateProblem(context.Context, *UpdateProblemInput) (*UpdateProblemOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateProblem not implemented")
+}
+func (UnimplementedAtlasServer) SyncProblem(context.Context, *SyncProblemInput) (*SyncProblemOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SyncProblem not implemented")
 }
 func (UnimplementedAtlasServer) SetBookmark(context.Context, *SetBookmarkInput) (*SetBookmarkOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SetBookmark not implemented")
@@ -903,6 +918,24 @@ func _Atlas_UpdateProblem_Handler(srv interface{}, ctx context.Context, dec func
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AtlasServer).UpdateProblem(ctx, req.(*UpdateProblemInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Atlas_SyncProblem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SyncProblemInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AtlasServer).SyncProblem(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Atlas_SyncProblem_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AtlasServer).SyncProblem(ctx, req.(*SyncProblemInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1743,6 +1776,10 @@ var Atlas_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateProblem",
 			Handler:    _Atlas_UpdateProblem_Handler,
+		},
+		{
+			MethodName: "SyncProblem",
+			Handler:    _Atlas_SyncProblem_Handler,
 		},
 		{
 			MethodName: "SetBookmark",

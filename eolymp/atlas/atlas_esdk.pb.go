@@ -170,6 +170,22 @@ func (s *AtlasService) UpdateProblem(ctx context.Context, in *UpdateProblemInput
 	return out, nil
 }
 
+func (s *AtlasService) SyncProblem(ctx context.Context, in *SyncProblemInput) (*SyncProblemOutput, error) {
+	out := &SyncProblemOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/sync"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *AtlasService) SetBookmark(ctx context.Context, in *SetBookmarkInput) (*SetBookmarkOutput, error) {
 	out := &SetBookmarkOutput{}
 	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/bookmark"

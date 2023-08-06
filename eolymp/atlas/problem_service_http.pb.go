@@ -188,6 +188,9 @@ func RegisterProblemServiceHttpHandlers(router *mux.Router, prefix string, cli P
 	router.Handle(prefix+"", _ProblemService_UpdateProblem_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.atlas.ProblemService.UpdateProblem")
+	router.Handle(prefix+"/sync", _ProblemService_SyncProblem_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.atlas.ProblemService.SyncProblem")
 	router.Handle(prefix+"", _ProblemService_DescribeProblem_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.ProblemService.DescribeProblem")
@@ -233,6 +236,26 @@ func _ProblemService_UpdateProblem_Rule0(cli ProblemServiceClient) http.Handler 
 		}
 
 		out, err := cli.UpdateProblem(r.Context(), in)
+		if err != nil {
+			_ProblemService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ProblemService_HTTPWriteResponse(w, out)
+	})
+}
+
+func _ProblemService_SyncProblem_Rule0(cli ProblemServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &SyncProblemInput{}
+
+		if err := _ProblemService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_ProblemService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := cli.SyncProblem(r.Context(), in)
 		if err != nil {
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
@@ -393,6 +416,38 @@ func (i *ProblemServiceInterceptor) UpdateProblem(ctx context.Context, in *Updat
 	message, ok := out.(*UpdateProblemOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *UpdateProblemOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *ProblemServiceInterceptor) SyncProblem(ctx context.Context, in *SyncProblemInput, opts ...grpc.CallOption) (*SyncProblemOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*SyncProblemInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *SyncProblemInput, got %T", in))
+		}
+
+		return i.client.SyncProblem(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.ProblemService.SyncProblem", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*SyncProblemOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *SyncProblemOutput, got %T", out))
 	}
 
 	return message, err
