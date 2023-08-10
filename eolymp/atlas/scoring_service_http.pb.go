@@ -182,7 +182,7 @@ var _ScoringService_WebsocketCodec = websocket.Codec{
 // RegisterScoringServiceHttpHandlers adds handlers for for ScoringServiceClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterScoringServiceHttpHandlers(router *mux.Router, prefix string, cli ScoringServiceClient) {
-	router.Handle(prefix+"/scores/{user_id}", _ScoringService_DescribeScore_Rule0(cli)).
+	router.Handle(prefix+"/scores/{member_id}", _ScoringService_DescribeScore_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.ScoringService.DescribeScore")
 	router.Handle(prefix+"/grading", _ScoringService_DescribeProblemGrading_Rule0(cli)).
@@ -204,7 +204,7 @@ func _ScoringService_DescribeScore_Rule0(cli ScoringServiceClient) http.Handler 
 		}
 
 		vars := mux.Vars(r)
-		in.UserId = vars["user_id"]
+		in.MemberId = vars["member_id"]
 
 		out, err := cli.DescribeScore(r.Context(), in)
 		if err != nil {

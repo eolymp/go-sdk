@@ -102,11 +102,11 @@ func (s *ScoringServiceService) do(ctx context.Context, verb, path string, in, o
 
 func (s *ScoringServiceService) DescribeScore(ctx context.Context, in *DescribeScoreInput) (*DescribeScoreOutput, error) {
 	out := &DescribeScoreOutput{}
-	path := "/scores/" + url.PathEscape(in.GetUserId())
+	path := "/scores/" + url.PathEscape(in.GetMemberId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.UserId = ""
+		in.MemberId = ""
 	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {

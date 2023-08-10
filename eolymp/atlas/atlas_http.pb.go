@@ -332,7 +332,7 @@ func RegisterAtlasHttpHandlers(router *mux.Router, prefix string, cli AtlasClien
 	router.Handle(prefix+"/submissions", _Atlas_ListSubmissions_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.Atlas.ListSubmissions")
-	router.Handle(prefix+"/problems/{problem_id}/scores/{user_id}", _Atlas_DescribeScore_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/scores/{member_id}", _Atlas_DescribeScore_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.Atlas.DescribeScore")
 }
@@ -1512,7 +1512,7 @@ func _Atlas_DescribeScore_Rule0(cli AtlasClient) http.Handler {
 
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
-		in.UserId = vars["user_id"]
+		in.MemberId = vars["member_id"]
 
 		out, err := cli.DescribeScore(r.Context(), in)
 		if err != nil {

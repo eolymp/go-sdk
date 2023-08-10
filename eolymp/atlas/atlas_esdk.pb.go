@@ -909,12 +909,12 @@ func (s *AtlasService) ListSubmissions(ctx context.Context, in *ListSubmissionsI
 
 func (s *AtlasService) DescribeScore(ctx context.Context, in *DescribeScoreInput) (*DescribeScoreOutput, error) {
 	out := &DescribeScoreOutput{}
-	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/scores/" + url.PathEscape(in.GetUserId())
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/scores/" + url.PathEscape(in.GetMemberId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
 		in.ProblemId = ""
-		in.UserId = ""
+		in.MemberId = ""
 	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
