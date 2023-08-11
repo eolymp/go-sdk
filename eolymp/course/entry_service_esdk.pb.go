@@ -170,6 +170,22 @@ func (s *EntryServiceService) RenameEntry(ctx context.Context, in *RenameEntryIn
 	return out, nil
 }
 
+func (s *EntryServiceService) MoveEntry(ctx context.Context, in *MoveEntryInput) (*MoveEntryOutput, error) {
+	out := &MoveEntryOutput{}
+	path := "/entries/" + url.PathEscape(in.GetEntryId()) + "/position"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.EntryId = ""
+	}
+
+	if err := s.do(ctx, "PUT", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *EntryServiceService) DeleteEntry(ctx context.Context, in *DeleteEntryInput) (*DeleteEntryOutput, error) {
 	out := &DeleteEntryOutput{}
 	path := "/entries/" + url.PathEscape(in.GetEntryId())

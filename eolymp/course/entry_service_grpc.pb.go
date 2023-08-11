@@ -24,6 +24,7 @@ const (
 	EntryService_CreateDocument_FullMethodName = "/eolymp.course.EntryService/CreateDocument"
 	EntryService_UpdateDocument_FullMethodName = "/eolymp.course.EntryService/UpdateDocument"
 	EntryService_RenameEntry_FullMethodName    = "/eolymp.course.EntryService/RenameEntry"
+	EntryService_MoveEntry_FullMethodName      = "/eolymp.course.EntryService/MoveEntry"
 	EntryService_DeleteEntry_FullMethodName    = "/eolymp.course.EntryService/DeleteEntry"
 	EntryService_DescribeEntry_FullMethodName  = "/eolymp.course.EntryService/DescribeEntry"
 	EntryService_ListEntries_FullMethodName    = "/eolymp.course.EntryService/ListEntries"
@@ -38,6 +39,7 @@ type EntryServiceClient interface {
 	CreateDocument(ctx context.Context, in *CreateDocumentInput, opts ...grpc.CallOption) (*CreateDocumentOutput, error)
 	UpdateDocument(ctx context.Context, in *UpdateDocumentInput, opts ...grpc.CallOption) (*UpdateDocumentOutput, error)
 	RenameEntry(ctx context.Context, in *RenameEntryInput, opts ...grpc.CallOption) (*RenameEntryOutput, error)
+	MoveEntry(ctx context.Context, in *MoveEntryInput, opts ...grpc.CallOption) (*MoveEntryOutput, error)
 	DeleteEntry(ctx context.Context, in *DeleteEntryInput, opts ...grpc.CallOption) (*DeleteEntryOutput, error)
 	DescribeEntry(ctx context.Context, in *DescribeEntryInput, opts ...grpc.CallOption) (*DescribeEntryOutput, error)
 	ListEntries(ctx context.Context, in *ListEntriesInput, opts ...grpc.CallOption) (*ListEntriesOutput, error)
@@ -96,6 +98,15 @@ func (c *entryServiceClient) RenameEntry(ctx context.Context, in *RenameEntryInp
 	return out, nil
 }
 
+func (c *entryServiceClient) MoveEntry(ctx context.Context, in *MoveEntryInput, opts ...grpc.CallOption) (*MoveEntryOutput, error) {
+	out := new(MoveEntryOutput)
+	err := c.cc.Invoke(ctx, EntryService_MoveEntry_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *entryServiceClient) DeleteEntry(ctx context.Context, in *DeleteEntryInput, opts ...grpc.CallOption) (*DeleteEntryOutput, error) {
 	out := new(DeleteEntryOutput)
 	err := c.cc.Invoke(ctx, EntryService_DeleteEntry_FullMethodName, in, out, opts...)
@@ -132,6 +143,7 @@ type EntryServiceServer interface {
 	CreateDocument(context.Context, *CreateDocumentInput) (*CreateDocumentOutput, error)
 	UpdateDocument(context.Context, *UpdateDocumentInput) (*UpdateDocumentOutput, error)
 	RenameEntry(context.Context, *RenameEntryInput) (*RenameEntryOutput, error)
+	MoveEntry(context.Context, *MoveEntryInput) (*MoveEntryOutput, error)
 	DeleteEntry(context.Context, *DeleteEntryInput) (*DeleteEntryOutput, error)
 	DescribeEntry(context.Context, *DescribeEntryInput) (*DescribeEntryOutput, error)
 	ListEntries(context.Context, *ListEntriesInput) (*ListEntriesOutput, error)
@@ -155,6 +167,9 @@ func (UnimplementedEntryServiceServer) UpdateDocument(context.Context, *UpdateDo
 }
 func (UnimplementedEntryServiceServer) RenameEntry(context.Context, *RenameEntryInput) (*RenameEntryOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RenameEntry not implemented")
+}
+func (UnimplementedEntryServiceServer) MoveEntry(context.Context, *MoveEntryInput) (*MoveEntryOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method MoveEntry not implemented")
 }
 func (UnimplementedEntryServiceServer) DeleteEntry(context.Context, *DeleteEntryInput) (*DeleteEntryOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteEntry not implemented")
@@ -267,6 +282,24 @@ func _EntryService_RenameEntry_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _EntryService_MoveEntry_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MoveEntryInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(EntryServiceServer).MoveEntry(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: EntryService_MoveEntry_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(EntryServiceServer).MoveEntry(ctx, req.(*MoveEntryInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _EntryService_DeleteEntry_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DeleteEntryInput)
 	if err := dec(in); err != nil {
@@ -347,6 +380,10 @@ var EntryService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RenameEntry",
 			Handler:    _EntryService_RenameEntry_Handler,
+		},
+		{
+			MethodName: "MoveEntry",
+			Handler:    _EntryService_MoveEntry_Handler,
 		},
 		{
 			MethodName: "DeleteEntry",

@@ -197,6 +197,9 @@ func RegisterEntryServiceHttpHandlers(router *mux.Router, prefix string, cli Ent
 	router.Handle(prefix+"/entries/{entry_id}/title", _EntryService_RenameEntry_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.course.EntryService.RenameEntry")
+	router.Handle(prefix+"/entries/{entry_id}/position", _EntryService_MoveEntry_Rule0(cli)).
+		Methods("PUT").
+		Name("eolymp.course.EntryService.MoveEntry")
 	router.Handle(prefix+"/entries/{entry_id}", _EntryService_DeleteEntry_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.course.EntryService.DeleteEntry")
@@ -308,6 +311,29 @@ func _EntryService_RenameEntry_Rule0(cli EntryServiceClient) http.Handler {
 		in.EntryId = vars["entry_id"]
 
 		out, err := cli.RenameEntry(r.Context(), in)
+		if err != nil {
+			_EntryService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_EntryService_HTTPWriteResponse(w, out)
+	})
+}
+
+func _EntryService_MoveEntry_Rule0(cli EntryServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &MoveEntryInput{}
+
+		if err := _EntryService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_EntryService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.EntryId = vars["entry_id"]
+
+		out, err := cli.MoveEntry(r.Context(), in)
 		if err != nil {
 			_EntryService_HTTPWriteErrorResponse(w, err)
 			return
@@ -550,6 +576,38 @@ func (i *EntryServiceInterceptor) RenameEntry(ctx context.Context, in *RenameEnt
 	message, ok := out.(*RenameEntryOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *RenameEntryOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *EntryServiceInterceptor) MoveEntry(ctx context.Context, in *MoveEntryInput, opts ...grpc.CallOption) (*MoveEntryOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*MoveEntryInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *MoveEntryInput, got %T", in))
+		}
+
+		return i.client.MoveEntry(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.course.EntryService.MoveEntry", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*MoveEntryOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *MoveEntryOutput, got %T", out))
 	}
 
 	return message, err
