@@ -25,6 +25,7 @@ const (
 	StudentService_DescribeStudent_FullMethodName = "/eolymp.course.StudentService/DescribeStudent"
 	StudentService_ListStudents_FullMethodName    = "/eolymp.course.StudentService/ListStudents"
 	StudentService_StartCourse_FullMethodName     = "/eolymp.course.StudentService/StartCourse"
+	StudentService_DescribeViewer_FullMethodName  = "/eolymp.course.StudentService/DescribeViewer"
 )
 
 // StudentServiceClient is the client API for StudentService service.
@@ -37,6 +38,7 @@ type StudentServiceClient interface {
 	DescribeStudent(ctx context.Context, in *DescribeStudentInput, opts ...grpc.CallOption) (*DescribeStudentOutput, error)
 	ListStudents(ctx context.Context, in *ListStudentsInput, opts ...grpc.CallOption) (*ListStudentsOutput, error)
 	StartCourse(ctx context.Context, in *StartCourseInput, opts ...grpc.CallOption) (*StartCourseOutput, error)
+	DescribeViewer(ctx context.Context, in *DescribeViewerInput, opts ...grpc.CallOption) (*DescribeViewerOutput, error)
 }
 
 type studentServiceClient struct {
@@ -101,6 +103,15 @@ func (c *studentServiceClient) StartCourse(ctx context.Context, in *StartCourseI
 	return out, nil
 }
 
+func (c *studentServiceClient) DescribeViewer(ctx context.Context, in *DescribeViewerInput, opts ...grpc.CallOption) (*DescribeViewerOutput, error) {
+	out := new(DescribeViewerOutput)
+	err := c.cc.Invoke(ctx, StudentService_DescribeViewer_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // StudentServiceServer is the server API for StudentService service.
 // All implementations should embed UnimplementedStudentServiceServer
 // for forward compatibility
@@ -111,6 +122,7 @@ type StudentServiceServer interface {
 	DescribeStudent(context.Context, *DescribeStudentInput) (*DescribeStudentOutput, error)
 	ListStudents(context.Context, *ListStudentsInput) (*ListStudentsOutput, error)
 	StartCourse(context.Context, *StartCourseInput) (*StartCourseOutput, error)
+	DescribeViewer(context.Context, *DescribeViewerInput) (*DescribeViewerOutput, error)
 }
 
 // UnimplementedStudentServiceServer should be embedded to have forward compatible implementations.
@@ -134,6 +146,9 @@ func (UnimplementedStudentServiceServer) ListStudents(context.Context, *ListStud
 }
 func (UnimplementedStudentServiceServer) StartCourse(context.Context, *StartCourseInput) (*StartCourseOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method StartCourse not implemented")
+}
+func (UnimplementedStudentServiceServer) DescribeViewer(context.Context, *DescribeViewerInput) (*DescribeViewerOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeViewer not implemented")
 }
 
 // UnsafeStudentServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -255,6 +270,24 @@ func _StudentService_StartCourse_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _StudentService_DescribeViewer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeViewerInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StudentServiceServer).DescribeViewer(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StudentService_DescribeViewer_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StudentServiceServer).DescribeViewer(ctx, req.(*DescribeViewerInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // StudentService_ServiceDesc is the grpc.ServiceDesc for StudentService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -285,6 +318,10 @@ var StudentService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "StartCourse",
 			Handler:    _StudentService_StartCourse_Handler,
+		},
+		{
+			MethodName: "DescribeViewer",
+			Handler:    _StudentService_DescribeViewer_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

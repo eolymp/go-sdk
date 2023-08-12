@@ -180,3 +180,14 @@ func (s *StudentServiceService) StartCourse(ctx context.Context, in *StartCourse
 
 	return out, nil
 }
+
+func (s *StudentServiceService) DescribeViewer(ctx context.Context, in *DescribeViewerInput) (*DescribeViewerOutput, error) {
+	out := &DescribeViewerOutput{}
+	path := "/viewer"
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
