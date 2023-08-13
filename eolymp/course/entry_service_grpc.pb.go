@@ -19,30 +19,28 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	EntryService_CreateSection_FullMethodName  = "/eolymp.course.EntryService/CreateSection"
-	EntryService_UpdateSection_FullMethodName  = "/eolymp.course.EntryService/UpdateSection"
-	EntryService_CreateDocument_FullMethodName = "/eolymp.course.EntryService/CreateDocument"
-	EntryService_UpdateDocument_FullMethodName = "/eolymp.course.EntryService/UpdateDocument"
-	EntryService_RenameEntry_FullMethodName    = "/eolymp.course.EntryService/RenameEntry"
-	EntryService_MoveEntry_FullMethodName      = "/eolymp.course.EntryService/MoveEntry"
-	EntryService_DeleteEntry_FullMethodName    = "/eolymp.course.EntryService/DeleteEntry"
-	EntryService_DescribeEntry_FullMethodName  = "/eolymp.course.EntryService/DescribeEntry"
-	EntryService_ListEntries_FullMethodName    = "/eolymp.course.EntryService/ListEntries"
+	EntryService_CreateEntry_FullMethodName   = "/eolymp.course.EntryService/CreateEntry"
+	EntryService_UpdateEntry_FullMethodName   = "/eolymp.course.EntryService/UpdateEntry"
+	EntryService_RenameEntry_FullMethodName   = "/eolymp.course.EntryService/RenameEntry"
+	EntryService_MoveEntry_FullMethodName     = "/eolymp.course.EntryService/MoveEntry"
+	EntryService_DeleteEntry_FullMethodName   = "/eolymp.course.EntryService/DeleteEntry"
+	EntryService_DescribeEntry_FullMethodName = "/eolymp.course.EntryService/DescribeEntry"
+	EntryService_ListEntries_FullMethodName   = "/eolymp.course.EntryService/ListEntries"
+	EntryService_DescribeTOC_FullMethodName   = "/eolymp.course.EntryService/DescribeTOC"
 )
 
 // EntryServiceClient is the client API for EntryService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type EntryServiceClient interface {
-	CreateSection(ctx context.Context, in *CreateSectionInput, opts ...grpc.CallOption) (*CreateSectionOutput, error)
-	UpdateSection(ctx context.Context, in *UpdateSectionInput, opts ...grpc.CallOption) (*UpdateSectionOutput, error)
-	CreateDocument(ctx context.Context, in *CreateDocumentInput, opts ...grpc.CallOption) (*CreateDocumentOutput, error)
-	UpdateDocument(ctx context.Context, in *UpdateDocumentInput, opts ...grpc.CallOption) (*UpdateDocumentOutput, error)
+	CreateEntry(ctx context.Context, in *CreateEntryInput, opts ...grpc.CallOption) (*CreateEntryOutput, error)
+	UpdateEntry(ctx context.Context, in *UpdateEntryInput, opts ...grpc.CallOption) (*UpdateEntryOutput, error)
 	RenameEntry(ctx context.Context, in *RenameEntryInput, opts ...grpc.CallOption) (*RenameEntryOutput, error)
 	MoveEntry(ctx context.Context, in *MoveEntryInput, opts ...grpc.CallOption) (*MoveEntryOutput, error)
 	DeleteEntry(ctx context.Context, in *DeleteEntryInput, opts ...grpc.CallOption) (*DeleteEntryOutput, error)
 	DescribeEntry(ctx context.Context, in *DescribeEntryInput, opts ...grpc.CallOption) (*DescribeEntryOutput, error)
 	ListEntries(ctx context.Context, in *ListEntriesInput, opts ...grpc.CallOption) (*ListEntriesOutput, error)
+	DescribeTOC(ctx context.Context, in *DescribeTOCInput, opts ...grpc.CallOption) (*DescribeTOCOutput, error)
 }
 
 type entryServiceClient struct {
@@ -53,36 +51,18 @@ func NewEntryServiceClient(cc grpc.ClientConnInterface) EntryServiceClient {
 	return &entryServiceClient{cc}
 }
 
-func (c *entryServiceClient) CreateSection(ctx context.Context, in *CreateSectionInput, opts ...grpc.CallOption) (*CreateSectionOutput, error) {
-	out := new(CreateSectionOutput)
-	err := c.cc.Invoke(ctx, EntryService_CreateSection_FullMethodName, in, out, opts...)
+func (c *entryServiceClient) CreateEntry(ctx context.Context, in *CreateEntryInput, opts ...grpc.CallOption) (*CreateEntryOutput, error) {
+	out := new(CreateEntryOutput)
+	err := c.cc.Invoke(ctx, EntryService_CreateEntry_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *entryServiceClient) UpdateSection(ctx context.Context, in *UpdateSectionInput, opts ...grpc.CallOption) (*UpdateSectionOutput, error) {
-	out := new(UpdateSectionOutput)
-	err := c.cc.Invoke(ctx, EntryService_UpdateSection_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *entryServiceClient) CreateDocument(ctx context.Context, in *CreateDocumentInput, opts ...grpc.CallOption) (*CreateDocumentOutput, error) {
-	out := new(CreateDocumentOutput)
-	err := c.cc.Invoke(ctx, EntryService_CreateDocument_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *entryServiceClient) UpdateDocument(ctx context.Context, in *UpdateDocumentInput, opts ...grpc.CallOption) (*UpdateDocumentOutput, error) {
-	out := new(UpdateDocumentOutput)
-	err := c.cc.Invoke(ctx, EntryService_UpdateDocument_FullMethodName, in, out, opts...)
+func (c *entryServiceClient) UpdateEntry(ctx context.Context, in *UpdateEntryInput, opts ...grpc.CallOption) (*UpdateEntryOutput, error) {
+	out := new(UpdateEntryOutput)
+	err := c.cc.Invoke(ctx, EntryService_UpdateEntry_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -134,36 +114,38 @@ func (c *entryServiceClient) ListEntries(ctx context.Context, in *ListEntriesInp
 	return out, nil
 }
 
+func (c *entryServiceClient) DescribeTOC(ctx context.Context, in *DescribeTOCInput, opts ...grpc.CallOption) (*DescribeTOCOutput, error) {
+	out := new(DescribeTOCOutput)
+	err := c.cc.Invoke(ctx, EntryService_DescribeTOC_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // EntryServiceServer is the server API for EntryService service.
 // All implementations should embed UnimplementedEntryServiceServer
 // for forward compatibility
 type EntryServiceServer interface {
-	CreateSection(context.Context, *CreateSectionInput) (*CreateSectionOutput, error)
-	UpdateSection(context.Context, *UpdateSectionInput) (*UpdateSectionOutput, error)
-	CreateDocument(context.Context, *CreateDocumentInput) (*CreateDocumentOutput, error)
-	UpdateDocument(context.Context, *UpdateDocumentInput) (*UpdateDocumentOutput, error)
+	CreateEntry(context.Context, *CreateEntryInput) (*CreateEntryOutput, error)
+	UpdateEntry(context.Context, *UpdateEntryInput) (*UpdateEntryOutput, error)
 	RenameEntry(context.Context, *RenameEntryInput) (*RenameEntryOutput, error)
 	MoveEntry(context.Context, *MoveEntryInput) (*MoveEntryOutput, error)
 	DeleteEntry(context.Context, *DeleteEntryInput) (*DeleteEntryOutput, error)
 	DescribeEntry(context.Context, *DescribeEntryInput) (*DescribeEntryOutput, error)
 	ListEntries(context.Context, *ListEntriesInput) (*ListEntriesOutput, error)
+	DescribeTOC(context.Context, *DescribeTOCInput) (*DescribeTOCOutput, error)
 }
 
 // UnimplementedEntryServiceServer should be embedded to have forward compatible implementations.
 type UnimplementedEntryServiceServer struct {
 }
 
-func (UnimplementedEntryServiceServer) CreateSection(context.Context, *CreateSectionInput) (*CreateSectionOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateSection not implemented")
+func (UnimplementedEntryServiceServer) CreateEntry(context.Context, *CreateEntryInput) (*CreateEntryOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateEntry not implemented")
 }
-func (UnimplementedEntryServiceServer) UpdateSection(context.Context, *UpdateSectionInput) (*UpdateSectionOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateSection not implemented")
-}
-func (UnimplementedEntryServiceServer) CreateDocument(context.Context, *CreateDocumentInput) (*CreateDocumentOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateDocument not implemented")
-}
-func (UnimplementedEntryServiceServer) UpdateDocument(context.Context, *UpdateDocumentInput) (*UpdateDocumentOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateDocument not implemented")
+func (UnimplementedEntryServiceServer) UpdateEntry(context.Context, *UpdateEntryInput) (*UpdateEntryOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateEntry not implemented")
 }
 func (UnimplementedEntryServiceServer) RenameEntry(context.Context, *RenameEntryInput) (*RenameEntryOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RenameEntry not implemented")
@@ -180,6 +162,9 @@ func (UnimplementedEntryServiceServer) DescribeEntry(context.Context, *DescribeE
 func (UnimplementedEntryServiceServer) ListEntries(context.Context, *ListEntriesInput) (*ListEntriesOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListEntries not implemented")
 }
+func (UnimplementedEntryServiceServer) DescribeTOC(context.Context, *DescribeTOCInput) (*DescribeTOCOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeTOC not implemented")
+}
 
 // UnsafeEntryServiceServer may be embedded to opt out of forward compatibility for this service.
 // Use of this interface is not recommended, as added methods to EntryServiceServer will
@@ -192,74 +177,38 @@ func RegisterEntryServiceServer(s grpc.ServiceRegistrar, srv EntryServiceServer)
 	s.RegisterService(&EntryService_ServiceDesc, srv)
 }
 
-func _EntryService_CreateSection_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateSectionInput)
+func _EntryService_CreateEntry_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateEntryInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(EntryServiceServer).CreateSection(ctx, in)
+		return srv.(EntryServiceServer).CreateEntry(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: EntryService_CreateSection_FullMethodName,
+		FullMethod: EntryService_CreateEntry_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(EntryServiceServer).CreateSection(ctx, req.(*CreateSectionInput))
+		return srv.(EntryServiceServer).CreateEntry(ctx, req.(*CreateEntryInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _EntryService_UpdateSection_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateSectionInput)
+func _EntryService_UpdateEntry_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateEntryInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(EntryServiceServer).UpdateSection(ctx, in)
+		return srv.(EntryServiceServer).UpdateEntry(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: EntryService_UpdateSection_FullMethodName,
+		FullMethod: EntryService_UpdateEntry_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(EntryServiceServer).UpdateSection(ctx, req.(*UpdateSectionInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _EntryService_CreateDocument_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateDocumentInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(EntryServiceServer).CreateDocument(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: EntryService_CreateDocument_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(EntryServiceServer).CreateDocument(ctx, req.(*CreateDocumentInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _EntryService_UpdateDocument_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateDocumentInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(EntryServiceServer).UpdateDocument(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: EntryService_UpdateDocument_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(EntryServiceServer).UpdateDocument(ctx, req.(*UpdateDocumentInput))
+		return srv.(EntryServiceServer).UpdateEntry(ctx, req.(*UpdateEntryInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -354,6 +303,24 @@ func _EntryService_ListEntries_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _EntryService_DescribeTOC_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeTOCInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(EntryServiceServer).DescribeTOC(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: EntryService_DescribeTOC_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(EntryServiceServer).DescribeTOC(ctx, req.(*DescribeTOCInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // EntryService_ServiceDesc is the grpc.ServiceDesc for EntryService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -362,20 +329,12 @@ var EntryService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*EntryServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "CreateSection",
-			Handler:    _EntryService_CreateSection_Handler,
+			MethodName: "CreateEntry",
+			Handler:    _EntryService_CreateEntry_Handler,
 		},
 		{
-			MethodName: "UpdateSection",
-			Handler:    _EntryService_UpdateSection_Handler,
-		},
-		{
-			MethodName: "CreateDocument",
-			Handler:    _EntryService_CreateDocument_Handler,
-		},
-		{
-			MethodName: "UpdateDocument",
-			Handler:    _EntryService_UpdateDocument_Handler,
+			MethodName: "UpdateEntry",
+			Handler:    _EntryService_UpdateEntry_Handler,
 		},
 		{
 			MethodName: "RenameEntry",
@@ -396,6 +355,10 @@ var EntryService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListEntries",
 			Handler:    _EntryService_ListEntries_Handler,
+		},
+		{
+			MethodName: "DescribeTOC",
+			Handler:    _EntryService_DescribeTOC_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

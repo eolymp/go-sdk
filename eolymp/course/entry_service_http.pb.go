@@ -182,18 +182,12 @@ var _EntryService_WebsocketCodec = websocket.Codec{
 // RegisterEntryServiceHttpHandlers adds handlers for for EntryServiceClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterEntryServiceHttpHandlers(router *mux.Router, prefix string, cli EntryServiceClient) {
-	router.Handle(prefix+"/sections", _EntryService_CreateSection_Rule0(cli)).
+	router.Handle(prefix+"/entries", _EntryService_CreateEntry_Rule0(cli)).
 		Methods("POST").
-		Name("eolymp.course.EntryService.CreateSection")
-	router.Handle(prefix+"/sections/{entry_id}", _EntryService_UpdateSection_Rule0(cli)).
+		Name("eolymp.course.EntryService.CreateEntry")
+	router.Handle(prefix+"/entries/{entry_id}", _EntryService_UpdateEntry_Rule0(cli)).
 		Methods("PUT").
-		Name("eolymp.course.EntryService.UpdateSection")
-	router.Handle(prefix+"/documents", _EntryService_CreateDocument_Rule0(cli)).
-		Methods("POST").
-		Name("eolymp.course.EntryService.CreateDocument")
-	router.Handle(prefix+"/documents/{entry_id}", _EntryService_UpdateDocument_Rule0(cli)).
-		Methods("PUT").
-		Name("eolymp.course.EntryService.UpdateDocument")
+		Name("eolymp.course.EntryService.UpdateEntry")
 	router.Handle(prefix+"/entries/{entry_id}/title", _EntryService_RenameEntry_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.course.EntryService.RenameEntry")
@@ -209,11 +203,14 @@ func RegisterEntryServiceHttpHandlers(router *mux.Router, prefix string, cli Ent
 	router.Handle(prefix+"/entries", _EntryService_ListEntries_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.EntryService.ListEntries")
+	router.Handle(prefix+"/toc", _EntryService_DescribeTOC_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.course.EntryService.DescribeTOC")
 }
 
-func _EntryService_CreateSection_Rule0(cli EntryServiceClient) http.Handler {
+func _EntryService_CreateEntry_Rule0(cli EntryServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &CreateSectionInput{}
+		in := &CreateEntryInput{}
 
 		if err := _EntryService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
@@ -221,7 +218,7 @@ func _EntryService_CreateSection_Rule0(cli EntryServiceClient) http.Handler {
 			return
 		}
 
-		out, err := cli.CreateSection(r.Context(), in)
+		out, err := cli.CreateEntry(r.Context(), in)
 		if err != nil {
 			_EntryService_HTTPWriteErrorResponse(w, err)
 			return
@@ -231,9 +228,9 @@ func _EntryService_CreateSection_Rule0(cli EntryServiceClient) http.Handler {
 	})
 }
 
-func _EntryService_UpdateSection_Rule0(cli EntryServiceClient) http.Handler {
+func _EntryService_UpdateEntry_Rule0(cli EntryServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &UpdateSectionInput{}
+		in := &UpdateEntryInput{}
 
 		if err := _EntryService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
@@ -244,50 +241,7 @@ func _EntryService_UpdateSection_Rule0(cli EntryServiceClient) http.Handler {
 		vars := mux.Vars(r)
 		in.EntryId = vars["entry_id"]
 
-		out, err := cli.UpdateSection(r.Context(), in)
-		if err != nil {
-			_EntryService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_EntryService_HTTPWriteResponse(w, out)
-	})
-}
-
-func _EntryService_CreateDocument_Rule0(cli EntryServiceClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &CreateDocumentInput{}
-
-		if err := _EntryService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_EntryService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := cli.CreateDocument(r.Context(), in)
-		if err != nil {
-			_EntryService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_EntryService_HTTPWriteResponse(w, out)
-	})
-}
-
-func _EntryService_UpdateDocument_Rule0(cli EntryServiceClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &UpdateDocumentInput{}
-
-		if err := _EntryService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_EntryService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.EntryId = vars["entry_id"]
-
-		out, err := cli.UpdateDocument(r.Context(), in)
+		out, err := cli.UpdateEntry(r.Context(), in)
 		if err != nil {
 			_EntryService_HTTPWriteErrorResponse(w, err)
 			return
@@ -409,6 +363,26 @@ func _EntryService_ListEntries_Rule0(cli EntryServiceClient) http.Handler {
 	})
 }
 
+func _EntryService_DescribeTOC_Rule0(cli EntryServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeTOCInput{}
+
+		if err := _EntryService_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_EntryService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := cli.DescribeTOC(r.Context(), in)
+		if err != nil {
+			_EntryService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_EntryService_HTTPWriteResponse(w, out)
+	})
+}
+
 type _EntryServiceHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
 type _EntryServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _EntryServiceHandler) (out proto.Message, err error)
 type EntryServiceInterceptor struct {
@@ -421,14 +395,14 @@ func NewEntryServiceInterceptor(cli EntryServiceClient, middleware ..._EntryServ
 	return &EntryServiceInterceptor{client: cli, middleware: middleware}
 }
 
-func (i *EntryServiceInterceptor) CreateSection(ctx context.Context, in *CreateSectionInput, opts ...grpc.CallOption) (*CreateSectionOutput, error) {
+func (i *EntryServiceInterceptor) CreateEntry(ctx context.Context, in *CreateEntryInput, opts ...grpc.CallOption) (*CreateEntryOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*CreateSectionInput)
+		message, ok := in.(*CreateEntryInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *CreateSectionInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *CreateEntryInput, got %T", in))
 		}
 
-		return i.client.CreateSection(ctx, message, opts...)
+		return i.client.CreateEntry(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -436,7 +410,7 @@ func (i *EntryServiceInterceptor) CreateSection(ctx context.Context, in *CreateS
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.course.EntryService.CreateSection", in, next)
+			return mw(ctx, "eolymp.course.EntryService.CreateEntry", in, next)
 		}
 	}
 
@@ -445,22 +419,22 @@ func (i *EntryServiceInterceptor) CreateSection(ctx context.Context, in *CreateS
 		return nil, err
 	}
 
-	message, ok := out.(*CreateSectionOutput)
+	message, ok := out.(*CreateEntryOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *CreateSectionOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *CreateEntryOutput, got %T", out))
 	}
 
 	return message, err
 }
 
-func (i *EntryServiceInterceptor) UpdateSection(ctx context.Context, in *UpdateSectionInput, opts ...grpc.CallOption) (*UpdateSectionOutput, error) {
+func (i *EntryServiceInterceptor) UpdateEntry(ctx context.Context, in *UpdateEntryInput, opts ...grpc.CallOption) (*UpdateEntryOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*UpdateSectionInput)
+		message, ok := in.(*UpdateEntryInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *UpdateSectionInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *UpdateEntryInput, got %T", in))
 		}
 
-		return i.client.UpdateSection(ctx, message, opts...)
+		return i.client.UpdateEntry(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -468,7 +442,7 @@ func (i *EntryServiceInterceptor) UpdateSection(ctx context.Context, in *UpdateS
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.course.EntryService.UpdateSection", in, next)
+			return mw(ctx, "eolymp.course.EntryService.UpdateEntry", in, next)
 		}
 	}
 
@@ -477,73 +451,9 @@ func (i *EntryServiceInterceptor) UpdateSection(ctx context.Context, in *UpdateS
 		return nil, err
 	}
 
-	message, ok := out.(*UpdateSectionOutput)
+	message, ok := out.(*UpdateEntryOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *UpdateSectionOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *EntryServiceInterceptor) CreateDocument(ctx context.Context, in *CreateDocumentInput, opts ...grpc.CallOption) (*CreateDocumentOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*CreateDocumentInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *CreateDocumentInput, got %T", in))
-		}
-
-		return i.client.CreateDocument(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.course.EntryService.CreateDocument", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*CreateDocumentOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *CreateDocumentOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *EntryServiceInterceptor) UpdateDocument(ctx context.Context, in *UpdateDocumentInput, opts ...grpc.CallOption) (*UpdateDocumentOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*UpdateDocumentInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *UpdateDocumentInput, got %T", in))
-		}
-
-		return i.client.UpdateDocument(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.course.EntryService.UpdateDocument", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*UpdateDocumentOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *UpdateDocumentOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *UpdateEntryOutput, got %T", out))
 	}
 
 	return message, err
@@ -704,6 +614,38 @@ func (i *EntryServiceInterceptor) ListEntries(ctx context.Context, in *ListEntri
 	message, ok := out.(*ListEntriesOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *ListEntriesOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *EntryServiceInterceptor) DescribeTOC(ctx context.Context, in *DescribeTOCInput, opts ...grpc.CallOption) (*DescribeTOCOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeTOCInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeTOCInput, got %T", in))
+		}
+
+		return i.client.DescribeTOC(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.course.EntryService.DescribeTOC", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeTOCOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeTOCOutput, got %T", out))
 	}
 
 	return message, err

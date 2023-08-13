@@ -100,9 +100,9 @@ func (s *EntryServiceService) do(ctx context.Context, verb, path string, in, out
 	return nil
 }
 
-func (s *EntryServiceService) CreateSection(ctx context.Context, in *CreateSectionInput) (*CreateSectionOutput, error) {
-	out := &CreateSectionOutput{}
-	path := "/sections"
+func (s *EntryServiceService) CreateEntry(ctx context.Context, in *CreateEntryInput) (*CreateEntryOutput, error) {
+	out := &CreateEntryOutput{}
+	path := "/entries"
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
@@ -111,36 +111,9 @@ func (s *EntryServiceService) CreateSection(ctx context.Context, in *CreateSecti
 	return out, nil
 }
 
-func (s *EntryServiceService) UpdateSection(ctx context.Context, in *UpdateSectionInput) (*UpdateSectionOutput, error) {
-	out := &UpdateSectionOutput{}
-	path := "/sections/" + url.PathEscape(in.GetEntryId())
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.EntryId = ""
-	}
-
-	if err := s.do(ctx, "PUT", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *EntryServiceService) CreateDocument(ctx context.Context, in *CreateDocumentInput) (*CreateDocumentOutput, error) {
-	out := &CreateDocumentOutput{}
-	path := "/documents"
-
-	if err := s.do(ctx, "POST", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *EntryServiceService) UpdateDocument(ctx context.Context, in *UpdateDocumentInput) (*UpdateDocumentOutput, error) {
-	out := &UpdateDocumentOutput{}
-	path := "/documents/" + url.PathEscape(in.GetEntryId())
+func (s *EntryServiceService) UpdateEntry(ctx context.Context, in *UpdateEntryInput) (*UpdateEntryOutput, error) {
+	out := &UpdateEntryOutput{}
+	path := "/entries/" + url.PathEscape(in.GetEntryId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
@@ -221,6 +194,17 @@ func (s *EntryServiceService) DescribeEntry(ctx context.Context, in *DescribeEnt
 func (s *EntryServiceService) ListEntries(ctx context.Context, in *ListEntriesInput) (*ListEntriesOutput, error) {
 	out := &ListEntriesOutput{}
 	path := "/entries"
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *EntryServiceService) DescribeTOC(ctx context.Context, in *DescribeTOCInput) (*DescribeTOCOutput, error) {
+	out := &DescribeTOCOutput{}
+	path := "/toc"
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
