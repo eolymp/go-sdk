@@ -959,6 +959,100 @@ func (x *DescribeTOCOutput) GetItems() []*Entry {
 	return nil
 }
 
+type ListParentsInput struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	EntryId string `protobuf:"bytes,1,opt,name=entry_id,json=entryId,proto3" json:"entry_id,omitempty"`
+}
+
+func (x *ListParentsInput) Reset() {
+	*x = ListParentsInput{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_eolymp_course_entry_service_proto_msgTypes[16]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ListParentsInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListParentsInput) ProtoMessage() {}
+
+func (x *ListParentsInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_course_entry_service_proto_msgTypes[16]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListParentsInput.ProtoReflect.Descriptor instead.
+func (*ListParentsInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_course_entry_service_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *ListParentsInput) GetEntryId() string {
+	if x != nil {
+		return x.EntryId
+	}
+	return ""
+}
+
+type ListParentsOutput struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Items []*Entry `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
+}
+
+func (x *ListParentsOutput) Reset() {
+	*x = ListParentsOutput{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_eolymp_course_entry_service_proto_msgTypes[17]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ListParentsOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListParentsOutput) ProtoMessage() {}
+
+func (x *ListParentsOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_course_entry_service_proto_msgTypes[17]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListParentsOutput.ProtoReflect.Descriptor instead.
+func (*ListParentsOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_course_entry_service_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *ListParentsOutput) GetItems() []*Entry {
+	if x != nil {
+		return x.Items
+	}
+	return nil
+}
+
 type ListEntriesInput_Filter struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -974,7 +1068,7 @@ type ListEntriesInput_Filter struct {
 func (x *ListEntriesInput_Filter) Reset() {
 	*x = ListEntriesInput_Filter{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_eolymp_course_entry_service_proto_msgTypes[16]
+		mi := &file_eolymp_course_entry_service_proto_msgTypes[18]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -987,7 +1081,7 @@ func (x *ListEntriesInput_Filter) String() string {
 func (*ListEntriesInput_Filter) ProtoMessage() {}
 
 func (x *ListEntriesInput_Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_course_entry_service_proto_msgTypes[16]
+	mi := &file_eolymp_course_entry_service_proto_msgTypes[18]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1158,7 +1252,14 @@ var file_eolymp_course_entry_service_proto_rawDesc = []byte{
 	0x65, 0x54, 0x4f, 0x43, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x12, 0x2a, 0x0a, 0x05, 0x69, 0x74,
 	0x65, 0x6d, 0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x14, 0x2e, 0x65, 0x6f, 0x6c, 0x79,
 	0x6d, 0x70, 0x2e, 0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x2e, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x52,
-	0x05, 0x69, 0x74, 0x65, 0x6d, 0x73, 0x32, 0xc5, 0x09, 0x0a, 0x0c, 0x45, 0x6e, 0x74, 0x72, 0x79,
+	0x05, 0x69, 0x74, 0x65, 0x6d, 0x73, 0x22, 0x2d, 0x0a, 0x10, 0x4c, 0x69, 0x73, 0x74, 0x50, 0x61,
+	0x72, 0x65, 0x6e, 0x74, 0x73, 0x49, 0x6e, 0x70, 0x75, 0x74, 0x12, 0x19, 0x0a, 0x08, 0x65, 0x6e,
+	0x74, 0x72, 0x79, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x65, 0x6e,
+	0x74, 0x72, 0x79, 0x49, 0x64, 0x22, 0x3f, 0x0a, 0x11, 0x4c, 0x69, 0x73, 0x74, 0x50, 0x61, 0x72,
+	0x65, 0x6e, 0x74, 0x73, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x12, 0x2a, 0x0a, 0x05, 0x69, 0x74,
+	0x65, 0x6d, 0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x14, 0x2e, 0x65, 0x6f, 0x6c, 0x79,
+	0x6d, 0x70, 0x2e, 0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x2e, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x52,
+	0x05, 0x69, 0x74, 0x65, 0x6d, 0x73, 0x32, 0xe6, 0x0a, 0x0a, 0x0c, 0x45, 0x6e, 0x74, 0x72, 0x79,
 	0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x8c, 0x01, 0x0a, 0x0b, 0x43, 0x72, 0x65, 0x61,
 	0x74, 0x65, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x1f, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70,
 	0x2e, 0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x45, 0x6e,
@@ -1234,11 +1335,21 @@ var file_eolymp_course_entry_service_proto_rawDesc = []byte{
 	0x43, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x22, 0x35, 0xea, 0xe2, 0x0a, 0x0b, 0xf5, 0xe2, 0x0a,
 	0x00, 0x00, 0xa0, 0x40, 0xf8, 0xe2, 0x0a, 0x0a, 0x82, 0xe3, 0x0a, 0x16, 0x8a, 0xe3, 0x0a, 0x12,
 	0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x3a, 0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x3a, 0x72, 0x65,
-	0x61, 0x64, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x06, 0x12, 0x04, 0x2f, 0x74, 0x6f, 0x63, 0x42, 0x2f,
-	0x5a, 0x2d, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x65, 0x6f, 0x6c,
-	0x79, 0x6d, 0x70, 0x2f, 0x67, 0x6f, 0x2d, 0x73, 0x64, 0x6b, 0x2f, 0x65, 0x6f, 0x6c, 0x79, 0x6d,
-	0x70, 0x2f, 0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x3b, 0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x62,
-	0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x61, 0x64, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x06, 0x12, 0x04, 0x2f, 0x74, 0x6f, 0x63, 0x12, 0x9e,
+	0x01, 0x0a, 0x0b, 0x4c, 0x69, 0x73, 0x74, 0x50, 0x61, 0x72, 0x65, 0x6e, 0x74, 0x73, 0x12, 0x1f,
+	0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x2e, 0x4c,
+	0x69, 0x73, 0x74, 0x50, 0x61, 0x72, 0x65, 0x6e, 0x74, 0x73, 0x49, 0x6e, 0x70, 0x75, 0x74, 0x1a,
+	0x20, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x2e,
+	0x4c, 0x69, 0x73, 0x74, 0x50, 0x61, 0x72, 0x65, 0x6e, 0x74, 0x73, 0x4f, 0x75, 0x74, 0x70, 0x75,
+	0x74, 0x22, 0x4c, 0xea, 0xe2, 0x0a, 0x0b, 0xf5, 0xe2, 0x0a, 0x00, 0x00, 0xa0, 0x40, 0xf8, 0xe2,
+	0x0a, 0x0a, 0x82, 0xe3, 0x0a, 0x16, 0x8a, 0xe3, 0x0a, 0x12, 0x63, 0x6f, 0x75, 0x72, 0x73, 0x65,
+	0x3a, 0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x3a, 0x72, 0x65, 0x61, 0x64, 0x82, 0xd3, 0xe4, 0x93,
+	0x02, 0x1d, 0x12, 0x1b, 0x2f, 0x65, 0x6e, 0x74, 0x72, 0x69, 0x65, 0x73, 0x2f, 0x7b, 0x65, 0x6e,
+	0x74, 0x72, 0x79, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x70, 0x61, 0x72, 0x65, 0x6e, 0x74, 0x73, 0x42,
+	0x2f, 0x5a, 0x2d, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x65, 0x6f,
+	0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x67, 0x6f, 0x2d, 0x73, 0x64, 0x6b, 0x2f, 0x65, 0x6f, 0x6c, 0x79,
+	0x6d, 0x70, 0x2f, 0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x3b, 0x63, 0x6f, 0x75, 0x72, 0x73, 0x65,
+	0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -1254,7 +1365,7 @@ func file_eolymp_course_entry_service_proto_rawDescGZIP() []byte {
 }
 
 var file_eolymp_course_entry_service_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_eolymp_course_entry_service_proto_msgTypes = make([]protoimpl.MessageInfo, 17)
+var file_eolymp_course_entry_service_proto_msgTypes = make([]protoimpl.MessageInfo, 19)
 var file_eolymp_course_entry_service_proto_goTypes = []interface{}{
 	(UpdateEntryInput_Patch)(0),        // 0: eolymp.course.UpdateEntryInput.Patch
 	(ListEntriesInput_Sortable)(0),     // 1: eolymp.course.ListEntriesInput.Sortable
@@ -1274,48 +1385,53 @@ var file_eolymp_course_entry_service_proto_goTypes = []interface{}{
 	(*ListEntriesOutput)(nil),          // 15: eolymp.course.ListEntriesOutput
 	(*DescribeTOCInput)(nil),           // 16: eolymp.course.DescribeTOCInput
 	(*DescribeTOCOutput)(nil),          // 17: eolymp.course.DescribeTOCOutput
-	(*ListEntriesInput_Filter)(nil),    // 18: eolymp.course.ListEntriesInput.Filter
-	(*Entry)(nil),                      // 19: eolymp.course.Entry
-	(wellknown.Direction)(0),           // 20: eolymp.wellknown.Direction
-	(*wellknown.ExpressionID)(nil),     // 21: eolymp.wellknown.ExpressionID
-	(*wellknown.ExpressionBool)(nil),   // 22: eolymp.wellknown.ExpressionBool
-	(*wellknown.ExpressionString)(nil), // 23: eolymp.wellknown.ExpressionString
+	(*ListParentsInput)(nil),           // 18: eolymp.course.ListParentsInput
+	(*ListParentsOutput)(nil),          // 19: eolymp.course.ListParentsOutput
+	(*ListEntriesInput_Filter)(nil),    // 20: eolymp.course.ListEntriesInput.Filter
+	(*Entry)(nil),                      // 21: eolymp.course.Entry
+	(wellknown.Direction)(0),           // 22: eolymp.wellknown.Direction
+	(*wellknown.ExpressionID)(nil),     // 23: eolymp.wellknown.ExpressionID
+	(*wellknown.ExpressionBool)(nil),   // 24: eolymp.wellknown.ExpressionBool
+	(*wellknown.ExpressionString)(nil), // 25: eolymp.wellknown.ExpressionString
 }
 var file_eolymp_course_entry_service_proto_depIdxs = []int32{
-	19, // 0: eolymp.course.CreateEntryInput.entry:type_name -> eolymp.course.Entry
+	21, // 0: eolymp.course.CreateEntryInput.entry:type_name -> eolymp.course.Entry
 	0,  // 1: eolymp.course.UpdateEntryInput.patch:type_name -> eolymp.course.UpdateEntryInput.Patch
-	19, // 2: eolymp.course.UpdateEntryInput.entry:type_name -> eolymp.course.Entry
-	19, // 3: eolymp.course.DescribeEntryOutput.entry:type_name -> eolymp.course.Entry
-	18, // 4: eolymp.course.ListEntriesInput.filters:type_name -> eolymp.course.ListEntriesInput.Filter
+	21, // 2: eolymp.course.UpdateEntryInput.entry:type_name -> eolymp.course.Entry
+	21, // 3: eolymp.course.DescribeEntryOutput.entry:type_name -> eolymp.course.Entry
+	20, // 4: eolymp.course.ListEntriesInput.filters:type_name -> eolymp.course.ListEntriesInput.Filter
 	1,  // 5: eolymp.course.ListEntriesInput.sort:type_name -> eolymp.course.ListEntriesInput.Sortable
-	20, // 6: eolymp.course.ListEntriesInput.order:type_name -> eolymp.wellknown.Direction
-	19, // 7: eolymp.course.ListEntriesOutput.items:type_name -> eolymp.course.Entry
-	19, // 8: eolymp.course.DescribeTOCOutput.items:type_name -> eolymp.course.Entry
-	21, // 9: eolymp.course.ListEntriesInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	21, // 10: eolymp.course.ListEntriesInput.Filter.parent_id:type_name -> eolymp.wellknown.ExpressionID
-	22, // 11: eolymp.course.ListEntriesInput.Filter.draft:type_name -> eolymp.wellknown.ExpressionBool
-	23, // 12: eolymp.course.ListEntriesInput.Filter.title:type_name -> eolymp.wellknown.ExpressionString
-	2,  // 13: eolymp.course.EntryService.CreateEntry:input_type -> eolymp.course.CreateEntryInput
-	4,  // 14: eolymp.course.EntryService.UpdateEntry:input_type -> eolymp.course.UpdateEntryInput
-	6,  // 15: eolymp.course.EntryService.RenameEntry:input_type -> eolymp.course.RenameEntryInput
-	8,  // 16: eolymp.course.EntryService.MoveEntry:input_type -> eolymp.course.MoveEntryInput
-	10, // 17: eolymp.course.EntryService.DeleteEntry:input_type -> eolymp.course.DeleteEntryInput
-	12, // 18: eolymp.course.EntryService.DescribeEntry:input_type -> eolymp.course.DescribeEntryInput
-	14, // 19: eolymp.course.EntryService.ListEntries:input_type -> eolymp.course.ListEntriesInput
-	16, // 20: eolymp.course.EntryService.DescribeTOC:input_type -> eolymp.course.DescribeTOCInput
-	3,  // 21: eolymp.course.EntryService.CreateEntry:output_type -> eolymp.course.CreateEntryOutput
-	5,  // 22: eolymp.course.EntryService.UpdateEntry:output_type -> eolymp.course.UpdateEntryOutput
-	7,  // 23: eolymp.course.EntryService.RenameEntry:output_type -> eolymp.course.RenameEntryOutput
-	9,  // 24: eolymp.course.EntryService.MoveEntry:output_type -> eolymp.course.MoveEntryOutput
-	11, // 25: eolymp.course.EntryService.DeleteEntry:output_type -> eolymp.course.DeleteEntryOutput
-	13, // 26: eolymp.course.EntryService.DescribeEntry:output_type -> eolymp.course.DescribeEntryOutput
-	15, // 27: eolymp.course.EntryService.ListEntries:output_type -> eolymp.course.ListEntriesOutput
-	17, // 28: eolymp.course.EntryService.DescribeTOC:output_type -> eolymp.course.DescribeTOCOutput
-	21, // [21:29] is the sub-list for method output_type
-	13, // [13:21] is the sub-list for method input_type
-	13, // [13:13] is the sub-list for extension type_name
-	13, // [13:13] is the sub-list for extension extendee
-	0,  // [0:13] is the sub-list for field type_name
+	22, // 6: eolymp.course.ListEntriesInput.order:type_name -> eolymp.wellknown.Direction
+	21, // 7: eolymp.course.ListEntriesOutput.items:type_name -> eolymp.course.Entry
+	21, // 8: eolymp.course.DescribeTOCOutput.items:type_name -> eolymp.course.Entry
+	21, // 9: eolymp.course.ListParentsOutput.items:type_name -> eolymp.course.Entry
+	23, // 10: eolymp.course.ListEntriesInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	23, // 11: eolymp.course.ListEntriesInput.Filter.parent_id:type_name -> eolymp.wellknown.ExpressionID
+	24, // 12: eolymp.course.ListEntriesInput.Filter.draft:type_name -> eolymp.wellknown.ExpressionBool
+	25, // 13: eolymp.course.ListEntriesInput.Filter.title:type_name -> eolymp.wellknown.ExpressionString
+	2,  // 14: eolymp.course.EntryService.CreateEntry:input_type -> eolymp.course.CreateEntryInput
+	4,  // 15: eolymp.course.EntryService.UpdateEntry:input_type -> eolymp.course.UpdateEntryInput
+	6,  // 16: eolymp.course.EntryService.RenameEntry:input_type -> eolymp.course.RenameEntryInput
+	8,  // 17: eolymp.course.EntryService.MoveEntry:input_type -> eolymp.course.MoveEntryInput
+	10, // 18: eolymp.course.EntryService.DeleteEntry:input_type -> eolymp.course.DeleteEntryInput
+	12, // 19: eolymp.course.EntryService.DescribeEntry:input_type -> eolymp.course.DescribeEntryInput
+	14, // 20: eolymp.course.EntryService.ListEntries:input_type -> eolymp.course.ListEntriesInput
+	16, // 21: eolymp.course.EntryService.DescribeTOC:input_type -> eolymp.course.DescribeTOCInput
+	18, // 22: eolymp.course.EntryService.ListParents:input_type -> eolymp.course.ListParentsInput
+	3,  // 23: eolymp.course.EntryService.CreateEntry:output_type -> eolymp.course.CreateEntryOutput
+	5,  // 24: eolymp.course.EntryService.UpdateEntry:output_type -> eolymp.course.UpdateEntryOutput
+	7,  // 25: eolymp.course.EntryService.RenameEntry:output_type -> eolymp.course.RenameEntryOutput
+	9,  // 26: eolymp.course.EntryService.MoveEntry:output_type -> eolymp.course.MoveEntryOutput
+	11, // 27: eolymp.course.EntryService.DeleteEntry:output_type -> eolymp.course.DeleteEntryOutput
+	13, // 28: eolymp.course.EntryService.DescribeEntry:output_type -> eolymp.course.DescribeEntryOutput
+	15, // 29: eolymp.course.EntryService.ListEntries:output_type -> eolymp.course.ListEntriesOutput
+	17, // 30: eolymp.course.EntryService.DescribeTOC:output_type -> eolymp.course.DescribeTOCOutput
+	19, // 31: eolymp.course.EntryService.ListParents:output_type -> eolymp.course.ListParentsOutput
+	23, // [23:32] is the sub-list for method output_type
+	14, // [14:23] is the sub-list for method input_type
+	14, // [14:14] is the sub-list for extension type_name
+	14, // [14:14] is the sub-list for extension extendee
+	0,  // [0:14] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_course_entry_service_proto_init() }
@@ -1518,6 +1634,30 @@ func file_eolymp_course_entry_service_proto_init() {
 			}
 		}
 		file_eolymp_course_entry_service_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListParentsInput); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_eolymp_course_entry_service_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListParentsOutput); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_eolymp_course_entry_service_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*ListEntriesInput_Filter); i {
 			case 0:
 				return &v.state
@@ -1536,7 +1676,7 @@ func file_eolymp_course_entry_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_eolymp_course_entry_service_proto_rawDesc,
 			NumEnums:      2,
-			NumMessages:   17,
+			NumMessages:   19,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

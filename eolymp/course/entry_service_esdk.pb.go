@@ -212,3 +212,19 @@ func (s *EntryServiceService) DescribeTOC(ctx context.Context, in *DescribeTOCIn
 
 	return out, nil
 }
+
+func (s *EntryServiceService) ListParents(ctx context.Context, in *ListParentsInput) (*ListParentsOutput, error) {
+	out := &ListParentsOutput{}
+	path := "/entries/" + url.PathEscape(in.GetEntryId()) + "/parents"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.EntryId = ""
+	}
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

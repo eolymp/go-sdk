@@ -36,7 +36,7 @@ type Entry struct {
 	// For section entries this represents sum of its nested entries.
 	Estimate uint32 `protobuf:"varint,21,opt,name=estimate,proto3" json:"estimate,omitempty"`
 	// Content part of the entry, can not be changed once created,
-	// When entry is fetched using DescribeTOC API, this field is populated with an empty struct.
+	// When entry is fetched using DescribeTOC and ListParents API, this field is populated with an empty struct.
 	//
 	// Types that are assignable to Content:
 	//	*Entry_Section

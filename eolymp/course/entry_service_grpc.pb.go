@@ -27,6 +27,7 @@ const (
 	EntryService_DescribeEntry_FullMethodName = "/eolymp.course.EntryService/DescribeEntry"
 	EntryService_ListEntries_FullMethodName   = "/eolymp.course.EntryService/ListEntries"
 	EntryService_DescribeTOC_FullMethodName   = "/eolymp.course.EntryService/DescribeTOC"
+	EntryService_ListParents_FullMethodName   = "/eolymp.course.EntryService/ListParents"
 )
 
 // EntryServiceClient is the client API for EntryService service.
@@ -41,6 +42,7 @@ type EntryServiceClient interface {
 	DescribeEntry(ctx context.Context, in *DescribeEntryInput, opts ...grpc.CallOption) (*DescribeEntryOutput, error)
 	ListEntries(ctx context.Context, in *ListEntriesInput, opts ...grpc.CallOption) (*ListEntriesOutput, error)
 	DescribeTOC(ctx context.Context, in *DescribeTOCInput, opts ...grpc.CallOption) (*DescribeTOCOutput, error)
+	ListParents(ctx context.Context, in *ListParentsInput, opts ...grpc.CallOption) (*ListParentsOutput, error)
 }
 
 type entryServiceClient struct {
@@ -123,6 +125,15 @@ func (c *entryServiceClient) DescribeTOC(ctx context.Context, in *DescribeTOCInp
 	return out, nil
 }
 
+func (c *entryServiceClient) ListParents(ctx context.Context, in *ListParentsInput, opts ...grpc.CallOption) (*ListParentsOutput, error) {
+	out := new(ListParentsOutput)
+	err := c.cc.Invoke(ctx, EntryService_ListParents_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // EntryServiceServer is the server API for EntryService service.
 // All implementations should embed UnimplementedEntryServiceServer
 // for forward compatibility
@@ -135,6 +146,7 @@ type EntryServiceServer interface {
 	DescribeEntry(context.Context, *DescribeEntryInput) (*DescribeEntryOutput, error)
 	ListEntries(context.Context, *ListEntriesInput) (*ListEntriesOutput, error)
 	DescribeTOC(context.Context, *DescribeTOCInput) (*DescribeTOCOutput, error)
+	ListParents(context.Context, *ListParentsInput) (*ListParentsOutput, error)
 }
 
 // UnimplementedEntryServiceServer should be embedded to have forward compatible implementations.
@@ -164,6 +176,9 @@ func (UnimplementedEntryServiceServer) ListEntries(context.Context, *ListEntries
 }
 func (UnimplementedEntryServiceServer) DescribeTOC(context.Context, *DescribeTOCInput) (*DescribeTOCOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeTOC not implemented")
+}
+func (UnimplementedEntryServiceServer) ListParents(context.Context, *ListParentsInput) (*ListParentsOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListParents not implemented")
 }
 
 // UnsafeEntryServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -321,6 +336,24 @@ func _EntryService_DescribeTOC_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _EntryService_ListParents_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListParentsInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(EntryServiceServer).ListParents(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: EntryService_ListParents_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(EntryServiceServer).ListParents(ctx, req.(*ListParentsInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // EntryService_ServiceDesc is the grpc.ServiceDesc for EntryService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -359,6 +392,10 @@ var EntryService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DescribeTOC",
 			Handler:    _EntryService_DescribeTOC_Handler,
+		},
+		{
+			MethodName: "ListParents",
+			Handler:    _EntryService_ListParents_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

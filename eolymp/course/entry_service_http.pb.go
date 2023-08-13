@@ -206,6 +206,9 @@ func RegisterEntryServiceHttpHandlers(router *mux.Router, prefix string, cli Ent
 	router.Handle(prefix+"/toc", _EntryService_DescribeTOC_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.EntryService.DescribeTOC")
+	router.Handle(prefix+"/entries/{entry_id}/parents", _EntryService_ListParents_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.course.EntryService.ListParents")
 }
 
 func _EntryService_CreateEntry_Rule0(cli EntryServiceClient) http.Handler {
@@ -374,6 +377,29 @@ func _EntryService_DescribeTOC_Rule0(cli EntryServiceClient) http.Handler {
 		}
 
 		out, err := cli.DescribeTOC(r.Context(), in)
+		if err != nil {
+			_EntryService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_EntryService_HTTPWriteResponse(w, out)
+	})
+}
+
+func _EntryService_ListParents_Rule0(cli EntryServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListParentsInput{}
+
+		if err := _EntryService_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_EntryService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.EntryId = vars["entry_id"]
+
+		out, err := cli.ListParents(r.Context(), in)
 		if err != nil {
 			_EntryService_HTTPWriteErrorResponse(w, err)
 			return
@@ -646,6 +672,38 @@ func (i *EntryServiceInterceptor) DescribeTOC(ctx context.Context, in *DescribeT
 	message, ok := out.(*DescribeTOCOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *DescribeTOCOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *EntryServiceInterceptor) ListParents(ctx context.Context, in *ListParentsInput, opts ...grpc.CallOption) (*ListParentsOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListParentsInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListParentsInput, got %T", in))
+		}
+
+		return i.client.ListParents(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.course.EntryService.ListParents", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListParentsOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListParentsOutput, got %T", out))
 	}
 
 	return message, err
