@@ -209,6 +209,12 @@ func RegisterEntryServiceHttpHandlers(router *mux.Router, prefix string, cli Ent
 	router.Handle(prefix+"/entries/{entry_id}/parents", _EntryService_ListParents_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.EntryService.ListParents")
+	router.Handle(prefix+"/entries/{entry_id}/progress", _EntryService_DescribeProgress_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.course.EntryService.DescribeProgress")
+	router.Handle(prefix+"/entries/{entry_id}/progress", _EntryService_ReportProgress_Rule0(cli)).
+		Methods("PUT").
+		Name("eolymp.course.EntryService.ReportProgress")
 }
 
 func _EntryService_CreateEntry_Rule0(cli EntryServiceClient) http.Handler {
@@ -400,6 +406,52 @@ func _EntryService_ListParents_Rule0(cli EntryServiceClient) http.Handler {
 		in.EntryId = vars["entry_id"]
 
 		out, err := cli.ListParents(r.Context(), in)
+		if err != nil {
+			_EntryService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_EntryService_HTTPWriteResponse(w, out)
+	})
+}
+
+func _EntryService_DescribeProgress_Rule0(cli EntryServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeProgressInput{}
+
+		if err := _EntryService_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_EntryService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.EntryId = vars["entry_id"]
+
+		out, err := cli.DescribeProgress(r.Context(), in)
+		if err != nil {
+			_EntryService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_EntryService_HTTPWriteResponse(w, out)
+	})
+}
+
+func _EntryService_ReportProgress_Rule0(cli EntryServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ReportProgressInput{}
+
+		if err := _EntryService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_EntryService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.EntryId = vars["entry_id"]
+
+		out, err := cli.ReportProgress(r.Context(), in)
 		if err != nil {
 			_EntryService_HTTPWriteErrorResponse(w, err)
 			return
@@ -704,6 +756,70 @@ func (i *EntryServiceInterceptor) ListParents(ctx context.Context, in *ListParen
 	message, ok := out.(*ListParentsOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *ListParentsOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *EntryServiceInterceptor) DescribeProgress(ctx context.Context, in *DescribeProgressInput, opts ...grpc.CallOption) (*DescribeProgressOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeProgressInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeProgressInput, got %T", in))
+		}
+
+		return i.client.DescribeProgress(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.course.EntryService.DescribeProgress", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeProgressOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeProgressOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *EntryServiceInterceptor) ReportProgress(ctx context.Context, in *ReportProgressInput, opts ...grpc.CallOption) (*ReportProgressOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ReportProgressInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ReportProgressInput, got %T", in))
+		}
+
+		return i.client.ReportProgress(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.course.EntryService.ReportProgress", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ReportProgressOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ReportProgressOutput, got %T", out))
 	}
 
 	return message, err

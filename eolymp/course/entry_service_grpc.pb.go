@@ -19,15 +19,17 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	EntryService_CreateEntry_FullMethodName   = "/eolymp.course.EntryService/CreateEntry"
-	EntryService_UpdateEntry_FullMethodName   = "/eolymp.course.EntryService/UpdateEntry"
-	EntryService_RenameEntry_FullMethodName   = "/eolymp.course.EntryService/RenameEntry"
-	EntryService_MoveEntry_FullMethodName     = "/eolymp.course.EntryService/MoveEntry"
-	EntryService_DeleteEntry_FullMethodName   = "/eolymp.course.EntryService/DeleteEntry"
-	EntryService_DescribeEntry_FullMethodName = "/eolymp.course.EntryService/DescribeEntry"
-	EntryService_ListEntries_FullMethodName   = "/eolymp.course.EntryService/ListEntries"
-	EntryService_DescribeTOC_FullMethodName   = "/eolymp.course.EntryService/DescribeTOC"
-	EntryService_ListParents_FullMethodName   = "/eolymp.course.EntryService/ListParents"
+	EntryService_CreateEntry_FullMethodName      = "/eolymp.course.EntryService/CreateEntry"
+	EntryService_UpdateEntry_FullMethodName      = "/eolymp.course.EntryService/UpdateEntry"
+	EntryService_RenameEntry_FullMethodName      = "/eolymp.course.EntryService/RenameEntry"
+	EntryService_MoveEntry_FullMethodName        = "/eolymp.course.EntryService/MoveEntry"
+	EntryService_DeleteEntry_FullMethodName      = "/eolymp.course.EntryService/DeleteEntry"
+	EntryService_DescribeEntry_FullMethodName    = "/eolymp.course.EntryService/DescribeEntry"
+	EntryService_ListEntries_FullMethodName      = "/eolymp.course.EntryService/ListEntries"
+	EntryService_DescribeTOC_FullMethodName      = "/eolymp.course.EntryService/DescribeTOC"
+	EntryService_ListParents_FullMethodName      = "/eolymp.course.EntryService/ListParents"
+	EntryService_DescribeProgress_FullMethodName = "/eolymp.course.EntryService/DescribeProgress"
+	EntryService_ReportProgress_FullMethodName   = "/eolymp.course.EntryService/ReportProgress"
 )
 
 // EntryServiceClient is the client API for EntryService service.
@@ -43,6 +45,8 @@ type EntryServiceClient interface {
 	ListEntries(ctx context.Context, in *ListEntriesInput, opts ...grpc.CallOption) (*ListEntriesOutput, error)
 	DescribeTOC(ctx context.Context, in *DescribeTOCInput, opts ...grpc.CallOption) (*DescribeTOCOutput, error)
 	ListParents(ctx context.Context, in *ListParentsInput, opts ...grpc.CallOption) (*ListParentsOutput, error)
+	DescribeProgress(ctx context.Context, in *DescribeProgressInput, opts ...grpc.CallOption) (*DescribeProgressOutput, error)
+	ReportProgress(ctx context.Context, in *ReportProgressInput, opts ...grpc.CallOption) (*ReportProgressOutput, error)
 }
 
 type entryServiceClient struct {
@@ -134,6 +138,24 @@ func (c *entryServiceClient) ListParents(ctx context.Context, in *ListParentsInp
 	return out, nil
 }
 
+func (c *entryServiceClient) DescribeProgress(ctx context.Context, in *DescribeProgressInput, opts ...grpc.CallOption) (*DescribeProgressOutput, error) {
+	out := new(DescribeProgressOutput)
+	err := c.cc.Invoke(ctx, EntryService_DescribeProgress_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *entryServiceClient) ReportProgress(ctx context.Context, in *ReportProgressInput, opts ...grpc.CallOption) (*ReportProgressOutput, error) {
+	out := new(ReportProgressOutput)
+	err := c.cc.Invoke(ctx, EntryService_ReportProgress_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // EntryServiceServer is the server API for EntryService service.
 // All implementations should embed UnimplementedEntryServiceServer
 // for forward compatibility
@@ -147,6 +169,8 @@ type EntryServiceServer interface {
 	ListEntries(context.Context, *ListEntriesInput) (*ListEntriesOutput, error)
 	DescribeTOC(context.Context, *DescribeTOCInput) (*DescribeTOCOutput, error)
 	ListParents(context.Context, *ListParentsInput) (*ListParentsOutput, error)
+	DescribeProgress(context.Context, *DescribeProgressInput) (*DescribeProgressOutput, error)
+	ReportProgress(context.Context, *ReportProgressInput) (*ReportProgressOutput, error)
 }
 
 // UnimplementedEntryServiceServer should be embedded to have forward compatible implementations.
@@ -179,6 +203,12 @@ func (UnimplementedEntryServiceServer) DescribeTOC(context.Context, *DescribeTOC
 }
 func (UnimplementedEntryServiceServer) ListParents(context.Context, *ListParentsInput) (*ListParentsOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListParents not implemented")
+}
+func (UnimplementedEntryServiceServer) DescribeProgress(context.Context, *DescribeProgressInput) (*DescribeProgressOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeProgress not implemented")
+}
+func (UnimplementedEntryServiceServer) ReportProgress(context.Context, *ReportProgressInput) (*ReportProgressOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ReportProgress not implemented")
 }
 
 // UnsafeEntryServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -354,6 +384,42 @@ func _EntryService_ListParents_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _EntryService_DescribeProgress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeProgressInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(EntryServiceServer).DescribeProgress(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: EntryService_DescribeProgress_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(EntryServiceServer).DescribeProgress(ctx, req.(*DescribeProgressInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _EntryService_ReportProgress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReportProgressInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(EntryServiceServer).ReportProgress(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: EntryService_ReportProgress_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(EntryServiceServer).ReportProgress(ctx, req.(*ReportProgressInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // EntryService_ServiceDesc is the grpc.ServiceDesc for EntryService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -396,6 +462,14 @@ var EntryService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListParents",
 			Handler:    _EntryService_ListParents_Handler,
+		},
+		{
+			MethodName: "DescribeProgress",
+			Handler:    _EntryService_DescribeProgress_Handler,
+		},
+		{
+			MethodName: "ReportProgress",
+			Handler:    _EntryService_ReportProgress_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -228,3 +228,35 @@ func (s *EntryServiceService) ListParents(ctx context.Context, in *ListParentsIn
 
 	return out, nil
 }
+
+func (s *EntryServiceService) DescribeProgress(ctx context.Context, in *DescribeProgressInput) (*DescribeProgressOutput, error) {
+	out := &DescribeProgressOutput{}
+	path := "/entries/" + url.PathEscape(in.GetEntryId()) + "/progress"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.EntryId = ""
+	}
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *EntryServiceService) ReportProgress(ctx context.Context, in *ReportProgressInput) (*ReportProgressOutput, error) {
+	out := &ReportProgressOutput{}
+	path := "/entries/" + url.PathEscape(in.GetEntryId()) + "/progress"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.EntryId = ""
+	}
+
+	if err := s.do(ctx, "PUT", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
