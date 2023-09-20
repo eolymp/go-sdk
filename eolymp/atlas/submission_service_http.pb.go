@@ -10,6 +10,7 @@ import (
 	websocket "golang.org/x/net/websocket"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
+	metadata "google.golang.org/grpc/metadata"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
@@ -177,6 +178,38 @@ var _SubmissionService_WebsocketCodec = websocket.Codec{
 
 		return protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal(d, m)
 	},
+}
+
+type _SubmissionService_WatchSubmission_WSStream struct {
+	ctx  context.Context
+	conn *websocket.Conn
+}
+
+func (s *_SubmissionService_WatchSubmission_WSStream) Send(m *WatchSubmissionOutput) error {
+	return s.SendMsg(m)
+}
+
+func (s *_SubmissionService_WatchSubmission_WSStream) SetHeader(metadata.MD) error {
+	return nil
+}
+
+func (s *_SubmissionService_WatchSubmission_WSStream) SendHeader(metadata.MD) error {
+	return nil
+}
+
+func (s *_SubmissionService_WatchSubmission_WSStream) SetTrailer(metadata.MD) {
+}
+
+func (s *_SubmissionService_WatchSubmission_WSStream) Context() context.Context {
+	return s.ctx
+}
+
+func (s *_SubmissionService_WatchSubmission_WSStream) SendMsg(m interface{}) error {
+	return _SubmissionService_WebsocketCodec.Send(s.conn, m)
+}
+
+func (s *_SubmissionService_WatchSubmission_WSStream) RecvMsg(m interface{}) error {
+	return nil
 }
 
 // RegisterSubmissionServiceHttpHandlers adds handlers for for SubmissionServiceClient
@@ -388,6 +421,10 @@ func (i *SubmissionServiceInterceptor) DescribeSubmission(ctx context.Context, i
 	}
 
 	return message, err
+}
+
+func (i *SubmissionServiceInterceptor) WatchSubmission(ctx context.Context, in *WatchSubmissionInput, opts ...grpc.CallOption) (SubmissionService_WatchSubmissionClient, error) {
+	return i.client.WatchSubmission(ctx, in, opts...)
 }
 
 func (i *SubmissionServiceInterceptor) ListSubmissions(ctx context.Context, in *ListSubmissionsInput, opts ...grpc.CallOption) (*ListSubmissionsOutput, error) {

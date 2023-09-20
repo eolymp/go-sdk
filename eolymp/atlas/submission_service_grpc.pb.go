@@ -22,6 +22,7 @@ const (
 	SubmissionService_CreateSubmission_FullMethodName   = "/eolymp.atlas.SubmissionService/CreateSubmission"
 	SubmissionService_RetestSubmission_FullMethodName   = "/eolymp.atlas.SubmissionService/RetestSubmission"
 	SubmissionService_DescribeSubmission_FullMethodName = "/eolymp.atlas.SubmissionService/DescribeSubmission"
+	SubmissionService_WatchSubmission_FullMethodName    = "/eolymp.atlas.SubmissionService/WatchSubmission"
 	SubmissionService_ListSubmissions_FullMethodName    = "/eolymp.atlas.SubmissionService/ListSubmissions"
 )
 
@@ -32,6 +33,7 @@ type SubmissionServiceClient interface {
 	CreateSubmission(ctx context.Context, in *CreateSubmissionInput, opts ...grpc.CallOption) (*CreateSubmissionOutput, error)
 	RetestSubmission(ctx context.Context, in *RetestSubmissionInput, opts ...grpc.CallOption) (*RetestSubmissionOutput, error)
 	DescribeSubmission(ctx context.Context, in *DescribeSubmissionInput, opts ...grpc.CallOption) (*DescribeSubmissionOutput, error)
+	WatchSubmission(ctx context.Context, in *WatchSubmissionInput, opts ...grpc.CallOption) (SubmissionService_WatchSubmissionClient, error)
 	ListSubmissions(ctx context.Context, in *ListSubmissionsInput, opts ...grpc.CallOption) (*ListSubmissionsOutput, error)
 }
 
@@ -70,6 +72,38 @@ func (c *submissionServiceClient) DescribeSubmission(ctx context.Context, in *De
 	return out, nil
 }
 
+func (c *submissionServiceClient) WatchSubmission(ctx context.Context, in *WatchSubmissionInput, opts ...grpc.CallOption) (SubmissionService_WatchSubmissionClient, error) {
+	stream, err := c.cc.NewStream(ctx, &SubmissionService_ServiceDesc.Streams[0], SubmissionService_WatchSubmission_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &submissionServiceWatchSubmissionClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type SubmissionService_WatchSubmissionClient interface {
+	Recv() (*WatchSubmissionOutput, error)
+	grpc.ClientStream
+}
+
+type submissionServiceWatchSubmissionClient struct {
+	grpc.ClientStream
+}
+
+func (x *submissionServiceWatchSubmissionClient) Recv() (*WatchSubmissionOutput, error) {
+	m := new(WatchSubmissionOutput)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 func (c *submissionServiceClient) ListSubmissions(ctx context.Context, in *ListSubmissionsInput, opts ...grpc.CallOption) (*ListSubmissionsOutput, error) {
 	out := new(ListSubmissionsOutput)
 	err := c.cc.Invoke(ctx, SubmissionService_ListSubmissions_FullMethodName, in, out, opts...)
@@ -86,6 +120,7 @@ type SubmissionServiceServer interface {
 	CreateSubmission(context.Context, *CreateSubmissionInput) (*CreateSubmissionOutput, error)
 	RetestSubmission(context.Context, *RetestSubmissionInput) (*RetestSubmissionOutput, error)
 	DescribeSubmission(context.Context, *DescribeSubmissionInput) (*DescribeSubmissionOutput, error)
+	WatchSubmission(*WatchSubmissionInput, SubmissionService_WatchSubmissionServer) error
 	ListSubmissions(context.Context, *ListSubmissionsInput) (*ListSubmissionsOutput, error)
 }
 
@@ -101,6 +136,9 @@ func (UnimplementedSubmissionServiceServer) RetestSubmission(context.Context, *R
 }
 func (UnimplementedSubmissionServiceServer) DescribeSubmission(context.Context, *DescribeSubmissionInput) (*DescribeSubmissionOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeSubmission not implemented")
+}
+func (UnimplementedSubmissionServiceServer) WatchSubmission(*WatchSubmissionInput, SubmissionService_WatchSubmissionServer) error {
+	return status.Errorf(codes.Unimplemented, "method WatchSubmission not implemented")
 }
 func (UnimplementedSubmissionServiceServer) ListSubmissions(context.Context, *ListSubmissionsInput) (*ListSubmissionsOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListSubmissions not implemented")
@@ -171,6 +209,27 @@ func _SubmissionService_DescribeSubmission_Handler(srv interface{}, ctx context.
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SubmissionService_WatchSubmission_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(WatchSubmissionInput)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(SubmissionServiceServer).WatchSubmission(m, &submissionServiceWatchSubmissionServer{stream})
+}
+
+type SubmissionService_WatchSubmissionServer interface {
+	Send(*WatchSubmissionOutput) error
+	grpc.ServerStream
+}
+
+type submissionServiceWatchSubmissionServer struct {
+	grpc.ServerStream
+}
+
+func (x *submissionServiceWatchSubmissionServer) Send(m *WatchSubmissionOutput) error {
+	return x.ServerStream.SendMsg(m)
+}
+
 func _SubmissionService_ListSubmissions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListSubmissionsInput)
 	if err := dec(in); err != nil {
@@ -213,6 +272,12 @@ var SubmissionService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _SubmissionService_ListSubmissions_Handler,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "WatchSubmission",
+			Handler:       _SubmissionService_WatchSubmission_Handler,
+			ServerStreams: true,
+		},
+	},
 	Metadata: "eolymp/atlas/submission_service.proto",
 }
