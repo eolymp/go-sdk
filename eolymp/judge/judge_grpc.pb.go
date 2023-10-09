@@ -66,6 +66,7 @@ const (
 	Judge_CreateSubmission_FullMethodName           = "/eolymp.judge.Judge/CreateSubmission"
 	Judge_ListSubmissions_FullMethodName            = "/eolymp.judge.Judge/ListSubmissions"
 	Judge_DescribeSubmission_FullMethodName         = "/eolymp.judge.Judge/DescribeSubmission"
+	Judge_WatchSubmission_FullMethodName            = "/eolymp.judge.Judge/WatchSubmission"
 	Judge_RetestSubmission_FullMethodName           = "/eolymp.judge.Judge/RetestSubmission"
 	Judge_DeleteSubmission_FullMethodName           = "/eolymp.judge.Judge/DeleteSubmission"
 	Judge_RestoreSubmission_FullMethodName          = "/eolymp.judge.Judge/RestoreSubmission"
@@ -181,6 +182,7 @@ type JudgeClient interface {
 	CreateSubmission(ctx context.Context, in *CreateSubmissionInput, opts ...grpc.CallOption) (*CreateSubmissionOutput, error)
 	ListSubmissions(ctx context.Context, in *ListSubmissionsInput, opts ...grpc.CallOption) (*ListSubmissionsOutput, error)
 	DescribeSubmission(ctx context.Context, in *DescribeSubmissionInput, opts ...grpc.CallOption) (*DescribeSubmissionOutput, error)
+	WatchSubmission(ctx context.Context, in *WatchSubmissionInput, opts ...grpc.CallOption) (Judge_WatchSubmissionClient, error)
 	// Resets submission results and triggers testing process.
 	RetestSubmission(ctx context.Context, in *RetestSubmissionInput, opts ...grpc.CallOption) (*RetestSubmissionOutput, error)
 	DeleteSubmission(ctx context.Context, in *DeleteSubmissionInput, opts ...grpc.CallOption) (*DeleteSubmissionOutput, error)
@@ -664,6 +666,38 @@ func (c *judgeClient) DescribeSubmission(ctx context.Context, in *DescribeSubmis
 	return out, nil
 }
 
+func (c *judgeClient) WatchSubmission(ctx context.Context, in *WatchSubmissionInput, opts ...grpc.CallOption) (Judge_WatchSubmissionClient, error) {
+	stream, err := c.cc.NewStream(ctx, &Judge_ServiceDesc.Streams[0], Judge_WatchSubmission_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &judgeWatchSubmissionClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type Judge_WatchSubmissionClient interface {
+	Recv() (*WatchSubmissionOutput, error)
+	grpc.ClientStream
+}
+
+type judgeWatchSubmissionClient struct {
+	grpc.ClientStream
+}
+
+func (x *judgeWatchSubmissionClient) Recv() (*WatchSubmissionOutput, error) {
+	m := new(WatchSubmissionOutput)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 func (c *judgeClient) RetestSubmission(ctx context.Context, in *RetestSubmissionInput, opts ...grpc.CallOption) (*RetestSubmissionOutput, error) {
 	out := new(RetestSubmissionOutput)
 	err := c.cc.Invoke(ctx, Judge_RetestSubmission_FullMethodName, in, out, opts...)
@@ -1001,6 +1035,7 @@ type JudgeServer interface {
 	CreateSubmission(context.Context, *CreateSubmissionInput) (*CreateSubmissionOutput, error)
 	ListSubmissions(context.Context, *ListSubmissionsInput) (*ListSubmissionsOutput, error)
 	DescribeSubmission(context.Context, *DescribeSubmissionInput) (*DescribeSubmissionOutput, error)
+	WatchSubmission(*WatchSubmissionInput, Judge_WatchSubmissionServer) error
 	// Resets submission results and triggers testing process.
 	RetestSubmission(context.Context, *RetestSubmissionInput) (*RetestSubmissionOutput, error)
 	DeleteSubmission(context.Context, *DeleteSubmissionInput) (*DeleteSubmissionOutput, error)
@@ -1197,6 +1232,9 @@ func (UnimplementedJudgeServer) ListSubmissions(context.Context, *ListSubmission
 }
 func (UnimplementedJudgeServer) DescribeSubmission(context.Context, *DescribeSubmissionInput) (*DescribeSubmissionOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeSubmission not implemented")
+}
+func (UnimplementedJudgeServer) WatchSubmission(*WatchSubmissionInput, Judge_WatchSubmissionServer) error {
+	return status.Errorf(codes.Unimplemented, "method WatchSubmission not implemented")
 }
 func (UnimplementedJudgeServer) RetestSubmission(context.Context, *RetestSubmissionInput) (*RetestSubmissionOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RetestSubmission not implemented")
@@ -2140,6 +2178,27 @@ func _Judge_DescribeSubmission_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Judge_WatchSubmission_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(WatchSubmissionInput)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(JudgeServer).WatchSubmission(m, &judgeWatchSubmissionServer{stream})
+}
+
+type Judge_WatchSubmissionServer interface {
+	Send(*WatchSubmissionOutput) error
+	grpc.ServerStream
+}
+
+type judgeWatchSubmissionServer struct {
+	grpc.ServerStream
+}
+
+func (x *judgeWatchSubmissionServer) Send(m *WatchSubmissionOutput) error {
+	return x.ServerStream.SendMsg(m)
+}
+
 func _Judge_RetestSubmission_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(RetestSubmissionInput)
 	if err := dec(in); err != nil {
@@ -2952,6 +3011,12 @@ var Judge_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Judge_ListActivities_Handler,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "WatchSubmission",
+			Handler:       _Judge_WatchSubmission_Handler,
+			ServerStreams: true,
+		},
+	},
 	Metadata: "eolymp/judge/judge.proto",
 }

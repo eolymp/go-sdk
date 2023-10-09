@@ -10,6 +10,7 @@ import (
 	websocket "golang.org/x/net/websocket"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
+	metadata "google.golang.org/grpc/metadata"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
@@ -177,6 +178,38 @@ var _Judge_WebsocketCodec = websocket.Codec{
 
 		return protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal(d, m)
 	},
+}
+
+type _Judge_WatchSubmission_WSStream struct {
+	ctx  context.Context
+	conn *websocket.Conn
+}
+
+func (s *_Judge_WatchSubmission_WSStream) Send(m *WatchSubmissionOutput) error {
+	return s.SendMsg(m)
+}
+
+func (s *_Judge_WatchSubmission_WSStream) SetHeader(metadata.MD) error {
+	return nil
+}
+
+func (s *_Judge_WatchSubmission_WSStream) SendHeader(metadata.MD) error {
+	return nil
+}
+
+func (s *_Judge_WatchSubmission_WSStream) SetTrailer(metadata.MD) {
+}
+
+func (s *_Judge_WatchSubmission_WSStream) Context() context.Context {
+	return s.ctx
+}
+
+func (s *_Judge_WatchSubmission_WSStream) SendMsg(m interface{}) error {
+	return _Judge_WebsocketCodec.Send(s.conn, m)
+}
+
+func (s *_Judge_WatchSubmission_WSStream) RecvMsg(m interface{}) error {
+	return nil
 }
 
 // RegisterJudgeHttpHandlers adds handlers for for JudgeClient
@@ -3670,6 +3703,10 @@ func (i *JudgeInterceptor) DescribeSubmission(ctx context.Context, in *DescribeS
 	}
 
 	return message, err
+}
+
+func (i *JudgeInterceptor) WatchSubmission(ctx context.Context, in *WatchSubmissionInput, opts ...grpc.CallOption) (Judge_WatchSubmissionClient, error) {
+	return i.client.WatchSubmission(ctx, in, opts...)
 }
 
 func (i *JudgeInterceptor) RetestSubmission(ctx context.Context, in *RetestSubmissionInput, opts ...grpc.CallOption) (*RetestSubmissionOutput, error) {
