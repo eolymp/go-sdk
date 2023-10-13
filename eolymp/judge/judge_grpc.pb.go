@@ -30,12 +30,6 @@ const (
 	Judge_SuspendContest_FullMethodName             = "/eolymp.judge.Judge/SuspendContest"
 	Judge_FreezeContest_FullMethodName              = "/eolymp.judge.Judge/FreezeContest"
 	Judge_ResumeContest_FullMethodName              = "/eolymp.judge.Judge/ResumeContest"
-	Judge_ConfigureRuntime_FullMethodName           = "/eolymp.judge.Judge/ConfigureRuntime"
-	Judge_DescribeRuntime_FullMethodName            = "/eolymp.judge.Judge/DescribeRuntime"
-	Judge_ConfigureAppearance_FullMethodName        = "/eolymp.judge.Judge/ConfigureAppearance"
-	Judge_DescribeAppearance_FullMethodName         = "/eolymp.judge.Judge/DescribeAppearance"
-	Judge_ConfigureScoring_FullMethodName           = "/eolymp.judge.Judge/ConfigureScoring"
-	Judge_DescribeScoring_FullMethodName            = "/eolymp.judge.Judge/DescribeScoring"
 	Judge_ImportProblem_FullMethodName              = "/eolymp.judge.Judge/ImportProblem"
 	Judge_SyncProblem_FullMethodName                = "/eolymp.judge.Judge/SyncProblem"
 	Judge_UpdateProblem_FullMethodName              = "/eolymp.judge.Judge/UpdateProblem"
@@ -125,19 +119,6 @@ type JudgeClient interface {
 	FreezeContest(ctx context.Context, in *FreezeContestInput, opts ...grpc.CallOption) (*FreezeContestOutput, error)
 	// Re-start suspended or frozen contest
 	ResumeContest(ctx context.Context, in *ResumeContestInput, opts ...grpc.CallOption) (*ResumeContestOutput, error)
-	// ConfigureRuntime allows to configure which runtimes will be available during contest.
-	// All available runtimes can be retrieved using `executor.ListRuntime` method.
-	ConfigureRuntime(ctx context.Context, in *ConfigureRuntimeInput, opts ...grpc.CallOption) (*ConfigureRuntimeOutput, error)
-	// DescribeRuntime allows fetch runtimes available during contests.
-	DescribeRuntime(ctx context.Context, in *DescribeRuntimeInput, opts ...grpc.CallOption) (*DescribeRuntimeOutput, error)
-	// ConfigureAppearance allows to configure contest website appearance.
-	ConfigureAppearance(ctx context.Context, in *ConfigureAppearanceInput, opts ...grpc.CallOption) (*ConfigureAppearanceOutput, error)
-	// DescribeAppearance allows fetch contest website appearance.
-	DescribeAppearance(ctx context.Context, in *DescribeAppearanceInput, opts ...grpc.CallOption) (*DescribeAppearanceOutput, error)
-	// ConfigureScoring allows to configure contest scoring.
-	ConfigureScoring(ctx context.Context, in *ConfigureScoringInput, opts ...grpc.CallOption) (*ConfigureScoringOutput, error)
-	// DescribeScoring allows fetch contest scoring.
-	DescribeScoring(ctx context.Context, in *DescribeScoringInput, opts ...grpc.CallOption) (*DescribeScoringOutput, error)
 	// ImportProblem from Atlas (problem catalog)
 	ImportProblem(ctx context.Context, in *ImportProblemInput, opts ...grpc.CallOption) (*ImportProblemOutput, error)
 	// SyncProblem with Atlas (problem catalog)
@@ -336,60 +317,6 @@ func (c *judgeClient) FreezeContest(ctx context.Context, in *FreezeContestInput,
 func (c *judgeClient) ResumeContest(ctx context.Context, in *ResumeContestInput, opts ...grpc.CallOption) (*ResumeContestOutput, error) {
 	out := new(ResumeContestOutput)
 	err := c.cc.Invoke(ctx, Judge_ResumeContest_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *judgeClient) ConfigureRuntime(ctx context.Context, in *ConfigureRuntimeInput, opts ...grpc.CallOption) (*ConfigureRuntimeOutput, error) {
-	out := new(ConfigureRuntimeOutput)
-	err := c.cc.Invoke(ctx, Judge_ConfigureRuntime_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *judgeClient) DescribeRuntime(ctx context.Context, in *DescribeRuntimeInput, opts ...grpc.CallOption) (*DescribeRuntimeOutput, error) {
-	out := new(DescribeRuntimeOutput)
-	err := c.cc.Invoke(ctx, Judge_DescribeRuntime_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *judgeClient) ConfigureAppearance(ctx context.Context, in *ConfigureAppearanceInput, opts ...grpc.CallOption) (*ConfigureAppearanceOutput, error) {
-	out := new(ConfigureAppearanceOutput)
-	err := c.cc.Invoke(ctx, Judge_ConfigureAppearance_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *judgeClient) DescribeAppearance(ctx context.Context, in *DescribeAppearanceInput, opts ...grpc.CallOption) (*DescribeAppearanceOutput, error) {
-	out := new(DescribeAppearanceOutput)
-	err := c.cc.Invoke(ctx, Judge_DescribeAppearance_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *judgeClient) ConfigureScoring(ctx context.Context, in *ConfigureScoringInput, opts ...grpc.CallOption) (*ConfigureScoringOutput, error) {
-	out := new(ConfigureScoringOutput)
-	err := c.cc.Invoke(ctx, Judge_ConfigureScoring_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *judgeClient) DescribeScoring(ctx context.Context, in *DescribeScoringInput, opts ...grpc.CallOption) (*DescribeScoringOutput, error) {
-	out := new(DescribeScoringOutput)
-	err := c.cc.Invoke(ctx, Judge_DescribeScoring_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -978,19 +905,6 @@ type JudgeServer interface {
 	FreezeContest(context.Context, *FreezeContestInput) (*FreezeContestOutput, error)
 	// Re-start suspended or frozen contest
 	ResumeContest(context.Context, *ResumeContestInput) (*ResumeContestOutput, error)
-	// ConfigureRuntime allows to configure which runtimes will be available during contest.
-	// All available runtimes can be retrieved using `executor.ListRuntime` method.
-	ConfigureRuntime(context.Context, *ConfigureRuntimeInput) (*ConfigureRuntimeOutput, error)
-	// DescribeRuntime allows fetch runtimes available during contests.
-	DescribeRuntime(context.Context, *DescribeRuntimeInput) (*DescribeRuntimeOutput, error)
-	// ConfigureAppearance allows to configure contest website appearance.
-	ConfigureAppearance(context.Context, *ConfigureAppearanceInput) (*ConfigureAppearanceOutput, error)
-	// DescribeAppearance allows fetch contest website appearance.
-	DescribeAppearance(context.Context, *DescribeAppearanceInput) (*DescribeAppearanceOutput, error)
-	// ConfigureScoring allows to configure contest scoring.
-	ConfigureScoring(context.Context, *ConfigureScoringInput) (*ConfigureScoringOutput, error)
-	// DescribeScoring allows fetch contest scoring.
-	DescribeScoring(context.Context, *DescribeScoringInput) (*DescribeScoringOutput, error)
 	// ImportProblem from Atlas (problem catalog)
 	ImportProblem(context.Context, *ImportProblemInput) (*ImportProblemOutput, error)
 	// SyncProblem with Atlas (problem catalog)
@@ -1124,24 +1038,6 @@ func (UnimplementedJudgeServer) FreezeContest(context.Context, *FreezeContestInp
 }
 func (UnimplementedJudgeServer) ResumeContest(context.Context, *ResumeContestInput) (*ResumeContestOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ResumeContest not implemented")
-}
-func (UnimplementedJudgeServer) ConfigureRuntime(context.Context, *ConfigureRuntimeInput) (*ConfigureRuntimeOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ConfigureRuntime not implemented")
-}
-func (UnimplementedJudgeServer) DescribeRuntime(context.Context, *DescribeRuntimeInput) (*DescribeRuntimeOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DescribeRuntime not implemented")
-}
-func (UnimplementedJudgeServer) ConfigureAppearance(context.Context, *ConfigureAppearanceInput) (*ConfigureAppearanceOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ConfigureAppearance not implemented")
-}
-func (UnimplementedJudgeServer) DescribeAppearance(context.Context, *DescribeAppearanceInput) (*DescribeAppearanceOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DescribeAppearance not implemented")
-}
-func (UnimplementedJudgeServer) ConfigureScoring(context.Context, *ConfigureScoringInput) (*ConfigureScoringOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ConfigureScoring not implemented")
-}
-func (UnimplementedJudgeServer) DescribeScoring(context.Context, *DescribeScoringInput) (*DescribeScoringOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DescribeScoring not implemented")
 }
 func (UnimplementedJudgeServer) ImportProblem(context.Context, *ImportProblemInput) (*ImportProblemOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ImportProblem not implemented")
@@ -1526,114 +1422,6 @@ func _Judge_ResumeContest_Handler(srv interface{}, ctx context.Context, dec func
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(JudgeServer).ResumeContest(ctx, req.(*ResumeContestInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Judge_ConfigureRuntime_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ConfigureRuntimeInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(JudgeServer).ConfigureRuntime(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Judge_ConfigureRuntime_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(JudgeServer).ConfigureRuntime(ctx, req.(*ConfigureRuntimeInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Judge_DescribeRuntime_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DescribeRuntimeInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(JudgeServer).DescribeRuntime(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Judge_DescribeRuntime_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(JudgeServer).DescribeRuntime(ctx, req.(*DescribeRuntimeInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Judge_ConfigureAppearance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ConfigureAppearanceInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(JudgeServer).ConfigureAppearance(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Judge_ConfigureAppearance_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(JudgeServer).ConfigureAppearance(ctx, req.(*ConfigureAppearanceInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Judge_DescribeAppearance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DescribeAppearanceInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(JudgeServer).DescribeAppearance(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Judge_DescribeAppearance_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(JudgeServer).DescribeAppearance(ctx, req.(*DescribeAppearanceInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Judge_ConfigureScoring_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ConfigureScoringInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(JudgeServer).ConfigureScoring(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Judge_ConfigureScoring_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(JudgeServer).ConfigureScoring(ctx, req.(*ConfigureScoringInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Judge_DescribeScoring_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DescribeScoringInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(JudgeServer).DescribeScoring(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Judge_DescribeScoring_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(JudgeServer).DescribeScoring(ctx, req.(*DescribeScoringInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -2753,30 +2541,6 @@ var Judge_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ResumeContest",
 			Handler:    _Judge_ResumeContest_Handler,
-		},
-		{
-			MethodName: "ConfigureRuntime",
-			Handler:    _Judge_ConfigureRuntime_Handler,
-		},
-		{
-			MethodName: "DescribeRuntime",
-			Handler:    _Judge_DescribeRuntime_Handler,
-		},
-		{
-			MethodName: "ConfigureAppearance",
-			Handler:    _Judge_ConfigureAppearance_Handler,
-		},
-		{
-			MethodName: "DescribeAppearance",
-			Handler:    _Judge_DescribeAppearance_Handler,
-		},
-		{
-			MethodName: "ConfigureScoring",
-			Handler:    _Judge_ConfigureScoring_Handler,
-		},
-		{
-			MethodName: "DescribeScoring",
-			Handler:    _Judge_DescribeScoring_Handler,
 		},
 		{
 			MethodName: "ImportProblem",
