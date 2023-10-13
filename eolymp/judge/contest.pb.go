@@ -180,58 +180,6 @@ func (Contest_ParticipationMode) EnumDescriptor() ([]byte, []int) {
 	return file_eolymp_judge_contest_proto_rawDescGZIP(), []int{0, 2}
 }
 
-type Contest_UpsolveMode int32
-
-const (
-	Contest_UPSOLVE_NONE         Contest_UpsolveMode = 0 // Participants can't solve problems after contest
-	Contest_UPSOLVE_VIRTUAL      Contest_UpsolveMode = 1 // Participants who didn't participate yet can participate virtually, participants who completed contests can't contiune.
-	Contest_UPSOLVE_FREE         Contest_UpsolveMode = 2 // Participants can continue solving problems after completing contest
-	Contest_UPSOLVE_VIRTUAL_FREE Contest_UpsolveMode = 3 // Same as virtual but after completing contest participants can continue solving problems
-)
-
-// Enum value maps for Contest_UpsolveMode.
-var (
-	Contest_UpsolveMode_name = map[int32]string{
-		0: "UPSOLVE_NONE",
-		1: "UPSOLVE_VIRTUAL",
-		2: "UPSOLVE_FREE",
-		3: "UPSOLVE_VIRTUAL_FREE",
-	}
-	Contest_UpsolveMode_value = map[string]int32{
-		"UPSOLVE_NONE":         0,
-		"UPSOLVE_VIRTUAL":      1,
-		"UPSOLVE_FREE":         2,
-		"UPSOLVE_VIRTUAL_FREE": 3,
-	}
-)
-
-func (x Contest_UpsolveMode) Enum() *Contest_UpsolveMode {
-	p := new(Contest_UpsolveMode)
-	*p = x
-	return p
-}
-
-func (x Contest_UpsolveMode) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (Contest_UpsolveMode) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_judge_contest_proto_enumTypes[3].Descriptor()
-}
-
-func (Contest_UpsolveMode) Type() protoreflect.EnumType {
-	return &file_eolymp_judge_contest_proto_enumTypes[3]
-}
-
-func (x Contest_UpsolveMode) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use Contest_UpsolveMode.Descriptor instead.
-func (Contest_UpsolveMode) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_judge_contest_proto_rawDescGZIP(), []int{0, 3}
-}
-
 type Contest_Format int32
 
 const (
@@ -265,11 +213,11 @@ func (x Contest_Format) String() string {
 }
 
 func (Contest_Format) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_judge_contest_proto_enumTypes[4].Descriptor()
+	return file_eolymp_judge_contest_proto_enumTypes[3].Descriptor()
 }
 
 func (Contest_Format) Type() protoreflect.EnumType {
-	return &file_eolymp_judge_contest_proto_enumTypes[4]
+	return &file_eolymp_judge_contest_proto_enumTypes[3]
 }
 
 func (x Contest_Format) Number() protoreflect.EnumNumber {
@@ -278,7 +226,7 @@ func (x Contest_Format) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use Contest_Format.Descriptor instead.
 func (Contest_Format) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_judge_contest_proto_rawDescGZIP(), []int{0, 4}
+	return file_eolymp_judge_contest_proto_rawDescGZIP(), []int{0, 3}
 }
 
 type Contest_Taxonomy_Scale int32
@@ -320,11 +268,11 @@ func (x Contest_Taxonomy_Scale) String() string {
 }
 
 func (Contest_Taxonomy_Scale) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_judge_contest_proto_enumTypes[5].Descriptor()
+	return file_eolymp_judge_contest_proto_enumTypes[4].Descriptor()
 }
 
 func (Contest_Taxonomy_Scale) Type() protoreflect.EnumType {
-	return &file_eolymp_judge_contest_proto_enumTypes[5]
+	return &file_eolymp_judge_contest_proto_enumTypes[4]
 }
 
 func (x Contest_Taxonomy_Scale) Number() protoreflect.EnumNumber {
@@ -372,11 +320,11 @@ func (x Contest_Scoreboard_Visibility) String() string {
 }
 
 func (Contest_Scoreboard_Visibility) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_judge_contest_proto_enumTypes[6].Descriptor()
+	return file_eolymp_judge_contest_proto_enumTypes[5].Descriptor()
 }
 
 func (Contest_Scoreboard_Visibility) Type() protoreflect.EnumType {
-	return &file_eolymp_judge_contest_proto_enumTypes[6]
+	return &file_eolymp_judge_contest_proto_enumTypes[5]
 }
 
 func (x Contest_Scoreboard_Visibility) Number() protoreflect.EnumNumber {
@@ -988,7 +936,7 @@ var file_eolymp_judge_contest_proto_rawDesc = []byte{
 	0x6f, 0x6e, 0x74, 0x65, 0x73, 0x74, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x0c, 0x65, 0x6f,
 	0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x6a, 0x75, 0x64, 0x67, 0x65, 0x1a, 0x1f, 0x67, 0x6f, 0x6f, 0x67,
 	0x6c, 0x65, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2f, 0x74, 0x69, 0x6d, 0x65,
-	0x73, 0x74, 0x61, 0x6d, 0x70, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0xaf, 0x12, 0x0a, 0x07,
+	0x73, 0x74, 0x61, 0x6d, 0x70, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0xcd, 0x11, 0x0a, 0x07,
 	0x43, 0x6f, 0x6e, 0x74, 0x65, 0x73, 0x74, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20,
 	0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x12, 0x10, 0x0a, 0x03, 0x75, 0x72, 0x6c, 0x18, 0x02,
 	0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x75, 0x72, 0x6c, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d,
@@ -1126,20 +1074,14 @@ var file_eolymp_judge_contest_proto_rawDesc = []byte{
 	0x65, 0x12, 0x1e, 0x0a, 0x1a, 0x50, 0x41, 0x52, 0x54, 0x49, 0x43, 0x49, 0x50, 0x41, 0x54, 0x49,
 	0x4f, 0x4e, 0x5f, 0x4d, 0x4f, 0x44, 0x45, 0x5f, 0x55, 0x4e, 0x4b, 0x4e, 0x4f, 0x57, 0x4e, 0x10,
 	0x00, 0x12, 0x0a, 0x0a, 0x06, 0x4f, 0x4e, 0x4c, 0x49, 0x4e, 0x45, 0x10, 0x01, 0x12, 0x0b, 0x0a,
-	0x07, 0x56, 0x49, 0x52, 0x54, 0x55, 0x41, 0x4c, 0x10, 0x02, 0x22, 0x60, 0x0a, 0x0b, 0x55, 0x70,
-	0x73, 0x6f, 0x6c, 0x76, 0x65, 0x4d, 0x6f, 0x64, 0x65, 0x12, 0x10, 0x0a, 0x0c, 0x55, 0x50, 0x53,
-	0x4f, 0x4c, 0x56, 0x45, 0x5f, 0x4e, 0x4f, 0x4e, 0x45, 0x10, 0x00, 0x12, 0x13, 0x0a, 0x0f, 0x55,
-	0x50, 0x53, 0x4f, 0x4c, 0x56, 0x45, 0x5f, 0x56, 0x49, 0x52, 0x54, 0x55, 0x41, 0x4c, 0x10, 0x01,
-	0x12, 0x10, 0x0a, 0x0c, 0x55, 0x50, 0x53, 0x4f, 0x4c, 0x56, 0x45, 0x5f, 0x46, 0x52, 0x45, 0x45,
-	0x10, 0x02, 0x12, 0x18, 0x0a, 0x14, 0x55, 0x50, 0x53, 0x4f, 0x4c, 0x56, 0x45, 0x5f, 0x56, 0x49,
-	0x52, 0x54, 0x55, 0x41, 0x4c, 0x5f, 0x46, 0x52, 0x45, 0x45, 0x10, 0x03, 0x22, 0x2f, 0x0a, 0x06,
-	0x46, 0x6f, 0x72, 0x6d, 0x61, 0x74, 0x12, 0x12, 0x0a, 0x0e, 0x46, 0x4f, 0x52, 0x4d, 0x41, 0x54,
-	0x5f, 0x55, 0x4e, 0x4b, 0x4e, 0x4f, 0x57, 0x4e, 0x10, 0x00, 0x12, 0x07, 0x0a, 0x03, 0x49, 0x4f,
-	0x49, 0x10, 0x01, 0x12, 0x08, 0x0a, 0x04, 0x49, 0x43, 0x50, 0x43, 0x10, 0x02, 0x42, 0x2d, 0x5a,
-	0x2b, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x65, 0x6f, 0x6c, 0x79,
-	0x6d, 0x70, 0x2f, 0x67, 0x6f, 0x2d, 0x73, 0x64, 0x6b, 0x2f, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70,
-	0x2f, 0x6a, 0x75, 0x64, 0x67, 0x65, 0x3b, 0x6a, 0x75, 0x64, 0x67, 0x65, 0x62, 0x06, 0x70, 0x72,
-	0x6f, 0x74, 0x6f, 0x33,
+	0x07, 0x56, 0x49, 0x52, 0x54, 0x55, 0x41, 0x4c, 0x10, 0x02, 0x22, 0x2f, 0x0a, 0x06, 0x46, 0x6f,
+	0x72, 0x6d, 0x61, 0x74, 0x12, 0x12, 0x0a, 0x0e, 0x46, 0x4f, 0x52, 0x4d, 0x41, 0x54, 0x5f, 0x55,
+	0x4e, 0x4b, 0x4e, 0x4f, 0x57, 0x4e, 0x10, 0x00, 0x12, 0x07, 0x0a, 0x03, 0x49, 0x4f, 0x49, 0x10,
+	0x01, 0x12, 0x08, 0x0a, 0x04, 0x49, 0x43, 0x50, 0x43, 0x10, 0x02, 0x42, 0x2d, 0x5a, 0x2b, 0x67,
+	0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70,
+	0x2f, 0x67, 0x6f, 0x2d, 0x73, 0x64, 0x6b, 0x2f, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x6a,
+	0x75, 0x64, 0x67, 0x65, 0x3b, 0x6a, 0x75, 0x64, 0x67, 0x65, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74,
+	0x6f, 0x33,
 }
 
 var (
@@ -1154,38 +1096,37 @@ func file_eolymp_judge_contest_proto_rawDescGZIP() []byte {
 	return file_eolymp_judge_contest_proto_rawDescData
 }
 
-var file_eolymp_judge_contest_proto_enumTypes = make([]protoimpl.EnumInfo, 7)
+var file_eolymp_judge_contest_proto_enumTypes = make([]protoimpl.EnumInfo, 6)
 var file_eolymp_judge_contest_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_eolymp_judge_contest_proto_goTypes = []interface{}{
 	(Contest_Status)(0),                // 0: eolymp.judge.Contest.Status
 	(Contest_Visibility)(0),            // 1: eolymp.judge.Contest.Visibility
 	(Contest_ParticipationMode)(0),     // 2: eolymp.judge.Contest.ParticipationMode
-	(Contest_UpsolveMode)(0),           // 3: eolymp.judge.Contest.UpsolveMode
-	(Contest_Format)(0),                // 4: eolymp.judge.Contest.Format
-	(Contest_Taxonomy_Scale)(0),        // 5: eolymp.judge.Contest.Taxonomy.Scale
-	(Contest_Scoreboard_Visibility)(0), // 6: eolymp.judge.Contest.Scoreboard.Visibility
-	(*Contest)(nil),                    // 7: eolymp.judge.Contest
-	(*Contest_Appearance)(nil),         // 8: eolymp.judge.Contest.Appearance
-	(*Contest_Taxonomy)(nil),           // 9: eolymp.judge.Contest.Taxonomy
-	(*Contest_Scoring)(nil),            // 10: eolymp.judge.Contest.Scoring
-	(*Contest_Upsolve)(nil),            // 11: eolymp.judge.Contest.Upsolve
-	(*Contest_Scoreboard)(nil),         // 12: eolymp.judge.Contest.Scoreboard
-	(*timestamppb.Timestamp)(nil),      // 13: google.protobuf.Timestamp
+	(Contest_Format)(0),                // 3: eolymp.judge.Contest.Format
+	(Contest_Taxonomy_Scale)(0),        // 4: eolymp.judge.Contest.Taxonomy.Scale
+	(Contest_Scoreboard_Visibility)(0), // 5: eolymp.judge.Contest.Scoreboard.Visibility
+	(*Contest)(nil),                    // 6: eolymp.judge.Contest
+	(*Contest_Appearance)(nil),         // 7: eolymp.judge.Contest.Appearance
+	(*Contest_Taxonomy)(nil),           // 8: eolymp.judge.Contest.Taxonomy
+	(*Contest_Scoring)(nil),            // 9: eolymp.judge.Contest.Scoring
+	(*Contest_Upsolve)(nil),            // 10: eolymp.judge.Contest.Upsolve
+	(*Contest_Scoreboard)(nil),         // 11: eolymp.judge.Contest.Scoreboard
+	(*timestamppb.Timestamp)(nil),      // 12: google.protobuf.Timestamp
 }
 var file_eolymp_judge_contest_proto_depIdxs = []int32{
-	13, // 0: eolymp.judge.Contest.starts_at:type_name -> google.protobuf.Timestamp
-	13, // 1: eolymp.judge.Contest.ends_at:type_name -> google.protobuf.Timestamp
+	12, // 0: eolymp.judge.Contest.starts_at:type_name -> google.protobuf.Timestamp
+	12, // 1: eolymp.judge.Contest.ends_at:type_name -> google.protobuf.Timestamp
 	0,  // 2: eolymp.judge.Contest.status:type_name -> eolymp.judge.Contest.Status
 	1,  // 3: eolymp.judge.Contest.visibility:type_name -> eolymp.judge.Contest.Visibility
 	2,  // 4: eolymp.judge.Contest.participation_mode:type_name -> eolymp.judge.Contest.ParticipationMode
-	4,  // 5: eolymp.judge.Contest.format:type_name -> eolymp.judge.Contest.Format
-	8,  // 6: eolymp.judge.Contest.appearance:type_name -> eolymp.judge.Contest.Appearance
-	11, // 7: eolymp.judge.Contest.upsolve:type_name -> eolymp.judge.Contest.Upsolve
-	10, // 8: eolymp.judge.Contest.scoring:type_name -> eolymp.judge.Contest.Scoring
-	9,  // 9: eolymp.judge.Contest.taxonomy:type_name -> eolymp.judge.Contest.Taxonomy
-	12, // 10: eolymp.judge.Contest.scoreboard:type_name -> eolymp.judge.Contest.Scoreboard
-	5,  // 11: eolymp.judge.Contest.Taxonomy.scale:type_name -> eolymp.judge.Contest.Taxonomy.Scale
-	6,  // 12: eolymp.judge.Contest.Scoreboard.visibility:type_name -> eolymp.judge.Contest.Scoreboard.Visibility
+	3,  // 5: eolymp.judge.Contest.format:type_name -> eolymp.judge.Contest.Format
+	7,  // 6: eolymp.judge.Contest.appearance:type_name -> eolymp.judge.Contest.Appearance
+	10, // 7: eolymp.judge.Contest.upsolve:type_name -> eolymp.judge.Contest.Upsolve
+	9,  // 8: eolymp.judge.Contest.scoring:type_name -> eolymp.judge.Contest.Scoring
+	8,  // 9: eolymp.judge.Contest.taxonomy:type_name -> eolymp.judge.Contest.Taxonomy
+	11, // 10: eolymp.judge.Contest.scoreboard:type_name -> eolymp.judge.Contest.Scoreboard
+	4,  // 11: eolymp.judge.Contest.Taxonomy.scale:type_name -> eolymp.judge.Contest.Taxonomy.Scale
+	5,  // 12: eolymp.judge.Contest.Scoreboard.visibility:type_name -> eolymp.judge.Contest.Scoreboard.Visibility
 	13, // [13:13] is the sub-list for method output_type
 	13, // [13:13] is the sub-list for method input_type
 	13, // [13:13] is the sub-list for extension type_name
@@ -1277,7 +1218,7 @@ func file_eolymp_judge_contest_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_eolymp_judge_contest_proto_rawDesc,
-			NumEnums:      7,
+			NumEnums:      6,
 			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   0,
