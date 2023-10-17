@@ -195,7 +195,7 @@ func (x *Participant) GetMedal() Medal {
 	if x != nil {
 		return x.Medal
 	}
-	return Medal_UNKNOWN_MEDAL
+	return Medal_NO_MEDAL
 }
 
 func (x *Participant) GetStatus() Participant_Status {
