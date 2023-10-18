@@ -16,17 +16,17 @@ import (
 	os "os"
 )
 
-type _DatasetServiceHttpClient interface {
+type _EnumServiceHttpClient interface {
 	Do(*http.Request) (*http.Response, error)
 }
 
-type DatasetServiceService struct {
+type EnumServiceService struct {
 	base string
-	cli  _DatasetServiceHttpClient
+	cli  _EnumServiceHttpClient
 }
 
-// NewDatasetServiceHttpClient constructs client for DatasetService
-func NewDatasetServiceHttpClient(url string, cli _DatasetServiceHttpClient) *DatasetServiceService {
+// NewEnumServiceHttpClient constructs client for EnumService
+func NewEnumServiceHttpClient(url string, cli _EnumServiceHttpClient) *EnumServiceService {
 	if url == "" {
 		url = os.Getenv("EOLYMP_API_URL")
 		if url == "" {
@@ -34,10 +34,10 @@ func NewDatasetServiceHttpClient(url string, cli _DatasetServiceHttpClient) *Dat
 		}
 	}
 
-	return &DatasetServiceService{base: url, cli: cli}
+	return &EnumServiceService{base: url, cli: cli}
 }
 
-func (s *DatasetServiceService) do(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
+func (s *EnumServiceService) do(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
 	var body io.Reader
 
 	if in != nil {
@@ -100,9 +100,9 @@ func (s *DatasetServiceService) do(ctx context.Context, verb, path string, in, o
 	return nil
 }
 
-func (s *DatasetServiceService) CreateDataset(ctx context.Context, in *CreateDatasetInput) (*CreateDatasetOutput, error) {
-	out := &CreateDatasetOutput{}
-	path := "/datasets"
+func (s *EnumServiceService) CreateEnum(ctx context.Context, in *CreateEnumInput) (*CreateEnumOutput, error) {
+	out := &CreateEnumOutput{}
+	path := "/enums"
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
@@ -111,13 +111,13 @@ func (s *DatasetServiceService) CreateDataset(ctx context.Context, in *CreateDat
 	return out, nil
 }
 
-func (s *DatasetServiceService) DeleteDataset(ctx context.Context, in *DeleteDatasetInput) (*DeleteDatasetOutput, error) {
-	out := &DeleteDatasetOutput{}
-	path := "/datasets/" + url.PathEscape(in.GetDatasetId())
+func (s *EnumServiceService) DeleteEnum(ctx context.Context, in *DeleteEnumInput) (*DeleteEnumOutput, error) {
+	out := &DeleteEnumOutput{}
+	path := "/enums/" + url.PathEscape(in.GetEnumId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.DatasetId = ""
+		in.EnumId = ""
 	}
 
 	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
@@ -127,13 +127,13 @@ func (s *DatasetServiceService) DeleteDataset(ctx context.Context, in *DeleteDat
 	return out, nil
 }
 
-func (s *DatasetServiceService) UpdateDataset(ctx context.Context, in *UpdateDatasetInput) (*UpdateDatasetOutput, error) {
-	out := &UpdateDatasetOutput{}
-	path := "/datasets/" + url.PathEscape(in.GetDatasetId())
+func (s *EnumServiceService) UpdateEnum(ctx context.Context, in *UpdateEnumInput) (*UpdateEnumOutput, error) {
+	out := &UpdateEnumOutput{}
+	path := "/enums/" + url.PathEscape(in.GetEnumId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.DatasetId = ""
+		in.EnumId = ""
 	}
 
 	if err := s.do(ctx, "PUT", path, in, out); err != nil {
@@ -143,13 +143,13 @@ func (s *DatasetServiceService) UpdateDataset(ctx context.Context, in *UpdateDat
 	return out, nil
 }
 
-func (s *DatasetServiceService) DescribeDataset(ctx context.Context, in *DescribeDatasetInput) (*DescribeDatasetOutput, error) {
-	out := &DescribeDatasetOutput{}
-	path := "/datasets/" + url.PathEscape(in.GetDatasetId())
+func (s *EnumServiceService) DescribeEnum(ctx context.Context, in *DescribeEnumInput) (*DescribeEnumOutput, error) {
+	out := &DescribeEnumOutput{}
+	path := "/enums/" + url.PathEscape(in.GetEnumId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.DatasetId = ""
+		in.EnumId = ""
 	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
@@ -159,9 +159,9 @@ func (s *DatasetServiceService) DescribeDataset(ctx context.Context, in *Describ
 	return out, nil
 }
 
-func (s *DatasetServiceService) ListDatasets(ctx context.Context, in *ListDatasetsInput) (*ListDatasetsOutput, error) {
-	out := &ListDatasetsOutput{}
-	path := "/datasets"
+func (s *EnumServiceService) ListEnums(ctx context.Context, in *ListEnumsInput) (*ListEnumsOutput, error) {
+	out := &ListEnumsOutput{}
+	path := "/enums"
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
@@ -170,13 +170,13 @@ func (s *DatasetServiceService) ListDatasets(ctx context.Context, in *ListDatase
 	return out, nil
 }
 
-func (s *DatasetServiceService) CreateEntry(ctx context.Context, in *CreateEntryInput) (*CreateEntryOutput, error) {
-	out := &CreateEntryOutput{}
-	path := "/datasets/" + url.PathEscape(in.GetDatasetId()) + "/items"
+func (s *EnumServiceService) CreateValue(ctx context.Context, in *CreateValueInput) (*CreateValueOutput, error) {
+	out := &CreateValueOutput{}
+	path := "/enums/" + url.PathEscape(in.GetEnumId()) + "/items"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.DatasetId = ""
+		in.EnumId = ""
 	}
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
@@ -186,14 +186,14 @@ func (s *DatasetServiceService) CreateEntry(ctx context.Context, in *CreateEntry
 	return out, nil
 }
 
-func (s *DatasetServiceService) DeleteEntry(ctx context.Context, in *DeleteEntryInput) (*DeleteEntryOutput, error) {
-	out := &DeleteEntryOutput{}
-	path := "/datasets/" + url.PathEscape(in.GetDatasetId()) + "/items/" + url.PathEscape(in.GetEntryId())
+func (s *EnumServiceService) DeleteValue(ctx context.Context, in *DeleteValueInput) (*DeleteValueOutput, error) {
+	out := &DeleteValueOutput{}
+	path := "/enums/" + url.PathEscape(in.GetEnumId()) + "/values/" + url.PathEscape(in.GetValueId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.DatasetId = ""
-		in.EntryId = ""
+		in.EnumId = ""
+		in.ValueId = ""
 	}
 
 	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
@@ -203,14 +203,14 @@ func (s *DatasetServiceService) DeleteEntry(ctx context.Context, in *DeleteEntry
 	return out, nil
 }
 
-func (s *DatasetServiceService) UpdateEntry(ctx context.Context, in *UpdateEntryInput) (*UpdateEntryOutput, error) {
-	out := &UpdateEntryOutput{}
-	path := "/datasets/" + url.PathEscape(in.GetDatasetId()) + "/items/" + url.PathEscape(in.GetEntryId())
+func (s *EnumServiceService) UpdateValue(ctx context.Context, in *UpdateValueInput) (*UpdateValueOutput, error) {
+	out := &UpdateValueOutput{}
+	path := "/enums/" + url.PathEscape(in.GetEnumId()) + "/values/" + url.PathEscape(in.GetValueId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.DatasetId = ""
-		in.EntryId = ""
+		in.EnumId = ""
+		in.ValueId = ""
 	}
 
 	if err := s.do(ctx, "PUT", path, in, out); err != nil {
@@ -220,14 +220,14 @@ func (s *DatasetServiceService) UpdateEntry(ctx context.Context, in *UpdateEntry
 	return out, nil
 }
 
-func (s *DatasetServiceService) DescribeEntry(ctx context.Context, in *DescribeEntryInput) (*DescribeEntryOutput, error) {
-	out := &DescribeEntryOutput{}
-	path := "/datasets/" + url.PathEscape(in.GetDatasetId()) + "/items/" + url.PathEscape(in.GetEntryId())
+func (s *EnumServiceService) DescribeValue(ctx context.Context, in *DescribeValueInput) (*DescribeValueOutput, error) {
+	out := &DescribeValueOutput{}
+	path := "/enums/" + url.PathEscape(in.GetEnumId()) + "/values/" + url.PathEscape(in.GetValueId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.DatasetId = ""
-		in.EntryId = ""
+		in.EnumId = ""
+		in.ValueId = ""
 	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
@@ -237,13 +237,13 @@ func (s *DatasetServiceService) DescribeEntry(ctx context.Context, in *DescribeE
 	return out, nil
 }
 
-func (s *DatasetServiceService) ListEntries(ctx context.Context, in *ListEntriesInput) (*ListEntriesOutput, error) {
-	out := &ListEntriesOutput{}
-	path := "/datasets/" + url.PathEscape(in.GetDatasetId()) + "/items"
+func (s *EnumServiceService) ListValues(ctx context.Context, in *ListValuesInput) (*ListValuesOutput, error) {
+	out := &ListValuesOutput{}
+	path := "/enums/" + url.PathEscape(in.GetEnumId()) + "/items"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.DatasetId = ""
+		in.EnumId = ""
 	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
@@ -253,14 +253,14 @@ func (s *DatasetServiceService) ListEntries(ctx context.Context, in *ListEntries
 	return out, nil
 }
 
-func (s *DatasetServiceService) TranslateEntry(ctx context.Context, in *TranslateEntryInput) (*TranslateEntryOutput, error) {
-	out := &TranslateEntryOutput{}
-	path := "/datasets/" + url.PathEscape(in.GetDatasetId()) + "/items/" + url.PathEscape(in.GetEntryId()) + "/translations/" + url.PathEscape(in.GetLocale())
+func (s *EnumServiceService) TranslateValue(ctx context.Context, in *TranslateValueInput) (*TranslateValueOutput, error) {
+	out := &TranslateValueOutput{}
+	path := "/enums/" + url.PathEscape(in.GetEnumId()) + "/values/" + url.PathEscape(in.GetValueId()) + "/translations/" + url.PathEscape(in.GetLocale())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.DatasetId = ""
-		in.EntryId = ""
+		in.EnumId = ""
+		in.ValueId = ""
 		in.Locale = ""
 	}
 
@@ -271,14 +271,14 @@ func (s *DatasetServiceService) TranslateEntry(ctx context.Context, in *Translat
 	return out, nil
 }
 
-func (s *DatasetServiceService) DeleteTranslation(ctx context.Context, in *DeleteTranslationInput) (*DeleteTranslationOutput, error) {
+func (s *EnumServiceService) DeleteTranslation(ctx context.Context, in *DeleteTranslationInput) (*DeleteTranslationOutput, error) {
 	out := &DeleteTranslationOutput{}
-	path := "/datasets/" + url.PathEscape(in.GetDatasetId()) + "/items/" + url.PathEscape(in.GetEntryId()) + "/translations/" + url.PathEscape(in.GetLocale())
+	path := "/enums/" + url.PathEscape(in.GetEnumId()) + "/values/" + url.PathEscape(in.GetValueId()) + "/translations/" + url.PathEscape(in.GetLocale())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.DatasetId = ""
-		in.EntryId = ""
+		in.EnumId = ""
+		in.ValueId = ""
 		in.Locale = ""
 	}
 
@@ -289,14 +289,14 @@ func (s *DatasetServiceService) DeleteTranslation(ctx context.Context, in *Delet
 	return out, nil
 }
 
-func (s *DatasetServiceService) ListTranslations(ctx context.Context, in *ListTranslationsInput) (*ListTranslationsOutput, error) {
+func (s *EnumServiceService) ListTranslations(ctx context.Context, in *ListTranslationsInput) (*ListTranslationsOutput, error) {
 	out := &ListTranslationsOutput{}
-	path := "/datasets/" + url.PathEscape(in.GetDatasetId()) + "/items/" + url.PathEscape(in.GetEntryId()) + "/translations"
+	path := "/enums/" + url.PathEscape(in.GetEnumId()) + "/values/" + url.PathEscape(in.GetValueId()) + "/translations"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.DatasetId = ""
-		in.EntryId = ""
+		in.EnumId = ""
+		in.ValueId = ""
 	}
 
 	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
