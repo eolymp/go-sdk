@@ -110,3 +110,14 @@ func (s *AssetServiceService) UploadImage(ctx context.Context, in *UploadImageIn
 
 	return out, nil
 }
+
+func (s *AssetServiceService) UploadFile(ctx context.Context, in *UploadFileInput) (*UploadFileOutput, error) {
+	out := &UploadFileOutput{}
+	path := "/assets/files"
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

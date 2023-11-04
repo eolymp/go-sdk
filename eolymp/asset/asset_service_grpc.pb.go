@@ -20,6 +20,7 @@ const _ = grpc.SupportPackageIsVersion7
 
 const (
 	AssetService_UploadImage_FullMethodName = "/eolymp.asset.AssetService/UploadImage"
+	AssetService_UploadFile_FullMethodName  = "/eolymp.asset.AssetService/UploadFile"
 )
 
 // AssetServiceClient is the client API for AssetService service.
@@ -27,6 +28,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AssetServiceClient interface {
 	UploadImage(ctx context.Context, in *UploadImageInput, opts ...grpc.CallOption) (*UploadImageOutput, error)
+	UploadFile(ctx context.Context, in *UploadFileInput, opts ...grpc.CallOption) (*UploadFileOutput, error)
 }
 
 type assetServiceClient struct {
@@ -46,11 +48,21 @@ func (c *assetServiceClient) UploadImage(ctx context.Context, in *UploadImageInp
 	return out, nil
 }
 
+func (c *assetServiceClient) UploadFile(ctx context.Context, in *UploadFileInput, opts ...grpc.CallOption) (*UploadFileOutput, error) {
+	out := new(UploadFileOutput)
+	err := c.cc.Invoke(ctx, AssetService_UploadFile_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AssetServiceServer is the server API for AssetService service.
 // All implementations should embed UnimplementedAssetServiceServer
 // for forward compatibility
 type AssetServiceServer interface {
 	UploadImage(context.Context, *UploadImageInput) (*UploadImageOutput, error)
+	UploadFile(context.Context, *UploadFileInput) (*UploadFileOutput, error)
 }
 
 // UnimplementedAssetServiceServer should be embedded to have forward compatible implementations.
@@ -59,6 +71,9 @@ type UnimplementedAssetServiceServer struct {
 
 func (UnimplementedAssetServiceServer) UploadImage(context.Context, *UploadImageInput) (*UploadImageOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UploadImage not implemented")
+}
+func (UnimplementedAssetServiceServer) UploadFile(context.Context, *UploadFileInput) (*UploadFileOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UploadFile not implemented")
 }
 
 // UnsafeAssetServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -90,6 +105,24 @@ func _AssetService_UploadImage_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AssetService_UploadFile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UploadFileInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AssetServiceServer).UploadFile(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AssetService_UploadFile_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AssetServiceServer).UploadFile(ctx, req.(*UploadFileInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AssetService_ServiceDesc is the grpc.ServiceDesc for AssetService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -100,6 +133,10 @@ var AssetService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UploadImage",
 			Handler:    _AssetService_UploadImage_Handler,
+		},
+		{
+			MethodName: "UploadFile",
+			Handler:    _AssetService_UploadFile_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -185,6 +185,9 @@ func RegisterAssetServiceHttpHandlers(router *mux.Router, prefix string, cli Ass
 	router.Handle(prefix+"/assets/images", _AssetService_UploadImage_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.asset.AssetService.UploadImage")
+	router.Handle(prefix+"/assets/files", _AssetService_UploadFile_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.asset.AssetService.UploadFile")
 }
 
 func _AssetService_UploadImage_Rule0(cli AssetServiceClient) http.Handler {
@@ -198,6 +201,26 @@ func _AssetService_UploadImage_Rule0(cli AssetServiceClient) http.Handler {
 		}
 
 		out, err := cli.UploadImage(r.Context(), in)
+		if err != nil {
+			_AssetService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_AssetService_HTTPWriteResponse(w, out)
+	})
+}
+
+func _AssetService_UploadFile_Rule0(cli AssetServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UploadFileInput{}
+
+		if err := _AssetService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_AssetService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := cli.UploadFile(r.Context(), in)
 		if err != nil {
 			_AssetService_HTTPWriteErrorResponse(w, err)
 			return
@@ -246,6 +269,38 @@ func (i *AssetServiceInterceptor) UploadImage(ctx context.Context, in *UploadIma
 	message, ok := out.(*UploadImageOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *UploadImageOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *AssetServiceInterceptor) UploadFile(ctx context.Context, in *UploadFileInput, opts ...grpc.CallOption) (*UploadFileOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*UploadFileInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *UploadFileInput, got %T", in))
+		}
+
+		return i.client.UploadFile(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.asset.AssetService.UploadFile", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*UploadFileOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *UploadFileOutput, got %T", out))
 	}
 
 	return message, err
