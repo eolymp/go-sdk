@@ -75,55 +75,6 @@ func (Space_Type) EnumDescriptor() ([]byte, []int) {
 	return file_eolymp_universe_space_proto_rawDescGZIP(), []int{0, 0}
 }
 
-type Space_Membership int32
-
-const (
-	Space_UNKNOWN_MEMBERSHIP Space_Membership = 0
-	Space_INDIVIDUAL         Space_Membership = 1
-	Space_TEAM               Space_Membership = 2
-)
-
-// Enum value maps for Space_Membership.
-var (
-	Space_Membership_name = map[int32]string{
-		0: "UNKNOWN_MEMBERSHIP",
-		1: "INDIVIDUAL",
-		2: "TEAM",
-	}
-	Space_Membership_value = map[string]int32{
-		"UNKNOWN_MEMBERSHIP": 0,
-		"INDIVIDUAL":         1,
-		"TEAM":               2,
-	}
-)
-
-func (x Space_Membership) Enum() *Space_Membership {
-	p := new(Space_Membership)
-	*p = x
-	return p
-}
-
-func (x Space_Membership) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (Space_Membership) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_universe_space_proto_enumTypes[1].Descriptor()
-}
-
-func (Space_Membership) Type() protoreflect.EnumType {
-	return &file_eolymp_universe_space_proto_enumTypes[1]
-}
-
-func (x Space_Membership) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use Space_Membership.Descriptor instead.
-func (Space_Membership) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_universe_space_proto_rawDescGZIP(), []int{0, 1}
-}
-
 type Space_Visibility int32
 
 const (
@@ -157,11 +108,11 @@ func (x Space_Visibility) String() string {
 }
 
 func (Space_Visibility) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_universe_space_proto_enumTypes[2].Descriptor()
+	return file_eolymp_universe_space_proto_enumTypes[1].Descriptor()
 }
 
 func (Space_Visibility) Type() protoreflect.EnumType {
-	return &file_eolymp_universe_space_proto_enumTypes[2]
+	return &file_eolymp_universe_space_proto_enumTypes[1]
 }
 
 func (x Space_Visibility) Number() protoreflect.EnumNumber {
@@ -170,7 +121,7 @@ func (x Space_Visibility) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use Space_Visibility.Descriptor instead.
 func (Space_Visibility) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_universe_space_proto_rawDescGZIP(), []int{0, 2}
+	return file_eolymp_universe_space_proto_rawDescGZIP(), []int{0, 1}
 }
 
 type Space struct {
@@ -438,7 +389,7 @@ var file_eolymp_universe_space_proto_rawDesc = []byte{
 	0x5f, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x27, 0x65,
 	0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x75, 0x6e, 0x69, 0x76, 0x65, 0x72, 0x73, 0x65, 0x2f, 0x73,
 	0x70, 0x61, 0x63, 0x65, 0x5f, 0x75, 0x73, 0x65, 0x72, 0x5f, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67,
-	0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x86, 0x09, 0x0a, 0x05, 0x53, 0x70, 0x61, 0x63, 0x65,
+	0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0xc6, 0x08, 0x0a, 0x05, 0x53, 0x70, 0x61, 0x63, 0x65,
 	0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64,
 	0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b,
 	0x65, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x75, 0x72, 0x6c, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52,
@@ -503,10 +454,6 @@ var file_eolymp_universe_space_proto_rawDesc = []byte{
 	0x10, 0x01, 0x12, 0x0d, 0x0a, 0x09, 0x43, 0x4c, 0x41, 0x53, 0x53, 0x52, 0x4f, 0x4f, 0x4d, 0x10,
 	0x02, 0x12, 0x0c, 0x0a, 0x08, 0x54, 0x45, 0x41, 0x4d, 0x52, 0x4f, 0x4f, 0x4d, 0x10, 0x03, 0x12,
 	0x0f, 0x0a, 0x0b, 0x43, 0x4f, 0x4d, 0x50, 0x45, 0x54, 0x49, 0x54, 0x49, 0x4f, 0x4e, 0x10, 0x04,
-	0x22, 0x3e, 0x0a, 0x0a, 0x4d, 0x65, 0x6d, 0x62, 0x65, 0x72, 0x73, 0x68, 0x69, 0x70, 0x12, 0x16,
-	0x0a, 0x12, 0x55, 0x4e, 0x4b, 0x4e, 0x4f, 0x57, 0x4e, 0x5f, 0x4d, 0x45, 0x4d, 0x42, 0x45, 0x52,
-	0x53, 0x48, 0x49, 0x50, 0x10, 0x00, 0x12, 0x0e, 0x0a, 0x0a, 0x49, 0x4e, 0x44, 0x49, 0x56, 0x49,
-	0x44, 0x55, 0x41, 0x4c, 0x10, 0x01, 0x12, 0x08, 0x0a, 0x04, 0x54, 0x45, 0x41, 0x4d, 0x10, 0x02,
 	0x22, 0x3d, 0x0a, 0x0a, 0x56, 0x69, 0x73, 0x69, 0x62, 0x69, 0x6c, 0x69, 0x74, 0x79, 0x12, 0x16,
 	0x0a, 0x12, 0x55, 0x4e, 0x4b, 0x4e, 0x4f, 0x57, 0x4e, 0x5f, 0x56, 0x49, 0x53, 0x49, 0x42, 0x49,
 	0x4c, 0x49, 0x54, 0x59, 0x10, 0x00, 0x12, 0x0a, 0x0a, 0x06, 0x50, 0x55, 0x42, 0x4c, 0x49, 0x43,
@@ -529,22 +476,21 @@ func file_eolymp_universe_space_proto_rawDescGZIP() []byte {
 	return file_eolymp_universe_space_proto_rawDescData
 }
 
-var file_eolymp_universe_space_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
+var file_eolymp_universe_space_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
 var file_eolymp_universe_space_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_eolymp_universe_space_proto_goTypes = []interface{}{
 	(Space_Type)(0),          // 0: eolymp.universe.Space.Type
-	(Space_Membership)(0),    // 1: eolymp.universe.Space.Membership
-	(Space_Visibility)(0),    // 2: eolymp.universe.Space.Visibility
-	(*Space)(nil),            // 3: eolymp.universe.Space
-	(*Space_Quota)(nil),      // 4: eolymp.universe.Space.Quota
-	(*UserConfig)(nil),       // 5: eolymp.universe.UserConfig
-	(*AppearanceConfig)(nil), // 6: eolymp.universe.AppearanceConfig
+	(Space_Visibility)(0),    // 1: eolymp.universe.Space.Visibility
+	(*Space)(nil),            // 2: eolymp.universe.Space
+	(*Space_Quota)(nil),      // 3: eolymp.universe.Space.Quota
+	(*UserConfig)(nil),       // 4: eolymp.universe.UserConfig
+	(*AppearanceConfig)(nil), // 5: eolymp.universe.AppearanceConfig
 }
 var file_eolymp_universe_space_proto_depIdxs = []int32{
 	0, // 0: eolymp.universe.Space.type:type_name -> eolymp.universe.Space.Type
-	2, // 1: eolymp.universe.Space.visibility:type_name -> eolymp.universe.Space.Visibility
-	5, // 2: eolymp.universe.Space.user_config:type_name -> eolymp.universe.UserConfig
-	6, // 3: eolymp.universe.Space.appearance_config:type_name -> eolymp.universe.AppearanceConfig
+	1, // 1: eolymp.universe.Space.visibility:type_name -> eolymp.universe.Space.Visibility
+	4, // 2: eolymp.universe.Space.user_config:type_name -> eolymp.universe.UserConfig
+	5, // 3: eolymp.universe.Space.appearance_config:type_name -> eolymp.universe.AppearanceConfig
 	4, // [4:4] is the sub-list for method output_type
 	4, // [4:4] is the sub-list for method input_type
 	4, // [4:4] is the sub-list for extension type_name
@@ -590,7 +536,7 @@ func file_eolymp_universe_space_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_eolymp_universe_space_proto_rawDesc,
-			NumEnums:      3,
+			NumEnums:      2,
 			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   0,
