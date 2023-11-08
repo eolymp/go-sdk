@@ -21,6 +21,8 @@ const _ = grpc.SupportPackageIsVersion7
 const (
 	ConfigurationService_DescribeIdentityProvider_FullMethodName  = "/eolymp.community.ConfigurationService/DescribeIdentityProvider"
 	ConfigurationService_ConfigureIdentityProvider_FullMethodName = "/eolymp.community.ConfigurationService/ConfigureIdentityProvider"
+	ConfigurationService_DescribeIdentityConfig_FullMethodName    = "/eolymp.community.ConfigurationService/DescribeIdentityConfig"
+	ConfigurationService_ConfigureIdentityConfig_FullMethodName   = "/eolymp.community.ConfigurationService/ConfigureIdentityConfig"
 )
 
 // ConfigurationServiceClient is the client API for ConfigurationService service.
@@ -31,6 +33,10 @@ type ConfigurationServiceClient interface {
 	DescribeIdentityProvider(ctx context.Context, in *DescribeIdentityProviderInput, opts ...grpc.CallOption) (*DescribeIdentityProviderOutput, error)
 	// Update identity provider configuration
 	ConfigureIdentityProvider(ctx context.Context, in *ConfigureIdentityProviderInput, opts ...grpc.CallOption) (*ConfigureIdentityProviderOutput, error)
+	// Describe identity provider configuration
+	DescribeIdentityConfig(ctx context.Context, in *DescribeIdentityConfigInput, opts ...grpc.CallOption) (*DescribeIdentityConfigOutput, error)
+	// Update identity provider configuration
+	ConfigureIdentityConfig(ctx context.Context, in *ConfigureIdentityConfigInput, opts ...grpc.CallOption) (*ConfigureIdentityConfigOutput, error)
 }
 
 type configurationServiceClient struct {
@@ -59,6 +65,24 @@ func (c *configurationServiceClient) ConfigureIdentityProvider(ctx context.Conte
 	return out, nil
 }
 
+func (c *configurationServiceClient) DescribeIdentityConfig(ctx context.Context, in *DescribeIdentityConfigInput, opts ...grpc.CallOption) (*DescribeIdentityConfigOutput, error) {
+	out := new(DescribeIdentityConfigOutput)
+	err := c.cc.Invoke(ctx, ConfigurationService_DescribeIdentityConfig_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *configurationServiceClient) ConfigureIdentityConfig(ctx context.Context, in *ConfigureIdentityConfigInput, opts ...grpc.CallOption) (*ConfigureIdentityConfigOutput, error) {
+	out := new(ConfigureIdentityConfigOutput)
+	err := c.cc.Invoke(ctx, ConfigurationService_ConfigureIdentityConfig_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ConfigurationServiceServer is the server API for ConfigurationService service.
 // All implementations should embed UnimplementedConfigurationServiceServer
 // for forward compatibility
@@ -67,6 +91,10 @@ type ConfigurationServiceServer interface {
 	DescribeIdentityProvider(context.Context, *DescribeIdentityProviderInput) (*DescribeIdentityProviderOutput, error)
 	// Update identity provider configuration
 	ConfigureIdentityProvider(context.Context, *ConfigureIdentityProviderInput) (*ConfigureIdentityProviderOutput, error)
+	// Describe identity provider configuration
+	DescribeIdentityConfig(context.Context, *DescribeIdentityConfigInput) (*DescribeIdentityConfigOutput, error)
+	// Update identity provider configuration
+	ConfigureIdentityConfig(context.Context, *ConfigureIdentityConfigInput) (*ConfigureIdentityConfigOutput, error)
 }
 
 // UnimplementedConfigurationServiceServer should be embedded to have forward compatible implementations.
@@ -78,6 +106,12 @@ func (UnimplementedConfigurationServiceServer) DescribeIdentityProvider(context.
 }
 func (UnimplementedConfigurationServiceServer) ConfigureIdentityProvider(context.Context, *ConfigureIdentityProviderInput) (*ConfigureIdentityProviderOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ConfigureIdentityProvider not implemented")
+}
+func (UnimplementedConfigurationServiceServer) DescribeIdentityConfig(context.Context, *DescribeIdentityConfigInput) (*DescribeIdentityConfigOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeIdentityConfig not implemented")
+}
+func (UnimplementedConfigurationServiceServer) ConfigureIdentityConfig(context.Context, *ConfigureIdentityConfigInput) (*ConfigureIdentityConfigOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ConfigureIdentityConfig not implemented")
 }
 
 // UnsafeConfigurationServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -127,6 +161,42 @@ func _ConfigurationService_ConfigureIdentityProvider_Handler(srv interface{}, ct
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ConfigurationService_DescribeIdentityConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeIdentityConfigInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ConfigurationServiceServer).DescribeIdentityConfig(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ConfigurationService_DescribeIdentityConfig_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ConfigurationServiceServer).DescribeIdentityConfig(ctx, req.(*DescribeIdentityConfigInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ConfigurationService_ConfigureIdentityConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ConfigureIdentityConfigInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ConfigurationServiceServer).ConfigureIdentityConfig(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ConfigurationService_ConfigureIdentityConfig_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ConfigurationServiceServer).ConfigureIdentityConfig(ctx, req.(*ConfigureIdentityConfigInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ConfigurationService_ServiceDesc is the grpc.ServiceDesc for ConfigurationService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -141,6 +211,14 @@ var ConfigurationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ConfigureIdentityProvider",
 			Handler:    _ConfigurationService_ConfigureIdentityProvider_Handler,
+		},
+		{
+			MethodName: "DescribeIdentityConfig",
+			Handler:    _ConfigurationService_DescribeIdentityConfig_Handler,
+		},
+		{
+			MethodName: "ConfigureIdentityConfig",
+			Handler:    _ConfigurationService_ConfigureIdentityConfig_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -188,6 +188,12 @@ func RegisterConfigurationServiceHttpHandlers(router *mux.Router, prefix string,
 	router.Handle(prefix+"/idp", _ConfigurationService_ConfigureIdentityProvider_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.community.ConfigurationService.ConfigureIdentityProvider")
+	router.Handle(prefix+"/configs/identity", _ConfigurationService_DescribeIdentityConfig_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.community.ConfigurationService.DescribeIdentityConfig")
+	router.Handle(prefix+"/configs/identity", _ConfigurationService_ConfigureIdentityConfig_Rule0(cli)).
+		Methods("PUT").
+		Name("eolymp.community.ConfigurationService.ConfigureIdentityConfig")
 }
 
 func _ConfigurationService_DescribeIdentityProvider_Rule0(cli ConfigurationServiceClient) http.Handler {
@@ -221,6 +227,46 @@ func _ConfigurationService_ConfigureIdentityProvider_Rule0(cli ConfigurationServ
 		}
 
 		out, err := cli.ConfigureIdentityProvider(r.Context(), in)
+		if err != nil {
+			_ConfigurationService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ConfigurationService_HTTPWriteResponse(w, out)
+	})
+}
+
+func _ConfigurationService_DescribeIdentityConfig_Rule0(cli ConfigurationServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeIdentityConfigInput{}
+
+		if err := _ConfigurationService_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_ConfigurationService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := cli.DescribeIdentityConfig(r.Context(), in)
+		if err != nil {
+			_ConfigurationService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ConfigurationService_HTTPWriteResponse(w, out)
+	})
+}
+
+func _ConfigurationService_ConfigureIdentityConfig_Rule0(cli ConfigurationServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ConfigureIdentityConfigInput{}
+
+		if err := _ConfigurationService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_ConfigurationService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := cli.ConfigureIdentityConfig(r.Context(), in)
 		if err != nil {
 			_ConfigurationService_HTTPWriteErrorResponse(w, err)
 			return
@@ -301,6 +347,70 @@ func (i *ConfigurationServiceInterceptor) ConfigureIdentityProvider(ctx context.
 	message, ok := out.(*ConfigureIdentityProviderOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *ConfigureIdentityProviderOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *ConfigurationServiceInterceptor) DescribeIdentityConfig(ctx context.Context, in *DescribeIdentityConfigInput, opts ...grpc.CallOption) (*DescribeIdentityConfigOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeIdentityConfigInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeIdentityConfigInput, got %T", in))
+		}
+
+		return i.client.DescribeIdentityConfig(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.community.ConfigurationService.DescribeIdentityConfig", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeIdentityConfigOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeIdentityConfigOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *ConfigurationServiceInterceptor) ConfigureIdentityConfig(ctx context.Context, in *ConfigureIdentityConfigInput, opts ...grpc.CallOption) (*ConfigureIdentityConfigOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ConfigureIdentityConfigInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ConfigureIdentityConfigInput, got %T", in))
+		}
+
+		return i.client.ConfigureIdentityConfig(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.community.ConfigurationService.ConfigureIdentityConfig", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ConfigureIdentityConfigOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ConfigureIdentityConfigOutput, got %T", out))
 	}
 
 	return message, err

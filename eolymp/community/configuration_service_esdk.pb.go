@@ -121,3 +121,25 @@ func (s *ConfigurationServiceService) ConfigureIdentityProvider(ctx context.Cont
 
 	return out, nil
 }
+
+func (s *ConfigurationServiceService) DescribeIdentityConfig(ctx context.Context, in *DescribeIdentityConfigInput) (*DescribeIdentityConfigOutput, error) {
+	out := &DescribeIdentityConfigOutput{}
+	path := "/configs/identity"
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *ConfigurationServiceService) ConfigureIdentityConfig(ctx context.Context, in *ConfigureIdentityConfigInput) (*ConfigureIdentityConfigOutput, error) {
+	out := &ConfigureIdentityConfigOutput{}
+	path := "/configs/identity"
+
+	if err := s.do(ctx, "PUT", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
