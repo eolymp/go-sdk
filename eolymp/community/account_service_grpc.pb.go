@@ -28,6 +28,7 @@ const (
 	AccountService_CompleteVerification_FullMethodName = "/eolymp.community.AccountService/CompleteVerification"
 	AccountService_StartRecovery_FullMethodName        = "/eolymp.community.AccountService/StartRecovery"
 	AccountService_CompleteRecovery_FullMethodName     = "/eolymp.community.AccountService/CompleteRecovery"
+	AccountService_UpgradeSubscription_FullMethodName  = "/eolymp.community.AccountService/UpgradeSubscription"
 )
 
 // AccountServiceClient is the client API for AccountService service.
@@ -43,6 +44,7 @@ type AccountServiceClient interface {
 	CompleteVerification(ctx context.Context, in *CompleteVerificationInput, opts ...grpc.CallOption) (*CompleteVerificationOutput, error)
 	StartRecovery(ctx context.Context, in *StartRecoveryInput, opts ...grpc.CallOption) (*StartRecoveryOutput, error)
 	CompleteRecovery(ctx context.Context, in *CompleteRecoverInput, opts ...grpc.CallOption) (*CompleteRecoverOutput, error)
+	UpgradeSubscription(ctx context.Context, in *UpgradeSubscriptionInput, opts ...grpc.CallOption) (*UpgradeSubscriptionOutput, error)
 }
 
 type accountServiceClient struct {
@@ -134,6 +136,15 @@ func (c *accountServiceClient) CompleteRecovery(ctx context.Context, in *Complet
 	return out, nil
 }
 
+func (c *accountServiceClient) UpgradeSubscription(ctx context.Context, in *UpgradeSubscriptionInput, opts ...grpc.CallOption) (*UpgradeSubscriptionOutput, error) {
+	out := new(UpgradeSubscriptionOutput)
+	err := c.cc.Invoke(ctx, AccountService_UpgradeSubscription_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AccountServiceServer is the server API for AccountService service.
 // All implementations should embed UnimplementedAccountServiceServer
 // for forward compatibility
@@ -147,6 +158,7 @@ type AccountServiceServer interface {
 	CompleteVerification(context.Context, *CompleteVerificationInput) (*CompleteVerificationOutput, error)
 	StartRecovery(context.Context, *StartRecoveryInput) (*StartRecoveryOutput, error)
 	CompleteRecovery(context.Context, *CompleteRecoverInput) (*CompleteRecoverOutput, error)
+	UpgradeSubscription(context.Context, *UpgradeSubscriptionInput) (*UpgradeSubscriptionOutput, error)
 }
 
 // UnimplementedAccountServiceServer should be embedded to have forward compatible implementations.
@@ -179,6 +191,9 @@ func (UnimplementedAccountServiceServer) StartRecovery(context.Context, *StartRe
 }
 func (UnimplementedAccountServiceServer) CompleteRecovery(context.Context, *CompleteRecoverInput) (*CompleteRecoverOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CompleteRecovery not implemented")
+}
+func (UnimplementedAccountServiceServer) UpgradeSubscription(context.Context, *UpgradeSubscriptionInput) (*UpgradeSubscriptionOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpgradeSubscription not implemented")
 }
 
 // UnsafeAccountServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -354,6 +369,24 @@ func _AccountService_CompleteRecovery_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AccountService_UpgradeSubscription_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpgradeSubscriptionInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountServiceServer).UpgradeSubscription(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AccountService_UpgradeSubscription_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountServiceServer).UpgradeSubscription(ctx, req.(*UpgradeSubscriptionInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AccountService_ServiceDesc is the grpc.ServiceDesc for AccountService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -397,7 +430,59 @@ var AccountService_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "CompleteRecovery",
 			Handler:    _AccountService_CompleteRecovery_Handler,
 		},
+		{
+			MethodName: "UpgradeSubscription",
+			Handler:    _AccountService_UpgradeSubscription_Handler,
+		},
 	},
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "eolymp/community/account_service.proto",
+}
+
+const ()
+
+// SubscriptionServiceClient is the client API for SubscriptionService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type SubscriptionServiceClient interface {
+}
+
+type subscriptionServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewSubscriptionServiceClient(cc grpc.ClientConnInterface) SubscriptionServiceClient {
+	return &subscriptionServiceClient{cc}
+}
+
+// SubscriptionServiceServer is the server API for SubscriptionService service.
+// All implementations should embed UnimplementedSubscriptionServiceServer
+// for forward compatibility
+type SubscriptionServiceServer interface {
+}
+
+// UnimplementedSubscriptionServiceServer should be embedded to have forward compatible implementations.
+type UnimplementedSubscriptionServiceServer struct {
+}
+
+// UnsafeSubscriptionServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to SubscriptionServiceServer will
+// result in compilation errors.
+type UnsafeSubscriptionServiceServer interface {
+	mustEmbedUnimplementedSubscriptionServiceServer()
+}
+
+func RegisterSubscriptionServiceServer(s grpc.ServiceRegistrar, srv SubscriptionServiceServer) {
+	s.RegisterService(&SubscriptionService_ServiceDesc, srv)
+}
+
+// SubscriptionService_ServiceDesc is the grpc.ServiceDesc for SubscriptionService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var SubscriptionService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "eolymp.community.SubscriptionService",
+	HandlerType: (*SubscriptionServiceServer)(nil),
+	Methods:     []grpc.MethodDesc{},
+	Streams:     []grpc.StreamDesc{},
+	Metadata:    "eolymp/community/account_service.proto",
 }
