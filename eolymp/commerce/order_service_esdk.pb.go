@@ -100,6 +100,17 @@ func (s *OrderServiceService) do(ctx context.Context, verb, path string, in, out
 	return nil
 }
 
+func (s *OrderServiceService) CreateOrder(ctx context.Context, in *CreateOrderInput) (*CreateOrderOutput, error) {
+	out := &CreateOrderOutput{}
+	path := "/orders"
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *OrderServiceService) DescribeOrder(ctx context.Context, in *DescribeOrderInput) (*DescribeOrderOutput, error) {
 	out := &DescribeOrderOutput{}
 	path := "/orders/" + url.PathEscape(in.GetOrderId())

@@ -182,6 +182,9 @@ var _OrderService_WebsocketCodec = websocket.Codec{
 // RegisterOrderServiceHttpHandlers adds handlers for for OrderServiceClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterOrderServiceHttpHandlers(router *mux.Router, prefix string, cli OrderServiceClient) {
+	router.Handle(prefix+"/orders", _OrderService_CreateOrder_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.commerce.OrderService.CreateOrder")
 	router.Handle(prefix+"/orders/{order_id}", _OrderService_DescribeOrder_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.commerce.OrderService.DescribeOrder")
@@ -194,6 +197,26 @@ func RegisterOrderServiceHttpHandlers(router *mux.Router, prefix string, cli Ord
 	router.Handle(prefix+"/orders/{order_id}/cancel", _OrderService_CancelOrder_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.commerce.OrderService.CancelOrder")
+}
+
+func _OrderService_CreateOrder_Rule0(cli OrderServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &CreateOrderInput{}
+
+		if err := _OrderService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_OrderService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := cli.CreateOrder(r.Context(), in)
+		if err != nil {
+			_OrderService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_OrderService_HTTPWriteResponse(w, out)
+	})
 }
 
 func _OrderService_DescribeOrder_Rule0(cli OrderServiceClient) http.Handler {
@@ -298,6 +321,38 @@ type OrderServiceInterceptor struct {
 // NewOrderServiceInterceptor constructs additional middleware for a server based on annotations in proto files
 func NewOrderServiceInterceptor(cli OrderServiceClient, middleware ..._OrderServiceMiddleware) *OrderServiceInterceptor {
 	return &OrderServiceInterceptor{client: cli, middleware: middleware}
+}
+
+func (i *OrderServiceInterceptor) CreateOrder(ctx context.Context, in *CreateOrderInput, opts ...grpc.CallOption) (*CreateOrderOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*CreateOrderInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *CreateOrderInput, got %T", in))
+		}
+
+		return i.client.CreateOrder(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.commerce.OrderService.CreateOrder", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*CreateOrderOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *CreateOrderOutput, got %T", out))
+	}
+
+	return message, err
 }
 
 func (i *OrderServiceInterceptor) DescribeOrder(ctx context.Context, in *DescribeOrderInput, opts ...grpc.CallOption) (*DescribeOrderOutput, error) {
