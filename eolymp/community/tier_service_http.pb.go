@@ -182,32 +182,15 @@ var _TierService_WebsocketCodec = websocket.Codec{
 // RegisterTierServiceHttpHandlers adds handlers for for TierServiceClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterTierServiceHttpHandlers(router *mux.Router, prefix string, cli TierServiceClient) {
-	router.Handle(prefix+"/tiers", _TierService_ListTiers_Rule0(cli)).
-		Methods("GET").
-		Name("eolymp.community.TierService.ListTiers")
 	router.Handle(prefix+"/tiers/{tier_id}", _TierService_DescribeTier_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.community.TierService.DescribeTier")
-}
-
-func _TierService_ListTiers_Rule0(cli TierServiceClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ListTiersInput{}
-
-		if err := _TierService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_TierService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := cli.ListTiers(r.Context(), in)
-		if err != nil {
-			_TierService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_TierService_HTTPWriteResponse(w, out)
-	})
+	router.Handle(prefix+"/tiers", _TierService_ListTiers_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.community.TierService.ListTiers")
+	router.Handle(prefix+"/tier-currencies", _TierService_ListCurrencies_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.community.TierService.ListCurrencies")
 }
 
 func _TierService_DescribeTier_Rule0(cli TierServiceClient) http.Handler {
@@ -233,6 +216,46 @@ func _TierService_DescribeTier_Rule0(cli TierServiceClient) http.Handler {
 	})
 }
 
+func _TierService_ListTiers_Rule0(cli TierServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListTiersInput{}
+
+		if err := _TierService_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_TierService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := cli.ListTiers(r.Context(), in)
+		if err != nil {
+			_TierService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_TierService_HTTPWriteResponse(w, out)
+	})
+}
+
+func _TierService_ListCurrencies_Rule0(cli TierServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListCurrenciesInput{}
+
+		if err := _TierService_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_TierService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := cli.ListCurrencies(r.Context(), in)
+		if err != nil {
+			_TierService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_TierService_HTTPWriteResponse(w, out)
+	})
+}
+
 type _TierServiceHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
 type _TierServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _TierServiceHandler) (out proto.Message, err error)
 type TierServiceInterceptor struct {
@@ -243,6 +266,38 @@ type TierServiceInterceptor struct {
 // NewTierServiceInterceptor constructs additional middleware for a server based on annotations in proto files
 func NewTierServiceInterceptor(cli TierServiceClient, middleware ..._TierServiceMiddleware) *TierServiceInterceptor {
 	return &TierServiceInterceptor{client: cli, middleware: middleware}
+}
+
+func (i *TierServiceInterceptor) DescribeTier(ctx context.Context, in *DescribeTierInput, opts ...grpc.CallOption) (*DescribeTierOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeTierInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeTierInput, got %T", in))
+		}
+
+		return i.client.DescribeTier(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.community.TierService.DescribeTier", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeTierOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeTierOutput, got %T", out))
+	}
+
+	return message, err
 }
 
 func (i *TierServiceInterceptor) ListTiers(ctx context.Context, in *ListTiersInput, opts ...grpc.CallOption) (*ListTiersOutput, error) {
@@ -277,14 +332,14 @@ func (i *TierServiceInterceptor) ListTiers(ctx context.Context, in *ListTiersInp
 	return message, err
 }
 
-func (i *TierServiceInterceptor) DescribeTier(ctx context.Context, in *DescribeTierInput, opts ...grpc.CallOption) (*DescribeTierOutput, error) {
+func (i *TierServiceInterceptor) ListCurrencies(ctx context.Context, in *ListCurrenciesInput, opts ...grpc.CallOption) (*ListCurrenciesOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*DescribeTierInput)
+		message, ok := in.(*ListCurrenciesInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *DescribeTierInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *ListCurrenciesInput, got %T", in))
 		}
 
-		return i.client.DescribeTier(ctx, message, opts...)
+		return i.client.ListCurrencies(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -292,7 +347,7 @@ func (i *TierServiceInterceptor) DescribeTier(ctx context.Context, in *DescribeT
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.community.TierService.DescribeTier", in, next)
+			return mw(ctx, "eolymp.community.TierService.ListCurrencies", in, next)
 		}
 	}
 
@@ -301,9 +356,9 @@ func (i *TierServiceInterceptor) DescribeTier(ctx context.Context, in *DescribeT
 		return nil, err
 	}
 
-	message, ok := out.(*DescribeTierOutput)
+	message, ok := out.(*ListCurrenciesOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *DescribeTierOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *ListCurrenciesOutput, got %T", out))
 	}
 
 	return message, err

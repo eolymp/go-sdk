@@ -26,8 +26,8 @@ type UpdateGroupInput_Patch int32
 
 const (
 	UpdateGroupInput_ALL         UpdateGroupInput_Patch = 0 // change all properties (same as an empty patch)
-	UpdateGroupInput_NAME        UpdateGroupInput_Patch = 1 // change active/inactive flag
-	UpdateGroupInput_DESCRIPTION UpdateGroupInput_Patch = 2 // change official/unofficial flag
+	UpdateGroupInput_NAME        UpdateGroupInput_Patch = 1
+	UpdateGroupInput_DESCRIPTION UpdateGroupInput_Patch = 2
 )
 
 // Enum value maps for UpdateGroupInput_Patch.

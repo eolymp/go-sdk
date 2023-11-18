@@ -209,9 +209,12 @@ func RegisterAccountServiceHttpHandlers(router *mux.Router, prefix string, cli A
 	router.Handle(prefix+"/account/recovery/complete", _AccountService_CompleteRecovery_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.community.AccountService.CompleteRecovery")
-	router.Handle(prefix+"/account/subscription", _AccountService_UpgradeSubscription_Rule0(cli)).
+	router.Handle(prefix+"/account/subscription", _AccountService_ConfigureActiveSubscription_Rule0(cli)).
 		Methods("PUT").
-		Name("eolymp.community.AccountService.UpgradeSubscription")
+		Name("eolymp.community.AccountService.ConfigureActiveSubscription")
+	router.Handle(prefix+"/account/subscription", _AccountService_DescribeActiveSubscription_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.community.AccountService.DescribeActiveSubscription")
 }
 
 func _AccountService_CreateAccount_Rule0(cli AccountServiceClient) http.Handler {
@@ -394,9 +397,9 @@ func _AccountService_CompleteRecovery_Rule0(cli AccountServiceClient) http.Handl
 	})
 }
 
-func _AccountService_UpgradeSubscription_Rule0(cli AccountServiceClient) http.Handler {
+func _AccountService_ConfigureActiveSubscription_Rule0(cli AccountServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &UpgradeSubscriptionInput{}
+		in := &ConfigureActiveSubscriptionInput{}
 
 		if err := _AccountService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
@@ -404,7 +407,27 @@ func _AccountService_UpgradeSubscription_Rule0(cli AccountServiceClient) http.Ha
 			return
 		}
 
-		out, err := cli.UpgradeSubscription(r.Context(), in)
+		out, err := cli.ConfigureActiveSubscription(r.Context(), in)
+		if err != nil {
+			_AccountService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_AccountService_HTTPWriteResponse(w, out)
+	})
+}
+
+func _AccountService_DescribeActiveSubscription_Rule0(cli AccountServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeActiveSubscriptionInput{}
+
+		if err := _AccountService_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_AccountService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := cli.DescribeActiveSubscription(r.Context(), in)
 		if err != nil {
 			_AccountService_HTTPWriteErrorResponse(w, err)
 			return
@@ -714,14 +737,14 @@ func (i *AccountServiceInterceptor) CompleteRecovery(ctx context.Context, in *Co
 	return message, err
 }
 
-func (i *AccountServiceInterceptor) UpgradeSubscription(ctx context.Context, in *UpgradeSubscriptionInput, opts ...grpc.CallOption) (*UpgradeSubscriptionOutput, error) {
+func (i *AccountServiceInterceptor) ConfigureActiveSubscription(ctx context.Context, in *ConfigureActiveSubscriptionInput, opts ...grpc.CallOption) (*ConfigureActiveSubscriptionOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*UpgradeSubscriptionInput)
+		message, ok := in.(*ConfigureActiveSubscriptionInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *UpgradeSubscriptionInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *ConfigureActiveSubscriptionInput, got %T", in))
 		}
 
-		return i.client.UpgradeSubscription(ctx, message, opts...)
+		return i.client.ConfigureActiveSubscription(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -729,7 +752,7 @@ func (i *AccountServiceInterceptor) UpgradeSubscription(ctx context.Context, in 
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.community.AccountService.UpgradeSubscription", in, next)
+			return mw(ctx, "eolymp.community.AccountService.ConfigureActiveSubscription", in, next)
 		}
 	}
 
@@ -738,189 +761,42 @@ func (i *AccountServiceInterceptor) UpgradeSubscription(ctx context.Context, in 
 		return nil, err
 	}
 
-	message, ok := out.(*UpgradeSubscriptionOutput)
+	message, ok := out.(*ConfigureActiveSubscriptionOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *UpgradeSubscriptionOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *ConfigureActiveSubscriptionOutput, got %T", out))
 	}
 
 	return message, err
 }
 
-// _SubscriptionService_HTTPReadQueryString parses body into proto.Message
-func _SubscriptionService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
-	query := r.URL.Query().Get("q")
-	if query == "" {
-		return nil
-	}
-
-	if err := (protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal([]byte(query), v)); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// _SubscriptionService_HTTPReadRequestBody parses body into proto.Message
-func _SubscriptionService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
-	data, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		return err
-	}
-
-	if err := (protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal(data, v)); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// _SubscriptionService_HTTPWriteResponse writes proto.Message to HTTP response
-func _SubscriptionService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message) {
-	data, err := protojson.Marshal(v)
-	if err != nil {
-		_SubscriptionService_HTTPWriteErrorResponse(w, err)
-		return
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-
-	_, _ = w.Write(data)
-}
-
-// _SubscriptionService_HTTPWriteErrorResponse writes error to HTTP response with error status code
-func _SubscriptionService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
-	s := status.Convert(e)
-
-	w.Header().Set("Content-Type", "application/json")
-
-	switch s.Code() {
-	case codes.OK:
-		w.WriteHeader(http.StatusOK)
-	case codes.Canceled:
-		w.WriteHeader(http.StatusGatewayTimeout)
-	case codes.Unknown:
-		w.WriteHeader(http.StatusInternalServerError)
-	case codes.InvalidArgument:
-		w.WriteHeader(http.StatusBadRequest)
-	case codes.DeadlineExceeded:
-		w.WriteHeader(http.StatusGatewayTimeout)
-	case codes.NotFound:
-		w.WriteHeader(http.StatusNotFound)
-	case codes.AlreadyExists:
-		w.WriteHeader(http.StatusConflict)
-	case codes.PermissionDenied:
-		w.WriteHeader(http.StatusForbidden)
-	case codes.ResourceExhausted:
-		w.WriteHeader(http.StatusTooManyRequests)
-	case codes.FailedPrecondition:
-		w.WriteHeader(http.StatusPreconditionFailed)
-	case codes.Aborted:
-		w.WriteHeader(http.StatusServiceUnavailable)
-	case codes.OutOfRange:
-		w.WriteHeader(http.StatusRequestedRangeNotSatisfiable)
-	case codes.Unimplemented:
-		w.WriteHeader(http.StatusNotImplemented)
-	case codes.Internal:
-		w.WriteHeader(http.StatusInternalServerError)
-	case codes.Unavailable:
-		w.WriteHeader(http.StatusServiceUnavailable)
-	case codes.DataLoss:
-		w.WriteHeader(http.StatusInternalServerError)
-	case codes.Unauthenticated:
-		w.WriteHeader(http.StatusUnauthorized)
-	default:
-		w.WriteHeader(http.StatusInternalServerError)
-	}
-
-	data, err := protojson.Marshal(s.Proto())
-	if err != nil {
-		panic(err)
-	}
-
-	_, _ = w.Write(data)
-}
-
-// _SubscriptionService_WebsocketErrorResponse writes error to websocket connection
-func _SubscriptionService_WebsocketErrorResponse(conn *websocket.Conn, e error) {
-	switch status.Convert(e).Code() {
-	case codes.OK:
-		conn.WriteClose(1000)
-	case codes.Canceled:
-		conn.WriteClose(1000)
-	case codes.Unknown:
-		conn.WriteClose(1011)
-	case codes.InvalidArgument:
-		conn.WriteClose(1003)
-	case codes.DeadlineExceeded:
-		conn.WriteClose(1000)
-	case codes.NotFound:
-		conn.WriteClose(1000)
-	case codes.AlreadyExists:
-		conn.WriteClose(1000)
-	case codes.PermissionDenied:
-		conn.WriteClose(1000)
-	case codes.ResourceExhausted:
-		conn.WriteClose(1000)
-	case codes.FailedPrecondition:
-		conn.WriteClose(1000)
-	case codes.Aborted:
-		conn.WriteClose(1000)
-	case codes.OutOfRange:
-		conn.WriteClose(1000)
-	case codes.Unimplemented:
-		conn.WriteClose(1011)
-	case codes.Internal:
-		conn.WriteClose(1011)
-	case codes.Unavailable:
-		conn.WriteClose(1011)
-	case codes.DataLoss:
-		conn.WriteClose(1011)
-	case codes.Unauthenticated:
-		conn.WriteClose(1000)
-	default:
-		conn.WriteClose(1000)
-	}
-}
-
-// _SubscriptionService_WebsocketCodec implements protobuf codec for websockets package
-var _SubscriptionService_WebsocketCodec = websocket.Codec{
-	Marshal: func(v interface{}) ([]byte, byte, error) {
-		m, ok := v.(proto.Message)
-		if !ok {
-			panic(fmt.Errorf("invalid message type %T", v))
+func (i *AccountServiceInterceptor) DescribeActiveSubscription(ctx context.Context, in *DescribeActiveSubscriptionInput, opts ...grpc.CallOption) (*DescribeActiveSubscriptionOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeActiveSubscriptionInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeActiveSubscriptionInput, got %T", in))
 		}
 
-		d, err := protojson.Marshal(m)
-		if err != nil {
-			return nil, 0, err
+		return i.client.DescribeActiveSubscription(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.community.AccountService.DescribeActiveSubscription", in, next)
 		}
+	}
 
-		return d, websocket.TextFrame, err
-	},
-	Unmarshal: func(d []byte, t byte, v interface{}) error {
-		m, ok := v.(proto.Message)
-		if !ok {
-			panic(fmt.Errorf("invalid message type %T", v))
-		}
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
 
-		return protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal(d, m)
-	},
-}
+	message, ok := out.(*DescribeActiveSubscriptionOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeActiveSubscriptionOutput, got %T", out))
+	}
 
-// RegisterSubscriptionServiceHttpHandlers adds handlers for for SubscriptionServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterSubscriptionServiceHttpHandlers(router *mux.Router, prefix string, cli SubscriptionServiceClient) {
-}
-
-type _SubscriptionServiceHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
-type _SubscriptionServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _SubscriptionServiceHandler) (out proto.Message, err error)
-type SubscriptionServiceInterceptor struct {
-	middleware []_SubscriptionServiceMiddleware
-	client     SubscriptionServiceClient
-}
-
-// NewSubscriptionServiceInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewSubscriptionServiceInterceptor(cli SubscriptionServiceClient, middleware ..._SubscriptionServiceMiddleware) *SubscriptionServiceInterceptor {
-	return &SubscriptionServiceInterceptor{client: cli, middleware: middleware}
+	return message, err
 }

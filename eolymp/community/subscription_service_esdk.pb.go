@@ -16,17 +16,17 @@ import (
 	os "os"
 )
 
-type _TierServiceHttpClient interface {
+type _SubscriptionServiceHttpClient interface {
 	Do(*http.Request) (*http.Response, error)
 }
 
-type TierServiceService struct {
+type SubscriptionServiceService struct {
 	base string
-	cli  _TierServiceHttpClient
+	cli  _SubscriptionServiceHttpClient
 }
 
-// NewTierServiceHttpClient constructs client for TierService
-func NewTierServiceHttpClient(url string, cli _TierServiceHttpClient) *TierServiceService {
+// NewSubscriptionServiceHttpClient constructs client for SubscriptionService
+func NewSubscriptionServiceHttpClient(url string, cli _SubscriptionServiceHttpClient) *SubscriptionServiceService {
 	if url == "" {
 		url = os.Getenv("EOLYMP_API_URL")
 		if url == "" {
@@ -34,10 +34,10 @@ func NewTierServiceHttpClient(url string, cli _TierServiceHttpClient) *TierServi
 		}
 	}
 
-	return &TierServiceService{base: url, cli: cli}
+	return &SubscriptionServiceService{base: url, cli: cli}
 }
 
-func (s *TierServiceService) do(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
+func (s *SubscriptionServiceService) do(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
 	var body io.Reader
 
 	if in != nil {
@@ -100,13 +100,13 @@ func (s *TierServiceService) do(ctx context.Context, verb, path string, in, out 
 	return nil
 }
 
-func (s *TierServiceService) DescribeTier(ctx context.Context, in *DescribeTierInput) (*DescribeTierOutput, error) {
-	out := &DescribeTierOutput{}
-	path := "/tiers/" + url.PathEscape(in.GetTierId())
+func (s *SubscriptionServiceService) DescribeSubscription(ctx context.Context, in *DescribeSubscriptionInput) (*DescribeSubscriptionOutput, error) {
+	out := &DescribeSubscriptionOutput{}
+	path := "/subscriptions/" + url.PathEscape(in.GetSubscriptionId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.TierId = ""
+		in.SubscriptionId = ""
 	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
@@ -116,20 +116,9 @@ func (s *TierServiceService) DescribeTier(ctx context.Context, in *DescribeTierI
 	return out, nil
 }
 
-func (s *TierServiceService) ListTiers(ctx context.Context, in *ListTiersInput) (*ListTiersOutput, error) {
-	out := &ListTiersOutput{}
-	path := "/tiers"
-
-	if err := s.do(ctx, "GET", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *TierServiceService) ListCurrencies(ctx context.Context, in *ListCurrenciesInput) (*ListCurrenciesOutput, error) {
-	out := &ListCurrenciesOutput{}
-	path := "/tier-currencies"
+func (s *SubscriptionServiceService) ListSubscriptions(ctx context.Context, in *ListSubscriptionsInput) (*ListSubscriptionsOutput, error) {
+	out := &ListSubscriptionsOutput{}
+	path := "/subscriptions"
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
