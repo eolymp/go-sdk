@@ -99,14 +99,3 @@ func (s *CheckoutServiceService) do(ctx context.Context, verb, path string, in, 
 
 	return nil
 }
-
-func (s *CheckoutServiceService) CreateCheckout(ctx context.Context, in *CreateCheckoutInput) (*CreateCheckoutOutput, error) {
-	out := &CreateCheckoutOutput{}
-	path := "/checkout"
-
-	if err := s.do(ctx, "POST", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}

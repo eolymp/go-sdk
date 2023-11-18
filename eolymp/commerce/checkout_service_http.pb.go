@@ -182,29 +182,6 @@ var _CheckoutService_WebsocketCodec = websocket.Codec{
 // RegisterCheckoutServiceHttpHandlers adds handlers for for CheckoutServiceClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterCheckoutServiceHttpHandlers(router *mux.Router, prefix string, cli CheckoutServiceClient) {
-	router.Handle(prefix+"/checkout", _CheckoutService_CreateCheckout_Rule0(cli)).
-		Methods("POST").
-		Name("eolymp.commerce.CheckoutService.CreateCheckout")
-}
-
-func _CheckoutService_CreateCheckout_Rule0(cli CheckoutServiceClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &CreateCheckoutInput{}
-
-		if err := _CheckoutService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_CheckoutService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		out, err := cli.CreateCheckout(r.Context(), in)
-		if err != nil {
-			_CheckoutService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_CheckoutService_HTTPWriteResponse(w, out)
-	})
 }
 
 type _CheckoutServiceHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
