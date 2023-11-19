@@ -356,14 +356,14 @@ func (i *ProductServiceInterceptor) ListProductPrices(ctx context.Context, in *L
 	return message, err
 }
 
-func (i *ProductServiceInterceptor) AddProductPrice(ctx context.Context, in *AddProductPriceInput, opts ...grpc.CallOption) (*AddProductPriceOutput, error) {
+func (i *ProductServiceInterceptor) CreateProductPrice(ctx context.Context, in *CreateProductPriceInput, opts ...grpc.CallOption) (*CreateProductPriceOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*AddProductPriceInput)
+		message, ok := in.(*CreateProductPriceInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *AddProductPriceInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *CreateProductPriceInput, got %T", in))
 		}
 
-		return i.client.AddProductPrice(ctx, message, opts...)
+		return i.client.CreateProductPrice(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -371,7 +371,7 @@ func (i *ProductServiceInterceptor) AddProductPrice(ctx context.Context, in *Add
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.commerce.ProductService.AddProductPrice", in, next)
+			return mw(ctx, "eolymp.commerce.ProductService.CreateProductPrice", in, next)
 		}
 	}
 
@@ -380,9 +380,9 @@ func (i *ProductServiceInterceptor) AddProductPrice(ctx context.Context, in *Add
 		return nil, err
 	}
 
-	message, ok := out.(*AddProductPriceOutput)
+	message, ok := out.(*CreateProductPriceOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *AddProductPriceOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *CreateProductPriceOutput, got %T", out))
 	}
 
 	return message, err
