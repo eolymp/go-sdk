@@ -188,9 +188,9 @@ func RegisterTierServiceHttpHandlers(router *mux.Router, prefix string, cli Tier
 	router.Handle(prefix+"/tiers", _TierService_ListTiers_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.community.TierService.ListTiers")
-	router.Handle(prefix+"/tier-currencies", _TierService_ListCurrencies_Rule0(cli)).
+	router.Handle(prefix+"/tiers/{tier_id}/prices", _TierService_ListTierPrices_Rule0(cli)).
 		Methods("GET").
-		Name("eolymp.community.TierService.ListCurrencies")
+		Name("eolymp.community.TierService.ListTierPrices")
 }
 
 func _TierService_DescribeTier_Rule0(cli TierServiceClient) http.Handler {
@@ -236,9 +236,9 @@ func _TierService_ListTiers_Rule0(cli TierServiceClient) http.Handler {
 	})
 }
 
-func _TierService_ListCurrencies_Rule0(cli TierServiceClient) http.Handler {
+func _TierService_ListTierPrices_Rule0(cli TierServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ListCurrenciesInput{}
+		in := &ListTierPricesInput{}
 
 		if err := _TierService_HTTPReadQueryString(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
@@ -246,7 +246,10 @@ func _TierService_ListCurrencies_Rule0(cli TierServiceClient) http.Handler {
 			return
 		}
 
-		out, err := cli.ListCurrencies(r.Context(), in)
+		vars := mux.Vars(r)
+		in.TierId = vars["tier_id"]
+
+		out, err := cli.ListTierPrices(r.Context(), in)
 		if err != nil {
 			_TierService_HTTPWriteErrorResponse(w, err)
 			return
@@ -332,14 +335,14 @@ func (i *TierServiceInterceptor) ListTiers(ctx context.Context, in *ListTiersInp
 	return message, err
 }
 
-func (i *TierServiceInterceptor) ListCurrencies(ctx context.Context, in *ListCurrenciesInput, opts ...grpc.CallOption) (*ListCurrenciesOutput, error) {
+func (i *TierServiceInterceptor) ListTierPrices(ctx context.Context, in *ListTierPricesInput, opts ...grpc.CallOption) (*ListTierPricesOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*ListCurrenciesInput)
+		message, ok := in.(*ListTierPricesInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *ListCurrenciesInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *ListTierPricesInput, got %T", in))
 		}
 
-		return i.client.ListCurrencies(ctx, message, opts...)
+		return i.client.ListTierPrices(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -347,7 +350,7 @@ func (i *TierServiceInterceptor) ListCurrencies(ctx context.Context, in *ListCur
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.community.TierService.ListCurrencies", in, next)
+			return mw(ctx, "eolymp.community.TierService.ListTierPrices", in, next)
 		}
 	}
 
@@ -356,9 +359,9 @@ func (i *TierServiceInterceptor) ListCurrencies(ctx context.Context, in *ListCur
 		return nil, err
 	}
 
-	message, ok := out.(*ListCurrenciesOutput)
+	message, ok := out.(*ListTierPricesOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *ListCurrenciesOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *ListTierPricesOutput, got %T", out))
 	}
 
 	return message, err

@@ -25,7 +25,7 @@ const (
 	ProductService_DeleteProduct_FullMethodName      = "/eolymp.commerce.ProductService/DeleteProduct"
 	ProductService_ListProductPrices_FullMethodName  = "/eolymp.commerce.ProductService/ListProductPrices"
 	ProductService_CreateProductPrice_FullMethodName = "/eolymp.commerce.ProductService/CreateProductPrice"
-	ProductService_RemoveProductPrice_FullMethodName = "/eolymp.commerce.ProductService/RemoveProductPrice"
+	ProductService_DeleteProductPrice_FullMethodName = "/eolymp.commerce.ProductService/DeleteProductPrice"
 )
 
 // ProductServiceClient is the client API for ProductService service.
@@ -38,7 +38,7 @@ type ProductServiceClient interface {
 	DeleteProduct(ctx context.Context, in *DeleteProductInput, opts ...grpc.CallOption) (*DeleteProductOutput, error)
 	ListProductPrices(ctx context.Context, in *ListProductPricesInput, opts ...grpc.CallOption) (*ListProductPricesOutput, error)
 	CreateProductPrice(ctx context.Context, in *CreateProductPriceInput, opts ...grpc.CallOption) (*CreateProductPriceOutput, error)
-	RemoveProductPrice(ctx context.Context, in *RemoveProductPriceInput, opts ...grpc.CallOption) (*RemoveProductPriceOutput, error)
+	DeleteProductPrice(ctx context.Context, in *DeleteProductPriceInput, opts ...grpc.CallOption) (*DeleteProductPriceOutput, error)
 }
 
 type productServiceClient struct {
@@ -103,9 +103,9 @@ func (c *productServiceClient) CreateProductPrice(ctx context.Context, in *Creat
 	return out, nil
 }
 
-func (c *productServiceClient) RemoveProductPrice(ctx context.Context, in *RemoveProductPriceInput, opts ...grpc.CallOption) (*RemoveProductPriceOutput, error) {
-	out := new(RemoveProductPriceOutput)
-	err := c.cc.Invoke(ctx, ProductService_RemoveProductPrice_FullMethodName, in, out, opts...)
+func (c *productServiceClient) DeleteProductPrice(ctx context.Context, in *DeleteProductPriceInput, opts ...grpc.CallOption) (*DeleteProductPriceOutput, error) {
+	out := new(DeleteProductPriceOutput)
+	err := c.cc.Invoke(ctx, ProductService_DeleteProductPrice_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -122,7 +122,7 @@ type ProductServiceServer interface {
 	DeleteProduct(context.Context, *DeleteProductInput) (*DeleteProductOutput, error)
 	ListProductPrices(context.Context, *ListProductPricesInput) (*ListProductPricesOutput, error)
 	CreateProductPrice(context.Context, *CreateProductPriceInput) (*CreateProductPriceOutput, error)
-	RemoveProductPrice(context.Context, *RemoveProductPriceInput) (*RemoveProductPriceOutput, error)
+	DeleteProductPrice(context.Context, *DeleteProductPriceInput) (*DeleteProductPriceOutput, error)
 }
 
 // UnimplementedProductServiceServer should be embedded to have forward compatible implementations.
@@ -147,8 +147,8 @@ func (UnimplementedProductServiceServer) ListProductPrices(context.Context, *Lis
 func (UnimplementedProductServiceServer) CreateProductPrice(context.Context, *CreateProductPriceInput) (*CreateProductPriceOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateProductPrice not implemented")
 }
-func (UnimplementedProductServiceServer) RemoveProductPrice(context.Context, *RemoveProductPriceInput) (*RemoveProductPriceOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method RemoveProductPrice not implemented")
+func (UnimplementedProductServiceServer) DeleteProductPrice(context.Context, *DeleteProductPriceInput) (*DeleteProductPriceOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteProductPrice not implemented")
 }
 
 // UnsafeProductServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -270,20 +270,20 @@ func _ProductService_CreateProductPrice_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ProductService_RemoveProductPrice_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RemoveProductPriceInput)
+func _ProductService_DeleteProductPrice_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteProductPriceInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ProductServiceServer).RemoveProductPrice(ctx, in)
+		return srv.(ProductServiceServer).DeleteProductPrice(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ProductService_RemoveProductPrice_FullMethodName,
+		FullMethod: ProductService_DeleteProductPrice_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProductServiceServer).RemoveProductPrice(ctx, req.(*RemoveProductPriceInput))
+		return srv.(ProductServiceServer).DeleteProductPrice(ctx, req.(*DeleteProductPriceInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -320,8 +320,8 @@ var ProductService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _ProductService_CreateProductPrice_Handler,
 		},
 		{
-			MethodName: "RemoveProductPrice",
-			Handler:    _ProductService_RemoveProductPrice_Handler,
+			MethodName: "DeleteProductPrice",
+			Handler:    _ProductService_DeleteProductPrice_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

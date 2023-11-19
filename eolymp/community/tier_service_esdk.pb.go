@@ -127,9 +127,14 @@ func (s *TierServiceService) ListTiers(ctx context.Context, in *ListTiersInput) 
 	return out, nil
 }
 
-func (s *TierServiceService) ListCurrencies(ctx context.Context, in *ListCurrenciesInput) (*ListCurrenciesOutput, error) {
-	out := &ListCurrenciesOutput{}
-	path := "/tier-currencies"
+func (s *TierServiceService) ListTierPrices(ctx context.Context, in *ListTierPricesInput) (*ListTierPricesOutput, error) {
+	out := &ListTierPricesOutput{}
+	path := "/tiers/" + url.PathEscape(in.GetTierId()) + "/prices"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.TierId = ""
+	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err

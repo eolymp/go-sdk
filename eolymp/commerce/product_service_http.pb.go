@@ -388,14 +388,14 @@ func (i *ProductServiceInterceptor) CreateProductPrice(ctx context.Context, in *
 	return message, err
 }
 
-func (i *ProductServiceInterceptor) RemoveProductPrice(ctx context.Context, in *RemoveProductPriceInput, opts ...grpc.CallOption) (*RemoveProductPriceOutput, error) {
+func (i *ProductServiceInterceptor) DeleteProductPrice(ctx context.Context, in *DeleteProductPriceInput, opts ...grpc.CallOption) (*DeleteProductPriceOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*RemoveProductPriceInput)
+		message, ok := in.(*DeleteProductPriceInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *RemoveProductPriceInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *DeleteProductPriceInput, got %T", in))
 		}
 
-		return i.client.RemoveProductPrice(ctx, message, opts...)
+		return i.client.DeleteProductPrice(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -403,7 +403,7 @@ func (i *ProductServiceInterceptor) RemoveProductPrice(ctx context.Context, in *
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.commerce.ProductService.RemoveProductPrice", in, next)
+			return mw(ctx, "eolymp.commerce.ProductService.DeleteProductPrice", in, next)
 		}
 	}
 
@@ -412,9 +412,9 @@ func (i *ProductServiceInterceptor) RemoveProductPrice(ctx context.Context, in *
 		return nil, err
 	}
 
-	message, ok := out.(*RemoveProductPriceOutput)
+	message, ok := out.(*DeleteProductPriceOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *RemoveProductPriceOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *DeleteProductPriceOutput, got %T", out))
 	}
 
 	return message, err

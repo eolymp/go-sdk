@@ -21,7 +21,7 @@ const _ = grpc.SupportPackageIsVersion7
 const (
 	TierService_DescribeTier_FullMethodName   = "/eolymp.community.TierService/DescribeTier"
 	TierService_ListTiers_FullMethodName      = "/eolymp.community.TierService/ListTiers"
-	TierService_ListCurrencies_FullMethodName = "/eolymp.community.TierService/ListCurrencies"
+	TierService_ListTierPrices_FullMethodName = "/eolymp.community.TierService/ListTierPrices"
 )
 
 // TierServiceClient is the client API for TierService service.
@@ -30,7 +30,7 @@ const (
 type TierServiceClient interface {
 	DescribeTier(ctx context.Context, in *DescribeTierInput, opts ...grpc.CallOption) (*DescribeTierOutput, error)
 	ListTiers(ctx context.Context, in *ListTiersInput, opts ...grpc.CallOption) (*ListTiersOutput, error)
-	ListCurrencies(ctx context.Context, in *ListCurrenciesInput, opts ...grpc.CallOption) (*ListCurrenciesOutput, error)
+	ListTierPrices(ctx context.Context, in *ListTierPricesInput, opts ...grpc.CallOption) (*ListTierPricesOutput, error)
 }
 
 type tierServiceClient struct {
@@ -59,9 +59,9 @@ func (c *tierServiceClient) ListTiers(ctx context.Context, in *ListTiersInput, o
 	return out, nil
 }
 
-func (c *tierServiceClient) ListCurrencies(ctx context.Context, in *ListCurrenciesInput, opts ...grpc.CallOption) (*ListCurrenciesOutput, error) {
-	out := new(ListCurrenciesOutput)
-	err := c.cc.Invoke(ctx, TierService_ListCurrencies_FullMethodName, in, out, opts...)
+func (c *tierServiceClient) ListTierPrices(ctx context.Context, in *ListTierPricesInput, opts ...grpc.CallOption) (*ListTierPricesOutput, error) {
+	out := new(ListTierPricesOutput)
+	err := c.cc.Invoke(ctx, TierService_ListTierPrices_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -74,7 +74,7 @@ func (c *tierServiceClient) ListCurrencies(ctx context.Context, in *ListCurrenci
 type TierServiceServer interface {
 	DescribeTier(context.Context, *DescribeTierInput) (*DescribeTierOutput, error)
 	ListTiers(context.Context, *ListTiersInput) (*ListTiersOutput, error)
-	ListCurrencies(context.Context, *ListCurrenciesInput) (*ListCurrenciesOutput, error)
+	ListTierPrices(context.Context, *ListTierPricesInput) (*ListTierPricesOutput, error)
 }
 
 // UnimplementedTierServiceServer should be embedded to have forward compatible implementations.
@@ -87,8 +87,8 @@ func (UnimplementedTierServiceServer) DescribeTier(context.Context, *DescribeTie
 func (UnimplementedTierServiceServer) ListTiers(context.Context, *ListTiersInput) (*ListTiersOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListTiers not implemented")
 }
-func (UnimplementedTierServiceServer) ListCurrencies(context.Context, *ListCurrenciesInput) (*ListCurrenciesOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListCurrencies not implemented")
+func (UnimplementedTierServiceServer) ListTierPrices(context.Context, *ListTierPricesInput) (*ListTierPricesOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListTierPrices not implemented")
 }
 
 // UnsafeTierServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -138,20 +138,20 @@ func _TierService_ListTiers_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
-func _TierService_ListCurrencies_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListCurrenciesInput)
+func _TierService_ListTierPrices_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListTierPricesInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(TierServiceServer).ListCurrencies(ctx, in)
+		return srv.(TierServiceServer).ListTierPrices(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: TierService_ListCurrencies_FullMethodName,
+		FullMethod: TierService_ListTierPrices_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TierServiceServer).ListCurrencies(ctx, req.(*ListCurrenciesInput))
+		return srv.(TierServiceServer).ListTierPrices(ctx, req.(*ListTierPricesInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -172,8 +172,8 @@ var TierService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _TierService_ListTiers_Handler,
 		},
 		{
-			MethodName: "ListCurrencies",
-			Handler:    _TierService_ListCurrencies_Handler,
+			MethodName: "ListTierPrices",
+			Handler:    _TierService_ListTierPrices_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
