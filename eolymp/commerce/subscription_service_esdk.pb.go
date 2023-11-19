@@ -16,17 +16,17 @@ import (
 	os "os"
 )
 
-type _CheckoutServiceHttpClient interface {
+type _SubscriptionServiceHttpClient interface {
 	Do(*http.Request) (*http.Response, error)
 }
 
-type CheckoutServiceService struct {
+type SubscriptionServiceService struct {
 	base string
-	cli  _CheckoutServiceHttpClient
+	cli  _SubscriptionServiceHttpClient
 }
 
-// NewCheckoutServiceHttpClient constructs client for CheckoutService
-func NewCheckoutServiceHttpClient(url string, cli _CheckoutServiceHttpClient) *CheckoutServiceService {
+// NewSubscriptionServiceHttpClient constructs client for SubscriptionService
+func NewSubscriptionServiceHttpClient(url string, cli _SubscriptionServiceHttpClient) *SubscriptionServiceService {
 	if url == "" {
 		url = os.Getenv("EOLYMP_API_URL")
 		if url == "" {
@@ -34,10 +34,10 @@ func NewCheckoutServiceHttpClient(url string, cli _CheckoutServiceHttpClient) *C
 		}
 	}
 
-	return &CheckoutServiceService{base: url, cli: cli}
+	return &SubscriptionServiceService{base: url, cli: cli}
 }
 
-func (s *CheckoutServiceService) do(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
+func (s *SubscriptionServiceService) do(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
 	var body io.Reader
 
 	if in != nil {
