@@ -19,13 +19,14 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	ProductService_CreateProduct_FullMethodName      = "/eolymp.commerce.ProductService/CreateProduct"
-	ProductService_UpdateProduct_FullMethodName      = "/eolymp.commerce.ProductService/UpdateProduct"
-	ProductService_DescribeProduct_FullMethodName    = "/eolymp.commerce.ProductService/DescribeProduct"
-	ProductService_DeleteProduct_FullMethodName      = "/eolymp.commerce.ProductService/DeleteProduct"
-	ProductService_ListProductPrices_FullMethodName  = "/eolymp.commerce.ProductService/ListProductPrices"
-	ProductService_CreateProductPrice_FullMethodName = "/eolymp.commerce.ProductService/CreateProductPrice"
-	ProductService_DeleteProductPrice_FullMethodName = "/eolymp.commerce.ProductService/DeleteProductPrice"
+	ProductService_CreateProduct_FullMethodName        = "/eolymp.commerce.ProductService/CreateProduct"
+	ProductService_UpdateProduct_FullMethodName        = "/eolymp.commerce.ProductService/UpdateProduct"
+	ProductService_DescribeProduct_FullMethodName      = "/eolymp.commerce.ProductService/DescribeProduct"
+	ProductService_DeleteProduct_FullMethodName        = "/eolymp.commerce.ProductService/DeleteProduct"
+	ProductService_ListProductPrices_FullMethodName    = "/eolymp.commerce.ProductService/ListProductPrices"
+	ProductService_DescribeProductPrice_FullMethodName = "/eolymp.commerce.ProductService/DescribeProductPrice"
+	ProductService_CreateProductPrice_FullMethodName   = "/eolymp.commerce.ProductService/CreateProductPrice"
+	ProductService_DeleteProductPrice_FullMethodName   = "/eolymp.commerce.ProductService/DeleteProductPrice"
 )
 
 // ProductServiceClient is the client API for ProductService service.
@@ -37,6 +38,7 @@ type ProductServiceClient interface {
 	DescribeProduct(ctx context.Context, in *DescribeProductInput, opts ...grpc.CallOption) (*DescribeProductOutput, error)
 	DeleteProduct(ctx context.Context, in *DeleteProductInput, opts ...grpc.CallOption) (*DeleteProductOutput, error)
 	ListProductPrices(ctx context.Context, in *ListProductPricesInput, opts ...grpc.CallOption) (*ListProductPricesOutput, error)
+	DescribeProductPrice(ctx context.Context, in *DescribeProductPriceInput, opts ...grpc.CallOption) (*DescribeProductPriceOutput, error)
 	CreateProductPrice(ctx context.Context, in *CreateProductPriceInput, opts ...grpc.CallOption) (*CreateProductPriceOutput, error)
 	DeleteProductPrice(ctx context.Context, in *DeleteProductPriceInput, opts ...grpc.CallOption) (*DeleteProductPriceOutput, error)
 }
@@ -94,6 +96,15 @@ func (c *productServiceClient) ListProductPrices(ctx context.Context, in *ListPr
 	return out, nil
 }
 
+func (c *productServiceClient) DescribeProductPrice(ctx context.Context, in *DescribeProductPriceInput, opts ...grpc.CallOption) (*DescribeProductPriceOutput, error) {
+	out := new(DescribeProductPriceOutput)
+	err := c.cc.Invoke(ctx, ProductService_DescribeProductPrice_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *productServiceClient) CreateProductPrice(ctx context.Context, in *CreateProductPriceInput, opts ...grpc.CallOption) (*CreateProductPriceOutput, error) {
 	out := new(CreateProductPriceOutput)
 	err := c.cc.Invoke(ctx, ProductService_CreateProductPrice_FullMethodName, in, out, opts...)
@@ -121,6 +132,7 @@ type ProductServiceServer interface {
 	DescribeProduct(context.Context, *DescribeProductInput) (*DescribeProductOutput, error)
 	DeleteProduct(context.Context, *DeleteProductInput) (*DeleteProductOutput, error)
 	ListProductPrices(context.Context, *ListProductPricesInput) (*ListProductPricesOutput, error)
+	DescribeProductPrice(context.Context, *DescribeProductPriceInput) (*DescribeProductPriceOutput, error)
 	CreateProductPrice(context.Context, *CreateProductPriceInput) (*CreateProductPriceOutput, error)
 	DeleteProductPrice(context.Context, *DeleteProductPriceInput) (*DeleteProductPriceOutput, error)
 }
@@ -143,6 +155,9 @@ func (UnimplementedProductServiceServer) DeleteProduct(context.Context, *DeleteP
 }
 func (UnimplementedProductServiceServer) ListProductPrices(context.Context, *ListProductPricesInput) (*ListProductPricesOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListProductPrices not implemented")
+}
+func (UnimplementedProductServiceServer) DescribeProductPrice(context.Context, *DescribeProductPriceInput) (*DescribeProductPriceOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeProductPrice not implemented")
 }
 func (UnimplementedProductServiceServer) CreateProductPrice(context.Context, *CreateProductPriceInput) (*CreateProductPriceOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateProductPrice not implemented")
@@ -252,6 +267,24 @@ func _ProductService_ListProductPrices_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ProductService_DescribeProductPrice_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeProductPriceInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProductServiceServer).DescribeProductPrice(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProductService_DescribeProductPrice_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProductServiceServer).DescribeProductPrice(ctx, req.(*DescribeProductPriceInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ProductService_CreateProductPrice_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreateProductPriceInput)
 	if err := dec(in); err != nil {
@@ -314,6 +347,10 @@ var ProductService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListProductPrices",
 			Handler:    _ProductService_ListProductPrices_Handler,
+		},
+		{
+			MethodName: "DescribeProductPrice",
+			Handler:    _ProductService_DescribeProductPrice_Handler,
 		},
 		{
 			MethodName: "CreateProductPrice",

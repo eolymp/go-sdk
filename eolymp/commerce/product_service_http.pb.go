@@ -356,6 +356,38 @@ func (i *ProductServiceInterceptor) ListProductPrices(ctx context.Context, in *L
 	return message, err
 }
 
+func (i *ProductServiceInterceptor) DescribeProductPrice(ctx context.Context, in *DescribeProductPriceInput, opts ...grpc.CallOption) (*DescribeProductPriceOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeProductPriceInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeProductPriceInput, got %T", in))
+		}
+
+		return i.client.DescribeProductPrice(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.commerce.ProductService.DescribeProductPrice", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeProductPriceOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeProductPriceOutput, got %T", out))
+	}
+
+	return message, err
+}
+
 func (i *ProductServiceInterceptor) CreateProductPrice(ctx context.Context, in *CreateProductPriceInput, opts ...grpc.CallOption) (*CreateProductPriceOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CreateProductPriceInput)
