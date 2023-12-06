@@ -145,12 +145,7 @@ func (s *GeographyService) DescribeRegion(ctx context.Context, in *DescribeRegio
 
 func (s *GeographyService) ListRegions(ctx context.Context, in *ListRegionsInput) (*ListRegionsOutput, error) {
 	out := &ListRegionsOutput{}
-	path := "/geography/countries/" + url.PathEscape(in.GetCountryId()) + "/regions"
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.CountryId = ""
-	}
+	path := "/geography/regions"
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err

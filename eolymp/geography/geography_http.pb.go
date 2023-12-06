@@ -191,7 +191,7 @@ func RegisterGeographyHttpHandlers(router *mux.Router, prefix string, cli Geogra
 	router.Handle(prefix+"/geography/regions/{region_id}", _Geography_DescribeRegion_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.geography.Geography.DescribeRegion")
-	router.Handle(prefix+"/geography/countries/{country_id}/regions", _Geography_ListRegions_Rule0(cli)).
+	router.Handle(prefix+"/geography/regions", _Geography_ListRegions_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.geography.Geography.ListRegions")
 }
@@ -271,9 +271,6 @@ func _Geography_ListRegions_Rule0(cli GeographyClient) http.Handler {
 			_Geography_HTTPWriteErrorResponse(w, err)
 			return
 		}
-
-		vars := mux.Vars(r)
-		in.CountryId = vars["country_id"]
 
 		out, err := cli.ListRegions(r.Context(), in)
 		if err != nil {
