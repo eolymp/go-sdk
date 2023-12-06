@@ -19,10 +19,11 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Geography_DescribeCountry_FullMethodName = "/eolymp.geography.Geography/DescribeCountry"
-	Geography_ListCountries_FullMethodName   = "/eolymp.geography.Geography/ListCountries"
-	Geography_DescribeRegion_FullMethodName  = "/eolymp.geography.Geography/DescribeRegion"
-	Geography_ListRegions_FullMethodName     = "/eolymp.geography.Geography/ListRegions"
+	Geography_DescribeCountry_FullMethodName       = "/eolymp.geography.Geography/DescribeCountry"
+	Geography_ListCountries_FullMethodName         = "/eolymp.geography.Geography/ListCountries"
+	Geography_DescribeRegion_FullMethodName        = "/eolymp.geography.Geography/DescribeRegion"
+	Geography_ListRegions_FullMethodName           = "/eolymp.geography.Geography/ListRegions"
+	Geography_DeprecatedListRegions_FullMethodName = "/eolymp.geography.Geography/DeprecatedListRegions"
 )
 
 // GeographyClient is the client API for Geography service.
@@ -33,6 +34,7 @@ type GeographyClient interface {
 	ListCountries(ctx context.Context, in *ListCountriesInput, opts ...grpc.CallOption) (*ListCountriesOutput, error)
 	DescribeRegion(ctx context.Context, in *DescribeRegionInput, opts ...grpc.CallOption) (*DescribeRegionOutput, error)
 	ListRegions(ctx context.Context, in *ListRegionsInput, opts ...grpc.CallOption) (*ListRegionsOutput, error)
+	DeprecatedListRegions(ctx context.Context, in *ListRegionsInput, opts ...grpc.CallOption) (*ListRegionsOutput, error)
 }
 
 type geographyClient struct {
@@ -79,6 +81,15 @@ func (c *geographyClient) ListRegions(ctx context.Context, in *ListRegionsInput,
 	return out, nil
 }
 
+func (c *geographyClient) DeprecatedListRegions(ctx context.Context, in *ListRegionsInput, opts ...grpc.CallOption) (*ListRegionsOutput, error) {
+	out := new(ListRegionsOutput)
+	err := c.cc.Invoke(ctx, Geography_DeprecatedListRegions_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // GeographyServer is the server API for Geography service.
 // All implementations should embed UnimplementedGeographyServer
 // for forward compatibility
@@ -87,6 +98,7 @@ type GeographyServer interface {
 	ListCountries(context.Context, *ListCountriesInput) (*ListCountriesOutput, error)
 	DescribeRegion(context.Context, *DescribeRegionInput) (*DescribeRegionOutput, error)
 	ListRegions(context.Context, *ListRegionsInput) (*ListRegionsOutput, error)
+	DeprecatedListRegions(context.Context, *ListRegionsInput) (*ListRegionsOutput, error)
 }
 
 // UnimplementedGeographyServer should be embedded to have forward compatible implementations.
@@ -104,6 +116,9 @@ func (UnimplementedGeographyServer) DescribeRegion(context.Context, *DescribeReg
 }
 func (UnimplementedGeographyServer) ListRegions(context.Context, *ListRegionsInput) (*ListRegionsOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListRegions not implemented")
+}
+func (UnimplementedGeographyServer) DeprecatedListRegions(context.Context, *ListRegionsInput) (*ListRegionsOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeprecatedListRegions not implemented")
 }
 
 // UnsafeGeographyServer may be embedded to opt out of forward compatibility for this service.
@@ -189,6 +204,24 @@ func _Geography_ListRegions_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Geography_DeprecatedListRegions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListRegionsInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GeographyServer).DeprecatedListRegions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Geography_DeprecatedListRegions_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GeographyServer).DeprecatedListRegions(ctx, req.(*ListRegionsInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Geography_ServiceDesc is the grpc.ServiceDesc for Geography service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -211,6 +244,10 @@ var Geography_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListRegions",
 			Handler:    _Geography_ListRegions_Handler,
+		},
+		{
+			MethodName: "DeprecatedListRegions",
+			Handler:    _Geography_DeprecatedListRegions_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

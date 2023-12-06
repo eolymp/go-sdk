@@ -194,6 +194,9 @@ func RegisterGeographyHttpHandlers(router *mux.Router, prefix string, cli Geogra
 	router.Handle(prefix+"/geography/regions", _Geography_ListRegions_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.geography.Geography.ListRegions")
+	router.Handle(prefix+"/geography/countries/{country_id}/regions", _Geography_DeprecatedListRegions_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.geography.Geography.DeprecatedListRegions")
 }
 
 func _Geography_DescribeCountry_Rule0(cli GeographyClient) http.Handler {
@@ -273,6 +276,29 @@ func _Geography_ListRegions_Rule0(cli GeographyClient) http.Handler {
 		}
 
 		out, err := cli.ListRegions(r.Context(), in)
+		if err != nil {
+			_Geography_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Geography_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Geography_DeprecatedListRegions_Rule0(cli GeographyClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListRegionsInput{}
+
+		if err := _Geography_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_Geography_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.CountryId = vars["country_id"]
+
+		out, err := cli.DeprecatedListRegions(r.Context(), in)
 		if err != nil {
 			_Geography_HTTPWriteErrorResponse(w, err)
 			return
@@ -406,6 +432,38 @@ func (i *GeographyInterceptor) ListRegions(ctx context.Context, in *ListRegionsI
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
 			return mw(ctx, "eolymp.geography.Geography.ListRegions", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListRegionsOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListRegionsOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *GeographyInterceptor) DeprecatedListRegions(ctx context.Context, in *ListRegionsInput, opts ...grpc.CallOption) (*ListRegionsOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListRegionsInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListRegionsInput, got %T", in))
+		}
+
+		return i.client.DeprecatedListRegions(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.geography.Geography.DeprecatedListRegions", in, next)
 		}
 	}
 
