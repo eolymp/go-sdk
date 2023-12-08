@@ -244,6 +244,38 @@ func (s *_Judge_WatchTickets_WSStream) RecvMsg(m interface{}) error {
 	return nil
 }
 
+type _Judge_WatchReplies_WSStream struct {
+	ctx  context.Context
+	conn *websocket.Conn
+}
+
+func (s *_Judge_WatchReplies_WSStream) Send(m *WatchRepliesOutput) error {
+	return s.SendMsg(m)
+}
+
+func (s *_Judge_WatchReplies_WSStream) SetHeader(metadata.MD) error {
+	return nil
+}
+
+func (s *_Judge_WatchReplies_WSStream) SendHeader(metadata.MD) error {
+	return nil
+}
+
+func (s *_Judge_WatchReplies_WSStream) SetTrailer(metadata.MD) {
+}
+
+func (s *_Judge_WatchReplies_WSStream) Context() context.Context {
+	return s.ctx
+}
+
+func (s *_Judge_WatchReplies_WSStream) SendMsg(m interface{}) error {
+	return _Judge_WebsocketCodec.Send(s.conn, m)
+}
+
+func (s *_Judge_WatchReplies_WSStream) RecvMsg(m interface{}) error {
+	return nil
+}
+
 // RegisterJudgeHttpHandlers adds handlers for for JudgeClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterJudgeHttpHandlers(router *mux.Router, prefix string, cli JudgeClient) {
@@ -3843,6 +3875,10 @@ func (i *JudgeInterceptor) UpdateReply(ctx context.Context, in *UpdateReplyInput
 
 func (i *JudgeInterceptor) WatchTickets(ctx context.Context, in *WatchTicketsInput, opts ...grpc.CallOption) (Judge_WatchTicketsClient, error) {
 	return i.client.WatchTickets(ctx, in, opts...)
+}
+
+func (i *JudgeInterceptor) WatchReplies(ctx context.Context, in *WatchRepliesInput, opts ...grpc.CallOption) (Judge_WatchRepliesClient, error) {
+	return i.client.WatchReplies(ctx, in, opts...)
 }
 
 func (i *JudgeInterceptor) CreateAnnouncement(ctx context.Context, in *CreateAnnouncementInput, opts ...grpc.CallOption) (*CreateAnnouncementOutput, error) {
