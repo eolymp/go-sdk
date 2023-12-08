@@ -20,6 +20,61 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type TicketChangeRecord_Operation int32
+
+const (
+	TicketChangeRecord_NO_OPERATION TicketChangeRecord_Operation = 0
+	TicketChangeRecord_CREATE       TicketChangeRecord_Operation = 1
+	TicketChangeRecord_UPDATE       TicketChangeRecord_Operation = 2
+	TicketChangeRecord_DELETE       TicketChangeRecord_Operation = 3
+	TicketChangeRecord_REPLY        TicketChangeRecord_Operation = 5
+)
+
+// Enum value maps for TicketChangeRecord_Operation.
+var (
+	TicketChangeRecord_Operation_name = map[int32]string{
+		0: "NO_OPERATION",
+		1: "CREATE",
+		2: "UPDATE",
+		3: "DELETE",
+		5: "REPLY",
+	}
+	TicketChangeRecord_Operation_value = map[string]int32{
+		"NO_OPERATION": 0,
+		"CREATE":       1,
+		"UPDATE":       2,
+		"DELETE":       3,
+		"REPLY":        5,
+	}
+)
+
+func (x TicketChangeRecord_Operation) Enum() *TicketChangeRecord_Operation {
+	p := new(TicketChangeRecord_Operation)
+	*p = x
+	return p
+}
+
+func (x TicketChangeRecord_Operation) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (TicketChangeRecord_Operation) Descriptor() protoreflect.EnumDescriptor {
+	return file_eolymp_judge_events_proto_enumTypes[0].Descriptor()
+}
+
+func (TicketChangeRecord_Operation) Type() protoreflect.EnumType {
+	return &file_eolymp_judge_events_proto_enumTypes[0]
+}
+
+func (x TicketChangeRecord_Operation) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use TicketChangeRecord_Operation.Descriptor instead.
+func (TicketChangeRecord_Operation) EnumDescriptor() ([]byte, []int) {
+	return file_eolymp_judge_events_proto_rawDescGZIP(), []int{9, 0}
+}
+
 type SubmissionCompletedEvent struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -499,6 +554,61 @@ func (x *RetestProblemEvent) GetActivityId() string {
 	return ""
 }
 
+type TicketChangeRecord struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Op     TicketChangeRecord_Operation `protobuf:"varint,1,opt,name=op,proto3,enum=eolymp.judge.TicketChangeRecord_Operation" json:"op,omitempty"`
+	Ticket *Ticket                      `protobuf:"bytes,2,opt,name=ticket,proto3" json:"ticket,omitempty"`
+}
+
+func (x *TicketChangeRecord) Reset() {
+	*x = TicketChangeRecord{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_eolymp_judge_events_proto_msgTypes[9]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *TicketChangeRecord) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TicketChangeRecord) ProtoMessage() {}
+
+func (x *TicketChangeRecord) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_judge_events_proto_msgTypes[9]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TicketChangeRecord.ProtoReflect.Descriptor instead.
+func (*TicketChangeRecord) Descriptor() ([]byte, []int) {
+	return file_eolymp_judge_events_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *TicketChangeRecord) GetOp() TicketChangeRecord_Operation {
+	if x != nil {
+		return x.Op
+	}
+	return TicketChangeRecord_NO_OPERATION
+}
+
+func (x *TicketChangeRecord) GetTicket() *Ticket {
+	if x != nil {
+		return x.Ticket
+	}
+	return nil
+}
+
 var File_eolymp_judge_events_proto protoreflect.FileDescriptor
 
 var file_eolymp_judge_events_proto_rawDesc = []byte{
@@ -569,10 +679,23 @@ var file_eolymp_judge_events_proto_rawDesc = []byte{
 	0x62, 0x6c, 0x65, 0x6d, 0x5f, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x70,
 	0x72, 0x6f, 0x62, 0x6c, 0x65, 0x6d, 0x49, 0x64, 0x12, 0x1f, 0x0a, 0x0b, 0x61, 0x63, 0x74, 0x69,
 	0x76, 0x69, 0x74, 0x79, 0x5f, 0x69, 0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x61,
-	0x63, 0x74, 0x69, 0x76, 0x69, 0x74, 0x79, 0x49, 0x64, 0x42, 0x2d, 0x5a, 0x2b, 0x67, 0x69, 0x74,
-	0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x67,
-	0x6f, 0x2d, 0x73, 0x64, 0x6b, 0x2f, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x6a, 0x75, 0x64,
-	0x67, 0x65, 0x3b, 0x6a, 0x75, 0x64, 0x67, 0x65, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x63, 0x74, 0x69, 0x76, 0x69, 0x74, 0x79, 0x49, 0x64, 0x22, 0xcc, 0x01, 0x0a, 0x12, 0x54, 0x69,
+	0x63, 0x6b, 0x65, 0x74, 0x43, 0x68, 0x61, 0x6e, 0x67, 0x65, 0x52, 0x65, 0x63, 0x6f, 0x72, 0x64,
+	0x12, 0x3a, 0x0a, 0x02, 0x6f, 0x70, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x2a, 0x2e, 0x65,
+	0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x6a, 0x75, 0x64, 0x67, 0x65, 0x2e, 0x54, 0x69, 0x63, 0x6b,
+	0x65, 0x74, 0x43, 0x68, 0x61, 0x6e, 0x67, 0x65, 0x52, 0x65, 0x63, 0x6f, 0x72, 0x64, 0x2e, 0x4f,
+	0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x02, 0x6f, 0x70, 0x12, 0x2c, 0x0a, 0x06,
+	0x74, 0x69, 0x63, 0x6b, 0x65, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x14, 0x2e, 0x65,
+	0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x6a, 0x75, 0x64, 0x67, 0x65, 0x2e, 0x54, 0x69, 0x63, 0x6b,
+	0x65, 0x74, 0x52, 0x06, 0x74, 0x69, 0x63, 0x6b, 0x65, 0x74, 0x22, 0x4c, 0x0a, 0x09, 0x4f, 0x70,
+	0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x10, 0x0a, 0x0c, 0x4e, 0x4f, 0x5f, 0x4f, 0x50,
+	0x45, 0x52, 0x41, 0x54, 0x49, 0x4f, 0x4e, 0x10, 0x00, 0x12, 0x0a, 0x0a, 0x06, 0x43, 0x52, 0x45,
+	0x41, 0x54, 0x45, 0x10, 0x01, 0x12, 0x0a, 0x0a, 0x06, 0x55, 0x50, 0x44, 0x41, 0x54, 0x45, 0x10,
+	0x02, 0x12, 0x0a, 0x0a, 0x06, 0x44, 0x45, 0x4c, 0x45, 0x54, 0x45, 0x10, 0x03, 0x12, 0x09, 0x0a,
+	0x05, 0x52, 0x45, 0x50, 0x4c, 0x59, 0x10, 0x05, 0x42, 0x2d, 0x5a, 0x2b, 0x67, 0x69, 0x74, 0x68,
+	0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x67, 0x6f,
+	0x2d, 0x73, 0x64, 0x6b, 0x2f, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x6a, 0x75, 0x64, 0x67,
+	0x65, 0x3b, 0x6a, 0x75, 0x64, 0x67, 0x65, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -587,37 +710,42 @@ func file_eolymp_judge_events_proto_rawDescGZIP() []byte {
 	return file_eolymp_judge_events_proto_rawDescData
 }
 
-var file_eolymp_judge_events_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
+var file_eolymp_judge_events_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_eolymp_judge_events_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_eolymp_judge_events_proto_goTypes = []interface{}{
-	(*SubmissionCompletedEvent)(nil), // 0: eolymp.judge.SubmissionCompletedEvent
-	(*RebuildScoreEvent)(nil),        // 1: eolymp.judge.RebuildScoreEvent
-	(*ScoreUpdatedEvent)(nil),        // 2: eolymp.judge.ScoreUpdatedEvent
-	(*TicketCreatedEvent)(nil),       // 3: eolymp.judge.TicketCreatedEvent
-	(*TicketUpdatedEvent)(nil),       // 4: eolymp.judge.TicketUpdatedEvent
-	(*ParticipantCreatedEvent)(nil),  // 5: eolymp.judge.ParticipantCreatedEvent
-	(*ParticipantUpdatedEvent)(nil),  // 6: eolymp.judge.ParticipantUpdatedEvent
-	(*ParticipantDeletedEvent)(nil),  // 7: eolymp.judge.ParticipantDeletedEvent
-	(*RetestProblemEvent)(nil),       // 8: eolymp.judge.RetestProblemEvent
-	(*Submission)(nil),               // 9: eolymp.judge.Submission
-	(*Score)(nil),                    // 10: eolymp.judge.Score
-	(*Ticket)(nil),                   // 11: eolymp.judge.Ticket
-	(*Reply)(nil),                    // 12: eolymp.judge.Reply
-	(*Participant)(nil),              // 13: eolymp.judge.Participant
+	(TicketChangeRecord_Operation)(0), // 0: eolymp.judge.TicketChangeRecord.Operation
+	(*SubmissionCompletedEvent)(nil),  // 1: eolymp.judge.SubmissionCompletedEvent
+	(*RebuildScoreEvent)(nil),         // 2: eolymp.judge.RebuildScoreEvent
+	(*ScoreUpdatedEvent)(nil),         // 3: eolymp.judge.ScoreUpdatedEvent
+	(*TicketCreatedEvent)(nil),        // 4: eolymp.judge.TicketCreatedEvent
+	(*TicketUpdatedEvent)(nil),        // 5: eolymp.judge.TicketUpdatedEvent
+	(*ParticipantCreatedEvent)(nil),   // 6: eolymp.judge.ParticipantCreatedEvent
+	(*ParticipantUpdatedEvent)(nil),   // 7: eolymp.judge.ParticipantUpdatedEvent
+	(*ParticipantDeletedEvent)(nil),   // 8: eolymp.judge.ParticipantDeletedEvent
+	(*RetestProblemEvent)(nil),        // 9: eolymp.judge.RetestProblemEvent
+	(*TicketChangeRecord)(nil),        // 10: eolymp.judge.TicketChangeRecord
+	(*Submission)(nil),                // 11: eolymp.judge.Submission
+	(*Score)(nil),                     // 12: eolymp.judge.Score
+	(*Ticket)(nil),                    // 13: eolymp.judge.Ticket
+	(*Reply)(nil),                     // 14: eolymp.judge.Reply
+	(*Participant)(nil),               // 15: eolymp.judge.Participant
 }
 var file_eolymp_judge_events_proto_depIdxs = []int32{
-	9,  // 0: eolymp.judge.SubmissionCompletedEvent.submission:type_name -> eolymp.judge.Submission
-	10, // 1: eolymp.judge.ScoreUpdatedEvent.score:type_name -> eolymp.judge.Score
-	11, // 2: eolymp.judge.TicketCreatedEvent.ticket:type_name -> eolymp.judge.Ticket
-	11, // 3: eolymp.judge.TicketUpdatedEvent.ticket:type_name -> eolymp.judge.Ticket
-	12, // 4: eolymp.judge.TicketUpdatedEvent.reply:type_name -> eolymp.judge.Reply
-	13, // 5: eolymp.judge.ParticipantCreatedEvent.participant:type_name -> eolymp.judge.Participant
-	13, // 6: eolymp.judge.ParticipantUpdatedEvent.participant:type_name -> eolymp.judge.Participant
-	13, // 7: eolymp.judge.ParticipantDeletedEvent.participant:type_name -> eolymp.judge.Participant
-	8,  // [8:8] is the sub-list for method output_type
-	8,  // [8:8] is the sub-list for method input_type
-	8,  // [8:8] is the sub-list for extension type_name
-	8,  // [8:8] is the sub-list for extension extendee
-	0,  // [0:8] is the sub-list for field type_name
+	11, // 0: eolymp.judge.SubmissionCompletedEvent.submission:type_name -> eolymp.judge.Submission
+	12, // 1: eolymp.judge.ScoreUpdatedEvent.score:type_name -> eolymp.judge.Score
+	13, // 2: eolymp.judge.TicketCreatedEvent.ticket:type_name -> eolymp.judge.Ticket
+	13, // 3: eolymp.judge.TicketUpdatedEvent.ticket:type_name -> eolymp.judge.Ticket
+	14, // 4: eolymp.judge.TicketUpdatedEvent.reply:type_name -> eolymp.judge.Reply
+	15, // 5: eolymp.judge.ParticipantCreatedEvent.participant:type_name -> eolymp.judge.Participant
+	15, // 6: eolymp.judge.ParticipantUpdatedEvent.participant:type_name -> eolymp.judge.Participant
+	15, // 7: eolymp.judge.ParticipantDeletedEvent.participant:type_name -> eolymp.judge.Participant
+	0,  // 8: eolymp.judge.TicketChangeRecord.op:type_name -> eolymp.judge.TicketChangeRecord.Operation
+	13, // 9: eolymp.judge.TicketChangeRecord.ticket:type_name -> eolymp.judge.Ticket
+	10, // [10:10] is the sub-list for method output_type
+	10, // [10:10] is the sub-list for method input_type
+	10, // [10:10] is the sub-list for extension type_name
+	10, // [10:10] is the sub-list for extension extendee
+	0,  // [0:10] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_judge_events_proto_init() }
@@ -739,19 +867,32 @@ func file_eolymp_judge_events_proto_init() {
 				return nil
 			}
 		}
+		file_eolymp_judge_events_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*TicketChangeRecord); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_eolymp_judge_events_proto_rawDesc,
-			NumEnums:      0,
-			NumMessages:   9,
+			NumEnums:      1,
+			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
 		GoTypes:           file_eolymp_judge_events_proto_goTypes,
 		DependencyIndexes: file_eolymp_judge_events_proto_depIdxs,
+		EnumInfos:         file_eolymp_judge_events_proto_enumTypes,
 		MessageInfos:      file_eolymp_judge_events_proto_msgTypes,
 	}.Build()
 	File_eolymp_judge_events_proto = out.File

@@ -75,6 +75,7 @@ const (
 	Judge_ListReplies_FullMethodName                = "/eolymp.judge.Judge/ListReplies"
 	Judge_DeleteReply_FullMethodName                = "/eolymp.judge.Judge/DeleteReply"
 	Judge_UpdateReply_FullMethodName                = "/eolymp.judge.Judge/UpdateReply"
+	Judge_WatchTickets_FullMethodName               = "/eolymp.judge.Judge/WatchTickets"
 	Judge_CreateAnnouncement_FullMethodName         = "/eolymp.judge.Judge/CreateAnnouncement"
 	Judge_UpdateAnnouncement_FullMethodName         = "/eolymp.judge.Judge/UpdateAnnouncement"
 	Judge_DeleteAnnouncement_FullMethodName         = "/eolymp.judge.Judge/DeleteAnnouncement"
@@ -189,6 +190,7 @@ type JudgeClient interface {
 	DeleteReply(ctx context.Context, in *DeleteReplyInput, opts ...grpc.CallOption) (*DeleteReplyOutput, error)
 	// UpdateReply allows author to update his own reply.
 	UpdateReply(ctx context.Context, in *UpdateReplyInput, opts ...grpc.CallOption) (*UpdateReplyOutput, error)
+	WatchTickets(ctx context.Context, in *WatchTicketsInput, opts ...grpc.CallOption) (Judge_WatchTicketsClient, error)
 	// Create announcement for a contest
 	CreateAnnouncement(ctx context.Context, in *CreateAnnouncementInput, opts ...grpc.CallOption) (*CreateAnnouncementOutput, error)
 	// Update existing announcement in a contest
@@ -751,6 +753,38 @@ func (c *judgeClient) UpdateReply(ctx context.Context, in *UpdateReplyInput, opt
 	return out, nil
 }
 
+func (c *judgeClient) WatchTickets(ctx context.Context, in *WatchTicketsInput, opts ...grpc.CallOption) (Judge_WatchTicketsClient, error) {
+	stream, err := c.cc.NewStream(ctx, &Judge_ServiceDesc.Streams[1], Judge_WatchTickets_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &judgeWatchTicketsClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type Judge_WatchTicketsClient interface {
+	Recv() (*WatchTicketsOutput, error)
+	grpc.ClientStream
+}
+
+type judgeWatchTicketsClient struct {
+	grpc.ClientStream
+}
+
+func (x *judgeWatchTicketsClient) Recv() (*WatchTicketsOutput, error) {
+	m := new(WatchTicketsOutput)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 func (c *judgeClient) CreateAnnouncement(ctx context.Context, in *CreateAnnouncementInput, opts ...grpc.CallOption) (*CreateAnnouncementOutput, error) {
 	out := new(CreateAnnouncementOutput)
 	err := c.cc.Invoke(ctx, Judge_CreateAnnouncement_FullMethodName, in, out, opts...)
@@ -975,6 +1009,7 @@ type JudgeServer interface {
 	DeleteReply(context.Context, *DeleteReplyInput) (*DeleteReplyOutput, error)
 	// UpdateReply allows author to update his own reply.
 	UpdateReply(context.Context, *UpdateReplyInput) (*UpdateReplyOutput, error)
+	WatchTickets(*WatchTicketsInput, Judge_WatchTicketsServer) error
 	// Create announcement for a contest
 	CreateAnnouncement(context.Context, *CreateAnnouncementInput) (*CreateAnnouncementOutput, error)
 	// Update existing announcement in a contest
@@ -1173,6 +1208,9 @@ func (UnimplementedJudgeServer) DeleteReply(context.Context, *DeleteReplyInput) 
 }
 func (UnimplementedJudgeServer) UpdateReply(context.Context, *UpdateReplyInput) (*UpdateReplyOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateReply not implemented")
+}
+func (UnimplementedJudgeServer) WatchTickets(*WatchTicketsInput, Judge_WatchTicketsServer) error {
+	return status.Errorf(codes.Unimplemented, "method WatchTickets not implemented")
 }
 func (UnimplementedJudgeServer) CreateAnnouncement(context.Context, *CreateAnnouncementInput) (*CreateAnnouncementOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateAnnouncement not implemented")
@@ -2239,6 +2277,27 @@ func _Judge_UpdateReply_Handler(srv interface{}, ctx context.Context, dec func(i
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Judge_WatchTickets_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(WatchTicketsInput)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(JudgeServer).WatchTickets(m, &judgeWatchTicketsServer{stream})
+}
+
+type Judge_WatchTicketsServer interface {
+	Send(*WatchTicketsOutput) error
+	grpc.ServerStream
+}
+
+type judgeWatchTicketsServer struct {
+	grpc.ServerStream
+}
+
+func (x *judgeWatchTicketsServer) Send(m *WatchTicketsOutput) error {
+	return x.ServerStream.SendMsg(m)
+}
+
 func _Judge_CreateAnnouncement_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreateAnnouncementInput)
 	if err := dec(in); err != nil {
@@ -2779,6 +2838,11 @@ var Judge_ServiceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "WatchSubmission",
 			Handler:       _Judge_WatchSubmission_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "WatchTickets",
+			Handler:       _Judge_WatchTickets_Handler,
 			ServerStreams: true,
 		},
 	},
