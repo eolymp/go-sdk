@@ -292,6 +292,38 @@ func (i *ProductServiceInterceptor) DescribeProduct(ctx context.Context, in *Des
 	return message, err
 }
 
+func (i *ProductServiceInterceptor) ListProducts(ctx context.Context, in *ListProductsInput, opts ...grpc.CallOption) (*ListProductsOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListProductsInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListProductsInput, got %T", in))
+		}
+
+		return i.client.ListProducts(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.commerce.ProductService.ListProducts", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListProductsOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListProductsOutput, got %T", out))
+	}
+
+	return message, err
+}
+
 func (i *ProductServiceInterceptor) DeleteProduct(ctx context.Context, in *DeleteProductInput, opts ...grpc.CallOption) (*DeleteProductOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DeleteProductInput)

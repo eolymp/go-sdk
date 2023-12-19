@@ -22,6 +22,7 @@ const (
 	ProductService_CreateProduct_FullMethodName        = "/eolymp.commerce.ProductService/CreateProduct"
 	ProductService_UpdateProduct_FullMethodName        = "/eolymp.commerce.ProductService/UpdateProduct"
 	ProductService_DescribeProduct_FullMethodName      = "/eolymp.commerce.ProductService/DescribeProduct"
+	ProductService_ListProducts_FullMethodName         = "/eolymp.commerce.ProductService/ListProducts"
 	ProductService_DeleteProduct_FullMethodName        = "/eolymp.commerce.ProductService/DeleteProduct"
 	ProductService_ListProductPrices_FullMethodName    = "/eolymp.commerce.ProductService/ListProductPrices"
 	ProductService_DescribeProductPrice_FullMethodName = "/eolymp.commerce.ProductService/DescribeProductPrice"
@@ -36,6 +37,7 @@ type ProductServiceClient interface {
 	CreateProduct(ctx context.Context, in *CreateProductInput, opts ...grpc.CallOption) (*CreateProductOutput, error)
 	UpdateProduct(ctx context.Context, in *UpdateProductInput, opts ...grpc.CallOption) (*UpdateProductOutput, error)
 	DescribeProduct(ctx context.Context, in *DescribeProductInput, opts ...grpc.CallOption) (*DescribeProductOutput, error)
+	ListProducts(ctx context.Context, in *ListProductsInput, opts ...grpc.CallOption) (*ListProductsOutput, error)
 	DeleteProduct(ctx context.Context, in *DeleteProductInput, opts ...grpc.CallOption) (*DeleteProductOutput, error)
 	ListProductPrices(ctx context.Context, in *ListProductPricesInput, opts ...grpc.CallOption) (*ListProductPricesOutput, error)
 	DescribeProductPrice(ctx context.Context, in *DescribeProductPriceInput, opts ...grpc.CallOption) (*DescribeProductPriceOutput, error)
@@ -72,6 +74,15 @@ func (c *productServiceClient) UpdateProduct(ctx context.Context, in *UpdateProd
 func (c *productServiceClient) DescribeProduct(ctx context.Context, in *DescribeProductInput, opts ...grpc.CallOption) (*DescribeProductOutput, error) {
 	out := new(DescribeProductOutput)
 	err := c.cc.Invoke(ctx, ProductService_DescribeProduct_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *productServiceClient) ListProducts(ctx context.Context, in *ListProductsInput, opts ...grpc.CallOption) (*ListProductsOutput, error) {
+	out := new(ListProductsOutput)
+	err := c.cc.Invoke(ctx, ProductService_ListProducts_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -130,6 +141,7 @@ type ProductServiceServer interface {
 	CreateProduct(context.Context, *CreateProductInput) (*CreateProductOutput, error)
 	UpdateProduct(context.Context, *UpdateProductInput) (*UpdateProductOutput, error)
 	DescribeProduct(context.Context, *DescribeProductInput) (*DescribeProductOutput, error)
+	ListProducts(context.Context, *ListProductsInput) (*ListProductsOutput, error)
 	DeleteProduct(context.Context, *DeleteProductInput) (*DeleteProductOutput, error)
 	ListProductPrices(context.Context, *ListProductPricesInput) (*ListProductPricesOutput, error)
 	DescribeProductPrice(context.Context, *DescribeProductPriceInput) (*DescribeProductPriceOutput, error)
@@ -149,6 +161,9 @@ func (UnimplementedProductServiceServer) UpdateProduct(context.Context, *UpdateP
 }
 func (UnimplementedProductServiceServer) DescribeProduct(context.Context, *DescribeProductInput) (*DescribeProductOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeProduct not implemented")
+}
+func (UnimplementedProductServiceServer) ListProducts(context.Context, *ListProductsInput) (*ListProductsOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListProducts not implemented")
 }
 func (UnimplementedProductServiceServer) DeleteProduct(context.Context, *DeleteProductInput) (*DeleteProductOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteProduct not implemented")
@@ -227,6 +242,24 @@ func _ProductService_DescribeProduct_Handler(srv interface{}, ctx context.Contex
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ProductServiceServer).DescribeProduct(ctx, req.(*DescribeProductInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ProductService_ListProducts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListProductsInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProductServiceServer).ListProducts(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProductService_ListProducts_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProductServiceServer).ListProducts(ctx, req.(*ListProductsInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -339,6 +372,10 @@ var ProductService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DescribeProduct",
 			Handler:    _ProductService_DescribeProduct_Handler,
+		},
+		{
+			MethodName: "ListProducts",
+			Handler:    _ProductService_ListProducts_Handler,
 		},
 		{
 			MethodName: "DeleteProduct",
