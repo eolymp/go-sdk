@@ -19,9 +19,11 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	SubscriptionService_CreateSubscription_FullMethodName = "/eolymp.commerce.SubscriptionService/CreateSubscription"
-	SubscriptionService_UpdateSubscription_FullMethodName = "/eolymp.commerce.SubscriptionService/UpdateSubscription"
-	SubscriptionService_CancelSubscription_FullMethodName = "/eolymp.commerce.SubscriptionService/CancelSubscription"
+	SubscriptionService_CreateSubscription_FullMethodName   = "/eolymp.commerce.SubscriptionService/CreateSubscription"
+	SubscriptionService_UpdateSubscription_FullMethodName   = "/eolymp.commerce.SubscriptionService/UpdateSubscription"
+	SubscriptionService_CancelSubscription_FullMethodName   = "/eolymp.commerce.SubscriptionService/CancelSubscription"
+	SubscriptionService_DescribeSubscription_FullMethodName = "/eolymp.commerce.SubscriptionService/DescribeSubscription"
+	SubscriptionService_ListSubscriptions_FullMethodName    = "/eolymp.commerce.SubscriptionService/ListSubscriptions"
 )
 
 // SubscriptionServiceClient is the client API for SubscriptionService service.
@@ -31,6 +33,8 @@ type SubscriptionServiceClient interface {
 	CreateSubscription(ctx context.Context, in *CreateSubscriptionInput, opts ...grpc.CallOption) (*CreateSubscriptionOutput, error)
 	UpdateSubscription(ctx context.Context, in *UpdateSubscriptionInput, opts ...grpc.CallOption) (*UpdateSubscriptionOutput, error)
 	CancelSubscription(ctx context.Context, in *CancelSubscriptionInput, opts ...grpc.CallOption) (*CancelSubscriptionOutput, error)
+	DescribeSubscription(ctx context.Context, in *DescribeSubscriptionInput, opts ...grpc.CallOption) (*DescribeSubscriptionOutput, error)
+	ListSubscriptions(ctx context.Context, in *ListSubscriptionsInput, opts ...grpc.CallOption) (*ListSubscriptionsOutput, error)
 }
 
 type subscriptionServiceClient struct {
@@ -68,6 +72,24 @@ func (c *subscriptionServiceClient) CancelSubscription(ctx context.Context, in *
 	return out, nil
 }
 
+func (c *subscriptionServiceClient) DescribeSubscription(ctx context.Context, in *DescribeSubscriptionInput, opts ...grpc.CallOption) (*DescribeSubscriptionOutput, error) {
+	out := new(DescribeSubscriptionOutput)
+	err := c.cc.Invoke(ctx, SubscriptionService_DescribeSubscription_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *subscriptionServiceClient) ListSubscriptions(ctx context.Context, in *ListSubscriptionsInput, opts ...grpc.CallOption) (*ListSubscriptionsOutput, error) {
+	out := new(ListSubscriptionsOutput)
+	err := c.cc.Invoke(ctx, SubscriptionService_ListSubscriptions_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SubscriptionServiceServer is the server API for SubscriptionService service.
 // All implementations should embed UnimplementedSubscriptionServiceServer
 // for forward compatibility
@@ -75,6 +97,8 @@ type SubscriptionServiceServer interface {
 	CreateSubscription(context.Context, *CreateSubscriptionInput) (*CreateSubscriptionOutput, error)
 	UpdateSubscription(context.Context, *UpdateSubscriptionInput) (*UpdateSubscriptionOutput, error)
 	CancelSubscription(context.Context, *CancelSubscriptionInput) (*CancelSubscriptionOutput, error)
+	DescribeSubscription(context.Context, *DescribeSubscriptionInput) (*DescribeSubscriptionOutput, error)
+	ListSubscriptions(context.Context, *ListSubscriptionsInput) (*ListSubscriptionsOutput, error)
 }
 
 // UnimplementedSubscriptionServiceServer should be embedded to have forward compatible implementations.
@@ -89,6 +113,12 @@ func (UnimplementedSubscriptionServiceServer) UpdateSubscription(context.Context
 }
 func (UnimplementedSubscriptionServiceServer) CancelSubscription(context.Context, *CancelSubscriptionInput) (*CancelSubscriptionOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CancelSubscription not implemented")
+}
+func (UnimplementedSubscriptionServiceServer) DescribeSubscription(context.Context, *DescribeSubscriptionInput) (*DescribeSubscriptionOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeSubscription not implemented")
+}
+func (UnimplementedSubscriptionServiceServer) ListSubscriptions(context.Context, *ListSubscriptionsInput) (*ListSubscriptionsOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListSubscriptions not implemented")
 }
 
 // UnsafeSubscriptionServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -156,6 +186,42 @@ func _SubscriptionService_CancelSubscription_Handler(srv interface{}, ctx contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SubscriptionService_DescribeSubscription_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeSubscriptionInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SubscriptionServiceServer).DescribeSubscription(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SubscriptionService_DescribeSubscription_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SubscriptionServiceServer).DescribeSubscription(ctx, req.(*DescribeSubscriptionInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SubscriptionService_ListSubscriptions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListSubscriptionsInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SubscriptionServiceServer).ListSubscriptions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SubscriptionService_ListSubscriptions_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SubscriptionServiceServer).ListSubscriptions(ctx, req.(*ListSubscriptionsInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // SubscriptionService_ServiceDesc is the grpc.ServiceDesc for SubscriptionService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -174,6 +240,14 @@ var SubscriptionService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CancelSubscription",
 			Handler:    _SubscriptionService_CancelSubscription_Handler,
+		},
+		{
+			MethodName: "DescribeSubscription",
+			Handler:    _SubscriptionService_DescribeSubscription_Handler,
+		},
+		{
+			MethodName: "ListSubscriptions",
+			Handler:    _SubscriptionService_ListSubscriptions_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

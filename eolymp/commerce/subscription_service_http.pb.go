@@ -291,3 +291,67 @@ func (i *SubscriptionServiceInterceptor) CancelSubscription(ctx context.Context,
 
 	return message, err
 }
+
+func (i *SubscriptionServiceInterceptor) DescribeSubscription(ctx context.Context, in *DescribeSubscriptionInput, opts ...grpc.CallOption) (*DescribeSubscriptionOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeSubscriptionInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeSubscriptionInput, got %T", in))
+		}
+
+		return i.client.DescribeSubscription(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.commerce.SubscriptionService.DescribeSubscription", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeSubscriptionOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeSubscriptionOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *SubscriptionServiceInterceptor) ListSubscriptions(ctx context.Context, in *ListSubscriptionsInput, opts ...grpc.CallOption) (*ListSubscriptionsOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListSubscriptionsInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListSubscriptionsInput, got %T", in))
+		}
+
+		return i.client.ListSubscriptions(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.commerce.SubscriptionService.ListSubscriptions", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListSubscriptionsOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListSubscriptionsOutput, got %T", out))
+	}
+
+	return message, err
+}
