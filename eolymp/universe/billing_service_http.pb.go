@@ -197,6 +197,9 @@ func RegisterBillingServiceHttpHandlers(router *mux.Router, prefix string, cli B
 	router.Handle(prefix+"/billing/subscription", _BillingService_CancelSubscription_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.universe.BillingService.CancelSubscription")
+	router.Handle(prefix+"/billing/subscription/simulate", _BillingService_SimulateSubscription_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.universe.BillingService.SimulateSubscription")
 	router.Handle(prefix+"/billing/upcoming", _BillingService_UpcomingInvoice_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.universe.BillingService.UpcomingInvoice")
@@ -302,6 +305,26 @@ func _BillingService_CancelSubscription_Rule0(cli BillingServiceClient) http.Han
 		}
 
 		out, err := cli.CancelSubscription(r.Context(), in)
+		if err != nil {
+			_BillingService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_BillingService_HTTPWriteResponse(w, out)
+	})
+}
+
+func _BillingService_SimulateSubscription_Rule0(cli BillingServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &SimulateSubscriptionInput{}
+
+		if err := _BillingService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_BillingService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := cli.SimulateSubscription(r.Context(), in)
 		if err != nil {
 			_BillingService_HTTPWriteErrorResponse(w, err)
 			return
@@ -564,6 +587,38 @@ func (i *BillingServiceInterceptor) CancelSubscription(ctx context.Context, in *
 	message, ok := out.(*CancelSubscriptionOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *CancelSubscriptionOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *BillingServiceInterceptor) SimulateSubscription(ctx context.Context, in *SimulateSubscriptionInput, opts ...grpc.CallOption) (*SimulateSubscriptionOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*SimulateSubscriptionInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *SimulateSubscriptionInput, got %T", in))
+		}
+
+		return i.client.SimulateSubscription(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.universe.BillingService.SimulateSubscription", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*SimulateSubscriptionOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *SimulateSubscriptionOutput, got %T", out))
 	}
 
 	return message, err

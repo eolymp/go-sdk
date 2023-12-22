@@ -155,6 +155,17 @@ func (s *BillingServiceService) CancelSubscription(ctx context.Context, in *Canc
 	return out, nil
 }
 
+func (s *BillingServiceService) SimulateSubscription(ctx context.Context, in *SimulateSubscriptionInput) (*SimulateSubscriptionOutput, error) {
+	out := &SimulateSubscriptionOutput{}
+	path := "/billing/subscription/simulate"
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *BillingServiceService) UpcomingInvoice(ctx context.Context, in *UpcomingInvoiceInput) (*UpcomingInvoiceOutput, error) {
 	out := &UpcomingInvoiceOutput{}
 	path := "/billing/upcoming"

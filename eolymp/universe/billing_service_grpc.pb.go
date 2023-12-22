@@ -24,6 +24,7 @@ const (
 	BillingService_DescribeSubscription_FullMethodName       = "/eolymp.universe.BillingService/DescribeSubscription"
 	BillingService_UpdateSubscription_FullMethodName         = "/eolymp.universe.BillingService/UpdateSubscription"
 	BillingService_CancelSubscription_FullMethodName         = "/eolymp.universe.BillingService/CancelSubscription"
+	BillingService_SimulateSubscription_FullMethodName       = "/eolymp.universe.BillingService/SimulateSubscription"
 	BillingService_UpcomingInvoice_FullMethodName            = "/eolymp.universe.BillingService/UpcomingInvoice"
 	BillingService_DescribeInvoice_FullMethodName            = "/eolymp.universe.BillingService/DescribeInvoice"
 	BillingService_PayInvoice_FullMethodName                 = "/eolymp.universe.BillingService/PayInvoice"
@@ -39,7 +40,7 @@ type BillingServiceClient interface {
 	DescribeSubscription(ctx context.Context, in *DescribeSubscriptionInput, opts ...grpc.CallOption) (*DescribeSubscriptionOutput, error)
 	UpdateSubscription(ctx context.Context, in *UpdateSubscriptionInput, opts ...grpc.CallOption) (*UpdateSubscriptionOutput, error)
 	CancelSubscription(ctx context.Context, in *CancelSubscriptionInput, opts ...grpc.CallOption) (*CancelSubscriptionOutput, error)
-	// UpcomingInvoice before applying changes to the subscription
+	SimulateSubscription(ctx context.Context, in *SimulateSubscriptionInput, opts ...grpc.CallOption) (*SimulateSubscriptionOutput, error)
 	UpcomingInvoice(ctx context.Context, in *UpcomingInvoiceInput, opts ...grpc.CallOption) (*UpcomingInvoiceOutput, error)
 	DescribeInvoice(ctx context.Context, in *DescribeInvoiceInput, opts ...grpc.CallOption) (*DescribeInvoiceOutput, error)
 	PayInvoice(ctx context.Context, in *PayInvoiceInput, opts ...grpc.CallOption) (*PayInvoiceOutput, error)
@@ -99,6 +100,15 @@ func (c *billingServiceClient) CancelSubscription(ctx context.Context, in *Cance
 	return out, nil
 }
 
+func (c *billingServiceClient) SimulateSubscription(ctx context.Context, in *SimulateSubscriptionInput, opts ...grpc.CallOption) (*SimulateSubscriptionOutput, error) {
+	out := new(SimulateSubscriptionOutput)
+	err := c.cc.Invoke(ctx, BillingService_SimulateSubscription_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *billingServiceClient) UpcomingInvoice(ctx context.Context, in *UpcomingInvoiceInput, opts ...grpc.CallOption) (*UpcomingInvoiceOutput, error) {
 	out := new(UpcomingInvoiceOutput)
 	err := c.cc.Invoke(ctx, BillingService_UpcomingInvoice_FullMethodName, in, out, opts...)
@@ -144,7 +154,7 @@ type BillingServiceServer interface {
 	DescribeSubscription(context.Context, *DescribeSubscriptionInput) (*DescribeSubscriptionOutput, error)
 	UpdateSubscription(context.Context, *UpdateSubscriptionInput) (*UpdateSubscriptionOutput, error)
 	CancelSubscription(context.Context, *CancelSubscriptionInput) (*CancelSubscriptionOutput, error)
-	// UpcomingInvoice before applying changes to the subscription
+	SimulateSubscription(context.Context, *SimulateSubscriptionInput) (*SimulateSubscriptionOutput, error)
 	UpcomingInvoice(context.Context, *UpcomingInvoiceInput) (*UpcomingInvoiceOutput, error)
 	DescribeInvoice(context.Context, *DescribeInvoiceInput) (*DescribeInvoiceOutput, error)
 	PayInvoice(context.Context, *PayInvoiceInput) (*PayInvoiceOutput, error)
@@ -169,6 +179,9 @@ func (UnimplementedBillingServiceServer) UpdateSubscription(context.Context, *Up
 }
 func (UnimplementedBillingServiceServer) CancelSubscription(context.Context, *CancelSubscriptionInput) (*CancelSubscriptionOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CancelSubscription not implemented")
+}
+func (UnimplementedBillingServiceServer) SimulateSubscription(context.Context, *SimulateSubscriptionInput) (*SimulateSubscriptionOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SimulateSubscription not implemented")
 }
 func (UnimplementedBillingServiceServer) UpcomingInvoice(context.Context, *UpcomingInvoiceInput) (*UpcomingInvoiceOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpcomingInvoice not implemented")
@@ -284,6 +297,24 @@ func _BillingService_CancelSubscription_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _BillingService_SimulateSubscription_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SimulateSubscriptionInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BillingServiceServer).SimulateSubscription(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: BillingService_SimulateSubscription_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BillingServiceServer).SimulateSubscription(ctx, req.(*SimulateSubscriptionInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _BillingService_UpcomingInvoice_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UpcomingInvoiceInput)
 	if err := dec(in); err != nil {
@@ -382,6 +413,10 @@ var BillingService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CancelSubscription",
 			Handler:    _BillingService_CancelSubscription_Handler,
+		},
+		{
+			MethodName: "SimulateSubscription",
+			Handler:    _BillingService_SimulateSubscription_Handler,
 		},
 		{
 			MethodName: "UpcomingInvoice",
