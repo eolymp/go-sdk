@@ -188,15 +188,27 @@ func RegisterBillingServiceHttpHandlers(router *mux.Router, prefix string, cli B
 	router.Handle(prefix+"/billing/info", _BillingService_UpdateBillingInformation_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.universe.BillingService.UpdateBillingInformation")
-	router.Handle(prefix+"/billing/plan", _BillingService_DescribeCurrentPlan_Rule0(cli)).
+	router.Handle(prefix+"/billing/subscription", _BillingService_DescribeSubscription_Rule0(cli)).
 		Methods("GET").
-		Name("eolymp.universe.BillingService.DescribeCurrentPlan")
-	router.Handle(prefix+"/billing/plan", _BillingService_UpdateCurrentPlan_Rule0(cli)).
+		Name("eolymp.universe.BillingService.DescribeSubscription")
+	router.Handle(prefix+"/billing/subscription", _BillingService_UpdateSubscription_Rule0(cli)).
 		Methods("PUT").
-		Name("eolymp.universe.BillingService.UpdateCurrentPlan")
-	router.Handle(prefix+"/billing/plan", _BillingService_CancelCurrentPlan_Rule0(cli)).
+		Name("eolymp.universe.BillingService.UpdateSubscription")
+	router.Handle(prefix+"/billing/subscription", _BillingService_CancelSubscription_Rule0(cli)).
 		Methods("DELETE").
-		Name("eolymp.universe.BillingService.CancelCurrentPlan")
+		Name("eolymp.universe.BillingService.CancelSubscription")
+	router.Handle(prefix+"/billing/upcoming", _BillingService_UpcomingInvoice_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.universe.BillingService.UpcomingInvoice")
+	router.Handle(prefix+"/billing/invoice/{invoice_id}", _BillingService_DescribeInvoice_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.universe.BillingService.DescribeInvoice")
+	router.Handle(prefix+"/billing/invoice/{invoice_id}/pay", _BillingService_PayInvoice_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.universe.BillingService.PayInvoice")
+	router.Handle(prefix+"/billing/invoices", _BillingService_ListInvoices_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.universe.BillingService.ListInvoices")
 }
 
 func _BillingService_DescribeBillingInformation_Rule0(cli BillingServiceClient) http.Handler {
@@ -239,9 +251,9 @@ func _BillingService_UpdateBillingInformation_Rule0(cli BillingServiceClient) ht
 	})
 }
 
-func _BillingService_DescribeCurrentPlan_Rule0(cli BillingServiceClient) http.Handler {
+func _BillingService_DescribeSubscription_Rule0(cli BillingServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DescribeCurrentPlanInput{}
+		in := &DescribeSubscriptionInput{}
 
 		if err := _BillingService_HTTPReadQueryString(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
@@ -249,7 +261,7 @@ func _BillingService_DescribeCurrentPlan_Rule0(cli BillingServiceClient) http.Ha
 			return
 		}
 
-		out, err := cli.DescribeCurrentPlan(r.Context(), in)
+		out, err := cli.DescribeSubscription(r.Context(), in)
 		if err != nil {
 			_BillingService_HTTPWriteErrorResponse(w, err)
 			return
@@ -259,9 +271,9 @@ func _BillingService_DescribeCurrentPlan_Rule0(cli BillingServiceClient) http.Ha
 	})
 }
 
-func _BillingService_UpdateCurrentPlan_Rule0(cli BillingServiceClient) http.Handler {
+func _BillingService_UpdateSubscription_Rule0(cli BillingServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &UpdateCurrentPlanInput{}
+		in := &UpdateSubscriptionInput{}
 
 		if err := _BillingService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
@@ -269,7 +281,7 @@ func _BillingService_UpdateCurrentPlan_Rule0(cli BillingServiceClient) http.Hand
 			return
 		}
 
-		out, err := cli.UpdateCurrentPlan(r.Context(), in)
+		out, err := cli.UpdateSubscription(r.Context(), in)
 		if err != nil {
 			_BillingService_HTTPWriteErrorResponse(w, err)
 			return
@@ -279,9 +291,9 @@ func _BillingService_UpdateCurrentPlan_Rule0(cli BillingServiceClient) http.Hand
 	})
 }
 
-func _BillingService_CancelCurrentPlan_Rule0(cli BillingServiceClient) http.Handler {
+func _BillingService_CancelSubscription_Rule0(cli BillingServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &CancelCurrentPlanInput{}
+		in := &CancelSubscriptionInput{}
 
 		if err := _BillingService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
@@ -289,7 +301,93 @@ func _BillingService_CancelCurrentPlan_Rule0(cli BillingServiceClient) http.Hand
 			return
 		}
 
-		out, err := cli.CancelCurrentPlan(r.Context(), in)
+		out, err := cli.CancelSubscription(r.Context(), in)
+		if err != nil {
+			_BillingService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_BillingService_HTTPWriteResponse(w, out)
+	})
+}
+
+func _BillingService_UpcomingInvoice_Rule0(cli BillingServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UpcomingInvoiceInput{}
+
+		if err := _BillingService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_BillingService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := cli.UpcomingInvoice(r.Context(), in)
+		if err != nil {
+			_BillingService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_BillingService_HTTPWriteResponse(w, out)
+	})
+}
+
+func _BillingService_DescribeInvoice_Rule0(cli BillingServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeInvoiceInput{}
+
+		if err := _BillingService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_BillingService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.InvoiceId = vars["invoice_id"]
+
+		out, err := cli.DescribeInvoice(r.Context(), in)
+		if err != nil {
+			_BillingService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_BillingService_HTTPWriteResponse(w, out)
+	})
+}
+
+func _BillingService_PayInvoice_Rule0(cli BillingServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &PayInvoiceInput{}
+
+		if err := _BillingService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_BillingService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.InvoiceId = vars["invoice_id"]
+
+		out, err := cli.PayInvoice(r.Context(), in)
+		if err != nil {
+			_BillingService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_BillingService_HTTPWriteResponse(w, out)
+	})
+}
+
+func _BillingService_ListInvoices_Rule0(cli BillingServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListInvoicesInput{}
+
+		if err := _BillingService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_BillingService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := cli.ListInvoices(r.Context(), in)
 		if err != nil {
 			_BillingService_HTTPWriteErrorResponse(w, err)
 			return
@@ -375,14 +473,14 @@ func (i *BillingServiceInterceptor) UpdateBillingInformation(ctx context.Context
 	return message, err
 }
 
-func (i *BillingServiceInterceptor) DescribeCurrentPlan(ctx context.Context, in *DescribeCurrentPlanInput, opts ...grpc.CallOption) (*DescribeCurrentPlanOutput, error) {
+func (i *BillingServiceInterceptor) DescribeSubscription(ctx context.Context, in *DescribeSubscriptionInput, opts ...grpc.CallOption) (*DescribeSubscriptionOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*DescribeCurrentPlanInput)
+		message, ok := in.(*DescribeSubscriptionInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *DescribeCurrentPlanInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *DescribeSubscriptionInput, got %T", in))
 		}
 
-		return i.client.DescribeCurrentPlan(ctx, message, opts...)
+		return i.client.DescribeSubscription(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -390,7 +488,7 @@ func (i *BillingServiceInterceptor) DescribeCurrentPlan(ctx context.Context, in 
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.universe.BillingService.DescribeCurrentPlan", in, next)
+			return mw(ctx, "eolymp.universe.BillingService.DescribeSubscription", in, next)
 		}
 	}
 
@@ -399,22 +497,22 @@ func (i *BillingServiceInterceptor) DescribeCurrentPlan(ctx context.Context, in 
 		return nil, err
 	}
 
-	message, ok := out.(*DescribeCurrentPlanOutput)
+	message, ok := out.(*DescribeSubscriptionOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *DescribeCurrentPlanOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *DescribeSubscriptionOutput, got %T", out))
 	}
 
 	return message, err
 }
 
-func (i *BillingServiceInterceptor) UpdateCurrentPlan(ctx context.Context, in *UpdateCurrentPlanInput, opts ...grpc.CallOption) (*UpdateCurrentPlanOutput, error) {
+func (i *BillingServiceInterceptor) UpdateSubscription(ctx context.Context, in *UpdateSubscriptionInput, opts ...grpc.CallOption) (*UpdateSubscriptionOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*UpdateCurrentPlanInput)
+		message, ok := in.(*UpdateSubscriptionInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *UpdateCurrentPlanInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *UpdateSubscriptionInput, got %T", in))
 		}
 
-		return i.client.UpdateCurrentPlan(ctx, message, opts...)
+		return i.client.UpdateSubscription(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -422,7 +520,7 @@ func (i *BillingServiceInterceptor) UpdateCurrentPlan(ctx context.Context, in *U
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.universe.BillingService.UpdateCurrentPlan", in, next)
+			return mw(ctx, "eolymp.universe.BillingService.UpdateSubscription", in, next)
 		}
 	}
 
@@ -431,22 +529,22 @@ func (i *BillingServiceInterceptor) UpdateCurrentPlan(ctx context.Context, in *U
 		return nil, err
 	}
 
-	message, ok := out.(*UpdateCurrentPlanOutput)
+	message, ok := out.(*UpdateSubscriptionOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *UpdateCurrentPlanOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *UpdateSubscriptionOutput, got %T", out))
 	}
 
 	return message, err
 }
 
-func (i *BillingServiceInterceptor) CancelCurrentPlan(ctx context.Context, in *CancelCurrentPlanInput, opts ...grpc.CallOption) (*CancelCurrentPlanOutput, error) {
+func (i *BillingServiceInterceptor) CancelSubscription(ctx context.Context, in *CancelSubscriptionInput, opts ...grpc.CallOption) (*CancelSubscriptionOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*CancelCurrentPlanInput)
+		message, ok := in.(*CancelSubscriptionInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *CancelCurrentPlanInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *CancelSubscriptionInput, got %T", in))
 		}
 
-		return i.client.CancelCurrentPlan(ctx, message, opts...)
+		return i.client.CancelSubscription(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -454,7 +552,7 @@ func (i *BillingServiceInterceptor) CancelCurrentPlan(ctx context.Context, in *C
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.universe.BillingService.CancelCurrentPlan", in, next)
+			return mw(ctx, "eolymp.universe.BillingService.CancelSubscription", in, next)
 		}
 	}
 
@@ -463,9 +561,137 @@ func (i *BillingServiceInterceptor) CancelCurrentPlan(ctx context.Context, in *C
 		return nil, err
 	}
 
-	message, ok := out.(*CancelCurrentPlanOutput)
+	message, ok := out.(*CancelSubscriptionOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *CancelCurrentPlanOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *CancelSubscriptionOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *BillingServiceInterceptor) UpcomingInvoice(ctx context.Context, in *UpcomingInvoiceInput, opts ...grpc.CallOption) (*UpcomingInvoiceOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*UpcomingInvoiceInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *UpcomingInvoiceInput, got %T", in))
+		}
+
+		return i.client.UpcomingInvoice(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.universe.BillingService.UpcomingInvoice", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*UpcomingInvoiceOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *UpcomingInvoiceOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *BillingServiceInterceptor) DescribeInvoice(ctx context.Context, in *DescribeInvoiceInput, opts ...grpc.CallOption) (*DescribeInvoiceOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeInvoiceInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeInvoiceInput, got %T", in))
+		}
+
+		return i.client.DescribeInvoice(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.universe.BillingService.DescribeInvoice", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeInvoiceOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeInvoiceOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *BillingServiceInterceptor) PayInvoice(ctx context.Context, in *PayInvoiceInput, opts ...grpc.CallOption) (*PayInvoiceOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*PayInvoiceInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *PayInvoiceInput, got %T", in))
+		}
+
+		return i.client.PayInvoice(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.universe.BillingService.PayInvoice", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*PayInvoiceOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *PayInvoiceOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *BillingServiceInterceptor) ListInvoices(ctx context.Context, in *ListInvoicesInput, opts ...grpc.CallOption) (*ListInvoicesOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListInvoicesInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListInvoicesInput, got %T", in))
+		}
+
+		return i.client.ListInvoices(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.universe.BillingService.ListInvoices", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListInvoicesOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListInvoicesOutput, got %T", out))
 	}
 
 	return message, err

@@ -122,9 +122,9 @@ func (s *BillingServiceService) UpdateBillingInformation(ctx context.Context, in
 	return out, nil
 }
 
-func (s *BillingServiceService) DescribeCurrentPlan(ctx context.Context, in *DescribeCurrentPlanInput) (*DescribeCurrentPlanOutput, error) {
-	out := &DescribeCurrentPlanOutput{}
-	path := "/billing/plan"
+func (s *BillingServiceService) DescribeSubscription(ctx context.Context, in *DescribeSubscriptionInput) (*DescribeSubscriptionOutput, error) {
+	out := &DescribeSubscriptionOutput{}
+	path := "/billing/subscription"
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
@@ -133,9 +133,9 @@ func (s *BillingServiceService) DescribeCurrentPlan(ctx context.Context, in *Des
 	return out, nil
 }
 
-func (s *BillingServiceService) UpdateCurrentPlan(ctx context.Context, in *UpdateCurrentPlanInput) (*UpdateCurrentPlanOutput, error) {
-	out := &UpdateCurrentPlanOutput{}
-	path := "/billing/plan"
+func (s *BillingServiceService) UpdateSubscription(ctx context.Context, in *UpdateSubscriptionInput) (*UpdateSubscriptionOutput, error) {
+	out := &UpdateSubscriptionOutput{}
+	path := "/billing/subscription"
 
 	if err := s.do(ctx, "PUT", path, in, out); err != nil {
 		return nil, err
@@ -144,11 +144,65 @@ func (s *BillingServiceService) UpdateCurrentPlan(ctx context.Context, in *Updat
 	return out, nil
 }
 
-func (s *BillingServiceService) CancelCurrentPlan(ctx context.Context, in *CancelCurrentPlanInput) (*CancelCurrentPlanOutput, error) {
-	out := &CancelCurrentPlanOutput{}
-	path := "/billing/plan"
+func (s *BillingServiceService) CancelSubscription(ctx context.Context, in *CancelSubscriptionInput) (*CancelSubscriptionOutput, error) {
+	out := &CancelSubscriptionOutput{}
+	path := "/billing/subscription"
 
 	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *BillingServiceService) UpcomingInvoice(ctx context.Context, in *UpcomingInvoiceInput) (*UpcomingInvoiceOutput, error) {
+	out := &UpcomingInvoiceOutput{}
+	path := "/billing/upcoming"
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *BillingServiceService) DescribeInvoice(ctx context.Context, in *DescribeInvoiceInput) (*DescribeInvoiceOutput, error) {
+	out := &DescribeInvoiceOutput{}
+	path := "/billing/invoice/" + url.PathEscape(in.GetInvoiceId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.InvoiceId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *BillingServiceService) PayInvoice(ctx context.Context, in *PayInvoiceInput) (*PayInvoiceOutput, error) {
+	out := &PayInvoiceOutput{}
+	path := "/billing/invoice/" + url.PathEscape(in.GetInvoiceId()) + "/pay"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.InvoiceId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *BillingServiceService) ListInvoices(ctx context.Context, in *ListInvoicesInput) (*ListInvoicesOutput, error) {
+	out := &ListInvoicesOutput{}
+	path := "/billing/invoices"
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
