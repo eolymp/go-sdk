@@ -22,9 +22,11 @@ const (
 	BillingService_DescribeBillingInformation_FullMethodName = "/eolymp.universe.BillingService/DescribeBillingInformation"
 	BillingService_UpdateBillingInformation_FullMethodName   = "/eolymp.universe.BillingService/UpdateBillingInformation"
 	BillingService_DescribeSubscription_FullMethodName       = "/eolymp.universe.BillingService/DescribeSubscription"
+	BillingService_CreateSubscription_FullMethodName         = "/eolymp.universe.BillingService/CreateSubscription"
 	BillingService_UpdateSubscription_FullMethodName         = "/eolymp.universe.BillingService/UpdateSubscription"
 	BillingService_CancelSubscription_FullMethodName         = "/eolymp.universe.BillingService/CancelSubscription"
 	BillingService_SimulateSubscription_FullMethodName       = "/eolymp.universe.BillingService/SimulateSubscription"
+	BillingService_CreatePortalLink_FullMethodName           = "/eolymp.universe.BillingService/CreatePortalLink"
 	BillingService_UpcomingInvoice_FullMethodName            = "/eolymp.universe.BillingService/UpcomingInvoice"
 	BillingService_DescribeInvoice_FullMethodName            = "/eolymp.universe.BillingService/DescribeInvoice"
 	BillingService_PayInvoice_FullMethodName                 = "/eolymp.universe.BillingService/PayInvoice"
@@ -38,9 +40,11 @@ type BillingServiceClient interface {
 	DescribeBillingInformation(ctx context.Context, in *DescribeBillingInformationInput, opts ...grpc.CallOption) (*DescribeBillingInformationOutput, error)
 	UpdateBillingInformation(ctx context.Context, in *UpdateBillingInformationInput, opts ...grpc.CallOption) (*UpdateBillingInformationOutput, error)
 	DescribeSubscription(ctx context.Context, in *DescribeSubscriptionInput, opts ...grpc.CallOption) (*DescribeSubscriptionOutput, error)
+	CreateSubscription(ctx context.Context, in *CreateSubscriptionInput, opts ...grpc.CallOption) (*CreateSubscriptionOutput, error)
 	UpdateSubscription(ctx context.Context, in *UpdateSubscriptionInput, opts ...grpc.CallOption) (*UpdateSubscriptionOutput, error)
 	CancelSubscription(ctx context.Context, in *CancelSubscriptionInput, opts ...grpc.CallOption) (*CancelSubscriptionOutput, error)
 	SimulateSubscription(ctx context.Context, in *SimulateSubscriptionInput, opts ...grpc.CallOption) (*SimulateSubscriptionOutput, error)
+	CreatePortalLink(ctx context.Context, in *CreatePortalLinkInput, opts ...grpc.CallOption) (*CreatePortalLinkOutput, error)
 	UpcomingInvoice(ctx context.Context, in *UpcomingInvoiceInput, opts ...grpc.CallOption) (*UpcomingInvoiceOutput, error)
 	DescribeInvoice(ctx context.Context, in *DescribeInvoiceInput, opts ...grpc.CallOption) (*DescribeInvoiceOutput, error)
 	PayInvoice(ctx context.Context, in *PayInvoiceInput, opts ...grpc.CallOption) (*PayInvoiceOutput, error)
@@ -82,6 +86,15 @@ func (c *billingServiceClient) DescribeSubscription(ctx context.Context, in *Des
 	return out, nil
 }
 
+func (c *billingServiceClient) CreateSubscription(ctx context.Context, in *CreateSubscriptionInput, opts ...grpc.CallOption) (*CreateSubscriptionOutput, error) {
+	out := new(CreateSubscriptionOutput)
+	err := c.cc.Invoke(ctx, BillingService_CreateSubscription_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *billingServiceClient) UpdateSubscription(ctx context.Context, in *UpdateSubscriptionInput, opts ...grpc.CallOption) (*UpdateSubscriptionOutput, error) {
 	out := new(UpdateSubscriptionOutput)
 	err := c.cc.Invoke(ctx, BillingService_UpdateSubscription_FullMethodName, in, out, opts...)
@@ -103,6 +116,15 @@ func (c *billingServiceClient) CancelSubscription(ctx context.Context, in *Cance
 func (c *billingServiceClient) SimulateSubscription(ctx context.Context, in *SimulateSubscriptionInput, opts ...grpc.CallOption) (*SimulateSubscriptionOutput, error) {
 	out := new(SimulateSubscriptionOutput)
 	err := c.cc.Invoke(ctx, BillingService_SimulateSubscription_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *billingServiceClient) CreatePortalLink(ctx context.Context, in *CreatePortalLinkInput, opts ...grpc.CallOption) (*CreatePortalLinkOutput, error) {
+	out := new(CreatePortalLinkOutput)
+	err := c.cc.Invoke(ctx, BillingService_CreatePortalLink_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -152,9 +174,11 @@ type BillingServiceServer interface {
 	DescribeBillingInformation(context.Context, *DescribeBillingInformationInput) (*DescribeBillingInformationOutput, error)
 	UpdateBillingInformation(context.Context, *UpdateBillingInformationInput) (*UpdateBillingInformationOutput, error)
 	DescribeSubscription(context.Context, *DescribeSubscriptionInput) (*DescribeSubscriptionOutput, error)
+	CreateSubscription(context.Context, *CreateSubscriptionInput) (*CreateSubscriptionOutput, error)
 	UpdateSubscription(context.Context, *UpdateSubscriptionInput) (*UpdateSubscriptionOutput, error)
 	CancelSubscription(context.Context, *CancelSubscriptionInput) (*CancelSubscriptionOutput, error)
 	SimulateSubscription(context.Context, *SimulateSubscriptionInput) (*SimulateSubscriptionOutput, error)
+	CreatePortalLink(context.Context, *CreatePortalLinkInput) (*CreatePortalLinkOutput, error)
 	UpcomingInvoice(context.Context, *UpcomingInvoiceInput) (*UpcomingInvoiceOutput, error)
 	DescribeInvoice(context.Context, *DescribeInvoiceInput) (*DescribeInvoiceOutput, error)
 	PayInvoice(context.Context, *PayInvoiceInput) (*PayInvoiceOutput, error)
@@ -174,6 +198,9 @@ func (UnimplementedBillingServiceServer) UpdateBillingInformation(context.Contex
 func (UnimplementedBillingServiceServer) DescribeSubscription(context.Context, *DescribeSubscriptionInput) (*DescribeSubscriptionOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeSubscription not implemented")
 }
+func (UnimplementedBillingServiceServer) CreateSubscription(context.Context, *CreateSubscriptionInput) (*CreateSubscriptionOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateSubscription not implemented")
+}
 func (UnimplementedBillingServiceServer) UpdateSubscription(context.Context, *UpdateSubscriptionInput) (*UpdateSubscriptionOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateSubscription not implemented")
 }
@@ -182,6 +209,9 @@ func (UnimplementedBillingServiceServer) CancelSubscription(context.Context, *Ca
 }
 func (UnimplementedBillingServiceServer) SimulateSubscription(context.Context, *SimulateSubscriptionInput) (*SimulateSubscriptionOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SimulateSubscription not implemented")
+}
+func (UnimplementedBillingServiceServer) CreatePortalLink(context.Context, *CreatePortalLinkInput) (*CreatePortalLinkOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreatePortalLink not implemented")
 }
 func (UnimplementedBillingServiceServer) UpcomingInvoice(context.Context, *UpcomingInvoiceInput) (*UpcomingInvoiceOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpcomingInvoice not implemented")
@@ -261,6 +291,24 @@ func _BillingService_DescribeSubscription_Handler(srv interface{}, ctx context.C
 	return interceptor(ctx, in, info, handler)
 }
 
+func _BillingService_CreateSubscription_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateSubscriptionInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BillingServiceServer).CreateSubscription(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: BillingService_CreateSubscription_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BillingServiceServer).CreateSubscription(ctx, req.(*CreateSubscriptionInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _BillingService_UpdateSubscription_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UpdateSubscriptionInput)
 	if err := dec(in); err != nil {
@@ -311,6 +359,24 @@ func _BillingService_SimulateSubscription_Handler(srv interface{}, ctx context.C
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(BillingServiceServer).SimulateSubscription(ctx, req.(*SimulateSubscriptionInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _BillingService_CreatePortalLink_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreatePortalLinkInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BillingServiceServer).CreatePortalLink(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: BillingService_CreatePortalLink_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BillingServiceServer).CreatePortalLink(ctx, req.(*CreatePortalLinkInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -407,6 +473,10 @@ var BillingService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _BillingService_DescribeSubscription_Handler,
 		},
 		{
+			MethodName: "CreateSubscription",
+			Handler:    _BillingService_CreateSubscription_Handler,
+		},
+		{
 			MethodName: "UpdateSubscription",
 			Handler:    _BillingService_UpdateSubscription_Handler,
 		},
@@ -417,6 +487,10 @@ var BillingService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SimulateSubscription",
 			Handler:    _BillingService_SimulateSubscription_Handler,
+		},
+		{
+			MethodName: "CreatePortalLink",
+			Handler:    _BillingService_CreatePortalLink_Handler,
 		},
 		{
 			MethodName: "UpcomingInvoice",

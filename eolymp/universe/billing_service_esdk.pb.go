@@ -133,6 +133,17 @@ func (s *BillingServiceService) DescribeSubscription(ctx context.Context, in *De
 	return out, nil
 }
 
+func (s *BillingServiceService) CreateSubscription(ctx context.Context, in *CreateSubscriptionInput) (*CreateSubscriptionOutput, error) {
+	out := &CreateSubscriptionOutput{}
+	path := "/billing/subscription"
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *BillingServiceService) UpdateSubscription(ctx context.Context, in *UpdateSubscriptionInput) (*UpdateSubscriptionOutput, error) {
 	out := &UpdateSubscriptionOutput{}
 	path := "/billing/subscription"
@@ -158,6 +169,17 @@ func (s *BillingServiceService) CancelSubscription(ctx context.Context, in *Canc
 func (s *BillingServiceService) SimulateSubscription(ctx context.Context, in *SimulateSubscriptionInput) (*SimulateSubscriptionOutput, error) {
 	out := &SimulateSubscriptionOutput{}
 	path := "/billing/subscription/simulate"
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *BillingServiceService) CreatePortalLink(ctx context.Context, in *CreatePortalLinkInput) (*CreatePortalLinkOutput, error) {
+	out := &CreatePortalLinkOutput{}
+	path := "/billing/portal-link"
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err

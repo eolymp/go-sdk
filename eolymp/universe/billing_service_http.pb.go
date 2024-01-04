@@ -191,6 +191,9 @@ func RegisterBillingServiceHttpHandlers(router *mux.Router, prefix string, cli B
 	router.Handle(prefix+"/billing/subscription", _BillingService_DescribeSubscription_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.universe.BillingService.DescribeSubscription")
+	router.Handle(prefix+"/billing/subscription", _BillingService_CreateSubscription_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.universe.BillingService.CreateSubscription")
 	router.Handle(prefix+"/billing/subscription", _BillingService_UpdateSubscription_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.universe.BillingService.UpdateSubscription")
@@ -200,6 +203,9 @@ func RegisterBillingServiceHttpHandlers(router *mux.Router, prefix string, cli B
 	router.Handle(prefix+"/billing/subscription/simulate", _BillingService_SimulateSubscription_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.universe.BillingService.SimulateSubscription")
+	router.Handle(prefix+"/billing/portal-link", _BillingService_CreatePortalLink_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.universe.BillingService.CreatePortalLink")
 	router.Handle(prefix+"/billing/upcoming", _BillingService_UpcomingInvoice_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.universe.BillingService.UpcomingInvoice")
@@ -274,6 +280,26 @@ func _BillingService_DescribeSubscription_Rule0(cli BillingServiceClient) http.H
 	})
 }
 
+func _BillingService_CreateSubscription_Rule0(cli BillingServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &CreateSubscriptionInput{}
+
+		if err := _BillingService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_BillingService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := cli.CreateSubscription(r.Context(), in)
+		if err != nil {
+			_BillingService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_BillingService_HTTPWriteResponse(w, out)
+	})
+}
+
 func _BillingService_UpdateSubscription_Rule0(cli BillingServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateSubscriptionInput{}
@@ -325,6 +351,26 @@ func _BillingService_SimulateSubscription_Rule0(cli BillingServiceClient) http.H
 		}
 
 		out, err := cli.SimulateSubscription(r.Context(), in)
+		if err != nil {
+			_BillingService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_BillingService_HTTPWriteResponse(w, out)
+	})
+}
+
+func _BillingService_CreatePortalLink_Rule0(cli BillingServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &CreatePortalLinkInput{}
+
+		if err := _BillingService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_BillingService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := cli.CreatePortalLink(r.Context(), in)
 		if err != nil {
 			_BillingService_HTTPWriteErrorResponse(w, err)
 			return
@@ -528,6 +574,38 @@ func (i *BillingServiceInterceptor) DescribeSubscription(ctx context.Context, in
 	return message, err
 }
 
+func (i *BillingServiceInterceptor) CreateSubscription(ctx context.Context, in *CreateSubscriptionInput, opts ...grpc.CallOption) (*CreateSubscriptionOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*CreateSubscriptionInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *CreateSubscriptionInput, got %T", in))
+		}
+
+		return i.client.CreateSubscription(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.universe.BillingService.CreateSubscription", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*CreateSubscriptionOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *CreateSubscriptionOutput, got %T", out))
+	}
+
+	return message, err
+}
+
 func (i *BillingServiceInterceptor) UpdateSubscription(ctx context.Context, in *UpdateSubscriptionInput, opts ...grpc.CallOption) (*UpdateSubscriptionOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdateSubscriptionInput)
@@ -619,6 +697,38 @@ func (i *BillingServiceInterceptor) SimulateSubscription(ctx context.Context, in
 	message, ok := out.(*SimulateSubscriptionOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *SimulateSubscriptionOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *BillingServiceInterceptor) CreatePortalLink(ctx context.Context, in *CreatePortalLinkInput, opts ...grpc.CallOption) (*CreatePortalLinkOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*CreatePortalLinkInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *CreatePortalLinkInput, got %T", in))
+		}
+
+		return i.client.CreatePortalLink(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.universe.BillingService.CreatePortalLink", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*CreatePortalLinkOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *CreatePortalLinkOutput, got %T", out))
 	}
 
 	return message, err
