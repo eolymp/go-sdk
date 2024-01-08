@@ -219,3 +219,14 @@ func (s *MemberServiceService) UnassignMember(ctx context.Context, in *UnassignM
 
 	return out, nil
 }
+
+func (s *MemberServiceService) DescribeUsage(ctx context.Context, in *DescribeUsageInput) (*DescribeUsageOutput, error) {
+	out := &DescribeUsageOutput{}
+	path := "/usage/members"
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

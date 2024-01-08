@@ -27,6 +27,7 @@ const (
 	MemberService_ListMembers_FullMethodName    = "/eolymp.community.MemberService/ListMembers"
 	MemberService_AssignMember_FullMethodName   = "/eolymp.community.MemberService/AssignMember"
 	MemberService_UnassignMember_FullMethodName = "/eolymp.community.MemberService/UnassignMember"
+	MemberService_DescribeUsage_FullMethodName  = "/eolymp.community.MemberService/DescribeUsage"
 )
 
 // MemberServiceClient is the client API for MemberService service.
@@ -41,6 +42,7 @@ type MemberServiceClient interface {
 	ListMembers(ctx context.Context, in *ListMembersInput, opts ...grpc.CallOption) (*ListMembersOutput, error)
 	AssignMember(ctx context.Context, in *AssignMemberInput, opts ...grpc.CallOption) (*AssignMemberOutput, error)
 	UnassignMember(ctx context.Context, in *UnassignMemberInput, opts ...grpc.CallOption) (*UnassignMemberOutput, error)
+	DescribeUsage(ctx context.Context, in *DescribeUsageInput, opts ...grpc.CallOption) (*DescribeUsageOutput, error)
 }
 
 type memberServiceClient struct {
@@ -123,6 +125,15 @@ func (c *memberServiceClient) UnassignMember(ctx context.Context, in *UnassignMe
 	return out, nil
 }
 
+func (c *memberServiceClient) DescribeUsage(ctx context.Context, in *DescribeUsageInput, opts ...grpc.CallOption) (*DescribeUsageOutput, error) {
+	out := new(DescribeUsageOutput)
+	err := c.cc.Invoke(ctx, MemberService_DescribeUsage_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MemberServiceServer is the server API for MemberService service.
 // All implementations should embed UnimplementedMemberServiceServer
 // for forward compatibility
@@ -135,6 +146,7 @@ type MemberServiceServer interface {
 	ListMembers(context.Context, *ListMembersInput) (*ListMembersOutput, error)
 	AssignMember(context.Context, *AssignMemberInput) (*AssignMemberOutput, error)
 	UnassignMember(context.Context, *UnassignMemberInput) (*UnassignMemberOutput, error)
+	DescribeUsage(context.Context, *DescribeUsageInput) (*DescribeUsageOutput, error)
 }
 
 // UnimplementedMemberServiceServer should be embedded to have forward compatible implementations.
@@ -164,6 +176,9 @@ func (UnimplementedMemberServiceServer) AssignMember(context.Context, *AssignMem
 }
 func (UnimplementedMemberServiceServer) UnassignMember(context.Context, *UnassignMemberInput) (*UnassignMemberOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UnassignMember not implemented")
+}
+func (UnimplementedMemberServiceServer) DescribeUsage(context.Context, *DescribeUsageInput) (*DescribeUsageOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeUsage not implemented")
 }
 
 // UnsafeMemberServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -321,6 +336,24 @@ func _MemberService_UnassignMember_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _MemberService_DescribeUsage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeUsageInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MemberServiceServer).DescribeUsage(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MemberService_DescribeUsage_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MemberServiceServer).DescribeUsage(ctx, req.(*DescribeUsageInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // MemberService_ServiceDesc is the grpc.ServiceDesc for MemberService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -359,6 +392,10 @@ var MemberService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UnassignMember",
 			Handler:    _MemberService_UnassignMember_Handler,
+		},
+		{
+			MethodName: "DescribeUsage",
+			Handler:    _MemberService_DescribeUsage_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

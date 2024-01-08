@@ -206,6 +206,9 @@ func RegisterMemberServiceHttpHandlers(router *mux.Router, prefix string, cli Me
 	router.Handle(prefix+"/members/{team_id}/users/{member_id}", _MemberService_UnassignMember_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.community.MemberService.UnassignMember")
+	router.Handle(prefix+"/usage/members", _MemberService_DescribeUsage_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.community.MemberService.DescribeUsage")
 }
 
 func _MemberService_CreateMember_Rule0(cli MemberServiceClient) http.Handler {
@@ -379,6 +382,26 @@ func _MemberService_UnassignMember_Rule0(cli MemberServiceClient) http.Handler {
 		in.MemberId = vars["member_id"]
 
 		out, err := cli.UnassignMember(r.Context(), in)
+		if err != nil {
+			_MemberService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_MemberService_HTTPWriteResponse(w, out)
+	})
+}
+
+func _MemberService_DescribeUsage_Rule0(cli MemberServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeUsageInput{}
+
+		if err := _MemberService_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_MemberService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := cli.DescribeUsage(r.Context(), in)
 		if err != nil {
 			_MemberService_HTTPWriteErrorResponse(w, err)
 			return
@@ -651,6 +674,38 @@ func (i *MemberServiceInterceptor) UnassignMember(ctx context.Context, in *Unass
 	message, ok := out.(*UnassignMemberOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *UnassignMemberOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *MemberServiceInterceptor) DescribeUsage(ctx context.Context, in *DescribeUsageInput, opts ...grpc.CallOption) (*DescribeUsageOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeUsageInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeUsageInput, got %T", in))
+		}
+
+		return i.client.DescribeUsage(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.community.MemberService.DescribeUsage", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeUsageOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeUsageOutput, got %T", out))
 	}
 
 	return message, err
