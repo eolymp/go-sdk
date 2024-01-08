@@ -220,8 +220,8 @@ func (s *MemberServiceService) UnassignMember(ctx context.Context, in *UnassignM
 	return out, nil
 }
 
-func (s *MemberServiceService) DescribeUsage(ctx context.Context, in *DescribeUsageInput) (*DescribeUsageOutput, error) {
-	out := &DescribeUsageOutput{}
+func (s *MemberServiceService) DescribeMemberUsage(ctx context.Context, in *DescribeMemberUsageInput) (*DescribeMemberUsageOutput, error) {
+	out := &DescribeMemberUsageOutput{}
 	path := "/usage/members"
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
