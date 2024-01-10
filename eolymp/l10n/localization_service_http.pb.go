@@ -242,7 +242,7 @@ func RegisterLocalizationServiceHttpHandlers(router *mux.Router, prefix string, 
 	router.Handle(prefix+"/translations/{locale}", _LocalizationService_ExportTranslations_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.l10n.LocalizationService.ExportTranslations")
-	router.Handle(prefix+"/translations/{locale}", _LocalizationService_ListTranslationPairs_Rule0(cli)).
+	router.Handle(prefix+"/translate/{locale}", _LocalizationService_ListTranslationPairs_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.l10n.LocalizationService.ListTranslationPairs")
 }

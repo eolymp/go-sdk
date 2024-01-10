@@ -407,7 +407,7 @@ func (s *LocalizationServiceService) ExportTranslations(ctx context.Context, in 
 
 func (s *LocalizationServiceService) ListTranslationPairs(ctx context.Context, in *ListTranslationPairsInput) (*ListTranslationPairsOutput, error) {
 	out := &ListTranslationPairsOutput{}
-	path := "/translations/" + url.PathEscape(in.GetLocale())
+	path := "/translate/" + url.PathEscape(in.GetLocale())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
