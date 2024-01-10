@@ -242,6 +242,9 @@ func RegisterLocalizationServiceHttpHandlers(router *mux.Router, prefix string, 
 	router.Handle(prefix+"/translations/{locale}", _LocalizationService_ExportTranslations_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.l10n.LocalizationService.ExportTranslations")
+	router.Handle(prefix+"/translations/{locale}", _LocalizationService_ListTranslationPairs_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.l10n.LocalizationService.ListTranslationPairs")
 }
 
 func _LocalizationService_CreateTerm_Rule0(cli LocalizationServiceClient) http.Handler {
@@ -688,6 +691,29 @@ func _LocalizationService_ExportTranslations_Rule0(cli LocalizationServiceClient
 		in.Locale = vars["locale"]
 
 		out, err := cli.ExportTranslations(r.Context(), in)
+		if err != nil {
+			_LocalizationService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_LocalizationService_HTTPWriteResponse(w, out)
+	})
+}
+
+func _LocalizationService_ListTranslationPairs_Rule0(cli LocalizationServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListTranslationPairsInput{}
+
+		if err := _LocalizationService_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_LocalizationService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.Locale = vars["locale"]
+
+		out, err := cli.ListTranslationPairs(r.Context(), in)
 		if err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
@@ -1344,6 +1370,38 @@ func (i *LocalizationServiceInterceptor) ExportTranslations(ctx context.Context,
 	message, ok := out.(*ExportTranslationsOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *ExportTranslationsOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *LocalizationServiceInterceptor) ListTranslationPairs(ctx context.Context, in *ListTranslationPairsInput, opts ...grpc.CallOption) (*ListTranslationPairsOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListTranslationPairsInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListTranslationPairsInput, got %T", in))
+		}
+
+		return i.client.ListTranslationPairs(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.l10n.LocalizationService.ListTranslationPairs", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListTranslationPairsOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListTranslationPairsOutput, got %T", out))
 	}
 
 	return message, err

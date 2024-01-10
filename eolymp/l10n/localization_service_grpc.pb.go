@@ -19,26 +19,27 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	LocalizationService_CreateTerm_FullMethodName         = "/eolymp.l10n.LocalizationService/CreateTerm"
-	LocalizationService_ListTerms_FullMethodName          = "/eolymp.l10n.LocalizationService/ListTerms"
-	LocalizationService_UpdateTerm_FullMethodName         = "/eolymp.l10n.LocalizationService/UpdateTerm"
-	LocalizationService_RestoreTerm_FullMethodName        = "/eolymp.l10n.LocalizationService/RestoreTerm"
-	LocalizationService_DeprecateTerm_FullMethodName      = "/eolymp.l10n.LocalizationService/DeprecateTerm"
-	LocalizationService_DeleteTerm_FullMethodName         = "/eolymp.l10n.LocalizationService/DeleteTerm"
-	LocalizationService_DescribeTerm_FullMethodName       = "/eolymp.l10n.LocalizationService/DescribeTerm"
-	LocalizationService_ImportTerms_FullMethodName        = "/eolymp.l10n.LocalizationService/ImportTerms"
-	LocalizationService_AddLocale_FullMethodName          = "/eolymp.l10n.LocalizationService/AddLocale"
-	LocalizationService_RemoveLocale_FullMethodName       = "/eolymp.l10n.LocalizationService/RemoveLocale"
-	LocalizationService_ListLocales_FullMethodName        = "/eolymp.l10n.LocalizationService/ListLocales"
-	LocalizationService_TranslateTerm_FullMethodName      = "/eolymp.l10n.LocalizationService/TranslateTerm"
-	LocalizationService_ListTranslations_FullMethodName   = "/eolymp.l10n.LocalizationService/ListTranslations"
-	LocalizationService_DeleteTranslation_FullMethodName  = "/eolymp.l10n.LocalizationService/DeleteTranslation"
-	LocalizationService_SuggestTranslation_FullMethodName = "/eolymp.l10n.LocalizationService/SuggestTranslation"
-	LocalizationService_UpdateTranslation_FullMethodName  = "/eolymp.l10n.LocalizationService/UpdateTranslation"
-	LocalizationService_ApproveTranslation_FullMethodName = "/eolymp.l10n.LocalizationService/ApproveTranslation"
-	LocalizationService_RejectTranslation_FullMethodName  = "/eolymp.l10n.LocalizationService/RejectTranslation"
-	LocalizationService_ImportTranslations_FullMethodName = "/eolymp.l10n.LocalizationService/ImportTranslations"
-	LocalizationService_ExportTranslations_FullMethodName = "/eolymp.l10n.LocalizationService/ExportTranslations"
+	LocalizationService_CreateTerm_FullMethodName           = "/eolymp.l10n.LocalizationService/CreateTerm"
+	LocalizationService_ListTerms_FullMethodName            = "/eolymp.l10n.LocalizationService/ListTerms"
+	LocalizationService_UpdateTerm_FullMethodName           = "/eolymp.l10n.LocalizationService/UpdateTerm"
+	LocalizationService_RestoreTerm_FullMethodName          = "/eolymp.l10n.LocalizationService/RestoreTerm"
+	LocalizationService_DeprecateTerm_FullMethodName        = "/eolymp.l10n.LocalizationService/DeprecateTerm"
+	LocalizationService_DeleteTerm_FullMethodName           = "/eolymp.l10n.LocalizationService/DeleteTerm"
+	LocalizationService_DescribeTerm_FullMethodName         = "/eolymp.l10n.LocalizationService/DescribeTerm"
+	LocalizationService_ImportTerms_FullMethodName          = "/eolymp.l10n.LocalizationService/ImportTerms"
+	LocalizationService_AddLocale_FullMethodName            = "/eolymp.l10n.LocalizationService/AddLocale"
+	LocalizationService_RemoveLocale_FullMethodName         = "/eolymp.l10n.LocalizationService/RemoveLocale"
+	LocalizationService_ListLocales_FullMethodName          = "/eolymp.l10n.LocalizationService/ListLocales"
+	LocalizationService_TranslateTerm_FullMethodName        = "/eolymp.l10n.LocalizationService/TranslateTerm"
+	LocalizationService_ListTranslations_FullMethodName     = "/eolymp.l10n.LocalizationService/ListTranslations"
+	LocalizationService_DeleteTranslation_FullMethodName    = "/eolymp.l10n.LocalizationService/DeleteTranslation"
+	LocalizationService_SuggestTranslation_FullMethodName   = "/eolymp.l10n.LocalizationService/SuggestTranslation"
+	LocalizationService_UpdateTranslation_FullMethodName    = "/eolymp.l10n.LocalizationService/UpdateTranslation"
+	LocalizationService_ApproveTranslation_FullMethodName   = "/eolymp.l10n.LocalizationService/ApproveTranslation"
+	LocalizationService_RejectTranslation_FullMethodName    = "/eolymp.l10n.LocalizationService/RejectTranslation"
+	LocalizationService_ImportTranslations_FullMethodName   = "/eolymp.l10n.LocalizationService/ImportTranslations"
+	LocalizationService_ExportTranslations_FullMethodName   = "/eolymp.l10n.LocalizationService/ExportTranslations"
+	LocalizationService_ListTranslationPairs_FullMethodName = "/eolymp.l10n.LocalizationService/ListTranslationPairs"
 )
 
 // LocalizationServiceClient is the client API for LocalizationService service.
@@ -65,6 +66,7 @@ type LocalizationServiceClient interface {
 	RejectTranslation(ctx context.Context, in *RejectTranslationInput, opts ...grpc.CallOption) (*RejectTranslationOutput, error)
 	ImportTranslations(ctx context.Context, in *ImportTranslationsInput, opts ...grpc.CallOption) (*ImportTranslationsOutput, error)
 	ExportTranslations(ctx context.Context, in *ExportTranslationsInput, opts ...grpc.CallOption) (*ExportTranslationsOutput, error)
+	ListTranslationPairs(ctx context.Context, in *ListTranslationPairsInput, opts ...grpc.CallOption) (*ListTranslationPairsOutput, error)
 }
 
 type localizationServiceClient struct {
@@ -255,6 +257,15 @@ func (c *localizationServiceClient) ExportTranslations(ctx context.Context, in *
 	return out, nil
 }
 
+func (c *localizationServiceClient) ListTranslationPairs(ctx context.Context, in *ListTranslationPairsInput, opts ...grpc.CallOption) (*ListTranslationPairsOutput, error) {
+	out := new(ListTranslationPairsOutput)
+	err := c.cc.Invoke(ctx, LocalizationService_ListTranslationPairs_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // LocalizationServiceServer is the server API for LocalizationService service.
 // All implementations should embed UnimplementedLocalizationServiceServer
 // for forward compatibility
@@ -279,6 +290,7 @@ type LocalizationServiceServer interface {
 	RejectTranslation(context.Context, *RejectTranslationInput) (*RejectTranslationOutput, error)
 	ImportTranslations(context.Context, *ImportTranslationsInput) (*ImportTranslationsOutput, error)
 	ExportTranslations(context.Context, *ExportTranslationsInput) (*ExportTranslationsOutput, error)
+	ListTranslationPairs(context.Context, *ListTranslationPairsInput) (*ListTranslationPairsOutput, error)
 }
 
 // UnimplementedLocalizationServiceServer should be embedded to have forward compatible implementations.
@@ -344,6 +356,9 @@ func (UnimplementedLocalizationServiceServer) ImportTranslations(context.Context
 }
 func (UnimplementedLocalizationServiceServer) ExportTranslations(context.Context, *ExportTranslationsInput) (*ExportTranslationsOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ExportTranslations not implemented")
+}
+func (UnimplementedLocalizationServiceServer) ListTranslationPairs(context.Context, *ListTranslationPairsInput) (*ListTranslationPairsOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListTranslationPairs not implemented")
 }
 
 // UnsafeLocalizationServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -717,6 +732,24 @@ func _LocalizationService_ExportTranslations_Handler(srv interface{}, ctx contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _LocalizationService_ListTranslationPairs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListTranslationPairsInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LocalizationServiceServer).ListTranslationPairs(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: LocalizationService_ListTranslationPairs_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LocalizationServiceServer).ListTranslationPairs(ctx, req.(*ListTranslationPairsInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // LocalizationService_ServiceDesc is the grpc.ServiceDesc for LocalizationService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -803,6 +836,10 @@ var LocalizationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ExportTranslations",
 			Handler:    _LocalizationService_ExportTranslations_Handler,
+		},
+		{
+			MethodName: "ListTranslationPairs",
+			Handler:    _LocalizationService_ListTranslationPairs_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
