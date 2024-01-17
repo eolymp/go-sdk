@@ -91,6 +91,7 @@ const (
 	Judge_ListResult_FullMethodName                 = "/eolymp.judge.Judge/ListResult"
 	Judge_RebuildScore_FullMethodName               = "/eolymp.judge.Judge/RebuildScore"
 	Judge_ListActivities_FullMethodName             = "/eolymp.judge.Judge/ListActivities"
+	Judge_DescribeContestUsage_FullMethodName       = "/eolymp.judge.Judge/DescribeContestUsage"
 )
 
 // JudgeClient is the client API for Judge service.
@@ -218,6 +219,7 @@ type JudgeClient interface {
 	// Rebuild scoreboard
 	RebuildScore(ctx context.Context, in *RebuildScoreInput, opts ...grpc.CallOption) (*RebuildScoreOutput, error)
 	ListActivities(ctx context.Context, in *ListActivitiesInput, opts ...grpc.CallOption) (*ListActivitiesOutput, error)
+	DescribeContestUsage(ctx context.Context, in *DescribeContestUsageInput, opts ...grpc.CallOption) (*DescribeContestUsageOutput, error)
 }
 
 type judgeClient struct {
@@ -945,6 +947,15 @@ func (c *judgeClient) ListActivities(ctx context.Context, in *ListActivitiesInpu
 	return out, nil
 }
 
+func (c *judgeClient) DescribeContestUsage(ctx context.Context, in *DescribeContestUsageInput, opts ...grpc.CallOption) (*DescribeContestUsageOutput, error) {
+	out := new(DescribeContestUsageOutput)
+	err := c.cc.Invoke(ctx, Judge_DescribeContestUsage_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // JudgeServer is the server API for Judge service.
 // All implementations should embed UnimplementedJudgeServer
 // for forward compatibility
@@ -1070,6 +1081,7 @@ type JudgeServer interface {
 	// Rebuild scoreboard
 	RebuildScore(context.Context, *RebuildScoreInput) (*RebuildScoreOutput, error)
 	ListActivities(context.Context, *ListActivitiesInput) (*ListActivitiesOutput, error)
+	DescribeContestUsage(context.Context, *DescribeContestUsageInput) (*DescribeContestUsageOutput, error)
 }
 
 // UnimplementedJudgeServer should be embedded to have forward compatible implementations.
@@ -1291,6 +1303,9 @@ func (UnimplementedJudgeServer) RebuildScore(context.Context, *RebuildScoreInput
 }
 func (UnimplementedJudgeServer) ListActivities(context.Context, *ListActivitiesInput) (*ListActivitiesOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListActivities not implemented")
+}
+func (UnimplementedJudgeServer) DescribeContestUsage(context.Context, *DescribeContestUsageInput) (*DescribeContestUsageOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeContestUsage not implemented")
 }
 
 // UnsafeJudgeServer may be embedded to opt out of forward compatibility for this service.
@@ -2609,6 +2624,24 @@ func _Judge_ListActivities_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Judge_DescribeContestUsage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeContestUsageInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(JudgeServer).DescribeContestUsage(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Judge_DescribeContestUsage_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(JudgeServer).DescribeContestUsage(ctx, req.(*DescribeContestUsageInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Judge_ServiceDesc is the grpc.ServiceDesc for Judge service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -2891,6 +2924,10 @@ var Judge_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListActivities",
 			Handler:    _Judge_ListActivities_Handler,
+		},
+		{
+			MethodName: "DescribeContestUsage",
+			Handler:    _Judge_DescribeContestUsage_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

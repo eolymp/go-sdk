@@ -1217,3 +1217,14 @@ func (s *JudgeService) ListActivities(ctx context.Context, in *ListActivitiesInp
 
 	return out, nil
 }
+
+func (s *JudgeService) DescribeContestUsage(ctx context.Context, in *DescribeContestUsageInput) (*DescribeContestUsageOutput, error) {
+	out := &DescribeContestUsageOutput{}
+	path := "/usage/contests"
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

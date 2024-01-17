@@ -486,6 +486,9 @@ func RegisterJudgeHttpHandlers(router *mux.Router, prefix string, cli JudgeClien
 	router.Handle(prefix+"/contests/{contest_id}/activities", _Judge_ListActivities_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.Judge.ListActivities")
+	router.Handle(prefix+"/usage/contests", _Judge_DescribeContestUsage_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.judge.Judge.DescribeContestUsage")
 }
 
 func _Judge_LookupContest_Rule0(cli JudgeClient) http.Handler {
@@ -2088,6 +2091,26 @@ func _Judge_ListActivities_Rule0(cli JudgeClient) http.Handler {
 		in.ContestId = vars["contest_id"]
 
 		out, err := cli.ListActivities(r.Context(), in)
+		if err != nil {
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Judge_HTTPWriteResponse(w, out)
+	})
+}
+
+func _Judge_DescribeContestUsage_Rule0(cli JudgeClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeContestUsageInput{}
+
+		if err := _Judge_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_Judge_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		out, err := cli.DescribeContestUsage(r.Context(), in)
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -4324,6 +4347,38 @@ func (i *JudgeInterceptor) ListActivities(ctx context.Context, in *ListActivitie
 	message, ok := out.(*ListActivitiesOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *ListActivitiesOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *JudgeInterceptor) DescribeContestUsage(ctx context.Context, in *DescribeContestUsageInput, opts ...grpc.CallOption) (*DescribeContestUsageOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeContestUsageInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeContestUsageInput, got %T", in))
+		}
+
+		return i.client.DescribeContestUsage(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.Judge.DescribeContestUsage", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeContestUsageOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeContestUsageOutput, got %T", out))
 	}
 
 	return message, err
