@@ -16,17 +16,17 @@ import (
 	os "os"
 )
 
-type _UniverseHttpClient interface {
+type _SpaceServiceHttpClient interface {
 	Do(*http.Request) (*http.Response, error)
 }
 
-type UniverseService struct {
+type SpaceServiceService struct {
 	base string
-	cli  _UniverseHttpClient
+	cli  _SpaceServiceHttpClient
 }
 
-// NewUniverseHttpClient constructs client for Universe
-func NewUniverseHttpClient(url string, cli _UniverseHttpClient) *UniverseService {
+// NewSpaceServiceHttpClient constructs client for SpaceService
+func NewSpaceServiceHttpClient(url string, cli _SpaceServiceHttpClient) *SpaceServiceService {
 	if url == "" {
 		url = os.Getenv("EOLYMP_API_URL")
 		if url == "" {
@@ -34,10 +34,10 @@ func NewUniverseHttpClient(url string, cli _UniverseHttpClient) *UniverseService
 		}
 	}
 
-	return &UniverseService{base: url, cli: cli}
+	return &SpaceServiceService{base: url, cli: cli}
 }
 
-func (s *UniverseService) do(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
+func (s *SpaceServiceService) do(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
 	var body io.Reader
 
 	if in != nil {
@@ -100,7 +100,7 @@ func (s *UniverseService) do(ctx context.Context, verb, path string, in, out pro
 	return nil
 }
 
-func (s *UniverseService) LookupSpace(ctx context.Context, in *LookupSpaceInput) (*LookupSpaceOutput, error) {
+func (s *SpaceServiceService) LookupSpace(ctx context.Context, in *LookupSpaceInput) (*LookupSpaceOutput, error) {
 	out := &LookupSpaceOutput{}
 	path := "/spaces/__lookup/" + url.PathEscape(in.GetKey())
 
@@ -116,7 +116,7 @@ func (s *UniverseService) LookupSpace(ctx context.Context, in *LookupSpaceInput)
 	return out, nil
 }
 
-func (s *UniverseService) CreateSpace(ctx context.Context, in *CreateSpaceInput) (*CreateSpaceOutput, error) {
+func (s *SpaceServiceService) CreateSpace(ctx context.Context, in *CreateSpaceInput) (*CreateSpaceOutput, error) {
 	out := &CreateSpaceOutput{}
 	path := "/spaces"
 
@@ -127,7 +127,7 @@ func (s *UniverseService) CreateSpace(ctx context.Context, in *CreateSpaceInput)
 	return out, nil
 }
 
-func (s *UniverseService) UpdateSpace(ctx context.Context, in *UpdateSpaceInput) (*UpdateSpaceOutput, error) {
+func (s *SpaceServiceService) UpdateSpace(ctx context.Context, in *UpdateSpaceInput) (*UpdateSpaceOutput, error) {
 	out := &UpdateSpaceOutput{}
 	path := "/spaces/" + url.PathEscape(in.GetSpaceId())
 
@@ -143,7 +143,7 @@ func (s *UniverseService) UpdateSpace(ctx context.Context, in *UpdateSpaceInput)
 	return out, nil
 }
 
-func (s *UniverseService) DeleteSpace(ctx context.Context, in *DeleteSpaceInput) (*DeleteSpaceOutput, error) {
+func (s *SpaceServiceService) DeleteSpace(ctx context.Context, in *DeleteSpaceInput) (*DeleteSpaceOutput, error) {
 	out := &DeleteSpaceOutput{}
 	path := "/spaces/" + url.PathEscape(in.GetSpaceId())
 
@@ -159,7 +159,7 @@ func (s *UniverseService) DeleteSpace(ctx context.Context, in *DeleteSpaceInput)
 	return out, nil
 }
 
-func (s *UniverseService) DescribeSpace(ctx context.Context, in *DescribeSpaceInput) (*DescribeSpaceOutput, error) {
+func (s *SpaceServiceService) DescribeSpace(ctx context.Context, in *DescribeSpaceInput) (*DescribeSpaceOutput, error) {
 	out := &DescribeSpaceOutput{}
 	path := "/spaces/" + url.PathEscape(in.GetSpaceId())
 
@@ -175,39 +175,7 @@ func (s *UniverseService) DescribeSpace(ctx context.Context, in *DescribeSpaceIn
 	return out, nil
 }
 
-func (s *UniverseService) DescribeQuota(ctx context.Context, in *DescribeQuotaInput) (*DescribeQuotaOutput, error) {
-	out := &DescribeQuotaOutput{}
-	path := "/spaces/" + url.PathEscape(in.GetSpaceId()) + "/quota"
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.SpaceId = ""
-	}
-
-	if err := s.do(ctx, "GET", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *UniverseService) UpdateQuota(ctx context.Context, in *UpdateQuotaInput) (*UpdateQuotaOutput, error) {
-	out := &UpdateQuotaOutput{}
-	path := "/spaces/" + url.PathEscape(in.GetSpaceId()) + "/quota"
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.SpaceId = ""
-	}
-
-	if err := s.do(ctx, "PUT", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *UniverseService) ListSpaces(ctx context.Context, in *ListSpacesInput) (*ListSpacesOutput, error) {
+func (s *SpaceServiceService) ListSpaces(ctx context.Context, in *ListSpacesInput) (*ListSpacesOutput, error) {
 	out := &ListSpacesOutput{}
 	path := "/spaces"
 

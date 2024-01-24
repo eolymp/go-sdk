@@ -17,8 +17,8 @@ import (
 	http "net/http"
 )
 
-// _Universe_HTTPReadQueryString parses body into proto.Message
-func _Universe_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+// _SpaceService_HTTPReadQueryString parses body into proto.Message
+func _SpaceService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
 	query := r.URL.Query().Get("q")
 	if query == "" {
 		return nil
@@ -31,8 +31,8 @@ func _Universe_HTTPReadQueryString(r *http.Request, v proto.Message) error {
 	return nil
 }
 
-// _Universe_HTTPReadRequestBody parses body into proto.Message
-func _Universe_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
+// _SpaceService_HTTPReadRequestBody parses body into proto.Message
+func _SpaceService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
 	data, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		return err
@@ -45,11 +45,11 @@ func _Universe_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
 	return nil
 }
 
-// _Universe_HTTPWriteResponse writes proto.Message to HTTP response
-func _Universe_HTTPWriteResponse(w http.ResponseWriter, v proto.Message) {
+// _SpaceService_HTTPWriteResponse writes proto.Message to HTTP response
+func _SpaceService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message) {
 	data, err := protojson.Marshal(v)
 	if err != nil {
-		_Universe_HTTPWriteErrorResponse(w, err)
+		_SpaceService_HTTPWriteErrorResponse(w, err)
 		return
 	}
 
@@ -59,8 +59,8 @@ func _Universe_HTTPWriteResponse(w http.ResponseWriter, v proto.Message) {
 	_, _ = w.Write(data)
 }
 
-// _Universe_HTTPWriteErrorResponse writes error to HTTP response with error status code
-func _Universe_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
+// _SpaceService_HTTPWriteErrorResponse writes error to HTTP response with error status code
+func _SpaceService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
 
 	w.Header().Set("Content-Type", "application/json")
@@ -112,8 +112,8 @@ func _Universe_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	_, _ = w.Write(data)
 }
 
-// _Universe_WebsocketErrorResponse writes error to websocket connection
-func _Universe_WebsocketErrorResponse(conn *websocket.Conn, e error) {
+// _SpaceService_WebsocketErrorResponse writes error to websocket connection
+func _SpaceService_WebsocketErrorResponse(conn *websocket.Conn, e error) {
 	switch status.Convert(e).Code() {
 	case codes.OK:
 		conn.WriteClose(1000)
@@ -154,8 +154,8 @@ func _Universe_WebsocketErrorResponse(conn *websocket.Conn, e error) {
 	}
 }
 
-// _Universe_WebsocketCodec implements protobuf codec for websockets package
-var _Universe_WebsocketCodec = websocket.Codec{
+// _SpaceService_WebsocketCodec implements protobuf codec for websockets package
+var _SpaceService_WebsocketCodec = websocket.Codec{
 	Marshal: func(v interface{}) ([]byte, byte, error) {
 		m, ok := v.(proto.Message)
 		if !ok {
@@ -179,42 +179,36 @@ var _Universe_WebsocketCodec = websocket.Codec{
 	},
 }
 
-// RegisterUniverseHttpHandlers adds handlers for for UniverseClient
+// RegisterSpaceServiceHttpHandlers adds handlers for for SpaceServiceClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterUniverseHttpHandlers(router *mux.Router, prefix string, cli UniverseClient) {
-	router.Handle(prefix+"/spaces/__lookup/{key}", _Universe_LookupSpace_Rule0(cli)).
+func RegisterSpaceServiceHttpHandlers(router *mux.Router, prefix string, cli SpaceServiceClient) {
+	router.Handle(prefix+"/spaces/__lookup/{key}", _SpaceService_LookupSpace_Rule0(cli)).
 		Methods("GET").
-		Name("eolymp.universe.Universe.LookupSpace")
-	router.Handle(prefix+"/spaces", _Universe_CreateSpace_Rule0(cli)).
+		Name("eolymp.universe.SpaceService.LookupSpace")
+	router.Handle(prefix+"/spaces", _SpaceService_CreateSpace_Rule0(cli)).
 		Methods("POST").
-		Name("eolymp.universe.Universe.CreateSpace")
-	router.Handle(prefix+"/spaces/{space_id}", _Universe_UpdateSpace_Rule0(cli)).
+		Name("eolymp.universe.SpaceService.CreateSpace")
+	router.Handle(prefix+"/spaces/{space_id}", _SpaceService_UpdateSpace_Rule0(cli)).
 		Methods("PUT").
-		Name("eolymp.universe.Universe.UpdateSpace")
-	router.Handle(prefix+"/spaces/{space_id}", _Universe_DeleteSpace_Rule0(cli)).
+		Name("eolymp.universe.SpaceService.UpdateSpace")
+	router.Handle(prefix+"/spaces/{space_id}", _SpaceService_DeleteSpace_Rule0(cli)).
 		Methods("DELETE").
-		Name("eolymp.universe.Universe.DeleteSpace")
-	router.Handle(prefix+"/spaces/{space_id}", _Universe_DescribeSpace_Rule0(cli)).
+		Name("eolymp.universe.SpaceService.DeleteSpace")
+	router.Handle(prefix+"/spaces/{space_id}", _SpaceService_DescribeSpace_Rule0(cli)).
 		Methods("GET").
-		Name("eolymp.universe.Universe.DescribeSpace")
-	router.Handle(prefix+"/spaces/{space_id}/quota", _Universe_DescribeQuota_Rule0(cli)).
+		Name("eolymp.universe.SpaceService.DescribeSpace")
+	router.Handle(prefix+"/spaces", _SpaceService_ListSpaces_Rule0(cli)).
 		Methods("GET").
-		Name("eolymp.universe.Universe.DescribeQuota")
-	router.Handle(prefix+"/spaces/{space_id}/quota", _Universe_UpdateQuota_Rule0(cli)).
-		Methods("PUT").
-		Name("eolymp.universe.Universe.UpdateQuota")
-	router.Handle(prefix+"/spaces", _Universe_ListSpaces_Rule0(cli)).
-		Methods("GET").
-		Name("eolymp.universe.Universe.ListSpaces")
+		Name("eolymp.universe.SpaceService.ListSpaces")
 }
 
-func _Universe_LookupSpace_Rule0(cli UniverseClient) http.Handler {
+func _SpaceService_LookupSpace_Rule0(cli SpaceServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &LookupSpaceInput{}
 
-		if err := _Universe_HTTPReadQueryString(r, in); err != nil {
+		if err := _SpaceService_HTTPReadQueryString(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
-			_Universe_HTTPWriteErrorResponse(w, err)
+			_SpaceService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
@@ -223,41 +217,41 @@ func _Universe_LookupSpace_Rule0(cli UniverseClient) http.Handler {
 
 		out, err := cli.LookupSpace(r.Context(), in)
 		if err != nil {
-			_Universe_HTTPWriteErrorResponse(w, err)
+			_SpaceService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Universe_HTTPWriteResponse(w, out)
+		_SpaceService_HTTPWriteResponse(w, out)
 	})
 }
 
-func _Universe_CreateSpace_Rule0(cli UniverseClient) http.Handler {
+func _SpaceService_CreateSpace_Rule0(cli SpaceServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateSpaceInput{}
 
-		if err := _Universe_HTTPReadRequestBody(r, in); err != nil {
+		if err := _SpaceService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
-			_Universe_HTTPWriteErrorResponse(w, err)
+			_SpaceService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
 		out, err := cli.CreateSpace(r.Context(), in)
 		if err != nil {
-			_Universe_HTTPWriteErrorResponse(w, err)
+			_SpaceService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Universe_HTTPWriteResponse(w, out)
+		_SpaceService_HTTPWriteResponse(w, out)
 	})
 }
 
-func _Universe_UpdateSpace_Rule0(cli UniverseClient) http.Handler {
+func _SpaceService_UpdateSpace_Rule0(cli SpaceServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateSpaceInput{}
 
-		if err := _Universe_HTTPReadRequestBody(r, in); err != nil {
+		if err := _SpaceService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
-			_Universe_HTTPWriteErrorResponse(w, err)
+			_SpaceService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
@@ -266,21 +260,21 @@ func _Universe_UpdateSpace_Rule0(cli UniverseClient) http.Handler {
 
 		out, err := cli.UpdateSpace(r.Context(), in)
 		if err != nil {
-			_Universe_HTTPWriteErrorResponse(w, err)
+			_SpaceService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Universe_HTTPWriteResponse(w, out)
+		_SpaceService_HTTPWriteResponse(w, out)
 	})
 }
 
-func _Universe_DeleteSpace_Rule0(cli UniverseClient) http.Handler {
+func _SpaceService_DeleteSpace_Rule0(cli SpaceServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteSpaceInput{}
 
-		if err := _Universe_HTTPReadRequestBody(r, in); err != nil {
+		if err := _SpaceService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
-			_Universe_HTTPWriteErrorResponse(w, err)
+			_SpaceService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
@@ -289,21 +283,21 @@ func _Universe_DeleteSpace_Rule0(cli UniverseClient) http.Handler {
 
 		out, err := cli.DeleteSpace(r.Context(), in)
 		if err != nil {
-			_Universe_HTTPWriteErrorResponse(w, err)
+			_SpaceService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Universe_HTTPWriteResponse(w, out)
+		_SpaceService_HTTPWriteResponse(w, out)
 	})
 }
 
-func _Universe_DescribeSpace_Rule0(cli UniverseClient) http.Handler {
+func _SpaceService_DescribeSpace_Rule0(cli SpaceServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeSpaceInput{}
 
-		if err := _Universe_HTTPReadQueryString(r, in); err != nil {
+		if err := _SpaceService_HTTPReadQueryString(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
-			_Universe_HTTPWriteErrorResponse(w, err)
+			_SpaceService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
@@ -312,93 +306,47 @@ func _Universe_DescribeSpace_Rule0(cli UniverseClient) http.Handler {
 
 		out, err := cli.DescribeSpace(r.Context(), in)
 		if err != nil {
-			_Universe_HTTPWriteErrorResponse(w, err)
+			_SpaceService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Universe_HTTPWriteResponse(w, out)
+		_SpaceService_HTTPWriteResponse(w, out)
 	})
 }
 
-func _Universe_DescribeQuota_Rule0(cli UniverseClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DescribeQuotaInput{}
-
-		if err := _Universe_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_Universe_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.SpaceId = vars["space_id"]
-
-		out, err := cli.DescribeQuota(r.Context(), in)
-		if err != nil {
-			_Universe_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Universe_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Universe_UpdateQuota_Rule0(cli UniverseClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &UpdateQuotaInput{}
-
-		if err := _Universe_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_Universe_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.SpaceId = vars["space_id"]
-
-		out, err := cli.UpdateQuota(r.Context(), in)
-		if err != nil {
-			_Universe_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Universe_HTTPWriteResponse(w, out)
-	})
-}
-
-func _Universe_ListSpaces_Rule0(cli UniverseClient) http.Handler {
+func _SpaceService_ListSpaces_Rule0(cli SpaceServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListSpacesInput{}
 
-		if err := _Universe_HTTPReadQueryString(r, in); err != nil {
+		if err := _SpaceService_HTTPReadQueryString(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
-			_Universe_HTTPWriteErrorResponse(w, err)
+			_SpaceService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
 		out, err := cli.ListSpaces(r.Context(), in)
 		if err != nil {
-			_Universe_HTTPWriteErrorResponse(w, err)
+			_SpaceService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Universe_HTTPWriteResponse(w, out)
+		_SpaceService_HTTPWriteResponse(w, out)
 	})
 }
 
-type _UniverseHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
-type _UniverseMiddleware = func(ctx context.Context, method string, in proto.Message, handler _UniverseHandler) (out proto.Message, err error)
-type UniverseInterceptor struct {
-	middleware []_UniverseMiddleware
-	client     UniverseClient
+type _SpaceServiceHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
+type _SpaceServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _SpaceServiceHandler) (out proto.Message, err error)
+type SpaceServiceInterceptor struct {
+	middleware []_SpaceServiceMiddleware
+	client     SpaceServiceClient
 }
 
-// NewUniverseInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewUniverseInterceptor(cli UniverseClient, middleware ..._UniverseMiddleware) *UniverseInterceptor {
-	return &UniverseInterceptor{client: cli, middleware: middleware}
+// NewSpaceServiceInterceptor constructs additional middleware for a server based on annotations in proto files
+func NewSpaceServiceInterceptor(cli SpaceServiceClient, middleware ..._SpaceServiceMiddleware) *SpaceServiceInterceptor {
+	return &SpaceServiceInterceptor{client: cli, middleware: middleware}
 }
 
-func (i *UniverseInterceptor) LookupSpace(ctx context.Context, in *LookupSpaceInput, opts ...grpc.CallOption) (*LookupSpaceOutput, error) {
+func (i *SpaceServiceInterceptor) LookupSpace(ctx context.Context, in *LookupSpaceInput, opts ...grpc.CallOption) (*LookupSpaceOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*LookupSpaceInput)
 		if !ok && in != nil {
@@ -413,7 +361,7 @@ func (i *UniverseInterceptor) LookupSpace(ctx context.Context, in *LookupSpaceIn
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.universe.Universe.LookupSpace", in, next)
+			return mw(ctx, "eolymp.universe.SpaceService.LookupSpace", in, next)
 		}
 	}
 
@@ -430,7 +378,7 @@ func (i *UniverseInterceptor) LookupSpace(ctx context.Context, in *LookupSpaceIn
 	return message, err
 }
 
-func (i *UniverseInterceptor) CreateSpace(ctx context.Context, in *CreateSpaceInput, opts ...grpc.CallOption) (*CreateSpaceOutput, error) {
+func (i *SpaceServiceInterceptor) CreateSpace(ctx context.Context, in *CreateSpaceInput, opts ...grpc.CallOption) (*CreateSpaceOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CreateSpaceInput)
 		if !ok && in != nil {
@@ -445,7 +393,7 @@ func (i *UniverseInterceptor) CreateSpace(ctx context.Context, in *CreateSpaceIn
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.universe.Universe.CreateSpace", in, next)
+			return mw(ctx, "eolymp.universe.SpaceService.CreateSpace", in, next)
 		}
 	}
 
@@ -462,7 +410,7 @@ func (i *UniverseInterceptor) CreateSpace(ctx context.Context, in *CreateSpaceIn
 	return message, err
 }
 
-func (i *UniverseInterceptor) UpdateSpace(ctx context.Context, in *UpdateSpaceInput, opts ...grpc.CallOption) (*UpdateSpaceOutput, error) {
+func (i *SpaceServiceInterceptor) UpdateSpace(ctx context.Context, in *UpdateSpaceInput, opts ...grpc.CallOption) (*UpdateSpaceOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdateSpaceInput)
 		if !ok && in != nil {
@@ -477,7 +425,7 @@ func (i *UniverseInterceptor) UpdateSpace(ctx context.Context, in *UpdateSpaceIn
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.universe.Universe.UpdateSpace", in, next)
+			return mw(ctx, "eolymp.universe.SpaceService.UpdateSpace", in, next)
 		}
 	}
 
@@ -494,7 +442,7 @@ func (i *UniverseInterceptor) UpdateSpace(ctx context.Context, in *UpdateSpaceIn
 	return message, err
 }
 
-func (i *UniverseInterceptor) DeleteSpace(ctx context.Context, in *DeleteSpaceInput, opts ...grpc.CallOption) (*DeleteSpaceOutput, error) {
+func (i *SpaceServiceInterceptor) DeleteSpace(ctx context.Context, in *DeleteSpaceInput, opts ...grpc.CallOption) (*DeleteSpaceOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DeleteSpaceInput)
 		if !ok && in != nil {
@@ -509,7 +457,7 @@ func (i *UniverseInterceptor) DeleteSpace(ctx context.Context, in *DeleteSpaceIn
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.universe.Universe.DeleteSpace", in, next)
+			return mw(ctx, "eolymp.universe.SpaceService.DeleteSpace", in, next)
 		}
 	}
 
@@ -526,7 +474,7 @@ func (i *UniverseInterceptor) DeleteSpace(ctx context.Context, in *DeleteSpaceIn
 	return message, err
 }
 
-func (i *UniverseInterceptor) DescribeSpace(ctx context.Context, in *DescribeSpaceInput, opts ...grpc.CallOption) (*DescribeSpaceOutput, error) {
+func (i *SpaceServiceInterceptor) DescribeSpace(ctx context.Context, in *DescribeSpaceInput, opts ...grpc.CallOption) (*DescribeSpaceOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeSpaceInput)
 		if !ok && in != nil {
@@ -541,7 +489,7 @@ func (i *UniverseInterceptor) DescribeSpace(ctx context.Context, in *DescribeSpa
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.universe.Universe.DescribeSpace", in, next)
+			return mw(ctx, "eolymp.universe.SpaceService.DescribeSpace", in, next)
 		}
 	}
 
@@ -558,71 +506,7 @@ func (i *UniverseInterceptor) DescribeSpace(ctx context.Context, in *DescribeSpa
 	return message, err
 }
 
-func (i *UniverseInterceptor) DescribeQuota(ctx context.Context, in *DescribeQuotaInput, opts ...grpc.CallOption) (*DescribeQuotaOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*DescribeQuotaInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *DescribeQuotaInput, got %T", in))
-		}
-
-		return i.client.DescribeQuota(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.universe.Universe.DescribeQuota", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*DescribeQuotaOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *DescribeQuotaOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *UniverseInterceptor) UpdateQuota(ctx context.Context, in *UpdateQuotaInput, opts ...grpc.CallOption) (*UpdateQuotaOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*UpdateQuotaInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *UpdateQuotaInput, got %T", in))
-		}
-
-		return i.client.UpdateQuota(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.universe.Universe.UpdateQuota", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*UpdateQuotaOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *UpdateQuotaOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *UniverseInterceptor) ListSpaces(ctx context.Context, in *ListSpacesInput, opts ...grpc.CallOption) (*ListSpacesOutput, error) {
+func (i *SpaceServiceInterceptor) ListSpaces(ctx context.Context, in *ListSpacesInput, opts ...grpc.CallOption) (*ListSpacesOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListSpacesInput)
 		if !ok && in != nil {
@@ -637,7 +521,7 @@ func (i *UniverseInterceptor) ListSpaces(ctx context.Context, in *ListSpacesInpu
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.universe.Universe.ListSpaces", in, next)
+			return mw(ctx, "eolymp.universe.SpaceService.ListSpaces", in, next)
 		}
 	}
 

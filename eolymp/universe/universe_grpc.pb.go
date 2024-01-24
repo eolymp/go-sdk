@@ -19,19 +19,14 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Universe_LookupSpace_FullMethodName          = "/eolymp.universe.Universe/LookupSpace"
-	Universe_CreateSpace_FullMethodName          = "/eolymp.universe.Universe/CreateSpace"
-	Universe_UpdateSpace_FullMethodName          = "/eolymp.universe.Universe/UpdateSpace"
-	Universe_DeleteSpace_FullMethodName          = "/eolymp.universe.Universe/DeleteSpace"
-	Universe_DescribeSpace_FullMethodName        = "/eolymp.universe.Universe/DescribeSpace"
-	Universe_DescribeQuota_FullMethodName        = "/eolymp.universe.Universe/DescribeQuota"
-	Universe_UpdateQuota_FullMethodName          = "/eolymp.universe.Universe/UpdateQuota"
-	Universe_ListSpaces_FullMethodName           = "/eolymp.universe.Universe/ListSpaces"
-	Universe_GrantPermission_FullMethodName      = "/eolymp.universe.Universe/GrantPermission"
-	Universe_RevokePermission_FullMethodName     = "/eolymp.universe.Universe/RevokePermission"
-	Universe_DescribePermission_FullMethodName   = "/eolymp.universe.Universe/DescribePermission"
-	Universe_IntrospectPermission_FullMethodName = "/eolymp.universe.Universe/IntrospectPermission"
-	Universe_ListPermissions_FullMethodName      = "/eolymp.universe.Universe/ListPermissions"
+	Universe_LookupSpace_FullMethodName   = "/eolymp.universe.Universe/LookupSpace"
+	Universe_CreateSpace_FullMethodName   = "/eolymp.universe.Universe/CreateSpace"
+	Universe_UpdateSpace_FullMethodName   = "/eolymp.universe.Universe/UpdateSpace"
+	Universe_DeleteSpace_FullMethodName   = "/eolymp.universe.Universe/DeleteSpace"
+	Universe_DescribeSpace_FullMethodName = "/eolymp.universe.Universe/DescribeSpace"
+	Universe_DescribeQuota_FullMethodName = "/eolymp.universe.Universe/DescribeQuota"
+	Universe_UpdateQuota_FullMethodName   = "/eolymp.universe.Universe/UpdateQuota"
+	Universe_ListSpaces_FullMethodName    = "/eolymp.universe.Universe/ListSpaces"
 )
 
 // UniverseClient is the client API for Universe service.
@@ -53,16 +48,6 @@ type UniverseClient interface {
 	UpdateQuota(ctx context.Context, in *UpdateQuotaInput, opts ...grpc.CallOption) (*UpdateQuotaOutput, error)
 	// List spaces of a contest
 	ListSpaces(ctx context.Context, in *ListSpacesInput, opts ...grpc.CallOption) (*ListSpacesOutput, error)
-	// Add space permission
-	GrantPermission(ctx context.Context, in *GrantPermissionInput, opts ...grpc.CallOption) (*GrantPermissionOutput, error)
-	// Delete space permission
-	RevokePermission(ctx context.Context, in *RevokePermissionInput, opts ...grpc.CallOption) (*RevokePermissionOutput, error)
-	// Describe space permission
-	DescribePermission(ctx context.Context, in *DescribePermissionInput, opts ...grpc.CallOption) (*DescribePermissionOutput, error)
-	// Describe space permission
-	IntrospectPermission(ctx context.Context, in *IntrospectPermissionInput, opts ...grpc.CallOption) (*IntrospectPermissionOutput, error)
-	// List permissions in a space
-	ListPermissions(ctx context.Context, in *ListPermissionsInput, opts ...grpc.CallOption) (*ListPermissionsOutput, error)
 }
 
 type universeClient struct {
@@ -145,51 +130,6 @@ func (c *universeClient) ListSpaces(ctx context.Context, in *ListSpacesInput, op
 	return out, nil
 }
 
-func (c *universeClient) GrantPermission(ctx context.Context, in *GrantPermissionInput, opts ...grpc.CallOption) (*GrantPermissionOutput, error) {
-	out := new(GrantPermissionOutput)
-	err := c.cc.Invoke(ctx, Universe_GrantPermission_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *universeClient) RevokePermission(ctx context.Context, in *RevokePermissionInput, opts ...grpc.CallOption) (*RevokePermissionOutput, error) {
-	out := new(RevokePermissionOutput)
-	err := c.cc.Invoke(ctx, Universe_RevokePermission_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *universeClient) DescribePermission(ctx context.Context, in *DescribePermissionInput, opts ...grpc.CallOption) (*DescribePermissionOutput, error) {
-	out := new(DescribePermissionOutput)
-	err := c.cc.Invoke(ctx, Universe_DescribePermission_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *universeClient) IntrospectPermission(ctx context.Context, in *IntrospectPermissionInput, opts ...grpc.CallOption) (*IntrospectPermissionOutput, error) {
-	out := new(IntrospectPermissionOutput)
-	err := c.cc.Invoke(ctx, Universe_IntrospectPermission_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *universeClient) ListPermissions(ctx context.Context, in *ListPermissionsInput, opts ...grpc.CallOption) (*ListPermissionsOutput, error) {
-	out := new(ListPermissionsOutput)
-	err := c.cc.Invoke(ctx, Universe_ListPermissions_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // UniverseServer is the server API for Universe service.
 // All implementations should embed UnimplementedUniverseServer
 // for forward compatibility
@@ -209,16 +149,6 @@ type UniverseServer interface {
 	UpdateQuota(context.Context, *UpdateQuotaInput) (*UpdateQuotaOutput, error)
 	// List spaces of a contest
 	ListSpaces(context.Context, *ListSpacesInput) (*ListSpacesOutput, error)
-	// Add space permission
-	GrantPermission(context.Context, *GrantPermissionInput) (*GrantPermissionOutput, error)
-	// Delete space permission
-	RevokePermission(context.Context, *RevokePermissionInput) (*RevokePermissionOutput, error)
-	// Describe space permission
-	DescribePermission(context.Context, *DescribePermissionInput) (*DescribePermissionOutput, error)
-	// Describe space permission
-	IntrospectPermission(context.Context, *IntrospectPermissionInput) (*IntrospectPermissionOutput, error)
-	// List permissions in a space
-	ListPermissions(context.Context, *ListPermissionsInput) (*ListPermissionsOutput, error)
 }
 
 // UnimplementedUniverseServer should be embedded to have forward compatible implementations.
@@ -248,21 +178,6 @@ func (UnimplementedUniverseServer) UpdateQuota(context.Context, *UpdateQuotaInpu
 }
 func (UnimplementedUniverseServer) ListSpaces(context.Context, *ListSpacesInput) (*ListSpacesOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListSpaces not implemented")
-}
-func (UnimplementedUniverseServer) GrantPermission(context.Context, *GrantPermissionInput) (*GrantPermissionOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GrantPermission not implemented")
-}
-func (UnimplementedUniverseServer) RevokePermission(context.Context, *RevokePermissionInput) (*RevokePermissionOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method RevokePermission not implemented")
-}
-func (UnimplementedUniverseServer) DescribePermission(context.Context, *DescribePermissionInput) (*DescribePermissionOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DescribePermission not implemented")
-}
-func (UnimplementedUniverseServer) IntrospectPermission(context.Context, *IntrospectPermissionInput) (*IntrospectPermissionOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method IntrospectPermission not implemented")
-}
-func (UnimplementedUniverseServer) ListPermissions(context.Context, *ListPermissionsInput) (*ListPermissionsOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListPermissions not implemented")
 }
 
 // UnsafeUniverseServer may be embedded to opt out of forward compatibility for this service.
@@ -420,96 +335,6 @@ func _Universe_ListSpaces_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Universe_GrantPermission_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GrantPermissionInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UniverseServer).GrantPermission(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Universe_GrantPermission_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UniverseServer).GrantPermission(ctx, req.(*GrantPermissionInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Universe_RevokePermission_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RevokePermissionInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UniverseServer).RevokePermission(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Universe_RevokePermission_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UniverseServer).RevokePermission(ctx, req.(*RevokePermissionInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Universe_DescribePermission_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DescribePermissionInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UniverseServer).DescribePermission(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Universe_DescribePermission_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UniverseServer).DescribePermission(ctx, req.(*DescribePermissionInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Universe_IntrospectPermission_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(IntrospectPermissionInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UniverseServer).IntrospectPermission(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Universe_IntrospectPermission_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UniverseServer).IntrospectPermission(ctx, req.(*IntrospectPermissionInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Universe_ListPermissions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListPermissionsInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UniverseServer).ListPermissions(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Universe_ListPermissions_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UniverseServer).ListPermissions(ctx, req.(*ListPermissionsInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // Universe_ServiceDesc is the grpc.ServiceDesc for Universe service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -548,26 +373,6 @@ var Universe_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListSpaces",
 			Handler:    _Universe_ListSpaces_Handler,
-		},
-		{
-			MethodName: "GrantPermission",
-			Handler:    _Universe_GrantPermission_Handler,
-		},
-		{
-			MethodName: "RevokePermission",
-			Handler:    _Universe_RevokePermission_Handler,
-		},
-		{
-			MethodName: "DescribePermission",
-			Handler:    _Universe_DescribePermission_Handler,
-		},
-		{
-			MethodName: "IntrospectPermission",
-			Handler:    _Universe_IntrospectPermission_Handler,
-		},
-		{
-			MethodName: "ListPermissions",
-			Handler:    _Universe_ListPermissions_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
