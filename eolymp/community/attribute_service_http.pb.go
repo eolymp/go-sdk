@@ -10,6 +10,7 @@ import (
 	websocket "golang.org/x/net/websocket"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
+	metadata "google.golang.org/grpc/metadata"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
@@ -46,7 +47,7 @@ func _AttributeService_HTTPReadRequestBody(r *http.Request, v proto.Message) err
 }
 
 // _AttributeService_HTTPWriteResponse writes proto.Message to HTTP response
-func _AttributeService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message) {
+func _AttributeService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h, t metadata.MD) {
 	data, err := protojson.Marshal(v)
 	if err != nil {
 		_AttributeService_HTTPWriteErrorResponse(w, err)
@@ -54,6 +55,19 @@ func _AttributeService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message)
 	}
 
 	w.Header().Set("Content-Type", "application/json")
+
+	if v := append(h.Get("cache-control"), t.Get("cache-control")...); len(v) > 0 {
+		w.Header().Set("Cache-Control", v[len(v)-1])
+	}
+
+	if v := append(h.Get("etag"), t.Get("etag")...); len(v) > 0 {
+		w.Header().Set("ETag", v[len(v)-1])
+	}
+
+	if v := append(h.Get("last-modified"), t.Get("last-modified")...); len(v) > 0 {
+		w.Header().Set("Last-Modified", v[len(v)-1])
+	}
+
 	w.WriteHeader(http.StatusOK)
 
 	_, _ = w.Write(data)
@@ -209,13 +223,15 @@ func _AttributeService_CreateAttribute_Rule0(cli AttributeServiceClient) http.Ha
 			return
 		}
 
-		out, err := cli.CreateAttribute(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.CreateAttribute(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_AttributeService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_AttributeService_HTTPWriteResponse(w, out)
+		_AttributeService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -232,13 +248,15 @@ func _AttributeService_UpdateAttribute_Rule0(cli AttributeServiceClient) http.Ha
 		vars := mux.Vars(r)
 		in.AttributeKey = vars["attribute_key"]
 
-		out, err := cli.UpdateAttribute(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateAttribute(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_AttributeService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_AttributeService_HTTPWriteResponse(w, out)
+		_AttributeService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -255,13 +273,15 @@ func _AttributeService_RemoveAttribute_Rule0(cli AttributeServiceClient) http.Ha
 		vars := mux.Vars(r)
 		in.AttributeKey = vars["attribute_key"]
 
-		out, err := cli.RemoveAttribute(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.RemoveAttribute(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_AttributeService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_AttributeService_HTTPWriteResponse(w, out)
+		_AttributeService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -278,13 +298,15 @@ func _AttributeService_DescribeAttribute_Rule0(cli AttributeServiceClient) http.
 		vars := mux.Vars(r)
 		in.AttributeKey = vars["attribute_key"]
 
-		out, err := cli.DescribeAttribute(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeAttribute(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_AttributeService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_AttributeService_HTTPWriteResponse(w, out)
+		_AttributeService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -298,13 +320,15 @@ func _AttributeService_ListAttributes_Rule0(cli AttributeServiceClient) http.Han
 			return
 		}
 
-		out, err := cli.ListAttributes(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListAttributes(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_AttributeService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_AttributeService_HTTPWriteResponse(w, out)
+		_AttributeService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 

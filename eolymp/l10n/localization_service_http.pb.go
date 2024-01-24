@@ -10,6 +10,7 @@ import (
 	websocket "golang.org/x/net/websocket"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
+	metadata "google.golang.org/grpc/metadata"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
@@ -46,7 +47,7 @@ func _LocalizationService_HTTPReadRequestBody(r *http.Request, v proto.Message) 
 }
 
 // _LocalizationService_HTTPWriteResponse writes proto.Message to HTTP response
-func _LocalizationService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message) {
+func _LocalizationService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h, t metadata.MD) {
 	data, err := protojson.Marshal(v)
 	if err != nil {
 		_LocalizationService_HTTPWriteErrorResponse(w, err)
@@ -54,6 +55,19 @@ func _LocalizationService_HTTPWriteResponse(w http.ResponseWriter, v proto.Messa
 	}
 
 	w.Header().Set("Content-Type", "application/json")
+
+	if v := append(h.Get("cache-control"), t.Get("cache-control")...); len(v) > 0 {
+		w.Header().Set("Cache-Control", v[len(v)-1])
+	}
+
+	if v := append(h.Get("etag"), t.Get("etag")...); len(v) > 0 {
+		w.Header().Set("ETag", v[len(v)-1])
+	}
+
+	if v := append(h.Get("last-modified"), t.Get("last-modified")...); len(v) > 0 {
+		w.Header().Set("Last-Modified", v[len(v)-1])
+	}
+
 	w.WriteHeader(http.StatusOK)
 
 	_, _ = w.Write(data)
@@ -257,13 +271,15 @@ func _LocalizationService_CreateTerm_Rule0(cli LocalizationServiceClient) http.H
 			return
 		}
 
-		out, err := cli.CreateTerm(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.CreateTerm(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_LocalizationService_HTTPWriteResponse(w, out)
+		_LocalizationService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -277,13 +293,15 @@ func _LocalizationService_ListTerms_Rule0(cli LocalizationServiceClient) http.Ha
 			return
 		}
 
-		out, err := cli.ListTerms(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListTerms(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_LocalizationService_HTTPWriteResponse(w, out)
+		_LocalizationService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -300,13 +318,15 @@ func _LocalizationService_UpdateTerm_Rule0(cli LocalizationServiceClient) http.H
 		vars := mux.Vars(r)
 		in.TermId = vars["term_id"]
 
-		out, err := cli.UpdateTerm(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateTerm(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_LocalizationService_HTTPWriteResponse(w, out)
+		_LocalizationService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -323,13 +343,15 @@ func _LocalizationService_RestoreTerm_Rule0(cli LocalizationServiceClient) http.
 		vars := mux.Vars(r)
 		in.TermId = vars["term_id"]
 
-		out, err := cli.RestoreTerm(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.RestoreTerm(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_LocalizationService_HTTPWriteResponse(w, out)
+		_LocalizationService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -346,13 +368,15 @@ func _LocalizationService_DeprecateTerm_Rule0(cli LocalizationServiceClient) htt
 		vars := mux.Vars(r)
 		in.TermId = vars["term_id"]
 
-		out, err := cli.DeprecateTerm(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DeprecateTerm(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_LocalizationService_HTTPWriteResponse(w, out)
+		_LocalizationService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -369,13 +393,15 @@ func _LocalizationService_DeleteTerm_Rule0(cli LocalizationServiceClient) http.H
 		vars := mux.Vars(r)
 		in.TermId = vars["term_id"]
 
-		out, err := cli.DeleteTerm(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DeleteTerm(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_LocalizationService_HTTPWriteResponse(w, out)
+		_LocalizationService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -392,13 +418,15 @@ func _LocalizationService_DescribeTerm_Rule0(cli LocalizationServiceClient) http
 		vars := mux.Vars(r)
 		in.TermId = vars["term_id"]
 
-		out, err := cli.DescribeTerm(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeTerm(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_LocalizationService_HTTPWriteResponse(w, out)
+		_LocalizationService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -412,13 +440,15 @@ func _LocalizationService_ImportTerms_Rule0(cli LocalizationServiceClient) http.
 			return
 		}
 
-		out, err := cli.ImportTerms(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ImportTerms(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_LocalizationService_HTTPWriteResponse(w, out)
+		_LocalizationService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -435,13 +465,15 @@ func _LocalizationService_AddLocale_Rule0(cli LocalizationServiceClient) http.Ha
 		vars := mux.Vars(r)
 		in.LocaleCode = vars["locale_code"]
 
-		out, err := cli.AddLocale(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.AddLocale(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_LocalizationService_HTTPWriteResponse(w, out)
+		_LocalizationService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -458,13 +490,15 @@ func _LocalizationService_RemoveLocale_Rule0(cli LocalizationServiceClient) http
 		vars := mux.Vars(r)
 		in.LocaleCode = vars["locale_code"]
 
-		out, err := cli.RemoveLocale(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.RemoveLocale(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_LocalizationService_HTTPWriteResponse(w, out)
+		_LocalizationService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -478,13 +512,15 @@ func _LocalizationService_ListLocales_Rule0(cli LocalizationServiceClient) http.
 			return
 		}
 
-		out, err := cli.ListLocales(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListLocales(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_LocalizationService_HTTPWriteResponse(w, out)
+		_LocalizationService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -501,13 +537,15 @@ func _LocalizationService_TranslateTerm_Rule0(cli LocalizationServiceClient) htt
 		vars := mux.Vars(r)
 		in.TermId = vars["term_id"]
 
-		out, err := cli.TranslateTerm(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.TranslateTerm(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_LocalizationService_HTTPWriteResponse(w, out)
+		_LocalizationService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -524,13 +562,15 @@ func _LocalizationService_ListTranslations_Rule0(cli LocalizationServiceClient) 
 		vars := mux.Vars(r)
 		in.TermId = vars["term_id"]
 
-		out, err := cli.ListTranslations(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListTranslations(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_LocalizationService_HTTPWriteResponse(w, out)
+		_LocalizationService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -548,13 +588,15 @@ func _LocalizationService_DeleteTranslation_Rule0(cli LocalizationServiceClient)
 		in.TermId = vars["term_id"]
 		in.TranslationId = vars["translation_id"]
 
-		out, err := cli.DeleteTranslation(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DeleteTranslation(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_LocalizationService_HTTPWriteResponse(w, out)
+		_LocalizationService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -572,13 +614,15 @@ func _LocalizationService_SuggestTranslation_Rule0(cli LocalizationServiceClient
 		in.TermId = vars["term_id"]
 		in.Locale = vars["locale"]
 
-		out, err := cli.SuggestTranslation(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.SuggestTranslation(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_LocalizationService_HTTPWriteResponse(w, out)
+		_LocalizationService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -596,13 +640,15 @@ func _LocalizationService_UpdateTranslation_Rule0(cli LocalizationServiceClient)
 		in.TermId = vars["term_id"]
 		in.TranslationId = vars["translation_id"]
 
-		out, err := cli.UpdateTranslation(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateTranslation(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_LocalizationService_HTTPWriteResponse(w, out)
+		_LocalizationService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -620,13 +666,15 @@ func _LocalizationService_ApproveTranslation_Rule0(cli LocalizationServiceClient
 		in.TermId = vars["term_id"]
 		in.TranslationId = vars["translation_id"]
 
-		out, err := cli.ApproveTranslation(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ApproveTranslation(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_LocalizationService_HTTPWriteResponse(w, out)
+		_LocalizationService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -644,13 +692,15 @@ func _LocalizationService_RejectTranslation_Rule0(cli LocalizationServiceClient)
 		in.TermId = vars["term_id"]
 		in.TranslationId = vars["translation_id"]
 
-		out, err := cli.RejectTranslation(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.RejectTranslation(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_LocalizationService_HTTPWriteResponse(w, out)
+		_LocalizationService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -667,13 +717,15 @@ func _LocalizationService_ImportTranslations_Rule0(cli LocalizationServiceClient
 		vars := mux.Vars(r)
 		in.Locale = vars["locale"]
 
-		out, err := cli.ImportTranslations(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ImportTranslations(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_LocalizationService_HTTPWriteResponse(w, out)
+		_LocalizationService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -690,13 +742,15 @@ func _LocalizationService_ExportTranslations_Rule0(cli LocalizationServiceClient
 		vars := mux.Vars(r)
 		in.Locale = vars["locale"]
 
-		out, err := cli.ExportTranslations(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ExportTranslations(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_LocalizationService_HTTPWriteResponse(w, out)
+		_LocalizationService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -713,13 +767,15 @@ func _LocalizationService_ListTranslationPairs_Rule0(cli LocalizationServiceClie
 		vars := mux.Vars(r)
 		in.Locale = vars["locale"]
 
-		out, err := cli.ListTranslationPairs(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListTranslationPairs(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_LocalizationService_HTTPWriteResponse(w, out)
+		_LocalizationService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 

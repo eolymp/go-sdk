@@ -10,6 +10,7 @@ import (
 	websocket "golang.org/x/net/websocket"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
+	metadata "google.golang.org/grpc/metadata"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
@@ -46,7 +47,7 @@ func _Ranker_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
 }
 
 // _Ranker_HTTPWriteResponse writes proto.Message to HTTP response
-func _Ranker_HTTPWriteResponse(w http.ResponseWriter, v proto.Message) {
+func _Ranker_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h, t metadata.MD) {
 	data, err := protojson.Marshal(v)
 	if err != nil {
 		_Ranker_HTTPWriteErrorResponse(w, err)
@@ -54,6 +55,19 @@ func _Ranker_HTTPWriteResponse(w http.ResponseWriter, v proto.Message) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
+
+	if v := append(h.Get("cache-control"), t.Get("cache-control")...); len(v) > 0 {
+		w.Header().Set("Cache-Control", v[len(v)-1])
+	}
+
+	if v := append(h.Get("etag"), t.Get("etag")...); len(v) > 0 {
+		w.Header().Set("ETag", v[len(v)-1])
+	}
+
+	if v := append(h.Get("last-modified"), t.Get("last-modified")...); len(v) > 0 {
+		w.Header().Set("Last-Modified", v[len(v)-1])
+	}
+
 	w.WriteHeader(http.StatusOK)
 
 	_, _ = w.Write(data)
@@ -245,13 +259,15 @@ func _Ranker_CreateScoreboard_Rule0(cli RankerClient) http.Handler {
 			return
 		}
 
-		out, err := cli.CreateScoreboard(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.CreateScoreboard(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Ranker_HTTPWriteResponse(w, out)
+		_Ranker_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -268,13 +284,15 @@ func _Ranker_UpdateScoreboard_Rule0(cli RankerClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ScoreboardId = vars["scoreboard_id"]
 
-		out, err := cli.UpdateScoreboard(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateScoreboard(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Ranker_HTTPWriteResponse(w, out)
+		_Ranker_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -291,13 +309,15 @@ func _Ranker_RebuildScoreboard_Rule0(cli RankerClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ScoreboardId = vars["scoreboard_id"]
 
-		out, err := cli.RebuildScoreboard(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.RebuildScoreboard(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Ranker_HTTPWriteResponse(w, out)
+		_Ranker_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -314,13 +334,15 @@ func _Ranker_DeleteScoreboard_Rule0(cli RankerClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ScoreboardId = vars["scoreboard_id"]
 
-		out, err := cli.DeleteScoreboard(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DeleteScoreboard(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Ranker_HTTPWriteResponse(w, out)
+		_Ranker_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -337,13 +359,15 @@ func _Ranker_DescribeScoreboard_Rule0(cli RankerClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ScoreboardId = vars["scoreboard_id"]
 
-		out, err := cli.DescribeScoreboard(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeScoreboard(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Ranker_HTTPWriteResponse(w, out)
+		_Ranker_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -357,13 +381,15 @@ func _Ranker_ListScoreboards_Rule0(cli RankerClient) http.Handler {
 			return
 		}
 
-		out, err := cli.ListScoreboards(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListScoreboards(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Ranker_HTTPWriteResponse(w, out)
+		_Ranker_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -381,13 +407,15 @@ func _Ranker_DescribeScoreboardRow_Rule0(cli RankerClient) http.Handler {
 		in.ScoreboardId = vars["scoreboard_id"]
 		in.MemberId = vars["member_id"]
 
-		out, err := cli.DescribeScoreboardRow(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeScoreboardRow(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Ranker_HTTPWriteResponse(w, out)
+		_Ranker_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -404,13 +432,15 @@ func _Ranker_ListScoreboardRows_Rule0(cli RankerClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ScoreboardId = vars["scoreboard_id"]
 
-		out, err := cli.ListScoreboardRows(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListScoreboardRows(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Ranker_HTTPWriteResponse(w, out)
+		_Ranker_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -427,13 +457,15 @@ func _Ranker_AddScoreboardColumn_Rule0(cli RankerClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ScoreboardId = vars["scoreboard_id"]
 
-		out, err := cli.AddScoreboardColumn(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.AddScoreboardColumn(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Ranker_HTTPWriteResponse(w, out)
+		_Ranker_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -451,13 +483,15 @@ func _Ranker_UpdateScoreboardColumn_Rule0(cli RankerClient) http.Handler {
 		in.ScoreboardId = vars["scoreboard_id"]
 		in.ColumnId = vars["column_id"]
 
-		out, err := cli.UpdateScoreboardColumn(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateScoreboardColumn(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Ranker_HTTPWriteResponse(w, out)
+		_Ranker_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -475,13 +509,15 @@ func _Ranker_DeleteScoreboardColumn_Rule0(cli RankerClient) http.Handler {
 		in.ScoreboardId = vars["scoreboard_id"]
 		in.ColumnId = vars["column_id"]
 
-		out, err := cli.DeleteScoreboardColumn(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DeleteScoreboardColumn(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Ranker_HTTPWriteResponse(w, out)
+		_Ranker_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -499,13 +535,15 @@ func _Ranker_DescribeScoreboardColumn_Rule0(cli RankerClient) http.Handler {
 		in.ScoreboardId = vars["scoreboard_id"]
 		in.ColumnId = vars["column_id"]
 
-		out, err := cli.DescribeScoreboardColumn(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeScoreboardColumn(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Ranker_HTTPWriteResponse(w, out)
+		_Ranker_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -522,13 +560,15 @@ func _Ranker_ListScoreboardColumns_Rule0(cli RankerClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ScoreboardId = vars["scoreboard_id"]
 
-		out, err := cli.ListScoreboardColumns(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListScoreboardColumns(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Ranker_HTTPWriteResponse(w, out)
+		_Ranker_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -545,13 +585,15 @@ func _Ranker_ListActivities_Rule0(cli RankerClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ScoreboardId = vars["scoreboard_id"]
 
-		out, err := cli.ListActivities(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListActivities(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Ranker_HTTPWriteResponse(w, out)
+		_Ranker_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -568,13 +610,15 @@ func _Ranker_ScheduleAction_Rule0(cli RankerClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ScoreboardId = vars["scoreboard_id"]
 
-		out, err := cli.ScheduleAction(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ScheduleAction(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Ranker_HTTPWriteResponse(w, out)
+		_Ranker_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -592,13 +636,15 @@ func _Ranker_UnscheduleAction_Rule0(cli RankerClient) http.Handler {
 		in.ScoreboardId = vars["scoreboard_id"]
 		in.ActionId = vars["action_id"]
 
-		out, err := cli.UnscheduleAction(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.UnscheduleAction(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Ranker_HTTPWriteResponse(w, out)
+		_Ranker_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -615,13 +661,15 @@ func _Ranker_ListScheduledActions_Rule0(cli RankerClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ScoreboardId = vars["scoreboard_id"]
 
-		out, err := cli.ListScheduledActions(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListScheduledActions(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Ranker_HTTPWriteResponse(w, out)
+		_Ranker_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 

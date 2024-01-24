@@ -10,6 +10,7 @@ import (
 	websocket "golang.org/x/net/websocket"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
+	metadata "google.golang.org/grpc/metadata"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
@@ -46,7 +47,7 @@ func _CourseService_HTTPReadRequestBody(r *http.Request, v proto.Message) error 
 }
 
 // _CourseService_HTTPWriteResponse writes proto.Message to HTTP response
-func _CourseService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message) {
+func _CourseService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h, t metadata.MD) {
 	data, err := protojson.Marshal(v)
 	if err != nil {
 		_CourseService_HTTPWriteErrorResponse(w, err)
@@ -54,6 +55,19 @@ func _CourseService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
+
+	if v := append(h.Get("cache-control"), t.Get("cache-control")...); len(v) > 0 {
+		w.Header().Set("Cache-Control", v[len(v)-1])
+	}
+
+	if v := append(h.Get("etag"), t.Get("etag")...); len(v) > 0 {
+		w.Header().Set("ETag", v[len(v)-1])
+	}
+
+	if v := append(h.Get("last-modified"), t.Get("last-modified")...); len(v) > 0 {
+		w.Header().Set("Last-Modified", v[len(v)-1])
+	}
+
 	w.WriteHeader(http.StatusOK)
 
 	_, _ = w.Write(data)
@@ -209,13 +223,15 @@ func _CourseService_CreateCourse_Rule0(cli CourseServiceClient) http.Handler {
 			return
 		}
 
-		out, err := cli.CreateCourse(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.CreateCourse(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_CourseService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_CourseService_HTTPWriteResponse(w, out)
+		_CourseService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -232,13 +248,15 @@ func _CourseService_UpdateCourse_Rule0(cli CourseServiceClient) http.Handler {
 		vars := mux.Vars(r)
 		in.CourseId = vars["course_id"]
 
-		out, err := cli.UpdateCourse(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateCourse(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_CourseService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_CourseService_HTTPWriteResponse(w, out)
+		_CourseService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -255,13 +273,15 @@ func _CourseService_DeleteCourse_Rule0(cli CourseServiceClient) http.Handler {
 		vars := mux.Vars(r)
 		in.CourseId = vars["course_id"]
 
-		out, err := cli.DeleteCourse(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DeleteCourse(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_CourseService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_CourseService_HTTPWriteResponse(w, out)
+		_CourseService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -278,13 +298,15 @@ func _CourseService_DescribeCourse_Rule0(cli CourseServiceClient) http.Handler {
 		vars := mux.Vars(r)
 		in.CourseId = vars["course_id"]
 
-		out, err := cli.DescribeCourse(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeCourse(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_CourseService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_CourseService_HTTPWriteResponse(w, out)
+		_CourseService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -298,13 +320,15 @@ func _CourseService_ListCourses_Rule0(cli CourseServiceClient) http.Handler {
 			return
 		}
 
-		out, err := cli.ListCourses(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListCourses(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_CourseService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_CourseService_HTTPWriteResponse(w, out)
+		_CourseService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 

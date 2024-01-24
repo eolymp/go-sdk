@@ -47,7 +47,7 @@ func _Playground_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
 }
 
 // _Playground_HTTPWriteResponse writes proto.Message to HTTP response
-func _Playground_HTTPWriteResponse(w http.ResponseWriter, v proto.Message) {
+func _Playground_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h, t metadata.MD) {
 	data, err := protojson.Marshal(v)
 	if err != nil {
 		_Playground_HTTPWriteErrorResponse(w, err)
@@ -55,6 +55,19 @@ func _Playground_HTTPWriteResponse(w http.ResponseWriter, v proto.Message) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
+
+	if v := append(h.Get("cache-control"), t.Get("cache-control")...); len(v) > 0 {
+		w.Header().Set("Cache-Control", v[len(v)-1])
+	}
+
+	if v := append(h.Get("etag"), t.Get("etag")...); len(v) > 0 {
+		w.Header().Set("ETag", v[len(v)-1])
+	}
+
+	if v := append(h.Get("last-modified"), t.Get("last-modified")...); len(v) > 0 {
+		w.Header().Set("Last-Modified", v[len(v)-1])
+	}
+
 	w.WriteHeader(http.StatusOK)
 
 	_, _ = w.Write(data)
@@ -236,13 +249,15 @@ func _Playground_CreateRun_Rule0(cli PlaygroundClient) http.Handler {
 			return
 		}
 
-		out, err := cli.CreateRun(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.CreateRun(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Playground_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Playground_HTTPWriteResponse(w, out)
+		_Playground_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -259,13 +274,15 @@ func _Playground_DescribeRun_Rule0(cli PlaygroundClient) http.Handler {
 		vars := mux.Vars(r)
 		in.RunId = vars["run_id"]
 
-		out, err := cli.DescribeRun(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeRun(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Playground_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Playground_HTTPWriteResponse(w, out)
+		_Playground_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 

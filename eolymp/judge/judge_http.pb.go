@@ -47,7 +47,7 @@ func _Judge_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
 }
 
 // _Judge_HTTPWriteResponse writes proto.Message to HTTP response
-func _Judge_HTTPWriteResponse(w http.ResponseWriter, v proto.Message) {
+func _Judge_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h, t metadata.MD) {
 	data, err := protojson.Marshal(v)
 	if err != nil {
 		_Judge_HTTPWriteErrorResponse(w, err)
@@ -55,6 +55,19 @@ func _Judge_HTTPWriteResponse(w http.ResponseWriter, v proto.Message) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
+
+	if v := append(h.Get("cache-control"), t.Get("cache-control")...); len(v) > 0 {
+		w.Header().Set("Cache-Control", v[len(v)-1])
+	}
+
+	if v := append(h.Get("etag"), t.Get("etag")...); len(v) > 0 {
+		w.Header().Set("ETag", v[len(v)-1])
+	}
+
+	if v := append(h.Get("last-modified"), t.Get("last-modified")...); len(v) > 0 {
+		w.Header().Set("Last-Modified", v[len(v)-1])
+	}
+
 	w.WriteHeader(http.StatusOK)
 
 	_, _ = w.Write(data)
@@ -501,13 +514,15 @@ func _Judge_LookupContest_Rule0(cli JudgeClient) http.Handler {
 			return
 		}
 
-		out, err := cli.LookupContest(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.LookupContest(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -521,13 +536,15 @@ func _Judge_CreateContest_Rule0(cli JudgeClient) http.Handler {
 			return
 		}
 
-		out, err := cli.CreateContest(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.CreateContest(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -544,13 +561,15 @@ func _Judge_DeleteContest_Rule0(cli JudgeClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
 
-		out, err := cli.DeleteContest(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DeleteContest(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -567,13 +586,15 @@ func _Judge_UpdateContest_Rule0(cli JudgeClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
 
-		out, err := cli.UpdateContest(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateContest(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -590,13 +611,15 @@ func _Judge_DescribeContest_Rule0(cli JudgeClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
 
-		out, err := cli.DescribeContest(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeContest(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -610,13 +633,15 @@ func _Judge_ListContests_Rule0(cli JudgeClient) http.Handler {
 			return
 		}
 
-		out, err := cli.ListContests(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListContests(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -633,13 +658,15 @@ func _Judge_OpenContest_Rule0(cli JudgeClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
 
-		out, err := cli.OpenContest(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.OpenContest(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -656,13 +683,15 @@ func _Judge_CloseContest_Rule0(cli JudgeClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
 
-		out, err := cli.CloseContest(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.CloseContest(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -679,13 +708,15 @@ func _Judge_SuspendContest_Rule0(cli JudgeClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
 
-		out, err := cli.SuspendContest(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.SuspendContest(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -702,13 +733,15 @@ func _Judge_FreezeContest_Rule0(cli JudgeClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
 
-		out, err := cli.FreezeContest(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.FreezeContest(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -725,13 +758,15 @@ func _Judge_ResumeContest_Rule0(cli JudgeClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
 
-		out, err := cli.ResumeContest(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ResumeContest(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -748,13 +783,15 @@ func _Judge_ImportProblem_Rule0(cli JudgeClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
 
-		out, err := cli.ImportProblem(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ImportProblem(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -772,13 +809,15 @@ func _Judge_SyncProblem_Rule0(cli JudgeClient) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.ProblemId = vars["problem_id"]
 
-		out, err := cli.SyncProblem(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.SyncProblem(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -796,13 +835,15 @@ func _Judge_UpdateProblem_Rule0(cli JudgeClient) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.ProblemId = vars["problem_id"]
 
-		out, err := cli.UpdateProblem(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateProblem(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -819,13 +860,15 @@ func _Judge_ListProblems_Rule0(cli JudgeClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
 
-		out, err := cli.ListProblems(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListProblems(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -843,13 +886,15 @@ func _Judge_DescribeProblem_Rule0(cli JudgeClient) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.ProblemId = vars["problem_id"]
 
-		out, err := cli.DescribeProblem(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeProblem(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -868,13 +913,15 @@ func _Judge_DescribeCodeTemplate_Rule0(cli JudgeClient) http.Handler {
 		in.ProblemId = vars["problem_id"]
 		in.TemplateId = vars["template_id"]
 
-		out, err := cli.DescribeCodeTemplate(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeCodeTemplate(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -892,13 +939,15 @@ func _Judge_LookupCodeTemplate_Rule0(cli JudgeClient) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.ProblemId = vars["problem_id"]
 
-		out, err := cli.LookupCodeTemplate(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.LookupCodeTemplate(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -916,13 +965,15 @@ func _Judge_ListStatements_Rule0(cli JudgeClient) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.ProblemId = vars["problem_id"]
 
-		out, err := cli.ListStatements(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListStatements(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -940,13 +991,15 @@ func _Judge_ListAttachments_Rule0(cli JudgeClient) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.ProblemId = vars["problem_id"]
 
-		out, err := cli.ListAttachments(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListAttachments(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -964,13 +1017,15 @@ func _Judge_ListExamples_Rule0(cli JudgeClient) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.ProblemId = vars["problem_id"]
 
-		out, err := cli.ListExamples(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListExamples(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -988,13 +1043,15 @@ func _Judge_DeleteProblem_Rule0(cli JudgeClient) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.ProblemId = vars["problem_id"]
 
-		out, err := cli.DeleteProblem(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DeleteProblem(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1012,13 +1069,15 @@ func _Judge_RetestProblem_Rule0(cli JudgeClient) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.ProblemId = vars["problem_id"]
 
-		out, err := cli.RetestProblem(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.RetestProblem(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1035,13 +1094,15 @@ func _Judge_AddParticipant_Rule0(cli JudgeClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
 
-		out, err := cli.AddParticipant(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.AddParticipant(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1059,13 +1120,15 @@ func _Judge_EnableParticipant_Rule0(cli JudgeClient) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.ParticipantId = vars["participant_id"]
 
-		out, err := cli.EnableParticipant(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.EnableParticipant(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1083,13 +1146,15 @@ func _Judge_DisableParticipant_Rule0(cli JudgeClient) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.ParticipantId = vars["participant_id"]
 
-		out, err := cli.DisableParticipant(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DisableParticipant(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1107,13 +1172,15 @@ func _Judge_UpdateParticipant_Rule0(cli JudgeClient) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.ParticipantId = vars["participant_id"]
 
-		out, err := cli.UpdateParticipant(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateParticipant(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1131,13 +1198,15 @@ func _Judge_RemoveParticipant_Rule0(cli JudgeClient) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.ParticipantId = vars["participant_id"]
 
-		out, err := cli.RemoveParticipant(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.RemoveParticipant(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1154,13 +1223,15 @@ func _Judge_ListParticipants_Rule0(cli JudgeClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
 
-		out, err := cli.ListParticipants(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListParticipants(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1178,13 +1249,15 @@ func _Judge_DescribeParticipant_Rule0(cli JudgeClient) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.ParticipantId = vars["participant_id"]
 
-		out, err := cli.DescribeParticipant(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeParticipant(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1201,13 +1274,15 @@ func _Judge_IntrospectParticipant_Rule0(cli JudgeClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
 
-		out, err := cli.IntrospectParticipant(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.IntrospectParticipant(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1224,13 +1299,15 @@ func _Judge_JoinContest_Rule0(cli JudgeClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
 
-		out, err := cli.JoinContest(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.JoinContest(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1247,13 +1324,15 @@ func _Judge_StartContest_Rule0(cli JudgeClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
 
-		out, err := cli.StartContest(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.StartContest(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1270,13 +1349,15 @@ func _Judge_VerifyPasscode_Rule0(cli JudgeClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
 
-		out, err := cli.VerifyPasscode(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.VerifyPasscode(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1293,13 +1374,15 @@ func _Judge_EnterPasscode_Rule0(cli JudgeClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
 
-		out, err := cli.EnterPasscode(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.EnterPasscode(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1317,13 +1400,15 @@ func _Judge_ResetPasscode_Rule0(cli JudgeClient) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.ParticipantId = vars["participant_id"]
 
-		out, err := cli.ResetPasscode(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ResetPasscode(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1341,13 +1426,15 @@ func _Judge_SetPasscode_Rule0(cli JudgeClient) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.ParticipantId = vars["participant_id"]
 
-		out, err := cli.SetPasscode(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.SetPasscode(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1365,13 +1452,15 @@ func _Judge_RemovePasscode_Rule0(cli JudgeClient) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.ParticipantId = vars["participant_id"]
 
-		out, err := cli.RemovePasscode(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.RemovePasscode(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1389,13 +1478,15 @@ func _Judge_CreateSubmission_Rule0(cli JudgeClient) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.ProblemId = vars["problem_id"]
 
-		out, err := cli.CreateSubmission(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.CreateSubmission(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1412,13 +1503,15 @@ func _Judge_ListSubmissions_Rule0(cli JudgeClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
 
-		out, err := cli.ListSubmissions(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListSubmissions(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1436,13 +1529,15 @@ func _Judge_DescribeSubmission_Rule0(cli JudgeClient) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.SubmissionId = vars["submission_id"]
 
-		out, err := cli.DescribeSubmission(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeSubmission(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1460,13 +1555,15 @@ func _Judge_RetestSubmission_Rule0(cli JudgeClient) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.SubmissionId = vars["submission_id"]
 
-		out, err := cli.RetestSubmission(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.RetestSubmission(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1484,13 +1581,15 @@ func _Judge_DeleteSubmission_Rule0(cli JudgeClient) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.SubmissionId = vars["submission_id"]
 
-		out, err := cli.DeleteSubmission(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DeleteSubmission(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1508,13 +1607,15 @@ func _Judge_RestoreSubmission_Rule0(cli JudgeClient) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.SubmissionId = vars["submission_id"]
 
-		out, err := cli.RestoreSubmission(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.RestoreSubmission(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1531,13 +1632,15 @@ func _Judge_CreateTicket_Rule0(cli JudgeClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
 
-		out, err := cli.CreateTicket(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.CreateTicket(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1554,13 +1657,15 @@ func _Judge_CloseTicket_Rule0(cli JudgeClient) http.Handler {
 		vars := mux.Vars(r)
 		in.TicketId = vars["ticket_id"]
 
-		out, err := cli.CloseTicket(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.CloseTicket(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1577,13 +1682,15 @@ func _Judge_OpenTicket_Rule0(cli JudgeClient) http.Handler {
 		vars := mux.Vars(r)
 		in.TicketId = vars["ticket_id"]
 
-		out, err := cli.OpenTicket(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.OpenTicket(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1600,13 +1707,15 @@ func _Judge_ReadTicket_Rule0(cli JudgeClient) http.Handler {
 		vars := mux.Vars(r)
 		in.TicketId = vars["ticket_id"]
 
-		out, err := cli.ReadTicket(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ReadTicket(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1623,13 +1732,15 @@ func _Judge_DeleteTicket_Rule0(cli JudgeClient) http.Handler {
 		vars := mux.Vars(r)
 		in.TicketId = vars["ticket_id"]
 
-		out, err := cli.DeleteTicket(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DeleteTicket(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1646,13 +1757,15 @@ func _Judge_DescribeTicket_Rule0(cli JudgeClient) http.Handler {
 		vars := mux.Vars(r)
 		in.TicketId = vars["ticket_id"]
 
-		out, err := cli.DescribeTicket(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeTicket(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1666,13 +1779,15 @@ func _Judge_ListTickets_Rule0(cli JudgeClient) http.Handler {
 			return
 		}
 
-		out, err := cli.ListTickets(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListTickets(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1689,13 +1804,15 @@ func _Judge_ReplyTicket_Rule0(cli JudgeClient) http.Handler {
 		vars := mux.Vars(r)
 		in.TicketId = vars["ticket_id"]
 
-		out, err := cli.ReplyTicket(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ReplyTicket(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1712,13 +1829,15 @@ func _Judge_ListReplies_Rule0(cli JudgeClient) http.Handler {
 		vars := mux.Vars(r)
 		in.TicketId = vars["ticket_id"]
 
-		out, err := cli.ListReplies(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListReplies(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1736,13 +1855,15 @@ func _Judge_DeleteReply_Rule0(cli JudgeClient) http.Handler {
 		in.TicketId = vars["ticket_id"]
 		in.ReplyId = vars["reply_id"]
 
-		out, err := cli.DeleteReply(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DeleteReply(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1760,13 +1881,15 @@ func _Judge_UpdateReply_Rule0(cli JudgeClient) http.Handler {
 		in.TicketId = vars["ticket_id"]
 		in.ReplyId = vars["reply_id"]
 
-		out, err := cli.UpdateReply(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateReply(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1783,13 +1906,15 @@ func _Judge_CreateAnnouncement_Rule0(cli JudgeClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
 
-		out, err := cli.CreateAnnouncement(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.CreateAnnouncement(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1807,13 +1932,15 @@ func _Judge_UpdateAnnouncement_Rule0(cli JudgeClient) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.AnnouncementId = vars["announcement_id"]
 
-		out, err := cli.UpdateAnnouncement(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateAnnouncement(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1831,13 +1958,15 @@ func _Judge_DeleteAnnouncement_Rule0(cli JudgeClient) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.AnnouncementId = vars["announcement_id"]
 
-		out, err := cli.DeleteAnnouncement(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DeleteAnnouncement(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1855,13 +1984,15 @@ func _Judge_ReadAnnouncement_Rule0(cli JudgeClient) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.AnnouncementId = vars["announcement_id"]
 
-		out, err := cli.ReadAnnouncement(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ReadAnnouncement(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1879,13 +2010,15 @@ func _Judge_DescribeAnnouncement_Rule0(cli JudgeClient) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.AnnouncementId = vars["announcement_id"]
 
-		out, err := cli.DescribeAnnouncement(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeAnnouncement(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1903,13 +2036,15 @@ func _Judge_DescribeAnnouncementStatus_Rule0(cli JudgeClient) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.AnnouncementId = vars["announcement_id"]
 
-		out, err := cli.DescribeAnnouncementStatus(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeAnnouncementStatus(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1926,13 +2061,15 @@ func _Judge_ListAnnouncements_Rule0(cli JudgeClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
 
-		out, err := cli.ListAnnouncements(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListAnnouncements(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1949,13 +2086,15 @@ func _Judge_IntrospectScore_Rule0(cli JudgeClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
 
-		out, err := cli.IntrospectScore(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.IntrospectScore(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1973,13 +2112,15 @@ func _Judge_DescribeScore_Rule0(cli JudgeClient) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.ParticipantId = vars["participant_id"]
 
-		out, err := cli.DescribeScore(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeScore(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1997,13 +2138,15 @@ func _Judge_ImportScore_Rule0(cli JudgeClient) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.ParticipantId = vars["participant_id"]
 
-		out, err := cli.ImportScore(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ImportScore(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -2021,13 +2164,15 @@ func _Judge_ExportScore_Rule0(cli JudgeClient) http.Handler {
 		in.ContestId = vars["contest_id"]
 		in.ParticipantId = vars["participant_id"]
 
-		out, err := cli.ExportScore(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ExportScore(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -2044,13 +2189,15 @@ func _Judge_ListResult_Rule0(cli JudgeClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
 
-		out, err := cli.ListResult(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListResult(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -2067,13 +2214,15 @@ func _Judge_RebuildScore_Rule0(cli JudgeClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
 
-		out, err := cli.RebuildScore(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.RebuildScore(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -2090,13 +2239,15 @@ func _Judge_ListActivities_Rule0(cli JudgeClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
 
-		out, err := cli.ListActivities(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListActivities(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -2110,13 +2261,15 @@ func _Judge_DescribeContestUsage_Rule0(cli JudgeClient) http.Handler {
 			return
 		}
 
-		out, err := cli.DescribeContestUsage(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeContestUsage(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Judge_HTTPWriteResponse(w, out)
+		_Judge_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 

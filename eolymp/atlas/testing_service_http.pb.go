@@ -10,6 +10,7 @@ import (
 	websocket "golang.org/x/net/websocket"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
+	metadata "google.golang.org/grpc/metadata"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
@@ -46,7 +47,7 @@ func _TestingService_HTTPReadRequestBody(r *http.Request, v proto.Message) error
 }
 
 // _TestingService_HTTPWriteResponse writes proto.Message to HTTP response
-func _TestingService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message) {
+func _TestingService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h, t metadata.MD) {
 	data, err := protojson.Marshal(v)
 	if err != nil {
 		_TestingService_HTTPWriteErrorResponse(w, err)
@@ -54,6 +55,19 @@ func _TestingService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
+
+	if v := append(h.Get("cache-control"), t.Get("cache-control")...); len(v) > 0 {
+		w.Header().Set("Cache-Control", v[len(v)-1])
+	}
+
+	if v := append(h.Get("etag"), t.Get("etag")...); len(v) > 0 {
+		w.Header().Set("ETag", v[len(v)-1])
+	}
+
+	if v := append(h.Get("last-modified"), t.Get("last-modified")...); len(v) > 0 {
+		w.Header().Set("Last-Modified", v[len(v)-1])
+	}
+
 	w.WriteHeader(http.StatusOK)
 
 	_, _ = w.Write(data)
@@ -245,13 +259,15 @@ func _TestingService_UpdateTestingConfig_Rule0(cli TestingServiceClient) http.Ha
 			return
 		}
 
-		out, err := cli.UpdateTestingConfig(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateTestingConfig(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_TestingService_HTTPWriteResponse(w, out)
+		_TestingService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -265,13 +281,15 @@ func _TestingService_DescribeTestingConfig_Rule0(cli TestingServiceClient) http.
 			return
 		}
 
-		out, err := cli.DescribeTestingConfig(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeTestingConfig(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_TestingService_HTTPWriteResponse(w, out)
+		_TestingService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -285,13 +303,15 @@ func _TestingService_UpdateChecker_Rule0(cli TestingServiceClient) http.Handler 
 			return
 		}
 
-		out, err := cli.UpdateChecker(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateChecker(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_TestingService_HTTPWriteResponse(w, out)
+		_TestingService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -305,13 +325,15 @@ func _TestingService_DescribeChecker_Rule0(cli TestingServiceClient) http.Handle
 			return
 		}
 
-		out, err := cli.DescribeChecker(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeChecker(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_TestingService_HTTPWriteResponse(w, out)
+		_TestingService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -325,13 +347,15 @@ func _TestingService_UpdateInteractor_Rule0(cli TestingServiceClient) http.Handl
 			return
 		}
 
-		out, err := cli.UpdateInteractor(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateInteractor(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_TestingService_HTTPWriteResponse(w, out)
+		_TestingService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -345,13 +369,15 @@ func _TestingService_DescribeInteractor_Rule0(cli TestingServiceClient) http.Han
 			return
 		}
 
-		out, err := cli.DescribeInteractor(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeInteractor(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_TestingService_HTTPWriteResponse(w, out)
+		_TestingService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -365,13 +391,15 @@ func _TestingService_CreateTestset_Rule0(cli TestingServiceClient) http.Handler 
 			return
 		}
 
-		out, err := cli.CreateTestset(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.CreateTestset(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_TestingService_HTTPWriteResponse(w, out)
+		_TestingService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -388,13 +416,15 @@ func _TestingService_UpdateTestset_Rule0(cli TestingServiceClient) http.Handler 
 		vars := mux.Vars(r)
 		in.TestsetId = vars["testset_id"]
 
-		out, err := cli.UpdateTestset(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateTestset(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_TestingService_HTTPWriteResponse(w, out)
+		_TestingService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -411,13 +441,15 @@ func _TestingService_DeleteTestset_Rule0(cli TestingServiceClient) http.Handler 
 		vars := mux.Vars(r)
 		in.TestsetId = vars["testset_id"]
 
-		out, err := cli.DeleteTestset(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DeleteTestset(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_TestingService_HTTPWriteResponse(w, out)
+		_TestingService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -434,13 +466,15 @@ func _TestingService_DescribeTestset_Rule0(cli TestingServiceClient) http.Handle
 		vars := mux.Vars(r)
 		in.TestsetId = vars["testset_id"]
 
-		out, err := cli.DescribeTestset(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeTestset(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_TestingService_HTTPWriteResponse(w, out)
+		_TestingService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -454,13 +488,15 @@ func _TestingService_ListTestsets_Rule0(cli TestingServiceClient) http.Handler {
 			return
 		}
 
-		out, err := cli.ListTestsets(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListTestsets(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_TestingService_HTTPWriteResponse(w, out)
+		_TestingService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -477,13 +513,15 @@ func _TestingService_CreateTest_Rule0(cli TestingServiceClient) http.Handler {
 		vars := mux.Vars(r)
 		in.TestsetId = vars["testset_id"]
 
-		out, err := cli.CreateTest(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.CreateTest(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_TestingService_HTTPWriteResponse(w, out)
+		_TestingService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -501,13 +539,15 @@ func _TestingService_UpdateTest_Rule0(cli TestingServiceClient) http.Handler {
 		in.TestsetId = vars["testset_id"]
 		in.TestId = vars["test_id"]
 
-		out, err := cli.UpdateTest(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateTest(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_TestingService_HTTPWriteResponse(w, out)
+		_TestingService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -525,13 +565,15 @@ func _TestingService_DeleteTest_Rule0(cli TestingServiceClient) http.Handler {
 		in.TestsetId = vars["testset_id"]
 		in.TestId = vars["test_id"]
 
-		out, err := cli.DeleteTest(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DeleteTest(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_TestingService_HTTPWriteResponse(w, out)
+		_TestingService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -549,13 +591,15 @@ func _TestingService_DescribeTest_Rule0(cli TestingServiceClient) http.Handler {
 		in.TestsetId = vars["testset_id"]
 		in.TestId = vars["test_id"]
 
-		out, err := cli.DescribeTest(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeTest(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_TestingService_HTTPWriteResponse(w, out)
+		_TestingService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -572,13 +616,15 @@ func _TestingService_ListTests_Rule0(cli TestingServiceClient) http.Handler {
 		vars := mux.Vars(r)
 		in.TestsetId = vars["testset_id"]
 
-		out, err := cli.ListTests(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListTests(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_TestingService_HTTPWriteResponse(w, out)
+		_TestingService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -592,13 +638,15 @@ func _TestingService_ListExamples_Rule0(cli TestingServiceClient) http.Handler {
 			return
 		}
 
-		out, err := cli.ListExamples(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListExamples(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_TestingService_HTTPWriteResponse(w, out)
+		_TestingService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 

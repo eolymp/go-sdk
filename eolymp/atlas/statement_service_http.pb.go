@@ -10,6 +10,7 @@ import (
 	websocket "golang.org/x/net/websocket"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
+	metadata "google.golang.org/grpc/metadata"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
@@ -46,7 +47,7 @@ func _StatementService_HTTPReadRequestBody(r *http.Request, v proto.Message) err
 }
 
 // _StatementService_HTTPWriteResponse writes proto.Message to HTTP response
-func _StatementService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message) {
+func _StatementService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h, t metadata.MD) {
 	data, err := protojson.Marshal(v)
 	if err != nil {
 		_StatementService_HTTPWriteErrorResponse(w, err)
@@ -54,6 +55,19 @@ func _StatementService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message)
 	}
 
 	w.Header().Set("Content-Type", "application/json")
+
+	if v := append(h.Get("cache-control"), t.Get("cache-control")...); len(v) > 0 {
+		w.Header().Set("Cache-Control", v[len(v)-1])
+	}
+
+	if v := append(h.Get("etag"), t.Get("etag")...); len(v) > 0 {
+		w.Header().Set("ETag", v[len(v)-1])
+	}
+
+	if v := append(h.Get("last-modified"), t.Get("last-modified")...); len(v) > 0 {
+		w.Header().Set("Last-Modified", v[len(v)-1])
+	}
+
 	w.WriteHeader(http.StatusOK)
 
 	_, _ = w.Write(data)
@@ -215,13 +229,15 @@ func _StatementService_CreateStatement_Rule0(cli StatementServiceClient) http.Ha
 			return
 		}
 
-		out, err := cli.CreateStatement(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.CreateStatement(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_StatementService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_StatementService_HTTPWriteResponse(w, out)
+		_StatementService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -238,13 +254,15 @@ func _StatementService_UpdateStatement_Rule0(cli StatementServiceClient) http.Ha
 		vars := mux.Vars(r)
 		in.StatementId = vars["statement_id"]
 
-		out, err := cli.UpdateStatement(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateStatement(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_StatementService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_StatementService_HTTPWriteResponse(w, out)
+		_StatementService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -261,13 +279,15 @@ func _StatementService_DeleteStatement_Rule0(cli StatementServiceClient) http.Ha
 		vars := mux.Vars(r)
 		in.StatementId = vars["statement_id"]
 
-		out, err := cli.DeleteStatement(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DeleteStatement(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_StatementService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_StatementService_HTTPWriteResponse(w, out)
+		_StatementService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -284,13 +304,15 @@ func _StatementService_DescribeStatement_Rule0(cli StatementServiceClient) http.
 		vars := mux.Vars(r)
 		in.StatementId = vars["statement_id"]
 
-		out, err := cli.DescribeStatement(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeStatement(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_StatementService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_StatementService_HTTPWriteResponse(w, out)
+		_StatementService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -304,13 +326,15 @@ func _StatementService_LookupStatement_Rule0(cli StatementServiceClient) http.Ha
 			return
 		}
 
-		out, err := cli.LookupStatement(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.LookupStatement(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_StatementService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_StatementService_HTTPWriteResponse(w, out)
+		_StatementService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -324,13 +348,15 @@ func _StatementService_PreviewStatement_Rule0(cli StatementServiceClient) http.H
 			return
 		}
 
-		out, err := cli.PreviewStatement(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.PreviewStatement(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_StatementService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_StatementService_HTTPWriteResponse(w, out)
+		_StatementService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -344,13 +370,15 @@ func _StatementService_ListStatements_Rule0(cli StatementServiceClient) http.Han
 			return
 		}
 
-		out, err := cli.ListStatements(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListStatements(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_StatementService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_StatementService_HTTPWriteResponse(w, out)
+		_StatementService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 

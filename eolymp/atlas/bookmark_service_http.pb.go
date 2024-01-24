@@ -10,6 +10,7 @@ import (
 	websocket "golang.org/x/net/websocket"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
+	metadata "google.golang.org/grpc/metadata"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
@@ -46,7 +47,7 @@ func _BookmarkService_HTTPReadRequestBody(r *http.Request, v proto.Message) erro
 }
 
 // _BookmarkService_HTTPWriteResponse writes proto.Message to HTTP response
-func _BookmarkService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message) {
+func _BookmarkService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h, t metadata.MD) {
 	data, err := protojson.Marshal(v)
 	if err != nil {
 		_BookmarkService_HTTPWriteErrorResponse(w, err)
@@ -54,6 +55,19 @@ func _BookmarkService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message) 
 	}
 
 	w.Header().Set("Content-Type", "application/json")
+
+	if v := append(h.Get("cache-control"), t.Get("cache-control")...); len(v) > 0 {
+		w.Header().Set("Cache-Control", v[len(v)-1])
+	}
+
+	if v := append(h.Get("etag"), t.Get("etag")...); len(v) > 0 {
+		w.Header().Set("ETag", v[len(v)-1])
+	}
+
+	if v := append(h.Get("last-modified"), t.Get("last-modified")...); len(v) > 0 {
+		w.Header().Set("Last-Modified", v[len(v)-1])
+	}
+
 	w.WriteHeader(http.StatusOK)
 
 	_, _ = w.Write(data)
@@ -200,13 +214,15 @@ func _BookmarkService_GetBookmark_Rule0(cli BookmarkServiceClient) http.Handler 
 			return
 		}
 
-		out, err := cli.GetBookmark(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.GetBookmark(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_BookmarkService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_BookmarkService_HTTPWriteResponse(w, out)
+		_BookmarkService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -220,13 +236,15 @@ func _BookmarkService_SetBookmark_Rule0(cli BookmarkServiceClient) http.Handler 
 			return
 		}
 
-		out, err := cli.SetBookmark(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.SetBookmark(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_BookmarkService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_BookmarkService_HTTPWriteResponse(w, out)
+		_BookmarkService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 

@@ -10,6 +10,7 @@ import (
 	websocket "golang.org/x/net/websocket"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
+	metadata "google.golang.org/grpc/metadata"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
@@ -46,7 +47,7 @@ func _LinkedAccountService_HTTPReadRequestBody(r *http.Request, v proto.Message)
 }
 
 // _LinkedAccountService_HTTPWriteResponse writes proto.Message to HTTP response
-func _LinkedAccountService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message) {
+func _LinkedAccountService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h, t metadata.MD) {
 	data, err := protojson.Marshal(v)
 	if err != nil {
 		_LinkedAccountService_HTTPWriteErrorResponse(w, err)
@@ -54,6 +55,19 @@ func _LinkedAccountService_HTTPWriteResponse(w http.ResponseWriter, v proto.Mess
 	}
 
 	w.Header().Set("Content-Type", "application/json")
+
+	if v := append(h.Get("cache-control"), t.Get("cache-control")...); len(v) > 0 {
+		w.Header().Set("Cache-Control", v[len(v)-1])
+	}
+
+	if v := append(h.Get("etag"), t.Get("etag")...); len(v) > 0 {
+		w.Header().Set("ETag", v[len(v)-1])
+	}
+
+	if v := append(h.Get("last-modified"), t.Get("last-modified")...); len(v) > 0 {
+		w.Header().Set("Last-Modified", v[len(v)-1])
+	}
+
 	w.WriteHeader(http.StatusOK)
 
 	_, _ = w.Write(data)
@@ -206,13 +220,15 @@ func _LinkedAccountService_DescribeLinkedAccount_Rule0(cli LinkedAccountServiceC
 		vars := mux.Vars(r)
 		in.LinkId = vars["link_id"]
 
-		out, err := cli.DescribeLinkedAccount(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeLinkedAccount(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_LinkedAccountService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_LinkedAccountService_HTTPWriteResponse(w, out)
+		_LinkedAccountService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -226,13 +242,15 @@ func _LinkedAccountService_ListLinkedAccounts_Rule0(cli LinkedAccountServiceClie
 			return
 		}
 
-		out, err := cli.ListLinkedAccounts(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListLinkedAccounts(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_LinkedAccountService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_LinkedAccountService_HTTPWriteResponse(w, out)
+		_LinkedAccountService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -249,13 +267,15 @@ func _LinkedAccountService_DeleteLinkedAccount_Rule0(cli LinkedAccountServiceCli
 		vars := mux.Vars(r)
 		in.LinkId = vars["link_id"]
 
-		out, err := cli.DeleteLinkedAccount(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DeleteLinkedAccount(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_LinkedAccountService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_LinkedAccountService_HTTPWriteResponse(w, out)
+		_LinkedAccountService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 

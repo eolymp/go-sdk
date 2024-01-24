@@ -47,7 +47,7 @@ func _ProblemSolver_HTTPReadRequestBody(r *http.Request, v proto.Message) error 
 }
 
 // _ProblemSolver_HTTPWriteResponse writes proto.Message to HTTP response
-func _ProblemSolver_HTTPWriteResponse(w http.ResponseWriter, v proto.Message) {
+func _ProblemSolver_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h, t metadata.MD) {
 	data, err := protojson.Marshal(v)
 	if err != nil {
 		_ProblemSolver_HTTPWriteErrorResponse(w, err)
@@ -55,6 +55,19 @@ func _ProblemSolver_HTTPWriteResponse(w http.ResponseWriter, v proto.Message) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
+
+	if v := append(h.Get("cache-control"), t.Get("cache-control")...); len(v) > 0 {
+		w.Header().Set("Cache-Control", v[len(v)-1])
+	}
+
+	if v := append(h.Get("etag"), t.Get("etag")...); len(v) > 0 {
+		w.Header().Set("ETag", v[len(v)-1])
+	}
+
+	if v := append(h.Get("last-modified"), t.Get("last-modified")...); len(v) > 0 {
+		w.Header().Set("Last-Modified", v[len(v)-1])
+	}
+
 	w.WriteHeader(http.StatusOK)
 
 	_, _ = w.Write(data)
@@ -248,13 +261,15 @@ func _ProblemSolver_ListStatements_Rule0(cli ProblemSolverClient) http.Handler {
 			return
 		}
 
-		out, err := cli.ListStatements(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListStatements(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ProblemSolver_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_ProblemSolver_HTTPWriteResponse(w, out)
+		_ProblemSolver_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -268,13 +283,15 @@ func _ProblemSolver_ListExamples_Rule0(cli ProblemSolverClient) http.Handler {
 			return
 		}
 
-		out, err := cli.ListExamples(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListExamples(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ProblemSolver_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_ProblemSolver_HTTPWriteResponse(w, out)
+		_ProblemSolver_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -288,13 +305,15 @@ func _ProblemSolver_CreateSubmission_Rule0(cli ProblemSolverClient) http.Handler
 			return
 		}
 
-		out, err := cli.CreateSubmission(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.CreateSubmission(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ProblemSolver_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_ProblemSolver_HTTPWriteResponse(w, out)
+		_ProblemSolver_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -308,13 +327,15 @@ func _ProblemSolver_ListSubmissions_Rule0(cli ProblemSolverClient) http.Handler 
 			return
 		}
 
-		out, err := cli.ListSubmissions(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListSubmissions(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ProblemSolver_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_ProblemSolver_HTTPWriteResponse(w, out)
+		_ProblemSolver_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -331,13 +352,15 @@ func _ProblemSolver_DescribeSubmission_Rule0(cli ProblemSolverClient) http.Handl
 		vars := mux.Vars(r)
 		in.SubmissionId = vars["submission_id"]
 
-		out, err := cli.DescribeSubmission(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeSubmission(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ProblemSolver_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_ProblemSolver_HTTPWriteResponse(w, out)
+		_ProblemSolver_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -351,13 +374,15 @@ func _ProblemSolver_DescribeScore_Rule0(cli ProblemSolverClient) http.Handler {
 			return
 		}
 
-		out, err := cli.DescribeScore(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeScore(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ProblemSolver_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_ProblemSolver_HTTPWriteResponse(w, out)
+		_ProblemSolver_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -371,13 +396,15 @@ func _ProblemSolver_LookupCodeTemplate_Rule0(cli ProblemSolverClient) http.Handl
 			return
 		}
 
-		out, err := cli.LookupCodeTemplate(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.LookupCodeTemplate(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ProblemSolver_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_ProblemSolver_HTTPWriteResponse(w, out)
+		_ProblemSolver_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 

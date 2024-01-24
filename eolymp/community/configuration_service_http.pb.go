@@ -10,6 +10,7 @@ import (
 	websocket "golang.org/x/net/websocket"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
+	metadata "google.golang.org/grpc/metadata"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
@@ -46,7 +47,7 @@ func _ConfigurationService_HTTPReadRequestBody(r *http.Request, v proto.Message)
 }
 
 // _ConfigurationService_HTTPWriteResponse writes proto.Message to HTTP response
-func _ConfigurationService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message) {
+func _ConfigurationService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h, t metadata.MD) {
 	data, err := protojson.Marshal(v)
 	if err != nil {
 		_ConfigurationService_HTTPWriteErrorResponse(w, err)
@@ -54,6 +55,19 @@ func _ConfigurationService_HTTPWriteResponse(w http.ResponseWriter, v proto.Mess
 	}
 
 	w.Header().Set("Content-Type", "application/json")
+
+	if v := append(h.Get("cache-control"), t.Get("cache-control")...); len(v) > 0 {
+		w.Header().Set("Cache-Control", v[len(v)-1])
+	}
+
+	if v := append(h.Get("etag"), t.Get("etag")...); len(v) > 0 {
+		w.Header().Set("ETag", v[len(v)-1])
+	}
+
+	if v := append(h.Get("last-modified"), t.Get("last-modified")...); len(v) > 0 {
+		w.Header().Set("Last-Modified", v[len(v)-1])
+	}
+
 	w.WriteHeader(http.StatusOK)
 
 	_, _ = w.Write(data)
@@ -206,13 +220,15 @@ func _ConfigurationService_DescribeIdentityProvider_Rule0(cli ConfigurationServi
 			return
 		}
 
-		out, err := cli.DescribeIdentityProvider(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeIdentityProvider(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ConfigurationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_ConfigurationService_HTTPWriteResponse(w, out)
+		_ConfigurationService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -226,13 +242,15 @@ func _ConfigurationService_ConfigureIdentityProvider_Rule0(cli ConfigurationServ
 			return
 		}
 
-		out, err := cli.ConfigureIdentityProvider(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ConfigureIdentityProvider(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ConfigurationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_ConfigurationService_HTTPWriteResponse(w, out)
+		_ConfigurationService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -246,13 +264,15 @@ func _ConfigurationService_DescribeIdentityConfig_Rule0(cli ConfigurationService
 			return
 		}
 
-		out, err := cli.DescribeIdentityConfig(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeIdentityConfig(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ConfigurationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_ConfigurationService_HTTPWriteResponse(w, out)
+		_ConfigurationService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -266,13 +286,15 @@ func _ConfigurationService_ConfigureIdentityConfig_Rule0(cli ConfigurationServic
 			return
 		}
 
-		out, err := cli.ConfigureIdentityConfig(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ConfigureIdentityConfig(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ConfigurationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_ConfigurationService_HTTPWriteResponse(w, out)
+		_ConfigurationService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 

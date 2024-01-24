@@ -10,6 +10,7 @@ import (
 	websocket "golang.org/x/net/websocket"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
+	metadata "google.golang.org/grpc/metadata"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
@@ -46,7 +47,7 @@ func _Universe_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
 }
 
 // _Universe_HTTPWriteResponse writes proto.Message to HTTP response
-func _Universe_HTTPWriteResponse(w http.ResponseWriter, v proto.Message) {
+func _Universe_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h, t metadata.MD) {
 	data, err := protojson.Marshal(v)
 	if err != nil {
 		_Universe_HTTPWriteErrorResponse(w, err)
@@ -54,6 +55,19 @@ func _Universe_HTTPWriteResponse(w http.ResponseWriter, v proto.Message) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
+
+	if v := append(h.Get("cache-control"), t.Get("cache-control")...); len(v) > 0 {
+		w.Header().Set("Cache-Control", v[len(v)-1])
+	}
+
+	if v := append(h.Get("etag"), t.Get("etag")...); len(v) > 0 {
+		w.Header().Set("ETag", v[len(v)-1])
+	}
+
+	if v := append(h.Get("last-modified"), t.Get("last-modified")...); len(v) > 0 {
+		w.Header().Set("Last-Modified", v[len(v)-1])
+	}
+
 	w.WriteHeader(http.StatusOK)
 
 	_, _ = w.Write(data)
@@ -221,13 +235,15 @@ func _Universe_LookupSpace_Rule0(cli UniverseClient) http.Handler {
 		vars := mux.Vars(r)
 		in.Key = vars["key"]
 
-		out, err := cli.LookupSpace(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.LookupSpace(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Universe_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Universe_HTTPWriteResponse(w, out)
+		_Universe_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -241,13 +257,15 @@ func _Universe_CreateSpace_Rule0(cli UniverseClient) http.Handler {
 			return
 		}
 
-		out, err := cli.CreateSpace(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.CreateSpace(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Universe_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Universe_HTTPWriteResponse(w, out)
+		_Universe_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -264,13 +282,15 @@ func _Universe_UpdateSpace_Rule0(cli UniverseClient) http.Handler {
 		vars := mux.Vars(r)
 		in.SpaceId = vars["space_id"]
 
-		out, err := cli.UpdateSpace(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateSpace(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Universe_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Universe_HTTPWriteResponse(w, out)
+		_Universe_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -287,13 +307,15 @@ func _Universe_DeleteSpace_Rule0(cli UniverseClient) http.Handler {
 		vars := mux.Vars(r)
 		in.SpaceId = vars["space_id"]
 
-		out, err := cli.DeleteSpace(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DeleteSpace(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Universe_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Universe_HTTPWriteResponse(w, out)
+		_Universe_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -310,13 +332,15 @@ func _Universe_DescribeSpace_Rule0(cli UniverseClient) http.Handler {
 		vars := mux.Vars(r)
 		in.SpaceId = vars["space_id"]
 
-		out, err := cli.DescribeSpace(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeSpace(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Universe_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Universe_HTTPWriteResponse(w, out)
+		_Universe_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -333,13 +357,15 @@ func _Universe_DescribeQuota_Rule0(cli UniverseClient) http.Handler {
 		vars := mux.Vars(r)
 		in.SpaceId = vars["space_id"]
 
-		out, err := cli.DescribeQuota(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeQuota(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Universe_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Universe_HTTPWriteResponse(w, out)
+		_Universe_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -356,13 +382,15 @@ func _Universe_UpdateQuota_Rule0(cli UniverseClient) http.Handler {
 		vars := mux.Vars(r)
 		in.SpaceId = vars["space_id"]
 
-		out, err := cli.UpdateQuota(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateQuota(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Universe_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Universe_HTTPWriteResponse(w, out)
+		_Universe_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -376,13 +404,15 @@ func _Universe_ListSpaces_Rule0(cli UniverseClient) http.Handler {
 			return
 		}
 
-		out, err := cli.ListSpaces(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListSpaces(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Universe_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Universe_HTTPWriteResponse(w, out)
+		_Universe_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 

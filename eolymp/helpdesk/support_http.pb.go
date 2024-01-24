@@ -10,6 +10,7 @@ import (
 	websocket "golang.org/x/net/websocket"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
+	metadata "google.golang.org/grpc/metadata"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
@@ -46,7 +47,7 @@ func _Support_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
 }
 
 // _Support_HTTPWriteResponse writes proto.Message to HTTP response
-func _Support_HTTPWriteResponse(w http.ResponseWriter, v proto.Message) {
+func _Support_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h, t metadata.MD) {
 	data, err := protojson.Marshal(v)
 	if err != nil {
 		_Support_HTTPWriteErrorResponse(w, err)
@@ -54,6 +55,19 @@ func _Support_HTTPWriteResponse(w http.ResponseWriter, v proto.Message) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
+
+	if v := append(h.Get("cache-control"), t.Get("cache-control")...); len(v) > 0 {
+		w.Header().Set("Cache-Control", v[len(v)-1])
+	}
+
+	if v := append(h.Get("etag"), t.Get("etag")...); len(v) > 0 {
+		w.Header().Set("ETag", v[len(v)-1])
+	}
+
+	if v := append(h.Get("last-modified"), t.Get("last-modified")...); len(v) > 0 {
+		w.Header().Set("Last-Modified", v[len(v)-1])
+	}
+
 	w.WriteHeader(http.StatusOK)
 
 	_, _ = w.Write(data)
@@ -248,13 +262,15 @@ func _Support_CreateTicket_Rule0(cli SupportClient) http.Handler {
 			return
 		}
 
-		out, err := cli.CreateTicket(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.CreateTicket(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Support_HTTPWriteResponse(w, out)
+		_Support_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -271,13 +287,15 @@ func _Support_UpdateTicket_Rule0(cli SupportClient) http.Handler {
 		vars := mux.Vars(r)
 		in.TicketId = vars["ticket_id"]
 
-		out, err := cli.UpdateTicket(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateTicket(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Support_HTTPWriteResponse(w, out)
+		_Support_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -294,13 +312,15 @@ func _Support_DeleteTicket_Rule0(cli SupportClient) http.Handler {
 		vars := mux.Vars(r)
 		in.TicketId = vars["ticket_id"]
 
-		out, err := cli.DeleteTicket(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DeleteTicket(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Support_HTTPWriteResponse(w, out)
+		_Support_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -317,13 +337,15 @@ func _Support_DescribeTicket_Rule0(cli SupportClient) http.Handler {
 		vars := mux.Vars(r)
 		in.TicketId = vars["ticket_id"]
 
-		out, err := cli.DescribeTicket(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeTicket(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Support_HTTPWriteResponse(w, out)
+		_Support_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -337,13 +359,15 @@ func _Support_ListTickets_Rule0(cli SupportClient) http.Handler {
 			return
 		}
 
-		out, err := cli.ListTickets(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListTickets(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Support_HTTPWriteResponse(w, out)
+		_Support_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -360,13 +384,15 @@ func _Support_ApproveTicket_Rule0(cli SupportClient) http.Handler {
 		vars := mux.Vars(r)
 		in.TicketId = vars["ticket_id"]
 
-		out, err := cli.ApproveTicket(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ApproveTicket(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Support_HTTPWriteResponse(w, out)
+		_Support_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -383,13 +409,15 @@ func _Support_RejectTicket_Rule0(cli SupportClient) http.Handler {
 		vars := mux.Vars(r)
 		in.TicketId = vars["ticket_id"]
 
-		out, err := cli.RejectTicket(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.RejectTicket(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Support_HTTPWriteResponse(w, out)
+		_Support_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -406,13 +434,15 @@ func _Support_CloseTicket_Rule0(cli SupportClient) http.Handler {
 		vars := mux.Vars(r)
 		in.TicketId = vars["ticket_id"]
 
-		out, err := cli.CloseTicket(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.CloseTicket(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Support_HTTPWriteResponse(w, out)
+		_Support_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -429,13 +459,15 @@ func _Support_AddComment_Rule0(cli SupportClient) http.Handler {
 		vars := mux.Vars(r)
 		in.TicketId = vars["ticket_id"]
 
-		out, err := cli.AddComment(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.AddComment(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Support_HTTPWriteResponse(w, out)
+		_Support_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -453,13 +485,15 @@ func _Support_UpdateComment_Rule0(cli SupportClient) http.Handler {
 		in.TicketId = vars["ticket_id"]
 		in.CommentId = vars["comment_id"]
 
-		out, err := cli.UpdateComment(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateComment(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Support_HTTPWriteResponse(w, out)
+		_Support_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -477,13 +511,15 @@ func _Support_DeleteComment_Rule0(cli SupportClient) http.Handler {
 		in.TicketId = vars["ticket_id"]
 		in.CommentId = vars["comment_id"]
 
-		out, err := cli.DeleteComment(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DeleteComment(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Support_HTTPWriteResponse(w, out)
+		_Support_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -500,13 +536,15 @@ func _Support_ListComments_Rule0(cli SupportClient) http.Handler {
 		vars := mux.Vars(r)
 		in.TicketId = vars["ticket_id"]
 
-		out, err := cli.ListComments(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListComments(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Support_HTTPWriteResponse(w, out)
+		_Support_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -524,13 +562,15 @@ func _Support_DescribeComment_Rule0(cli SupportClient) http.Handler {
 		in.TicketId = vars["ticket_id"]
 		in.CommentId = vars["comment_id"]
 
-		out, err := cli.DescribeComment(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeComment(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Support_HTTPWriteResponse(w, out)
+		_Support_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -544,13 +584,15 @@ func _Support_CreateAutoReply_Rule0(cli SupportClient) http.Handler {
 			return
 		}
 
-		out, err := cli.CreateAutoReply(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.CreateAutoReply(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Support_HTTPWriteResponse(w, out)
+		_Support_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -567,13 +609,15 @@ func _Support_UpdateAutoReply_Rule0(cli SupportClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ReplyId = vars["reply_id"]
 
-		out, err := cli.UpdateAutoReply(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateAutoReply(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Support_HTTPWriteResponse(w, out)
+		_Support_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -590,13 +634,15 @@ func _Support_DeleteAutoReply_Rule0(cli SupportClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ReplyId = vars["reply_id"]
 
-		out, err := cli.DeleteAutoReply(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DeleteAutoReply(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Support_HTTPWriteResponse(w, out)
+		_Support_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -610,13 +656,15 @@ func _Support_ListAutoReplies_Rule0(cli SupportClient) http.Handler {
 			return
 		}
 
-		out, err := cli.ListAutoReplies(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListAutoReplies(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Support_HTTPWriteResponse(w, out)
+		_Support_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -633,13 +681,15 @@ func _Support_DescribeAutoReply_Rule0(cli SupportClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ReplyId = vars["reply_id"]
 
-		out, err := cli.DescribeAutoReply(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeAutoReply(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Support_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Support_HTTPWriteResponse(w, out)
+		_Support_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 

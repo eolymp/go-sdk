@@ -10,6 +10,7 @@ import (
 	websocket "golang.org/x/net/websocket"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
+	metadata "google.golang.org/grpc/metadata"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
@@ -46,7 +47,7 @@ func _EditorialService_HTTPReadRequestBody(r *http.Request, v proto.Message) err
 }
 
 // _EditorialService_HTTPWriteResponse writes proto.Message to HTTP response
-func _EditorialService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message) {
+func _EditorialService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h, t metadata.MD) {
 	data, err := protojson.Marshal(v)
 	if err != nil {
 		_EditorialService_HTTPWriteErrorResponse(w, err)
@@ -54,6 +55,19 @@ func _EditorialService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message)
 	}
 
 	w.Header().Set("Content-Type", "application/json")
+
+	if v := append(h.Get("cache-control"), t.Get("cache-control")...); len(v) > 0 {
+		w.Header().Set("Cache-Control", v[len(v)-1])
+	}
+
+	if v := append(h.Get("etag"), t.Get("etag")...); len(v) > 0 {
+		w.Header().Set("ETag", v[len(v)-1])
+	}
+
+	if v := append(h.Get("last-modified"), t.Get("last-modified")...); len(v) > 0 {
+		w.Header().Set("Last-Modified", v[len(v)-1])
+	}
+
 	w.WriteHeader(http.StatusOK)
 
 	_, _ = w.Write(data)
@@ -215,13 +229,15 @@ func _EditorialService_CreateEditorial_Rule0(cli EditorialServiceClient) http.Ha
 			return
 		}
 
-		out, err := cli.CreateEditorial(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.CreateEditorial(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_EditorialService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_EditorialService_HTTPWriteResponse(w, out)
+		_EditorialService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -238,13 +254,15 @@ func _EditorialService_UpdateEditorial_Rule0(cli EditorialServiceClient) http.Ha
 		vars := mux.Vars(r)
 		in.EditorialId = vars["editorial_id"]
 
-		out, err := cli.UpdateEditorial(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateEditorial(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_EditorialService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_EditorialService_HTTPWriteResponse(w, out)
+		_EditorialService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -261,13 +279,15 @@ func _EditorialService_DeleteEditorial_Rule0(cli EditorialServiceClient) http.Ha
 		vars := mux.Vars(r)
 		in.EditorialId = vars["editorial_id"]
 
-		out, err := cli.DeleteEditorial(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DeleteEditorial(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_EditorialService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_EditorialService_HTTPWriteResponse(w, out)
+		_EditorialService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -284,13 +304,15 @@ func _EditorialService_DescribeEditorial_Rule0(cli EditorialServiceClient) http.
 		vars := mux.Vars(r)
 		in.EditorialId = vars["editorial_id"]
 
-		out, err := cli.DescribeEditorial(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeEditorial(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_EditorialService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_EditorialService_HTTPWriteResponse(w, out)
+		_EditorialService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -304,13 +326,15 @@ func _EditorialService_LookupEditorial_Rule0(cli EditorialServiceClient) http.Ha
 			return
 		}
 
-		out, err := cli.LookupEditorial(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.LookupEditorial(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_EditorialService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_EditorialService_HTTPWriteResponse(w, out)
+		_EditorialService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -324,13 +348,15 @@ func _EditorialService_PreviewEditorial_Rule0(cli EditorialServiceClient) http.H
 			return
 		}
 
-		out, err := cli.PreviewEditorial(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.PreviewEditorial(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_EditorialService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_EditorialService_HTTPWriteResponse(w, out)
+		_EditorialService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -344,13 +370,15 @@ func _EditorialService_ListEditorials_Rule0(cli EditorialServiceClient) http.Han
 			return
 		}
 
-		out, err := cli.ListEditorials(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListEditorials(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_EditorialService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_EditorialService_HTTPWriteResponse(w, out)
+		_EditorialService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 

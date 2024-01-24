@@ -47,7 +47,7 @@ func _SubmissionService_HTTPReadRequestBody(r *http.Request, v proto.Message) er
 }
 
 // _SubmissionService_HTTPWriteResponse writes proto.Message to HTTP response
-func _SubmissionService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message) {
+func _SubmissionService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h, t metadata.MD) {
 	data, err := protojson.Marshal(v)
 	if err != nil {
 		_SubmissionService_HTTPWriteErrorResponse(w, err)
@@ -55,6 +55,19 @@ func _SubmissionService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message
 	}
 
 	w.Header().Set("Content-Type", "application/json")
+
+	if v := append(h.Get("cache-control"), t.Get("cache-control")...); len(v) > 0 {
+		w.Header().Set("Cache-Control", v[len(v)-1])
+	}
+
+	if v := append(h.Get("etag"), t.Get("etag")...); len(v) > 0 {
+		w.Header().Set("ETag", v[len(v)-1])
+	}
+
+	if v := append(h.Get("last-modified"), t.Get("last-modified")...); len(v) > 0 {
+		w.Header().Set("Last-Modified", v[len(v)-1])
+	}
+
 	w.WriteHeader(http.StatusOK)
 
 	_, _ = w.Write(data)
@@ -239,13 +252,15 @@ func _SubmissionService_CreateSubmission_Rule0(cli SubmissionServiceClient) http
 			return
 		}
 
-		out, err := cli.CreateSubmission(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.CreateSubmission(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_SubmissionService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_SubmissionService_HTTPWriteResponse(w, out)
+		_SubmissionService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -262,13 +277,15 @@ func _SubmissionService_RetestSubmission_Rule0(cli SubmissionServiceClient) http
 		vars := mux.Vars(r)
 		in.SubmissionId = vars["submission_id"]
 
-		out, err := cli.RetestSubmission(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.RetestSubmission(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_SubmissionService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_SubmissionService_HTTPWriteResponse(w, out)
+		_SubmissionService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -285,13 +302,15 @@ func _SubmissionService_DescribeSubmission_Rule0(cli SubmissionServiceClient) ht
 		vars := mux.Vars(r)
 		in.SubmissionId = vars["submission_id"]
 
-		out, err := cli.DescribeSubmission(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeSubmission(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_SubmissionService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_SubmissionService_HTTPWriteResponse(w, out)
+		_SubmissionService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -305,13 +324,15 @@ func _SubmissionService_ListSubmissions_Rule0(cli SubmissionServiceClient) http.
 			return
 		}
 
-		out, err := cli.ListSubmissions(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListSubmissions(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_SubmissionService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_SubmissionService_HTTPWriteResponse(w, out)
+		_SubmissionService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 

@@ -10,6 +10,7 @@ import (
 	websocket "golang.org/x/net/websocket"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
+	metadata "google.golang.org/grpc/metadata"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
@@ -46,7 +47,7 @@ func _CodeTemplateService_HTTPReadRequestBody(r *http.Request, v proto.Message) 
 }
 
 // _CodeTemplateService_HTTPWriteResponse writes proto.Message to HTTP response
-func _CodeTemplateService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message) {
+func _CodeTemplateService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h, t metadata.MD) {
 	data, err := protojson.Marshal(v)
 	if err != nil {
 		_CodeTemplateService_HTTPWriteErrorResponse(w, err)
@@ -54,6 +55,19 @@ func _CodeTemplateService_HTTPWriteResponse(w http.ResponseWriter, v proto.Messa
 	}
 
 	w.Header().Set("Content-Type", "application/json")
+
+	if v := append(h.Get("cache-control"), t.Get("cache-control")...); len(v) > 0 {
+		w.Header().Set("Cache-Control", v[len(v)-1])
+	}
+
+	if v := append(h.Get("etag"), t.Get("etag")...); len(v) > 0 {
+		w.Header().Set("ETag", v[len(v)-1])
+	}
+
+	if v := append(h.Get("last-modified"), t.Get("last-modified")...); len(v) > 0 {
+		w.Header().Set("Last-Modified", v[len(v)-1])
+	}
+
 	w.WriteHeader(http.StatusOK)
 
 	_, _ = w.Write(data)
@@ -212,13 +226,15 @@ func _CodeTemplateService_CreateCodeTemplate_Rule0(cli CodeTemplateServiceClient
 			return
 		}
 
-		out, err := cli.CreateCodeTemplate(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.CreateCodeTemplate(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_CodeTemplateService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_CodeTemplateService_HTTPWriteResponse(w, out)
+		_CodeTemplateService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -235,13 +251,15 @@ func _CodeTemplateService_UpdateCodeTemplate_Rule0(cli CodeTemplateServiceClient
 		vars := mux.Vars(r)
 		in.TemplateId = vars["template_id"]
 
-		out, err := cli.UpdateCodeTemplate(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateCodeTemplate(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_CodeTemplateService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_CodeTemplateService_HTTPWriteResponse(w, out)
+		_CodeTemplateService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -258,13 +276,15 @@ func _CodeTemplateService_DeleteCodeTemplate_Rule0(cli CodeTemplateServiceClient
 		vars := mux.Vars(r)
 		in.TemplateId = vars["template_id"]
 
-		out, err := cli.DeleteCodeTemplate(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DeleteCodeTemplate(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_CodeTemplateService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_CodeTemplateService_HTTPWriteResponse(w, out)
+		_CodeTemplateService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -278,13 +298,15 @@ func _CodeTemplateService_ListCodeTemplates_Rule0(cli CodeTemplateServiceClient)
 			return
 		}
 
-		out, err := cli.ListCodeTemplates(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListCodeTemplates(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_CodeTemplateService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_CodeTemplateService_HTTPWriteResponse(w, out)
+		_CodeTemplateService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -301,13 +323,15 @@ func _CodeTemplateService_DescribeCodeTemplate_Rule0(cli CodeTemplateServiceClie
 		vars := mux.Vars(r)
 		in.TemplateId = vars["template_id"]
 
-		out, err := cli.DescribeCodeTemplate(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeCodeTemplate(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_CodeTemplateService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_CodeTemplateService_HTTPWriteResponse(w, out)
+		_CodeTemplateService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -321,13 +345,15 @@ func _CodeTemplateService_LookupCodeTemplate_Rule0(cli CodeTemplateServiceClient
 			return
 		}
 
-		out, err := cli.LookupCodeTemplate(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.LookupCodeTemplate(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_CodeTemplateService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_CodeTemplateService_HTTPWriteResponse(w, out)
+		_CodeTemplateService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 

@@ -10,6 +10,7 @@ import (
 	websocket "golang.org/x/net/websocket"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
+	metadata "google.golang.org/grpc/metadata"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
@@ -46,7 +47,7 @@ func _ContentService_HTTPReadRequestBody(r *http.Request, v proto.Message) error
 }
 
 // _ContentService_HTTPWriteResponse writes proto.Message to HTTP response
-func _ContentService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message) {
+func _ContentService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h, t metadata.MD) {
 	data, err := protojson.Marshal(v)
 	if err != nil {
 		_ContentService_HTTPWriteErrorResponse(w, err)
@@ -54,6 +55,19 @@ func _ContentService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
+
+	if v := append(h.Get("cache-control"), t.Get("cache-control")...); len(v) > 0 {
+		w.Header().Set("Cache-Control", v[len(v)-1])
+	}
+
+	if v := append(h.Get("etag"), t.Get("etag")...); len(v) > 0 {
+		w.Header().Set("ETag", v[len(v)-1])
+	}
+
+	if v := append(h.Get("last-modified"), t.Get("last-modified")...); len(v) > 0 {
+		w.Header().Set("Last-Modified", v[len(v)-1])
+	}
+
 	w.WriteHeader(http.StatusOK)
 
 	_, _ = w.Write(data)
@@ -221,13 +235,15 @@ func _ContentService_DescribeFragment_Rule0(cli ContentServiceClient) http.Handl
 		vars := mux.Vars(r)
 		in.FragmentId = vars["fragment_id"]
 
-		out, err := cli.DescribeFragment(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeFragment(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ContentService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_ContentService_HTTPWriteResponse(w, out)
+		_ContentService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -241,13 +257,15 @@ func _ContentService_ListFragments_Rule0(cli ContentServiceClient) http.Handler 
 			return
 		}
 
-		out, err := cli.ListFragments(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListFragments(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ContentService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_ContentService_HTTPWriteResponse(w, out)
+		_ContentService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -261,13 +279,15 @@ func _ContentService_CreateFragment_Rule0(cli ContentServiceClient) http.Handler
 			return
 		}
 
-		out, err := cli.CreateFragment(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.CreateFragment(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ContentService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_ContentService_HTTPWriteResponse(w, out)
+		_ContentService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -284,13 +304,15 @@ func _ContentService_UpdateFragment_Rule0(cli ContentServiceClient) http.Handler
 		vars := mux.Vars(r)
 		in.FragmentId = vars["fragment_id"]
 
-		out, err := cli.UpdateFragment(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateFragment(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ContentService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_ContentService_HTTPWriteResponse(w, out)
+		_ContentService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -307,13 +329,15 @@ func _ContentService_DeleteFragment_Rule0(cli ContentServiceClient) http.Handler
 		vars := mux.Vars(r)
 		in.FragmentId = vars["fragment_id"]
 
-		out, err := cli.DeleteFragment(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DeleteFragment(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ContentService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_ContentService_HTTPWriteResponse(w, out)
+		_ContentService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -327,13 +351,15 @@ func _ContentService_DescribePath_Rule0(cli ContentServiceClient) http.Handler {
 			return
 		}
 
-		out, err := cli.DescribePath(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribePath(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ContentService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_ContentService_HTTPWriteResponse(w, out)
+		_ContentService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -347,13 +373,15 @@ func _ContentService_ListPaths_Rule0(cli ContentServiceClient) http.Handler {
 			return
 		}
 
-		out, err := cli.ListPaths(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListPaths(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ContentService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_ContentService_HTTPWriteResponse(w, out)
+		_ContentService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -367,13 +395,15 @@ func _ContentService_ListParents_Rule0(cli ContentServiceClient) http.Handler {
 			return
 		}
 
-		out, err := cli.ListParents(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListParents(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ContentService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_ContentService_HTTPWriteResponse(w, out)
+		_ContentService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 

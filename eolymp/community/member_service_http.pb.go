@@ -10,6 +10,7 @@ import (
 	websocket "golang.org/x/net/websocket"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
+	metadata "google.golang.org/grpc/metadata"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
@@ -46,7 +47,7 @@ func _MemberService_HTTPReadRequestBody(r *http.Request, v proto.Message) error 
 }
 
 // _MemberService_HTTPWriteResponse writes proto.Message to HTTP response
-func _MemberService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message) {
+func _MemberService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h, t metadata.MD) {
 	data, err := protojson.Marshal(v)
 	if err != nil {
 		_MemberService_HTTPWriteErrorResponse(w, err)
@@ -54,6 +55,19 @@ func _MemberService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
+
+	if v := append(h.Get("cache-control"), t.Get("cache-control")...); len(v) > 0 {
+		w.Header().Set("Cache-Control", v[len(v)-1])
+	}
+
+	if v := append(h.Get("etag"), t.Get("etag")...); len(v) > 0 {
+		w.Header().Set("ETag", v[len(v)-1])
+	}
+
+	if v := append(h.Get("last-modified"), t.Get("last-modified")...); len(v) > 0 {
+		w.Header().Set("Last-Modified", v[len(v)-1])
+	}
+
 	w.WriteHeader(http.StatusOK)
 
 	_, _ = w.Write(data)
@@ -221,13 +235,15 @@ func _MemberService_CreateMember_Rule0(cli MemberServiceClient) http.Handler {
 			return
 		}
 
-		out, err := cli.CreateMember(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.CreateMember(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_MemberService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_MemberService_HTTPWriteResponse(w, out)
+		_MemberService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -244,13 +260,15 @@ func _MemberService_UpdateMember_Rule0(cli MemberServiceClient) http.Handler {
 		vars := mux.Vars(r)
 		in.MemberId = vars["member_id"]
 
-		out, err := cli.UpdateMember(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateMember(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_MemberService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_MemberService_HTTPWriteResponse(w, out)
+		_MemberService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -267,13 +285,15 @@ func _MemberService_DeleteMember_Rule0(cli MemberServiceClient) http.Handler {
 		vars := mux.Vars(r)
 		in.MemberId = vars["member_id"]
 
-		out, err := cli.DeleteMember(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DeleteMember(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_MemberService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_MemberService_HTTPWriteResponse(w, out)
+		_MemberService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -290,13 +310,15 @@ func _MemberService_RestoreMember_Rule0(cli MemberServiceClient) http.Handler {
 		vars := mux.Vars(r)
 		in.MemberId = vars["member_id"]
 
-		out, err := cli.RestoreMember(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.RestoreMember(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_MemberService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_MemberService_HTTPWriteResponse(w, out)
+		_MemberService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -313,13 +335,15 @@ func _MemberService_DescribeMember_Rule0(cli MemberServiceClient) http.Handler {
 		vars := mux.Vars(r)
 		in.MemberId = vars["member_id"]
 
-		out, err := cli.DescribeMember(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeMember(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_MemberService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_MemberService_HTTPWriteResponse(w, out)
+		_MemberService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -333,13 +357,15 @@ func _MemberService_ListMembers_Rule0(cli MemberServiceClient) http.Handler {
 			return
 		}
 
-		out, err := cli.ListMembers(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListMembers(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_MemberService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_MemberService_HTTPWriteResponse(w, out)
+		_MemberService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -357,13 +383,15 @@ func _MemberService_AssignMember_Rule0(cli MemberServiceClient) http.Handler {
 		in.TeamId = vars["team_id"]
 		in.MemberId = vars["member_id"]
 
-		out, err := cli.AssignMember(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.AssignMember(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_MemberService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_MemberService_HTTPWriteResponse(w, out)
+		_MemberService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -381,13 +409,15 @@ func _MemberService_UnassignMember_Rule0(cli MemberServiceClient) http.Handler {
 		in.TeamId = vars["team_id"]
 		in.MemberId = vars["member_id"]
 
-		out, err := cli.UnassignMember(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.UnassignMember(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_MemberService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_MemberService_HTTPWriteResponse(w, out)
+		_MemberService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -401,13 +431,15 @@ func _MemberService_DescribeMemberUsage_Rule0(cli MemberServiceClient) http.Hand
 			return
 		}
 
-		out, err := cli.DescribeMemberUsage(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeMemberUsage(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_MemberService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_MemberService_HTTPWriteResponse(w, out)
+		_MemberService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 

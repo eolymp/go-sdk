@@ -10,6 +10,7 @@ import (
 	websocket "golang.org/x/net/websocket"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
+	metadata "google.golang.org/grpc/metadata"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
@@ -46,7 +47,7 @@ func _Cognito_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
 }
 
 // _Cognito_HTTPWriteResponse writes proto.Message to HTTP response
-func _Cognito_HTTPWriteResponse(w http.ResponseWriter, v proto.Message) {
+func _Cognito_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h, t metadata.MD) {
 	data, err := protojson.Marshal(v)
 	if err != nil {
 		_Cognito_HTTPWriteErrorResponse(w, err)
@@ -54,6 +55,19 @@ func _Cognito_HTTPWriteResponse(w http.ResponseWriter, v proto.Message) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
+
+	if v := append(h.Get("cache-control"), t.Get("cache-control")...); len(v) > 0 {
+		w.Header().Set("Cache-Control", v[len(v)-1])
+	}
+
+	if v := append(h.Get("etag"), t.Get("etag")...); len(v) > 0 {
+		w.Header().Set("ETag", v[len(v)-1])
+	}
+
+	if v := append(h.Get("last-modified"), t.Get("last-modified")...); len(v) > 0 {
+		w.Header().Set("Last-Modified", v[len(v)-1])
+	}
+
 	w.WriteHeader(http.StatusOK)
 
 	_, _ = w.Write(data)
@@ -257,13 +271,15 @@ func _Cognito_Signout_Rule0(cli CognitoClient) http.Handler {
 			return
 		}
 
-		out, err := cli.Signout(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.Signout(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Cognito_HTTPWriteResponse(w, out)
+		_Cognito_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -277,13 +293,15 @@ func _Cognito_CreateAccessKey_Rule0(cli CognitoClient) http.Handler {
 			return
 		}
 
-		out, err := cli.CreateAccessKey(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.CreateAccessKey(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Cognito_HTTPWriteResponse(w, out)
+		_Cognito_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -300,13 +318,15 @@ func _Cognito_DeleteAccessKey_Rule0(cli CognitoClient) http.Handler {
 		vars := mux.Vars(r)
 		in.KeyId = vars["key_id"]
 
-		out, err := cli.DeleteAccessKey(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DeleteAccessKey(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Cognito_HTTPWriteResponse(w, out)
+		_Cognito_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -320,13 +340,15 @@ func _Cognito_ListAccessKeys_Rule0(cli CognitoClient) http.Handler {
 			return
 		}
 
-		out, err := cli.ListAccessKeys(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListAccessKeys(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Cognito_HTTPWriteResponse(w, out)
+		_Cognito_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -340,13 +362,15 @@ func _Cognito_CreateUser_Rule0(cli CognitoClient) http.Handler {
 			return
 		}
 
-		out, err := cli.CreateUser(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.CreateUser(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Cognito_HTTPWriteResponse(w, out)
+		_Cognito_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -363,13 +387,15 @@ func _Cognito_VerifyEmail_Rule0(cli CognitoClient) http.Handler {
 		vars := mux.Vars(r)
 		in.UserId = vars["user_id"]
 
-		out, err := cli.VerifyEmail(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.VerifyEmail(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Cognito_HTTPWriteResponse(w, out)
+		_Cognito_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -383,13 +409,15 @@ func _Cognito_ResendEmailVerification_Rule0(cli CognitoClient) http.Handler {
 			return
 		}
 
-		out, err := cli.ResendEmailVerification(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ResendEmailVerification(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Cognito_HTTPWriteResponse(w, out)
+		_Cognito_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -403,13 +431,15 @@ func _Cognito_UpdateEmail_Rule0(cli CognitoClient) http.Handler {
 			return
 		}
 
-		out, err := cli.UpdateEmail(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateEmail(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Cognito_HTTPWriteResponse(w, out)
+		_Cognito_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -423,13 +453,15 @@ func _Cognito_UpdateProfile_Rule0(cli CognitoClient) http.Handler {
 			return
 		}
 
-		out, err := cli.UpdateProfile(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateProfile(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Cognito_HTTPWriteResponse(w, out)
+		_Cognito_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -443,13 +475,15 @@ func _Cognito_UpdatePicture_Rule0(cli CognitoClient) http.Handler {
 			return
 		}
 
-		out, err := cli.UpdatePicture(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdatePicture(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Cognito_HTTPWriteResponse(w, out)
+		_Cognito_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -463,13 +497,15 @@ func _Cognito_UpdatePassword_Rule0(cli CognitoClient) http.Handler {
 			return
 		}
 
-		out, err := cli.UpdatePassword(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdatePassword(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Cognito_HTTPWriteResponse(w, out)
+		_Cognito_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -483,13 +519,15 @@ func _Cognito_IntrospectUser_Rule0(cli CognitoClient) http.Handler {
 			return
 		}
 
-		out, err := cli.IntrospectUser(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.IntrospectUser(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Cognito_HTTPWriteResponse(w, out)
+		_Cognito_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -506,13 +544,15 @@ func _Cognito_DescribeUser_Rule0(cli CognitoClient) http.Handler {
 		vars := mux.Vars(r)
 		in.UserId = vars["user_id"]
 
-		out, err := cli.DescribeUser(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeUser(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Cognito_HTTPWriteResponse(w, out)
+		_Cognito_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -526,13 +566,15 @@ func _Cognito_ListUsers_Rule0(cli CognitoClient) http.Handler {
 			return
 		}
 
-		out, err := cli.ListUsers(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListUsers(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Cognito_HTTPWriteResponse(w, out)
+		_Cognito_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -546,13 +588,15 @@ func _Cognito_IntrospectQuota_Rule0(cli CognitoClient) http.Handler {
 			return
 		}
 
-		out, err := cli.IntrospectQuota(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.IntrospectQuota(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Cognito_HTTPWriteResponse(w, out)
+		_Cognito_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -566,13 +610,15 @@ func _Cognito_IntrospectRoles_Rule0(cli CognitoClient) http.Handler {
 			return
 		}
 
-		out, err := cli.IntrospectRoles(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.IntrospectRoles(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Cognito_HTTPWriteResponse(w, out)
+		_Cognito_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -589,13 +635,15 @@ func _Cognito_ListRoles_Rule0(cli CognitoClient) http.Handler {
 		vars := mux.Vars(r)
 		in.UserId = vars["user_id"]
 
-		out, err := cli.ListRoles(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListRoles(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Cognito_HTTPWriteResponse(w, out)
+		_Cognito_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -612,13 +660,15 @@ func _Cognito_UpdateRoles_Rule0(cli CognitoClient) http.Handler {
 		vars := mux.Vars(r)
 		in.UserId = vars["user_id"]
 
-		out, err := cli.UpdateRoles(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateRoles(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Cognito_HTTPWriteResponse(w, out)
+		_Cognito_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -632,13 +682,15 @@ func _Cognito_StartRecovery_Rule0(cli CognitoClient) http.Handler {
 			return
 		}
 
-		out, err := cli.StartRecovery(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.StartRecovery(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Cognito_HTTPWriteResponse(w, out)
+		_Cognito_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -655,13 +707,15 @@ func _Cognito_CompleteRecovery_Rule0(cli CognitoClient) http.Handler {
 		vars := mux.Vars(r)
 		in.UserId = vars["user_id"]
 
-		out, err := cli.CompleteRecovery(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.CompleteRecovery(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Cognito_HTTPWriteResponse(w, out)
+		_Cognito_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -675,13 +729,15 @@ func _Cognito_SelfDestruct_Rule0(cli CognitoClient) http.Handler {
 			return
 		}
 
-		out, err := cli.SelfDestruct(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.SelfDestruct(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Cognito_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Cognito_HTTPWriteResponse(w, out)
+		_Cognito_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 

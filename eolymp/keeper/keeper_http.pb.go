@@ -10,6 +10,7 @@ import (
 	websocket "golang.org/x/net/websocket"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
+	metadata "google.golang.org/grpc/metadata"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
@@ -46,7 +47,7 @@ func _Keeper_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
 }
 
 // _Keeper_HTTPWriteResponse writes proto.Message to HTTP response
-func _Keeper_HTTPWriteResponse(w http.ResponseWriter, v proto.Message) {
+func _Keeper_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h, t metadata.MD) {
 	data, err := protojson.Marshal(v)
 	if err != nil {
 		_Keeper_HTTPWriteErrorResponse(w, err)
@@ -54,6 +55,19 @@ func _Keeper_HTTPWriteResponse(w http.ResponseWriter, v proto.Message) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
+
+	if v := append(h.Get("cache-control"), t.Get("cache-control")...); len(v) > 0 {
+		w.Header().Set("Cache-Control", v[len(v)-1])
+	}
+
+	if v := append(h.Get("etag"), t.Get("etag")...); len(v) > 0 {
+		w.Header().Set("ETag", v[len(v)-1])
+	}
+
+	if v := append(h.Get("last-modified"), t.Get("last-modified")...); len(v) > 0 {
+		w.Header().Set("Last-Modified", v[len(v)-1])
+	}
+
 	w.WriteHeader(http.StatusOK)
 
 	_, _ = w.Write(data)
@@ -212,13 +226,15 @@ func _Keeper_CreateObject_Rule0(cli KeeperClient) http.Handler {
 			return
 		}
 
-		out, err := cli.CreateObject(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.CreateObject(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Keeper_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Keeper_HTTPWriteResponse(w, out)
+		_Keeper_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -235,13 +251,15 @@ func _Keeper_DescribeObject_Rule0(cli KeeperClient) http.Handler {
 		vars := mux.Vars(r)
 		in.Key = vars["key"]
 
-		out, err := cli.DescribeObject(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeObject(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Keeper_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Keeper_HTTPWriteResponse(w, out)
+		_Keeper_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -258,13 +276,15 @@ func _Keeper_DownloadObject_Rule0(cli KeeperClient) http.Handler {
 		vars := mux.Vars(r)
 		in.Key = vars["key"]
 
-		out, err := cli.DownloadObject(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DownloadObject(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Keeper_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Keeper_HTTPWriteResponse(w, out)
+		_Keeper_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -278,13 +298,15 @@ func _Keeper_StartMultipartUpload_Rule0(cli KeeperClient) http.Handler {
 			return
 		}
 
-		out, err := cli.StartMultipartUpload(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.StartMultipartUpload(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Keeper_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Keeper_HTTPWriteResponse(w, out)
+		_Keeper_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -301,13 +323,15 @@ func _Keeper_UploadPart_Rule0(cli KeeperClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ObjectId = vars["object_id"]
 
-		out, err := cli.UploadPart(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.UploadPart(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Keeper_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Keeper_HTTPWriteResponse(w, out)
+		_Keeper_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -324,13 +348,15 @@ func _Keeper_CompleteMultipartUpload_Rule0(cli KeeperClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ObjectId = vars["object_id"]
 
-		out, err := cli.CompleteMultipartUpload(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.CompleteMultipartUpload(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Keeper_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Keeper_HTTPWriteResponse(w, out)
+		_Keeper_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 

@@ -10,6 +10,7 @@ import (
 	websocket "golang.org/x/net/websocket"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
+	metadata "google.golang.org/grpc/metadata"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
@@ -46,7 +47,7 @@ func _MessageService_HTTPReadRequestBody(r *http.Request, v proto.Message) error
 }
 
 // _MessageService_HTTPWriteResponse writes proto.Message to HTTP response
-func _MessageService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message) {
+func _MessageService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h, t metadata.MD) {
 	data, err := protojson.Marshal(v)
 	if err != nil {
 		_MessageService_HTTPWriteErrorResponse(w, err)
@@ -54,6 +55,19 @@ func _MessageService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
+
+	if v := append(h.Get("cache-control"), t.Get("cache-control")...); len(v) > 0 {
+		w.Header().Set("Cache-Control", v[len(v)-1])
+	}
+
+	if v := append(h.Get("etag"), t.Get("etag")...); len(v) > 0 {
+		w.Header().Set("ETag", v[len(v)-1])
+	}
+
+	if v := append(h.Get("last-modified"), t.Get("last-modified")...); len(v) > 0 {
+		w.Header().Set("Last-Modified", v[len(v)-1])
+	}
+
 	w.WriteHeader(http.StatusOK)
 
 	_, _ = w.Write(data)
@@ -215,13 +229,15 @@ func _MessageService_DescribeMessage_Rule0(cli MessageServiceClient) http.Handle
 		vars := mux.Vars(r)
 		in.MessageId = vars["message_id"]
 
-		out, err := cli.DescribeMessage(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeMessage(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_MessageService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_MessageService_HTTPWriteResponse(w, out)
+		_MessageService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -235,13 +251,15 @@ func _MessageService_ListMessages_Rule0(cli MessageServiceClient) http.Handler {
 			return
 		}
 
-		out, err := cli.ListMessages(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListMessages(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_MessageService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_MessageService_HTTPWriteResponse(w, out)
+		_MessageService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -255,13 +273,15 @@ func _MessageService_PostMessage_Rule0(cli MessageServiceClient) http.Handler {
 			return
 		}
 
-		out, err := cli.PostMessage(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.PostMessage(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_MessageService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_MessageService_HTTPWriteResponse(w, out)
+		_MessageService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -278,13 +298,15 @@ func _MessageService_UpdateMessage_Rule0(cli MessageServiceClient) http.Handler 
 		vars := mux.Vars(r)
 		in.MessageId = vars["message_id"]
 
-		out, err := cli.UpdateMessage(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateMessage(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_MessageService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_MessageService_HTTPWriteResponse(w, out)
+		_MessageService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -301,13 +323,15 @@ func _MessageService_DeleteMessage_Rule0(cli MessageServiceClient) http.Handler 
 		vars := mux.Vars(r)
 		in.MessageId = vars["message_id"]
 
-		out, err := cli.DeleteMessage(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DeleteMessage(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_MessageService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_MessageService_HTTPWriteResponse(w, out)
+		_MessageService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -324,13 +348,15 @@ func _MessageService_VoteMessage_Rule0(cli MessageServiceClient) http.Handler {
 		vars := mux.Vars(r)
 		in.MessageId = vars["message_id"]
 
-		out, err := cli.VoteMessage(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.VoteMessage(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_MessageService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_MessageService_HTTPWriteResponse(w, out)
+		_MessageService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 

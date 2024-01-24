@@ -10,6 +10,7 @@ import (
 	websocket "golang.org/x/net/websocket"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
+	metadata "google.golang.org/grpc/metadata"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
@@ -46,7 +47,7 @@ func _SolutionService_HTTPReadRequestBody(r *http.Request, v proto.Message) erro
 }
 
 // _SolutionService_HTTPWriteResponse writes proto.Message to HTTP response
-func _SolutionService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message) {
+func _SolutionService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h, t metadata.MD) {
 	data, err := protojson.Marshal(v)
 	if err != nil {
 		_SolutionService_HTTPWriteErrorResponse(w, err)
@@ -54,6 +55,19 @@ func _SolutionService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message) 
 	}
 
 	w.Header().Set("Content-Type", "application/json")
+
+	if v := append(h.Get("cache-control"), t.Get("cache-control")...); len(v) > 0 {
+		w.Header().Set("Cache-Control", v[len(v)-1])
+	}
+
+	if v := append(h.Get("etag"), t.Get("etag")...); len(v) > 0 {
+		w.Header().Set("ETag", v[len(v)-1])
+	}
+
+	if v := append(h.Get("last-modified"), t.Get("last-modified")...); len(v) > 0 {
+		w.Header().Set("Last-Modified", v[len(v)-1])
+	}
+
 	w.WriteHeader(http.StatusOK)
 
 	_, _ = w.Write(data)
@@ -209,13 +223,15 @@ func _SolutionService_CreateSolution_Rule0(cli SolutionServiceClient) http.Handl
 			return
 		}
 
-		out, err := cli.CreateSolution(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.CreateSolution(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_SolutionService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_SolutionService_HTTPWriteResponse(w, out)
+		_SolutionService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -232,13 +248,15 @@ func _SolutionService_UpdateSolution_Rule0(cli SolutionServiceClient) http.Handl
 		vars := mux.Vars(r)
 		in.SolutionId = vars["solution_id"]
 
-		out, err := cli.UpdateSolution(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateSolution(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_SolutionService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_SolutionService_HTTPWriteResponse(w, out)
+		_SolutionService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -255,13 +273,15 @@ func _SolutionService_DeleteSolution_Rule0(cli SolutionServiceClient) http.Handl
 		vars := mux.Vars(r)
 		in.SolutionId = vars["solution_id"]
 
-		out, err := cli.DeleteSolution(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DeleteSolution(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_SolutionService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_SolutionService_HTTPWriteResponse(w, out)
+		_SolutionService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -278,13 +298,15 @@ func _SolutionService_DescribeSolution_Rule0(cli SolutionServiceClient) http.Han
 		vars := mux.Vars(r)
 		in.SolutionId = vars["solution_id"]
 
-		out, err := cli.DescribeSolution(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeSolution(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_SolutionService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_SolutionService_HTTPWriteResponse(w, out)
+		_SolutionService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -298,13 +320,15 @@ func _SolutionService_ListSolutions_Rule0(cli SolutionServiceClient) http.Handle
 			return
 		}
 
-		out, err := cli.ListSolutions(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListSolutions(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_SolutionService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_SolutionService_HTTPWriteResponse(w, out)
+		_SolutionService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 

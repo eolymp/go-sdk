@@ -10,6 +10,7 @@ import (
 	websocket "golang.org/x/net/websocket"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
+	metadata "google.golang.org/grpc/metadata"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
@@ -46,7 +47,7 @@ func _AccountService_HTTPReadRequestBody(r *http.Request, v proto.Message) error
 }
 
 // _AccountService_HTTPWriteResponse writes proto.Message to HTTP response
-func _AccountService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message) {
+func _AccountService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h, t metadata.MD) {
 	data, err := protojson.Marshal(v)
 	if err != nil {
 		_AccountService_HTTPWriteErrorResponse(w, err)
@@ -54,6 +55,19 @@ func _AccountService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
+
+	if v := append(h.Get("cache-control"), t.Get("cache-control")...); len(v) > 0 {
+		w.Header().Set("Cache-Control", v[len(v)-1])
+	}
+
+	if v := append(h.Get("etag"), t.Get("etag")...); len(v) > 0 {
+		w.Header().Set("ETag", v[len(v)-1])
+	}
+
+	if v := append(h.Get("last-modified"), t.Get("last-modified")...); len(v) > 0 {
+		w.Header().Set("Last-Modified", v[len(v)-1])
+	}
+
 	w.WriteHeader(http.StatusOK)
 
 	_, _ = w.Write(data)
@@ -227,13 +241,15 @@ func _AccountService_CreateAccount_Rule0(cli AccountServiceClient) http.Handler 
 			return
 		}
 
-		out, err := cli.CreateAccount(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.CreateAccount(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_AccountService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_AccountService_HTTPWriteResponse(w, out)
+		_AccountService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -247,13 +263,15 @@ func _AccountService_DescribeAccount_Rule0(cli AccountServiceClient) http.Handle
 			return
 		}
 
-		out, err := cli.DescribeAccount(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeAccount(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_AccountService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_AccountService_HTTPWriteResponse(w, out)
+		_AccountService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -267,13 +285,15 @@ func _AccountService_UpdateAccount_Rule0(cli AccountServiceClient) http.Handler 
 			return
 		}
 
-		out, err := cli.UpdateAccount(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateAccount(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_AccountService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_AccountService_HTTPWriteResponse(w, out)
+		_AccountService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -287,13 +307,15 @@ func _AccountService_UploadPicture_Rule0(cli AccountServiceClient) http.Handler 
 			return
 		}
 
-		out, err := cli.UploadPicture(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.UploadPicture(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_AccountService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_AccountService_HTTPWriteResponse(w, out)
+		_AccountService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -307,13 +329,15 @@ func _AccountService_DeleteAccount_Rule0(cli AccountServiceClient) http.Handler 
 			return
 		}
 
-		out, err := cli.DeleteAccount(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DeleteAccount(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_AccountService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_AccountService_HTTPWriteResponse(w, out)
+		_AccountService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -327,13 +351,15 @@ func _AccountService_ResendVerification_Rule0(cli AccountServiceClient) http.Han
 			return
 		}
 
-		out, err := cli.ResendVerification(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ResendVerification(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_AccountService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_AccountService_HTTPWriteResponse(w, out)
+		_AccountService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -347,13 +373,15 @@ func _AccountService_CompleteVerification_Rule0(cli AccountServiceClient) http.H
 			return
 		}
 
-		out, err := cli.CompleteVerification(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.CompleteVerification(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_AccountService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_AccountService_HTTPWriteResponse(w, out)
+		_AccountService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -367,13 +395,15 @@ func _AccountService_StartRecovery_Rule0(cli AccountServiceClient) http.Handler 
 			return
 		}
 
-		out, err := cli.StartRecovery(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.StartRecovery(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_AccountService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_AccountService_HTTPWriteResponse(w, out)
+		_AccountService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -387,13 +417,15 @@ func _AccountService_CompleteRecovery_Rule0(cli AccountServiceClient) http.Handl
 			return
 		}
 
-		out, err := cli.CompleteRecovery(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.CompleteRecovery(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_AccountService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_AccountService_HTTPWriteResponse(w, out)
+		_AccountService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -407,13 +439,15 @@ func _AccountService_ConfigureActiveSubscription_Rule0(cli AccountServiceClient)
 			return
 		}
 
-		out, err := cli.ConfigureActiveSubscription(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ConfigureActiveSubscription(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_AccountService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_AccountService_HTTPWriteResponse(w, out)
+		_AccountService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -427,13 +461,15 @@ func _AccountService_DescribeActiveSubscription_Rule0(cli AccountServiceClient) 
 			return
 		}
 
-		out, err := cli.DescribeActiveSubscription(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeActiveSubscription(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_AccountService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_AccountService_HTTPWriteResponse(w, out)
+		_AccountService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 

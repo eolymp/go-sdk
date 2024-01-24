@@ -10,6 +10,7 @@ import (
 	websocket "golang.org/x/net/websocket"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
+	metadata "google.golang.org/grpc/metadata"
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
@@ -46,7 +47,7 @@ func _Atlas_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
 }
 
 // _Atlas_HTTPWriteResponse writes proto.Message to HTTP response
-func _Atlas_HTTPWriteResponse(w http.ResponseWriter, v proto.Message) {
+func _Atlas_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h, t metadata.MD) {
 	data, err := protojson.Marshal(v)
 	if err != nil {
 		_Atlas_HTTPWriteErrorResponse(w, err)
@@ -54,6 +55,19 @@ func _Atlas_HTTPWriteResponse(w http.ResponseWriter, v proto.Message) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
+
+	if v := append(h.Get("cache-control"), t.Get("cache-control")...); len(v) > 0 {
+		w.Header().Set("Cache-Control", v[len(v)-1])
+	}
+
+	if v := append(h.Get("etag"), t.Get("etag")...); len(v) > 0 {
+		w.Header().Set("ETag", v[len(v)-1])
+	}
+
+	if v := append(h.Get("last-modified"), t.Get("last-modified")...); len(v) > 0 {
+		w.Header().Set("Last-Modified", v[len(v)-1])
+	}
+
 	w.WriteHeader(http.StatusOK)
 
 	_, _ = w.Write(data)
@@ -347,13 +361,15 @@ func _Atlas_CreateProblem_Rule0(cli AtlasClient) http.Handler {
 			return
 		}
 
-		out, err := cli.CreateProblem(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.CreateProblem(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Atlas_HTTPWriteResponse(w, out)
+		_Atlas_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -370,13 +386,15 @@ func _Atlas_DeleteProblem_Rule0(cli AtlasClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
 
-		out, err := cli.DeleteProblem(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DeleteProblem(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Atlas_HTTPWriteResponse(w, out)
+		_Atlas_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -390,13 +408,15 @@ func _Atlas_ListProblems_Rule0(cli AtlasClient) http.Handler {
 			return
 		}
 
-		out, err := cli.ListProblems(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListProblems(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Atlas_HTTPWriteResponse(w, out)
+		_Atlas_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -413,13 +433,15 @@ func _Atlas_DescribeProblem_Rule0(cli AtlasClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
 
-		out, err := cli.DescribeProblem(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeProblem(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Atlas_HTTPWriteResponse(w, out)
+		_Atlas_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -436,13 +458,15 @@ func _Atlas_UpdateProblem_Rule0(cli AtlasClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
 
-		out, err := cli.UpdateProblem(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateProblem(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Atlas_HTTPWriteResponse(w, out)
+		_Atlas_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -459,13 +483,15 @@ func _Atlas_SyncProblem_Rule0(cli AtlasClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
 
-		out, err := cli.SyncProblem(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.SyncProblem(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Atlas_HTTPWriteResponse(w, out)
+		_Atlas_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -482,13 +508,15 @@ func _Atlas_SetBookmark_Rule0(cli AtlasClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
 
-		out, err := cli.SetBookmark(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.SetBookmark(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Atlas_HTTPWriteResponse(w, out)
+		_Atlas_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -505,13 +533,15 @@ func _Atlas_GetBookmark_Rule0(cli AtlasClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
 
-		out, err := cli.GetBookmark(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.GetBookmark(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Atlas_HTTPWriteResponse(w, out)
+		_Atlas_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -528,13 +558,15 @@ func _Atlas_ListExamples_Rule0(cli AtlasClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
 
-		out, err := cli.ListExamples(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListExamples(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Atlas_HTTPWriteResponse(w, out)
+		_Atlas_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -551,13 +583,15 @@ func _Atlas_UpdateTestingConfig_Rule0(cli AtlasClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
 
-		out, err := cli.UpdateTestingConfig(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateTestingConfig(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Atlas_HTTPWriteResponse(w, out)
+		_Atlas_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -574,13 +608,15 @@ func _Atlas_DescribeTestingConfig_Rule0(cli AtlasClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
 
-		out, err := cli.DescribeTestingConfig(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeTestingConfig(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Atlas_HTTPWriteResponse(w, out)
+		_Atlas_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -597,13 +633,15 @@ func _Atlas_UpdateVerifier_Rule0(cli AtlasClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
 
-		out, err := cli.UpdateVerifier(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateVerifier(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Atlas_HTTPWriteResponse(w, out)
+		_Atlas_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -620,13 +658,15 @@ func _Atlas_DescribeVerifier_Rule0(cli AtlasClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
 
-		out, err := cli.DescribeVerifier(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeVerifier(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Atlas_HTTPWriteResponse(w, out)
+		_Atlas_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -643,13 +683,15 @@ func _Atlas_UpdateInteractor_Rule0(cli AtlasClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
 
-		out, err := cli.UpdateInteractor(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateInteractor(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Atlas_HTTPWriteResponse(w, out)
+		_Atlas_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -666,13 +708,15 @@ func _Atlas_DescribeInteractor_Rule0(cli AtlasClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
 
-		out, err := cli.DescribeInteractor(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeInteractor(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Atlas_HTTPWriteResponse(w, out)
+		_Atlas_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -689,13 +733,15 @@ func _Atlas_CreateStatement_Rule0(cli AtlasClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
 
-		out, err := cli.CreateStatement(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.CreateStatement(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Atlas_HTTPWriteResponse(w, out)
+		_Atlas_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -713,13 +759,15 @@ func _Atlas_UpdateStatement_Rule0(cli AtlasClient) http.Handler {
 		in.ProblemId = vars["problem_id"]
 		in.StatementId = vars["statement_id"]
 
-		out, err := cli.UpdateStatement(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateStatement(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Atlas_HTTPWriteResponse(w, out)
+		_Atlas_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -737,13 +785,15 @@ func _Atlas_DeleteStatement_Rule0(cli AtlasClient) http.Handler {
 		in.ProblemId = vars["problem_id"]
 		in.StatementId = vars["statement_id"]
 
-		out, err := cli.DeleteStatement(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DeleteStatement(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Atlas_HTTPWriteResponse(w, out)
+		_Atlas_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -760,13 +810,15 @@ func _Atlas_ListStatements_Rule0(cli AtlasClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
 
-		out, err := cli.ListStatements(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListStatements(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Atlas_HTTPWriteResponse(w, out)
+		_Atlas_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -784,13 +836,15 @@ func _Atlas_DescribeStatement_Rule0(cli AtlasClient) http.Handler {
 		in.ProblemId = vars["problem_id"]
 		in.StatementId = vars["statement_id"]
 
-		out, err := cli.DescribeStatement(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeStatement(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Atlas_HTTPWriteResponse(w, out)
+		_Atlas_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -807,13 +861,15 @@ func _Atlas_LookupStatement_Rule0(cli AtlasClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
 
-		out, err := cli.LookupStatement(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.LookupStatement(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Atlas_HTTPWriteResponse(w, out)
+		_Atlas_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -830,13 +886,15 @@ func _Atlas_PreviewStatement_Rule0(cli AtlasClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
 
-		out, err := cli.PreviewStatement(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.PreviewStatement(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Atlas_HTTPWriteResponse(w, out)
+		_Atlas_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -853,13 +911,15 @@ func _Atlas_CreateTestset_Rule0(cli AtlasClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
 
-		out, err := cli.CreateTestset(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.CreateTestset(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Atlas_HTTPWriteResponse(w, out)
+		_Atlas_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -877,13 +937,15 @@ func _Atlas_UpdateTestset_Rule0(cli AtlasClient) http.Handler {
 		in.ProblemId = vars["problem_id"]
 		in.TestsetId = vars["testset_id"]
 
-		out, err := cli.UpdateTestset(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateTestset(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Atlas_HTTPWriteResponse(w, out)
+		_Atlas_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -901,13 +963,15 @@ func _Atlas_DeleteTestset_Rule0(cli AtlasClient) http.Handler {
 		in.ProblemId = vars["problem_id"]
 		in.TestsetId = vars["testset_id"]
 
-		out, err := cli.DeleteTestset(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DeleteTestset(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Atlas_HTTPWriteResponse(w, out)
+		_Atlas_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -924,13 +988,15 @@ func _Atlas_ListTestsets_Rule0(cli AtlasClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
 
-		out, err := cli.ListTestsets(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListTestsets(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Atlas_HTTPWriteResponse(w, out)
+		_Atlas_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -948,13 +1014,15 @@ func _Atlas_DescribeTestset_Rule0(cli AtlasClient) http.Handler {
 		in.ProblemId = vars["problem_id"]
 		in.TestsetId = vars["testset_id"]
 
-		out, err := cli.DescribeTestset(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeTestset(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Atlas_HTTPWriteResponse(w, out)
+		_Atlas_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -972,13 +1040,15 @@ func _Atlas_CreateTest_Rule0(cli AtlasClient) http.Handler {
 		in.ProblemId = vars["problem_id"]
 		in.TestsetId = vars["testset_id"]
 
-		out, err := cli.CreateTest(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.CreateTest(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Atlas_HTTPWriteResponse(w, out)
+		_Atlas_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -997,13 +1067,15 @@ func _Atlas_UpdateTest_Rule0(cli AtlasClient) http.Handler {
 		in.TestsetId = vars["testset_id"]
 		in.TestId = vars["test_id"]
 
-		out, err := cli.UpdateTest(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateTest(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Atlas_HTTPWriteResponse(w, out)
+		_Atlas_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1022,13 +1094,15 @@ func _Atlas_DeleteTest_Rule0(cli AtlasClient) http.Handler {
 		in.TestsetId = vars["testset_id"]
 		in.TestId = vars["test_id"]
 
-		out, err := cli.DeleteTest(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DeleteTest(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Atlas_HTTPWriteResponse(w, out)
+		_Atlas_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1046,13 +1120,15 @@ func _Atlas_ListTests_Rule0(cli AtlasClient) http.Handler {
 		in.ProblemId = vars["problem_id"]
 		in.TestsetId = vars["testset_id"]
 
-		out, err := cli.ListTests(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListTests(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Atlas_HTTPWriteResponse(w, out)
+		_Atlas_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1071,13 +1147,15 @@ func _Atlas_DescribeTest_Rule0(cli AtlasClient) http.Handler {
 		in.TestsetId = vars["testset_id"]
 		in.TestId = vars["test_id"]
 
-		out, err := cli.DescribeTest(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeTest(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Atlas_HTTPWriteResponse(w, out)
+		_Atlas_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1094,13 +1172,15 @@ func _Atlas_CreateCodeTemplate_Rule0(cli AtlasClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
 
-		out, err := cli.CreateCodeTemplate(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.CreateCodeTemplate(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Atlas_HTTPWriteResponse(w, out)
+		_Atlas_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1118,13 +1198,15 @@ func _Atlas_UpdateCodeTemplate_Rule0(cli AtlasClient) http.Handler {
 		in.ProblemId = vars["problem_id"]
 		in.TemplateId = vars["template_id"]
 
-		out, err := cli.UpdateCodeTemplate(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateCodeTemplate(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Atlas_HTTPWriteResponse(w, out)
+		_Atlas_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1142,13 +1224,15 @@ func _Atlas_DeleteCodeTemplate_Rule0(cli AtlasClient) http.Handler {
 		in.ProblemId = vars["problem_id"]
 		in.TemplateId = vars["template_id"]
 
-		out, err := cli.DeleteCodeTemplate(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DeleteCodeTemplate(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Atlas_HTTPWriteResponse(w, out)
+		_Atlas_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1165,13 +1249,15 @@ func _Atlas_ListCodeTemplates_Rule0(cli AtlasClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
 
-		out, err := cli.ListCodeTemplates(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListCodeTemplates(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Atlas_HTTPWriteResponse(w, out)
+		_Atlas_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1189,13 +1275,15 @@ func _Atlas_DescribeCodeTemplate_Rule0(cli AtlasClient) http.Handler {
 		in.ProblemId = vars["problem_id"]
 		in.TemplateId = vars["template_id"]
 
-		out, err := cli.DescribeCodeTemplate(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeCodeTemplate(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Atlas_HTTPWriteResponse(w, out)
+		_Atlas_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1212,13 +1300,15 @@ func _Atlas_LookupCodeTemplate_Rule0(cli AtlasClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
 
-		out, err := cli.LookupCodeTemplate(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.LookupCodeTemplate(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Atlas_HTTPWriteResponse(w, out)
+		_Atlas_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1235,13 +1325,15 @@ func _Atlas_CreateAttachment_Rule0(cli AtlasClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
 
-		out, err := cli.CreateAttachment(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.CreateAttachment(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Atlas_HTTPWriteResponse(w, out)
+		_Atlas_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1259,13 +1351,15 @@ func _Atlas_UpdateAttachment_Rule0(cli AtlasClient) http.Handler {
 		in.ProblemId = vars["problem_id"]
 		in.AttachmentId = vars["attachment_id"]
 
-		out, err := cli.UpdateAttachment(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateAttachment(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Atlas_HTTPWriteResponse(w, out)
+		_Atlas_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1283,13 +1377,15 @@ func _Atlas_DeleteAttachment_Rule0(cli AtlasClient) http.Handler {
 		in.ProblemId = vars["problem_id"]
 		in.AttachmentId = vars["attachment_id"]
 
-		out, err := cli.DeleteAttachment(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DeleteAttachment(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Atlas_HTTPWriteResponse(w, out)
+		_Atlas_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1306,13 +1402,15 @@ func _Atlas_ListAttachments_Rule0(cli AtlasClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
 
-		out, err := cli.ListAttachments(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListAttachments(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Atlas_HTTPWriteResponse(w, out)
+		_Atlas_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1330,13 +1428,15 @@ func _Atlas_DescribeAttachment_Rule0(cli AtlasClient) http.Handler {
 		in.ProblemId = vars["problem_id"]
 		in.AttachmentId = vars["attachment_id"]
 
-		out, err := cli.DescribeAttachment(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeAttachment(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Atlas_HTTPWriteResponse(w, out)
+		_Atlas_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1353,13 +1453,15 @@ func _Atlas_ListVersions_Rule0(cli AtlasClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
 
-		out, err := cli.ListVersions(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListVersions(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Atlas_HTTPWriteResponse(w, out)
+		_Atlas_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1376,13 +1478,15 @@ func _Atlas_ListProblemTop_Rule0(cli AtlasClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
 
-		out, err := cli.ListProblemTop(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListProblemTop(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Atlas_HTTPWriteResponse(w, out)
+		_Atlas_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1399,13 +1503,15 @@ func _Atlas_DescribeProblemGrading_Rule0(cli AtlasClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
 
-		out, err := cli.DescribeProblemGrading(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeProblemGrading(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Atlas_HTTPWriteResponse(w, out)
+		_Atlas_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1422,13 +1528,15 @@ func _Atlas_CreateSubmission_Rule0(cli AtlasClient) http.Handler {
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
 
-		out, err := cli.CreateSubmission(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.CreateSubmission(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Atlas_HTTPWriteResponse(w, out)
+		_Atlas_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1446,13 +1554,15 @@ func _Atlas_DescribeSubmission_Rule0(cli AtlasClient) http.Handler {
 		in.ProblemId = vars["problem_id"]
 		in.SubmissionId = vars["submission_id"]
 
-		out, err := cli.DescribeSubmission(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeSubmission(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Atlas_HTTPWriteResponse(w, out)
+		_Atlas_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1470,13 +1580,15 @@ func _Atlas_RetestSubmission_Rule0(cli AtlasClient) http.Handler {
 		in.ProblemId = vars["problem_id"]
 		in.SubmissionId = vars["submission_id"]
 
-		out, err := cli.RetestSubmission(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.RetestSubmission(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Atlas_HTTPWriteResponse(w, out)
+		_Atlas_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1490,13 +1602,15 @@ func _Atlas_ListSubmissions_Rule0(cli AtlasClient) http.Handler {
 			return
 		}
 
-		out, err := cli.ListSubmissions(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.ListSubmissions(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Atlas_HTTPWriteResponse(w, out)
+		_Atlas_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -1514,13 +1628,15 @@ func _Atlas_DescribeScore_Rule0(cli AtlasClient) http.Handler {
 		in.ProblemId = vars["problem_id"]
 		in.MemberId = vars["member_id"]
 
-		out, err := cli.DescribeScore(r.Context(), in)
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeScore(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Atlas_HTTPWriteResponse(w, out)
+		_Atlas_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
