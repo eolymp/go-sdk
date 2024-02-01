@@ -211,6 +211,21 @@ func RegisterContentServiceHttpHandlers(router *mux.Router, prefix string, cli C
 	router.Handle(prefix+"/content/fragments/{fragment_id}", _ContentService_DeleteFragment_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.content.ContentService.DeleteFragment")
+	router.Handle(prefix+"/content/fragments/{fragment_id}/variants/{variant_id}", _ContentService_DescribeVariant_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.content.ContentService.DescribeVariant")
+	router.Handle(prefix+"/content/fragments/{fragment_id}/variants", _ContentService_ListVariants_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.content.ContentService.ListVariants")
+	router.Handle(prefix+"/content/fragments/{fragment_id}/variants", _ContentService_CreateVariant_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.content.ContentService.CreateVariant")
+	router.Handle(prefix+"/content/fragments/{fragment_id}/variants/{variant_id}", _ContentService_UpdateVariant_Rule0(cli)).
+		Methods("PUT").
+		Name("eolymp.content.ContentService.UpdateVariant")
+	router.Handle(prefix+"/content/fragments/{fragment_id}/variants/{variant_id}", _ContentService_DeleteVariant_Rule0(cli)).
+		Methods("DELETE").
+		Name("eolymp.content.ContentService.DeleteVariant")
 	router.Handle(prefix+"/content/path", _ContentService_DescribePath_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.content.ContentService.DescribePath")
@@ -332,6 +347,134 @@ func _ContentService_DeleteFragment_Rule0(cli ContentServiceClient) http.Handler
 		var header, trailer metadata.MD
 
 		out, err := cli.DeleteFragment(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ContentService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ContentService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ContentService_DescribeVariant_Rule0(cli ContentServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeVariantInput{}
+
+		if err := _ContentService_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_ContentService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.FragmentId = vars["fragment_id"]
+		in.VariantId = vars["variant_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeVariant(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ContentService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ContentService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ContentService_ListVariants_Rule0(cli ContentServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListVariantsInput{}
+
+		if err := _ContentService_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_ContentService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.FragmentId = vars["fragment_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.ListVariants(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ContentService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ContentService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ContentService_CreateVariant_Rule0(cli ContentServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &CreateVariantInput{}
+
+		if err := _ContentService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_ContentService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.FragmentId = vars["fragment_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.CreateVariant(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ContentService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ContentService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ContentService_UpdateVariant_Rule0(cli ContentServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UpdateVariantInput{}
+
+		if err := _ContentService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_ContentService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.FragmentId = vars["fragment_id"]
+		in.VariantId = vars["variant_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateVariant(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ContentService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ContentService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ContentService_DeleteVariant_Rule0(cli ContentServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DeleteVariantInput{}
+
+		if err := _ContentService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_ContentService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.FragmentId = vars["fragment_id"]
+		in.VariantId = vars["variant_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.DeleteVariant(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ContentService_HTTPWriteErrorResponse(w, err)
 			return
@@ -574,6 +717,166 @@ func (i *ContentServiceInterceptor) DeleteFragment(ctx context.Context, in *Dele
 	message, ok := out.(*DeleteFragmentOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *DeleteFragmentOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *ContentServiceInterceptor) DescribeVariant(ctx context.Context, in *DescribeVariantInput, opts ...grpc.CallOption) (*DescribeVariantOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeVariantInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeVariantInput, got %T", in))
+		}
+
+		return i.client.DescribeVariant(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.content.ContentService.DescribeVariant", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeVariantOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeVariantOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *ContentServiceInterceptor) ListVariants(ctx context.Context, in *ListVariantsInput, opts ...grpc.CallOption) (*ListVariantsOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListVariantsInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListVariantsInput, got %T", in))
+		}
+
+		return i.client.ListVariants(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.content.ContentService.ListVariants", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListVariantsOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListVariantsOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *ContentServiceInterceptor) CreateVariant(ctx context.Context, in *CreateVariantInput, opts ...grpc.CallOption) (*CreateVariantOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*CreateVariantInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *CreateVariantInput, got %T", in))
+		}
+
+		return i.client.CreateVariant(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.content.ContentService.CreateVariant", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*CreateVariantOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *CreateVariantOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *ContentServiceInterceptor) UpdateVariant(ctx context.Context, in *UpdateVariantInput, opts ...grpc.CallOption) (*UpdateVariantOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*UpdateVariantInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *UpdateVariantInput, got %T", in))
+		}
+
+		return i.client.UpdateVariant(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.content.ContentService.UpdateVariant", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*UpdateVariantOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *UpdateVariantOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *ContentServiceInterceptor) DeleteVariant(ctx context.Context, in *DeleteVariantInput, opts ...grpc.CallOption) (*DeleteVariantOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DeleteVariantInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DeleteVariantInput, got %T", in))
+		}
+
+		return i.client.DeleteVariant(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.content.ContentService.DeleteVariant", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DeleteVariantOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DeleteVariantOutput, got %T", out))
 	}
 
 	return message, err

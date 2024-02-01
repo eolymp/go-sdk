@@ -24,6 +24,11 @@ const (
 	ContentService_CreateFragment_FullMethodName   = "/eolymp.content.ContentService/CreateFragment"
 	ContentService_UpdateFragment_FullMethodName   = "/eolymp.content.ContentService/UpdateFragment"
 	ContentService_DeleteFragment_FullMethodName   = "/eolymp.content.ContentService/DeleteFragment"
+	ContentService_DescribeVariant_FullMethodName  = "/eolymp.content.ContentService/DescribeVariant"
+	ContentService_ListVariants_FullMethodName     = "/eolymp.content.ContentService/ListVariants"
+	ContentService_CreateVariant_FullMethodName    = "/eolymp.content.ContentService/CreateVariant"
+	ContentService_UpdateVariant_FullMethodName    = "/eolymp.content.ContentService/UpdateVariant"
+	ContentService_DeleteVariant_FullMethodName    = "/eolymp.content.ContentService/DeleteVariant"
 	ContentService_DescribePath_FullMethodName     = "/eolymp.content.ContentService/DescribePath"
 	ContentService_ListPaths_FullMethodName        = "/eolymp.content.ContentService/ListPaths"
 	ContentService_ListParents_FullMethodName      = "/eolymp.content.ContentService/ListParents"
@@ -38,6 +43,11 @@ type ContentServiceClient interface {
 	CreateFragment(ctx context.Context, in *CreateFragmentInput, opts ...grpc.CallOption) (*CreateFragmentOutput, error)
 	UpdateFragment(ctx context.Context, in *UpdateFragmentInput, opts ...grpc.CallOption) (*UpdateFragmentOutput, error)
 	DeleteFragment(ctx context.Context, in *DeleteFragmentInput, opts ...grpc.CallOption) (*DeleteFragmentOutput, error)
+	DescribeVariant(ctx context.Context, in *DescribeVariantInput, opts ...grpc.CallOption) (*DescribeVariantOutput, error)
+	ListVariants(ctx context.Context, in *ListVariantsInput, opts ...grpc.CallOption) (*ListVariantsOutput, error)
+	CreateVariant(ctx context.Context, in *CreateVariantInput, opts ...grpc.CallOption) (*CreateVariantOutput, error)
+	UpdateVariant(ctx context.Context, in *UpdateVariantInput, opts ...grpc.CallOption) (*UpdateVariantOutput, error)
+	DeleteVariant(ctx context.Context, in *DeleteVariantInput, opts ...grpc.CallOption) (*DeleteVariantOutput, error)
 	DescribePath(ctx context.Context, in *DescribePathInput, opts ...grpc.CallOption) (*DescribePathOutput, error)
 	ListPaths(ctx context.Context, in *ListPathsInput, opts ...grpc.CallOption) (*ListPathsOutput, error)
 	ListParents(ctx context.Context, in *ListParentsInput, opts ...grpc.CallOption) (*ListParentsOutput, error)
@@ -96,6 +106,51 @@ func (c *contentServiceClient) DeleteFragment(ctx context.Context, in *DeleteFra
 	return out, nil
 }
 
+func (c *contentServiceClient) DescribeVariant(ctx context.Context, in *DescribeVariantInput, opts ...grpc.CallOption) (*DescribeVariantOutput, error) {
+	out := new(DescribeVariantOutput)
+	err := c.cc.Invoke(ctx, ContentService_DescribeVariant_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *contentServiceClient) ListVariants(ctx context.Context, in *ListVariantsInput, opts ...grpc.CallOption) (*ListVariantsOutput, error) {
+	out := new(ListVariantsOutput)
+	err := c.cc.Invoke(ctx, ContentService_ListVariants_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *contentServiceClient) CreateVariant(ctx context.Context, in *CreateVariantInput, opts ...grpc.CallOption) (*CreateVariantOutput, error) {
+	out := new(CreateVariantOutput)
+	err := c.cc.Invoke(ctx, ContentService_CreateVariant_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *contentServiceClient) UpdateVariant(ctx context.Context, in *UpdateVariantInput, opts ...grpc.CallOption) (*UpdateVariantOutput, error) {
+	out := new(UpdateVariantOutput)
+	err := c.cc.Invoke(ctx, ContentService_UpdateVariant_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *contentServiceClient) DeleteVariant(ctx context.Context, in *DeleteVariantInput, opts ...grpc.CallOption) (*DeleteVariantOutput, error) {
+	out := new(DeleteVariantOutput)
+	err := c.cc.Invoke(ctx, ContentService_DeleteVariant_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *contentServiceClient) DescribePath(ctx context.Context, in *DescribePathInput, opts ...grpc.CallOption) (*DescribePathOutput, error) {
 	out := new(DescribePathOutput)
 	err := c.cc.Invoke(ctx, ContentService_DescribePath_FullMethodName, in, out, opts...)
@@ -132,6 +187,11 @@ type ContentServiceServer interface {
 	CreateFragment(context.Context, *CreateFragmentInput) (*CreateFragmentOutput, error)
 	UpdateFragment(context.Context, *UpdateFragmentInput) (*UpdateFragmentOutput, error)
 	DeleteFragment(context.Context, *DeleteFragmentInput) (*DeleteFragmentOutput, error)
+	DescribeVariant(context.Context, *DescribeVariantInput) (*DescribeVariantOutput, error)
+	ListVariants(context.Context, *ListVariantsInput) (*ListVariantsOutput, error)
+	CreateVariant(context.Context, *CreateVariantInput) (*CreateVariantOutput, error)
+	UpdateVariant(context.Context, *UpdateVariantInput) (*UpdateVariantOutput, error)
+	DeleteVariant(context.Context, *DeleteVariantInput) (*DeleteVariantOutput, error)
 	DescribePath(context.Context, *DescribePathInput) (*DescribePathOutput, error)
 	ListPaths(context.Context, *ListPathsInput) (*ListPathsOutput, error)
 	ListParents(context.Context, *ListParentsInput) (*ListParentsOutput, error)
@@ -155,6 +215,21 @@ func (UnimplementedContentServiceServer) UpdateFragment(context.Context, *Update
 }
 func (UnimplementedContentServiceServer) DeleteFragment(context.Context, *DeleteFragmentInput) (*DeleteFragmentOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteFragment not implemented")
+}
+func (UnimplementedContentServiceServer) DescribeVariant(context.Context, *DescribeVariantInput) (*DescribeVariantOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeVariant not implemented")
+}
+func (UnimplementedContentServiceServer) ListVariants(context.Context, *ListVariantsInput) (*ListVariantsOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListVariants not implemented")
+}
+func (UnimplementedContentServiceServer) CreateVariant(context.Context, *CreateVariantInput) (*CreateVariantOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateVariant not implemented")
+}
+func (UnimplementedContentServiceServer) UpdateVariant(context.Context, *UpdateVariantInput) (*UpdateVariantOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateVariant not implemented")
+}
+func (UnimplementedContentServiceServer) DeleteVariant(context.Context, *DeleteVariantInput) (*DeleteVariantOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteVariant not implemented")
 }
 func (UnimplementedContentServiceServer) DescribePath(context.Context, *DescribePathInput) (*DescribePathOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribePath not implemented")
@@ -267,6 +342,96 @@ func _ContentService_DeleteFragment_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ContentService_DescribeVariant_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeVariantInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ContentServiceServer).DescribeVariant(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ContentService_DescribeVariant_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ContentServiceServer).DescribeVariant(ctx, req.(*DescribeVariantInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ContentService_ListVariants_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListVariantsInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ContentServiceServer).ListVariants(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ContentService_ListVariants_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ContentServiceServer).ListVariants(ctx, req.(*ListVariantsInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ContentService_CreateVariant_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateVariantInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ContentServiceServer).CreateVariant(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ContentService_CreateVariant_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ContentServiceServer).CreateVariant(ctx, req.(*CreateVariantInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ContentService_UpdateVariant_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateVariantInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ContentServiceServer).UpdateVariant(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ContentService_UpdateVariant_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ContentServiceServer).UpdateVariant(ctx, req.(*UpdateVariantInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ContentService_DeleteVariant_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteVariantInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ContentServiceServer).DeleteVariant(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ContentService_DeleteVariant_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ContentServiceServer).DeleteVariant(ctx, req.(*DeleteVariantInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ContentService_DescribePath_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DescribePathInput)
 	if err := dec(in); err != nil {
@@ -347,6 +512,26 @@ var ContentService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteFragment",
 			Handler:    _ContentService_DeleteFragment_Handler,
+		},
+		{
+			MethodName: "DescribeVariant",
+			Handler:    _ContentService_DescribeVariant_Handler,
+		},
+		{
+			MethodName: "ListVariants",
+			Handler:    _ContentService_ListVariants_Handler,
+		},
+		{
+			MethodName: "CreateVariant",
+			Handler:    _ContentService_CreateVariant_Handler,
+		},
+		{
+			MethodName: "UpdateVariant",
+			Handler:    _ContentService_UpdateVariant_Handler,
+		},
+		{
+			MethodName: "DeleteVariant",
+			Handler:    _ContentService_DeleteVariant_Handler,
 		},
 		{
 			MethodName: "DescribePath",

@@ -170,6 +170,89 @@ func (s *ContentServiceService) DeleteFragment(ctx context.Context, in *DeleteFr
 	return out, nil
 }
 
+func (s *ContentServiceService) DescribeVariant(ctx context.Context, in *DescribeVariantInput) (*DescribeVariantOutput, error) {
+	out := &DescribeVariantOutput{}
+	path := "/content/fragments/" + url.PathEscape(in.GetFragmentId()) + "/variants/" + url.PathEscape(in.GetVariantId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.FragmentId = ""
+		in.VariantId = ""
+	}
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *ContentServiceService) ListVariants(ctx context.Context, in *ListVariantsInput) (*ListVariantsOutput, error) {
+	out := &ListVariantsOutput{}
+	path := "/content/fragments/" + url.PathEscape(in.GetFragmentId()) + "/variants"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.FragmentId = ""
+	}
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *ContentServiceService) CreateVariant(ctx context.Context, in *CreateVariantInput) (*CreateVariantOutput, error) {
+	out := &CreateVariantOutput{}
+	path := "/content/fragments/" + url.PathEscape(in.GetFragmentId()) + "/variants"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.FragmentId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *ContentServiceService) UpdateVariant(ctx context.Context, in *UpdateVariantInput) (*UpdateVariantOutput, error) {
+	out := &UpdateVariantOutput{}
+	path := "/content/fragments/" + url.PathEscape(in.GetFragmentId()) + "/variants/" + url.PathEscape(in.GetVariantId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.FragmentId = ""
+		in.VariantId = ""
+	}
+
+	if err := s.do(ctx, "PUT", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *ContentServiceService) DeleteVariant(ctx context.Context, in *DeleteVariantInput) (*DeleteVariantOutput, error) {
+	out := &DeleteVariantOutput{}
+	path := "/content/fragments/" + url.PathEscape(in.GetFragmentId()) + "/variants/" + url.PathEscape(in.GetVariantId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.FragmentId = ""
+		in.VariantId = ""
+	}
+
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *ContentServiceService) DescribePath(ctx context.Context, in *DescribePathInput) (*DescribePathOutput, error) {
 	out := &DescribePathOutput{}
 	path := "/content/path"
