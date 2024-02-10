@@ -27,8 +27,8 @@ type Quota struct {
 	unknownFields protoimpl.UnknownFields
 
 	// period when quota starts and ends
-	PeriodStart *timestamppb.Timestamp `protobuf:"bytes,900,opt,name=period_start,json=periodStart,proto3" json:"period_start,omitempty"`
-	PeriodEnd   *timestamppb.Timestamp `protobuf:"bytes,901,opt,name=period_end,json=periodEnd,proto3" json:"period_end,omitempty"`
+	PeriodStart *timestamppb.Timestamp `protobuf:"bytes,900,opt,name=period_start,json=periodStart,proto3" json:"period_start,omitempty"` // deprecated: use subscription in space
+	PeriodEnd   *timestamppb.Timestamp `protobuf:"bytes,901,opt,name=period_end,json=periodEnd,proto3" json:"period_end,omitempty"`       // deprecated: use subscription in space
 	// general quota and features
 	PermissionsPerSpace      uint32 `protobuf:"varint,6,opt,name=permissions_per_space,json=permissionsPerSpace,proto3" json:"permissions_per_space,omitempty"`                   // max number of admin users
 	SingleSingOn             bool   `protobuf:"varint,22,opt,name=single_sing_on,json=singleSingOn,proto3" json:"single_sing_on,omitempty"`                                       // allow to configure sso for the space
