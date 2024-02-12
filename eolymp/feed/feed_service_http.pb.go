@@ -18,8 +18,8 @@ import (
 	http "net/http"
 )
 
-// _EntryService_HTTPReadQueryString parses body into proto.Message
-func _EntryService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+// _FeedService_HTTPReadQueryString parses body into proto.Message
+func _FeedService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
 	query := r.URL.Query().Get("q")
 	if query == "" {
 		return nil
@@ -32,8 +32,8 @@ func _EntryService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
 	return nil
 }
 
-// _EntryService_HTTPReadRequestBody parses body into proto.Message
-func _EntryService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
+// _FeedService_HTTPReadRequestBody parses body into proto.Message
+func _FeedService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
 	data, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		return err
@@ -46,11 +46,11 @@ func _EntryService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
 	return nil
 }
 
-// _EntryService_HTTPWriteResponse writes proto.Message to HTTP response
-func _EntryService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h, t metadata.MD) {
+// _FeedService_HTTPWriteResponse writes proto.Message to HTTP response
+func _FeedService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h, t metadata.MD) {
 	data, err := protojson.Marshal(v)
 	if err != nil {
-		_EntryService_HTTPWriteErrorResponse(w, err)
+		_FeedService_HTTPWriteErrorResponse(w, err)
 		return
 	}
 
@@ -73,8 +73,8 @@ func _EntryService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h, 
 	_, _ = w.Write(data)
 }
 
-// _EntryService_HTTPWriteErrorResponse writes error to HTTP response with error status code
-func _EntryService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
+// _FeedService_HTTPWriteErrorResponse writes error to HTTP response with error status code
+func _FeedService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
 
 	w.Header().Set("Content-Type", "application/json")
@@ -126,8 +126,8 @@ func _EntryService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	_, _ = w.Write(data)
 }
 
-// _EntryService_WebsocketErrorResponse writes error to websocket connection
-func _EntryService_WebsocketErrorResponse(conn *websocket.Conn, e error) {
+// _FeedService_WebsocketErrorResponse writes error to websocket connection
+func _FeedService_WebsocketErrorResponse(conn *websocket.Conn, e error) {
 	switch status.Convert(e).Code() {
 	case codes.OK:
 		conn.WriteClose(1000)
@@ -168,8 +168,8 @@ func _EntryService_WebsocketErrorResponse(conn *websocket.Conn, e error) {
 	}
 }
 
-// _EntryService_WebsocketCodec implements protobuf codec for websockets package
-var _EntryService_WebsocketCodec = websocket.Codec{
+// _FeedService_WebsocketCodec implements protobuf codec for websockets package
+var _FeedService_WebsocketCodec = websocket.Codec{
 	Marshal: func(v interface{}) ([]byte, byte, error) {
 		m, ok := v.(proto.Message)
 		if !ok {
@@ -193,24 +193,21 @@ var _EntryService_WebsocketCodec = websocket.Codec{
 	},
 }
 
-// RegisterEntryServiceHttpHandlers adds handlers for for EntryServiceClient
+// RegisterFeedServiceHttpHandlers adds handlers for for FeedServiceClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterEntryServiceHttpHandlers(router *mux.Router, prefix string, cli EntryServiceClient) {
-	router.Handle(prefix+"/feed", _EntryService_ListEntries_Rule0(cli)).
+func RegisterFeedServiceHttpHandlers(router *mux.Router, prefix string, cli FeedServiceClient) {
+	router.Handle(prefix+"/feed", _FeedService_ListEntries_Rule0(cli)).
 		Methods("GET").
-		Name("eolymp.feed.EntryService.ListEntries")
-	router.Handle(prefix+"/feed/{entry_id}", _EntryService_DescribeEntry_Rule0(cli)).
-		Methods("GET").
-		Name("eolymp.feed.EntryService.DescribeEntry")
+		Name("eolymp.feed.FeedService.ListEntries")
 }
 
-func _EntryService_ListEntries_Rule0(cli EntryServiceClient) http.Handler {
+func _FeedService_ListEntries_Rule0(cli FeedServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListEntriesInput{}
 
-		if err := _EntryService_HTTPReadQueryString(r, in); err != nil {
+		if err := _FeedService_HTTPReadQueryString(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
-			_EntryService_HTTPWriteErrorResponse(w, err)
+			_FeedService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
@@ -218,52 +215,27 @@ func _EntryService_ListEntries_Rule0(cli EntryServiceClient) http.Handler {
 
 		out, err := cli.ListEntries(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
-			_EntryService_HTTPWriteErrorResponse(w, err)
+			_FeedService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_EntryService_HTTPWriteResponse(w, out, header, trailer)
+		_FeedService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
-func _EntryService_DescribeEntry_Rule0(cli EntryServiceClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DescribeEntryInput{}
-
-		if err := _EntryService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_EntryService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.EntryId = vars["entry_id"]
-
-		var header, trailer metadata.MD
-
-		out, err := cli.DescribeEntry(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
-		if err != nil {
-			_EntryService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_EntryService_HTTPWriteResponse(w, out, header, trailer)
-	})
+type _FeedServiceHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
+type _FeedServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _FeedServiceHandler) (out proto.Message, err error)
+type FeedServiceInterceptor struct {
+	middleware []_FeedServiceMiddleware
+	client     FeedServiceClient
 }
 
-type _EntryServiceHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
-type _EntryServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _EntryServiceHandler) (out proto.Message, err error)
-type EntryServiceInterceptor struct {
-	middleware []_EntryServiceMiddleware
-	client     EntryServiceClient
+// NewFeedServiceInterceptor constructs additional middleware for a server based on annotations in proto files
+func NewFeedServiceInterceptor(cli FeedServiceClient, middleware ..._FeedServiceMiddleware) *FeedServiceInterceptor {
+	return &FeedServiceInterceptor{client: cli, middleware: middleware}
 }
 
-// NewEntryServiceInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewEntryServiceInterceptor(cli EntryServiceClient, middleware ..._EntryServiceMiddleware) *EntryServiceInterceptor {
-	return &EntryServiceInterceptor{client: cli, middleware: middleware}
-}
-
-func (i *EntryServiceInterceptor) ListEntries(ctx context.Context, in *ListEntriesInput, opts ...grpc.CallOption) (*ListEntriesOutput, error) {
+func (i *FeedServiceInterceptor) ListEntries(ctx context.Context, in *ListEntriesInput, opts ...grpc.CallOption) (*ListEntriesOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListEntriesInput)
 		if !ok && in != nil {
@@ -278,7 +250,7 @@ func (i *EntryServiceInterceptor) ListEntries(ctx context.Context, in *ListEntri
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.feed.EntryService.ListEntries", in, next)
+			return mw(ctx, "eolymp.feed.FeedService.ListEntries", in, next)
 		}
 	}
 
@@ -290,38 +262,6 @@ func (i *EntryServiceInterceptor) ListEntries(ctx context.Context, in *ListEntri
 	message, ok := out.(*ListEntriesOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *ListEntriesOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *EntryServiceInterceptor) DescribeEntry(ctx context.Context, in *DescribeEntryInput, opts ...grpc.CallOption) (*DescribeEntryOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*DescribeEntryInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *DescribeEntryInput, got %T", in))
-		}
-
-		return i.client.DescribeEntry(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.feed.EntryService.DescribeEntry", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*DescribeEntryOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *DescribeEntryOutput, got %T", out))
 	}
 
 	return message, err

@@ -16,17 +16,17 @@ import (
 	os "os"
 )
 
-type _EntryServiceHttpClient interface {
+type _FeedServiceHttpClient interface {
 	Do(*http.Request) (*http.Response, error)
 }
 
-type EntryServiceService struct {
+type FeedServiceService struct {
 	base string
-	cli  _EntryServiceHttpClient
+	cli  _FeedServiceHttpClient
 }
 
-// NewEntryServiceHttpClient constructs client for EntryService
-func NewEntryServiceHttpClient(url string, cli _EntryServiceHttpClient) *EntryServiceService {
+// NewFeedServiceHttpClient constructs client for FeedService
+func NewFeedServiceHttpClient(url string, cli _FeedServiceHttpClient) *FeedServiceService {
 	if url == "" {
 		url = os.Getenv("EOLYMP_API_URL")
 		if url == "" {
@@ -34,10 +34,10 @@ func NewEntryServiceHttpClient(url string, cli _EntryServiceHttpClient) *EntrySe
 		}
 	}
 
-	return &EntryServiceService{base: url, cli: cli}
+	return &FeedServiceService{base: url, cli: cli}
 }
 
-func (s *EntryServiceService) do(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
+func (s *FeedServiceService) do(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
 	var body io.Reader
 
 	if in != nil {
@@ -100,25 +100,9 @@ func (s *EntryServiceService) do(ctx context.Context, verb, path string, in, out
 	return nil
 }
 
-func (s *EntryServiceService) ListEntries(ctx context.Context, in *ListEntriesInput) (*ListEntriesOutput, error) {
+func (s *FeedServiceService) ListEntries(ctx context.Context, in *ListEntriesInput) (*ListEntriesOutput, error) {
 	out := &ListEntriesOutput{}
 	path := "/feed"
-
-	if err := s.do(ctx, "GET", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *EntryServiceService) DescribeEntry(ctx context.Context, in *DescribeEntryInput) (*DescribeEntryOutput, error) {
-	out := &DescribeEntryOutput{}
-	path := "/feed/" + url.PathEscape(in.GetEntryId())
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.EntryId = ""
-	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
