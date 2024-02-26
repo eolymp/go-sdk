@@ -211,6 +211,9 @@ func RegisterPostServiceHttpHandlers(router *mux.Router, prefix string, cli Post
 	router.Handle(prefix+"/posts/{post_id}", _PostService_DeletePost_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.discussion.PostService.DeletePost")
+	router.Handle(prefix+"/posts/{post_id}/vote", _PostService_VotePost_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.discussion.PostService.VotePost")
 }
 
 func _PostService_DescribePost_Rule0(cli PostServiceClient) http.Handler {
@@ -323,6 +326,31 @@ func _PostService_DeletePost_Rule0(cli PostServiceClient) http.Handler {
 		var header, trailer metadata.MD
 
 		out, err := cli.DeletePost(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_PostService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_PostService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _PostService_VotePost_Rule0(cli PostServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &VotePostInput{}
+
+		if err := _PostService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_PostService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.PostId = vars["post_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.VotePost(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_PostService_HTTPWriteErrorResponse(w, err)
 			return
@@ -499,6 +527,38 @@ func (i *PostServiceInterceptor) DeletePost(ctx context.Context, in *DeletePostI
 	message, ok := out.(*DeletePostOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *DeletePostOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *PostServiceInterceptor) VotePost(ctx context.Context, in *VotePostInput, opts ...grpc.CallOption) (*VotePostOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*VotePostInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *VotePostInput, got %T", in))
+		}
+
+		return i.client.VotePost(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.discussion.PostService.VotePost", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*VotePostOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *VotePostOutput, got %T", out))
 	}
 
 	return message, err

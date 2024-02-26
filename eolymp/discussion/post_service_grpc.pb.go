@@ -24,6 +24,7 @@ const (
 	PostService_CreatePost_FullMethodName   = "/eolymp.discussion.PostService/CreatePost"
 	PostService_UpdatePost_FullMethodName   = "/eolymp.discussion.PostService/UpdatePost"
 	PostService_DeletePost_FullMethodName   = "/eolymp.discussion.PostService/DeletePost"
+	PostService_VotePost_FullMethodName     = "/eolymp.discussion.PostService/VotePost"
 )
 
 // PostServiceClient is the client API for PostService service.
@@ -35,6 +36,7 @@ type PostServiceClient interface {
 	CreatePost(ctx context.Context, in *CreatePostInput, opts ...grpc.CallOption) (*CreatePostOutput, error)
 	UpdatePost(ctx context.Context, in *UpdatePostInput, opts ...grpc.CallOption) (*UpdatePostOutput, error)
 	DeletePost(ctx context.Context, in *DeletePostInput, opts ...grpc.CallOption) (*DeletePostOutput, error)
+	VotePost(ctx context.Context, in *VotePostInput, opts ...grpc.CallOption) (*VotePostOutput, error)
 }
 
 type postServiceClient struct {
@@ -90,6 +92,15 @@ func (c *postServiceClient) DeletePost(ctx context.Context, in *DeletePostInput,
 	return out, nil
 }
 
+func (c *postServiceClient) VotePost(ctx context.Context, in *VotePostInput, opts ...grpc.CallOption) (*VotePostOutput, error) {
+	out := new(VotePostOutput)
+	err := c.cc.Invoke(ctx, PostService_VotePost_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // PostServiceServer is the server API for PostService service.
 // All implementations should embed UnimplementedPostServiceServer
 // for forward compatibility
@@ -99,6 +110,7 @@ type PostServiceServer interface {
 	CreatePost(context.Context, *CreatePostInput) (*CreatePostOutput, error)
 	UpdatePost(context.Context, *UpdatePostInput) (*UpdatePostOutput, error)
 	DeletePost(context.Context, *DeletePostInput) (*DeletePostOutput, error)
+	VotePost(context.Context, *VotePostInput) (*VotePostOutput, error)
 }
 
 // UnimplementedPostServiceServer should be embedded to have forward compatible implementations.
@@ -119,6 +131,9 @@ func (UnimplementedPostServiceServer) UpdatePost(context.Context, *UpdatePostInp
 }
 func (UnimplementedPostServiceServer) DeletePost(context.Context, *DeletePostInput) (*DeletePostOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeletePost not implemented")
+}
+func (UnimplementedPostServiceServer) VotePost(context.Context, *VotePostInput) (*VotePostOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method VotePost not implemented")
 }
 
 // UnsafePostServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -222,6 +237,24 @@ func _PostService_DeletePost_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _PostService_VotePost_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(VotePostInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PostServiceServer).VotePost(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PostService_VotePost_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PostServiceServer).VotePost(ctx, req.(*VotePostInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // PostService_ServiceDesc is the grpc.ServiceDesc for PostService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -248,6 +281,10 @@ var PostService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeletePost",
 			Handler:    _PostService_DeletePost_Handler,
+		},
+		{
+			MethodName: "VotePost",
+			Handler:    _PostService_VotePost_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -169,3 +169,19 @@ func (s *PostServiceService) DeletePost(ctx context.Context, in *DeletePostInput
 
 	return out, nil
 }
+
+func (s *PostServiceService) VotePost(ctx context.Context, in *VotePostInput) (*VotePostOutput, error) {
+	out := &VotePostOutput{}
+	path := "/posts/" + url.PathEscape(in.GetPostId()) + "/vote"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.PostId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
