@@ -16,17 +16,17 @@ import (
 	os "os"
 )
 
-type _MessageEndpointHttpClient interface {
+type _ThreadEndpointHttpClient interface {
 	Do(*http.Request) (*http.Response, error)
 }
 
-type MessageEndpointService struct {
+type ThreadEndpointService struct {
 	base string
-	cli  _MessageEndpointHttpClient
+	cli  _ThreadEndpointHttpClient
 }
 
-// NewMessageEndpointHttpClient constructs client for MessageEndpoint
-func NewMessageEndpointHttpClient(url string, cli _MessageEndpointHttpClient) *MessageEndpointService {
+// NewThreadEndpointHttpClient constructs client for ThreadEndpoint
+func NewThreadEndpointHttpClient(url string, cli _ThreadEndpointHttpClient) *ThreadEndpointService {
 	if url == "" {
 		url = os.Getenv("EOLYMP_API_URL")
 		if url == "" {
@@ -34,10 +34,10 @@ func NewMessageEndpointHttpClient(url string, cli _MessageEndpointHttpClient) *M
 		}
 	}
 
-	return &MessageEndpointService{base: url, cli: cli}
+	return &ThreadEndpointService{base: url, cli: cli}
 }
 
-func (s *MessageEndpointService) do(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
+func (s *ThreadEndpointService) do(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
 	var body io.Reader
 
 	if in != nil {
@@ -100,8 +100,8 @@ func (s *MessageEndpointService) do(ctx context.Context, verb, path string, in, 
 	return nil
 }
 
-func (s *MessageEndpointService) DescribeMessage(ctx context.Context, in *DescribeMessageInput) (*DescribeMessageOutput, error) {
-	out := &DescribeMessageOutput{}
+func (s *ThreadEndpointService) DescribeThread(ctx context.Context, in *DescribeThreadInput) (*DescribeThreadOutput, error) {
+	out := &DescribeThreadOutput{}
 	path := "/"
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
@@ -111,31 +111,9 @@ func (s *MessageEndpointService) DescribeMessage(ctx context.Context, in *Descri
 	return out, nil
 }
 
-func (s *MessageEndpointService) UpdateMessage(ctx context.Context, in *UpdateMessageInput) (*UpdateMessageOutput, error) {
-	out := &UpdateMessageOutput{}
-	path := "/"
-
-	if err := s.do(ctx, "PUT", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *MessageEndpointService) DeleteMessage(ctx context.Context, in *DeleteMessageInput) (*DeleteMessageOutput, error) {
-	out := &DeleteMessageOutput{}
-	path := "/"
-
-	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *MessageEndpointService) VoteMessage(ctx context.Context, in *VoteMessageInput) (*VoteMessageOutput, error) {
-	out := &VoteMessageOutput{}
-	path := "/"
+func (s *ThreadEndpointService) VoteThread(ctx context.Context, in *VoteThreadInput) (*VoteThreadOutput, error) {
+	out := &VoteThreadOutput{}
+	path := "/vote"
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
