@@ -19,16 +19,11 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	PostTypeService_DescribePostType_FullMethodName        = "/eolymp.discussion.PostTypeService/DescribePostType"
-	PostTypeService_ListPostTypes_FullMethodName           = "/eolymp.discussion.PostTypeService/ListPostTypes"
-	PostTypeService_CreatePostType_FullMethodName          = "/eolymp.discussion.PostTypeService/CreatePostType"
-	PostTypeService_UpdatePostType_FullMethodName          = "/eolymp.discussion.PostTypeService/UpdatePostType"
-	PostTypeService_DeletePostType_FullMethodName          = "/eolymp.discussion.PostTypeService/DeletePostType"
-	PostTypeService_DescribePostTypeVariant_FullMethodName = "/eolymp.discussion.PostTypeService/DescribePostTypeVariant"
-	PostTypeService_ListPostTypeVariants_FullMethodName    = "/eolymp.discussion.PostTypeService/ListPostTypeVariants"
-	PostTypeService_CreatePostTypeVariant_FullMethodName   = "/eolymp.discussion.PostTypeService/CreatePostTypeVariant"
-	PostTypeService_UpdatePostTypeVariant_FullMethodName   = "/eolymp.discussion.PostTypeService/UpdatePostTypeVariant"
-	PostTypeService_DeletePostTypeVariant_FullMethodName   = "/eolymp.discussion.PostTypeService/DeletePostTypeVariant"
+	PostTypeService_DescribePostType_FullMethodName = "/eolymp.discussion.PostTypeService/DescribePostType"
+	PostTypeService_ListPostTypes_FullMethodName    = "/eolymp.discussion.PostTypeService/ListPostTypes"
+	PostTypeService_CreatePostType_FullMethodName   = "/eolymp.discussion.PostTypeService/CreatePostType"
+	PostTypeService_UpdatePostType_FullMethodName   = "/eolymp.discussion.PostTypeService/UpdatePostType"
+	PostTypeService_DeletePostType_FullMethodName   = "/eolymp.discussion.PostTypeService/DeletePostType"
 )
 
 // PostTypeServiceClient is the client API for PostTypeService service.
@@ -40,11 +35,6 @@ type PostTypeServiceClient interface {
 	CreatePostType(ctx context.Context, in *CreatePostTypeInput, opts ...grpc.CallOption) (*CreatePostTypeOutput, error)
 	UpdatePostType(ctx context.Context, in *UpdatePostTypeInput, opts ...grpc.CallOption) (*UpdatePostTypeOutput, error)
 	DeletePostType(ctx context.Context, in *DeletePostTypeInput, opts ...grpc.CallOption) (*DeletePostTypeOutput, error)
-	DescribePostTypeVariant(ctx context.Context, in *DescribePostTypeVariantInput, opts ...grpc.CallOption) (*DescribePostTypeVariantOutput, error)
-	ListPostTypeVariants(ctx context.Context, in *ListPostTypeVariantsInput, opts ...grpc.CallOption) (*ListPostTypeVariantsOutput, error)
-	CreatePostTypeVariant(ctx context.Context, in *CreatePostTypeVariantInput, opts ...grpc.CallOption) (*CreatePostTypeVariantOutput, error)
-	UpdatePostTypeVariant(ctx context.Context, in *UpdatePostTypeVariantInput, opts ...grpc.CallOption) (*UpdatePostTypeVariantOutput, error)
-	DeletePostTypeVariant(ctx context.Context, in *DeletePostTypeVariantInput, opts ...grpc.CallOption) (*DeletePostTypeVariantOutput, error)
 }
 
 type postTypeServiceClient struct {
@@ -100,51 +90,6 @@ func (c *postTypeServiceClient) DeletePostType(ctx context.Context, in *DeletePo
 	return out, nil
 }
 
-func (c *postTypeServiceClient) DescribePostTypeVariant(ctx context.Context, in *DescribePostTypeVariantInput, opts ...grpc.CallOption) (*DescribePostTypeVariantOutput, error) {
-	out := new(DescribePostTypeVariantOutput)
-	err := c.cc.Invoke(ctx, PostTypeService_DescribePostTypeVariant_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *postTypeServiceClient) ListPostTypeVariants(ctx context.Context, in *ListPostTypeVariantsInput, opts ...grpc.CallOption) (*ListPostTypeVariantsOutput, error) {
-	out := new(ListPostTypeVariantsOutput)
-	err := c.cc.Invoke(ctx, PostTypeService_ListPostTypeVariants_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *postTypeServiceClient) CreatePostTypeVariant(ctx context.Context, in *CreatePostTypeVariantInput, opts ...grpc.CallOption) (*CreatePostTypeVariantOutput, error) {
-	out := new(CreatePostTypeVariantOutput)
-	err := c.cc.Invoke(ctx, PostTypeService_CreatePostTypeVariant_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *postTypeServiceClient) UpdatePostTypeVariant(ctx context.Context, in *UpdatePostTypeVariantInput, opts ...grpc.CallOption) (*UpdatePostTypeVariantOutput, error) {
-	out := new(UpdatePostTypeVariantOutput)
-	err := c.cc.Invoke(ctx, PostTypeService_UpdatePostTypeVariant_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *postTypeServiceClient) DeletePostTypeVariant(ctx context.Context, in *DeletePostTypeVariantInput, opts ...grpc.CallOption) (*DeletePostTypeVariantOutput, error) {
-	out := new(DeletePostTypeVariantOutput)
-	err := c.cc.Invoke(ctx, PostTypeService_DeletePostTypeVariant_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // PostTypeServiceServer is the server API for PostTypeService service.
 // All implementations should embed UnimplementedPostTypeServiceServer
 // for forward compatibility
@@ -154,11 +99,6 @@ type PostTypeServiceServer interface {
 	CreatePostType(context.Context, *CreatePostTypeInput) (*CreatePostTypeOutput, error)
 	UpdatePostType(context.Context, *UpdatePostTypeInput) (*UpdatePostTypeOutput, error)
 	DeletePostType(context.Context, *DeletePostTypeInput) (*DeletePostTypeOutput, error)
-	DescribePostTypeVariant(context.Context, *DescribePostTypeVariantInput) (*DescribePostTypeVariantOutput, error)
-	ListPostTypeVariants(context.Context, *ListPostTypeVariantsInput) (*ListPostTypeVariantsOutput, error)
-	CreatePostTypeVariant(context.Context, *CreatePostTypeVariantInput) (*CreatePostTypeVariantOutput, error)
-	UpdatePostTypeVariant(context.Context, *UpdatePostTypeVariantInput) (*UpdatePostTypeVariantOutput, error)
-	DeletePostTypeVariant(context.Context, *DeletePostTypeVariantInput) (*DeletePostTypeVariantOutput, error)
 }
 
 // UnimplementedPostTypeServiceServer should be embedded to have forward compatible implementations.
@@ -179,21 +119,6 @@ func (UnimplementedPostTypeServiceServer) UpdatePostType(context.Context, *Updat
 }
 func (UnimplementedPostTypeServiceServer) DeletePostType(context.Context, *DeletePostTypeInput) (*DeletePostTypeOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeletePostType not implemented")
-}
-func (UnimplementedPostTypeServiceServer) DescribePostTypeVariant(context.Context, *DescribePostTypeVariantInput) (*DescribePostTypeVariantOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DescribePostTypeVariant not implemented")
-}
-func (UnimplementedPostTypeServiceServer) ListPostTypeVariants(context.Context, *ListPostTypeVariantsInput) (*ListPostTypeVariantsOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListPostTypeVariants not implemented")
-}
-func (UnimplementedPostTypeServiceServer) CreatePostTypeVariant(context.Context, *CreatePostTypeVariantInput) (*CreatePostTypeVariantOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreatePostTypeVariant not implemented")
-}
-func (UnimplementedPostTypeServiceServer) UpdatePostTypeVariant(context.Context, *UpdatePostTypeVariantInput) (*UpdatePostTypeVariantOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdatePostTypeVariant not implemented")
-}
-func (UnimplementedPostTypeServiceServer) DeletePostTypeVariant(context.Context, *DeletePostTypeVariantInput) (*DeletePostTypeVariantOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeletePostTypeVariant not implemented")
 }
 
 // UnsafePostTypeServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -297,96 +222,6 @@ func _PostTypeService_DeletePostType_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
-func _PostTypeService_DescribePostTypeVariant_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DescribePostTypeVariantInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(PostTypeServiceServer).DescribePostTypeVariant(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: PostTypeService_DescribePostTypeVariant_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PostTypeServiceServer).DescribePostTypeVariant(ctx, req.(*DescribePostTypeVariantInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _PostTypeService_ListPostTypeVariants_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListPostTypeVariantsInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(PostTypeServiceServer).ListPostTypeVariants(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: PostTypeService_ListPostTypeVariants_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PostTypeServiceServer).ListPostTypeVariants(ctx, req.(*ListPostTypeVariantsInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _PostTypeService_CreatePostTypeVariant_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreatePostTypeVariantInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(PostTypeServiceServer).CreatePostTypeVariant(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: PostTypeService_CreatePostTypeVariant_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PostTypeServiceServer).CreatePostTypeVariant(ctx, req.(*CreatePostTypeVariantInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _PostTypeService_UpdatePostTypeVariant_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdatePostTypeVariantInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(PostTypeServiceServer).UpdatePostTypeVariant(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: PostTypeService_UpdatePostTypeVariant_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PostTypeServiceServer).UpdatePostTypeVariant(ctx, req.(*UpdatePostTypeVariantInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _PostTypeService_DeletePostTypeVariant_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeletePostTypeVariantInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(PostTypeServiceServer).DeletePostTypeVariant(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: PostTypeService_DeletePostTypeVariant_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PostTypeServiceServer).DeletePostTypeVariant(ctx, req.(*DeletePostTypeVariantInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // PostTypeService_ServiceDesc is the grpc.ServiceDesc for PostTypeService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -413,26 +248,6 @@ var PostTypeService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeletePostType",
 			Handler:    _PostTypeService_DeletePostType_Handler,
-		},
-		{
-			MethodName: "DescribePostTypeVariant",
-			Handler:    _PostTypeService_DescribePostTypeVariant_Handler,
-		},
-		{
-			MethodName: "ListPostTypeVariants",
-			Handler:    _PostTypeService_ListPostTypeVariants_Handler,
-		},
-		{
-			MethodName: "CreatePostTypeVariant",
-			Handler:    _PostTypeService_CreatePostTypeVariant_Handler,
-		},
-		{
-			MethodName: "UpdatePostTypeVariant",
-			Handler:    _PostTypeService_UpdatePostTypeVariant_Handler,
-		},
-		{
-			MethodName: "DeletePostTypeVariant",
-			Handler:    _PostTypeService_DeletePostTypeVariant_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
