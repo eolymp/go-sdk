@@ -339,7 +339,7 @@ type ListPostsOutput struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Total          int32   `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty"` // estimated
+	Total          int32   `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty"`
 	Items          []*Post `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
 	NextPageCursor string  `protobuf:"bytes,3,opt,name=next_page_cursor,json=nextPageCursor,proto3" json:"next_page_cursor,omitempty"`
 }
