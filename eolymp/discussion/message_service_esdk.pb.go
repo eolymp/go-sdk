@@ -185,3 +185,19 @@ func (s *MessageServiceService) VoteMessage(ctx context.Context, in *VoteMessage
 
 	return out, nil
 }
+
+func (s *MessageServiceService) ListMessageChanges(ctx context.Context, in *ListMessageChangesInput) (*ListMessageChangesOutput, error) {
+	out := &ListMessageChangesOutput{}
+	path := "/messages/" + url.PathEscape(in.GetMessageId()) + "/changes"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.MessageId = ""
+	}
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

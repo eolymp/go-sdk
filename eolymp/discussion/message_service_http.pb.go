@@ -214,6 +214,9 @@ func RegisterMessageServiceHttpHandlers(router *mux.Router, prefix string, cli M
 	router.Handle(prefix+"/messages/{message_id}/vote", _MessageService_VoteMessage_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.discussion.MessageService.VoteMessage")
+	router.Handle(prefix+"/messages/{message_id}/changes", _MessageService_ListMessageChanges_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.discussion.MessageService.ListMessageChanges")
 }
 
 func _MessageService_DescribeMessage_Rule0(cli MessageServiceClient) http.Handler {
@@ -351,6 +354,31 @@ func _MessageService_VoteMessage_Rule0(cli MessageServiceClient) http.Handler {
 		var header, trailer metadata.MD
 
 		out, err := cli.VoteMessage(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_MessageService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_MessageService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _MessageService_ListMessageChanges_Rule0(cli MessageServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListMessageChangesInput{}
+
+		if err := _MessageService_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_MessageService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.MessageId = vars["message_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.ListMessageChanges(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_MessageService_HTTPWriteErrorResponse(w, err)
 			return
@@ -559,6 +587,38 @@ func (i *MessageServiceInterceptor) VoteMessage(ctx context.Context, in *VoteMes
 	message, ok := out.(*VoteMessageOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *VoteMessageOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *MessageServiceInterceptor) ListMessageChanges(ctx context.Context, in *ListMessageChangesInput, opts ...grpc.CallOption) (*ListMessageChangesOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListMessageChangesInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListMessageChangesInput, got %T", in))
+		}
+
+		return i.client.ListMessageChanges(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.discussion.MessageService.ListMessageChanges", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListMessageChangesOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListMessageChangesOutput, got %T", out))
 	}
 
 	return message, err

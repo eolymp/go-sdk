@@ -19,12 +19,13 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	MessageService_DescribeMessage_FullMethodName = "/eolymp.discussion.MessageService/DescribeMessage"
-	MessageService_ListMessages_FullMethodName    = "/eolymp.discussion.MessageService/ListMessages"
-	MessageService_PostMessage_FullMethodName     = "/eolymp.discussion.MessageService/PostMessage"
-	MessageService_UpdateMessage_FullMethodName   = "/eolymp.discussion.MessageService/UpdateMessage"
-	MessageService_DeleteMessage_FullMethodName   = "/eolymp.discussion.MessageService/DeleteMessage"
-	MessageService_VoteMessage_FullMethodName     = "/eolymp.discussion.MessageService/VoteMessage"
+	MessageService_DescribeMessage_FullMethodName    = "/eolymp.discussion.MessageService/DescribeMessage"
+	MessageService_ListMessages_FullMethodName       = "/eolymp.discussion.MessageService/ListMessages"
+	MessageService_PostMessage_FullMethodName        = "/eolymp.discussion.MessageService/PostMessage"
+	MessageService_UpdateMessage_FullMethodName      = "/eolymp.discussion.MessageService/UpdateMessage"
+	MessageService_DeleteMessage_FullMethodName      = "/eolymp.discussion.MessageService/DeleteMessage"
+	MessageService_VoteMessage_FullMethodName        = "/eolymp.discussion.MessageService/VoteMessage"
+	MessageService_ListMessageChanges_FullMethodName = "/eolymp.discussion.MessageService/ListMessageChanges"
 )
 
 // MessageServiceClient is the client API for MessageService service.
@@ -37,6 +38,7 @@ type MessageServiceClient interface {
 	UpdateMessage(ctx context.Context, in *UpdateMessageInput, opts ...grpc.CallOption) (*UpdateMessageOutput, error)
 	DeleteMessage(ctx context.Context, in *DeleteMessageInput, opts ...grpc.CallOption) (*DeleteMessageOutput, error)
 	VoteMessage(ctx context.Context, in *VoteMessageInput, opts ...grpc.CallOption) (*VoteMessageOutput, error)
+	ListMessageChanges(ctx context.Context, in *ListMessageChangesInput, opts ...grpc.CallOption) (*ListMessageChangesOutput, error)
 }
 
 type messageServiceClient struct {
@@ -101,6 +103,15 @@ func (c *messageServiceClient) VoteMessage(ctx context.Context, in *VoteMessageI
 	return out, nil
 }
 
+func (c *messageServiceClient) ListMessageChanges(ctx context.Context, in *ListMessageChangesInput, opts ...grpc.CallOption) (*ListMessageChangesOutput, error) {
+	out := new(ListMessageChangesOutput)
+	err := c.cc.Invoke(ctx, MessageService_ListMessageChanges_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MessageServiceServer is the server API for MessageService service.
 // All implementations should embed UnimplementedMessageServiceServer
 // for forward compatibility
@@ -111,6 +122,7 @@ type MessageServiceServer interface {
 	UpdateMessage(context.Context, *UpdateMessageInput) (*UpdateMessageOutput, error)
 	DeleteMessage(context.Context, *DeleteMessageInput) (*DeleteMessageOutput, error)
 	VoteMessage(context.Context, *VoteMessageInput) (*VoteMessageOutput, error)
+	ListMessageChanges(context.Context, *ListMessageChangesInput) (*ListMessageChangesOutput, error)
 }
 
 // UnimplementedMessageServiceServer should be embedded to have forward compatible implementations.
@@ -134,6 +146,9 @@ func (UnimplementedMessageServiceServer) DeleteMessage(context.Context, *DeleteM
 }
 func (UnimplementedMessageServiceServer) VoteMessage(context.Context, *VoteMessageInput) (*VoteMessageOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method VoteMessage not implemented")
+}
+func (UnimplementedMessageServiceServer) ListMessageChanges(context.Context, *ListMessageChangesInput) (*ListMessageChangesOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListMessageChanges not implemented")
 }
 
 // UnsafeMessageServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -255,6 +270,24 @@ func _MessageService_VoteMessage_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _MessageService_ListMessageChanges_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListMessageChangesInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MessageServiceServer).ListMessageChanges(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MessageService_ListMessageChanges_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MessageServiceServer).ListMessageChanges(ctx, req.(*ListMessageChangesInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // MessageService_ServiceDesc is the grpc.ServiceDesc for MessageService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -285,6 +318,10 @@ var MessageService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "VoteMessage",
 			Handler:    _MessageService_VoteMessage_Handler,
+		},
+		{
+			MethodName: "ListMessageChanges",
+			Handler:    _MessageService_ListMessageChanges_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
