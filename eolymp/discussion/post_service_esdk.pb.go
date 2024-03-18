@@ -185,3 +185,86 @@ func (s *PostServiceService) VotePost(ctx context.Context, in *VotePostInput) (*
 
 	return out, nil
 }
+
+func (s *PostServiceService) DescribePostTranslation(ctx context.Context, in *DescribePostTranslationInput) (*DescribePostTranslationOutput, error) {
+	out := &DescribePostTranslationOutput{}
+	path := "/posts/" + url.PathEscape(in.GetPostId()) + "/translations/" + url.PathEscape(in.GetTranslationId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.PostId = ""
+		in.TranslationId = ""
+	}
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *PostServiceService) ListPostTranslations(ctx context.Context, in *ListPostTranslationsInput) (*ListPostTranslationsOutput, error) {
+	out := &ListPostTranslationsOutput{}
+	path := "/posts/" + url.PathEscape(in.GetPostId()) + "/translations"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.PostId = ""
+	}
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *PostServiceService) CreatePostTranslation(ctx context.Context, in *CreatePostTranslationInput) (*CreatePostTranslationOutput, error) {
+	out := &CreatePostTranslationOutput{}
+	path := "/posts/" + url.PathEscape(in.GetPostId()) + "/translations"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.PostId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *PostServiceService) UpdatePostTranslation(ctx context.Context, in *UpdatePostTranslationInput) (*UpdatePostTranslationOutput, error) {
+	out := &UpdatePostTranslationOutput{}
+	path := "/posts/" + url.PathEscape(in.GetPostId()) + "/translations/" + url.PathEscape(in.GetTranslationId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.PostId = ""
+		in.TranslationId = ""
+	}
+
+	if err := s.do(ctx, "PUT", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *PostServiceService) DeletePostTranslation(ctx context.Context, in *DeletePostTranslationInput) (*DeletePostTranslationOutput, error) {
+	out := &DeletePostTranslationOutput{}
+	path := "/posts/" + url.PathEscape(in.GetPostId()) + "/translations/" + url.PathEscape(in.GetTranslationId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.PostId = ""
+		in.TranslationId = ""
+	}
+
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
