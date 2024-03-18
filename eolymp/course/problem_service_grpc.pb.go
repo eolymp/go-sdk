@@ -27,6 +27,9 @@ const (
 	ProblemService_WatchSubmission_FullMethodName    = "/eolymp.course.ProblemService/WatchSubmission"
 	ProblemService_DescribeScore_FullMethodName      = "/eolymp.course.ProblemService/DescribeScore"
 	ProblemService_LookupCodeTemplate_FullMethodName = "/eolymp.course.ProblemService/LookupCodeTemplate"
+	ProblemService_CreateRun_FullMethodName          = "/eolymp.course.ProblemService/CreateRun"
+	ProblemService_DescribeRun_FullMethodName        = "/eolymp.course.ProblemService/DescribeRun"
+	ProblemService_WatchRun_FullMethodName           = "/eolymp.course.ProblemService/WatchRun"
 )
 
 // ProblemServiceClient is the client API for ProblemService service.
@@ -41,6 +44,9 @@ type ProblemServiceClient interface {
 	WatchSubmission(ctx context.Context, in *WatchSubmissionInput, opts ...grpc.CallOption) (ProblemService_WatchSubmissionClient, error)
 	DescribeScore(ctx context.Context, in *DescribeScoreInput, opts ...grpc.CallOption) (*DescribeScoreOutput, error)
 	LookupCodeTemplate(ctx context.Context, in *LookupCodeTemplateInput, opts ...grpc.CallOption) (*LookupCodeTemplateOutput, error)
+	CreateRun(ctx context.Context, in *CreateRunInput, opts ...grpc.CallOption) (*CreateRunOutput, error)
+	DescribeRun(ctx context.Context, in *DescribeRunInput, opts ...grpc.CallOption) (*DescribeRunOutput, error)
+	WatchRun(ctx context.Context, in *WatchRunInput, opts ...grpc.CallOption) (ProblemService_WatchRunClient, error)
 }
 
 type problemServiceClient struct {
@@ -146,6 +152,56 @@ func (c *problemServiceClient) LookupCodeTemplate(ctx context.Context, in *Looku
 	return out, nil
 }
 
+func (c *problemServiceClient) CreateRun(ctx context.Context, in *CreateRunInput, opts ...grpc.CallOption) (*CreateRunOutput, error) {
+	out := new(CreateRunOutput)
+	err := c.cc.Invoke(ctx, ProblemService_CreateRun_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *problemServiceClient) DescribeRun(ctx context.Context, in *DescribeRunInput, opts ...grpc.CallOption) (*DescribeRunOutput, error) {
+	out := new(DescribeRunOutput)
+	err := c.cc.Invoke(ctx, ProblemService_DescribeRun_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *problemServiceClient) WatchRun(ctx context.Context, in *WatchRunInput, opts ...grpc.CallOption) (ProblemService_WatchRunClient, error) {
+	stream, err := c.cc.NewStream(ctx, &ProblemService_ServiceDesc.Streams[1], ProblemService_WatchRun_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &problemServiceWatchRunClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type ProblemService_WatchRunClient interface {
+	Recv() (*WatchRunOutput, error)
+	grpc.ClientStream
+}
+
+type problemServiceWatchRunClient struct {
+	grpc.ClientStream
+}
+
+func (x *problemServiceWatchRunClient) Recv() (*WatchRunOutput, error) {
+	m := new(WatchRunOutput)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // ProblemServiceServer is the server API for ProblemService service.
 // All implementations should embed UnimplementedProblemServiceServer
 // for forward compatibility
@@ -158,6 +214,9 @@ type ProblemServiceServer interface {
 	WatchSubmission(*WatchSubmissionInput, ProblemService_WatchSubmissionServer) error
 	DescribeScore(context.Context, *DescribeScoreInput) (*DescribeScoreOutput, error)
 	LookupCodeTemplate(context.Context, *LookupCodeTemplateInput) (*LookupCodeTemplateOutput, error)
+	CreateRun(context.Context, *CreateRunInput) (*CreateRunOutput, error)
+	DescribeRun(context.Context, *DescribeRunInput) (*DescribeRunOutput, error)
+	WatchRun(*WatchRunInput, ProblemService_WatchRunServer) error
 }
 
 // UnimplementedProblemServiceServer should be embedded to have forward compatible implementations.
@@ -187,6 +246,15 @@ func (UnimplementedProblemServiceServer) DescribeScore(context.Context, *Describ
 }
 func (UnimplementedProblemServiceServer) LookupCodeTemplate(context.Context, *LookupCodeTemplateInput) (*LookupCodeTemplateOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method LookupCodeTemplate not implemented")
+}
+func (UnimplementedProblemServiceServer) CreateRun(context.Context, *CreateRunInput) (*CreateRunOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateRun not implemented")
+}
+func (UnimplementedProblemServiceServer) DescribeRun(context.Context, *DescribeRunInput) (*DescribeRunOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeRun not implemented")
+}
+func (UnimplementedProblemServiceServer) WatchRun(*WatchRunInput, ProblemService_WatchRunServer) error {
+	return status.Errorf(codes.Unimplemented, "method WatchRun not implemented")
 }
 
 // UnsafeProblemServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -347,6 +415,63 @@ func _ProblemService_LookupCodeTemplate_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ProblemService_CreateRun_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateRunInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProblemServiceServer).CreateRun(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProblemService_CreateRun_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProblemServiceServer).CreateRun(ctx, req.(*CreateRunInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ProblemService_DescribeRun_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeRunInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProblemServiceServer).DescribeRun(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProblemService_DescribeRun_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProblemServiceServer).DescribeRun(ctx, req.(*DescribeRunInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ProblemService_WatchRun_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(WatchRunInput)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(ProblemServiceServer).WatchRun(m, &problemServiceWatchRunServer{stream})
+}
+
+type ProblemService_WatchRunServer interface {
+	Send(*WatchRunOutput) error
+	grpc.ServerStream
+}
+
+type problemServiceWatchRunServer struct {
+	grpc.ServerStream
+}
+
+func (x *problemServiceWatchRunServer) Send(m *WatchRunOutput) error {
+	return x.ServerStream.SendMsg(m)
+}
+
 // ProblemService_ServiceDesc is the grpc.ServiceDesc for ProblemService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -382,11 +507,24 @@ var ProblemService_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "LookupCodeTemplate",
 			Handler:    _ProblemService_LookupCodeTemplate_Handler,
 		},
+		{
+			MethodName: "CreateRun",
+			Handler:    _ProblemService_CreateRun_Handler,
+		},
+		{
+			MethodName: "DescribeRun",
+			Handler:    _ProblemService_DescribeRun_Handler,
+		},
 	},
 	Streams: []grpc.StreamDesc{
 		{
 			StreamName:    "WatchSubmission",
 			Handler:       _ProblemService_WatchSubmission_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "WatchRun",
+			Handler:       _ProblemService_WatchRun_Handler,
 			ServerStreams: true,
 		},
 	},

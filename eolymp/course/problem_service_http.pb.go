@@ -225,6 +225,38 @@ func (s *_ProblemService_WatchSubmission_WSStream) RecvMsg(m interface{}) error 
 	return nil
 }
 
+type _ProblemService_WatchRun_WSStream struct {
+	ctx  context.Context
+	conn *websocket.Conn
+}
+
+func (s *_ProblemService_WatchRun_WSStream) Send(m *WatchRunOutput) error {
+	return s.SendMsg(m)
+}
+
+func (s *_ProblemService_WatchRun_WSStream) SetHeader(metadata.MD) error {
+	return nil
+}
+
+func (s *_ProblemService_WatchRun_WSStream) SendHeader(metadata.MD) error {
+	return nil
+}
+
+func (s *_ProblemService_WatchRun_WSStream) SetTrailer(metadata.MD) {
+}
+
+func (s *_ProblemService_WatchRun_WSStream) Context() context.Context {
+	return s.ctx
+}
+
+func (s *_ProblemService_WatchRun_WSStream) SendMsg(m interface{}) error {
+	return _ProblemService_WebsocketCodec.Send(s.conn, m)
+}
+
+func (s *_ProblemService_WatchRun_WSStream) RecvMsg(m interface{}) error {
+	return nil
+}
+
 // RegisterProblemServiceHttpHandlers adds handlers for for ProblemServiceClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterProblemServiceHttpHandlers(router *mux.Router, prefix string, cli ProblemServiceClient) {
@@ -249,6 +281,15 @@ func RegisterProblemServiceHttpHandlers(router *mux.Router, prefix string, cli P
 	router.Handle(prefix+"/template", _ProblemService_LookupCodeTemplate_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.ProblemService.LookupCodeTemplate")
+	router.Handle(prefix+"/runs", _ProblemService_CreateRun_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.course.ProblemService.CreateRun")
+	router.Handle(prefix+"/runs/{run_id}", _ProblemService_DescribeRun_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.course.ProblemService.DescribeRun")
+	router.Handle(prefix+"/runs/{run_id}/watch", _ProblemService_WatchRun_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.course.ProblemService.WatchRun")
 }
 
 func _ProblemService_ListStatements_Rule0(cli ProblemServiceClient) http.Handler {
@@ -405,6 +446,61 @@ func _ProblemService_LookupCodeTemplate_Rule0(cli ProblemServiceClient) http.Han
 		}
 
 		_ProblemService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ProblemService_CreateRun_Rule0(cli ProblemServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &CreateRunInput{}
+
+		if err := _ProblemService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_ProblemService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.CreateRun(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ProblemService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ProblemService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ProblemService_DescribeRun_Rule0(cli ProblemServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeRunInput{}
+
+		if err := _ProblemService_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_ProblemService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.RunId = vars["run_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeRun(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ProblemService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ProblemService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ProblemService_WatchRun_Rule0(cli ProblemServiceClient) http.Handler {
+	return websocket.Handler(func(ws *websocket.Conn) {
+		if err := ws.WriteClose(1000); err != nil {
+			panic(err)
+		}
 	})
 }
 
@@ -646,4 +742,72 @@ func (i *ProblemServiceInterceptor) LookupCodeTemplate(ctx context.Context, in *
 	}
 
 	return message, err
+}
+
+func (i *ProblemServiceInterceptor) CreateRun(ctx context.Context, in *CreateRunInput, opts ...grpc.CallOption) (*CreateRunOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*CreateRunInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *CreateRunInput, got %T", in))
+		}
+
+		return i.client.CreateRun(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.course.ProblemService.CreateRun", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*CreateRunOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *CreateRunOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *ProblemServiceInterceptor) DescribeRun(ctx context.Context, in *DescribeRunInput, opts ...grpc.CallOption) (*DescribeRunOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeRunInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeRunInput, got %T", in))
+		}
+
+		return i.client.DescribeRun(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.course.ProblemService.DescribeRun", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeRunOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeRunOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *ProblemServiceInterceptor) WatchRun(ctx context.Context, in *WatchRunInput, opts ...grpc.CallOption) (ProblemService_WatchRunClient, error) {
+	return i.client.WatchRun(ctx, in, opts...)
 }
