@@ -19,7 +19,6 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Judge_LookupContest_FullMethodName              = "/eolymp.judge.Judge/LookupContest"
 	Judge_CreateContest_FullMethodName              = "/eolymp.judge.Judge/CreateContest"
 	Judge_DeleteContest_FullMethodName              = "/eolymp.judge.Judge/DeleteContest"
 	Judge_UpdateContest_FullMethodName              = "/eolymp.judge.Judge/UpdateContest"
@@ -64,19 +63,6 @@ const (
 	Judge_RetestSubmission_FullMethodName           = "/eolymp.judge.Judge/RetestSubmission"
 	Judge_DeleteSubmission_FullMethodName           = "/eolymp.judge.Judge/DeleteSubmission"
 	Judge_RestoreSubmission_FullMethodName          = "/eolymp.judge.Judge/RestoreSubmission"
-	Judge_CreateTicket_FullMethodName               = "/eolymp.judge.Judge/CreateTicket"
-	Judge_CloseTicket_FullMethodName                = "/eolymp.judge.Judge/CloseTicket"
-	Judge_OpenTicket_FullMethodName                 = "/eolymp.judge.Judge/OpenTicket"
-	Judge_ReadTicket_FullMethodName                 = "/eolymp.judge.Judge/ReadTicket"
-	Judge_DeleteTicket_FullMethodName               = "/eolymp.judge.Judge/DeleteTicket"
-	Judge_DescribeTicket_FullMethodName             = "/eolymp.judge.Judge/DescribeTicket"
-	Judge_ListTickets_FullMethodName                = "/eolymp.judge.Judge/ListTickets"
-	Judge_ReplyTicket_FullMethodName                = "/eolymp.judge.Judge/ReplyTicket"
-	Judge_ListReplies_FullMethodName                = "/eolymp.judge.Judge/ListReplies"
-	Judge_DeleteReply_FullMethodName                = "/eolymp.judge.Judge/DeleteReply"
-	Judge_UpdateReply_FullMethodName                = "/eolymp.judge.Judge/UpdateReply"
-	Judge_WatchTickets_FullMethodName               = "/eolymp.judge.Judge/WatchTickets"
-	Judge_WatchReplies_FullMethodName               = "/eolymp.judge.Judge/WatchReplies"
 	Judge_CreateAnnouncement_FullMethodName         = "/eolymp.judge.Judge/CreateAnnouncement"
 	Judge_UpdateAnnouncement_FullMethodName         = "/eolymp.judge.Judge/UpdateAnnouncement"
 	Judge_DeleteAnnouncement_FullMethodName         = "/eolymp.judge.Judge/DeleteAnnouncement"
@@ -98,12 +84,6 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type JudgeClient interface {
-	// LookupContest fetches basic (possibly incomplete) contest information. Right now this method is very similar to
-	// DescribeContest, but looks up contest by domain name (key). Its purpose is different than DescribeContest, as
-	// it attempts to "probe" contest rather than fetch complete information.
-	//
-	// This is first API call made by contest-ui just to check if domain name can be resolved into Contest ID.
-	LookupContest(ctx context.Context, in *LookupContestInput, opts ...grpc.CallOption) (*LookupContestOutput, error)
 	CreateContest(ctx context.Context, in *CreateContestInput, opts ...grpc.CallOption) (*CreateContestOutput, error)
 	DeleteContest(ctx context.Context, in *DeleteContestInput, opts ...grpc.CallOption) (*DeleteContestOutput, error)
 	UpdateContest(ctx context.Context, in *UpdateContestInput, opts ...grpc.CallOption) (*UpdateContestOutput, error)
@@ -171,29 +151,6 @@ type JudgeClient interface {
 	RetestSubmission(ctx context.Context, in *RetestSubmissionInput, opts ...grpc.CallOption) (*RetestSubmissionOutput, error)
 	DeleteSubmission(ctx context.Context, in *DeleteSubmissionInput, opts ...grpc.CallOption) (*DeleteSubmissionOutput, error)
 	RestoreSubmission(ctx context.Context, in *RestoreSubmissionInput, opts ...grpc.CallOption) (*RestoreSubmissionOutput, error)
-	// Create a new ticket
-	CreateTicket(ctx context.Context, in *CreateTicketInput, opts ...grpc.CallOption) (*CreateTicketOutput, error)
-	// Mark ticket as Closed
-	CloseTicket(ctx context.Context, in *CloseTicketInput, opts ...grpc.CallOption) (*CloseTicketOutput, error)
-	// Mark ticket as Open
-	OpenTicket(ctx context.Context, in *OpenTicketInput, opts ...grpc.CallOption) (*OpenTicketOutput, error)
-	// ReadTicket marks ticket as read by participant (sets is_read flag to true).
-	ReadTicket(ctx context.Context, in *ReadTicketInput, opts ...grpc.CallOption) (*ReadTicketOutput, error)
-	DeleteTicket(ctx context.Context, in *DeleteTicketInput, opts ...grpc.CallOption) (*DeleteTicketOutput, error)
-	DescribeTicket(ctx context.Context, in *DescribeTicketInput, opts ...grpc.CallOption) (*DescribeTicketOutput, error)
-	// ListTickets fetches tickets matching criteria in the input parameter.
-	ListTickets(ctx context.Context, in *ListTicketsInput, opts ...grpc.CallOption) (*ListTicketsOutput, error)
-	// ReplyTicket allows to add reply to a ticket. If reply is added by participant it sets is_read and needs_reply to
-	// true, otherwise, if reply added by contest administrator, this method sets these flags to false.
-	ReplyTicket(ctx context.Context, in *ReplyTicketInput, opts ...grpc.CallOption) (*ReplyTicketOutput, error)
-	// ListReplies fetches replies for a particular ticket.
-	ListReplies(ctx context.Context, in *ListRepliesInput, opts ...grpc.CallOption) (*ListRepliesOutput, error)
-	// DeleteReply allows author to delete his own reply.
-	DeleteReply(ctx context.Context, in *DeleteReplyInput, opts ...grpc.CallOption) (*DeleteReplyOutput, error)
-	// UpdateReply allows author to update his own reply.
-	UpdateReply(ctx context.Context, in *UpdateReplyInput, opts ...grpc.CallOption) (*UpdateReplyOutput, error)
-	WatchTickets(ctx context.Context, in *WatchTicketsInput, opts ...grpc.CallOption) (Judge_WatchTicketsClient, error)
-	WatchReplies(ctx context.Context, in *WatchRepliesInput, opts ...grpc.CallOption) (Judge_WatchRepliesClient, error)
 	// Create announcement for a contest
 	CreateAnnouncement(ctx context.Context, in *CreateAnnouncementInput, opts ...grpc.CallOption) (*CreateAnnouncementOutput, error)
 	// Update existing announcement in a contest
@@ -228,15 +185,6 @@ type judgeClient struct {
 
 func NewJudgeClient(cc grpc.ClientConnInterface) JudgeClient {
 	return &judgeClient{cc}
-}
-
-func (c *judgeClient) LookupContest(ctx context.Context, in *LookupContestInput, opts ...grpc.CallOption) (*LookupContestOutput, error) {
-	out := new(LookupContestOutput)
-	err := c.cc.Invoke(ctx, Judge_LookupContest_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
 }
 
 func (c *judgeClient) CreateContest(ctx context.Context, in *CreateContestInput, opts ...grpc.CallOption) (*CreateContestOutput, error) {
@@ -658,169 +606,6 @@ func (c *judgeClient) RestoreSubmission(ctx context.Context, in *RestoreSubmissi
 	return out, nil
 }
 
-func (c *judgeClient) CreateTicket(ctx context.Context, in *CreateTicketInput, opts ...grpc.CallOption) (*CreateTicketOutput, error) {
-	out := new(CreateTicketOutput)
-	err := c.cc.Invoke(ctx, Judge_CreateTicket_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *judgeClient) CloseTicket(ctx context.Context, in *CloseTicketInput, opts ...grpc.CallOption) (*CloseTicketOutput, error) {
-	out := new(CloseTicketOutput)
-	err := c.cc.Invoke(ctx, Judge_CloseTicket_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *judgeClient) OpenTicket(ctx context.Context, in *OpenTicketInput, opts ...grpc.CallOption) (*OpenTicketOutput, error) {
-	out := new(OpenTicketOutput)
-	err := c.cc.Invoke(ctx, Judge_OpenTicket_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *judgeClient) ReadTicket(ctx context.Context, in *ReadTicketInput, opts ...grpc.CallOption) (*ReadTicketOutput, error) {
-	out := new(ReadTicketOutput)
-	err := c.cc.Invoke(ctx, Judge_ReadTicket_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *judgeClient) DeleteTicket(ctx context.Context, in *DeleteTicketInput, opts ...grpc.CallOption) (*DeleteTicketOutput, error) {
-	out := new(DeleteTicketOutput)
-	err := c.cc.Invoke(ctx, Judge_DeleteTicket_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *judgeClient) DescribeTicket(ctx context.Context, in *DescribeTicketInput, opts ...grpc.CallOption) (*DescribeTicketOutput, error) {
-	out := new(DescribeTicketOutput)
-	err := c.cc.Invoke(ctx, Judge_DescribeTicket_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *judgeClient) ListTickets(ctx context.Context, in *ListTicketsInput, opts ...grpc.CallOption) (*ListTicketsOutput, error) {
-	out := new(ListTicketsOutput)
-	err := c.cc.Invoke(ctx, Judge_ListTickets_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *judgeClient) ReplyTicket(ctx context.Context, in *ReplyTicketInput, opts ...grpc.CallOption) (*ReplyTicketOutput, error) {
-	out := new(ReplyTicketOutput)
-	err := c.cc.Invoke(ctx, Judge_ReplyTicket_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *judgeClient) ListReplies(ctx context.Context, in *ListRepliesInput, opts ...grpc.CallOption) (*ListRepliesOutput, error) {
-	out := new(ListRepliesOutput)
-	err := c.cc.Invoke(ctx, Judge_ListReplies_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *judgeClient) DeleteReply(ctx context.Context, in *DeleteReplyInput, opts ...grpc.CallOption) (*DeleteReplyOutput, error) {
-	out := new(DeleteReplyOutput)
-	err := c.cc.Invoke(ctx, Judge_DeleteReply_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *judgeClient) UpdateReply(ctx context.Context, in *UpdateReplyInput, opts ...grpc.CallOption) (*UpdateReplyOutput, error) {
-	out := new(UpdateReplyOutput)
-	err := c.cc.Invoke(ctx, Judge_UpdateReply_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *judgeClient) WatchTickets(ctx context.Context, in *WatchTicketsInput, opts ...grpc.CallOption) (Judge_WatchTicketsClient, error) {
-	stream, err := c.cc.NewStream(ctx, &Judge_ServiceDesc.Streams[1], Judge_WatchTickets_FullMethodName, opts...)
-	if err != nil {
-		return nil, err
-	}
-	x := &judgeWatchTicketsClient{stream}
-	if err := x.ClientStream.SendMsg(in); err != nil {
-		return nil, err
-	}
-	if err := x.ClientStream.CloseSend(); err != nil {
-		return nil, err
-	}
-	return x, nil
-}
-
-type Judge_WatchTicketsClient interface {
-	Recv() (*WatchTicketsOutput, error)
-	grpc.ClientStream
-}
-
-type judgeWatchTicketsClient struct {
-	grpc.ClientStream
-}
-
-func (x *judgeWatchTicketsClient) Recv() (*WatchTicketsOutput, error) {
-	m := new(WatchTicketsOutput)
-	if err := x.ClientStream.RecvMsg(m); err != nil {
-		return nil, err
-	}
-	return m, nil
-}
-
-func (c *judgeClient) WatchReplies(ctx context.Context, in *WatchRepliesInput, opts ...grpc.CallOption) (Judge_WatchRepliesClient, error) {
-	stream, err := c.cc.NewStream(ctx, &Judge_ServiceDesc.Streams[2], Judge_WatchReplies_FullMethodName, opts...)
-	if err != nil {
-		return nil, err
-	}
-	x := &judgeWatchRepliesClient{stream}
-	if err := x.ClientStream.SendMsg(in); err != nil {
-		return nil, err
-	}
-	if err := x.ClientStream.CloseSend(); err != nil {
-		return nil, err
-	}
-	return x, nil
-}
-
-type Judge_WatchRepliesClient interface {
-	Recv() (*WatchRepliesOutput, error)
-	grpc.ClientStream
-}
-
-type judgeWatchRepliesClient struct {
-	grpc.ClientStream
-}
-
-func (x *judgeWatchRepliesClient) Recv() (*WatchRepliesOutput, error) {
-	m := new(WatchRepliesOutput)
-	if err := x.ClientStream.RecvMsg(m); err != nil {
-		return nil, err
-	}
-	return m, nil
-}
-
 func (c *judgeClient) CreateAnnouncement(ctx context.Context, in *CreateAnnouncementInput, opts ...grpc.CallOption) (*CreateAnnouncementOutput, error) {
 	out := new(CreateAnnouncementOutput)
 	err := c.cc.Invoke(ctx, Judge_CreateAnnouncement_FullMethodName, in, out, opts...)
@@ -960,12 +745,6 @@ func (c *judgeClient) DescribeContestUsage(ctx context.Context, in *DescribeCont
 // All implementations should embed UnimplementedJudgeServer
 // for forward compatibility
 type JudgeServer interface {
-	// LookupContest fetches basic (possibly incomplete) contest information. Right now this method is very similar to
-	// DescribeContest, but looks up contest by domain name (key). Its purpose is different than DescribeContest, as
-	// it attempts to "probe" contest rather than fetch complete information.
-	//
-	// This is first API call made by contest-ui just to check if domain name can be resolved into Contest ID.
-	LookupContest(context.Context, *LookupContestInput) (*LookupContestOutput, error)
 	CreateContest(context.Context, *CreateContestInput) (*CreateContestOutput, error)
 	DeleteContest(context.Context, *DeleteContestInput) (*DeleteContestOutput, error)
 	UpdateContest(context.Context, *UpdateContestInput) (*UpdateContestOutput, error)
@@ -1033,29 +812,6 @@ type JudgeServer interface {
 	RetestSubmission(context.Context, *RetestSubmissionInput) (*RetestSubmissionOutput, error)
 	DeleteSubmission(context.Context, *DeleteSubmissionInput) (*DeleteSubmissionOutput, error)
 	RestoreSubmission(context.Context, *RestoreSubmissionInput) (*RestoreSubmissionOutput, error)
-	// Create a new ticket
-	CreateTicket(context.Context, *CreateTicketInput) (*CreateTicketOutput, error)
-	// Mark ticket as Closed
-	CloseTicket(context.Context, *CloseTicketInput) (*CloseTicketOutput, error)
-	// Mark ticket as Open
-	OpenTicket(context.Context, *OpenTicketInput) (*OpenTicketOutput, error)
-	// ReadTicket marks ticket as read by participant (sets is_read flag to true).
-	ReadTicket(context.Context, *ReadTicketInput) (*ReadTicketOutput, error)
-	DeleteTicket(context.Context, *DeleteTicketInput) (*DeleteTicketOutput, error)
-	DescribeTicket(context.Context, *DescribeTicketInput) (*DescribeTicketOutput, error)
-	// ListTickets fetches tickets matching criteria in the input parameter.
-	ListTickets(context.Context, *ListTicketsInput) (*ListTicketsOutput, error)
-	// ReplyTicket allows to add reply to a ticket. If reply is added by participant it sets is_read and needs_reply to
-	// true, otherwise, if reply added by contest administrator, this method sets these flags to false.
-	ReplyTicket(context.Context, *ReplyTicketInput) (*ReplyTicketOutput, error)
-	// ListReplies fetches replies for a particular ticket.
-	ListReplies(context.Context, *ListRepliesInput) (*ListRepliesOutput, error)
-	// DeleteReply allows author to delete his own reply.
-	DeleteReply(context.Context, *DeleteReplyInput) (*DeleteReplyOutput, error)
-	// UpdateReply allows author to update his own reply.
-	UpdateReply(context.Context, *UpdateReplyInput) (*UpdateReplyOutput, error)
-	WatchTickets(*WatchTicketsInput, Judge_WatchTicketsServer) error
-	WatchReplies(*WatchRepliesInput, Judge_WatchRepliesServer) error
 	// Create announcement for a contest
 	CreateAnnouncement(context.Context, *CreateAnnouncementInput) (*CreateAnnouncementOutput, error)
 	// Update existing announcement in a contest
@@ -1088,9 +844,6 @@ type JudgeServer interface {
 type UnimplementedJudgeServer struct {
 }
 
-func (UnimplementedJudgeServer) LookupContest(context.Context, *LookupContestInput) (*LookupContestOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method LookupContest not implemented")
-}
 func (UnimplementedJudgeServer) CreateContest(context.Context, *CreateContestInput) (*CreateContestOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateContest not implemented")
 }
@@ -1223,45 +976,6 @@ func (UnimplementedJudgeServer) DeleteSubmission(context.Context, *DeleteSubmiss
 func (UnimplementedJudgeServer) RestoreSubmission(context.Context, *RestoreSubmissionInput) (*RestoreSubmissionOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RestoreSubmission not implemented")
 }
-func (UnimplementedJudgeServer) CreateTicket(context.Context, *CreateTicketInput) (*CreateTicketOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateTicket not implemented")
-}
-func (UnimplementedJudgeServer) CloseTicket(context.Context, *CloseTicketInput) (*CloseTicketOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CloseTicket not implemented")
-}
-func (UnimplementedJudgeServer) OpenTicket(context.Context, *OpenTicketInput) (*OpenTicketOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method OpenTicket not implemented")
-}
-func (UnimplementedJudgeServer) ReadTicket(context.Context, *ReadTicketInput) (*ReadTicketOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ReadTicket not implemented")
-}
-func (UnimplementedJudgeServer) DeleteTicket(context.Context, *DeleteTicketInput) (*DeleteTicketOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteTicket not implemented")
-}
-func (UnimplementedJudgeServer) DescribeTicket(context.Context, *DescribeTicketInput) (*DescribeTicketOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DescribeTicket not implemented")
-}
-func (UnimplementedJudgeServer) ListTickets(context.Context, *ListTicketsInput) (*ListTicketsOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListTickets not implemented")
-}
-func (UnimplementedJudgeServer) ReplyTicket(context.Context, *ReplyTicketInput) (*ReplyTicketOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ReplyTicket not implemented")
-}
-func (UnimplementedJudgeServer) ListReplies(context.Context, *ListRepliesInput) (*ListRepliesOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListReplies not implemented")
-}
-func (UnimplementedJudgeServer) DeleteReply(context.Context, *DeleteReplyInput) (*DeleteReplyOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteReply not implemented")
-}
-func (UnimplementedJudgeServer) UpdateReply(context.Context, *UpdateReplyInput) (*UpdateReplyOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateReply not implemented")
-}
-func (UnimplementedJudgeServer) WatchTickets(*WatchTicketsInput, Judge_WatchTicketsServer) error {
-	return status.Errorf(codes.Unimplemented, "method WatchTickets not implemented")
-}
-func (UnimplementedJudgeServer) WatchReplies(*WatchRepliesInput, Judge_WatchRepliesServer) error {
-	return status.Errorf(codes.Unimplemented, "method WatchReplies not implemented")
-}
 func (UnimplementedJudgeServer) CreateAnnouncement(context.Context, *CreateAnnouncementInput) (*CreateAnnouncementOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateAnnouncement not implemented")
 }
@@ -1317,24 +1031,6 @@ type UnsafeJudgeServer interface {
 
 func RegisterJudgeServer(s grpc.ServiceRegistrar, srv JudgeServer) {
 	s.RegisterService(&Judge_ServiceDesc, srv)
-}
-
-func _Judge_LookupContest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(LookupContestInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(JudgeServer).LookupContest(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Judge_LookupContest_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(JudgeServer).LookupContest(ctx, req.(*LookupContestInput))
-	}
-	return interceptor(ctx, in, info, handler)
 }
 
 func _Judge_CreateContest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -2132,246 +1828,6 @@ func _Judge_RestoreSubmission_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Judge_CreateTicket_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateTicketInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(JudgeServer).CreateTicket(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Judge_CreateTicket_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(JudgeServer).CreateTicket(ctx, req.(*CreateTicketInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Judge_CloseTicket_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CloseTicketInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(JudgeServer).CloseTicket(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Judge_CloseTicket_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(JudgeServer).CloseTicket(ctx, req.(*CloseTicketInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Judge_OpenTicket_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(OpenTicketInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(JudgeServer).OpenTicket(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Judge_OpenTicket_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(JudgeServer).OpenTicket(ctx, req.(*OpenTicketInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Judge_ReadTicket_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ReadTicketInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(JudgeServer).ReadTicket(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Judge_ReadTicket_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(JudgeServer).ReadTicket(ctx, req.(*ReadTicketInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Judge_DeleteTicket_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteTicketInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(JudgeServer).DeleteTicket(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Judge_DeleteTicket_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(JudgeServer).DeleteTicket(ctx, req.(*DeleteTicketInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Judge_DescribeTicket_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DescribeTicketInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(JudgeServer).DescribeTicket(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Judge_DescribeTicket_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(JudgeServer).DescribeTicket(ctx, req.(*DescribeTicketInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Judge_ListTickets_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListTicketsInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(JudgeServer).ListTickets(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Judge_ListTickets_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(JudgeServer).ListTickets(ctx, req.(*ListTicketsInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Judge_ReplyTicket_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ReplyTicketInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(JudgeServer).ReplyTicket(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Judge_ReplyTicket_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(JudgeServer).ReplyTicket(ctx, req.(*ReplyTicketInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Judge_ListReplies_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListRepliesInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(JudgeServer).ListReplies(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Judge_ListReplies_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(JudgeServer).ListReplies(ctx, req.(*ListRepliesInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Judge_DeleteReply_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteReplyInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(JudgeServer).DeleteReply(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Judge_DeleteReply_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(JudgeServer).DeleteReply(ctx, req.(*DeleteReplyInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Judge_UpdateReply_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateReplyInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(JudgeServer).UpdateReply(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Judge_UpdateReply_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(JudgeServer).UpdateReply(ctx, req.(*UpdateReplyInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Judge_WatchTickets_Handler(srv interface{}, stream grpc.ServerStream) error {
-	m := new(WatchTicketsInput)
-	if err := stream.RecvMsg(m); err != nil {
-		return err
-	}
-	return srv.(JudgeServer).WatchTickets(m, &judgeWatchTicketsServer{stream})
-}
-
-type Judge_WatchTicketsServer interface {
-	Send(*WatchTicketsOutput) error
-	grpc.ServerStream
-}
-
-type judgeWatchTicketsServer struct {
-	grpc.ServerStream
-}
-
-func (x *judgeWatchTicketsServer) Send(m *WatchTicketsOutput) error {
-	return x.ServerStream.SendMsg(m)
-}
-
-func _Judge_WatchReplies_Handler(srv interface{}, stream grpc.ServerStream) error {
-	m := new(WatchRepliesInput)
-	if err := stream.RecvMsg(m); err != nil {
-		return err
-	}
-	return srv.(JudgeServer).WatchReplies(m, &judgeWatchRepliesServer{stream})
-}
-
-type Judge_WatchRepliesServer interface {
-	Send(*WatchRepliesOutput) error
-	grpc.ServerStream
-}
-
-type judgeWatchRepliesServer struct {
-	grpc.ServerStream
-}
-
-func (x *judgeWatchRepliesServer) Send(m *WatchRepliesOutput) error {
-	return x.ServerStream.SendMsg(m)
-}
-
 func _Judge_CreateAnnouncement_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreateAnnouncementInput)
 	if err := dec(in); err != nil {
@@ -2650,10 +2106,6 @@ var Judge_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*JudgeServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "LookupContest",
-			Handler:    _Judge_LookupContest_Handler,
-		},
-		{
 			MethodName: "CreateContest",
 			Handler:    _Judge_CreateContest_Handler,
 		},
@@ -2826,50 +2278,6 @@ var Judge_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Judge_RestoreSubmission_Handler,
 		},
 		{
-			MethodName: "CreateTicket",
-			Handler:    _Judge_CreateTicket_Handler,
-		},
-		{
-			MethodName: "CloseTicket",
-			Handler:    _Judge_CloseTicket_Handler,
-		},
-		{
-			MethodName: "OpenTicket",
-			Handler:    _Judge_OpenTicket_Handler,
-		},
-		{
-			MethodName: "ReadTicket",
-			Handler:    _Judge_ReadTicket_Handler,
-		},
-		{
-			MethodName: "DeleteTicket",
-			Handler:    _Judge_DeleteTicket_Handler,
-		},
-		{
-			MethodName: "DescribeTicket",
-			Handler:    _Judge_DescribeTicket_Handler,
-		},
-		{
-			MethodName: "ListTickets",
-			Handler:    _Judge_ListTickets_Handler,
-		},
-		{
-			MethodName: "ReplyTicket",
-			Handler:    _Judge_ReplyTicket_Handler,
-		},
-		{
-			MethodName: "ListReplies",
-			Handler:    _Judge_ListReplies_Handler,
-		},
-		{
-			MethodName: "DeleteReply",
-			Handler:    _Judge_DeleteReply_Handler,
-		},
-		{
-			MethodName: "UpdateReply",
-			Handler:    _Judge_UpdateReply_Handler,
-		},
-		{
 			MethodName: "CreateAnnouncement",
 			Handler:    _Judge_CreateAnnouncement_Handler,
 		},
@@ -2934,16 +2342,6 @@ var Judge_ServiceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "WatchSubmission",
 			Handler:       _Judge_WatchSubmission_Handler,
-			ServerStreams: true,
-		},
-		{
-			StreamName:    "WatchTickets",
-			Handler:       _Judge_WatchTickets_Handler,
-			ServerStreams: true,
-		},
-		{
-			StreamName:    "WatchReplies",
-			Handler:       _Judge_WatchReplies_Handler,
 			ServerStreams: true,
 		},
 	},
