@@ -19,20 +19,21 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	TicketService_CreateTicket_FullMethodName   = "/eolymp.judge.TicketService/CreateTicket"
-	TicketService_CloseTicket_FullMethodName    = "/eolymp.judge.TicketService/CloseTicket"
-	TicketService_OpenTicket_FullMethodName     = "/eolymp.judge.TicketService/OpenTicket"
-	TicketService_ReadTicket_FullMethodName     = "/eolymp.judge.TicketService/ReadTicket"
-	TicketService_DeleteTicket_FullMethodName   = "/eolymp.judge.TicketService/DeleteTicket"
-	TicketService_DescribeTicket_FullMethodName = "/eolymp.judge.TicketService/DescribeTicket"
-	TicketService_ListTickets_FullMethodName    = "/eolymp.judge.TicketService/ListTickets"
-	TicketService_ReplyTicket_FullMethodName    = "/eolymp.judge.TicketService/ReplyTicket"
-	TicketService_WatchTicket_FullMethodName    = "/eolymp.judge.TicketService/WatchTicket"
-	TicketService_WatchTickets_FullMethodName   = "/eolymp.judge.TicketService/WatchTickets"
-	TicketService_ListReplies_FullMethodName    = "/eolymp.judge.TicketService/ListReplies"
-	TicketService_DeleteReply_FullMethodName    = "/eolymp.judge.TicketService/DeleteReply"
-	TicketService_UpdateReply_FullMethodName    = "/eolymp.judge.TicketService/UpdateReply"
-	TicketService_WatchReplies_FullMethodName   = "/eolymp.judge.TicketService/WatchReplies"
+	TicketService_CreateTicket_FullMethodName       = "/eolymp.judge.TicketService/CreateTicket"
+	TicketService_CloseTicket_FullMethodName        = "/eolymp.judge.TicketService/CloseTicket"
+	TicketService_OpenTicket_FullMethodName         = "/eolymp.judge.TicketService/OpenTicket"
+	TicketService_ReadTicket_FullMethodName         = "/eolymp.judge.TicketService/ReadTicket"
+	TicketService_DeleteTicket_FullMethodName       = "/eolymp.judge.TicketService/DeleteTicket"
+	TicketService_DescribeTicket_FullMethodName     = "/eolymp.judge.TicketService/DescribeTicket"
+	TicketService_ListTickets_FullMethodName        = "/eolymp.judge.TicketService/ListTickets"
+	TicketService_ReplyTicket_FullMethodName        = "/eolymp.judge.TicketService/ReplyTicket"
+	TicketService_WatchTicket_FullMethodName        = "/eolymp.judge.TicketService/WatchTicket"
+	TicketService_WatchTickets_FullMethodName       = "/eolymp.judge.TicketService/WatchTickets"
+	TicketService_WatchTicketSummary_FullMethodName = "/eolymp.judge.TicketService/WatchTicketSummary"
+	TicketService_ListReplies_FullMethodName        = "/eolymp.judge.TicketService/ListReplies"
+	TicketService_DeleteReply_FullMethodName        = "/eolymp.judge.TicketService/DeleteReply"
+	TicketService_UpdateReply_FullMethodName        = "/eolymp.judge.TicketService/UpdateReply"
+	TicketService_WatchReplies_FullMethodName       = "/eolymp.judge.TicketService/WatchReplies"
 )
 
 // TicketServiceClient is the client API for TicketService service.
@@ -53,6 +54,7 @@ type TicketServiceClient interface {
 	ReplyTicket(ctx context.Context, in *ReplyTicketInput, opts ...grpc.CallOption) (*ReplyTicketOutput, error)
 	WatchTicket(ctx context.Context, in *WatchTicketInput, opts ...grpc.CallOption) (TicketService_WatchTicketClient, error)
 	WatchTickets(ctx context.Context, in *WatchTicketsInput, opts ...grpc.CallOption) (TicketService_WatchTicketsClient, error)
+	WatchTicketSummary(ctx context.Context, in *WatchTicketSummaryInput, opts ...grpc.CallOption) (TicketService_WatchTicketSummaryClient, error)
 	// ListReplies fetches replies for a particular ticket.
 	ListReplies(ctx context.Context, in *ListRepliesInput, opts ...grpc.CallOption) (*ListRepliesOutput, error)
 	// DeleteReply allows author to delete his own reply.
@@ -206,6 +208,38 @@ func (x *ticketServiceWatchTicketsClient) Recv() (*WatchTicketsOutput, error) {
 	return m, nil
 }
 
+func (c *ticketServiceClient) WatchTicketSummary(ctx context.Context, in *WatchTicketSummaryInput, opts ...grpc.CallOption) (TicketService_WatchTicketSummaryClient, error) {
+	stream, err := c.cc.NewStream(ctx, &TicketService_ServiceDesc.Streams[2], TicketService_WatchTicketSummary_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &ticketServiceWatchTicketSummaryClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type TicketService_WatchTicketSummaryClient interface {
+	Recv() (*WatchTicketSummaryOutput, error)
+	grpc.ClientStream
+}
+
+type ticketServiceWatchTicketSummaryClient struct {
+	grpc.ClientStream
+}
+
+func (x *ticketServiceWatchTicketSummaryClient) Recv() (*WatchTicketSummaryOutput, error) {
+	m := new(WatchTicketSummaryOutput)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 func (c *ticketServiceClient) ListReplies(ctx context.Context, in *ListRepliesInput, opts ...grpc.CallOption) (*ListRepliesOutput, error) {
 	out := new(ListRepliesOutput)
 	err := c.cc.Invoke(ctx, TicketService_ListReplies_FullMethodName, in, out, opts...)
@@ -234,7 +268,7 @@ func (c *ticketServiceClient) UpdateReply(ctx context.Context, in *UpdateReplyIn
 }
 
 func (c *ticketServiceClient) WatchReplies(ctx context.Context, in *WatchRepliesInput, opts ...grpc.CallOption) (TicketService_WatchRepliesClient, error) {
-	stream, err := c.cc.NewStream(ctx, &TicketService_ServiceDesc.Streams[2], TicketService_WatchReplies_FullMethodName, opts...)
+	stream, err := c.cc.NewStream(ctx, &TicketService_ServiceDesc.Streams[3], TicketService_WatchReplies_FullMethodName, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -283,6 +317,7 @@ type TicketServiceServer interface {
 	ReplyTicket(context.Context, *ReplyTicketInput) (*ReplyTicketOutput, error)
 	WatchTicket(*WatchTicketInput, TicketService_WatchTicketServer) error
 	WatchTickets(*WatchTicketsInput, TicketService_WatchTicketsServer) error
+	WatchTicketSummary(*WatchTicketSummaryInput, TicketService_WatchTicketSummaryServer) error
 	// ListReplies fetches replies for a particular ticket.
 	ListReplies(context.Context, *ListRepliesInput) (*ListRepliesOutput, error)
 	// DeleteReply allows author to delete his own reply.
@@ -325,6 +360,9 @@ func (UnimplementedTicketServiceServer) WatchTicket(*WatchTicketInput, TicketSer
 }
 func (UnimplementedTicketServiceServer) WatchTickets(*WatchTicketsInput, TicketService_WatchTicketsServer) error {
 	return status.Errorf(codes.Unimplemented, "method WatchTickets not implemented")
+}
+func (UnimplementedTicketServiceServer) WatchTicketSummary(*WatchTicketSummaryInput, TicketService_WatchTicketSummaryServer) error {
+	return status.Errorf(codes.Unimplemented, "method WatchTicketSummary not implemented")
 }
 func (UnimplementedTicketServiceServer) ListReplies(context.Context, *ListRepliesInput) (*ListRepliesOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListReplies not implemented")
@@ -536,6 +574,27 @@ func (x *ticketServiceWatchTicketsServer) Send(m *WatchTicketsOutput) error {
 	return x.ServerStream.SendMsg(m)
 }
 
+func _TicketService_WatchTicketSummary_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(WatchTicketSummaryInput)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(TicketServiceServer).WatchTicketSummary(m, &ticketServiceWatchTicketSummaryServer{stream})
+}
+
+type TicketService_WatchTicketSummaryServer interface {
+	Send(*WatchTicketSummaryOutput) error
+	grpc.ServerStream
+}
+
+type ticketServiceWatchTicketSummaryServer struct {
+	grpc.ServerStream
+}
+
+func (x *ticketServiceWatchTicketSummaryServer) Send(m *WatchTicketSummaryOutput) error {
+	return x.ServerStream.SendMsg(m)
+}
+
 func _TicketService_ListReplies_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListRepliesInput)
 	if err := dec(in); err != nil {
@@ -672,6 +731,11 @@ var TicketService_ServiceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "WatchTickets",
 			Handler:       _TicketService_WatchTickets_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "WatchTicketSummary",
+			Handler:       _TicketService_WatchTicketSummary_Handler,
 			ServerStreams: true,
 		},
 		{

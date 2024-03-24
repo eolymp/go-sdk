@@ -257,6 +257,38 @@ func (s *_TicketService_WatchTickets_WSStream) RecvMsg(m interface{}) error {
 	return nil
 }
 
+type _TicketService_WatchTicketSummary_WSStream struct {
+	ctx  context.Context
+	conn *websocket.Conn
+}
+
+func (s *_TicketService_WatchTicketSummary_WSStream) Send(m *WatchTicketSummaryOutput) error {
+	return s.SendMsg(m)
+}
+
+func (s *_TicketService_WatchTicketSummary_WSStream) SetHeader(metadata.MD) error {
+	return nil
+}
+
+func (s *_TicketService_WatchTicketSummary_WSStream) SendHeader(metadata.MD) error {
+	return nil
+}
+
+func (s *_TicketService_WatchTicketSummary_WSStream) SetTrailer(metadata.MD) {
+}
+
+func (s *_TicketService_WatchTicketSummary_WSStream) Context() context.Context {
+	return s.ctx
+}
+
+func (s *_TicketService_WatchTicketSummary_WSStream) SendMsg(m interface{}) error {
+	return _TicketService_WebsocketCodec.Send(s.conn, m)
+}
+
+func (s *_TicketService_WatchTicketSummary_WSStream) RecvMsg(m interface{}) error {
+	return nil
+}
+
 type _TicketService_WatchReplies_WSStream struct {
 	ctx  context.Context
 	conn *websocket.Conn
@@ -872,6 +904,10 @@ func (i *TicketServiceInterceptor) WatchTicket(ctx context.Context, in *WatchTic
 
 func (i *TicketServiceInterceptor) WatchTickets(ctx context.Context, in *WatchTicketsInput, opts ...grpc.CallOption) (TicketService_WatchTicketsClient, error) {
 	return i.client.WatchTickets(ctx, in, opts...)
+}
+
+func (i *TicketServiceInterceptor) WatchTicketSummary(ctx context.Context, in *WatchTicketSummaryInput, opts ...grpc.CallOption) (TicketService_WatchTicketSummaryClient, error) {
+	return i.client.WatchTicketSummary(ctx, in, opts...)
 }
 
 func (i *TicketServiceInterceptor) ListReplies(ctx context.Context, in *ListRepliesInput, opts ...grpc.CallOption) (*ListRepliesOutput, error) {
