@@ -27,6 +27,7 @@ const (
 	TicketService_DescribeTicket_FullMethodName = "/eolymp.judge.TicketService/DescribeTicket"
 	TicketService_ListTickets_FullMethodName    = "/eolymp.judge.TicketService/ListTickets"
 	TicketService_ReplyTicket_FullMethodName    = "/eolymp.judge.TicketService/ReplyTicket"
+	TicketService_WatchTicket_FullMethodName    = "/eolymp.judge.TicketService/WatchTicket"
 	TicketService_WatchTickets_FullMethodName   = "/eolymp.judge.TicketService/WatchTickets"
 	TicketService_ListReplies_FullMethodName    = "/eolymp.judge.TicketService/ListReplies"
 	TicketService_DeleteReply_FullMethodName    = "/eolymp.judge.TicketService/DeleteReply"
@@ -50,6 +51,7 @@ type TicketServiceClient interface {
 	// ReplyTicket allows to add reply to a ticket. If reply is added by participant it sets is_read and needs_reply to
 	// true, otherwise, if reply added by contest administrator, this method sets these flags to false.
 	ReplyTicket(ctx context.Context, in *ReplyTicketInput, opts ...grpc.CallOption) (*ReplyTicketOutput, error)
+	WatchTicket(ctx context.Context, in *WatchTicketInput, opts ...grpc.CallOption) (TicketService_WatchTicketClient, error)
 	WatchTickets(ctx context.Context, in *WatchTicketsInput, opts ...grpc.CallOption) (TicketService_WatchTicketsClient, error)
 	// ListReplies fetches replies for a particular ticket.
 	ListReplies(ctx context.Context, in *ListRepliesInput, opts ...grpc.CallOption) (*ListRepliesOutput, error)
@@ -140,8 +142,40 @@ func (c *ticketServiceClient) ReplyTicket(ctx context.Context, in *ReplyTicketIn
 	return out, nil
 }
 
+func (c *ticketServiceClient) WatchTicket(ctx context.Context, in *WatchTicketInput, opts ...grpc.CallOption) (TicketService_WatchTicketClient, error) {
+	stream, err := c.cc.NewStream(ctx, &TicketService_ServiceDesc.Streams[0], TicketService_WatchTicket_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &ticketServiceWatchTicketClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type TicketService_WatchTicketClient interface {
+	Recv() (*WatchTicketOutput, error)
+	grpc.ClientStream
+}
+
+type ticketServiceWatchTicketClient struct {
+	grpc.ClientStream
+}
+
+func (x *ticketServiceWatchTicketClient) Recv() (*WatchTicketOutput, error) {
+	m := new(WatchTicketOutput)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 func (c *ticketServiceClient) WatchTickets(ctx context.Context, in *WatchTicketsInput, opts ...grpc.CallOption) (TicketService_WatchTicketsClient, error) {
-	stream, err := c.cc.NewStream(ctx, &TicketService_ServiceDesc.Streams[0], TicketService_WatchTickets_FullMethodName, opts...)
+	stream, err := c.cc.NewStream(ctx, &TicketService_ServiceDesc.Streams[1], TicketService_WatchTickets_FullMethodName, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -200,7 +234,7 @@ func (c *ticketServiceClient) UpdateReply(ctx context.Context, in *UpdateReplyIn
 }
 
 func (c *ticketServiceClient) WatchReplies(ctx context.Context, in *WatchRepliesInput, opts ...grpc.CallOption) (TicketService_WatchRepliesClient, error) {
-	stream, err := c.cc.NewStream(ctx, &TicketService_ServiceDesc.Streams[1], TicketService_WatchReplies_FullMethodName, opts...)
+	stream, err := c.cc.NewStream(ctx, &TicketService_ServiceDesc.Streams[2], TicketService_WatchReplies_FullMethodName, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -247,6 +281,7 @@ type TicketServiceServer interface {
 	// ReplyTicket allows to add reply to a ticket. If reply is added by participant it sets is_read and needs_reply to
 	// true, otherwise, if reply added by contest administrator, this method sets these flags to false.
 	ReplyTicket(context.Context, *ReplyTicketInput) (*ReplyTicketOutput, error)
+	WatchTicket(*WatchTicketInput, TicketService_WatchTicketServer) error
 	WatchTickets(*WatchTicketsInput, TicketService_WatchTicketsServer) error
 	// ListReplies fetches replies for a particular ticket.
 	ListReplies(context.Context, *ListRepliesInput) (*ListRepliesOutput, error)
@@ -284,6 +319,9 @@ func (UnimplementedTicketServiceServer) ListTickets(context.Context, *ListTicket
 }
 func (UnimplementedTicketServiceServer) ReplyTicket(context.Context, *ReplyTicketInput) (*ReplyTicketOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ReplyTicket not implemented")
+}
+func (UnimplementedTicketServiceServer) WatchTicket(*WatchTicketInput, TicketService_WatchTicketServer) error {
+	return status.Errorf(codes.Unimplemented, "method WatchTicket not implemented")
 }
 func (UnimplementedTicketServiceServer) WatchTickets(*WatchTicketsInput, TicketService_WatchTicketsServer) error {
 	return status.Errorf(codes.Unimplemented, "method WatchTickets not implemented")
@@ -456,6 +494,27 @@ func _TicketService_ReplyTicket_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _TicketService_WatchTicket_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(WatchTicketInput)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(TicketServiceServer).WatchTicket(m, &ticketServiceWatchTicketServer{stream})
+}
+
+type TicketService_WatchTicketServer interface {
+	Send(*WatchTicketOutput) error
+	grpc.ServerStream
+}
+
+type ticketServiceWatchTicketServer struct {
+	grpc.ServerStream
+}
+
+func (x *ticketServiceWatchTicketServer) Send(m *WatchTicketOutput) error {
+	return x.ServerStream.SendMsg(m)
+}
+
 func _TicketService_WatchTickets_Handler(srv interface{}, stream grpc.ServerStream) error {
 	m := new(WatchTicketsInput)
 	if err := stream.RecvMsg(m); err != nil {
@@ -605,6 +664,11 @@ var TicketService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "WatchTicket",
+			Handler:       _TicketService_WatchTicket_Handler,
+			ServerStreams: true,
+		},
 		{
 			StreamName:    "WatchTickets",
 			Handler:       _TicketService_WatchTickets_Handler,
