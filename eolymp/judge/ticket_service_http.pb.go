@@ -327,7 +327,7 @@ func RegisterTicketServiceHttpHandlers(router *mux.Router, prefix string, cli Ti
 	router.Handle(prefix+"/tickets", _TicketService_CreateTicket_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.TicketService.CreateTicket")
-	router.Handle(prefix+"/tickets/{ticket_id}/close", _TicketService_UpdateTicket_Rule0(cli)).
+	router.Handle(prefix+"/tickets/{ticket_id}", _TicketService_UpdateTicket_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.TicketService.UpdateTicket")
 	router.Handle(prefix+"/tickets/{ticket_id}/read", _TicketService_ReadTicket_Rule0(cli)).

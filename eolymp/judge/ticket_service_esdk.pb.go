@@ -113,7 +113,7 @@ func (s *TicketServiceService) CreateTicket(ctx context.Context, in *CreateTicke
 
 func (s *TicketServiceService) UpdateTicket(ctx context.Context, in *UpdateTicketInput) (*UpdateTicketOutput, error) {
 	out := &UpdateTicketOutput{}
-	path := "/tickets/" + url.PathEscape(in.GetTicketId()) + "/close"
+	path := "/tickets/" + url.PathEscape(in.GetTicketId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
