@@ -20,8 +20,7 @@ const _ = grpc.SupportPackageIsVersion7
 
 const (
 	TicketService_CreateTicket_FullMethodName       = "/eolymp.judge.TicketService/CreateTicket"
-	TicketService_CloseTicket_FullMethodName        = "/eolymp.judge.TicketService/CloseTicket"
-	TicketService_OpenTicket_FullMethodName         = "/eolymp.judge.TicketService/OpenTicket"
+	TicketService_UpdateTicket_FullMethodName       = "/eolymp.judge.TicketService/UpdateTicket"
 	TicketService_ReadTicket_FullMethodName         = "/eolymp.judge.TicketService/ReadTicket"
 	TicketService_DeleteTicket_FullMethodName       = "/eolymp.judge.TicketService/DeleteTicket"
 	TicketService_DescribeTicket_FullMethodName     = "/eolymp.judge.TicketService/DescribeTicket"
@@ -41,8 +40,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type TicketServiceClient interface {
 	CreateTicket(ctx context.Context, in *CreateTicketInput, opts ...grpc.CallOption) (*CreateTicketOutput, error)
-	CloseTicket(ctx context.Context, in *CloseTicketInput, opts ...grpc.CallOption) (*CloseTicketOutput, error)
-	OpenTicket(ctx context.Context, in *OpenTicketInput, opts ...grpc.CallOption) (*OpenTicketOutput, error)
+	UpdateTicket(ctx context.Context, in *UpdateTicketInput, opts ...grpc.CallOption) (*UpdateTicketOutput, error)
 	// ReadTicket marks ticket as read by participant (sets is_read flag to true).
 	ReadTicket(ctx context.Context, in *ReadTicketInput, opts ...grpc.CallOption) (*ReadTicketOutput, error)
 	DeleteTicket(ctx context.Context, in *DeleteTicketInput, opts ...grpc.CallOption) (*DeleteTicketOutput, error)
@@ -81,18 +79,9 @@ func (c *ticketServiceClient) CreateTicket(ctx context.Context, in *CreateTicket
 	return out, nil
 }
 
-func (c *ticketServiceClient) CloseTicket(ctx context.Context, in *CloseTicketInput, opts ...grpc.CallOption) (*CloseTicketOutput, error) {
-	out := new(CloseTicketOutput)
-	err := c.cc.Invoke(ctx, TicketService_CloseTicket_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *ticketServiceClient) OpenTicket(ctx context.Context, in *OpenTicketInput, opts ...grpc.CallOption) (*OpenTicketOutput, error) {
-	out := new(OpenTicketOutput)
-	err := c.cc.Invoke(ctx, TicketService_OpenTicket_FullMethodName, in, out, opts...)
+func (c *ticketServiceClient) UpdateTicket(ctx context.Context, in *UpdateTicketInput, opts ...grpc.CallOption) (*UpdateTicketOutput, error) {
+	out := new(UpdateTicketOutput)
+	err := c.cc.Invoke(ctx, TicketService_UpdateTicket_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -304,8 +293,7 @@ func (x *ticketServiceWatchRepliesClient) Recv() (*WatchRepliesOutput, error) {
 // for forward compatibility
 type TicketServiceServer interface {
 	CreateTicket(context.Context, *CreateTicketInput) (*CreateTicketOutput, error)
-	CloseTicket(context.Context, *CloseTicketInput) (*CloseTicketOutput, error)
-	OpenTicket(context.Context, *OpenTicketInput) (*OpenTicketOutput, error)
+	UpdateTicket(context.Context, *UpdateTicketInput) (*UpdateTicketOutput, error)
 	// ReadTicket marks ticket as read by participant (sets is_read flag to true).
 	ReadTicket(context.Context, *ReadTicketInput) (*ReadTicketOutput, error)
 	DeleteTicket(context.Context, *DeleteTicketInput) (*DeleteTicketOutput, error)
@@ -334,11 +322,8 @@ type UnimplementedTicketServiceServer struct {
 func (UnimplementedTicketServiceServer) CreateTicket(context.Context, *CreateTicketInput) (*CreateTicketOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateTicket not implemented")
 }
-func (UnimplementedTicketServiceServer) CloseTicket(context.Context, *CloseTicketInput) (*CloseTicketOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CloseTicket not implemented")
-}
-func (UnimplementedTicketServiceServer) OpenTicket(context.Context, *OpenTicketInput) (*OpenTicketOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method OpenTicket not implemented")
+func (UnimplementedTicketServiceServer) UpdateTicket(context.Context, *UpdateTicketInput) (*UpdateTicketOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateTicket not implemented")
 }
 func (UnimplementedTicketServiceServer) ReadTicket(context.Context, *ReadTicketInput) (*ReadTicketOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ReadTicket not implemented")
@@ -406,38 +391,20 @@ func _TicketService_CreateTicket_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
-func _TicketService_CloseTicket_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CloseTicketInput)
+func _TicketService_UpdateTicket_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateTicketInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(TicketServiceServer).CloseTicket(ctx, in)
+		return srv.(TicketServiceServer).UpdateTicket(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: TicketService_CloseTicket_FullMethodName,
+		FullMethod: TicketService_UpdateTicket_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TicketServiceServer).CloseTicket(ctx, req.(*CloseTicketInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _TicketService_OpenTicket_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(OpenTicketInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(TicketServiceServer).OpenTicket(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: TicketService_OpenTicket_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TicketServiceServer).OpenTicket(ctx, req.(*OpenTicketInput))
+		return srv.(TicketServiceServer).UpdateTicket(ctx, req.(*UpdateTicketInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -682,12 +649,8 @@ var TicketService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _TicketService_CreateTicket_Handler,
 		},
 		{
-			MethodName: "CloseTicket",
-			Handler:    _TicketService_CloseTicket_Handler,
-		},
-		{
-			MethodName: "OpenTicket",
-			Handler:    _TicketService_OpenTicket_Handler,
+			MethodName: "UpdateTicket",
+			Handler:    _TicketService_UpdateTicket_Handler,
 		},
 		{
 			MethodName: "ReadTicket",

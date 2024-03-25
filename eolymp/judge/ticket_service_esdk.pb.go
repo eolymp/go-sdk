@@ -111,25 +111,9 @@ func (s *TicketServiceService) CreateTicket(ctx context.Context, in *CreateTicke
 	return out, nil
 }
 
-func (s *TicketServiceService) CloseTicket(ctx context.Context, in *CloseTicketInput) (*CloseTicketOutput, error) {
-	out := &CloseTicketOutput{}
+func (s *TicketServiceService) UpdateTicket(ctx context.Context, in *UpdateTicketInput) (*UpdateTicketOutput, error) {
+	out := &UpdateTicketOutput{}
 	path := "/tickets/" + url.PathEscape(in.GetTicketId()) + "/close"
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.TicketId = ""
-	}
-
-	if err := s.do(ctx, "POST", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *TicketServiceService) OpenTicket(ctx context.Context, in *OpenTicketInput) (*OpenTicketOutput, error) {
-	out := &OpenTicketOutput{}
-	path := "/tickets/" + url.PathEscape(in.GetTicketId()) + "/open"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {

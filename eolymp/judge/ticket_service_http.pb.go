@@ -327,12 +327,9 @@ func RegisterTicketServiceHttpHandlers(router *mux.Router, prefix string, cli Ti
 	router.Handle(prefix+"/tickets", _TicketService_CreateTicket_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.TicketService.CreateTicket")
-	router.Handle(prefix+"/tickets/{ticket_id}/close", _TicketService_CloseTicket_Rule0(cli)).
+	router.Handle(prefix+"/tickets/{ticket_id}/close", _TicketService_UpdateTicket_Rule0(cli)).
 		Methods("POST").
-		Name("eolymp.judge.TicketService.CloseTicket")
-	router.Handle(prefix+"/tickets/{ticket_id}/open", _TicketService_OpenTicket_Rule0(cli)).
-		Methods("POST").
-		Name("eolymp.judge.TicketService.OpenTicket")
+		Name("eolymp.judge.TicketService.UpdateTicket")
 	router.Handle(prefix+"/tickets/{ticket_id}/read", _TicketService_ReadTicket_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.TicketService.ReadTicket")
@@ -381,9 +378,9 @@ func _TicketService_CreateTicket_Rule0(cli TicketServiceClient) http.Handler {
 	})
 }
 
-func _TicketService_CloseTicket_Rule0(cli TicketServiceClient) http.Handler {
+func _TicketService_UpdateTicket_Rule0(cli TicketServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &CloseTicketInput{}
+		in := &UpdateTicketInput{}
 
 		if err := _TicketService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
@@ -396,32 +393,7 @@ func _TicketService_CloseTicket_Rule0(cli TicketServiceClient) http.Handler {
 
 		var header, trailer metadata.MD
 
-		out, err := cli.CloseTicket(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
-		if err != nil {
-			_TicketService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_TicketService_HTTPWriteResponse(w, out, header, trailer)
-	})
-}
-
-func _TicketService_OpenTicket_Rule0(cli TicketServiceClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &OpenTicketInput{}
-
-		if err := _TicketService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_TicketService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.TicketId = vars["ticket_id"]
-
-		var header, trailer metadata.MD
-
-		out, err := cli.OpenTicket(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		out, err := cli.UpdateTicket(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_TicketService_HTTPWriteErrorResponse(w, err)
 			return
@@ -674,14 +646,14 @@ func (i *TicketServiceInterceptor) CreateTicket(ctx context.Context, in *CreateT
 	return message, err
 }
 
-func (i *TicketServiceInterceptor) CloseTicket(ctx context.Context, in *CloseTicketInput, opts ...grpc.CallOption) (*CloseTicketOutput, error) {
+func (i *TicketServiceInterceptor) UpdateTicket(ctx context.Context, in *UpdateTicketInput, opts ...grpc.CallOption) (*UpdateTicketOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*CloseTicketInput)
+		message, ok := in.(*UpdateTicketInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *CloseTicketInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *UpdateTicketInput, got %T", in))
 		}
 
-		return i.client.CloseTicket(ctx, message, opts...)
+		return i.client.UpdateTicket(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -689,7 +661,7 @@ func (i *TicketServiceInterceptor) CloseTicket(ctx context.Context, in *CloseTic
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.TicketService.CloseTicket", in, next)
+			return mw(ctx, "eolymp.judge.TicketService.UpdateTicket", in, next)
 		}
 	}
 
@@ -698,41 +670,9 @@ func (i *TicketServiceInterceptor) CloseTicket(ctx context.Context, in *CloseTic
 		return nil, err
 	}
 
-	message, ok := out.(*CloseTicketOutput)
+	message, ok := out.(*UpdateTicketOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *CloseTicketOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *TicketServiceInterceptor) OpenTicket(ctx context.Context, in *OpenTicketInput, opts ...grpc.CallOption) (*OpenTicketOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*OpenTicketInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *OpenTicketInput, got %T", in))
-		}
-
-		return i.client.OpenTicket(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.TicketService.OpenTicket", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*OpenTicketOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *OpenTicketOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *UpdateTicketOutput, got %T", out))
 	}
 
 	return message, err
