@@ -264,17 +264,6 @@ func (s *ContentServiceService) DescribePath(ctx context.Context, in *DescribePa
 	return out, nil
 }
 
-func (s *ContentServiceService) ListPaths(ctx context.Context, in *ListPathsInput) (*ListPathsOutput, error) {
-	out := &ListPathsOutput{}
-	path := "/content/paths"
-
-	if err := s.do(ctx, "GET", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
 func (s *ContentServiceService) ListParents(ctx context.Context, in *ListParentsInput) (*ListParentsOutput, error) {
 	out := &ListParentsOutput{}
 	path := "/content/parents"

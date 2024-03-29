@@ -30,7 +30,6 @@ const (
 	ContentService_UpdateVariant_FullMethodName    = "/eolymp.content.ContentService/UpdateVariant"
 	ContentService_DeleteVariant_FullMethodName    = "/eolymp.content.ContentService/DeleteVariant"
 	ContentService_DescribePath_FullMethodName     = "/eolymp.content.ContentService/DescribePath"
-	ContentService_ListPaths_FullMethodName        = "/eolymp.content.ContentService/ListPaths"
 	ContentService_ListParents_FullMethodName      = "/eolymp.content.ContentService/ListParents"
 )
 
@@ -49,7 +48,6 @@ type ContentServiceClient interface {
 	UpdateVariant(ctx context.Context, in *UpdateVariantInput, opts ...grpc.CallOption) (*UpdateVariantOutput, error)
 	DeleteVariant(ctx context.Context, in *DeleteVariantInput, opts ...grpc.CallOption) (*DeleteVariantOutput, error)
 	DescribePath(ctx context.Context, in *DescribePathInput, opts ...grpc.CallOption) (*DescribePathOutput, error)
-	ListPaths(ctx context.Context, in *ListPathsInput, opts ...grpc.CallOption) (*ListPathsOutput, error)
 	ListParents(ctx context.Context, in *ListParentsInput, opts ...grpc.CallOption) (*ListParentsOutput, error)
 }
 
@@ -160,15 +158,6 @@ func (c *contentServiceClient) DescribePath(ctx context.Context, in *DescribePat
 	return out, nil
 }
 
-func (c *contentServiceClient) ListPaths(ctx context.Context, in *ListPathsInput, opts ...grpc.CallOption) (*ListPathsOutput, error) {
-	out := new(ListPathsOutput)
-	err := c.cc.Invoke(ctx, ContentService_ListPaths_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *contentServiceClient) ListParents(ctx context.Context, in *ListParentsInput, opts ...grpc.CallOption) (*ListParentsOutput, error) {
 	out := new(ListParentsOutput)
 	err := c.cc.Invoke(ctx, ContentService_ListParents_FullMethodName, in, out, opts...)
@@ -193,7 +182,6 @@ type ContentServiceServer interface {
 	UpdateVariant(context.Context, *UpdateVariantInput) (*UpdateVariantOutput, error)
 	DeleteVariant(context.Context, *DeleteVariantInput) (*DeleteVariantOutput, error)
 	DescribePath(context.Context, *DescribePathInput) (*DescribePathOutput, error)
-	ListPaths(context.Context, *ListPathsInput) (*ListPathsOutput, error)
 	ListParents(context.Context, *ListParentsInput) (*ListParentsOutput, error)
 }
 
@@ -233,9 +221,6 @@ func (UnimplementedContentServiceServer) DeleteVariant(context.Context, *DeleteV
 }
 func (UnimplementedContentServiceServer) DescribePath(context.Context, *DescribePathInput) (*DescribePathOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribePath not implemented")
-}
-func (UnimplementedContentServiceServer) ListPaths(context.Context, *ListPathsInput) (*ListPathsOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListPaths not implemented")
 }
 func (UnimplementedContentServiceServer) ListParents(context.Context, *ListParentsInput) (*ListParentsOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListParents not implemented")
@@ -450,24 +435,6 @@ func _ContentService_DescribePath_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ContentService_ListPaths_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListPathsInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ContentServiceServer).ListPaths(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ContentService_ListPaths_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ContentServiceServer).ListPaths(ctx, req.(*ListPathsInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _ContentService_ListParents_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListParentsInput)
 	if err := dec(in); err != nil {
@@ -536,10 +503,6 @@ var ContentService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DescribePath",
 			Handler:    _ContentService_DescribePath_Handler,
-		},
-		{
-			MethodName: "ListPaths",
-			Handler:    _ContentService_ListPaths_Handler,
 		},
 		{
 			MethodName: "ListParents",

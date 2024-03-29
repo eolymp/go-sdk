@@ -229,9 +229,6 @@ func RegisterContentServiceHttpHandlers(router *mux.Router, prefix string, cli C
 	router.Handle(prefix+"/content/path", _ContentService_DescribePath_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.content.ContentService.DescribePath")
-	router.Handle(prefix+"/content/paths", _ContentService_ListPaths_Rule0(cli)).
-		Methods("GET").
-		Name("eolymp.content.ContentService.ListPaths")
 	router.Handle(prefix+"/content/parents", _ContentService_ListParents_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.content.ContentService.ListParents")
@@ -497,28 +494,6 @@ func _ContentService_DescribePath_Rule0(cli ContentServiceClient) http.Handler {
 		var header, trailer metadata.MD
 
 		out, err := cli.DescribePath(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
-		if err != nil {
-			_ContentService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_ContentService_HTTPWriteResponse(w, out, header, trailer)
-	})
-}
-
-func _ContentService_ListPaths_Rule0(cli ContentServiceClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ListPathsInput{}
-
-		if err := _ContentService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_ContentService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		var header, trailer metadata.MD
-
-		out, err := cli.ListPaths(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ContentService_HTTPWriteErrorResponse(w, err)
 			return
@@ -909,38 +884,6 @@ func (i *ContentServiceInterceptor) DescribePath(ctx context.Context, in *Descri
 	message, ok := out.(*DescribePathOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *DescribePathOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *ContentServiceInterceptor) ListPaths(ctx context.Context, in *ListPathsInput, opts ...grpc.CallOption) (*ListPathsOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*ListPathsInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *ListPathsInput, got %T", in))
-		}
-
-		return i.client.ListPaths(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.content.ContentService.ListPaths", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*ListPathsOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *ListPathsOutput, got %T", out))
 	}
 
 	return message, err
