@@ -229,12 +229,12 @@ func RegisterAtlasHttpHandlers(router *mux.Router, prefix string, cli AtlasClien
 	router.Handle(prefix+"/problems/{problem_id}/testing", _Atlas_DescribeTestingConfig_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.Atlas.DescribeTestingConfig")
-	router.Handle(prefix+"/problems/{problem_id}/verifier", _Atlas_UpdateVerifier_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/checker", _Atlas_UpdateChecker_Rule0(cli)).
 		Methods("PUT").
-		Name("eolymp.atlas.Atlas.UpdateVerifier")
-	router.Handle(prefix+"/problems/{problem_id}/verifier", _Atlas_DescribeVerifier_Rule0(cli)).
+		Name("eolymp.atlas.Atlas.UpdateChecker")
+	router.Handle(prefix+"/problems/{problem_id}/checker", _Atlas_DescribeChecker_Rule0(cli)).
 		Methods("GET").
-		Name("eolymp.atlas.Atlas.DescribeVerifier")
+		Name("eolymp.atlas.Atlas.DescribeChecker")
 	router.Handle(prefix+"/problems/{problem_id}/interactor", _Atlas_UpdateInteractor_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.atlas.Atlas.UpdateInteractor")
@@ -620,9 +620,9 @@ func _Atlas_DescribeTestingConfig_Rule0(cli AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_UpdateVerifier_Rule0(cli AtlasClient) http.Handler {
+func _Atlas_UpdateChecker_Rule0(cli AtlasClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &UpdateVerifierInput{}
+		in := &UpdateCheckerInput{}
 
 		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
@@ -635,7 +635,7 @@ func _Atlas_UpdateVerifier_Rule0(cli AtlasClient) http.Handler {
 
 		var header, trailer metadata.MD
 
-		out, err := cli.UpdateVerifier(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		out, err := cli.UpdateChecker(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -645,9 +645,9 @@ func _Atlas_UpdateVerifier_Rule0(cli AtlasClient) http.Handler {
 	})
 }
 
-func _Atlas_DescribeVerifier_Rule0(cli AtlasClient) http.Handler {
+func _Atlas_DescribeChecker_Rule0(cli AtlasClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DescribeVerifierInput{}
+		in := &DescribeCheckerInput{}
 
 		if err := _Atlas_HTTPReadQueryString(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
@@ -660,7 +660,7 @@ func _Atlas_DescribeVerifier_Rule0(cli AtlasClient) http.Handler {
 
 		var header, trailer metadata.MD
 
-		out, err := cli.DescribeVerifier(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		out, err := cli.DescribeChecker(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -2004,14 +2004,14 @@ func (i *AtlasInterceptor) DescribeTestingConfig(ctx context.Context, in *Descri
 	return message, err
 }
 
-func (i *AtlasInterceptor) UpdateVerifier(ctx context.Context, in *UpdateVerifierInput, opts ...grpc.CallOption) (*UpdateVerifierOutput, error) {
+func (i *AtlasInterceptor) UpdateChecker(ctx context.Context, in *UpdateCheckerInput, opts ...grpc.CallOption) (*UpdateCheckerOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*UpdateVerifierInput)
+		message, ok := in.(*UpdateCheckerInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *UpdateVerifierInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *UpdateCheckerInput, got %T", in))
 		}
 
-		return i.client.UpdateVerifier(ctx, message, opts...)
+		return i.client.UpdateChecker(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2019,7 +2019,7 @@ func (i *AtlasInterceptor) UpdateVerifier(ctx context.Context, in *UpdateVerifie
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas.UpdateVerifier", in, next)
+			return mw(ctx, "eolymp.atlas.Atlas.UpdateChecker", in, next)
 		}
 	}
 
@@ -2028,22 +2028,22 @@ func (i *AtlasInterceptor) UpdateVerifier(ctx context.Context, in *UpdateVerifie
 		return nil, err
 	}
 
-	message, ok := out.(*UpdateVerifierOutput)
+	message, ok := out.(*UpdateCheckerOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *UpdateVerifierOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *UpdateCheckerOutput, got %T", out))
 	}
 
 	return message, err
 }
 
-func (i *AtlasInterceptor) DescribeVerifier(ctx context.Context, in *DescribeVerifierInput, opts ...grpc.CallOption) (*DescribeVerifierOutput, error) {
+func (i *AtlasInterceptor) DescribeChecker(ctx context.Context, in *DescribeCheckerInput, opts ...grpc.CallOption) (*DescribeCheckerOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*DescribeVerifierInput)
+		message, ok := in.(*DescribeCheckerInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *DescribeVerifierInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *DescribeCheckerInput, got %T", in))
 		}
 
-		return i.client.DescribeVerifier(ctx, message, opts...)
+		return i.client.DescribeChecker(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2051,7 +2051,7 @@ func (i *AtlasInterceptor) DescribeVerifier(ctx context.Context, in *DescribeVer
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.Atlas.DescribeVerifier", in, next)
+			return mw(ctx, "eolymp.atlas.Atlas.DescribeChecker", in, next)
 		}
 	}
 
@@ -2060,9 +2060,9 @@ func (i *AtlasInterceptor) DescribeVerifier(ctx context.Context, in *DescribeVer
 		return nil, err
 	}
 
-	message, ok := out.(*DescribeVerifierOutput)
+	message, ok := out.(*DescribeCheckerOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *DescribeVerifierOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *DescribeCheckerOutput, got %T", out))
 	}
 
 	return message, err

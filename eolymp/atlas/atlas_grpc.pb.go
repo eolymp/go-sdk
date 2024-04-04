@@ -30,8 +30,8 @@ const (
 	Atlas_ListExamples_FullMethodName           = "/eolymp.atlas.Atlas/ListExamples"
 	Atlas_UpdateTestingConfig_FullMethodName    = "/eolymp.atlas.Atlas/UpdateTestingConfig"
 	Atlas_DescribeTestingConfig_FullMethodName  = "/eolymp.atlas.Atlas/DescribeTestingConfig"
-	Atlas_UpdateVerifier_FullMethodName         = "/eolymp.atlas.Atlas/UpdateVerifier"
-	Atlas_DescribeVerifier_FullMethodName       = "/eolymp.atlas.Atlas/DescribeVerifier"
+	Atlas_UpdateChecker_FullMethodName          = "/eolymp.atlas.Atlas/UpdateChecker"
+	Atlas_DescribeChecker_FullMethodName        = "/eolymp.atlas.Atlas/DescribeChecker"
 	Atlas_UpdateInteractor_FullMethodName       = "/eolymp.atlas.Atlas/UpdateInteractor"
 	Atlas_DescribeInteractor_FullMethodName     = "/eolymp.atlas.Atlas/DescribeInteractor"
 	Atlas_CreateStatement_FullMethodName        = "/eolymp.atlas.Atlas/CreateStatement"
@@ -87,8 +87,8 @@ type AtlasClient interface {
 	ListExamples(ctx context.Context, in *ListExamplesInput, opts ...grpc.CallOption) (*ListExamplesOutput, error)
 	UpdateTestingConfig(ctx context.Context, in *UpdateTestingConfigInput, opts ...grpc.CallOption) (*UpdateTestingConfigOutput, error)
 	DescribeTestingConfig(ctx context.Context, in *DescribeTestingConfigInput, opts ...grpc.CallOption) (*DescribeTestingConfigOutput, error)
-	UpdateVerifier(ctx context.Context, in *UpdateVerifierInput, opts ...grpc.CallOption) (*UpdateVerifierOutput, error)
-	DescribeVerifier(ctx context.Context, in *DescribeVerifierInput, opts ...grpc.CallOption) (*DescribeVerifierOutput, error)
+	UpdateChecker(ctx context.Context, in *UpdateCheckerInput, opts ...grpc.CallOption) (*UpdateCheckerOutput, error)
+	DescribeChecker(ctx context.Context, in *DescribeCheckerInput, opts ...grpc.CallOption) (*DescribeCheckerOutput, error)
 	UpdateInteractor(ctx context.Context, in *UpdateInteractorInput, opts ...grpc.CallOption) (*UpdateInteractorOutput, error)
 	DescribeInteractor(ctx context.Context, in *DescribeInteractorInput, opts ...grpc.CallOption) (*DescribeInteractorOutput, error)
 	CreateStatement(ctx context.Context, in *CreateStatementInput, opts ...grpc.CallOption) (*CreateStatementOutput, error)
@@ -241,18 +241,18 @@ func (c *atlasClient) DescribeTestingConfig(ctx context.Context, in *DescribeTes
 	return out, nil
 }
 
-func (c *atlasClient) UpdateVerifier(ctx context.Context, in *UpdateVerifierInput, opts ...grpc.CallOption) (*UpdateVerifierOutput, error) {
-	out := new(UpdateVerifierOutput)
-	err := c.cc.Invoke(ctx, Atlas_UpdateVerifier_FullMethodName, in, out, opts...)
+func (c *atlasClient) UpdateChecker(ctx context.Context, in *UpdateCheckerInput, opts ...grpc.CallOption) (*UpdateCheckerOutput, error) {
+	out := new(UpdateCheckerOutput)
+	err := c.cc.Invoke(ctx, Atlas_UpdateChecker_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *atlasClient) DescribeVerifier(ctx context.Context, in *DescribeVerifierInput, opts ...grpc.CallOption) (*DescribeVerifierOutput, error) {
-	out := new(DescribeVerifierOutput)
-	err := c.cc.Invoke(ctx, Atlas_DescribeVerifier_FullMethodName, in, out, opts...)
+func (c *atlasClient) DescribeChecker(ctx context.Context, in *DescribeCheckerInput, opts ...grpc.CallOption) (*DescribeCheckerOutput, error) {
+	out := new(DescribeCheckerOutput)
+	err := c.cc.Invoke(ctx, Atlas_DescribeChecker_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -616,8 +616,8 @@ type AtlasServer interface {
 	ListExamples(context.Context, *ListExamplesInput) (*ListExamplesOutput, error)
 	UpdateTestingConfig(context.Context, *UpdateTestingConfigInput) (*UpdateTestingConfigOutput, error)
 	DescribeTestingConfig(context.Context, *DescribeTestingConfigInput) (*DescribeTestingConfigOutput, error)
-	UpdateVerifier(context.Context, *UpdateVerifierInput) (*UpdateVerifierOutput, error)
-	DescribeVerifier(context.Context, *DescribeVerifierInput) (*DescribeVerifierOutput, error)
+	UpdateChecker(context.Context, *UpdateCheckerInput) (*UpdateCheckerOutput, error)
+	DescribeChecker(context.Context, *DescribeCheckerInput) (*DescribeCheckerOutput, error)
 	UpdateInteractor(context.Context, *UpdateInteractorInput) (*UpdateInteractorOutput, error)
 	DescribeInteractor(context.Context, *DescribeInteractorInput) (*DescribeInteractorOutput, error)
 	CreateStatement(context.Context, *CreateStatementInput) (*CreateStatementOutput, error)
@@ -700,11 +700,11 @@ func (UnimplementedAtlasServer) UpdateTestingConfig(context.Context, *UpdateTest
 func (UnimplementedAtlasServer) DescribeTestingConfig(context.Context, *DescribeTestingConfigInput) (*DescribeTestingConfigOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeTestingConfig not implemented")
 }
-func (UnimplementedAtlasServer) UpdateVerifier(context.Context, *UpdateVerifierInput) (*UpdateVerifierOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateVerifier not implemented")
+func (UnimplementedAtlasServer) UpdateChecker(context.Context, *UpdateCheckerInput) (*UpdateCheckerOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateChecker not implemented")
 }
-func (UnimplementedAtlasServer) DescribeVerifier(context.Context, *DescribeVerifierInput) (*DescribeVerifierOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DescribeVerifier not implemented")
+func (UnimplementedAtlasServer) DescribeChecker(context.Context, *DescribeCheckerInput) (*DescribeCheckerOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeChecker not implemented")
 }
 func (UnimplementedAtlasServer) UpdateInteractor(context.Context, *UpdateInteractorInput) (*UpdateInteractorOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateInteractor not implemented")
@@ -1030,38 +1030,38 @@ func _Atlas_DescribeTestingConfig_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Atlas_UpdateVerifier_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateVerifierInput)
+func _Atlas_UpdateChecker_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateCheckerInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AtlasServer).UpdateVerifier(ctx, in)
+		return srv.(AtlasServer).UpdateChecker(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Atlas_UpdateVerifier_FullMethodName,
+		FullMethod: Atlas_UpdateChecker_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AtlasServer).UpdateVerifier(ctx, req.(*UpdateVerifierInput))
+		return srv.(AtlasServer).UpdateChecker(ctx, req.(*UpdateCheckerInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Atlas_DescribeVerifier_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DescribeVerifierInput)
+func _Atlas_DescribeChecker_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeCheckerInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AtlasServer).DescribeVerifier(ctx, in)
+		return srv.(AtlasServer).DescribeChecker(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Atlas_DescribeVerifier_FullMethodName,
+		FullMethod: Atlas_DescribeChecker_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AtlasServer).DescribeVerifier(ctx, req.(*DescribeVerifierInput))
+		return srv.(AtlasServer).DescribeChecker(ctx, req.(*DescribeCheckerInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1802,12 +1802,12 @@ var Atlas_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Atlas_DescribeTestingConfig_Handler,
 		},
 		{
-			MethodName: "UpdateVerifier",
-			Handler:    _Atlas_UpdateVerifier_Handler,
+			MethodName: "UpdateChecker",
+			Handler:    _Atlas_UpdateChecker_Handler,
 		},
 		{
-			MethodName: "DescribeVerifier",
-			Handler:    _Atlas_DescribeVerifier_Handler,
+			MethodName: "DescribeChecker",
+			Handler:    _Atlas_DescribeChecker_Handler,
 		},
 		{
 			MethodName: "UpdateInteractor",

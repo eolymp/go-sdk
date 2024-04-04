@@ -202,10 +202,10 @@ func RegisterTestingServiceHttpHandlers(router *mux.Router, prefix string, cli T
 	router.Handle(prefix+"/testing", _TestingService_DescribeTestingConfig_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.TestingService.DescribeTestingConfig")
-	router.Handle(prefix+"/verifier", _TestingService_UpdateChecker_Rule0(cli)).
+	router.Handle(prefix+"/checker", _TestingService_UpdateChecker_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.atlas.TestingService.UpdateChecker")
-	router.Handle(prefix+"/verifier", _TestingService_DescribeChecker_Rule0(cli)).
+	router.Handle(prefix+"/checker", _TestingService_DescribeChecker_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.TestingService.DescribeChecker")
 	router.Handle(prefix+"/interactor", _TestingService_UpdateInteractor_Rule0(cli)).
@@ -295,7 +295,7 @@ func _TestingService_DescribeTestingConfig_Rule0(cli TestingServiceClient) http.
 
 func _TestingService_UpdateChecker_Rule0(cli TestingServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &UpdateVerifierInput{}
+		in := &UpdateCheckerInput{}
 
 		if err := _TestingService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
@@ -317,7 +317,7 @@ func _TestingService_UpdateChecker_Rule0(cli TestingServiceClient) http.Handler 
 
 func _TestingService_DescribeChecker_Rule0(cli TestingServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DescribeVerifierInput{}
+		in := &DescribeCheckerInput{}
 
 		if err := _TestingService_HTTPReadQueryString(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
@@ -726,11 +726,11 @@ func (i *TestingServiceInterceptor) DescribeTestingConfig(ctx context.Context, i
 	return message, err
 }
 
-func (i *TestingServiceInterceptor) UpdateChecker(ctx context.Context, in *UpdateVerifierInput, opts ...grpc.CallOption) (*UpdateVerifierOutput, error) {
+func (i *TestingServiceInterceptor) UpdateChecker(ctx context.Context, in *UpdateCheckerInput, opts ...grpc.CallOption) (*UpdateCheckerOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*UpdateVerifierInput)
+		message, ok := in.(*UpdateCheckerInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *UpdateVerifierInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *UpdateCheckerInput, got %T", in))
 		}
 
 		return i.client.UpdateChecker(ctx, message, opts...)
@@ -750,19 +750,19 @@ func (i *TestingServiceInterceptor) UpdateChecker(ctx context.Context, in *Updat
 		return nil, err
 	}
 
-	message, ok := out.(*UpdateVerifierOutput)
+	message, ok := out.(*UpdateCheckerOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *UpdateVerifierOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *UpdateCheckerOutput, got %T", out))
 	}
 
 	return message, err
 }
 
-func (i *TestingServiceInterceptor) DescribeChecker(ctx context.Context, in *DescribeVerifierInput, opts ...grpc.CallOption) (*DescribeVerifierOutput, error) {
+func (i *TestingServiceInterceptor) DescribeChecker(ctx context.Context, in *DescribeCheckerInput, opts ...grpc.CallOption) (*DescribeCheckerOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*DescribeVerifierInput)
+		message, ok := in.(*DescribeCheckerInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *DescribeVerifierInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *DescribeCheckerInput, got %T", in))
 		}
 
 		return i.client.DescribeChecker(ctx, message, opts...)
@@ -782,9 +782,9 @@ func (i *TestingServiceInterceptor) DescribeChecker(ctx context.Context, in *Des
 		return nil, err
 	}
 
-	message, ok := out.(*DescribeVerifierOutput)
+	message, ok := out.(*DescribeCheckerOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *DescribeVerifierOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *DescribeCheckerOutput, got %T", out))
 	}
 
 	return message, err

@@ -44,8 +44,8 @@ const (
 type TestingServiceClient interface {
 	UpdateTestingConfig(ctx context.Context, in *UpdateTestingConfigInput, opts ...grpc.CallOption) (*UpdateTestingConfigOutput, error)
 	DescribeTestingConfig(ctx context.Context, in *DescribeTestingConfigInput, opts ...grpc.CallOption) (*DescribeTestingConfigOutput, error)
-	UpdateChecker(ctx context.Context, in *UpdateVerifierInput, opts ...grpc.CallOption) (*UpdateVerifierOutput, error)
-	DescribeChecker(ctx context.Context, in *DescribeVerifierInput, opts ...grpc.CallOption) (*DescribeVerifierOutput, error)
+	UpdateChecker(ctx context.Context, in *UpdateCheckerInput, opts ...grpc.CallOption) (*UpdateCheckerOutput, error)
+	DescribeChecker(ctx context.Context, in *DescribeCheckerInput, opts ...grpc.CallOption) (*DescribeCheckerOutput, error)
 	UpdateInteractor(ctx context.Context, in *UpdateInteractorInput, opts ...grpc.CallOption) (*UpdateInteractorOutput, error)
 	DescribeInteractor(ctx context.Context, in *DescribeInteractorInput, opts ...grpc.CallOption) (*DescribeInteractorOutput, error)
 	CreateTestset(ctx context.Context, in *CreateTestsetInput, opts ...grpc.CallOption) (*CreateTestsetOutput, error)
@@ -87,8 +87,8 @@ func (c *testingServiceClient) DescribeTestingConfig(ctx context.Context, in *De
 	return out, nil
 }
 
-func (c *testingServiceClient) UpdateChecker(ctx context.Context, in *UpdateVerifierInput, opts ...grpc.CallOption) (*UpdateVerifierOutput, error) {
-	out := new(UpdateVerifierOutput)
+func (c *testingServiceClient) UpdateChecker(ctx context.Context, in *UpdateCheckerInput, opts ...grpc.CallOption) (*UpdateCheckerOutput, error) {
+	out := new(UpdateCheckerOutput)
 	err := c.cc.Invoke(ctx, TestingService_UpdateChecker_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -96,8 +96,8 @@ func (c *testingServiceClient) UpdateChecker(ctx context.Context, in *UpdateVeri
 	return out, nil
 }
 
-func (c *testingServiceClient) DescribeChecker(ctx context.Context, in *DescribeVerifierInput, opts ...grpc.CallOption) (*DescribeVerifierOutput, error) {
-	out := new(DescribeVerifierOutput)
+func (c *testingServiceClient) DescribeChecker(ctx context.Context, in *DescribeCheckerInput, opts ...grpc.CallOption) (*DescribeCheckerOutput, error) {
+	out := new(DescribeCheckerOutput)
 	err := c.cc.Invoke(ctx, TestingService_DescribeChecker_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -228,8 +228,8 @@ func (c *testingServiceClient) ListExamples(ctx context.Context, in *ListExample
 type TestingServiceServer interface {
 	UpdateTestingConfig(context.Context, *UpdateTestingConfigInput) (*UpdateTestingConfigOutput, error)
 	DescribeTestingConfig(context.Context, *DescribeTestingConfigInput) (*DescribeTestingConfigOutput, error)
-	UpdateChecker(context.Context, *UpdateVerifierInput) (*UpdateVerifierOutput, error)
-	DescribeChecker(context.Context, *DescribeVerifierInput) (*DescribeVerifierOutput, error)
+	UpdateChecker(context.Context, *UpdateCheckerInput) (*UpdateCheckerOutput, error)
+	DescribeChecker(context.Context, *DescribeCheckerInput) (*DescribeCheckerOutput, error)
 	UpdateInteractor(context.Context, *UpdateInteractorInput) (*UpdateInteractorOutput, error)
 	DescribeInteractor(context.Context, *DescribeInteractorInput) (*DescribeInteractorOutput, error)
 	CreateTestset(context.Context, *CreateTestsetInput) (*CreateTestsetOutput, error)
@@ -255,10 +255,10 @@ func (UnimplementedTestingServiceServer) UpdateTestingConfig(context.Context, *U
 func (UnimplementedTestingServiceServer) DescribeTestingConfig(context.Context, *DescribeTestingConfigInput) (*DescribeTestingConfigOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeTestingConfig not implemented")
 }
-func (UnimplementedTestingServiceServer) UpdateChecker(context.Context, *UpdateVerifierInput) (*UpdateVerifierOutput, error) {
+func (UnimplementedTestingServiceServer) UpdateChecker(context.Context, *UpdateCheckerInput) (*UpdateCheckerOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateChecker not implemented")
 }
-func (UnimplementedTestingServiceServer) DescribeChecker(context.Context, *DescribeVerifierInput) (*DescribeVerifierOutput, error) {
+func (UnimplementedTestingServiceServer) DescribeChecker(context.Context, *DescribeCheckerInput) (*DescribeCheckerOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeChecker not implemented")
 }
 func (UnimplementedTestingServiceServer) UpdateInteractor(context.Context, *UpdateInteractorInput) (*UpdateInteractorOutput, error) {
@@ -349,7 +349,7 @@ func _TestingService_DescribeTestingConfig_Handler(srv interface{}, ctx context.
 }
 
 func _TestingService_UpdateChecker_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateVerifierInput)
+	in := new(UpdateCheckerInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -361,13 +361,13 @@ func _TestingService_UpdateChecker_Handler(srv interface{}, ctx context.Context,
 		FullMethod: TestingService_UpdateChecker_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TestingServiceServer).UpdateChecker(ctx, req.(*UpdateVerifierInput))
+		return srv.(TestingServiceServer).UpdateChecker(ctx, req.(*UpdateCheckerInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _TestingService_DescribeChecker_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DescribeVerifierInput)
+	in := new(DescribeCheckerInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -379,7 +379,7 @@ func _TestingService_DescribeChecker_Handler(srv interface{}, ctx context.Contex
 		FullMethod: TestingService_DescribeChecker_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TestingServiceServer).DescribeChecker(ctx, req.(*DescribeVerifierInput))
+		return srv.(TestingServiceServer).DescribeChecker(ctx, req.(*DescribeCheckerInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }

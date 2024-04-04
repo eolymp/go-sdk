@@ -122,9 +122,9 @@ func (s *TestingServiceService) DescribeTestingConfig(ctx context.Context, in *D
 	return out, nil
 }
 
-func (s *TestingServiceService) UpdateChecker(ctx context.Context, in *UpdateVerifierInput) (*UpdateVerifierOutput, error) {
-	out := &UpdateVerifierOutput{}
-	path := "/verifier"
+func (s *TestingServiceService) UpdateChecker(ctx context.Context, in *UpdateCheckerInput) (*UpdateCheckerOutput, error) {
+	out := &UpdateCheckerOutput{}
+	path := "/checker"
 
 	if err := s.do(ctx, "PUT", path, in, out); err != nil {
 		return nil, err
@@ -133,9 +133,9 @@ func (s *TestingServiceService) UpdateChecker(ctx context.Context, in *UpdateVer
 	return out, nil
 }
 
-func (s *TestingServiceService) DescribeChecker(ctx context.Context, in *DescribeVerifierInput) (*DescribeVerifierOutput, error) {
-	out := &DescribeVerifierOutput{}
-	path := "/verifier"
+func (s *TestingServiceService) DescribeChecker(ctx context.Context, in *DescribeCheckerInput) (*DescribeCheckerOutput, error) {
+	out := &DescribeCheckerOutput{}
+	path := "/checker"
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err

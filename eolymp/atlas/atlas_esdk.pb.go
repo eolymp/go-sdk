@@ -266,9 +266,9 @@ func (s *AtlasService) DescribeTestingConfig(ctx context.Context, in *DescribeTe
 	return out, nil
 }
 
-func (s *AtlasService) UpdateVerifier(ctx context.Context, in *UpdateVerifierInput) (*UpdateVerifierOutput, error) {
-	out := &UpdateVerifierOutput{}
-	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/verifier"
+func (s *AtlasService) UpdateChecker(ctx context.Context, in *UpdateCheckerInput) (*UpdateCheckerOutput, error) {
+	out := &UpdateCheckerOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/checker"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
@@ -282,9 +282,9 @@ func (s *AtlasService) UpdateVerifier(ctx context.Context, in *UpdateVerifierInp
 	return out, nil
 }
 
-func (s *AtlasService) DescribeVerifier(ctx context.Context, in *DescribeVerifierInput) (*DescribeVerifierOutput, error) {
-	out := &DescribeVerifierOutput{}
-	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/verifier"
+func (s *AtlasService) DescribeChecker(ctx context.Context, in *DescribeCheckerInput) (*DescribeCheckerOutput, error) {
+	out := &DescribeCheckerOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/checker"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
