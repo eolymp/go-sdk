@@ -28,7 +28,7 @@ type Template struct {
 	Id        string  `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	ProblemId string  `protobuf:"bytes,2,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	Runtime   string  `protobuf:"bytes,3,opt,name=runtime,proto3" json:"runtime,omitempty"`
-	Secret    bool    `protobuf:"varint,4,opt,name=secret,proto3" json:"secret,omitempty"` // header and footer are secret
+	Secret    bool    `protobuf:"varint,4,opt,name=secret,proto3" json:"secret,omitempty"` // header, footer and files are secret
 	Source    string  `protobuf:"bytes,10,opt,name=source,proto3" json:"source,omitempty"`
 	Header    string  `protobuf:"bytes,11,opt,name=header,proto3" json:"header,omitempty"`
 	Footer    string  `protobuf:"bytes,12,opt,name=footer,proto3" json:"footer,omitempty"`
