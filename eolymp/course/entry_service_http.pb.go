@@ -193,6 +193,38 @@ var _EntryService_WebsocketCodec = websocket.Codec{
 	},
 }
 
+type _EntryService_WatchProgress_WSStream struct {
+	ctx  context.Context
+	conn *websocket.Conn
+}
+
+func (s *_EntryService_WatchProgress_WSStream) Send(m *WatchProgressOutput) error {
+	return s.SendMsg(m)
+}
+
+func (s *_EntryService_WatchProgress_WSStream) SetHeader(metadata.MD) error {
+	return nil
+}
+
+func (s *_EntryService_WatchProgress_WSStream) SendHeader(metadata.MD) error {
+	return nil
+}
+
+func (s *_EntryService_WatchProgress_WSStream) SetTrailer(metadata.MD) {
+}
+
+func (s *_EntryService_WatchProgress_WSStream) Context() context.Context {
+	return s.ctx
+}
+
+func (s *_EntryService_WatchProgress_WSStream) SendMsg(m interface{}) error {
+	return _EntryService_WebsocketCodec.Send(s.conn, m)
+}
+
+func (s *_EntryService_WatchProgress_WSStream) RecvMsg(m interface{}) error {
+	return nil
+}
+
 // RegisterEntryServiceHttpHandlers adds handlers for for EntryServiceClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterEntryServiceHttpHandlers(router *mux.Router, prefix string, cli EntryServiceClient) {
@@ -859,4 +891,8 @@ func (i *EntryServiceInterceptor) ReportProgress(ctx context.Context, in *Report
 	}
 
 	return message, err
+}
+
+func (i *EntryServiceInterceptor) WatchProgress(ctx context.Context, in *WatchProgressInput, opts ...grpc.CallOption) (EntryService_WatchProgressClient, error) {
+	return i.client.WatchProgress(ctx, in, opts...)
 }

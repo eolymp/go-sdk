@@ -30,6 +30,7 @@ const (
 	EntryService_ListParents_FullMethodName      = "/eolymp.course.EntryService/ListParents"
 	EntryService_DescribeProgress_FullMethodName = "/eolymp.course.EntryService/DescribeProgress"
 	EntryService_ReportProgress_FullMethodName   = "/eolymp.course.EntryService/ReportProgress"
+	EntryService_WatchProgress_FullMethodName    = "/eolymp.course.EntryService/WatchProgress"
 )
 
 // EntryServiceClient is the client API for EntryService service.
@@ -47,6 +48,7 @@ type EntryServiceClient interface {
 	ListParents(ctx context.Context, in *ListParentsInput, opts ...grpc.CallOption) (*ListParentsOutput, error)
 	DescribeProgress(ctx context.Context, in *DescribeProgressInput, opts ...grpc.CallOption) (*DescribeProgressOutput, error)
 	ReportProgress(ctx context.Context, in *ReportProgressInput, opts ...grpc.CallOption) (*ReportProgressOutput, error)
+	WatchProgress(ctx context.Context, in *WatchProgressInput, opts ...grpc.CallOption) (EntryService_WatchProgressClient, error)
 }
 
 type entryServiceClient struct {
@@ -156,6 +158,38 @@ func (c *entryServiceClient) ReportProgress(ctx context.Context, in *ReportProgr
 	return out, nil
 }
 
+func (c *entryServiceClient) WatchProgress(ctx context.Context, in *WatchProgressInput, opts ...grpc.CallOption) (EntryService_WatchProgressClient, error) {
+	stream, err := c.cc.NewStream(ctx, &EntryService_ServiceDesc.Streams[0], EntryService_WatchProgress_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &entryServiceWatchProgressClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type EntryService_WatchProgressClient interface {
+	Recv() (*WatchProgressOutput, error)
+	grpc.ClientStream
+}
+
+type entryServiceWatchProgressClient struct {
+	grpc.ClientStream
+}
+
+func (x *entryServiceWatchProgressClient) Recv() (*WatchProgressOutput, error) {
+	m := new(WatchProgressOutput)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // EntryServiceServer is the server API for EntryService service.
 // All implementations should embed UnimplementedEntryServiceServer
 // for forward compatibility
@@ -171,6 +205,7 @@ type EntryServiceServer interface {
 	ListParents(context.Context, *ListParentsInput) (*ListParentsOutput, error)
 	DescribeProgress(context.Context, *DescribeProgressInput) (*DescribeProgressOutput, error)
 	ReportProgress(context.Context, *ReportProgressInput) (*ReportProgressOutput, error)
+	WatchProgress(*WatchProgressInput, EntryService_WatchProgressServer) error
 }
 
 // UnimplementedEntryServiceServer should be embedded to have forward compatible implementations.
@@ -209,6 +244,9 @@ func (UnimplementedEntryServiceServer) DescribeProgress(context.Context, *Descri
 }
 func (UnimplementedEntryServiceServer) ReportProgress(context.Context, *ReportProgressInput) (*ReportProgressOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ReportProgress not implemented")
+}
+func (UnimplementedEntryServiceServer) WatchProgress(*WatchProgressInput, EntryService_WatchProgressServer) error {
+	return status.Errorf(codes.Unimplemented, "method WatchProgress not implemented")
 }
 
 // UnsafeEntryServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -420,6 +458,27 @@ func _EntryService_ReportProgress_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _EntryService_WatchProgress_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(WatchProgressInput)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(EntryServiceServer).WatchProgress(m, &entryServiceWatchProgressServer{stream})
+}
+
+type EntryService_WatchProgressServer interface {
+	Send(*WatchProgressOutput) error
+	grpc.ServerStream
+}
+
+type entryServiceWatchProgressServer struct {
+	grpc.ServerStream
+}
+
+func (x *entryServiceWatchProgressServer) Send(m *WatchProgressOutput) error {
+	return x.ServerStream.SendMsg(m)
+}
+
 // EntryService_ServiceDesc is the grpc.ServiceDesc for EntryService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -472,6 +531,12 @@ var EntryService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _EntryService_ReportProgress_Handler,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "WatchProgress",
+			Handler:       _EntryService_WatchProgress_Handler,
+			ServerStreams: true,
+		},
+	},
 	Metadata: "eolymp/course/entry_service.proto",
 }
