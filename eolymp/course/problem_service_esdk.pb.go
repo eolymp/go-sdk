@@ -160,17 +160,6 @@ func (s *ProblemServiceService) DescribeSubmission(ctx context.Context, in *Desc
 	return out, nil
 }
 
-func (s *ProblemServiceService) DescribeScore(ctx context.Context, in *DescribeScoreInput) (*DescribeScoreOutput, error) {
-	out := &DescribeScoreOutput{}
-	path := "/score"
-
-	if err := s.do(ctx, "GET", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
 func (s *ProblemServiceService) LookupCodeTemplate(ctx context.Context, in *LookupCodeTemplateInput) (*LookupCodeTemplateOutput, error) {
 	out := &LookupCodeTemplateOutput{}
 	path := "/template"

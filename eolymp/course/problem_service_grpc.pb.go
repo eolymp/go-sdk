@@ -25,7 +25,6 @@ const (
 	ProblemService_ListSubmissions_FullMethodName    = "/eolymp.course.ProblemService/ListSubmissions"
 	ProblemService_DescribeSubmission_FullMethodName = "/eolymp.course.ProblemService/DescribeSubmission"
 	ProblemService_WatchSubmission_FullMethodName    = "/eolymp.course.ProblemService/WatchSubmission"
-	ProblemService_DescribeScore_FullMethodName      = "/eolymp.course.ProblemService/DescribeScore"
 	ProblemService_LookupCodeTemplate_FullMethodName = "/eolymp.course.ProblemService/LookupCodeTemplate"
 	ProblemService_CreateRun_FullMethodName          = "/eolymp.course.ProblemService/CreateRun"
 	ProblemService_DescribeRun_FullMethodName        = "/eolymp.course.ProblemService/DescribeRun"
@@ -42,7 +41,6 @@ type ProblemServiceClient interface {
 	ListSubmissions(ctx context.Context, in *ListSubmissionsInput, opts ...grpc.CallOption) (*ListSubmissionsOutput, error)
 	DescribeSubmission(ctx context.Context, in *DescribeSubmissionInput, opts ...grpc.CallOption) (*DescribeSubmissionOutput, error)
 	WatchSubmission(ctx context.Context, in *WatchSubmissionInput, opts ...grpc.CallOption) (ProblemService_WatchSubmissionClient, error)
-	DescribeScore(ctx context.Context, in *DescribeScoreInput, opts ...grpc.CallOption) (*DescribeScoreOutput, error)
 	LookupCodeTemplate(ctx context.Context, in *LookupCodeTemplateInput, opts ...grpc.CallOption) (*LookupCodeTemplateOutput, error)
 	CreateRun(ctx context.Context, in *CreateRunInput, opts ...grpc.CallOption) (*CreateRunOutput, error)
 	DescribeRun(ctx context.Context, in *DescribeRunInput, opts ...grpc.CallOption) (*DescribeRunOutput, error)
@@ -134,15 +132,6 @@ func (x *problemServiceWatchSubmissionClient) Recv() (*WatchSubmissionOutput, er
 	return m, nil
 }
 
-func (c *problemServiceClient) DescribeScore(ctx context.Context, in *DescribeScoreInput, opts ...grpc.CallOption) (*DescribeScoreOutput, error) {
-	out := new(DescribeScoreOutput)
-	err := c.cc.Invoke(ctx, ProblemService_DescribeScore_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *problemServiceClient) LookupCodeTemplate(ctx context.Context, in *LookupCodeTemplateInput, opts ...grpc.CallOption) (*LookupCodeTemplateOutput, error) {
 	out := new(LookupCodeTemplateOutput)
 	err := c.cc.Invoke(ctx, ProblemService_LookupCodeTemplate_FullMethodName, in, out, opts...)
@@ -212,7 +201,6 @@ type ProblemServiceServer interface {
 	ListSubmissions(context.Context, *ListSubmissionsInput) (*ListSubmissionsOutput, error)
 	DescribeSubmission(context.Context, *DescribeSubmissionInput) (*DescribeSubmissionOutput, error)
 	WatchSubmission(*WatchSubmissionInput, ProblemService_WatchSubmissionServer) error
-	DescribeScore(context.Context, *DescribeScoreInput) (*DescribeScoreOutput, error)
 	LookupCodeTemplate(context.Context, *LookupCodeTemplateInput) (*LookupCodeTemplateOutput, error)
 	CreateRun(context.Context, *CreateRunInput) (*CreateRunOutput, error)
 	DescribeRun(context.Context, *DescribeRunInput) (*DescribeRunOutput, error)
@@ -240,9 +228,6 @@ func (UnimplementedProblemServiceServer) DescribeSubmission(context.Context, *De
 }
 func (UnimplementedProblemServiceServer) WatchSubmission(*WatchSubmissionInput, ProblemService_WatchSubmissionServer) error {
 	return status.Errorf(codes.Unimplemented, "method WatchSubmission not implemented")
-}
-func (UnimplementedProblemServiceServer) DescribeScore(context.Context, *DescribeScoreInput) (*DescribeScoreOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DescribeScore not implemented")
 }
 func (UnimplementedProblemServiceServer) LookupCodeTemplate(context.Context, *LookupCodeTemplateInput) (*LookupCodeTemplateOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method LookupCodeTemplate not implemented")
@@ -379,24 +364,6 @@ func (x *problemServiceWatchSubmissionServer) Send(m *WatchSubmissionOutput) err
 	return x.ServerStream.SendMsg(m)
 }
 
-func _ProblemService_DescribeScore_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DescribeScoreInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ProblemServiceServer).DescribeScore(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ProblemService_DescribeScore_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProblemServiceServer).DescribeScore(ctx, req.(*DescribeScoreInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _ProblemService_LookupCodeTemplate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(LookupCodeTemplateInput)
 	if err := dec(in); err != nil {
@@ -498,10 +465,6 @@ var ProblemService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DescribeSubmission",
 			Handler:    _ProblemService_DescribeSubmission_Handler,
-		},
-		{
-			MethodName: "DescribeScore",
-			Handler:    _ProblemService_DescribeScore_Handler,
 		},
 		{
 			MethodName: "LookupCodeTemplate",
