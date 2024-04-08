@@ -631,6 +631,209 @@ func (x *ListStudentsOutput) GetItems() []*Student {
 	return nil
 }
 
+type DescribeAssignmentInput struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	StudentId string `protobuf:"bytes,1,opt,name=student_id,json=studentId,proto3" json:"student_id,omitempty"`
+	EntryId   string `protobuf:"bytes,2,opt,name=entry_id,json=entryId,proto3" json:"entry_id,omitempty"`
+}
+
+func (x *DescribeAssignmentInput) Reset() {
+	*x = DescribeAssignmentInput{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_eolymp_course_student_service_proto_msgTypes[10]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *DescribeAssignmentInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DescribeAssignmentInput) ProtoMessage() {}
+
+func (x *DescribeAssignmentInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_course_student_service_proto_msgTypes[10]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DescribeAssignmentInput.ProtoReflect.Descriptor instead.
+func (*DescribeAssignmentInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_course_student_service_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *DescribeAssignmentInput) GetStudentId() string {
+	if x != nil {
+		return x.StudentId
+	}
+	return ""
+}
+
+func (x *DescribeAssignmentInput) GetEntryId() string {
+	if x != nil {
+		return x.EntryId
+	}
+	return ""
+}
+
+type DescribeAssignmentOutput struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Assignment *Assignment `protobuf:"bytes,1,opt,name=assignment,proto3" json:"assignment,omitempty"`
+}
+
+func (x *DescribeAssignmentOutput) Reset() {
+	*x = DescribeAssignmentOutput{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_eolymp_course_student_service_proto_msgTypes[11]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *DescribeAssignmentOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DescribeAssignmentOutput) ProtoMessage() {}
+
+func (x *DescribeAssignmentOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_course_student_service_proto_msgTypes[11]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DescribeAssignmentOutput.ProtoReflect.Descriptor instead.
+func (*DescribeAssignmentOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_course_student_service_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *DescribeAssignmentOutput) GetAssignment() *Assignment {
+	if x != nil {
+		return x.Assignment
+	}
+	return nil
+}
+
+type UpdateAssignmentInput struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	StudentId  string      `protobuf:"bytes,1,opt,name=student_id,json=studentId,proto3" json:"student_id,omitempty"`
+	EntryId    string      `protobuf:"bytes,2,opt,name=entry_id,json=entryId,proto3" json:"entry_id,omitempty"`
+	Assignment *Assignment `protobuf:"bytes,3,opt,name=assignment,proto3" json:"assignment,omitempty"`
+}
+
+func (x *UpdateAssignmentInput) Reset() {
+	*x = UpdateAssignmentInput{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_eolymp_course_student_service_proto_msgTypes[12]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UpdateAssignmentInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateAssignmentInput) ProtoMessage() {}
+
+func (x *UpdateAssignmentInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_course_student_service_proto_msgTypes[12]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateAssignmentInput.ProtoReflect.Descriptor instead.
+func (*UpdateAssignmentInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_course_student_service_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *UpdateAssignmentInput) GetStudentId() string {
+	if x != nil {
+		return x.StudentId
+	}
+	return ""
+}
+
+func (x *UpdateAssignmentInput) GetEntryId() string {
+	if x != nil {
+		return x.EntryId
+	}
+	return ""
+}
+
+func (x *UpdateAssignmentInput) GetAssignment() *Assignment {
+	if x != nil {
+		return x.Assignment
+	}
+	return nil
+}
+
+type UpdateAssignmentOutput struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *UpdateAssignmentOutput) Reset() {
+	*x = UpdateAssignmentOutput{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_eolymp_course_student_service_proto_msgTypes[13]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UpdateAssignmentOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateAssignmentOutput) ProtoMessage() {}
+
+func (x *UpdateAssignmentOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_course_student_service_proto_msgTypes[13]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateAssignmentOutput.ProtoReflect.Descriptor instead.
+func (*UpdateAssignmentOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_course_student_service_proto_rawDescGZIP(), []int{13}
+}
+
 type StartCourseInput struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -640,7 +843,7 @@ type StartCourseInput struct {
 func (x *StartCourseInput) Reset() {
 	*x = StartCourseInput{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_eolymp_course_student_service_proto_msgTypes[10]
+		mi := &file_eolymp_course_student_service_proto_msgTypes[14]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -653,7 +856,7 @@ func (x *StartCourseInput) String() string {
 func (*StartCourseInput) ProtoMessage() {}
 
 func (x *StartCourseInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_course_student_service_proto_msgTypes[10]
+	mi := &file_eolymp_course_student_service_proto_msgTypes[14]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -666,7 +869,7 @@ func (x *StartCourseInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StartCourseInput.ProtoReflect.Descriptor instead.
 func (*StartCourseInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_course_student_service_proto_rawDescGZIP(), []int{10}
+	return file_eolymp_course_student_service_proto_rawDescGZIP(), []int{14}
 }
 
 type StartCourseOutput struct {
@@ -678,7 +881,7 @@ type StartCourseOutput struct {
 func (x *StartCourseOutput) Reset() {
 	*x = StartCourseOutput{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_eolymp_course_student_service_proto_msgTypes[11]
+		mi := &file_eolymp_course_student_service_proto_msgTypes[15]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -691,7 +894,7 @@ func (x *StartCourseOutput) String() string {
 func (*StartCourseOutput) ProtoMessage() {}
 
 func (x *StartCourseOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_course_student_service_proto_msgTypes[11]
+	mi := &file_eolymp_course_student_service_proto_msgTypes[15]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -704,7 +907,100 @@ func (x *StartCourseOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StartCourseOutput.ProtoReflect.Descriptor instead.
 func (*StartCourseOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_course_student_service_proto_rawDescGZIP(), []int{11}
+	return file_eolymp_course_student_service_proto_rawDescGZIP(), []int{15}
+}
+
+type StartAssignmentInput struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	StudentId string `protobuf:"bytes,1,opt,name=student_id,json=studentId,proto3" json:"student_id,omitempty"`
+	EntryId   string `protobuf:"bytes,2,opt,name=entry_id,json=entryId,proto3" json:"entry_id,omitempty"`
+}
+
+func (x *StartAssignmentInput) Reset() {
+	*x = StartAssignmentInput{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_eolymp_course_student_service_proto_msgTypes[16]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *StartAssignmentInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*StartAssignmentInput) ProtoMessage() {}
+
+func (x *StartAssignmentInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_course_student_service_proto_msgTypes[16]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use StartAssignmentInput.ProtoReflect.Descriptor instead.
+func (*StartAssignmentInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_course_student_service_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *StartAssignmentInput) GetStudentId() string {
+	if x != nil {
+		return x.StudentId
+	}
+	return ""
+}
+
+func (x *StartAssignmentInput) GetEntryId() string {
+	if x != nil {
+		return x.EntryId
+	}
+	return ""
+}
+
+type StartAssignmentOutput struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *StartAssignmentOutput) Reset() {
+	*x = StartAssignmentOutput{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_eolymp_course_student_service_proto_msgTypes[17]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *StartAssignmentOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*StartAssignmentOutput) ProtoMessage() {}
+
+func (x *StartAssignmentOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_course_student_service_proto_msgTypes[17]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use StartAssignmentOutput.ProtoReflect.Descriptor instead.
+func (*StartAssignmentOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_course_student_service_proto_rawDescGZIP(), []int{17}
 }
 
 type DescribeViewerInput struct {
@@ -716,7 +1012,7 @@ type DescribeViewerInput struct {
 func (x *DescribeViewerInput) Reset() {
 	*x = DescribeViewerInput{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_eolymp_course_student_service_proto_msgTypes[12]
+		mi := &file_eolymp_course_student_service_proto_msgTypes[18]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -729,7 +1025,7 @@ func (x *DescribeViewerInput) String() string {
 func (*DescribeViewerInput) ProtoMessage() {}
 
 func (x *DescribeViewerInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_course_student_service_proto_msgTypes[12]
+	mi := &file_eolymp_course_student_service_proto_msgTypes[18]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -742,7 +1038,7 @@ func (x *DescribeViewerInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribeViewerInput.ProtoReflect.Descriptor instead.
 func (*DescribeViewerInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_course_student_service_proto_rawDescGZIP(), []int{12}
+	return file_eolymp_course_student_service_proto_rawDescGZIP(), []int{18}
 }
 
 type DescribeViewerOutput struct {
@@ -756,7 +1052,7 @@ type DescribeViewerOutput struct {
 func (x *DescribeViewerOutput) Reset() {
 	*x = DescribeViewerOutput{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_eolymp_course_student_service_proto_msgTypes[13]
+		mi := &file_eolymp_course_student_service_proto_msgTypes[19]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -769,7 +1065,7 @@ func (x *DescribeViewerOutput) String() string {
 func (*DescribeViewerOutput) ProtoMessage() {}
 
 func (x *DescribeViewerOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_course_student_service_proto_msgTypes[13]
+	mi := &file_eolymp_course_student_service_proto_msgTypes[19]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -782,7 +1078,7 @@ func (x *DescribeViewerOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribeViewerOutput.ProtoReflect.Descriptor instead.
 func (*DescribeViewerOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_course_student_service_proto_rawDescGZIP(), []int{13}
+	return file_eolymp_course_student_service_proto_rawDescGZIP(), []int{19}
 }
 
 func (x *DescribeViewerOutput) GetStudent() *Student {
@@ -807,7 +1103,7 @@ type ListStudentsInput_Filter struct {
 func (x *ListStudentsInput_Filter) Reset() {
 	*x = ListStudentsInput_Filter{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_eolymp_course_student_service_proto_msgTypes[14]
+		mi := &file_eolymp_course_student_service_proto_msgTypes[20]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -820,7 +1116,7 @@ func (x *ListStudentsInput_Filter) String() string {
 func (*ListStudentsInput_Filter) ProtoMessage() {}
 
 func (x *ListStudentsInput_Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_course_student_service_proto_msgTypes[14]
+	mi := &file_eolymp_course_student_service_proto_msgTypes[20]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -883,7 +1179,9 @@ var file_eolymp_course_student_service_proto_rawDesc = []byte{
 	0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x2f, 0x72, 0x61, 0x74, 0x65, 0x6c, 0x69, 0x6d, 0x69,
 	0x74, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x1e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f,
 	0x61, 0x6e, 0x6e, 0x6f, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x2f, 0x73, 0x63, 0x6f, 0x70,
-	0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x1b, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f,
+	0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x1e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f,
+	0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x2f, 0x61, 0x73, 0x73, 0x69, 0x67, 0x6e, 0x6d, 0x65, 0x6e,
+	0x74, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x1b, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f,
 	0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x2f, 0x73, 0x74, 0x75, 0x64, 0x65, 0x6e, 0x74, 0x2e, 0x70,
 	0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x20, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x77, 0x65, 0x6c,
 	0x6c, 0x6b, 0x6e, 0x6f, 0x77, 0x6e, 0x2f, 0x64, 0x69, 0x72, 0x65, 0x63, 0x74, 0x69, 0x6f, 0x6e,
@@ -965,16 +1263,44 @@ var file_eolymp_course_student_service_proto_rawDesc = []byte{
 	0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x05, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x12, 0x2c, 0x0a, 0x05,
 	0x69, 0x74, 0x65, 0x6d, 0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x16, 0x2e, 0x65, 0x6f,
 	0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x2e, 0x53, 0x74, 0x75, 0x64,
-	0x65, 0x6e, 0x74, 0x52, 0x05, 0x69, 0x74, 0x65, 0x6d, 0x73, 0x22, 0x12, 0x0a, 0x10, 0x53, 0x74,
-	0x61, 0x72, 0x74, 0x43, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x49, 0x6e, 0x70, 0x75, 0x74, 0x22, 0x13,
-	0x0a, 0x11, 0x53, 0x74, 0x61, 0x72, 0x74, 0x43, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x4f, 0x75, 0x74,
+	0x65, 0x6e, 0x74, 0x52, 0x05, 0x69, 0x74, 0x65, 0x6d, 0x73, 0x22, 0x53, 0x0a, 0x17, 0x44, 0x65,
+	0x73, 0x63, 0x72, 0x69, 0x62, 0x65, 0x41, 0x73, 0x73, 0x69, 0x67, 0x6e, 0x6d, 0x65, 0x6e, 0x74,
+	0x49, 0x6e, 0x70, 0x75, 0x74, 0x12, 0x1d, 0x0a, 0x0a, 0x73, 0x74, 0x75, 0x64, 0x65, 0x6e, 0x74,
+	0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x73, 0x74, 0x75, 0x64, 0x65,
+	0x6e, 0x74, 0x49, 0x64, 0x12, 0x19, 0x0a, 0x08, 0x65, 0x6e, 0x74, 0x72, 0x79, 0x5f, 0x69, 0x64,
+	0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x65, 0x6e, 0x74, 0x72, 0x79, 0x49, 0x64, 0x22,
+	0x55, 0x0a, 0x18, 0x44, 0x65, 0x73, 0x63, 0x72, 0x69, 0x62, 0x65, 0x41, 0x73, 0x73, 0x69, 0x67,
+	0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x12, 0x39, 0x0a, 0x0a, 0x61,
+	0x73, 0x73, 0x69, 0x67, 0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32,
+	0x19, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x2e,
+	0x41, 0x73, 0x73, 0x69, 0x67, 0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x52, 0x0a, 0x61, 0x73, 0x73, 0x69,
+	0x67, 0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x22, 0x8c, 0x01, 0x0a, 0x15, 0x55, 0x70, 0x64, 0x61, 0x74,
+	0x65, 0x41, 0x73, 0x73, 0x69, 0x67, 0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x49, 0x6e, 0x70, 0x75, 0x74,
+	0x12, 0x1d, 0x0a, 0x0a, 0x73, 0x74, 0x75, 0x64, 0x65, 0x6e, 0x74, 0x5f, 0x69, 0x64, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x73, 0x74, 0x75, 0x64, 0x65, 0x6e, 0x74, 0x49, 0x64, 0x12,
+	0x19, 0x0a, 0x08, 0x65, 0x6e, 0x74, 0x72, 0x79, 0x5f, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x07, 0x65, 0x6e, 0x74, 0x72, 0x79, 0x49, 0x64, 0x12, 0x39, 0x0a, 0x0a, 0x61, 0x73,
+	0x73, 0x69, 0x67, 0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x19,
+	0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x2e, 0x41,
+	0x73, 0x73, 0x69, 0x67, 0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x52, 0x0a, 0x61, 0x73, 0x73, 0x69, 0x67,
+	0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x22, 0x18, 0x0a, 0x16, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x41,
+	0x73, 0x73, 0x69, 0x67, 0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x22,
+	0x12, 0x0a, 0x10, 0x53, 0x74, 0x61, 0x72, 0x74, 0x43, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x49, 0x6e,
+	0x70, 0x75, 0x74, 0x22, 0x13, 0x0a, 0x11, 0x53, 0x74, 0x61, 0x72, 0x74, 0x43, 0x6f, 0x75, 0x72,
+	0x73, 0x65, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x22, 0x50, 0x0a, 0x14, 0x53, 0x74, 0x61, 0x72,
+	0x74, 0x41, 0x73, 0x73, 0x69, 0x67, 0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x49, 0x6e, 0x70, 0x75, 0x74,
+	0x12, 0x1d, 0x0a, 0x0a, 0x73, 0x74, 0x75, 0x64, 0x65, 0x6e, 0x74, 0x5f, 0x69, 0x64, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x73, 0x74, 0x75, 0x64, 0x65, 0x6e, 0x74, 0x49, 0x64, 0x12,
+	0x19, 0x0a, 0x08, 0x65, 0x6e, 0x74, 0x72, 0x79, 0x5f, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x07, 0x65, 0x6e, 0x74, 0x72, 0x79, 0x49, 0x64, 0x22, 0x17, 0x0a, 0x15, 0x53, 0x74,
+	0x61, 0x72, 0x74, 0x41, 0x73, 0x73, 0x69, 0x67, 0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x4f, 0x75, 0x74,
 	0x70, 0x75, 0x74, 0x22, 0x15, 0x0a, 0x13, 0x44, 0x65, 0x73, 0x63, 0x72, 0x69, 0x62, 0x65, 0x56,
 	0x69, 0x65, 0x77, 0x65, 0x72, 0x49, 0x6e, 0x70, 0x75, 0x74, 0x22, 0x48, 0x0a, 0x14, 0x44, 0x65,
 	0x73, 0x63, 0x72, 0x69, 0x62, 0x65, 0x56, 0x69, 0x65, 0x77, 0x65, 0x72, 0x4f, 0x75, 0x74, 0x70,
 	0x75, 0x74, 0x12, 0x30, 0x0a, 0x07, 0x73, 0x74, 0x75, 0x64, 0x65, 0x6e, 0x74, 0x18, 0x01, 0x20,
 	0x01, 0x28, 0x0b, 0x32, 0x16, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x63, 0x6f, 0x75,
 	0x72, 0x73, 0x65, 0x2e, 0x53, 0x74, 0x75, 0x64, 0x65, 0x6e, 0x74, 0x52, 0x07, 0x73, 0x74, 0x75,
-	0x64, 0x65, 0x6e, 0x74, 0x32, 0x9c, 0x08, 0x0a, 0x0e, 0x53, 0x74, 0x75, 0x64, 0x65, 0x6e, 0x74,
+	0x64, 0x65, 0x6e, 0x74, 0x32, 0x9d, 0x0c, 0x0a, 0x0e, 0x53, 0x74, 0x75, 0x64, 0x65, 0x6e, 0x74,
 	0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x95, 0x01, 0x0a, 0x0d, 0x43, 0x72, 0x65, 0x61,
 	0x74, 0x65, 0x53, 0x74, 0x75, 0x64, 0x65, 0x6e, 0x74, 0x12, 0x21, 0x2e, 0x65, 0x6f, 0x6c, 0x79,
 	0x6d, 0x70, 0x2e, 0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65,
@@ -1025,25 +1351,57 @@ var file_eolymp_course_student_service_proto_rawDesc = []byte{
 	0xe2, 0x0a, 0x00, 0x00, 0xa0, 0x41, 0xf8, 0xe2, 0x0a, 0x64, 0x82, 0xe3, 0x0a, 0x18, 0x8a, 0xe3,
 	0x0a, 0x14, 0x73, 0x74, 0x75, 0x64, 0x65, 0x6e, 0x74, 0x3a, 0x73, 0x74, 0x75, 0x64, 0x65, 0x6e,
 	0x74, 0x3a, 0x72, 0x65, 0x61, 0x64, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x0b, 0x12, 0x09, 0x2f, 0x73,
-	0x74, 0x75, 0x64, 0x65, 0x6e, 0x74, 0x73, 0x12, 0x6f, 0x0a, 0x0b, 0x53, 0x74, 0x61, 0x72, 0x74,
-	0x43, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x12, 0x1f, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e,
-	0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x2e, 0x53, 0x74, 0x61, 0x72, 0x74, 0x43, 0x6f, 0x75, 0x72,
-	0x73, 0x65, 0x49, 0x6e, 0x70, 0x75, 0x74, 0x1a, 0x20, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70,
-	0x2e, 0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x2e, 0x53, 0x74, 0x61, 0x72, 0x74, 0x43, 0x6f, 0x75,
-	0x72, 0x73, 0x65, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x22, 0x1d, 0xea, 0xe2, 0x0a, 0x0b, 0xf5,
-	0xe2, 0x0a, 0x00, 0x00, 0x80, 0x3f, 0xf8, 0xe2, 0x0a, 0x05, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x08,
-	0x22, 0x06, 0x2f, 0x73, 0x74, 0x61, 0x72, 0x74, 0x12, 0x79, 0x0a, 0x0e, 0x44, 0x65, 0x73, 0x63,
-	0x72, 0x69, 0x62, 0x65, 0x56, 0x69, 0x65, 0x77, 0x65, 0x72, 0x12, 0x22, 0x2e, 0x65, 0x6f, 0x6c,
-	0x79, 0x6d, 0x70, 0x2e, 0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x2e, 0x44, 0x65, 0x73, 0x63, 0x72,
-	0x69, 0x62, 0x65, 0x56, 0x69, 0x65, 0x77, 0x65, 0x72, 0x49, 0x6e, 0x70, 0x75, 0x74, 0x1a, 0x23,
+	0x74, 0x75, 0x64, 0x65, 0x6e, 0x74, 0x73, 0x12, 0xab, 0x01, 0x0a, 0x12, 0x44, 0x65, 0x73, 0x63,
+	0x72, 0x69, 0x62, 0x65, 0x41, 0x73, 0x73, 0x69, 0x67, 0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x12, 0x26,
 	0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x2e, 0x44,
-	0x65, 0x73, 0x63, 0x72, 0x69, 0x62, 0x65, 0x56, 0x69, 0x65, 0x77, 0x65, 0x72, 0x4f, 0x75, 0x74,
-	0x70, 0x75, 0x74, 0x22, 0x1e, 0xea, 0xe2, 0x0a, 0x0b, 0xf5, 0xe2, 0x0a, 0x00, 0x00, 0xa0, 0x40,
-	0xf8, 0xe2, 0x0a, 0x14, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x09, 0x22, 0x07, 0x2f, 0x76, 0x69, 0x65,
-	0x77, 0x65, 0x72, 0x42, 0x2f, 0x5a, 0x2d, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f,
-	0x6d, 0x2f, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x67, 0x6f, 0x2d, 0x73, 0x64, 0x6b, 0x2f,
-	0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x3b, 0x63, 0x6f,
-	0x75, 0x72, 0x73, 0x65, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x65, 0x73, 0x63, 0x72, 0x69, 0x62, 0x65, 0x41, 0x73, 0x73, 0x69, 0x67, 0x6e, 0x6d, 0x65, 0x6e,
+	0x74, 0x49, 0x6e, 0x70, 0x75, 0x74, 0x1a, 0x27, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e,
+	0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x2e, 0x44, 0x65, 0x73, 0x63, 0x72, 0x69, 0x62, 0x65, 0x41,
+	0x73, 0x73, 0x69, 0x67, 0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x22,
+	0x44, 0xea, 0xe2, 0x0a, 0x0b, 0xf5, 0xe2, 0x0a, 0x00, 0x00, 0xa0, 0x40, 0xf8, 0xe2, 0x0a, 0x14,
+	0x82, 0xd3, 0xe4, 0x93, 0x02, 0x2f, 0x12, 0x2d, 0x2f, 0x73, 0x74, 0x75, 0x64, 0x65, 0x6e, 0x74,
+	0x73, 0x2f, 0x7b, 0x73, 0x74, 0x75, 0x64, 0x65, 0x6e, 0x74, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61,
+	0x73, 0x73, 0x69, 0x67, 0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x2f, 0x7b, 0x65, 0x6e, 0x74, 0x72,
+	0x79, 0x5f, 0x69, 0x64, 0x7d, 0x12, 0xa5, 0x01, 0x0a, 0x10, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65,
+	0x41, 0x73, 0x73, 0x69, 0x67, 0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x12, 0x24, 0x2e, 0x65, 0x6f, 0x6c,
+	0x79, 0x6d, 0x70, 0x2e, 0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74,
+	0x65, 0x41, 0x73, 0x73, 0x69, 0x67, 0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x49, 0x6e, 0x70, 0x75, 0x74,
+	0x1a, 0x25, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x63, 0x6f, 0x75, 0x72, 0x73, 0x65,
+	0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x41, 0x73, 0x73, 0x69, 0x67, 0x6e, 0x6d, 0x65, 0x6e,
+	0x74, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x22, 0x44, 0xea, 0xe2, 0x0a, 0x0b, 0xf5, 0xe2, 0x0a,
+	0x00, 0x00, 0xa0, 0x40, 0xf8, 0xe2, 0x0a, 0x14, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x2f, 0x22, 0x2d,
+	0x2f, 0x73, 0x74, 0x75, 0x64, 0x65, 0x6e, 0x74, 0x73, 0x2f, 0x7b, 0x73, 0x74, 0x75, 0x64, 0x65,
+	0x6e, 0x74, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x73, 0x73, 0x69, 0x67, 0x6e, 0x6d, 0x65, 0x6e,
+	0x74, 0x73, 0x2f, 0x7b, 0x65, 0x6e, 0x74, 0x72, 0x79, 0x5f, 0x69, 0x64, 0x7d, 0x12, 0x6f, 0x0a,
+	0x0b, 0x53, 0x74, 0x61, 0x72, 0x74, 0x43, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x12, 0x1f, 0x2e, 0x65,
+	0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x2e, 0x53, 0x74, 0x61,
+	0x72, 0x74, 0x43, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x49, 0x6e, 0x70, 0x75, 0x74, 0x1a, 0x20, 0x2e,
+	0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x2e, 0x53, 0x74,
+	0x61, 0x72, 0x74, 0x43, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x22,
+	0x1d, 0xea, 0xe2, 0x0a, 0x0b, 0xf5, 0xe2, 0x0a, 0x00, 0x00, 0x80, 0x3f, 0xf8, 0xe2, 0x0a, 0x05,
+	0x82, 0xd3, 0xe4, 0x93, 0x02, 0x08, 0x22, 0x06, 0x2f, 0x73, 0x74, 0x61, 0x72, 0x74, 0x12, 0xa8,
+	0x01, 0x0a, 0x0f, 0x53, 0x74, 0x61, 0x72, 0x74, 0x41, 0x73, 0x73, 0x69, 0x67, 0x6e, 0x6d, 0x65,
+	0x6e, 0x74, 0x12, 0x23, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x63, 0x6f, 0x75, 0x72,
+	0x73, 0x65, 0x2e, 0x53, 0x74, 0x61, 0x72, 0x74, 0x41, 0x73, 0x73, 0x69, 0x67, 0x6e, 0x6d, 0x65,
+	0x6e, 0x74, 0x49, 0x6e, 0x70, 0x75, 0x74, 0x1a, 0x24, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70,
+	0x2e, 0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x2e, 0x53, 0x74, 0x61, 0x72, 0x74, 0x41, 0x73, 0x73,
+	0x69, 0x67, 0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x22, 0x4a, 0xea,
+	0xe2, 0x0a, 0x0b, 0xf5, 0xe2, 0x0a, 0x00, 0x00, 0x80, 0x3f, 0xf8, 0xe2, 0x0a, 0x05, 0x82, 0xd3,
+	0xe4, 0x93, 0x02, 0x35, 0x22, 0x33, 0x2f, 0x73, 0x74, 0x75, 0x64, 0x65, 0x6e, 0x74, 0x73, 0x2f,
+	0x7b, 0x73, 0x74, 0x75, 0x64, 0x65, 0x6e, 0x74, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x73, 0x73,
+	0x69, 0x67, 0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x2f, 0x7b, 0x65, 0x6e, 0x74, 0x72, 0x79, 0x5f,
+	0x69, 0x64, 0x7d, 0x2f, 0x73, 0x74, 0x61, 0x72, 0x74, 0x12, 0x79, 0x0a, 0x0e, 0x44, 0x65, 0x73,
+	0x63, 0x72, 0x69, 0x62, 0x65, 0x56, 0x69, 0x65, 0x77, 0x65, 0x72, 0x12, 0x22, 0x2e, 0x65, 0x6f,
+	0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x2e, 0x44, 0x65, 0x73, 0x63,
+	0x72, 0x69, 0x62, 0x65, 0x56, 0x69, 0x65, 0x77, 0x65, 0x72, 0x49, 0x6e, 0x70, 0x75, 0x74, 0x1a,
+	0x23, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x2e,
+	0x44, 0x65, 0x73, 0x63, 0x72, 0x69, 0x62, 0x65, 0x56, 0x69, 0x65, 0x77, 0x65, 0x72, 0x4f, 0x75,
+	0x74, 0x70, 0x75, 0x74, 0x22, 0x1e, 0xea, 0xe2, 0x0a, 0x0b, 0xf5, 0xe2, 0x0a, 0x00, 0x00, 0xa0,
+	0x40, 0xf8, 0xe2, 0x0a, 0x14, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x09, 0x22, 0x07, 0x2f, 0x76, 0x69,
+	0x65, 0x77, 0x65, 0x72, 0x42, 0x2f, 0x5a, 0x2d, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63,
+	0x6f, 0x6d, 0x2f, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x67, 0x6f, 0x2d, 0x73, 0x64, 0x6b,
+	0x2f, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x3b, 0x63,
+	0x6f, 0x75, 0x72, 0x73, 0x65, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -1059,7 +1417,7 @@ func file_eolymp_course_student_service_proto_rawDescGZIP() []byte {
 }
 
 var file_eolymp_course_student_service_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_eolymp_course_student_service_proto_msgTypes = make([]protoimpl.MessageInfo, 15)
+var file_eolymp_course_student_service_proto_msgTypes = make([]protoimpl.MessageInfo, 21)
 var file_eolymp_course_student_service_proto_goTypes = []interface{}{
 	(UpdateStudentInput_Patch)(0),      // 0: eolymp.course.UpdateStudentInput.Patch
 	(ListStudentsInput_Sortable)(0),    // 1: eolymp.course.ListStudentsInput.Sortable
@@ -1073,50 +1431,65 @@ var file_eolymp_course_student_service_proto_goTypes = []interface{}{
 	(*DescribeStudentOutput)(nil),      // 9: eolymp.course.DescribeStudentOutput
 	(*ListStudentsInput)(nil),          // 10: eolymp.course.ListStudentsInput
 	(*ListStudentsOutput)(nil),         // 11: eolymp.course.ListStudentsOutput
-	(*StartCourseInput)(nil),           // 12: eolymp.course.StartCourseInput
-	(*StartCourseOutput)(nil),          // 13: eolymp.course.StartCourseOutput
-	(*DescribeViewerInput)(nil),        // 14: eolymp.course.DescribeViewerInput
-	(*DescribeViewerOutput)(nil),       // 15: eolymp.course.DescribeViewerOutput
-	(*ListStudentsInput_Filter)(nil),   // 16: eolymp.course.ListStudentsInput.Filter
-	(*Student)(nil),                    // 17: eolymp.course.Student
-	(wellknown.Direction)(0),           // 18: eolymp.wellknown.Direction
-	(*wellknown.ExpressionID)(nil),     // 19: eolymp.wellknown.ExpressionID
-	(*wellknown.ExpressionString)(nil), // 20: eolymp.wellknown.ExpressionString
-	(*wellknown.ExpressionEnum)(nil),   // 21: eolymp.wellknown.ExpressionEnum
+	(*DescribeAssignmentInput)(nil),    // 12: eolymp.course.DescribeAssignmentInput
+	(*DescribeAssignmentOutput)(nil),   // 13: eolymp.course.DescribeAssignmentOutput
+	(*UpdateAssignmentInput)(nil),      // 14: eolymp.course.UpdateAssignmentInput
+	(*UpdateAssignmentOutput)(nil),     // 15: eolymp.course.UpdateAssignmentOutput
+	(*StartCourseInput)(nil),           // 16: eolymp.course.StartCourseInput
+	(*StartCourseOutput)(nil),          // 17: eolymp.course.StartCourseOutput
+	(*StartAssignmentInput)(nil),       // 18: eolymp.course.StartAssignmentInput
+	(*StartAssignmentOutput)(nil),      // 19: eolymp.course.StartAssignmentOutput
+	(*DescribeViewerInput)(nil),        // 20: eolymp.course.DescribeViewerInput
+	(*DescribeViewerOutput)(nil),       // 21: eolymp.course.DescribeViewerOutput
+	(*ListStudentsInput_Filter)(nil),   // 22: eolymp.course.ListStudentsInput.Filter
+	(*Student)(nil),                    // 23: eolymp.course.Student
+	(wellknown.Direction)(0),           // 24: eolymp.wellknown.Direction
+	(*Assignment)(nil),                 // 25: eolymp.course.Assignment
+	(*wellknown.ExpressionID)(nil),     // 26: eolymp.wellknown.ExpressionID
+	(*wellknown.ExpressionString)(nil), // 27: eolymp.wellknown.ExpressionString
+	(*wellknown.ExpressionEnum)(nil),   // 28: eolymp.wellknown.ExpressionEnum
 }
 var file_eolymp_course_student_service_proto_depIdxs = []int32{
-	17, // 0: eolymp.course.CreateStudentInput.student:type_name -> eolymp.course.Student
+	23, // 0: eolymp.course.CreateStudentInput.student:type_name -> eolymp.course.Student
 	0,  // 1: eolymp.course.UpdateStudentInput.patch:type_name -> eolymp.course.UpdateStudentInput.Patch
-	17, // 2: eolymp.course.UpdateStudentInput.student:type_name -> eolymp.course.Student
-	17, // 3: eolymp.course.DescribeStudentOutput.student:type_name -> eolymp.course.Student
-	16, // 4: eolymp.course.ListStudentsInput.filters:type_name -> eolymp.course.ListStudentsInput.Filter
+	23, // 2: eolymp.course.UpdateStudentInput.student:type_name -> eolymp.course.Student
+	23, // 3: eolymp.course.DescribeStudentOutput.student:type_name -> eolymp.course.Student
+	22, // 4: eolymp.course.ListStudentsInput.filters:type_name -> eolymp.course.ListStudentsInput.Filter
 	1,  // 5: eolymp.course.ListStudentsInput.sort:type_name -> eolymp.course.ListStudentsInput.Sortable
-	18, // 6: eolymp.course.ListStudentsInput.order:type_name -> eolymp.wellknown.Direction
-	17, // 7: eolymp.course.ListStudentsOutput.items:type_name -> eolymp.course.Student
-	17, // 8: eolymp.course.DescribeViewerOutput.student:type_name -> eolymp.course.Student
-	19, // 9: eolymp.course.ListStudentsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	19, // 10: eolymp.course.ListStudentsInput.Filter.member_id:type_name -> eolymp.wellknown.ExpressionID
-	20, // 11: eolymp.course.ListStudentsInput.Filter.name:type_name -> eolymp.wellknown.ExpressionString
-	21, // 12: eolymp.course.ListStudentsInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
-	2,  // 13: eolymp.course.StudentService.CreateStudent:input_type -> eolymp.course.CreateStudentInput
-	4,  // 14: eolymp.course.StudentService.UpdateStudent:input_type -> eolymp.course.UpdateStudentInput
-	6,  // 15: eolymp.course.StudentService.DeleteStudent:input_type -> eolymp.course.DeleteStudentInput
-	8,  // 16: eolymp.course.StudentService.DescribeStudent:input_type -> eolymp.course.DescribeStudentInput
-	10, // 17: eolymp.course.StudentService.ListStudents:input_type -> eolymp.course.ListStudentsInput
-	12, // 18: eolymp.course.StudentService.StartCourse:input_type -> eolymp.course.StartCourseInput
-	14, // 19: eolymp.course.StudentService.DescribeViewer:input_type -> eolymp.course.DescribeViewerInput
-	3,  // 20: eolymp.course.StudentService.CreateStudent:output_type -> eolymp.course.CreateStudentOutput
-	5,  // 21: eolymp.course.StudentService.UpdateStudent:output_type -> eolymp.course.UpdateStudentOutput
-	7,  // 22: eolymp.course.StudentService.DeleteStudent:output_type -> eolymp.course.DeleteStudentOutput
-	9,  // 23: eolymp.course.StudentService.DescribeStudent:output_type -> eolymp.course.DescribeStudentOutput
-	11, // 24: eolymp.course.StudentService.ListStudents:output_type -> eolymp.course.ListStudentsOutput
-	13, // 25: eolymp.course.StudentService.StartCourse:output_type -> eolymp.course.StartCourseOutput
-	15, // 26: eolymp.course.StudentService.DescribeViewer:output_type -> eolymp.course.DescribeViewerOutput
-	20, // [20:27] is the sub-list for method output_type
-	13, // [13:20] is the sub-list for method input_type
-	13, // [13:13] is the sub-list for extension type_name
-	13, // [13:13] is the sub-list for extension extendee
-	0,  // [0:13] is the sub-list for field type_name
+	24, // 6: eolymp.course.ListStudentsInput.order:type_name -> eolymp.wellknown.Direction
+	23, // 7: eolymp.course.ListStudentsOutput.items:type_name -> eolymp.course.Student
+	25, // 8: eolymp.course.DescribeAssignmentOutput.assignment:type_name -> eolymp.course.Assignment
+	25, // 9: eolymp.course.UpdateAssignmentInput.assignment:type_name -> eolymp.course.Assignment
+	23, // 10: eolymp.course.DescribeViewerOutput.student:type_name -> eolymp.course.Student
+	26, // 11: eolymp.course.ListStudentsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	26, // 12: eolymp.course.ListStudentsInput.Filter.member_id:type_name -> eolymp.wellknown.ExpressionID
+	27, // 13: eolymp.course.ListStudentsInput.Filter.name:type_name -> eolymp.wellknown.ExpressionString
+	28, // 14: eolymp.course.ListStudentsInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
+	2,  // 15: eolymp.course.StudentService.CreateStudent:input_type -> eolymp.course.CreateStudentInput
+	4,  // 16: eolymp.course.StudentService.UpdateStudent:input_type -> eolymp.course.UpdateStudentInput
+	6,  // 17: eolymp.course.StudentService.DeleteStudent:input_type -> eolymp.course.DeleteStudentInput
+	8,  // 18: eolymp.course.StudentService.DescribeStudent:input_type -> eolymp.course.DescribeStudentInput
+	10, // 19: eolymp.course.StudentService.ListStudents:input_type -> eolymp.course.ListStudentsInput
+	12, // 20: eolymp.course.StudentService.DescribeAssignment:input_type -> eolymp.course.DescribeAssignmentInput
+	14, // 21: eolymp.course.StudentService.UpdateAssignment:input_type -> eolymp.course.UpdateAssignmentInput
+	16, // 22: eolymp.course.StudentService.StartCourse:input_type -> eolymp.course.StartCourseInput
+	18, // 23: eolymp.course.StudentService.StartAssignment:input_type -> eolymp.course.StartAssignmentInput
+	20, // 24: eolymp.course.StudentService.DescribeViewer:input_type -> eolymp.course.DescribeViewerInput
+	3,  // 25: eolymp.course.StudentService.CreateStudent:output_type -> eolymp.course.CreateStudentOutput
+	5,  // 26: eolymp.course.StudentService.UpdateStudent:output_type -> eolymp.course.UpdateStudentOutput
+	7,  // 27: eolymp.course.StudentService.DeleteStudent:output_type -> eolymp.course.DeleteStudentOutput
+	9,  // 28: eolymp.course.StudentService.DescribeStudent:output_type -> eolymp.course.DescribeStudentOutput
+	11, // 29: eolymp.course.StudentService.ListStudents:output_type -> eolymp.course.ListStudentsOutput
+	13, // 30: eolymp.course.StudentService.DescribeAssignment:output_type -> eolymp.course.DescribeAssignmentOutput
+	15, // 31: eolymp.course.StudentService.UpdateAssignment:output_type -> eolymp.course.UpdateAssignmentOutput
+	17, // 32: eolymp.course.StudentService.StartCourse:output_type -> eolymp.course.StartCourseOutput
+	19, // 33: eolymp.course.StudentService.StartAssignment:output_type -> eolymp.course.StartAssignmentOutput
+	21, // 34: eolymp.course.StudentService.DescribeViewer:output_type -> eolymp.course.DescribeViewerOutput
+	25, // [25:35] is the sub-list for method output_type
+	15, // [15:25] is the sub-list for method input_type
+	15, // [15:15] is the sub-list for extension type_name
+	15, // [15:15] is the sub-list for extension extendee
+	0,  // [0:15] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_course_student_service_proto_init() }
@@ -1124,6 +1497,7 @@ func file_eolymp_course_student_service_proto_init() {
 	if File_eolymp_course_student_service_proto != nil {
 		return
 	}
+	file_eolymp_course_assignment_proto_init()
 	file_eolymp_course_student_proto_init()
 	if !protoimpl.UnsafeEnabled {
 		file_eolymp_course_student_service_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
@@ -1247,7 +1621,7 @@ func file_eolymp_course_student_service_proto_init() {
 			}
 		}
 		file_eolymp_course_student_service_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*StartCourseInput); i {
+			switch v := v.(*DescribeAssignmentInput); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1259,7 +1633,7 @@ func file_eolymp_course_student_service_proto_init() {
 			}
 		}
 		file_eolymp_course_student_service_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*StartCourseOutput); i {
+			switch v := v.(*DescribeAssignmentOutput); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1271,7 +1645,7 @@ func file_eolymp_course_student_service_proto_init() {
 			}
 		}
 		file_eolymp_course_student_service_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*DescribeViewerInput); i {
+			switch v := v.(*UpdateAssignmentInput); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1283,7 +1657,7 @@ func file_eolymp_course_student_service_proto_init() {
 			}
 		}
 		file_eolymp_course_student_service_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*DescribeViewerOutput); i {
+			switch v := v.(*UpdateAssignmentOutput); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1295,6 +1669,78 @@ func file_eolymp_course_student_service_proto_init() {
 			}
 		}
 		file_eolymp_course_student_service_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*StartCourseInput); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_eolymp_course_student_service_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*StartCourseOutput); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_eolymp_course_student_service_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*StartAssignmentInput); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_eolymp_course_student_service_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*StartAssignmentOutput); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_eolymp_course_student_service_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DescribeViewerInput); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_eolymp_course_student_service_proto_msgTypes[19].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DescribeViewerOutput); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_eolymp_course_student_service_proto_msgTypes[20].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*ListStudentsInput_Filter); i {
 			case 0:
 				return &v.state
@@ -1313,7 +1759,7 @@ func file_eolymp_course_student_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_eolymp_course_student_service_proto_rawDesc,
 			NumEnums:      2,
-			NumMessages:   15,
+			NumMessages:   21,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
