@@ -169,3 +169,52 @@ func (s *CourseServiceService) ListCourses(ctx context.Context, in *ListCoursesI
 
 	return out, nil
 }
+
+func (s *CourseServiceService) AssignCourse(ctx context.Context, in *AssignCourseInput) (*AssignCourseOutput, error) {
+	out := &AssignCourseOutput{}
+	path := "/courses/" + url.PathEscape(in.GetCourseId()) + "/assignments"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.CourseId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *CourseServiceService) UnassignCourse(ctx context.Context, in *UnassignCourseInput) (*UnassignCourseOutput, error) {
+	out := &UnassignCourseOutput{}
+	path := "/courses/" + url.PathEscape(in.GetCourseId()) + "/assignments/" + url.PathEscape(in.GetStudentId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.CourseId = ""
+		in.StudentId = ""
+	}
+
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *CourseServiceService) StartCourse(ctx context.Context, in *StartCourseInput) (*StartCourseOutput, error) {
+	out := &StartCourseOutput{}
+	path := "/courses/" + url.PathEscape(in.GetCourseId()) + "/start"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.CourseId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

@@ -31,6 +31,9 @@ const (
 	EntryService_DescribeProgress_FullMethodName = "/eolymp.course.EntryService/DescribeProgress"
 	EntryService_ReportProgress_FullMethodName   = "/eolymp.course.EntryService/ReportProgress"
 	EntryService_WatchProgress_FullMethodName    = "/eolymp.course.EntryService/WatchProgress"
+	EntryService_AssignEntry_FullMethodName      = "/eolymp.course.EntryService/AssignEntry"
+	EntryService_UnassignEntry_FullMethodName    = "/eolymp.course.EntryService/UnassignEntry"
+	EntryService_StartEntry_FullMethodName       = "/eolymp.course.EntryService/StartEntry"
 )
 
 // EntryServiceClient is the client API for EntryService service.
@@ -49,6 +52,9 @@ type EntryServiceClient interface {
 	DescribeProgress(ctx context.Context, in *DescribeProgressInput, opts ...grpc.CallOption) (*DescribeProgressOutput, error)
 	ReportProgress(ctx context.Context, in *ReportProgressInput, opts ...grpc.CallOption) (*ReportProgressOutput, error)
 	WatchProgress(ctx context.Context, in *WatchProgressInput, opts ...grpc.CallOption) (EntryService_WatchProgressClient, error)
+	AssignEntry(ctx context.Context, in *AssignEntryInput, opts ...grpc.CallOption) (*AssignEntryOutput, error)
+	UnassignEntry(ctx context.Context, in *UnassignEntryInput, opts ...grpc.CallOption) (*UnassignEntryOutput, error)
+	StartEntry(ctx context.Context, in *StartEntryInput, opts ...grpc.CallOption) (*StartEntryOutput, error)
 }
 
 type entryServiceClient struct {
@@ -190,6 +196,33 @@ func (x *entryServiceWatchProgressClient) Recv() (*WatchProgressOutput, error) {
 	return m, nil
 }
 
+func (c *entryServiceClient) AssignEntry(ctx context.Context, in *AssignEntryInput, opts ...grpc.CallOption) (*AssignEntryOutput, error) {
+	out := new(AssignEntryOutput)
+	err := c.cc.Invoke(ctx, EntryService_AssignEntry_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *entryServiceClient) UnassignEntry(ctx context.Context, in *UnassignEntryInput, opts ...grpc.CallOption) (*UnassignEntryOutput, error) {
+	out := new(UnassignEntryOutput)
+	err := c.cc.Invoke(ctx, EntryService_UnassignEntry_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *entryServiceClient) StartEntry(ctx context.Context, in *StartEntryInput, opts ...grpc.CallOption) (*StartEntryOutput, error) {
+	out := new(StartEntryOutput)
+	err := c.cc.Invoke(ctx, EntryService_StartEntry_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // EntryServiceServer is the server API for EntryService service.
 // All implementations should embed UnimplementedEntryServiceServer
 // for forward compatibility
@@ -206,6 +239,9 @@ type EntryServiceServer interface {
 	DescribeProgress(context.Context, *DescribeProgressInput) (*DescribeProgressOutput, error)
 	ReportProgress(context.Context, *ReportProgressInput) (*ReportProgressOutput, error)
 	WatchProgress(*WatchProgressInput, EntryService_WatchProgressServer) error
+	AssignEntry(context.Context, *AssignEntryInput) (*AssignEntryOutput, error)
+	UnassignEntry(context.Context, *UnassignEntryInput) (*UnassignEntryOutput, error)
+	StartEntry(context.Context, *StartEntryInput) (*StartEntryOutput, error)
 }
 
 // UnimplementedEntryServiceServer should be embedded to have forward compatible implementations.
@@ -247,6 +283,15 @@ func (UnimplementedEntryServiceServer) ReportProgress(context.Context, *ReportPr
 }
 func (UnimplementedEntryServiceServer) WatchProgress(*WatchProgressInput, EntryService_WatchProgressServer) error {
 	return status.Errorf(codes.Unimplemented, "method WatchProgress not implemented")
+}
+func (UnimplementedEntryServiceServer) AssignEntry(context.Context, *AssignEntryInput) (*AssignEntryOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AssignEntry not implemented")
+}
+func (UnimplementedEntryServiceServer) UnassignEntry(context.Context, *UnassignEntryInput) (*UnassignEntryOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UnassignEntry not implemented")
+}
+func (UnimplementedEntryServiceServer) StartEntry(context.Context, *StartEntryInput) (*StartEntryOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method StartEntry not implemented")
 }
 
 // UnsafeEntryServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -479,6 +524,60 @@ func (x *entryServiceWatchProgressServer) Send(m *WatchProgressOutput) error {
 	return x.ServerStream.SendMsg(m)
 }
 
+func _EntryService_AssignEntry_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AssignEntryInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(EntryServiceServer).AssignEntry(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: EntryService_AssignEntry_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(EntryServiceServer).AssignEntry(ctx, req.(*AssignEntryInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _EntryService_UnassignEntry_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UnassignEntryInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(EntryServiceServer).UnassignEntry(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: EntryService_UnassignEntry_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(EntryServiceServer).UnassignEntry(ctx, req.(*UnassignEntryInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _EntryService_StartEntry_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(StartEntryInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(EntryServiceServer).StartEntry(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: EntryService_StartEntry_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(EntryServiceServer).StartEntry(ctx, req.(*StartEntryInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // EntryService_ServiceDesc is the grpc.ServiceDesc for EntryService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -529,6 +628,18 @@ var EntryService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ReportProgress",
 			Handler:    _EntryService_ReportProgress_Handler,
+		},
+		{
+			MethodName: "AssignEntry",
+			Handler:    _EntryService_AssignEntry_Handler,
+		},
+		{
+			MethodName: "UnassignEntry",
+			Handler:    _EntryService_UnassignEntry_Handler,
+		},
+		{
+			MethodName: "StartEntry",
+			Handler:    _EntryService_StartEntry_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

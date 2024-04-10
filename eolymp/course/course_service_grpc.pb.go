@@ -24,6 +24,9 @@ const (
 	CourseService_DeleteCourse_FullMethodName   = "/eolymp.course.CourseService/DeleteCourse"
 	CourseService_DescribeCourse_FullMethodName = "/eolymp.course.CourseService/DescribeCourse"
 	CourseService_ListCourses_FullMethodName    = "/eolymp.course.CourseService/ListCourses"
+	CourseService_AssignCourse_FullMethodName   = "/eolymp.course.CourseService/AssignCourse"
+	CourseService_UnassignCourse_FullMethodName = "/eolymp.course.CourseService/UnassignCourse"
+	CourseService_StartCourse_FullMethodName    = "/eolymp.course.CourseService/StartCourse"
 )
 
 // CourseServiceClient is the client API for CourseService service.
@@ -35,6 +38,9 @@ type CourseServiceClient interface {
 	DeleteCourse(ctx context.Context, in *DeleteCourseInput, opts ...grpc.CallOption) (*DeleteCourseOutput, error)
 	DescribeCourse(ctx context.Context, in *DescribeCourseInput, opts ...grpc.CallOption) (*DescribeCourseOutput, error)
 	ListCourses(ctx context.Context, in *ListCoursesInput, opts ...grpc.CallOption) (*ListCoursesOutput, error)
+	AssignCourse(ctx context.Context, in *AssignCourseInput, opts ...grpc.CallOption) (*AssignCourseOutput, error)
+	UnassignCourse(ctx context.Context, in *UnassignCourseInput, opts ...grpc.CallOption) (*UnassignCourseOutput, error)
+	StartCourse(ctx context.Context, in *StartCourseInput, opts ...grpc.CallOption) (*StartCourseOutput, error)
 }
 
 type courseServiceClient struct {
@@ -90,6 +96,33 @@ func (c *courseServiceClient) ListCourses(ctx context.Context, in *ListCoursesIn
 	return out, nil
 }
 
+func (c *courseServiceClient) AssignCourse(ctx context.Context, in *AssignCourseInput, opts ...grpc.CallOption) (*AssignCourseOutput, error) {
+	out := new(AssignCourseOutput)
+	err := c.cc.Invoke(ctx, CourseService_AssignCourse_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *courseServiceClient) UnassignCourse(ctx context.Context, in *UnassignCourseInput, opts ...grpc.CallOption) (*UnassignCourseOutput, error) {
+	out := new(UnassignCourseOutput)
+	err := c.cc.Invoke(ctx, CourseService_UnassignCourse_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *courseServiceClient) StartCourse(ctx context.Context, in *StartCourseInput, opts ...grpc.CallOption) (*StartCourseOutput, error) {
+	out := new(StartCourseOutput)
+	err := c.cc.Invoke(ctx, CourseService_StartCourse_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CourseServiceServer is the server API for CourseService service.
 // All implementations should embed UnimplementedCourseServiceServer
 // for forward compatibility
@@ -99,6 +132,9 @@ type CourseServiceServer interface {
 	DeleteCourse(context.Context, *DeleteCourseInput) (*DeleteCourseOutput, error)
 	DescribeCourse(context.Context, *DescribeCourseInput) (*DescribeCourseOutput, error)
 	ListCourses(context.Context, *ListCoursesInput) (*ListCoursesOutput, error)
+	AssignCourse(context.Context, *AssignCourseInput) (*AssignCourseOutput, error)
+	UnassignCourse(context.Context, *UnassignCourseInput) (*UnassignCourseOutput, error)
+	StartCourse(context.Context, *StartCourseInput) (*StartCourseOutput, error)
 }
 
 // UnimplementedCourseServiceServer should be embedded to have forward compatible implementations.
@@ -119,6 +155,15 @@ func (UnimplementedCourseServiceServer) DescribeCourse(context.Context, *Describ
 }
 func (UnimplementedCourseServiceServer) ListCourses(context.Context, *ListCoursesInput) (*ListCoursesOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListCourses not implemented")
+}
+func (UnimplementedCourseServiceServer) AssignCourse(context.Context, *AssignCourseInput) (*AssignCourseOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AssignCourse not implemented")
+}
+func (UnimplementedCourseServiceServer) UnassignCourse(context.Context, *UnassignCourseInput) (*UnassignCourseOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UnassignCourse not implemented")
+}
+func (UnimplementedCourseServiceServer) StartCourse(context.Context, *StartCourseInput) (*StartCourseOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method StartCourse not implemented")
 }
 
 // UnsafeCourseServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -222,6 +267,60 @@ func _CourseService_ListCourses_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CourseService_AssignCourse_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AssignCourseInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CourseServiceServer).AssignCourse(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CourseService_AssignCourse_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CourseServiceServer).AssignCourse(ctx, req.(*AssignCourseInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CourseService_UnassignCourse_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UnassignCourseInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CourseServiceServer).UnassignCourse(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CourseService_UnassignCourse_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CourseServiceServer).UnassignCourse(ctx, req.(*UnassignCourseInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CourseService_StartCourse_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(StartCourseInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CourseServiceServer).StartCourse(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CourseService_StartCourse_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CourseServiceServer).StartCourse(ctx, req.(*StartCourseInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // CourseService_ServiceDesc is the grpc.ServiceDesc for CourseService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -248,6 +347,18 @@ var CourseService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListCourses",
 			Handler:    _CourseService_ListCourses_Handler,
+		},
+		{
+			MethodName: "AssignCourse",
+			Handler:    _CourseService_AssignCourse_Handler,
+		},
+		{
+			MethodName: "UnassignCourse",
+			Handler:    _CourseService_UnassignCourse_Handler,
+		},
+		{
+			MethodName: "StartCourse",
+			Handler:    _CourseService_StartCourse_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

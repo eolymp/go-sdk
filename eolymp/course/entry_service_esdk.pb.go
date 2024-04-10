@@ -260,3 +260,52 @@ func (s *EntryServiceService) ReportProgress(ctx context.Context, in *ReportProg
 
 	return out, nil
 }
+
+func (s *EntryServiceService) AssignEntry(ctx context.Context, in *AssignEntryInput) (*AssignEntryOutput, error) {
+	out := &AssignEntryOutput{}
+	path := "/entries/" + url.PathEscape(in.GetEntryId()) + "/assignments"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.EntryId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *EntryServiceService) UnassignEntry(ctx context.Context, in *UnassignEntryInput) (*UnassignEntryOutput, error) {
+	out := &UnassignEntryOutput{}
+	path := "/entries/" + url.PathEscape(in.GetEntryId()) + "/assignments/" + url.PathEscape(in.GetStudentId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.EntryId = ""
+		in.StudentId = ""
+	}
+
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *EntryServiceService) StartEntry(ctx context.Context, in *StartEntryInput) (*StartEntryOutput, error) {
+	out := &StartEntryOutput{}
+	path := "/entries/" + url.PathEscape(in.GetEntryId()) + "/start"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.EntryId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
