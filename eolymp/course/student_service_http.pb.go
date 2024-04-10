@@ -211,21 +211,24 @@ func RegisterStudentServiceHttpHandlers(router *mux.Router, prefix string, cli S
 	router.Handle(prefix+"/students", _StudentService_ListStudents_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.StudentService.ListStudents")
-	router.Handle(prefix+"/students/{student_id}/assignments/{entry_id}", _StudentService_DescribeAssignment_Rule0(cli)).
-		Methods("GET").
-		Name("eolymp.course.StudentService.DescribeAssignment")
+	router.Handle(prefix+"/start", _StudentService_StartCourse_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.course.StudentService.StartCourse")
+	router.Handle(prefix+"/students/{student_id}/assignments/{entry_id}/start", _StudentService_StartAssignment_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.course.StudentService.StartAssignment")
+	router.Handle(prefix+"/viewer", _StudentService_DescribeViewer_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.course.StudentService.DescribeViewer")
 	router.Handle(prefix+"/students/{student_id}/assignments/{entry_id}", _StudentService_AssignEntry_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.course.StudentService.AssignEntry")
 	router.Handle(prefix+"/students/{student_id}/assignments/{entry_id}", _StudentService_UnassignEntry_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.course.StudentService.UnassignEntry")
-	router.Handle(prefix+"/start", _StudentService_StartCourse_Rule0(cli)).
-		Methods("POST").
-		Name("eolymp.course.StudentService.StartCourse")
-	router.Handle(prefix+"/viewer", _StudentService_DescribeViewer_Rule0(cli)).
-		Methods("POST").
-		Name("eolymp.course.StudentService.DescribeViewer")
+	router.Handle(prefix+"/students/{student_id}/assignments/{entry_id}", _StudentService_DescribeAssignment_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.course.StudentService.DescribeAssignment")
 }
 
 func _StudentService_CreateStudent_Rule0(cli StudentServiceClient) http.Handler {
@@ -347,11 +350,33 @@ func _StudentService_ListStudents_Rule0(cli StudentServiceClient) http.Handler {
 	})
 }
 
-func _StudentService_DescribeAssignment_Rule0(cli StudentServiceClient) http.Handler {
+func _StudentService_StartCourse_Rule0(cli StudentServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DescribeAssignmentInput{}
+		in := &StartCourseInput{}
 
-		if err := _StudentService_HTTPReadQueryString(r, in); err != nil {
+		if err := _StudentService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_StudentService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.StartCourse(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_StudentService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_StudentService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _StudentService_StartAssignment_Rule0(cli StudentServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &StartAssignmentInput{}
+
+		if err := _StudentService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
 			_StudentService_HTTPWriteErrorResponse(w, err)
 			return
@@ -363,7 +388,29 @@ func _StudentService_DescribeAssignment_Rule0(cli StudentServiceClient) http.Han
 
 		var header, trailer metadata.MD
 
-		out, err := cli.DescribeAssignment(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		out, err := cli.StartAssignment(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_StudentService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_StudentService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _StudentService_DescribeViewer_Rule0(cli StudentServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeViewerInput{}
+
+		if err := _StudentService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_StudentService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeViewer(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_StudentService_HTTPWriteErrorResponse(w, err)
 			return
@@ -425,41 +472,23 @@ func _StudentService_UnassignEntry_Rule0(cli StudentServiceClient) http.Handler 
 	})
 }
 
-func _StudentService_StartCourse_Rule0(cli StudentServiceClient) http.Handler {
+func _StudentService_DescribeAssignment_Rule0(cli StudentServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &StartCourseInput{}
+		in := &DescribeAssignmentInput{}
 
-		if err := _StudentService_HTTPReadRequestBody(r, in); err != nil {
+		if err := _StudentService_HTTPReadQueryString(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
 			_StudentService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		var header, trailer metadata.MD
-
-		out, err := cli.StartCourse(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
-		if err != nil {
-			_StudentService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_StudentService_HTTPWriteResponse(w, out, header, trailer)
-	})
-}
-
-func _StudentService_DescribeViewer_Rule0(cli StudentServiceClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DescribeViewerInput{}
-
-		if err := _StudentService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_StudentService_HTTPWriteErrorResponse(w, err)
-			return
-		}
+		vars := mux.Vars(r)
+		in.StudentId = vars["student_id"]
+		in.EntryId = vars["entry_id"]
 
 		var header, trailer metadata.MD
 
-		out, err := cli.DescribeViewer(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		out, err := cli.DescribeAssignment(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_StudentService_HTTPWriteErrorResponse(w, err)
 			return
@@ -641,14 +670,14 @@ func (i *StudentServiceInterceptor) ListStudents(ctx context.Context, in *ListSt
 	return message, err
 }
 
-func (i *StudentServiceInterceptor) DescribeAssignment(ctx context.Context, in *DescribeAssignmentInput, opts ...grpc.CallOption) (*DescribeAssignmentOutput, error) {
+func (i *StudentServiceInterceptor) StartCourse(ctx context.Context, in *StartCourseInput, opts ...grpc.CallOption) (*StartCourseOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*DescribeAssignmentInput)
+		message, ok := in.(*StartCourseInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *DescribeAssignmentInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *StartCourseInput, got %T", in))
 		}
 
-		return i.client.DescribeAssignment(ctx, message, opts...)
+		return i.client.StartCourse(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -656,7 +685,7 @@ func (i *StudentServiceInterceptor) DescribeAssignment(ctx context.Context, in *
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.course.StudentService.DescribeAssignment", in, next)
+			return mw(ctx, "eolymp.course.StudentService.StartCourse", in, next)
 		}
 	}
 
@@ -665,9 +694,73 @@ func (i *StudentServiceInterceptor) DescribeAssignment(ctx context.Context, in *
 		return nil, err
 	}
 
-	message, ok := out.(*DescribeAssignmentOutput)
+	message, ok := out.(*StartCourseOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *DescribeAssignmentOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *StartCourseOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *StudentServiceInterceptor) StartAssignment(ctx context.Context, in *StartAssignmentInput, opts ...grpc.CallOption) (*StartAssignmentOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*StartAssignmentInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *StartAssignmentInput, got %T", in))
+		}
+
+		return i.client.StartAssignment(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.course.StudentService.StartAssignment", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*StartAssignmentOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *StartAssignmentOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *StudentServiceInterceptor) DescribeViewer(ctx context.Context, in *DescribeViewerInput, opts ...grpc.CallOption) (*DescribeViewerOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeViewerInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeViewerInput, got %T", in))
+		}
+
+		return i.client.DescribeViewer(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.course.StudentService.DescribeViewer", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeViewerOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeViewerOutput, got %T", out))
 	}
 
 	return message, err
@@ -737,14 +830,14 @@ func (i *StudentServiceInterceptor) UnassignEntry(ctx context.Context, in *Unass
 	return message, err
 }
 
-func (i *StudentServiceInterceptor) StartCourse(ctx context.Context, in *StartCourseInput, opts ...grpc.CallOption) (*StartCourseOutput, error) {
+func (i *StudentServiceInterceptor) DescribeAssignment(ctx context.Context, in *DescribeAssignmentInput, opts ...grpc.CallOption) (*DescribeAssignmentOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*StartCourseInput)
+		message, ok := in.(*DescribeAssignmentInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *StartCourseInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *DescribeAssignmentInput, got %T", in))
 		}
 
-		return i.client.StartCourse(ctx, message, opts...)
+		return i.client.DescribeAssignment(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -752,7 +845,7 @@ func (i *StudentServiceInterceptor) StartCourse(ctx context.Context, in *StartCo
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.course.StudentService.StartCourse", in, next)
+			return mw(ctx, "eolymp.course.StudentService.DescribeAssignment", in, next)
 		}
 	}
 
@@ -761,41 +854,9 @@ func (i *StudentServiceInterceptor) StartCourse(ctx context.Context, in *StartCo
 		return nil, err
 	}
 
-	message, ok := out.(*StartCourseOutput)
+	message, ok := out.(*DescribeAssignmentOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *StartCourseOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *StudentServiceInterceptor) DescribeViewer(ctx context.Context, in *DescribeViewerInput, opts ...grpc.CallOption) (*DescribeViewerOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*DescribeViewerInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *DescribeViewerInput, got %T", in))
-		}
-
-		return i.client.DescribeViewer(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.course.StudentService.DescribeViewer", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*DescribeViewerOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *DescribeViewerOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *DescribeAssignmentOutput, got %T", out))
 	}
 
 	return message, err

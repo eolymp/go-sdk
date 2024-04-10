@@ -24,11 +24,12 @@ const (
 	StudentService_DeleteStudent_FullMethodName      = "/eolymp.course.StudentService/DeleteStudent"
 	StudentService_DescribeStudent_FullMethodName    = "/eolymp.course.StudentService/DescribeStudent"
 	StudentService_ListStudents_FullMethodName       = "/eolymp.course.StudentService/ListStudents"
-	StudentService_DescribeAssignment_FullMethodName = "/eolymp.course.StudentService/DescribeAssignment"
+	StudentService_StartCourse_FullMethodName        = "/eolymp.course.StudentService/StartCourse"
+	StudentService_StartAssignment_FullMethodName    = "/eolymp.course.StudentService/StartAssignment"
+	StudentService_DescribeViewer_FullMethodName     = "/eolymp.course.StudentService/DescribeViewer"
 	StudentService_AssignEntry_FullMethodName        = "/eolymp.course.StudentService/AssignEntry"
 	StudentService_UnassignEntry_FullMethodName      = "/eolymp.course.StudentService/UnassignEntry"
-	StudentService_StartCourse_FullMethodName        = "/eolymp.course.StudentService/StartCourse"
-	StudentService_DescribeViewer_FullMethodName     = "/eolymp.course.StudentService/DescribeViewer"
+	StudentService_DescribeAssignment_FullMethodName = "/eolymp.course.StudentService/DescribeAssignment"
 )
 
 // StudentServiceClient is the client API for StudentService service.
@@ -40,11 +41,12 @@ type StudentServiceClient interface {
 	DeleteStudent(ctx context.Context, in *DeleteStudentInput, opts ...grpc.CallOption) (*DeleteStudentOutput, error)
 	DescribeStudent(ctx context.Context, in *DescribeStudentInput, opts ...grpc.CallOption) (*DescribeStudentOutput, error)
 	ListStudents(ctx context.Context, in *ListStudentsInput, opts ...grpc.CallOption) (*ListStudentsOutput, error)
-	DescribeAssignment(ctx context.Context, in *DescribeAssignmentInput, opts ...grpc.CallOption) (*DescribeAssignmentOutput, error)
+	StartCourse(ctx context.Context, in *StartCourseInput, opts ...grpc.CallOption) (*StartCourseOutput, error)
+	StartAssignment(ctx context.Context, in *StartAssignmentInput, opts ...grpc.CallOption) (*StartAssignmentOutput, error)
+	DescribeViewer(ctx context.Context, in *DescribeViewerInput, opts ...grpc.CallOption) (*DescribeViewerOutput, error)
 	AssignEntry(ctx context.Context, in *AssignEntryInput, opts ...grpc.CallOption) (*AssignEntryOutput, error)
 	UnassignEntry(ctx context.Context, in *UnassignEntryInput, opts ...grpc.CallOption) (*UnassignEntryOutput, error)
-	StartCourse(ctx context.Context, in *StartCourseInput, opts ...grpc.CallOption) (*StartCourseOutput, error)
-	DescribeViewer(ctx context.Context, in *DescribeViewerInput, opts ...grpc.CallOption) (*DescribeViewerOutput, error)
+	DescribeAssignment(ctx context.Context, in *DescribeAssignmentInput, opts ...grpc.CallOption) (*DescribeAssignmentOutput, error)
 }
 
 type studentServiceClient struct {
@@ -100,9 +102,27 @@ func (c *studentServiceClient) ListStudents(ctx context.Context, in *ListStudent
 	return out, nil
 }
 
-func (c *studentServiceClient) DescribeAssignment(ctx context.Context, in *DescribeAssignmentInput, opts ...grpc.CallOption) (*DescribeAssignmentOutput, error) {
-	out := new(DescribeAssignmentOutput)
-	err := c.cc.Invoke(ctx, StudentService_DescribeAssignment_FullMethodName, in, out, opts...)
+func (c *studentServiceClient) StartCourse(ctx context.Context, in *StartCourseInput, opts ...grpc.CallOption) (*StartCourseOutput, error) {
+	out := new(StartCourseOutput)
+	err := c.cc.Invoke(ctx, StudentService_StartCourse_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *studentServiceClient) StartAssignment(ctx context.Context, in *StartAssignmentInput, opts ...grpc.CallOption) (*StartAssignmentOutput, error) {
+	out := new(StartAssignmentOutput)
+	err := c.cc.Invoke(ctx, StudentService_StartAssignment_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *studentServiceClient) DescribeViewer(ctx context.Context, in *DescribeViewerInput, opts ...grpc.CallOption) (*DescribeViewerOutput, error) {
+	out := new(DescribeViewerOutput)
+	err := c.cc.Invoke(ctx, StudentService_DescribeViewer_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -127,18 +147,9 @@ func (c *studentServiceClient) UnassignEntry(ctx context.Context, in *UnassignEn
 	return out, nil
 }
 
-func (c *studentServiceClient) StartCourse(ctx context.Context, in *StartCourseInput, opts ...grpc.CallOption) (*StartCourseOutput, error) {
-	out := new(StartCourseOutput)
-	err := c.cc.Invoke(ctx, StudentService_StartCourse_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *studentServiceClient) DescribeViewer(ctx context.Context, in *DescribeViewerInput, opts ...grpc.CallOption) (*DescribeViewerOutput, error) {
-	out := new(DescribeViewerOutput)
-	err := c.cc.Invoke(ctx, StudentService_DescribeViewer_FullMethodName, in, out, opts...)
+func (c *studentServiceClient) DescribeAssignment(ctx context.Context, in *DescribeAssignmentInput, opts ...grpc.CallOption) (*DescribeAssignmentOutput, error) {
+	out := new(DescribeAssignmentOutput)
+	err := c.cc.Invoke(ctx, StudentService_DescribeAssignment_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -154,11 +165,12 @@ type StudentServiceServer interface {
 	DeleteStudent(context.Context, *DeleteStudentInput) (*DeleteStudentOutput, error)
 	DescribeStudent(context.Context, *DescribeStudentInput) (*DescribeStudentOutput, error)
 	ListStudents(context.Context, *ListStudentsInput) (*ListStudentsOutput, error)
-	DescribeAssignment(context.Context, *DescribeAssignmentInput) (*DescribeAssignmentOutput, error)
+	StartCourse(context.Context, *StartCourseInput) (*StartCourseOutput, error)
+	StartAssignment(context.Context, *StartAssignmentInput) (*StartAssignmentOutput, error)
+	DescribeViewer(context.Context, *DescribeViewerInput) (*DescribeViewerOutput, error)
 	AssignEntry(context.Context, *AssignEntryInput) (*AssignEntryOutput, error)
 	UnassignEntry(context.Context, *UnassignEntryInput) (*UnassignEntryOutput, error)
-	StartCourse(context.Context, *StartCourseInput) (*StartCourseOutput, error)
-	DescribeViewer(context.Context, *DescribeViewerInput) (*DescribeViewerOutput, error)
+	DescribeAssignment(context.Context, *DescribeAssignmentInput) (*DescribeAssignmentOutput, error)
 }
 
 // UnimplementedStudentServiceServer should be embedded to have forward compatible implementations.
@@ -180,8 +192,14 @@ func (UnimplementedStudentServiceServer) DescribeStudent(context.Context, *Descr
 func (UnimplementedStudentServiceServer) ListStudents(context.Context, *ListStudentsInput) (*ListStudentsOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListStudents not implemented")
 }
-func (UnimplementedStudentServiceServer) DescribeAssignment(context.Context, *DescribeAssignmentInput) (*DescribeAssignmentOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DescribeAssignment not implemented")
+func (UnimplementedStudentServiceServer) StartCourse(context.Context, *StartCourseInput) (*StartCourseOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method StartCourse not implemented")
+}
+func (UnimplementedStudentServiceServer) StartAssignment(context.Context, *StartAssignmentInput) (*StartAssignmentOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method StartAssignment not implemented")
+}
+func (UnimplementedStudentServiceServer) DescribeViewer(context.Context, *DescribeViewerInput) (*DescribeViewerOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeViewer not implemented")
 }
 func (UnimplementedStudentServiceServer) AssignEntry(context.Context, *AssignEntryInput) (*AssignEntryOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AssignEntry not implemented")
@@ -189,11 +207,8 @@ func (UnimplementedStudentServiceServer) AssignEntry(context.Context, *AssignEnt
 func (UnimplementedStudentServiceServer) UnassignEntry(context.Context, *UnassignEntryInput) (*UnassignEntryOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UnassignEntry not implemented")
 }
-func (UnimplementedStudentServiceServer) StartCourse(context.Context, *StartCourseInput) (*StartCourseOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method StartCourse not implemented")
-}
-func (UnimplementedStudentServiceServer) DescribeViewer(context.Context, *DescribeViewerInput) (*DescribeViewerOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DescribeViewer not implemented")
+func (UnimplementedStudentServiceServer) DescribeAssignment(context.Context, *DescribeAssignmentInput) (*DescribeAssignmentOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeAssignment not implemented")
 }
 
 // UnsafeStudentServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -297,20 +312,56 @@ func _StudentService_ListStudents_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
-func _StudentService_DescribeAssignment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DescribeAssignmentInput)
+func _StudentService_StartCourse_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(StartCourseInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(StudentServiceServer).DescribeAssignment(ctx, in)
+		return srv.(StudentServiceServer).StartCourse(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: StudentService_DescribeAssignment_FullMethodName,
+		FullMethod: StudentService_StartCourse_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(StudentServiceServer).DescribeAssignment(ctx, req.(*DescribeAssignmentInput))
+		return srv.(StudentServiceServer).StartCourse(ctx, req.(*StartCourseInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _StudentService_StartAssignment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(StartAssignmentInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StudentServiceServer).StartAssignment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StudentService_StartAssignment_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StudentServiceServer).StartAssignment(ctx, req.(*StartAssignmentInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _StudentService_DescribeViewer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeViewerInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StudentServiceServer).DescribeViewer(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StudentService_DescribeViewer_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StudentServiceServer).DescribeViewer(ctx, req.(*DescribeViewerInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -351,38 +402,20 @@ func _StudentService_UnassignEntry_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
-func _StudentService_StartCourse_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(StartCourseInput)
+func _StudentService_DescribeAssignment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeAssignmentInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(StudentServiceServer).StartCourse(ctx, in)
+		return srv.(StudentServiceServer).DescribeAssignment(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: StudentService_StartCourse_FullMethodName,
+		FullMethod: StudentService_DescribeAssignment_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(StudentServiceServer).StartCourse(ctx, req.(*StartCourseInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _StudentService_DescribeViewer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DescribeViewerInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(StudentServiceServer).DescribeViewer(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: StudentService_DescribeViewer_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(StudentServiceServer).DescribeViewer(ctx, req.(*DescribeViewerInput))
+		return srv.(StudentServiceServer).DescribeAssignment(ctx, req.(*DescribeAssignmentInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -415,8 +448,16 @@ var StudentService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _StudentService_ListStudents_Handler,
 		},
 		{
-			MethodName: "DescribeAssignment",
-			Handler:    _StudentService_DescribeAssignment_Handler,
+			MethodName: "StartCourse",
+			Handler:    _StudentService_StartCourse_Handler,
+		},
+		{
+			MethodName: "StartAssignment",
+			Handler:    _StudentService_StartAssignment_Handler,
+		},
+		{
+			MethodName: "DescribeViewer",
+			Handler:    _StudentService_DescribeViewer_Handler,
 		},
 		{
 			MethodName: "AssignEntry",
@@ -427,12 +468,8 @@ var StudentService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _StudentService_UnassignEntry_Handler,
 		},
 		{
-			MethodName: "StartCourse",
-			Handler:    _StudentService_StartCourse_Handler,
-		},
-		{
-			MethodName: "DescribeViewer",
-			Handler:    _StudentService_DescribeViewer_Handler,
+			MethodName: "DescribeAssignment",
+			Handler:    _StudentService_DescribeAssignment_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

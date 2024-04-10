@@ -170,9 +170,20 @@ func (s *StudentServiceService) ListStudents(ctx context.Context, in *ListStuden
 	return out, nil
 }
 
-func (s *StudentServiceService) DescribeAssignment(ctx context.Context, in *DescribeAssignmentInput) (*DescribeAssignmentOutput, error) {
-	out := &DescribeAssignmentOutput{}
-	path := "/students/" + url.PathEscape(in.GetStudentId()) + "/assignments/" + url.PathEscape(in.GetEntryId())
+func (s *StudentServiceService) StartCourse(ctx context.Context, in *StartCourseInput) (*StartCourseOutput, error) {
+	out := &StartCourseOutput{}
+	path := "/start"
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *StudentServiceService) StartAssignment(ctx context.Context, in *StartAssignmentInput) (*StartAssignmentOutput, error) {
+	out := &StartAssignmentOutput{}
+	path := "/students/" + url.PathEscape(in.GetStudentId()) + "/assignments/" + url.PathEscape(in.GetEntryId()) + "/start"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
@@ -180,7 +191,18 @@ func (s *StudentServiceService) DescribeAssignment(ctx context.Context, in *Desc
 		in.EntryId = ""
 	}
 
-	if err := s.do(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *StudentServiceService) DescribeViewer(ctx context.Context, in *DescribeViewerInput) (*DescribeViewerOutput, error) {
+	out := &DescribeViewerOutput{}
+	path := "/viewer"
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -221,22 +243,17 @@ func (s *StudentServiceService) UnassignEntry(ctx context.Context, in *UnassignE
 	return out, nil
 }
 
-func (s *StudentServiceService) StartCourse(ctx context.Context, in *StartCourseInput) (*StartCourseOutput, error) {
-	out := &StartCourseOutput{}
-	path := "/start"
+func (s *StudentServiceService) DescribeAssignment(ctx context.Context, in *DescribeAssignmentInput) (*DescribeAssignmentOutput, error) {
+	out := &DescribeAssignmentOutput{}
+	path := "/students/" + url.PathEscape(in.GetStudentId()) + "/assignments/" + url.PathEscape(in.GetEntryId())
 
-	if err := s.do(ctx, "POST", path, in, out); err != nil {
-		return nil, err
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.StudentId = ""
+		in.EntryId = ""
 	}
 
-	return out, nil
-}
-
-func (s *StudentServiceService) DescribeViewer(ctx context.Context, in *DescribeViewerInput) (*DescribeViewerOutput, error) {
-	out := &DescribeViewerOutput{}
-	path := "/viewer"
-
-	if err := s.do(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
