@@ -24,13 +24,12 @@ const (
 	ProblemService_UpdateProblem_FullMethodName        = "/eolymp.judge.ProblemService/UpdateProblem"
 	ProblemService_ListProblems_FullMethodName         = "/eolymp.judge.ProblemService/ListProblems"
 	ProblemService_DescribeProblem_FullMethodName      = "/eolymp.judge.ProblemService/DescribeProblem"
-	ProblemService_DescribeCodeTemplate_FullMethodName = "/eolymp.judge.ProblemService/DescribeCodeTemplate"
+	ProblemService_DeleteProblem_FullMethodName        = "/eolymp.judge.ProblemService/DeleteProblem"
 	ProblemService_LookupCodeTemplate_FullMethodName   = "/eolymp.judge.ProblemService/LookupCodeTemplate"
+	ProblemService_DescribeCodeTemplate_FullMethodName = "/eolymp.judge.ProblemService/DescribeCodeTemplate"
 	ProblemService_ListStatements_FullMethodName       = "/eolymp.judge.ProblemService/ListStatements"
 	ProblemService_ListAttachments_FullMethodName      = "/eolymp.judge.ProblemService/ListAttachments"
 	ProblemService_ListExamples_FullMethodName         = "/eolymp.judge.ProblemService/ListExamples"
-	ProblemService_DeleteProblem_FullMethodName        = "/eolymp.judge.ProblemService/DeleteProblem"
-	ProblemService_RetestProblem_FullMethodName        = "/eolymp.judge.ProblemService/RetestProblem"
 )
 
 // ProblemServiceClient is the client API for ProblemService service.
@@ -44,16 +43,14 @@ type ProblemServiceClient interface {
 	UpdateProblem(ctx context.Context, in *UpdateProblemInput, opts ...grpc.CallOption) (*UpdateProblemOutput, error)
 	ListProblems(ctx context.Context, in *ListProblemsInput, opts ...grpc.CallOption) (*ListProblemsOutput, error)
 	DescribeProblem(ctx context.Context, in *DescribeProblemInput, opts ...grpc.CallOption) (*DescribeProblemOutput, error)
-	// Return code template for problem
-	DescribeCodeTemplate(ctx context.Context, in *DescribeCodeTemplateInput, opts ...grpc.CallOption) (*DescribeCodeTemplateOutput, error)
+	DeleteProblem(ctx context.Context, in *DeleteProblemInput, opts ...grpc.CallOption) (*DeleteProblemOutput, error)
 	// Lookup template for a given runtime/language
 	LookupCodeTemplate(ctx context.Context, in *LookupCodeTemplateInput, opts ...grpc.CallOption) (*LookupCodeTemplateOutput, error)
+	// Return code template for problem
+	DescribeCodeTemplate(ctx context.Context, in *DescribeCodeTemplateInput, opts ...grpc.CallOption) (*DescribeCodeTemplateOutput, error)
 	ListStatements(ctx context.Context, in *ListStatementsInput, opts ...grpc.CallOption) (*ListStatementsOutput, error)
 	ListAttachments(ctx context.Context, in *ListAttachmentsInput, opts ...grpc.CallOption) (*ListAttachmentsOutput, error)
 	ListExamples(ctx context.Context, in *ListExamplesInput, opts ...grpc.CallOption) (*ListExamplesOutput, error)
-	DeleteProblem(ctx context.Context, in *DeleteProblemInput, opts ...grpc.CallOption) (*DeleteProblemOutput, error)
-	// RetestProblem resets existing submissions for the problem and triggers testing process again.
-	RetestProblem(ctx context.Context, in *RetestProblemInput, opts ...grpc.CallOption) (*RetestProblemOutput, error)
 }
 
 type problemServiceClient struct {
@@ -109,9 +106,9 @@ func (c *problemServiceClient) DescribeProblem(ctx context.Context, in *Describe
 	return out, nil
 }
 
-func (c *problemServiceClient) DescribeCodeTemplate(ctx context.Context, in *DescribeCodeTemplateInput, opts ...grpc.CallOption) (*DescribeCodeTemplateOutput, error) {
-	out := new(DescribeCodeTemplateOutput)
-	err := c.cc.Invoke(ctx, ProblemService_DescribeCodeTemplate_FullMethodName, in, out, opts...)
+func (c *problemServiceClient) DeleteProblem(ctx context.Context, in *DeleteProblemInput, opts ...grpc.CallOption) (*DeleteProblemOutput, error) {
+	out := new(DeleteProblemOutput)
+	err := c.cc.Invoke(ctx, ProblemService_DeleteProblem_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -121,6 +118,15 @@ func (c *problemServiceClient) DescribeCodeTemplate(ctx context.Context, in *Des
 func (c *problemServiceClient) LookupCodeTemplate(ctx context.Context, in *LookupCodeTemplateInput, opts ...grpc.CallOption) (*LookupCodeTemplateOutput, error) {
 	out := new(LookupCodeTemplateOutput)
 	err := c.cc.Invoke(ctx, ProblemService_LookupCodeTemplate_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *problemServiceClient) DescribeCodeTemplate(ctx context.Context, in *DescribeCodeTemplateInput, opts ...grpc.CallOption) (*DescribeCodeTemplateOutput, error) {
+	out := new(DescribeCodeTemplateOutput)
+	err := c.cc.Invoke(ctx, ProblemService_DescribeCodeTemplate_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -154,24 +160,6 @@ func (c *problemServiceClient) ListExamples(ctx context.Context, in *ListExample
 	return out, nil
 }
 
-func (c *problemServiceClient) DeleteProblem(ctx context.Context, in *DeleteProblemInput, opts ...grpc.CallOption) (*DeleteProblemOutput, error) {
-	out := new(DeleteProblemOutput)
-	err := c.cc.Invoke(ctx, ProblemService_DeleteProblem_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *problemServiceClient) RetestProblem(ctx context.Context, in *RetestProblemInput, opts ...grpc.CallOption) (*RetestProblemOutput, error) {
-	out := new(RetestProblemOutput)
-	err := c.cc.Invoke(ctx, ProblemService_RetestProblem_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // ProblemServiceServer is the server API for ProblemService service.
 // All implementations should embed UnimplementedProblemServiceServer
 // for forward compatibility
@@ -183,16 +171,14 @@ type ProblemServiceServer interface {
 	UpdateProblem(context.Context, *UpdateProblemInput) (*UpdateProblemOutput, error)
 	ListProblems(context.Context, *ListProblemsInput) (*ListProblemsOutput, error)
 	DescribeProblem(context.Context, *DescribeProblemInput) (*DescribeProblemOutput, error)
-	// Return code template for problem
-	DescribeCodeTemplate(context.Context, *DescribeCodeTemplateInput) (*DescribeCodeTemplateOutput, error)
+	DeleteProblem(context.Context, *DeleteProblemInput) (*DeleteProblemOutput, error)
 	// Lookup template for a given runtime/language
 	LookupCodeTemplate(context.Context, *LookupCodeTemplateInput) (*LookupCodeTemplateOutput, error)
+	// Return code template for problem
+	DescribeCodeTemplate(context.Context, *DescribeCodeTemplateInput) (*DescribeCodeTemplateOutput, error)
 	ListStatements(context.Context, *ListStatementsInput) (*ListStatementsOutput, error)
 	ListAttachments(context.Context, *ListAttachmentsInput) (*ListAttachmentsOutput, error)
 	ListExamples(context.Context, *ListExamplesInput) (*ListExamplesOutput, error)
-	DeleteProblem(context.Context, *DeleteProblemInput) (*DeleteProblemOutput, error)
-	// RetestProblem resets existing submissions for the problem and triggers testing process again.
-	RetestProblem(context.Context, *RetestProblemInput) (*RetestProblemOutput, error)
 }
 
 // UnimplementedProblemServiceServer should be embedded to have forward compatible implementations.
@@ -214,11 +200,14 @@ func (UnimplementedProblemServiceServer) ListProblems(context.Context, *ListProb
 func (UnimplementedProblemServiceServer) DescribeProblem(context.Context, *DescribeProblemInput) (*DescribeProblemOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeProblem not implemented")
 }
-func (UnimplementedProblemServiceServer) DescribeCodeTemplate(context.Context, *DescribeCodeTemplateInput) (*DescribeCodeTemplateOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DescribeCodeTemplate not implemented")
+func (UnimplementedProblemServiceServer) DeleteProblem(context.Context, *DeleteProblemInput) (*DeleteProblemOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteProblem not implemented")
 }
 func (UnimplementedProblemServiceServer) LookupCodeTemplate(context.Context, *LookupCodeTemplateInput) (*LookupCodeTemplateOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method LookupCodeTemplate not implemented")
+}
+func (UnimplementedProblemServiceServer) DescribeCodeTemplate(context.Context, *DescribeCodeTemplateInput) (*DescribeCodeTemplateOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeCodeTemplate not implemented")
 }
 func (UnimplementedProblemServiceServer) ListStatements(context.Context, *ListStatementsInput) (*ListStatementsOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListStatements not implemented")
@@ -228,12 +217,6 @@ func (UnimplementedProblemServiceServer) ListAttachments(context.Context, *ListA
 }
 func (UnimplementedProblemServiceServer) ListExamples(context.Context, *ListExamplesInput) (*ListExamplesOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListExamples not implemented")
-}
-func (UnimplementedProblemServiceServer) DeleteProblem(context.Context, *DeleteProblemInput) (*DeleteProblemOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteProblem not implemented")
-}
-func (UnimplementedProblemServiceServer) RetestProblem(context.Context, *RetestProblemInput) (*RetestProblemOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method RetestProblem not implemented")
 }
 
 // UnsafeProblemServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -337,20 +320,20 @@ func _ProblemService_DescribeProblem_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ProblemService_DescribeCodeTemplate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DescribeCodeTemplateInput)
+func _ProblemService_DeleteProblem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteProblemInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ProblemServiceServer).DescribeCodeTemplate(ctx, in)
+		return srv.(ProblemServiceServer).DeleteProblem(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ProblemService_DescribeCodeTemplate_FullMethodName,
+		FullMethod: ProblemService_DeleteProblem_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProblemServiceServer).DescribeCodeTemplate(ctx, req.(*DescribeCodeTemplateInput))
+		return srv.(ProblemServiceServer).DeleteProblem(ctx, req.(*DeleteProblemInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -369,6 +352,24 @@ func _ProblemService_LookupCodeTemplate_Handler(srv interface{}, ctx context.Con
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ProblemServiceServer).LookupCodeTemplate(ctx, req.(*LookupCodeTemplateInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ProblemService_DescribeCodeTemplate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeCodeTemplateInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProblemServiceServer).DescribeCodeTemplate(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProblemService_DescribeCodeTemplate_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProblemServiceServer).DescribeCodeTemplate(ctx, req.(*DescribeCodeTemplateInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -427,42 +428,6 @@ func _ProblemService_ListExamples_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ProblemService_DeleteProblem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteProblemInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ProblemServiceServer).DeleteProblem(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ProblemService_DeleteProblem_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProblemServiceServer).DeleteProblem(ctx, req.(*DeleteProblemInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ProblemService_RetestProblem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RetestProblemInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ProblemServiceServer).RetestProblem(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ProblemService_RetestProblem_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProblemServiceServer).RetestProblem(ctx, req.(*RetestProblemInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // ProblemService_ServiceDesc is the grpc.ServiceDesc for ProblemService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -491,12 +456,16 @@ var ProblemService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _ProblemService_DescribeProblem_Handler,
 		},
 		{
-			MethodName: "DescribeCodeTemplate",
-			Handler:    _ProblemService_DescribeCodeTemplate_Handler,
+			MethodName: "DeleteProblem",
+			Handler:    _ProblemService_DeleteProblem_Handler,
 		},
 		{
 			MethodName: "LookupCodeTemplate",
 			Handler:    _ProblemService_LookupCodeTemplate_Handler,
+		},
+		{
+			MethodName: "DescribeCodeTemplate",
+			Handler:    _ProblemService_DescribeCodeTemplate_Handler,
 		},
 		{
 			MethodName: "ListStatements",
@@ -509,14 +478,6 @@ var ProblemService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListExamples",
 			Handler:    _ProblemService_ListExamples_Handler,
-		},
-		{
-			MethodName: "DeleteProblem",
-			Handler:    _ProblemService_DeleteProblem_Handler,
-		},
-		{
-			MethodName: "RetestProblem",
-			Handler:    _ProblemService_RetestProblem_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

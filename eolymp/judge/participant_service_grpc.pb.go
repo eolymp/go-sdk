@@ -27,6 +27,7 @@ const (
 	ParticipantService_ListParticipants_FullMethodName      = "/eolymp.judge.ParticipantService/ListParticipants"
 	ParticipantService_DescribeParticipant_FullMethodName   = "/eolymp.judge.ParticipantService/DescribeParticipant"
 	ParticipantService_IntrospectParticipant_FullMethodName = "/eolymp.judge.ParticipantService/IntrospectParticipant"
+	ParticipantService_WatchParticipant_FullMethodName      = "/eolymp.judge.ParticipantService/WatchParticipant"
 	ParticipantService_JoinContest_FullMethodName           = "/eolymp.judge.ParticipantService/JoinContest"
 	ParticipantService_StartContest_FullMethodName          = "/eolymp.judge.ParticipantService/StartContest"
 	ParticipantService_VerifyPasscode_FullMethodName        = "/eolymp.judge.ParticipantService/VerifyPasscode"
@@ -49,6 +50,7 @@ type ParticipantServiceClient interface {
 	DescribeParticipant(ctx context.Context, in *DescribeParticipantInput, opts ...grpc.CallOption) (*DescribeParticipantOutput, error)
 	// IntrospectParticipant allows to fetch participant data for a currently authorized user.
 	IntrospectParticipant(ctx context.Context, in *IntrospectParticipantInput, opts ...grpc.CallOption) (*IntrospectParticipantOutput, error)
+	WatchParticipant(ctx context.Context, in *WatchParticipantInput, opts ...grpc.CallOption) (ParticipantService_WatchParticipantClient, error)
 	// Allows a participant (currently authorized user) to join (add himself to) a public contest.
 	JoinContest(ctx context.Context, in *JoinContestInput, opts ...grpc.CallOption) (*JoinContestOutput, error)
 	// Allows a participant (currently authorized user) to start participating in the contest, see problems and submit solutions.
@@ -145,6 +147,38 @@ func (c *participantServiceClient) IntrospectParticipant(ctx context.Context, in
 	return out, nil
 }
 
+func (c *participantServiceClient) WatchParticipant(ctx context.Context, in *WatchParticipantInput, opts ...grpc.CallOption) (ParticipantService_WatchParticipantClient, error) {
+	stream, err := c.cc.NewStream(ctx, &ParticipantService_ServiceDesc.Streams[0], ParticipantService_WatchParticipant_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &participantServiceWatchParticipantClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type ParticipantService_WatchParticipantClient interface {
+	Recv() (*WatchParticipantOutput, error)
+	grpc.ClientStream
+}
+
+type participantServiceWatchParticipantClient struct {
+	grpc.ClientStream
+}
+
+func (x *participantServiceWatchParticipantClient) Recv() (*WatchParticipantOutput, error) {
+	m := new(WatchParticipantOutput)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 func (c *participantServiceClient) JoinContest(ctx context.Context, in *JoinContestInput, opts ...grpc.CallOption) (*JoinContestOutput, error) {
 	out := new(JoinContestOutput)
 	err := c.cc.Invoke(ctx, ParticipantService_JoinContest_FullMethodName, in, out, opts...)
@@ -221,6 +255,7 @@ type ParticipantServiceServer interface {
 	DescribeParticipant(context.Context, *DescribeParticipantInput) (*DescribeParticipantOutput, error)
 	// IntrospectParticipant allows to fetch participant data for a currently authorized user.
 	IntrospectParticipant(context.Context, *IntrospectParticipantInput) (*IntrospectParticipantOutput, error)
+	WatchParticipant(*WatchParticipantInput, ParticipantService_WatchParticipantServer) error
 	// Allows a participant (currently authorized user) to join (add himself to) a public contest.
 	JoinContest(context.Context, *JoinContestInput) (*JoinContestOutput, error)
 	// Allows a participant (currently authorized user) to start participating in the contest, see problems and submit solutions.
@@ -264,6 +299,9 @@ func (UnimplementedParticipantServiceServer) DescribeParticipant(context.Context
 }
 func (UnimplementedParticipantServiceServer) IntrospectParticipant(context.Context, *IntrospectParticipantInput) (*IntrospectParticipantOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method IntrospectParticipant not implemented")
+}
+func (UnimplementedParticipantServiceServer) WatchParticipant(*WatchParticipantInput, ParticipantService_WatchParticipantServer) error {
+	return status.Errorf(codes.Unimplemented, "method WatchParticipant not implemented")
 }
 func (UnimplementedParticipantServiceServer) JoinContest(context.Context, *JoinContestInput) (*JoinContestOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method JoinContest not implemented")
@@ -440,6 +478,27 @@ func _ParticipantService_IntrospectParticipant_Handler(srv interface{}, ctx cont
 		return srv.(ParticipantServiceServer).IntrospectParticipant(ctx, req.(*IntrospectParticipantInput))
 	}
 	return interceptor(ctx, in, info, handler)
+}
+
+func _ParticipantService_WatchParticipant_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(WatchParticipantInput)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(ParticipantServiceServer).WatchParticipant(m, &participantServiceWatchParticipantServer{stream})
+}
+
+type ParticipantService_WatchParticipantServer interface {
+	Send(*WatchParticipantOutput) error
+	grpc.ServerStream
+}
+
+type participantServiceWatchParticipantServer struct {
+	grpc.ServerStream
+}
+
+func (x *participantServiceWatchParticipantServer) Send(m *WatchParticipantOutput) error {
+	return x.ServerStream.SendMsg(m)
 }
 
 func _ParticipantService_JoinContest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -636,6 +695,12 @@ var ParticipantService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _ParticipantService_RemovePasscode_Handler,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "WatchParticipant",
+			Handler:       _ParticipantService_WatchParticipant_Handler,
+			ServerStreams: true,
+		},
+	},
 	Metadata: "eolymp/judge/participant_service.proto",
 }

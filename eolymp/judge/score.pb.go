@@ -98,7 +98,7 @@ type Score struct {
 	unknownFields protoimpl.UnknownFields
 
 	ValidAfter uint32                 `protobuf:"varint,1,opt,name=valid_after,json=validAfter,proto3" json:"valid_after,omitempty"` // time when score was set, number of seconds since start of contest (participation)
-	ValidUntil uint32                 `protobuf:"varint,2,opt,name=valid_until,json=validUntil,proto3" json:"valid_until,omitempty"` // time when score was overriden by newer value, number of seconds since start of contest (participation)
+	ValidUntil uint32                 `protobuf:"varint,2,opt,name=valid_until,json=validUntil,proto3" json:"valid_until,omitempty"` // time when score was overridden by newer value, number of seconds since start of contest (participation)
 	Timestamp  *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=timestamp,proto3" json:"timestamp,omitempty"`                      // absolute time when score was set
 	Score      float32                `protobuf:"fixed32,10,opt,name=score,proto3" json:"score,omitempty"`
 	Penalty    float32                `protobuf:"fixed32,11,opt,name=penalty,proto3" json:"penalty,omitempty"`

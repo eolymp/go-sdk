@@ -190,3 +190,19 @@ func (s *SubmissionServiceService) RestoreSubmission(ctx context.Context, in *Re
 
 	return out, nil
 }
+
+func (s *SubmissionServiceService) RetestProblem(ctx context.Context, in *RetestProblemInput) (*RetestProblemOutput, error) {
+	out := &RetestProblemOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/retest"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

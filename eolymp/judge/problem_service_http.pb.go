@@ -211,12 +211,15 @@ func RegisterProblemServiceHttpHandlers(router *mux.Router, prefix string, cli P
 	router.Handle(prefix+"/problems/{problem_id}", _ProblemService_DescribeProblem_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ProblemService.DescribeProblem")
-	router.Handle(prefix+"/problems/{problem_id}/templates/{template_id}", _ProblemService_DescribeCodeTemplate_Rule0(cli)).
-		Methods("GET").
-		Name("eolymp.judge.ProblemService.DescribeCodeTemplate")
+	router.Handle(prefix+"/problems/{problem_id}", _ProblemService_DeleteProblem_Rule0(cli)).
+		Methods("DELETE").
+		Name("eolymp.judge.ProblemService.DeleteProblem")
 	router.Handle(prefix+"/problems/{problem_id}/lookup-template", _ProblemService_LookupCodeTemplate_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ProblemService.LookupCodeTemplate")
+	router.Handle(prefix+"/problems/{problem_id}/templates/{template_id}", _ProblemService_DescribeCodeTemplate_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.judge.ProblemService.DescribeCodeTemplate")
 	router.Handle(prefix+"/problems/{problem_id}/statements", _ProblemService_ListStatements_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ProblemService.ListStatements")
@@ -226,12 +229,6 @@ func RegisterProblemServiceHttpHandlers(router *mux.Router, prefix string, cli P
 	router.Handle(prefix+"/problems/{problem_id}/examples", _ProblemService_ListExamples_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ProblemService.ListExamples")
-	router.Handle(prefix+"/problems/{problem_id}", _ProblemService_DeleteProblem_Rule0(cli)).
-		Methods("DELETE").
-		Name("eolymp.judge.ProblemService.DeleteProblem")
-	router.Handle(prefix+"/problems/{problem_id}/retest", _ProblemService_RetestProblem_Rule0(cli)).
-		Methods("GET").
-		Name("eolymp.judge.ProblemService.RetestProblem")
 }
 
 func _ProblemService_ImportProblem_Rule0(cli ProblemServiceClient) http.Handler {
@@ -353,11 +350,11 @@ func _ProblemService_DescribeProblem_Rule0(cli ProblemServiceClient) http.Handle
 	})
 }
 
-func _ProblemService_DescribeCodeTemplate_Rule0(cli ProblemServiceClient) http.Handler {
+func _ProblemService_DeleteProblem_Rule0(cli ProblemServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DescribeCodeTemplateInput{}
+		in := &DeleteProblemInput{}
 
-		if err := _ProblemService_HTTPReadQueryString(r, in); err != nil {
+		if err := _ProblemService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
@@ -365,11 +362,10 @@ func _ProblemService_DescribeCodeTemplate_Rule0(cli ProblemServiceClient) http.H
 
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
-		in.TemplateId = vars["template_id"]
 
 		var header, trailer metadata.MD
 
-		out, err := cli.DescribeCodeTemplate(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		out, err := cli.DeleteProblem(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
@@ -395,6 +391,32 @@ func _ProblemService_LookupCodeTemplate_Rule0(cli ProblemServiceClient) http.Han
 		var header, trailer metadata.MD
 
 		out, err := cli.LookupCodeTemplate(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ProblemService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ProblemService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ProblemService_DescribeCodeTemplate_Rule0(cli ProblemServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeCodeTemplateInput{}
+
+		if err := _ProblemService_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_ProblemService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
+		in.TemplateId = vars["template_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeCodeTemplate(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
@@ -470,56 +492,6 @@ func _ProblemService_ListExamples_Rule0(cli ProblemServiceClient) http.Handler {
 		var header, trailer metadata.MD
 
 		out, err := cli.ListExamples(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
-		if err != nil {
-			_ProblemService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_ProblemService_HTTPWriteResponse(w, out, header, trailer)
-	})
-}
-
-func _ProblemService_DeleteProblem_Rule0(cli ProblemServiceClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DeleteProblemInput{}
-
-		if err := _ProblemService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_ProblemService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.ProblemId = vars["problem_id"]
-
-		var header, trailer metadata.MD
-
-		out, err := cli.DeleteProblem(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
-		if err != nil {
-			_ProblemService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_ProblemService_HTTPWriteResponse(w, out, header, trailer)
-	})
-}
-
-func _ProblemService_RetestProblem_Rule0(cli ProblemServiceClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &RetestProblemInput{}
-
-		if err := _ProblemService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_ProblemService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.ProblemId = vars["problem_id"]
-
-		var header, trailer metadata.MD
-
-		out, err := cli.RetestProblem(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
@@ -701,14 +673,14 @@ func (i *ProblemServiceInterceptor) DescribeProblem(ctx context.Context, in *Des
 	return message, err
 }
 
-func (i *ProblemServiceInterceptor) DescribeCodeTemplate(ctx context.Context, in *DescribeCodeTemplateInput, opts ...grpc.CallOption) (*DescribeCodeTemplateOutput, error) {
+func (i *ProblemServiceInterceptor) DeleteProblem(ctx context.Context, in *DeleteProblemInput, opts ...grpc.CallOption) (*DeleteProblemOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*DescribeCodeTemplateInput)
+		message, ok := in.(*DeleteProblemInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *DescribeCodeTemplateInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *DeleteProblemInput, got %T", in))
 		}
 
-		return i.client.DescribeCodeTemplate(ctx, message, opts...)
+		return i.client.DeleteProblem(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -716,7 +688,7 @@ func (i *ProblemServiceInterceptor) DescribeCodeTemplate(ctx context.Context, in
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.ProblemService.DescribeCodeTemplate", in, next)
+			return mw(ctx, "eolymp.judge.ProblemService.DeleteProblem", in, next)
 		}
 	}
 
@@ -725,9 +697,9 @@ func (i *ProblemServiceInterceptor) DescribeCodeTemplate(ctx context.Context, in
 		return nil, err
 	}
 
-	message, ok := out.(*DescribeCodeTemplateOutput)
+	message, ok := out.(*DeleteProblemOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *DescribeCodeTemplateOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *DeleteProblemOutput, got %T", out))
 	}
 
 	return message, err
@@ -760,6 +732,38 @@ func (i *ProblemServiceInterceptor) LookupCodeTemplate(ctx context.Context, in *
 	message, ok := out.(*LookupCodeTemplateOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *LookupCodeTemplateOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *ProblemServiceInterceptor) DescribeCodeTemplate(ctx context.Context, in *DescribeCodeTemplateInput, opts ...grpc.CallOption) (*DescribeCodeTemplateOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeCodeTemplateInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeCodeTemplateInput, got %T", in))
+		}
+
+		return i.client.DescribeCodeTemplate(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.ProblemService.DescribeCodeTemplate", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeCodeTemplateOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeCodeTemplateOutput, got %T", out))
 	}
 
 	return message, err
@@ -856,70 +860,6 @@ func (i *ProblemServiceInterceptor) ListExamples(ctx context.Context, in *ListEx
 	message, ok := out.(*ListExamplesOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *ListExamplesOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *ProblemServiceInterceptor) DeleteProblem(ctx context.Context, in *DeleteProblemInput, opts ...grpc.CallOption) (*DeleteProblemOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*DeleteProblemInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *DeleteProblemInput, got %T", in))
-		}
-
-		return i.client.DeleteProblem(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.ProblemService.DeleteProblem", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*DeleteProblemOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *DeleteProblemOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *ProblemServiceInterceptor) RetestProblem(ctx context.Context, in *RetestProblemInput, opts ...grpc.CallOption) (*RetestProblemOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*RetestProblemInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *RetestProblemInput, got %T", in))
-		}
-
-		return i.client.RetestProblem(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.ProblemService.RetestProblem", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*RetestProblemOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *RetestProblemOutput, got %T", out))
 	}
 
 	return message, err

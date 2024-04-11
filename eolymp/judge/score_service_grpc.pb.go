@@ -20,6 +20,7 @@ const _ = grpc.SupportPackageIsVersion7
 
 const (
 	ScoreService_IntrospectScore_FullMethodName = "/eolymp.judge.ScoreService/IntrospectScore"
+	ScoreService_WatchScore_FullMethodName      = "/eolymp.judge.ScoreService/WatchScore"
 	ScoreService_DescribeScore_FullMethodName   = "/eolymp.judge.ScoreService/DescribeScore"
 	ScoreService_ImportScore_FullMethodName     = "/eolymp.judge.ScoreService/ImportScore"
 	ScoreService_ExportScore_FullMethodName     = "/eolymp.judge.ScoreService/ExportScore"
@@ -32,6 +33,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ScoreServiceClient interface {
 	IntrospectScore(ctx context.Context, in *IntrospectScoreInput, opts ...grpc.CallOption) (*IntrospectScoreOutput, error)
+	WatchScore(ctx context.Context, in *WatchScoreInput, opts ...grpc.CallOption) (ScoreService_WatchScoreClient, error)
 	DescribeScore(ctx context.Context, in *DescribeScoreInput, opts ...grpc.CallOption) (*DescribeScoreOutput, error)
 	// ImportScore for ghost participants
 	ImportScore(ctx context.Context, in *ImportScoreInput, opts ...grpc.CallOption) (*ImportScoreOutput, error)
@@ -58,6 +60,38 @@ func (c *scoreServiceClient) IntrospectScore(ctx context.Context, in *Introspect
 		return nil, err
 	}
 	return out, nil
+}
+
+func (c *scoreServiceClient) WatchScore(ctx context.Context, in *WatchScoreInput, opts ...grpc.CallOption) (ScoreService_WatchScoreClient, error) {
+	stream, err := c.cc.NewStream(ctx, &ScoreService_ServiceDesc.Streams[0], ScoreService_WatchScore_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &scoreServiceWatchScoreClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type ScoreService_WatchScoreClient interface {
+	Recv() (*WatchScoreOutput, error)
+	grpc.ClientStream
+}
+
+type scoreServiceWatchScoreClient struct {
+	grpc.ClientStream
+}
+
+func (x *scoreServiceWatchScoreClient) Recv() (*WatchScoreOutput, error) {
+	m := new(WatchScoreOutput)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
 }
 
 func (c *scoreServiceClient) DescribeScore(ctx context.Context, in *DescribeScoreInput, opts ...grpc.CallOption) (*DescribeScoreOutput, error) {
@@ -110,6 +144,7 @@ func (c *scoreServiceClient) RebuildScore(ctx context.Context, in *RebuildScoreI
 // for forward compatibility
 type ScoreServiceServer interface {
 	IntrospectScore(context.Context, *IntrospectScoreInput) (*IntrospectScoreOutput, error)
+	WatchScore(*WatchScoreInput, ScoreService_WatchScoreServer) error
 	DescribeScore(context.Context, *DescribeScoreInput) (*DescribeScoreOutput, error)
 	// ImportScore for ghost participants
 	ImportScore(context.Context, *ImportScoreInput) (*ImportScoreOutput, error)
@@ -127,6 +162,9 @@ type UnimplementedScoreServiceServer struct {
 
 func (UnimplementedScoreServiceServer) IntrospectScore(context.Context, *IntrospectScoreInput) (*IntrospectScoreOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method IntrospectScore not implemented")
+}
+func (UnimplementedScoreServiceServer) WatchScore(*WatchScoreInput, ScoreService_WatchScoreServer) error {
+	return status.Errorf(codes.Unimplemented, "method WatchScore not implemented")
 }
 func (UnimplementedScoreServiceServer) DescribeScore(context.Context, *DescribeScoreInput) (*DescribeScoreOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeScore not implemented")
@@ -171,6 +209,27 @@ func _ScoreService_IntrospectScore_Handler(srv interface{}, ctx context.Context,
 		return srv.(ScoreServiceServer).IntrospectScore(ctx, req.(*IntrospectScoreInput))
 	}
 	return interceptor(ctx, in, info, handler)
+}
+
+func _ScoreService_WatchScore_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(WatchScoreInput)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(ScoreServiceServer).WatchScore(m, &scoreServiceWatchScoreServer{stream})
+}
+
+type ScoreService_WatchScoreServer interface {
+	Send(*WatchScoreOutput) error
+	grpc.ServerStream
+}
+
+type scoreServiceWatchScoreServer struct {
+	grpc.ServerStream
+}
+
+func (x *scoreServiceWatchScoreServer) Send(m *WatchScoreOutput) error {
+	return x.ServerStream.SendMsg(m)
 }
 
 func _ScoreService_DescribeScore_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -295,6 +354,12 @@ var ScoreService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _ScoreService_RebuildScore_Handler,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "WatchScore",
+			Handler:       _ScoreService_WatchScore_Handler,
+			ServerStreams: true,
+		},
+	},
 	Metadata: "eolymp/judge/score_service.proto",
 }

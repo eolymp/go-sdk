@@ -193,6 +193,38 @@ var _ParticipantService_WebsocketCodec = websocket.Codec{
 	},
 }
 
+type _ParticipantService_WatchParticipant_WSStream struct {
+	ctx  context.Context
+	conn *websocket.Conn
+}
+
+func (s *_ParticipantService_WatchParticipant_WSStream) Send(m *WatchParticipantOutput) error {
+	return s.SendMsg(m)
+}
+
+func (s *_ParticipantService_WatchParticipant_WSStream) SetHeader(metadata.MD) error {
+	return nil
+}
+
+func (s *_ParticipantService_WatchParticipant_WSStream) SendHeader(metadata.MD) error {
+	return nil
+}
+
+func (s *_ParticipantService_WatchParticipant_WSStream) SetTrailer(metadata.MD) {
+}
+
+func (s *_ParticipantService_WatchParticipant_WSStream) Context() context.Context {
+	return s.ctx
+}
+
+func (s *_ParticipantService_WatchParticipant_WSStream) SendMsg(m interface{}) error {
+	return _ParticipantService_WebsocketCodec.Send(s.conn, m)
+}
+
+func (s *_ParticipantService_WatchParticipant_WSStream) RecvMsg(m interface{}) error {
+	return nil
+}
+
 // RegisterParticipantServiceHttpHandlers adds handlers for for ParticipantServiceClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterParticipantServiceHttpHandlers(router *mux.Router, prefix string, cli ParticipantServiceClient) {
@@ -863,6 +895,10 @@ func (i *ParticipantServiceInterceptor) IntrospectParticipant(ctx context.Contex
 	}
 
 	return message, err
+}
+
+func (i *ParticipantServiceInterceptor) WatchParticipant(ctx context.Context, in *WatchParticipantInput, opts ...grpc.CallOption) (ParticipantService_WatchParticipantClient, error) {
+	return i.client.WatchParticipant(ctx, in, opts...)
 }
 
 func (i *ParticipantServiceInterceptor) JoinContest(ctx context.Context, in *JoinContestInput, opts ...grpc.CallOption) (*JoinContestOutput, error) {

@@ -170,17 +170,16 @@ func (s *ProblemServiceService) DescribeProblem(ctx context.Context, in *Describ
 	return out, nil
 }
 
-func (s *ProblemServiceService) DescribeCodeTemplate(ctx context.Context, in *DescribeCodeTemplateInput) (*DescribeCodeTemplateOutput, error) {
-	out := &DescribeCodeTemplateOutput{}
-	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/templates/" + url.PathEscape(in.GetTemplateId())
+func (s *ProblemServiceService) DeleteProblem(ctx context.Context, in *DeleteProblemInput) (*DeleteProblemOutput, error) {
+	out := &DeleteProblemOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
 		in.ProblemId = ""
-		in.TemplateId = ""
 	}
 
-	if err := s.do(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -194,6 +193,23 @@ func (s *ProblemServiceService) LookupCodeTemplate(ctx context.Context, in *Look
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
 		in.ProblemId = ""
+	}
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *ProblemServiceService) DescribeCodeTemplate(ctx context.Context, in *DescribeCodeTemplateInput) (*DescribeCodeTemplateOutput, error) {
+	out := &DescribeCodeTemplateOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/templates/" + url.PathEscape(in.GetTemplateId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+		in.TemplateId = ""
 	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
@@ -238,38 +254,6 @@ func (s *ProblemServiceService) ListAttachments(ctx context.Context, in *ListAtt
 func (s *ProblemServiceService) ListExamples(ctx context.Context, in *ListExamplesInput) (*ListExamplesOutput, error) {
 	out := &ListExamplesOutput{}
 	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/examples"
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.ProblemId = ""
-	}
-
-	if err := s.do(ctx, "GET", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *ProblemServiceService) DeleteProblem(ctx context.Context, in *DeleteProblemInput) (*DeleteProblemOutput, error) {
-	out := &DeleteProblemOutput{}
-	path := "/problems/" + url.PathEscape(in.GetProblemId())
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.ProblemId = ""
-	}
-
-	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *ProblemServiceService) RetestProblem(ctx context.Context, in *RetestProblemInput) (*RetestProblemOutput, error) {
-	out := &RetestProblemOutput{}
-	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/retest"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {

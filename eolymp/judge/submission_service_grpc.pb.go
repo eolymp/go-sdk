@@ -26,6 +26,7 @@ const (
 	SubmissionService_RetestSubmission_FullMethodName   = "/eolymp.judge.SubmissionService/RetestSubmission"
 	SubmissionService_DeleteSubmission_FullMethodName   = "/eolymp.judge.SubmissionService/DeleteSubmission"
 	SubmissionService_RestoreSubmission_FullMethodName  = "/eolymp.judge.SubmissionService/RestoreSubmission"
+	SubmissionService_RetestProblem_FullMethodName      = "/eolymp.judge.SubmissionService/RetestProblem"
 )
 
 // SubmissionServiceClient is the client API for SubmissionService service.
@@ -41,6 +42,8 @@ type SubmissionServiceClient interface {
 	RetestSubmission(ctx context.Context, in *RetestSubmissionInput, opts ...grpc.CallOption) (*RetestSubmissionOutput, error)
 	DeleteSubmission(ctx context.Context, in *DeleteSubmissionInput, opts ...grpc.CallOption) (*DeleteSubmissionOutput, error)
 	RestoreSubmission(ctx context.Context, in *RestoreSubmissionInput, opts ...grpc.CallOption) (*RestoreSubmissionOutput, error)
+	// RetestProblem resets existing submissions for the problem and triggers testing process again.
+	RetestProblem(ctx context.Context, in *RetestProblemInput, opts ...grpc.CallOption) (*RetestProblemOutput, error)
 }
 
 type submissionServiceClient struct {
@@ -137,6 +140,15 @@ func (c *submissionServiceClient) RestoreSubmission(ctx context.Context, in *Res
 	return out, nil
 }
 
+func (c *submissionServiceClient) RetestProblem(ctx context.Context, in *RetestProblemInput, opts ...grpc.CallOption) (*RetestProblemOutput, error) {
+	out := new(RetestProblemOutput)
+	err := c.cc.Invoke(ctx, SubmissionService_RetestProblem_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SubmissionServiceServer is the server API for SubmissionService service.
 // All implementations should embed UnimplementedSubmissionServiceServer
 // for forward compatibility
@@ -150,6 +162,8 @@ type SubmissionServiceServer interface {
 	RetestSubmission(context.Context, *RetestSubmissionInput) (*RetestSubmissionOutput, error)
 	DeleteSubmission(context.Context, *DeleteSubmissionInput) (*DeleteSubmissionOutput, error)
 	RestoreSubmission(context.Context, *RestoreSubmissionInput) (*RestoreSubmissionOutput, error)
+	// RetestProblem resets existing submissions for the problem and triggers testing process again.
+	RetestProblem(context.Context, *RetestProblemInput) (*RetestProblemOutput, error)
 }
 
 // UnimplementedSubmissionServiceServer should be embedded to have forward compatible implementations.
@@ -176,6 +190,9 @@ func (UnimplementedSubmissionServiceServer) DeleteSubmission(context.Context, *D
 }
 func (UnimplementedSubmissionServiceServer) RestoreSubmission(context.Context, *RestoreSubmissionInput) (*RestoreSubmissionOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RestoreSubmission not implemented")
+}
+func (UnimplementedSubmissionServiceServer) RetestProblem(context.Context, *RetestProblemInput) (*RetestProblemOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RetestProblem not implemented")
 }
 
 // UnsafeSubmissionServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -318,6 +335,24 @@ func _SubmissionService_RestoreSubmission_Handler(srv interface{}, ctx context.C
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SubmissionService_RetestProblem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RetestProblemInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SubmissionServiceServer).RetestProblem(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SubmissionService_RetestProblem_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SubmissionServiceServer).RetestProblem(ctx, req.(*RetestProblemInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // SubmissionService_ServiceDesc is the grpc.ServiceDesc for SubmissionService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -348,6 +383,10 @@ var SubmissionService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RestoreSubmission",
 			Handler:    _SubmissionService_RestoreSubmission_Handler,
+		},
+		{
+			MethodName: "RetestProblem",
+			Handler:    _SubmissionService_RetestProblem_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

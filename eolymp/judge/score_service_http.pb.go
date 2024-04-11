@@ -193,6 +193,38 @@ var _ScoreService_WebsocketCodec = websocket.Codec{
 	},
 }
 
+type _ScoreService_WatchScore_WSStream struct {
+	ctx  context.Context
+	conn *websocket.Conn
+}
+
+func (s *_ScoreService_WatchScore_WSStream) Send(m *WatchScoreOutput) error {
+	return s.SendMsg(m)
+}
+
+func (s *_ScoreService_WatchScore_WSStream) SetHeader(metadata.MD) error {
+	return nil
+}
+
+func (s *_ScoreService_WatchScore_WSStream) SendHeader(metadata.MD) error {
+	return nil
+}
+
+func (s *_ScoreService_WatchScore_WSStream) SetTrailer(metadata.MD) {
+}
+
+func (s *_ScoreService_WatchScore_WSStream) Context() context.Context {
+	return s.ctx
+}
+
+func (s *_ScoreService_WatchScore_WSStream) SendMsg(m interface{}) error {
+	return _ScoreService_WebsocketCodec.Send(s.conn, m)
+}
+
+func (s *_ScoreService_WatchScore_WSStream) RecvMsg(m interface{}) error {
+	return nil
+}
+
 // RegisterScoreServiceHttpHandlers adds handlers for for ScoreServiceClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterScoreServiceHttpHandlers(router *mux.Router, prefix string, cli ScoreServiceClient) {
@@ -399,6 +431,10 @@ func (i *ScoreServiceInterceptor) IntrospectScore(ctx context.Context, in *Intro
 	}
 
 	return message, err
+}
+
+func (i *ScoreServiceInterceptor) WatchScore(ctx context.Context, in *WatchScoreInput, opts ...grpc.CallOption) (ScoreService_WatchScoreClient, error) {
+	return i.client.WatchScore(ctx, in, opts...)
 }
 
 func (i *ScoreServiceInterceptor) DescribeScore(ctx context.Context, in *DescribeScoreInput, opts ...grpc.CallOption) (*DescribeScoreOutput, error) {
