@@ -26,6 +26,9 @@ const (
 	AnnouncementService_DescribeAnnouncement_FullMethodName       = "/eolymp.judge.AnnouncementService/DescribeAnnouncement"
 	AnnouncementService_DescribeAnnouncementStatus_FullMethodName = "/eolymp.judge.AnnouncementService/DescribeAnnouncementStatus"
 	AnnouncementService_ListAnnouncements_FullMethodName          = "/eolymp.judge.AnnouncementService/ListAnnouncements"
+	AnnouncementService_WatchAnnouncement_FullMethodName          = "/eolymp.judge.AnnouncementService/WatchAnnouncement"
+	AnnouncementService_WatchAnnouncements_FullMethodName         = "/eolymp.judge.AnnouncementService/WatchAnnouncements"
+	AnnouncementService_WatchAnnouncementSummary_FullMethodName   = "/eolymp.judge.AnnouncementService/WatchAnnouncementSummary"
 )
 
 // AnnouncementServiceClient is the client API for AnnouncementService service.
@@ -46,6 +49,9 @@ type AnnouncementServiceClient interface {
 	DescribeAnnouncementStatus(ctx context.Context, in *DescribeAnnouncementStatusInput, opts ...grpc.CallOption) (*DescribeAnnouncementStatusOutput, error)
 	// List announcements of a contest
 	ListAnnouncements(ctx context.Context, in *ListAnnouncementsInput, opts ...grpc.CallOption) (*ListAnnouncementsOutput, error)
+	WatchAnnouncement(ctx context.Context, in *WatchAnnouncementInput, opts ...grpc.CallOption) (AnnouncementService_WatchAnnouncementClient, error)
+	WatchAnnouncements(ctx context.Context, in *WatchAnnouncementsInput, opts ...grpc.CallOption) (AnnouncementService_WatchAnnouncementsClient, error)
+	WatchAnnouncementSummary(ctx context.Context, in *WatchAnnouncementSummaryInput, opts ...grpc.CallOption) (AnnouncementService_WatchAnnouncementSummaryClient, error)
 }
 
 type announcementServiceClient struct {
@@ -119,6 +125,102 @@ func (c *announcementServiceClient) ListAnnouncements(ctx context.Context, in *L
 	return out, nil
 }
 
+func (c *announcementServiceClient) WatchAnnouncement(ctx context.Context, in *WatchAnnouncementInput, opts ...grpc.CallOption) (AnnouncementService_WatchAnnouncementClient, error) {
+	stream, err := c.cc.NewStream(ctx, &AnnouncementService_ServiceDesc.Streams[0], AnnouncementService_WatchAnnouncement_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &announcementServiceWatchAnnouncementClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type AnnouncementService_WatchAnnouncementClient interface {
+	Recv() (*WatchAnnouncementOutput, error)
+	grpc.ClientStream
+}
+
+type announcementServiceWatchAnnouncementClient struct {
+	grpc.ClientStream
+}
+
+func (x *announcementServiceWatchAnnouncementClient) Recv() (*WatchAnnouncementOutput, error) {
+	m := new(WatchAnnouncementOutput)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *announcementServiceClient) WatchAnnouncements(ctx context.Context, in *WatchAnnouncementsInput, opts ...grpc.CallOption) (AnnouncementService_WatchAnnouncementsClient, error) {
+	stream, err := c.cc.NewStream(ctx, &AnnouncementService_ServiceDesc.Streams[1], AnnouncementService_WatchAnnouncements_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &announcementServiceWatchAnnouncementsClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type AnnouncementService_WatchAnnouncementsClient interface {
+	Recv() (*WatchAnnouncementsOutput, error)
+	grpc.ClientStream
+}
+
+type announcementServiceWatchAnnouncementsClient struct {
+	grpc.ClientStream
+}
+
+func (x *announcementServiceWatchAnnouncementsClient) Recv() (*WatchAnnouncementsOutput, error) {
+	m := new(WatchAnnouncementsOutput)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *announcementServiceClient) WatchAnnouncementSummary(ctx context.Context, in *WatchAnnouncementSummaryInput, opts ...grpc.CallOption) (AnnouncementService_WatchAnnouncementSummaryClient, error) {
+	stream, err := c.cc.NewStream(ctx, &AnnouncementService_ServiceDesc.Streams[2], AnnouncementService_WatchAnnouncementSummary_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &announcementServiceWatchAnnouncementSummaryClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type AnnouncementService_WatchAnnouncementSummaryClient interface {
+	Recv() (*WatchAnnouncementSummaryOutput, error)
+	grpc.ClientStream
+}
+
+type announcementServiceWatchAnnouncementSummaryClient struct {
+	grpc.ClientStream
+}
+
+func (x *announcementServiceWatchAnnouncementSummaryClient) Recv() (*WatchAnnouncementSummaryOutput, error) {
+	m := new(WatchAnnouncementSummaryOutput)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // AnnouncementServiceServer is the server API for AnnouncementService service.
 // All implementations should embed UnimplementedAnnouncementServiceServer
 // for forward compatibility
@@ -137,6 +239,9 @@ type AnnouncementServiceServer interface {
 	DescribeAnnouncementStatus(context.Context, *DescribeAnnouncementStatusInput) (*DescribeAnnouncementStatusOutput, error)
 	// List announcements of a contest
 	ListAnnouncements(context.Context, *ListAnnouncementsInput) (*ListAnnouncementsOutput, error)
+	WatchAnnouncement(*WatchAnnouncementInput, AnnouncementService_WatchAnnouncementServer) error
+	WatchAnnouncements(*WatchAnnouncementsInput, AnnouncementService_WatchAnnouncementsServer) error
+	WatchAnnouncementSummary(*WatchAnnouncementSummaryInput, AnnouncementService_WatchAnnouncementSummaryServer) error
 }
 
 // UnimplementedAnnouncementServiceServer should be embedded to have forward compatible implementations.
@@ -163,6 +268,15 @@ func (UnimplementedAnnouncementServiceServer) DescribeAnnouncementStatus(context
 }
 func (UnimplementedAnnouncementServiceServer) ListAnnouncements(context.Context, *ListAnnouncementsInput) (*ListAnnouncementsOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListAnnouncements not implemented")
+}
+func (UnimplementedAnnouncementServiceServer) WatchAnnouncement(*WatchAnnouncementInput, AnnouncementService_WatchAnnouncementServer) error {
+	return status.Errorf(codes.Unimplemented, "method WatchAnnouncement not implemented")
+}
+func (UnimplementedAnnouncementServiceServer) WatchAnnouncements(*WatchAnnouncementsInput, AnnouncementService_WatchAnnouncementsServer) error {
+	return status.Errorf(codes.Unimplemented, "method WatchAnnouncements not implemented")
+}
+func (UnimplementedAnnouncementServiceServer) WatchAnnouncementSummary(*WatchAnnouncementSummaryInput, AnnouncementService_WatchAnnouncementSummaryServer) error {
+	return status.Errorf(codes.Unimplemented, "method WatchAnnouncementSummary not implemented")
 }
 
 // UnsafeAnnouncementServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -302,6 +416,69 @@ func _AnnouncementService_ListAnnouncements_Handler(srv interface{}, ctx context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AnnouncementService_WatchAnnouncement_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(WatchAnnouncementInput)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(AnnouncementServiceServer).WatchAnnouncement(m, &announcementServiceWatchAnnouncementServer{stream})
+}
+
+type AnnouncementService_WatchAnnouncementServer interface {
+	Send(*WatchAnnouncementOutput) error
+	grpc.ServerStream
+}
+
+type announcementServiceWatchAnnouncementServer struct {
+	grpc.ServerStream
+}
+
+func (x *announcementServiceWatchAnnouncementServer) Send(m *WatchAnnouncementOutput) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func _AnnouncementService_WatchAnnouncements_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(WatchAnnouncementsInput)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(AnnouncementServiceServer).WatchAnnouncements(m, &announcementServiceWatchAnnouncementsServer{stream})
+}
+
+type AnnouncementService_WatchAnnouncementsServer interface {
+	Send(*WatchAnnouncementsOutput) error
+	grpc.ServerStream
+}
+
+type announcementServiceWatchAnnouncementsServer struct {
+	grpc.ServerStream
+}
+
+func (x *announcementServiceWatchAnnouncementsServer) Send(m *WatchAnnouncementsOutput) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func _AnnouncementService_WatchAnnouncementSummary_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(WatchAnnouncementSummaryInput)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(AnnouncementServiceServer).WatchAnnouncementSummary(m, &announcementServiceWatchAnnouncementSummaryServer{stream})
+}
+
+type AnnouncementService_WatchAnnouncementSummaryServer interface {
+	Send(*WatchAnnouncementSummaryOutput) error
+	grpc.ServerStream
+}
+
+type announcementServiceWatchAnnouncementSummaryServer struct {
+	grpc.ServerStream
+}
+
+func (x *announcementServiceWatchAnnouncementSummaryServer) Send(m *WatchAnnouncementSummaryOutput) error {
+	return x.ServerStream.SendMsg(m)
+}
+
 // AnnouncementService_ServiceDesc is the grpc.ServiceDesc for AnnouncementService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -338,6 +515,22 @@ var AnnouncementService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _AnnouncementService_ListAnnouncements_Handler,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "WatchAnnouncement",
+			Handler:       _AnnouncementService_WatchAnnouncement_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "WatchAnnouncements",
+			Handler:       _AnnouncementService_WatchAnnouncements_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "WatchAnnouncementSummary",
+			Handler:       _AnnouncementService_WatchAnnouncementSummary_Handler,
+			ServerStreams: true,
+		},
+	},
 	Metadata: "eolymp/judge/announcement_service.proto",
 }

@@ -193,6 +193,102 @@ var _AnnouncementService_WebsocketCodec = websocket.Codec{
 	},
 }
 
+type _AnnouncementService_WatchAnnouncement_WSStream struct {
+	ctx  context.Context
+	conn *websocket.Conn
+}
+
+func (s *_AnnouncementService_WatchAnnouncement_WSStream) Send(m *WatchAnnouncementOutput) error {
+	return s.SendMsg(m)
+}
+
+func (s *_AnnouncementService_WatchAnnouncement_WSStream) SetHeader(metadata.MD) error {
+	return nil
+}
+
+func (s *_AnnouncementService_WatchAnnouncement_WSStream) SendHeader(metadata.MD) error {
+	return nil
+}
+
+func (s *_AnnouncementService_WatchAnnouncement_WSStream) SetTrailer(metadata.MD) {
+}
+
+func (s *_AnnouncementService_WatchAnnouncement_WSStream) Context() context.Context {
+	return s.ctx
+}
+
+func (s *_AnnouncementService_WatchAnnouncement_WSStream) SendMsg(m interface{}) error {
+	return _AnnouncementService_WebsocketCodec.Send(s.conn, m)
+}
+
+func (s *_AnnouncementService_WatchAnnouncement_WSStream) RecvMsg(m interface{}) error {
+	return nil
+}
+
+type _AnnouncementService_WatchAnnouncements_WSStream struct {
+	ctx  context.Context
+	conn *websocket.Conn
+}
+
+func (s *_AnnouncementService_WatchAnnouncements_WSStream) Send(m *WatchAnnouncementsOutput) error {
+	return s.SendMsg(m)
+}
+
+func (s *_AnnouncementService_WatchAnnouncements_WSStream) SetHeader(metadata.MD) error {
+	return nil
+}
+
+func (s *_AnnouncementService_WatchAnnouncements_WSStream) SendHeader(metadata.MD) error {
+	return nil
+}
+
+func (s *_AnnouncementService_WatchAnnouncements_WSStream) SetTrailer(metadata.MD) {
+}
+
+func (s *_AnnouncementService_WatchAnnouncements_WSStream) Context() context.Context {
+	return s.ctx
+}
+
+func (s *_AnnouncementService_WatchAnnouncements_WSStream) SendMsg(m interface{}) error {
+	return _AnnouncementService_WebsocketCodec.Send(s.conn, m)
+}
+
+func (s *_AnnouncementService_WatchAnnouncements_WSStream) RecvMsg(m interface{}) error {
+	return nil
+}
+
+type _AnnouncementService_WatchAnnouncementSummary_WSStream struct {
+	ctx  context.Context
+	conn *websocket.Conn
+}
+
+func (s *_AnnouncementService_WatchAnnouncementSummary_WSStream) Send(m *WatchAnnouncementSummaryOutput) error {
+	return s.SendMsg(m)
+}
+
+func (s *_AnnouncementService_WatchAnnouncementSummary_WSStream) SetHeader(metadata.MD) error {
+	return nil
+}
+
+func (s *_AnnouncementService_WatchAnnouncementSummary_WSStream) SendHeader(metadata.MD) error {
+	return nil
+}
+
+func (s *_AnnouncementService_WatchAnnouncementSummary_WSStream) SetTrailer(metadata.MD) {
+}
+
+func (s *_AnnouncementService_WatchAnnouncementSummary_WSStream) Context() context.Context {
+	return s.ctx
+}
+
+func (s *_AnnouncementService_WatchAnnouncementSummary_WSStream) SendMsg(m interface{}) error {
+	return _AnnouncementService_WebsocketCodec.Send(s.conn, m)
+}
+
+func (s *_AnnouncementService_WatchAnnouncementSummary_WSStream) RecvMsg(m interface{}) error {
+	return nil
+}
+
 // RegisterAnnouncementServiceHttpHandlers adds handlers for for AnnouncementServiceClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterAnnouncementServiceHttpHandlers(router *mux.Router, prefix string, cli AnnouncementServiceClient) {
@@ -622,4 +718,16 @@ func (i *AnnouncementServiceInterceptor) ListAnnouncements(ctx context.Context, 
 	}
 
 	return message, err
+}
+
+func (i *AnnouncementServiceInterceptor) WatchAnnouncement(ctx context.Context, in *WatchAnnouncementInput, opts ...grpc.CallOption) (AnnouncementService_WatchAnnouncementClient, error) {
+	return i.client.WatchAnnouncement(ctx, in, opts...)
+}
+
+func (i *AnnouncementServiceInterceptor) WatchAnnouncements(ctx context.Context, in *WatchAnnouncementsInput, opts ...grpc.CallOption) (AnnouncementService_WatchAnnouncementsClient, error) {
+	return i.client.WatchAnnouncements(ctx, in, opts...)
+}
+
+func (i *AnnouncementServiceInterceptor) WatchAnnouncementSummary(ctx context.Context, in *WatchAnnouncementSummaryInput, opts ...grpc.CallOption) (AnnouncementService_WatchAnnouncementSummaryClient, error) {
+	return i.client.WatchAnnouncementSummary(ctx, in, opts...)
 }
