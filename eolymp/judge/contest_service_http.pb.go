@@ -193,6 +193,38 @@ var _ContestService_WebsocketCodec = websocket.Codec{
 	},
 }
 
+type _ContestService_WatchContest_WSStream struct {
+	ctx  context.Context
+	conn *websocket.Conn
+}
+
+func (s *_ContestService_WatchContest_WSStream) Send(m *WatchContestOutput) error {
+	return s.SendMsg(m)
+}
+
+func (s *_ContestService_WatchContest_WSStream) SetHeader(metadata.MD) error {
+	return nil
+}
+
+func (s *_ContestService_WatchContest_WSStream) SendHeader(metadata.MD) error {
+	return nil
+}
+
+func (s *_ContestService_WatchContest_WSStream) SetTrailer(metadata.MD) {
+}
+
+func (s *_ContestService_WatchContest_WSStream) Context() context.Context {
+	return s.ctx
+}
+
+func (s *_ContestService_WatchContest_WSStream) SendMsg(m interface{}) error {
+	return _ContestService_WebsocketCodec.Send(s.conn, m)
+}
+
+func (s *_ContestService_WatchContest_WSStream) RecvMsg(m interface{}) error {
+	return nil
+}
+
 // RegisterContestServiceHttpHandlers adds handlers for for ContestServiceClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterContestServiceHttpHandlers(router *mux.Router, prefix string, cli ContestServiceClient) {
@@ -855,6 +887,10 @@ func (i *ContestServiceInterceptor) ResumeContest(ctx context.Context, in *Resum
 	}
 
 	return message, err
+}
+
+func (i *ContestServiceInterceptor) WatchContest(ctx context.Context, in *WatchContestInput, opts ...grpc.CallOption) (ContestService_WatchContestClient, error) {
+	return i.client.WatchContest(ctx, in, opts...)
 }
 
 func (i *ContestServiceInterceptor) ListActivities(ctx context.Context, in *ListActivitiesInput, opts ...grpc.CallOption) (*ListActivitiesOutput, error) {
