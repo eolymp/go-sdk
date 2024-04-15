@@ -208,6 +208,9 @@ func RegisterAssignmentServiceHttpHandlers(router *mux.Router, prefix string, cl
 	router.Handle(prefix+"/assignments/{assignment_id}", _AssignmentService_DescribeAssignment_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.AssignmentService.DescribeAssignment")
+	router.Handle(prefix+"/viewer/assignment", _AssignmentService_IntrospectAssignment_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.course.AssignmentService.IntrospectAssignment")
 	router.Handle(prefix+"/assignments", _AssignmentService_ListAssignments_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.AssignmentService.ListAssignments")
@@ -304,6 +307,28 @@ func _AssignmentService_DescribeAssignment_Rule0(cli AssignmentServiceClient) ht
 		var header, trailer metadata.MD
 
 		out, err := cli.DescribeAssignment(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_AssignmentService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_AssignmentService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _AssignmentService_IntrospectAssignment_Rule0(cli AssignmentServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &IntrospectAssignmentInput{}
+
+		if err := _AssignmentService_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_AssignmentService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.IntrospectAssignment(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_AssignmentService_HTTPWriteErrorResponse(w, err)
 			return
@@ -495,6 +520,38 @@ func (i *AssignmentServiceInterceptor) DescribeAssignment(ctx context.Context, i
 	message, ok := out.(*DescribeAssignmentOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *DescribeAssignmentOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *AssignmentServiceInterceptor) IntrospectAssignment(ctx context.Context, in *IntrospectAssignmentInput, opts ...grpc.CallOption) (*IntrospectAssignmentOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*IntrospectAssignmentInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *IntrospectAssignmentInput, got %T", in))
+		}
+
+		return i.client.IntrospectAssignment(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.course.AssignmentService.IntrospectAssignment", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*IntrospectAssignmentOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *IntrospectAssignmentOutput, got %T", out))
 	}
 
 	return message, err

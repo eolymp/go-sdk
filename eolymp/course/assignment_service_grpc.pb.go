@@ -19,12 +19,13 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	AssignmentService_CreateAssignment_FullMethodName   = "/eolymp.course.AssignmentService/CreateAssignment"
-	AssignmentService_UpdateAssignment_FullMethodName   = "/eolymp.course.AssignmentService/UpdateAssignment"
-	AssignmentService_DeleteAssignment_FullMethodName   = "/eolymp.course.AssignmentService/DeleteAssignment"
-	AssignmentService_DescribeAssignment_FullMethodName = "/eolymp.course.AssignmentService/DescribeAssignment"
-	AssignmentService_ListAssignments_FullMethodName    = "/eolymp.course.AssignmentService/ListAssignments"
-	AssignmentService_StartAssignment_FullMethodName    = "/eolymp.course.AssignmentService/StartAssignment"
+	AssignmentService_CreateAssignment_FullMethodName     = "/eolymp.course.AssignmentService/CreateAssignment"
+	AssignmentService_UpdateAssignment_FullMethodName     = "/eolymp.course.AssignmentService/UpdateAssignment"
+	AssignmentService_DeleteAssignment_FullMethodName     = "/eolymp.course.AssignmentService/DeleteAssignment"
+	AssignmentService_DescribeAssignment_FullMethodName   = "/eolymp.course.AssignmentService/DescribeAssignment"
+	AssignmentService_IntrospectAssignment_FullMethodName = "/eolymp.course.AssignmentService/IntrospectAssignment"
+	AssignmentService_ListAssignments_FullMethodName      = "/eolymp.course.AssignmentService/ListAssignments"
+	AssignmentService_StartAssignment_FullMethodName      = "/eolymp.course.AssignmentService/StartAssignment"
 )
 
 // AssignmentServiceClient is the client API for AssignmentService service.
@@ -35,6 +36,7 @@ type AssignmentServiceClient interface {
 	UpdateAssignment(ctx context.Context, in *UpdateAssignmentInput, opts ...grpc.CallOption) (*UpdateAssignmentOutput, error)
 	DeleteAssignment(ctx context.Context, in *DeleteAssignmentInput, opts ...grpc.CallOption) (*DeleteAssignmentOutput, error)
 	DescribeAssignment(ctx context.Context, in *DescribeAssignmentInput, opts ...grpc.CallOption) (*DescribeAssignmentOutput, error)
+	IntrospectAssignment(ctx context.Context, in *IntrospectAssignmentInput, opts ...grpc.CallOption) (*IntrospectAssignmentOutput, error)
 	ListAssignments(ctx context.Context, in *ListAssignmentsInput, opts ...grpc.CallOption) (*ListAssignmentsOutput, error)
 	StartAssignment(ctx context.Context, in *StartAssignmentInput, opts ...grpc.CallOption) (*StartAssignmentOutput, error)
 }
@@ -83,6 +85,15 @@ func (c *assignmentServiceClient) DescribeAssignment(ctx context.Context, in *De
 	return out, nil
 }
 
+func (c *assignmentServiceClient) IntrospectAssignment(ctx context.Context, in *IntrospectAssignmentInput, opts ...grpc.CallOption) (*IntrospectAssignmentOutput, error) {
+	out := new(IntrospectAssignmentOutput)
+	err := c.cc.Invoke(ctx, AssignmentService_IntrospectAssignment_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *assignmentServiceClient) ListAssignments(ctx context.Context, in *ListAssignmentsInput, opts ...grpc.CallOption) (*ListAssignmentsOutput, error) {
 	out := new(ListAssignmentsOutput)
 	err := c.cc.Invoke(ctx, AssignmentService_ListAssignments_FullMethodName, in, out, opts...)
@@ -109,6 +120,7 @@ type AssignmentServiceServer interface {
 	UpdateAssignment(context.Context, *UpdateAssignmentInput) (*UpdateAssignmentOutput, error)
 	DeleteAssignment(context.Context, *DeleteAssignmentInput) (*DeleteAssignmentOutput, error)
 	DescribeAssignment(context.Context, *DescribeAssignmentInput) (*DescribeAssignmentOutput, error)
+	IntrospectAssignment(context.Context, *IntrospectAssignmentInput) (*IntrospectAssignmentOutput, error)
 	ListAssignments(context.Context, *ListAssignmentsInput) (*ListAssignmentsOutput, error)
 	StartAssignment(context.Context, *StartAssignmentInput) (*StartAssignmentOutput, error)
 }
@@ -128,6 +140,9 @@ func (UnimplementedAssignmentServiceServer) DeleteAssignment(context.Context, *D
 }
 func (UnimplementedAssignmentServiceServer) DescribeAssignment(context.Context, *DescribeAssignmentInput) (*DescribeAssignmentOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeAssignment not implemented")
+}
+func (UnimplementedAssignmentServiceServer) IntrospectAssignment(context.Context, *IntrospectAssignmentInput) (*IntrospectAssignmentOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method IntrospectAssignment not implemented")
 }
 func (UnimplementedAssignmentServiceServer) ListAssignments(context.Context, *ListAssignmentsInput) (*ListAssignmentsOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListAssignments not implemented")
@@ -219,6 +234,24 @@ func _AssignmentService_DescribeAssignment_Handler(srv interface{}, ctx context.
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AssignmentService_IntrospectAssignment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IntrospectAssignmentInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AssignmentServiceServer).IntrospectAssignment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AssignmentService_IntrospectAssignment_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AssignmentServiceServer).IntrospectAssignment(ctx, req.(*IntrospectAssignmentInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _AssignmentService_ListAssignments_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListAssignmentsInput)
 	if err := dec(in); err != nil {
@@ -277,6 +310,10 @@ var AssignmentService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DescribeAssignment",
 			Handler:    _AssignmentService_DescribeAssignment_Handler,
+		},
+		{
+			MethodName: "IntrospectAssignment",
+			Handler:    _AssignmentService_IntrospectAssignment_Handler,
 		},
 		{
 			MethodName: "ListAssignments",

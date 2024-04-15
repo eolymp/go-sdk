@@ -159,6 +159,17 @@ func (s *AssignmentServiceService) DescribeAssignment(ctx context.Context, in *D
 	return out, nil
 }
 
+func (s *AssignmentServiceService) IntrospectAssignment(ctx context.Context, in *IntrospectAssignmentInput) (*IntrospectAssignmentOutput, error) {
+	out := &IntrospectAssignmentOutput{}
+	path := "/viewer/assignment"
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *AssignmentServiceService) ListAssignments(ctx context.Context, in *ListAssignmentsInput) (*ListAssignmentsOutput, error) {
 	out := &ListAssignmentsOutput{}
 	path := "/assignments"
