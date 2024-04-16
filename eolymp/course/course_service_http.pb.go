@@ -211,15 +211,6 @@ func RegisterCourseServiceHttpHandlers(router *mux.Router, prefix string, cli Co
 	router.Handle(prefix+"/courses", _CourseService_ListCourses_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.CourseService.ListCourses")
-	router.Handle(prefix+"/courses/{course_id}/assignments", _CourseService_AssignCourse_Rule0(cli)).
-		Methods("POST").
-		Name("eolymp.course.CourseService.AssignCourse")
-	router.Handle(prefix+"/courses/{course_id}/assignments/{student_id}", _CourseService_UnassignCourse_Rule0(cli)).
-		Methods("DELETE").
-		Name("eolymp.course.CourseService.UnassignCourse")
-	router.Handle(prefix+"/courses/{course_id}/start", _CourseService_StartCourse_Rule0(cli)).
-		Methods("POST").
-		Name("eolymp.course.CourseService.StartCourse")
 }
 
 func _CourseService_CreateCourse_Rule0(cli CourseServiceClient) http.Handler {
@@ -332,82 +323,6 @@ func _CourseService_ListCourses_Rule0(cli CourseServiceClient) http.Handler {
 		var header, trailer metadata.MD
 
 		out, err := cli.ListCourses(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
-		if err != nil {
-			_CourseService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_CourseService_HTTPWriteResponse(w, out, header, trailer)
-	})
-}
-
-func _CourseService_AssignCourse_Rule0(cli CourseServiceClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &AssignCourseInput{}
-
-		if err := _CourseService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_CourseService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.CourseId = vars["course_id"]
-
-		var header, trailer metadata.MD
-
-		out, err := cli.AssignCourse(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
-		if err != nil {
-			_CourseService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_CourseService_HTTPWriteResponse(w, out, header, trailer)
-	})
-}
-
-func _CourseService_UnassignCourse_Rule0(cli CourseServiceClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &UnassignCourseInput{}
-
-		if err := _CourseService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_CourseService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.CourseId = vars["course_id"]
-		in.StudentId = vars["student_id"]
-
-		var header, trailer metadata.MD
-
-		out, err := cli.UnassignCourse(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
-		if err != nil {
-			_CourseService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_CourseService_HTTPWriteResponse(w, out, header, trailer)
-	})
-}
-
-func _CourseService_StartCourse_Rule0(cli CourseServiceClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &StartCourseInput{}
-
-		if err := _CourseService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_CourseService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.CourseId = vars["course_id"]
-
-		var header, trailer metadata.MD
-
-		out, err := cli.StartCourse(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_CourseService_HTTPWriteErrorResponse(w, err)
 			return
@@ -584,102 +499,6 @@ func (i *CourseServiceInterceptor) ListCourses(ctx context.Context, in *ListCour
 	message, ok := out.(*ListCoursesOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *ListCoursesOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *CourseServiceInterceptor) AssignCourse(ctx context.Context, in *AssignCourseInput, opts ...grpc.CallOption) (*AssignCourseOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*AssignCourseInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *AssignCourseInput, got %T", in))
-		}
-
-		return i.client.AssignCourse(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.course.CourseService.AssignCourse", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*AssignCourseOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *AssignCourseOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *CourseServiceInterceptor) UnassignCourse(ctx context.Context, in *UnassignCourseInput, opts ...grpc.CallOption) (*UnassignCourseOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*UnassignCourseInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *UnassignCourseInput, got %T", in))
-		}
-
-		return i.client.UnassignCourse(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.course.CourseService.UnassignCourse", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*UnassignCourseOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *UnassignCourseOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *CourseServiceInterceptor) StartCourse(ctx context.Context, in *StartCourseInput, opts ...grpc.CallOption) (*StartCourseOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*StartCourseInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *StartCourseInput, got %T", in))
-		}
-
-		return i.client.StartCourse(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.course.CourseService.StartCourse", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*StartCourseOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *StartCourseOutput, got %T", out))
 	}
 
 	return message, err

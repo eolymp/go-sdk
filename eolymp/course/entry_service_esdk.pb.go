@@ -202,8 +202,8 @@ func (s *EntryServiceService) ListEntries(ctx context.Context, in *ListEntriesIn
 	return out, nil
 }
 
-func (s *EntryServiceService) DescribeTOC(ctx context.Context, in *DescribeTOCInput) (*DescribeTOCOutput, error) {
-	out := &DescribeTOCOutput{}
+func (s *EntryServiceService) DescribeTree(ctx context.Context, in *DescribeTreeInput) (*DescribeTreeOutput, error) {
+	out := &DescribeTreeOutput{}
 	path := "/toc"
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
@@ -223,87 +223,6 @@ func (s *EntryServiceService) ListParents(ctx context.Context, in *ListParentsIn
 	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *EntryServiceService) DescribeProgress(ctx context.Context, in *DescribeProgressInput) (*DescribeProgressOutput, error) {
-	out := &DescribeProgressOutput{}
-	path := "/entries/" + url.PathEscape(in.GetEntryId()) + "/progress"
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.EntryId = ""
-	}
-
-	if err := s.do(ctx, "GET", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *EntryServiceService) ReportProgress(ctx context.Context, in *ReportProgressInput) (*ReportProgressOutput, error) {
-	out := &ReportProgressOutput{}
-	path := "/entries/" + url.PathEscape(in.GetEntryId()) + "/progress"
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.EntryId = ""
-	}
-
-	if err := s.do(ctx, "PUT", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *EntryServiceService) AssignEntry(ctx context.Context, in *AssignEntryInput) (*AssignEntryOutput, error) {
-	out := &AssignEntryOutput{}
-	path := "/entries/" + url.PathEscape(in.GetEntryId()) + "/assignments"
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.EntryId = ""
-	}
-
-	if err := s.do(ctx, "POST", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *EntryServiceService) UnassignEntry(ctx context.Context, in *UnassignEntryInput) (*UnassignEntryOutput, error) {
-	out := &UnassignEntryOutput{}
-	path := "/entries/" + url.PathEscape(in.GetEntryId()) + "/assignments/" + url.PathEscape(in.GetStudentId())
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.EntryId = ""
-		in.StudentId = ""
-	}
-
-	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *EntryServiceService) StartEntry(ctx context.Context, in *StartEntryInput) (*StartEntryOutput, error) {
-	out := &StartEntryOutput{}
-	path := "/entries/" + url.PathEscape(in.GetEntryId()) + "/start"
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.EntryId = ""
-	}
-
-	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 

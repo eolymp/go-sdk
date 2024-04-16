@@ -193,38 +193,6 @@ var _EntryService_WebsocketCodec = websocket.Codec{
 	},
 }
 
-type _EntryService_WatchProgress_WSStream struct {
-	ctx  context.Context
-	conn *websocket.Conn
-}
-
-func (s *_EntryService_WatchProgress_WSStream) Send(m *WatchProgressOutput) error {
-	return s.SendMsg(m)
-}
-
-func (s *_EntryService_WatchProgress_WSStream) SetHeader(metadata.MD) error {
-	return nil
-}
-
-func (s *_EntryService_WatchProgress_WSStream) SendHeader(metadata.MD) error {
-	return nil
-}
-
-func (s *_EntryService_WatchProgress_WSStream) SetTrailer(metadata.MD) {
-}
-
-func (s *_EntryService_WatchProgress_WSStream) Context() context.Context {
-	return s.ctx
-}
-
-func (s *_EntryService_WatchProgress_WSStream) SendMsg(m interface{}) error {
-	return _EntryService_WebsocketCodec.Send(s.conn, m)
-}
-
-func (s *_EntryService_WatchProgress_WSStream) RecvMsg(m interface{}) error {
-	return nil
-}
-
 // RegisterEntryServiceHttpHandlers adds handlers for for EntryServiceClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterEntryServiceHttpHandlers(router *mux.Router, prefix string, cli EntryServiceClient) {
@@ -249,27 +217,12 @@ func RegisterEntryServiceHttpHandlers(router *mux.Router, prefix string, cli Ent
 	router.Handle(prefix+"/entries", _EntryService_ListEntries_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.EntryService.ListEntries")
-	router.Handle(prefix+"/toc", _EntryService_DescribeTOC_Rule0(cli)).
+	router.Handle(prefix+"/toc", _EntryService_DescribeTree_Rule0(cli)).
 		Methods("GET").
-		Name("eolymp.course.EntryService.DescribeTOC")
+		Name("eolymp.course.EntryService.DescribeTree")
 	router.Handle(prefix+"/entries/{entry_id}/parents", _EntryService_ListParents_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.EntryService.ListParents")
-	router.Handle(prefix+"/entries/{entry_id}/progress", _EntryService_DescribeProgress_Rule0(cli)).
-		Methods("GET").
-		Name("eolymp.course.EntryService.DescribeProgress")
-	router.Handle(prefix+"/entries/{entry_id}/progress", _EntryService_ReportProgress_Rule0(cli)).
-		Methods("PUT").
-		Name("eolymp.course.EntryService.ReportProgress")
-	router.Handle(prefix+"/entries/{entry_id}/assignments", _EntryService_AssignEntry_Rule0(cli)).
-		Methods("POST").
-		Name("eolymp.course.EntryService.AssignEntry")
-	router.Handle(prefix+"/entries/{entry_id}/assignments/{student_id}", _EntryService_UnassignEntry_Rule0(cli)).
-		Methods("DELETE").
-		Name("eolymp.course.EntryService.UnassignEntry")
-	router.Handle(prefix+"/entries/{entry_id}/start", _EntryService_StartEntry_Rule0(cli)).
-		Methods("POST").
-		Name("eolymp.course.EntryService.StartEntry")
 }
 
 func _EntryService_CreateEntry_Rule0(cli EntryServiceClient) http.Handler {
@@ -441,9 +394,9 @@ func _EntryService_ListEntries_Rule0(cli EntryServiceClient) http.Handler {
 	})
 }
 
-func _EntryService_DescribeTOC_Rule0(cli EntryServiceClient) http.Handler {
+func _EntryService_DescribeTree_Rule0(cli EntryServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DescribeTOCInput{}
+		in := &DescribeTreeInput{}
 
 		if err := _EntryService_HTTPReadQueryString(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
@@ -453,7 +406,7 @@ func _EntryService_DescribeTOC_Rule0(cli EntryServiceClient) http.Handler {
 
 		var header, trailer metadata.MD
 
-		out, err := cli.DescribeTOC(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		out, err := cli.DescribeTree(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_EntryService_HTTPWriteErrorResponse(w, err)
 			return
@@ -479,132 +432,6 @@ func _EntryService_ListParents_Rule0(cli EntryServiceClient) http.Handler {
 		var header, trailer metadata.MD
 
 		out, err := cli.ListParents(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
-		if err != nil {
-			_EntryService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_EntryService_HTTPWriteResponse(w, out, header, trailer)
-	})
-}
-
-func _EntryService_DescribeProgress_Rule0(cli EntryServiceClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DescribeProgressInput{}
-
-		if err := _EntryService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_EntryService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.EntryId = vars["entry_id"]
-
-		var header, trailer metadata.MD
-
-		out, err := cli.DescribeProgress(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
-		if err != nil {
-			_EntryService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_EntryService_HTTPWriteResponse(w, out, header, trailer)
-	})
-}
-
-func _EntryService_ReportProgress_Rule0(cli EntryServiceClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ReportProgressInput{}
-
-		if err := _EntryService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_EntryService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.EntryId = vars["entry_id"]
-
-		var header, trailer metadata.MD
-
-		out, err := cli.ReportProgress(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
-		if err != nil {
-			_EntryService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_EntryService_HTTPWriteResponse(w, out, header, trailer)
-	})
-}
-
-func _EntryService_AssignEntry_Rule0(cli EntryServiceClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &AssignEntryInput{}
-
-		if err := _EntryService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_EntryService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.EntryId = vars["entry_id"]
-
-		var header, trailer metadata.MD
-
-		out, err := cli.AssignEntry(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
-		if err != nil {
-			_EntryService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_EntryService_HTTPWriteResponse(w, out, header, trailer)
-	})
-}
-
-func _EntryService_UnassignEntry_Rule0(cli EntryServiceClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &UnassignEntryInput{}
-
-		if err := _EntryService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_EntryService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.EntryId = vars["entry_id"]
-		in.StudentId = vars["student_id"]
-
-		var header, trailer metadata.MD
-
-		out, err := cli.UnassignEntry(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
-		if err != nil {
-			_EntryService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_EntryService_HTTPWriteResponse(w, out, header, trailer)
-	})
-}
-
-func _EntryService_StartEntry_Rule0(cli EntryServiceClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &StartEntryInput{}
-
-		if err := _EntryService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_EntryService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.EntryId = vars["entry_id"]
-
-		var header, trailer metadata.MD
-
-		out, err := cli.StartEntry(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_EntryService_HTTPWriteErrorResponse(w, err)
 			return
@@ -850,14 +677,14 @@ func (i *EntryServiceInterceptor) ListEntries(ctx context.Context, in *ListEntri
 	return message, err
 }
 
-func (i *EntryServiceInterceptor) DescribeTOC(ctx context.Context, in *DescribeTOCInput, opts ...grpc.CallOption) (*DescribeTOCOutput, error) {
+func (i *EntryServiceInterceptor) DescribeTree(ctx context.Context, in *DescribeTreeInput, opts ...grpc.CallOption) (*DescribeTreeOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*DescribeTOCInput)
+		message, ok := in.(*DescribeTreeInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *DescribeTOCInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *DescribeTreeInput, got %T", in))
 		}
 
-		return i.client.DescribeTOC(ctx, message, opts...)
+		return i.client.DescribeTree(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -865,7 +692,7 @@ func (i *EntryServiceInterceptor) DescribeTOC(ctx context.Context, in *DescribeT
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.course.EntryService.DescribeTOC", in, next)
+			return mw(ctx, "eolymp.course.EntryService.DescribeTree", in, next)
 		}
 	}
 
@@ -874,9 +701,9 @@ func (i *EntryServiceInterceptor) DescribeTOC(ctx context.Context, in *DescribeT
 		return nil, err
 	}
 
-	message, ok := out.(*DescribeTOCOutput)
+	message, ok := out.(*DescribeTreeOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *DescribeTOCOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *DescribeTreeOutput, got %T", out))
 	}
 
 	return message, err
@@ -909,170 +736,6 @@ func (i *EntryServiceInterceptor) ListParents(ctx context.Context, in *ListParen
 	message, ok := out.(*ListParentsOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *ListParentsOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *EntryServiceInterceptor) DescribeProgress(ctx context.Context, in *DescribeProgressInput, opts ...grpc.CallOption) (*DescribeProgressOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*DescribeProgressInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *DescribeProgressInput, got %T", in))
-		}
-
-		return i.client.DescribeProgress(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.course.EntryService.DescribeProgress", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*DescribeProgressOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *DescribeProgressOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *EntryServiceInterceptor) ReportProgress(ctx context.Context, in *ReportProgressInput, opts ...grpc.CallOption) (*ReportProgressOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*ReportProgressInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *ReportProgressInput, got %T", in))
-		}
-
-		return i.client.ReportProgress(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.course.EntryService.ReportProgress", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*ReportProgressOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *ReportProgressOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *EntryServiceInterceptor) WatchProgress(ctx context.Context, in *WatchProgressInput, opts ...grpc.CallOption) (EntryService_WatchProgressClient, error) {
-	return i.client.WatchProgress(ctx, in, opts...)
-}
-
-func (i *EntryServiceInterceptor) AssignEntry(ctx context.Context, in *AssignEntryInput, opts ...grpc.CallOption) (*AssignEntryOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*AssignEntryInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *AssignEntryInput, got %T", in))
-		}
-
-		return i.client.AssignEntry(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.course.EntryService.AssignEntry", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*AssignEntryOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *AssignEntryOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *EntryServiceInterceptor) UnassignEntry(ctx context.Context, in *UnassignEntryInput, opts ...grpc.CallOption) (*UnassignEntryOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*UnassignEntryInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *UnassignEntryInput, got %T", in))
-		}
-
-		return i.client.UnassignEntry(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.course.EntryService.UnassignEntry", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*UnassignEntryOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *UnassignEntryOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *EntryServiceInterceptor) StartEntry(ctx context.Context, in *StartEntryInput, opts ...grpc.CallOption) (*StartEntryOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*StartEntryInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *StartEntryInput, got %T", in))
-		}
-
-		return i.client.StartEntry(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.course.EntryService.StartEntry", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*StartEntryOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *StartEntryOutput, got %T", out))
 	}
 
 	return message, err
