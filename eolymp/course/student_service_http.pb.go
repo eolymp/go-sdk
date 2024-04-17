@@ -193,6 +193,38 @@ var _StudentService_WebsocketCodec = websocket.Codec{
 	},
 }
 
+type _StudentService_WatchStudent_WSStream struct {
+	ctx  context.Context
+	conn *websocket.Conn
+}
+
+func (s *_StudentService_WatchStudent_WSStream) Send(m *WatchStudentOutput) error {
+	return s.SendMsg(m)
+}
+
+func (s *_StudentService_WatchStudent_WSStream) SetHeader(metadata.MD) error {
+	return nil
+}
+
+func (s *_StudentService_WatchStudent_WSStream) SendHeader(metadata.MD) error {
+	return nil
+}
+
+func (s *_StudentService_WatchStudent_WSStream) SetTrailer(metadata.MD) {
+}
+
+func (s *_StudentService_WatchStudent_WSStream) Context() context.Context {
+	return s.ctx
+}
+
+func (s *_StudentService_WatchStudent_WSStream) SendMsg(m interface{}) error {
+	return _StudentService_WebsocketCodec.Send(s.conn, m)
+}
+
+func (s *_StudentService_WatchStudent_WSStream) RecvMsg(m interface{}) error {
+	return nil
+}
+
 // RegisterStudentServiceHttpHandlers adds handlers for for StudentServiceClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterStudentServiceHttpHandlers(router *mux.Router, prefix string, cli StudentServiceClient) {
@@ -382,4 +414,8 @@ func (i *StudentServiceInterceptor) ListStudents(ctx context.Context, in *ListSt
 	}
 
 	return message, err
+}
+
+func (i *StudentServiceInterceptor) WatchStudent(ctx context.Context, in *WatchStudentInput, opts ...grpc.CallOption) (StudentService_WatchStudentClient, error) {
+	return i.client.WatchStudent(ctx, in, opts...)
 }

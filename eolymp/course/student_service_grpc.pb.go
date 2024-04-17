@@ -22,6 +22,7 @@ const (
 	StudentService_DescribeStudent_FullMethodName = "/eolymp.course.StudentService/DescribeStudent"
 	StudentService_DescribeViewer_FullMethodName  = "/eolymp.course.StudentService/DescribeViewer"
 	StudentService_ListStudents_FullMethodName    = "/eolymp.course.StudentService/ListStudents"
+	StudentService_WatchStudent_FullMethodName    = "/eolymp.course.StudentService/WatchStudent"
 )
 
 // StudentServiceClient is the client API for StudentService service.
@@ -31,6 +32,7 @@ type StudentServiceClient interface {
 	DescribeStudent(ctx context.Context, in *DescribeStudentInput, opts ...grpc.CallOption) (*DescribeStudentOutput, error)
 	DescribeViewer(ctx context.Context, in *DescribeViewerInput, opts ...grpc.CallOption) (*DescribeViewerOutput, error)
 	ListStudents(ctx context.Context, in *ListStudentsInput, opts ...grpc.CallOption) (*ListStudentsOutput, error)
+	WatchStudent(ctx context.Context, in *WatchStudentInput, opts ...grpc.CallOption) (StudentService_WatchStudentClient, error)
 }
 
 type studentServiceClient struct {
@@ -68,6 +70,38 @@ func (c *studentServiceClient) ListStudents(ctx context.Context, in *ListStudent
 	return out, nil
 }
 
+func (c *studentServiceClient) WatchStudent(ctx context.Context, in *WatchStudentInput, opts ...grpc.CallOption) (StudentService_WatchStudentClient, error) {
+	stream, err := c.cc.NewStream(ctx, &StudentService_ServiceDesc.Streams[0], StudentService_WatchStudent_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &studentServiceWatchStudentClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type StudentService_WatchStudentClient interface {
+	Recv() (*WatchStudentOutput, error)
+	grpc.ClientStream
+}
+
+type studentServiceWatchStudentClient struct {
+	grpc.ClientStream
+}
+
+func (x *studentServiceWatchStudentClient) Recv() (*WatchStudentOutput, error) {
+	m := new(WatchStudentOutput)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // StudentServiceServer is the server API for StudentService service.
 // All implementations should embed UnimplementedStudentServiceServer
 // for forward compatibility
@@ -75,6 +109,7 @@ type StudentServiceServer interface {
 	DescribeStudent(context.Context, *DescribeStudentInput) (*DescribeStudentOutput, error)
 	DescribeViewer(context.Context, *DescribeViewerInput) (*DescribeViewerOutput, error)
 	ListStudents(context.Context, *ListStudentsInput) (*ListStudentsOutput, error)
+	WatchStudent(*WatchStudentInput, StudentService_WatchStudentServer) error
 }
 
 // UnimplementedStudentServiceServer should be embedded to have forward compatible implementations.
@@ -89,6 +124,9 @@ func (UnimplementedStudentServiceServer) DescribeViewer(context.Context, *Descri
 }
 func (UnimplementedStudentServiceServer) ListStudents(context.Context, *ListStudentsInput) (*ListStudentsOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListStudents not implemented")
+}
+func (UnimplementedStudentServiceServer) WatchStudent(*WatchStudentInput, StudentService_WatchStudentServer) error {
+	return status.Errorf(codes.Unimplemented, "method WatchStudent not implemented")
 }
 
 // UnsafeStudentServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -156,6 +194,27 @@ func _StudentService_ListStudents_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _StudentService_WatchStudent_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(WatchStudentInput)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(StudentServiceServer).WatchStudent(m, &studentServiceWatchStudentServer{stream})
+}
+
+type StudentService_WatchStudentServer interface {
+	Send(*WatchStudentOutput) error
+	grpc.ServerStream
+}
+
+type studentServiceWatchStudentServer struct {
+	grpc.ServerStream
+}
+
+func (x *studentServiceWatchStudentServer) Send(m *WatchStudentOutput) error {
+	return x.ServerStream.SendMsg(m)
+}
+
 // StudentService_ServiceDesc is the grpc.ServiceDesc for StudentService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -176,6 +235,12 @@ var StudentService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _StudentService_ListStudents_Handler,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "WatchStudent",
+			Handler:       _StudentService_WatchStudent_Handler,
+			ServerStreams: true,
+		},
+	},
 	Metadata: "eolymp/course/student_service.proto",
 }
