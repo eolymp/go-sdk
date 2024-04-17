@@ -183,12 +183,7 @@ func (s *AssignmentServiceService) ListAssignments(ctx context.Context, in *List
 
 func (s *AssignmentServiceService) StartAssignment(ctx context.Context, in *StartAssignmentInput) (*StartAssignmentOutput, error) {
 	out := &StartAssignmentOutput{}
-	path := "/assignments/" + url.PathEscape(in.GetAssignmentId()) + "/start"
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.AssignmentId = ""
-	}
+	path := "/start"
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err

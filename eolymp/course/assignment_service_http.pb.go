@@ -214,7 +214,7 @@ func RegisterAssignmentServiceHttpHandlers(router *mux.Router, prefix string, cl
 	router.Handle(prefix+"/assignments", _AssignmentService_ListAssignments_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.AssignmentService.ListAssignments")
-	router.Handle(prefix+"/assignments/{assignment_id}/start", _AssignmentService_StartAssignment_Rule0(cli)).
+	router.Handle(prefix+"/start", _AssignmentService_StartAssignment_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.course.AssignmentService.StartAssignment")
 }
@@ -369,9 +369,6 @@ func _AssignmentService_StartAssignment_Rule0(cli AssignmentServiceClient) http.
 			_AssignmentService_HTTPWriteErrorResponse(w, err)
 			return
 		}
-
-		vars := mux.Vars(r)
-		in.AssignmentId = vars["assignment_id"]
 
 		var header, trailer metadata.MD
 
