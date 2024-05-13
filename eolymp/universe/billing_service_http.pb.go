@@ -214,6 +214,12 @@ func RegisterBillingServiceHttpHandlers(router *mux.Router, prefix string, cli B
 	router.Handle(prefix+"/billing/subscription", _BillingService_CancelSubscription_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.universe.BillingService.CancelSubscription")
+	router.Handle(prefix+"/billing/trial/start", _BillingService_StartSubscriptionTrial_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.universe.BillingService.StartSubscriptionTrial")
+	router.Handle(prefix+"/billing/trial/end", _BillingService_EndSubscriptionTrial_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.universe.BillingService.EndSubscriptionTrial")
 	router.Handle(prefix+"/billing/subscription/simulate", _BillingService_SimulateSubscription_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.universe.BillingService.SimulateSubscription")
@@ -357,6 +363,50 @@ func _BillingService_CancelSubscription_Rule0(cli BillingServiceClient) http.Han
 		var header, trailer metadata.MD
 
 		out, err := cli.CancelSubscription(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_BillingService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_BillingService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _BillingService_StartSubscriptionTrial_Rule0(cli BillingServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &StartSubscriptionTrialInput{}
+
+		if err := _BillingService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_BillingService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.StartSubscriptionTrial(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_BillingService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_BillingService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _BillingService_EndSubscriptionTrial_Rule0(cli BillingServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &EndSubscriptionTrialInput{}
+
+		if err := _BillingService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_BillingService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.EndSubscriptionTrial(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_BillingService_HTTPWriteErrorResponse(w, err)
 			return
@@ -703,6 +753,70 @@ func (i *BillingServiceInterceptor) CancelSubscription(ctx context.Context, in *
 	message, ok := out.(*CancelSubscriptionOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *CancelSubscriptionOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *BillingServiceInterceptor) StartSubscriptionTrial(ctx context.Context, in *StartSubscriptionTrialInput, opts ...grpc.CallOption) (*StartSubscriptionTrialOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*StartSubscriptionTrialInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *StartSubscriptionTrialInput, got %T", in))
+		}
+
+		return i.client.StartSubscriptionTrial(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.universe.BillingService.StartSubscriptionTrial", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*StartSubscriptionTrialOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *StartSubscriptionTrialOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *BillingServiceInterceptor) EndSubscriptionTrial(ctx context.Context, in *EndSubscriptionTrialInput, opts ...grpc.CallOption) (*EndSubscriptionTrialOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*EndSubscriptionTrialInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *EndSubscriptionTrialInput, got %T", in))
+		}
+
+		return i.client.EndSubscriptionTrial(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.universe.BillingService.EndSubscriptionTrial", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*EndSubscriptionTrialOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *EndSubscriptionTrialOutput, got %T", out))
 	}
 
 	return message, err

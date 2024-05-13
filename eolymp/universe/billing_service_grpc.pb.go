@@ -25,6 +25,8 @@ const (
 	BillingService_CreateSubscription_FullMethodName         = "/eolymp.universe.BillingService/CreateSubscription"
 	BillingService_UpdateSubscription_FullMethodName         = "/eolymp.universe.BillingService/UpdateSubscription"
 	BillingService_CancelSubscription_FullMethodName         = "/eolymp.universe.BillingService/CancelSubscription"
+	BillingService_StartSubscriptionTrial_FullMethodName     = "/eolymp.universe.BillingService/StartSubscriptionTrial"
+	BillingService_EndSubscriptionTrial_FullMethodName       = "/eolymp.universe.BillingService/EndSubscriptionTrial"
 	BillingService_SimulateSubscription_FullMethodName       = "/eolymp.universe.BillingService/SimulateSubscription"
 	BillingService_CreatePortalLink_FullMethodName           = "/eolymp.universe.BillingService/CreatePortalLink"
 	BillingService_UpcomingInvoice_FullMethodName            = "/eolymp.universe.BillingService/UpcomingInvoice"
@@ -43,6 +45,8 @@ type BillingServiceClient interface {
 	CreateSubscription(ctx context.Context, in *CreateSubscriptionInput, opts ...grpc.CallOption) (*CreateSubscriptionOutput, error)
 	UpdateSubscription(ctx context.Context, in *UpdateSubscriptionInput, opts ...grpc.CallOption) (*UpdateSubscriptionOutput, error)
 	CancelSubscription(ctx context.Context, in *CancelSubscriptionInput, opts ...grpc.CallOption) (*CancelSubscriptionOutput, error)
+	StartSubscriptionTrial(ctx context.Context, in *StartSubscriptionTrialInput, opts ...grpc.CallOption) (*StartSubscriptionTrialOutput, error)
+	EndSubscriptionTrial(ctx context.Context, in *EndSubscriptionTrialInput, opts ...grpc.CallOption) (*EndSubscriptionTrialOutput, error)
 	SimulateSubscription(ctx context.Context, in *SimulateSubscriptionInput, opts ...grpc.CallOption) (*SimulateSubscriptionOutput, error)
 	CreatePortalLink(ctx context.Context, in *CreatePortalLinkInput, opts ...grpc.CallOption) (*CreatePortalLinkOutput, error)
 	UpcomingInvoice(ctx context.Context, in *UpcomingInvoiceInput, opts ...grpc.CallOption) (*UpcomingInvoiceOutput, error)
@@ -113,6 +117,24 @@ func (c *billingServiceClient) CancelSubscription(ctx context.Context, in *Cance
 	return out, nil
 }
 
+func (c *billingServiceClient) StartSubscriptionTrial(ctx context.Context, in *StartSubscriptionTrialInput, opts ...grpc.CallOption) (*StartSubscriptionTrialOutput, error) {
+	out := new(StartSubscriptionTrialOutput)
+	err := c.cc.Invoke(ctx, BillingService_StartSubscriptionTrial_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *billingServiceClient) EndSubscriptionTrial(ctx context.Context, in *EndSubscriptionTrialInput, opts ...grpc.CallOption) (*EndSubscriptionTrialOutput, error) {
+	out := new(EndSubscriptionTrialOutput)
+	err := c.cc.Invoke(ctx, BillingService_EndSubscriptionTrial_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *billingServiceClient) SimulateSubscription(ctx context.Context, in *SimulateSubscriptionInput, opts ...grpc.CallOption) (*SimulateSubscriptionOutput, error) {
 	out := new(SimulateSubscriptionOutput)
 	err := c.cc.Invoke(ctx, BillingService_SimulateSubscription_FullMethodName, in, out, opts...)
@@ -177,6 +199,8 @@ type BillingServiceServer interface {
 	CreateSubscription(context.Context, *CreateSubscriptionInput) (*CreateSubscriptionOutput, error)
 	UpdateSubscription(context.Context, *UpdateSubscriptionInput) (*UpdateSubscriptionOutput, error)
 	CancelSubscription(context.Context, *CancelSubscriptionInput) (*CancelSubscriptionOutput, error)
+	StartSubscriptionTrial(context.Context, *StartSubscriptionTrialInput) (*StartSubscriptionTrialOutput, error)
+	EndSubscriptionTrial(context.Context, *EndSubscriptionTrialInput) (*EndSubscriptionTrialOutput, error)
 	SimulateSubscription(context.Context, *SimulateSubscriptionInput) (*SimulateSubscriptionOutput, error)
 	CreatePortalLink(context.Context, *CreatePortalLinkInput) (*CreatePortalLinkOutput, error)
 	UpcomingInvoice(context.Context, *UpcomingInvoiceInput) (*UpcomingInvoiceOutput, error)
@@ -206,6 +230,12 @@ func (UnimplementedBillingServiceServer) UpdateSubscription(context.Context, *Up
 }
 func (UnimplementedBillingServiceServer) CancelSubscription(context.Context, *CancelSubscriptionInput) (*CancelSubscriptionOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CancelSubscription not implemented")
+}
+func (UnimplementedBillingServiceServer) StartSubscriptionTrial(context.Context, *StartSubscriptionTrialInput) (*StartSubscriptionTrialOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method StartSubscriptionTrial not implemented")
+}
+func (UnimplementedBillingServiceServer) EndSubscriptionTrial(context.Context, *EndSubscriptionTrialInput) (*EndSubscriptionTrialOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method EndSubscriptionTrial not implemented")
 }
 func (UnimplementedBillingServiceServer) SimulateSubscription(context.Context, *SimulateSubscriptionInput) (*SimulateSubscriptionOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SimulateSubscription not implemented")
@@ -341,6 +371,42 @@ func _BillingService_CancelSubscription_Handler(srv interface{}, ctx context.Con
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(BillingServiceServer).CancelSubscription(ctx, req.(*CancelSubscriptionInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _BillingService_StartSubscriptionTrial_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(StartSubscriptionTrialInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BillingServiceServer).StartSubscriptionTrial(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: BillingService_StartSubscriptionTrial_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BillingServiceServer).StartSubscriptionTrial(ctx, req.(*StartSubscriptionTrialInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _BillingService_EndSubscriptionTrial_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EndSubscriptionTrialInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BillingServiceServer).EndSubscriptionTrial(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: BillingService_EndSubscriptionTrial_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BillingServiceServer).EndSubscriptionTrial(ctx, req.(*EndSubscriptionTrialInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -483,6 +549,14 @@ var BillingService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CancelSubscription",
 			Handler:    _BillingService_CancelSubscription_Handler,
+		},
+		{
+			MethodName: "StartSubscriptionTrial",
+			Handler:    _BillingService_StartSubscriptionTrial_Handler,
+		},
+		{
+			MethodName: "EndSubscriptionTrial",
+			Handler:    _BillingService_EndSubscriptionTrial_Handler,
 		},
 		{
 			MethodName: "SimulateSubscription",

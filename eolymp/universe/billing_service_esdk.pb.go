@@ -166,6 +166,28 @@ func (s *BillingServiceService) CancelSubscription(ctx context.Context, in *Canc
 	return out, nil
 }
 
+func (s *BillingServiceService) StartSubscriptionTrial(ctx context.Context, in *StartSubscriptionTrialInput) (*StartSubscriptionTrialOutput, error) {
+	out := &StartSubscriptionTrialOutput{}
+	path := "/billing/trial/start"
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *BillingServiceService) EndSubscriptionTrial(ctx context.Context, in *EndSubscriptionTrialInput) (*EndSubscriptionTrialOutput, error) {
+	out := &EndSubscriptionTrialOutput{}
+	path := "/billing/trial/end"
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *BillingServiceService) SimulateSubscription(ctx context.Context, in *SimulateSubscriptionInput) (*SimulateSubscriptionOutput, error) {
 	out := &SimulateSubscriptionOutput{}
 	path := "/billing/subscription/simulate"
