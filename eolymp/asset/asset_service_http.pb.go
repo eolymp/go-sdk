@@ -202,6 +202,18 @@ func RegisterAssetServiceHttpHandlers(router *mux.Router, prefix string, cli Ass
 	router.Handle(prefix+"/assets/files", _AssetService_UploadFile_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.asset.AssetService.UploadFile")
+	router.Handle(prefix+"/assets", _AssetService_UploadAsset_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.asset.AssetService.UploadAsset")
+	router.Handle(prefix+"/uploads", _AssetService_StartMultipartUpload_Rule0(cli)).
+		Methods("PUT").
+		Name("eolymp.asset.AssetService.StartMultipartUpload")
+	router.Handle(prefix+"/uploads/{upload_id}", _AssetService_UploadPart_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.asset.AssetService.UploadPart")
+	router.Handle(prefix+"/uploads/{upload_id}", _AssetService_CompleteMultipartUpload_Rule0(cli)).
+		Methods("PUT").
+		Name("eolymp.asset.AssetService.CompleteMultipartUpload")
 }
 
 func _AssetService_UploadImage_Rule0(cli AssetServiceClient) http.Handler {
@@ -239,6 +251,100 @@ func _AssetService_UploadFile_Rule0(cli AssetServiceClient) http.Handler {
 		var header, trailer metadata.MD
 
 		out, err := cli.UploadFile(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_AssetService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_AssetService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _AssetService_UploadAsset_Rule0(cli AssetServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UploadAssetInput{}
+
+		if err := _AssetService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_AssetService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.UploadAsset(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_AssetService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_AssetService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _AssetService_StartMultipartUpload_Rule0(cli AssetServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &StartMultipartUploadInput{}
+
+		if err := _AssetService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_AssetService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.StartMultipartUpload(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_AssetService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_AssetService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _AssetService_UploadPart_Rule0(cli AssetServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UploadPartInput{}
+
+		if err := _AssetService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_AssetService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.UploadId = vars["upload_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.UploadPart(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_AssetService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_AssetService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _AssetService_CompleteMultipartUpload_Rule0(cli AssetServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &CompleteMultipartUploadInput{}
+
+		if err := _AssetService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_AssetService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.UploadId = vars["upload_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.CompleteMultipartUpload(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_AssetService_HTTPWriteErrorResponse(w, err)
 			return
@@ -319,6 +425,134 @@ func (i *AssetServiceInterceptor) UploadFile(ctx context.Context, in *UploadFile
 	message, ok := out.(*UploadFileOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *UploadFileOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *AssetServiceInterceptor) UploadAsset(ctx context.Context, in *UploadAssetInput, opts ...grpc.CallOption) (*UploadAssetOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*UploadAssetInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *UploadAssetInput, got %T", in))
+		}
+
+		return i.client.UploadAsset(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.asset.AssetService.UploadAsset", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*UploadAssetOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *UploadAssetOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *AssetServiceInterceptor) StartMultipartUpload(ctx context.Context, in *StartMultipartUploadInput, opts ...grpc.CallOption) (*StartMultipartUploadOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*StartMultipartUploadInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *StartMultipartUploadInput, got %T", in))
+		}
+
+		return i.client.StartMultipartUpload(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.asset.AssetService.StartMultipartUpload", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*StartMultipartUploadOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *StartMultipartUploadOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *AssetServiceInterceptor) UploadPart(ctx context.Context, in *UploadPartInput, opts ...grpc.CallOption) (*UploadPartOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*UploadPartInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *UploadPartInput, got %T", in))
+		}
+
+		return i.client.UploadPart(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.asset.AssetService.UploadPart", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*UploadPartOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *UploadPartOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *AssetServiceInterceptor) CompleteMultipartUpload(ctx context.Context, in *CompleteMultipartUploadInput, opts ...grpc.CallOption) (*CompleteMultipartUploadOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*CompleteMultipartUploadInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *CompleteMultipartUploadInput, got %T", in))
+		}
+
+		return i.client.CompleteMultipartUpload(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.asset.AssetService.CompleteMultipartUpload", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*CompleteMultipartUploadOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *CompleteMultipartUploadOutput, got %T", out))
 	}
 
 	return message, err

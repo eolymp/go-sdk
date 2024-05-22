@@ -19,16 +19,32 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	AssetService_UploadImage_FullMethodName = "/eolymp.asset.AssetService/UploadImage"
-	AssetService_UploadFile_FullMethodName  = "/eolymp.asset.AssetService/UploadFile"
+	AssetService_UploadImage_FullMethodName             = "/eolymp.asset.AssetService/UploadImage"
+	AssetService_UploadFile_FullMethodName              = "/eolymp.asset.AssetService/UploadFile"
+	AssetService_UploadAsset_FullMethodName             = "/eolymp.asset.AssetService/UploadAsset"
+	AssetService_StartMultipartUpload_FullMethodName    = "/eolymp.asset.AssetService/StartMultipartUpload"
+	AssetService_UploadPart_FullMethodName              = "/eolymp.asset.AssetService/UploadPart"
+	AssetService_CompleteMultipartUpload_FullMethodName = "/eolymp.asset.AssetService/CompleteMultipartUpload"
 )
 
 // AssetServiceClient is the client API for AssetService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AssetServiceClient interface {
+	// deprecated, use universal UploadAsset API instead
 	UploadImage(ctx context.Context, in *UploadImageInput, opts ...grpc.CallOption) (*UploadImageOutput, error)
+	// deprecated, use universal UploadAsset API instead
 	UploadFile(ctx context.Context, in *UploadFileInput, opts ...grpc.CallOption) (*UploadFileOutput, error)
+	// UploadAsset allows to upload a file under 5 MB, files over 5MB must be uploaded using multipart upload API
+	UploadAsset(ctx context.Context, in *UploadAssetInput, opts ...grpc.CallOption) (*UploadAssetOutput, error)
+	// StartMultipartUpload creates an upload_id, which then can be used with UploadPart API to upload file in parts of 5MB
+	StartMultipartUpload(ctx context.Context, in *StartMultipartUploadInput, opts ...grpc.CallOption) (*StartMultipartUploadOutput, error)
+	// UploadPart of a file, before calling this method you must start upload process using StartMultipartUpload API, once
+	// all parts are uploaded you must call CompleteMultipartUpload to finalize upload process and get asset_url.
+	// Every part, except last one, must be 5MB. You can use from 1 to 1000 parts per upload.
+	UploadPart(ctx context.Context, in *UploadPartInput, opts ...grpc.CallOption) (*UploadPartOutput, error)
+	// CompleteMultipartUpload finalizes upload process and generates asset_url.
+	CompleteMultipartUpload(ctx context.Context, in *CompleteMultipartUploadInput, opts ...grpc.CallOption) (*CompleteMultipartUploadOutput, error)
 }
 
 type assetServiceClient struct {
@@ -57,12 +73,60 @@ func (c *assetServiceClient) UploadFile(ctx context.Context, in *UploadFileInput
 	return out, nil
 }
 
+func (c *assetServiceClient) UploadAsset(ctx context.Context, in *UploadAssetInput, opts ...grpc.CallOption) (*UploadAssetOutput, error) {
+	out := new(UploadAssetOutput)
+	err := c.cc.Invoke(ctx, AssetService_UploadAsset_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *assetServiceClient) StartMultipartUpload(ctx context.Context, in *StartMultipartUploadInput, opts ...grpc.CallOption) (*StartMultipartUploadOutput, error) {
+	out := new(StartMultipartUploadOutput)
+	err := c.cc.Invoke(ctx, AssetService_StartMultipartUpload_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *assetServiceClient) UploadPart(ctx context.Context, in *UploadPartInput, opts ...grpc.CallOption) (*UploadPartOutput, error) {
+	out := new(UploadPartOutput)
+	err := c.cc.Invoke(ctx, AssetService_UploadPart_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *assetServiceClient) CompleteMultipartUpload(ctx context.Context, in *CompleteMultipartUploadInput, opts ...grpc.CallOption) (*CompleteMultipartUploadOutput, error) {
+	out := new(CompleteMultipartUploadOutput)
+	err := c.cc.Invoke(ctx, AssetService_CompleteMultipartUpload_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AssetServiceServer is the server API for AssetService service.
 // All implementations should embed UnimplementedAssetServiceServer
 // for forward compatibility
 type AssetServiceServer interface {
+	// deprecated, use universal UploadAsset API instead
 	UploadImage(context.Context, *UploadImageInput) (*UploadImageOutput, error)
+	// deprecated, use universal UploadAsset API instead
 	UploadFile(context.Context, *UploadFileInput) (*UploadFileOutput, error)
+	// UploadAsset allows to upload a file under 5 MB, files over 5MB must be uploaded using multipart upload API
+	UploadAsset(context.Context, *UploadAssetInput) (*UploadAssetOutput, error)
+	// StartMultipartUpload creates an upload_id, which then can be used with UploadPart API to upload file in parts of 5MB
+	StartMultipartUpload(context.Context, *StartMultipartUploadInput) (*StartMultipartUploadOutput, error)
+	// UploadPart of a file, before calling this method you must start upload process using StartMultipartUpload API, once
+	// all parts are uploaded you must call CompleteMultipartUpload to finalize upload process and get asset_url.
+	// Every part, except last one, must be 5MB. You can use from 1 to 1000 parts per upload.
+	UploadPart(context.Context, *UploadPartInput) (*UploadPartOutput, error)
+	// CompleteMultipartUpload finalizes upload process and generates asset_url.
+	CompleteMultipartUpload(context.Context, *CompleteMultipartUploadInput) (*CompleteMultipartUploadOutput, error)
 }
 
 // UnimplementedAssetServiceServer should be embedded to have forward compatible implementations.
@@ -74,6 +138,18 @@ func (UnimplementedAssetServiceServer) UploadImage(context.Context, *UploadImage
 }
 func (UnimplementedAssetServiceServer) UploadFile(context.Context, *UploadFileInput) (*UploadFileOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UploadFile not implemented")
+}
+func (UnimplementedAssetServiceServer) UploadAsset(context.Context, *UploadAssetInput) (*UploadAssetOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UploadAsset not implemented")
+}
+func (UnimplementedAssetServiceServer) StartMultipartUpload(context.Context, *StartMultipartUploadInput) (*StartMultipartUploadOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method StartMultipartUpload not implemented")
+}
+func (UnimplementedAssetServiceServer) UploadPart(context.Context, *UploadPartInput) (*UploadPartOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UploadPart not implemented")
+}
+func (UnimplementedAssetServiceServer) CompleteMultipartUpload(context.Context, *CompleteMultipartUploadInput) (*CompleteMultipartUploadOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CompleteMultipartUpload not implemented")
 }
 
 // UnsafeAssetServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -123,6 +199,78 @@ func _AssetService_UploadFile_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AssetService_UploadAsset_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UploadAssetInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AssetServiceServer).UploadAsset(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AssetService_UploadAsset_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AssetServiceServer).UploadAsset(ctx, req.(*UploadAssetInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AssetService_StartMultipartUpload_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(StartMultipartUploadInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AssetServiceServer).StartMultipartUpload(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AssetService_StartMultipartUpload_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AssetServiceServer).StartMultipartUpload(ctx, req.(*StartMultipartUploadInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AssetService_UploadPart_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UploadPartInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AssetServiceServer).UploadPart(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AssetService_UploadPart_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AssetServiceServer).UploadPart(ctx, req.(*UploadPartInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AssetService_CompleteMultipartUpload_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CompleteMultipartUploadInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AssetServiceServer).CompleteMultipartUpload(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AssetService_CompleteMultipartUpload_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AssetServiceServer).CompleteMultipartUpload(ctx, req.(*CompleteMultipartUploadInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AssetService_ServiceDesc is the grpc.ServiceDesc for AssetService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -137,6 +285,22 @@ var AssetService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UploadFile",
 			Handler:    _AssetService_UploadFile_Handler,
+		},
+		{
+			MethodName: "UploadAsset",
+			Handler:    _AssetService_UploadAsset_Handler,
+		},
+		{
+			MethodName: "StartMultipartUpload",
+			Handler:    _AssetService_StartMultipartUpload_Handler,
+		},
+		{
+			MethodName: "UploadPart",
+			Handler:    _AssetService_UploadPart_Handler,
+		},
+		{
+			MethodName: "CompleteMultipartUpload",
+			Handler:    _AssetService_CompleteMultipartUpload_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

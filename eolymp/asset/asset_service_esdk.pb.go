@@ -121,3 +121,57 @@ func (s *AssetServiceService) UploadFile(ctx context.Context, in *UploadFileInpu
 
 	return out, nil
 }
+
+func (s *AssetServiceService) UploadAsset(ctx context.Context, in *UploadAssetInput) (*UploadAssetOutput, error) {
+	out := &UploadAssetOutput{}
+	path := "/assets"
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *AssetServiceService) StartMultipartUpload(ctx context.Context, in *StartMultipartUploadInput) (*StartMultipartUploadOutput, error) {
+	out := &StartMultipartUploadOutput{}
+	path := "/uploads"
+
+	if err := s.do(ctx, "PUT", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *AssetServiceService) UploadPart(ctx context.Context, in *UploadPartInput) (*UploadPartOutput, error) {
+	out := &UploadPartOutput{}
+	path := "/uploads/" + url.PathEscape(in.GetUploadId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.UploadId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *AssetServiceService) CompleteMultipartUpload(ctx context.Context, in *CompleteMultipartUploadInput) (*CompleteMultipartUploadOutput, error) {
+	out := &CompleteMultipartUploadOutput{}
+	path := "/uploads/" + url.PathEscape(in.GetUploadId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.UploadId = ""
+	}
+
+	if err := s.do(ctx, "PUT", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
