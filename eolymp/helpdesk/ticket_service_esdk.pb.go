@@ -16,17 +16,17 @@ import (
 	os "os"
 )
 
-type _SupportHttpClient interface {
+type _TicketServiceHttpClient interface {
 	Do(*http.Request) (*http.Response, error)
 }
 
-type SupportService struct {
+type TicketServiceService struct {
 	base string
-	cli  _SupportHttpClient
+	cli  _TicketServiceHttpClient
 }
 
-// NewSupportHttpClient constructs client for Support
-func NewSupportHttpClient(url string, cli _SupportHttpClient) *SupportService {
+// NewTicketServiceHttpClient constructs client for TicketService
+func NewTicketServiceHttpClient(url string, cli _TicketServiceHttpClient) *TicketServiceService {
 	if url == "" {
 		url = os.Getenv("EOLYMP_API_URL")
 		if url == "" {
@@ -34,10 +34,10 @@ func NewSupportHttpClient(url string, cli _SupportHttpClient) *SupportService {
 		}
 	}
 
-	return &SupportService{base: url, cli: cli}
+	return &TicketServiceService{base: url, cli: cli}
 }
 
-func (s *SupportService) do(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
+func (s *TicketServiceService) do(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
 	var body io.Reader
 
 	if in != nil {
@@ -100,7 +100,7 @@ func (s *SupportService) do(ctx context.Context, verb, path string, in, out prot
 	return nil
 }
 
-func (s *SupportService) CreateTicket(ctx context.Context, in *CreateTicketInput) (*CreateTicketOutput, error) {
+func (s *TicketServiceService) CreateTicket(ctx context.Context, in *CreateTicketInput) (*CreateTicketOutput, error) {
 	out := &CreateTicketOutput{}
 	path := "/helpdesk/tickets"
 
@@ -111,7 +111,7 @@ func (s *SupportService) CreateTicket(ctx context.Context, in *CreateTicketInput
 	return out, nil
 }
 
-func (s *SupportService) UpdateTicket(ctx context.Context, in *UpdateTicketInput) (*UpdateTicketOutput, error) {
+func (s *TicketServiceService) UpdateTicket(ctx context.Context, in *UpdateTicketInput) (*UpdateTicketOutput, error) {
 	out := &UpdateTicketOutput{}
 	path := "/helpdesk/tickets/" + url.PathEscape(in.GetTicketId())
 
@@ -127,7 +127,7 @@ func (s *SupportService) UpdateTicket(ctx context.Context, in *UpdateTicketInput
 	return out, nil
 }
 
-func (s *SupportService) DeleteTicket(ctx context.Context, in *DeleteTicketInput) (*DeleteTicketOutput, error) {
+func (s *TicketServiceService) DeleteTicket(ctx context.Context, in *DeleteTicketInput) (*DeleteTicketOutput, error) {
 	out := &DeleteTicketOutput{}
 	path := "/helpdesk/tickets/" + url.PathEscape(in.GetTicketId())
 
@@ -143,7 +143,7 @@ func (s *SupportService) DeleteTicket(ctx context.Context, in *DeleteTicketInput
 	return out, nil
 }
 
-func (s *SupportService) DescribeTicket(ctx context.Context, in *DescribeTicketInput) (*DescribeTicketOutput, error) {
+func (s *TicketServiceService) DescribeTicket(ctx context.Context, in *DescribeTicketInput) (*DescribeTicketOutput, error) {
 	out := &DescribeTicketOutput{}
 	path := "/helpdesk/tickets/" + url.PathEscape(in.GetTicketId())
 
@@ -159,7 +159,7 @@ func (s *SupportService) DescribeTicket(ctx context.Context, in *DescribeTicketI
 	return out, nil
 }
 
-func (s *SupportService) ListTickets(ctx context.Context, in *ListTicketsInput) (*ListTicketsOutput, error) {
+func (s *TicketServiceService) ListTickets(ctx context.Context, in *ListTicketsInput) (*ListTicketsOutput, error) {
 	out := &ListTicketsOutput{}
 	path := "/helpdesk/tickets"
 
@@ -170,7 +170,7 @@ func (s *SupportService) ListTickets(ctx context.Context, in *ListTicketsInput) 
 	return out, nil
 }
 
-func (s *SupportService) ApproveTicket(ctx context.Context, in *ApproveTicketInput) (*ApproveTicketOutput, error) {
+func (s *TicketServiceService) ApproveTicket(ctx context.Context, in *ApproveTicketInput) (*ApproveTicketOutput, error) {
 	out := &ApproveTicketOutput{}
 	path := "/helpdesk/tickets/" + url.PathEscape(in.GetTicketId()) + "/approve"
 
@@ -186,7 +186,7 @@ func (s *SupportService) ApproveTicket(ctx context.Context, in *ApproveTicketInp
 	return out, nil
 }
 
-func (s *SupportService) RejectTicket(ctx context.Context, in *RejectTicketInput) (*RejectTicketOutput, error) {
+func (s *TicketServiceService) RejectTicket(ctx context.Context, in *RejectTicketInput) (*RejectTicketOutput, error) {
 	out := &RejectTicketOutput{}
 	path := "/helpdesk/tickets/" + url.PathEscape(in.GetTicketId()) + "/reject"
 
@@ -202,7 +202,7 @@ func (s *SupportService) RejectTicket(ctx context.Context, in *RejectTicketInput
 	return out, nil
 }
 
-func (s *SupportService) CloseTicket(ctx context.Context, in *CloseTicketInput) (*CloseTicketOutput, error) {
+func (s *TicketServiceService) CloseTicket(ctx context.Context, in *CloseTicketInput) (*CloseTicketOutput, error) {
 	out := &CloseTicketOutput{}
 	path := "/helpdesk/tickets/" + url.PathEscape(in.GetTicketId()) + "/close"
 
@@ -218,7 +218,7 @@ func (s *SupportService) CloseTicket(ctx context.Context, in *CloseTicketInput) 
 	return out, nil
 }
 
-func (s *SupportService) AddComment(ctx context.Context, in *AddCommentInput) (*AddCommentOutput, error) {
+func (s *TicketServiceService) AddComment(ctx context.Context, in *AddCommentInput) (*AddCommentOutput, error) {
 	out := &AddCommentOutput{}
 	path := "/helpdesk/tickets/" + url.PathEscape(in.GetTicketId()) + "/comments"
 
@@ -234,7 +234,7 @@ func (s *SupportService) AddComment(ctx context.Context, in *AddCommentInput) (*
 	return out, nil
 }
 
-func (s *SupportService) UpdateComment(ctx context.Context, in *UpdateCommentInput) (*UpdateCommentOutput, error) {
+func (s *TicketServiceService) UpdateComment(ctx context.Context, in *UpdateCommentInput) (*UpdateCommentOutput, error) {
 	out := &UpdateCommentOutput{}
 	path := "/helpdesk/tickets/" + url.PathEscape(in.GetTicketId()) + "/comments/" + url.PathEscape(in.GetCommentId())
 
@@ -251,7 +251,7 @@ func (s *SupportService) UpdateComment(ctx context.Context, in *UpdateCommentInp
 	return out, nil
 }
 
-func (s *SupportService) DeleteComment(ctx context.Context, in *DeleteCommentInput) (*DeleteCommentOutput, error) {
+func (s *TicketServiceService) DeleteComment(ctx context.Context, in *DeleteCommentInput) (*DeleteCommentOutput, error) {
 	out := &DeleteCommentOutput{}
 	path := "/helpdesk/tickets/" + url.PathEscape(in.GetTicketId()) + "/comments/" + url.PathEscape(in.GetCommentId())
 
@@ -268,7 +268,7 @@ func (s *SupportService) DeleteComment(ctx context.Context, in *DeleteCommentInp
 	return out, nil
 }
 
-func (s *SupportService) ListComments(ctx context.Context, in *ListCommentsInput) (*ListCommentsOutput, error) {
+func (s *TicketServiceService) ListComments(ctx context.Context, in *ListCommentsInput) (*ListCommentsOutput, error) {
 	out := &ListCommentsOutput{}
 	path := "/helpdesk/tickets/" + url.PathEscape(in.GetTicketId()) + "/comments"
 
@@ -284,7 +284,7 @@ func (s *SupportService) ListComments(ctx context.Context, in *ListCommentsInput
 	return out, nil
 }
 
-func (s *SupportService) DescribeComment(ctx context.Context, in *DescribeCommentInput) (*DescribeCommentOutput, error) {
+func (s *TicketServiceService) DescribeComment(ctx context.Context, in *DescribeCommentInput) (*DescribeCommentOutput, error) {
 	out := &DescribeCommentOutput{}
 	path := "/helpdesk/tickets/" + url.PathEscape(in.GetTicketId()) + "/comments/" + url.PathEscape(in.GetCommentId())
 
@@ -301,77 +301,7 @@ func (s *SupportService) DescribeComment(ctx context.Context, in *DescribeCommen
 	return out, nil
 }
 
-func (s *SupportService) CreateAutoReply(ctx context.Context, in *CreateAutoReplyInput) (*CreateAutoReplyOutput, error) {
-	out := &CreateAutoReplyOutput{}
-	path := "/helpdesk/autoreplies"
-
-	if err := s.do(ctx, "POST", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *SupportService) UpdateAutoReply(ctx context.Context, in *UpdateAutoReplyInput) (*UpdateAutoReplyOutput, error) {
-	out := &UpdateAutoReplyOutput{}
-	path := "/helpdesk/autoreplies/" + url.PathEscape(in.GetReplyId())
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.ReplyId = ""
-	}
-
-	if err := s.do(ctx, "PUT", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *SupportService) DeleteAutoReply(ctx context.Context, in *DeleteAutoReplyInput) (*DeleteAutoReplyOutput, error) {
-	out := &DeleteAutoReplyOutput{}
-	path := "/helpdesk/autoreplies/" + url.PathEscape(in.GetReplyId())
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.ReplyId = ""
-	}
-
-	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *SupportService) ListAutoReplies(ctx context.Context, in *ListAutoRepliesInput) (*ListAutoRepliesOutput, error) {
-	out := &ListAutoRepliesOutput{}
-	path := "/helpdesk/autoreplies"
-
-	if err := s.do(ctx, "GET", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *SupportService) DescribeAutoReply(ctx context.Context, in *DescribeAutoReplyInput) (*DescribeAutoReplyOutput, error) {
-	out := &DescribeAutoReplyOutput{}
-	path := "/helpdesk/autoreplies/" + url.PathEscape(in.GetReplyId())
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.ReplyId = ""
-	}
-
-	if err := s.do(ctx, "GET", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *SupportService) UploadAttachment(ctx context.Context, in *UploadAttachmentInput) (*UploadAttachmentOutput, error) {
+func (s *TicketServiceService) UploadAttachment(ctx context.Context, in *UploadAttachmentInput) (*UploadAttachmentOutput, error) {
 	out := &UploadAttachmentOutput{}
 	path := "/helpdesk/attachments"
 

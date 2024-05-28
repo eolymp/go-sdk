@@ -18,8 +18,8 @@ import (
 	http "net/http"
 )
 
-// _Support_HTTPReadQueryString parses body into proto.Message
-func _Support_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+// _TicketService_HTTPReadQueryString parses body into proto.Message
+func _TicketService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
 	query := r.URL.Query().Get("q")
 	if query == "" {
 		return nil
@@ -32,8 +32,8 @@ func _Support_HTTPReadQueryString(r *http.Request, v proto.Message) error {
 	return nil
 }
 
-// _Support_HTTPReadRequestBody parses body into proto.Message
-func _Support_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
+// _TicketService_HTTPReadRequestBody parses body into proto.Message
+func _TicketService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
 	data, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		return err
@@ -46,11 +46,11 @@ func _Support_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
 	return nil
 }
 
-// _Support_HTTPWriteResponse writes proto.Message to HTTP response
-func _Support_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h, t metadata.MD) {
+// _TicketService_HTTPWriteResponse writes proto.Message to HTTP response
+func _TicketService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h, t metadata.MD) {
 	data, err := protojson.Marshal(v)
 	if err != nil {
-		_Support_HTTPWriteErrorResponse(w, err)
+		_TicketService_HTTPWriteErrorResponse(w, err)
 		return
 	}
 
@@ -73,8 +73,8 @@ func _Support_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h, t met
 	_, _ = w.Write(data)
 }
 
-// _Support_HTTPWriteErrorResponse writes error to HTTP response with error status code
-func _Support_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
+// _TicketService_HTTPWriteErrorResponse writes error to HTTP response with error status code
+func _TicketService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
 
 	w.Header().Set("Content-Type", "application/json")
@@ -126,8 +126,8 @@ func _Support_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	_, _ = w.Write(data)
 }
 
-// _Support_WebsocketErrorResponse writes error to websocket connection
-func _Support_WebsocketErrorResponse(conn *websocket.Conn, e error) {
+// _TicketService_WebsocketErrorResponse writes error to websocket connection
+func _TicketService_WebsocketErrorResponse(conn *websocket.Conn, e error) {
 	switch status.Convert(e).Code() {
 	case codes.OK:
 		conn.WriteClose(1000)
@@ -168,8 +168,8 @@ func _Support_WebsocketErrorResponse(conn *websocket.Conn, e error) {
 	}
 }
 
-// _Support_WebsocketCodec implements protobuf codec for websockets package
-var _Support_WebsocketCodec = websocket.Codec{
+// _TicketService_WebsocketCodec implements protobuf codec for websockets package
+var _TicketService_WebsocketCodec = websocket.Codec{
 	Marshal: func(v interface{}) ([]byte, byte, error) {
 		m, ok := v.(proto.Message)
 		if !ok {
@@ -193,75 +193,60 @@ var _Support_WebsocketCodec = websocket.Codec{
 	},
 }
 
-// RegisterSupportHttpHandlers adds handlers for for SupportClient
+// RegisterTicketServiceHttpHandlers adds handlers for for TicketServiceClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterSupportHttpHandlers(router *mux.Router, prefix string, cli SupportClient) {
-	router.Handle(prefix+"/helpdesk/tickets", _Support_CreateTicket_Rule0(cli)).
+func RegisterTicketServiceHttpHandlers(router *mux.Router, prefix string, cli TicketServiceClient) {
+	router.Handle(prefix+"/helpdesk/tickets", _TicketService_CreateTicket_Rule0(cli)).
 		Methods("POST").
-		Name("eolymp.helpdesk.Support.CreateTicket")
-	router.Handle(prefix+"/helpdesk/tickets/{ticket_id}", _Support_UpdateTicket_Rule0(cli)).
+		Name("eolymp.helpdesk.TicketService.CreateTicket")
+	router.Handle(prefix+"/helpdesk/tickets/{ticket_id}", _TicketService_UpdateTicket_Rule0(cli)).
 		Methods("PUT").
-		Name("eolymp.helpdesk.Support.UpdateTicket")
-	router.Handle(prefix+"/helpdesk/tickets/{ticket_id}", _Support_DeleteTicket_Rule0(cli)).
+		Name("eolymp.helpdesk.TicketService.UpdateTicket")
+	router.Handle(prefix+"/helpdesk/tickets/{ticket_id}", _TicketService_DeleteTicket_Rule0(cli)).
 		Methods("DELETE").
-		Name("eolymp.helpdesk.Support.DeleteTicket")
-	router.Handle(prefix+"/helpdesk/tickets/{ticket_id}", _Support_DescribeTicket_Rule0(cli)).
+		Name("eolymp.helpdesk.TicketService.DeleteTicket")
+	router.Handle(prefix+"/helpdesk/tickets/{ticket_id}", _TicketService_DescribeTicket_Rule0(cli)).
 		Methods("GET").
-		Name("eolymp.helpdesk.Support.DescribeTicket")
-	router.Handle(prefix+"/helpdesk/tickets", _Support_ListTickets_Rule0(cli)).
+		Name("eolymp.helpdesk.TicketService.DescribeTicket")
+	router.Handle(prefix+"/helpdesk/tickets", _TicketService_ListTickets_Rule0(cli)).
 		Methods("GET").
-		Name("eolymp.helpdesk.Support.ListTickets")
-	router.Handle(prefix+"/helpdesk/tickets/{ticket_id}/approve", _Support_ApproveTicket_Rule0(cli)).
+		Name("eolymp.helpdesk.TicketService.ListTickets")
+	router.Handle(prefix+"/helpdesk/tickets/{ticket_id}/approve", _TicketService_ApproveTicket_Rule0(cli)).
 		Methods("POST").
-		Name("eolymp.helpdesk.Support.ApproveTicket")
-	router.Handle(prefix+"/helpdesk/tickets/{ticket_id}/reject", _Support_RejectTicket_Rule0(cli)).
+		Name("eolymp.helpdesk.TicketService.ApproveTicket")
+	router.Handle(prefix+"/helpdesk/tickets/{ticket_id}/reject", _TicketService_RejectTicket_Rule0(cli)).
 		Methods("POST").
-		Name("eolymp.helpdesk.Support.RejectTicket")
-	router.Handle(prefix+"/helpdesk/tickets/{ticket_id}/close", _Support_CloseTicket_Rule0(cli)).
+		Name("eolymp.helpdesk.TicketService.RejectTicket")
+	router.Handle(prefix+"/helpdesk/tickets/{ticket_id}/close", _TicketService_CloseTicket_Rule0(cli)).
 		Methods("POST").
-		Name("eolymp.helpdesk.Support.CloseTicket")
-	router.Handle(prefix+"/helpdesk/tickets/{ticket_id}/comments", _Support_AddComment_Rule0(cli)).
+		Name("eolymp.helpdesk.TicketService.CloseTicket")
+	router.Handle(prefix+"/helpdesk/tickets/{ticket_id}/comments", _TicketService_AddComment_Rule0(cli)).
 		Methods("POST").
-		Name("eolymp.helpdesk.Support.AddComment")
-	router.Handle(prefix+"/helpdesk/tickets/{ticket_id}/comments/{comment_id}", _Support_UpdateComment_Rule0(cli)).
+		Name("eolymp.helpdesk.TicketService.AddComment")
+	router.Handle(prefix+"/helpdesk/tickets/{ticket_id}/comments/{comment_id}", _TicketService_UpdateComment_Rule0(cli)).
 		Methods("PUT").
-		Name("eolymp.helpdesk.Support.UpdateComment")
-	router.Handle(prefix+"/helpdesk/tickets/{ticket_id}/comments/{comment_id}", _Support_DeleteComment_Rule0(cli)).
+		Name("eolymp.helpdesk.TicketService.UpdateComment")
+	router.Handle(prefix+"/helpdesk/tickets/{ticket_id}/comments/{comment_id}", _TicketService_DeleteComment_Rule0(cli)).
 		Methods("DELETE").
-		Name("eolymp.helpdesk.Support.DeleteComment")
-	router.Handle(prefix+"/helpdesk/tickets/{ticket_id}/comments", _Support_ListComments_Rule0(cli)).
+		Name("eolymp.helpdesk.TicketService.DeleteComment")
+	router.Handle(prefix+"/helpdesk/tickets/{ticket_id}/comments", _TicketService_ListComments_Rule0(cli)).
 		Methods("GET").
-		Name("eolymp.helpdesk.Support.ListComments")
-	router.Handle(prefix+"/helpdesk/tickets/{ticket_id}/comments/{comment_id}", _Support_DescribeComment_Rule0(cli)).
+		Name("eolymp.helpdesk.TicketService.ListComments")
+	router.Handle(prefix+"/helpdesk/tickets/{ticket_id}/comments/{comment_id}", _TicketService_DescribeComment_Rule0(cli)).
 		Methods("GET").
-		Name("eolymp.helpdesk.Support.DescribeComment")
-	router.Handle(prefix+"/helpdesk/autoreplies", _Support_CreateAutoReply_Rule0(cli)).
+		Name("eolymp.helpdesk.TicketService.DescribeComment")
+	router.Handle(prefix+"/helpdesk/attachments", _TicketService_UploadAttachment_Rule0(cli)).
 		Methods("POST").
-		Name("eolymp.helpdesk.Support.CreateAutoReply")
-	router.Handle(prefix+"/helpdesk/autoreplies/{reply_id}", _Support_UpdateAutoReply_Rule0(cli)).
-		Methods("PUT").
-		Name("eolymp.helpdesk.Support.UpdateAutoReply")
-	router.Handle(prefix+"/helpdesk/autoreplies/{reply_id}", _Support_DeleteAutoReply_Rule0(cli)).
-		Methods("DELETE").
-		Name("eolymp.helpdesk.Support.DeleteAutoReply")
-	router.Handle(prefix+"/helpdesk/autoreplies", _Support_ListAutoReplies_Rule0(cli)).
-		Methods("GET").
-		Name("eolymp.helpdesk.Support.ListAutoReplies")
-	router.Handle(prefix+"/helpdesk/autoreplies/{reply_id}", _Support_DescribeAutoReply_Rule0(cli)).
-		Methods("GET").
-		Name("eolymp.helpdesk.Support.DescribeAutoReply")
-	router.Handle(prefix+"/helpdesk/attachments", _Support_UploadAttachment_Rule0(cli)).
-		Methods("POST").
-		Name("eolymp.helpdesk.Support.UploadAttachment")
+		Name("eolymp.helpdesk.TicketService.UploadAttachment")
 }
 
-func _Support_CreateTicket_Rule0(cli SupportClient) http.Handler {
+func _TicketService_CreateTicket_Rule0(cli TicketServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateTicketInput{}
 
-		if err := _Support_HTTPReadRequestBody(r, in); err != nil {
+		if err := _TicketService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
-			_Support_HTTPWriteErrorResponse(w, err)
+			_TicketService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
@@ -269,21 +254,21 @@ func _Support_CreateTicket_Rule0(cli SupportClient) http.Handler {
 
 		out, err := cli.CreateTicket(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
-			_Support_HTTPWriteErrorResponse(w, err)
+			_TicketService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Support_HTTPWriteResponse(w, out, header, trailer)
+		_TicketService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
-func _Support_UpdateTicket_Rule0(cli SupportClient) http.Handler {
+func _TicketService_UpdateTicket_Rule0(cli TicketServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateTicketInput{}
 
-		if err := _Support_HTTPReadRequestBody(r, in); err != nil {
+		if err := _TicketService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
-			_Support_HTTPWriteErrorResponse(w, err)
+			_TicketService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
@@ -294,21 +279,21 @@ func _Support_UpdateTicket_Rule0(cli SupportClient) http.Handler {
 
 		out, err := cli.UpdateTicket(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
-			_Support_HTTPWriteErrorResponse(w, err)
+			_TicketService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Support_HTTPWriteResponse(w, out, header, trailer)
+		_TicketService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
-func _Support_DeleteTicket_Rule0(cli SupportClient) http.Handler {
+func _TicketService_DeleteTicket_Rule0(cli TicketServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteTicketInput{}
 
-		if err := _Support_HTTPReadRequestBody(r, in); err != nil {
+		if err := _TicketService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
-			_Support_HTTPWriteErrorResponse(w, err)
+			_TicketService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
@@ -319,21 +304,21 @@ func _Support_DeleteTicket_Rule0(cli SupportClient) http.Handler {
 
 		out, err := cli.DeleteTicket(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
-			_Support_HTTPWriteErrorResponse(w, err)
+			_TicketService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Support_HTTPWriteResponse(w, out, header, trailer)
+		_TicketService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
-func _Support_DescribeTicket_Rule0(cli SupportClient) http.Handler {
+func _TicketService_DescribeTicket_Rule0(cli TicketServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeTicketInput{}
 
-		if err := _Support_HTTPReadQueryString(r, in); err != nil {
+		if err := _TicketService_HTTPReadQueryString(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
-			_Support_HTTPWriteErrorResponse(w, err)
+			_TicketService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
@@ -344,21 +329,21 @@ func _Support_DescribeTicket_Rule0(cli SupportClient) http.Handler {
 
 		out, err := cli.DescribeTicket(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
-			_Support_HTTPWriteErrorResponse(w, err)
+			_TicketService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Support_HTTPWriteResponse(w, out, header, trailer)
+		_TicketService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
-func _Support_ListTickets_Rule0(cli SupportClient) http.Handler {
+func _TicketService_ListTickets_Rule0(cli TicketServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListTicketsInput{}
 
-		if err := _Support_HTTPReadQueryString(r, in); err != nil {
+		if err := _TicketService_HTTPReadQueryString(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
-			_Support_HTTPWriteErrorResponse(w, err)
+			_TicketService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
@@ -366,21 +351,21 @@ func _Support_ListTickets_Rule0(cli SupportClient) http.Handler {
 
 		out, err := cli.ListTickets(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
-			_Support_HTTPWriteErrorResponse(w, err)
+			_TicketService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Support_HTTPWriteResponse(w, out, header, trailer)
+		_TicketService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
-func _Support_ApproveTicket_Rule0(cli SupportClient) http.Handler {
+func _TicketService_ApproveTicket_Rule0(cli TicketServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ApproveTicketInput{}
 
-		if err := _Support_HTTPReadRequestBody(r, in); err != nil {
+		if err := _TicketService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
-			_Support_HTTPWriteErrorResponse(w, err)
+			_TicketService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
@@ -391,21 +376,21 @@ func _Support_ApproveTicket_Rule0(cli SupportClient) http.Handler {
 
 		out, err := cli.ApproveTicket(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
-			_Support_HTTPWriteErrorResponse(w, err)
+			_TicketService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Support_HTTPWriteResponse(w, out, header, trailer)
+		_TicketService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
-func _Support_RejectTicket_Rule0(cli SupportClient) http.Handler {
+func _TicketService_RejectTicket_Rule0(cli TicketServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &RejectTicketInput{}
 
-		if err := _Support_HTTPReadRequestBody(r, in); err != nil {
+		if err := _TicketService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
-			_Support_HTTPWriteErrorResponse(w, err)
+			_TicketService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
@@ -416,21 +401,21 @@ func _Support_RejectTicket_Rule0(cli SupportClient) http.Handler {
 
 		out, err := cli.RejectTicket(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
-			_Support_HTTPWriteErrorResponse(w, err)
+			_TicketService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Support_HTTPWriteResponse(w, out, header, trailer)
+		_TicketService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
-func _Support_CloseTicket_Rule0(cli SupportClient) http.Handler {
+func _TicketService_CloseTicket_Rule0(cli TicketServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CloseTicketInput{}
 
-		if err := _Support_HTTPReadRequestBody(r, in); err != nil {
+		if err := _TicketService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
-			_Support_HTTPWriteErrorResponse(w, err)
+			_TicketService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
@@ -441,21 +426,21 @@ func _Support_CloseTicket_Rule0(cli SupportClient) http.Handler {
 
 		out, err := cli.CloseTicket(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
-			_Support_HTTPWriteErrorResponse(w, err)
+			_TicketService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Support_HTTPWriteResponse(w, out, header, trailer)
+		_TicketService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
-func _Support_AddComment_Rule0(cli SupportClient) http.Handler {
+func _TicketService_AddComment_Rule0(cli TicketServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &AddCommentInput{}
 
-		if err := _Support_HTTPReadRequestBody(r, in); err != nil {
+		if err := _TicketService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
-			_Support_HTTPWriteErrorResponse(w, err)
+			_TicketService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
@@ -466,21 +451,21 @@ func _Support_AddComment_Rule0(cli SupportClient) http.Handler {
 
 		out, err := cli.AddComment(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
-			_Support_HTTPWriteErrorResponse(w, err)
+			_TicketService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Support_HTTPWriteResponse(w, out, header, trailer)
+		_TicketService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
-func _Support_UpdateComment_Rule0(cli SupportClient) http.Handler {
+func _TicketService_UpdateComment_Rule0(cli TicketServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateCommentInput{}
 
-		if err := _Support_HTTPReadRequestBody(r, in); err != nil {
+		if err := _TicketService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
-			_Support_HTTPWriteErrorResponse(w, err)
+			_TicketService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
@@ -492,21 +477,21 @@ func _Support_UpdateComment_Rule0(cli SupportClient) http.Handler {
 
 		out, err := cli.UpdateComment(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
-			_Support_HTTPWriteErrorResponse(w, err)
+			_TicketService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Support_HTTPWriteResponse(w, out, header, trailer)
+		_TicketService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
-func _Support_DeleteComment_Rule0(cli SupportClient) http.Handler {
+func _TicketService_DeleteComment_Rule0(cli TicketServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteCommentInput{}
 
-		if err := _Support_HTTPReadRequestBody(r, in); err != nil {
+		if err := _TicketService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
-			_Support_HTTPWriteErrorResponse(w, err)
+			_TicketService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
@@ -518,21 +503,21 @@ func _Support_DeleteComment_Rule0(cli SupportClient) http.Handler {
 
 		out, err := cli.DeleteComment(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
-			_Support_HTTPWriteErrorResponse(w, err)
+			_TicketService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Support_HTTPWriteResponse(w, out, header, trailer)
+		_TicketService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
-func _Support_ListComments_Rule0(cli SupportClient) http.Handler {
+func _TicketService_ListComments_Rule0(cli TicketServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListCommentsInput{}
 
-		if err := _Support_HTTPReadQueryString(r, in); err != nil {
+		if err := _TicketService_HTTPReadQueryString(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
-			_Support_HTTPWriteErrorResponse(w, err)
+			_TicketService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
@@ -543,21 +528,21 @@ func _Support_ListComments_Rule0(cli SupportClient) http.Handler {
 
 		out, err := cli.ListComments(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
-			_Support_HTTPWriteErrorResponse(w, err)
+			_TicketService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Support_HTTPWriteResponse(w, out, header, trailer)
+		_TicketService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
-func _Support_DescribeComment_Rule0(cli SupportClient) http.Handler {
+func _TicketService_DescribeComment_Rule0(cli TicketServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeCommentInput{}
 
-		if err := _Support_HTTPReadQueryString(r, in); err != nil {
+		if err := _TicketService_HTTPReadQueryString(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
-			_Support_HTTPWriteErrorResponse(w, err)
+			_TicketService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
@@ -569,140 +554,21 @@ func _Support_DescribeComment_Rule0(cli SupportClient) http.Handler {
 
 		out, err := cli.DescribeComment(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
-			_Support_HTTPWriteErrorResponse(w, err)
+			_TicketService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Support_HTTPWriteResponse(w, out, header, trailer)
+		_TicketService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
-func _Support_CreateAutoReply_Rule0(cli SupportClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &CreateAutoReplyInput{}
-
-		if err := _Support_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_Support_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		var header, trailer metadata.MD
-
-		out, err := cli.CreateAutoReply(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
-		if err != nil {
-			_Support_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Support_HTTPWriteResponse(w, out, header, trailer)
-	})
-}
-
-func _Support_UpdateAutoReply_Rule0(cli SupportClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &UpdateAutoReplyInput{}
-
-		if err := _Support_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_Support_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.ReplyId = vars["reply_id"]
-
-		var header, trailer metadata.MD
-
-		out, err := cli.UpdateAutoReply(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
-		if err != nil {
-			_Support_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Support_HTTPWriteResponse(w, out, header, trailer)
-	})
-}
-
-func _Support_DeleteAutoReply_Rule0(cli SupportClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DeleteAutoReplyInput{}
-
-		if err := _Support_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_Support_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.ReplyId = vars["reply_id"]
-
-		var header, trailer metadata.MD
-
-		out, err := cli.DeleteAutoReply(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
-		if err != nil {
-			_Support_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Support_HTTPWriteResponse(w, out, header, trailer)
-	})
-}
-
-func _Support_ListAutoReplies_Rule0(cli SupportClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ListAutoRepliesInput{}
-
-		if err := _Support_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_Support_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		var header, trailer metadata.MD
-
-		out, err := cli.ListAutoReplies(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
-		if err != nil {
-			_Support_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Support_HTTPWriteResponse(w, out, header, trailer)
-	})
-}
-
-func _Support_DescribeAutoReply_Rule0(cli SupportClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DescribeAutoReplyInput{}
-
-		if err := _Support_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_Support_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.ReplyId = vars["reply_id"]
-
-		var header, trailer metadata.MD
-
-		out, err := cli.DescribeAutoReply(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
-		if err != nil {
-			_Support_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Support_HTTPWriteResponse(w, out, header, trailer)
-	})
-}
-
-func _Support_UploadAttachment_Rule0(cli SupportClient) http.Handler {
+func _TicketService_UploadAttachment_Rule0(cli TicketServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UploadAttachmentInput{}
 
-		if err := _Support_HTTPReadRequestBody(r, in); err != nil {
+		if err := _TicketService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
-			_Support_HTTPWriteErrorResponse(w, err)
+			_TicketService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
@@ -710,27 +576,27 @@ func _Support_UploadAttachment_Rule0(cli SupportClient) http.Handler {
 
 		out, err := cli.UploadAttachment(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
-			_Support_HTTPWriteErrorResponse(w, err)
+			_TicketService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Support_HTTPWriteResponse(w, out, header, trailer)
+		_TicketService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
-type _SupportHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
-type _SupportMiddleware = func(ctx context.Context, method string, in proto.Message, handler _SupportHandler) (out proto.Message, err error)
-type SupportInterceptor struct {
-	middleware []_SupportMiddleware
-	client     SupportClient
+type _TicketServiceHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
+type _TicketServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _TicketServiceHandler) (out proto.Message, err error)
+type TicketServiceInterceptor struct {
+	middleware []_TicketServiceMiddleware
+	client     TicketServiceClient
 }
 
-// NewSupportInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewSupportInterceptor(cli SupportClient, middleware ..._SupportMiddleware) *SupportInterceptor {
-	return &SupportInterceptor{client: cli, middleware: middleware}
+// NewTicketServiceInterceptor constructs additional middleware for a server based on annotations in proto files
+func NewTicketServiceInterceptor(cli TicketServiceClient, middleware ..._TicketServiceMiddleware) *TicketServiceInterceptor {
+	return &TicketServiceInterceptor{client: cli, middleware: middleware}
 }
 
-func (i *SupportInterceptor) CreateTicket(ctx context.Context, in *CreateTicketInput, opts ...grpc.CallOption) (*CreateTicketOutput, error) {
+func (i *TicketServiceInterceptor) CreateTicket(ctx context.Context, in *CreateTicketInput, opts ...grpc.CallOption) (*CreateTicketOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CreateTicketInput)
 		if !ok && in != nil {
@@ -745,7 +611,7 @@ func (i *SupportInterceptor) CreateTicket(ctx context.Context, in *CreateTicketI
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.helpdesk.Support.CreateTicket", in, next)
+			return mw(ctx, "eolymp.helpdesk.TicketService.CreateTicket", in, next)
 		}
 	}
 
@@ -762,7 +628,7 @@ func (i *SupportInterceptor) CreateTicket(ctx context.Context, in *CreateTicketI
 	return message, err
 }
 
-func (i *SupportInterceptor) UpdateTicket(ctx context.Context, in *UpdateTicketInput, opts ...grpc.CallOption) (*UpdateTicketOutput, error) {
+func (i *TicketServiceInterceptor) UpdateTicket(ctx context.Context, in *UpdateTicketInput, opts ...grpc.CallOption) (*UpdateTicketOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdateTicketInput)
 		if !ok && in != nil {
@@ -777,7 +643,7 @@ func (i *SupportInterceptor) UpdateTicket(ctx context.Context, in *UpdateTicketI
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.helpdesk.Support.UpdateTicket", in, next)
+			return mw(ctx, "eolymp.helpdesk.TicketService.UpdateTicket", in, next)
 		}
 	}
 
@@ -794,7 +660,7 @@ func (i *SupportInterceptor) UpdateTicket(ctx context.Context, in *UpdateTicketI
 	return message, err
 }
 
-func (i *SupportInterceptor) DeleteTicket(ctx context.Context, in *DeleteTicketInput, opts ...grpc.CallOption) (*DeleteTicketOutput, error) {
+func (i *TicketServiceInterceptor) DeleteTicket(ctx context.Context, in *DeleteTicketInput, opts ...grpc.CallOption) (*DeleteTicketOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DeleteTicketInput)
 		if !ok && in != nil {
@@ -809,7 +675,7 @@ func (i *SupportInterceptor) DeleteTicket(ctx context.Context, in *DeleteTicketI
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.helpdesk.Support.DeleteTicket", in, next)
+			return mw(ctx, "eolymp.helpdesk.TicketService.DeleteTicket", in, next)
 		}
 	}
 
@@ -826,7 +692,7 @@ func (i *SupportInterceptor) DeleteTicket(ctx context.Context, in *DeleteTicketI
 	return message, err
 }
 
-func (i *SupportInterceptor) DescribeTicket(ctx context.Context, in *DescribeTicketInput, opts ...grpc.CallOption) (*DescribeTicketOutput, error) {
+func (i *TicketServiceInterceptor) DescribeTicket(ctx context.Context, in *DescribeTicketInput, opts ...grpc.CallOption) (*DescribeTicketOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeTicketInput)
 		if !ok && in != nil {
@@ -841,7 +707,7 @@ func (i *SupportInterceptor) DescribeTicket(ctx context.Context, in *DescribeTic
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.helpdesk.Support.DescribeTicket", in, next)
+			return mw(ctx, "eolymp.helpdesk.TicketService.DescribeTicket", in, next)
 		}
 	}
 
@@ -858,7 +724,7 @@ func (i *SupportInterceptor) DescribeTicket(ctx context.Context, in *DescribeTic
 	return message, err
 }
 
-func (i *SupportInterceptor) ListTickets(ctx context.Context, in *ListTicketsInput, opts ...grpc.CallOption) (*ListTicketsOutput, error) {
+func (i *TicketServiceInterceptor) ListTickets(ctx context.Context, in *ListTicketsInput, opts ...grpc.CallOption) (*ListTicketsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListTicketsInput)
 		if !ok && in != nil {
@@ -873,7 +739,7 @@ func (i *SupportInterceptor) ListTickets(ctx context.Context, in *ListTicketsInp
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.helpdesk.Support.ListTickets", in, next)
+			return mw(ctx, "eolymp.helpdesk.TicketService.ListTickets", in, next)
 		}
 	}
 
@@ -890,7 +756,7 @@ func (i *SupportInterceptor) ListTickets(ctx context.Context, in *ListTicketsInp
 	return message, err
 }
 
-func (i *SupportInterceptor) ApproveTicket(ctx context.Context, in *ApproveTicketInput, opts ...grpc.CallOption) (*ApproveTicketOutput, error) {
+func (i *TicketServiceInterceptor) ApproveTicket(ctx context.Context, in *ApproveTicketInput, opts ...grpc.CallOption) (*ApproveTicketOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ApproveTicketInput)
 		if !ok && in != nil {
@@ -905,7 +771,7 @@ func (i *SupportInterceptor) ApproveTicket(ctx context.Context, in *ApproveTicke
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.helpdesk.Support.ApproveTicket", in, next)
+			return mw(ctx, "eolymp.helpdesk.TicketService.ApproveTicket", in, next)
 		}
 	}
 
@@ -922,7 +788,7 @@ func (i *SupportInterceptor) ApproveTicket(ctx context.Context, in *ApproveTicke
 	return message, err
 }
 
-func (i *SupportInterceptor) RejectTicket(ctx context.Context, in *RejectTicketInput, opts ...grpc.CallOption) (*RejectTicketOutput, error) {
+func (i *TicketServiceInterceptor) RejectTicket(ctx context.Context, in *RejectTicketInput, opts ...grpc.CallOption) (*RejectTicketOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*RejectTicketInput)
 		if !ok && in != nil {
@@ -937,7 +803,7 @@ func (i *SupportInterceptor) RejectTicket(ctx context.Context, in *RejectTicketI
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.helpdesk.Support.RejectTicket", in, next)
+			return mw(ctx, "eolymp.helpdesk.TicketService.RejectTicket", in, next)
 		}
 	}
 
@@ -954,7 +820,7 @@ func (i *SupportInterceptor) RejectTicket(ctx context.Context, in *RejectTicketI
 	return message, err
 }
 
-func (i *SupportInterceptor) CloseTicket(ctx context.Context, in *CloseTicketInput, opts ...grpc.CallOption) (*CloseTicketOutput, error) {
+func (i *TicketServiceInterceptor) CloseTicket(ctx context.Context, in *CloseTicketInput, opts ...grpc.CallOption) (*CloseTicketOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CloseTicketInput)
 		if !ok && in != nil {
@@ -969,7 +835,7 @@ func (i *SupportInterceptor) CloseTicket(ctx context.Context, in *CloseTicketInp
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.helpdesk.Support.CloseTicket", in, next)
+			return mw(ctx, "eolymp.helpdesk.TicketService.CloseTicket", in, next)
 		}
 	}
 
@@ -986,7 +852,7 @@ func (i *SupportInterceptor) CloseTicket(ctx context.Context, in *CloseTicketInp
 	return message, err
 }
 
-func (i *SupportInterceptor) AddComment(ctx context.Context, in *AddCommentInput, opts ...grpc.CallOption) (*AddCommentOutput, error) {
+func (i *TicketServiceInterceptor) AddComment(ctx context.Context, in *AddCommentInput, opts ...grpc.CallOption) (*AddCommentOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*AddCommentInput)
 		if !ok && in != nil {
@@ -1001,7 +867,7 @@ func (i *SupportInterceptor) AddComment(ctx context.Context, in *AddCommentInput
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.helpdesk.Support.AddComment", in, next)
+			return mw(ctx, "eolymp.helpdesk.TicketService.AddComment", in, next)
 		}
 	}
 
@@ -1018,7 +884,7 @@ func (i *SupportInterceptor) AddComment(ctx context.Context, in *AddCommentInput
 	return message, err
 }
 
-func (i *SupportInterceptor) UpdateComment(ctx context.Context, in *UpdateCommentInput, opts ...grpc.CallOption) (*UpdateCommentOutput, error) {
+func (i *TicketServiceInterceptor) UpdateComment(ctx context.Context, in *UpdateCommentInput, opts ...grpc.CallOption) (*UpdateCommentOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdateCommentInput)
 		if !ok && in != nil {
@@ -1033,7 +899,7 @@ func (i *SupportInterceptor) UpdateComment(ctx context.Context, in *UpdateCommen
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.helpdesk.Support.UpdateComment", in, next)
+			return mw(ctx, "eolymp.helpdesk.TicketService.UpdateComment", in, next)
 		}
 	}
 
@@ -1050,7 +916,7 @@ func (i *SupportInterceptor) UpdateComment(ctx context.Context, in *UpdateCommen
 	return message, err
 }
 
-func (i *SupportInterceptor) DeleteComment(ctx context.Context, in *DeleteCommentInput, opts ...grpc.CallOption) (*DeleteCommentOutput, error) {
+func (i *TicketServiceInterceptor) DeleteComment(ctx context.Context, in *DeleteCommentInput, opts ...grpc.CallOption) (*DeleteCommentOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DeleteCommentInput)
 		if !ok && in != nil {
@@ -1065,7 +931,7 @@ func (i *SupportInterceptor) DeleteComment(ctx context.Context, in *DeleteCommen
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.helpdesk.Support.DeleteComment", in, next)
+			return mw(ctx, "eolymp.helpdesk.TicketService.DeleteComment", in, next)
 		}
 	}
 
@@ -1082,7 +948,7 @@ func (i *SupportInterceptor) DeleteComment(ctx context.Context, in *DeleteCommen
 	return message, err
 }
 
-func (i *SupportInterceptor) ListComments(ctx context.Context, in *ListCommentsInput, opts ...grpc.CallOption) (*ListCommentsOutput, error) {
+func (i *TicketServiceInterceptor) ListComments(ctx context.Context, in *ListCommentsInput, opts ...grpc.CallOption) (*ListCommentsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListCommentsInput)
 		if !ok && in != nil {
@@ -1097,7 +963,7 @@ func (i *SupportInterceptor) ListComments(ctx context.Context, in *ListCommentsI
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.helpdesk.Support.ListComments", in, next)
+			return mw(ctx, "eolymp.helpdesk.TicketService.ListComments", in, next)
 		}
 	}
 
@@ -1114,7 +980,7 @@ func (i *SupportInterceptor) ListComments(ctx context.Context, in *ListCommentsI
 	return message, err
 }
 
-func (i *SupportInterceptor) DescribeComment(ctx context.Context, in *DescribeCommentInput, opts ...grpc.CallOption) (*DescribeCommentOutput, error) {
+func (i *TicketServiceInterceptor) DescribeComment(ctx context.Context, in *DescribeCommentInput, opts ...grpc.CallOption) (*DescribeCommentOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeCommentInput)
 		if !ok && in != nil {
@@ -1129,7 +995,7 @@ func (i *SupportInterceptor) DescribeComment(ctx context.Context, in *DescribeCo
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.helpdesk.Support.DescribeComment", in, next)
+			return mw(ctx, "eolymp.helpdesk.TicketService.DescribeComment", in, next)
 		}
 	}
 
@@ -1146,167 +1012,7 @@ func (i *SupportInterceptor) DescribeComment(ctx context.Context, in *DescribeCo
 	return message, err
 }
 
-func (i *SupportInterceptor) CreateAutoReply(ctx context.Context, in *CreateAutoReplyInput, opts ...grpc.CallOption) (*CreateAutoReplyOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*CreateAutoReplyInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *CreateAutoReplyInput, got %T", in))
-		}
-
-		return i.client.CreateAutoReply(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.helpdesk.Support.CreateAutoReply", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*CreateAutoReplyOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *CreateAutoReplyOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *SupportInterceptor) UpdateAutoReply(ctx context.Context, in *UpdateAutoReplyInput, opts ...grpc.CallOption) (*UpdateAutoReplyOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*UpdateAutoReplyInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *UpdateAutoReplyInput, got %T", in))
-		}
-
-		return i.client.UpdateAutoReply(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.helpdesk.Support.UpdateAutoReply", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*UpdateAutoReplyOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *UpdateAutoReplyOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *SupportInterceptor) DeleteAutoReply(ctx context.Context, in *DeleteAutoReplyInput, opts ...grpc.CallOption) (*DeleteAutoReplyOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*DeleteAutoReplyInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *DeleteAutoReplyInput, got %T", in))
-		}
-
-		return i.client.DeleteAutoReply(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.helpdesk.Support.DeleteAutoReply", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*DeleteAutoReplyOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *DeleteAutoReplyOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *SupportInterceptor) ListAutoReplies(ctx context.Context, in *ListAutoRepliesInput, opts ...grpc.CallOption) (*ListAutoRepliesOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*ListAutoRepliesInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *ListAutoRepliesInput, got %T", in))
-		}
-
-		return i.client.ListAutoReplies(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.helpdesk.Support.ListAutoReplies", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*ListAutoRepliesOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *ListAutoRepliesOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *SupportInterceptor) DescribeAutoReply(ctx context.Context, in *DescribeAutoReplyInput, opts ...grpc.CallOption) (*DescribeAutoReplyOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*DescribeAutoReplyInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *DescribeAutoReplyInput, got %T", in))
-		}
-
-		return i.client.DescribeAutoReply(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.helpdesk.Support.DescribeAutoReply", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*DescribeAutoReplyOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *DescribeAutoReplyOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *SupportInterceptor) UploadAttachment(ctx context.Context, in *UploadAttachmentInput, opts ...grpc.CallOption) (*UploadAttachmentOutput, error) {
+func (i *TicketServiceInterceptor) UploadAttachment(ctx context.Context, in *UploadAttachmentInput, opts ...grpc.CallOption) (*UploadAttachmentOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UploadAttachmentInput)
 		if !ok && in != nil {
@@ -1321,7 +1027,7 @@ func (i *SupportInterceptor) UploadAttachment(ctx context.Context, in *UploadAtt
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.helpdesk.Support.UploadAttachment", in, next)
+			return mw(ctx, "eolymp.helpdesk.TicketService.UploadAttachment", in, next)
 		}
 	}
 

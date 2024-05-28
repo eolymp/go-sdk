@@ -37,6 +37,7 @@ const (
 	Support_DeleteAutoReply_FullMethodName   = "/eolymp.helpdesk.Support/DeleteAutoReply"
 	Support_ListAutoReplies_FullMethodName   = "/eolymp.helpdesk.Support/ListAutoReplies"
 	Support_DescribeAutoReply_FullMethodName = "/eolymp.helpdesk.Support/DescribeAutoReply"
+	Support_UploadAttachment_FullMethodName  = "/eolymp.helpdesk.Support/UploadAttachment"
 )
 
 // SupportClient is the client API for Support service.
@@ -61,6 +62,7 @@ type SupportClient interface {
 	DeleteAutoReply(ctx context.Context, in *DeleteAutoReplyInput, opts ...grpc.CallOption) (*DeleteAutoReplyOutput, error)
 	ListAutoReplies(ctx context.Context, in *ListAutoRepliesInput, opts ...grpc.CallOption) (*ListAutoRepliesOutput, error)
 	DescribeAutoReply(ctx context.Context, in *DescribeAutoReplyInput, opts ...grpc.CallOption) (*DescribeAutoReplyOutput, error)
+	UploadAttachment(ctx context.Context, in *UploadAttachmentInput, opts ...grpc.CallOption) (*UploadAttachmentOutput, error)
 }
 
 type supportClient struct {
@@ -233,6 +235,15 @@ func (c *supportClient) DescribeAutoReply(ctx context.Context, in *DescribeAutoR
 	return out, nil
 }
 
+func (c *supportClient) UploadAttachment(ctx context.Context, in *UploadAttachmentInput, opts ...grpc.CallOption) (*UploadAttachmentOutput, error) {
+	out := new(UploadAttachmentOutput)
+	err := c.cc.Invoke(ctx, Support_UploadAttachment_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SupportServer is the server API for Support service.
 // All implementations should embed UnimplementedSupportServer
 // for forward compatibility
@@ -255,6 +266,7 @@ type SupportServer interface {
 	DeleteAutoReply(context.Context, *DeleteAutoReplyInput) (*DeleteAutoReplyOutput, error)
 	ListAutoReplies(context.Context, *ListAutoRepliesInput) (*ListAutoRepliesOutput, error)
 	DescribeAutoReply(context.Context, *DescribeAutoReplyInput) (*DescribeAutoReplyOutput, error)
+	UploadAttachment(context.Context, *UploadAttachmentInput) (*UploadAttachmentOutput, error)
 }
 
 // UnimplementedSupportServer should be embedded to have forward compatible implementations.
@@ -314,6 +326,9 @@ func (UnimplementedSupportServer) ListAutoReplies(context.Context, *ListAutoRepl
 }
 func (UnimplementedSupportServer) DescribeAutoReply(context.Context, *DescribeAutoReplyInput) (*DescribeAutoReplyOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeAutoReply not implemented")
+}
+func (UnimplementedSupportServer) UploadAttachment(context.Context, *UploadAttachmentInput) (*UploadAttachmentOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UploadAttachment not implemented")
 }
 
 // UnsafeSupportServer may be embedded to opt out of forward compatibility for this service.
@@ -651,6 +666,24 @@ func _Support_DescribeAutoReply_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Support_UploadAttachment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UploadAttachmentInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SupportServer).UploadAttachment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Support_UploadAttachment_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SupportServer).UploadAttachment(ctx, req.(*UploadAttachmentInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Support_ServiceDesc is the grpc.ServiceDesc for Support service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -729,6 +762,10 @@ var Support_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DescribeAutoReply",
 			Handler:    _Support_DescribeAutoReply_Handler,
+		},
+		{
+			MethodName: "UploadAttachment",
+			Handler:    _Support_UploadAttachment_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
