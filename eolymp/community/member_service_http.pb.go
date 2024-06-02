@@ -223,9 +223,6 @@ func RegisterMemberServiceHttpHandlers(router *mux.Router, prefix string, cli Me
 	router.Handle(prefix+"/usage/members", _MemberService_DescribeMemberUsage_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.community.MemberService.DescribeMemberUsage")
-	router.Handle(prefix+"/members/{member_id}/unsubscribe", _MemberService_UnsubscribeMember_Rule0(cli)).
-		Methods("DELETE").
-		Name("eolymp.community.MemberService.UnsubscribeMember")
 }
 
 func _MemberService_CreateMember_Rule0(cli MemberServiceClient) http.Handler {
@@ -437,31 +434,6 @@ func _MemberService_DescribeMemberUsage_Rule0(cli MemberServiceClient) http.Hand
 		var header, trailer metadata.MD
 
 		out, err := cli.DescribeMemberUsage(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
-		if err != nil {
-			_MemberService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_MemberService_HTTPWriteResponse(w, out, header, trailer)
-	})
-}
-
-func _MemberService_UnsubscribeMember_Rule0(cli MemberServiceClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &UnsubscribeMemberInput{}
-
-		if err := _MemberService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_MemberService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.MemberId = vars["member_id"]
-
-		var header, trailer metadata.MD
-
-		out, err := cli.UnsubscribeMember(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_MemberService_HTTPWriteErrorResponse(w, err)
 			return
@@ -766,38 +738,6 @@ func (i *MemberServiceInterceptor) DescribeMemberUsage(ctx context.Context, in *
 	message, ok := out.(*DescribeMemberUsageOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *DescribeMemberUsageOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *MemberServiceInterceptor) UnsubscribeMember(ctx context.Context, in *UnsubscribeMemberInput, opts ...grpc.CallOption) (*UnsubscribeMemberOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*UnsubscribeMemberInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *UnsubscribeMemberInput, got %T", in))
-		}
-
-		return i.client.UnsubscribeMember(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.community.MemberService.UnsubscribeMember", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*UnsubscribeMemberOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *UnsubscribeMemberOutput, got %T", out))
 	}
 
 	return message, err

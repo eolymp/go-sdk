@@ -19,17 +19,16 @@ import (
 const _ = grpc.SupportPackageIsVersion8
 
 const (
-	AccountService_CreateAccount_FullMethodName               = "/eolymp.community.AccountService/CreateAccount"
-	AccountService_DescribeAccount_FullMethodName             = "/eolymp.community.AccountService/DescribeAccount"
-	AccountService_UpdateAccount_FullMethodName               = "/eolymp.community.AccountService/UpdateAccount"
-	AccountService_UploadPicture_FullMethodName               = "/eolymp.community.AccountService/UploadPicture"
-	AccountService_DeleteAccount_FullMethodName               = "/eolymp.community.AccountService/DeleteAccount"
-	AccountService_ResendVerification_FullMethodName          = "/eolymp.community.AccountService/ResendVerification"
-	AccountService_CompleteVerification_FullMethodName        = "/eolymp.community.AccountService/CompleteVerification"
-	AccountService_StartRecovery_FullMethodName               = "/eolymp.community.AccountService/StartRecovery"
-	AccountService_CompleteRecovery_FullMethodName            = "/eolymp.community.AccountService/CompleteRecovery"
-	AccountService_ConfigureActiveSubscription_FullMethodName = "/eolymp.community.AccountService/ConfigureActiveSubscription"
-	AccountService_DescribeActiveSubscription_FullMethodName  = "/eolymp.community.AccountService/DescribeActiveSubscription"
+	AccountService_CreateAccount_FullMethodName                 = "/eolymp.community.AccountService/CreateAccount"
+	AccountService_DescribeAccount_FullMethodName               = "/eolymp.community.AccountService/DescribeAccount"
+	AccountService_UpdateAccount_FullMethodName                 = "/eolymp.community.AccountService/UpdateAccount"
+	AccountService_UploadPicture_FullMethodName                 = "/eolymp.community.AccountService/UploadPicture"
+	AccountService_DeleteAccount_FullMethodName                 = "/eolymp.community.AccountService/DeleteAccount"
+	AccountService_ResendVerification_FullMethodName            = "/eolymp.community.AccountService/ResendVerification"
+	AccountService_CompleteVerification_FullMethodName          = "/eolymp.community.AccountService/CompleteVerification"
+	AccountService_StartRecovery_FullMethodName                 = "/eolymp.community.AccountService/StartRecovery"
+	AccountService_CompleteRecovery_FullMethodName              = "/eolymp.community.AccountService/CompleteRecovery"
+	AccountService_UpdateNotificationPreferences_FullMethodName = "/eolymp.community.AccountService/UpdateNotificationPreferences"
 )
 
 // AccountServiceClient is the client API for AccountService service.
@@ -47,8 +46,7 @@ type AccountServiceClient interface {
 	CompleteVerification(ctx context.Context, in *CompleteVerificationInput, opts ...grpc.CallOption) (*CompleteVerificationOutput, error)
 	StartRecovery(ctx context.Context, in *StartRecoveryInput, opts ...grpc.CallOption) (*StartRecoveryOutput, error)
 	CompleteRecovery(ctx context.Context, in *CompleteRecoverInput, opts ...grpc.CallOption) (*CompleteRecoverOutput, error)
-	ConfigureActiveSubscription(ctx context.Context, in *ConfigureActiveSubscriptionInput, opts ...grpc.CallOption) (*ConfigureActiveSubscriptionOutput, error)
-	DescribeActiveSubscription(ctx context.Context, in *DescribeActiveSubscriptionInput, opts ...grpc.CallOption) (*DescribeActiveSubscriptionOutput, error)
+	UpdateNotificationPreferences(ctx context.Context, in *UpdateNotificationPreferencesInput, opts ...grpc.CallOption) (*UpdateNotificationPreferencesOutput, error)
 }
 
 type accountServiceClient struct {
@@ -149,20 +147,10 @@ func (c *accountServiceClient) CompleteRecovery(ctx context.Context, in *Complet
 	return out, nil
 }
 
-func (c *accountServiceClient) ConfigureActiveSubscription(ctx context.Context, in *ConfigureActiveSubscriptionInput, opts ...grpc.CallOption) (*ConfigureActiveSubscriptionOutput, error) {
+func (c *accountServiceClient) UpdateNotificationPreferences(ctx context.Context, in *UpdateNotificationPreferencesInput, opts ...grpc.CallOption) (*UpdateNotificationPreferencesOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ConfigureActiveSubscriptionOutput)
-	err := c.cc.Invoke(ctx, AccountService_ConfigureActiveSubscription_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *accountServiceClient) DescribeActiveSubscription(ctx context.Context, in *DescribeActiveSubscriptionInput, opts ...grpc.CallOption) (*DescribeActiveSubscriptionOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DescribeActiveSubscriptionOutput)
-	err := c.cc.Invoke(ctx, AccountService_DescribeActiveSubscription_FullMethodName, in, out, cOpts...)
+	out := new(UpdateNotificationPreferencesOutput)
+	err := c.cc.Invoke(ctx, AccountService_UpdateNotificationPreferences_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -184,8 +172,7 @@ type AccountServiceServer interface {
 	CompleteVerification(context.Context, *CompleteVerificationInput) (*CompleteVerificationOutput, error)
 	StartRecovery(context.Context, *StartRecoveryInput) (*StartRecoveryOutput, error)
 	CompleteRecovery(context.Context, *CompleteRecoverInput) (*CompleteRecoverOutput, error)
-	ConfigureActiveSubscription(context.Context, *ConfigureActiveSubscriptionInput) (*ConfigureActiveSubscriptionOutput, error)
-	DescribeActiveSubscription(context.Context, *DescribeActiveSubscriptionInput) (*DescribeActiveSubscriptionOutput, error)
+	UpdateNotificationPreferences(context.Context, *UpdateNotificationPreferencesInput) (*UpdateNotificationPreferencesOutput, error)
 }
 
 // UnimplementedAccountServiceServer should be embedded to have forward compatible implementations.
@@ -219,11 +206,8 @@ func (UnimplementedAccountServiceServer) StartRecovery(context.Context, *StartRe
 func (UnimplementedAccountServiceServer) CompleteRecovery(context.Context, *CompleteRecoverInput) (*CompleteRecoverOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CompleteRecovery not implemented")
 }
-func (UnimplementedAccountServiceServer) ConfigureActiveSubscription(context.Context, *ConfigureActiveSubscriptionInput) (*ConfigureActiveSubscriptionOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ConfigureActiveSubscription not implemented")
-}
-func (UnimplementedAccountServiceServer) DescribeActiveSubscription(context.Context, *DescribeActiveSubscriptionInput) (*DescribeActiveSubscriptionOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DescribeActiveSubscription not implemented")
+func (UnimplementedAccountServiceServer) UpdateNotificationPreferences(context.Context, *UpdateNotificationPreferencesInput) (*UpdateNotificationPreferencesOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateNotificationPreferences not implemented")
 }
 
 // UnsafeAccountServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -399,38 +383,20 @@ func _AccountService_CompleteRecovery_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
-func _AccountService_ConfigureActiveSubscription_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ConfigureActiveSubscriptionInput)
+func _AccountService_UpdateNotificationPreferences_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateNotificationPreferencesInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AccountServiceServer).ConfigureActiveSubscription(ctx, in)
+		return srv.(AccountServiceServer).UpdateNotificationPreferences(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: AccountService_ConfigureActiveSubscription_FullMethodName,
+		FullMethod: AccountService_UpdateNotificationPreferences_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountServiceServer).ConfigureActiveSubscription(ctx, req.(*ConfigureActiveSubscriptionInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _AccountService_DescribeActiveSubscription_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DescribeActiveSubscriptionInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AccountServiceServer).DescribeActiveSubscription(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: AccountService_DescribeActiveSubscription_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountServiceServer).DescribeActiveSubscription(ctx, req.(*DescribeActiveSubscriptionInput))
+		return srv.(AccountServiceServer).UpdateNotificationPreferences(ctx, req.(*UpdateNotificationPreferencesInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -479,12 +445,8 @@ var AccountService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _AccountService_CompleteRecovery_Handler,
 		},
 		{
-			MethodName: "ConfigureActiveSubscription",
-			Handler:    _AccountService_ConfigureActiveSubscription_Handler,
-		},
-		{
-			MethodName: "DescribeActiveSubscription",
-			Handler:    _AccountService_DescribeActiveSubscription_Handler,
+			MethodName: "UpdateNotificationPreferences",
+			Handler:    _AccountService_UpdateNotificationPreferences_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

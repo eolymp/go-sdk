@@ -223,12 +223,9 @@ func RegisterAccountServiceHttpHandlers(router *mux.Router, prefix string, cli A
 	router.Handle(prefix+"/account/recovery/complete", _AccountService_CompleteRecovery_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.community.AccountService.CompleteRecovery")
-	router.Handle(prefix+"/account/subscription", _AccountService_ConfigureActiveSubscription_Rule0(cli)).
-		Methods("PUT").
-		Name("eolymp.community.AccountService.ConfigureActiveSubscription")
-	router.Handle(prefix+"/account/subscription", _AccountService_DescribeActiveSubscription_Rule0(cli)).
-		Methods("GET").
-		Name("eolymp.community.AccountService.DescribeActiveSubscription")
+	router.Handle(prefix+"/account/notifications", _AccountService_UpdateNotificationPreferences_Rule0(cli)).
+		Methods("DELETE").
+		Name("eolymp.community.AccountService.UpdateNotificationPreferences")
 }
 
 func _AccountService_CreateAccount_Rule0(cli AccountServiceClient) http.Handler {
@@ -429,9 +426,9 @@ func _AccountService_CompleteRecovery_Rule0(cli AccountServiceClient) http.Handl
 	})
 }
 
-func _AccountService_ConfigureActiveSubscription_Rule0(cli AccountServiceClient) http.Handler {
+func _AccountService_UpdateNotificationPreferences_Rule0(cli AccountServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ConfigureActiveSubscriptionInput{}
+		in := &UpdateNotificationPreferencesInput{}
 
 		if err := _AccountService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
@@ -441,29 +438,7 @@ func _AccountService_ConfigureActiveSubscription_Rule0(cli AccountServiceClient)
 
 		var header, trailer metadata.MD
 
-		out, err := cli.ConfigureActiveSubscription(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
-		if err != nil {
-			_AccountService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_AccountService_HTTPWriteResponse(w, out, header, trailer)
-	})
-}
-
-func _AccountService_DescribeActiveSubscription_Rule0(cli AccountServiceClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DescribeActiveSubscriptionInput{}
-
-		if err := _AccountService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_AccountService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		var header, trailer metadata.MD
-
-		out, err := cli.DescribeActiveSubscription(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		out, err := cli.UpdateNotificationPreferences(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_AccountService_HTTPWriteErrorResponse(w, err)
 			return
@@ -773,14 +748,14 @@ func (i *AccountServiceInterceptor) CompleteRecovery(ctx context.Context, in *Co
 	return message, err
 }
 
-func (i *AccountServiceInterceptor) ConfigureActiveSubscription(ctx context.Context, in *ConfigureActiveSubscriptionInput, opts ...grpc.CallOption) (*ConfigureActiveSubscriptionOutput, error) {
+func (i *AccountServiceInterceptor) UpdateNotificationPreferences(ctx context.Context, in *UpdateNotificationPreferencesInput, opts ...grpc.CallOption) (*UpdateNotificationPreferencesOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*ConfigureActiveSubscriptionInput)
+		message, ok := in.(*UpdateNotificationPreferencesInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *ConfigureActiveSubscriptionInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *UpdateNotificationPreferencesInput, got %T", in))
 		}
 
-		return i.client.ConfigureActiveSubscription(ctx, message, opts...)
+		return i.client.UpdateNotificationPreferences(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -788,7 +763,7 @@ func (i *AccountServiceInterceptor) ConfigureActiveSubscription(ctx context.Cont
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.community.AccountService.ConfigureActiveSubscription", in, next)
+			return mw(ctx, "eolymp.community.AccountService.UpdateNotificationPreferences", in, next)
 		}
 	}
 
@@ -797,41 +772,9 @@ func (i *AccountServiceInterceptor) ConfigureActiveSubscription(ctx context.Cont
 		return nil, err
 	}
 
-	message, ok := out.(*ConfigureActiveSubscriptionOutput)
+	message, ok := out.(*UpdateNotificationPreferencesOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *ConfigureActiveSubscriptionOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *AccountServiceInterceptor) DescribeActiveSubscription(ctx context.Context, in *DescribeActiveSubscriptionInput, opts ...grpc.CallOption) (*DescribeActiveSubscriptionOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*DescribeActiveSubscriptionInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *DescribeActiveSubscriptionInput, got %T", in))
-		}
-
-		return i.client.DescribeActiveSubscription(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.community.AccountService.DescribeActiveSubscription", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*DescribeActiveSubscriptionOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *DescribeActiveSubscriptionOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *UpdateNotificationPreferencesOutput, got %T", out))
 	}
 
 	return message, err

@@ -199,22 +199,11 @@ func (s *AccountServiceService) CompleteRecovery(ctx context.Context, in *Comple
 	return out, nil
 }
 
-func (s *AccountServiceService) ConfigureActiveSubscription(ctx context.Context, in *ConfigureActiveSubscriptionInput) (*ConfigureActiveSubscriptionOutput, error) {
-	out := &ConfigureActiveSubscriptionOutput{}
-	path := "/account/subscription"
+func (s *AccountServiceService) UpdateNotificationPreferences(ctx context.Context, in *UpdateNotificationPreferencesInput) (*UpdateNotificationPreferencesOutput, error) {
+	out := &UpdateNotificationPreferencesOutput{}
+	path := "/account/notifications"
 
-	if err := s.do(ctx, "PUT", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *AccountServiceService) DescribeActiveSubscription(ctx context.Context, in *DescribeActiveSubscriptionInput) (*DescribeActiveSubscriptionOutput, error) {
-	out := &DescribeActiveSubscriptionOutput{}
-	path := "/account/subscription"
-
-	if err := s.do(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 
