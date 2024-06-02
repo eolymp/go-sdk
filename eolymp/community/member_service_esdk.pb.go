@@ -230,3 +230,19 @@ func (s *MemberServiceService) DescribeMemberUsage(ctx context.Context, in *Desc
 
 	return out, nil
 }
+
+func (s *MemberServiceService) UnsubscribeMember(ctx context.Context, in *UnsubscribeMemberInput) (*UnsubscribeMemberOutput, error) {
+	out := &UnsubscribeMemberOutput{}
+	path := "/members/" + url.PathEscape(in.GetMemberId()) + "/unsubscribe"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.MemberId = ""
+	}
+
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
