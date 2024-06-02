@@ -223,8 +223,11 @@ func RegisterAccountServiceHttpHandlers(router *mux.Router, prefix string, cli A
 	router.Handle(prefix+"/account/recovery/complete", _AccountService_CompleteRecovery_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.community.AccountService.CompleteRecovery")
+	router.Handle(prefix+"/account/notifications", _AccountService_DescribeNotificationPreferences_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.community.AccountService.DescribeNotificationPreferences")
 	router.Handle(prefix+"/account/notifications", _AccountService_UpdateNotificationPreferences_Rule0(cli)).
-		Methods("DELETE").
+		Methods("POST").
 		Name("eolymp.community.AccountService.UpdateNotificationPreferences")
 }
 
@@ -417,6 +420,28 @@ func _AccountService_CompleteRecovery_Rule0(cli AccountServiceClient) http.Handl
 		var header, trailer metadata.MD
 
 		out, err := cli.CompleteRecovery(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_AccountService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_AccountService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _AccountService_DescribeNotificationPreferences_Rule0(cli AccountServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeNotificationPreferencesInput{}
+
+		if err := _AccountService_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_AccountService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeNotificationPreferences(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_AccountService_HTTPWriteErrorResponse(w, err)
 			return
@@ -743,6 +768,38 @@ func (i *AccountServiceInterceptor) CompleteRecovery(ctx context.Context, in *Co
 	message, ok := out.(*CompleteRecoverOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *CompleteRecoverOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *AccountServiceInterceptor) DescribeNotificationPreferences(ctx context.Context, in *DescribeNotificationPreferencesInput, opts ...grpc.CallOption) (*DescribeNotificationPreferencesOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeNotificationPreferencesInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeNotificationPreferencesInput, got %T", in))
+		}
+
+		return i.client.DescribeNotificationPreferences(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.community.AccountService.DescribeNotificationPreferences", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeNotificationPreferencesOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeNotificationPreferencesOutput, got %T", out))
 	}
 
 	return message, err

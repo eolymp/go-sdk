@@ -19,16 +19,17 @@ import (
 const _ = grpc.SupportPackageIsVersion8
 
 const (
-	AccountService_CreateAccount_FullMethodName                 = "/eolymp.community.AccountService/CreateAccount"
-	AccountService_DescribeAccount_FullMethodName               = "/eolymp.community.AccountService/DescribeAccount"
-	AccountService_UpdateAccount_FullMethodName                 = "/eolymp.community.AccountService/UpdateAccount"
-	AccountService_UploadPicture_FullMethodName                 = "/eolymp.community.AccountService/UploadPicture"
-	AccountService_DeleteAccount_FullMethodName                 = "/eolymp.community.AccountService/DeleteAccount"
-	AccountService_ResendVerification_FullMethodName            = "/eolymp.community.AccountService/ResendVerification"
-	AccountService_CompleteVerification_FullMethodName          = "/eolymp.community.AccountService/CompleteVerification"
-	AccountService_StartRecovery_FullMethodName                 = "/eolymp.community.AccountService/StartRecovery"
-	AccountService_CompleteRecovery_FullMethodName              = "/eolymp.community.AccountService/CompleteRecovery"
-	AccountService_UpdateNotificationPreferences_FullMethodName = "/eolymp.community.AccountService/UpdateNotificationPreferences"
+	AccountService_CreateAccount_FullMethodName                   = "/eolymp.community.AccountService/CreateAccount"
+	AccountService_DescribeAccount_FullMethodName                 = "/eolymp.community.AccountService/DescribeAccount"
+	AccountService_UpdateAccount_FullMethodName                   = "/eolymp.community.AccountService/UpdateAccount"
+	AccountService_UploadPicture_FullMethodName                   = "/eolymp.community.AccountService/UploadPicture"
+	AccountService_DeleteAccount_FullMethodName                   = "/eolymp.community.AccountService/DeleteAccount"
+	AccountService_ResendVerification_FullMethodName              = "/eolymp.community.AccountService/ResendVerification"
+	AccountService_CompleteVerification_FullMethodName            = "/eolymp.community.AccountService/CompleteVerification"
+	AccountService_StartRecovery_FullMethodName                   = "/eolymp.community.AccountService/StartRecovery"
+	AccountService_CompleteRecovery_FullMethodName                = "/eolymp.community.AccountService/CompleteRecovery"
+	AccountService_DescribeNotificationPreferences_FullMethodName = "/eolymp.community.AccountService/DescribeNotificationPreferences"
+	AccountService_UpdateNotificationPreferences_FullMethodName   = "/eolymp.community.AccountService/UpdateNotificationPreferences"
 )
 
 // AccountServiceClient is the client API for AccountService service.
@@ -46,6 +47,7 @@ type AccountServiceClient interface {
 	CompleteVerification(ctx context.Context, in *CompleteVerificationInput, opts ...grpc.CallOption) (*CompleteVerificationOutput, error)
 	StartRecovery(ctx context.Context, in *StartRecoveryInput, opts ...grpc.CallOption) (*StartRecoveryOutput, error)
 	CompleteRecovery(ctx context.Context, in *CompleteRecoverInput, opts ...grpc.CallOption) (*CompleteRecoverOutput, error)
+	DescribeNotificationPreferences(ctx context.Context, in *DescribeNotificationPreferencesInput, opts ...grpc.CallOption) (*DescribeNotificationPreferencesOutput, error)
 	UpdateNotificationPreferences(ctx context.Context, in *UpdateNotificationPreferencesInput, opts ...grpc.CallOption) (*UpdateNotificationPreferencesOutput, error)
 }
 
@@ -147,6 +149,16 @@ func (c *accountServiceClient) CompleteRecovery(ctx context.Context, in *Complet
 	return out, nil
 }
 
+func (c *accountServiceClient) DescribeNotificationPreferences(ctx context.Context, in *DescribeNotificationPreferencesInput, opts ...grpc.CallOption) (*DescribeNotificationPreferencesOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DescribeNotificationPreferencesOutput)
+	err := c.cc.Invoke(ctx, AccountService_DescribeNotificationPreferences_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *accountServiceClient) UpdateNotificationPreferences(ctx context.Context, in *UpdateNotificationPreferencesInput, opts ...grpc.CallOption) (*UpdateNotificationPreferencesOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UpdateNotificationPreferencesOutput)
@@ -172,6 +184,7 @@ type AccountServiceServer interface {
 	CompleteVerification(context.Context, *CompleteVerificationInput) (*CompleteVerificationOutput, error)
 	StartRecovery(context.Context, *StartRecoveryInput) (*StartRecoveryOutput, error)
 	CompleteRecovery(context.Context, *CompleteRecoverInput) (*CompleteRecoverOutput, error)
+	DescribeNotificationPreferences(context.Context, *DescribeNotificationPreferencesInput) (*DescribeNotificationPreferencesOutput, error)
 	UpdateNotificationPreferences(context.Context, *UpdateNotificationPreferencesInput) (*UpdateNotificationPreferencesOutput, error)
 }
 
@@ -205,6 +218,9 @@ func (UnimplementedAccountServiceServer) StartRecovery(context.Context, *StartRe
 }
 func (UnimplementedAccountServiceServer) CompleteRecovery(context.Context, *CompleteRecoverInput) (*CompleteRecoverOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CompleteRecovery not implemented")
+}
+func (UnimplementedAccountServiceServer) DescribeNotificationPreferences(context.Context, *DescribeNotificationPreferencesInput) (*DescribeNotificationPreferencesOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeNotificationPreferences not implemented")
 }
 func (UnimplementedAccountServiceServer) UpdateNotificationPreferences(context.Context, *UpdateNotificationPreferencesInput) (*UpdateNotificationPreferencesOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateNotificationPreferences not implemented")
@@ -383,6 +399,24 @@ func _AccountService_CompleteRecovery_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AccountService_DescribeNotificationPreferences_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeNotificationPreferencesInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountServiceServer).DescribeNotificationPreferences(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AccountService_DescribeNotificationPreferences_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountServiceServer).DescribeNotificationPreferences(ctx, req.(*DescribeNotificationPreferencesInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _AccountService_UpdateNotificationPreferences_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UpdateNotificationPreferencesInput)
 	if err := dec(in); err != nil {
@@ -443,6 +477,10 @@ var AccountService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CompleteRecovery",
 			Handler:    _AccountService_CompleteRecovery_Handler,
+		},
+		{
+			MethodName: "DescribeNotificationPreferences",
+			Handler:    _AccountService_DescribeNotificationPreferences_Handler,
 		},
 		{
 			MethodName: "UpdateNotificationPreferences",

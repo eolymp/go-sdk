@@ -199,11 +199,22 @@ func (s *AccountServiceService) CompleteRecovery(ctx context.Context, in *Comple
 	return out, nil
 }
 
+func (s *AccountServiceService) DescribeNotificationPreferences(ctx context.Context, in *DescribeNotificationPreferencesInput) (*DescribeNotificationPreferencesOutput, error) {
+	out := &DescribeNotificationPreferencesOutput{}
+	path := "/account/notifications"
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *AccountServiceService) UpdateNotificationPreferences(ctx context.Context, in *UpdateNotificationPreferencesInput) (*UpdateNotificationPreferencesOutput, error) {
 	out := &UpdateNotificationPreferencesOutput{}
 	path := "/account/notifications"
 
-	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
