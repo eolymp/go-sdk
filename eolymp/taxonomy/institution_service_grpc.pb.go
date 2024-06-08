@@ -19,16 +19,16 @@ import (
 const _ = grpc.SupportPackageIsVersion8
 
 const (
-	InstitutionService_DescribeInstitution_FullMethodName = "/eolymp.taxonomy.InstitutionService/DescribeInstitution"
 	InstitutionService_ListInstitutions_FullMethodName    = "/eolymp.taxonomy.InstitutionService/ListInstitutions"
+	InstitutionService_DescribeInstitution_FullMethodName = "/eolymp.taxonomy.InstitutionService/DescribeInstitution"
 )
 
 // InstitutionServiceClient is the client API for InstitutionService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type InstitutionServiceClient interface {
-	DescribeInstitution(ctx context.Context, in *DescribeInstitutionInput, opts ...grpc.CallOption) (*DescribeInstitutionOutput, error)
 	ListInstitutions(ctx context.Context, in *ListInstitutionsInput, opts ...grpc.CallOption) (*ListInstitutionsOutput, error)
+	DescribeInstitution(ctx context.Context, in *DescribeInstitutionInput, opts ...grpc.CallOption) (*DescribeInstitutionOutput, error)
 }
 
 type institutionServiceClient struct {
@@ -37,16 +37,6 @@ type institutionServiceClient struct {
 
 func NewInstitutionServiceClient(cc grpc.ClientConnInterface) InstitutionServiceClient {
 	return &institutionServiceClient{cc}
-}
-
-func (c *institutionServiceClient) DescribeInstitution(ctx context.Context, in *DescribeInstitutionInput, opts ...grpc.CallOption) (*DescribeInstitutionOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DescribeInstitutionOutput)
-	err := c.cc.Invoke(ctx, InstitutionService_DescribeInstitution_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
 }
 
 func (c *institutionServiceClient) ListInstitutions(ctx context.Context, in *ListInstitutionsInput, opts ...grpc.CallOption) (*ListInstitutionsOutput, error) {
@@ -59,23 +49,33 @@ func (c *institutionServiceClient) ListInstitutions(ctx context.Context, in *Lis
 	return out, nil
 }
 
+func (c *institutionServiceClient) DescribeInstitution(ctx context.Context, in *DescribeInstitutionInput, opts ...grpc.CallOption) (*DescribeInstitutionOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DescribeInstitutionOutput)
+	err := c.cc.Invoke(ctx, InstitutionService_DescribeInstitution_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // InstitutionServiceServer is the server API for InstitutionService service.
 // All implementations should embed UnimplementedInstitutionServiceServer
 // for forward compatibility
 type InstitutionServiceServer interface {
-	DescribeInstitution(context.Context, *DescribeInstitutionInput) (*DescribeInstitutionOutput, error)
 	ListInstitutions(context.Context, *ListInstitutionsInput) (*ListInstitutionsOutput, error)
+	DescribeInstitution(context.Context, *DescribeInstitutionInput) (*DescribeInstitutionOutput, error)
 }
 
 // UnimplementedInstitutionServiceServer should be embedded to have forward compatible implementations.
 type UnimplementedInstitutionServiceServer struct {
 }
 
-func (UnimplementedInstitutionServiceServer) DescribeInstitution(context.Context, *DescribeInstitutionInput) (*DescribeInstitutionOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DescribeInstitution not implemented")
-}
 func (UnimplementedInstitutionServiceServer) ListInstitutions(context.Context, *ListInstitutionsInput) (*ListInstitutionsOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListInstitutions not implemented")
+}
+func (UnimplementedInstitutionServiceServer) DescribeInstitution(context.Context, *DescribeInstitutionInput) (*DescribeInstitutionOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeInstitution not implemented")
 }
 
 // UnsafeInstitutionServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -87,24 +87,6 @@ type UnsafeInstitutionServiceServer interface {
 
 func RegisterInstitutionServiceServer(s grpc.ServiceRegistrar, srv InstitutionServiceServer) {
 	s.RegisterService(&InstitutionService_ServiceDesc, srv)
-}
-
-func _InstitutionService_DescribeInstitution_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DescribeInstitutionInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(InstitutionServiceServer).DescribeInstitution(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: InstitutionService_DescribeInstitution_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(InstitutionServiceServer).DescribeInstitution(ctx, req.(*DescribeInstitutionInput))
-	}
-	return interceptor(ctx, in, info, handler)
 }
 
 func _InstitutionService_ListInstitutions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -125,6 +107,24 @@ func _InstitutionService_ListInstitutions_Handler(srv interface{}, ctx context.C
 	return interceptor(ctx, in, info, handler)
 }
 
+func _InstitutionService_DescribeInstitution_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeInstitutionInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(InstitutionServiceServer).DescribeInstitution(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: InstitutionService_DescribeInstitution_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(InstitutionServiceServer).DescribeInstitution(ctx, req.(*DescribeInstitutionInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // InstitutionService_ServiceDesc is the grpc.ServiceDesc for InstitutionService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -133,12 +133,12 @@ var InstitutionService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*InstitutionServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "DescribeInstitution",
-			Handler:    _InstitutionService_DescribeInstitution_Handler,
-		},
-		{
 			MethodName: "ListInstitutions",
 			Handler:    _InstitutionService_ListInstitutions_Handler,
+		},
+		{
+			MethodName: "DescribeInstitution",
+			Handler:    _InstitutionService_DescribeInstitution_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

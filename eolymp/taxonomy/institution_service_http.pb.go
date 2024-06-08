@@ -196,12 +196,34 @@ var _InstitutionService_WebsocketCodec = websocket.Codec{
 // RegisterInstitutionServiceHttpHandlers adds handlers for for InstitutionServiceClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterInstitutionServiceHttpHandlers(router *mux.Router, prefix string, cli InstitutionServiceClient) {
-	router.Handle(prefix+"/institutions/{institution_id}", _InstitutionService_DescribeInstitution_Rule0(cli)).
-		Methods("GET").
-		Name("eolymp.taxonomy.InstitutionService.DescribeInstitution")
 	router.Handle(prefix+"/institutions", _InstitutionService_ListInstitutions_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.taxonomy.InstitutionService.ListInstitutions")
+	router.Handle(prefix+"/institutions/{institution_id}", _InstitutionService_DescribeInstitution_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.taxonomy.InstitutionService.DescribeInstitution")
+}
+
+func _InstitutionService_ListInstitutions_Rule0(cli InstitutionServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListInstitutionsInput{}
+
+		if err := _InstitutionService_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_InstitutionService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.ListInstitutions(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_InstitutionService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_InstitutionService_HTTPWriteResponse(w, out, header, trailer)
+	})
 }
 
 func _InstitutionService_DescribeInstitution_Rule0(cli InstitutionServiceClient) http.Handler {
@@ -229,28 +251,6 @@ func _InstitutionService_DescribeInstitution_Rule0(cli InstitutionServiceClient)
 	})
 }
 
-func _InstitutionService_ListInstitutions_Rule0(cli InstitutionServiceClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ListInstitutionsInput{}
-
-		if err := _InstitutionService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_InstitutionService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		var header, trailer metadata.MD
-
-		out, err := cli.ListInstitutions(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
-		if err != nil {
-			_InstitutionService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_InstitutionService_HTTPWriteResponse(w, out, header, trailer)
-	})
-}
-
 type _InstitutionServiceHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
 type _InstitutionServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _InstitutionServiceHandler) (out proto.Message, err error)
 type InstitutionServiceInterceptor struct {
@@ -261,38 +261,6 @@ type InstitutionServiceInterceptor struct {
 // NewInstitutionServiceInterceptor constructs additional middleware for a server based on annotations in proto files
 func NewInstitutionServiceInterceptor(cli InstitutionServiceClient, middleware ..._InstitutionServiceMiddleware) *InstitutionServiceInterceptor {
 	return &InstitutionServiceInterceptor{client: cli, middleware: middleware}
-}
-
-func (i *InstitutionServiceInterceptor) DescribeInstitution(ctx context.Context, in *DescribeInstitutionInput, opts ...grpc.CallOption) (*DescribeInstitutionOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*DescribeInstitutionInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *DescribeInstitutionInput, got %T", in))
-		}
-
-		return i.client.DescribeInstitution(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.taxonomy.InstitutionService.DescribeInstitution", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*DescribeInstitutionOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *DescribeInstitutionOutput, got %T", out))
-	}
-
-	return message, err
 }
 
 func (i *InstitutionServiceInterceptor) ListInstitutions(ctx context.Context, in *ListInstitutionsInput, opts ...grpc.CallOption) (*ListInstitutionsOutput, error) {
@@ -322,6 +290,38 @@ func (i *InstitutionServiceInterceptor) ListInstitutions(ctx context.Context, in
 	message, ok := out.(*ListInstitutionsOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *ListInstitutionsOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *InstitutionServiceInterceptor) DescribeInstitution(ctx context.Context, in *DescribeInstitutionInput, opts ...grpc.CallOption) (*DescribeInstitutionOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeInstitutionInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeInstitutionInput, got %T", in))
+		}
+
+		return i.client.DescribeInstitution(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.taxonomy.InstitutionService.DescribeInstitution", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeInstitutionOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeInstitutionOutput, got %T", out))
 	}
 
 	return message, err

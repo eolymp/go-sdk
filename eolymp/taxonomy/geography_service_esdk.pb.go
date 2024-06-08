@@ -16,17 +16,17 @@ import (
 	os "os"
 )
 
-type _InstitutionServiceHttpClient interface {
+type _GeographyServiceHttpClient interface {
 	Do(*http.Request) (*http.Response, error)
 }
 
-type InstitutionServiceService struct {
+type GeographyServiceService struct {
 	base string
-	cli  _InstitutionServiceHttpClient
+	cli  _GeographyServiceHttpClient
 }
 
-// NewInstitutionServiceHttpClient constructs client for InstitutionService
-func NewInstitutionServiceHttpClient(url string, cli _InstitutionServiceHttpClient) *InstitutionServiceService {
+// NewGeographyServiceHttpClient constructs client for GeographyService
+func NewGeographyServiceHttpClient(url string, cli _GeographyServiceHttpClient) *GeographyServiceService {
 	if url == "" {
 		url = os.Getenv("EOLYMP_API_URL")
 		if url == "" {
@@ -34,10 +34,10 @@ func NewInstitutionServiceHttpClient(url string, cli _InstitutionServiceHttpClie
 		}
 	}
 
-	return &InstitutionServiceService{base: url, cli: cli}
+	return &GeographyServiceService{base: url, cli: cli}
 }
 
-func (s *InstitutionServiceService) do(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
+func (s *GeographyServiceService) do(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
 	var body io.Reader
 
 	if in != nil {
@@ -100,9 +100,9 @@ func (s *InstitutionServiceService) do(ctx context.Context, verb, path string, i
 	return nil
 }
 
-func (s *InstitutionServiceService) ListInstitutions(ctx context.Context, in *ListInstitutionsInput) (*ListInstitutionsOutput, error) {
-	out := &ListInstitutionsOutput{}
-	path := "/institutions"
+func (s *GeographyServiceService) ListCountries(ctx context.Context, in *ListCountriesInput) (*ListCountriesOutput, error) {
+	out := &ListCountriesOutput{}
+	path := "/countries"
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
@@ -111,13 +111,40 @@ func (s *InstitutionServiceService) ListInstitutions(ctx context.Context, in *Li
 	return out, nil
 }
 
-func (s *InstitutionServiceService) DescribeInstitution(ctx context.Context, in *DescribeInstitutionInput) (*DescribeInstitutionOutput, error) {
-	out := &DescribeInstitutionOutput{}
-	path := "/institutions/" + url.PathEscape(in.GetInstitutionId())
+func (s *GeographyServiceService) DescribeCountry(ctx context.Context, in *DescribeCountryInput) (*DescribeCountryOutput, error) {
+	out := &DescribeCountryOutput{}
+	path := "/countries/" + url.PathEscape(in.GetCountryId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.InstitutionId = ""
+		in.CountryId = ""
+	}
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *GeographyServiceService) ListRegions(ctx context.Context, in *ListRegionsInput) (*ListRegionsOutput, error) {
+	out := &ListRegionsOutput{}
+	path := "/regions"
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *GeographyServiceService) DescribeRegion(ctx context.Context, in *DescribeRegionInput) (*DescribeRegionOutput, error) {
+	out := &DescribeRegionOutput{}
+	path := "/regions/" + url.PathEscape(in.GetRegionId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.RegionId = ""
 	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
