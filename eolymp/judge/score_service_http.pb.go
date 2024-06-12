@@ -243,8 +243,8 @@ func RegisterScoreServiceHttpHandlers(router *mux.Router, prefix string, cli Sco
 	router.Handle(prefix+"/results", _ScoreService_ListResult_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ScoreService.ListResult")
-	router.Handle(prefix+"/results/export", _ScoreService_ExportResult_Rule0(cli)).
-		Methods("GET").
+	router.Handle(prefix+"/results-export", _ScoreService_ExportResult_Rule0(cli)).
+		Methods("POST").
 		Name("eolymp.judge.ScoreService.ExportResult")
 	router.Handle(prefix+"/rebuild", _ScoreService_RebuildScore_Rule0(cli)).
 		Methods("POST").
@@ -374,7 +374,7 @@ func _ScoreService_ExportResult_Rule0(cli ScoreServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ExportResultInput{}
 
-		if err := _ScoreService_HTTPReadQueryString(r, in); err != nil {
+		if err := _ScoreService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
 			_ScoreService_HTTPWriteErrorResponse(w, err)
 			return

@@ -22,6 +22,7 @@ const (
 	ContestService_CreateContest_FullMethodName        = "/eolymp.judge.ContestService/CreateContest"
 	ContestService_DeleteContest_FullMethodName        = "/eolymp.judge.ContestService/DeleteContest"
 	ContestService_UpdateContest_FullMethodName        = "/eolymp.judge.ContestService/UpdateContest"
+	ContestService_CopyContest_FullMethodName          = "/eolymp.judge.ContestService/CopyContest"
 	ContestService_DescribeContest_FullMethodName      = "/eolymp.judge.ContestService/DescribeContest"
 	ContestService_ListContests_FullMethodName         = "/eolymp.judge.ContestService/ListContests"
 	ContestService_OpenContest_FullMethodName          = "/eolymp.judge.ContestService/OpenContest"
@@ -41,6 +42,7 @@ type ContestServiceClient interface {
 	CreateContest(ctx context.Context, in *CreateContestInput, opts ...grpc.CallOption) (*CreateContestOutput, error)
 	DeleteContest(ctx context.Context, in *DeleteContestInput, opts ...grpc.CallOption) (*DeleteContestOutput, error)
 	UpdateContest(ctx context.Context, in *UpdateContestInput, opts ...grpc.CallOption) (*UpdateContestOutput, error)
+	CopyContest(ctx context.Context, in *CopyContestInput, opts ...grpc.CallOption) (*CopyContestOutput, error)
 	DescribeContest(ctx context.Context, in *DescribeContestInput, opts ...grpc.CallOption) (*DescribeContestOutput, error)
 	ListContests(ctx context.Context, in *ListContestsInput, opts ...grpc.CallOption) (*ListContestsOutput, error)
 	// Force-starts scheduled contest, this call also automatically changes starts_at to current time and adjusts
@@ -93,6 +95,16 @@ func (c *contestServiceClient) UpdateContest(ctx context.Context, in *UpdateCont
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UpdateContestOutput)
 	err := c.cc.Invoke(ctx, ContestService_UpdateContest_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *contestServiceClient) CopyContest(ctx context.Context, in *CopyContestInput, opts ...grpc.CallOption) (*CopyContestOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CopyContestOutput)
+	err := c.cc.Invoke(ctx, ContestService_CopyContest_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -229,6 +241,7 @@ type ContestServiceServer interface {
 	CreateContest(context.Context, *CreateContestInput) (*CreateContestOutput, error)
 	DeleteContest(context.Context, *DeleteContestInput) (*DeleteContestOutput, error)
 	UpdateContest(context.Context, *UpdateContestInput) (*UpdateContestOutput, error)
+	CopyContest(context.Context, *CopyContestInput) (*CopyContestOutput, error)
 	DescribeContest(context.Context, *DescribeContestInput) (*DescribeContestOutput, error)
 	ListContests(context.Context, *ListContestsInput) (*ListContestsOutput, error)
 	// Force-starts scheduled contest, this call also automatically changes starts_at to current time and adjusts
@@ -261,6 +274,9 @@ func (UnimplementedContestServiceServer) DeleteContest(context.Context, *DeleteC
 }
 func (UnimplementedContestServiceServer) UpdateContest(context.Context, *UpdateContestInput) (*UpdateContestOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateContest not implemented")
+}
+func (UnimplementedContestServiceServer) CopyContest(context.Context, *CopyContestInput) (*CopyContestOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CopyContest not implemented")
 }
 func (UnimplementedContestServiceServer) DescribeContest(context.Context, *DescribeContestInput) (*DescribeContestOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeContest not implemented")
@@ -354,6 +370,24 @@ func _ContestService_UpdateContest_Handler(srv interface{}, ctx context.Context,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ContestServiceServer).UpdateContest(ctx, req.(*UpdateContestInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ContestService_CopyContest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CopyContestInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ContestServiceServer).CopyContest(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ContestService_CopyContest_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ContestServiceServer).CopyContest(ctx, req.(*CopyContestInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -559,6 +593,10 @@ var ContestService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateContest",
 			Handler:    _ContestService_UpdateContest_Handler,
+		},
+		{
+			MethodName: "CopyContest",
+			Handler:    _ContestService_CopyContest_Handler,
 		},
 		{
 			MethodName: "DescribeContest",

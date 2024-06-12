@@ -172,9 +172,9 @@ func (s *ScoreServiceService) ListResult(ctx context.Context, in *ListResultInpu
 
 func (s *ScoreServiceService) ExportResult(ctx context.Context, in *ExportResultInput) (*ExportResultOutput, error) {
 	out := &ExportResultOutput{}
-	path := "/results/export"
+	path := "/results-export"
 
-	if err := s.do(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 

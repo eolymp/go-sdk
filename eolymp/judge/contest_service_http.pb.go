@@ -237,6 +237,9 @@ func RegisterContestServiceHttpHandlers(router *mux.Router, prefix string, cli C
 	router.Handle(prefix+"/contests/{contest_id}", _ContestService_UpdateContest_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.judge.ContestService.UpdateContest")
+	router.Handle(prefix+"/contests/{contest_id}/copy", _ContestService_CopyContest_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.judge.ContestService.CopyContest")
 	router.Handle(prefix+"/contests/{contest_id}", _ContestService_DescribeContest_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ContestService.DescribeContest")
@@ -329,6 +332,31 @@ func _ContestService_UpdateContest_Rule0(cli ContestServiceClient) http.Handler 
 		var header, trailer metadata.MD
 
 		out, err := cli.UpdateContest(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ContestService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ContestService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ContestService_CopyContest_Rule0(cli ContestServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &CopyContestInput{}
+
+		if err := _ContestService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_ContestService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.CopyContest(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ContestService_HTTPWriteErrorResponse(w, err)
 			return
@@ -660,6 +688,38 @@ func (i *ContestServiceInterceptor) UpdateContest(ctx context.Context, in *Updat
 	message, ok := out.(*UpdateContestOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *UpdateContestOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *ContestServiceInterceptor) CopyContest(ctx context.Context, in *CopyContestInput, opts ...grpc.CallOption) (*CopyContestOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*CopyContestInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *CopyContestInput, got %T", in))
+		}
+
+		return i.client.CopyContest(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.ContestService.CopyContest", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*CopyContestOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *CopyContestOutput, got %T", out))
 	}
 
 	return message, err

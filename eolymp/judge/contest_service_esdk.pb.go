@@ -143,6 +143,22 @@ func (s *ContestServiceService) UpdateContest(ctx context.Context, in *UpdateCon
 	return out, nil
 }
 
+func (s *ContestServiceService) CopyContest(ctx context.Context, in *CopyContestInput) (*CopyContestOutput, error) {
+	out := &CopyContestOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/copy"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *ContestServiceService) DescribeContest(ctx context.Context, in *DescribeContestInput) (*DescribeContestOutput, error) {
 	out := &DescribeContestOutput{}
 	path := "/contests/" + url.PathEscape(in.GetContestId())
