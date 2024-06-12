@@ -243,6 +243,9 @@ func RegisterScoreServiceHttpHandlers(router *mux.Router, prefix string, cli Sco
 	router.Handle(prefix+"/results", _ScoreService_ListResult_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ScoreService.ListResult")
+	router.Handle(prefix+"/results/export", _ScoreService_ExportResult_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.judge.ScoreService.ExportResult")
 	router.Handle(prefix+"/rebuild", _ScoreService_RebuildScore_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.ScoreService.RebuildScore")
@@ -358,6 +361,28 @@ func _ScoreService_ListResult_Rule0(cli ScoreServiceClient) http.Handler {
 		var header, trailer metadata.MD
 
 		out, err := cli.ListResult(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ScoreService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ScoreService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ScoreService_ExportResult_Rule0(cli ScoreServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ExportResultInput{}
+
+		if err := _ScoreService_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_ScoreService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.ExportResult(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ScoreService_HTTPWriteErrorResponse(w, err)
 			return
@@ -560,6 +585,38 @@ func (i *ScoreServiceInterceptor) ListResult(ctx context.Context, in *ListResult
 	message, ok := out.(*ListResultOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *ListResultOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *ScoreServiceInterceptor) ExportResult(ctx context.Context, in *ExportResultInput, opts ...grpc.CallOption) (*ExportResultOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ExportResultInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ExportResultInput, got %T", in))
+		}
+
+		return i.client.ExportResult(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.ScoreService.ExportResult", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ExportResultOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ExportResultOutput, got %T", out))
 	}
 
 	return message, err

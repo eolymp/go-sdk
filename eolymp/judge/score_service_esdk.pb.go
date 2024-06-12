@@ -170,6 +170,17 @@ func (s *ScoreServiceService) ListResult(ctx context.Context, in *ListResultInpu
 	return out, nil
 }
 
+func (s *ScoreServiceService) ExportResult(ctx context.Context, in *ExportResultInput) (*ExportResultOutput, error) {
+	out := &ExportResultOutput{}
+	path := "/results/export"
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *ScoreServiceService) RebuildScore(ctx context.Context, in *RebuildScoreInput) (*RebuildScoreOutput, error) {
 	out := &RebuildScoreOutput{}
 	path := "/rebuild"
