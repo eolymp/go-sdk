@@ -52,6 +52,7 @@ type ParticipantServiceClient interface {
 	IntrospectParticipant(ctx context.Context, in *IntrospectParticipantInput, opts ...grpc.CallOption) (*IntrospectParticipantOutput, error)
 	WatchParticipant(ctx context.Context, in *WatchParticipantInput, opts ...grpc.CallOption) (ParticipantService_WatchParticipantClient, error)
 	// Allows a participant (currently authorized user) to join (add himself to) a public contest.
+	// deprecated: use registration service instead
 	JoinContest(ctx context.Context, in *JoinContestInput, opts ...grpc.CallOption) (*JoinContestOutput, error)
 	// Allows a participant (currently authorized user) to start participating in the contest, see problems and submit solutions.
 	StartContest(ctx context.Context, in *StartContestInput, opts ...grpc.CallOption) (*StartContestOutput, error)
@@ -273,6 +274,7 @@ type ParticipantServiceServer interface {
 	IntrospectParticipant(context.Context, *IntrospectParticipantInput) (*IntrospectParticipantOutput, error)
 	WatchParticipant(*WatchParticipantInput, ParticipantService_WatchParticipantServer) error
 	// Allows a participant (currently authorized user) to join (add himself to) a public contest.
+	// deprecated: use registration service instead
 	JoinContest(context.Context, *JoinContestInput) (*JoinContestOutput, error)
 	// Allows a participant (currently authorized user) to start participating in the contest, see problems and submit solutions.
 	StartContest(context.Context, *StartContestInput) (*StartContestOutput, error)
