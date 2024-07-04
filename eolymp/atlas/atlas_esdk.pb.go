@@ -138,6 +138,22 @@ func (s *AtlasService) ListProblems(ctx context.Context, in *ListProblemsInput) 
 	return out, nil
 }
 
+func (s *AtlasService) VoteProblem(ctx context.Context, in *VoteProblemInput) (*VoteProblemOutput, error) {
+	out := &VoteProblemOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/vote"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *AtlasService) DescribeProblem(ctx context.Context, in *DescribeProblemInput) (*DescribeProblemOutput, error) {
 	out := &DescribeProblemOutput{}
 	path := "/problems/" + url.PathEscape(in.GetProblemId())

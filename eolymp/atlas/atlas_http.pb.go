@@ -205,6 +205,9 @@ func RegisterAtlasHttpHandlers(router *mux.Router, prefix string, cli AtlasClien
 	router.Handle(prefix+"/problems", _Atlas_ListProblems_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.Atlas.ListProblems")
+	router.Handle(prefix+"/problems/{problem_id}/vote", _Atlas_VoteProblem_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.atlas.Atlas.VoteProblem")
 	router.Handle(prefix+"/problems/{problem_id}", _Atlas_DescribeProblem_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.Atlas.DescribeProblem")
@@ -411,6 +414,31 @@ func _Atlas_ListProblems_Rule0(cli AtlasClient) http.Handler {
 		var header, trailer metadata.MD
 
 		out, err := cli.ListProblems(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Atlas_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _Atlas_VoteProblem_Rule0(cli AtlasClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &VoteProblemInput{}
+
+		if err := _Atlas_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_Atlas_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.VoteProblem(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Atlas_HTTPWriteErrorResponse(w, err)
 			return
@@ -1743,6 +1771,38 @@ func (i *AtlasInterceptor) ListProblems(ctx context.Context, in *ListProblemsInp
 	message, ok := out.(*ListProblemsOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *ListProblemsOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *AtlasInterceptor) VoteProblem(ctx context.Context, in *VoteProblemInput, opts ...grpc.CallOption) (*VoteProblemOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*VoteProblemInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *VoteProblemInput, got %T", in))
+		}
+
+		return i.client.VoteProblem(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.Atlas.VoteProblem", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*VoteProblemOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *VoteProblemOutput, got %T", out))
 	}
 
 	return message, err

@@ -22,6 +22,7 @@ const (
 	Atlas_CreateProblem_FullMethodName          = "/eolymp.atlas.Atlas/CreateProblem"
 	Atlas_DeleteProblem_FullMethodName          = "/eolymp.atlas.Atlas/DeleteProblem"
 	Atlas_ListProblems_FullMethodName           = "/eolymp.atlas.Atlas/ListProblems"
+	Atlas_VoteProblem_FullMethodName            = "/eolymp.atlas.Atlas/VoteProblem"
 	Atlas_DescribeProblem_FullMethodName        = "/eolymp.atlas.Atlas/DescribeProblem"
 	Atlas_UpdateProblem_FullMethodName          = "/eolymp.atlas.Atlas/UpdateProblem"
 	Atlas_SyncProblem_FullMethodName            = "/eolymp.atlas.Atlas/SyncProblem"
@@ -79,6 +80,7 @@ type AtlasClient interface {
 	CreateProblem(ctx context.Context, in *CreateProblemInput, opts ...grpc.CallOption) (*CreateProblemOutput, error)
 	DeleteProblem(ctx context.Context, in *DeleteProblemInput, opts ...grpc.CallOption) (*DeleteProblemOutput, error)
 	ListProblems(ctx context.Context, in *ListProblemsInput, opts ...grpc.CallOption) (*ListProblemsOutput, error)
+	VoteProblem(ctx context.Context, in *VoteProblemInput, opts ...grpc.CallOption) (*VoteProblemOutput, error)
 	DescribeProblem(ctx context.Context, in *DescribeProblemInput, opts ...grpc.CallOption) (*DescribeProblemOutput, error)
 	UpdateProblem(ctx context.Context, in *UpdateProblemInput, opts ...grpc.CallOption) (*UpdateProblemOutput, error)
 	SyncProblem(ctx context.Context, in *SyncProblemInput, opts ...grpc.CallOption) (*SyncProblemOutput, error)
@@ -166,6 +168,16 @@ func (c *atlasClient) ListProblems(ctx context.Context, in *ListProblemsInput, o
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ListProblemsOutput)
 	err := c.cc.Invoke(ctx, Atlas_ListProblems_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *atlasClient) VoteProblem(ctx context.Context, in *VoteProblemInput, opts ...grpc.CallOption) (*VoteProblemOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(VoteProblemOutput)
+	err := c.cc.Invoke(ctx, Atlas_VoteProblem_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -659,6 +671,7 @@ type AtlasServer interface {
 	CreateProblem(context.Context, *CreateProblemInput) (*CreateProblemOutput, error)
 	DeleteProblem(context.Context, *DeleteProblemInput) (*DeleteProblemOutput, error)
 	ListProblems(context.Context, *ListProblemsInput) (*ListProblemsOutput, error)
+	VoteProblem(context.Context, *VoteProblemInput) (*VoteProblemOutput, error)
 	DescribeProblem(context.Context, *DescribeProblemInput) (*DescribeProblemOutput, error)
 	UpdateProblem(context.Context, *UpdateProblemInput) (*UpdateProblemOutput, error)
 	SyncProblem(context.Context, *SyncProblemInput) (*SyncProblemOutput, error)
@@ -726,6 +739,9 @@ func (UnimplementedAtlasServer) DeleteProblem(context.Context, *DeleteProblemInp
 }
 func (UnimplementedAtlasServer) ListProblems(context.Context, *ListProblemsInput) (*ListProblemsOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListProblems not implemented")
+}
+func (UnimplementedAtlasServer) VoteProblem(context.Context, *VoteProblemInput) (*VoteProblemOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method VoteProblem not implemented")
 }
 func (UnimplementedAtlasServer) DescribeProblem(context.Context, *DescribeProblemInput) (*DescribeProblemOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeProblem not implemented")
@@ -933,6 +949,24 @@ func _Atlas_ListProblems_Handler(srv interface{}, ctx context.Context, dec func(
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AtlasServer).ListProblems(ctx, req.(*ListProblemsInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Atlas_VoteProblem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(VoteProblemInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AtlasServer).VoteProblem(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Atlas_VoteProblem_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AtlasServer).VoteProblem(ctx, req.(*VoteProblemInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1819,6 +1853,10 @@ var Atlas_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListProblems",
 			Handler:    _Atlas_ListProblems_Handler,
+		},
+		{
+			MethodName: "VoteProblem",
+			Handler:    _Atlas_VoteProblem_Handler,
 		},
 		{
 			MethodName: "DescribeProblem",
