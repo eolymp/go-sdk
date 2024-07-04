@@ -19,28 +19,22 @@ import (
 const _ = grpc.SupportPackageIsVersion8
 
 const (
-	ProblemService_DeleteProblem_FullMethodName    = "/eolymp.atlas.ProblemService/DeleteProblem"
-	ProblemService_UpdateProblem_FullMethodName    = "/eolymp.atlas.ProblemService/UpdateProblem"
-	ProblemService_SyncProblem_FullMethodName      = "/eolymp.atlas.ProblemService/SyncProblem"
-	ProblemService_DescribeProblem_FullMethodName  = "/eolymp.atlas.ProblemService/DescribeProblem"
-	ProblemService_UpdateVisibility_FullMethodName = "/eolymp.atlas.ProblemService/UpdateVisibility"
-	ProblemService_UpdatePrivacy_FullMethodName    = "/eolymp.atlas.ProblemService/UpdatePrivacy"
-	ProblemService_ListVersions_FullMethodName     = "/eolymp.atlas.ProblemService/ListVersions"
+	ProblemService_CreateProblem_FullMethodName   = "/eolymp.atlas.ProblemService/CreateProblem"
+	ProblemService_DeleteProblem_FullMethodName   = "/eolymp.atlas.ProblemService/DeleteProblem"
+	ProblemService_DescribeProblem_FullMethodName = "/eolymp.atlas.ProblemService/DescribeProblem"
+	ProblemService_ListProblems_FullMethodName    = "/eolymp.atlas.ProblemService/ListProblems"
+	ProblemService_VoteProblem_FullMethodName     = "/eolymp.atlas.ProblemService/VoteProblem"
 )
 
 // ProblemServiceClient is the client API for ProblemService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ProblemServiceClient interface {
+	CreateProblem(ctx context.Context, in *CreateProblemInput, opts ...grpc.CallOption) (*CreateProblemOutput, error)
 	DeleteProblem(ctx context.Context, in *DeleteProblemInput, opts ...grpc.CallOption) (*DeleteProblemOutput, error)
-	UpdateProblem(ctx context.Context, in *UpdateProblemInput, opts ...grpc.CallOption) (*UpdateProblemOutput, error)
-	SyncProblem(ctx context.Context, in *SyncProblemInput, opts ...grpc.CallOption) (*SyncProblemOutput, error)
 	DescribeProblem(ctx context.Context, in *DescribeProblemInput, opts ...grpc.CallOption) (*DescribeProblemOutput, error)
-	// deprecated: use UpdateProblem instead
-	UpdateVisibility(ctx context.Context, in *UpdateVisibilityInput, opts ...grpc.CallOption) (*UpdateVisibilityOutput, error)
-	// deprecated: use UpdateProblem instead
-	UpdatePrivacy(ctx context.Context, in *UpdatePrivacyInput, opts ...grpc.CallOption) (*UpdatePrivacyOutput, error)
-	ListVersions(ctx context.Context, in *ListVersionsInput, opts ...grpc.CallOption) (*ListVersionsOutput, error)
+	ListProblems(ctx context.Context, in *ListProblemsInput, opts ...grpc.CallOption) (*ListProblemsOutput, error)
+	VoteProblem(ctx context.Context, in *VoteProblemInput, opts ...grpc.CallOption) (*VoteProblemOutput, error)
 }
 
 type problemServiceClient struct {
@@ -51,30 +45,20 @@ func NewProblemServiceClient(cc grpc.ClientConnInterface) ProblemServiceClient {
 	return &problemServiceClient{cc}
 }
 
+func (c *problemServiceClient) CreateProblem(ctx context.Context, in *CreateProblemInput, opts ...grpc.CallOption) (*CreateProblemOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateProblemOutput)
+	err := c.cc.Invoke(ctx, ProblemService_CreateProblem_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *problemServiceClient) DeleteProblem(ctx context.Context, in *DeleteProblemInput, opts ...grpc.CallOption) (*DeleteProblemOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DeleteProblemOutput)
 	err := c.cc.Invoke(ctx, ProblemService_DeleteProblem_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *problemServiceClient) UpdateProblem(ctx context.Context, in *UpdateProblemInput, opts ...grpc.CallOption) (*UpdateProblemOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(UpdateProblemOutput)
-	err := c.cc.Invoke(ctx, ProblemService_UpdateProblem_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *problemServiceClient) SyncProblem(ctx context.Context, in *SyncProblemInput, opts ...grpc.CallOption) (*SyncProblemOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(SyncProblemOutput)
-	err := c.cc.Invoke(ctx, ProblemService_SyncProblem_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -91,30 +75,20 @@ func (c *problemServiceClient) DescribeProblem(ctx context.Context, in *Describe
 	return out, nil
 }
 
-func (c *problemServiceClient) UpdateVisibility(ctx context.Context, in *UpdateVisibilityInput, opts ...grpc.CallOption) (*UpdateVisibilityOutput, error) {
+func (c *problemServiceClient) ListProblems(ctx context.Context, in *ListProblemsInput, opts ...grpc.CallOption) (*ListProblemsOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(UpdateVisibilityOutput)
-	err := c.cc.Invoke(ctx, ProblemService_UpdateVisibility_FullMethodName, in, out, cOpts...)
+	out := new(ListProblemsOutput)
+	err := c.cc.Invoke(ctx, ProblemService_ListProblems_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *problemServiceClient) UpdatePrivacy(ctx context.Context, in *UpdatePrivacyInput, opts ...grpc.CallOption) (*UpdatePrivacyOutput, error) {
+func (c *problemServiceClient) VoteProblem(ctx context.Context, in *VoteProblemInput, opts ...grpc.CallOption) (*VoteProblemOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(UpdatePrivacyOutput)
-	err := c.cc.Invoke(ctx, ProblemService_UpdatePrivacy_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *problemServiceClient) ListVersions(ctx context.Context, in *ListVersionsInput, opts ...grpc.CallOption) (*ListVersionsOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ListVersionsOutput)
-	err := c.cc.Invoke(ctx, ProblemService_ListVersions_FullMethodName, in, out, cOpts...)
+	out := new(VoteProblemOutput)
+	err := c.cc.Invoke(ctx, ProblemService_VoteProblem_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -125,41 +99,31 @@ func (c *problemServiceClient) ListVersions(ctx context.Context, in *ListVersion
 // All implementations should embed UnimplementedProblemServiceServer
 // for forward compatibility
 type ProblemServiceServer interface {
+	CreateProblem(context.Context, *CreateProblemInput) (*CreateProblemOutput, error)
 	DeleteProblem(context.Context, *DeleteProblemInput) (*DeleteProblemOutput, error)
-	UpdateProblem(context.Context, *UpdateProblemInput) (*UpdateProblemOutput, error)
-	SyncProblem(context.Context, *SyncProblemInput) (*SyncProblemOutput, error)
 	DescribeProblem(context.Context, *DescribeProblemInput) (*DescribeProblemOutput, error)
-	// deprecated: use UpdateProblem instead
-	UpdateVisibility(context.Context, *UpdateVisibilityInput) (*UpdateVisibilityOutput, error)
-	// deprecated: use UpdateProblem instead
-	UpdatePrivacy(context.Context, *UpdatePrivacyInput) (*UpdatePrivacyOutput, error)
-	ListVersions(context.Context, *ListVersionsInput) (*ListVersionsOutput, error)
+	ListProblems(context.Context, *ListProblemsInput) (*ListProblemsOutput, error)
+	VoteProblem(context.Context, *VoteProblemInput) (*VoteProblemOutput, error)
 }
 
 // UnimplementedProblemServiceServer should be embedded to have forward compatible implementations.
 type UnimplementedProblemServiceServer struct {
 }
 
+func (UnimplementedProblemServiceServer) CreateProblem(context.Context, *CreateProblemInput) (*CreateProblemOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateProblem not implemented")
+}
 func (UnimplementedProblemServiceServer) DeleteProblem(context.Context, *DeleteProblemInput) (*DeleteProblemOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteProblem not implemented")
-}
-func (UnimplementedProblemServiceServer) UpdateProblem(context.Context, *UpdateProblemInput) (*UpdateProblemOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateProblem not implemented")
-}
-func (UnimplementedProblemServiceServer) SyncProblem(context.Context, *SyncProblemInput) (*SyncProblemOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SyncProblem not implemented")
 }
 func (UnimplementedProblemServiceServer) DescribeProblem(context.Context, *DescribeProblemInput) (*DescribeProblemOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeProblem not implemented")
 }
-func (UnimplementedProblemServiceServer) UpdateVisibility(context.Context, *UpdateVisibilityInput) (*UpdateVisibilityOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateVisibility not implemented")
+func (UnimplementedProblemServiceServer) ListProblems(context.Context, *ListProblemsInput) (*ListProblemsOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListProblems not implemented")
 }
-func (UnimplementedProblemServiceServer) UpdatePrivacy(context.Context, *UpdatePrivacyInput) (*UpdatePrivacyOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdatePrivacy not implemented")
-}
-func (UnimplementedProblemServiceServer) ListVersions(context.Context, *ListVersionsInput) (*ListVersionsOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListVersions not implemented")
+func (UnimplementedProblemServiceServer) VoteProblem(context.Context, *VoteProblemInput) (*VoteProblemOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method VoteProblem not implemented")
 }
 
 // UnsafeProblemServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -171,6 +135,24 @@ type UnsafeProblemServiceServer interface {
 
 func RegisterProblemServiceServer(s grpc.ServiceRegistrar, srv ProblemServiceServer) {
 	s.RegisterService(&ProblemService_ServiceDesc, srv)
+}
+
+func _ProblemService_CreateProblem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateProblemInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProblemServiceServer).CreateProblem(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProblemService_CreateProblem_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProblemServiceServer).CreateProblem(ctx, req.(*CreateProblemInput))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _ProblemService_DeleteProblem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -187,42 +169,6 @@ func _ProblemService_DeleteProblem_Handler(srv interface{}, ctx context.Context,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ProblemServiceServer).DeleteProblem(ctx, req.(*DeleteProblemInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ProblemService_UpdateProblem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateProblemInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ProblemServiceServer).UpdateProblem(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ProblemService_UpdateProblem_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProblemServiceServer).UpdateProblem(ctx, req.(*UpdateProblemInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ProblemService_SyncProblem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SyncProblemInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ProblemServiceServer).SyncProblem(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ProblemService_SyncProblem_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProblemServiceServer).SyncProblem(ctx, req.(*SyncProblemInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -245,56 +191,38 @@ func _ProblemService_DescribeProblem_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ProblemService_UpdateVisibility_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateVisibilityInput)
+func _ProblemService_ListProblems_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListProblemsInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ProblemServiceServer).UpdateVisibility(ctx, in)
+		return srv.(ProblemServiceServer).ListProblems(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ProblemService_UpdateVisibility_FullMethodName,
+		FullMethod: ProblemService_ListProblems_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProblemServiceServer).UpdateVisibility(ctx, req.(*UpdateVisibilityInput))
+		return srv.(ProblemServiceServer).ListProblems(ctx, req.(*ListProblemsInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ProblemService_UpdatePrivacy_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdatePrivacyInput)
+func _ProblemService_VoteProblem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(VoteProblemInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ProblemServiceServer).UpdatePrivacy(ctx, in)
+		return srv.(ProblemServiceServer).VoteProblem(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ProblemService_UpdatePrivacy_FullMethodName,
+		FullMethod: ProblemService_VoteProblem_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProblemServiceServer).UpdatePrivacy(ctx, req.(*UpdatePrivacyInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ProblemService_ListVersions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListVersionsInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ProblemServiceServer).ListVersions(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ProblemService_ListVersions_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProblemServiceServer).ListVersions(ctx, req.(*ListVersionsInput))
+		return srv.(ProblemServiceServer).VoteProblem(ctx, req.(*VoteProblemInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -307,32 +235,24 @@ var ProblemService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*ProblemServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
+			MethodName: "CreateProblem",
+			Handler:    _ProblemService_CreateProblem_Handler,
+		},
+		{
 			MethodName: "DeleteProblem",
 			Handler:    _ProblemService_DeleteProblem_Handler,
-		},
-		{
-			MethodName: "UpdateProblem",
-			Handler:    _ProblemService_UpdateProblem_Handler,
-		},
-		{
-			MethodName: "SyncProblem",
-			Handler:    _ProblemService_SyncProblem_Handler,
 		},
 		{
 			MethodName: "DescribeProblem",
 			Handler:    _ProblemService_DescribeProblem_Handler,
 		},
 		{
-			MethodName: "UpdateVisibility",
-			Handler:    _ProblemService_UpdateVisibility_Handler,
+			MethodName: "ListProblems",
+			Handler:    _ProblemService_ListProblems_Handler,
 		},
 		{
-			MethodName: "UpdatePrivacy",
-			Handler:    _ProblemService_UpdatePrivacy_Handler,
-		},
-		{
-			MethodName: "ListVersions",
-			Handler:    _ProblemService_ListVersions_Handler,
+			MethodName: "VoteProblem",
+			Handler:    _ProblemService_VoteProblem_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

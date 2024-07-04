@@ -100,9 +100,25 @@ func (s *ProblemServiceService) do(ctx context.Context, verb, path string, in, o
 	return nil
 }
 
+func (s *ProblemServiceService) CreateProblem(ctx context.Context, in *CreateProblemInput) (*CreateProblemOutput, error) {
+	out := &CreateProblemOutput{}
+	path := "/problems"
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *ProblemServiceService) DeleteProblem(ctx context.Context, in *DeleteProblemInput) (*DeleteProblemOutput, error) {
 	out := &DeleteProblemOutput{}
-	path := "/"
+	path := "/problems/" + url.PathEscape(in.GetProblemId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
 
 	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
@@ -111,31 +127,14 @@ func (s *ProblemServiceService) DeleteProblem(ctx context.Context, in *DeletePro
 	return out, nil
 }
 
-func (s *ProblemServiceService) UpdateProblem(ctx context.Context, in *UpdateProblemInput) (*UpdateProblemOutput, error) {
-	out := &UpdateProblemOutput{}
-	path := "/"
-
-	if err := s.do(ctx, "PUT", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *ProblemServiceService) SyncProblem(ctx context.Context, in *SyncProblemInput) (*SyncProblemOutput, error) {
-	out := &SyncProblemOutput{}
-	path := "/sync"
-
-	if err := s.do(ctx, "POST", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
 func (s *ProblemServiceService) DescribeProblem(ctx context.Context, in *DescribeProblemInput) (*DescribeProblemOutput, error) {
 	out := &DescribeProblemOutput{}
-	path := "/"
+	path := "/problems/" + url.PathEscape(in.GetProblemId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
@@ -144,33 +143,27 @@ func (s *ProblemServiceService) DescribeProblem(ctx context.Context, in *Describ
 	return out, nil
 }
 
-func (s *ProblemServiceService) UpdateVisibility(ctx context.Context, in *UpdateVisibilityInput) (*UpdateVisibilityOutput, error) {
-	out := &UpdateVisibilityOutput{}
-	path := "/visibility"
-
-	if err := s.do(ctx, "POST", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *ProblemServiceService) UpdatePrivacy(ctx context.Context, in *UpdatePrivacyInput) (*UpdatePrivacyOutput, error) {
-	out := &UpdatePrivacyOutput{}
-	path := "/privacy"
-
-	if err := s.do(ctx, "POST", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *ProblemServiceService) ListVersions(ctx context.Context, in *ListVersionsInput) (*ListVersionsOutput, error) {
-	out := &ListVersionsOutput{}
-	path := "/versions"
+func (s *ProblemServiceService) ListProblems(ctx context.Context, in *ListProblemsInput) (*ListProblemsOutput, error) {
+	out := &ListProblemsOutput{}
+	path := "/problems"
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *ProblemServiceService) VoteProblem(ctx context.Context, in *VoteProblemInput) (*VoteProblemOutput, error) {
+	out := &VoteProblemOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/vote"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
