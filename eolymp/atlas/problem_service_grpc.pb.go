@@ -20,6 +20,7 @@ const _ = grpc.SupportPackageIsVersion8
 
 const (
 	ProblemService_CreateProblem_FullMethodName   = "/eolymp.atlas.ProblemService/CreateProblem"
+	ProblemService_UpdateProblem_FullMethodName   = "/eolymp.atlas.ProblemService/UpdateProblem"
 	ProblemService_DeleteProblem_FullMethodName   = "/eolymp.atlas.ProblemService/DeleteProblem"
 	ProblemService_DescribeProblem_FullMethodName = "/eolymp.atlas.ProblemService/DescribeProblem"
 	ProblemService_ListProblems_FullMethodName    = "/eolymp.atlas.ProblemService/ListProblems"
@@ -31,6 +32,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ProblemServiceClient interface {
 	CreateProblem(ctx context.Context, in *CreateProblemInput, opts ...grpc.CallOption) (*CreateProblemOutput, error)
+	UpdateProblem(ctx context.Context, in *UpdateProblemInput, opts ...grpc.CallOption) (*UpdateProblemOutput, error)
 	DeleteProblem(ctx context.Context, in *DeleteProblemInput, opts ...grpc.CallOption) (*DeleteProblemOutput, error)
 	DescribeProblem(ctx context.Context, in *DescribeProblemInput, opts ...grpc.CallOption) (*DescribeProblemOutput, error)
 	ListProblems(ctx context.Context, in *ListProblemsInput, opts ...grpc.CallOption) (*ListProblemsOutput, error)
@@ -49,6 +51,16 @@ func (c *problemServiceClient) CreateProblem(ctx context.Context, in *CreateProb
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(CreateProblemOutput)
 	err := c.cc.Invoke(ctx, ProblemService_CreateProblem_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *problemServiceClient) UpdateProblem(ctx context.Context, in *UpdateProblemInput, opts ...grpc.CallOption) (*UpdateProblemOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateProblemOutput)
+	err := c.cc.Invoke(ctx, ProblemService_UpdateProblem_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -100,6 +112,7 @@ func (c *problemServiceClient) VoteProblem(ctx context.Context, in *VoteProblemI
 // for forward compatibility
 type ProblemServiceServer interface {
 	CreateProblem(context.Context, *CreateProblemInput) (*CreateProblemOutput, error)
+	UpdateProblem(context.Context, *UpdateProblemInput) (*UpdateProblemOutput, error)
 	DeleteProblem(context.Context, *DeleteProblemInput) (*DeleteProblemOutput, error)
 	DescribeProblem(context.Context, *DescribeProblemInput) (*DescribeProblemOutput, error)
 	ListProblems(context.Context, *ListProblemsInput) (*ListProblemsOutput, error)
@@ -112,6 +125,9 @@ type UnimplementedProblemServiceServer struct {
 
 func (UnimplementedProblemServiceServer) CreateProblem(context.Context, *CreateProblemInput) (*CreateProblemOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateProblem not implemented")
+}
+func (UnimplementedProblemServiceServer) UpdateProblem(context.Context, *UpdateProblemInput) (*UpdateProblemOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateProblem not implemented")
 }
 func (UnimplementedProblemServiceServer) DeleteProblem(context.Context, *DeleteProblemInput) (*DeleteProblemOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteProblem not implemented")
@@ -151,6 +167,24 @@ func _ProblemService_CreateProblem_Handler(srv interface{}, ctx context.Context,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ProblemServiceServer).CreateProblem(ctx, req.(*CreateProblemInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ProblemService_UpdateProblem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateProblemInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProblemServiceServer).UpdateProblem(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProblemService_UpdateProblem_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProblemServiceServer).UpdateProblem(ctx, req.(*UpdateProblemInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -237,6 +271,10 @@ var ProblemService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateProblem",
 			Handler:    _ProblemService_CreateProblem_Handler,
+		},
+		{
+			MethodName: "UpdateProblem",
+			Handler:    _ProblemService_UpdateProblem_Handler,
 		},
 		{
 			MethodName: "DeleteProblem",

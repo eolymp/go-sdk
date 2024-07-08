@@ -199,6 +199,9 @@ func RegisterProblemServiceHttpHandlers(router *mux.Router, prefix string, cli P
 	router.Handle(prefix+"/problems", _ProblemService_CreateProblem_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.ProblemService.CreateProblem")
+	router.Handle(prefix+"/problems/{problem_id}", _ProblemService_UpdateProblem_Rule0(cli)).
+		Methods("PUT").
+		Name("eolymp.atlas.ProblemService.UpdateProblem")
 	router.Handle(prefix+"/problems/{problem_id}", _ProblemService_DeleteProblem_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.atlas.ProblemService.DeleteProblem")
@@ -226,6 +229,31 @@ func _ProblemService_CreateProblem_Rule0(cli ProblemServiceClient) http.Handler 
 		var header, trailer metadata.MD
 
 		out, err := cli.CreateProblem(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ProblemService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ProblemService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ProblemService_UpdateProblem_Rule0(cli ProblemServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UpdateProblemInput{}
+
+		if err := _ProblemService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_ProblemService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateProblem(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
@@ -371,6 +399,38 @@ func (i *ProblemServiceInterceptor) CreateProblem(ctx context.Context, in *Creat
 	message, ok := out.(*CreateProblemOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *CreateProblemOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *ProblemServiceInterceptor) UpdateProblem(ctx context.Context, in *UpdateProblemInput, opts ...grpc.CallOption) (*UpdateProblemOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*UpdateProblemInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *UpdateProblemInput, got %T", in))
+		}
+
+		return i.client.UpdateProblem(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.ProblemService.UpdateProblem", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*UpdateProblemOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *UpdateProblemOutput, got %T", out))
 	}
 
 	return message, err

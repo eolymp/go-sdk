@@ -111,6 +111,22 @@ func (s *ProblemServiceService) CreateProblem(ctx context.Context, in *CreatePro
 	return out, nil
 }
 
+func (s *ProblemServiceService) UpdateProblem(ctx context.Context, in *UpdateProblemInput) (*UpdateProblemOutput, error) {
+	out := &UpdateProblemOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
+
+	if err := s.do(ctx, "PUT", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *ProblemServiceService) DeleteProblem(ctx context.Context, in *DeleteProblemInput) (*DeleteProblemOutput, error) {
 	out := &DeleteProblemOutput{}
 	path := "/problems/" + url.PathEscape(in.GetProblemId())
