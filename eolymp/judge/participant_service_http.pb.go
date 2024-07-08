@@ -237,6 +237,9 @@ func RegisterParticipantServiceHttpHandlers(router *mux.Router, prefix string, c
 	router.Handle(prefix+"/participants/{participant_id}/disable", _ParticipantService_DisableParticipant_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.ParticipantService.DisableParticipant")
+	router.Handle(prefix+"/participants/{participant_id}/disqualify", _ParticipantService_DisqualifyParticipant_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.judge.ParticipantService.DisqualifyParticipant")
 	router.Handle(prefix+"/participants/{participant_id}", _ParticipantService_UpdateParticipant_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.judge.ParticipantService.UpdateParticipant")
@@ -338,6 +341,31 @@ func _ParticipantService_DisableParticipant_Rule0(cli ParticipantServiceClient) 
 		var header, trailer metadata.MD
 
 		out, err := cli.DisableParticipant(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ParticipantService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ParticipantService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ParticipantService_DisqualifyParticipant_Rule0(cli ParticipantServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DisqualifyParticipantInput{}
+
+		if err := _ParticipantService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_ParticipantService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ParticipantId = vars["participant_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.DisqualifyParticipant(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ParticipantService_HTTPWriteErrorResponse(w, err)
 			return
@@ -732,6 +760,38 @@ func (i *ParticipantServiceInterceptor) DisableParticipant(ctx context.Context, 
 	message, ok := out.(*DisableParticipantOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *DisableParticipantOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *ParticipantServiceInterceptor) DisqualifyParticipant(ctx context.Context, in *DisqualifyParticipantInput, opts ...grpc.CallOption) (*DisqualifyParticipantOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DisqualifyParticipantInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DisqualifyParticipantInput, got %T", in))
+		}
+
+		return i.client.DisqualifyParticipant(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.ParticipantService.DisqualifyParticipant", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DisqualifyParticipantOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DisqualifyParticipantOutput, got %T", out))
 	}
 
 	return message, err

@@ -22,6 +22,7 @@ const (
 	ParticipantService_AddParticipant_FullMethodName        = "/eolymp.judge.ParticipantService/AddParticipant"
 	ParticipantService_EnableParticipant_FullMethodName     = "/eolymp.judge.ParticipantService/EnableParticipant"
 	ParticipantService_DisableParticipant_FullMethodName    = "/eolymp.judge.ParticipantService/DisableParticipant"
+	ParticipantService_DisqualifyParticipant_FullMethodName = "/eolymp.judge.ParticipantService/DisqualifyParticipant"
 	ParticipantService_UpdateParticipant_FullMethodName     = "/eolymp.judge.ParticipantService/UpdateParticipant"
 	ParticipantService_RemoveParticipant_FullMethodName     = "/eolymp.judge.ParticipantService/RemoveParticipant"
 	ParticipantService_ListParticipants_FullMethodName      = "/eolymp.judge.ParticipantService/ListParticipants"
@@ -44,6 +45,7 @@ type ParticipantServiceClient interface {
 	AddParticipant(ctx context.Context, in *AddParticipantInput, opts ...grpc.CallOption) (*AddParticipantOutput, error)
 	EnableParticipant(ctx context.Context, in *EnableParticipantInput, opts ...grpc.CallOption) (*EnableParticipantOutput, error)
 	DisableParticipant(ctx context.Context, in *DisableParticipantInput, opts ...grpc.CallOption) (*DisableParticipantOutput, error)
+	DisqualifyParticipant(ctx context.Context, in *DisqualifyParticipantInput, opts ...grpc.CallOption) (*DisqualifyParticipantOutput, error)
 	UpdateParticipant(ctx context.Context, in *UpdateParticipantInput, opts ...grpc.CallOption) (*UpdateParticipantOutput, error)
 	RemoveParticipant(ctx context.Context, in *RemoveParticipantInput, opts ...grpc.CallOption) (*RemoveParticipantOutput, error)
 	ListParticipants(ctx context.Context, in *ListParticipantsInput, opts ...grpc.CallOption) (*ListParticipantsOutput, error)
@@ -100,6 +102,16 @@ func (c *participantServiceClient) DisableParticipant(ctx context.Context, in *D
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DisableParticipantOutput)
 	err := c.cc.Invoke(ctx, ParticipantService_DisableParticipant_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *participantServiceClient) DisqualifyParticipant(ctx context.Context, in *DisqualifyParticipantInput, opts ...grpc.CallOption) (*DisqualifyParticipantOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DisqualifyParticipantOutput)
+	err := c.cc.Invoke(ctx, ParticipantService_DisqualifyParticipant_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -266,6 +278,7 @@ type ParticipantServiceServer interface {
 	AddParticipant(context.Context, *AddParticipantInput) (*AddParticipantOutput, error)
 	EnableParticipant(context.Context, *EnableParticipantInput) (*EnableParticipantOutput, error)
 	DisableParticipant(context.Context, *DisableParticipantInput) (*DisableParticipantOutput, error)
+	DisqualifyParticipant(context.Context, *DisqualifyParticipantInput) (*DisqualifyParticipantOutput, error)
 	UpdateParticipant(context.Context, *UpdateParticipantInput) (*UpdateParticipantOutput, error)
 	RemoveParticipant(context.Context, *RemoveParticipantInput) (*RemoveParticipantOutput, error)
 	ListParticipants(context.Context, *ListParticipantsInput) (*ListParticipantsOutput, error)
@@ -302,6 +315,9 @@ func (UnimplementedParticipantServiceServer) EnableParticipant(context.Context, 
 }
 func (UnimplementedParticipantServiceServer) DisableParticipant(context.Context, *DisableParticipantInput) (*DisableParticipantOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DisableParticipant not implemented")
+}
+func (UnimplementedParticipantServiceServer) DisqualifyParticipant(context.Context, *DisqualifyParticipantInput) (*DisqualifyParticipantOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DisqualifyParticipant not implemented")
 }
 func (UnimplementedParticipantServiceServer) UpdateParticipant(context.Context, *UpdateParticipantInput) (*UpdateParticipantOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateParticipant not implemented")
@@ -404,6 +420,24 @@ func _ParticipantService_DisableParticipant_Handler(srv interface{}, ctx context
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ParticipantServiceServer).DisableParticipant(ctx, req.(*DisableParticipantInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ParticipantService_DisqualifyParticipant_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DisqualifyParticipantInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ParticipantServiceServer).DisqualifyParticipant(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ParticipantService_DisqualifyParticipant_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ParticipantServiceServer).DisqualifyParticipant(ctx, req.(*DisqualifyParticipantInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -663,6 +697,10 @@ var ParticipantService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DisableParticipant",
 			Handler:    _ParticipantService_DisableParticipant_Handler,
+		},
+		{
+			MethodName: "DisqualifyParticipant",
+			Handler:    _ParticipantService_DisqualifyParticipant_Handler,
 		},
 		{
 			MethodName: "UpdateParticipant",
