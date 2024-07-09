@@ -18,8 +18,8 @@ import (
 	http "net/http"
 )
 
-// _Executor_HTTPReadQueryString parses body into proto.Message
-func _Executor_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+// _LanguageService_HTTPReadQueryString parses body into proto.Message
+func _LanguageService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
 	query := r.URL.Query().Get("q")
 	if query == "" {
 		return nil
@@ -32,8 +32,8 @@ func _Executor_HTTPReadQueryString(r *http.Request, v proto.Message) error {
 	return nil
 }
 
-// _Executor_HTTPReadRequestBody parses body into proto.Message
-func _Executor_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
+// _LanguageService_HTTPReadRequestBody parses body into proto.Message
+func _LanguageService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
 	data, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		return err
@@ -46,11 +46,11 @@ func _Executor_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
 	return nil
 }
 
-// _Executor_HTTPWriteResponse writes proto.Message to HTTP response
-func _Executor_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h, t metadata.MD) {
+// _LanguageService_HTTPWriteResponse writes proto.Message to HTTP response
+func _LanguageService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h, t metadata.MD) {
 	data, err := protojson.Marshal(v)
 	if err != nil {
-		_Executor_HTTPWriteErrorResponse(w, err)
+		_LanguageService_HTTPWriteErrorResponse(w, err)
 		return
 	}
 
@@ -73,8 +73,8 @@ func _Executor_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h, t me
 	_, _ = w.Write(data)
 }
 
-// _Executor_HTTPWriteErrorResponse writes error to HTTP response with error status code
-func _Executor_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
+// _LanguageService_HTTPWriteErrorResponse writes error to HTTP response with error status code
+func _LanguageService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
 
 	w.Header().Set("Content-Type", "application/json")
@@ -126,8 +126,8 @@ func _Executor_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	_, _ = w.Write(data)
 }
 
-// _Executor_WebsocketErrorResponse writes error to websocket connection
-func _Executor_WebsocketErrorResponse(conn *websocket.Conn, e error) {
+// _LanguageService_WebsocketErrorResponse writes error to websocket connection
+func _LanguageService_WebsocketErrorResponse(conn *websocket.Conn, e error) {
 	switch status.Convert(e).Code() {
 	case codes.OK:
 		conn.WriteClose(1000)
@@ -168,8 +168,8 @@ func _Executor_WebsocketErrorResponse(conn *websocket.Conn, e error) {
 	}
 }
 
-// _Executor_WebsocketCodec implements protobuf codec for websockets package
-var _Executor_WebsocketCodec = websocket.Codec{
+// _LanguageService_WebsocketCodec implements protobuf codec for websockets package
+var _LanguageService_WebsocketCodec = websocket.Codec{
 	Marshal: func(v interface{}) ([]byte, byte, error) {
 		m, ok := v.(proto.Message)
 		if !ok {
@@ -193,33 +193,33 @@ var _Executor_WebsocketCodec = websocket.Codec{
 	},
 }
 
-// RegisterExecutorHttpHandlers adds handlers for for ExecutorClient
+// RegisterLanguageServiceHttpHandlers adds handlers for for LanguageServiceClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterExecutorHttpHandlers(router *mux.Router, prefix string, cli ExecutorClient) {
-	router.Handle(prefix+"/exec/languages/{language_id}", _Executor_DescribeLanguage_Rule0(cli)).
+func RegisterLanguageServiceHttpHandlers(router *mux.Router, prefix string, cli LanguageServiceClient) {
+	router.Handle(prefix+"/exec/languages/{language_id}", _LanguageService_DescribeLanguage_Rule0(cli)).
 		Methods("GET").
-		Name("eolymp.executor.Executor.DescribeLanguage")
-	router.Handle(prefix+"/exec/languages", _Executor_ListLanguages_Rule0(cli)).
+		Name("eolymp.executor.LanguageService.DescribeLanguage")
+	router.Handle(prefix+"/exec/languages", _LanguageService_ListLanguages_Rule0(cli)).
 		Methods("GET").
-		Name("eolymp.executor.Executor.ListLanguages")
-	router.Handle(prefix+"/exec/runtime/{runtime_id}", _Executor_DescribeRuntime_Rule0(cli)).
+		Name("eolymp.executor.LanguageService.ListLanguages")
+	router.Handle(prefix+"/exec/runtime/{runtime_id}", _LanguageService_DescribeRuntime_Rule0(cli)).
 		Methods("GET").
-		Name("eolymp.executor.Executor.DescribeRuntime")
-	router.Handle(prefix+"/exec/runtime", _Executor_ListRuntime_Rule0(cli)).
+		Name("eolymp.executor.LanguageService.DescribeRuntime")
+	router.Handle(prefix+"/exec/runtime", _LanguageService_ListRuntime_Rule0(cli)).
 		Methods("GET").
-		Name("eolymp.executor.Executor.ListRuntime")
-	router.Handle(prefix+"/exec/runtime/{runtime_id}/template", _Executor_DescribeCodeTemplate_Rule0(cli)).
+		Name("eolymp.executor.LanguageService.ListRuntime")
+	router.Handle(prefix+"/exec/runtime/{runtime_id}/template", _LanguageService_DescribeCodeTemplate_Rule0(cli)).
 		Methods("GET").
-		Name("eolymp.executor.Executor.DescribeCodeTemplate")
+		Name("eolymp.executor.LanguageService.DescribeCodeTemplate")
 }
 
-func _Executor_DescribeLanguage_Rule0(cli ExecutorClient) http.Handler {
+func _LanguageService_DescribeLanguage_Rule0(cli LanguageServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeLanguageInput{}
 
-		if err := _Executor_HTTPReadQueryString(r, in); err != nil {
+		if err := _LanguageService_HTTPReadQueryString(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
-			_Executor_HTTPWriteErrorResponse(w, err)
+			_LanguageService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
@@ -230,21 +230,21 @@ func _Executor_DescribeLanguage_Rule0(cli ExecutorClient) http.Handler {
 
 		out, err := cli.DescribeLanguage(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
-			_Executor_HTTPWriteErrorResponse(w, err)
+			_LanguageService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Executor_HTTPWriteResponse(w, out, header, trailer)
+		_LanguageService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
-func _Executor_ListLanguages_Rule0(cli ExecutorClient) http.Handler {
+func _LanguageService_ListLanguages_Rule0(cli LanguageServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListLanguagesInput{}
 
-		if err := _Executor_HTTPReadQueryString(r, in); err != nil {
+		if err := _LanguageService_HTTPReadQueryString(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
-			_Executor_HTTPWriteErrorResponse(w, err)
+			_LanguageService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
@@ -252,21 +252,21 @@ func _Executor_ListLanguages_Rule0(cli ExecutorClient) http.Handler {
 
 		out, err := cli.ListLanguages(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
-			_Executor_HTTPWriteErrorResponse(w, err)
+			_LanguageService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Executor_HTTPWriteResponse(w, out, header, trailer)
+		_LanguageService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
-func _Executor_DescribeRuntime_Rule0(cli ExecutorClient) http.Handler {
+func _LanguageService_DescribeRuntime_Rule0(cli LanguageServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeRuntimeInput{}
 
-		if err := _Executor_HTTPReadQueryString(r, in); err != nil {
+		if err := _LanguageService_HTTPReadQueryString(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
-			_Executor_HTTPWriteErrorResponse(w, err)
+			_LanguageService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
@@ -277,21 +277,21 @@ func _Executor_DescribeRuntime_Rule0(cli ExecutorClient) http.Handler {
 
 		out, err := cli.DescribeRuntime(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
-			_Executor_HTTPWriteErrorResponse(w, err)
+			_LanguageService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Executor_HTTPWriteResponse(w, out, header, trailer)
+		_LanguageService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
-func _Executor_ListRuntime_Rule0(cli ExecutorClient) http.Handler {
+func _LanguageService_ListRuntime_Rule0(cli LanguageServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListRuntimeInput{}
 
-		if err := _Executor_HTTPReadQueryString(r, in); err != nil {
+		if err := _LanguageService_HTTPReadQueryString(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
-			_Executor_HTTPWriteErrorResponse(w, err)
+			_LanguageService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
@@ -299,21 +299,21 @@ func _Executor_ListRuntime_Rule0(cli ExecutorClient) http.Handler {
 
 		out, err := cli.ListRuntime(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
-			_Executor_HTTPWriteErrorResponse(w, err)
+			_LanguageService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Executor_HTTPWriteResponse(w, out, header, trailer)
+		_LanguageService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
-func _Executor_DescribeCodeTemplate_Rule0(cli ExecutorClient) http.Handler {
+func _LanguageService_DescribeCodeTemplate_Rule0(cli LanguageServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeCodeTemplateInput{}
 
-		if err := _Executor_HTTPReadQueryString(r, in); err != nil {
+		if err := _LanguageService_HTTPReadQueryString(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
-			_Executor_HTTPWriteErrorResponse(w, err)
+			_LanguageService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
@@ -324,59 +324,27 @@ func _Executor_DescribeCodeTemplate_Rule0(cli ExecutorClient) http.Handler {
 
 		out, err := cli.DescribeCodeTemplate(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
-			_Executor_HTTPWriteErrorResponse(w, err)
+			_LanguageService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Executor_HTTPWriteResponse(w, out, header, trailer)
+		_LanguageService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
-type _ExecutorHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
-type _ExecutorMiddleware = func(ctx context.Context, method string, in proto.Message, handler _ExecutorHandler) (out proto.Message, err error)
-type ExecutorInterceptor struct {
-	middleware []_ExecutorMiddleware
-	client     ExecutorClient
+type _LanguageServiceHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
+type _LanguageServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _LanguageServiceHandler) (out proto.Message, err error)
+type LanguageServiceInterceptor struct {
+	middleware []_LanguageServiceMiddleware
+	client     LanguageServiceClient
 }
 
-// NewExecutorInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewExecutorInterceptor(cli ExecutorClient, middleware ..._ExecutorMiddleware) *ExecutorInterceptor {
-	return &ExecutorInterceptor{client: cli, middleware: middleware}
+// NewLanguageServiceInterceptor constructs additional middleware for a server based on annotations in proto files
+func NewLanguageServiceInterceptor(cli LanguageServiceClient, middleware ..._LanguageServiceMiddleware) *LanguageServiceInterceptor {
+	return &LanguageServiceInterceptor{client: cli, middleware: middleware}
 }
 
-func (i *ExecutorInterceptor) CreateTask(ctx context.Context, in *CreateTaskInput, opts ...grpc.CallOption) (*CreateTaskOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*CreateTaskInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *CreateTaskInput, got %T", in))
-		}
-
-		return i.client.CreateTask(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.executor.Executor.CreateTask", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*CreateTaskOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *CreateTaskOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *ExecutorInterceptor) DescribeLanguage(ctx context.Context, in *DescribeLanguageInput, opts ...grpc.CallOption) (*DescribeLanguageOutput, error) {
+func (i *LanguageServiceInterceptor) DescribeLanguage(ctx context.Context, in *DescribeLanguageInput, opts ...grpc.CallOption) (*DescribeLanguageOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeLanguageInput)
 		if !ok && in != nil {
@@ -391,7 +359,7 @@ func (i *ExecutorInterceptor) DescribeLanguage(ctx context.Context, in *Describe
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.executor.Executor.DescribeLanguage", in, next)
+			return mw(ctx, "eolymp.executor.LanguageService.DescribeLanguage", in, next)
 		}
 	}
 
@@ -408,7 +376,7 @@ func (i *ExecutorInterceptor) DescribeLanguage(ctx context.Context, in *Describe
 	return message, err
 }
 
-func (i *ExecutorInterceptor) ListLanguages(ctx context.Context, in *ListLanguagesInput, opts ...grpc.CallOption) (*ListLanguagesOutput, error) {
+func (i *LanguageServiceInterceptor) ListLanguages(ctx context.Context, in *ListLanguagesInput, opts ...grpc.CallOption) (*ListLanguagesOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListLanguagesInput)
 		if !ok && in != nil {
@@ -423,7 +391,7 @@ func (i *ExecutorInterceptor) ListLanguages(ctx context.Context, in *ListLanguag
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.executor.Executor.ListLanguages", in, next)
+			return mw(ctx, "eolymp.executor.LanguageService.ListLanguages", in, next)
 		}
 	}
 
@@ -440,7 +408,7 @@ func (i *ExecutorInterceptor) ListLanguages(ctx context.Context, in *ListLanguag
 	return message, err
 }
 
-func (i *ExecutorInterceptor) DescribeRuntime(ctx context.Context, in *DescribeRuntimeInput, opts ...grpc.CallOption) (*DescribeRuntimeOutput, error) {
+func (i *LanguageServiceInterceptor) DescribeRuntime(ctx context.Context, in *DescribeRuntimeInput, opts ...grpc.CallOption) (*DescribeRuntimeOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeRuntimeInput)
 		if !ok && in != nil {
@@ -455,7 +423,7 @@ func (i *ExecutorInterceptor) DescribeRuntime(ctx context.Context, in *DescribeR
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.executor.Executor.DescribeRuntime", in, next)
+			return mw(ctx, "eolymp.executor.LanguageService.DescribeRuntime", in, next)
 		}
 	}
 
@@ -472,7 +440,7 @@ func (i *ExecutorInterceptor) DescribeRuntime(ctx context.Context, in *DescribeR
 	return message, err
 }
 
-func (i *ExecutorInterceptor) ListRuntime(ctx context.Context, in *ListRuntimeInput, opts ...grpc.CallOption) (*ListRuntimeOutput, error) {
+func (i *LanguageServiceInterceptor) ListRuntime(ctx context.Context, in *ListRuntimeInput, opts ...grpc.CallOption) (*ListRuntimeOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListRuntimeInput)
 		if !ok && in != nil {
@@ -487,7 +455,7 @@ func (i *ExecutorInterceptor) ListRuntime(ctx context.Context, in *ListRuntimeIn
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.executor.Executor.ListRuntime", in, next)
+			return mw(ctx, "eolymp.executor.LanguageService.ListRuntime", in, next)
 		}
 	}
 
@@ -504,7 +472,7 @@ func (i *ExecutorInterceptor) ListRuntime(ctx context.Context, in *ListRuntimeIn
 	return message, err
 }
 
-func (i *ExecutorInterceptor) DescribeCodeTemplate(ctx context.Context, in *DescribeCodeTemplateInput, opts ...grpc.CallOption) (*DescribeCodeTemplateOutput, error) {
+func (i *LanguageServiceInterceptor) DescribeCodeTemplate(ctx context.Context, in *DescribeCodeTemplateInput, opts ...grpc.CallOption) (*DescribeCodeTemplateOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeCodeTemplateInput)
 		if !ok && in != nil {
@@ -519,7 +487,7 @@ func (i *ExecutorInterceptor) DescribeCodeTemplate(ctx context.Context, in *Desc
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.executor.Executor.DescribeCodeTemplate", in, next)
+			return mw(ctx, "eolymp.executor.LanguageService.DescribeCodeTemplate", in, next)
 		}
 	}
 

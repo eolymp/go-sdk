@@ -16,17 +16,17 @@ import (
 	os "os"
 )
 
-type _ExecutorHttpClient interface {
+type _LanguageServiceHttpClient interface {
 	Do(*http.Request) (*http.Response, error)
 }
 
-type ExecutorService struct {
+type LanguageServiceService struct {
 	base string
-	cli  _ExecutorHttpClient
+	cli  _LanguageServiceHttpClient
 }
 
-// NewExecutorHttpClient constructs client for Executor
-func NewExecutorHttpClient(url string, cli _ExecutorHttpClient) *ExecutorService {
+// NewLanguageServiceHttpClient constructs client for LanguageService
+func NewLanguageServiceHttpClient(url string, cli _LanguageServiceHttpClient) *LanguageServiceService {
 	if url == "" {
 		url = os.Getenv("EOLYMP_API_URL")
 		if url == "" {
@@ -34,10 +34,10 @@ func NewExecutorHttpClient(url string, cli _ExecutorHttpClient) *ExecutorService
 		}
 	}
 
-	return &ExecutorService{base: url, cli: cli}
+	return &LanguageServiceService{base: url, cli: cli}
 }
 
-func (s *ExecutorService) do(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
+func (s *LanguageServiceService) do(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
 	var body io.Reader
 
 	if in != nil {
@@ -100,7 +100,7 @@ func (s *ExecutorService) do(ctx context.Context, verb, path string, in, out pro
 	return nil
 }
 
-func (s *ExecutorService) DescribeLanguage(ctx context.Context, in *DescribeLanguageInput) (*DescribeLanguageOutput, error) {
+func (s *LanguageServiceService) DescribeLanguage(ctx context.Context, in *DescribeLanguageInput) (*DescribeLanguageOutput, error) {
 	out := &DescribeLanguageOutput{}
 	path := "/exec/languages/" + url.PathEscape(in.GetLanguageId())
 
@@ -116,7 +116,7 @@ func (s *ExecutorService) DescribeLanguage(ctx context.Context, in *DescribeLang
 	return out, nil
 }
 
-func (s *ExecutorService) ListLanguages(ctx context.Context, in *ListLanguagesInput) (*ListLanguagesOutput, error) {
+func (s *LanguageServiceService) ListLanguages(ctx context.Context, in *ListLanguagesInput) (*ListLanguagesOutput, error) {
 	out := &ListLanguagesOutput{}
 	path := "/exec/languages"
 
@@ -127,7 +127,7 @@ func (s *ExecutorService) ListLanguages(ctx context.Context, in *ListLanguagesIn
 	return out, nil
 }
 
-func (s *ExecutorService) DescribeRuntime(ctx context.Context, in *DescribeRuntimeInput) (*DescribeRuntimeOutput, error) {
+func (s *LanguageServiceService) DescribeRuntime(ctx context.Context, in *DescribeRuntimeInput) (*DescribeRuntimeOutput, error) {
 	out := &DescribeRuntimeOutput{}
 	path := "/exec/runtime/" + url.PathEscape(in.GetRuntimeId())
 
@@ -143,7 +143,7 @@ func (s *ExecutorService) DescribeRuntime(ctx context.Context, in *DescribeRunti
 	return out, nil
 }
 
-func (s *ExecutorService) ListRuntime(ctx context.Context, in *ListRuntimeInput) (*ListRuntimeOutput, error) {
+func (s *LanguageServiceService) ListRuntime(ctx context.Context, in *ListRuntimeInput) (*ListRuntimeOutput, error) {
 	out := &ListRuntimeOutput{}
 	path := "/exec/runtime"
 
@@ -154,7 +154,7 @@ func (s *ExecutorService) ListRuntime(ctx context.Context, in *ListRuntimeInput)
 	return out, nil
 }
 
-func (s *ExecutorService) DescribeCodeTemplate(ctx context.Context, in *DescribeCodeTemplateInput) (*DescribeCodeTemplateOutput, error) {
+func (s *LanguageServiceService) DescribeCodeTemplate(ctx context.Context, in *DescribeCodeTemplateInput) (*DescribeCodeTemplateOutput, error) {
 	out := &DescribeCodeTemplateOutput{}
 	path := "/exec/runtime/" + url.PathEscape(in.GetRuntimeId()) + "/template"
 

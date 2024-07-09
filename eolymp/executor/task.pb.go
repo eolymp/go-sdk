@@ -40,7 +40,7 @@ type Task struct {
 	// Runtime which should be used to execute source code.
 	Runtime string `protobuf:"bytes,10,opt,name=runtime,proto3" json:"runtime,omitempty"`
 	// Source code.
-	Source    string `protobuf:"bytes,11,opt,name=source,proto3" json:"source,omitempty"`                         // source code
+	Source    string `protobuf:"bytes,11,opt,name=source,proto3" json:"source,omitempty"`                         // deprecated, use source_url instead
 	SourceUrl string `protobuf:"bytes,110,opt,name=source_url,json=sourceUrl,proto3" json:"source_url,omitempty"` // source code URL (overrides source)
 	HeaderUrl string `protobuf:"bytes,111,opt,name=header_url,json=headerUrl,proto3" json:"header_url,omitempty"` // prepend source code before executing
 	FooterUrl string `protobuf:"bytes,112,opt,name=footer_url,json=footerUrl,proto3" json:"footer_url,omitempty"` // append source code before executing
