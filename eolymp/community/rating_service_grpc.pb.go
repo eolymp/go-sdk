@@ -19,10 +19,8 @@ import (
 const _ = grpc.SupportPackageIsVersion8
 
 const (
-	RatingService_SetRating_FullMethodName      = "/eolymp.community.RatingService/SetRating"
-	RatingService_DeleteRating_FullMethodName   = "/eolymp.community.RatingService/DeleteRating"
-	RatingService_DescribeRating_FullMethodName = "/eolymp.community.RatingService/DescribeRating"
-	RatingService_ListRating_FullMethodName     = "/eolymp.community.RatingService/ListRating"
+	RatingService_SetRating_FullMethodName    = "/eolymp.community.RatingService/SetRating"
+	RatingService_DeleteRating_FullMethodName = "/eolymp.community.RatingService/DeleteRating"
 )
 
 // RatingServiceClient is the client API for RatingService service.
@@ -33,8 +31,6 @@ type RatingServiceClient interface {
 	// If point with the same id or ref exists, it will be updated, otherwise created.
 	SetRating(ctx context.Context, in *SetRatingInput, opts ...grpc.CallOption) (*SetRatingOutput, error)
 	DeleteRating(ctx context.Context, in *DeleteRatingInput, opts ...grpc.CallOption) (*DeleteRatingOutput, error)
-	DescribeRating(ctx context.Context, in *DescribeRatingInput, opts ...grpc.CallOption) (*DescribeRatingOutput, error)
-	ListRating(ctx context.Context, in *ListRatingInput, opts ...grpc.CallOption) (*ListRatingOutput, error)
 }
 
 type ratingServiceClient struct {
@@ -65,26 +61,6 @@ func (c *ratingServiceClient) DeleteRating(ctx context.Context, in *DeleteRating
 	return out, nil
 }
 
-func (c *ratingServiceClient) DescribeRating(ctx context.Context, in *DescribeRatingInput, opts ...grpc.CallOption) (*DescribeRatingOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DescribeRatingOutput)
-	err := c.cc.Invoke(ctx, RatingService_DescribeRating_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *ratingServiceClient) ListRating(ctx context.Context, in *ListRatingInput, opts ...grpc.CallOption) (*ListRatingOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ListRatingOutput)
-	err := c.cc.Invoke(ctx, RatingService_ListRating_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // RatingServiceServer is the server API for RatingService service.
 // All implementations should embed UnimplementedRatingServiceServer
 // for forward compatibility
@@ -93,8 +69,6 @@ type RatingServiceServer interface {
 	// If point with the same id or ref exists, it will be updated, otherwise created.
 	SetRating(context.Context, *SetRatingInput) (*SetRatingOutput, error)
 	DeleteRating(context.Context, *DeleteRatingInput) (*DeleteRatingOutput, error)
-	DescribeRating(context.Context, *DescribeRatingInput) (*DescribeRatingOutput, error)
-	ListRating(context.Context, *ListRatingInput) (*ListRatingOutput, error)
 }
 
 // UnimplementedRatingServiceServer should be embedded to have forward compatible implementations.
@@ -106,12 +80,6 @@ func (UnimplementedRatingServiceServer) SetRating(context.Context, *SetRatingInp
 }
 func (UnimplementedRatingServiceServer) DeleteRating(context.Context, *DeleteRatingInput) (*DeleteRatingOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteRating not implemented")
-}
-func (UnimplementedRatingServiceServer) DescribeRating(context.Context, *DescribeRatingInput) (*DescribeRatingOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DescribeRating not implemented")
-}
-func (UnimplementedRatingServiceServer) ListRating(context.Context, *ListRatingInput) (*ListRatingOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListRating not implemented")
 }
 
 // UnsafeRatingServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -161,42 +129,6 @@ func _RatingService_DeleteRating_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
-func _RatingService_DescribeRating_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DescribeRatingInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(RatingServiceServer).DescribeRating(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: RatingService_DescribeRating_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RatingServiceServer).DescribeRating(ctx, req.(*DescribeRatingInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _RatingService_ListRating_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListRatingInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(RatingServiceServer).ListRating(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: RatingService_ListRating_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RatingServiceServer).ListRating(ctx, req.(*ListRatingInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // RatingService_ServiceDesc is the grpc.ServiceDesc for RatingService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -211,14 +143,6 @@ var RatingService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteRating",
 			Handler:    _RatingService_DeleteRating_Handler,
-		},
-		{
-			MethodName: "DescribeRating",
-			Handler:    _RatingService_DescribeRating_Handler,
-		},
-		{
-			MethodName: "ListRating",
-			Handler:    _RatingService_ListRating_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
