@@ -230,3 +230,14 @@ func (s *MemberServiceService) DescribeMemberUsage(ctx context.Context, in *Desc
 
 	return out, nil
 }
+
+func (s *MemberServiceService) ListLevels(ctx context.Context, in *ListLevelsInput) (*ListLevelsOutput, error) {
+	out := &ListLevelsOutput{}
+	path := "/levels"
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
