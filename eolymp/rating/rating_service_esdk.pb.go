@@ -174,3 +174,25 @@ func (s *RatingServiceService) ListRating(ctx context.Context, in *ListRatingInp
 
 	return out, nil
 }
+
+func (s *RatingServiceService) DescribeRatingBoundaries(ctx context.Context, in *DescribeRatingBoundariesInput) (*DescribeRatingBoundariesOutput, error) {
+	out := &DescribeRatingBoundariesOutput{}
+	path := "/rating-boundaries"
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *RatingServiceService) DescribeRatingDistribution(ctx context.Context, in *DescribeRatingDistributionInput) (*DescribeRatingDistributionOutput, error) {
+	out := &DescribeRatingDistributionOutput{}
+	path := "/rating-distribution"
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

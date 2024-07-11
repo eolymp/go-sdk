@@ -211,6 +211,12 @@ func RegisterRatingServiceHttpHandlers(router *mux.Router, prefix string, cli Ra
 	router.Handle(prefix+"/members/{member_id}/rating", _RatingService_ListRating_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.rating.RatingService.ListRating")
+	router.Handle(prefix+"/rating-boundaries", _RatingService_DescribeRatingBoundaries_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.rating.RatingService.DescribeRatingBoundaries")
+	router.Handle(prefix+"/rating-distribution", _RatingService_DescribeRatingDistribution_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.rating.RatingService.DescribeRatingDistribution")
 }
 
 func _RatingService_SetRating_Rule0(cli RatingServiceClient) http.Handler {
@@ -326,6 +332,50 @@ func _RatingService_ListRating_Rule0(cli RatingServiceClient) http.Handler {
 		var header, trailer metadata.MD
 
 		out, err := cli.ListRating(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_RatingService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_RatingService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _RatingService_DescribeRatingBoundaries_Rule0(cli RatingServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeRatingBoundariesInput{}
+
+		if err := _RatingService_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_RatingService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeRatingBoundaries(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_RatingService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_RatingService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _RatingService_DescribeRatingDistribution_Rule0(cli RatingServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeRatingDistributionInput{}
+
+		if err := _RatingService_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_RatingService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeRatingDistribution(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_RatingService_HTTPWriteErrorResponse(w, err)
 			return
@@ -502,6 +552,70 @@ func (i *RatingServiceInterceptor) ListRating(ctx context.Context, in *ListRatin
 	message, ok := out.(*ListRatingOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *ListRatingOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *RatingServiceInterceptor) DescribeRatingBoundaries(ctx context.Context, in *DescribeRatingBoundariesInput, opts ...grpc.CallOption) (*DescribeRatingBoundariesOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeRatingBoundariesInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeRatingBoundariesInput, got %T", in))
+		}
+
+		return i.client.DescribeRatingBoundaries(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.rating.RatingService.DescribeRatingBoundaries", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeRatingBoundariesOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeRatingBoundariesOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *RatingServiceInterceptor) DescribeRatingDistribution(ctx context.Context, in *DescribeRatingDistributionInput, opts ...grpc.CallOption) (*DescribeRatingDistributionOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeRatingDistributionInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeRatingDistributionInput, got %T", in))
+		}
+
+		return i.client.DescribeRatingDistribution(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.rating.RatingService.DescribeRatingDistribution", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeRatingDistributionOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeRatingDistributionOutput, got %T", out))
 	}
 
 	return message, err

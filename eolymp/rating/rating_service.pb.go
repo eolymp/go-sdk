@@ -589,6 +589,176 @@ func (x *ListRatingOutput) GetItems() []*Rating {
 	return nil
 }
 
+type DescribeRatingBoundariesInput struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *DescribeRatingBoundariesInput) Reset() {
+	*x = DescribeRatingBoundariesInput{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_eolymp_rating_rating_service_proto_msgTypes[10]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *DescribeRatingBoundariesInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DescribeRatingBoundariesInput) ProtoMessage() {}
+
+func (x *DescribeRatingBoundariesInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_rating_rating_service_proto_msgTypes[10]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DescribeRatingBoundariesInput.ProtoReflect.Descriptor instead.
+func (*DescribeRatingBoundariesInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_rating_rating_service_proto_rawDescGZIP(), []int{10}
+}
+
+type DescribeRatingBoundariesOutput struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Levels []*DescribeRatingBoundariesOutput_Level `protobuf:"bytes,1,rep,name=levels,proto3" json:"levels,omitempty"`
+}
+
+func (x *DescribeRatingBoundariesOutput) Reset() {
+	*x = DescribeRatingBoundariesOutput{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_eolymp_rating_rating_service_proto_msgTypes[11]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *DescribeRatingBoundariesOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DescribeRatingBoundariesOutput) ProtoMessage() {}
+
+func (x *DescribeRatingBoundariesOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_rating_rating_service_proto_msgTypes[11]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DescribeRatingBoundariesOutput.ProtoReflect.Descriptor instead.
+func (*DescribeRatingBoundariesOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_rating_rating_service_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *DescribeRatingBoundariesOutput) GetLevels() []*DescribeRatingBoundariesOutput_Level {
+	if x != nil {
+		return x.Levels
+	}
+	return nil
+}
+
+type DescribeRatingDistributionInput struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *DescribeRatingDistributionInput) Reset() {
+	*x = DescribeRatingDistributionInput{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_eolymp_rating_rating_service_proto_msgTypes[12]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *DescribeRatingDistributionInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DescribeRatingDistributionInput) ProtoMessage() {}
+
+func (x *DescribeRatingDistributionInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_rating_rating_service_proto_msgTypes[12]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DescribeRatingDistributionInput.ProtoReflect.Descriptor instead.
+func (*DescribeRatingDistributionInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_rating_rating_service_proto_rawDescGZIP(), []int{12}
+}
+
+type DescribeRatingDistributionOutput struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Buckets []*DescribeRatingDistributionOutput_Bucket `protobuf:"bytes,1,rep,name=buckets,proto3" json:"buckets,omitempty"`
+}
+
+func (x *DescribeRatingDistributionOutput) Reset() {
+	*x = DescribeRatingDistributionOutput{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_eolymp_rating_rating_service_proto_msgTypes[13]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *DescribeRatingDistributionOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DescribeRatingDistributionOutput) ProtoMessage() {}
+
+func (x *DescribeRatingDistributionOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_rating_rating_service_proto_msgTypes[13]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DescribeRatingDistributionOutput.ProtoReflect.Descriptor instead.
+func (*DescribeRatingDistributionOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_rating_rating_service_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *DescribeRatingDistributionOutput) GetBuckets() []*DescribeRatingDistributionOutput_Bucket {
+	if x != nil {
+		return x.Buckets
+	}
+	return nil
+}
+
 type ListRatingInput_Filter struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -602,7 +772,7 @@ type ListRatingInput_Filter struct {
 func (x *ListRatingInput_Filter) Reset() {
 	*x = ListRatingInput_Filter{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_eolymp_rating_rating_service_proto_msgTypes[10]
+		mi := &file_eolymp_rating_rating_service_proto_msgTypes[14]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -615,7 +785,7 @@ func (x *ListRatingInput_Filter) String() string {
 func (*ListRatingInput_Filter) ProtoMessage() {}
 
 func (x *ListRatingInput_Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_rating_rating_service_proto_msgTypes[10]
+	mi := &file_eolymp_rating_rating_service_proto_msgTypes[14]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -650,6 +820,132 @@ func (x *ListRatingInput_Filter) GetTimestamp() []*wellknown.ExpressionTimestamp
 		return x.Timestamp
 	}
 	return nil
+}
+
+type DescribeRatingBoundariesOutput_Level struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id     uint32 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Rating int32  `protobuf:"varint,2,opt,name=rating,proto3" json:"rating,omitempty"`
+	Count  uint32 `protobuf:"varint,3,opt,name=count,proto3" json:"count,omitempty"`
+}
+
+func (x *DescribeRatingBoundariesOutput_Level) Reset() {
+	*x = DescribeRatingBoundariesOutput_Level{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_eolymp_rating_rating_service_proto_msgTypes[15]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *DescribeRatingBoundariesOutput_Level) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DescribeRatingBoundariesOutput_Level) ProtoMessage() {}
+
+func (x *DescribeRatingBoundariesOutput_Level) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_rating_rating_service_proto_msgTypes[15]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DescribeRatingBoundariesOutput_Level.ProtoReflect.Descriptor instead.
+func (*DescribeRatingBoundariesOutput_Level) Descriptor() ([]byte, []int) {
+	return file_eolymp_rating_rating_service_proto_rawDescGZIP(), []int{11, 0}
+}
+
+func (x *DescribeRatingBoundariesOutput_Level) GetId() uint32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *DescribeRatingBoundariesOutput_Level) GetRating() int32 {
+	if x != nil {
+		return x.Rating
+	}
+	return 0
+}
+
+func (x *DescribeRatingBoundariesOutput_Level) GetCount() uint32 {
+	if x != nil {
+		return x.Count
+	}
+	return 0
+}
+
+type DescribeRatingDistributionOutput_Bucket struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	MinRating int32  `protobuf:"varint,1,opt,name=min_rating,json=minRating,proto3" json:"min_rating,omitempty"`
+	MaxRating int32  `protobuf:"varint,2,opt,name=max_rating,json=maxRating,proto3" json:"max_rating,omitempty"`
+	Count     uint32 `protobuf:"varint,3,opt,name=count,proto3" json:"count,omitempty"`
+}
+
+func (x *DescribeRatingDistributionOutput_Bucket) Reset() {
+	*x = DescribeRatingDistributionOutput_Bucket{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_eolymp_rating_rating_service_proto_msgTypes[16]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *DescribeRatingDistributionOutput_Bucket) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DescribeRatingDistributionOutput_Bucket) ProtoMessage() {}
+
+func (x *DescribeRatingDistributionOutput_Bucket) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_rating_rating_service_proto_msgTypes[16]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DescribeRatingDistributionOutput_Bucket.ProtoReflect.Descriptor instead.
+func (*DescribeRatingDistributionOutput_Bucket) Descriptor() ([]byte, []int) {
+	return file_eolymp_rating_rating_service_proto_rawDescGZIP(), []int{13, 0}
+}
+
+func (x *DescribeRatingDistributionOutput_Bucket) GetMinRating() int32 {
+	if x != nil {
+		return x.MinRating
+	}
+	return 0
+}
+
+func (x *DescribeRatingDistributionOutput_Bucket) GetMaxRating() int32 {
+	if x != nil {
+		return x.MaxRating
+	}
+	return 0
+}
+
+func (x *DescribeRatingDistributionOutput_Bucket) GetCount() uint32 {
+	if x != nil {
+		return x.Count
+	}
+	return 0
 }
 
 var File_eolymp_rating_rating_service_proto protoreflect.FileDescriptor
@@ -737,7 +1033,36 @@ var file_eolymp_rating_rating_service_proto_rawDesc = []byte{
 	0x28, 0x05, 0x52, 0x05, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x12, 0x2b, 0x0a, 0x05, 0x69, 0x74, 0x65,
 	0x6d, 0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x15, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d,
 	0x70, 0x2e, 0x72, 0x61, 0x74, 0x69, 0x6e, 0x67, 0x2e, 0x52, 0x61, 0x74, 0x69, 0x6e, 0x67, 0x52,
-	0x05, 0x69, 0x74, 0x65, 0x6d, 0x73, 0x32, 0xa0, 0x06, 0x0a, 0x0d, 0x52, 0x61, 0x74, 0x69, 0x6e,
+	0x05, 0x69, 0x74, 0x65, 0x6d, 0x73, 0x22, 0x1f, 0x0a, 0x1d, 0x44, 0x65, 0x73, 0x63, 0x72, 0x69,
+	0x62, 0x65, 0x52, 0x61, 0x74, 0x69, 0x6e, 0x67, 0x42, 0x6f, 0x75, 0x6e, 0x64, 0x61, 0x72, 0x69,
+	0x65, 0x73, 0x49, 0x6e, 0x70, 0x75, 0x74, 0x22, 0xb4, 0x01, 0x0a, 0x1e, 0x44, 0x65, 0x73, 0x63,
+	0x72, 0x69, 0x62, 0x65, 0x52, 0x61, 0x74, 0x69, 0x6e, 0x67, 0x42, 0x6f, 0x75, 0x6e, 0x64, 0x61,
+	0x72, 0x69, 0x65, 0x73, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x12, 0x4b, 0x0a, 0x06, 0x6c, 0x65,
+	0x76, 0x65, 0x6c, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x33, 0x2e, 0x65, 0x6f, 0x6c,
+	0x79, 0x6d, 0x70, 0x2e, 0x72, 0x61, 0x74, 0x69, 0x6e, 0x67, 0x2e, 0x44, 0x65, 0x73, 0x63, 0x72,
+	0x69, 0x62, 0x65, 0x52, 0x61, 0x74, 0x69, 0x6e, 0x67, 0x42, 0x6f, 0x75, 0x6e, 0x64, 0x61, 0x72,
+	0x69, 0x65, 0x73, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x2e, 0x4c, 0x65, 0x76, 0x65, 0x6c, 0x52,
+	0x06, 0x6c, 0x65, 0x76, 0x65, 0x6c, 0x73, 0x1a, 0x45, 0x0a, 0x05, 0x4c, 0x65, 0x76, 0x65, 0x6c,
+	0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x02, 0x69, 0x64,
+	0x12, 0x16, 0x0a, 0x06, 0x72, 0x61, 0x74, 0x69, 0x6e, 0x67, 0x18, 0x02, 0x20, 0x01, 0x28, 0x05,
+	0x52, 0x06, 0x72, 0x61, 0x74, 0x69, 0x6e, 0x67, 0x12, 0x14, 0x0a, 0x05, 0x63, 0x6f, 0x75, 0x6e,
+	0x74, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x05, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x22, 0x21,
+	0x0a, 0x1f, 0x44, 0x65, 0x73, 0x63, 0x72, 0x69, 0x62, 0x65, 0x52, 0x61, 0x74, 0x69, 0x6e, 0x67,
+	0x44, 0x69, 0x73, 0x74, 0x72, 0x69, 0x62, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x6e, 0x70, 0x75,
+	0x74, 0x22, 0xd2, 0x01, 0x0a, 0x20, 0x44, 0x65, 0x73, 0x63, 0x72, 0x69, 0x62, 0x65, 0x52, 0x61,
+	0x74, 0x69, 0x6e, 0x67, 0x44, 0x69, 0x73, 0x74, 0x72, 0x69, 0x62, 0x75, 0x74, 0x69, 0x6f, 0x6e,
+	0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x12, 0x50, 0x0a, 0x07, 0x62, 0x75, 0x63, 0x6b, 0x65, 0x74,
+	0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x36, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70,
+	0x2e, 0x72, 0x61, 0x74, 0x69, 0x6e, 0x67, 0x2e, 0x44, 0x65, 0x73, 0x63, 0x72, 0x69, 0x62, 0x65,
+	0x52, 0x61, 0x74, 0x69, 0x6e, 0x67, 0x44, 0x69, 0x73, 0x74, 0x72, 0x69, 0x62, 0x75, 0x74, 0x69,
+	0x6f, 0x6e, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x2e, 0x42, 0x75, 0x63, 0x6b, 0x65, 0x74, 0x52,
+	0x07, 0x62, 0x75, 0x63, 0x6b, 0x65, 0x74, 0x73, 0x1a, 0x5c, 0x0a, 0x06, 0x42, 0x75, 0x63, 0x6b,
+	0x65, 0x74, 0x12, 0x1d, 0x0a, 0x0a, 0x6d, 0x69, 0x6e, 0x5f, 0x72, 0x61, 0x74, 0x69, 0x6e, 0x67,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x09, 0x6d, 0x69, 0x6e, 0x52, 0x61, 0x74, 0x69, 0x6e,
+	0x67, 0x12, 0x1d, 0x0a, 0x0a, 0x6d, 0x61, 0x78, 0x5f, 0x72, 0x61, 0x74, 0x69, 0x6e, 0x67, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x05, 0x52, 0x09, 0x6d, 0x61, 0x78, 0x52, 0x61, 0x74, 0x69, 0x6e, 0x67,
+	0x12, 0x14, 0x0a, 0x05, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0d, 0x52,
+	0x05, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x32, 0xf2, 0x08, 0x0a, 0x0d, 0x52, 0x61, 0x74, 0x69, 0x6e,
 	0x67, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x88, 0x01, 0x0a, 0x09, 0x53, 0x65, 0x74,
 	0x52, 0x61, 0x74, 0x69, 0x6e, 0x67, 0x12, 0x1d, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e,
 	0x72, 0x61, 0x74, 0x69, 0x6e, 0x67, 0x2e, 0x53, 0x65, 0x74, 0x52, 0x61, 0x74, 0x69, 0x6e, 0x67,
@@ -787,11 +1112,32 @@ var file_eolymp_rating_rating_service_proto_rawDesc = []byte{
 	0x15, 0x63, 0x6f, 0x6d, 0x6d, 0x75, 0x6e, 0x69, 0x74, 0x79, 0x3a, 0x6d, 0x65, 0x6d, 0x62, 0x65,
 	0x72, 0x3a, 0x72, 0x65, 0x61, 0x64, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x1d, 0x12, 0x1b, 0x2f, 0x6d,
 	0x65, 0x6d, 0x62, 0x65, 0x72, 0x73, 0x2f, 0x7b, 0x6d, 0x65, 0x6d, 0x62, 0x65, 0x72, 0x5f, 0x69,
-	0x64, 0x7d, 0x2f, 0x72, 0x61, 0x74, 0x69, 0x6e, 0x67, 0x42, 0x2f, 0x5a, 0x2d, 0x67, 0x69, 0x74,
-	0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x67,
-	0x6f, 0x2d, 0x73, 0x64, 0x6b, 0x2f, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x72, 0x61, 0x74,
-	0x69, 0x6e, 0x67, 0x3b, 0x72, 0x61, 0x74, 0x69, 0x6e, 0x67, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74,
-	0x6f, 0x33,
+	0x64, 0x7d, 0x2f, 0x72, 0x61, 0x74, 0x69, 0x6e, 0x67, 0x12, 0xa2, 0x01, 0x0a, 0x18, 0x44, 0x65,
+	0x73, 0x63, 0x72, 0x69, 0x62, 0x65, 0x52, 0x61, 0x74, 0x69, 0x6e, 0x67, 0x42, 0x6f, 0x75, 0x6e,
+	0x64, 0x61, 0x72, 0x69, 0x65, 0x73, 0x12, 0x2c, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e,
+	0x72, 0x61, 0x74, 0x69, 0x6e, 0x67, 0x2e, 0x44, 0x65, 0x73, 0x63, 0x72, 0x69, 0x62, 0x65, 0x52,
+	0x61, 0x74, 0x69, 0x6e, 0x67, 0x42, 0x6f, 0x75, 0x6e, 0x64, 0x61, 0x72, 0x69, 0x65, 0x73, 0x49,
+	0x6e, 0x70, 0x75, 0x74, 0x1a, 0x2d, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x72, 0x61,
+	0x74, 0x69, 0x6e, 0x67, 0x2e, 0x44, 0x65, 0x73, 0x63, 0x72, 0x69, 0x62, 0x65, 0x52, 0x61, 0x74,
+	0x69, 0x6e, 0x67, 0x42, 0x6f, 0x75, 0x6e, 0x64, 0x61, 0x72, 0x69, 0x65, 0x73, 0x4f, 0x75, 0x74,
+	0x70, 0x75, 0x74, 0x22, 0x29, 0xea, 0xe2, 0x0a, 0x0b, 0xf5, 0xe2, 0x0a, 0x00, 0x00, 0xa0, 0x41,
+	0xf8, 0xe2, 0x0a, 0x64, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x14, 0x12, 0x12, 0x2f, 0x72, 0x61, 0x74,
+	0x69, 0x6e, 0x67, 0x2d, 0x62, 0x6f, 0x75, 0x6e, 0x64, 0x61, 0x72, 0x69, 0x65, 0x73, 0x12, 0xaa,
+	0x01, 0x0a, 0x1a, 0x44, 0x65, 0x73, 0x63, 0x72, 0x69, 0x62, 0x65, 0x52, 0x61, 0x74, 0x69, 0x6e,
+	0x67, 0x44, 0x69, 0x73, 0x74, 0x72, 0x69, 0x62, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x2e, 0x2e,
+	0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x72, 0x61, 0x74, 0x69, 0x6e, 0x67, 0x2e, 0x44, 0x65,
+	0x73, 0x63, 0x72, 0x69, 0x62, 0x65, 0x52, 0x61, 0x74, 0x69, 0x6e, 0x67, 0x44, 0x69, 0x73, 0x74,
+	0x72, 0x69, 0x62, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x6e, 0x70, 0x75, 0x74, 0x1a, 0x2f, 0x2e,
+	0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x72, 0x61, 0x74, 0x69, 0x6e, 0x67, 0x2e, 0x44, 0x65,
+	0x73, 0x63, 0x72, 0x69, 0x62, 0x65, 0x52, 0x61, 0x74, 0x69, 0x6e, 0x67, 0x44, 0x69, 0x73, 0x74,
+	0x72, 0x69, 0x62, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x22, 0x2b,
+	0xea, 0xe2, 0x0a, 0x0b, 0xf5, 0xe2, 0x0a, 0x00, 0x00, 0xa0, 0x41, 0xf8, 0xe2, 0x0a, 0x64, 0x82,
+	0xd3, 0xe4, 0x93, 0x02, 0x16, 0x12, 0x14, 0x2f, 0x72, 0x61, 0x74, 0x69, 0x6e, 0x67, 0x2d, 0x64,
+	0x69, 0x73, 0x74, 0x72, 0x69, 0x62, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x42, 0x2f, 0x5a, 0x2d, 0x67,
+	0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70,
+	0x2f, 0x67, 0x6f, 0x2d, 0x73, 0x64, 0x6b, 0x2f, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x72,
+	0x61, 0x74, 0x69, 0x6e, 0x67, 0x3b, 0x72, 0x61, 0x74, 0x69, 0x6e, 0x67, 0x62, 0x06, 0x70, 0x72,
+	0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -807,52 +1153,64 @@ func file_eolymp_rating_rating_service_proto_rawDescGZIP() []byte {
 }
 
 var file_eolymp_rating_rating_service_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_eolymp_rating_rating_service_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
+var file_eolymp_rating_rating_service_proto_msgTypes = make([]protoimpl.MessageInfo, 17)
 var file_eolymp_rating_rating_service_proto_goTypes = []any{
-	(ListRatingInput_Sortable)(0),         // 0: eolymp.rating.ListRatingInput.Sortable
-	(*SetRatingInput)(nil),                // 1: eolymp.rating.SetRatingInput
-	(*SetRatingOutput)(nil),               // 2: eolymp.rating.SetRatingOutput
-	(*UpdateRatingInput)(nil),             // 3: eolymp.rating.UpdateRatingInput
-	(*UpdateRatingOutput)(nil),            // 4: eolymp.rating.UpdateRatingOutput
-	(*DeleteRatingInput)(nil),             // 5: eolymp.rating.DeleteRatingInput
-	(*DeleteRatingOutput)(nil),            // 6: eolymp.rating.DeleteRatingOutput
-	(*DescribeRatingInput)(nil),           // 7: eolymp.rating.DescribeRatingInput
-	(*DescribeRatingOutput)(nil),          // 8: eolymp.rating.DescribeRatingOutput
-	(*ListRatingInput)(nil),               // 9: eolymp.rating.ListRatingInput
-	(*ListRatingOutput)(nil),              // 10: eolymp.rating.ListRatingOutput
-	(*ListRatingInput_Filter)(nil),        // 11: eolymp.rating.ListRatingInput.Filter
-	(*Rating)(nil),                        // 12: eolymp.rating.Rating
-	(wellknown.Direction)(0),              // 13: eolymp.wellknown.Direction
-	(*wellknown.ExpressionID)(nil),        // 14: eolymp.wellknown.ExpressionID
-	(*wellknown.ExpressionTimestamp)(nil), // 15: eolymp.wellknown.ExpressionTimestamp
+	(ListRatingInput_Sortable)(0),                   // 0: eolymp.rating.ListRatingInput.Sortable
+	(*SetRatingInput)(nil),                          // 1: eolymp.rating.SetRatingInput
+	(*SetRatingOutput)(nil),                         // 2: eolymp.rating.SetRatingOutput
+	(*UpdateRatingInput)(nil),                       // 3: eolymp.rating.UpdateRatingInput
+	(*UpdateRatingOutput)(nil),                      // 4: eolymp.rating.UpdateRatingOutput
+	(*DeleteRatingInput)(nil),                       // 5: eolymp.rating.DeleteRatingInput
+	(*DeleteRatingOutput)(nil),                      // 6: eolymp.rating.DeleteRatingOutput
+	(*DescribeRatingInput)(nil),                     // 7: eolymp.rating.DescribeRatingInput
+	(*DescribeRatingOutput)(nil),                    // 8: eolymp.rating.DescribeRatingOutput
+	(*ListRatingInput)(nil),                         // 9: eolymp.rating.ListRatingInput
+	(*ListRatingOutput)(nil),                        // 10: eolymp.rating.ListRatingOutput
+	(*DescribeRatingBoundariesInput)(nil),           // 11: eolymp.rating.DescribeRatingBoundariesInput
+	(*DescribeRatingBoundariesOutput)(nil),          // 12: eolymp.rating.DescribeRatingBoundariesOutput
+	(*DescribeRatingDistributionInput)(nil),         // 13: eolymp.rating.DescribeRatingDistributionInput
+	(*DescribeRatingDistributionOutput)(nil),        // 14: eolymp.rating.DescribeRatingDistributionOutput
+	(*ListRatingInput_Filter)(nil),                  // 15: eolymp.rating.ListRatingInput.Filter
+	(*DescribeRatingBoundariesOutput_Level)(nil),    // 16: eolymp.rating.DescribeRatingBoundariesOutput.Level
+	(*DescribeRatingDistributionOutput_Bucket)(nil), // 17: eolymp.rating.DescribeRatingDistributionOutput.Bucket
+	(*Rating)(nil),                                  // 18: eolymp.rating.Rating
+	(wellknown.Direction)(0),                        // 19: eolymp.wellknown.Direction
+	(*wellknown.ExpressionID)(nil),                  // 20: eolymp.wellknown.ExpressionID
+	(*wellknown.ExpressionTimestamp)(nil),           // 21: eolymp.wellknown.ExpressionTimestamp
 }
 var file_eolymp_rating_rating_service_proto_depIdxs = []int32{
-	12, // 0: eolymp.rating.SetRatingInput.rating:type_name -> eolymp.rating.Rating
-	12, // 1: eolymp.rating.UpdateRatingInput.rating:type_name -> eolymp.rating.Rating
-	12, // 2: eolymp.rating.DeleteRatingInput.rating:type_name -> eolymp.rating.Rating
-	12, // 3: eolymp.rating.DescribeRatingOutput.rating:type_name -> eolymp.rating.Rating
-	11, // 4: eolymp.rating.ListRatingInput.filters:type_name -> eolymp.rating.ListRatingInput.Filter
+	18, // 0: eolymp.rating.SetRatingInput.rating:type_name -> eolymp.rating.Rating
+	18, // 1: eolymp.rating.UpdateRatingInput.rating:type_name -> eolymp.rating.Rating
+	18, // 2: eolymp.rating.DeleteRatingInput.rating:type_name -> eolymp.rating.Rating
+	18, // 3: eolymp.rating.DescribeRatingOutput.rating:type_name -> eolymp.rating.Rating
+	15, // 4: eolymp.rating.ListRatingInput.filters:type_name -> eolymp.rating.ListRatingInput.Filter
 	0,  // 5: eolymp.rating.ListRatingInput.sort:type_name -> eolymp.rating.ListRatingInput.Sortable
-	13, // 6: eolymp.rating.ListRatingInput.order:type_name -> eolymp.wellknown.Direction
-	12, // 7: eolymp.rating.ListRatingOutput.items:type_name -> eolymp.rating.Rating
-	14, // 8: eolymp.rating.ListRatingInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	14, // 9: eolymp.rating.ListRatingInput.Filter.contest_id:type_name -> eolymp.wellknown.ExpressionID
-	15, // 10: eolymp.rating.ListRatingInput.Filter.timestamp:type_name -> eolymp.wellknown.ExpressionTimestamp
-	1,  // 11: eolymp.rating.RatingService.SetRating:input_type -> eolymp.rating.SetRatingInput
-	3,  // 12: eolymp.rating.RatingService.UpdateRating:input_type -> eolymp.rating.UpdateRatingInput
-	5,  // 13: eolymp.rating.RatingService.DeleteRating:input_type -> eolymp.rating.DeleteRatingInput
-	7,  // 14: eolymp.rating.RatingService.DescribeRating:input_type -> eolymp.rating.DescribeRatingInput
-	9,  // 15: eolymp.rating.RatingService.ListRating:input_type -> eolymp.rating.ListRatingInput
-	2,  // 16: eolymp.rating.RatingService.SetRating:output_type -> eolymp.rating.SetRatingOutput
-	4,  // 17: eolymp.rating.RatingService.UpdateRating:output_type -> eolymp.rating.UpdateRatingOutput
-	6,  // 18: eolymp.rating.RatingService.DeleteRating:output_type -> eolymp.rating.DeleteRatingOutput
-	8,  // 19: eolymp.rating.RatingService.DescribeRating:output_type -> eolymp.rating.DescribeRatingOutput
-	10, // 20: eolymp.rating.RatingService.ListRating:output_type -> eolymp.rating.ListRatingOutput
-	16, // [16:21] is the sub-list for method output_type
-	11, // [11:16] is the sub-list for method input_type
-	11, // [11:11] is the sub-list for extension type_name
-	11, // [11:11] is the sub-list for extension extendee
-	0,  // [0:11] is the sub-list for field type_name
+	19, // 6: eolymp.rating.ListRatingInput.order:type_name -> eolymp.wellknown.Direction
+	18, // 7: eolymp.rating.ListRatingOutput.items:type_name -> eolymp.rating.Rating
+	16, // 8: eolymp.rating.DescribeRatingBoundariesOutput.levels:type_name -> eolymp.rating.DescribeRatingBoundariesOutput.Level
+	17, // 9: eolymp.rating.DescribeRatingDistributionOutput.buckets:type_name -> eolymp.rating.DescribeRatingDistributionOutput.Bucket
+	20, // 10: eolymp.rating.ListRatingInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	20, // 11: eolymp.rating.ListRatingInput.Filter.contest_id:type_name -> eolymp.wellknown.ExpressionID
+	21, // 12: eolymp.rating.ListRatingInput.Filter.timestamp:type_name -> eolymp.wellknown.ExpressionTimestamp
+	1,  // 13: eolymp.rating.RatingService.SetRating:input_type -> eolymp.rating.SetRatingInput
+	3,  // 14: eolymp.rating.RatingService.UpdateRating:input_type -> eolymp.rating.UpdateRatingInput
+	5,  // 15: eolymp.rating.RatingService.DeleteRating:input_type -> eolymp.rating.DeleteRatingInput
+	7,  // 16: eolymp.rating.RatingService.DescribeRating:input_type -> eolymp.rating.DescribeRatingInput
+	9,  // 17: eolymp.rating.RatingService.ListRating:input_type -> eolymp.rating.ListRatingInput
+	11, // 18: eolymp.rating.RatingService.DescribeRatingBoundaries:input_type -> eolymp.rating.DescribeRatingBoundariesInput
+	13, // 19: eolymp.rating.RatingService.DescribeRatingDistribution:input_type -> eolymp.rating.DescribeRatingDistributionInput
+	2,  // 20: eolymp.rating.RatingService.SetRating:output_type -> eolymp.rating.SetRatingOutput
+	4,  // 21: eolymp.rating.RatingService.UpdateRating:output_type -> eolymp.rating.UpdateRatingOutput
+	6,  // 22: eolymp.rating.RatingService.DeleteRating:output_type -> eolymp.rating.DeleteRatingOutput
+	8,  // 23: eolymp.rating.RatingService.DescribeRating:output_type -> eolymp.rating.DescribeRatingOutput
+	10, // 24: eolymp.rating.RatingService.ListRating:output_type -> eolymp.rating.ListRatingOutput
+	12, // 25: eolymp.rating.RatingService.DescribeRatingBoundaries:output_type -> eolymp.rating.DescribeRatingBoundariesOutput
+	14, // 26: eolymp.rating.RatingService.DescribeRatingDistribution:output_type -> eolymp.rating.DescribeRatingDistributionOutput
+	20, // [20:27] is the sub-list for method output_type
+	13, // [13:20] is the sub-list for method input_type
+	13, // [13:13] is the sub-list for extension type_name
+	13, // [13:13] is the sub-list for extension extendee
+	0,  // [0:13] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_rating_rating_service_proto_init() }
@@ -983,7 +1341,79 @@ func file_eolymp_rating_rating_service_proto_init() {
 			}
 		}
 		file_eolymp_rating_rating_service_proto_msgTypes[10].Exporter = func(v any, i int) any {
+			switch v := v.(*DescribeRatingBoundariesInput); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_eolymp_rating_rating_service_proto_msgTypes[11].Exporter = func(v any, i int) any {
+			switch v := v.(*DescribeRatingBoundariesOutput); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_eolymp_rating_rating_service_proto_msgTypes[12].Exporter = func(v any, i int) any {
+			switch v := v.(*DescribeRatingDistributionInput); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_eolymp_rating_rating_service_proto_msgTypes[13].Exporter = func(v any, i int) any {
+			switch v := v.(*DescribeRatingDistributionOutput); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_eolymp_rating_rating_service_proto_msgTypes[14].Exporter = func(v any, i int) any {
 			switch v := v.(*ListRatingInput_Filter); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_eolymp_rating_rating_service_proto_msgTypes[15].Exporter = func(v any, i int) any {
+			switch v := v.(*DescribeRatingBoundariesOutput_Level); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_eolymp_rating_rating_service_proto_msgTypes[16].Exporter = func(v any, i int) any {
+			switch v := v.(*DescribeRatingDistributionOutput_Bucket); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1001,7 +1431,7 @@ func file_eolymp_rating_rating_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_eolymp_rating_rating_service_proto_rawDesc,
 			NumEnums:      1,
-			NumMessages:   11,
+			NumMessages:   17,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
