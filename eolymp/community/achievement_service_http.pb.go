@@ -196,13 +196,13 @@ var _AchievementService_WebsocketCodec = websocket.Codec{
 // RegisterAchievementServiceHttpHandlers adds handlers for for AchievementServiceClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterAchievementServiceHttpHandlers(router *mux.Router, prefix string, cli AchievementServiceClient) {
-	router.Handle(prefix+"/members/{member_id}/achievements/{achievement_id}", _AchievementService_AssignAchievement_Rule0(cli)).
+	router.Handle(prefix+"/achievements/{achievement_id}", _AchievementService_AssignAchievement_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.community.AchievementService.AssignAchievement")
-	router.Handle(prefix+"/members/{member_id}/achievements/{achievement_id}", _AchievementService_UnassignAchievement_Rule0(cli)).
+	router.Handle(prefix+"/achievements/{achievement_id}", _AchievementService_UnassignAchievement_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.community.AchievementService.UnassignAchievement")
-	router.Handle(prefix+"/members/{member_id}/achievements", _AchievementService_ListAchievements_Rule0(cli)).
+	router.Handle(prefix+"/achievements", _AchievementService_ListAchievements_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.community.AchievementService.ListAchievements")
 }
@@ -218,7 +218,6 @@ func _AchievementService_AssignAchievement_Rule0(cli AchievementServiceClient) h
 		}
 
 		vars := mux.Vars(r)
-		in.MemberId = vars["member_id"]
 		in.AchievementId = vars["achievement_id"]
 
 		var header, trailer metadata.MD
@@ -244,7 +243,6 @@ func _AchievementService_UnassignAchievement_Rule0(cli AchievementServiceClient)
 		}
 
 		vars := mux.Vars(r)
-		in.MemberId = vars["member_id"]
 		in.AchievementId = vars["achievement_id"]
 
 		var header, trailer metadata.MD
@@ -268,9 +266,6 @@ func _AchievementService_ListAchievements_Rule0(cli AchievementServiceClient) ht
 			_AchievementService_HTTPWriteErrorResponse(w, err)
 			return
 		}
-
-		vars := mux.Vars(r)
-		in.MemberId = vars["member_id"]
 
 		var header, trailer metadata.MD
 
