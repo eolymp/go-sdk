@@ -208,7 +208,7 @@ func (*UpdateAchievementOutput) Descriptor() ([]byte, []int) {
 	return file_eolymp_reward_achievement_service_proto_rawDescGZIP(), []int{3}
 }
 
-type RemoveAchievementInput struct {
+type DeleteAchievementInput struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -216,8 +216,8 @@ type RemoveAchievementInput struct {
 	AchievementId string `protobuf:"bytes,1,opt,name=achievement_id,json=achievementId,proto3" json:"achievement_id,omitempty"`
 }
 
-func (x *RemoveAchievementInput) Reset() {
-	*x = RemoveAchievementInput{}
+func (x *DeleteAchievementInput) Reset() {
+	*x = DeleteAchievementInput{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_eolymp_reward_achievement_service_proto_msgTypes[4]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -225,13 +225,13 @@ func (x *RemoveAchievementInput) Reset() {
 	}
 }
 
-func (x *RemoveAchievementInput) String() string {
+func (x *DeleteAchievementInput) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*RemoveAchievementInput) ProtoMessage() {}
+func (*DeleteAchievementInput) ProtoMessage() {}
 
-func (x *RemoveAchievementInput) ProtoReflect() protoreflect.Message {
+func (x *DeleteAchievementInput) ProtoReflect() protoreflect.Message {
 	mi := &file_eolymp_reward_achievement_service_proto_msgTypes[4]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -243,26 +243,26 @@ func (x *RemoveAchievementInput) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RemoveAchievementInput.ProtoReflect.Descriptor instead.
-func (*RemoveAchievementInput) Descriptor() ([]byte, []int) {
+// Deprecated: Use DeleteAchievementInput.ProtoReflect.Descriptor instead.
+func (*DeleteAchievementInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_reward_achievement_service_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *RemoveAchievementInput) GetAchievementId() string {
+func (x *DeleteAchievementInput) GetAchievementId() string {
 	if x != nil {
 		return x.AchievementId
 	}
 	return ""
 }
 
-type RemoveAchievementOutput struct {
+type DeleteAchievementOutput struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 }
 
-func (x *RemoveAchievementOutput) Reset() {
-	*x = RemoveAchievementOutput{}
+func (x *DeleteAchievementOutput) Reset() {
+	*x = DeleteAchievementOutput{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_eolymp_reward_achievement_service_proto_msgTypes[5]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -270,13 +270,13 @@ func (x *RemoveAchievementOutput) Reset() {
 	}
 }
 
-func (x *RemoveAchievementOutput) String() string {
+func (x *DeleteAchievementOutput) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*RemoveAchievementOutput) ProtoMessage() {}
+func (*DeleteAchievementOutput) ProtoMessage() {}
 
-func (x *RemoveAchievementOutput) ProtoReflect() protoreflect.Message {
+func (x *DeleteAchievementOutput) ProtoReflect() protoreflect.Message {
 	mi := &file_eolymp_reward_achievement_service_proto_msgTypes[5]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -288,8 +288,8 @@ func (x *RemoveAchievementOutput) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RemoveAchievementOutput.ProtoReflect.Descriptor instead.
-func (*RemoveAchievementOutput) Descriptor() ([]byte, []int) {
+// Deprecated: Use DeleteAchievementOutput.ProtoReflect.Descriptor instead.
+func (*DeleteAchievementOutput) Descriptor() ([]byte, []int) {
 	return file_eolymp_reward_achievement_service_proto_rawDescGZIP(), []int{5}
 }
 
@@ -596,11 +596,11 @@ var file_eolymp_reward_achievement_service_proto_rawDesc = []byte{
 	0x41, 0x63, 0x68, 0x69, 0x65, 0x76, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x52, 0x0b, 0x61, 0x63, 0x68,
 	0x69, 0x65, 0x76, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x22, 0x19, 0x0a, 0x17, 0x55, 0x70, 0x64, 0x61,
 	0x74, 0x65, 0x41, 0x63, 0x68, 0x69, 0x65, 0x76, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x4f, 0x75, 0x74,
-	0x70, 0x75, 0x74, 0x22, 0x3f, 0x0a, 0x16, 0x52, 0x65, 0x6d, 0x6f, 0x76, 0x65, 0x41, 0x63, 0x68,
+	0x70, 0x75, 0x74, 0x22, 0x3f, 0x0a, 0x16, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x41, 0x63, 0x68,
 	0x69, 0x65, 0x76, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x49, 0x6e, 0x70, 0x75, 0x74, 0x12, 0x25, 0x0a,
 	0x0e, 0x61, 0x63, 0x68, 0x69, 0x65, 0x76, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x5f, 0x69, 0x64, 0x18,
 	0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0d, 0x61, 0x63, 0x68, 0x69, 0x65, 0x76, 0x65, 0x6d, 0x65,
-	0x6e, 0x74, 0x49, 0x64, 0x22, 0x19, 0x0a, 0x17, 0x52, 0x65, 0x6d, 0x6f, 0x76, 0x65, 0x41, 0x63,
+	0x6e, 0x74, 0x49, 0x64, 0x22, 0x19, 0x0a, 0x17, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x41, 0x63,
 	0x68, 0x69, 0x65, 0x76, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x22,
 	0x41, 0x0a, 0x18, 0x44, 0x65, 0x73, 0x63, 0x72, 0x69, 0x62, 0x65, 0x41, 0x63, 0x68, 0x69, 0x65,
 	0x76, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x49, 0x6e, 0x70, 0x75, 0x74, 0x12, 0x25, 0x0a, 0x0e, 0x61,
@@ -655,12 +655,12 @@ var file_eolymp_reward_achievement_service_proto_rawDesc = []byte{
 	0x69, 0x74, 0x79, 0x3a, 0x6d, 0x65, 0x6d, 0x62, 0x65, 0x72, 0x3a, 0x77, 0x72, 0x69, 0x74, 0x65,
 	0x82, 0xd3, 0xe4, 0x93, 0x02, 0x20, 0x22, 0x1e, 0x2f, 0x61, 0x63, 0x68, 0x69, 0x65, 0x76, 0x65,
 	0x6d, 0x65, 0x6e, 0x74, 0x73, 0x2f, 0x7b, 0x61, 0x63, 0x68, 0x69, 0x65, 0x76, 0x65, 0x6d, 0x65,
-	0x6e, 0x74, 0x5f, 0x69, 0x64, 0x7d, 0x12, 0xb7, 0x01, 0x0a, 0x11, 0x52, 0x65, 0x6d, 0x6f, 0x76,
+	0x6e, 0x74, 0x5f, 0x69, 0x64, 0x7d, 0x12, 0xb7, 0x01, 0x0a, 0x11, 0x44, 0x65, 0x6c, 0x65, 0x74,
 	0x65, 0x41, 0x63, 0x68, 0x69, 0x65, 0x76, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x12, 0x25, 0x2e, 0x65,
-	0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x72, 0x65, 0x77, 0x61, 0x72, 0x64, 0x2e, 0x52, 0x65, 0x6d,
-	0x6f, 0x76, 0x65, 0x41, 0x63, 0x68, 0x69, 0x65, 0x76, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x49, 0x6e,
+	0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x72, 0x65, 0x77, 0x61, 0x72, 0x64, 0x2e, 0x44, 0x65, 0x6c,
+	0x65, 0x74, 0x65, 0x41, 0x63, 0x68, 0x69, 0x65, 0x76, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x49, 0x6e,
 	0x70, 0x75, 0x74, 0x1a, 0x26, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x72, 0x65, 0x77,
-	0x61, 0x72, 0x64, 0x2e, 0x52, 0x65, 0x6d, 0x6f, 0x76, 0x65, 0x41, 0x63, 0x68, 0x69, 0x65, 0x76,
+	0x61, 0x72, 0x64, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x41, 0x63, 0x68, 0x69, 0x65, 0x76,
 	0x65, 0x6d, 0x65, 0x6e, 0x74, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x22, 0x53, 0xea, 0xe2, 0x0a,
 	0x0b, 0xf5, 0xe2, 0x0a, 0x00, 0x00, 0xa0, 0x40, 0xf8, 0xe2, 0x0a, 0x14, 0x82, 0xe3, 0x0a, 0x1a,
 	0x8a, 0xe3, 0x0a, 0x16, 0x63, 0x6f, 0x6d, 0x6d, 0x75, 0x6e, 0x69, 0x74, 0x79, 0x3a, 0x6d, 0x65,
@@ -713,8 +713,8 @@ var file_eolymp_reward_achievement_service_proto_goTypes = []any{
 	(*CreateAchievementOutput)(nil),      // 1: eolymp.reward.CreateAchievementOutput
 	(*UpdateAchievementInput)(nil),       // 2: eolymp.reward.UpdateAchievementInput
 	(*UpdateAchievementOutput)(nil),      // 3: eolymp.reward.UpdateAchievementOutput
-	(*RemoveAchievementInput)(nil),       // 4: eolymp.reward.RemoveAchievementInput
-	(*RemoveAchievementOutput)(nil),      // 5: eolymp.reward.RemoveAchievementOutput
+	(*DeleteAchievementInput)(nil),       // 4: eolymp.reward.DeleteAchievementInput
+	(*DeleteAchievementOutput)(nil),      // 5: eolymp.reward.DeleteAchievementOutput
 	(*DescribeAchievementInput)(nil),     // 6: eolymp.reward.DescribeAchievementInput
 	(*DescribeAchievementOutput)(nil),    // 7: eolymp.reward.DescribeAchievementOutput
 	(*ListAchievementsInput)(nil),        // 8: eolymp.reward.ListAchievementsInput
@@ -732,12 +732,12 @@ var file_eolymp_reward_achievement_service_proto_depIdxs = []int32{
 	12, // 5: eolymp.reward.ListAchievementsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
 	0,  // 6: eolymp.reward.AchievementService.CreateAchievement:input_type -> eolymp.reward.CreateAchievementInput
 	2,  // 7: eolymp.reward.AchievementService.UpdateAchievement:input_type -> eolymp.reward.UpdateAchievementInput
-	4,  // 8: eolymp.reward.AchievementService.RemoveAchievement:input_type -> eolymp.reward.RemoveAchievementInput
+	4,  // 8: eolymp.reward.AchievementService.DeleteAchievement:input_type -> eolymp.reward.DeleteAchievementInput
 	6,  // 9: eolymp.reward.AchievementService.DescribeAchievement:input_type -> eolymp.reward.DescribeAchievementInput
 	8,  // 10: eolymp.reward.AchievementService.ListAchievements:input_type -> eolymp.reward.ListAchievementsInput
 	1,  // 11: eolymp.reward.AchievementService.CreateAchievement:output_type -> eolymp.reward.CreateAchievementOutput
 	3,  // 12: eolymp.reward.AchievementService.UpdateAchievement:output_type -> eolymp.reward.UpdateAchievementOutput
-	5,  // 13: eolymp.reward.AchievementService.RemoveAchievement:output_type -> eolymp.reward.RemoveAchievementOutput
+	5,  // 13: eolymp.reward.AchievementService.DeleteAchievement:output_type -> eolymp.reward.DeleteAchievementOutput
 	7,  // 14: eolymp.reward.AchievementService.DescribeAchievement:output_type -> eolymp.reward.DescribeAchievementOutput
 	9,  // 15: eolymp.reward.AchievementService.ListAchievements:output_type -> eolymp.reward.ListAchievementsOutput
 	11, // [11:16] is the sub-list for method output_type
@@ -803,7 +803,7 @@ func file_eolymp_reward_achievement_service_proto_init() {
 			}
 		}
 		file_eolymp_reward_achievement_service_proto_msgTypes[4].Exporter = func(v any, i int) any {
-			switch v := v.(*RemoveAchievementInput); i {
+			switch v := v.(*DeleteAchievementInput); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -815,7 +815,7 @@ func file_eolymp_reward_achievement_service_proto_init() {
 			}
 		}
 		file_eolymp_reward_achievement_service_proto_msgTypes[5].Exporter = func(v any, i int) any {
-			switch v := v.(*RemoveAchievementOutput); i {
+			switch v := v.(*DeleteAchievementOutput); i {
 			case 0:
 				return &v.state
 			case 1:

@@ -202,9 +202,9 @@ func RegisterAchievementServiceHttpHandlers(router *mux.Router, prefix string, c
 	router.Handle(prefix+"/achievements/{achievement_id}", _AchievementService_UpdateAchievement_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.reward.AchievementService.UpdateAchievement")
-	router.Handle(prefix+"/achievements/{achievement_id}", _AchievementService_RemoveAchievement_Rule0(cli)).
+	router.Handle(prefix+"/achievements/{achievement_id}", _AchievementService_DeleteAchievement_Rule0(cli)).
 		Methods("DELETE").
-		Name("eolymp.reward.AchievementService.RemoveAchievement")
+		Name("eolymp.reward.AchievementService.DeleteAchievement")
 	router.Handle(prefix+"/achievements/{achievement_id}", _AchievementService_DescribeAchievement_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.reward.AchievementService.DescribeAchievement")
@@ -260,9 +260,9 @@ func _AchievementService_UpdateAchievement_Rule0(cli AchievementServiceClient) h
 	})
 }
 
-func _AchievementService_RemoveAchievement_Rule0(cli AchievementServiceClient) http.Handler {
+func _AchievementService_DeleteAchievement_Rule0(cli AchievementServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &RemoveAchievementInput{}
+		in := &DeleteAchievementInput{}
 
 		if err := _AchievementService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
@@ -275,7 +275,7 @@ func _AchievementService_RemoveAchievement_Rule0(cli AchievementServiceClient) h
 
 		var header, trailer metadata.MD
 
-		out, err := cli.RemoveAchievement(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		out, err := cli.DeleteAchievement(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_AchievementService_HTTPWriteErrorResponse(w, err)
 			return
@@ -408,14 +408,14 @@ func (i *AchievementServiceInterceptor) UpdateAchievement(ctx context.Context, i
 	return message, err
 }
 
-func (i *AchievementServiceInterceptor) RemoveAchievement(ctx context.Context, in *RemoveAchievementInput, opts ...grpc.CallOption) (*RemoveAchievementOutput, error) {
+func (i *AchievementServiceInterceptor) DeleteAchievement(ctx context.Context, in *DeleteAchievementInput, opts ...grpc.CallOption) (*DeleteAchievementOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*RemoveAchievementInput)
+		message, ok := in.(*DeleteAchievementInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *RemoveAchievementInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *DeleteAchievementInput, got %T", in))
 		}
 
-		return i.client.RemoveAchievement(ctx, message, opts...)
+		return i.client.DeleteAchievement(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -423,7 +423,7 @@ func (i *AchievementServiceInterceptor) RemoveAchievement(ctx context.Context, i
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.reward.AchievementService.RemoveAchievement", in, next)
+			return mw(ctx, "eolymp.reward.AchievementService.DeleteAchievement", in, next)
 		}
 	}
 
@@ -432,9 +432,9 @@ func (i *AchievementServiceInterceptor) RemoveAchievement(ctx context.Context, i
 		return nil, err
 	}
 
-	message, ok := out.(*RemoveAchievementOutput)
+	message, ok := out.(*DeleteAchievementOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *RemoveAchievementOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *DeleteAchievementOutput, got %T", out))
 	}
 
 	return message, err

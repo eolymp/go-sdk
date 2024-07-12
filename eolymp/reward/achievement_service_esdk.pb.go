@@ -127,8 +127,8 @@ func (s *AchievementServiceService) UpdateAchievement(ctx context.Context, in *U
 	return out, nil
 }
 
-func (s *AchievementServiceService) RemoveAchievement(ctx context.Context, in *RemoveAchievementInput) (*RemoveAchievementOutput, error) {
-	out := &RemoveAchievementOutput{}
+func (s *AchievementServiceService) DeleteAchievement(ctx context.Context, in *DeleteAchievementInput) (*DeleteAchievementOutput, error) {
+	out := &DeleteAchievementOutput{}
 	path := "/achievements/" + url.PathEscape(in.GetAchievementId())
 
 	// Cleanup URL parameters to avoid any ambiguity

@@ -21,7 +21,7 @@ const _ = grpc.SupportPackageIsVersion8
 const (
 	AchievementService_CreateAchievement_FullMethodName   = "/eolymp.reward.AchievementService/CreateAchievement"
 	AchievementService_UpdateAchievement_FullMethodName   = "/eolymp.reward.AchievementService/UpdateAchievement"
-	AchievementService_RemoveAchievement_FullMethodName   = "/eolymp.reward.AchievementService/RemoveAchievement"
+	AchievementService_DeleteAchievement_FullMethodName   = "/eolymp.reward.AchievementService/DeleteAchievement"
 	AchievementService_DescribeAchievement_FullMethodName = "/eolymp.reward.AchievementService/DescribeAchievement"
 	AchievementService_ListAchievements_FullMethodName    = "/eolymp.reward.AchievementService/ListAchievements"
 )
@@ -32,7 +32,7 @@ const (
 type AchievementServiceClient interface {
 	CreateAchievement(ctx context.Context, in *CreateAchievementInput, opts ...grpc.CallOption) (*CreateAchievementOutput, error)
 	UpdateAchievement(ctx context.Context, in *UpdateAchievementInput, opts ...grpc.CallOption) (*UpdateAchievementOutput, error)
-	RemoveAchievement(ctx context.Context, in *RemoveAchievementInput, opts ...grpc.CallOption) (*RemoveAchievementOutput, error)
+	DeleteAchievement(ctx context.Context, in *DeleteAchievementInput, opts ...grpc.CallOption) (*DeleteAchievementOutput, error)
 	DescribeAchievement(ctx context.Context, in *DescribeAchievementInput, opts ...grpc.CallOption) (*DescribeAchievementOutput, error)
 	ListAchievements(ctx context.Context, in *ListAchievementsInput, opts ...grpc.CallOption) (*ListAchievementsOutput, error)
 }
@@ -65,10 +65,10 @@ func (c *achievementServiceClient) UpdateAchievement(ctx context.Context, in *Up
 	return out, nil
 }
 
-func (c *achievementServiceClient) RemoveAchievement(ctx context.Context, in *RemoveAchievementInput, opts ...grpc.CallOption) (*RemoveAchievementOutput, error) {
+func (c *achievementServiceClient) DeleteAchievement(ctx context.Context, in *DeleteAchievementInput, opts ...grpc.CallOption) (*DeleteAchievementOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(RemoveAchievementOutput)
-	err := c.cc.Invoke(ctx, AchievementService_RemoveAchievement_FullMethodName, in, out, cOpts...)
+	out := new(DeleteAchievementOutput)
+	err := c.cc.Invoke(ctx, AchievementService_DeleteAchievement_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -101,7 +101,7 @@ func (c *achievementServiceClient) ListAchievements(ctx context.Context, in *Lis
 type AchievementServiceServer interface {
 	CreateAchievement(context.Context, *CreateAchievementInput) (*CreateAchievementOutput, error)
 	UpdateAchievement(context.Context, *UpdateAchievementInput) (*UpdateAchievementOutput, error)
-	RemoveAchievement(context.Context, *RemoveAchievementInput) (*RemoveAchievementOutput, error)
+	DeleteAchievement(context.Context, *DeleteAchievementInput) (*DeleteAchievementOutput, error)
 	DescribeAchievement(context.Context, *DescribeAchievementInput) (*DescribeAchievementOutput, error)
 	ListAchievements(context.Context, *ListAchievementsInput) (*ListAchievementsOutput, error)
 }
@@ -116,8 +116,8 @@ func (UnimplementedAchievementServiceServer) CreateAchievement(context.Context, 
 func (UnimplementedAchievementServiceServer) UpdateAchievement(context.Context, *UpdateAchievementInput) (*UpdateAchievementOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateAchievement not implemented")
 }
-func (UnimplementedAchievementServiceServer) RemoveAchievement(context.Context, *RemoveAchievementInput) (*RemoveAchievementOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method RemoveAchievement not implemented")
+func (UnimplementedAchievementServiceServer) DeleteAchievement(context.Context, *DeleteAchievementInput) (*DeleteAchievementOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteAchievement not implemented")
 }
 func (UnimplementedAchievementServiceServer) DescribeAchievement(context.Context, *DescribeAchievementInput) (*DescribeAchievementOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeAchievement not implemented")
@@ -173,20 +173,20 @@ func _AchievementService_UpdateAchievement_Handler(srv interface{}, ctx context.
 	return interceptor(ctx, in, info, handler)
 }
 
-func _AchievementService_RemoveAchievement_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RemoveAchievementInput)
+func _AchievementService_DeleteAchievement_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteAchievementInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AchievementServiceServer).RemoveAchievement(ctx, in)
+		return srv.(AchievementServiceServer).DeleteAchievement(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: AchievementService_RemoveAchievement_FullMethodName,
+		FullMethod: AchievementService_DeleteAchievement_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AchievementServiceServer).RemoveAchievement(ctx, req.(*RemoveAchievementInput))
+		return srv.(AchievementServiceServer).DeleteAchievement(ctx, req.(*DeleteAchievementInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -243,8 +243,8 @@ var AchievementService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _AchievementService_UpdateAchievement_Handler,
 		},
 		{
-			MethodName: "RemoveAchievement",
-			Handler:    _AchievementService_RemoveAchievement_Handler,
+			MethodName: "DeleteAchievement",
+			Handler:    _AchievementService_DeleteAchievement_Handler,
 		},
 		{
 			MethodName: "DescribeAchievement",
