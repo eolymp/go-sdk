@@ -211,6 +211,21 @@ func RegisterAchievementServiceHttpHandlers(router *mux.Router, prefix string, c
 	router.Handle(prefix+"/achievements", _AchievementService_ListAchievements_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.reward.AchievementService.ListAchievements")
+	router.Handle(prefix+"/achievements/{achievement_id}/translations/{translation_id}", _AchievementService_DescribeAchievementTranslation_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.reward.AchievementService.DescribeAchievementTranslation")
+	router.Handle(prefix+"/achievements/{achievement_id}/translations", _AchievementService_ListAchievementTranslations_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.reward.AchievementService.ListAchievementTranslations")
+	router.Handle(prefix+"/achievements/{achievement_id}/translations", _AchievementService_CreateAchievementTranslation_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.reward.AchievementService.CreateAchievementTranslation")
+	router.Handle(prefix+"/achievements/{achievement_id}/translations/{translation_id}", _AchievementService_UpdateAchievementTranslation_Rule0(cli)).
+		Methods("PUT").
+		Name("eolymp.reward.AchievementService.UpdateAchievementTranslation")
+	router.Handle(prefix+"/achievements/{achievement_id}/translations/{translation_id}", _AchievementService_DeleteAchievementTranslation_Rule0(cli)).
+		Methods("DELETE").
+		Name("eolymp.reward.AchievementService.DeleteAchievementTranslation")
 }
 
 func _AchievementService_CreateAchievement_Rule0(cli AchievementServiceClient) http.Handler {
@@ -323,6 +338,134 @@ func _AchievementService_ListAchievements_Rule0(cli AchievementServiceClient) ht
 		var header, trailer metadata.MD
 
 		out, err := cli.ListAchievements(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_AchievementService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_AchievementService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _AchievementService_DescribeAchievementTranslation_Rule0(cli AchievementServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeAchievementTranslationInput{}
+
+		if err := _AchievementService_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_AchievementService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.AchievementId = vars["achievement_id"]
+		in.TranslationId = vars["translation_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeAchievementTranslation(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_AchievementService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_AchievementService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _AchievementService_ListAchievementTranslations_Rule0(cli AchievementServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListAchievementTranslationsInput{}
+
+		if err := _AchievementService_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_AchievementService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.AchievementId = vars["achievement_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.ListAchievementTranslations(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_AchievementService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_AchievementService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _AchievementService_CreateAchievementTranslation_Rule0(cli AchievementServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &CreateAchievementTranslationInput{}
+
+		if err := _AchievementService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_AchievementService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.AchievementId = vars["achievement_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.CreateAchievementTranslation(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_AchievementService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_AchievementService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _AchievementService_UpdateAchievementTranslation_Rule0(cli AchievementServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UpdateAchievementTranslationInput{}
+
+		if err := _AchievementService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_AchievementService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.AchievementId = vars["achievement_id"]
+		in.TranslationId = vars["translation_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateAchievementTranslation(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_AchievementService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_AchievementService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _AchievementService_DeleteAchievementTranslation_Rule0(cli AchievementServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DeleteAchievementTranslationInput{}
+
+		if err := _AchievementService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_AchievementService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.AchievementId = vars["achievement_id"]
+		in.TranslationId = vars["translation_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.DeleteAchievementTranslation(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_AchievementService_HTTPWriteErrorResponse(w, err)
 			return
@@ -499,6 +642,166 @@ func (i *AchievementServiceInterceptor) ListAchievements(ctx context.Context, in
 	message, ok := out.(*ListAchievementsOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *ListAchievementsOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *AchievementServiceInterceptor) DescribeAchievementTranslation(ctx context.Context, in *DescribeAchievementTranslationInput, opts ...grpc.CallOption) (*DescribeAchievementTranslationOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeAchievementTranslationInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeAchievementTranslationInput, got %T", in))
+		}
+
+		return i.client.DescribeAchievementTranslation(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.reward.AchievementService.DescribeAchievementTranslation", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeAchievementTranslationOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeAchievementTranslationOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *AchievementServiceInterceptor) ListAchievementTranslations(ctx context.Context, in *ListAchievementTranslationsInput, opts ...grpc.CallOption) (*ListAchievementTranslationsOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListAchievementTranslationsInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListAchievementTranslationsInput, got %T", in))
+		}
+
+		return i.client.ListAchievementTranslations(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.reward.AchievementService.ListAchievementTranslations", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListAchievementTranslationsOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListAchievementTranslationsOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *AchievementServiceInterceptor) CreateAchievementTranslation(ctx context.Context, in *CreateAchievementTranslationInput, opts ...grpc.CallOption) (*CreateAchievementTranslationOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*CreateAchievementTranslationInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *CreateAchievementTranslationInput, got %T", in))
+		}
+
+		return i.client.CreateAchievementTranslation(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.reward.AchievementService.CreateAchievementTranslation", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*CreateAchievementTranslationOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *CreateAchievementTranslationOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *AchievementServiceInterceptor) UpdateAchievementTranslation(ctx context.Context, in *UpdateAchievementTranslationInput, opts ...grpc.CallOption) (*UpdateAchievementTranslationOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*UpdateAchievementTranslationInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *UpdateAchievementTranslationInput, got %T", in))
+		}
+
+		return i.client.UpdateAchievementTranslation(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.reward.AchievementService.UpdateAchievementTranslation", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*UpdateAchievementTranslationOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *UpdateAchievementTranslationOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *AchievementServiceInterceptor) DeleteAchievementTranslation(ctx context.Context, in *DeleteAchievementTranslationInput, opts ...grpc.CallOption) (*DeleteAchievementTranslationOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DeleteAchievementTranslationInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DeleteAchievementTranslationInput, got %T", in))
+		}
+
+		return i.client.DeleteAchievementTranslation(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.reward.AchievementService.DeleteAchievementTranslation", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DeleteAchievementTranslationOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DeleteAchievementTranslationOutput, got %T", out))
 	}
 
 	return message, err

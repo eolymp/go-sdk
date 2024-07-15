@@ -169,3 +169,86 @@ func (s *AchievementServiceService) ListAchievements(ctx context.Context, in *Li
 
 	return out, nil
 }
+
+func (s *AchievementServiceService) DescribeAchievementTranslation(ctx context.Context, in *DescribeAchievementTranslationInput) (*DescribeAchievementTranslationOutput, error) {
+	out := &DescribeAchievementTranslationOutput{}
+	path := "/achievements/" + url.PathEscape(in.GetAchievementId()) + "/translations/" + url.PathEscape(in.GetTranslationId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.AchievementId = ""
+		in.TranslationId = ""
+	}
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *AchievementServiceService) ListAchievementTranslations(ctx context.Context, in *ListAchievementTranslationsInput) (*ListAchievementTranslationsOutput, error) {
+	out := &ListAchievementTranslationsOutput{}
+	path := "/achievements/" + url.PathEscape(in.GetAchievementId()) + "/translations"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.AchievementId = ""
+	}
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *AchievementServiceService) CreateAchievementTranslation(ctx context.Context, in *CreateAchievementTranslationInput) (*CreateAchievementTranslationOutput, error) {
+	out := &CreateAchievementTranslationOutput{}
+	path := "/achievements/" + url.PathEscape(in.GetAchievementId()) + "/translations"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.AchievementId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *AchievementServiceService) UpdateAchievementTranslation(ctx context.Context, in *UpdateAchievementTranslationInput) (*UpdateAchievementTranslationOutput, error) {
+	out := &UpdateAchievementTranslationOutput{}
+	path := "/achievements/" + url.PathEscape(in.GetAchievementId()) + "/translations/" + url.PathEscape(in.GetTranslationId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.AchievementId = ""
+		in.TranslationId = ""
+	}
+
+	if err := s.do(ctx, "PUT", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *AchievementServiceService) DeleteAchievementTranslation(ctx context.Context, in *DeleteAchievementTranslationInput) (*DeleteAchievementTranslationOutput, error) {
+	out := &DeleteAchievementTranslationOutput{}
+	path := "/achievements/" + url.PathEscape(in.GetAchievementId()) + "/translations/" + url.PathEscape(in.GetTranslationId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.AchievementId = ""
+		in.TranslationId = ""
+	}
+
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

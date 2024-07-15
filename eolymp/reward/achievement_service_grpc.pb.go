@@ -19,11 +19,16 @@ import (
 const _ = grpc.SupportPackageIsVersion8
 
 const (
-	AchievementService_CreateAchievement_FullMethodName   = "/eolymp.reward.AchievementService/CreateAchievement"
-	AchievementService_UpdateAchievement_FullMethodName   = "/eolymp.reward.AchievementService/UpdateAchievement"
-	AchievementService_DeleteAchievement_FullMethodName   = "/eolymp.reward.AchievementService/DeleteAchievement"
-	AchievementService_DescribeAchievement_FullMethodName = "/eolymp.reward.AchievementService/DescribeAchievement"
-	AchievementService_ListAchievements_FullMethodName    = "/eolymp.reward.AchievementService/ListAchievements"
+	AchievementService_CreateAchievement_FullMethodName              = "/eolymp.reward.AchievementService/CreateAchievement"
+	AchievementService_UpdateAchievement_FullMethodName              = "/eolymp.reward.AchievementService/UpdateAchievement"
+	AchievementService_DeleteAchievement_FullMethodName              = "/eolymp.reward.AchievementService/DeleteAchievement"
+	AchievementService_DescribeAchievement_FullMethodName            = "/eolymp.reward.AchievementService/DescribeAchievement"
+	AchievementService_ListAchievements_FullMethodName               = "/eolymp.reward.AchievementService/ListAchievements"
+	AchievementService_DescribeAchievementTranslation_FullMethodName = "/eolymp.reward.AchievementService/DescribeAchievementTranslation"
+	AchievementService_ListAchievementTranslations_FullMethodName    = "/eolymp.reward.AchievementService/ListAchievementTranslations"
+	AchievementService_CreateAchievementTranslation_FullMethodName   = "/eolymp.reward.AchievementService/CreateAchievementTranslation"
+	AchievementService_UpdateAchievementTranslation_FullMethodName   = "/eolymp.reward.AchievementService/UpdateAchievementTranslation"
+	AchievementService_DeleteAchievementTranslation_FullMethodName   = "/eolymp.reward.AchievementService/DeleteAchievementTranslation"
 )
 
 // AchievementServiceClient is the client API for AchievementService service.
@@ -35,6 +40,11 @@ type AchievementServiceClient interface {
 	DeleteAchievement(ctx context.Context, in *DeleteAchievementInput, opts ...grpc.CallOption) (*DeleteAchievementOutput, error)
 	DescribeAchievement(ctx context.Context, in *DescribeAchievementInput, opts ...grpc.CallOption) (*DescribeAchievementOutput, error)
 	ListAchievements(ctx context.Context, in *ListAchievementsInput, opts ...grpc.CallOption) (*ListAchievementsOutput, error)
+	DescribeAchievementTranslation(ctx context.Context, in *DescribeAchievementTranslationInput, opts ...grpc.CallOption) (*DescribeAchievementTranslationOutput, error)
+	ListAchievementTranslations(ctx context.Context, in *ListAchievementTranslationsInput, opts ...grpc.CallOption) (*ListAchievementTranslationsOutput, error)
+	CreateAchievementTranslation(ctx context.Context, in *CreateAchievementTranslationInput, opts ...grpc.CallOption) (*CreateAchievementTranslationOutput, error)
+	UpdateAchievementTranslation(ctx context.Context, in *UpdateAchievementTranslationInput, opts ...grpc.CallOption) (*UpdateAchievementTranslationOutput, error)
+	DeleteAchievementTranslation(ctx context.Context, in *DeleteAchievementTranslationInput, opts ...grpc.CallOption) (*DeleteAchievementTranslationOutput, error)
 }
 
 type achievementServiceClient struct {
@@ -95,6 +105,56 @@ func (c *achievementServiceClient) ListAchievements(ctx context.Context, in *Lis
 	return out, nil
 }
 
+func (c *achievementServiceClient) DescribeAchievementTranslation(ctx context.Context, in *DescribeAchievementTranslationInput, opts ...grpc.CallOption) (*DescribeAchievementTranslationOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DescribeAchievementTranslationOutput)
+	err := c.cc.Invoke(ctx, AchievementService_DescribeAchievementTranslation_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *achievementServiceClient) ListAchievementTranslations(ctx context.Context, in *ListAchievementTranslationsInput, opts ...grpc.CallOption) (*ListAchievementTranslationsOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListAchievementTranslationsOutput)
+	err := c.cc.Invoke(ctx, AchievementService_ListAchievementTranslations_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *achievementServiceClient) CreateAchievementTranslation(ctx context.Context, in *CreateAchievementTranslationInput, opts ...grpc.CallOption) (*CreateAchievementTranslationOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateAchievementTranslationOutput)
+	err := c.cc.Invoke(ctx, AchievementService_CreateAchievementTranslation_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *achievementServiceClient) UpdateAchievementTranslation(ctx context.Context, in *UpdateAchievementTranslationInput, opts ...grpc.CallOption) (*UpdateAchievementTranslationOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateAchievementTranslationOutput)
+	err := c.cc.Invoke(ctx, AchievementService_UpdateAchievementTranslation_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *achievementServiceClient) DeleteAchievementTranslation(ctx context.Context, in *DeleteAchievementTranslationInput, opts ...grpc.CallOption) (*DeleteAchievementTranslationOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteAchievementTranslationOutput)
+	err := c.cc.Invoke(ctx, AchievementService_DeleteAchievementTranslation_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AchievementServiceServer is the server API for AchievementService service.
 // All implementations should embed UnimplementedAchievementServiceServer
 // for forward compatibility
@@ -104,6 +164,11 @@ type AchievementServiceServer interface {
 	DeleteAchievement(context.Context, *DeleteAchievementInput) (*DeleteAchievementOutput, error)
 	DescribeAchievement(context.Context, *DescribeAchievementInput) (*DescribeAchievementOutput, error)
 	ListAchievements(context.Context, *ListAchievementsInput) (*ListAchievementsOutput, error)
+	DescribeAchievementTranslation(context.Context, *DescribeAchievementTranslationInput) (*DescribeAchievementTranslationOutput, error)
+	ListAchievementTranslations(context.Context, *ListAchievementTranslationsInput) (*ListAchievementTranslationsOutput, error)
+	CreateAchievementTranslation(context.Context, *CreateAchievementTranslationInput) (*CreateAchievementTranslationOutput, error)
+	UpdateAchievementTranslation(context.Context, *UpdateAchievementTranslationInput) (*UpdateAchievementTranslationOutput, error)
+	DeleteAchievementTranslation(context.Context, *DeleteAchievementTranslationInput) (*DeleteAchievementTranslationOutput, error)
 }
 
 // UnimplementedAchievementServiceServer should be embedded to have forward compatible implementations.
@@ -124,6 +189,21 @@ func (UnimplementedAchievementServiceServer) DescribeAchievement(context.Context
 }
 func (UnimplementedAchievementServiceServer) ListAchievements(context.Context, *ListAchievementsInput) (*ListAchievementsOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListAchievements not implemented")
+}
+func (UnimplementedAchievementServiceServer) DescribeAchievementTranslation(context.Context, *DescribeAchievementTranslationInput) (*DescribeAchievementTranslationOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeAchievementTranslation not implemented")
+}
+func (UnimplementedAchievementServiceServer) ListAchievementTranslations(context.Context, *ListAchievementTranslationsInput) (*ListAchievementTranslationsOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListAchievementTranslations not implemented")
+}
+func (UnimplementedAchievementServiceServer) CreateAchievementTranslation(context.Context, *CreateAchievementTranslationInput) (*CreateAchievementTranslationOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateAchievementTranslation not implemented")
+}
+func (UnimplementedAchievementServiceServer) UpdateAchievementTranslation(context.Context, *UpdateAchievementTranslationInput) (*UpdateAchievementTranslationOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateAchievementTranslation not implemented")
+}
+func (UnimplementedAchievementServiceServer) DeleteAchievementTranslation(context.Context, *DeleteAchievementTranslationInput) (*DeleteAchievementTranslationOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteAchievementTranslation not implemented")
 }
 
 // UnsafeAchievementServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -227,6 +307,96 @@ func _AchievementService_ListAchievements_Handler(srv interface{}, ctx context.C
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AchievementService_DescribeAchievementTranslation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeAchievementTranslationInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AchievementServiceServer).DescribeAchievementTranslation(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AchievementService_DescribeAchievementTranslation_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AchievementServiceServer).DescribeAchievementTranslation(ctx, req.(*DescribeAchievementTranslationInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AchievementService_ListAchievementTranslations_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListAchievementTranslationsInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AchievementServiceServer).ListAchievementTranslations(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AchievementService_ListAchievementTranslations_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AchievementServiceServer).ListAchievementTranslations(ctx, req.(*ListAchievementTranslationsInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AchievementService_CreateAchievementTranslation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateAchievementTranslationInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AchievementServiceServer).CreateAchievementTranslation(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AchievementService_CreateAchievementTranslation_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AchievementServiceServer).CreateAchievementTranslation(ctx, req.(*CreateAchievementTranslationInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AchievementService_UpdateAchievementTranslation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateAchievementTranslationInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AchievementServiceServer).UpdateAchievementTranslation(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AchievementService_UpdateAchievementTranslation_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AchievementServiceServer).UpdateAchievementTranslation(ctx, req.(*UpdateAchievementTranslationInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AchievementService_DeleteAchievementTranslation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteAchievementTranslationInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AchievementServiceServer).DeleteAchievementTranslation(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AchievementService_DeleteAchievementTranslation_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AchievementServiceServer).DeleteAchievementTranslation(ctx, req.(*DeleteAchievementTranslationInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AchievementService_ServiceDesc is the grpc.ServiceDesc for AchievementService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -253,6 +423,26 @@ var AchievementService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListAchievements",
 			Handler:    _AchievementService_ListAchievements_Handler,
+		},
+		{
+			MethodName: "DescribeAchievementTranslation",
+			Handler:    _AchievementService_DescribeAchievementTranslation_Handler,
+		},
+		{
+			MethodName: "ListAchievementTranslations",
+			Handler:    _AchievementService_ListAchievementTranslations_Handler,
+		},
+		{
+			MethodName: "CreateAchievementTranslation",
+			Handler:    _AchievementService_CreateAchievementTranslation_Handler,
+		},
+		{
+			MethodName: "UpdateAchievementTranslation",
+			Handler:    _AchievementService_UpdateAchievementTranslation_Handler,
+		},
+		{
+			MethodName: "DeleteAchievementTranslation",
+			Handler:    _AchievementService_DeleteAchievementTranslation_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
