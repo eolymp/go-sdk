@@ -4,7 +4,7 @@
 // - protoc             v3.21.12
 // source: eolymp/course/module_service.proto
 
-package module
+package course
 
 import (
 	context "context"

@@ -4,11 +4,10 @@
 // 	protoc        v3.21.12
 // source: eolymp/course/module_service.proto
 
-package module
+package course
 
 import (
 	_ "github.com/eolymp/go-sdk/eolymp/annotations"
-	course "github.com/eolymp/go-sdk/eolymp/course"
 	wellknown "github.com/eolymp/go-sdk/eolymp/wellknown"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -136,7 +135,7 @@ type ListModulesInput struct {
 	Filters *ListModulesInput_Filter `protobuf:"bytes,40,opt,name=filters,proto3" json:"filters,omitempty"`
 	Sort    ListModulesInput_Sort    `protobuf:"varint,50,opt,name=sort,proto3,enum=eolymp.course.ListModulesInput_Sort" json:"sort,omitempty"`
 	Order   wellknown.Direction      `protobuf:"varint,51,opt,name=order,proto3,enum=eolymp.wellknown.Direction" json:"order,omitempty"`
-	Extra   []course.Module_Extra    `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.course.Module_Extra" json:"extra,omitempty"`
+	Extra   []Module_Extra           `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.course.Module_Extra" json:"extra,omitempty"`
 }
 
 func (x *ListModulesInput) Reset() {
@@ -206,7 +205,7 @@ func (x *ListModulesInput) GetOrder() wellknown.Direction {
 	return wellknown.Direction(0)
 }
 
-func (x *ListModulesInput) GetExtra() []course.Module_Extra {
+func (x *ListModulesInput) GetExtra() []Module_Extra {
 	if x != nil {
 		return x.Extra
 	}
@@ -218,8 +217,8 @@ type ListModulesOutput struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Total int32            `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty"`
-	Items []*course.Module `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
+	Total int32     `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty"`
+	Items []*Module `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
 }
 
 func (x *ListModulesOutput) Reset() {
@@ -261,7 +260,7 @@ func (x *ListModulesOutput) GetTotal() int32 {
 	return 0
 }
 
-func (x *ListModulesOutput) GetItems() []*course.Module {
+func (x *ListModulesOutput) GetItems() []*Module {
 	if x != nil {
 		return x.Items
 	}
@@ -273,8 +272,8 @@ type DescribeModuleInput struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ModuleId string                `protobuf:"bytes,1,opt,name=module_id,json=moduleId,proto3" json:"module_id,omitempty"`
-	Extra    []course.Module_Extra `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.course.Module_Extra" json:"extra,omitempty"`
+	ModuleId string         `protobuf:"bytes,1,opt,name=module_id,json=moduleId,proto3" json:"module_id,omitempty"`
+	Extra    []Module_Extra `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.course.Module_Extra" json:"extra,omitempty"`
 }
 
 func (x *DescribeModuleInput) Reset() {
@@ -316,7 +315,7 @@ func (x *DescribeModuleInput) GetModuleId() string {
 	return ""
 }
 
-func (x *DescribeModuleInput) GetExtra() []course.Module_Extra {
+func (x *DescribeModuleInput) GetExtra() []Module_Extra {
 	if x != nil {
 		return x.Extra
 	}
@@ -328,7 +327,7 @@ type DescribeModuleOutput struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Module *course.Module `protobuf:"bytes,1,opt,name=module,proto3" json:"module,omitempty"`
+	Module *Module `protobuf:"bytes,1,opt,name=module,proto3" json:"module,omitempty"`
 }
 
 func (x *DescribeModuleOutput) Reset() {
@@ -363,7 +362,7 @@ func (*DescribeModuleOutput) Descriptor() ([]byte, []int) {
 	return file_eolymp_course_module_service_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *DescribeModuleOutput) GetModule() *course.Module {
+func (x *DescribeModuleOutput) GetModule() *Module {
 	if x != nil {
 		return x.Module
 	}
@@ -375,7 +374,7 @@ type CreateModuleInput struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Module *course.Module `protobuf:"bytes,1,opt,name=module,proto3" json:"module,omitempty"`
+	Module *Module `protobuf:"bytes,1,opt,name=module,proto3" json:"module,omitempty"`
 }
 
 func (x *CreateModuleInput) Reset() {
@@ -410,7 +409,7 @@ func (*CreateModuleInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_course_module_service_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *CreateModuleInput) GetModule() *course.Module {
+func (x *CreateModuleInput) GetModule() *Module {
 	if x != nil {
 		return x.Module
 	}
@@ -472,7 +471,7 @@ type UpdateModuleInput struct {
 	// specify list of fields to update, if empty all fields are updated
 	Patch    []UpdateModuleInput_Patch `protobuf:"varint,1,rep,packed,name=patch,proto3,enum=eolymp.course.UpdateModuleInput_Patch" json:"patch,omitempty"`
 	ModuleId string                    `protobuf:"bytes,2,opt,name=module_id,json=moduleId,proto3" json:"module_id,omitempty"`
-	Module   *course.Module            `protobuf:"bytes,3,opt,name=module,proto3" json:"module,omitempty"`
+	Module   *Module                   `protobuf:"bytes,3,opt,name=module,proto3" json:"module,omitempty"`
 }
 
 func (x *UpdateModuleInput) Reset() {
@@ -521,7 +520,7 @@ func (x *UpdateModuleInput) GetModuleId() string {
 	return ""
 }
 
-func (x *UpdateModuleInput) GetModule() *course.Module {
+func (x *UpdateModuleInput) GetModule() *Module {
 	if x != nil {
 		return x.Module
 	}
@@ -834,7 +833,7 @@ var file_eolymp_course_module_service_proto_rawDesc = []byte{
 	0xe4, 0x93, 0x02, 0x0a, 0x12, 0x08, 0x2f, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x73, 0x42, 0x2f,
 	0x5a, 0x2d, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x65, 0x6f, 0x6c,
 	0x79, 0x6d, 0x70, 0x2f, 0x67, 0x6f, 0x2d, 0x73, 0x64, 0x6b, 0x2f, 0x65, 0x6f, 0x6c, 0x79, 0x6d,
-	0x70, 0x2f, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x3b, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x62,
+	0x70, 0x2f, 0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x3b, 0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x62,
 	0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
@@ -867,8 +866,8 @@ var file_eolymp_course_module_service_proto_goTypes = []any{
 	(*DeleteModuleOutput)(nil),      // 11: eolymp.course.DeleteModuleOutput
 	(*ListModulesInput_Filter)(nil), // 12: eolymp.course.ListModulesInput.Filter
 	(wellknown.Direction)(0),        // 13: eolymp.wellknown.Direction
-	(course.Module_Extra)(0),        // 14: eolymp.course.Module.Extra
-	(*course.Module)(nil),           // 15: eolymp.course.Module
+	(Module_Extra)(0),               // 14: eolymp.course.Module.Extra
+	(*Module)(nil),                  // 15: eolymp.course.Module
 }
 var file_eolymp_course_module_service_proto_depIdxs = []int32{
 	12, // 0: eolymp.course.ListModulesInput.filters:type_name -> eolymp.course.ListModulesInput.Filter
@@ -903,6 +902,7 @@ func file_eolymp_course_module_service_proto_init() {
 	if File_eolymp_course_module_service_proto != nil {
 		return
 	}
+	file_eolymp_course_module_proto_init()
 	if !protoimpl.UnsafeEnabled {
 		file_eolymp_course_module_service_proto_msgTypes[0].Exporter = func(v any, i int) any {
 			switch v := v.(*ListModulesInput); i {
