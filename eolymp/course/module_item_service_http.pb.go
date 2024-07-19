@@ -202,6 +202,9 @@ func RegisterModuleItemServiceHttpHandlers(router *mux.Router, prefix string, cl
 	router.Handle(prefix+"/items/{item_id}", _ModuleItemService_UpdateModuleItem_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.course.ModuleItemService.UpdateModuleItem")
+	router.Handle(prefix+"/items/{item_id}/move", _ModuleItemService_MoveModuleItem_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.course.ModuleItemService.MoveModuleItem")
 	router.Handle(prefix+"/items/{item_id}", _ModuleItemService_DeleteModuleItem_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.course.ModuleItemService.DeleteModuleItem")
@@ -251,6 +254,31 @@ func _ModuleItemService_UpdateModuleItem_Rule0(cli ModuleItemServiceClient) http
 		var header, trailer metadata.MD
 
 		out, err := cli.UpdateModuleItem(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ModuleItemService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ModuleItemService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ModuleItemService_MoveModuleItem_Rule0(cli ModuleItemServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &MoveModuleItemInput{}
+
+		if err := _ModuleItemService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_ModuleItemService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ItemId = vars["item_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.MoveModuleItem(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ModuleItemService_HTTPWriteErrorResponse(w, err)
 			return
@@ -403,6 +431,38 @@ func (i *ModuleItemServiceInterceptor) UpdateModuleItem(ctx context.Context, in 
 	message, ok := out.(*UpdateModuleItemOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *UpdateModuleItemOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *ModuleItemServiceInterceptor) MoveModuleItem(ctx context.Context, in *MoveModuleItemInput, opts ...grpc.CallOption) (*MoveModuleItemOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*MoveModuleItemInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *MoveModuleItemInput, got %T", in))
+		}
+
+		return i.client.MoveModuleItem(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.course.ModuleItemService.MoveModuleItem", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*MoveModuleItemOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *MoveModuleItemOutput, got %T", out))
 	}
 
 	return message, err

@@ -127,6 +127,22 @@ func (s *ModuleItemServiceService) UpdateModuleItem(ctx context.Context, in *Upd
 	return out, nil
 }
 
+func (s *ModuleItemServiceService) MoveModuleItem(ctx context.Context, in *MoveModuleItemInput) (*MoveModuleItemOutput, error) {
+	out := &MoveModuleItemOutput{}
+	path := "/items/" + url.PathEscape(in.GetItemId()) + "/move"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ItemId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *ModuleItemServiceService) DeleteModuleItem(ctx context.Context, in *DeleteModuleItemInput) (*DeleteModuleItemOutput, error) {
 	out := &DeleteModuleItemOutput{}
 	path := "/items/" + url.PathEscape(in.GetItemId())
