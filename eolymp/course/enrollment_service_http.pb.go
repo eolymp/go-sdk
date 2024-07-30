@@ -197,7 +197,7 @@ var _EnrollmentService_WebsocketCodec = websocket.Codec{
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterEnrollmentServiceHttpHandlers(router *mux.Router, prefix string, cli EnrollmentServiceClient) {
 	router.Handle(prefix+"/enrollments", _EnrollmentService_CreateEnrollment_Rule0(cli)).
-		Methods("PUT").
+		Methods("POST").
 		Name("eolymp.course.EnrollmentService.CreateEnrollment")
 	router.Handle(prefix+"/enrollments/{enrollment_id}", _EnrollmentService_UpdateEnrollment_Rule0(cli)).
 		Methods("PUT").

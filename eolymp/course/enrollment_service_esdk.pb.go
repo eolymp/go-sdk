@@ -104,7 +104,7 @@ func (s *EnrollmentServiceService) CreateEnrollment(ctx context.Context, in *Cre
 	out := &CreateEnrollmentOutput{}
 	path := "/enrollments"
 
-	if err := s.do(ctx, "PUT", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 

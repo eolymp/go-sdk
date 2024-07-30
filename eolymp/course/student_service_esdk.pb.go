@@ -116,6 +116,56 @@ func (s *StudentServiceService) DescribeStudent(ctx context.Context, in *Describ
 	return out, nil
 }
 
+func (s *StudentServiceService) UpdateStudent(ctx context.Context, in *UpdateStudentInput) (*UpdateStudentOutput, error) {
+	out := &UpdateStudentOutput{}
+	path := "/students/" + url.PathEscape(in.GetMemberId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.MemberId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *StudentServiceService) AssignModule(ctx context.Context, in *AssignModuleInput) (*AssignModuleOutput, error) {
+	out := &AssignModuleOutput{}
+	path := "/students/" + url.PathEscape(in.GetMemberId()) + "/assignments/" + url.PathEscape(in.GetModuleId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.MemberId = ""
+		in.ModuleId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *StudentServiceService) UnassignModule(ctx context.Context, in *UnassignModuleInput) (*UnassignModuleOutput, error) {
+	out := &UnassignModuleOutput{}
+	path := "/students/" + url.PathEscape(in.GetMemberId()) + "/assignments/" + url.PathEscape(in.GetModuleId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.MemberId = ""
+		in.ModuleId = ""
+	}
+
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *StudentServiceService) DescribeViewer(ctx context.Context, in *DescribeViewerInput) (*DescribeViewerOutput, error) {
 	out := &DescribeViewerOutput{}
 	path := "/viewer/student"
