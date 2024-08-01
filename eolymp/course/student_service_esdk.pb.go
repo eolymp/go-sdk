@@ -100,16 +100,11 @@ func (s *StudentServiceService) do(ctx context.Context, verb, path string, in, o
 	return nil
 }
 
-func (s *StudentServiceService) DescribeStudent(ctx context.Context, in *DescribeStudentInput) (*DescribeStudentOutput, error) {
-	out := &DescribeStudentOutput{}
-	path := "/students/" + url.PathEscape(in.GetMemberId())
+func (s *StudentServiceService) CreateStudent(ctx context.Context, in *CreateStudentInput) (*CreateStudentOutput, error) {
+	out := &CreateStudentOutput{}
+	path := "/students"
 
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.MemberId = ""
-	}
-
-	if err := s.do(ctx, "GET", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
@@ -169,6 +164,22 @@ func (s *StudentServiceService) UnassignModule(ctx context.Context, in *Unassign
 func (s *StudentServiceService) DescribeViewer(ctx context.Context, in *DescribeViewerInput) (*DescribeViewerOutput, error) {
 	out := &DescribeViewerOutput{}
 	path := "/viewer/student"
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *StudentServiceService) DescribeStudent(ctx context.Context, in *DescribeStudentInput) (*DescribeStudentOutput, error) {
+	out := &DescribeStudentOutput{}
+	path := "/students/" + url.PathEscape(in.GetMemberId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.MemberId = ""
+	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err

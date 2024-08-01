@@ -19,11 +19,12 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	StudentService_DescribeStudent_FullMethodName = "/eolymp.course.StudentService/DescribeStudent"
+	StudentService_CreateStudent_FullMethodName   = "/eolymp.course.StudentService/CreateStudent"
 	StudentService_UpdateStudent_FullMethodName   = "/eolymp.course.StudentService/UpdateStudent"
 	StudentService_AssignModule_FullMethodName    = "/eolymp.course.StudentService/AssignModule"
 	StudentService_UnassignModule_FullMethodName  = "/eolymp.course.StudentService/UnassignModule"
 	StudentService_DescribeViewer_FullMethodName  = "/eolymp.course.StudentService/DescribeViewer"
+	StudentService_DescribeStudent_FullMethodName = "/eolymp.course.StudentService/DescribeStudent"
 	StudentService_ListStudents_FullMethodName    = "/eolymp.course.StudentService/ListStudents"
 	StudentService_WatchStudent_FullMethodName    = "/eolymp.course.StudentService/WatchStudent"
 )
@@ -32,11 +33,12 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type StudentServiceClient interface {
-	DescribeStudent(ctx context.Context, in *DescribeStudentInput, opts ...grpc.CallOption) (*DescribeStudentOutput, error)
+	CreateStudent(ctx context.Context, in *CreateStudentInput, opts ...grpc.CallOption) (*CreateStudentOutput, error)
 	UpdateStudent(ctx context.Context, in *UpdateStudentInput, opts ...grpc.CallOption) (*UpdateStudentOutput, error)
 	AssignModule(ctx context.Context, in *AssignModuleInput, opts ...grpc.CallOption) (*AssignModuleOutput, error)
 	UnassignModule(ctx context.Context, in *UnassignModuleInput, opts ...grpc.CallOption) (*UnassignModuleOutput, error)
 	DescribeViewer(ctx context.Context, in *DescribeViewerInput, opts ...grpc.CallOption) (*DescribeViewerOutput, error)
+	DescribeStudent(ctx context.Context, in *DescribeStudentInput, opts ...grpc.CallOption) (*DescribeStudentOutput, error)
 	ListStudents(ctx context.Context, in *ListStudentsInput, opts ...grpc.CallOption) (*ListStudentsOutput, error)
 	WatchStudent(ctx context.Context, in *WatchStudentInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchStudentOutput], error)
 }
@@ -49,10 +51,10 @@ func NewStudentServiceClient(cc grpc.ClientConnInterface) StudentServiceClient {
 	return &studentServiceClient{cc}
 }
 
-func (c *studentServiceClient) DescribeStudent(ctx context.Context, in *DescribeStudentInput, opts ...grpc.CallOption) (*DescribeStudentOutput, error) {
+func (c *studentServiceClient) CreateStudent(ctx context.Context, in *CreateStudentInput, opts ...grpc.CallOption) (*CreateStudentOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DescribeStudentOutput)
-	err := c.cc.Invoke(ctx, StudentService_DescribeStudent_FullMethodName, in, out, cOpts...)
+	out := new(CreateStudentOutput)
+	err := c.cc.Invoke(ctx, StudentService_CreateStudent_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -99,6 +101,16 @@ func (c *studentServiceClient) DescribeViewer(ctx context.Context, in *DescribeV
 	return out, nil
 }
 
+func (c *studentServiceClient) DescribeStudent(ctx context.Context, in *DescribeStudentInput, opts ...grpc.CallOption) (*DescribeStudentOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DescribeStudentOutput)
+	err := c.cc.Invoke(ctx, StudentService_DescribeStudent_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *studentServiceClient) ListStudents(ctx context.Context, in *ListStudentsInput, opts ...grpc.CallOption) (*ListStudentsOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ListStudentsOutput)
@@ -132,11 +144,12 @@ type StudentService_WatchStudentClient = grpc.ServerStreamingClient[WatchStudent
 // All implementations should embed UnimplementedStudentServiceServer
 // for forward compatibility.
 type StudentServiceServer interface {
-	DescribeStudent(context.Context, *DescribeStudentInput) (*DescribeStudentOutput, error)
+	CreateStudent(context.Context, *CreateStudentInput) (*CreateStudentOutput, error)
 	UpdateStudent(context.Context, *UpdateStudentInput) (*UpdateStudentOutput, error)
 	AssignModule(context.Context, *AssignModuleInput) (*AssignModuleOutput, error)
 	UnassignModule(context.Context, *UnassignModuleInput) (*UnassignModuleOutput, error)
 	DescribeViewer(context.Context, *DescribeViewerInput) (*DescribeViewerOutput, error)
+	DescribeStudent(context.Context, *DescribeStudentInput) (*DescribeStudentOutput, error)
 	ListStudents(context.Context, *ListStudentsInput) (*ListStudentsOutput, error)
 	WatchStudent(*WatchStudentInput, grpc.ServerStreamingServer[WatchStudentOutput]) error
 }
@@ -148,8 +161,8 @@ type StudentServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedStudentServiceServer struct{}
 
-func (UnimplementedStudentServiceServer) DescribeStudent(context.Context, *DescribeStudentInput) (*DescribeStudentOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DescribeStudent not implemented")
+func (UnimplementedStudentServiceServer) CreateStudent(context.Context, *CreateStudentInput) (*CreateStudentOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateStudent not implemented")
 }
 func (UnimplementedStudentServiceServer) UpdateStudent(context.Context, *UpdateStudentInput) (*UpdateStudentOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateStudent not implemented")
@@ -162,6 +175,9 @@ func (UnimplementedStudentServiceServer) UnassignModule(context.Context, *Unassi
 }
 func (UnimplementedStudentServiceServer) DescribeViewer(context.Context, *DescribeViewerInput) (*DescribeViewerOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeViewer not implemented")
+}
+func (UnimplementedStudentServiceServer) DescribeStudent(context.Context, *DescribeStudentInput) (*DescribeStudentOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeStudent not implemented")
 }
 func (UnimplementedStudentServiceServer) ListStudents(context.Context, *ListStudentsInput) (*ListStudentsOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListStudents not implemented")
@@ -189,20 +205,20 @@ func RegisterStudentServiceServer(s grpc.ServiceRegistrar, srv StudentServiceSer
 	s.RegisterService(&StudentService_ServiceDesc, srv)
 }
 
-func _StudentService_DescribeStudent_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DescribeStudentInput)
+func _StudentService_CreateStudent_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateStudentInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(StudentServiceServer).DescribeStudent(ctx, in)
+		return srv.(StudentServiceServer).CreateStudent(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: StudentService_DescribeStudent_FullMethodName,
+		FullMethod: StudentService_CreateStudent_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(StudentServiceServer).DescribeStudent(ctx, req.(*DescribeStudentInput))
+		return srv.(StudentServiceServer).CreateStudent(ctx, req.(*CreateStudentInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -279,6 +295,24 @@ func _StudentService_DescribeViewer_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _StudentService_DescribeStudent_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeStudentInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StudentServiceServer).DescribeStudent(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StudentService_DescribeStudent_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StudentServiceServer).DescribeStudent(ctx, req.(*DescribeStudentInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _StudentService_ListStudents_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListStudentsInput)
 	if err := dec(in); err != nil {
@@ -316,8 +350,8 @@ var StudentService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*StudentServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "DescribeStudent",
-			Handler:    _StudentService_DescribeStudent_Handler,
+			MethodName: "CreateStudent",
+			Handler:    _StudentService_CreateStudent_Handler,
 		},
 		{
 			MethodName: "UpdateStudent",
@@ -334,6 +368,10 @@ var StudentService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DescribeViewer",
 			Handler:    _StudentService_DescribeViewer_Handler,
+		},
+		{
+			MethodName: "DescribeStudent",
+			Handler:    _StudentService_DescribeStudent_Handler,
 		},
 		{
 			MethodName: "ListStudents",

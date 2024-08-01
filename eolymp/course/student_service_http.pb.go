@@ -228,9 +228,9 @@ func (s *_StudentService_WatchStudent_WSStream) RecvMsg(m interface{}) error {
 // RegisterStudentServiceHttpHandlers adds handlers for for StudentServiceClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterStudentServiceHttpHandlers(router *mux.Router, prefix string, cli StudentServiceClient) {
-	router.Handle(prefix+"/students/{member_id}", _StudentService_DescribeStudent_Rule0(cli)).
-		Methods("GET").
-		Name("eolymp.course.StudentService.DescribeStudent")
+	router.Handle(prefix+"/students", _StudentService_CreateStudent_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.course.StudentService.CreateStudent")
 	router.Handle(prefix+"/students/{member_id}", _StudentService_UpdateStudent_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.course.StudentService.UpdateStudent")
@@ -243,27 +243,27 @@ func RegisterStudentServiceHttpHandlers(router *mux.Router, prefix string, cli S
 	router.Handle(prefix+"/viewer/student", _StudentService_DescribeViewer_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.StudentService.DescribeViewer")
+	router.Handle(prefix+"/students/{member_id}", _StudentService_DescribeStudent_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.course.StudentService.DescribeStudent")
 	router.Handle(prefix+"/students", _StudentService_ListStudents_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.StudentService.ListStudents")
 }
 
-func _StudentService_DescribeStudent_Rule0(cli StudentServiceClient) http.Handler {
+func _StudentService_CreateStudent_Rule0(cli StudentServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DescribeStudentInput{}
+		in := &CreateStudentInput{}
 
-		if err := _StudentService_HTTPReadQueryString(r, in); err != nil {
+		if err := _StudentService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
 			_StudentService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		vars := mux.Vars(r)
-		in.MemberId = vars["member_id"]
-
 		var header, trailer metadata.MD
 
-		out, err := cli.DescribeStudent(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		out, err := cli.CreateStudent(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_StudentService_HTTPWriteErrorResponse(w, err)
 			return
@@ -372,6 +372,31 @@ func _StudentService_DescribeViewer_Rule0(cli StudentServiceClient) http.Handler
 	})
 }
 
+func _StudentService_DescribeStudent_Rule0(cli StudentServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeStudentInput{}
+
+		if err := _StudentService_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_StudentService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.MemberId = vars["member_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeStudent(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_StudentService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_StudentService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
 func _StudentService_ListStudents_Rule0(cli StudentServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListStudentsInput{}
@@ -406,14 +431,14 @@ func NewStudentServiceInterceptor(cli StudentServiceClient, middleware ..._Stude
 	return &StudentServiceInterceptor{client: cli, middleware: middleware}
 }
 
-func (i *StudentServiceInterceptor) DescribeStudent(ctx context.Context, in *DescribeStudentInput, opts ...grpc.CallOption) (*DescribeStudentOutput, error) {
+func (i *StudentServiceInterceptor) CreateStudent(ctx context.Context, in *CreateStudentInput, opts ...grpc.CallOption) (*CreateStudentOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*DescribeStudentInput)
+		message, ok := in.(*CreateStudentInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *DescribeStudentInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *CreateStudentInput, got %T", in))
 		}
 
-		return i.client.DescribeStudent(ctx, message, opts...)
+		return i.client.CreateStudent(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -421,7 +446,7 @@ func (i *StudentServiceInterceptor) DescribeStudent(ctx context.Context, in *Des
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.course.StudentService.DescribeStudent", in, next)
+			return mw(ctx, "eolymp.course.StudentService.CreateStudent", in, next)
 		}
 	}
 
@@ -430,9 +455,9 @@ func (i *StudentServiceInterceptor) DescribeStudent(ctx context.Context, in *Des
 		return nil, err
 	}
 
-	message, ok := out.(*DescribeStudentOutput)
+	message, ok := out.(*CreateStudentOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *DescribeStudentOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *CreateStudentOutput, got %T", out))
 	}
 
 	return message, err
@@ -561,6 +586,38 @@ func (i *StudentServiceInterceptor) DescribeViewer(ctx context.Context, in *Desc
 	message, ok := out.(*DescribeViewerOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *DescribeViewerOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *StudentServiceInterceptor) DescribeStudent(ctx context.Context, in *DescribeStudentInput, opts ...grpc.CallOption) (*DescribeStudentOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeStudentInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeStudentInput, got %T", in))
+		}
+
+		return i.client.DescribeStudent(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.course.StudentService.DescribeStudent", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeStudentOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeStudentOutput, got %T", out))
 	}
 
 	return message, err
