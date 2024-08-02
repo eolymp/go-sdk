@@ -127,7 +127,7 @@ func (s *StudentServiceService) UpdateStudent(ctx context.Context, in *UpdateStu
 	return out, nil
 }
 
-func (s *StudentServiceService) DeleteModule(ctx context.Context, in *DeleteStudentInput) (*DeleteStudentOutput, error) {
+func (s *StudentServiceService) DeleteStudent(ctx context.Context, in *DeleteStudentInput) (*DeleteStudentOutput, error) {
 	out := &DeleteStudentOutput{}
 	path := "/students/" + url.PathEscape(in.GetMemberId())
 

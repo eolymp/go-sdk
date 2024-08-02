@@ -234,9 +234,9 @@ func RegisterStudentServiceHttpHandlers(router *mux.Router, prefix string, cli S
 	router.Handle(prefix+"/students/{member_id}", _StudentService_UpdateStudent_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.course.StudentService.UpdateStudent")
-	router.Handle(prefix+"/students/{member_id}", _StudentService_DeleteModule_Rule0(cli)).
+	router.Handle(prefix+"/students/{member_id}", _StudentService_DeleteStudent_Rule0(cli)).
 		Methods("DELETE").
-		Name("eolymp.course.StudentService.DeleteModule")
+		Name("eolymp.course.StudentService.DeleteStudent")
 	router.Handle(prefix+"/students/{member_id}/assignments/{module_id}", _StudentService_AssignModule_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.course.StudentService.AssignModule")
@@ -301,7 +301,7 @@ func _StudentService_UpdateStudent_Rule0(cli StudentServiceClient) http.Handler 
 	})
 }
 
-func _StudentService_DeleteModule_Rule0(cli StudentServiceClient) http.Handler {
+func _StudentService_DeleteStudent_Rule0(cli StudentServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteStudentInput{}
 
@@ -316,7 +316,7 @@ func _StudentService_DeleteModule_Rule0(cli StudentServiceClient) http.Handler {
 
 		var header, trailer metadata.MD
 
-		out, err := cli.DeleteModule(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		out, err := cli.DeleteStudent(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_StudentService_HTTPWriteErrorResponse(w, err)
 			return
@@ -523,14 +523,14 @@ func (i *StudentServiceInterceptor) UpdateStudent(ctx context.Context, in *Updat
 	return message, err
 }
 
-func (i *StudentServiceInterceptor) DeleteModule(ctx context.Context, in *DeleteStudentInput, opts ...grpc.CallOption) (*DeleteStudentOutput, error) {
+func (i *StudentServiceInterceptor) DeleteStudent(ctx context.Context, in *DeleteStudentInput, opts ...grpc.CallOption) (*DeleteStudentOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DeleteStudentInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *DeleteStudentInput, got %T", in))
 		}
 
-		return i.client.DeleteModule(ctx, message, opts...)
+		return i.client.DeleteStudent(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -538,7 +538,7 @@ func (i *StudentServiceInterceptor) DeleteModule(ctx context.Context, in *Delete
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.course.StudentService.DeleteModule", in, next)
+			return mw(ctx, "eolymp.course.StudentService.DeleteStudent", in, next)
 		}
 	}
 
