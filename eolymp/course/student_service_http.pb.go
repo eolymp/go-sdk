@@ -234,6 +234,9 @@ func RegisterStudentServiceHttpHandlers(router *mux.Router, prefix string, cli S
 	router.Handle(prefix+"/students/{member_id}", _StudentService_UpdateStudent_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.course.StudentService.UpdateStudent")
+	router.Handle(prefix+"/students/{member_id}", _StudentService_DeleteModule_Rule0(cli)).
+		Methods("DELETE").
+		Name("eolymp.course.StudentService.DeleteModule")
 	router.Handle(prefix+"/students/{member_id}/assignments/{module_id}", _StudentService_AssignModule_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.course.StudentService.AssignModule")
@@ -289,6 +292,31 @@ func _StudentService_UpdateStudent_Rule0(cli StudentServiceClient) http.Handler 
 		var header, trailer metadata.MD
 
 		out, err := cli.UpdateStudent(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_StudentService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_StudentService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _StudentService_DeleteModule_Rule0(cli StudentServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DeleteStudentInput{}
+
+		if err := _StudentService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_StudentService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.MemberId = vars["member_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.DeleteModule(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_StudentService_HTTPWriteErrorResponse(w, err)
 			return
@@ -490,6 +518,38 @@ func (i *StudentServiceInterceptor) UpdateStudent(ctx context.Context, in *Updat
 	message, ok := out.(*UpdateStudentOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *UpdateStudentOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *StudentServiceInterceptor) DeleteModule(ctx context.Context, in *DeleteStudentInput, opts ...grpc.CallOption) (*DeleteStudentOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DeleteStudentInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DeleteStudentInput, got %T", in))
+		}
+
+		return i.client.DeleteModule(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.course.StudentService.DeleteModule", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DeleteStudentOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DeleteStudentOutput, got %T", out))
 	}
 
 	return message, err

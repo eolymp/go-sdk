@@ -21,6 +21,7 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	StudentService_CreateStudent_FullMethodName   = "/eolymp.course.StudentService/CreateStudent"
 	StudentService_UpdateStudent_FullMethodName   = "/eolymp.course.StudentService/UpdateStudent"
+	StudentService_DeleteModule_FullMethodName    = "/eolymp.course.StudentService/DeleteModule"
 	StudentService_AssignModule_FullMethodName    = "/eolymp.course.StudentService/AssignModule"
 	StudentService_UnassignModule_FullMethodName  = "/eolymp.course.StudentService/UnassignModule"
 	StudentService_DescribeViewer_FullMethodName  = "/eolymp.course.StudentService/DescribeViewer"
@@ -35,6 +36,7 @@ const (
 type StudentServiceClient interface {
 	CreateStudent(ctx context.Context, in *CreateStudentInput, opts ...grpc.CallOption) (*CreateStudentOutput, error)
 	UpdateStudent(ctx context.Context, in *UpdateStudentInput, opts ...grpc.CallOption) (*UpdateStudentOutput, error)
+	DeleteModule(ctx context.Context, in *DeleteStudentInput, opts ...grpc.CallOption) (*DeleteStudentOutput, error)
 	AssignModule(ctx context.Context, in *AssignModuleInput, opts ...grpc.CallOption) (*AssignModuleOutput, error)
 	UnassignModule(ctx context.Context, in *UnassignModuleInput, opts ...grpc.CallOption) (*UnassignModuleOutput, error)
 	DescribeViewer(ctx context.Context, in *DescribeViewerInput, opts ...grpc.CallOption) (*DescribeViewerOutput, error)
@@ -65,6 +67,16 @@ func (c *studentServiceClient) UpdateStudent(ctx context.Context, in *UpdateStud
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UpdateStudentOutput)
 	err := c.cc.Invoke(ctx, StudentService_UpdateStudent_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *studentServiceClient) DeleteModule(ctx context.Context, in *DeleteStudentInput, opts ...grpc.CallOption) (*DeleteStudentOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteStudentOutput)
+	err := c.cc.Invoke(ctx, StudentService_DeleteModule_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -146,6 +158,7 @@ type StudentService_WatchStudentClient = grpc.ServerStreamingClient[WatchStudent
 type StudentServiceServer interface {
 	CreateStudent(context.Context, *CreateStudentInput) (*CreateStudentOutput, error)
 	UpdateStudent(context.Context, *UpdateStudentInput) (*UpdateStudentOutput, error)
+	DeleteModule(context.Context, *DeleteStudentInput) (*DeleteStudentOutput, error)
 	AssignModule(context.Context, *AssignModuleInput) (*AssignModuleOutput, error)
 	UnassignModule(context.Context, *UnassignModuleInput) (*UnassignModuleOutput, error)
 	DescribeViewer(context.Context, *DescribeViewerInput) (*DescribeViewerOutput, error)
@@ -166,6 +179,9 @@ func (UnimplementedStudentServiceServer) CreateStudent(context.Context, *CreateS
 }
 func (UnimplementedStudentServiceServer) UpdateStudent(context.Context, *UpdateStudentInput) (*UpdateStudentOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateStudent not implemented")
+}
+func (UnimplementedStudentServiceServer) DeleteModule(context.Context, *DeleteStudentInput) (*DeleteStudentOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteModule not implemented")
 }
 func (UnimplementedStudentServiceServer) AssignModule(context.Context, *AssignModuleInput) (*AssignModuleOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AssignModule not implemented")
@@ -237,6 +253,24 @@ func _StudentService_UpdateStudent_Handler(srv interface{}, ctx context.Context,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(StudentServiceServer).UpdateStudent(ctx, req.(*UpdateStudentInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _StudentService_DeleteModule_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteStudentInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StudentServiceServer).DeleteModule(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StudentService_DeleteModule_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StudentServiceServer).DeleteModule(ctx, req.(*DeleteStudentInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -356,6 +390,10 @@ var StudentService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateStudent",
 			Handler:    _StudentService_UpdateStudent_Handler,
+		},
+		{
+			MethodName: "DeleteModule",
+			Handler:    _StudentService_DeleteModule_Handler,
 		},
 		{
 			MethodName: "AssignModule",

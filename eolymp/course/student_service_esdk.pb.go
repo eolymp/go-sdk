@@ -127,6 +127,22 @@ func (s *StudentServiceService) UpdateStudent(ctx context.Context, in *UpdateStu
 	return out, nil
 }
 
+func (s *StudentServiceService) DeleteModule(ctx context.Context, in *DeleteStudentInput) (*DeleteStudentOutput, error) {
+	out := &DeleteStudentOutput{}
+	path := "/students/" + url.PathEscape(in.GetMemberId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.MemberId = ""
+	}
+
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *StudentServiceService) AssignModule(ctx context.Context, in *AssignModuleInput) (*AssignModuleOutput, error) {
 	out := &AssignModuleOutput{}
 	path := "/students/" + url.PathEscape(in.GetMemberId()) + "/assignments/" + url.PathEscape(in.GetModuleId())
