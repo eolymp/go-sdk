@@ -143,6 +143,44 @@ func (s *StudentServiceService) DeleteStudent(ctx context.Context, in *DeleteStu
 	return out, nil
 }
 
+func (s *StudentServiceService) DescribeViewer(ctx context.Context, in *DescribeViewerInput) (*DescribeViewerOutput, error) {
+	out := &DescribeViewerOutput{}
+	path := "/viewer/student"
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *StudentServiceService) DescribeStudent(ctx context.Context, in *DescribeStudentInput) (*DescribeStudentOutput, error) {
+	out := &DescribeStudentOutput{}
+	path := "/students/" + url.PathEscape(in.GetMemberId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.MemberId = ""
+	}
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *StudentServiceService) ListStudents(ctx context.Context, in *ListStudentsInput) (*ListStudentsOutput, error) {
+	out := &ListStudentsOutput{}
+	path := "/students"
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *StudentServiceService) AssignModule(ctx context.Context, in *AssignModuleInput) (*AssignModuleOutput, error) {
 	out := &AssignModuleOutput{}
 	path := "/students/" + url.PathEscape(in.GetMemberId()) + "/assignments/" + url.PathEscape(in.GetModuleId())
@@ -177,36 +215,14 @@ func (s *StudentServiceService) UnassignModule(ctx context.Context, in *Unassign
 	return out, nil
 }
 
-func (s *StudentServiceService) DescribeViewer(ctx context.Context, in *DescribeViewerInput) (*DescribeViewerOutput, error) {
-	out := &DescribeViewerOutput{}
-	path := "/viewer/student"
-
-	if err := s.do(ctx, "GET", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *StudentServiceService) DescribeStudent(ctx context.Context, in *DescribeStudentInput) (*DescribeStudentOutput, error) {
-	out := &DescribeStudentOutput{}
-	path := "/students/" + url.PathEscape(in.GetMemberId())
+func (s *StudentServiceService) ListAssignments(ctx context.Context, in *ListAssignmentsXInput) (*ListAssignmentsXOutput, error) {
+	out := &ListAssignmentsXOutput{}
+	path := "/students/" + url.PathEscape(in.GetMemberId()) + "/assignments"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
 		in.MemberId = ""
 	}
-
-	if err := s.do(ctx, "GET", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *StudentServiceService) ListStudents(ctx context.Context, in *ListStudentsInput) (*ListStudentsOutput, error) {
-	out := &ListStudentsOutput{}
-	path := "/students"
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
