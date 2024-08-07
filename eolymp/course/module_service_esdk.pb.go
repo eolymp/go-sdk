@@ -169,3 +169,89 @@ func (s *ModuleServiceService) ListModules(ctx context.Context, in *ListModulesI
 
 	return out, nil
 }
+
+func (s *ModuleServiceService) CreateModuleItem(ctx context.Context, in *CreateModuleItemInput) (*CreateModuleItemOutput, error) {
+	out := &CreateModuleItemOutput{}
+	path := "/items"
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *ModuleServiceService) UpdateModuleItem(ctx context.Context, in *UpdateModuleItemInput) (*UpdateModuleItemOutput, error) {
+	out := &UpdateModuleItemOutput{}
+	path := "/items/" + url.PathEscape(in.GetItemId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ItemId = ""
+	}
+
+	if err := s.do(ctx, "PUT", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *ModuleServiceService) MoveModuleItem(ctx context.Context, in *MoveModuleItemInput) (*MoveModuleItemOutput, error) {
+	out := &MoveModuleItemOutput{}
+	path := "/items/" + url.PathEscape(in.GetItemId()) + "/move"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ItemId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *ModuleServiceService) DeleteModuleItem(ctx context.Context, in *DeleteModuleItemInput) (*DeleteModuleItemOutput, error) {
+	out := &DeleteModuleItemOutput{}
+	path := "/items/" + url.PathEscape(in.GetItemId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ItemId = ""
+	}
+
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *ModuleServiceService) DescribeModuleItem(ctx context.Context, in *DescribeModuleItemInput) (*DescribeModuleItemOutput, error) {
+	out := &DescribeModuleItemOutput{}
+	path := "/items/" + url.PathEscape(in.GetItemId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ItemId = ""
+	}
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *ModuleServiceService) ListModuleItems(ctx context.Context, in *ListModuleItemsInput) (*ListModuleItemsOutput, error) {
+	out := &ListModuleItemsOutput{}
+	path := "/items"
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

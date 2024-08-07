@@ -16,17 +16,17 @@ import (
 	os "os"
 )
 
-type _EnrollmentServiceHttpClient interface {
+type _AssignmentServiceV2HttpClient interface {
 	Do(*http.Request) (*http.Response, error)
 }
 
-type EnrollmentServiceService struct {
+type AssignmentServiceV2Service struct {
 	base string
-	cli  _EnrollmentServiceHttpClient
+	cli  _AssignmentServiceV2HttpClient
 }
 
-// NewEnrollmentServiceHttpClient constructs client for EnrollmentService
-func NewEnrollmentServiceHttpClient(url string, cli _EnrollmentServiceHttpClient) *EnrollmentServiceService {
+// NewAssignmentServiceV2HttpClient constructs client for AssignmentServiceV2
+func NewAssignmentServiceV2HttpClient(url string, cli _AssignmentServiceV2HttpClient) *AssignmentServiceV2Service {
 	if url == "" {
 		url = os.Getenv("EOLYMP_API_URL")
 		if url == "" {
@@ -34,10 +34,10 @@ func NewEnrollmentServiceHttpClient(url string, cli _EnrollmentServiceHttpClient
 		}
 	}
 
-	return &EnrollmentServiceService{base: url, cli: cli}
+	return &AssignmentServiceV2Service{base: url, cli: cli}
 }
 
-func (s *EnrollmentServiceService) do(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
+func (s *AssignmentServiceV2Service) do(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
 	var body io.Reader
 
 	if in != nil {
@@ -100,9 +100,9 @@ func (s *EnrollmentServiceService) do(ctx context.Context, verb, path string, in
 	return nil
 }
 
-func (s *EnrollmentServiceService) CreateEnrollment(ctx context.Context, in *CreateEnrollmentInput) (*CreateEnrollmentOutput, error) {
-	out := &CreateEnrollmentOutput{}
-	path := "/enrollments"
+func (s *AssignmentServiceV2Service) CreateAssignment(ctx context.Context, in *CreateAssignmentV2Input) (*CreateAssignmentV2Output, error) {
+	out := &CreateAssignmentV2Output{}
+	path := "/assignments"
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
@@ -111,29 +111,13 @@ func (s *EnrollmentServiceService) CreateEnrollment(ctx context.Context, in *Cre
 	return out, nil
 }
 
-func (s *EnrollmentServiceService) UpdateEnrollment(ctx context.Context, in *UpdateEnrollmentInput) (*UpdateEnrollmentOutput, error) {
-	out := &UpdateEnrollmentOutput{}
-	path := "/enrollments/" + url.PathEscape(in.GetEnrollmentId())
+func (s *AssignmentServiceV2Service) DeleteAssignment(ctx context.Context, in *DeleteAssignmentV2Input) (*DeleteAssignmentV2Output, error) {
+	out := &DeleteAssignmentV2Output{}
+	path := "/assignments/" + url.PathEscape(in.GetModuleId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.EnrollmentId = ""
-	}
-
-	if err := s.do(ctx, "PUT", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *EnrollmentServiceService) DeleteEnrollment(ctx context.Context, in *DeleteEnrollmentInput) (*DeleteEnrollmentOutput, error) {
-	out := &DeleteEnrollmentOutput{}
-	path := "/enrollments/" + url.PathEscape(in.GetEnrollmentId())
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.EnrollmentId = ""
+		in.ModuleId = ""
 	}
 
 	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
@@ -143,13 +127,40 @@ func (s *EnrollmentServiceService) DeleteEnrollment(ctx context.Context, in *Del
 	return out, nil
 }
 
-func (s *EnrollmentServiceService) DescribeEnrollment(ctx context.Context, in *DescribeEnrollmentInput) (*DescribeEnrollmentOutput, error) {
-	out := &DescribeEnrollmentOutput{}
-	path := "/enrollments/" + url.PathEscape(in.GetEnrollmentId())
+func (s *AssignmentServiceV2Service) StartAssignment(ctx context.Context, in *StartAssignmentV2Input) (*StartAssignmentV2Output, error) {
+	out := &StartAssignmentV2Output{}
+	path := "/assignments/" + url.PathEscape(in.GetModuleId()) + "/start"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.EnrollmentId = ""
+		in.ModuleId = ""
+	}
+
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *AssignmentServiceV2Service) ListAssignments(ctx context.Context, in *ListAssignmentsV2Input) (*ListAssignmentsV2Output, error) {
+	out := &ListAssignmentsV2Output{}
+	path := "/assignments"
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *AssignmentServiceV2Service) ListAssignmentItems(ctx context.Context, in *ListAssignmentItemsV2Input) (*ListAssignmentItemsV2Output, error) {
+	out := &ListAssignmentItemsV2Output{}
+	path := "/assignments/" + url.PathEscape(in.GetModuleId()) + "/items"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ModuleId = ""
 	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
@@ -159,9 +170,15 @@ func (s *EnrollmentServiceService) DescribeEnrollment(ctx context.Context, in *D
 	return out, nil
 }
 
-func (s *EnrollmentServiceService) ListEnrollments(ctx context.Context, in *ListEnrollmentsInput) (*ListEnrollmentsOutput, error) {
-	out := &ListEnrollmentsOutput{}
-	path := "/enrollments"
+func (s *AssignmentServiceV2Service) DescribeAssignmentItem(ctx context.Context, in *DescribeAssignmentItemV2Input) (*DescribeAssignmentItemV2Output, error) {
+	out := &DescribeAssignmentItemV2Output{}
+	path := "/assignments/" + url.PathEscape(in.GetModuleId()) + "/items/" + url.PathEscape(in.GetItemId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ModuleId = ""
+		in.ItemId = ""
+	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err

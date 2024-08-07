@@ -26,10 +26,6 @@ const (
 	StudentService_DescribeStudent_FullMethodName = "/eolymp.course.StudentService/DescribeStudent"
 	StudentService_ListStudents_FullMethodName    = "/eolymp.course.StudentService/ListStudents"
 	StudentService_WatchStudent_FullMethodName    = "/eolymp.course.StudentService/WatchStudent"
-	StudentService_AssignModule_FullMethodName    = "/eolymp.course.StudentService/AssignModule"
-	StudentService_UnassignModule_FullMethodName  = "/eolymp.course.StudentService/UnassignModule"
-	StudentService_ListAssignments_FullMethodName = "/eolymp.course.StudentService/ListAssignments"
-	StudentService_ListGrades_FullMethodName      = "/eolymp.course.StudentService/ListGrades"
 )
 
 // StudentServiceClient is the client API for StudentService service.
@@ -43,10 +39,6 @@ type StudentServiceClient interface {
 	DescribeStudent(ctx context.Context, in *DescribeStudentInput, opts ...grpc.CallOption) (*DescribeStudentOutput, error)
 	ListStudents(ctx context.Context, in *ListStudentsInput, opts ...grpc.CallOption) (*ListStudentsOutput, error)
 	WatchStudent(ctx context.Context, in *WatchStudentInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchStudentOutput], error)
-	AssignModule(ctx context.Context, in *AssignModuleInput, opts ...grpc.CallOption) (*AssignModuleOutput, error)
-	UnassignModule(ctx context.Context, in *UnassignModuleInput, opts ...grpc.CallOption) (*UnassignModuleOutput, error)
-	ListAssignments(ctx context.Context, in *ListAssignmentsXInput, opts ...grpc.CallOption) (*ListAssignmentsXOutput, error)
-	ListGrades(ctx context.Context, in *ListGradesInput, opts ...grpc.CallOption) (*ListGradesOutput, error)
 }
 
 type studentServiceClient struct {
@@ -136,46 +128,6 @@ func (c *studentServiceClient) WatchStudent(ctx context.Context, in *WatchStuden
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type StudentService_WatchStudentClient = grpc.ServerStreamingClient[WatchStudentOutput]
 
-func (c *studentServiceClient) AssignModule(ctx context.Context, in *AssignModuleInput, opts ...grpc.CallOption) (*AssignModuleOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(AssignModuleOutput)
-	err := c.cc.Invoke(ctx, StudentService_AssignModule_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *studentServiceClient) UnassignModule(ctx context.Context, in *UnassignModuleInput, opts ...grpc.CallOption) (*UnassignModuleOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(UnassignModuleOutput)
-	err := c.cc.Invoke(ctx, StudentService_UnassignModule_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *studentServiceClient) ListAssignments(ctx context.Context, in *ListAssignmentsXInput, opts ...grpc.CallOption) (*ListAssignmentsXOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ListAssignmentsXOutput)
-	err := c.cc.Invoke(ctx, StudentService_ListAssignments_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *studentServiceClient) ListGrades(ctx context.Context, in *ListGradesInput, opts ...grpc.CallOption) (*ListGradesOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ListGradesOutput)
-	err := c.cc.Invoke(ctx, StudentService_ListGrades_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // StudentServiceServer is the server API for StudentService service.
 // All implementations should embed UnimplementedStudentServiceServer
 // for forward compatibility.
@@ -187,10 +139,6 @@ type StudentServiceServer interface {
 	DescribeStudent(context.Context, *DescribeStudentInput) (*DescribeStudentOutput, error)
 	ListStudents(context.Context, *ListStudentsInput) (*ListStudentsOutput, error)
 	WatchStudent(*WatchStudentInput, grpc.ServerStreamingServer[WatchStudentOutput]) error
-	AssignModule(context.Context, *AssignModuleInput) (*AssignModuleOutput, error)
-	UnassignModule(context.Context, *UnassignModuleInput) (*UnassignModuleOutput, error)
-	ListAssignments(context.Context, *ListAssignmentsXInput) (*ListAssignmentsXOutput, error)
-	ListGrades(context.Context, *ListGradesInput) (*ListGradesOutput, error)
 }
 
 // UnimplementedStudentServiceServer should be embedded to have
@@ -220,18 +168,6 @@ func (UnimplementedStudentServiceServer) ListStudents(context.Context, *ListStud
 }
 func (UnimplementedStudentServiceServer) WatchStudent(*WatchStudentInput, grpc.ServerStreamingServer[WatchStudentOutput]) error {
 	return status.Errorf(codes.Unimplemented, "method WatchStudent not implemented")
-}
-func (UnimplementedStudentServiceServer) AssignModule(context.Context, *AssignModuleInput) (*AssignModuleOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AssignModule not implemented")
-}
-func (UnimplementedStudentServiceServer) UnassignModule(context.Context, *UnassignModuleInput) (*UnassignModuleOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UnassignModule not implemented")
-}
-func (UnimplementedStudentServiceServer) ListAssignments(context.Context, *ListAssignmentsXInput) (*ListAssignmentsXOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListAssignments not implemented")
-}
-func (UnimplementedStudentServiceServer) ListGrades(context.Context, *ListGradesInput) (*ListGradesOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListGrades not implemented")
 }
 func (UnimplementedStudentServiceServer) testEmbeddedByValue() {}
 
@@ -372,78 +308,6 @@ func _StudentService_WatchStudent_Handler(srv interface{}, stream grpc.ServerStr
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type StudentService_WatchStudentServer = grpc.ServerStreamingServer[WatchStudentOutput]
 
-func _StudentService_AssignModule_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AssignModuleInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(StudentServiceServer).AssignModule(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: StudentService_AssignModule_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(StudentServiceServer).AssignModule(ctx, req.(*AssignModuleInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _StudentService_UnassignModule_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UnassignModuleInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(StudentServiceServer).UnassignModule(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: StudentService_UnassignModule_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(StudentServiceServer).UnassignModule(ctx, req.(*UnassignModuleInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _StudentService_ListAssignments_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListAssignmentsXInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(StudentServiceServer).ListAssignments(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: StudentService_ListAssignments_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(StudentServiceServer).ListAssignments(ctx, req.(*ListAssignmentsXInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _StudentService_ListGrades_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListGradesInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(StudentServiceServer).ListGrades(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: StudentService_ListGrades_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(StudentServiceServer).ListGrades(ctx, req.(*ListGradesInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // StudentService_ServiceDesc is the grpc.ServiceDesc for StudentService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -474,22 +338,6 @@ var StudentService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListStudents",
 			Handler:    _StudentService_ListStudents_Handler,
-		},
-		{
-			MethodName: "AssignModule",
-			Handler:    _StudentService_AssignModule_Handler,
-		},
-		{
-			MethodName: "UnassignModule",
-			Handler:    _StudentService_UnassignModule_Handler,
-		},
-		{
-			MethodName: "ListAssignments",
-			Handler:    _StudentService_ListAssignments_Handler,
-		},
-		{
-			MethodName: "ListGrades",
-			Handler:    _StudentService_ListGrades_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

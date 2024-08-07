@@ -19,11 +19,17 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	ModuleService_CreateModule_FullMethodName   = "/eolymp.course.ModuleService/CreateModule"
-	ModuleService_UpdateModule_FullMethodName   = "/eolymp.course.ModuleService/UpdateModule"
-	ModuleService_DeleteModule_FullMethodName   = "/eolymp.course.ModuleService/DeleteModule"
-	ModuleService_DescribeModule_FullMethodName = "/eolymp.course.ModuleService/DescribeModule"
-	ModuleService_ListModules_FullMethodName    = "/eolymp.course.ModuleService/ListModules"
+	ModuleService_CreateModule_FullMethodName       = "/eolymp.course.ModuleService/CreateModule"
+	ModuleService_UpdateModule_FullMethodName       = "/eolymp.course.ModuleService/UpdateModule"
+	ModuleService_DeleteModule_FullMethodName       = "/eolymp.course.ModuleService/DeleteModule"
+	ModuleService_DescribeModule_FullMethodName     = "/eolymp.course.ModuleService/DescribeModule"
+	ModuleService_ListModules_FullMethodName        = "/eolymp.course.ModuleService/ListModules"
+	ModuleService_CreateModuleItem_FullMethodName   = "/eolymp.course.ModuleService/CreateModuleItem"
+	ModuleService_UpdateModuleItem_FullMethodName   = "/eolymp.course.ModuleService/UpdateModuleItem"
+	ModuleService_MoveModuleItem_FullMethodName     = "/eolymp.course.ModuleService/MoveModuleItem"
+	ModuleService_DeleteModuleItem_FullMethodName   = "/eolymp.course.ModuleService/DeleteModuleItem"
+	ModuleService_DescribeModuleItem_FullMethodName = "/eolymp.course.ModuleService/DescribeModuleItem"
+	ModuleService_ListModuleItems_FullMethodName    = "/eolymp.course.ModuleService/ListModuleItems"
 )
 
 // ModuleServiceClient is the client API for ModuleService service.
@@ -35,6 +41,12 @@ type ModuleServiceClient interface {
 	DeleteModule(ctx context.Context, in *DeleteModuleInput, opts ...grpc.CallOption) (*DeleteModuleOutput, error)
 	DescribeModule(ctx context.Context, in *DescribeModuleInput, opts ...grpc.CallOption) (*DescribeModuleOutput, error)
 	ListModules(ctx context.Context, in *ListModulesInput, opts ...grpc.CallOption) (*ListModulesOutput, error)
+	CreateModuleItem(ctx context.Context, in *CreateModuleItemInput, opts ...grpc.CallOption) (*CreateModuleItemOutput, error)
+	UpdateModuleItem(ctx context.Context, in *UpdateModuleItemInput, opts ...grpc.CallOption) (*UpdateModuleItemOutput, error)
+	MoveModuleItem(ctx context.Context, in *MoveModuleItemInput, opts ...grpc.CallOption) (*MoveModuleItemOutput, error)
+	DeleteModuleItem(ctx context.Context, in *DeleteModuleItemInput, opts ...grpc.CallOption) (*DeleteModuleItemOutput, error)
+	DescribeModuleItem(ctx context.Context, in *DescribeModuleItemInput, opts ...grpc.CallOption) (*DescribeModuleItemOutput, error)
+	ListModuleItems(ctx context.Context, in *ListModuleItemsInput, opts ...grpc.CallOption) (*ListModuleItemsOutput, error)
 }
 
 type moduleServiceClient struct {
@@ -95,6 +107,66 @@ func (c *moduleServiceClient) ListModules(ctx context.Context, in *ListModulesIn
 	return out, nil
 }
 
+func (c *moduleServiceClient) CreateModuleItem(ctx context.Context, in *CreateModuleItemInput, opts ...grpc.CallOption) (*CreateModuleItemOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateModuleItemOutput)
+	err := c.cc.Invoke(ctx, ModuleService_CreateModuleItem_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *moduleServiceClient) UpdateModuleItem(ctx context.Context, in *UpdateModuleItemInput, opts ...grpc.CallOption) (*UpdateModuleItemOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateModuleItemOutput)
+	err := c.cc.Invoke(ctx, ModuleService_UpdateModuleItem_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *moduleServiceClient) MoveModuleItem(ctx context.Context, in *MoveModuleItemInput, opts ...grpc.CallOption) (*MoveModuleItemOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(MoveModuleItemOutput)
+	err := c.cc.Invoke(ctx, ModuleService_MoveModuleItem_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *moduleServiceClient) DeleteModuleItem(ctx context.Context, in *DeleteModuleItemInput, opts ...grpc.CallOption) (*DeleteModuleItemOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteModuleItemOutput)
+	err := c.cc.Invoke(ctx, ModuleService_DeleteModuleItem_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *moduleServiceClient) DescribeModuleItem(ctx context.Context, in *DescribeModuleItemInput, opts ...grpc.CallOption) (*DescribeModuleItemOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DescribeModuleItemOutput)
+	err := c.cc.Invoke(ctx, ModuleService_DescribeModuleItem_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *moduleServiceClient) ListModuleItems(ctx context.Context, in *ListModuleItemsInput, opts ...grpc.CallOption) (*ListModuleItemsOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListModuleItemsOutput)
+	err := c.cc.Invoke(ctx, ModuleService_ListModuleItems_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ModuleServiceServer is the server API for ModuleService service.
 // All implementations should embed UnimplementedModuleServiceServer
 // for forward compatibility.
@@ -104,6 +176,12 @@ type ModuleServiceServer interface {
 	DeleteModule(context.Context, *DeleteModuleInput) (*DeleteModuleOutput, error)
 	DescribeModule(context.Context, *DescribeModuleInput) (*DescribeModuleOutput, error)
 	ListModules(context.Context, *ListModulesInput) (*ListModulesOutput, error)
+	CreateModuleItem(context.Context, *CreateModuleItemInput) (*CreateModuleItemOutput, error)
+	UpdateModuleItem(context.Context, *UpdateModuleItemInput) (*UpdateModuleItemOutput, error)
+	MoveModuleItem(context.Context, *MoveModuleItemInput) (*MoveModuleItemOutput, error)
+	DeleteModuleItem(context.Context, *DeleteModuleItemInput) (*DeleteModuleItemOutput, error)
+	DescribeModuleItem(context.Context, *DescribeModuleItemInput) (*DescribeModuleItemOutput, error)
+	ListModuleItems(context.Context, *ListModuleItemsInput) (*ListModuleItemsOutput, error)
 }
 
 // UnimplementedModuleServiceServer should be embedded to have
@@ -127,6 +205,24 @@ func (UnimplementedModuleServiceServer) DescribeModule(context.Context, *Describ
 }
 func (UnimplementedModuleServiceServer) ListModules(context.Context, *ListModulesInput) (*ListModulesOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListModules not implemented")
+}
+func (UnimplementedModuleServiceServer) CreateModuleItem(context.Context, *CreateModuleItemInput) (*CreateModuleItemOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateModuleItem not implemented")
+}
+func (UnimplementedModuleServiceServer) UpdateModuleItem(context.Context, *UpdateModuleItemInput) (*UpdateModuleItemOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateModuleItem not implemented")
+}
+func (UnimplementedModuleServiceServer) MoveModuleItem(context.Context, *MoveModuleItemInput) (*MoveModuleItemOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method MoveModuleItem not implemented")
+}
+func (UnimplementedModuleServiceServer) DeleteModuleItem(context.Context, *DeleteModuleItemInput) (*DeleteModuleItemOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteModuleItem not implemented")
+}
+func (UnimplementedModuleServiceServer) DescribeModuleItem(context.Context, *DescribeModuleItemInput) (*DescribeModuleItemOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeModuleItem not implemented")
+}
+func (UnimplementedModuleServiceServer) ListModuleItems(context.Context, *ListModuleItemsInput) (*ListModuleItemsOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListModuleItems not implemented")
 }
 func (UnimplementedModuleServiceServer) testEmbeddedByValue() {}
 
@@ -238,6 +334,114 @@ func _ModuleService_ListModules_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ModuleService_CreateModuleItem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateModuleItemInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ModuleServiceServer).CreateModuleItem(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ModuleService_CreateModuleItem_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ModuleServiceServer).CreateModuleItem(ctx, req.(*CreateModuleItemInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ModuleService_UpdateModuleItem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateModuleItemInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ModuleServiceServer).UpdateModuleItem(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ModuleService_UpdateModuleItem_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ModuleServiceServer).UpdateModuleItem(ctx, req.(*UpdateModuleItemInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ModuleService_MoveModuleItem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MoveModuleItemInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ModuleServiceServer).MoveModuleItem(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ModuleService_MoveModuleItem_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ModuleServiceServer).MoveModuleItem(ctx, req.(*MoveModuleItemInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ModuleService_DeleteModuleItem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteModuleItemInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ModuleServiceServer).DeleteModuleItem(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ModuleService_DeleteModuleItem_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ModuleServiceServer).DeleteModuleItem(ctx, req.(*DeleteModuleItemInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ModuleService_DescribeModuleItem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeModuleItemInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ModuleServiceServer).DescribeModuleItem(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ModuleService_DescribeModuleItem_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ModuleServiceServer).DescribeModuleItem(ctx, req.(*DescribeModuleItemInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ModuleService_ListModuleItems_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListModuleItemsInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ModuleServiceServer).ListModuleItems(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ModuleService_ListModuleItems_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ModuleServiceServer).ListModuleItems(ctx, req.(*ListModuleItemsInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ModuleService_ServiceDesc is the grpc.ServiceDesc for ModuleService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -264,6 +468,30 @@ var ModuleService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListModules",
 			Handler:    _ModuleService_ListModules_Handler,
+		},
+		{
+			MethodName: "CreateModuleItem",
+			Handler:    _ModuleService_CreateModuleItem_Handler,
+		},
+		{
+			MethodName: "UpdateModuleItem",
+			Handler:    _ModuleService_UpdateModuleItem_Handler,
+		},
+		{
+			MethodName: "MoveModuleItem",
+			Handler:    _ModuleService_MoveModuleItem_Handler,
+		},
+		{
+			MethodName: "DeleteModuleItem",
+			Handler:    _ModuleService_DeleteModuleItem_Handler,
+		},
+		{
+			MethodName: "DescribeModuleItem",
+			Handler:    _ModuleService_DescribeModuleItem_Handler,
+		},
+		{
+			MethodName: "ListModuleItems",
+			Handler:    _ModuleService_ListModuleItems_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
