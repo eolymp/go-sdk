@@ -29,6 +29,7 @@ const (
 	StudentService_AssignModule_FullMethodName    = "/eolymp.course.StudentService/AssignModule"
 	StudentService_UnassignModule_FullMethodName  = "/eolymp.course.StudentService/UnassignModule"
 	StudentService_ListAssignments_FullMethodName = "/eolymp.course.StudentService/ListAssignments"
+	StudentService_ListGrades_FullMethodName      = "/eolymp.course.StudentService/ListGrades"
 )
 
 // StudentServiceClient is the client API for StudentService service.
@@ -45,6 +46,7 @@ type StudentServiceClient interface {
 	AssignModule(ctx context.Context, in *AssignModuleInput, opts ...grpc.CallOption) (*AssignModuleOutput, error)
 	UnassignModule(ctx context.Context, in *UnassignModuleInput, opts ...grpc.CallOption) (*UnassignModuleOutput, error)
 	ListAssignments(ctx context.Context, in *ListAssignmentsXInput, opts ...grpc.CallOption) (*ListAssignmentsXOutput, error)
+	ListGrades(ctx context.Context, in *ListGradesInput, opts ...grpc.CallOption) (*ListGradesOutput, error)
 }
 
 type studentServiceClient struct {
@@ -164,6 +166,16 @@ func (c *studentServiceClient) ListAssignments(ctx context.Context, in *ListAssi
 	return out, nil
 }
 
+func (c *studentServiceClient) ListGrades(ctx context.Context, in *ListGradesInput, opts ...grpc.CallOption) (*ListGradesOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListGradesOutput)
+	err := c.cc.Invoke(ctx, StudentService_ListGrades_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // StudentServiceServer is the server API for StudentService service.
 // All implementations should embed UnimplementedStudentServiceServer
 // for forward compatibility.
@@ -178,6 +190,7 @@ type StudentServiceServer interface {
 	AssignModule(context.Context, *AssignModuleInput) (*AssignModuleOutput, error)
 	UnassignModule(context.Context, *UnassignModuleInput) (*UnassignModuleOutput, error)
 	ListAssignments(context.Context, *ListAssignmentsXInput) (*ListAssignmentsXOutput, error)
+	ListGrades(context.Context, *ListGradesInput) (*ListGradesOutput, error)
 }
 
 // UnimplementedStudentServiceServer should be embedded to have
@@ -216,6 +229,9 @@ func (UnimplementedStudentServiceServer) UnassignModule(context.Context, *Unassi
 }
 func (UnimplementedStudentServiceServer) ListAssignments(context.Context, *ListAssignmentsXInput) (*ListAssignmentsXOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListAssignments not implemented")
+}
+func (UnimplementedStudentServiceServer) ListGrades(context.Context, *ListGradesInput) (*ListGradesOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListGrades not implemented")
 }
 func (UnimplementedStudentServiceServer) testEmbeddedByValue() {}
 
@@ -410,6 +426,24 @@ func _StudentService_ListAssignments_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _StudentService_ListGrades_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListGradesInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StudentServiceServer).ListGrades(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StudentService_ListGrades_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StudentServiceServer).ListGrades(ctx, req.(*ListGradesInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // StudentService_ServiceDesc is the grpc.ServiceDesc for StudentService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -452,6 +486,10 @@ var StudentService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListAssignments",
 			Handler:    _StudentService_ListAssignments_Handler,
+		},
+		{
+			MethodName: "ListGrades",
+			Handler:    _StudentService_ListGrades_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

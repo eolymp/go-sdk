@@ -230,3 +230,20 @@ func (s *StudentServiceService) ListAssignments(ctx context.Context, in *ListAss
 
 	return out, nil
 }
+
+func (s *StudentServiceService) ListGrades(ctx context.Context, in *ListGradesInput) (*ListGradesOutput, error) {
+	out := &ListGradesOutput{}
+	path := "/students/" + url.PathEscape(in.GetMemberId()) + "/assignments/" + url.PathEscape(in.GetModuleId()) + "/grades"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.MemberId = ""
+		in.ModuleId = ""
+	}
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
