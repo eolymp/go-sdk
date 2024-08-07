@@ -16,17 +16,17 @@ import (
 	os "os"
 )
 
-type _ModuleServiceHttpClient interface {
+type _ModuleItemServiceHttpClient interface {
 	Do(*http.Request) (*http.Response, error)
 }
 
-type ModuleServiceService struct {
+type ModuleItemServiceService struct {
 	base string
-	cli  _ModuleServiceHttpClient
+	cli  _ModuleItemServiceHttpClient
 }
 
-// NewModuleServiceHttpClient constructs client for ModuleService
-func NewModuleServiceHttpClient(url string, cli _ModuleServiceHttpClient) *ModuleServiceService {
+// NewModuleItemServiceHttpClient constructs client for ModuleItemService
+func NewModuleItemServiceHttpClient(url string, cli _ModuleItemServiceHttpClient) *ModuleItemServiceService {
 	if url == "" {
 		url = os.Getenv("EOLYMP_API_URL")
 		if url == "" {
@@ -34,10 +34,10 @@ func NewModuleServiceHttpClient(url string, cli _ModuleServiceHttpClient) *Modul
 		}
 	}
 
-	return &ModuleServiceService{base: url, cli: cli}
+	return &ModuleItemServiceService{base: url, cli: cli}
 }
 
-func (s *ModuleServiceService) do(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
+func (s *ModuleItemServiceService) do(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
 	var body io.Reader
 
 	if in != nil {
@@ -100,9 +100,25 @@ func (s *ModuleServiceService) do(ctx context.Context, verb, path string, in, ou
 	return nil
 }
 
-func (s *ModuleServiceService) CreateModule(ctx context.Context, in *CreateModuleInput) (*CreateModuleOutput, error) {
-	out := &CreateModuleOutput{}
-	path := "/modules"
+func (s *ModuleItemServiceService) CreateModuleItem(ctx context.Context, in *CreateModuleItemInput) (*CreateModuleItemOutput, error) {
+	out := &CreateModuleItemOutput{}
+	path := "/items"
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *ModuleItemServiceService) UpdateModuleItem(ctx context.Context, in *UpdateModuleItemInput) (*UpdateModuleItemOutput, error) {
+	out := &UpdateModuleItemOutput{}
+	path := "/items/" + url.PathEscape(in.GetItemId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ItemId = ""
+	}
 
 	if err := s.do(ctx, "PUT", path, in, out); err != nil {
 		return nil, err
@@ -111,29 +127,29 @@ func (s *ModuleServiceService) CreateModule(ctx context.Context, in *CreateModul
 	return out, nil
 }
 
-func (s *ModuleServiceService) UpdateModule(ctx context.Context, in *UpdateModuleInput) (*UpdateModuleOutput, error) {
-	out := &UpdateModuleOutput{}
-	path := "/modules/" + url.PathEscape(in.GetModuleId())
+func (s *ModuleItemServiceService) MoveModuleItem(ctx context.Context, in *MoveModuleItemInput) (*MoveModuleItemOutput, error) {
+	out := &MoveModuleItemOutput{}
+	path := "/items/" + url.PathEscape(in.GetItemId()) + "/move"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.ModuleId = ""
+		in.ItemId = ""
 	}
 
-	if err := s.do(ctx, "PUT", path, in, out); err != nil {
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 
 	return out, nil
 }
 
-func (s *ModuleServiceService) DeleteModule(ctx context.Context, in *DeleteModuleInput) (*DeleteModuleOutput, error) {
-	out := &DeleteModuleOutput{}
-	path := "/modules/" + url.PathEscape(in.GetModuleId())
+func (s *ModuleItemServiceService) DeleteModuleItem(ctx context.Context, in *DeleteModuleItemInput) (*DeleteModuleItemOutput, error) {
+	out := &DeleteModuleItemOutput{}
+	path := "/items/" + url.PathEscape(in.GetItemId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.ModuleId = ""
+		in.ItemId = ""
 	}
 
 	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
@@ -143,13 +159,13 @@ func (s *ModuleServiceService) DeleteModule(ctx context.Context, in *DeleteModul
 	return out, nil
 }
 
-func (s *ModuleServiceService) DescribeModule(ctx context.Context, in *DescribeModuleInput) (*DescribeModuleOutput, error) {
-	out := &DescribeModuleOutput{}
-	path := "/modules/" + url.PathEscape(in.GetModuleId())
+func (s *ModuleItemServiceService) DescribeModuleItem(ctx context.Context, in *DescribeModuleItemInput) (*DescribeModuleItemOutput, error) {
+	out := &DescribeModuleItemOutput{}
+	path := "/items/" + url.PathEscape(in.GetItemId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.ModuleId = ""
+		in.ItemId = ""
 	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
@@ -159,9 +175,9 @@ func (s *ModuleServiceService) DescribeModule(ctx context.Context, in *DescribeM
 	return out, nil
 }
 
-func (s *ModuleServiceService) ListModules(ctx context.Context, in *ListModulesInput) (*ListModulesOutput, error) {
-	out := &ListModulesOutput{}
-	path := "/modules"
+func (s *ModuleItemServiceService) ListModuleItems(ctx context.Context, in *ListModuleItemsInput) (*ListModuleItemsOutput, error) {
+	out := &ListModuleItemsOutput{}
+	path := "/items"
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
