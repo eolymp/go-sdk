@@ -214,6 +214,12 @@ func RegisterAssignmentServiceV2HttpHandlers(router *mux.Router, prefix string, 
 	router.Handle(prefix+"/assignments/{module_id}/items/{item_id}", _AssignmentServiceV2_DescribeAssignmentItem_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.AssignmentServiceV2.DescribeAssignmentItem")
+	router.Handle(prefix+"/assignments/{module_id}/items/{item_id}", _AssignmentServiceV2_UpdateAssignmentItem_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.course.AssignmentServiceV2.UpdateAssignmentItem")
+	router.Handle(prefix+"/assignments/{module_id}/items/{item_id}/reset", _AssignmentServiceV2_ResetAssignmentItem_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.course.AssignmentServiceV2.ResetAssignmentItem")
 }
 
 func _AssignmentServiceV2_CreateAssignment_Rule0(cli AssignmentServiceV2Client) http.Handler {
@@ -352,6 +358,58 @@ func _AssignmentServiceV2_DescribeAssignmentItem_Rule0(cli AssignmentServiceV2Cl
 		var header, trailer metadata.MD
 
 		out, err := cli.DescribeAssignmentItem(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_AssignmentServiceV2_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_AssignmentServiceV2_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _AssignmentServiceV2_UpdateAssignmentItem_Rule0(cli AssignmentServiceV2Client) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UpdateAssignmentItemV2Input{}
+
+		if err := _AssignmentServiceV2_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_AssignmentServiceV2_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ModuleId = vars["module_id"]
+		in.ItemId = vars["item_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateAssignmentItem(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_AssignmentServiceV2_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_AssignmentServiceV2_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _AssignmentServiceV2_ResetAssignmentItem_Rule0(cli AssignmentServiceV2Client) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ResetAssignmentItemV2Input{}
+
+		if err := _AssignmentServiceV2_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_AssignmentServiceV2_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ModuleId = vars["module_id"]
+		in.ItemId = vars["item_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.ResetAssignmentItem(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_AssignmentServiceV2_HTTPWriteErrorResponse(w, err)
 			return
@@ -560,6 +618,70 @@ func (i *AssignmentServiceV2Interceptor) DescribeAssignmentItem(ctx context.Cont
 	message, ok := out.(*DescribeAssignmentItemV2Output)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *DescribeAssignmentItemV2Output, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *AssignmentServiceV2Interceptor) UpdateAssignmentItem(ctx context.Context, in *UpdateAssignmentItemV2Input, opts ...grpc.CallOption) (*UpdateAssignmentItemV2Output, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*UpdateAssignmentItemV2Input)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *UpdateAssignmentItemV2Input, got %T", in))
+		}
+
+		return i.client.UpdateAssignmentItem(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.course.AssignmentServiceV2.UpdateAssignmentItem", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*UpdateAssignmentItemV2Output)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *UpdateAssignmentItemV2Output, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *AssignmentServiceV2Interceptor) ResetAssignmentItem(ctx context.Context, in *ResetAssignmentItemV2Input, opts ...grpc.CallOption) (*ResetAssignmentItemV2Output, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ResetAssignmentItemV2Input)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ResetAssignmentItemV2Input, got %T", in))
+		}
+
+		return i.client.ResetAssignmentItem(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.course.AssignmentServiceV2.ResetAssignmentItem", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ResetAssignmentItemV2Output)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ResetAssignmentItemV2Output, got %T", out))
 	}
 
 	return message, err

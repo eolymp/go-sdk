@@ -25,6 +25,8 @@ const (
 	AssignmentServiceV2_ListAssignments_FullMethodName        = "/eolymp.course.AssignmentServiceV2/ListAssignments"
 	AssignmentServiceV2_ListAssignmentItems_FullMethodName    = "/eolymp.course.AssignmentServiceV2/ListAssignmentItems"
 	AssignmentServiceV2_DescribeAssignmentItem_FullMethodName = "/eolymp.course.AssignmentServiceV2/DescribeAssignmentItem"
+	AssignmentServiceV2_UpdateAssignmentItem_FullMethodName   = "/eolymp.course.AssignmentServiceV2/UpdateAssignmentItem"
+	AssignmentServiceV2_ResetAssignmentItem_FullMethodName    = "/eolymp.course.AssignmentServiceV2/ResetAssignmentItem"
 )
 
 // AssignmentServiceV2Client is the client API for AssignmentServiceV2 service.
@@ -37,6 +39,8 @@ type AssignmentServiceV2Client interface {
 	ListAssignments(ctx context.Context, in *ListAssignmentsV2Input, opts ...grpc.CallOption) (*ListAssignmentsV2Output, error)
 	ListAssignmentItems(ctx context.Context, in *ListAssignmentItemsV2Input, opts ...grpc.CallOption) (*ListAssignmentItemsV2Output, error)
 	DescribeAssignmentItem(ctx context.Context, in *DescribeAssignmentItemV2Input, opts ...grpc.CallOption) (*DescribeAssignmentItemV2Output, error)
+	UpdateAssignmentItem(ctx context.Context, in *UpdateAssignmentItemV2Input, opts ...grpc.CallOption) (*UpdateAssignmentItemV2Output, error)
+	ResetAssignmentItem(ctx context.Context, in *ResetAssignmentItemV2Input, opts ...grpc.CallOption) (*ResetAssignmentItemV2Output, error)
 }
 
 type assignmentServiceV2Client struct {
@@ -107,6 +111,26 @@ func (c *assignmentServiceV2Client) DescribeAssignmentItem(ctx context.Context, 
 	return out, nil
 }
 
+func (c *assignmentServiceV2Client) UpdateAssignmentItem(ctx context.Context, in *UpdateAssignmentItemV2Input, opts ...grpc.CallOption) (*UpdateAssignmentItemV2Output, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateAssignmentItemV2Output)
+	err := c.cc.Invoke(ctx, AssignmentServiceV2_UpdateAssignmentItem_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *assignmentServiceV2Client) ResetAssignmentItem(ctx context.Context, in *ResetAssignmentItemV2Input, opts ...grpc.CallOption) (*ResetAssignmentItemV2Output, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ResetAssignmentItemV2Output)
+	err := c.cc.Invoke(ctx, AssignmentServiceV2_ResetAssignmentItem_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AssignmentServiceV2Server is the server API for AssignmentServiceV2 service.
 // All implementations should embed UnimplementedAssignmentServiceV2Server
 // for forward compatibility.
@@ -117,6 +141,8 @@ type AssignmentServiceV2Server interface {
 	ListAssignments(context.Context, *ListAssignmentsV2Input) (*ListAssignmentsV2Output, error)
 	ListAssignmentItems(context.Context, *ListAssignmentItemsV2Input) (*ListAssignmentItemsV2Output, error)
 	DescribeAssignmentItem(context.Context, *DescribeAssignmentItemV2Input) (*DescribeAssignmentItemV2Output, error)
+	UpdateAssignmentItem(context.Context, *UpdateAssignmentItemV2Input) (*UpdateAssignmentItemV2Output, error)
+	ResetAssignmentItem(context.Context, *ResetAssignmentItemV2Input) (*ResetAssignmentItemV2Output, error)
 }
 
 // UnimplementedAssignmentServiceV2Server should be embedded to have
@@ -143,6 +169,12 @@ func (UnimplementedAssignmentServiceV2Server) ListAssignmentItems(context.Contex
 }
 func (UnimplementedAssignmentServiceV2Server) DescribeAssignmentItem(context.Context, *DescribeAssignmentItemV2Input) (*DescribeAssignmentItemV2Output, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeAssignmentItem not implemented")
+}
+func (UnimplementedAssignmentServiceV2Server) UpdateAssignmentItem(context.Context, *UpdateAssignmentItemV2Input) (*UpdateAssignmentItemV2Output, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateAssignmentItem not implemented")
+}
+func (UnimplementedAssignmentServiceV2Server) ResetAssignmentItem(context.Context, *ResetAssignmentItemV2Input) (*ResetAssignmentItemV2Output, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ResetAssignmentItem not implemented")
 }
 func (UnimplementedAssignmentServiceV2Server) testEmbeddedByValue() {}
 
@@ -272,6 +304,42 @@ func _AssignmentServiceV2_DescribeAssignmentItem_Handler(srv interface{}, ctx co
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AssignmentServiceV2_UpdateAssignmentItem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateAssignmentItemV2Input)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AssignmentServiceV2Server).UpdateAssignmentItem(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AssignmentServiceV2_UpdateAssignmentItem_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AssignmentServiceV2Server).UpdateAssignmentItem(ctx, req.(*UpdateAssignmentItemV2Input))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AssignmentServiceV2_ResetAssignmentItem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ResetAssignmentItemV2Input)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AssignmentServiceV2Server).ResetAssignmentItem(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AssignmentServiceV2_ResetAssignmentItem_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AssignmentServiceV2Server).ResetAssignmentItem(ctx, req.(*ResetAssignmentItemV2Input))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AssignmentServiceV2_ServiceDesc is the grpc.ServiceDesc for AssignmentServiceV2 service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -302,6 +370,14 @@ var AssignmentServiceV2_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DescribeAssignmentItem",
 			Handler:    _AssignmentServiceV2_DescribeAssignmentItem_Handler,
+		},
+		{
+			MethodName: "UpdateAssignmentItem",
+			Handler:    _AssignmentServiceV2_UpdateAssignmentItem_Handler,
+		},
+		{
+			MethodName: "ResetAssignmentItem",
+			Handler:    _AssignmentServiceV2_ResetAssignmentItem_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

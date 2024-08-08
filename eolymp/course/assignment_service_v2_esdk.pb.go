@@ -186,3 +186,37 @@ func (s *AssignmentServiceV2Service) DescribeAssignmentItem(ctx context.Context,
 
 	return out, nil
 }
+
+func (s *AssignmentServiceV2Service) UpdateAssignmentItem(ctx context.Context, in *UpdateAssignmentItemV2Input) (*UpdateAssignmentItemV2Output, error) {
+	out := &UpdateAssignmentItemV2Output{}
+	path := "/assignments/" + url.PathEscape(in.GetModuleId()) + "/items/" + url.PathEscape(in.GetItemId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ModuleId = ""
+		in.ItemId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *AssignmentServiceV2Service) ResetAssignmentItem(ctx context.Context, in *ResetAssignmentItemV2Input) (*ResetAssignmentItemV2Output, error) {
+	out := &ResetAssignmentItemV2Output{}
+	path := "/assignments/" + url.PathEscape(in.GetModuleId()) + "/items/" + url.PathEscape(in.GetItemId()) + "/reset"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ModuleId = ""
+		in.ItemId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
