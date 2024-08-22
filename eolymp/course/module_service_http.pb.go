@@ -211,6 +211,15 @@ func RegisterModuleServiceHttpHandlers(router *mux.Router, prefix string, cli Mo
 	router.Handle(prefix+"/modules", _ModuleService_ListModules_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.ModuleService.ListModules")
+	router.Handle(prefix+"/modules/{module_id}/start", _ModuleService_StartModule_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.course.ModuleService.StartModule")
+	router.Handle(prefix+"/modules/{module_id}/assignments/{member_id}", _ModuleService_AssignModule_Rule0(cli)).
+		Methods("PUT").
+		Name("eolymp.course.ModuleService.AssignModule")
+	router.Handle(prefix+"/modules/{module_id}/assignments/{member_id}", _ModuleService_UnassignModule_Rule0(cli)).
+		Methods("DELETE").
+		Name("eolymp.course.ModuleService.UnassignModule")
 }
 
 func _ModuleService_CreateModule_Rule0(cli ModuleServiceClient) http.Handler {
@@ -323,6 +332,83 @@ func _ModuleService_ListModules_Rule0(cli ModuleServiceClient) http.Handler {
 		var header, trailer metadata.MD
 
 		out, err := cli.ListModules(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ModuleService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ModuleService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ModuleService_StartModule_Rule0(cli ModuleServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &StartModuleInput{}
+
+		if err := _ModuleService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_ModuleService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ModuleId = vars["module_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.StartModule(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ModuleService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ModuleService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ModuleService_AssignModule_Rule0(cli ModuleServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &AssignModuleInput{}
+
+		if err := _ModuleService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_ModuleService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ModuleId = vars["module_id"]
+		in.MemberId = vars["member_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.AssignModule(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ModuleService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ModuleService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ModuleService_UnassignModule_Rule0(cli ModuleServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UnassignModuleInput{}
+
+		if err := _ModuleService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_ModuleService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ModuleId = vars["module_id"]
+		in.MemberId = vars["member_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.UnassignModule(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ModuleService_HTTPWriteErrorResponse(w, err)
 			return
@@ -499,6 +585,102 @@ func (i *ModuleServiceInterceptor) ListModules(ctx context.Context, in *ListModu
 	message, ok := out.(*ListModulesOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *ListModulesOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *ModuleServiceInterceptor) StartModule(ctx context.Context, in *StartModuleInput, opts ...grpc.CallOption) (*StartModuleOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*StartModuleInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *StartModuleInput, got %T", in))
+		}
+
+		return i.client.StartModule(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.course.ModuleService.StartModule", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*StartModuleOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *StartModuleOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *ModuleServiceInterceptor) AssignModule(ctx context.Context, in *AssignModuleInput, opts ...grpc.CallOption) (*AssignModuleOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*AssignModuleInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *AssignModuleInput, got %T", in))
+		}
+
+		return i.client.AssignModule(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.course.ModuleService.AssignModule", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*AssignModuleOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *AssignModuleOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *ModuleServiceInterceptor) UnassignModule(ctx context.Context, in *UnassignModuleInput, opts ...grpc.CallOption) (*UnassignModuleOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*UnassignModuleInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *UnassignModuleInput, got %T", in))
+		}
+
+		return i.client.UnassignModule(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.course.ModuleService.UnassignModule", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*UnassignModuleOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *UnassignModuleOutput, got %T", out))
 	}
 
 	return message, err

@@ -169,3 +169,53 @@ func (s *ModuleServiceService) ListModules(ctx context.Context, in *ListModulesI
 
 	return out, nil
 }
+
+func (s *ModuleServiceService) StartModule(ctx context.Context, in *StartModuleInput) (*StartModuleOutput, error) {
+	out := &StartModuleOutput{}
+	path := "/modules/" + url.PathEscape(in.GetModuleId()) + "/start"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ModuleId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *ModuleServiceService) AssignModule(ctx context.Context, in *AssignModuleInput) (*AssignModuleOutput, error) {
+	out := &AssignModuleOutput{}
+	path := "/modules/" + url.PathEscape(in.GetModuleId()) + "/assignments/" + url.PathEscape(in.GetMemberId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ModuleId = ""
+		in.MemberId = ""
+	}
+
+	if err := s.do(ctx, "PUT", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *ModuleServiceService) UnassignModule(ctx context.Context, in *UnassignModuleInput) (*UnassignModuleOutput, error) {
+	out := &UnassignModuleOutput{}
+	path := "/modules/" + url.PathEscape(in.GetModuleId()) + "/assignments/" + url.PathEscape(in.GetMemberId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ModuleId = ""
+		in.MemberId = ""
+	}
+
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
