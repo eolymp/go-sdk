@@ -27,7 +27,7 @@ type Test struct {
 
 	// Test unique identifier.
 	Id               string  `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	TestsetId        string  `protobuf:"bytes,2,opt,name=testset_id,json=testsetId,proto3" json:"testset_id,omitempty"`                         // deprecated
+	TestsetId        string  `protobuf:"bytes,2,opt,name=testset_id,json=testsetId,proto3" json:"testset_id,omitempty"`
 	Index            int32   `protobuf:"varint,3,opt,name=index,proto3" json:"index,omitempty"`                                                 // Index, a sequential number, of the test within testset.
 	Example          bool    `protobuf:"varint,4,opt,name=example,proto3" json:"example,omitempty"`                                             // Flag which defines if test should be shown in as an example in the problem statement
 	Inactive         bool    `protobuf:"varint,7,opt,name=inactive,proto3" json:"inactive,omitempty"`                                           // The test is inactive
