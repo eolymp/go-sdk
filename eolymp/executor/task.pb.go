@@ -7,7 +7,6 @@
 package executor
 
 import (
-	atlas "github.com/eolymp/go-sdk/eolymp/atlas"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -61,7 +60,7 @@ type Task struct {
 	// Run configurations.
 	Runs []*Task_Run `protobuf:"bytes,30,rep,name=runs,proto3" json:"runs,omitempty"`
 	// Additional files to be placed in the work directory during compilation and runs*
-	Files []*atlas.File `protobuf:"bytes,50,rep,name=files,proto3" json:"files,omitempty"`
+	Files []*File `protobuf:"bytes,50,rep,name=files,proto3" json:"files,omitempty"`
 	// Additional scripts to be used during execution.
 	Scripts []*Script `protobuf:"bytes,60,rep,name=scripts,proto3" json:"scripts,omitempty"`
 }
@@ -203,7 +202,7 @@ func (x *Task) GetRuns() []*Task_Run {
 	return nil
 }
 
-func (x *Task) GetFiles() []*atlas.File {
+func (x *Task) GetFiles() []*File {
 	if x != nil {
 		return x.Files
 	}
@@ -825,7 +824,7 @@ var file_eolymp_executor_task_proto_goTypes = []any{
 	(*Task_Constraint)(nil),   // 4: eolymp.executor.Task.Constraint
 	(*Checker)(nil),           // 5: eolymp.executor.Checker
 	(*Interactor)(nil),        // 6: eolymp.executor.Interactor
-	(*atlas.File)(nil),        // 7: eolymp.executor.File
+	(*File)(nil),              // 7: eolymp.executor.File
 	(*Script)(nil),            // 8: eolymp.executor.Script
 }
 var file_eolymp_executor_task_proto_depIdxs = []int32{
@@ -851,6 +850,7 @@ func file_eolymp_executor_task_proto_init() {
 		return
 	}
 	file_eolymp_executor_checker_proto_init()
+	file_eolymp_executor_file_proto_init()
 	file_eolymp_executor_interactor_proto_init()
 	file_eolymp_executor_script_proto_init()
 	if !protoimpl.UnsafeEnabled {

@@ -7,7 +7,6 @@
 package executor
 
 import (
-	atlas "github.com/eolymp/go-sdk/eolymp/atlas"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -84,7 +83,7 @@ type Interactor struct {
 	// Secret means checker code and configuration must not be exposed to users
 	Secret bool `protobuf:"varint,7,opt,name=secret,proto3" json:"secret,omitempty"`
 	// Additional files placed into workdir during compilation and execution
-	Files []*atlas.File `protobuf:"bytes,10,rep,name=files,proto3" json:"files,omitempty"`
+	Files []*File `protobuf:"bytes,10,rep,name=files,proto3" json:"files,omitempty"`
 }
 
 func (x *Interactor) Reset() {
@@ -154,7 +153,7 @@ func (x *Interactor) GetSecret() bool {
 	return false
 }
 
-func (x *Interactor) GetFiles() []*atlas.File {
+func (x *Interactor) GetFiles() []*File {
 	if x != nil {
 		return x.Files
 	}
@@ -207,7 +206,7 @@ var file_eolymp_executor_interactor_proto_msgTypes = make([]protoimpl.MessageInf
 var file_eolymp_executor_interactor_proto_goTypes = []any{
 	(Interactor_Type)(0), // 0: eolymp.executor.Interactor.Type
 	(*Interactor)(nil),   // 1: eolymp.executor.Interactor
-	(*atlas.File)(nil),   // 2: eolymp.executor.File
+	(*File)(nil),         // 2: eolymp.executor.File
 }
 var file_eolymp_executor_interactor_proto_depIdxs = []int32{
 	0, // 0: eolymp.executor.Interactor.type:type_name -> eolymp.executor.Interactor.Type
@@ -224,6 +223,7 @@ func file_eolymp_executor_interactor_proto_init() {
 	if File_eolymp_executor_interactor_proto != nil {
 		return
 	}
+	file_eolymp_executor_file_proto_init()
 	if !protoimpl.UnsafeEnabled {
 		file_eolymp_executor_interactor_proto_msgTypes[0].Exporter = func(v any, i int) any {
 			switch v := v.(*Interactor); i {

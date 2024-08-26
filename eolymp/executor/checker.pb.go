@@ -7,7 +7,6 @@
 package executor
 
 import (
-	atlas "github.com/eolymp/go-sdk/eolymp/atlas"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -131,7 +130,7 @@ type Checker struct {
 	// Secret means checker code and configuration must not be exposed to users
 	Secret bool `protobuf:"varint,7,opt,name=secret,proto3" json:"secret,omitempty"`
 	// Additional files placed into workdir during compilation and execution
-	Files []*atlas.File `protobuf:"bytes,10,rep,name=files,proto3" json:"files,omitempty"`
+	Files []*File `protobuf:"bytes,10,rep,name=files,proto3" json:"files,omitempty"`
 }
 
 func (x *Checker) Reset() {
@@ -222,7 +221,7 @@ func (x *Checker) GetSecret() bool {
 	return false
 }
 
-func (x *Checker) GetFiles() []*atlas.File {
+func (x *Checker) GetFiles() []*File {
 	if x != nil {
 		return x.Files
 	}
@@ -284,9 +283,9 @@ func file_eolymp_executor_checker_proto_rawDescGZIP() []byte {
 var file_eolymp_executor_checker_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_eolymp_executor_checker_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_eolymp_executor_checker_proto_goTypes = []any{
-	(Checker_Type)(0),  // 0: eolymp.executor.Checker.Type
-	(*Checker)(nil),    // 1: eolymp.executor.Checker
-	(*atlas.File)(nil), // 2: eolymp.executor.File
+	(Checker_Type)(0), // 0: eolymp.executor.Checker.Type
+	(*Checker)(nil),   // 1: eolymp.executor.Checker
+	(*File)(nil),      // 2: eolymp.executor.File
 }
 var file_eolymp_executor_checker_proto_depIdxs = []int32{
 	0, // 0: eolymp.executor.Checker.type:type_name -> eolymp.executor.Checker.Type
@@ -303,6 +302,7 @@ func file_eolymp_executor_checker_proto_init() {
 	if File_eolymp_executor_checker_proto != nil {
 		return
 	}
+	file_eolymp_executor_file_proto_init()
 	if !protoimpl.UnsafeEnabled {
 		file_eolymp_executor_checker_proto_msgTypes[0].Exporter = func(v any, i int) any {
 			switch v := v.(*Checker); i {

@@ -7,7 +7,6 @@
 package executor
 
 import (
-	atlas "github.com/eolymp/go-sdk/eolymp/atlas"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -34,7 +33,7 @@ type Script struct {
 	// Source code for script
 	SourceUrl string `protobuf:"bytes,8,opt,name=source_url,json=sourceUrl,proto3" json:"source_url,omitempty"`
 	// Additional files placed into workdir during compilation and execution
-	Files []*atlas.File `protobuf:"bytes,10,rep,name=files,proto3" json:"files,omitempty"`
+	Files []*File `protobuf:"bytes,10,rep,name=files,proto3" json:"files,omitempty"`
 }
 
 func (x *Script) Reset() {
@@ -90,7 +89,7 @@ func (x *Script) GetSourceUrl() string {
 	return ""
 }
 
-func (x *Script) GetFiles() []*atlas.File {
+func (x *Script) GetFiles() []*File {
 	if x != nil {
 		return x.Files
 	}
@@ -133,8 +132,8 @@ func file_eolymp_executor_script_proto_rawDescGZIP() []byte {
 
 var file_eolymp_executor_script_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_eolymp_executor_script_proto_goTypes = []any{
-	(*Script)(nil),     // 0: eolymp.executor.Script
-	(*atlas.File)(nil), // 1: eolymp.executor.File
+	(*Script)(nil), // 0: eolymp.executor.Script
+	(*File)(nil),   // 1: eolymp.executor.File
 }
 var file_eolymp_executor_script_proto_depIdxs = []int32{
 	1, // 0: eolymp.executor.Script.files:type_name -> eolymp.executor.File
@@ -150,6 +149,7 @@ func file_eolymp_executor_script_proto_init() {
 	if File_eolymp_executor_script_proto != nil {
 		return
 	}
+	file_eolymp_executor_file_proto_init()
 	if !protoimpl.UnsafeEnabled {
 		file_eolymp_executor_script_proto_msgTypes[0].Exporter = func(v any, i int) any {
 			switch v := v.(*Script); i {

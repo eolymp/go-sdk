@@ -7,6 +7,7 @@
 package atlas
 
 import (
+	executor "github.com/eolymp/go-sdk/eolymp/executor"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -25,14 +26,14 @@ type Template struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id        string  `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	ProblemId string  `protobuf:"bytes,2,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
-	Runtime   string  `protobuf:"bytes,3,opt,name=runtime,proto3" json:"runtime,omitempty"`
-	Secret    bool    `protobuf:"varint,4,opt,name=secret,proto3" json:"secret,omitempty"` // header, footer and files are secret
-	Source    string  `protobuf:"bytes,10,opt,name=source,proto3" json:"source,omitempty"`
-	Header    string  `protobuf:"bytes,11,opt,name=header,proto3" json:"header,omitempty"`
-	Footer    string  `protobuf:"bytes,12,opt,name=footer,proto3" json:"footer,omitempty"`
-	Files     []*File `protobuf:"bytes,30,rep,name=files,proto3" json:"files,omitempty"`
+	Id        string           `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	ProblemId string           `protobuf:"bytes,2,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
+	Runtime   string           `protobuf:"bytes,3,opt,name=runtime,proto3" json:"runtime,omitempty"`
+	Secret    bool             `protobuf:"varint,4,opt,name=secret,proto3" json:"secret,omitempty"` // header, footer and files are secret
+	Source    string           `protobuf:"bytes,10,opt,name=source,proto3" json:"source,omitempty"`
+	Header    string           `protobuf:"bytes,11,opt,name=header,proto3" json:"header,omitempty"`
+	Footer    string           `protobuf:"bytes,12,opt,name=footer,proto3" json:"footer,omitempty"`
+	Files     []*executor.File `protobuf:"bytes,30,rep,name=files,proto3" json:"files,omitempty"`
 }
 
 func (x *Template) Reset() {
@@ -116,7 +117,7 @@ func (x *Template) GetFooter() string {
 	return ""
 }
 
-func (x *Template) GetFiles() []*File {
+func (x *Template) GetFiles() []*executor.File {
 	if x != nil {
 		return x.Files
 	}
@@ -165,8 +166,8 @@ func file_eolymp_atlas_code_template_proto_rawDescGZIP() []byte {
 
 var file_eolymp_atlas_code_template_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_eolymp_atlas_code_template_proto_goTypes = []any{
-	(*Template)(nil), // 0: eolymp.atlas.Template
-	(*File)(nil),     // 1: eolymp.executor.File
+	(*Template)(nil),      // 0: eolymp.atlas.Template
+	(*executor.File)(nil), // 1: eolymp.executor.File
 }
 var file_eolymp_atlas_code_template_proto_depIdxs = []int32{
 	1, // 0: eolymp.atlas.Template.files:type_name -> eolymp.executor.File
@@ -182,7 +183,6 @@ func file_eolymp_atlas_code_template_proto_init() {
 	if File_eolymp_atlas_code_template_proto != nil {
 		return
 	}
-	file_eolymp_executor_file_proto_init()
 	if !protoimpl.UnsafeEnabled {
 		file_eolymp_atlas_code_template_proto_msgTypes[0].Exporter = func(v any, i int) any {
 			switch v := v.(*Template); i {

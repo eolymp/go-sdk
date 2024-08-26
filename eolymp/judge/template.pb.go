@@ -7,7 +7,7 @@
 package judge
 
 import (
-	atlas "github.com/eolymp/go-sdk/eolymp/atlas"
+	executor "github.com/eolymp/go-sdk/eolymp/executor"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -26,14 +26,14 @@ type Template struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id        string        `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Ern       string        `protobuf:"bytes,9999,opt,name=ern,proto3" json:"ern,omitempty"`
-	ProblemId string        `protobuf:"bytes,2,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
-	Runtime   string        `protobuf:"bytes,3,opt,name=runtime,proto3" json:"runtime,omitempty"`
-	SourceErn string        `protobuf:"bytes,10,opt,name=source_ern,json=sourceErn,proto3" json:"source_ern,omitempty"`
-	HeaderErn string        `protobuf:"bytes,11,opt,name=header_ern,json=headerErn,proto3" json:"header_ern,omitempty"`
-	FooterErn string        `protobuf:"bytes,12,opt,name=footer_ern,json=footerErn,proto3" json:"footer_ern,omitempty"`
-	Files     []*atlas.File `protobuf:"bytes,30,rep,name=files,proto3" json:"files,omitempty"`
+	Id        string           `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Ern       string           `protobuf:"bytes,9999,opt,name=ern,proto3" json:"ern,omitempty"`
+	ProblemId string           `protobuf:"bytes,2,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
+	Runtime   string           `protobuf:"bytes,3,opt,name=runtime,proto3" json:"runtime,omitempty"`
+	SourceErn string           `protobuf:"bytes,10,opt,name=source_ern,json=sourceErn,proto3" json:"source_ern,omitempty"`
+	HeaderErn string           `protobuf:"bytes,11,opt,name=header_ern,json=headerErn,proto3" json:"header_ern,omitempty"`
+	FooterErn string           `protobuf:"bytes,12,opt,name=footer_ern,json=footerErn,proto3" json:"footer_ern,omitempty"`
+	Files     []*executor.File `protobuf:"bytes,30,rep,name=files,proto3" json:"files,omitempty"`
 }
 
 func (x *Template) Reset() {
@@ -117,7 +117,7 @@ func (x *Template) GetFooterErn() string {
 	return ""
 }
 
-func (x *Template) GetFiles() []*atlas.File {
+func (x *Template) GetFiles() []*executor.File {
 	if x != nil {
 		return x.Files
 	}
@@ -167,8 +167,8 @@ func file_eolymp_judge_template_proto_rawDescGZIP() []byte {
 
 var file_eolymp_judge_template_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_eolymp_judge_template_proto_goTypes = []any{
-	(*Template)(nil),   // 0: eolymp.judge.Template
-	(*atlas.File)(nil), // 1: eolymp.executor.File
+	(*Template)(nil),      // 0: eolymp.judge.Template
+	(*executor.File)(nil), // 1: eolymp.executor.File
 }
 var file_eolymp_judge_template_proto_depIdxs = []int32{
 	1, // 0: eolymp.judge.Template.files:type_name -> eolymp.executor.File
