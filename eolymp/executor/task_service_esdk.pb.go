@@ -16,17 +16,17 @@ import (
 	os "os"
 )
 
-type _ExecutorServiceHttpClient interface {
+type _TaskServiceHttpClient interface {
 	Do(*http.Request) (*http.Response, error)
 }
 
-type ExecutorServiceService struct {
+type TaskServiceService struct {
 	base string
-	cli  _ExecutorServiceHttpClient
+	cli  _TaskServiceHttpClient
 }
 
-// NewExecutorServiceHttpClient constructs client for ExecutorService
-func NewExecutorServiceHttpClient(url string, cli _ExecutorServiceHttpClient) *ExecutorServiceService {
+// NewTaskServiceHttpClient constructs client for TaskService
+func NewTaskServiceHttpClient(url string, cli _TaskServiceHttpClient) *TaskServiceService {
 	if url == "" {
 		url = os.Getenv("EOLYMP_API_URL")
 		if url == "" {
@@ -34,10 +34,10 @@ func NewExecutorServiceHttpClient(url string, cli _ExecutorServiceHttpClient) *E
 		}
 	}
 
-	return &ExecutorServiceService{base: url, cli: cli}
+	return &TaskServiceService{base: url, cli: cli}
 }
 
-func (s *ExecutorServiceService) do(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
+func (s *TaskServiceService) do(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
 	var body io.Reader
 
 	if in != nil {

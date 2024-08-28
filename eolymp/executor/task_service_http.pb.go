@@ -18,8 +18,8 @@ import (
 	http "net/http"
 )
 
-// _ExecutorService_HTTPReadQueryString parses body into proto.Message
-func _ExecutorService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+// _TaskService_HTTPReadQueryString parses body into proto.Message
+func _TaskService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
 	query := r.URL.Query().Get("q")
 	if query == "" {
 		return nil
@@ -32,8 +32,8 @@ func _ExecutorService_HTTPReadQueryString(r *http.Request, v proto.Message) erro
 	return nil
 }
 
-// _ExecutorService_HTTPReadRequestBody parses body into proto.Message
-func _ExecutorService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
+// _TaskService_HTTPReadRequestBody parses body into proto.Message
+func _TaskService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
 	data, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		return err
@@ -46,11 +46,11 @@ func _ExecutorService_HTTPReadRequestBody(r *http.Request, v proto.Message) erro
 	return nil
 }
 
-// _ExecutorService_HTTPWriteResponse writes proto.Message to HTTP response
-func _ExecutorService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h, t metadata.MD) {
+// _TaskService_HTTPWriteResponse writes proto.Message to HTTP response
+func _TaskService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h, t metadata.MD) {
 	data, err := protojson.Marshal(v)
 	if err != nil {
-		_ExecutorService_HTTPWriteErrorResponse(w, err)
+		_TaskService_HTTPWriteErrorResponse(w, err)
 		return
 	}
 
@@ -73,8 +73,8 @@ func _ExecutorService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, 
 	_, _ = w.Write(data)
 }
 
-// _ExecutorService_HTTPWriteErrorResponse writes error to HTTP response with error status code
-func _ExecutorService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
+// _TaskService_HTTPWriteErrorResponse writes error to HTTP response with error status code
+func _TaskService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
 
 	w.Header().Set("Content-Type", "application/json")
@@ -126,8 +126,8 @@ func _ExecutorService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	_, _ = w.Write(data)
 }
 
-// _ExecutorService_WebsocketErrorResponse writes error to websocket connection
-func _ExecutorService_WebsocketErrorResponse(conn *websocket.Conn, e error) {
+// _TaskService_WebsocketErrorResponse writes error to websocket connection
+func _TaskService_WebsocketErrorResponse(conn *websocket.Conn, e error) {
 	switch status.Convert(e).Code() {
 	case codes.OK:
 		conn.WriteClose(1000)
@@ -168,8 +168,8 @@ func _ExecutorService_WebsocketErrorResponse(conn *websocket.Conn, e error) {
 	}
 }
 
-// _ExecutorService_WebsocketCodec implements protobuf codec for websockets package
-var _ExecutorService_WebsocketCodec = websocket.Codec{
+// _TaskService_WebsocketCodec implements protobuf codec for websockets package
+var _TaskService_WebsocketCodec = websocket.Codec{
 	Marshal: func(v interface{}) ([]byte, byte, error) {
 		m, ok := v.(proto.Message)
 		if !ok {
@@ -193,24 +193,24 @@ var _ExecutorService_WebsocketCodec = websocket.Codec{
 	},
 }
 
-// RegisterExecutorServiceHttpHandlers adds handlers for for ExecutorServiceClient
+// RegisterTaskServiceHttpHandlers adds handlers for for TaskServiceClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterExecutorServiceHttpHandlers(router *mux.Router, prefix string, cli ExecutorServiceClient) {
+func RegisterTaskServiceHttpHandlers(router *mux.Router, prefix string, cli TaskServiceClient) {
 }
 
-type _ExecutorServiceHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
-type _ExecutorServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _ExecutorServiceHandler) (out proto.Message, err error)
-type ExecutorServiceInterceptor struct {
-	middleware []_ExecutorServiceMiddleware
-	client     ExecutorServiceClient
+type _TaskServiceHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
+type _TaskServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _TaskServiceHandler) (out proto.Message, err error)
+type TaskServiceInterceptor struct {
+	middleware []_TaskServiceMiddleware
+	client     TaskServiceClient
 }
 
-// NewExecutorServiceInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewExecutorServiceInterceptor(cli ExecutorServiceClient, middleware ..._ExecutorServiceMiddleware) *ExecutorServiceInterceptor {
-	return &ExecutorServiceInterceptor{client: cli, middleware: middleware}
+// NewTaskServiceInterceptor constructs additional middleware for a server based on annotations in proto files
+func NewTaskServiceInterceptor(cli TaskServiceClient, middleware ..._TaskServiceMiddleware) *TaskServiceInterceptor {
+	return &TaskServiceInterceptor{client: cli, middleware: middleware}
 }
 
-func (i *ExecutorServiceInterceptor) CreateTask(ctx context.Context, in *CreateTaskInput, opts ...grpc.CallOption) (*CreateTaskOutput, error) {
+func (i *TaskServiceInterceptor) CreateTask(ctx context.Context, in *CreateTaskInput, opts ...grpc.CallOption) (*CreateTaskOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CreateTaskInput)
 		if !ok && in != nil {
@@ -225,7 +225,7 @@ func (i *ExecutorServiceInterceptor) CreateTask(ctx context.Context, in *CreateT
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.executor.ExecutorService.CreateTask", in, next)
+			return mw(ctx, "eolymp.executor.TaskService.CreateTask", in, next)
 		}
 	}
 
