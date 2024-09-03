@@ -205,6 +205,9 @@ func RegisterAssetServiceHttpHandlers(router *mux.Router, prefix string, cli Ass
 	router.Handle(prefix+"/assets", _AssetService_UploadAsset_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.asset.AssetService.UploadAsset")
+	router.Handle(prefix+"/resolve-asset-alias", _AssetService_ResolveAlias_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.asset.AssetService.ResolveAlias")
 	router.Handle(prefix+"/uploads", _AssetService_StartMultipartUpload_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.asset.AssetService.StartMultipartUpload")
@@ -273,6 +276,28 @@ func _AssetService_UploadAsset_Rule0(cli AssetServiceClient) http.Handler {
 		var header, trailer metadata.MD
 
 		out, err := cli.UploadAsset(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_AssetService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_AssetService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _AssetService_ResolveAlias_Rule0(cli AssetServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ResolveAliasInput{}
+
+		if err := _AssetService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_AssetService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.ResolveAlias(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_AssetService_HTTPWriteErrorResponse(w, err)
 			return
@@ -457,6 +482,38 @@ func (i *AssetServiceInterceptor) UploadAsset(ctx context.Context, in *UploadAss
 	message, ok := out.(*UploadAssetOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *UploadAssetOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *AssetServiceInterceptor) ResolveAlias(ctx context.Context, in *ResolveAliasInput, opts ...grpc.CallOption) (*ResolveAliasOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ResolveAliasInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ResolveAliasInput, got %T", in))
+		}
+
+		return i.client.ResolveAlias(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.asset.AssetService.ResolveAlias", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ResolveAliasOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ResolveAliasOutput, got %T", out))
 	}
 
 	return message, err

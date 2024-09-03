@@ -133,6 +133,17 @@ func (s *AssetServiceService) UploadAsset(ctx context.Context, in *UploadAssetIn
 	return out, nil
 }
 
+func (s *AssetServiceService) ResolveAlias(ctx context.Context, in *ResolveAliasInput) (*ResolveAliasOutput, error) {
+	out := &ResolveAliasOutput{}
+	path := "/resolve-asset-alias"
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *AssetServiceService) StartMultipartUpload(ctx context.Context, in *StartMultipartUploadInput) (*StartMultipartUploadOutput, error) {
 	out := &StartMultipartUploadOutput{}
 	path := "/uploads"
