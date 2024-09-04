@@ -205,9 +205,9 @@ func RegisterAssetServiceHttpHandlers(router *mux.Router, prefix string, cli Ass
 	router.Handle(prefix+"/assets", _AssetService_UploadAsset_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.asset.AssetService.UploadAsset")
-	router.Handle(prefix+"/resolve-asset-alias", _AssetService_ResolveAlias_Rule0(cli)).
+	router.Handle(prefix+"/assets:lookup", _AssetService_LookupAsset_Rule0(cli)).
 		Methods("POST").
-		Name("eolymp.asset.AssetService.ResolveAlias")
+		Name("eolymp.asset.AssetService.LookupAsset")
 	router.Handle(prefix+"/uploads", _AssetService_StartMultipartUpload_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.asset.AssetService.StartMultipartUpload")
@@ -285,9 +285,9 @@ func _AssetService_UploadAsset_Rule0(cli AssetServiceClient) http.Handler {
 	})
 }
 
-func _AssetService_ResolveAlias_Rule0(cli AssetServiceClient) http.Handler {
+func _AssetService_LookupAsset_Rule0(cli AssetServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ResolveAliasInput{}
+		in := &LookupAssetInput{}
 
 		if err := _AssetService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
@@ -297,7 +297,7 @@ func _AssetService_ResolveAlias_Rule0(cli AssetServiceClient) http.Handler {
 
 		var header, trailer metadata.MD
 
-		out, err := cli.ResolveAlias(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		out, err := cli.LookupAsset(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_AssetService_HTTPWriteErrorResponse(w, err)
 			return
@@ -487,14 +487,14 @@ func (i *AssetServiceInterceptor) UploadAsset(ctx context.Context, in *UploadAss
 	return message, err
 }
 
-func (i *AssetServiceInterceptor) ResolveAlias(ctx context.Context, in *ResolveAliasInput, opts ...grpc.CallOption) (*ResolveAliasOutput, error) {
+func (i *AssetServiceInterceptor) LookupAsset(ctx context.Context, in *LookupAssetInput, opts ...grpc.CallOption) (*LookupAssetOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*ResolveAliasInput)
+		message, ok := in.(*LookupAssetInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *ResolveAliasInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *LookupAssetInput, got %T", in))
 		}
 
-		return i.client.ResolveAlias(ctx, message, opts...)
+		return i.client.LookupAsset(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -502,7 +502,7 @@ func (i *AssetServiceInterceptor) ResolveAlias(ctx context.Context, in *ResolveA
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.asset.AssetService.ResolveAlias", in, next)
+			return mw(ctx, "eolymp.asset.AssetService.LookupAsset", in, next)
 		}
 	}
 
@@ -511,9 +511,9 @@ func (i *AssetServiceInterceptor) ResolveAlias(ctx context.Context, in *ResolveA
 		return nil, err
 	}
 
-	message, ok := out.(*ResolveAliasOutput)
+	message, ok := out.(*LookupAssetOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *ResolveAliasOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *LookupAssetOutput, got %T", out))
 	}
 
 	return message, err

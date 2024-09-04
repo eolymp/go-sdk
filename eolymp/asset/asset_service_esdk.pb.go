@@ -133,9 +133,9 @@ func (s *AssetServiceService) UploadAsset(ctx context.Context, in *UploadAssetIn
 	return out, nil
 }
 
-func (s *AssetServiceService) ResolveAlias(ctx context.Context, in *ResolveAliasInput) (*ResolveAliasOutput, error) {
-	out := &ResolveAliasOutput{}
-	path := "/resolve-asset-alias"
+func (s *AssetServiceService) LookupAsset(ctx context.Context, in *LookupAssetInput) (*LookupAssetOutput, error) {
+	out := &LookupAssetOutput{}
+	path := "/assets:lookup"
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
