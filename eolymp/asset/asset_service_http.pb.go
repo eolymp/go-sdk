@@ -217,6 +217,15 @@ func RegisterAssetServiceHttpHandlers(router *mux.Router, prefix string, cli Ass
 	router.Handle(prefix+"/uploads/{upload_id}", _AssetService_CompleteMultipartUpload_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.asset.AssetService.CompleteMultipartUpload")
+	router.Handle(prefix+"/streams", _AssetService_StartStream_Rule0(cli)).
+		Methods("PUT").
+		Name("eolymp.asset.AssetService.StartStream")
+	router.Handle(prefix+"/streams/{stream_id}", _AssetService_AppendStream_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.asset.AssetService.AppendStream")
+	router.Handle(prefix+"/streams/{stream_id}", _AssetService_CloseStream_Rule0(cli)).
+		Methods("PUT").
+		Name("eolymp.asset.AssetService.CloseStream")
 }
 
 func _AssetService_UploadImage_Rule0(cli AssetServiceClient) http.Handler {
@@ -370,6 +379,78 @@ func _AssetService_CompleteMultipartUpload_Rule0(cli AssetServiceClient) http.Ha
 		var header, trailer metadata.MD
 
 		out, err := cli.CompleteMultipartUpload(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_AssetService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_AssetService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _AssetService_StartStream_Rule0(cli AssetServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &StartStreamInput{}
+
+		if err := _AssetService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_AssetService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.StartStream(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_AssetService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_AssetService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _AssetService_AppendStream_Rule0(cli AssetServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &AppendStreamInput{}
+
+		if err := _AssetService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_AssetService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.StreamId = vars["stream_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.AppendStream(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_AssetService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_AssetService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _AssetService_CloseStream_Rule0(cli AssetServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &CloseStreamInput{}
+
+		if err := _AssetService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_AssetService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.StreamId = vars["stream_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.CloseStream(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_AssetService_HTTPWriteErrorResponse(w, err)
 			return
@@ -610,6 +691,102 @@ func (i *AssetServiceInterceptor) CompleteMultipartUpload(ctx context.Context, i
 	message, ok := out.(*CompleteMultipartUploadOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *CompleteMultipartUploadOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *AssetServiceInterceptor) StartStream(ctx context.Context, in *StartStreamInput, opts ...grpc.CallOption) (*StartStreamOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*StartStreamInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *StartStreamInput, got %T", in))
+		}
+
+		return i.client.StartStream(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.asset.AssetService.StartStream", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*StartStreamOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *StartStreamOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *AssetServiceInterceptor) AppendStream(ctx context.Context, in *AppendStreamInput, opts ...grpc.CallOption) (*AppendStreamOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*AppendStreamInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *AppendStreamInput, got %T", in))
+		}
+
+		return i.client.AppendStream(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.asset.AssetService.AppendStream", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*AppendStreamOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *AppendStreamOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *AssetServiceInterceptor) CloseStream(ctx context.Context, in *CloseStreamInput, opts ...grpc.CallOption) (*CloseStreamOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*CloseStreamInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *CloseStreamInput, got %T", in))
+		}
+
+		return i.client.CloseStream(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.asset.AssetService.CloseStream", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*CloseStreamOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *CloseStreamOutput, got %T", out))
 	}
 
 	return message, err

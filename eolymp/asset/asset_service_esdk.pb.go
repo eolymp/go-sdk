@@ -186,3 +186,46 @@ func (s *AssetServiceService) CompleteMultipartUpload(ctx context.Context, in *C
 
 	return out, nil
 }
+
+func (s *AssetServiceService) StartStream(ctx context.Context, in *StartStreamInput) (*StartStreamOutput, error) {
+	out := &StartStreamOutput{}
+	path := "/streams"
+
+	if err := s.do(ctx, "PUT", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *AssetServiceService) AppendStream(ctx context.Context, in *AppendStreamInput) (*AppendStreamOutput, error) {
+	out := &AppendStreamOutput{}
+	path := "/streams/" + url.PathEscape(in.GetStreamId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.StreamId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *AssetServiceService) CloseStream(ctx context.Context, in *CloseStreamInput) (*CloseStreamOutput, error) {
+	out := &CloseStreamOutput{}
+	path := "/streams/" + url.PathEscape(in.GetStreamId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.StreamId = ""
+	}
+
+	if err := s.do(ctx, "PUT", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

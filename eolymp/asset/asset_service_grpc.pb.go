@@ -26,6 +26,9 @@ const (
 	AssetService_StartMultipartUpload_FullMethodName    = "/eolymp.asset.AssetService/StartMultipartUpload"
 	AssetService_UploadPart_FullMethodName              = "/eolymp.asset.AssetService/UploadPart"
 	AssetService_CompleteMultipartUpload_FullMethodName = "/eolymp.asset.AssetService/CompleteMultipartUpload"
+	AssetService_StartStream_FullMethodName             = "/eolymp.asset.AssetService/StartStream"
+	AssetService_AppendStream_FullMethodName            = "/eolymp.asset.AssetService/AppendStream"
+	AssetService_CloseStream_FullMethodName             = "/eolymp.asset.AssetService/CloseStream"
 )
 
 // AssetServiceClient is the client API for AssetService service.
@@ -48,6 +51,10 @@ type AssetServiceClient interface {
 	UploadPart(ctx context.Context, in *UploadPartInput, opts ...grpc.CallOption) (*UploadPartOutput, error)
 	// CompleteMultipartUpload finalizes upload process and generates asset_url.
 	CompleteMultipartUpload(ctx context.Context, in *CompleteMultipartUploadInput, opts ...grpc.CallOption) (*CompleteMultipartUploadOutput, error)
+	// StartStream creates a data stream, which then can be used with AppendStream API to upload data
+	StartStream(ctx context.Context, in *StartStreamInput, opts ...grpc.CallOption) (*StartStreamOutput, error)
+	AppendStream(ctx context.Context, in *AppendStreamInput, opts ...grpc.CallOption) (*AppendStreamOutput, error)
+	CloseStream(ctx context.Context, in *CloseStreamInput, opts ...grpc.CallOption) (*CloseStreamOutput, error)
 }
 
 type assetServiceClient struct {
@@ -128,6 +135,36 @@ func (c *assetServiceClient) CompleteMultipartUpload(ctx context.Context, in *Co
 	return out, nil
 }
 
+func (c *assetServiceClient) StartStream(ctx context.Context, in *StartStreamInput, opts ...grpc.CallOption) (*StartStreamOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(StartStreamOutput)
+	err := c.cc.Invoke(ctx, AssetService_StartStream_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *assetServiceClient) AppendStream(ctx context.Context, in *AppendStreamInput, opts ...grpc.CallOption) (*AppendStreamOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(AppendStreamOutput)
+	err := c.cc.Invoke(ctx, AssetService_AppendStream_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *assetServiceClient) CloseStream(ctx context.Context, in *CloseStreamInput, opts ...grpc.CallOption) (*CloseStreamOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CloseStreamOutput)
+	err := c.cc.Invoke(ctx, AssetService_CloseStream_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AssetServiceServer is the server API for AssetService service.
 // All implementations should embed UnimplementedAssetServiceServer
 // for forward compatibility.
@@ -148,6 +185,10 @@ type AssetServiceServer interface {
 	UploadPart(context.Context, *UploadPartInput) (*UploadPartOutput, error)
 	// CompleteMultipartUpload finalizes upload process and generates asset_url.
 	CompleteMultipartUpload(context.Context, *CompleteMultipartUploadInput) (*CompleteMultipartUploadOutput, error)
+	// StartStream creates a data stream, which then can be used with AppendStream API to upload data
+	StartStream(context.Context, *StartStreamInput) (*StartStreamOutput, error)
+	AppendStream(context.Context, *AppendStreamInput) (*AppendStreamOutput, error)
+	CloseStream(context.Context, *CloseStreamInput) (*CloseStreamOutput, error)
 }
 
 // UnimplementedAssetServiceServer should be embedded to have
@@ -177,6 +218,15 @@ func (UnimplementedAssetServiceServer) UploadPart(context.Context, *UploadPartIn
 }
 func (UnimplementedAssetServiceServer) CompleteMultipartUpload(context.Context, *CompleteMultipartUploadInput) (*CompleteMultipartUploadOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CompleteMultipartUpload not implemented")
+}
+func (UnimplementedAssetServiceServer) StartStream(context.Context, *StartStreamInput) (*StartStreamOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method StartStream not implemented")
+}
+func (UnimplementedAssetServiceServer) AppendStream(context.Context, *AppendStreamInput) (*AppendStreamOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AppendStream not implemented")
+}
+func (UnimplementedAssetServiceServer) CloseStream(context.Context, *CloseStreamInput) (*CloseStreamOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CloseStream not implemented")
 }
 func (UnimplementedAssetServiceServer) testEmbeddedByValue() {}
 
@@ -324,6 +374,60 @@ func _AssetService_CompleteMultipartUpload_Handler(srv interface{}, ctx context.
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AssetService_StartStream_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(StartStreamInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AssetServiceServer).StartStream(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AssetService_StartStream_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AssetServiceServer).StartStream(ctx, req.(*StartStreamInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AssetService_AppendStream_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AppendStreamInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AssetServiceServer).AppendStream(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AssetService_AppendStream_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AssetServiceServer).AppendStream(ctx, req.(*AppendStreamInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AssetService_CloseStream_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CloseStreamInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AssetServiceServer).CloseStream(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AssetService_CloseStream_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AssetServiceServer).CloseStream(ctx, req.(*CloseStreamInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AssetService_ServiceDesc is the grpc.ServiceDesc for AssetService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -358,6 +462,18 @@ var AssetService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CompleteMultipartUpload",
 			Handler:    _AssetService_CompleteMultipartUpload_Handler,
+		},
+		{
+			MethodName: "StartStream",
+			Handler:    _AssetService_StartStream_Handler,
+		},
+		{
+			MethodName: "AppendStream",
+			Handler:    _AssetService_AppendStream_Handler,
+		},
+		{
+			MethodName: "CloseStream",
+			Handler:    _AssetService_CloseStream_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
