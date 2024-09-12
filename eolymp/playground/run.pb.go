@@ -117,7 +117,7 @@ type Run struct {
 	MemoryUsage uint64 `protobuf:"varint,34,opt,name=memory_usage,json=memoryUsage,proto3" json:"memory_usage,omitempty"`
 	// Resource usage statistics as reported by getrusage
 	ResourceUsage *executor.ResourceUsage `protobuf:"bytes,35,opt,name=resource_usage,json=resourceUsage,proto3" json:"resource_usage,omitempty"`
-	// Combined output ERN (data or blob)
+	// Combined output (data or blob)
 	OutputUrl string `protobuf:"bytes,42,opt,name=output_url,json=outputUrl,proto3" json:"output_url,omitempty"`
 }
 
