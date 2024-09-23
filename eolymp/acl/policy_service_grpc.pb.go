@@ -24,6 +24,7 @@ const (
 	PolicyService_DeletePolicy_FullMethodName   = "/eolymp.acl.PolicyService/DeletePolicy"
 	PolicyService_DescribePolicy_FullMethodName = "/eolymp.acl.PolicyService/DescribePolicy"
 	PolicyService_ListPolicies_FullMethodName   = "/eolymp.acl.PolicyService/ListPolicies"
+	PolicyService_CopyPolicies_FullMethodName   = "/eolymp.acl.PolicyService/CopyPolicies"
 )
 
 // PolicyServiceClient is the client API for PolicyService service.
@@ -35,6 +36,9 @@ type PolicyServiceClient interface {
 	DeletePolicy(ctx context.Context, in *DeletePolicyInput, opts ...grpc.CallOption) (*DeletePolicyOutput, error)
 	DescribePolicy(ctx context.Context, in *DescribePolicyInput, opts ...grpc.CallOption) (*DescribePolicyOutput, error)
 	ListPolicies(ctx context.Context, in *ListPoliciesInput, opts ...grpc.CallOption) (*ListPoliciesOutput, error)
+	// CopyPolicies for given resource or principal
+	// At least one of src_principal or src_resource should be set
+	CopyPolicies(ctx context.Context, in *CopyPoliciesInput, opts ...grpc.CallOption) (*CopyPoliciesOutput, error)
 }
 
 type policyServiceClient struct {
@@ -95,6 +99,16 @@ func (c *policyServiceClient) ListPolicies(ctx context.Context, in *ListPolicies
 	return out, nil
 }
 
+func (c *policyServiceClient) CopyPolicies(ctx context.Context, in *CopyPoliciesInput, opts ...grpc.CallOption) (*CopyPoliciesOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CopyPoliciesOutput)
+	err := c.cc.Invoke(ctx, PolicyService_CopyPolicies_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // PolicyServiceServer is the server API for PolicyService service.
 // All implementations should embed UnimplementedPolicyServiceServer
 // for forward compatibility.
@@ -104,6 +118,9 @@ type PolicyServiceServer interface {
 	DeletePolicy(context.Context, *DeletePolicyInput) (*DeletePolicyOutput, error)
 	DescribePolicy(context.Context, *DescribePolicyInput) (*DescribePolicyOutput, error)
 	ListPolicies(context.Context, *ListPoliciesInput) (*ListPoliciesOutput, error)
+	// CopyPolicies for given resource or principal
+	// At least one of src_principal or src_resource should be set
+	CopyPolicies(context.Context, *CopyPoliciesInput) (*CopyPoliciesOutput, error)
 }
 
 // UnimplementedPolicyServiceServer should be embedded to have
@@ -127,6 +144,9 @@ func (UnimplementedPolicyServiceServer) DescribePolicy(context.Context, *Describ
 }
 func (UnimplementedPolicyServiceServer) ListPolicies(context.Context, *ListPoliciesInput) (*ListPoliciesOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListPolicies not implemented")
+}
+func (UnimplementedPolicyServiceServer) CopyPolicies(context.Context, *CopyPoliciesInput) (*CopyPoliciesOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CopyPolicies not implemented")
 }
 func (UnimplementedPolicyServiceServer) testEmbeddedByValue() {}
 
@@ -238,6 +258,24 @@ func _PolicyService_ListPolicies_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _PolicyService_CopyPolicies_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CopyPoliciesInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PolicyServiceServer).CopyPolicies(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PolicyService_CopyPolicies_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PolicyServiceServer).CopyPolicies(ctx, req.(*CopyPoliciesInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // PolicyService_ServiceDesc is the grpc.ServiceDesc for PolicyService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -264,6 +302,10 @@ var PolicyService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListPolicies",
 			Handler:    _PolicyService_ListPolicies_Handler,
+		},
+		{
+			MethodName: "CopyPolicies",
+			Handler:    _PolicyService_CopyPolicies_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

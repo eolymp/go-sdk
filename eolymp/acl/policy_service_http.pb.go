@@ -211,6 +211,9 @@ func RegisterPolicyServiceHttpHandlers(router *mux.Router, prefix string, cli Po
 	router.Handle(prefix+"/policies", _PolicyService_ListPolicies_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.acl.PolicyService.ListPolicies")
+	router.Handle(prefix+"/policies:copy", _PolicyService_CopyPolicies_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.acl.PolicyService.CopyPolicies")
 }
 
 func _PolicyService_CreatePolicy_Rule0(cli PolicyServiceClient) http.Handler {
@@ -323,6 +326,28 @@ func _PolicyService_ListPolicies_Rule0(cli PolicyServiceClient) http.Handler {
 		var header, trailer metadata.MD
 
 		out, err := cli.ListPolicies(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_PolicyService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_PolicyService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _PolicyService_CopyPolicies_Rule0(cli PolicyServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &CopyPoliciesInput{}
+
+		if err := _PolicyService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_PolicyService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.CopyPolicies(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_PolicyService_HTTPWriteErrorResponse(w, err)
 			return
@@ -499,6 +524,38 @@ func (i *PolicyServiceInterceptor) ListPolicies(ctx context.Context, in *ListPol
 	message, ok := out.(*ListPoliciesOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *ListPoliciesOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *PolicyServiceInterceptor) CopyPolicies(ctx context.Context, in *CopyPoliciesInput, opts ...grpc.CallOption) (*CopyPoliciesOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*CopyPoliciesInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *CopyPoliciesInput, got %T", in))
+		}
+
+		return i.client.CopyPolicies(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.acl.PolicyService.CopyPolicies", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*CopyPoliciesOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *CopyPoliciesOutput, got %T", out))
 	}
 
 	return message, err

@@ -24,6 +24,7 @@ const (
 	CourseService_DeleteCourse_FullMethodName   = "/eolymp.course.CourseService/DeleteCourse"
 	CourseService_DescribeCourse_FullMethodName = "/eolymp.course.CourseService/DescribeCourse"
 	CourseService_ListCourses_FullMethodName    = "/eolymp.course.CourseService/ListCourses"
+	CourseService_CopyCourse_FullMethodName     = "/eolymp.course.CourseService/CopyCourse"
 )
 
 // CourseServiceClient is the client API for CourseService service.
@@ -35,6 +36,7 @@ type CourseServiceClient interface {
 	DeleteCourse(ctx context.Context, in *DeleteCourseInput, opts ...grpc.CallOption) (*DeleteCourseOutput, error)
 	DescribeCourse(ctx context.Context, in *DescribeCourseInput, opts ...grpc.CallOption) (*DescribeCourseOutput, error)
 	ListCourses(ctx context.Context, in *ListCoursesInput, opts ...grpc.CallOption) (*ListCoursesOutput, error)
+	CopyCourse(ctx context.Context, in *CopyCourseInput, opts ...grpc.CallOption) (*CopyCourseOutput, error)
 }
 
 type courseServiceClient struct {
@@ -95,6 +97,16 @@ func (c *courseServiceClient) ListCourses(ctx context.Context, in *ListCoursesIn
 	return out, nil
 }
 
+func (c *courseServiceClient) CopyCourse(ctx context.Context, in *CopyCourseInput, opts ...grpc.CallOption) (*CopyCourseOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CopyCourseOutput)
+	err := c.cc.Invoke(ctx, CourseService_CopyCourse_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CourseServiceServer is the server API for CourseService service.
 // All implementations should embed UnimplementedCourseServiceServer
 // for forward compatibility.
@@ -104,6 +116,7 @@ type CourseServiceServer interface {
 	DeleteCourse(context.Context, *DeleteCourseInput) (*DeleteCourseOutput, error)
 	DescribeCourse(context.Context, *DescribeCourseInput) (*DescribeCourseOutput, error)
 	ListCourses(context.Context, *ListCoursesInput) (*ListCoursesOutput, error)
+	CopyCourse(context.Context, *CopyCourseInput) (*CopyCourseOutput, error)
 }
 
 // UnimplementedCourseServiceServer should be embedded to have
@@ -127,6 +140,9 @@ func (UnimplementedCourseServiceServer) DescribeCourse(context.Context, *Describ
 }
 func (UnimplementedCourseServiceServer) ListCourses(context.Context, *ListCoursesInput) (*ListCoursesOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListCourses not implemented")
+}
+func (UnimplementedCourseServiceServer) CopyCourse(context.Context, *CopyCourseInput) (*CopyCourseOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CopyCourse not implemented")
 }
 func (UnimplementedCourseServiceServer) testEmbeddedByValue() {}
 
@@ -238,6 +254,24 @@ func _CourseService_ListCourses_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CourseService_CopyCourse_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CopyCourseInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CourseServiceServer).CopyCourse(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CourseService_CopyCourse_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CourseServiceServer).CopyCourse(ctx, req.(*CopyCourseInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // CourseService_ServiceDesc is the grpc.ServiceDesc for CourseService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -264,6 +298,10 @@ var CourseService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListCourses",
 			Handler:    _CourseService_ListCourses_Handler,
+		},
+		{
+			MethodName: "CopyCourse",
+			Handler:    _CourseService_CopyCourse_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

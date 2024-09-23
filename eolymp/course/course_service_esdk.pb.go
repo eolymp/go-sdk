@@ -169,3 +169,19 @@ func (s *CourseServiceService) ListCourses(ctx context.Context, in *ListCoursesI
 
 	return out, nil
 }
+
+func (s *CourseServiceService) CopyCourse(ctx context.Context, in *CopyCourseInput) (*CopyCourseOutput, error) {
+	out := &CopyCourseOutput{}
+	path := "/courses/" + url.PathEscape(in.GetCourseId()) + "/copy"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.CourseId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

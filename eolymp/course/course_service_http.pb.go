@@ -211,6 +211,9 @@ func RegisterCourseServiceHttpHandlers(router *mux.Router, prefix string, cli Co
 	router.Handle(prefix+"/courses", _CourseService_ListCourses_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.CourseService.ListCourses")
+	router.Handle(prefix+"/courses/{course_id}/copy", _CourseService_CopyCourse_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.course.CourseService.CopyCourse")
 }
 
 func _CourseService_CreateCourse_Rule0(cli CourseServiceClient) http.Handler {
@@ -323,6 +326,31 @@ func _CourseService_ListCourses_Rule0(cli CourseServiceClient) http.Handler {
 		var header, trailer metadata.MD
 
 		out, err := cli.ListCourses(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_CourseService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_CourseService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _CourseService_CopyCourse_Rule0(cli CourseServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &CopyCourseInput{}
+
+		if err := _CourseService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_CourseService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.CourseId = vars["course_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.CopyCourse(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_CourseService_HTTPWriteErrorResponse(w, err)
 			return
@@ -499,6 +527,38 @@ func (i *CourseServiceInterceptor) ListCourses(ctx context.Context, in *ListCour
 	message, ok := out.(*ListCoursesOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *ListCoursesOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *CourseServiceInterceptor) CopyCourse(ctx context.Context, in *CopyCourseInput, opts ...grpc.CallOption) (*CopyCourseOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*CopyCourseInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *CopyCourseInput, got %T", in))
+		}
+
+		return i.client.CopyCourse(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.course.CourseService.CopyCourse", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*CopyCourseOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *CopyCourseOutput, got %T", out))
 	}
 
 	return message, err

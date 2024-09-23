@@ -169,3 +169,14 @@ func (s *PolicyServiceService) ListPolicies(ctx context.Context, in *ListPolicie
 
 	return out, nil
 }
+
+func (s *PolicyServiceService) CopyPolicies(ctx context.Context, in *CopyPoliciesInput) (*CopyPoliciesOutput, error) {
+	out := &CopyPoliciesOutput{}
+	path := "/policies:copy"
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
