@@ -180,3 +180,14 @@ func (s *StudentServiceService) ListStudents(ctx context.Context, in *ListStuden
 
 	return out, nil
 }
+
+func (s *StudentServiceService) JoinCourse(ctx context.Context, in *JoinCourseInput) (*JoinCourseOutput, error) {
+	out := &JoinCourseOutput{}
+	path := "/join"
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

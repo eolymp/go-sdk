@@ -246,6 +246,9 @@ func RegisterStudentServiceHttpHandlers(router *mux.Router, prefix string, cli S
 	router.Handle(prefix+"/students", _StudentService_ListStudents_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.StudentService.ListStudents")
+	router.Handle(prefix+"/join", _StudentService_JoinCourse_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.course.StudentService.JoinCourse")
 }
 
 func _StudentService_CreateStudent_Rule0(cli StudentServiceClient) http.Handler {
@@ -380,6 +383,28 @@ func _StudentService_ListStudents_Rule0(cli StudentServiceClient) http.Handler {
 		var header, trailer metadata.MD
 
 		out, err := cli.ListStudents(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_StudentService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_StudentService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _StudentService_JoinCourse_Rule0(cli StudentServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &JoinCourseInput{}
+
+		if err := _StudentService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_StudentService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.JoinCourse(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_StudentService_HTTPWriteErrorResponse(w, err)
 			return
@@ -595,4 +620,36 @@ func (i *StudentServiceInterceptor) ListStudents(ctx context.Context, in *ListSt
 
 func (i *StudentServiceInterceptor) WatchStudent(ctx context.Context, in *WatchStudentInput, opts ...grpc.CallOption) (StudentService_WatchStudentClient, error) {
 	return i.client.WatchStudent(ctx, in, opts...)
+}
+
+func (i *StudentServiceInterceptor) JoinCourse(ctx context.Context, in *JoinCourseInput, opts ...grpc.CallOption) (*JoinCourseOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*JoinCourseInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *JoinCourseInput, got %T", in))
+		}
+
+		return i.client.JoinCourse(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.course.StudentService.JoinCourse", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*JoinCourseOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *JoinCourseOutput, got %T", out))
+	}
+
+	return message, err
 }

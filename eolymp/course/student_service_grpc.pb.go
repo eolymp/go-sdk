@@ -26,6 +26,7 @@ const (
 	StudentService_DescribeStudent_FullMethodName = "/eolymp.course.StudentService/DescribeStudent"
 	StudentService_ListStudents_FullMethodName    = "/eolymp.course.StudentService/ListStudents"
 	StudentService_WatchStudent_FullMethodName    = "/eolymp.course.StudentService/WatchStudent"
+	StudentService_JoinCourse_FullMethodName      = "/eolymp.course.StudentService/JoinCourse"
 )
 
 // StudentServiceClient is the client API for StudentService service.
@@ -39,6 +40,7 @@ type StudentServiceClient interface {
 	DescribeStudent(ctx context.Context, in *DescribeStudentInput, opts ...grpc.CallOption) (*DescribeStudentOutput, error)
 	ListStudents(ctx context.Context, in *ListStudentsInput, opts ...grpc.CallOption) (*ListStudentsOutput, error)
 	WatchStudent(ctx context.Context, in *WatchStudentInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchStudentOutput], error)
+	JoinCourse(ctx context.Context, in *JoinCourseInput, opts ...grpc.CallOption) (*JoinCourseOutput, error)
 }
 
 type studentServiceClient struct {
@@ -128,6 +130,16 @@ func (c *studentServiceClient) WatchStudent(ctx context.Context, in *WatchStuden
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type StudentService_WatchStudentClient = grpc.ServerStreamingClient[WatchStudentOutput]
 
+func (c *studentServiceClient) JoinCourse(ctx context.Context, in *JoinCourseInput, opts ...grpc.CallOption) (*JoinCourseOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(JoinCourseOutput)
+	err := c.cc.Invoke(ctx, StudentService_JoinCourse_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // StudentServiceServer is the server API for StudentService service.
 // All implementations should embed UnimplementedStudentServiceServer
 // for forward compatibility.
@@ -139,6 +151,7 @@ type StudentServiceServer interface {
 	DescribeStudent(context.Context, *DescribeStudentInput) (*DescribeStudentOutput, error)
 	ListStudents(context.Context, *ListStudentsInput) (*ListStudentsOutput, error)
 	WatchStudent(*WatchStudentInput, grpc.ServerStreamingServer[WatchStudentOutput]) error
+	JoinCourse(context.Context, *JoinCourseInput) (*JoinCourseOutput, error)
 }
 
 // UnimplementedStudentServiceServer should be embedded to have
@@ -168,6 +181,9 @@ func (UnimplementedStudentServiceServer) ListStudents(context.Context, *ListStud
 }
 func (UnimplementedStudentServiceServer) WatchStudent(*WatchStudentInput, grpc.ServerStreamingServer[WatchStudentOutput]) error {
 	return status.Errorf(codes.Unimplemented, "method WatchStudent not implemented")
+}
+func (UnimplementedStudentServiceServer) JoinCourse(context.Context, *JoinCourseInput) (*JoinCourseOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method JoinCourse not implemented")
 }
 func (UnimplementedStudentServiceServer) testEmbeddedByValue() {}
 
@@ -308,6 +324,24 @@ func _StudentService_WatchStudent_Handler(srv interface{}, stream grpc.ServerStr
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type StudentService_WatchStudentServer = grpc.ServerStreamingServer[WatchStudentOutput]
 
+func _StudentService_JoinCourse_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(JoinCourseInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StudentServiceServer).JoinCourse(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StudentService_JoinCourse_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StudentServiceServer).JoinCourse(ctx, req.(*JoinCourseInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // StudentService_ServiceDesc is the grpc.ServiceDesc for StudentService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -338,6 +372,10 @@ var StudentService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListStudents",
 			Handler:    _StudentService_ListStudents_Handler,
+		},
+		{
+			MethodName: "JoinCourse",
+			Handler:    _StudentService_JoinCourse_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{
