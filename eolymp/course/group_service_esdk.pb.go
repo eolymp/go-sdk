@@ -16,17 +16,17 @@ import (
 	os "os"
 )
 
-type _StudentServiceHttpClient interface {
+type _GroupServiceHttpClient interface {
 	Do(*http.Request) (*http.Response, error)
 }
 
-type StudentServiceService struct {
+type GroupServiceService struct {
 	base string
-	cli  _StudentServiceHttpClient
+	cli  _GroupServiceHttpClient
 }
 
-// NewStudentServiceHttpClient constructs client for StudentService
-func NewStudentServiceHttpClient(url string, cli _StudentServiceHttpClient) *StudentServiceService {
+// NewGroupServiceHttpClient constructs client for GroupService
+func NewGroupServiceHttpClient(url string, cli _GroupServiceHttpClient) *GroupServiceService {
 	if url == "" {
 		url = os.Getenv("EOLYMP_API_URL")
 		if url == "" {
@@ -34,10 +34,10 @@ func NewStudentServiceHttpClient(url string, cli _StudentServiceHttpClient) *Stu
 		}
 	}
 
-	return &StudentServiceService{base: url, cli: cli}
+	return &GroupServiceService{base: url, cli: cli}
 }
 
-func (s *StudentServiceService) do(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
+func (s *GroupServiceService) do(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
 	var body io.Reader
 
 	if in != nil {
@@ -100,9 +100,9 @@ func (s *StudentServiceService) do(ctx context.Context, verb, path string, in, o
 	return nil
 }
 
-func (s *StudentServiceService) CreateStudent(ctx context.Context, in *CreateStudentInput) (*CreateStudentOutput, error) {
-	out := &CreateStudentOutput{}
-	path := "/students"
+func (s *GroupServiceService) CreateGroup(ctx context.Context, in *CreateGroupInput) (*CreateGroupOutput, error) {
+	out := &CreateGroupOutput{}
+	path := "/groups"
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
@@ -111,13 +111,13 @@ func (s *StudentServiceService) CreateStudent(ctx context.Context, in *CreateStu
 	return out, nil
 }
 
-func (s *StudentServiceService) UpdateStudent(ctx context.Context, in *UpdateStudentInput) (*UpdateStudentOutput, error) {
-	out := &UpdateStudentOutput{}
-	path := "/students/" + url.PathEscape(in.GetMemberId())
+func (s *GroupServiceService) UpdateGroup(ctx context.Context, in *UpdateGroupInput) (*UpdateGroupOutput, error) {
+	out := &UpdateGroupOutput{}
+	path := "/groups/" + url.PathEscape(in.GetGroupId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.MemberId = ""
+		in.GroupId = ""
 	}
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
@@ -127,13 +127,13 @@ func (s *StudentServiceService) UpdateStudent(ctx context.Context, in *UpdateStu
 	return out, nil
 }
 
-func (s *StudentServiceService) DeleteStudent(ctx context.Context, in *DeleteStudentInput) (*DeleteStudentOutput, error) {
-	out := &DeleteStudentOutput{}
-	path := "/students/" + url.PathEscape(in.GetMemberId())
+func (s *GroupServiceService) DeleteGroup(ctx context.Context, in *DeleteGroupInput) (*DeleteGroupOutput, error) {
+	out := &DeleteGroupOutput{}
+	path := "/groups/" + url.PathEscape(in.GetGroupId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.MemberId = ""
+		in.GroupId = ""
 	}
 
 	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
@@ -143,13 +143,13 @@ func (s *StudentServiceService) DeleteStudent(ctx context.Context, in *DeleteStu
 	return out, nil
 }
 
-func (s *StudentServiceService) DescribeStudent(ctx context.Context, in *DescribeStudentInput) (*DescribeStudentOutput, error) {
-	out := &DescribeStudentOutput{}
-	path := "/students/" + url.PathEscape(in.GetMemberId())
+func (s *GroupServiceService) DescribeGroup(ctx context.Context, in *DescribeGroupInput) (*DescribeGroupOutput, error) {
+	out := &DescribeGroupOutput{}
+	path := "/groups/" + url.PathEscape(in.GetGroupId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.MemberId = ""
+		in.GroupId = ""
 	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
@@ -159,31 +159,9 @@ func (s *StudentServiceService) DescribeStudent(ctx context.Context, in *Describ
 	return out, nil
 }
 
-func (s *StudentServiceService) ListStudents(ctx context.Context, in *ListStudentsInput) (*ListStudentsOutput, error) {
-	out := &ListStudentsOutput{}
-	path := "/students"
-
-	if err := s.do(ctx, "GET", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *StudentServiceService) JoinCourse(ctx context.Context, in *JoinCourseInput) (*JoinCourseOutput, error) {
-	out := &JoinCourseOutput{}
-	path := "/join"
-
-	if err := s.do(ctx, "POST", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *StudentServiceService) DescribeViewer(ctx context.Context, in *DescribeViewerInput) (*DescribeViewerOutput, error) {
-	out := &DescribeViewerOutput{}
-	path := "/viewer/student"
+func (s *GroupServiceService) ListGroups(ctx context.Context, in *ListGroupsInput) (*ListGroupsOutput, error) {
+	out := &ListGroupsOutput{}
+	path := "/groups"
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err

@@ -22,11 +22,11 @@ const (
 	StudentService_CreateStudent_FullMethodName   = "/eolymp.course.StudentService/CreateStudent"
 	StudentService_UpdateStudent_FullMethodName   = "/eolymp.course.StudentService/UpdateStudent"
 	StudentService_DeleteStudent_FullMethodName   = "/eolymp.course.StudentService/DeleteStudent"
-	StudentService_DescribeViewer_FullMethodName  = "/eolymp.course.StudentService/DescribeViewer"
 	StudentService_DescribeStudent_FullMethodName = "/eolymp.course.StudentService/DescribeStudent"
 	StudentService_ListStudents_FullMethodName    = "/eolymp.course.StudentService/ListStudents"
 	StudentService_WatchStudent_FullMethodName    = "/eolymp.course.StudentService/WatchStudent"
 	StudentService_JoinCourse_FullMethodName      = "/eolymp.course.StudentService/JoinCourse"
+	StudentService_DescribeViewer_FullMethodName  = "/eolymp.course.StudentService/DescribeViewer"
 )
 
 // StudentServiceClient is the client API for StudentService service.
@@ -36,11 +36,11 @@ type StudentServiceClient interface {
 	CreateStudent(ctx context.Context, in *CreateStudentInput, opts ...grpc.CallOption) (*CreateStudentOutput, error)
 	UpdateStudent(ctx context.Context, in *UpdateStudentInput, opts ...grpc.CallOption) (*UpdateStudentOutput, error)
 	DeleteStudent(ctx context.Context, in *DeleteStudentInput, opts ...grpc.CallOption) (*DeleteStudentOutput, error)
-	DescribeViewer(ctx context.Context, in *DescribeViewerInput, opts ...grpc.CallOption) (*DescribeViewerOutput, error)
 	DescribeStudent(ctx context.Context, in *DescribeStudentInput, opts ...grpc.CallOption) (*DescribeStudentOutput, error)
 	ListStudents(ctx context.Context, in *ListStudentsInput, opts ...grpc.CallOption) (*ListStudentsOutput, error)
 	WatchStudent(ctx context.Context, in *WatchStudentInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchStudentOutput], error)
 	JoinCourse(ctx context.Context, in *JoinCourseInput, opts ...grpc.CallOption) (*JoinCourseOutput, error)
+	DescribeViewer(ctx context.Context, in *DescribeViewerInput, opts ...grpc.CallOption) (*DescribeViewerOutput, error)
 }
 
 type studentServiceClient struct {
@@ -75,16 +75,6 @@ func (c *studentServiceClient) DeleteStudent(ctx context.Context, in *DeleteStud
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DeleteStudentOutput)
 	err := c.cc.Invoke(ctx, StudentService_DeleteStudent_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *studentServiceClient) DescribeViewer(ctx context.Context, in *DescribeViewerInput, opts ...grpc.CallOption) (*DescribeViewerOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DescribeViewerOutput)
-	err := c.cc.Invoke(ctx, StudentService_DescribeViewer_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -140,6 +130,16 @@ func (c *studentServiceClient) JoinCourse(ctx context.Context, in *JoinCourseInp
 	return out, nil
 }
 
+func (c *studentServiceClient) DescribeViewer(ctx context.Context, in *DescribeViewerInput, opts ...grpc.CallOption) (*DescribeViewerOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DescribeViewerOutput)
+	err := c.cc.Invoke(ctx, StudentService_DescribeViewer_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // StudentServiceServer is the server API for StudentService service.
 // All implementations should embed UnimplementedStudentServiceServer
 // for forward compatibility.
@@ -147,11 +147,11 @@ type StudentServiceServer interface {
 	CreateStudent(context.Context, *CreateStudentInput) (*CreateStudentOutput, error)
 	UpdateStudent(context.Context, *UpdateStudentInput) (*UpdateStudentOutput, error)
 	DeleteStudent(context.Context, *DeleteStudentInput) (*DeleteStudentOutput, error)
-	DescribeViewer(context.Context, *DescribeViewerInput) (*DescribeViewerOutput, error)
 	DescribeStudent(context.Context, *DescribeStudentInput) (*DescribeStudentOutput, error)
 	ListStudents(context.Context, *ListStudentsInput) (*ListStudentsOutput, error)
 	WatchStudent(*WatchStudentInput, grpc.ServerStreamingServer[WatchStudentOutput]) error
 	JoinCourse(context.Context, *JoinCourseInput) (*JoinCourseOutput, error)
+	DescribeViewer(context.Context, *DescribeViewerInput) (*DescribeViewerOutput, error)
 }
 
 // UnimplementedStudentServiceServer should be embedded to have
@@ -170,9 +170,6 @@ func (UnimplementedStudentServiceServer) UpdateStudent(context.Context, *UpdateS
 func (UnimplementedStudentServiceServer) DeleteStudent(context.Context, *DeleteStudentInput) (*DeleteStudentOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteStudent not implemented")
 }
-func (UnimplementedStudentServiceServer) DescribeViewer(context.Context, *DescribeViewerInput) (*DescribeViewerOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DescribeViewer not implemented")
-}
 func (UnimplementedStudentServiceServer) DescribeStudent(context.Context, *DescribeStudentInput) (*DescribeStudentOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeStudent not implemented")
 }
@@ -184,6 +181,9 @@ func (UnimplementedStudentServiceServer) WatchStudent(*WatchStudentInput, grpc.S
 }
 func (UnimplementedStudentServiceServer) JoinCourse(context.Context, *JoinCourseInput) (*JoinCourseOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method JoinCourse not implemented")
+}
+func (UnimplementedStudentServiceServer) DescribeViewer(context.Context, *DescribeViewerInput) (*DescribeViewerOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeViewer not implemented")
 }
 func (UnimplementedStudentServiceServer) testEmbeddedByValue() {}
 
@@ -259,24 +259,6 @@ func _StudentService_DeleteStudent_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
-func _StudentService_DescribeViewer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DescribeViewerInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(StudentServiceServer).DescribeViewer(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: StudentService_DescribeViewer_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(StudentServiceServer).DescribeViewer(ctx, req.(*DescribeViewerInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _StudentService_DescribeStudent_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DescribeStudentInput)
 	if err := dec(in); err != nil {
@@ -342,6 +324,24 @@ func _StudentService_JoinCourse_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _StudentService_DescribeViewer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeViewerInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StudentServiceServer).DescribeViewer(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StudentService_DescribeViewer_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StudentServiceServer).DescribeViewer(ctx, req.(*DescribeViewerInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // StudentService_ServiceDesc is the grpc.ServiceDesc for StudentService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -362,10 +362,6 @@ var StudentService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _StudentService_DeleteStudent_Handler,
 		},
 		{
-			MethodName: "DescribeViewer",
-			Handler:    _StudentService_DescribeViewer_Handler,
-		},
-		{
 			MethodName: "DescribeStudent",
 			Handler:    _StudentService_DescribeStudent_Handler,
 		},
@@ -376,6 +372,10 @@ var StudentService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "JoinCourse",
 			Handler:    _StudentService_JoinCourse_Handler,
+		},
+		{
+			MethodName: "DescribeViewer",
+			Handler:    _StudentService_DescribeViewer_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

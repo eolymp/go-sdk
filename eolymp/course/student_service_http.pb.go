@@ -237,9 +237,6 @@ func RegisterStudentServiceHttpHandlers(router *mux.Router, prefix string, cli S
 	router.Handle(prefix+"/students/{member_id}", _StudentService_DeleteStudent_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.course.StudentService.DeleteStudent")
-	router.Handle(prefix+"/viewer/student", _StudentService_DescribeViewer_Rule0(cli)).
-		Methods("GET").
-		Name("eolymp.course.StudentService.DescribeViewer")
 	router.Handle(prefix+"/students/{member_id}", _StudentService_DescribeStudent_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.StudentService.DescribeStudent")
@@ -249,6 +246,9 @@ func RegisterStudentServiceHttpHandlers(router *mux.Router, prefix string, cli S
 	router.Handle(prefix+"/join", _StudentService_JoinCourse_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.course.StudentService.JoinCourse")
+	router.Handle(prefix+"/viewer/student", _StudentService_DescribeViewer_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.course.StudentService.DescribeViewer")
 }
 
 func _StudentService_CreateStudent_Rule0(cli StudentServiceClient) http.Handler {
@@ -323,28 +323,6 @@ func _StudentService_DeleteStudent_Rule0(cli StudentServiceClient) http.Handler 
 	})
 }
 
-func _StudentService_DescribeViewer_Rule0(cli StudentServiceClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DescribeViewerInput{}
-
-		if err := _StudentService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_StudentService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		var header, trailer metadata.MD
-
-		out, err := cli.DescribeViewer(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
-		if err != nil {
-			_StudentService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_StudentService_HTTPWriteResponse(w, out, header, trailer)
-	})
-}
-
 func _StudentService_DescribeStudent_Rule0(cli StudentServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeStudentInput{}
@@ -405,6 +383,28 @@ func _StudentService_JoinCourse_Rule0(cli StudentServiceClient) http.Handler {
 		var header, trailer metadata.MD
 
 		out, err := cli.JoinCourse(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_StudentService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_StudentService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _StudentService_DescribeViewer_Rule0(cli StudentServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeViewerInput{}
+
+		if err := _StudentService_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_StudentService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeViewer(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_StudentService_HTTPWriteErrorResponse(w, err)
 			return
@@ -522,38 +522,6 @@ func (i *StudentServiceInterceptor) DeleteStudent(ctx context.Context, in *Delet
 	return message, err
 }
 
-func (i *StudentServiceInterceptor) DescribeViewer(ctx context.Context, in *DescribeViewerInput, opts ...grpc.CallOption) (*DescribeViewerOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*DescribeViewerInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *DescribeViewerInput, got %T", in))
-		}
-
-		return i.client.DescribeViewer(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.course.StudentService.DescribeViewer", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*DescribeViewerOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *DescribeViewerOutput, got %T", out))
-	}
-
-	return message, err
-}
-
 func (i *StudentServiceInterceptor) DescribeStudent(ctx context.Context, in *DescribeStudentInput, opts ...grpc.CallOption) (*DescribeStudentOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeStudentInput)
@@ -649,6 +617,38 @@ func (i *StudentServiceInterceptor) JoinCourse(ctx context.Context, in *JoinCour
 	message, ok := out.(*JoinCourseOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *JoinCourseOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *StudentServiceInterceptor) DescribeViewer(ctx context.Context, in *DescribeViewerInput, opts ...grpc.CallOption) (*DescribeViewerOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeViewerInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeViewerInput, got %T", in))
+		}
+
+		return i.client.DescribeViewer(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.course.StudentService.DescribeViewer", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeViewerOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeViewerOutput, got %T", out))
 	}
 
 	return message, err
