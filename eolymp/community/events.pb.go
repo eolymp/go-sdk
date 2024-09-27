@@ -20,58 +20,6 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type MemberChangeRecord_Operation int32
-
-const (
-	MemberChangeRecord_NO_OPERATION MemberChangeRecord_Operation = 0
-	MemberChangeRecord_CREATE       MemberChangeRecord_Operation = 1
-	MemberChangeRecord_UPDATE       MemberChangeRecord_Operation = 2
-	MemberChangeRecord_DELETE       MemberChangeRecord_Operation = 3
-)
-
-// Enum value maps for MemberChangeRecord_Operation.
-var (
-	MemberChangeRecord_Operation_name = map[int32]string{
-		0: "NO_OPERATION",
-		1: "CREATE",
-		2: "UPDATE",
-		3: "DELETE",
-	}
-	MemberChangeRecord_Operation_value = map[string]int32{
-		"NO_OPERATION": 0,
-		"CREATE":       1,
-		"UPDATE":       2,
-		"DELETE":       3,
-	}
-)
-
-func (x MemberChangeRecord_Operation) Enum() *MemberChangeRecord_Operation {
-	p := new(MemberChangeRecord_Operation)
-	*p = x
-	return p
-}
-
-func (x MemberChangeRecord_Operation) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (MemberChangeRecord_Operation) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_community_events_proto_enumTypes[0].Descriptor()
-}
-
-func (MemberChangeRecord_Operation) Type() protoreflect.EnumType {
-	return &file_eolymp_community_events_proto_enumTypes[0]
-}
-
-func (x MemberChangeRecord_Operation) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use MemberChangeRecord_Operation.Descriptor instead.
-func (MemberChangeRecord_Operation) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_community_events_proto_rawDescGZIP(), []int{3, 0}
-}
-
 type MemberCreatedEvent struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -213,18 +161,17 @@ func (x *MemberDeletedEvent) GetMember() *Member {
 	return nil
 }
 
-type MemberChangeRecord struct {
+type MemberChangedRecord struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	SpaceId string                       `protobuf:"bytes,1,opt,name=space_id,json=spaceId,proto3" json:"space_id,omitempty"`
-	Op      MemberChangeRecord_Operation `protobuf:"varint,2,opt,name=op,proto3,enum=eolymp.community.MemberChangeRecord_Operation" json:"op,omitempty"`
-	Member  *Member                      `protobuf:"bytes,3,opt,name=member,proto3" json:"member,omitempty"`
+	Before *Member `protobuf:"bytes,1,opt,name=before,proto3" json:"before,omitempty"`
+	After  *Member `protobuf:"bytes,2,opt,name=after,proto3" json:"after,omitempty"`
 }
 
-func (x *MemberChangeRecord) Reset() {
-	*x = MemberChangeRecord{}
+func (x *MemberChangedRecord) Reset() {
+	*x = MemberChangedRecord{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_eolymp_community_events_proto_msgTypes[3]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -232,13 +179,13 @@ func (x *MemberChangeRecord) Reset() {
 	}
 }
 
-func (x *MemberChangeRecord) String() string {
+func (x *MemberChangedRecord) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*MemberChangeRecord) ProtoMessage() {}
+func (*MemberChangedRecord) ProtoMessage() {}
 
-func (x *MemberChangeRecord) ProtoReflect() protoreflect.Message {
+func (x *MemberChangedRecord) ProtoReflect() protoreflect.Message {
 	mi := &file_eolymp_community_events_proto_msgTypes[3]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -250,28 +197,21 @@ func (x *MemberChangeRecord) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use MemberChangeRecord.ProtoReflect.Descriptor instead.
-func (*MemberChangeRecord) Descriptor() ([]byte, []int) {
+// Deprecated: Use MemberChangedRecord.ProtoReflect.Descriptor instead.
+func (*MemberChangedRecord) Descriptor() ([]byte, []int) {
 	return file_eolymp_community_events_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *MemberChangeRecord) GetSpaceId() string {
+func (x *MemberChangedRecord) GetBefore() *Member {
 	if x != nil {
-		return x.SpaceId
+		return x.Before
 	}
-	return ""
+	return nil
 }
 
-func (x *MemberChangeRecord) GetOp() MemberChangeRecord_Operation {
+func (x *MemberChangedRecord) GetAfter() *Member {
 	if x != nil {
-		return x.Op
-	}
-	return MemberChangeRecord_NO_OPERATION
-}
-
-func (x *MemberChangeRecord) GetMember() *Member {
-	if x != nil {
-		return x.Member
+		return x.After
 	}
 	return nil
 }
@@ -297,25 +237,18 @@ var file_eolymp_community_events_proto_rawDesc = []byte{
 	0x64, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x12, 0x30, 0x0a, 0x06, 0x6d, 0x65, 0x6d, 0x62, 0x65, 0x72,
 	0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x18, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e,
 	0x63, 0x6f, 0x6d, 0x6d, 0x75, 0x6e, 0x69, 0x74, 0x79, 0x2e, 0x4d, 0x65, 0x6d, 0x62, 0x65, 0x72,
-	0x52, 0x06, 0x6d, 0x65, 0x6d, 0x62, 0x65, 0x72, 0x22, 0xe4, 0x01, 0x0a, 0x12, 0x4d, 0x65, 0x6d,
-	0x62, 0x65, 0x72, 0x43, 0x68, 0x61, 0x6e, 0x67, 0x65, 0x52, 0x65, 0x63, 0x6f, 0x72, 0x64, 0x12,
-	0x19, 0x0a, 0x08, 0x73, 0x70, 0x61, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28,
-	0x09, 0x52, 0x07, 0x73, 0x70, 0x61, 0x63, 0x65, 0x49, 0x64, 0x12, 0x3e, 0x0a, 0x02, 0x6f, 0x70,
-	0x18, 0x02, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x2e, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e,
-	0x63, 0x6f, 0x6d, 0x6d, 0x75, 0x6e, 0x69, 0x74, 0x79, 0x2e, 0x4d, 0x65, 0x6d, 0x62, 0x65, 0x72,
-	0x43, 0x68, 0x61, 0x6e, 0x67, 0x65, 0x52, 0x65, 0x63, 0x6f, 0x72, 0x64, 0x2e, 0x4f, 0x70, 0x65,
-	0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x02, 0x6f, 0x70, 0x12, 0x30, 0x0a, 0x06, 0x6d, 0x65,
-	0x6d, 0x62, 0x65, 0x72, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x18, 0x2e, 0x65, 0x6f, 0x6c,
-	0x79, 0x6d, 0x70, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x75, 0x6e, 0x69, 0x74, 0x79, 0x2e, 0x4d, 0x65,
-	0x6d, 0x62, 0x65, 0x72, 0x52, 0x06, 0x6d, 0x65, 0x6d, 0x62, 0x65, 0x72, 0x22, 0x41, 0x0a, 0x09,
-	0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x10, 0x0a, 0x0c, 0x4e, 0x4f, 0x5f,
-	0x4f, 0x50, 0x45, 0x52, 0x41, 0x54, 0x49, 0x4f, 0x4e, 0x10, 0x00, 0x12, 0x0a, 0x0a, 0x06, 0x43,
-	0x52, 0x45, 0x41, 0x54, 0x45, 0x10, 0x01, 0x12, 0x0a, 0x0a, 0x06, 0x55, 0x50, 0x44, 0x41, 0x54,
-	0x45, 0x10, 0x02, 0x12, 0x0a, 0x0a, 0x06, 0x44, 0x45, 0x4c, 0x45, 0x54, 0x45, 0x10, 0x03, 0x42,
-	0x35, 0x5a, 0x33, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x65, 0x6f,
-	0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x67, 0x6f, 0x2d, 0x73, 0x64, 0x6b, 0x2f, 0x65, 0x6f, 0x6c, 0x79,
-	0x6d, 0x70, 0x2f, 0x63, 0x6f, 0x6d, 0x6d, 0x75, 0x6e, 0x69, 0x74, 0x79, 0x3b, 0x63, 0x6f, 0x6d,
-	0x6d, 0x75, 0x6e, 0x69, 0x74, 0x79, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x52, 0x06, 0x6d, 0x65, 0x6d, 0x62, 0x65, 0x72, 0x22, 0x77, 0x0a, 0x13, 0x4d, 0x65, 0x6d, 0x62,
+	0x65, 0x72, 0x43, 0x68, 0x61, 0x6e, 0x67, 0x65, 0x64, 0x52, 0x65, 0x63, 0x6f, 0x72, 0x64, 0x12,
+	0x30, 0x0a, 0x06, 0x62, 0x65, 0x66, 0x6f, 0x72, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32,
+	0x18, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x75, 0x6e, 0x69,
+	0x74, 0x79, 0x2e, 0x4d, 0x65, 0x6d, 0x62, 0x65, 0x72, 0x52, 0x06, 0x62, 0x65, 0x66, 0x6f, 0x72,
+	0x65, 0x12, 0x2e, 0x0a, 0x05, 0x61, 0x66, 0x74, 0x65, 0x72, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b,
+	0x32, 0x18, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x75, 0x6e,
+	0x69, 0x74, 0x79, 0x2e, 0x4d, 0x65, 0x6d, 0x62, 0x65, 0x72, 0x52, 0x05, 0x61, 0x66, 0x74, 0x65,
+	0x72, 0x42, 0x35, 0x5a, 0x33, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f,
+	0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x67, 0x6f, 0x2d, 0x73, 0x64, 0x6b, 0x2f, 0x65, 0x6f,
+	0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x63, 0x6f, 0x6d, 0x6d, 0x75, 0x6e, 0x69, 0x74, 0x79, 0x3b, 0x63,
+	0x6f, 0x6d, 0x6d, 0x75, 0x6e, 0x69, 0x74, 0x79, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -330,22 +263,20 @@ func file_eolymp_community_events_proto_rawDescGZIP() []byte {
 	return file_eolymp_community_events_proto_rawDescData
 }
 
-var file_eolymp_community_events_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_eolymp_community_events_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_eolymp_community_events_proto_goTypes = []any{
-	(MemberChangeRecord_Operation)(0), // 0: eolymp.community.MemberChangeRecord.Operation
-	(*MemberCreatedEvent)(nil),        // 1: eolymp.community.MemberCreatedEvent
-	(*MemberUpdatedEvent)(nil),        // 2: eolymp.community.MemberUpdatedEvent
-	(*MemberDeletedEvent)(nil),        // 3: eolymp.community.MemberDeletedEvent
-	(*MemberChangeRecord)(nil),        // 4: eolymp.community.MemberChangeRecord
-	(*Member)(nil),                    // 5: eolymp.community.Member
+	(*MemberCreatedEvent)(nil),  // 0: eolymp.community.MemberCreatedEvent
+	(*MemberUpdatedEvent)(nil),  // 1: eolymp.community.MemberUpdatedEvent
+	(*MemberDeletedEvent)(nil),  // 2: eolymp.community.MemberDeletedEvent
+	(*MemberChangedRecord)(nil), // 3: eolymp.community.MemberChangedRecord
+	(*Member)(nil),              // 4: eolymp.community.Member
 }
 var file_eolymp_community_events_proto_depIdxs = []int32{
-	5, // 0: eolymp.community.MemberCreatedEvent.member:type_name -> eolymp.community.Member
-	5, // 1: eolymp.community.MemberUpdatedEvent.member:type_name -> eolymp.community.Member
-	5, // 2: eolymp.community.MemberDeletedEvent.member:type_name -> eolymp.community.Member
-	0, // 3: eolymp.community.MemberChangeRecord.op:type_name -> eolymp.community.MemberChangeRecord.Operation
-	5, // 4: eolymp.community.MemberChangeRecord.member:type_name -> eolymp.community.Member
+	4, // 0: eolymp.community.MemberCreatedEvent.member:type_name -> eolymp.community.Member
+	4, // 1: eolymp.community.MemberUpdatedEvent.member:type_name -> eolymp.community.Member
+	4, // 2: eolymp.community.MemberDeletedEvent.member:type_name -> eolymp.community.Member
+	4, // 3: eolymp.community.MemberChangedRecord.before:type_name -> eolymp.community.Member
+	4, // 4: eolymp.community.MemberChangedRecord.after:type_name -> eolymp.community.Member
 	5, // [5:5] is the sub-list for method output_type
 	5, // [5:5] is the sub-list for method input_type
 	5, // [5:5] is the sub-list for extension type_name
@@ -397,7 +328,7 @@ func file_eolymp_community_events_proto_init() {
 			}
 		}
 		file_eolymp_community_events_proto_msgTypes[3].Exporter = func(v any, i int) any {
-			switch v := v.(*MemberChangeRecord); i {
+			switch v := v.(*MemberChangedRecord); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -414,14 +345,13 @@ func file_eolymp_community_events_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_eolymp_community_events_proto_rawDesc,
-			NumEnums:      1,
+			NumEnums:      0,
 			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
 		GoTypes:           file_eolymp_community_events_proto_goTypes,
 		DependencyIndexes: file_eolymp_community_events_proto_depIdxs,
-		EnumInfos:         file_eolymp_community_events_proto_enumTypes,
 		MessageInfos:      file_eolymp_community_events_proto_msgTypes,
 	}.Build()
 	File_eolymp_community_events_proto = out.File
