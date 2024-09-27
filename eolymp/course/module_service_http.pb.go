@@ -214,10 +214,10 @@ func RegisterModuleServiceHttpHandlers(router *mux.Router, prefix string, cli Mo
 	router.Handle(prefix+"/modules/{module_id}/start", _ModuleService_StartModule_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.course.ModuleService.StartModule")
-	router.Handle(prefix+"/modules/{module_id}/assignments/{member_id}", _ModuleService_AssignModule_Rule0(cli)).
-		Methods("PUT").
+	router.Handle(prefix+"/modules/{module_id}/assignments", _ModuleService_AssignModule_Rule0(cli)).
+		Methods("POST").
 		Name("eolymp.course.ModuleService.AssignModule")
-	router.Handle(prefix+"/modules/{module_id}/assignments/{member_id}", _ModuleService_UnassignModule_Rule0(cli)).
+	router.Handle(prefix+"/modules/{module_id}/assignments", _ModuleService_UnassignModule_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.course.ModuleService.UnassignModule")
 }
@@ -378,7 +378,6 @@ func _ModuleService_AssignModule_Rule0(cli ModuleServiceClient) http.Handler {
 
 		vars := mux.Vars(r)
 		in.ModuleId = vars["module_id"]
-		in.MemberId = vars["member_id"]
 
 		var header, trailer metadata.MD
 
@@ -404,7 +403,6 @@ func _ModuleService_UnassignModule_Rule0(cli ModuleServiceClient) http.Handler {
 
 		vars := mux.Vars(r)
 		in.ModuleId = vars["module_id"]
-		in.MemberId = vars["member_id"]
 
 		var header, trailer metadata.MD
 
