@@ -16,17 +16,17 @@ import (
 	os "os"
 )
 
-type _GroupServiceHttpClient interface {
+type _ClassServiceHttpClient interface {
 	Do(*http.Request) (*http.Response, error)
 }
 
-type GroupServiceService struct {
+type ClassServiceService struct {
 	base string
-	cli  _GroupServiceHttpClient
+	cli  _ClassServiceHttpClient
 }
 
-// NewGroupServiceHttpClient constructs client for GroupService
-func NewGroupServiceHttpClient(url string, cli _GroupServiceHttpClient) *GroupServiceService {
+// NewClassServiceHttpClient constructs client for ClassService
+func NewClassServiceHttpClient(url string, cli _ClassServiceHttpClient) *ClassServiceService {
 	if url == "" {
 		url = os.Getenv("EOLYMP_API_URL")
 		if url == "" {
@@ -34,10 +34,10 @@ func NewGroupServiceHttpClient(url string, cli _GroupServiceHttpClient) *GroupSe
 		}
 	}
 
-	return &GroupServiceService{base: url, cli: cli}
+	return &ClassServiceService{base: url, cli: cli}
 }
 
-func (s *GroupServiceService) do(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
+func (s *ClassServiceService) do(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
 	var body io.Reader
 
 	if in != nil {
@@ -100,9 +100,9 @@ func (s *GroupServiceService) do(ctx context.Context, verb, path string, in, out
 	return nil
 }
 
-func (s *GroupServiceService) CreateGroup(ctx context.Context, in *CreateGroupInput) (*CreateGroupOutput, error) {
-	out := &CreateGroupOutput{}
-	path := "/groups"
+func (s *ClassServiceService) CreateClass(ctx context.Context, in *CreateClassInput) (*CreateClassOutput, error) {
+	out := &CreateClassOutput{}
+	path := "/classes"
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
@@ -111,9 +111,9 @@ func (s *GroupServiceService) CreateGroup(ctx context.Context, in *CreateGroupIn
 	return out, nil
 }
 
-func (s *GroupServiceService) UpdateGroup(ctx context.Context, in *UpdateGroupInput) (*UpdateGroupOutput, error) {
-	out := &UpdateGroupOutput{}
-	path := "/groups/" + url.PathEscape(in.GetGroupId())
+func (s *ClassServiceService) UpdateClass(ctx context.Context, in *UpdateClassInput) (*UpdateClassOutput, error) {
+	out := &UpdateClassOutput{}
+	path := "/classes/" + url.PathEscape(in.GetGroupId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
@@ -127,9 +127,9 @@ func (s *GroupServiceService) UpdateGroup(ctx context.Context, in *UpdateGroupIn
 	return out, nil
 }
 
-func (s *GroupServiceService) DeleteGroup(ctx context.Context, in *DeleteGroupInput) (*DeleteGroupOutput, error) {
-	out := &DeleteGroupOutput{}
-	path := "/groups/" + url.PathEscape(in.GetGroupId())
+func (s *ClassServiceService) DeleteClass(ctx context.Context, in *DeleteClassInput) (*DeleteClassOutput, error) {
+	out := &DeleteClassOutput{}
+	path := "/classes/" + url.PathEscape(in.GetGroupId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
@@ -143,9 +143,9 @@ func (s *GroupServiceService) DeleteGroup(ctx context.Context, in *DeleteGroupIn
 	return out, nil
 }
 
-func (s *GroupServiceService) DescribeGroup(ctx context.Context, in *DescribeGroupInput) (*DescribeGroupOutput, error) {
-	out := &DescribeGroupOutput{}
-	path := "/groups/" + url.PathEscape(in.GetGroupId())
+func (s *ClassServiceService) DescribeClass(ctx context.Context, in *DescribeClassInput) (*DescribeClassOutput, error) {
+	out := &DescribeClassOutput{}
+	path := "/classes/" + url.PathEscape(in.GetGroupId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
@@ -159,9 +159,9 @@ func (s *GroupServiceService) DescribeGroup(ctx context.Context, in *DescribeGro
 	return out, nil
 }
 
-func (s *GroupServiceService) ListGroups(ctx context.Context, in *ListGroupsInput) (*ListGroupsOutput, error) {
-	out := &ListGroupsOutput{}
-	path := "/groups"
+func (s *ClassServiceService) ListClasses(ctx context.Context, in *ListClassesInput) (*ListClassesOutput, error) {
+	out := &ListClassesOutput{}
+	path := "/classes"
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err

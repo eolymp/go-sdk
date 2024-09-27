@@ -18,8 +18,8 @@ import (
 	http "net/http"
 )
 
-// _GroupService_HTTPReadQueryString parses body into proto.Message
-func _GroupService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+// _ClassService_HTTPReadQueryString parses body into proto.Message
+func _ClassService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
 	query := r.URL.Query().Get("q")
 	if query == "" {
 		return nil
@@ -32,8 +32,8 @@ func _GroupService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
 	return nil
 }
 
-// _GroupService_HTTPReadRequestBody parses body into proto.Message
-func _GroupService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
+// _ClassService_HTTPReadRequestBody parses body into proto.Message
+func _ClassService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
 	data, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		return err
@@ -46,11 +46,11 @@ func _GroupService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
 	return nil
 }
 
-// _GroupService_HTTPWriteResponse writes proto.Message to HTTP response
-func _GroupService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h, t metadata.MD) {
+// _ClassService_HTTPWriteResponse writes proto.Message to HTTP response
+func _ClassService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h, t metadata.MD) {
 	data, err := protojson.Marshal(v)
 	if err != nil {
-		_GroupService_HTTPWriteErrorResponse(w, err)
+		_ClassService_HTTPWriteErrorResponse(w, err)
 		return
 	}
 
@@ -73,8 +73,8 @@ func _GroupService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h, 
 	_, _ = w.Write(data)
 }
 
-// _GroupService_HTTPWriteErrorResponse writes error to HTTP response with error status code
-func _GroupService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
+// _ClassService_HTTPWriteErrorResponse writes error to HTTP response with error status code
+func _ClassService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
 
 	w.Header().Set("Content-Type", "application/json")
@@ -126,8 +126,8 @@ func _GroupService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	_, _ = w.Write(data)
 }
 
-// _GroupService_WebsocketErrorResponse writes error to websocket connection
-func _GroupService_WebsocketErrorResponse(conn *websocket.Conn, e error) {
+// _ClassService_WebsocketErrorResponse writes error to websocket connection
+func _ClassService_WebsocketErrorResponse(conn *websocket.Conn, e error) {
 	switch status.Convert(e).Code() {
 	case codes.OK:
 		conn.WriteClose(1000)
@@ -168,8 +168,8 @@ func _GroupService_WebsocketErrorResponse(conn *websocket.Conn, e error) {
 	}
 }
 
-// _GroupService_WebsocketCodec implements protobuf codec for websockets package
-var _GroupService_WebsocketCodec = websocket.Codec{
+// _ClassService_WebsocketCodec implements protobuf codec for websockets package
+var _ClassService_WebsocketCodec = websocket.Codec{
 	Marshal: func(v interface{}) ([]byte, byte, error) {
 		m, ok := v.(proto.Message)
 		if !ok {
@@ -193,55 +193,55 @@ var _GroupService_WebsocketCodec = websocket.Codec{
 	},
 }
 
-// RegisterGroupServiceHttpHandlers adds handlers for for GroupServiceClient
+// RegisterClassServiceHttpHandlers adds handlers for for ClassServiceClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterGroupServiceHttpHandlers(router *mux.Router, prefix string, cli GroupServiceClient) {
-	router.Handle(prefix+"/groups", _GroupService_CreateGroup_Rule0(cli)).
+func RegisterClassServiceHttpHandlers(router *mux.Router, prefix string, cli ClassServiceClient) {
+	router.Handle(prefix+"/classes", _ClassService_CreateClass_Rule0(cli)).
 		Methods("POST").
-		Name("eolymp.course.GroupService.CreateGroup")
-	router.Handle(prefix+"/groups/{group_id}", _GroupService_UpdateGroup_Rule0(cli)).
+		Name("eolymp.course.ClassService.CreateClass")
+	router.Handle(prefix+"/classes/{group_id}", _ClassService_UpdateClass_Rule0(cli)).
 		Methods("POST").
-		Name("eolymp.course.GroupService.UpdateGroup")
-	router.Handle(prefix+"/groups/{group_id}", _GroupService_DeleteGroup_Rule0(cli)).
+		Name("eolymp.course.ClassService.UpdateClass")
+	router.Handle(prefix+"/classes/{group_id}", _ClassService_DeleteClass_Rule0(cli)).
 		Methods("DELETE").
-		Name("eolymp.course.GroupService.DeleteGroup")
-	router.Handle(prefix+"/groups/{group_id}", _GroupService_DescribeGroup_Rule0(cli)).
+		Name("eolymp.course.ClassService.DeleteClass")
+	router.Handle(prefix+"/classes/{group_id}", _ClassService_DescribeClass_Rule0(cli)).
 		Methods("GET").
-		Name("eolymp.course.GroupService.DescribeGroup")
-	router.Handle(prefix+"/groups", _GroupService_ListGroups_Rule0(cli)).
+		Name("eolymp.course.ClassService.DescribeClass")
+	router.Handle(prefix+"/classes", _ClassService_ListClasses_Rule0(cli)).
 		Methods("GET").
-		Name("eolymp.course.GroupService.ListGroups")
+		Name("eolymp.course.ClassService.ListClasses")
 }
 
-func _GroupService_CreateGroup_Rule0(cli GroupServiceClient) http.Handler {
+func _ClassService_CreateClass_Rule0(cli ClassServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &CreateGroupInput{}
+		in := &CreateClassInput{}
 
-		if err := _GroupService_HTTPReadRequestBody(r, in); err != nil {
+		if err := _ClassService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
-			_GroupService_HTTPWriteErrorResponse(w, err)
+			_ClassService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
 		var header, trailer metadata.MD
 
-		out, err := cli.CreateGroup(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		out, err := cli.CreateClass(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
-			_GroupService_HTTPWriteErrorResponse(w, err)
+			_ClassService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_GroupService_HTTPWriteResponse(w, out, header, trailer)
+		_ClassService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
-func _GroupService_UpdateGroup_Rule0(cli GroupServiceClient) http.Handler {
+func _ClassService_UpdateClass_Rule0(cli ClassServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &UpdateGroupInput{}
+		in := &UpdateClassInput{}
 
-		if err := _GroupService_HTTPReadRequestBody(r, in); err != nil {
+		if err := _ClassService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
-			_GroupService_HTTPWriteErrorResponse(w, err)
+			_ClassService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
@@ -250,23 +250,23 @@ func _GroupService_UpdateGroup_Rule0(cli GroupServiceClient) http.Handler {
 
 		var header, trailer metadata.MD
 
-		out, err := cli.UpdateGroup(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		out, err := cli.UpdateClass(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
-			_GroupService_HTTPWriteErrorResponse(w, err)
+			_ClassService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_GroupService_HTTPWriteResponse(w, out, header, trailer)
+		_ClassService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
-func _GroupService_DeleteGroup_Rule0(cli GroupServiceClient) http.Handler {
+func _ClassService_DeleteClass_Rule0(cli ClassServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DeleteGroupInput{}
+		in := &DeleteClassInput{}
 
-		if err := _GroupService_HTTPReadRequestBody(r, in); err != nil {
+		if err := _ClassService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
-			_GroupService_HTTPWriteErrorResponse(w, err)
+			_ClassService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
@@ -275,23 +275,23 @@ func _GroupService_DeleteGroup_Rule0(cli GroupServiceClient) http.Handler {
 
 		var header, trailer metadata.MD
 
-		out, err := cli.DeleteGroup(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		out, err := cli.DeleteClass(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
-			_GroupService_HTTPWriteErrorResponse(w, err)
+			_ClassService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_GroupService_HTTPWriteResponse(w, out, header, trailer)
+		_ClassService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
-func _GroupService_DescribeGroup_Rule0(cli GroupServiceClient) http.Handler {
+func _ClassService_DescribeClass_Rule0(cli ClassServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DescribeGroupInput{}
+		in := &DescribeClassInput{}
 
-		if err := _GroupService_HTTPReadQueryString(r, in); err != nil {
+		if err := _ClassService_HTTPReadQueryString(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
-			_GroupService_HTTPWriteErrorResponse(w, err)
+			_ClassService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
@@ -300,58 +300,58 @@ func _GroupService_DescribeGroup_Rule0(cli GroupServiceClient) http.Handler {
 
 		var header, trailer metadata.MD
 
-		out, err := cli.DescribeGroup(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		out, err := cli.DescribeClass(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
-			_GroupService_HTTPWriteErrorResponse(w, err)
+			_ClassService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_GroupService_HTTPWriteResponse(w, out, header, trailer)
+		_ClassService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
-func _GroupService_ListGroups_Rule0(cli GroupServiceClient) http.Handler {
+func _ClassService_ListClasses_Rule0(cli ClassServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ListGroupsInput{}
+		in := &ListClassesInput{}
 
-		if err := _GroupService_HTTPReadQueryString(r, in); err != nil {
+		if err := _ClassService_HTTPReadQueryString(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
-			_GroupService_HTTPWriteErrorResponse(w, err)
+			_ClassService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
 		var header, trailer metadata.MD
 
-		out, err := cli.ListGroups(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		out, err := cli.ListClasses(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
-			_GroupService_HTTPWriteErrorResponse(w, err)
+			_ClassService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_GroupService_HTTPWriteResponse(w, out, header, trailer)
+		_ClassService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
-type _GroupServiceHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
-type _GroupServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _GroupServiceHandler) (out proto.Message, err error)
-type GroupServiceInterceptor struct {
-	middleware []_GroupServiceMiddleware
-	client     GroupServiceClient
+type _ClassServiceHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
+type _ClassServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _ClassServiceHandler) (out proto.Message, err error)
+type ClassServiceInterceptor struct {
+	middleware []_ClassServiceMiddleware
+	client     ClassServiceClient
 }
 
-// NewGroupServiceInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewGroupServiceInterceptor(cli GroupServiceClient, middleware ..._GroupServiceMiddleware) *GroupServiceInterceptor {
-	return &GroupServiceInterceptor{client: cli, middleware: middleware}
+// NewClassServiceInterceptor constructs additional middleware for a server based on annotations in proto files
+func NewClassServiceInterceptor(cli ClassServiceClient, middleware ..._ClassServiceMiddleware) *ClassServiceInterceptor {
+	return &ClassServiceInterceptor{client: cli, middleware: middleware}
 }
 
-func (i *GroupServiceInterceptor) CreateGroup(ctx context.Context, in *CreateGroupInput, opts ...grpc.CallOption) (*CreateGroupOutput, error) {
+func (i *ClassServiceInterceptor) CreateClass(ctx context.Context, in *CreateClassInput, opts ...grpc.CallOption) (*CreateClassOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*CreateGroupInput)
+		message, ok := in.(*CreateClassInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *CreateGroupInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *CreateClassInput, got %T", in))
 		}
 
-		return i.client.CreateGroup(ctx, message, opts...)
+		return i.client.CreateClass(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -359,7 +359,7 @@ func (i *GroupServiceInterceptor) CreateGroup(ctx context.Context, in *CreateGro
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.course.GroupService.CreateGroup", in, next)
+			return mw(ctx, "eolymp.course.ClassService.CreateClass", in, next)
 		}
 	}
 
@@ -368,22 +368,22 @@ func (i *GroupServiceInterceptor) CreateGroup(ctx context.Context, in *CreateGro
 		return nil, err
 	}
 
-	message, ok := out.(*CreateGroupOutput)
+	message, ok := out.(*CreateClassOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *CreateGroupOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *CreateClassOutput, got %T", out))
 	}
 
 	return message, err
 }
 
-func (i *GroupServiceInterceptor) UpdateGroup(ctx context.Context, in *UpdateGroupInput, opts ...grpc.CallOption) (*UpdateGroupOutput, error) {
+func (i *ClassServiceInterceptor) UpdateClass(ctx context.Context, in *UpdateClassInput, opts ...grpc.CallOption) (*UpdateClassOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*UpdateGroupInput)
+		message, ok := in.(*UpdateClassInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *UpdateGroupInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *UpdateClassInput, got %T", in))
 		}
 
-		return i.client.UpdateGroup(ctx, message, opts...)
+		return i.client.UpdateClass(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -391,7 +391,7 @@ func (i *GroupServiceInterceptor) UpdateGroup(ctx context.Context, in *UpdateGro
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.course.GroupService.UpdateGroup", in, next)
+			return mw(ctx, "eolymp.course.ClassService.UpdateClass", in, next)
 		}
 	}
 
@@ -400,22 +400,22 @@ func (i *GroupServiceInterceptor) UpdateGroup(ctx context.Context, in *UpdateGro
 		return nil, err
 	}
 
-	message, ok := out.(*UpdateGroupOutput)
+	message, ok := out.(*UpdateClassOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *UpdateGroupOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *UpdateClassOutput, got %T", out))
 	}
 
 	return message, err
 }
 
-func (i *GroupServiceInterceptor) DeleteGroup(ctx context.Context, in *DeleteGroupInput, opts ...grpc.CallOption) (*DeleteGroupOutput, error) {
+func (i *ClassServiceInterceptor) DeleteClass(ctx context.Context, in *DeleteClassInput, opts ...grpc.CallOption) (*DeleteClassOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*DeleteGroupInput)
+		message, ok := in.(*DeleteClassInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *DeleteGroupInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *DeleteClassInput, got %T", in))
 		}
 
-		return i.client.DeleteGroup(ctx, message, opts...)
+		return i.client.DeleteClass(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -423,7 +423,7 @@ func (i *GroupServiceInterceptor) DeleteGroup(ctx context.Context, in *DeleteGro
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.course.GroupService.DeleteGroup", in, next)
+			return mw(ctx, "eolymp.course.ClassService.DeleteClass", in, next)
 		}
 	}
 
@@ -432,22 +432,22 @@ func (i *GroupServiceInterceptor) DeleteGroup(ctx context.Context, in *DeleteGro
 		return nil, err
 	}
 
-	message, ok := out.(*DeleteGroupOutput)
+	message, ok := out.(*DeleteClassOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *DeleteGroupOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *DeleteClassOutput, got %T", out))
 	}
 
 	return message, err
 }
 
-func (i *GroupServiceInterceptor) DescribeGroup(ctx context.Context, in *DescribeGroupInput, opts ...grpc.CallOption) (*DescribeGroupOutput, error) {
+func (i *ClassServiceInterceptor) DescribeClass(ctx context.Context, in *DescribeClassInput, opts ...grpc.CallOption) (*DescribeClassOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*DescribeGroupInput)
+		message, ok := in.(*DescribeClassInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *DescribeGroupInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *DescribeClassInput, got %T", in))
 		}
 
-		return i.client.DescribeGroup(ctx, message, opts...)
+		return i.client.DescribeClass(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -455,7 +455,7 @@ func (i *GroupServiceInterceptor) DescribeGroup(ctx context.Context, in *Describ
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.course.GroupService.DescribeGroup", in, next)
+			return mw(ctx, "eolymp.course.ClassService.DescribeClass", in, next)
 		}
 	}
 
@@ -464,22 +464,22 @@ func (i *GroupServiceInterceptor) DescribeGroup(ctx context.Context, in *Describ
 		return nil, err
 	}
 
-	message, ok := out.(*DescribeGroupOutput)
+	message, ok := out.(*DescribeClassOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *DescribeGroupOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *DescribeClassOutput, got %T", out))
 	}
 
 	return message, err
 }
 
-func (i *GroupServiceInterceptor) ListGroups(ctx context.Context, in *ListGroupsInput, opts ...grpc.CallOption) (*ListGroupsOutput, error) {
+func (i *ClassServiceInterceptor) ListClasses(ctx context.Context, in *ListClassesInput, opts ...grpc.CallOption) (*ListClassesOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*ListGroupsInput)
+		message, ok := in.(*ListClassesInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *ListGroupsInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *ListClassesInput, got %T", in))
 		}
 
-		return i.client.ListGroups(ctx, message, opts...)
+		return i.client.ListClasses(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -487,7 +487,7 @@ func (i *GroupServiceInterceptor) ListGroups(ctx context.Context, in *ListGroups
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.course.GroupService.ListGroups", in, next)
+			return mw(ctx, "eolymp.course.ClassService.ListClasses", in, next)
 		}
 	}
 
@@ -496,9 +496,9 @@ func (i *GroupServiceInterceptor) ListGroups(ctx context.Context, in *ListGroups
 		return nil, err
 	}
 
-	message, ok := out.(*ListGroupsOutput)
+	message, ok := out.(*ListClassesOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *ListGroupsOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *ListClassesOutput, got %T", out))
 	}
 
 	return message, err
