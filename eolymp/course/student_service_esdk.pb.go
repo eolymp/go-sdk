@@ -191,3 +191,51 @@ func (s *StudentServiceService) DescribeViewer(ctx context.Context, in *Describe
 
 	return out, nil
 }
+
+func (s *StudentServiceService) ListStudentAssignments(ctx context.Context, in *ListStudentAssignmentsInput) (*ListStudentAssignmentsOutput, error) {
+	out := &ListStudentAssignmentsOutput{}
+	path := "/students/" + url.PathEscape(in.GetMemberId()) + "/assignments"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.MemberId = ""
+	}
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *StudentServiceService) UpdateStudentAssignment(ctx context.Context, in *UpdateStudentAssignmentInput) (*UpdateStudentAssignmentOutput, error) {
+	out := &UpdateStudentAssignmentOutput{}
+	path := "/students/" + url.PathEscape(in.GetMemberId()) + "/assignments"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.MemberId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *StudentServiceService) DeleteStudentAssignment(ctx context.Context, in *DeleteStudentAssignmentInput) (*DeleteStudentAssignmentOutput, error) {
+	out := &DeleteStudentAssignmentOutput{}
+	path := "/students/" + url.PathEscape(in.GetMemberId()) + "/assignments"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.MemberId = ""
+	}
+
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

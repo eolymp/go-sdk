@@ -169,3 +169,51 @@ func (s *ClassServiceService) ListClasses(ctx context.Context, in *ListClassesIn
 
 	return out, nil
 }
+
+func (s *ClassServiceService) ListClassAssignments(ctx context.Context, in *ListClassAssignmentsInput) (*ListClassAssignmentsOutput, error) {
+	out := &ListClassAssignmentsOutput{}
+	path := "/classes/" + url.PathEscape(in.GetGroupId()) + "/assignments"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.GroupId = ""
+	}
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *ClassServiceService) UpdateClassAssignment(ctx context.Context, in *UpdateClassAssignmentInput) (*UpdateClassAssignmentOutput, error) {
+	out := &UpdateClassAssignmentOutput{}
+	path := "/classes/" + url.PathEscape(in.GetGroupId()) + "/assignments"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.GroupId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *ClassServiceService) DeleteClassAssignment(ctx context.Context, in *DeleteClassAssignmentInput) (*DeleteClassAssignmentOutput, error) {
+	out := &DeleteClassAssignmentOutput{}
+	path := "/classes/" + url.PathEscape(in.GetGroupId()) + "/assignments"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.GroupId = ""
+	}
+
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

@@ -211,6 +211,15 @@ func RegisterClassServiceHttpHandlers(router *mux.Router, prefix string, cli Cla
 	router.Handle(prefix+"/classes", _ClassService_ListClasses_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.ClassService.ListClasses")
+	router.Handle(prefix+"/classes/{group_id}/assignments", _ClassService_ListClassAssignments_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.course.ClassService.ListClassAssignments")
+	router.Handle(prefix+"/classes/{group_id}/assignments", _ClassService_UpdateClassAssignment_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.course.ClassService.UpdateClassAssignment")
+	router.Handle(prefix+"/classes/{group_id}/assignments", _ClassService_DeleteClassAssignment_Rule0(cli)).
+		Methods("DELETE").
+		Name("eolymp.course.ClassService.DeleteClassAssignment")
 }
 
 func _ClassService_CreateClass_Rule0(cli ClassServiceClient) http.Handler {
@@ -323,6 +332,81 @@ func _ClassService_ListClasses_Rule0(cli ClassServiceClient) http.Handler {
 		var header, trailer metadata.MD
 
 		out, err := cli.ListClasses(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ClassService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ClassService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ClassService_ListClassAssignments_Rule0(cli ClassServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListClassAssignmentsInput{}
+
+		if err := _ClassService_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_ClassService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.GroupId = vars["group_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.ListClassAssignments(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ClassService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ClassService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ClassService_UpdateClassAssignment_Rule0(cli ClassServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UpdateClassAssignmentInput{}
+
+		if err := _ClassService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_ClassService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.GroupId = vars["group_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateClassAssignment(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ClassService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ClassService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ClassService_DeleteClassAssignment_Rule0(cli ClassServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DeleteClassAssignmentInput{}
+
+		if err := _ClassService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_ClassService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.GroupId = vars["group_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.DeleteClassAssignment(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ClassService_HTTPWriteErrorResponse(w, err)
 			return
@@ -499,6 +583,102 @@ func (i *ClassServiceInterceptor) ListClasses(ctx context.Context, in *ListClass
 	message, ok := out.(*ListClassesOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *ListClassesOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *ClassServiceInterceptor) ListClassAssignments(ctx context.Context, in *ListClassAssignmentsInput, opts ...grpc.CallOption) (*ListClassAssignmentsOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListClassAssignmentsInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListClassAssignmentsInput, got %T", in))
+		}
+
+		return i.client.ListClassAssignments(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.course.ClassService.ListClassAssignments", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListClassAssignmentsOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListClassAssignmentsOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *ClassServiceInterceptor) UpdateClassAssignment(ctx context.Context, in *UpdateClassAssignmentInput, opts ...grpc.CallOption) (*UpdateClassAssignmentOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*UpdateClassAssignmentInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *UpdateClassAssignmentInput, got %T", in))
+		}
+
+		return i.client.UpdateClassAssignment(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.course.ClassService.UpdateClassAssignment", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*UpdateClassAssignmentOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *UpdateClassAssignmentOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *ClassServiceInterceptor) DeleteClassAssignment(ctx context.Context, in *DeleteClassAssignmentInput, opts ...grpc.CallOption) (*DeleteClassAssignmentOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DeleteClassAssignmentInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DeleteClassAssignmentInput, got %T", in))
+		}
+
+		return i.client.DeleteClassAssignment(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.course.ClassService.DeleteClassAssignment", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DeleteClassAssignmentOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DeleteClassAssignmentOutput, got %T", out))
 	}
 
 	return message, err

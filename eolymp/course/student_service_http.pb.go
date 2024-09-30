@@ -249,6 +249,15 @@ func RegisterStudentServiceHttpHandlers(router *mux.Router, prefix string, cli S
 	router.Handle(prefix+"/viewer/student", _StudentService_DescribeViewer_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.StudentService.DescribeViewer")
+	router.Handle(prefix+"/students/{member_id}/assignments", _StudentService_ListStudentAssignments_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.course.StudentService.ListStudentAssignments")
+	router.Handle(prefix+"/students/{member_id}/assignments", _StudentService_UpdateStudentAssignment_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.course.StudentService.UpdateStudentAssignment")
+	router.Handle(prefix+"/students/{member_id}/assignments", _StudentService_DeleteStudentAssignment_Rule0(cli)).
+		Methods("DELETE").
+		Name("eolymp.course.StudentService.DeleteStudentAssignment")
 }
 
 func _StudentService_CreateStudent_Rule0(cli StudentServiceClient) http.Handler {
@@ -405,6 +414,81 @@ func _StudentService_DescribeViewer_Rule0(cli StudentServiceClient) http.Handler
 		var header, trailer metadata.MD
 
 		out, err := cli.DescribeViewer(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_StudentService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_StudentService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _StudentService_ListStudentAssignments_Rule0(cli StudentServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListStudentAssignmentsInput{}
+
+		if err := _StudentService_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_StudentService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.MemberId = vars["member_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.ListStudentAssignments(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_StudentService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_StudentService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _StudentService_UpdateStudentAssignment_Rule0(cli StudentServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UpdateStudentAssignmentInput{}
+
+		if err := _StudentService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_StudentService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.MemberId = vars["member_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateStudentAssignment(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_StudentService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_StudentService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _StudentService_DeleteStudentAssignment_Rule0(cli StudentServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DeleteStudentAssignmentInput{}
+
+		if err := _StudentService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_StudentService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.MemberId = vars["member_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.DeleteStudentAssignment(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_StudentService_HTTPWriteErrorResponse(w, err)
 			return
@@ -649,6 +733,102 @@ func (i *StudentServiceInterceptor) DescribeViewer(ctx context.Context, in *Desc
 	message, ok := out.(*DescribeViewerOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *DescribeViewerOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *StudentServiceInterceptor) ListStudentAssignments(ctx context.Context, in *ListStudentAssignmentsInput, opts ...grpc.CallOption) (*ListStudentAssignmentsOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListStudentAssignmentsInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListStudentAssignmentsInput, got %T", in))
+		}
+
+		return i.client.ListStudentAssignments(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.course.StudentService.ListStudentAssignments", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListStudentAssignmentsOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListStudentAssignmentsOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *StudentServiceInterceptor) UpdateStudentAssignment(ctx context.Context, in *UpdateStudentAssignmentInput, opts ...grpc.CallOption) (*UpdateStudentAssignmentOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*UpdateStudentAssignmentInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *UpdateStudentAssignmentInput, got %T", in))
+		}
+
+		return i.client.UpdateStudentAssignment(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.course.StudentService.UpdateStudentAssignment", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*UpdateStudentAssignmentOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *UpdateStudentAssignmentOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *StudentServiceInterceptor) DeleteStudentAssignment(ctx context.Context, in *DeleteStudentAssignmentInput, opts ...grpc.CallOption) (*DeleteStudentAssignmentOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DeleteStudentAssignmentInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DeleteStudentAssignmentInput, got %T", in))
+		}
+
+		return i.client.DeleteStudentAssignment(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.course.StudentService.DeleteStudentAssignment", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DeleteStudentAssignmentOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DeleteStudentAssignmentOutput, got %T", out))
 	}
 
 	return message, err

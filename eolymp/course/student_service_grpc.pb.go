@@ -19,14 +19,17 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	StudentService_CreateStudent_FullMethodName   = "/eolymp.course.StudentService/CreateStudent"
-	StudentService_UpdateStudent_FullMethodName   = "/eolymp.course.StudentService/UpdateStudent"
-	StudentService_DeleteStudent_FullMethodName   = "/eolymp.course.StudentService/DeleteStudent"
-	StudentService_DescribeStudent_FullMethodName = "/eolymp.course.StudentService/DescribeStudent"
-	StudentService_ListStudents_FullMethodName    = "/eolymp.course.StudentService/ListStudents"
-	StudentService_WatchStudent_FullMethodName    = "/eolymp.course.StudentService/WatchStudent"
-	StudentService_JoinCourse_FullMethodName      = "/eolymp.course.StudentService/JoinCourse"
-	StudentService_DescribeViewer_FullMethodName  = "/eolymp.course.StudentService/DescribeViewer"
+	StudentService_CreateStudent_FullMethodName           = "/eolymp.course.StudentService/CreateStudent"
+	StudentService_UpdateStudent_FullMethodName           = "/eolymp.course.StudentService/UpdateStudent"
+	StudentService_DeleteStudent_FullMethodName           = "/eolymp.course.StudentService/DeleteStudent"
+	StudentService_DescribeStudent_FullMethodName         = "/eolymp.course.StudentService/DescribeStudent"
+	StudentService_ListStudents_FullMethodName            = "/eolymp.course.StudentService/ListStudents"
+	StudentService_WatchStudent_FullMethodName            = "/eolymp.course.StudentService/WatchStudent"
+	StudentService_JoinCourse_FullMethodName              = "/eolymp.course.StudentService/JoinCourse"
+	StudentService_DescribeViewer_FullMethodName          = "/eolymp.course.StudentService/DescribeViewer"
+	StudentService_ListStudentAssignments_FullMethodName  = "/eolymp.course.StudentService/ListStudentAssignments"
+	StudentService_UpdateStudentAssignment_FullMethodName = "/eolymp.course.StudentService/UpdateStudentAssignment"
+	StudentService_DeleteStudentAssignment_FullMethodName = "/eolymp.course.StudentService/DeleteStudentAssignment"
 )
 
 // StudentServiceClient is the client API for StudentService service.
@@ -41,6 +44,9 @@ type StudentServiceClient interface {
 	WatchStudent(ctx context.Context, in *WatchStudentInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchStudentOutput], error)
 	JoinCourse(ctx context.Context, in *JoinCourseInput, opts ...grpc.CallOption) (*JoinCourseOutput, error)
 	DescribeViewer(ctx context.Context, in *DescribeViewerInput, opts ...grpc.CallOption) (*DescribeViewerOutput, error)
+	ListStudentAssignments(ctx context.Context, in *ListStudentAssignmentsInput, opts ...grpc.CallOption) (*ListStudentAssignmentsOutput, error)
+	UpdateStudentAssignment(ctx context.Context, in *UpdateStudentAssignmentInput, opts ...grpc.CallOption) (*UpdateStudentAssignmentOutput, error)
+	DeleteStudentAssignment(ctx context.Context, in *DeleteStudentAssignmentInput, opts ...grpc.CallOption) (*DeleteStudentAssignmentOutput, error)
 }
 
 type studentServiceClient struct {
@@ -140,6 +146,36 @@ func (c *studentServiceClient) DescribeViewer(ctx context.Context, in *DescribeV
 	return out, nil
 }
 
+func (c *studentServiceClient) ListStudentAssignments(ctx context.Context, in *ListStudentAssignmentsInput, opts ...grpc.CallOption) (*ListStudentAssignmentsOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListStudentAssignmentsOutput)
+	err := c.cc.Invoke(ctx, StudentService_ListStudentAssignments_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *studentServiceClient) UpdateStudentAssignment(ctx context.Context, in *UpdateStudentAssignmentInput, opts ...grpc.CallOption) (*UpdateStudentAssignmentOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateStudentAssignmentOutput)
+	err := c.cc.Invoke(ctx, StudentService_UpdateStudentAssignment_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *studentServiceClient) DeleteStudentAssignment(ctx context.Context, in *DeleteStudentAssignmentInput, opts ...grpc.CallOption) (*DeleteStudentAssignmentOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteStudentAssignmentOutput)
+	err := c.cc.Invoke(ctx, StudentService_DeleteStudentAssignment_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // StudentServiceServer is the server API for StudentService service.
 // All implementations should embed UnimplementedStudentServiceServer
 // for forward compatibility.
@@ -152,6 +188,9 @@ type StudentServiceServer interface {
 	WatchStudent(*WatchStudentInput, grpc.ServerStreamingServer[WatchStudentOutput]) error
 	JoinCourse(context.Context, *JoinCourseInput) (*JoinCourseOutput, error)
 	DescribeViewer(context.Context, *DescribeViewerInput) (*DescribeViewerOutput, error)
+	ListStudentAssignments(context.Context, *ListStudentAssignmentsInput) (*ListStudentAssignmentsOutput, error)
+	UpdateStudentAssignment(context.Context, *UpdateStudentAssignmentInput) (*UpdateStudentAssignmentOutput, error)
+	DeleteStudentAssignment(context.Context, *DeleteStudentAssignmentInput) (*DeleteStudentAssignmentOutput, error)
 }
 
 // UnimplementedStudentServiceServer should be embedded to have
@@ -184,6 +223,15 @@ func (UnimplementedStudentServiceServer) JoinCourse(context.Context, *JoinCourse
 }
 func (UnimplementedStudentServiceServer) DescribeViewer(context.Context, *DescribeViewerInput) (*DescribeViewerOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeViewer not implemented")
+}
+func (UnimplementedStudentServiceServer) ListStudentAssignments(context.Context, *ListStudentAssignmentsInput) (*ListStudentAssignmentsOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListStudentAssignments not implemented")
+}
+func (UnimplementedStudentServiceServer) UpdateStudentAssignment(context.Context, *UpdateStudentAssignmentInput) (*UpdateStudentAssignmentOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateStudentAssignment not implemented")
+}
+func (UnimplementedStudentServiceServer) DeleteStudentAssignment(context.Context, *DeleteStudentAssignmentInput) (*DeleteStudentAssignmentOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteStudentAssignment not implemented")
 }
 func (UnimplementedStudentServiceServer) testEmbeddedByValue() {}
 
@@ -342,6 +390,60 @@ func _StudentService_DescribeViewer_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _StudentService_ListStudentAssignments_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListStudentAssignmentsInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StudentServiceServer).ListStudentAssignments(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StudentService_ListStudentAssignments_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StudentServiceServer).ListStudentAssignments(ctx, req.(*ListStudentAssignmentsInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _StudentService_UpdateStudentAssignment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateStudentAssignmentInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StudentServiceServer).UpdateStudentAssignment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StudentService_UpdateStudentAssignment_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StudentServiceServer).UpdateStudentAssignment(ctx, req.(*UpdateStudentAssignmentInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _StudentService_DeleteStudentAssignment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteStudentAssignmentInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StudentServiceServer).DeleteStudentAssignment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StudentService_DeleteStudentAssignment_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StudentServiceServer).DeleteStudentAssignment(ctx, req.(*DeleteStudentAssignmentInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // StudentService_ServiceDesc is the grpc.ServiceDesc for StudentService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -376,6 +478,18 @@ var StudentService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DescribeViewer",
 			Handler:    _StudentService_DescribeViewer_Handler,
+		},
+		{
+			MethodName: "ListStudentAssignments",
+			Handler:    _StudentService_ListStudentAssignments_Handler,
+		},
+		{
+			MethodName: "UpdateStudentAssignment",
+			Handler:    _StudentService_UpdateStudentAssignment_Handler,
+		},
+		{
+			MethodName: "DeleteStudentAssignment",
+			Handler:    _StudentService_DeleteStudentAssignment_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

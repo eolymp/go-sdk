@@ -19,11 +19,14 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	ClassService_CreateClass_FullMethodName   = "/eolymp.course.ClassService/CreateClass"
-	ClassService_UpdateClass_FullMethodName   = "/eolymp.course.ClassService/UpdateClass"
-	ClassService_DeleteClass_FullMethodName   = "/eolymp.course.ClassService/DeleteClass"
-	ClassService_DescribeClass_FullMethodName = "/eolymp.course.ClassService/DescribeClass"
-	ClassService_ListClasses_FullMethodName   = "/eolymp.course.ClassService/ListClasses"
+	ClassService_CreateClass_FullMethodName           = "/eolymp.course.ClassService/CreateClass"
+	ClassService_UpdateClass_FullMethodName           = "/eolymp.course.ClassService/UpdateClass"
+	ClassService_DeleteClass_FullMethodName           = "/eolymp.course.ClassService/DeleteClass"
+	ClassService_DescribeClass_FullMethodName         = "/eolymp.course.ClassService/DescribeClass"
+	ClassService_ListClasses_FullMethodName           = "/eolymp.course.ClassService/ListClasses"
+	ClassService_ListClassAssignments_FullMethodName  = "/eolymp.course.ClassService/ListClassAssignments"
+	ClassService_UpdateClassAssignment_FullMethodName = "/eolymp.course.ClassService/UpdateClassAssignment"
+	ClassService_DeleteClassAssignment_FullMethodName = "/eolymp.course.ClassService/DeleteClassAssignment"
 )
 
 // ClassServiceClient is the client API for ClassService service.
@@ -35,6 +38,9 @@ type ClassServiceClient interface {
 	DeleteClass(ctx context.Context, in *DeleteClassInput, opts ...grpc.CallOption) (*DeleteClassOutput, error)
 	DescribeClass(ctx context.Context, in *DescribeClassInput, opts ...grpc.CallOption) (*DescribeClassOutput, error)
 	ListClasses(ctx context.Context, in *ListClassesInput, opts ...grpc.CallOption) (*ListClassesOutput, error)
+	ListClassAssignments(ctx context.Context, in *ListClassAssignmentsInput, opts ...grpc.CallOption) (*ListClassAssignmentsOutput, error)
+	UpdateClassAssignment(ctx context.Context, in *UpdateClassAssignmentInput, opts ...grpc.CallOption) (*UpdateClassAssignmentOutput, error)
+	DeleteClassAssignment(ctx context.Context, in *DeleteClassAssignmentInput, opts ...grpc.CallOption) (*DeleteClassAssignmentOutput, error)
 }
 
 type classServiceClient struct {
@@ -95,6 +101,36 @@ func (c *classServiceClient) ListClasses(ctx context.Context, in *ListClassesInp
 	return out, nil
 }
 
+func (c *classServiceClient) ListClassAssignments(ctx context.Context, in *ListClassAssignmentsInput, opts ...grpc.CallOption) (*ListClassAssignmentsOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListClassAssignmentsOutput)
+	err := c.cc.Invoke(ctx, ClassService_ListClassAssignments_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *classServiceClient) UpdateClassAssignment(ctx context.Context, in *UpdateClassAssignmentInput, opts ...grpc.CallOption) (*UpdateClassAssignmentOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateClassAssignmentOutput)
+	err := c.cc.Invoke(ctx, ClassService_UpdateClassAssignment_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *classServiceClient) DeleteClassAssignment(ctx context.Context, in *DeleteClassAssignmentInput, opts ...grpc.CallOption) (*DeleteClassAssignmentOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteClassAssignmentOutput)
+	err := c.cc.Invoke(ctx, ClassService_DeleteClassAssignment_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ClassServiceServer is the server API for ClassService service.
 // All implementations should embed UnimplementedClassServiceServer
 // for forward compatibility.
@@ -104,6 +140,9 @@ type ClassServiceServer interface {
 	DeleteClass(context.Context, *DeleteClassInput) (*DeleteClassOutput, error)
 	DescribeClass(context.Context, *DescribeClassInput) (*DescribeClassOutput, error)
 	ListClasses(context.Context, *ListClassesInput) (*ListClassesOutput, error)
+	ListClassAssignments(context.Context, *ListClassAssignmentsInput) (*ListClassAssignmentsOutput, error)
+	UpdateClassAssignment(context.Context, *UpdateClassAssignmentInput) (*UpdateClassAssignmentOutput, error)
+	DeleteClassAssignment(context.Context, *DeleteClassAssignmentInput) (*DeleteClassAssignmentOutput, error)
 }
 
 // UnimplementedClassServiceServer should be embedded to have
@@ -127,6 +166,15 @@ func (UnimplementedClassServiceServer) DescribeClass(context.Context, *DescribeC
 }
 func (UnimplementedClassServiceServer) ListClasses(context.Context, *ListClassesInput) (*ListClassesOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListClasses not implemented")
+}
+func (UnimplementedClassServiceServer) ListClassAssignments(context.Context, *ListClassAssignmentsInput) (*ListClassAssignmentsOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListClassAssignments not implemented")
+}
+func (UnimplementedClassServiceServer) UpdateClassAssignment(context.Context, *UpdateClassAssignmentInput) (*UpdateClassAssignmentOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateClassAssignment not implemented")
+}
+func (UnimplementedClassServiceServer) DeleteClassAssignment(context.Context, *DeleteClassAssignmentInput) (*DeleteClassAssignmentOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteClassAssignment not implemented")
 }
 func (UnimplementedClassServiceServer) testEmbeddedByValue() {}
 
@@ -238,6 +286,60 @@ func _ClassService_ListClasses_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ClassService_ListClassAssignments_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListClassAssignmentsInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ClassServiceServer).ListClassAssignments(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ClassService_ListClassAssignments_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ClassServiceServer).ListClassAssignments(ctx, req.(*ListClassAssignmentsInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ClassService_UpdateClassAssignment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateClassAssignmentInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ClassServiceServer).UpdateClassAssignment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ClassService_UpdateClassAssignment_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ClassServiceServer).UpdateClassAssignment(ctx, req.(*UpdateClassAssignmentInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ClassService_DeleteClassAssignment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteClassAssignmentInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ClassServiceServer).DeleteClassAssignment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ClassService_DeleteClassAssignment_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ClassServiceServer).DeleteClassAssignment(ctx, req.(*DeleteClassAssignmentInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ClassService_ServiceDesc is the grpc.ServiceDesc for ClassService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -264,6 +366,18 @@ var ClassService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListClasses",
 			Handler:    _ClassService_ListClasses_Handler,
+		},
+		{
+			MethodName: "ListClassAssignments",
+			Handler:    _ClassService_ListClassAssignments_Handler,
+		},
+		{
+			MethodName: "UpdateClassAssignment",
+			Handler:    _ClassService_UpdateClassAssignment_Handler,
+		},
+		{
+			MethodName: "DeleteClassAssignment",
+			Handler:    _ClassService_DeleteClassAssignment_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

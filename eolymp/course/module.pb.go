@@ -80,67 +80,6 @@ func (Module_Extra) EnumDescriptor() ([]byte, []int) {
 	return file_eolymp_course_module_proto_rawDescGZIP(), []int{0, 0}
 }
 
-type Module_Assignment_Status int32
-
-const (
-	Module_Assignment_UNKNOWN_STATUS Module_Assignment_Status = 0
-	Module_Assignment_UNASSIGNED     Module_Assignment_Status = 1 // assignment is not assigned
-	Module_Assignment_SCHEDULED      Module_Assignment_Status = 3 // assignment will start automatically at start_at
-	Module_Assignment_READY          Module_Assignment_Status = 4 // assignment is ready to be started, student must call StartAssignment to activate assignment
-	Module_Assignment_ACTIVE         Module_Assignment_Status = 5 // assignment is active and can be seen by the student
-	Module_Assignment_COMPLETE       Module_Assignment_Status = 6 // assignment time has run out and not shown to the student anymore
-	Module_Assignment_UPSOLVE        Module_Assignment_Status = 7 // assignment time has run out, the result is final, but student can see course and solve tasks
-)
-
-// Enum value maps for Module_Assignment_Status.
-var (
-	Module_Assignment_Status_name = map[int32]string{
-		0: "UNKNOWN_STATUS",
-		1: "UNASSIGNED",
-		3: "SCHEDULED",
-		4: "READY",
-		5: "ACTIVE",
-		6: "COMPLETE",
-		7: "UPSOLVE",
-	}
-	Module_Assignment_Status_value = map[string]int32{
-		"UNKNOWN_STATUS": 0,
-		"UNASSIGNED":     1,
-		"SCHEDULED":      3,
-		"READY":          4,
-		"ACTIVE":         5,
-		"COMPLETE":       6,
-		"UPSOLVE":        7,
-	}
-)
-
-func (x Module_Assignment_Status) Enum() *Module_Assignment_Status {
-	p := new(Module_Assignment_Status)
-	*p = x
-	return p
-}
-
-func (x Module_Assignment_Status) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (Module_Assignment_Status) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_course_module_proto_enumTypes[1].Descriptor()
-}
-
-func (Module_Assignment_Status) Type() protoreflect.EnumType {
-	return &file_eolymp_course_module_proto_enumTypes[1]
-}
-
-func (x Module_Assignment_Status) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use Module_Assignment_Status.Descriptor instead.
-func (Module_Assignment_Status) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_course_module_proto_rawDescGZIP(), []int{0, 0, 0}
-}
-
 type Module_Progress_Status int32
 
 const (
@@ -186,11 +125,11 @@ func (x Module_Progress_Status) String() string {
 }
 
 func (Module_Progress_Status) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_course_module_proto_enumTypes[2].Descriptor()
+	return file_eolymp_course_module_proto_enumTypes[1].Descriptor()
 }
 
 func (Module_Progress_Status) Type() protoreflect.EnumType {
-	return &file_eolymp_course_module_proto_enumTypes[2]
+	return &file_eolymp_course_module_proto_enumTypes[1]
 }
 
 func (x Module_Progress_Status) Number() protoreflect.EnumNumber {
@@ -199,7 +138,7 @@ func (x Module_Progress_Status) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use Module_Progress_Status.Descriptor instead.
 func (Module_Progress_Status) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_course_module_proto_rawDescGZIP(), []int{0, 1, 0}
+	return file_eolymp_course_module_proto_rawDescGZIP(), []int{0, 0, 0}
 }
 
 type Module struct {
@@ -221,7 +160,6 @@ type Module struct {
 	Percentage     float32                `protobuf:"fixed32,20,opt,name=percentage,proto3" json:"percentage,omitempty"`
 	Grade          uint32                 `protobuf:"varint,21,opt,name=grade,proto3" json:"grade,omitempty"`
 	Progress       *Module_Progress       `protobuf:"bytes,31,opt,name=progress,proto3" json:"progress,omitempty"`
-	Assignment     *Module_Assignment     `protobuf:"bytes,30,opt,name=assignment,proto3" json:"assignment,omitempty"`
 }
 
 func (x *Module) Reset() {
@@ -354,117 +292,6 @@ func (x *Module) GetProgress() *Module_Progress {
 	return nil
 }
 
-func (x *Module) GetAssignment() *Module_Assignment {
-	if x != nil {
-		return x.Assignment
-	}
-	return nil
-}
-
-// deprecated
-type Module_Assignment struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Status         Module_Assignment_Status `protobuf:"varint,10,opt,name=status,proto3,enum=eolymp.course.Module_Assignment_Status" json:"status,omitempty"`
-	StartAfter     *timestamppb.Timestamp   `protobuf:"bytes,11,opt,name=start_after,json=startAfter,proto3" json:"start_after,omitempty"`             // optionally, time by when assignment should be complete
-	CompleteBefore *timestamppb.Timestamp   `protobuf:"bytes,12,opt,name=complete_before,json=completeBefore,proto3" json:"complete_before,omitempty"` // optionally, time by when assignment should be complete
-	Duration       uint32                   `protobuf:"varint,13,opt,name=duration,proto3" json:"duration,omitempty"`                                  // optionally, duration of the assignment in seconds
-	Upsolve        bool                     `protobuf:"varint,30,opt,name=upsolve,proto3" json:"upsolve,omitempty"`                                    // if true the task will be available after time runs out
-	AssignedAt     *timestamppb.Timestamp   `protobuf:"bytes,20,opt,name=assigned_at,json=assignedAt,proto3" json:"assigned_at,omitempty"`             // read-only, time when assignment was created
-	StartedAt      *timestamppb.Timestamp   `protobuf:"bytes,25,opt,name=started_at,json=startedAt,proto3" json:"started_at,omitempty"`                // read-only, time when assignment has been started (via StartAssignment API)
-	CompletedAt    *timestamppb.Timestamp   `protobuf:"bytes,26,opt,name=completed_at,json=completedAt,proto3" json:"completed_at,omitempty"`          // read-only, time when assignment will complete (started_at + duration)
-}
-
-func (x *Module_Assignment) Reset() {
-	*x = Module_Assignment{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_eolymp_course_module_proto_msgTypes[1]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *Module_Assignment) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*Module_Assignment) ProtoMessage() {}
-
-func (x *Module_Assignment) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_course_module_proto_msgTypes[1]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Module_Assignment.ProtoReflect.Descriptor instead.
-func (*Module_Assignment) Descriptor() ([]byte, []int) {
-	return file_eolymp_course_module_proto_rawDescGZIP(), []int{0, 0}
-}
-
-func (x *Module_Assignment) GetStatus() Module_Assignment_Status {
-	if x != nil {
-		return x.Status
-	}
-	return Module_Assignment_UNKNOWN_STATUS
-}
-
-func (x *Module_Assignment) GetStartAfter() *timestamppb.Timestamp {
-	if x != nil {
-		return x.StartAfter
-	}
-	return nil
-}
-
-func (x *Module_Assignment) GetCompleteBefore() *timestamppb.Timestamp {
-	if x != nil {
-		return x.CompleteBefore
-	}
-	return nil
-}
-
-func (x *Module_Assignment) GetDuration() uint32 {
-	if x != nil {
-		return x.Duration
-	}
-	return 0
-}
-
-func (x *Module_Assignment) GetUpsolve() bool {
-	if x != nil {
-		return x.Upsolve
-	}
-	return false
-}
-
-func (x *Module_Assignment) GetAssignedAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.AssignedAt
-	}
-	return nil
-}
-
-func (x *Module_Assignment) GetStartedAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.StartedAt
-	}
-	return nil
-}
-
-func (x *Module_Assignment) GetCompletedAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.CompletedAt
-	}
-	return nil
-}
-
 type Module_Progress struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -485,7 +312,7 @@ type Module_Progress struct {
 func (x *Module_Progress) Reset() {
 	*x = Module_Progress{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_eolymp_course_module_proto_msgTypes[2]
+		mi := &file_eolymp_course_module_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -498,7 +325,7 @@ func (x *Module_Progress) String() string {
 func (*Module_Progress) ProtoMessage() {}
 
 func (x *Module_Progress) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_course_module_proto_msgTypes[2]
+	mi := &file_eolymp_course_module_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -511,7 +338,7 @@ func (x *Module_Progress) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Module_Progress.ProtoReflect.Descriptor instead.
 func (*Module_Progress) Descriptor() ([]byte, []int) {
-	return file_eolymp_course_module_proto_rawDescGZIP(), []int{0, 1}
+	return file_eolymp_course_module_proto_rawDescGZIP(), []int{0, 0}
 }
 
 func (x *Module_Progress) GetStatus() Module_Progress_Status {
@@ -593,7 +420,7 @@ var file_eolymp_course_module_proto_rawDesc = []byte{
 	0x79, 0x6d, 0x70, 0x2f, 0x65, 0x63, 0x6d, 0x2f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x2e,
 	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x1f, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2f, 0x70, 0x72,
 	0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2f, 0x74, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70,
-	0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0xa8, 0x0e, 0x0a, 0x06, 0x4d, 0x6f, 0x64, 0x75, 0x6c,
+	0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0xb8, 0x09, 0x0a, 0x06, 0x4d, 0x6f, 0x64, 0x75, 0x6c,
 	0x65, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69,
 	0x64, 0x12, 0x10, 0x0a, 0x03, 0x75, 0x72, 0x6c, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03,
 	0x75, 0x72, 0x6c, 0x12, 0x14, 0x0a, 0x05, 0x64, 0x72, 0x61, 0x66, 0x74, 0x18, 0x03, 0x20, 0x01,
@@ -623,46 +450,7 @@ var file_eolymp_course_module_proto_rawDesc = []byte{
 	0x65, 0x12, 0x3a, 0x0a, 0x08, 0x70, 0x72, 0x6f, 0x67, 0x72, 0x65, 0x73, 0x73, 0x18, 0x1f, 0x20,
 	0x01, 0x28, 0x0b, 0x32, 0x1e, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x63, 0x6f, 0x75,
 	0x72, 0x73, 0x65, 0x2e, 0x4d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x2e, 0x50, 0x72, 0x6f, 0x67, 0x72,
-	0x65, 0x73, 0x73, 0x52, 0x08, 0x70, 0x72, 0x6f, 0x67, 0x72, 0x65, 0x73, 0x73, 0x12, 0x40, 0x0a,
-	0x0a, 0x61, 0x73, 0x73, 0x69, 0x67, 0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x18, 0x1e, 0x20, 0x01, 0x28,
-	0x0b, 0x32, 0x20, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x63, 0x6f, 0x75, 0x72, 0x73,
-	0x65, 0x2e, 0x4d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x2e, 0x41, 0x73, 0x73, 0x69, 0x67, 0x6e, 0x6d,
-	0x65, 0x6e, 0x74, 0x52, 0x0a, 0x61, 0x73, 0x73, 0x69, 0x67, 0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x1a,
-	0xab, 0x04, 0x0a, 0x0a, 0x41, 0x73, 0x73, 0x69, 0x67, 0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x12, 0x3f,
-	0x0a, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x18, 0x0a, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x27,
-	0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x2e, 0x4d,
-	0x6f, 0x64, 0x75, 0x6c, 0x65, 0x2e, 0x41, 0x73, 0x73, 0x69, 0x67, 0x6e, 0x6d, 0x65, 0x6e, 0x74,
-	0x2e, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x52, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12,
-	0x3b, 0x0a, 0x0b, 0x73, 0x74, 0x61, 0x72, 0x74, 0x5f, 0x61, 0x66, 0x74, 0x65, 0x72, 0x18, 0x0b,
-	0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72,
-	0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70,
-	0x52, 0x0a, 0x73, 0x74, 0x61, 0x72, 0x74, 0x41, 0x66, 0x74, 0x65, 0x72, 0x12, 0x43, 0x0a, 0x0f,
-	0x63, 0x6f, 0x6d, 0x70, 0x6c, 0x65, 0x74, 0x65, 0x5f, 0x62, 0x65, 0x66, 0x6f, 0x72, 0x65, 0x18,
-	0x0c, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70,
-	0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d,
-	0x70, 0x52, 0x0e, 0x63, 0x6f, 0x6d, 0x70, 0x6c, 0x65, 0x74, 0x65, 0x42, 0x65, 0x66, 0x6f, 0x72,
-	0x65, 0x12, 0x1a, 0x0a, 0x08, 0x64, 0x75, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x0d, 0x20,
-	0x01, 0x28, 0x0d, 0x52, 0x08, 0x64, 0x75, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x18, 0x0a,
-	0x07, 0x75, 0x70, 0x73, 0x6f, 0x6c, 0x76, 0x65, 0x18, 0x1e, 0x20, 0x01, 0x28, 0x08, 0x52, 0x07,
-	0x75, 0x70, 0x73, 0x6f, 0x6c, 0x76, 0x65, 0x12, 0x3b, 0x0a, 0x0b, 0x61, 0x73, 0x73, 0x69, 0x67,
-	0x6e, 0x65, 0x64, 0x5f, 0x61, 0x74, 0x18, 0x14, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67,
-	0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54,
-	0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x52, 0x0a, 0x61, 0x73, 0x73, 0x69, 0x67, 0x6e,
-	0x65, 0x64, 0x41, 0x74, 0x12, 0x39, 0x0a, 0x0a, 0x73, 0x74, 0x61, 0x72, 0x74, 0x65, 0x64, 0x5f,
-	0x61, 0x74, 0x18, 0x19, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c,
-	0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73,
-	0x74, 0x61, 0x6d, 0x70, 0x52, 0x09, 0x73, 0x74, 0x61, 0x72, 0x74, 0x65, 0x64, 0x41, 0x74, 0x12,
-	0x3d, 0x0a, 0x0c, 0x63, 0x6f, 0x6d, 0x70, 0x6c, 0x65, 0x74, 0x65, 0x64, 0x5f, 0x61, 0x74, 0x18,
-	0x1a, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70,
-	0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d,
-	0x70, 0x52, 0x0b, 0x63, 0x6f, 0x6d, 0x70, 0x6c, 0x65, 0x74, 0x65, 0x64, 0x41, 0x74, 0x22, 0x6d,
-	0x0a, 0x06, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x12, 0x0a, 0x0e, 0x55, 0x4e, 0x4b, 0x4e,
-	0x4f, 0x57, 0x4e, 0x5f, 0x53, 0x54, 0x41, 0x54, 0x55, 0x53, 0x10, 0x00, 0x12, 0x0e, 0x0a, 0x0a,
-	0x55, 0x4e, 0x41, 0x53, 0x53, 0x49, 0x47, 0x4e, 0x45, 0x44, 0x10, 0x01, 0x12, 0x0d, 0x0a, 0x09,
-	0x53, 0x43, 0x48, 0x45, 0x44, 0x55, 0x4c, 0x45, 0x44, 0x10, 0x03, 0x12, 0x09, 0x0a, 0x05, 0x52,
-	0x45, 0x41, 0x44, 0x59, 0x10, 0x04, 0x12, 0x0a, 0x0a, 0x06, 0x41, 0x43, 0x54, 0x49, 0x56, 0x45,
-	0x10, 0x05, 0x12, 0x0c, 0x0a, 0x08, 0x43, 0x4f, 0x4d, 0x50, 0x4c, 0x45, 0x54, 0x45, 0x10, 0x06,
-	0x12, 0x0b, 0x0a, 0x07, 0x55, 0x50, 0x53, 0x4f, 0x4c, 0x56, 0x45, 0x10, 0x07, 0x1a, 0xdd, 0x04,
+	0x65, 0x73, 0x73, 0x52, 0x08, 0x70, 0x72, 0x6f, 0x67, 0x72, 0x65, 0x73, 0x73, 0x1a, 0xdd, 0x04,
 	0x0a, 0x08, 0x50, 0x72, 0x6f, 0x67, 0x72, 0x65, 0x73, 0x73, 0x12, 0x3d, 0x0a, 0x06, 0x73, 0x74,
 	0x61, 0x74, 0x75, 0x73, 0x18, 0x0a, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x25, 0x2e, 0x65, 0x6f, 0x6c,
 	0x79, 0x6d, 0x70, 0x2e, 0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x2e, 0x4d, 0x6f, 0x64, 0x75, 0x6c,
@@ -726,41 +514,32 @@ func file_eolymp_course_module_proto_rawDescGZIP() []byte {
 	return file_eolymp_course_module_proto_rawDescData
 }
 
-var file_eolymp_course_module_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
-var file_eolymp_course_module_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_eolymp_course_module_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_eolymp_course_module_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_eolymp_course_module_proto_goTypes = []any{
 	(Module_Extra)(0),             // 0: eolymp.course.Module.Extra
-	(Module_Assignment_Status)(0), // 1: eolymp.course.Module.Assignment.Status
-	(Module_Progress_Status)(0),   // 2: eolymp.course.Module.Progress.Status
-	(*Module)(nil),                // 3: eolymp.course.Module
-	(*Module_Assignment)(nil),     // 4: eolymp.course.Module.Assignment
-	(*Module_Progress)(nil),       // 5: eolymp.course.Module.Progress
-	(*ecm.Content)(nil),           // 6: eolymp.ecm.Content
-	(*timestamppb.Timestamp)(nil), // 7: google.protobuf.Timestamp
+	(Module_Progress_Status)(0),   // 1: eolymp.course.Module.Progress.Status
+	(*Module)(nil),                // 2: eolymp.course.Module
+	(*Module_Progress)(nil),       // 3: eolymp.course.Module.Progress
+	(*ecm.Content)(nil),           // 4: eolymp.ecm.Content
+	(*timestamppb.Timestamp)(nil), // 5: google.protobuf.Timestamp
 }
 var file_eolymp_course_module_proto_depIdxs = []int32{
-	6,  // 0: eolymp.course.Module.description:type_name -> eolymp.ecm.Content
-	7,  // 1: eolymp.course.Module.start_after:type_name -> google.protobuf.Timestamp
-	7,  // 2: eolymp.course.Module.complete_before:type_name -> google.protobuf.Timestamp
-	5,  // 3: eolymp.course.Module.progress:type_name -> eolymp.course.Module.Progress
-	4,  // 4: eolymp.course.Module.assignment:type_name -> eolymp.course.Module.Assignment
-	1,  // 5: eolymp.course.Module.Assignment.status:type_name -> eolymp.course.Module.Assignment.Status
-	7,  // 6: eolymp.course.Module.Assignment.start_after:type_name -> google.protobuf.Timestamp
-	7,  // 7: eolymp.course.Module.Assignment.complete_before:type_name -> google.protobuf.Timestamp
-	7,  // 8: eolymp.course.Module.Assignment.assigned_at:type_name -> google.protobuf.Timestamp
-	7,  // 9: eolymp.course.Module.Assignment.started_at:type_name -> google.protobuf.Timestamp
-	7,  // 10: eolymp.course.Module.Assignment.completed_at:type_name -> google.protobuf.Timestamp
-	2,  // 11: eolymp.course.Module.Progress.status:type_name -> eolymp.course.Module.Progress.Status
-	7,  // 12: eolymp.course.Module.Progress.start_after:type_name -> google.protobuf.Timestamp
-	7,  // 13: eolymp.course.Module.Progress.complete_before:type_name -> google.protobuf.Timestamp
-	7,  // 14: eolymp.course.Module.Progress.assigned_at:type_name -> google.protobuf.Timestamp
-	7,  // 15: eolymp.course.Module.Progress.started_at:type_name -> google.protobuf.Timestamp
-	7,  // 16: eolymp.course.Module.Progress.completed_at:type_name -> google.protobuf.Timestamp
-	17, // [17:17] is the sub-list for method output_type
-	17, // [17:17] is the sub-list for method input_type
-	17, // [17:17] is the sub-list for extension type_name
-	17, // [17:17] is the sub-list for extension extendee
-	0,  // [0:17] is the sub-list for field type_name
+	4,  // 0: eolymp.course.Module.description:type_name -> eolymp.ecm.Content
+	5,  // 1: eolymp.course.Module.start_after:type_name -> google.protobuf.Timestamp
+	5,  // 2: eolymp.course.Module.complete_before:type_name -> google.protobuf.Timestamp
+	3,  // 3: eolymp.course.Module.progress:type_name -> eolymp.course.Module.Progress
+	1,  // 4: eolymp.course.Module.Progress.status:type_name -> eolymp.course.Module.Progress.Status
+	5,  // 5: eolymp.course.Module.Progress.start_after:type_name -> google.protobuf.Timestamp
+	5,  // 6: eolymp.course.Module.Progress.complete_before:type_name -> google.protobuf.Timestamp
+	5,  // 7: eolymp.course.Module.Progress.assigned_at:type_name -> google.protobuf.Timestamp
+	5,  // 8: eolymp.course.Module.Progress.started_at:type_name -> google.protobuf.Timestamp
+	5,  // 9: eolymp.course.Module.Progress.completed_at:type_name -> google.protobuf.Timestamp
+	10, // [10:10] is the sub-list for method output_type
+	10, // [10:10] is the sub-list for method input_type
+	10, // [10:10] is the sub-list for extension type_name
+	10, // [10:10] is the sub-list for extension extendee
+	0,  // [0:10] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_course_module_proto_init() }
@@ -782,18 +561,6 @@ func file_eolymp_course_module_proto_init() {
 			}
 		}
 		file_eolymp_course_module_proto_msgTypes[1].Exporter = func(v any, i int) any {
-			switch v := v.(*Module_Assignment); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_eolymp_course_module_proto_msgTypes[2].Exporter = func(v any, i int) any {
 			switch v := v.(*Module_Progress); i {
 			case 0:
 				return &v.state
@@ -811,8 +578,8 @@ func file_eolymp_course_module_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_eolymp_course_module_proto_rawDesc,
-			NumEnums:      3,
-			NumMessages:   3,
+			NumEnums:      2,
+			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
