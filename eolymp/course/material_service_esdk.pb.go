@@ -185,3 +185,19 @@ func (s *MaterialServiceService) ListMaterials(ctx context.Context, in *ListMate
 
 	return out, nil
 }
+
+func (s *MaterialServiceService) ReportProgress(ctx context.Context, in *ReportProgressInput) (*ReportProgressOutput, error) {
+	out := &ReportProgressOutput{}
+	path := "/materials/" + url.PathEscape(in.GetMaterialId()) + "/progress"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.MaterialId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

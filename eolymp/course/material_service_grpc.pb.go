@@ -25,6 +25,7 @@ const (
 	MaterialService_DeleteMaterial_FullMethodName   = "/eolymp.course.MaterialService/DeleteMaterial"
 	MaterialService_DescribeMaterial_FullMethodName = "/eolymp.course.MaterialService/DescribeMaterial"
 	MaterialService_ListMaterials_FullMethodName    = "/eolymp.course.MaterialService/ListMaterials"
+	MaterialService_ReportProgress_FullMethodName   = "/eolymp.course.MaterialService/ReportProgress"
 )
 
 // MaterialServiceClient is the client API for MaterialService service.
@@ -37,6 +38,7 @@ type MaterialServiceClient interface {
 	DeleteMaterial(ctx context.Context, in *DeleteMaterialInput, opts ...grpc.CallOption) (*DeleteMaterialOutput, error)
 	DescribeMaterial(ctx context.Context, in *DescribeMaterialInput, opts ...grpc.CallOption) (*DescribeMaterialOutput, error)
 	ListMaterials(ctx context.Context, in *ListMaterialsInput, opts ...grpc.CallOption) (*ListMaterialsOutput, error)
+	ReportProgress(ctx context.Context, in *ReportProgressInput, opts ...grpc.CallOption) (*ReportProgressOutput, error)
 }
 
 type materialServiceClient struct {
@@ -107,6 +109,16 @@ func (c *materialServiceClient) ListMaterials(ctx context.Context, in *ListMater
 	return out, nil
 }
 
+func (c *materialServiceClient) ReportProgress(ctx context.Context, in *ReportProgressInput, opts ...grpc.CallOption) (*ReportProgressOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ReportProgressOutput)
+	err := c.cc.Invoke(ctx, MaterialService_ReportProgress_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MaterialServiceServer is the server API for MaterialService service.
 // All implementations should embed UnimplementedMaterialServiceServer
 // for forward compatibility.
@@ -117,6 +129,7 @@ type MaterialServiceServer interface {
 	DeleteMaterial(context.Context, *DeleteMaterialInput) (*DeleteMaterialOutput, error)
 	DescribeMaterial(context.Context, *DescribeMaterialInput) (*DescribeMaterialOutput, error)
 	ListMaterials(context.Context, *ListMaterialsInput) (*ListMaterialsOutput, error)
+	ReportProgress(context.Context, *ReportProgressInput) (*ReportProgressOutput, error)
 }
 
 // UnimplementedMaterialServiceServer should be embedded to have
@@ -143,6 +156,9 @@ func (UnimplementedMaterialServiceServer) DescribeMaterial(context.Context, *Des
 }
 func (UnimplementedMaterialServiceServer) ListMaterials(context.Context, *ListMaterialsInput) (*ListMaterialsOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListMaterials not implemented")
+}
+func (UnimplementedMaterialServiceServer) ReportProgress(context.Context, *ReportProgressInput) (*ReportProgressOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ReportProgress not implemented")
 }
 func (UnimplementedMaterialServiceServer) testEmbeddedByValue() {}
 
@@ -272,6 +288,24 @@ func _MaterialService_ListMaterials_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _MaterialService_ReportProgress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReportProgressInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MaterialServiceServer).ReportProgress(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MaterialService_ReportProgress_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MaterialServiceServer).ReportProgress(ctx, req.(*ReportProgressInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // MaterialService_ServiceDesc is the grpc.ServiceDesc for MaterialService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -302,6 +336,10 @@ var MaterialService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListMaterials",
 			Handler:    _MaterialService_ListMaterials_Handler,
+		},
+		{
+			MethodName: "ReportProgress",
+			Handler:    _MaterialService_ReportProgress_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
