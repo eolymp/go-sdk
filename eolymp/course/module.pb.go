@@ -154,8 +154,8 @@ type Module struct {
 	StartAfter     *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=start_after,json=startAfter,proto3" json:"start_after,omitempty"`             // optionally, time by when module should be complete
 	CompleteBefore *timestamppb.Timestamp `protobuf:"bytes,12,opt,name=complete_before,json=completeBefore,proto3" json:"complete_before,omitempty"` // optionally, time by when module should be complete
 	Duration       uint32                 `protobuf:"varint,13,opt,name=duration,proto3" json:"duration,omitempty"`                                  // optionally, duration of the module in seconds
-	Progress       *Module_Progress       `protobuf:"bytes,31,opt,name=progress,proto3" json:"progress,omitempty"`
-	Assignment     *Assignment            `protobuf:"bytes,32,opt,name=assignment,proto3" json:"assignment,omitempty"`
+	Progress       *Module_Progress       `protobuf:"bytes,31,opt,name=progress,proto3" json:"progress,omitempty"`                                   // progress carries information about module status and grade for a specific student
+	Assignment     *Assignment            `protobuf:"bytes,32,opt,name=assignment,proto3" json:"assignment,omitempty"`                               // assignment carries parameters of the assignment for a given student (member) or a class (group)
 }
 
 func (x *Module) Reset() {
