@@ -25,8 +25,7 @@ const (
 	ModuleService_DescribeModule_FullMethodName = "/eolymp.course.ModuleService/DescribeModule"
 	ModuleService_ListModules_FullMethodName    = "/eolymp.course.ModuleService/ListModules"
 	ModuleService_StartModule_FullMethodName    = "/eolymp.course.ModuleService/StartModule"
-	ModuleService_AssignModule_FullMethodName   = "/eolymp.course.ModuleService/AssignModule"
-	ModuleService_UnassignModule_FullMethodName = "/eolymp.course.ModuleService/UnassignModule"
+	ModuleService_GradeModule_FullMethodName    = "/eolymp.course.ModuleService/GradeModule"
 )
 
 // ModuleServiceClient is the client API for ModuleService service.
@@ -39,8 +38,7 @@ type ModuleServiceClient interface {
 	DescribeModule(ctx context.Context, in *DescribeModuleInput, opts ...grpc.CallOption) (*DescribeModuleOutput, error)
 	ListModules(ctx context.Context, in *ListModulesInput, opts ...grpc.CallOption) (*ListModulesOutput, error)
 	StartModule(ctx context.Context, in *StartModuleInput, opts ...grpc.CallOption) (*StartModuleOutput, error)
-	AssignModule(ctx context.Context, in *AssignModuleInput, opts ...grpc.CallOption) (*AssignModuleOutput, error)
-	UnassignModule(ctx context.Context, in *UnassignModuleInput, opts ...grpc.CallOption) (*UnassignModuleOutput, error)
+	GradeModule(ctx context.Context, in *GradeModuleInput, opts ...grpc.CallOption) (*GradeModuleOutput, error)
 }
 
 type moduleServiceClient struct {
@@ -111,20 +109,10 @@ func (c *moduleServiceClient) StartModule(ctx context.Context, in *StartModuleIn
 	return out, nil
 }
 
-func (c *moduleServiceClient) AssignModule(ctx context.Context, in *AssignModuleInput, opts ...grpc.CallOption) (*AssignModuleOutput, error) {
+func (c *moduleServiceClient) GradeModule(ctx context.Context, in *GradeModuleInput, opts ...grpc.CallOption) (*GradeModuleOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(AssignModuleOutput)
-	err := c.cc.Invoke(ctx, ModuleService_AssignModule_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *moduleServiceClient) UnassignModule(ctx context.Context, in *UnassignModuleInput, opts ...grpc.CallOption) (*UnassignModuleOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(UnassignModuleOutput)
-	err := c.cc.Invoke(ctx, ModuleService_UnassignModule_FullMethodName, in, out, cOpts...)
+	out := new(GradeModuleOutput)
+	err := c.cc.Invoke(ctx, ModuleService_GradeModule_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -141,8 +129,7 @@ type ModuleServiceServer interface {
 	DescribeModule(context.Context, *DescribeModuleInput) (*DescribeModuleOutput, error)
 	ListModules(context.Context, *ListModulesInput) (*ListModulesOutput, error)
 	StartModule(context.Context, *StartModuleInput) (*StartModuleOutput, error)
-	AssignModule(context.Context, *AssignModuleInput) (*AssignModuleOutput, error)
-	UnassignModule(context.Context, *UnassignModuleInput) (*UnassignModuleOutput, error)
+	GradeModule(context.Context, *GradeModuleInput) (*GradeModuleOutput, error)
 }
 
 // UnimplementedModuleServiceServer should be embedded to have
@@ -170,11 +157,8 @@ func (UnimplementedModuleServiceServer) ListModules(context.Context, *ListModule
 func (UnimplementedModuleServiceServer) StartModule(context.Context, *StartModuleInput) (*StartModuleOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method StartModule not implemented")
 }
-func (UnimplementedModuleServiceServer) AssignModule(context.Context, *AssignModuleInput) (*AssignModuleOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AssignModule not implemented")
-}
-func (UnimplementedModuleServiceServer) UnassignModule(context.Context, *UnassignModuleInput) (*UnassignModuleOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UnassignModule not implemented")
+func (UnimplementedModuleServiceServer) GradeModule(context.Context, *GradeModuleInput) (*GradeModuleOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GradeModule not implemented")
 }
 func (UnimplementedModuleServiceServer) testEmbeddedByValue() {}
 
@@ -304,38 +288,20 @@ func _ModuleService_StartModule_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ModuleService_AssignModule_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AssignModuleInput)
+func _ModuleService_GradeModule_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GradeModuleInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ModuleServiceServer).AssignModule(ctx, in)
+		return srv.(ModuleServiceServer).GradeModule(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ModuleService_AssignModule_FullMethodName,
+		FullMethod: ModuleService_GradeModule_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ModuleServiceServer).AssignModule(ctx, req.(*AssignModuleInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ModuleService_UnassignModule_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UnassignModuleInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ModuleServiceServer).UnassignModule(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ModuleService_UnassignModule_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ModuleServiceServer).UnassignModule(ctx, req.(*UnassignModuleInput))
+		return srv.(ModuleServiceServer).GradeModule(ctx, req.(*GradeModuleInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -372,12 +338,8 @@ var ModuleService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _ModuleService_StartModule_Handler,
 		},
 		{
-			MethodName: "AssignModule",
-			Handler:    _ModuleService_AssignModule_Handler,
-		},
-		{
-			MethodName: "UnassignModule",
-			Handler:    _ModuleService_UnassignModule_Handler,
+			MethodName: "GradeModule",
+			Handler:    _ModuleService_GradeModule_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -201,3 +201,19 @@ func (s *MaterialServiceService) ReportProgress(ctx context.Context, in *ReportP
 
 	return out, nil
 }
+
+func (s *MaterialServiceService) GradeMaterial(ctx context.Context, in *GradeMaterialInput) (*GradeMaterialOutput, error) {
+	out := &GradeMaterialOutput{}
+	path := "/materials/" + url.PathEscape(in.GetMaterialId()) + "/grade"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.MaterialId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

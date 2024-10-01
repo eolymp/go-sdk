@@ -186,9 +186,9 @@ func (s *ModuleServiceService) StartModule(ctx context.Context, in *StartModuleI
 	return out, nil
 }
 
-func (s *ModuleServiceService) AssignModule(ctx context.Context, in *AssignModuleInput) (*AssignModuleOutput, error) {
-	out := &AssignModuleOutput{}
-	path := "/modules/" + url.PathEscape(in.GetModuleId()) + "/assignments"
+func (s *ModuleServiceService) GradeModule(ctx context.Context, in *GradeModuleInput) (*GradeModuleOutput, error) {
+	out := &GradeModuleOutput{}
+	path := "/modules/" + url.PathEscape(in.GetModuleId()) + "/grade"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
@@ -196,22 +196,6 @@ func (s *ModuleServiceService) AssignModule(ctx context.Context, in *AssignModul
 	}
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *ModuleServiceService) UnassignModule(ctx context.Context, in *UnassignModuleInput) (*UnassignModuleOutput, error) {
-	out := &UnassignModuleOutput{}
-	path := "/modules/" + url.PathEscape(in.GetModuleId()) + "/assignments"
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.ModuleId = ""
-	}
-
-	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 

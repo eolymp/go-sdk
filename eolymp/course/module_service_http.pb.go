@@ -214,12 +214,9 @@ func RegisterModuleServiceHttpHandlers(router *mux.Router, prefix string, cli Mo
 	router.Handle(prefix+"/modules/{module_id}/start", _ModuleService_StartModule_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.course.ModuleService.StartModule")
-	router.Handle(prefix+"/modules/{module_id}/assignments", _ModuleService_AssignModule_Rule0(cli)).
+	router.Handle(prefix+"/modules/{module_id}/grade", _ModuleService_GradeModule_Rule0(cli)).
 		Methods("POST").
-		Name("eolymp.course.ModuleService.AssignModule")
-	router.Handle(prefix+"/modules/{module_id}/assignments", _ModuleService_UnassignModule_Rule0(cli)).
-		Methods("DELETE").
-		Name("eolymp.course.ModuleService.UnassignModule")
+		Name("eolymp.course.ModuleService.GradeModule")
 }
 
 func _ModuleService_CreateModule_Rule0(cli ModuleServiceClient) http.Handler {
@@ -366,9 +363,9 @@ func _ModuleService_StartModule_Rule0(cli ModuleServiceClient) http.Handler {
 	})
 }
 
-func _ModuleService_AssignModule_Rule0(cli ModuleServiceClient) http.Handler {
+func _ModuleService_GradeModule_Rule0(cli ModuleServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &AssignModuleInput{}
+		in := &GradeModuleInput{}
 
 		if err := _ModuleService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
@@ -381,32 +378,7 @@ func _ModuleService_AssignModule_Rule0(cli ModuleServiceClient) http.Handler {
 
 		var header, trailer metadata.MD
 
-		out, err := cli.AssignModule(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
-		if err != nil {
-			_ModuleService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_ModuleService_HTTPWriteResponse(w, out, header, trailer)
-	})
-}
-
-func _ModuleService_UnassignModule_Rule0(cli ModuleServiceClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &UnassignModuleInput{}
-
-		if err := _ModuleService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_ModuleService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.ModuleId = vars["module_id"]
-
-		var header, trailer metadata.MD
-
-		out, err := cli.UnassignModule(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		out, err := cli.GradeModule(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ModuleService_HTTPWriteErrorResponse(w, err)
 			return
@@ -620,14 +592,14 @@ func (i *ModuleServiceInterceptor) StartModule(ctx context.Context, in *StartMod
 	return message, err
 }
 
-func (i *ModuleServiceInterceptor) AssignModule(ctx context.Context, in *AssignModuleInput, opts ...grpc.CallOption) (*AssignModuleOutput, error) {
+func (i *ModuleServiceInterceptor) GradeModule(ctx context.Context, in *GradeModuleInput, opts ...grpc.CallOption) (*GradeModuleOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*AssignModuleInput)
+		message, ok := in.(*GradeModuleInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *AssignModuleInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *GradeModuleInput, got %T", in))
 		}
 
-		return i.client.AssignModule(ctx, message, opts...)
+		return i.client.GradeModule(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -635,7 +607,7 @@ func (i *ModuleServiceInterceptor) AssignModule(ctx context.Context, in *AssignM
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.course.ModuleService.AssignModule", in, next)
+			return mw(ctx, "eolymp.course.ModuleService.GradeModule", in, next)
 		}
 	}
 
@@ -644,41 +616,9 @@ func (i *ModuleServiceInterceptor) AssignModule(ctx context.Context, in *AssignM
 		return nil, err
 	}
 
-	message, ok := out.(*AssignModuleOutput)
+	message, ok := out.(*GradeModuleOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *AssignModuleOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *ModuleServiceInterceptor) UnassignModule(ctx context.Context, in *UnassignModuleInput, opts ...grpc.CallOption) (*UnassignModuleOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*UnassignModuleInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *UnassignModuleInput, got %T", in))
-		}
-
-		return i.client.UnassignModule(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.course.ModuleService.UnassignModule", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*UnassignModuleOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *UnassignModuleOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *GradeModuleOutput, got %T", out))
 	}
 
 	return message, err

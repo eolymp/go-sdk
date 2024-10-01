@@ -26,6 +26,7 @@ const (
 	MaterialService_DescribeMaterial_FullMethodName = "/eolymp.course.MaterialService/DescribeMaterial"
 	MaterialService_ListMaterials_FullMethodName    = "/eolymp.course.MaterialService/ListMaterials"
 	MaterialService_ReportProgress_FullMethodName   = "/eolymp.course.MaterialService/ReportProgress"
+	MaterialService_GradeMaterial_FullMethodName    = "/eolymp.course.MaterialService/GradeMaterial"
 )
 
 // MaterialServiceClient is the client API for MaterialService service.
@@ -39,6 +40,7 @@ type MaterialServiceClient interface {
 	DescribeMaterial(ctx context.Context, in *DescribeMaterialInput, opts ...grpc.CallOption) (*DescribeMaterialOutput, error)
 	ListMaterials(ctx context.Context, in *ListMaterialsInput, opts ...grpc.CallOption) (*ListMaterialsOutput, error)
 	ReportProgress(ctx context.Context, in *ReportProgressInput, opts ...grpc.CallOption) (*ReportProgressOutput, error)
+	GradeMaterial(ctx context.Context, in *GradeMaterialInput, opts ...grpc.CallOption) (*GradeMaterialOutput, error)
 }
 
 type materialServiceClient struct {
@@ -119,6 +121,16 @@ func (c *materialServiceClient) ReportProgress(ctx context.Context, in *ReportPr
 	return out, nil
 }
 
+func (c *materialServiceClient) GradeMaterial(ctx context.Context, in *GradeMaterialInput, opts ...grpc.CallOption) (*GradeMaterialOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GradeMaterialOutput)
+	err := c.cc.Invoke(ctx, MaterialService_GradeMaterial_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MaterialServiceServer is the server API for MaterialService service.
 // All implementations should embed UnimplementedMaterialServiceServer
 // for forward compatibility.
@@ -130,6 +142,7 @@ type MaterialServiceServer interface {
 	DescribeMaterial(context.Context, *DescribeMaterialInput) (*DescribeMaterialOutput, error)
 	ListMaterials(context.Context, *ListMaterialsInput) (*ListMaterialsOutput, error)
 	ReportProgress(context.Context, *ReportProgressInput) (*ReportProgressOutput, error)
+	GradeMaterial(context.Context, *GradeMaterialInput) (*GradeMaterialOutput, error)
 }
 
 // UnimplementedMaterialServiceServer should be embedded to have
@@ -159,6 +172,9 @@ func (UnimplementedMaterialServiceServer) ListMaterials(context.Context, *ListMa
 }
 func (UnimplementedMaterialServiceServer) ReportProgress(context.Context, *ReportProgressInput) (*ReportProgressOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ReportProgress not implemented")
+}
+func (UnimplementedMaterialServiceServer) GradeMaterial(context.Context, *GradeMaterialInput) (*GradeMaterialOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GradeMaterial not implemented")
 }
 func (UnimplementedMaterialServiceServer) testEmbeddedByValue() {}
 
@@ -306,6 +322,24 @@ func _MaterialService_ReportProgress_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _MaterialService_GradeMaterial_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GradeMaterialInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MaterialServiceServer).GradeMaterial(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MaterialService_GradeMaterial_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MaterialServiceServer).GradeMaterial(ctx, req.(*GradeMaterialInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // MaterialService_ServiceDesc is the grpc.ServiceDesc for MaterialService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -340,6 +374,10 @@ var MaterialService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ReportProgress",
 			Handler:    _MaterialService_ReportProgress_Handler,
+		},
+		{
+			MethodName: "GradeMaterial",
+			Handler:    _MaterialService_GradeMaterial_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -217,6 +217,9 @@ func RegisterMaterialServiceHttpHandlers(router *mux.Router, prefix string, cli 
 	router.Handle(prefix+"/materials/{material_id}/progress", _MaterialService_ReportProgress_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.course.MaterialService.ReportProgress")
+	router.Handle(prefix+"/materials/{material_id}/grade", _MaterialService_GradeMaterial_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.course.MaterialService.GradeMaterial")
 }
 
 func _MaterialService_CreateMaterial_Rule0(cli MaterialServiceClient) http.Handler {
@@ -379,6 +382,31 @@ func _MaterialService_ReportProgress_Rule0(cli MaterialServiceClient) http.Handl
 		var header, trailer metadata.MD
 
 		out, err := cli.ReportProgress(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_MaterialService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_MaterialService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _MaterialService_GradeMaterial_Rule0(cli MaterialServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &GradeMaterialInput{}
+
+		if err := _MaterialService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_MaterialService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.MaterialId = vars["material_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.GradeMaterial(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_MaterialService_HTTPWriteErrorResponse(w, err)
 			return
@@ -619,6 +647,38 @@ func (i *MaterialServiceInterceptor) ReportProgress(ctx context.Context, in *Rep
 	message, ok := out.(*ReportProgressOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *ReportProgressOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *MaterialServiceInterceptor) GradeMaterial(ctx context.Context, in *GradeMaterialInput, opts ...grpc.CallOption) (*GradeMaterialOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*GradeMaterialInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *GradeMaterialInput, got %T", in))
+		}
+
+		return i.client.GradeMaterial(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.course.MaterialService.GradeMaterial", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*GradeMaterialOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *GradeMaterialOutput, got %T", out))
 	}
 
 	return message, err
