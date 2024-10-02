@@ -258,6 +258,12 @@ func RegisterStudentServiceHttpHandlers(router *mux.Router, prefix string, cli S
 	router.Handle(prefix+"/students/{member_id}/assignments", _StudentService_DeleteStudentAssignment_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.course.StudentService.DeleteStudentAssignment")
+	router.Handle(prefix+"/students/{member_id}/grades", _StudentService_ListStudentGrades_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.course.StudentService.ListStudentGrades")
+	router.Handle(prefix+"/students/{member_id}/grades/{module_id}", _StudentService_ListModuleGrades_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.course.StudentService.ListModuleGrades")
 }
 
 func _StudentService_CreateStudent_Rule0(cli StudentServiceClient) http.Handler {
@@ -489,6 +495,57 @@ func _StudentService_DeleteStudentAssignment_Rule0(cli StudentServiceClient) htt
 		var header, trailer metadata.MD
 
 		out, err := cli.DeleteStudentAssignment(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_StudentService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_StudentService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _StudentService_ListStudentGrades_Rule0(cli StudentServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListStudentGradesInput{}
+
+		if err := _StudentService_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_StudentService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.MemberId = vars["member_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.ListStudentGrades(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_StudentService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_StudentService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _StudentService_ListModuleGrades_Rule0(cli StudentServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListModuleGradesInput{}
+
+		if err := _StudentService_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_StudentService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.MemberId = vars["member_id"]
+		in.ModuleId = vars["module_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.ListModuleGrades(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_StudentService_HTTPWriteErrorResponse(w, err)
 			return
@@ -829,6 +886,70 @@ func (i *StudentServiceInterceptor) DeleteStudentAssignment(ctx context.Context,
 	message, ok := out.(*DeleteStudentAssignmentOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *DeleteStudentAssignmentOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *StudentServiceInterceptor) ListStudentGrades(ctx context.Context, in *ListStudentGradesInput, opts ...grpc.CallOption) (*ListStudentGradesOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListStudentGradesInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListStudentGradesInput, got %T", in))
+		}
+
+		return i.client.ListStudentGrades(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.course.StudentService.ListStudentGrades", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListStudentGradesOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListStudentGradesOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *StudentServiceInterceptor) ListModuleGrades(ctx context.Context, in *ListModuleGradesInput, opts ...grpc.CallOption) (*ListModuleGradesOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListModuleGradesInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListModuleGradesInput, got %T", in))
+		}
+
+		return i.client.ListModuleGrades(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.course.StudentService.ListModuleGrades", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListModuleGradesOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListModuleGradesOutput, got %T", out))
 	}
 
 	return message, err

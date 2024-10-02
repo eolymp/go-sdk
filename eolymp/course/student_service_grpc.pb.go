@@ -30,6 +30,8 @@ const (
 	StudentService_ListStudentAssignments_FullMethodName  = "/eolymp.course.StudentService/ListStudentAssignments"
 	StudentService_UpdateStudentAssignment_FullMethodName = "/eolymp.course.StudentService/UpdateStudentAssignment"
 	StudentService_DeleteStudentAssignment_FullMethodName = "/eolymp.course.StudentService/DeleteStudentAssignment"
+	StudentService_ListStudentGrades_FullMethodName       = "/eolymp.course.StudentService/ListStudentGrades"
+	StudentService_ListModuleGrades_FullMethodName        = "/eolymp.course.StudentService/ListModuleGrades"
 )
 
 // StudentServiceClient is the client API for StudentService service.
@@ -47,6 +49,8 @@ type StudentServiceClient interface {
 	ListStudentAssignments(ctx context.Context, in *ListStudentAssignmentsInput, opts ...grpc.CallOption) (*ListStudentAssignmentsOutput, error)
 	UpdateStudentAssignment(ctx context.Context, in *UpdateStudentAssignmentInput, opts ...grpc.CallOption) (*UpdateStudentAssignmentOutput, error)
 	DeleteStudentAssignment(ctx context.Context, in *DeleteStudentAssignmentInput, opts ...grpc.CallOption) (*DeleteStudentAssignmentOutput, error)
+	ListStudentGrades(ctx context.Context, in *ListStudentGradesInput, opts ...grpc.CallOption) (*ListStudentGradesOutput, error)
+	ListModuleGrades(ctx context.Context, in *ListModuleGradesInput, opts ...grpc.CallOption) (*ListModuleGradesOutput, error)
 }
 
 type studentServiceClient struct {
@@ -176,6 +180,26 @@ func (c *studentServiceClient) DeleteStudentAssignment(ctx context.Context, in *
 	return out, nil
 }
 
+func (c *studentServiceClient) ListStudentGrades(ctx context.Context, in *ListStudentGradesInput, opts ...grpc.CallOption) (*ListStudentGradesOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListStudentGradesOutput)
+	err := c.cc.Invoke(ctx, StudentService_ListStudentGrades_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *studentServiceClient) ListModuleGrades(ctx context.Context, in *ListModuleGradesInput, opts ...grpc.CallOption) (*ListModuleGradesOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListModuleGradesOutput)
+	err := c.cc.Invoke(ctx, StudentService_ListModuleGrades_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // StudentServiceServer is the server API for StudentService service.
 // All implementations should embed UnimplementedStudentServiceServer
 // for forward compatibility.
@@ -191,6 +215,8 @@ type StudentServiceServer interface {
 	ListStudentAssignments(context.Context, *ListStudentAssignmentsInput) (*ListStudentAssignmentsOutput, error)
 	UpdateStudentAssignment(context.Context, *UpdateStudentAssignmentInput) (*UpdateStudentAssignmentOutput, error)
 	DeleteStudentAssignment(context.Context, *DeleteStudentAssignmentInput) (*DeleteStudentAssignmentOutput, error)
+	ListStudentGrades(context.Context, *ListStudentGradesInput) (*ListStudentGradesOutput, error)
+	ListModuleGrades(context.Context, *ListModuleGradesInput) (*ListModuleGradesOutput, error)
 }
 
 // UnimplementedStudentServiceServer should be embedded to have
@@ -232,6 +258,12 @@ func (UnimplementedStudentServiceServer) UpdateStudentAssignment(context.Context
 }
 func (UnimplementedStudentServiceServer) DeleteStudentAssignment(context.Context, *DeleteStudentAssignmentInput) (*DeleteStudentAssignmentOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteStudentAssignment not implemented")
+}
+func (UnimplementedStudentServiceServer) ListStudentGrades(context.Context, *ListStudentGradesInput) (*ListStudentGradesOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListStudentGrades not implemented")
+}
+func (UnimplementedStudentServiceServer) ListModuleGrades(context.Context, *ListModuleGradesInput) (*ListModuleGradesOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListModuleGrades not implemented")
 }
 func (UnimplementedStudentServiceServer) testEmbeddedByValue() {}
 
@@ -444,6 +476,42 @@ func _StudentService_DeleteStudentAssignment_Handler(srv interface{}, ctx contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _StudentService_ListStudentGrades_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListStudentGradesInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StudentServiceServer).ListStudentGrades(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StudentService_ListStudentGrades_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StudentServiceServer).ListStudentGrades(ctx, req.(*ListStudentGradesInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _StudentService_ListModuleGrades_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListModuleGradesInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StudentServiceServer).ListModuleGrades(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StudentService_ListModuleGrades_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StudentServiceServer).ListModuleGrades(ctx, req.(*ListModuleGradesInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // StudentService_ServiceDesc is the grpc.ServiceDesc for StudentService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -490,6 +558,14 @@ var StudentService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteStudentAssignment",
 			Handler:    _StudentService_DeleteStudentAssignment_Handler,
+		},
+		{
+			MethodName: "ListStudentGrades",
+			Handler:    _StudentService_ListStudentGrades_Handler,
+		},
+		{
+			MethodName: "ListModuleGrades",
+			Handler:    _StudentService_ListModuleGrades_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

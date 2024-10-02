@@ -239,3 +239,36 @@ func (s *StudentServiceService) DeleteStudentAssignment(ctx context.Context, in 
 
 	return out, nil
 }
+
+func (s *StudentServiceService) ListStudentGrades(ctx context.Context, in *ListStudentGradesInput) (*ListStudentGradesOutput, error) {
+	out := &ListStudentGradesOutput{}
+	path := "/students/" + url.PathEscape(in.GetMemberId()) + "/grades"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.MemberId = ""
+	}
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *StudentServiceService) ListModuleGrades(ctx context.Context, in *ListModuleGradesInput) (*ListModuleGradesOutput, error) {
+	out := &ListModuleGradesOutput{}
+	path := "/students/" + url.PathEscape(in.GetMemberId()) + "/grades/" + url.PathEscape(in.GetModuleId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.MemberId = ""
+		in.ModuleId = ""
+	}
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
