@@ -25,7 +25,6 @@ const (
 	ScoreService_ImportScore_FullMethodName     = "/eolymp.judge.ScoreService/ImportScore"
 	ScoreService_ExportScore_FullMethodName     = "/eolymp.judge.ScoreService/ExportScore"
 	ScoreService_ListResult_FullMethodName      = "/eolymp.judge.ScoreService/ListResult"
-	ScoreService_ListResults_FullMethodName     = "/eolymp.judge.ScoreService/ListResults"
 	ScoreService_ExportResult_FullMethodName    = "/eolymp.judge.ScoreService/ExportResult"
 	ScoreService_RebuildScore_FullMethodName    = "/eolymp.judge.ScoreService/RebuildScore"
 )
@@ -43,7 +42,6 @@ type ScoreServiceClient interface {
 	ExportScore(ctx context.Context, in *ExportScoreInput, opts ...grpc.CallOption) (*ExportScoreOutput, error)
 	// ListResult retrieves scoreboard
 	ListResult(ctx context.Context, in *ListResultInput, opts ...grpc.CallOption) (*ListResultOutput, error)
-	ListResults(ctx context.Context, in *ListResultsInput, opts ...grpc.CallOption) (*ListResultsOutput, error)
 	ExportResult(ctx context.Context, in *ExportResultInput, opts ...grpc.CallOption) (*ExportResultOutput, error)
 	// Rebuild scoreboard
 	RebuildScore(ctx context.Context, in *RebuildScoreInput, opts ...grpc.CallOption) (*RebuildScoreOutput, error)
@@ -126,16 +124,6 @@ func (c *scoreServiceClient) ListResult(ctx context.Context, in *ListResultInput
 	return out, nil
 }
 
-func (c *scoreServiceClient) ListResults(ctx context.Context, in *ListResultsInput, opts ...grpc.CallOption) (*ListResultsOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ListResultsOutput)
-	err := c.cc.Invoke(ctx, ScoreService_ListResults_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *scoreServiceClient) ExportResult(ctx context.Context, in *ExportResultInput, opts ...grpc.CallOption) (*ExportResultOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ExportResultOutput)
@@ -169,7 +157,6 @@ type ScoreServiceServer interface {
 	ExportScore(context.Context, *ExportScoreInput) (*ExportScoreOutput, error)
 	// ListResult retrieves scoreboard
 	ListResult(context.Context, *ListResultInput) (*ListResultOutput, error)
-	ListResults(context.Context, *ListResultsInput) (*ListResultsOutput, error)
 	ExportResult(context.Context, *ExportResultInput) (*ExportResultOutput, error)
 	// Rebuild scoreboard
 	RebuildScore(context.Context, *RebuildScoreInput) (*RebuildScoreOutput, error)
@@ -199,9 +186,6 @@ func (UnimplementedScoreServiceServer) ExportScore(context.Context, *ExportScore
 }
 func (UnimplementedScoreServiceServer) ListResult(context.Context, *ListResultInput) (*ListResultOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListResult not implemented")
-}
-func (UnimplementedScoreServiceServer) ListResults(context.Context, *ListResultsInput) (*ListResultsOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListResults not implemented")
 }
 func (UnimplementedScoreServiceServer) ExportResult(context.Context, *ExportResultInput) (*ExportResultOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ExportResult not implemented")
@@ -330,24 +314,6 @@ func _ScoreService_ListResult_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ScoreService_ListResults_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListResultsInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ScoreServiceServer).ListResults(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ScoreService_ListResults_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ScoreServiceServer).ListResults(ctx, req.(*ListResultsInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _ScoreService_ExportResult_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ExportResultInput)
 	if err := dec(in); err != nil {
@@ -410,10 +376,6 @@ var ScoreService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListResult",
 			Handler:    _ScoreService_ListResult_Handler,
-		},
-		{
-			MethodName: "ListResults",
-			Handler:    _ScoreService_ListResults_Handler,
 		},
 		{
 			MethodName: "ExportResult",
