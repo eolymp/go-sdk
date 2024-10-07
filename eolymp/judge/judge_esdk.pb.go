@@ -453,7 +453,7 @@ func (s *JudgeService) RetestProblem(ctx context.Context, in *RetestProblemInput
 	return out, nil
 }
 
-func (s *JudgeService) AddParticipant(ctx context.Context, in *AssignParticipantInput) (*AssignParticipantOutput, error) {
+func (s *JudgeService) AssignParticipant(ctx context.Context, in *AssignParticipantInput) (*AssignParticipantOutput, error) {
 	out := &AssignParticipantOutput{}
 	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/participants"
 

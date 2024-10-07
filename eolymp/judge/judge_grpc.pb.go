@@ -41,7 +41,7 @@ const (
 	Judge_ListExamples_FullMethodName               = "/eolymp.judge.Judge/ListExamples"
 	Judge_DeleteProblem_FullMethodName              = "/eolymp.judge.Judge/DeleteProblem"
 	Judge_RetestProblem_FullMethodName              = "/eolymp.judge.Judge/RetestProblem"
-	Judge_AddParticipant_FullMethodName             = "/eolymp.judge.Judge/AddParticipant"
+	Judge_AssignParticipant_FullMethodName          = "/eolymp.judge.Judge/AssignParticipant"
 	Judge_EnableParticipant_FullMethodName          = "/eolymp.judge.Judge/EnableParticipant"
 	Judge_DisableParticipant_FullMethodName         = "/eolymp.judge.Judge/DisableParticipant"
 	Judge_UpdateParticipant_FullMethodName          = "/eolymp.judge.Judge/UpdateParticipant"
@@ -119,7 +119,7 @@ type JudgeClient interface {
 	DeleteProblem(ctx context.Context, in *DeleteProblemInput, opts ...grpc.CallOption) (*DeleteProblemOutput, error)
 	// RetestProblem resets existing submissions for the problem and triggers testing process again.
 	RetestProblem(ctx context.Context, in *RetestProblemInput, opts ...grpc.CallOption) (*RetestProblemOutput, error)
-	AddParticipant(ctx context.Context, in *AssignParticipantInput, opts ...grpc.CallOption) (*AssignParticipantOutput, error)
+	AssignParticipant(ctx context.Context, in *AssignParticipantInput, opts ...grpc.CallOption) (*AssignParticipantOutput, error)
 	EnableParticipant(ctx context.Context, in *EnableParticipantInput, opts ...grpc.CallOption) (*EnableParticipantOutput, error)
 	DisableParticipant(ctx context.Context, in *DisableParticipantInput, opts ...grpc.CallOption) (*DisableParticipantOutput, error)
 	UpdateParticipant(ctx context.Context, in *UpdateParticipantInput, opts ...grpc.CallOption) (*UpdateParticipantOutput, error)
@@ -407,10 +407,10 @@ func (c *judgeClient) RetestProblem(ctx context.Context, in *RetestProblemInput,
 	return out, nil
 }
 
-func (c *judgeClient) AddParticipant(ctx context.Context, in *AssignParticipantInput, opts ...grpc.CallOption) (*AssignParticipantOutput, error) {
+func (c *judgeClient) AssignParticipant(ctx context.Context, in *AssignParticipantInput, opts ...grpc.CallOption) (*AssignParticipantOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(AssignParticipantOutput)
-	err := c.cc.Invoke(ctx, Judge_AddParticipant_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, Judge_AssignParticipant_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -825,7 +825,7 @@ type JudgeServer interface {
 	DeleteProblem(context.Context, *DeleteProblemInput) (*DeleteProblemOutput, error)
 	// RetestProblem resets existing submissions for the problem and triggers testing process again.
 	RetestProblem(context.Context, *RetestProblemInput) (*RetestProblemOutput, error)
-	AddParticipant(context.Context, *AssignParticipantInput) (*AssignParticipantOutput, error)
+	AssignParticipant(context.Context, *AssignParticipantInput) (*AssignParticipantOutput, error)
 	EnableParticipant(context.Context, *EnableParticipantInput) (*EnableParticipantOutput, error)
 	DisableParticipant(context.Context, *DisableParticipantInput) (*DisableParticipantOutput, error)
 	UpdateParticipant(context.Context, *UpdateParticipantInput) (*UpdateParticipantOutput, error)
@@ -958,8 +958,8 @@ func (UnimplementedJudgeServer) DeleteProblem(context.Context, *DeleteProblemInp
 func (UnimplementedJudgeServer) RetestProblem(context.Context, *RetestProblemInput) (*RetestProblemOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RetestProblem not implemented")
 }
-func (UnimplementedJudgeServer) AddParticipant(context.Context, *AssignParticipantInput) (*AssignParticipantOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AddParticipant not implemented")
+func (UnimplementedJudgeServer) AssignParticipant(context.Context, *AssignParticipantInput) (*AssignParticipantOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AssignParticipant not implemented")
 }
 func (UnimplementedJudgeServer) EnableParticipant(context.Context, *EnableParticipantInput) (*EnableParticipantOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method EnableParticipant not implemented")
@@ -1485,20 +1485,20 @@ func _Judge_RetestProblem_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Judge_AddParticipant_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Judge_AssignParticipant_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(AssignParticipantInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(JudgeServer).AddParticipant(ctx, in)
+		return srv.(JudgeServer).AssignParticipant(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Judge_AddParticipant_FullMethodName,
+		FullMethod: Judge_AssignParticipant_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(JudgeServer).AddParticipant(ctx, req.(*AssignParticipantInput))
+		return srv.(JudgeServer).AssignParticipant(ctx, req.(*AssignParticipantInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -2240,8 +2240,8 @@ var Judge_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Judge_RetestProblem_Handler,
 		},
 		{
-			MethodName: "AddParticipant",
-			Handler:    _Judge_AddParticipant_Handler,
+			MethodName: "AssignParticipant",
+			Handler:    _Judge_AssignParticipant_Handler,
 		},
 		{
 			MethodName: "EnableParticipant",

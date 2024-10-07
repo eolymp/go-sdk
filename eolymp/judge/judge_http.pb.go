@@ -294,9 +294,9 @@ func RegisterJudgeHttpHandlers(router *mux.Router, prefix string, cli JudgeClien
 	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}/retest", _Judge_RetestProblem_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.Judge.RetestProblem")
-	router.Handle(prefix+"/contests/{contest_id}/participants", _Judge_AddParticipant_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/participants", _Judge_AssignParticipant_Rule0(cli)).
 		Methods("POST").
-		Name("eolymp.judge.Judge.AddParticipant")
+		Name("eolymp.judge.Judge.AssignParticipant")
 	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/enable", _Judge_EnableParticipant_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.Judge.EnableParticipant")
@@ -959,7 +959,7 @@ func _Judge_RetestProblem_Rule0(cli JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_AddParticipant_Rule0(cli JudgeClient) http.Handler {
+func _Judge_AssignParticipant_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &AssignParticipantInput{}
 
@@ -974,7 +974,7 @@ func _Judge_AddParticipant_Rule0(cli JudgeClient) http.Handler {
 
 		var header, trailer metadata.MD
 
-		out, err := cli.AddParticipant(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		out, err := cli.AssignParticipant(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -2593,14 +2593,14 @@ func (i *JudgeInterceptor) RetestProblem(ctx context.Context, in *RetestProblemI
 	return message, err
 }
 
-func (i *JudgeInterceptor) AddParticipant(ctx context.Context, in *AssignParticipantInput, opts ...grpc.CallOption) (*AssignParticipantOutput, error) {
+func (i *JudgeInterceptor) AssignParticipant(ctx context.Context, in *AssignParticipantInput, opts ...grpc.CallOption) (*AssignParticipantOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*AssignParticipantInput)
 		if !ok && in != nil {
 			panic(fmt.Errorf("request input type is invalid: want *AssignParticipantInput, got %T", in))
 		}
 
-		return i.client.AddParticipant(ctx, message, opts...)
+		return i.client.AssignParticipant(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2608,7 +2608,7 @@ func (i *JudgeInterceptor) AddParticipant(ctx context.Context, in *AssignPartici
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge.AddParticipant", in, next)
+			return mw(ctx, "eolymp.judge.Judge.AssignParticipant", in, next)
 		}
 	}
 
