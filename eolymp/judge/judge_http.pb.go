@@ -303,16 +303,16 @@ func RegisterJudgeHttpHandlers(router *mux.Router, prefix string, cli JudgeClien
 	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/disable", _Judge_DisableParticipant_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.Judge.DisableParticipant")
-	router.Handle(prefix+"/contests/{contest_id}/participants/{member_id}", _Judge_UpdateParticipant_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}", _Judge_UpdateParticipant_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.judge.Judge.UpdateParticipant")
-	router.Handle(prefix+"/contests/{contest_id}/participants/{member_id}", _Judge_DeleteParticipant_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}", _Judge_DeleteParticipant_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.judge.Judge.DeleteParticipant")
 	router.Handle(prefix+"/contests/{contest_id}/participants", _Judge_ListParticipants_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.Judge.ListParticipants")
-	router.Handle(prefix+"/contests/{contest_id}/participants/{member_id}", _Judge_DescribeParticipant_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}", _Judge_DescribeParticipant_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.Judge.DescribeParticipant")
 	router.Handle(prefix+"/contests/{contest_id}/introspect", _Judge_DescribeViewer_Rule0(cli)).
@@ -330,13 +330,13 @@ func RegisterJudgeHttpHandlers(router *mux.Router, prefix string, cli JudgeClien
 	router.Handle(prefix+"/contests/{contest_id}/enter-passcode", _Judge_EnterPasscode_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.Judge.EnterPasscode")
-	router.Handle(prefix+"/contests/{contest_id}/participants/{member_id}/passcode", _Judge_ResetPasscode_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/passcode", _Judge_ResetPasscode_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.Judge.ResetPasscode")
-	router.Handle(prefix+"/contests/{contest_id}/participants/{member_id}/passcode", _Judge_SetPasscode_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/passcode", _Judge_SetPasscode_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.judge.Judge.SetPasscode")
-	router.Handle(prefix+"/contests/{contest_id}/participants/{member_id}/passcode", _Judge_RemovePasscode_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/passcode", _Judge_RemovePasscode_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.judge.Judge.RemovePasscode")
 	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}/submissions", _Judge_CreateSubmission_Rule0(cli)).
@@ -381,13 +381,13 @@ func RegisterJudgeHttpHandlers(router *mux.Router, prefix string, cli JudgeClien
 	router.Handle(prefix+"/contests/{contest_id}/introspect/score", _Judge_IntrospectScore_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.Judge.IntrospectScore")
-	router.Handle(prefix+"/contests/{contest_id}/participants/{member_id}/score", _Judge_DescribeScore_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/score", _Judge_DescribeScore_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.Judge.DescribeScore")
-	router.Handle(prefix+"/contests/{contest_id}/participants/{member_id}/scores", _Judge_ImportScore_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/scores", _Judge_ImportScore_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.Judge.ImportScore")
-	router.Handle(prefix+"/contests/{contest_id}/participants/{member_id}/scores", _Judge_ExportScore_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/scores", _Judge_ExportScore_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.Judge.ExportScore")
 	router.Handle(prefix+"/contests/{contest_id}/results", _Judge_ListResult_Rule0(cli)).
@@ -1048,7 +1048,7 @@ func _Judge_UpdateParticipant_Rule0(cli JudgeClient) http.Handler {
 
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
-		in.MemberId = vars["member_id"]
+		in.ParticipantId = vars["participant_id"]
 
 		var header, trailer metadata.MD
 
@@ -1074,7 +1074,7 @@ func _Judge_DeleteParticipant_Rule0(cli JudgeClient) http.Handler {
 
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
-		in.MemberId = vars["member_id"]
+		in.ParticipantId = vars["participant_id"]
 
 		var header, trailer metadata.MD
 
@@ -1125,7 +1125,7 @@ func _Judge_DescribeParticipant_Rule0(cli JudgeClient) http.Handler {
 
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
-		in.MemberId = vars["member_id"]
+		in.ParticipantId = vars["participant_id"]
 
 		var header, trailer metadata.MD
 
@@ -1276,7 +1276,7 @@ func _Judge_ResetPasscode_Rule0(cli JudgeClient) http.Handler {
 
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
-		in.MemberId = vars["member_id"]
+		in.ParticipantId = vars["participant_id"]
 
 		var header, trailer metadata.MD
 
@@ -1302,7 +1302,7 @@ func _Judge_SetPasscode_Rule0(cli JudgeClient) http.Handler {
 
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
-		in.MemberId = vars["member_id"]
+		in.ParticipantId = vars["participant_id"]
 
 		var header, trailer metadata.MD
 
@@ -1328,7 +1328,7 @@ func _Judge_RemovePasscode_Rule0(cli JudgeClient) http.Handler {
 
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
-		in.MemberId = vars["member_id"]
+		in.ParticipantId = vars["participant_id"]
 
 		var header, trailer metadata.MD
 
@@ -1714,7 +1714,7 @@ func _Judge_DescribeScore_Rule0(cli JudgeClient) http.Handler {
 
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
-		in.MemberId = vars["member_id"]
+		in.ParticipantId = vars["participant_id"]
 
 		var header, trailer metadata.MD
 
@@ -1740,7 +1740,7 @@ func _Judge_ImportScore_Rule0(cli JudgeClient) http.Handler {
 
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
-		in.MemberId = vars["member_id"]
+		in.ParticipantId = vars["participant_id"]
 
 		var header, trailer metadata.MD
 
@@ -1766,7 +1766,7 @@ func _Judge_ExportScore_Rule0(cli JudgeClient) http.Handler {
 
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
-		in.MemberId = vars["member_id"]
+		in.ParticipantId = vars["participant_id"]
 
 		var header, trailer metadata.MD
 

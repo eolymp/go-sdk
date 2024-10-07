@@ -145,11 +145,11 @@ func (s *ParticipantServiceService) DisableParticipant(ctx context.Context, in *
 
 func (s *ParticipantServiceService) UpdateParticipant(ctx context.Context, in *UpdateParticipantInput) (*UpdateParticipantOutput, error) {
 	out := &UpdateParticipantOutput{}
-	path := "/participants/" + url.PathEscape(in.GetMemberId())
+	path := "/participants/" + url.PathEscape(in.GetParticipantId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.MemberId = ""
+		in.ParticipantId = ""
 	}
 
 	if err := s.do(ctx, "PUT", path, in, out); err != nil {
@@ -161,11 +161,11 @@ func (s *ParticipantServiceService) UpdateParticipant(ctx context.Context, in *U
 
 func (s *ParticipantServiceService) DisqualifyParticipant(ctx context.Context, in *DisqualifyParticipantInput) (*DisqualifyParticipantOutput, error) {
 	out := &DisqualifyParticipantOutput{}
-	path := "/participants/" + url.PathEscape(in.GetMemberId()) + "/disqualify"
+	path := "/participants/" + url.PathEscape(in.GetParticipantId()) + "/disqualify"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.MemberId = ""
+		in.ParticipantId = ""
 	}
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
@@ -177,11 +177,11 @@ func (s *ParticipantServiceService) DisqualifyParticipant(ctx context.Context, i
 
 func (s *ParticipantServiceService) DeleteParticipant(ctx context.Context, in *DeleteParticipantInput) (*DeleteParticipantOutput, error) {
 	out := &DeleteParticipantOutput{}
-	path := "/participants/" + url.PathEscape(in.GetMemberId())
+	path := "/participants/" + url.PathEscape(in.GetParticipantId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.MemberId = ""
+		in.ParticipantId = ""
 	}
 
 	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
@@ -193,11 +193,11 @@ func (s *ParticipantServiceService) DeleteParticipant(ctx context.Context, in *D
 
 func (s *ParticipantServiceService) DescribeParticipant(ctx context.Context, in *DescribeParticipantInput) (*DescribeParticipantOutput, error) {
 	out := &DescribeParticipantOutput{}
-	path := "/participants/" + url.PathEscape(in.GetMemberId())
+	path := "/participants/" + url.PathEscape(in.GetParticipantId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.MemberId = ""
+		in.ParticipantId = ""
 	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {

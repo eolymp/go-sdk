@@ -237,16 +237,16 @@ func RegisterParticipantServiceHttpHandlers(router *mux.Router, prefix string, c
 	router.Handle(prefix+"/participants/{participant_id}/disable", _ParticipantService_DisableParticipant_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.ParticipantService.DisableParticipant")
-	router.Handle(prefix+"/participants/{member_id}", _ParticipantService_UpdateParticipant_Rule0(cli)).
+	router.Handle(prefix+"/participants/{participant_id}", _ParticipantService_UpdateParticipant_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.judge.ParticipantService.UpdateParticipant")
-	router.Handle(prefix+"/participants/{member_id}/disqualify", _ParticipantService_DisqualifyParticipant_Rule0(cli)).
+	router.Handle(prefix+"/participants/{participant_id}/disqualify", _ParticipantService_DisqualifyParticipant_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.ParticipantService.DisqualifyParticipant")
-	router.Handle(prefix+"/participants/{member_id}", _ParticipantService_DeleteParticipant_Rule0(cli)).
+	router.Handle(prefix+"/participants/{participant_id}", _ParticipantService_DeleteParticipant_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.judge.ParticipantService.DeleteParticipant")
-	router.Handle(prefix+"/participants/{member_id}", _ParticipantService_DescribeParticipant_Rule0(cli)).
+	router.Handle(prefix+"/participants/{participant_id}", _ParticipantService_DescribeParticipant_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ParticipantService.DescribeParticipant")
 	router.Handle(prefix+"/participants", _ParticipantService_ListParticipants_Rule0(cli)).
@@ -346,7 +346,7 @@ func _ParticipantService_UpdateParticipant_Rule0(cli ParticipantServiceClient) h
 		}
 
 		vars := mux.Vars(r)
-		in.MemberId = vars["member_id"]
+		in.ParticipantId = vars["participant_id"]
 
 		var header, trailer metadata.MD
 
@@ -371,7 +371,7 @@ func _ParticipantService_DisqualifyParticipant_Rule0(cli ParticipantServiceClien
 		}
 
 		vars := mux.Vars(r)
-		in.MemberId = vars["member_id"]
+		in.ParticipantId = vars["participant_id"]
 
 		var header, trailer metadata.MD
 
@@ -396,7 +396,7 @@ func _ParticipantService_DeleteParticipant_Rule0(cli ParticipantServiceClient) h
 		}
 
 		vars := mux.Vars(r)
-		in.MemberId = vars["member_id"]
+		in.ParticipantId = vars["participant_id"]
 
 		var header, trailer metadata.MD
 
@@ -421,7 +421,7 @@ func _ParticipantService_DescribeParticipant_Rule0(cli ParticipantServiceClient)
 		}
 
 		vars := mux.Vars(r)
-		in.MemberId = vars["member_id"]
+		in.ParticipantId = vars["participant_id"]
 
 		var header, trailer metadata.MD
 

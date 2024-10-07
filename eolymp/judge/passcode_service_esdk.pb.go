@@ -124,11 +124,11 @@ func (s *PasscodeServiceService) EnterPasscode(ctx context.Context, in *EnterPas
 
 func (s *PasscodeServiceService) ResetPasscode(ctx context.Context, in *ResetPasscodeInput) (*ResetPasscodeOutput, error) {
 	out := &ResetPasscodeOutput{}
-	path := "/participants/" + url.PathEscape(in.GetMemberId()) + "/passcode"
+	path := "/participants/" + url.PathEscape(in.GetParticipantId()) + "/passcode"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.MemberId = ""
+		in.ParticipantId = ""
 	}
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
@@ -140,11 +140,11 @@ func (s *PasscodeServiceService) ResetPasscode(ctx context.Context, in *ResetPas
 
 func (s *PasscodeServiceService) SetPasscode(ctx context.Context, in *SetPasscodeInput) (*SetPasscodeOutput, error) {
 	out := &SetPasscodeOutput{}
-	path := "/participants/" + url.PathEscape(in.GetMemberId()) + "/passcode"
+	path := "/participants/" + url.PathEscape(in.GetParticipantId()) + "/passcode"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.MemberId = ""
+		in.ParticipantId = ""
 	}
 
 	if err := s.do(ctx, "PUT", path, in, out); err != nil {
@@ -156,11 +156,11 @@ func (s *PasscodeServiceService) SetPasscode(ctx context.Context, in *SetPasscod
 
 func (s *PasscodeServiceService) RemovePasscode(ctx context.Context, in *RemovePasscodeInput) (*RemovePasscodeOutput, error) {
 	out := &RemovePasscodeOutput{}
-	path := "/participants/" + url.PathEscape(in.GetMemberId()) + "/passcode"
+	path := "/participants/" + url.PathEscape(in.GetParticipantId()) + "/passcode"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.MemberId = ""
+		in.ParticipantId = ""
 	}
 
 	if err := s.do(ctx, "DELETE", path, in, out); err != nil {

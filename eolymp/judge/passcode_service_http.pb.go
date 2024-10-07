@@ -202,13 +202,13 @@ func RegisterPasscodeServiceHttpHandlers(router *mux.Router, prefix string, cli 
 	router.Handle(prefix+"/enter-passcode", _PasscodeService_EnterPasscode_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.PasscodeService.EnterPasscode")
-	router.Handle(prefix+"/participants/{member_id}/passcode", _PasscodeService_ResetPasscode_Rule0(cli)).
+	router.Handle(prefix+"/participants/{participant_id}/passcode", _PasscodeService_ResetPasscode_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.PasscodeService.ResetPasscode")
-	router.Handle(prefix+"/participants/{member_id}/passcode", _PasscodeService_SetPasscode_Rule0(cli)).
+	router.Handle(prefix+"/participants/{participant_id}/passcode", _PasscodeService_SetPasscode_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.judge.PasscodeService.SetPasscode")
-	router.Handle(prefix+"/participants/{member_id}/passcode", _PasscodeService_RemovePasscode_Rule0(cli)).
+	router.Handle(prefix+"/participants/{participant_id}/passcode", _PasscodeService_RemovePasscode_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.judge.PasscodeService.RemovePasscode")
 }
@@ -268,7 +268,7 @@ func _PasscodeService_ResetPasscode_Rule0(cli PasscodeServiceClient) http.Handle
 		}
 
 		vars := mux.Vars(r)
-		in.MemberId = vars["member_id"]
+		in.ParticipantId = vars["participant_id"]
 
 		var header, trailer metadata.MD
 
@@ -293,7 +293,7 @@ func _PasscodeService_SetPasscode_Rule0(cli PasscodeServiceClient) http.Handler 
 		}
 
 		vars := mux.Vars(r)
-		in.MemberId = vars["member_id"]
+		in.ParticipantId = vars["participant_id"]
 
 		var header, trailer metadata.MD
 
@@ -318,7 +318,7 @@ func _PasscodeService_RemovePasscode_Rule0(cli PasscodeServiceClient) http.Handl
 		}
 
 		vars := mux.Vars(r)
-		in.MemberId = vars["member_id"]
+		in.ParticipantId = vars["participant_id"]
 
 		var header, trailer metadata.MD
 

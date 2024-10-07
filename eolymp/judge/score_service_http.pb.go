@@ -231,13 +231,13 @@ func RegisterScoreServiceHttpHandlers(router *mux.Router, prefix string, cli Sco
 	router.Handle(prefix+"/introspect/score", _ScoreService_IntrospectScore_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ScoreService.IntrospectScore")
-	router.Handle(prefix+"/participants/{member_id}/score", _ScoreService_DescribeScore_Rule0(cli)).
+	router.Handle(prefix+"/participants/{participant_id}/score", _ScoreService_DescribeScore_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ScoreService.DescribeScore")
-	router.Handle(prefix+"/participants/{member_id}/scores", _ScoreService_ImportScore_Rule0(cli)).
+	router.Handle(prefix+"/participants/{participant_id}/scores", _ScoreService_ImportScore_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.ScoreService.ImportScore")
-	router.Handle(prefix+"/participants/{member_id}/scores", _ScoreService_ExportScore_Rule0(cli)).
+	router.Handle(prefix+"/participants/{participant_id}/scores", _ScoreService_ExportScore_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ScoreService.ExportScore")
 	router.Handle(prefix+"/results", _ScoreService_ListResult_Rule0(cli)).
@@ -284,7 +284,7 @@ func _ScoreService_DescribeScore_Rule0(cli ScoreServiceClient) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.MemberId = vars["member_id"]
+		in.ParticipantId = vars["participant_id"]
 
 		var header, trailer metadata.MD
 
@@ -309,7 +309,7 @@ func _ScoreService_ImportScore_Rule0(cli ScoreServiceClient) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.MemberId = vars["member_id"]
+		in.ParticipantId = vars["participant_id"]
 
 		var header, trailer metadata.MD
 
@@ -334,7 +334,7 @@ func _ScoreService_ExportScore_Rule0(cli ScoreServiceClient) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.MemberId = vars["member_id"]
+		in.ParticipantId = vars["participant_id"]
 
 		var header, trailer metadata.MD
 
