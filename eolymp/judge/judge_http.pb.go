@@ -303,21 +303,21 @@ func RegisterJudgeHttpHandlers(router *mux.Router, prefix string, cli JudgeClien
 	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/disable", _Judge_DisableParticipant_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.Judge.DisableParticipant")
-	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}", _Judge_UpdateParticipant_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/participants/{member_id}", _Judge_UpdateParticipant_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.judge.Judge.UpdateParticipant")
-	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}", _Judge_RemoveParticipant_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/participants/{member_id}", _Judge_DeleteParticipant_Rule0(cli)).
 		Methods("DELETE").
-		Name("eolymp.judge.Judge.RemoveParticipant")
+		Name("eolymp.judge.Judge.DeleteParticipant")
 	router.Handle(prefix+"/contests/{contest_id}/participants", _Judge_ListParticipants_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.Judge.ListParticipants")
-	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}", _Judge_DescribeParticipant_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/participants/{member_id}", _Judge_DescribeParticipant_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.Judge.DescribeParticipant")
-	router.Handle(prefix+"/contests/{contest_id}/introspect", _Judge_IntrospectParticipant_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/introspect", _Judge_DescribeViewer_Rule0(cli)).
 		Methods("GET").
-		Name("eolymp.judge.Judge.IntrospectParticipant")
+		Name("eolymp.judge.Judge.DescribeViewer")
 	router.Handle(prefix+"/contests/{contest_id}/join", _Judge_JoinContest_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.Judge.JoinContest")
@@ -330,13 +330,13 @@ func RegisterJudgeHttpHandlers(router *mux.Router, prefix string, cli JudgeClien
 	router.Handle(prefix+"/contests/{contest_id}/enter-passcode", _Judge_EnterPasscode_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.Judge.EnterPasscode")
-	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/passcode", _Judge_ResetPasscode_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/participants/{member_id}/passcode", _Judge_ResetPasscode_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.Judge.ResetPasscode")
-	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/passcode", _Judge_SetPasscode_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/participants/{member_id}/passcode", _Judge_SetPasscode_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.judge.Judge.SetPasscode")
-	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/passcode", _Judge_RemovePasscode_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/participants/{member_id}/passcode", _Judge_RemovePasscode_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.judge.Judge.RemovePasscode")
 	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}/submissions", _Judge_CreateSubmission_Rule0(cli)).
@@ -381,13 +381,13 @@ func RegisterJudgeHttpHandlers(router *mux.Router, prefix string, cli JudgeClien
 	router.Handle(prefix+"/contests/{contest_id}/introspect/score", _Judge_IntrospectScore_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.Judge.IntrospectScore")
-	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/score", _Judge_DescribeScore_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/participants/{member_id}/score", _Judge_DescribeScore_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.Judge.DescribeScore")
-	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/scores", _Judge_ImportScore_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/participants/{member_id}/scores", _Judge_ImportScore_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.Judge.ImportScore")
-	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/scores", _Judge_ExportScore_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/participants/{member_id}/scores", _Judge_ExportScore_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.Judge.ExportScore")
 	router.Handle(prefix+"/contests/{contest_id}/results", _Judge_ListResult_Rule0(cli)).
@@ -961,7 +961,7 @@ func _Judge_RetestProblem_Rule0(cli JudgeClient) http.Handler {
 
 func _Judge_AddParticipant_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &AddParticipantInput{}
+		in := &AssignParticipantInput{}
 
 		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
@@ -1048,7 +1048,7 @@ func _Judge_UpdateParticipant_Rule0(cli JudgeClient) http.Handler {
 
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
-		in.ParticipantId = vars["participant_id"]
+		in.MemberId = vars["member_id"]
 
 		var header, trailer metadata.MD
 
@@ -1062,9 +1062,9 @@ func _Judge_UpdateParticipant_Rule0(cli JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_RemoveParticipant_Rule0(cli JudgeClient) http.Handler {
+func _Judge_DeleteParticipant_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &RemoveParticipantInput{}
+		in := &DeleteParticipantInput{}
 
 		if err := _Judge_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
@@ -1074,11 +1074,11 @@ func _Judge_RemoveParticipant_Rule0(cli JudgeClient) http.Handler {
 
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
-		in.ParticipantId = vars["participant_id"]
+		in.MemberId = vars["member_id"]
 
 		var header, trailer metadata.MD
 
-		out, err := cli.RemoveParticipant(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		out, err := cli.DeleteParticipant(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -1125,7 +1125,7 @@ func _Judge_DescribeParticipant_Rule0(cli JudgeClient) http.Handler {
 
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
-		in.ParticipantId = vars["participant_id"]
+		in.MemberId = vars["member_id"]
 
 		var header, trailer metadata.MD
 
@@ -1139,9 +1139,9 @@ func _Judge_DescribeParticipant_Rule0(cli JudgeClient) http.Handler {
 	})
 }
 
-func _Judge_IntrospectParticipant_Rule0(cli JudgeClient) http.Handler {
+func _Judge_DescribeViewer_Rule0(cli JudgeClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &IntrospectParticipantInput{}
+		in := &DescribeViewerInput{}
 
 		if err := _Judge_HTTPReadQueryString(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
@@ -1154,7 +1154,7 @@ func _Judge_IntrospectParticipant_Rule0(cli JudgeClient) http.Handler {
 
 		var header, trailer metadata.MD
 
-		out, err := cli.IntrospectParticipant(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		out, err := cli.DescribeViewer(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_Judge_HTTPWriteErrorResponse(w, err)
 			return
@@ -1276,7 +1276,7 @@ func _Judge_ResetPasscode_Rule0(cli JudgeClient) http.Handler {
 
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
-		in.ParticipantId = vars["participant_id"]
+		in.MemberId = vars["member_id"]
 
 		var header, trailer metadata.MD
 
@@ -1302,7 +1302,7 @@ func _Judge_SetPasscode_Rule0(cli JudgeClient) http.Handler {
 
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
-		in.ParticipantId = vars["participant_id"]
+		in.MemberId = vars["member_id"]
 
 		var header, trailer metadata.MD
 
@@ -1328,7 +1328,7 @@ func _Judge_RemovePasscode_Rule0(cli JudgeClient) http.Handler {
 
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
-		in.ParticipantId = vars["participant_id"]
+		in.MemberId = vars["member_id"]
 
 		var header, trailer metadata.MD
 
@@ -1714,7 +1714,7 @@ func _Judge_DescribeScore_Rule0(cli JudgeClient) http.Handler {
 
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
-		in.ParticipantId = vars["participant_id"]
+		in.MemberId = vars["member_id"]
 
 		var header, trailer metadata.MD
 
@@ -1740,7 +1740,7 @@ func _Judge_ImportScore_Rule0(cli JudgeClient) http.Handler {
 
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
-		in.ParticipantId = vars["participant_id"]
+		in.MemberId = vars["member_id"]
 
 		var header, trailer metadata.MD
 
@@ -1766,7 +1766,7 @@ func _Judge_ExportScore_Rule0(cli JudgeClient) http.Handler {
 
 		vars := mux.Vars(r)
 		in.ContestId = vars["contest_id"]
-		in.ParticipantId = vars["participant_id"]
+		in.MemberId = vars["member_id"]
 
 		var header, trailer metadata.MD
 
@@ -2593,11 +2593,11 @@ func (i *JudgeInterceptor) RetestProblem(ctx context.Context, in *RetestProblemI
 	return message, err
 }
 
-func (i *JudgeInterceptor) AddParticipant(ctx context.Context, in *AddParticipantInput, opts ...grpc.CallOption) (*AddParticipantOutput, error) {
+func (i *JudgeInterceptor) AddParticipant(ctx context.Context, in *AssignParticipantInput, opts ...grpc.CallOption) (*AssignParticipantOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*AddParticipantInput)
+		message, ok := in.(*AssignParticipantInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *AddParticipantInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *AssignParticipantInput, got %T", in))
 		}
 
 		return i.client.AddParticipant(ctx, message, opts...)
@@ -2617,9 +2617,9 @@ func (i *JudgeInterceptor) AddParticipant(ctx context.Context, in *AddParticipan
 		return nil, err
 	}
 
-	message, ok := out.(*AddParticipantOutput)
+	message, ok := out.(*AssignParticipantOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *AddParticipantOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *AssignParticipantOutput, got %T", out))
 	}
 
 	return message, err
@@ -2721,14 +2721,14 @@ func (i *JudgeInterceptor) UpdateParticipant(ctx context.Context, in *UpdatePart
 	return message, err
 }
 
-func (i *JudgeInterceptor) RemoveParticipant(ctx context.Context, in *RemoveParticipantInput, opts ...grpc.CallOption) (*RemoveParticipantOutput, error) {
+func (i *JudgeInterceptor) DeleteParticipant(ctx context.Context, in *DeleteParticipantInput, opts ...grpc.CallOption) (*DeleteParticipantOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*RemoveParticipantInput)
+		message, ok := in.(*DeleteParticipantInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *RemoveParticipantInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *DeleteParticipantInput, got %T", in))
 		}
 
-		return i.client.RemoveParticipant(ctx, message, opts...)
+		return i.client.DeleteParticipant(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2736,7 +2736,7 @@ func (i *JudgeInterceptor) RemoveParticipant(ctx context.Context, in *RemovePart
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge.RemoveParticipant", in, next)
+			return mw(ctx, "eolymp.judge.Judge.DeleteParticipant", in, next)
 		}
 	}
 
@@ -2745,9 +2745,9 @@ func (i *JudgeInterceptor) RemoveParticipant(ctx context.Context, in *RemovePart
 		return nil, err
 	}
 
-	message, ok := out.(*RemoveParticipantOutput)
+	message, ok := out.(*DeleteParticipantOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *RemoveParticipantOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *DeleteParticipantOutput, got %T", out))
 	}
 
 	return message, err
@@ -2817,14 +2817,14 @@ func (i *JudgeInterceptor) DescribeParticipant(ctx context.Context, in *Describe
 	return message, err
 }
 
-func (i *JudgeInterceptor) IntrospectParticipant(ctx context.Context, in *IntrospectParticipantInput, opts ...grpc.CallOption) (*IntrospectParticipantOutput, error) {
+func (i *JudgeInterceptor) DescribeViewer(ctx context.Context, in *DescribeViewerInput, opts ...grpc.CallOption) (*DescribeViewerOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*IntrospectParticipantInput)
+		message, ok := in.(*DescribeViewerInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *IntrospectParticipantInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *DescribeViewerInput, got %T", in))
 		}
 
-		return i.client.IntrospectParticipant(ctx, message, opts...)
+		return i.client.DescribeViewer(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -2832,7 +2832,7 @@ func (i *JudgeInterceptor) IntrospectParticipant(ctx context.Context, in *Intros
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.Judge.IntrospectParticipant", in, next)
+			return mw(ctx, "eolymp.judge.Judge.DescribeViewer", in, next)
 		}
 	}
 
@@ -2841,9 +2841,9 @@ func (i *JudgeInterceptor) IntrospectParticipant(ctx context.Context, in *Intros
 		return nil, err
 	}
 
-	message, ok := out.(*IntrospectParticipantOutput)
+	message, ok := out.(*DescribeViewerOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *IntrospectParticipantOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *DescribeViewerOutput, got %T", out))
 	}
 
 	return message, err

@@ -228,59 +228,44 @@ func (s *_ParticipantService_WatchParticipant_WSStream) RecvMsg(m interface{}) e
 // RegisterParticipantServiceHttpHandlers adds handlers for for ParticipantServiceClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterParticipantServiceHttpHandlers(router *mux.Router, prefix string, cli ParticipantServiceClient) {
-	router.Handle(prefix+"/participants", _ParticipantService_AddParticipant_Rule0(cli)).
+	router.Handle(prefix+"/participants", _ParticipantService_AssignParticipant_Rule0(cli)).
 		Methods("POST").
-		Name("eolymp.judge.ParticipantService.AddParticipant")
+		Name("eolymp.judge.ParticipantService.AssignParticipant")
 	router.Handle(prefix+"/participants/{participant_id}/enable", _ParticipantService_EnableParticipant_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.ParticipantService.EnableParticipant")
 	router.Handle(prefix+"/participants/{participant_id}/disable", _ParticipantService_DisableParticipant_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.ParticipantService.DisableParticipant")
-	router.Handle(prefix+"/participants/{participant_id}/disqualify", _ParticipantService_DisqualifyParticipant_Rule0(cli)).
-		Methods("POST").
-		Name("eolymp.judge.ParticipantService.DisqualifyParticipant")
-	router.Handle(prefix+"/participants/{participant_id}", _ParticipantService_UpdateParticipant_Rule0(cli)).
+	router.Handle(prefix+"/participants/{member_id}", _ParticipantService_UpdateParticipant_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.judge.ParticipantService.UpdateParticipant")
-	router.Handle(prefix+"/participants/{participant_id}", _ParticipantService_RemoveParticipant_Rule0(cli)).
+	router.Handle(prefix+"/participants/{member_id}/disqualify", _ParticipantService_DisqualifyParticipant_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.judge.ParticipantService.DisqualifyParticipant")
+	router.Handle(prefix+"/participants/{member_id}", _ParticipantService_DeleteParticipant_Rule0(cli)).
 		Methods("DELETE").
-		Name("eolymp.judge.ParticipantService.RemoveParticipant")
+		Name("eolymp.judge.ParticipantService.DeleteParticipant")
+	router.Handle(prefix+"/participants/{member_id}", _ParticipantService_DescribeParticipant_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.judge.ParticipantService.DescribeParticipant")
 	router.Handle(prefix+"/participants", _ParticipantService_ListParticipants_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ParticipantService.ListParticipants")
-	router.Handle(prefix+"/participants/{participant_id}", _ParticipantService_DescribeParticipant_Rule0(cli)).
+	router.Handle(prefix+"/introspect", _ParticipantService_DescribeViewer_Rule0(cli)).
 		Methods("GET").
-		Name("eolymp.judge.ParticipantService.DescribeParticipant")
-	router.Handle(prefix+"/introspect", _ParticipantService_IntrospectParticipant_Rule0(cli)).
-		Methods("GET").
-		Name("eolymp.judge.ParticipantService.IntrospectParticipant")
+		Name("eolymp.judge.ParticipantService.DescribeViewer")
 	router.Handle(prefix+"/join", _ParticipantService_JoinContest_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.ParticipantService.JoinContest")
 	router.Handle(prefix+"/start", _ParticipantService_StartContest_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.ParticipantService.StartContest")
-	router.Handle(prefix+"/verify-passcode", _ParticipantService_VerifyPasscode_Rule0(cli)).
-		Methods("POST").
-		Name("eolymp.judge.ParticipantService.VerifyPasscode")
-	router.Handle(prefix+"/enter-passcode", _ParticipantService_EnterPasscode_Rule0(cli)).
-		Methods("POST").
-		Name("eolymp.judge.ParticipantService.EnterPasscode")
-	router.Handle(prefix+"/participants/{participant_id}/passcode", _ParticipantService_ResetPasscode_Rule0(cli)).
-		Methods("POST").
-		Name("eolymp.judge.ParticipantService.ResetPasscode")
-	router.Handle(prefix+"/participants/{participant_id}/passcode", _ParticipantService_SetPasscode_Rule0(cli)).
-		Methods("PUT").
-		Name("eolymp.judge.ParticipantService.SetPasscode")
-	router.Handle(prefix+"/participants/{participant_id}/passcode", _ParticipantService_RemovePasscode_Rule0(cli)).
-		Methods("DELETE").
-		Name("eolymp.judge.ParticipantService.RemovePasscode")
 }
 
-func _ParticipantService_AddParticipant_Rule0(cli ParticipantServiceClient) http.Handler {
+func _ParticipantService_AssignParticipant_Rule0(cli ParticipantServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &AddParticipantInput{}
+		in := &AssignParticipantInput{}
 
 		if err := _ParticipantService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
@@ -290,7 +275,7 @@ func _ParticipantService_AddParticipant_Rule0(cli ParticipantServiceClient) http
 
 		var header, trailer metadata.MD
 
-		out, err := cli.AddParticipant(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		out, err := cli.AssignParticipant(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ParticipantService_HTTPWriteErrorResponse(w, err)
 			return
@@ -350,31 +335,6 @@ func _ParticipantService_DisableParticipant_Rule0(cli ParticipantServiceClient) 
 	})
 }
 
-func _ParticipantService_DisqualifyParticipant_Rule0(cli ParticipantServiceClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DisqualifyParticipantInput{}
-
-		if err := _ParticipantService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_ParticipantService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.ParticipantId = vars["participant_id"]
-
-		var header, trailer metadata.MD
-
-		out, err := cli.DisqualifyParticipant(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
-		if err != nil {
-			_ParticipantService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_ParticipantService_HTTPWriteResponse(w, out, header, trailer)
-	})
-}
-
 func _ParticipantService_UpdateParticipant_Rule0(cli ParticipantServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateParticipantInput{}
@@ -386,7 +346,7 @@ func _ParticipantService_UpdateParticipant_Rule0(cli ParticipantServiceClient) h
 		}
 
 		vars := mux.Vars(r)
-		in.ParticipantId = vars["participant_id"]
+		in.MemberId = vars["member_id"]
 
 		var header, trailer metadata.MD
 
@@ -400,9 +360,9 @@ func _ParticipantService_UpdateParticipant_Rule0(cli ParticipantServiceClient) h
 	})
 }
 
-func _ParticipantService_RemoveParticipant_Rule0(cli ParticipantServiceClient) http.Handler {
+func _ParticipantService_DisqualifyParticipant_Rule0(cli ParticipantServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &RemoveParticipantInput{}
+		in := &DisqualifyParticipantInput{}
 
 		if err := _ParticipantService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
@@ -411,11 +371,61 @@ func _ParticipantService_RemoveParticipant_Rule0(cli ParticipantServiceClient) h
 		}
 
 		vars := mux.Vars(r)
-		in.ParticipantId = vars["participant_id"]
+		in.MemberId = vars["member_id"]
 
 		var header, trailer metadata.MD
 
-		out, err := cli.RemoveParticipant(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		out, err := cli.DisqualifyParticipant(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ParticipantService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ParticipantService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ParticipantService_DeleteParticipant_Rule0(cli ParticipantServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DeleteParticipantInput{}
+
+		if err := _ParticipantService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_ParticipantService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.MemberId = vars["member_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.DeleteParticipant(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ParticipantService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ParticipantService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ParticipantService_DescribeParticipant_Rule0(cli ParticipantServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeParticipantInput{}
+
+		if err := _ParticipantService_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_ParticipantService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.MemberId = vars["member_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeParticipant(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ParticipantService_HTTPWriteErrorResponse(w, err)
 			return
@@ -447,34 +457,9 @@ func _ParticipantService_ListParticipants_Rule0(cli ParticipantServiceClient) ht
 	})
 }
 
-func _ParticipantService_DescribeParticipant_Rule0(cli ParticipantServiceClient) http.Handler {
+func _ParticipantService_DescribeViewer_Rule0(cli ParticipantServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DescribeParticipantInput{}
-
-		if err := _ParticipantService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_ParticipantService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.ParticipantId = vars["participant_id"]
-
-		var header, trailer metadata.MD
-
-		out, err := cli.DescribeParticipant(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
-		if err != nil {
-			_ParticipantService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_ParticipantService_HTTPWriteResponse(w, out, header, trailer)
-	})
-}
-
-func _ParticipantService_IntrospectParticipant_Rule0(cli ParticipantServiceClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &IntrospectParticipantInput{}
+		in := &DescribeViewerInput{}
 
 		if err := _ParticipantService_HTTPReadQueryString(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
@@ -484,7 +469,7 @@ func _ParticipantService_IntrospectParticipant_Rule0(cli ParticipantServiceClien
 
 		var header, trailer metadata.MD
 
-		out, err := cli.IntrospectParticipant(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		out, err := cli.DescribeViewer(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ParticipantService_HTTPWriteErrorResponse(w, err)
 			return
@@ -538,125 +523,6 @@ func _ParticipantService_StartContest_Rule0(cli ParticipantServiceClient) http.H
 	})
 }
 
-func _ParticipantService_VerifyPasscode_Rule0(cli ParticipantServiceClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &VerifyPasscodeInput{}
-
-		if err := _ParticipantService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_ParticipantService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		var header, trailer metadata.MD
-
-		out, err := cli.VerifyPasscode(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
-		if err != nil {
-			_ParticipantService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_ParticipantService_HTTPWriteResponse(w, out, header, trailer)
-	})
-}
-
-func _ParticipantService_EnterPasscode_Rule0(cli ParticipantServiceClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &EnterPasscodeInput{}
-
-		if err := _ParticipantService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_ParticipantService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		var header, trailer metadata.MD
-
-		out, err := cli.EnterPasscode(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
-		if err != nil {
-			_ParticipantService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_ParticipantService_HTTPWriteResponse(w, out, header, trailer)
-	})
-}
-
-func _ParticipantService_ResetPasscode_Rule0(cli ParticipantServiceClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ResetPasscodeInput{}
-
-		if err := _ParticipantService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_ParticipantService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.ParticipantId = vars["participant_id"]
-
-		var header, trailer metadata.MD
-
-		out, err := cli.ResetPasscode(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
-		if err != nil {
-			_ParticipantService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_ParticipantService_HTTPWriteResponse(w, out, header, trailer)
-	})
-}
-
-func _ParticipantService_SetPasscode_Rule0(cli ParticipantServiceClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &SetPasscodeInput{}
-
-		if err := _ParticipantService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_ParticipantService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.ParticipantId = vars["participant_id"]
-
-		var header, trailer metadata.MD
-
-		out, err := cli.SetPasscode(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
-		if err != nil {
-			_ParticipantService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_ParticipantService_HTTPWriteResponse(w, out, header, trailer)
-	})
-}
-
-func _ParticipantService_RemovePasscode_Rule0(cli ParticipantServiceClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &RemovePasscodeInput{}
-
-		if err := _ParticipantService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_ParticipantService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.ParticipantId = vars["participant_id"]
-
-		var header, trailer metadata.MD
-
-		out, err := cli.RemovePasscode(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
-		if err != nil {
-			_ParticipantService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_ParticipantService_HTTPWriteResponse(w, out, header, trailer)
-	})
-}
-
 type _ParticipantServiceHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
 type _ParticipantServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _ParticipantServiceHandler) (out proto.Message, err error)
 type ParticipantServiceInterceptor struct {
@@ -669,14 +535,14 @@ func NewParticipantServiceInterceptor(cli ParticipantServiceClient, middleware .
 	return &ParticipantServiceInterceptor{client: cli, middleware: middleware}
 }
 
-func (i *ParticipantServiceInterceptor) AddParticipant(ctx context.Context, in *AddParticipantInput, opts ...grpc.CallOption) (*AddParticipantOutput, error) {
+func (i *ParticipantServiceInterceptor) AssignParticipant(ctx context.Context, in *AssignParticipantInput, opts ...grpc.CallOption) (*AssignParticipantOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*AddParticipantInput)
+		message, ok := in.(*AssignParticipantInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *AddParticipantInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *AssignParticipantInput, got %T", in))
 		}
 
-		return i.client.AddParticipant(ctx, message, opts...)
+		return i.client.AssignParticipant(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -684,7 +550,7 @@ func (i *ParticipantServiceInterceptor) AddParticipant(ctx context.Context, in *
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.ParticipantService.AddParticipant", in, next)
+			return mw(ctx, "eolymp.judge.ParticipantService.AssignParticipant", in, next)
 		}
 	}
 
@@ -693,9 +559,9 @@ func (i *ParticipantServiceInterceptor) AddParticipant(ctx context.Context, in *
 		return nil, err
 	}
 
-	message, ok := out.(*AddParticipantOutput)
+	message, ok := out.(*AssignParticipantOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *AddParticipantOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *AssignParticipantOutput, got %T", out))
 	}
 
 	return message, err
@@ -765,38 +631,6 @@ func (i *ParticipantServiceInterceptor) DisableParticipant(ctx context.Context, 
 	return message, err
 }
 
-func (i *ParticipantServiceInterceptor) DisqualifyParticipant(ctx context.Context, in *DisqualifyParticipantInput, opts ...grpc.CallOption) (*DisqualifyParticipantOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*DisqualifyParticipantInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *DisqualifyParticipantInput, got %T", in))
-		}
-
-		return i.client.DisqualifyParticipant(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.ParticipantService.DisqualifyParticipant", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*DisqualifyParticipantOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *DisqualifyParticipantOutput, got %T", out))
-	}
-
-	return message, err
-}
-
 func (i *ParticipantServiceInterceptor) UpdateParticipant(ctx context.Context, in *UpdateParticipantInput, opts ...grpc.CallOption) (*UpdateParticipantOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdateParticipantInput)
@@ -829,14 +663,14 @@ func (i *ParticipantServiceInterceptor) UpdateParticipant(ctx context.Context, i
 	return message, err
 }
 
-func (i *ParticipantServiceInterceptor) RemoveParticipant(ctx context.Context, in *RemoveParticipantInput, opts ...grpc.CallOption) (*RemoveParticipantOutput, error) {
+func (i *ParticipantServiceInterceptor) DisqualifyParticipant(ctx context.Context, in *DisqualifyParticipantInput, opts ...grpc.CallOption) (*DisqualifyParticipantOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*RemoveParticipantInput)
+		message, ok := in.(*DisqualifyParticipantInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *RemoveParticipantInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *DisqualifyParticipantInput, got %T", in))
 		}
 
-		return i.client.RemoveParticipant(ctx, message, opts...)
+		return i.client.DisqualifyParticipant(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -844,7 +678,7 @@ func (i *ParticipantServiceInterceptor) RemoveParticipant(ctx context.Context, i
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.ParticipantService.RemoveParticipant", in, next)
+			return mw(ctx, "eolymp.judge.ParticipantService.DisqualifyParticipant", in, next)
 		}
 	}
 
@@ -853,22 +687,22 @@ func (i *ParticipantServiceInterceptor) RemoveParticipant(ctx context.Context, i
 		return nil, err
 	}
 
-	message, ok := out.(*RemoveParticipantOutput)
+	message, ok := out.(*DisqualifyParticipantOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *RemoveParticipantOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *DisqualifyParticipantOutput, got %T", out))
 	}
 
 	return message, err
 }
 
-func (i *ParticipantServiceInterceptor) ListParticipants(ctx context.Context, in *ListParticipantsInput, opts ...grpc.CallOption) (*ListParticipantsOutput, error) {
+func (i *ParticipantServiceInterceptor) DeleteParticipant(ctx context.Context, in *DeleteParticipantInput, opts ...grpc.CallOption) (*DeleteParticipantOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*ListParticipantsInput)
+		message, ok := in.(*DeleteParticipantInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *ListParticipantsInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *DeleteParticipantInput, got %T", in))
 		}
 
-		return i.client.ListParticipants(ctx, message, opts...)
+		return i.client.DeleteParticipant(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -876,7 +710,7 @@ func (i *ParticipantServiceInterceptor) ListParticipants(ctx context.Context, in
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.ParticipantService.ListParticipants", in, next)
+			return mw(ctx, "eolymp.judge.ParticipantService.DeleteParticipant", in, next)
 		}
 	}
 
@@ -885,9 +719,9 @@ func (i *ParticipantServiceInterceptor) ListParticipants(ctx context.Context, in
 		return nil, err
 	}
 
-	message, ok := out.(*ListParticipantsOutput)
+	message, ok := out.(*DeleteParticipantOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *ListParticipantsOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *DeleteParticipantOutput, got %T", out))
 	}
 
 	return message, err
@@ -925,14 +759,14 @@ func (i *ParticipantServiceInterceptor) DescribeParticipant(ctx context.Context,
 	return message, err
 }
 
-func (i *ParticipantServiceInterceptor) IntrospectParticipant(ctx context.Context, in *IntrospectParticipantInput, opts ...grpc.CallOption) (*IntrospectParticipantOutput, error) {
+func (i *ParticipantServiceInterceptor) ListParticipants(ctx context.Context, in *ListParticipantsInput, opts ...grpc.CallOption) (*ListParticipantsOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*IntrospectParticipantInput)
+		message, ok := in.(*ListParticipantsInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *IntrospectParticipantInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *ListParticipantsInput, got %T", in))
 		}
 
-		return i.client.IntrospectParticipant(ctx, message, opts...)
+		return i.client.ListParticipants(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -940,7 +774,7 @@ func (i *ParticipantServiceInterceptor) IntrospectParticipant(ctx context.Contex
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.ParticipantService.IntrospectParticipant", in, next)
+			return mw(ctx, "eolymp.judge.ParticipantService.ListParticipants", in, next)
 		}
 	}
 
@@ -949,9 +783,9 @@ func (i *ParticipantServiceInterceptor) IntrospectParticipant(ctx context.Contex
 		return nil, err
 	}
 
-	message, ok := out.(*IntrospectParticipantOutput)
+	message, ok := out.(*ListParticipantsOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *IntrospectParticipantOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *ListParticipantsOutput, got %T", out))
 	}
 
 	return message, err
@@ -959,6 +793,38 @@ func (i *ParticipantServiceInterceptor) IntrospectParticipant(ctx context.Contex
 
 func (i *ParticipantServiceInterceptor) WatchParticipant(ctx context.Context, in *WatchParticipantInput, opts ...grpc.CallOption) (ParticipantService_WatchParticipantClient, error) {
 	return i.client.WatchParticipant(ctx, in, opts...)
+}
+
+func (i *ParticipantServiceInterceptor) DescribeViewer(ctx context.Context, in *DescribeViewerInput, opts ...grpc.CallOption) (*DescribeViewerOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeViewerInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeViewerInput, got %T", in))
+		}
+
+		return i.client.DescribeViewer(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.ParticipantService.DescribeViewer", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeViewerOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeViewerOutput, got %T", out))
+	}
+
+	return message, err
 }
 
 func (i *ParticipantServiceInterceptor) JoinContest(ctx context.Context, in *JoinContestInput, opts ...grpc.CallOption) (*JoinContestOutput, error) {
@@ -1020,166 +886,6 @@ func (i *ParticipantServiceInterceptor) StartContest(ctx context.Context, in *St
 	message, ok := out.(*StartContestOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *StartContestOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *ParticipantServiceInterceptor) VerifyPasscode(ctx context.Context, in *VerifyPasscodeInput, opts ...grpc.CallOption) (*VerifyPasscodeOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*VerifyPasscodeInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *VerifyPasscodeInput, got %T", in))
-		}
-
-		return i.client.VerifyPasscode(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.ParticipantService.VerifyPasscode", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*VerifyPasscodeOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *VerifyPasscodeOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *ParticipantServiceInterceptor) EnterPasscode(ctx context.Context, in *EnterPasscodeInput, opts ...grpc.CallOption) (*EnterPasscodeOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*EnterPasscodeInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *EnterPasscodeInput, got %T", in))
-		}
-
-		return i.client.EnterPasscode(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.ParticipantService.EnterPasscode", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*EnterPasscodeOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *EnterPasscodeOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *ParticipantServiceInterceptor) ResetPasscode(ctx context.Context, in *ResetPasscodeInput, opts ...grpc.CallOption) (*ResetPasscodeOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*ResetPasscodeInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *ResetPasscodeInput, got %T", in))
-		}
-
-		return i.client.ResetPasscode(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.ParticipantService.ResetPasscode", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*ResetPasscodeOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *ResetPasscodeOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *ParticipantServiceInterceptor) SetPasscode(ctx context.Context, in *SetPasscodeInput, opts ...grpc.CallOption) (*SetPasscodeOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*SetPasscodeInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *SetPasscodeInput, got %T", in))
-		}
-
-		return i.client.SetPasscode(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.ParticipantService.SetPasscode", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*SetPasscodeOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *SetPasscodeOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *ParticipantServiceInterceptor) RemovePasscode(ctx context.Context, in *RemovePasscodeInput, opts ...grpc.CallOption) (*RemovePasscodeOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*RemovePasscodeInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *RemovePasscodeInput, got %T", in))
-		}
-
-		return i.client.RemovePasscode(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.ParticipantService.RemovePasscode", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*RemovePasscodeOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *RemovePasscodeOutput, got %T", out))
 	}
 
 	return message, err

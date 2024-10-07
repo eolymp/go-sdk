@@ -113,11 +113,11 @@ func (s *ScoreServiceService) IntrospectScore(ctx context.Context, in *Introspec
 
 func (s *ScoreServiceService) DescribeScore(ctx context.Context, in *DescribeScoreInput) (*DescribeScoreOutput, error) {
 	out := &DescribeScoreOutput{}
-	path := "/participants/" + url.PathEscape(in.GetParticipantId()) + "/score"
+	path := "/participants/" + url.PathEscape(in.GetMemberId()) + "/score"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.ParticipantId = ""
+		in.MemberId = ""
 	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
@@ -129,11 +129,11 @@ func (s *ScoreServiceService) DescribeScore(ctx context.Context, in *DescribeSco
 
 func (s *ScoreServiceService) ImportScore(ctx context.Context, in *ImportScoreInput) (*ImportScoreOutput, error) {
 	out := &ImportScoreOutput{}
-	path := "/participants/" + url.PathEscape(in.GetParticipantId()) + "/scores"
+	path := "/participants/" + url.PathEscape(in.GetMemberId()) + "/scores"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.ParticipantId = ""
+		in.MemberId = ""
 	}
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
@@ -145,11 +145,11 @@ func (s *ScoreServiceService) ImportScore(ctx context.Context, in *ImportScoreIn
 
 func (s *ScoreServiceService) ExportScore(ctx context.Context, in *ExportScoreInput) (*ExportScoreOutput, error) {
 	out := &ExportScoreOutput{}
-	path := "/participants/" + url.PathEscape(in.GetParticipantId()) + "/scores"
+	path := "/participants/" + url.PathEscape(in.GetMemberId()) + "/scores"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.ParticipantId = ""
+		in.MemberId = ""
 	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {

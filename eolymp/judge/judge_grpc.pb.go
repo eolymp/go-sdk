@@ -45,10 +45,10 @@ const (
 	Judge_EnableParticipant_FullMethodName          = "/eolymp.judge.Judge/EnableParticipant"
 	Judge_DisableParticipant_FullMethodName         = "/eolymp.judge.Judge/DisableParticipant"
 	Judge_UpdateParticipant_FullMethodName          = "/eolymp.judge.Judge/UpdateParticipant"
-	Judge_RemoveParticipant_FullMethodName          = "/eolymp.judge.Judge/RemoveParticipant"
+	Judge_DeleteParticipant_FullMethodName          = "/eolymp.judge.Judge/DeleteParticipant"
 	Judge_ListParticipants_FullMethodName           = "/eolymp.judge.Judge/ListParticipants"
 	Judge_DescribeParticipant_FullMethodName        = "/eolymp.judge.Judge/DescribeParticipant"
-	Judge_IntrospectParticipant_FullMethodName      = "/eolymp.judge.Judge/IntrospectParticipant"
+	Judge_DescribeViewer_FullMethodName             = "/eolymp.judge.Judge/DescribeViewer"
 	Judge_JoinContest_FullMethodName                = "/eolymp.judge.Judge/JoinContest"
 	Judge_StartContest_FullMethodName               = "/eolymp.judge.Judge/StartContest"
 	Judge_VerifyPasscode_FullMethodName             = "/eolymp.judge.Judge/VerifyPasscode"
@@ -119,15 +119,15 @@ type JudgeClient interface {
 	DeleteProblem(ctx context.Context, in *DeleteProblemInput, opts ...grpc.CallOption) (*DeleteProblemOutput, error)
 	// RetestProblem resets existing submissions for the problem and triggers testing process again.
 	RetestProblem(ctx context.Context, in *RetestProblemInput, opts ...grpc.CallOption) (*RetestProblemOutput, error)
-	AddParticipant(ctx context.Context, in *AddParticipantInput, opts ...grpc.CallOption) (*AddParticipantOutput, error)
+	AddParticipant(ctx context.Context, in *AssignParticipantInput, opts ...grpc.CallOption) (*AssignParticipantOutput, error)
 	EnableParticipant(ctx context.Context, in *EnableParticipantInput, opts ...grpc.CallOption) (*EnableParticipantOutput, error)
 	DisableParticipant(ctx context.Context, in *DisableParticipantInput, opts ...grpc.CallOption) (*DisableParticipantOutput, error)
 	UpdateParticipant(ctx context.Context, in *UpdateParticipantInput, opts ...grpc.CallOption) (*UpdateParticipantOutput, error)
-	RemoveParticipant(ctx context.Context, in *RemoveParticipantInput, opts ...grpc.CallOption) (*RemoveParticipantOutput, error)
+	DeleteParticipant(ctx context.Context, in *DeleteParticipantInput, opts ...grpc.CallOption) (*DeleteParticipantOutput, error)
 	ListParticipants(ctx context.Context, in *ListParticipantsInput, opts ...grpc.CallOption) (*ListParticipantsOutput, error)
 	DescribeParticipant(ctx context.Context, in *DescribeParticipantInput, opts ...grpc.CallOption) (*DescribeParticipantOutput, error)
-	// IntrospectParticipant allows to fetch participant data for a currently authorized user.
-	IntrospectParticipant(ctx context.Context, in *IntrospectParticipantInput, opts ...grpc.CallOption) (*IntrospectParticipantOutput, error)
+	// DescribeViewer allows to fetch participant data for a currently authorized user.
+	DescribeViewer(ctx context.Context, in *DescribeViewerInput, opts ...grpc.CallOption) (*DescribeViewerOutput, error)
 	// Allows a participant (currently authorized user) to join (add himself to) a public contest.
 	JoinContest(ctx context.Context, in *JoinContestInput, opts ...grpc.CallOption) (*JoinContestOutput, error)
 	// Allows a participant (currently authorized user) to start participating in the contest, see problems and submit solutions.
@@ -407,9 +407,9 @@ func (c *judgeClient) RetestProblem(ctx context.Context, in *RetestProblemInput,
 	return out, nil
 }
 
-func (c *judgeClient) AddParticipant(ctx context.Context, in *AddParticipantInput, opts ...grpc.CallOption) (*AddParticipantOutput, error) {
+func (c *judgeClient) AddParticipant(ctx context.Context, in *AssignParticipantInput, opts ...grpc.CallOption) (*AssignParticipantOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(AddParticipantOutput)
+	out := new(AssignParticipantOutput)
 	err := c.cc.Invoke(ctx, Judge_AddParticipant_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -447,10 +447,10 @@ func (c *judgeClient) UpdateParticipant(ctx context.Context, in *UpdateParticipa
 	return out, nil
 }
 
-func (c *judgeClient) RemoveParticipant(ctx context.Context, in *RemoveParticipantInput, opts ...grpc.CallOption) (*RemoveParticipantOutput, error) {
+func (c *judgeClient) DeleteParticipant(ctx context.Context, in *DeleteParticipantInput, opts ...grpc.CallOption) (*DeleteParticipantOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(RemoveParticipantOutput)
-	err := c.cc.Invoke(ctx, Judge_RemoveParticipant_FullMethodName, in, out, cOpts...)
+	out := new(DeleteParticipantOutput)
+	err := c.cc.Invoke(ctx, Judge_DeleteParticipant_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -477,10 +477,10 @@ func (c *judgeClient) DescribeParticipant(ctx context.Context, in *DescribeParti
 	return out, nil
 }
 
-func (c *judgeClient) IntrospectParticipant(ctx context.Context, in *IntrospectParticipantInput, opts ...grpc.CallOption) (*IntrospectParticipantOutput, error) {
+func (c *judgeClient) DescribeViewer(ctx context.Context, in *DescribeViewerInput, opts ...grpc.CallOption) (*DescribeViewerOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(IntrospectParticipantOutput)
-	err := c.cc.Invoke(ctx, Judge_IntrospectParticipant_FullMethodName, in, out, cOpts...)
+	out := new(DescribeViewerOutput)
+	err := c.cc.Invoke(ctx, Judge_DescribeViewer_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -825,15 +825,15 @@ type JudgeServer interface {
 	DeleteProblem(context.Context, *DeleteProblemInput) (*DeleteProblemOutput, error)
 	// RetestProblem resets existing submissions for the problem and triggers testing process again.
 	RetestProblem(context.Context, *RetestProblemInput) (*RetestProblemOutput, error)
-	AddParticipant(context.Context, *AddParticipantInput) (*AddParticipantOutput, error)
+	AddParticipant(context.Context, *AssignParticipantInput) (*AssignParticipantOutput, error)
 	EnableParticipant(context.Context, *EnableParticipantInput) (*EnableParticipantOutput, error)
 	DisableParticipant(context.Context, *DisableParticipantInput) (*DisableParticipantOutput, error)
 	UpdateParticipant(context.Context, *UpdateParticipantInput) (*UpdateParticipantOutput, error)
-	RemoveParticipant(context.Context, *RemoveParticipantInput) (*RemoveParticipantOutput, error)
+	DeleteParticipant(context.Context, *DeleteParticipantInput) (*DeleteParticipantOutput, error)
 	ListParticipants(context.Context, *ListParticipantsInput) (*ListParticipantsOutput, error)
 	DescribeParticipant(context.Context, *DescribeParticipantInput) (*DescribeParticipantOutput, error)
-	// IntrospectParticipant allows to fetch participant data for a currently authorized user.
-	IntrospectParticipant(context.Context, *IntrospectParticipantInput) (*IntrospectParticipantOutput, error)
+	// DescribeViewer allows to fetch participant data for a currently authorized user.
+	DescribeViewer(context.Context, *DescribeViewerInput) (*DescribeViewerOutput, error)
 	// Allows a participant (currently authorized user) to join (add himself to) a public contest.
 	JoinContest(context.Context, *JoinContestInput) (*JoinContestOutput, error)
 	// Allows a participant (currently authorized user) to start participating in the contest, see problems and submit solutions.
@@ -958,7 +958,7 @@ func (UnimplementedJudgeServer) DeleteProblem(context.Context, *DeleteProblemInp
 func (UnimplementedJudgeServer) RetestProblem(context.Context, *RetestProblemInput) (*RetestProblemOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RetestProblem not implemented")
 }
-func (UnimplementedJudgeServer) AddParticipant(context.Context, *AddParticipantInput) (*AddParticipantOutput, error) {
+func (UnimplementedJudgeServer) AddParticipant(context.Context, *AssignParticipantInput) (*AssignParticipantOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddParticipant not implemented")
 }
 func (UnimplementedJudgeServer) EnableParticipant(context.Context, *EnableParticipantInput) (*EnableParticipantOutput, error) {
@@ -970,8 +970,8 @@ func (UnimplementedJudgeServer) DisableParticipant(context.Context, *DisablePart
 func (UnimplementedJudgeServer) UpdateParticipant(context.Context, *UpdateParticipantInput) (*UpdateParticipantOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateParticipant not implemented")
 }
-func (UnimplementedJudgeServer) RemoveParticipant(context.Context, *RemoveParticipantInput) (*RemoveParticipantOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method RemoveParticipant not implemented")
+func (UnimplementedJudgeServer) DeleteParticipant(context.Context, *DeleteParticipantInput) (*DeleteParticipantOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteParticipant not implemented")
 }
 func (UnimplementedJudgeServer) ListParticipants(context.Context, *ListParticipantsInput) (*ListParticipantsOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListParticipants not implemented")
@@ -979,8 +979,8 @@ func (UnimplementedJudgeServer) ListParticipants(context.Context, *ListParticipa
 func (UnimplementedJudgeServer) DescribeParticipant(context.Context, *DescribeParticipantInput) (*DescribeParticipantOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeParticipant not implemented")
 }
-func (UnimplementedJudgeServer) IntrospectParticipant(context.Context, *IntrospectParticipantInput) (*IntrospectParticipantOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method IntrospectParticipant not implemented")
+func (UnimplementedJudgeServer) DescribeViewer(context.Context, *DescribeViewerInput) (*DescribeViewerOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeViewer not implemented")
 }
 func (UnimplementedJudgeServer) JoinContest(context.Context, *JoinContestInput) (*JoinContestOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method JoinContest not implemented")
@@ -1486,7 +1486,7 @@ func _Judge_RetestProblem_Handler(srv interface{}, ctx context.Context, dec func
 }
 
 func _Judge_AddParticipant_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AddParticipantInput)
+	in := new(AssignParticipantInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -1498,7 +1498,7 @@ func _Judge_AddParticipant_Handler(srv interface{}, ctx context.Context, dec fun
 		FullMethod: Judge_AddParticipant_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(JudgeServer).AddParticipant(ctx, req.(*AddParticipantInput))
+		return srv.(JudgeServer).AddParticipant(ctx, req.(*AssignParticipantInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1557,20 +1557,20 @@ func _Judge_UpdateParticipant_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Judge_RemoveParticipant_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RemoveParticipantInput)
+func _Judge_DeleteParticipant_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteParticipantInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(JudgeServer).RemoveParticipant(ctx, in)
+		return srv.(JudgeServer).DeleteParticipant(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Judge_RemoveParticipant_FullMethodName,
+		FullMethod: Judge_DeleteParticipant_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(JudgeServer).RemoveParticipant(ctx, req.(*RemoveParticipantInput))
+		return srv.(JudgeServer).DeleteParticipant(ctx, req.(*DeleteParticipantInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1611,20 +1611,20 @@ func _Judge_DescribeParticipant_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Judge_IntrospectParticipant_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(IntrospectParticipantInput)
+func _Judge_DescribeViewer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeViewerInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(JudgeServer).IntrospectParticipant(ctx, in)
+		return srv.(JudgeServer).DescribeViewer(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Judge_IntrospectParticipant_FullMethodName,
+		FullMethod: Judge_DescribeViewer_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(JudgeServer).IntrospectParticipant(ctx, req.(*IntrospectParticipantInput))
+		return srv.(JudgeServer).DescribeViewer(ctx, req.(*DescribeViewerInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -2256,8 +2256,8 @@ var Judge_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Judge_UpdateParticipant_Handler,
 		},
 		{
-			MethodName: "RemoveParticipant",
-			Handler:    _Judge_RemoveParticipant_Handler,
+			MethodName: "DeleteParticipant",
+			Handler:    _Judge_DeleteParticipant_Handler,
 		},
 		{
 			MethodName: "ListParticipants",
@@ -2268,8 +2268,8 @@ var Judge_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Judge_DescribeParticipant_Handler,
 		},
 		{
-			MethodName: "IntrospectParticipant",
-			Handler:    _Judge_IntrospectParticipant_Handler,
+			MethodName: "DescribeViewer",
+			Handler:    _Judge_DescribeViewer_Handler,
 		},
 		{
 			MethodName: "JoinContest",
