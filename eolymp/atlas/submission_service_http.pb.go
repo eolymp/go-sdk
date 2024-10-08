@@ -240,6 +240,9 @@ func RegisterSubmissionServiceHttpHandlers(router *mux.Router, prefix string, cl
 	router.Handle(prefix+"/submissions", _SubmissionService_ListSubmissions_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.SubmissionService.ListSubmissions")
+	router.Handle(prefix+"/usage/submissions", _SubmissionService_DescribeSubmissionUsage_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.atlas.SubmissionService.DescribeSubmissionUsage")
 }
 
 func _SubmissionService_CreateSubmission_Rule0(cli SubmissionServiceClient) http.Handler {
@@ -327,6 +330,28 @@ func _SubmissionService_ListSubmissions_Rule0(cli SubmissionServiceClient) http.
 		var header, trailer metadata.MD
 
 		out, err := cli.ListSubmissions(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_SubmissionService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_SubmissionService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _SubmissionService_DescribeSubmissionUsage_Rule0(cli SubmissionServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeSubmissionUsageInput{}
+
+		if err := _SubmissionService_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_SubmissionService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeSubmissionUsage(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_SubmissionService_HTTPWriteErrorResponse(w, err)
 			return
@@ -475,6 +500,38 @@ func (i *SubmissionServiceInterceptor) ListSubmissions(ctx context.Context, in *
 	message, ok := out.(*ListSubmissionsOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *ListSubmissionsOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *SubmissionServiceInterceptor) DescribeSubmissionUsage(ctx context.Context, in *DescribeSubmissionUsageInput, opts ...grpc.CallOption) (*DescribeSubmissionUsageOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeSubmissionUsageInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeSubmissionUsageInput, got %T", in))
+		}
+
+		return i.client.DescribeSubmissionUsage(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.SubmissionService.DescribeSubmissionUsage", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeSubmissionUsageOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeSubmissionUsageOutput, got %T", out))
 	}
 
 	return message, err

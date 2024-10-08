@@ -19,11 +19,12 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	SubmissionService_CreateSubmission_FullMethodName   = "/eolymp.atlas.SubmissionService/CreateSubmission"
-	SubmissionService_RetestSubmission_FullMethodName   = "/eolymp.atlas.SubmissionService/RetestSubmission"
-	SubmissionService_DescribeSubmission_FullMethodName = "/eolymp.atlas.SubmissionService/DescribeSubmission"
-	SubmissionService_WatchSubmission_FullMethodName    = "/eolymp.atlas.SubmissionService/WatchSubmission"
-	SubmissionService_ListSubmissions_FullMethodName    = "/eolymp.atlas.SubmissionService/ListSubmissions"
+	SubmissionService_CreateSubmission_FullMethodName        = "/eolymp.atlas.SubmissionService/CreateSubmission"
+	SubmissionService_RetestSubmission_FullMethodName        = "/eolymp.atlas.SubmissionService/RetestSubmission"
+	SubmissionService_DescribeSubmission_FullMethodName      = "/eolymp.atlas.SubmissionService/DescribeSubmission"
+	SubmissionService_WatchSubmission_FullMethodName         = "/eolymp.atlas.SubmissionService/WatchSubmission"
+	SubmissionService_ListSubmissions_FullMethodName         = "/eolymp.atlas.SubmissionService/ListSubmissions"
+	SubmissionService_DescribeSubmissionUsage_FullMethodName = "/eolymp.atlas.SubmissionService/DescribeSubmissionUsage"
 )
 
 // SubmissionServiceClient is the client API for SubmissionService service.
@@ -35,6 +36,7 @@ type SubmissionServiceClient interface {
 	DescribeSubmission(ctx context.Context, in *DescribeSubmissionInput, opts ...grpc.CallOption) (*DescribeSubmissionOutput, error)
 	WatchSubmission(ctx context.Context, in *WatchSubmissionInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchSubmissionOutput], error)
 	ListSubmissions(ctx context.Context, in *ListSubmissionsInput, opts ...grpc.CallOption) (*ListSubmissionsOutput, error)
+	DescribeSubmissionUsage(ctx context.Context, in *DescribeSubmissionUsageInput, opts ...grpc.CallOption) (*DescribeSubmissionUsageOutput, error)
 }
 
 type submissionServiceClient struct {
@@ -104,6 +106,16 @@ func (c *submissionServiceClient) ListSubmissions(ctx context.Context, in *ListS
 	return out, nil
 }
 
+func (c *submissionServiceClient) DescribeSubmissionUsage(ctx context.Context, in *DescribeSubmissionUsageInput, opts ...grpc.CallOption) (*DescribeSubmissionUsageOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DescribeSubmissionUsageOutput)
+	err := c.cc.Invoke(ctx, SubmissionService_DescribeSubmissionUsage_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SubmissionServiceServer is the server API for SubmissionService service.
 // All implementations should embed UnimplementedSubmissionServiceServer
 // for forward compatibility.
@@ -113,6 +125,7 @@ type SubmissionServiceServer interface {
 	DescribeSubmission(context.Context, *DescribeSubmissionInput) (*DescribeSubmissionOutput, error)
 	WatchSubmission(*WatchSubmissionInput, grpc.ServerStreamingServer[WatchSubmissionOutput]) error
 	ListSubmissions(context.Context, *ListSubmissionsInput) (*ListSubmissionsOutput, error)
+	DescribeSubmissionUsage(context.Context, *DescribeSubmissionUsageInput) (*DescribeSubmissionUsageOutput, error)
 }
 
 // UnimplementedSubmissionServiceServer should be embedded to have
@@ -136,6 +149,9 @@ func (UnimplementedSubmissionServiceServer) WatchSubmission(*WatchSubmissionInpu
 }
 func (UnimplementedSubmissionServiceServer) ListSubmissions(context.Context, *ListSubmissionsInput) (*ListSubmissionsOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListSubmissions not implemented")
+}
+func (UnimplementedSubmissionServiceServer) DescribeSubmissionUsage(context.Context, *DescribeSubmissionUsageInput) (*DescribeSubmissionUsageOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeSubmissionUsage not implemented")
 }
 func (UnimplementedSubmissionServiceServer) testEmbeddedByValue() {}
 
@@ -240,6 +256,24 @@ func _SubmissionService_ListSubmissions_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SubmissionService_DescribeSubmissionUsage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeSubmissionUsageInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SubmissionServiceServer).DescribeSubmissionUsage(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SubmissionService_DescribeSubmissionUsage_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SubmissionServiceServer).DescribeSubmissionUsage(ctx, req.(*DescribeSubmissionUsageInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // SubmissionService_ServiceDesc is the grpc.ServiceDesc for SubmissionService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -262,6 +296,10 @@ var SubmissionService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListSubmissions",
 			Handler:    _SubmissionService_ListSubmissions_Handler,
+		},
+		{
+			MethodName: "DescribeSubmissionUsage",
+			Handler:    _SubmissionService_DescribeSubmissionUsage_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{
