@@ -24,6 +24,7 @@ const (
 	ProblemService_DeleteProblem_FullMethodName   = "/eolymp.atlas.ProblemService/DeleteProblem"
 	ProblemService_DescribeProblem_FullMethodName = "/eolymp.atlas.ProblemService/DescribeProblem"
 	ProblemService_ListProblems_FullMethodName    = "/eolymp.atlas.ProblemService/ListProblems"
+	ProblemService_SyncProblem_FullMethodName     = "/eolymp.atlas.ProblemService/SyncProblem"
 	ProblemService_VoteProblem_FullMethodName     = "/eolymp.atlas.ProblemService/VoteProblem"
 )
 
@@ -36,6 +37,7 @@ type ProblemServiceClient interface {
 	DeleteProblem(ctx context.Context, in *DeleteProblemInput, opts ...grpc.CallOption) (*DeleteProblemOutput, error)
 	DescribeProblem(ctx context.Context, in *DescribeProblemInput, opts ...grpc.CallOption) (*DescribeProblemOutput, error)
 	ListProblems(ctx context.Context, in *ListProblemsInput, opts ...grpc.CallOption) (*ListProblemsOutput, error)
+	SyncProblem(ctx context.Context, in *SyncProblemInput, opts ...grpc.CallOption) (*SyncProblemOutput, error)
 	VoteProblem(ctx context.Context, in *VoteProblemInput, opts ...grpc.CallOption) (*VoteProblemOutput, error)
 }
 
@@ -97,6 +99,16 @@ func (c *problemServiceClient) ListProblems(ctx context.Context, in *ListProblem
 	return out, nil
 }
 
+func (c *problemServiceClient) SyncProblem(ctx context.Context, in *SyncProblemInput, opts ...grpc.CallOption) (*SyncProblemOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SyncProblemOutput)
+	err := c.cc.Invoke(ctx, ProblemService_SyncProblem_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *problemServiceClient) VoteProblem(ctx context.Context, in *VoteProblemInput, opts ...grpc.CallOption) (*VoteProblemOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(VoteProblemOutput)
@@ -116,6 +128,7 @@ type ProblemServiceServer interface {
 	DeleteProblem(context.Context, *DeleteProblemInput) (*DeleteProblemOutput, error)
 	DescribeProblem(context.Context, *DescribeProblemInput) (*DescribeProblemOutput, error)
 	ListProblems(context.Context, *ListProblemsInput) (*ListProblemsOutput, error)
+	SyncProblem(context.Context, *SyncProblemInput) (*SyncProblemOutput, error)
 	VoteProblem(context.Context, *VoteProblemInput) (*VoteProblemOutput, error)
 }
 
@@ -140,6 +153,9 @@ func (UnimplementedProblemServiceServer) DescribeProblem(context.Context, *Descr
 }
 func (UnimplementedProblemServiceServer) ListProblems(context.Context, *ListProblemsInput) (*ListProblemsOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListProblems not implemented")
+}
+func (UnimplementedProblemServiceServer) SyncProblem(context.Context, *SyncProblemInput) (*SyncProblemOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SyncProblem not implemented")
 }
 func (UnimplementedProblemServiceServer) VoteProblem(context.Context, *VoteProblemInput) (*VoteProblemOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method VoteProblem not implemented")
@@ -254,6 +270,24 @@ func _ProblemService_ListProblems_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ProblemService_SyncProblem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SyncProblemInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProblemServiceServer).SyncProblem(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProblemService_SyncProblem_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProblemServiceServer).SyncProblem(ctx, req.(*SyncProblemInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ProblemService_VoteProblem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(VoteProblemInput)
 	if err := dec(in); err != nil {
@@ -298,6 +332,10 @@ var ProblemService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListProblems",
 			Handler:    _ProblemService_ListProblems_Handler,
+		},
+		{
+			MethodName: "SyncProblem",
+			Handler:    _ProblemService_SyncProblem_Handler,
 		},
 		{
 			MethodName: "VoteProblem",

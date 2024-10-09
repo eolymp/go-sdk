@@ -211,6 +211,9 @@ func RegisterProblemServiceHttpHandlers(router *mux.Router, prefix string, cli P
 	router.Handle(prefix+"/problems", _ProblemService_ListProblems_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.ProblemService.ListProblems")
+	router.Handle(prefix+"/problems/{problem_id}/sync", _ProblemService_SyncProblem_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.atlas.ProblemService.SyncProblem")
 	router.Handle(prefix+"/problems/{problem_id}/vote", _ProblemService_VoteProblem_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.ProblemService.VoteProblem")
@@ -326,6 +329,31 @@ func _ProblemService_ListProblems_Rule0(cli ProblemServiceClient) http.Handler {
 		var header, trailer metadata.MD
 
 		out, err := cli.ListProblems(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ProblemService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ProblemService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ProblemService_SyncProblem_Rule0(cli ProblemServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &SyncProblemInput{}
+
+		if err := _ProblemService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_ProblemService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.SyncProblem(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
@@ -527,6 +555,38 @@ func (i *ProblemServiceInterceptor) ListProblems(ctx context.Context, in *ListPr
 	message, ok := out.(*ListProblemsOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *ListProblemsOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *ProblemServiceInterceptor) SyncProblem(ctx context.Context, in *SyncProblemInput, opts ...grpc.CallOption) (*SyncProblemOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*SyncProblemInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *SyncProblemInput, got %T", in))
+		}
+
+		return i.client.SyncProblem(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.ProblemService.SyncProblem", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*SyncProblemOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *SyncProblemOutput, got %T", out))
 	}
 
 	return message, err

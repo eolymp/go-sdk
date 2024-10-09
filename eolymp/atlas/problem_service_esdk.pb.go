@@ -170,6 +170,22 @@ func (s *ProblemServiceService) ListProblems(ctx context.Context, in *ListProble
 	return out, nil
 }
 
+func (s *ProblemServiceService) SyncProblem(ctx context.Context, in *SyncProblemInput) (*SyncProblemOutput, error) {
+	out := &SyncProblemOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/sync"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *ProblemServiceService) VoteProblem(ctx context.Context, in *VoteProblemInput) (*VoteProblemOutput, error) {
 	out := &VoteProblemOutput{}
 	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/vote"

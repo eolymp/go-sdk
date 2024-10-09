@@ -76,6 +76,8 @@ const (
 // AtlasClient is the client API for Atlas service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// deprecated
 type AtlasClient interface {
 	CreateProblem(ctx context.Context, in *CreateProblemInput, opts ...grpc.CallOption) (*CreateProblemOutput, error)
 	DeleteProblem(ctx context.Context, in *DeleteProblemInput, opts ...grpc.CallOption) (*DeleteProblemOutput, error)
@@ -667,6 +669,8 @@ func (c *atlasClient) DescribeScore(ctx context.Context, in *DescribeScoreInput,
 // AtlasServer is the server API for Atlas service.
 // All implementations should embed UnimplementedAtlasServer
 // for forward compatibility.
+//
+// deprecated
 type AtlasServer interface {
 	CreateProblem(context.Context, *CreateProblemInput) (*CreateProblemOutput, error)
 	DeleteProblem(context.Context, *DeleteProblemInput) (*DeleteProblemOutput, error)
