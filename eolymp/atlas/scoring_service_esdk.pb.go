@@ -126,14 +126,3 @@ func (s *ScoringServiceService) DescribeProblemGrading(ctx context.Context, in *
 
 	return out, nil
 }
-
-func (s *ScoringServiceService) ListProblemTop(ctx context.Context, in *ListProblemTopInput) (*ListProblemTopOutput, error) {
-	out := &ListProblemTopOutput{}
-	path := "/top"
-
-	if err := s.do(ctx, "GET", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}

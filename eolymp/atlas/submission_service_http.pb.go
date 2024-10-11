@@ -243,6 +243,9 @@ func RegisterSubmissionServiceHttpHandlers(router *mux.Router, prefix string, cl
 	router.Handle(prefix+"/usage/submissions", _SubmissionService_DescribeSubmissionUsage_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.SubmissionService.DescribeSubmissionUsage")
+	router.Handle(prefix+"/problems/{problem_id}/top", _SubmissionService_ListProblemTop_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.atlas.SubmissionService.ListProblemTop")
 }
 
 func _SubmissionService_CreateSubmission_Rule0(cli SubmissionServiceClient) http.Handler {
@@ -352,6 +355,31 @@ func _SubmissionService_DescribeSubmissionUsage_Rule0(cli SubmissionServiceClien
 		var header, trailer metadata.MD
 
 		out, err := cli.DescribeSubmissionUsage(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_SubmissionService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_SubmissionService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _SubmissionService_ListProblemTop_Rule0(cli SubmissionServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListProblemTopInput{}
+
+		if err := _SubmissionService_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_SubmissionService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.ListProblemTop(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_SubmissionService_HTTPWriteErrorResponse(w, err)
 			return
@@ -532,6 +560,38 @@ func (i *SubmissionServiceInterceptor) DescribeSubmissionUsage(ctx context.Conte
 	message, ok := out.(*DescribeSubmissionUsageOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *DescribeSubmissionUsageOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *SubmissionServiceInterceptor) ListProblemTop(ctx context.Context, in *ListProblemTopInput, opts ...grpc.CallOption) (*ListProblemTopOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListProblemTopInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListProblemTopInput, got %T", in))
+		}
+
+		return i.client.ListProblemTop(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.SubmissionService.ListProblemTop", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListProblemTopOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListProblemTopOutput, got %T", out))
 	}
 
 	return message, err

@@ -164,3 +164,19 @@ func (s *SubmissionServiceService) DescribeSubmissionUsage(ctx context.Context, 
 
 	return out, nil
 }
+
+func (s *SubmissionServiceService) ListProblemTop(ctx context.Context, in *ListProblemTopInput) (*ListProblemTopOutput, error) {
+	out := &ListProblemTopOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/top"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

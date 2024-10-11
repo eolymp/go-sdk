@@ -21,7 +21,6 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	ScoringService_DescribeScore_FullMethodName          = "/eolymp.atlas.ScoringService/DescribeScore"
 	ScoringService_DescribeProblemGrading_FullMethodName = "/eolymp.atlas.ScoringService/DescribeProblemGrading"
-	ScoringService_ListProblemTop_FullMethodName         = "/eolymp.atlas.ScoringService/ListProblemTop"
 )
 
 // ScoringServiceClient is the client API for ScoringService service.
@@ -30,7 +29,6 @@ const (
 type ScoringServiceClient interface {
 	DescribeScore(ctx context.Context, in *DescribeScoreInput, opts ...grpc.CallOption) (*DescribeScoreOutput, error)
 	DescribeProblemGrading(ctx context.Context, in *DescribeProblemGradingInput, opts ...grpc.CallOption) (*DescribeProblemGradingOutput, error)
-	ListProblemTop(ctx context.Context, in *ListProblemTopInput, opts ...grpc.CallOption) (*ListProblemTopOutput, error)
 }
 
 type scoringServiceClient struct {
@@ -61,23 +59,12 @@ func (c *scoringServiceClient) DescribeProblemGrading(ctx context.Context, in *D
 	return out, nil
 }
 
-func (c *scoringServiceClient) ListProblemTop(ctx context.Context, in *ListProblemTopInput, opts ...grpc.CallOption) (*ListProblemTopOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ListProblemTopOutput)
-	err := c.cc.Invoke(ctx, ScoringService_ListProblemTop_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // ScoringServiceServer is the server API for ScoringService service.
 // All implementations should embed UnimplementedScoringServiceServer
 // for forward compatibility.
 type ScoringServiceServer interface {
 	DescribeScore(context.Context, *DescribeScoreInput) (*DescribeScoreOutput, error)
 	DescribeProblemGrading(context.Context, *DescribeProblemGradingInput) (*DescribeProblemGradingOutput, error)
-	ListProblemTop(context.Context, *ListProblemTopInput) (*ListProblemTopOutput, error)
 }
 
 // UnimplementedScoringServiceServer should be embedded to have
@@ -92,9 +79,6 @@ func (UnimplementedScoringServiceServer) DescribeScore(context.Context, *Describ
 }
 func (UnimplementedScoringServiceServer) DescribeProblemGrading(context.Context, *DescribeProblemGradingInput) (*DescribeProblemGradingOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeProblemGrading not implemented")
-}
-func (UnimplementedScoringServiceServer) ListProblemTop(context.Context, *ListProblemTopInput) (*ListProblemTopOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListProblemTop not implemented")
 }
 func (UnimplementedScoringServiceServer) testEmbeddedByValue() {}
 
@@ -152,24 +136,6 @@ func _ScoringService_DescribeProblemGrading_Handler(srv interface{}, ctx context
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ScoringService_ListProblemTop_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListProblemTopInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ScoringServiceServer).ListProblemTop(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ScoringService_ListProblemTop_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ScoringServiceServer).ListProblemTop(ctx, req.(*ListProblemTopInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // ScoringService_ServiceDesc is the grpc.ServiceDesc for ScoringService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -184,10 +150,6 @@ var ScoringService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DescribeProblemGrading",
 			Handler:    _ScoringService_DescribeProblemGrading_Handler,
-		},
-		{
-			MethodName: "ListProblemTop",
-			Handler:    _ScoringService_ListProblemTop_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
