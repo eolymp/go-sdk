@@ -26,7 +26,7 @@ type Attachment struct {
 	unknownFields protoimpl.UnknownFields
 
 	Id        string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	ProblemId string `protobuf:"bytes,2,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
+	ProblemId string `protobuf:"bytes,2,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"` // deprecate
 	Name      string `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
 	Link      string `protobuf:"bytes,4,opt,name=link,proto3" json:"link,omitempty"`
 }
