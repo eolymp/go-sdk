@@ -201,3 +201,19 @@ func (s *ProblemServiceService) VoteProblem(ctx context.Context, in *VoteProblem
 
 	return out, nil
 }
+
+func (s *ProblemServiceService) ListVersions(ctx context.Context, in *ListVersionsInput) (*ListVersionsOutput, error) {
+	out := &ListVersionsOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/versions"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

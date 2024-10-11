@@ -26,6 +26,7 @@ const (
 	ProblemService_ListProblems_FullMethodName    = "/eolymp.atlas.ProblemService/ListProblems"
 	ProblemService_SyncProblem_FullMethodName     = "/eolymp.atlas.ProblemService/SyncProblem"
 	ProblemService_VoteProblem_FullMethodName     = "/eolymp.atlas.ProblemService/VoteProblem"
+	ProblemService_ListVersions_FullMethodName    = "/eolymp.atlas.ProblemService/ListVersions"
 )
 
 // ProblemServiceClient is the client API for ProblemService service.
@@ -39,6 +40,7 @@ type ProblemServiceClient interface {
 	ListProblems(ctx context.Context, in *ListProblemsInput, opts ...grpc.CallOption) (*ListProblemsOutput, error)
 	SyncProblem(ctx context.Context, in *SyncProblemInput, opts ...grpc.CallOption) (*SyncProblemOutput, error)
 	VoteProblem(ctx context.Context, in *VoteProblemInput, opts ...grpc.CallOption) (*VoteProblemOutput, error)
+	ListVersions(ctx context.Context, in *ListVersionsInput, opts ...grpc.CallOption) (*ListVersionsOutput, error)
 }
 
 type problemServiceClient struct {
@@ -119,6 +121,16 @@ func (c *problemServiceClient) VoteProblem(ctx context.Context, in *VoteProblemI
 	return out, nil
 }
 
+func (c *problemServiceClient) ListVersions(ctx context.Context, in *ListVersionsInput, opts ...grpc.CallOption) (*ListVersionsOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListVersionsOutput)
+	err := c.cc.Invoke(ctx, ProblemService_ListVersions_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ProblemServiceServer is the server API for ProblemService service.
 // All implementations should embed UnimplementedProblemServiceServer
 // for forward compatibility.
@@ -130,6 +142,7 @@ type ProblemServiceServer interface {
 	ListProblems(context.Context, *ListProblemsInput) (*ListProblemsOutput, error)
 	SyncProblem(context.Context, *SyncProblemInput) (*SyncProblemOutput, error)
 	VoteProblem(context.Context, *VoteProblemInput) (*VoteProblemOutput, error)
+	ListVersions(context.Context, *ListVersionsInput) (*ListVersionsOutput, error)
 }
 
 // UnimplementedProblemServiceServer should be embedded to have
@@ -159,6 +172,9 @@ func (UnimplementedProblemServiceServer) SyncProblem(context.Context, *SyncProbl
 }
 func (UnimplementedProblemServiceServer) VoteProblem(context.Context, *VoteProblemInput) (*VoteProblemOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method VoteProblem not implemented")
+}
+func (UnimplementedProblemServiceServer) ListVersions(context.Context, *ListVersionsInput) (*ListVersionsOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListVersions not implemented")
 }
 func (UnimplementedProblemServiceServer) testEmbeddedByValue() {}
 
@@ -306,6 +322,24 @@ func _ProblemService_VoteProblem_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ProblemService_ListVersions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListVersionsInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProblemServiceServer).ListVersions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProblemService_ListVersions_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProblemServiceServer).ListVersions(ctx, req.(*ListVersionsInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ProblemService_ServiceDesc is the grpc.ServiceDesc for ProblemService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -340,6 +374,10 @@ var ProblemService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "VoteProblem",
 			Handler:    _ProblemService_VoteProblem_Handler,
+		},
+		{
+			MethodName: "ListVersions",
+			Handler:    _ProblemService_ListVersions_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
