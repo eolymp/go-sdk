@@ -19,13 +19,13 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	NotificationService_CreateNotification_FullMethodName    = "/eolymp.notify.NotificationService/CreateNotification"
-	NotificationService_DescribeNotification_FullMethodName  = "/eolymp.notify.NotificationService/DescribeNotification"
-	NotificationService_ReadNotification_FullMethodName      = "/eolymp.notify.NotificationService/ReadNotification"
-	NotificationService_DeleteNotification_FullMethodName    = "/eolymp.notify.NotificationService/DeleteNotification"
-	NotificationService_ListNotifications_FullMethodName     = "/eolymp.notify.NotificationService/ListNotifications"
-	NotificationService_DescribeSubscriptions_FullMethodName = "/eolymp.notify.NotificationService/DescribeSubscriptions"
-	NotificationService_UpdateSubscriptions_FullMethodName   = "/eolymp.notify.NotificationService/UpdateSubscriptions"
+	NotificationService_CreateNotification_FullMethodName   = "/eolymp.notify.NotificationService/CreateNotification"
+	NotificationService_DescribeNotification_FullMethodName = "/eolymp.notify.NotificationService/DescribeNotification"
+	NotificationService_ReadNotification_FullMethodName     = "/eolymp.notify.NotificationService/ReadNotification"
+	NotificationService_DeleteNotification_FullMethodName   = "/eolymp.notify.NotificationService/DeleteNotification"
+	NotificationService_ListNotifications_FullMethodName    = "/eolymp.notify.NotificationService/ListNotifications"
+	NotificationService_DescribePreferences_FullMethodName  = "/eolymp.notify.NotificationService/DescribePreferences"
+	NotificationService_UpdatePreferences_FullMethodName    = "/eolymp.notify.NotificationService/UpdatePreferences"
 )
 
 // NotificationServiceClient is the client API for NotificationService service.
@@ -37,8 +37,8 @@ type NotificationServiceClient interface {
 	ReadNotification(ctx context.Context, in *ReadNotificationInput, opts ...grpc.CallOption) (*ReadNotificationOutput, error)
 	DeleteNotification(ctx context.Context, in *DeleteNotificationInput, opts ...grpc.CallOption) (*DeleteNotificationOutput, error)
 	ListNotifications(ctx context.Context, in *ListNotificationsInput, opts ...grpc.CallOption) (*ListNotificationsOutput, error)
-	DescribeSubscriptions(ctx context.Context, in *DescribeSubscriptionsInput, opts ...grpc.CallOption) (*DescribeSubscriptionsOutput, error)
-	UpdateSubscriptions(ctx context.Context, in *UpdateSubscriptionsInput, opts ...grpc.CallOption) (*UpdateSubscriptionsOutput, error)
+	DescribePreferences(ctx context.Context, in *DescribePreferencesInput, opts ...grpc.CallOption) (*DescribePreferencesOutput, error)
+	UpdatePreferences(ctx context.Context, in *UpdatePreferencesInput, opts ...grpc.CallOption) (*UpdatePreferencesOutput, error)
 }
 
 type notificationServiceClient struct {
@@ -99,20 +99,20 @@ func (c *notificationServiceClient) ListNotifications(ctx context.Context, in *L
 	return out, nil
 }
 
-func (c *notificationServiceClient) DescribeSubscriptions(ctx context.Context, in *DescribeSubscriptionsInput, opts ...grpc.CallOption) (*DescribeSubscriptionsOutput, error) {
+func (c *notificationServiceClient) DescribePreferences(ctx context.Context, in *DescribePreferencesInput, opts ...grpc.CallOption) (*DescribePreferencesOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DescribeSubscriptionsOutput)
-	err := c.cc.Invoke(ctx, NotificationService_DescribeSubscriptions_FullMethodName, in, out, cOpts...)
+	out := new(DescribePreferencesOutput)
+	err := c.cc.Invoke(ctx, NotificationService_DescribePreferences_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *notificationServiceClient) UpdateSubscriptions(ctx context.Context, in *UpdateSubscriptionsInput, opts ...grpc.CallOption) (*UpdateSubscriptionsOutput, error) {
+func (c *notificationServiceClient) UpdatePreferences(ctx context.Context, in *UpdatePreferencesInput, opts ...grpc.CallOption) (*UpdatePreferencesOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(UpdateSubscriptionsOutput)
-	err := c.cc.Invoke(ctx, NotificationService_UpdateSubscriptions_FullMethodName, in, out, cOpts...)
+	out := new(UpdatePreferencesOutput)
+	err := c.cc.Invoke(ctx, NotificationService_UpdatePreferences_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -128,8 +128,8 @@ type NotificationServiceServer interface {
 	ReadNotification(context.Context, *ReadNotificationInput) (*ReadNotificationOutput, error)
 	DeleteNotification(context.Context, *DeleteNotificationInput) (*DeleteNotificationOutput, error)
 	ListNotifications(context.Context, *ListNotificationsInput) (*ListNotificationsOutput, error)
-	DescribeSubscriptions(context.Context, *DescribeSubscriptionsInput) (*DescribeSubscriptionsOutput, error)
-	UpdateSubscriptions(context.Context, *UpdateSubscriptionsInput) (*UpdateSubscriptionsOutput, error)
+	DescribePreferences(context.Context, *DescribePreferencesInput) (*DescribePreferencesOutput, error)
+	UpdatePreferences(context.Context, *UpdatePreferencesInput) (*UpdatePreferencesOutput, error)
 }
 
 // UnimplementedNotificationServiceServer should be embedded to have
@@ -154,11 +154,11 @@ func (UnimplementedNotificationServiceServer) DeleteNotification(context.Context
 func (UnimplementedNotificationServiceServer) ListNotifications(context.Context, *ListNotificationsInput) (*ListNotificationsOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListNotifications not implemented")
 }
-func (UnimplementedNotificationServiceServer) DescribeSubscriptions(context.Context, *DescribeSubscriptionsInput) (*DescribeSubscriptionsOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DescribeSubscriptions not implemented")
+func (UnimplementedNotificationServiceServer) DescribePreferences(context.Context, *DescribePreferencesInput) (*DescribePreferencesOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribePreferences not implemented")
 }
-func (UnimplementedNotificationServiceServer) UpdateSubscriptions(context.Context, *UpdateSubscriptionsInput) (*UpdateSubscriptionsOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateSubscriptions not implemented")
+func (UnimplementedNotificationServiceServer) UpdatePreferences(context.Context, *UpdatePreferencesInput) (*UpdatePreferencesOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdatePreferences not implemented")
 }
 func (UnimplementedNotificationServiceServer) testEmbeddedByValue() {}
 
@@ -270,38 +270,38 @@ func _NotificationService_ListNotifications_Handler(srv interface{}, ctx context
 	return interceptor(ctx, in, info, handler)
 }
 
-func _NotificationService_DescribeSubscriptions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DescribeSubscriptionsInput)
+func _NotificationService_DescribePreferences_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribePreferencesInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(NotificationServiceServer).DescribeSubscriptions(ctx, in)
+		return srv.(NotificationServiceServer).DescribePreferences(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: NotificationService_DescribeSubscriptions_FullMethodName,
+		FullMethod: NotificationService_DescribePreferences_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(NotificationServiceServer).DescribeSubscriptions(ctx, req.(*DescribeSubscriptionsInput))
+		return srv.(NotificationServiceServer).DescribePreferences(ctx, req.(*DescribePreferencesInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _NotificationService_UpdateSubscriptions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateSubscriptionsInput)
+func _NotificationService_UpdatePreferences_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdatePreferencesInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(NotificationServiceServer).UpdateSubscriptions(ctx, in)
+		return srv.(NotificationServiceServer).UpdatePreferences(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: NotificationService_UpdateSubscriptions_FullMethodName,
+		FullMethod: NotificationService_UpdatePreferences_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(NotificationServiceServer).UpdateSubscriptions(ctx, req.(*UpdateSubscriptionsInput))
+		return srv.(NotificationServiceServer).UpdatePreferences(ctx, req.(*UpdatePreferencesInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -334,12 +334,12 @@ var NotificationService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _NotificationService_ListNotifications_Handler,
 		},
 		{
-			MethodName: "DescribeSubscriptions",
-			Handler:    _NotificationService_DescribeSubscriptions_Handler,
+			MethodName: "DescribePreferences",
+			Handler:    _NotificationService_DescribePreferences_Handler,
 		},
 		{
-			MethodName: "UpdateSubscriptions",
-			Handler:    _NotificationService_UpdateSubscriptions_Handler,
+			MethodName: "UpdatePreferences",
+			Handler:    _NotificationService_UpdatePreferences_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

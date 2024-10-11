@@ -159,9 +159,9 @@ func (s *NotificationServiceService) ListNotifications(ctx context.Context, in *
 	return out, nil
 }
 
-func (s *NotificationServiceService) DescribeSubscriptions(ctx context.Context, in *DescribeSubscriptionsInput) (*DescribeSubscriptionsOutput, error) {
-	out := &DescribeSubscriptionsOutput{}
-	path := "/spaces/" + url.PathEscape(in.GetSpaceId()) + "/notifications"
+func (s *NotificationServiceService) DescribePreferences(ctx context.Context, in *DescribePreferencesInput) (*DescribePreferencesOutput, error) {
+	out := &DescribePreferencesOutput{}
+	path := "/spaces/" + url.PathEscape(in.GetSpaceId()) + "/preferences"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
@@ -175,9 +175,9 @@ func (s *NotificationServiceService) DescribeSubscriptions(ctx context.Context, 
 	return out, nil
 }
 
-func (s *NotificationServiceService) UpdateSubscriptions(ctx context.Context, in *UpdateSubscriptionsInput) (*UpdateSubscriptionsOutput, error) {
-	out := &UpdateSubscriptionsOutput{}
-	path := "/spaces/" + url.PathEscape(in.GetSpaceId()) + "/notifications"
+func (s *NotificationServiceService) UpdatePreferences(ctx context.Context, in *UpdatePreferencesInput) (*UpdatePreferencesOutput, error) {
+	out := &UpdatePreferencesOutput{}
+	path := "/spaces/" + url.PathEscape(in.GetSpaceId()) + "/preferences"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {

@@ -208,12 +208,12 @@ func RegisterNotificationServiceHttpHandlers(router *mux.Router, prefix string, 
 	router.Handle(prefix+"/notifications", _NotificationService_ListNotifications_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.notify.NotificationService.ListNotifications")
-	router.Handle(prefix+"/spaces/{space_id}/notifications", _NotificationService_DescribeSubscriptions_Rule0(cli)).
+	router.Handle(prefix+"/spaces/{space_id}/preferences", _NotificationService_DescribePreferences_Rule0(cli)).
 		Methods("GET").
-		Name("eolymp.notify.NotificationService.DescribeSubscriptions")
-	router.Handle(prefix+"/spaces/{space_id}/notifications", _NotificationService_UpdateSubscriptions_Rule0(cli)).
+		Name("eolymp.notify.NotificationService.DescribePreferences")
+	router.Handle(prefix+"/spaces/{space_id}/preferences", _NotificationService_UpdatePreferences_Rule0(cli)).
 		Methods("POST").
-		Name("eolymp.notify.NotificationService.UpdateSubscriptions")
+		Name("eolymp.notify.NotificationService.UpdatePreferences")
 }
 
 func _NotificationService_DescribeNotification_Rule0(cli NotificationServiceClient) http.Handler {
@@ -313,9 +313,9 @@ func _NotificationService_ListNotifications_Rule0(cli NotificationServiceClient)
 	})
 }
 
-func _NotificationService_DescribeSubscriptions_Rule0(cli NotificationServiceClient) http.Handler {
+func _NotificationService_DescribePreferences_Rule0(cli NotificationServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DescribeSubscriptionsInput{}
+		in := &DescribePreferencesInput{}
 
 		if err := _NotificationService_HTTPReadQueryString(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
@@ -328,7 +328,7 @@ func _NotificationService_DescribeSubscriptions_Rule0(cli NotificationServiceCli
 
 		var header, trailer metadata.MD
 
-		out, err := cli.DescribeSubscriptions(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		out, err := cli.DescribePreferences(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_NotificationService_HTTPWriteErrorResponse(w, err)
 			return
@@ -338,9 +338,9 @@ func _NotificationService_DescribeSubscriptions_Rule0(cli NotificationServiceCli
 	})
 }
 
-func _NotificationService_UpdateSubscriptions_Rule0(cli NotificationServiceClient) http.Handler {
+func _NotificationService_UpdatePreferences_Rule0(cli NotificationServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &UpdateSubscriptionsInput{}
+		in := &UpdatePreferencesInput{}
 
 		if err := _NotificationService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
@@ -353,7 +353,7 @@ func _NotificationService_UpdateSubscriptions_Rule0(cli NotificationServiceClien
 
 		var header, trailer metadata.MD
 
-		out, err := cli.UpdateSubscriptions(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		out, err := cli.UpdatePreferences(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_NotificationService_HTTPWriteErrorResponse(w, err)
 			return
@@ -535,14 +535,14 @@ func (i *NotificationServiceInterceptor) ListNotifications(ctx context.Context, 
 	return message, err
 }
 
-func (i *NotificationServiceInterceptor) DescribeSubscriptions(ctx context.Context, in *DescribeSubscriptionsInput, opts ...grpc.CallOption) (*DescribeSubscriptionsOutput, error) {
+func (i *NotificationServiceInterceptor) DescribePreferences(ctx context.Context, in *DescribePreferencesInput, opts ...grpc.CallOption) (*DescribePreferencesOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*DescribeSubscriptionsInput)
+		message, ok := in.(*DescribePreferencesInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *DescribeSubscriptionsInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *DescribePreferencesInput, got %T", in))
 		}
 
-		return i.client.DescribeSubscriptions(ctx, message, opts...)
+		return i.client.DescribePreferences(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -550,7 +550,7 @@ func (i *NotificationServiceInterceptor) DescribeSubscriptions(ctx context.Conte
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.notify.NotificationService.DescribeSubscriptions", in, next)
+			return mw(ctx, "eolymp.notify.NotificationService.DescribePreferences", in, next)
 		}
 	}
 
@@ -559,22 +559,22 @@ func (i *NotificationServiceInterceptor) DescribeSubscriptions(ctx context.Conte
 		return nil, err
 	}
 
-	message, ok := out.(*DescribeSubscriptionsOutput)
+	message, ok := out.(*DescribePreferencesOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *DescribeSubscriptionsOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *DescribePreferencesOutput, got %T", out))
 	}
 
 	return message, err
 }
 
-func (i *NotificationServiceInterceptor) UpdateSubscriptions(ctx context.Context, in *UpdateSubscriptionsInput, opts ...grpc.CallOption) (*UpdateSubscriptionsOutput, error) {
+func (i *NotificationServiceInterceptor) UpdatePreferences(ctx context.Context, in *UpdatePreferencesInput, opts ...grpc.CallOption) (*UpdatePreferencesOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*UpdateSubscriptionsInput)
+		message, ok := in.(*UpdatePreferencesInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *UpdateSubscriptionsInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *UpdatePreferencesInput, got %T", in))
 		}
 
-		return i.client.UpdateSubscriptions(ctx, message, opts...)
+		return i.client.UpdatePreferences(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -582,7 +582,7 @@ func (i *NotificationServiceInterceptor) UpdateSubscriptions(ctx context.Context
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.notify.NotificationService.UpdateSubscriptions", in, next)
+			return mw(ctx, "eolymp.notify.NotificationService.UpdatePreferences", in, next)
 		}
 	}
 
@@ -591,9 +591,9 @@ func (i *NotificationServiceInterceptor) UpdateSubscriptions(ctx context.Context
 		return nil, err
 	}
 
-	message, ok := out.(*UpdateSubscriptionsOutput)
+	message, ok := out.(*UpdatePreferencesOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *UpdateSubscriptionsOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *UpdatePreferencesOutput, got %T", out))
 	}
 
 	return message, err
