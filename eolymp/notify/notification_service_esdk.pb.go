@@ -161,12 +161,7 @@ func (s *NotificationServiceService) ListNotifications(ctx context.Context, in *
 
 func (s *NotificationServiceService) DescribePreferences(ctx context.Context, in *DescribePreferencesInput) (*DescribePreferencesOutput, error) {
 	out := &DescribePreferencesOutput{}
-	path := "/spaces/" + url.PathEscape(in.GetSpaceId()) + "/preferences"
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.SpaceId = ""
-	}
+	path := "/preferences/notifications"
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
@@ -177,12 +172,7 @@ func (s *NotificationServiceService) DescribePreferences(ctx context.Context, in
 
 func (s *NotificationServiceService) UpdatePreferences(ctx context.Context, in *UpdatePreferencesInput) (*UpdatePreferencesOutput, error) {
 	out := &UpdatePreferencesOutput{}
-	path := "/spaces/" + url.PathEscape(in.GetSpaceId()) + "/preferences"
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.SpaceId = ""
-	}
+	path := "/preferences/notifications"
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err

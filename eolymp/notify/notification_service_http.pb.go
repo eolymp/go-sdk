@@ -208,10 +208,10 @@ func RegisterNotificationServiceHttpHandlers(router *mux.Router, prefix string, 
 	router.Handle(prefix+"/notifications", _NotificationService_ListNotifications_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.notify.NotificationService.ListNotifications")
-	router.Handle(prefix+"/spaces/{space_id}/preferences", _NotificationService_DescribePreferences_Rule0(cli)).
+	router.Handle(prefix+"/preferences/notifications", _NotificationService_DescribePreferences_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.notify.NotificationService.DescribePreferences")
-	router.Handle(prefix+"/spaces/{space_id}/preferences", _NotificationService_UpdatePreferences_Rule0(cli)).
+	router.Handle(prefix+"/preferences/notifications", _NotificationService_UpdatePreferences_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.notify.NotificationService.UpdatePreferences")
 }
@@ -323,9 +323,6 @@ func _NotificationService_DescribePreferences_Rule0(cli NotificationServiceClien
 			return
 		}
 
-		vars := mux.Vars(r)
-		in.SpaceId = vars["space_id"]
-
 		var header, trailer metadata.MD
 
 		out, err := cli.DescribePreferences(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
@@ -347,9 +344,6 @@ func _NotificationService_UpdatePreferences_Rule0(cli NotificationServiceClient)
 			_NotificationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
-
-		vars := mux.Vars(r)
-		in.SpaceId = vars["space_id"]
 
 		var header, trailer metadata.MD
 
