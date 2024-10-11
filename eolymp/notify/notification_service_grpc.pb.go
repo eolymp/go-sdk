@@ -19,13 +19,13 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	NotificationService_CreateNotification_FullMethodName         = "/eolymp.notify.NotificationService/CreateNotification"
-	NotificationService_DescribeNotification_FullMethodName       = "/eolymp.notify.NotificationService/DescribeNotification"
-	NotificationService_ReadNotification_FullMethodName           = "/eolymp.notify.NotificationService/ReadNotification"
-	NotificationService_DeleteNotification_FullMethodName         = "/eolymp.notify.NotificationService/DeleteNotification"
-	NotificationService_ListNotifications_FullMethodName          = "/eolymp.notify.NotificationService/ListNotifications"
-	NotificationService_DescribeNotificationConfig_FullMethodName = "/eolymp.notify.NotificationService/DescribeNotificationConfig"
-	NotificationService_UpdateNotificationConfig_FullMethodName   = "/eolymp.notify.NotificationService/UpdateNotificationConfig"
+	NotificationService_CreateNotification_FullMethodName    = "/eolymp.notify.NotificationService/CreateNotification"
+	NotificationService_DescribeNotification_FullMethodName  = "/eolymp.notify.NotificationService/DescribeNotification"
+	NotificationService_ReadNotification_FullMethodName      = "/eolymp.notify.NotificationService/ReadNotification"
+	NotificationService_DeleteNotification_FullMethodName    = "/eolymp.notify.NotificationService/DeleteNotification"
+	NotificationService_ListNotifications_FullMethodName     = "/eolymp.notify.NotificationService/ListNotifications"
+	NotificationService_DescribeSubscriptions_FullMethodName = "/eolymp.notify.NotificationService/DescribeSubscriptions"
+	NotificationService_UpdateSubscriptions_FullMethodName   = "/eolymp.notify.NotificationService/UpdateSubscriptions"
 )
 
 // NotificationServiceClient is the client API for NotificationService service.
@@ -37,8 +37,8 @@ type NotificationServiceClient interface {
 	ReadNotification(ctx context.Context, in *ReadNotificationInput, opts ...grpc.CallOption) (*ReadNotificationOutput, error)
 	DeleteNotification(ctx context.Context, in *DeleteNotificationInput, opts ...grpc.CallOption) (*DeleteNotificationOutput, error)
 	ListNotifications(ctx context.Context, in *ListNotificationsInput, opts ...grpc.CallOption) (*ListNotificationsOutput, error)
-	DescribeNotificationConfig(ctx context.Context, in *DescribeNotificationConfigInput, opts ...grpc.CallOption) (*DescribeNotificationConfigOutput, error)
-	UpdateNotificationConfig(ctx context.Context, in *UpdateNotificationConfigInput, opts ...grpc.CallOption) (*UpdateNotificationConfigOutput, error)
+	DescribeSubscriptions(ctx context.Context, in *DescribeSubscriptionsInput, opts ...grpc.CallOption) (*DescribeSubscriptionsOutput, error)
+	UpdateSubscriptions(ctx context.Context, in *UpdateSubscriptionsInput, opts ...grpc.CallOption) (*UpdateSubscriptionsOutput, error)
 }
 
 type notificationServiceClient struct {
@@ -99,20 +99,20 @@ func (c *notificationServiceClient) ListNotifications(ctx context.Context, in *L
 	return out, nil
 }
 
-func (c *notificationServiceClient) DescribeNotificationConfig(ctx context.Context, in *DescribeNotificationConfigInput, opts ...grpc.CallOption) (*DescribeNotificationConfigOutput, error) {
+func (c *notificationServiceClient) DescribeSubscriptions(ctx context.Context, in *DescribeSubscriptionsInput, opts ...grpc.CallOption) (*DescribeSubscriptionsOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DescribeNotificationConfigOutput)
-	err := c.cc.Invoke(ctx, NotificationService_DescribeNotificationConfig_FullMethodName, in, out, cOpts...)
+	out := new(DescribeSubscriptionsOutput)
+	err := c.cc.Invoke(ctx, NotificationService_DescribeSubscriptions_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *notificationServiceClient) UpdateNotificationConfig(ctx context.Context, in *UpdateNotificationConfigInput, opts ...grpc.CallOption) (*UpdateNotificationConfigOutput, error) {
+func (c *notificationServiceClient) UpdateSubscriptions(ctx context.Context, in *UpdateSubscriptionsInput, opts ...grpc.CallOption) (*UpdateSubscriptionsOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(UpdateNotificationConfigOutput)
-	err := c.cc.Invoke(ctx, NotificationService_UpdateNotificationConfig_FullMethodName, in, out, cOpts...)
+	out := new(UpdateSubscriptionsOutput)
+	err := c.cc.Invoke(ctx, NotificationService_UpdateSubscriptions_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -128,8 +128,8 @@ type NotificationServiceServer interface {
 	ReadNotification(context.Context, *ReadNotificationInput) (*ReadNotificationOutput, error)
 	DeleteNotification(context.Context, *DeleteNotificationInput) (*DeleteNotificationOutput, error)
 	ListNotifications(context.Context, *ListNotificationsInput) (*ListNotificationsOutput, error)
-	DescribeNotificationConfig(context.Context, *DescribeNotificationConfigInput) (*DescribeNotificationConfigOutput, error)
-	UpdateNotificationConfig(context.Context, *UpdateNotificationConfigInput) (*UpdateNotificationConfigOutput, error)
+	DescribeSubscriptions(context.Context, *DescribeSubscriptionsInput) (*DescribeSubscriptionsOutput, error)
+	UpdateSubscriptions(context.Context, *UpdateSubscriptionsInput) (*UpdateSubscriptionsOutput, error)
 }
 
 // UnimplementedNotificationServiceServer should be embedded to have
@@ -154,11 +154,11 @@ func (UnimplementedNotificationServiceServer) DeleteNotification(context.Context
 func (UnimplementedNotificationServiceServer) ListNotifications(context.Context, *ListNotificationsInput) (*ListNotificationsOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListNotifications not implemented")
 }
-func (UnimplementedNotificationServiceServer) DescribeNotificationConfig(context.Context, *DescribeNotificationConfigInput) (*DescribeNotificationConfigOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DescribeNotificationConfig not implemented")
+func (UnimplementedNotificationServiceServer) DescribeSubscriptions(context.Context, *DescribeSubscriptionsInput) (*DescribeSubscriptionsOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeSubscriptions not implemented")
 }
-func (UnimplementedNotificationServiceServer) UpdateNotificationConfig(context.Context, *UpdateNotificationConfigInput) (*UpdateNotificationConfigOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateNotificationConfig not implemented")
+func (UnimplementedNotificationServiceServer) UpdateSubscriptions(context.Context, *UpdateSubscriptionsInput) (*UpdateSubscriptionsOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateSubscriptions not implemented")
 }
 func (UnimplementedNotificationServiceServer) testEmbeddedByValue() {}
 
@@ -270,38 +270,38 @@ func _NotificationService_ListNotifications_Handler(srv interface{}, ctx context
 	return interceptor(ctx, in, info, handler)
 }
 
-func _NotificationService_DescribeNotificationConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DescribeNotificationConfigInput)
+func _NotificationService_DescribeSubscriptions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeSubscriptionsInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(NotificationServiceServer).DescribeNotificationConfig(ctx, in)
+		return srv.(NotificationServiceServer).DescribeSubscriptions(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: NotificationService_DescribeNotificationConfig_FullMethodName,
+		FullMethod: NotificationService_DescribeSubscriptions_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(NotificationServiceServer).DescribeNotificationConfig(ctx, req.(*DescribeNotificationConfigInput))
+		return srv.(NotificationServiceServer).DescribeSubscriptions(ctx, req.(*DescribeSubscriptionsInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _NotificationService_UpdateNotificationConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateNotificationConfigInput)
+func _NotificationService_UpdateSubscriptions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateSubscriptionsInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(NotificationServiceServer).UpdateNotificationConfig(ctx, in)
+		return srv.(NotificationServiceServer).UpdateSubscriptions(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: NotificationService_UpdateNotificationConfig_FullMethodName,
+		FullMethod: NotificationService_UpdateSubscriptions_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(NotificationServiceServer).UpdateNotificationConfig(ctx, req.(*UpdateNotificationConfigInput))
+		return srv.(NotificationServiceServer).UpdateSubscriptions(ctx, req.(*UpdateSubscriptionsInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -334,12 +334,12 @@ var NotificationService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _NotificationService_ListNotifications_Handler,
 		},
 		{
-			MethodName: "DescribeNotificationConfig",
-			Handler:    _NotificationService_DescribeNotificationConfig_Handler,
+			MethodName: "DescribeSubscriptions",
+			Handler:    _NotificationService_DescribeSubscriptions_Handler,
 		},
 		{
-			MethodName: "UpdateNotificationConfig",
-			Handler:    _NotificationService_UpdateNotificationConfig_Handler,
+			MethodName: "UpdateSubscriptions",
+			Handler:    _NotificationService_UpdateSubscriptions_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

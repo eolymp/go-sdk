@@ -159,9 +159,14 @@ func (s *NotificationServiceService) ListNotifications(ctx context.Context, in *
 	return out, nil
 }
 
-func (s *NotificationServiceService) DescribeNotificationConfig(ctx context.Context, in *DescribeNotificationConfigInput) (*DescribeNotificationConfigOutput, error) {
-	out := &DescribeNotificationConfigOutput{}
-	path := "/configs/notifications"
+func (s *NotificationServiceService) DescribeSubscriptions(ctx context.Context, in *DescribeSubscriptionsInput) (*DescribeSubscriptionsOutput, error) {
+	out := &DescribeSubscriptionsOutput{}
+	path := "/spaces/" + url.PathEscape(in.GetSpaceId()) + "/notifications"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.SpaceId = ""
+	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
@@ -170,9 +175,14 @@ func (s *NotificationServiceService) DescribeNotificationConfig(ctx context.Cont
 	return out, nil
 }
 
-func (s *NotificationServiceService) UpdateNotificationConfig(ctx context.Context, in *UpdateNotificationConfigInput) (*UpdateNotificationConfigOutput, error) {
-	out := &UpdateNotificationConfigOutput{}
-	path := "/configs/notifications"
+func (s *NotificationServiceService) UpdateSubscriptions(ctx context.Context, in *UpdateSubscriptionsInput) (*UpdateSubscriptionsOutput, error) {
+	out := &UpdateSubscriptionsOutput{}
+	path := "/spaces/" + url.PathEscape(in.GetSpaceId()) + "/notifications"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.SpaceId = ""
+	}
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
