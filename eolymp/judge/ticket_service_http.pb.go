@@ -348,6 +348,9 @@ func RegisterTicketServiceHttpHandlers(router *mux.Router, prefix string, cli Ti
 	router.Handle(prefix+"/tickets/{ticket_id}/replies", _TicketService_ListReplies_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.TicketService.ListReplies")
+	router.Handle(prefix+"/tickets/{ticket_id}/replies/{reply_id}", _TicketService_DescribeReply_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.judge.TicketService.DescribeReply")
 	router.Handle(prefix+"/tickets/{ticket_id}/replies/{reply_id}", _TicketService_DeleteReply_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.judge.TicketService.DeleteReply")
@@ -541,6 +544,32 @@ func _TicketService_ListReplies_Rule0(cli TicketServiceClient) http.Handler {
 		var header, trailer metadata.MD
 
 		out, err := cli.ListReplies(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_TicketService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_TicketService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _TicketService_DescribeReply_Rule0(cli TicketServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeReplyInput{}
+
+		if err := _TicketService_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_TicketService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.TicketId = vars["ticket_id"]
+		in.ReplyId = vars["reply_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeReply(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_TicketService_HTTPWriteErrorResponse(w, err)
 			return
@@ -877,6 +906,38 @@ func (i *TicketServiceInterceptor) ListReplies(ctx context.Context, in *ListRepl
 	message, ok := out.(*ListRepliesOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *ListRepliesOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *TicketServiceInterceptor) DescribeReply(ctx context.Context, in *DescribeReplyInput, opts ...grpc.CallOption) (*DescribeReplyOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeReplyInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeReplyInput, got %T", in))
+		}
+
+		return i.client.DescribeReply(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.judge.TicketService.DescribeReply", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeReplyOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeReplyOutput, got %T", out))
 	}
 
 	return message, err

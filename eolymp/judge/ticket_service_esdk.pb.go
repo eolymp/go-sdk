@@ -218,6 +218,23 @@ func (s *TicketServiceService) ListReplies(ctx context.Context, in *ListRepliesI
 	return out, nil
 }
 
+func (s *TicketServiceService) DescribeReply(ctx context.Context, in *DescribeReplyInput) (*DescribeReplyOutput, error) {
+	out := &DescribeReplyOutput{}
+	path := "/tickets/" + url.PathEscape(in.GetTicketId()) + "/replies/" + url.PathEscape(in.GetReplyId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.TicketId = ""
+		in.ReplyId = ""
+	}
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *TicketServiceService) DeleteReply(ctx context.Context, in *DeleteReplyInput) (*DeleteReplyOutput, error) {
 	out := &DeleteReplyOutput{}
 	path := "/tickets/" + url.PathEscape(in.GetTicketId()) + "/replies/" + url.PathEscape(in.GetReplyId())

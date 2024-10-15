@@ -30,6 +30,7 @@ const (
 	TicketService_WatchTickets_FullMethodName       = "/eolymp.judge.TicketService/WatchTickets"
 	TicketService_WatchTicketSummary_FullMethodName = "/eolymp.judge.TicketService/WatchTicketSummary"
 	TicketService_ListReplies_FullMethodName        = "/eolymp.judge.TicketService/ListReplies"
+	TicketService_DescribeReply_FullMethodName      = "/eolymp.judge.TicketService/DescribeReply"
 	TicketService_DeleteReply_FullMethodName        = "/eolymp.judge.TicketService/DeleteReply"
 	TicketService_UpdateReply_FullMethodName        = "/eolymp.judge.TicketService/UpdateReply"
 	TicketService_WatchReplies_FullMethodName       = "/eolymp.judge.TicketService/WatchReplies"
@@ -55,6 +56,8 @@ type TicketServiceClient interface {
 	WatchTicketSummary(ctx context.Context, in *WatchTicketSummaryInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchTicketSummaryOutput], error)
 	// ListReplies fetches replies for a particular ticket.
 	ListReplies(ctx context.Context, in *ListRepliesInput, opts ...grpc.CallOption) (*ListRepliesOutput, error)
+	// DeleteReply allows author to delete his own reply.
+	DescribeReply(ctx context.Context, in *DescribeReplyInput, opts ...grpc.CallOption) (*DescribeReplyOutput, error)
 	// DeleteReply allows author to delete his own reply.
 	DeleteReply(ctx context.Context, in *DeleteReplyInput, opts ...grpc.CallOption) (*DeleteReplyOutput, error)
 	// UpdateReply allows author to update his own reply.
@@ -207,6 +210,16 @@ func (c *ticketServiceClient) ListReplies(ctx context.Context, in *ListRepliesIn
 	return out, nil
 }
 
+func (c *ticketServiceClient) DescribeReply(ctx context.Context, in *DescribeReplyInput, opts ...grpc.CallOption) (*DescribeReplyOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DescribeReplyOutput)
+	err := c.cc.Invoke(ctx, TicketService_DescribeReply_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *ticketServiceClient) DeleteReply(ctx context.Context, in *DeleteReplyInput, opts ...grpc.CallOption) (*DeleteReplyOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DeleteReplyOutput)
@@ -267,6 +280,8 @@ type TicketServiceServer interface {
 	// ListReplies fetches replies for a particular ticket.
 	ListReplies(context.Context, *ListRepliesInput) (*ListRepliesOutput, error)
 	// DeleteReply allows author to delete his own reply.
+	DescribeReply(context.Context, *DescribeReplyInput) (*DescribeReplyOutput, error)
+	// DeleteReply allows author to delete his own reply.
 	DeleteReply(context.Context, *DeleteReplyInput) (*DeleteReplyOutput, error)
 	// UpdateReply allows author to update his own reply.
 	UpdateReply(context.Context, *UpdateReplyInput) (*UpdateReplyOutput, error)
@@ -312,6 +327,9 @@ func (UnimplementedTicketServiceServer) WatchTicketSummary(*WatchTicketSummaryIn
 }
 func (UnimplementedTicketServiceServer) ListReplies(context.Context, *ListRepliesInput) (*ListRepliesOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListReplies not implemented")
+}
+func (UnimplementedTicketServiceServer) DescribeReply(context.Context, *DescribeReplyInput) (*DescribeReplyOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeReply not implemented")
 }
 func (UnimplementedTicketServiceServer) DeleteReply(context.Context, *DeleteReplyInput) (*DeleteReplyOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteReply not implemented")
@@ -519,6 +537,24 @@ func _TicketService_ListReplies_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _TicketService_DescribeReply_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeReplyInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TicketServiceServer).DescribeReply(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TicketService_DescribeReply_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TicketServiceServer).DescribeReply(ctx, req.(*DescribeReplyInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _TicketService_DeleteReply_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DeleteReplyInput)
 	if err := dec(in); err != nil {
@@ -604,6 +640,10 @@ var TicketService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListReplies",
 			Handler:    _TicketService_ListReplies_Handler,
+		},
+		{
+			MethodName: "DescribeReply",
+			Handler:    _TicketService_DescribeReply_Handler,
 		},
 		{
 			MethodName: "DeleteReply",
