@@ -263,3 +263,14 @@ func (s *BillingServiceService) ListInvoices(ctx context.Context, in *ListInvoic
 
 	return out, nil
 }
+
+func (s *BillingServiceService) ListAvailablePlans(ctx context.Context, in *ListAvailablePlansInput) (*ListAvailablePlansOutput, error) {
+	out := &ListAvailablePlansOutput{}
+	path := "/billing/plans"
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

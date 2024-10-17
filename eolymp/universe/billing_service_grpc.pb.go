@@ -33,6 +33,7 @@ const (
 	BillingService_DescribeInvoice_FullMethodName            = "/eolymp.universe.BillingService/DescribeInvoice"
 	BillingService_PayInvoice_FullMethodName                 = "/eolymp.universe.BillingService/PayInvoice"
 	BillingService_ListInvoices_FullMethodName               = "/eolymp.universe.BillingService/ListInvoices"
+	BillingService_ListAvailablePlans_FullMethodName         = "/eolymp.universe.BillingService/ListAvailablePlans"
 )
 
 // BillingServiceClient is the client API for BillingService service.
@@ -53,6 +54,7 @@ type BillingServiceClient interface {
 	DescribeInvoice(ctx context.Context, in *DescribeInvoiceInput, opts ...grpc.CallOption) (*DescribeInvoiceOutput, error)
 	PayInvoice(ctx context.Context, in *PayInvoiceInput, opts ...grpc.CallOption) (*PayInvoiceOutput, error)
 	ListInvoices(ctx context.Context, in *ListInvoicesInput, opts ...grpc.CallOption) (*ListInvoicesOutput, error)
+	ListAvailablePlans(ctx context.Context, in *ListAvailablePlansInput, opts ...grpc.CallOption) (*ListAvailablePlansOutput, error)
 }
 
 type billingServiceClient struct {
@@ -203,6 +205,16 @@ func (c *billingServiceClient) ListInvoices(ctx context.Context, in *ListInvoice
 	return out, nil
 }
 
+func (c *billingServiceClient) ListAvailablePlans(ctx context.Context, in *ListAvailablePlansInput, opts ...grpc.CallOption) (*ListAvailablePlansOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListAvailablePlansOutput)
+	err := c.cc.Invoke(ctx, BillingService_ListAvailablePlans_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // BillingServiceServer is the server API for BillingService service.
 // All implementations should embed UnimplementedBillingServiceServer
 // for forward compatibility.
@@ -221,6 +233,7 @@ type BillingServiceServer interface {
 	DescribeInvoice(context.Context, *DescribeInvoiceInput) (*DescribeInvoiceOutput, error)
 	PayInvoice(context.Context, *PayInvoiceInput) (*PayInvoiceOutput, error)
 	ListInvoices(context.Context, *ListInvoicesInput) (*ListInvoicesOutput, error)
+	ListAvailablePlans(context.Context, *ListAvailablePlansInput) (*ListAvailablePlansOutput, error)
 }
 
 // UnimplementedBillingServiceServer should be embedded to have
@@ -271,6 +284,9 @@ func (UnimplementedBillingServiceServer) PayInvoice(context.Context, *PayInvoice
 }
 func (UnimplementedBillingServiceServer) ListInvoices(context.Context, *ListInvoicesInput) (*ListInvoicesOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListInvoices not implemented")
+}
+func (UnimplementedBillingServiceServer) ListAvailablePlans(context.Context, *ListAvailablePlansInput) (*ListAvailablePlansOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListAvailablePlans not implemented")
 }
 func (UnimplementedBillingServiceServer) testEmbeddedByValue() {}
 
@@ -544,6 +560,24 @@ func _BillingService_ListInvoices_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _BillingService_ListAvailablePlans_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListAvailablePlansInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BillingServiceServer).ListAvailablePlans(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: BillingService_ListAvailablePlans_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BillingServiceServer).ListAvailablePlans(ctx, req.(*ListAvailablePlansInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // BillingService_ServiceDesc is the grpc.ServiceDesc for BillingService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -606,6 +640,10 @@ var BillingService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListInvoices",
 			Handler:    _BillingService_ListInvoices_Handler,
+		},
+		{
+			MethodName: "ListAvailablePlans",
+			Handler:    _BillingService_ListAvailablePlans_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
