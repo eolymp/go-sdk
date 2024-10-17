@@ -100,28 +100,6 @@ func (s *ConfigurationServiceService) do(ctx context.Context, verb, path string,
 	return nil
 }
 
-func (s *ConfigurationServiceService) DescribeIdentityProvider(ctx context.Context, in *DescribeIdentityProviderInput) (*DescribeIdentityProviderOutput, error) {
-	out := &DescribeIdentityProviderOutput{}
-	path := "/idp"
-
-	if err := s.do(ctx, "GET", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *ConfigurationServiceService) ConfigureIdentityProvider(ctx context.Context, in *ConfigureIdentityProviderInput) (*ConfigureIdentityProviderOutput, error) {
-	out := &ConfigureIdentityProviderOutput{}
-	path := "/idp"
-
-	if err := s.do(ctx, "PUT", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
 func (s *ConfigurationServiceService) DescribeIdentityConfig(ctx context.Context, in *DescribeIdentityConfigInput) (*DescribeIdentityConfigOutput, error) {
 	out := &DescribeIdentityConfigOutput{}
 	path := "/configs/identity"

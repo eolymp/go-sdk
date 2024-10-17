@@ -19,20 +19,14 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	ConfigurationService_DescribeIdentityProvider_FullMethodName  = "/eolymp.community.ConfigurationService/DescribeIdentityProvider"
-	ConfigurationService_ConfigureIdentityProvider_FullMethodName = "/eolymp.community.ConfigurationService/ConfigureIdentityProvider"
-	ConfigurationService_DescribeIdentityConfig_FullMethodName    = "/eolymp.community.ConfigurationService/DescribeIdentityConfig"
-	ConfigurationService_ConfigureIdentityConfig_FullMethodName   = "/eolymp.community.ConfigurationService/ConfigureIdentityConfig"
+	ConfigurationService_DescribeIdentityConfig_FullMethodName  = "/eolymp.community.ConfigurationService/DescribeIdentityConfig"
+	ConfigurationService_ConfigureIdentityConfig_FullMethodName = "/eolymp.community.ConfigurationService/ConfigureIdentityConfig"
 )
 
 // ConfigurationServiceClient is the client API for ConfigurationService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ConfigurationServiceClient interface {
-	// Describe identity provider configuration
-	DescribeIdentityProvider(ctx context.Context, in *DescribeIdentityProviderInput, opts ...grpc.CallOption) (*DescribeIdentityProviderOutput, error)
-	// Update identity provider configuration
-	ConfigureIdentityProvider(ctx context.Context, in *ConfigureIdentityProviderInput, opts ...grpc.CallOption) (*ConfigureIdentityProviderOutput, error)
 	// Describe identity provider configuration
 	DescribeIdentityConfig(ctx context.Context, in *DescribeIdentityConfigInput, opts ...grpc.CallOption) (*DescribeIdentityConfigOutput, error)
 	// Update identity provider configuration
@@ -45,26 +39,6 @@ type configurationServiceClient struct {
 
 func NewConfigurationServiceClient(cc grpc.ClientConnInterface) ConfigurationServiceClient {
 	return &configurationServiceClient{cc}
-}
-
-func (c *configurationServiceClient) DescribeIdentityProvider(ctx context.Context, in *DescribeIdentityProviderInput, opts ...grpc.CallOption) (*DescribeIdentityProviderOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DescribeIdentityProviderOutput)
-	err := c.cc.Invoke(ctx, ConfigurationService_DescribeIdentityProvider_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *configurationServiceClient) ConfigureIdentityProvider(ctx context.Context, in *ConfigureIdentityProviderInput, opts ...grpc.CallOption) (*ConfigureIdentityProviderOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ConfigureIdentityProviderOutput)
-	err := c.cc.Invoke(ctx, ConfigurationService_ConfigureIdentityProvider_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
 }
 
 func (c *configurationServiceClient) DescribeIdentityConfig(ctx context.Context, in *DescribeIdentityConfigInput, opts ...grpc.CallOption) (*DescribeIdentityConfigOutput, error) {
@@ -92,10 +66,6 @@ func (c *configurationServiceClient) ConfigureIdentityConfig(ctx context.Context
 // for forward compatibility.
 type ConfigurationServiceServer interface {
 	// Describe identity provider configuration
-	DescribeIdentityProvider(context.Context, *DescribeIdentityProviderInput) (*DescribeIdentityProviderOutput, error)
-	// Update identity provider configuration
-	ConfigureIdentityProvider(context.Context, *ConfigureIdentityProviderInput) (*ConfigureIdentityProviderOutput, error)
-	// Describe identity provider configuration
 	DescribeIdentityConfig(context.Context, *DescribeIdentityConfigInput) (*DescribeIdentityConfigOutput, error)
 	// Update identity provider configuration
 	ConfigureIdentityConfig(context.Context, *ConfigureIdentityConfigInput) (*ConfigureIdentityConfigOutput, error)
@@ -108,12 +78,6 @@ type ConfigurationServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedConfigurationServiceServer struct{}
 
-func (UnimplementedConfigurationServiceServer) DescribeIdentityProvider(context.Context, *DescribeIdentityProviderInput) (*DescribeIdentityProviderOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DescribeIdentityProvider not implemented")
-}
-func (UnimplementedConfigurationServiceServer) ConfigureIdentityProvider(context.Context, *ConfigureIdentityProviderInput) (*ConfigureIdentityProviderOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ConfigureIdentityProvider not implemented")
-}
 func (UnimplementedConfigurationServiceServer) DescribeIdentityConfig(context.Context, *DescribeIdentityConfigInput) (*DescribeIdentityConfigOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeIdentityConfig not implemented")
 }
@@ -138,42 +102,6 @@ func RegisterConfigurationServiceServer(s grpc.ServiceRegistrar, srv Configurati
 		t.testEmbeddedByValue()
 	}
 	s.RegisterService(&ConfigurationService_ServiceDesc, srv)
-}
-
-func _ConfigurationService_DescribeIdentityProvider_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DescribeIdentityProviderInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ConfigurationServiceServer).DescribeIdentityProvider(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ConfigurationService_DescribeIdentityProvider_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ConfigurationServiceServer).DescribeIdentityProvider(ctx, req.(*DescribeIdentityProviderInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ConfigurationService_ConfigureIdentityProvider_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ConfigureIdentityProviderInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ConfigurationServiceServer).ConfigureIdentityProvider(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ConfigurationService_ConfigureIdentityProvider_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ConfigurationServiceServer).ConfigureIdentityProvider(ctx, req.(*ConfigureIdentityProviderInput))
-	}
-	return interceptor(ctx, in, info, handler)
 }
 
 func _ConfigurationService_DescribeIdentityConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -219,14 +147,6 @@ var ConfigurationService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "eolymp.community.ConfigurationService",
 	HandlerType: (*ConfigurationServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
-		{
-			MethodName: "DescribeIdentityProvider",
-			Handler:    _ConfigurationService_DescribeIdentityProvider_Handler,
-		},
-		{
-			MethodName: "ConfigureIdentityProvider",
-			Handler:    _ConfigurationService_ConfigureIdentityProvider_Handler,
-		},
 		{
 			MethodName: "DescribeIdentityConfig",
 			Handler:    _ConfigurationService_DescribeIdentityConfig_Handler,

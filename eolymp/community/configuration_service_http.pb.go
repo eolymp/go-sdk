@@ -196,62 +196,12 @@ var _ConfigurationService_WebsocketCodec = websocket.Codec{
 // RegisterConfigurationServiceHttpHandlers adds handlers for for ConfigurationServiceClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterConfigurationServiceHttpHandlers(router *mux.Router, prefix string, cli ConfigurationServiceClient) {
-	router.Handle(prefix+"/idp", _ConfigurationService_DescribeIdentityProvider_Rule0(cli)).
-		Methods("GET").
-		Name("eolymp.community.ConfigurationService.DescribeIdentityProvider")
-	router.Handle(prefix+"/idp", _ConfigurationService_ConfigureIdentityProvider_Rule0(cli)).
-		Methods("PUT").
-		Name("eolymp.community.ConfigurationService.ConfigureIdentityProvider")
 	router.Handle(prefix+"/configs/identity", _ConfigurationService_DescribeIdentityConfig_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.community.ConfigurationService.DescribeIdentityConfig")
 	router.Handle(prefix+"/configs/identity", _ConfigurationService_ConfigureIdentityConfig_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.community.ConfigurationService.ConfigureIdentityConfig")
-}
-
-func _ConfigurationService_DescribeIdentityProvider_Rule0(cli ConfigurationServiceClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DescribeIdentityProviderInput{}
-
-		if err := _ConfigurationService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_ConfigurationService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		var header, trailer metadata.MD
-
-		out, err := cli.DescribeIdentityProvider(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
-		if err != nil {
-			_ConfigurationService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_ConfigurationService_HTTPWriteResponse(w, out, header, trailer)
-	})
-}
-
-func _ConfigurationService_ConfigureIdentityProvider_Rule0(cli ConfigurationServiceClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ConfigureIdentityProviderInput{}
-
-		if err := _ConfigurationService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_ConfigurationService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		var header, trailer metadata.MD
-
-		out, err := cli.ConfigureIdentityProvider(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
-		if err != nil {
-			_ConfigurationService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_ConfigurationService_HTTPWriteResponse(w, out, header, trailer)
-	})
 }
 
 func _ConfigurationService_DescribeIdentityConfig_Rule0(cli ConfigurationServiceClient) http.Handler {
@@ -308,70 +258,6 @@ type ConfigurationServiceInterceptor struct {
 // NewConfigurationServiceInterceptor constructs additional middleware for a server based on annotations in proto files
 func NewConfigurationServiceInterceptor(cli ConfigurationServiceClient, middleware ..._ConfigurationServiceMiddleware) *ConfigurationServiceInterceptor {
 	return &ConfigurationServiceInterceptor{client: cli, middleware: middleware}
-}
-
-func (i *ConfigurationServiceInterceptor) DescribeIdentityProvider(ctx context.Context, in *DescribeIdentityProviderInput, opts ...grpc.CallOption) (*DescribeIdentityProviderOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*DescribeIdentityProviderInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *DescribeIdentityProviderInput, got %T", in))
-		}
-
-		return i.client.DescribeIdentityProvider(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.community.ConfigurationService.DescribeIdentityProvider", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*DescribeIdentityProviderOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *DescribeIdentityProviderOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *ConfigurationServiceInterceptor) ConfigureIdentityProvider(ctx context.Context, in *ConfigureIdentityProviderInput, opts ...grpc.CallOption) (*ConfigureIdentityProviderOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*ConfigureIdentityProviderInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *ConfigureIdentityProviderInput, got %T", in))
-		}
-
-		return i.client.ConfigureIdentityProvider(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.community.ConfigurationService.ConfigureIdentityProvider", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*ConfigureIdentityProviderOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *ConfigureIdentityProviderOutput, got %T", out))
-	}
-
-	return message, err
 }
 
 func (i *ConfigurationServiceInterceptor) DescribeIdentityConfig(ctx context.Context, in *DescribeIdentityConfigInput, opts ...grpc.CallOption) (*DescribeIdentityConfigOutput, error) {
