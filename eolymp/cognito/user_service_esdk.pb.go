@@ -16,17 +16,17 @@ import (
 	os "os"
 )
 
-type _CognitoHttpClient interface {
+type _UserServiceHttpClient interface {
 	Do(*http.Request) (*http.Response, error)
 }
 
-type CognitoService struct {
+type UserServiceService struct {
 	base string
-	cli  _CognitoHttpClient
+	cli  _UserServiceHttpClient
 }
 
-// NewCognitoHttpClient constructs client for Cognito
-func NewCognitoHttpClient(url string, cli _CognitoHttpClient) *CognitoService {
+// NewUserServiceHttpClient constructs client for UserService
+func NewUserServiceHttpClient(url string, cli _UserServiceHttpClient) *UserServiceService {
 	if url == "" {
 		url = os.Getenv("EOLYMP_API_URL")
 		if url == "" {
@@ -34,10 +34,10 @@ func NewCognitoHttpClient(url string, cli _CognitoHttpClient) *CognitoService {
 		}
 	}
 
-	return &CognitoService{base: url, cli: cli}
+	return &UserServiceService{base: url, cli: cli}
 }
 
-func (s *CognitoService) do(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
+func (s *UserServiceService) do(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
 	var body io.Reader
 
 	if in != nil {
@@ -100,45 +100,7 @@ func (s *CognitoService) do(ctx context.Context, verb, path string, in, out prot
 	return nil
 }
 
-func (s *CognitoService) CreateAccessKey(ctx context.Context, in *CreateAccessKeyInput) (*CreateAccessKeyOutput, error) {
-	out := &CreateAccessKeyOutput{}
-	path := "/access-keys"
-
-	if err := s.do(ctx, "POST", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *CognitoService) DeleteAccessKey(ctx context.Context, in *DeleteAccessKeyInput) (*DeleteAccessKeyOutput, error) {
-	out := &DeleteAccessKeyOutput{}
-	path := "/access-keys/" + url.PathEscape(in.GetKeyId())
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.KeyId = ""
-	}
-
-	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *CognitoService) ListAccessKeys(ctx context.Context, in *ListAccessKeysInput) (*ListAccessKeysOutput, error) {
-	out := &ListAccessKeysOutput{}
-	path := "/access-keys"
-
-	if err := s.do(ctx, "GET", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *CognitoService) CreateUser(ctx context.Context, in *CreateUserInput) (*CreateUserOutput, error) {
+func (s *UserServiceService) CreateUser(ctx context.Context, in *CreateUserInput) (*CreateUserOutput, error) {
 	out := &CreateUserOutput{}
 	path := "/users"
 
@@ -149,7 +111,7 @@ func (s *CognitoService) CreateUser(ctx context.Context, in *CreateUserInput) (*
 	return out, nil
 }
 
-func (s *CognitoService) VerifyEmail(ctx context.Context, in *VerifyEmailInput) (*VerifyEmailOutput, error) {
+func (s *UserServiceService) VerifyEmail(ctx context.Context, in *VerifyEmailInput) (*VerifyEmailOutput, error) {
 	out := &VerifyEmailOutput{}
 	path := "/users/" + url.PathEscape(in.GetUserId()) + "/verify"
 
@@ -165,7 +127,7 @@ func (s *CognitoService) VerifyEmail(ctx context.Context, in *VerifyEmailInput) 
 	return out, nil
 }
 
-func (s *CognitoService) ResendEmailVerification(ctx context.Context, in *ResendEmailVerificationInput) (*ResendEmailVerificationOutput, error) {
+func (s *UserServiceService) ResendEmailVerification(ctx context.Context, in *ResendEmailVerificationInput) (*ResendEmailVerificationOutput, error) {
 	out := &ResendEmailVerificationOutput{}
 	path := "/self/email/resend-verification"
 
@@ -176,7 +138,7 @@ func (s *CognitoService) ResendEmailVerification(ctx context.Context, in *Resend
 	return out, nil
 }
 
-func (s *CognitoService) UpdateProfile(ctx context.Context, in *UpdateProfileInput) (*UpdateProfileOutput, error) {
+func (s *UserServiceService) UpdateProfile(ctx context.Context, in *UpdateProfileInput) (*UpdateProfileOutput, error) {
 	out := &UpdateProfileOutput{}
 	path := "/self"
 
@@ -187,7 +149,7 @@ func (s *CognitoService) UpdateProfile(ctx context.Context, in *UpdateProfileInp
 	return out, nil
 }
 
-func (s *CognitoService) UpdatePicture(ctx context.Context, in *UpdatePictureInput) (*UpdatePictureOutput, error) {
+func (s *UserServiceService) UpdatePicture(ctx context.Context, in *UpdatePictureInput) (*UpdatePictureOutput, error) {
 	out := &UpdatePictureOutput{}
 	path := "/self/picture"
 
@@ -198,7 +160,7 @@ func (s *CognitoService) UpdatePicture(ctx context.Context, in *UpdatePictureInp
 	return out, nil
 }
 
-func (s *CognitoService) UpdatePassword(ctx context.Context, in *UpdatePasswordInput) (*UpdatePasswordOutput, error) {
+func (s *UserServiceService) UpdatePassword(ctx context.Context, in *UpdatePasswordInput) (*UpdatePasswordOutput, error) {
 	out := &UpdatePasswordOutput{}
 	path := "/self/password"
 
@@ -209,7 +171,7 @@ func (s *CognitoService) UpdatePassword(ctx context.Context, in *UpdatePasswordI
 	return out, nil
 }
 
-func (s *CognitoService) IntrospectUser(ctx context.Context, in *IntrospectUserInput) (*IntrospectUserOutput, error) {
+func (s *UserServiceService) IntrospectUser(ctx context.Context, in *IntrospectUserInput) (*IntrospectUserOutput, error) {
 	out := &IntrospectUserOutput{}
 	path := "/self"
 
@@ -220,7 +182,7 @@ func (s *CognitoService) IntrospectUser(ctx context.Context, in *IntrospectUserI
 	return out, nil
 }
 
-func (s *CognitoService) DescribeUser(ctx context.Context, in *DescribeUserInput) (*DescribeUserOutput, error) {
+func (s *UserServiceService) DescribeUser(ctx context.Context, in *DescribeUserInput) (*DescribeUserOutput, error) {
 	out := &DescribeUserOutput{}
 	path := "/users/" + url.PathEscape(in.GetUserId())
 
@@ -236,7 +198,7 @@ func (s *CognitoService) DescribeUser(ctx context.Context, in *DescribeUserInput
 	return out, nil
 }
 
-func (s *CognitoService) ListUsers(ctx context.Context, in *ListUsersInput) (*ListUsersOutput, error) {
+func (s *UserServiceService) ListUsers(ctx context.Context, in *ListUsersInput) (*ListUsersOutput, error) {
 	out := &ListUsersOutput{}
 	path := "/users"
 
@@ -247,7 +209,7 @@ func (s *CognitoService) ListUsers(ctx context.Context, in *ListUsersInput) (*Li
 	return out, nil
 }
 
-func (s *CognitoService) IntrospectQuota(ctx context.Context, in *IntrospectQuotaInput) (*IntrospectQuotaOutput, error) {
+func (s *UserServiceService) IntrospectQuota(ctx context.Context, in *IntrospectQuotaInput) (*IntrospectQuotaOutput, error) {
 	out := &IntrospectQuotaOutput{}
 	path := "/self/quota"
 
@@ -258,7 +220,7 @@ func (s *CognitoService) IntrospectQuota(ctx context.Context, in *IntrospectQuot
 	return out, nil
 }
 
-func (s *CognitoService) StartRecovery(ctx context.Context, in *StartRecoveryInput) (*StartRecoveryOutput, error) {
+func (s *UserServiceService) StartRecovery(ctx context.Context, in *StartRecoveryInput) (*StartRecoveryOutput, error) {
 	out := &StartRecoveryOutput{}
 	path := "/self/recovery"
 
@@ -269,7 +231,7 @@ func (s *CognitoService) StartRecovery(ctx context.Context, in *StartRecoveryInp
 	return out, nil
 }
 
-func (s *CognitoService) CompleteRecovery(ctx context.Context, in *CompleteRecoverInput) (*CompleteRecoverOutput, error) {
+func (s *UserServiceService) CompleteRecovery(ctx context.Context, in *CompleteRecoverInput) (*CompleteRecoverOutput, error) {
 	out := &CompleteRecoverOutput{}
 	path := "/users/" + url.PathEscape(in.GetUserId()) + "/recover"
 
@@ -285,7 +247,7 @@ func (s *CognitoService) CompleteRecovery(ctx context.Context, in *CompleteRecov
 	return out, nil
 }
 
-func (s *CognitoService) SelfDestruct(ctx context.Context, in *SelfDestructInput) (*SelfDestructOutput, error) {
+func (s *UserServiceService) SelfDestruct(ctx context.Context, in *SelfDestructInput) (*SelfDestructOutput, error) {
 	out := &SelfDestructOutput{}
 	path := "/self"
 

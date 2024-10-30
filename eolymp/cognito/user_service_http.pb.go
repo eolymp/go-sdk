@@ -18,8 +18,8 @@ import (
 	http "net/http"
 )
 
-// _Cognito_HTTPReadQueryString parses body into proto.Message
-func _Cognito_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+// _UserService_HTTPReadQueryString parses body into proto.Message
+func _UserService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
 	query := r.URL.Query().Get("q")
 	if query == "" {
 		return nil
@@ -32,8 +32,8 @@ func _Cognito_HTTPReadQueryString(r *http.Request, v proto.Message) error {
 	return nil
 }
 
-// _Cognito_HTTPReadRequestBody parses body into proto.Message
-func _Cognito_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
+// _UserService_HTTPReadRequestBody parses body into proto.Message
+func _UserService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
 	data, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		return err
@@ -46,11 +46,11 @@ func _Cognito_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
 	return nil
 }
 
-// _Cognito_HTTPWriteResponse writes proto.Message to HTTP response
-func _Cognito_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h, t metadata.MD) {
+// _UserService_HTTPWriteResponse writes proto.Message to HTTP response
+func _UserService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h, t metadata.MD) {
 	data, err := protojson.Marshal(v)
 	if err != nil {
-		_Cognito_HTTPWriteErrorResponse(w, err)
+		_UserService_HTTPWriteErrorResponse(w, err)
 		return
 	}
 
@@ -73,8 +73,8 @@ func _Cognito_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h, t met
 	_, _ = w.Write(data)
 }
 
-// _Cognito_HTTPWriteErrorResponse writes error to HTTP response with error status code
-func _Cognito_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
+// _UserService_HTTPWriteErrorResponse writes error to HTTP response with error status code
+func _UserService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
 
 	w.Header().Set("Content-Type", "application/json")
@@ -126,8 +126,8 @@ func _Cognito_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	_, _ = w.Write(data)
 }
 
-// _Cognito_WebsocketErrorResponse writes error to websocket connection
-func _Cognito_WebsocketErrorResponse(conn *websocket.Conn, e error) {
+// _UserService_WebsocketErrorResponse writes error to websocket connection
+func _UserService_WebsocketErrorResponse(conn *websocket.Conn, e error) {
 	switch status.Convert(e).Code() {
 	case codes.OK:
 		conn.WriteClose(1000)
@@ -168,8 +168,8 @@ func _Cognito_WebsocketErrorResponse(conn *websocket.Conn, e error) {
 	}
 }
 
-// _Cognito_WebsocketCodec implements protobuf codec for websockets package
-var _Cognito_WebsocketCodec = websocket.Codec{
+// _UserService_WebsocketCodec implements protobuf codec for websockets package
+var _UserService_WebsocketCodec = websocket.Codec{
 	Marshal: func(v interface{}) ([]byte, byte, error) {
 		m, ok := v.(proto.Message)
 		if !ok {
@@ -193,135 +193,57 @@ var _Cognito_WebsocketCodec = websocket.Codec{
 	},
 }
 
-// RegisterCognitoHttpHandlers adds handlers for for CognitoClient
+// RegisterUserServiceHttpHandlers adds handlers for for UserServiceClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterCognitoHttpHandlers(router *mux.Router, prefix string, cli CognitoClient) {
-	router.Handle(prefix+"/access-keys", _Cognito_CreateAccessKey_Rule0(cli)).
+func RegisterUserServiceHttpHandlers(router *mux.Router, prefix string, cli UserServiceClient) {
+	router.Handle(prefix+"/users", _UserService_CreateUser_Rule0(cli)).
 		Methods("POST").
-		Name("eolymp.cognito.Cognito.CreateAccessKey")
-	router.Handle(prefix+"/access-keys/{key_id}", _Cognito_DeleteAccessKey_Rule0(cli)).
+		Name("eolymp.cognito.UserService.CreateUser")
+	router.Handle(prefix+"/users/{user_id}/verify", _UserService_VerifyEmail_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.cognito.UserService.VerifyEmail")
+	router.Handle(prefix+"/self/email/resend-verification", _UserService_ResendEmailVerification_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.cognito.UserService.ResendEmailVerification")
+	router.Handle(prefix+"/self", _UserService_UpdateProfile_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.cognito.UserService.UpdateProfile")
+	router.Handle(prefix+"/self/picture", _UserService_UpdatePicture_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.cognito.UserService.UpdatePicture")
+	router.Handle(prefix+"/self/password", _UserService_UpdatePassword_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.cognito.UserService.UpdatePassword")
+	router.Handle(prefix+"/self", _UserService_IntrospectUser_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.cognito.UserService.IntrospectUser")
+	router.Handle(prefix+"/users/{user_id}", _UserService_DescribeUser_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.cognito.UserService.DescribeUser")
+	router.Handle(prefix+"/users", _UserService_ListUsers_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.cognito.UserService.ListUsers")
+	router.Handle(prefix+"/self/quota", _UserService_IntrospectQuota_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.cognito.UserService.IntrospectQuota")
+	router.Handle(prefix+"/self/recovery", _UserService_StartRecovery_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.cognito.UserService.StartRecovery")
+	router.Handle(prefix+"/users/{user_id}/recover", _UserService_CompleteRecovery_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.cognito.UserService.CompleteRecovery")
+	router.Handle(prefix+"/self", _UserService_SelfDestruct_Rule0(cli)).
 		Methods("DELETE").
-		Name("eolymp.cognito.Cognito.DeleteAccessKey")
-	router.Handle(prefix+"/access-keys", _Cognito_ListAccessKeys_Rule0(cli)).
-		Methods("GET").
-		Name("eolymp.cognito.Cognito.ListAccessKeys")
-	router.Handle(prefix+"/users", _Cognito_CreateUser_Rule0(cli)).
-		Methods("POST").
-		Name("eolymp.cognito.Cognito.CreateUser")
-	router.Handle(prefix+"/users/{user_id}/verify", _Cognito_VerifyEmail_Rule0(cli)).
-		Methods("POST").
-		Name("eolymp.cognito.Cognito.VerifyEmail")
-	router.Handle(prefix+"/self/email/resend-verification", _Cognito_ResendEmailVerification_Rule0(cli)).
-		Methods("POST").
-		Name("eolymp.cognito.Cognito.ResendEmailVerification")
-	router.Handle(prefix+"/self", _Cognito_UpdateProfile_Rule0(cli)).
-		Methods("POST").
-		Name("eolymp.cognito.Cognito.UpdateProfile")
-	router.Handle(prefix+"/self/picture", _Cognito_UpdatePicture_Rule0(cli)).
-		Methods("POST").
-		Name("eolymp.cognito.Cognito.UpdatePicture")
-	router.Handle(prefix+"/self/password", _Cognito_UpdatePassword_Rule0(cli)).
-		Methods("POST").
-		Name("eolymp.cognito.Cognito.UpdatePassword")
-	router.Handle(prefix+"/self", _Cognito_IntrospectUser_Rule0(cli)).
-		Methods("GET").
-		Name("eolymp.cognito.Cognito.IntrospectUser")
-	router.Handle(prefix+"/users/{user_id}", _Cognito_DescribeUser_Rule0(cli)).
-		Methods("GET").
-		Name("eolymp.cognito.Cognito.DescribeUser")
-	router.Handle(prefix+"/users", _Cognito_ListUsers_Rule0(cli)).
-		Methods("GET").
-		Name("eolymp.cognito.Cognito.ListUsers")
-	router.Handle(prefix+"/self/quota", _Cognito_IntrospectQuota_Rule0(cli)).
-		Methods("GET").
-		Name("eolymp.cognito.Cognito.IntrospectQuota")
-	router.Handle(prefix+"/self/recovery", _Cognito_StartRecovery_Rule0(cli)).
-		Methods("POST").
-		Name("eolymp.cognito.Cognito.StartRecovery")
-	router.Handle(prefix+"/users/{user_id}/recover", _Cognito_CompleteRecovery_Rule0(cli)).
-		Methods("POST").
-		Name("eolymp.cognito.Cognito.CompleteRecovery")
-	router.Handle(prefix+"/self", _Cognito_SelfDestruct_Rule0(cli)).
-		Methods("DELETE").
-		Name("eolymp.cognito.Cognito.SelfDestruct")
+		Name("eolymp.cognito.UserService.SelfDestruct")
 }
 
-func _Cognito_CreateAccessKey_Rule0(cli CognitoClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &CreateAccessKeyInput{}
-
-		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		var header, trailer metadata.MD
-
-		out, err := cli.CreateAccessKey(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
-		if err != nil {
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Cognito_HTTPWriteResponse(w, out, header, trailer)
-	})
-}
-
-func _Cognito_DeleteAccessKey_Rule0(cli CognitoClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DeleteAccessKeyInput{}
-
-		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.KeyId = vars["key_id"]
-
-		var header, trailer metadata.MD
-
-		out, err := cli.DeleteAccessKey(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
-		if err != nil {
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Cognito_HTTPWriteResponse(w, out, header, trailer)
-	})
-}
-
-func _Cognito_ListAccessKeys_Rule0(cli CognitoClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ListAccessKeysInput{}
-
-		if err := _Cognito_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		var header, trailer metadata.MD
-
-		out, err := cli.ListAccessKeys(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
-		if err != nil {
-			_Cognito_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_Cognito_HTTPWriteResponse(w, out, header, trailer)
-	})
-}
-
-func _Cognito_CreateUser_Rule0(cli CognitoClient) http.Handler {
+func _UserService_CreateUser_Rule0(cli UserServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateUserInput{}
 
-		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
+		if err := _UserService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
-			_Cognito_HTTPWriteErrorResponse(w, err)
+			_UserService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
@@ -329,21 +251,21 @@ func _Cognito_CreateUser_Rule0(cli CognitoClient) http.Handler {
 
 		out, err := cli.CreateUser(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
-			_Cognito_HTTPWriteErrorResponse(w, err)
+			_UserService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Cognito_HTTPWriteResponse(w, out, header, trailer)
+		_UserService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
-func _Cognito_VerifyEmail_Rule0(cli CognitoClient) http.Handler {
+func _UserService_VerifyEmail_Rule0(cli UserServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &VerifyEmailInput{}
 
-		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
+		if err := _UserService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
-			_Cognito_HTTPWriteErrorResponse(w, err)
+			_UserService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
@@ -354,21 +276,21 @@ func _Cognito_VerifyEmail_Rule0(cli CognitoClient) http.Handler {
 
 		out, err := cli.VerifyEmail(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
-			_Cognito_HTTPWriteErrorResponse(w, err)
+			_UserService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Cognito_HTTPWriteResponse(w, out, header, trailer)
+		_UserService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
-func _Cognito_ResendEmailVerification_Rule0(cli CognitoClient) http.Handler {
+func _UserService_ResendEmailVerification_Rule0(cli UserServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ResendEmailVerificationInput{}
 
-		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
+		if err := _UserService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
-			_Cognito_HTTPWriteErrorResponse(w, err)
+			_UserService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
@@ -376,21 +298,21 @@ func _Cognito_ResendEmailVerification_Rule0(cli CognitoClient) http.Handler {
 
 		out, err := cli.ResendEmailVerification(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
-			_Cognito_HTTPWriteErrorResponse(w, err)
+			_UserService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Cognito_HTTPWriteResponse(w, out, header, trailer)
+		_UserService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
-func _Cognito_UpdateProfile_Rule0(cli CognitoClient) http.Handler {
+func _UserService_UpdateProfile_Rule0(cli UserServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateProfileInput{}
 
-		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
+		if err := _UserService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
-			_Cognito_HTTPWriteErrorResponse(w, err)
+			_UserService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
@@ -398,21 +320,21 @@ func _Cognito_UpdateProfile_Rule0(cli CognitoClient) http.Handler {
 
 		out, err := cli.UpdateProfile(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
-			_Cognito_HTTPWriteErrorResponse(w, err)
+			_UserService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Cognito_HTTPWriteResponse(w, out, header, trailer)
+		_UserService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
-func _Cognito_UpdatePicture_Rule0(cli CognitoClient) http.Handler {
+func _UserService_UpdatePicture_Rule0(cli UserServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdatePictureInput{}
 
-		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
+		if err := _UserService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
-			_Cognito_HTTPWriteErrorResponse(w, err)
+			_UserService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
@@ -420,21 +342,21 @@ func _Cognito_UpdatePicture_Rule0(cli CognitoClient) http.Handler {
 
 		out, err := cli.UpdatePicture(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
-			_Cognito_HTTPWriteErrorResponse(w, err)
+			_UserService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Cognito_HTTPWriteResponse(w, out, header, trailer)
+		_UserService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
-func _Cognito_UpdatePassword_Rule0(cli CognitoClient) http.Handler {
+func _UserService_UpdatePassword_Rule0(cli UserServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdatePasswordInput{}
 
-		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
+		if err := _UserService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
-			_Cognito_HTTPWriteErrorResponse(w, err)
+			_UserService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
@@ -442,21 +364,21 @@ func _Cognito_UpdatePassword_Rule0(cli CognitoClient) http.Handler {
 
 		out, err := cli.UpdatePassword(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
-			_Cognito_HTTPWriteErrorResponse(w, err)
+			_UserService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Cognito_HTTPWriteResponse(w, out, header, trailer)
+		_UserService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
-func _Cognito_IntrospectUser_Rule0(cli CognitoClient) http.Handler {
+func _UserService_IntrospectUser_Rule0(cli UserServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &IntrospectUserInput{}
 
-		if err := _Cognito_HTTPReadQueryString(r, in); err != nil {
+		if err := _UserService_HTTPReadQueryString(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
-			_Cognito_HTTPWriteErrorResponse(w, err)
+			_UserService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
@@ -464,21 +386,21 @@ func _Cognito_IntrospectUser_Rule0(cli CognitoClient) http.Handler {
 
 		out, err := cli.IntrospectUser(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
-			_Cognito_HTTPWriteErrorResponse(w, err)
+			_UserService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Cognito_HTTPWriteResponse(w, out, header, trailer)
+		_UserService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
-func _Cognito_DescribeUser_Rule0(cli CognitoClient) http.Handler {
+func _UserService_DescribeUser_Rule0(cli UserServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeUserInput{}
 
-		if err := _Cognito_HTTPReadQueryString(r, in); err != nil {
+		if err := _UserService_HTTPReadQueryString(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
-			_Cognito_HTTPWriteErrorResponse(w, err)
+			_UserService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
@@ -489,21 +411,21 @@ func _Cognito_DescribeUser_Rule0(cli CognitoClient) http.Handler {
 
 		out, err := cli.DescribeUser(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
-			_Cognito_HTTPWriteErrorResponse(w, err)
+			_UserService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Cognito_HTTPWriteResponse(w, out, header, trailer)
+		_UserService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
-func _Cognito_ListUsers_Rule0(cli CognitoClient) http.Handler {
+func _UserService_ListUsers_Rule0(cli UserServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListUsersInput{}
 
-		if err := _Cognito_HTTPReadQueryString(r, in); err != nil {
+		if err := _UserService_HTTPReadQueryString(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
-			_Cognito_HTTPWriteErrorResponse(w, err)
+			_UserService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
@@ -511,21 +433,21 @@ func _Cognito_ListUsers_Rule0(cli CognitoClient) http.Handler {
 
 		out, err := cli.ListUsers(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
-			_Cognito_HTTPWriteErrorResponse(w, err)
+			_UserService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Cognito_HTTPWriteResponse(w, out, header, trailer)
+		_UserService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
-func _Cognito_IntrospectQuota_Rule0(cli CognitoClient) http.Handler {
+func _UserService_IntrospectQuota_Rule0(cli UserServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &IntrospectQuotaInput{}
 
-		if err := _Cognito_HTTPReadQueryString(r, in); err != nil {
+		if err := _UserService_HTTPReadQueryString(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
-			_Cognito_HTTPWriteErrorResponse(w, err)
+			_UserService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
@@ -533,21 +455,21 @@ func _Cognito_IntrospectQuota_Rule0(cli CognitoClient) http.Handler {
 
 		out, err := cli.IntrospectQuota(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
-			_Cognito_HTTPWriteErrorResponse(w, err)
+			_UserService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Cognito_HTTPWriteResponse(w, out, header, trailer)
+		_UserService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
-func _Cognito_StartRecovery_Rule0(cli CognitoClient) http.Handler {
+func _UserService_StartRecovery_Rule0(cli UserServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &StartRecoveryInput{}
 
-		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
+		if err := _UserService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
-			_Cognito_HTTPWriteErrorResponse(w, err)
+			_UserService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
@@ -555,21 +477,21 @@ func _Cognito_StartRecovery_Rule0(cli CognitoClient) http.Handler {
 
 		out, err := cli.StartRecovery(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
-			_Cognito_HTTPWriteErrorResponse(w, err)
+			_UserService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Cognito_HTTPWriteResponse(w, out, header, trailer)
+		_UserService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
-func _Cognito_CompleteRecovery_Rule0(cli CognitoClient) http.Handler {
+func _UserService_CompleteRecovery_Rule0(cli UserServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CompleteRecoverInput{}
 
-		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
+		if err := _UserService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
-			_Cognito_HTTPWriteErrorResponse(w, err)
+			_UserService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
@@ -580,21 +502,21 @@ func _Cognito_CompleteRecovery_Rule0(cli CognitoClient) http.Handler {
 
 		out, err := cli.CompleteRecovery(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
-			_Cognito_HTTPWriteErrorResponse(w, err)
+			_UserService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Cognito_HTTPWriteResponse(w, out, header, trailer)
+		_UserService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
-func _Cognito_SelfDestruct_Rule0(cli CognitoClient) http.Handler {
+func _UserService_SelfDestruct_Rule0(cli UserServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &SelfDestructInput{}
 
-		if err := _Cognito_HTTPReadRequestBody(r, in); err != nil {
+		if err := _UserService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
-			_Cognito_HTTPWriteErrorResponse(w, err)
+			_UserService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
@@ -602,123 +524,27 @@ func _Cognito_SelfDestruct_Rule0(cli CognitoClient) http.Handler {
 
 		out, err := cli.SelfDestruct(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
-			_Cognito_HTTPWriteErrorResponse(w, err)
+			_UserService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		_Cognito_HTTPWriteResponse(w, out, header, trailer)
+		_UserService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
-type _CognitoHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
-type _CognitoMiddleware = func(ctx context.Context, method string, in proto.Message, handler _CognitoHandler) (out proto.Message, err error)
-type CognitoInterceptor struct {
-	middleware []_CognitoMiddleware
-	client     CognitoClient
+type _UserServiceHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
+type _UserServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _UserServiceHandler) (out proto.Message, err error)
+type UserServiceInterceptor struct {
+	middleware []_UserServiceMiddleware
+	client     UserServiceClient
 }
 
-// NewCognitoInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewCognitoInterceptor(cli CognitoClient, middleware ..._CognitoMiddleware) *CognitoInterceptor {
-	return &CognitoInterceptor{client: cli, middleware: middleware}
+// NewUserServiceInterceptor constructs additional middleware for a server based on annotations in proto files
+func NewUserServiceInterceptor(cli UserServiceClient, middleware ..._UserServiceMiddleware) *UserServiceInterceptor {
+	return &UserServiceInterceptor{client: cli, middleware: middleware}
 }
 
-func (i *CognitoInterceptor) CreateAccessKey(ctx context.Context, in *CreateAccessKeyInput, opts ...grpc.CallOption) (*CreateAccessKeyOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*CreateAccessKeyInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *CreateAccessKeyInput, got %T", in))
-		}
-
-		return i.client.CreateAccessKey(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito.CreateAccessKey", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*CreateAccessKeyOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *CreateAccessKeyOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *CognitoInterceptor) DeleteAccessKey(ctx context.Context, in *DeleteAccessKeyInput, opts ...grpc.CallOption) (*DeleteAccessKeyOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*DeleteAccessKeyInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *DeleteAccessKeyInput, got %T", in))
-		}
-
-		return i.client.DeleteAccessKey(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito.DeleteAccessKey", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*DeleteAccessKeyOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *DeleteAccessKeyOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *CognitoInterceptor) ListAccessKeys(ctx context.Context, in *ListAccessKeysInput, opts ...grpc.CallOption) (*ListAccessKeysOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*ListAccessKeysInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *ListAccessKeysInput, got %T", in))
-		}
-
-		return i.client.ListAccessKeys(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito.ListAccessKeys", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*ListAccessKeysOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *ListAccessKeysOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *CognitoInterceptor) CreateUser(ctx context.Context, in *CreateUserInput, opts ...grpc.CallOption) (*CreateUserOutput, error) {
+func (i *UserServiceInterceptor) CreateUser(ctx context.Context, in *CreateUserInput, opts ...grpc.CallOption) (*CreateUserOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CreateUserInput)
 		if !ok && in != nil {
@@ -733,7 +559,7 @@ func (i *CognitoInterceptor) CreateUser(ctx context.Context, in *CreateUserInput
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito.CreateUser", in, next)
+			return mw(ctx, "eolymp.cognito.UserService.CreateUser", in, next)
 		}
 	}
 
@@ -750,7 +576,7 @@ func (i *CognitoInterceptor) CreateUser(ctx context.Context, in *CreateUserInput
 	return message, err
 }
 
-func (i *CognitoInterceptor) VerifyEmail(ctx context.Context, in *VerifyEmailInput, opts ...grpc.CallOption) (*VerifyEmailOutput, error) {
+func (i *UserServiceInterceptor) VerifyEmail(ctx context.Context, in *VerifyEmailInput, opts ...grpc.CallOption) (*VerifyEmailOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*VerifyEmailInput)
 		if !ok && in != nil {
@@ -765,7 +591,7 @@ func (i *CognitoInterceptor) VerifyEmail(ctx context.Context, in *VerifyEmailInp
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito.VerifyEmail", in, next)
+			return mw(ctx, "eolymp.cognito.UserService.VerifyEmail", in, next)
 		}
 	}
 
@@ -782,7 +608,7 @@ func (i *CognitoInterceptor) VerifyEmail(ctx context.Context, in *VerifyEmailInp
 	return message, err
 }
 
-func (i *CognitoInterceptor) ResendEmailVerification(ctx context.Context, in *ResendEmailVerificationInput, opts ...grpc.CallOption) (*ResendEmailVerificationOutput, error) {
+func (i *UserServiceInterceptor) ResendEmailVerification(ctx context.Context, in *ResendEmailVerificationInput, opts ...grpc.CallOption) (*ResendEmailVerificationOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ResendEmailVerificationInput)
 		if !ok && in != nil {
@@ -797,7 +623,7 @@ func (i *CognitoInterceptor) ResendEmailVerification(ctx context.Context, in *Re
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito.ResendEmailVerification", in, next)
+			return mw(ctx, "eolymp.cognito.UserService.ResendEmailVerification", in, next)
 		}
 	}
 
@@ -814,7 +640,7 @@ func (i *CognitoInterceptor) ResendEmailVerification(ctx context.Context, in *Re
 	return message, err
 }
 
-func (i *CognitoInterceptor) UpdateProfile(ctx context.Context, in *UpdateProfileInput, opts ...grpc.CallOption) (*UpdateProfileOutput, error) {
+func (i *UserServiceInterceptor) UpdateProfile(ctx context.Context, in *UpdateProfileInput, opts ...grpc.CallOption) (*UpdateProfileOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdateProfileInput)
 		if !ok && in != nil {
@@ -829,7 +655,7 @@ func (i *CognitoInterceptor) UpdateProfile(ctx context.Context, in *UpdateProfil
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito.UpdateProfile", in, next)
+			return mw(ctx, "eolymp.cognito.UserService.UpdateProfile", in, next)
 		}
 	}
 
@@ -846,7 +672,7 @@ func (i *CognitoInterceptor) UpdateProfile(ctx context.Context, in *UpdateProfil
 	return message, err
 }
 
-func (i *CognitoInterceptor) UpdatePicture(ctx context.Context, in *UpdatePictureInput, opts ...grpc.CallOption) (*UpdatePictureOutput, error) {
+func (i *UserServiceInterceptor) UpdatePicture(ctx context.Context, in *UpdatePictureInput, opts ...grpc.CallOption) (*UpdatePictureOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdatePictureInput)
 		if !ok && in != nil {
@@ -861,7 +687,7 @@ func (i *CognitoInterceptor) UpdatePicture(ctx context.Context, in *UpdatePictur
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito.UpdatePicture", in, next)
+			return mw(ctx, "eolymp.cognito.UserService.UpdatePicture", in, next)
 		}
 	}
 
@@ -878,7 +704,7 @@ func (i *CognitoInterceptor) UpdatePicture(ctx context.Context, in *UpdatePictur
 	return message, err
 }
 
-func (i *CognitoInterceptor) UpdatePassword(ctx context.Context, in *UpdatePasswordInput, opts ...grpc.CallOption) (*UpdatePasswordOutput, error) {
+func (i *UserServiceInterceptor) UpdatePassword(ctx context.Context, in *UpdatePasswordInput, opts ...grpc.CallOption) (*UpdatePasswordOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*UpdatePasswordInput)
 		if !ok && in != nil {
@@ -893,7 +719,7 @@ func (i *CognitoInterceptor) UpdatePassword(ctx context.Context, in *UpdatePassw
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito.UpdatePassword", in, next)
+			return mw(ctx, "eolymp.cognito.UserService.UpdatePassword", in, next)
 		}
 	}
 
@@ -910,7 +736,7 @@ func (i *CognitoInterceptor) UpdatePassword(ctx context.Context, in *UpdatePassw
 	return message, err
 }
 
-func (i *CognitoInterceptor) IntrospectUser(ctx context.Context, in *IntrospectUserInput, opts ...grpc.CallOption) (*IntrospectUserOutput, error) {
+func (i *UserServiceInterceptor) IntrospectUser(ctx context.Context, in *IntrospectUserInput, opts ...grpc.CallOption) (*IntrospectUserOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*IntrospectUserInput)
 		if !ok && in != nil {
@@ -925,7 +751,7 @@ func (i *CognitoInterceptor) IntrospectUser(ctx context.Context, in *IntrospectU
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito.IntrospectUser", in, next)
+			return mw(ctx, "eolymp.cognito.UserService.IntrospectUser", in, next)
 		}
 	}
 
@@ -942,7 +768,7 @@ func (i *CognitoInterceptor) IntrospectUser(ctx context.Context, in *IntrospectU
 	return message, err
 }
 
-func (i *CognitoInterceptor) DescribeUser(ctx context.Context, in *DescribeUserInput, opts ...grpc.CallOption) (*DescribeUserOutput, error) {
+func (i *UserServiceInterceptor) DescribeUser(ctx context.Context, in *DescribeUserInput, opts ...grpc.CallOption) (*DescribeUserOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeUserInput)
 		if !ok && in != nil {
@@ -957,7 +783,7 @@ func (i *CognitoInterceptor) DescribeUser(ctx context.Context, in *DescribeUserI
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito.DescribeUser", in, next)
+			return mw(ctx, "eolymp.cognito.UserService.DescribeUser", in, next)
 		}
 	}
 
@@ -974,7 +800,7 @@ func (i *CognitoInterceptor) DescribeUser(ctx context.Context, in *DescribeUserI
 	return message, err
 }
 
-func (i *CognitoInterceptor) ListUsers(ctx context.Context, in *ListUsersInput, opts ...grpc.CallOption) (*ListUsersOutput, error) {
+func (i *UserServiceInterceptor) ListUsers(ctx context.Context, in *ListUsersInput, opts ...grpc.CallOption) (*ListUsersOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListUsersInput)
 		if !ok && in != nil {
@@ -989,7 +815,7 @@ func (i *CognitoInterceptor) ListUsers(ctx context.Context, in *ListUsersInput, 
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito.ListUsers", in, next)
+			return mw(ctx, "eolymp.cognito.UserService.ListUsers", in, next)
 		}
 	}
 
@@ -1006,7 +832,7 @@ func (i *CognitoInterceptor) ListUsers(ctx context.Context, in *ListUsersInput, 
 	return message, err
 }
 
-func (i *CognitoInterceptor) IntrospectQuota(ctx context.Context, in *IntrospectQuotaInput, opts ...grpc.CallOption) (*IntrospectQuotaOutput, error) {
+func (i *UserServiceInterceptor) IntrospectQuota(ctx context.Context, in *IntrospectQuotaInput, opts ...grpc.CallOption) (*IntrospectQuotaOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*IntrospectQuotaInput)
 		if !ok && in != nil {
@@ -1021,7 +847,7 @@ func (i *CognitoInterceptor) IntrospectQuota(ctx context.Context, in *Introspect
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito.IntrospectQuota", in, next)
+			return mw(ctx, "eolymp.cognito.UserService.IntrospectQuota", in, next)
 		}
 	}
 
@@ -1038,7 +864,7 @@ func (i *CognitoInterceptor) IntrospectQuota(ctx context.Context, in *Introspect
 	return message, err
 }
 
-func (i *CognitoInterceptor) StartRecovery(ctx context.Context, in *StartRecoveryInput, opts ...grpc.CallOption) (*StartRecoveryOutput, error) {
+func (i *UserServiceInterceptor) StartRecovery(ctx context.Context, in *StartRecoveryInput, opts ...grpc.CallOption) (*StartRecoveryOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*StartRecoveryInput)
 		if !ok && in != nil {
@@ -1053,7 +879,7 @@ func (i *CognitoInterceptor) StartRecovery(ctx context.Context, in *StartRecover
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito.StartRecovery", in, next)
+			return mw(ctx, "eolymp.cognito.UserService.StartRecovery", in, next)
 		}
 	}
 
@@ -1070,7 +896,7 @@ func (i *CognitoInterceptor) StartRecovery(ctx context.Context, in *StartRecover
 	return message, err
 }
 
-func (i *CognitoInterceptor) CompleteRecovery(ctx context.Context, in *CompleteRecoverInput, opts ...grpc.CallOption) (*CompleteRecoverOutput, error) {
+func (i *UserServiceInterceptor) CompleteRecovery(ctx context.Context, in *CompleteRecoverInput, opts ...grpc.CallOption) (*CompleteRecoverOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*CompleteRecoverInput)
 		if !ok && in != nil {
@@ -1085,7 +911,7 @@ func (i *CognitoInterceptor) CompleteRecovery(ctx context.Context, in *CompleteR
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito.CompleteRecovery", in, next)
+			return mw(ctx, "eolymp.cognito.UserService.CompleteRecovery", in, next)
 		}
 	}
 
@@ -1102,7 +928,7 @@ func (i *CognitoInterceptor) CompleteRecovery(ctx context.Context, in *CompleteR
 	return message, err
 }
 
-func (i *CognitoInterceptor) SelfDestruct(ctx context.Context, in *SelfDestructInput, opts ...grpc.CallOption) (*SelfDestructOutput, error) {
+func (i *UserServiceInterceptor) SelfDestruct(ctx context.Context, in *SelfDestructInput, opts ...grpc.CallOption) (*SelfDestructOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*SelfDestructInput)
 		if !ok && in != nil {
@@ -1117,7 +943,7 @@ func (i *CognitoInterceptor) SelfDestruct(ctx context.Context, in *SelfDestructI
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.Cognito.SelfDestruct", in, next)
+			return mw(ctx, "eolymp.cognito.UserService.SelfDestruct", in, next)
 		}
 	}
 

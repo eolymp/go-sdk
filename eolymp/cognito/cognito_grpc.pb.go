@@ -25,7 +25,6 @@ const (
 	Cognito_CreateUser_FullMethodName              = "/eolymp.cognito.Cognito/CreateUser"
 	Cognito_VerifyEmail_FullMethodName             = "/eolymp.cognito.Cognito/VerifyEmail"
 	Cognito_ResendEmailVerification_FullMethodName = "/eolymp.cognito.Cognito/ResendEmailVerification"
-	Cognito_UpdateEmail_FullMethodName             = "/eolymp.cognito.Cognito/UpdateEmail"
 	Cognito_UpdateProfile_FullMethodName           = "/eolymp.cognito.Cognito/UpdateProfile"
 	Cognito_UpdatePicture_FullMethodName           = "/eolymp.cognito.Cognito/UpdatePicture"
 	Cognito_UpdatePassword_FullMethodName          = "/eolymp.cognito.Cognito/UpdatePassword"
@@ -52,9 +51,6 @@ type CognitoClient interface {
 	// Verify user email, takes email verification token and if it's correct - changes email status to CONFIRMED.
 	VerifyEmail(ctx context.Context, in *VerifyEmailInput, opts ...grpc.CallOption) (*VerifyEmailOutput, error)
 	ResendEmailVerification(ctx context.Context, in *ResendEmailVerificationInput, opts ...grpc.CallOption) (*ResendEmailVerificationOutput, error)
-	// Update user email, changes user's current email and starts email verification process.
-	// DEPRECATED: use UpdateProfile instead
-	UpdateEmail(ctx context.Context, in *UpdateEmailInput, opts ...grpc.CallOption) (*UpdateEmailOutput, error)
 	UpdateProfile(ctx context.Context, in *UpdateProfileInput, opts ...grpc.CallOption) (*UpdateProfileOutput, error)
 	UpdatePicture(ctx context.Context, in *UpdatePictureInput, opts ...grpc.CallOption) (*UpdatePictureOutput, error)
 	UpdatePassword(ctx context.Context, in *UpdatePasswordInput, opts ...grpc.CallOption) (*UpdatePasswordOutput, error)
@@ -137,16 +133,6 @@ func (c *cognitoClient) ResendEmailVerification(ctx context.Context, in *ResendE
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ResendEmailVerificationOutput)
 	err := c.cc.Invoke(ctx, Cognito_ResendEmailVerification_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *cognitoClient) UpdateEmail(ctx context.Context, in *UpdateEmailInput, opts ...grpc.CallOption) (*UpdateEmailOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(UpdateEmailOutput)
-	err := c.cc.Invoke(ctx, Cognito_UpdateEmail_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -267,9 +253,6 @@ type CognitoServer interface {
 	// Verify user email, takes email verification token and if it's correct - changes email status to CONFIRMED.
 	VerifyEmail(context.Context, *VerifyEmailInput) (*VerifyEmailOutput, error)
 	ResendEmailVerification(context.Context, *ResendEmailVerificationInput) (*ResendEmailVerificationOutput, error)
-	// Update user email, changes user's current email and starts email verification process.
-	// DEPRECATED: use UpdateProfile instead
-	UpdateEmail(context.Context, *UpdateEmailInput) (*UpdateEmailOutput, error)
 	UpdateProfile(context.Context, *UpdateProfileInput) (*UpdateProfileOutput, error)
 	UpdatePicture(context.Context, *UpdatePictureInput) (*UpdatePictureOutput, error)
 	UpdatePassword(context.Context, *UpdatePasswordInput) (*UpdatePasswordOutput, error)
@@ -314,9 +297,6 @@ func (UnimplementedCognitoServer) VerifyEmail(context.Context, *VerifyEmailInput
 }
 func (UnimplementedCognitoServer) ResendEmailVerification(context.Context, *ResendEmailVerificationInput) (*ResendEmailVerificationOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ResendEmailVerification not implemented")
-}
-func (UnimplementedCognitoServer) UpdateEmail(context.Context, *UpdateEmailInput) (*UpdateEmailOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateEmail not implemented")
 }
 func (UnimplementedCognitoServer) UpdateProfile(context.Context, *UpdateProfileInput) (*UpdateProfileOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateProfile not implemented")
@@ -472,24 +452,6 @@ func _Cognito_ResendEmailVerification_Handler(srv interface{}, ctx context.Conte
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(CognitoServer).ResendEmailVerification(ctx, req.(*ResendEmailVerificationInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Cognito_UpdateEmail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateEmailInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(CognitoServer).UpdateEmail(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Cognito_UpdateEmail_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CognitoServer).UpdateEmail(ctx, req.(*UpdateEmailInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -704,10 +666,6 @@ var Cognito_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ResendEmailVerification",
 			Handler:    _Cognito_ResendEmailVerification_Handler,
-		},
-		{
-			MethodName: "UpdateEmail",
-			Handler:    _Cognito_UpdateEmail_Handler,
 		},
 		{
 			MethodName: "UpdateProfile",
