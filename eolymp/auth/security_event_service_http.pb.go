@@ -18,8 +18,8 @@ import (
 	http "net/http"
 )
 
-// _RISCService_HTTPReadQueryString parses body into proto.Message
-func _RISCService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+// _SecurityEventService_HTTPReadQueryString parses body into proto.Message
+func _SecurityEventService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
 	query := r.URL.Query().Get("q")
 	if query == "" {
 		return nil
@@ -32,8 +32,8 @@ func _RISCService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
 	return nil
 }
 
-// _RISCService_HTTPReadRequestBody parses body into proto.Message
-func _RISCService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
+// _SecurityEventService_HTTPReadRequestBody parses body into proto.Message
+func _SecurityEventService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
 	data, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		return err
@@ -46,11 +46,11 @@ func _RISCService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
 	return nil
 }
 
-// _RISCService_HTTPWriteResponse writes proto.Message to HTTP response
-func _RISCService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h, t metadata.MD) {
+// _SecurityEventService_HTTPWriteResponse writes proto.Message to HTTP response
+func _SecurityEventService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h, t metadata.MD) {
 	data, err := protojson.Marshal(v)
 	if err != nil {
-		_RISCService_HTTPWriteErrorResponse(w, err)
+		_SecurityEventService_HTTPWriteErrorResponse(w, err)
 		return
 	}
 
@@ -73,8 +73,8 @@ func _RISCService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h, t
 	_, _ = w.Write(data)
 }
 
-// _RISCService_HTTPWriteErrorResponse writes error to HTTP response with error status code
-func _RISCService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
+// _SecurityEventService_HTTPWriteErrorResponse writes error to HTTP response with error status code
+func _SecurityEventService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
 
 	w.Header().Set("Content-Type", "application/json")
@@ -126,8 +126,8 @@ func _RISCService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	_, _ = w.Write(data)
 }
 
-// _RISCService_WebsocketErrorResponse writes error to websocket connection
-func _RISCService_WebsocketErrorResponse(conn *websocket.Conn, e error) {
+// _SecurityEventService_WebsocketErrorResponse writes error to websocket connection
+func _SecurityEventService_WebsocketErrorResponse(conn *websocket.Conn, e error) {
 	switch status.Convert(e).Code() {
 	case codes.OK:
 		conn.WriteClose(1000)
@@ -168,8 +168,8 @@ func _RISCService_WebsocketErrorResponse(conn *websocket.Conn, e error) {
 	}
 }
 
-// _RISCService_WebsocketCodec implements protobuf codec for websockets package
-var _RISCService_WebsocketCodec = websocket.Codec{
+// _SecurityEventService_WebsocketCodec implements protobuf codec for websockets package
+var _SecurityEventService_WebsocketCodec = websocket.Codec{
 	Marshal: func(v interface{}) ([]byte, byte, error) {
 		m, ok := v.(proto.Message)
 		if !ok {
@@ -193,24 +193,24 @@ var _RISCService_WebsocketCodec = websocket.Codec{
 	},
 }
 
-// RegisterRISCServiceHttpHandlers adds handlers for for RISCServiceClient
+// RegisterSecurityEventServiceHttpHandlers adds handlers for for SecurityEventServiceClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
-func RegisterRISCServiceHttpHandlers(router *mux.Router, prefix string, cli RISCServiceClient) {
+func RegisterSecurityEventServiceHttpHandlers(router *mux.Router, prefix string, cli SecurityEventServiceClient) {
 }
 
-type _RISCServiceHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
-type _RISCServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _RISCServiceHandler) (out proto.Message, err error)
-type RISCServiceInterceptor struct {
-	middleware []_RISCServiceMiddleware
-	client     RISCServiceClient
+type _SecurityEventServiceHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
+type _SecurityEventServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _SecurityEventServiceHandler) (out proto.Message, err error)
+type SecurityEventServiceInterceptor struct {
+	middleware []_SecurityEventServiceMiddleware
+	client     SecurityEventServiceClient
 }
 
-// NewRISCServiceInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewRISCServiceInterceptor(cli RISCServiceClient, middleware ..._RISCServiceMiddleware) *RISCServiceInterceptor {
-	return &RISCServiceInterceptor{client: cli, middleware: middleware}
+// NewSecurityEventServiceInterceptor constructs additional middleware for a server based on annotations in proto files
+func NewSecurityEventServiceInterceptor(cli SecurityEventServiceClient, middleware ..._SecurityEventServiceMiddleware) *SecurityEventServiceInterceptor {
+	return &SecurityEventServiceInterceptor{client: cli, middleware: middleware}
 }
 
-func (i *RISCServiceInterceptor) HandleSecurityEvent(ctx context.Context, in *HandleSecurityEventInput, opts ...grpc.CallOption) (*HandleSecurityEventOutput, error) {
+func (i *SecurityEventServiceInterceptor) HandleSecurityEvent(ctx context.Context, in *HandleSecurityEventInput, opts ...grpc.CallOption) (*HandleSecurityEventOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*HandleSecurityEventInput)
 		if !ok && in != nil {
@@ -225,7 +225,7 @@ func (i *RISCServiceInterceptor) HandleSecurityEvent(ctx context.Context, in *Ha
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.auth.RISCService.HandleSecurityEvent", in, next)
+			return mw(ctx, "eolymp.auth.SecurityEventService.HandleSecurityEvent", in, next)
 		}
 	}
 

@@ -19,10 +19,6 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Cognito_CreateToken_FullMethodName             = "/eolymp.cognito.Cognito/CreateToken"
-	Cognito_IntrospectToken_FullMethodName         = "/eolymp.cognito.Cognito/IntrospectToken"
-	Cognito_RevokeToken_FullMethodName             = "/eolymp.cognito.Cognito/RevokeToken"
-	Cognito_Signout_FullMethodName                 = "/eolymp.cognito.Cognito/Signout"
 	Cognito_CreateAccessKey_FullMethodName         = "/eolymp.cognito.Cognito/CreateAccessKey"
 	Cognito_DeleteAccessKey_FullMethodName         = "/eolymp.cognito.Cognito/DeleteAccessKey"
 	Cognito_ListAccessKeys_FullMethodName          = "/eolymp.cognito.Cognito/ListAccessKeys"
@@ -37,9 +33,6 @@ const (
 	Cognito_DescribeUser_FullMethodName            = "/eolymp.cognito.Cognito/DescribeUser"
 	Cognito_ListUsers_FullMethodName               = "/eolymp.cognito.Cognito/ListUsers"
 	Cognito_IntrospectQuota_FullMethodName         = "/eolymp.cognito.Cognito/IntrospectQuota"
-	Cognito_IntrospectRoles_FullMethodName         = "/eolymp.cognito.Cognito/IntrospectRoles"
-	Cognito_ListRoles_FullMethodName               = "/eolymp.cognito.Cognito/ListRoles"
-	Cognito_UpdateRoles_FullMethodName             = "/eolymp.cognito.Cognito/UpdateRoles"
 	Cognito_StartRecovery_FullMethodName           = "/eolymp.cognito.Cognito/StartRecovery"
 	Cognito_CompleteRecovery_FullMethodName        = "/eolymp.cognito.Cognito/CompleteRecovery"
 	Cognito_SelfDestruct_FullMethodName            = "/eolymp.cognito.Cognito/SelfDestruct"
@@ -49,18 +42,6 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type CognitoClient interface {
-	// Create oauth access token.
-	// DEPRECATED: use oauth service directly
-	CreateToken(ctx context.Context, in *CreateTokenInput, opts ...grpc.CallOption) (*CreateTokenOutput, error)
-	// Introspect oauth token, returns access token details for a given token.
-	// DEPRECATED: use oauth service directly
-	IntrospectToken(ctx context.Context, in *IntrospectTokenInput, opts ...grpc.CallOption) (*IntrospectTokenOutput, error)
-	// Revoke token disables given token and related tokens.
-	// DEPRECATED: use oauth service directly
-	RevokeToken(ctx context.Context, in *RevokeTokenInput, opts ...grpc.CallOption) (*RevokeTokenOutput, error)
-	// Signout revokes all user's tokens or all tokens of current session.
-	// DEPRECATED: use oauth service directly
-	Signout(ctx context.Context, in *SignoutInput, opts ...grpc.CallOption) (*SignoutOutput, error)
 	// Create API key.
 	CreateAccessKey(ctx context.Context, in *CreateAccessKeyInput, opts ...grpc.CallOption) (*CreateAccessKeyOutput, error)
 	// Delete API key.
@@ -85,12 +66,6 @@ type CognitoClient interface {
 	ListUsers(ctx context.Context, in *ListUsersInput, opts ...grpc.CallOption) (*ListUsersOutput, error)
 	// Describe user's quota.
 	IntrospectQuota(ctx context.Context, in *IntrospectQuotaInput, opts ...grpc.CallOption) (*IntrospectQuotaOutput, error)
-	// List own roles.
-	IntrospectRoles(ctx context.Context, in *IntrospectRolesInput, opts ...grpc.CallOption) (*IntrospectRolesOutput, error)
-	// List roles assigned to a user.
-	ListRoles(ctx context.Context, in *ListRolesInput, opts ...grpc.CallOption) (*ListRolesOutput, error)
-	// Update user's roles.
-	UpdateRoles(ctx context.Context, in *UpdateRolesInput, opts ...grpc.CallOption) (*UpdateRolesOutput, error)
 	// Start access recovery procedure, this method will send recovery token to the user's email.
 	// This method will return OK even if email does not exist.
 	StartRecovery(ctx context.Context, in *StartRecoveryInput, opts ...grpc.CallOption) (*StartRecoveryOutput, error)
@@ -106,46 +81,6 @@ type cognitoClient struct {
 
 func NewCognitoClient(cc grpc.ClientConnInterface) CognitoClient {
 	return &cognitoClient{cc}
-}
-
-func (c *cognitoClient) CreateToken(ctx context.Context, in *CreateTokenInput, opts ...grpc.CallOption) (*CreateTokenOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(CreateTokenOutput)
-	err := c.cc.Invoke(ctx, Cognito_CreateToken_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *cognitoClient) IntrospectToken(ctx context.Context, in *IntrospectTokenInput, opts ...grpc.CallOption) (*IntrospectTokenOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(IntrospectTokenOutput)
-	err := c.cc.Invoke(ctx, Cognito_IntrospectToken_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *cognitoClient) RevokeToken(ctx context.Context, in *RevokeTokenInput, opts ...grpc.CallOption) (*RevokeTokenOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(RevokeTokenOutput)
-	err := c.cc.Invoke(ctx, Cognito_RevokeToken_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *cognitoClient) Signout(ctx context.Context, in *SignoutInput, opts ...grpc.CallOption) (*SignoutOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(SignoutOutput)
-	err := c.cc.Invoke(ctx, Cognito_Signout_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
 }
 
 func (c *cognitoClient) CreateAccessKey(ctx context.Context, in *CreateAccessKeyInput, opts ...grpc.CallOption) (*CreateAccessKeyOutput, error) {
@@ -288,36 +223,6 @@ func (c *cognitoClient) IntrospectQuota(ctx context.Context, in *IntrospectQuota
 	return out, nil
 }
 
-func (c *cognitoClient) IntrospectRoles(ctx context.Context, in *IntrospectRolesInput, opts ...grpc.CallOption) (*IntrospectRolesOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(IntrospectRolesOutput)
-	err := c.cc.Invoke(ctx, Cognito_IntrospectRoles_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *cognitoClient) ListRoles(ctx context.Context, in *ListRolesInput, opts ...grpc.CallOption) (*ListRolesOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ListRolesOutput)
-	err := c.cc.Invoke(ctx, Cognito_ListRoles_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *cognitoClient) UpdateRoles(ctx context.Context, in *UpdateRolesInput, opts ...grpc.CallOption) (*UpdateRolesOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(UpdateRolesOutput)
-	err := c.cc.Invoke(ctx, Cognito_UpdateRoles_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *cognitoClient) StartRecovery(ctx context.Context, in *StartRecoveryInput, opts ...grpc.CallOption) (*StartRecoveryOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(StartRecoveryOutput)
@@ -352,18 +257,6 @@ func (c *cognitoClient) SelfDestruct(ctx context.Context, in *SelfDestructInput,
 // All implementations should embed UnimplementedCognitoServer
 // for forward compatibility.
 type CognitoServer interface {
-	// Create oauth access token.
-	// DEPRECATED: use oauth service directly
-	CreateToken(context.Context, *CreateTokenInput) (*CreateTokenOutput, error)
-	// Introspect oauth token, returns access token details for a given token.
-	// DEPRECATED: use oauth service directly
-	IntrospectToken(context.Context, *IntrospectTokenInput) (*IntrospectTokenOutput, error)
-	// Revoke token disables given token and related tokens.
-	// DEPRECATED: use oauth service directly
-	RevokeToken(context.Context, *RevokeTokenInput) (*RevokeTokenOutput, error)
-	// Signout revokes all user's tokens or all tokens of current session.
-	// DEPRECATED: use oauth service directly
-	Signout(context.Context, *SignoutInput) (*SignoutOutput, error)
 	// Create API key.
 	CreateAccessKey(context.Context, *CreateAccessKeyInput) (*CreateAccessKeyOutput, error)
 	// Delete API key.
@@ -388,12 +281,6 @@ type CognitoServer interface {
 	ListUsers(context.Context, *ListUsersInput) (*ListUsersOutput, error)
 	// Describe user's quota.
 	IntrospectQuota(context.Context, *IntrospectQuotaInput) (*IntrospectQuotaOutput, error)
-	// List own roles.
-	IntrospectRoles(context.Context, *IntrospectRolesInput) (*IntrospectRolesOutput, error)
-	// List roles assigned to a user.
-	ListRoles(context.Context, *ListRolesInput) (*ListRolesOutput, error)
-	// Update user's roles.
-	UpdateRoles(context.Context, *UpdateRolesInput) (*UpdateRolesOutput, error)
 	// Start access recovery procedure, this method will send recovery token to the user's email.
 	// This method will return OK even if email does not exist.
 	StartRecovery(context.Context, *StartRecoveryInput) (*StartRecoveryOutput, error)
@@ -410,18 +297,6 @@ type CognitoServer interface {
 // pointer dereference when methods are called.
 type UnimplementedCognitoServer struct{}
 
-func (UnimplementedCognitoServer) CreateToken(context.Context, *CreateTokenInput) (*CreateTokenOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateToken not implemented")
-}
-func (UnimplementedCognitoServer) IntrospectToken(context.Context, *IntrospectTokenInput) (*IntrospectTokenOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method IntrospectToken not implemented")
-}
-func (UnimplementedCognitoServer) RevokeToken(context.Context, *RevokeTokenInput) (*RevokeTokenOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method RevokeToken not implemented")
-}
-func (UnimplementedCognitoServer) Signout(context.Context, *SignoutInput) (*SignoutOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Signout not implemented")
-}
 func (UnimplementedCognitoServer) CreateAccessKey(context.Context, *CreateAccessKeyInput) (*CreateAccessKeyOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateAccessKey not implemented")
 }
@@ -464,15 +339,6 @@ func (UnimplementedCognitoServer) ListUsers(context.Context, *ListUsersInput) (*
 func (UnimplementedCognitoServer) IntrospectQuota(context.Context, *IntrospectQuotaInput) (*IntrospectQuotaOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method IntrospectQuota not implemented")
 }
-func (UnimplementedCognitoServer) IntrospectRoles(context.Context, *IntrospectRolesInput) (*IntrospectRolesOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method IntrospectRoles not implemented")
-}
-func (UnimplementedCognitoServer) ListRoles(context.Context, *ListRolesInput) (*ListRolesOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListRoles not implemented")
-}
-func (UnimplementedCognitoServer) UpdateRoles(context.Context, *UpdateRolesInput) (*UpdateRolesOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateRoles not implemented")
-}
 func (UnimplementedCognitoServer) StartRecovery(context.Context, *StartRecoveryInput) (*StartRecoveryOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method StartRecovery not implemented")
 }
@@ -500,78 +366,6 @@ func RegisterCognitoServer(s grpc.ServiceRegistrar, srv CognitoServer) {
 		t.testEmbeddedByValue()
 	}
 	s.RegisterService(&Cognito_ServiceDesc, srv)
-}
-
-func _Cognito_CreateToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateTokenInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(CognitoServer).CreateToken(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Cognito_CreateToken_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CognitoServer).CreateToken(ctx, req.(*CreateTokenInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Cognito_IntrospectToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(IntrospectTokenInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(CognitoServer).IntrospectToken(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Cognito_IntrospectToken_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CognitoServer).IntrospectToken(ctx, req.(*IntrospectTokenInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Cognito_RevokeToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RevokeTokenInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(CognitoServer).RevokeToken(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Cognito_RevokeToken_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CognitoServer).RevokeToken(ctx, req.(*RevokeTokenInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Cognito_Signout_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SignoutInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(CognitoServer).Signout(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Cognito_Signout_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CognitoServer).Signout(ctx, req.(*SignoutInput))
-	}
-	return interceptor(ctx, in, info, handler)
 }
 
 func _Cognito_CreateAccessKey_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -826,60 +620,6 @@ func _Cognito_IntrospectQuota_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Cognito_IntrospectRoles_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(IntrospectRolesInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(CognitoServer).IntrospectRoles(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Cognito_IntrospectRoles_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CognitoServer).IntrospectRoles(ctx, req.(*IntrospectRolesInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Cognito_ListRoles_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListRolesInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(CognitoServer).ListRoles(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Cognito_ListRoles_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CognitoServer).ListRoles(ctx, req.(*ListRolesInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Cognito_UpdateRoles_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateRolesInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(CognitoServer).UpdateRoles(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Cognito_UpdateRoles_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CognitoServer).UpdateRoles(ctx, req.(*UpdateRolesInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _Cognito_StartRecovery_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(StartRecoveryInput)
 	if err := dec(in); err != nil {
@@ -942,22 +682,6 @@ var Cognito_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*CognitoServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "CreateToken",
-			Handler:    _Cognito_CreateToken_Handler,
-		},
-		{
-			MethodName: "IntrospectToken",
-			Handler:    _Cognito_IntrospectToken_Handler,
-		},
-		{
-			MethodName: "RevokeToken",
-			Handler:    _Cognito_RevokeToken_Handler,
-		},
-		{
-			MethodName: "Signout",
-			Handler:    _Cognito_Signout_Handler,
-		},
-		{
 			MethodName: "CreateAccessKey",
 			Handler:    _Cognito_CreateAccessKey_Handler,
 		},
@@ -1012,18 +736,6 @@ var Cognito_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "IntrospectQuota",
 			Handler:    _Cognito_IntrospectQuota_Handler,
-		},
-		{
-			MethodName: "IntrospectRoles",
-			Handler:    _Cognito_IntrospectRoles_Handler,
-		},
-		{
-			MethodName: "ListRoles",
-			Handler:    _Cognito_ListRoles_Handler,
-		},
-		{
-			MethodName: "UpdateRoles",
-			Handler:    _Cognito_UpdateRoles_Handler,
 		},
 		{
 			MethodName: "StartRecovery",

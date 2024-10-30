@@ -100,17 +100,6 @@ func (s *CognitoService) do(ctx context.Context, verb, path string, in, out prot
 	return nil
 }
 
-func (s *CognitoService) Signout(ctx context.Context, in *SignoutInput) (*SignoutOutput, error) {
-	out := &SignoutOutput{}
-	path := "/self/signout"
-
-	if err := s.do(ctx, "POST", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
 func (s *CognitoService) CreateAccessKey(ctx context.Context, in *CreateAccessKeyInput) (*CreateAccessKeyOutput, error) {
 	out := &CreateAccessKeyOutput{}
 	path := "/access-keys"
@@ -274,49 +263,6 @@ func (s *CognitoService) IntrospectQuota(ctx context.Context, in *IntrospectQuot
 	path := "/self/quota"
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *CognitoService) IntrospectRoles(ctx context.Context, in *IntrospectRolesInput) (*IntrospectRolesOutput, error) {
-	out := &IntrospectRolesOutput{}
-	path := "/self/roles"
-
-	if err := s.do(ctx, "GET", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *CognitoService) ListRoles(ctx context.Context, in *ListRolesInput) (*ListRolesOutput, error) {
-	out := &ListRolesOutput{}
-	path := "/users/" + url.PathEscape(in.GetUserId()) + "/roles"
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.UserId = ""
-	}
-
-	if err := s.do(ctx, "GET", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *CognitoService) UpdateRoles(ctx context.Context, in *UpdateRolesInput) (*UpdateRolesOutput, error) {
-	out := &UpdateRolesOutput{}
-	path := "/users/" + url.PathEscape(in.GetUserId()) + "/roles"
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.UserId = ""
-	}
-
-	if err := s.do(ctx, "PUT", path, in, out); err != nil {
 		return nil, err
 	}
 

@@ -16,17 +16,17 @@ import (
 	os "os"
 )
 
-type _RISCServiceHttpClient interface {
+type _SecurityEventServiceHttpClient interface {
 	Do(*http.Request) (*http.Response, error)
 }
 
-type RISCServiceService struct {
+type SecurityEventServiceService struct {
 	base string
-	cli  _RISCServiceHttpClient
+	cli  _SecurityEventServiceHttpClient
 }
 
-// NewRISCServiceHttpClient constructs client for RISCService
-func NewRISCServiceHttpClient(url string, cli _RISCServiceHttpClient) *RISCServiceService {
+// NewSecurityEventServiceHttpClient constructs client for SecurityEventService
+func NewSecurityEventServiceHttpClient(url string, cli _SecurityEventServiceHttpClient) *SecurityEventServiceService {
 	if url == "" {
 		url = os.Getenv("EOLYMP_API_URL")
 		if url == "" {
@@ -34,10 +34,10 @@ func NewRISCServiceHttpClient(url string, cli _RISCServiceHttpClient) *RISCServi
 		}
 	}
 
-	return &RISCServiceService{base: url, cli: cli}
+	return &SecurityEventServiceService{base: url, cli: cli}
 }
 
-func (s *RISCServiceService) do(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
+func (s *SecurityEventServiceService) do(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
 	var body io.Reader
 
 	if in != nil {
