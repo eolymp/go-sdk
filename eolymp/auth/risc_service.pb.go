@@ -254,7 +254,7 @@ type SecurityEvent_Event struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Type               string                 `protobuf:"bytes,1,opt,name=type,proto3" json:"type,omitempty"`
+	Type               string                 `protobuf:"bytes,1,opt,name=type,proto3" json:"type,omitempty"` // a URI of the event type: https://schemas.openid.net/secevent/risc/event-type/[...]
 	Subject            *SecurityEvent_Subject `protobuf:"bytes,10,opt,name=subject,proto3" json:"subject,omitempty"`
 	Reason             string                 `protobuf:"bytes,20,opt,name=reason,proto3" json:"reason,omitempty"`
 	State              string                 `protobuf:"bytes,30,opt,name=state,proto3" json:"state,omitempty"`
