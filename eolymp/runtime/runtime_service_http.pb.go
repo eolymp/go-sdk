@@ -208,7 +208,7 @@ func RegisterRuntimeServiceHttpHandlers(router *mux.Router, prefix string, cli R
 	router.Handle(prefix+"/runtime", _RuntimeService_ListRuntimes_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.runtime.RuntimeService.ListRuntimes")
-	router.Handle(prefix+"/exec/runtime/{runtime_id}/template", _RuntimeService_DescribeCodeTemplate_Rule0(cli)).
+	router.Handle(prefix+"/runtime/{runtime_id}/template", _RuntimeService_DescribeCodeTemplate_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.runtime.RuntimeService.DescribeCodeTemplate")
 }

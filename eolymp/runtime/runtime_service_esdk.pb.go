@@ -156,7 +156,7 @@ func (s *RuntimeServiceService) ListRuntimes(ctx context.Context, in *ListRuntim
 
 func (s *RuntimeServiceService) DescribeCodeTemplate(ctx context.Context, in *DescribeCodeTemplateInput) (*DescribeCodeTemplateOutput, error) {
 	out := &DescribeCodeTemplateOutput{}
-	path := "/exec/runtime/" + url.PathEscape(in.GetRuntimeId()) + "/template"
+	path := "/runtime/" + url.PathEscape(in.GetRuntimeId()) + "/template"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
