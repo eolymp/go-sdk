@@ -229,9 +229,9 @@ func RegisterProblemServiceHttpHandlers(router *mux.Router, prefix string, cli P
 	router.Handle(prefix+"/problems/{problem_id}/examples", _ProblemService_ListExamples_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ProblemService.ListExamples")
-	router.Handle(prefix+"/problems/{problem_id}/runtime", _ProblemService_ListRuntime_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/runtime", _ProblemService_ListRuntimes_Rule0(cli)).
 		Methods("GET").
-		Name("eolymp.judge.ProblemService.ListRuntime")
+		Name("eolymp.judge.ProblemService.ListRuntimes")
 }
 
 func _ProblemService_ImportProblem_Rule0(cli ProblemServiceClient) http.Handler {
@@ -504,9 +504,9 @@ func _ProblemService_ListExamples_Rule0(cli ProblemServiceClient) http.Handler {
 	})
 }
 
-func _ProblemService_ListRuntime_Rule0(cli ProblemServiceClient) http.Handler {
+func _ProblemService_ListRuntimes_Rule0(cli ProblemServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ListRuntimeInput{}
+		in := &ListRuntimesInput{}
 
 		if err := _ProblemService_HTTPReadQueryString(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
@@ -519,7 +519,7 @@ func _ProblemService_ListRuntime_Rule0(cli ProblemServiceClient) http.Handler {
 
 		var header, trailer metadata.MD
 
-		out, err := cli.ListRuntime(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		out, err := cli.ListRuntimes(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
@@ -893,14 +893,14 @@ func (i *ProblemServiceInterceptor) ListExamples(ctx context.Context, in *ListEx
 	return message, err
 }
 
-func (i *ProblemServiceInterceptor) ListRuntime(ctx context.Context, in *ListRuntimeInput, opts ...grpc.CallOption) (*ListRuntimeOutput, error) {
+func (i *ProblemServiceInterceptor) ListRuntimes(ctx context.Context, in *ListRuntimesInput, opts ...grpc.CallOption) (*ListRuntimesOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*ListRuntimeInput)
+		message, ok := in.(*ListRuntimesInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *ListRuntimeInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *ListRuntimesInput, got %T", in))
 		}
 
-		return i.client.ListRuntime(ctx, message, opts...)
+		return i.client.ListRuntimes(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -908,7 +908,7 @@ func (i *ProblemServiceInterceptor) ListRuntime(ctx context.Context, in *ListRun
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.ProblemService.ListRuntime", in, next)
+			return mw(ctx, "eolymp.judge.ProblemService.ListRuntimes", in, next)
 		}
 	}
 
@@ -917,9 +917,9 @@ func (i *ProblemServiceInterceptor) ListRuntime(ctx context.Context, in *ListRun
 		return nil, err
 	}
 
-	message, ok := out.(*ListRuntimeOutput)
+	message, ok := out.(*ListRuntimesOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *ListRuntimeOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *ListRuntimesOutput, got %T", out))
 	}
 
 	return message, err

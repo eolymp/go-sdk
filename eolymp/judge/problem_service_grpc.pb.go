@@ -30,7 +30,7 @@ const (
 	ProblemService_ListStatements_FullMethodName       = "/eolymp.judge.ProblemService/ListStatements"
 	ProblemService_ListAttachments_FullMethodName      = "/eolymp.judge.ProblemService/ListAttachments"
 	ProblemService_ListExamples_FullMethodName         = "/eolymp.judge.ProblemService/ListExamples"
-	ProblemService_ListRuntime_FullMethodName          = "/eolymp.judge.ProblemService/ListRuntime"
+	ProblemService_ListRuntimes_FullMethodName         = "/eolymp.judge.ProblemService/ListRuntimes"
 )
 
 // ProblemServiceClient is the client API for ProblemService service.
@@ -52,7 +52,7 @@ type ProblemServiceClient interface {
 	ListStatements(ctx context.Context, in *ListStatementsInput, opts ...grpc.CallOption) (*ListStatementsOutput, error)
 	ListAttachments(ctx context.Context, in *ListAttachmentsInput, opts ...grpc.CallOption) (*ListAttachmentsOutput, error)
 	ListExamples(ctx context.Context, in *ListExamplesInput, opts ...grpc.CallOption) (*ListExamplesOutput, error)
-	ListRuntime(ctx context.Context, in *ListRuntimeInput, opts ...grpc.CallOption) (*ListRuntimeOutput, error)
+	ListRuntimes(ctx context.Context, in *ListRuntimesInput, opts ...grpc.CallOption) (*ListRuntimesOutput, error)
 }
 
 type problemServiceClient struct {
@@ -173,10 +173,10 @@ func (c *problemServiceClient) ListExamples(ctx context.Context, in *ListExample
 	return out, nil
 }
 
-func (c *problemServiceClient) ListRuntime(ctx context.Context, in *ListRuntimeInput, opts ...grpc.CallOption) (*ListRuntimeOutput, error) {
+func (c *problemServiceClient) ListRuntimes(ctx context.Context, in *ListRuntimesInput, opts ...grpc.CallOption) (*ListRuntimesOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ListRuntimeOutput)
-	err := c.cc.Invoke(ctx, ProblemService_ListRuntime_FullMethodName, in, out, cOpts...)
+	out := new(ListRuntimesOutput)
+	err := c.cc.Invoke(ctx, ProblemService_ListRuntimes_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -202,7 +202,7 @@ type ProblemServiceServer interface {
 	ListStatements(context.Context, *ListStatementsInput) (*ListStatementsOutput, error)
 	ListAttachments(context.Context, *ListAttachmentsInput) (*ListAttachmentsOutput, error)
 	ListExamples(context.Context, *ListExamplesInput) (*ListExamplesOutput, error)
-	ListRuntime(context.Context, *ListRuntimeInput) (*ListRuntimeOutput, error)
+	ListRuntimes(context.Context, *ListRuntimesInput) (*ListRuntimesOutput, error)
 }
 
 // UnimplementedProblemServiceServer should be embedded to have
@@ -245,8 +245,8 @@ func (UnimplementedProblemServiceServer) ListAttachments(context.Context, *ListA
 func (UnimplementedProblemServiceServer) ListExamples(context.Context, *ListExamplesInput) (*ListExamplesOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListExamples not implemented")
 }
-func (UnimplementedProblemServiceServer) ListRuntime(context.Context, *ListRuntimeInput) (*ListRuntimeOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListRuntime not implemented")
+func (UnimplementedProblemServiceServer) ListRuntimes(context.Context, *ListRuntimesInput) (*ListRuntimesOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListRuntimes not implemented")
 }
 func (UnimplementedProblemServiceServer) testEmbeddedByValue() {}
 
@@ -466,20 +466,20 @@ func _ProblemService_ListExamples_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ProblemService_ListRuntime_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListRuntimeInput)
+func _ProblemService_ListRuntimes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListRuntimesInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ProblemServiceServer).ListRuntime(ctx, in)
+		return srv.(ProblemServiceServer).ListRuntimes(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ProblemService_ListRuntime_FullMethodName,
+		FullMethod: ProblemService_ListRuntimes_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProblemServiceServer).ListRuntime(ctx, req.(*ListRuntimeInput))
+		return srv.(ProblemServiceServer).ListRuntimes(ctx, req.(*ListRuntimesInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -536,8 +536,8 @@ var ProblemService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _ProblemService_ListExamples_Handler,
 		},
 		{
-			MethodName: "ListRuntime",
-			Handler:    _ProblemService_ListRuntime_Handler,
+			MethodName: "ListRuntimes",
+			Handler:    _ProblemService_ListRuntimes_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

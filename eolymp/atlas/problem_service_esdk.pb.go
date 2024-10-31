@@ -218,8 +218,8 @@ func (s *ProblemServiceService) ListVersions(ctx context.Context, in *ListVersio
 	return out, nil
 }
 
-func (s *ProblemServiceService) ListRuntime(ctx context.Context, in *ListRuntimeInput) (*ListRuntimeOutput, error) {
-	out := &ListRuntimeOutput{}
+func (s *ProblemServiceService) ListRuntimes(ctx context.Context, in *ListRuntimesInput) (*ListRuntimesOutput, error) {
+	out := &ListRuntimesOutput{}
 	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/runtime"
 
 	// Cleanup URL parameters to avoid any ambiguity
