@@ -196,16 +196,16 @@ var _RuntimeService_WebsocketCodec = websocket.Codec{
 // RegisterRuntimeServiceHttpHandlers adds handlers for for RuntimeServiceClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterRuntimeServiceHttpHandlers(router *mux.Router, prefix string, cli RuntimeServiceClient) {
-	router.Handle(prefix+"/exec/languages/{language_id}", _RuntimeService_DescribeLanguage_Rule0(cli)).
+	router.Handle(prefix+"/languages/{language_id}", _RuntimeService_DescribeLanguage_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.runtime.RuntimeService.DescribeLanguage")
-	router.Handle(prefix+"/exec/languages", _RuntimeService_ListLanguages_Rule0(cli)).
+	router.Handle(prefix+"/languages", _RuntimeService_ListLanguages_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.runtime.RuntimeService.ListLanguages")
-	router.Handle(prefix+"/exec/runtime/{runtime_id}", _RuntimeService_DescribeRuntime_Rule0(cli)).
+	router.Handle(prefix+"/runtime/{runtime_id}", _RuntimeService_DescribeRuntime_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.runtime.RuntimeService.DescribeRuntime")
-	router.Handle(prefix+"/exec/runtime", _RuntimeService_ListRuntimes_Rule0(cli)).
+	router.Handle(prefix+"/runtime", _RuntimeService_ListRuntimes_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.runtime.RuntimeService.ListRuntimes")
 	router.Handle(prefix+"/exec/runtime/{runtime_id}/template", _RuntimeService_DescribeCodeTemplate_Rule0(cli)).

@@ -102,7 +102,7 @@ func (s *RuntimeServiceService) do(ctx context.Context, verb, path string, in, o
 
 func (s *RuntimeServiceService) DescribeLanguage(ctx context.Context, in *DescribeLanguageInput) (*DescribeLanguageOutput, error) {
 	out := &DescribeLanguageOutput{}
-	path := "/exec/languages/" + url.PathEscape(in.GetLanguageId())
+	path := "/languages/" + url.PathEscape(in.GetLanguageId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
@@ -118,7 +118,7 @@ func (s *RuntimeServiceService) DescribeLanguage(ctx context.Context, in *Descri
 
 func (s *RuntimeServiceService) ListLanguages(ctx context.Context, in *ListLanguagesInput) (*ListLanguagesOutput, error) {
 	out := &ListLanguagesOutput{}
-	path := "/exec/languages"
+	path := "/languages"
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
@@ -129,7 +129,7 @@ func (s *RuntimeServiceService) ListLanguages(ctx context.Context, in *ListLangu
 
 func (s *RuntimeServiceService) DescribeRuntime(ctx context.Context, in *DescribeRuntimeInput) (*DescribeRuntimeOutput, error) {
 	out := &DescribeRuntimeOutput{}
-	path := "/exec/runtime/" + url.PathEscape(in.GetRuntimeId())
+	path := "/runtime/" + url.PathEscape(in.GetRuntimeId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
@@ -145,7 +145,7 @@ func (s *RuntimeServiceService) DescribeRuntime(ctx context.Context, in *Describ
 
 func (s *RuntimeServiceService) ListRuntimes(ctx context.Context, in *ListRuntimesInput) (*ListRuntimesOutput, error) {
 	out := &ListRuntimesOutput{}
-	path := "/exec/runtime"
+	path := "/runtime"
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
