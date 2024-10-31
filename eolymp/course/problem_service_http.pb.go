@@ -287,6 +287,9 @@ func RegisterProblemServiceHttpHandlers(router *mux.Router, prefix string, cli P
 	router.Handle(prefix+"/runs/{run_id}/watch", _ProblemService_WatchRun_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.ProblemService.WatchRun")
+	router.Handle(prefix+"/runtime", _ProblemService_ListRuntimes_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.course.ProblemService.ListRuntimes")
 }
 
 func _ProblemService_ListStatements_Rule0(cli ProblemServiceClient) http.Handler {
@@ -476,6 +479,28 @@ func _ProblemService_WatchRun_Rule0(cli ProblemServiceClient) http.Handler {
 		if err := ws.WriteClose(1000); err != nil {
 			panic(err)
 		}
+	})
+}
+
+func _ProblemService_ListRuntimes_Rule0(cli ProblemServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListRuntimesInput{}
+
+		if err := _ProblemService_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_ProblemService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.ListRuntimes(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ProblemService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ProblemService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 
@@ -753,4 +778,36 @@ func (i *ProblemServiceInterceptor) DescribeRun(ctx context.Context, in *Describ
 
 func (i *ProblemServiceInterceptor) WatchRun(ctx context.Context, in *WatchRunInput, opts ...grpc.CallOption) (ProblemService_WatchRunClient, error) {
 	return i.client.WatchRun(ctx, in, opts...)
+}
+
+func (i *ProblemServiceInterceptor) ListRuntimes(ctx context.Context, in *ListRuntimesInput, opts ...grpc.CallOption) (*ListRuntimesOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ListRuntimesInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ListRuntimesInput, got %T", in))
+		}
+
+		return i.client.ListRuntimes(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.course.ProblemService.ListRuntimes", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ListRuntimesOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ListRuntimesOutput, got %T", out))
+	}
+
+	return message, err
 }

@@ -29,6 +29,7 @@ const (
 	ProblemService_CreateRun_FullMethodName          = "/eolymp.course.ProblemService/CreateRun"
 	ProblemService_DescribeRun_FullMethodName        = "/eolymp.course.ProblemService/DescribeRun"
 	ProblemService_WatchRun_FullMethodName           = "/eolymp.course.ProblemService/WatchRun"
+	ProblemService_ListRuntimes_FullMethodName       = "/eolymp.course.ProblemService/ListRuntimes"
 )
 
 // ProblemServiceClient is the client API for ProblemService service.
@@ -45,6 +46,7 @@ type ProblemServiceClient interface {
 	CreateRun(ctx context.Context, in *CreateRunInput, opts ...grpc.CallOption) (*CreateRunOutput, error)
 	DescribeRun(ctx context.Context, in *DescribeRunInput, opts ...grpc.CallOption) (*DescribeRunOutput, error)
 	WatchRun(ctx context.Context, in *WatchRunInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchRunOutput], error)
+	ListRuntimes(ctx context.Context, in *ListRuntimesInput, opts ...grpc.CallOption) (*ListRuntimesOutput, error)
 }
 
 type problemServiceClient struct {
@@ -173,6 +175,16 @@ func (c *problemServiceClient) WatchRun(ctx context.Context, in *WatchRunInput, 
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type ProblemService_WatchRunClient = grpc.ServerStreamingClient[WatchRunOutput]
 
+func (c *problemServiceClient) ListRuntimes(ctx context.Context, in *ListRuntimesInput, opts ...grpc.CallOption) (*ListRuntimesOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListRuntimesOutput)
+	err := c.cc.Invoke(ctx, ProblemService_ListRuntimes_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ProblemServiceServer is the server API for ProblemService service.
 // All implementations should embed UnimplementedProblemServiceServer
 // for forward compatibility.
@@ -187,6 +199,7 @@ type ProblemServiceServer interface {
 	CreateRun(context.Context, *CreateRunInput) (*CreateRunOutput, error)
 	DescribeRun(context.Context, *DescribeRunInput) (*DescribeRunOutput, error)
 	WatchRun(*WatchRunInput, grpc.ServerStreamingServer[WatchRunOutput]) error
+	ListRuntimes(context.Context, *ListRuntimesInput) (*ListRuntimesOutput, error)
 }
 
 // UnimplementedProblemServiceServer should be embedded to have
@@ -225,6 +238,9 @@ func (UnimplementedProblemServiceServer) DescribeRun(context.Context, *DescribeR
 }
 func (UnimplementedProblemServiceServer) WatchRun(*WatchRunInput, grpc.ServerStreamingServer[WatchRunOutput]) error {
 	return status.Errorf(codes.Unimplemented, "method WatchRun not implemented")
+}
+func (UnimplementedProblemServiceServer) ListRuntimes(context.Context, *ListRuntimesInput) (*ListRuntimesOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListRuntimes not implemented")
 }
 func (UnimplementedProblemServiceServer) testEmbeddedByValue() {}
 
@@ -412,6 +428,24 @@ func _ProblemService_WatchRun_Handler(srv interface{}, stream grpc.ServerStream)
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type ProblemService_WatchRunServer = grpc.ServerStreamingServer[WatchRunOutput]
 
+func _ProblemService_ListRuntimes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListRuntimesInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProblemServiceServer).ListRuntimes(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProblemService_ListRuntimes_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProblemServiceServer).ListRuntimes(ctx, req.(*ListRuntimesInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ProblemService_ServiceDesc is the grpc.ServiceDesc for ProblemService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -450,6 +484,10 @@ var ProblemService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DescribeRun",
 			Handler:    _ProblemService_DescribeRun_Handler,
+		},
+		{
+			MethodName: "ListRuntimes",
+			Handler:    _ProblemService_ListRuntimes_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

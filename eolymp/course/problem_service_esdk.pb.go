@@ -213,3 +213,14 @@ func (s *ProblemServiceService) WatchRun(ctx context.Context, in *WatchRunInput)
 
 	return out, nil
 }
+
+func (s *ProblemServiceService) ListRuntimes(ctx context.Context, in *ListRuntimesInput) (*ListRuntimesOutput, error) {
+	out := &ListRuntimesOutput{}
+	path := "/runtime"
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
