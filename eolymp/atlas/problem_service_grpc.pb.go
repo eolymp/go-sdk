@@ -27,6 +27,7 @@ const (
 	ProblemService_SyncProblem_FullMethodName     = "/eolymp.atlas.ProblemService/SyncProblem"
 	ProblemService_VoteProblem_FullMethodName     = "/eolymp.atlas.ProblemService/VoteProblem"
 	ProblemService_ListVersions_FullMethodName    = "/eolymp.atlas.ProblemService/ListVersions"
+	ProblemService_ListRuntime_FullMethodName     = "/eolymp.atlas.ProblemService/ListRuntime"
 )
 
 // ProblemServiceClient is the client API for ProblemService service.
@@ -41,6 +42,7 @@ type ProblemServiceClient interface {
 	SyncProblem(ctx context.Context, in *SyncProblemInput, opts ...grpc.CallOption) (*SyncProblemOutput, error)
 	VoteProblem(ctx context.Context, in *VoteProblemInput, opts ...grpc.CallOption) (*VoteProblemOutput, error)
 	ListVersions(ctx context.Context, in *ListVersionsInput, opts ...grpc.CallOption) (*ListVersionsOutput, error)
+	ListRuntime(ctx context.Context, in *ListRuntimeInput, opts ...grpc.CallOption) (*ListRuntimeOutput, error)
 }
 
 type problemServiceClient struct {
@@ -131,6 +133,16 @@ func (c *problemServiceClient) ListVersions(ctx context.Context, in *ListVersion
 	return out, nil
 }
 
+func (c *problemServiceClient) ListRuntime(ctx context.Context, in *ListRuntimeInput, opts ...grpc.CallOption) (*ListRuntimeOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListRuntimeOutput)
+	err := c.cc.Invoke(ctx, ProblemService_ListRuntime_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ProblemServiceServer is the server API for ProblemService service.
 // All implementations should embed UnimplementedProblemServiceServer
 // for forward compatibility.
@@ -143,6 +155,7 @@ type ProblemServiceServer interface {
 	SyncProblem(context.Context, *SyncProblemInput) (*SyncProblemOutput, error)
 	VoteProblem(context.Context, *VoteProblemInput) (*VoteProblemOutput, error)
 	ListVersions(context.Context, *ListVersionsInput) (*ListVersionsOutput, error)
+	ListRuntime(context.Context, *ListRuntimeInput) (*ListRuntimeOutput, error)
 }
 
 // UnimplementedProblemServiceServer should be embedded to have
@@ -175,6 +188,9 @@ func (UnimplementedProblemServiceServer) VoteProblem(context.Context, *VoteProbl
 }
 func (UnimplementedProblemServiceServer) ListVersions(context.Context, *ListVersionsInput) (*ListVersionsOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListVersions not implemented")
+}
+func (UnimplementedProblemServiceServer) ListRuntime(context.Context, *ListRuntimeInput) (*ListRuntimeOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListRuntime not implemented")
 }
 func (UnimplementedProblemServiceServer) testEmbeddedByValue() {}
 
@@ -340,6 +356,24 @@ func _ProblemService_ListVersions_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ProblemService_ListRuntime_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListRuntimeInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProblemServiceServer).ListRuntime(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProblemService_ListRuntime_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProblemServiceServer).ListRuntime(ctx, req.(*ListRuntimeInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ProblemService_ServiceDesc is the grpc.ServiceDesc for ProblemService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -378,6 +412,10 @@ var ProblemService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListVersions",
 			Handler:    _ProblemService_ListVersions_Handler,
+		},
+		{
+			MethodName: "ListRuntime",
+			Handler:    _ProblemService_ListRuntime_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

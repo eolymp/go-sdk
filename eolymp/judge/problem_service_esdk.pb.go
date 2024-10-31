@@ -266,3 +266,19 @@ func (s *ProblemServiceService) ListExamples(ctx context.Context, in *ListExampl
 
 	return out, nil
 }
+
+func (s *ProblemServiceService) ListRuntime(ctx context.Context, in *ListRuntimeInput) (*ListRuntimeOutput, error) {
+	out := &ListRuntimeOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/runtime"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
