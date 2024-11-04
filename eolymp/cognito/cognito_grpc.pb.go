@@ -19,56 +19,21 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Cognito_CreateAccessKey_FullMethodName         = "/eolymp.cognito.Cognito/CreateAccessKey"
-	Cognito_DeleteAccessKey_FullMethodName         = "/eolymp.cognito.Cognito/DeleteAccessKey"
-	Cognito_ListAccessKeys_FullMethodName          = "/eolymp.cognito.Cognito/ListAccessKeys"
-	Cognito_CreateUser_FullMethodName              = "/eolymp.cognito.Cognito/CreateUser"
-	Cognito_VerifyEmail_FullMethodName             = "/eolymp.cognito.Cognito/VerifyEmail"
-	Cognito_ResendEmailVerification_FullMethodName = "/eolymp.cognito.Cognito/ResendEmailVerification"
-	Cognito_UpdateProfile_FullMethodName           = "/eolymp.cognito.Cognito/UpdateProfile"
-	Cognito_UpdatePicture_FullMethodName           = "/eolymp.cognito.Cognito/UpdatePicture"
-	Cognito_UpdatePassword_FullMethodName          = "/eolymp.cognito.Cognito/UpdatePassword"
-	Cognito_IntrospectUser_FullMethodName          = "/eolymp.cognito.Cognito/IntrospectUser"
-	Cognito_DescribeUser_FullMethodName            = "/eolymp.cognito.Cognito/DescribeUser"
-	Cognito_ListUsers_FullMethodName               = "/eolymp.cognito.Cognito/ListUsers"
-	Cognito_IntrospectQuota_FullMethodName         = "/eolymp.cognito.Cognito/IntrospectQuota"
-	Cognito_StartRecovery_FullMethodName           = "/eolymp.cognito.Cognito/StartRecovery"
-	Cognito_CompleteRecovery_FullMethodName        = "/eolymp.cognito.Cognito/CompleteRecovery"
-	Cognito_SelfDestruct_FullMethodName            = "/eolymp.cognito.Cognito/SelfDestruct"
+	Cognito_IntrospectUser_FullMethodName = "/eolymp.cognito.Cognito/IntrospectUser"
+	Cognito_DescribeUser_FullMethodName   = "/eolymp.cognito.Cognito/DescribeUser"
+	Cognito_ListUsers_FullMethodName      = "/eolymp.cognito.Cognito/ListUsers"
 )
 
 // CognitoClient is the client API for Cognito service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type CognitoClient interface {
-	// Create API key.
-	CreateAccessKey(ctx context.Context, in *CreateAccessKeyInput, opts ...grpc.CallOption) (*CreateAccessKeyOutput, error)
-	// Delete API key.
-	DeleteAccessKey(ctx context.Context, in *DeleteAccessKeyInput, opts ...grpc.CallOption) (*DeleteAccessKeyOutput, error)
-	ListAccessKeys(ctx context.Context, in *ListAccessKeysInput, opts ...grpc.CallOption) (*ListAccessKeysOutput, error)
-	// Create user account.
-	CreateUser(ctx context.Context, in *CreateUserInput, opts ...grpc.CallOption) (*CreateUserOutput, error)
-	// Verify user email, takes email verification token and if it's correct - changes email status to CONFIRMED.
-	VerifyEmail(ctx context.Context, in *VerifyEmailInput, opts ...grpc.CallOption) (*VerifyEmailOutput, error)
-	ResendEmailVerification(ctx context.Context, in *ResendEmailVerificationInput, opts ...grpc.CallOption) (*ResendEmailVerificationOutput, error)
-	UpdateProfile(ctx context.Context, in *UpdateProfileInput, opts ...grpc.CallOption) (*UpdateProfileOutput, error)
-	UpdatePicture(ctx context.Context, in *UpdatePictureInput, opts ...grpc.CallOption) (*UpdatePictureOutput, error)
-	UpdatePassword(ctx context.Context, in *UpdatePasswordInput, opts ...grpc.CallOption) (*UpdatePasswordOutput, error)
-	// Introspect user, returns user profile for authenticated user.
+	// deprecated. Introspect user, returns user profile for authenticated user.
 	IntrospectUser(ctx context.Context, in *IntrospectUserInput, opts ...grpc.CallOption) (*IntrospectUserOutput, error)
-	// Describe user by ID.
+	// deprecated. Describe user by ID.
 	DescribeUser(ctx context.Context, in *DescribeUserInput, opts ...grpc.CallOption) (*DescribeUserOutput, error)
-	// List users.
+	// deprecated. List users.
 	ListUsers(ctx context.Context, in *ListUsersInput, opts ...grpc.CallOption) (*ListUsersOutput, error)
-	// Describe user's quota.
-	IntrospectQuota(ctx context.Context, in *IntrospectQuotaInput, opts ...grpc.CallOption) (*IntrospectQuotaOutput, error)
-	// Start access recovery procedure, this method will send recovery token to the user's email.
-	// This method will return OK even if email does not exist.
-	StartRecovery(ctx context.Context, in *StartRecoveryInput, opts ...grpc.CallOption) (*StartRecoveryOutput, error)
-	// Finish recovery procedure by setting new password, this method requires token sent by email using `StartRecovery`
-	// method
-	CompleteRecovery(ctx context.Context, in *CompleteRecoverInput, opts ...grpc.CallOption) (*CompleteRecoverOutput, error)
-	SelfDestruct(ctx context.Context, in *SelfDestructInput, opts ...grpc.CallOption) (*SelfDestructOutput, error)
 }
 
 type cognitoClient struct {
@@ -77,96 +42,6 @@ type cognitoClient struct {
 
 func NewCognitoClient(cc grpc.ClientConnInterface) CognitoClient {
 	return &cognitoClient{cc}
-}
-
-func (c *cognitoClient) CreateAccessKey(ctx context.Context, in *CreateAccessKeyInput, opts ...grpc.CallOption) (*CreateAccessKeyOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(CreateAccessKeyOutput)
-	err := c.cc.Invoke(ctx, Cognito_CreateAccessKey_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *cognitoClient) DeleteAccessKey(ctx context.Context, in *DeleteAccessKeyInput, opts ...grpc.CallOption) (*DeleteAccessKeyOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DeleteAccessKeyOutput)
-	err := c.cc.Invoke(ctx, Cognito_DeleteAccessKey_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *cognitoClient) ListAccessKeys(ctx context.Context, in *ListAccessKeysInput, opts ...grpc.CallOption) (*ListAccessKeysOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ListAccessKeysOutput)
-	err := c.cc.Invoke(ctx, Cognito_ListAccessKeys_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *cognitoClient) CreateUser(ctx context.Context, in *CreateUserInput, opts ...grpc.CallOption) (*CreateUserOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(CreateUserOutput)
-	err := c.cc.Invoke(ctx, Cognito_CreateUser_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *cognitoClient) VerifyEmail(ctx context.Context, in *VerifyEmailInput, opts ...grpc.CallOption) (*VerifyEmailOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(VerifyEmailOutput)
-	err := c.cc.Invoke(ctx, Cognito_VerifyEmail_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *cognitoClient) ResendEmailVerification(ctx context.Context, in *ResendEmailVerificationInput, opts ...grpc.CallOption) (*ResendEmailVerificationOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ResendEmailVerificationOutput)
-	err := c.cc.Invoke(ctx, Cognito_ResendEmailVerification_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *cognitoClient) UpdateProfile(ctx context.Context, in *UpdateProfileInput, opts ...grpc.CallOption) (*UpdateProfileOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(UpdateProfileOutput)
-	err := c.cc.Invoke(ctx, Cognito_UpdateProfile_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *cognitoClient) UpdatePicture(ctx context.Context, in *UpdatePictureInput, opts ...grpc.CallOption) (*UpdatePictureOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(UpdatePictureOutput)
-	err := c.cc.Invoke(ctx, Cognito_UpdatePicture_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *cognitoClient) UpdatePassword(ctx context.Context, in *UpdatePasswordInput, opts ...grpc.CallOption) (*UpdatePasswordOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(UpdatePasswordOutput)
-	err := c.cc.Invoke(ctx, Cognito_UpdatePassword_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
 }
 
 func (c *cognitoClient) IntrospectUser(ctx context.Context, in *IntrospectUserInput, opts ...grpc.CallOption) (*IntrospectUserOutput, error) {
@@ -199,78 +74,16 @@ func (c *cognitoClient) ListUsers(ctx context.Context, in *ListUsersInput, opts 
 	return out, nil
 }
 
-func (c *cognitoClient) IntrospectQuota(ctx context.Context, in *IntrospectQuotaInput, opts ...grpc.CallOption) (*IntrospectQuotaOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(IntrospectQuotaOutput)
-	err := c.cc.Invoke(ctx, Cognito_IntrospectQuota_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *cognitoClient) StartRecovery(ctx context.Context, in *StartRecoveryInput, opts ...grpc.CallOption) (*StartRecoveryOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(StartRecoveryOutput)
-	err := c.cc.Invoke(ctx, Cognito_StartRecovery_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *cognitoClient) CompleteRecovery(ctx context.Context, in *CompleteRecoverInput, opts ...grpc.CallOption) (*CompleteRecoverOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(CompleteRecoverOutput)
-	err := c.cc.Invoke(ctx, Cognito_CompleteRecovery_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *cognitoClient) SelfDestruct(ctx context.Context, in *SelfDestructInput, opts ...grpc.CallOption) (*SelfDestructOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(SelfDestructOutput)
-	err := c.cc.Invoke(ctx, Cognito_SelfDestruct_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // CognitoServer is the server API for Cognito service.
 // All implementations should embed UnimplementedCognitoServer
 // for forward compatibility.
 type CognitoServer interface {
-	// Create API key.
-	CreateAccessKey(context.Context, *CreateAccessKeyInput) (*CreateAccessKeyOutput, error)
-	// Delete API key.
-	DeleteAccessKey(context.Context, *DeleteAccessKeyInput) (*DeleteAccessKeyOutput, error)
-	ListAccessKeys(context.Context, *ListAccessKeysInput) (*ListAccessKeysOutput, error)
-	// Create user account.
-	CreateUser(context.Context, *CreateUserInput) (*CreateUserOutput, error)
-	// Verify user email, takes email verification token and if it's correct - changes email status to CONFIRMED.
-	VerifyEmail(context.Context, *VerifyEmailInput) (*VerifyEmailOutput, error)
-	ResendEmailVerification(context.Context, *ResendEmailVerificationInput) (*ResendEmailVerificationOutput, error)
-	UpdateProfile(context.Context, *UpdateProfileInput) (*UpdateProfileOutput, error)
-	UpdatePicture(context.Context, *UpdatePictureInput) (*UpdatePictureOutput, error)
-	UpdatePassword(context.Context, *UpdatePasswordInput) (*UpdatePasswordOutput, error)
-	// Introspect user, returns user profile for authenticated user.
+	// deprecated. Introspect user, returns user profile for authenticated user.
 	IntrospectUser(context.Context, *IntrospectUserInput) (*IntrospectUserOutput, error)
-	// Describe user by ID.
+	// deprecated. Describe user by ID.
 	DescribeUser(context.Context, *DescribeUserInput) (*DescribeUserOutput, error)
-	// List users.
+	// deprecated. List users.
 	ListUsers(context.Context, *ListUsersInput) (*ListUsersOutput, error)
-	// Describe user's quota.
-	IntrospectQuota(context.Context, *IntrospectQuotaInput) (*IntrospectQuotaOutput, error)
-	// Start access recovery procedure, this method will send recovery token to the user's email.
-	// This method will return OK even if email does not exist.
-	StartRecovery(context.Context, *StartRecoveryInput) (*StartRecoveryOutput, error)
-	// Finish recovery procedure by setting new password, this method requires token sent by email using `StartRecovery`
-	// method
-	CompleteRecovery(context.Context, *CompleteRecoverInput) (*CompleteRecoverOutput, error)
-	SelfDestruct(context.Context, *SelfDestructInput) (*SelfDestructOutput, error)
 }
 
 // UnimplementedCognitoServer should be embedded to have
@@ -280,33 +93,6 @@ type CognitoServer interface {
 // pointer dereference when methods are called.
 type UnimplementedCognitoServer struct{}
 
-func (UnimplementedCognitoServer) CreateAccessKey(context.Context, *CreateAccessKeyInput) (*CreateAccessKeyOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateAccessKey not implemented")
-}
-func (UnimplementedCognitoServer) DeleteAccessKey(context.Context, *DeleteAccessKeyInput) (*DeleteAccessKeyOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteAccessKey not implemented")
-}
-func (UnimplementedCognitoServer) ListAccessKeys(context.Context, *ListAccessKeysInput) (*ListAccessKeysOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListAccessKeys not implemented")
-}
-func (UnimplementedCognitoServer) CreateUser(context.Context, *CreateUserInput) (*CreateUserOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateUser not implemented")
-}
-func (UnimplementedCognitoServer) VerifyEmail(context.Context, *VerifyEmailInput) (*VerifyEmailOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method VerifyEmail not implemented")
-}
-func (UnimplementedCognitoServer) ResendEmailVerification(context.Context, *ResendEmailVerificationInput) (*ResendEmailVerificationOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ResendEmailVerification not implemented")
-}
-func (UnimplementedCognitoServer) UpdateProfile(context.Context, *UpdateProfileInput) (*UpdateProfileOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateProfile not implemented")
-}
-func (UnimplementedCognitoServer) UpdatePicture(context.Context, *UpdatePictureInput) (*UpdatePictureOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdatePicture not implemented")
-}
-func (UnimplementedCognitoServer) UpdatePassword(context.Context, *UpdatePasswordInput) (*UpdatePasswordOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdatePassword not implemented")
-}
 func (UnimplementedCognitoServer) IntrospectUser(context.Context, *IntrospectUserInput) (*IntrospectUserOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method IntrospectUser not implemented")
 }
@@ -315,18 +101,6 @@ func (UnimplementedCognitoServer) DescribeUser(context.Context, *DescribeUserInp
 }
 func (UnimplementedCognitoServer) ListUsers(context.Context, *ListUsersInput) (*ListUsersOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListUsers not implemented")
-}
-func (UnimplementedCognitoServer) IntrospectQuota(context.Context, *IntrospectQuotaInput) (*IntrospectQuotaOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method IntrospectQuota not implemented")
-}
-func (UnimplementedCognitoServer) StartRecovery(context.Context, *StartRecoveryInput) (*StartRecoveryOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method StartRecovery not implemented")
-}
-func (UnimplementedCognitoServer) CompleteRecovery(context.Context, *CompleteRecoverInput) (*CompleteRecoverOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CompleteRecovery not implemented")
-}
-func (UnimplementedCognitoServer) SelfDestruct(context.Context, *SelfDestructInput) (*SelfDestructOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SelfDestruct not implemented")
 }
 func (UnimplementedCognitoServer) testEmbeddedByValue() {}
 
@@ -346,168 +120,6 @@ func RegisterCognitoServer(s grpc.ServiceRegistrar, srv CognitoServer) {
 		t.testEmbeddedByValue()
 	}
 	s.RegisterService(&Cognito_ServiceDesc, srv)
-}
-
-func _Cognito_CreateAccessKey_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateAccessKeyInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(CognitoServer).CreateAccessKey(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Cognito_CreateAccessKey_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CognitoServer).CreateAccessKey(ctx, req.(*CreateAccessKeyInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Cognito_DeleteAccessKey_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteAccessKeyInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(CognitoServer).DeleteAccessKey(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Cognito_DeleteAccessKey_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CognitoServer).DeleteAccessKey(ctx, req.(*DeleteAccessKeyInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Cognito_ListAccessKeys_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListAccessKeysInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(CognitoServer).ListAccessKeys(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Cognito_ListAccessKeys_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CognitoServer).ListAccessKeys(ctx, req.(*ListAccessKeysInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Cognito_CreateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateUserInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(CognitoServer).CreateUser(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Cognito_CreateUser_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CognitoServer).CreateUser(ctx, req.(*CreateUserInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Cognito_VerifyEmail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(VerifyEmailInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(CognitoServer).VerifyEmail(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Cognito_VerifyEmail_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CognitoServer).VerifyEmail(ctx, req.(*VerifyEmailInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Cognito_ResendEmailVerification_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ResendEmailVerificationInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(CognitoServer).ResendEmailVerification(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Cognito_ResendEmailVerification_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CognitoServer).ResendEmailVerification(ctx, req.(*ResendEmailVerificationInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Cognito_UpdateProfile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateProfileInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(CognitoServer).UpdateProfile(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Cognito_UpdateProfile_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CognitoServer).UpdateProfile(ctx, req.(*UpdateProfileInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Cognito_UpdatePicture_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdatePictureInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(CognitoServer).UpdatePicture(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Cognito_UpdatePicture_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CognitoServer).UpdatePicture(ctx, req.(*UpdatePictureInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Cognito_UpdatePassword_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdatePasswordInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(CognitoServer).UpdatePassword(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Cognito_UpdatePassword_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CognitoServer).UpdatePassword(ctx, req.(*UpdatePasswordInput))
-	}
-	return interceptor(ctx, in, info, handler)
 }
 
 func _Cognito_IntrospectUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -564,78 +176,6 @@ func _Cognito_ListUsers_Handler(srv interface{}, ctx context.Context, dec func(i
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Cognito_IntrospectQuota_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(IntrospectQuotaInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(CognitoServer).IntrospectQuota(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Cognito_IntrospectQuota_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CognitoServer).IntrospectQuota(ctx, req.(*IntrospectQuotaInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Cognito_StartRecovery_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(StartRecoveryInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(CognitoServer).StartRecovery(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Cognito_StartRecovery_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CognitoServer).StartRecovery(ctx, req.(*StartRecoveryInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Cognito_CompleteRecovery_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CompleteRecoverInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(CognitoServer).CompleteRecovery(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Cognito_CompleteRecovery_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CognitoServer).CompleteRecovery(ctx, req.(*CompleteRecoverInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Cognito_SelfDestruct_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SelfDestructInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(CognitoServer).SelfDestruct(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Cognito_SelfDestruct_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CognitoServer).SelfDestruct(ctx, req.(*SelfDestructInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // Cognito_ServiceDesc is the grpc.ServiceDesc for Cognito service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -643,42 +183,6 @@ var Cognito_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "eolymp.cognito.Cognito",
 	HandlerType: (*CognitoServer)(nil),
 	Methods: []grpc.MethodDesc{
-		{
-			MethodName: "CreateAccessKey",
-			Handler:    _Cognito_CreateAccessKey_Handler,
-		},
-		{
-			MethodName: "DeleteAccessKey",
-			Handler:    _Cognito_DeleteAccessKey_Handler,
-		},
-		{
-			MethodName: "ListAccessKeys",
-			Handler:    _Cognito_ListAccessKeys_Handler,
-		},
-		{
-			MethodName: "CreateUser",
-			Handler:    _Cognito_CreateUser_Handler,
-		},
-		{
-			MethodName: "VerifyEmail",
-			Handler:    _Cognito_VerifyEmail_Handler,
-		},
-		{
-			MethodName: "ResendEmailVerification",
-			Handler:    _Cognito_ResendEmailVerification_Handler,
-		},
-		{
-			MethodName: "UpdateProfile",
-			Handler:    _Cognito_UpdateProfile_Handler,
-		},
-		{
-			MethodName: "UpdatePicture",
-			Handler:    _Cognito_UpdatePicture_Handler,
-		},
-		{
-			MethodName: "UpdatePassword",
-			Handler:    _Cognito_UpdatePassword_Handler,
-		},
 		{
 			MethodName: "IntrospectUser",
 			Handler:    _Cognito_IntrospectUser_Handler,
@@ -690,22 +194,6 @@ var Cognito_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListUsers",
 			Handler:    _Cognito_ListUsers_Handler,
-		},
-		{
-			MethodName: "IntrospectQuota",
-			Handler:    _Cognito_IntrospectQuota_Handler,
-		},
-		{
-			MethodName: "StartRecovery",
-			Handler:    _Cognito_StartRecovery_Handler,
-		},
-		{
-			MethodName: "CompleteRecovery",
-			Handler:    _Cognito_CompleteRecovery_Handler,
-		},
-		{
-			MethodName: "SelfDestruct",
-			Handler:    _Cognito_SelfDestruct_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

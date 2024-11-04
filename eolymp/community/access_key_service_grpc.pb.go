@@ -2,9 +2,9 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             v3.21.12
-// source: eolymp/cognito/access_key_service.proto
+// source: eolymp/community/access_key_service.proto
 
-package cognito
+package community
 
 import (
 	context "context"
@@ -19,9 +19,9 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	AccessKeyService_CreateAccessKey_FullMethodName = "/eolymp.cognito.AccessKeyService/CreateAccessKey"
-	AccessKeyService_DeleteAccessKey_FullMethodName = "/eolymp.cognito.AccessKeyService/DeleteAccessKey"
-	AccessKeyService_ListAccessKeys_FullMethodName  = "/eolymp.cognito.AccessKeyService/ListAccessKeys"
+	AccessKeyService_CreateAccessKey_FullMethodName = "/eolymp.community.AccessKeyService/CreateAccessKey"
+	AccessKeyService_DeleteAccessKey_FullMethodName = "/eolymp.community.AccessKeyService/DeleteAccessKey"
+	AccessKeyService_ListAccessKeys_FullMethodName  = "/eolymp.community.AccessKeyService/ListAccessKeys"
 )
 
 // AccessKeyServiceClient is the client API for AccessKeyService service.
@@ -178,7 +178,7 @@ func _AccessKeyService_ListAccessKeys_Handler(srv interface{}, ctx context.Conte
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var AccessKeyService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "eolymp.cognito.AccessKeyService",
+	ServiceName: "eolymp.community.AccessKeyService",
 	HandlerType: (*AccessKeyServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -195,5 +195,5 @@ var AccessKeyService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "eolymp/cognito/access_key_service.proto",
+	Metadata: "eolymp/community/access_key_service.proto",
 }
