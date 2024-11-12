@@ -21,7 +21,7 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	PenaltyService_CreatePenalty_FullMethodName   = "/eolymp.community.PenaltyService/CreatePenalty"
 	PenaltyService_UpdatePenalty_FullMethodName   = "/eolymp.community.PenaltyService/UpdatePenalty"
-	PenaltyService_CancelPenalty_FullMethodName   = "/eolymp.community.PenaltyService/CancelPenalty"
+	PenaltyService_DeletePenalty_FullMethodName   = "/eolymp.community.PenaltyService/DeletePenalty"
 	PenaltyService_DescribePenalty_FullMethodName = "/eolymp.community.PenaltyService/DescribePenalty"
 	PenaltyService_ListPenalties_FullMethodName   = "/eolymp.community.PenaltyService/ListPenalties"
 )
@@ -32,7 +32,7 @@ const (
 type PenaltyServiceClient interface {
 	CreatePenalty(ctx context.Context, in *CreatePenaltyInput, opts ...grpc.CallOption) (*CreatePenaltyOutput, error)
 	UpdatePenalty(ctx context.Context, in *UpdatePenaltyInput, opts ...grpc.CallOption) (*UpdatePenaltyOutput, error)
-	CancelPenalty(ctx context.Context, in *CancelPenaltyInput, opts ...grpc.CallOption) (*CancelPenaltyOutput, error)
+	DeletePenalty(ctx context.Context, in *DeletePenaltyInput, opts ...grpc.CallOption) (*DeletePenaltyOutput, error)
 	DescribePenalty(ctx context.Context, in *DescribePenaltyInput, opts ...grpc.CallOption) (*DescribePenaltyOutput, error)
 	ListPenalties(ctx context.Context, in *ListPenaltiesInput, opts ...grpc.CallOption) (*ListPenaltiesOutput, error)
 }
@@ -65,10 +65,10 @@ func (c *penaltyServiceClient) UpdatePenalty(ctx context.Context, in *UpdatePena
 	return out, nil
 }
 
-func (c *penaltyServiceClient) CancelPenalty(ctx context.Context, in *CancelPenaltyInput, opts ...grpc.CallOption) (*CancelPenaltyOutput, error) {
+func (c *penaltyServiceClient) DeletePenalty(ctx context.Context, in *DeletePenaltyInput, opts ...grpc.CallOption) (*DeletePenaltyOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(CancelPenaltyOutput)
-	err := c.cc.Invoke(ctx, PenaltyService_CancelPenalty_FullMethodName, in, out, cOpts...)
+	out := new(DeletePenaltyOutput)
+	err := c.cc.Invoke(ctx, PenaltyService_DeletePenalty_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -101,7 +101,7 @@ func (c *penaltyServiceClient) ListPenalties(ctx context.Context, in *ListPenalt
 type PenaltyServiceServer interface {
 	CreatePenalty(context.Context, *CreatePenaltyInput) (*CreatePenaltyOutput, error)
 	UpdatePenalty(context.Context, *UpdatePenaltyInput) (*UpdatePenaltyOutput, error)
-	CancelPenalty(context.Context, *CancelPenaltyInput) (*CancelPenaltyOutput, error)
+	DeletePenalty(context.Context, *DeletePenaltyInput) (*DeletePenaltyOutput, error)
 	DescribePenalty(context.Context, *DescribePenaltyInput) (*DescribePenaltyOutput, error)
 	ListPenalties(context.Context, *ListPenaltiesInput) (*ListPenaltiesOutput, error)
 }
@@ -119,8 +119,8 @@ func (UnimplementedPenaltyServiceServer) CreatePenalty(context.Context, *CreateP
 func (UnimplementedPenaltyServiceServer) UpdatePenalty(context.Context, *UpdatePenaltyInput) (*UpdatePenaltyOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdatePenalty not implemented")
 }
-func (UnimplementedPenaltyServiceServer) CancelPenalty(context.Context, *CancelPenaltyInput) (*CancelPenaltyOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CancelPenalty not implemented")
+func (UnimplementedPenaltyServiceServer) DeletePenalty(context.Context, *DeletePenaltyInput) (*DeletePenaltyOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeletePenalty not implemented")
 }
 func (UnimplementedPenaltyServiceServer) DescribePenalty(context.Context, *DescribePenaltyInput) (*DescribePenaltyOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribePenalty not implemented")
@@ -184,20 +184,20 @@ func _PenaltyService_UpdatePenalty_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
-func _PenaltyService_CancelPenalty_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CancelPenaltyInput)
+func _PenaltyService_DeletePenalty_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeletePenaltyInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PenaltyServiceServer).CancelPenalty(ctx, in)
+		return srv.(PenaltyServiceServer).DeletePenalty(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: PenaltyService_CancelPenalty_FullMethodName,
+		FullMethod: PenaltyService_DeletePenalty_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PenaltyServiceServer).CancelPenalty(ctx, req.(*CancelPenaltyInput))
+		return srv.(PenaltyServiceServer).DeletePenalty(ctx, req.(*DeletePenaltyInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -254,8 +254,8 @@ var PenaltyService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _PenaltyService_UpdatePenalty_Handler,
 		},
 		{
-			MethodName: "CancelPenalty",
-			Handler:    _PenaltyService_CancelPenalty_Handler,
+			MethodName: "DeletePenalty",
+			Handler:    _PenaltyService_DeletePenalty_Handler,
 		},
 		{
 			MethodName: "DescribePenalty",

@@ -202,9 +202,9 @@ func RegisterPenaltyServiceHttpHandlers(router *mux.Router, prefix string, cli P
 	router.Handle(prefix+"/penalties/{penalty_id}", _PenaltyService_UpdatePenalty_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.community.PenaltyService.UpdatePenalty")
-	router.Handle(prefix+"/penalties/{penalty_id}", _PenaltyService_CancelPenalty_Rule0(cli)).
+	router.Handle(prefix+"/penalties/{penalty_id}", _PenaltyService_DeletePenalty_Rule0(cli)).
 		Methods("DELETE").
-		Name("eolymp.community.PenaltyService.CancelPenalty")
+		Name("eolymp.community.PenaltyService.DeletePenalty")
 	router.Handle(prefix+"/penalties/{penalty_id}", _PenaltyService_DescribePenalty_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.community.PenaltyService.DescribePenalty")
@@ -260,9 +260,9 @@ func _PenaltyService_UpdatePenalty_Rule0(cli PenaltyServiceClient) http.Handler 
 	})
 }
 
-func _PenaltyService_CancelPenalty_Rule0(cli PenaltyServiceClient) http.Handler {
+func _PenaltyService_DeletePenalty_Rule0(cli PenaltyServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &CancelPenaltyInput{}
+		in := &DeletePenaltyInput{}
 
 		if err := _PenaltyService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
@@ -275,7 +275,7 @@ func _PenaltyService_CancelPenalty_Rule0(cli PenaltyServiceClient) http.Handler 
 
 		var header, trailer metadata.MD
 
-		out, err := cli.CancelPenalty(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		out, err := cli.DeletePenalty(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_PenaltyService_HTTPWriteErrorResponse(w, err)
 			return
@@ -408,14 +408,14 @@ func (i *PenaltyServiceInterceptor) UpdatePenalty(ctx context.Context, in *Updat
 	return message, err
 }
 
-func (i *PenaltyServiceInterceptor) CancelPenalty(ctx context.Context, in *CancelPenaltyInput, opts ...grpc.CallOption) (*CancelPenaltyOutput, error) {
+func (i *PenaltyServiceInterceptor) DeletePenalty(ctx context.Context, in *DeletePenaltyInput, opts ...grpc.CallOption) (*DeletePenaltyOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*CancelPenaltyInput)
+		message, ok := in.(*DeletePenaltyInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *CancelPenaltyInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *DeletePenaltyInput, got %T", in))
 		}
 
-		return i.client.CancelPenalty(ctx, message, opts...)
+		return i.client.DeletePenalty(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -423,7 +423,7 @@ func (i *PenaltyServiceInterceptor) CancelPenalty(ctx context.Context, in *Cance
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.community.PenaltyService.CancelPenalty", in, next)
+			return mw(ctx, "eolymp.community.PenaltyService.DeletePenalty", in, next)
 		}
 	}
 
@@ -432,9 +432,9 @@ func (i *PenaltyServiceInterceptor) CancelPenalty(ctx context.Context, in *Cance
 		return nil, err
 	}
 
-	message, ok := out.(*CancelPenaltyOutput)
+	message, ok := out.(*DeletePenaltyOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *CancelPenaltyOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *DeletePenaltyOutput, got %T", out))
 	}
 
 	return message, err

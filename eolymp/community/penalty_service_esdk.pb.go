@@ -127,8 +127,8 @@ func (s *PenaltyServiceService) UpdatePenalty(ctx context.Context, in *UpdatePen
 	return out, nil
 }
 
-func (s *PenaltyServiceService) CancelPenalty(ctx context.Context, in *CancelPenaltyInput) (*CancelPenaltyOutput, error) {
-	out := &CancelPenaltyOutput{}
+func (s *PenaltyServiceService) DeletePenalty(ctx context.Context, in *DeletePenaltyInput) (*DeletePenaltyOutput, error) {
+	out := &DeletePenaltyOutput{}
 	path := "/penalties/" + url.PathEscape(in.GetPenaltyId())
 
 	// Cleanup URL parameters to avoid any ambiguity
