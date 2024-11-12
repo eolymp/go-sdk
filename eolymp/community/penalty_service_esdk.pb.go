@@ -111,6 +111,22 @@ func (s *PenaltyServiceService) CreatePenalty(ctx context.Context, in *CreatePen
 	return out, nil
 }
 
+func (s *PenaltyServiceService) UpdatePenalty(ctx context.Context, in *UpdatePenaltyInput) (*UpdatePenaltyOutput, error) {
+	out := &UpdatePenaltyOutput{}
+	path := "/penalties/" + url.PathEscape(in.GetPenaltyId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.PenaltyId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *PenaltyServiceService) CancelPenalty(ctx context.Context, in *CancelPenaltyInput) (*CancelPenaltyOutput, error) {
 	out := &CancelPenaltyOutput{}
 	path := "/penalties/" + url.PathEscape(in.GetPenaltyId())

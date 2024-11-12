@@ -20,6 +20,7 @@ const _ = grpc.SupportPackageIsVersion9
 
 const (
 	PenaltyService_CreatePenalty_FullMethodName   = "/eolymp.community.PenaltyService/CreatePenalty"
+	PenaltyService_UpdatePenalty_FullMethodName   = "/eolymp.community.PenaltyService/UpdatePenalty"
 	PenaltyService_CancelPenalty_FullMethodName   = "/eolymp.community.PenaltyService/CancelPenalty"
 	PenaltyService_DescribePenalty_FullMethodName = "/eolymp.community.PenaltyService/DescribePenalty"
 	PenaltyService_ListPenalties_FullMethodName   = "/eolymp.community.PenaltyService/ListPenalties"
@@ -30,6 +31,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type PenaltyServiceClient interface {
 	CreatePenalty(ctx context.Context, in *CreatePenaltyInput, opts ...grpc.CallOption) (*CreatePenaltyOutput, error)
+	UpdatePenalty(ctx context.Context, in *UpdatePenaltyInput, opts ...grpc.CallOption) (*UpdatePenaltyOutput, error)
 	CancelPenalty(ctx context.Context, in *CancelPenaltyInput, opts ...grpc.CallOption) (*CancelPenaltyOutput, error)
 	DescribePenalty(ctx context.Context, in *DescribePenaltyInput, opts ...grpc.CallOption) (*DescribePenaltyOutput, error)
 	ListPenalties(ctx context.Context, in *ListPenaltiesInput, opts ...grpc.CallOption) (*ListPenaltiesOutput, error)
@@ -47,6 +49,16 @@ func (c *penaltyServiceClient) CreatePenalty(ctx context.Context, in *CreatePena
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(CreatePenaltyOutput)
 	err := c.cc.Invoke(ctx, PenaltyService_CreatePenalty_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *penaltyServiceClient) UpdatePenalty(ctx context.Context, in *UpdatePenaltyInput, opts ...grpc.CallOption) (*UpdatePenaltyOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdatePenaltyOutput)
+	err := c.cc.Invoke(ctx, PenaltyService_UpdatePenalty_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -88,6 +100,7 @@ func (c *penaltyServiceClient) ListPenalties(ctx context.Context, in *ListPenalt
 // for forward compatibility.
 type PenaltyServiceServer interface {
 	CreatePenalty(context.Context, *CreatePenaltyInput) (*CreatePenaltyOutput, error)
+	UpdatePenalty(context.Context, *UpdatePenaltyInput) (*UpdatePenaltyOutput, error)
 	CancelPenalty(context.Context, *CancelPenaltyInput) (*CancelPenaltyOutput, error)
 	DescribePenalty(context.Context, *DescribePenaltyInput) (*DescribePenaltyOutput, error)
 	ListPenalties(context.Context, *ListPenaltiesInput) (*ListPenaltiesOutput, error)
@@ -102,6 +115,9 @@ type UnimplementedPenaltyServiceServer struct{}
 
 func (UnimplementedPenaltyServiceServer) CreatePenalty(context.Context, *CreatePenaltyInput) (*CreatePenaltyOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreatePenalty not implemented")
+}
+func (UnimplementedPenaltyServiceServer) UpdatePenalty(context.Context, *UpdatePenaltyInput) (*UpdatePenaltyOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdatePenalty not implemented")
 }
 func (UnimplementedPenaltyServiceServer) CancelPenalty(context.Context, *CancelPenaltyInput) (*CancelPenaltyOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CancelPenalty not implemented")
@@ -146,6 +162,24 @@ func _PenaltyService_CreatePenalty_Handler(srv interface{}, ctx context.Context,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PenaltyServiceServer).CreatePenalty(ctx, req.(*CreatePenaltyInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PenaltyService_UpdatePenalty_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdatePenaltyInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PenaltyServiceServer).UpdatePenalty(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PenaltyService_UpdatePenalty_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PenaltyServiceServer).UpdatePenalty(ctx, req.(*UpdatePenaltyInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -214,6 +248,10 @@ var PenaltyService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreatePenalty",
 			Handler:    _PenaltyService_CreatePenalty_Handler,
+		},
+		{
+			MethodName: "UpdatePenalty",
+			Handler:    _PenaltyService_UpdatePenalty_Handler,
 		},
 		{
 			MethodName: "CancelPenalty",

@@ -199,6 +199,9 @@ func RegisterPenaltyServiceHttpHandlers(router *mux.Router, prefix string, cli P
 	router.Handle(prefix+"/penalties", _PenaltyService_CreatePenalty_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.community.PenaltyService.CreatePenalty")
+	router.Handle(prefix+"/penalties/{penalty_id}", _PenaltyService_UpdatePenalty_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.community.PenaltyService.UpdatePenalty")
 	router.Handle(prefix+"/penalties/{penalty_id}", _PenaltyService_CancelPenalty_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.community.PenaltyService.CancelPenalty")
@@ -223,6 +226,31 @@ func _PenaltyService_CreatePenalty_Rule0(cli PenaltyServiceClient) http.Handler 
 		var header, trailer metadata.MD
 
 		out, err := cli.CreatePenalty(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_PenaltyService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_PenaltyService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _PenaltyService_UpdatePenalty_Rule0(cli PenaltyServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UpdatePenaltyInput{}
+
+		if err := _PenaltyService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_PenaltyService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.PenaltyId = vars["penalty_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdatePenalty(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_PenaltyService_HTTPWriteErrorResponse(w, err)
 			return
@@ -343,6 +371,38 @@ func (i *PenaltyServiceInterceptor) CreatePenalty(ctx context.Context, in *Creat
 	message, ok := out.(*CreatePenaltyOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *CreatePenaltyOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *PenaltyServiceInterceptor) UpdatePenalty(ctx context.Context, in *UpdatePenaltyInput, opts ...grpc.CallOption) (*UpdatePenaltyOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*UpdatePenaltyInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *UpdatePenaltyInput, got %T", in))
+		}
+
+		return i.client.UpdatePenalty(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.community.PenaltyService.UpdatePenalty", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*UpdatePenaltyOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *UpdatePenaltyOutput, got %T", out))
 	}
 
 	return message, err
