@@ -191,3 +191,14 @@ func (s *StatementServiceService) ListStatements(ctx context.Context, in *ListSt
 
 	return out, nil
 }
+
+func (s *StatementServiceService) TranslateStatements(ctx context.Context, in *TranslateStatementsInput) (*TranslateStatementsOutput, error) {
+	out := &TranslateStatementsOutput{}
+	path := "/statements:translate"
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

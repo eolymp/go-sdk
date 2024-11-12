@@ -217,6 +217,9 @@ func RegisterStatementServiceHttpHandlers(router *mux.Router, prefix string, cli
 	router.Handle(prefix+"/statements", _StatementService_ListStatements_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.StatementService.ListStatements")
+	router.Handle(prefix+"/statements:translate", _StatementService_TranslateStatements_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.atlas.StatementService.TranslateStatements")
 }
 
 func _StatementService_CreateStatement_Rule0(cli StatementServiceClient) http.Handler {
@@ -373,6 +376,28 @@ func _StatementService_ListStatements_Rule0(cli StatementServiceClient) http.Han
 		var header, trailer metadata.MD
 
 		out, err := cli.ListStatements(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_StatementService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_StatementService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _StatementService_TranslateStatements_Rule0(cli StatementServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &TranslateStatementsInput{}
+
+		if err := _StatementService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_StatementService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.TranslateStatements(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_StatementService_HTTPWriteErrorResponse(w, err)
 			return
@@ -613,6 +638,38 @@ func (i *StatementServiceInterceptor) ListStatements(ctx context.Context, in *Li
 	message, ok := out.(*ListStatementsOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *ListStatementsOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *StatementServiceInterceptor) TranslateStatements(ctx context.Context, in *TranslateStatementsInput, opts ...grpc.CallOption) (*TranslateStatementsOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*TranslateStatementsInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *TranslateStatementsInput, got %T", in))
+		}
+
+		return i.client.TranslateStatements(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.StatementService.TranslateStatements", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*TranslateStatementsOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *TranslateStatementsOutput, got %T", out))
 	}
 
 	return message, err

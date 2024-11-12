@@ -19,13 +19,14 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	StatementService_CreateStatement_FullMethodName   = "/eolymp.atlas.StatementService/CreateStatement"
-	StatementService_UpdateStatement_FullMethodName   = "/eolymp.atlas.StatementService/UpdateStatement"
-	StatementService_DeleteStatement_FullMethodName   = "/eolymp.atlas.StatementService/DeleteStatement"
-	StatementService_DescribeStatement_FullMethodName = "/eolymp.atlas.StatementService/DescribeStatement"
-	StatementService_LookupStatement_FullMethodName   = "/eolymp.atlas.StatementService/LookupStatement"
-	StatementService_PreviewStatement_FullMethodName  = "/eolymp.atlas.StatementService/PreviewStatement"
-	StatementService_ListStatements_FullMethodName    = "/eolymp.atlas.StatementService/ListStatements"
+	StatementService_CreateStatement_FullMethodName     = "/eolymp.atlas.StatementService/CreateStatement"
+	StatementService_UpdateStatement_FullMethodName     = "/eolymp.atlas.StatementService/UpdateStatement"
+	StatementService_DeleteStatement_FullMethodName     = "/eolymp.atlas.StatementService/DeleteStatement"
+	StatementService_DescribeStatement_FullMethodName   = "/eolymp.atlas.StatementService/DescribeStatement"
+	StatementService_LookupStatement_FullMethodName     = "/eolymp.atlas.StatementService/LookupStatement"
+	StatementService_PreviewStatement_FullMethodName    = "/eolymp.atlas.StatementService/PreviewStatement"
+	StatementService_ListStatements_FullMethodName      = "/eolymp.atlas.StatementService/ListStatements"
+	StatementService_TranslateStatements_FullMethodName = "/eolymp.atlas.StatementService/TranslateStatements"
 )
 
 // StatementServiceClient is the client API for StatementService service.
@@ -44,6 +45,7 @@ type StatementServiceClient interface {
 	// This method can be used to render statement before it has been saved.
 	PreviewStatement(ctx context.Context, in *PreviewStatementInput, opts ...grpc.CallOption) (*PreviewStatementOutput, error)
 	ListStatements(ctx context.Context, in *ListStatementsInput, opts ...grpc.CallOption) (*ListStatementsOutput, error)
+	TranslateStatements(ctx context.Context, in *TranslateStatementsInput, opts ...grpc.CallOption) (*TranslateStatementsOutput, error)
 }
 
 type statementServiceClient struct {
@@ -124,6 +126,16 @@ func (c *statementServiceClient) ListStatements(ctx context.Context, in *ListSta
 	return out, nil
 }
 
+func (c *statementServiceClient) TranslateStatements(ctx context.Context, in *TranslateStatementsInput, opts ...grpc.CallOption) (*TranslateStatementsOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(TranslateStatementsOutput)
+	err := c.cc.Invoke(ctx, StatementService_TranslateStatements_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // StatementServiceServer is the server API for StatementService service.
 // All implementations should embed UnimplementedStatementServiceServer
 // for forward compatibility.
@@ -140,6 +152,7 @@ type StatementServiceServer interface {
 	// This method can be used to render statement before it has been saved.
 	PreviewStatement(context.Context, *PreviewStatementInput) (*PreviewStatementOutput, error)
 	ListStatements(context.Context, *ListStatementsInput) (*ListStatementsOutput, error)
+	TranslateStatements(context.Context, *TranslateStatementsInput) (*TranslateStatementsOutput, error)
 }
 
 // UnimplementedStatementServiceServer should be embedded to have
@@ -169,6 +182,9 @@ func (UnimplementedStatementServiceServer) PreviewStatement(context.Context, *Pr
 }
 func (UnimplementedStatementServiceServer) ListStatements(context.Context, *ListStatementsInput) (*ListStatementsOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListStatements not implemented")
+}
+func (UnimplementedStatementServiceServer) TranslateStatements(context.Context, *TranslateStatementsInput) (*TranslateStatementsOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method TranslateStatements not implemented")
 }
 func (UnimplementedStatementServiceServer) testEmbeddedByValue() {}
 
@@ -316,6 +332,24 @@ func _StatementService_ListStatements_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _StatementService_TranslateStatements_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TranslateStatementsInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StatementServiceServer).TranslateStatements(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StatementService_TranslateStatements_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StatementServiceServer).TranslateStatements(ctx, req.(*TranslateStatementsInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // StatementService_ServiceDesc is the grpc.ServiceDesc for StatementService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -350,6 +384,10 @@ var StatementService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListStatements",
 			Handler:    _StatementService_ListStatements_Handler,
+		},
+		{
+			MethodName: "TranslateStatements",
+			Handler:    _StatementService_TranslateStatements_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
