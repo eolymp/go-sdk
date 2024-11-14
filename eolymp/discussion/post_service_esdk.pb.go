@@ -186,6 +186,22 @@ func (s *PostServiceService) UnpublishPost(ctx context.Context, in *UnpublishPos
 	return out, nil
 }
 
+func (s *PostServiceService) ModeratePost(ctx context.Context, in *ModeratePostInput) (*ModeratePostOutput, error) {
+	out := &ModeratePostOutput{}
+	path := "/posts/" + url.PathEscape(in.GetPostId()) + "/moderate"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.PostId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *PostServiceService) DeletePost(ctx context.Context, in *DeletePostInput) (*DeletePostOutput, error) {
 	out := &DeletePostOutput{}
 	path := "/posts/" + url.PathEscape(in.GetPostId())

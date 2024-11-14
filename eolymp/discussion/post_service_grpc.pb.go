@@ -25,6 +25,7 @@ const (
 	PostService_UpdatePost_FullMethodName              = "/eolymp.discussion.PostService/UpdatePost"
 	PostService_PublishPost_FullMethodName             = "/eolymp.discussion.PostService/PublishPost"
 	PostService_UnpublishPost_FullMethodName           = "/eolymp.discussion.PostService/UnpublishPost"
+	PostService_ModeratePost_FullMethodName            = "/eolymp.discussion.PostService/ModeratePost"
 	PostService_DeletePost_FullMethodName              = "/eolymp.discussion.PostService/DeletePost"
 	PostService_VotePost_FullMethodName                = "/eolymp.discussion.PostService/VotePost"
 	PostService_DescribePostTranslation_FullMethodName = "/eolymp.discussion.PostService/DescribePostTranslation"
@@ -44,6 +45,7 @@ type PostServiceClient interface {
 	UpdatePost(ctx context.Context, in *UpdatePostInput, opts ...grpc.CallOption) (*UpdatePostOutput, error)
 	PublishPost(ctx context.Context, in *PublishPostInput, opts ...grpc.CallOption) (*PublishPostOutput, error)
 	UnpublishPost(ctx context.Context, in *UnpublishPostInput, opts ...grpc.CallOption) (*UnpublishPostOutput, error)
+	ModeratePost(ctx context.Context, in *ModeratePostInput, opts ...grpc.CallOption) (*ModeratePostOutput, error)
 	DeletePost(ctx context.Context, in *DeletePostInput, opts ...grpc.CallOption) (*DeletePostOutput, error)
 	VotePost(ctx context.Context, in *VotePostInput, opts ...grpc.CallOption) (*VotePostOutput, error)
 	DescribePostTranslation(ctx context.Context, in *DescribePostTranslationInput, opts ...grpc.CallOption) (*DescribePostTranslationOutput, error)
@@ -115,6 +117,16 @@ func (c *postServiceClient) UnpublishPost(ctx context.Context, in *UnpublishPost
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UnpublishPostOutput)
 	err := c.cc.Invoke(ctx, PostService_UnpublishPost_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *postServiceClient) ModeratePost(ctx context.Context, in *ModeratePostInput, opts ...grpc.CallOption) (*ModeratePostOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ModeratePostOutput)
+	err := c.cc.Invoke(ctx, PostService_ModeratePost_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -201,6 +213,7 @@ type PostServiceServer interface {
 	UpdatePost(context.Context, *UpdatePostInput) (*UpdatePostOutput, error)
 	PublishPost(context.Context, *PublishPostInput) (*PublishPostOutput, error)
 	UnpublishPost(context.Context, *UnpublishPostInput) (*UnpublishPostOutput, error)
+	ModeratePost(context.Context, *ModeratePostInput) (*ModeratePostOutput, error)
 	DeletePost(context.Context, *DeletePostInput) (*DeletePostOutput, error)
 	VotePost(context.Context, *VotePostInput) (*VotePostOutput, error)
 	DescribePostTranslation(context.Context, *DescribePostTranslationInput) (*DescribePostTranslationOutput, error)
@@ -234,6 +247,9 @@ func (UnimplementedPostServiceServer) PublishPost(context.Context, *PublishPostI
 }
 func (UnimplementedPostServiceServer) UnpublishPost(context.Context, *UnpublishPostInput) (*UnpublishPostOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UnpublishPost not implemented")
+}
+func (UnimplementedPostServiceServer) ModeratePost(context.Context, *ModeratePostInput) (*ModeratePostOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ModeratePost not implemented")
 }
 func (UnimplementedPostServiceServer) DeletePost(context.Context, *DeletePostInput) (*DeletePostOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeletePost not implemented")
@@ -380,6 +396,24 @@ func _PostService_UnpublishPost_Handler(srv interface{}, ctx context.Context, de
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PostServiceServer).UnpublishPost(ctx, req.(*UnpublishPostInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PostService_ModeratePost_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ModeratePostInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PostServiceServer).ModeratePost(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PostService_ModeratePost_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PostServiceServer).ModeratePost(ctx, req.(*ModeratePostInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -540,6 +574,10 @@ var PostService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UnpublishPost",
 			Handler:    _PostService_UnpublishPost_Handler,
+		},
+		{
+			MethodName: "ModeratePost",
+			Handler:    _PostService_ModeratePost_Handler,
 		},
 		{
 			MethodName: "DeletePost",
