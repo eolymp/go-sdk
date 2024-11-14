@@ -154,6 +154,38 @@ func (s *PostServiceService) UpdatePost(ctx context.Context, in *UpdatePostInput
 	return out, nil
 }
 
+func (s *PostServiceService) PublishPost(ctx context.Context, in *PublishPostInput) (*PublishPostOutput, error) {
+	out := &PublishPostOutput{}
+	path := "/posts/" + url.PathEscape(in.GetPostId()) + "/publish"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.PostId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *PostServiceService) UnpublishPost(ctx context.Context, in *UnpublishPostInput) (*UnpublishPostOutput, error) {
+	out := &UnpublishPostOutput{}
+	path := "/posts/" + url.PathEscape(in.GetPostId()) + "/publish"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.PostId = ""
+	}
+
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *PostServiceService) DeletePost(ctx context.Context, in *DeletePostInput) (*DeletePostOutput, error) {
 	out := &DeletePostOutput{}
 	path := "/posts/" + url.PathEscape(in.GetPostId())

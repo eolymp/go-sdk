@@ -208,6 +208,12 @@ func RegisterPostServiceHttpHandlers(router *mux.Router, prefix string, cli Post
 	router.Handle(prefix+"/posts/{post_id}", _PostService_UpdatePost_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.discussion.PostService.UpdatePost")
+	router.Handle(prefix+"/posts/{post_id}/publish", _PostService_PublishPost_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.discussion.PostService.PublishPost")
+	router.Handle(prefix+"/posts/{post_id}/publish", _PostService_UnpublishPost_Rule0(cli)).
+		Methods("DELETE").
+		Name("eolymp.discussion.PostService.UnpublishPost")
 	router.Handle(prefix+"/posts/{post_id}", _PostService_DeletePost_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.discussion.PostService.DeletePost")
@@ -316,6 +322,56 @@ func _PostService_UpdatePost_Rule0(cli PostServiceClient) http.Handler {
 		var header, trailer metadata.MD
 
 		out, err := cli.UpdatePost(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_PostService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_PostService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _PostService_PublishPost_Rule0(cli PostServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &PublishPostInput{}
+
+		if err := _PostService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_PostService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.PostId = vars["post_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.PublishPost(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_PostService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_PostService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _PostService_UnpublishPost_Rule0(cli PostServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UnpublishPostInput{}
+
+		if err := _PostService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_PostService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.PostId = vars["post_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.UnpublishPost(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_PostService_HTTPWriteErrorResponse(w, err)
 			return
@@ -638,6 +694,70 @@ func (i *PostServiceInterceptor) UpdatePost(ctx context.Context, in *UpdatePostI
 	message, ok := out.(*UpdatePostOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *UpdatePostOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *PostServiceInterceptor) PublishPost(ctx context.Context, in *PublishPostInput, opts ...grpc.CallOption) (*PublishPostOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*PublishPostInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *PublishPostInput, got %T", in))
+		}
+
+		return i.client.PublishPost(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.discussion.PostService.PublishPost", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*PublishPostOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *PublishPostOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *PostServiceInterceptor) UnpublishPost(ctx context.Context, in *UnpublishPostInput, opts ...grpc.CallOption) (*UnpublishPostOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*UnpublishPostInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *UnpublishPostInput, got %T", in))
+		}
+
+		return i.client.UnpublishPost(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.discussion.PostService.UnpublishPost", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*UnpublishPostOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *UnpublishPostOutput, got %T", out))
 	}
 
 	return message, err

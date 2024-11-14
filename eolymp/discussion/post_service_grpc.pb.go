@@ -23,6 +23,8 @@ const (
 	PostService_ListPosts_FullMethodName               = "/eolymp.discussion.PostService/ListPosts"
 	PostService_CreatePost_FullMethodName              = "/eolymp.discussion.PostService/CreatePost"
 	PostService_UpdatePost_FullMethodName              = "/eolymp.discussion.PostService/UpdatePost"
+	PostService_PublishPost_FullMethodName             = "/eolymp.discussion.PostService/PublishPost"
+	PostService_UnpublishPost_FullMethodName           = "/eolymp.discussion.PostService/UnpublishPost"
 	PostService_DeletePost_FullMethodName              = "/eolymp.discussion.PostService/DeletePost"
 	PostService_VotePost_FullMethodName                = "/eolymp.discussion.PostService/VotePost"
 	PostService_DescribePostTranslation_FullMethodName = "/eolymp.discussion.PostService/DescribePostTranslation"
@@ -40,6 +42,8 @@ type PostServiceClient interface {
 	ListPosts(ctx context.Context, in *ListPostsInput, opts ...grpc.CallOption) (*ListPostsOutput, error)
 	CreatePost(ctx context.Context, in *CreatePostInput, opts ...grpc.CallOption) (*CreatePostOutput, error)
 	UpdatePost(ctx context.Context, in *UpdatePostInput, opts ...grpc.CallOption) (*UpdatePostOutput, error)
+	PublishPost(ctx context.Context, in *PublishPostInput, opts ...grpc.CallOption) (*PublishPostOutput, error)
+	UnpublishPost(ctx context.Context, in *UnpublishPostInput, opts ...grpc.CallOption) (*UnpublishPostOutput, error)
 	DeletePost(ctx context.Context, in *DeletePostInput, opts ...grpc.CallOption) (*DeletePostOutput, error)
 	VotePost(ctx context.Context, in *VotePostInput, opts ...grpc.CallOption) (*VotePostOutput, error)
 	DescribePostTranslation(ctx context.Context, in *DescribePostTranslationInput, opts ...grpc.CallOption) (*DescribePostTranslationOutput, error)
@@ -91,6 +95,26 @@ func (c *postServiceClient) UpdatePost(ctx context.Context, in *UpdatePostInput,
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UpdatePostOutput)
 	err := c.cc.Invoke(ctx, PostService_UpdatePost_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *postServiceClient) PublishPost(ctx context.Context, in *PublishPostInput, opts ...grpc.CallOption) (*PublishPostOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(PublishPostOutput)
+	err := c.cc.Invoke(ctx, PostService_PublishPost_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *postServiceClient) UnpublishPost(ctx context.Context, in *UnpublishPostInput, opts ...grpc.CallOption) (*UnpublishPostOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UnpublishPostOutput)
+	err := c.cc.Invoke(ctx, PostService_UnpublishPost_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -175,6 +199,8 @@ type PostServiceServer interface {
 	ListPosts(context.Context, *ListPostsInput) (*ListPostsOutput, error)
 	CreatePost(context.Context, *CreatePostInput) (*CreatePostOutput, error)
 	UpdatePost(context.Context, *UpdatePostInput) (*UpdatePostOutput, error)
+	PublishPost(context.Context, *PublishPostInput) (*PublishPostOutput, error)
+	UnpublishPost(context.Context, *UnpublishPostInput) (*UnpublishPostOutput, error)
 	DeletePost(context.Context, *DeletePostInput) (*DeletePostOutput, error)
 	VotePost(context.Context, *VotePostInput) (*VotePostOutput, error)
 	DescribePostTranslation(context.Context, *DescribePostTranslationInput) (*DescribePostTranslationOutput, error)
@@ -202,6 +228,12 @@ func (UnimplementedPostServiceServer) CreatePost(context.Context, *CreatePostInp
 }
 func (UnimplementedPostServiceServer) UpdatePost(context.Context, *UpdatePostInput) (*UpdatePostOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdatePost not implemented")
+}
+func (UnimplementedPostServiceServer) PublishPost(context.Context, *PublishPostInput) (*PublishPostOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PublishPost not implemented")
+}
+func (UnimplementedPostServiceServer) UnpublishPost(context.Context, *UnpublishPostInput) (*UnpublishPostOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UnpublishPost not implemented")
 }
 func (UnimplementedPostServiceServer) DeletePost(context.Context, *DeletePostInput) (*DeletePostOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeletePost not implemented")
@@ -312,6 +344,42 @@ func _PostService_UpdatePost_Handler(srv interface{}, ctx context.Context, dec f
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PostServiceServer).UpdatePost(ctx, req.(*UpdatePostInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PostService_PublishPost_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PublishPostInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PostServiceServer).PublishPost(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PostService_PublishPost_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PostServiceServer).PublishPost(ctx, req.(*PublishPostInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PostService_UnpublishPost_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UnpublishPostInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PostServiceServer).UnpublishPost(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PostService_UnpublishPost_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PostServiceServer).UnpublishPost(ctx, req.(*UnpublishPostInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -464,6 +532,14 @@ var PostService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdatePost",
 			Handler:    _PostService_UpdatePost_Handler,
+		},
+		{
+			MethodName: "PublishPost",
+			Handler:    _PostService_PublishPost_Handler,
+		},
+		{
+			MethodName: "UnpublishPost",
+			Handler:    _PostService_UnpublishPost_Handler,
 		},
 		{
 			MethodName: "DeletePost",
