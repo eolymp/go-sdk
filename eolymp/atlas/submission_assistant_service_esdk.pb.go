@@ -100,8 +100,8 @@ func (s *SubmissionAssistantServiceService) do(ctx context.Context, verb, path s
 	return nil
 }
 
-func (s *SubmissionAssistantServiceService) DebugSubmission(ctx context.Context, in *DebugSubmissionInput) (*DebugSubmissionOutput, error) {
-	out := &DebugSubmissionOutput{}
+func (s *SubmissionAssistantServiceService) RequestDebugAssistance(ctx context.Context, in *RequestDebugAssistanceInput) (*RequestDebugAssistanceOutput, error) {
+	out := &RequestDebugAssistanceOutput{}
 	path := "/submissions/" + url.PathEscape(in.GetSubmissionId()) + "/assistant:debug"
 
 	// Cleanup URL parameters to avoid any ambiguity
@@ -110,6 +110,22 @@ func (s *SubmissionAssistantServiceService) DebugSubmission(ctx context.Context,
 	}
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *SubmissionAssistantServiceService) DescribeDebugAssistance(ctx context.Context, in *DescribeDebugAssistanceInput) (*DescribeDebugAssistanceOutput, error) {
+	out := &DescribeDebugAssistanceOutput{}
+	path := "/submissions/" + url.PathEscape(in.GetSubmissionId()) + "/assistant:debug"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.SubmissionId = ""
+	}
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 

@@ -19,15 +19,17 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	SubmissionAssistantService_DebugSubmission_FullMethodName     = "/eolymp.atlas.SubmissionAssistantService/DebugSubmission"
-	SubmissionAssistantService_RateDebugAssistance_FullMethodName = "/eolymp.atlas.SubmissionAssistantService/RateDebugAssistance"
+	SubmissionAssistantService_RequestDebugAssistance_FullMethodName  = "/eolymp.atlas.SubmissionAssistantService/RequestDebugAssistance"
+	SubmissionAssistantService_DescribeDebugAssistance_FullMethodName = "/eolymp.atlas.SubmissionAssistantService/DescribeDebugAssistance"
+	SubmissionAssistantService_RateDebugAssistance_FullMethodName     = "/eolymp.atlas.SubmissionAssistantService/RateDebugAssistance"
 )
 
 // SubmissionAssistantServiceClient is the client API for SubmissionAssistantService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type SubmissionAssistantServiceClient interface {
-	DebugSubmission(ctx context.Context, in *DebugSubmissionInput, opts ...grpc.CallOption) (*DebugSubmissionOutput, error)
+	RequestDebugAssistance(ctx context.Context, in *RequestDebugAssistanceInput, opts ...grpc.CallOption) (*RequestDebugAssistanceOutput, error)
+	DescribeDebugAssistance(ctx context.Context, in *DescribeDebugAssistanceInput, opts ...grpc.CallOption) (*DescribeDebugAssistanceOutput, error)
 	RateDebugAssistance(ctx context.Context, in *RateDebugAssistanceInput, opts ...grpc.CallOption) (*RateDebugAssistanceOutput, error)
 }
 
@@ -39,10 +41,20 @@ func NewSubmissionAssistantServiceClient(cc grpc.ClientConnInterface) Submission
 	return &submissionAssistantServiceClient{cc}
 }
 
-func (c *submissionAssistantServiceClient) DebugSubmission(ctx context.Context, in *DebugSubmissionInput, opts ...grpc.CallOption) (*DebugSubmissionOutput, error) {
+func (c *submissionAssistantServiceClient) RequestDebugAssistance(ctx context.Context, in *RequestDebugAssistanceInput, opts ...grpc.CallOption) (*RequestDebugAssistanceOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DebugSubmissionOutput)
-	err := c.cc.Invoke(ctx, SubmissionAssistantService_DebugSubmission_FullMethodName, in, out, cOpts...)
+	out := new(RequestDebugAssistanceOutput)
+	err := c.cc.Invoke(ctx, SubmissionAssistantService_RequestDebugAssistance_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *submissionAssistantServiceClient) DescribeDebugAssistance(ctx context.Context, in *DescribeDebugAssistanceInput, opts ...grpc.CallOption) (*DescribeDebugAssistanceOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DescribeDebugAssistanceOutput)
+	err := c.cc.Invoke(ctx, SubmissionAssistantService_DescribeDebugAssistance_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -63,7 +75,8 @@ func (c *submissionAssistantServiceClient) RateDebugAssistance(ctx context.Conte
 // All implementations should embed UnimplementedSubmissionAssistantServiceServer
 // for forward compatibility.
 type SubmissionAssistantServiceServer interface {
-	DebugSubmission(context.Context, *DebugSubmissionInput) (*DebugSubmissionOutput, error)
+	RequestDebugAssistance(context.Context, *RequestDebugAssistanceInput) (*RequestDebugAssistanceOutput, error)
+	DescribeDebugAssistance(context.Context, *DescribeDebugAssistanceInput) (*DescribeDebugAssistanceOutput, error)
 	RateDebugAssistance(context.Context, *RateDebugAssistanceInput) (*RateDebugAssistanceOutput, error)
 }
 
@@ -74,8 +87,11 @@ type SubmissionAssistantServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedSubmissionAssistantServiceServer struct{}
 
-func (UnimplementedSubmissionAssistantServiceServer) DebugSubmission(context.Context, *DebugSubmissionInput) (*DebugSubmissionOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DebugSubmission not implemented")
+func (UnimplementedSubmissionAssistantServiceServer) RequestDebugAssistance(context.Context, *RequestDebugAssistanceInput) (*RequestDebugAssistanceOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RequestDebugAssistance not implemented")
+}
+func (UnimplementedSubmissionAssistantServiceServer) DescribeDebugAssistance(context.Context, *DescribeDebugAssistanceInput) (*DescribeDebugAssistanceOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeDebugAssistance not implemented")
 }
 func (UnimplementedSubmissionAssistantServiceServer) RateDebugAssistance(context.Context, *RateDebugAssistanceInput) (*RateDebugAssistanceOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RateDebugAssistance not implemented")
@@ -100,20 +116,38 @@ func RegisterSubmissionAssistantServiceServer(s grpc.ServiceRegistrar, srv Submi
 	s.RegisterService(&SubmissionAssistantService_ServiceDesc, srv)
 }
 
-func _SubmissionAssistantService_DebugSubmission_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DebugSubmissionInput)
+func _SubmissionAssistantService_RequestDebugAssistance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RequestDebugAssistanceInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(SubmissionAssistantServiceServer).DebugSubmission(ctx, in)
+		return srv.(SubmissionAssistantServiceServer).RequestDebugAssistance(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: SubmissionAssistantService_DebugSubmission_FullMethodName,
+		FullMethod: SubmissionAssistantService_RequestDebugAssistance_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SubmissionAssistantServiceServer).DebugSubmission(ctx, req.(*DebugSubmissionInput))
+		return srv.(SubmissionAssistantServiceServer).RequestDebugAssistance(ctx, req.(*RequestDebugAssistanceInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SubmissionAssistantService_DescribeDebugAssistance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeDebugAssistanceInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SubmissionAssistantServiceServer).DescribeDebugAssistance(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SubmissionAssistantService_DescribeDebugAssistance_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SubmissionAssistantServiceServer).DescribeDebugAssistance(ctx, req.(*DescribeDebugAssistanceInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -144,8 +178,12 @@ var SubmissionAssistantService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*SubmissionAssistantServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "DebugSubmission",
-			Handler:    _SubmissionAssistantService_DebugSubmission_Handler,
+			MethodName: "RequestDebugAssistance",
+			Handler:    _SubmissionAssistantService_RequestDebugAssistance_Handler,
+		},
+		{
+			MethodName: "DescribeDebugAssistance",
+			Handler:    _SubmissionAssistantService_DescribeDebugAssistance_Handler,
 		},
 		{
 			MethodName: "RateDebugAssistance",

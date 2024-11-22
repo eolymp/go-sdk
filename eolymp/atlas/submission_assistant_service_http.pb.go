@@ -196,17 +196,20 @@ var _SubmissionAssistantService_WebsocketCodec = websocket.Codec{
 // RegisterSubmissionAssistantServiceHttpHandlers adds handlers for for SubmissionAssistantServiceClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterSubmissionAssistantServiceHttpHandlers(router *mux.Router, prefix string, cli SubmissionAssistantServiceClient) {
-	router.Handle(prefix+"/submissions/{submission_id}/assistant:debug", _SubmissionAssistantService_DebugSubmission_Rule0(cli)).
+	router.Handle(prefix+"/submissions/{submission_id}/assistant:debug", _SubmissionAssistantService_RequestDebugAssistance_Rule0(cli)).
 		Methods("POST").
-		Name("eolymp.atlas.SubmissionAssistantService.DebugSubmission")
+		Name("eolymp.atlas.SubmissionAssistantService.RequestDebugAssistance")
+	router.Handle(prefix+"/submissions/{submission_id}/assistant:debug", _SubmissionAssistantService_DescribeDebugAssistance_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.atlas.SubmissionAssistantService.DescribeDebugAssistance")
 	router.Handle(prefix+"/submissions/{submission_id}/assistant:rate", _SubmissionAssistantService_RateDebugAssistance_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.SubmissionAssistantService.RateDebugAssistance")
 }
 
-func _SubmissionAssistantService_DebugSubmission_Rule0(cli SubmissionAssistantServiceClient) http.Handler {
+func _SubmissionAssistantService_RequestDebugAssistance_Rule0(cli SubmissionAssistantServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DebugSubmissionInput{}
+		in := &RequestDebugAssistanceInput{}
 
 		if err := _SubmissionAssistantService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
@@ -219,7 +222,32 @@ func _SubmissionAssistantService_DebugSubmission_Rule0(cli SubmissionAssistantSe
 
 		var header, trailer metadata.MD
 
-		out, err := cli.DebugSubmission(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		out, err := cli.RequestDebugAssistance(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_SubmissionAssistantService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_SubmissionAssistantService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _SubmissionAssistantService_DescribeDebugAssistance_Rule0(cli SubmissionAssistantServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeDebugAssistanceInput{}
+
+		if err := _SubmissionAssistantService_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_SubmissionAssistantService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.SubmissionId = vars["submission_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeDebugAssistance(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_SubmissionAssistantService_HTTPWriteErrorResponse(w, err)
 			return
@@ -266,14 +294,14 @@ func NewSubmissionAssistantServiceInterceptor(cli SubmissionAssistantServiceClie
 	return &SubmissionAssistantServiceInterceptor{client: cli, middleware: middleware}
 }
 
-func (i *SubmissionAssistantServiceInterceptor) DebugSubmission(ctx context.Context, in *DebugSubmissionInput, opts ...grpc.CallOption) (*DebugSubmissionOutput, error) {
+func (i *SubmissionAssistantServiceInterceptor) RequestDebugAssistance(ctx context.Context, in *RequestDebugAssistanceInput, opts ...grpc.CallOption) (*RequestDebugAssistanceOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*DebugSubmissionInput)
+		message, ok := in.(*RequestDebugAssistanceInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *DebugSubmissionInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *RequestDebugAssistanceInput, got %T", in))
 		}
 
-		return i.client.DebugSubmission(ctx, message, opts...)
+		return i.client.RequestDebugAssistance(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -281,7 +309,7 @@ func (i *SubmissionAssistantServiceInterceptor) DebugSubmission(ctx context.Cont
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.SubmissionAssistantService.DebugSubmission", in, next)
+			return mw(ctx, "eolymp.atlas.SubmissionAssistantService.RequestDebugAssistance", in, next)
 		}
 	}
 
@@ -290,9 +318,41 @@ func (i *SubmissionAssistantServiceInterceptor) DebugSubmission(ctx context.Cont
 		return nil, err
 	}
 
-	message, ok := out.(*DebugSubmissionOutput)
+	message, ok := out.(*RequestDebugAssistanceOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *DebugSubmissionOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *RequestDebugAssistanceOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *SubmissionAssistantServiceInterceptor) DescribeDebugAssistance(ctx context.Context, in *DescribeDebugAssistanceInput, opts ...grpc.CallOption) (*DescribeDebugAssistanceOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*DescribeDebugAssistanceInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *DescribeDebugAssistanceInput, got %T", in))
+		}
+
+		return i.client.DescribeDebugAssistance(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.SubmissionAssistantService.DescribeDebugAssistance", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*DescribeDebugAssistanceOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *DescribeDebugAssistanceOutput, got %T", out))
 	}
 
 	return message, err
