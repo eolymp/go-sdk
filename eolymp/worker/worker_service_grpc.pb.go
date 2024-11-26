@@ -20,7 +20,6 @@ const _ = grpc.SupportPackageIsVersion9
 
 const (
 	WorkerService_CreateJob_FullMethodName   = "/eolymp.worker.WorkerService/CreateJob"
-	WorkerService_UpdateJob_FullMethodName   = "/eolymp.worker.WorkerService/UpdateJob"
 	WorkerService_DescribeJob_FullMethodName = "/eolymp.worker.WorkerService/DescribeJob"
 	WorkerService_ListJobs_FullMethodName    = "/eolymp.worker.WorkerService/ListJobs"
 )
@@ -30,7 +29,6 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type WorkerServiceClient interface {
 	CreateJob(ctx context.Context, in *CreateJobInput, opts ...grpc.CallOption) (*CreateJobOutput, error)
-	UpdateJob(ctx context.Context, in *UpdateJobInput, opts ...grpc.CallOption) (*UpdateJobOutput, error)
 	DescribeJob(ctx context.Context, in *DescribeJobInput, opts ...grpc.CallOption) (*DescribeJobOutput, error)
 	ListJobs(ctx context.Context, in *ListJobsInput, opts ...grpc.CallOption) (*ListJobsOutput, error)
 }
@@ -47,16 +45,6 @@ func (c *workerServiceClient) CreateJob(ctx context.Context, in *CreateJobInput,
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(CreateJobOutput)
 	err := c.cc.Invoke(ctx, WorkerService_CreateJob_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *workerServiceClient) UpdateJob(ctx context.Context, in *UpdateJobInput, opts ...grpc.CallOption) (*UpdateJobOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(UpdateJobOutput)
-	err := c.cc.Invoke(ctx, WorkerService_UpdateJob_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -88,7 +76,6 @@ func (c *workerServiceClient) ListJobs(ctx context.Context, in *ListJobsInput, o
 // for forward compatibility.
 type WorkerServiceServer interface {
 	CreateJob(context.Context, *CreateJobInput) (*CreateJobOutput, error)
-	UpdateJob(context.Context, *UpdateJobInput) (*UpdateJobOutput, error)
 	DescribeJob(context.Context, *DescribeJobInput) (*DescribeJobOutput, error)
 	ListJobs(context.Context, *ListJobsInput) (*ListJobsOutput, error)
 }
@@ -102,9 +89,6 @@ type UnimplementedWorkerServiceServer struct{}
 
 func (UnimplementedWorkerServiceServer) CreateJob(context.Context, *CreateJobInput) (*CreateJobOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateJob not implemented")
-}
-func (UnimplementedWorkerServiceServer) UpdateJob(context.Context, *UpdateJobInput) (*UpdateJobOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateJob not implemented")
 }
 func (UnimplementedWorkerServiceServer) DescribeJob(context.Context, *DescribeJobInput) (*DescribeJobOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeJob not implemented")
@@ -146,24 +130,6 @@ func _WorkerService_CreateJob_Handler(srv interface{}, ctx context.Context, dec 
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(WorkerServiceServer).CreateJob(ctx, req.(*CreateJobInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _WorkerService_UpdateJob_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateJobInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(WorkerServiceServer).UpdateJob(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: WorkerService_UpdateJob_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WorkerServiceServer).UpdateJob(ctx, req.(*UpdateJobInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -214,10 +180,6 @@ var WorkerService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateJob",
 			Handler:    _WorkerService_CreateJob_Handler,
-		},
-		{
-			MethodName: "UpdateJob",
-			Handler:    _WorkerService_UpdateJob_Handler,
 		},
 		{
 			MethodName: "DescribeJob",

@@ -295,38 +295,6 @@ func (i *WorkerServiceInterceptor) CreateJob(ctx context.Context, in *CreateJobI
 	return message, err
 }
 
-func (i *WorkerServiceInterceptor) UpdateJob(ctx context.Context, in *UpdateJobInput, opts ...grpc.CallOption) (*UpdateJobOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*UpdateJobInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *UpdateJobInput, got %T", in))
-		}
-
-		return i.client.UpdateJob(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.worker.WorkerService.UpdateJob", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*UpdateJobOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *UpdateJobOutput, got %T", out))
-	}
-
-	return message, err
-}
-
 func (i *WorkerServiceInterceptor) DescribeJob(ctx context.Context, in *DescribeJobInput, opts ...grpc.CallOption) (*DescribeJobOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*DescribeJobInput)
