@@ -211,7 +211,7 @@ func RegisterContentServiceHttpHandlers(router *mux.Router, prefix string, cli C
 	router.Handle(prefix+"/content/fragments/{fragment_id}", _ContentService_DeleteFragment_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.content.ContentService.DeleteFragment")
-	router.Handle(prefix+"/content/fragments:translate", _ContentService_TranslateFragments_Rule0(cli)).
+	router.Handle(prefix+"/content/fragments/{fragment_id}/translate", _ContentService_TranslateFragments_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.content.ContentService.TranslateFragments")
 	router.Handle(prefix+"/content/fragments/{fragment_id}/variants/{variant_id}", _ContentService_DescribeVariant_Rule0(cli)).
@@ -365,6 +365,9 @@ func _ContentService_TranslateFragments_Rule0(cli ContentServiceClient) http.Han
 			_ContentService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.FragmentId = vars["fragment_id"]
 
 		var header, trailer metadata.MD
 

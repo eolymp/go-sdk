@@ -172,7 +172,12 @@ func (s *ContentServiceService) DeleteFragment(ctx context.Context, in *DeleteFr
 
 func (s *ContentServiceService) TranslateFragments(ctx context.Context, in *TranslateFragmentsInput) (*TranslateFragmentsOutput, error) {
 	out := &TranslateFragmentsOutput{}
-	path := "/content/fragments:translate"
+	path := "/content/fragments/" + url.PathEscape(in.GetFragmentId()) + "/translate"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.FragmentId = ""
+	}
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
