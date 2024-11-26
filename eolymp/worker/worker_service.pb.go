@@ -22,6 +22,51 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type JobTriggerEvent struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Job *Job `protobuf:"bytes,1,opt,name=job,proto3" json:"job,omitempty"`
+}
+
+func (x *JobTriggerEvent) Reset() {
+	*x = JobTriggerEvent{}
+	mi := &file_eolymp_worker_worker_service_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *JobTriggerEvent) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*JobTriggerEvent) ProtoMessage() {}
+
+func (x *JobTriggerEvent) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_worker_worker_service_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use JobTriggerEvent.ProtoReflect.Descriptor instead.
+func (*JobTriggerEvent) Descriptor() ([]byte, []int) {
+	return file_eolymp_worker_worker_service_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *JobTriggerEvent) GetJob() *Job {
+	if x != nil {
+		return x.Job
+	}
+	return nil
+}
+
 type CreateJobInput struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -33,7 +78,7 @@ type CreateJobInput struct {
 
 func (x *CreateJobInput) Reset() {
 	*x = CreateJobInput{}
-	mi := &file_eolymp_worker_worker_service_proto_msgTypes[0]
+	mi := &file_eolymp_worker_worker_service_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -45,7 +90,7 @@ func (x *CreateJobInput) String() string {
 func (*CreateJobInput) ProtoMessage() {}
 
 func (x *CreateJobInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_worker_worker_service_proto_msgTypes[0]
+	mi := &file_eolymp_worker_worker_service_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -58,7 +103,7 @@ func (x *CreateJobInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateJobInput.ProtoReflect.Descriptor instead.
 func (*CreateJobInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_worker_worker_service_proto_rawDescGZIP(), []int{0}
+	return file_eolymp_worker_worker_service_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *CreateJobInput) GetType() string {
@@ -85,7 +130,7 @@ type CreateJobOutput struct {
 
 func (x *CreateJobOutput) Reset() {
 	*x = CreateJobOutput{}
-	mi := &file_eolymp_worker_worker_service_proto_msgTypes[1]
+	mi := &file_eolymp_worker_worker_service_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -97,7 +142,7 @@ func (x *CreateJobOutput) String() string {
 func (*CreateJobOutput) ProtoMessage() {}
 
 func (x *CreateJobOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_worker_worker_service_proto_msgTypes[1]
+	mi := &file_eolymp_worker_worker_service_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -110,7 +155,7 @@ func (x *CreateJobOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateJobOutput.ProtoReflect.Descriptor instead.
 func (*CreateJobOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_worker_worker_service_proto_rawDescGZIP(), []int{1}
+	return file_eolymp_worker_worker_service_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *CreateJobOutput) GetJobId() string {
@@ -132,7 +177,7 @@ type UpdateJobInput struct {
 
 func (x *UpdateJobInput) Reset() {
 	*x = UpdateJobInput{}
-	mi := &file_eolymp_worker_worker_service_proto_msgTypes[2]
+	mi := &file_eolymp_worker_worker_service_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -144,7 +189,7 @@ func (x *UpdateJobInput) String() string {
 func (*UpdateJobInput) ProtoMessage() {}
 
 func (x *UpdateJobInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_worker_worker_service_proto_msgTypes[2]
+	mi := &file_eolymp_worker_worker_service_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -157,7 +202,7 @@ func (x *UpdateJobInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateJobInput.ProtoReflect.Descriptor instead.
 func (*UpdateJobInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_worker_worker_service_proto_rawDescGZIP(), []int{2}
+	return file_eolymp_worker_worker_service_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *UpdateJobInput) GetPatch() []Job_Patch {
@@ -189,7 +234,7 @@ type UpdateJobOutput struct {
 
 func (x *UpdateJobOutput) Reset() {
 	*x = UpdateJobOutput{}
-	mi := &file_eolymp_worker_worker_service_proto_msgTypes[3]
+	mi := &file_eolymp_worker_worker_service_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -201,7 +246,7 @@ func (x *UpdateJobOutput) String() string {
 func (*UpdateJobOutput) ProtoMessage() {}
 
 func (x *UpdateJobOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_worker_worker_service_proto_msgTypes[3]
+	mi := &file_eolymp_worker_worker_service_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -214,7 +259,7 @@ func (x *UpdateJobOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateJobOutput.ProtoReflect.Descriptor instead.
 func (*UpdateJobOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_worker_worker_service_proto_rawDescGZIP(), []int{3}
+	return file_eolymp_worker_worker_service_proto_rawDescGZIP(), []int{4}
 }
 
 type DescribeJobInput struct {
@@ -227,7 +272,7 @@ type DescribeJobInput struct {
 
 func (x *DescribeJobInput) Reset() {
 	*x = DescribeJobInput{}
-	mi := &file_eolymp_worker_worker_service_proto_msgTypes[4]
+	mi := &file_eolymp_worker_worker_service_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -239,7 +284,7 @@ func (x *DescribeJobInput) String() string {
 func (*DescribeJobInput) ProtoMessage() {}
 
 func (x *DescribeJobInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_worker_worker_service_proto_msgTypes[4]
+	mi := &file_eolymp_worker_worker_service_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -252,7 +297,7 @@ func (x *DescribeJobInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribeJobInput.ProtoReflect.Descriptor instead.
 func (*DescribeJobInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_worker_worker_service_proto_rawDescGZIP(), []int{4}
+	return file_eolymp_worker_worker_service_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *DescribeJobInput) GetJobId() string {
@@ -272,7 +317,7 @@ type DescribeJobOutput struct {
 
 func (x *DescribeJobOutput) Reset() {
 	*x = DescribeJobOutput{}
-	mi := &file_eolymp_worker_worker_service_proto_msgTypes[5]
+	mi := &file_eolymp_worker_worker_service_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -284,7 +329,7 @@ func (x *DescribeJobOutput) String() string {
 func (*DescribeJobOutput) ProtoMessage() {}
 
 func (x *DescribeJobOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_worker_worker_service_proto_msgTypes[5]
+	mi := &file_eolymp_worker_worker_service_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -297,7 +342,7 @@ func (x *DescribeJobOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribeJobOutput.ProtoReflect.Descriptor instead.
 func (*DescribeJobOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_worker_worker_service_proto_rawDescGZIP(), []int{5}
+	return file_eolymp_worker_worker_service_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *DescribeJobOutput) GetJob() *Job {
@@ -321,7 +366,7 @@ type ListJobsInput struct {
 
 func (x *ListJobsInput) Reset() {
 	*x = ListJobsInput{}
-	mi := &file_eolymp_worker_worker_service_proto_msgTypes[6]
+	mi := &file_eolymp_worker_worker_service_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -333,7 +378,7 @@ func (x *ListJobsInput) String() string {
 func (*ListJobsInput) ProtoMessage() {}
 
 func (x *ListJobsInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_worker_worker_service_proto_msgTypes[6]
+	mi := &file_eolymp_worker_worker_service_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -346,7 +391,7 @@ func (x *ListJobsInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListJobsInput.ProtoReflect.Descriptor instead.
 func (*ListJobsInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_worker_worker_service_proto_rawDescGZIP(), []int{6}
+	return file_eolymp_worker_worker_service_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *ListJobsInput) GetOffset() int32 {
@@ -381,7 +426,7 @@ type ListJobsOutput struct {
 
 func (x *ListJobsOutput) Reset() {
 	*x = ListJobsOutput{}
-	mi := &file_eolymp_worker_worker_service_proto_msgTypes[7]
+	mi := &file_eolymp_worker_worker_service_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -393,7 +438,7 @@ func (x *ListJobsOutput) String() string {
 func (*ListJobsOutput) ProtoMessage() {}
 
 func (x *ListJobsOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_worker_worker_service_proto_msgTypes[7]
+	mi := &file_eolymp_worker_worker_service_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -406,7 +451,7 @@ func (x *ListJobsOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListJobsOutput.ProtoReflect.Descriptor instead.
 func (*ListJobsOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_worker_worker_service_proto_rawDescGZIP(), []int{7}
+	return file_eolymp_worker_worker_service_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *ListJobsOutput) GetTotal() int32 {
@@ -435,7 +480,7 @@ type ListJobsInput_Filter struct {
 
 func (x *ListJobsInput_Filter) Reset() {
 	*x = ListJobsInput_Filter{}
-	mi := &file_eolymp_worker_worker_service_proto_msgTypes[9]
+	mi := &file_eolymp_worker_worker_service_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -447,7 +492,7 @@ func (x *ListJobsInput_Filter) String() string {
 func (*ListJobsInput_Filter) ProtoMessage() {}
 
 func (x *ListJobsInput_Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_worker_worker_service_proto_msgTypes[9]
+	mi := &file_eolymp_worker_worker_service_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -460,7 +505,7 @@ func (x *ListJobsInput_Filter) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListJobsInput_Filter.ProtoReflect.Descriptor instead.
 func (*ListJobsInput_Filter) Descriptor() ([]byte, []int) {
-	return file_eolymp_worker_worker_service_proto_rawDescGZIP(), []int{6, 0}
+	return file_eolymp_worker_worker_service_proto_rawDescGZIP(), []int{7, 0}
 }
 
 func (x *ListJobsInput_Filter) GetId() []*wellknown.ExpressionID {
@@ -498,9 +543,13 @@ var file_eolymp_worker_worker_service_proto_rawDesc = []byte{
 	0x6e, 0x6e, 0x6f, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x2f, 0x73, 0x63, 0x6f, 0x70, 0x65,
 	0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x21, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x77,
 	0x65, 0x6c, 0x6c, 0x6b, 0x6e, 0x6f, 0x77, 0x6e, 0x2f, 0x65, 0x78, 0x70, 0x72, 0x65, 0x73, 0x73,
-	0x69, 0x6f, 0x6e, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x17, 0x65, 0x6f, 0x6c, 0x79, 0x6d,
-	0x70, 0x2f, 0x77, 0x6f, 0x72, 0x6b, 0x65, 0x72, 0x2f, 0x6a, 0x6f, 0x62, 0x2e, 0x70, 0x72, 0x6f,
-	0x74, 0x6f, 0x22, 0xa2, 0x01, 0x0a, 0x0e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x4a, 0x6f, 0x62,
+	0x69, 0x6f, 0x6e, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x1e, 0x65, 0x6f, 0x6c, 0x79, 0x6d,
+	0x70, 0x2f, 0x77, 0x6f, 0x72, 0x6b, 0x65, 0x72, 0x2f, 0x77, 0x6f, 0x72, 0x6b, 0x65, 0x72, 0x5f,
+	0x6a, 0x6f, 0x62, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x37, 0x0a, 0x0f, 0x4a, 0x6f, 0x62,
+	0x54, 0x72, 0x69, 0x67, 0x67, 0x65, 0x72, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x12, 0x24, 0x0a, 0x03,
+	0x6a, 0x6f, 0x62, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x12, 0x2e, 0x65, 0x6f, 0x6c, 0x79,
+	0x6d, 0x70, 0x2e, 0x77, 0x6f, 0x72, 0x6b, 0x65, 0x72, 0x2e, 0x4a, 0x6f, 0x62, 0x52, 0x03, 0x6a,
+	0x6f, 0x62, 0x22, 0xa2, 0x01, 0x0a, 0x0e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x4a, 0x6f, 0x62,
 	0x49, 0x6e, 0x70, 0x75, 0x74, 0x12, 0x12, 0x0a, 0x04, 0x74, 0x79, 0x70, 0x65, 0x18, 0x01, 0x20,
 	0x01, 0x28, 0x09, 0x52, 0x04, 0x74, 0x79, 0x70, 0x65, 0x12, 0x41, 0x0a, 0x06, 0x69, 0x6e, 0x70,
 	0x75, 0x74, 0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x29, 0x2e, 0x65, 0x6f, 0x6c, 0x79,
@@ -598,46 +647,48 @@ func file_eolymp_worker_worker_service_proto_rawDescGZIP() []byte {
 	return file_eolymp_worker_worker_service_proto_rawDescData
 }
 
-var file_eolymp_worker_worker_service_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_eolymp_worker_worker_service_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
 var file_eolymp_worker_worker_service_proto_goTypes = []any{
-	(*CreateJobInput)(nil),           // 0: eolymp.worker.CreateJobInput
-	(*CreateJobOutput)(nil),          // 1: eolymp.worker.CreateJobOutput
-	(*UpdateJobInput)(nil),           // 2: eolymp.worker.UpdateJobInput
-	(*UpdateJobOutput)(nil),          // 3: eolymp.worker.UpdateJobOutput
-	(*DescribeJobInput)(nil),         // 4: eolymp.worker.DescribeJobInput
-	(*DescribeJobOutput)(nil),        // 5: eolymp.worker.DescribeJobOutput
-	(*ListJobsInput)(nil),            // 6: eolymp.worker.ListJobsInput
-	(*ListJobsOutput)(nil),           // 7: eolymp.worker.ListJobsOutput
-	nil,                              // 8: eolymp.worker.CreateJobInput.InputsEntry
-	(*ListJobsInput_Filter)(nil),     // 9: eolymp.worker.ListJobsInput.Filter
-	(Job_Patch)(0),                   // 10: eolymp.worker.Job.Patch
+	(*JobTriggerEvent)(nil),          // 0: eolymp.worker.JobTriggerEvent
+	(*CreateJobInput)(nil),           // 1: eolymp.worker.CreateJobInput
+	(*CreateJobOutput)(nil),          // 2: eolymp.worker.CreateJobOutput
+	(*UpdateJobInput)(nil),           // 3: eolymp.worker.UpdateJobInput
+	(*UpdateJobOutput)(nil),          // 4: eolymp.worker.UpdateJobOutput
+	(*DescribeJobInput)(nil),         // 5: eolymp.worker.DescribeJobInput
+	(*DescribeJobOutput)(nil),        // 6: eolymp.worker.DescribeJobOutput
+	(*ListJobsInput)(nil),            // 7: eolymp.worker.ListJobsInput
+	(*ListJobsOutput)(nil),           // 8: eolymp.worker.ListJobsOutput
+	nil,                              // 9: eolymp.worker.CreateJobInput.InputsEntry
+	(*ListJobsInput_Filter)(nil),     // 10: eolymp.worker.ListJobsInput.Filter
 	(*Job)(nil),                      // 11: eolymp.worker.Job
-	(*wellknown.ExpressionID)(nil),   // 12: eolymp.wellknown.ExpressionID
-	(*wellknown.ExpressionEnum)(nil), // 13: eolymp.wellknown.ExpressionEnum
+	(Job_Patch)(0),                   // 12: eolymp.worker.Job.Patch
+	(*wellknown.ExpressionID)(nil),   // 13: eolymp.wellknown.ExpressionID
+	(*wellknown.ExpressionEnum)(nil), // 14: eolymp.wellknown.ExpressionEnum
 }
 var file_eolymp_worker_worker_service_proto_depIdxs = []int32{
-	8,  // 0: eolymp.worker.CreateJobInput.inputs:type_name -> eolymp.worker.CreateJobInput.InputsEntry
-	10, // 1: eolymp.worker.UpdateJobInput.patch:type_name -> eolymp.worker.Job.Patch
-	11, // 2: eolymp.worker.UpdateJobInput.job:type_name -> eolymp.worker.Job
-	11, // 3: eolymp.worker.DescribeJobOutput.job:type_name -> eolymp.worker.Job
-	9,  // 4: eolymp.worker.ListJobsInput.filters:type_name -> eolymp.worker.ListJobsInput.Filter
-	11, // 5: eolymp.worker.ListJobsOutput.items:type_name -> eolymp.worker.Job
-	12, // 6: eolymp.worker.ListJobsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	13, // 7: eolymp.worker.ListJobsInput.Filter.type:type_name -> eolymp.wellknown.ExpressionEnum
-	13, // 8: eolymp.worker.ListJobsInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
-	0,  // 9: eolymp.worker.WorkerService.CreateJob:input_type -> eolymp.worker.CreateJobInput
-	2,  // 10: eolymp.worker.WorkerService.UpdateJob:input_type -> eolymp.worker.UpdateJobInput
-	4,  // 11: eolymp.worker.WorkerService.DescribeJob:input_type -> eolymp.worker.DescribeJobInput
-	6,  // 12: eolymp.worker.WorkerService.ListJobs:input_type -> eolymp.worker.ListJobsInput
-	1,  // 13: eolymp.worker.WorkerService.CreateJob:output_type -> eolymp.worker.CreateJobOutput
-	3,  // 14: eolymp.worker.WorkerService.UpdateJob:output_type -> eolymp.worker.UpdateJobOutput
-	5,  // 15: eolymp.worker.WorkerService.DescribeJob:output_type -> eolymp.worker.DescribeJobOutput
-	7,  // 16: eolymp.worker.WorkerService.ListJobs:output_type -> eolymp.worker.ListJobsOutput
-	13, // [13:17] is the sub-list for method output_type
-	9,  // [9:13] is the sub-list for method input_type
-	9,  // [9:9] is the sub-list for extension type_name
-	9,  // [9:9] is the sub-list for extension extendee
-	0,  // [0:9] is the sub-list for field type_name
+	11, // 0: eolymp.worker.JobTriggerEvent.job:type_name -> eolymp.worker.Job
+	9,  // 1: eolymp.worker.CreateJobInput.inputs:type_name -> eolymp.worker.CreateJobInput.InputsEntry
+	12, // 2: eolymp.worker.UpdateJobInput.patch:type_name -> eolymp.worker.Job.Patch
+	11, // 3: eolymp.worker.UpdateJobInput.job:type_name -> eolymp.worker.Job
+	11, // 4: eolymp.worker.DescribeJobOutput.job:type_name -> eolymp.worker.Job
+	10, // 5: eolymp.worker.ListJobsInput.filters:type_name -> eolymp.worker.ListJobsInput.Filter
+	11, // 6: eolymp.worker.ListJobsOutput.items:type_name -> eolymp.worker.Job
+	13, // 7: eolymp.worker.ListJobsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	14, // 8: eolymp.worker.ListJobsInput.Filter.type:type_name -> eolymp.wellknown.ExpressionEnum
+	14, // 9: eolymp.worker.ListJobsInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
+	1,  // 10: eolymp.worker.WorkerService.CreateJob:input_type -> eolymp.worker.CreateJobInput
+	3,  // 11: eolymp.worker.WorkerService.UpdateJob:input_type -> eolymp.worker.UpdateJobInput
+	5,  // 12: eolymp.worker.WorkerService.DescribeJob:input_type -> eolymp.worker.DescribeJobInput
+	7,  // 13: eolymp.worker.WorkerService.ListJobs:input_type -> eolymp.worker.ListJobsInput
+	2,  // 14: eolymp.worker.WorkerService.CreateJob:output_type -> eolymp.worker.CreateJobOutput
+	4,  // 15: eolymp.worker.WorkerService.UpdateJob:output_type -> eolymp.worker.UpdateJobOutput
+	6,  // 16: eolymp.worker.WorkerService.DescribeJob:output_type -> eolymp.worker.DescribeJobOutput
+	8,  // 17: eolymp.worker.WorkerService.ListJobs:output_type -> eolymp.worker.ListJobsOutput
+	14, // [14:18] is the sub-list for method output_type
+	10, // [10:14] is the sub-list for method input_type
+	10, // [10:10] is the sub-list for extension type_name
+	10, // [10:10] is the sub-list for extension extendee
+	0,  // [0:10] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_worker_worker_service_proto_init() }
@@ -645,14 +696,14 @@ func file_eolymp_worker_worker_service_proto_init() {
 	if File_eolymp_worker_worker_service_proto != nil {
 		return
 	}
-	file_eolymp_worker_job_proto_init()
+	file_eolymp_worker_worker_job_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_eolymp_worker_worker_service_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   10,
+			NumMessages:   11,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
