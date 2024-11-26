@@ -19,13 +19,14 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	EditorialService_CreateEditorial_FullMethodName   = "/eolymp.atlas.EditorialService/CreateEditorial"
-	EditorialService_UpdateEditorial_FullMethodName   = "/eolymp.atlas.EditorialService/UpdateEditorial"
-	EditorialService_DeleteEditorial_FullMethodName   = "/eolymp.atlas.EditorialService/DeleteEditorial"
-	EditorialService_DescribeEditorial_FullMethodName = "/eolymp.atlas.EditorialService/DescribeEditorial"
-	EditorialService_LookupEditorial_FullMethodName   = "/eolymp.atlas.EditorialService/LookupEditorial"
-	EditorialService_PreviewEditorial_FullMethodName  = "/eolymp.atlas.EditorialService/PreviewEditorial"
-	EditorialService_ListEditorials_FullMethodName    = "/eolymp.atlas.EditorialService/ListEditorials"
+	EditorialService_CreateEditorial_FullMethodName     = "/eolymp.atlas.EditorialService/CreateEditorial"
+	EditorialService_UpdateEditorial_FullMethodName     = "/eolymp.atlas.EditorialService/UpdateEditorial"
+	EditorialService_DeleteEditorial_FullMethodName     = "/eolymp.atlas.EditorialService/DeleteEditorial"
+	EditorialService_DescribeEditorial_FullMethodName   = "/eolymp.atlas.EditorialService/DescribeEditorial"
+	EditorialService_LookupEditorial_FullMethodName     = "/eolymp.atlas.EditorialService/LookupEditorial"
+	EditorialService_PreviewEditorial_FullMethodName    = "/eolymp.atlas.EditorialService/PreviewEditorial"
+	EditorialService_ListEditorials_FullMethodName      = "/eolymp.atlas.EditorialService/ListEditorials"
+	EditorialService_TranslateEditorials_FullMethodName = "/eolymp.atlas.EditorialService/TranslateEditorials"
 )
 
 // EditorialServiceClient is the client API for EditorialService service.
@@ -44,6 +45,7 @@ type EditorialServiceClient interface {
 	// This method can be used to render editorial before it has been saved.
 	PreviewEditorial(ctx context.Context, in *PreviewEditorialInput, opts ...grpc.CallOption) (*PreviewEditorialOutput, error)
 	ListEditorials(ctx context.Context, in *ListEditorialsInput, opts ...grpc.CallOption) (*ListEditorialsOutput, error)
+	TranslateEditorials(ctx context.Context, in *TranslateEditorialsInput, opts ...grpc.CallOption) (*TranslateEditorialsOutput, error)
 }
 
 type editorialServiceClient struct {
@@ -124,6 +126,16 @@ func (c *editorialServiceClient) ListEditorials(ctx context.Context, in *ListEdi
 	return out, nil
 }
 
+func (c *editorialServiceClient) TranslateEditorials(ctx context.Context, in *TranslateEditorialsInput, opts ...grpc.CallOption) (*TranslateEditorialsOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(TranslateEditorialsOutput)
+	err := c.cc.Invoke(ctx, EditorialService_TranslateEditorials_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // EditorialServiceServer is the server API for EditorialService service.
 // All implementations should embed UnimplementedEditorialServiceServer
 // for forward compatibility.
@@ -140,6 +152,7 @@ type EditorialServiceServer interface {
 	// This method can be used to render editorial before it has been saved.
 	PreviewEditorial(context.Context, *PreviewEditorialInput) (*PreviewEditorialOutput, error)
 	ListEditorials(context.Context, *ListEditorialsInput) (*ListEditorialsOutput, error)
+	TranslateEditorials(context.Context, *TranslateEditorialsInput) (*TranslateEditorialsOutput, error)
 }
 
 // UnimplementedEditorialServiceServer should be embedded to have
@@ -169,6 +182,9 @@ func (UnimplementedEditorialServiceServer) PreviewEditorial(context.Context, *Pr
 }
 func (UnimplementedEditorialServiceServer) ListEditorials(context.Context, *ListEditorialsInput) (*ListEditorialsOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListEditorials not implemented")
+}
+func (UnimplementedEditorialServiceServer) TranslateEditorials(context.Context, *TranslateEditorialsInput) (*TranslateEditorialsOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method TranslateEditorials not implemented")
 }
 func (UnimplementedEditorialServiceServer) testEmbeddedByValue() {}
 
@@ -316,6 +332,24 @@ func _EditorialService_ListEditorials_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _EditorialService_TranslateEditorials_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TranslateEditorialsInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(EditorialServiceServer).TranslateEditorials(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: EditorialService_TranslateEditorials_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(EditorialServiceServer).TranslateEditorials(ctx, req.(*TranslateEditorialsInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // EditorialService_ServiceDesc is the grpc.ServiceDesc for EditorialService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -350,6 +384,10 @@ var EditorialService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListEditorials",
 			Handler:    _EditorialService_ListEditorials_Handler,
+		},
+		{
+			MethodName: "TranslateEditorials",
+			Handler:    _EditorialService_TranslateEditorials_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

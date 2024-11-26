@@ -211,6 +211,9 @@ func RegisterContentServiceHttpHandlers(router *mux.Router, prefix string, cli C
 	router.Handle(prefix+"/content/fragments/{fragment_id}", _ContentService_DeleteFragment_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.content.ContentService.DeleteFragment")
+	router.Handle(prefix+"/content/fragments:translate", _ContentService_TranslateFragments_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.content.ContentService.TranslateFragments")
 	router.Handle(prefix+"/content/fragments/{fragment_id}/variants/{variant_id}", _ContentService_DescribeVariant_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.content.ContentService.DescribeVariant")
@@ -344,6 +347,28 @@ func _ContentService_DeleteFragment_Rule0(cli ContentServiceClient) http.Handler
 		var header, trailer metadata.MD
 
 		out, err := cli.DeleteFragment(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ContentService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ContentService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ContentService_TranslateFragments_Rule0(cli ContentServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &TranslateFragmentsInput{}
+
+		if err := _ContentService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_ContentService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.TranslateFragments(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ContentService_HTTPWriteErrorResponse(w, err)
 			return
@@ -692,6 +717,38 @@ func (i *ContentServiceInterceptor) DeleteFragment(ctx context.Context, in *Dele
 	message, ok := out.(*DeleteFragmentOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *DeleteFragmentOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *ContentServiceInterceptor) TranslateFragments(ctx context.Context, in *TranslateFragmentsInput, opts ...grpc.CallOption) (*TranslateFragmentsOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*TranslateFragmentsInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *TranslateFragmentsInput, got %T", in))
+		}
+
+		return i.client.TranslateFragments(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.content.ContentService.TranslateFragments", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*TranslateFragmentsOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *TranslateFragmentsOutput, got %T", out))
 	}
 
 	return message, err

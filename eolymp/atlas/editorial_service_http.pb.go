@@ -217,6 +217,9 @@ func RegisterEditorialServiceHttpHandlers(router *mux.Router, prefix string, cli
 	router.Handle(prefix+"/editorials", _EditorialService_ListEditorials_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.EditorialService.ListEditorials")
+	router.Handle(prefix+"/editorials:translate", _EditorialService_TranslateEditorials_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.atlas.EditorialService.TranslateEditorials")
 }
 
 func _EditorialService_CreateEditorial_Rule0(cli EditorialServiceClient) http.Handler {
@@ -373,6 +376,28 @@ func _EditorialService_ListEditorials_Rule0(cli EditorialServiceClient) http.Han
 		var header, trailer metadata.MD
 
 		out, err := cli.ListEditorials(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_EditorialService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_EditorialService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _EditorialService_TranslateEditorials_Rule0(cli EditorialServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &TranslateEditorialsInput{}
+
+		if err := _EditorialService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_EditorialService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.TranslateEditorials(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_EditorialService_HTTPWriteErrorResponse(w, err)
 			return
@@ -613,6 +638,38 @@ func (i *EditorialServiceInterceptor) ListEditorials(ctx context.Context, in *Li
 	message, ok := out.(*ListEditorialsOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *ListEditorialsOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *EditorialServiceInterceptor) TranslateEditorials(ctx context.Context, in *TranslateEditorialsInput, opts ...grpc.CallOption) (*TranslateEditorialsOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*TranslateEditorialsInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *TranslateEditorialsInput, got %T", in))
+		}
+
+		return i.client.TranslateEditorials(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.EditorialService.TranslateEditorials", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*TranslateEditorialsOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *TranslateEditorialsOutput, got %T", out))
 	}
 
 	return message, err

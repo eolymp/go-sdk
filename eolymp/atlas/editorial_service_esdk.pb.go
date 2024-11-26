@@ -191,3 +191,14 @@ func (s *EditorialServiceService) ListEditorials(ctx context.Context, in *ListEd
 
 	return out, nil
 }
+
+func (s *EditorialServiceService) TranslateEditorials(ctx context.Context, in *TranslateEditorialsInput) (*TranslateEditorialsOutput, error) {
+	out := &TranslateEditorialsOutput{}
+	path := "/editorials:translate"
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

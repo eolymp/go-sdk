@@ -170,6 +170,17 @@ func (s *ContentServiceService) DeleteFragment(ctx context.Context, in *DeleteFr
 	return out, nil
 }
 
+func (s *ContentServiceService) TranslateFragments(ctx context.Context, in *TranslateFragmentsInput) (*TranslateFragmentsOutput, error) {
+	out := &TranslateFragmentsOutput{}
+	path := "/content/fragments:translate"
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *ContentServiceService) DescribeVariant(ctx context.Context, in *DescribeVariantInput) (*DescribeVariantOutput, error) {
 	out := &DescribeVariantOutput{}
 	path := "/content/fragments/" + url.PathEscape(in.GetFragmentId()) + "/variants/" + url.PathEscape(in.GetVariantId())
