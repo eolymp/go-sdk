@@ -263,6 +263,9 @@ func RegisterProblemServiceHttpHandlers(router *mux.Router, prefix string, cli P
 	router.Handle(prefix+"/statements", _ProblemService_ListStatements_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.ProblemService.ListStatements")
+	router.Handle(prefix+"/statements:lookup", _ProblemService_LookupStatement_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.course.ProblemService.LookupStatement")
 	router.Handle(prefix+"/examples", _ProblemService_ListExamples_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.ProblemService.ListExamples")
@@ -305,6 +308,28 @@ func _ProblemService_ListStatements_Rule0(cli ProblemServiceClient) http.Handler
 		var header, trailer metadata.MD
 
 		out, err := cli.ListStatements(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ProblemService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ProblemService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ProblemService_LookupStatement_Rule0(cli ProblemServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &LookupStatementInput{}
+
+		if err := _ProblemService_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_ProblemService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.LookupStatement(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
@@ -543,6 +568,38 @@ func (i *ProblemServiceInterceptor) ListStatements(ctx context.Context, in *List
 	message, ok := out.(*ListStatementsOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *ListStatementsOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *ProblemServiceInterceptor) LookupStatement(ctx context.Context, in *LookupStatementInput, opts ...grpc.CallOption) (*LookupStatementOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*LookupStatementInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *LookupStatementInput, got %T", in))
+		}
+
+		return i.client.LookupStatement(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.course.ProblemService.LookupStatement", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*LookupStatementOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *LookupStatementOutput, got %T", out))
 	}
 
 	return message, err

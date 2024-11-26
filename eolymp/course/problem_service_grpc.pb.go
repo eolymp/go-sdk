@@ -20,6 +20,7 @@ const _ = grpc.SupportPackageIsVersion9
 
 const (
 	ProblemService_ListStatements_FullMethodName     = "/eolymp.course.ProblemService/ListStatements"
+	ProblemService_LookupStatement_FullMethodName    = "/eolymp.course.ProblemService/LookupStatement"
 	ProblemService_ListExamples_FullMethodName       = "/eolymp.course.ProblemService/ListExamples"
 	ProblemService_CreateSubmission_FullMethodName   = "/eolymp.course.ProblemService/CreateSubmission"
 	ProblemService_ListSubmissions_FullMethodName    = "/eolymp.course.ProblemService/ListSubmissions"
@@ -37,6 +38,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ProblemServiceClient interface {
 	ListStatements(ctx context.Context, in *ListStatementsInput, opts ...grpc.CallOption) (*ListStatementsOutput, error)
+	LookupStatement(ctx context.Context, in *LookupStatementInput, opts ...grpc.CallOption) (*LookupStatementOutput, error)
 	ListExamples(ctx context.Context, in *ListExamplesInput, opts ...grpc.CallOption) (*ListExamplesOutput, error)
 	CreateSubmission(ctx context.Context, in *CreateSubmissionInput, opts ...grpc.CallOption) (*CreateSubmissionOutput, error)
 	ListSubmissions(ctx context.Context, in *ListSubmissionsInput, opts ...grpc.CallOption) (*ListSubmissionsOutput, error)
@@ -61,6 +63,16 @@ func (c *problemServiceClient) ListStatements(ctx context.Context, in *ListState
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ListStatementsOutput)
 	err := c.cc.Invoke(ctx, ProblemService_ListStatements_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *problemServiceClient) LookupStatement(ctx context.Context, in *LookupStatementInput, opts ...grpc.CallOption) (*LookupStatementOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(LookupStatementOutput)
+	err := c.cc.Invoke(ctx, ProblemService_LookupStatement_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -190,6 +202,7 @@ func (c *problemServiceClient) ListRuntimes(ctx context.Context, in *ListRuntime
 // for forward compatibility.
 type ProblemServiceServer interface {
 	ListStatements(context.Context, *ListStatementsInput) (*ListStatementsOutput, error)
+	LookupStatement(context.Context, *LookupStatementInput) (*LookupStatementOutput, error)
 	ListExamples(context.Context, *ListExamplesInput) (*ListExamplesOutput, error)
 	CreateSubmission(context.Context, *CreateSubmissionInput) (*CreateSubmissionOutput, error)
 	ListSubmissions(context.Context, *ListSubmissionsInput) (*ListSubmissionsOutput, error)
@@ -211,6 +224,9 @@ type UnimplementedProblemServiceServer struct{}
 
 func (UnimplementedProblemServiceServer) ListStatements(context.Context, *ListStatementsInput) (*ListStatementsOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListStatements not implemented")
+}
+func (UnimplementedProblemServiceServer) LookupStatement(context.Context, *LookupStatementInput) (*LookupStatementOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method LookupStatement not implemented")
 }
 func (UnimplementedProblemServiceServer) ListExamples(context.Context, *ListExamplesInput) (*ListExamplesOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListExamples not implemented")
@@ -276,6 +292,24 @@ func _ProblemService_ListStatements_Handler(srv interface{}, ctx context.Context
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ProblemServiceServer).ListStatements(ctx, req.(*ListStatementsInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ProblemService_LookupStatement_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LookupStatementInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProblemServiceServer).LookupStatement(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProblemService_LookupStatement_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProblemServiceServer).LookupStatement(ctx, req.(*LookupStatementInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -456,6 +490,10 @@ var ProblemService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListStatements",
 			Handler:    _ProblemService_ListStatements_Handler,
+		},
+		{
+			MethodName: "LookupStatement",
+			Handler:    _ProblemService_LookupStatement_Handler,
 		},
 		{
 			MethodName: "ListExamples",
