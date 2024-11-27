@@ -223,6 +223,9 @@ func RegisterPostServiceHttpHandlers(router *mux.Router, prefix string, cli Post
 	router.Handle(prefix+"/posts/{post_id}/vote", _PostService_VotePost_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.discussion.PostService.VotePost")
+	router.Handle(prefix+"/posts/{post_id}/translate", _PostService_TranslatePost_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.discussion.PostService.TranslatePost")
 	router.Handle(prefix+"/posts/{post_id}/translations/{translation_id}", _PostService_DescribePostTranslation_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.discussion.PostService.DescribePostTranslation")
@@ -450,6 +453,31 @@ func _PostService_VotePost_Rule0(cli PostServiceClient) http.Handler {
 		var header, trailer metadata.MD
 
 		out, err := cli.VotePost(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_PostService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_PostService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _PostService_TranslatePost_Rule0(cli PostServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &TranslatePostInput{}
+
+		if err := _PostService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_PostService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.PostId = vars["post_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.TranslatePost(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_PostService_HTTPWriteErrorResponse(w, err)
 			return
@@ -882,6 +910,38 @@ func (i *PostServiceInterceptor) VotePost(ctx context.Context, in *VotePostInput
 	message, ok := out.(*VotePostOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *VotePostOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *PostServiceInterceptor) TranslatePost(ctx context.Context, in *TranslatePostInput, opts ...grpc.CallOption) (*TranslatePostOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*TranslatePostInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *TranslatePostInput, got %T", in))
+		}
+
+		return i.client.TranslatePost(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.discussion.PostService.TranslatePost", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*TranslatePostOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *TranslatePostOutput, got %T", out))
 	}
 
 	return message, err

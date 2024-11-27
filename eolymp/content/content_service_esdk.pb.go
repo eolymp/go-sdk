@@ -170,8 +170,8 @@ func (s *ContentServiceService) DeleteFragment(ctx context.Context, in *DeleteFr
 	return out, nil
 }
 
-func (s *ContentServiceService) TranslateFragments(ctx context.Context, in *TranslateFragmentsInput) (*TranslateFragmentsOutput, error) {
-	out := &TranslateFragmentsOutput{}
+func (s *ContentServiceService) TranslateFragment(ctx context.Context, in *TranslateFragmentInput) (*TranslateFragmentOutput, error) {
+	out := &TranslateFragmentOutput{}
 	path := "/content/fragments/" + url.PathEscape(in.GetFragmentId()) + "/translate"
 
 	// Cleanup URL parameters to avoid any ambiguity

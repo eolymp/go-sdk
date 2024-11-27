@@ -234,6 +234,22 @@ func (s *PostServiceService) VotePost(ctx context.Context, in *VotePostInput) (*
 	return out, nil
 }
 
+func (s *PostServiceService) TranslatePost(ctx context.Context, in *TranslatePostInput) (*TranslatePostOutput, error) {
+	out := &TranslatePostOutput{}
+	path := "/posts/" + url.PathEscape(in.GetPostId()) + "/translate"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.PostId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *PostServiceService) DescribePostTranslation(ctx context.Context, in *DescribePostTranslationInput) (*DescribePostTranslationOutput, error) {
 	out := &DescribePostTranslationOutput{}
 	path := "/posts/" + url.PathEscape(in.GetPostId()) + "/translations/" + url.PathEscape(in.GetTranslationId())

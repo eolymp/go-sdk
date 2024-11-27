@@ -28,6 +28,7 @@ const (
 	PostService_ModeratePost_FullMethodName            = "/eolymp.discussion.PostService/ModeratePost"
 	PostService_DeletePost_FullMethodName              = "/eolymp.discussion.PostService/DeletePost"
 	PostService_VotePost_FullMethodName                = "/eolymp.discussion.PostService/VotePost"
+	PostService_TranslatePost_FullMethodName           = "/eolymp.discussion.PostService/TranslatePost"
 	PostService_DescribePostTranslation_FullMethodName = "/eolymp.discussion.PostService/DescribePostTranslation"
 	PostService_ListPostTranslations_FullMethodName    = "/eolymp.discussion.PostService/ListPostTranslations"
 	PostService_CreatePostTranslation_FullMethodName   = "/eolymp.discussion.PostService/CreatePostTranslation"
@@ -48,6 +49,7 @@ type PostServiceClient interface {
 	ModeratePost(ctx context.Context, in *ModeratePostInput, opts ...grpc.CallOption) (*ModeratePostOutput, error)
 	DeletePost(ctx context.Context, in *DeletePostInput, opts ...grpc.CallOption) (*DeletePostOutput, error)
 	VotePost(ctx context.Context, in *VotePostInput, opts ...grpc.CallOption) (*VotePostOutput, error)
+	TranslatePost(ctx context.Context, in *TranslatePostInput, opts ...grpc.CallOption) (*TranslatePostOutput, error)
 	DescribePostTranslation(ctx context.Context, in *DescribePostTranslationInput, opts ...grpc.CallOption) (*DescribePostTranslationOutput, error)
 	ListPostTranslations(ctx context.Context, in *ListPostTranslationsInput, opts ...grpc.CallOption) (*ListPostTranslationsOutput, error)
 	CreatePostTranslation(ctx context.Context, in *CreatePostTranslationInput, opts ...grpc.CallOption) (*CreatePostTranslationOutput, error)
@@ -153,6 +155,16 @@ func (c *postServiceClient) VotePost(ctx context.Context, in *VotePostInput, opt
 	return out, nil
 }
 
+func (c *postServiceClient) TranslatePost(ctx context.Context, in *TranslatePostInput, opts ...grpc.CallOption) (*TranslatePostOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(TranslatePostOutput)
+	err := c.cc.Invoke(ctx, PostService_TranslatePost_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *postServiceClient) DescribePostTranslation(ctx context.Context, in *DescribePostTranslationInput, opts ...grpc.CallOption) (*DescribePostTranslationOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DescribePostTranslationOutput)
@@ -216,6 +228,7 @@ type PostServiceServer interface {
 	ModeratePost(context.Context, *ModeratePostInput) (*ModeratePostOutput, error)
 	DeletePost(context.Context, *DeletePostInput) (*DeletePostOutput, error)
 	VotePost(context.Context, *VotePostInput) (*VotePostOutput, error)
+	TranslatePost(context.Context, *TranslatePostInput) (*TranslatePostOutput, error)
 	DescribePostTranslation(context.Context, *DescribePostTranslationInput) (*DescribePostTranslationOutput, error)
 	ListPostTranslations(context.Context, *ListPostTranslationsInput) (*ListPostTranslationsOutput, error)
 	CreatePostTranslation(context.Context, *CreatePostTranslationInput) (*CreatePostTranslationOutput, error)
@@ -256,6 +269,9 @@ func (UnimplementedPostServiceServer) DeletePost(context.Context, *DeletePostInp
 }
 func (UnimplementedPostServiceServer) VotePost(context.Context, *VotePostInput) (*VotePostOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method VotePost not implemented")
+}
+func (UnimplementedPostServiceServer) TranslatePost(context.Context, *TranslatePostInput) (*TranslatePostOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method TranslatePost not implemented")
 }
 func (UnimplementedPostServiceServer) DescribePostTranslation(context.Context, *DescribePostTranslationInput) (*DescribePostTranslationOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribePostTranslation not implemented")
@@ -454,6 +470,24 @@ func _PostService_VotePost_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
+func _PostService_TranslatePost_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TranslatePostInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PostServiceServer).TranslatePost(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PostService_TranslatePost_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PostServiceServer).TranslatePost(ctx, req.(*TranslatePostInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _PostService_DescribePostTranslation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DescribePostTranslationInput)
 	if err := dec(in); err != nil {
@@ -586,6 +620,10 @@ var PostService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "VotePost",
 			Handler:    _PostService_VotePost_Handler,
+		},
+		{
+			MethodName: "TranslatePost",
+			Handler:    _PostService_TranslatePost_Handler,
 		},
 		{
 			MethodName: "DescribePostTranslation",
