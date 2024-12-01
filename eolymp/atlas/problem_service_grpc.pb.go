@@ -28,6 +28,7 @@ const (
 	ProblemService_VoteProblem_FullMethodName     = "/eolymp.atlas.ProblemService/VoteProblem"
 	ProblemService_ListVersions_FullMethodName    = "/eolymp.atlas.ProblemService/ListVersions"
 	ProblemService_ListRuntimes_FullMethodName    = "/eolymp.atlas.ProblemService/ListRuntimes"
+	ProblemService_ExportProblem_FullMethodName   = "/eolymp.atlas.ProblemService/ExportProblem"
 )
 
 // ProblemServiceClient is the client API for ProblemService service.
@@ -43,6 +44,7 @@ type ProblemServiceClient interface {
 	VoteProblem(ctx context.Context, in *VoteProblemInput, opts ...grpc.CallOption) (*VoteProblemOutput, error)
 	ListVersions(ctx context.Context, in *ListVersionsInput, opts ...grpc.CallOption) (*ListVersionsOutput, error)
 	ListRuntimes(ctx context.Context, in *ListRuntimesInput, opts ...grpc.CallOption) (*ListRuntimesOutput, error)
+	ExportProblem(ctx context.Context, in *ExportProblemInput, opts ...grpc.CallOption) (*ExportProblemOutput, error)
 }
 
 type problemServiceClient struct {
@@ -143,6 +145,16 @@ func (c *problemServiceClient) ListRuntimes(ctx context.Context, in *ListRuntime
 	return out, nil
 }
 
+func (c *problemServiceClient) ExportProblem(ctx context.Context, in *ExportProblemInput, opts ...grpc.CallOption) (*ExportProblemOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ExportProblemOutput)
+	err := c.cc.Invoke(ctx, ProblemService_ExportProblem_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ProblemServiceServer is the server API for ProblemService service.
 // All implementations should embed UnimplementedProblemServiceServer
 // for forward compatibility.
@@ -156,6 +168,7 @@ type ProblemServiceServer interface {
 	VoteProblem(context.Context, *VoteProblemInput) (*VoteProblemOutput, error)
 	ListVersions(context.Context, *ListVersionsInput) (*ListVersionsOutput, error)
 	ListRuntimes(context.Context, *ListRuntimesInput) (*ListRuntimesOutput, error)
+	ExportProblem(context.Context, *ExportProblemInput) (*ExportProblemOutput, error)
 }
 
 // UnimplementedProblemServiceServer should be embedded to have
@@ -191,6 +204,9 @@ func (UnimplementedProblemServiceServer) ListVersions(context.Context, *ListVers
 }
 func (UnimplementedProblemServiceServer) ListRuntimes(context.Context, *ListRuntimesInput) (*ListRuntimesOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListRuntimes not implemented")
+}
+func (UnimplementedProblemServiceServer) ExportProblem(context.Context, *ExportProblemInput) (*ExportProblemOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ExportProblem not implemented")
 }
 func (UnimplementedProblemServiceServer) testEmbeddedByValue() {}
 
@@ -374,6 +390,24 @@ func _ProblemService_ListRuntimes_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ProblemService_ExportProblem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ExportProblemInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProblemServiceServer).ExportProblem(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProblemService_ExportProblem_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProblemServiceServer).ExportProblem(ctx, req.(*ExportProblemInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ProblemService_ServiceDesc is the grpc.ServiceDesc for ProblemService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -416,6 +450,10 @@ var ProblemService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListRuntimes",
 			Handler:    _ProblemService_ListRuntimes_Handler,
+		},
+		{
+			MethodName: "ExportProblem",
+			Handler:    _ProblemService_ExportProblem_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

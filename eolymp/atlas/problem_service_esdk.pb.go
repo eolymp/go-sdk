@@ -233,3 +233,19 @@ func (s *ProblemServiceService) ListRuntimes(ctx context.Context, in *ListRuntim
 
 	return out, nil
 }
+
+func (s *ProblemServiceService) ExportProblem(ctx context.Context, in *ExportProblemInput) (*ExportProblemOutput, error) {
+	out := &ExportProblemOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/snapshot"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

@@ -223,6 +223,9 @@ func RegisterProblemServiceHttpHandlers(router *mux.Router, prefix string, cli P
 	router.Handle(prefix+"/problems/{problem_id}/runtime", _ProblemService_ListRuntimes_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.ProblemService.ListRuntimes")
+	router.Handle(prefix+"/problems/{problem_id}/snapshot", _ProblemService_ExportProblem_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.atlas.ProblemService.ExportProblem")
 }
 
 func _ProblemService_CreateProblem_Rule0(cli ProblemServiceClient) http.Handler {
@@ -435,6 +438,31 @@ func _ProblemService_ListRuntimes_Rule0(cli ProblemServiceClient) http.Handler {
 		var header, trailer metadata.MD
 
 		out, err := cli.ListRuntimes(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ProblemService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ProblemService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ProblemService_ExportProblem_Rule0(cli ProblemServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ExportProblemInput{}
+
+		if err := _ProblemService_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_ProblemService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.ExportProblem(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
@@ -739,6 +767,38 @@ func (i *ProblemServiceInterceptor) ListRuntimes(ctx context.Context, in *ListRu
 	message, ok := out.(*ListRuntimesOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *ListRuntimesOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *ProblemServiceInterceptor) ExportProblem(ctx context.Context, in *ExportProblemInput, opts ...grpc.CallOption) (*ExportProblemOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*ExportProblemInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *ExportProblemInput, got %T", in))
+		}
+
+		return i.client.ExportProblem(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.atlas.ProblemService.ExportProblem", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*ExportProblemOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *ExportProblemOutput, got %T", out))
 	}
 
 	return message, err
