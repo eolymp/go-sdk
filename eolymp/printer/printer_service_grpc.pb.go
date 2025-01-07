@@ -24,6 +24,7 @@ const (
 	PrinterService_DeletePrinter_FullMethodName      = "/eolymp.printer.PrinterService/DeletePrinter"
 	PrinterService_DescribePrinter_FullMethodName    = "/eolymp.printer.PrinterService/DescribePrinter"
 	PrinterService_ListPrinters_FullMethodName       = "/eolymp.printer.PrinterService/ListPrinters"
+	PrinterService_CreatePrinterJob_FullMethodName   = "/eolymp.printer.PrinterService/CreatePrinterJob"
 	PrinterService_DescribePrinterJob_FullMethodName = "/eolymp.printer.PrinterService/DescribePrinterJob"
 	PrinterService_ListPrinterJobs_FullMethodName    = "/eolymp.printer.PrinterService/ListPrinterJobs"
 	PrinterService_CancelPrinterJob_FullMethodName   = "/eolymp.printer.PrinterService/CancelPrinterJob"
@@ -38,6 +39,7 @@ type PrinterServiceClient interface {
 	DeletePrinter(ctx context.Context, in *DeletePrinterInput, opts ...grpc.CallOption) (*DeletePrinterOutput, error)
 	DescribePrinter(ctx context.Context, in *DescribePrinterInput, opts ...grpc.CallOption) (*DescribePrinterOutput, error)
 	ListPrinters(ctx context.Context, in *ListPrintersInput, opts ...grpc.CallOption) (*ListPrintersOutput, error)
+	CreatePrinterJob(ctx context.Context, in *CreatePrinterJobInput, opts ...grpc.CallOption) (*CreatePrinterJobOutput, error)
 	DescribePrinterJob(ctx context.Context, in *DescribePrinterJobInput, opts ...grpc.CallOption) (*DescribePrinterJobOutput, error)
 	ListPrinterJobs(ctx context.Context, in *ListPrinterJobsInput, opts ...grpc.CallOption) (*ListPrinterJobsOutput, error)
 	CancelPrinterJob(ctx context.Context, in *CancelPrinterJobInput, opts ...grpc.CallOption) (*CancelPrinterJobOutput, error)
@@ -101,6 +103,16 @@ func (c *printerServiceClient) ListPrinters(ctx context.Context, in *ListPrinter
 	return out, nil
 }
 
+func (c *printerServiceClient) CreatePrinterJob(ctx context.Context, in *CreatePrinterJobInput, opts ...grpc.CallOption) (*CreatePrinterJobOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreatePrinterJobOutput)
+	err := c.cc.Invoke(ctx, PrinterService_CreatePrinterJob_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *printerServiceClient) DescribePrinterJob(ctx context.Context, in *DescribePrinterJobInput, opts ...grpc.CallOption) (*DescribePrinterJobOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DescribePrinterJobOutput)
@@ -140,6 +152,7 @@ type PrinterServiceServer interface {
 	DeletePrinter(context.Context, *DeletePrinterInput) (*DeletePrinterOutput, error)
 	DescribePrinter(context.Context, *DescribePrinterInput) (*DescribePrinterOutput, error)
 	ListPrinters(context.Context, *ListPrintersInput) (*ListPrintersOutput, error)
+	CreatePrinterJob(context.Context, *CreatePrinterJobInput) (*CreatePrinterJobOutput, error)
 	DescribePrinterJob(context.Context, *DescribePrinterJobInput) (*DescribePrinterJobOutput, error)
 	ListPrinterJobs(context.Context, *ListPrinterJobsInput) (*ListPrinterJobsOutput, error)
 	CancelPrinterJob(context.Context, *CancelPrinterJobInput) (*CancelPrinterJobOutput, error)
@@ -166,6 +179,9 @@ func (UnimplementedPrinterServiceServer) DescribePrinter(context.Context, *Descr
 }
 func (UnimplementedPrinterServiceServer) ListPrinters(context.Context, *ListPrintersInput) (*ListPrintersOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListPrinters not implemented")
+}
+func (UnimplementedPrinterServiceServer) CreatePrinterJob(context.Context, *CreatePrinterJobInput) (*CreatePrinterJobOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreatePrinterJob not implemented")
 }
 func (UnimplementedPrinterServiceServer) DescribePrinterJob(context.Context, *DescribePrinterJobInput) (*DescribePrinterJobOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribePrinterJob not implemented")
@@ -286,6 +302,24 @@ func _PrinterService_ListPrinters_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _PrinterService_CreatePrinterJob_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreatePrinterJobInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PrinterServiceServer).CreatePrinterJob(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PrinterService_CreatePrinterJob_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PrinterServiceServer).CreatePrinterJob(ctx, req.(*CreatePrinterJobInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _PrinterService_DescribePrinterJob_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DescribePrinterJobInput)
 	if err := dec(in); err != nil {
@@ -366,6 +400,10 @@ var PrinterService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListPrinters",
 			Handler:    _PrinterService_ListPrinters_Handler,
+		},
+		{
+			MethodName: "CreatePrinterJob",
+			Handler:    _PrinterService_CreatePrinterJob_Handler,
 		},
 		{
 			MethodName: "DescribePrinterJob",

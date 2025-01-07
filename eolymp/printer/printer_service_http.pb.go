@@ -211,6 +211,9 @@ func RegisterPrinterServiceHttpHandlers(router *mux.Router, prefix string, cli P
 	router.Handle(prefix+"/printers", _PrinterService_ListPrinters_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.printer.PrinterService.ListPrinters")
+	router.Handle(prefix+"/printers/{printer_id}/jobs", _PrinterService_CreatePrinterJob_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.printer.PrinterService.CreatePrinterJob")
 	router.Handle(prefix+"/printers/{printer_id}/jobs/{job_id}", _PrinterService_DescribePrinterJob_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.printer.PrinterService.DescribePrinterJob")
@@ -332,6 +335,31 @@ func _PrinterService_ListPrinters_Rule0(cli PrinterServiceClient) http.Handler {
 		var header, trailer metadata.MD
 
 		out, err := cli.ListPrinters(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_PrinterService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_PrinterService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _PrinterService_CreatePrinterJob_Rule0(cli PrinterServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &CreatePrinterJobInput{}
+
+		if err := _PrinterService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_PrinterService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.PrinterId = vars["printer_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.CreatePrinterJob(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_PrinterService_HTTPWriteErrorResponse(w, err)
 			return
@@ -585,6 +613,38 @@ func (i *PrinterServiceInterceptor) ListPrinters(ctx context.Context, in *ListPr
 	message, ok := out.(*ListPrintersOutput)
 	if !ok && out != nil {
 		panic(fmt.Errorf("output type is invalid: want *ListPrintersOutput, got %T", out))
+	}
+
+	return message, err
+}
+
+func (i *PrinterServiceInterceptor) CreatePrinterJob(ctx context.Context, in *CreatePrinterJobInput, opts ...grpc.CallOption) (*CreatePrinterJobOutput, error) {
+	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
+		message, ok := in.(*CreatePrinterJobInput)
+		if !ok && in != nil {
+			panic(fmt.Errorf("request input type is invalid: want *CreatePrinterJobInput, got %T", in))
+		}
+
+		return i.client.CreatePrinterJob(ctx, message, opts...)
+	}
+
+	for _, mw := range i.middleware {
+		mw := mw
+		next := handler
+
+		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
+			return mw(ctx, "eolymp.printer.PrinterService.CreatePrinterJob", in, next)
+		}
+	}
+
+	out, err := handler(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	message, ok := out.(*CreatePrinterJobOutput)
+	if !ok && out != nil {
+		panic(fmt.Errorf("output type is invalid: want *CreatePrinterJobOutput, got %T", out))
 	}
 
 	return message, err

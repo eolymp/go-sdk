@@ -170,6 +170,22 @@ func (s *PrinterServiceService) ListPrinters(ctx context.Context, in *ListPrinte
 	return out, nil
 }
 
+func (s *PrinterServiceService) CreatePrinterJob(ctx context.Context, in *CreatePrinterJobInput) (*CreatePrinterJobOutput, error) {
+	out := &CreatePrinterJobOutput{}
+	path := "/printers/" + url.PathEscape(in.GetPrinterId()) + "/jobs"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.PrinterId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *PrinterServiceService) DescribePrinterJob(ctx context.Context, in *DescribePrinterJobInput) (*DescribePrinterJobOutput, error) {
 	out := &DescribePrinterJobOutput{}
 	path := "/printers/" + url.PathEscape(in.GetPrinterId()) + "/jobs/" + url.PathEscape(in.GetJobId())
