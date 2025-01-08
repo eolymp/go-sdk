@@ -219,8 +219,8 @@ func (s *PrinterServiceService) ListPrinterJobs(ctx context.Context, in *ListPri
 	return out, nil
 }
 
-func (s *PrinterServiceService) CancelPrinterJob(ctx context.Context, in *CancelPrinterJobInput) (*CancelPrinterJobOutput, error) {
-	out := &CancelPrinterJobOutput{}
+func (s *PrinterServiceService) DeletePrinterJob(ctx context.Context, in *DeletePrinterJobInput) (*DeletePrinterJobOutput, error) {
+	out := &DeletePrinterJobOutput{}
 	path := "/printers/" + url.PathEscape(in.GetPrinterId()) + "/jobs/" + url.PathEscape(in.GetJobId())
 
 	// Cleanup URL parameters to avoid any ambiguity

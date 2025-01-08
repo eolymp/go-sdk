@@ -220,9 +220,9 @@ func RegisterPrinterServiceHttpHandlers(router *mux.Router, prefix string, cli P
 	router.Handle(prefix+"/printers/{printer_id}/jobs", _PrinterService_ListPrinterJobs_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.printer.PrinterService.ListPrinterJobs")
-	router.Handle(prefix+"/printers/{printer_id}/jobs/{job_id}", _PrinterService_CancelPrinterJob_Rule0(cli)).
+	router.Handle(prefix+"/printers/{printer_id}/jobs/{job_id}", _PrinterService_DeletePrinterJob_Rule0(cli)).
 		Methods("DELETE").
-		Name("eolymp.printer.PrinterService.CancelPrinterJob")
+		Name("eolymp.printer.PrinterService.DeletePrinterJob")
 }
 
 func _PrinterService_CreatePrinter_Rule0(cli PrinterServiceClient) http.Handler {
@@ -420,9 +420,9 @@ func _PrinterService_ListPrinterJobs_Rule0(cli PrinterServiceClient) http.Handle
 	})
 }
 
-func _PrinterService_CancelPrinterJob_Rule0(cli PrinterServiceClient) http.Handler {
+func _PrinterService_DeletePrinterJob_Rule0(cli PrinterServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &CancelPrinterJobInput{}
+		in := &DeletePrinterJobInput{}
 
 		if err := _PrinterService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
@@ -436,7 +436,7 @@ func _PrinterService_CancelPrinterJob_Rule0(cli PrinterServiceClient) http.Handl
 
 		var header, trailer metadata.MD
 
-		out, err := cli.CancelPrinterJob(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		out, err := cli.DeletePrinterJob(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_PrinterService_HTTPWriteErrorResponse(w, err)
 			return
@@ -714,14 +714,14 @@ func (i *PrinterServiceInterceptor) ListPrinterJobs(ctx context.Context, in *Lis
 	return message, err
 }
 
-func (i *PrinterServiceInterceptor) CancelPrinterJob(ctx context.Context, in *CancelPrinterJobInput, opts ...grpc.CallOption) (*CancelPrinterJobOutput, error) {
+func (i *PrinterServiceInterceptor) DeletePrinterJob(ctx context.Context, in *DeletePrinterJobInput, opts ...grpc.CallOption) (*DeletePrinterJobOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*CancelPrinterJobInput)
+		message, ok := in.(*DeletePrinterJobInput)
 		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *CancelPrinterJobInput, got %T", in))
+			panic(fmt.Errorf("request input type is invalid: want *DeletePrinterJobInput, got %T", in))
 		}
 
-		return i.client.CancelPrinterJob(ctx, message, opts...)
+		return i.client.DeletePrinterJob(ctx, message, opts...)
 	}
 
 	for _, mw := range i.middleware {
@@ -729,7 +729,7 @@ func (i *PrinterServiceInterceptor) CancelPrinterJob(ctx context.Context, in *Ca
 		next := handler
 
 		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.printer.PrinterService.CancelPrinterJob", in, next)
+			return mw(ctx, "eolymp.printer.PrinterService.DeletePrinterJob", in, next)
 		}
 	}
 
@@ -738,9 +738,9 @@ func (i *PrinterServiceInterceptor) CancelPrinterJob(ctx context.Context, in *Ca
 		return nil, err
 	}
 
-	message, ok := out.(*CancelPrinterJobOutput)
+	message, ok := out.(*DeletePrinterJobOutput)
 	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *CancelPrinterJobOutput, got %T", out))
+		panic(fmt.Errorf("output type is invalid: want *DeletePrinterJobOutput, got %T", out))
 	}
 
 	return message, err
