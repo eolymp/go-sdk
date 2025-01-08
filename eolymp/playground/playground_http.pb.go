@@ -7,7 +7,6 @@ import (
 	context "context"
 	fmt "fmt"
 	mux "github.com/gorilla/mux"
-	websocket "golang.org/x/net/websocket"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	metadata "google.golang.org/grpc/metadata"
@@ -126,105 +125,6 @@ func _Playground_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	_, _ = w.Write(data)
 }
 
-// _Playground_WebsocketErrorResponse writes error to websocket connection
-func _Playground_WebsocketErrorResponse(conn *websocket.Conn, e error) {
-	switch status.Convert(e).Code() {
-	case codes.OK:
-		conn.WriteClose(1000)
-	case codes.Canceled:
-		conn.WriteClose(1000)
-	case codes.Unknown:
-		conn.WriteClose(1011)
-	case codes.InvalidArgument:
-		conn.WriteClose(1003)
-	case codes.DeadlineExceeded:
-		conn.WriteClose(1000)
-	case codes.NotFound:
-		conn.WriteClose(1000)
-	case codes.AlreadyExists:
-		conn.WriteClose(1000)
-	case codes.PermissionDenied:
-		conn.WriteClose(1000)
-	case codes.ResourceExhausted:
-		conn.WriteClose(1000)
-	case codes.FailedPrecondition:
-		conn.WriteClose(1000)
-	case codes.Aborted:
-		conn.WriteClose(1000)
-	case codes.OutOfRange:
-		conn.WriteClose(1000)
-	case codes.Unimplemented:
-		conn.WriteClose(1011)
-	case codes.Internal:
-		conn.WriteClose(1011)
-	case codes.Unavailable:
-		conn.WriteClose(1011)
-	case codes.DataLoss:
-		conn.WriteClose(1011)
-	case codes.Unauthenticated:
-		conn.WriteClose(1000)
-	default:
-		conn.WriteClose(1000)
-	}
-}
-
-// _Playground_WebsocketCodec implements protobuf codec for websockets package
-var _Playground_WebsocketCodec = websocket.Codec{
-	Marshal: func(v interface{}) ([]byte, byte, error) {
-		m, ok := v.(proto.Message)
-		if !ok {
-			panic(fmt.Errorf("invalid message type %T", v))
-		}
-
-		d, err := protojson.Marshal(m)
-		if err != nil {
-			return nil, 0, err
-		}
-
-		return d, websocket.TextFrame, err
-	},
-	Unmarshal: func(d []byte, t byte, v interface{}) error {
-		m, ok := v.(proto.Message)
-		if !ok {
-			panic(fmt.Errorf("invalid message type %T", v))
-		}
-
-		return protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal(d, m)
-	},
-}
-
-type _Playground_WatchRun_WSStream struct {
-	ctx  context.Context
-	conn *websocket.Conn
-}
-
-func (s *_Playground_WatchRun_WSStream) Send(m *WatchRunOutput) error {
-	return s.SendMsg(m)
-}
-
-func (s *_Playground_WatchRun_WSStream) SetHeader(metadata.MD) error {
-	return nil
-}
-
-func (s *_Playground_WatchRun_WSStream) SendHeader(metadata.MD) error {
-	return nil
-}
-
-func (s *_Playground_WatchRun_WSStream) SetTrailer(metadata.MD) {
-}
-
-func (s *_Playground_WatchRun_WSStream) Context() context.Context {
-	return s.ctx
-}
-
-func (s *_Playground_WatchRun_WSStream) SendMsg(m interface{}) error {
-	return _Playground_WebsocketCodec.Send(s.conn, m)
-}
-
-func (s *_Playground_WatchRun_WSStream) RecvMsg(m interface{}) error {
-	return nil
-}
-
 // RegisterPlaygroundHttpHandlers adds handlers for for PlaygroundClient
 // This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterPlaygroundHttpHandlers(router *mux.Router, prefix string, cli PlaygroundClient) {
@@ -283,14 +183,6 @@ func _Playground_DescribeRun_Rule0(cli PlaygroundClient) http.Handler {
 		}
 
 		_Playground_HTTPWriteResponse(w, out, header, trailer)
-	})
-}
-
-func _Playground_WatchRun_Rule0(cli PlaygroundClient) http.Handler {
-	return websocket.Handler(func(ws *websocket.Conn) {
-		if err := ws.WriteClose(1000); err != nil {
-			panic(err)
-		}
 	})
 }
 
@@ -368,8 +260,4 @@ func (i *PlaygroundInterceptor) DescribeRun(ctx context.Context, in *DescribeRun
 	}
 
 	return message, err
-}
-
-func (i *PlaygroundInterceptor) WatchRun(ctx context.Context, in *WatchRunInput, opts ...grpc.CallOption) (Playground_WatchRunClient, error) {
-	return i.client.WatchRun(ctx, in, opts...)
 }

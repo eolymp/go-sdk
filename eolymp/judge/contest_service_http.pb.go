@@ -7,7 +7,6 @@ import (
 	context "context"
 	fmt "fmt"
 	mux "github.com/gorilla/mux"
-	websocket "golang.org/x/net/websocket"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	metadata "google.golang.org/grpc/metadata"
@@ -124,105 +123,6 @@ func _ContestService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	}
 
 	_, _ = w.Write(data)
-}
-
-// _ContestService_WebsocketErrorResponse writes error to websocket connection
-func _ContestService_WebsocketErrorResponse(conn *websocket.Conn, e error) {
-	switch status.Convert(e).Code() {
-	case codes.OK:
-		conn.WriteClose(1000)
-	case codes.Canceled:
-		conn.WriteClose(1000)
-	case codes.Unknown:
-		conn.WriteClose(1011)
-	case codes.InvalidArgument:
-		conn.WriteClose(1003)
-	case codes.DeadlineExceeded:
-		conn.WriteClose(1000)
-	case codes.NotFound:
-		conn.WriteClose(1000)
-	case codes.AlreadyExists:
-		conn.WriteClose(1000)
-	case codes.PermissionDenied:
-		conn.WriteClose(1000)
-	case codes.ResourceExhausted:
-		conn.WriteClose(1000)
-	case codes.FailedPrecondition:
-		conn.WriteClose(1000)
-	case codes.Aborted:
-		conn.WriteClose(1000)
-	case codes.OutOfRange:
-		conn.WriteClose(1000)
-	case codes.Unimplemented:
-		conn.WriteClose(1011)
-	case codes.Internal:
-		conn.WriteClose(1011)
-	case codes.Unavailable:
-		conn.WriteClose(1011)
-	case codes.DataLoss:
-		conn.WriteClose(1011)
-	case codes.Unauthenticated:
-		conn.WriteClose(1000)
-	default:
-		conn.WriteClose(1000)
-	}
-}
-
-// _ContestService_WebsocketCodec implements protobuf codec for websockets package
-var _ContestService_WebsocketCodec = websocket.Codec{
-	Marshal: func(v interface{}) ([]byte, byte, error) {
-		m, ok := v.(proto.Message)
-		if !ok {
-			panic(fmt.Errorf("invalid message type %T", v))
-		}
-
-		d, err := protojson.Marshal(m)
-		if err != nil {
-			return nil, 0, err
-		}
-
-		return d, websocket.TextFrame, err
-	},
-	Unmarshal: func(d []byte, t byte, v interface{}) error {
-		m, ok := v.(proto.Message)
-		if !ok {
-			panic(fmt.Errorf("invalid message type %T", v))
-		}
-
-		return protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal(d, m)
-	},
-}
-
-type _ContestService_WatchContest_WSStream struct {
-	ctx  context.Context
-	conn *websocket.Conn
-}
-
-func (s *_ContestService_WatchContest_WSStream) Send(m *WatchContestOutput) error {
-	return s.SendMsg(m)
-}
-
-func (s *_ContestService_WatchContest_WSStream) SetHeader(metadata.MD) error {
-	return nil
-}
-
-func (s *_ContestService_WatchContest_WSStream) SendHeader(metadata.MD) error {
-	return nil
-}
-
-func (s *_ContestService_WatchContest_WSStream) SetTrailer(metadata.MD) {
-}
-
-func (s *_ContestService_WatchContest_WSStream) Context() context.Context {
-	return s.ctx
-}
-
-func (s *_ContestService_WatchContest_WSStream) SendMsg(m interface{}) error {
-	return _ContestService_WebsocketCodec.Send(s.conn, m)
-}
-
-func (s *_ContestService_WatchContest_WSStream) RecvMsg(m interface{}) error {
-	return nil
 }
 
 // RegisterContestServiceHttpHandlers adds handlers for for ContestServiceClient
@@ -947,10 +847,6 @@ func (i *ContestServiceInterceptor) ResumeContest(ctx context.Context, in *Resum
 	}
 
 	return message, err
-}
-
-func (i *ContestServiceInterceptor) WatchContest(ctx context.Context, in *WatchContestInput, opts ...grpc.CallOption) (ContestService_WatchContestClient, error) {
-	return i.client.WatchContest(ctx, in, opts...)
 }
 
 func (i *ContestServiceInterceptor) ListActivities(ctx context.Context, in *ListActivitiesInput, opts ...grpc.CallOption) (*ListActivitiesOutput, error) {

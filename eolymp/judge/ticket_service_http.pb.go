@@ -7,7 +7,6 @@ import (
 	context "context"
 	fmt "fmt"
 	mux "github.com/gorilla/mux"
-	websocket "golang.org/x/net/websocket"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	metadata "google.golang.org/grpc/metadata"
@@ -124,201 +123,6 @@ func _TicketService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	}
 
 	_, _ = w.Write(data)
-}
-
-// _TicketService_WebsocketErrorResponse writes error to websocket connection
-func _TicketService_WebsocketErrorResponse(conn *websocket.Conn, e error) {
-	switch status.Convert(e).Code() {
-	case codes.OK:
-		conn.WriteClose(1000)
-	case codes.Canceled:
-		conn.WriteClose(1000)
-	case codes.Unknown:
-		conn.WriteClose(1011)
-	case codes.InvalidArgument:
-		conn.WriteClose(1003)
-	case codes.DeadlineExceeded:
-		conn.WriteClose(1000)
-	case codes.NotFound:
-		conn.WriteClose(1000)
-	case codes.AlreadyExists:
-		conn.WriteClose(1000)
-	case codes.PermissionDenied:
-		conn.WriteClose(1000)
-	case codes.ResourceExhausted:
-		conn.WriteClose(1000)
-	case codes.FailedPrecondition:
-		conn.WriteClose(1000)
-	case codes.Aborted:
-		conn.WriteClose(1000)
-	case codes.OutOfRange:
-		conn.WriteClose(1000)
-	case codes.Unimplemented:
-		conn.WriteClose(1011)
-	case codes.Internal:
-		conn.WriteClose(1011)
-	case codes.Unavailable:
-		conn.WriteClose(1011)
-	case codes.DataLoss:
-		conn.WriteClose(1011)
-	case codes.Unauthenticated:
-		conn.WriteClose(1000)
-	default:
-		conn.WriteClose(1000)
-	}
-}
-
-// _TicketService_WebsocketCodec implements protobuf codec for websockets package
-var _TicketService_WebsocketCodec = websocket.Codec{
-	Marshal: func(v interface{}) ([]byte, byte, error) {
-		m, ok := v.(proto.Message)
-		if !ok {
-			panic(fmt.Errorf("invalid message type %T", v))
-		}
-
-		d, err := protojson.Marshal(m)
-		if err != nil {
-			return nil, 0, err
-		}
-
-		return d, websocket.TextFrame, err
-	},
-	Unmarshal: func(d []byte, t byte, v interface{}) error {
-		m, ok := v.(proto.Message)
-		if !ok {
-			panic(fmt.Errorf("invalid message type %T", v))
-		}
-
-		return protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal(d, m)
-	},
-}
-
-type _TicketService_WatchTicket_WSStream struct {
-	ctx  context.Context
-	conn *websocket.Conn
-}
-
-func (s *_TicketService_WatchTicket_WSStream) Send(m *WatchTicketOutput) error {
-	return s.SendMsg(m)
-}
-
-func (s *_TicketService_WatchTicket_WSStream) SetHeader(metadata.MD) error {
-	return nil
-}
-
-func (s *_TicketService_WatchTicket_WSStream) SendHeader(metadata.MD) error {
-	return nil
-}
-
-func (s *_TicketService_WatchTicket_WSStream) SetTrailer(metadata.MD) {
-}
-
-func (s *_TicketService_WatchTicket_WSStream) Context() context.Context {
-	return s.ctx
-}
-
-func (s *_TicketService_WatchTicket_WSStream) SendMsg(m interface{}) error {
-	return _TicketService_WebsocketCodec.Send(s.conn, m)
-}
-
-func (s *_TicketService_WatchTicket_WSStream) RecvMsg(m interface{}) error {
-	return nil
-}
-
-type _TicketService_WatchTickets_WSStream struct {
-	ctx  context.Context
-	conn *websocket.Conn
-}
-
-func (s *_TicketService_WatchTickets_WSStream) Send(m *WatchTicketsOutput) error {
-	return s.SendMsg(m)
-}
-
-func (s *_TicketService_WatchTickets_WSStream) SetHeader(metadata.MD) error {
-	return nil
-}
-
-func (s *_TicketService_WatchTickets_WSStream) SendHeader(metadata.MD) error {
-	return nil
-}
-
-func (s *_TicketService_WatchTickets_WSStream) SetTrailer(metadata.MD) {
-}
-
-func (s *_TicketService_WatchTickets_WSStream) Context() context.Context {
-	return s.ctx
-}
-
-func (s *_TicketService_WatchTickets_WSStream) SendMsg(m interface{}) error {
-	return _TicketService_WebsocketCodec.Send(s.conn, m)
-}
-
-func (s *_TicketService_WatchTickets_WSStream) RecvMsg(m interface{}) error {
-	return nil
-}
-
-type _TicketService_WatchTicketSummary_WSStream struct {
-	ctx  context.Context
-	conn *websocket.Conn
-}
-
-func (s *_TicketService_WatchTicketSummary_WSStream) Send(m *WatchTicketSummaryOutput) error {
-	return s.SendMsg(m)
-}
-
-func (s *_TicketService_WatchTicketSummary_WSStream) SetHeader(metadata.MD) error {
-	return nil
-}
-
-func (s *_TicketService_WatchTicketSummary_WSStream) SendHeader(metadata.MD) error {
-	return nil
-}
-
-func (s *_TicketService_WatchTicketSummary_WSStream) SetTrailer(metadata.MD) {
-}
-
-func (s *_TicketService_WatchTicketSummary_WSStream) Context() context.Context {
-	return s.ctx
-}
-
-func (s *_TicketService_WatchTicketSummary_WSStream) SendMsg(m interface{}) error {
-	return _TicketService_WebsocketCodec.Send(s.conn, m)
-}
-
-func (s *_TicketService_WatchTicketSummary_WSStream) RecvMsg(m interface{}) error {
-	return nil
-}
-
-type _TicketService_WatchReplies_WSStream struct {
-	ctx  context.Context
-	conn *websocket.Conn
-}
-
-func (s *_TicketService_WatchReplies_WSStream) Send(m *WatchRepliesOutput) error {
-	return s.SendMsg(m)
-}
-
-func (s *_TicketService_WatchReplies_WSStream) SetHeader(metadata.MD) error {
-	return nil
-}
-
-func (s *_TicketService_WatchReplies_WSStream) SendHeader(metadata.MD) error {
-	return nil
-}
-
-func (s *_TicketService_WatchReplies_WSStream) SetTrailer(metadata.MD) {
-}
-
-func (s *_TicketService_WatchReplies_WSStream) Context() context.Context {
-	return s.ctx
-}
-
-func (s *_TicketService_WatchReplies_WSStream) SendMsg(m interface{}) error {
-	return _TicketService_WebsocketCodec.Send(s.conn, m)
-}
-
-func (s *_TicketService_WatchReplies_WSStream) RecvMsg(m interface{}) error {
-	return nil
 }
 
 // RegisterTicketServiceHttpHandlers adds handlers for for TicketServiceClient
@@ -867,18 +671,6 @@ func (i *TicketServiceInterceptor) ReplyTicket(ctx context.Context, in *ReplyTic
 	return message, err
 }
 
-func (i *TicketServiceInterceptor) WatchTicket(ctx context.Context, in *WatchTicketInput, opts ...grpc.CallOption) (TicketService_WatchTicketClient, error) {
-	return i.client.WatchTicket(ctx, in, opts...)
-}
-
-func (i *TicketServiceInterceptor) WatchTickets(ctx context.Context, in *WatchTicketsInput, opts ...grpc.CallOption) (TicketService_WatchTicketsClient, error) {
-	return i.client.WatchTickets(ctx, in, opts...)
-}
-
-func (i *TicketServiceInterceptor) WatchTicketSummary(ctx context.Context, in *WatchTicketSummaryInput, opts ...grpc.CallOption) (TicketService_WatchTicketSummaryClient, error) {
-	return i.client.WatchTicketSummary(ctx, in, opts...)
-}
-
 func (i *TicketServiceInterceptor) ListReplies(ctx context.Context, in *ListRepliesInput, opts ...grpc.CallOption) (*ListRepliesOutput, error) {
 	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
 		message, ok := in.(*ListRepliesInput)
@@ -1005,8 +797,4 @@ func (i *TicketServiceInterceptor) UpdateReply(ctx context.Context, in *UpdateRe
 	}
 
 	return message, err
-}
-
-func (i *TicketServiceInterceptor) WatchReplies(ctx context.Context, in *WatchRepliesInput, opts ...grpc.CallOption) (TicketService_WatchRepliesClient, error) {
-	return i.client.WatchReplies(ctx, in, opts...)
 }

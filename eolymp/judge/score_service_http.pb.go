@@ -7,7 +7,6 @@ import (
 	context "context"
 	fmt "fmt"
 	mux "github.com/gorilla/mux"
-	websocket "golang.org/x/net/websocket"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	metadata "google.golang.org/grpc/metadata"
@@ -124,105 +123,6 @@ func _ScoreService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	}
 
 	_, _ = w.Write(data)
-}
-
-// _ScoreService_WebsocketErrorResponse writes error to websocket connection
-func _ScoreService_WebsocketErrorResponse(conn *websocket.Conn, e error) {
-	switch status.Convert(e).Code() {
-	case codes.OK:
-		conn.WriteClose(1000)
-	case codes.Canceled:
-		conn.WriteClose(1000)
-	case codes.Unknown:
-		conn.WriteClose(1011)
-	case codes.InvalidArgument:
-		conn.WriteClose(1003)
-	case codes.DeadlineExceeded:
-		conn.WriteClose(1000)
-	case codes.NotFound:
-		conn.WriteClose(1000)
-	case codes.AlreadyExists:
-		conn.WriteClose(1000)
-	case codes.PermissionDenied:
-		conn.WriteClose(1000)
-	case codes.ResourceExhausted:
-		conn.WriteClose(1000)
-	case codes.FailedPrecondition:
-		conn.WriteClose(1000)
-	case codes.Aborted:
-		conn.WriteClose(1000)
-	case codes.OutOfRange:
-		conn.WriteClose(1000)
-	case codes.Unimplemented:
-		conn.WriteClose(1011)
-	case codes.Internal:
-		conn.WriteClose(1011)
-	case codes.Unavailable:
-		conn.WriteClose(1011)
-	case codes.DataLoss:
-		conn.WriteClose(1011)
-	case codes.Unauthenticated:
-		conn.WriteClose(1000)
-	default:
-		conn.WriteClose(1000)
-	}
-}
-
-// _ScoreService_WebsocketCodec implements protobuf codec for websockets package
-var _ScoreService_WebsocketCodec = websocket.Codec{
-	Marshal: func(v interface{}) ([]byte, byte, error) {
-		m, ok := v.(proto.Message)
-		if !ok {
-			panic(fmt.Errorf("invalid message type %T", v))
-		}
-
-		d, err := protojson.Marshal(m)
-		if err != nil {
-			return nil, 0, err
-		}
-
-		return d, websocket.TextFrame, err
-	},
-	Unmarshal: func(d []byte, t byte, v interface{}) error {
-		m, ok := v.(proto.Message)
-		if !ok {
-			panic(fmt.Errorf("invalid message type %T", v))
-		}
-
-		return protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal(d, m)
-	},
-}
-
-type _ScoreService_WatchScore_WSStream struct {
-	ctx  context.Context
-	conn *websocket.Conn
-}
-
-func (s *_ScoreService_WatchScore_WSStream) Send(m *WatchScoreOutput) error {
-	return s.SendMsg(m)
-}
-
-func (s *_ScoreService_WatchScore_WSStream) SetHeader(metadata.MD) error {
-	return nil
-}
-
-func (s *_ScoreService_WatchScore_WSStream) SendHeader(metadata.MD) error {
-	return nil
-}
-
-func (s *_ScoreService_WatchScore_WSStream) SetTrailer(metadata.MD) {
-}
-
-func (s *_ScoreService_WatchScore_WSStream) Context() context.Context {
-	return s.ctx
-}
-
-func (s *_ScoreService_WatchScore_WSStream) SendMsg(m interface{}) error {
-	return _ScoreService_WebsocketCodec.Send(s.conn, m)
-}
-
-func (s *_ScoreService_WatchScore_WSStream) RecvMsg(m interface{}) error {
-	return nil
 }
 
 // RegisterScoreServiceHttpHandlers adds handlers for for ScoreServiceClient
@@ -456,10 +356,6 @@ func (i *ScoreServiceInterceptor) IntrospectScore(ctx context.Context, in *Intro
 	}
 
 	return message, err
-}
-
-func (i *ScoreServiceInterceptor) WatchScore(ctx context.Context, in *WatchScoreInput, opts ...grpc.CallOption) (ScoreService_WatchScoreClient, error) {
-	return i.client.WatchScore(ctx, in, opts...)
 }
 
 func (i *ScoreServiceInterceptor) DescribeScore(ctx context.Context, in *DescribeScoreInput, opts ...grpc.CallOption) (*DescribeScoreOutput, error) {

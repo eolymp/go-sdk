@@ -7,7 +7,6 @@ import (
 	context "context"
 	fmt "fmt"
 	mux "github.com/gorilla/mux"
-	websocket "golang.org/x/net/websocket"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	metadata "google.golang.org/grpc/metadata"
@@ -124,105 +123,6 @@ func _Judge_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	}
 
 	_, _ = w.Write(data)
-}
-
-// _Judge_WebsocketErrorResponse writes error to websocket connection
-func _Judge_WebsocketErrorResponse(conn *websocket.Conn, e error) {
-	switch status.Convert(e).Code() {
-	case codes.OK:
-		conn.WriteClose(1000)
-	case codes.Canceled:
-		conn.WriteClose(1000)
-	case codes.Unknown:
-		conn.WriteClose(1011)
-	case codes.InvalidArgument:
-		conn.WriteClose(1003)
-	case codes.DeadlineExceeded:
-		conn.WriteClose(1000)
-	case codes.NotFound:
-		conn.WriteClose(1000)
-	case codes.AlreadyExists:
-		conn.WriteClose(1000)
-	case codes.PermissionDenied:
-		conn.WriteClose(1000)
-	case codes.ResourceExhausted:
-		conn.WriteClose(1000)
-	case codes.FailedPrecondition:
-		conn.WriteClose(1000)
-	case codes.Aborted:
-		conn.WriteClose(1000)
-	case codes.OutOfRange:
-		conn.WriteClose(1000)
-	case codes.Unimplemented:
-		conn.WriteClose(1011)
-	case codes.Internal:
-		conn.WriteClose(1011)
-	case codes.Unavailable:
-		conn.WriteClose(1011)
-	case codes.DataLoss:
-		conn.WriteClose(1011)
-	case codes.Unauthenticated:
-		conn.WriteClose(1000)
-	default:
-		conn.WriteClose(1000)
-	}
-}
-
-// _Judge_WebsocketCodec implements protobuf codec for websockets package
-var _Judge_WebsocketCodec = websocket.Codec{
-	Marshal: func(v interface{}) ([]byte, byte, error) {
-		m, ok := v.(proto.Message)
-		if !ok {
-			panic(fmt.Errorf("invalid message type %T", v))
-		}
-
-		d, err := protojson.Marshal(m)
-		if err != nil {
-			return nil, 0, err
-		}
-
-		return d, websocket.TextFrame, err
-	},
-	Unmarshal: func(d []byte, t byte, v interface{}) error {
-		m, ok := v.(proto.Message)
-		if !ok {
-			panic(fmt.Errorf("invalid message type %T", v))
-		}
-
-		return protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal(d, m)
-	},
-}
-
-type _Judge_WatchSubmission_WSStream struct {
-	ctx  context.Context
-	conn *websocket.Conn
-}
-
-func (s *_Judge_WatchSubmission_WSStream) Send(m *WatchSubmissionOutput) error {
-	return s.SendMsg(m)
-}
-
-func (s *_Judge_WatchSubmission_WSStream) SetHeader(metadata.MD) error {
-	return nil
-}
-
-func (s *_Judge_WatchSubmission_WSStream) SendHeader(metadata.MD) error {
-	return nil
-}
-
-func (s *_Judge_WatchSubmission_WSStream) SetTrailer(metadata.MD) {
-}
-
-func (s *_Judge_WatchSubmission_WSStream) Context() context.Context {
-	return s.ctx
-}
-
-func (s *_Judge_WatchSubmission_WSStream) SendMsg(m interface{}) error {
-	return _Judge_WebsocketCodec.Send(s.conn, m)
-}
-
-func (s *_Judge_WatchSubmission_WSStream) RecvMsg(m interface{}) error {
-	return nil
 }
 
 // RegisterJudgeHttpHandlers adds handlers for for JudgeClient
@@ -3167,10 +3067,6 @@ func (i *JudgeInterceptor) DescribeSubmission(ctx context.Context, in *DescribeS
 	}
 
 	return message, err
-}
-
-func (i *JudgeInterceptor) WatchSubmission(ctx context.Context, in *WatchSubmissionInput, opts ...grpc.CallOption) (Judge_WatchSubmissionClient, error) {
-	return i.client.WatchSubmission(ctx, in, opts...)
 }
 
 func (i *JudgeInterceptor) RetestSubmission(ctx context.Context, in *RetestSubmissionInput, opts ...grpc.CallOption) (*RetestSubmissionOutput, error) {
