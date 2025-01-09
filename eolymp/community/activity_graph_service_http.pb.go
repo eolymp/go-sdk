@@ -4,8 +4,6 @@
 package community
 
 import (
-	context "context"
-	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -153,48 +151,4 @@ func _ActivityGraphService_DescribeActivityGraph_Rule0(cli ActivityGraphServiceC
 
 		_ActivityGraphService_HTTPWriteResponse(w, out, header, trailer)
 	})
-}
-
-type _ActivityGraphServiceHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
-type _ActivityGraphServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _ActivityGraphServiceHandler) (out proto.Message, err error)
-type ActivityGraphServiceInterceptor struct {
-	middleware []_ActivityGraphServiceMiddleware
-	client     ActivityGraphServiceClient
-}
-
-// NewActivityGraphServiceInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewActivityGraphServiceInterceptor(cli ActivityGraphServiceClient, middleware ..._ActivityGraphServiceMiddleware) *ActivityGraphServiceInterceptor {
-	return &ActivityGraphServiceInterceptor{client: cli, middleware: middleware}
-}
-
-func (i *ActivityGraphServiceInterceptor) DescribeActivityGraph(ctx context.Context, in *DescribeActivityGraphInput, opts ...grpc.CallOption) (*DescribeActivityGraphOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*DescribeActivityGraphInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *DescribeActivityGraphInput, got %T", in))
-		}
-
-		return i.client.DescribeActivityGraph(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.community.ActivityGraphService.DescribeActivityGraph", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*DescribeActivityGraphOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *DescribeActivityGraphOutput, got %T", out))
-	}
-
-	return message, err
 }

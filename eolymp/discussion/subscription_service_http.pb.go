@@ -4,8 +4,6 @@
 package discussion
 
 import (
-	context "context"
-	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -178,80 +176,4 @@ func _SubscriptionService_UpdateSubscription_Rule0(cli SubscriptionServiceClient
 
 		_SubscriptionService_HTTPWriteResponse(w, out, header, trailer)
 	})
-}
-
-type _SubscriptionServiceHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
-type _SubscriptionServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _SubscriptionServiceHandler) (out proto.Message, err error)
-type SubscriptionServiceInterceptor struct {
-	middleware []_SubscriptionServiceMiddleware
-	client     SubscriptionServiceClient
-}
-
-// NewSubscriptionServiceInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewSubscriptionServiceInterceptor(cli SubscriptionServiceClient, middleware ..._SubscriptionServiceMiddleware) *SubscriptionServiceInterceptor {
-	return &SubscriptionServiceInterceptor{client: cli, middleware: middleware}
-}
-
-func (i *SubscriptionServiceInterceptor) DescribeSubscription(ctx context.Context, in *DescribeSubscriptionInput, opts ...grpc.CallOption) (*DescribeSubscriptionOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*DescribeSubscriptionInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *DescribeSubscriptionInput, got %T", in))
-		}
-
-		return i.client.DescribeSubscription(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.discussion.SubscriptionService.DescribeSubscription", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*DescribeSubscriptionOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *DescribeSubscriptionOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *SubscriptionServiceInterceptor) UpdateSubscription(ctx context.Context, in *UpdateSubscriptionInput, opts ...grpc.CallOption) (*UpdateSubscriptionOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*UpdateSubscriptionInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *UpdateSubscriptionInput, got %T", in))
-		}
-
-		return i.client.UpdateSubscription(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.discussion.SubscriptionService.UpdateSubscription", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*UpdateSubscriptionOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *UpdateSubscriptionOutput, got %T", out))
-	}
-
-	return message, err
 }

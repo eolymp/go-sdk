@@ -4,8 +4,6 @@
 package taxonomy
 
 import (
-	context "context"
-	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -181,80 +179,4 @@ func _InstitutionService_DescribeInstitution_Rule0(cli InstitutionServiceClient)
 
 		_InstitutionService_HTTPWriteResponse(w, out, header, trailer)
 	})
-}
-
-type _InstitutionServiceHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
-type _InstitutionServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _InstitutionServiceHandler) (out proto.Message, err error)
-type InstitutionServiceInterceptor struct {
-	middleware []_InstitutionServiceMiddleware
-	client     InstitutionServiceClient
-}
-
-// NewInstitutionServiceInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewInstitutionServiceInterceptor(cli InstitutionServiceClient, middleware ..._InstitutionServiceMiddleware) *InstitutionServiceInterceptor {
-	return &InstitutionServiceInterceptor{client: cli, middleware: middleware}
-}
-
-func (i *InstitutionServiceInterceptor) ListInstitutions(ctx context.Context, in *ListInstitutionsInput, opts ...grpc.CallOption) (*ListInstitutionsOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*ListInstitutionsInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *ListInstitutionsInput, got %T", in))
-		}
-
-		return i.client.ListInstitutions(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.taxonomy.InstitutionService.ListInstitutions", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*ListInstitutionsOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *ListInstitutionsOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *InstitutionServiceInterceptor) DescribeInstitution(ctx context.Context, in *DescribeInstitutionInput, opts ...grpc.CallOption) (*DescribeInstitutionOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*DescribeInstitutionInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *DescribeInstitutionInput, got %T", in))
-		}
-
-		return i.client.DescribeInstitution(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.taxonomy.InstitutionService.DescribeInstitution", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*DescribeInstitutionOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *DescribeInstitutionOutput, got %T", out))
-	}
-
-	return message, err
 }

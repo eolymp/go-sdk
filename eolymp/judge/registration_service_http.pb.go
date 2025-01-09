@@ -4,8 +4,6 @@
 package judge
 
 import (
-	context "context"
-	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -178,80 +176,4 @@ func _RegistrationService_SubmitRegistration_Rule0(cli RegistrationServiceClient
 
 		_RegistrationService_HTTPWriteResponse(w, out, header, trailer)
 	})
-}
-
-type _RegistrationServiceHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
-type _RegistrationServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _RegistrationServiceHandler) (out proto.Message, err error)
-type RegistrationServiceInterceptor struct {
-	middleware []_RegistrationServiceMiddleware
-	client     RegistrationServiceClient
-}
-
-// NewRegistrationServiceInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewRegistrationServiceInterceptor(cli RegistrationServiceClient, middleware ..._RegistrationServiceMiddleware) *RegistrationServiceInterceptor {
-	return &RegistrationServiceInterceptor{client: cli, middleware: middleware}
-}
-
-func (i *RegistrationServiceInterceptor) DescribeRegistration(ctx context.Context, in *DescribeRegistrationInput, opts ...grpc.CallOption) (*DescribeRegistrationOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*DescribeRegistrationInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *DescribeRegistrationInput, got %T", in))
-		}
-
-		return i.client.DescribeRegistration(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.RegistrationService.DescribeRegistration", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*DescribeRegistrationOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *DescribeRegistrationOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *RegistrationServiceInterceptor) SubmitRegistration(ctx context.Context, in *SubmitRegistrationInput, opts ...grpc.CallOption) (*SubmitRegistrationOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*SubmitRegistrationInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *SubmitRegistrationInput, got %T", in))
-		}
-
-		return i.client.SubmitRegistration(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.RegistrationService.SubmitRegistration", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*SubmitRegistrationOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *SubmitRegistrationOutput, got %T", out))
-	}
-
-	return message, err
 }

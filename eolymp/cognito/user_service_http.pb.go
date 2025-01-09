@@ -4,8 +4,6 @@
 package cognito
 
 import (
-	context "context"
-	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -181,80 +179,4 @@ func _UserService_ListUsers_Rule0(cli UserServiceClient) http.Handler {
 
 		_UserService_HTTPWriteResponse(w, out, header, trailer)
 	})
-}
-
-type _UserServiceHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
-type _UserServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _UserServiceHandler) (out proto.Message, err error)
-type UserServiceInterceptor struct {
-	middleware []_UserServiceMiddleware
-	client     UserServiceClient
-}
-
-// NewUserServiceInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewUserServiceInterceptor(cli UserServiceClient, middleware ..._UserServiceMiddleware) *UserServiceInterceptor {
-	return &UserServiceInterceptor{client: cli, middleware: middleware}
-}
-
-func (i *UserServiceInterceptor) DescribeUser(ctx context.Context, in *DescribeUserInput, opts ...grpc.CallOption) (*DescribeUserOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*DescribeUserInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *DescribeUserInput, got %T", in))
-		}
-
-		return i.client.DescribeUser(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.UserService.DescribeUser", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*DescribeUserOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *DescribeUserOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *UserServiceInterceptor) ListUsers(ctx context.Context, in *ListUsersInput, opts ...grpc.CallOption) (*ListUsersOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*ListUsersInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *ListUsersInput, got %T", in))
-		}
-
-		return i.client.ListUsers(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.cognito.UserService.ListUsers", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*ListUsersOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *ListUsersOutput, got %T", out))
-	}
-
-	return message, err
 }

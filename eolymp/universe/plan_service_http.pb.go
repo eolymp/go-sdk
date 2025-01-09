@@ -4,8 +4,6 @@
 package universe
 
 import (
-	context "context"
-	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -181,80 +179,4 @@ func _PlanService_ListPlans_Rule0(cli PlanServiceClient) http.Handler {
 
 		_PlanService_HTTPWriteResponse(w, out, header, trailer)
 	})
-}
-
-type _PlanServiceHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
-type _PlanServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _PlanServiceHandler) (out proto.Message, err error)
-type PlanServiceInterceptor struct {
-	middleware []_PlanServiceMiddleware
-	client     PlanServiceClient
-}
-
-// NewPlanServiceInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewPlanServiceInterceptor(cli PlanServiceClient, middleware ..._PlanServiceMiddleware) *PlanServiceInterceptor {
-	return &PlanServiceInterceptor{client: cli, middleware: middleware}
-}
-
-func (i *PlanServiceInterceptor) DescribePlan(ctx context.Context, in *DescribePlanInput, opts ...grpc.CallOption) (*DescribePlanOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*DescribePlanInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *DescribePlanInput, got %T", in))
-		}
-
-		return i.client.DescribePlan(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.universe.PlanService.DescribePlan", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*DescribePlanOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *DescribePlanOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *PlanServiceInterceptor) ListPlans(ctx context.Context, in *ListPlansInput, opts ...grpc.CallOption) (*ListPlansOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*ListPlansInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *ListPlansInput, got %T", in))
-		}
-
-		return i.client.ListPlans(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.universe.PlanService.ListPlans", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*ListPlansOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *ListPlansOutput, got %T", out))
-	}
-
-	return message, err
 }

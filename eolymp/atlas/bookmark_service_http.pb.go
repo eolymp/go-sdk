@@ -4,8 +4,6 @@
 package atlas
 
 import (
-	context "context"
-	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -178,80 +176,4 @@ func _BookmarkService_SetBookmark_Rule0(cli BookmarkServiceClient) http.Handler 
 
 		_BookmarkService_HTTPWriteResponse(w, out, header, trailer)
 	})
-}
-
-type _BookmarkServiceHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
-type _BookmarkServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _BookmarkServiceHandler) (out proto.Message, err error)
-type BookmarkServiceInterceptor struct {
-	middleware []_BookmarkServiceMiddleware
-	client     BookmarkServiceClient
-}
-
-// NewBookmarkServiceInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewBookmarkServiceInterceptor(cli BookmarkServiceClient, middleware ..._BookmarkServiceMiddleware) *BookmarkServiceInterceptor {
-	return &BookmarkServiceInterceptor{client: cli, middleware: middleware}
-}
-
-func (i *BookmarkServiceInterceptor) GetBookmark(ctx context.Context, in *GetBookmarkInput, opts ...grpc.CallOption) (*GetBookmarkOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*GetBookmarkInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *GetBookmarkInput, got %T", in))
-		}
-
-		return i.client.GetBookmark(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.BookmarkService.GetBookmark", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*GetBookmarkOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *GetBookmarkOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *BookmarkServiceInterceptor) SetBookmark(ctx context.Context, in *SetBookmarkInput, opts ...grpc.CallOption) (*SetBookmarkOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*SetBookmarkInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *SetBookmarkInput, got %T", in))
-		}
-
-		return i.client.SetBookmark(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.BookmarkService.SetBookmark", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*SetBookmarkOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *SetBookmarkOutput, got %T", out))
-	}
-
-	return message, err
 }

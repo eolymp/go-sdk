@@ -4,8 +4,6 @@
 package discussion
 
 import (
-	context "context"
-	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -178,80 +176,4 @@ func _ConfigurationService_UpdateDiscussionConfig_Rule0(cli ConfigurationService
 
 		_ConfigurationService_HTTPWriteResponse(w, out, header, trailer)
 	})
-}
-
-type _ConfigurationServiceHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
-type _ConfigurationServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _ConfigurationServiceHandler) (out proto.Message, err error)
-type ConfigurationServiceInterceptor struct {
-	middleware []_ConfigurationServiceMiddleware
-	client     ConfigurationServiceClient
-}
-
-// NewConfigurationServiceInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewConfigurationServiceInterceptor(cli ConfigurationServiceClient, middleware ..._ConfigurationServiceMiddleware) *ConfigurationServiceInterceptor {
-	return &ConfigurationServiceInterceptor{client: cli, middleware: middleware}
-}
-
-func (i *ConfigurationServiceInterceptor) DescribeDiscussionConfig(ctx context.Context, in *DescribeDiscussionConfigInput, opts ...grpc.CallOption) (*DescribeDiscussionConfigOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*DescribeDiscussionConfigInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *DescribeDiscussionConfigInput, got %T", in))
-		}
-
-		return i.client.DescribeDiscussionConfig(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.discussion.ConfigurationService.DescribeDiscussionConfig", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*DescribeDiscussionConfigOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *DescribeDiscussionConfigOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *ConfigurationServiceInterceptor) UpdateDiscussionConfig(ctx context.Context, in *UpdateDiscussionConfigInput, opts ...grpc.CallOption) (*UpdateDiscussionConfigOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*UpdateDiscussionConfigInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *UpdateDiscussionConfigInput, got %T", in))
-		}
-
-		return i.client.UpdateDiscussionConfig(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.discussion.ConfigurationService.UpdateDiscussionConfig", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*UpdateDiscussionConfigOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *UpdateDiscussionConfigOutput, got %T", out))
-	}
-
-	return message, err
 }

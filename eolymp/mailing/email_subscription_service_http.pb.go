@@ -4,8 +4,6 @@
 package mailing
 
 import (
-	context "context"
-	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -178,80 +176,4 @@ func _EmailSubscriptionService_UpdateEmailSubscription_Rule0(cli EmailSubscripti
 
 		_EmailSubscriptionService_HTTPWriteResponse(w, out, header, trailer)
 	})
-}
-
-type _EmailSubscriptionServiceHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
-type _EmailSubscriptionServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _EmailSubscriptionServiceHandler) (out proto.Message, err error)
-type EmailSubscriptionServiceInterceptor struct {
-	middleware []_EmailSubscriptionServiceMiddleware
-	client     EmailSubscriptionServiceClient
-}
-
-// NewEmailSubscriptionServiceInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewEmailSubscriptionServiceInterceptor(cli EmailSubscriptionServiceClient, middleware ..._EmailSubscriptionServiceMiddleware) *EmailSubscriptionServiceInterceptor {
-	return &EmailSubscriptionServiceInterceptor{client: cli, middleware: middleware}
-}
-
-func (i *EmailSubscriptionServiceInterceptor) DescribeEmailSubscription(ctx context.Context, in *DescribeEmailSubscriptionInput, opts ...grpc.CallOption) (*DescribeEmailSubscriptionOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*DescribeEmailSubscriptionInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *DescribeEmailSubscriptionInput, got %T", in))
-		}
-
-		return i.client.DescribeEmailSubscription(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.mailing.EmailSubscriptionService.DescribeEmailSubscription", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*DescribeEmailSubscriptionOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *DescribeEmailSubscriptionOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *EmailSubscriptionServiceInterceptor) UpdateEmailSubscription(ctx context.Context, in *UpdateEmailSubscriptionInput, opts ...grpc.CallOption) (*UpdateEmailSubscriptionOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*UpdateEmailSubscriptionInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *UpdateEmailSubscriptionInput, got %T", in))
-		}
-
-		return i.client.UpdateEmailSubscription(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.mailing.EmailSubscriptionService.UpdateEmailSubscription", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*UpdateEmailSubscriptionOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *UpdateEmailSubscriptionOutput, got %T", out))
-	}
-
-	return message, err
 }

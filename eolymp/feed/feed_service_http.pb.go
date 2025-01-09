@@ -4,8 +4,6 @@
 package feed
 
 import (
-	context "context"
-	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -153,48 +151,4 @@ func _FeedService_ListEntries_Rule0(cli FeedServiceClient) http.Handler {
 
 		_FeedService_HTTPWriteResponse(w, out, header, trailer)
 	})
-}
-
-type _FeedServiceHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
-type _FeedServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _FeedServiceHandler) (out proto.Message, err error)
-type FeedServiceInterceptor struct {
-	middleware []_FeedServiceMiddleware
-	client     FeedServiceClient
-}
-
-// NewFeedServiceInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewFeedServiceInterceptor(cli FeedServiceClient, middleware ..._FeedServiceMiddleware) *FeedServiceInterceptor {
-	return &FeedServiceInterceptor{client: cli, middleware: middleware}
-}
-
-func (i *FeedServiceInterceptor) ListEntries(ctx context.Context, in *ListEntriesInput, opts ...grpc.CallOption) (*ListEntriesOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*ListEntriesInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *ListEntriesInput, got %T", in))
-		}
-
-		return i.client.ListEntries(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.feed.FeedService.ListEntries", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*ListEntriesOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *ListEntriesOutput, got %T", out))
-	}
-
-	return message, err
 }

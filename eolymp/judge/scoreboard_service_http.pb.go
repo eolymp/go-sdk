@@ -4,8 +4,6 @@
 package judge
 
 import (
-	context "context"
-	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -178,80 +176,4 @@ func _ScoreboardService_ListScoreboardRows_Rule0(cli ScoreboardServiceClient) ht
 
 		_ScoreboardService_HTTPWriteResponse(w, out, header, trailer)
 	})
-}
-
-type _ScoreboardServiceHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
-type _ScoreboardServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _ScoreboardServiceHandler) (out proto.Message, err error)
-type ScoreboardServiceInterceptor struct {
-	middleware []_ScoreboardServiceMiddleware
-	client     ScoreboardServiceClient
-}
-
-// NewScoreboardServiceInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewScoreboardServiceInterceptor(cli ScoreboardServiceClient, middleware ..._ScoreboardServiceMiddleware) *ScoreboardServiceInterceptor {
-	return &ScoreboardServiceInterceptor{client: cli, middleware: middleware}
-}
-
-func (i *ScoreboardServiceInterceptor) DescribeScoreboard(ctx context.Context, in *DescribeScoreboardInput, opts ...grpc.CallOption) (*DescribeScoreboardOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*DescribeScoreboardInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *DescribeScoreboardInput, got %T", in))
-		}
-
-		return i.client.DescribeScoreboard(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.ScoreboardService.DescribeScoreboard", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*DescribeScoreboardOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *DescribeScoreboardOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *ScoreboardServiceInterceptor) ListScoreboardRows(ctx context.Context, in *ListScoreboardRowsInput, opts ...grpc.CallOption) (*ListScoreboardRowsOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*ListScoreboardRowsInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *ListScoreboardRowsInput, got %T", in))
-		}
-
-		return i.client.ListScoreboardRows(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.judge.ScoreboardService.ListScoreboardRows", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*ListScoreboardRowsOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *ListScoreboardRowsOutput, got %T", out))
-	}
-
-	return message, err
 }

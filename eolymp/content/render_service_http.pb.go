@@ -4,8 +4,6 @@
 package content
 
 import (
-	context "context"
-	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -153,48 +151,4 @@ func _RenderService_RenderContent_Rule0(cli RenderServiceClient) http.Handler {
 
 		_RenderService_HTTPWriteResponse(w, out, header, trailer)
 	})
-}
-
-type _RenderServiceHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
-type _RenderServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _RenderServiceHandler) (out proto.Message, err error)
-type RenderServiceInterceptor struct {
-	middleware []_RenderServiceMiddleware
-	client     RenderServiceClient
-}
-
-// NewRenderServiceInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewRenderServiceInterceptor(cli RenderServiceClient, middleware ..._RenderServiceMiddleware) *RenderServiceInterceptor {
-	return &RenderServiceInterceptor{client: cli, middleware: middleware}
-}
-
-func (i *RenderServiceInterceptor) RenderContent(ctx context.Context, in *RenderContentInput, opts ...grpc.CallOption) (*RenderContentOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*RenderContentInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *RenderContentInput, got %T", in))
-		}
-
-		return i.client.RenderContent(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.content.RenderService.RenderContent", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*RenderContentOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *RenderContentOutput, got %T", out))
-	}
-
-	return message, err
 }

@@ -4,8 +4,6 @@
 package acl
 
 import (
-	context "context"
-	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -153,48 +151,4 @@ func _PermissionService_IntrospectPermissions_Rule0(cli PermissionServiceClient)
 
 		_PermissionService_HTTPWriteResponse(w, out, header, trailer)
 	})
-}
-
-type _PermissionServiceHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
-type _PermissionServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _PermissionServiceHandler) (out proto.Message, err error)
-type PermissionServiceInterceptor struct {
-	middleware []_PermissionServiceMiddleware
-	client     PermissionServiceClient
-}
-
-// NewPermissionServiceInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewPermissionServiceInterceptor(cli PermissionServiceClient, middleware ..._PermissionServiceMiddleware) *PermissionServiceInterceptor {
-	return &PermissionServiceInterceptor{client: cli, middleware: middleware}
-}
-
-func (i *PermissionServiceInterceptor) IntrospectPermissions(ctx context.Context, in *IntrospectPermissionsInput, opts ...grpc.CallOption) (*IntrospectPermissionsOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*IntrospectPermissionsInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *IntrospectPermissionsInput, got %T", in))
-		}
-
-		return i.client.IntrospectPermissions(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.acl.PermissionService.IntrospectPermissions", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*IntrospectPermissionsOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *IntrospectPermissionsOutput, got %T", out))
-	}
-
-	return message, err
 }

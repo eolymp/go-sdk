@@ -4,8 +4,6 @@
 package resolver
 
 import (
-	context "context"
-	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -156,48 +154,4 @@ func _Resolver_ResolveName_Rule0(cli ResolverClient) http.Handler {
 
 		_Resolver_HTTPWriteResponse(w, out, header, trailer)
 	})
-}
-
-type _ResolverHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
-type _ResolverMiddleware = func(ctx context.Context, method string, in proto.Message, handler _ResolverHandler) (out proto.Message, err error)
-type ResolverInterceptor struct {
-	middleware []_ResolverMiddleware
-	client     ResolverClient
-}
-
-// NewResolverInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewResolverInterceptor(cli ResolverClient, middleware ..._ResolverMiddleware) *ResolverInterceptor {
-	return &ResolverInterceptor{client: cli, middleware: middleware}
-}
-
-func (i *ResolverInterceptor) ResolveName(ctx context.Context, in *ResolveNameInput, opts ...grpc.CallOption) (*ResolveNameOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*ResolveNameInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *ResolveNameInput, got %T", in))
-		}
-
-		return i.client.ResolveName(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.resolver.Resolver.ResolveName", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*ResolveNameOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *ResolveNameOutput, got %T", out))
-	}
-
-	return message, err
 }

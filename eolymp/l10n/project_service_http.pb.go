@@ -4,8 +4,6 @@
 package l10n
 
 import (
-	context "context"
-	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -181,80 +179,4 @@ func _ProjectService_DescribeProject_Rule0(cli ProjectServiceClient) http.Handle
 
 		_ProjectService_HTTPWriteResponse(w, out, header, trailer)
 	})
-}
-
-type _ProjectServiceHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
-type _ProjectServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _ProjectServiceHandler) (out proto.Message, err error)
-type ProjectServiceInterceptor struct {
-	middleware []_ProjectServiceMiddleware
-	client     ProjectServiceClient
-}
-
-// NewProjectServiceInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewProjectServiceInterceptor(cli ProjectServiceClient, middleware ..._ProjectServiceMiddleware) *ProjectServiceInterceptor {
-	return &ProjectServiceInterceptor{client: cli, middleware: middleware}
-}
-
-func (i *ProjectServiceInterceptor) ListProjects(ctx context.Context, in *ListProjectsInput, opts ...grpc.CallOption) (*ListProjectsOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*ListProjectsInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *ListProjectsInput, got %T", in))
-		}
-
-		return i.client.ListProjects(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.l10n.ProjectService.ListProjects", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*ListProjectsOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *ListProjectsOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *ProjectServiceInterceptor) DescribeProject(ctx context.Context, in *DescribeProjectInput, opts ...grpc.CallOption) (*DescribeProjectOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*DescribeProjectInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *DescribeProjectInput, got %T", in))
-		}
-
-		return i.client.DescribeProject(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.l10n.ProjectService.DescribeProject", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*DescribeProjectOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *DescribeProjectOutput, got %T", out))
-	}
-
-	return message, err
 }

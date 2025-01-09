@@ -4,8 +4,6 @@
 package atlas
 
 import (
-	context "context"
-	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -181,80 +179,4 @@ func _ScoringService_DescribeProblemGrading_Rule0(cli ScoringServiceClient) http
 
 		_ScoringService_HTTPWriteResponse(w, out, header, trailer)
 	})
-}
-
-type _ScoringServiceHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
-type _ScoringServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _ScoringServiceHandler) (out proto.Message, err error)
-type ScoringServiceInterceptor struct {
-	middleware []_ScoringServiceMiddleware
-	client     ScoringServiceClient
-}
-
-// NewScoringServiceInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewScoringServiceInterceptor(cli ScoringServiceClient, middleware ..._ScoringServiceMiddleware) *ScoringServiceInterceptor {
-	return &ScoringServiceInterceptor{client: cli, middleware: middleware}
-}
-
-func (i *ScoringServiceInterceptor) DescribeScore(ctx context.Context, in *DescribeScoreInput, opts ...grpc.CallOption) (*DescribeScoreOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*DescribeScoreInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *DescribeScoreInput, got %T", in))
-		}
-
-		return i.client.DescribeScore(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.ScoringService.DescribeScore", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*DescribeScoreOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *DescribeScoreOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *ScoringServiceInterceptor) DescribeProblemGrading(ctx context.Context, in *DescribeProblemGradingInput, opts ...grpc.CallOption) (*DescribeProblemGradingOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*DescribeProblemGradingInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *DescribeProblemGradingInput, got %T", in))
-		}
-
-		return i.client.DescribeProblemGrading(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.atlas.ScoringService.DescribeProblemGrading", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*DescribeProblemGradingOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *DescribeProblemGradingOutput, got %T", out))
-	}
-
-	return message, err
 }

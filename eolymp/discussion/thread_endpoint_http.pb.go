@@ -4,8 +4,6 @@
 package discussion
 
 import (
-	context "context"
-	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -178,80 +176,4 @@ func _ThreadEndpoint_VoteThread_Rule0(cli ThreadEndpointClient) http.Handler {
 
 		_ThreadEndpoint_HTTPWriteResponse(w, out, header, trailer)
 	})
-}
-
-type _ThreadEndpointHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
-type _ThreadEndpointMiddleware = func(ctx context.Context, method string, in proto.Message, handler _ThreadEndpointHandler) (out proto.Message, err error)
-type ThreadEndpointInterceptor struct {
-	middleware []_ThreadEndpointMiddleware
-	client     ThreadEndpointClient
-}
-
-// NewThreadEndpointInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewThreadEndpointInterceptor(cli ThreadEndpointClient, middleware ..._ThreadEndpointMiddleware) *ThreadEndpointInterceptor {
-	return &ThreadEndpointInterceptor{client: cli, middleware: middleware}
-}
-
-func (i *ThreadEndpointInterceptor) DescribeThread(ctx context.Context, in *DescribeThreadInput, opts ...grpc.CallOption) (*DescribeThreadOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*DescribeThreadInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *DescribeThreadInput, got %T", in))
-		}
-
-		return i.client.DescribeThread(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.discussion.ThreadEndpoint.DescribeThread", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*DescribeThreadOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *DescribeThreadOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *ThreadEndpointInterceptor) VoteThread(ctx context.Context, in *VoteThreadInput, opts ...grpc.CallOption) (*VoteThreadOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*VoteThreadInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *VoteThreadInput, got %T", in))
-		}
-
-		return i.client.VoteThread(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.discussion.ThreadEndpoint.VoteThread", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*VoteThreadOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *VoteThreadOutput, got %T", out))
-	}
-
-	return message, err
 }

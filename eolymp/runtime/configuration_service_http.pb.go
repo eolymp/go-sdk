@@ -4,8 +4,6 @@
 package runtime
 
 import (
-	context "context"
-	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -178,80 +176,4 @@ func _ConfigurationService_ConfigureRuntimeConfig_Rule0(cli ConfigurationService
 
 		_ConfigurationService_HTTPWriteResponse(w, out, header, trailer)
 	})
-}
-
-type _ConfigurationServiceHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
-type _ConfigurationServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _ConfigurationServiceHandler) (out proto.Message, err error)
-type ConfigurationServiceInterceptor struct {
-	middleware []_ConfigurationServiceMiddleware
-	client     ConfigurationServiceClient
-}
-
-// NewConfigurationServiceInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewConfigurationServiceInterceptor(cli ConfigurationServiceClient, middleware ..._ConfigurationServiceMiddleware) *ConfigurationServiceInterceptor {
-	return &ConfigurationServiceInterceptor{client: cli, middleware: middleware}
-}
-
-func (i *ConfigurationServiceInterceptor) DescribeRuntimeConfig(ctx context.Context, in *DescribeRuntimeConfigInput, opts ...grpc.CallOption) (*DescribeRuntimeConfigOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*DescribeRuntimeConfigInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *DescribeRuntimeConfigInput, got %T", in))
-		}
-
-		return i.client.DescribeRuntimeConfig(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.runtime.ConfigurationService.DescribeRuntimeConfig", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*DescribeRuntimeConfigOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *DescribeRuntimeConfigOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *ConfigurationServiceInterceptor) ConfigureRuntimeConfig(ctx context.Context, in *ConfigureRuntimeConfigInput, opts ...grpc.CallOption) (*ConfigureRuntimeConfigOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*ConfigureRuntimeConfigInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *ConfigureRuntimeConfigInput, got %T", in))
-		}
-
-		return i.client.ConfigureRuntimeConfig(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.runtime.ConfigurationService.ConfigureRuntimeConfig", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*ConfigureRuntimeConfigOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *ConfigureRuntimeConfigOutput, got %T", out))
-	}
-
-	return message, err
 }

@@ -4,8 +4,6 @@
 package community
 
 import (
-	context "context"
-	fmt "fmt"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -178,80 +176,4 @@ func _ConfigurationService_ConfigureIdentityConfig_Rule0(cli ConfigurationServic
 
 		_ConfigurationService_HTTPWriteResponse(w, out, header, trailer)
 	})
-}
-
-type _ConfigurationServiceHandler = func(ctx context.Context, in proto.Message) (proto.Message, error)
-type _ConfigurationServiceMiddleware = func(ctx context.Context, method string, in proto.Message, handler _ConfigurationServiceHandler) (out proto.Message, err error)
-type ConfigurationServiceInterceptor struct {
-	middleware []_ConfigurationServiceMiddleware
-	client     ConfigurationServiceClient
-}
-
-// NewConfigurationServiceInterceptor constructs additional middleware for a server based on annotations in proto files
-func NewConfigurationServiceInterceptor(cli ConfigurationServiceClient, middleware ..._ConfigurationServiceMiddleware) *ConfigurationServiceInterceptor {
-	return &ConfigurationServiceInterceptor{client: cli, middleware: middleware}
-}
-
-func (i *ConfigurationServiceInterceptor) DescribeIdentityConfig(ctx context.Context, in *DescribeIdentityConfigInput, opts ...grpc.CallOption) (*DescribeIdentityConfigOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*DescribeIdentityConfigInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *DescribeIdentityConfigInput, got %T", in))
-		}
-
-		return i.client.DescribeIdentityConfig(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.community.ConfigurationService.DescribeIdentityConfig", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*DescribeIdentityConfigOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *DescribeIdentityConfigOutput, got %T", out))
-	}
-
-	return message, err
-}
-
-func (i *ConfigurationServiceInterceptor) ConfigureIdentityConfig(ctx context.Context, in *ConfigureIdentityConfigInput, opts ...grpc.CallOption) (*ConfigureIdentityConfigOutput, error) {
-	handler := func(ctx context.Context, in proto.Message) (proto.Message, error) {
-		message, ok := in.(*ConfigureIdentityConfigInput)
-		if !ok && in != nil {
-			panic(fmt.Errorf("request input type is invalid: want *ConfigureIdentityConfigInput, got %T", in))
-		}
-
-		return i.client.ConfigureIdentityConfig(ctx, message, opts...)
-	}
-
-	for _, mw := range i.middleware {
-		mw := mw
-		next := handler
-
-		handler = func(ctx context.Context, in proto.Message) (proto.Message, error) {
-			return mw(ctx, "eolymp.community.ConfigurationService.ConfigureIdentityConfig", in, next)
-		}
-	}
-
-	out, err := handler(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	message, ok := out.(*ConfigureIdentityConfigOutput)
-	if !ok && out != nil {
-		panic(fmt.Errorf("output type is invalid: want *ConfigureIdentityConfigOutput, got %T", out))
-	}
-
-	return message, err
 }
