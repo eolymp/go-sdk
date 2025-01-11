@@ -124,7 +124,6 @@ func _ScriptService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterScriptServiceHttpHandlers adds handlers for for ScriptServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterScriptServiceHttpHandlers(router *mux.Router, prefix string, cli ScriptServiceClient) {
 	router.Handle(prefix+"/scripts", _ScriptService_CreateScript_Rule0(cli)).
 		Methods("PUT").
@@ -141,6 +140,11 @@ func RegisterScriptServiceHttpHandlers(router *mux.Router, prefix string, cli Sc
 	router.Handle(prefix+"/scripts", _ScriptService_ListScripts_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.ScriptService.ListScripts")
+}
+
+// RegisterScriptServiceHttpProxy adds proxy handlers for for ScriptServiceClient
+func RegisterScriptServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterScriptServiceHttpHandlers(router, prefix, NewScriptServiceClient(conn))
 }
 
 func _ScriptService_CreateScript_Rule0(cli ScriptServiceClient) http.Handler {

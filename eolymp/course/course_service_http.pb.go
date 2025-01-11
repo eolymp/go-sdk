@@ -124,7 +124,6 @@ func _CourseService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterCourseServiceHttpHandlers adds handlers for for CourseServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterCourseServiceHttpHandlers(router *mux.Router, prefix string, cli CourseServiceClient) {
 	router.Handle(prefix+"/courses", _CourseService_CreateCourse_Rule0(cli)).
 		Methods("PUT").
@@ -144,6 +143,11 @@ func RegisterCourseServiceHttpHandlers(router *mux.Router, prefix string, cli Co
 	router.Handle(prefix+"/courses/{course_id}/copy", _CourseService_CopyCourse_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.course.CourseService.CopyCourse")
+}
+
+// RegisterCourseServiceHttpProxy adds proxy handlers for for CourseServiceClient
+func RegisterCourseServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterCourseServiceHttpHandlers(router, prefix, NewCourseServiceClient(conn))
 }
 
 func _CourseService_CreateCourse_Rule0(cli CourseServiceClient) http.Handler {

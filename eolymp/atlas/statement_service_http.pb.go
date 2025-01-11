@@ -124,7 +124,6 @@ func _StatementService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterStatementServiceHttpHandlers adds handlers for for StatementServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterStatementServiceHttpHandlers(router *mux.Router, prefix string, cli StatementServiceClient) {
 	router.Handle(prefix+"/statements", _StatementService_CreateStatement_Rule0(cli)).
 		Methods("PUT").
@@ -150,6 +149,11 @@ func RegisterStatementServiceHttpHandlers(router *mux.Router, prefix string, cli
 	router.Handle(prefix+"/statements:translate", _StatementService_TranslateStatements_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.StatementService.TranslateStatements")
+}
+
+// RegisterStatementServiceHttpProxy adds proxy handlers for for StatementServiceClient
+func RegisterStatementServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterStatementServiceHttpHandlers(router, prefix, NewStatementServiceClient(conn))
 }
 
 func _StatementService_CreateStatement_Rule0(cli StatementServiceClient) http.Handler {

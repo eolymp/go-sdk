@@ -124,7 +124,6 @@ func _PasscodeService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterPasscodeServiceHttpHandlers adds handlers for for PasscodeServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterPasscodeServiceHttpHandlers(router *mux.Router, prefix string, cli PasscodeServiceClient) {
 	router.Handle(prefix+"/verify-passcode", _PasscodeService_VerifyPasscode_Rule0(cli)).
 		Methods("POST").
@@ -141,6 +140,11 @@ func RegisterPasscodeServiceHttpHandlers(router *mux.Router, prefix string, cli 
 	router.Handle(prefix+"/participants/{participant_id}/passcode", _PasscodeService_RemovePasscode_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.judge.PasscodeService.RemovePasscode")
+}
+
+// RegisterPasscodeServiceHttpProxy adds proxy handlers for for PasscodeServiceClient
+func RegisterPasscodeServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterPasscodeServiceHttpHandlers(router, prefix, NewPasscodeServiceClient(conn))
 }
 
 func _PasscodeService_VerifyPasscode_Rule0(cli PasscodeServiceClient) http.Handler {

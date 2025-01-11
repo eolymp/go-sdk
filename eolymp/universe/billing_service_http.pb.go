@@ -124,7 +124,6 @@ func _BillingService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterBillingServiceHttpHandlers adds handlers for for BillingServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterBillingServiceHttpHandlers(router *mux.Router, prefix string, cli BillingServiceClient) {
 	router.Handle(prefix+"/billing/info", _BillingService_DescribeBillingInformation_Rule0(cli)).
 		Methods("GET").
@@ -171,6 +170,11 @@ func RegisterBillingServiceHttpHandlers(router *mux.Router, prefix string, cli B
 	router.Handle(prefix+"/billing/plans", _BillingService_ListAvailablePlans_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.universe.BillingService.ListAvailablePlans")
+}
+
+// RegisterBillingServiceHttpProxy adds proxy handlers for for BillingServiceClient
+func RegisterBillingServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterBillingServiceHttpHandlers(router, prefix, NewBillingServiceClient(conn))
 }
 
 func _BillingService_DescribeBillingInformation_Rule0(cli BillingServiceClient) http.Handler {

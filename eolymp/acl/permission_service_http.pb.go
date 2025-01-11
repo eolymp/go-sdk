@@ -124,11 +124,15 @@ func _PermissionService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterPermissionServiceHttpHandlers adds handlers for for PermissionServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterPermissionServiceHttpHandlers(router *mux.Router, prefix string, cli PermissionServiceClient) {
 	router.Handle(prefix+"/permissions", _PermissionService_IntrospectPermissions_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.acl.PermissionService.IntrospectPermissions")
+}
+
+// RegisterPermissionServiceHttpProxy adds proxy handlers for for PermissionServiceClient
+func RegisterPermissionServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterPermissionServiceHttpHandlers(router, prefix, NewPermissionServiceClient(conn))
 }
 
 func _PermissionService_IntrospectPermissions_Rule0(cli PermissionServiceClient) http.Handler {

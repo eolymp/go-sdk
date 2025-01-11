@@ -124,11 +124,15 @@ func _ActivityGraphService_HTTPWriteErrorResponse(w http.ResponseWriter, e error
 }
 
 // RegisterActivityGraphServiceHttpHandlers adds handlers for for ActivityGraphServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterActivityGraphServiceHttpHandlers(router *mux.Router, prefix string, cli ActivityGraphServiceClient) {
 	router.Handle(prefix+"/activity-graph", _ActivityGraphService_DescribeActivityGraph_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.community.ActivityGraphService.DescribeActivityGraph")
+}
+
+// RegisterActivityGraphServiceHttpProxy adds proxy handlers for for ActivityGraphServiceClient
+func RegisterActivityGraphServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterActivityGraphServiceHttpHandlers(router, prefix, NewActivityGraphServiceClient(conn))
 }
 
 func _ActivityGraphService_DescribeActivityGraph_Rule0(cli ActivityGraphServiceClient) http.Handler {

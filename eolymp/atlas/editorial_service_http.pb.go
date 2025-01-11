@@ -124,7 +124,6 @@ func _EditorialService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterEditorialServiceHttpHandlers adds handlers for for EditorialServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterEditorialServiceHttpHandlers(router *mux.Router, prefix string, cli EditorialServiceClient) {
 	router.Handle(prefix+"/editorials", _EditorialService_CreateEditorial_Rule0(cli)).
 		Methods("PUT").
@@ -150,6 +149,11 @@ func RegisterEditorialServiceHttpHandlers(router *mux.Router, prefix string, cli
 	router.Handle(prefix+"/editorials:translate", _EditorialService_TranslateEditorials_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.EditorialService.TranslateEditorials")
+}
+
+// RegisterEditorialServiceHttpProxy adds proxy handlers for for EditorialServiceClient
+func RegisterEditorialServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterEditorialServiceHttpHandlers(router, prefix, NewEditorialServiceClient(conn))
 }
 
 func _EditorialService_CreateEditorial_Rule0(cli EditorialServiceClient) http.Handler {

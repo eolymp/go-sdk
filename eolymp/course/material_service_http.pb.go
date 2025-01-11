@@ -124,7 +124,6 @@ func _MaterialService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterMaterialServiceHttpHandlers adds handlers for for MaterialServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterMaterialServiceHttpHandlers(router *mux.Router, prefix string, cli MaterialServiceClient) {
 	router.Handle(prefix+"/materials", _MaterialService_CreateMaterial_Rule0(cli)).
 		Methods("POST").
@@ -150,6 +149,11 @@ func RegisterMaterialServiceHttpHandlers(router *mux.Router, prefix string, cli 
 	router.Handle(prefix+"/materials/{material_id}/grade", _MaterialService_GradeMaterial_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.course.MaterialService.GradeMaterial")
+}
+
+// RegisterMaterialServiceHttpProxy adds proxy handlers for for MaterialServiceClient
+func RegisterMaterialServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterMaterialServiceHttpHandlers(router, prefix, NewMaterialServiceClient(conn))
 }
 
 func _MaterialService_CreateMaterial_Rule0(cli MaterialServiceClient) http.Handler {

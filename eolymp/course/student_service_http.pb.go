@@ -124,7 +124,6 @@ func _StudentService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterStudentServiceHttpHandlers adds handlers for for StudentServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterStudentServiceHttpHandlers(router *mux.Router, prefix string, cli StudentServiceClient) {
 	router.Handle(prefix+"/students", _StudentService_CreateStudent_Rule0(cli)).
 		Methods("POST").
@@ -162,6 +161,11 @@ func RegisterStudentServiceHttpHandlers(router *mux.Router, prefix string, cli S
 	router.Handle(prefix+"/students/{member_id}/grades/{module_id}", _StudentService_ListModuleGrades_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.StudentService.ListModuleGrades")
+}
+
+// RegisterStudentServiceHttpProxy adds proxy handlers for for StudentServiceClient
+func RegisterStudentServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterStudentServiceHttpHandlers(router, prefix, NewStudentServiceClient(conn))
 }
 
 func _StudentService_CreateStudent_Rule0(cli StudentServiceClient) http.Handler {

@@ -124,7 +124,6 @@ func _EnumService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterEnumServiceHttpHandlers adds handlers for for EnumServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterEnumServiceHttpHandlers(router *mux.Router, prefix string, cli EnumServiceClient) {
 	router.Handle(prefix+"/enums", _EnumService_CreateEnum_Rule0(cli)).
 		Methods("POST").
@@ -165,6 +164,11 @@ func RegisterEnumServiceHttpHandlers(router *mux.Router, prefix string, cli Enum
 	router.Handle(prefix+"/enums/{enum_id}/values/{value_id}/translations", _EnumService_ListTranslations_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.taxonomy.EnumService.ListTranslations")
+}
+
+// RegisterEnumServiceHttpProxy adds proxy handlers for for EnumServiceClient
+func RegisterEnumServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterEnumServiceHttpHandlers(router, prefix, NewEnumServiceClient(conn))
 }
 
 func _EnumService_CreateEnum_Rule0(cli EnumServiceClient) http.Handler {

@@ -124,7 +124,6 @@ func _EmailSubscriptionService_HTTPWriteErrorResponse(w http.ResponseWriter, e e
 }
 
 // RegisterEmailSubscriptionServiceHttpHandlers adds handlers for for EmailSubscriptionServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterEmailSubscriptionServiceHttpHandlers(router *mux.Router, prefix string, cli EmailSubscriptionServiceClient) {
 	router.Handle(prefix+"/email-subscription", _EmailSubscriptionService_DescribeEmailSubscription_Rule0(cli)).
 		Methods("GET").
@@ -132,6 +131,11 @@ func RegisterEmailSubscriptionServiceHttpHandlers(router *mux.Router, prefix str
 	router.Handle(prefix+"/email-subscription", _EmailSubscriptionService_UpdateEmailSubscription_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.mailing.EmailSubscriptionService.UpdateEmailSubscription")
+}
+
+// RegisterEmailSubscriptionServiceHttpProxy adds proxy handlers for for EmailSubscriptionServiceClient
+func RegisterEmailSubscriptionServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterEmailSubscriptionServiceHttpHandlers(router, prefix, NewEmailSubscriptionServiceClient(conn))
 }
 
 func _EmailSubscriptionService_DescribeEmailSubscription_Rule0(cli EmailSubscriptionServiceClient) http.Handler {

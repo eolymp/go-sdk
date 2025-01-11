@@ -124,7 +124,6 @@ func _AssetService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterAssetServiceHttpHandlers adds handlers for for AssetServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterAssetServiceHttpHandlers(router *mux.Router, prefix string, cli AssetServiceClient) {
 	router.Handle(prefix+"/assets/images", _AssetService_UploadImage_Rule0(cli)).
 		Methods("POST").
@@ -156,6 +155,11 @@ func RegisterAssetServiceHttpHandlers(router *mux.Router, prefix string, cli Ass
 	router.Handle(prefix+"/streams/{stream_id}", _AssetService_CloseStream_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.asset.AssetService.CloseStream")
+}
+
+// RegisterAssetServiceHttpProxy adds proxy handlers for for AssetServiceClient
+func RegisterAssetServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterAssetServiceHttpHandlers(router, prefix, NewAssetServiceClient(conn))
 }
 
 func _AssetService_UploadImage_Rule0(cli AssetServiceClient) http.Handler {

@@ -124,11 +124,15 @@ func _RenderService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterRenderServiceHttpHandlers adds handlers for for RenderServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterRenderServiceHttpHandlers(router *mux.Router, prefix string, cli RenderServiceClient) {
 	router.Handle(prefix+"/renderer", _RenderService_RenderContent_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.content.RenderService.RenderContent")
+}
+
+// RegisterRenderServiceHttpProxy adds proxy handlers for for RenderServiceClient
+func RegisterRenderServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterRenderServiceHttpHandlers(router, prefix, NewRenderServiceClient(conn))
 }
 
 func _RenderService_RenderContent_Rule0(cli RenderServiceClient) http.Handler {

@@ -124,7 +124,6 @@ func _LinkedAccountService_HTTPWriteErrorResponse(w http.ResponseWriter, e error
 }
 
 // RegisterLinkedAccountServiceHttpHandlers adds handlers for for LinkedAccountServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterLinkedAccountServiceHttpHandlers(router *mux.Router, prefix string, cli LinkedAccountServiceClient) {
 	router.Handle(prefix+"/linked-accounts/{link_id}", _LinkedAccountService_DescribeLinkedAccount_Rule0(cli)).
 		Methods("GET").
@@ -135,6 +134,11 @@ func RegisterLinkedAccountServiceHttpHandlers(router *mux.Router, prefix string,
 	router.Handle(prefix+"/linked-accounts/{link_id}", _LinkedAccountService_DeleteLinkedAccount_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.community.LinkedAccountService.DeleteLinkedAccount")
+}
+
+// RegisterLinkedAccountServiceHttpProxy adds proxy handlers for for LinkedAccountServiceClient
+func RegisterLinkedAccountServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterLinkedAccountServiceHttpHandlers(router, prefix, NewLinkedAccountServiceClient(conn))
 }
 
 func _LinkedAccountService_DescribeLinkedAccount_Rule0(cli LinkedAccountServiceClient) http.Handler {

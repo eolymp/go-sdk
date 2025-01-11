@@ -124,7 +124,6 @@ func _AnnouncementService_HTTPWriteErrorResponse(w http.ResponseWriter, e error)
 }
 
 // RegisterAnnouncementServiceHttpHandlers adds handlers for for AnnouncementServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterAnnouncementServiceHttpHandlers(router *mux.Router, prefix string, cli AnnouncementServiceClient) {
 	router.Handle(prefix+"/announcements", _AnnouncementService_CreateAnnouncement_Rule0(cli)).
 		Methods("POST").
@@ -147,6 +146,11 @@ func RegisterAnnouncementServiceHttpHandlers(router *mux.Router, prefix string, 
 	router.Handle(prefix+"/announcements", _AnnouncementService_ListAnnouncements_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.AnnouncementService.ListAnnouncements")
+}
+
+// RegisterAnnouncementServiceHttpProxy adds proxy handlers for for AnnouncementServiceClient
+func RegisterAnnouncementServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterAnnouncementServiceHttpHandlers(router, prefix, NewAnnouncementServiceClient(conn))
 }
 
 func _AnnouncementService_CreateAnnouncement_Rule0(cli AnnouncementServiceClient) http.Handler {

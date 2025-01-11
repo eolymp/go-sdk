@@ -124,7 +124,6 @@ func _ConfigurationService_HTTPWriteErrorResponse(w http.ResponseWriter, e error
 }
 
 // RegisterConfigurationServiceHttpHandlers adds handlers for for ConfigurationServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterConfigurationServiceHttpHandlers(router *mux.Router, prefix string, cli ConfigurationServiceClient) {
 	router.Handle(prefix+"/configs/discussions", _ConfigurationService_DescribeDiscussionConfig_Rule0(cli)).
 		Methods("GET").
@@ -132,6 +131,11 @@ func RegisterConfigurationServiceHttpHandlers(router *mux.Router, prefix string,
 	router.Handle(prefix+"/configs/discussions", _ConfigurationService_UpdateDiscussionConfig_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.discussion.ConfigurationService.UpdateDiscussionConfig")
+}
+
+// RegisterConfigurationServiceHttpProxy adds proxy handlers for for ConfigurationServiceClient
+func RegisterConfigurationServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterConfigurationServiceHttpHandlers(router, prefix, NewConfigurationServiceClient(conn))
 }
 
 func _ConfigurationService_DescribeDiscussionConfig_Rule0(cli ConfigurationServiceClient) http.Handler {

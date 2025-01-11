@@ -124,7 +124,6 @@ func _PlanService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterPlanServiceHttpHandlers adds handlers for for PlanServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterPlanServiceHttpHandlers(router *mux.Router, prefix string, cli PlanServiceClient) {
 	router.Handle(prefix+"/plans/{plan_id}", _PlanService_DescribePlan_Rule0(cli)).
 		Methods("GET").
@@ -132,6 +131,11 @@ func RegisterPlanServiceHttpHandlers(router *mux.Router, prefix string, cli Plan
 	router.Handle(prefix+"/plans", _PlanService_ListPlans_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.universe.PlanService.ListPlans")
+}
+
+// RegisterPlanServiceHttpProxy adds proxy handlers for for PlanServiceClient
+func RegisterPlanServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterPlanServiceHttpHandlers(router, prefix, NewPlanServiceClient(conn))
 }
 
 func _PlanService_DescribePlan_Rule0(cli PlanServiceClient) http.Handler {

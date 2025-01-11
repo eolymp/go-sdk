@@ -124,7 +124,6 @@ func _NotificationService_HTTPWriteErrorResponse(w http.ResponseWriter, e error)
 }
 
 // RegisterNotificationServiceHttpHandlers adds handlers for for NotificationServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterNotificationServiceHttpHandlers(router *mux.Router, prefix string, cli NotificationServiceClient) {
 	router.Handle(prefix+"/notifications/{notification_id}", _NotificationService_DescribeNotification_Rule0(cli)).
 		Methods("GET").
@@ -144,6 +143,11 @@ func RegisterNotificationServiceHttpHandlers(router *mux.Router, prefix string, 
 	router.Handle(prefix+"/preferences/notifications", _NotificationService_UpdatePreferences_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.notify.NotificationService.UpdatePreferences")
+}
+
+// RegisterNotificationServiceHttpProxy adds proxy handlers for for NotificationServiceClient
+func RegisterNotificationServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterNotificationServiceHttpHandlers(router, prefix, NewNotificationServiceClient(conn))
 }
 
 func _NotificationService_DescribeNotification_Rule0(cli NotificationServiceClient) http.Handler {

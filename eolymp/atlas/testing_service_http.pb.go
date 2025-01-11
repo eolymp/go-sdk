@@ -124,7 +124,6 @@ func _TestingService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterTestingServiceHttpHandlers adds handlers for for TestingServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterTestingServiceHttpHandlers(router *mux.Router, prefix string, cli TestingServiceClient) {
 	router.Handle(prefix+"/testing", _TestingService_UpdateTestingConfig_Rule0(cli)).
 		Methods("PUT").
@@ -177,6 +176,11 @@ func RegisterTestingServiceHttpHandlers(router *mux.Router, prefix string, cli T
 	router.Handle(prefix+"/examples", _TestingService_ListExamples_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.TestingService.ListExamples")
+}
+
+// RegisterTestingServiceHttpProxy adds proxy handlers for for TestingServiceClient
+func RegisterTestingServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterTestingServiceHttpHandlers(router, prefix, NewTestingServiceClient(conn))
 }
 
 func _TestingService_UpdateTestingConfig_Rule0(cli TestingServiceClient) http.Handler {

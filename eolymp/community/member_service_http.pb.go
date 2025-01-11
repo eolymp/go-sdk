@@ -124,7 +124,6 @@ func _MemberService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterMemberServiceHttpHandlers adds handlers for for MemberServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterMemberServiceHttpHandlers(router *mux.Router, prefix string, cli MemberServiceClient) {
 	router.Handle(prefix+"/members", _MemberService_CreateMember_Rule0(cli)).
 		Methods("POST").
@@ -153,6 +152,11 @@ func RegisterMemberServiceHttpHandlers(router *mux.Router, prefix string, cli Me
 	router.Handle(prefix+"/usage/members", _MemberService_DescribeMemberUsage_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.community.MemberService.DescribeMemberUsage")
+}
+
+// RegisterMemberServiceHttpProxy adds proxy handlers for for MemberServiceClient
+func RegisterMemberServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterMemberServiceHttpHandlers(router, prefix, NewMemberServiceClient(conn))
 }
 
 func _MemberService_CreateMember_Rule0(cli MemberServiceClient) http.Handler {

@@ -124,7 +124,6 @@ func _AttachmentService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterAttachmentServiceHttpHandlers adds handlers for for AttachmentServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterAttachmentServiceHttpHandlers(router *mux.Router, prefix string, cli AttachmentServiceClient) {
 	router.Handle(prefix+"/attachments", _AttachmentService_CreateAttachment_Rule0(cli)).
 		Methods("POST").
@@ -141,6 +140,11 @@ func RegisterAttachmentServiceHttpHandlers(router *mux.Router, prefix string, cl
 	router.Handle(prefix+"/attachments/{attachment_id}", _AttachmentService_DescribeAttachment_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.AttachmentService.DescribeAttachment")
+}
+
+// RegisterAttachmentServiceHttpProxy adds proxy handlers for for AttachmentServiceClient
+func RegisterAttachmentServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterAttachmentServiceHttpHandlers(router, prefix, NewAttachmentServiceClient(conn))
 }
 
 func _AttachmentService_CreateAttachment_Rule0(cli AttachmentServiceClient) http.Handler {

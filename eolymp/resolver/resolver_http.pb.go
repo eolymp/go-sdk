@@ -124,11 +124,15 @@ func _Resolver_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterResolverHttpHandlers adds handlers for for ResolverClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterResolverHttpHandlers(router *mux.Router, prefix string, cli ResolverClient) {
 	router.Handle(prefix+"/names/{name}", _Resolver_ResolveName_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.resolver.Resolver.ResolveName")
+}
+
+// RegisterResolverHttpProxy adds proxy handlers for for ResolverClient
+func RegisterResolverHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterResolverHttpHandlers(router, prefix, NewResolverClient(conn))
 }
 
 func _Resolver_ResolveName_Rule0(cli ResolverClient) http.Handler {

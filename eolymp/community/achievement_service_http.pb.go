@@ -124,7 +124,6 @@ func _AchievementService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) 
 }
 
 // RegisterAchievementServiceHttpHandlers adds handlers for for AchievementServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterAchievementServiceHttpHandlers(router *mux.Router, prefix string, cli AchievementServiceClient) {
 	router.Handle(prefix+"/achievements/{achievement_id}", _AchievementService_AssignAchievement_Rule0(cli)).
 		Methods("PUT").
@@ -135,6 +134,11 @@ func RegisterAchievementServiceHttpHandlers(router *mux.Router, prefix string, c
 	router.Handle(prefix+"/achievements", _AchievementService_ListAchievements_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.community.AchievementService.ListAchievements")
+}
+
+// RegisterAchievementServiceHttpProxy adds proxy handlers for for AchievementServiceClient
+func RegisterAchievementServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterAchievementServiceHttpHandlers(router, prefix, NewAchievementServiceClient(conn))
 }
 
 func _AchievementService_AssignAchievement_Rule0(cli AchievementServiceClient) http.Handler {

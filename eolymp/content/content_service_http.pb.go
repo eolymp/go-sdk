@@ -124,7 +124,6 @@ func _ContentService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterContentServiceHttpHandlers adds handlers for for ContentServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterContentServiceHttpHandlers(router *mux.Router, prefix string, cli ContentServiceClient) {
 	router.Handle(prefix+"/content/fragments/{fragment_id}", _ContentService_DescribeFragment_Rule0(cli)).
 		Methods("GET").
@@ -165,6 +164,11 @@ func RegisterContentServiceHttpHandlers(router *mux.Router, prefix string, cli C
 	router.Handle(prefix+"/content/parents", _ContentService_ListParents_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.content.ContentService.ListParents")
+}
+
+// RegisterContentServiceHttpProxy adds proxy handlers for for ContentServiceClient
+func RegisterContentServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterContentServiceHttpHandlers(router, prefix, NewContentServiceClient(conn))
 }
 
 func _ContentService_DescribeFragment_Rule0(cli ContentServiceClient) http.Handler {

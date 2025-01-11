@@ -124,7 +124,6 @@ func _SubmissionService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterSubmissionServiceHttpHandlers adds handlers for for SubmissionServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterSubmissionServiceHttpHandlers(router *mux.Router, prefix string, cli SubmissionServiceClient) {
 	router.Handle(prefix+"/problems/{problem_id}/submissions", _SubmissionService_CreateSubmission_Rule0(cli)).
 		Methods("POST").
@@ -150,6 +149,11 @@ func RegisterSubmissionServiceHttpHandlers(router *mux.Router, prefix string, cl
 	router.Handle(prefix+"/problems/{problem_id}/retest", _SubmissionService_RetestProblem_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.SubmissionService.RetestProblem")
+}
+
+// RegisterSubmissionServiceHttpProxy adds proxy handlers for for SubmissionServiceClient
+func RegisterSubmissionServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterSubmissionServiceHttpHandlers(router, prefix, NewSubmissionServiceClient(conn))
 }
 
 func _SubmissionService_CreateSubmission_Rule0(cli SubmissionServiceClient) http.Handler {

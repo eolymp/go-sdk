@@ -124,7 +124,6 @@ func _ScoringService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterScoringServiceHttpHandlers adds handlers for for ScoringServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterScoringServiceHttpHandlers(router *mux.Router, prefix string, cli ScoringServiceClient) {
 	router.Handle(prefix+"/scores/{member_id}", _ScoringService_DescribeScore_Rule0(cli)).
 		Methods("GET").
@@ -132,6 +131,11 @@ func RegisterScoringServiceHttpHandlers(router *mux.Router, prefix string, cli S
 	router.Handle(prefix+"/grading", _ScoringService_DescribeProblemGrading_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.ScoringService.DescribeProblemGrading")
+}
+
+// RegisterScoringServiceHttpProxy adds proxy handlers for for ScoringServiceClient
+func RegisterScoringServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterScoringServiceHttpHandlers(router, prefix, NewScoringServiceClient(conn))
 }
 
 func _ScoringService_DescribeScore_Rule0(cli ScoringServiceClient) http.Handler {

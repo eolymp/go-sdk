@@ -124,7 +124,6 @@ func _ClassService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterClassServiceHttpHandlers adds handlers for for ClassServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterClassServiceHttpHandlers(router *mux.Router, prefix string, cli ClassServiceClient) {
 	router.Handle(prefix+"/classes", _ClassService_CreateClass_Rule0(cli)).
 		Methods("POST").
@@ -150,6 +149,11 @@ func RegisterClassServiceHttpHandlers(router *mux.Router, prefix string, cli Cla
 	router.Handle(prefix+"/classes/{group_id}/assignments", _ClassService_DeleteClassAssignment_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.course.ClassService.DeleteClassAssignment")
+}
+
+// RegisterClassServiceHttpProxy adds proxy handlers for for ClassServiceClient
+func RegisterClassServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterClassServiceHttpHandlers(router, prefix, NewClassServiceClient(conn))
 }
 
 func _ClassService_CreateClass_Rule0(cli ClassServiceClient) http.Handler {

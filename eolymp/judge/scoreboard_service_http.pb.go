@@ -124,7 +124,6 @@ func _ScoreboardService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterScoreboardServiceHttpHandlers adds handlers for for ScoreboardServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterScoreboardServiceHttpHandlers(router *mux.Router, prefix string, cli ScoreboardServiceClient) {
 	router.Handle(prefix+"/scoreboard", _ScoreboardService_DescribeScoreboard_Rule0(cli)).
 		Methods("GET").
@@ -132,6 +131,11 @@ func RegisterScoreboardServiceHttpHandlers(router *mux.Router, prefix string, cl
 	router.Handle(prefix+"/scoreboard/rows", _ScoreboardService_ListScoreboardRows_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ScoreboardService.ListScoreboardRows")
+}
+
+// RegisterScoreboardServiceHttpProxy adds proxy handlers for for ScoreboardServiceClient
+func RegisterScoreboardServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterScoreboardServiceHttpHandlers(router, prefix, NewScoreboardServiceClient(conn))
 }
 
 func _ScoreboardService_DescribeScoreboard_Rule0(cli ScoreboardServiceClient) http.Handler {

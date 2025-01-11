@@ -124,7 +124,6 @@ func _AttributeService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterAttributeServiceHttpHandlers adds handlers for for AttributeServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterAttributeServiceHttpHandlers(router *mux.Router, prefix string, cli AttributeServiceClient) {
 	router.Handle(prefix+"/attributes", _AttributeService_CreateAttribute_Rule0(cli)).
 		Methods("POST").
@@ -141,6 +140,11 @@ func RegisterAttributeServiceHttpHandlers(router *mux.Router, prefix string, cli
 	router.Handle(prefix+"/attributes", _AttributeService_ListAttributes_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.community.AttributeService.ListAttributes")
+}
+
+// RegisterAttributeServiceHttpProxy adds proxy handlers for for AttributeServiceClient
+func RegisterAttributeServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterAttributeServiceHttpHandlers(router, prefix, NewAttributeServiceClient(conn))
 }
 
 func _AttributeService_CreateAttribute_Rule0(cli AttributeServiceClient) http.Handler {

@@ -124,7 +124,6 @@ func _Universe_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterUniverseHttpHandlers adds handlers for for UniverseClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterUniverseHttpHandlers(router *mux.Router, prefix string, cli UniverseClient) {
 	router.Handle(prefix+"/spaces/__lookup/{key}", _Universe_LookupSpace_Rule0(cli)).
 		Methods("GET").
@@ -150,6 +149,11 @@ func RegisterUniverseHttpHandlers(router *mux.Router, prefix string, cli Univers
 	router.Handle(prefix+"/spaces", _Universe_ListSpaces_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.universe.Universe.ListSpaces")
+}
+
+// RegisterUniverseHttpProxy adds proxy handlers for for UniverseClient
+func RegisterUniverseHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterUniverseHttpHandlers(router, prefix, NewUniverseClient(conn))
 }
 
 func _Universe_LookupSpace_Rule0(cli UniverseClient) http.Handler {

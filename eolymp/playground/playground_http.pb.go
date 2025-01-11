@@ -124,7 +124,6 @@ func _Playground_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterPlaygroundHttpHandlers adds handlers for for PlaygroundClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterPlaygroundHttpHandlers(router *mux.Router, prefix string, cli PlaygroundClient) {
 	router.Handle(prefix+"/runs", _Playground_CreateRun_Rule0(cli)).
 		Methods("POST").
@@ -132,6 +131,11 @@ func RegisterPlaygroundHttpHandlers(router *mux.Router, prefix string, cli Playg
 	router.Handle(prefix+"/runs/{run_id}", _Playground_DescribeRun_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.playground.Playground.DescribeRun")
+}
+
+// RegisterPlaygroundHttpProxy adds proxy handlers for for PlaygroundClient
+func RegisterPlaygroundHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterPlaygroundHttpHandlers(router, prefix, NewPlaygroundClient(conn))
 }
 
 func _Playground_CreateRun_Rule0(cli PlaygroundClient) http.Handler {

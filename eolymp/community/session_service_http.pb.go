@@ -124,7 +124,6 @@ func _SessionService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterSessionServiceHttpHandlers adds handlers for for SessionServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterSessionServiceHttpHandlers(router *mux.Router, prefix string, cli SessionServiceClient) {
 	router.Handle(prefix+"/sessions/{session_id}", _SessionService_DescribeSession_Rule0(cli)).
 		Methods("GET").
@@ -138,6 +137,11 @@ func RegisterSessionServiceHttpHandlers(router *mux.Router, prefix string, cli S
 	router.Handle(prefix+"/sessions:terminate-all", _SessionService_TerminateAllSessions_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.community.SessionService.TerminateAllSessions")
+}
+
+// RegisterSessionServiceHttpProxy adds proxy handlers for for SessionServiceClient
+func RegisterSessionServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterSessionServiceHttpHandlers(router, prefix, NewSessionServiceClient(conn))
 }
 
 func _SessionService_DescribeSession_Rule0(cli SessionServiceClient) http.Handler {

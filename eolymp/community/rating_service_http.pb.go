@@ -124,7 +124,6 @@ func _RatingService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterRatingServiceHttpHandlers adds handlers for for RatingServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterRatingServiceHttpHandlers(router *mux.Router, prefix string, cli RatingServiceClient) {
 	router.Handle(prefix+"/rating", _RatingService_SetRating_Rule0(cli)).
 		Methods("POST").
@@ -132,6 +131,11 @@ func RegisterRatingServiceHttpHandlers(router *mux.Router, prefix string, cli Ra
 	router.Handle(prefix+"/rating/{rating_id}", _RatingService_DeleteRating_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.community.RatingService.DeleteRating")
+}
+
+// RegisterRatingServiceHttpProxy adds proxy handlers for for RatingServiceClient
+func RegisterRatingServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterRatingServiceHttpHandlers(router, prefix, NewRatingServiceClient(conn))
 }
 
 func _RatingService_SetRating_Rule0(cli RatingServiceClient) http.Handler {

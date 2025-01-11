@@ -124,7 +124,6 @@ func _ThreadEndpoint_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterThreadEndpointHttpHandlers adds handlers for for ThreadEndpointClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterThreadEndpointHttpHandlers(router *mux.Router, prefix string, cli ThreadEndpointClient) {
 	router.Handle(prefix+"", _ThreadEndpoint_DescribeThread_Rule0(cli)).
 		Methods("GET").
@@ -132,6 +131,11 @@ func RegisterThreadEndpointHttpHandlers(router *mux.Router, prefix string, cli T
 	router.Handle(prefix+"/vote", _ThreadEndpoint_VoteThread_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.discussion.ThreadEndpoint.VoteThread")
+}
+
+// RegisterThreadEndpointHttpProxy adds proxy handlers for for ThreadEndpointClient
+func RegisterThreadEndpointHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterThreadEndpointHttpHandlers(router, prefix, NewThreadEndpointClient(conn))
 }
 
 func _ThreadEndpoint_DescribeThread_Rule0(cli ThreadEndpointClient) http.Handler {

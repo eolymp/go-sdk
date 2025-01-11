@@ -124,7 +124,6 @@ func _AccessKeyService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterAccessKeyServiceHttpHandlers adds handlers for for AccessKeyServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterAccessKeyServiceHttpHandlers(router *mux.Router, prefix string, cli AccessKeyServiceClient) {
 	router.Handle(prefix+"/access-keys", _AccessKeyService_CreateAccessKey_Rule0(cli)).
 		Methods("POST").
@@ -135,6 +134,11 @@ func RegisterAccessKeyServiceHttpHandlers(router *mux.Router, prefix string, cli
 	router.Handle(prefix+"/access-keys", _AccessKeyService_ListAccessKeys_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.community.AccessKeyService.ListAccessKeys")
+}
+
+// RegisterAccessKeyServiceHttpProxy adds proxy handlers for for AccessKeyServiceClient
+func RegisterAccessKeyServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterAccessKeyServiceHttpHandlers(router, prefix, NewAccessKeyServiceClient(conn))
 }
 
 func _AccessKeyService_CreateAccessKey_Rule0(cli AccessKeyServiceClient) http.Handler {

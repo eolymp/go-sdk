@@ -124,7 +124,6 @@ func _Support_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterSupportHttpHandlers adds handlers for for SupportClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterSupportHttpHandlers(router *mux.Router, prefix string, cli SupportClient) {
 	router.Handle(prefix+"/helpdesk/tickets", _Support_CreateTicket_Rule0(cli)).
 		Methods("POST").
@@ -183,6 +182,11 @@ func RegisterSupportHttpHandlers(router *mux.Router, prefix string, cli SupportC
 	router.Handle(prefix+"/helpdesk/attachments", _Support_UploadAttachment_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.helpdesk.Support.UploadAttachment")
+}
+
+// RegisterSupportHttpProxy adds proxy handlers for for SupportClient
+func RegisterSupportHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterSupportHttpHandlers(router, prefix, NewSupportClient(conn))
 }
 
 func _Support_CreateTicket_Rule0(cli SupportClient) http.Handler {

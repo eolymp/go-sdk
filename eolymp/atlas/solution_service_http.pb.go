@@ -124,7 +124,6 @@ func _SolutionService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterSolutionServiceHttpHandlers adds handlers for for SolutionServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterSolutionServiceHttpHandlers(router *mux.Router, prefix string, cli SolutionServiceClient) {
 	router.Handle(prefix+"/solutions", _SolutionService_CreateSolution_Rule0(cli)).
 		Methods("PUT").
@@ -141,6 +140,11 @@ func RegisterSolutionServiceHttpHandlers(router *mux.Router, prefix string, cli 
 	router.Handle(prefix+"/solutions", _SolutionService_ListSolutions_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.SolutionService.ListSolutions")
+}
+
+// RegisterSolutionServiceHttpProxy adds proxy handlers for for SolutionServiceClient
+func RegisterSolutionServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterSolutionServiceHttpHandlers(router, prefix, NewSolutionServiceClient(conn))
 }
 
 func _SolutionService_CreateSolution_Rule0(cli SolutionServiceClient) http.Handler {

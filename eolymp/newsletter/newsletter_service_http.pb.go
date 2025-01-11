@@ -124,7 +124,6 @@ func _NewsletterService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterNewsletterServiceHttpHandlers adds handlers for for NewsletterServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterNewsletterServiceHttpHandlers(router *mux.Router, prefix string, cli NewsletterServiceClient) {
 	router.Handle(prefix+"/newsletter/{newsletter_id}", _NewsletterService_DescribeNewsletter_Rule0(cli)).
 		Methods("GET").
@@ -162,6 +161,11 @@ func RegisterNewsletterServiceHttpHandlers(router *mux.Router, prefix string, cl
 	router.Handle(prefix+"/newsletter/{newsletter_id}/translations/{translation_id}", _NewsletterService_DeleteNewsletterTranslation_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.newsletter.NewsletterService.DeleteNewsletterTranslation")
+}
+
+// RegisterNewsletterServiceHttpProxy adds proxy handlers for for NewsletterServiceClient
+func RegisterNewsletterServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterNewsletterServiceHttpHandlers(router, prefix, NewNewsletterServiceClient(conn))
 }
 
 func _NewsletterService_DescribeNewsletter_Rule0(cli NewsletterServiceClient) http.Handler {

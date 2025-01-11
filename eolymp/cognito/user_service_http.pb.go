@@ -124,7 +124,6 @@ func _UserService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterUserServiceHttpHandlers adds handlers for for UserServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterUserServiceHttpHandlers(router *mux.Router, prefix string, cli UserServiceClient) {
 	router.Handle(prefix+"/users/{user_id}", _UserService_DescribeUser_Rule0(cli)).
 		Methods("GET").
@@ -132,6 +131,11 @@ func RegisterUserServiceHttpHandlers(router *mux.Router, prefix string, cli User
 	router.Handle(prefix+"/users", _UserService_ListUsers_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.cognito.UserService.ListUsers")
+}
+
+// RegisterUserServiceHttpProxy adds proxy handlers for for UserServiceClient
+func RegisterUserServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterUserServiceHttpHandlers(router, prefix, NewUserServiceClient(conn))
 }
 
 func _UserService_DescribeUser_Rule0(cli UserServiceClient) http.Handler {

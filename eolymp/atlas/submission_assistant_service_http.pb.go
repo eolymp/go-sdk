@@ -124,7 +124,6 @@ func _SubmissionAssistantService_HTTPWriteErrorResponse(w http.ResponseWriter, e
 }
 
 // RegisterSubmissionAssistantServiceHttpHandlers adds handlers for for SubmissionAssistantServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterSubmissionAssistantServiceHttpHandlers(router *mux.Router, prefix string, cli SubmissionAssistantServiceClient) {
 	router.Handle(prefix+"/submissions/{submission_id}/assistant:debug", _SubmissionAssistantService_RequestDebugAssistance_Rule0(cli)).
 		Methods("POST").
@@ -135,6 +134,11 @@ func RegisterSubmissionAssistantServiceHttpHandlers(router *mux.Router, prefix s
 	router.Handle(prefix+"/submissions/{submission_id}/assistant:rate", _SubmissionAssistantService_RateDebugAssistance_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.SubmissionAssistantService.RateDebugAssistance")
+}
+
+// RegisterSubmissionAssistantServiceHttpProxy adds proxy handlers for for SubmissionAssistantServiceClient
+func RegisterSubmissionAssistantServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterSubmissionAssistantServiceHttpHandlers(router, prefix, NewSubmissionAssistantServiceClient(conn))
 }
 
 func _SubmissionAssistantService_RequestDebugAssistance_Rule0(cli SubmissionAssistantServiceClient) http.Handler {

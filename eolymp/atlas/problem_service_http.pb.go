@@ -124,7 +124,6 @@ func _ProblemService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterProblemServiceHttpHandlers adds handlers for for ProblemServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterProblemServiceHttpHandlers(router *mux.Router, prefix string, cli ProblemServiceClient) {
 	router.Handle(prefix+"/problems", _ProblemService_CreateProblem_Rule0(cli)).
 		Methods("POST").
@@ -156,6 +155,11 @@ func RegisterProblemServiceHttpHandlers(router *mux.Router, prefix string, cli P
 	router.Handle(prefix+"/problems/{problem_id}/snapshot", _ProblemService_ExportProblem_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.ProblemService.ExportProblem")
+}
+
+// RegisterProblemServiceHttpProxy adds proxy handlers for for ProblemServiceClient
+func RegisterProblemServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterProblemServiceHttpHandlers(router, prefix, NewProblemServiceClient(conn))
 }
 
 func _ProblemService_CreateProblem_Rule0(cli ProblemServiceClient) http.Handler {

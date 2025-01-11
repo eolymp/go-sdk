@@ -124,7 +124,6 @@ func _GeographyService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterGeographyServiceHttpHandlers adds handlers for for GeographyServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterGeographyServiceHttpHandlers(router *mux.Router, prefix string, cli GeographyServiceClient) {
 	router.Handle(prefix+"/countries", _GeographyService_ListCountries_Rule0(cli)).
 		Methods("GET").
@@ -138,6 +137,11 @@ func RegisterGeographyServiceHttpHandlers(router *mux.Router, prefix string, cli
 	router.Handle(prefix+"/regions/{region_id}", _GeographyService_DescribeRegion_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.taxonomy.GeographyService.DescribeRegion")
+}
+
+// RegisterGeographyServiceHttpProxy adds proxy handlers for for GeographyServiceClient
+func RegisterGeographyServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterGeographyServiceHttpHandlers(router, prefix, NewGeographyServiceClient(conn))
 }
 
 func _GeographyService_ListCountries_Rule0(cli GeographyServiceClient) http.Handler {

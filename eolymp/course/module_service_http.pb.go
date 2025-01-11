@@ -124,7 +124,6 @@ func _ModuleService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterModuleServiceHttpHandlers adds handlers for for ModuleServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterModuleServiceHttpHandlers(router *mux.Router, prefix string, cli ModuleServiceClient) {
 	router.Handle(prefix+"/modules", _ModuleService_CreateModule_Rule0(cli)).
 		Methods("PUT").
@@ -147,6 +146,11 @@ func RegisterModuleServiceHttpHandlers(router *mux.Router, prefix string, cli Mo
 	router.Handle(prefix+"/modules/{module_id}/grade", _ModuleService_GradeModule_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.course.ModuleService.GradeModule")
+}
+
+// RegisterModuleServiceHttpProxy adds proxy handlers for for ModuleServiceClient
+func RegisterModuleServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterModuleServiceHttpHandlers(router, prefix, NewModuleServiceClient(conn))
 }
 
 func _ModuleService_CreateModule_Rule0(cli ModuleServiceClient) http.Handler {

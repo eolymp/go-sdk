@@ -124,7 +124,6 @@ func _ScoreService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterScoreServiceHttpHandlers adds handlers for for ScoreServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterScoreServiceHttpHandlers(router *mux.Router, prefix string, cli ScoreServiceClient) {
 	router.Handle(prefix+"/introspect/score", _ScoreService_IntrospectScore_Rule0(cli)).
 		Methods("GET").
@@ -147,6 +146,11 @@ func RegisterScoreServiceHttpHandlers(router *mux.Router, prefix string, cli Sco
 	router.Handle(prefix+"/rebuild", _ScoreService_RebuildScore_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.ScoreService.RebuildScore")
+}
+
+// RegisterScoreServiceHttpProxy adds proxy handlers for for ScoreServiceClient
+func RegisterScoreServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterScoreServiceHttpHandlers(router, prefix, NewScoreServiceClient(conn))
 }
 
 func _ScoreService_IntrospectScore_Rule0(cli ScoreServiceClient) http.Handler {

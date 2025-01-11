@@ -124,11 +124,15 @@ func _FeedService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterFeedServiceHttpHandlers adds handlers for for FeedServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterFeedServiceHttpHandlers(router *mux.Router, prefix string, cli FeedServiceClient) {
 	router.Handle(prefix+"/feed", _FeedService_ListEntries_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.feed.FeedService.ListEntries")
+}
+
+// RegisterFeedServiceHttpProxy adds proxy handlers for for FeedServiceClient
+func RegisterFeedServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterFeedServiceHttpHandlers(router, prefix, NewFeedServiceClient(conn))
 }
 
 func _FeedService_ListEntries_Rule0(cli FeedServiceClient) http.Handler {

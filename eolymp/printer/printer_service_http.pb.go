@@ -124,7 +124,6 @@ func _PrinterService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterPrinterServiceHttpHandlers adds handlers for for PrinterServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterPrinterServiceHttpHandlers(router *mux.Router, prefix string, cli PrinterServiceClient) {
 	router.Handle(prefix+"/printers", _PrinterService_CreatePrinter_Rule0(cli)).
 		Methods("POST").
@@ -153,6 +152,11 @@ func RegisterPrinterServiceHttpHandlers(router *mux.Router, prefix string, cli P
 	router.Handle(prefix+"/printers/{printer_id}/jobs/{job_id}", _PrinterService_DeletePrinterJob_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.printer.PrinterService.DeletePrinterJob")
+}
+
+// RegisterPrinterServiceHttpProxy adds proxy handlers for for PrinterServiceClient
+func RegisterPrinterServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterPrinterServiceHttpHandlers(router, prefix, NewPrinterServiceClient(conn))
 }
 
 func _PrinterService_CreatePrinter_Rule0(cli PrinterServiceClient) http.Handler {

@@ -124,7 +124,6 @@ func _PolicyService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterPolicyServiceHttpHandlers adds handlers for for PolicyServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterPolicyServiceHttpHandlers(router *mux.Router, prefix string, cli PolicyServiceClient) {
 	router.Handle(prefix+"/policies", _PolicyService_CreatePolicy_Rule0(cli)).
 		Methods("POST").
@@ -144,6 +143,11 @@ func RegisterPolicyServiceHttpHandlers(router *mux.Router, prefix string, cli Po
 	router.Handle(prefix+"/policies:copy", _PolicyService_CopyPolicies_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.acl.PolicyService.CopyPolicies")
+}
+
+// RegisterPolicyServiceHttpProxy adds proxy handlers for for PolicyServiceClient
+func RegisterPolicyServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterPolicyServiceHttpHandlers(router, prefix, NewPolicyServiceClient(conn))
 }
 
 func _PolicyService_CreatePolicy_Rule0(cli PolicyServiceClient) http.Handler {

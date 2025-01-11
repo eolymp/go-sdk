@@ -124,7 +124,6 @@ func _WebhookService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterWebhookServiceHttpHandlers adds handlers for for WebhookServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterWebhookServiceHttpHandlers(router *mux.Router, prefix string, cli WebhookServiceClient) {
 	router.Handle(prefix+"/webhooks", _WebhookService_CreateWebhook_Rule0(cli)).
 		Methods("POST").
@@ -144,6 +143,11 @@ func RegisterWebhookServiceHttpHandlers(router *mux.Router, prefix string, cli W
 	router.Handle(prefix+"/webhooks/{webhook_id}/test", _WebhookService_TestWebhook_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.webhook.WebhookService.TestWebhook")
+}
+
+// RegisterWebhookServiceHttpProxy adds proxy handlers for for WebhookServiceClient
+func RegisterWebhookServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterWebhookServiceHttpHandlers(router, prefix, NewWebhookServiceClient(conn))
 }
 
 func _WebhookService_CreateWebhook_Rule0(cli WebhookServiceClient) http.Handler {

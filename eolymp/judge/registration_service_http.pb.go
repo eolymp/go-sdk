@@ -124,7 +124,6 @@ func _RegistrationService_HTTPWriteErrorResponse(w http.ResponseWriter, e error)
 }
 
 // RegisterRegistrationServiceHttpHandlers adds handlers for for RegistrationServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterRegistrationServiceHttpHandlers(router *mux.Router, prefix string, cli RegistrationServiceClient) {
 	router.Handle(prefix+"/registration", _RegistrationService_DescribeRegistration_Rule0(cli)).
 		Methods("GET").
@@ -132,6 +131,11 @@ func RegisterRegistrationServiceHttpHandlers(router *mux.Router, prefix string, 
 	router.Handle(prefix+"/registration", _RegistrationService_SubmitRegistration_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.RegistrationService.SubmitRegistration")
+}
+
+// RegisterRegistrationServiceHttpProxy adds proxy handlers for for RegistrationServiceClient
+func RegisterRegistrationServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterRegistrationServiceHttpHandlers(router, prefix, NewRegistrationServiceClient(conn))
 }
 
 func _RegistrationService_DescribeRegistration_Rule0(cli RegistrationServiceClient) http.Handler {

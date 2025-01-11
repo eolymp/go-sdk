@@ -124,7 +124,6 @@ func _SuggestionService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterSuggestionServiceHttpHandlers adds handlers for for SuggestionServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterSuggestionServiceHttpHandlers(router *mux.Router, prefix string, cli SuggestionServiceClient) {
 	router.Handle(prefix+"/suggestions", _SuggestionService_CreateSuggestion_Rule0(cli)).
 		Methods("POST").
@@ -147,6 +146,11 @@ func RegisterSuggestionServiceHttpHandlers(router *mux.Router, prefix string, cl
 	router.Handle(prefix+"/suggestions/{suggestion_id}", _SuggestionService_DescribeSuggestion_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.SuggestionService.DescribeSuggestion")
+}
+
+// RegisterSuggestionServiceHttpProxy adds proxy handlers for for SuggestionServiceClient
+func RegisterSuggestionServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterSuggestionServiceHttpHandlers(router, prefix, NewSuggestionServiceClient(conn))
 }
 
 func _SuggestionService_CreateSuggestion_Rule0(cli SuggestionServiceClient) http.Handler {

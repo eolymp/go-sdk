@@ -124,7 +124,6 @@ func _LocalizationService_HTTPWriteErrorResponse(w http.ResponseWriter, e error)
 }
 
 // RegisterLocalizationServiceHttpHandlers adds handlers for for LocalizationServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterLocalizationServiceHttpHandlers(router *mux.Router, prefix string, cli LocalizationServiceClient) {
 	router.Handle(prefix+"/terms", _LocalizationService_CreateTerm_Rule0(cli)).
 		Methods("POST").
@@ -189,6 +188,11 @@ func RegisterLocalizationServiceHttpHandlers(router *mux.Router, prefix string, 
 	router.Handle(prefix+"/translate/{locale}", _LocalizationService_ListTranslationPairs_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.l10n.LocalizationService.ListTranslationPairs")
+}
+
+// RegisterLocalizationServiceHttpProxy adds proxy handlers for for LocalizationServiceClient
+func RegisterLocalizationServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterLocalizationServiceHttpHandlers(router, prefix, NewLocalizationServiceClient(conn))
 }
 
 func _LocalizationService_CreateTerm_Rule0(cli LocalizationServiceClient) http.Handler {

@@ -124,7 +124,6 @@ func _Judge_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterJudgeHttpHandlers adds handlers for for JudgeClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterJudgeHttpHandlers(router *mux.Router, prefix string, cli JudgeClient) {
 	router.Handle(prefix+"/contests", _Judge_CreateContest_Rule0(cli)).
 		Methods("POST").
@@ -300,6 +299,11 @@ func RegisterJudgeHttpHandlers(router *mux.Router, prefix string, cli JudgeClien
 	router.Handle(prefix+"/usage/contests", _Judge_DescribeContestUsage_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.Judge.DescribeContestUsage")
+}
+
+// RegisterJudgeHttpProxy adds proxy handlers for for JudgeClient
+func RegisterJudgeHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterJudgeHttpHandlers(router, prefix, NewJudgeClient(conn))
 }
 
 func _Judge_CreateContest_Rule0(cli JudgeClient) http.Handler {

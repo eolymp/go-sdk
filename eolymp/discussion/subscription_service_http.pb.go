@@ -124,7 +124,6 @@ func _SubscriptionService_HTTPWriteErrorResponse(w http.ResponseWriter, e error)
 }
 
 // RegisterSubscriptionServiceHttpHandlers adds handlers for for SubscriptionServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterSubscriptionServiceHttpHandlers(router *mux.Router, prefix string, cli SubscriptionServiceClient) {
 	router.Handle(prefix+"/subscription", _SubscriptionService_DescribeSubscription_Rule0(cli)).
 		Methods("GET").
@@ -132,6 +131,11 @@ func RegisterSubscriptionServiceHttpHandlers(router *mux.Router, prefix string, 
 	router.Handle(prefix+"/subscription", _SubscriptionService_UpdateSubscription_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.discussion.SubscriptionService.UpdateSubscription")
+}
+
+// RegisterSubscriptionServiceHttpProxy adds proxy handlers for for SubscriptionServiceClient
+func RegisterSubscriptionServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterSubscriptionServiceHttpHandlers(router, prefix, NewSubscriptionServiceClient(conn))
 }
 
 func _SubscriptionService_DescribeSubscription_Rule0(cli SubscriptionServiceClient) http.Handler {

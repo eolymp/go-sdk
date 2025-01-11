@@ -124,7 +124,6 @@ func _TicketService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterTicketServiceHttpHandlers adds handlers for for TicketServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterTicketServiceHttpHandlers(router *mux.Router, prefix string, cli TicketServiceClient) {
 	router.Handle(prefix+"/tickets", _TicketService_CreateTicket_Rule0(cli)).
 		Methods("POST").
@@ -159,6 +158,11 @@ func RegisterTicketServiceHttpHandlers(router *mux.Router, prefix string, cli Ti
 	router.Handle(prefix+"/tickets/{ticket_id}/replies/{reply_id}", _TicketService_UpdateReply_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.TicketService.UpdateReply")
+}
+
+// RegisterTicketServiceHttpProxy adds proxy handlers for for TicketServiceClient
+func RegisterTicketServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterTicketServiceHttpHandlers(router, prefix, NewTicketServiceClient(conn))
 }
 
 func _TicketService_CreateTicket_Rule0(cli TicketServiceClient) http.Handler {

@@ -124,7 +124,6 @@ func _SpaceService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterSpaceServiceHttpHandlers adds handlers for for SpaceServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterSpaceServiceHttpHandlers(router *mux.Router, prefix string, cli SpaceServiceClient) {
 	router.Handle(prefix+"/spaces/__lookup/{key}", _SpaceService_LookupSpace_Rule0(cli)).
 		Methods("GET").
@@ -144,6 +143,11 @@ func RegisterSpaceServiceHttpHandlers(router *mux.Router, prefix string, cli Spa
 	router.Handle(prefix+"/spaces", _SpaceService_ListSpaces_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.universe.SpaceService.ListSpaces")
+}
+
+// RegisterSpaceServiceHttpProxy adds proxy handlers for for SpaceServiceClient
+func RegisterSpaceServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterSpaceServiceHttpHandlers(router, prefix, NewSpaceServiceClient(conn))
 }
 
 func _SpaceService_LookupSpace_Rule0(cli SpaceServiceClient) http.Handler {

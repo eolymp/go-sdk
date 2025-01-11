@@ -124,7 +124,6 @@ func _RecipientService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterRecipientServiceHttpHandlers adds handlers for for RecipientServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterRecipientServiceHttpHandlers(router *mux.Router, prefix string, cli RecipientServiceClient) {
 	router.Handle(prefix+"/recipients/{recipient_id}", _RecipientService_DescribeRecipient_Rule0(cli)).
 		Methods("GET").
@@ -141,6 +140,11 @@ func RegisterRecipientServiceHttpHandlers(router *mux.Router, prefix string, cli
 	router.Handle(prefix+"/recipients/{recipient_id}", _RecipientService_RemoveRecipient_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.newsletter.RecipientService.RemoveRecipient")
+}
+
+// RegisterRecipientServiceHttpProxy adds proxy handlers for for RecipientServiceClient
+func RegisterRecipientServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterRecipientServiceHttpHandlers(router, prefix, NewRecipientServiceClient(conn))
 }
 
 func _RecipientService_DescribeRecipient_Rule0(cli RecipientServiceClient) http.Handler {

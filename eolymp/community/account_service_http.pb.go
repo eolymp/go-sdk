@@ -124,7 +124,6 @@ func _AccountService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterAccountServiceHttpHandlers adds handlers for for AccountServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterAccountServiceHttpHandlers(router *mux.Router, prefix string, cli AccountServiceClient) {
 	router.Handle(prefix+"/account", _AccountService_CreateAccount_Rule0(cli)).
 		Methods("POST").
@@ -153,6 +152,11 @@ func RegisterAccountServiceHttpHandlers(router *mux.Router, prefix string, cli A
 	router.Handle(prefix+"/account/recovery/complete", _AccountService_CompleteRecovery_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.community.AccountService.CompleteRecovery")
+}
+
+// RegisterAccountServiceHttpProxy adds proxy handlers for for AccountServiceClient
+func RegisterAccountServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterAccountServiceHttpHandlers(router, prefix, NewAccountServiceClient(conn))
 }
 
 func _AccountService_CreateAccount_Rule0(cli AccountServiceClient) http.Handler {

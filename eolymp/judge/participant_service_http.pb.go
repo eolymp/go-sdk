@@ -124,7 +124,6 @@ func _ParticipantService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) 
 }
 
 // RegisterParticipantServiceHttpHandlers adds handlers for for ParticipantServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterParticipantServiceHttpHandlers(router *mux.Router, prefix string, cli ParticipantServiceClient) {
 	router.Handle(prefix+"/participants", _ParticipantService_AssignParticipant_Rule0(cli)).
 		Methods("POST").
@@ -159,6 +158,11 @@ func RegisterParticipantServiceHttpHandlers(router *mux.Router, prefix string, c
 	router.Handle(prefix+"/start", _ParticipantService_StartContest_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.ParticipantService.StartContest")
+}
+
+// RegisterParticipantServiceHttpProxy adds proxy handlers for for ParticipantServiceClient
+func RegisterParticipantServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterParticipantServiceHttpHandlers(router, prefix, NewParticipantServiceClient(conn))
 }
 
 func _ParticipantService_AssignParticipant_Rule0(cli ParticipantServiceClient) http.Handler {

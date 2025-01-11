@@ -124,7 +124,6 @@ func _CodeTemplateService_HTTPWriteErrorResponse(w http.ResponseWriter, e error)
 }
 
 // RegisterCodeTemplateServiceHttpHandlers adds handlers for for CodeTemplateServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterCodeTemplateServiceHttpHandlers(router *mux.Router, prefix string, cli CodeTemplateServiceClient) {
 	router.Handle(prefix+"/templates", _CodeTemplateService_CreateCodeTemplate_Rule0(cli)).
 		Methods("POST").
@@ -144,6 +143,11 @@ func RegisterCodeTemplateServiceHttpHandlers(router *mux.Router, prefix string, 
 	router.Handle(prefix+"/template", _CodeTemplateService_LookupCodeTemplate_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.CodeTemplateService.LookupCodeTemplate")
+}
+
+// RegisterCodeTemplateServiceHttpProxy adds proxy handlers for for CodeTemplateServiceClient
+func RegisterCodeTemplateServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterCodeTemplateServiceHttpHandlers(router, prefix, NewCodeTemplateServiceClient(conn))
 }
 
 func _CodeTemplateService_CreateCodeTemplate_Rule0(cli CodeTemplateServiceClient) http.Handler {

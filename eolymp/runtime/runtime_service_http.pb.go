@@ -124,7 +124,6 @@ func _RuntimeService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterRuntimeServiceHttpHandlers adds handlers for for RuntimeServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterRuntimeServiceHttpHandlers(router *mux.Router, prefix string, cli RuntimeServiceClient) {
 	router.Handle(prefix+"/languages/{language_id}", _RuntimeService_DescribeLanguage_Rule0(cli)).
 		Methods("GET").
@@ -141,6 +140,11 @@ func RegisterRuntimeServiceHttpHandlers(router *mux.Router, prefix string, cli R
 	router.Handle(prefix+"/runtime/{runtime_id}/template", _RuntimeService_DescribeCodeTemplate_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.runtime.RuntimeService.DescribeCodeTemplate")
+}
+
+// RegisterRuntimeServiceHttpProxy adds proxy handlers for for RuntimeServiceClient
+func RegisterRuntimeServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterRuntimeServiceHttpHandlers(router, prefix, NewRuntimeServiceClient(conn))
 }
 
 func _RuntimeService_DescribeLanguage_Rule0(cli RuntimeServiceClient) http.Handler {

@@ -124,7 +124,6 @@ func _PostTypeService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterPostTypeServiceHttpHandlers adds handlers for for PostTypeServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterPostTypeServiceHttpHandlers(router *mux.Router, prefix string, cli PostTypeServiceClient) {
 	router.Handle(prefix+"/post-types/{type_id}", _PostTypeService_DescribePostType_Rule0(cli)).
 		Methods("GET").
@@ -141,6 +140,11 @@ func RegisterPostTypeServiceHttpHandlers(router *mux.Router, prefix string, cli 
 	router.Handle(prefix+"/post-types/{type_id}", _PostTypeService_DeletePostType_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.discussion.PostTypeService.DeletePostType")
+}
+
+// RegisterPostTypeServiceHttpProxy adds proxy handlers for for PostTypeServiceClient
+func RegisterPostTypeServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterPostTypeServiceHttpHandlers(router, prefix, NewPostTypeServiceClient(conn))
 }
 
 func _PostTypeService_DescribePostType_Rule0(cli PostTypeServiceClient) http.Handler {

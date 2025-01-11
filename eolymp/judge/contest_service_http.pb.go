@@ -124,7 +124,6 @@ func _ContestService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterContestServiceHttpHandlers adds handlers for for ContestServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterContestServiceHttpHandlers(router *mux.Router, prefix string, cli ContestServiceClient) {
 	router.Handle(prefix+"/contests", _ContestService_CreateContest_Rule0(cli)).
 		Methods("POST").
@@ -165,6 +164,11 @@ func RegisterContestServiceHttpHandlers(router *mux.Router, prefix string, cli C
 	router.Handle(prefix+"/usage/contests", _ContestService_DescribeContestUsage_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ContestService.DescribeContestUsage")
+}
+
+// RegisterContestServiceHttpProxy adds proxy handlers for for ContestServiceClient
+func RegisterContestServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterContestServiceHttpHandlers(router, prefix, NewContestServiceClient(conn))
 }
 
 func _ContestService_CreateContest_Rule0(cli ContestServiceClient) http.Handler {

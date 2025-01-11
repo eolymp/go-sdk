@@ -124,7 +124,6 @@ func _MessageService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterMessageServiceHttpHandlers adds handlers for for MessageServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterMessageServiceHttpHandlers(router *mux.Router, prefix string, cli MessageServiceClient) {
 	router.Handle(prefix+"/messages/{message_id}", _MessageService_DescribeMessage_Rule0(cli)).
 		Methods("GET").
@@ -147,6 +146,11 @@ func RegisterMessageServiceHttpHandlers(router *mux.Router, prefix string, cli M
 	router.Handle(prefix+"/messages/{message_id}/changes", _MessageService_ListMessageChanges_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.discussion.MessageService.ListMessageChanges")
+}
+
+// RegisterMessageServiceHttpProxy adds proxy handlers for for MessageServiceClient
+func RegisterMessageServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterMessageServiceHttpHandlers(router, prefix, NewMessageServiceClient(conn))
 }
 
 func _MessageService_DescribeMessage_Rule0(cli MessageServiceClient) http.Handler {

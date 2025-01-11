@@ -124,7 +124,6 @@ func _BookmarkService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterBookmarkServiceHttpHandlers adds handlers for for BookmarkServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterBookmarkServiceHttpHandlers(router *mux.Router, prefix string, cli BookmarkServiceClient) {
 	router.Handle(prefix+"/bookmark", _BookmarkService_GetBookmark_Rule0(cli)).
 		Methods("GET").
@@ -132,6 +131,11 @@ func RegisterBookmarkServiceHttpHandlers(router *mux.Router, prefix string, cli 
 	router.Handle(prefix+"/bookmark", _BookmarkService_SetBookmark_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.BookmarkService.SetBookmark")
+}
+
+// RegisterBookmarkServiceHttpProxy adds proxy handlers for for BookmarkServiceClient
+func RegisterBookmarkServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterBookmarkServiceHttpHandlers(router, prefix, NewBookmarkServiceClient(conn))
 }
 
 func _BookmarkService_GetBookmark_Rule0(cli BookmarkServiceClient) http.Handler {

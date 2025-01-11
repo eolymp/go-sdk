@@ -124,7 +124,6 @@ func _AutoReplyService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterAutoReplyServiceHttpHandlers adds handlers for for AutoReplyServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterAutoReplyServiceHttpHandlers(router *mux.Router, prefix string, cli AutoReplyServiceClient) {
 	router.Handle(prefix+"/helpdesk/auto-replies", _AutoReplyService_CreateAutoReply_Rule0(cli)).
 		Methods("POST").
@@ -141,6 +140,11 @@ func RegisterAutoReplyServiceHttpHandlers(router *mux.Router, prefix string, cli
 	router.Handle(prefix+"/helpdesk/auto-replies/{reply_id}", _AutoReplyService_DescribeAutoReply_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.helpdesk.AutoReplyService.DescribeAutoReply")
+}
+
+// RegisterAutoReplyServiceHttpProxy adds proxy handlers for for AutoReplyServiceClient
+func RegisterAutoReplyServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterAutoReplyServiceHttpHandlers(router, prefix, NewAutoReplyServiceClient(conn))
 }
 
 func _AutoReplyService_CreateAutoReply_Rule0(cli AutoReplyServiceClient) http.Handler {

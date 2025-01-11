@@ -124,7 +124,6 @@ func _ProjectService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterProjectServiceHttpHandlers adds handlers for for ProjectServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterProjectServiceHttpHandlers(router *mux.Router, prefix string, cli ProjectServiceClient) {
 	router.Handle(prefix+"/projects", _ProjectService_ListProjects_Rule0(cli)).
 		Methods("GET").
@@ -132,6 +131,11 @@ func RegisterProjectServiceHttpHandlers(router *mux.Router, prefix string, cli P
 	router.Handle(prefix+"/projects/{project_id}", _ProjectService_DescribeProject_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.l10n.ProjectService.DescribeProject")
+}
+
+// RegisterProjectServiceHttpProxy adds proxy handlers for for ProjectServiceClient
+func RegisterProjectServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterProjectServiceHttpHandlers(router, prefix, NewProjectServiceClient(conn))
 }
 
 func _ProjectService_ListProjects_Rule0(cli ProjectServiceClient) http.Handler {

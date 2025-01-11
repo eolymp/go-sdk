@@ -124,7 +124,6 @@ func _WorkerService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterWorkerServiceHttpHandlers adds handlers for for WorkerServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterWorkerServiceHttpHandlers(router *mux.Router, prefix string, cli WorkerServiceClient) {
 	router.Handle(prefix+"/jobs/{job_id}", _WorkerService_DescribeJob_Rule0(cli)).
 		Methods("GET").
@@ -132,6 +131,11 @@ func RegisterWorkerServiceHttpHandlers(router *mux.Router, prefix string, cli Wo
 	router.Handle(prefix+"/jobs", _WorkerService_ListJobs_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.worker.WorkerService.ListJobs")
+}
+
+// RegisterWorkerServiceHttpProxy adds proxy handlers for for WorkerServiceClient
+func RegisterWorkerServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterWorkerServiceHttpHandlers(router, prefix, NewWorkerServiceClient(conn))
 }
 
 func _WorkerService_DescribeJob_Rule0(cli WorkerServiceClient) http.Handler {

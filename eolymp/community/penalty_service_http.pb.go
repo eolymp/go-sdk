@@ -124,7 +124,6 @@ func _PenaltyService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterPenaltyServiceHttpHandlers adds handlers for for PenaltyServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterPenaltyServiceHttpHandlers(router *mux.Router, prefix string, cli PenaltyServiceClient) {
 	router.Handle(prefix+"/penalties", _PenaltyService_CreatePenalty_Rule0(cli)).
 		Methods("POST").
@@ -141,6 +140,11 @@ func RegisterPenaltyServiceHttpHandlers(router *mux.Router, prefix string, cli P
 	router.Handle(prefix+"/penalties", _PenaltyService_ListPenalties_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.community.PenaltyService.ListPenalties")
+}
+
+// RegisterPenaltyServiceHttpProxy adds proxy handlers for for PenaltyServiceClient
+func RegisterPenaltyServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterPenaltyServiceHttpHandlers(router, prefix, NewPenaltyServiceClient(conn))
 }
 
 func _PenaltyService_CreatePenalty_Rule0(cli PenaltyServiceClient) http.Handler {

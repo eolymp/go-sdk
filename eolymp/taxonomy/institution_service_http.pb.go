@@ -124,7 +124,6 @@ func _InstitutionService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) 
 }
 
 // RegisterInstitutionServiceHttpHandlers adds handlers for for InstitutionServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterInstitutionServiceHttpHandlers(router *mux.Router, prefix string, cli InstitutionServiceClient) {
 	router.Handle(prefix+"/institutions", _InstitutionService_ListInstitutions_Rule0(cli)).
 		Methods("GET").
@@ -132,6 +131,11 @@ func RegisterInstitutionServiceHttpHandlers(router *mux.Router, prefix string, c
 	router.Handle(prefix+"/institutions/{institution_id}", _InstitutionService_DescribeInstitution_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.taxonomy.InstitutionService.DescribeInstitution")
+}
+
+// RegisterInstitutionServiceHttpProxy adds proxy handlers for for InstitutionServiceClient
+func RegisterInstitutionServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterInstitutionServiceHttpHandlers(router, prefix, NewInstitutionServiceClient(conn))
 }
 
 func _InstitutionService_ListInstitutions_Rule0(cli InstitutionServiceClient) http.Handler {

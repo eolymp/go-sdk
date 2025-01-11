@@ -124,7 +124,6 @@ func _Ranker_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterRankerHttpHandlers adds handlers for for RankerClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterRankerHttpHandlers(router *mux.Router, prefix string, cli RankerClient) {
 	router.Handle(prefix+"/scoreboards", _Ranker_CreateScoreboard_Rule0(cli)).
 		Methods("POST").
@@ -177,6 +176,11 @@ func RegisterRankerHttpHandlers(router *mux.Router, prefix string, cli RankerCli
 	router.Handle(prefix+"/scoreboards/{scoreboard_id}/schedule", _Ranker_ListScheduledActions_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.ranker.Ranker.ListScheduledActions")
+}
+
+// RegisterRankerHttpProxy adds proxy handlers for for RankerClient
+func RegisterRankerHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterRankerHttpHandlers(router, prefix, NewRankerClient(conn))
 }
 
 func _Ranker_CreateScoreboard_Rule0(cli RankerClient) http.Handler {

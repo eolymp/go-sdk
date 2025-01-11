@@ -124,7 +124,6 @@ func _GroupService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 }
 
 // RegisterGroupServiceHttpHandlers adds handlers for for GroupServiceClient
-// This constructor creates http.Handler, the actual implementation might change at any moment
 func RegisterGroupServiceHttpHandlers(router *mux.Router, prefix string, cli GroupServiceClient) {
 	router.Handle(prefix+"/groups", _GroupService_CreateGroup_Rule0(cli)).
 		Methods("POST").
@@ -141,6 +140,11 @@ func RegisterGroupServiceHttpHandlers(router *mux.Router, prefix string, cli Gro
 	router.Handle(prefix+"/groups", _GroupService_ListGroups_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.community.GroupService.ListGroups")
+}
+
+// RegisterGroupServiceHttpProxy adds proxy handlers for for GroupServiceClient
+func RegisterGroupServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
+	RegisterGroupServiceHttpHandlers(router, prefix, NewGroupServiceClient(conn))
 }
 
 func _GroupService_CreateGroup_Rule0(cli GroupServiceClient) http.Handler {
