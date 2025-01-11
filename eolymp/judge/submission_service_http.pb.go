@@ -135,6 +135,9 @@ func RegisterSubmissionServiceHttpHandlers(router *mux.Router, prefix string, cl
 	router.Handle(prefix+"/submissions/{submission_id}", _SubmissionService_DescribeSubmission_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.SubmissionService.DescribeSubmission")
+	router.Handle(prefix+"/submissions/{submission_id}/print", _SubmissionService_PrintSubmission_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.judge.SubmissionService.PrintSubmission")
 	router.Handle(prefix+"/submissions/{submission_id}/retest", _SubmissionService_RetestSubmission_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.SubmissionService.RetestSubmission")
@@ -212,6 +215,31 @@ func _SubmissionService_DescribeSubmission_Rule0(cli SubmissionServiceClient) ht
 		var header, trailer metadata.MD
 
 		out, err := cli.DescribeSubmission(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_SubmissionService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_SubmissionService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _SubmissionService_PrintSubmission_Rule0(cli SubmissionServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &PrintSubmissionInput{}
+
+		if err := _SubmissionService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_SubmissionService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.SubmissionId = vars["submission_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.PrintSubmission(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_SubmissionService_HTTPWriteErrorResponse(w, err)
 			return

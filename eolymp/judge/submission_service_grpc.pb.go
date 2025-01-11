@@ -22,6 +22,7 @@ const (
 	SubmissionService_CreateSubmission_FullMethodName   = "/eolymp.judge.SubmissionService/CreateSubmission"
 	SubmissionService_ListSubmissions_FullMethodName    = "/eolymp.judge.SubmissionService/ListSubmissions"
 	SubmissionService_DescribeSubmission_FullMethodName = "/eolymp.judge.SubmissionService/DescribeSubmission"
+	SubmissionService_PrintSubmission_FullMethodName    = "/eolymp.judge.SubmissionService/PrintSubmission"
 	SubmissionService_WatchSubmission_FullMethodName    = "/eolymp.judge.SubmissionService/WatchSubmission"
 	SubmissionService_RetestSubmission_FullMethodName   = "/eolymp.judge.SubmissionService/RetestSubmission"
 	SubmissionService_DeleteSubmission_FullMethodName   = "/eolymp.judge.SubmissionService/DeleteSubmission"
@@ -37,6 +38,7 @@ type SubmissionServiceClient interface {
 	CreateSubmission(ctx context.Context, in *CreateSubmissionInput, opts ...grpc.CallOption) (*CreateSubmissionOutput, error)
 	ListSubmissions(ctx context.Context, in *ListSubmissionsInput, opts ...grpc.CallOption) (*ListSubmissionsOutput, error)
 	DescribeSubmission(ctx context.Context, in *DescribeSubmissionInput, opts ...grpc.CallOption) (*DescribeSubmissionOutput, error)
+	PrintSubmission(ctx context.Context, in *PrintSubmissionInput, opts ...grpc.CallOption) (*PrintSubmissionOutput, error)
 	WatchSubmission(ctx context.Context, in *WatchSubmissionInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchSubmissionOutput], error)
 	// Resets submission results and triggers testing process.
 	RetestSubmission(ctx context.Context, in *RetestSubmissionInput, opts ...grpc.CallOption) (*RetestSubmissionOutput, error)
@@ -78,6 +80,16 @@ func (c *submissionServiceClient) DescribeSubmission(ctx context.Context, in *De
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DescribeSubmissionOutput)
 	err := c.cc.Invoke(ctx, SubmissionService_DescribeSubmission_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *submissionServiceClient) PrintSubmission(ctx context.Context, in *PrintSubmissionInput, opts ...grpc.CallOption) (*PrintSubmissionOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(PrintSubmissionOutput)
+	err := c.cc.Invoke(ctx, SubmissionService_PrintSubmission_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -151,6 +163,7 @@ type SubmissionServiceServer interface {
 	CreateSubmission(context.Context, *CreateSubmissionInput) (*CreateSubmissionOutput, error)
 	ListSubmissions(context.Context, *ListSubmissionsInput) (*ListSubmissionsOutput, error)
 	DescribeSubmission(context.Context, *DescribeSubmissionInput) (*DescribeSubmissionOutput, error)
+	PrintSubmission(context.Context, *PrintSubmissionInput) (*PrintSubmissionOutput, error)
 	WatchSubmission(*WatchSubmissionInput, grpc.ServerStreamingServer[WatchSubmissionOutput]) error
 	// Resets submission results and triggers testing process.
 	RetestSubmission(context.Context, *RetestSubmissionInput) (*RetestSubmissionOutput, error)
@@ -175,6 +188,9 @@ func (UnimplementedSubmissionServiceServer) ListSubmissions(context.Context, *Li
 }
 func (UnimplementedSubmissionServiceServer) DescribeSubmission(context.Context, *DescribeSubmissionInput) (*DescribeSubmissionOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeSubmission not implemented")
+}
+func (UnimplementedSubmissionServiceServer) PrintSubmission(context.Context, *PrintSubmissionInput) (*PrintSubmissionOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PrintSubmission not implemented")
 }
 func (UnimplementedSubmissionServiceServer) WatchSubmission(*WatchSubmissionInput, grpc.ServerStreamingServer[WatchSubmissionOutput]) error {
 	return status.Errorf(codes.Unimplemented, "method WatchSubmission not implemented")
@@ -261,6 +277,24 @@ func _SubmissionService_DescribeSubmission_Handler(srv interface{}, ctx context.
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(SubmissionServiceServer).DescribeSubmission(ctx, req.(*DescribeSubmissionInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SubmissionService_PrintSubmission_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PrintSubmissionInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SubmissionServiceServer).PrintSubmission(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SubmissionService_PrintSubmission_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SubmissionServiceServer).PrintSubmission(ctx, req.(*PrintSubmissionInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -366,6 +400,10 @@ var SubmissionService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DescribeSubmission",
 			Handler:    _SubmissionService_DescribeSubmission_Handler,
+		},
+		{
+			MethodName: "PrintSubmission",
+			Handler:    _SubmissionService_PrintSubmission_Handler,
 		},
 		{
 			MethodName: "RetestSubmission",

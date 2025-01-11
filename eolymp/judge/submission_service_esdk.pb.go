@@ -143,6 +143,22 @@ func (s *SubmissionServiceService) DescribeSubmission(ctx context.Context, in *D
 	return out, nil
 }
 
+func (s *SubmissionServiceService) PrintSubmission(ctx context.Context, in *PrintSubmissionInput) (*PrintSubmissionOutput, error) {
+	out := &PrintSubmissionOutput{}
+	path := "/submissions/" + url.PathEscape(in.GetSubmissionId()) + "/print"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.SubmissionId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *SubmissionServiceService) RetestSubmission(ctx context.Context, in *RetestSubmissionInput) (*RetestSubmissionOutput, error) {
 	out := &RetestSubmissionOutput{}
 	path := "/submissions/" + url.PathEscape(in.GetSubmissionId()) + "/retest"
