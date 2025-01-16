@@ -131,6 +131,9 @@ func RegisterEditorServiceHttpHandlers(router *mux.Router, prefix string, cli Ed
 	router.Handle(prefix+"/editor/state", _EditorService_UpdateState_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.EditorService.UpdateState")
+	router.Handle(prefix+"/editor/print", _EditorService_PrintCode_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.atlas.EditorService.PrintCode")
 }
 
 // RegisterEditorServiceHttpProxy adds proxy handlers for for EditorServiceClient
@@ -173,6 +176,28 @@ func _EditorService_UpdateState_Rule0(cli EditorServiceClient) http.Handler {
 		var header, trailer metadata.MD
 
 		out, err := cli.UpdateState(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_EditorService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_EditorService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _EditorService_PrintCode_Rule0(cli EditorServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &PrintCodeInput{}
+
+		if err := _EditorService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_EditorService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.PrintCode(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_EditorService_HTTPWriteErrorResponse(w, err)
 			return

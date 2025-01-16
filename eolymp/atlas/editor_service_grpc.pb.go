@@ -21,6 +21,7 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	EditorService_DescribeState_FullMethodName = "/eolymp.atlas.EditorService/DescribeState"
 	EditorService_UpdateState_FullMethodName   = "/eolymp.atlas.EditorService/UpdateState"
+	EditorService_PrintCode_FullMethodName     = "/eolymp.atlas.EditorService/PrintCode"
 )
 
 // EditorServiceClient is the client API for EditorService service.
@@ -29,6 +30,7 @@ const (
 type EditorServiceClient interface {
 	DescribeState(ctx context.Context, in *DescribeStateInput, opts ...grpc.CallOption) (*DescribeStateOutput, error)
 	UpdateState(ctx context.Context, in *UpdateStateInput, opts ...grpc.CallOption) (*UpdateStateOutput, error)
+	PrintCode(ctx context.Context, in *PrintCodeInput, opts ...grpc.CallOption) (*PrintCodeOutput, error)
 }
 
 type editorServiceClient struct {
@@ -59,12 +61,23 @@ func (c *editorServiceClient) UpdateState(ctx context.Context, in *UpdateStateIn
 	return out, nil
 }
 
+func (c *editorServiceClient) PrintCode(ctx context.Context, in *PrintCodeInput, opts ...grpc.CallOption) (*PrintCodeOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(PrintCodeOutput)
+	err := c.cc.Invoke(ctx, EditorService_PrintCode_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // EditorServiceServer is the server API for EditorService service.
 // All implementations should embed UnimplementedEditorServiceServer
 // for forward compatibility.
 type EditorServiceServer interface {
 	DescribeState(context.Context, *DescribeStateInput) (*DescribeStateOutput, error)
 	UpdateState(context.Context, *UpdateStateInput) (*UpdateStateOutput, error)
+	PrintCode(context.Context, *PrintCodeInput) (*PrintCodeOutput, error)
 }
 
 // UnimplementedEditorServiceServer should be embedded to have
@@ -79,6 +92,9 @@ func (UnimplementedEditorServiceServer) DescribeState(context.Context, *Describe
 }
 func (UnimplementedEditorServiceServer) UpdateState(context.Context, *UpdateStateInput) (*UpdateStateOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateState not implemented")
+}
+func (UnimplementedEditorServiceServer) PrintCode(context.Context, *PrintCodeInput) (*PrintCodeOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PrintCode not implemented")
 }
 func (UnimplementedEditorServiceServer) testEmbeddedByValue() {}
 
@@ -136,6 +152,24 @@ func _EditorService_UpdateState_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _EditorService_PrintCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PrintCodeInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(EditorServiceServer).PrintCode(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: EditorService_PrintCode_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(EditorServiceServer).PrintCode(ctx, req.(*PrintCodeInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // EditorService_ServiceDesc is the grpc.ServiceDesc for EditorService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -150,6 +184,10 @@ var EditorService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateState",
 			Handler:    _EditorService_UpdateState_Handler,
+		},
+		{
+			MethodName: "PrintCode",
+			Handler:    _EditorService_PrintCode_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

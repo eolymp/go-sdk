@@ -121,3 +121,14 @@ func (s *EditorServiceService) UpdateState(ctx context.Context, in *UpdateStateI
 
 	return out, nil
 }
+
+func (s *EditorServiceService) PrintCode(ctx context.Context, in *PrintCodeInput) (*PrintCodeOutput, error) {
+	out := &PrintCodeOutput{}
+	path := "/editor/print"
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
