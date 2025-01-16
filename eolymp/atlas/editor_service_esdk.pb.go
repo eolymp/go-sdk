@@ -100,8 +100,19 @@ func (s *EditorServiceService) do(ctx context.Context, verb, path string, in, ou
 	return nil
 }
 
-func (s *EditorServiceService) DescribeState(ctx context.Context, in *DescribeStateInput) (*DescribeStateOutput, error) {
-	out := &DescribeStateOutput{}
+func (s *EditorServiceService) DescribeEditor(ctx context.Context, in *DescribeEditorInput) (*DescribeEditorOutput, error) {
+	out := &DescribeEditorOutput{}
+	path := "/editor"
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *EditorServiceService) DescribeEditorState(ctx context.Context, in *DescribeEditorStateInput) (*DescribeEditorStateOutput, error) {
+	out := &DescribeEditorStateOutput{}
 	path := "/editor/state"
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
@@ -111,8 +122,8 @@ func (s *EditorServiceService) DescribeState(ctx context.Context, in *DescribeSt
 	return out, nil
 }
 
-func (s *EditorServiceService) UpdateState(ctx context.Context, in *UpdateStateInput) (*UpdateStateOutput, error) {
-	out := &UpdateStateOutput{}
+func (s *EditorServiceService) UpdateEditorState(ctx context.Context, in *UpdateEditorStateInput) (*UpdateEditorStateOutput, error) {
+	out := &UpdateEditorStateOutput{}
 	path := "/editor/state"
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
@@ -122,8 +133,8 @@ func (s *EditorServiceService) UpdateState(ctx context.Context, in *UpdateStateI
 	return out, nil
 }
 
-func (s *EditorServiceService) PrintCode(ctx context.Context, in *PrintCodeInput) (*PrintCodeOutput, error) {
-	out := &PrintCodeOutput{}
+func (s *EditorServiceService) PrintEditorCode(ctx context.Context, in *PrintEditorCodeInput) (*PrintEditorCodeOutput, error) {
+	out := &PrintEditorCodeOutput{}
 	path := "/editor/print"
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {

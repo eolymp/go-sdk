@@ -19,18 +19,20 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	EditorService_DescribeState_FullMethodName = "/eolymp.atlas.EditorService/DescribeState"
-	EditorService_UpdateState_FullMethodName   = "/eolymp.atlas.EditorService/UpdateState"
-	EditorService_PrintCode_FullMethodName     = "/eolymp.atlas.EditorService/PrintCode"
+	EditorService_DescribeEditor_FullMethodName      = "/eolymp.atlas.EditorService/DescribeEditor"
+	EditorService_DescribeEditorState_FullMethodName = "/eolymp.atlas.EditorService/DescribeEditorState"
+	EditorService_UpdateEditorState_FullMethodName   = "/eolymp.atlas.EditorService/UpdateEditorState"
+	EditorService_PrintEditorCode_FullMethodName     = "/eolymp.atlas.EditorService/PrintEditorCode"
 )
 
 // EditorServiceClient is the client API for EditorService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type EditorServiceClient interface {
-	DescribeState(ctx context.Context, in *DescribeStateInput, opts ...grpc.CallOption) (*DescribeStateOutput, error)
-	UpdateState(ctx context.Context, in *UpdateStateInput, opts ...grpc.CallOption) (*UpdateStateOutput, error)
-	PrintCode(ctx context.Context, in *PrintCodeInput, opts ...grpc.CallOption) (*PrintCodeOutput, error)
+	DescribeEditor(ctx context.Context, in *DescribeEditorInput, opts ...grpc.CallOption) (*DescribeEditorOutput, error)
+	DescribeEditorState(ctx context.Context, in *DescribeEditorStateInput, opts ...grpc.CallOption) (*DescribeEditorStateOutput, error)
+	UpdateEditorState(ctx context.Context, in *UpdateEditorStateInput, opts ...grpc.CallOption) (*UpdateEditorStateOutput, error)
+	PrintEditorCode(ctx context.Context, in *PrintEditorCodeInput, opts ...grpc.CallOption) (*PrintEditorCodeOutput, error)
 }
 
 type editorServiceClient struct {
@@ -41,30 +43,40 @@ func NewEditorServiceClient(cc grpc.ClientConnInterface) EditorServiceClient {
 	return &editorServiceClient{cc}
 }
 
-func (c *editorServiceClient) DescribeState(ctx context.Context, in *DescribeStateInput, opts ...grpc.CallOption) (*DescribeStateOutput, error) {
+func (c *editorServiceClient) DescribeEditor(ctx context.Context, in *DescribeEditorInput, opts ...grpc.CallOption) (*DescribeEditorOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DescribeStateOutput)
-	err := c.cc.Invoke(ctx, EditorService_DescribeState_FullMethodName, in, out, cOpts...)
+	out := new(DescribeEditorOutput)
+	err := c.cc.Invoke(ctx, EditorService_DescribeEditor_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *editorServiceClient) UpdateState(ctx context.Context, in *UpdateStateInput, opts ...grpc.CallOption) (*UpdateStateOutput, error) {
+func (c *editorServiceClient) DescribeEditorState(ctx context.Context, in *DescribeEditorStateInput, opts ...grpc.CallOption) (*DescribeEditorStateOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(UpdateStateOutput)
-	err := c.cc.Invoke(ctx, EditorService_UpdateState_FullMethodName, in, out, cOpts...)
+	out := new(DescribeEditorStateOutput)
+	err := c.cc.Invoke(ctx, EditorService_DescribeEditorState_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *editorServiceClient) PrintCode(ctx context.Context, in *PrintCodeInput, opts ...grpc.CallOption) (*PrintCodeOutput, error) {
+func (c *editorServiceClient) UpdateEditorState(ctx context.Context, in *UpdateEditorStateInput, opts ...grpc.CallOption) (*UpdateEditorStateOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(PrintCodeOutput)
-	err := c.cc.Invoke(ctx, EditorService_PrintCode_FullMethodName, in, out, cOpts...)
+	out := new(UpdateEditorStateOutput)
+	err := c.cc.Invoke(ctx, EditorService_UpdateEditorState_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *editorServiceClient) PrintEditorCode(ctx context.Context, in *PrintEditorCodeInput, opts ...grpc.CallOption) (*PrintEditorCodeOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(PrintEditorCodeOutput)
+	err := c.cc.Invoke(ctx, EditorService_PrintEditorCode_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -75,9 +87,10 @@ func (c *editorServiceClient) PrintCode(ctx context.Context, in *PrintCodeInput,
 // All implementations should embed UnimplementedEditorServiceServer
 // for forward compatibility.
 type EditorServiceServer interface {
-	DescribeState(context.Context, *DescribeStateInput) (*DescribeStateOutput, error)
-	UpdateState(context.Context, *UpdateStateInput) (*UpdateStateOutput, error)
-	PrintCode(context.Context, *PrintCodeInput) (*PrintCodeOutput, error)
+	DescribeEditor(context.Context, *DescribeEditorInput) (*DescribeEditorOutput, error)
+	DescribeEditorState(context.Context, *DescribeEditorStateInput) (*DescribeEditorStateOutput, error)
+	UpdateEditorState(context.Context, *UpdateEditorStateInput) (*UpdateEditorStateOutput, error)
+	PrintEditorCode(context.Context, *PrintEditorCodeInput) (*PrintEditorCodeOutput, error)
 }
 
 // UnimplementedEditorServiceServer should be embedded to have
@@ -87,14 +100,17 @@ type EditorServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedEditorServiceServer struct{}
 
-func (UnimplementedEditorServiceServer) DescribeState(context.Context, *DescribeStateInput) (*DescribeStateOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DescribeState not implemented")
+func (UnimplementedEditorServiceServer) DescribeEditor(context.Context, *DescribeEditorInput) (*DescribeEditorOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeEditor not implemented")
 }
-func (UnimplementedEditorServiceServer) UpdateState(context.Context, *UpdateStateInput) (*UpdateStateOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateState not implemented")
+func (UnimplementedEditorServiceServer) DescribeEditorState(context.Context, *DescribeEditorStateInput) (*DescribeEditorStateOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeEditorState not implemented")
 }
-func (UnimplementedEditorServiceServer) PrintCode(context.Context, *PrintCodeInput) (*PrintCodeOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method PrintCode not implemented")
+func (UnimplementedEditorServiceServer) UpdateEditorState(context.Context, *UpdateEditorStateInput) (*UpdateEditorStateOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateEditorState not implemented")
+}
+func (UnimplementedEditorServiceServer) PrintEditorCode(context.Context, *PrintEditorCodeInput) (*PrintEditorCodeOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PrintEditorCode not implemented")
 }
 func (UnimplementedEditorServiceServer) testEmbeddedByValue() {}
 
@@ -116,56 +132,74 @@ func RegisterEditorServiceServer(s grpc.ServiceRegistrar, srv EditorServiceServe
 	s.RegisterService(&EditorService_ServiceDesc, srv)
 }
 
-func _EditorService_DescribeState_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DescribeStateInput)
+func _EditorService_DescribeEditor_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeEditorInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(EditorServiceServer).DescribeState(ctx, in)
+		return srv.(EditorServiceServer).DescribeEditor(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: EditorService_DescribeState_FullMethodName,
+		FullMethod: EditorService_DescribeEditor_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(EditorServiceServer).DescribeState(ctx, req.(*DescribeStateInput))
+		return srv.(EditorServiceServer).DescribeEditor(ctx, req.(*DescribeEditorInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _EditorService_UpdateState_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateStateInput)
+func _EditorService_DescribeEditorState_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeEditorStateInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(EditorServiceServer).UpdateState(ctx, in)
+		return srv.(EditorServiceServer).DescribeEditorState(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: EditorService_UpdateState_FullMethodName,
+		FullMethod: EditorService_DescribeEditorState_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(EditorServiceServer).UpdateState(ctx, req.(*UpdateStateInput))
+		return srv.(EditorServiceServer).DescribeEditorState(ctx, req.(*DescribeEditorStateInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _EditorService_PrintCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PrintCodeInput)
+func _EditorService_UpdateEditorState_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateEditorStateInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(EditorServiceServer).PrintCode(ctx, in)
+		return srv.(EditorServiceServer).UpdateEditorState(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: EditorService_PrintCode_FullMethodName,
+		FullMethod: EditorService_UpdateEditorState_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(EditorServiceServer).PrintCode(ctx, req.(*PrintCodeInput))
+		return srv.(EditorServiceServer).UpdateEditorState(ctx, req.(*UpdateEditorStateInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _EditorService_PrintEditorCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PrintEditorCodeInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(EditorServiceServer).PrintEditorCode(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: EditorService_PrintEditorCode_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(EditorServiceServer).PrintEditorCode(ctx, req.(*PrintEditorCodeInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -178,16 +212,20 @@ var EditorService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*EditorServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "DescribeState",
-			Handler:    _EditorService_DescribeState_Handler,
+			MethodName: "DescribeEditor",
+			Handler:    _EditorService_DescribeEditor_Handler,
 		},
 		{
-			MethodName: "UpdateState",
-			Handler:    _EditorService_UpdateState_Handler,
+			MethodName: "DescribeEditorState",
+			Handler:    _EditorService_DescribeEditorState_Handler,
 		},
 		{
-			MethodName: "PrintCode",
-			Handler:    _EditorService_PrintCode_Handler,
+			MethodName: "UpdateEditorState",
+			Handler:    _EditorService_UpdateEditorState_Handler,
+		},
+		{
+			MethodName: "PrintEditorCode",
+			Handler:    _EditorService_PrintEditorCode_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

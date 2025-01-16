@@ -125,15 +125,18 @@ func _EditorService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 
 // RegisterEditorServiceHttpHandlers adds handlers for for EditorServiceClient
 func RegisterEditorServiceHttpHandlers(router *mux.Router, prefix string, cli EditorServiceClient) {
-	router.Handle(prefix+"/editor/state", _EditorService_DescribeState_Rule0(cli)).
+	router.Handle(prefix+"/editor", _EditorService_DescribeEditor_Rule0(cli)).
 		Methods("GET").
-		Name("eolymp.atlas.EditorService.DescribeState")
-	router.Handle(prefix+"/editor/state", _EditorService_UpdateState_Rule0(cli)).
+		Name("eolymp.atlas.EditorService.DescribeEditor")
+	router.Handle(prefix+"/editor/state", _EditorService_DescribeEditorState_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.atlas.EditorService.DescribeEditorState")
+	router.Handle(prefix+"/editor/state", _EditorService_UpdateEditorState_Rule0(cli)).
 		Methods("POST").
-		Name("eolymp.atlas.EditorService.UpdateState")
-	router.Handle(prefix+"/editor/print", _EditorService_PrintCode_Rule0(cli)).
+		Name("eolymp.atlas.EditorService.UpdateEditorState")
+	router.Handle(prefix+"/editor/print", _EditorService_PrintEditorCode_Rule0(cli)).
 		Methods("POST").
-		Name("eolymp.atlas.EditorService.PrintCode")
+		Name("eolymp.atlas.EditorService.PrintEditorCode")
 }
 
 // RegisterEditorServiceHttpProxy adds proxy handlers for for EditorServiceClient
@@ -141,9 +144,9 @@ func RegisterEditorServiceHttpProxy(router *mux.Router, prefix string, conn grpc
 	RegisterEditorServiceHttpHandlers(router, prefix, NewEditorServiceClient(conn))
 }
 
-func _EditorService_DescribeState_Rule0(cli EditorServiceClient) http.Handler {
+func _EditorService_DescribeEditor_Rule0(cli EditorServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DescribeStateInput{}
+		in := &DescribeEditorInput{}
 
 		if err := _EditorService_HTTPReadQueryString(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
@@ -153,7 +156,7 @@ func _EditorService_DescribeState_Rule0(cli EditorServiceClient) http.Handler {
 
 		var header, trailer metadata.MD
 
-		out, err := cli.DescribeState(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		out, err := cli.DescribeEditor(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_EditorService_HTTPWriteErrorResponse(w, err)
 			return
@@ -163,11 +166,11 @@ func _EditorService_DescribeState_Rule0(cli EditorServiceClient) http.Handler {
 	})
 }
 
-func _EditorService_UpdateState_Rule0(cli EditorServiceClient) http.Handler {
+func _EditorService_DescribeEditorState_Rule0(cli EditorServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &UpdateStateInput{}
+		in := &DescribeEditorStateInput{}
 
-		if err := _EditorService_HTTPReadRequestBody(r, in); err != nil {
+		if err := _EditorService_HTTPReadQueryString(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
 			_EditorService_HTTPWriteErrorResponse(w, err)
 			return
@@ -175,7 +178,7 @@ func _EditorService_UpdateState_Rule0(cli EditorServiceClient) http.Handler {
 
 		var header, trailer metadata.MD
 
-		out, err := cli.UpdateState(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		out, err := cli.DescribeEditorState(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_EditorService_HTTPWriteErrorResponse(w, err)
 			return
@@ -185,9 +188,9 @@ func _EditorService_UpdateState_Rule0(cli EditorServiceClient) http.Handler {
 	})
 }
 
-func _EditorService_PrintCode_Rule0(cli EditorServiceClient) http.Handler {
+func _EditorService_UpdateEditorState_Rule0(cli EditorServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &PrintCodeInput{}
+		in := &UpdateEditorStateInput{}
 
 		if err := _EditorService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
@@ -197,7 +200,29 @@ func _EditorService_PrintCode_Rule0(cli EditorServiceClient) http.Handler {
 
 		var header, trailer metadata.MD
 
-		out, err := cli.PrintCode(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		out, err := cli.UpdateEditorState(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_EditorService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_EditorService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _EditorService_PrintEditorCode_Rule0(cli EditorServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &PrintEditorCodeInput{}
+
+		if err := _EditorService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_EditorService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.PrintEditorCode(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_EditorService_HTTPWriteErrorResponse(w, err)
 			return
