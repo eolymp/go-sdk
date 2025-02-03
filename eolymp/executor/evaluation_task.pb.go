@@ -80,11 +80,11 @@ type EvaluationTask struct {
 	// Task priority. Allowed values 1-9. Messages with higher priority are precessed first.
 	// Currently not supported.
 	Priority  uint32  `protobuf:"varint,4,opt,name=priority,proto3" json:"priority,omitempty"`
-	Runtime   string  `protobuf:"bytes,10,opt,name=runtime,proto3" json:"runtime,omitempty"`                       // Runtime which should be used to execute source code.
-	SourceUrl string  `protobuf:"bytes,110,opt,name=source_url,json=sourceUrl,proto3" json:"source_url,omitempty"` // source code URL (overrides source)
-	HeaderUrl string  `protobuf:"bytes,111,opt,name=header_url,json=headerUrl,proto3" json:"header_url,omitempty"` // prepend source code before executing
-	FooterUrl string  `protobuf:"bytes,112,opt,name=footer_url,json=footerUrl,proto3" json:"footer_url,omitempty"` // append source code before executing
-	Files     []*File `protobuf:"bytes,50,rep,name=files,proto3" json:"files,omitempty"`                           // Additional files to be placed in the work directory during compilation and runs*
+	Runtime   string  `protobuf:"bytes,10,opt,name=runtime,proto3" json:"runtime,omitempty"`                       // deprecated: use solution script instead
+	SourceUrl string  `protobuf:"bytes,110,opt,name=source_url,json=sourceUrl,proto3" json:"source_url,omitempty"` // deprecated: use solution script instead
+	HeaderUrl string  `protobuf:"bytes,111,opt,name=header_url,json=headerUrl,proto3" json:"header_url,omitempty"` // deprecated: use solution script instead
+	FooterUrl string  `protobuf:"bytes,112,opt,name=footer_url,json=footerUrl,proto3" json:"footer_url,omitempty"` // deprecated: use solution script instead
+	Files     []*File `protobuf:"bytes,50,rep,name=files,proto3" json:"files,omitempty"`                           // deprecated: use solution script instead
 	// Solution being evaluated.
 	Solution *Script `protobuf:"bytes,12,opt,name=solution,proto3" json:"solution,omitempty"`
 	// Combine stderr and stdout when capturing output. Checker will use combined output as answer. Status will capture
