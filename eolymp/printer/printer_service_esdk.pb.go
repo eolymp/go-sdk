@@ -219,6 +219,23 @@ func (s *PrinterServiceService) ListPrinterJobs(ctx context.Context, in *ListPri
 	return out, nil
 }
 
+func (s *PrinterServiceService) UpdatePrinterJob(ctx context.Context, in *UpdatePrinterJobInput) (*UpdatePrinterJobOutput, error) {
+	out := &UpdatePrinterJobOutput{}
+	path := "/printers/" + url.PathEscape(in.GetPrinterId()) + "/jobs/" + url.PathEscape(in.GetJobId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.PrinterId = ""
+		in.JobId = ""
+	}
+
+	if err := s.do(ctx, "PUT", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *PrinterServiceService) DeletePrinterJob(ctx context.Context, in *DeletePrinterJobInput) (*DeletePrinterJobOutput, error) {
 	out := &DeletePrinterJobOutput{}
 	path := "/printers/" + url.PathEscape(in.GetPrinterId()) + "/jobs/" + url.PathEscape(in.GetJobId())

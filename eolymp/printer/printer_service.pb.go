@@ -911,6 +911,102 @@ func (*CancelPrinterJobOutput) Descriptor() ([]byte, []int) {
 	return file_eolymp_printer_printer_service_proto_rawDescGZIP(), []int{17}
 }
 
+type UpdatePrinterJobInput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	PrinterId     string                 `protobuf:"bytes,1,opt,name=printer_id,json=printerId,proto3" json:"printer_id,omitempty"`
+	JobId         string                 `protobuf:"bytes,2,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
+	Job           *Job                   `protobuf:"bytes,3,opt,name=job,proto3" json:"job,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdatePrinterJobInput) Reset() {
+	*x = UpdatePrinterJobInput{}
+	mi := &file_eolymp_printer_printer_service_proto_msgTypes[18]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdatePrinterJobInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdatePrinterJobInput) ProtoMessage() {}
+
+func (x *UpdatePrinterJobInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_printer_printer_service_proto_msgTypes[18]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdatePrinterJobInput.ProtoReflect.Descriptor instead.
+func (*UpdatePrinterJobInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_printer_printer_service_proto_rawDescGZIP(), []int{18}
+}
+
+func (x *UpdatePrinterJobInput) GetPrinterId() string {
+	if x != nil {
+		return x.PrinterId
+	}
+	return ""
+}
+
+func (x *UpdatePrinterJobInput) GetJobId() string {
+	if x != nil {
+		return x.JobId
+	}
+	return ""
+}
+
+func (x *UpdatePrinterJobInput) GetJob() *Job {
+	if x != nil {
+		return x.Job
+	}
+	return nil
+}
+
+type UpdatePrinterJobOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdatePrinterJobOutput) Reset() {
+	*x = UpdatePrinterJobOutput{}
+	mi := &file_eolymp_printer_printer_service_proto_msgTypes[19]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdatePrinterJobOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdatePrinterJobOutput) ProtoMessage() {}
+
+func (x *UpdatePrinterJobOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_printer_printer_service_proto_msgTypes[19]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdatePrinterJobOutput.ProtoReflect.Descriptor instead.
+func (*UpdatePrinterJobOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_printer_printer_service_proto_rawDescGZIP(), []int{19}
+}
+
 type DeletePrinterJobInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	PrinterId     string                 `protobuf:"bytes,1,opt,name=printer_id,json=printerId,proto3" json:"printer_id,omitempty"`
@@ -921,7 +1017,7 @@ type DeletePrinterJobInput struct {
 
 func (x *DeletePrinterJobInput) Reset() {
 	*x = DeletePrinterJobInput{}
-	mi := &file_eolymp_printer_printer_service_proto_msgTypes[18]
+	mi := &file_eolymp_printer_printer_service_proto_msgTypes[20]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -933,7 +1029,7 @@ func (x *DeletePrinterJobInput) String() string {
 func (*DeletePrinterJobInput) ProtoMessage() {}
 
 func (x *DeletePrinterJobInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_printer_printer_service_proto_msgTypes[18]
+	mi := &file_eolymp_printer_printer_service_proto_msgTypes[20]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -946,7 +1042,7 @@ func (x *DeletePrinterJobInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeletePrinterJobInput.ProtoReflect.Descriptor instead.
 func (*DeletePrinterJobInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_printer_printer_service_proto_rawDescGZIP(), []int{18}
+	return file_eolymp_printer_printer_service_proto_rawDescGZIP(), []int{20}
 }
 
 func (x *DeletePrinterJobInput) GetPrinterId() string {
@@ -971,7 +1067,7 @@ type DeletePrinterJobOutput struct {
 
 func (x *DeletePrinterJobOutput) Reset() {
 	*x = DeletePrinterJobOutput{}
-	mi := &file_eolymp_printer_printer_service_proto_msgTypes[19]
+	mi := &file_eolymp_printer_printer_service_proto_msgTypes[21]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -983,7 +1079,7 @@ func (x *DeletePrinterJobOutput) String() string {
 func (*DeletePrinterJobOutput) ProtoMessage() {}
 
 func (x *DeletePrinterJobOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_printer_printer_service_proto_msgTypes[19]
+	mi := &file_eolymp_printer_printer_service_proto_msgTypes[21]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -996,7 +1092,7 @@ func (x *DeletePrinterJobOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeletePrinterJobOutput.ProtoReflect.Descriptor instead.
 func (*DeletePrinterJobOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_printer_printer_service_proto_rawDescGZIP(), []int{19}
+	return file_eolymp_printer_printer_service_proto_rawDescGZIP(), []int{21}
 }
 
 type ListPrintersInput_Filter struct {
@@ -1010,7 +1106,7 @@ type ListPrintersInput_Filter struct {
 
 func (x *ListPrintersInput_Filter) Reset() {
 	*x = ListPrintersInput_Filter{}
-	mi := &file_eolymp_printer_printer_service_proto_msgTypes[20]
+	mi := &file_eolymp_printer_printer_service_proto_msgTypes[22]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1022,7 +1118,7 @@ func (x *ListPrintersInput_Filter) String() string {
 func (*ListPrintersInput_Filter) ProtoMessage() {}
 
 func (x *ListPrintersInput_Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_printer_printer_service_proto_msgTypes[20]
+	mi := &file_eolymp_printer_printer_service_proto_msgTypes[22]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1069,7 +1165,7 @@ type ListPrinterJobsInput_Filter struct {
 
 func (x *ListPrinterJobsInput_Filter) Reset() {
 	*x = ListPrinterJobsInput_Filter{}
-	mi := &file_eolymp_printer_printer_service_proto_msgTypes[21]
+	mi := &file_eolymp_printer_printer_service_proto_msgTypes[23]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1081,7 +1177,7 @@ func (x *ListPrinterJobsInput_Filter) String() string {
 func (*ListPrinterJobsInput_Filter) ProtoMessage() {}
 
 func (x *ListPrinterJobsInput_Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_printer_printer_service_proto_msgTypes[21]
+	mi := &file_eolymp_printer_printer_service_proto_msgTypes[23]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1233,13 +1329,22 @@ var file_eolymp_printer_printer_service_proto_rawDesc = string([]byte{
 	0x15, 0x0a, 0x06, 0x6a, 0x6f, 0x62, 0x5f, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52,
 	0x05, 0x6a, 0x6f, 0x62, 0x49, 0x64, 0x22, 0x18, 0x0a, 0x16, 0x43, 0x61, 0x6e, 0x63, 0x65, 0x6c,
 	0x50, 0x72, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x4a, 0x6f, 0x62, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74,
+	0x22, 0x74, 0x0a, 0x15, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x50, 0x72, 0x69, 0x6e, 0x74, 0x65,
+	0x72, 0x4a, 0x6f, 0x62, 0x49, 0x6e, 0x70, 0x75, 0x74, 0x12, 0x1d, 0x0a, 0x0a, 0x70, 0x72, 0x69,
+	0x6e, 0x74, 0x65, 0x72, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x70,
+	0x72, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x49, 0x64, 0x12, 0x15, 0x0a, 0x06, 0x6a, 0x6f, 0x62, 0x5f,
+	0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x6a, 0x6f, 0x62, 0x49, 0x64, 0x12,
+	0x25, 0x0a, 0x03, 0x6a, 0x6f, 0x62, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x13, 0x2e, 0x65,
+	0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x70, 0x72, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x2e, 0x4a, 0x6f,
+	0x62, 0x52, 0x03, 0x6a, 0x6f, 0x62, 0x22, 0x18, 0x0a, 0x16, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65,
+	0x50, 0x72, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x4a, 0x6f, 0x62, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74,
 	0x22, 0x4d, 0x0a, 0x15, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x50, 0x72, 0x69, 0x6e, 0x74, 0x65,
 	0x72, 0x4a, 0x6f, 0x62, 0x49, 0x6e, 0x70, 0x75, 0x74, 0x12, 0x1d, 0x0a, 0x0a, 0x70, 0x72, 0x69,
 	0x6e, 0x74, 0x65, 0x72, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x70,
 	0x72, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x49, 0x64, 0x12, 0x15, 0x0a, 0x06, 0x6a, 0x6f, 0x62, 0x5f,
 	0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x6a, 0x6f, 0x62, 0x49, 0x64, 0x22,
 	0x18, 0x0a, 0x16, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x50, 0x72, 0x69, 0x6e, 0x74, 0x65, 0x72,
-	0x4a, 0x6f, 0x62, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x32, 0xa2, 0x0c, 0x0a, 0x0e, 0x50, 0x72,
+	0x4a, 0x6f, 0x62, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x32, 0xe0, 0x0d, 0x0a, 0x0e, 0x50, 0x72,
 	0x69, 0x6e, 0x74, 0x65, 0x72, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x97, 0x01, 0x0a,
 	0x0d, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x50, 0x72, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x12, 0x22,
 	0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x70, 0x72, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x2e,
@@ -1326,22 +1431,34 @@ var file_eolymp_printer_printer_service_proto_rawDesc = string([]byte{
 	0x3a, 0x70, 0x72, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x3a, 0x72, 0x65, 0x61, 0x64, 0x82, 0xd3, 0xe4,
 	0x93, 0x02, 0x1d, 0x12, 0x1b, 0x2f, 0x70, 0x72, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x73, 0x2f, 0x7b,
 	0x70, 0x72, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x6a, 0x6f, 0x62, 0x73,
-	0x12, 0xbb, 0x01, 0x0a, 0x10, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x50, 0x72, 0x69, 0x6e, 0x74,
+	0x12, 0xbb, 0x01, 0x0a, 0x10, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x50, 0x72, 0x69, 0x6e, 0x74,
 	0x65, 0x72, 0x4a, 0x6f, 0x62, 0x12, 0x25, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x70,
-	0x72, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x50, 0x72, 0x69,
+	0x72, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x50, 0x72, 0x69,
 	0x6e, 0x74, 0x65, 0x72, 0x4a, 0x6f, 0x62, 0x49, 0x6e, 0x70, 0x75, 0x74, 0x1a, 0x26, 0x2e, 0x65,
-	0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x70, 0x72, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x2e, 0x44, 0x65,
-	0x6c, 0x65, 0x74, 0x65, 0x50, 0x72, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x4a, 0x6f, 0x62, 0x4f, 0x75,
+	0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x70, 0x72, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x2e, 0x55, 0x70,
+	0x64, 0x61, 0x74, 0x65, 0x50, 0x72, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x4a, 0x6f, 0x62, 0x4f, 0x75,
 	0x74, 0x70, 0x75, 0x74, 0x22, 0x58, 0xea, 0xe2, 0x0a, 0x0b, 0xf5, 0xe2, 0x0a, 0x00, 0x00, 0xa0,
 	0x40, 0xf8, 0xe2, 0x0a, 0x32, 0x82, 0xe3, 0x0a, 0x19, 0x8a, 0xe3, 0x0a, 0x15, 0x70, 0x72, 0x69,
 	0x6e, 0x74, 0x65, 0x72, 0x3a, 0x70, 0x72, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x3a, 0x77, 0x72, 0x69,
-	0x74, 0x65, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x26, 0x2a, 0x24, 0x2f, 0x70, 0x72, 0x69, 0x6e, 0x74,
+	0x74, 0x65, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x26, 0x1a, 0x24, 0x2f, 0x70, 0x72, 0x69, 0x6e, 0x74,
 	0x65, 0x72, 0x73, 0x2f, 0x7b, 0x70, 0x72, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x5f, 0x69, 0x64, 0x7d,
-	0x2f, 0x6a, 0x6f, 0x62, 0x73, 0x2f, 0x7b, 0x6a, 0x6f, 0x62, 0x5f, 0x69, 0x64, 0x7d, 0x42, 0x31,
-	0x5a, 0x2f, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x65, 0x6f, 0x6c,
-	0x79, 0x6d, 0x70, 0x2f, 0x67, 0x6f, 0x2d, 0x73, 0x64, 0x6b, 0x2f, 0x65, 0x6f, 0x6c, 0x79, 0x6d,
-	0x70, 0x2f, 0x70, 0x72, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x3b, 0x70, 0x72, 0x69, 0x6e, 0x74, 0x65,
-	0x72, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x2f, 0x6a, 0x6f, 0x62, 0x73, 0x2f, 0x7b, 0x6a, 0x6f, 0x62, 0x5f, 0x69, 0x64, 0x7d, 0x12, 0xbb,
+	0x01, 0x0a, 0x10, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x50, 0x72, 0x69, 0x6e, 0x74, 0x65, 0x72,
+	0x4a, 0x6f, 0x62, 0x12, 0x25, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x70, 0x72, 0x69,
+	0x6e, 0x74, 0x65, 0x72, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x50, 0x72, 0x69, 0x6e, 0x74,
+	0x65, 0x72, 0x4a, 0x6f, 0x62, 0x49, 0x6e, 0x70, 0x75, 0x74, 0x1a, 0x26, 0x2e, 0x65, 0x6f, 0x6c,
+	0x79, 0x6d, 0x70, 0x2e, 0x70, 0x72, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x2e, 0x44, 0x65, 0x6c, 0x65,
+	0x74, 0x65, 0x50, 0x72, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x4a, 0x6f, 0x62, 0x4f, 0x75, 0x74, 0x70,
+	0x75, 0x74, 0x22, 0x58, 0xea, 0xe2, 0x0a, 0x0b, 0xf5, 0xe2, 0x0a, 0x00, 0x00, 0xa0, 0x40, 0xf8,
+	0xe2, 0x0a, 0x32, 0x82, 0xe3, 0x0a, 0x19, 0x8a, 0xe3, 0x0a, 0x15, 0x70, 0x72, 0x69, 0x6e, 0x74,
+	0x65, 0x72, 0x3a, 0x70, 0x72, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x3a, 0x77, 0x72, 0x69, 0x74, 0x65,
+	0x82, 0xd3, 0xe4, 0x93, 0x02, 0x26, 0x2a, 0x24, 0x2f, 0x70, 0x72, 0x69, 0x6e, 0x74, 0x65, 0x72,
+	0x73, 0x2f, 0x7b, 0x70, 0x72, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x6a,
+	0x6f, 0x62, 0x73, 0x2f, 0x7b, 0x6a, 0x6f, 0x62, 0x5f, 0x69, 0x64, 0x7d, 0x42, 0x31, 0x5a, 0x2f,
+	0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x65, 0x6f, 0x6c, 0x79, 0x6d,
+	0x70, 0x2f, 0x67, 0x6f, 0x2d, 0x73, 0x64, 0x6b, 0x2f, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f,
+	0x70, 0x72, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x3b, 0x70, 0x72, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x62,
+	0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 })
 
 var (
@@ -1356,7 +1473,7 @@ func file_eolymp_printer_printer_service_proto_rawDescGZIP() []byte {
 	return file_eolymp_printer_printer_service_proto_rawDescData
 }
 
-var file_eolymp_printer_printer_service_proto_msgTypes = make([]protoimpl.MessageInfo, 22)
+var file_eolymp_printer_printer_service_proto_msgTypes = make([]protoimpl.MessageInfo, 24)
 var file_eolymp_printer_printer_service_proto_goTypes = []any{
 	(*CreatePrinterInput)(nil),          // 0: eolymp.printer.CreatePrinterInput
 	(*CreatePrinterOutput)(nil),         // 1: eolymp.printer.CreatePrinterOutput
@@ -1376,53 +1493,58 @@ var file_eolymp_printer_printer_service_proto_goTypes = []any{
 	(*ListPrinterJobsOutput)(nil),       // 15: eolymp.printer.ListPrinterJobsOutput
 	(*CancelPrinterJobInput)(nil),       // 16: eolymp.printer.CancelPrinterJobInput
 	(*CancelPrinterJobOutput)(nil),      // 17: eolymp.printer.CancelPrinterJobOutput
-	(*DeletePrinterJobInput)(nil),       // 18: eolymp.printer.DeletePrinterJobInput
-	(*DeletePrinterJobOutput)(nil),      // 19: eolymp.printer.DeletePrinterJobOutput
-	(*ListPrintersInput_Filter)(nil),    // 20: eolymp.printer.ListPrintersInput.Filter
-	(*ListPrinterJobsInput_Filter)(nil), // 21: eolymp.printer.ListPrinterJobsInput.Filter
-	(*Printer)(nil),                     // 22: eolymp.printer.Printer
-	(*Job)(nil),                         // 23: eolymp.printer.Job
-	(*wellknown.ExpressionID)(nil),      // 24: eolymp.wellknown.ExpressionID
-	(*wellknown.ExpressionEnum)(nil),    // 25: eolymp.wellknown.ExpressionEnum
-	(*wellknown.ExpressionString)(nil),  // 26: eolymp.wellknown.ExpressionString
+	(*UpdatePrinterJobInput)(nil),       // 18: eolymp.printer.UpdatePrinterJobInput
+	(*UpdatePrinterJobOutput)(nil),      // 19: eolymp.printer.UpdatePrinterJobOutput
+	(*DeletePrinterJobInput)(nil),       // 20: eolymp.printer.DeletePrinterJobInput
+	(*DeletePrinterJobOutput)(nil),      // 21: eolymp.printer.DeletePrinterJobOutput
+	(*ListPrintersInput_Filter)(nil),    // 22: eolymp.printer.ListPrintersInput.Filter
+	(*ListPrinterJobsInput_Filter)(nil), // 23: eolymp.printer.ListPrinterJobsInput.Filter
+	(*Printer)(nil),                     // 24: eolymp.printer.Printer
+	(*Job)(nil),                         // 25: eolymp.printer.Job
+	(*wellknown.ExpressionID)(nil),      // 26: eolymp.wellknown.ExpressionID
+	(*wellknown.ExpressionEnum)(nil),    // 27: eolymp.wellknown.ExpressionEnum
+	(*wellknown.ExpressionString)(nil),  // 28: eolymp.wellknown.ExpressionString
 }
 var file_eolymp_printer_printer_service_proto_depIdxs = []int32{
-	22, // 0: eolymp.printer.CreatePrinterInput.printer:type_name -> eolymp.printer.Printer
-	22, // 1: eolymp.printer.UpdatePrinterInput.printer:type_name -> eolymp.printer.Printer
-	22, // 2: eolymp.printer.DescribePrinterOutput.printer:type_name -> eolymp.printer.Printer
-	20, // 3: eolymp.printer.ListPrintersInput.filters:type_name -> eolymp.printer.ListPrintersInput.Filter
-	22, // 4: eolymp.printer.ListPrintersOutput.items:type_name -> eolymp.printer.Printer
-	23, // 5: eolymp.printer.DescribePrinterJobOutput.job:type_name -> eolymp.printer.Job
-	21, // 6: eolymp.printer.ListPrinterJobsInput.filters:type_name -> eolymp.printer.ListPrinterJobsInput.Filter
-	23, // 7: eolymp.printer.ListPrinterJobsOutput.items:type_name -> eolymp.printer.Job
-	24, // 8: eolymp.printer.ListPrintersInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	25, // 9: eolymp.printer.ListPrintersInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
-	26, // 10: eolymp.printer.ListPrintersInput.Filter.name:type_name -> eolymp.wellknown.ExpressionString
-	24, // 11: eolymp.printer.ListPrinterJobsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	25, // 12: eolymp.printer.ListPrinterJobsInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
-	0,  // 13: eolymp.printer.PrinterService.CreatePrinter:input_type -> eolymp.printer.CreatePrinterInput
-	2,  // 14: eolymp.printer.PrinterService.UpdatePrinter:input_type -> eolymp.printer.UpdatePrinterInput
-	4,  // 15: eolymp.printer.PrinterService.DeletePrinter:input_type -> eolymp.printer.DeletePrinterInput
-	6,  // 16: eolymp.printer.PrinterService.DescribePrinter:input_type -> eolymp.printer.DescribePrinterInput
-	8,  // 17: eolymp.printer.PrinterService.ListPrinters:input_type -> eolymp.printer.ListPrintersInput
-	10, // 18: eolymp.printer.PrinterService.CreatePrinterJob:input_type -> eolymp.printer.CreatePrinterJobInput
-	12, // 19: eolymp.printer.PrinterService.DescribePrinterJob:input_type -> eolymp.printer.DescribePrinterJobInput
-	14, // 20: eolymp.printer.PrinterService.ListPrinterJobs:input_type -> eolymp.printer.ListPrinterJobsInput
-	18, // 21: eolymp.printer.PrinterService.DeletePrinterJob:input_type -> eolymp.printer.DeletePrinterJobInput
-	1,  // 22: eolymp.printer.PrinterService.CreatePrinter:output_type -> eolymp.printer.CreatePrinterOutput
-	3,  // 23: eolymp.printer.PrinterService.UpdatePrinter:output_type -> eolymp.printer.UpdatePrinterOutput
-	5,  // 24: eolymp.printer.PrinterService.DeletePrinter:output_type -> eolymp.printer.DeletePrinterOutput
-	7,  // 25: eolymp.printer.PrinterService.DescribePrinter:output_type -> eolymp.printer.DescribePrinterOutput
-	9,  // 26: eolymp.printer.PrinterService.ListPrinters:output_type -> eolymp.printer.ListPrintersOutput
-	11, // 27: eolymp.printer.PrinterService.CreatePrinterJob:output_type -> eolymp.printer.CreatePrinterJobOutput
-	13, // 28: eolymp.printer.PrinterService.DescribePrinterJob:output_type -> eolymp.printer.DescribePrinterJobOutput
-	15, // 29: eolymp.printer.PrinterService.ListPrinterJobs:output_type -> eolymp.printer.ListPrinterJobsOutput
-	19, // 30: eolymp.printer.PrinterService.DeletePrinterJob:output_type -> eolymp.printer.DeletePrinterJobOutput
-	22, // [22:31] is the sub-list for method output_type
-	13, // [13:22] is the sub-list for method input_type
-	13, // [13:13] is the sub-list for extension type_name
-	13, // [13:13] is the sub-list for extension extendee
-	0,  // [0:13] is the sub-list for field type_name
+	24, // 0: eolymp.printer.CreatePrinterInput.printer:type_name -> eolymp.printer.Printer
+	24, // 1: eolymp.printer.UpdatePrinterInput.printer:type_name -> eolymp.printer.Printer
+	24, // 2: eolymp.printer.DescribePrinterOutput.printer:type_name -> eolymp.printer.Printer
+	22, // 3: eolymp.printer.ListPrintersInput.filters:type_name -> eolymp.printer.ListPrintersInput.Filter
+	24, // 4: eolymp.printer.ListPrintersOutput.items:type_name -> eolymp.printer.Printer
+	25, // 5: eolymp.printer.DescribePrinterJobOutput.job:type_name -> eolymp.printer.Job
+	23, // 6: eolymp.printer.ListPrinterJobsInput.filters:type_name -> eolymp.printer.ListPrinterJobsInput.Filter
+	25, // 7: eolymp.printer.ListPrinterJobsOutput.items:type_name -> eolymp.printer.Job
+	25, // 8: eolymp.printer.UpdatePrinterJobInput.job:type_name -> eolymp.printer.Job
+	26, // 9: eolymp.printer.ListPrintersInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	27, // 10: eolymp.printer.ListPrintersInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
+	28, // 11: eolymp.printer.ListPrintersInput.Filter.name:type_name -> eolymp.wellknown.ExpressionString
+	26, // 12: eolymp.printer.ListPrinterJobsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	27, // 13: eolymp.printer.ListPrinterJobsInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
+	0,  // 14: eolymp.printer.PrinterService.CreatePrinter:input_type -> eolymp.printer.CreatePrinterInput
+	2,  // 15: eolymp.printer.PrinterService.UpdatePrinter:input_type -> eolymp.printer.UpdatePrinterInput
+	4,  // 16: eolymp.printer.PrinterService.DeletePrinter:input_type -> eolymp.printer.DeletePrinterInput
+	6,  // 17: eolymp.printer.PrinterService.DescribePrinter:input_type -> eolymp.printer.DescribePrinterInput
+	8,  // 18: eolymp.printer.PrinterService.ListPrinters:input_type -> eolymp.printer.ListPrintersInput
+	10, // 19: eolymp.printer.PrinterService.CreatePrinterJob:input_type -> eolymp.printer.CreatePrinterJobInput
+	12, // 20: eolymp.printer.PrinterService.DescribePrinterJob:input_type -> eolymp.printer.DescribePrinterJobInput
+	14, // 21: eolymp.printer.PrinterService.ListPrinterJobs:input_type -> eolymp.printer.ListPrinterJobsInput
+	18, // 22: eolymp.printer.PrinterService.UpdatePrinterJob:input_type -> eolymp.printer.UpdatePrinterJobInput
+	20, // 23: eolymp.printer.PrinterService.DeletePrinterJob:input_type -> eolymp.printer.DeletePrinterJobInput
+	1,  // 24: eolymp.printer.PrinterService.CreatePrinter:output_type -> eolymp.printer.CreatePrinterOutput
+	3,  // 25: eolymp.printer.PrinterService.UpdatePrinter:output_type -> eolymp.printer.UpdatePrinterOutput
+	5,  // 26: eolymp.printer.PrinterService.DeletePrinter:output_type -> eolymp.printer.DeletePrinterOutput
+	7,  // 27: eolymp.printer.PrinterService.DescribePrinter:output_type -> eolymp.printer.DescribePrinterOutput
+	9,  // 28: eolymp.printer.PrinterService.ListPrinters:output_type -> eolymp.printer.ListPrintersOutput
+	11, // 29: eolymp.printer.PrinterService.CreatePrinterJob:output_type -> eolymp.printer.CreatePrinterJobOutput
+	13, // 30: eolymp.printer.PrinterService.DescribePrinterJob:output_type -> eolymp.printer.DescribePrinterJobOutput
+	15, // 31: eolymp.printer.PrinterService.ListPrinterJobs:output_type -> eolymp.printer.ListPrinterJobsOutput
+	19, // 32: eolymp.printer.PrinterService.UpdatePrinterJob:output_type -> eolymp.printer.UpdatePrinterJobOutput
+	21, // 33: eolymp.printer.PrinterService.DeletePrinterJob:output_type -> eolymp.printer.DeletePrinterJobOutput
+	24, // [24:34] is the sub-list for method output_type
+	14, // [14:24] is the sub-list for method input_type
+	14, // [14:14] is the sub-list for extension type_name
+	14, // [14:14] is the sub-list for extension extendee
+	0,  // [0:14] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_printer_printer_service_proto_init() }
@@ -1441,7 +1563,7 @@ func file_eolymp_printer_printer_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_printer_printer_service_proto_rawDesc), len(file_eolymp_printer_printer_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   22,
+			NumMessages:   24,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

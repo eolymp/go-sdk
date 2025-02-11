@@ -149,6 +149,9 @@ func RegisterPrinterServiceHttpHandlers(router *mux.Router, prefix string, cli P
 	router.Handle(prefix+"/printers/{printer_id}/jobs", _PrinterService_ListPrinterJobs_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.printer.PrinterService.ListPrinterJobs")
+	router.Handle(prefix+"/printers/{printer_id}/jobs/{job_id}", _PrinterService_UpdatePrinterJob_Rule0(cli)).
+		Methods("PUT").
+		Name("eolymp.printer.PrinterService.UpdatePrinterJob")
 	router.Handle(prefix+"/printers/{printer_id}/jobs/{job_id}", _PrinterService_DeletePrinterJob_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.printer.PrinterService.DeletePrinterJob")
@@ -345,6 +348,32 @@ func _PrinterService_ListPrinterJobs_Rule0(cli PrinterServiceClient) http.Handle
 		var header, trailer metadata.MD
 
 		out, err := cli.ListPrinterJobs(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_PrinterService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_PrinterService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _PrinterService_UpdatePrinterJob_Rule0(cli PrinterServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UpdatePrinterJobInput{}
+
+		if err := _PrinterService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_PrinterService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.PrinterId = vars["printer_id"]
+		in.JobId = vars["job_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdatePrinterJob(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_PrinterService_HTTPWriteErrorResponse(w, err)
 			return
