@@ -25,6 +25,8 @@ const (
 	TestingService_DescribeChecker_FullMethodName       = "/eolymp.atlas.TestingService/DescribeChecker"
 	TestingService_UpdateInteractor_FullMethodName      = "/eolymp.atlas.TestingService/UpdateInteractor"
 	TestingService_DescribeInteractor_FullMethodName    = "/eolymp.atlas.TestingService/DescribeInteractor"
+	TestingService_UpdateValidator_FullMethodName       = "/eolymp.atlas.TestingService/UpdateValidator"
+	TestingService_DescribeValidator_FullMethodName     = "/eolymp.atlas.TestingService/DescribeValidator"
 	TestingService_CreateTestset_FullMethodName         = "/eolymp.atlas.TestingService/CreateTestset"
 	TestingService_UpdateTestset_FullMethodName         = "/eolymp.atlas.TestingService/UpdateTestset"
 	TestingService_DeleteTestset_FullMethodName         = "/eolymp.atlas.TestingService/DeleteTestset"
@@ -48,6 +50,8 @@ type TestingServiceClient interface {
 	DescribeChecker(ctx context.Context, in *DescribeCheckerInput, opts ...grpc.CallOption) (*DescribeCheckerOutput, error)
 	UpdateInteractor(ctx context.Context, in *UpdateInteractorInput, opts ...grpc.CallOption) (*UpdateInteractorOutput, error)
 	DescribeInteractor(ctx context.Context, in *DescribeInteractorInput, opts ...grpc.CallOption) (*DescribeInteractorOutput, error)
+	UpdateValidator(ctx context.Context, in *UpdateValidatorInput, opts ...grpc.CallOption) (*UpdateValidatorOutput, error)
+	DescribeValidator(ctx context.Context, in *DescribeValidatorInput, opts ...grpc.CallOption) (*DescribeValidatorOutput, error)
 	CreateTestset(ctx context.Context, in *CreateTestsetInput, opts ...grpc.CallOption) (*CreateTestsetOutput, error)
 	UpdateTestset(ctx context.Context, in *UpdateTestsetInput, opts ...grpc.CallOption) (*UpdateTestsetOutput, error)
 	DeleteTestset(ctx context.Context, in *DeleteTestsetInput, opts ...grpc.CallOption) (*DeleteTestsetOutput, error)
@@ -123,6 +127,26 @@ func (c *testingServiceClient) DescribeInteractor(ctx context.Context, in *Descr
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DescribeInteractorOutput)
 	err := c.cc.Invoke(ctx, TestingService_DescribeInteractor_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *testingServiceClient) UpdateValidator(ctx context.Context, in *UpdateValidatorInput, opts ...grpc.CallOption) (*UpdateValidatorOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateValidatorOutput)
+	err := c.cc.Invoke(ctx, TestingService_UpdateValidator_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *testingServiceClient) DescribeValidator(ctx context.Context, in *DescribeValidatorInput, opts ...grpc.CallOption) (*DescribeValidatorOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DescribeValidatorOutput)
+	err := c.cc.Invoke(ctx, TestingService_DescribeValidator_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -249,6 +273,8 @@ type TestingServiceServer interface {
 	DescribeChecker(context.Context, *DescribeCheckerInput) (*DescribeCheckerOutput, error)
 	UpdateInteractor(context.Context, *UpdateInteractorInput) (*UpdateInteractorOutput, error)
 	DescribeInteractor(context.Context, *DescribeInteractorInput) (*DescribeInteractorOutput, error)
+	UpdateValidator(context.Context, *UpdateValidatorInput) (*UpdateValidatorOutput, error)
+	DescribeValidator(context.Context, *DescribeValidatorInput) (*DescribeValidatorOutput, error)
 	CreateTestset(context.Context, *CreateTestsetInput) (*CreateTestsetOutput, error)
 	UpdateTestset(context.Context, *UpdateTestsetInput) (*UpdateTestsetOutput, error)
 	DeleteTestset(context.Context, *DeleteTestsetInput) (*DeleteTestsetOutput, error)
@@ -286,6 +312,12 @@ func (UnimplementedTestingServiceServer) UpdateInteractor(context.Context, *Upda
 }
 func (UnimplementedTestingServiceServer) DescribeInteractor(context.Context, *DescribeInteractorInput) (*DescribeInteractorOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeInteractor not implemented")
+}
+func (UnimplementedTestingServiceServer) UpdateValidator(context.Context, *UpdateValidatorInput) (*UpdateValidatorOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateValidator not implemented")
+}
+func (UnimplementedTestingServiceServer) DescribeValidator(context.Context, *DescribeValidatorInput) (*DescribeValidatorOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeValidator not implemented")
 }
 func (UnimplementedTestingServiceServer) CreateTestset(context.Context, *CreateTestsetInput) (*CreateTestsetOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateTestset not implemented")
@@ -444,6 +476,42 @@ func _TestingService_DescribeInteractor_Handler(srv interface{}, ctx context.Con
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(TestingServiceServer).DescribeInteractor(ctx, req.(*DescribeInteractorInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TestingService_UpdateValidator_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateValidatorInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TestingServiceServer).UpdateValidator(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TestingService_UpdateValidator_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TestingServiceServer).UpdateValidator(ctx, req.(*UpdateValidatorInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TestingService_DescribeValidator_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeValidatorInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TestingServiceServer).DescribeValidator(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TestingService_DescribeValidator_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TestingServiceServer).DescribeValidator(ctx, req.(*DescribeValidatorInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -676,6 +744,14 @@ var TestingService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DescribeInteractor",
 			Handler:    _TestingService_DescribeInteractor_Handler,
+		},
+		{
+			MethodName: "UpdateValidator",
+			Handler:    _TestingService_UpdateValidator_Handler,
+		},
+		{
+			MethodName: "DescribeValidator",
+			Handler:    _TestingService_DescribeValidator_Handler,
 		},
 		{
 			MethodName: "CreateTestset",
