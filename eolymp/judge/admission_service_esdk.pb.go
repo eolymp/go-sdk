@@ -111,6 +111,17 @@ func (s *AdmissionServiceService) RequestAdmission(ctx context.Context, in *Requ
 	return out, nil
 }
 
+func (s *AdmissionServiceService) DescribeAdmission(ctx context.Context, in *DescribeAdmissionInput) (*DescribeAdmissionOutput, error) {
+	out := &DescribeAdmissionOutput{}
+	path := "/admission:request"
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *AdmissionServiceService) AcceptAdmission(ctx context.Context, in *AcceptAdmissionInput) (*AcceptAdmissionOutput, error) {
 	out := &AcceptAdmissionOutput{}
 	path := "/admission:accept"

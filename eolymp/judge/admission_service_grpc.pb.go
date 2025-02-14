@@ -19,9 +19,10 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	AdmissionService_RequestAdmission_FullMethodName = "/eolymp.judge.AdmissionService/RequestAdmission"
-	AdmissionService_WatchAdmission_FullMethodName   = "/eolymp.judge.AdmissionService/WatchAdmission"
-	AdmissionService_AcceptAdmission_FullMethodName  = "/eolymp.judge.AdmissionService/AcceptAdmission"
+	AdmissionService_RequestAdmission_FullMethodName  = "/eolymp.judge.AdmissionService/RequestAdmission"
+	AdmissionService_WatchAdmission_FullMethodName    = "/eolymp.judge.AdmissionService/WatchAdmission"
+	AdmissionService_DescribeAdmission_FullMethodName = "/eolymp.judge.AdmissionService/DescribeAdmission"
+	AdmissionService_AcceptAdmission_FullMethodName   = "/eolymp.judge.AdmissionService/AcceptAdmission"
 )
 
 // AdmissionServiceClient is the client API for AdmissionService service.
@@ -32,6 +33,7 @@ type AdmissionServiceClient interface {
 	RequestAdmission(ctx context.Context, in *RequestAdmissionInput, opts ...grpc.CallOption) (*RequestAdmissionOutput, error)
 	// Watch admission request for any changes
 	WatchAdmission(ctx context.Context, in *WatchAdmissionInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchAdmissionOutput], error)
+	DescribeAdmission(ctx context.Context, in *DescribeAdmissionInput, opts ...grpc.CallOption) (*DescribeAdmissionOutput, error)
 	// Accept admission code
 	AcceptAdmission(ctx context.Context, in *AcceptAdmissionInput, opts ...grpc.CallOption) (*AcceptAdmissionOutput, error)
 }
@@ -73,6 +75,16 @@ func (c *admissionServiceClient) WatchAdmission(ctx context.Context, in *WatchAd
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type AdmissionService_WatchAdmissionClient = grpc.ServerStreamingClient[WatchAdmissionOutput]
 
+func (c *admissionServiceClient) DescribeAdmission(ctx context.Context, in *DescribeAdmissionInput, opts ...grpc.CallOption) (*DescribeAdmissionOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DescribeAdmissionOutput)
+	err := c.cc.Invoke(ctx, AdmissionService_DescribeAdmission_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *admissionServiceClient) AcceptAdmission(ctx context.Context, in *AcceptAdmissionInput, opts ...grpc.CallOption) (*AcceptAdmissionOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(AcceptAdmissionOutput)
@@ -91,6 +103,7 @@ type AdmissionServiceServer interface {
 	RequestAdmission(context.Context, *RequestAdmissionInput) (*RequestAdmissionOutput, error)
 	// Watch admission request for any changes
 	WatchAdmission(*WatchAdmissionInput, grpc.ServerStreamingServer[WatchAdmissionOutput]) error
+	DescribeAdmission(context.Context, *DescribeAdmissionInput) (*DescribeAdmissionOutput, error)
 	// Accept admission code
 	AcceptAdmission(context.Context, *AcceptAdmissionInput) (*AcceptAdmissionOutput, error)
 }
@@ -107,6 +120,9 @@ func (UnimplementedAdmissionServiceServer) RequestAdmission(context.Context, *Re
 }
 func (UnimplementedAdmissionServiceServer) WatchAdmission(*WatchAdmissionInput, grpc.ServerStreamingServer[WatchAdmissionOutput]) error {
 	return status.Errorf(codes.Unimplemented, "method WatchAdmission not implemented")
+}
+func (UnimplementedAdmissionServiceServer) DescribeAdmission(context.Context, *DescribeAdmissionInput) (*DescribeAdmissionOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeAdmission not implemented")
 }
 func (UnimplementedAdmissionServiceServer) AcceptAdmission(context.Context, *AcceptAdmissionInput) (*AcceptAdmissionOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AcceptAdmission not implemented")
@@ -160,6 +176,24 @@ func _AdmissionService_WatchAdmission_Handler(srv interface{}, stream grpc.Serve
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type AdmissionService_WatchAdmissionServer = grpc.ServerStreamingServer[WatchAdmissionOutput]
 
+func _AdmissionService_DescribeAdmission_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeAdmissionInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdmissionServiceServer).DescribeAdmission(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AdmissionService_DescribeAdmission_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdmissionServiceServer).DescribeAdmission(ctx, req.(*DescribeAdmissionInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _AdmissionService_AcceptAdmission_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(AcceptAdmissionInput)
 	if err := dec(in); err != nil {
@@ -188,6 +222,10 @@ var AdmissionService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RequestAdmission",
 			Handler:    _AdmissionService_RequestAdmission_Handler,
+		},
+		{
+			MethodName: "DescribeAdmission",
+			Handler:    _AdmissionService_DescribeAdmission_Handler,
 		},
 		{
 			MethodName: "AcceptAdmission",

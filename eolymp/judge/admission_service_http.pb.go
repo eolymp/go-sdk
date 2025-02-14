@@ -128,6 +128,9 @@ func RegisterAdmissionServiceHttpHandlers(router *mux.Router, prefix string, cli
 	router.Handle(prefix+"/admission:request", _AdmissionService_RequestAdmission_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.AdmissionService.RequestAdmission")
+	router.Handle(prefix+"/admission:request", _AdmissionService_DescribeAdmission_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.judge.AdmissionService.DescribeAdmission")
 	router.Handle(prefix+"/admission:accept", _AdmissionService_AcceptAdmission_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.AdmissionService.AcceptAdmission")
@@ -151,6 +154,28 @@ func _AdmissionService_RequestAdmission_Rule0(cli AdmissionServiceClient) http.H
 		var header, trailer metadata.MD
 
 		out, err := cli.RequestAdmission(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_AdmissionService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_AdmissionService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _AdmissionService_DescribeAdmission_Rule0(cli AdmissionServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeAdmissionInput{}
+
+		if err := _AdmissionService_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_AdmissionService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeAdmission(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_AdmissionService_HTTPWriteErrorResponse(w, err)
 			return

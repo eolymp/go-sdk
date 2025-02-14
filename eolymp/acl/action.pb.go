@@ -41,7 +41,7 @@ const (
 	Action_CONTEST_LIST     Action = 50 // allows to list contests, automatically assigned if user has read access to any of the contests
 	Action_CONTEST_READ     Action = 51
 	Action_CONTEST_WRITE    Action = 62
-	Action_CONTEST_ADMIT    Action = 63 // allows to admit participants to the contest
+	Action_CONTEST_ADMIT    Action = 63 // allows to admit participants to the contest (CONTEST_WRITE also allows to admit)
 	Action_TICKET_LIST      Action = 72 // allows to list tickets, automatically assigned if user has read access to any of the tickets
 	Action_TICKET_READ      Action = 70
 	Action_TICKET_WRITE     Action = 71 // modify tickets: reply, close etc
