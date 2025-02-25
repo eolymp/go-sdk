@@ -146,6 +146,9 @@ func RegisterCampaignServiceHttpHandlers(router *mux.Router, prefix string, cli 
 	router.Handle(prefix+"/campaigns/{campaign_id}/send", _CampaignService_SendCampaign_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.newsletter.CampaignService.SendCampaign")
+	router.Handle(prefix+"/campaigns/{campaign_id}/translate", _CampaignService_TranslateCampaign_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.newsletter.CampaignService.TranslateCampaign")
 	router.Handle(prefix+"/campaigns/{campaign_id}/translations", _CampaignService_CreateTranslation_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.newsletter.CampaignService.CreateTranslation")
@@ -340,6 +343,31 @@ func _CampaignService_SendCampaign_Rule0(cli CampaignServiceClient) http.Handler
 		var header, trailer metadata.MD
 
 		out, err := cli.SendCampaign(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_CampaignService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_CampaignService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _CampaignService_TranslateCampaign_Rule0(cli CampaignServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &TranslateCampaignInput{}
+
+		if err := _CampaignService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_CampaignService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.CampaignId = vars["campaign_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.TranslateCampaign(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_CampaignService_HTTPWriteErrorResponse(w, err)
 			return

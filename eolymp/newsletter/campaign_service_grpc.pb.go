@@ -26,6 +26,7 @@ const (
 	CampaignService_ListCampaigns_FullMethodName       = "/eolymp.newsletter.CampaignService/ListCampaigns"
 	CampaignService_TestCampaign_FullMethodName        = "/eolymp.newsletter.CampaignService/TestCampaign"
 	CampaignService_SendCampaign_FullMethodName        = "/eolymp.newsletter.CampaignService/SendCampaign"
+	CampaignService_TranslateCampaign_FullMethodName   = "/eolymp.newsletter.CampaignService/TranslateCampaign"
 	CampaignService_CreateTranslation_FullMethodName   = "/eolymp.newsletter.CampaignService/CreateTranslation"
 	CampaignService_UpdateTranslation_FullMethodName   = "/eolymp.newsletter.CampaignService/UpdateTranslation"
 	CampaignService_DeleteTranslation_FullMethodName   = "/eolymp.newsletter.CampaignService/DeleteTranslation"
@@ -48,6 +49,7 @@ type CampaignServiceClient interface {
 	ListCampaigns(ctx context.Context, in *ListCampaignsInput, opts ...grpc.CallOption) (*ListCampaignsOutput, error)
 	TestCampaign(ctx context.Context, in *TestCampaignInput, opts ...grpc.CallOption) (*TestCampaignOutput, error)
 	SendCampaign(ctx context.Context, in *SendCampaignInput, opts ...grpc.CallOption) (*SendCampaignOutput, error)
+	TranslateCampaign(ctx context.Context, in *TranslateCampaignInput, opts ...grpc.CallOption) (*TranslateCampaignOutput, error)
 	CreateTranslation(ctx context.Context, in *CreateTranslationInput, opts ...grpc.CallOption) (*CreateTranslationOutput, error)
 	UpdateTranslation(ctx context.Context, in *UpdateTranslationInput, opts ...grpc.CallOption) (*UpdateTranslationOutput, error)
 	DeleteTranslation(ctx context.Context, in *DeleteTranslationInput, opts ...grpc.CallOption) (*DeleteTranslationOutput, error)
@@ -131,6 +133,16 @@ func (c *campaignServiceClient) SendCampaign(ctx context.Context, in *SendCampai
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(SendCampaignOutput)
 	err := c.cc.Invoke(ctx, CampaignService_SendCampaign_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *campaignServiceClient) TranslateCampaign(ctx context.Context, in *TranslateCampaignInput, opts ...grpc.CallOption) (*TranslateCampaignOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(TranslateCampaignOutput)
+	err := c.cc.Invoke(ctx, CampaignService_TranslateCampaign_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -238,6 +250,7 @@ type CampaignServiceServer interface {
 	ListCampaigns(context.Context, *ListCampaignsInput) (*ListCampaignsOutput, error)
 	TestCampaign(context.Context, *TestCampaignInput) (*TestCampaignOutput, error)
 	SendCampaign(context.Context, *SendCampaignInput) (*SendCampaignOutput, error)
+	TranslateCampaign(context.Context, *TranslateCampaignInput) (*TranslateCampaignOutput, error)
 	CreateTranslation(context.Context, *CreateTranslationInput) (*CreateTranslationOutput, error)
 	UpdateTranslation(context.Context, *UpdateTranslationInput) (*UpdateTranslationOutput, error)
 	DeleteTranslation(context.Context, *DeleteTranslationInput) (*DeleteTranslationOutput, error)
@@ -276,6 +289,9 @@ func (UnimplementedCampaignServiceServer) TestCampaign(context.Context, *TestCam
 }
 func (UnimplementedCampaignServiceServer) SendCampaign(context.Context, *SendCampaignInput) (*SendCampaignOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SendCampaign not implemented")
+}
+func (UnimplementedCampaignServiceServer) TranslateCampaign(context.Context, *TranslateCampaignInput) (*TranslateCampaignOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method TranslateCampaign not implemented")
 }
 func (UnimplementedCampaignServiceServer) CreateTranslation(context.Context, *CreateTranslationInput) (*CreateTranslationOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateTranslation not implemented")
@@ -446,6 +462,24 @@ func _CampaignService_SendCampaign_Handler(srv interface{}, ctx context.Context,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(CampaignServiceServer).SendCampaign(ctx, req.(*SendCampaignInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CampaignService_TranslateCampaign_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TranslateCampaignInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CampaignServiceServer).TranslateCampaign(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CampaignService_TranslateCampaign_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CampaignServiceServer).TranslateCampaign(ctx, req.(*TranslateCampaignInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -646,6 +680,10 @@ var CampaignService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SendCampaign",
 			Handler:    _CampaignService_SendCampaign_Handler,
+		},
+		{
+			MethodName: "TranslateCampaign",
+			Handler:    _CampaignService_TranslateCampaign_Handler,
 		},
 		{
 			MethodName: "CreateTranslation",

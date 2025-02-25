@@ -202,6 +202,22 @@ func (s *CampaignServiceService) SendCampaign(ctx context.Context, in *SendCampa
 	return out, nil
 }
 
+func (s *CampaignServiceService) TranslateCampaign(ctx context.Context, in *TranslateCampaignInput) (*TranslateCampaignOutput, error) {
+	out := &TranslateCampaignOutput{}
+	path := "/campaigns/" + url.PathEscape(in.GetCampaignId()) + "/translate"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.CampaignId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *CampaignServiceService) CreateTranslation(ctx context.Context, in *CreateTranslationInput) (*CreateTranslationOutput, error) {
 	out := &CreateTranslationOutput{}
 	path := "/campaigns/" + url.PathEscape(in.GetCampaignId()) + "/translations"
