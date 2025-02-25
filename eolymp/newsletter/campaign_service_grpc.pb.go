@@ -4,7 +4,7 @@
 // - protoc             v4.24.4
 // source: eolymp/newsletter/campaign_service.proto
 
-package campaign
+package newsletter
 
 import (
 	context "context"

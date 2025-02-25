@@ -4,11 +4,10 @@
 // 	protoc        v4.24.4
 // source: eolymp/newsletter/campaign_service.proto
 
-package campaign
+package newsletter
 
 import (
 	_ "github.com/eolymp/go-sdk/eolymp/annotations"
-	newsletter "github.com/eolymp/go-sdk/eolymp/newsletter"
 	wellknown "github.com/eolymp/go-sdk/eolymp/wellknown"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -69,7 +68,7 @@ func (ListCampaignsInput_Sort) EnumDescriptor() ([]byte, []int) {
 
 type CreateCampaignInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Campaign      *newsletter.Campaign   `protobuf:"bytes,1,opt,name=campaign,proto3" json:"campaign,omitempty"`
+	Campaign      *Campaign              `protobuf:"bytes,1,opt,name=campaign,proto3" json:"campaign,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -104,7 +103,7 @@ func (*CreateCampaignInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_newsletter_campaign_service_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *CreateCampaignInput) GetCampaign() *newsletter.Campaign {
+func (x *CreateCampaignInput) GetCampaign() *Campaign {
 	if x != nil {
 		return x.Campaign
 	}
@@ -156,10 +155,10 @@ func (x *CreateCampaignOutput) GetCampaignId() string {
 }
 
 type UpdateCampaignInput struct {
-	state         protoimpl.MessageState      `protogen:"open.v1"`
-	Patch         []newsletter.Campaign_Patch `protobuf:"varint,1,rep,packed,name=patch,proto3,enum=eolymp.newsletter.Campaign_Patch" json:"patch,omitempty"`
-	CampaignId    string                      `protobuf:"bytes,2,opt,name=campaign_id,json=campaignId,proto3" json:"campaign_id,omitempty"`
-	Campaign      *newsletter.Campaign        `protobuf:"bytes,3,opt,name=campaign,proto3" json:"campaign,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Patch         []Campaign_Patch       `protobuf:"varint,1,rep,packed,name=patch,proto3,enum=eolymp.newsletter.Campaign_Patch" json:"patch,omitempty"`
+	CampaignId    string                 `protobuf:"bytes,2,opt,name=campaign_id,json=campaignId,proto3" json:"campaign_id,omitempty"`
+	Campaign      *Campaign              `protobuf:"bytes,3,opt,name=campaign,proto3" json:"campaign,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -194,7 +193,7 @@ func (*UpdateCampaignInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_newsletter_campaign_service_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *UpdateCampaignInput) GetPatch() []newsletter.Campaign_Patch {
+func (x *UpdateCampaignInput) GetPatch() []Campaign_Patch {
 	if x != nil {
 		return x.Patch
 	}
@@ -208,7 +207,7 @@ func (x *UpdateCampaignInput) GetCampaignId() string {
 	return ""
 }
 
-func (x *UpdateCampaignInput) GetCampaign() *newsletter.Campaign {
+func (x *UpdateCampaignInput) GetCampaign() *Campaign {
 	if x != nil {
 		return x.Campaign
 	}
@@ -332,9 +331,9 @@ func (*DeleteCampaignOutput) Descriptor() ([]byte, []int) {
 }
 
 type DescribeCampaignInput struct {
-	state         protoimpl.MessageState      `protogen:"open.v1"`
-	CampaignId    string                      `protobuf:"bytes,1,opt,name=campaign_id,json=campaignId,proto3" json:"campaign_id,omitempty"`
-	Extra         []newsletter.Campaign_Extra `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.newsletter.Campaign_Extra" json:"extra,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	CampaignId    string                 `protobuf:"bytes,1,opt,name=campaign_id,json=campaignId,proto3" json:"campaign_id,omitempty"`
+	Extra         []Campaign_Extra       `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.newsletter.Campaign_Extra" json:"extra,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -376,7 +375,7 @@ func (x *DescribeCampaignInput) GetCampaignId() string {
 	return ""
 }
 
-func (x *DescribeCampaignInput) GetExtra() []newsletter.Campaign_Extra {
+func (x *DescribeCampaignInput) GetExtra() []Campaign_Extra {
 	if x != nil {
 		return x.Extra
 	}
@@ -385,7 +384,7 @@ func (x *DescribeCampaignInput) GetExtra() []newsletter.Campaign_Extra {
 
 type DescribeCampaignOutput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Campaign      *newsletter.Campaign   `protobuf:"bytes,1,opt,name=campaign,proto3" json:"campaign,omitempty"`
+	Campaign      *Campaign              `protobuf:"bytes,1,opt,name=campaign,proto3" json:"campaign,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -420,7 +419,7 @@ func (*DescribeCampaignOutput) Descriptor() ([]byte, []int) {
 	return file_eolymp_newsletter_campaign_service_proto_rawDescGZIP(), []int{7}
 }
 
-func (x *DescribeCampaignOutput) GetCampaign() *newsletter.Campaign {
+func (x *DescribeCampaignOutput) GetCampaign() *Campaign {
 	if x != nil {
 		return x.Campaign
 	}
@@ -428,15 +427,15 @@ func (x *DescribeCampaignOutput) GetCampaign() *newsletter.Campaign {
 }
 
 type ListCampaignsInput struct {
-	state         protoimpl.MessageState      `protogen:"open.v1"`
-	Offset        int32                       `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
-	Size          int32                       `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
-	Filters       *ListCampaignsInput_Filter  `protobuf:"bytes,40,opt,name=filters,proto3" json:"filters,omitempty"`
-	Search        string                      `protobuf:"bytes,41,opt,name=search,proto3" json:"search,omitempty"`
-	Sort          ListCampaignsInput_Sort     `protobuf:"varint,50,opt,name=sort,proto3,enum=eolymp.newsletter.ListCampaignsInput_Sort" json:"sort,omitempty"`
-	Order         wellknown.Direction         `protobuf:"varint,51,opt,name=order,proto3,enum=eolymp.wellknown.Direction" json:"order,omitempty"`
-	Locale        string                      `protobuf:"bytes,1122,opt,name=locale,proto3" json:"locale,omitempty"`
-	Extra         []newsletter.Campaign_Extra `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.newsletter.Campaign_Extra" json:"extra,omitempty"`
+	state         protoimpl.MessageState     `protogen:"open.v1"`
+	Offset        int32                      `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
+	Size          int32                      `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
+	Filters       *ListCampaignsInput_Filter `protobuf:"bytes,40,opt,name=filters,proto3" json:"filters,omitempty"`
+	Search        string                     `protobuf:"bytes,41,opt,name=search,proto3" json:"search,omitempty"`
+	Sort          ListCampaignsInput_Sort    `protobuf:"varint,50,opt,name=sort,proto3,enum=eolymp.newsletter.ListCampaignsInput_Sort" json:"sort,omitempty"`
+	Order         wellknown.Direction        `protobuf:"varint,51,opt,name=order,proto3,enum=eolymp.wellknown.Direction" json:"order,omitempty"`
+	Locale        string                     `protobuf:"bytes,1122,opt,name=locale,proto3" json:"locale,omitempty"`
+	Extra         []Campaign_Extra           `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.newsletter.Campaign_Extra" json:"extra,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -520,7 +519,7 @@ func (x *ListCampaignsInput) GetLocale() string {
 	return ""
 }
 
-func (x *ListCampaignsInput) GetExtra() []newsletter.Campaign_Extra {
+func (x *ListCampaignsInput) GetExtra() []Campaign_Extra {
 	if x != nil {
 		return x.Extra
 	}
@@ -530,7 +529,7 @@ func (x *ListCampaignsInput) GetExtra() []newsletter.Campaign_Extra {
 type ListCampaignsOutput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Total         int32                  `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty"`
-	Items         []*newsletter.Campaign `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
+	Items         []*Campaign            `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -572,7 +571,7 @@ func (x *ListCampaignsOutput) GetTotal() int32 {
 	return 0
 }
 
-func (x *ListCampaignsOutput) GetItems() []*newsletter.Campaign {
+func (x *ListCampaignsOutput) GetItems() []*Campaign {
 	if x != nil {
 		return x.Items
 	}
@@ -764,9 +763,9 @@ func (*SendCampaignOutput) Descriptor() ([]byte, []int) {
 }
 
 type CreateTranslationInput struct {
-	state         protoimpl.MessageState           `protogen:"open.v1"`
-	CampaignId    string                           `protobuf:"bytes,1,opt,name=campaign_id,json=campaignId,proto3" json:"campaign_id,omitempty"`
-	Translation   *newsletter.Campaign_Translation `protobuf:"bytes,2,opt,name=translation,proto3" json:"translation,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	CampaignId    string                 `protobuf:"bytes,1,opt,name=campaign_id,json=campaignId,proto3" json:"campaign_id,omitempty"`
+	Translation   *Campaign_Translation  `protobuf:"bytes,2,opt,name=translation,proto3" json:"translation,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -808,7 +807,7 @@ func (x *CreateTranslationInput) GetCampaignId() string {
 	return ""
 }
 
-func (x *CreateTranslationInput) GetTranslation() *newsletter.Campaign_Translation {
+func (x *CreateTranslationInput) GetTranslation() *Campaign_Translation {
 	if x != nil {
 		return x.Translation
 	}
@@ -860,11 +859,11 @@ func (x *CreateTranslationOutput) GetTranslationId() string {
 }
 
 type UpdateTranslationInput struct {
-	state         protoimpl.MessageState           `protogen:"open.v1"`
-	Patch         []newsletter.Campaign_Patch      `protobuf:"varint,1,rep,packed,name=patch,proto3,enum=eolymp.newsletter.Campaign_Patch" json:"patch,omitempty"`
-	CampaignId    string                           `protobuf:"bytes,2,opt,name=campaign_id,json=campaignId,proto3" json:"campaign_id,omitempty"`
-	TranslationId string                           `protobuf:"bytes,3,opt,name=translation_id,json=translationId,proto3" json:"translation_id,omitempty"`
-	Translation   *newsletter.Campaign_Translation `protobuf:"bytes,4,opt,name=translation,proto3" json:"translation,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Patch         []Campaign_Patch       `protobuf:"varint,1,rep,packed,name=patch,proto3,enum=eolymp.newsletter.Campaign_Patch" json:"patch,omitempty"`
+	CampaignId    string                 `protobuf:"bytes,2,opt,name=campaign_id,json=campaignId,proto3" json:"campaign_id,omitempty"`
+	TranslationId string                 `protobuf:"bytes,3,opt,name=translation_id,json=translationId,proto3" json:"translation_id,omitempty"`
+	Translation   *Campaign_Translation  `protobuf:"bytes,4,opt,name=translation,proto3" json:"translation,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -899,7 +898,7 @@ func (*UpdateTranslationInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_newsletter_campaign_service_proto_rawDescGZIP(), []int{16}
 }
 
-func (x *UpdateTranslationInput) GetPatch() []newsletter.Campaign_Patch {
+func (x *UpdateTranslationInput) GetPatch() []Campaign_Patch {
 	if x != nil {
 		return x.Patch
 	}
@@ -920,7 +919,7 @@ func (x *UpdateTranslationInput) GetTranslationId() string {
 	return ""
 }
 
-func (x *UpdateTranslationInput) GetTranslation() *newsletter.Campaign_Translation {
+func (x *UpdateTranslationInput) GetTranslation() *Campaign_Translation {
 	if x != nil {
 		return x.Translation
 	}
@@ -1104,8 +1103,8 @@ func (x *DescribeTranslationInput) GetTranslationId() string {
 }
 
 type DescribeTranslationOutput struct {
-	state         protoimpl.MessageState           `protogen:"open.v1"`
-	Translation   *newsletter.Campaign_Translation `protobuf:"bytes,1,opt,name=translation,proto3" json:"translation,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Translation   *Campaign_Translation  `protobuf:"bytes,1,opt,name=translation,proto3" json:"translation,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1140,7 +1139,7 @@ func (*DescribeTranslationOutput) Descriptor() ([]byte, []int) {
 	return file_eolymp_newsletter_campaign_service_proto_rawDescGZIP(), []int{21}
 }
 
-func (x *DescribeTranslationOutput) GetTranslation() *newsletter.Campaign_Translation {
+func (x *DescribeTranslationOutput) GetTranslation() *Campaign_Translation {
 	if x != nil {
 		return x.Translation
 	}
@@ -1218,9 +1217,9 @@ func (x *ListTranslationsInput) GetFilters() *ListTranslationsInput_Filter {
 }
 
 type ListTranslationsOutput struct {
-	state         protoimpl.MessageState             `protogen:"open.v1"`
-	Total         int32                              `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty"`
-	Items         []*newsletter.Campaign_Translation `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
+	state         protoimpl.MessageState  `protogen:"open.v1"`
+	Total         int32                   `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty"`
+	Items         []*Campaign_Translation `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1262,7 +1261,7 @@ func (x *ListTranslationsOutput) GetTotal() int32 {
 	return 0
 }
 
-func (x *ListTranslationsOutput) GetItems() []*newsletter.Campaign_Translation {
+func (x *ListTranslationsOutput) GetItems() []*Campaign_Translation {
 	if x != nil {
 		return x.Items
 	}
@@ -1562,9 +1561,9 @@ func (x *ListRecipientsInput) GetFilters() *ListRecipientsInput_Filter {
 }
 
 type ListRecipientsOutput struct {
-	state         protoimpl.MessageState  `protogen:"open.v1"`
-	Total         int32                   `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty"`
-	Items         []*newsletter.Recipient `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Total         int32                  `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty"`
+	Items         []*Recipient           `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1606,7 +1605,7 @@ func (x *ListRecipientsOutput) GetTotal() int32 {
 	return 0
 }
 
-func (x *ListRecipientsOutput) GetItems() []*newsletter.Recipient {
+func (x *ListRecipientsOutput) GetItems() []*Recipient {
 	if x != nil {
 		return x.Items
 	}
@@ -1667,7 +1666,7 @@ func (x *DescribeRecipientInput) GetRecipientId() string {
 
 type DescribeRecipientOutput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Recipient     *newsletter.Recipient  `protobuf:"bytes,1,opt,name=recipient,proto3" json:"recipient,omitempty"`
+	Recipient     *Recipient             `protobuf:"bytes,1,opt,name=recipient,proto3" json:"recipient,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1702,7 +1701,7 @@ func (*DescribeRecipientOutput) Descriptor() ([]byte, []int) {
 	return file_eolymp_newsletter_campaign_service_proto_rawDescGZIP(), []int{31}
 }
 
-func (x *DescribeRecipientOutput) GetRecipient() *newsletter.Recipient {
+func (x *DescribeRecipientOutput) GetRecipient() *Recipient {
 	if x != nil {
 		return x.Recipient
 	}
@@ -2301,10 +2300,11 @@ var file_eolymp_newsletter_campaign_service_proto_rawDesc = string([]byte{
 	0x63, 0x61, 0x6d, 0x70, 0x61, 0x69, 0x67, 0x6e, 0x73, 0x2f, 0x7b, 0x63, 0x61, 0x6d, 0x70, 0x61,
 	0x69, 0x67, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x72, 0x65, 0x63, 0x69, 0x70, 0x69, 0x65, 0x6e,
 	0x74, 0x73, 0x2f, 0x7b, 0x72, 0x65, 0x63, 0x69, 0x70, 0x69, 0x65, 0x6e, 0x74, 0x5f, 0x69, 0x64,
-	0x7d, 0x42, 0x33, 0x5a, 0x31, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f,
+	0x7d, 0x42, 0x37, 0x5a, 0x35, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f,
 	0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x67, 0x6f, 0x2d, 0x73, 0x64, 0x6b, 0x2f, 0x65, 0x6f,
-	0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x63, 0x61, 0x6d, 0x70, 0x61, 0x69, 0x67, 0x6e, 0x3b, 0x63, 0x61,
-	0x6d, 0x70, 0x61, 0x69, 0x67, 0x6e, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x6e, 0x65, 0x77, 0x73, 0x6c, 0x65, 0x74, 0x74, 0x65, 0x72, 0x3b,
+	0x6e, 0x65, 0x77, 0x73, 0x6c, 0x65, 0x74, 0x74, 0x65, 0x72, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74,
+	0x6f, 0x33,
 })
 
 var (
@@ -2322,50 +2322,50 @@ func file_eolymp_newsletter_campaign_service_proto_rawDescGZIP() []byte {
 var file_eolymp_newsletter_campaign_service_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_eolymp_newsletter_campaign_service_proto_msgTypes = make([]protoimpl.MessageInfo, 35)
 var file_eolymp_newsletter_campaign_service_proto_goTypes = []any{
-	(ListCampaignsInput_Sort)(0),            // 0: eolymp.newsletter.ListCampaignsInput.Sort
-	(*CreateCampaignInput)(nil),             // 1: eolymp.newsletter.CreateCampaignInput
-	(*CreateCampaignOutput)(nil),            // 2: eolymp.newsletter.CreateCampaignOutput
-	(*UpdateCampaignInput)(nil),             // 3: eolymp.newsletter.UpdateCampaignInput
-	(*UpdateCampaignOutput)(nil),            // 4: eolymp.newsletter.UpdateCampaignOutput
-	(*DeleteCampaignInput)(nil),             // 5: eolymp.newsletter.DeleteCampaignInput
-	(*DeleteCampaignOutput)(nil),            // 6: eolymp.newsletter.DeleteCampaignOutput
-	(*DescribeCampaignInput)(nil),           // 7: eolymp.newsletter.DescribeCampaignInput
-	(*DescribeCampaignOutput)(nil),          // 8: eolymp.newsletter.DescribeCampaignOutput
-	(*ListCampaignsInput)(nil),              // 9: eolymp.newsletter.ListCampaignsInput
-	(*ListCampaignsOutput)(nil),             // 10: eolymp.newsletter.ListCampaignsOutput
-	(*TestCampaignInput)(nil),               // 11: eolymp.newsletter.TestCampaignInput
-	(*TestCampaignOutput)(nil),              // 12: eolymp.newsletter.TestCampaignOutput
-	(*SendCampaignInput)(nil),               // 13: eolymp.newsletter.SendCampaignInput
-	(*SendCampaignOutput)(nil),              // 14: eolymp.newsletter.SendCampaignOutput
-	(*CreateTranslationInput)(nil),          // 15: eolymp.newsletter.CreateTranslationInput
-	(*CreateTranslationOutput)(nil),         // 16: eolymp.newsletter.CreateTranslationOutput
-	(*UpdateTranslationInput)(nil),          // 17: eolymp.newsletter.UpdateTranslationInput
-	(*UpdateTranslationOutput)(nil),         // 18: eolymp.newsletter.UpdateTranslationOutput
-	(*DeleteTranslationInput)(nil),          // 19: eolymp.newsletter.DeleteTranslationInput
-	(*DeleteTranslationOutput)(nil),         // 20: eolymp.newsletter.DeleteTranslationOutput
-	(*DescribeTranslationInput)(nil),        // 21: eolymp.newsletter.DescribeTranslationInput
-	(*DescribeTranslationOutput)(nil),       // 22: eolymp.newsletter.DescribeTranslationOutput
-	(*ListTranslationsInput)(nil),           // 23: eolymp.newsletter.ListTranslationsInput
-	(*ListTranslationsOutput)(nil),          // 24: eolymp.newsletter.ListTranslationsOutput
-	(*CreateRecipientInput)(nil),            // 25: eolymp.newsletter.CreateRecipientInput
-	(*CreateRecipientOutput)(nil),           // 26: eolymp.newsletter.CreateRecipientOutput
-	(*DeleteRecipientInput)(nil),            // 27: eolymp.newsletter.DeleteRecipientInput
-	(*DeleteRecipientOutput)(nil),           // 28: eolymp.newsletter.DeleteRecipientOutput
-	(*ListRecipientsInput)(nil),             // 29: eolymp.newsletter.ListRecipientsInput
-	(*ListRecipientsOutput)(nil),            // 30: eolymp.newsletter.ListRecipientsOutput
-	(*DescribeRecipientInput)(nil),          // 31: eolymp.newsletter.DescribeRecipientInput
-	(*DescribeRecipientOutput)(nil),         // 32: eolymp.newsletter.DescribeRecipientOutput
-	(*ListCampaignsInput_Filter)(nil),       // 33: eolymp.newsletter.ListCampaignsInput.Filter
-	(*ListTranslationsInput_Filter)(nil),    // 34: eolymp.newsletter.ListTranslationsInput.Filter
-	(*ListRecipientsInput_Filter)(nil),      // 35: eolymp.newsletter.ListRecipientsInput.Filter
-	(*newsletter.Campaign)(nil),             // 36: eolymp.newsletter.Campaign
-	(newsletter.Campaign_Patch)(0),          // 37: eolymp.newsletter.Campaign.Patch
-	(newsletter.Campaign_Extra)(0),          // 38: eolymp.newsletter.Campaign.Extra
-	(wellknown.Direction)(0),                // 39: eolymp.wellknown.Direction
-	(*newsletter.Campaign_Translation)(nil), // 40: eolymp.newsletter.Campaign.Translation
-	(*newsletter.Recipient)(nil),            // 41: eolymp.newsletter.Recipient
-	(*wellknown.ExpressionID)(nil),          // 42: eolymp.wellknown.ExpressionID
-	(*wellknown.ExpressionEnum)(nil),        // 43: eolymp.wellknown.ExpressionEnum
+	(ListCampaignsInput_Sort)(0),         // 0: eolymp.newsletter.ListCampaignsInput.Sort
+	(*CreateCampaignInput)(nil),          // 1: eolymp.newsletter.CreateCampaignInput
+	(*CreateCampaignOutput)(nil),         // 2: eolymp.newsletter.CreateCampaignOutput
+	(*UpdateCampaignInput)(nil),          // 3: eolymp.newsletter.UpdateCampaignInput
+	(*UpdateCampaignOutput)(nil),         // 4: eolymp.newsletter.UpdateCampaignOutput
+	(*DeleteCampaignInput)(nil),          // 5: eolymp.newsletter.DeleteCampaignInput
+	(*DeleteCampaignOutput)(nil),         // 6: eolymp.newsletter.DeleteCampaignOutput
+	(*DescribeCampaignInput)(nil),        // 7: eolymp.newsletter.DescribeCampaignInput
+	(*DescribeCampaignOutput)(nil),       // 8: eolymp.newsletter.DescribeCampaignOutput
+	(*ListCampaignsInput)(nil),           // 9: eolymp.newsletter.ListCampaignsInput
+	(*ListCampaignsOutput)(nil),          // 10: eolymp.newsletter.ListCampaignsOutput
+	(*TestCampaignInput)(nil),            // 11: eolymp.newsletter.TestCampaignInput
+	(*TestCampaignOutput)(nil),           // 12: eolymp.newsletter.TestCampaignOutput
+	(*SendCampaignInput)(nil),            // 13: eolymp.newsletter.SendCampaignInput
+	(*SendCampaignOutput)(nil),           // 14: eolymp.newsletter.SendCampaignOutput
+	(*CreateTranslationInput)(nil),       // 15: eolymp.newsletter.CreateTranslationInput
+	(*CreateTranslationOutput)(nil),      // 16: eolymp.newsletter.CreateTranslationOutput
+	(*UpdateTranslationInput)(nil),       // 17: eolymp.newsletter.UpdateTranslationInput
+	(*UpdateTranslationOutput)(nil),      // 18: eolymp.newsletter.UpdateTranslationOutput
+	(*DeleteTranslationInput)(nil),       // 19: eolymp.newsletter.DeleteTranslationInput
+	(*DeleteTranslationOutput)(nil),      // 20: eolymp.newsletter.DeleteTranslationOutput
+	(*DescribeTranslationInput)(nil),     // 21: eolymp.newsletter.DescribeTranslationInput
+	(*DescribeTranslationOutput)(nil),    // 22: eolymp.newsletter.DescribeTranslationOutput
+	(*ListTranslationsInput)(nil),        // 23: eolymp.newsletter.ListTranslationsInput
+	(*ListTranslationsOutput)(nil),       // 24: eolymp.newsletter.ListTranslationsOutput
+	(*CreateRecipientInput)(nil),         // 25: eolymp.newsletter.CreateRecipientInput
+	(*CreateRecipientOutput)(nil),        // 26: eolymp.newsletter.CreateRecipientOutput
+	(*DeleteRecipientInput)(nil),         // 27: eolymp.newsletter.DeleteRecipientInput
+	(*DeleteRecipientOutput)(nil),        // 28: eolymp.newsletter.DeleteRecipientOutput
+	(*ListRecipientsInput)(nil),          // 29: eolymp.newsletter.ListRecipientsInput
+	(*ListRecipientsOutput)(nil),         // 30: eolymp.newsletter.ListRecipientsOutput
+	(*DescribeRecipientInput)(nil),       // 31: eolymp.newsletter.DescribeRecipientInput
+	(*DescribeRecipientOutput)(nil),      // 32: eolymp.newsletter.DescribeRecipientOutput
+	(*ListCampaignsInput_Filter)(nil),    // 33: eolymp.newsletter.ListCampaignsInput.Filter
+	(*ListTranslationsInput_Filter)(nil), // 34: eolymp.newsletter.ListTranslationsInput.Filter
+	(*ListRecipientsInput_Filter)(nil),   // 35: eolymp.newsletter.ListRecipientsInput.Filter
+	(*Campaign)(nil),                     // 36: eolymp.newsletter.Campaign
+	(Campaign_Patch)(0),                  // 37: eolymp.newsletter.Campaign.Patch
+	(Campaign_Extra)(0),                  // 38: eolymp.newsletter.Campaign.Extra
+	(wellknown.Direction)(0),             // 39: eolymp.wellknown.Direction
+	(*Campaign_Translation)(nil),         // 40: eolymp.newsletter.Campaign.Translation
+	(*Recipient)(nil),                    // 41: eolymp.newsletter.Recipient
+	(*wellknown.ExpressionID)(nil),       // 42: eolymp.wellknown.ExpressionID
+	(*wellknown.ExpressionEnum)(nil),     // 43: eolymp.wellknown.ExpressionEnum
 }
 var file_eolymp_newsletter_campaign_service_proto_depIdxs = []int32{
 	36, // 0: eolymp.newsletter.CreateCampaignInput.campaign:type_name -> eolymp.newsletter.Campaign
@@ -2437,6 +2437,8 @@ func file_eolymp_newsletter_campaign_service_proto_init() {
 	if File_eolymp_newsletter_campaign_service_proto != nil {
 		return
 	}
+	file_eolymp_newsletter_campaign_proto_init()
+	file_eolymp_newsletter_recipient_proto_init()
 	file_eolymp_newsletter_campaign_service_proto_msgTypes[24].OneofWrappers = []any{
 		(*CreateRecipientInput_MemberId)(nil),
 		(*CreateRecipientInput_GroupId)(nil),
