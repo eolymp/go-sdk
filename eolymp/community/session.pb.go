@@ -26,8 +26,8 @@ type Session struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	UserAgent     string                 `protobuf:"bytes,3,opt,name=user_agent,json=userAgent,proto3" json:"user_agent,omitempty"`
-	Device        string                 `protobuf:"bytes,4,opt,name=device,proto3" json:"device,omitempty"`     // help message, normally displayed right below the field
-	Location      string                 `protobuf:"bytes,5,opt,name=location,proto3" json:"location,omitempty"` // help message, normally displayed right below the field
+	Device        string                 `protobuf:"bytes,4,opt,name=device,proto3" json:"device,omitempty"`
+	Location      string                 `protobuf:"bytes,5,opt,name=location,proto3" json:"location,omitempty"`
 	IpAddress     string                 `protobuf:"bytes,10,opt,name=ip_address,json=ipAddress,proto3" json:"ip_address,omitempty"`
 	FirstSeenAt   *timestamppb.Timestamp `protobuf:"bytes,20,opt,name=first_seen_at,json=firstSeenAt,proto3" json:"first_seen_at,omitempty"`
 	LastSeenAt    *timestamppb.Timestamp `protobuf:"bytes,21,opt,name=last_seen_at,json=lastSeenAt,proto3" json:"last_seen_at,omitempty"`

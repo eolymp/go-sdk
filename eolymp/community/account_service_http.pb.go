@@ -152,6 +152,12 @@ func RegisterAccountServiceHttpHandlers(router *mux.Router, prefix string, cli A
 	router.Handle(prefix+"/account/recovery/complete", _AccountService_CompleteRecovery_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.community.AccountService.CompleteRecovery")
+	router.Handle(prefix+"/account/email-subscription", _AccountService_DescribeEmailSubscription_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.community.AccountService.DescribeEmailSubscription")
+	router.Handle(prefix+"/account/email-subscription", _AccountService_UpdateEmailSubscription_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.community.AccountService.UpdateEmailSubscription")
 }
 
 // RegisterAccountServiceHttpProxy adds proxy handlers for for AccountServiceClient
@@ -348,6 +354,50 @@ func _AccountService_CompleteRecovery_Rule0(cli AccountServiceClient) http.Handl
 		var header, trailer metadata.MD
 
 		out, err := cli.CompleteRecovery(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_AccountService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_AccountService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _AccountService_DescribeEmailSubscription_Rule0(cli AccountServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeEmailSubscriptionInput{}
+
+		if err := _AccountService_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_AccountService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeEmailSubscription(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_AccountService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_AccountService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _AccountService_UpdateEmailSubscription_Rule0(cli AccountServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UpdateEmailSubscriptionInput{}
+
+		if err := _AccountService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_AccountService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateEmailSubscription(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_AccountService_HTTPWriteErrorResponse(w, err)
 			return
