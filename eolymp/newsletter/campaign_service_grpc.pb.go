@@ -33,6 +33,7 @@ const (
 	CampaignService_DescribeTranslation_FullMethodName = "/eolymp.newsletter.CampaignService/DescribeTranslation"
 	CampaignService_ListTranslations_FullMethodName    = "/eolymp.newsletter.CampaignService/ListTranslations"
 	CampaignService_CreateRecipient_FullMethodName     = "/eolymp.newsletter.CampaignService/CreateRecipient"
+	CampaignService_ImportRecipient_FullMethodName     = "/eolymp.newsletter.CampaignService/ImportRecipient"
 	CampaignService_DeleteRecipient_FullMethodName     = "/eolymp.newsletter.CampaignService/DeleteRecipient"
 	CampaignService_ListRecipients_FullMethodName      = "/eolymp.newsletter.CampaignService/ListRecipients"
 	CampaignService_DescribeRecipient_FullMethodName   = "/eolymp.newsletter.CampaignService/DescribeRecipient"
@@ -56,6 +57,7 @@ type CampaignServiceClient interface {
 	DescribeTranslation(ctx context.Context, in *DescribeTranslationInput, opts ...grpc.CallOption) (*DescribeTranslationOutput, error)
 	ListTranslations(ctx context.Context, in *ListTranslationsInput, opts ...grpc.CallOption) (*ListTranslationsOutput, error)
 	CreateRecipient(ctx context.Context, in *CreateRecipientInput, opts ...grpc.CallOption) (*CreateRecipientOutput, error)
+	ImportRecipient(ctx context.Context, in *ImportRecipientInput, opts ...grpc.CallOption) (*ImportRecipientOutput, error)
 	DeleteRecipient(ctx context.Context, in *DeleteRecipientInput, opts ...grpc.CallOption) (*DeleteRecipientOutput, error)
 	ListRecipients(ctx context.Context, in *ListRecipientsInput, opts ...grpc.CallOption) (*ListRecipientsOutput, error)
 	DescribeRecipient(ctx context.Context, in *DescribeRecipientInput, opts ...grpc.CallOption) (*DescribeRecipientOutput, error)
@@ -209,6 +211,16 @@ func (c *campaignServiceClient) CreateRecipient(ctx context.Context, in *CreateR
 	return out, nil
 }
 
+func (c *campaignServiceClient) ImportRecipient(ctx context.Context, in *ImportRecipientInput, opts ...grpc.CallOption) (*ImportRecipientOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ImportRecipientOutput)
+	err := c.cc.Invoke(ctx, CampaignService_ImportRecipient_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *campaignServiceClient) DeleteRecipient(ctx context.Context, in *DeleteRecipientInput, opts ...grpc.CallOption) (*DeleteRecipientOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DeleteRecipientOutput)
@@ -257,6 +269,7 @@ type CampaignServiceServer interface {
 	DescribeTranslation(context.Context, *DescribeTranslationInput) (*DescribeTranslationOutput, error)
 	ListTranslations(context.Context, *ListTranslationsInput) (*ListTranslationsOutput, error)
 	CreateRecipient(context.Context, *CreateRecipientInput) (*CreateRecipientOutput, error)
+	ImportRecipient(context.Context, *ImportRecipientInput) (*ImportRecipientOutput, error)
 	DeleteRecipient(context.Context, *DeleteRecipientInput) (*DeleteRecipientOutput, error)
 	ListRecipients(context.Context, *ListRecipientsInput) (*ListRecipientsOutput, error)
 	DescribeRecipient(context.Context, *DescribeRecipientInput) (*DescribeRecipientOutput, error)
@@ -310,6 +323,9 @@ func (UnimplementedCampaignServiceServer) ListTranslations(context.Context, *Lis
 }
 func (UnimplementedCampaignServiceServer) CreateRecipient(context.Context, *CreateRecipientInput) (*CreateRecipientOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateRecipient not implemented")
+}
+func (UnimplementedCampaignServiceServer) ImportRecipient(context.Context, *ImportRecipientInput) (*ImportRecipientOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ImportRecipient not implemented")
 }
 func (UnimplementedCampaignServiceServer) DeleteRecipient(context.Context, *DeleteRecipientInput) (*DeleteRecipientOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteRecipient not implemented")
@@ -592,6 +608,24 @@ func _CampaignService_CreateRecipient_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CampaignService_ImportRecipient_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ImportRecipientInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CampaignServiceServer).ImportRecipient(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CampaignService_ImportRecipient_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CampaignServiceServer).ImportRecipient(ctx, req.(*ImportRecipientInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _CampaignService_DeleteRecipient_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DeleteRecipientInput)
 	if err := dec(in); err != nil {
@@ -708,6 +742,10 @@ var CampaignService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateRecipient",
 			Handler:    _CampaignService_CreateRecipient_Handler,
+		},
+		{
+			MethodName: "ImportRecipient",
+			Handler:    _CampaignService_ImportRecipient_Handler,
 		},
 		{
 			MethodName: "DeleteRecipient",

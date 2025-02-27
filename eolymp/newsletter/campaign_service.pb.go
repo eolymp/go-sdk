@@ -1397,14 +1397,9 @@ func (x *ListTranslationsOutput) GetItems() []*Campaign_Translation {
 }
 
 type CreateRecipientInput struct {
-	state      protoimpl.MessageState `protogen:"open.v1"`
-	CampaignId string                 `protobuf:"bytes,1,opt,name=campaign_id,json=campaignId,proto3" json:"campaign_id,omitempty"`
-	// Types that are valid to be assigned to Recipient:
-	//
-	//	*CreateRecipientInput_MemberId
-	//	*CreateRecipientInput_GroupId
-	//	*CreateRecipientInput_Everybody
-	Recipient     isCreateRecipientInput_Recipient `protobuf_oneof:"recipient"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	CampaignId    string                 `protobuf:"bytes,1,opt,name=campaign_id,json=campaignId,proto3" json:"campaign_id,omitempty"`
+	MemberId      string                 `protobuf:"bytes,11,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1446,61 +1441,12 @@ func (x *CreateRecipientInput) GetCampaignId() string {
 	return ""
 }
 
-func (x *CreateRecipientInput) GetRecipient() isCreateRecipientInput_Recipient {
-	if x != nil {
-		return x.Recipient
-	}
-	return nil
-}
-
 func (x *CreateRecipientInput) GetMemberId() string {
 	if x != nil {
-		if x, ok := x.Recipient.(*CreateRecipientInput_MemberId); ok {
-			return x.MemberId
-		}
+		return x.MemberId
 	}
 	return ""
 }
-
-func (x *CreateRecipientInput) GetGroupId() string {
-	if x != nil {
-		if x, ok := x.Recipient.(*CreateRecipientInput_GroupId); ok {
-			return x.GroupId
-		}
-	}
-	return ""
-}
-
-func (x *CreateRecipientInput) GetEverybody() bool {
-	if x != nil {
-		if x, ok := x.Recipient.(*CreateRecipientInput_Everybody); ok {
-			return x.Everybody
-		}
-	}
-	return false
-}
-
-type isCreateRecipientInput_Recipient interface {
-	isCreateRecipientInput_Recipient()
-}
-
-type CreateRecipientInput_MemberId struct {
-	MemberId string `protobuf:"bytes,11,opt,name=member_id,json=memberId,proto3,oneof"`
-}
-
-type CreateRecipientInput_GroupId struct {
-	GroupId string `protobuf:"bytes,12,opt,name=group_id,json=groupId,proto3,oneof"`
-}
-
-type CreateRecipientInput_Everybody struct {
-	Everybody bool `protobuf:"varint,13,opt,name=everybody,proto3,oneof"`
-}
-
-func (*CreateRecipientInput_MemberId) isCreateRecipientInput_Recipient() {}
-
-func (*CreateRecipientInput_GroupId) isCreateRecipientInput_Recipient() {}
-
-func (*CreateRecipientInput_Everybody) isCreateRecipientInput_Recipient() {}
 
 type CreateRecipientOutput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -1546,6 +1492,132 @@ func (x *CreateRecipientOutput) GetRecipientId() string {
 	return ""
 }
 
+type ImportRecipientInput struct {
+	state      protoimpl.MessageState `protogen:"open.v1"`
+	CampaignId string                 `protobuf:"bytes,1,opt,name=campaign_id,json=campaignId,proto3" json:"campaign_id,omitempty"`
+	// Types that are valid to be assigned to Source:
+	//
+	//	*ImportRecipientInput_AllMembers
+	//	*ImportRecipientInput_GroupId
+	Source        isImportRecipientInput_Source `protobuf_oneof:"source"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ImportRecipientInput) Reset() {
+	*x = ImportRecipientInput{}
+	mi := &file_eolymp_newsletter_campaign_service_proto_msgTypes[28]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ImportRecipientInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ImportRecipientInput) ProtoMessage() {}
+
+func (x *ImportRecipientInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_newsletter_campaign_service_proto_msgTypes[28]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ImportRecipientInput.ProtoReflect.Descriptor instead.
+func (*ImportRecipientInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_newsletter_campaign_service_proto_rawDescGZIP(), []int{28}
+}
+
+func (x *ImportRecipientInput) GetCampaignId() string {
+	if x != nil {
+		return x.CampaignId
+	}
+	return ""
+}
+
+func (x *ImportRecipientInput) GetSource() isImportRecipientInput_Source {
+	if x != nil {
+		return x.Source
+	}
+	return nil
+}
+
+func (x *ImportRecipientInput) GetAllMembers() bool {
+	if x != nil {
+		if x, ok := x.Source.(*ImportRecipientInput_AllMembers); ok {
+			return x.AllMembers
+		}
+	}
+	return false
+}
+
+func (x *ImportRecipientInput) GetGroupId() string {
+	if x != nil {
+		if x, ok := x.Source.(*ImportRecipientInput_GroupId); ok {
+			return x.GroupId
+		}
+	}
+	return ""
+}
+
+type isImportRecipientInput_Source interface {
+	isImportRecipientInput_Source()
+}
+
+type ImportRecipientInput_AllMembers struct {
+	AllMembers bool `protobuf:"varint,10,opt,name=all_members,json=allMembers,proto3,oneof"`
+}
+
+type ImportRecipientInput_GroupId struct {
+	GroupId string `protobuf:"bytes,11,opt,name=group_id,json=groupId,proto3,oneof"`
+}
+
+func (*ImportRecipientInput_AllMembers) isImportRecipientInput_Source() {}
+
+func (*ImportRecipientInput_GroupId) isImportRecipientInput_Source() {}
+
+type ImportRecipientOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ImportRecipientOutput) Reset() {
+	*x = ImportRecipientOutput{}
+	mi := &file_eolymp_newsletter_campaign_service_proto_msgTypes[29]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ImportRecipientOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ImportRecipientOutput) ProtoMessage() {}
+
+func (x *ImportRecipientOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_newsletter_campaign_service_proto_msgTypes[29]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ImportRecipientOutput.ProtoReflect.Descriptor instead.
+func (*ImportRecipientOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_newsletter_campaign_service_proto_rawDescGZIP(), []int{29}
+}
+
 type DeleteRecipientInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	CampaignId    string                 `protobuf:"bytes,1,opt,name=campaign_id,json=campaignId,proto3" json:"campaign_id,omitempty"`
@@ -1556,7 +1628,7 @@ type DeleteRecipientInput struct {
 
 func (x *DeleteRecipientInput) Reset() {
 	*x = DeleteRecipientInput{}
-	mi := &file_eolymp_newsletter_campaign_service_proto_msgTypes[28]
+	mi := &file_eolymp_newsletter_campaign_service_proto_msgTypes[30]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1568,7 +1640,7 @@ func (x *DeleteRecipientInput) String() string {
 func (*DeleteRecipientInput) ProtoMessage() {}
 
 func (x *DeleteRecipientInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_newsletter_campaign_service_proto_msgTypes[28]
+	mi := &file_eolymp_newsletter_campaign_service_proto_msgTypes[30]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1581,7 +1653,7 @@ func (x *DeleteRecipientInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteRecipientInput.ProtoReflect.Descriptor instead.
 func (*DeleteRecipientInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_newsletter_campaign_service_proto_rawDescGZIP(), []int{28}
+	return file_eolymp_newsletter_campaign_service_proto_rawDescGZIP(), []int{30}
 }
 
 func (x *DeleteRecipientInput) GetCampaignId() string {
@@ -1606,7 +1678,7 @@ type DeleteRecipientOutput struct {
 
 func (x *DeleteRecipientOutput) Reset() {
 	*x = DeleteRecipientOutput{}
-	mi := &file_eolymp_newsletter_campaign_service_proto_msgTypes[29]
+	mi := &file_eolymp_newsletter_campaign_service_proto_msgTypes[31]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1618,7 +1690,7 @@ func (x *DeleteRecipientOutput) String() string {
 func (*DeleteRecipientOutput) ProtoMessage() {}
 
 func (x *DeleteRecipientOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_newsletter_campaign_service_proto_msgTypes[29]
+	mi := &file_eolymp_newsletter_campaign_service_proto_msgTypes[31]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1631,7 +1703,7 @@ func (x *DeleteRecipientOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteRecipientOutput.ProtoReflect.Descriptor instead.
 func (*DeleteRecipientOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_newsletter_campaign_service_proto_rawDescGZIP(), []int{29}
+	return file_eolymp_newsletter_campaign_service_proto_rawDescGZIP(), []int{31}
 }
 
 type ListRecipientsInput struct {
@@ -1648,7 +1720,7 @@ type ListRecipientsInput struct {
 
 func (x *ListRecipientsInput) Reset() {
 	*x = ListRecipientsInput{}
-	mi := &file_eolymp_newsletter_campaign_service_proto_msgTypes[30]
+	mi := &file_eolymp_newsletter_campaign_service_proto_msgTypes[32]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1660,7 +1732,7 @@ func (x *ListRecipientsInput) String() string {
 func (*ListRecipientsInput) ProtoMessage() {}
 
 func (x *ListRecipientsInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_newsletter_campaign_service_proto_msgTypes[30]
+	mi := &file_eolymp_newsletter_campaign_service_proto_msgTypes[32]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1673,7 +1745,7 @@ func (x *ListRecipientsInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListRecipientsInput.ProtoReflect.Descriptor instead.
 func (*ListRecipientsInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_newsletter_campaign_service_proto_rawDescGZIP(), []int{30}
+	return file_eolymp_newsletter_campaign_service_proto_rawDescGZIP(), []int{32}
 }
 
 func (x *ListRecipientsInput) GetCampaignId() string {
@@ -1714,7 +1786,7 @@ type ListRecipientsOutput struct {
 
 func (x *ListRecipientsOutput) Reset() {
 	*x = ListRecipientsOutput{}
-	mi := &file_eolymp_newsletter_campaign_service_proto_msgTypes[31]
+	mi := &file_eolymp_newsletter_campaign_service_proto_msgTypes[33]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1726,7 +1798,7 @@ func (x *ListRecipientsOutput) String() string {
 func (*ListRecipientsOutput) ProtoMessage() {}
 
 func (x *ListRecipientsOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_newsletter_campaign_service_proto_msgTypes[31]
+	mi := &file_eolymp_newsletter_campaign_service_proto_msgTypes[33]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1739,7 +1811,7 @@ func (x *ListRecipientsOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListRecipientsOutput.ProtoReflect.Descriptor instead.
 func (*ListRecipientsOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_newsletter_campaign_service_proto_rawDescGZIP(), []int{31}
+	return file_eolymp_newsletter_campaign_service_proto_rawDescGZIP(), []int{33}
 }
 
 func (x *ListRecipientsOutput) GetTotal() int32 {
@@ -1766,7 +1838,7 @@ type DescribeRecipientInput struct {
 
 func (x *DescribeRecipientInput) Reset() {
 	*x = DescribeRecipientInput{}
-	mi := &file_eolymp_newsletter_campaign_service_proto_msgTypes[32]
+	mi := &file_eolymp_newsletter_campaign_service_proto_msgTypes[34]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1778,7 +1850,7 @@ func (x *DescribeRecipientInput) String() string {
 func (*DescribeRecipientInput) ProtoMessage() {}
 
 func (x *DescribeRecipientInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_newsletter_campaign_service_proto_msgTypes[32]
+	mi := &file_eolymp_newsletter_campaign_service_proto_msgTypes[34]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1791,7 +1863,7 @@ func (x *DescribeRecipientInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribeRecipientInput.ProtoReflect.Descriptor instead.
 func (*DescribeRecipientInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_newsletter_campaign_service_proto_rawDescGZIP(), []int{32}
+	return file_eolymp_newsletter_campaign_service_proto_rawDescGZIP(), []int{34}
 }
 
 func (x *DescribeRecipientInput) GetCampaignId() string {
@@ -1817,7 +1889,7 @@ type DescribeRecipientOutput struct {
 
 func (x *DescribeRecipientOutput) Reset() {
 	*x = DescribeRecipientOutput{}
-	mi := &file_eolymp_newsletter_campaign_service_proto_msgTypes[33]
+	mi := &file_eolymp_newsletter_campaign_service_proto_msgTypes[35]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1829,7 +1901,7 @@ func (x *DescribeRecipientOutput) String() string {
 func (*DescribeRecipientOutput) ProtoMessage() {}
 
 func (x *DescribeRecipientOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_newsletter_campaign_service_proto_msgTypes[33]
+	mi := &file_eolymp_newsletter_campaign_service_proto_msgTypes[35]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1842,7 +1914,7 @@ func (x *DescribeRecipientOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribeRecipientOutput.ProtoReflect.Descriptor instead.
 func (*DescribeRecipientOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_newsletter_campaign_service_proto_rawDescGZIP(), []int{33}
+	return file_eolymp_newsletter_campaign_service_proto_rawDescGZIP(), []int{35}
 }
 
 func (x *DescribeRecipientOutput) GetRecipient() *Recipient {
@@ -1862,7 +1934,7 @@ type ListCampaignsInput_Filter struct {
 
 func (x *ListCampaignsInput_Filter) Reset() {
 	*x = ListCampaignsInput_Filter{}
-	mi := &file_eolymp_newsletter_campaign_service_proto_msgTypes[34]
+	mi := &file_eolymp_newsletter_campaign_service_proto_msgTypes[36]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1874,7 +1946,7 @@ func (x *ListCampaignsInput_Filter) String() string {
 func (*ListCampaignsInput_Filter) ProtoMessage() {}
 
 func (x *ListCampaignsInput_Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_newsletter_campaign_service_proto_msgTypes[34]
+	mi := &file_eolymp_newsletter_campaign_service_proto_msgTypes[36]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1914,7 +1986,7 @@ type ListTranslationsInput_Filter struct {
 
 func (x *ListTranslationsInput_Filter) Reset() {
 	*x = ListTranslationsInput_Filter{}
-	mi := &file_eolymp_newsletter_campaign_service_proto_msgTypes[35]
+	mi := &file_eolymp_newsletter_campaign_service_proto_msgTypes[37]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1926,7 +1998,7 @@ func (x *ListTranslationsInput_Filter) String() string {
 func (*ListTranslationsInput_Filter) ProtoMessage() {}
 
 func (x *ListTranslationsInput_Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_newsletter_campaign_service_proto_msgTypes[35]
+	mi := &file_eolymp_newsletter_campaign_service_proto_msgTypes[37]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1967,7 +2039,7 @@ type ListRecipientsInput_Filter struct {
 
 func (x *ListRecipientsInput_Filter) Reset() {
 	*x = ListRecipientsInput_Filter{}
-	mi := &file_eolymp_newsletter_campaign_service_proto_msgTypes[36]
+	mi := &file_eolymp_newsletter_campaign_service_proto_msgTypes[38]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1979,7 +2051,7 @@ func (x *ListRecipientsInput_Filter) String() string {
 func (*ListRecipientsInput_Filter) ProtoMessage() {}
 
 func (x *ListRecipientsInput_Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_newsletter_campaign_service_proto_msgTypes[36]
+	mi := &file_eolymp_newsletter_campaign_service_proto_msgTypes[38]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1992,7 +2064,7 @@ func (x *ListRecipientsInput_Filter) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListRecipientsInput_Filter.ProtoReflect.Descriptor instead.
 func (*ListRecipientsInput_Filter) Descriptor() ([]byte, []int) {
-	return file_eolymp_newsletter_campaign_service_proto_rawDescGZIP(), []int{30, 0}
+	return file_eolymp_newsletter_campaign_service_proto_rawDescGZIP(), []int{32, 0}
 }
 
 func (x *ListRecipientsInput_Filter) GetId() []*wellknown.ExpressionID {
@@ -2219,20 +2291,25 @@ var file_eolymp_newsletter_campaign_service_proto_rawDesc = string([]byte{
 	0x27, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x6e, 0x65, 0x77, 0x73, 0x6c, 0x65, 0x74,
 	0x74, 0x65, 0x72, 0x2e, 0x43, 0x61, 0x6d, 0x70, 0x61, 0x69, 0x67, 0x6e, 0x2e, 0x54, 0x72, 0x61,
 	0x6e, 0x73, 0x6c, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x05, 0x69, 0x74, 0x65, 0x6d, 0x73, 0x22,
-	0xa0, 0x01, 0x0a, 0x14, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x52, 0x65, 0x63, 0x69, 0x70, 0x69,
-	0x65, 0x6e, 0x74, 0x49, 0x6e, 0x70, 0x75, 0x74, 0x12, 0x1f, 0x0a, 0x0b, 0x63, 0x61, 0x6d, 0x70,
-	0x61, 0x69, 0x67, 0x6e, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x63,
-	0x61, 0x6d, 0x70, 0x61, 0x69, 0x67, 0x6e, 0x49, 0x64, 0x12, 0x1d, 0x0a, 0x09, 0x6d, 0x65, 0x6d,
-	0x62, 0x65, 0x72, 0x5f, 0x69, 0x64, 0x18, 0x0b, 0x20, 0x01, 0x28, 0x09, 0x48, 0x00, 0x52, 0x08,
-	0x6d, 0x65, 0x6d, 0x62, 0x65, 0x72, 0x49, 0x64, 0x12, 0x1b, 0x0a, 0x08, 0x67, 0x72, 0x6f, 0x75,
-	0x70, 0x5f, 0x69, 0x64, 0x18, 0x0c, 0x20, 0x01, 0x28, 0x09, 0x48, 0x00, 0x52, 0x07, 0x67, 0x72,
-	0x6f, 0x75, 0x70, 0x49, 0x64, 0x12, 0x1e, 0x0a, 0x09, 0x65, 0x76, 0x65, 0x72, 0x79, 0x62, 0x6f,
-	0x64, 0x79, 0x18, 0x0d, 0x20, 0x01, 0x28, 0x08, 0x48, 0x00, 0x52, 0x09, 0x65, 0x76, 0x65, 0x72,
-	0x79, 0x62, 0x6f, 0x64, 0x79, 0x42, 0x0b, 0x0a, 0x09, 0x72, 0x65, 0x63, 0x69, 0x70, 0x69, 0x65,
-	0x6e, 0x74, 0x22, 0x3a, 0x0a, 0x15, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x52, 0x65, 0x63, 0x69,
-	0x70, 0x69, 0x65, 0x6e, 0x74, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x12, 0x21, 0x0a, 0x0c, 0x72,
-	0x65, 0x63, 0x69, 0x70, 0x69, 0x65, 0x6e, 0x74, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28,
-	0x09, 0x52, 0x0b, 0x72, 0x65, 0x63, 0x69, 0x70, 0x69, 0x65, 0x6e, 0x74, 0x49, 0x64, 0x22, 0x5a,
+	0x54, 0x0a, 0x14, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x52, 0x65, 0x63, 0x69, 0x70, 0x69, 0x65,
+	0x6e, 0x74, 0x49, 0x6e, 0x70, 0x75, 0x74, 0x12, 0x1f, 0x0a, 0x0b, 0x63, 0x61, 0x6d, 0x70, 0x61,
+	0x69, 0x67, 0x6e, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x63, 0x61,
+	0x6d, 0x70, 0x61, 0x69, 0x67, 0x6e, 0x49, 0x64, 0x12, 0x1b, 0x0a, 0x09, 0x6d, 0x65, 0x6d, 0x62,
+	0x65, 0x72, 0x5f, 0x69, 0x64, 0x18, 0x0b, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x6d, 0x65, 0x6d,
+	0x62, 0x65, 0x72, 0x49, 0x64, 0x22, 0x3a, 0x0a, 0x15, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x52,
+	0x65, 0x63, 0x69, 0x70, 0x69, 0x65, 0x6e, 0x74, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x12, 0x21,
+	0x0a, 0x0c, 0x72, 0x65, 0x63, 0x69, 0x70, 0x69, 0x65, 0x6e, 0x74, 0x5f, 0x69, 0x64, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x72, 0x65, 0x63, 0x69, 0x70, 0x69, 0x65, 0x6e, 0x74, 0x49,
+	0x64, 0x22, 0x81, 0x01, 0x0a, 0x14, 0x49, 0x6d, 0x70, 0x6f, 0x72, 0x74, 0x52, 0x65, 0x63, 0x69,
+	0x70, 0x69, 0x65, 0x6e, 0x74, 0x49, 0x6e, 0x70, 0x75, 0x74, 0x12, 0x1f, 0x0a, 0x0b, 0x63, 0x61,
+	0x6d, 0x70, 0x61, 0x69, 0x67, 0x6e, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x0a, 0x63, 0x61, 0x6d, 0x70, 0x61, 0x69, 0x67, 0x6e, 0x49, 0x64, 0x12, 0x21, 0x0a, 0x0b, 0x61,
+	0x6c, 0x6c, 0x5f, 0x6d, 0x65, 0x6d, 0x62, 0x65, 0x72, 0x73, 0x18, 0x0a, 0x20, 0x01, 0x28, 0x08,
+	0x48, 0x00, 0x52, 0x0a, 0x61, 0x6c, 0x6c, 0x4d, 0x65, 0x6d, 0x62, 0x65, 0x72, 0x73, 0x12, 0x1b,
+	0x0a, 0x08, 0x67, 0x72, 0x6f, 0x75, 0x70, 0x5f, 0x69, 0x64, 0x18, 0x0b, 0x20, 0x01, 0x28, 0x09,
+	0x48, 0x00, 0x52, 0x07, 0x67, 0x72, 0x6f, 0x75, 0x70, 0x49, 0x64, 0x42, 0x08, 0x0a, 0x06, 0x73,
+	0x6f, 0x75, 0x72, 0x63, 0x65, 0x22, 0x17, 0x0a, 0x15, 0x49, 0x6d, 0x70, 0x6f, 0x72, 0x74, 0x52,
+	0x65, 0x63, 0x69, 0x70, 0x69, 0x65, 0x6e, 0x74, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x22, 0x5a,
 	0x0a, 0x14, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x52, 0x65, 0x63, 0x69, 0x70, 0x69, 0x65, 0x6e,
 	0x74, 0x49, 0x6e, 0x70, 0x75, 0x74, 0x12, 0x1f, 0x0a, 0x0b, 0x63, 0x61, 0x6d, 0x70, 0x61, 0x69,
 	0x67, 0x6e, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x63, 0x61, 0x6d,
@@ -2279,7 +2356,7 @@ var file_eolymp_newsletter_campaign_service_proto_rawDesc = string([]byte{
 	0x0a, 0x09, 0x72, 0x65, 0x63, 0x69, 0x70, 0x69, 0x65, 0x6e, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28,
 	0x0b, 0x32, 0x1c, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x6e, 0x65, 0x77, 0x73, 0x6c,
 	0x65, 0x74, 0x74, 0x65, 0x72, 0x2e, 0x52, 0x65, 0x63, 0x69, 0x70, 0x69, 0x65, 0x6e, 0x74, 0x52,
-	0x09, 0x72, 0x65, 0x63, 0x69, 0x70, 0x69, 0x65, 0x6e, 0x74, 0x32, 0xf8, 0x19, 0x0a, 0x0f, 0x43,
+	0x09, 0x72, 0x65, 0x63, 0x69, 0x70, 0x69, 0x65, 0x6e, 0x74, 0x32, 0xc5, 0x1b, 0x0a, 0x0f, 0x43,
 	0x61, 0x6d, 0x70, 0x61, 0x69, 0x67, 0x6e, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0xa7,
 	0x01, 0x0a, 0x0e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x43, 0x61, 0x6d, 0x70, 0x61, 0x69, 0x67,
 	0x6e, 0x12, 0x26, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x6e, 0x65, 0x77, 0x73, 0x6c,
@@ -2448,50 +2525,63 @@ var file_eolymp_newsletter_campaign_service_proto_rawDesc = string([]byte{
 	0x72, 0x3a, 0x77, 0x72, 0x69, 0x74, 0x65, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x25, 0x22, 0x23, 0x2f,
 	0x63, 0x61, 0x6d, 0x70, 0x61, 0x69, 0x67, 0x6e, 0x73, 0x2f, 0x7b, 0x63, 0x61, 0x6d, 0x70, 0x61,
 	0x69, 0x67, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x72, 0x65, 0x63, 0x69, 0x70, 0x69, 0x65, 0x6e,
-	0x74, 0x73, 0x12, 0xd2, 0x01, 0x0a, 0x0f, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x52, 0x65, 0x63,
+	0x74, 0x73, 0x12, 0xca, 0x01, 0x0a, 0x0f, 0x49, 0x6d, 0x70, 0x6f, 0x72, 0x74, 0x52, 0x65, 0x63,
 	0x69, 0x70, 0x69, 0x65, 0x6e, 0x74, 0x12, 0x27, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e,
-	0x6e, 0x65, 0x77, 0x73, 0x6c, 0x65, 0x74, 0x74, 0x65, 0x72, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74,
-	0x65, 0x52, 0x65, 0x63, 0x69, 0x70, 0x69, 0x65, 0x6e, 0x74, 0x49, 0x6e, 0x70, 0x75, 0x74, 0x1a,
+	0x6e, 0x65, 0x77, 0x73, 0x6c, 0x65, 0x74, 0x74, 0x65, 0x72, 0x2e, 0x49, 0x6d, 0x70, 0x6f, 0x72,
+	0x74, 0x52, 0x65, 0x63, 0x69, 0x70, 0x69, 0x65, 0x6e, 0x74, 0x49, 0x6e, 0x70, 0x75, 0x74, 0x1a,
 	0x28, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x6e, 0x65, 0x77, 0x73, 0x6c, 0x65, 0x74,
-	0x74, 0x65, 0x72, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x52, 0x65, 0x63, 0x69, 0x70, 0x69,
-	0x65, 0x6e, 0x74, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x22, 0x6c, 0xea, 0xe2, 0x0a, 0x0b, 0xf5,
+	0x74, 0x65, 0x72, 0x2e, 0x49, 0x6d, 0x70, 0x6f, 0x72, 0x74, 0x52, 0x65, 0x63, 0x69, 0x70, 0x69,
+	0x65, 0x6e, 0x74, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x22, 0x64, 0xea, 0xe2, 0x0a, 0x0b, 0xf5,
 	0xe2, 0x0a, 0x00, 0x00, 0xa0, 0x40, 0xf8, 0xe2, 0x0a, 0x32, 0x82, 0xe3, 0x0a, 0x1f, 0x8a, 0xe3,
 	0x0a, 0x1b, 0x6e, 0x65, 0x77, 0x73, 0x6c, 0x65, 0x74, 0x74, 0x65, 0x72, 0x3a, 0x6e, 0x65, 0x77,
 	0x73, 0x6c, 0x65, 0x74, 0x74, 0x65, 0x72, 0x3a, 0x77, 0x72, 0x69, 0x74, 0x65, 0x82, 0xd3, 0xe4,
-	0x93, 0x02, 0x34, 0x2a, 0x32, 0x2f, 0x63, 0x61, 0x6d, 0x70, 0x61, 0x69, 0x67, 0x6e, 0x73, 0x2f,
+	0x93, 0x02, 0x2c, 0x22, 0x2a, 0x2f, 0x63, 0x61, 0x6d, 0x70, 0x61, 0x69, 0x67, 0x6e, 0x73, 0x2f,
 	0x7b, 0x63, 0x61, 0x6d, 0x70, 0x61, 0x69, 0x67, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x72, 0x65,
-	0x63, 0x69, 0x70, 0x69, 0x65, 0x6e, 0x74, 0x73, 0x2f, 0x7b, 0x72, 0x65, 0x63, 0x69, 0x70, 0x69,
-	0x65, 0x6e, 0x74, 0x5f, 0x69, 0x64, 0x7d, 0x12, 0xc0, 0x01, 0x0a, 0x0e, 0x4c, 0x69, 0x73, 0x74,
-	0x52, 0x65, 0x63, 0x69, 0x70, 0x69, 0x65, 0x6e, 0x74, 0x73, 0x12, 0x26, 0x2e, 0x65, 0x6f, 0x6c,
-	0x79, 0x6d, 0x70, 0x2e, 0x6e, 0x65, 0x77, 0x73, 0x6c, 0x65, 0x74, 0x74, 0x65, 0x72, 0x2e, 0x4c,
-	0x69, 0x73, 0x74, 0x52, 0x65, 0x63, 0x69, 0x70, 0x69, 0x65, 0x6e, 0x74, 0x73, 0x49, 0x6e, 0x70,
-	0x75, 0x74, 0x1a, 0x27, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x6e, 0x65, 0x77, 0x73,
-	0x6c, 0x65, 0x74, 0x74, 0x65, 0x72, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x52, 0x65, 0x63, 0x69, 0x70,
-	0x69, 0x65, 0x6e, 0x74, 0x73, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x22, 0x5d, 0xea, 0xe2, 0x0a,
-	0x0b, 0xf5, 0xe2, 0x0a, 0x00, 0x00, 0xa0, 0x40, 0xf8, 0xe2, 0x0a, 0x32, 0x82, 0xe3, 0x0a, 0x1f,
-	0x8a, 0xe3, 0x0a, 0x1b, 0x6e, 0x65, 0x77, 0x73, 0x6c, 0x65, 0x74, 0x74, 0x65, 0x72, 0x3a, 0x6e,
-	0x65, 0x77, 0x73, 0x6c, 0x65, 0x74, 0x74, 0x65, 0x72, 0x3a, 0x77, 0x72, 0x69, 0x74, 0x65, 0x82,
-	0xd3, 0xe4, 0x93, 0x02, 0x25, 0x12, 0x23, 0x2f, 0x63, 0x61, 0x6d, 0x70, 0x61, 0x69, 0x67, 0x6e,
-	0x73, 0x2f, 0x7b, 0x63, 0x61, 0x6d, 0x70, 0x61, 0x69, 0x67, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f,
-	0x72, 0x65, 0x63, 0x69, 0x70, 0x69, 0x65, 0x6e, 0x74, 0x73, 0x12, 0xd8, 0x01, 0x0a, 0x11, 0x44,
-	0x65, 0x73, 0x63, 0x72, 0x69, 0x62, 0x65, 0x52, 0x65, 0x63, 0x69, 0x70, 0x69, 0x65, 0x6e, 0x74,
-	0x12, 0x29, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x6e, 0x65, 0x77, 0x73, 0x6c, 0x65,
-	0x74, 0x74, 0x65, 0x72, 0x2e, 0x44, 0x65, 0x73, 0x63, 0x72, 0x69, 0x62, 0x65, 0x52, 0x65, 0x63,
-	0x69, 0x70, 0x69, 0x65, 0x6e, 0x74, 0x49, 0x6e, 0x70, 0x75, 0x74, 0x1a, 0x2a, 0x2e, 0x65, 0x6f,
-	0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x6e, 0x65, 0x77, 0x73, 0x6c, 0x65, 0x74, 0x74, 0x65, 0x72, 0x2e,
-	0x44, 0x65, 0x73, 0x63, 0x72, 0x69, 0x62, 0x65, 0x52, 0x65, 0x63, 0x69, 0x70, 0x69, 0x65, 0x6e,
-	0x74, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x22, 0x6c, 0xea, 0xe2, 0x0a, 0x0b, 0xf5, 0xe2, 0x0a,
-	0x00, 0x00, 0xa0, 0x40, 0xf8, 0xe2, 0x0a, 0x32, 0x82, 0xe3, 0x0a, 0x1f, 0x8a, 0xe3, 0x0a, 0x1b,
-	0x6e, 0x65, 0x77, 0x73, 0x6c, 0x65, 0x74, 0x74, 0x65, 0x72, 0x3a, 0x6e, 0x65, 0x77, 0x73, 0x6c,
-	0x65, 0x74, 0x74, 0x65, 0x72, 0x3a, 0x77, 0x72, 0x69, 0x74, 0x65, 0x82, 0xd3, 0xe4, 0x93, 0x02,
-	0x34, 0x12, 0x32, 0x2f, 0x63, 0x61, 0x6d, 0x70, 0x61, 0x69, 0x67, 0x6e, 0x73, 0x2f, 0x7b, 0x63,
-	0x61, 0x6d, 0x70, 0x61, 0x69, 0x67, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x72, 0x65, 0x63, 0x69,
-	0x70, 0x69, 0x65, 0x6e, 0x74, 0x73, 0x2f, 0x7b, 0x72, 0x65, 0x63, 0x69, 0x70, 0x69, 0x65, 0x6e,
-	0x74, 0x5f, 0x69, 0x64, 0x7d, 0x42, 0x37, 0x5a, 0x35, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e,
-	0x63, 0x6f, 0x6d, 0x2f, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x67, 0x6f, 0x2d, 0x73, 0x64,
-	0x6b, 0x2f, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x6e, 0x65, 0x77, 0x73, 0x6c, 0x65, 0x74,
-	0x74, 0x65, 0x72, 0x3b, 0x6e, 0x65, 0x77, 0x73, 0x6c, 0x65, 0x74, 0x74, 0x65, 0x72, 0x62, 0x06,
-	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x63, 0x69, 0x70, 0x69, 0x65, 0x6e, 0x74, 0x73, 0x3a, 0x69, 0x6d, 0x70, 0x6f, 0x72, 0x74, 0x12,
+	0xd2, 0x01, 0x0a, 0x0f, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x52, 0x65, 0x63, 0x69, 0x70, 0x69,
+	0x65, 0x6e, 0x74, 0x12, 0x27, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x6e, 0x65, 0x77,
+	0x73, 0x6c, 0x65, 0x74, 0x74, 0x65, 0x72, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x52, 0x65,
+	0x63, 0x69, 0x70, 0x69, 0x65, 0x6e, 0x74, 0x49, 0x6e, 0x70, 0x75, 0x74, 0x1a, 0x28, 0x2e, 0x65,
+	0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x6e, 0x65, 0x77, 0x73, 0x6c, 0x65, 0x74, 0x74, 0x65, 0x72,
+	0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x52, 0x65, 0x63, 0x69, 0x70, 0x69, 0x65, 0x6e, 0x74,
+	0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x22, 0x6c, 0xea, 0xe2, 0x0a, 0x0b, 0xf5, 0xe2, 0x0a, 0x00,
+	0x00, 0xa0, 0x40, 0xf8, 0xe2, 0x0a, 0x32, 0x82, 0xe3, 0x0a, 0x1f, 0x8a, 0xe3, 0x0a, 0x1b, 0x6e,
+	0x65, 0x77, 0x73, 0x6c, 0x65, 0x74, 0x74, 0x65, 0x72, 0x3a, 0x6e, 0x65, 0x77, 0x73, 0x6c, 0x65,
+	0x74, 0x74, 0x65, 0x72, 0x3a, 0x77, 0x72, 0x69, 0x74, 0x65, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x34,
+	0x2a, 0x32, 0x2f, 0x63, 0x61, 0x6d, 0x70, 0x61, 0x69, 0x67, 0x6e, 0x73, 0x2f, 0x7b, 0x63, 0x61,
+	0x6d, 0x70, 0x61, 0x69, 0x67, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x72, 0x65, 0x63, 0x69, 0x70,
+	0x69, 0x65, 0x6e, 0x74, 0x73, 0x2f, 0x7b, 0x72, 0x65, 0x63, 0x69, 0x70, 0x69, 0x65, 0x6e, 0x74,
+	0x5f, 0x69, 0x64, 0x7d, 0x12, 0xc0, 0x01, 0x0a, 0x0e, 0x4c, 0x69, 0x73, 0x74, 0x52, 0x65, 0x63,
+	0x69, 0x70, 0x69, 0x65, 0x6e, 0x74, 0x73, 0x12, 0x26, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70,
+	0x2e, 0x6e, 0x65, 0x77, 0x73, 0x6c, 0x65, 0x74, 0x74, 0x65, 0x72, 0x2e, 0x4c, 0x69, 0x73, 0x74,
+	0x52, 0x65, 0x63, 0x69, 0x70, 0x69, 0x65, 0x6e, 0x74, 0x73, 0x49, 0x6e, 0x70, 0x75, 0x74, 0x1a,
+	0x27, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x6e, 0x65, 0x77, 0x73, 0x6c, 0x65, 0x74,
+	0x74, 0x65, 0x72, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x52, 0x65, 0x63, 0x69, 0x70, 0x69, 0x65, 0x6e,
+	0x74, 0x73, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x22, 0x5d, 0xea, 0xe2, 0x0a, 0x0b, 0xf5, 0xe2,
+	0x0a, 0x00, 0x00, 0xa0, 0x40, 0xf8, 0xe2, 0x0a, 0x32, 0x82, 0xe3, 0x0a, 0x1f, 0x8a, 0xe3, 0x0a,
+	0x1b, 0x6e, 0x65, 0x77, 0x73, 0x6c, 0x65, 0x74, 0x74, 0x65, 0x72, 0x3a, 0x6e, 0x65, 0x77, 0x73,
+	0x6c, 0x65, 0x74, 0x74, 0x65, 0x72, 0x3a, 0x77, 0x72, 0x69, 0x74, 0x65, 0x82, 0xd3, 0xe4, 0x93,
+	0x02, 0x25, 0x12, 0x23, 0x2f, 0x63, 0x61, 0x6d, 0x70, 0x61, 0x69, 0x67, 0x6e, 0x73, 0x2f, 0x7b,
+	0x63, 0x61, 0x6d, 0x70, 0x61, 0x69, 0x67, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x72, 0x65, 0x63,
+	0x69, 0x70, 0x69, 0x65, 0x6e, 0x74, 0x73, 0x12, 0xd8, 0x01, 0x0a, 0x11, 0x44, 0x65, 0x73, 0x63,
+	0x72, 0x69, 0x62, 0x65, 0x52, 0x65, 0x63, 0x69, 0x70, 0x69, 0x65, 0x6e, 0x74, 0x12, 0x29, 0x2e,
+	0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2e, 0x6e, 0x65, 0x77, 0x73, 0x6c, 0x65, 0x74, 0x74, 0x65,
+	0x72, 0x2e, 0x44, 0x65, 0x73, 0x63, 0x72, 0x69, 0x62, 0x65, 0x52, 0x65, 0x63, 0x69, 0x70, 0x69,
+	0x65, 0x6e, 0x74, 0x49, 0x6e, 0x70, 0x75, 0x74, 0x1a, 0x2a, 0x2e, 0x65, 0x6f, 0x6c, 0x79, 0x6d,
+	0x70, 0x2e, 0x6e, 0x65, 0x77, 0x73, 0x6c, 0x65, 0x74, 0x74, 0x65, 0x72, 0x2e, 0x44, 0x65, 0x73,
+	0x63, 0x72, 0x69, 0x62, 0x65, 0x52, 0x65, 0x63, 0x69, 0x70, 0x69, 0x65, 0x6e, 0x74, 0x4f, 0x75,
+	0x74, 0x70, 0x75, 0x74, 0x22, 0x6c, 0xea, 0xe2, 0x0a, 0x0b, 0xf5, 0xe2, 0x0a, 0x00, 0x00, 0xa0,
+	0x40, 0xf8, 0xe2, 0x0a, 0x32, 0x82, 0xe3, 0x0a, 0x1f, 0x8a, 0xe3, 0x0a, 0x1b, 0x6e, 0x65, 0x77,
+	0x73, 0x6c, 0x65, 0x74, 0x74, 0x65, 0x72, 0x3a, 0x6e, 0x65, 0x77, 0x73, 0x6c, 0x65, 0x74, 0x74,
+	0x65, 0x72, 0x3a, 0x77, 0x72, 0x69, 0x74, 0x65, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x34, 0x12, 0x32,
+	0x2f, 0x63, 0x61, 0x6d, 0x70, 0x61, 0x69, 0x67, 0x6e, 0x73, 0x2f, 0x7b, 0x63, 0x61, 0x6d, 0x70,
+	0x61, 0x69, 0x67, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x72, 0x65, 0x63, 0x69, 0x70, 0x69, 0x65,
+	0x6e, 0x74, 0x73, 0x2f, 0x7b, 0x72, 0x65, 0x63, 0x69, 0x70, 0x69, 0x65, 0x6e, 0x74, 0x5f, 0x69,
+	0x64, 0x7d, 0x42, 0x37, 0x5a, 0x35, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d,
+	0x2f, 0x65, 0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x67, 0x6f, 0x2d, 0x73, 0x64, 0x6b, 0x2f, 0x65,
+	0x6f, 0x6c, 0x79, 0x6d, 0x70, 0x2f, 0x6e, 0x65, 0x77, 0x73, 0x6c, 0x65, 0x74, 0x74, 0x65, 0x72,
+	0x3b, 0x6e, 0x65, 0x77, 0x73, 0x6c, 0x65, 0x74, 0x74, 0x65, 0x72, 0x62, 0x06, 0x70, 0x72, 0x6f,
+	0x74, 0x6f, 0x33,
 })
 
 var (
@@ -2507,7 +2597,7 @@ func file_eolymp_newsletter_campaign_service_proto_rawDescGZIP() []byte {
 }
 
 var file_eolymp_newsletter_campaign_service_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_eolymp_newsletter_campaign_service_proto_msgTypes = make([]protoimpl.MessageInfo, 37)
+var file_eolymp_newsletter_campaign_service_proto_msgTypes = make([]protoimpl.MessageInfo, 39)
 var file_eolymp_newsletter_campaign_service_proto_goTypes = []any{
 	(ListCampaignsInput_Sort)(0),         // 0: eolymp.newsletter.ListCampaignsInput.Sort
 	(*CreateCampaignInput)(nil),          // 1: eolymp.newsletter.CreateCampaignInput
@@ -2538,51 +2628,53 @@ var file_eolymp_newsletter_campaign_service_proto_goTypes = []any{
 	(*ListTranslationsOutput)(nil),       // 26: eolymp.newsletter.ListTranslationsOutput
 	(*CreateRecipientInput)(nil),         // 27: eolymp.newsletter.CreateRecipientInput
 	(*CreateRecipientOutput)(nil),        // 28: eolymp.newsletter.CreateRecipientOutput
-	(*DeleteRecipientInput)(nil),         // 29: eolymp.newsletter.DeleteRecipientInput
-	(*DeleteRecipientOutput)(nil),        // 30: eolymp.newsletter.DeleteRecipientOutput
-	(*ListRecipientsInput)(nil),          // 31: eolymp.newsletter.ListRecipientsInput
-	(*ListRecipientsOutput)(nil),         // 32: eolymp.newsletter.ListRecipientsOutput
-	(*DescribeRecipientInput)(nil),       // 33: eolymp.newsletter.DescribeRecipientInput
-	(*DescribeRecipientOutput)(nil),      // 34: eolymp.newsletter.DescribeRecipientOutput
-	(*ListCampaignsInput_Filter)(nil),    // 35: eolymp.newsletter.ListCampaignsInput.Filter
-	(*ListTranslationsInput_Filter)(nil), // 36: eolymp.newsletter.ListTranslationsInput.Filter
-	(*ListRecipientsInput_Filter)(nil),   // 37: eolymp.newsletter.ListRecipientsInput.Filter
-	(*Campaign)(nil),                     // 38: eolymp.newsletter.Campaign
-	(Campaign_Patch)(0),                  // 39: eolymp.newsletter.Campaign.Patch
-	(Campaign_Extra)(0),                  // 40: eolymp.newsletter.Campaign.Extra
-	(wellknown.Direction)(0),             // 41: eolymp.wellknown.Direction
-	(*Campaign_Translation)(nil),         // 42: eolymp.newsletter.Campaign.Translation
-	(*Recipient)(nil),                    // 43: eolymp.newsletter.Recipient
-	(*wellknown.ExpressionID)(nil),       // 44: eolymp.wellknown.ExpressionID
-	(*wellknown.ExpressionEnum)(nil),     // 45: eolymp.wellknown.ExpressionEnum
+	(*ImportRecipientInput)(nil),         // 29: eolymp.newsletter.ImportRecipientInput
+	(*ImportRecipientOutput)(nil),        // 30: eolymp.newsletter.ImportRecipientOutput
+	(*DeleteRecipientInput)(nil),         // 31: eolymp.newsletter.DeleteRecipientInput
+	(*DeleteRecipientOutput)(nil),        // 32: eolymp.newsletter.DeleteRecipientOutput
+	(*ListRecipientsInput)(nil),          // 33: eolymp.newsletter.ListRecipientsInput
+	(*ListRecipientsOutput)(nil),         // 34: eolymp.newsletter.ListRecipientsOutput
+	(*DescribeRecipientInput)(nil),       // 35: eolymp.newsletter.DescribeRecipientInput
+	(*DescribeRecipientOutput)(nil),      // 36: eolymp.newsletter.DescribeRecipientOutput
+	(*ListCampaignsInput_Filter)(nil),    // 37: eolymp.newsletter.ListCampaignsInput.Filter
+	(*ListTranslationsInput_Filter)(nil), // 38: eolymp.newsletter.ListTranslationsInput.Filter
+	(*ListRecipientsInput_Filter)(nil),   // 39: eolymp.newsletter.ListRecipientsInput.Filter
+	(*Campaign)(nil),                     // 40: eolymp.newsletter.Campaign
+	(Campaign_Patch)(0),                  // 41: eolymp.newsletter.Campaign.Patch
+	(Campaign_Extra)(0),                  // 42: eolymp.newsletter.Campaign.Extra
+	(wellknown.Direction)(0),             // 43: eolymp.wellknown.Direction
+	(*Campaign_Translation)(nil),         // 44: eolymp.newsletter.Campaign.Translation
+	(*Recipient)(nil),                    // 45: eolymp.newsletter.Recipient
+	(*wellknown.ExpressionID)(nil),       // 46: eolymp.wellknown.ExpressionID
+	(*wellknown.ExpressionEnum)(nil),     // 47: eolymp.wellknown.ExpressionEnum
 }
 var file_eolymp_newsletter_campaign_service_proto_depIdxs = []int32{
-	38, // 0: eolymp.newsletter.CreateCampaignInput.campaign:type_name -> eolymp.newsletter.Campaign
-	39, // 1: eolymp.newsletter.UpdateCampaignInput.patch:type_name -> eolymp.newsletter.Campaign.Patch
-	38, // 2: eolymp.newsletter.UpdateCampaignInput.campaign:type_name -> eolymp.newsletter.Campaign
-	40, // 3: eolymp.newsletter.DescribeCampaignInput.extra:type_name -> eolymp.newsletter.Campaign.Extra
-	38, // 4: eolymp.newsletter.DescribeCampaignOutput.campaign:type_name -> eolymp.newsletter.Campaign
-	35, // 5: eolymp.newsletter.ListCampaignsInput.filters:type_name -> eolymp.newsletter.ListCampaignsInput.Filter
+	40, // 0: eolymp.newsletter.CreateCampaignInput.campaign:type_name -> eolymp.newsletter.Campaign
+	41, // 1: eolymp.newsletter.UpdateCampaignInput.patch:type_name -> eolymp.newsletter.Campaign.Patch
+	40, // 2: eolymp.newsletter.UpdateCampaignInput.campaign:type_name -> eolymp.newsletter.Campaign
+	42, // 3: eolymp.newsletter.DescribeCampaignInput.extra:type_name -> eolymp.newsletter.Campaign.Extra
+	40, // 4: eolymp.newsletter.DescribeCampaignOutput.campaign:type_name -> eolymp.newsletter.Campaign
+	37, // 5: eolymp.newsletter.ListCampaignsInput.filters:type_name -> eolymp.newsletter.ListCampaignsInput.Filter
 	0,  // 6: eolymp.newsletter.ListCampaignsInput.sort:type_name -> eolymp.newsletter.ListCampaignsInput.Sort
-	41, // 7: eolymp.newsletter.ListCampaignsInput.order:type_name -> eolymp.wellknown.Direction
-	40, // 8: eolymp.newsletter.ListCampaignsInput.extra:type_name -> eolymp.newsletter.Campaign.Extra
-	38, // 9: eolymp.newsletter.ListCampaignsOutput.items:type_name -> eolymp.newsletter.Campaign
-	42, // 10: eolymp.newsletter.CreateTranslationInput.translation:type_name -> eolymp.newsletter.Campaign.Translation
-	39, // 11: eolymp.newsletter.UpdateTranslationInput.patch:type_name -> eolymp.newsletter.Campaign.Patch
-	42, // 12: eolymp.newsletter.UpdateTranslationInput.translation:type_name -> eolymp.newsletter.Campaign.Translation
-	42, // 13: eolymp.newsletter.DescribeTranslationOutput.translation:type_name -> eolymp.newsletter.Campaign.Translation
-	36, // 14: eolymp.newsletter.ListTranslationsInput.filters:type_name -> eolymp.newsletter.ListTranslationsInput.Filter
-	42, // 15: eolymp.newsletter.ListTranslationsOutput.items:type_name -> eolymp.newsletter.Campaign.Translation
-	37, // 16: eolymp.newsletter.ListRecipientsInput.filters:type_name -> eolymp.newsletter.ListRecipientsInput.Filter
-	43, // 17: eolymp.newsletter.ListRecipientsOutput.items:type_name -> eolymp.newsletter.Recipient
-	43, // 18: eolymp.newsletter.DescribeRecipientOutput.recipient:type_name -> eolymp.newsletter.Recipient
-	44, // 19: eolymp.newsletter.ListCampaignsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	45, // 20: eolymp.newsletter.ListCampaignsInput.Filter.type:type_name -> eolymp.wellknown.ExpressionEnum
-	44, // 21: eolymp.newsletter.ListTranslationsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	45, // 22: eolymp.newsletter.ListTranslationsInput.Filter.locale:type_name -> eolymp.wellknown.ExpressionEnum
-	44, // 23: eolymp.newsletter.ListRecipientsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	45, // 24: eolymp.newsletter.ListRecipientsInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
-	44, // 25: eolymp.newsletter.ListRecipientsInput.Filter.member_id:type_name -> eolymp.wellknown.ExpressionID
+	43, // 7: eolymp.newsletter.ListCampaignsInput.order:type_name -> eolymp.wellknown.Direction
+	42, // 8: eolymp.newsletter.ListCampaignsInput.extra:type_name -> eolymp.newsletter.Campaign.Extra
+	40, // 9: eolymp.newsletter.ListCampaignsOutput.items:type_name -> eolymp.newsletter.Campaign
+	44, // 10: eolymp.newsletter.CreateTranslationInput.translation:type_name -> eolymp.newsletter.Campaign.Translation
+	41, // 11: eolymp.newsletter.UpdateTranslationInput.patch:type_name -> eolymp.newsletter.Campaign.Patch
+	44, // 12: eolymp.newsletter.UpdateTranslationInput.translation:type_name -> eolymp.newsletter.Campaign.Translation
+	44, // 13: eolymp.newsletter.DescribeTranslationOutput.translation:type_name -> eolymp.newsletter.Campaign.Translation
+	38, // 14: eolymp.newsletter.ListTranslationsInput.filters:type_name -> eolymp.newsletter.ListTranslationsInput.Filter
+	44, // 15: eolymp.newsletter.ListTranslationsOutput.items:type_name -> eolymp.newsletter.Campaign.Translation
+	39, // 16: eolymp.newsletter.ListRecipientsInput.filters:type_name -> eolymp.newsletter.ListRecipientsInput.Filter
+	45, // 17: eolymp.newsletter.ListRecipientsOutput.items:type_name -> eolymp.newsletter.Recipient
+	45, // 18: eolymp.newsletter.DescribeRecipientOutput.recipient:type_name -> eolymp.newsletter.Recipient
+	46, // 19: eolymp.newsletter.ListCampaignsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	47, // 20: eolymp.newsletter.ListCampaignsInput.Filter.type:type_name -> eolymp.wellknown.ExpressionEnum
+	46, // 21: eolymp.newsletter.ListTranslationsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	47, // 22: eolymp.newsletter.ListTranslationsInput.Filter.locale:type_name -> eolymp.wellknown.ExpressionEnum
+	46, // 23: eolymp.newsletter.ListRecipientsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	47, // 24: eolymp.newsletter.ListRecipientsInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
+	46, // 25: eolymp.newsletter.ListRecipientsInput.Filter.member_id:type_name -> eolymp.wellknown.ExpressionID
 	1,  // 26: eolymp.newsletter.CampaignService.CreateCampaign:input_type -> eolymp.newsletter.CreateCampaignInput
 	3,  // 27: eolymp.newsletter.CampaignService.UpdateCampaign:input_type -> eolymp.newsletter.UpdateCampaignInput
 	5,  // 28: eolymp.newsletter.CampaignService.DeleteCampaign:input_type -> eolymp.newsletter.DeleteCampaignInput
@@ -2597,28 +2689,30 @@ var file_eolymp_newsletter_campaign_service_proto_depIdxs = []int32{
 	23, // 37: eolymp.newsletter.CampaignService.DescribeTranslation:input_type -> eolymp.newsletter.DescribeTranslationInput
 	25, // 38: eolymp.newsletter.CampaignService.ListTranslations:input_type -> eolymp.newsletter.ListTranslationsInput
 	27, // 39: eolymp.newsletter.CampaignService.CreateRecipient:input_type -> eolymp.newsletter.CreateRecipientInput
-	29, // 40: eolymp.newsletter.CampaignService.DeleteRecipient:input_type -> eolymp.newsletter.DeleteRecipientInput
-	31, // 41: eolymp.newsletter.CampaignService.ListRecipients:input_type -> eolymp.newsletter.ListRecipientsInput
-	33, // 42: eolymp.newsletter.CampaignService.DescribeRecipient:input_type -> eolymp.newsletter.DescribeRecipientInput
-	2,  // 43: eolymp.newsletter.CampaignService.CreateCampaign:output_type -> eolymp.newsletter.CreateCampaignOutput
-	4,  // 44: eolymp.newsletter.CampaignService.UpdateCampaign:output_type -> eolymp.newsletter.UpdateCampaignOutput
-	6,  // 45: eolymp.newsletter.CampaignService.DeleteCampaign:output_type -> eolymp.newsletter.DeleteCampaignOutput
-	8,  // 46: eolymp.newsletter.CampaignService.DescribeCampaign:output_type -> eolymp.newsletter.DescribeCampaignOutput
-	10, // 47: eolymp.newsletter.CampaignService.ListCampaigns:output_type -> eolymp.newsletter.ListCampaignsOutput
-	12, // 48: eolymp.newsletter.CampaignService.TestCampaign:output_type -> eolymp.newsletter.TestCampaignOutput
-	14, // 49: eolymp.newsletter.CampaignService.SendCampaign:output_type -> eolymp.newsletter.SendCampaignOutput
-	16, // 50: eolymp.newsletter.CampaignService.TranslateCampaign:output_type -> eolymp.newsletter.TranslateCampaignOutput
-	18, // 51: eolymp.newsletter.CampaignService.CreateTranslation:output_type -> eolymp.newsletter.CreateTranslationOutput
-	20, // 52: eolymp.newsletter.CampaignService.UpdateTranslation:output_type -> eolymp.newsletter.UpdateTranslationOutput
-	22, // 53: eolymp.newsletter.CampaignService.DeleteTranslation:output_type -> eolymp.newsletter.DeleteTranslationOutput
-	24, // 54: eolymp.newsletter.CampaignService.DescribeTranslation:output_type -> eolymp.newsletter.DescribeTranslationOutput
-	26, // 55: eolymp.newsletter.CampaignService.ListTranslations:output_type -> eolymp.newsletter.ListTranslationsOutput
-	28, // 56: eolymp.newsletter.CampaignService.CreateRecipient:output_type -> eolymp.newsletter.CreateRecipientOutput
-	30, // 57: eolymp.newsletter.CampaignService.DeleteRecipient:output_type -> eolymp.newsletter.DeleteRecipientOutput
-	32, // 58: eolymp.newsletter.CampaignService.ListRecipients:output_type -> eolymp.newsletter.ListRecipientsOutput
-	34, // 59: eolymp.newsletter.CampaignService.DescribeRecipient:output_type -> eolymp.newsletter.DescribeRecipientOutput
-	43, // [43:60] is the sub-list for method output_type
-	26, // [26:43] is the sub-list for method input_type
+	29, // 40: eolymp.newsletter.CampaignService.ImportRecipient:input_type -> eolymp.newsletter.ImportRecipientInput
+	31, // 41: eolymp.newsletter.CampaignService.DeleteRecipient:input_type -> eolymp.newsletter.DeleteRecipientInput
+	33, // 42: eolymp.newsletter.CampaignService.ListRecipients:input_type -> eolymp.newsletter.ListRecipientsInput
+	35, // 43: eolymp.newsletter.CampaignService.DescribeRecipient:input_type -> eolymp.newsletter.DescribeRecipientInput
+	2,  // 44: eolymp.newsletter.CampaignService.CreateCampaign:output_type -> eolymp.newsletter.CreateCampaignOutput
+	4,  // 45: eolymp.newsletter.CampaignService.UpdateCampaign:output_type -> eolymp.newsletter.UpdateCampaignOutput
+	6,  // 46: eolymp.newsletter.CampaignService.DeleteCampaign:output_type -> eolymp.newsletter.DeleteCampaignOutput
+	8,  // 47: eolymp.newsletter.CampaignService.DescribeCampaign:output_type -> eolymp.newsletter.DescribeCampaignOutput
+	10, // 48: eolymp.newsletter.CampaignService.ListCampaigns:output_type -> eolymp.newsletter.ListCampaignsOutput
+	12, // 49: eolymp.newsletter.CampaignService.TestCampaign:output_type -> eolymp.newsletter.TestCampaignOutput
+	14, // 50: eolymp.newsletter.CampaignService.SendCampaign:output_type -> eolymp.newsletter.SendCampaignOutput
+	16, // 51: eolymp.newsletter.CampaignService.TranslateCampaign:output_type -> eolymp.newsletter.TranslateCampaignOutput
+	18, // 52: eolymp.newsletter.CampaignService.CreateTranslation:output_type -> eolymp.newsletter.CreateTranslationOutput
+	20, // 53: eolymp.newsletter.CampaignService.UpdateTranslation:output_type -> eolymp.newsletter.UpdateTranslationOutput
+	22, // 54: eolymp.newsletter.CampaignService.DeleteTranslation:output_type -> eolymp.newsletter.DeleteTranslationOutput
+	24, // 55: eolymp.newsletter.CampaignService.DescribeTranslation:output_type -> eolymp.newsletter.DescribeTranslationOutput
+	26, // 56: eolymp.newsletter.CampaignService.ListTranslations:output_type -> eolymp.newsletter.ListTranslationsOutput
+	28, // 57: eolymp.newsletter.CampaignService.CreateRecipient:output_type -> eolymp.newsletter.CreateRecipientOutput
+	30, // 58: eolymp.newsletter.CampaignService.ImportRecipient:output_type -> eolymp.newsletter.ImportRecipientOutput
+	32, // 59: eolymp.newsletter.CampaignService.DeleteRecipient:output_type -> eolymp.newsletter.DeleteRecipientOutput
+	34, // 60: eolymp.newsletter.CampaignService.ListRecipients:output_type -> eolymp.newsletter.ListRecipientsOutput
+	36, // 61: eolymp.newsletter.CampaignService.DescribeRecipient:output_type -> eolymp.newsletter.DescribeRecipientOutput
+	44, // [44:62] is the sub-list for method output_type
+	26, // [26:44] is the sub-list for method input_type
 	26, // [26:26] is the sub-list for extension type_name
 	26, // [26:26] is the sub-list for extension extendee
 	0,  // [0:26] is the sub-list for field type_name
@@ -2631,10 +2725,9 @@ func file_eolymp_newsletter_campaign_service_proto_init() {
 	}
 	file_eolymp_newsletter_campaign_proto_init()
 	file_eolymp_newsletter_recipient_proto_init()
-	file_eolymp_newsletter_campaign_service_proto_msgTypes[26].OneofWrappers = []any{
-		(*CreateRecipientInput_MemberId)(nil),
-		(*CreateRecipientInput_GroupId)(nil),
-		(*CreateRecipientInput_Everybody)(nil),
+	file_eolymp_newsletter_campaign_service_proto_msgTypes[28].OneofWrappers = []any{
+		(*ImportRecipientInput_AllMembers)(nil),
+		(*ImportRecipientInput_GroupId)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -2642,7 +2735,7 @@ func file_eolymp_newsletter_campaign_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_newsletter_campaign_service_proto_rawDesc), len(file_eolymp_newsletter_campaign_service_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   37,
+			NumMessages:   39,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

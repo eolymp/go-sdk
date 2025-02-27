@@ -317,6 +317,22 @@ func (s *CampaignServiceService) CreateRecipient(ctx context.Context, in *Create
 	return out, nil
 }
 
+func (s *CampaignServiceService) ImportRecipient(ctx context.Context, in *ImportRecipientInput) (*ImportRecipientOutput, error) {
+	out := &ImportRecipientOutput{}
+	path := "/campaigns/" + url.PathEscape(in.GetCampaignId()) + "/recipients:import"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.CampaignId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *CampaignServiceService) DeleteRecipient(ctx context.Context, in *DeleteRecipientInput) (*DeleteRecipientOutput, error) {
 	out := &DeleteRecipientOutput{}
 	path := "/campaigns/" + url.PathEscape(in.GetCampaignId()) + "/recipients/" + url.PathEscape(in.GetRecipientId())

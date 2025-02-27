@@ -167,6 +167,9 @@ func RegisterCampaignServiceHttpHandlers(router *mux.Router, prefix string, cli 
 	router.Handle(prefix+"/campaigns/{campaign_id}/recipients", _CampaignService_CreateRecipient_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.newsletter.CampaignService.CreateRecipient")
+	router.Handle(prefix+"/campaigns/{campaign_id}/recipients:import", _CampaignService_ImportRecipient_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.newsletter.CampaignService.ImportRecipient")
 	router.Handle(prefix+"/campaigns/{campaign_id}/recipients/{recipient_id}", _CampaignService_DeleteRecipient_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.newsletter.CampaignService.DeleteRecipient")
@@ -521,6 +524,31 @@ func _CampaignService_CreateRecipient_Rule0(cli CampaignServiceClient) http.Hand
 		var header, trailer metadata.MD
 
 		out, err := cli.CreateRecipient(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_CampaignService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_CampaignService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _CampaignService_ImportRecipient_Rule0(cli CampaignServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ImportRecipientInput{}
+
+		if err := _CampaignService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_CampaignService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.CampaignId = vars["campaign_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.ImportRecipient(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_CampaignService_HTTPWriteErrorResponse(w, err)
 			return
