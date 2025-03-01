@@ -110,14 +110,3 @@ func (s *RenderServiceService) RenderContent(ctx context.Context, in *RenderCont
 
 	return out, nil
 }
-
-func (s *RenderServiceService) ExportContent(ctx context.Context, in *ExportContentInput) (*ExportContentOutput, error) {
-	out := &ExportContentOutput{}
-	path := "/content:export"
-
-	if err := s.do(ctx, "POST", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}

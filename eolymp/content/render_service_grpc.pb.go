@@ -20,7 +20,6 @@ const _ = grpc.SupportPackageIsVersion9
 
 const (
 	RenderService_RenderContent_FullMethodName = "/eolymp.content.RenderService/RenderContent"
-	RenderService_ExportContent_FullMethodName = "/eolymp.content.RenderService/ExportContent"
 )
 
 // RenderServiceClient is the client API for RenderService service.
@@ -28,7 +27,6 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type RenderServiceClient interface {
 	RenderContent(ctx context.Context, in *RenderContentInput, opts ...grpc.CallOption) (*RenderContentOutput, error)
-	ExportContent(ctx context.Context, in *ExportContentInput, opts ...grpc.CallOption) (*ExportContentOutput, error)
 }
 
 type renderServiceClient struct {
@@ -49,22 +47,11 @@ func (c *renderServiceClient) RenderContent(ctx context.Context, in *RenderConte
 	return out, nil
 }
 
-func (c *renderServiceClient) ExportContent(ctx context.Context, in *ExportContentInput, opts ...grpc.CallOption) (*ExportContentOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ExportContentOutput)
-	err := c.cc.Invoke(ctx, RenderService_ExportContent_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // RenderServiceServer is the server API for RenderService service.
 // All implementations should embed UnimplementedRenderServiceServer
 // for forward compatibility.
 type RenderServiceServer interface {
 	RenderContent(context.Context, *RenderContentInput) (*RenderContentOutput, error)
-	ExportContent(context.Context, *ExportContentInput) (*ExportContentOutput, error)
 }
 
 // UnimplementedRenderServiceServer should be embedded to have
@@ -76,9 +63,6 @@ type UnimplementedRenderServiceServer struct{}
 
 func (UnimplementedRenderServiceServer) RenderContent(context.Context, *RenderContentInput) (*RenderContentOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RenderContent not implemented")
-}
-func (UnimplementedRenderServiceServer) ExportContent(context.Context, *ExportContentInput) (*ExportContentOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ExportContent not implemented")
 }
 func (UnimplementedRenderServiceServer) testEmbeddedByValue() {}
 
@@ -118,24 +102,6 @@ func _RenderService_RenderContent_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
-func _RenderService_ExportContent_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ExportContentInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(RenderServiceServer).ExportContent(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: RenderService_ExportContent_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RenderServiceServer).ExportContent(ctx, req.(*ExportContentInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // RenderService_ServiceDesc is the grpc.ServiceDesc for RenderService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -146,10 +112,6 @@ var RenderService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RenderContent",
 			Handler:    _RenderService_RenderContent_Handler,
-		},
-		{
-			MethodName: "ExportContent",
-			Handler:    _RenderService_ExportContent_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
