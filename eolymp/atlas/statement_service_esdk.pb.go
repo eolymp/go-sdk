@@ -202,3 +202,19 @@ func (s *StatementServiceService) TranslateStatements(ctx context.Context, in *T
 
 	return out, nil
 }
+
+func (s *StatementServiceService) ExportStatement(ctx context.Context, in *ExportStatementInput) (*ExportStatementOutput, error) {
+	out := &ExportStatementOutput{}
+	path := "/statements/" + url.PathEscape(in.GetStatementId()) + "/export"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.StatementId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
