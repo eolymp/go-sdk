@@ -158,6 +158,9 @@ func RegisterMemberServiceHttpHandlers(router *mux.Router, prefix string, cli Me
 	router.Handle(prefix+"/usage/members", _MemberService_DescribeMemberUsage_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.community.MemberService.DescribeMemberUsage")
+	router.Handle(prefix+"/usage/notifications", _MemberService_DescribeNotificationUsage_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.community.MemberService.DescribeNotificationUsage")
 }
 
 // RegisterMemberServiceHttpProxy adds proxy handlers for for MemberServiceClient
@@ -424,6 +427,28 @@ func _MemberService_DescribeMemberUsage_Rule0(cli MemberServiceClient) http.Hand
 		var header, trailer metadata.MD
 
 		out, err := cli.DescribeMemberUsage(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_MemberService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_MemberService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _MemberService_DescribeNotificationUsage_Rule0(cli MemberServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeNotificationUsageInput{}
+
+		if err := _MemberService_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_MemberService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeNotificationUsage(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_MemberService_HTTPWriteErrorResponse(w, err)
 			return

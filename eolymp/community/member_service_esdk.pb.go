@@ -262,3 +262,14 @@ func (s *MemberServiceService) DescribeMemberUsage(ctx context.Context, in *Desc
 
 	return out, nil
 }
+
+func (s *MemberServiceService) DescribeNotificationUsage(ctx context.Context, in *DescribeNotificationUsageInput) (*DescribeNotificationUsageOutput, error) {
+	out := &DescribeNotificationUsageOutput{}
+	path := "/usage/notifications"
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

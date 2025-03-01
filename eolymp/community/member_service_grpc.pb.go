@@ -19,17 +19,18 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	MemberService_CreateMember_FullMethodName        = "/eolymp.community.MemberService/CreateMember"
-	MemberService_UpdateMember_FullMethodName        = "/eolymp.community.MemberService/UpdateMember"
-	MemberService_UpdateMemberPicture_FullMethodName = "/eolymp.community.MemberService/UpdateMemberPicture"
-	MemberService_DeleteMember_FullMethodName        = "/eolymp.community.MemberService/DeleteMember"
-	MemberService_RestoreMember_FullMethodName       = "/eolymp.community.MemberService/RestoreMember"
-	MemberService_DescribeMember_FullMethodName      = "/eolymp.community.MemberService/DescribeMember"
-	MemberService_ListMembers_FullMethodName         = "/eolymp.community.MemberService/ListMembers"
-	MemberService_AssignMember_FullMethodName        = "/eolymp.community.MemberService/AssignMember"
-	MemberService_UnassignMember_FullMethodName      = "/eolymp.community.MemberService/UnassignMember"
-	MemberService_NotifyMember_FullMethodName        = "/eolymp.community.MemberService/NotifyMember"
-	MemberService_DescribeMemberUsage_FullMethodName = "/eolymp.community.MemberService/DescribeMemberUsage"
+	MemberService_CreateMember_FullMethodName              = "/eolymp.community.MemberService/CreateMember"
+	MemberService_UpdateMember_FullMethodName              = "/eolymp.community.MemberService/UpdateMember"
+	MemberService_UpdateMemberPicture_FullMethodName       = "/eolymp.community.MemberService/UpdateMemberPicture"
+	MemberService_DeleteMember_FullMethodName              = "/eolymp.community.MemberService/DeleteMember"
+	MemberService_RestoreMember_FullMethodName             = "/eolymp.community.MemberService/RestoreMember"
+	MemberService_DescribeMember_FullMethodName            = "/eolymp.community.MemberService/DescribeMember"
+	MemberService_ListMembers_FullMethodName               = "/eolymp.community.MemberService/ListMembers"
+	MemberService_AssignMember_FullMethodName              = "/eolymp.community.MemberService/AssignMember"
+	MemberService_UnassignMember_FullMethodName            = "/eolymp.community.MemberService/UnassignMember"
+	MemberService_NotifyMember_FullMethodName              = "/eolymp.community.MemberService/NotifyMember"
+	MemberService_DescribeMemberUsage_FullMethodName       = "/eolymp.community.MemberService/DescribeMemberUsage"
+	MemberService_DescribeNotificationUsage_FullMethodName = "/eolymp.community.MemberService/DescribeNotificationUsage"
 )
 
 // MemberServiceClient is the client API for MemberService service.
@@ -49,6 +50,7 @@ type MemberServiceClient interface {
 	UnassignMember(ctx context.Context, in *UnassignMemberInput, opts ...grpc.CallOption) (*UnassignMemberOutput, error)
 	NotifyMember(ctx context.Context, in *NotifyMemberInput, opts ...grpc.CallOption) (*NotifyMemberOutput, error)
 	DescribeMemberUsage(ctx context.Context, in *DescribeMemberUsageInput, opts ...grpc.CallOption) (*DescribeMemberUsageOutput, error)
+	DescribeNotificationUsage(ctx context.Context, in *DescribeNotificationUsageInput, opts ...grpc.CallOption) (*DescribeNotificationUsageOutput, error)
 }
 
 type memberServiceClient struct {
@@ -169,6 +171,16 @@ func (c *memberServiceClient) DescribeMemberUsage(ctx context.Context, in *Descr
 	return out, nil
 }
 
+func (c *memberServiceClient) DescribeNotificationUsage(ctx context.Context, in *DescribeNotificationUsageInput, opts ...grpc.CallOption) (*DescribeNotificationUsageOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DescribeNotificationUsageOutput)
+	err := c.cc.Invoke(ctx, MemberService_DescribeNotificationUsage_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MemberServiceServer is the server API for MemberService service.
 // All implementations should embed UnimplementedMemberServiceServer
 // for forward compatibility.
@@ -186,6 +198,7 @@ type MemberServiceServer interface {
 	UnassignMember(context.Context, *UnassignMemberInput) (*UnassignMemberOutput, error)
 	NotifyMember(context.Context, *NotifyMemberInput) (*NotifyMemberOutput, error)
 	DescribeMemberUsage(context.Context, *DescribeMemberUsageInput) (*DescribeMemberUsageOutput, error)
+	DescribeNotificationUsage(context.Context, *DescribeNotificationUsageInput) (*DescribeNotificationUsageOutput, error)
 }
 
 // UnimplementedMemberServiceServer should be embedded to have
@@ -227,6 +240,9 @@ func (UnimplementedMemberServiceServer) NotifyMember(context.Context, *NotifyMem
 }
 func (UnimplementedMemberServiceServer) DescribeMemberUsage(context.Context, *DescribeMemberUsageInput) (*DescribeMemberUsageOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeMemberUsage not implemented")
+}
+func (UnimplementedMemberServiceServer) DescribeNotificationUsage(context.Context, *DescribeNotificationUsageInput) (*DescribeNotificationUsageOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeNotificationUsage not implemented")
 }
 func (UnimplementedMemberServiceServer) testEmbeddedByValue() {}
 
@@ -446,6 +462,24 @@ func _MemberService_DescribeMemberUsage_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _MemberService_DescribeNotificationUsage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeNotificationUsageInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MemberServiceServer).DescribeNotificationUsage(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MemberService_DescribeNotificationUsage_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MemberServiceServer).DescribeNotificationUsage(ctx, req.(*DescribeNotificationUsageInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // MemberService_ServiceDesc is the grpc.ServiceDesc for MemberService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -496,6 +530,10 @@ var MemberService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DescribeMemberUsage",
 			Handler:    _MemberService_DescribeMemberUsage_Handler,
+		},
+		{
+			MethodName: "DescribeNotificationUsage",
+			Handler:    _MemberService_DescribeNotificationUsage_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
