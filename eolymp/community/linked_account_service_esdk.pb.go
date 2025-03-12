@@ -100,6 +100,33 @@ func (s *LinkedAccountServiceService) do(ctx context.Context, verb, path string,
 	return nil
 }
 
+func (s *LinkedAccountServiceService) RequestLinkedAccount(ctx context.Context, in *RequestLinkedAccountInput) (*RequestLinkedAccountOutput, error) {
+	out := &RequestLinkedAccountOutput{}
+	path := "/linked-accounts"
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *LinkedAccountServiceService) DeleteLinkedAccount(ctx context.Context, in *DeleteLinkedAccountInput) (*DeleteLinkedAccountOutput, error) {
+	out := &DeleteLinkedAccountOutput{}
+	path := "/linked-accounts/" + url.PathEscape(in.GetLinkId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.LinkId = ""
+	}
+
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *LinkedAccountServiceService) DescribeLinkedAccount(ctx context.Context, in *DescribeLinkedAccountInput) (*DescribeLinkedAccountOutput, error) {
 	out := &DescribeLinkedAccountOutput{}
 	path := "/linked-accounts/" + url.PathEscape(in.GetLinkId())
@@ -121,22 +148,6 @@ func (s *LinkedAccountServiceService) ListLinkedAccounts(ctx context.Context, in
 	path := "/linked-accounts"
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *LinkedAccountServiceService) DeleteLinkedAccount(ctx context.Context, in *DeleteLinkedAccountInput) (*DeleteLinkedAccountOutput, error) {
-	out := &DeleteLinkedAccountOutput{}
-	path := "/linked-accounts/" + url.PathEscape(in.GetLinkId())
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.LinkId = ""
-	}
-
-	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
 		return nil, err
 	}
 

@@ -125,20 +125,70 @@ func _LinkedAccountService_HTTPWriteErrorResponse(w http.ResponseWriter, e error
 
 // RegisterLinkedAccountServiceHttpHandlers adds handlers for for LinkedAccountServiceClient
 func RegisterLinkedAccountServiceHttpHandlers(router *mux.Router, prefix string, cli LinkedAccountServiceClient) {
+	router.Handle(prefix+"/linked-accounts", _LinkedAccountService_RequestLinkedAccount_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.community.LinkedAccountService.RequestLinkedAccount")
+	router.Handle(prefix+"/linked-accounts/{link_id}", _LinkedAccountService_DeleteLinkedAccount_Rule0(cli)).
+		Methods("DELETE").
+		Name("eolymp.community.LinkedAccountService.DeleteLinkedAccount")
 	router.Handle(prefix+"/linked-accounts/{link_id}", _LinkedAccountService_DescribeLinkedAccount_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.community.LinkedAccountService.DescribeLinkedAccount")
 	router.Handle(prefix+"/linked-accounts", _LinkedAccountService_ListLinkedAccounts_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.community.LinkedAccountService.ListLinkedAccounts")
-	router.Handle(prefix+"/linked-accounts/{link_id}", _LinkedAccountService_DeleteLinkedAccount_Rule0(cli)).
-		Methods("DELETE").
-		Name("eolymp.community.LinkedAccountService.DeleteLinkedAccount")
 }
 
 // RegisterLinkedAccountServiceHttpProxy adds proxy handlers for for LinkedAccountServiceClient
 func RegisterLinkedAccountServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
 	RegisterLinkedAccountServiceHttpHandlers(router, prefix, NewLinkedAccountServiceClient(conn))
+}
+
+func _LinkedAccountService_RequestLinkedAccount_Rule0(cli LinkedAccountServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &RequestLinkedAccountInput{}
+
+		if err := _LinkedAccountService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_LinkedAccountService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.RequestLinkedAccount(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_LinkedAccountService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_LinkedAccountService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _LinkedAccountService_DeleteLinkedAccount_Rule0(cli LinkedAccountServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DeleteLinkedAccountInput{}
+
+		if err := _LinkedAccountService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_LinkedAccountService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.LinkId = vars["link_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.DeleteLinkedAccount(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_LinkedAccountService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_LinkedAccountService_HTTPWriteResponse(w, out, header, trailer)
+	})
 }
 
 func _LinkedAccountService_DescribeLinkedAccount_Rule0(cli LinkedAccountServiceClient) http.Handler {
@@ -179,31 +229,6 @@ func _LinkedAccountService_ListLinkedAccounts_Rule0(cli LinkedAccountServiceClie
 		var header, trailer metadata.MD
 
 		out, err := cli.ListLinkedAccounts(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
-		if err != nil {
-			_LinkedAccountService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_LinkedAccountService_HTTPWriteResponse(w, out, header, trailer)
-	})
-}
-
-func _LinkedAccountService_DeleteLinkedAccount_Rule0(cli LinkedAccountServiceClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DeleteLinkedAccountInput{}
-
-		if err := _LinkedAccountService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_LinkedAccountService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.LinkId = vars["link_id"]
-
-		var header, trailer metadata.MD
-
-		out, err := cli.DeleteLinkedAccount(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_LinkedAccountService_HTTPWriteErrorResponse(w, err)
 			return
