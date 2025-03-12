@@ -20,6 +20,7 @@ const _ = grpc.SupportPackageIsVersion9
 
 const (
 	LinkedAccountService_RequestLinkedAccount_FullMethodName  = "/eolymp.community.LinkedAccountService/RequestLinkedAccount"
+	LinkedAccountService_CreateLinkedAccount_FullMethodName   = "/eolymp.community.LinkedAccountService/CreateLinkedAccount"
 	LinkedAccountService_DeleteLinkedAccount_FullMethodName   = "/eolymp.community.LinkedAccountService/DeleteLinkedAccount"
 	LinkedAccountService_DescribeLinkedAccount_FullMethodName = "/eolymp.community.LinkedAccountService/DescribeLinkedAccount"
 	LinkedAccountService_ListLinkedAccounts_FullMethodName    = "/eolymp.community.LinkedAccountService/ListLinkedAccounts"
@@ -32,6 +33,7 @@ const (
 // LinkedAccountService provides API to manage linked accounts.
 type LinkedAccountServiceClient interface {
 	RequestLinkedAccount(ctx context.Context, in *RequestLinkedAccountInput, opts ...grpc.CallOption) (*RequestLinkedAccountOutput, error)
+	CreateLinkedAccount(ctx context.Context, in *CreateLinkedAccountInput, opts ...grpc.CallOption) (*CreateLinkedAccountOutput, error)
 	DeleteLinkedAccount(ctx context.Context, in *DeleteLinkedAccountInput, opts ...grpc.CallOption) (*DeleteLinkedAccountOutput, error)
 	DescribeLinkedAccount(ctx context.Context, in *DescribeLinkedAccountInput, opts ...grpc.CallOption) (*DescribeLinkedAccountOutput, error)
 	ListLinkedAccounts(ctx context.Context, in *ListLinkedAccountsInput, opts ...grpc.CallOption) (*ListLinkedAccountsOutput, error)
@@ -49,6 +51,16 @@ func (c *linkedAccountServiceClient) RequestLinkedAccount(ctx context.Context, i
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(RequestLinkedAccountOutput)
 	err := c.cc.Invoke(ctx, LinkedAccountService_RequestLinkedAccount_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *linkedAccountServiceClient) CreateLinkedAccount(ctx context.Context, in *CreateLinkedAccountInput, opts ...grpc.CallOption) (*CreateLinkedAccountOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateLinkedAccountOutput)
+	err := c.cc.Invoke(ctx, LinkedAccountService_CreateLinkedAccount_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -92,6 +104,7 @@ func (c *linkedAccountServiceClient) ListLinkedAccounts(ctx context.Context, in 
 // LinkedAccountService provides API to manage linked accounts.
 type LinkedAccountServiceServer interface {
 	RequestLinkedAccount(context.Context, *RequestLinkedAccountInput) (*RequestLinkedAccountOutput, error)
+	CreateLinkedAccount(context.Context, *CreateLinkedAccountInput) (*CreateLinkedAccountOutput, error)
 	DeleteLinkedAccount(context.Context, *DeleteLinkedAccountInput) (*DeleteLinkedAccountOutput, error)
 	DescribeLinkedAccount(context.Context, *DescribeLinkedAccountInput) (*DescribeLinkedAccountOutput, error)
 	ListLinkedAccounts(context.Context, *ListLinkedAccountsInput) (*ListLinkedAccountsOutput, error)
@@ -106,6 +119,9 @@ type UnimplementedLinkedAccountServiceServer struct{}
 
 func (UnimplementedLinkedAccountServiceServer) RequestLinkedAccount(context.Context, *RequestLinkedAccountInput) (*RequestLinkedAccountOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RequestLinkedAccount not implemented")
+}
+func (UnimplementedLinkedAccountServiceServer) CreateLinkedAccount(context.Context, *CreateLinkedAccountInput) (*CreateLinkedAccountOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateLinkedAccount not implemented")
 }
 func (UnimplementedLinkedAccountServiceServer) DeleteLinkedAccount(context.Context, *DeleteLinkedAccountInput) (*DeleteLinkedAccountOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteLinkedAccount not implemented")
@@ -150,6 +166,24 @@ func _LinkedAccountService_RequestLinkedAccount_Handler(srv interface{}, ctx con
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(LinkedAccountServiceServer).RequestLinkedAccount(ctx, req.(*RequestLinkedAccountInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _LinkedAccountService_CreateLinkedAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateLinkedAccountInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LinkedAccountServiceServer).CreateLinkedAccount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: LinkedAccountService_CreateLinkedAccount_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LinkedAccountServiceServer).CreateLinkedAccount(ctx, req.(*CreateLinkedAccountInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -218,6 +252,10 @@ var LinkedAccountService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RequestLinkedAccount",
 			Handler:    _LinkedAccountService_RequestLinkedAccount_Handler,
+		},
+		{
+			MethodName: "CreateLinkedAccount",
+			Handler:    _LinkedAccountService_CreateLinkedAccount_Handler,
 		},
 		{
 			MethodName: "DeleteLinkedAccount",

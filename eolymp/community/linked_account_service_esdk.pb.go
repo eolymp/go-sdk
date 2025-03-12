@@ -102,6 +102,17 @@ func (s *LinkedAccountServiceService) do(ctx context.Context, verb, path string,
 
 func (s *LinkedAccountServiceService) RequestLinkedAccount(ctx context.Context, in *RequestLinkedAccountInput) (*RequestLinkedAccountOutput, error) {
 	out := &RequestLinkedAccountOutput{}
+	path := "/linked-accounts:request"
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *LinkedAccountServiceService) CreateLinkedAccount(ctx context.Context, in *CreateLinkedAccountInput) (*CreateLinkedAccountOutput, error) {
+	out := &CreateLinkedAccountOutput{}
 	path := "/linked-accounts"
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
