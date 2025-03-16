@@ -125,12 +125,12 @@ func _SSOService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 
 // RegisterSSOServiceHttpHandlers adds handlers for for SSOServiceClient
 func RegisterSSOServiceHttpHandlers(router *mux.Router, prefix string, cli SSOServiceClient) {
-	router.Handle(prefix+"/sso:authorize", _SSOService_AuthorizeRequest_Rule0(cli)).
+	router.Handle(prefix+"/sso:request", _SSOService_SignonRequest_Rule0(cli)).
 		Methods("POST").
-		Name("eolymp.auth.SSOService.AuthorizeRequest")
-	router.Handle(prefix+"/sso:exchange", _SSOService_AuthorizeCallback_Rule0(cli)).
+		Name("eolymp.auth.SSOService.SignonRequest")
+	router.Handle(prefix+"/sso:exchange", _SSOService_SignonExchange_Rule0(cli)).
 		Methods("POST").
-		Name("eolymp.auth.SSOService.AuthorizeCallback")
+		Name("eolymp.auth.SSOService.SignonExchange")
 }
 
 // RegisterSSOServiceHttpProxy adds proxy handlers for for SSOServiceClient
@@ -138,9 +138,9 @@ func RegisterSSOServiceHttpProxy(router *mux.Router, prefix string, conn grpc.Cl
 	RegisterSSOServiceHttpHandlers(router, prefix, NewSSOServiceClient(conn))
 }
 
-func _SSOService_AuthorizeRequest_Rule0(cli SSOServiceClient) http.Handler {
+func _SSOService_SignonRequest_Rule0(cli SSOServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &AuthorizeRequestInput{}
+		in := &SignonRequestInput{}
 
 		if err := _SSOService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
@@ -150,7 +150,7 @@ func _SSOService_AuthorizeRequest_Rule0(cli SSOServiceClient) http.Handler {
 
 		var header, trailer metadata.MD
 
-		out, err := cli.AuthorizeRequest(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		out, err := cli.SignonRequest(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_SSOService_HTTPWriteErrorResponse(w, err)
 			return
@@ -160,9 +160,9 @@ func _SSOService_AuthorizeRequest_Rule0(cli SSOServiceClient) http.Handler {
 	})
 }
 
-func _SSOService_AuthorizeCallback_Rule0(cli SSOServiceClient) http.Handler {
+func _SSOService_SignonExchange_Rule0(cli SSOServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &AuthorizeCallbackInput{}
+		in := &SignonExchangeInput{}
 
 		if err := _SSOService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
@@ -172,7 +172,7 @@ func _SSOService_AuthorizeCallback_Rule0(cli SSOServiceClient) http.Handler {
 
 		var header, trailer metadata.MD
 
-		out, err := cli.AuthorizeCallback(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		out, err := cli.SignonExchange(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_SSOService_HTTPWriteErrorResponse(w, err)
 			return

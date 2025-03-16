@@ -2,9 +2,9 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             v4.24.4
-// source: eolymp/community/linked_account_service.proto
+// source: eolymp/auth/linked_account_service.proto
 
-package community
+package auth
 
 import (
 	context "context"
@@ -19,11 +19,11 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	LinkedAccountService_RequestLinkedAccount_FullMethodName  = "/eolymp.community.LinkedAccountService/RequestLinkedAccount"
-	LinkedAccountService_CreateLinkedAccount_FullMethodName   = "/eolymp.community.LinkedAccountService/CreateLinkedAccount"
-	LinkedAccountService_DeleteLinkedAccount_FullMethodName   = "/eolymp.community.LinkedAccountService/DeleteLinkedAccount"
-	LinkedAccountService_DescribeLinkedAccount_FullMethodName = "/eolymp.community.LinkedAccountService/DescribeLinkedAccount"
-	LinkedAccountService_ListLinkedAccounts_FullMethodName    = "/eolymp.community.LinkedAccountService/ListLinkedAccounts"
+	LinkedAccountService_RequestLinkedAccount_FullMethodName  = "/eolymp.auth.LinkedAccountService/RequestLinkedAccount"
+	LinkedAccountService_CreateLinkedAccount_FullMethodName   = "/eolymp.auth.LinkedAccountService/CreateLinkedAccount"
+	LinkedAccountService_DeleteLinkedAccount_FullMethodName   = "/eolymp.auth.LinkedAccountService/DeleteLinkedAccount"
+	LinkedAccountService_DescribeLinkedAccount_FullMethodName = "/eolymp.auth.LinkedAccountService/DescribeLinkedAccount"
+	LinkedAccountService_ListLinkedAccounts_FullMethodName    = "/eolymp.auth.LinkedAccountService/ListLinkedAccounts"
 )
 
 // LinkedAccountServiceClient is the client API for LinkedAccountService service.
@@ -246,7 +246,7 @@ func _LinkedAccountService_ListLinkedAccounts_Handler(srv interface{}, ctx conte
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var LinkedAccountService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "eolymp.community.LinkedAccountService",
+	ServiceName: "eolymp.auth.LinkedAccountService",
 	HandlerType: (*LinkedAccountServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -271,5 +271,5 @@ var LinkedAccountService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "eolymp/community/linked_account_service.proto",
+	Metadata: "eolymp/auth/linked_account_service.proto",
 }

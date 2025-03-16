@@ -100,9 +100,9 @@ func (s *SSOServiceService) do(ctx context.Context, verb, path string, in, out p
 	return nil
 }
 
-func (s *SSOServiceService) AuthorizeRequest(ctx context.Context, in *AuthorizeRequestInput) (*AuthorizeRequestOutput, error) {
-	out := &AuthorizeRequestOutput{}
-	path := "/sso:authorize"
+func (s *SSOServiceService) SignonRequest(ctx context.Context, in *SignonRequestInput) (*SignonRequestOutput, error) {
+	out := &SignonRequestOutput{}
+	path := "/sso:request"
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
@@ -111,8 +111,8 @@ func (s *SSOServiceService) AuthorizeRequest(ctx context.Context, in *AuthorizeR
 	return out, nil
 }
 
-func (s *SSOServiceService) AuthorizeCallback(ctx context.Context, in *AuthorizeCallbackInput) (*AuthorizeCallbackOutput, error) {
-	out := &AuthorizeCallbackOutput{}
+func (s *SSOServiceService) SignonExchange(ctx context.Context, in *SignonExchangeInput) (*SignonExchangeOutput, error) {
+	out := &SignonExchangeOutput{}
 	path := "/sso:exchange"
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {

@@ -19,16 +19,16 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	SSOService_AuthorizeRequest_FullMethodName  = "/eolymp.auth.SSOService/AuthorizeRequest"
-	SSOService_AuthorizeCallback_FullMethodName = "/eolymp.auth.SSOService/AuthorizeCallback"
+	SSOService_SignonRequest_FullMethodName  = "/eolymp.auth.SSOService/SignonRequest"
+	SSOService_SignonExchange_FullMethodName = "/eolymp.auth.SSOService/SignonExchange"
 )
 
 // SSOServiceClient is the client API for SSOService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type SSOServiceClient interface {
-	AuthorizeRequest(ctx context.Context, in *AuthorizeRequestInput, opts ...grpc.CallOption) (*AuthorizeRequestOutput, error)
-	AuthorizeCallback(ctx context.Context, in *AuthorizeCallbackInput, opts ...grpc.CallOption) (*AuthorizeCallbackOutput, error)
+	SignonRequest(ctx context.Context, in *SignonRequestInput, opts ...grpc.CallOption) (*SignonRequestOutput, error)
+	SignonExchange(ctx context.Context, in *SignonExchangeInput, opts ...grpc.CallOption) (*SignonExchangeOutput, error)
 }
 
 type sSOServiceClient struct {
@@ -39,20 +39,20 @@ func NewSSOServiceClient(cc grpc.ClientConnInterface) SSOServiceClient {
 	return &sSOServiceClient{cc}
 }
 
-func (c *sSOServiceClient) AuthorizeRequest(ctx context.Context, in *AuthorizeRequestInput, opts ...grpc.CallOption) (*AuthorizeRequestOutput, error) {
+func (c *sSOServiceClient) SignonRequest(ctx context.Context, in *SignonRequestInput, opts ...grpc.CallOption) (*SignonRequestOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(AuthorizeRequestOutput)
-	err := c.cc.Invoke(ctx, SSOService_AuthorizeRequest_FullMethodName, in, out, cOpts...)
+	out := new(SignonRequestOutput)
+	err := c.cc.Invoke(ctx, SSOService_SignonRequest_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *sSOServiceClient) AuthorizeCallback(ctx context.Context, in *AuthorizeCallbackInput, opts ...grpc.CallOption) (*AuthorizeCallbackOutput, error) {
+func (c *sSOServiceClient) SignonExchange(ctx context.Context, in *SignonExchangeInput, opts ...grpc.CallOption) (*SignonExchangeOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(AuthorizeCallbackOutput)
-	err := c.cc.Invoke(ctx, SSOService_AuthorizeCallback_FullMethodName, in, out, cOpts...)
+	out := new(SignonExchangeOutput)
+	err := c.cc.Invoke(ctx, SSOService_SignonExchange_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -63,8 +63,8 @@ func (c *sSOServiceClient) AuthorizeCallback(ctx context.Context, in *AuthorizeC
 // All implementations should embed UnimplementedSSOServiceServer
 // for forward compatibility.
 type SSOServiceServer interface {
-	AuthorizeRequest(context.Context, *AuthorizeRequestInput) (*AuthorizeRequestOutput, error)
-	AuthorizeCallback(context.Context, *AuthorizeCallbackInput) (*AuthorizeCallbackOutput, error)
+	SignonRequest(context.Context, *SignonRequestInput) (*SignonRequestOutput, error)
+	SignonExchange(context.Context, *SignonExchangeInput) (*SignonExchangeOutput, error)
 }
 
 // UnimplementedSSOServiceServer should be embedded to have
@@ -74,11 +74,11 @@ type SSOServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedSSOServiceServer struct{}
 
-func (UnimplementedSSOServiceServer) AuthorizeRequest(context.Context, *AuthorizeRequestInput) (*AuthorizeRequestOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AuthorizeRequest not implemented")
+func (UnimplementedSSOServiceServer) SignonRequest(context.Context, *SignonRequestInput) (*SignonRequestOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SignonRequest not implemented")
 }
-func (UnimplementedSSOServiceServer) AuthorizeCallback(context.Context, *AuthorizeCallbackInput) (*AuthorizeCallbackOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AuthorizeCallback not implemented")
+func (UnimplementedSSOServiceServer) SignonExchange(context.Context, *SignonExchangeInput) (*SignonExchangeOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SignonExchange not implemented")
 }
 func (UnimplementedSSOServiceServer) testEmbeddedByValue() {}
 
@@ -100,38 +100,38 @@ func RegisterSSOServiceServer(s grpc.ServiceRegistrar, srv SSOServiceServer) {
 	s.RegisterService(&SSOService_ServiceDesc, srv)
 }
 
-func _SSOService_AuthorizeRequest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AuthorizeRequestInput)
+func _SSOService_SignonRequest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SignonRequestInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(SSOServiceServer).AuthorizeRequest(ctx, in)
+		return srv.(SSOServiceServer).SignonRequest(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: SSOService_AuthorizeRequest_FullMethodName,
+		FullMethod: SSOService_SignonRequest_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SSOServiceServer).AuthorizeRequest(ctx, req.(*AuthorizeRequestInput))
+		return srv.(SSOServiceServer).SignonRequest(ctx, req.(*SignonRequestInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _SSOService_AuthorizeCallback_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AuthorizeCallbackInput)
+func _SSOService_SignonExchange_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SignonExchangeInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(SSOServiceServer).AuthorizeCallback(ctx, in)
+		return srv.(SSOServiceServer).SignonExchange(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: SSOService_AuthorizeCallback_FullMethodName,
+		FullMethod: SSOService_SignonExchange_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SSOServiceServer).AuthorizeCallback(ctx, req.(*AuthorizeCallbackInput))
+		return srv.(SSOServiceServer).SignonExchange(ctx, req.(*SignonExchangeInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -144,12 +144,12 @@ var SSOService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*SSOServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "AuthorizeRequest",
-			Handler:    _SSOService_AuthorizeRequest_Handler,
+			MethodName: "SignonRequest",
+			Handler:    _SSOService_SignonRequest_Handler,
 		},
 		{
-			MethodName: "AuthorizeCallback",
-			Handler:    _SSOService_AuthorizeCallback_Handler,
+			MethodName: "SignonExchange",
+			Handler:    _SSOService_SignonExchange_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
