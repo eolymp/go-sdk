@@ -22,76 +22,26 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type User_RankTrend int32
-
-const (
-	User_NONE User_RankTrend = 0
-	User_UP   User_RankTrend = 1
-	User_DOWN User_RankTrend = 2
-)
-
-// Enum value maps for User_RankTrend.
-var (
-	User_RankTrend_name = map[int32]string{
-		0: "NONE",
-		1: "UP",
-		2: "DOWN",
-	}
-	User_RankTrend_value = map[string]int32{
-		"NONE": 0,
-		"UP":   1,
-		"DOWN": 2,
-	}
-)
-
-func (x User_RankTrend) Enum() *User_RankTrend {
-	p := new(User_RankTrend)
-	*p = x
-	return p
-}
-
-func (x User_RankTrend) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (User_RankTrend) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_cognito_user_proto_enumTypes[0].Descriptor()
-}
-
-func (User_RankTrend) Type() protoreflect.EnumType {
-	return &file_eolymp_cognito_user_proto_enumTypes[0]
-}
-
-func (x User_RankTrend) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use User_RankTrend.Descriptor instead.
-func (User_RankTrend) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_cognito_user_proto_rawDescGZIP(), []int{0, 0}
-}
-
 type User struct {
 	state             protoimpl.MessageState `protogen:"open.v1"`
-	Id                string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`                                                                     // Unique identifier
-	Username          string                 `protobuf:"bytes,2,opt,name=username,proto3" json:"username,omitempty"`                                                         // Username (handler)
-	Email             string                 `protobuf:"bytes,3,opt,name=email,proto3" json:"email,omitempty"`                                                               // Email address
-	Active            bool                   `protobuf:"varint,4,opt,name=active,proto3" json:"active,omitempty"`                                                            // Account is active, user can login
-	Rank              uint32                 `protobuf:"varint,41,opt,name=rank,proto3" json:"rank,omitempty"`                                                               // Rank
-	RankTrend         User_RankTrend         `protobuf:"varint,42,opt,name=rank_trend,json=rankTrend,proto3,enum=eolymp.cognito.User_RankTrend" json:"rank_trend,omitempty"` // Rank trend (up or down)
-	Name              string                 `protobuf:"bytes,10,opt,name=name,proto3" json:"name,omitempty"`                                                                // Full name
-	Picture           string                 `protobuf:"bytes,11,opt,name=picture,proto3" json:"picture,omitempty"`                                                          // Profile picture
-	Company           string                 `protobuf:"bytes,12,opt,name=company,proto3" json:"company,omitempty"`                                                          // Company
-	Occupation        string                 `protobuf:"bytes,13,opt,name=occupation,proto3" json:"occupation,omitempty"`                                                    // Occupation
-	Country           string                 `protobuf:"bytes,21,opt,name=country,proto3" json:"country,omitempty"`                                                          // Country code
-	City              string                 `protobuf:"bytes,22,opt,name=city,proto3" json:"city,omitempty"`                                                                // City
-	EmailStatus       string                 `protobuf:"bytes,32,opt,name=email_status,json=emailStatus,proto3" json:"email_status,omitempty"`                               // Email confirmation status
-	Birthday          string                 `protobuf:"bytes,33,opt,name=birthday,proto3" json:"birthday,omitempty"`                                                        // Birthday
-	RegisteredOn      *timestamppb.Timestamp `protobuf:"bytes,34,opt,name=registered_on,json=registeredOn,proto3" json:"registered_on,omitempty"`                            // Exact time when user registered
-	LastActivity      *timestamppb.Timestamp `protobuf:"bytes,35,opt,name=last_activity,json=lastActivity,proto3" json:"last_activity,omitempty"`                            // Exact time when user was last active
-	UsernameChangedOn *timestamppb.Timestamp `protobuf:"bytes,36,opt,name=username_changed_on,json=usernameChangedOn,proto3" json:"username_changed_on,omitempty"`           // Exact time when user has changed username last time
-	PasswordChangedOn *timestamppb.Timestamp `protobuf:"bytes,37,opt,name=password_changed_on,json=passwordChangedOn,proto3" json:"password_changed_on,omitempty"`           // Exact time when user has changed password last time
-	Locale            string                 `protobuf:"bytes,40,opt,name=locale,proto3" json:"locale,omitempty"`                                                            // Locale
+	Id                string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`                                                           // Unique identifier
+	Username          string                 `protobuf:"bytes,2,opt,name=username,proto3" json:"username,omitempty"`                                               // Username (handler)
+	Email             string                 `protobuf:"bytes,3,opt,name=email,proto3" json:"email,omitempty"`                                                     // Email address
+	Active            bool                   `protobuf:"varint,4,opt,name=active,proto3" json:"active,omitempty"`                                                  // Account is active, user can login
+	Rating            uint32                 `protobuf:"varint,60,opt,name=rating,proto3" json:"rating,omitempty"`                                                 // Rating
+	Name              string                 `protobuf:"bytes,10,opt,name=name,proto3" json:"name,omitempty"`                                                      // Full name
+	Picture           string                 `protobuf:"bytes,11,opt,name=picture,proto3" json:"picture,omitempty"`                                                // Profile picture
+	Company           string                 `protobuf:"bytes,12,opt,name=company,proto3" json:"company,omitempty"`                                                // Company
+	Occupation        string                 `protobuf:"bytes,13,opt,name=occupation,proto3" json:"occupation,omitempty"`                                          // Occupation
+	Country           string                 `protobuf:"bytes,21,opt,name=country,proto3" json:"country,omitempty"`                                                // Country code
+	City              string                 `protobuf:"bytes,22,opt,name=city,proto3" json:"city,omitempty"`                                                      // City
+	EmailStatus       string                 `protobuf:"bytes,32,opt,name=email_status,json=emailStatus,proto3" json:"email_status,omitempty"`                     // Email confirmation status
+	Birthday          string                 `protobuf:"bytes,33,opt,name=birthday,proto3" json:"birthday,omitempty"`                                              // Birthday
+	RegisteredOn      *timestamppb.Timestamp `protobuf:"bytes,34,opt,name=registered_on,json=registeredOn,proto3" json:"registered_on,omitempty"`                  // Exact time when user registered
+	LastActivity      *timestamppb.Timestamp `protobuf:"bytes,35,opt,name=last_activity,json=lastActivity,proto3" json:"last_activity,omitempty"`                  // Exact time when user was last active
+	UsernameChangedOn *timestamppb.Timestamp `protobuf:"bytes,36,opt,name=username_changed_on,json=usernameChangedOn,proto3" json:"username_changed_on,omitempty"` // Exact time when user has changed username last time
+	PasswordChangedOn *timestamppb.Timestamp `protobuf:"bytes,37,opt,name=password_changed_on,json=passwordChangedOn,proto3" json:"password_changed_on,omitempty"` // Exact time when user has changed password last time
+	Locale            string                 `protobuf:"bytes,40,opt,name=locale,proto3" json:"locale,omitempty"`                                                  // Locale
 	unknownFields     protoimpl.UnknownFields
 	sizeCache         protoimpl.SizeCache
 }
@@ -154,18 +104,11 @@ func (x *User) GetActive() bool {
 	return false
 }
 
-func (x *User) GetRank() uint32 {
+func (x *User) GetRating() uint32 {
 	if x != nil {
-		return x.Rank
+		return x.Rating
 	}
 	return 0
-}
-
-func (x *User) GetRankTrend() User_RankTrend {
-	if x != nil {
-		return x.RankTrend
-	}
-	return User_NONE
 }
 
 func (x *User) GetName() string {
@@ -263,15 +206,13 @@ var File_eolymp_cognito_user_proto protoreflect.FileDescriptor
 
 const file_eolymp_cognito_user_proto_rawDesc = "" +
 	"\n" +
-	"\x19eolymp/cognito/user.proto\x12\x0eeolymp.cognito\x1a\x1fgoogle/protobuf/timestamp.proto\"\xe3\x05\n" +
+	"\x19eolymp/cognito/user.proto\x12\x0eeolymp.cognito\x1a\x1fgoogle/protobuf/timestamp.proto\"\xff\x04\n" +
 	"\x04User\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1a\n" +
 	"\busername\x18\x02 \x01(\tR\busername\x12\x14\n" +
 	"\x05email\x18\x03 \x01(\tR\x05email\x12\x16\n" +
-	"\x06active\x18\x04 \x01(\bR\x06active\x12\x12\n" +
-	"\x04rank\x18) \x01(\rR\x04rank\x12=\n" +
-	"\n" +
-	"rank_trend\x18* \x01(\x0e2\x1e.eolymp.cognito.User.RankTrendR\trankTrend\x12\x12\n" +
+	"\x06active\x18\x04 \x01(\bR\x06active\x12\x16\n" +
+	"\x06rating\x18< \x01(\rR\x06rating\x12\x12\n" +
 	"\x04name\x18\n" +
 	" \x01(\tR\x04name\x12\x18\n" +
 	"\apicture\x18\v \x01(\tR\apicture\x12\x18\n" +
@@ -287,11 +228,7 @@ const file_eolymp_cognito_user_proto_rawDesc = "" +
 	"\rlast_activity\x18# \x01(\v2\x1a.google.protobuf.TimestampR\flastActivity\x12J\n" +
 	"\x13username_changed_on\x18$ \x01(\v2\x1a.google.protobuf.TimestampR\x11usernameChangedOn\x12J\n" +
 	"\x13password_changed_on\x18% \x01(\v2\x1a.google.protobuf.TimestampR\x11passwordChangedOn\x12\x16\n" +
-	"\x06locale\x18( \x01(\tR\x06locale\"'\n" +
-	"\tRankTrend\x12\b\n" +
-	"\x04NONE\x10\x00\x12\x06\n" +
-	"\x02UP\x10\x01\x12\b\n" +
-	"\x04DOWN\x10\x02B1Z/github.com/eolymp/go-sdk/eolymp/cognito;cognitob\x06proto3"
+	"\x06locale\x18( \x01(\tR\x06localeB1Z/github.com/eolymp/go-sdk/eolymp/cognito;cognitob\x06proto3"
 
 var (
 	file_eolymp_cognito_user_proto_rawDescOnce sync.Once
@@ -305,24 +242,21 @@ func file_eolymp_cognito_user_proto_rawDescGZIP() []byte {
 	return file_eolymp_cognito_user_proto_rawDescData
 }
 
-var file_eolymp_cognito_user_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_eolymp_cognito_user_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_eolymp_cognito_user_proto_goTypes = []any{
-	(User_RankTrend)(0),           // 0: eolymp.cognito.User.RankTrend
-	(*User)(nil),                  // 1: eolymp.cognito.User
-	(*timestamppb.Timestamp)(nil), // 2: google.protobuf.Timestamp
+	(*User)(nil),                  // 0: eolymp.cognito.User
+	(*timestamppb.Timestamp)(nil), // 1: google.protobuf.Timestamp
 }
 var file_eolymp_cognito_user_proto_depIdxs = []int32{
-	0, // 0: eolymp.cognito.User.rank_trend:type_name -> eolymp.cognito.User.RankTrend
-	2, // 1: eolymp.cognito.User.registered_on:type_name -> google.protobuf.Timestamp
-	2, // 2: eolymp.cognito.User.last_activity:type_name -> google.protobuf.Timestamp
-	2, // 3: eolymp.cognito.User.username_changed_on:type_name -> google.protobuf.Timestamp
-	2, // 4: eolymp.cognito.User.password_changed_on:type_name -> google.protobuf.Timestamp
-	5, // [5:5] is the sub-list for method output_type
-	5, // [5:5] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	1, // 0: eolymp.cognito.User.registered_on:type_name -> google.protobuf.Timestamp
+	1, // 1: eolymp.cognito.User.last_activity:type_name -> google.protobuf.Timestamp
+	1, // 2: eolymp.cognito.User.username_changed_on:type_name -> google.protobuf.Timestamp
+	1, // 3: eolymp.cognito.User.password_changed_on:type_name -> google.protobuf.Timestamp
+	4, // [4:4] is the sub-list for method output_type
+	4, // [4:4] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_cognito_user_proto_init() }
@@ -335,14 +269,13 @@ func file_eolymp_cognito_user_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_cognito_user_proto_rawDesc), len(file_eolymp_cognito_user_proto_rawDesc)),
-			NumEnums:      1,
+			NumEnums:      0,
 			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
 		GoTypes:           file_eolymp_cognito_user_proto_goTypes,
 		DependencyIndexes: file_eolymp_cognito_user_proto_depIdxs,
-		EnumInfos:         file_eolymp_cognito_user_proto_enumTypes,
 		MessageInfos:      file_eolymp_cognito_user_proto_msgTypes,
 	}.Build()
 	File_eolymp_cognito_user_proto = out.File
