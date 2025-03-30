@@ -1105,14 +1105,14 @@ const file_eolymp_discussion_message_service_proto_rawDesc = "" +
 	"\x17discussion:message:read\x82\xd3\xe4\x93\x02\v\x12\t/messages\x12\x9a\x01\n" +
 	"\vPostMessage\x12#.eolymp.discussion.PostMessageInput\x1a$.eolymp.discussion.PostMessageOutput\"@\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
-	"\x00\x00\xa0@\xf8\xe2\n" +
-	"2\x82\xe3\n" +
+	"\x00\x00\x80?\xf8\xe2\n" +
+	"\x02\x82\xe3\n" +
 	"\x1c\x8a\xe3\n" +
 	"\x18discussion:message:write\x82\xd3\xe4\x93\x02\v\"\t/messages\x12\xad\x01\n" +
 	"\rUpdateMessage\x12%.eolymp.discussion.UpdateMessageInput\x1a&.eolymp.discussion.UpdateMessageOutput\"M\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
-	"\x00\x00\xa0@\xf8\xe2\n" +
-	"2\x82\xe3\n" +
+	"\x00\x00\x80?\xf8\xe2\n" +
+	"\x02\x82\xe3\n" +
 	"\x1c\x8a\xe3\n" +
 	"\x18discussion:message:write\x82\xd3\xe4\x93\x02\x18\x1a\x16/messages/{message_id}\x12\xad\x01\n" +
 	"\rDeleteMessage\x12%.eolymp.discussion.DeleteMessageInput\x1a&.eolymp.discussion.DeleteMessageOutput\"M\xea\xe2\n" +
@@ -1123,8 +1123,8 @@ const file_eolymp_discussion_message_service_proto_rawDesc = "" +
 	"\x18discussion:message:write\x82\xd3\xe4\x93\x02\x18*\x16/messages/{message_id}\x12\xac\x01\n" +
 	"\vVoteMessage\x12#.eolymp.discussion.VoteMessageInput\x1a$.eolymp.discussion.VoteMessageOutput\"R\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
-	"\x00\x00\xa0@\xf8\xe2\n" +
-	"2\x82\xe3\n" +
+	"\x00\x00\x80?\xf8\xe2\n" +
+	"\x02\x82\xe3\n" +
 	"\x1c\x8a\xe3\n" +
 	"\x18discussion:message:write\x82\xd3\xe4\x93\x02\x1d\"\x1b/messages/{message_id}/vote\x12\xc3\x01\n" +
 	"\x12ListMessageChanges\x12*.eolymp.discussion.ListMessageChangesInput\x1a+.eolymp.discussion.ListMessageChangesOutput\"T\xea\xe2\n" +
