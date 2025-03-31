@@ -103,7 +103,8 @@ type Participant struct {
 	// passcode is a code participant has to enter before she can begin contest
 	// this field is only populated when request is made by contest owner
 	// passcode is read-only and should be set using ResetPasscode method.
-	Passcode string `protobuf:"bytes,30,opt,name=passcode,proto3" json:"passcode,omitempty"`
+	Passcode       string `protobuf:"bytes,30,opt,name=passcode,proto3" json:"passcode,omitempty"`
+	CertificateUrl string `protobuf:"bytes,31,opt,name=certificate_url,json=certificateUrl,proto3" json:"certificate_url,omitempty"` // participation certificate URL
 	// Submit counter is used to count how many times user submitted the problem.
 	Submits       []*Participant_Submit `protobuf:"bytes,40,rep,name=submits,proto3" json:"submits,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -245,6 +246,13 @@ func (x *Participant) GetPasscode() string {
 	return ""
 }
 
+func (x *Participant) GetCertificateUrl() string {
+	if x != nil {
+		return x.CertificateUrl
+	}
+	return ""
+}
+
 func (x *Participant) GetSubmits() []*Participant_Submit {
 	if x != nil {
 		return x.Submits
@@ -308,7 +316,7 @@ var File_eolymp_judge_participant_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_participant_proto_rawDesc = "" +
 	"\n" +
-	"\x1eeolymp/judge/participant.proto\x12\feolymp.judge\x1a\x18eolymp/judge/medal.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x80\x06\n" +
+	"\x1eeolymp/judge/participant.proto\x12\feolymp.judge\x1a\x18eolymp/judge/medal.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xa9\x06\n" +
 	"\vParticipant\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1b\n" +
 	"\tmember_id\x18\x04 \x01(\tR\bmemberId\x12!\n" +
@@ -330,7 +338,8 @@ const file_eolymp_judge_participant_proto_rawDesc = "" +
 	"\x06end_in\x18\x1a \x01(\rR\x05endIn\x12\x1d\n" +
 	"\n" +
 	"bonus_time\x18\x1b \x01(\rR\tbonusTime\x12\x1a\n" +
-	"\bpasscode\x18\x1e \x01(\tR\bpasscode\x12:\n" +
+	"\bpasscode\x18\x1e \x01(\tR\bpasscode\x12'\n" +
+	"\x0fcertificate_url\x18\x1f \x01(\tR\x0ecertificateUrl\x12:\n" +
 	"\asubmits\x18( \x03(\v2 .eolymp.judge.Participant.SubmitR\asubmits\x1aA\n" +
 	"\x06Submit\x12\x1d\n" +
 	"\n" +
