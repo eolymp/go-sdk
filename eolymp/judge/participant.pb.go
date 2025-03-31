@@ -92,6 +92,7 @@ type Participant struct {
 	Inactive     bool                   `protobuf:"varint,10,opt,name=inactive,proto3" json:"inactive,omitempty"`                        // participant is inactive
 	Disqualified bool                   `protobuf:"varint,11,opt,name=disqualified,proto3" json:"disqualified,omitempty"`                // participant is disqualified
 	Ghost        bool                   `protobuf:"varint,8,opt,name=ghost,proto3" json:"ghost,omitempty"`                               // participant is a ghost
+	Finalized    bool                   `protobuf:"varint,12,opt,name=finalized,proto3" json:"finalized,omitempty"`                      // participant result is finalized
 	Medal        Medal                  `protobuf:"varint,9,opt,name=medal,proto3,enum=eolymp.judge.Medal" json:"medal,omitempty"`
 	// status (see explanation to enumeration values)
 	Status    Participant_Status     `protobuf:"varint,20,opt,name=status,proto3,enum=eolymp.judge.Participant_Status" json:"status,omitempty"`
@@ -186,6 +187,13 @@ func (x *Participant) GetDisqualified() bool {
 func (x *Participant) GetGhost() bool {
 	if x != nil {
 		return x.Ghost
+	}
+	return false
+}
+
+func (x *Participant) GetFinalized() bool {
+	if x != nil {
+		return x.Finalized
 	}
 	return false
 }
@@ -316,7 +324,7 @@ var File_eolymp_judge_participant_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_participant_proto_rawDesc = "" +
 	"\n" +
-	"\x1eeolymp/judge/participant.proto\x12\feolymp.judge\x1a\x18eolymp/judge/medal.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xa9\x06\n" +
+	"\x1eeolymp/judge/participant.proto\x12\feolymp.judge\x1a\x18eolymp/judge/medal.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc7\x06\n" +
 	"\vParticipant\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1b\n" +
 	"\tmember_id\x18\x04 \x01(\tR\bmemberId\x12!\n" +
@@ -327,7 +335,8 @@ const file_eolymp_judge_participant_proto_rawDesc = "" +
 	"\binactive\x18\n" +
 	" \x01(\bR\binactive\x12\"\n" +
 	"\fdisqualified\x18\v \x01(\bR\fdisqualified\x12\x14\n" +
-	"\x05ghost\x18\b \x01(\bR\x05ghost\x12)\n" +
+	"\x05ghost\x18\b \x01(\bR\x05ghost\x12\x1c\n" +
+	"\tfinalized\x18\f \x01(\bR\tfinalized\x12)\n" +
 	"\x05medal\x18\t \x01(\x0e2\x13.eolymp.judge.MedalR\x05medal\x128\n" +
 	"\x06status\x18\x14 \x01(\x0e2 .eolymp.judge.Participant.StatusR\x06status\x129\n" +
 	"\n" +

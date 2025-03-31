@@ -193,118 +193,6 @@ func (x *ScoreChangedEvent) GetScore() *Score {
 	return nil
 }
 
-type ParticipantChangedEvent struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	ContestId     string                 `protobuf:"bytes,10,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
-	Before        *Participant           `protobuf:"bytes,1,opt,name=before,proto3" json:"before,omitempty"`
-	After         *Participant           `protobuf:"bytes,2,opt,name=after,proto3" json:"after,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *ParticipantChangedEvent) Reset() {
-	*x = ParticipantChangedEvent{}
-	mi := &file_eolymp_judge_events_proto_msgTypes[3]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ParticipantChangedEvent) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ParticipantChangedEvent) ProtoMessage() {}
-
-func (x *ParticipantChangedEvent) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_events_proto_msgTypes[3]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ParticipantChangedEvent.ProtoReflect.Descriptor instead.
-func (*ParticipantChangedEvent) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_events_proto_rawDescGZIP(), []int{3}
-}
-
-func (x *ParticipantChangedEvent) GetContestId() string {
-	if x != nil {
-		return x.ContestId
-	}
-	return ""
-}
-
-func (x *ParticipantChangedEvent) GetBefore() *Participant {
-	if x != nil {
-		return x.Before
-	}
-	return nil
-}
-
-func (x *ParticipantChangedEvent) GetAfter() *Participant {
-	if x != nil {
-		return x.After
-	}
-	return nil
-}
-
-type ParticipantJoinedEvent struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	ContestId     string                 `protobuf:"bytes,10,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
-	Participant   *Participant           `protobuf:"bytes,2,opt,name=participant,proto3" json:"participant,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *ParticipantJoinedEvent) Reset() {
-	*x = ParticipantJoinedEvent{}
-	mi := &file_eolymp_judge_events_proto_msgTypes[4]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ParticipantJoinedEvent) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ParticipantJoinedEvent) ProtoMessage() {}
-
-func (x *ParticipantJoinedEvent) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_events_proto_msgTypes[4]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ParticipantJoinedEvent.ProtoReflect.Descriptor instead.
-func (*ParticipantJoinedEvent) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_events_proto_rawDescGZIP(), []int{4}
-}
-
-func (x *ParticipantJoinedEvent) GetContestId() string {
-	if x != nil {
-		return x.ContestId
-	}
-	return ""
-}
-
-func (x *ParticipantJoinedEvent) GetParticipant() *Participant {
-	if x != nil {
-		return x.Participant
-	}
-	return nil
-}
-
 type RetestProblemEvent struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ContestId     string                 `protobuf:"bytes,1,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
@@ -316,7 +204,7 @@ type RetestProblemEvent struct {
 
 func (x *RetestProblemEvent) Reset() {
 	*x = RetestProblemEvent{}
-	mi := &file_eolymp_judge_events_proto_msgTypes[5]
+	mi := &file_eolymp_judge_events_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -328,7 +216,7 @@ func (x *RetestProblemEvent) String() string {
 func (*RetestProblemEvent) ProtoMessage() {}
 
 func (x *RetestProblemEvent) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_events_proto_msgTypes[5]
+	mi := &file_eolymp_judge_events_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -341,7 +229,7 @@ func (x *RetestProblemEvent) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RetestProblemEvent.ProtoReflect.Descriptor instead.
 func (*RetestProblemEvent) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_events_proto_rawDescGZIP(), []int{5}
+	return file_eolymp_judge_events_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *RetestProblemEvent) GetContestId() string {
@@ -389,18 +277,7 @@ const file_eolymp_judge_events_proto_rawDesc = "" +
 	"\n" +
 	"unofficial\x18\x04 \x01(\bR\n" +
 	"unofficial\x12)\n" +
-	"\x05score\x18\x03 \x01(\v2\x13.eolymp.judge.ScoreR\x05score\"\x9c\x01\n" +
-	"\x17ParticipantChangedEvent\x12\x1d\n" +
-	"\n" +
-	"contest_id\x18\n" +
-	" \x01(\tR\tcontestId\x121\n" +
-	"\x06before\x18\x01 \x01(\v2\x19.eolymp.judge.ParticipantR\x06before\x12/\n" +
-	"\x05after\x18\x02 \x01(\v2\x19.eolymp.judge.ParticipantR\x05after\"t\n" +
-	"\x16ParticipantJoinedEvent\x12\x1d\n" +
-	"\n" +
-	"contest_id\x18\n" +
-	" \x01(\tR\tcontestId\x12;\n" +
-	"\vparticipant\x18\x02 \x01(\v2\x19.eolymp.judge.ParticipantR\vparticipant\"s\n" +
+	"\x05score\x18\x03 \x01(\v2\x13.eolymp.judge.ScoreR\x05score\"s\n" +
 	"\x12RetestProblemEvent\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\x12\x1d\n" +
@@ -421,29 +298,23 @@ func file_eolymp_judge_events_proto_rawDescGZIP() []byte {
 	return file_eolymp_judge_events_proto_rawDescData
 }
 
-var file_eolymp_judge_events_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_eolymp_judge_events_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_eolymp_judge_events_proto_goTypes = []any{
 	(*SubmissionCompletedEvent)(nil), // 0: eolymp.judge.SubmissionCompletedEvent
 	(*RebuildScoreEvent)(nil),        // 1: eolymp.judge.RebuildScoreEvent
 	(*ScoreChangedEvent)(nil),        // 2: eolymp.judge.ScoreChangedEvent
-	(*ParticipantChangedEvent)(nil),  // 3: eolymp.judge.ParticipantChangedEvent
-	(*ParticipantJoinedEvent)(nil),   // 4: eolymp.judge.ParticipantJoinedEvent
-	(*RetestProblemEvent)(nil),       // 5: eolymp.judge.RetestProblemEvent
-	(*Submission)(nil),               // 6: eolymp.judge.Submission
-	(*Score)(nil),                    // 7: eolymp.judge.Score
-	(*Participant)(nil),              // 8: eolymp.judge.Participant
+	(*RetestProblemEvent)(nil),       // 3: eolymp.judge.RetestProblemEvent
+	(*Submission)(nil),               // 4: eolymp.judge.Submission
+	(*Score)(nil),                    // 5: eolymp.judge.Score
 }
 var file_eolymp_judge_events_proto_depIdxs = []int32{
-	6, // 0: eolymp.judge.SubmissionCompletedEvent.submission:type_name -> eolymp.judge.Submission
-	7, // 1: eolymp.judge.ScoreChangedEvent.score:type_name -> eolymp.judge.Score
-	8, // 2: eolymp.judge.ParticipantChangedEvent.before:type_name -> eolymp.judge.Participant
-	8, // 3: eolymp.judge.ParticipantChangedEvent.after:type_name -> eolymp.judge.Participant
-	8, // 4: eolymp.judge.ParticipantJoinedEvent.participant:type_name -> eolymp.judge.Participant
-	5, // [5:5] is the sub-list for method output_type
-	5, // [5:5] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	4, // 0: eolymp.judge.SubmissionCompletedEvent.submission:type_name -> eolymp.judge.Submission
+	5, // 1: eolymp.judge.ScoreChangedEvent.score:type_name -> eolymp.judge.Score
+	2, // [2:2] is the sub-list for method output_type
+	2, // [2:2] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_judge_events_proto_init() }
@@ -460,7 +331,7 @@ func file_eolymp_judge_events_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_judge_events_proto_rawDesc), len(file_eolymp_judge_events_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   6,
+			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
