@@ -31,6 +31,7 @@ const (
 	Contest_COMPLETE       Contest_Status = 3 // contest is finished
 	Contest_SUSPENDED      Contest_Status = 4 // contest has been suspended, interface is not available
 	Contest_FROZEN         Contest_Status = 5 // contest has been frozen, interface is available but submission is restricted
+	Contest_FINALIZED      Contest_Status = 6 // contest has been finalized and archived
 )
 
 // Enum value maps for Contest_Status.
@@ -42,6 +43,7 @@ var (
 		3: "COMPLETE",
 		4: "SUSPENDED",
 		5: "FROZEN",
+		6: "FINALIZED",
 	}
 	Contest_Status_value = map[string]int32{
 		"STATUS_UNKNOWN": 0,
@@ -50,6 +52,7 @@ var (
 		"COMPLETE":       3,
 		"SUSPENDED":      4,
 		"FROZEN":         5,
+		"FINALIZED":      6,
 	}
 )
 
@@ -367,6 +370,8 @@ type Contest struct {
 	Visibility Contest_Visibility `protobuf:"varint,30,opt,name=visibility,proto3,enum=eolymp.judge.Contest_Visibility" json:"visibility,omitempty"`
 	// When participants join contests by themselves they will participate unofficially.
 	JoinUnofficially bool `protobuf:"varint,33,opt,name=join_unofficially,json=joinUnofficially,proto3" json:"join_unofficially,omitempty"`
+	// Issue participation certificates to participants after contest is finalized.
+	IssueCertificates bool `protobuf:"varint,36,opt,name=issue_certificates,json=issueCertificates,proto3" json:"issue_certificates,omitempty"`
 	// Participation mode defines timeframe for participation: online or virtual.
 	ParticipationMode Contest_ParticipationMode `protobuf:"varint,31,opt,name=participation_mode,json=participationMode,proto3,enum=eolymp.judge.Contest_ParticipationMode" json:"participation_mode,omitempty"`
 	// Require manual admission to the contest
@@ -509,6 +514,13 @@ func (x *Contest) GetVisibility() Contest_Visibility {
 func (x *Contest) GetJoinUnofficially() bool {
 	if x != nil {
 		return x.JoinUnofficially
+	}
+	return false
+}
+
+func (x *Contest) GetIssueCertificates() bool {
+	if x != nil {
+		return x.IssueCertificates
 	}
 	return false
 }
@@ -962,7 +974,7 @@ var File_eolymp_judge_contest_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\n" +
-	"\x1aeolymp/judge/contest.proto\x12\feolymp.judge\x1a\x1fgoogle/protobuf/timestamp.proto\"\xbb\x13\n" +
+	"\x1aeolymp/judge/contest.proto\x12\feolymp.judge\x1a\x1fgoogle/protobuf/timestamp.proto\"\xf9\x13\n" +
 	"\aContest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x10\n" +
 	"\x03url\x18\x02 \x01(\tR\x03url\x12\x12\n" +
@@ -978,7 +990,8 @@ const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\n" +
 	"visibility\x18\x1e \x01(\x0e2 .eolymp.judge.Contest.VisibilityR\n" +
 	"visibility\x12+\n" +
-	"\x11join_unofficially\x18! \x01(\bR\x10joinUnofficially\x12V\n" +
+	"\x11join_unofficially\x18! \x01(\bR\x10joinUnofficially\x12-\n" +
+	"\x12issue_certificates\x18$ \x01(\bR\x11issueCertificates\x12V\n" +
 	"\x12participation_mode\x18\x1f \x01(\x0e2'.eolymp.judge.Contest.ParticipationModeR\x11participationMode\x12+\n" +
 	"\x11require_admission\x18# \x01(\bR\x10requireAdmission\x124\n" +
 	"\x06format\x18  \x01(\x0e2\x1c.eolymp.judge.Contest.FormatR\x06format\x12\x10\n" +
@@ -1043,7 +1056,7 @@ const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\tINVISIBLE\x10\x01\x12\f\n" +
 	"\bINTERNAL\x10\x02\x12\n" +
 	"\n" +
-	"\x06PUBLIC\x10\x03\"^\n" +
+	"\x06PUBLIC\x10\x03\"m\n" +
 	"\x06Status\x12\x12\n" +
 	"\x0eSTATUS_UNKNOWN\x10\x00\x12\r\n" +
 	"\tSCHEDULED\x10\x01\x12\b\n" +
@@ -1051,7 +1064,8 @@ const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\bCOMPLETE\x10\x03\x12\r\n" +
 	"\tSUSPENDED\x10\x04\x12\n" +
 	"\n" +
-	"\x06FROZEN\x10\x05\"K\n" +
+	"\x06FROZEN\x10\x05\x12\r\n" +
+	"\tFINALIZED\x10\x06\"K\n" +
 	"\n" +
 	"Visibility\x12\x16\n" +
 	"\x12VISIBILITY_UNKNOWN\x10\x00\x12\n" +
