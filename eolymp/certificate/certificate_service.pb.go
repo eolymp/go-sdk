@@ -69,6 +69,7 @@ func (x *CreateCertificateInput) GetCertificate() *Certificate {
 type CreateCertificateOutput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	CertificateId string                 `protobuf:"bytes,1,opt,name=certificate_id,json=certificateId,proto3" json:"certificate_id,omitempty"`
+	DownloadUrl   string                 `protobuf:"bytes,2,opt,name=download_url,json=downloadUrl,proto3" json:"download_url,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -106,6 +107,13 @@ func (*CreateCertificateOutput) Descriptor() ([]byte, []int) {
 func (x *CreateCertificateOutput) GetCertificateId() string {
 	if x != nil {
 		return x.CertificateId
+	}
+	return ""
+}
+
+func (x *CreateCertificateOutput) GetDownloadUrl() string {
+	if x != nil {
+		return x.DownloadUrl
 	}
 	return ""
 }
@@ -396,9 +404,10 @@ const file_eolymp_certificate_certificate_service_proto_rawDesc = "" +
 	"\n" +
 	",eolymp/certificate/certificate_service.proto\x12\x12eolymp.certificate\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a$eolymp/certificate/certificate.proto\"[\n" +
 	"\x16CreateCertificateInput\x12A\n" +
-	"\vcertificate\x18\x01 \x01(\v2\x1f.eolymp.certificate.CertificateR\vcertificate\"@\n" +
+	"\vcertificate\x18\x01 \x01(\v2\x1f.eolymp.certificate.CertificateR\vcertificate\"c\n" +
 	"\x17CreateCertificateOutput\x12%\n" +
-	"\x0ecertificate_id\x18\x01 \x01(\tR\rcertificateId\"=\n" +
+	"\x0ecertificate_id\x18\x01 \x01(\tR\rcertificateId\x12!\n" +
+	"\fdownload_url\x18\x02 \x01(\tR\vdownloadUrl\"=\n" +
 	"\x14VoidCertificateInput\x12%\n" +
 	"\x0ecertificate_id\x18\x01 \x01(\tR\rcertificateId\"\x17\n" +
 	"\x15VoidCertificateOutput\"A\n" +

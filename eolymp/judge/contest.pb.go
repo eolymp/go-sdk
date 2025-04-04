@@ -370,8 +370,6 @@ type Contest struct {
 	Visibility Contest_Visibility `protobuf:"varint,30,opt,name=visibility,proto3,enum=eolymp.judge.Contest_Visibility" json:"visibility,omitempty"`
 	// When participants join contests by themselves they will participate unofficially.
 	JoinUnofficially bool `protobuf:"varint,33,opt,name=join_unofficially,json=joinUnofficially,proto3" json:"join_unofficially,omitempty"`
-	// Issue participation certificates to participants after contest is finalized.
-	IssueCertificates bool `protobuf:"varint,36,opt,name=issue_certificates,json=issueCertificates,proto3" json:"issue_certificates,omitempty"`
 	// Participation mode defines timeframe for participation: online or virtual.
 	ParticipationMode Contest_ParticipationMode `protobuf:"varint,31,opt,name=participation_mode,json=participationMode,proto3,enum=eolymp.judge.Contest_ParticipationMode" json:"participation_mode,omitempty"`
 	// Require manual admission to the contest
@@ -399,7 +397,9 @@ type Contest struct {
 	// Upsolve configuration
 	Upsolve *Contest_Upsolve `protobuf:"bytes,102,opt,name=upsolve,proto3" json:"upsolve,omitempty"`
 	// Scoreboard configuration
-	Scoreboard    *Contest_Scoreboard `protobuf:"bytes,105,opt,name=scoreboard,proto3" json:"scoreboard,omitempty"`
+	Scoreboard *Contest_Scoreboard `protobuf:"bytes,105,opt,name=scoreboard,proto3" json:"scoreboard,omitempty"`
+	// Certification configuration
+	Certification *Contest_Certification `protobuf:"bytes,106,opt,name=certification,proto3" json:"certification,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -518,13 +518,6 @@ func (x *Contest) GetJoinUnofficially() bool {
 	return false
 }
 
-func (x *Contest) GetIssueCertificates() bool {
-	if x != nil {
-		return x.IssueCertificates
-	}
-	return false
-}
-
 func (x *Contest) GetParticipationMode() Contest_ParticipationMode {
 	if x != nil {
 		return x.ParticipationMode
@@ -626,6 +619,13 @@ func (x *Contest) GetUpsolve() *Contest_Upsolve {
 func (x *Contest) GetScoreboard() *Contest_Scoreboard {
 	if x != nil {
 		return x.Scoreboard
+	}
+	return nil
+}
+
+func (x *Contest) GetCertification() *Contest_Certification {
+	if x != nil {
+		return x.Certification
 	}
 	return nil
 }
@@ -970,11 +970,123 @@ func (x *Contest_Scoreboard) GetShareKey() string {
 	return ""
 }
 
+type Contest_Certification struct {
+	state         protoimpl.MessageState          `protogen:"open.v1"`
+	Enabled       bool                            `protobuf:"varint,1,opt,name=enabled,proto3" json:"enabled,omitempty"`        // Enable certificate generation, certificates are generated on contest finalization
+	Affiliation   string                          `protobuf:"bytes,2,opt,name=affiliation,proto3" json:"affiliation,omitempty"` // name of the organization organising the contest
+	Signers       []*Contest_Certification_Signer `protobuf:"bytes,3,rep,name=signers,proto3" json:"signers,omitempty"`         // Signers of the certificate (max 3)
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Contest_Certification) Reset() {
+	*x = Contest_Certification{}
+	mi := &file_eolymp_judge_contest_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Contest_Certification) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Contest_Certification) ProtoMessage() {}
+
+func (x *Contest_Certification) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_judge_contest_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Contest_Certification.ProtoReflect.Descriptor instead.
+func (*Contest_Certification) Descriptor() ([]byte, []int) {
+	return file_eolymp_judge_contest_proto_rawDescGZIP(), []int{0, 5}
+}
+
+func (x *Contest_Certification) GetEnabled() bool {
+	if x != nil {
+		return x.Enabled
+	}
+	return false
+}
+
+func (x *Contest_Certification) GetAffiliation() string {
+	if x != nil {
+		return x.Affiliation
+	}
+	return ""
+}
+
+func (x *Contest_Certification) GetSigners() []*Contest_Certification_Signer {
+	if x != nil {
+		return x.Signers
+	}
+	return nil
+}
+
+type Contest_Certification_Signer struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`   // Signer name
+	Title         string                 `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"` // Signer title
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Contest_Certification_Signer) Reset() {
+	*x = Contest_Certification_Signer{}
+	mi := &file_eolymp_judge_contest_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Contest_Certification_Signer) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Contest_Certification_Signer) ProtoMessage() {}
+
+func (x *Contest_Certification_Signer) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_judge_contest_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Contest_Certification_Signer.ProtoReflect.Descriptor instead.
+func (*Contest_Certification_Signer) Descriptor() ([]byte, []int) {
+	return file_eolymp_judge_contest_proto_rawDescGZIP(), []int{0, 5, 0}
+}
+
+func (x *Contest_Certification_Signer) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *Contest_Certification_Signer) GetTitle() string {
+	if x != nil {
+		return x.Title
+	}
+	return ""
+}
+
 var File_eolymp_judge_contest_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\n" +
-	"\x1aeolymp/judge/contest.proto\x12\feolymp.judge\x1a\x1fgoogle/protobuf/timestamp.proto\"\xf9\x13\n" +
+	"\x1aeolymp/judge/contest.proto\x12\feolymp.judge\x1a\x1fgoogle/protobuf/timestamp.proto\"\xdd\x15\n" +
 	"\aContest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x10\n" +
 	"\x03url\x18\x02 \x01(\tR\x03url\x12\x12\n" +
@@ -990,8 +1102,7 @@ const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\n" +
 	"visibility\x18\x1e \x01(\x0e2 .eolymp.judge.Contest.VisibilityR\n" +
 	"visibility\x12+\n" +
-	"\x11join_unofficially\x18! \x01(\bR\x10joinUnofficially\x12-\n" +
-	"\x12issue_certificates\x18$ \x01(\bR\x11issueCertificates\x12V\n" +
+	"\x11join_unofficially\x18! \x01(\bR\x10joinUnofficially\x12V\n" +
 	"\x12participation_mode\x18\x1f \x01(\x0e2'.eolymp.judge.Contest.ParticipationModeR\x11participationMode\x12+\n" +
 	"\x11require_admission\x18# \x01(\bR\x10requireAdmission\x124\n" +
 	"\x06format\x18  \x01(\x0e2\x1c.eolymp.judge.Contest.FormatR\x06format\x12\x10\n" +
@@ -1011,7 +1122,8 @@ const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\aupsolve\x18f \x01(\v2\x1d.eolymp.judge.Contest.UpsolveR\aupsolve\x12@\n" +
 	"\n" +
 	"scoreboard\x18i \x01(\v2 .eolymp.judge.Contest.ScoreboardR\n" +
-	"scoreboard\x1a_\n" +
+	"scoreboard\x12I\n" +
+	"\rcertification\x18j \x01(\v2#.eolymp.judge.Contest.CertificationR\rcertification\x1a_\n" +
 	"\n" +
 	"Appearance\x12\x14\n" +
 	"\x05title\x18\x01 \x01(\tR\x05title\x12 \n" +
@@ -1056,7 +1168,14 @@ const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\tINVISIBLE\x10\x01\x12\f\n" +
 	"\bINTERNAL\x10\x02\x12\n" +
 	"\n" +
-	"\x06PUBLIC\x10\x03\"m\n" +
+	"\x06PUBLIC\x10\x03\x1a\xc5\x01\n" +
+	"\rCertification\x12\x18\n" +
+	"\aenabled\x18\x01 \x01(\bR\aenabled\x12 \n" +
+	"\vaffiliation\x18\x02 \x01(\tR\vaffiliation\x12D\n" +
+	"\asigners\x18\x03 \x03(\v2*.eolymp.judge.Contest.Certification.SignerR\asigners\x1a2\n" +
+	"\x06Signer\x12\x12\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\x12\x14\n" +
+	"\x05title\x18\x02 \x01(\tR\x05title\"m\n" +
 	"\x06Status\x12\x12\n" +
 	"\x0eSTATUS_UNKNOWN\x10\x00\x12\r\n" +
 	"\tSCHEDULED\x10\x01\x12\b\n" +
@@ -1096,42 +1215,46 @@ func file_eolymp_judge_contest_proto_rawDescGZIP() []byte {
 }
 
 var file_eolymp_judge_contest_proto_enumTypes = make([]protoimpl.EnumInfo, 6)
-var file_eolymp_judge_contest_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_eolymp_judge_contest_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_eolymp_judge_contest_proto_goTypes = []any{
-	(Contest_Status)(0),                // 0: eolymp.judge.Contest.Status
-	(Contest_Visibility)(0),            // 1: eolymp.judge.Contest.Visibility
-	(Contest_ParticipationMode)(0),     // 2: eolymp.judge.Contest.ParticipationMode
-	(Contest_Format)(0),                // 3: eolymp.judge.Contest.Format
-	(Contest_Taxonomy_Scale)(0),        // 4: eolymp.judge.Contest.Taxonomy.Scale
-	(Contest_Scoreboard_Visibility)(0), // 5: eolymp.judge.Contest.Scoreboard.Visibility
-	(*Contest)(nil),                    // 6: eolymp.judge.Contest
-	(*Contest_Appearance)(nil),         // 7: eolymp.judge.Contest.Appearance
-	(*Contest_Taxonomy)(nil),           // 8: eolymp.judge.Contest.Taxonomy
-	(*Contest_Environment)(nil),        // 9: eolymp.judge.Contest.Environment
-	(*Contest_Upsolve)(nil),            // 10: eolymp.judge.Contest.Upsolve
-	(*Contest_Scoreboard)(nil),         // 11: eolymp.judge.Contest.Scoreboard
-	(*timestamppb.Timestamp)(nil),      // 12: google.protobuf.Timestamp
+	(Contest_Status)(0),                  // 0: eolymp.judge.Contest.Status
+	(Contest_Visibility)(0),              // 1: eolymp.judge.Contest.Visibility
+	(Contest_ParticipationMode)(0),       // 2: eolymp.judge.Contest.ParticipationMode
+	(Contest_Format)(0),                  // 3: eolymp.judge.Contest.Format
+	(Contest_Taxonomy_Scale)(0),          // 4: eolymp.judge.Contest.Taxonomy.Scale
+	(Contest_Scoreboard_Visibility)(0),   // 5: eolymp.judge.Contest.Scoreboard.Visibility
+	(*Contest)(nil),                      // 6: eolymp.judge.Contest
+	(*Contest_Appearance)(nil),           // 7: eolymp.judge.Contest.Appearance
+	(*Contest_Taxonomy)(nil),             // 8: eolymp.judge.Contest.Taxonomy
+	(*Contest_Environment)(nil),          // 9: eolymp.judge.Contest.Environment
+	(*Contest_Upsolve)(nil),              // 10: eolymp.judge.Contest.Upsolve
+	(*Contest_Scoreboard)(nil),           // 11: eolymp.judge.Contest.Scoreboard
+	(*Contest_Certification)(nil),        // 12: eolymp.judge.Contest.Certification
+	(*Contest_Certification_Signer)(nil), // 13: eolymp.judge.Contest.Certification.Signer
+	(*timestamppb.Timestamp)(nil),        // 14: google.protobuf.Timestamp
 }
 var file_eolymp_judge_contest_proto_depIdxs = []int32{
-	12, // 0: eolymp.judge.Contest.starts_at:type_name -> google.protobuf.Timestamp
-	12, // 1: eolymp.judge.Contest.ends_at:type_name -> google.protobuf.Timestamp
+	14, // 0: eolymp.judge.Contest.starts_at:type_name -> google.protobuf.Timestamp
+	14, // 1: eolymp.judge.Contest.ends_at:type_name -> google.protobuf.Timestamp
 	0,  // 2: eolymp.judge.Contest.status:type_name -> eolymp.judge.Contest.Status
 	1,  // 3: eolymp.judge.Contest.visibility:type_name -> eolymp.judge.Contest.Visibility
 	2,  // 4: eolymp.judge.Contest.participation_mode:type_name -> eolymp.judge.Contest.ParticipationMode
 	3,  // 5: eolymp.judge.Contest.format:type_name -> eolymp.judge.Contest.Format
-	12, // 6: eolymp.judge.Contest.featured_until:type_name -> google.protobuf.Timestamp
+	14, // 6: eolymp.judge.Contest.featured_until:type_name -> google.protobuf.Timestamp
 	8,  // 7: eolymp.judge.Contest.taxonomy:type_name -> eolymp.judge.Contest.Taxonomy
 	7,  // 8: eolymp.judge.Contest.appearance:type_name -> eolymp.judge.Contest.Appearance
 	9,  // 9: eolymp.judge.Contest.environment:type_name -> eolymp.judge.Contest.Environment
 	10, // 10: eolymp.judge.Contest.upsolve:type_name -> eolymp.judge.Contest.Upsolve
 	11, // 11: eolymp.judge.Contest.scoreboard:type_name -> eolymp.judge.Contest.Scoreboard
-	4,  // 12: eolymp.judge.Contest.Taxonomy.scale:type_name -> eolymp.judge.Contest.Taxonomy.Scale
-	5,  // 13: eolymp.judge.Contest.Scoreboard.visibility:type_name -> eolymp.judge.Contest.Scoreboard.Visibility
-	14, // [14:14] is the sub-list for method output_type
-	14, // [14:14] is the sub-list for method input_type
-	14, // [14:14] is the sub-list for extension type_name
-	14, // [14:14] is the sub-list for extension extendee
-	0,  // [0:14] is the sub-list for field type_name
+	12, // 12: eolymp.judge.Contest.certification:type_name -> eolymp.judge.Contest.Certification
+	4,  // 13: eolymp.judge.Contest.Taxonomy.scale:type_name -> eolymp.judge.Contest.Taxonomy.Scale
+	5,  // 14: eolymp.judge.Contest.Scoreboard.visibility:type_name -> eolymp.judge.Contest.Scoreboard.Visibility
+	13, // 15: eolymp.judge.Contest.Certification.signers:type_name -> eolymp.judge.Contest.Certification.Signer
+	16, // [16:16] is the sub-list for method output_type
+	16, // [16:16] is the sub-list for method input_type
+	16, // [16:16] is the sub-list for extension type_name
+	16, // [16:16] is the sub-list for extension extendee
+	0,  // [0:16] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_judge_contest_proto_init() }
@@ -1145,7 +1268,7 @@ func file_eolymp_judge_contest_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_judge_contest_proto_rawDesc), len(file_eolymp_judge_contest_proto_rawDesc)),
 			NumEnums:      6,
-			NumMessages:   6,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

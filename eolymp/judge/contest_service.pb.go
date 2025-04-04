@@ -48,6 +48,7 @@ const (
 	UpdateContestInput_ENVIRONMENT              UpdateContestInput_Patch = 130
 	UpdateContestInput_UPSOLVE                  UpdateContestInput_Patch = 120
 	UpdateContestInput_SCOREBOARD               UpdateContestInput_Patch = 150
+	UpdateContestInput_CERTIFICATION            UpdateContestInput_Patch = 160
 )
 
 // Enum value maps for UpdateContestInput_Patch.
@@ -74,6 +75,7 @@ var (
 		130: "ENVIRONMENT",
 		120: "UPSOLVE",
 		150: "SCOREBOARD",
+		160: "CERTIFICATION",
 	}
 	UpdateContestInput_Patch_value = map[string]int32{
 		"ALL":                      0,
@@ -97,6 +99,7 @@ var (
 		"ENVIRONMENT":              130,
 		"UPSOLVE":                  120,
 		"SCOREBOARD":               150,
+		"CERTIFICATION":            160,
 	}
 )
 
@@ -1793,12 +1796,12 @@ const file_eolymp_judge_contest_service_proto_rawDesc = "" +
 	"\x12DeleteContestInput\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\"\x15\n" +
-	"\x13DeleteContestOutput\"\x8a\x04\n" +
+	"\x13DeleteContestOutput\"\x9e\x04\n" +
 	"\x12UpdateContestInput\x12<\n" +
 	"\x05patch\x18\x03 \x03(\x0e2&.eolymp.judge.UpdateContestInput.PatchR\x05patch\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\x12/\n" +
-	"\acontest\x18\x02 \x01(\v2\x15.eolymp.judge.ContestR\acontest\"\xe5\x02\n" +
+	"\acontest\x18\x02 \x01(\v2\x15.eolymp.judge.ContestR\acontest\"\xf9\x02\n" +
 	"\x05Patch\x12\a\n" +
 	"\x03ALL\x10\x00\x12\b\n" +
 	"\x04NAME\x10\x02\x12\r\n" +
@@ -1825,7 +1828,8 @@ const file_eolymp_judge_contest_service_proto_rawDesc = "" +
 	"\vENVIRONMENT\x10\x82\x01\x12\v\n" +
 	"\aUPSOLVE\x10x\x12\x0f\n" +
 	"\n" +
-	"SCOREBOARD\x10\x96\x01\"\x15\n" +
+	"SCOREBOARD\x10\x96\x01\x12\x12\n" +
+	"\rCERTIFICATION\x10\xa0\x01\"\x15\n" +
 	"\x13UpdateContestOutput\"\xb4\x02\n" +
 	"\x10CopyContestInput\x12\x1d\n" +
 	"\n" +

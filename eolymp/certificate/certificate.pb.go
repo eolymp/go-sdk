@@ -30,6 +30,7 @@ type Certificate struct {
 	VerificationUrl string                 `protobuf:"bytes,20,opt,name=verification_url,json=verificationUrl,proto3" json:"verification_url,omitempty"` // URL to verify certificate
 	DownloadUrl     string                 `protobuf:"bytes,21,opt,name=download_url,json=downloadUrl,proto3" json:"download_url,omitempty"`             // URL to download certificate in PDF
 	HtmlUrl         string                 `protobuf:"bytes,22,opt,name=html_url,json=htmlUrl,proto3" json:"html_url,omitempty"`                         // URL to download certificate in HTML
+	Locale          string                 `protobuf:"bytes,7,opt,name=locale,proto3" json:"locale,omitempty"`
 	Type            string                 `protobuf:"bytes,5,opt,name=type,proto3" json:"type,omitempty"`
 	Attributes      map[string]string      `protobuf:"bytes,6,rep,name=attributes,proto3" json:"attributes,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	IssuedAt        *timestamppb.Timestamp `protobuf:"bytes,10,opt,name=issued_at,json=issuedAt,proto3" json:"issued_at,omitempty"`
@@ -110,6 +111,13 @@ func (x *Certificate) GetHtmlUrl() string {
 	return ""
 }
 
+func (x *Certificate) GetLocale() string {
+	if x != nil {
+		return x.Locale
+	}
+	return ""
+}
+
 func (x *Certificate) GetType() string {
 	if x != nil {
 		return x.Type
@@ -142,14 +150,15 @@ var File_eolymp_certificate_certificate_proto protoreflect.FileDescriptor
 
 const file_eolymp_certificate_certificate_proto_rawDesc = "" +
 	"\n" +
-	"$eolymp/certificate/certificate.proto\x12\x12eolymp.certificate\x1a\x1fgoogle/protobuf/timestamp.proto\"\xd8\x03\n" +
+	"$eolymp/certificate/certificate.proto\x12\x12eolymp.certificate\x1a\x1fgoogle/protobuf/timestamp.proto\"\xf0\x03\n" +
 	"\vCertificate\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1b\n" +
 	"\tmember_id\x18\x02 \x01(\tR\bmemberId\x12\x1b\n" +
 	"\ttarget_id\x18\x03 \x01(\tR\btargetId\x12)\n" +
 	"\x10verification_url\x18\x14 \x01(\tR\x0fverificationUrl\x12!\n" +
 	"\fdownload_url\x18\x15 \x01(\tR\vdownloadUrl\x12\x19\n" +
-	"\bhtml_url\x18\x16 \x01(\tR\ahtmlUrl\x12\x12\n" +
+	"\bhtml_url\x18\x16 \x01(\tR\ahtmlUrl\x12\x16\n" +
+	"\x06locale\x18\a \x01(\tR\x06locale\x12\x12\n" +
 	"\x04type\x18\x05 \x01(\tR\x04type\x12O\n" +
 	"\n" +
 	"attributes\x18\x06 \x03(\v2/.eolymp.certificate.Certificate.AttributesEntryR\n" +
