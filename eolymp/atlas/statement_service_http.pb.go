@@ -149,6 +149,9 @@ func RegisterStatementServiceHttpHandlers(router *mux.Router, prefix string, cli
 	router.Handle(prefix+"/statements:translate", _StatementService_TranslateStatements_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.StatementService.TranslateStatements")
+	router.Handle(prefix+"/statements/{statement_id}/export", _StatementService_ExportStatement_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.atlas.StatementService.ExportStatement")
 }
 
 // RegisterStatementServiceHttpProxy adds proxy handlers for for StatementServiceClient
@@ -332,6 +335,31 @@ func _StatementService_TranslateStatements_Rule0(cli StatementServiceClient) htt
 		var header, trailer metadata.MD
 
 		out, err := cli.TranslateStatements(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_StatementService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_StatementService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _StatementService_ExportStatement_Rule0(cli StatementServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ExportStatementInput{}
+
+		if err := _StatementService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_StatementService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.StatementId = vars["statement_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.ExportStatement(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_StatementService_HTTPWriteErrorResponse(w, err)
 			return

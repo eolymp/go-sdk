@@ -131,6 +131,9 @@ func RegisterMemberServiceHttpHandlers(router *mux.Router, prefix string, cli Me
 	router.Handle(prefix+"/members/{member_id}", _MemberService_UpdateMember_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.community.MemberService.UpdateMember")
+	router.Handle(prefix+"/members/{member_id}/picture", _MemberService_UpdateMemberPicture_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.community.MemberService.UpdateMemberPicture")
 	router.Handle(prefix+"/members/{member_id}", _MemberService_DeleteMember_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.community.MemberService.DeleteMember")
@@ -197,6 +200,31 @@ func _MemberService_UpdateMember_Rule0(cli MemberServiceClient) http.Handler {
 		var header, trailer metadata.MD
 
 		out, err := cli.UpdateMember(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_MemberService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_MemberService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _MemberService_UpdateMemberPicture_Rule0(cli MemberServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UpdateMemberPictureInput{}
+
+		if err := _MemberService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_MemberService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.MemberId = vars["member_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateMemberPicture(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_MemberService_HTTPWriteErrorResponse(w, err)
 			return

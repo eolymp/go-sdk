@@ -127,6 +127,22 @@ func (s *MemberServiceService) UpdateMember(ctx context.Context, in *UpdateMembe
 	return out, nil
 }
 
+func (s *MemberServiceService) UpdateMemberPicture(ctx context.Context, in *UpdateMemberPictureInput) (*UpdateMemberPictureOutput, error) {
+	out := &UpdateMemberPictureOutput{}
+	path := "/members/" + url.PathEscape(in.GetMemberId()) + "/picture"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.MemberId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *MemberServiceService) DeleteMember(ctx context.Context, in *DeleteMemberInput) (*DeleteMemberOutput, error) {
 	out := &DeleteMemberOutput{}
 	path := "/members/" + url.PathEscape(in.GetMemberId())

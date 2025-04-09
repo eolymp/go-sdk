@@ -250,6 +250,22 @@ func (s *ContestServiceService) FreezeContest(ctx context.Context, in *FreezeCon
 	return out, nil
 }
 
+func (s *ContestServiceService) FinalizeContest(ctx context.Context, in *FinalizeContestInput) (*FinalizeContestOutput, error) {
+	out := &FinalizeContestOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/finalize"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *ContestServiceService) ResumeContest(ctx context.Context, in *ResumeContestInput) (*ResumeContestOutput, error) {
 	out := &ResumeContestOutput{}
 	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/resume"

@@ -198,3 +198,25 @@ func (s *AccountServiceService) CompleteRecovery(ctx context.Context, in *Comple
 
 	return out, nil
 }
+
+func (s *AccountServiceService) DescribeEmailSubscription(ctx context.Context, in *DescribeEmailSubscriptionInput) (*DescribeEmailSubscriptionOutput, error) {
+	out := &DescribeEmailSubscriptionOutput{}
+	path := "/account/email-subscription"
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *AccountServiceService) UpdateEmailSubscription(ctx context.Context, in *UpdateEmailSubscriptionInput) (*UpdateEmailSubscriptionOutput, error) {
+	out := &UpdateEmailSubscriptionOutput{}
+	path := "/account/email-subscription"
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

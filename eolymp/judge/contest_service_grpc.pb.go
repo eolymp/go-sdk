@@ -29,6 +29,7 @@ const (
 	ContestService_CloseContest_FullMethodName         = "/eolymp.judge.ContestService/CloseContest"
 	ContestService_SuspendContest_FullMethodName       = "/eolymp.judge.ContestService/SuspendContest"
 	ContestService_FreezeContest_FullMethodName        = "/eolymp.judge.ContestService/FreezeContest"
+	ContestService_FinalizeContest_FullMethodName      = "/eolymp.judge.ContestService/FinalizeContest"
 	ContestService_ResumeContest_FullMethodName        = "/eolymp.judge.ContestService/ResumeContest"
 	ContestService_WatchContest_FullMethodName         = "/eolymp.judge.ContestService/WatchContest"
 	ContestService_ListActivities_FullMethodName       = "/eolymp.judge.ContestService/ListActivities"
@@ -56,6 +57,11 @@ type ContestServiceClient interface {
 	// Temporarily restrict submission function
 	// Use ResumeContest to switch contest back to a normal mode.
 	FreezeContest(ctx context.Context, in *FreezeContestInput, opts ...grpc.CallOption) (*FreezeContestOutput, error)
+	// Finalize contest results.
+	// This action finalizes contest standings, issues participation certificates and awards medals etc.
+	// After finalizing a contest it is not possible to change any parameters or results.
+	// This action is irreversible.
+	FinalizeContest(ctx context.Context, in *FinalizeContestInput, opts ...grpc.CallOption) (*FinalizeContestOutput, error)
 	// Re-start suspended or frozen contest
 	ResumeContest(ctx context.Context, in *ResumeContestInput, opts ...grpc.CallOption) (*ResumeContestOutput, error)
 	WatchContest(ctx context.Context, in *WatchContestInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchContestOutput], error)
@@ -171,6 +177,16 @@ func (c *contestServiceClient) FreezeContest(ctx context.Context, in *FreezeCont
 	return out, nil
 }
 
+func (c *contestServiceClient) FinalizeContest(ctx context.Context, in *FinalizeContestInput, opts ...grpc.CallOption) (*FinalizeContestOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(FinalizeContestOutput)
+	err := c.cc.Invoke(ctx, ContestService_FinalizeContest_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *contestServiceClient) ResumeContest(ctx context.Context, in *ResumeContestInput, opts ...grpc.CallOption) (*ResumeContestOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ResumeContestOutput)
@@ -241,6 +257,11 @@ type ContestServiceServer interface {
 	// Temporarily restrict submission function
 	// Use ResumeContest to switch contest back to a normal mode.
 	FreezeContest(context.Context, *FreezeContestInput) (*FreezeContestOutput, error)
+	// Finalize contest results.
+	// This action finalizes contest standings, issues participation certificates and awards medals etc.
+	// After finalizing a contest it is not possible to change any parameters or results.
+	// This action is irreversible.
+	FinalizeContest(context.Context, *FinalizeContestInput) (*FinalizeContestOutput, error)
 	// Re-start suspended or frozen contest
 	ResumeContest(context.Context, *ResumeContestInput) (*ResumeContestOutput, error)
 	WatchContest(*WatchContestInput, grpc.ServerStreamingServer[WatchContestOutput]) error
@@ -284,6 +305,9 @@ func (UnimplementedContestServiceServer) SuspendContest(context.Context, *Suspen
 }
 func (UnimplementedContestServiceServer) FreezeContest(context.Context, *FreezeContestInput) (*FreezeContestOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FreezeContest not implemented")
+}
+func (UnimplementedContestServiceServer) FinalizeContest(context.Context, *FinalizeContestInput) (*FinalizeContestOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FinalizeContest not implemented")
 }
 func (UnimplementedContestServiceServer) ResumeContest(context.Context, *ResumeContestInput) (*ResumeContestOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ResumeContest not implemented")
@@ -497,6 +521,24 @@ func _ContestService_FreezeContest_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ContestService_FinalizeContest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FinalizeContestInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ContestServiceServer).FinalizeContest(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ContestService_FinalizeContest_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ContestServiceServer).FinalizeContest(ctx, req.(*FinalizeContestInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ContestService_ResumeContest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ResumeContestInput)
 	if err := dec(in); err != nil {
@@ -608,6 +650,10 @@ var ContestService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "FreezeContest",
 			Handler:    _ContestService_FreezeContest_Handler,
+		},
+		{
+			MethodName: "FinalizeContest",
+			Handler:    _ContestService_FinalizeContest_Handler,
 		},
 		{
 			MethodName: "ResumeContest",

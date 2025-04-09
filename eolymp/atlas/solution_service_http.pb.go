@@ -140,6 +140,9 @@ func RegisterSolutionServiceHttpHandlers(router *mux.Router, prefix string, cli 
 	router.Handle(prefix+"/solutions", _SolutionService_ListSolutions_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.SolutionService.ListSolutions")
+	router.Handle(prefix+"/solutions:check", _SolutionService_CheckSolutions_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.atlas.SolutionService.CheckSolutions")
 }
 
 // RegisterSolutionServiceHttpProxy adds proxy handlers for for SolutionServiceClient
@@ -257,6 +260,28 @@ func _SolutionService_ListSolutions_Rule0(cli SolutionServiceClient) http.Handle
 		var header, trailer metadata.MD
 
 		out, err := cli.ListSolutions(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_SolutionService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_SolutionService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _SolutionService_CheckSolutions_Rule0(cli SolutionServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &CheckSolutionsInput{}
+
+		if err := _SolutionService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_SolutionService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.CheckSolutions(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_SolutionService_HTTPWriteErrorResponse(w, err)
 			return

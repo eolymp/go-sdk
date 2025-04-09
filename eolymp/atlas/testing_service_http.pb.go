@@ -143,6 +143,12 @@ func RegisterTestingServiceHttpHandlers(router *mux.Router, prefix string, cli T
 	router.Handle(prefix+"/interactor", _TestingService_DescribeInteractor_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.TestingService.DescribeInteractor")
+	router.Handle(prefix+"/validator", _TestingService_UpdateValidator_Rule0(cli)).
+		Methods("PUT").
+		Name("eolymp.atlas.TestingService.UpdateValidator")
+	router.Handle(prefix+"/validator", _TestingService_DescribeValidator_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.atlas.TestingService.DescribeValidator")
 	router.Handle(prefix+"/testsets", _TestingService_CreateTestset_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.TestingService.CreateTestset")
@@ -306,6 +312,50 @@ func _TestingService_DescribeInteractor_Rule0(cli TestingServiceClient) http.Han
 		var header, trailer metadata.MD
 
 		out, err := cli.DescribeInteractor(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_TestingService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_TestingService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _TestingService_UpdateValidator_Rule0(cli TestingServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UpdateValidatorInput{}
+
+		if err := _TestingService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_TestingService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateValidator(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_TestingService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_TestingService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _TestingService_DescribeValidator_Rule0(cli TestingServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeValidatorInput{}
+
+		if err := _TestingService_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_TestingService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeValidator(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return

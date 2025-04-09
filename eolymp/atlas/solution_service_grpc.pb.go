@@ -24,6 +24,7 @@ const (
 	SolutionService_DeleteSolution_FullMethodName   = "/eolymp.atlas.SolutionService/DeleteSolution"
 	SolutionService_DescribeSolution_FullMethodName = "/eolymp.atlas.SolutionService/DescribeSolution"
 	SolutionService_ListSolutions_FullMethodName    = "/eolymp.atlas.SolutionService/ListSolutions"
+	SolutionService_CheckSolutions_FullMethodName   = "/eolymp.atlas.SolutionService/CheckSolutions"
 )
 
 // SolutionServiceClient is the client API for SolutionService service.
@@ -35,6 +36,7 @@ type SolutionServiceClient interface {
 	DeleteSolution(ctx context.Context, in *DeleteSolutionInput, opts ...grpc.CallOption) (*DeleteSolutionOutput, error)
 	DescribeSolution(ctx context.Context, in *DescribeSolutionInput, opts ...grpc.CallOption) (*DescribeSolutionOutput, error)
 	ListSolutions(ctx context.Context, in *ListSolutionsInput, opts ...grpc.CallOption) (*ListSolutionsOutput, error)
+	CheckSolutions(ctx context.Context, in *CheckSolutionsInput, opts ...grpc.CallOption) (*CheckSolutionsOutput, error)
 }
 
 type solutionServiceClient struct {
@@ -95,6 +97,16 @@ func (c *solutionServiceClient) ListSolutions(ctx context.Context, in *ListSolut
 	return out, nil
 }
 
+func (c *solutionServiceClient) CheckSolutions(ctx context.Context, in *CheckSolutionsInput, opts ...grpc.CallOption) (*CheckSolutionsOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CheckSolutionsOutput)
+	err := c.cc.Invoke(ctx, SolutionService_CheckSolutions_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SolutionServiceServer is the server API for SolutionService service.
 // All implementations should embed UnimplementedSolutionServiceServer
 // for forward compatibility.
@@ -104,6 +116,7 @@ type SolutionServiceServer interface {
 	DeleteSolution(context.Context, *DeleteSolutionInput) (*DeleteSolutionOutput, error)
 	DescribeSolution(context.Context, *DescribeSolutionInput) (*DescribeSolutionOutput, error)
 	ListSolutions(context.Context, *ListSolutionsInput) (*ListSolutionsOutput, error)
+	CheckSolutions(context.Context, *CheckSolutionsInput) (*CheckSolutionsOutput, error)
 }
 
 // UnimplementedSolutionServiceServer should be embedded to have
@@ -127,6 +140,9 @@ func (UnimplementedSolutionServiceServer) DescribeSolution(context.Context, *Des
 }
 func (UnimplementedSolutionServiceServer) ListSolutions(context.Context, *ListSolutionsInput) (*ListSolutionsOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListSolutions not implemented")
+}
+func (UnimplementedSolutionServiceServer) CheckSolutions(context.Context, *CheckSolutionsInput) (*CheckSolutionsOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CheckSolutions not implemented")
 }
 func (UnimplementedSolutionServiceServer) testEmbeddedByValue() {}
 
@@ -238,6 +254,24 @@ func _SolutionService_ListSolutions_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SolutionService_CheckSolutions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CheckSolutionsInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SolutionServiceServer).CheckSolutions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SolutionService_CheckSolutions_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SolutionServiceServer).CheckSolutions(ctx, req.(*CheckSolutionsInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // SolutionService_ServiceDesc is the grpc.ServiceDesc for SolutionService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -264,6 +298,10 @@ var SolutionService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListSolutions",
 			Handler:    _SolutionService_ListSolutions_Handler,
+		},
+		{
+			MethodName: "CheckSolutions",
+			Handler:    _SolutionService_CheckSolutions_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -99,3 +99,25 @@ func (s *SSOServiceService) do(ctx context.Context, verb, path string, in, out p
 
 	return nil
 }
+
+func (s *SSOServiceService) SignonRequest(ctx context.Context, in *SignonRequestInput) (*SignonRequestOutput, error) {
+	out := &SignonRequestOutput{}
+	path := "/sso:request"
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *SSOServiceService) SignonExchange(ctx context.Context, in *SignonExchangeInput) (*SignonExchangeOutput, error) {
+	out := &SignonExchangeOutput{}
+	path := "/sso:exchange"
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

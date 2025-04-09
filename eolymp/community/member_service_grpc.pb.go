@@ -21,6 +21,7 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	MemberService_CreateMember_FullMethodName        = "/eolymp.community.MemberService/CreateMember"
 	MemberService_UpdateMember_FullMethodName        = "/eolymp.community.MemberService/UpdateMember"
+	MemberService_UpdateMemberPicture_FullMethodName = "/eolymp.community.MemberService/UpdateMemberPicture"
 	MemberService_DeleteMember_FullMethodName        = "/eolymp.community.MemberService/DeleteMember"
 	MemberService_RestoreMember_FullMethodName       = "/eolymp.community.MemberService/RestoreMember"
 	MemberService_DescribeMember_FullMethodName      = "/eolymp.community.MemberService/DescribeMember"
@@ -38,6 +39,7 @@ const (
 type MemberServiceClient interface {
 	CreateMember(ctx context.Context, in *CreateMemberInput, opts ...grpc.CallOption) (*CreateMemberOutput, error)
 	UpdateMember(ctx context.Context, in *UpdateMemberInput, opts ...grpc.CallOption) (*UpdateMemberOutput, error)
+	UpdateMemberPicture(ctx context.Context, in *UpdateMemberPictureInput, opts ...grpc.CallOption) (*UpdateMemberPictureOutput, error)
 	DeleteMember(ctx context.Context, in *DeleteMemberInput, opts ...grpc.CallOption) (*DeleteMemberOutput, error)
 	RestoreMember(ctx context.Context, in *RestoreMemberInput, opts ...grpc.CallOption) (*RestoreMemberOutput, error)
 	DescribeMember(ctx context.Context, in *DescribeMemberInput, opts ...grpc.CallOption) (*DescribeMemberOutput, error)
@@ -69,6 +71,16 @@ func (c *memberServiceClient) UpdateMember(ctx context.Context, in *UpdateMember
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UpdateMemberOutput)
 	err := c.cc.Invoke(ctx, MemberService_UpdateMember_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *memberServiceClient) UpdateMemberPicture(ctx context.Context, in *UpdateMemberPictureInput, opts ...grpc.CallOption) (*UpdateMemberPictureOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateMemberPictureOutput)
+	err := c.cc.Invoke(ctx, MemberService_UpdateMemberPicture_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -153,6 +165,7 @@ func (c *memberServiceClient) DescribeMemberUsage(ctx context.Context, in *Descr
 type MemberServiceServer interface {
 	CreateMember(context.Context, *CreateMemberInput) (*CreateMemberOutput, error)
 	UpdateMember(context.Context, *UpdateMemberInput) (*UpdateMemberOutput, error)
+	UpdateMemberPicture(context.Context, *UpdateMemberPictureInput) (*UpdateMemberPictureOutput, error)
 	DeleteMember(context.Context, *DeleteMemberInput) (*DeleteMemberOutput, error)
 	RestoreMember(context.Context, *RestoreMemberInput) (*RestoreMemberOutput, error)
 	DescribeMember(context.Context, *DescribeMemberInput) (*DescribeMemberOutput, error)
@@ -174,6 +187,9 @@ func (UnimplementedMemberServiceServer) CreateMember(context.Context, *CreateMem
 }
 func (UnimplementedMemberServiceServer) UpdateMember(context.Context, *UpdateMemberInput) (*UpdateMemberOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateMember not implemented")
+}
+func (UnimplementedMemberServiceServer) UpdateMemberPicture(context.Context, *UpdateMemberPictureInput) (*UpdateMemberPictureOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateMemberPicture not implemented")
 }
 func (UnimplementedMemberServiceServer) DeleteMember(context.Context, *DeleteMemberInput) (*DeleteMemberOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteMember not implemented")
@@ -248,6 +264,24 @@ func _MemberService_UpdateMember_Handler(srv interface{}, ctx context.Context, d
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(MemberServiceServer).UpdateMember(ctx, req.(*UpdateMemberInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MemberService_UpdateMemberPicture_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateMemberPictureInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MemberServiceServer).UpdateMemberPicture(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MemberService_UpdateMemberPicture_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MemberServiceServer).UpdateMemberPicture(ctx, req.(*UpdateMemberPictureInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -392,6 +426,10 @@ var MemberService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateMember",
 			Handler:    _MemberService_UpdateMember_Handler,
+		},
+		{
+			MethodName: "UpdateMemberPicture",
+			Handler:    _MemberService_UpdateMemberPicture_Handler,
 		},
 		{
 			MethodName: "DeleteMember",

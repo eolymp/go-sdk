@@ -166,6 +166,28 @@ func (s *TestingServiceService) DescribeInteractor(ctx context.Context, in *Desc
 	return out, nil
 }
 
+func (s *TestingServiceService) UpdateValidator(ctx context.Context, in *UpdateValidatorInput) (*UpdateValidatorOutput, error) {
+	out := &UpdateValidatorOutput{}
+	path := "/validator"
+
+	if err := s.do(ctx, "PUT", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *TestingServiceService) DescribeValidator(ctx context.Context, in *DescribeValidatorInput) (*DescribeValidatorOutput, error) {
+	out := &DescribeValidatorOutput{}
+	path := "/validator"
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *TestingServiceService) CreateTestset(ctx context.Context, in *CreateTestsetInput) (*CreateTestsetOutput, error) {
 	out := &CreateTestsetOutput{}
 	path := "/testsets"

@@ -102,7 +102,7 @@ func (s *RenderServiceService) do(ctx context.Context, verb, path string, in, ou
 
 func (s *RenderServiceService) RenderContent(ctx context.Context, in *RenderContentInput) (*RenderContentOutput, error) {
 	out := &RenderContentOutput{}
-	path := "/renderer"
+	path := "/content:render"
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err

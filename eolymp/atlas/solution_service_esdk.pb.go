@@ -169,3 +169,14 @@ func (s *SolutionServiceService) ListSolutions(ctx context.Context, in *ListSolu
 
 	return out, nil
 }
+
+func (s *SolutionServiceService) CheckSolutions(ctx context.Context, in *CheckSolutionsInput) (*CheckSolutionsOutput, error) {
+	out := &CheckSolutionsOutput{}
+	path := "/solutions:check"
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
