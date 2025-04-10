@@ -149,15 +149,21 @@ func RegisterParticipantServiceHttpHandlers(router *mux.Router, prefix string, c
 	router.Handle(prefix+"/participants", _ParticipantService_ListParticipants_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ParticipantService.ListParticipants")
-	router.Handle(prefix+"/introspect", _ParticipantService_DescribeViewer_Rule0(cli)).
-		Methods("GET").
-		Name("eolymp.judge.ParticipantService.DescribeViewer")
 	router.Handle(prefix+"/join", _ParticipantService_JoinContest_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.ParticipantService.JoinContest")
+	router.Handle(prefix+"/introspect", _ParticipantService_DescribeViewer_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.judge.ParticipantService.DescribeViewer")
 	router.Handle(prefix+"/start", _ParticipantService_StartContest_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.ParticipantService.StartContest")
+	router.Handle(prefix+"/pause", _ParticipantService_PauseContest_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.judge.ParticipantService.PauseContest")
+	router.Handle(prefix+"/finish", _ParticipantService_FinishContest_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.judge.ParticipantService.FinishContest")
 }
 
 // RegisterParticipantServiceHttpProxy adds proxy handlers for for ParticipantServiceClient
@@ -359,28 +365,6 @@ func _ParticipantService_ListParticipants_Rule0(cli ParticipantServiceClient) ht
 	})
 }
 
-func _ParticipantService_DescribeViewer_Rule0(cli ParticipantServiceClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DescribeViewerInput{}
-
-		if err := _ParticipantService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_ParticipantService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		var header, trailer metadata.MD
-
-		out, err := cli.DescribeViewer(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
-		if err != nil {
-			_ParticipantService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_ParticipantService_HTTPWriteResponse(w, out, header, trailer)
-	})
-}
-
 func _ParticipantService_JoinContest_Rule0(cli ParticipantServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &JoinContestInput{}
@@ -403,6 +387,28 @@ func _ParticipantService_JoinContest_Rule0(cli ParticipantServiceClient) http.Ha
 	})
 }
 
+func _ParticipantService_DescribeViewer_Rule0(cli ParticipantServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeViewerInput{}
+
+		if err := _ParticipantService_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_ParticipantService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeViewer(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ParticipantService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ParticipantService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
 func _ParticipantService_StartContest_Rule0(cli ParticipantServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &StartContestInput{}
@@ -416,6 +422,50 @@ func _ParticipantService_StartContest_Rule0(cli ParticipantServiceClient) http.H
 		var header, trailer metadata.MD
 
 		out, err := cli.StartContest(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ParticipantService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ParticipantService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ParticipantService_PauseContest_Rule0(cli ParticipantServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &PauseContestInput{}
+
+		if err := _ParticipantService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_ParticipantService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.PauseContest(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ParticipantService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ParticipantService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ParticipantService_FinishContest_Rule0(cli ParticipantServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &FinishContestInput{}
+
+		if err := _ParticipantService_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_ParticipantService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.FinishContest(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ParticipantService_HTTPWriteErrorResponse(w, err)
 			return

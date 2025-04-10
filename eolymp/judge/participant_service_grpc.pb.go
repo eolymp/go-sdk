@@ -28,9 +28,11 @@ const (
 	ParticipantService_DescribeParticipant_FullMethodName   = "/eolymp.judge.ParticipantService/DescribeParticipant"
 	ParticipantService_ListParticipants_FullMethodName      = "/eolymp.judge.ParticipantService/ListParticipants"
 	ParticipantService_WatchParticipant_FullMethodName      = "/eolymp.judge.ParticipantService/WatchParticipant"
-	ParticipantService_DescribeViewer_FullMethodName        = "/eolymp.judge.ParticipantService/DescribeViewer"
 	ParticipantService_JoinContest_FullMethodName           = "/eolymp.judge.ParticipantService/JoinContest"
+	ParticipantService_DescribeViewer_FullMethodName        = "/eolymp.judge.ParticipantService/DescribeViewer"
 	ParticipantService_StartContest_FullMethodName          = "/eolymp.judge.ParticipantService/StartContest"
+	ParticipantService_PauseContest_FullMethodName          = "/eolymp.judge.ParticipantService/PauseContest"
+	ParticipantService_FinishContest_FullMethodName         = "/eolymp.judge.ParticipantService/FinishContest"
 )
 
 // ParticipantServiceClient is the client API for ParticipantService service.
@@ -48,13 +50,17 @@ type ParticipantServiceClient interface {
 	DescribeParticipant(ctx context.Context, in *DescribeParticipantInput, opts ...grpc.CallOption) (*DescribeParticipantOutput, error)
 	ListParticipants(ctx context.Context, in *ListParticipantsInput, opts ...grpc.CallOption) (*ListParticipantsOutput, error)
 	WatchParticipant(ctx context.Context, in *WatchParticipantInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchParticipantOutput], error)
-	// DescribeViewer allows to fetch participant data for a currently authorized user.
-	DescribeViewer(ctx context.Context, in *DescribeViewerInput, opts ...grpc.CallOption) (*DescribeViewerOutput, error)
 	// Allows a participant (currently authorized user) to join (add himself to) a public contest.
 	// deprecated: use registration service instead
 	JoinContest(ctx context.Context, in *JoinContestInput, opts ...grpc.CallOption) (*JoinContestOutput, error)
+	// DescribeViewer allows to fetch participant data for a currently authorized user.
+	DescribeViewer(ctx context.Context, in *DescribeViewerInput, opts ...grpc.CallOption) (*DescribeViewerOutput, error)
 	// Allows a participant (currently authorized user) to start participating in the contest, see problems and submit solutions.
 	StartContest(ctx context.Context, in *StartContestInput, opts ...grpc.CallOption) (*StartContestOutput, error)
+	// Allows a participant to temporarily stop participating in the contest. Participation can be restarted using StartContest API.
+	PauseContest(ctx context.Context, in *PauseContestInput, opts ...grpc.CallOption) (*PauseContestOutput, error)
+	// FinishContest allows to finish contest before the end time.
+	FinishContest(ctx context.Context, in *FinishContestInput, opts ...grpc.CallOption) (*FinishContestOutput, error)
 }
 
 type participantServiceClient struct {
@@ -164,16 +170,6 @@ func (c *participantServiceClient) WatchParticipant(ctx context.Context, in *Wat
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type ParticipantService_WatchParticipantClient = grpc.ServerStreamingClient[WatchParticipantOutput]
 
-func (c *participantServiceClient) DescribeViewer(ctx context.Context, in *DescribeViewerInput, opts ...grpc.CallOption) (*DescribeViewerOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DescribeViewerOutput)
-	err := c.cc.Invoke(ctx, ParticipantService_DescribeViewer_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *participantServiceClient) JoinContest(ctx context.Context, in *JoinContestInput, opts ...grpc.CallOption) (*JoinContestOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(JoinContestOutput)
@@ -184,10 +180,40 @@ func (c *participantServiceClient) JoinContest(ctx context.Context, in *JoinCont
 	return out, nil
 }
 
+func (c *participantServiceClient) DescribeViewer(ctx context.Context, in *DescribeViewerInput, opts ...grpc.CallOption) (*DescribeViewerOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DescribeViewerOutput)
+	err := c.cc.Invoke(ctx, ParticipantService_DescribeViewer_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *participantServiceClient) StartContest(ctx context.Context, in *StartContestInput, opts ...grpc.CallOption) (*StartContestOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(StartContestOutput)
 	err := c.cc.Invoke(ctx, ParticipantService_StartContest_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *participantServiceClient) PauseContest(ctx context.Context, in *PauseContestInput, opts ...grpc.CallOption) (*PauseContestOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(PauseContestOutput)
+	err := c.cc.Invoke(ctx, ParticipantService_PauseContest_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *participantServiceClient) FinishContest(ctx context.Context, in *FinishContestInput, opts ...grpc.CallOption) (*FinishContestOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(FinishContestOutput)
+	err := c.cc.Invoke(ctx, ParticipantService_FinishContest_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -209,13 +235,17 @@ type ParticipantServiceServer interface {
 	DescribeParticipant(context.Context, *DescribeParticipantInput) (*DescribeParticipantOutput, error)
 	ListParticipants(context.Context, *ListParticipantsInput) (*ListParticipantsOutput, error)
 	WatchParticipant(*WatchParticipantInput, grpc.ServerStreamingServer[WatchParticipantOutput]) error
-	// DescribeViewer allows to fetch participant data for a currently authorized user.
-	DescribeViewer(context.Context, *DescribeViewerInput) (*DescribeViewerOutput, error)
 	// Allows a participant (currently authorized user) to join (add himself to) a public contest.
 	// deprecated: use registration service instead
 	JoinContest(context.Context, *JoinContestInput) (*JoinContestOutput, error)
+	// DescribeViewer allows to fetch participant data for a currently authorized user.
+	DescribeViewer(context.Context, *DescribeViewerInput) (*DescribeViewerOutput, error)
 	// Allows a participant (currently authorized user) to start participating in the contest, see problems and submit solutions.
 	StartContest(context.Context, *StartContestInput) (*StartContestOutput, error)
+	// Allows a participant to temporarily stop participating in the contest. Participation can be restarted using StartContest API.
+	PauseContest(context.Context, *PauseContestInput) (*PauseContestOutput, error)
+	// FinishContest allows to finish contest before the end time.
+	FinishContest(context.Context, *FinishContestInput) (*FinishContestOutput, error)
 }
 
 // UnimplementedParticipantServiceServer should be embedded to have
@@ -252,14 +282,20 @@ func (UnimplementedParticipantServiceServer) ListParticipants(context.Context, *
 func (UnimplementedParticipantServiceServer) WatchParticipant(*WatchParticipantInput, grpc.ServerStreamingServer[WatchParticipantOutput]) error {
 	return status.Errorf(codes.Unimplemented, "method WatchParticipant not implemented")
 }
-func (UnimplementedParticipantServiceServer) DescribeViewer(context.Context, *DescribeViewerInput) (*DescribeViewerOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DescribeViewer not implemented")
-}
 func (UnimplementedParticipantServiceServer) JoinContest(context.Context, *JoinContestInput) (*JoinContestOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method JoinContest not implemented")
 }
+func (UnimplementedParticipantServiceServer) DescribeViewer(context.Context, *DescribeViewerInput) (*DescribeViewerOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeViewer not implemented")
+}
 func (UnimplementedParticipantServiceServer) StartContest(context.Context, *StartContestInput) (*StartContestOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method StartContest not implemented")
+}
+func (UnimplementedParticipantServiceServer) PauseContest(context.Context, *PauseContestInput) (*PauseContestOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PauseContest not implemented")
+}
+func (UnimplementedParticipantServiceServer) FinishContest(context.Context, *FinishContestInput) (*FinishContestOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FinishContest not implemented")
 }
 func (UnimplementedParticipantServiceServer) testEmbeddedByValue() {}
 
@@ -436,24 +472,6 @@ func _ParticipantService_WatchParticipant_Handler(srv interface{}, stream grpc.S
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type ParticipantService_WatchParticipantServer = grpc.ServerStreamingServer[WatchParticipantOutput]
 
-func _ParticipantService_DescribeViewer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DescribeViewerInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ParticipantServiceServer).DescribeViewer(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ParticipantService_DescribeViewer_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ParticipantServiceServer).DescribeViewer(ctx, req.(*DescribeViewerInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _ParticipantService_JoinContest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(JoinContestInput)
 	if err := dec(in); err != nil {
@@ -472,6 +490,24 @@ func _ParticipantService_JoinContest_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ParticipantService_DescribeViewer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeViewerInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ParticipantServiceServer).DescribeViewer(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ParticipantService_DescribeViewer_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ParticipantServiceServer).DescribeViewer(ctx, req.(*DescribeViewerInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ParticipantService_StartContest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(StartContestInput)
 	if err := dec(in); err != nil {
@@ -486,6 +522,42 @@ func _ParticipantService_StartContest_Handler(srv interface{}, ctx context.Conte
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ParticipantServiceServer).StartContest(ctx, req.(*StartContestInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ParticipantService_PauseContest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PauseContestInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ParticipantServiceServer).PauseContest(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ParticipantService_PauseContest_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ParticipantServiceServer).PauseContest(ctx, req.(*PauseContestInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ParticipantService_FinishContest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FinishContestInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ParticipantServiceServer).FinishContest(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ParticipantService_FinishContest_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ParticipantServiceServer).FinishContest(ctx, req.(*FinishContestInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -530,16 +602,24 @@ var ParticipantService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _ParticipantService_ListParticipants_Handler,
 		},
 		{
-			MethodName: "DescribeViewer",
-			Handler:    _ParticipantService_DescribeViewer_Handler,
-		},
-		{
 			MethodName: "JoinContest",
 			Handler:    _ParticipantService_JoinContest_Handler,
 		},
 		{
+			MethodName: "DescribeViewer",
+			Handler:    _ParticipantService_DescribeViewer_Handler,
+		},
+		{
 			MethodName: "StartContest",
 			Handler:    _ParticipantService_StartContest_Handler,
+		},
+		{
+			MethodName: "PauseContest",
+			Handler:    _ParticipantService_PauseContest_Handler,
+		},
+		{
+			MethodName: "FinishContest",
+			Handler:    _ParticipantService_FinishContest_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

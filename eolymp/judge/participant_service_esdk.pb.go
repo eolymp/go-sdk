@@ -218,17 +218,6 @@ func (s *ParticipantServiceService) ListParticipants(ctx context.Context, in *Li
 	return out, nil
 }
 
-func (s *ParticipantServiceService) DescribeViewer(ctx context.Context, in *DescribeViewerInput) (*DescribeViewerOutput, error) {
-	out := &DescribeViewerOutput{}
-	path := "/introspect"
-
-	if err := s.do(ctx, "GET", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
 func (s *ParticipantServiceService) JoinContest(ctx context.Context, in *JoinContestInput) (*JoinContestOutput, error) {
 	out := &JoinContestOutput{}
 	path := "/join"
@@ -240,11 +229,44 @@ func (s *ParticipantServiceService) JoinContest(ctx context.Context, in *JoinCon
 	return out, nil
 }
 
+func (s *ParticipantServiceService) DescribeViewer(ctx context.Context, in *DescribeViewerInput) (*DescribeViewerOutput, error) {
+	out := &DescribeViewerOutput{}
+	path := "/introspect"
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *ParticipantServiceService) StartContest(ctx context.Context, in *StartContestInput) (*StartContestOutput, error) {
 	out := &StartContestOutput{}
 	path := "/start"
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *ParticipantServiceService) PauseContest(ctx context.Context, in *PauseContestInput) (*PauseContestOutput, error) {
+	out := &PauseContestOutput{}
+	path := "/pause"
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *ParticipantServiceService) FinishContest(ctx context.Context, in *FinishContestInput) (*FinishContestOutput, error) {
+	out := &FinishContestOutput{}
+	path := "/finish"
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 

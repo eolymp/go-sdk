@@ -32,6 +32,7 @@ const (
 	Participant_COMPLETE       Participant_Status = 3 // participant has completed contest (contest is complete, time run out etc)
 	Participant_UPSOLVE        Participant_Status = 7 // participant has completed contest but can continue solve problems in upsolve mode
 	Participant_BLOCKED        Participant_Status = 8 // participant can not participate (participant is blocked or contest is suspended)
+	Participant_PAUSED         Participant_Status = 9 // participant has voluntarily paused contest (can be restarted using StartContest method)
 )
 
 // Enum value maps for Participant_Status.
@@ -44,6 +45,7 @@ var (
 		3: "COMPLETE",
 		7: "UPSOLVE",
 		8: "BLOCKED",
+		9: "PAUSED",
 	}
 	Participant_Status_value = map[string]int32{
 		"UNKNOWN_STATUS": 0,
@@ -53,6 +55,7 @@ var (
 		"COMPLETE":       3,
 		"UPSOLVE":        7,
 		"BLOCKED":        8,
+		"PAUSED":         9,
 	}
 )
 
@@ -324,7 +327,7 @@ var File_eolymp_judge_participant_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_participant_proto_rawDesc = "" +
 	"\n" +
-	"\x1eeolymp/judge/participant.proto\x12\feolymp.judge\x1a\x18eolymp/judge/medal.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc5\x06\n" +
+	"\x1eeolymp/judge/participant.proto\x12\feolymp.judge\x1a\x18eolymp/judge/medal.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xd1\x06\n" +
 	"\vParticipant\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1b\n" +
 	"\tmember_id\x18\x04 \x01(\tR\bmemberId\x12!\n" +
@@ -353,7 +356,7 @@ const file_eolymp_judge_participant_proto_rawDesc = "" +
 	"\x06Submit\x12\x1d\n" +
 	"\n" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x18\n" +
-	"\acounter\x18\x02 \x01(\rR\acounter\"h\n" +
+	"\acounter\x18\x02 \x01(\rR\acounter\"t\n" +
 	"\x06Status\x12\x12\n" +
 	"\x0eUNKNOWN_STATUS\x10\x00\x12\v\n" +
 	"\aWAITING\x10\x05\x12\t\n" +
@@ -362,7 +365,9 @@ const file_eolymp_judge_participant_proto_rawDesc = "" +
 	"\x06ACTIVE\x10\x02\x12\f\n" +
 	"\bCOMPLETE\x10\x03\x12\v\n" +
 	"\aUPSOLVE\x10\a\x12\v\n" +
-	"\aBLOCKED\x10\bB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
+	"\aBLOCKED\x10\b\x12\n" +
+	"\n" +
+	"\x06PAUSED\x10\tB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
 
 var (
 	file_eolymp_judge_participant_proto_rawDescOnce sync.Once
