@@ -35,6 +35,8 @@ const (
 	UpdateContestInput_VISIBILITY               UpdateContestInput_Patch = 6
 	UpdateContestInput_JOIN_UNOFFICIALLY        UpdateContestInput_Patch = 7
 	UpdateContestInput_REQUIRE_ADMISSION        UpdateContestInput_Patch = 16
+	UpdateContestInput_ALLOW_PAUSE              UpdateContestInput_Patch = 17
+	UpdateContestInput_ALLOW_FINISH_EARLY       UpdateContestInput_Patch = 18
 	UpdateContestInput_PARTICIPATION_MODE       UpdateContestInput_Patch = 8
 	UpdateContestInput_FORMAT                   UpdateContestInput_Patch = 10
 	UpdateContestInput_KEY                      UpdateContestInput_Patch = 11
@@ -62,6 +64,8 @@ var (
 		6:   "VISIBILITY",
 		7:   "JOIN_UNOFFICIALLY",
 		16:  "REQUIRE_ADMISSION",
+		17:  "ALLOW_PAUSE",
+		18:  "ALLOW_FINISH_EARLY",
 		8:   "PARTICIPATION_MODE",
 		10:  "FORMAT",
 		11:  "KEY",
@@ -86,6 +90,8 @@ var (
 		"VISIBILITY":               6,
 		"JOIN_UNOFFICIALLY":        7,
 		"REQUIRE_ADMISSION":        16,
+		"ALLOW_PAUSE":              17,
+		"ALLOW_FINISH_EARLY":       18,
 		"PARTICIPATION_MODE":       8,
 		"FORMAT":                   10,
 		"KEY":                      11,
@@ -1796,12 +1802,12 @@ const file_eolymp_judge_contest_service_proto_rawDesc = "" +
 	"\x12DeleteContestInput\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\"\x15\n" +
-	"\x13DeleteContestOutput\"\x9e\x04\n" +
+	"\x13DeleteContestOutput\"\xc7\x04\n" +
 	"\x12UpdateContestInput\x12<\n" +
 	"\x05patch\x18\x03 \x03(\x0e2&.eolymp.judge.UpdateContestInput.PatchR\x05patch\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\x12/\n" +
-	"\acontest\x18\x02 \x01(\v2\x15.eolymp.judge.ContestR\acontest\"\xf9\x02\n" +
+	"\acontest\x18\x02 \x01(\v2\x15.eolymp.judge.ContestR\acontest\"\xa2\x03\n" +
 	"\x05Patch\x12\a\n" +
 	"\x03ALL\x10\x00\x12\b\n" +
 	"\x04NAME\x10\x02\x12\r\n" +
@@ -1811,7 +1817,9 @@ const file_eolymp_judge_contest_service_proto_rawDesc = "" +
 	"\n" +
 	"VISIBILITY\x10\x06\x12\x15\n" +
 	"\x11JOIN_UNOFFICIALLY\x10\a\x12\x15\n" +
-	"\x11REQUIRE_ADMISSION\x10\x10\x12\x16\n" +
+	"\x11REQUIRE_ADMISSION\x10\x10\x12\x0f\n" +
+	"\vALLOW_PAUSE\x10\x11\x12\x16\n" +
+	"\x12ALLOW_FINISH_EARLY\x10\x12\x12\x16\n" +
 	"\x12PARTICIPATION_MODE\x10\b\x12\n" +
 	"\n" +
 	"\x06FORMAT\x10\n" +

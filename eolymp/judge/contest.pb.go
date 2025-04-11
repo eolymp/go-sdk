@@ -372,8 +372,9 @@ type Contest struct {
 	JoinUnofficially bool `protobuf:"varint,33,opt,name=join_unofficially,json=joinUnofficially,proto3" json:"join_unofficially,omitempty"`
 	// Participation mode defines timeframe for participation: online or virtual.
 	ParticipationMode Contest_ParticipationMode `protobuf:"varint,31,opt,name=participation_mode,json=participationMode,proto3,enum=eolymp.judge.Contest_ParticipationMode" json:"participation_mode,omitempty"`
-	// Require manual admission to the contest
-	RequireAdmission bool `protobuf:"varint,35,opt,name=require_admission,json=requireAdmission,proto3" json:"require_admission,omitempty"`
+	RequireAdmission  bool                      `protobuf:"varint,35,opt,name=require_admission,json=requireAdmission,proto3" json:"require_admission,omitempty"`   // Require manual admission to the contest
+	AllowPause        bool                      `protobuf:"varint,36,opt,name=allow_pause,json=allowPause,proto3" json:"allow_pause,omitempty"`                     // Allow participants to pause their screen
+	AllowFinishEarly  bool                      `protobuf:"varint,37,opt,name=allow_finish_early,json=allowFinishEarly,proto3" json:"allow_finish_early,omitempty"` // Allow participants to finish contest before the end time
 	// Format defines competition style IOI or ICPC.
 	Format Contest_Format `protobuf:"varint,32,opt,name=format,proto3,enum=eolymp.judge.Contest_Format" json:"format,omitempty"`
 	// contest key used to make human friendly URLs.
@@ -528,6 +529,20 @@ func (x *Contest) GetParticipationMode() Contest_ParticipationMode {
 func (x *Contest) GetRequireAdmission() bool {
 	if x != nil {
 		return x.RequireAdmission
+	}
+	return false
+}
+
+func (x *Contest) GetAllowPause() bool {
+	if x != nil {
+		return x.AllowPause
+	}
+	return false
+}
+
+func (x *Contest) GetAllowFinishEarly() bool {
+	if x != nil {
+		return x.AllowFinishEarly
 	}
 	return false
 }
@@ -1086,7 +1101,7 @@ var File_eolymp_judge_contest_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\n" +
-	"\x1aeolymp/judge/contest.proto\x12\feolymp.judge\x1a\x1fgoogle/protobuf/timestamp.proto\"\xdd\x15\n" +
+	"\x1aeolymp/judge/contest.proto\x12\feolymp.judge\x1a\x1fgoogle/protobuf/timestamp.proto\"\xac\x16\n" +
 	"\aContest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x10\n" +
 	"\x03url\x18\x02 \x01(\tR\x03url\x12\x12\n" +
@@ -1104,7 +1119,10 @@ const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"visibility\x12+\n" +
 	"\x11join_unofficially\x18! \x01(\bR\x10joinUnofficially\x12V\n" +
 	"\x12participation_mode\x18\x1f \x01(\x0e2'.eolymp.judge.Contest.ParticipationModeR\x11participationMode\x12+\n" +
-	"\x11require_admission\x18# \x01(\bR\x10requireAdmission\x124\n" +
+	"\x11require_admission\x18# \x01(\bR\x10requireAdmission\x12\x1f\n" +
+	"\vallow_pause\x18$ \x01(\bR\n" +
+	"allowPause\x12,\n" +
+	"\x12allow_finish_early\x18% \x01(\bR\x10allowFinishEarly\x124\n" +
 	"\x06format\x18  \x01(\x0e2\x1c.eolymp.judge.Contest.FormatR\x06format\x12\x10\n" +
 	"\x03key\x18( \x01(\tR\x03key\x12#\n" +
 	"\rproblem_count\x18< \x01(\rR\fproblemCount\x120\n" +
