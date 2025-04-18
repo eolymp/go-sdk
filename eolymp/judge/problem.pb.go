@@ -27,6 +27,7 @@ type Problem struct {
 	state              protoimpl.MessageState `protogen:"open.v1"`
 	Id                 string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"` // globally problem ID
 	Url                string                 `protobuf:"bytes,6,opt,name=url,proto3" json:"url,omitempty"`
+	Type               atlas.Problem_Type     `protobuf:"varint,23,opt,name=type,proto3,enum=eolymp.atlas.Problem_Type" json:"type,omitempty"`
 	Index              uint32                 `protobuf:"varint,2,opt,name=index,proto3" json:"index,omitempty"`                // problem index within contest
 	Score              float32                `protobuf:"fixed32,3,opt,name=score,proto3" json:"score,omitempty"`               // score for solving problem
 	BaseId             string                 `protobuf:"bytes,4,opt,name=base_id,json=baseId,proto3" json:"base_id,omitempty"` // ID of the problem in database achieve
@@ -86,6 +87,13 @@ func (x *Problem) GetUrl() string {
 		return x.Url
 	}
 	return ""
+}
+
+func (x *Problem) GetType() atlas.Problem_Type {
+	if x != nil {
+		return x.Type
+	}
+	return atlas.Problem_Type(0)
 }
 
 func (x *Problem) GetIndex() uint32 {
@@ -390,10 +398,11 @@ var File_eolymp_judge_problem_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_problem_proto_rawDesc = "" +
 	"\n" +
-	"\x1aeolymp/judge/problem.proto\x12\feolymp.judge\x1a#eolymp/atlas/testing_feedback.proto\x1a\x15eolymp/ecm/node.proto\"\xdc\x06\n" +
+	"\x1aeolymp/judge/problem.proto\x12\feolymp.judge\x1a\x1aeolymp/atlas/problem.proto\x1a#eolymp/atlas/testing_feedback.proto\x1a\x15eolymp/ecm/node.proto\"\x8c\a\n" +
 	"\aProblem\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x10\n" +
-	"\x03url\x18\x06 \x01(\tR\x03url\x12\x14\n" +
+	"\x03url\x18\x06 \x01(\tR\x03url\x12.\n" +
+	"\x04type\x18\x17 \x01(\x0e2\x1a.eolymp.atlas.Problem.TypeR\x04type\x12\x14\n" +
 	"\x05index\x18\x02 \x01(\rR\x05index\x12\x14\n" +
 	"\x05score\x18\x03 \x01(\x02R\x05score\x12\x17\n" +
 	"\abase_id\x18\x04 \x01(\tR\x06baseId\x12\x1f\n" +
@@ -447,17 +456,19 @@ var file_eolymp_judge_problem_proto_goTypes = []any{
 	(*Problem_Statement)(nil),  // 1: eolymp.judge.Problem.Statement
 	(*Problem_Test)(nil),       // 2: eolymp.judge.Problem.Test
 	(*Problem_Attachment)(nil), // 3: eolymp.judge.Problem.Attachment
-	(atlas.FeedbackPolicy)(0),  // 4: eolymp.atlas.FeedbackPolicy
-	(*ecm.Node)(nil),           // 5: eolymp.ecm.Node
+	(atlas.Problem_Type)(0),    // 4: eolymp.atlas.Problem.Type
+	(atlas.FeedbackPolicy)(0),  // 5: eolymp.atlas.FeedbackPolicy
+	(*ecm.Node)(nil),           // 6: eolymp.ecm.Node
 }
 var file_eolymp_judge_problem_proto_depIdxs = []int32{
-	4, // 0: eolymp.judge.Problem.feedback_policy:type_name -> eolymp.atlas.FeedbackPolicy
-	5, // 1: eolymp.judge.Problem.Statement.content:type_name -> eolymp.ecm.Node
-	2, // [2:2] is the sub-list for method output_type
-	2, // [2:2] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	4, // 0: eolymp.judge.Problem.type:type_name -> eolymp.atlas.Problem.Type
+	5, // 1: eolymp.judge.Problem.feedback_policy:type_name -> eolymp.atlas.FeedbackPolicy
+	6, // 2: eolymp.judge.Problem.Statement.content:type_name -> eolymp.ecm.Node
+	3, // [3:3] is the sub-list for method output_type
+	3, // [3:3] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_judge_problem_proto_init() }
