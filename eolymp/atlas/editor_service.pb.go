@@ -27,7 +27,10 @@ type Editor_Feature int32
 
 const (
 	Editor_UNKNOWN_FEATURE Editor_Feature = 0
-	Editor_PRINT_CODE      Editor_Feature = 1
+	Editor_PRINT_CODE      Editor_Feature = 1 // show print code button
+	Editor_RUN_CODE        Editor_Feature = 2 // show run code button
+	Editor_UPLOAD_CODE     Editor_Feature = 3 // show upload code button
+	Editor_EDIT_CODE       Editor_Feature = 4 // allow to edit code inline
 )
 
 // Enum value maps for Editor_Feature.
@@ -35,10 +38,16 @@ var (
 	Editor_Feature_name = map[int32]string{
 		0: "UNKNOWN_FEATURE",
 		1: "PRINT_CODE",
+		2: "RUN_CODE",
+		3: "UPLOAD_CODE",
+		4: "EDIT_CODE",
 	}
 	Editor_Feature_value = map[string]int32{
 		"UNKNOWN_FEATURE": 0,
 		"PRINT_CODE":      1,
+		"RUN_CODE":        2,
+		"UPLOAD_CODE":     3,
+		"EDIT_CODE":       4,
 	}
 )
 
@@ -561,7 +570,7 @@ var File_eolymp_atlas_editor_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_editor_service_proto_rawDesc = "" +
 	"\n" +
-	"!eolymp/atlas/editor_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1ceolymp/runtime/runtime.proto\"\xbc\x02\n" +
+	"!eolymp/atlas/editor_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1ceolymp/runtime/runtime.proto\"\xea\x02\n" +
 	"\x06Editor\x120\n" +
 	"\x05state\x18\x01 \x01(\v2\x1a.eolymp.atlas.Editor.StateR\x05state\x128\n" +
 	"\bfeatures\x18\n" +
@@ -572,11 +581,14 @@ const file_eolymp_atlas_editor_service_proto_rawDesc = "" +
 	"\vsource_code\x18\x02 \x01(\tR\n" +
 	"sourceCode\x12\x1d\n" +
 	"\n" +
-	"input_data\x18\x03 \x01(\tR\tinputData\".\n" +
+	"input_data\x18\x03 \x01(\tR\tinputData\"\\\n" +
 	"\aFeature\x12\x13\n" +
 	"\x0fUNKNOWN_FEATURE\x10\x00\x12\x0e\n" +
 	"\n" +
-	"PRINT_CODE\x10\x01\"\x15\n" +
+	"PRINT_CODE\x10\x01\x12\f\n" +
+	"\bRUN_CODE\x10\x02\x12\x0f\n" +
+	"\vUPLOAD_CODE\x10\x03\x12\r\n" +
+	"\tEDIT_CODE\x10\x04\"\x15\n" +
 	"\x13DescribeEditorInput\"D\n" +
 	"\x14DescribeEditorOutput\x12,\n" +
 	"\x06editor\x18\x01 \x01(\v2\x14.eolymp.atlas.EditorR\x06editor\"\x1a\n" +
