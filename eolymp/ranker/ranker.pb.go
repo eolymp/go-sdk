@@ -8,7 +8,7 @@ package ranker
 
 import (
 	_ "github.com/eolymp/go-sdk/eolymp/annotations"
-	wellknown "github.com/eolymp/go-sdk/eolymp/wellknown"
+	_ "github.com/eolymp/go-sdk/eolymp/wellknown"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -23,1468 +23,6 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type UpdateScoreboardInput_Patch int32
-
-const (
-	UpdateScoreboardInput_ALL          UpdateScoreboardInput_Patch = 0
-	UpdateScoreboardInput_KEY          UpdateScoreboardInput_Patch = 1
-	UpdateScoreboardInput_NAME         UpdateScoreboardInput_Patch = 2
-	UpdateScoreboardInput_DEFAULT_SORT UpdateScoreboardInput_Patch = 3
-	UpdateScoreboardInput_HISTORICAL   UpdateScoreboardInput_Patch = 4
-)
-
-// Enum value maps for UpdateScoreboardInput_Patch.
-var (
-	UpdateScoreboardInput_Patch_name = map[int32]string{
-		0: "ALL",
-		1: "KEY",
-		2: "NAME",
-		3: "DEFAULT_SORT",
-		4: "HISTORICAL",
-	}
-	UpdateScoreboardInput_Patch_value = map[string]int32{
-		"ALL":          0,
-		"KEY":          1,
-		"NAME":         2,
-		"DEFAULT_SORT": 3,
-		"HISTORICAL":   4,
-	}
-)
-
-func (x UpdateScoreboardInput_Patch) Enum() *UpdateScoreboardInput_Patch {
-	p := new(UpdateScoreboardInput_Patch)
-	*p = x
-	return p
-}
-
-func (x UpdateScoreboardInput_Patch) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (UpdateScoreboardInput_Patch) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_ranker_ranker_proto_enumTypes[0].Descriptor()
-}
-
-func (UpdateScoreboardInput_Patch) Type() protoreflect.EnumType {
-	return &file_eolymp_ranker_ranker_proto_enumTypes[0]
-}
-
-func (x UpdateScoreboardInput_Patch) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use UpdateScoreboardInput_Patch.Descriptor instead.
-func (UpdateScoreboardInput_Patch) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_ranker_ranker_proto_rawDescGZIP(), []int{2, 0}
-}
-
-type UpdateScoreboardColumnInput_Patch int32
-
-const (
-	UpdateScoreboardColumnInput_ALL        UpdateScoreboardColumnInput_Patch = 0
-	UpdateScoreboardColumnInput_PARENT_ID  UpdateScoreboardColumnInput_Patch = 1
-	UpdateScoreboardColumnInput_KEY        UpdateScoreboardColumnInput_Patch = 2
-	UpdateScoreboardColumnInput_NAME       UpdateScoreboardColumnInput_Patch = 3
-	UpdateScoreboardColumnInput_SHORT_NAME UpdateScoreboardColumnInput_Patch = 4
-	UpdateScoreboardColumnInput_INDEX      UpdateScoreboardColumnInput_Patch = 5
-	UpdateScoreboardColumnInput_VISIBLE    UpdateScoreboardColumnInput_Patch = 6
-	UpdateScoreboardColumnInput_FILTERABLE UpdateScoreboardColumnInput_Patch = 7
-	UpdateScoreboardColumnInput_SORTABLE   UpdateScoreboardColumnInput_Patch = 8
-)
-
-// Enum value maps for UpdateScoreboardColumnInput_Patch.
-var (
-	UpdateScoreboardColumnInput_Patch_name = map[int32]string{
-		0: "ALL",
-		1: "PARENT_ID",
-		2: "KEY",
-		3: "NAME",
-		4: "SHORT_NAME",
-		5: "INDEX",
-		6: "VISIBLE",
-		7: "FILTERABLE",
-		8: "SORTABLE",
-	}
-	UpdateScoreboardColumnInput_Patch_value = map[string]int32{
-		"ALL":        0,
-		"PARENT_ID":  1,
-		"KEY":        2,
-		"NAME":       3,
-		"SHORT_NAME": 4,
-		"INDEX":      5,
-		"VISIBLE":    6,
-		"FILTERABLE": 7,
-		"SORTABLE":   8,
-	}
-)
-
-func (x UpdateScoreboardColumnInput_Patch) Enum() *UpdateScoreboardColumnInput_Patch {
-	p := new(UpdateScoreboardColumnInput_Patch)
-	*p = x
-	return p
-}
-
-func (x UpdateScoreboardColumnInput_Patch) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (UpdateScoreboardColumnInput_Patch) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_ranker_ranker_proto_enumTypes[1].Descriptor()
-}
-
-func (UpdateScoreboardColumnInput_Patch) Type() protoreflect.EnumType {
-	return &file_eolymp_ranker_ranker_proto_enumTypes[1]
-}
-
-func (x UpdateScoreboardColumnInput_Patch) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use UpdateScoreboardColumnInput_Patch.Descriptor instead.
-func (UpdateScoreboardColumnInput_Patch) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_ranker_ranker_proto_rawDescGZIP(), []int{18, 0}
-}
-
-type CreateScoreboardInput struct {
-	state                 protoimpl.MessageState `protogen:"open.v1"`
-	Scoreboard            *Scoreboard            `protobuf:"bytes,1,opt,name=scoreboard,proto3" json:"scoreboard,omitempty"`
-	AddDefaultColumns     bool                   `protobuf:"varint,2,opt,name=add_default_columns,json=addDefaultColumns,proto3" json:"add_default_columns,omitempty"`
-	DuplicateScoreboardId string                 `protobuf:"bytes,3,opt,name=duplicate_scoreboard_id,json=duplicateScoreboardId,proto3" json:"duplicate_scoreboard_id,omitempty"`
-	unknownFields         protoimpl.UnknownFields
-	sizeCache             protoimpl.SizeCache
-}
-
-func (x *CreateScoreboardInput) Reset() {
-	*x = CreateScoreboardInput{}
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[0]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *CreateScoreboardInput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*CreateScoreboardInput) ProtoMessage() {}
-
-func (x *CreateScoreboardInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[0]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use CreateScoreboardInput.ProtoReflect.Descriptor instead.
-func (*CreateScoreboardInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_ranker_ranker_proto_rawDescGZIP(), []int{0}
-}
-
-func (x *CreateScoreboardInput) GetScoreboard() *Scoreboard {
-	if x != nil {
-		return x.Scoreboard
-	}
-	return nil
-}
-
-func (x *CreateScoreboardInput) GetAddDefaultColumns() bool {
-	if x != nil {
-		return x.AddDefaultColumns
-	}
-	return false
-}
-
-func (x *CreateScoreboardInput) GetDuplicateScoreboardId() string {
-	if x != nil {
-		return x.DuplicateScoreboardId
-	}
-	return ""
-}
-
-type CreateScoreboardOutput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	ScoreboardId  string                 `protobuf:"bytes,1,opt,name=scoreboard_id,json=scoreboardId,proto3" json:"scoreboard_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *CreateScoreboardOutput) Reset() {
-	*x = CreateScoreboardOutput{}
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[1]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *CreateScoreboardOutput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*CreateScoreboardOutput) ProtoMessage() {}
-
-func (x *CreateScoreboardOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[1]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use CreateScoreboardOutput.ProtoReflect.Descriptor instead.
-func (*CreateScoreboardOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_ranker_ranker_proto_rawDescGZIP(), []int{1}
-}
-
-func (x *CreateScoreboardOutput) GetScoreboardId() string {
-	if x != nil {
-		return x.ScoreboardId
-	}
-	return ""
-}
-
-type UpdateScoreboardInput struct {
-	state         protoimpl.MessageState        `protogen:"open.v1"`
-	Patch         []UpdateScoreboardInput_Patch `protobuf:"varint,1,rep,packed,name=patch,proto3,enum=eolymp.ranker.UpdateScoreboardInput_Patch" json:"patch,omitempty"`
-	ScoreboardId  string                        `protobuf:"bytes,2,opt,name=scoreboard_id,json=scoreboardId,proto3" json:"scoreboard_id,omitempty"`
-	Scoreboard    *Scoreboard                   `protobuf:"bytes,3,opt,name=scoreboard,proto3" json:"scoreboard,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *UpdateScoreboardInput) Reset() {
-	*x = UpdateScoreboardInput{}
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[2]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *UpdateScoreboardInput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UpdateScoreboardInput) ProtoMessage() {}
-
-func (x *UpdateScoreboardInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[2]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UpdateScoreboardInput.ProtoReflect.Descriptor instead.
-func (*UpdateScoreboardInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_ranker_ranker_proto_rawDescGZIP(), []int{2}
-}
-
-func (x *UpdateScoreboardInput) GetPatch() []UpdateScoreboardInput_Patch {
-	if x != nil {
-		return x.Patch
-	}
-	return nil
-}
-
-func (x *UpdateScoreboardInput) GetScoreboardId() string {
-	if x != nil {
-		return x.ScoreboardId
-	}
-	return ""
-}
-
-func (x *UpdateScoreboardInput) GetScoreboard() *Scoreboard {
-	if x != nil {
-		return x.Scoreboard
-	}
-	return nil
-}
-
-type UpdateScoreboardOutput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *UpdateScoreboardOutput) Reset() {
-	*x = UpdateScoreboardOutput{}
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[3]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *UpdateScoreboardOutput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UpdateScoreboardOutput) ProtoMessage() {}
-
-func (x *UpdateScoreboardOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[3]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UpdateScoreboardOutput.ProtoReflect.Descriptor instead.
-func (*UpdateScoreboardOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_ranker_ranker_proto_rawDescGZIP(), []int{3}
-}
-
-type RebuildScoreboardInput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	ScoreboardId  string                 `protobuf:"bytes,1,opt,name=scoreboard_id,json=scoreboardId,proto3" json:"scoreboard_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *RebuildScoreboardInput) Reset() {
-	*x = RebuildScoreboardInput{}
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[4]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *RebuildScoreboardInput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*RebuildScoreboardInput) ProtoMessage() {}
-
-func (x *RebuildScoreboardInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[4]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use RebuildScoreboardInput.ProtoReflect.Descriptor instead.
-func (*RebuildScoreboardInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_ranker_ranker_proto_rawDescGZIP(), []int{4}
-}
-
-func (x *RebuildScoreboardInput) GetScoreboardId() string {
-	if x != nil {
-		return x.ScoreboardId
-	}
-	return ""
-}
-
-type RebuildScoreboardOutput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	ActivityId    string                 `protobuf:"bytes,1,opt,name=activity_id,json=activityId,proto3" json:"activity_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *RebuildScoreboardOutput) Reset() {
-	*x = RebuildScoreboardOutput{}
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[5]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *RebuildScoreboardOutput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*RebuildScoreboardOutput) ProtoMessage() {}
-
-func (x *RebuildScoreboardOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[5]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use RebuildScoreboardOutput.ProtoReflect.Descriptor instead.
-func (*RebuildScoreboardOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_ranker_ranker_proto_rawDescGZIP(), []int{5}
-}
-
-func (x *RebuildScoreboardOutput) GetActivityId() string {
-	if x != nil {
-		return x.ActivityId
-	}
-	return ""
-}
-
-type DeleteScoreboardInput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	ScoreboardId  string                 `protobuf:"bytes,1,opt,name=scoreboard_id,json=scoreboardId,proto3" json:"scoreboard_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *DeleteScoreboardInput) Reset() {
-	*x = DeleteScoreboardInput{}
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[6]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *DeleteScoreboardInput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DeleteScoreboardInput) ProtoMessage() {}
-
-func (x *DeleteScoreboardInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[6]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DeleteScoreboardInput.ProtoReflect.Descriptor instead.
-func (*DeleteScoreboardInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_ranker_ranker_proto_rawDescGZIP(), []int{6}
-}
-
-func (x *DeleteScoreboardInput) GetScoreboardId() string {
-	if x != nil {
-		return x.ScoreboardId
-	}
-	return ""
-}
-
-type DeleteScoreboardOutput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *DeleteScoreboardOutput) Reset() {
-	*x = DeleteScoreboardOutput{}
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[7]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *DeleteScoreboardOutput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DeleteScoreboardOutput) ProtoMessage() {}
-
-func (x *DeleteScoreboardOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[7]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DeleteScoreboardOutput.ProtoReflect.Descriptor instead.
-func (*DeleteScoreboardOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_ranker_ranker_proto_rawDescGZIP(), []int{7}
-}
-
-type DescribeScoreboardInput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	ScoreboardId  string                 `protobuf:"bytes,1,opt,name=scoreboard_id,json=scoreboardId,proto3" json:"scoreboard_id,omitempty"`
-	ScoreboardKey string                 `protobuf:"bytes,2,opt,name=scoreboard_key,json=scoreboardKey,proto3" json:"scoreboard_key,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *DescribeScoreboardInput) Reset() {
-	*x = DescribeScoreboardInput{}
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[8]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *DescribeScoreboardInput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DescribeScoreboardInput) ProtoMessage() {}
-
-func (x *DescribeScoreboardInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[8]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DescribeScoreboardInput.ProtoReflect.Descriptor instead.
-func (*DescribeScoreboardInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_ranker_ranker_proto_rawDescGZIP(), []int{8}
-}
-
-func (x *DescribeScoreboardInput) GetScoreboardId() string {
-	if x != nil {
-		return x.ScoreboardId
-	}
-	return ""
-}
-
-func (x *DescribeScoreboardInput) GetScoreboardKey() string {
-	if x != nil {
-		return x.ScoreboardKey
-	}
-	return ""
-}
-
-type DescribeScoreboardOutput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Scoreboard    *Scoreboard            `protobuf:"bytes,1,opt,name=scoreboard,proto3" json:"scoreboard,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *DescribeScoreboardOutput) Reset() {
-	*x = DescribeScoreboardOutput{}
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[9]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *DescribeScoreboardOutput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DescribeScoreboardOutput) ProtoMessage() {}
-
-func (x *DescribeScoreboardOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[9]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DescribeScoreboardOutput.ProtoReflect.Descriptor instead.
-func (*DescribeScoreboardOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_ranker_ranker_proto_rawDescGZIP(), []int{9}
-}
-
-func (x *DescribeScoreboardOutput) GetScoreboard() *Scoreboard {
-	if x != nil {
-		return x.Scoreboard
-	}
-	return nil
-}
-
-type ListScoreboardsInput struct {
-	state         protoimpl.MessageState       `protogen:"open.v1"`
-	Offset        int32                        `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
-	Size          int32                        `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
-	Filters       *ListScoreboardsInput_Filter `protobuf:"bytes,40,opt,name=filters,proto3" json:"filters,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *ListScoreboardsInput) Reset() {
-	*x = ListScoreboardsInput{}
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[10]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ListScoreboardsInput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ListScoreboardsInput) ProtoMessage() {}
-
-func (x *ListScoreboardsInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[10]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ListScoreboardsInput.ProtoReflect.Descriptor instead.
-func (*ListScoreboardsInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_ranker_ranker_proto_rawDescGZIP(), []int{10}
-}
-
-func (x *ListScoreboardsInput) GetOffset() int32 {
-	if x != nil {
-		return x.Offset
-	}
-	return 0
-}
-
-func (x *ListScoreboardsInput) GetSize() int32 {
-	if x != nil {
-		return x.Size
-	}
-	return 0
-}
-
-func (x *ListScoreboardsInput) GetFilters() *ListScoreboardsInput_Filter {
-	if x != nil {
-		return x.Filters
-	}
-	return nil
-}
-
-type ListScoreboardsOutput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Total         int32                  `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty"`
-	Items         []*Scoreboard          `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *ListScoreboardsOutput) Reset() {
-	*x = ListScoreboardsOutput{}
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[11]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ListScoreboardsOutput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ListScoreboardsOutput) ProtoMessage() {}
-
-func (x *ListScoreboardsOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[11]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ListScoreboardsOutput.ProtoReflect.Descriptor instead.
-func (*ListScoreboardsOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_ranker_ranker_proto_rawDescGZIP(), []int{11}
-}
-
-func (x *ListScoreboardsOutput) GetTotal() int32 {
-	if x != nil {
-		return x.Total
-	}
-	return 0
-}
-
-func (x *ListScoreboardsOutput) GetItems() []*Scoreboard {
-	if x != nil {
-		return x.Items
-	}
-	return nil
-}
-
-type DescribeScoreboardRowInput struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// Mode for fetching score value (see enum description).
-	Mode Scoreboard_FetchingMode `protobuf:"varint,10,opt,name=mode,proto3,enum=eolymp.ranker.Scoreboard_FetchingMode" json:"mode,omitempty"`
-	// For PUNCTUAL fetch mode this parameter sets time of interest.
-	PunctualTime  uint32 `protobuf:"varint,11,opt,name=punctual_time,json=punctualTime,proto3" json:"punctual_time,omitempty"`
-	ScoreboardId  string `protobuf:"bytes,1,opt,name=scoreboard_id,json=scoreboardId,proto3" json:"scoreboard_id,omitempty"`
-	MemberId      string `protobuf:"bytes,2,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *DescribeScoreboardRowInput) Reset() {
-	*x = DescribeScoreboardRowInput{}
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[12]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *DescribeScoreboardRowInput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DescribeScoreboardRowInput) ProtoMessage() {}
-
-func (x *DescribeScoreboardRowInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[12]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DescribeScoreboardRowInput.ProtoReflect.Descriptor instead.
-func (*DescribeScoreboardRowInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_ranker_ranker_proto_rawDescGZIP(), []int{12}
-}
-
-func (x *DescribeScoreboardRowInput) GetMode() Scoreboard_FetchingMode {
-	if x != nil {
-		return x.Mode
-	}
-	return Scoreboard_LATEST
-}
-
-func (x *DescribeScoreboardRowInput) GetPunctualTime() uint32 {
-	if x != nil {
-		return x.PunctualTime
-	}
-	return 0
-}
-
-func (x *DescribeScoreboardRowInput) GetScoreboardId() string {
-	if x != nil {
-		return x.ScoreboardId
-	}
-	return ""
-}
-
-func (x *DescribeScoreboardRowInput) GetMemberId() string {
-	if x != nil {
-		return x.MemberId
-	}
-	return ""
-}
-
-type DescribeScoreboardRowOutput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Row           *Scoreboard_Row        `protobuf:"bytes,1,opt,name=row,proto3" json:"row,omitempty"`
-	Frozen        bool                   `protobuf:"varint,10,opt,name=frozen,proto3" json:"frozen,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *DescribeScoreboardRowOutput) Reset() {
-	*x = DescribeScoreboardRowOutput{}
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[13]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *DescribeScoreboardRowOutput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DescribeScoreboardRowOutput) ProtoMessage() {}
-
-func (x *DescribeScoreboardRowOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[13]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DescribeScoreboardRowOutput.ProtoReflect.Descriptor instead.
-func (*DescribeScoreboardRowOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_ranker_ranker_proto_rawDescGZIP(), []int{13}
-}
-
-func (x *DescribeScoreboardRowOutput) GetRow() *Scoreboard_Row {
-	if x != nil {
-		return x.Row
-	}
-	return nil
-}
-
-func (x *DescribeScoreboardRowOutput) GetFrozen() bool {
-	if x != nil {
-		return x.Frozen
-	}
-	return false
-}
-
-type ListScoreboardRowsInput struct {
-	state        protoimpl.MessageState `protogen:"open.v1"`
-	ScoreboardId string                 `protobuf:"bytes,1,opt,name=scoreboard_id,json=scoreboardId,proto3" json:"scoreboard_id,omitempty"`
-	// Mode for fetching score value (see enum description).
-	Mode Scoreboard_FetchingMode `protobuf:"varint,2,opt,name=mode,proto3,enum=eolymp.ranker.Scoreboard_FetchingMode" json:"mode,omitempty"`
-	// For PUNCTUAL fetch mode this parameter sets time of interest.
-	PunctualTime  uint32                          `protobuf:"varint,3,opt,name=punctual_time,json=punctualTime,proto3" json:"punctual_time,omitempty"`
-	Offset        int32                           `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
-	Size          int32                           `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
-	Filters       *ListScoreboardRowsInput_Filter `protobuf:"bytes,40,opt,name=filters,proto3" json:"filters,omitempty"`
-	Sort          string                          `protobuf:"bytes,50,opt,name=sort,proto3" json:"sort,omitempty"`
-	Order         wellknown.Direction             `protobuf:"varint,51,opt,name=order,proto3,enum=eolymp.wellknown.Direction" json:"order,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *ListScoreboardRowsInput) Reset() {
-	*x = ListScoreboardRowsInput{}
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[14]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ListScoreboardRowsInput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ListScoreboardRowsInput) ProtoMessage() {}
-
-func (x *ListScoreboardRowsInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[14]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ListScoreboardRowsInput.ProtoReflect.Descriptor instead.
-func (*ListScoreboardRowsInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_ranker_ranker_proto_rawDescGZIP(), []int{14}
-}
-
-func (x *ListScoreboardRowsInput) GetScoreboardId() string {
-	if x != nil {
-		return x.ScoreboardId
-	}
-	return ""
-}
-
-func (x *ListScoreboardRowsInput) GetMode() Scoreboard_FetchingMode {
-	if x != nil {
-		return x.Mode
-	}
-	return Scoreboard_LATEST
-}
-
-func (x *ListScoreboardRowsInput) GetPunctualTime() uint32 {
-	if x != nil {
-		return x.PunctualTime
-	}
-	return 0
-}
-
-func (x *ListScoreboardRowsInput) GetOffset() int32 {
-	if x != nil {
-		return x.Offset
-	}
-	return 0
-}
-
-func (x *ListScoreboardRowsInput) GetSize() int32 {
-	if x != nil {
-		return x.Size
-	}
-	return 0
-}
-
-func (x *ListScoreboardRowsInput) GetFilters() *ListScoreboardRowsInput_Filter {
-	if x != nil {
-		return x.Filters
-	}
-	return nil
-}
-
-func (x *ListScoreboardRowsInput) GetSort() string {
-	if x != nil {
-		return x.Sort
-	}
-	return ""
-}
-
-func (x *ListScoreboardRowsInput) GetOrder() wellknown.Direction {
-	if x != nil {
-		return x.Order
-	}
-	return wellknown.Direction(0)
-}
-
-type ListScoreboardRowsOutput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Total         int32                  `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty"`
-	Items         []*Scoreboard_Row      `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
-	Frozen        bool                   `protobuf:"varint,10,opt,name=frozen,proto3" json:"frozen,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *ListScoreboardRowsOutput) Reset() {
-	*x = ListScoreboardRowsOutput{}
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[15]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ListScoreboardRowsOutput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ListScoreboardRowsOutput) ProtoMessage() {}
-
-func (x *ListScoreboardRowsOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[15]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ListScoreboardRowsOutput.ProtoReflect.Descriptor instead.
-func (*ListScoreboardRowsOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_ranker_ranker_proto_rawDescGZIP(), []int{15}
-}
-
-func (x *ListScoreboardRowsOutput) GetTotal() int32 {
-	if x != nil {
-		return x.Total
-	}
-	return 0
-}
-
-func (x *ListScoreboardRowsOutput) GetItems() []*Scoreboard_Row {
-	if x != nil {
-		return x.Items
-	}
-	return nil
-}
-
-func (x *ListScoreboardRowsOutput) GetFrozen() bool {
-	if x != nil {
-		return x.Frozen
-	}
-	return false
-}
-
-type AddScoreboardColumnInput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	ScoreboardId  string                 `protobuf:"bytes,1,opt,name=scoreboard_id,json=scoreboardId,proto3" json:"scoreboard_id,omitempty"`
-	Column        *Scoreboard_Column     `protobuf:"bytes,2,opt,name=column,proto3" json:"column,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *AddScoreboardColumnInput) Reset() {
-	*x = AddScoreboardColumnInput{}
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[16]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *AddScoreboardColumnInput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*AddScoreboardColumnInput) ProtoMessage() {}
-
-func (x *AddScoreboardColumnInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[16]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use AddScoreboardColumnInput.ProtoReflect.Descriptor instead.
-func (*AddScoreboardColumnInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_ranker_ranker_proto_rawDescGZIP(), []int{16}
-}
-
-func (x *AddScoreboardColumnInput) GetScoreboardId() string {
-	if x != nil {
-		return x.ScoreboardId
-	}
-	return ""
-}
-
-func (x *AddScoreboardColumnInput) GetColumn() *Scoreboard_Column {
-	if x != nil {
-		return x.Column
-	}
-	return nil
-}
-
-type AddScoreboardColumnOutput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	ColumnId      string                 `protobuf:"bytes,1,opt,name=column_id,json=columnId,proto3" json:"column_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *AddScoreboardColumnOutput) Reset() {
-	*x = AddScoreboardColumnOutput{}
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[17]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *AddScoreboardColumnOutput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*AddScoreboardColumnOutput) ProtoMessage() {}
-
-func (x *AddScoreboardColumnOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[17]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use AddScoreboardColumnOutput.ProtoReflect.Descriptor instead.
-func (*AddScoreboardColumnOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_ranker_ranker_proto_rawDescGZIP(), []int{17}
-}
-
-func (x *AddScoreboardColumnOutput) GetColumnId() string {
-	if x != nil {
-		return x.ColumnId
-	}
-	return ""
-}
-
-type UpdateScoreboardColumnInput struct {
-	state         protoimpl.MessageState              `protogen:"open.v1"`
-	Patch         []UpdateScoreboardColumnInput_Patch `protobuf:"varint,1,rep,packed,name=patch,proto3,enum=eolymp.ranker.UpdateScoreboardColumnInput_Patch" json:"patch,omitempty"`
-	ScoreboardId  string                              `protobuf:"bytes,2,opt,name=scoreboard_id,json=scoreboardId,proto3" json:"scoreboard_id,omitempty"`
-	ColumnId      string                              `protobuf:"bytes,3,opt,name=column_id,json=columnId,proto3" json:"column_id,omitempty"`
-	Column        *Scoreboard_Column                  `protobuf:"bytes,4,opt,name=column,proto3" json:"column,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *UpdateScoreboardColumnInput) Reset() {
-	*x = UpdateScoreboardColumnInput{}
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[18]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *UpdateScoreboardColumnInput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UpdateScoreboardColumnInput) ProtoMessage() {}
-
-func (x *UpdateScoreboardColumnInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[18]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UpdateScoreboardColumnInput.ProtoReflect.Descriptor instead.
-func (*UpdateScoreboardColumnInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_ranker_ranker_proto_rawDescGZIP(), []int{18}
-}
-
-func (x *UpdateScoreboardColumnInput) GetPatch() []UpdateScoreboardColumnInput_Patch {
-	if x != nil {
-		return x.Patch
-	}
-	return nil
-}
-
-func (x *UpdateScoreboardColumnInput) GetScoreboardId() string {
-	if x != nil {
-		return x.ScoreboardId
-	}
-	return ""
-}
-
-func (x *UpdateScoreboardColumnInput) GetColumnId() string {
-	if x != nil {
-		return x.ColumnId
-	}
-	return ""
-}
-
-func (x *UpdateScoreboardColumnInput) GetColumn() *Scoreboard_Column {
-	if x != nil {
-		return x.Column
-	}
-	return nil
-}
-
-type UpdateScoreboardColumnOutput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *UpdateScoreboardColumnOutput) Reset() {
-	*x = UpdateScoreboardColumnOutput{}
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[19]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *UpdateScoreboardColumnOutput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UpdateScoreboardColumnOutput) ProtoMessage() {}
-
-func (x *UpdateScoreboardColumnOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[19]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UpdateScoreboardColumnOutput.ProtoReflect.Descriptor instead.
-func (*UpdateScoreboardColumnOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_ranker_ranker_proto_rawDescGZIP(), []int{19}
-}
-
-type DeleteScoreboardColumnInput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	ScoreboardId  string                 `protobuf:"bytes,1,opt,name=scoreboard_id,json=scoreboardId,proto3" json:"scoreboard_id,omitempty"`
-	ColumnId      string                 `protobuf:"bytes,2,opt,name=column_id,json=columnId,proto3" json:"column_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *DeleteScoreboardColumnInput) Reset() {
-	*x = DeleteScoreboardColumnInput{}
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[20]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *DeleteScoreboardColumnInput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DeleteScoreboardColumnInput) ProtoMessage() {}
-
-func (x *DeleteScoreboardColumnInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[20]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DeleteScoreboardColumnInput.ProtoReflect.Descriptor instead.
-func (*DeleteScoreboardColumnInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_ranker_ranker_proto_rawDescGZIP(), []int{20}
-}
-
-func (x *DeleteScoreboardColumnInput) GetScoreboardId() string {
-	if x != nil {
-		return x.ScoreboardId
-	}
-	return ""
-}
-
-func (x *DeleteScoreboardColumnInput) GetColumnId() string {
-	if x != nil {
-		return x.ColumnId
-	}
-	return ""
-}
-
-type DeleteScoreboardColumnOutput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *DeleteScoreboardColumnOutput) Reset() {
-	*x = DeleteScoreboardColumnOutput{}
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[21]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *DeleteScoreboardColumnOutput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DeleteScoreboardColumnOutput) ProtoMessage() {}
-
-func (x *DeleteScoreboardColumnOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[21]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DeleteScoreboardColumnOutput.ProtoReflect.Descriptor instead.
-func (*DeleteScoreboardColumnOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_ranker_ranker_proto_rawDescGZIP(), []int{21}
-}
-
-type DescribeScoreboardColumnInput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	ScoreboardId  string                 `protobuf:"bytes,1,opt,name=scoreboard_id,json=scoreboardId,proto3" json:"scoreboard_id,omitempty"`
-	ColumnId      string                 `protobuf:"bytes,2,opt,name=column_id,json=columnId,proto3" json:"column_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *DescribeScoreboardColumnInput) Reset() {
-	*x = DescribeScoreboardColumnInput{}
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[22]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *DescribeScoreboardColumnInput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DescribeScoreboardColumnInput) ProtoMessage() {}
-
-func (x *DescribeScoreboardColumnInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[22]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DescribeScoreboardColumnInput.ProtoReflect.Descriptor instead.
-func (*DescribeScoreboardColumnInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_ranker_ranker_proto_rawDescGZIP(), []int{22}
-}
-
-func (x *DescribeScoreboardColumnInput) GetScoreboardId() string {
-	if x != nil {
-		return x.ScoreboardId
-	}
-	return ""
-}
-
-func (x *DescribeScoreboardColumnInput) GetColumnId() string {
-	if x != nil {
-		return x.ColumnId
-	}
-	return ""
-}
-
-type DescribeScoreboardColumnOutput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Column        *Scoreboard_Column     `protobuf:"bytes,1,opt,name=column,proto3" json:"column,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *DescribeScoreboardColumnOutput) Reset() {
-	*x = DescribeScoreboardColumnOutput{}
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[23]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *DescribeScoreboardColumnOutput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DescribeScoreboardColumnOutput) ProtoMessage() {}
-
-func (x *DescribeScoreboardColumnOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[23]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DescribeScoreboardColumnOutput.ProtoReflect.Descriptor instead.
-func (*DescribeScoreboardColumnOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_ranker_ranker_proto_rawDescGZIP(), []int{23}
-}
-
-func (x *DescribeScoreboardColumnOutput) GetColumn() *Scoreboard_Column {
-	if x != nil {
-		return x.Column
-	}
-	return nil
-}
-
-type ListScoreboardColumnsInput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	ScoreboardId  string                 `protobuf:"bytes,1,opt,name=scoreboard_id,json=scoreboardId,proto3" json:"scoreboard_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *ListScoreboardColumnsInput) Reset() {
-	*x = ListScoreboardColumnsInput{}
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[24]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ListScoreboardColumnsInput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ListScoreboardColumnsInput) ProtoMessage() {}
-
-func (x *ListScoreboardColumnsInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[24]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ListScoreboardColumnsInput.ProtoReflect.Descriptor instead.
-func (*ListScoreboardColumnsInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_ranker_ranker_proto_rawDescGZIP(), []int{24}
-}
-
-func (x *ListScoreboardColumnsInput) GetScoreboardId() string {
-	if x != nil {
-		return x.ScoreboardId
-	}
-	return ""
-}
-
-type ListScoreboardColumnsOutput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Total         int32                  `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty"`
-	Items         []*Scoreboard_Column   `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *ListScoreboardColumnsOutput) Reset() {
-	*x = ListScoreboardColumnsOutput{}
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[25]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ListScoreboardColumnsOutput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ListScoreboardColumnsOutput) ProtoMessage() {}
-
-func (x *ListScoreboardColumnsOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[25]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ListScoreboardColumnsOutput.ProtoReflect.Descriptor instead.
-func (*ListScoreboardColumnsOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_ranker_ranker_proto_rawDescGZIP(), []int{25}
-}
-
-func (x *ListScoreboardColumnsOutput) GetTotal() int32 {
-	if x != nil {
-		return x.Total
-	}
-	return 0
-}
-
-func (x *ListScoreboardColumnsOutput) GetItems() []*Scoreboard_Column {
-	if x != nil {
-		return x.Items
-	}
-	return nil
-}
-
 type ListActivitiesInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ScoreboardId  string                 `protobuf:"bytes,1,opt,name=scoreboard_id,json=scoreboardId,proto3" json:"scoreboard_id,omitempty"`
@@ -1496,7 +34,7 @@ type ListActivitiesInput struct {
 
 func (x *ListActivitiesInput) Reset() {
 	*x = ListActivitiesInput{}
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[26]
+	mi := &file_eolymp_ranker_ranker_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1508,7 +46,7 @@ func (x *ListActivitiesInput) String() string {
 func (*ListActivitiesInput) ProtoMessage() {}
 
 func (x *ListActivitiesInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[26]
+	mi := &file_eolymp_ranker_ranker_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1521,7 +59,7 @@ func (x *ListActivitiesInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListActivitiesInput.ProtoReflect.Descriptor instead.
 func (*ListActivitiesInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_ranker_ranker_proto_rawDescGZIP(), []int{26}
+	return file_eolymp_ranker_ranker_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *ListActivitiesInput) GetScoreboardId() string {
@@ -1555,7 +93,7 @@ type ListActivitiesOutput struct {
 
 func (x *ListActivitiesOutput) Reset() {
 	*x = ListActivitiesOutput{}
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[27]
+	mi := &file_eolymp_ranker_ranker_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1567,7 +105,7 @@ func (x *ListActivitiesOutput) String() string {
 func (*ListActivitiesOutput) ProtoMessage() {}
 
 func (x *ListActivitiesOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[27]
+	mi := &file_eolymp_ranker_ranker_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1580,7 +118,7 @@ func (x *ListActivitiesOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListActivitiesOutput.ProtoReflect.Descriptor instead.
 func (*ListActivitiesOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_ranker_ranker_proto_rawDescGZIP(), []int{27}
+	return file_eolymp_ranker_ranker_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *ListActivitiesOutput) GetTotal() int32 {
@@ -1607,7 +145,7 @@ type ScheduleActionInput struct {
 
 func (x *ScheduleActionInput) Reset() {
 	*x = ScheduleActionInput{}
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[28]
+	mi := &file_eolymp_ranker_ranker_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1619,7 +157,7 @@ func (x *ScheduleActionInput) String() string {
 func (*ScheduleActionInput) ProtoMessage() {}
 
 func (x *ScheduleActionInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[28]
+	mi := &file_eolymp_ranker_ranker_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1632,7 +170,7 @@ func (x *ScheduleActionInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ScheduleActionInput.ProtoReflect.Descriptor instead.
 func (*ScheduleActionInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_ranker_ranker_proto_rawDescGZIP(), []int{28}
+	return file_eolymp_ranker_ranker_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *ScheduleActionInput) GetScoreboardId() string {
@@ -1658,7 +196,7 @@ type ScheduleActionOutput struct {
 
 func (x *ScheduleActionOutput) Reset() {
 	*x = ScheduleActionOutput{}
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[29]
+	mi := &file_eolymp_ranker_ranker_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1670,7 +208,7 @@ func (x *ScheduleActionOutput) String() string {
 func (*ScheduleActionOutput) ProtoMessage() {}
 
 func (x *ScheduleActionOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[29]
+	mi := &file_eolymp_ranker_ranker_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1683,7 +221,7 @@ func (x *ScheduleActionOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ScheduleActionOutput.ProtoReflect.Descriptor instead.
 func (*ScheduleActionOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_ranker_ranker_proto_rawDescGZIP(), []int{29}
+	return file_eolymp_ranker_ranker_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *ScheduleActionOutput) GetActionId() string {
@@ -1703,7 +241,7 @@ type UnscheduleActionInput struct {
 
 func (x *UnscheduleActionInput) Reset() {
 	*x = UnscheduleActionInput{}
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[30]
+	mi := &file_eolymp_ranker_ranker_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1715,7 +253,7 @@ func (x *UnscheduleActionInput) String() string {
 func (*UnscheduleActionInput) ProtoMessage() {}
 
 func (x *UnscheduleActionInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[30]
+	mi := &file_eolymp_ranker_ranker_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1728,7 +266,7 @@ func (x *UnscheduleActionInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UnscheduleActionInput.ProtoReflect.Descriptor instead.
 func (*UnscheduleActionInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_ranker_ranker_proto_rawDescGZIP(), []int{30}
+	return file_eolymp_ranker_ranker_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *UnscheduleActionInput) GetScoreboardId() string {
@@ -1753,7 +291,7 @@ type UnscheduleActionOutput struct {
 
 func (x *UnscheduleActionOutput) Reset() {
 	*x = UnscheduleActionOutput{}
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[31]
+	mi := &file_eolymp_ranker_ranker_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1765,7 +303,7 @@ func (x *UnscheduleActionOutput) String() string {
 func (*UnscheduleActionOutput) ProtoMessage() {}
 
 func (x *UnscheduleActionOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[31]
+	mi := &file_eolymp_ranker_ranker_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1778,7 +316,7 @@ func (x *UnscheduleActionOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UnscheduleActionOutput.ProtoReflect.Descriptor instead.
 func (*UnscheduleActionOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_ranker_ranker_proto_rawDescGZIP(), []int{31}
+	return file_eolymp_ranker_ranker_proto_rawDescGZIP(), []int{5}
 }
 
 type ListScheduledActionsInput struct {
@@ -1790,7 +328,7 @@ type ListScheduledActionsInput struct {
 
 func (x *ListScheduledActionsInput) Reset() {
 	*x = ListScheduledActionsInput{}
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[32]
+	mi := &file_eolymp_ranker_ranker_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1802,7 +340,7 @@ func (x *ListScheduledActionsInput) String() string {
 func (*ListScheduledActionsInput) ProtoMessage() {}
 
 func (x *ListScheduledActionsInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[32]
+	mi := &file_eolymp_ranker_ranker_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1815,7 +353,7 @@ func (x *ListScheduledActionsInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListScheduledActionsInput.ProtoReflect.Descriptor instead.
 func (*ListScheduledActionsInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_ranker_ranker_proto_rawDescGZIP(), []int{32}
+	return file_eolymp_ranker_ranker_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *ListScheduledActionsInput) GetScoreboardId() string {
@@ -1835,7 +373,7 @@ type ListScheduledActionsOutput struct {
 
 func (x *ListScheduledActionsOutput) Reset() {
 	*x = ListScheduledActionsOutput{}
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[33]
+	mi := &file_eolymp_ranker_ranker_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1847,7 +385,7 @@ func (x *ListScheduledActionsOutput) String() string {
 func (*ListScheduledActionsOutput) ProtoMessage() {}
 
 func (x *ListScheduledActionsOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[33]
+	mi := &file_eolymp_ranker_ranker_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1860,7 +398,7 @@ func (x *ListScheduledActionsOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListScheduledActionsOutput.ProtoReflect.Descriptor instead.
 func (*ListScheduledActionsOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_ranker_ranker_proto_rawDescGZIP(), []int{33}
+	return file_eolymp_ranker_ranker_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *ListScheduledActionsOutput) GetTotal() int32 {
@@ -1877,293 +415,11 @@ func (x *ListScheduledActionsOutput) GetItems() []*Scoreboard_Action {
 	return nil
 }
 
-type ListScoreboardsInput_Filter struct {
-	state         protoimpl.MessageState    `protogen:"open.v1"`
-	Id            []*wellknown.ExpressionID `protobuf:"bytes,1,rep,name=id,proto3" json:"id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *ListScoreboardsInput_Filter) Reset() {
-	*x = ListScoreboardsInput_Filter{}
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[34]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ListScoreboardsInput_Filter) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ListScoreboardsInput_Filter) ProtoMessage() {}
-
-func (x *ListScoreboardsInput_Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[34]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ListScoreboardsInput_Filter.ProtoReflect.Descriptor instead.
-func (*ListScoreboardsInput_Filter) Descriptor() ([]byte, []int) {
-	return file_eolymp_ranker_ranker_proto_rawDescGZIP(), []int{10, 0}
-}
-
-func (x *ListScoreboardsInput_Filter) GetId() []*wellknown.ExpressionID {
-	if x != nil {
-		return x.Id
-	}
-	return nil
-}
-
-type ListScoreboardRowsInput_ExpressionColumn struct {
-	state         protoimpl.MessageState      `protogen:"open.v1"`
-	Key           string                      `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty"`
-	String_       *wellknown.ExpressionString `protobuf:"bytes,10,opt,name=string,proto3" json:"string,omitempty"`
-	Number        *wellknown.ExpressionInt    `protobuf:"bytes,11,opt,name=number,proto3" json:"number,omitempty"`
-	Enum          *wellknown.ExpressionEnum   `protobuf:"bytes,12,opt,name=enum,proto3" json:"enum,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *ListScoreboardRowsInput_ExpressionColumn) Reset() {
-	*x = ListScoreboardRowsInput_ExpressionColumn{}
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[35]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ListScoreboardRowsInput_ExpressionColumn) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ListScoreboardRowsInput_ExpressionColumn) ProtoMessage() {}
-
-func (x *ListScoreboardRowsInput_ExpressionColumn) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[35]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ListScoreboardRowsInput_ExpressionColumn.ProtoReflect.Descriptor instead.
-func (*ListScoreboardRowsInput_ExpressionColumn) Descriptor() ([]byte, []int) {
-	return file_eolymp_ranker_ranker_proto_rawDescGZIP(), []int{14, 0}
-}
-
-func (x *ListScoreboardRowsInput_ExpressionColumn) GetKey() string {
-	if x != nil {
-		return x.Key
-	}
-	return ""
-}
-
-func (x *ListScoreboardRowsInput_ExpressionColumn) GetString_() *wellknown.ExpressionString {
-	if x != nil {
-		return x.String_
-	}
-	return nil
-}
-
-func (x *ListScoreboardRowsInput_ExpressionColumn) GetNumber() *wellknown.ExpressionInt {
-	if x != nil {
-		return x.Number
-	}
-	return nil
-}
-
-func (x *ListScoreboardRowsInput_ExpressionColumn) GetEnum() *wellknown.ExpressionEnum {
-	if x != nil {
-		return x.Enum
-	}
-	return nil
-}
-
-type ListScoreboardRowsInput_Filter struct {
-	state         protoimpl.MessageState                      `protogen:"open.v1"`
-	MemberId      []*wellknown.ExpressionID                   `protobuf:"bytes,1,rep,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
-	Column        []*ListScoreboardRowsInput_ExpressionColumn `protobuf:"bytes,2,rep,name=column,proto3" json:"column,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *ListScoreboardRowsInput_Filter) Reset() {
-	*x = ListScoreboardRowsInput_Filter{}
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[36]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ListScoreboardRowsInput_Filter) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ListScoreboardRowsInput_Filter) ProtoMessage() {}
-
-func (x *ListScoreboardRowsInput_Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_ranker_ranker_proto_msgTypes[36]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ListScoreboardRowsInput_Filter.ProtoReflect.Descriptor instead.
-func (*ListScoreboardRowsInput_Filter) Descriptor() ([]byte, []int) {
-	return file_eolymp_ranker_ranker_proto_rawDescGZIP(), []int{14, 1}
-}
-
-func (x *ListScoreboardRowsInput_Filter) GetMemberId() []*wellknown.ExpressionID {
-	if x != nil {
-		return x.MemberId
-	}
-	return nil
-}
-
-func (x *ListScoreboardRowsInput_Filter) GetColumn() []*ListScoreboardRowsInput_ExpressionColumn {
-	if x != nil {
-		return x.Column
-	}
-	return nil
-}
-
 var File_eolymp_ranker_ranker_proto protoreflect.FileDescriptor
 
 const file_eolymp_ranker_ranker_proto_rawDesc = "" +
 	"\n" +
-	"\x1aeolymp/ranker/ranker.proto\x12\reolymp.ranker\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1ceolymp/ranker/activity.proto\x1a\x1eeolymp/ranker/scoreboard.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"\xba\x01\n" +
-	"\x15CreateScoreboardInput\x129\n" +
-	"\n" +
-	"scoreboard\x18\x01 \x01(\v2\x19.eolymp.ranker.ScoreboardR\n" +
-	"scoreboard\x12.\n" +
-	"\x13add_default_columns\x18\x02 \x01(\bR\x11addDefaultColumns\x126\n" +
-	"\x17duplicate_scoreboard_id\x18\x03 \x01(\tR\x15duplicateScoreboardId\"=\n" +
-	"\x16CreateScoreboardOutput\x12#\n" +
-	"\rscoreboard_id\x18\x01 \x01(\tR\fscoreboardId\"\x80\x02\n" +
-	"\x15UpdateScoreboardInput\x12@\n" +
-	"\x05patch\x18\x01 \x03(\x0e2*.eolymp.ranker.UpdateScoreboardInput.PatchR\x05patch\x12#\n" +
-	"\rscoreboard_id\x18\x02 \x01(\tR\fscoreboardId\x129\n" +
-	"\n" +
-	"scoreboard\x18\x03 \x01(\v2\x19.eolymp.ranker.ScoreboardR\n" +
-	"scoreboard\"E\n" +
-	"\x05Patch\x12\a\n" +
-	"\x03ALL\x10\x00\x12\a\n" +
-	"\x03KEY\x10\x01\x12\b\n" +
-	"\x04NAME\x10\x02\x12\x10\n" +
-	"\fDEFAULT_SORT\x10\x03\x12\x0e\n" +
-	"\n" +
-	"HISTORICAL\x10\x04\"\x18\n" +
-	"\x16UpdateScoreboardOutput\"=\n" +
-	"\x16RebuildScoreboardInput\x12#\n" +
-	"\rscoreboard_id\x18\x01 \x01(\tR\fscoreboardId\":\n" +
-	"\x17RebuildScoreboardOutput\x12\x1f\n" +
-	"\vactivity_id\x18\x01 \x01(\tR\n" +
-	"activityId\"<\n" +
-	"\x15DeleteScoreboardInput\x12#\n" +
-	"\rscoreboard_id\x18\x01 \x01(\tR\fscoreboardId\"\x18\n" +
-	"\x16DeleteScoreboardOutput\"e\n" +
-	"\x17DescribeScoreboardInput\x12#\n" +
-	"\rscoreboard_id\x18\x01 \x01(\tR\fscoreboardId\x12%\n" +
-	"\x0escoreboard_key\x18\x02 \x01(\tR\rscoreboardKey\"U\n" +
-	"\x18DescribeScoreboardOutput\x129\n" +
-	"\n" +
-	"scoreboard\x18\x01 \x01(\v2\x19.eolymp.ranker.ScoreboardR\n" +
-	"scoreboard\"\xc2\x01\n" +
-	"\x14ListScoreboardsInput\x12\x16\n" +
-	"\x06offset\x18\n" +
-	" \x01(\x05R\x06offset\x12\x12\n" +
-	"\x04size\x18\v \x01(\x05R\x04size\x12D\n" +
-	"\afilters\x18( \x01(\v2*.eolymp.ranker.ListScoreboardsInput.FilterR\afilters\x1a8\n" +
-	"\x06Filter\x12.\n" +
-	"\x02id\x18\x01 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\"^\n" +
-	"\x15ListScoreboardsOutput\x12\x14\n" +
-	"\x05total\x18\x01 \x01(\x05R\x05total\x12/\n" +
-	"\x05items\x18\x02 \x03(\v2\x19.eolymp.ranker.ScoreboardR\x05items\"\xbf\x01\n" +
-	"\x1aDescribeScoreboardRowInput\x12:\n" +
-	"\x04mode\x18\n" +
-	" \x01(\x0e2&.eolymp.ranker.Scoreboard.FetchingModeR\x04mode\x12#\n" +
-	"\rpunctual_time\x18\v \x01(\rR\fpunctualTime\x12#\n" +
-	"\rscoreboard_id\x18\x01 \x01(\tR\fscoreboardId\x12\x1b\n" +
-	"\tmember_id\x18\x02 \x01(\tR\bmemberId\"f\n" +
-	"\x1bDescribeScoreboardRowOutput\x12/\n" +
-	"\x03row\x18\x01 \x01(\v2\x1d.eolymp.ranker.Scoreboard.RowR\x03row\x12\x16\n" +
-	"\x06frozen\x18\n" +
-	" \x01(\bR\x06frozen\"\xc6\x05\n" +
-	"\x17ListScoreboardRowsInput\x12#\n" +
-	"\rscoreboard_id\x18\x01 \x01(\tR\fscoreboardId\x12:\n" +
-	"\x04mode\x18\x02 \x01(\x0e2&.eolymp.ranker.Scoreboard.FetchingModeR\x04mode\x12#\n" +
-	"\rpunctual_time\x18\x03 \x01(\rR\fpunctualTime\x12\x16\n" +
-	"\x06offset\x18\n" +
-	" \x01(\x05R\x06offset\x12\x12\n" +
-	"\x04size\x18\v \x01(\x05R\x04size\x12G\n" +
-	"\afilters\x18( \x01(\v2-.eolymp.ranker.ListScoreboardRowsInput.FilterR\afilters\x12\x12\n" +
-	"\x04sort\x182 \x01(\tR\x04sort\x121\n" +
-	"\x05order\x183 \x01(\x0e2\x1b.eolymp.wellknown.DirectionR\x05order\x1a\xcf\x01\n" +
-	"\x10ExpressionColumn\x12\x10\n" +
-	"\x03key\x18\x01 \x01(\tR\x03key\x12:\n" +
-	"\x06string\x18\n" +
-	" \x01(\v2\".eolymp.wellknown.ExpressionStringR\x06string\x127\n" +
-	"\x06number\x18\v \x01(\v2\x1f.eolymp.wellknown.ExpressionIntR\x06number\x124\n" +
-	"\x04enum\x18\f \x01(\v2 .eolymp.wellknown.ExpressionEnumR\x04enum\x1a\x96\x01\n" +
-	"\x06Filter\x12;\n" +
-	"\tmember_id\x18\x01 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\bmemberId\x12O\n" +
-	"\x06column\x18\x02 \x03(\v27.eolymp.ranker.ListScoreboardRowsInput.ExpressionColumnR\x06column\"}\n" +
-	"\x18ListScoreboardRowsOutput\x12\x14\n" +
-	"\x05total\x18\x01 \x01(\x05R\x05total\x123\n" +
-	"\x05items\x18\x02 \x03(\v2\x1d.eolymp.ranker.Scoreboard.RowR\x05items\x12\x16\n" +
-	"\x06frozen\x18\n" +
-	" \x01(\bR\x06frozen\"y\n" +
-	"\x18AddScoreboardColumnInput\x12#\n" +
-	"\rscoreboard_id\x18\x01 \x01(\tR\fscoreboardId\x128\n" +
-	"\x06column\x18\x02 \x01(\v2 .eolymp.ranker.Scoreboard.ColumnR\x06column\"8\n" +
-	"\x19AddScoreboardColumnOutput\x12\x1b\n" +
-	"\tcolumn_id\x18\x01 \x01(\tR\bcolumnId\"\xdb\x02\n" +
-	"\x1bUpdateScoreboardColumnInput\x12F\n" +
-	"\x05patch\x18\x01 \x03(\x0e20.eolymp.ranker.UpdateScoreboardColumnInput.PatchR\x05patch\x12#\n" +
-	"\rscoreboard_id\x18\x02 \x01(\tR\fscoreboardId\x12\x1b\n" +
-	"\tcolumn_id\x18\x03 \x01(\tR\bcolumnId\x128\n" +
-	"\x06column\x18\x04 \x01(\v2 .eolymp.ranker.Scoreboard.ColumnR\x06column\"x\n" +
-	"\x05Patch\x12\a\n" +
-	"\x03ALL\x10\x00\x12\r\n" +
-	"\tPARENT_ID\x10\x01\x12\a\n" +
-	"\x03KEY\x10\x02\x12\b\n" +
-	"\x04NAME\x10\x03\x12\x0e\n" +
-	"\n" +
-	"SHORT_NAME\x10\x04\x12\t\n" +
-	"\x05INDEX\x10\x05\x12\v\n" +
-	"\aVISIBLE\x10\x06\x12\x0e\n" +
-	"\n" +
-	"FILTERABLE\x10\a\x12\f\n" +
-	"\bSORTABLE\x10\b\"\x1e\n" +
-	"\x1cUpdateScoreboardColumnOutput\"_\n" +
-	"\x1bDeleteScoreboardColumnInput\x12#\n" +
-	"\rscoreboard_id\x18\x01 \x01(\tR\fscoreboardId\x12\x1b\n" +
-	"\tcolumn_id\x18\x02 \x01(\tR\bcolumnId\"\x1e\n" +
-	"\x1cDeleteScoreboardColumnOutput\"a\n" +
-	"\x1dDescribeScoreboardColumnInput\x12#\n" +
-	"\rscoreboard_id\x18\x01 \x01(\tR\fscoreboardId\x12\x1b\n" +
-	"\tcolumn_id\x18\x02 \x01(\tR\bcolumnId\"Z\n" +
-	"\x1eDescribeScoreboardColumnOutput\x128\n" +
-	"\x06column\x18\x01 \x01(\v2 .eolymp.ranker.Scoreboard.ColumnR\x06column\"A\n" +
-	"\x1aListScoreboardColumnsInput\x12#\n" +
-	"\rscoreboard_id\x18\x01 \x01(\tR\fscoreboardId\"k\n" +
-	"\x1bListScoreboardColumnsOutput\x12\x14\n" +
-	"\x05total\x18\x01 \x01(\x05R\x05total\x126\n" +
-	"\x05items\x18\x02 \x03(\v2 .eolymp.ranker.Scoreboard.ColumnR\x05items\"f\n" +
+	"\x1aeolymp/ranker/ranker.proto\x12\reolymp.ranker\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1ceolymp/ranker/activity.proto\x1a\x1eeolymp/ranker/scoreboard.proto\x1a&eolymp/ranker/scoreboard_service.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"f\n" +
 	"\x13ListActivitiesInput\x12#\n" +
 	"\rscoreboard_id\x18\x01 \x01(\tR\fscoreboardId\x12\x16\n" +
 	"\x06offset\x18\n" +
@@ -2304,126 +560,88 @@ func file_eolymp_ranker_ranker_proto_rawDescGZIP() []byte {
 	return file_eolymp_ranker_ranker_proto_rawDescData
 }
 
-var file_eolymp_ranker_ranker_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_eolymp_ranker_ranker_proto_msgTypes = make([]protoimpl.MessageInfo, 37)
+var file_eolymp_ranker_ranker_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_eolymp_ranker_ranker_proto_goTypes = []any{
-	(UpdateScoreboardInput_Patch)(0),                 // 0: eolymp.ranker.UpdateScoreboardInput.Patch
-	(UpdateScoreboardColumnInput_Patch)(0),           // 1: eolymp.ranker.UpdateScoreboardColumnInput.Patch
-	(*CreateScoreboardInput)(nil),                    // 2: eolymp.ranker.CreateScoreboardInput
-	(*CreateScoreboardOutput)(nil),                   // 3: eolymp.ranker.CreateScoreboardOutput
-	(*UpdateScoreboardInput)(nil),                    // 4: eolymp.ranker.UpdateScoreboardInput
-	(*UpdateScoreboardOutput)(nil),                   // 5: eolymp.ranker.UpdateScoreboardOutput
-	(*RebuildScoreboardInput)(nil),                   // 6: eolymp.ranker.RebuildScoreboardInput
-	(*RebuildScoreboardOutput)(nil),                  // 7: eolymp.ranker.RebuildScoreboardOutput
-	(*DeleteScoreboardInput)(nil),                    // 8: eolymp.ranker.DeleteScoreboardInput
-	(*DeleteScoreboardOutput)(nil),                   // 9: eolymp.ranker.DeleteScoreboardOutput
-	(*DescribeScoreboardInput)(nil),                  // 10: eolymp.ranker.DescribeScoreboardInput
-	(*DescribeScoreboardOutput)(nil),                 // 11: eolymp.ranker.DescribeScoreboardOutput
-	(*ListScoreboardsInput)(nil),                     // 12: eolymp.ranker.ListScoreboardsInput
-	(*ListScoreboardsOutput)(nil),                    // 13: eolymp.ranker.ListScoreboardsOutput
-	(*DescribeScoreboardRowInput)(nil),               // 14: eolymp.ranker.DescribeScoreboardRowInput
-	(*DescribeScoreboardRowOutput)(nil),              // 15: eolymp.ranker.DescribeScoreboardRowOutput
-	(*ListScoreboardRowsInput)(nil),                  // 16: eolymp.ranker.ListScoreboardRowsInput
-	(*ListScoreboardRowsOutput)(nil),                 // 17: eolymp.ranker.ListScoreboardRowsOutput
-	(*AddScoreboardColumnInput)(nil),                 // 18: eolymp.ranker.AddScoreboardColumnInput
-	(*AddScoreboardColumnOutput)(nil),                // 19: eolymp.ranker.AddScoreboardColumnOutput
-	(*UpdateScoreboardColumnInput)(nil),              // 20: eolymp.ranker.UpdateScoreboardColumnInput
-	(*UpdateScoreboardColumnOutput)(nil),             // 21: eolymp.ranker.UpdateScoreboardColumnOutput
-	(*DeleteScoreboardColumnInput)(nil),              // 22: eolymp.ranker.DeleteScoreboardColumnInput
-	(*DeleteScoreboardColumnOutput)(nil),             // 23: eolymp.ranker.DeleteScoreboardColumnOutput
-	(*DescribeScoreboardColumnInput)(nil),            // 24: eolymp.ranker.DescribeScoreboardColumnInput
-	(*DescribeScoreboardColumnOutput)(nil),           // 25: eolymp.ranker.DescribeScoreboardColumnOutput
-	(*ListScoreboardColumnsInput)(nil),               // 26: eolymp.ranker.ListScoreboardColumnsInput
-	(*ListScoreboardColumnsOutput)(nil),              // 27: eolymp.ranker.ListScoreboardColumnsOutput
-	(*ListActivitiesInput)(nil),                      // 28: eolymp.ranker.ListActivitiesInput
-	(*ListActivitiesOutput)(nil),                     // 29: eolymp.ranker.ListActivitiesOutput
-	(*ScheduleActionInput)(nil),                      // 30: eolymp.ranker.ScheduleActionInput
-	(*ScheduleActionOutput)(nil),                     // 31: eolymp.ranker.ScheduleActionOutput
-	(*UnscheduleActionInput)(nil),                    // 32: eolymp.ranker.UnscheduleActionInput
-	(*UnscheduleActionOutput)(nil),                   // 33: eolymp.ranker.UnscheduleActionOutput
-	(*ListScheduledActionsInput)(nil),                // 34: eolymp.ranker.ListScheduledActionsInput
-	(*ListScheduledActionsOutput)(nil),               // 35: eolymp.ranker.ListScheduledActionsOutput
-	(*ListScoreboardsInput_Filter)(nil),              // 36: eolymp.ranker.ListScoreboardsInput.Filter
-	(*ListScoreboardRowsInput_ExpressionColumn)(nil), // 37: eolymp.ranker.ListScoreboardRowsInput.ExpressionColumn
-	(*ListScoreboardRowsInput_Filter)(nil),           // 38: eolymp.ranker.ListScoreboardRowsInput.Filter
-	(*Scoreboard)(nil),                               // 39: eolymp.ranker.Scoreboard
-	(Scoreboard_FetchingMode)(0),                     // 40: eolymp.ranker.Scoreboard.FetchingMode
-	(*Scoreboard_Row)(nil),                           // 41: eolymp.ranker.Scoreboard.Row
-	(wellknown.Direction)(0),                         // 42: eolymp.wellknown.Direction
-	(*Scoreboard_Column)(nil),                        // 43: eolymp.ranker.Scoreboard.Column
-	(*Activity)(nil),                                 // 44: eolymp.ranker.Activity
-	(*Scoreboard_Action)(nil),                        // 45: eolymp.ranker.Scoreboard.Action
-	(*wellknown.ExpressionID)(nil),                   // 46: eolymp.wellknown.ExpressionID
-	(*wellknown.ExpressionString)(nil),               // 47: eolymp.wellknown.ExpressionString
-	(*wellknown.ExpressionInt)(nil),                  // 48: eolymp.wellknown.ExpressionInt
-	(*wellknown.ExpressionEnum)(nil),                 // 49: eolymp.wellknown.ExpressionEnum
+	(*ListActivitiesInput)(nil),            // 0: eolymp.ranker.ListActivitiesInput
+	(*ListActivitiesOutput)(nil),           // 1: eolymp.ranker.ListActivitiesOutput
+	(*ScheduleActionInput)(nil),            // 2: eolymp.ranker.ScheduleActionInput
+	(*ScheduleActionOutput)(nil),           // 3: eolymp.ranker.ScheduleActionOutput
+	(*UnscheduleActionInput)(nil),          // 4: eolymp.ranker.UnscheduleActionInput
+	(*UnscheduleActionOutput)(nil),         // 5: eolymp.ranker.UnscheduleActionOutput
+	(*ListScheduledActionsInput)(nil),      // 6: eolymp.ranker.ListScheduledActionsInput
+	(*ListScheduledActionsOutput)(nil),     // 7: eolymp.ranker.ListScheduledActionsOutput
+	(*Activity)(nil),                       // 8: eolymp.ranker.Activity
+	(*Scoreboard_Action)(nil),              // 9: eolymp.ranker.Scoreboard.Action
+	(*CreateScoreboardInput)(nil),          // 10: eolymp.ranker.CreateScoreboardInput
+	(*UpdateScoreboardInput)(nil),          // 11: eolymp.ranker.UpdateScoreboardInput
+	(*RebuildScoreboardInput)(nil),         // 12: eolymp.ranker.RebuildScoreboardInput
+	(*DeleteScoreboardInput)(nil),          // 13: eolymp.ranker.DeleteScoreboardInput
+	(*DescribeScoreboardInput)(nil),        // 14: eolymp.ranker.DescribeScoreboardInput
+	(*ListScoreboardsInput)(nil),           // 15: eolymp.ranker.ListScoreboardsInput
+	(*DescribeScoreboardRowInput)(nil),     // 16: eolymp.ranker.DescribeScoreboardRowInput
+	(*ListScoreboardRowsInput)(nil),        // 17: eolymp.ranker.ListScoreboardRowsInput
+	(*AddScoreboardColumnInput)(nil),       // 18: eolymp.ranker.AddScoreboardColumnInput
+	(*UpdateScoreboardColumnInput)(nil),    // 19: eolymp.ranker.UpdateScoreboardColumnInput
+	(*DeleteScoreboardColumnInput)(nil),    // 20: eolymp.ranker.DeleteScoreboardColumnInput
+	(*DescribeScoreboardColumnInput)(nil),  // 21: eolymp.ranker.DescribeScoreboardColumnInput
+	(*ListScoreboardColumnsInput)(nil),     // 22: eolymp.ranker.ListScoreboardColumnsInput
+	(*CreateScoreboardOutput)(nil),         // 23: eolymp.ranker.CreateScoreboardOutput
+	(*UpdateScoreboardOutput)(nil),         // 24: eolymp.ranker.UpdateScoreboardOutput
+	(*RebuildScoreboardOutput)(nil),        // 25: eolymp.ranker.RebuildScoreboardOutput
+	(*DeleteScoreboardOutput)(nil),         // 26: eolymp.ranker.DeleteScoreboardOutput
+	(*DescribeScoreboardOutput)(nil),       // 27: eolymp.ranker.DescribeScoreboardOutput
+	(*ListScoreboardsOutput)(nil),          // 28: eolymp.ranker.ListScoreboardsOutput
+	(*DescribeScoreboardRowOutput)(nil),    // 29: eolymp.ranker.DescribeScoreboardRowOutput
+	(*ListScoreboardRowsOutput)(nil),       // 30: eolymp.ranker.ListScoreboardRowsOutput
+	(*AddScoreboardColumnOutput)(nil),      // 31: eolymp.ranker.AddScoreboardColumnOutput
+	(*UpdateScoreboardColumnOutput)(nil),   // 32: eolymp.ranker.UpdateScoreboardColumnOutput
+	(*DeleteScoreboardColumnOutput)(nil),   // 33: eolymp.ranker.DeleteScoreboardColumnOutput
+	(*DescribeScoreboardColumnOutput)(nil), // 34: eolymp.ranker.DescribeScoreboardColumnOutput
+	(*ListScoreboardColumnsOutput)(nil),    // 35: eolymp.ranker.ListScoreboardColumnsOutput
 }
 var file_eolymp_ranker_ranker_proto_depIdxs = []int32{
-	39, // 0: eolymp.ranker.CreateScoreboardInput.scoreboard:type_name -> eolymp.ranker.Scoreboard
-	0,  // 1: eolymp.ranker.UpdateScoreboardInput.patch:type_name -> eolymp.ranker.UpdateScoreboardInput.Patch
-	39, // 2: eolymp.ranker.UpdateScoreboardInput.scoreboard:type_name -> eolymp.ranker.Scoreboard
-	39, // 3: eolymp.ranker.DescribeScoreboardOutput.scoreboard:type_name -> eolymp.ranker.Scoreboard
-	36, // 4: eolymp.ranker.ListScoreboardsInput.filters:type_name -> eolymp.ranker.ListScoreboardsInput.Filter
-	39, // 5: eolymp.ranker.ListScoreboardsOutput.items:type_name -> eolymp.ranker.Scoreboard
-	40, // 6: eolymp.ranker.DescribeScoreboardRowInput.mode:type_name -> eolymp.ranker.Scoreboard.FetchingMode
-	41, // 7: eolymp.ranker.DescribeScoreboardRowOutput.row:type_name -> eolymp.ranker.Scoreboard.Row
-	40, // 8: eolymp.ranker.ListScoreboardRowsInput.mode:type_name -> eolymp.ranker.Scoreboard.FetchingMode
-	38, // 9: eolymp.ranker.ListScoreboardRowsInput.filters:type_name -> eolymp.ranker.ListScoreboardRowsInput.Filter
-	42, // 10: eolymp.ranker.ListScoreboardRowsInput.order:type_name -> eolymp.wellknown.Direction
-	41, // 11: eolymp.ranker.ListScoreboardRowsOutput.items:type_name -> eolymp.ranker.Scoreboard.Row
-	43, // 12: eolymp.ranker.AddScoreboardColumnInput.column:type_name -> eolymp.ranker.Scoreboard.Column
-	1,  // 13: eolymp.ranker.UpdateScoreboardColumnInput.patch:type_name -> eolymp.ranker.UpdateScoreboardColumnInput.Patch
-	43, // 14: eolymp.ranker.UpdateScoreboardColumnInput.column:type_name -> eolymp.ranker.Scoreboard.Column
-	43, // 15: eolymp.ranker.DescribeScoreboardColumnOutput.column:type_name -> eolymp.ranker.Scoreboard.Column
-	43, // 16: eolymp.ranker.ListScoreboardColumnsOutput.items:type_name -> eolymp.ranker.Scoreboard.Column
-	44, // 17: eolymp.ranker.ListActivitiesOutput.items:type_name -> eolymp.ranker.Activity
-	45, // 18: eolymp.ranker.ScheduleActionInput.action:type_name -> eolymp.ranker.Scoreboard.Action
-	45, // 19: eolymp.ranker.ListScheduledActionsOutput.items:type_name -> eolymp.ranker.Scoreboard.Action
-	46, // 20: eolymp.ranker.ListScoreboardsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	47, // 21: eolymp.ranker.ListScoreboardRowsInput.ExpressionColumn.string:type_name -> eolymp.wellknown.ExpressionString
-	48, // 22: eolymp.ranker.ListScoreboardRowsInput.ExpressionColumn.number:type_name -> eolymp.wellknown.ExpressionInt
-	49, // 23: eolymp.ranker.ListScoreboardRowsInput.ExpressionColumn.enum:type_name -> eolymp.wellknown.ExpressionEnum
-	46, // 24: eolymp.ranker.ListScoreboardRowsInput.Filter.member_id:type_name -> eolymp.wellknown.ExpressionID
-	37, // 25: eolymp.ranker.ListScoreboardRowsInput.Filter.column:type_name -> eolymp.ranker.ListScoreboardRowsInput.ExpressionColumn
-	2,  // 26: eolymp.ranker.Ranker.CreateScoreboard:input_type -> eolymp.ranker.CreateScoreboardInput
-	4,  // 27: eolymp.ranker.Ranker.UpdateScoreboard:input_type -> eolymp.ranker.UpdateScoreboardInput
-	6,  // 28: eolymp.ranker.Ranker.RebuildScoreboard:input_type -> eolymp.ranker.RebuildScoreboardInput
-	8,  // 29: eolymp.ranker.Ranker.DeleteScoreboard:input_type -> eolymp.ranker.DeleteScoreboardInput
-	10, // 30: eolymp.ranker.Ranker.DescribeScoreboard:input_type -> eolymp.ranker.DescribeScoreboardInput
-	12, // 31: eolymp.ranker.Ranker.ListScoreboards:input_type -> eolymp.ranker.ListScoreboardsInput
-	14, // 32: eolymp.ranker.Ranker.DescribeScoreboardRow:input_type -> eolymp.ranker.DescribeScoreboardRowInput
-	16, // 33: eolymp.ranker.Ranker.ListScoreboardRows:input_type -> eolymp.ranker.ListScoreboardRowsInput
-	18, // 34: eolymp.ranker.Ranker.AddScoreboardColumn:input_type -> eolymp.ranker.AddScoreboardColumnInput
-	20, // 35: eolymp.ranker.Ranker.UpdateScoreboardColumn:input_type -> eolymp.ranker.UpdateScoreboardColumnInput
-	22, // 36: eolymp.ranker.Ranker.DeleteScoreboardColumn:input_type -> eolymp.ranker.DeleteScoreboardColumnInput
-	24, // 37: eolymp.ranker.Ranker.DescribeScoreboardColumn:input_type -> eolymp.ranker.DescribeScoreboardColumnInput
-	26, // 38: eolymp.ranker.Ranker.ListScoreboardColumns:input_type -> eolymp.ranker.ListScoreboardColumnsInput
-	28, // 39: eolymp.ranker.Ranker.ListActivities:input_type -> eolymp.ranker.ListActivitiesInput
-	30, // 40: eolymp.ranker.Ranker.ScheduleAction:input_type -> eolymp.ranker.ScheduleActionInput
-	32, // 41: eolymp.ranker.Ranker.UnscheduleAction:input_type -> eolymp.ranker.UnscheduleActionInput
-	34, // 42: eolymp.ranker.Ranker.ListScheduledActions:input_type -> eolymp.ranker.ListScheduledActionsInput
-	3,  // 43: eolymp.ranker.Ranker.CreateScoreboard:output_type -> eolymp.ranker.CreateScoreboardOutput
-	5,  // 44: eolymp.ranker.Ranker.UpdateScoreboard:output_type -> eolymp.ranker.UpdateScoreboardOutput
-	7,  // 45: eolymp.ranker.Ranker.RebuildScoreboard:output_type -> eolymp.ranker.RebuildScoreboardOutput
-	9,  // 46: eolymp.ranker.Ranker.DeleteScoreboard:output_type -> eolymp.ranker.DeleteScoreboardOutput
-	11, // 47: eolymp.ranker.Ranker.DescribeScoreboard:output_type -> eolymp.ranker.DescribeScoreboardOutput
-	13, // 48: eolymp.ranker.Ranker.ListScoreboards:output_type -> eolymp.ranker.ListScoreboardsOutput
-	15, // 49: eolymp.ranker.Ranker.DescribeScoreboardRow:output_type -> eolymp.ranker.DescribeScoreboardRowOutput
-	17, // 50: eolymp.ranker.Ranker.ListScoreboardRows:output_type -> eolymp.ranker.ListScoreboardRowsOutput
-	19, // 51: eolymp.ranker.Ranker.AddScoreboardColumn:output_type -> eolymp.ranker.AddScoreboardColumnOutput
-	21, // 52: eolymp.ranker.Ranker.UpdateScoreboardColumn:output_type -> eolymp.ranker.UpdateScoreboardColumnOutput
-	23, // 53: eolymp.ranker.Ranker.DeleteScoreboardColumn:output_type -> eolymp.ranker.DeleteScoreboardColumnOutput
-	25, // 54: eolymp.ranker.Ranker.DescribeScoreboardColumn:output_type -> eolymp.ranker.DescribeScoreboardColumnOutput
-	27, // 55: eolymp.ranker.Ranker.ListScoreboardColumns:output_type -> eolymp.ranker.ListScoreboardColumnsOutput
-	29, // 56: eolymp.ranker.Ranker.ListActivities:output_type -> eolymp.ranker.ListActivitiesOutput
-	31, // 57: eolymp.ranker.Ranker.ScheduleAction:output_type -> eolymp.ranker.ScheduleActionOutput
-	33, // 58: eolymp.ranker.Ranker.UnscheduleAction:output_type -> eolymp.ranker.UnscheduleActionOutput
-	35, // 59: eolymp.ranker.Ranker.ListScheduledActions:output_type -> eolymp.ranker.ListScheduledActionsOutput
-	43, // [43:60] is the sub-list for method output_type
-	26, // [26:43] is the sub-list for method input_type
-	26, // [26:26] is the sub-list for extension type_name
-	26, // [26:26] is the sub-list for extension extendee
-	0,  // [0:26] is the sub-list for field type_name
+	8,  // 0: eolymp.ranker.ListActivitiesOutput.items:type_name -> eolymp.ranker.Activity
+	9,  // 1: eolymp.ranker.ScheduleActionInput.action:type_name -> eolymp.ranker.Scoreboard.Action
+	9,  // 2: eolymp.ranker.ListScheduledActionsOutput.items:type_name -> eolymp.ranker.Scoreboard.Action
+	10, // 3: eolymp.ranker.Ranker.CreateScoreboard:input_type -> eolymp.ranker.CreateScoreboardInput
+	11, // 4: eolymp.ranker.Ranker.UpdateScoreboard:input_type -> eolymp.ranker.UpdateScoreboardInput
+	12, // 5: eolymp.ranker.Ranker.RebuildScoreboard:input_type -> eolymp.ranker.RebuildScoreboardInput
+	13, // 6: eolymp.ranker.Ranker.DeleteScoreboard:input_type -> eolymp.ranker.DeleteScoreboardInput
+	14, // 7: eolymp.ranker.Ranker.DescribeScoreboard:input_type -> eolymp.ranker.DescribeScoreboardInput
+	15, // 8: eolymp.ranker.Ranker.ListScoreboards:input_type -> eolymp.ranker.ListScoreboardsInput
+	16, // 9: eolymp.ranker.Ranker.DescribeScoreboardRow:input_type -> eolymp.ranker.DescribeScoreboardRowInput
+	17, // 10: eolymp.ranker.Ranker.ListScoreboardRows:input_type -> eolymp.ranker.ListScoreboardRowsInput
+	18, // 11: eolymp.ranker.Ranker.AddScoreboardColumn:input_type -> eolymp.ranker.AddScoreboardColumnInput
+	19, // 12: eolymp.ranker.Ranker.UpdateScoreboardColumn:input_type -> eolymp.ranker.UpdateScoreboardColumnInput
+	20, // 13: eolymp.ranker.Ranker.DeleteScoreboardColumn:input_type -> eolymp.ranker.DeleteScoreboardColumnInput
+	21, // 14: eolymp.ranker.Ranker.DescribeScoreboardColumn:input_type -> eolymp.ranker.DescribeScoreboardColumnInput
+	22, // 15: eolymp.ranker.Ranker.ListScoreboardColumns:input_type -> eolymp.ranker.ListScoreboardColumnsInput
+	0,  // 16: eolymp.ranker.Ranker.ListActivities:input_type -> eolymp.ranker.ListActivitiesInput
+	2,  // 17: eolymp.ranker.Ranker.ScheduleAction:input_type -> eolymp.ranker.ScheduleActionInput
+	4,  // 18: eolymp.ranker.Ranker.UnscheduleAction:input_type -> eolymp.ranker.UnscheduleActionInput
+	6,  // 19: eolymp.ranker.Ranker.ListScheduledActions:input_type -> eolymp.ranker.ListScheduledActionsInput
+	23, // 20: eolymp.ranker.Ranker.CreateScoreboard:output_type -> eolymp.ranker.CreateScoreboardOutput
+	24, // 21: eolymp.ranker.Ranker.UpdateScoreboard:output_type -> eolymp.ranker.UpdateScoreboardOutput
+	25, // 22: eolymp.ranker.Ranker.RebuildScoreboard:output_type -> eolymp.ranker.RebuildScoreboardOutput
+	26, // 23: eolymp.ranker.Ranker.DeleteScoreboard:output_type -> eolymp.ranker.DeleteScoreboardOutput
+	27, // 24: eolymp.ranker.Ranker.DescribeScoreboard:output_type -> eolymp.ranker.DescribeScoreboardOutput
+	28, // 25: eolymp.ranker.Ranker.ListScoreboards:output_type -> eolymp.ranker.ListScoreboardsOutput
+	29, // 26: eolymp.ranker.Ranker.DescribeScoreboardRow:output_type -> eolymp.ranker.DescribeScoreboardRowOutput
+	30, // 27: eolymp.ranker.Ranker.ListScoreboardRows:output_type -> eolymp.ranker.ListScoreboardRowsOutput
+	31, // 28: eolymp.ranker.Ranker.AddScoreboardColumn:output_type -> eolymp.ranker.AddScoreboardColumnOutput
+	32, // 29: eolymp.ranker.Ranker.UpdateScoreboardColumn:output_type -> eolymp.ranker.UpdateScoreboardColumnOutput
+	33, // 30: eolymp.ranker.Ranker.DeleteScoreboardColumn:output_type -> eolymp.ranker.DeleteScoreboardColumnOutput
+	34, // 31: eolymp.ranker.Ranker.DescribeScoreboardColumn:output_type -> eolymp.ranker.DescribeScoreboardColumnOutput
+	35, // 32: eolymp.ranker.Ranker.ListScoreboardColumns:output_type -> eolymp.ranker.ListScoreboardColumnsOutput
+	1,  // 33: eolymp.ranker.Ranker.ListActivities:output_type -> eolymp.ranker.ListActivitiesOutput
+	3,  // 34: eolymp.ranker.Ranker.ScheduleAction:output_type -> eolymp.ranker.ScheduleActionOutput
+	5,  // 35: eolymp.ranker.Ranker.UnscheduleAction:output_type -> eolymp.ranker.UnscheduleActionOutput
+	7,  // 36: eolymp.ranker.Ranker.ListScheduledActions:output_type -> eolymp.ranker.ListScheduledActionsOutput
+	20, // [20:37] is the sub-list for method output_type
+	3,  // [3:20] is the sub-list for method input_type
+	3,  // [3:3] is the sub-list for extension type_name
+	3,  // [3:3] is the sub-list for extension extendee
+	0,  // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_ranker_ranker_proto_init() }
@@ -2433,19 +651,19 @@ func file_eolymp_ranker_ranker_proto_init() {
 	}
 	file_eolymp_ranker_activity_proto_init()
 	file_eolymp_ranker_scoreboard_proto_init()
+	file_eolymp_ranker_scoreboard_service_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_ranker_ranker_proto_rawDesc), len(file_eolymp_ranker_ranker_proto_rawDesc)),
-			NumEnums:      2,
-			NumMessages:   37,
+			NumEnums:      0,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
 		GoTypes:           file_eolymp_ranker_ranker_proto_goTypes,
 		DependencyIndexes: file_eolymp_ranker_ranker_proto_depIdxs,
-		EnumInfos:         file_eolymp_ranker_ranker_proto_enumTypes,
 		MessageInfos:      file_eolymp_ranker_ranker_proto_msgTypes,
 	}.Build()
 	File_eolymp_ranker_ranker_proto = out.File

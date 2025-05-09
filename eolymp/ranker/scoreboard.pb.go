@@ -23,6 +23,52 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type Scoreboard_Extra int32
+
+const (
+	Scoreboard_UNKNOWN_EXTRA Scoreboard_Extra = 0
+	Scoreboard_CONTESTS      Scoreboard_Extra = 1
+)
+
+// Enum value maps for Scoreboard_Extra.
+var (
+	Scoreboard_Extra_name = map[int32]string{
+		0: "UNKNOWN_EXTRA",
+		1: "CONTESTS",
+	}
+	Scoreboard_Extra_value = map[string]int32{
+		"UNKNOWN_EXTRA": 0,
+		"CONTESTS":      1,
+	}
+)
+
+func (x Scoreboard_Extra) Enum() *Scoreboard_Extra {
+	p := new(Scoreboard_Extra)
+	*p = x
+	return p
+}
+
+func (x Scoreboard_Extra) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (Scoreboard_Extra) Descriptor() protoreflect.EnumDescriptor {
+	return file_eolymp_ranker_scoreboard_proto_enumTypes[0].Descriptor()
+}
+
+func (Scoreboard_Extra) Type() protoreflect.EnumType {
+	return &file_eolymp_ranker_scoreboard_proto_enumTypes[0]
+}
+
+func (x Scoreboard_Extra) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use Scoreboard_Extra.Descriptor instead.
+func (Scoreboard_Extra) EnumDescriptor() ([]byte, []int) {
+	return file_eolymp_ranker_scoreboard_proto_rawDescGZIP(), []int{0, 0}
+}
+
 type Scoreboard_FetchingMode int32
 
 const (
@@ -67,11 +113,11 @@ func (x Scoreboard_FetchingMode) String() string {
 }
 
 func (Scoreboard_FetchingMode) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_ranker_scoreboard_proto_enumTypes[0].Descriptor()
+	return file_eolymp_ranker_scoreboard_proto_enumTypes[1].Descriptor()
 }
 
 func (Scoreboard_FetchingMode) Type() protoreflect.EnumType {
-	return &file_eolymp_ranker_scoreboard_proto_enumTypes[0]
+	return &file_eolymp_ranker_scoreboard_proto_enumTypes[1]
 }
 
 func (x Scoreboard_FetchingMode) Number() protoreflect.EnumNumber {
@@ -80,7 +126,7 @@ func (x Scoreboard_FetchingMode) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use Scoreboard_FetchingMode.Descriptor instead.
 func (Scoreboard_FetchingMode) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_ranker_scoreboard_proto_rawDescGZIP(), []int{0, 0}
+	return file_eolymp_ranker_scoreboard_proto_rawDescGZIP(), []int{0, 1}
 }
 
 type Scoreboard_Column_Type int32
@@ -125,11 +171,11 @@ func (x Scoreboard_Column_Type) String() string {
 }
 
 func (Scoreboard_Column_Type) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_ranker_scoreboard_proto_enumTypes[1].Descriptor()
+	return file_eolymp_ranker_scoreboard_proto_enumTypes[2].Descriptor()
 }
 
 func (Scoreboard_Column_Type) Type() protoreflect.EnumType {
-	return &file_eolymp_ranker_scoreboard_proto_enumTypes[1]
+	return &file_eolymp_ranker_scoreboard_proto_enumTypes[2]
 }
 
 func (x Scoreboard_Column_Type) Number() protoreflect.EnumNumber {
@@ -174,11 +220,11 @@ func (x Scoreboard_Action_Type) String() string {
 }
 
 func (Scoreboard_Action_Type) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_ranker_scoreboard_proto_enumTypes[2].Descriptor()
+	return file_eolymp_ranker_scoreboard_proto_enumTypes[3].Descriptor()
 }
 
 func (Scoreboard_Action_Type) Type() protoreflect.EnumType {
-	return &file_eolymp_ranker_scoreboard_proto_enumTypes[2]
+	return &file_eolymp_ranker_scoreboard_proto_enumTypes[3]
 }
 
 func (x Scoreboard_Action_Type) Number() protoreflect.EnumNumber {
@@ -204,15 +250,15 @@ type Scoreboard struct {
 	// This flag means the scoreboard is currently frozen.
 	Frozen     bool                   `protobuf:"varint,20,opt,name=frozen,proto3" json:"frozen,omitempty"`
 	FreezeAt   *timestamppb.Timestamp `protobuf:"bytes,21,opt,name=freeze_at,json=freezeAt,proto3" json:"freeze_at,omitempty"`
-	FreezeIn   uint32                 `protobuf:"varint,22,opt,name=freeze_in,json=freezeIn,proto3" json:"freeze_in,omitempty"`
 	UnfreezeAt *timestamppb.Timestamp `protobuf:"bytes,23,opt,name=unfreeze_at,json=unfreezeAt,proto3" json:"unfreeze_at,omitempty"`
-	UnfreezeIn uint32                 `protobuf:"varint,24,opt,name=unfreeze_in,json=unfreezeIn,proto3" json:"unfreeze_in,omitempty"`
 	// Column ID used to sort records by default and to calculate row ranking.
 	DefaultSortColumn string `protobuf:"bytes,40,opt,name=default_sort_column,json=defaultSortColumn,proto3" json:"default_sort_column,omitempty"`
 	// Sorting direction by default.
 	DefaultSortOrder wellknown.Direction `protobuf:"varint,41,opt,name=default_sort_order,json=defaultSortOrder,proto3,enum=eolymp.wellknown.Direction" json:"default_sort_order,omitempty"`
 	// Scoreboard format (IOI, ICPC). Can not be modified.
-	Format        Format `protobuf:"varint,10,opt,name=format,proto3,enum=eolymp.ranker.Format" json:"format,omitempty"`
+	Format Format `protobuf:"varint,10,opt,name=format,proto3,enum=eolymp.ranker.Format" json:"format,omitempty"`
+	// List of associated contests
+	Contests      []*Scoreboard_Contest `protobuf:"bytes,51,rep,name=contests,proto3" json:"contests,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -289,25 +335,11 @@ func (x *Scoreboard) GetFreezeAt() *timestamppb.Timestamp {
 	return nil
 }
 
-func (x *Scoreboard) GetFreezeIn() uint32 {
-	if x != nil {
-		return x.FreezeIn
-	}
-	return 0
-}
-
 func (x *Scoreboard) GetUnfreezeAt() *timestamppb.Timestamp {
 	if x != nil {
 		return x.UnfreezeAt
 	}
 	return nil
-}
-
-func (x *Scoreboard) GetUnfreezeIn() uint32 {
-	if x != nil {
-		return x.UnfreezeIn
-	}
-	return 0
 }
 
 func (x *Scoreboard) GetDefaultSortColumn() string {
@@ -329,6 +361,13 @@ func (x *Scoreboard) GetFormat() Format {
 		return x.Format
 	}
 	return Format_NONE
+}
+
+func (x *Scoreboard) GetContests() []*Scoreboard_Contest {
+	if x != nil {
+		return x.Contests
+	}
+	return nil
 }
 
 type Scoreboard_Row struct {
@@ -655,6 +694,90 @@ func (x *Scoreboard_Action) GetType() Scoreboard_Action_Type {
 	return Scoreboard_Action_NONE
 }
 
+type Scoreboard_Contest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	ImageUrl      string                 `protobuf:"bytes,3,opt,name=image_url,json=imageUrl,proto3" json:"image_url,omitempty"`
+	StartAt       *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=start_at,json=startAt,proto3" json:"start_at,omitempty"`
+	EndAt         *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=end_at,json=endAt,proto3" json:"end_at,omitempty"`
+	Status        string                 `protobuf:"bytes,6,opt,name=status,proto3" json:"status,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Scoreboard_Contest) Reset() {
+	*x = Scoreboard_Contest{}
+	mi := &file_eolymp_ranker_scoreboard_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Scoreboard_Contest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Scoreboard_Contest) ProtoMessage() {}
+
+func (x *Scoreboard_Contest) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_ranker_scoreboard_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Scoreboard_Contest.ProtoReflect.Descriptor instead.
+func (*Scoreboard_Contest) Descriptor() ([]byte, []int) {
+	return file_eolymp_ranker_scoreboard_proto_rawDescGZIP(), []int{0, 3}
+}
+
+func (x *Scoreboard_Contest) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *Scoreboard_Contest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *Scoreboard_Contest) GetImageUrl() string {
+	if x != nil {
+		return x.ImageUrl
+	}
+	return ""
+}
+
+func (x *Scoreboard_Contest) GetStartAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.StartAt
+	}
+	return nil
+}
+
+func (x *Scoreboard_Contest) GetEndAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.EndAt
+	}
+	return nil
+}
+
+func (x *Scoreboard_Contest) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
 type Scoreboard_Row_Value struct {
 	state    protoimpl.MessageState `protogen:"open.v1"`
 	Id       string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -680,7 +803,7 @@ type Scoreboard_Row_Value struct {
 
 func (x *Scoreboard_Row_Value) Reset() {
 	*x = Scoreboard_Row_Value{}
-	mi := &file_eolymp_ranker_scoreboard_proto_msgTypes[4]
+	mi := &file_eolymp_ranker_scoreboard_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -692,7 +815,7 @@ func (x *Scoreboard_Row_Value) String() string {
 func (*Scoreboard_Row_Value) ProtoMessage() {}
 
 func (x *Scoreboard_Row_Value) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_ranker_scoreboard_proto_msgTypes[4]
+	mi := &file_eolymp_ranker_scoreboard_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -796,7 +919,7 @@ var File_eolymp_ranker_scoreboard_proto protoreflect.FileDescriptor
 
 const file_eolymp_ranker_scoreboard_proto_rawDesc = "" +
 	"\n" +
-	"\x1eeolymp/ranker/scoreboard.proto\x12\reolymp.ranker\x1a\x1aeolymp/ranker/format.proto\x1a eolymp/wellknown/direction.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x93\x0f\n" +
+	"\x1eeolymp/ranker/scoreboard.proto\x12\reolymp.ranker\x1a\x1aeolymp/ranker/format.proto\x1a eolymp/wellknown/direction.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x8d\x11\n" +
 	"\n" +
 	"Scoreboard\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x10\n" +
@@ -806,16 +929,14 @@ const file_eolymp_ranker_scoreboard_proto_rawDesc = "" +
 	"historical\x18\a \x01(\bR\n" +
 	"historical\x12\x16\n" +
 	"\x06frozen\x18\x14 \x01(\bR\x06frozen\x127\n" +
-	"\tfreeze_at\x18\x15 \x01(\v2\x1a.google.protobuf.TimestampR\bfreezeAt\x12\x1b\n" +
-	"\tfreeze_in\x18\x16 \x01(\rR\bfreezeIn\x12;\n" +
+	"\tfreeze_at\x18\x15 \x01(\v2\x1a.google.protobuf.TimestampR\bfreezeAt\x12;\n" +
 	"\vunfreeze_at\x18\x17 \x01(\v2\x1a.google.protobuf.TimestampR\n" +
-	"unfreezeAt\x12\x1f\n" +
-	"\vunfreeze_in\x18\x18 \x01(\rR\n" +
-	"unfreezeIn\x12.\n" +
+	"unfreezeAt\x12.\n" +
 	"\x13default_sort_column\x18( \x01(\tR\x11defaultSortColumn\x12I\n" +
 	"\x12default_sort_order\x18) \x01(\x0e2\x1b.eolymp.wellknown.DirectionR\x10defaultSortOrder\x12-\n" +
 	"\x06format\x18\n" +
-	" \x01(\x0e2\x15.eolymp.ranker.FormatR\x06format\x1a\xfe\x04\n" +
+	" \x01(\x0e2\x15.eolymp.ranker.FormatR\x06format\x12=\n" +
+	"\bcontests\x183 \x03(\v2!.eolymp.ranker.Scoreboard.ContestR\bcontests\x1a\xfe\x04\n" +
 	"\x03Row\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x1b\n" +
@@ -884,7 +1005,17 @@ const file_eolymp_ranker_scoreboard_proto_rawDesc = "" +
 	"\x04NONE\x10\x00\x12\n" +
 	"\n" +
 	"\x06FREEZE\x10\x01\x12\f\n" +
-	"\bUNFREEZE\x10\x02\"A\n" +
+	"\bUNFREEZE\x10\x02\x1a\xcc\x01\n" +
+	"\aContest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12\x1b\n" +
+	"\timage_url\x18\x03 \x01(\tR\bimageUrl\x125\n" +
+	"\bstart_at\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\astartAt\x121\n" +
+	"\x06end_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\x05endAt\x12\x16\n" +
+	"\x06status\x18\x06 \x01(\tR\x06status\"(\n" +
+	"\x05Extra\x12\x11\n" +
+	"\rUNKNOWN_EXTRA\x10\x00\x12\f\n" +
+	"\bCONTESTS\x10\x01\"A\n" +
 	"\fFetchingMode\x12\n" +
 	"\n" +
 	"\x06LATEST\x10\x00\x12\f\n" +
@@ -905,35 +1036,40 @@ func file_eolymp_ranker_scoreboard_proto_rawDescGZIP() []byte {
 	return file_eolymp_ranker_scoreboard_proto_rawDescData
 }
 
-var file_eolymp_ranker_scoreboard_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
-var file_eolymp_ranker_scoreboard_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_eolymp_ranker_scoreboard_proto_enumTypes = make([]protoimpl.EnumInfo, 4)
+var file_eolymp_ranker_scoreboard_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_eolymp_ranker_scoreboard_proto_goTypes = []any{
-	(Scoreboard_FetchingMode)(0),  // 0: eolymp.ranker.Scoreboard.FetchingMode
-	(Scoreboard_Column_Type)(0),   // 1: eolymp.ranker.Scoreboard.Column.Type
-	(Scoreboard_Action_Type)(0),   // 2: eolymp.ranker.Scoreboard.Action.Type
-	(*Scoreboard)(nil),            // 3: eolymp.ranker.Scoreboard
-	(*Scoreboard_Row)(nil),        // 4: eolymp.ranker.Scoreboard.Row
-	(*Scoreboard_Column)(nil),     // 5: eolymp.ranker.Scoreboard.Column
-	(*Scoreboard_Action)(nil),     // 6: eolymp.ranker.Scoreboard.Action
-	(*Scoreboard_Row_Value)(nil),  // 7: eolymp.ranker.Scoreboard.Row.Value
-	(*timestamppb.Timestamp)(nil), // 8: google.protobuf.Timestamp
-	(wellknown.Direction)(0),      // 9: eolymp.wellknown.Direction
-	(Format)(0),                   // 10: eolymp.ranker.Format
+	(Scoreboard_Extra)(0),         // 0: eolymp.ranker.Scoreboard.Extra
+	(Scoreboard_FetchingMode)(0),  // 1: eolymp.ranker.Scoreboard.FetchingMode
+	(Scoreboard_Column_Type)(0),   // 2: eolymp.ranker.Scoreboard.Column.Type
+	(Scoreboard_Action_Type)(0),   // 3: eolymp.ranker.Scoreboard.Action.Type
+	(*Scoreboard)(nil),            // 4: eolymp.ranker.Scoreboard
+	(*Scoreboard_Row)(nil),        // 5: eolymp.ranker.Scoreboard.Row
+	(*Scoreboard_Column)(nil),     // 6: eolymp.ranker.Scoreboard.Column
+	(*Scoreboard_Action)(nil),     // 7: eolymp.ranker.Scoreboard.Action
+	(*Scoreboard_Contest)(nil),    // 8: eolymp.ranker.Scoreboard.Contest
+	(*Scoreboard_Row_Value)(nil),  // 9: eolymp.ranker.Scoreboard.Row.Value
+	(*timestamppb.Timestamp)(nil), // 10: google.protobuf.Timestamp
+	(wellknown.Direction)(0),      // 11: eolymp.wellknown.Direction
+	(Format)(0),                   // 12: eolymp.ranker.Format
 }
 var file_eolymp_ranker_scoreboard_proto_depIdxs = []int32{
-	8,  // 0: eolymp.ranker.Scoreboard.freeze_at:type_name -> google.protobuf.Timestamp
-	8,  // 1: eolymp.ranker.Scoreboard.unfreeze_at:type_name -> google.protobuf.Timestamp
-	9,  // 2: eolymp.ranker.Scoreboard.default_sort_order:type_name -> eolymp.wellknown.Direction
-	10, // 3: eolymp.ranker.Scoreboard.format:type_name -> eolymp.ranker.Format
-	7,  // 4: eolymp.ranker.Scoreboard.Row.values:type_name -> eolymp.ranker.Scoreboard.Row.Value
-	1,  // 5: eolymp.ranker.Scoreboard.Column.type:type_name -> eolymp.ranker.Scoreboard.Column.Type
-	8,  // 6: eolymp.ranker.Scoreboard.Action.execute_at:type_name -> google.protobuf.Timestamp
-	2,  // 7: eolymp.ranker.Scoreboard.Action.type:type_name -> eolymp.ranker.Scoreboard.Action.Type
-	8,  // [8:8] is the sub-list for method output_type
-	8,  // [8:8] is the sub-list for method input_type
-	8,  // [8:8] is the sub-list for extension type_name
-	8,  // [8:8] is the sub-list for extension extendee
-	0,  // [0:8] is the sub-list for field type_name
+	10, // 0: eolymp.ranker.Scoreboard.freeze_at:type_name -> google.protobuf.Timestamp
+	10, // 1: eolymp.ranker.Scoreboard.unfreeze_at:type_name -> google.protobuf.Timestamp
+	11, // 2: eolymp.ranker.Scoreboard.default_sort_order:type_name -> eolymp.wellknown.Direction
+	12, // 3: eolymp.ranker.Scoreboard.format:type_name -> eolymp.ranker.Format
+	8,  // 4: eolymp.ranker.Scoreboard.contests:type_name -> eolymp.ranker.Scoreboard.Contest
+	9,  // 5: eolymp.ranker.Scoreboard.Row.values:type_name -> eolymp.ranker.Scoreboard.Row.Value
+	2,  // 6: eolymp.ranker.Scoreboard.Column.type:type_name -> eolymp.ranker.Scoreboard.Column.Type
+	10, // 7: eolymp.ranker.Scoreboard.Action.execute_at:type_name -> google.protobuf.Timestamp
+	3,  // 8: eolymp.ranker.Scoreboard.Action.type:type_name -> eolymp.ranker.Scoreboard.Action.Type
+	10, // 9: eolymp.ranker.Scoreboard.Contest.start_at:type_name -> google.protobuf.Timestamp
+	10, // 10: eolymp.ranker.Scoreboard.Contest.end_at:type_name -> google.protobuf.Timestamp
+	11, // [11:11] is the sub-list for method output_type
+	11, // [11:11] is the sub-list for method input_type
+	11, // [11:11] is the sub-list for extension type_name
+	11, // [11:11] is the sub-list for extension extendee
+	0,  // [0:11] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_ranker_scoreboard_proto_init() }
@@ -947,8 +1083,8 @@ func file_eolymp_ranker_scoreboard_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_ranker_scoreboard_proto_rawDesc), len(file_eolymp_ranker_scoreboard_proto_rawDesc)),
-			NumEnums:      3,
-			NumMessages:   5,
+			NumEnums:      4,
+			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
