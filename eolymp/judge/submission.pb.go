@@ -95,7 +95,11 @@ type Submission struct {
 	Cost          float32                  `protobuf:"fixed32,30,opt,name=cost,proto3" json:"cost,omitempty"`                                           // maximum possible score for the submission
 	Score         float32                  `protobuf:"fixed32,31,opt,name=score,proto3" json:"score,omitempty"`                                         // sum of earned points
 	Percentage    float32                  `protobuf:"fixed32,32,opt,name=percentage,proto3" json:"percentage,omitempty"`
-	Groups        []*Submission_Group      `protobuf:"bytes,50,rep,name=groups,proto3" json:"groups,omitempty"` // status for each run by group
+	TimeUsage     uint32                   `protobuf:"varint,41,opt,name=time_usage,json=timeUsage,proto3" json:"time_usage,omitempty"`              // maximum wall time
+	CpuUsage      uint32                   `protobuf:"varint,42,opt,name=cpu_usage,json=cpuUsage,proto3" json:"cpu_usage,omitempty"`                 // maximum cpu time
+	MemoryUsage   uint64                   `protobuf:"varint,46,opt,name=memory_usage,json=memoryUsage,proto3" json:"memory_usage,omitempty"`        // maximum memory usage
+	ResourceUsage float32                  `protobuf:"fixed32,47,opt,name=resource_usage,json=resourceUsage,proto3" json:"resource_usage,omitempty"` // maximum resource usage
+	Groups        []*Submission_Group      `protobuf:"bytes,50,rep,name=groups,proto3" json:"groups,omitempty"`                                      // status for each run by group
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -252,6 +256,34 @@ func (x *Submission) GetScore() float32 {
 func (x *Submission) GetPercentage() float32 {
 	if x != nil {
 		return x.Percentage
+	}
+	return 0
+}
+
+func (x *Submission) GetTimeUsage() uint32 {
+	if x != nil {
+		return x.TimeUsage
+	}
+	return 0
+}
+
+func (x *Submission) GetCpuUsage() uint32 {
+	if x != nil {
+		return x.CpuUsage
+	}
+	return 0
+}
+
+func (x *Submission) GetMemoryUsage() uint64 {
+	if x != nil {
+		return x.MemoryUsage
+	}
+	return 0
+}
+
+func (x *Submission) GetResourceUsage() float32 {
+	if x != nil {
+		return x.ResourceUsage
 	}
 	return 0
 }
@@ -523,7 +555,7 @@ var File_eolymp_judge_submission_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_submission_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/judge/submission.proto\x12\feolymp.judge\x1a\x1deolymp/atlas/submission.proto\x1a#eolymp/atlas/testing_feedback.proto\x1a\"eolymp/atlas/testing_scoring.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xb9\f\n" +
+	"\x1deolymp/judge/submission.proto\x12\feolymp.judge\x1a\x1deolymp/atlas/submission.proto\x1a#eolymp/atlas/testing_feedback.proto\x1a\"eolymp/atlas/testing_scoring.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xbf\r\n" +
 	"\n" +
 	"Submission\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x10\n" +
@@ -549,7 +581,12 @@ const file_eolymp_judge_submission_proto_rawDesc = "" +
 	"\x05score\x18\x1f \x01(\x02R\x05score\x12\x1e\n" +
 	"\n" +
 	"percentage\x18  \x01(\x02R\n" +
-	"percentage\x126\n" +
+	"percentage\x12\x1d\n" +
+	"\n" +
+	"time_usage\x18) \x01(\rR\ttimeUsage\x12\x1b\n" +
+	"\tcpu_usage\x18* \x01(\rR\bcpuUsage\x12!\n" +
+	"\fmemory_usage\x18. \x01(\x04R\vmemoryUsage\x12%\n" +
+	"\x0eresource_usage\x18/ \x01(\x02R\rresourceUsage\x126\n" +
 	"\x06groups\x182 \x03(\v2\x1e.eolymp.judge.Submission.GroupR\x06groups\x1a\xd4\x02\n" +
 	"\x03Run\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x14\n" +

@@ -139,8 +139,9 @@ type ListSubmissionsInput struct {
 	state     protoimpl.MessageState `protogen:"open.v1"`
 	ContestId string                 `protobuf:"bytes,1,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
 	// pagination
-	Offset int32 `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
-	Size   int32 `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
+	After  string `protobuf:"bytes,12,opt,name=after,proto3" json:"after,omitempty"`
+	Offset int32  `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
+	Size   int32  `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
 	// data filters
 	Filters       *ListSubmissionsInput_Filter `protobuf:"bytes,40,opt,name=filters,proto3" json:"filters,omitempty"`
 	Extra         []Submission_Extra           `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.judge.Submission_Extra" json:"extra,omitempty"`
@@ -185,6 +186,13 @@ func (x *ListSubmissionsInput) GetContestId() string {
 	return ""
 }
 
+func (x *ListSubmissionsInput) GetAfter() string {
+	if x != nil {
+		return x.After
+	}
+	return ""
+}
+
 func (x *ListSubmissionsInput) GetOffset() int32 {
 	if x != nil {
 		return x.Offset
@@ -214,11 +222,12 @@ func (x *ListSubmissionsInput) GetExtra() []Submission_Extra {
 }
 
 type ListSubmissionsOutput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Total         int32                  `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty"`
-	Items         []*Submission          `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Total          int32                  `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty"`
+	Items          []*Submission          `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
+	NextPageCursor string                 `protobuf:"bytes,3,opt,name=next_page_cursor,json=nextPageCursor,proto3" json:"next_page_cursor,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *ListSubmissionsOutput) Reset() {
@@ -263,6 +272,13 @@ func (x *ListSubmissionsOutput) GetItems() []*Submission {
 		return x.Items
 	}
 	return nil
+}
+
+func (x *ListSubmissionsOutput) GetNextPageCursor() string {
+	if x != nil {
+		return x.NextPageCursor
+	}
+	return ""
 }
 
 type DescribeSubmissionInput struct {
@@ -1035,10 +1051,11 @@ const file_eolymp_judge_submission_service_proto_rawDesc = "" +
 	"\x04lang\x18\x03 \x01(\tR\x04lang\x12\x16\n" +
 	"\x06source\x18\x04 \x01(\tR\x06source\"=\n" +
 	"\x16CreateSubmissionOutput\x12#\n" +
-	"\rsubmission_id\x18\x01 \x01(\tR\fsubmissionId\"\x94\x06\n" +
+	"\rsubmission_id\x18\x01 \x01(\tR\fsubmissionId\"\xaa\x06\n" +
 	"\x14ListSubmissionsInput\x12\x1d\n" +
 	"\n" +
-	"contest_id\x18\x01 \x01(\tR\tcontestId\x12\x16\n" +
+	"contest_id\x18\x01 \x01(\tR\tcontestId\x12\x14\n" +
+	"\x05after\x18\f \x01(\tR\x05after\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
 	"\x04size\x18\v \x01(\x05R\x04size\x12C\n" +
@@ -1056,10 +1073,11 @@ const file_eolymp_judge_submission_service_proto_rawDesc = "" +
 	"percentage\x18\a \x03(\v2!.eolymp.wellknown.ExpressionFloatR\n" +
 	"percentage\x12H\n" +
 	"\fsubmitted_at\x18\b \x03(\v2%.eolymp.wellknown.ExpressionTimestampR\vsubmittedAt\x12>\n" +
-	"\tsignature\x18\t \x03(\v2 .eolymp.wellknown.ExpressionEnumR\tsignature\"]\n" +
+	"\tsignature\x18\t \x03(\v2 .eolymp.wellknown.ExpressionEnumR\tsignature\"\x87\x01\n" +
 	"\x15ListSubmissionsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12.\n" +
-	"\x05items\x18\x02 \x03(\v2\x18.eolymp.judge.SubmissionR\x05items\"\x94\x01\n" +
+	"\x05items\x18\x02 \x03(\v2\x18.eolymp.judge.SubmissionR\x05items\x12(\n" +
+	"\x10next_page_cursor\x18\x03 \x01(\tR\x0enextPageCursor\"\x94\x01\n" +
 	"\x17DescribeSubmissionInput\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\x12#\n" +
