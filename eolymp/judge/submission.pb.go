@@ -100,6 +100,7 @@ type Submission struct {
 	MemoryUsage   uint64                   `protobuf:"varint,46,opt,name=memory_usage,json=memoryUsage,proto3" json:"memory_usage,omitempty"`        // maximum memory usage
 	ResourceUsage float32                  `protobuf:"fixed32,47,opt,name=resource_usage,json=resourceUsage,proto3" json:"resource_usage,omitempty"` // maximum resource usage
 	Groups        []*Submission_Group      `protobuf:"bytes,50,rep,name=groups,proto3" json:"groups,omitempty"`                                      // status for each run by group
+	Cursor        string                   `protobuf:"bytes,100,opt,name=cursor,proto3" json:"cursor,omitempty"`                                     // cursor in the list
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -293,6 +294,13 @@ func (x *Submission) GetGroups() []*Submission_Group {
 		return x.Groups
 	}
 	return nil
+}
+
+func (x *Submission) GetCursor() string {
+	if x != nil {
+		return x.Cursor
+	}
+	return ""
 }
 
 type Submission_Run struct {
@@ -555,7 +563,7 @@ var File_eolymp_judge_submission_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_submission_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/judge/submission.proto\x12\feolymp.judge\x1a\x1deolymp/atlas/submission.proto\x1a#eolymp/atlas/testing_feedback.proto\x1a\"eolymp/atlas/testing_scoring.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xbf\r\n" +
+	"\x1deolymp/judge/submission.proto\x12\feolymp.judge\x1a\x1deolymp/atlas/submission.proto\x1a#eolymp/atlas/testing_feedback.proto\x1a\"eolymp/atlas/testing_scoring.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xd7\r\n" +
 	"\n" +
 	"Submission\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x10\n" +
@@ -587,7 +595,8 @@ const file_eolymp_judge_submission_proto_rawDesc = "" +
 	"\tcpu_usage\x18* \x01(\rR\bcpuUsage\x12!\n" +
 	"\fmemory_usage\x18. \x01(\x04R\vmemoryUsage\x12%\n" +
 	"\x0eresource_usage\x18/ \x01(\x02R\rresourceUsage\x126\n" +
-	"\x06groups\x182 \x03(\v2\x1e.eolymp.judge.Submission.GroupR\x06groups\x1a\xd4\x02\n" +
+	"\x06groups\x182 \x03(\v2\x1e.eolymp.judge.Submission.GroupR\x06groups\x12\x16\n" +
+	"\x06cursor\x18d \x01(\tR\x06cursor\x1a\xd4\x02\n" +
 	"\x03Run\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x14\n" +
 	"\x05index\x18\n" +
