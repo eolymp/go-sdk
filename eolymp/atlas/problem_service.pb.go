@@ -83,6 +83,7 @@ const (
 	UpdateProblemInput_DIFFICULTY UpdateProblemInput_Patch = 4
 	UpdateProblemInput_ORIGIN     UpdateProblemInput_Patch = 5
 	UpdateProblemInput_TYPE       UpdateProblemInput_Patch = 6
+	UpdateProblemInput_NUMBER     UpdateProblemInput_Patch = 7
 )
 
 // Enum value maps for UpdateProblemInput_Patch.
@@ -95,6 +96,7 @@ var (
 		4: "DIFFICULTY",
 		5: "ORIGIN",
 		6: "TYPE",
+		7: "NUMBER",
 	}
 	UpdateProblemInput_Patch_value = map[string]int32{
 		"ALL":        0,
@@ -104,6 +106,7 @@ var (
 		"DIFFICULTY": 4,
 		"ORIGIN":     5,
 		"TYPE":       6,
+		"NUMBER":     7,
 	}
 )
 
@@ -1658,12 +1661,12 @@ const file_eolymp_atlas_problem_service_proto_rawDesc = "" +
 	"\n" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x18\n" +
 	"\aprivate\x18\x02 \x01(\bR\aprivate\"\x15\n" +
-	"\x13UpdatePrivacyOutput\"\x80\x02\n" +
+	"\x13UpdatePrivacyOutput\"\x8c\x02\n" +
 	"\x12UpdateProblemInput\x12<\n" +
 	"\x05patch\x18\x01 \x03(\x0e2&.eolymp.atlas.UpdateProblemInput.PatchR\x05patch\x12\x1d\n" +
 	"\n" +
 	"problem_id\x18\x02 \x01(\tR\tproblemId\x12/\n" +
-	"\aproblem\x18\x03 \x01(\v2\x15.eolymp.atlas.ProblemR\aproblem\"\\\n" +
+	"\aproblem\x18\x03 \x01(\v2\x15.eolymp.atlas.ProblemR\aproblem\"h\n" +
 	"\x05Patch\x12\a\n" +
 	"\x03ALL\x10\x00\x12\v\n" +
 	"\aVISIBLE\x10\x01\x12\v\n" +
@@ -1674,7 +1677,9 @@ const file_eolymp_atlas_problem_service_proto_rawDesc = "" +
 	"DIFFICULTY\x10\x04\x12\n" +
 	"\n" +
 	"\x06ORIGIN\x10\x05\x12\b\n" +
-	"\x04TYPE\x10\x06\"\x15\n" +
+	"\x04TYPE\x10\x06\x12\n" +
+	"\n" +
+	"\x06NUMBER\x10\a\"\x15\n" +
 	"\x13UpdateProblemOutput\"1\n" +
 	"\x10SyncProblemInput\x12\x1d\n" +
 	"\n" +
