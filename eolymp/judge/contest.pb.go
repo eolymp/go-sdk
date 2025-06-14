@@ -22,6 +22,109 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type Contest_Patch int32
+
+const (
+	Contest_ALL                      Contest_Patch = 0
+	Contest_NAME                     Contest_Patch = 2
+	Contest_STARTS_AT                Contest_Patch = 3
+	Contest_ENDS_AT                  Contest_Patch = 4
+	Contest_DURATION                 Contest_Patch = 5
+	Contest_VISIBILITY               Contest_Patch = 6
+	Contest_JOIN_UNOFFICIALLY        Contest_Patch = 7
+	Contest_REQUIRE_ADMISSION        Contest_Patch = 16
+	Contest_ALLOW_PAUSE              Contest_Patch = 17
+	Contest_ALLOW_FINISH_EARLY       Contest_Patch = 18
+	Contest_ALLOW_UPSOLVE            Contest_Patch = 120
+	Contest_ALLOW_FOLLOWUP           Contest_Patch = 121
+	Contest_PARTICIPATION_MODE       Contest_Patch = 8
+	Contest_FORMAT                   Contest_Patch = 10
+	Contest_KEY                      Contest_Patch = 11
+	Contest_IMAGE_URL                Contest_Patch = 14
+	Contest_PROBLEM_COUNT_HIDDEN     Contest_Patch = 12
+	Contest_PARTICIPANT_COUNT_HIDDEN Contest_Patch = 13
+	Contest_FEATURED_UNTIL           Contest_Patch = 9
+	Contest_PRINTER                  Contest_Patch = 15
+	Contest_SCOREBOARD               Contest_Patch = 150
+)
+
+// Enum value maps for Contest_Patch.
+var (
+	Contest_Patch_name = map[int32]string{
+		0:   "ALL",
+		2:   "NAME",
+		3:   "STARTS_AT",
+		4:   "ENDS_AT",
+		5:   "DURATION",
+		6:   "VISIBILITY",
+		7:   "JOIN_UNOFFICIALLY",
+		16:  "REQUIRE_ADMISSION",
+		17:  "ALLOW_PAUSE",
+		18:  "ALLOW_FINISH_EARLY",
+		120: "ALLOW_UPSOLVE",
+		121: "ALLOW_FOLLOWUP",
+		8:   "PARTICIPATION_MODE",
+		10:  "FORMAT",
+		11:  "KEY",
+		14:  "IMAGE_URL",
+		12:  "PROBLEM_COUNT_HIDDEN",
+		13:  "PARTICIPANT_COUNT_HIDDEN",
+		9:   "FEATURED_UNTIL",
+		15:  "PRINTER",
+		150: "SCOREBOARD",
+	}
+	Contest_Patch_value = map[string]int32{
+		"ALL":                      0,
+		"NAME":                     2,
+		"STARTS_AT":                3,
+		"ENDS_AT":                  4,
+		"DURATION":                 5,
+		"VISIBILITY":               6,
+		"JOIN_UNOFFICIALLY":        7,
+		"REQUIRE_ADMISSION":        16,
+		"ALLOW_PAUSE":              17,
+		"ALLOW_FINISH_EARLY":       18,
+		"ALLOW_UPSOLVE":            120,
+		"ALLOW_FOLLOWUP":           121,
+		"PARTICIPATION_MODE":       8,
+		"FORMAT":                   10,
+		"KEY":                      11,
+		"IMAGE_URL":                14,
+		"PROBLEM_COUNT_HIDDEN":     12,
+		"PARTICIPANT_COUNT_HIDDEN": 13,
+		"FEATURED_UNTIL":           9,
+		"PRINTER":                  15,
+		"SCOREBOARD":               150,
+	}
+)
+
+func (x Contest_Patch) Enum() *Contest_Patch {
+	p := new(Contest_Patch)
+	*p = x
+	return p
+}
+
+func (x Contest_Patch) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (Contest_Patch) Descriptor() protoreflect.EnumDescriptor {
+	return file_eolymp_judge_contest_proto_enumTypes[0].Descriptor()
+}
+
+func (Contest_Patch) Type() protoreflect.EnumType {
+	return &file_eolymp_judge_contest_proto_enumTypes[0]
+}
+
+func (x Contest_Patch) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use Contest_Patch.Descriptor instead.
+func (Contest_Patch) EnumDescriptor() ([]byte, []int) {
+	return file_eolymp_judge_contest_proto_rawDescGZIP(), []int{0, 0}
+}
+
 type Contest_Status int32
 
 const (
@@ -67,11 +170,11 @@ func (x Contest_Status) String() string {
 }
 
 func (Contest_Status) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_judge_contest_proto_enumTypes[0].Descriptor()
+	return file_eolymp_judge_contest_proto_enumTypes[1].Descriptor()
 }
 
 func (Contest_Status) Type() protoreflect.EnumType {
-	return &file_eolymp_judge_contest_proto_enumTypes[0]
+	return &file_eolymp_judge_contest_proto_enumTypes[1]
 }
 
 func (x Contest_Status) Number() protoreflect.EnumNumber {
@@ -80,7 +183,7 @@ func (x Contest_Status) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use Contest_Status.Descriptor instead.
 func (Contest_Status) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_judge_contest_proto_rawDescGZIP(), []int{0, 0}
+	return file_eolymp_judge_contest_proto_rawDescGZIP(), []int{0, 1}
 }
 
 type Contest_Visibility int32
@@ -119,11 +222,11 @@ func (x Contest_Visibility) String() string {
 }
 
 func (Contest_Visibility) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_judge_contest_proto_enumTypes[1].Descriptor()
+	return file_eolymp_judge_contest_proto_enumTypes[2].Descriptor()
 }
 
 func (Contest_Visibility) Type() protoreflect.EnumType {
-	return &file_eolymp_judge_contest_proto_enumTypes[1]
+	return &file_eolymp_judge_contest_proto_enumTypes[2]
 }
 
 func (x Contest_Visibility) Number() protoreflect.EnumNumber {
@@ -132,7 +235,7 @@ func (x Contest_Visibility) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use Contest_Visibility.Descriptor instead.
 func (Contest_Visibility) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_judge_contest_proto_rawDescGZIP(), []int{0, 1}
+	return file_eolymp_judge_contest_proto_rawDescGZIP(), []int{0, 2}
 }
 
 type Contest_ParticipationMode int32
@@ -168,11 +271,11 @@ func (x Contest_ParticipationMode) String() string {
 }
 
 func (Contest_ParticipationMode) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_judge_contest_proto_enumTypes[2].Descriptor()
+	return file_eolymp_judge_contest_proto_enumTypes[3].Descriptor()
 }
 
 func (Contest_ParticipationMode) Type() protoreflect.EnumType {
-	return &file_eolymp_judge_contest_proto_enumTypes[2]
+	return &file_eolymp_judge_contest_proto_enumTypes[3]
 }
 
 func (x Contest_ParticipationMode) Number() protoreflect.EnumNumber {
@@ -181,7 +284,7 @@ func (x Contest_ParticipationMode) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use Contest_ParticipationMode.Descriptor instead.
 func (Contest_ParticipationMode) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_judge_contest_proto_rawDescGZIP(), []int{0, 2}
+	return file_eolymp_judge_contest_proto_rawDescGZIP(), []int{0, 3}
 }
 
 type Contest_Format int32
@@ -217,11 +320,11 @@ func (x Contest_Format) String() string {
 }
 
 func (Contest_Format) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_judge_contest_proto_enumTypes[3].Descriptor()
+	return file_eolymp_judge_contest_proto_enumTypes[4].Descriptor()
 }
 
 func (Contest_Format) Type() protoreflect.EnumType {
-	return &file_eolymp_judge_contest_proto_enumTypes[3]
+	return &file_eolymp_judge_contest_proto_enumTypes[4]
 }
 
 func (x Contest_Format) Number() protoreflect.EnumNumber {
@@ -230,7 +333,7 @@ func (x Contest_Format) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use Contest_Format.Descriptor instead.
 func (Contest_Format) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_judge_contest_proto_rawDescGZIP(), []int{0, 3}
+	return file_eolymp_judge_contest_proto_rawDescGZIP(), []int{0, 4}
 }
 
 type Contest_Scoreboard_Visibility int32
@@ -269,11 +372,11 @@ func (x Contest_Scoreboard_Visibility) String() string {
 }
 
 func (Contest_Scoreboard_Visibility) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_judge_contest_proto_enumTypes[4].Descriptor()
+	return file_eolymp_judge_contest_proto_enumTypes[5].Descriptor()
 }
 
 func (Contest_Scoreboard_Visibility) Type() protoreflect.EnumType {
-	return &file_eolymp_judge_contest_proto_enumTypes[4]
+	return &file_eolymp_judge_contest_proto_enumTypes[5]
 }
 
 func (x Contest_Scoreboard_Visibility) Number() protoreflect.EnumNumber {
@@ -657,7 +760,7 @@ var File_eolymp_judge_contest_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\n" +
-	"\x1aeolymp/judge/contest.proto\x12\feolymp.judge\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc8\x0e\n" +
+	"\x1aeolymp/judge/contest.proto\x12\feolymp.judge\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc3\x11\n" +
 	"\aContest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x10\n" +
 	"\x03url\x18\x02 \x01(\tR\x03url\x12\x12\n" +
@@ -711,7 +814,33 @@ const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\tINVISIBLE\x10\x01\x12\f\n" +
 	"\bINTERNAL\x10\x02\x12\n" +
 	"\n" +
-	"\x06PUBLIC\x10\x03\"m\n" +
+	"\x06PUBLIC\x10\x03\"\xf8\x02\n" +
+	"\x05Patch\x12\a\n" +
+	"\x03ALL\x10\x00\x12\b\n" +
+	"\x04NAME\x10\x02\x12\r\n" +
+	"\tSTARTS_AT\x10\x03\x12\v\n" +
+	"\aENDS_AT\x10\x04\x12\f\n" +
+	"\bDURATION\x10\x05\x12\x0e\n" +
+	"\n" +
+	"VISIBILITY\x10\x06\x12\x15\n" +
+	"\x11JOIN_UNOFFICIALLY\x10\a\x12\x15\n" +
+	"\x11REQUIRE_ADMISSION\x10\x10\x12\x0f\n" +
+	"\vALLOW_PAUSE\x10\x11\x12\x16\n" +
+	"\x12ALLOW_FINISH_EARLY\x10\x12\x12\x11\n" +
+	"\rALLOW_UPSOLVE\x10x\x12\x12\n" +
+	"\x0eALLOW_FOLLOWUP\x10y\x12\x16\n" +
+	"\x12PARTICIPATION_MODE\x10\b\x12\n" +
+	"\n" +
+	"\x06FORMAT\x10\n" +
+	"\x12\a\n" +
+	"\x03KEY\x10\v\x12\r\n" +
+	"\tIMAGE_URL\x10\x0e\x12\x18\n" +
+	"\x14PROBLEM_COUNT_HIDDEN\x10\f\x12\x1c\n" +
+	"\x18PARTICIPANT_COUNT_HIDDEN\x10\r\x12\x12\n" +
+	"\x0eFEATURED_UNTIL\x10\t\x12\v\n" +
+	"\aPRINTER\x10\x0f\x12\x0f\n" +
+	"\n" +
+	"SCOREBOARD\x10\x96\x01\"m\n" +
 	"\x06Status\x12\x12\n" +
 	"\x0eSTATUS_UNKNOWN\x10\x00\x12\r\n" +
 	"\tSCHEDULED\x10\x01\x12\b\n" +
@@ -750,28 +879,29 @@ func file_eolymp_judge_contest_proto_rawDescGZIP() []byte {
 	return file_eolymp_judge_contest_proto_rawDescData
 }
 
-var file_eolymp_judge_contest_proto_enumTypes = make([]protoimpl.EnumInfo, 5)
+var file_eolymp_judge_contest_proto_enumTypes = make([]protoimpl.EnumInfo, 6)
 var file_eolymp_judge_contest_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_eolymp_judge_contest_proto_goTypes = []any{
-	(Contest_Status)(0),                // 0: eolymp.judge.Contest.Status
-	(Contest_Visibility)(0),            // 1: eolymp.judge.Contest.Visibility
-	(Contest_ParticipationMode)(0),     // 2: eolymp.judge.Contest.ParticipationMode
-	(Contest_Format)(0),                // 3: eolymp.judge.Contest.Format
-	(Contest_Scoreboard_Visibility)(0), // 4: eolymp.judge.Contest.Scoreboard.Visibility
-	(*Contest)(nil),                    // 5: eolymp.judge.Contest
-	(*Contest_Scoreboard)(nil),         // 6: eolymp.judge.Contest.Scoreboard
-	(*timestamppb.Timestamp)(nil),      // 7: google.protobuf.Timestamp
+	(Contest_Patch)(0),                 // 0: eolymp.judge.Contest.Patch
+	(Contest_Status)(0),                // 1: eolymp.judge.Contest.Status
+	(Contest_Visibility)(0),            // 2: eolymp.judge.Contest.Visibility
+	(Contest_ParticipationMode)(0),     // 3: eolymp.judge.Contest.ParticipationMode
+	(Contest_Format)(0),                // 4: eolymp.judge.Contest.Format
+	(Contest_Scoreboard_Visibility)(0), // 5: eolymp.judge.Contest.Scoreboard.Visibility
+	(*Contest)(nil),                    // 6: eolymp.judge.Contest
+	(*Contest_Scoreboard)(nil),         // 7: eolymp.judge.Contest.Scoreboard
+	(*timestamppb.Timestamp)(nil),      // 8: google.protobuf.Timestamp
 }
 var file_eolymp_judge_contest_proto_depIdxs = []int32{
-	7, // 0: eolymp.judge.Contest.starts_at:type_name -> google.protobuf.Timestamp
-	7, // 1: eolymp.judge.Contest.ends_at:type_name -> google.protobuf.Timestamp
-	0, // 2: eolymp.judge.Contest.status:type_name -> eolymp.judge.Contest.Status
-	1, // 3: eolymp.judge.Contest.visibility:type_name -> eolymp.judge.Contest.Visibility
-	2, // 4: eolymp.judge.Contest.participation_mode:type_name -> eolymp.judge.Contest.ParticipationMode
-	3, // 5: eolymp.judge.Contest.format:type_name -> eolymp.judge.Contest.Format
-	7, // 6: eolymp.judge.Contest.featured_until:type_name -> google.protobuf.Timestamp
-	6, // 7: eolymp.judge.Contest.scoreboard:type_name -> eolymp.judge.Contest.Scoreboard
-	4, // 8: eolymp.judge.Contest.Scoreboard.visibility:type_name -> eolymp.judge.Contest.Scoreboard.Visibility
+	8, // 0: eolymp.judge.Contest.starts_at:type_name -> google.protobuf.Timestamp
+	8, // 1: eolymp.judge.Contest.ends_at:type_name -> google.protobuf.Timestamp
+	1, // 2: eolymp.judge.Contest.status:type_name -> eolymp.judge.Contest.Status
+	2, // 3: eolymp.judge.Contest.visibility:type_name -> eolymp.judge.Contest.Visibility
+	3, // 4: eolymp.judge.Contest.participation_mode:type_name -> eolymp.judge.Contest.ParticipationMode
+	4, // 5: eolymp.judge.Contest.format:type_name -> eolymp.judge.Contest.Format
+	8, // 6: eolymp.judge.Contest.featured_until:type_name -> google.protobuf.Timestamp
+	7, // 7: eolymp.judge.Contest.scoreboard:type_name -> eolymp.judge.Contest.Scoreboard
+	5, // 8: eolymp.judge.Contest.Scoreboard.visibility:type_name -> eolymp.judge.Contest.Scoreboard.Visibility
 	9, // [9:9] is the sub-list for method output_type
 	9, // [9:9] is the sub-list for method input_type
 	9, // [9:9] is the sub-list for extension type_name
@@ -789,7 +919,7 @@ func file_eolymp_judge_contest_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_judge_contest_proto_rawDesc), len(file_eolymp_judge_contest_proto_rawDesc)),
-			NumEnums:      5,
+			NumEnums:      6,
 			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   0,

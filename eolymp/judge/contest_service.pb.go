@@ -24,112 +24,6 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type UpdateContestInput_Patch int32
-
-const (
-	UpdateContestInput_ALL                      UpdateContestInput_Patch = 0
-	UpdateContestInput_NAME                     UpdateContestInput_Patch = 2
-	UpdateContestInput_STARTS_AT                UpdateContestInput_Patch = 3
-	UpdateContestInput_ENDS_AT                  UpdateContestInput_Patch = 4
-	UpdateContestInput_DURATION                 UpdateContestInput_Patch = 5
-	UpdateContestInput_VISIBILITY               UpdateContestInput_Patch = 6
-	UpdateContestInput_JOIN_UNOFFICIALLY        UpdateContestInput_Patch = 7
-	UpdateContestInput_REQUIRE_ADMISSION        UpdateContestInput_Patch = 16
-	UpdateContestInput_ALLOW_PAUSE              UpdateContestInput_Patch = 17
-	UpdateContestInput_ALLOW_FINISH_EARLY       UpdateContestInput_Patch = 18
-	UpdateContestInput_ALLOW_UPSOLVE            UpdateContestInput_Patch = 120
-	UpdateContestInput_ALLOW_FOLLOWUP           UpdateContestInput_Patch = 121
-	UpdateContestInput_PARTICIPATION_MODE       UpdateContestInput_Patch = 8
-	UpdateContestInput_FORMAT                   UpdateContestInput_Patch = 10
-	UpdateContestInput_KEY                      UpdateContestInput_Patch = 11
-	UpdateContestInput_LOGO_URL                 UpdateContestInput_Patch = 14
-	UpdateContestInput_PROBLEM_COUNT_HIDDEN     UpdateContestInput_Patch = 12
-	UpdateContestInput_PARTICIPANT_COUNT_HIDDEN UpdateContestInput_Patch = 13
-	UpdateContestInput_FEATURED_UNTIL           UpdateContestInput_Patch = 9
-	UpdateContestInput_PRINTER                  UpdateContestInput_Patch = 15
-	UpdateContestInput_ENVIRONMENT              UpdateContestInput_Patch = 130
-	UpdateContestInput_SCOREBOARD               UpdateContestInput_Patch = 150
-)
-
-// Enum value maps for UpdateContestInput_Patch.
-var (
-	UpdateContestInput_Patch_name = map[int32]string{
-		0:   "ALL",
-		2:   "NAME",
-		3:   "STARTS_AT",
-		4:   "ENDS_AT",
-		5:   "DURATION",
-		6:   "VISIBILITY",
-		7:   "JOIN_UNOFFICIALLY",
-		16:  "REQUIRE_ADMISSION",
-		17:  "ALLOW_PAUSE",
-		18:  "ALLOW_FINISH_EARLY",
-		120: "ALLOW_UPSOLVE",
-		121: "ALLOW_FOLLOWUP",
-		8:   "PARTICIPATION_MODE",
-		10:  "FORMAT",
-		11:  "KEY",
-		14:  "LOGO_URL",
-		12:  "PROBLEM_COUNT_HIDDEN",
-		13:  "PARTICIPANT_COUNT_HIDDEN",
-		9:   "FEATURED_UNTIL",
-		15:  "PRINTER",
-		130: "ENVIRONMENT",
-		150: "SCOREBOARD",
-	}
-	UpdateContestInput_Patch_value = map[string]int32{
-		"ALL":                      0,
-		"NAME":                     2,
-		"STARTS_AT":                3,
-		"ENDS_AT":                  4,
-		"DURATION":                 5,
-		"VISIBILITY":               6,
-		"JOIN_UNOFFICIALLY":        7,
-		"REQUIRE_ADMISSION":        16,
-		"ALLOW_PAUSE":              17,
-		"ALLOW_FINISH_EARLY":       18,
-		"ALLOW_UPSOLVE":            120,
-		"ALLOW_FOLLOWUP":           121,
-		"PARTICIPATION_MODE":       8,
-		"FORMAT":                   10,
-		"KEY":                      11,
-		"LOGO_URL":                 14,
-		"PROBLEM_COUNT_HIDDEN":     12,
-		"PARTICIPANT_COUNT_HIDDEN": 13,
-		"FEATURED_UNTIL":           9,
-		"PRINTER":                  15,
-		"ENVIRONMENT":              130,
-		"SCOREBOARD":               150,
-	}
-)
-
-func (x UpdateContestInput_Patch) Enum() *UpdateContestInput_Patch {
-	p := new(UpdateContestInput_Patch)
-	*p = x
-	return p
-}
-
-func (x UpdateContestInput_Patch) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (UpdateContestInput_Patch) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_judge_contest_service_proto_enumTypes[0].Descriptor()
-}
-
-func (UpdateContestInput_Patch) Type() protoreflect.EnumType {
-	return &file_eolymp_judge_contest_service_proto_enumTypes[0]
-}
-
-func (x UpdateContestInput_Patch) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use UpdateContestInput_Patch.Descriptor instead.
-func (UpdateContestInput_Patch) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_judge_contest_service_proto_rawDescGZIP(), []int{5, 0}
-}
-
 type CopyContestInput_Scope int32
 
 const (
@@ -169,11 +63,11 @@ func (x CopyContestInput_Scope) String() string {
 }
 
 func (CopyContestInput_Scope) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_judge_contest_service_proto_enumTypes[1].Descriptor()
+	return file_eolymp_judge_contest_service_proto_enumTypes[0].Descriptor()
 }
 
 func (CopyContestInput_Scope) Type() protoreflect.EnumType {
-	return &file_eolymp_judge_contest_service_proto_enumTypes[1]
+	return &file_eolymp_judge_contest_service_proto_enumTypes[0]
 }
 
 func (x CopyContestInput_Scope) Number() protoreflect.EnumNumber {
@@ -408,9 +302,9 @@ func (*DeleteContestOutput) Descriptor() ([]byte, []int) {
 type UpdateContestInput struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// specify list of fields to update, if empty all fields are updated
-	Patch         []UpdateContestInput_Patch `protobuf:"varint,3,rep,packed,name=patch,proto3,enum=eolymp.judge.UpdateContestInput_Patch" json:"patch,omitempty"`
-	ContestId     string                     `protobuf:"bytes,1,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
-	Contest       *Contest                   `protobuf:"bytes,2,opt,name=contest,proto3" json:"contest,omitempty"`
+	Patch         []Contest_Patch `protobuf:"varint,3,rep,packed,name=patch,proto3,enum=eolymp.judge.Contest_Patch" json:"patch,omitempty"`
+	ContestId     string          `protobuf:"bytes,1,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
+	Contest       *Contest        `protobuf:"bytes,2,opt,name=contest,proto3" json:"contest,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -445,7 +339,7 @@ func (*UpdateContestInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_judge_contest_service_proto_rawDescGZIP(), []int{5}
 }
 
-func (x *UpdateContestInput) GetPatch() []UpdateContestInput_Patch {
+func (x *UpdateContestInput) GetPatch() []Contest_Patch {
 	if x != nil {
 		return x.Patch
 	}
@@ -2324,39 +2218,12 @@ const file_eolymp_judge_contest_service_proto_rawDesc = "" +
 	"\x12DeleteContestInput\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\"\x15\n" +
-	"\x13DeleteContestOutput\"\xae\x04\n" +
-	"\x12UpdateContestInput\x12<\n" +
-	"\x05patch\x18\x03 \x03(\x0e2&.eolymp.judge.UpdateContestInput.PatchR\x05patch\x12\x1d\n" +
+	"\x13DeleteContestOutput\"\x97\x01\n" +
+	"\x12UpdateContestInput\x121\n" +
+	"\x05patch\x18\x03 \x03(\x0e2\x1b.eolymp.judge.Contest.PatchR\x05patch\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\x12/\n" +
-	"\acontest\x18\x02 \x01(\v2\x15.eolymp.judge.ContestR\acontest\"\x89\x03\n" +
-	"\x05Patch\x12\a\n" +
-	"\x03ALL\x10\x00\x12\b\n" +
-	"\x04NAME\x10\x02\x12\r\n" +
-	"\tSTARTS_AT\x10\x03\x12\v\n" +
-	"\aENDS_AT\x10\x04\x12\f\n" +
-	"\bDURATION\x10\x05\x12\x0e\n" +
-	"\n" +
-	"VISIBILITY\x10\x06\x12\x15\n" +
-	"\x11JOIN_UNOFFICIALLY\x10\a\x12\x15\n" +
-	"\x11REQUIRE_ADMISSION\x10\x10\x12\x0f\n" +
-	"\vALLOW_PAUSE\x10\x11\x12\x16\n" +
-	"\x12ALLOW_FINISH_EARLY\x10\x12\x12\x11\n" +
-	"\rALLOW_UPSOLVE\x10x\x12\x12\n" +
-	"\x0eALLOW_FOLLOWUP\x10y\x12\x16\n" +
-	"\x12PARTICIPATION_MODE\x10\b\x12\n" +
-	"\n" +
-	"\x06FORMAT\x10\n" +
-	"\x12\a\n" +
-	"\x03KEY\x10\v\x12\f\n" +
-	"\bLOGO_URL\x10\x0e\x12\x18\n" +
-	"\x14PROBLEM_COUNT_HIDDEN\x10\f\x12\x1c\n" +
-	"\x18PARTICIPANT_COUNT_HIDDEN\x10\r\x12\x12\n" +
-	"\x0eFEATURED_UNTIL\x10\t\x12\v\n" +
-	"\aPRINTER\x10\x0f\x12\x10\n" +
-	"\vENVIRONMENT\x10\x82\x01\x12\x0f\n" +
-	"\n" +
-	"SCOREBOARD\x10\x96\x01\"\x15\n" +
+	"\acontest\x18\x02 \x01(\v2\x15.eolymp.judge.ContestR\acontest\"\x15\n" +
 	"\x13UpdateContestOutput\"\xb4\x02\n" +
 	"\x10CopyContestInput\x12\x1d\n" +
 	"\n" +
@@ -2618,56 +2485,56 @@ func file_eolymp_judge_contest_service_proto_rawDescGZIP() []byte {
 	return file_eolymp_judge_contest_service_proto_rawDescData
 }
 
-var file_eolymp_judge_contest_service_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_eolymp_judge_contest_service_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_eolymp_judge_contest_service_proto_msgTypes = make([]protoimpl.MessageInfo, 44)
 var file_eolymp_judge_contest_service_proto_goTypes = []any{
-	(UpdateContestInput_Patch)(0),         // 0: eolymp.judge.UpdateContestInput.Patch
-	(CopyContestInput_Scope)(0),           // 1: eolymp.judge.CopyContestInput.Scope
-	(*ContestChangedEvent)(nil),           // 2: eolymp.judge.ContestChangedEvent
-	(*CreateContestInput)(nil),            // 3: eolymp.judge.CreateContestInput
-	(*CreateContestOutput)(nil),           // 4: eolymp.judge.CreateContestOutput
-	(*DeleteContestInput)(nil),            // 5: eolymp.judge.DeleteContestInput
-	(*DeleteContestOutput)(nil),           // 6: eolymp.judge.DeleteContestOutput
-	(*UpdateContestInput)(nil),            // 7: eolymp.judge.UpdateContestInput
-	(*UpdateContestOutput)(nil),           // 8: eolymp.judge.UpdateContestOutput
-	(*CopyContestInput)(nil),              // 9: eolymp.judge.CopyContestInput
-	(*CopyContestOutput)(nil),             // 10: eolymp.judge.CopyContestOutput
-	(*DescribeContestInput)(nil),          // 11: eolymp.judge.DescribeContestInput
-	(*DescribeContestOutput)(nil),         // 12: eolymp.judge.DescribeContestOutput
-	(*ListContestsInput)(nil),             // 13: eolymp.judge.ListContestsInput
-	(*ListContestsOutput)(nil),            // 14: eolymp.judge.ListContestsOutput
-	(*OpenContestInput)(nil),              // 15: eolymp.judge.OpenContestInput
-	(*OpenContestOutput)(nil),             // 16: eolymp.judge.OpenContestOutput
-	(*CloseContestInput)(nil),             // 17: eolymp.judge.CloseContestInput
-	(*CloseContestOutput)(nil),            // 18: eolymp.judge.CloseContestOutput
-	(*SuspendContestInput)(nil),           // 19: eolymp.judge.SuspendContestInput
-	(*SuspendContestOutput)(nil),          // 20: eolymp.judge.SuspendContestOutput
-	(*FreezeContestInput)(nil),            // 21: eolymp.judge.FreezeContestInput
-	(*FreezeContestOutput)(nil),           // 22: eolymp.judge.FreezeContestOutput
-	(*FinalizeContestInput)(nil),          // 23: eolymp.judge.FinalizeContestInput
-	(*FinalizeContestOutput)(nil),         // 24: eolymp.judge.FinalizeContestOutput
-	(*ResumeContestInput)(nil),            // 25: eolymp.judge.ResumeContestInput
-	(*ResumeContestOutput)(nil),           // 26: eolymp.judge.ResumeContestOutput
-	(*DescribeEnvironmentInput)(nil),      // 27: eolymp.judge.DescribeEnvironmentInput
-	(*DescribeEnvironmentOutput)(nil),     // 28: eolymp.judge.DescribeEnvironmentOutput
-	(*ConfigureEnvironmentInput)(nil),     // 29: eolymp.judge.ConfigureEnvironmentInput
-	(*ConfigureEnvironmentOutput)(nil),    // 30: eolymp.judge.ConfigureEnvironmentOutput
-	(*DescribeCertificationInput)(nil),    // 31: eolymp.judge.DescribeCertificationInput
-	(*DescribeCertificationOutput)(nil),   // 32: eolymp.judge.DescribeCertificationOutput
-	(*ConfigureCertificationInput)(nil),   // 33: eolymp.judge.ConfigureCertificationInput
-	(*ConfigureCertificationOutput)(nil),  // 34: eolymp.judge.ConfigureCertificationOutput
-	(*DescribeTaxonomyInput)(nil),         // 35: eolymp.judge.DescribeTaxonomyInput
-	(*DescribeTaxonomyOutput)(nil),        // 36: eolymp.judge.DescribeTaxonomyOutput
-	(*ConfigureTaxonomyInput)(nil),        // 37: eolymp.judge.ConfigureTaxonomyInput
-	(*ConfigureTaxonomyOutput)(nil),       // 38: eolymp.judge.ConfigureTaxonomyOutput
-	(*WatchContestInput)(nil),             // 39: eolymp.judge.WatchContestInput
-	(*WatchContestOutput)(nil),            // 40: eolymp.judge.WatchContestOutput
-	(*ListActivitiesInput)(nil),           // 41: eolymp.judge.ListActivitiesInput
-	(*ListActivitiesOutput)(nil),          // 42: eolymp.judge.ListActivitiesOutput
-	(*DescribeContestUsageInput)(nil),     // 43: eolymp.judge.DescribeContestUsageInput
-	(*DescribeContestUsageOutput)(nil),    // 44: eolymp.judge.DescribeContestUsageOutput
-	(*ListContestsInput_Filter)(nil),      // 45: eolymp.judge.ListContestsInput.Filter
-	(*Contest)(nil),                       // 46: eolymp.judge.Contest
+	(CopyContestInput_Scope)(0),           // 0: eolymp.judge.CopyContestInput.Scope
+	(*ContestChangedEvent)(nil),           // 1: eolymp.judge.ContestChangedEvent
+	(*CreateContestInput)(nil),            // 2: eolymp.judge.CreateContestInput
+	(*CreateContestOutput)(nil),           // 3: eolymp.judge.CreateContestOutput
+	(*DeleteContestInput)(nil),            // 4: eolymp.judge.DeleteContestInput
+	(*DeleteContestOutput)(nil),           // 5: eolymp.judge.DeleteContestOutput
+	(*UpdateContestInput)(nil),            // 6: eolymp.judge.UpdateContestInput
+	(*UpdateContestOutput)(nil),           // 7: eolymp.judge.UpdateContestOutput
+	(*CopyContestInput)(nil),              // 8: eolymp.judge.CopyContestInput
+	(*CopyContestOutput)(nil),             // 9: eolymp.judge.CopyContestOutput
+	(*DescribeContestInput)(nil),          // 10: eolymp.judge.DescribeContestInput
+	(*DescribeContestOutput)(nil),         // 11: eolymp.judge.DescribeContestOutput
+	(*ListContestsInput)(nil),             // 12: eolymp.judge.ListContestsInput
+	(*ListContestsOutput)(nil),            // 13: eolymp.judge.ListContestsOutput
+	(*OpenContestInput)(nil),              // 14: eolymp.judge.OpenContestInput
+	(*OpenContestOutput)(nil),             // 15: eolymp.judge.OpenContestOutput
+	(*CloseContestInput)(nil),             // 16: eolymp.judge.CloseContestInput
+	(*CloseContestOutput)(nil),            // 17: eolymp.judge.CloseContestOutput
+	(*SuspendContestInput)(nil),           // 18: eolymp.judge.SuspendContestInput
+	(*SuspendContestOutput)(nil),          // 19: eolymp.judge.SuspendContestOutput
+	(*FreezeContestInput)(nil),            // 20: eolymp.judge.FreezeContestInput
+	(*FreezeContestOutput)(nil),           // 21: eolymp.judge.FreezeContestOutput
+	(*FinalizeContestInput)(nil),          // 22: eolymp.judge.FinalizeContestInput
+	(*FinalizeContestOutput)(nil),         // 23: eolymp.judge.FinalizeContestOutput
+	(*ResumeContestInput)(nil),            // 24: eolymp.judge.ResumeContestInput
+	(*ResumeContestOutput)(nil),           // 25: eolymp.judge.ResumeContestOutput
+	(*DescribeEnvironmentInput)(nil),      // 26: eolymp.judge.DescribeEnvironmentInput
+	(*DescribeEnvironmentOutput)(nil),     // 27: eolymp.judge.DescribeEnvironmentOutput
+	(*ConfigureEnvironmentInput)(nil),     // 28: eolymp.judge.ConfigureEnvironmentInput
+	(*ConfigureEnvironmentOutput)(nil),    // 29: eolymp.judge.ConfigureEnvironmentOutput
+	(*DescribeCertificationInput)(nil),    // 30: eolymp.judge.DescribeCertificationInput
+	(*DescribeCertificationOutput)(nil),   // 31: eolymp.judge.DescribeCertificationOutput
+	(*ConfigureCertificationInput)(nil),   // 32: eolymp.judge.ConfigureCertificationInput
+	(*ConfigureCertificationOutput)(nil),  // 33: eolymp.judge.ConfigureCertificationOutput
+	(*DescribeTaxonomyInput)(nil),         // 34: eolymp.judge.DescribeTaxonomyInput
+	(*DescribeTaxonomyOutput)(nil),        // 35: eolymp.judge.DescribeTaxonomyOutput
+	(*ConfigureTaxonomyInput)(nil),        // 36: eolymp.judge.ConfigureTaxonomyInput
+	(*ConfigureTaxonomyOutput)(nil),       // 37: eolymp.judge.ConfigureTaxonomyOutput
+	(*WatchContestInput)(nil),             // 38: eolymp.judge.WatchContestInput
+	(*WatchContestOutput)(nil),            // 39: eolymp.judge.WatchContestOutput
+	(*ListActivitiesInput)(nil),           // 40: eolymp.judge.ListActivitiesInput
+	(*ListActivitiesOutput)(nil),          // 41: eolymp.judge.ListActivitiesOutput
+	(*DescribeContestUsageInput)(nil),     // 42: eolymp.judge.DescribeContestUsageInput
+	(*DescribeContestUsageOutput)(nil),    // 43: eolymp.judge.DescribeContestUsageOutput
+	(*ListContestsInput_Filter)(nil),      // 44: eolymp.judge.ListContestsInput.Filter
+	(*Contest)(nil),                       // 45: eolymp.judge.Contest
+	(Contest_Patch)(0),                    // 46: eolymp.judge.Contest.Patch
 	(Contest_Visibility)(0),               // 47: eolymp.judge.Contest.Visibility
 	(*Environment)(nil),                   // 48: eolymp.judge.Environment
 	(*Certification)(nil),                 // 49: eolymp.judge.Certification
@@ -2682,23 +2549,23 @@ var file_eolymp_judge_contest_service_proto_goTypes = []any{
 	(*wellknown.ExpressionInt)(nil),       // 58: eolymp.wellknown.ExpressionInt
 }
 var file_eolymp_judge_contest_service_proto_depIdxs = []int32{
-	46, // 0: eolymp.judge.ContestChangedEvent.before:type_name -> eolymp.judge.Contest
-	46, // 1: eolymp.judge.ContestChangedEvent.after:type_name -> eolymp.judge.Contest
-	46, // 2: eolymp.judge.CreateContestInput.contest:type_name -> eolymp.judge.Contest
-	0,  // 3: eolymp.judge.UpdateContestInput.patch:type_name -> eolymp.judge.UpdateContestInput.Patch
-	46, // 4: eolymp.judge.UpdateContestInput.contest:type_name -> eolymp.judge.Contest
-	1,  // 5: eolymp.judge.CopyContestInput.copy_scope:type_name -> eolymp.judge.CopyContestInput.Scope
+	45, // 0: eolymp.judge.ContestChangedEvent.before:type_name -> eolymp.judge.Contest
+	45, // 1: eolymp.judge.ContestChangedEvent.after:type_name -> eolymp.judge.Contest
+	45, // 2: eolymp.judge.CreateContestInput.contest:type_name -> eolymp.judge.Contest
+	46, // 3: eolymp.judge.UpdateContestInput.patch:type_name -> eolymp.judge.Contest.Patch
+	45, // 4: eolymp.judge.UpdateContestInput.contest:type_name -> eolymp.judge.Contest
+	0,  // 5: eolymp.judge.CopyContestInput.copy_scope:type_name -> eolymp.judge.CopyContestInput.Scope
 	47, // 6: eolymp.judge.CopyContestInput.copy_visibility:type_name -> eolymp.judge.Contest.Visibility
-	46, // 7: eolymp.judge.DescribeContestOutput.contest:type_name -> eolymp.judge.Contest
-	45, // 8: eolymp.judge.ListContestsInput.filters:type_name -> eolymp.judge.ListContestsInput.Filter
-	46, // 9: eolymp.judge.ListContestsOutput.items:type_name -> eolymp.judge.Contest
+	45, // 7: eolymp.judge.DescribeContestOutput.contest:type_name -> eolymp.judge.Contest
+	44, // 8: eolymp.judge.ListContestsInput.filters:type_name -> eolymp.judge.ListContestsInput.Filter
+	45, // 9: eolymp.judge.ListContestsOutput.items:type_name -> eolymp.judge.Contest
 	48, // 10: eolymp.judge.DescribeEnvironmentOutput.environment:type_name -> eolymp.judge.Environment
 	48, // 11: eolymp.judge.ConfigureEnvironmentInput.environment:type_name -> eolymp.judge.Environment
 	49, // 12: eolymp.judge.DescribeCertificationOutput.certification:type_name -> eolymp.judge.Certification
 	49, // 13: eolymp.judge.ConfigureCertificationInput.certification:type_name -> eolymp.judge.Certification
 	50, // 14: eolymp.judge.DescribeTaxonomyOutput.taxonomy:type_name -> eolymp.judge.Taxonomy
 	50, // 15: eolymp.judge.ConfigureTaxonomyInput.taxonomy:type_name -> eolymp.judge.Taxonomy
-	46, // 16: eolymp.judge.WatchContestOutput.contest:type_name -> eolymp.judge.Contest
+	45, // 16: eolymp.judge.WatchContestOutput.contest:type_name -> eolymp.judge.Contest
 	51, // 17: eolymp.judge.ListActivitiesOutput.items:type_name -> eolymp.judge.Activity
 	52, // 18: eolymp.judge.DescribeContestUsageInput.period_start:type_name -> google.protobuf.Timestamp
 	52, // 19: eolymp.judge.DescribeContestUsageInput.period_end:type_name -> google.protobuf.Timestamp
@@ -2718,48 +2585,48 @@ var file_eolymp_judge_contest_service_proto_depIdxs = []int32{
 	57, // 33: eolymp.judge.ListContestsInput.Filter.country:type_name -> eolymp.wellknown.ExpressionEnum
 	57, // 34: eolymp.judge.ListContestsInput.Filter.region:type_name -> eolymp.wellknown.ExpressionEnum
 	54, // 35: eolymp.judge.ListContestsInput.Filter.city:type_name -> eolymp.wellknown.ExpressionString
-	3,  // 36: eolymp.judge.ContestService.CreateContest:input_type -> eolymp.judge.CreateContestInput
-	5,  // 37: eolymp.judge.ContestService.DeleteContest:input_type -> eolymp.judge.DeleteContestInput
-	7,  // 38: eolymp.judge.ContestService.UpdateContest:input_type -> eolymp.judge.UpdateContestInput
-	9,  // 39: eolymp.judge.ContestService.CopyContest:input_type -> eolymp.judge.CopyContestInput
-	11, // 40: eolymp.judge.ContestService.DescribeContest:input_type -> eolymp.judge.DescribeContestInput
-	13, // 41: eolymp.judge.ContestService.ListContests:input_type -> eolymp.judge.ListContestsInput
-	15, // 42: eolymp.judge.ContestService.OpenContest:input_type -> eolymp.judge.OpenContestInput
-	17, // 43: eolymp.judge.ContestService.CloseContest:input_type -> eolymp.judge.CloseContestInput
-	19, // 44: eolymp.judge.ContestService.SuspendContest:input_type -> eolymp.judge.SuspendContestInput
-	21, // 45: eolymp.judge.ContestService.FreezeContest:input_type -> eolymp.judge.FreezeContestInput
-	23, // 46: eolymp.judge.ContestService.FinalizeContest:input_type -> eolymp.judge.FinalizeContestInput
-	25, // 47: eolymp.judge.ContestService.ResumeContest:input_type -> eolymp.judge.ResumeContestInput
-	39, // 48: eolymp.judge.ContestService.WatchContest:input_type -> eolymp.judge.WatchContestInput
-	27, // 49: eolymp.judge.ContestService.DescribeEnvironment:input_type -> eolymp.judge.DescribeEnvironmentInput
-	29, // 50: eolymp.judge.ContestService.ConfigureEnvironment:input_type -> eolymp.judge.ConfigureEnvironmentInput
-	31, // 51: eolymp.judge.ContestService.DescribeCertification:input_type -> eolymp.judge.DescribeCertificationInput
-	33, // 52: eolymp.judge.ContestService.ConfigureCertification:input_type -> eolymp.judge.ConfigureCertificationInput
-	35, // 53: eolymp.judge.ContestService.DescribeTaxonomy:input_type -> eolymp.judge.DescribeTaxonomyInput
-	37, // 54: eolymp.judge.ContestService.ConfigureTaxonomy:input_type -> eolymp.judge.ConfigureTaxonomyInput
-	41, // 55: eolymp.judge.ContestService.ListActivities:input_type -> eolymp.judge.ListActivitiesInput
-	43, // 56: eolymp.judge.ContestService.DescribeContestUsage:input_type -> eolymp.judge.DescribeContestUsageInput
-	4,  // 57: eolymp.judge.ContestService.CreateContest:output_type -> eolymp.judge.CreateContestOutput
-	6,  // 58: eolymp.judge.ContestService.DeleteContest:output_type -> eolymp.judge.DeleteContestOutput
-	8,  // 59: eolymp.judge.ContestService.UpdateContest:output_type -> eolymp.judge.UpdateContestOutput
-	10, // 60: eolymp.judge.ContestService.CopyContest:output_type -> eolymp.judge.CopyContestOutput
-	12, // 61: eolymp.judge.ContestService.DescribeContest:output_type -> eolymp.judge.DescribeContestOutput
-	14, // 62: eolymp.judge.ContestService.ListContests:output_type -> eolymp.judge.ListContestsOutput
-	16, // 63: eolymp.judge.ContestService.OpenContest:output_type -> eolymp.judge.OpenContestOutput
-	18, // 64: eolymp.judge.ContestService.CloseContest:output_type -> eolymp.judge.CloseContestOutput
-	20, // 65: eolymp.judge.ContestService.SuspendContest:output_type -> eolymp.judge.SuspendContestOutput
-	22, // 66: eolymp.judge.ContestService.FreezeContest:output_type -> eolymp.judge.FreezeContestOutput
-	24, // 67: eolymp.judge.ContestService.FinalizeContest:output_type -> eolymp.judge.FinalizeContestOutput
-	26, // 68: eolymp.judge.ContestService.ResumeContest:output_type -> eolymp.judge.ResumeContestOutput
-	40, // 69: eolymp.judge.ContestService.WatchContest:output_type -> eolymp.judge.WatchContestOutput
-	28, // 70: eolymp.judge.ContestService.DescribeEnvironment:output_type -> eolymp.judge.DescribeEnvironmentOutput
-	30, // 71: eolymp.judge.ContestService.ConfigureEnvironment:output_type -> eolymp.judge.ConfigureEnvironmentOutput
-	32, // 72: eolymp.judge.ContestService.DescribeCertification:output_type -> eolymp.judge.DescribeCertificationOutput
-	34, // 73: eolymp.judge.ContestService.ConfigureCertification:output_type -> eolymp.judge.ConfigureCertificationOutput
-	36, // 74: eolymp.judge.ContestService.DescribeTaxonomy:output_type -> eolymp.judge.DescribeTaxonomyOutput
-	38, // 75: eolymp.judge.ContestService.ConfigureTaxonomy:output_type -> eolymp.judge.ConfigureTaxonomyOutput
-	42, // 76: eolymp.judge.ContestService.ListActivities:output_type -> eolymp.judge.ListActivitiesOutput
-	44, // 77: eolymp.judge.ContestService.DescribeContestUsage:output_type -> eolymp.judge.DescribeContestUsageOutput
+	2,  // 36: eolymp.judge.ContestService.CreateContest:input_type -> eolymp.judge.CreateContestInput
+	4,  // 37: eolymp.judge.ContestService.DeleteContest:input_type -> eolymp.judge.DeleteContestInput
+	6,  // 38: eolymp.judge.ContestService.UpdateContest:input_type -> eolymp.judge.UpdateContestInput
+	8,  // 39: eolymp.judge.ContestService.CopyContest:input_type -> eolymp.judge.CopyContestInput
+	10, // 40: eolymp.judge.ContestService.DescribeContest:input_type -> eolymp.judge.DescribeContestInput
+	12, // 41: eolymp.judge.ContestService.ListContests:input_type -> eolymp.judge.ListContestsInput
+	14, // 42: eolymp.judge.ContestService.OpenContest:input_type -> eolymp.judge.OpenContestInput
+	16, // 43: eolymp.judge.ContestService.CloseContest:input_type -> eolymp.judge.CloseContestInput
+	18, // 44: eolymp.judge.ContestService.SuspendContest:input_type -> eolymp.judge.SuspendContestInput
+	20, // 45: eolymp.judge.ContestService.FreezeContest:input_type -> eolymp.judge.FreezeContestInput
+	22, // 46: eolymp.judge.ContestService.FinalizeContest:input_type -> eolymp.judge.FinalizeContestInput
+	24, // 47: eolymp.judge.ContestService.ResumeContest:input_type -> eolymp.judge.ResumeContestInput
+	38, // 48: eolymp.judge.ContestService.WatchContest:input_type -> eolymp.judge.WatchContestInput
+	26, // 49: eolymp.judge.ContestService.DescribeEnvironment:input_type -> eolymp.judge.DescribeEnvironmentInput
+	28, // 50: eolymp.judge.ContestService.ConfigureEnvironment:input_type -> eolymp.judge.ConfigureEnvironmentInput
+	30, // 51: eolymp.judge.ContestService.DescribeCertification:input_type -> eolymp.judge.DescribeCertificationInput
+	32, // 52: eolymp.judge.ContestService.ConfigureCertification:input_type -> eolymp.judge.ConfigureCertificationInput
+	34, // 53: eolymp.judge.ContestService.DescribeTaxonomy:input_type -> eolymp.judge.DescribeTaxonomyInput
+	36, // 54: eolymp.judge.ContestService.ConfigureTaxonomy:input_type -> eolymp.judge.ConfigureTaxonomyInput
+	40, // 55: eolymp.judge.ContestService.ListActivities:input_type -> eolymp.judge.ListActivitiesInput
+	42, // 56: eolymp.judge.ContestService.DescribeContestUsage:input_type -> eolymp.judge.DescribeContestUsageInput
+	3,  // 57: eolymp.judge.ContestService.CreateContest:output_type -> eolymp.judge.CreateContestOutput
+	5,  // 58: eolymp.judge.ContestService.DeleteContest:output_type -> eolymp.judge.DeleteContestOutput
+	7,  // 59: eolymp.judge.ContestService.UpdateContest:output_type -> eolymp.judge.UpdateContestOutput
+	9,  // 60: eolymp.judge.ContestService.CopyContest:output_type -> eolymp.judge.CopyContestOutput
+	11, // 61: eolymp.judge.ContestService.DescribeContest:output_type -> eolymp.judge.DescribeContestOutput
+	13, // 62: eolymp.judge.ContestService.ListContests:output_type -> eolymp.judge.ListContestsOutput
+	15, // 63: eolymp.judge.ContestService.OpenContest:output_type -> eolymp.judge.OpenContestOutput
+	17, // 64: eolymp.judge.ContestService.CloseContest:output_type -> eolymp.judge.CloseContestOutput
+	19, // 65: eolymp.judge.ContestService.SuspendContest:output_type -> eolymp.judge.SuspendContestOutput
+	21, // 66: eolymp.judge.ContestService.FreezeContest:output_type -> eolymp.judge.FreezeContestOutput
+	23, // 67: eolymp.judge.ContestService.FinalizeContest:output_type -> eolymp.judge.FinalizeContestOutput
+	25, // 68: eolymp.judge.ContestService.ResumeContest:output_type -> eolymp.judge.ResumeContestOutput
+	39, // 69: eolymp.judge.ContestService.WatchContest:output_type -> eolymp.judge.WatchContestOutput
+	27, // 70: eolymp.judge.ContestService.DescribeEnvironment:output_type -> eolymp.judge.DescribeEnvironmentOutput
+	29, // 71: eolymp.judge.ContestService.ConfigureEnvironment:output_type -> eolymp.judge.ConfigureEnvironmentOutput
+	31, // 72: eolymp.judge.ContestService.DescribeCertification:output_type -> eolymp.judge.DescribeCertificationOutput
+	33, // 73: eolymp.judge.ContestService.ConfigureCertification:output_type -> eolymp.judge.ConfigureCertificationOutput
+	35, // 74: eolymp.judge.ContestService.DescribeTaxonomy:output_type -> eolymp.judge.DescribeTaxonomyOutput
+	37, // 75: eolymp.judge.ContestService.ConfigureTaxonomy:output_type -> eolymp.judge.ConfigureTaxonomyOutput
+	41, // 76: eolymp.judge.ContestService.ListActivities:output_type -> eolymp.judge.ListActivitiesOutput
+	43, // 77: eolymp.judge.ContestService.DescribeContestUsage:output_type -> eolymp.judge.DescribeContestUsageOutput
 	57, // [57:78] is the sub-list for method output_type
 	36, // [36:57] is the sub-list for method input_type
 	36, // [36:36] is the sub-list for extension type_name
@@ -2782,7 +2649,7 @@ func file_eolymp_judge_contest_service_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_judge_contest_service_proto_rawDesc), len(file_eolymp_judge_contest_service_proto_rawDesc)),
-			NumEnums:      2,
+			NumEnums:      1,
 			NumMessages:   44,
 			NumExtensions: 0,
 			NumServices:   1,
