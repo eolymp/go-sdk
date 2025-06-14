@@ -161,6 +161,24 @@ func RegisterContestServiceHttpHandlers(router *mux.Router, prefix string, cli C
 	router.Handle(prefix+"/contests/{contest_id}/resume", _ContestService_ResumeContest_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.ContestService.ResumeContest")
+	router.Handle(prefix+"/contests/{contest_id}/environment", _ContestService_DescribeEnvironment_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.judge.ContestService.DescribeEnvironment")
+	router.Handle(prefix+"/contests/{contest_id}/environment", _ContestService_ConfigureEnvironment_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.judge.ContestService.ConfigureEnvironment")
+	router.Handle(prefix+"/contests/{contest_id}/certification", _ContestService_DescribeCertification_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.judge.ContestService.DescribeCertification")
+	router.Handle(prefix+"/contests/{contest_id}/certification", _ContestService_ConfigureCertification_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.judge.ContestService.ConfigureCertification")
+	router.Handle(prefix+"/contests/{contest_id}/taxonomy", _ContestService_DescribeTaxonomy_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.judge.ContestService.DescribeTaxonomy")
+	router.Handle(prefix+"/contests/{contest_id}/taxonomy", _ContestService_ConfigureTaxonomy_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.judge.ContestService.ConfigureTaxonomy")
 	router.Handle(prefix+"/contests/{contest_id}/activities", _ContestService_ListActivities_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ContestService.ListActivities")
@@ -459,6 +477,156 @@ func _ContestService_ResumeContest_Rule0(cli ContestServiceClient) http.Handler 
 		var header, trailer metadata.MD
 
 		out, err := cli.ResumeContest(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ContestService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ContestService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ContestService_DescribeEnvironment_Rule0(cli ContestServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeEnvironmentInput{}
+
+		if err := _ContestService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_ContestService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeEnvironment(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ContestService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ContestService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ContestService_ConfigureEnvironment_Rule0(cli ContestServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ConfigureEnvironmentInput{}
+
+		if err := _ContestService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_ContestService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.ConfigureEnvironment(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ContestService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ContestService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ContestService_DescribeCertification_Rule0(cli ContestServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeCertificationInput{}
+
+		if err := _ContestService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_ContestService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeCertification(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ContestService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ContestService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ContestService_ConfigureCertification_Rule0(cli ContestServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ConfigureCertificationInput{}
+
+		if err := _ContestService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_ContestService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.ConfigureCertification(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ContestService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ContestService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ContestService_DescribeTaxonomy_Rule0(cli ContestServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeTaxonomyInput{}
+
+		if err := _ContestService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_ContestService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeTaxonomy(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ContestService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ContestService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ContestService_ConfigureTaxonomy_Rule0(cli ContestServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ConfigureTaxonomyInput{}
+
+		if err := _ContestService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_ContestService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.ConfigureTaxonomy(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ContestService_HTTPWriteErrorResponse(w, err)
 			return

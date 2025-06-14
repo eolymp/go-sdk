@@ -282,6 +282,102 @@ func (s *ContestServiceService) ResumeContest(ctx context.Context, in *ResumeCon
 	return out, nil
 }
 
+func (s *ContestServiceService) DescribeEnvironment(ctx context.Context, in *DescribeEnvironmentInput) (*DescribeEnvironmentOutput, error) {
+	out := &DescribeEnvironmentOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/environment"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *ContestServiceService) ConfigureEnvironment(ctx context.Context, in *ConfigureEnvironmentInput) (*ConfigureEnvironmentOutput, error) {
+	out := &ConfigureEnvironmentOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/environment"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *ContestServiceService) DescribeCertification(ctx context.Context, in *DescribeCertificationInput) (*DescribeCertificationOutput, error) {
+	out := &DescribeCertificationOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/certification"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *ContestServiceService) ConfigureCertification(ctx context.Context, in *ConfigureCertificationInput) (*ConfigureCertificationOutput, error) {
+	out := &ConfigureCertificationOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/certification"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *ContestServiceService) DescribeTaxonomy(ctx context.Context, in *DescribeTaxonomyInput) (*DescribeTaxonomyOutput, error) {
+	out := &DescribeTaxonomyOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/taxonomy"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *ContestServiceService) ConfigureTaxonomy(ctx context.Context, in *ConfigureTaxonomyInput) (*ConfigureTaxonomyOutput, error) {
+	out := &ConfigureTaxonomyOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/taxonomy"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *ContestServiceService) ListActivities(ctx context.Context, in *ListActivitiesInput) (*ListActivitiesOutput, error) {
 	out := &ListActivitiesOutput{}
 	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/activities"
