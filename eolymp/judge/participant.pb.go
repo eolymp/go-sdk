@@ -141,6 +141,70 @@ func (Participant_Role) EnumDescriptor() ([]byte, []int) {
 	return file_eolymp_judge_participant_proto_rawDescGZIP(), []int{0, 1}
 }
 
+type Participant_Patch_Field int32
+
+const (
+	Participant_Patch_ALL          Participant_Patch_Field = 0
+	Participant_Patch_DISPLAY_NAME Participant_Patch_Field = 1
+	Participant_Patch_ROLE         Participant_Patch_Field = 8
+	Participant_Patch_BONUS_TIME   Participant_Patch_Field = 3
+	Participant_Patch_UNOFFICIAL   Participant_Patch_Field = 4
+	Participant_Patch_MEDAL        Participant_Patch_Field = 5
+	Participant_Patch_INACTIVE     Participant_Patch_Field = 6
+	Participant_Patch_PASSCODE     Participant_Patch_Field = 7
+)
+
+// Enum value maps for Participant_Patch_Field.
+var (
+	Participant_Patch_Field_name = map[int32]string{
+		0: "ALL",
+		1: "DISPLAY_NAME",
+		8: "ROLE",
+		3: "BONUS_TIME",
+		4: "UNOFFICIAL",
+		5: "MEDAL",
+		6: "INACTIVE",
+		7: "PASSCODE",
+	}
+	Participant_Patch_Field_value = map[string]int32{
+		"ALL":          0,
+		"DISPLAY_NAME": 1,
+		"ROLE":         8,
+		"BONUS_TIME":   3,
+		"UNOFFICIAL":   4,
+		"MEDAL":        5,
+		"INACTIVE":     6,
+		"PASSCODE":     7,
+	}
+)
+
+func (x Participant_Patch_Field) Enum() *Participant_Patch_Field {
+	p := new(Participant_Patch_Field)
+	*p = x
+	return p
+}
+
+func (x Participant_Patch_Field) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (Participant_Patch_Field) Descriptor() protoreflect.EnumDescriptor {
+	return file_eolymp_judge_participant_proto_enumTypes[2].Descriptor()
+}
+
+func (Participant_Patch_Field) Type() protoreflect.EnumType {
+	return &file_eolymp_judge_participant_proto_enumTypes[2]
+}
+
+func (x Participant_Patch_Field) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use Participant_Patch_Field.Descriptor instead.
+func (Participant_Patch_Field) EnumDescriptor() ([]byte, []int) {
+	return file_eolymp_judge_participant_proto_rawDescGZIP(), []int{0, 0, 0}
+}
+
 type Participant struct {
 	state        protoimpl.MessageState `protogen:"open.v1"`
 	Id           string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`                                         // unique identifier of the participant (can not be set when creating participant)
@@ -153,18 +217,16 @@ type Participant struct {
 	Ghost        bool                   `protobuf:"varint,8,opt,name=ghost,proto3" json:"ghost,omitempty"`                                  // participant is a ghost
 	Finalized    bool                   `protobuf:"varint,12,opt,name=finalized,proto3" json:"finalized,omitempty"`                         // participant result is finalized
 	Medal        Medal                  `protobuf:"varint,9,opt,name=medal,proto3,enum=eolymp.judge.Medal" json:"medal,omitempty"`
-	// status (see explanation to enumeration values)
+	// Status (see explanation to enumeration values)
 	Status    Participant_Status     `protobuf:"varint,20,opt,name=status,proto3,enum=eolymp.judge.Participant_Status" json:"status,omitempty"`
-	StartedAt *timestamppb.Timestamp `protobuf:"bytes,21,opt,name=started_at,json=startedAt,proto3" json:"started_at,omitempty"`  // time when user has started participating
-	StartedIn uint32                 `protobuf:"varint,22,opt,name=started_in,json=startedIn,proto3" json:"started_in,omitempty"` // time in seconds when user has started participating
-	EndAt     *timestamppb.Timestamp `protobuf:"bytes,25,opt,name=end_at,json=endAt,proto3" json:"end_at,omitempty"`              // time when user has finished (will finish) participating (incl. bonus time)
-	EndIn     uint32                 `protobuf:"varint,26,opt,name=end_in,json=endIn,proto3" json:"end_in,omitempty"`             // time in seconds when user has finished (will finish) participating (incl. bonus time)
-	BonusTime uint32                 `protobuf:"varint,27,opt,name=bonus_time,json=bonusTime,proto3" json:"bonus_time,omitempty"` // additional time in seconds for participation
-	// passcode is a code participant has to enter before she can begin contest
-	// this field is only populated when request is made by contest owner
-	// passcode is read-only and should be set using ResetPasscode method.
+	StartedAt *timestamppb.Timestamp `protobuf:"bytes,21,opt,name=started_at,json=startedAt,proto3" json:"started_at,omitempty"`  // Time when user has started participating
+	EndAt     *timestamppb.Timestamp `protobuf:"bytes,25,opt,name=end_at,json=endAt,proto3" json:"end_at,omitempty"`              // Time when user has finished (will finish) participating (incl. bonus time)
+	BonusTime uint32                 `protobuf:"varint,27,opt,name=bonus_time,json=bonusTime,proto3" json:"bonus_time,omitempty"` // Additional time in seconds for participation
+	// Passcode is a code participant has to enter before she can begin contest.
+	// This field is only populated when request is made by contest owner.
+	// Passcode is read-only and should be set using ResetPasscode method.
 	Passcode      string `protobuf:"bytes,30,opt,name=passcode,proto3" json:"passcode,omitempty"`
-	CertificateId string `protobuf:"bytes,32,opt,name=certificate_id,json=certificateId,proto3" json:"certificate_id,omitempty"` // participation certificate ID
+	CertificateId string `protobuf:"bytes,32,opt,name=certificate_id,json=certificateId,proto3" json:"certificate_id,omitempty"` // Participation certificate ID.
 	// Submit counter is used to count how many times user submitted the problem.
 	Submits       []*Participant_Submit `protobuf:"bytes,40,rep,name=submits,proto3" json:"submits,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -285,25 +347,11 @@ func (x *Participant) GetStartedAt() *timestamppb.Timestamp {
 	return nil
 }
 
-func (x *Participant) GetStartedIn() uint32 {
-	if x != nil {
-		return x.StartedIn
-	}
-	return 0
-}
-
 func (x *Participant) GetEndAt() *timestamppb.Timestamp {
 	if x != nil {
 		return x.EndAt
 	}
 	return nil
-}
-
-func (x *Participant) GetEndIn() uint32 {
-	if x != nil {
-		return x.EndIn
-	}
-	return 0
 }
 
 func (x *Participant) GetBonusTime() uint32 {
@@ -334,6 +382,42 @@ func (x *Participant) GetSubmits() []*Participant_Submit {
 	return nil
 }
 
+type Participant_Patch struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Participant_Patch) Reset() {
+	*x = Participant_Patch{}
+	mi := &file_eolymp_judge_participant_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Participant_Patch) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Participant_Patch) ProtoMessage() {}
+
+func (x *Participant_Patch) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_judge_participant_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Participant_Patch.ProtoReflect.Descriptor instead.
+func (*Participant_Patch) Descriptor() ([]byte, []int) {
+	return file_eolymp_judge_participant_proto_rawDescGZIP(), []int{0, 0}
+}
+
 type Participant_Submit struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
@@ -344,7 +428,7 @@ type Participant_Submit struct {
 
 func (x *Participant_Submit) Reset() {
 	*x = Participant_Submit{}
-	mi := &file_eolymp_judge_participant_proto_msgTypes[1]
+	mi := &file_eolymp_judge_participant_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -356,7 +440,7 @@ func (x *Participant_Submit) String() string {
 func (*Participant_Submit) ProtoMessage() {}
 
 func (x *Participant_Submit) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_participant_proto_msgTypes[1]
+	mi := &file_eolymp_judge_participant_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -369,7 +453,7 @@ func (x *Participant_Submit) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Participant_Submit.ProtoReflect.Descriptor instead.
 func (*Participant_Submit) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_participant_proto_rawDescGZIP(), []int{0, 0}
+	return file_eolymp_judge_participant_proto_rawDescGZIP(), []int{0, 1}
 }
 
 func (x *Participant_Submit) GetProblemId() string {
@@ -390,7 +474,7 @@ var File_eolymp_judge_participant_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_participant_proto_rawDesc = "" +
 	"\n" +
-	"\x1eeolymp/judge/participant.proto\x12\feolymp.judge\x1a\x18eolymp/judge/medal.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xd2\a\n" +
+	"\x1eeolymp/judge/participant.proto\x12\feolymp.judge\x1a\x18eolymp/judge/medal.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x9a\b\n" +
 	"\vParticipant\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1b\n" +
 	"\tmember_id\x18\x04 \x01(\tR\bmemberId\x12!\n" +
@@ -407,16 +491,25 @@ const file_eolymp_judge_participant_proto_rawDesc = "" +
 	"\x05medal\x18\t \x01(\x0e2\x13.eolymp.judge.MedalR\x05medal\x128\n" +
 	"\x06status\x18\x14 \x01(\x0e2 .eolymp.judge.Participant.StatusR\x06status\x129\n" +
 	"\n" +
-	"started_at\x18\x15 \x01(\v2\x1a.google.protobuf.TimestampR\tstartedAt\x12\x1d\n" +
-	"\n" +
-	"started_in\x18\x16 \x01(\rR\tstartedIn\x121\n" +
-	"\x06end_at\x18\x19 \x01(\v2\x1a.google.protobuf.TimestampR\x05endAt\x12\x15\n" +
-	"\x06end_in\x18\x1a \x01(\rR\x05endIn\x12\x1d\n" +
+	"started_at\x18\x15 \x01(\v2\x1a.google.protobuf.TimestampR\tstartedAt\x121\n" +
+	"\x06end_at\x18\x19 \x01(\v2\x1a.google.protobuf.TimestampR\x05endAt\x12\x1d\n" +
 	"\n" +
 	"bonus_time\x18\x1b \x01(\rR\tbonusTime\x12\x1a\n" +
 	"\bpasscode\x18\x1e \x01(\tR\bpasscode\x12%\n" +
 	"\x0ecertificate_id\x18  \x01(\tR\rcertificateId\x12:\n" +
-	"\asubmits\x18( \x03(\v2 .eolymp.judge.Participant.SubmitR\asubmits\x1aA\n" +
+	"\asubmits\x18( \x03(\v2 .eolymp.judge.Participant.SubmitR\asubmits\x1a|\n" +
+	"\x05Patch\"s\n" +
+	"\x05Field\x12\a\n" +
+	"\x03ALL\x10\x00\x12\x10\n" +
+	"\fDISPLAY_NAME\x10\x01\x12\b\n" +
+	"\x04ROLE\x10\b\x12\x0e\n" +
+	"\n" +
+	"BONUS_TIME\x10\x03\x12\x0e\n" +
+	"\n" +
+	"UNOFFICIAL\x10\x04\x12\t\n" +
+	"\x05MEDAL\x10\x05\x12\f\n" +
+	"\bINACTIVE\x10\x06\x12\f\n" +
+	"\bPASSCODE\x10\a\x1aA\n" +
 	"\x06Submit\x12\x1d\n" +
 	"\n" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x18\n" +
@@ -453,23 +546,25 @@ func file_eolymp_judge_participant_proto_rawDescGZIP() []byte {
 	return file_eolymp_judge_participant_proto_rawDescData
 }
 
-var file_eolymp_judge_participant_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_eolymp_judge_participant_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_eolymp_judge_participant_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
+var file_eolymp_judge_participant_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_eolymp_judge_participant_proto_goTypes = []any{
 	(Participant_Status)(0),       // 0: eolymp.judge.Participant.Status
 	(Participant_Role)(0),         // 1: eolymp.judge.Participant.Role
-	(*Participant)(nil),           // 2: eolymp.judge.Participant
-	(*Participant_Submit)(nil),    // 3: eolymp.judge.Participant.Submit
-	(Medal)(0),                    // 4: eolymp.judge.Medal
-	(*timestamppb.Timestamp)(nil), // 5: google.protobuf.Timestamp
+	(Participant_Patch_Field)(0),  // 2: eolymp.judge.Participant.Patch.Field
+	(*Participant)(nil),           // 3: eolymp.judge.Participant
+	(*Participant_Patch)(nil),     // 4: eolymp.judge.Participant.Patch
+	(*Participant_Submit)(nil),    // 5: eolymp.judge.Participant.Submit
+	(Medal)(0),                    // 6: eolymp.judge.Medal
+	(*timestamppb.Timestamp)(nil), // 7: google.protobuf.Timestamp
 }
 var file_eolymp_judge_participant_proto_depIdxs = []int32{
 	1, // 0: eolymp.judge.Participant.role:type_name -> eolymp.judge.Participant.Role
-	4, // 1: eolymp.judge.Participant.medal:type_name -> eolymp.judge.Medal
+	6, // 1: eolymp.judge.Participant.medal:type_name -> eolymp.judge.Medal
 	0, // 2: eolymp.judge.Participant.status:type_name -> eolymp.judge.Participant.Status
-	5, // 3: eolymp.judge.Participant.started_at:type_name -> google.protobuf.Timestamp
-	5, // 4: eolymp.judge.Participant.end_at:type_name -> google.protobuf.Timestamp
-	3, // 5: eolymp.judge.Participant.submits:type_name -> eolymp.judge.Participant.Submit
+	7, // 3: eolymp.judge.Participant.started_at:type_name -> google.protobuf.Timestamp
+	7, // 4: eolymp.judge.Participant.end_at:type_name -> google.protobuf.Timestamp
+	5, // 5: eolymp.judge.Participant.submits:type_name -> eolymp.judge.Participant.Submit
 	6, // [6:6] is the sub-list for method output_type
 	6, // [6:6] is the sub-list for method input_type
 	6, // [6:6] is the sub-list for extension type_name
@@ -488,8 +583,8 @@ func file_eolymp_judge_participant_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_judge_participant_proto_rawDesc), len(file_eolymp_judge_participant_proto_rawDesc)),
-			NumEnums:      2,
-			NumMessages:   2,
+			NumEnums:      3,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

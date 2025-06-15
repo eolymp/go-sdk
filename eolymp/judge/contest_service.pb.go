@@ -302,9 +302,9 @@ func (*DeleteContestOutput) Descriptor() ([]byte, []int) {
 type UpdateContestInput struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// specify list of fields to update, if empty all fields are updated
-	Patch         []Contest_Patch `protobuf:"varint,3,rep,packed,name=patch,proto3,enum=eolymp.judge.Contest_Patch" json:"patch,omitempty"`
-	ContestId     string          `protobuf:"bytes,1,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
-	Contest       *Contest        `protobuf:"bytes,2,opt,name=contest,proto3" json:"contest,omitempty"`
+	Patch         []Contest_Patch_Field `protobuf:"varint,3,rep,packed,name=patch,proto3,enum=eolymp.judge.Contest_Patch_Field" json:"patch,omitempty"`
+	ContestId     string                `protobuf:"bytes,1,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
+	Contest       *Contest              `protobuf:"bytes,2,opt,name=contest,proto3" json:"contest,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -339,7 +339,7 @@ func (*UpdateContestInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_judge_contest_service_proto_rawDescGZIP(), []int{5}
 }
 
-func (x *UpdateContestInput) GetPatch() []Contest_Patch {
+func (x *UpdateContestInput) GetPatch() []Contest_Patch_Field {
 	if x != nil {
 		return x.Patch
 	}
@@ -511,7 +511,7 @@ func (x *CopyContestOutput) GetCopyContestId() string {
 type DescribeContestInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ContestId     string                 `protobuf:"bytes,1,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
-	Extra         []Contest_Extra        `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.judge.Contest_Extra" json:"extra,omitempty"`
+	Extra         []Contest_Extra_Field  `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.judge.Contest_Extra_Field" json:"extra,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -553,7 +553,7 @@ func (x *DescribeContestInput) GetContestId() string {
 	return ""
 }
 
-func (x *DescribeContestInput) GetExtra() []Contest_Extra {
+func (x *DescribeContestInput) GetExtra() []Contest_Extra_Field {
 	if x != nil {
 		return x.Extra
 	}
@@ -612,7 +612,7 @@ type ListContestsInput struct {
 	// data filters
 	Search        string                    `protobuf:"bytes,20,opt,name=search,proto3" json:"search,omitempty"`
 	Filters       *ListContestsInput_Filter `protobuf:"bytes,40,opt,name=filters,proto3" json:"filters,omitempty"`
-	Extra         []Contest_Extra           `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.judge.Contest_Extra" json:"extra,omitempty"`
+	Extra         []Contest_Extra_Field     `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.judge.Contest_Extra_Field" json:"extra,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -675,7 +675,7 @@ func (x *ListContestsInput) GetFilters() *ListContestsInput_Filter {
 	return nil
 }
 
-func (x *ListContestsInput) GetExtra() []Contest_Extra {
+func (x *ListContestsInput) GetExtra() []Contest_Extra_Field {
 	if x != nil {
 		return x.Extra
 	}
@@ -1539,7 +1539,7 @@ type ListContestsInput_Filter struct {
 	Featured      []*wellknown.ExpressionBool      `protobuf:"bytes,11,rep,name=featured,proto3" json:"featured,omitempty"`
 	Year          []*wellknown.ExpressionInt       `protobuf:"bytes,100,rep,name=year,proto3" json:"year,omitempty"`
 	Scale         []*wellknown.ExpressionEnum      `protobuf:"bytes,101,rep,name=scale,proto3" json:"scale,omitempty"`
-	Series        []*wellknown.ExpressionEnum      `protobuf:"bytes,102,rep,name=series,proto3" json:"series,omitempty"`         // see taxonomy enumeration "contest_series"
+	Series        []*wellknown.ExpressionEnum      `protobuf:"bytes,102,rep,name=series,proto3" json:"series,omitempty"`
 	Difficulty    []*wellknown.ExpressionInt       `protobuf:"bytes,103,rep,name=difficulty,proto3" json:"difficulty,omitempty"` // 1 to 5
 	Country       []*wellknown.ExpressionEnum      `protobuf:"bytes,104,rep,name=country,proto3" json:"country,omitempty"`
 	Region        []*wellknown.ExpressionEnum      `protobuf:"bytes,105,rep,name=region,proto3" json:"region,omitempty"`
@@ -1706,9 +1706,9 @@ const file_eolymp_judge_contest_service_proto_rawDesc = "" +
 	"\x12DeleteContestInput\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\"\x15\n" +
-	"\x13DeleteContestOutput\"\x97\x01\n" +
-	"\x12UpdateContestInput\x121\n" +
-	"\x05patch\x18\x03 \x03(\x0e2\x1b.eolymp.judge.Contest.PatchR\x05patch\x12\x1d\n" +
+	"\x13DeleteContestOutput\"\x9d\x01\n" +
+	"\x12UpdateContestInput\x127\n" +
+	"\x05patch\x18\x03 \x03(\x0e2!.eolymp.judge.Contest.Patch.FieldR\x05patch\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\x12/\n" +
 	"\acontest\x18\x02 \x01(\v2\x15.eolymp.judge.ContestR\acontest\"\x15\n" +
@@ -1727,20 +1727,20 @@ const file_eolymp_judge_contest_service_proto_rawDesc = "" +
 	"\fPARTICIPANTS\x10\x03\x12\x0f\n" +
 	"\vPERMISSIONS\x10\x04\";\n" +
 	"\x11CopyContestOutput\x12&\n" +
-	"\x0fcopy_contest_id\x18\x01 \x01(\tR\rcopyContestId\"i\n" +
+	"\x0fcopy_contest_id\x18\x01 \x01(\tR\rcopyContestId\"o\n" +
 	"\x14DescribeContestInput\x12\x1d\n" +
 	"\n" +
-	"contest_id\x18\x01 \x01(\tR\tcontestId\x122\n" +
-	"\x05extra\x18\xe3\b \x03(\x0e2\x1b.eolymp.judge.Contest.ExtraR\x05extra\"H\n" +
+	"contest_id\x18\x01 \x01(\tR\tcontestId\x128\n" +
+	"\x05extra\x18\xe3\b \x03(\x0e2!.eolymp.judge.Contest.Extra.FieldR\x05extra\"H\n" +
 	"\x15DescribeContestOutput\x12/\n" +
-	"\acontest\x18\x01 \x01(\v2\x15.eolymp.judge.ContestR\acontest\"\x88\t\n" +
+	"\acontest\x18\x01 \x01(\v2\x15.eolymp.judge.ContestR\acontest\"\x8e\t\n" +
 	"\x11ListContestsInput\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
 	"\x04size\x18\v \x01(\x05R\x04size\x12\x16\n" +
 	"\x06search\x18\x14 \x01(\tR\x06search\x12@\n" +
-	"\afilters\x18( \x01(\v2&.eolymp.judge.ListContestsInput.FilterR\afilters\x122\n" +
-	"\x05extra\x18\xe3\b \x03(\x0e2\x1b.eolymp.judge.Contest.ExtraR\x05extra\x1a\xb8\a\n" +
+	"\afilters\x18( \x01(\v2&.eolymp.judge.ListContestsInput.FilterR\afilters\x128\n" +
+	"\x05extra\x18\xe3\b \x03(\x0e2!.eolymp.judge.Contest.Extra.FieldR\x05extra\x1a\xb8\a\n" +
 	"\x06Filter\x12.\n" +
 	"\x02id\x18\x01 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\x126\n" +
 	"\x04name\x18\x03 \x03(\v2\".eolymp.wellknown.ExpressionStringR\x04name\x12B\n" +
@@ -1946,9 +1946,9 @@ var file_eolymp_judge_contest_service_proto_goTypes = []any{
 	(*DescribeContestUsageOutput)(nil),    // 31: eolymp.judge.DescribeContestUsageOutput
 	(*ListContestsInput_Filter)(nil),      // 32: eolymp.judge.ListContestsInput.Filter
 	(*Contest)(nil),                       // 33: eolymp.judge.Contest
-	(Contest_Patch)(0),                    // 34: eolymp.judge.Contest.Patch
+	(Contest_Patch_Field)(0),              // 34: eolymp.judge.Contest.Patch.Field
 	(Contest_Visibility)(0),               // 35: eolymp.judge.Contest.Visibility
-	(Contest_Extra)(0),                    // 36: eolymp.judge.Contest.Extra
+	(Contest_Extra_Field)(0),              // 36: eolymp.judge.Contest.Extra.Field
 	(*Activity)(nil),                      // 37: eolymp.judge.Activity
 	(*timestamppb.Timestamp)(nil),         // 38: google.protobuf.Timestamp
 	(*wellknown.ExpressionID)(nil),        // 39: eolymp.wellknown.ExpressionID
@@ -1962,14 +1962,14 @@ var file_eolymp_judge_contest_service_proto_depIdxs = []int32{
 	33, // 0: eolymp.judge.ContestChangedEvent.before:type_name -> eolymp.judge.Contest
 	33, // 1: eolymp.judge.ContestChangedEvent.after:type_name -> eolymp.judge.Contest
 	33, // 2: eolymp.judge.CreateContestInput.contest:type_name -> eolymp.judge.Contest
-	34, // 3: eolymp.judge.UpdateContestInput.patch:type_name -> eolymp.judge.Contest.Patch
+	34, // 3: eolymp.judge.UpdateContestInput.patch:type_name -> eolymp.judge.Contest.Patch.Field
 	33, // 4: eolymp.judge.UpdateContestInput.contest:type_name -> eolymp.judge.Contest
 	0,  // 5: eolymp.judge.CopyContestInput.copy_scope:type_name -> eolymp.judge.CopyContestInput.Scope
 	35, // 6: eolymp.judge.CopyContestInput.copy_visibility:type_name -> eolymp.judge.Contest.Visibility
-	36, // 7: eolymp.judge.DescribeContestInput.extra:type_name -> eolymp.judge.Contest.Extra
+	36, // 7: eolymp.judge.DescribeContestInput.extra:type_name -> eolymp.judge.Contest.Extra.Field
 	33, // 8: eolymp.judge.DescribeContestOutput.contest:type_name -> eolymp.judge.Contest
 	32, // 9: eolymp.judge.ListContestsInput.filters:type_name -> eolymp.judge.ListContestsInput.Filter
-	36, // 10: eolymp.judge.ListContestsInput.extra:type_name -> eolymp.judge.Contest.Extra
+	36, // 10: eolymp.judge.ListContestsInput.extra:type_name -> eolymp.judge.Contest.Extra.Field
 	33, // 11: eolymp.judge.ListContestsOutput.items:type_name -> eolymp.judge.Contest
 	33, // 12: eolymp.judge.WatchContestOutput.contest:type_name -> eolymp.judge.Contest
 	37, // 13: eolymp.judge.ListActivitiesOutput.items:type_name -> eolymp.judge.Activity

@@ -24,70 +24,6 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type UpdateParticipantInput_Patch int32
-
-const (
-	UpdateParticipantInput_ALL          UpdateParticipantInput_Patch = 0
-	UpdateParticipantInput_DISPLAY_NAME UpdateParticipantInput_Patch = 1
-	UpdateParticipantInput_ROLE         UpdateParticipantInput_Patch = 8
-	UpdateParticipantInput_BONUS_TIME   UpdateParticipantInput_Patch = 3
-	UpdateParticipantInput_UNOFFICIAL   UpdateParticipantInput_Patch = 4
-	UpdateParticipantInput_MEDAL        UpdateParticipantInput_Patch = 5
-	UpdateParticipantInput_INACTIVE     UpdateParticipantInput_Patch = 6
-	UpdateParticipantInput_PASSCODE     UpdateParticipantInput_Patch = 7
-)
-
-// Enum value maps for UpdateParticipantInput_Patch.
-var (
-	UpdateParticipantInput_Patch_name = map[int32]string{
-		0: "ALL",
-		1: "DISPLAY_NAME",
-		8: "ROLE",
-		3: "BONUS_TIME",
-		4: "UNOFFICIAL",
-		5: "MEDAL",
-		6: "INACTIVE",
-		7: "PASSCODE",
-	}
-	UpdateParticipantInput_Patch_value = map[string]int32{
-		"ALL":          0,
-		"DISPLAY_NAME": 1,
-		"ROLE":         8,
-		"BONUS_TIME":   3,
-		"UNOFFICIAL":   4,
-		"MEDAL":        5,
-		"INACTIVE":     6,
-		"PASSCODE":     7,
-	}
-)
-
-func (x UpdateParticipantInput_Patch) Enum() *UpdateParticipantInput_Patch {
-	p := new(UpdateParticipantInput_Patch)
-	*p = x
-	return p
-}
-
-func (x UpdateParticipantInput_Patch) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (UpdateParticipantInput_Patch) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_judge_participant_service_proto_enumTypes[0].Descriptor()
-}
-
-func (UpdateParticipantInput_Patch) Type() protoreflect.EnumType {
-	return &file_eolymp_judge_participant_service_proto_enumTypes[0]
-}
-
-func (x UpdateParticipantInput_Patch) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use UpdateParticipantInput_Patch.Descriptor instead.
-func (UpdateParticipantInput_Patch) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_judge_participant_service_proto_rawDescGZIP(), []int{9, 0}
-}
-
 type ListParticipantsInput_Sortable int32
 
 const (
@@ -121,11 +57,11 @@ func (x ListParticipantsInput_Sortable) String() string {
 }
 
 func (ListParticipantsInput_Sortable) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_judge_participant_service_proto_enumTypes[1].Descriptor()
+	return file_eolymp_judge_participant_service_proto_enumTypes[0].Descriptor()
 }
 
 func (ListParticipantsInput_Sortable) Type() protoreflect.EnumType {
-	return &file_eolymp_judge_participant_service_proto_enumTypes[1]
+	return &file_eolymp_judge_participant_service_proto_enumTypes[0]
 }
 
 func (x ListParticipantsInput_Sortable) Number() protoreflect.EnumNumber {
@@ -638,7 +574,7 @@ func (*DisableParticipantOutput) Descriptor() ([]byte, []int) {
 type UpdateParticipantInput struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Patch request to update participant partially (all fields are updated if not specified)
-	Patch []UpdateParticipantInput_Patch `protobuf:"varint,3,rep,packed,name=patch,proto3,enum=eolymp.judge.UpdateParticipantInput_Patch" json:"patch,omitempty"`
+	Patch []Participant_Patch_Field `protobuf:"varint,3,rep,packed,name=patch,proto3,enum=eolymp.judge.Participant_Patch_Field" json:"patch,omitempty"`
 	// Participant identifier to update
 	ContestId     string       `protobuf:"bytes,1,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
 	ParticipantId string       `protobuf:"bytes,2,opt,name=participant_id,json=participantId,proto3" json:"participant_id,omitempty"`
@@ -677,7 +613,7 @@ func (*UpdateParticipantInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_judge_participant_service_proto_rawDescGZIP(), []int{9}
 }
 
-func (x *UpdateParticipantInput) GetPatch() []UpdateParticipantInput_Patch {
+func (x *UpdateParticipantInput) GetPatch() []Participant_Patch_Field {
 	if x != nil {
 		return x.Patch
 	}
@@ -745,8 +681,8 @@ type DisqualifyParticipantInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ContestId     string                 `protobuf:"bytes,1,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
 	ParticipantId string                 `protobuf:"bytes,2,opt,name=participant_id,json=participantId,proto3" json:"participant_id,omitempty"`
-	Disqualify    bool                   `protobuf:"varint,3,opt,name=disqualify,proto3" json:"disqualify,omitempty"` // true to disqualify, false to un-disqualify
-	Reason        *ecm.Content           `protobuf:"bytes,4,opt,name=reason,proto3" json:"reason,omitempty"`          // reason for disqualification
+	Disqualify    bool                   `protobuf:"varint,3,opt,name=disqualify,proto3" json:"disqualify,omitempty"` // True to disqualify, false to un-disqualify
+	Reason        *ecm.Content           `protobuf:"bytes,4,opt,name=reason,proto3" json:"reason,omitempty"`          // Reason for disqualification
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1688,8 +1624,8 @@ type ListParticipantsInput_Filter struct {
 	Unofficial    []*wellknown.ExpressionBool      `protobuf:"bytes,10,rep,name=unofficial,proto3" json:"unofficial,omitempty"`
 	Disqualified  []*wellknown.ExpressionBool      `protobuf:"bytes,11,rep,name=disqualified,proto3" json:"disqualified,omitempty"`
 	Inactive      []*wellknown.ExpressionBool      `protobuf:"bytes,12,rep,name=inactive,proto3" json:"inactive,omitempty"`
-	Role          []*wellknown.ExpressionEnum      `protobuf:"bytes,13,rep,name=role,proto3" json:"role,omitempty"`   // filter participants by their role in the contest (e.g. participant, tester, coordinator etc)
-	Staff         []*wellknown.ExpressionBool      `protobuf:"bytes,14,rep,name=staff,proto3" json:"staff,omitempty"` // filter participants who are staff members of the contest
+	Role          []*wellknown.ExpressionEnum      `protobuf:"bytes,13,rep,name=role,proto3" json:"role,omitempty"`   // Filter participants by their role in the contest (e.g. participant, tester, coordinator etc)
+	Staff         []*wellknown.ExpressionBool      `protobuf:"bytes,14,rep,name=staff,proto3" json:"staff,omitempty"` // Filter participants who are staff members of the contest
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1839,24 +1775,13 @@ const file_eolymp_judge_participant_service_proto_rawDesc = "" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\x12%\n" +
 	"\x0eparticipant_id\x18\x02 \x01(\tR\rparticipantId\"\x1a\n" +
-	"\x18DisableParticipantOutput\"\xd2\x02\n" +
-	"\x16UpdateParticipantInput\x12@\n" +
-	"\x05patch\x18\x03 \x03(\x0e2*.eolymp.judge.UpdateParticipantInput.PatchR\x05patch\x12\x1d\n" +
+	"\x18DisableParticipantOutput\"\xd8\x01\n" +
+	"\x16UpdateParticipantInput\x12;\n" +
+	"\x05patch\x18\x03 \x03(\x0e2%.eolymp.judge.Participant.Patch.FieldR\x05patch\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\x12%\n" +
 	"\x0eparticipant_id\x18\x02 \x01(\tR\rparticipantId\x12;\n" +
-	"\vparticipant\x18\x04 \x01(\v2\x19.eolymp.judge.ParticipantR\vparticipant\"s\n" +
-	"\x05Patch\x12\a\n" +
-	"\x03ALL\x10\x00\x12\x10\n" +
-	"\fDISPLAY_NAME\x10\x01\x12\b\n" +
-	"\x04ROLE\x10\b\x12\x0e\n" +
-	"\n" +
-	"BONUS_TIME\x10\x03\x12\x0e\n" +
-	"\n" +
-	"UNOFFICIAL\x10\x04\x12\t\n" +
-	"\x05MEDAL\x10\x05\x12\f\n" +
-	"\bINACTIVE\x10\x06\x12\f\n" +
-	"\bPASSCODE\x10\a\"\x19\n" +
+	"\vparticipant\x18\x04 \x01(\v2\x19.eolymp.judge.ParticipantR\vparticipant\"\x19\n" +
 	"\x17UpdateParticipantOutput\"\xaf\x01\n" +
 	"\x1aDisqualifyParticipantInput\x12\x1d\n" +
 	"\n" +
@@ -2027,45 +1952,45 @@ func file_eolymp_judge_participant_service_proto_rawDescGZIP() []byte {
 	return file_eolymp_judge_participant_service_proto_rawDescData
 }
 
-var file_eolymp_judge_participant_service_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_eolymp_judge_participant_service_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_eolymp_judge_participant_service_proto_msgTypes = make([]protoimpl.MessageInfo, 32)
 var file_eolymp_judge_participant_service_proto_goTypes = []any{
-	(UpdateParticipantInput_Patch)(0),     // 0: eolymp.judge.UpdateParticipantInput.Patch
-	(ListParticipantsInput_Sortable)(0),   // 1: eolymp.judge.ListParticipantsInput.Sortable
-	(*ParticipantChangedEvent)(nil),       // 2: eolymp.judge.ParticipantChangedEvent
-	(*ParticipantJoinedEvent)(nil),        // 3: eolymp.judge.ParticipantJoinedEvent
-	(*ParticipantFinalizedEvent)(nil),     // 4: eolymp.judge.ParticipantFinalizedEvent
-	(*AssignParticipantInput)(nil),        // 5: eolymp.judge.AssignParticipantInput
-	(*AssignParticipantOutput)(nil),       // 6: eolymp.judge.AssignParticipantOutput
-	(*EnableParticipantInput)(nil),        // 7: eolymp.judge.EnableParticipantInput
-	(*EnableParticipantOutput)(nil),       // 8: eolymp.judge.EnableParticipantOutput
-	(*DisableParticipantInput)(nil),       // 9: eolymp.judge.DisableParticipantInput
-	(*DisableParticipantOutput)(nil),      // 10: eolymp.judge.DisableParticipantOutput
-	(*UpdateParticipantInput)(nil),        // 11: eolymp.judge.UpdateParticipantInput
-	(*UpdateParticipantOutput)(nil),       // 12: eolymp.judge.UpdateParticipantOutput
-	(*DisqualifyParticipantInput)(nil),    // 13: eolymp.judge.DisqualifyParticipantInput
-	(*DisqualifyParticipantOutput)(nil),   // 14: eolymp.judge.DisqualifyParticipantOutput
-	(*DeleteParticipantInput)(nil),        // 15: eolymp.judge.DeleteParticipantInput
-	(*DeleteParticipantOutput)(nil),       // 16: eolymp.judge.DeleteParticipantOutput
-	(*DescribeParticipantInput)(nil),      // 17: eolymp.judge.DescribeParticipantInput
-	(*DescribeParticipantOutput)(nil),     // 18: eolymp.judge.DescribeParticipantOutput
-	(*ListParticipantsInput)(nil),         // 19: eolymp.judge.ListParticipantsInput
-	(*ListParticipantsOutput)(nil),        // 20: eolymp.judge.ListParticipantsOutput
-	(*WatchParticipantInput)(nil),         // 21: eolymp.judge.WatchParticipantInput
-	(*WatchParticipantOutput)(nil),        // 22: eolymp.judge.WatchParticipantOutput
-	(*DescribeViewerInput)(nil),           // 23: eolymp.judge.DescribeViewerInput
-	(*DescribeViewerOutput)(nil),          // 24: eolymp.judge.DescribeViewerOutput
-	(*JoinContestInput)(nil),              // 25: eolymp.judge.JoinContestInput
-	(*JoinContestOutput)(nil),             // 26: eolymp.judge.JoinContestOutput
-	(*StartContestInput)(nil),             // 27: eolymp.judge.StartContestInput
-	(*StartContestOutput)(nil),            // 28: eolymp.judge.StartContestOutput
-	(*PauseContestInput)(nil),             // 29: eolymp.judge.PauseContestInput
-	(*PauseContestOutput)(nil),            // 30: eolymp.judge.PauseContestOutput
-	(*FinishContestInput)(nil),            // 31: eolymp.judge.FinishContestInput
-	(*FinishContestOutput)(nil),           // 32: eolymp.judge.FinishContestOutput
-	(*ListParticipantsInput_Filter)(nil),  // 33: eolymp.judge.ListParticipantsInput.Filter
-	(*Participant)(nil),                   // 34: eolymp.judge.Participant
-	(Participant_Role)(0),                 // 35: eolymp.judge.Participant.Role
+	(ListParticipantsInput_Sortable)(0),   // 0: eolymp.judge.ListParticipantsInput.Sortable
+	(*ParticipantChangedEvent)(nil),       // 1: eolymp.judge.ParticipantChangedEvent
+	(*ParticipantJoinedEvent)(nil),        // 2: eolymp.judge.ParticipantJoinedEvent
+	(*ParticipantFinalizedEvent)(nil),     // 3: eolymp.judge.ParticipantFinalizedEvent
+	(*AssignParticipantInput)(nil),        // 4: eolymp.judge.AssignParticipantInput
+	(*AssignParticipantOutput)(nil),       // 5: eolymp.judge.AssignParticipantOutput
+	(*EnableParticipantInput)(nil),        // 6: eolymp.judge.EnableParticipantInput
+	(*EnableParticipantOutput)(nil),       // 7: eolymp.judge.EnableParticipantOutput
+	(*DisableParticipantInput)(nil),       // 8: eolymp.judge.DisableParticipantInput
+	(*DisableParticipantOutput)(nil),      // 9: eolymp.judge.DisableParticipantOutput
+	(*UpdateParticipantInput)(nil),        // 10: eolymp.judge.UpdateParticipantInput
+	(*UpdateParticipantOutput)(nil),       // 11: eolymp.judge.UpdateParticipantOutput
+	(*DisqualifyParticipantInput)(nil),    // 12: eolymp.judge.DisqualifyParticipantInput
+	(*DisqualifyParticipantOutput)(nil),   // 13: eolymp.judge.DisqualifyParticipantOutput
+	(*DeleteParticipantInput)(nil),        // 14: eolymp.judge.DeleteParticipantInput
+	(*DeleteParticipantOutput)(nil),       // 15: eolymp.judge.DeleteParticipantOutput
+	(*DescribeParticipantInput)(nil),      // 16: eolymp.judge.DescribeParticipantInput
+	(*DescribeParticipantOutput)(nil),     // 17: eolymp.judge.DescribeParticipantOutput
+	(*ListParticipantsInput)(nil),         // 18: eolymp.judge.ListParticipantsInput
+	(*ListParticipantsOutput)(nil),        // 19: eolymp.judge.ListParticipantsOutput
+	(*WatchParticipantInput)(nil),         // 20: eolymp.judge.WatchParticipantInput
+	(*WatchParticipantOutput)(nil),        // 21: eolymp.judge.WatchParticipantOutput
+	(*DescribeViewerInput)(nil),           // 22: eolymp.judge.DescribeViewerInput
+	(*DescribeViewerOutput)(nil),          // 23: eolymp.judge.DescribeViewerOutput
+	(*JoinContestInput)(nil),              // 24: eolymp.judge.JoinContestInput
+	(*JoinContestOutput)(nil),             // 25: eolymp.judge.JoinContestOutput
+	(*StartContestInput)(nil),             // 26: eolymp.judge.StartContestInput
+	(*StartContestOutput)(nil),            // 27: eolymp.judge.StartContestOutput
+	(*PauseContestInput)(nil),             // 28: eolymp.judge.PauseContestInput
+	(*PauseContestOutput)(nil),            // 29: eolymp.judge.PauseContestOutput
+	(*FinishContestInput)(nil),            // 30: eolymp.judge.FinishContestInput
+	(*FinishContestOutput)(nil),           // 31: eolymp.judge.FinishContestOutput
+	(*ListParticipantsInput_Filter)(nil),  // 32: eolymp.judge.ListParticipantsInput.Filter
+	(*Participant)(nil),                   // 33: eolymp.judge.Participant
+	(Participant_Role)(0),                 // 34: eolymp.judge.Participant.Role
+	(Participant_Patch_Field)(0),          // 35: eolymp.judge.Participant.Patch.Field
 	(*ecm.Content)(nil),                   // 36: eolymp.ecm.Content
 	(wellknown.Direction)(0),              // 37: eolymp.wellknown.Direction
 	(*wellknown.ExpressionID)(nil),        // 38: eolymp.wellknown.ExpressionID
@@ -2074,21 +1999,21 @@ var file_eolymp_judge_participant_service_proto_goTypes = []any{
 	(*wellknown.ExpressionBool)(nil),      // 41: eolymp.wellknown.ExpressionBool
 }
 var file_eolymp_judge_participant_service_proto_depIdxs = []int32{
-	34, // 0: eolymp.judge.ParticipantChangedEvent.before:type_name -> eolymp.judge.Participant
-	34, // 1: eolymp.judge.ParticipantChangedEvent.after:type_name -> eolymp.judge.Participant
-	34, // 2: eolymp.judge.ParticipantJoinedEvent.participant:type_name -> eolymp.judge.Participant
-	34, // 3: eolymp.judge.ParticipantFinalizedEvent.participant:type_name -> eolymp.judge.Participant
-	35, // 4: eolymp.judge.AssignParticipantInput.role:type_name -> eolymp.judge.Participant.Role
-	0,  // 5: eolymp.judge.UpdateParticipantInput.patch:type_name -> eolymp.judge.UpdateParticipantInput.Patch
-	34, // 6: eolymp.judge.UpdateParticipantInput.participant:type_name -> eolymp.judge.Participant
+	33, // 0: eolymp.judge.ParticipantChangedEvent.before:type_name -> eolymp.judge.Participant
+	33, // 1: eolymp.judge.ParticipantChangedEvent.after:type_name -> eolymp.judge.Participant
+	33, // 2: eolymp.judge.ParticipantJoinedEvent.participant:type_name -> eolymp.judge.Participant
+	33, // 3: eolymp.judge.ParticipantFinalizedEvent.participant:type_name -> eolymp.judge.Participant
+	34, // 4: eolymp.judge.AssignParticipantInput.role:type_name -> eolymp.judge.Participant.Role
+	35, // 5: eolymp.judge.UpdateParticipantInput.patch:type_name -> eolymp.judge.Participant.Patch.Field
+	33, // 6: eolymp.judge.UpdateParticipantInput.participant:type_name -> eolymp.judge.Participant
 	36, // 7: eolymp.judge.DisqualifyParticipantInput.reason:type_name -> eolymp.ecm.Content
-	34, // 8: eolymp.judge.DescribeParticipantOutput.participant:type_name -> eolymp.judge.Participant
-	33, // 9: eolymp.judge.ListParticipantsInput.filters:type_name -> eolymp.judge.ListParticipantsInput.Filter
-	1,  // 10: eolymp.judge.ListParticipantsInput.sort:type_name -> eolymp.judge.ListParticipantsInput.Sortable
+	33, // 8: eolymp.judge.DescribeParticipantOutput.participant:type_name -> eolymp.judge.Participant
+	32, // 9: eolymp.judge.ListParticipantsInput.filters:type_name -> eolymp.judge.ListParticipantsInput.Filter
+	0,  // 10: eolymp.judge.ListParticipantsInput.sort:type_name -> eolymp.judge.ListParticipantsInput.Sortable
 	37, // 11: eolymp.judge.ListParticipantsInput.order:type_name -> eolymp.wellknown.Direction
-	34, // 12: eolymp.judge.ListParticipantsOutput.items:type_name -> eolymp.judge.Participant
-	34, // 13: eolymp.judge.WatchParticipantOutput.participant:type_name -> eolymp.judge.Participant
-	34, // 14: eolymp.judge.DescribeViewerOutput.participant:type_name -> eolymp.judge.Participant
+	33, // 12: eolymp.judge.ListParticipantsOutput.items:type_name -> eolymp.judge.Participant
+	33, // 13: eolymp.judge.WatchParticipantOutput.participant:type_name -> eolymp.judge.Participant
+	33, // 14: eolymp.judge.DescribeViewerOutput.participant:type_name -> eolymp.judge.Participant
 	38, // 15: eolymp.judge.ListParticipantsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
 	38, // 16: eolymp.judge.ListParticipantsInput.Filter.member_id:type_name -> eolymp.wellknown.ExpressionID
 	38, // 17: eolymp.judge.ListParticipantsInput.Filter.group_id:type_name -> eolymp.wellknown.ExpressionID
@@ -2099,34 +2024,34 @@ var file_eolymp_judge_participant_service_proto_depIdxs = []int32{
 	41, // 22: eolymp.judge.ListParticipantsInput.Filter.inactive:type_name -> eolymp.wellknown.ExpressionBool
 	39, // 23: eolymp.judge.ListParticipantsInput.Filter.role:type_name -> eolymp.wellknown.ExpressionEnum
 	41, // 24: eolymp.judge.ListParticipantsInput.Filter.staff:type_name -> eolymp.wellknown.ExpressionBool
-	5,  // 25: eolymp.judge.ParticipantService.AssignParticipant:input_type -> eolymp.judge.AssignParticipantInput
-	7,  // 26: eolymp.judge.ParticipantService.EnableParticipant:input_type -> eolymp.judge.EnableParticipantInput
-	9,  // 27: eolymp.judge.ParticipantService.DisableParticipant:input_type -> eolymp.judge.DisableParticipantInput
-	11, // 28: eolymp.judge.ParticipantService.UpdateParticipant:input_type -> eolymp.judge.UpdateParticipantInput
-	13, // 29: eolymp.judge.ParticipantService.DisqualifyParticipant:input_type -> eolymp.judge.DisqualifyParticipantInput
-	15, // 30: eolymp.judge.ParticipantService.DeleteParticipant:input_type -> eolymp.judge.DeleteParticipantInput
-	17, // 31: eolymp.judge.ParticipantService.DescribeParticipant:input_type -> eolymp.judge.DescribeParticipantInput
-	19, // 32: eolymp.judge.ParticipantService.ListParticipants:input_type -> eolymp.judge.ListParticipantsInput
-	21, // 33: eolymp.judge.ParticipantService.WatchParticipant:input_type -> eolymp.judge.WatchParticipantInput
-	25, // 34: eolymp.judge.ParticipantService.JoinContest:input_type -> eolymp.judge.JoinContestInput
-	23, // 35: eolymp.judge.ParticipantService.DescribeViewer:input_type -> eolymp.judge.DescribeViewerInput
-	27, // 36: eolymp.judge.ParticipantService.StartContest:input_type -> eolymp.judge.StartContestInput
-	29, // 37: eolymp.judge.ParticipantService.PauseContest:input_type -> eolymp.judge.PauseContestInput
-	31, // 38: eolymp.judge.ParticipantService.FinishContest:input_type -> eolymp.judge.FinishContestInput
-	6,  // 39: eolymp.judge.ParticipantService.AssignParticipant:output_type -> eolymp.judge.AssignParticipantOutput
-	8,  // 40: eolymp.judge.ParticipantService.EnableParticipant:output_type -> eolymp.judge.EnableParticipantOutput
-	10, // 41: eolymp.judge.ParticipantService.DisableParticipant:output_type -> eolymp.judge.DisableParticipantOutput
-	12, // 42: eolymp.judge.ParticipantService.UpdateParticipant:output_type -> eolymp.judge.UpdateParticipantOutput
-	14, // 43: eolymp.judge.ParticipantService.DisqualifyParticipant:output_type -> eolymp.judge.DisqualifyParticipantOutput
-	16, // 44: eolymp.judge.ParticipantService.DeleteParticipant:output_type -> eolymp.judge.DeleteParticipantOutput
-	18, // 45: eolymp.judge.ParticipantService.DescribeParticipant:output_type -> eolymp.judge.DescribeParticipantOutput
-	20, // 46: eolymp.judge.ParticipantService.ListParticipants:output_type -> eolymp.judge.ListParticipantsOutput
-	22, // 47: eolymp.judge.ParticipantService.WatchParticipant:output_type -> eolymp.judge.WatchParticipantOutput
-	26, // 48: eolymp.judge.ParticipantService.JoinContest:output_type -> eolymp.judge.JoinContestOutput
-	24, // 49: eolymp.judge.ParticipantService.DescribeViewer:output_type -> eolymp.judge.DescribeViewerOutput
-	28, // 50: eolymp.judge.ParticipantService.StartContest:output_type -> eolymp.judge.StartContestOutput
-	30, // 51: eolymp.judge.ParticipantService.PauseContest:output_type -> eolymp.judge.PauseContestOutput
-	32, // 52: eolymp.judge.ParticipantService.FinishContest:output_type -> eolymp.judge.FinishContestOutput
+	4,  // 25: eolymp.judge.ParticipantService.AssignParticipant:input_type -> eolymp.judge.AssignParticipantInput
+	6,  // 26: eolymp.judge.ParticipantService.EnableParticipant:input_type -> eolymp.judge.EnableParticipantInput
+	8,  // 27: eolymp.judge.ParticipantService.DisableParticipant:input_type -> eolymp.judge.DisableParticipantInput
+	10, // 28: eolymp.judge.ParticipantService.UpdateParticipant:input_type -> eolymp.judge.UpdateParticipantInput
+	12, // 29: eolymp.judge.ParticipantService.DisqualifyParticipant:input_type -> eolymp.judge.DisqualifyParticipantInput
+	14, // 30: eolymp.judge.ParticipantService.DeleteParticipant:input_type -> eolymp.judge.DeleteParticipantInput
+	16, // 31: eolymp.judge.ParticipantService.DescribeParticipant:input_type -> eolymp.judge.DescribeParticipantInput
+	18, // 32: eolymp.judge.ParticipantService.ListParticipants:input_type -> eolymp.judge.ListParticipantsInput
+	20, // 33: eolymp.judge.ParticipantService.WatchParticipant:input_type -> eolymp.judge.WatchParticipantInput
+	24, // 34: eolymp.judge.ParticipantService.JoinContest:input_type -> eolymp.judge.JoinContestInput
+	22, // 35: eolymp.judge.ParticipantService.DescribeViewer:input_type -> eolymp.judge.DescribeViewerInput
+	26, // 36: eolymp.judge.ParticipantService.StartContest:input_type -> eolymp.judge.StartContestInput
+	28, // 37: eolymp.judge.ParticipantService.PauseContest:input_type -> eolymp.judge.PauseContestInput
+	30, // 38: eolymp.judge.ParticipantService.FinishContest:input_type -> eolymp.judge.FinishContestInput
+	5,  // 39: eolymp.judge.ParticipantService.AssignParticipant:output_type -> eolymp.judge.AssignParticipantOutput
+	7,  // 40: eolymp.judge.ParticipantService.EnableParticipant:output_type -> eolymp.judge.EnableParticipantOutput
+	9,  // 41: eolymp.judge.ParticipantService.DisableParticipant:output_type -> eolymp.judge.DisableParticipantOutput
+	11, // 42: eolymp.judge.ParticipantService.UpdateParticipant:output_type -> eolymp.judge.UpdateParticipantOutput
+	13, // 43: eolymp.judge.ParticipantService.DisqualifyParticipant:output_type -> eolymp.judge.DisqualifyParticipantOutput
+	15, // 44: eolymp.judge.ParticipantService.DeleteParticipant:output_type -> eolymp.judge.DeleteParticipantOutput
+	17, // 45: eolymp.judge.ParticipantService.DescribeParticipant:output_type -> eolymp.judge.DescribeParticipantOutput
+	19, // 46: eolymp.judge.ParticipantService.ListParticipants:output_type -> eolymp.judge.ListParticipantsOutput
+	21, // 47: eolymp.judge.ParticipantService.WatchParticipant:output_type -> eolymp.judge.WatchParticipantOutput
+	25, // 48: eolymp.judge.ParticipantService.JoinContest:output_type -> eolymp.judge.JoinContestOutput
+	23, // 49: eolymp.judge.ParticipantService.DescribeViewer:output_type -> eolymp.judge.DescribeViewerOutput
+	27, // 50: eolymp.judge.ParticipantService.StartContest:output_type -> eolymp.judge.StartContestOutput
+	29, // 51: eolymp.judge.ParticipantService.PauseContest:output_type -> eolymp.judge.PauseContestOutput
+	31, // 52: eolymp.judge.ParticipantService.FinishContest:output_type -> eolymp.judge.FinishContestOutput
 	39, // [39:53] is the sub-list for method output_type
 	25, // [25:39] is the sub-list for method input_type
 	25, // [25:25] is the sub-list for extension type_name
@@ -2149,7 +2074,7 @@ func file_eolymp_judge_participant_service_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_judge_participant_service_proto_rawDesc), len(file_eolymp_judge_participant_service_proto_rawDesc)),
-			NumEnums:      2,
+			NumEnums:      1,
 			NumMessages:   32,
 			NumExtensions: 0,
 			NumServices:   1,
