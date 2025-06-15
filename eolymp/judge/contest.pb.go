@@ -260,6 +260,7 @@ const (
 	Contest_Patch_CLASSIFICATION           Contest_Patch_Field = 100
 	Contest_Patch_SCOREBOARD_CONFIG        Contest_Patch_Field = 150
 	Contest_Patch_CERTIFICATION_CONFIG     Contest_Patch_Field = 151
+	Contest_Patch_ENVIRONMENT_CONFIG       Contest_Patch_Field = 152
 )
 
 // Enum value maps for Contest_Patch_Field.
@@ -288,6 +289,7 @@ var (
 		100: "CLASSIFICATION",
 		150: "SCOREBOARD_CONFIG",
 		151: "CERTIFICATION_CONFIG",
+		152: "ENVIRONMENT_CONFIG",
 	}
 	Contest_Patch_Field_value = map[string]int32{
 		"UNKNOWN":                  0,
@@ -313,6 +315,7 @@ var (
 		"CLASSIFICATION":           100,
 		"SCOREBOARD_CONFIG":        150,
 		"CERTIFICATION_CONFIG":     151,
+		"ENVIRONMENT_CONFIG":       152,
 	}
 )
 
@@ -1203,7 +1206,7 @@ var File_eolymp_judge_contest_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\n" +
-	"\x1aeolymp/judge/contest.proto\x12\feolymp.judge\x1a\x1ceolymp/runtime/runtime.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xcb\x19\n" +
+	"\x1aeolymp/judge/contest.proto\x12\feolymp.judge\x1a\x1ceolymp/runtime/runtime.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xe4\x19\n" +
 	"\aContest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x10\n" +
 	"\x03url\x18\x02 \x01(\tR\x03url\x12\x12\n" +
@@ -1237,8 +1240,8 @@ const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\x0eclassification\x18n \x01(\v2$.eolymp.judge.Contest.ClassificationR\x0eclassification\x12S\n" +
 	"\x11scoreboard_config\x18i \x01(\v2&.eolymp.judge.Contest.ScoreboardConfigR\x10scoreboardConfig\x12V\n" +
 	"\x12environment_config\x18o \x01(\v2'.eolymp.judge.Contest.EnvironmentConfigR\x11environmentConfig\x12\\\n" +
-	"\x14certification_config\x18p \x01(\v2).eolymp.judge.Contest.CertificationConfigR\x13certificationConfig\x1a\xbc\x03\n" +
-	"\x05Patch\"\xb2\x03\n" +
+	"\x14certification_config\x18p \x01(\v2).eolymp.judge.Contest.CertificationConfigR\x13certificationConfig\x1a\xd5\x03\n" +
+	"\x05Patch\"\xcb\x03\n" +
 	"\x05Field\x12\v\n" +
 	"\aUNKNOWN\x10\x00\x12\b\n" +
 	"\x04NAME\x10\x02\x12\r\n" +
@@ -1265,7 +1268,8 @@ const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\aPRINTER\x10\x0f\x12\x12\n" +
 	"\x0eCLASSIFICATION\x10d\x12\x16\n" +
 	"\x11SCOREBOARD_CONFIG\x10\x96\x01\x12\x19\n" +
-	"\x14CERTIFICATION_CONFIG\x10\x97\x01\x1az\n" +
+	"\x14CERTIFICATION_CONFIG\x10\x97\x01\x12\x17\n" +
+	"\x12ENVIRONMENT_CONFIG\x10\x98\x01\x1az\n" +
 	"\x05Extra\"q\n" +
 	"\x05Field\x12\v\n" +
 	"\aUNKNOWN\x10\x00\x12\x12\n" +
