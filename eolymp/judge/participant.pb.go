@@ -143,14 +143,15 @@ func (Participant_Role) EnumDescriptor() ([]byte, []int) {
 
 type Participant struct {
 	state        protoimpl.MessageState `protogen:"open.v1"`
-	Id           string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`                                      // unique identifier of the participant (can not be set when creating participant)
-	MemberId     string                 `protobuf:"bytes,4,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`          // community member
-	DisplayName  string                 `protobuf:"bytes,5,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"` // display name
-	Unofficial   bool                   `protobuf:"varint,6,opt,name=unofficial,proto3" json:"unofficial,omitempty"`                     // if true, participant won't be assigned rank in scoreboard
-	Inactive     bool                   `protobuf:"varint,10,opt,name=inactive,proto3" json:"inactive,omitempty"`                        // participant is inactive
-	Disqualified bool                   `protobuf:"varint,11,opt,name=disqualified,proto3" json:"disqualified,omitempty"`                // participant is disqualified
-	Ghost        bool                   `protobuf:"varint,8,opt,name=ghost,proto3" json:"ghost,omitempty"`                               // participant is a ghost
-	Finalized    bool                   `protobuf:"varint,12,opt,name=finalized,proto3" json:"finalized,omitempty"`                      // participant result is finalized
+	Id           string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`                                         // unique identifier of the participant (can not be set when creating participant)
+	MemberId     string                 `protobuf:"bytes,4,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`             // community member
+	DisplayName  string                 `protobuf:"bytes,5,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`    // display name
+	Role         Participant_Role       `protobuf:"varint,3,opt,name=role,proto3,enum=eolymp.judge.Participant_Role" json:"role,omitempty"` // role of the participant in the contest
+	Unofficial   bool                   `protobuf:"varint,6,opt,name=unofficial,proto3" json:"unofficial,omitempty"`                        // if true, participant won't be assigned rank in scoreboard
+	Inactive     bool                   `protobuf:"varint,10,opt,name=inactive,proto3" json:"inactive,omitempty"`                           // participant is inactive
+	Disqualified bool                   `protobuf:"varint,11,opt,name=disqualified,proto3" json:"disqualified,omitempty"`                   // participant is disqualified
+	Ghost        bool                   `protobuf:"varint,8,opt,name=ghost,proto3" json:"ghost,omitempty"`                                  // participant is a ghost
+	Finalized    bool                   `protobuf:"varint,12,opt,name=finalized,proto3" json:"finalized,omitempty"`                         // participant result is finalized
 	Medal        Medal                  `protobuf:"varint,9,opt,name=medal,proto3,enum=eolymp.judge.Medal" json:"medal,omitempty"`
 	// status (see explanation to enumeration values)
 	Status    Participant_Status     `protobuf:"varint,20,opt,name=status,proto3,enum=eolymp.judge.Participant_Status" json:"status,omitempty"`
@@ -219,6 +220,13 @@ func (x *Participant) GetDisplayName() string {
 		return x.DisplayName
 	}
 	return ""
+}
+
+func (x *Participant) GetRole() Participant_Role {
+	if x != nil {
+		return x.Role
+	}
+	return Participant_PARTICIPANT
 }
 
 func (x *Participant) GetUnofficial() bool {
@@ -382,11 +390,12 @@ var File_eolymp_judge_participant_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_participant_proto_rawDesc = "" +
 	"\n" +
-	"\x1eeolymp/judge/participant.proto\x12\feolymp.judge\x1a\x18eolymp/judge/medal.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x9e\a\n" +
+	"\x1eeolymp/judge/participant.proto\x12\feolymp.judge\x1a\x18eolymp/judge/medal.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xd2\a\n" +
 	"\vParticipant\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1b\n" +
 	"\tmember_id\x18\x04 \x01(\tR\bmemberId\x12!\n" +
-	"\fdisplay_name\x18\x05 \x01(\tR\vdisplayName\x12\x1e\n" +
+	"\fdisplay_name\x18\x05 \x01(\tR\vdisplayName\x122\n" +
+	"\x04role\x18\x03 \x01(\x0e2\x1e.eolymp.judge.Participant.RoleR\x04role\x12\x1e\n" +
 	"\n" +
 	"unofficial\x18\x06 \x01(\bR\n" +
 	"unofficial\x12\x1a\n" +
@@ -455,16 +464,17 @@ var file_eolymp_judge_participant_proto_goTypes = []any{
 	(*timestamppb.Timestamp)(nil), // 5: google.protobuf.Timestamp
 }
 var file_eolymp_judge_participant_proto_depIdxs = []int32{
-	4, // 0: eolymp.judge.Participant.medal:type_name -> eolymp.judge.Medal
-	0, // 1: eolymp.judge.Participant.status:type_name -> eolymp.judge.Participant.Status
-	5, // 2: eolymp.judge.Participant.started_at:type_name -> google.protobuf.Timestamp
-	5, // 3: eolymp.judge.Participant.end_at:type_name -> google.protobuf.Timestamp
-	3, // 4: eolymp.judge.Participant.submits:type_name -> eolymp.judge.Participant.Submit
-	5, // [5:5] is the sub-list for method output_type
-	5, // [5:5] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	1, // 0: eolymp.judge.Participant.role:type_name -> eolymp.judge.Participant.Role
+	4, // 1: eolymp.judge.Participant.medal:type_name -> eolymp.judge.Medal
+	0, // 2: eolymp.judge.Participant.status:type_name -> eolymp.judge.Participant.Status
+	5, // 3: eolymp.judge.Participant.started_at:type_name -> google.protobuf.Timestamp
+	5, // 4: eolymp.judge.Participant.end_at:type_name -> google.protobuf.Timestamp
+	3, // 5: eolymp.judge.Participant.submits:type_name -> eolymp.judge.Participant.Submit
+	6, // [6:6] is the sub-list for method output_type
+	6, // [6:6] is the sub-list for method input_type
+	6, // [6:6] is the sub-list for extension type_name
+	6, // [6:6] is the sub-list for extension extendee
+	0, // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_judge_participant_proto_init() }

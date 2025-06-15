@@ -29,6 +29,7 @@ type UpdateParticipantInput_Patch int32
 const (
 	UpdateParticipantInput_ALL          UpdateParticipantInput_Patch = 0
 	UpdateParticipantInput_DISPLAY_NAME UpdateParticipantInput_Patch = 1
+	UpdateParticipantInput_ROLE         UpdateParticipantInput_Patch = 8
 	UpdateParticipantInput_BONUS_TIME   UpdateParticipantInput_Patch = 3
 	UpdateParticipantInput_UNOFFICIAL   UpdateParticipantInput_Patch = 4
 	UpdateParticipantInput_MEDAL        UpdateParticipantInput_Patch = 5
@@ -41,6 +42,7 @@ var (
 	UpdateParticipantInput_Patch_name = map[int32]string{
 		0: "ALL",
 		1: "DISPLAY_NAME",
+		8: "ROLE",
 		3: "BONUS_TIME",
 		4: "UNOFFICIAL",
 		5: "MEDAL",
@@ -50,6 +52,7 @@ var (
 	UpdateParticipantInput_Patch_value = map[string]int32{
 		"ALL":          0,
 		"DISPLAY_NAME": 1,
+		"ROLE":         8,
 		"BONUS_TIME":   3,
 		"UNOFFICIAL":   4,
 		"MEDAL":        5,
@@ -299,9 +302,8 @@ func (x *ParticipantFinalizedEvent) GetParticipant() *Participant {
 }
 
 type AssignParticipantInput struct {
-	state       protoimpl.MessageState `protogen:"open.v1"`
-	ContestId   string                 `protobuf:"bytes,1,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
-	Participant *Participant           `protobuf:"bytes,2,opt,name=participant,proto3" json:"participant,omitempty"` // deprecated
+	state     protoimpl.MessageState `protogen:"open.v1"`
+	ContestId string                 `protobuf:"bytes,1,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
 	// Types that are valid to be assigned to Assignee:
 	//
 	//	*AssignParticipantInput_MemberId
@@ -309,6 +311,7 @@ type AssignParticipantInput struct {
 	Assignee      isAssignParticipantInput_Assignee `protobuf_oneof:"assignee"`
 	Unofficial    bool                              `protobuf:"varint,20,opt,name=unofficial,proto3" json:"unofficial,omitempty"`
 	Inactive      bool                              `protobuf:"varint,21,opt,name=inactive,proto3" json:"inactive,omitempty"`
+	Role          Participant_Role                  `protobuf:"varint,30,opt,name=role,proto3,enum=eolymp.judge.Participant_Role" json:"role,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -350,13 +353,6 @@ func (x *AssignParticipantInput) GetContestId() string {
 	return ""
 }
 
-func (x *AssignParticipantInput) GetParticipant() *Participant {
-	if x != nil {
-		return x.Participant
-	}
-	return nil
-}
-
 func (x *AssignParticipantInput) GetAssignee() isAssignParticipantInput_Assignee {
 	if x != nil {
 		return x.Assignee
@@ -394,6 +390,13 @@ func (x *AssignParticipantInput) GetInactive() bool {
 		return x.Inactive
 	}
 	return false
+}
+
+func (x *AssignParticipantInput) GetRole() Participant_Role {
+	if x != nil {
+		return x.Role
+	}
+	return Participant_PARTICIPANT
 }
 
 type isAssignParticipantInput_Assignee interface {
@@ -1811,18 +1814,18 @@ const file_eolymp_judge_participant_service_proto_rawDesc = "" +
 	"\n" +
 	"contest_id\x18\n" +
 	" \x01(\tR\tcontestId\x12;\n" +
-	"\vparticipant\x18\x02 \x01(\v2\x19.eolymp.judge.ParticipantR\vparticipant\"\xf8\x01\n" +
+	"\vparticipant\x18\x02 \x01(\v2\x19.eolymp.judge.ParticipantR\vparticipant\"\xef\x01\n" +
 	"\x16AssignParticipantInput\x12\x1d\n" +
 	"\n" +
-	"contest_id\x18\x01 \x01(\tR\tcontestId\x12;\n" +
-	"\vparticipant\x18\x02 \x01(\v2\x19.eolymp.judge.ParticipantR\vparticipant\x12\x1d\n" +
+	"contest_id\x18\x01 \x01(\tR\tcontestId\x12\x1d\n" +
 	"\tmember_id\x18\n" +
 	" \x01(\tH\x00R\bmemberId\x12\x1b\n" +
 	"\bgroup_id\x18\v \x01(\tH\x00R\agroupId\x12\x1e\n" +
 	"\n" +
 	"unofficial\x18\x14 \x01(\bR\n" +
 	"unofficial\x12\x1a\n" +
-	"\binactive\x18\x15 \x01(\bR\binactiveB\n" +
+	"\binactive\x18\x15 \x01(\bR\binactive\x122\n" +
+	"\x04role\x18\x1e \x01(\x0e2\x1e.eolymp.judge.Participant.RoleR\x04roleB\n" +
 	"\n" +
 	"\bassignee\"@\n" +
 	"\x17AssignParticipantOutput\x12%\n" +
@@ -1836,16 +1839,17 @@ const file_eolymp_judge_participant_service_proto_rawDesc = "" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\x12%\n" +
 	"\x0eparticipant_id\x18\x02 \x01(\tR\rparticipantId\"\x1a\n" +
-	"\x18DisableParticipantOutput\"\xc8\x02\n" +
+	"\x18DisableParticipantOutput\"\xd2\x02\n" +
 	"\x16UpdateParticipantInput\x12@\n" +
 	"\x05patch\x18\x03 \x03(\x0e2*.eolymp.judge.UpdateParticipantInput.PatchR\x05patch\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\x12%\n" +
 	"\x0eparticipant_id\x18\x02 \x01(\tR\rparticipantId\x12;\n" +
-	"\vparticipant\x18\x04 \x01(\v2\x19.eolymp.judge.ParticipantR\vparticipant\"i\n" +
+	"\vparticipant\x18\x04 \x01(\v2\x19.eolymp.judge.ParticipantR\vparticipant\"s\n" +
 	"\x05Patch\x12\a\n" +
 	"\x03ALL\x10\x00\x12\x10\n" +
-	"\fDISPLAY_NAME\x10\x01\x12\x0e\n" +
+	"\fDISPLAY_NAME\x10\x01\x12\b\n" +
+	"\x04ROLE\x10\b\x12\x0e\n" +
 	"\n" +
 	"BONUS_TIME\x10\x03\x12\x0e\n" +
 	"\n" +
@@ -2061,39 +2065,40 @@ var file_eolymp_judge_participant_service_proto_goTypes = []any{
 	(*FinishContestOutput)(nil),           // 32: eolymp.judge.FinishContestOutput
 	(*ListParticipantsInput_Filter)(nil),  // 33: eolymp.judge.ListParticipantsInput.Filter
 	(*Participant)(nil),                   // 34: eolymp.judge.Participant
-	(*ecm.Content)(nil),                   // 35: eolymp.ecm.Content
-	(wellknown.Direction)(0),              // 36: eolymp.wellknown.Direction
-	(*wellknown.ExpressionID)(nil),        // 37: eolymp.wellknown.ExpressionID
-	(*wellknown.ExpressionEnum)(nil),      // 38: eolymp.wellknown.ExpressionEnum
-	(*wellknown.ExpressionTimestamp)(nil), // 39: eolymp.wellknown.ExpressionTimestamp
-	(*wellknown.ExpressionBool)(nil),      // 40: eolymp.wellknown.ExpressionBool
+	(Participant_Role)(0),                 // 35: eolymp.judge.Participant.Role
+	(*ecm.Content)(nil),                   // 36: eolymp.ecm.Content
+	(wellknown.Direction)(0),              // 37: eolymp.wellknown.Direction
+	(*wellknown.ExpressionID)(nil),        // 38: eolymp.wellknown.ExpressionID
+	(*wellknown.ExpressionEnum)(nil),      // 39: eolymp.wellknown.ExpressionEnum
+	(*wellknown.ExpressionTimestamp)(nil), // 40: eolymp.wellknown.ExpressionTimestamp
+	(*wellknown.ExpressionBool)(nil),      // 41: eolymp.wellknown.ExpressionBool
 }
 var file_eolymp_judge_participant_service_proto_depIdxs = []int32{
 	34, // 0: eolymp.judge.ParticipantChangedEvent.before:type_name -> eolymp.judge.Participant
 	34, // 1: eolymp.judge.ParticipantChangedEvent.after:type_name -> eolymp.judge.Participant
 	34, // 2: eolymp.judge.ParticipantJoinedEvent.participant:type_name -> eolymp.judge.Participant
 	34, // 3: eolymp.judge.ParticipantFinalizedEvent.participant:type_name -> eolymp.judge.Participant
-	34, // 4: eolymp.judge.AssignParticipantInput.participant:type_name -> eolymp.judge.Participant
+	35, // 4: eolymp.judge.AssignParticipantInput.role:type_name -> eolymp.judge.Participant.Role
 	0,  // 5: eolymp.judge.UpdateParticipantInput.patch:type_name -> eolymp.judge.UpdateParticipantInput.Patch
 	34, // 6: eolymp.judge.UpdateParticipantInput.participant:type_name -> eolymp.judge.Participant
-	35, // 7: eolymp.judge.DisqualifyParticipantInput.reason:type_name -> eolymp.ecm.Content
+	36, // 7: eolymp.judge.DisqualifyParticipantInput.reason:type_name -> eolymp.ecm.Content
 	34, // 8: eolymp.judge.DescribeParticipantOutput.participant:type_name -> eolymp.judge.Participant
 	33, // 9: eolymp.judge.ListParticipantsInput.filters:type_name -> eolymp.judge.ListParticipantsInput.Filter
 	1,  // 10: eolymp.judge.ListParticipantsInput.sort:type_name -> eolymp.judge.ListParticipantsInput.Sortable
-	36, // 11: eolymp.judge.ListParticipantsInput.order:type_name -> eolymp.wellknown.Direction
+	37, // 11: eolymp.judge.ListParticipantsInput.order:type_name -> eolymp.wellknown.Direction
 	34, // 12: eolymp.judge.ListParticipantsOutput.items:type_name -> eolymp.judge.Participant
 	34, // 13: eolymp.judge.WatchParticipantOutput.participant:type_name -> eolymp.judge.Participant
 	34, // 14: eolymp.judge.DescribeViewerOutput.participant:type_name -> eolymp.judge.Participant
-	37, // 15: eolymp.judge.ListParticipantsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	37, // 16: eolymp.judge.ListParticipantsInput.Filter.member_id:type_name -> eolymp.wellknown.ExpressionID
-	37, // 17: eolymp.judge.ListParticipantsInput.Filter.group_id:type_name -> eolymp.wellknown.ExpressionID
-	38, // 18: eolymp.judge.ListParticipantsInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
-	39, // 19: eolymp.judge.ListParticipantsInput.Filter.started_at:type_name -> eolymp.wellknown.ExpressionTimestamp
-	40, // 20: eolymp.judge.ListParticipantsInput.Filter.unofficial:type_name -> eolymp.wellknown.ExpressionBool
-	40, // 21: eolymp.judge.ListParticipantsInput.Filter.disqualified:type_name -> eolymp.wellknown.ExpressionBool
-	40, // 22: eolymp.judge.ListParticipantsInput.Filter.inactive:type_name -> eolymp.wellknown.ExpressionBool
-	38, // 23: eolymp.judge.ListParticipantsInput.Filter.role:type_name -> eolymp.wellknown.ExpressionEnum
-	40, // 24: eolymp.judge.ListParticipantsInput.Filter.staff:type_name -> eolymp.wellknown.ExpressionBool
+	38, // 15: eolymp.judge.ListParticipantsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	38, // 16: eolymp.judge.ListParticipantsInput.Filter.member_id:type_name -> eolymp.wellknown.ExpressionID
+	38, // 17: eolymp.judge.ListParticipantsInput.Filter.group_id:type_name -> eolymp.wellknown.ExpressionID
+	39, // 18: eolymp.judge.ListParticipantsInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
+	40, // 19: eolymp.judge.ListParticipantsInput.Filter.started_at:type_name -> eolymp.wellknown.ExpressionTimestamp
+	41, // 20: eolymp.judge.ListParticipantsInput.Filter.unofficial:type_name -> eolymp.wellknown.ExpressionBool
+	41, // 21: eolymp.judge.ListParticipantsInput.Filter.disqualified:type_name -> eolymp.wellknown.ExpressionBool
+	41, // 22: eolymp.judge.ListParticipantsInput.Filter.inactive:type_name -> eolymp.wellknown.ExpressionBool
+	39, // 23: eolymp.judge.ListParticipantsInput.Filter.role:type_name -> eolymp.wellknown.ExpressionEnum
+	41, // 24: eolymp.judge.ListParticipantsInput.Filter.staff:type_name -> eolymp.wellknown.ExpressionBool
 	5,  // 25: eolymp.judge.ParticipantService.AssignParticipant:input_type -> eolymp.judge.AssignParticipantInput
 	7,  // 26: eolymp.judge.ParticipantService.EnableParticipant:input_type -> eolymp.judge.EnableParticipantInput
 	9,  // 27: eolymp.judge.ParticipantService.DisableParticipant:input_type -> eolymp.judge.DisableParticipantInput
