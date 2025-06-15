@@ -19,27 +19,21 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	ContestService_CreateContest_FullMethodName          = "/eolymp.judge.ContestService/CreateContest"
-	ContestService_DeleteContest_FullMethodName          = "/eolymp.judge.ContestService/DeleteContest"
-	ContestService_UpdateContest_FullMethodName          = "/eolymp.judge.ContestService/UpdateContest"
-	ContestService_CopyContest_FullMethodName            = "/eolymp.judge.ContestService/CopyContest"
-	ContestService_DescribeContest_FullMethodName        = "/eolymp.judge.ContestService/DescribeContest"
-	ContestService_ListContests_FullMethodName           = "/eolymp.judge.ContestService/ListContests"
-	ContestService_OpenContest_FullMethodName            = "/eolymp.judge.ContestService/OpenContest"
-	ContestService_CloseContest_FullMethodName           = "/eolymp.judge.ContestService/CloseContest"
-	ContestService_SuspendContest_FullMethodName         = "/eolymp.judge.ContestService/SuspendContest"
-	ContestService_FreezeContest_FullMethodName          = "/eolymp.judge.ContestService/FreezeContest"
-	ContestService_FinalizeContest_FullMethodName        = "/eolymp.judge.ContestService/FinalizeContest"
-	ContestService_ResumeContest_FullMethodName          = "/eolymp.judge.ContestService/ResumeContest"
-	ContestService_WatchContest_FullMethodName           = "/eolymp.judge.ContestService/WatchContest"
-	ContestService_DescribeEnvironment_FullMethodName    = "/eolymp.judge.ContestService/DescribeEnvironment"
-	ContestService_ConfigureEnvironment_FullMethodName   = "/eolymp.judge.ContestService/ConfigureEnvironment"
-	ContestService_DescribeCertification_FullMethodName  = "/eolymp.judge.ContestService/DescribeCertification"
-	ContestService_ConfigureCertification_FullMethodName = "/eolymp.judge.ContestService/ConfigureCertification"
-	ContestService_DescribeTaxonomy_FullMethodName       = "/eolymp.judge.ContestService/DescribeTaxonomy"
-	ContestService_ConfigureTaxonomy_FullMethodName      = "/eolymp.judge.ContestService/ConfigureTaxonomy"
-	ContestService_ListActivities_FullMethodName         = "/eolymp.judge.ContestService/ListActivities"
-	ContestService_DescribeContestUsage_FullMethodName   = "/eolymp.judge.ContestService/DescribeContestUsage"
+	ContestService_CreateContest_FullMethodName        = "/eolymp.judge.ContestService/CreateContest"
+	ContestService_DeleteContest_FullMethodName        = "/eolymp.judge.ContestService/DeleteContest"
+	ContestService_UpdateContest_FullMethodName        = "/eolymp.judge.ContestService/UpdateContest"
+	ContestService_CopyContest_FullMethodName          = "/eolymp.judge.ContestService/CopyContest"
+	ContestService_DescribeContest_FullMethodName      = "/eolymp.judge.ContestService/DescribeContest"
+	ContestService_ListContests_FullMethodName         = "/eolymp.judge.ContestService/ListContests"
+	ContestService_OpenContest_FullMethodName          = "/eolymp.judge.ContestService/OpenContest"
+	ContestService_CloseContest_FullMethodName         = "/eolymp.judge.ContestService/CloseContest"
+	ContestService_SuspendContest_FullMethodName       = "/eolymp.judge.ContestService/SuspendContest"
+	ContestService_FreezeContest_FullMethodName        = "/eolymp.judge.ContestService/FreezeContest"
+	ContestService_FinalizeContest_FullMethodName      = "/eolymp.judge.ContestService/FinalizeContest"
+	ContestService_ResumeContest_FullMethodName        = "/eolymp.judge.ContestService/ResumeContest"
+	ContestService_WatchContest_FullMethodName         = "/eolymp.judge.ContestService/WatchContest"
+	ContestService_ListActivities_FullMethodName       = "/eolymp.judge.ContestService/ListActivities"
+	ContestService_DescribeContestUsage_FullMethodName = "/eolymp.judge.ContestService/DescribeContestUsage"
 )
 
 // ContestServiceClient is the client API for ContestService service.
@@ -71,15 +65,6 @@ type ContestServiceClient interface {
 	// Re-start suspended or frozen contest
 	ResumeContest(ctx context.Context, in *ResumeContestInput, opts ...grpc.CallOption) (*ResumeContestOutput, error)
 	WatchContest(ctx context.Context, in *WatchContestInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchContestOutput], error)
-	// Configure contest runtime environments
-	DescribeEnvironment(ctx context.Context, in *DescribeEnvironmentInput, opts ...grpc.CallOption) (*DescribeEnvironmentOutput, error)
-	ConfigureEnvironment(ctx context.Context, in *ConfigureEnvironmentInput, opts ...grpc.CallOption) (*ConfigureEnvironmentOutput, error)
-	// Configure contest runtime certifications
-	DescribeCertification(ctx context.Context, in *DescribeCertificationInput, opts ...grpc.CallOption) (*DescribeCertificationOutput, error)
-	ConfigureCertification(ctx context.Context, in *ConfigureCertificationInput, opts ...grpc.CallOption) (*ConfigureCertificationOutput, error)
-	// Configure contest runtime certifications
-	DescribeTaxonomy(ctx context.Context, in *DescribeTaxonomyInput, opts ...grpc.CallOption) (*DescribeTaxonomyOutput, error)
-	ConfigureTaxonomy(ctx context.Context, in *ConfigureTaxonomyInput, opts ...grpc.CallOption) (*ConfigureTaxonomyOutput, error)
 	ListActivities(ctx context.Context, in *ListActivitiesInput, opts ...grpc.CallOption) (*ListActivitiesOutput, error)
 	DescribeContestUsage(ctx context.Context, in *DescribeContestUsageInput, opts ...grpc.CallOption) (*DescribeContestUsageOutput, error)
 }
@@ -231,66 +216,6 @@ func (c *contestServiceClient) WatchContest(ctx context.Context, in *WatchContes
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type ContestService_WatchContestClient = grpc.ServerStreamingClient[WatchContestOutput]
 
-func (c *contestServiceClient) DescribeEnvironment(ctx context.Context, in *DescribeEnvironmentInput, opts ...grpc.CallOption) (*DescribeEnvironmentOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DescribeEnvironmentOutput)
-	err := c.cc.Invoke(ctx, ContestService_DescribeEnvironment_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *contestServiceClient) ConfigureEnvironment(ctx context.Context, in *ConfigureEnvironmentInput, opts ...grpc.CallOption) (*ConfigureEnvironmentOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ConfigureEnvironmentOutput)
-	err := c.cc.Invoke(ctx, ContestService_ConfigureEnvironment_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *contestServiceClient) DescribeCertification(ctx context.Context, in *DescribeCertificationInput, opts ...grpc.CallOption) (*DescribeCertificationOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DescribeCertificationOutput)
-	err := c.cc.Invoke(ctx, ContestService_DescribeCertification_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *contestServiceClient) ConfigureCertification(ctx context.Context, in *ConfigureCertificationInput, opts ...grpc.CallOption) (*ConfigureCertificationOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ConfigureCertificationOutput)
-	err := c.cc.Invoke(ctx, ContestService_ConfigureCertification_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *contestServiceClient) DescribeTaxonomy(ctx context.Context, in *DescribeTaxonomyInput, opts ...grpc.CallOption) (*DescribeTaxonomyOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DescribeTaxonomyOutput)
-	err := c.cc.Invoke(ctx, ContestService_DescribeTaxonomy_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *contestServiceClient) ConfigureTaxonomy(ctx context.Context, in *ConfigureTaxonomyInput, opts ...grpc.CallOption) (*ConfigureTaxonomyOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ConfigureTaxonomyOutput)
-	err := c.cc.Invoke(ctx, ContestService_ConfigureTaxonomy_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *contestServiceClient) ListActivities(ctx context.Context, in *ListActivitiesInput, opts ...grpc.CallOption) (*ListActivitiesOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ListActivitiesOutput)
@@ -340,15 +265,6 @@ type ContestServiceServer interface {
 	// Re-start suspended or frozen contest
 	ResumeContest(context.Context, *ResumeContestInput) (*ResumeContestOutput, error)
 	WatchContest(*WatchContestInput, grpc.ServerStreamingServer[WatchContestOutput]) error
-	// Configure contest runtime environments
-	DescribeEnvironment(context.Context, *DescribeEnvironmentInput) (*DescribeEnvironmentOutput, error)
-	ConfigureEnvironment(context.Context, *ConfigureEnvironmentInput) (*ConfigureEnvironmentOutput, error)
-	// Configure contest runtime certifications
-	DescribeCertification(context.Context, *DescribeCertificationInput) (*DescribeCertificationOutput, error)
-	ConfigureCertification(context.Context, *ConfigureCertificationInput) (*ConfigureCertificationOutput, error)
-	// Configure contest runtime certifications
-	DescribeTaxonomy(context.Context, *DescribeTaxonomyInput) (*DescribeTaxonomyOutput, error)
-	ConfigureTaxonomy(context.Context, *ConfigureTaxonomyInput) (*ConfigureTaxonomyOutput, error)
 	ListActivities(context.Context, *ListActivitiesInput) (*ListActivitiesOutput, error)
 	DescribeContestUsage(context.Context, *DescribeContestUsageInput) (*DescribeContestUsageOutput, error)
 }
@@ -398,24 +314,6 @@ func (UnimplementedContestServiceServer) ResumeContest(context.Context, *ResumeC
 }
 func (UnimplementedContestServiceServer) WatchContest(*WatchContestInput, grpc.ServerStreamingServer[WatchContestOutput]) error {
 	return status.Errorf(codes.Unimplemented, "method WatchContest not implemented")
-}
-func (UnimplementedContestServiceServer) DescribeEnvironment(context.Context, *DescribeEnvironmentInput) (*DescribeEnvironmentOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DescribeEnvironment not implemented")
-}
-func (UnimplementedContestServiceServer) ConfigureEnvironment(context.Context, *ConfigureEnvironmentInput) (*ConfigureEnvironmentOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ConfigureEnvironment not implemented")
-}
-func (UnimplementedContestServiceServer) DescribeCertification(context.Context, *DescribeCertificationInput) (*DescribeCertificationOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DescribeCertification not implemented")
-}
-func (UnimplementedContestServiceServer) ConfigureCertification(context.Context, *ConfigureCertificationInput) (*ConfigureCertificationOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ConfigureCertification not implemented")
-}
-func (UnimplementedContestServiceServer) DescribeTaxonomy(context.Context, *DescribeTaxonomyInput) (*DescribeTaxonomyOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DescribeTaxonomy not implemented")
-}
-func (UnimplementedContestServiceServer) ConfigureTaxonomy(context.Context, *ConfigureTaxonomyInput) (*ConfigureTaxonomyOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ConfigureTaxonomy not implemented")
 }
 func (UnimplementedContestServiceServer) ListActivities(context.Context, *ListActivitiesInput) (*ListActivitiesOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListActivities not implemented")
@@ -670,114 +568,6 @@ func _ContestService_WatchContest_Handler(srv interface{}, stream grpc.ServerStr
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type ContestService_WatchContestServer = grpc.ServerStreamingServer[WatchContestOutput]
 
-func _ContestService_DescribeEnvironment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DescribeEnvironmentInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ContestServiceServer).DescribeEnvironment(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ContestService_DescribeEnvironment_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ContestServiceServer).DescribeEnvironment(ctx, req.(*DescribeEnvironmentInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ContestService_ConfigureEnvironment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ConfigureEnvironmentInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ContestServiceServer).ConfigureEnvironment(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ContestService_ConfigureEnvironment_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ContestServiceServer).ConfigureEnvironment(ctx, req.(*ConfigureEnvironmentInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ContestService_DescribeCertification_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DescribeCertificationInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ContestServiceServer).DescribeCertification(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ContestService_DescribeCertification_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ContestServiceServer).DescribeCertification(ctx, req.(*DescribeCertificationInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ContestService_ConfigureCertification_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ConfigureCertificationInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ContestServiceServer).ConfigureCertification(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ContestService_ConfigureCertification_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ContestServiceServer).ConfigureCertification(ctx, req.(*ConfigureCertificationInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ContestService_DescribeTaxonomy_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DescribeTaxonomyInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ContestServiceServer).DescribeTaxonomy(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ContestService_DescribeTaxonomy_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ContestServiceServer).DescribeTaxonomy(ctx, req.(*DescribeTaxonomyInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ContestService_ConfigureTaxonomy_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ConfigureTaxonomyInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ContestServiceServer).ConfigureTaxonomy(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ContestService_ConfigureTaxonomy_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ContestServiceServer).ConfigureTaxonomy(ctx, req.(*ConfigureTaxonomyInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _ContestService_ListActivities_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListActivitiesInput)
 	if err := dec(in); err != nil {
@@ -868,30 +658,6 @@ var ContestService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ResumeContest",
 			Handler:    _ContestService_ResumeContest_Handler,
-		},
-		{
-			MethodName: "DescribeEnvironment",
-			Handler:    _ContestService_DescribeEnvironment_Handler,
-		},
-		{
-			MethodName: "ConfigureEnvironment",
-			Handler:    _ContestService_ConfigureEnvironment_Handler,
-		},
-		{
-			MethodName: "DescribeCertification",
-			Handler:    _ContestService_DescribeCertification_Handler,
-		},
-		{
-			MethodName: "ConfigureCertification",
-			Handler:    _ContestService_ConfigureCertification_Handler,
-		},
-		{
-			MethodName: "DescribeTaxonomy",
-			Handler:    _ContestService_DescribeTaxonomy_Handler,
-		},
-		{
-			MethodName: "ConfigureTaxonomy",
-			Handler:    _ContestService_ConfigureTaxonomy_Handler,
 		},
 		{
 			MethodName: "ListActivities",
