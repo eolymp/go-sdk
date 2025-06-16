@@ -354,6 +354,7 @@ const (
 	Contest_Extra_SCOREBOARD_CONFIG    Contest_Extra_Field = 2
 	Contest_Extra_CERTIFICATION_CONFIG Contest_Extra_Field = 3
 	Contest_Extra_ENVIRONMENT_CONFIG   Contest_Extra_Field = 4
+	Contest_Extra_STAFF                Contest_Extra_Field = 5 // Staff members of the contest, used to display staff members in the contest UI
 )
 
 // Enum value maps for Contest_Extra_Field.
@@ -364,6 +365,7 @@ var (
 		2: "SCOREBOARD_CONFIG",
 		3: "CERTIFICATION_CONFIG",
 		4: "ENVIRONMENT_CONFIG",
+		5: "STAFF",
 	}
 	Contest_Extra_Field_value = map[string]int32{
 		"UNKNOWN":              0,
@@ -371,6 +373,7 @@ var (
 		"SCOREBOARD_CONFIG":    2,
 		"CERTIFICATION_CONFIG": 3,
 		"ENVIRONMENT_CONFIG":   4,
+		"STAFF":                5,
 	}
 )
 
@@ -560,6 +563,7 @@ type Contest struct {
 	EnvironmentConfig *Contest_EnvironmentConfig `protobuf:"bytes,111,opt,name=environment_config,json=environmentConfig,proto3" json:"environment_config,omitempty"`
 	// Certification configuration allows to automatically issue participant certificates after finalization of the contest.
 	CertificationConfig *Contest_CertificationConfig `protobuf:"bytes,112,opt,name=certification_config,json=certificationConfig,proto3" json:"certification_config,omitempty"`
+	Staff               []*Contest_Staff             `protobuf:"bytes,120,rep,name=staff,proto3" json:"staff,omitempty"` // Staff members of the contest (coordinator, tester, problem setter etc)
 	unknownFields       protoimpl.UnknownFields
 	sizeCache           protoimpl.SizeCache
 }
@@ -786,6 +790,13 @@ func (x *Contest) GetEnvironmentConfig() *Contest_EnvironmentConfig {
 func (x *Contest) GetCertificationConfig() *Contest_CertificationConfig {
 	if x != nil {
 		return x.CertificationConfig
+	}
+	return nil
+}
+
+func (x *Contest) GetStaff() []*Contest_Staff {
+	if x != nil {
+		return x.Staff
 	}
 	return nil
 }
@@ -1150,6 +1161,66 @@ func (x *Contest_EnvironmentConfig) GetRuntimes() []*runtime.Runtime {
 	return nil
 }
 
+type Contest_Staff struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	MemberId      string                 `protobuf:"bytes,1,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
+	DisplayName   string                 `protobuf:"bytes,2,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
+	Role          string                 `protobuf:"bytes,3,opt,name=role,proto3" json:"role,omitempty"` // COORDINATOR, TESTER, AUTHOR etc
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Contest_Staff) Reset() {
+	*x = Contest_Staff{}
+	mi := &file_eolymp_judge_contest_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Contest_Staff) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Contest_Staff) ProtoMessage() {}
+
+func (x *Contest_Staff) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_judge_contest_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Contest_Staff.ProtoReflect.Descriptor instead.
+func (*Contest_Staff) Descriptor() ([]byte, []int) {
+	return file_eolymp_judge_contest_proto_rawDescGZIP(), []int{0, 6}
+}
+
+func (x *Contest_Staff) GetMemberId() string {
+	if x != nil {
+		return x.MemberId
+	}
+	return ""
+}
+
+func (x *Contest_Staff) GetDisplayName() string {
+	if x != nil {
+		return x.DisplayName
+	}
+	return ""
+}
+
+func (x *Contest_Staff) GetRole() string {
+	if x != nil {
+		return x.Role
+	}
+	return ""
+}
+
 type Contest_CertificationConfig_Signer struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`   // Signer name
@@ -1160,7 +1231,7 @@ type Contest_CertificationConfig_Signer struct {
 
 func (x *Contest_CertificationConfig_Signer) Reset() {
 	*x = Contest_CertificationConfig_Signer{}
-	mi := &file_eolymp_judge_contest_proto_msgTypes[7]
+	mi := &file_eolymp_judge_contest_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1172,7 +1243,7 @@ func (x *Contest_CertificationConfig_Signer) String() string {
 func (*Contest_CertificationConfig_Signer) ProtoMessage() {}
 
 func (x *Contest_CertificationConfig_Signer) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_contest_proto_msgTypes[7]
+	mi := &file_eolymp_judge_contest_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1206,7 +1277,7 @@ var File_eolymp_judge_contest_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\n" +
-	"\x1aeolymp/judge/contest.proto\x12\feolymp.judge\x1a\x1ceolymp/runtime/runtime.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xe4\x19\n" +
+	"\x1aeolymp/judge/contest.proto\x12\feolymp.judge\x1a\x1ceolymp/runtime/runtime.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x80\x1b\n" +
 	"\aContest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x10\n" +
 	"\x03url\x18\x02 \x01(\tR\x03url\x12\x12\n" +
@@ -1240,7 +1311,8 @@ const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\x0eclassification\x18n \x01(\v2$.eolymp.judge.Contest.ClassificationR\x0eclassification\x12S\n" +
 	"\x11scoreboard_config\x18i \x01(\v2&.eolymp.judge.Contest.ScoreboardConfigR\x10scoreboardConfig\x12V\n" +
 	"\x12environment_config\x18o \x01(\v2'.eolymp.judge.Contest.EnvironmentConfigR\x11environmentConfig\x12\\\n" +
-	"\x14certification_config\x18p \x01(\v2).eolymp.judge.Contest.CertificationConfigR\x13certificationConfig\x1a\xd5\x03\n" +
+	"\x14certification_config\x18p \x01(\v2).eolymp.judge.Contest.CertificationConfigR\x13certificationConfig\x121\n" +
+	"\x05staff\x18x \x03(\v2\x1b.eolymp.judge.Contest.StaffR\x05staff\x1a\xd5\x03\n" +
 	"\x05Patch\"\xcb\x03\n" +
 	"\x05Field\x12\v\n" +
 	"\aUNKNOWN\x10\x00\x12\b\n" +
@@ -1269,14 +1341,15 @@ const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\x0eCLASSIFICATION\x10d\x12\x16\n" +
 	"\x11SCOREBOARD_CONFIG\x10\x96\x01\x12\x19\n" +
 	"\x14CERTIFICATION_CONFIG\x10\x97\x01\x12\x17\n" +
-	"\x12ENVIRONMENT_CONFIG\x10\x98\x01\x1az\n" +
-	"\x05Extra\"q\n" +
+	"\x12ENVIRONMENT_CONFIG\x10\x98\x01\x1a\x85\x01\n" +
+	"\x05Extra\"|\n" +
 	"\x05Field\x12\v\n" +
 	"\aUNKNOWN\x10\x00\x12\x12\n" +
 	"\x0eCLASSIFICATION\x10\x01\x12\x15\n" +
 	"\x11SCOREBOARD_CONFIG\x10\x02\x12\x18\n" +
 	"\x14CERTIFICATION_CONFIG\x10\x03\x12\x16\n" +
-	"\x12ENVIRONMENT_CONFIG\x10\x04\x1a\xba\x02\n" +
+	"\x12ENVIRONMENT_CONFIG\x10\x04\x12\t\n" +
+	"\x05STAFF\x10\x05\x1a\xba\x02\n" +
 	"\x0eClassification\x12\x12\n" +
 	"\x04year\x18\x01 \x01(\rR\x04year\x12\x16\n" +
 	"\x06series\x18\x02 \x01(\tR\x06series\x12@\n" +
@@ -1319,7 +1392,11 @@ const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x14\n" +
 	"\x05title\x18\x02 \x01(\tR\x05title\x1aH\n" +
 	"\x11EnvironmentConfig\x123\n" +
-	"\bruntimes\x18\x02 \x03(\v2\x17.eolymp.runtime.RuntimeR\bruntimes\"m\n" +
+	"\bruntimes\x18\x02 \x03(\v2\x17.eolymp.runtime.RuntimeR\bruntimes\x1a[\n" +
+	"\x05Staff\x12\x1b\n" +
+	"\tmember_id\x18\x01 \x01(\tR\bmemberId\x12!\n" +
+	"\fdisplay_name\x18\x02 \x01(\tR\vdisplayName\x12\x12\n" +
+	"\x04role\x18\x03 \x01(\tR\x04role\"m\n" +
 	"\x06Status\x12\x12\n" +
 	"\x0eSTATUS_UNKNOWN\x10\x00\x12\r\n" +
 	"\tSCHEDULED\x10\x01\x12\b\n" +
@@ -1359,7 +1436,7 @@ func file_eolymp_judge_contest_proto_rawDescGZIP() []byte {
 }
 
 var file_eolymp_judge_contest_proto_enumTypes = make([]protoimpl.EnumInfo, 8)
-var file_eolymp_judge_contest_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
+var file_eolymp_judge_contest_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_eolymp_judge_contest_proto_goTypes = []any{
 	(Contest_Status)(0),                        // 0: eolymp.judge.Contest.Status
 	(Contest_Visibility)(0),                    // 1: eolymp.judge.Contest.Visibility
@@ -1376,31 +1453,33 @@ var file_eolymp_judge_contest_proto_goTypes = []any{
 	(*Contest_ScoreboardConfig)(nil),           // 12: eolymp.judge.Contest.ScoreboardConfig
 	(*Contest_CertificationConfig)(nil),        // 13: eolymp.judge.Contest.CertificationConfig
 	(*Contest_EnvironmentConfig)(nil),          // 14: eolymp.judge.Contest.EnvironmentConfig
-	(*Contest_CertificationConfig_Signer)(nil), // 15: eolymp.judge.Contest.CertificationConfig.Signer
-	(*timestamppb.Timestamp)(nil),              // 16: google.protobuf.Timestamp
-	(*runtime.Runtime)(nil),                    // 17: eolymp.runtime.Runtime
+	(*Contest_Staff)(nil),                      // 15: eolymp.judge.Contest.Staff
+	(*Contest_CertificationConfig_Signer)(nil), // 16: eolymp.judge.Contest.CertificationConfig.Signer
+	(*timestamppb.Timestamp)(nil),              // 17: google.protobuf.Timestamp
+	(*runtime.Runtime)(nil),                    // 18: eolymp.runtime.Runtime
 }
 var file_eolymp_judge_contest_proto_depIdxs = []int32{
-	16, // 0: eolymp.judge.Contest.starts_at:type_name -> google.protobuf.Timestamp
-	16, // 1: eolymp.judge.Contest.ends_at:type_name -> google.protobuf.Timestamp
+	17, // 0: eolymp.judge.Contest.starts_at:type_name -> google.protobuf.Timestamp
+	17, // 1: eolymp.judge.Contest.ends_at:type_name -> google.protobuf.Timestamp
 	0,  // 2: eolymp.judge.Contest.status:type_name -> eolymp.judge.Contest.Status
 	1,  // 3: eolymp.judge.Contest.visibility:type_name -> eolymp.judge.Contest.Visibility
 	2,  // 4: eolymp.judge.Contest.participation_mode:type_name -> eolymp.judge.Contest.ParticipationMode
 	3,  // 5: eolymp.judge.Contest.format:type_name -> eolymp.judge.Contest.Format
-	16, // 6: eolymp.judge.Contest.featured_until:type_name -> google.protobuf.Timestamp
+	17, // 6: eolymp.judge.Contest.featured_until:type_name -> google.protobuf.Timestamp
 	11, // 7: eolymp.judge.Contest.classification:type_name -> eolymp.judge.Contest.Classification
 	12, // 8: eolymp.judge.Contest.scoreboard_config:type_name -> eolymp.judge.Contest.ScoreboardConfig
 	14, // 9: eolymp.judge.Contest.environment_config:type_name -> eolymp.judge.Contest.EnvironmentConfig
 	13, // 10: eolymp.judge.Contest.certification_config:type_name -> eolymp.judge.Contest.CertificationConfig
-	6,  // 11: eolymp.judge.Contest.Classification.scale:type_name -> eolymp.judge.Contest.Classification.Scale
-	7,  // 12: eolymp.judge.Contest.ScoreboardConfig.visibility:type_name -> eolymp.judge.Contest.ScoreboardConfig.Visibility
-	15, // 13: eolymp.judge.Contest.CertificationConfig.signers:type_name -> eolymp.judge.Contest.CertificationConfig.Signer
-	17, // 14: eolymp.judge.Contest.EnvironmentConfig.runtimes:type_name -> eolymp.runtime.Runtime
-	15, // [15:15] is the sub-list for method output_type
-	15, // [15:15] is the sub-list for method input_type
-	15, // [15:15] is the sub-list for extension type_name
-	15, // [15:15] is the sub-list for extension extendee
-	0,  // [0:15] is the sub-list for field type_name
+	15, // 11: eolymp.judge.Contest.staff:type_name -> eolymp.judge.Contest.Staff
+	6,  // 12: eolymp.judge.Contest.Classification.scale:type_name -> eolymp.judge.Contest.Classification.Scale
+	7,  // 13: eolymp.judge.Contest.ScoreboardConfig.visibility:type_name -> eolymp.judge.Contest.ScoreboardConfig.Visibility
+	16, // 14: eolymp.judge.Contest.CertificationConfig.signers:type_name -> eolymp.judge.Contest.CertificationConfig.Signer
+	18, // 15: eolymp.judge.Contest.EnvironmentConfig.runtimes:type_name -> eolymp.runtime.Runtime
+	16, // [16:16] is the sub-list for method output_type
+	16, // [16:16] is the sub-list for method input_type
+	16, // [16:16] is the sub-list for extension type_name
+	16, // [16:16] is the sub-list for extension extendee
+	0,  // [0:16] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_judge_contest_proto_init() }
@@ -1414,7 +1493,7 @@ func file_eolymp_judge_contest_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_judge_contest_proto_rawDesc), len(file_eolymp_judge_contest_proto_rawDesc)),
 			NumEnums:      8,
-			NumMessages:   8,
+			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
