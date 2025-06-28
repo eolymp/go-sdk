@@ -189,7 +189,7 @@ type ParticipantFinalizedEvent struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ContestId     string                 `protobuf:"bytes,10,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
 	Participant   *Participant           `protobuf:"bytes,2,opt,name=participant,proto3" json:"participant,omitempty"`
-	Score         *Score                 `protobuf:"bytes,3,opt,name=score,proto3" json:"score,omitempty"`
+	Result        *Result                `protobuf:"bytes,3,opt,name=result,proto3" json:"result,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -238,9 +238,9 @@ func (x *ParticipantFinalizedEvent) GetParticipant() *Participant {
 	return nil
 }
 
-func (x *ParticipantFinalizedEvent) GetScore() *Score {
+func (x *ParticipantFinalizedEvent) GetResult() *Result {
 	if x != nil {
-		return x.Score
+		return x.Result
 	}
 	return nil
 }
@@ -1742,7 +1742,7 @@ var File_eolymp_judge_participant_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_participant_service_proto_rawDesc = "" +
 	"\n" +
-	"&eolymp/judge/participant_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1eeolymp/judge/participant.proto\x1a\x18eolymp/judge/score.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"\x9c\x01\n" +
+	"&eolymp/judge/participant_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1eeolymp/judge/participant.proto\x1a\x19eolymp/judge/result.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"\x9c\x01\n" +
 	"\x17ParticipantChangedEvent\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\n" +
@@ -1753,13 +1753,13 @@ const file_eolymp_judge_participant_service_proto_rawDesc = "" +
 	"\n" +
 	"contest_id\x18\n" +
 	" \x01(\tR\tcontestId\x12;\n" +
-	"\vparticipant\x18\x02 \x01(\v2\x19.eolymp.judge.ParticipantR\vparticipant\"\xa2\x01\n" +
+	"\vparticipant\x18\x02 \x01(\v2\x19.eolymp.judge.ParticipantR\vparticipant\"\xa5\x01\n" +
 	"\x19ParticipantFinalizedEvent\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\n" +
 	" \x01(\tR\tcontestId\x12;\n" +
-	"\vparticipant\x18\x02 \x01(\v2\x19.eolymp.judge.ParticipantR\vparticipant\x12)\n" +
-	"\x05score\x18\x03 \x01(\v2\x13.eolymp.judge.ScoreR\x05score\"\xef\x01\n" +
+	"\vparticipant\x18\x02 \x01(\v2\x19.eolymp.judge.ParticipantR\vparticipant\x12,\n" +
+	"\x06result\x18\x03 \x01(\v2\x14.eolymp.judge.ResultR\x06result\"\xef\x01\n" +
 	"\x16AssignParticipantInput\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\x12\x1d\n" +
@@ -1998,7 +1998,7 @@ var file_eolymp_judge_participant_service_proto_goTypes = []any{
 	(*FinishContestOutput)(nil),           // 31: eolymp.judge.FinishContestOutput
 	(*ListParticipantsInput_Filter)(nil),  // 32: eolymp.judge.ListParticipantsInput.Filter
 	(*Participant)(nil),                   // 33: eolymp.judge.Participant
-	(*Score)(nil),                         // 34: eolymp.judge.Score
+	(*Result)(nil),                        // 34: eolymp.judge.Result
 	(Participant_Role)(0),                 // 35: eolymp.judge.Participant.Role
 	(Participant_Patch_Field)(0),          // 36: eolymp.judge.Participant.Patch.Field
 	(*ecm.Content)(nil),                   // 37: eolymp.ecm.Content
@@ -2013,7 +2013,7 @@ var file_eolymp_judge_participant_service_proto_depIdxs = []int32{
 	33, // 1: eolymp.judge.ParticipantChangedEvent.after:type_name -> eolymp.judge.Participant
 	33, // 2: eolymp.judge.ParticipantJoinedEvent.participant:type_name -> eolymp.judge.Participant
 	33, // 3: eolymp.judge.ParticipantFinalizedEvent.participant:type_name -> eolymp.judge.Participant
-	34, // 4: eolymp.judge.ParticipantFinalizedEvent.score:type_name -> eolymp.judge.Score
+	34, // 4: eolymp.judge.ParticipantFinalizedEvent.result:type_name -> eolymp.judge.Result
 	35, // 5: eolymp.judge.AssignParticipantInput.role:type_name -> eolymp.judge.Participant.Role
 	36, // 6: eolymp.judge.UpdateParticipantInput.patch:type_name -> eolymp.judge.Participant.Patch.Field
 	33, // 7: eolymp.judge.UpdateParticipantInput.participant:type_name -> eolymp.judge.Participant
@@ -2076,7 +2076,7 @@ func file_eolymp_judge_participant_service_proto_init() {
 		return
 	}
 	file_eolymp_judge_participant_proto_init()
-	file_eolymp_judge_score_proto_init()
+	file_eolymp_judge_result_proto_init()
 	file_eolymp_judge_participant_service_proto_msgTypes[3].OneofWrappers = []any{
 		(*AssignParticipantInput_MemberId)(nil),
 		(*AssignParticipantInput_GroupId)(nil),
