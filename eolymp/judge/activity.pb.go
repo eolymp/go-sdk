@@ -28,6 +28,7 @@ const (
 	Activity_NONE               Activity_Type = 0
 	Activity_PROBLEM_RETEST     Activity_Type = 1
 	Activity_SCOREBOARD_REBUILD Activity_Type = 2
+	Activity_ANALYZE_CONTEST    Activity_Type = 3
 )
 
 // Enum value maps for Activity_Type.
@@ -36,11 +37,13 @@ var (
 		0: "NONE",
 		1: "PROBLEM_RETEST",
 		2: "SCOREBOARD_REBUILD",
+		3: "ANALYZE_CONTEST",
 	}
 	Activity_Type_value = map[string]int32{
 		"NONE":               0,
 		"PROBLEM_RETEST":     1,
 		"SCOREBOARD_REBUILD": 2,
+		"ANALYZE_CONTEST":    3,
 	}
 )
 
@@ -277,7 +280,7 @@ var File_eolymp_judge_activity_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_activity_proto_rawDesc = "" +
 	"\n" +
-	"\x1beolymp/judge/activity.proto\x12\feolymp.judge\x1a\x1fgoogle/protobuf/timestamp.proto\"\xa5\x05\n" +
+	"\x1beolymp/judge/activity.proto\x12\feolymp.judge\x1a\x1fgoogle/protobuf/timestamp.proto\"\xba\x05\n" +
 	"\bActivity\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12/\n" +
 	"\x04type\x18\x02 \x01(\x0e2\x1b.eolymp.judge.Activity.TypeR\x04type\x125\n" +
@@ -298,11 +301,12 @@ const file_eolymp_judge_activity_proto_rawDesc = "" +
 	"completeAt\x12\x1a\n" +
 	"\bprogress\x18\x14 \x01(\rR\bprogress\x12\x14\n" +
 	"\x05total\x18\x15 \x01(\rR\x05total\x12\x14\n" +
-	"\x05error\x18\x1e \x01(\tR\x05error\"<\n" +
+	"\x05error\x18\x1e \x01(\tR\x05error\"Q\n" +
 	"\x04Type\x12\b\n" +
 	"\x04NONE\x10\x00\x12\x12\n" +
 	"\x0ePROBLEM_RETEST\x10\x01\x12\x16\n" +
-	"\x12SCOREBOARD_REBUILD\x10\x02\"H\n" +
+	"\x12SCOREBOARD_REBUILD\x10\x02\x12\x13\n" +
+	"\x0fANALYZE_CONTEST\x10\x03\"H\n" +
 	"\x06Status\x12\v\n" +
 	"\aUNKNOWN\x10\x00\x12\v\n" +
 	"\aCREATED\x10\x01\x12\v\n" +
