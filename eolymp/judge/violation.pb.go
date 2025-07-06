@@ -78,10 +78,11 @@ func (Violation_Patch_Field) EnumDescriptor() ([]byte, []int) {
 type Violation struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Cancelled     bool                   `protobuf:"varint,2,opt,name=cancelled,proto3" json:"cancelled,omitempty"`            // whether the violation has been cancelled
-	Summary       string                 `protobuf:"bytes,3,opt,name=summary,proto3" json:"summary,omitempty"`                 // short summary of the violation
-	Automatic     bool                   `protobuf:"varint,4,opt,name=automatic,proto3" json:"automatic,omitempty"`            // whether the violation was given by an automatic process
-	GivenBy       string                 `protobuf:"bytes,10,opt,name=given_by,json=givenBy,proto3" json:"given_by,omitempty"` // user ID of the person who created the violation
+	Cancelled     bool                   `protobuf:"varint,2,opt,name=cancelled,proto3" json:"cancelled,omitempty"`                             // whether the violation has been cancelled
+	Summary       string                 `protobuf:"bytes,3,opt,name=summary,proto3" json:"summary,omitempty"`                                  // short summary of the violation
+	Automatic     bool                   `protobuf:"varint,4,opt,name=automatic,proto3" json:"automatic,omitempty"`                             // whether the violation was given by an automatic process
+	ParticipantId string                 `protobuf:"bytes,5,opt,name=participant_id,json=participantId,proto3" json:"participant_id,omitempty"` // participant who received the violation
+	GivenBy       string                 `protobuf:"bytes,10,opt,name=given_by,json=givenBy,proto3" json:"given_by,omitempty"`                  // user ID of the person who created the violation
 	GivenAt       *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=given_at,json=givenAt,proto3" json:"given_at,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -145,6 +146,13 @@ func (x *Violation) GetAutomatic() bool {
 	return false
 }
 
+func (x *Violation) GetParticipantId() string {
+	if x != nil {
+		return x.ParticipantId
+	}
+	return ""
+}
+
 func (x *Violation) GetGivenBy() string {
 	if x != nil {
 		return x.GivenBy
@@ -199,12 +207,13 @@ var File_eolymp_judge_violation_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_violation_proto_rawDesc = "" +
 	"\n" +
-	"\x1ceolymp/judge/violation.proto\x12\feolymp.judge\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x91\x02\n" +
+	"\x1ceolymp/judge/violation.proto\x12\feolymp.judge\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xb8\x02\n" +
 	"\tViolation\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1c\n" +
 	"\tcancelled\x18\x02 \x01(\bR\tcancelled\x12\x18\n" +
 	"\asummary\x18\x03 \x01(\tR\asummary\x12\x1c\n" +
-	"\tautomatic\x18\x04 \x01(\bR\tautomatic\x12\x19\n" +
+	"\tautomatic\x18\x04 \x01(\bR\tautomatic\x12%\n" +
+	"\x0eparticipant_id\x18\x05 \x01(\tR\rparticipantId\x12\x19\n" +
 	"\bgiven_by\x18\n" +
 	" \x01(\tR\agivenBy\x125\n" +
 	"\bgiven_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\agivenAt\x1aL\n" +
