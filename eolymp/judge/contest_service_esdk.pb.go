@@ -282,6 +282,22 @@ func (s *ContestServiceService) ResumeContest(ctx context.Context, in *ResumeCon
 	return out, nil
 }
 
+func (s *ContestServiceService) AnalyzeContest(ctx context.Context, in *AnalyzeContestInput) (*AnalyzeContestOutput, error) {
+	out := &AnalyzeContestOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/analyze"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *ContestServiceService) ListActivities(ctx context.Context, in *ListActivitiesInput) (*ListActivitiesOutput, error) {
 	out := &ListActivitiesOutput{}
 	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/activities"

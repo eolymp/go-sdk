@@ -161,6 +161,9 @@ func RegisterContestServiceHttpHandlers(router *mux.Router, prefix string, cli C
 	router.Handle(prefix+"/contests/{contest_id}/resume", _ContestService_ResumeContest_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.ContestService.ResumeContest")
+	router.Handle(prefix+"/contests/{contest_id}/analyze", _ContestService_AnalyzeContest_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.judge.ContestService.AnalyzeContest")
 	router.Handle(prefix+"/contests/{contest_id}/activities", _ContestService_ListActivities_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ContestService.ListActivities")
@@ -459,6 +462,31 @@ func _ContestService_ResumeContest_Rule0(cli ContestServiceClient) http.Handler 
 		var header, trailer metadata.MD
 
 		out, err := cli.ResumeContest(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ContestService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ContestService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ContestService_AnalyzeContest_Rule0(cli ContestServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &AnalyzeContestInput{}
+
+		if err := _ContestService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_ContestService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.AnalyzeContest(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ContestService_HTTPWriteErrorResponse(w, err)
 			return

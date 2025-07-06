@@ -218,10 +218,11 @@ type Participant struct {
 	Finalized    bool                   `protobuf:"varint,12,opt,name=finalized,proto3" json:"finalized,omitempty"`                         // participant result is finalized
 	Medal        Medal                  `protobuf:"varint,9,opt,name=medal,proto3,enum=eolymp.judge.Medal" json:"medal,omitempty"`
 	// Status (see explanation to enumeration values)
-	Status    Participant_Status     `protobuf:"varint,20,opt,name=status,proto3,enum=eolymp.judge.Participant_Status" json:"status,omitempty"`
-	StartedAt *timestamppb.Timestamp `protobuf:"bytes,21,opt,name=started_at,json=startedAt,proto3" json:"started_at,omitempty"`  // Time when user has started participating
-	EndAt     *timestamppb.Timestamp `protobuf:"bytes,25,opt,name=end_at,json=endAt,proto3" json:"end_at,omitempty"`              // Time when user has finished (will finish) participating (incl. bonus time)
-	BonusTime uint32                 `protobuf:"varint,27,opt,name=bonus_time,json=bonusTime,proto3" json:"bonus_time,omitempty"` // Additional time in seconds for participation
+	Status         Participant_Status     `protobuf:"varint,20,opt,name=status,proto3,enum=eolymp.judge.Participant_Status" json:"status,omitempty"`
+	StartedAt      *timestamppb.Timestamp `protobuf:"bytes,21,opt,name=started_at,json=startedAt,proto3" json:"started_at,omitempty"`                 // Time when user has started participating
+	EndAt          *timestamppb.Timestamp `protobuf:"bytes,25,opt,name=end_at,json=endAt,proto3" json:"end_at,omitempty"`                             // Time when user has finished (will finish) participating (incl. bonus time)
+	BonusTime      uint32                 `protobuf:"varint,27,opt,name=bonus_time,json=bonusTime,proto3" json:"bonus_time,omitempty"`                // Additional time in seconds for participation
+	ViolationCount uint32                 `protobuf:"varint,28,opt,name=violation_count,json=violationCount,proto3" json:"violation_count,omitempty"` // Number of non-cancelled violations participant has received
 	// Passcode is a code participant has to enter before she can begin contest.
 	// This field is only populated when request is made by contest owner.
 	// Passcode is read-only and should be set using ResetPasscode method.
@@ -361,6 +362,13 @@ func (x *Participant) GetBonusTime() uint32 {
 	return 0
 }
 
+func (x *Participant) GetViolationCount() uint32 {
+	if x != nil {
+		return x.ViolationCount
+	}
+	return 0
+}
+
 func (x *Participant) GetPasscode() string {
 	if x != nil {
 		return x.Passcode
@@ -474,7 +482,7 @@ var File_eolymp_judge_participant_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_participant_proto_rawDesc = "" +
 	"\n" +
-	"\x1eeolymp/judge/participant.proto\x12\feolymp.judge\x1a\x18eolymp/judge/medal.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x9a\b\n" +
+	"\x1eeolymp/judge/participant.proto\x12\feolymp.judge\x1a\x18eolymp/judge/medal.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc3\b\n" +
 	"\vParticipant\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1b\n" +
 	"\tmember_id\x18\x04 \x01(\tR\bmemberId\x12!\n" +
@@ -494,7 +502,8 @@ const file_eolymp_judge_participant_proto_rawDesc = "" +
 	"started_at\x18\x15 \x01(\v2\x1a.google.protobuf.TimestampR\tstartedAt\x121\n" +
 	"\x06end_at\x18\x19 \x01(\v2\x1a.google.protobuf.TimestampR\x05endAt\x12\x1d\n" +
 	"\n" +
-	"bonus_time\x18\x1b \x01(\rR\tbonusTime\x12\x1a\n" +
+	"bonus_time\x18\x1b \x01(\rR\tbonusTime\x12'\n" +
+	"\x0fviolation_count\x18\x1c \x01(\rR\x0eviolationCount\x12\x1a\n" +
 	"\bpasscode\x18\x1e \x01(\tR\bpasscode\x12%\n" +
 	"\x0ecertificate_id\x18  \x01(\tR\rcertificateId\x12:\n" +
 	"\asubmits\x18( \x03(\v2 .eolymp.judge.Participant.SubmitR\asubmits\x1a|\n" +

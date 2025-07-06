@@ -31,6 +31,7 @@ const (
 	ContestService_FreezeContest_FullMethodName        = "/eolymp.judge.ContestService/FreezeContest"
 	ContestService_FinalizeContest_FullMethodName      = "/eolymp.judge.ContestService/FinalizeContest"
 	ContestService_ResumeContest_FullMethodName        = "/eolymp.judge.ContestService/ResumeContest"
+	ContestService_AnalyzeContest_FullMethodName       = "/eolymp.judge.ContestService/AnalyzeContest"
 	ContestService_WatchContest_FullMethodName         = "/eolymp.judge.ContestService/WatchContest"
 	ContestService_ListActivities_FullMethodName       = "/eolymp.judge.ContestService/ListActivities"
 	ContestService_DescribeContestUsage_FullMethodName = "/eolymp.judge.ContestService/DescribeContestUsage"
@@ -64,6 +65,8 @@ type ContestServiceClient interface {
 	FinalizeContest(ctx context.Context, in *FinalizeContestInput, opts ...grpc.CallOption) (*FinalizeContestOutput, error)
 	// Re-start suspended or frozen contest
 	ResumeContest(ctx context.Context, in *ResumeContestInput, opts ...grpc.CallOption) (*ResumeContestOutput, error)
+	// Analyze contest submissions for plagiarism, cheating and other violations.
+	AnalyzeContest(ctx context.Context, in *AnalyzeContestInput, opts ...grpc.CallOption) (*AnalyzeContestOutput, error)
 	WatchContest(ctx context.Context, in *WatchContestInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchContestOutput], error)
 	ListActivities(ctx context.Context, in *ListActivitiesInput, opts ...grpc.CallOption) (*ListActivitiesOutput, error)
 	DescribeContestUsage(ctx context.Context, in *DescribeContestUsageInput, opts ...grpc.CallOption) (*DescribeContestUsageOutput, error)
@@ -197,6 +200,16 @@ func (c *contestServiceClient) ResumeContest(ctx context.Context, in *ResumeCont
 	return out, nil
 }
 
+func (c *contestServiceClient) AnalyzeContest(ctx context.Context, in *AnalyzeContestInput, opts ...grpc.CallOption) (*AnalyzeContestOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(AnalyzeContestOutput)
+	err := c.cc.Invoke(ctx, ContestService_AnalyzeContest_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *contestServiceClient) WatchContest(ctx context.Context, in *WatchContestInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchContestOutput], error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	stream, err := c.cc.NewStream(ctx, &ContestService_ServiceDesc.Streams[0], ContestService_WatchContest_FullMethodName, cOpts...)
@@ -264,6 +277,8 @@ type ContestServiceServer interface {
 	FinalizeContest(context.Context, *FinalizeContestInput) (*FinalizeContestOutput, error)
 	// Re-start suspended or frozen contest
 	ResumeContest(context.Context, *ResumeContestInput) (*ResumeContestOutput, error)
+	// Analyze contest submissions for plagiarism, cheating and other violations.
+	AnalyzeContest(context.Context, *AnalyzeContestInput) (*AnalyzeContestOutput, error)
 	WatchContest(*WatchContestInput, grpc.ServerStreamingServer[WatchContestOutput]) error
 	ListActivities(context.Context, *ListActivitiesInput) (*ListActivitiesOutput, error)
 	DescribeContestUsage(context.Context, *DescribeContestUsageInput) (*DescribeContestUsageOutput, error)
@@ -311,6 +326,9 @@ func (UnimplementedContestServiceServer) FinalizeContest(context.Context, *Final
 }
 func (UnimplementedContestServiceServer) ResumeContest(context.Context, *ResumeContestInput) (*ResumeContestOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ResumeContest not implemented")
+}
+func (UnimplementedContestServiceServer) AnalyzeContest(context.Context, *AnalyzeContestInput) (*AnalyzeContestOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AnalyzeContest not implemented")
 }
 func (UnimplementedContestServiceServer) WatchContest(*WatchContestInput, grpc.ServerStreamingServer[WatchContestOutput]) error {
 	return status.Errorf(codes.Unimplemented, "method WatchContest not implemented")
@@ -557,6 +575,24 @@ func _ContestService_ResumeContest_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ContestService_AnalyzeContest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AnalyzeContestInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ContestServiceServer).AnalyzeContest(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ContestService_AnalyzeContest_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ContestServiceServer).AnalyzeContest(ctx, req.(*AnalyzeContestInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ContestService_WatchContest_Handler(srv interface{}, stream grpc.ServerStream) error {
 	m := new(WatchContestInput)
 	if err := stream.RecvMsg(m); err != nil {
@@ -658,6 +694,10 @@ var ContestService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ResumeContest",
 			Handler:    _ContestService_ResumeContest_Handler,
+		},
+		{
+			MethodName: "AnalyzeContest",
+			Handler:    _ContestService_AnalyzeContest_Handler,
 		},
 		{
 			MethodName: "ListActivities",

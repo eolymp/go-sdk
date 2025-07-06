@@ -1214,6 +1214,86 @@ func (*ResumeContestOutput) Descriptor() ([]byte, []int) {
 	return file_eolymp_judge_contest_service_proto_rawDescGZIP(), []int{24}
 }
 
+type AnalyzeContestInput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ContestId     string                 `protobuf:"bytes,1,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AnalyzeContestInput) Reset() {
+	*x = AnalyzeContestInput{}
+	mi := &file_eolymp_judge_contest_service_proto_msgTypes[25]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AnalyzeContestInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AnalyzeContestInput) ProtoMessage() {}
+
+func (x *AnalyzeContestInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_judge_contest_service_proto_msgTypes[25]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AnalyzeContestInput.ProtoReflect.Descriptor instead.
+func (*AnalyzeContestInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_judge_contest_service_proto_rawDescGZIP(), []int{25}
+}
+
+func (x *AnalyzeContestInput) GetContestId() string {
+	if x != nil {
+		return x.ContestId
+	}
+	return ""
+}
+
+type AnalyzeContestOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AnalyzeContestOutput) Reset() {
+	*x = AnalyzeContestOutput{}
+	mi := &file_eolymp_judge_contest_service_proto_msgTypes[26]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AnalyzeContestOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AnalyzeContestOutput) ProtoMessage() {}
+
+func (x *AnalyzeContestOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_judge_contest_service_proto_msgTypes[26]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AnalyzeContestOutput.ProtoReflect.Descriptor instead.
+func (*AnalyzeContestOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_judge_contest_service_proto_rawDescGZIP(), []int{26}
+}
+
 type WatchContestInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ContestId     string                 `protobuf:"bytes,1,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
@@ -1224,7 +1304,7 @@ type WatchContestInput struct {
 
 func (x *WatchContestInput) Reset() {
 	*x = WatchContestInput{}
-	mi := &file_eolymp_judge_contest_service_proto_msgTypes[25]
+	mi := &file_eolymp_judge_contest_service_proto_msgTypes[27]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1236,7 +1316,7 @@ func (x *WatchContestInput) String() string {
 func (*WatchContestInput) ProtoMessage() {}
 
 func (x *WatchContestInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_contest_service_proto_msgTypes[25]
+	mi := &file_eolymp_judge_contest_service_proto_msgTypes[27]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1249,7 +1329,7 @@ func (x *WatchContestInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WatchContestInput.ProtoReflect.Descriptor instead.
 func (*WatchContestInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_contest_service_proto_rawDescGZIP(), []int{25}
+	return file_eolymp_judge_contest_service_proto_rawDescGZIP(), []int{27}
 }
 
 func (x *WatchContestInput) GetContestId() string {
@@ -1275,7 +1355,7 @@ type WatchContestOutput struct {
 
 func (x *WatchContestOutput) Reset() {
 	*x = WatchContestOutput{}
-	mi := &file_eolymp_judge_contest_service_proto_msgTypes[26]
+	mi := &file_eolymp_judge_contest_service_proto_msgTypes[28]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1287,7 +1367,7 @@ func (x *WatchContestOutput) String() string {
 func (*WatchContestOutput) ProtoMessage() {}
 
 func (x *WatchContestOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_contest_service_proto_msgTypes[26]
+	mi := &file_eolymp_judge_contest_service_proto_msgTypes[28]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1300,7 +1380,7 @@ func (x *WatchContestOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WatchContestOutput.ProtoReflect.Descriptor instead.
 func (*WatchContestOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_contest_service_proto_rawDescGZIP(), []int{26}
+	return file_eolymp_judge_contest_service_proto_rawDescGZIP(), []int{28}
 }
 
 func (x *WatchContestOutput) GetContest() *Contest {
@@ -1321,7 +1401,7 @@ type ListActivitiesInput struct {
 
 func (x *ListActivitiesInput) Reset() {
 	*x = ListActivitiesInput{}
-	mi := &file_eolymp_judge_contest_service_proto_msgTypes[27]
+	mi := &file_eolymp_judge_contest_service_proto_msgTypes[29]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1333,7 +1413,7 @@ func (x *ListActivitiesInput) String() string {
 func (*ListActivitiesInput) ProtoMessage() {}
 
 func (x *ListActivitiesInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_contest_service_proto_msgTypes[27]
+	mi := &file_eolymp_judge_contest_service_proto_msgTypes[29]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1346,7 +1426,7 @@ func (x *ListActivitiesInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListActivitiesInput.ProtoReflect.Descriptor instead.
 func (*ListActivitiesInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_contest_service_proto_rawDescGZIP(), []int{27}
+	return file_eolymp_judge_contest_service_proto_rawDescGZIP(), []int{29}
 }
 
 func (x *ListActivitiesInput) GetContestId() string {
@@ -1380,7 +1460,7 @@ type ListActivitiesOutput struct {
 
 func (x *ListActivitiesOutput) Reset() {
 	*x = ListActivitiesOutput{}
-	mi := &file_eolymp_judge_contest_service_proto_msgTypes[28]
+	mi := &file_eolymp_judge_contest_service_proto_msgTypes[30]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1392,7 +1472,7 @@ func (x *ListActivitiesOutput) String() string {
 func (*ListActivitiesOutput) ProtoMessage() {}
 
 func (x *ListActivitiesOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_contest_service_proto_msgTypes[28]
+	mi := &file_eolymp_judge_contest_service_proto_msgTypes[30]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1405,7 +1485,7 @@ func (x *ListActivitiesOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListActivitiesOutput.ProtoReflect.Descriptor instead.
 func (*ListActivitiesOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_contest_service_proto_rawDescGZIP(), []int{28}
+	return file_eolymp_judge_contest_service_proto_rawDescGZIP(), []int{30}
 }
 
 func (x *ListActivitiesOutput) GetTotal() int32 {
@@ -1432,7 +1512,7 @@ type DescribeContestUsageInput struct {
 
 func (x *DescribeContestUsageInput) Reset() {
 	*x = DescribeContestUsageInput{}
-	mi := &file_eolymp_judge_contest_service_proto_msgTypes[29]
+	mi := &file_eolymp_judge_contest_service_proto_msgTypes[31]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1444,7 +1524,7 @@ func (x *DescribeContestUsageInput) String() string {
 func (*DescribeContestUsageInput) ProtoMessage() {}
 
 func (x *DescribeContestUsageInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_contest_service_proto_msgTypes[29]
+	mi := &file_eolymp_judge_contest_service_proto_msgTypes[31]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1457,7 +1537,7 @@ func (x *DescribeContestUsageInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribeContestUsageInput.ProtoReflect.Descriptor instead.
 func (*DescribeContestUsageInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_contest_service_proto_rawDescGZIP(), []int{29}
+	return file_eolymp_judge_contest_service_proto_rawDescGZIP(), []int{31}
 }
 
 func (x *DescribeContestUsageInput) GetPeriodStart() *timestamppb.Timestamp {
@@ -1485,7 +1565,7 @@ type DescribeContestUsageOutput struct {
 
 func (x *DescribeContestUsageOutput) Reset() {
 	*x = DescribeContestUsageOutput{}
-	mi := &file_eolymp_judge_contest_service_proto_msgTypes[30]
+	mi := &file_eolymp_judge_contest_service_proto_msgTypes[32]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1497,7 +1577,7 @@ func (x *DescribeContestUsageOutput) String() string {
 func (*DescribeContestUsageOutput) ProtoMessage() {}
 
 func (x *DescribeContestUsageOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_contest_service_proto_msgTypes[30]
+	mi := &file_eolymp_judge_contest_service_proto_msgTypes[32]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1510,7 +1590,7 @@ func (x *DescribeContestUsageOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribeContestUsageOutput.ProtoReflect.Descriptor instead.
 func (*DescribeContestUsageOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_contest_service_proto_rawDescGZIP(), []int{30}
+	return file_eolymp_judge_contest_service_proto_rawDescGZIP(), []int{32}
 }
 
 func (x *DescribeContestUsageOutput) GetTotalContests() uint32 {
@@ -1558,7 +1638,7 @@ type ListContestsInput_Filter struct {
 
 func (x *ListContestsInput_Filter) Reset() {
 	*x = ListContestsInput_Filter{}
-	mi := &file_eolymp_judge_contest_service_proto_msgTypes[31]
+	mi := &file_eolymp_judge_contest_service_proto_msgTypes[33]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1570,7 +1650,7 @@ func (x *ListContestsInput_Filter) String() string {
 func (*ListContestsInput_Filter) ProtoMessage() {}
 
 func (x *ListContestsInput_Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_contest_service_proto_msgTypes[31]
+	mi := &file_eolymp_judge_contest_service_proto_msgTypes[33]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1797,7 +1877,11 @@ const file_eolymp_judge_contest_service_proto_rawDesc = "" +
 	"\x12ResumeContestInput\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\"\x15\n" +
-	"\x13ResumeContestOutput\"l\n" +
+	"\x13ResumeContestOutput\"4\n" +
+	"\x13AnalyzeContestInput\x12\x1d\n" +
+	"\n" +
+	"contest_id\x18\x01 \x01(\tR\tcontestId\"\x16\n" +
+	"\x14AnalyzeContestOutput\"l\n" +
 	"\x11WatchContestInput\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\x128\n" +
@@ -1820,7 +1904,7 @@ const file_eolymp_judge_contest_service_proto_rawDesc = "" +
 	"\x1aDescribeContestUsageOutput\x12%\n" +
 	"\x0etotal_contests\x18\x01 \x01(\rR\rtotalContests\x12'\n" +
 	"\x0factive_contests\x18\x02 \x01(\rR\x0eactiveContests\x12)\n" +
-	"\x10monthly_contests\x18\x03 \x01(\rR\x0fmonthlyContests2\xaa\x12\n" +
+	"\x10monthly_contests\x18\x03 \x01(\rR\x0fmonthlyContests2\xd6\x13\n" +
 	"\x0eContestService\x12\x91\x01\n" +
 	"\rCreateContest\x12 .eolymp.judge.CreateContestInput\x1a!.eolymp.judge.CreateContestOutput\";\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -1891,7 +1975,13 @@ const file_eolymp_judge_contest_service_proto_rawDesc = "" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13judge:contest:write\x82\xd3\xe4\x93\x02\x1f\"\x1d/contests/{contest_id}/resume\x12o\n" +
+	"\x13judge:contest:write\x82\xd3\xe4\x93\x02\x1f\"\x1d/contests/{contest_id}/resume\x12\xa9\x01\n" +
+	"\x0eAnalyzeContest\x12!.eolymp.judge.AnalyzeContestInput\x1a\".eolymp.judge.AnalyzeContestOutput\"P\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\x80?\xf8\xe2\n" +
+	"\x05\x82\xe3\n" +
+	"\x17\x8a\xe3\n" +
+	"\x13judge:contest:write\x82\xd3\xe4\x93\x02 \"\x1e/contests/{contest_id}/analyze\x12o\n" +
 	"\fWatchContest\x12\x1f.eolymp.judge.WatchContestInput\x1a .eolymp.judge.WatchContestOutput\"\x1a\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12judge:contest:read0\x01\x12\xab\x01\n" +
@@ -1919,7 +2009,7 @@ func file_eolymp_judge_contest_service_proto_rawDescGZIP() []byte {
 }
 
 var file_eolymp_judge_contest_service_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_eolymp_judge_contest_service_proto_msgTypes = make([]protoimpl.MessageInfo, 32)
+var file_eolymp_judge_contest_service_proto_msgTypes = make([]protoimpl.MessageInfo, 34)
 var file_eolymp_judge_contest_service_proto_goTypes = []any{
 	(CopyContestInput_Scope)(0),           // 0: eolymp.judge.CopyContestInput.Scope
 	(*ContestChangedEvent)(nil),           // 1: eolymp.judge.ContestChangedEvent
@@ -1947,60 +2037,62 @@ var file_eolymp_judge_contest_service_proto_goTypes = []any{
 	(*FinalizeContestOutput)(nil),         // 23: eolymp.judge.FinalizeContestOutput
 	(*ResumeContestInput)(nil),            // 24: eolymp.judge.ResumeContestInput
 	(*ResumeContestOutput)(nil),           // 25: eolymp.judge.ResumeContestOutput
-	(*WatchContestInput)(nil),             // 26: eolymp.judge.WatchContestInput
-	(*WatchContestOutput)(nil),            // 27: eolymp.judge.WatchContestOutput
-	(*ListActivitiesInput)(nil),           // 28: eolymp.judge.ListActivitiesInput
-	(*ListActivitiesOutput)(nil),          // 29: eolymp.judge.ListActivitiesOutput
-	(*DescribeContestUsageInput)(nil),     // 30: eolymp.judge.DescribeContestUsageInput
-	(*DescribeContestUsageOutput)(nil),    // 31: eolymp.judge.DescribeContestUsageOutput
-	(*ListContestsInput_Filter)(nil),      // 32: eolymp.judge.ListContestsInput.Filter
-	(*Contest)(nil),                       // 33: eolymp.judge.Contest
-	(Contest_Patch_Field)(0),              // 34: eolymp.judge.Contest.Patch.Field
-	(Contest_Visibility)(0),               // 35: eolymp.judge.Contest.Visibility
-	(Contest_Extra_Field)(0),              // 36: eolymp.judge.Contest.Extra.Field
-	(*Activity)(nil),                      // 37: eolymp.judge.Activity
-	(*timestamppb.Timestamp)(nil),         // 38: google.protobuf.Timestamp
-	(*wellknown.ExpressionID)(nil),        // 39: eolymp.wellknown.ExpressionID
-	(*wellknown.ExpressionString)(nil),    // 40: eolymp.wellknown.ExpressionString
-	(*wellknown.ExpressionTimestamp)(nil), // 41: eolymp.wellknown.ExpressionTimestamp
-	(*wellknown.ExpressionBool)(nil),      // 42: eolymp.wellknown.ExpressionBool
-	(*wellknown.ExpressionEnum)(nil),      // 43: eolymp.wellknown.ExpressionEnum
-	(*wellknown.ExpressionInt)(nil),       // 44: eolymp.wellknown.ExpressionInt
+	(*AnalyzeContestInput)(nil),           // 26: eolymp.judge.AnalyzeContestInput
+	(*AnalyzeContestOutput)(nil),          // 27: eolymp.judge.AnalyzeContestOutput
+	(*WatchContestInput)(nil),             // 28: eolymp.judge.WatchContestInput
+	(*WatchContestOutput)(nil),            // 29: eolymp.judge.WatchContestOutput
+	(*ListActivitiesInput)(nil),           // 30: eolymp.judge.ListActivitiesInput
+	(*ListActivitiesOutput)(nil),          // 31: eolymp.judge.ListActivitiesOutput
+	(*DescribeContestUsageInput)(nil),     // 32: eolymp.judge.DescribeContestUsageInput
+	(*DescribeContestUsageOutput)(nil),    // 33: eolymp.judge.DescribeContestUsageOutput
+	(*ListContestsInput_Filter)(nil),      // 34: eolymp.judge.ListContestsInput.Filter
+	(*Contest)(nil),                       // 35: eolymp.judge.Contest
+	(Contest_Patch_Field)(0),              // 36: eolymp.judge.Contest.Patch.Field
+	(Contest_Visibility)(0),               // 37: eolymp.judge.Contest.Visibility
+	(Contest_Extra_Field)(0),              // 38: eolymp.judge.Contest.Extra.Field
+	(*Activity)(nil),                      // 39: eolymp.judge.Activity
+	(*timestamppb.Timestamp)(nil),         // 40: google.protobuf.Timestamp
+	(*wellknown.ExpressionID)(nil),        // 41: eolymp.wellknown.ExpressionID
+	(*wellknown.ExpressionString)(nil),    // 42: eolymp.wellknown.ExpressionString
+	(*wellknown.ExpressionTimestamp)(nil), // 43: eolymp.wellknown.ExpressionTimestamp
+	(*wellknown.ExpressionBool)(nil),      // 44: eolymp.wellknown.ExpressionBool
+	(*wellknown.ExpressionEnum)(nil),      // 45: eolymp.wellknown.ExpressionEnum
+	(*wellknown.ExpressionInt)(nil),       // 46: eolymp.wellknown.ExpressionInt
 }
 var file_eolymp_judge_contest_service_proto_depIdxs = []int32{
-	33, // 0: eolymp.judge.ContestChangedEvent.before:type_name -> eolymp.judge.Contest
-	33, // 1: eolymp.judge.ContestChangedEvent.after:type_name -> eolymp.judge.Contest
-	33, // 2: eolymp.judge.CreateContestInput.contest:type_name -> eolymp.judge.Contest
-	34, // 3: eolymp.judge.UpdateContestInput.patch:type_name -> eolymp.judge.Contest.Patch.Field
-	33, // 4: eolymp.judge.UpdateContestInput.contest:type_name -> eolymp.judge.Contest
+	35, // 0: eolymp.judge.ContestChangedEvent.before:type_name -> eolymp.judge.Contest
+	35, // 1: eolymp.judge.ContestChangedEvent.after:type_name -> eolymp.judge.Contest
+	35, // 2: eolymp.judge.CreateContestInput.contest:type_name -> eolymp.judge.Contest
+	36, // 3: eolymp.judge.UpdateContestInput.patch:type_name -> eolymp.judge.Contest.Patch.Field
+	35, // 4: eolymp.judge.UpdateContestInput.contest:type_name -> eolymp.judge.Contest
 	0,  // 5: eolymp.judge.CopyContestInput.copy_scope:type_name -> eolymp.judge.CopyContestInput.Scope
-	35, // 6: eolymp.judge.CopyContestInput.copy_visibility:type_name -> eolymp.judge.Contest.Visibility
-	36, // 7: eolymp.judge.DescribeContestInput.extra:type_name -> eolymp.judge.Contest.Extra.Field
-	33, // 8: eolymp.judge.DescribeContestOutput.contest:type_name -> eolymp.judge.Contest
-	32, // 9: eolymp.judge.ListContestsInput.filters:type_name -> eolymp.judge.ListContestsInput.Filter
-	36, // 10: eolymp.judge.ListContestsInput.extra:type_name -> eolymp.judge.Contest.Extra.Field
-	33, // 11: eolymp.judge.ListContestsOutput.items:type_name -> eolymp.judge.Contest
-	36, // 12: eolymp.judge.WatchContestInput.extra:type_name -> eolymp.judge.Contest.Extra.Field
-	33, // 13: eolymp.judge.WatchContestOutput.contest:type_name -> eolymp.judge.Contest
-	37, // 14: eolymp.judge.ListActivitiesOutput.items:type_name -> eolymp.judge.Activity
-	38, // 15: eolymp.judge.DescribeContestUsageInput.period_start:type_name -> google.protobuf.Timestamp
-	38, // 16: eolymp.judge.DescribeContestUsageInput.period_end:type_name -> google.protobuf.Timestamp
-	39, // 17: eolymp.judge.ListContestsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	40, // 18: eolymp.judge.ListContestsInput.Filter.name:type_name -> eolymp.wellknown.ExpressionString
-	41, // 19: eolymp.judge.ListContestsInput.Filter.starts_at:type_name -> eolymp.wellknown.ExpressionTimestamp
-	41, // 20: eolymp.judge.ListContestsInput.Filter.ends_at:type_name -> eolymp.wellknown.ExpressionTimestamp
-	42, // 21: eolymp.judge.ListContestsInput.Filter.public:type_name -> eolymp.wellknown.ExpressionBool
-	43, // 22: eolymp.judge.ListContestsInput.Filter.visibility:type_name -> eolymp.wellknown.ExpressionEnum
-	43, // 23: eolymp.judge.ListContestsInput.Filter.format:type_name -> eolymp.wellknown.ExpressionEnum
-	43, // 24: eolymp.judge.ListContestsInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
-	42, // 25: eolymp.judge.ListContestsInput.Filter.featured:type_name -> eolymp.wellknown.ExpressionBool
-	44, // 26: eolymp.judge.ListContestsInput.Filter.year:type_name -> eolymp.wellknown.ExpressionInt
-	43, // 27: eolymp.judge.ListContestsInput.Filter.scale:type_name -> eolymp.wellknown.ExpressionEnum
-	43, // 28: eolymp.judge.ListContestsInput.Filter.series:type_name -> eolymp.wellknown.ExpressionEnum
-	44, // 29: eolymp.judge.ListContestsInput.Filter.difficulty:type_name -> eolymp.wellknown.ExpressionInt
-	43, // 30: eolymp.judge.ListContestsInput.Filter.country:type_name -> eolymp.wellknown.ExpressionEnum
-	43, // 31: eolymp.judge.ListContestsInput.Filter.region:type_name -> eolymp.wellknown.ExpressionEnum
-	40, // 32: eolymp.judge.ListContestsInput.Filter.city:type_name -> eolymp.wellknown.ExpressionString
+	37, // 6: eolymp.judge.CopyContestInput.copy_visibility:type_name -> eolymp.judge.Contest.Visibility
+	38, // 7: eolymp.judge.DescribeContestInput.extra:type_name -> eolymp.judge.Contest.Extra.Field
+	35, // 8: eolymp.judge.DescribeContestOutput.contest:type_name -> eolymp.judge.Contest
+	34, // 9: eolymp.judge.ListContestsInput.filters:type_name -> eolymp.judge.ListContestsInput.Filter
+	38, // 10: eolymp.judge.ListContestsInput.extra:type_name -> eolymp.judge.Contest.Extra.Field
+	35, // 11: eolymp.judge.ListContestsOutput.items:type_name -> eolymp.judge.Contest
+	38, // 12: eolymp.judge.WatchContestInput.extra:type_name -> eolymp.judge.Contest.Extra.Field
+	35, // 13: eolymp.judge.WatchContestOutput.contest:type_name -> eolymp.judge.Contest
+	39, // 14: eolymp.judge.ListActivitiesOutput.items:type_name -> eolymp.judge.Activity
+	40, // 15: eolymp.judge.DescribeContestUsageInput.period_start:type_name -> google.protobuf.Timestamp
+	40, // 16: eolymp.judge.DescribeContestUsageInput.period_end:type_name -> google.protobuf.Timestamp
+	41, // 17: eolymp.judge.ListContestsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	42, // 18: eolymp.judge.ListContestsInput.Filter.name:type_name -> eolymp.wellknown.ExpressionString
+	43, // 19: eolymp.judge.ListContestsInput.Filter.starts_at:type_name -> eolymp.wellknown.ExpressionTimestamp
+	43, // 20: eolymp.judge.ListContestsInput.Filter.ends_at:type_name -> eolymp.wellknown.ExpressionTimestamp
+	44, // 21: eolymp.judge.ListContestsInput.Filter.public:type_name -> eolymp.wellknown.ExpressionBool
+	45, // 22: eolymp.judge.ListContestsInput.Filter.visibility:type_name -> eolymp.wellknown.ExpressionEnum
+	45, // 23: eolymp.judge.ListContestsInput.Filter.format:type_name -> eolymp.wellknown.ExpressionEnum
+	45, // 24: eolymp.judge.ListContestsInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
+	44, // 25: eolymp.judge.ListContestsInput.Filter.featured:type_name -> eolymp.wellknown.ExpressionBool
+	46, // 26: eolymp.judge.ListContestsInput.Filter.year:type_name -> eolymp.wellknown.ExpressionInt
+	45, // 27: eolymp.judge.ListContestsInput.Filter.scale:type_name -> eolymp.wellknown.ExpressionEnum
+	45, // 28: eolymp.judge.ListContestsInput.Filter.series:type_name -> eolymp.wellknown.ExpressionEnum
+	46, // 29: eolymp.judge.ListContestsInput.Filter.difficulty:type_name -> eolymp.wellknown.ExpressionInt
+	45, // 30: eolymp.judge.ListContestsInput.Filter.country:type_name -> eolymp.wellknown.ExpressionEnum
+	45, // 31: eolymp.judge.ListContestsInput.Filter.region:type_name -> eolymp.wellknown.ExpressionEnum
+	42, // 32: eolymp.judge.ListContestsInput.Filter.city:type_name -> eolymp.wellknown.ExpressionString
 	2,  // 33: eolymp.judge.ContestService.CreateContest:input_type -> eolymp.judge.CreateContestInput
 	4,  // 34: eolymp.judge.ContestService.DeleteContest:input_type -> eolymp.judge.DeleteContestInput
 	6,  // 35: eolymp.judge.ContestService.UpdateContest:input_type -> eolymp.judge.UpdateContestInput
@@ -2013,26 +2105,28 @@ var file_eolymp_judge_contest_service_proto_depIdxs = []int32{
 	20, // 42: eolymp.judge.ContestService.FreezeContest:input_type -> eolymp.judge.FreezeContestInput
 	22, // 43: eolymp.judge.ContestService.FinalizeContest:input_type -> eolymp.judge.FinalizeContestInput
 	24, // 44: eolymp.judge.ContestService.ResumeContest:input_type -> eolymp.judge.ResumeContestInput
-	26, // 45: eolymp.judge.ContestService.WatchContest:input_type -> eolymp.judge.WatchContestInput
-	28, // 46: eolymp.judge.ContestService.ListActivities:input_type -> eolymp.judge.ListActivitiesInput
-	30, // 47: eolymp.judge.ContestService.DescribeContestUsage:input_type -> eolymp.judge.DescribeContestUsageInput
-	3,  // 48: eolymp.judge.ContestService.CreateContest:output_type -> eolymp.judge.CreateContestOutput
-	5,  // 49: eolymp.judge.ContestService.DeleteContest:output_type -> eolymp.judge.DeleteContestOutput
-	7,  // 50: eolymp.judge.ContestService.UpdateContest:output_type -> eolymp.judge.UpdateContestOutput
-	9,  // 51: eolymp.judge.ContestService.CopyContest:output_type -> eolymp.judge.CopyContestOutput
-	11, // 52: eolymp.judge.ContestService.DescribeContest:output_type -> eolymp.judge.DescribeContestOutput
-	13, // 53: eolymp.judge.ContestService.ListContests:output_type -> eolymp.judge.ListContestsOutput
-	15, // 54: eolymp.judge.ContestService.OpenContest:output_type -> eolymp.judge.OpenContestOutput
-	17, // 55: eolymp.judge.ContestService.CloseContest:output_type -> eolymp.judge.CloseContestOutput
-	19, // 56: eolymp.judge.ContestService.SuspendContest:output_type -> eolymp.judge.SuspendContestOutput
-	21, // 57: eolymp.judge.ContestService.FreezeContest:output_type -> eolymp.judge.FreezeContestOutput
-	23, // 58: eolymp.judge.ContestService.FinalizeContest:output_type -> eolymp.judge.FinalizeContestOutput
-	25, // 59: eolymp.judge.ContestService.ResumeContest:output_type -> eolymp.judge.ResumeContestOutput
-	27, // 60: eolymp.judge.ContestService.WatchContest:output_type -> eolymp.judge.WatchContestOutput
-	29, // 61: eolymp.judge.ContestService.ListActivities:output_type -> eolymp.judge.ListActivitiesOutput
-	31, // 62: eolymp.judge.ContestService.DescribeContestUsage:output_type -> eolymp.judge.DescribeContestUsageOutput
-	48, // [48:63] is the sub-list for method output_type
-	33, // [33:48] is the sub-list for method input_type
+	26, // 45: eolymp.judge.ContestService.AnalyzeContest:input_type -> eolymp.judge.AnalyzeContestInput
+	28, // 46: eolymp.judge.ContestService.WatchContest:input_type -> eolymp.judge.WatchContestInput
+	30, // 47: eolymp.judge.ContestService.ListActivities:input_type -> eolymp.judge.ListActivitiesInput
+	32, // 48: eolymp.judge.ContestService.DescribeContestUsage:input_type -> eolymp.judge.DescribeContestUsageInput
+	3,  // 49: eolymp.judge.ContestService.CreateContest:output_type -> eolymp.judge.CreateContestOutput
+	5,  // 50: eolymp.judge.ContestService.DeleteContest:output_type -> eolymp.judge.DeleteContestOutput
+	7,  // 51: eolymp.judge.ContestService.UpdateContest:output_type -> eolymp.judge.UpdateContestOutput
+	9,  // 52: eolymp.judge.ContestService.CopyContest:output_type -> eolymp.judge.CopyContestOutput
+	11, // 53: eolymp.judge.ContestService.DescribeContest:output_type -> eolymp.judge.DescribeContestOutput
+	13, // 54: eolymp.judge.ContestService.ListContests:output_type -> eolymp.judge.ListContestsOutput
+	15, // 55: eolymp.judge.ContestService.OpenContest:output_type -> eolymp.judge.OpenContestOutput
+	17, // 56: eolymp.judge.ContestService.CloseContest:output_type -> eolymp.judge.CloseContestOutput
+	19, // 57: eolymp.judge.ContestService.SuspendContest:output_type -> eolymp.judge.SuspendContestOutput
+	21, // 58: eolymp.judge.ContestService.FreezeContest:output_type -> eolymp.judge.FreezeContestOutput
+	23, // 59: eolymp.judge.ContestService.FinalizeContest:output_type -> eolymp.judge.FinalizeContestOutput
+	25, // 60: eolymp.judge.ContestService.ResumeContest:output_type -> eolymp.judge.ResumeContestOutput
+	27, // 61: eolymp.judge.ContestService.AnalyzeContest:output_type -> eolymp.judge.AnalyzeContestOutput
+	29, // 62: eolymp.judge.ContestService.WatchContest:output_type -> eolymp.judge.WatchContestOutput
+	31, // 63: eolymp.judge.ContestService.ListActivities:output_type -> eolymp.judge.ListActivitiesOutput
+	33, // 64: eolymp.judge.ContestService.DescribeContestUsage:output_type -> eolymp.judge.DescribeContestUsageOutput
+	49, // [49:65] is the sub-list for method output_type
+	33, // [33:49] is the sub-list for method input_type
 	33, // [33:33] is the sub-list for extension type_name
 	33, // [33:33] is the sub-list for extension extendee
 	0,  // [0:33] is the sub-list for field type_name
@@ -2051,7 +2145,7 @@ func file_eolymp_judge_contest_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_judge_contest_service_proto_rawDesc), len(file_eolymp_judge_contest_service_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   32,
+			NumMessages:   34,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
