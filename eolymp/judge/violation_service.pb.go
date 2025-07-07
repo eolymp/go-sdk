@@ -616,38 +616,38 @@ const file_eolymp_judge_violation_service_proto_rawDesc = "" +
 	"\bgiven_by\x18\a \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\agivenBy\"[\n" +
 	"\x14ListViolationsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12-\n" +
-	"\x05items\x18\x02 \x03(\v2\x17.eolymp.judge.ViolationR\x05items2\xc7\x06\n" +
-	"\x10ViolationService\x12\x98\x01\n" +
-	"\x0fCreateViolation\x12\".eolymp.judge.CreateViolationInput\x1a#.eolymp.judge.CreateViolationOutput\"<\xea\xe2\n" +
+	"\x05items\x18\x02 \x03(\v2\x17.eolymp.judge.ViolationR\x05items2\xcc\x06\n" +
+	"\x10ViolationService\x12\x99\x01\n" +
+	"\x0fCreateViolation\x12\".eolymp.judge.CreateViolationInput\x1a#.eolymp.judge.CreateViolationOutput\"=\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
-	"\x16\x8a\xe3\n" +
-	"\x12judge:member:write\x82\xd3\xe4\x93\x02\r\"\v/violations\x12\xa7\x01\n" +
-	"\x0fUpdateViolation\x12\".eolymp.judge.UpdateViolationInput\x1a#.eolymp.judge.UpdateViolationOutput\"K\xea\xe2\n" +
+	"\x17\x8a\xe3\n" +
+	"\x13judge:contest:write\x82\xd3\xe4\x93\x02\r\"\v/violations\x12\xa8\x01\n" +
+	"\x0fUpdateViolation\x12\".eolymp.judge.UpdateViolationInput\x1a#.eolymp.judge.UpdateViolationOutput\"L\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
-	"\x16\x8a\xe3\n" +
-	"\x12judge:member:write\x82\xd3\xe4\x93\x02\x1c\"\x1a/violations/{violation_id}\x12\xa7\x01\n" +
-	"\x0fDeleteViolation\x12\".eolymp.judge.DeleteViolationInput\x1a#.eolymp.judge.DeleteViolationOutput\"K\xea\xe2\n" +
+	"\x17\x8a\xe3\n" +
+	"\x13judge:contest:write\x82\xd3\xe4\x93\x02\x1c\"\x1a/violations/{violation_id}\x12\xa8\x01\n" +
+	"\x0fDeleteViolation\x12\".eolymp.judge.DeleteViolationInput\x1a#.eolymp.judge.DeleteViolationOutput\"L\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
+	"\x17\x8a\xe3\n" +
+	"\x13judge:contest:write\x82\xd3\xe4\x93\x02\x1c*\x1a/violations/{violation_id}\x12\xad\x01\n" +
+	"\x11DescribeViolation\x12$.eolymp.judge.DescribeViolationInput\x1a%.eolymp.judge.DescribeViolationOutput\"K\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\xa0@\xf8\xe2\n" +
+	"\x14\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12judge:member:write\x82\xd3\xe4\x93\x02\x1c*\x1a/violations/{violation_id}\x12\xac\x01\n" +
-	"\x11DescribeViolation\x12$.eolymp.judge.DescribeViolationInput\x1a%.eolymp.judge.DescribeViolationOutput\"J\xea\xe2\n" +
+	"\x12judge:contest:read\x82\xd3\xe4\x93\x02\x1c\x12\x1a/violations/{violation_id}\x12\x95\x01\n" +
+	"\x0eListViolations\x12!.eolymp.judge.ListViolationsInput\x1a\".eolymp.judge.ListViolationsOutput\"<\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
-	"\x15\x8a\xe3\n" +
-	"\x11judge:member:read\x82\xd3\xe4\x93\x02\x1c\x12\x1a/violations/{violation_id}\x12\x94\x01\n" +
-	"\x0eListViolations\x12!.eolymp.judge.ListViolationsInput\x1a\".eolymp.judge.ListViolationsOutput\";\xea\xe2\n" +
-	"\v\xf5\xe2\n" +
-	"\x00\x00\xa0@\xf8\xe2\n" +
-	"\x14\x82\xe3\n" +
-	"\x15\x8a\xe3\n" +
-	"\x11judge:member:read\x82\xd3\xe4\x93\x02\r\x12\v/violationsB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
+	"\x16\x8a\xe3\n" +
+	"\x12judge:contest:read\x82\xd3\xe4\x93\x02\r\x12\v/violationsB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
 
 var (
 	file_eolymp_judge_violation_service_proto_rawDescOnce sync.Once
