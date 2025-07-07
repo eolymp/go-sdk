@@ -22,6 +22,110 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type Violation_Status int32
+
+const (
+	Violation_UNKNOWN_STATUS Violation_Status = 0
+	Violation_PENDING        Violation_Status = 1
+	Violation_CONFIRMED      Violation_Status = 2
+	Violation_CANCELLED      Violation_Status = 3
+)
+
+// Enum value maps for Violation_Status.
+var (
+	Violation_Status_name = map[int32]string{
+		0: "UNKNOWN_STATUS",
+		1: "PENDING",
+		2: "CONFIRMED",
+		3: "CANCELLED",
+	}
+	Violation_Status_value = map[string]int32{
+		"UNKNOWN_STATUS": 0,
+		"PENDING":        1,
+		"CONFIRMED":      2,
+		"CANCELLED":      3,
+	}
+)
+
+func (x Violation_Status) Enum() *Violation_Status {
+	p := new(Violation_Status)
+	*p = x
+	return p
+}
+
+func (x Violation_Status) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (Violation_Status) Descriptor() protoreflect.EnumDescriptor {
+	return file_eolymp_judge_violation_proto_enumTypes[0].Descriptor()
+}
+
+func (Violation_Status) Type() protoreflect.EnumType {
+	return &file_eolymp_judge_violation_proto_enumTypes[0]
+}
+
+func (x Violation_Status) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use Violation_Status.Descriptor instead.
+func (Violation_Status) EnumDescriptor() ([]byte, []int) {
+	return file_eolymp_judge_violation_proto_rawDescGZIP(), []int{0, 0}
+}
+
+type Violation_Type int32
+
+const (
+	Violation_UNKNOWN_TYPE Violation_Type = 0
+	Violation_OTHER        Violation_Type = 1
+	Violation_PLAGIARISM   Violation_Type = 2 // plagiarism violation, e.g. system detected code similarity between multiple participants
+	Violation_GEN_AI_USAGE Violation_Type = 3 // usage of generative AI tools, e.g. ChatGPT, Copilot, etc.
+)
+
+// Enum value maps for Violation_Type.
+var (
+	Violation_Type_name = map[int32]string{
+		0: "UNKNOWN_TYPE",
+		1: "OTHER",
+		2: "PLAGIARISM",
+		3: "GEN_AI_USAGE",
+	}
+	Violation_Type_value = map[string]int32{
+		"UNKNOWN_TYPE": 0,
+		"OTHER":        1,
+		"PLAGIARISM":   2,
+		"GEN_AI_USAGE": 3,
+	}
+)
+
+func (x Violation_Type) Enum() *Violation_Type {
+	p := new(Violation_Type)
+	*p = x
+	return p
+}
+
+func (x Violation_Type) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (Violation_Type) Descriptor() protoreflect.EnumDescriptor {
+	return file_eolymp_judge_violation_proto_enumTypes[1].Descriptor()
+}
+
+func (Violation_Type) Type() protoreflect.EnumType {
+	return &file_eolymp_judge_violation_proto_enumTypes[1]
+}
+
+func (x Violation_Type) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use Violation_Type.Descriptor instead.
+func (Violation_Type) EnumDescriptor() ([]byte, []int) {
+	return file_eolymp_judge_violation_proto_rawDescGZIP(), []int{0, 1}
+}
+
 type Violation_Patch_Field int32
 
 const (
@@ -58,11 +162,11 @@ func (x Violation_Patch_Field) String() string {
 }
 
 func (Violation_Patch_Field) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_judge_violation_proto_enumTypes[0].Descriptor()
+	return file_eolymp_judge_violation_proto_enumTypes[2].Descriptor()
 }
 
 func (Violation_Patch_Field) Type() protoreflect.EnumType {
-	return &file_eolymp_judge_violation_proto_enumTypes[0]
+	return &file_eolymp_judge_violation_proto_enumTypes[2]
 }
 
 func (x Violation_Patch_Field) Number() protoreflect.EnumNumber {
@@ -77,12 +181,15 @@ func (Violation_Patch_Field) EnumDescriptor() ([]byte, []int) {
 type Violation struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Cancelled     bool                   `protobuf:"varint,2,opt,name=cancelled,proto3" json:"cancelled,omitempty"`                             // whether the violation has been cancelled
+	Status        Violation_Status       `protobuf:"varint,7,opt,name=status,proto3,enum=eolymp.judge.Violation_Status" json:"status,omitempty"`
+	Type          Violation_Type         `protobuf:"varint,8,opt,name=type,proto3,enum=eolymp.judge.Violation_Type" json:"type,omitempty"`
 	Summary       string                 `protobuf:"bytes,3,opt,name=summary,proto3" json:"summary,omitempty"`                                  // short summary of the violation
-	Automatic     bool                   `protobuf:"varint,4,opt,name=automatic,proto3" json:"automatic,omitempty"`                             // whether the violation was given by an automatic process
 	ParticipantId string                 `protobuf:"bytes,5,opt,name=participant_id,json=participantId,proto3" json:"participant_id,omitempty"` // participant who received the violation
-	GivenBy       string                 `protobuf:"bytes,10,opt,name=given_by,json=givenBy,proto3" json:"given_by,omitempty"`                  // user ID of the person who created the violation
-	GivenAt       *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=given_at,json=givenAt,proto3" json:"given_at,omitempty"`
+	SubmissionId  string                 `protobuf:"bytes,6,opt,name=submission_id,json=submissionId,proto3" json:"submission_id,omitempty"`    // submission ID, if applicable
+	CreatedBy     string                 `protobuf:"bytes,10,opt,name=created_by,json=createdBy,proto3" json:"created_by,omitempty"`            // user ID of the person who created the violation
+	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	ConfirmedBy   string                 `protobuf:"bytes,12,opt,name=confirmed_by,json=confirmedBy,proto3" json:"confirmed_by,omitempty"` // user ID of the person who confirmed the violation
+	ConfirmedAt   *timestamppb.Timestamp `protobuf:"bytes,13,opt,name=confirmed_at,json=confirmedAt,proto3" json:"confirmed_at,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -124,11 +231,18 @@ func (x *Violation) GetId() string {
 	return ""
 }
 
-func (x *Violation) GetCancelled() bool {
+func (x *Violation) GetStatus() Violation_Status {
 	if x != nil {
-		return x.Cancelled
+		return x.Status
 	}
-	return false
+	return Violation_UNKNOWN_STATUS
+}
+
+func (x *Violation) GetType() Violation_Type {
+	if x != nil {
+		return x.Type
+	}
+	return Violation_UNKNOWN_TYPE
 }
 
 func (x *Violation) GetSummary() string {
@@ -138,13 +252,6 @@ func (x *Violation) GetSummary() string {
 	return ""
 }
 
-func (x *Violation) GetAutomatic() bool {
-	if x != nil {
-		return x.Automatic
-	}
-	return false
-}
-
 func (x *Violation) GetParticipantId() string {
 	if x != nil {
 		return x.ParticipantId
@@ -152,16 +259,37 @@ func (x *Violation) GetParticipantId() string {
 	return ""
 }
 
-func (x *Violation) GetGivenBy() string {
+func (x *Violation) GetSubmissionId() string {
 	if x != nil {
-		return x.GivenBy
+		return x.SubmissionId
 	}
 	return ""
 }
 
-func (x *Violation) GetGivenAt() *timestamppb.Timestamp {
+func (x *Violation) GetCreatedBy() string {
 	if x != nil {
-		return x.GivenAt
+		return x.CreatedBy
+	}
+	return ""
+}
+
+func (x *Violation) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
+func (x *Violation) GetConfirmedBy() string {
+	if x != nil {
+		return x.ConfirmedBy
+	}
+	return ""
+}
+
+func (x *Violation) GetConfirmedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.ConfirmedAt
 	}
 	return nil
 }
@@ -206,22 +334,38 @@ var File_eolymp_judge_violation_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_violation_proto_rawDesc = "" +
 	"\n" +
-	"\x1ceolymp/judge/violation.proto\x12\feolymp.judge\x1a\x1fgoogle/protobuf/timestamp.proto\"\xb8\x02\n" +
+	"\x1ceolymp/judge/violation.proto\x12\feolymp.judge\x1a\x1fgoogle/protobuf/timestamp.proto\"\x85\x05\n" +
 	"\tViolation\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1c\n" +
-	"\tcancelled\x18\x02 \x01(\bR\tcancelled\x12\x18\n" +
-	"\asummary\x18\x03 \x01(\tR\asummary\x12\x1c\n" +
-	"\tautomatic\x18\x04 \x01(\bR\tautomatic\x12%\n" +
-	"\x0eparticipant_id\x18\x05 \x01(\tR\rparticipantId\x12\x19\n" +
-	"\bgiven_by\x18\n" +
-	" \x01(\tR\agivenBy\x125\n" +
-	"\bgiven_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\agivenAt\x1aL\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x126\n" +
+	"\x06status\x18\a \x01(\x0e2\x1e.eolymp.judge.Violation.StatusR\x06status\x120\n" +
+	"\x04type\x18\b \x01(\x0e2\x1c.eolymp.judge.Violation.TypeR\x04type\x12\x18\n" +
+	"\asummary\x18\x03 \x01(\tR\asummary\x12%\n" +
+	"\x0eparticipant_id\x18\x05 \x01(\tR\rparticipantId\x12#\n" +
+	"\rsubmission_id\x18\x06 \x01(\tR\fsubmissionId\x12\x1d\n" +
+	"\n" +
+	"created_by\x18\n" +
+	" \x01(\tR\tcreatedBy\x129\n" +
+	"\n" +
+	"created_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x12!\n" +
+	"\fconfirmed_by\x18\f \x01(\tR\vconfirmedBy\x12=\n" +
+	"\fconfirmed_at\x18\r \x01(\v2\x1a.google.protobuf.TimestampR\vconfirmedAt\x1aL\n" +
 	"\x05Patch\"C\n" +
 	"\x05Field\x12\x0f\n" +
 	"\vUNSPECIFIED\x10\x00\x12\v\n" +
 	"\aSUMMARY\x10\x01\x12\r\n" +
 	"\tCANCELLED\x10\x02\x12\r\n" +
-	"\tAUTOMATIC\x10\x03B-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
+	"\tAUTOMATIC\x10\x03\"G\n" +
+	"\x06Status\x12\x12\n" +
+	"\x0eUNKNOWN_STATUS\x10\x00\x12\v\n" +
+	"\aPENDING\x10\x01\x12\r\n" +
+	"\tCONFIRMED\x10\x02\x12\r\n" +
+	"\tCANCELLED\x10\x03\"E\n" +
+	"\x04Type\x12\x10\n" +
+	"\fUNKNOWN_TYPE\x10\x00\x12\t\n" +
+	"\x05OTHER\x10\x01\x12\x0e\n" +
+	"\n" +
+	"PLAGIARISM\x10\x02\x12\x10\n" +
+	"\fGEN_AI_USAGE\x10\x03B-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
 
 var (
 	file_eolymp_judge_violation_proto_rawDescOnce sync.Once
@@ -235,21 +379,26 @@ func file_eolymp_judge_violation_proto_rawDescGZIP() []byte {
 	return file_eolymp_judge_violation_proto_rawDescData
 }
 
-var file_eolymp_judge_violation_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_eolymp_judge_violation_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
 var file_eolymp_judge_violation_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_eolymp_judge_violation_proto_goTypes = []any{
-	(Violation_Patch_Field)(0),    // 0: eolymp.judge.Violation.Patch.Field
-	(*Violation)(nil),             // 1: eolymp.judge.Violation
-	(*Violation_Patch)(nil),       // 2: eolymp.judge.Violation.Patch
-	(*timestamppb.Timestamp)(nil), // 3: google.protobuf.Timestamp
+	(Violation_Status)(0),         // 0: eolymp.judge.Violation.Status
+	(Violation_Type)(0),           // 1: eolymp.judge.Violation.Type
+	(Violation_Patch_Field)(0),    // 2: eolymp.judge.Violation.Patch.Field
+	(*Violation)(nil),             // 3: eolymp.judge.Violation
+	(*Violation_Patch)(nil),       // 4: eolymp.judge.Violation.Patch
+	(*timestamppb.Timestamp)(nil), // 5: google.protobuf.Timestamp
 }
 var file_eolymp_judge_violation_proto_depIdxs = []int32{
-	3, // 0: eolymp.judge.Violation.given_at:type_name -> google.protobuf.Timestamp
-	1, // [1:1] is the sub-list for method output_type
-	1, // [1:1] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	0, // 0: eolymp.judge.Violation.status:type_name -> eolymp.judge.Violation.Status
+	1, // 1: eolymp.judge.Violation.type:type_name -> eolymp.judge.Violation.Type
+	5, // 2: eolymp.judge.Violation.created_at:type_name -> google.protobuf.Timestamp
+	5, // 3: eolymp.judge.Violation.confirmed_at:type_name -> google.protobuf.Timestamp
+	4, // [4:4] is the sub-list for method output_type
+	4, // [4:4] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_judge_violation_proto_init() }
@@ -262,7 +411,7 @@ func file_eolymp_judge_violation_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_judge_violation_proto_rawDesc), len(file_eolymp_judge_violation_proto_rawDesc)),
-			NumEnums:      1,
+			NumEnums:      3,
 			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   0,
