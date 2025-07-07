@@ -222,3 +222,19 @@ func (s *SubmissionServiceService) RetestProblem(ctx context.Context, in *Retest
 
 	return out, nil
 }
+
+func (s *SubmissionServiceService) AnalyzeSubmission(ctx context.Context, in *AnalyzeSubmissionInput) (*AnalyzeSubmissionOutput, error) {
+	out := &AnalyzeSubmissionOutput{}
+	path := "/submissions/" + url.PathEscape(in.GetSubmissionId()) + "/analyze"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.SubmissionId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

@@ -149,6 +149,9 @@ func RegisterSubmissionServiceHttpHandlers(router *mux.Router, prefix string, cl
 	router.Handle(prefix+"/problems/{problem_id}/retest", _SubmissionService_RetestProblem_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.SubmissionService.RetestProblem")
+	router.Handle(prefix+"/submissions/{submission_id}/analyze", _SubmissionService_AnalyzeSubmission_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.judge.SubmissionService.AnalyzeSubmission")
 }
 
 // RegisterSubmissionServiceHttpProxy adds proxy handlers for for SubmissionServiceClient
@@ -344,6 +347,31 @@ func _SubmissionService_RetestProblem_Rule0(cli SubmissionServiceClient) http.Ha
 		var header, trailer metadata.MD
 
 		out, err := cli.RetestProblem(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_SubmissionService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_SubmissionService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _SubmissionService_AnalyzeSubmission_Rule0(cli SubmissionServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &AnalyzeSubmissionInput{}
+
+		if err := _SubmissionService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_SubmissionService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.SubmissionId = vars["submission_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.AnalyzeSubmission(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_SubmissionService_HTTPWriteErrorResponse(w, err)
 			return

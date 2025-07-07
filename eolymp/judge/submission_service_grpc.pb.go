@@ -28,6 +28,7 @@ const (
 	SubmissionService_DeleteSubmission_FullMethodName   = "/eolymp.judge.SubmissionService/DeleteSubmission"
 	SubmissionService_RestoreSubmission_FullMethodName  = "/eolymp.judge.SubmissionService/RestoreSubmission"
 	SubmissionService_RetestProblem_FullMethodName      = "/eolymp.judge.SubmissionService/RetestProblem"
+	SubmissionService_AnalyzeSubmission_FullMethodName  = "/eolymp.judge.SubmissionService/AnalyzeSubmission"
 )
 
 // SubmissionServiceClient is the client API for SubmissionService service.
@@ -46,6 +47,7 @@ type SubmissionServiceClient interface {
 	RestoreSubmission(ctx context.Context, in *RestoreSubmissionInput, opts ...grpc.CallOption) (*RestoreSubmissionOutput, error)
 	// RetestProblem resets existing submissions for the problem and triggers testing process again.
 	RetestProblem(ctx context.Context, in *RetestProblemInput, opts ...grpc.CallOption) (*RetestProblemOutput, error)
+	AnalyzeSubmission(ctx context.Context, in *AnalyzeSubmissionInput, opts ...grpc.CallOption) (*AnalyzeSubmissionOutput, error)
 }
 
 type submissionServiceClient struct {
@@ -155,6 +157,16 @@ func (c *submissionServiceClient) RetestProblem(ctx context.Context, in *RetestP
 	return out, nil
 }
 
+func (c *submissionServiceClient) AnalyzeSubmission(ctx context.Context, in *AnalyzeSubmissionInput, opts ...grpc.CallOption) (*AnalyzeSubmissionOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(AnalyzeSubmissionOutput)
+	err := c.cc.Invoke(ctx, SubmissionService_AnalyzeSubmission_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SubmissionServiceServer is the server API for SubmissionService service.
 // All implementations should embed UnimplementedSubmissionServiceServer
 // for forward compatibility.
@@ -171,6 +183,7 @@ type SubmissionServiceServer interface {
 	RestoreSubmission(context.Context, *RestoreSubmissionInput) (*RestoreSubmissionOutput, error)
 	// RetestProblem resets existing submissions for the problem and triggers testing process again.
 	RetestProblem(context.Context, *RetestProblemInput) (*RetestProblemOutput, error)
+	AnalyzeSubmission(context.Context, *AnalyzeSubmissionInput) (*AnalyzeSubmissionOutput, error)
 }
 
 // UnimplementedSubmissionServiceServer should be embedded to have
@@ -206,6 +219,9 @@ func (UnimplementedSubmissionServiceServer) RestoreSubmission(context.Context, *
 }
 func (UnimplementedSubmissionServiceServer) RetestProblem(context.Context, *RetestProblemInput) (*RetestProblemOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RetestProblem not implemented")
+}
+func (UnimplementedSubmissionServiceServer) AnalyzeSubmission(context.Context, *AnalyzeSubmissionInput) (*AnalyzeSubmissionOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AnalyzeSubmission not implemented")
 }
 func (UnimplementedSubmissionServiceServer) testEmbeddedByValue() {}
 
@@ -382,6 +398,24 @@ func _SubmissionService_RetestProblem_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SubmissionService_AnalyzeSubmission_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AnalyzeSubmissionInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SubmissionServiceServer).AnalyzeSubmission(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SubmissionService_AnalyzeSubmission_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SubmissionServiceServer).AnalyzeSubmission(ctx, req.(*AnalyzeSubmissionInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // SubmissionService_ServiceDesc is the grpc.ServiceDesc for SubmissionService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -420,6 +454,10 @@ var SubmissionService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RetestProblem",
 			Handler:    _SubmissionService_RetestProblem_Handler,
+		},
+		{
+			MethodName: "AnalyzeSubmission",
+			Handler:    _SubmissionService_AnalyzeSubmission_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{
