@@ -131,7 +131,7 @@ type Violation_Patch_Field int32
 const (
 	Violation_Patch_UNSPECIFIED Violation_Patch_Field = 0
 	Violation_Patch_SUMMARY     Violation_Patch_Field = 1
-	Violation_Patch_CANCELLED   Violation_Patch_Field = 2
+	Violation_Patch_STATUS      Violation_Patch_Field = 2
 	Violation_Patch_AUTOMATIC   Violation_Patch_Field = 3
 )
 
@@ -140,13 +140,13 @@ var (
 	Violation_Patch_Field_name = map[int32]string{
 		0: "UNSPECIFIED",
 		1: "SUMMARY",
-		2: "CANCELLED",
+		2: "STATUS",
 		3: "AUTOMATIC",
 	}
 	Violation_Patch_Field_value = map[string]int32{
 		"UNSPECIFIED": 0,
 		"SUMMARY":     1,
-		"CANCELLED":   2,
+		"STATUS":      2,
 		"AUTOMATIC":   3,
 	}
 )
@@ -184,6 +184,7 @@ type Violation struct {
 	Status        Violation_Status       `protobuf:"varint,7,opt,name=status,proto3,enum=eolymp.judge.Violation_Status" json:"status,omitempty"`
 	Type          Violation_Type         `protobuf:"varint,8,opt,name=type,proto3,enum=eolymp.judge.Violation_Type" json:"type,omitempty"`
 	Summary       string                 `protobuf:"bytes,3,opt,name=summary,proto3" json:"summary,omitempty"`                                  // short summary of the violation
+	Automatic     bool                   `protobuf:"varint,4,opt,name=automatic,proto3" json:"automatic,omitempty"`                             // whether the violation was automatically detected by the system
 	ParticipantId string                 `protobuf:"bytes,5,opt,name=participant_id,json=participantId,proto3" json:"participant_id,omitempty"` // participant who received the violation
 	SubmissionId  string                 `protobuf:"bytes,6,opt,name=submission_id,json=submissionId,proto3" json:"submission_id,omitempty"`    // submission ID, if applicable
 	CreatedBy     string                 `protobuf:"bytes,10,opt,name=created_by,json=createdBy,proto3" json:"created_by,omitempty"`            // user ID of the person who created the violation
@@ -250,6 +251,13 @@ func (x *Violation) GetSummary() string {
 		return x.Summary
 	}
 	return ""
+}
+
+func (x *Violation) GetAutomatic() bool {
+	if x != nil {
+		return x.Automatic
+	}
+	return false
 }
 
 func (x *Violation) GetParticipantId() string {
@@ -334,12 +342,13 @@ var File_eolymp_judge_violation_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_violation_proto_rawDesc = "" +
 	"\n" +
-	"\x1ceolymp/judge/violation.proto\x12\feolymp.judge\x1a\x1fgoogle/protobuf/timestamp.proto\"\x85\x05\n" +
+	"\x1ceolymp/judge/violation.proto\x12\feolymp.judge\x1a\x1fgoogle/protobuf/timestamp.proto\"\xa0\x05\n" +
 	"\tViolation\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x126\n" +
 	"\x06status\x18\a \x01(\x0e2\x1e.eolymp.judge.Violation.StatusR\x06status\x120\n" +
 	"\x04type\x18\b \x01(\x0e2\x1c.eolymp.judge.Violation.TypeR\x04type\x12\x18\n" +
-	"\asummary\x18\x03 \x01(\tR\asummary\x12%\n" +
+	"\asummary\x18\x03 \x01(\tR\asummary\x12\x1c\n" +
+	"\tautomatic\x18\x04 \x01(\bR\tautomatic\x12%\n" +
 	"\x0eparticipant_id\x18\x05 \x01(\tR\rparticipantId\x12#\n" +
 	"\rsubmission_id\x18\x06 \x01(\tR\fsubmissionId\x12\x1d\n" +
 	"\n" +
@@ -348,12 +357,13 @@ const file_eolymp_judge_violation_proto_rawDesc = "" +
 	"\n" +
 	"created_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x12!\n" +
 	"\fconfirmed_by\x18\f \x01(\tR\vconfirmedBy\x12=\n" +
-	"\fconfirmed_at\x18\r \x01(\v2\x1a.google.protobuf.TimestampR\vconfirmedAt\x1aL\n" +
-	"\x05Patch\"C\n" +
+	"\fconfirmed_at\x18\r \x01(\v2\x1a.google.protobuf.TimestampR\vconfirmedAt\x1aI\n" +
+	"\x05Patch\"@\n" +
 	"\x05Field\x12\x0f\n" +
 	"\vUNSPECIFIED\x10\x00\x12\v\n" +
-	"\aSUMMARY\x10\x01\x12\r\n" +
-	"\tCANCELLED\x10\x02\x12\r\n" +
+	"\aSUMMARY\x10\x01\x12\n" +
+	"\n" +
+	"\x06STATUS\x10\x02\x12\r\n" +
 	"\tAUTOMATIC\x10\x03\"G\n" +
 	"\x06Status\x12\x12\n" +
 	"\x0eUNKNOWN_STATUS\x10\x00\x12\v\n" +
