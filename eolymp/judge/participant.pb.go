@@ -223,6 +223,7 @@ type Participant struct {
 	EndAt          *timestamppb.Timestamp `protobuf:"bytes,25,opt,name=end_at,json=endAt,proto3" json:"end_at,omitempty"`                             // Time when user has finished (will finish) participating (incl. bonus time)
 	BonusTime      uint32                 `protobuf:"varint,27,opt,name=bonus_time,json=bonusTime,proto3" json:"bonus_time,omitempty"`                // Additional time in seconds for participation
 	ViolationCount uint32                 `protobuf:"varint,28,opt,name=violation_count,json=violationCount,proto3" json:"violation_count,omitempty"` // Number of non-cancelled violations participant has received
+	// deprecated: use admission API instead
 	// Passcode is a code participant has to enter before she can begin contest.
 	// This field is only populated when request is made by contest owner.
 	// Passcode is read-only and should be set using ResetPasscode method.
