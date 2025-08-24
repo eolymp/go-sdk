@@ -128,15 +128,15 @@ func RegisterCreditServiceHttpHandlers(router *mux.Router, prefix string, cli Cr
 	router.Handle(prefix+"/balance", _CreditService_DescribeBalance_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.community.CreditService.DescribeBalance")
+	router.Handle(prefix+"/credits", _CreditService_ListCredits_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.community.CreditService.ListCredits")
 	router.Handle(prefix+"/credits", _CreditService_RecordCredit_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.community.CreditService.RecordCredit")
 	router.Handle(prefix+"/credits/{credit_id}", _CreditService_DeleteCredit_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.community.CreditService.DeleteCredit")
-	router.Handle(prefix+"/credits", _CreditService_ListCredits_Rule0(cli)).
-		Methods("GET").
-		Name("eolymp.community.CreditService.ListCredits")
 }
 
 // RegisterCreditServiceHttpProxy adds proxy handlers for for CreditServiceClient
@@ -157,6 +157,28 @@ func _CreditService_DescribeBalance_Rule0(cli CreditServiceClient) http.Handler 
 		var header, trailer metadata.MD
 
 		out, err := cli.DescribeBalance(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_CreditService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_CreditService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _CreditService_ListCredits_Rule0(cli CreditServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListCreditsInput{}
+
+		if err := _CreditService_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_CreditService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.ListCredits(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_CreditService_HTTPWriteErrorResponse(w, err)
 			return
@@ -204,28 +226,6 @@ func _CreditService_DeleteCredit_Rule0(cli CreditServiceClient) http.Handler {
 		var header, trailer metadata.MD
 
 		out, err := cli.DeleteCredit(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
-		if err != nil {
-			_CreditService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_CreditService_HTTPWriteResponse(w, out, header, trailer)
-	})
-}
-
-func _CreditService_ListCredits_Rule0(cli CreditServiceClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ListCreditsInput{}
-
-		if err := _CreditService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_CreditService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		var header, trailer metadata.MD
-
-		out, err := cli.ListCredits(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_CreditService_HTTPWriteErrorResponse(w, err)
 			return

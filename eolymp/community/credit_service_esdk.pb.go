@@ -111,6 +111,17 @@ func (s *CreditServiceService) DescribeBalance(ctx context.Context, in *Describe
 	return out, nil
 }
 
+func (s *CreditServiceService) ListCredits(ctx context.Context, in *ListCreditsInput) (*ListCreditsOutput, error) {
+	out := &ListCreditsOutput{}
+	path := "/credits"
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *CreditServiceService) RecordCredit(ctx context.Context, in *RecordCreditInput) (*RecordCreditOutput, error) {
 	out := &RecordCreditOutput{}
 	path := "/credits"
@@ -132,17 +143,6 @@ func (s *CreditServiceService) DeleteCredit(ctx context.Context, in *DeleteCredi
 	}
 
 	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *CreditServiceService) ListCredits(ctx context.Context, in *ListCreditsInput) (*ListCreditsOutput, error) {
-	out := &ListCreditsOutput{}
-	path := "/credits"
-
-	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
