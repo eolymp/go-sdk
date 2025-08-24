@@ -39,6 +39,7 @@ type Quota struct {
 	SubmissionEvaluationLimit uint32 `protobuf:"varint,27,opt,name=submission_evaluation_limit,json=submissionEvaluationLimit,proto3" json:"submission_evaluation_limit,omitempty"`     // maximum amount of time a submission can be evaluated
 	// member quota and features
 	MembersPerSpace uint32 `protobuf:"varint,2,opt,name=members_per_space,json=membersPerSpace,proto3" json:"members_per_space,omitempty"` // total number of members
+	MemberCredits   bool   `protobuf:"varint,28,opt,name=member_credits,json=memberCredits,proto3" json:"member_credits,omitempty"`        // allow members to have credits
 	// newsletter quota
 	CampaignsPerSpace uint32 `protobuf:"varint,200,opt,name=campaigns_per_space,json=campaignsPerSpace,proto3" json:"campaigns_per_space,omitempty"`
 	EmailsPerDay      uint32 `protobuf:"varint,201,opt,name=emails_per_day,json=emailsPerDay,proto3" json:"emails_per_day,omitempty"`
@@ -192,6 +193,13 @@ func (x *Quota) GetMembersPerSpace() uint32 {
 		return x.MembersPerSpace
 	}
 	return 0
+}
+
+func (x *Quota) GetMemberCredits() bool {
+	if x != nil {
+		return x.MemberCredits
+	}
+	return false
 }
 
 func (x *Quota) GetCampaignsPerSpace() uint32 {
@@ -373,7 +381,7 @@ var File_eolymp_universe_quota_proto protoreflect.FileDescriptor
 
 const file_eolymp_universe_quota_proto_rawDesc = "" +
 	"\n" +
-	"\x1beolymp/universe/quota.proto\x12\x0feolymp.universe\"\x97\x0f\n" +
+	"\x1beolymp/universe/quota.proto\x12\x0feolymp.universe\"\xbe\x0f\n" +
 	"\x05Quota\x122\n" +
 	"\x15permissions_per_space\x18\x06 \x01(\rR\x13permissionsPerSpace\x12$\n" +
 	"\x0esingle_sing_on\x18\x16 \x01(\bR\fsingleSingOn\x126\n" +
@@ -387,7 +395,8 @@ const file_eolymp_universe_quota_proto_rawDesc = "" +
 	"\x19priority_evaluation_queue\x18\x19 \x01(\bR\x17priorityEvaluationQueue\x12/\n" +
 	"\x13plagiarism_analysis\x18\x12 \x01(\bR\x12plagiarismAnalysis\x12>\n" +
 	"\x1bsubmission_evaluation_limit\x18\x1b \x01(\rR\x19submissionEvaluationLimit\x12*\n" +
-	"\x11members_per_space\x18\x02 \x01(\rR\x0fmembersPerSpace\x12/\n" +
+	"\x11members_per_space\x18\x02 \x01(\rR\x0fmembersPerSpace\x12%\n" +
+	"\x0emember_credits\x18\x1c \x01(\bR\rmemberCredits\x12/\n" +
 	"\x13campaigns_per_space\x18\xc8\x01 \x01(\rR\x11campaignsPerSpace\x12%\n" +
 	"\x0eemails_per_day\x18\xc9\x01 \x01(\rR\femailsPerDay\x12)\n" +
 	"\x10emails_per_month\x18\xca\x01 \x01(\rR\x0eemailsPerMonth\x122\n" +
