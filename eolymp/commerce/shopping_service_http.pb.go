@@ -140,7 +140,7 @@ func RegisterShoppingServiceHttpHandlers(router *mux.Router, prefix string, cli 
 	router.Handle(prefix+"/store/cart/shipping-address", _ShoppingService_UpdateShippingAddress_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.commerce.ShoppingService.UpdateShippingAddress")
-	router.Handle(prefix+"/store/cart/shipping-address", _ShoppingService_UpdateBillingAddress_Rule0(cli)).
+	router.Handle(prefix+"/store/cart/billing-address", _ShoppingService_UpdateBillingAddress_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.commerce.ShoppingService.UpdateBillingAddress")
 	router.Handle(prefix+"/store/cart:order", _ShoppingService_PlaceOrder_Rule0(cli)).

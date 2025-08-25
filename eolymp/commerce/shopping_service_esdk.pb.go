@@ -167,7 +167,7 @@ func (s *ShoppingServiceService) UpdateShippingAddress(ctx context.Context, in *
 
 func (s *ShoppingServiceService) UpdateBillingAddress(ctx context.Context, in *UpdateBillingAddressInput) (*UpdateBillingAddressOutput, error) {
 	out := &UpdateBillingAddressOutput{}
-	path := "/store/cart/shipping-address"
+	path := "/store/cart/billing-address"
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err

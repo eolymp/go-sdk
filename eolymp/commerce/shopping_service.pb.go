@@ -663,7 +663,7 @@ const file_eolymp_commerce_shopping_service_proto_rawDesc = "" +
 	"\x0fPlaceOrderInput\"P\n" +
 	"\x10PlaceOrderOutput\x12\x19\n" +
 	"\border_id\x18\x01 \x01(\tR\aorderId\x12!\n" +
-	"\forder_number\x18\x02 \x01(\tR\vorderNumber2\xc8\n" +
+	"\forder_number\x18\x02 \x01(\tR\vorderNumber2\xc7\n" +
 	"\n" +
 	"\x0fShoppingService\x12\xb1\x01\n" +
 	"\x14DescribeShoppingCart\x12*.eolymp.commerce.DescribeShoppingCartInput\x1a+.eolymp.commerce.DescribeShoppingCartOutput\"@\xea\xe2\n" +
@@ -699,14 +699,14 @@ const file_eolymp_commerce_shopping_service_proto_rawDesc = "" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x1b\x8a\xe3\n" +
-	"\x17commerce:shopping:write\x82\xd3\xe4\x93\x02\x1e\"\x1c/store/cart/shipping-address\x12\xc3\x01\n" +
-	"\x14UpdateBillingAddress\x12*.eolymp.commerce.UpdateBillingAddressInput\x1a+.eolymp.commerce.UpdateBillingAddressOutput\"R\xea\xe2\n" +
+	"\x17commerce:shopping:write\x82\xd3\xe4\x93\x02\x1e\"\x1c/store/cart/shipping-address\x12\xc2\x01\n" +
+	"\x14UpdateBillingAddress\x12*.eolymp.commerce.UpdateBillingAddressInput\x1a+.eolymp.commerce.UpdateBillingAddressOutput\"Q\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x1b\x8a\xe3\n" +
-	"\x17commerce:shopping:write\x82\xd3\xe4\x93\x02\x1e\"\x1c/store/cart/shipping-address\x12\x9a\x01\n" +
+	"\x17commerce:shopping:write\x82\xd3\xe4\x93\x02\x1d\"\x1b/store/cart/billing-address\x12\x9a\x01\n" +
 	"\n" +
 	"PlaceOrder\x12 .eolymp.commerce.PlaceOrderInput\x1a!.eolymp.commerce.PlaceOrderOutput\"G\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
