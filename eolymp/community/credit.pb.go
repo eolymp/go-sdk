@@ -23,15 +23,17 @@ const (
 )
 
 type Credit struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`               // unique credit ID (assigned by the system)
-	Reference     string                 `protobuf:"bytes,2,opt,name=reference,proto3" json:"reference,omitempty"` // a unique credit reference, ensures the same credit is not granted twice
-	Note          string                 `protobuf:"bytes,3,opt,name=note,proto3" json:"note,omitempty"`           // a note for the credit, describes why the credit was granted
-	Amount        uint32                 `protobuf:"varint,4,opt,name=amount,proto3" json:"amount,omitempty"`      // amount of credit
-	GrantedAt     *timestamppb.Timestamp `protobuf:"bytes,10,opt,name=granted_at,json=grantedAt,proto3" json:"granted_at,omitempty"`
-	ExpiresAt     *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=expires_at,json=expiresAt,proto3" json:"expires_at,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Id             string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`                                                // unique credit ID (assigned by the system)
+	Reference      string                 `protobuf:"bytes,2,opt,name=reference,proto3" json:"reference,omitempty"`                                  // a unique credit reference, ensures the same credit is not granted twice
+	Note           string                 `protobuf:"bytes,3,opt,name=note,proto3" json:"note,omitempty"`                                            // a note for the credit, describes why the credit was granted
+	Active         bool                   `protobuf:"varint,20,opt,name=active,proto3" json:"active,omitempty"`                                      // whether the credit is active (not redeemed or expired)
+	TotalAmount    uint32                 `protobuf:"varint,4,opt,name=total_amount,json=totalAmount,proto3" json:"total_amount,omitempty"`          // amount of credits granted
+	RedeemedAmount uint32                 `protobuf:"varint,5,opt,name=redeemed_amount,json=redeemedAmount,proto3" json:"redeemed_amount,omitempty"` // amount of credit already redeemed
+	GrantedAt      *timestamppb.Timestamp `protobuf:"bytes,10,opt,name=granted_at,json=grantedAt,proto3" json:"granted_at,omitempty"`
+	ExpiresAt      *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=expires_at,json=expiresAt,proto3" json:"expires_at,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *Credit) Reset() {
@@ -85,9 +87,23 @@ func (x *Credit) GetNote() string {
 	return ""
 }
 
-func (x *Credit) GetAmount() uint32 {
+func (x *Credit) GetActive() bool {
 	if x != nil {
-		return x.Amount
+		return x.Active
+	}
+	return false
+}
+
+func (x *Credit) GetTotalAmount() uint32 {
+	if x != nil {
+		return x.TotalAmount
+	}
+	return 0
+}
+
+func (x *Credit) GetRedeemedAmount() uint32 {
+	if x != nil {
+		return x.RedeemedAmount
 	}
 	return 0
 }
@@ -110,12 +126,14 @@ var File_eolymp_community_credit_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_credit_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/community/credit.proto\x12\x10eolymp.community\x1a\x1fgoogle/protobuf/timestamp.proto\"\xd8\x01\n" +
+	"\x1deolymp/community/credit.proto\x12\x10eolymp.community\x1a\x1fgoogle/protobuf/timestamp.proto\"\xa4\x02\n" +
 	"\x06Credit\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1c\n" +
 	"\treference\x18\x02 \x01(\tR\treference\x12\x12\n" +
 	"\x04note\x18\x03 \x01(\tR\x04note\x12\x16\n" +
-	"\x06amount\x18\x04 \x01(\rR\x06amount\x129\n" +
+	"\x06active\x18\x14 \x01(\bR\x06active\x12!\n" +
+	"\ftotal_amount\x18\x04 \x01(\rR\vtotalAmount\x12'\n" +
+	"\x0fredeemed_amount\x18\x05 \x01(\rR\x0eredeemedAmount\x129\n" +
 	"\n" +
 	"granted_at\x18\n" +
 	" \x01(\v2\x1a.google.protobuf.TimestampR\tgrantedAt\x129\n" +

@@ -100,30 +100,8 @@ func (s *CreditServiceService) do(ctx context.Context, verb, path string, in, ou
 	return nil
 }
 
-func (s *CreditServiceService) DescribeBalance(ctx context.Context, in *DescribeBalanceInput) (*DescribeBalanceOutput, error) {
-	out := &DescribeBalanceOutput{}
-	path := "/balance"
-
-	if err := s.do(ctx, "GET", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *CreditServiceService) ListCredits(ctx context.Context, in *ListCreditsInput) (*ListCreditsOutput, error) {
-	out := &ListCreditsOutput{}
-	path := "/credits"
-
-	if err := s.do(ctx, "GET", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *CreditServiceService) RecordCredit(ctx context.Context, in *RecordCreditInput) (*RecordCreditOutput, error) {
-	out := &RecordCreditOutput{}
+func (s *CreditServiceService) CreateCredit(ctx context.Context, in *CreateCreditInput) (*CreateCreditOutput, error) {
+	out := &CreateCreditOutput{}
 	path := "/credits"
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
@@ -143,6 +121,39 @@ func (s *CreditServiceService) DeleteCredit(ctx context.Context, in *DeleteCredi
 	}
 
 	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *CreditServiceService) ListCredits(ctx context.Context, in *ListCreditsInput) (*ListCreditsOutput, error) {
+	out := &ListCreditsOutput{}
+	path := "/credits"
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *CreditServiceService) RedeemCredit(ctx context.Context, in *RedeemCreditInput) (*RedeemCreditOutput, error) {
+	out := &RedeemCreditOutput{}
+	path := "/credits:redeem"
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *CreditServiceService) DescribeBalance(ctx context.Context, in *DescribeCreditBalanceInput) (*DescribeCreditBalanceOutput, error) {
+	out := &DescribeCreditBalanceOutput{}
+	path := "/credits:balance"
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
