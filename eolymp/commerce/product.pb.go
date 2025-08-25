@@ -79,8 +79,8 @@ type Product struct {
 	Images            []string               `protobuf:"bytes,10,rep,name=images,proto3" json:"images,omitempty"`
 	OutOfStock        bool                   `protobuf:"varint,30,opt,name=out_of_stock,json=outOfStock,proto3" json:"out_of_stock,omitempty"`
 	Currency          string                 `protobuf:"bytes,20,opt,name=currency,proto3" json:"currency,omitempty"`
-	UnitPrice         string                 `protobuf:"bytes,21,opt,name=unit_price,json=unitPrice,proto3" json:"unit_price,omitempty"`
-	CreditEquivalence string                 `protobuf:"bytes,22,opt,name=credit_equivalence,json=creditEquivalence,proto3" json:"credit_equivalence,omitempty"`
+	UnitPrice         uint32                 `protobuf:"varint,21,opt,name=unit_price,json=unitPrice,proto3" json:"unit_price,omitempty"`
+	CreditEquivalence uint32                 `protobuf:"varint,22,opt,name=credit_equivalence,json=creditEquivalence,proto3" json:"credit_equivalence,omitempty"`
 	Attributes        []*Product_Attribute   `protobuf:"bytes,40,rep,name=attributes,proto3" json:"attributes,omitempty"`
 	Variants          []*Product_Variant     `protobuf:"bytes,50,rep,name=variants,proto3" json:"variants,omitempty"`
 	unknownFields     protoimpl.UnknownFields
@@ -159,18 +159,18 @@ func (x *Product) GetCurrency() string {
 	return ""
 }
 
-func (x *Product) GetUnitPrice() string {
+func (x *Product) GetUnitPrice() uint32 {
 	if x != nil {
 		return x.UnitPrice
 	}
-	return ""
+	return 0
 }
 
-func (x *Product) GetCreditEquivalence() string {
+func (x *Product) GetCreditEquivalence() uint32 {
 	if x != nil {
 		return x.CreditEquivalence
 	}
-	return ""
+	return 0
 }
 
 func (x *Product) GetAttributes() []*Product_Attribute {
@@ -360,8 +360,8 @@ const file_eolymp_commerce_product_proto_rawDesc = "" +
 	"outOfStock\x12\x1a\n" +
 	"\bcurrency\x18\x14 \x01(\tR\bcurrency\x12\x1d\n" +
 	"\n" +
-	"unit_price\x18\x15 \x01(\tR\tunitPrice\x12-\n" +
-	"\x12credit_equivalence\x18\x16 \x01(\tR\x11creditEquivalence\x12B\n" +
+	"unit_price\x18\x15 \x01(\rR\tunitPrice\x12-\n" +
+	"\x12credit_equivalence\x18\x16 \x01(\rR\x11creditEquivalence\x12B\n" +
 	"\n" +
 	"attributes\x18( \x03(\v2\".eolymp.commerce.Product.AttributeR\n" +
 	"attributes\x12<\n" +
