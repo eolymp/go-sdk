@@ -181,7 +181,7 @@ type ListProductsInput struct {
 	Sort          ListProductsInput_Sortable `protobuf:"varint,50,opt,name=sort,proto3,enum=eolymp.commerce.ListProductsInput_Sortable" json:"sort,omitempty"`
 	Order         wellknown.Direction        `protobuf:"varint,51,opt,name=order,proto3,enum=eolymp.wellknown.Direction" json:"order,omitempty"`
 	Locale        string                     `protobuf:"bytes,1122,opt,name=locale,proto3" json:"locale,omitempty"` // load title and content in a specific locale
-	Extra         []*Product_Extra           `protobuf:"bytes,1123,rep,name=extra,proto3" json:"extra,omitempty"`
+	Extra         []Product_Extra_Field      `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.commerce.Product_Extra_Field" json:"extra,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -265,7 +265,7 @@ func (x *ListProductsInput) GetLocale() string {
 	return ""
 }
 
-func (x *ListProductsInput) GetExtra() []*Product_Extra {
+func (x *ListProductsInput) GetExtra() []Product_Extra_Field {
 	if x != nil {
 		return x.Extra
 	}
@@ -403,7 +403,7 @@ const file_eolymp_commerce_product_service_proto_rawDesc = "" +
 	"\x06locale\x18\xe2\b \x01(\tR\x06locale\x12;\n" +
 	"\x05extra\x18\xe3\b \x03(\x0e2$.eolymp.commerce.Product.Extra.FieldR\x05extra\"K\n" +
 	"\x15DescribeProductOutput\x122\n" +
-	"\aproduct\x18\x01 \x01(\v2\x18.eolymp.commerce.ProductR\aproduct\"\xe7\x04\n" +
+	"\aproduct\x18\x01 \x01(\v2\x18.eolymp.commerce.ProductR\aproduct\"\xed\x04\n" +
 	"\x11ListProductsInput\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
@@ -412,8 +412,8 @@ const file_eolymp_commerce_product_service_proto_rawDesc = "" +
 	"\afilters\x18( \x01(\v2).eolymp.commerce.ListProductsInput.FilterR\afilters\x12?\n" +
 	"\x04sort\x182 \x01(\x0e2+.eolymp.commerce.ListProductsInput.SortableR\x04sort\x121\n" +
 	"\x05order\x183 \x01(\x0e2\x1b.eolymp.wellknown.DirectionR\x05order\x12\x17\n" +
-	"\x06locale\x18\xe2\b \x01(\tR\x06locale\x125\n" +
-	"\x05extra\x18\xe3\b \x03(\v2\x1e.eolymp.commerce.Product.ExtraR\x05extra\x1a\xeb\x01\n" +
+	"\x06locale\x18\xe2\b \x01(\tR\x06locale\x12;\n" +
+	"\x05extra\x18\xe3\b \x03(\x0e2$.eolymp.commerce.Product.Extra.FieldR\x05extra\x1a\xeb\x01\n" +
 	"\x06Filter\x12.\n" +
 	"\x02id\x18\x01 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\x126\n" +
 	"\x04name\x18\x02 \x03(\v2\".eolymp.wellknown.ExpressionStringR\x04name\x12B\n" +
@@ -463,11 +463,10 @@ var file_eolymp_commerce_product_service_proto_goTypes = []any{
 	(Product_Extra_Field)(0),           // 6: eolymp.commerce.Product.Extra.Field
 	(*Product)(nil),                    // 7: eolymp.commerce.Product
 	(wellknown.Direction)(0),           // 8: eolymp.wellknown.Direction
-	(*Product_Extra)(nil),              // 9: eolymp.commerce.Product.Extra
-	(*wellknown.ExpressionID)(nil),     // 10: eolymp.wellknown.ExpressionID
-	(*wellknown.ExpressionString)(nil), // 11: eolymp.wellknown.ExpressionString
-	(*wellknown.ExpressionBool)(nil),   // 12: eolymp.wellknown.ExpressionBool
-	(*wellknown.ExpressionInt)(nil),    // 13: eolymp.wellknown.ExpressionInt
+	(*wellknown.ExpressionID)(nil),     // 9: eolymp.wellknown.ExpressionID
+	(*wellknown.ExpressionString)(nil), // 10: eolymp.wellknown.ExpressionString
+	(*wellknown.ExpressionBool)(nil),   // 11: eolymp.wellknown.ExpressionBool
+	(*wellknown.ExpressionInt)(nil),    // 12: eolymp.wellknown.ExpressionInt
 }
 var file_eolymp_commerce_product_service_proto_depIdxs = []int32{
 	6,  // 0: eolymp.commerce.DescribeProductInput.extra:type_name -> eolymp.commerce.Product.Extra.Field
@@ -475,12 +474,12 @@ var file_eolymp_commerce_product_service_proto_depIdxs = []int32{
 	5,  // 2: eolymp.commerce.ListProductsInput.filters:type_name -> eolymp.commerce.ListProductsInput.Filter
 	0,  // 3: eolymp.commerce.ListProductsInput.sort:type_name -> eolymp.commerce.ListProductsInput.Sortable
 	8,  // 4: eolymp.commerce.ListProductsInput.order:type_name -> eolymp.wellknown.Direction
-	9,  // 5: eolymp.commerce.ListProductsInput.extra:type_name -> eolymp.commerce.Product.Extra
+	6,  // 5: eolymp.commerce.ListProductsInput.extra:type_name -> eolymp.commerce.Product.Extra.Field
 	7,  // 6: eolymp.commerce.ListProductsOutput.items:type_name -> eolymp.commerce.Product
-	10, // 7: eolymp.commerce.ListProductsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	11, // 8: eolymp.commerce.ListProductsInput.Filter.name:type_name -> eolymp.wellknown.ExpressionString
-	12, // 9: eolymp.commerce.ListProductsInput.Filter.out_of_stock:type_name -> eolymp.wellknown.ExpressionBool
-	13, // 10: eolymp.commerce.ListProductsInput.Filter.price:type_name -> eolymp.wellknown.ExpressionInt
+	9,  // 7: eolymp.commerce.ListProductsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	10, // 8: eolymp.commerce.ListProductsInput.Filter.name:type_name -> eolymp.wellknown.ExpressionString
+	11, // 9: eolymp.commerce.ListProductsInput.Filter.out_of_stock:type_name -> eolymp.wellknown.ExpressionBool
+	12, // 10: eolymp.commerce.ListProductsInput.Filter.price:type_name -> eolymp.wellknown.ExpressionInt
 	1,  // 11: eolymp.commerce.ProductService.DescribeProduct:input_type -> eolymp.commerce.DescribeProductInput
 	3,  // 12: eolymp.commerce.ProductService.ListProducts:input_type -> eolymp.commerce.ListProductsInput
 	2,  // 13: eolymp.commerce.ProductService.DescribeProduct:output_type -> eolymp.commerce.DescribeProductOutput
