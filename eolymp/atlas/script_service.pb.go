@@ -707,6 +707,86 @@ func (x *ListScriptsOutput) GetItems() []*Script {
 	return nil
 }
 
+type ExecuteStressCheckInput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ScriptName    string                 `protobuf:"bytes,1,opt,name=script_name,json=scriptName,proto3" json:"script_name,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ExecuteStressCheckInput) Reset() {
+	*x = ExecuteStressCheckInput{}
+	mi := &file_eolymp_atlas_script_service_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ExecuteStressCheckInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ExecuteStressCheckInput) ProtoMessage() {}
+
+func (x *ExecuteStressCheckInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_script_service_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ExecuteStressCheckInput.ProtoReflect.Descriptor instead.
+func (*ExecuteStressCheckInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_script_service_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *ExecuteStressCheckInput) GetScriptName() string {
+	if x != nil {
+		return x.ScriptName
+	}
+	return ""
+}
+
+type ExecuteStressCheckOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ExecuteStressCheckOutput) Reset() {
+	*x = ExecuteStressCheckOutput{}
+	mi := &file_eolymp_atlas_script_service_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ExecuteStressCheckOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ExecuteStressCheckOutput) ProtoMessage() {}
+
+func (x *ExecuteStressCheckOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_script_service_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ExecuteStressCheckOutput.ProtoReflect.Descriptor instead.
+func (*ExecuteStressCheckOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_script_service_proto_rawDescGZIP(), []int{12}
+}
+
 type ListScriptsInput_Filter struct {
 	state         protoimpl.MessageState        `protogen:"open.v1"`
 	Id            []*wellknown.ExpressionID     `protobuf:"bytes,10,rep,name=id,proto3" json:"id,omitempty"`
@@ -718,7 +798,7 @@ type ListScriptsInput_Filter struct {
 
 func (x *ListScriptsInput_Filter) Reset() {
 	*x = ListScriptsInput_Filter{}
-	mi := &file_eolymp_atlas_script_service_proto_msgTypes[11]
+	mi := &file_eolymp_atlas_script_service_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -730,7 +810,7 @@ func (x *ListScriptsInput_Filter) String() string {
 func (*ListScriptsInput_Filter) ProtoMessage() {}
 
 func (x *ListScriptsInput_Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_script_service_proto_msgTypes[11]
+	mi := &file_eolymp_atlas_script_service_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -823,7 +903,11 @@ const file_eolymp_atlas_script_service_proto_rawDesc = "" +
 	"\x04NAME\x10\x00\"U\n" +
 	"\x11ListScriptsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12*\n" +
-	"\x05items\x18\x02 \x03(\v2\x14.eolymp.atlas.ScriptR\x05items2\x84\x06\n" +
+	"\x05items\x18\x02 \x03(\v2\x14.eolymp.atlas.ScriptR\x05items\":\n" +
+	"\x17ExecuteStressCheckInput\x12\x1f\n" +
+	"\vscript_name\x18\x01 \x01(\tR\n" +
+	"scriptName\"\x1a\n" +
+	"\x18ExecuteStressCheckOutput2\xb3\a\n" +
 	"\rScriptService\x12\x8d\x01\n" +
 	"\fCreateScript\x12\x1f.eolymp.atlas.CreateScriptInput\x1a .eolymp.atlas.CreateScriptOutput\":\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -856,7 +940,14 @@ const file_eolymp_atlas_script_service_proto_rawDesc = "" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\n" +
-	"\x12\b/scriptsB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x12\b/scripts\x12\xac\x01\n" +
+	"\x12ExecuteStressCheck\x12%.eolymp.atlas.ExecuteStressCheckInput\x1a&.eolymp.atlas.ExecuteStressCheckOutput\"G\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\x80?\xf8\xe2\n" +
+	"\n" +
+	"\x82\xe3\n" +
+	"\x17\x8a\xe3\n" +
+	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\x17\"\x15/scripts:stress-checkB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_script_service_proto_rawDescOnce sync.Once
@@ -871,7 +962,7 @@ func file_eolymp_atlas_script_service_proto_rawDescGZIP() []byte {
 }
 
 var file_eolymp_atlas_script_service_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_eolymp_atlas_script_service_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
+var file_eolymp_atlas_script_service_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
 var file_eolymp_atlas_script_service_proto_goTypes = []any{
 	(UpdateScriptInput_Patch)(0),       // 0: eolymp.atlas.UpdateScriptInput.Patch
 	(ListScriptsInput_Sortable)(0),     // 1: eolymp.atlas.ListScriptsInput.Sortable
@@ -886,42 +977,46 @@ var file_eolymp_atlas_script_service_proto_goTypes = []any{
 	(*DescribeScriptOutput)(nil),       // 10: eolymp.atlas.DescribeScriptOutput
 	(*ListScriptsInput)(nil),           // 11: eolymp.atlas.ListScriptsInput
 	(*ListScriptsOutput)(nil),          // 12: eolymp.atlas.ListScriptsOutput
-	(*ListScriptsInput_Filter)(nil),    // 13: eolymp.atlas.ListScriptsInput.Filter
-	(*Script)(nil),                     // 14: eolymp.atlas.Script
-	(Script_Extra)(0),                  // 15: eolymp.atlas.Script.Extra
-	(wellknown.Direction)(0),           // 16: eolymp.wellknown.Direction
-	(*wellknown.ExpressionID)(nil),     // 17: eolymp.wellknown.ExpressionID
-	(*wellknown.ExpressionString)(nil), // 18: eolymp.wellknown.ExpressionString
-	(*wellknown.ExpressionEnum)(nil),   // 19: eolymp.wellknown.ExpressionEnum
+	(*ExecuteStressCheckInput)(nil),    // 13: eolymp.atlas.ExecuteStressCheckInput
+	(*ExecuteStressCheckOutput)(nil),   // 14: eolymp.atlas.ExecuteStressCheckOutput
+	(*ListScriptsInput_Filter)(nil),    // 15: eolymp.atlas.ListScriptsInput.Filter
+	(*Script)(nil),                     // 16: eolymp.atlas.Script
+	(Script_Extra)(0),                  // 17: eolymp.atlas.Script.Extra
+	(wellknown.Direction)(0),           // 18: eolymp.wellknown.Direction
+	(*wellknown.ExpressionID)(nil),     // 19: eolymp.wellknown.ExpressionID
+	(*wellknown.ExpressionString)(nil), // 20: eolymp.wellknown.ExpressionString
+	(*wellknown.ExpressionEnum)(nil),   // 21: eolymp.wellknown.ExpressionEnum
 }
 var file_eolymp_atlas_script_service_proto_depIdxs = []int32{
-	14, // 0: eolymp.atlas.ScriptChangedEvent.before:type_name -> eolymp.atlas.Script
-	14, // 1: eolymp.atlas.ScriptChangedEvent.after:type_name -> eolymp.atlas.Script
-	14, // 2: eolymp.atlas.CreateScriptInput.script:type_name -> eolymp.atlas.Script
+	16, // 0: eolymp.atlas.ScriptChangedEvent.before:type_name -> eolymp.atlas.Script
+	16, // 1: eolymp.atlas.ScriptChangedEvent.after:type_name -> eolymp.atlas.Script
+	16, // 2: eolymp.atlas.CreateScriptInput.script:type_name -> eolymp.atlas.Script
 	0,  // 3: eolymp.atlas.UpdateScriptInput.patch:type_name -> eolymp.atlas.UpdateScriptInput.Patch
-	14, // 4: eolymp.atlas.UpdateScriptInput.script:type_name -> eolymp.atlas.Script
-	15, // 5: eolymp.atlas.DescribeScriptInput.extra:type_name -> eolymp.atlas.Script.Extra
-	14, // 6: eolymp.atlas.DescribeScriptOutput.script:type_name -> eolymp.atlas.Script
-	13, // 7: eolymp.atlas.ListScriptsInput.filters:type_name -> eolymp.atlas.ListScriptsInput.Filter
+	16, // 4: eolymp.atlas.UpdateScriptInput.script:type_name -> eolymp.atlas.Script
+	17, // 5: eolymp.atlas.DescribeScriptInput.extra:type_name -> eolymp.atlas.Script.Extra
+	16, // 6: eolymp.atlas.DescribeScriptOutput.script:type_name -> eolymp.atlas.Script
+	15, // 7: eolymp.atlas.ListScriptsInput.filters:type_name -> eolymp.atlas.ListScriptsInput.Filter
 	1,  // 8: eolymp.atlas.ListScriptsInput.sort:type_name -> eolymp.atlas.ListScriptsInput.Sortable
-	16, // 9: eolymp.atlas.ListScriptsInput.order:type_name -> eolymp.wellknown.Direction
-	15, // 10: eolymp.atlas.ListScriptsInput.extra:type_name -> eolymp.atlas.Script.Extra
-	14, // 11: eolymp.atlas.ListScriptsOutput.items:type_name -> eolymp.atlas.Script
-	17, // 12: eolymp.atlas.ListScriptsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	18, // 13: eolymp.atlas.ListScriptsInput.Filter.name:type_name -> eolymp.wellknown.ExpressionString
-	19, // 14: eolymp.atlas.ListScriptsInput.Filter.runtime:type_name -> eolymp.wellknown.ExpressionEnum
+	18, // 9: eolymp.atlas.ListScriptsInput.order:type_name -> eolymp.wellknown.Direction
+	17, // 10: eolymp.atlas.ListScriptsInput.extra:type_name -> eolymp.atlas.Script.Extra
+	16, // 11: eolymp.atlas.ListScriptsOutput.items:type_name -> eolymp.atlas.Script
+	19, // 12: eolymp.atlas.ListScriptsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	20, // 13: eolymp.atlas.ListScriptsInput.Filter.name:type_name -> eolymp.wellknown.ExpressionString
+	21, // 14: eolymp.atlas.ListScriptsInput.Filter.runtime:type_name -> eolymp.wellknown.ExpressionEnum
 	3,  // 15: eolymp.atlas.ScriptService.CreateScript:input_type -> eolymp.atlas.CreateScriptInput
 	5,  // 16: eolymp.atlas.ScriptService.UpdateScript:input_type -> eolymp.atlas.UpdateScriptInput
 	7,  // 17: eolymp.atlas.ScriptService.DeleteScript:input_type -> eolymp.atlas.DeleteScriptInput
 	9,  // 18: eolymp.atlas.ScriptService.DescribeScript:input_type -> eolymp.atlas.DescribeScriptInput
 	11, // 19: eolymp.atlas.ScriptService.ListScripts:input_type -> eolymp.atlas.ListScriptsInput
-	4,  // 20: eolymp.atlas.ScriptService.CreateScript:output_type -> eolymp.atlas.CreateScriptOutput
-	6,  // 21: eolymp.atlas.ScriptService.UpdateScript:output_type -> eolymp.atlas.UpdateScriptOutput
-	8,  // 22: eolymp.atlas.ScriptService.DeleteScript:output_type -> eolymp.atlas.DeleteScriptOutput
-	10, // 23: eolymp.atlas.ScriptService.DescribeScript:output_type -> eolymp.atlas.DescribeScriptOutput
-	12, // 24: eolymp.atlas.ScriptService.ListScripts:output_type -> eolymp.atlas.ListScriptsOutput
-	20, // [20:25] is the sub-list for method output_type
-	15, // [15:20] is the sub-list for method input_type
+	13, // 20: eolymp.atlas.ScriptService.ExecuteStressCheck:input_type -> eolymp.atlas.ExecuteStressCheckInput
+	4,  // 21: eolymp.atlas.ScriptService.CreateScript:output_type -> eolymp.atlas.CreateScriptOutput
+	6,  // 22: eolymp.atlas.ScriptService.UpdateScript:output_type -> eolymp.atlas.UpdateScriptOutput
+	8,  // 23: eolymp.atlas.ScriptService.DeleteScript:output_type -> eolymp.atlas.DeleteScriptOutput
+	10, // 24: eolymp.atlas.ScriptService.DescribeScript:output_type -> eolymp.atlas.DescribeScriptOutput
+	12, // 25: eolymp.atlas.ScriptService.ListScripts:output_type -> eolymp.atlas.ListScriptsOutput
+	14, // 26: eolymp.atlas.ScriptService.ExecuteStressCheck:output_type -> eolymp.atlas.ExecuteStressCheckOutput
+	21, // [21:27] is the sub-list for method output_type
+	15, // [15:21] is the sub-list for method input_type
 	15, // [15:15] is the sub-list for extension type_name
 	15, // [15:15] is the sub-list for extension extendee
 	0,  // [0:15] is the sub-list for field type_name
@@ -939,7 +1034,7 @@ func file_eolymp_atlas_script_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_atlas_script_service_proto_rawDesc), len(file_eolymp_atlas_script_service_proto_rawDesc)),
 			NumEnums:      2,
-			NumMessages:   12,
+			NumMessages:   14,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

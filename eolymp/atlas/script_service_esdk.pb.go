@@ -169,3 +169,14 @@ func (s *ScriptServiceService) ListScripts(ctx context.Context, in *ListScriptsI
 
 	return out, nil
 }
+
+func (s *ScriptServiceService) ExecuteStressCheck(ctx context.Context, in *ExecuteStressCheckInput) (*ExecuteStressCheckOutput, error) {
+	out := &ExecuteStressCheckOutput{}
+	path := "/scripts:stress-check"
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
