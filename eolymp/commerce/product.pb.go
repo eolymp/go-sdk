@@ -28,6 +28,8 @@ const (
 	Product_Extra_UNKNOWN_FIELD      Product_Extra_Field = 0
 	Product_Extra_DESCRIPTION_VALUE  Product_Extra_Field = 1
 	Product_Extra_DESCRIPTION_RENDER Product_Extra_Field = 2
+	Product_Extra_ATTRIBUTES         Product_Extra_Field = 3
+	Product_Extra_VARIANTS           Product_Extra_Field = 4
 )
 
 // Enum value maps for Product_Extra_Field.
@@ -36,11 +38,15 @@ var (
 		0: "UNKNOWN_FIELD",
 		1: "DESCRIPTION_VALUE",
 		2: "DESCRIPTION_RENDER",
+		3: "ATTRIBUTES",
+		4: "VARIANTS",
 	}
 	Product_Extra_Field_value = map[string]int32{
 		"UNKNOWN_FIELD":      0,
 		"DESCRIPTION_VALUE":  1,
 		"DESCRIPTION_RENDER": 2,
+		"ATTRIBUTES":         3,
+		"VARIANTS":           4,
 	}
 )
 
@@ -452,7 +458,7 @@ var File_eolymp_commerce_product_proto protoreflect.FileDescriptor
 
 const file_eolymp_commerce_product_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/commerce/product.proto\x12\x0feolymp.commerce\x1a\x18eolymp/ecm/content.proto\"\x87\a\n" +
+	"\x1deolymp/commerce/product.proto\x12\x0feolymp.commerce\x1a\x18eolymp/ecm/content.proto\"\xa5\a\n" +
 	"\aProduct\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x125\n" +
@@ -468,12 +474,15 @@ const file_eolymp_commerce_product_proto_rawDesc = "" +
 	"\n" +
 	"attributes\x18( \x03(\v2\".eolymp.commerce.Product.AttributeR\n" +
 	"attributes\x12<\n" +
-	"\bvariants\x182 \x03(\v2 .eolymp.commerce.Product.VariantR\bvariants\x1aR\n" +
-	"\x05Extra\"I\n" +
+	"\bvariants\x182 \x03(\v2 .eolymp.commerce.Product.VariantR\bvariants\x1ap\n" +
+	"\x05Extra\"g\n" +
 	"\x05Field\x12\x11\n" +
 	"\rUNKNOWN_FIELD\x10\x00\x12\x15\n" +
 	"\x11DESCRIPTION_VALUE\x10\x01\x12\x16\n" +
-	"\x12DESCRIPTION_RENDER\x10\x02\x1a\x9a\x01\n" +
+	"\x12DESCRIPTION_RENDER\x10\x02\x12\x0e\n" +
+	"\n" +
+	"ATTRIBUTES\x10\x03\x12\f\n" +
+	"\bVARIANTS\x10\x04\x1a\x9a\x01\n" +
 	"\x05Patch\"\x90\x01\n" +
 	"\x05Field\x12\x11\n" +
 	"\rUNKNOWN_FIELD\x10\x00\x12\a\n" +
