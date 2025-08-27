@@ -125,10 +125,19 @@ func _ProductService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 
 // RegisterProductServiceHttpHandlers adds handlers for for ProductServiceClient
 func RegisterProductServiceHttpHandlers(router *mux.Router, prefix string, cli ProductServiceClient) {
-	router.Handle(prefix+"/products/{product_id}", _ProductService_DescribeProduct_Rule0(cli)).
+	router.Handle(prefix+"/store/products", _ProductService_CreateProduct_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.commerce.ProductService.CreateProduct")
+	router.Handle(prefix+"/store/products/{product_id}", _ProductService_UpdateProduct_Rule0(cli)).
+		Methods("PUT").
+		Name("eolymp.commerce.ProductService.UpdateProduct")
+	router.Handle(prefix+"/store/products/{product_id}", _ProductService_DeleteProduct_Rule0(cli)).
+		Methods("DELETE").
+		Name("eolymp.commerce.ProductService.DeleteProduct")
+	router.Handle(prefix+"/store/products/{product_id}", _ProductService_DescribeProduct_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.commerce.ProductService.DescribeProduct")
-	router.Handle(prefix+"/products", _ProductService_ListProducts_Rule0(cli)).
+	router.Handle(prefix+"/store/products", _ProductService_ListProducts_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.commerce.ProductService.ListProducts")
 }
@@ -136,6 +145,78 @@ func RegisterProductServiceHttpHandlers(router *mux.Router, prefix string, cli P
 // RegisterProductServiceHttpProxy adds proxy handlers for for ProductServiceClient
 func RegisterProductServiceHttpProxy(router *mux.Router, prefix string, conn grpc.ClientConnInterface) {
 	RegisterProductServiceHttpHandlers(router, prefix, NewProductServiceClient(conn))
+}
+
+func _ProductService_CreateProduct_Rule0(cli ProductServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &CreateProductInput{}
+
+		if err := _ProductService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_ProductService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.CreateProduct(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ProductService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ProductService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ProductService_UpdateProduct_Rule0(cli ProductServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UpdateProductInput{}
+
+		if err := _ProductService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_ProductService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ProductId = vars["product_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateProduct(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ProductService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ProductService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ProductService_DeleteProduct_Rule0(cli ProductServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DeleteProductInput{}
+
+		if err := _ProductService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_ProductService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ProductId = vars["product_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.DeleteProduct(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ProductService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ProductService_HTTPWriteResponse(w, out, header, trailer)
+	})
 }
 
 func _ProductService_DescribeProduct_Rule0(cli ProductServiceClient) http.Handler {

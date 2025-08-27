@@ -100,9 +100,52 @@ func (s *ProductServiceService) do(ctx context.Context, verb, path string, in, o
 	return nil
 }
 
+func (s *ProductServiceService) CreateProduct(ctx context.Context, in *CreateProductInput) (*CreateProductOutput, error) {
+	out := &CreateProductOutput{}
+	path := "/store/products"
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *ProductServiceService) UpdateProduct(ctx context.Context, in *UpdateProductInput) (*UpdateProductOutput, error) {
+	out := &UpdateProductOutput{}
+	path := "/store/products/" + url.PathEscape(in.GetProductId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProductId = ""
+	}
+
+	if err := s.do(ctx, "PUT", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *ProductServiceService) DeleteProduct(ctx context.Context, in *DeleteProductInput) (*DeleteProductOutput, error) {
+	out := &DeleteProductOutput{}
+	path := "/store/products/" + url.PathEscape(in.GetProductId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProductId = ""
+	}
+
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *ProductServiceService) DescribeProduct(ctx context.Context, in *DescribeProductInput) (*DescribeProductOutput, error) {
 	out := &DescribeProductOutput{}
-	path := "/products/" + url.PathEscape(in.GetProductId())
+	path := "/store/products/" + url.PathEscape(in.GetProductId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
@@ -118,7 +161,7 @@ func (s *ProductServiceService) DescribeProduct(ctx context.Context, in *Describ
 
 func (s *ProductServiceService) ListProducts(ctx context.Context, in *ListProductsInput) (*ListProductsOutput, error) {
 	out := &ListProductsOutput{}
-	path := "/products"
+	path := "/store/products"
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
