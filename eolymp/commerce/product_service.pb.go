@@ -703,26 +703,26 @@ const file_eolymp_commerce_product_service_proto_rawDesc = "" +
 	"\aDEFAULT\x10\x00\"Z\n" +
 	"\x12ListProductsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12.\n" +
-	"\x05items\x18\x02 \x03(\v2\x18.eolymp.commerce.ProductR\x05items2\xed\x06\n" +
-	"\x0eProductService\x12\xa2\x01\n" +
-	"\rCreateProduct\x12#.eolymp.commerce.CreateProductInput\x1a$.eolymp.commerce.CreateProductOutput\"F\xea\xe2\n" +
+	"\x05items\x18\x02 \x03(\v2\x18.eolymp.commerce.ProductR\x05items2\xe7\x06\n" +
+	"\x0eProductService\x12\xa0\x01\n" +
+	"\rCreateProduct\x12#.eolymp.commerce.CreateProductInput\x1a$.eolymp.commerce.CreateProductOutput\"D\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
-	"\x1c\x8a\xe3\n" +
-	"\x18typewriter:product:write\x82\xd3\xe4\x93\x02\x11\"\x0f/store/products\x12\xaf\x01\n" +
-	"\rUpdateProduct\x12#.eolymp.commerce.UpdateProductInput\x1a$.eolymp.commerce.UpdateProductOutput\"S\xea\xe2\n" +
+	"\x1a\x8a\xe3\n" +
+	"\x16commerce:catalog:write\x82\xd3\xe4\x93\x02\x11\"\x0f/store/products\x12\xad\x01\n" +
+	"\rUpdateProduct\x12#.eolymp.commerce.UpdateProductInput\x1a$.eolymp.commerce.UpdateProductOutput\"Q\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
-	"\x1c\x8a\xe3\n" +
-	"\x18typewriter:product:write\x82\xd3\xe4\x93\x02\x1e\x1a\x1c/store/products/{product_id}\x12\xaf\x01\n" +
-	"\rDeleteProduct\x12#.eolymp.commerce.DeleteProductInput\x1a$.eolymp.commerce.DeleteProductOutput\"S\xea\xe2\n" +
+	"\x1a\x8a\xe3\n" +
+	"\x16commerce:catalog:write\x82\xd3\xe4\x93\x02\x1e\x1a\x1c/store/products/{product_id}\x12\xad\x01\n" +
+	"\rDeleteProduct\x12#.eolymp.commerce.DeleteProductInput\x1a$.eolymp.commerce.DeleteProductOutput\"Q\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
-	"\x1c\x8a\xe3\n" +
-	"\x18typewriter:product:write\x82\xd3\xe4\x93\x02\x1e*\x1c/store/products/{product_id}\x12\xb2\x01\n" +
+	"\x1a\x8a\xe3\n" +
+	"\x16commerce:catalog:write\x82\xd3\xe4\x93\x02\x1e*\x1c/store/products/{product_id}\x12\xb2\x01\n" +
 	"\x0fDescribeProduct\x12%.eolymp.commerce.DescribeProductInput\x1a&.eolymp.commerce.DescribeProductOutput\"P\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
