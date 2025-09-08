@@ -21,8 +21,66 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type StressReport_Run_Status int32
+
+const (
+	StressReport_Run_NONE     StressReport_Run_Status = 0
+	StressReport_Run_PENDING  StressReport_Run_Status = 1
+	StressReport_Run_COMPLETE StressReport_Run_Status = 2
+	StressReport_Run_FAILED   StressReport_Run_Status = 3
+)
+
+// Enum value maps for StressReport_Run_Status.
+var (
+	StressReport_Run_Status_name = map[int32]string{
+		0: "NONE",
+		1: "PENDING",
+		2: "COMPLETE",
+		3: "FAILED",
+	}
+	StressReport_Run_Status_value = map[string]int32{
+		"NONE":     0,
+		"PENDING":  1,
+		"COMPLETE": 2,
+		"FAILED":   3,
+	}
+)
+
+func (x StressReport_Run_Status) Enum() *StressReport_Run_Status {
+	p := new(StressReport_Run_Status)
+	*p = x
+	return p
+}
+
+func (x StressReport_Run_Status) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (StressReport_Run_Status) Descriptor() protoreflect.EnumDescriptor {
+	return file_eolymp_executor_stress_report_proto_enumTypes[0].Descriptor()
+}
+
+func (StressReport_Run_Status) Type() protoreflect.EnumType {
+	return &file_eolymp_executor_stress_report_proto_enumTypes[0]
+}
+
+func (x StressReport_Run_Status) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use StressReport_Run_Status.Descriptor instead.
+func (StressReport_Run_Status) EnumDescriptor() ([]byte, []int) {
+	return file_eolymp_executor_stress_report_proto_rawDescGZIP(), []int{0, 0, 0}
+}
+
 type StressReport struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	TaskId        string                 `protobuf:"bytes,1,opt,name=task_id,json=taskId,proto3" json:"task_id,omitempty"`
+	Reference     string                 `protobuf:"bytes,2,opt,name=reference,proto3" json:"reference,omitempty"`
+	Origin        string                 `protobuf:"bytes,3,opt,name=origin,proto3" json:"origin,omitempty"`
+	Metadata      map[string]string      `protobuf:"bytes,5,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	Agent         string                 `protobuf:"bytes,4,opt,name=agent,proto3" json:"agent,omitempty"`
+	Runs          []*StressReport_Run    `protobuf:"bytes,40,rep,name=runs,proto3" json:"runs,omitempty"`
 	ErrorMessage  string                 `protobuf:"bytes,50,opt,name=error_message,json=errorMessage,proto3" json:"error_message,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -58,6 +116,48 @@ func (*StressReport) Descriptor() ([]byte, []int) {
 	return file_eolymp_executor_stress_report_proto_rawDescGZIP(), []int{0}
 }
 
+func (x *StressReport) GetTaskId() string {
+	if x != nil {
+		return x.TaskId
+	}
+	return ""
+}
+
+func (x *StressReport) GetReference() string {
+	if x != nil {
+		return x.Reference
+	}
+	return ""
+}
+
+func (x *StressReport) GetOrigin() string {
+	if x != nil {
+		return x.Origin
+	}
+	return ""
+}
+
+func (x *StressReport) GetMetadata() map[string]string {
+	if x != nil {
+		return x.Metadata
+	}
+	return nil
+}
+
+func (x *StressReport) GetAgent() string {
+	if x != nil {
+		return x.Agent
+	}
+	return ""
+}
+
+func (x *StressReport) GetRuns() []*StressReport_Run {
+	if x != nil {
+		return x.Runs
+	}
+	return nil
+}
+
 func (x *StressReport) GetErrorMessage() string {
 	if x != nil {
 		return x.ErrorMessage
@@ -65,13 +165,111 @@ func (x *StressReport) GetErrorMessage() string {
 	return ""
 }
 
+type StressReport_Run struct {
+	state          protoimpl.MessageState  `protogen:"open.v1"`
+	Iteration      uint32                  `protobuf:"varint,1,opt,name=iteration,proto3" json:"iteration,omitempty"`
+	Status         StressReport_Run_Status `protobuf:"varint,2,opt,name=status,proto3,enum=eolymp.executor.StressReport_Run_Status" json:"status,omitempty"`
+	InputUrl       string                  `protobuf:"bytes,10,opt,name=input_url,json=inputUrl,proto3" json:"input_url,omitempty"`
+	GeneratorStats *Stats                  `protobuf:"bytes,20,opt,name=generator_stats,json=generatorStats,proto3" json:"generator_stats,omitempty"`
+	SolutionStats  *Stats                  `protobuf:"bytes,21,opt,name=solution_stats,json=solutionStats,proto3" json:"solution_stats,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *StressReport_Run) Reset() {
+	*x = StressReport_Run{}
+	mi := &file_eolymp_executor_stress_report_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *StressReport_Run) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*StressReport_Run) ProtoMessage() {}
+
+func (x *StressReport_Run) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_executor_stress_report_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use StressReport_Run.ProtoReflect.Descriptor instead.
+func (*StressReport_Run) Descriptor() ([]byte, []int) {
+	return file_eolymp_executor_stress_report_proto_rawDescGZIP(), []int{0, 0}
+}
+
+func (x *StressReport_Run) GetIteration() uint32 {
+	if x != nil {
+		return x.Iteration
+	}
+	return 0
+}
+
+func (x *StressReport_Run) GetStatus() StressReport_Run_Status {
+	if x != nil {
+		return x.Status
+	}
+	return StressReport_Run_NONE
+}
+
+func (x *StressReport_Run) GetInputUrl() string {
+	if x != nil {
+		return x.InputUrl
+	}
+	return ""
+}
+
+func (x *StressReport_Run) GetGeneratorStats() *Stats {
+	if x != nil {
+		return x.GeneratorStats
+	}
+	return nil
+}
+
+func (x *StressReport_Run) GetSolutionStats() *Stats {
+	if x != nil {
+		return x.SolutionStats
+	}
+	return nil
+}
+
 var File_eolymp_executor_stress_report_proto protoreflect.FileDescriptor
 
 const file_eolymp_executor_stress_report_proto_rawDesc = "" +
 	"\n" +
-	"#eolymp/executor/stress_report.proto\x12\x0feolymp.executor\"3\n" +
-	"\fStressReport\x12#\n" +
-	"\rerror_message\x182 \x01(\tR\ferrorMessageB3Z1github.com/eolymp/go-sdk/eolymp/executor;executorb\x06proto3"
+	"#eolymp/executor/stress_report.proto\x12\x0feolymp.executor\x1a\x1beolymp/executor/stats.proto\"\x95\x05\n" +
+	"\fStressReport\x12\x17\n" +
+	"\atask_id\x18\x01 \x01(\tR\x06taskId\x12\x1c\n" +
+	"\treference\x18\x02 \x01(\tR\treference\x12\x16\n" +
+	"\x06origin\x18\x03 \x01(\tR\x06origin\x12G\n" +
+	"\bmetadata\x18\x05 \x03(\v2+.eolymp.executor.StressReport.MetadataEntryR\bmetadata\x12\x14\n" +
+	"\x05agent\x18\x04 \x01(\tR\x05agent\x125\n" +
+	"\x04runs\x18( \x03(\v2!.eolymp.executor.StressReport.RunR\x04runs\x12#\n" +
+	"\rerror_message\x182 \x01(\tR\ferrorMessage\x1a\xbd\x02\n" +
+	"\x03Run\x12\x1c\n" +
+	"\titeration\x18\x01 \x01(\rR\titeration\x12@\n" +
+	"\x06status\x18\x02 \x01(\x0e2(.eolymp.executor.StressReport.Run.StatusR\x06status\x12\x1b\n" +
+	"\tinput_url\x18\n" +
+	" \x01(\tR\binputUrl\x12?\n" +
+	"\x0fgenerator_stats\x18\x14 \x01(\v2\x16.eolymp.executor.StatsR\x0egeneratorStats\x12=\n" +
+	"\x0esolution_stats\x18\x15 \x01(\v2\x16.eolymp.executor.StatsR\rsolutionStats\"9\n" +
+	"\x06Status\x12\b\n" +
+	"\x04NONE\x10\x00\x12\v\n" +
+	"\aPENDING\x10\x01\x12\f\n" +
+	"\bCOMPLETE\x10\x02\x12\n" +
+	"\n" +
+	"\x06FAILED\x10\x03\x1a;\n" +
+	"\rMetadataEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01B3Z1github.com/eolymp/go-sdk/eolymp/executor;executorb\x06proto3"
 
 var (
 	file_eolymp_executor_stress_report_proto_rawDescOnce sync.Once
@@ -85,16 +283,26 @@ func file_eolymp_executor_stress_report_proto_rawDescGZIP() []byte {
 	return file_eolymp_executor_stress_report_proto_rawDescData
 }
 
-var file_eolymp_executor_stress_report_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_eolymp_executor_stress_report_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_eolymp_executor_stress_report_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_eolymp_executor_stress_report_proto_goTypes = []any{
-	(*StressReport)(nil), // 0: eolymp.executor.StressReport
+	(StressReport_Run_Status)(0), // 0: eolymp.executor.StressReport.Run.Status
+	(*StressReport)(nil),         // 1: eolymp.executor.StressReport
+	(*StressReport_Run)(nil),     // 2: eolymp.executor.StressReport.Run
+	nil,                          // 3: eolymp.executor.StressReport.MetadataEntry
+	(*Stats)(nil),                // 4: eolymp.executor.Stats
 }
 var file_eolymp_executor_stress_report_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	3, // 0: eolymp.executor.StressReport.metadata:type_name -> eolymp.executor.StressReport.MetadataEntry
+	2, // 1: eolymp.executor.StressReport.runs:type_name -> eolymp.executor.StressReport.Run
+	0, // 2: eolymp.executor.StressReport.Run.status:type_name -> eolymp.executor.StressReport.Run.Status
+	4, // 3: eolymp.executor.StressReport.Run.generator_stats:type_name -> eolymp.executor.Stats
+	4, // 4: eolymp.executor.StressReport.Run.solution_stats:type_name -> eolymp.executor.Stats
+	5, // [5:5] is the sub-list for method output_type
+	5, // [5:5] is the sub-list for method input_type
+	5, // [5:5] is the sub-list for extension type_name
+	5, // [5:5] is the sub-list for extension extendee
+	0, // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_executor_stress_report_proto_init() }
@@ -102,18 +310,20 @@ func file_eolymp_executor_stress_report_proto_init() {
 	if File_eolymp_executor_stress_report_proto != nil {
 		return
 	}
+	file_eolymp_executor_stats_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_executor_stress_report_proto_rawDesc), len(file_eolymp_executor_stress_report_proto_rawDesc)),
-			NumEnums:      0,
-			NumMessages:   1,
+			NumEnums:      1,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
 		GoTypes:           file_eolymp_executor_stress_report_proto_goTypes,
 		DependencyIndexes: file_eolymp_executor_stress_report_proto_depIdxs,
+		EnumInfos:         file_eolymp_executor_stress_report_proto_enumTypes,
 		MessageInfos:      file_eolymp_executor_stress_report_proto_msgTypes,
 	}.Build()
 	File_eolymp_executor_stress_report_proto = out.File
