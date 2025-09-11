@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.9
 // 	protoc        v5.29.4
-// source: eolymp/commerce/shopping_cart.proto
+// source: eolymp/commerce/order.proto
 
 package commerce
 
@@ -21,10 +21,10 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type ShoppingCart struct {
+type Order struct {
 	state                 protoimpl.MessageState `protogen:"open.v1"`
 	Id                    string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Items                 []*ShoppingCart_Item   `protobuf:"bytes,10,rep,name=items,proto3" json:"items,omitempty"`
+	Items                 []*Order_Item          `protobuf:"bytes,10,rep,name=items,proto3" json:"items,omitempty"`
 	BillingAddress        *Address               `protobuf:"bytes,40,opt,name=billing_address,json=billingAddress,proto3" json:"billing_address,omitempty"`
 	ShippingAddress       *Address               `protobuf:"bytes,41,opt,name=shipping_address,json=shippingAddress,proto3" json:"shipping_address,omitempty"`
 	BillingSameAsShipping bool                   `protobuf:"varint,42,opt,name=billing_same_as_shipping,json=billingSameAsShipping,proto3" json:"billing_same_as_shipping,omitempty"`
@@ -40,21 +40,21 @@ type ShoppingCart struct {
 	sizeCache             protoimpl.SizeCache
 }
 
-func (x *ShoppingCart) Reset() {
-	*x = ShoppingCart{}
-	mi := &file_eolymp_commerce_shopping_cart_proto_msgTypes[0]
+func (x *Order) Reset() {
+	*x = Order{}
+	mi := &file_eolymp_commerce_order_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *ShoppingCart) String() string {
+func (x *Order) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ShoppingCart) ProtoMessage() {}
+func (*Order) ProtoMessage() {}
 
-func (x *ShoppingCart) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_commerce_shopping_cart_proto_msgTypes[0]
+func (x *Order) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_commerce_order_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -65,105 +65,107 @@ func (x *ShoppingCart) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ShoppingCart.ProtoReflect.Descriptor instead.
-func (*ShoppingCart) Descriptor() ([]byte, []int) {
-	return file_eolymp_commerce_shopping_cart_proto_rawDescGZIP(), []int{0}
+// Deprecated: Use Order.ProtoReflect.Descriptor instead.
+func (*Order) Descriptor() ([]byte, []int) {
+	return file_eolymp_commerce_order_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *ShoppingCart) GetId() string {
+func (x *Order) GetId() string {
 	if x != nil {
 		return x.Id
 	}
 	return ""
 }
 
-func (x *ShoppingCart) GetItems() []*ShoppingCart_Item {
+func (x *Order) GetItems() []*Order_Item {
 	if x != nil {
 		return x.Items
 	}
 	return nil
 }
 
-func (x *ShoppingCart) GetBillingAddress() *Address {
+func (x *Order) GetBillingAddress() *Address {
 	if x != nil {
 		return x.BillingAddress
 	}
 	return nil
 }
 
-func (x *ShoppingCart) GetShippingAddress() *Address {
+func (x *Order) GetShippingAddress() *Address {
 	if x != nil {
 		return x.ShippingAddress
 	}
 	return nil
 }
 
-func (x *ShoppingCart) GetBillingSameAsShipping() bool {
+func (x *Order) GetBillingSameAsShipping() bool {
 	if x != nil {
 		return x.BillingSameAsShipping
 	}
 	return false
 }
 
-func (x *ShoppingCart) GetCurrency() string {
+func (x *Order) GetCurrency() string {
 	if x != nil {
 		return x.Currency
 	}
 	return ""
 }
 
-func (x *ShoppingCart) GetTotalAmount() uint32 {
+func (x *Order) GetTotalAmount() uint32 {
 	if x != nil {
 		return x.TotalAmount
 	}
 	return 0
 }
 
-func (x *ShoppingCart) GetShippingAmount() uint32 {
+func (x *Order) GetShippingAmount() uint32 {
 	if x != nil {
 		return x.ShippingAmount
 	}
 	return 0
 }
 
-func (x *ShoppingCart) GetDiscountAmount() uint32 {
+func (x *Order) GetDiscountAmount() uint32 {
 	if x != nil {
 		return x.DiscountAmount
 	}
 	return 0
 }
 
-func (x *ShoppingCart) GetTaxAmount() uint32 {
+func (x *Order) GetTaxAmount() uint32 {
 	if x != nil {
 		return x.TaxAmount
 	}
 	return 0
 }
 
-func (x *ShoppingCart) GetTaxRate() uint32 {
+func (x *Order) GetTaxRate() uint32 {
 	if x != nil {
 		return x.TaxRate
 	}
 	return 0
 }
 
-func (x *ShoppingCart) GetTaxNote() string {
+func (x *Order) GetTaxNote() string {
 	if x != nil {
 		return x.TaxNote
 	}
 	return ""
 }
 
-func (x *ShoppingCart) GetGrandTotal() uint32 {
+func (x *Order) GetGrandTotal() uint32 {
 	if x != nil {
 		return x.GrandTotal
 	}
 	return 0
 }
 
-type ShoppingCart_Item struct {
+type Order_Item struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	Id             string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name           string                 `protobuf:"bytes,4,opt,name=name,proto3" json:"name,omitempty"`
+	ImageUrl       string                 `protobuf:"bytes,5,opt,name=image_url,json=imageUrl,proto3" json:"image_url,omitempty"`
 	ProductId      string                 `protobuf:"bytes,2,opt,name=product_id,json=productId,proto3" json:"product_id,omitempty"`
 	VariantId      string                 `protobuf:"bytes,3,opt,name=variant_id,json=variantId,proto3" json:"variant_id,omitempty"`
 	Quantity       int32                  `protobuf:"varint,10,opt,name=quantity,proto3" json:"quantity,omitempty"`
@@ -174,21 +176,21 @@ type ShoppingCart_Item struct {
 	sizeCache      protoimpl.SizeCache
 }
 
-func (x *ShoppingCart_Item) Reset() {
-	*x = ShoppingCart_Item{}
-	mi := &file_eolymp_commerce_shopping_cart_proto_msgTypes[1]
+func (x *Order_Item) Reset() {
+	*x = Order_Item{}
+	mi := &file_eolymp_commerce_order_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *ShoppingCart_Item) String() string {
+func (x *Order_Item) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ShoppingCart_Item) ProtoMessage() {}
+func (*Order_Item) ProtoMessage() {}
 
-func (x *ShoppingCart_Item) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_commerce_shopping_cart_proto_msgTypes[1]
+func (x *Order_Item) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_commerce_order_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -199,69 +201,83 @@ func (x *ShoppingCart_Item) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ShoppingCart_Item.ProtoReflect.Descriptor instead.
-func (*ShoppingCart_Item) Descriptor() ([]byte, []int) {
-	return file_eolymp_commerce_shopping_cart_proto_rawDescGZIP(), []int{0, 0}
+// Deprecated: Use Order_Item.ProtoReflect.Descriptor instead.
+func (*Order_Item) Descriptor() ([]byte, []int) {
+	return file_eolymp_commerce_order_proto_rawDescGZIP(), []int{0, 0}
 }
 
-func (x *ShoppingCart_Item) GetId() string {
+func (x *Order_Item) GetId() string {
 	if x != nil {
 		return x.Id
 	}
 	return ""
 }
 
-func (x *ShoppingCart_Item) GetProductId() string {
+func (x *Order_Item) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *Order_Item) GetImageUrl() string {
+	if x != nil {
+		return x.ImageUrl
+	}
+	return ""
+}
+
+func (x *Order_Item) GetProductId() string {
 	if x != nil {
 		return x.ProductId
 	}
 	return ""
 }
 
-func (x *ShoppingCart_Item) GetVariantId() string {
+func (x *Order_Item) GetVariantId() string {
 	if x != nil {
 		return x.VariantId
 	}
 	return ""
 }
 
-func (x *ShoppingCart_Item) GetQuantity() int32 {
+func (x *Order_Item) GetQuantity() int32 {
 	if x != nil {
 		return x.Quantity
 	}
 	return 0
 }
 
-func (x *ShoppingCart_Item) GetUnitAmount() uint32 {
+func (x *Order_Item) GetUnitAmount() uint32 {
 	if x != nil {
 		return x.UnitAmount
 	}
 	return 0
 }
 
-func (x *ShoppingCart_Item) GetTotalAmount() uint32 {
+func (x *Order_Item) GetTotalAmount() uint32 {
 	if x != nil {
 		return x.TotalAmount
 	}
 	return 0
 }
 
-func (x *ShoppingCart_Item) GetDiscountAmount() uint32 {
+func (x *Order_Item) GetDiscountAmount() uint32 {
 	if x != nil {
 		return x.DiscountAmount
 	}
 	return 0
 }
 
-var File_eolymp_commerce_shopping_cart_proto protoreflect.FileDescriptor
+var File_eolymp_commerce_order_proto protoreflect.FileDescriptor
 
-const file_eolymp_commerce_shopping_cart_proto_rawDesc = "" +
+const file_eolymp_commerce_order_proto_rawDesc = "" +
 	"\n" +
-	"#eolymp/commerce/shopping_cart.proto\x12\x0feolymp.commerce\x1a\x1deolymp/commerce/address.proto\"\x80\x06\n" +
-	"\fShoppingCart\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x128\n" +
+	"\x1beolymp/commerce/order.proto\x12\x0feolymp.commerce\x1a\x1deolymp/commerce/address.proto\"\xa3\x06\n" +
+	"\x05Order\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x121\n" +
 	"\x05items\x18\n" +
-	" \x03(\v2\".eolymp.commerce.ShoppingCart.ItemR\x05items\x12A\n" +
+	" \x03(\v2\x1b.eolymp.commerce.Order.ItemR\x05items\x12A\n" +
 	"\x0fbilling_address\x18( \x01(\v2\x18.eolymp.commerce.AddressR\x0ebillingAddress\x12C\n" +
 	"\x10shipping_address\x18) \x01(\v2\x18.eolymp.commerce.AddressR\x0fshippingAddress\x127\n" +
 	"\x18billing_same_as_shipping\x18* \x01(\bR\x15billingSameAsShipping\x12\x1a\n" +
@@ -274,9 +290,11 @@ const file_eolymp_commerce_shopping_cart_proto_rawDesc = "" +
 	"\btax_rate\x18\x19 \x01(\rR\ataxRate\x12\x19\n" +
 	"\btax_note\x18\x1a \x01(\tR\ataxNote\x12\x1f\n" +
 	"\vgrand_total\x18\x1e \x01(\rR\n" +
-	"grandTotal\x1a\xdd\x01\n" +
+	"grandTotal\x1a\x8e\x02\n" +
 	"\x04Item\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1d\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
+	"\x04name\x18\x04 \x01(\tR\x04name\x12\x1b\n" +
+	"\timage_url\x18\x05 \x01(\tR\bimageUrl\x12\x1d\n" +
 	"\n" +
 	"product_id\x18\x02 \x01(\tR\tproductId\x12\x1d\n" +
 	"\n" +
@@ -289,27 +307,27 @@ const file_eolymp_commerce_shopping_cart_proto_rawDesc = "" +
 	"\x0fdiscount_amount\x18\x17 \x01(\rR\x0ediscountAmountB3Z1github.com/eolymp/go-sdk/eolymp/commerce;commerceb\x06proto3"
 
 var (
-	file_eolymp_commerce_shopping_cart_proto_rawDescOnce sync.Once
-	file_eolymp_commerce_shopping_cart_proto_rawDescData []byte
+	file_eolymp_commerce_order_proto_rawDescOnce sync.Once
+	file_eolymp_commerce_order_proto_rawDescData []byte
 )
 
-func file_eolymp_commerce_shopping_cart_proto_rawDescGZIP() []byte {
-	file_eolymp_commerce_shopping_cart_proto_rawDescOnce.Do(func() {
-		file_eolymp_commerce_shopping_cart_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_eolymp_commerce_shopping_cart_proto_rawDesc), len(file_eolymp_commerce_shopping_cart_proto_rawDesc)))
+func file_eolymp_commerce_order_proto_rawDescGZIP() []byte {
+	file_eolymp_commerce_order_proto_rawDescOnce.Do(func() {
+		file_eolymp_commerce_order_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_eolymp_commerce_order_proto_rawDesc), len(file_eolymp_commerce_order_proto_rawDesc)))
 	})
-	return file_eolymp_commerce_shopping_cart_proto_rawDescData
+	return file_eolymp_commerce_order_proto_rawDescData
 }
 
-var file_eolymp_commerce_shopping_cart_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
-var file_eolymp_commerce_shopping_cart_proto_goTypes = []any{
-	(*ShoppingCart)(nil),      // 0: eolymp.commerce.ShoppingCart
-	(*ShoppingCart_Item)(nil), // 1: eolymp.commerce.ShoppingCart.Item
-	(*Address)(nil),           // 2: eolymp.commerce.Address
+var file_eolymp_commerce_order_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_eolymp_commerce_order_proto_goTypes = []any{
+	(*Order)(nil),      // 0: eolymp.commerce.Order
+	(*Order_Item)(nil), // 1: eolymp.commerce.Order.Item
+	(*Address)(nil),    // 2: eolymp.commerce.Address
 }
-var file_eolymp_commerce_shopping_cart_proto_depIdxs = []int32{
-	1, // 0: eolymp.commerce.ShoppingCart.items:type_name -> eolymp.commerce.ShoppingCart.Item
-	2, // 1: eolymp.commerce.ShoppingCart.billing_address:type_name -> eolymp.commerce.Address
-	2, // 2: eolymp.commerce.ShoppingCart.shipping_address:type_name -> eolymp.commerce.Address
+var file_eolymp_commerce_order_proto_depIdxs = []int32{
+	1, // 0: eolymp.commerce.Order.items:type_name -> eolymp.commerce.Order.Item
+	2, // 1: eolymp.commerce.Order.billing_address:type_name -> eolymp.commerce.Address
+	2, // 2: eolymp.commerce.Order.shipping_address:type_name -> eolymp.commerce.Address
 	3, // [3:3] is the sub-list for method output_type
 	3, // [3:3] is the sub-list for method input_type
 	3, // [3:3] is the sub-list for extension type_name
@@ -317,9 +335,9 @@ var file_eolymp_commerce_shopping_cart_proto_depIdxs = []int32{
 	0, // [0:3] is the sub-list for field type_name
 }
 
-func init() { file_eolymp_commerce_shopping_cart_proto_init() }
-func file_eolymp_commerce_shopping_cart_proto_init() {
-	if File_eolymp_commerce_shopping_cart_proto != nil {
+func init() { file_eolymp_commerce_order_proto_init() }
+func file_eolymp_commerce_order_proto_init() {
+	if File_eolymp_commerce_order_proto != nil {
 		return
 	}
 	file_eolymp_commerce_address_proto_init()
@@ -327,17 +345,17 @@ func file_eolymp_commerce_shopping_cart_proto_init() {
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_commerce_shopping_cart_proto_rawDesc), len(file_eolymp_commerce_shopping_cart_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_commerce_order_proto_rawDesc), len(file_eolymp_commerce_order_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_eolymp_commerce_shopping_cart_proto_goTypes,
-		DependencyIndexes: file_eolymp_commerce_shopping_cart_proto_depIdxs,
-		MessageInfos:      file_eolymp_commerce_shopping_cart_proto_msgTypes,
+		GoTypes:           file_eolymp_commerce_order_proto_goTypes,
+		DependencyIndexes: file_eolymp_commerce_order_proto_depIdxs,
+		MessageInfos:      file_eolymp_commerce_order_proto_msgTypes,
 	}.Build()
-	File_eolymp_commerce_shopping_cart_proto = out.File
-	file_eolymp_commerce_shopping_cart_proto_goTypes = nil
-	file_eolymp_commerce_shopping_cart_proto_depIdxs = nil
+	File_eolymp_commerce_order_proto = out.File
+	file_eolymp_commerce_order_proto_goTypes = nil
+	file_eolymp_commerce_order_proto_depIdxs = nil
 }
