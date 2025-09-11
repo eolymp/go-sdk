@@ -21,12 +21,71 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type Order_Status int32
+
+const (
+	Order_UNSPECIFIED       Order_Status = 0
+	Order_STATUS_CREATED    Order_Status = 1 // Order is created but not ready for processing yet (eg. unpaid).
+	Order_STATUS_PENDING    Order_Status = 2 // Order is pending to be processed.
+	Order_STATUS_PROCESSING Order_Status = 3 // Order is ready for processing.
+	Order_STATUS_CANCELED   Order_Status = 4 // Order is canceled.
+	Order_STATUS_SHIPPED    Order_Status = 5 // Order is shipped.
+)
+
+// Enum value maps for Order_Status.
+var (
+	Order_Status_name = map[int32]string{
+		0: "UNSPECIFIED",
+		1: "STATUS_CREATED",
+		2: "STATUS_PENDING",
+		3: "STATUS_PROCESSING",
+		4: "STATUS_CANCELED",
+		5: "STATUS_SHIPPED",
+	}
+	Order_Status_value = map[string]int32{
+		"UNSPECIFIED":       0,
+		"STATUS_CREATED":    1,
+		"STATUS_PENDING":    2,
+		"STATUS_PROCESSING": 3,
+		"STATUS_CANCELED":   4,
+		"STATUS_SHIPPED":    5,
+	}
+)
+
+func (x Order_Status) Enum() *Order_Status {
+	p := new(Order_Status)
+	*p = x
+	return p
+}
+
+func (x Order_Status) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (Order_Status) Descriptor() protoreflect.EnumDescriptor {
+	return file_eolymp_commerce_order_proto_enumTypes[0].Descriptor()
+}
+
+func (Order_Status) Type() protoreflect.EnumType {
+	return &file_eolymp_commerce_order_proto_enumTypes[0]
+}
+
+func (x Order_Status) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use Order_Status.Descriptor instead.
+func (Order_Status) EnumDescriptor() ([]byte, []int) {
+	return file_eolymp_commerce_order_proto_rawDescGZIP(), []int{0, 0}
+}
+
 // Order represents a finalized and submitted shopping cart.
 // All amounts are specified in cents, for example 100 means €1.
 type Order struct {
 	state                 protoimpl.MessageState `protogen:"open.v1"`
 	Id                    string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	Reference             string                 `protobuf:"bytes,2,opt,name=reference,proto3" json:"reference,omitempty"`
+	Status                Order_Status           `protobuf:"varint,3,opt,name=status,proto3,enum=eolymp.commerce.Order_Status" json:"status,omitempty"`
 	Items                 []*Order_Item          `protobuf:"bytes,10,rep,name=items,proto3" json:"items,omitempty"`
 	BillingAddress        *Address               `protobuf:"bytes,40,opt,name=billing_address,json=billingAddress,proto3" json:"billing_address,omitempty"`
 	ShippingAddress       *Address               `protobuf:"bytes,41,opt,name=shipping_address,json=shippingAddress,proto3" json:"shipping_address,omitempty"`
@@ -85,6 +144,13 @@ func (x *Order) GetReference() string {
 		return x.Reference
 	}
 	return ""
+}
+
+func (x *Order) GetStatus() Order_Status {
+	if x != nil {
+		return x.Status
+	}
+	return Order_UNSPECIFIED
 }
 
 func (x *Order) GetItems() []*Order_Item {
@@ -172,18 +238,21 @@ func (x *Order) GetGrandTotal() uint32 {
 }
 
 type Order_Item struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
-	Id             string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Name           string                 `protobuf:"bytes,4,opt,name=name,proto3" json:"name,omitempty"`
-	ImageUrl       string                 `protobuf:"bytes,5,opt,name=image_url,json=imageUrl,proto3" json:"image_url,omitempty"`
-	ProductId      string                 `protobuf:"bytes,2,opt,name=product_id,json=productId,proto3" json:"product_id,omitempty"`
-	VariantId      string                 `protobuf:"bytes,3,opt,name=variant_id,json=variantId,proto3" json:"variant_id,omitempty"`
-	Quantity       int32                  `protobuf:"varint,10,opt,name=quantity,proto3" json:"quantity,omitempty"`
-	UnitAmount     uint32                 `protobuf:"varint,21,opt,name=unit_amount,json=unitAmount,proto3" json:"unit_amount,omitempty"`
-	TotalAmount    uint32                 `protobuf:"varint,22,opt,name=total_amount,json=totalAmount,proto3" json:"total_amount,omitempty"`
-	DiscountAmount uint32                 `protobuf:"varint,23,opt,name=discount_amount,json=discountAmount,proto3" json:"discount_amount,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	Id                string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name              string                 `protobuf:"bytes,4,opt,name=name,proto3" json:"name,omitempty"`
+	ImageUrl          string                 `protobuf:"bytes,5,opt,name=image_url,json=imageUrl,proto3" json:"image_url,omitempty"`
+	ProductId         string                 `protobuf:"bytes,2,opt,name=product_id,json=productId,proto3" json:"product_id,omitempty"`
+	VariantId         string                 `protobuf:"bytes,3,opt,name=variant_id,json=variantId,proto3" json:"variant_id,omitempty"`
+	QuantityOrdered   uint32                 `protobuf:"varint,10,opt,name=quantity_ordered,json=quantityOrdered,proto3" json:"quantity_ordered,omitempty"`
+	QuantityCancelled uint32                 `protobuf:"varint,11,opt,name=quantity_cancelled,json=quantityCancelled,proto3" json:"quantity_cancelled,omitempty"`
+	QuantityShipped   uint32                 `protobuf:"varint,12,opt,name=quantity_shipped,json=quantityShipped,proto3" json:"quantity_shipped,omitempty"`
+	QuantityReturned  uint32                 `protobuf:"varint,13,opt,name=quantity_returned,json=quantityReturned,proto3" json:"quantity_returned,omitempty"`
+	UnitAmount        uint32                 `protobuf:"varint,21,opt,name=unit_amount,json=unitAmount,proto3" json:"unit_amount,omitempty"`
+	TotalAmount       uint32                 `protobuf:"varint,22,opt,name=total_amount,json=totalAmount,proto3" json:"total_amount,omitempty"`
+	DiscountAmount    uint32                 `protobuf:"varint,23,opt,name=discount_amount,json=discountAmount,proto3" json:"discount_amount,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
 }
 
 func (x *Order_Item) Reset() {
@@ -251,9 +320,30 @@ func (x *Order_Item) GetVariantId() string {
 	return ""
 }
 
-func (x *Order_Item) GetQuantity() int32 {
+func (x *Order_Item) GetQuantityOrdered() uint32 {
 	if x != nil {
-		return x.Quantity
+		return x.QuantityOrdered
+	}
+	return 0
+}
+
+func (x *Order_Item) GetQuantityCancelled() uint32 {
+	if x != nil {
+		return x.QuantityCancelled
+	}
+	return 0
+}
+
+func (x *Order_Item) GetQuantityShipped() uint32 {
+	if x != nil {
+		return x.QuantityShipped
+	}
+	return 0
+}
+
+func (x *Order_Item) GetQuantityReturned() uint32 {
+	if x != nil {
+		return x.QuantityReturned
 	}
 	return 0
 }
@@ -283,10 +373,11 @@ var File_eolymp_commerce_order_proto protoreflect.FileDescriptor
 
 const file_eolymp_commerce_order_proto_rawDesc = "" +
 	"\n" +
-	"\x1beolymp/commerce/order.proto\x12\x0feolymp.commerce\x1a\x1deolymp/commerce/address.proto\"\xc1\x06\n" +
+	"\x1beolymp/commerce/order.proto\x12\x0feolymp.commerce\x1a\x1deolymp/commerce/address.proto\"\x92\t\n" +
 	"\x05Order\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1c\n" +
-	"\treference\x18\x02 \x01(\tR\treference\x121\n" +
+	"\treference\x18\x02 \x01(\tR\treference\x125\n" +
+	"\x06status\x18\x03 \x01(\x0e2\x1d.eolymp.commerce.Order.StatusR\x06status\x121\n" +
 	"\x05items\x18\n" +
 	" \x03(\v2\x1b.eolymp.commerce.Order.ItemR\x05items\x12A\n" +
 	"\x0fbilling_address\x18( \x01(\v2\x18.eolymp.commerce.AddressR\x0ebillingAddress\x12C\n" +
@@ -301,7 +392,7 @@ const file_eolymp_commerce_order_proto_rawDesc = "" +
 	"\btax_rate\x18\x19 \x01(\rR\ataxRate\x12\x19\n" +
 	"\btax_note\x18\x1a \x01(\tR\ataxNote\x12\x1f\n" +
 	"\vgrand_total\x18\x1e \x01(\rR\n" +
-	"grandTotal\x1a\x8e\x02\n" +
+	"grandTotal\x1a\xa4\x03\n" +
 	"\x04Item\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x04 \x01(\tR\x04name\x12\x1b\n" +
@@ -309,13 +400,23 @@ const file_eolymp_commerce_order_proto_rawDesc = "" +
 	"\n" +
 	"product_id\x18\x02 \x01(\tR\tproductId\x12\x1d\n" +
 	"\n" +
-	"variant_id\x18\x03 \x01(\tR\tvariantId\x12\x1a\n" +
-	"\bquantity\x18\n" +
-	" \x01(\x05R\bquantity\x12\x1f\n" +
+	"variant_id\x18\x03 \x01(\tR\tvariantId\x12)\n" +
+	"\x10quantity_ordered\x18\n" +
+	" \x01(\rR\x0fquantityOrdered\x12-\n" +
+	"\x12quantity_cancelled\x18\v \x01(\rR\x11quantityCancelled\x12)\n" +
+	"\x10quantity_shipped\x18\f \x01(\rR\x0fquantityShipped\x12+\n" +
+	"\x11quantity_returned\x18\r \x01(\rR\x10quantityReturned\x12\x1f\n" +
 	"\vunit_amount\x18\x15 \x01(\rR\n" +
 	"unitAmount\x12!\n" +
 	"\ftotal_amount\x18\x16 \x01(\rR\vtotalAmount\x12'\n" +
-	"\x0fdiscount_amount\x18\x17 \x01(\rR\x0ediscountAmountB3Z1github.com/eolymp/go-sdk/eolymp/commerce;commerceb\x06proto3"
+	"\x0fdiscount_amount\x18\x17 \x01(\rR\x0ediscountAmount\"\x81\x01\n" +
+	"\x06Status\x12\x0f\n" +
+	"\vUNSPECIFIED\x10\x00\x12\x12\n" +
+	"\x0eSTATUS_CREATED\x10\x01\x12\x12\n" +
+	"\x0eSTATUS_PENDING\x10\x02\x12\x15\n" +
+	"\x11STATUS_PROCESSING\x10\x03\x12\x13\n" +
+	"\x0fSTATUS_CANCELED\x10\x04\x12\x12\n" +
+	"\x0eSTATUS_SHIPPED\x10\x05B3Z1github.com/eolymp/go-sdk/eolymp/commerce;commerceb\x06proto3"
 
 var (
 	file_eolymp_commerce_order_proto_rawDescOnce sync.Once
@@ -329,21 +430,24 @@ func file_eolymp_commerce_order_proto_rawDescGZIP() []byte {
 	return file_eolymp_commerce_order_proto_rawDescData
 }
 
+var file_eolymp_commerce_order_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_eolymp_commerce_order_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_eolymp_commerce_order_proto_goTypes = []any{
-	(*Order)(nil),      // 0: eolymp.commerce.Order
-	(*Order_Item)(nil), // 1: eolymp.commerce.Order.Item
-	(*Address)(nil),    // 2: eolymp.commerce.Address
+	(Order_Status)(0),  // 0: eolymp.commerce.Order.Status
+	(*Order)(nil),      // 1: eolymp.commerce.Order
+	(*Order_Item)(nil), // 2: eolymp.commerce.Order.Item
+	(*Address)(nil),    // 3: eolymp.commerce.Address
 }
 var file_eolymp_commerce_order_proto_depIdxs = []int32{
-	1, // 0: eolymp.commerce.Order.items:type_name -> eolymp.commerce.Order.Item
-	2, // 1: eolymp.commerce.Order.billing_address:type_name -> eolymp.commerce.Address
-	2, // 2: eolymp.commerce.Order.shipping_address:type_name -> eolymp.commerce.Address
-	3, // [3:3] is the sub-list for method output_type
-	3, // [3:3] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	0, // 0: eolymp.commerce.Order.status:type_name -> eolymp.commerce.Order.Status
+	2, // 1: eolymp.commerce.Order.items:type_name -> eolymp.commerce.Order.Item
+	3, // 2: eolymp.commerce.Order.billing_address:type_name -> eolymp.commerce.Address
+	3, // 3: eolymp.commerce.Order.shipping_address:type_name -> eolymp.commerce.Address
+	4, // [4:4] is the sub-list for method output_type
+	4, // [4:4] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_commerce_order_proto_init() }
@@ -357,13 +461,14 @@ func file_eolymp_commerce_order_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_commerce_order_proto_rawDesc), len(file_eolymp_commerce_order_proto_rawDesc)),
-			NumEnums:      0,
+			NumEnums:      1,
 			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
 		GoTypes:           file_eolymp_commerce_order_proto_goTypes,
 		DependencyIndexes: file_eolymp_commerce_order_proto_depIdxs,
+		EnumInfos:         file_eolymp_commerce_order_proto_enumTypes,
 		MessageInfos:      file_eolymp_commerce_order_proto_msgTypes,
 	}.Build()
 	File_eolymp_commerce_order_proto = out.File

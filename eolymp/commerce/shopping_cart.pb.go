@@ -168,7 +168,7 @@ type ShoppingCart_Item struct {
 	Id             string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	ProductId      string                 `protobuf:"bytes,2,opt,name=product_id,json=productId,proto3" json:"product_id,omitempty"`
 	VariantId      string                 `protobuf:"bytes,3,opt,name=variant_id,json=variantId,proto3" json:"variant_id,omitempty"`
-	Quantity       int32                  `protobuf:"varint,10,opt,name=quantity,proto3" json:"quantity,omitempty"`
+	Quantity       uint32                 `protobuf:"varint,10,opt,name=quantity,proto3" json:"quantity,omitempty"`
 	UnitAmount     uint32                 `protobuf:"varint,21,opt,name=unit_amount,json=unitAmount,proto3" json:"unit_amount,omitempty"`
 	TotalAmount    uint32                 `protobuf:"varint,22,opt,name=total_amount,json=totalAmount,proto3" json:"total_amount,omitempty"`
 	DiscountAmount uint32                 `protobuf:"varint,23,opt,name=discount_amount,json=discountAmount,proto3" json:"discount_amount,omitempty"`
@@ -227,7 +227,7 @@ func (x *ShoppingCart_Item) GetVariantId() string {
 	return ""
 }
 
-func (x *ShoppingCart_Item) GetQuantity() int32 {
+func (x *ShoppingCart_Item) GetQuantity() uint32 {
 	if x != nil {
 		return x.Quantity
 	}
@@ -284,7 +284,7 @@ const file_eolymp_commerce_shopping_cart_proto_rawDesc = "" +
 	"\n" +
 	"variant_id\x18\x03 \x01(\tR\tvariantId\x12\x1a\n" +
 	"\bquantity\x18\n" +
-	" \x01(\x05R\bquantity\x12\x1f\n" +
+	" \x01(\rR\bquantity\x12\x1f\n" +
 	"\vunit_amount\x18\x15 \x01(\rR\n" +
 	"unitAmount\x12!\n" +
 	"\ftotal_amount\x18\x16 \x01(\rR\vtotalAmount\x12'\n" +
