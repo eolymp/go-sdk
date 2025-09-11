@@ -80,15 +80,14 @@ func (Product_Extra_Field) EnumDescriptor() ([]byte, []int) {
 type Product_Patch_Field int32
 
 const (
-	Product_Patch_UNKNOWN_FIELD      Product_Patch_Field = 0
-	Product_Patch_ALL                Product_Patch_Field = 1
-	Product_Patch_NAME               Product_Patch_Field = 2
-	Product_Patch_DESCRIPTION        Product_Patch_Field = 3
-	Product_Patch_IMAGES             Product_Patch_Field = 4
-	Product_Patch_UNIT_PRICE         Product_Patch_Field = 5
-	Product_Patch_CREDIT_EQUIVALENCE Product_Patch_Field = 6
-	Product_Patch_ATTRIBUTES         Product_Patch_Field = 7
-	Product_Patch_VARIANTS           Product_Patch_Field = 8
+	Product_Patch_UNKNOWN_FIELD Product_Patch_Field = 0
+	Product_Patch_ALL           Product_Patch_Field = 1
+	Product_Patch_NAME          Product_Patch_Field = 2
+	Product_Patch_DESCRIPTION   Product_Patch_Field = 3
+	Product_Patch_IMAGES        Product_Patch_Field = 4
+	Product_Patch_UNIT_PRICE    Product_Patch_Field = 5
+	Product_Patch_ATTRIBUTES    Product_Patch_Field = 7
+	Product_Patch_VARIANTS      Product_Patch_Field = 8
 )
 
 // Enum value maps for Product_Patch_Field.
@@ -100,20 +99,18 @@ var (
 		3: "DESCRIPTION",
 		4: "IMAGES",
 		5: "UNIT_PRICE",
-		6: "CREDIT_EQUIVALENCE",
 		7: "ATTRIBUTES",
 		8: "VARIANTS",
 	}
 	Product_Patch_Field_value = map[string]int32{
-		"UNKNOWN_FIELD":      0,
-		"ALL":                1,
-		"NAME":               2,
-		"DESCRIPTION":        3,
-		"IMAGES":             4,
-		"UNIT_PRICE":         5,
-		"CREDIT_EQUIVALENCE": 6,
-		"ATTRIBUTES":         7,
-		"VARIANTS":           8,
+		"UNKNOWN_FIELD": 0,
+		"ALL":           1,
+		"NAME":          2,
+		"DESCRIPTION":   3,
+		"IMAGES":        4,
+		"UNIT_PRICE":    5,
+		"ATTRIBUTES":    7,
+		"VARIANTS":      8,
 	}
 )
 
@@ -145,19 +142,18 @@ func (Product_Patch_Field) EnumDescriptor() ([]byte, []int) {
 }
 
 type Product struct {
-	state             protoimpl.MessageState `protogen:"open.v1"`
-	Id                string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Name              string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Description       *ecm.Content           `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
-	Images            []string               `protobuf:"bytes,10,rep,name=images,proto3" json:"images,omitempty"`
-	OutOfStock        bool                   `protobuf:"varint,30,opt,name=out_of_stock,json=outOfStock,proto3" json:"out_of_stock,omitempty"`
-	Currency          string                 `protobuf:"bytes,20,opt,name=currency,proto3" json:"currency,omitempty"`
-	UnitPrice         uint32                 `protobuf:"varint,21,opt,name=unit_price,json=unitPrice,proto3" json:"unit_price,omitempty"`
-	CreditEquivalence uint32                 `protobuf:"varint,22,opt,name=credit_equivalence,json=creditEquivalence,proto3" json:"credit_equivalence,omitempty"`
-	Attributes        []*Product_Attribute   `protobuf:"bytes,40,rep,name=attributes,proto3" json:"attributes,omitempty"`
-	Variants          []*Product_Variant     `protobuf:"bytes,50,rep,name=variants,proto3" json:"variants,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Description   *ecm.Content           `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	Images        []string               `protobuf:"bytes,10,rep,name=images,proto3" json:"images,omitempty"`
+	OutOfStock    bool                   `protobuf:"varint,30,opt,name=out_of_stock,json=outOfStock,proto3" json:"out_of_stock,omitempty"`
+	Currency      string                 `protobuf:"bytes,20,opt,name=currency,proto3" json:"currency,omitempty"`
+	UnitPrice     uint32                 `protobuf:"varint,21,opt,name=unit_price,json=unitPrice,proto3" json:"unit_price,omitempty"`
+	Attributes    []*Product_Attribute   `protobuf:"bytes,40,rep,name=attributes,proto3" json:"attributes,omitempty"`
+	Variants      []*Product_Variant     `protobuf:"bytes,50,rep,name=variants,proto3" json:"variants,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Product) Reset() {
@@ -235,13 +231,6 @@ func (x *Product) GetCurrency() string {
 func (x *Product) GetUnitPrice() uint32 {
 	if x != nil {
 		return x.UnitPrice
-	}
-	return 0
-}
-
-func (x *Product) GetCreditEquivalence() uint32 {
-	if x != nil {
-		return x.CreditEquivalence
 	}
 	return 0
 }
@@ -458,7 +447,7 @@ var File_eolymp_commerce_product_proto protoreflect.FileDescriptor
 
 const file_eolymp_commerce_product_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/commerce/product.proto\x12\x0feolymp.commerce\x1a\x18eolymp/ecm/content.proto\"\xa5\a\n" +
+	"\x1deolymp/commerce/product.proto\x12\x0feolymp.commerce\x1a\x18eolymp/ecm/content.proto\"\xdd\x06\n" +
 	"\aProduct\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x125\n" +
@@ -469,8 +458,7 @@ const file_eolymp_commerce_product_proto_rawDesc = "" +
 	"outOfStock\x12\x1a\n" +
 	"\bcurrency\x18\x14 \x01(\tR\bcurrency\x12\x1d\n" +
 	"\n" +
-	"unit_price\x18\x15 \x01(\rR\tunitPrice\x12-\n" +
-	"\x12credit_equivalence\x18\x16 \x01(\rR\x11creditEquivalence\x12B\n" +
+	"unit_price\x18\x15 \x01(\rR\tunitPrice\x12B\n" +
 	"\n" +
 	"attributes\x18( \x03(\v2\".eolymp.commerce.Product.AttributeR\n" +
 	"attributes\x12<\n" +
@@ -482,8 +470,8 @@ const file_eolymp_commerce_product_proto_rawDesc = "" +
 	"\x12DESCRIPTION_RENDER\x10\x02\x12\x0e\n" +
 	"\n" +
 	"ATTRIBUTES\x10\x03\x12\f\n" +
-	"\bVARIANTS\x10\x04\x1a\x9a\x01\n" +
-	"\x05Patch\"\x90\x01\n" +
+	"\bVARIANTS\x10\x04\x1a\x81\x01\n" +
+	"\x05Patch\"x\n" +
 	"\x05Field\x12\x11\n" +
 	"\rUNKNOWN_FIELD\x10\x00\x12\a\n" +
 	"\x03ALL\x10\x01\x12\b\n" +
@@ -492,8 +480,7 @@ const file_eolymp_commerce_product_proto_rawDesc = "" +
 	"\n" +
 	"\x06IMAGES\x10\x04\x12\x0e\n" +
 	"\n" +
-	"UNIT_PRICE\x10\x05\x12\x16\n" +
-	"\x12CREDIT_EQUIVALENCE\x10\x06\x12\x0e\n" +
+	"UNIT_PRICE\x10\x05\x12\x0e\n" +
 	"\n" +
 	"ATTRIBUTES\x10\a\x12\f\n" +
 	"\bVARIANTS\x10\b\x1a3\n" +
