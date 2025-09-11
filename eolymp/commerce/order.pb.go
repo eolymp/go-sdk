@@ -21,9 +21,12 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// Order represents a finalized and submitted shopping cart.
+// All amounts are specified in cents, for example 100 means €1.
 type Order struct {
 	state                 protoimpl.MessageState `protogen:"open.v1"`
 	Id                    string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Reference             string                 `protobuf:"bytes,2,opt,name=reference,proto3" json:"reference,omitempty"`
 	Items                 []*Order_Item          `protobuf:"bytes,10,rep,name=items,proto3" json:"items,omitempty"`
 	BillingAddress        *Address               `protobuf:"bytes,40,opt,name=billing_address,json=billingAddress,proto3" json:"billing_address,omitempty"`
 	ShippingAddress       *Address               `protobuf:"bytes,41,opt,name=shipping_address,json=shippingAddress,proto3" json:"shipping_address,omitempty"`
@@ -33,7 +36,7 @@ type Order struct {
 	ShippingAmount        uint32                 `protobuf:"varint,22,opt,name=shipping_amount,json=shippingAmount,proto3" json:"shipping_amount,omitempty"`
 	DiscountAmount        uint32                 `protobuf:"varint,23,opt,name=discount_amount,json=discountAmount,proto3" json:"discount_amount,omitempty"`
 	TaxAmount             uint32                 `protobuf:"varint,24,opt,name=tax_amount,json=taxAmount,proto3" json:"tax_amount,omitempty"`
-	TaxRate               uint32                 `protobuf:"varint,25,opt,name=tax_rate,json=taxRate,proto3" json:"tax_rate,omitempty"`
+	TaxRate               uint32                 `protobuf:"varint,25,opt,name=tax_rate,json=taxRate,proto3" json:"tax_rate,omitempty"` // in hundredth of percent, e.g. 755 means 7.55%
 	TaxNote               string                 `protobuf:"bytes,26,opt,name=tax_note,json=taxNote,proto3" json:"tax_note,omitempty"`
 	GrandTotal            uint32                 `protobuf:"varint,30,opt,name=grand_total,json=grandTotal,proto3" json:"grand_total,omitempty"`
 	unknownFields         protoimpl.UnknownFields
@@ -73,6 +76,13 @@ func (*Order) Descriptor() ([]byte, []int) {
 func (x *Order) GetId() string {
 	if x != nil {
 		return x.Id
+	}
+	return ""
+}
+
+func (x *Order) GetReference() string {
+	if x != nil {
+		return x.Reference
 	}
 	return ""
 }
@@ -273,9 +283,10 @@ var File_eolymp_commerce_order_proto protoreflect.FileDescriptor
 
 const file_eolymp_commerce_order_proto_rawDesc = "" +
 	"\n" +
-	"\x1beolymp/commerce/order.proto\x12\x0feolymp.commerce\x1a\x1deolymp/commerce/address.proto\"\xa3\x06\n" +
+	"\x1beolymp/commerce/order.proto\x12\x0feolymp.commerce\x1a\x1deolymp/commerce/address.proto\"\xc1\x06\n" +
 	"\x05Order\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x121\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1c\n" +
+	"\treference\x18\x02 \x01(\tR\treference\x121\n" +
 	"\x05items\x18\n" +
 	" \x03(\v2\x1b.eolymp.commerce.Order.ItemR\x05items\x12A\n" +
 	"\x0fbilling_address\x18( \x01(\v2\x18.eolymp.commerce.AddressR\x0ebillingAddress\x12C\n" +
