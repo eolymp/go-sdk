@@ -24,31 +24,31 @@ const (
 type Order_Status int32
 
 const (
-	Order_UNSPECIFIED       Order_Status = 0
-	Order_STATUS_CREATED    Order_Status = 1 // Order is created but not ready for processing yet (eg. unpaid).
-	Order_STATUS_PENDING    Order_Status = 2 // Order is pending to be processed.
-	Order_STATUS_PROCESSING Order_Status = 3 // Order is ready for processing.
-	Order_STATUS_CANCELED   Order_Status = 4 // Order is canceled.
-	Order_STATUS_SHIPPED    Order_Status = 5 // Order is shipped.
+	Order_UNSPECIFIED Order_Status = 0
+	Order_CREATED     Order_Status = 1 // Order is created but not ready for processing yet (eg. unpaid).
+	Order_PENDING     Order_Status = 2 // Order is pending to be processed.
+	Order_PROCESSING  Order_Status = 3 // Order is ready for processing.
+	Order_CANCELED    Order_Status = 4 // Order is canceled.
+	Order_SHIPPED     Order_Status = 5 // Order is shipped.
 )
 
 // Enum value maps for Order_Status.
 var (
 	Order_Status_name = map[int32]string{
 		0: "UNSPECIFIED",
-		1: "STATUS_CREATED",
-		2: "STATUS_PENDING",
-		3: "STATUS_PROCESSING",
-		4: "STATUS_CANCELED",
-		5: "STATUS_SHIPPED",
+		1: "CREATED",
+		2: "PENDING",
+		3: "PROCESSING",
+		4: "CANCELED",
+		5: "SHIPPED",
 	}
 	Order_Status_value = map[string]int32{
-		"UNSPECIFIED":       0,
-		"STATUS_CREATED":    1,
-		"STATUS_PENDING":    2,
-		"STATUS_PROCESSING": 3,
-		"STATUS_CANCELED":   4,
-		"STATUS_SHIPPED":    5,
+		"UNSPECIFIED": 0,
+		"CREATED":     1,
+		"PENDING":     2,
+		"PROCESSING":  3,
+		"CANCELED":    4,
+		"SHIPPED":     5,
 	}
 )
 
@@ -373,7 +373,7 @@ var File_eolymp_commerce_order_proto protoreflect.FileDescriptor
 
 const file_eolymp_commerce_order_proto_rawDesc = "" +
 	"\n" +
-	"\x1beolymp/commerce/order.proto\x12\x0feolymp.commerce\x1a\x1deolymp/commerce/address.proto\"\x92\t\n" +
+	"\x1beolymp/commerce/order.proto\x12\x0feolymp.commerce\x1a\x1deolymp/commerce/address.proto\"\xee\b\n" +
 	"\x05Order\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1c\n" +
 	"\treference\x18\x02 \x01(\tR\treference\x125\n" +
@@ -409,14 +409,15 @@ const file_eolymp_commerce_order_proto_rawDesc = "" +
 	"\vunit_amount\x18\x15 \x01(\rR\n" +
 	"unitAmount\x12!\n" +
 	"\ftotal_amount\x18\x16 \x01(\rR\vtotalAmount\x12'\n" +
-	"\x0fdiscount_amount\x18\x17 \x01(\rR\x0ediscountAmount\"\x81\x01\n" +
+	"\x0fdiscount_amount\x18\x17 \x01(\rR\x0ediscountAmount\"^\n" +
 	"\x06Status\x12\x0f\n" +
-	"\vUNSPECIFIED\x10\x00\x12\x12\n" +
-	"\x0eSTATUS_CREATED\x10\x01\x12\x12\n" +
-	"\x0eSTATUS_PENDING\x10\x02\x12\x15\n" +
-	"\x11STATUS_PROCESSING\x10\x03\x12\x13\n" +
-	"\x0fSTATUS_CANCELED\x10\x04\x12\x12\n" +
-	"\x0eSTATUS_SHIPPED\x10\x05B3Z1github.com/eolymp/go-sdk/eolymp/commerce;commerceb\x06proto3"
+	"\vUNSPECIFIED\x10\x00\x12\v\n" +
+	"\aCREATED\x10\x01\x12\v\n" +
+	"\aPENDING\x10\x02\x12\x0e\n" +
+	"\n" +
+	"PROCESSING\x10\x03\x12\f\n" +
+	"\bCANCELED\x10\x04\x12\v\n" +
+	"\aSHIPPED\x10\x05B3Z1github.com/eolymp/go-sdk/eolymp/commerce;commerceb\x06proto3"
 
 var (
 	file_eolymp_commerce_order_proto_rawDescOnce sync.Once
