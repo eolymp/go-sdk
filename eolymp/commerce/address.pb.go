@@ -22,15 +22,20 @@ const (
 )
 
 type Address struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Country       string                 `protobuf:"bytes,200,opt,name=country,proto3" json:"country,omitempty"` // two letter code, lowercase
-	State         string                 `protobuf:"bytes,201,opt,name=state,proto3" json:"state,omitempty"`
-	PostalCode    string                 `protobuf:"bytes,202,opt,name=postal_code,json=postalCode,proto3" json:"postal_code,omitempty"`
-	City          string                 `protobuf:"bytes,203,opt,name=city,proto3" json:"city,omitempty"`
-	Line1         string                 `protobuf:"bytes,210,opt,name=line1,proto3" json:"line1,omitempty"`
-	Line2         string                 `protobuf:"bytes,211,opt,name=line2,proto3" json:"line2,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Name           string                 `protobuf:"bytes,100,opt,name=name,proto3" json:"name,omitempty"`
+	Phone          string                 `protobuf:"bytes,101,opt,name=phone,proto3" json:"phone,omitempty"`
+	Email          string                 `protobuf:"bytes,102,opt,name=email,proto3" json:"email,omitempty"`
+	Country        string                 `protobuf:"bytes,200,opt,name=country,proto3" json:"country,omitempty"` // two letter code, lowercase
+	State          string                 `protobuf:"bytes,201,opt,name=state,proto3" json:"state,omitempty"`
+	PostalCode     string                 `protobuf:"bytes,202,opt,name=postal_code,json=postalCode,proto3" json:"postal_code,omitempty"`
+	City           string                 `protobuf:"bytes,203,opt,name=city,proto3" json:"city,omitempty"`
+	Line1          string                 `protobuf:"bytes,210,opt,name=line1,proto3" json:"line1,omitempty"`
+	HouseNumber    string                 `protobuf:"bytes,212,opt,name=house_number,json=houseNumber,proto3" json:"house_number,omitempty"`
+	Line2          string                 `protobuf:"bytes,211,opt,name=line2,proto3" json:"line2,omitempty"`
+	PickupLocation string                 `protobuf:"bytes,300,opt,name=pickup_location,json=pickupLocation,proto3" json:"pickup_location,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *Address) Reset() {
@@ -61,6 +66,27 @@ func (x *Address) ProtoReflect() protoreflect.Message {
 // Deprecated: Use Address.ProtoReflect.Descriptor instead.
 func (*Address) Descriptor() ([]byte, []int) {
 	return file_eolymp_commerce_address_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *Address) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *Address) GetPhone() string {
+	if x != nil {
+		return x.Phone
+	}
+	return ""
+}
+
+func (x *Address) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
 }
 
 func (x *Address) GetCountry() string {
@@ -98,9 +124,23 @@ func (x *Address) GetLine1() string {
 	return ""
 }
 
+func (x *Address) GetHouseNumber() string {
+	if x != nil {
+		return x.HouseNumber
+	}
+	return ""
+}
+
 func (x *Address) GetLine2() string {
 	if x != nil {
 		return x.Line2
+	}
+	return ""
+}
+
+func (x *Address) GetPickupLocation() string {
+	if x != nil {
+		return x.PickupLocation
 	}
 	return ""
 }
@@ -109,15 +149,20 @@ var File_eolymp_commerce_address_proto protoreflect.FileDescriptor
 
 const file_eolymp_commerce_address_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/commerce/address.proto\x12\x0feolymp.commerce\"\xa0\x01\n" +
-	"\aAddress\x12\x19\n" +
+	"\x1deolymp/commerce/address.proto\x12\x0feolymp.commerce\"\xae\x02\n" +
+	"\aAddress\x12\x12\n" +
+	"\x04name\x18d \x01(\tR\x04name\x12\x14\n" +
+	"\x05phone\x18e \x01(\tR\x05phone\x12\x14\n" +
+	"\x05email\x18f \x01(\tR\x05email\x12\x19\n" +
 	"\acountry\x18\xc8\x01 \x01(\tR\acountry\x12\x15\n" +
 	"\x05state\x18\xc9\x01 \x01(\tR\x05state\x12 \n" +
 	"\vpostal_code\x18\xca\x01 \x01(\tR\n" +
 	"postalCode\x12\x13\n" +
 	"\x04city\x18\xcb\x01 \x01(\tR\x04city\x12\x15\n" +
-	"\x05line1\x18\xd2\x01 \x01(\tR\x05line1\x12\x15\n" +
-	"\x05line2\x18\xd3\x01 \x01(\tR\x05line2B3Z1github.com/eolymp/go-sdk/eolymp/commerce;commerceb\x06proto3"
+	"\x05line1\x18\xd2\x01 \x01(\tR\x05line1\x12\"\n" +
+	"\fhouse_number\x18\xd4\x01 \x01(\tR\vhouseNumber\x12\x15\n" +
+	"\x05line2\x18\xd3\x01 \x01(\tR\x05line2\x12(\n" +
+	"\x0fpickup_location\x18\xac\x02 \x01(\tR\x0epickupLocationB3Z1github.com/eolymp/go-sdk/eolymp/commerce;commerceb\x06proto3"
 
 var (
 	file_eolymp_commerce_address_proto_rawDescOnce sync.Once
