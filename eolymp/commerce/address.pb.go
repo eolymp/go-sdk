@@ -25,7 +25,6 @@ type Address struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	Name           string                 `protobuf:"bytes,100,opt,name=name,proto3" json:"name,omitempty"`
 	Phone          string                 `protobuf:"bytes,101,opt,name=phone,proto3" json:"phone,omitempty"`
-	Email          string                 `protobuf:"bytes,102,opt,name=email,proto3" json:"email,omitempty"`
 	Country        string                 `protobuf:"bytes,200,opt,name=country,proto3" json:"country,omitempty"` // two letter code, lowercase
 	State          string                 `protobuf:"bytes,201,opt,name=state,proto3" json:"state,omitempty"`
 	PostalCode     string                 `protobuf:"bytes,202,opt,name=postal_code,json=postalCode,proto3" json:"postal_code,omitempty"`
@@ -78,13 +77,6 @@ func (x *Address) GetName() string {
 func (x *Address) GetPhone() string {
 	if x != nil {
 		return x.Phone
-	}
-	return ""
-}
-
-func (x *Address) GetEmail() string {
-	if x != nil {
-		return x.Email
 	}
 	return ""
 }
@@ -149,11 +141,10 @@ var File_eolymp_commerce_address_proto protoreflect.FileDescriptor
 
 const file_eolymp_commerce_address_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/commerce/address.proto\x12\x0feolymp.commerce\"\xae\x02\n" +
+	"\x1deolymp/commerce/address.proto\x12\x0feolymp.commerce\"\x98\x02\n" +
 	"\aAddress\x12\x12\n" +
 	"\x04name\x18d \x01(\tR\x04name\x12\x14\n" +
-	"\x05phone\x18e \x01(\tR\x05phone\x12\x14\n" +
-	"\x05email\x18f \x01(\tR\x05email\x12\x19\n" +
+	"\x05phone\x18e \x01(\tR\x05phone\x12\x19\n" +
 	"\acountry\x18\xc8\x01 \x01(\tR\acountry\x12\x15\n" +
 	"\x05state\x18\xc9\x01 \x01(\tR\x05state\x12 \n" +
 	"\vpostal_code\x18\xca\x01 \x01(\tR\n" +
