@@ -663,58 +663,43 @@ const file_eolymp_commerce_shopping_service_proto_rawDesc = "" +
 	"\x0fPlaceOrderInput\"P\n" +
 	"\x10PlaceOrderOutput\x12\x19\n" +
 	"\border_id\x18\x01 \x01(\tR\aorderId\x12!\n" +
-	"\forder_number\x18\x02 \x01(\tR\vorderNumber2\xc7\n" +
-	"\n" +
-	"\x0fShoppingService\x12\xb1\x01\n" +
-	"\x14DescribeShoppingCart\x12*.eolymp.commerce.DescribeShoppingCartInput\x1a+.eolymp.commerce.DescribeShoppingCartOutput\"@\xea\xe2\n" +
+	"\forder_number\x18\x02 \x01(\tR\vorderNumber2\xee\b\n" +
+	"\x0fShoppingService\x12\x93\x01\n" +
+	"\x14DescribeShoppingCart\x12*.eolymp.commerce.DescribeShoppingCartInput\x1a+.eolymp.commerce.DescribeShoppingCartOutput\"\"\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
-	"d\x82\xe3\n" +
-	"\x1a\x8a\xe3\n" +
-	"\x16commerce:shopping:read\x82\xd3\xe4\x93\x02\r\x12\v/store/cart\x12\xbe\x01\n" +
-	"\x16CreateShoppingCartItem\x12,.eolymp.commerce.CreateShoppingCartItemInput\x1a-.eolymp.commerce.CreateShoppingCartItemOutput\"G\xea\xe2\n" +
+	"d\x82\xd3\xe4\x93\x02\r\x12\v/store/cart\x12\x9f\x01\n" +
+	"\x16CreateShoppingCartItem\x12,.eolymp.commerce.CreateShoppingCartItemInput\x1a-.eolymp.commerce.CreateShoppingCartItemOutput\"(\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\n" +
-	"\x82\xe3\n" +
-	"\x1b\x8a\xe3\n" +
-	"\x17commerce:shopping:write\x82\xd3\xe4\x93\x02\x13\"\x11/store/cart/items\x12\xc8\x01\n" +
-	"\x16UpdateShoppingCartItem\x12,.eolymp.commerce.UpdateShoppingCartItemInput\x1a-.eolymp.commerce.UpdateShoppingCartItemOutput\"Q\xea\xe2\n" +
+	"\x82\xd3\xe4\x93\x02\x13\"\x11/store/cart/items\x12\xa9\x01\n" +
+	"\x16UpdateShoppingCartItem\x12,.eolymp.commerce.UpdateShoppingCartItemInput\x1a-.eolymp.commerce.UpdateShoppingCartItemOutput\"2\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\n" +
-	"\x82\xe3\n" +
-	"\x1b\x8a\xe3\n" +
-	"\x17commerce:shopping:write\x82\xd3\xe4\x93\x02\x1d\x1a\x1b/store/cart/items/{item_id}\x12\xc8\x01\n" +
-	"\x16DeleteShoppingCartItem\x12,.eolymp.commerce.DeleteShoppingCartItemInput\x1a-.eolymp.commerce.DeleteShoppingCartItemOutput\"Q\xea\xe2\n" +
+	"\x82\xd3\xe4\x93\x02\x1d\x1a\x1b/store/cart/items/{item_id}\x12\xa9\x01\n" +
+	"\x16DeleteShoppingCartItem\x12,.eolymp.commerce.DeleteShoppingCartItemInput\x1a-.eolymp.commerce.DeleteShoppingCartItemOutput\"2\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\n" +
-	"\x82\xe3\n" +
-	"\x1b\x8a\xe3\n" +
-	"\x17commerce:shopping:write\x82\xd3\xe4\x93\x02\x1d*\x1b/store/cart/items/{item_id}\x12\xc6\x01\n" +
-	"\x15UpdateShippingAddress\x12+.eolymp.commerce.UpdateShippingAddressInput\x1a,.eolymp.commerce.UpdateShippingAddressOutput\"R\xea\xe2\n" +
+	"\x82\xd3\xe4\x93\x02\x1d*\x1b/store/cart/items/{item_id}\x12\xa7\x01\n" +
+	"\x15UpdateShippingAddress\x12+.eolymp.commerce.UpdateShippingAddressInput\x1a,.eolymp.commerce.UpdateShippingAddressOutput\"3\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\n" +
-	"\x82\xe3\n" +
-	"\x1b\x8a\xe3\n" +
-	"\x17commerce:shopping:write\x82\xd3\xe4\x93\x02\x1e\"\x1c/store/cart/shipping-address\x12\xc2\x01\n" +
-	"\x14UpdateBillingAddress\x12*.eolymp.commerce.UpdateBillingAddressInput\x1a+.eolymp.commerce.UpdateBillingAddressOutput\"Q\xea\xe2\n" +
+	"\x82\xd3\xe4\x93\x02\x1e\"\x1c/store/cart/shipping-address\x12\xa3\x01\n" +
+	"\x14UpdateBillingAddress\x12*.eolymp.commerce.UpdateBillingAddressInput\x1a+.eolymp.commerce.UpdateBillingAddressOutput\"2\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\n" +
-	"\x82\xe3\n" +
-	"\x1b\x8a\xe3\n" +
-	"\x17commerce:shopping:write\x82\xd3\xe4\x93\x02\x1d\"\x1b/store/cart/billing-address\x12\x9a\x01\n" +
+	"\x82\xd3\xe4\x93\x02\x1d\"\x1b/store/cart/billing-address\x12{\n" +
 	"\n" +
-	"PlaceOrder\x12 .eolymp.commerce.PlaceOrderInput\x1a!.eolymp.commerce.PlaceOrderOutput\"G\xea\xe2\n" +
+	"PlaceOrder\x12 .eolymp.commerce.PlaceOrderInput\x1a!.eolymp.commerce.PlaceOrderOutput\"(\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\n" +
-	"\x82\xe3\n" +
-	"\x1b\x8a\xe3\n" +
-	"\x17commerce:shopping:write\x82\xd3\xe4\x93\x02\x13\"\x11/store/cart:orderB3Z1github.com/eolymp/go-sdk/eolymp/commerce;commerceb\x06proto3"
+	"\x82\xd3\xe4\x93\x02\x13\"\x11/store/cart:orderB3Z1github.com/eolymp/go-sdk/eolymp/commerce;commerceb\x06proto3"
 
 var (
 	file_eolymp_commerce_shopping_service_proto_rawDescOnce sync.Once
