@@ -83,34 +83,43 @@ const (
 	Product_Patch_UNKNOWN_FIELD Product_Patch_Field = 0
 	Product_Patch_ALL           Product_Patch_Field = 1
 	Product_Patch_NAME          Product_Patch_Field = 2
+	Product_Patch_SUMMARY       Product_Patch_Field = 11
 	Product_Patch_DESCRIPTION   Product_Patch_Field = 3
 	Product_Patch_IMAGES        Product_Patch_Field = 4
 	Product_Patch_UNIT_PRICE    Product_Patch_Field = 5
 	Product_Patch_ATTRIBUTES    Product_Patch_Field = 7
 	Product_Patch_VARIANTS      Product_Patch_Field = 8
+	Product_Patch_FEATURED      Product_Patch_Field = 9
+	Product_Patch_INACTIVE      Product_Patch_Field = 10
 )
 
 // Enum value maps for Product_Patch_Field.
 var (
 	Product_Patch_Field_name = map[int32]string{
-		0: "UNKNOWN_FIELD",
-		1: "ALL",
-		2: "NAME",
-		3: "DESCRIPTION",
-		4: "IMAGES",
-		5: "UNIT_PRICE",
-		7: "ATTRIBUTES",
-		8: "VARIANTS",
+		0:  "UNKNOWN_FIELD",
+		1:  "ALL",
+		2:  "NAME",
+		11: "SUMMARY",
+		3:  "DESCRIPTION",
+		4:  "IMAGES",
+		5:  "UNIT_PRICE",
+		7:  "ATTRIBUTES",
+		8:  "VARIANTS",
+		9:  "FEATURED",
+		10: "INACTIVE",
 	}
 	Product_Patch_Field_value = map[string]int32{
 		"UNKNOWN_FIELD": 0,
 		"ALL":           1,
 		"NAME":          2,
+		"SUMMARY":       11,
 		"DESCRIPTION":   3,
 		"IMAGES":        4,
 		"UNIT_PRICE":    5,
 		"ATTRIBUTES":    7,
 		"VARIANTS":      8,
+		"FEATURED":      9,
+		"INACTIVE":      10,
 	}
 )
 
@@ -145,9 +154,13 @@ type Product struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Description   *ecm.Content           `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	Summary       *ecm.Content           `protobuf:"bytes,3,opt,name=summary,proto3" json:"summary,omitempty"`         // short product specification
+	Description   *ecm.Content           `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"` // longer product description
 	Images        []string               `protobuf:"bytes,10,rep,name=images,proto3" json:"images,omitempty"`
 	OutOfStock    bool                   `protobuf:"varint,30,opt,name=out_of_stock,json=outOfStock,proto3" json:"out_of_stock,omitempty"`
+	Featured      bool                   `protobuf:"varint,31,opt,name=featured,proto3" json:"featured,omitempty"`
+	Inactive      bool                   `protobuf:"varint,32,opt,name=inactive,proto3" json:"inactive,omitempty"`
+	Backorder     bool                   `protobuf:"varint,33,opt,name=backorder,proto3" json:"backorder,omitempty"`
 	Currency      string                 `protobuf:"bytes,20,opt,name=currency,proto3" json:"currency,omitempty"`
 	UnitPrice     uint32                 `protobuf:"varint,21,opt,name=unit_price,json=unitPrice,proto3" json:"unit_price,omitempty"`
 	Attributes    []*Product_Attribute   `protobuf:"bytes,40,rep,name=attributes,proto3" json:"attributes,omitempty"`
@@ -200,6 +213,13 @@ func (x *Product) GetName() string {
 	return ""
 }
 
+func (x *Product) GetSummary() *ecm.Content {
+	if x != nil {
+		return x.Summary
+	}
+	return nil
+}
+
 func (x *Product) GetDescription() *ecm.Content {
 	if x != nil {
 		return x.Description
@@ -217,6 +237,27 @@ func (x *Product) GetImages() []string {
 func (x *Product) GetOutOfStock() bool {
 	if x != nil {
 		return x.OutOfStock
+	}
+	return false
+}
+
+func (x *Product) GetFeatured() bool {
+	if x != nil {
+		return x.Featured
+	}
+	return false
+}
+
+func (x *Product) GetInactive() bool {
+	if x != nil {
+		return x.Inactive
+	}
+	return false
+}
+
+func (x *Product) GetBackorder() bool {
+	if x != nil {
+		return x.Backorder
 	}
 	return false
 }
@@ -378,9 +419,11 @@ func (x *Product_Attribute) GetLabel() string {
 type Product_Variant struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name          string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
 	Values        map[string]string      `protobuf:"bytes,2,rep,name=values,proto3" json:"values,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	Images        []string               `protobuf:"bytes,10,rep,name=images,proto3" json:"images,omitempty"`
 	OutOfStock    bool                   `protobuf:"varint,30,opt,name=out_of_stock,json=outOfStock,proto3" json:"out_of_stock,omitempty"`
+	AvailableQty  bool                   `protobuf:"varint,33,opt,name=available_qty,json=availableQty,proto3" json:"available_qty,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -422,6 +465,13 @@ func (x *Product_Variant) GetId() string {
 	return ""
 }
 
+func (x *Product_Variant) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
 func (x *Product_Variant) GetValues() map[string]string {
 	if x != nil {
 		return x.Values
@@ -443,19 +493,30 @@ func (x *Product_Variant) GetOutOfStock() bool {
 	return false
 }
 
+func (x *Product_Variant) GetAvailableQty() bool {
+	if x != nil {
+		return x.AvailableQty
+	}
+	return false
+}
+
 var File_eolymp_commerce_product_proto protoreflect.FileDescriptor
 
 const file_eolymp_commerce_product_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/commerce/product.proto\x12\x0feolymp.commerce\x1a\x18eolymp/ecm/content.proto\"\xdd\x06\n" +
+	"\x1deolymp/commerce/product.proto\x12\x0feolymp.commerce\x1a\x18eolymp/ecm/content.proto\"\xc5\b\n" +
 	"\aProduct\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\tR\x04name\x125\n" +
-	"\vdescription\x18\x03 \x01(\v2\x13.eolymp.ecm.ContentR\vdescription\x12\x16\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12-\n" +
+	"\asummary\x18\x03 \x01(\v2\x13.eolymp.ecm.ContentR\asummary\x125\n" +
+	"\vdescription\x18\x04 \x01(\v2\x13.eolymp.ecm.ContentR\vdescription\x12\x16\n" +
 	"\x06images\x18\n" +
 	" \x03(\tR\x06images\x12 \n" +
 	"\fout_of_stock\x18\x1e \x01(\bR\n" +
 	"outOfStock\x12\x1a\n" +
+	"\bfeatured\x18\x1f \x01(\bR\bfeatured\x12\x1a\n" +
+	"\binactive\x18  \x01(\bR\binactive\x12\x1c\n" +
+	"\tbackorder\x18! \x01(\bR\tbackorder\x12\x1a\n" +
 	"\bcurrency\x18\x14 \x01(\tR\bcurrency\x12\x1d\n" +
 	"\n" +
 	"unit_price\x18\x15 \x01(\rR\tunitPrice\x12B\n" +
@@ -470,12 +531,13 @@ const file_eolymp_commerce_product_proto_rawDesc = "" +
 	"\x12DESCRIPTION_RENDER\x10\x02\x12\x0e\n" +
 	"\n" +
 	"ATTRIBUTES\x10\x03\x12\f\n" +
-	"\bVARIANTS\x10\x04\x1a\x81\x01\n" +
-	"\x05Patch\"x\n" +
+	"\bVARIANTS\x10\x04\x1a\xab\x01\n" +
+	"\x05Patch\"\xa1\x01\n" +
 	"\x05Field\x12\x11\n" +
 	"\rUNKNOWN_FIELD\x10\x00\x12\a\n" +
 	"\x03ALL\x10\x01\x12\b\n" +
-	"\x04NAME\x10\x02\x12\x0f\n" +
+	"\x04NAME\x10\x02\x12\v\n" +
+	"\aSUMMARY\x10\v\x12\x0f\n" +
 	"\vDESCRIPTION\x10\x03\x12\n" +
 	"\n" +
 	"\x06IMAGES\x10\x04\x12\x0e\n" +
@@ -483,17 +545,22 @@ const file_eolymp_commerce_product_proto_rawDesc = "" +
 	"UNIT_PRICE\x10\x05\x12\x0e\n" +
 	"\n" +
 	"ATTRIBUTES\x10\a\x12\f\n" +
-	"\bVARIANTS\x10\b\x1a3\n" +
+	"\bVARIANTS\x10\b\x12\f\n" +
+	"\bFEATURED\x10\t\x12\f\n" +
+	"\bINACTIVE\x10\n" +
+	"\x1a3\n" +
 	"\tAttribute\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05label\x18\x02 \x01(\tR\x05label\x1a\xd4\x01\n" +
+	"\x05label\x18\x02 \x01(\tR\x05label\x1a\x8d\x02\n" +
 	"\aVariant\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12D\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
+	"\x04name\x18\x03 \x01(\tR\x04name\x12D\n" +
 	"\x06values\x18\x02 \x03(\v2,.eolymp.commerce.Product.Variant.ValuesEntryR\x06values\x12\x16\n" +
 	"\x06images\x18\n" +
 	" \x03(\tR\x06images\x12 \n" +
 	"\fout_of_stock\x18\x1e \x01(\bR\n" +
-	"outOfStock\x1a9\n" +
+	"outOfStock\x12#\n" +
+	"\ravailable_qty\x18! \x01(\bR\favailableQty\x1a9\n" +
 	"\vValuesEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01B3Z1github.com/eolymp/go-sdk/eolymp/commerce;commerceb\x06proto3"
@@ -524,15 +591,16 @@ var file_eolymp_commerce_product_proto_goTypes = []any{
 	(*ecm.Content)(nil),       // 8: eolymp.ecm.Content
 }
 var file_eolymp_commerce_product_proto_depIdxs = []int32{
-	8, // 0: eolymp.commerce.Product.description:type_name -> eolymp.ecm.Content
-	5, // 1: eolymp.commerce.Product.attributes:type_name -> eolymp.commerce.Product.Attribute
-	6, // 2: eolymp.commerce.Product.variants:type_name -> eolymp.commerce.Product.Variant
-	7, // 3: eolymp.commerce.Product.Variant.values:type_name -> eolymp.commerce.Product.Variant.ValuesEntry
-	4, // [4:4] is the sub-list for method output_type
-	4, // [4:4] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	8, // 0: eolymp.commerce.Product.summary:type_name -> eolymp.ecm.Content
+	8, // 1: eolymp.commerce.Product.description:type_name -> eolymp.ecm.Content
+	5, // 2: eolymp.commerce.Product.attributes:type_name -> eolymp.commerce.Product.Attribute
+	6, // 3: eolymp.commerce.Product.variants:type_name -> eolymp.commerce.Product.Variant
+	7, // 4: eolymp.commerce.Product.Variant.values:type_name -> eolymp.commerce.Product.Variant.ValuesEntry
+	5, // [5:5] is the sub-list for method output_type
+	5, // [5:5] is the sub-list for method input_type
+	5, // [5:5] is the sub-list for extension type_name
+	5, // [5:5] is the sub-list for extension extendee
+	0, // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_commerce_product_proto_init() }
