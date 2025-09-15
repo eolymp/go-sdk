@@ -9,6 +9,7 @@ package commerce
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -90,6 +91,7 @@ type Order struct {
 	BillingAddress        *Address               `protobuf:"bytes,40,opt,name=billing_address,json=billingAddress,proto3" json:"billing_address,omitempty"`
 	ShippingAddress       *Address               `protobuf:"bytes,41,opt,name=shipping_address,json=shippingAddress,proto3" json:"shipping_address,omitempty"`
 	BillingSameAsShipping bool                   `protobuf:"varint,42,opt,name=billing_same_as_shipping,json=billingSameAsShipping,proto3" json:"billing_same_as_shipping,omitempty"`
+	EstimatedShippingDate *timestamppb.Timestamp `protobuf:"bytes,45,opt,name=estimated_shipping_date,json=estimatedShippingDate,proto3" json:"estimated_shipping_date,omitempty"`
 	Currency              string                 `protobuf:"bytes,20,opt,name=currency,proto3" json:"currency,omitempty"`
 	TotalAmount           uint32                 `protobuf:"varint,21,opt,name=total_amount,json=totalAmount,proto3" json:"total_amount,omitempty"`
 	ShippingAmount        uint32                 `protobuf:"varint,22,opt,name=shipping_amount,json=shippingAmount,proto3" json:"shipping_amount,omitempty"`
@@ -98,6 +100,8 @@ type Order struct {
 	TaxRate               uint32                 `protobuf:"varint,25,opt,name=tax_rate,json=taxRate,proto3" json:"tax_rate,omitempty"` // in hundredth of percent, e.g. 755 means 7.55%
 	TaxNote               string                 `protobuf:"bytes,26,opt,name=tax_note,json=taxNote,proto3" json:"tax_note,omitempty"`
 	GrandTotal            uint32                 `protobuf:"varint,30,opt,name=grand_total,json=grandTotal,proto3" json:"grand_total,omitempty"`
+	CreatedAt             *timestamppb.Timestamp `protobuf:"bytes,100,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt             *timestamppb.Timestamp `protobuf:"bytes,101,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
 	unknownFields         protoimpl.UnknownFields
 	sizeCache             protoimpl.SizeCache
 }
@@ -181,6 +185,13 @@ func (x *Order) GetBillingSameAsShipping() bool {
 	return false
 }
 
+func (x *Order) GetEstimatedShippingDate() *timestamppb.Timestamp {
+	if x != nil {
+		return x.EstimatedShippingDate
+	}
+	return nil
+}
+
 func (x *Order) GetCurrency() string {
 	if x != nil {
 		return x.Currency
@@ -235,6 +246,20 @@ func (x *Order) GetGrandTotal() uint32 {
 		return x.GrandTotal
 	}
 	return 0
+}
+
+func (x *Order) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
+func (x *Order) GetUpdatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return nil
 }
 
 type Order_Item struct {
@@ -373,7 +398,8 @@ var File_eolymp_commerce_order_proto protoreflect.FileDescriptor
 
 const file_eolymp_commerce_order_proto_rawDesc = "" +
 	"\n" +
-	"\x1beolymp/commerce/order.proto\x12\x0feolymp.commerce\x1a\x1deolymp/commerce/address.proto\"\xee\b\n" +
+	"\x1beolymp/commerce/order.proto\x12\x0feolymp.commerce\x1a\x1deolymp/commerce/address.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xb8\n" +
+	"\n" +
 	"\x05Order\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1c\n" +
 	"\treference\x18\x02 \x01(\tR\treference\x125\n" +
@@ -382,7 +408,8 @@ const file_eolymp_commerce_order_proto_rawDesc = "" +
 	" \x03(\v2\x1b.eolymp.commerce.Order.ItemR\x05items\x12A\n" +
 	"\x0fbilling_address\x18( \x01(\v2\x18.eolymp.commerce.AddressR\x0ebillingAddress\x12C\n" +
 	"\x10shipping_address\x18) \x01(\v2\x18.eolymp.commerce.AddressR\x0fshippingAddress\x127\n" +
-	"\x18billing_same_as_shipping\x18* \x01(\bR\x15billingSameAsShipping\x12\x1a\n" +
+	"\x18billing_same_as_shipping\x18* \x01(\bR\x15billingSameAsShipping\x12R\n" +
+	"\x17estimated_shipping_date\x18- \x01(\v2\x1a.google.protobuf.TimestampR\x15estimatedShippingDate\x12\x1a\n" +
 	"\bcurrency\x18\x14 \x01(\tR\bcurrency\x12!\n" +
 	"\ftotal_amount\x18\x15 \x01(\rR\vtotalAmount\x12'\n" +
 	"\x0fshipping_amount\x18\x16 \x01(\rR\x0eshippingAmount\x12'\n" +
@@ -392,7 +419,11 @@ const file_eolymp_commerce_order_proto_rawDesc = "" +
 	"\btax_rate\x18\x19 \x01(\rR\ataxRate\x12\x19\n" +
 	"\btax_note\x18\x1a \x01(\tR\ataxNote\x12\x1f\n" +
 	"\vgrand_total\x18\x1e \x01(\rR\n" +
-	"grandTotal\x1a\xa4\x03\n" +
+	"grandTotal\x129\n" +
+	"\n" +
+	"created_at\x18d \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
+	"\n" +
+	"updated_at\x18e \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x1a\xa4\x03\n" +
 	"\x04Item\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x04 \x01(\tR\x04name\x12\x1b\n" +
@@ -434,21 +465,25 @@ func file_eolymp_commerce_order_proto_rawDescGZIP() []byte {
 var file_eolymp_commerce_order_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_eolymp_commerce_order_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_eolymp_commerce_order_proto_goTypes = []any{
-	(Order_Status)(0),  // 0: eolymp.commerce.Order.Status
-	(*Order)(nil),      // 1: eolymp.commerce.Order
-	(*Order_Item)(nil), // 2: eolymp.commerce.Order.Item
-	(*Address)(nil),    // 3: eolymp.commerce.Address
+	(Order_Status)(0),             // 0: eolymp.commerce.Order.Status
+	(*Order)(nil),                 // 1: eolymp.commerce.Order
+	(*Order_Item)(nil),            // 2: eolymp.commerce.Order.Item
+	(*Address)(nil),               // 3: eolymp.commerce.Address
+	(*timestamppb.Timestamp)(nil), // 4: google.protobuf.Timestamp
 }
 var file_eolymp_commerce_order_proto_depIdxs = []int32{
 	0, // 0: eolymp.commerce.Order.status:type_name -> eolymp.commerce.Order.Status
 	2, // 1: eolymp.commerce.Order.items:type_name -> eolymp.commerce.Order.Item
 	3, // 2: eolymp.commerce.Order.billing_address:type_name -> eolymp.commerce.Address
 	3, // 3: eolymp.commerce.Order.shipping_address:type_name -> eolymp.commerce.Address
-	4, // [4:4] is the sub-list for method output_type
-	4, // [4:4] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	4, // 4: eolymp.commerce.Order.estimated_shipping_date:type_name -> google.protobuf.Timestamp
+	4, // 5: eolymp.commerce.Order.created_at:type_name -> google.protobuf.Timestamp
+	4, // 6: eolymp.commerce.Order.updated_at:type_name -> google.protobuf.Timestamp
+	7, // [7:7] is the sub-list for method output_type
+	7, // [7:7] is the sub-list for method input_type
+	7, // [7:7] is the sub-list for extension type_name
+	7, // [7:7] is the sub-list for extension extendee
+	0, // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_commerce_order_proto_init() }
