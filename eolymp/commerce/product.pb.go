@@ -26,6 +26,8 @@ type Product_Extra_Field int32
 
 const (
 	Product_Extra_UNKNOWN_FIELD      Product_Extra_Field = 0
+	Product_Extra_SUMMARY_VALUE      Product_Extra_Field = 5
+	Product_Extra_SUMMARY_RENDER     Product_Extra_Field = 6
 	Product_Extra_DESCRIPTION_VALUE  Product_Extra_Field = 1
 	Product_Extra_DESCRIPTION_RENDER Product_Extra_Field = 2
 	Product_Extra_ATTRIBUTES         Product_Extra_Field = 3
@@ -36,6 +38,8 @@ const (
 var (
 	Product_Extra_Field_name = map[int32]string{
 		0: "UNKNOWN_FIELD",
+		5: "SUMMARY_VALUE",
+		6: "SUMMARY_RENDER",
 		1: "DESCRIPTION_VALUE",
 		2: "DESCRIPTION_RENDER",
 		3: "ATTRIBUTES",
@@ -43,6 +47,8 @@ var (
 	}
 	Product_Extra_Field_value = map[string]int32{
 		"UNKNOWN_FIELD":      0,
+		"SUMMARY_VALUE":      5,
+		"SUMMARY_RENDER":     6,
 		"DESCRIPTION_VALUE":  1,
 		"DESCRIPTION_RENDER": 2,
 		"ATTRIBUTES":         3,
@@ -91,6 +97,7 @@ const (
 	Product_Patch_VARIANTS      Product_Patch_Field = 8
 	Product_Patch_FEATURED      Product_Patch_Field = 9
 	Product_Patch_INACTIVE      Product_Patch_Field = 10
+	Product_Patch_BACKORDER     Product_Patch_Field = 12
 )
 
 // Enum value maps for Product_Patch_Field.
@@ -107,6 +114,7 @@ var (
 		8:  "VARIANTS",
 		9:  "FEATURED",
 		10: "INACTIVE",
+		12: "BACKORDER",
 	}
 	Product_Patch_Field_value = map[string]int32{
 		"UNKNOWN_FIELD": 0,
@@ -120,6 +128,7 @@ var (
 		"VARIANTS":      8,
 		"FEATURED":      9,
 		"INACTIVE":      10,
+		"BACKORDER":     12,
 	}
 )
 
@@ -504,7 +513,7 @@ var File_eolymp_commerce_product_proto protoreflect.FileDescriptor
 
 const file_eolymp_commerce_product_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/commerce/product.proto\x12\x0feolymp.commerce\x1a\x18eolymp/ecm/content.proto\"\xc5\b\n" +
+	"\x1deolymp/commerce/product.proto\x12\x0feolymp.commerce\x1a\x18eolymp/ecm/content.proto\"\xfd\b\n" +
 	"\aProduct\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12-\n" +
@@ -523,16 +532,18 @@ const file_eolymp_commerce_product_proto_rawDesc = "" +
 	"\n" +
 	"attributes\x18( \x03(\v2\".eolymp.commerce.Product.AttributeR\n" +
 	"attributes\x12<\n" +
-	"\bvariants\x182 \x03(\v2 .eolymp.commerce.Product.VariantR\bvariants\x1ap\n" +
-	"\x05Extra\"g\n" +
+	"\bvariants\x182 \x03(\v2 .eolymp.commerce.Product.VariantR\bvariants\x1a\x98\x01\n" +
+	"\x05Extra\"\x8e\x01\n" +
 	"\x05Field\x12\x11\n" +
-	"\rUNKNOWN_FIELD\x10\x00\x12\x15\n" +
+	"\rUNKNOWN_FIELD\x10\x00\x12\x11\n" +
+	"\rSUMMARY_VALUE\x10\x05\x12\x12\n" +
+	"\x0eSUMMARY_RENDER\x10\x06\x12\x15\n" +
 	"\x11DESCRIPTION_VALUE\x10\x01\x12\x16\n" +
 	"\x12DESCRIPTION_RENDER\x10\x02\x12\x0e\n" +
 	"\n" +
 	"ATTRIBUTES\x10\x03\x12\f\n" +
-	"\bVARIANTS\x10\x04\x1a\xab\x01\n" +
-	"\x05Patch\"\xa1\x01\n" +
+	"\bVARIANTS\x10\x04\x1a\xba\x01\n" +
+	"\x05Patch\"\xb0\x01\n" +
 	"\x05Field\x12\x11\n" +
 	"\rUNKNOWN_FIELD\x10\x00\x12\a\n" +
 	"\x03ALL\x10\x01\x12\b\n" +
@@ -548,7 +559,8 @@ const file_eolymp_commerce_product_proto_rawDesc = "" +
 	"\bVARIANTS\x10\b\x12\f\n" +
 	"\bFEATURED\x10\t\x12\f\n" +
 	"\bINACTIVE\x10\n" +
-	"\x1a3\n" +
+	"\x12\r\n" +
+	"\tBACKORDER\x10\f\x1a3\n" +
 	"\tAttribute\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05label\x18\x02 \x01(\tR\x05label\x1a\x8d\x02\n" +
