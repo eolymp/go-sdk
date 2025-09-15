@@ -426,15 +426,15 @@ func (x *Product_Attribute) GetLabel() string {
 
 // Variant describe a specific combination of attribute values for a product.
 type Product_Variant struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Name          string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
-	Values        map[string]string      `protobuf:"bytes,2,rep,name=values,proto3" json:"values,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	Images        []string               `protobuf:"bytes,10,rep,name=images,proto3" json:"images,omitempty"`
-	OutOfStock    bool                   `protobuf:"varint,30,opt,name=out_of_stock,json=outOfStock,proto3" json:"out_of_stock,omitempty"`
-	AvailableQty  bool                   `protobuf:"varint,33,opt,name=available_qty,json=availableQty,proto3" json:"available_qty,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	Id                string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name              string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
+	Values            map[string]string      `protobuf:"bytes,2,rep,name=values,proto3" json:"values,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	Images            []string               `protobuf:"bytes,10,rep,name=images,proto3" json:"images,omitempty"`
+	OutOfStock        bool                   `protobuf:"varint,30,opt,name=out_of_stock,json=outOfStock,proto3" json:"out_of_stock,omitempty"`
+	AvailableQuantity int32                  `protobuf:"varint,33,opt,name=available_quantity,json=availableQuantity,proto3" json:"available_quantity,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
 }
 
 func (x *Product_Variant) Reset() {
@@ -502,18 +502,18 @@ func (x *Product_Variant) GetOutOfStock() bool {
 	return false
 }
 
-func (x *Product_Variant) GetAvailableQty() bool {
+func (x *Product_Variant) GetAvailableQuantity() int32 {
 	if x != nil {
-		return x.AvailableQty
+		return x.AvailableQuantity
 	}
-	return false
+	return 0
 }
 
 var File_eolymp_commerce_product_proto protoreflect.FileDescriptor
 
 const file_eolymp_commerce_product_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/commerce/product.proto\x12\x0feolymp.commerce\x1a\x18eolymp/ecm/content.proto\"\xfd\b\n" +
+	"\x1deolymp/commerce/product.proto\x12\x0feolymp.commerce\x1a\x18eolymp/ecm/content.proto\"\x87\t\n" +
 	"\aProduct\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12-\n" +
@@ -563,7 +563,7 @@ const file_eolymp_commerce_product_proto_rawDesc = "" +
 	"\tBACKORDER\x10\f\x1a3\n" +
 	"\tAttribute\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05label\x18\x02 \x01(\tR\x05label\x1a\x8d\x02\n" +
+	"\x05label\x18\x02 \x01(\tR\x05label\x1a\x97\x02\n" +
 	"\aVariant\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x03 \x01(\tR\x04name\x12D\n" +
@@ -571,8 +571,8 @@ const file_eolymp_commerce_product_proto_rawDesc = "" +
 	"\x06images\x18\n" +
 	" \x03(\tR\x06images\x12 \n" +
 	"\fout_of_stock\x18\x1e \x01(\bR\n" +
-	"outOfStock\x12#\n" +
-	"\ravailable_qty\x18! \x01(\bR\favailableQty\x1a9\n" +
+	"outOfStock\x12-\n" +
+	"\x12available_quantity\x18! \x01(\x05R\x11availableQuantity\x1a9\n" +
 	"\vValuesEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01B3Z1github.com/eolymp/go-sdk/eolymp/commerce;commerceb\x06proto3"
