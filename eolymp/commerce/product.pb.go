@@ -166,7 +166,7 @@ type Product struct {
 	Summary       *ecm.Content           `protobuf:"bytes,3,opt,name=summary,proto3" json:"summary,omitempty"`         // short product specification
 	Description   *ecm.Content           `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"` // longer product description
 	Images        []string               `protobuf:"bytes,10,rep,name=images,proto3" json:"images,omitempty"`
-	OutOfStock    bool                   `protobuf:"varint,30,opt,name=out_of_stock,json=outOfStock,proto3" json:"out_of_stock,omitempty"`
+	OutOfStock    bool                   `protobuf:"varint,30,opt,name=out_of_stock,json=outOfStock,proto3" json:"out_of_stock,omitempty"` // all variants are out of stock
 	Featured      bool                   `protobuf:"varint,31,opt,name=featured,proto3" json:"featured,omitempty"`
 	Inactive      bool                   `protobuf:"varint,32,opt,name=inactive,proto3" json:"inactive,omitempty"`
 	Backorder     bool                   `protobuf:"varint,33,opt,name=backorder,proto3" json:"backorder,omitempty"`
@@ -431,8 +431,9 @@ type Product_Variant struct {
 	Name              string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
 	Values            map[string]string      `protobuf:"bytes,2,rep,name=values,proto3" json:"values,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	Images            []string               `protobuf:"bytes,10,rep,name=images,proto3" json:"images,omitempty"`
-	OutOfStock        bool                   `protobuf:"varint,30,opt,name=out_of_stock,json=outOfStock,proto3" json:"out_of_stock,omitempty"`
-	AvailableQuantity int32                  `protobuf:"varint,33,opt,name=available_quantity,json=availableQuantity,proto3" json:"available_quantity,omitempty"`
+	OutOfStock        bool                   `protobuf:"varint,30,opt,name=out_of_stock,json=outOfStock,proto3" json:"out_of_stock,omitempty"`                    // read-only, true if the variant is not available for order
+	MaxQuantity       int32                  `protobuf:"varint,34,opt,name=max_quantity,json=maxQuantity,proto3" json:"max_quantity,omitempty"`                   // read-only, maximum quantity allowed in shopping cart
+	AvailableQuantity int32                  `protobuf:"varint,33,opt,name=available_quantity,json=availableQuantity,proto3" json:"available_quantity,omitempty"` // available quantity
 	unknownFields     protoimpl.UnknownFields
 	sizeCache         protoimpl.SizeCache
 }
@@ -502,6 +503,13 @@ func (x *Product_Variant) GetOutOfStock() bool {
 	return false
 }
 
+func (x *Product_Variant) GetMaxQuantity() int32 {
+	if x != nil {
+		return x.MaxQuantity
+	}
+	return 0
+}
+
 func (x *Product_Variant) GetAvailableQuantity() int32 {
 	if x != nil {
 		return x.AvailableQuantity
@@ -513,7 +521,7 @@ var File_eolymp_commerce_product_proto protoreflect.FileDescriptor
 
 const file_eolymp_commerce_product_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/commerce/product.proto\x12\x0feolymp.commerce\x1a\x18eolymp/ecm/content.proto\"\x87\t\n" +
+	"\x1deolymp/commerce/product.proto\x12\x0feolymp.commerce\x1a\x18eolymp/ecm/content.proto\"\xaa\t\n" +
 	"\aProduct\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12-\n" +
@@ -563,7 +571,7 @@ const file_eolymp_commerce_product_proto_rawDesc = "" +
 	"\tBACKORDER\x10\f\x1a3\n" +
 	"\tAttribute\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05label\x18\x02 \x01(\tR\x05label\x1a\x97\x02\n" +
+	"\x05label\x18\x02 \x01(\tR\x05label\x1a\xba\x02\n" +
 	"\aVariant\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x03 \x01(\tR\x04name\x12D\n" +
@@ -571,7 +579,8 @@ const file_eolymp_commerce_product_proto_rawDesc = "" +
 	"\x06images\x18\n" +
 	" \x03(\tR\x06images\x12 \n" +
 	"\fout_of_stock\x18\x1e \x01(\bR\n" +
-	"outOfStock\x12-\n" +
+	"outOfStock\x12!\n" +
+	"\fmax_quantity\x18\" \x01(\x05R\vmaxQuantity\x12-\n" +
 	"\x12available_quantity\x18! \x01(\x05R\x11availableQuantity\x1a9\n" +
 	"\vValuesEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +

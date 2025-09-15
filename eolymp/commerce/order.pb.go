@@ -273,6 +273,7 @@ type Order_Item struct {
 	QuantityCancelled uint32                 `protobuf:"varint,11,opt,name=quantity_cancelled,json=quantityCancelled,proto3" json:"quantity_cancelled,omitempty"`
 	QuantityShipped   uint32                 `protobuf:"varint,12,opt,name=quantity_shipped,json=quantityShipped,proto3" json:"quantity_shipped,omitempty"`
 	QuantityReturned  uint32                 `protobuf:"varint,13,opt,name=quantity_returned,json=quantityReturned,proto3" json:"quantity_returned,omitempty"`
+	QuantityAllocated uint32                 `protobuf:"varint,14,opt,name=quantity_allocated,json=quantityAllocated,proto3" json:"quantity_allocated,omitempty"`
 	UnitAmount        uint32                 `protobuf:"varint,21,opt,name=unit_amount,json=unitAmount,proto3" json:"unit_amount,omitempty"`
 	TotalAmount       uint32                 `protobuf:"varint,22,opt,name=total_amount,json=totalAmount,proto3" json:"total_amount,omitempty"`
 	DiscountAmount    uint32                 `protobuf:"varint,23,opt,name=discount_amount,json=discountAmount,proto3" json:"discount_amount,omitempty"`
@@ -373,6 +374,13 @@ func (x *Order_Item) GetQuantityReturned() uint32 {
 	return 0
 }
 
+func (x *Order_Item) GetQuantityAllocated() uint32 {
+	if x != nil {
+		return x.QuantityAllocated
+	}
+	return 0
+}
+
 func (x *Order_Item) GetUnitAmount() uint32 {
 	if x != nil {
 		return x.UnitAmount
@@ -398,7 +406,7 @@ var File_eolymp_commerce_order_proto protoreflect.FileDescriptor
 
 const file_eolymp_commerce_order_proto_rawDesc = "" +
 	"\n" +
-	"\x1beolymp/commerce/order.proto\x12\x0feolymp.commerce\x1a\x1deolymp/commerce/address.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xb8\n" +
+	"\x1beolymp/commerce/order.proto\x12\x0feolymp.commerce\x1a\x1deolymp/commerce/address.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xe7\n" +
 	"\n" +
 	"\x05Order\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1c\n" +
@@ -423,7 +431,7 @@ const file_eolymp_commerce_order_proto_rawDesc = "" +
 	"\n" +
 	"created_at\x18d \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
 	"\n" +
-	"updated_at\x18e \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x1a\xa4\x03\n" +
+	"updated_at\x18e \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x1a\xd3\x03\n" +
 	"\x04Item\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x04 \x01(\tR\x04name\x12\x1b\n" +
@@ -436,7 +444,8 @@ const file_eolymp_commerce_order_proto_rawDesc = "" +
 	" \x01(\rR\x0fquantityOrdered\x12-\n" +
 	"\x12quantity_cancelled\x18\v \x01(\rR\x11quantityCancelled\x12)\n" +
 	"\x10quantity_shipped\x18\f \x01(\rR\x0fquantityShipped\x12+\n" +
-	"\x11quantity_returned\x18\r \x01(\rR\x10quantityReturned\x12\x1f\n" +
+	"\x11quantity_returned\x18\r \x01(\rR\x10quantityReturned\x12-\n" +
+	"\x12quantity_allocated\x18\x0e \x01(\rR\x11quantityAllocated\x12\x1f\n" +
 	"\vunit_amount\x18\x15 \x01(\rR\n" +
 	"unitAmount\x12!\n" +
 	"\ftotal_amount\x18\x16 \x01(\rR\vtotalAmount\x12'\n" +
