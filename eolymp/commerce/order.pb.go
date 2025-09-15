@@ -86,6 +86,7 @@ type Order struct {
 	state                 protoimpl.MessageState `protogen:"open.v1"`
 	Id                    string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	Reference             string                 `protobuf:"bytes,2,opt,name=reference,proto3" json:"reference,omitempty"`
+	MemberId              string                 `protobuf:"bytes,4,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
 	Status                Order_Status           `protobuf:"varint,3,opt,name=status,proto3,enum=eolymp.commerce.Order_Status" json:"status,omitempty"`
 	Items                 []*Order_Item          `protobuf:"bytes,10,rep,name=items,proto3" json:"items,omitempty"`
 	BillingAddress        *Address               `protobuf:"bytes,40,opt,name=billing_address,json=billingAddress,proto3" json:"billing_address,omitempty"`
@@ -146,6 +147,13 @@ func (x *Order) GetId() string {
 func (x *Order) GetReference() string {
 	if x != nil {
 		return x.Reference
+	}
+	return ""
+}
+
+func (x *Order) GetMemberId() string {
+	if x != nil {
+		return x.MemberId
 	}
 	return ""
 }
@@ -406,11 +414,11 @@ var File_eolymp_commerce_order_proto protoreflect.FileDescriptor
 
 const file_eolymp_commerce_order_proto_rawDesc = "" +
 	"\n" +
-	"\x1beolymp/commerce/order.proto\x12\x0feolymp.commerce\x1a\x1deolymp/commerce/address.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xe7\n" +
-	"\n" +
+	"\x1beolymp/commerce/order.proto\x12\x0feolymp.commerce\x1a\x1deolymp/commerce/address.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x84\v\n" +
 	"\x05Order\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1c\n" +
-	"\treference\x18\x02 \x01(\tR\treference\x125\n" +
+	"\treference\x18\x02 \x01(\tR\treference\x12\x1b\n" +
+	"\tmember_id\x18\x04 \x01(\tR\bmemberId\x125\n" +
 	"\x06status\x18\x03 \x01(\x0e2\x1d.eolymp.commerce.Order.StatusR\x06status\x121\n" +
 	"\x05items\x18\n" +
 	" \x03(\v2\x1b.eolymp.commerce.Order.ItemR\x05items\x12A\n" +
