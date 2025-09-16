@@ -634,7 +634,7 @@ var File_eolymp_commerce_shopping_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_commerce_shopping_service_proto_rawDesc = "" +
 	"\n" +
-	"&eolymp/commerce/shopping_service.proto\x12\x0feolymp.commerce\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1deolymp/commerce/address.proto\x1a#eolymp/commerce/shopping_cart.proto\"\x1b\n" +
+	"&eolymp/commerce/shopping_service.proto\x12\x0feolymp.commerce\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1deolymp/commerce/address.proto\x1a#eolymp/commerce/shopping_cart.proto\"\x1b\n" +
 	"\x19DescribeShoppingCartInput\"O\n" +
 	"\x1aDescribeShoppingCartOutput\x121\n" +
 	"\x04cart\x18\x01 \x01(\v2\x1d.eolymp.commerce.ShoppingCartR\x04cart\"w\n" +

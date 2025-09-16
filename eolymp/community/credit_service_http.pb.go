@@ -140,6 +140,9 @@ func RegisterCreditServiceHttpHandlers(router *mux.Router, prefix string, cli Cr
 	router.Handle(prefix+"/credits:balance", _CreditService_DescribeBalance_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.community.CreditService.DescribeBalance")
+	router.Handle(prefix+"/credits/{credit_id}/refund", _CreditService_RefundCredit_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.community.CreditService.RefundCredit")
 }
 
 // RegisterCreditServiceHttpProxy adds proxy handlers for for CreditServiceClient
@@ -251,6 +254,31 @@ func _CreditService_DescribeBalance_Rule0(cli CreditServiceClient) http.Handler 
 		var header, trailer metadata.MD
 
 		out, err := cli.DescribeBalance(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_CreditService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_CreditService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _CreditService_RefundCredit_Rule0(cli CreditServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &RefundCreditInput{}
+
+		if err := _CreditService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_CreditService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.CreditId = vars["credit_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.RefundCredit(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_CreditService_HTTPWriteErrorResponse(w, err)
 			return

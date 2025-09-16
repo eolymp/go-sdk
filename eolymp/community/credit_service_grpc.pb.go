@@ -24,6 +24,7 @@ const (
 	CreditService_ListCredits_FullMethodName     = "/eolymp.community.CreditService/ListCredits"
 	CreditService_RedeemCredit_FullMethodName    = "/eolymp.community.CreditService/RedeemCredit"
 	CreditService_DescribeBalance_FullMethodName = "/eolymp.community.CreditService/DescribeBalance"
+	CreditService_RefundCredit_FullMethodName    = "/eolymp.community.CreditService/RefundCredit"
 )
 
 // CreditServiceClient is the client API for CreditService service.
@@ -46,6 +47,9 @@ type CreditServiceClient interface {
 	RedeemCredit(ctx context.Context, in *RedeemCreditInput, opts ...grpc.CallOption) (*RedeemCreditOutput, error)
 	// DescribeBalance returns the current balance of credits for a member.
 	DescribeBalance(ctx context.Context, in *DescribeCreditBalanceInput, opts ...grpc.CallOption) (*DescribeCreditBalanceOutput, error)
+	// RefundCredit refunds a specified amount from a credit record.
+	// This creates a new credit record with negative amount to reverse the original credit.
+	RefundCredit(ctx context.Context, in *RefundCreditInput, opts ...grpc.CallOption) (*RefundCreditOutput, error)
 }
 
 type creditServiceClient struct {
@@ -106,6 +110,16 @@ func (c *creditServiceClient) DescribeBalance(ctx context.Context, in *DescribeC
 	return out, nil
 }
 
+func (c *creditServiceClient) RefundCredit(ctx context.Context, in *RefundCreditInput, opts ...grpc.CallOption) (*RefundCreditOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(RefundCreditOutput)
+	err := c.cc.Invoke(ctx, CreditService_RefundCredit_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CreditServiceServer is the server API for CreditService service.
 // All implementations should embed UnimplementedCreditServiceServer
 // for forward compatibility.
@@ -126,6 +140,9 @@ type CreditServiceServer interface {
 	RedeemCredit(context.Context, *RedeemCreditInput) (*RedeemCreditOutput, error)
 	// DescribeBalance returns the current balance of credits for a member.
 	DescribeBalance(context.Context, *DescribeCreditBalanceInput) (*DescribeCreditBalanceOutput, error)
+	// RefundCredit refunds a specified amount from a credit record.
+	// This creates a new credit record with negative amount to reverse the original credit.
+	RefundCredit(context.Context, *RefundCreditInput) (*RefundCreditOutput, error)
 }
 
 // UnimplementedCreditServiceServer should be embedded to have
@@ -149,6 +166,9 @@ func (UnimplementedCreditServiceServer) RedeemCredit(context.Context, *RedeemCre
 }
 func (UnimplementedCreditServiceServer) DescribeBalance(context.Context, *DescribeCreditBalanceInput) (*DescribeCreditBalanceOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeBalance not implemented")
+}
+func (UnimplementedCreditServiceServer) RefundCredit(context.Context, *RefundCreditInput) (*RefundCreditOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RefundCredit not implemented")
 }
 func (UnimplementedCreditServiceServer) testEmbeddedByValue() {}
 
@@ -260,6 +280,24 @@ func _CreditService_DescribeBalance_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CreditService_RefundCredit_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RefundCreditInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CreditServiceServer).RefundCredit(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CreditService_RefundCredit_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CreditServiceServer).RefundCredit(ctx, req.(*RefundCreditInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // CreditService_ServiceDesc is the grpc.ServiceDesc for CreditService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -286,6 +324,10 @@ var CreditService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DescribeBalance",
 			Handler:    _CreditService_DescribeBalance_Handler,
+		},
+		{
+			MethodName: "RefundCredit",
+			Handler:    _CreditService_RefundCredit_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -159,3 +159,19 @@ func (s *CreditServiceService) DescribeBalance(ctx context.Context, in *Describe
 
 	return out, nil
 }
+
+func (s *CreditServiceService) RefundCredit(ctx context.Context, in *RefundCreditInput) (*RefundCreditOutput, error) {
+	out := &RefundCreditOutput{}
+	path := "/credits/" + url.PathEscape(in.GetCreditId()) + "/refund"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.CreditId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

@@ -479,6 +479,94 @@ func (x *DescribeCreditBalanceOutput) GetBalance() uint32 {
 	return 0
 }
 
+type RefundCreditInput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	CreditId      string                 `protobuf:"bytes,1,opt,name=credit_id,json=creditId,proto3" json:"credit_id,omitempty"`
+	Amount        uint32                 `protobuf:"varint,2,opt,name=amount,proto3" json:"amount,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RefundCreditInput) Reset() {
+	*x = RefundCreditInput{}
+	mi := &file_eolymp_community_credit_service_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RefundCreditInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RefundCreditInput) ProtoMessage() {}
+
+func (x *RefundCreditInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_community_credit_service_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RefundCreditInput.ProtoReflect.Descriptor instead.
+func (*RefundCreditInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_community_credit_service_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *RefundCreditInput) GetCreditId() string {
+	if x != nil {
+		return x.CreditId
+	}
+	return ""
+}
+
+func (x *RefundCreditInput) GetAmount() uint32 {
+	if x != nil {
+		return x.Amount
+	}
+	return 0
+}
+
+type RefundCreditOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RefundCreditOutput) Reset() {
+	*x = RefundCreditOutput{}
+	mi := &file_eolymp_community_credit_service_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RefundCreditOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RefundCreditOutput) ProtoMessage() {}
+
+func (x *RefundCreditOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_community_credit_service_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RefundCreditOutput.ProtoReflect.Descriptor instead.
+func (*RefundCreditOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_community_credit_service_proto_rawDescGZIP(), []int{11}
+}
+
 type ListCreditsInput_Filter struct {
 	state         protoimpl.MessageState        `protogen:"open.v1"`
 	Id            []*wellknown.ExpressionID     `protobuf:"bytes,1,rep,name=id,proto3" json:"id,omitempty"`
@@ -492,7 +580,7 @@ type ListCreditsInput_Filter struct {
 
 func (x *ListCreditsInput_Filter) Reset() {
 	*x = ListCreditsInput_Filter{}
-	mi := &file_eolymp_community_credit_service_proto_msgTypes[10]
+	mi := &file_eolymp_community_credit_service_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -504,7 +592,7 @@ func (x *ListCreditsInput_Filter) String() string {
 func (*ListCreditsInput_Filter) ProtoMessage() {}
 
 func (x *ListCreditsInput_Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_community_credit_service_proto_msgTypes[10]
+	mi := &file_eolymp_community_credit_service_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -588,7 +676,11 @@ const file_eolymp_community_credit_service_proto_rawDesc = "" +
 	"\x12RedeemCreditOutput\"\x1c\n" +
 	"\x1aDescribeCreditBalanceInput\"7\n" +
 	"\x1bDescribeCreditBalanceOutput\x12\x18\n" +
-	"\abalance\x18\x01 \x01(\rR\abalance2\xc1\x06\n" +
+	"\abalance\x18\x01 \x01(\rR\abalance\"H\n" +
+	"\x11RefundCreditInput\x12\x1b\n" +
+	"\tcredit_id\x18\x01 \x01(\tR\bcreditId\x12\x16\n" +
+	"\x06amount\x18\x02 \x01(\rR\x06amount\"\x14\n" +
+	"\x12RefundCreditOutput2\xef\a\n" +
 	"\rCreditService\x12\x98\x01\n" +
 	"\fCreateCredit\x12#.eolymp.community.CreateCreditInput\x1a$.eolymp.community.CreateCreditOutput\"=\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -623,7 +715,14 @@ const file_eolymp_community_credit_service_proto_rawDesc = "" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15community:credit:read\x82\xd3\xe4\x93\x02\x12\x12\x10/credits:balanceB5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
+	"\x15community:credit:read\x82\xd3\xe4\x93\x02\x12\x12\x10/credits:balance\x12\xab\x01\n" +
+	"\fRefundCredit\x12#.eolymp.community.RefundCreditInput\x1a$.eolymp.community.RefundCreditOutput\"P\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\x80?\xf8\xe2\n" +
+	"\n" +
+	"\x82\xe3\n" +
+	"\x1a\x8a\xe3\n" +
+	"\x16community:credit:write\x82\xd3\xe4\x93\x02\x1d\"\x1b/credits/{credit_id}/refundB5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
 
 var (
 	file_eolymp_community_credit_service_proto_rawDescOnce sync.Once
@@ -637,7 +736,7 @@ func file_eolymp_community_credit_service_proto_rawDescGZIP() []byte {
 	return file_eolymp_community_credit_service_proto_rawDescData
 }
 
-var file_eolymp_community_credit_service_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
+var file_eolymp_community_credit_service_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
 var file_eolymp_community_credit_service_proto_goTypes = []any{
 	(*CreateCreditInput)(nil),           // 0: eolymp.community.CreateCreditInput
 	(*CreateCreditOutput)(nil),          // 1: eolymp.community.CreateCreditOutput
@@ -649,34 +748,38 @@ var file_eolymp_community_credit_service_proto_goTypes = []any{
 	(*RedeemCreditOutput)(nil),          // 7: eolymp.community.RedeemCreditOutput
 	(*DescribeCreditBalanceInput)(nil),  // 8: eolymp.community.DescribeCreditBalanceInput
 	(*DescribeCreditBalanceOutput)(nil), // 9: eolymp.community.DescribeCreditBalanceOutput
-	(*ListCreditsInput_Filter)(nil),     // 10: eolymp.community.ListCreditsInput.Filter
-	(*Credit)(nil),                      // 11: eolymp.community.Credit
-	(*wellknown.ExpressionID)(nil),      // 12: eolymp.wellknown.ExpressionID
-	(*wellknown.ExpressionString)(nil),  // 13: eolymp.wellknown.ExpressionString
-	(*wellknown.ExpressionInt)(nil),     // 14: eolymp.wellknown.ExpressionInt
-	(*wellknown.ExpressionBool)(nil),    // 15: eolymp.wellknown.ExpressionBool
+	(*RefundCreditInput)(nil),           // 10: eolymp.community.RefundCreditInput
+	(*RefundCreditOutput)(nil),          // 11: eolymp.community.RefundCreditOutput
+	(*ListCreditsInput_Filter)(nil),     // 12: eolymp.community.ListCreditsInput.Filter
+	(*Credit)(nil),                      // 13: eolymp.community.Credit
+	(*wellknown.ExpressionID)(nil),      // 14: eolymp.wellknown.ExpressionID
+	(*wellknown.ExpressionString)(nil),  // 15: eolymp.wellknown.ExpressionString
+	(*wellknown.ExpressionInt)(nil),     // 16: eolymp.wellknown.ExpressionInt
+	(*wellknown.ExpressionBool)(nil),    // 17: eolymp.wellknown.ExpressionBool
 }
 var file_eolymp_community_credit_service_proto_depIdxs = []int32{
-	11, // 0: eolymp.community.CreateCreditInput.credit:type_name -> eolymp.community.Credit
-	10, // 1: eolymp.community.ListCreditsInput.filters:type_name -> eolymp.community.ListCreditsInput.Filter
-	11, // 2: eolymp.community.ListCreditsOutput.items:type_name -> eolymp.community.Credit
-	12, // 3: eolymp.community.ListCreditsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	12, // 4: eolymp.community.ListCreditsInput.Filter.reference:type_name -> eolymp.wellknown.ExpressionID
-	13, // 5: eolymp.community.ListCreditsInput.Filter.note:type_name -> eolymp.wellknown.ExpressionString
-	14, // 6: eolymp.community.ListCreditsInput.Filter.amount:type_name -> eolymp.wellknown.ExpressionInt
-	15, // 7: eolymp.community.ListCreditsInput.Filter.active:type_name -> eolymp.wellknown.ExpressionBool
+	13, // 0: eolymp.community.CreateCreditInput.credit:type_name -> eolymp.community.Credit
+	12, // 1: eolymp.community.ListCreditsInput.filters:type_name -> eolymp.community.ListCreditsInput.Filter
+	13, // 2: eolymp.community.ListCreditsOutput.items:type_name -> eolymp.community.Credit
+	14, // 3: eolymp.community.ListCreditsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	14, // 4: eolymp.community.ListCreditsInput.Filter.reference:type_name -> eolymp.wellknown.ExpressionID
+	15, // 5: eolymp.community.ListCreditsInput.Filter.note:type_name -> eolymp.wellknown.ExpressionString
+	16, // 6: eolymp.community.ListCreditsInput.Filter.amount:type_name -> eolymp.wellknown.ExpressionInt
+	17, // 7: eolymp.community.ListCreditsInput.Filter.active:type_name -> eolymp.wellknown.ExpressionBool
 	0,  // 8: eolymp.community.CreditService.CreateCredit:input_type -> eolymp.community.CreateCreditInput
 	2,  // 9: eolymp.community.CreditService.DeleteCredit:input_type -> eolymp.community.DeleteCreditInput
 	4,  // 10: eolymp.community.CreditService.ListCredits:input_type -> eolymp.community.ListCreditsInput
 	6,  // 11: eolymp.community.CreditService.RedeemCredit:input_type -> eolymp.community.RedeemCreditInput
 	8,  // 12: eolymp.community.CreditService.DescribeBalance:input_type -> eolymp.community.DescribeCreditBalanceInput
-	1,  // 13: eolymp.community.CreditService.CreateCredit:output_type -> eolymp.community.CreateCreditOutput
-	3,  // 14: eolymp.community.CreditService.DeleteCredit:output_type -> eolymp.community.DeleteCreditOutput
-	5,  // 15: eolymp.community.CreditService.ListCredits:output_type -> eolymp.community.ListCreditsOutput
-	7,  // 16: eolymp.community.CreditService.RedeemCredit:output_type -> eolymp.community.RedeemCreditOutput
-	9,  // 17: eolymp.community.CreditService.DescribeBalance:output_type -> eolymp.community.DescribeCreditBalanceOutput
-	13, // [13:18] is the sub-list for method output_type
-	8,  // [8:13] is the sub-list for method input_type
+	10, // 13: eolymp.community.CreditService.RefundCredit:input_type -> eolymp.community.RefundCreditInput
+	1,  // 14: eolymp.community.CreditService.CreateCredit:output_type -> eolymp.community.CreateCreditOutput
+	3,  // 15: eolymp.community.CreditService.DeleteCredit:output_type -> eolymp.community.DeleteCreditOutput
+	5,  // 16: eolymp.community.CreditService.ListCredits:output_type -> eolymp.community.ListCreditsOutput
+	7,  // 17: eolymp.community.CreditService.RedeemCredit:output_type -> eolymp.community.RedeemCreditOutput
+	9,  // 18: eolymp.community.CreditService.DescribeBalance:output_type -> eolymp.community.DescribeCreditBalanceOutput
+	11, // 19: eolymp.community.CreditService.RefundCredit:output_type -> eolymp.community.RefundCreditOutput
+	14, // [14:20] is the sub-list for method output_type
+	8,  // [8:14] is the sub-list for method input_type
 	8,  // [8:8] is the sub-list for extension type_name
 	8,  // [8:8] is the sub-list for extension extendee
 	0,  // [0:8] is the sub-list for field type_name
@@ -694,7 +797,7 @@ func file_eolymp_community_credit_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_community_credit_service_proto_rawDesc), len(file_eolymp_community_credit_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   11,
+			NumMessages:   13,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

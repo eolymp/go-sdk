@@ -115,3 +115,19 @@ func (s *FulfillmentServiceService) AllocateStock(ctx context.Context, in *Alloc
 
 	return out, nil
 }
+
+func (s *FulfillmentServiceService) RejectOrder(ctx context.Context, in *RejectOrderInput) (*RejectOrderOutput, error) {
+	out := &RejectOrderOutput{}
+	path := "/store/orders/" + url.PathEscape(in.GetOrderId()) + "/reject"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.OrderId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

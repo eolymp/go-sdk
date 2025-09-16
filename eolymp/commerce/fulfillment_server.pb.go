@@ -8,7 +8,7 @@ package commerce
 
 import (
 	_ "github.com/eolymp/go-sdk/eolymp/annotations"
-	_ "github.com/eolymp/go-sdk/eolymp/wellknown"
+	ecm "github.com/eolymp/go-sdk/eolymp/ecm"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -103,21 +103,119 @@ func (*AllocateStockOutput) Descriptor() ([]byte, []int) {
 	return file_eolymp_commerce_fulfillment_server_proto_rawDescGZIP(), []int{1}
 }
 
+type RejectOrderInput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	OrderId       string                 `protobuf:"bytes,1,opt,name=order_id,json=orderId,proto3" json:"order_id,omitempty"`
+	Reason        *ecm.Content           `protobuf:"bytes,2,opt,name=reason,proto3" json:"reason,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RejectOrderInput) Reset() {
+	*x = RejectOrderInput{}
+	mi := &file_eolymp_commerce_fulfillment_server_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RejectOrderInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RejectOrderInput) ProtoMessage() {}
+
+func (x *RejectOrderInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_commerce_fulfillment_server_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RejectOrderInput.ProtoReflect.Descriptor instead.
+func (*RejectOrderInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_commerce_fulfillment_server_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *RejectOrderInput) GetOrderId() string {
+	if x != nil {
+		return x.OrderId
+	}
+	return ""
+}
+
+func (x *RejectOrderInput) GetReason() *ecm.Content {
+	if x != nil {
+		return x.Reason
+	}
+	return nil
+}
+
+type RejectOrderOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RejectOrderOutput) Reset() {
+	*x = RejectOrderOutput{}
+	mi := &file_eolymp_commerce_fulfillment_server_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RejectOrderOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RejectOrderOutput) ProtoMessage() {}
+
+func (x *RejectOrderOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_commerce_fulfillment_server_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RejectOrderOutput.ProtoReflect.Descriptor instead.
+func (*RejectOrderOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_commerce_fulfillment_server_proto_rawDescGZIP(), []int{3}
+}
+
 var File_eolymp_commerce_fulfillment_server_proto protoreflect.FileDescriptor
 
 const file_eolymp_commerce_fulfillment_server_proto_rawDesc = "" +
 	"\n" +
-	"(eolymp/commerce/fulfillment_server.proto\x12\x0feolymp.commerce\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1beolymp/commerce/order.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"/\n" +
+	"(eolymp/commerce/fulfillment_server.proto\x12\x0feolymp.commerce\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x18eolymp/ecm/content.proto\"/\n" +
 	"\x12AllocateStockInput\x12\x19\n" +
 	"\border_id\x18\x01 \x01(\tR\aorderId\"\x15\n" +
-	"\x13AllocateStockOutput2\xc8\x01\n" +
+	"\x13AllocateStockOutput\"Z\n" +
+	"\x10RejectOrderInput\x12\x19\n" +
+	"\border_id\x18\x01 \x01(\tR\aorderId\x12+\n" +
+	"\x06reason\x18\x02 \x01(\v2\x13.eolymp.ecm.ContentR\x06reason\"\x13\n" +
+	"\x11RejectOrderOutput2\xf4\x02\n" +
 	"\x12FulfillmentService\x12\xb1\x01\n" +
 	"\rAllocateStock\x12#.eolymp.commerce.AllocateStockInput\x1a$.eolymp.commerce.AllocateStockOutput\"U\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15commerce:orders:write\x82\xd3\xe4\x93\x02#\"!/store/orders/{order_id}/allocateB3Z1github.com/eolymp/go-sdk/eolymp/commerce;commerceb\x06proto3"
+	"\x15commerce:orders:write\x82\xd3\xe4\x93\x02#\"!/store/orders/{order_id}/allocate\x12\xa9\x01\n" +
+	"\vRejectOrder\x12!.eolymp.commerce.RejectOrderInput\x1a\".eolymp.commerce.RejectOrderOutput\"S\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\xa0@\xf8\xe2\n" +
+	"2\x82\xe3\n" +
+	"\x19\x8a\xe3\n" +
+	"\x15commerce:orders:write\x82\xd3\xe4\x93\x02!\"\x1f/store/orders/{order_id}/rejectB3Z1github.com/eolymp/go-sdk/eolymp/commerce;commerceb\x06proto3"
 
 var (
 	file_eolymp_commerce_fulfillment_server_proto_rawDescOnce sync.Once
@@ -131,19 +229,25 @@ func file_eolymp_commerce_fulfillment_server_proto_rawDescGZIP() []byte {
 	return file_eolymp_commerce_fulfillment_server_proto_rawDescData
 }
 
-var file_eolymp_commerce_fulfillment_server_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_eolymp_commerce_fulfillment_server_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_eolymp_commerce_fulfillment_server_proto_goTypes = []any{
 	(*AllocateStockInput)(nil),  // 0: eolymp.commerce.AllocateStockInput
 	(*AllocateStockOutput)(nil), // 1: eolymp.commerce.AllocateStockOutput
+	(*RejectOrderInput)(nil),    // 2: eolymp.commerce.RejectOrderInput
+	(*RejectOrderOutput)(nil),   // 3: eolymp.commerce.RejectOrderOutput
+	(*ecm.Content)(nil),         // 4: eolymp.ecm.Content
 }
 var file_eolymp_commerce_fulfillment_server_proto_depIdxs = []int32{
-	0, // 0: eolymp.commerce.FulfillmentService.AllocateStock:input_type -> eolymp.commerce.AllocateStockInput
-	1, // 1: eolymp.commerce.FulfillmentService.AllocateStock:output_type -> eolymp.commerce.AllocateStockOutput
-	1, // [1:2] is the sub-list for method output_type
-	0, // [0:1] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	4, // 0: eolymp.commerce.RejectOrderInput.reason:type_name -> eolymp.ecm.Content
+	0, // 1: eolymp.commerce.FulfillmentService.AllocateStock:input_type -> eolymp.commerce.AllocateStockInput
+	2, // 2: eolymp.commerce.FulfillmentService.RejectOrder:input_type -> eolymp.commerce.RejectOrderInput
+	1, // 3: eolymp.commerce.FulfillmentService.AllocateStock:output_type -> eolymp.commerce.AllocateStockOutput
+	3, // 4: eolymp.commerce.FulfillmentService.RejectOrder:output_type -> eolymp.commerce.RejectOrderOutput
+	3, // [3:5] is the sub-list for method output_type
+	1, // [1:3] is the sub-list for method input_type
+	1, // [1:1] is the sub-list for extension type_name
+	1, // [1:1] is the sub-list for extension extendee
+	0, // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_commerce_fulfillment_server_proto_init() }
@@ -151,14 +255,13 @@ func file_eolymp_commerce_fulfillment_server_proto_init() {
 	if File_eolymp_commerce_fulfillment_server_proto != nil {
 		return
 	}
-	file_eolymp_commerce_order_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_commerce_fulfillment_server_proto_rawDesc), len(file_eolymp_commerce_fulfillment_server_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
