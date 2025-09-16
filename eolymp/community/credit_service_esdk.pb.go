@@ -100,9 +100,20 @@ func (s *CreditServiceService) do(ctx context.Context, verb, path string, in, ou
 	return nil
 }
 
-func (s *CreditServiceService) CreateCredit(ctx context.Context, in *CreateCreditInput) (*CreateCreditOutput, error) {
-	out := &CreateCreditOutput{}
-	path := "/credits"
+func (s *CreditServiceService) DescribeBalance(ctx context.Context, in *DescribeBalanceInput) (*DescribeBalanceOutput, error) {
+	out := &DescribeBalanceOutput{}
+	path := "/credit/balance"
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *CreditServiceService) GrantCredit(ctx context.Context, in *GrantCreditInput) (*GrantCreditOutput, error) {
+	out := &GrantCreditOutput{}
+	path := "/credit/grants"
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
@@ -111,13 +122,13 @@ func (s *CreditServiceService) CreateCredit(ctx context.Context, in *CreateCredi
 	return out, nil
 }
 
-func (s *CreditServiceService) DeleteCredit(ctx context.Context, in *DeleteCreditInput) (*DeleteCreditOutput, error) {
-	out := &DeleteCreditOutput{}
-	path := "/credits/" + url.PathEscape(in.GetCreditId())
+func (s *CreditServiceService) CancelCredit(ctx context.Context, in *CancelCreditInput) (*CancelCreditOutput, error) {
+	out := &CancelCreditOutput{}
+	path := "/credit/grants/" + url.PathEscape(in.GetGrantId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.CreditId = ""
+		in.GrantId = ""
 	}
 
 	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
@@ -127,9 +138,9 @@ func (s *CreditServiceService) DeleteCredit(ctx context.Context, in *DeleteCredi
 	return out, nil
 }
 
-func (s *CreditServiceService) ListCredits(ctx context.Context, in *ListCreditsInput) (*ListCreditsOutput, error) {
-	out := &ListCreditsOutput{}
-	path := "/credits"
+func (s *CreditServiceService) ListCreditGrants(ctx context.Context, in *ListCreditGrantsInput) (*ListCreditGrantsOutput, error) {
+	out := &ListCreditGrantsOutput{}
+	path := "/credit/grants"
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
@@ -140,7 +151,7 @@ func (s *CreditServiceService) ListCredits(ctx context.Context, in *ListCreditsI
 
 func (s *CreditServiceService) RedeemCredit(ctx context.Context, in *RedeemCreditInput) (*RedeemCreditOutput, error) {
 	out := &RedeemCreditOutput{}
-	path := "/credits:redeem"
+	path := "/credit/redeem"
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
@@ -149,9 +160,9 @@ func (s *CreditServiceService) RedeemCredit(ctx context.Context, in *RedeemCredi
 	return out, nil
 }
 
-func (s *CreditServiceService) DescribeBalance(ctx context.Context, in *DescribeCreditBalanceInput) (*DescribeCreditBalanceOutput, error) {
-	out := &DescribeCreditBalanceOutput{}
-	path := "/credits:balance"
+func (s *CreditServiceService) ListCreditTransactions(ctx context.Context, in *ListCreditTransactionsInput) (*ListCreditTransactionsOutput, error) {
+	out := &ListCreditTransactionsOutput{}
+	path := "/credit/grants"
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
@@ -162,11 +173,11 @@ func (s *CreditServiceService) DescribeBalance(ctx context.Context, in *Describe
 
 func (s *CreditServiceService) RefundCredit(ctx context.Context, in *RefundCreditInput) (*RefundCreditOutput, error) {
 	out := &RefundCreditOutput{}
-	path := "/credits/" + url.PathEscape(in.GetCreditId()) + "/refund"
+	path := "/credit/transactions/" + url.PathEscape(in.GetTransactionId()) + "/refund"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.CreditId = ""
+		in.TransactionId = ""
 	}
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {

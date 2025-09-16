@@ -77,6 +77,7 @@ type Penalty struct {
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	Summary       string                 `protobuf:"bytes,2,opt,name=summary,proto3" json:"summary,omitempty"`
 	Description   *ecm.Content           `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	Silent        bool                   `protobuf:"varint,4,opt,name=silent,proto3" json:"silent,omitempty"`
 	Scope         []string               `protobuf:"bytes,20,rep,name=scope,proto3" json:"scope,omitempty"`
 	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,10,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	ExpiresAt     *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=expires_at,json=expiresAt,proto3" json:"expires_at,omitempty"`
@@ -136,6 +137,13 @@ func (x *Penalty) GetDescription() *ecm.Content {
 	return nil
 }
 
+func (x *Penalty) GetSilent() bool {
+	if x != nil {
+		return x.Silent
+	}
+	return false
+}
+
 func (x *Penalty) GetScope() []string {
 	if x != nil {
 		return x.Scope
@@ -168,11 +176,12 @@ var File_eolymp_community_penalty_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_penalty_proto_rawDesc = "" +
 	"\n" +
-	"\x1eeolymp/community/penalty.proto\x12\x10eolymp.community\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xfb\x02\n" +
+	"\x1eeolymp/community/penalty.proto\x12\x10eolymp.community\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x93\x03\n" +
 	"\aPenalty\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x18\n" +
 	"\asummary\x18\x02 \x01(\tR\asummary\x125\n" +
-	"\vdescription\x18\x03 \x01(\v2\x13.eolymp.ecm.ContentR\vdescription\x12\x14\n" +
+	"\vdescription\x18\x03 \x01(\v2\x13.eolymp.ecm.ContentR\vdescription\x12\x16\n" +
+	"\x06silent\x18\x04 \x01(\bR\x06silent\x12\x14\n" +
 	"\x05scope\x18\x14 \x03(\tR\x05scope\x129\n" +
 	"\n" +
 	"created_at\x18\n" +

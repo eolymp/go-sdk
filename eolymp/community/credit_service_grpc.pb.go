@@ -19,12 +19,13 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	CreditService_CreateCredit_FullMethodName    = "/eolymp.community.CreditService/CreateCredit"
-	CreditService_DeleteCredit_FullMethodName    = "/eolymp.community.CreditService/DeleteCredit"
-	CreditService_ListCredits_FullMethodName     = "/eolymp.community.CreditService/ListCredits"
-	CreditService_RedeemCredit_FullMethodName    = "/eolymp.community.CreditService/RedeemCredit"
-	CreditService_DescribeBalance_FullMethodName = "/eolymp.community.CreditService/DescribeBalance"
-	CreditService_RefundCredit_FullMethodName    = "/eolymp.community.CreditService/RefundCredit"
+	CreditService_DescribeBalance_FullMethodName        = "/eolymp.community.CreditService/DescribeBalance"
+	CreditService_GrantCredit_FullMethodName            = "/eolymp.community.CreditService/GrantCredit"
+	CreditService_CancelCredit_FullMethodName           = "/eolymp.community.CreditService/CancelCredit"
+	CreditService_ListCreditGrants_FullMethodName       = "/eolymp.community.CreditService/ListCreditGrants"
+	CreditService_RedeemCredit_FullMethodName           = "/eolymp.community.CreditService/RedeemCredit"
+	CreditService_ListCreditTransactions_FullMethodName = "/eolymp.community.CreditService/ListCreditTransactions"
+	CreditService_RefundCredit_FullMethodName           = "/eolymp.community.CreditService/RefundCredit"
 )
 
 // CreditServiceClient is the client API for CreditService service.
@@ -34,19 +35,21 @@ const (
 // CreditService provides methods to manage members "credits", a point based system of rewards.
 // Members can be rewarded credits for various actions, and these credits can be redeemed for rewards.
 type CreditServiceClient interface {
-	// CreateCredit adds a new credit record for a member.
-	CreateCredit(ctx context.Context, in *CreateCreditInput, opts ...grpc.CallOption) (*CreateCreditOutput, error)
+	// DescribeBalance returns the current balance of credits for a member.
+	DescribeBalance(ctx context.Context, in *DescribeBalanceInput, opts ...grpc.CallOption) (*DescribeBalanceOutput, error)
+	// GrantCredit grants new credits to a member.
+	GrantCredit(ctx context.Context, in *GrantCreditInput, opts ...grpc.CallOption) (*GrantCreditOutput, error)
 	// DeleteCredit allows to "erase" credit record.
 	// This method should be used in rare cases, when it's necessary to leave no trace of a credit record.
 	// Generally and changes in user balance should be done by creating new credit records.
-	DeleteCredit(ctx context.Context, in *DeleteCreditInput, opts ...grpc.CallOption) (*DeleteCreditOutput, error)
+	CancelCredit(ctx context.Context, in *CancelCreditInput, opts ...grpc.CallOption) (*CancelCreditOutput, error)
 	// ListCredits returns a list of credit records for a member.
-	ListCredits(ctx context.Context, in *ListCreditsInput, opts ...grpc.CallOption) (*ListCreditsOutput, error)
+	ListCreditGrants(ctx context.Context, in *ListCreditGrantsInput, opts ...grpc.CallOption) (*ListCreditGrantsOutput, error)
 	// RedeemCredit adds a new credit redeem for a member.
 	// This can be used to reward a member with credits for specific actions (amount > 0) or redeem credits (amount < 0).
 	RedeemCredit(ctx context.Context, in *RedeemCreditInput, opts ...grpc.CallOption) (*RedeemCreditOutput, error)
-	// DescribeBalance returns the current balance of credits for a member.
-	DescribeBalance(ctx context.Context, in *DescribeCreditBalanceInput, opts ...grpc.CallOption) (*DescribeCreditBalanceOutput, error)
+	// ListCredits returns a list of credit records for a member.
+	ListCreditTransactions(ctx context.Context, in *ListCreditTransactionsInput, opts ...grpc.CallOption) (*ListCreditTransactionsOutput, error)
 	// RefundCredit refunds a specified amount from a credit record.
 	// This creates a new credit record with negative amount to reverse the original credit.
 	RefundCredit(ctx context.Context, in *RefundCreditInput, opts ...grpc.CallOption) (*RefundCreditOutput, error)
@@ -60,30 +63,40 @@ func NewCreditServiceClient(cc grpc.ClientConnInterface) CreditServiceClient {
 	return &creditServiceClient{cc}
 }
 
-func (c *creditServiceClient) CreateCredit(ctx context.Context, in *CreateCreditInput, opts ...grpc.CallOption) (*CreateCreditOutput, error) {
+func (c *creditServiceClient) DescribeBalance(ctx context.Context, in *DescribeBalanceInput, opts ...grpc.CallOption) (*DescribeBalanceOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(CreateCreditOutput)
-	err := c.cc.Invoke(ctx, CreditService_CreateCredit_FullMethodName, in, out, cOpts...)
+	out := new(DescribeBalanceOutput)
+	err := c.cc.Invoke(ctx, CreditService_DescribeBalance_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *creditServiceClient) DeleteCredit(ctx context.Context, in *DeleteCreditInput, opts ...grpc.CallOption) (*DeleteCreditOutput, error) {
+func (c *creditServiceClient) GrantCredit(ctx context.Context, in *GrantCreditInput, opts ...grpc.CallOption) (*GrantCreditOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DeleteCreditOutput)
-	err := c.cc.Invoke(ctx, CreditService_DeleteCredit_FullMethodName, in, out, cOpts...)
+	out := new(GrantCreditOutput)
+	err := c.cc.Invoke(ctx, CreditService_GrantCredit_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *creditServiceClient) ListCredits(ctx context.Context, in *ListCreditsInput, opts ...grpc.CallOption) (*ListCreditsOutput, error) {
+func (c *creditServiceClient) CancelCredit(ctx context.Context, in *CancelCreditInput, opts ...grpc.CallOption) (*CancelCreditOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ListCreditsOutput)
-	err := c.cc.Invoke(ctx, CreditService_ListCredits_FullMethodName, in, out, cOpts...)
+	out := new(CancelCreditOutput)
+	err := c.cc.Invoke(ctx, CreditService_CancelCredit_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *creditServiceClient) ListCreditGrants(ctx context.Context, in *ListCreditGrantsInput, opts ...grpc.CallOption) (*ListCreditGrantsOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListCreditGrantsOutput)
+	err := c.cc.Invoke(ctx, CreditService_ListCreditGrants_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -100,10 +113,10 @@ func (c *creditServiceClient) RedeemCredit(ctx context.Context, in *RedeemCredit
 	return out, nil
 }
 
-func (c *creditServiceClient) DescribeBalance(ctx context.Context, in *DescribeCreditBalanceInput, opts ...grpc.CallOption) (*DescribeCreditBalanceOutput, error) {
+func (c *creditServiceClient) ListCreditTransactions(ctx context.Context, in *ListCreditTransactionsInput, opts ...grpc.CallOption) (*ListCreditTransactionsOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DescribeCreditBalanceOutput)
-	err := c.cc.Invoke(ctx, CreditService_DescribeBalance_FullMethodName, in, out, cOpts...)
+	out := new(ListCreditTransactionsOutput)
+	err := c.cc.Invoke(ctx, CreditService_ListCreditTransactions_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -127,19 +140,21 @@ func (c *creditServiceClient) RefundCredit(ctx context.Context, in *RefundCredit
 // CreditService provides methods to manage members "credits", a point based system of rewards.
 // Members can be rewarded credits for various actions, and these credits can be redeemed for rewards.
 type CreditServiceServer interface {
-	// CreateCredit adds a new credit record for a member.
-	CreateCredit(context.Context, *CreateCreditInput) (*CreateCreditOutput, error)
+	// DescribeBalance returns the current balance of credits for a member.
+	DescribeBalance(context.Context, *DescribeBalanceInput) (*DescribeBalanceOutput, error)
+	// GrantCredit grants new credits to a member.
+	GrantCredit(context.Context, *GrantCreditInput) (*GrantCreditOutput, error)
 	// DeleteCredit allows to "erase" credit record.
 	// This method should be used in rare cases, when it's necessary to leave no trace of a credit record.
 	// Generally and changes in user balance should be done by creating new credit records.
-	DeleteCredit(context.Context, *DeleteCreditInput) (*DeleteCreditOutput, error)
+	CancelCredit(context.Context, *CancelCreditInput) (*CancelCreditOutput, error)
 	// ListCredits returns a list of credit records for a member.
-	ListCredits(context.Context, *ListCreditsInput) (*ListCreditsOutput, error)
+	ListCreditGrants(context.Context, *ListCreditGrantsInput) (*ListCreditGrantsOutput, error)
 	// RedeemCredit adds a new credit redeem for a member.
 	// This can be used to reward a member with credits for specific actions (amount > 0) or redeem credits (amount < 0).
 	RedeemCredit(context.Context, *RedeemCreditInput) (*RedeemCreditOutput, error)
-	// DescribeBalance returns the current balance of credits for a member.
-	DescribeBalance(context.Context, *DescribeCreditBalanceInput) (*DescribeCreditBalanceOutput, error)
+	// ListCredits returns a list of credit records for a member.
+	ListCreditTransactions(context.Context, *ListCreditTransactionsInput) (*ListCreditTransactionsOutput, error)
 	// RefundCredit refunds a specified amount from a credit record.
 	// This creates a new credit record with negative amount to reverse the original credit.
 	RefundCredit(context.Context, *RefundCreditInput) (*RefundCreditOutput, error)
@@ -152,20 +167,23 @@ type CreditServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedCreditServiceServer struct{}
 
-func (UnimplementedCreditServiceServer) CreateCredit(context.Context, *CreateCreditInput) (*CreateCreditOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateCredit not implemented")
+func (UnimplementedCreditServiceServer) DescribeBalance(context.Context, *DescribeBalanceInput) (*DescribeBalanceOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeBalance not implemented")
 }
-func (UnimplementedCreditServiceServer) DeleteCredit(context.Context, *DeleteCreditInput) (*DeleteCreditOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteCredit not implemented")
+func (UnimplementedCreditServiceServer) GrantCredit(context.Context, *GrantCreditInput) (*GrantCreditOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GrantCredit not implemented")
 }
-func (UnimplementedCreditServiceServer) ListCredits(context.Context, *ListCreditsInput) (*ListCreditsOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListCredits not implemented")
+func (UnimplementedCreditServiceServer) CancelCredit(context.Context, *CancelCreditInput) (*CancelCreditOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CancelCredit not implemented")
+}
+func (UnimplementedCreditServiceServer) ListCreditGrants(context.Context, *ListCreditGrantsInput) (*ListCreditGrantsOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListCreditGrants not implemented")
 }
 func (UnimplementedCreditServiceServer) RedeemCredit(context.Context, *RedeemCreditInput) (*RedeemCreditOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RedeemCredit not implemented")
 }
-func (UnimplementedCreditServiceServer) DescribeBalance(context.Context, *DescribeCreditBalanceInput) (*DescribeCreditBalanceOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DescribeBalance not implemented")
+func (UnimplementedCreditServiceServer) ListCreditTransactions(context.Context, *ListCreditTransactionsInput) (*ListCreditTransactionsOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListCreditTransactions not implemented")
 }
 func (UnimplementedCreditServiceServer) RefundCredit(context.Context, *RefundCreditInput) (*RefundCreditOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RefundCredit not implemented")
@@ -190,56 +208,74 @@ func RegisterCreditServiceServer(s grpc.ServiceRegistrar, srv CreditServiceServe
 	s.RegisterService(&CreditService_ServiceDesc, srv)
 }
 
-func _CreditService_CreateCredit_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateCreditInput)
+func _CreditService_DescribeBalance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeBalanceInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CreditServiceServer).CreateCredit(ctx, in)
+		return srv.(CreditServiceServer).DescribeBalance(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: CreditService_CreateCredit_FullMethodName,
+		FullMethod: CreditService_DescribeBalance_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CreditServiceServer).CreateCredit(ctx, req.(*CreateCreditInput))
+		return srv.(CreditServiceServer).DescribeBalance(ctx, req.(*DescribeBalanceInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _CreditService_DeleteCredit_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteCreditInput)
+func _CreditService_GrantCredit_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GrantCreditInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CreditServiceServer).DeleteCredit(ctx, in)
+		return srv.(CreditServiceServer).GrantCredit(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: CreditService_DeleteCredit_FullMethodName,
+		FullMethod: CreditService_GrantCredit_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CreditServiceServer).DeleteCredit(ctx, req.(*DeleteCreditInput))
+		return srv.(CreditServiceServer).GrantCredit(ctx, req.(*GrantCreditInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _CreditService_ListCredits_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListCreditsInput)
+func _CreditService_CancelCredit_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CancelCreditInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CreditServiceServer).ListCredits(ctx, in)
+		return srv.(CreditServiceServer).CancelCredit(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: CreditService_ListCredits_FullMethodName,
+		FullMethod: CreditService_CancelCredit_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CreditServiceServer).ListCredits(ctx, req.(*ListCreditsInput))
+		return srv.(CreditServiceServer).CancelCredit(ctx, req.(*CancelCreditInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CreditService_ListCreditGrants_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListCreditGrantsInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CreditServiceServer).ListCreditGrants(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CreditService_ListCreditGrants_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CreditServiceServer).ListCreditGrants(ctx, req.(*ListCreditGrantsInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -262,20 +298,20 @@ func _CreditService_RedeemCredit_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
-func _CreditService_DescribeBalance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DescribeCreditBalanceInput)
+func _CreditService_ListCreditTransactions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListCreditTransactionsInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CreditServiceServer).DescribeBalance(ctx, in)
+		return srv.(CreditServiceServer).ListCreditTransactions(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: CreditService_DescribeBalance_FullMethodName,
+		FullMethod: CreditService_ListCreditTransactions_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CreditServiceServer).DescribeBalance(ctx, req.(*DescribeCreditBalanceInput))
+		return srv.(CreditServiceServer).ListCreditTransactions(ctx, req.(*ListCreditTransactionsInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -306,24 +342,28 @@ var CreditService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*CreditServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "CreateCredit",
-			Handler:    _CreditService_CreateCredit_Handler,
+			MethodName: "DescribeBalance",
+			Handler:    _CreditService_DescribeBalance_Handler,
 		},
 		{
-			MethodName: "DeleteCredit",
-			Handler:    _CreditService_DeleteCredit_Handler,
+			MethodName: "GrantCredit",
+			Handler:    _CreditService_GrantCredit_Handler,
 		},
 		{
-			MethodName: "ListCredits",
-			Handler:    _CreditService_ListCredits_Handler,
+			MethodName: "CancelCredit",
+			Handler:    _CreditService_CancelCredit_Handler,
+		},
+		{
+			MethodName: "ListCreditGrants",
+			Handler:    _CreditService_ListCreditGrants_Handler,
 		},
 		{
 			MethodName: "RedeemCredit",
 			Handler:    _CreditService_RedeemCredit_Handler,
 		},
 		{
-			MethodName: "DescribeBalance",
-			Handler:    _CreditService_DescribeBalance_Handler,
+			MethodName: "ListCreditTransactions",
+			Handler:    _CreditService_ListCreditTransactions_Handler,
 		},
 		{
 			MethodName: "RefundCredit",

@@ -125,22 +125,25 @@ func _CreditService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 
 // RegisterCreditServiceHttpHandlers adds handlers for for CreditServiceClient
 func RegisterCreditServiceHttpHandlers(router *mux.Router, prefix string, cli CreditServiceClient) {
-	router.Handle(prefix+"/credits", _CreditService_CreateCredit_Rule0(cli)).
-		Methods("POST").
-		Name("eolymp.community.CreditService.CreateCredit")
-	router.Handle(prefix+"/credits/{credit_id}", _CreditService_DeleteCredit_Rule0(cli)).
-		Methods("DELETE").
-		Name("eolymp.community.CreditService.DeleteCredit")
-	router.Handle(prefix+"/credits", _CreditService_ListCredits_Rule0(cli)).
-		Methods("GET").
-		Name("eolymp.community.CreditService.ListCredits")
-	router.Handle(prefix+"/credits:redeem", _CreditService_RedeemCredit_Rule0(cli)).
-		Methods("POST").
-		Name("eolymp.community.CreditService.RedeemCredit")
-	router.Handle(prefix+"/credits:balance", _CreditService_DescribeBalance_Rule0(cli)).
+	router.Handle(prefix+"/credit/balance", _CreditService_DescribeBalance_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.community.CreditService.DescribeBalance")
-	router.Handle(prefix+"/credits/{credit_id}/refund", _CreditService_RefundCredit_Rule0(cli)).
+	router.Handle(prefix+"/credit/grants", _CreditService_GrantCredit_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.community.CreditService.GrantCredit")
+	router.Handle(prefix+"/credit/grants/{grant_id}", _CreditService_CancelCredit_Rule0(cli)).
+		Methods("DELETE").
+		Name("eolymp.community.CreditService.CancelCredit")
+	router.Handle(prefix+"/credit/grants", _CreditService_ListCreditGrants_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.community.CreditService.ListCreditGrants")
+	router.Handle(prefix+"/credit/redeem", _CreditService_RedeemCredit_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.community.CreditService.RedeemCredit")
+	router.Handle(prefix+"/credit/grants", _CreditService_ListCreditTransactions_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.community.CreditService.ListCreditTransactions")
+	router.Handle(prefix+"/credit/transactions/{transaction_id}/refund", _CreditService_RefundCredit_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.community.CreditService.RefundCredit")
 }
@@ -150,56 +153,9 @@ func RegisterCreditServiceHttpProxy(router *mux.Router, prefix string, conn grpc
 	RegisterCreditServiceHttpHandlers(router, prefix, NewCreditServiceClient(conn))
 }
 
-func _CreditService_CreateCredit_Rule0(cli CreditServiceClient) http.Handler {
+func _CreditService_DescribeBalance_Rule0(cli CreditServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &CreateCreditInput{}
-
-		if err := _CreditService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_CreditService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		var header, trailer metadata.MD
-
-		out, err := cli.CreateCredit(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
-		if err != nil {
-			_CreditService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_CreditService_HTTPWriteResponse(w, out, header, trailer)
-	})
-}
-
-func _CreditService_DeleteCredit_Rule0(cli CreditServiceClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DeleteCreditInput{}
-
-		if err := _CreditService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_CreditService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.CreditId = vars["credit_id"]
-
-		var header, trailer metadata.MD
-
-		out, err := cli.DeleteCredit(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
-		if err != nil {
-			_CreditService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_CreditService_HTTPWriteResponse(w, out, header, trailer)
-	})
-}
-
-func _CreditService_ListCredits_Rule0(cli CreditServiceClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ListCreditsInput{}
+		in := &DescribeBalanceInput{}
 
 		if err := _CreditService_HTTPReadQueryString(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
@@ -209,7 +165,76 @@ func _CreditService_ListCredits_Rule0(cli CreditServiceClient) http.Handler {
 
 		var header, trailer metadata.MD
 
-		out, err := cli.ListCredits(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		out, err := cli.DescribeBalance(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_CreditService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_CreditService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _CreditService_GrantCredit_Rule0(cli CreditServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &GrantCreditInput{}
+
+		if err := _CreditService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_CreditService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.GrantCredit(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_CreditService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_CreditService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _CreditService_CancelCredit_Rule0(cli CreditServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &CancelCreditInput{}
+
+		if err := _CreditService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_CreditService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.GrantId = vars["grant_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.CancelCredit(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_CreditService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_CreditService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _CreditService_ListCreditGrants_Rule0(cli CreditServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListCreditGrantsInput{}
+
+		if err := _CreditService_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_CreditService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.ListCreditGrants(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_CreditService_HTTPWriteErrorResponse(w, err)
 			return
@@ -241,9 +266,9 @@ func _CreditService_RedeemCredit_Rule0(cli CreditServiceClient) http.Handler {
 	})
 }
 
-func _CreditService_DescribeBalance_Rule0(cli CreditServiceClient) http.Handler {
+func _CreditService_ListCreditTransactions_Rule0(cli CreditServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DescribeCreditBalanceInput{}
+		in := &ListCreditTransactionsInput{}
 
 		if err := _CreditService_HTTPReadQueryString(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
@@ -253,7 +278,7 @@ func _CreditService_DescribeBalance_Rule0(cli CreditServiceClient) http.Handler 
 
 		var header, trailer metadata.MD
 
-		out, err := cli.DescribeBalance(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		out, err := cli.ListCreditTransactions(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_CreditService_HTTPWriteErrorResponse(w, err)
 			return
@@ -274,7 +299,7 @@ func _CreditService_RefundCredit_Rule0(cli CreditServiceClient) http.Handler {
 		}
 
 		vars := mux.Vars(r)
-		in.CreditId = vars["credit_id"]
+		in.TransactionId = vars["transaction_id"]
 
 		var header, trailer metadata.MD
 

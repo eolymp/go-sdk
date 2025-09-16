@@ -23,17 +23,9 @@ const (
 )
 
 type Credit struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
-	Id             string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`                                                // unique credit ID (assigned by the system)
-	Reference      string                 `protobuf:"bytes,2,opt,name=reference,proto3" json:"reference,omitempty"`                                  // a unique credit reference, ensures the same credit is not granted twice
-	Note           string                 `protobuf:"bytes,3,opt,name=note,proto3" json:"note,omitempty"`                                            // a note for the credit, describes why the credit was granted
-	Active         bool                   `protobuf:"varint,20,opt,name=active,proto3" json:"active,omitempty"`                                      // whether the credit is active (not redeemed or expired)
-	TotalAmount    uint32                 `protobuf:"varint,4,opt,name=total_amount,json=totalAmount,proto3" json:"total_amount,omitempty"`          // amount of credits granted
-	RedeemedAmount uint32                 `protobuf:"varint,5,opt,name=redeemed_amount,json=redeemedAmount,proto3" json:"redeemed_amount,omitempty"` // amount of credit already redeemed
-	GrantedAt      *timestamppb.Timestamp `protobuf:"bytes,10,opt,name=granted_at,json=grantedAt,proto3" json:"granted_at,omitempty"`
-	ExpiresAt      *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=expires_at,json=expiresAt,proto3" json:"expires_at,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Credit) Reset() {
@@ -66,79 +58,206 @@ func (*Credit) Descriptor() ([]byte, []int) {
 	return file_eolymp_community_credit_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *Credit) GetId() string {
+type Credit_Grant struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Id             string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`                                                // unique grant ID (assigned by the system)
+	Reference      string                 `protobuf:"bytes,2,opt,name=reference,proto3" json:"reference,omitempty"`                                  // a unique grant reference, ensures the same grant is not granted twice
+	Note           string                 `protobuf:"bytes,3,opt,name=note,proto3" json:"note,omitempty"`                                            // a note for the grant, describes why the credit was granted
+	Active         bool                   `protobuf:"varint,20,opt,name=active,proto3" json:"active,omitempty"`                                      // whether the grant is active (not redeemed or expired)
+	Revoked        bool                   `protobuf:"varint,21,opt,name=revoked,proto3" json:"revoked,omitempty"`                                    // whether the grant was revoked/cancelled
+	TotalAmount    uint32                 `protobuf:"varint,4,opt,name=total_amount,json=totalAmount,proto3" json:"total_amount,omitempty"`          // amount of credits granted
+	RedeemedAmount uint32                 `protobuf:"varint,5,opt,name=redeemed_amount,json=redeemedAmount,proto3" json:"redeemed_amount,omitempty"` // amount of credit already redeemed
+	GrantedAt      *timestamppb.Timestamp `protobuf:"bytes,10,opt,name=granted_at,json=grantedAt,proto3" json:"granted_at,omitempty"`
+	ExpiresAt      *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=expires_at,json=expiresAt,proto3" json:"expires_at,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *Credit_Grant) Reset() {
+	*x = Credit_Grant{}
+	mi := &file_eolymp_community_credit_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Credit_Grant) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Credit_Grant) ProtoMessage() {}
+
+func (x *Credit_Grant) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_community_credit_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Credit_Grant.ProtoReflect.Descriptor instead.
+func (*Credit_Grant) Descriptor() ([]byte, []int) {
+	return file_eolymp_community_credit_proto_rawDescGZIP(), []int{0, 0}
+}
+
+func (x *Credit_Grant) GetId() string {
 	if x != nil {
 		return x.Id
 	}
 	return ""
 }
 
-func (x *Credit) GetReference() string {
+func (x *Credit_Grant) GetReference() string {
 	if x != nil {
 		return x.Reference
 	}
 	return ""
 }
 
-func (x *Credit) GetNote() string {
+func (x *Credit_Grant) GetNote() string {
 	if x != nil {
 		return x.Note
 	}
 	return ""
 }
 
-func (x *Credit) GetActive() bool {
+func (x *Credit_Grant) GetActive() bool {
 	if x != nil {
 		return x.Active
 	}
 	return false
 }
 
-func (x *Credit) GetTotalAmount() uint32 {
+func (x *Credit_Grant) GetRevoked() bool {
+	if x != nil {
+		return x.Revoked
+	}
+	return false
+}
+
+func (x *Credit_Grant) GetTotalAmount() uint32 {
 	if x != nil {
 		return x.TotalAmount
 	}
 	return 0
 }
 
-func (x *Credit) GetRedeemedAmount() uint32 {
+func (x *Credit_Grant) GetRedeemedAmount() uint32 {
 	if x != nil {
 		return x.RedeemedAmount
 	}
 	return 0
 }
 
-func (x *Credit) GetGrantedAt() *timestamppb.Timestamp {
+func (x *Credit_Grant) GetGrantedAt() *timestamppb.Timestamp {
 	if x != nil {
 		return x.GrantedAt
 	}
 	return nil
 }
 
-func (x *Credit) GetExpiresAt() *timestamppb.Timestamp {
+func (x *Credit_Grant) GetExpiresAt() *timestamppb.Timestamp {
 	if x != nil {
 		return x.ExpiresAt
 	}
 	return nil
 }
 
+type Credit_Transaction struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Timestamp     *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
+	Summary       string                 `protobuf:"bytes,3,opt,name=summary,proto3" json:"summary,omitempty"`
+	Amount        uint32                 `protobuf:"varint,4,opt,name=amount,proto3" json:"amount,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Credit_Transaction) Reset() {
+	*x = Credit_Transaction{}
+	mi := &file_eolymp_community_credit_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Credit_Transaction) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Credit_Transaction) ProtoMessage() {}
+
+func (x *Credit_Transaction) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_community_credit_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Credit_Transaction.ProtoReflect.Descriptor instead.
+func (*Credit_Transaction) Descriptor() ([]byte, []int) {
+	return file_eolymp_community_credit_proto_rawDescGZIP(), []int{0, 1}
+}
+
+func (x *Credit_Transaction) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *Credit_Transaction) GetTimestamp() *timestamppb.Timestamp {
+	if x != nil {
+		return x.Timestamp
+	}
+	return nil
+}
+
+func (x *Credit_Transaction) GetSummary() string {
+	if x != nil {
+		return x.Summary
+	}
+	return ""
+}
+
+func (x *Credit_Transaction) GetAmount() uint32 {
+	if x != nil {
+		return x.Amount
+	}
+	return 0
+}
+
 var File_eolymp_community_credit_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_credit_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/community/credit.proto\x12\x10eolymp.community\x1a\x1fgoogle/protobuf/timestamp.proto\"\xa4\x02\n" +
-	"\x06Credit\x12\x0e\n" +
+	"\x1deolymp/community/credit.proto\x12\x10eolymp.community\x1a\x1fgoogle/protobuf/timestamp.proto\"\xd4\x03\n" +
+	"\x06Credit\x1a\xbd\x02\n" +
+	"\x05Grant\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1c\n" +
 	"\treference\x18\x02 \x01(\tR\treference\x12\x12\n" +
 	"\x04note\x18\x03 \x01(\tR\x04note\x12\x16\n" +
-	"\x06active\x18\x14 \x01(\bR\x06active\x12!\n" +
+	"\x06active\x18\x14 \x01(\bR\x06active\x12\x18\n" +
+	"\arevoked\x18\x15 \x01(\bR\arevoked\x12!\n" +
 	"\ftotal_amount\x18\x04 \x01(\rR\vtotalAmount\x12'\n" +
 	"\x0fredeemed_amount\x18\x05 \x01(\rR\x0eredeemedAmount\x129\n" +
 	"\n" +
 	"granted_at\x18\n" +
 	" \x01(\v2\x1a.google.protobuf.TimestampR\tgrantedAt\x129\n" +
 	"\n" +
-	"expires_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\texpiresAtB5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
+	"expires_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\texpiresAt\x1a\x89\x01\n" +
+	"\vTransaction\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x128\n" +
+	"\ttimestamp\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\ttimestamp\x12\x18\n" +
+	"\asummary\x18\x03 \x01(\tR\asummary\x12\x16\n" +
+	"\x06amount\x18\x04 \x01(\rR\x06amountB5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
 
 var (
 	file_eolymp_community_credit_proto_rawDescOnce sync.Once
@@ -152,19 +271,22 @@ func file_eolymp_community_credit_proto_rawDescGZIP() []byte {
 	return file_eolymp_community_credit_proto_rawDescData
 }
 
-var file_eolymp_community_credit_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_eolymp_community_credit_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_eolymp_community_credit_proto_goTypes = []any{
 	(*Credit)(nil),                // 0: eolymp.community.Credit
-	(*timestamppb.Timestamp)(nil), // 1: google.protobuf.Timestamp
+	(*Credit_Grant)(nil),          // 1: eolymp.community.Credit.Grant
+	(*Credit_Transaction)(nil),    // 2: eolymp.community.Credit.Transaction
+	(*timestamppb.Timestamp)(nil), // 3: google.protobuf.Timestamp
 }
 var file_eolymp_community_credit_proto_depIdxs = []int32{
-	1, // 0: eolymp.community.Credit.granted_at:type_name -> google.protobuf.Timestamp
-	1, // 1: eolymp.community.Credit.expires_at:type_name -> google.protobuf.Timestamp
-	2, // [2:2] is the sub-list for method output_type
-	2, // [2:2] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	3, // 0: eolymp.community.Credit.Grant.granted_at:type_name -> google.protobuf.Timestamp
+	3, // 1: eolymp.community.Credit.Grant.expires_at:type_name -> google.protobuf.Timestamp
+	3, // 2: eolymp.community.Credit.Transaction.timestamp:type_name -> google.protobuf.Timestamp
+	3, // [3:3] is the sub-list for method output_type
+	3, // [3:3] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_community_credit_proto_init() }
@@ -178,7 +300,7 @@ func file_eolymp_community_credit_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_community_credit_proto_rawDesc), len(file_eolymp_community_credit_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   1,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

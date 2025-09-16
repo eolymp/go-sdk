@@ -80,7 +80,6 @@ func (UpdatePenaltyInput_Patch) EnumDescriptor() ([]byte, []int) {
 type CreatePenaltyInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Penalty       *Penalty               `protobuf:"bytes,1,opt,name=penalty,proto3" json:"penalty,omitempty"`
-	DontNotify    bool                   `protobuf:"varint,2,opt,name=dont_notify,json=dontNotify,proto3" json:"dont_notify,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -120,13 +119,6 @@ func (x *CreatePenaltyInput) GetPenalty() *Penalty {
 		return x.Penalty
 	}
 	return nil
-}
-
-func (x *CreatePenaltyInput) GetDontNotify() bool {
-	if x != nil {
-		return x.DontNotify
-	}
-	return false
 }
 
 type CreatePenaltyOutput struct {
@@ -561,11 +553,9 @@ var File_eolymp_community_penalty_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_penalty_service_proto_rawDesc = "" +
 	"\n" +
-	"&eolymp/community/penalty_service.proto\x12\x10eolymp.community\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1eeolymp/community/penalty.proto\"j\n" +
+	"&eolymp/community/penalty_service.proto\x12\x10eolymp.community\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1eeolymp/community/penalty.proto\"I\n" +
 	"\x12CreatePenaltyInput\x123\n" +
-	"\apenalty\x18\x01 \x01(\v2\x19.eolymp.community.PenaltyR\apenalty\x12\x1f\n" +
-	"\vdont_notify\x18\x02 \x01(\bR\n" +
-	"dontNotify\"4\n" +
+	"\apenalty\x18\x01 \x01(\v2\x19.eolymp.community.PenaltyR\apenalty\"4\n" +
 	"\x13CreatePenaltyOutput\x12\x1d\n" +
 	"\n" +
 	"penalty_id\x18\x01 \x01(\tR\tpenaltyId\"\xf5\x01\n" +
