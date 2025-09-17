@@ -21,6 +21,7 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	FulfillmentService_AllocateStock_FullMethodName = "/eolymp.commerce.FulfillmentService/AllocateStock"
 	FulfillmentService_RejectOrder_FullMethodName   = "/eolymp.commerce.FulfillmentService/RejectOrder"
+	FulfillmentService_ShipOrder_FullMethodName     = "/eolymp.commerce.FulfillmentService/ShipOrder"
 )
 
 // FulfillmentServiceClient is the client API for FulfillmentService service.
@@ -31,6 +32,7 @@ type FulfillmentServiceClient interface {
 	// RejectOrder allows admin to reject an order with a reason that will be shown to the user.
 	// This is different from CancelOrder which is user-initiated without a reason.
 	RejectOrder(ctx context.Context, in *RejectOrderInput, opts ...grpc.CallOption) (*RejectOrderOutput, error)
+	ShipOrder(ctx context.Context, in *ShipOrderInput, opts ...grpc.CallOption) (*ShipOrderOutput, error)
 }
 
 type fulfillmentServiceClient struct {
@@ -61,6 +63,16 @@ func (c *fulfillmentServiceClient) RejectOrder(ctx context.Context, in *RejectOr
 	return out, nil
 }
 
+func (c *fulfillmentServiceClient) ShipOrder(ctx context.Context, in *ShipOrderInput, opts ...grpc.CallOption) (*ShipOrderOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ShipOrderOutput)
+	err := c.cc.Invoke(ctx, FulfillmentService_ShipOrder_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // FulfillmentServiceServer is the server API for FulfillmentService service.
 // All implementations should embed UnimplementedFulfillmentServiceServer
 // for forward compatibility.
@@ -69,6 +81,7 @@ type FulfillmentServiceServer interface {
 	// RejectOrder allows admin to reject an order with a reason that will be shown to the user.
 	// This is different from CancelOrder which is user-initiated without a reason.
 	RejectOrder(context.Context, *RejectOrderInput) (*RejectOrderOutput, error)
+	ShipOrder(context.Context, *ShipOrderInput) (*ShipOrderOutput, error)
 }
 
 // UnimplementedFulfillmentServiceServer should be embedded to have
@@ -83,6 +96,9 @@ func (UnimplementedFulfillmentServiceServer) AllocateStock(context.Context, *All
 }
 func (UnimplementedFulfillmentServiceServer) RejectOrder(context.Context, *RejectOrderInput) (*RejectOrderOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RejectOrder not implemented")
+}
+func (UnimplementedFulfillmentServiceServer) ShipOrder(context.Context, *ShipOrderInput) (*ShipOrderOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ShipOrder not implemented")
 }
 func (UnimplementedFulfillmentServiceServer) testEmbeddedByValue() {}
 
@@ -140,6 +156,24 @@ func _FulfillmentService_RejectOrder_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _FulfillmentService_ShipOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ShipOrderInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FulfillmentServiceServer).ShipOrder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: FulfillmentService_ShipOrder_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FulfillmentServiceServer).ShipOrder(ctx, req.(*ShipOrderInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // FulfillmentService_ServiceDesc is the grpc.ServiceDesc for FulfillmentService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -154,6 +188,10 @@ var FulfillmentService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RejectOrder",
 			Handler:    _FulfillmentService_RejectOrder_Handler,
+		},
+		{
+			MethodName: "ShipOrder",
+			Handler:    _FulfillmentService_ShipOrder_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
