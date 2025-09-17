@@ -132,6 +132,22 @@ func (s *FulfillmentServiceService) RejectOrder(ctx context.Context, in *RejectO
 	return out, nil
 }
 
+func (s *FulfillmentServiceService) ProcessOrder(ctx context.Context, in *ProcessOrderInput) (*ProcessOrderOutput, error) {
+	out := &ProcessOrderOutput{}
+	path := "/store/orders/" + url.PathEscape(in.GetOrderId()) + "/process"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.OrderId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *FulfillmentServiceService) ShipOrder(ctx context.Context, in *ShipOrderInput) (*ShipOrderOutput, error) {
 	out := &ShipOrderOutput{}
 	path := "/store/orders/" + url.PathEscape(in.GetOrderId()) + "/ship"

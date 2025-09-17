@@ -101,6 +101,7 @@ type Order struct {
 	TaxRate               uint32                 `protobuf:"varint,25,opt,name=tax_rate,json=taxRate,proto3" json:"tax_rate,omitempty"` // in hundredth of percent, e.g. 755 means 7.55%
 	TaxNote               string                 `protobuf:"bytes,26,opt,name=tax_note,json=taxNote,proto3" json:"tax_note,omitempty"`
 	GrandTotal            uint32                 `protobuf:"varint,30,opt,name=grand_total,json=grandTotal,proto3" json:"grand_total,omitempty"`
+	TrackingUrl           string                 `protobuf:"bytes,50,opt,name=tracking_url,json=trackingUrl,proto3" json:"tracking_url,omitempty"`
 	CreatedAt             *timestamppb.Timestamp `protobuf:"bytes,100,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	UpdatedAt             *timestamppb.Timestamp `protobuf:"bytes,101,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
 	unknownFields         protoimpl.UnknownFields
@@ -254,6 +255,13 @@ func (x *Order) GetGrandTotal() uint32 {
 		return x.GrandTotal
 	}
 	return 0
+}
+
+func (x *Order) GetTrackingUrl() string {
+	if x != nil {
+		return x.TrackingUrl
+	}
+	return ""
 }
 
 func (x *Order) GetCreatedAt() *timestamppb.Timestamp {
@@ -414,7 +422,7 @@ var File_eolymp_commerce_order_proto protoreflect.FileDescriptor
 
 const file_eolymp_commerce_order_proto_rawDesc = "" +
 	"\n" +
-	"\x1beolymp/commerce/order.proto\x12\x0feolymp.commerce\x1a\x1deolymp/commerce/address.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x84\v\n" +
+	"\x1beolymp/commerce/order.proto\x12\x0feolymp.commerce\x1a\x1deolymp/commerce/address.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xa7\v\n" +
 	"\x05Order\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1c\n" +
 	"\treference\x18\x02 \x01(\tR\treference\x12\x1b\n" +
@@ -435,7 +443,8 @@ const file_eolymp_commerce_order_proto_rawDesc = "" +
 	"\btax_rate\x18\x19 \x01(\rR\ataxRate\x12\x19\n" +
 	"\btax_note\x18\x1a \x01(\tR\ataxNote\x12\x1f\n" +
 	"\vgrand_total\x18\x1e \x01(\rR\n" +
-	"grandTotal\x129\n" +
+	"grandTotal\x12!\n" +
+	"\ftracking_url\x182 \x01(\tR\vtrackingUrl\x129\n" +
 	"\n" +
 	"created_at\x18d \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
 	"\n" +

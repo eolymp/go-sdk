@@ -11,6 +11,7 @@ import (
 	ecm "github.com/eolymp/go-sdk/eolymp/ecm"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -191,6 +192,94 @@ func (*RejectOrderOutput) Descriptor() ([]byte, []int) {
 	return file_eolymp_commerce_fulfillment_server_proto_rawDescGZIP(), []int{3}
 }
 
+type ProcessOrderInput struct {
+	state                 protoimpl.MessageState `protogen:"open.v1"`
+	OrderId               string                 `protobuf:"bytes,1,opt,name=order_id,json=orderId,proto3" json:"order_id,omitempty"`
+	EstimatedShippingDate *timestamppb.Timestamp `protobuf:"bytes,45,opt,name=estimated_shipping_date,json=estimatedShippingDate,proto3" json:"estimated_shipping_date,omitempty"`
+	unknownFields         protoimpl.UnknownFields
+	sizeCache             protoimpl.SizeCache
+}
+
+func (x *ProcessOrderInput) Reset() {
+	*x = ProcessOrderInput{}
+	mi := &file_eolymp_commerce_fulfillment_server_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ProcessOrderInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ProcessOrderInput) ProtoMessage() {}
+
+func (x *ProcessOrderInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_commerce_fulfillment_server_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ProcessOrderInput.ProtoReflect.Descriptor instead.
+func (*ProcessOrderInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_commerce_fulfillment_server_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *ProcessOrderInput) GetOrderId() string {
+	if x != nil {
+		return x.OrderId
+	}
+	return ""
+}
+
+func (x *ProcessOrderInput) GetEstimatedShippingDate() *timestamppb.Timestamp {
+	if x != nil {
+		return x.EstimatedShippingDate
+	}
+	return nil
+}
+
+type ProcessOrderOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ProcessOrderOutput) Reset() {
+	*x = ProcessOrderOutput{}
+	mi := &file_eolymp_commerce_fulfillment_server_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ProcessOrderOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ProcessOrderOutput) ProtoMessage() {}
+
+func (x *ProcessOrderOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_commerce_fulfillment_server_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ProcessOrderOutput.ProtoReflect.Descriptor instead.
+func (*ProcessOrderOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_commerce_fulfillment_server_proto_rawDescGZIP(), []int{5}
+}
+
 type ShipOrderInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	OrderId       string                 `protobuf:"bytes,1,opt,name=order_id,json=orderId,proto3" json:"order_id,omitempty"`
@@ -200,7 +289,7 @@ type ShipOrderInput struct {
 
 func (x *ShipOrderInput) Reset() {
 	*x = ShipOrderInput{}
-	mi := &file_eolymp_commerce_fulfillment_server_proto_msgTypes[4]
+	mi := &file_eolymp_commerce_fulfillment_server_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -212,7 +301,7 @@ func (x *ShipOrderInput) String() string {
 func (*ShipOrderInput) ProtoMessage() {}
 
 func (x *ShipOrderInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_commerce_fulfillment_server_proto_msgTypes[4]
+	mi := &file_eolymp_commerce_fulfillment_server_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -225,7 +314,7 @@ func (x *ShipOrderInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ShipOrderInput.ProtoReflect.Descriptor instead.
 func (*ShipOrderInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_commerce_fulfillment_server_proto_rawDescGZIP(), []int{4}
+	return file_eolymp_commerce_fulfillment_server_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *ShipOrderInput) GetOrderId() string {
@@ -243,7 +332,7 @@ type ShipOrderOutput struct {
 
 func (x *ShipOrderOutput) Reset() {
 	*x = ShipOrderOutput{}
-	mi := &file_eolymp_commerce_fulfillment_server_proto_msgTypes[5]
+	mi := &file_eolymp_commerce_fulfillment_server_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -255,7 +344,7 @@ func (x *ShipOrderOutput) String() string {
 func (*ShipOrderOutput) ProtoMessage() {}
 
 func (x *ShipOrderOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_commerce_fulfillment_server_proto_msgTypes[5]
+	mi := &file_eolymp_commerce_fulfillment_server_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -268,24 +357,28 @@ func (x *ShipOrderOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ShipOrderOutput.ProtoReflect.Descriptor instead.
 func (*ShipOrderOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_commerce_fulfillment_server_proto_rawDescGZIP(), []int{5}
+	return file_eolymp_commerce_fulfillment_server_proto_rawDescGZIP(), []int{7}
 }
 
 var File_eolymp_commerce_fulfillment_server_proto protoreflect.FileDescriptor
 
 const file_eolymp_commerce_fulfillment_server_proto_rawDesc = "" +
 	"\n" +
-	"(eolymp/commerce/fulfillment_server.proto\x12\x0feolymp.commerce\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x18eolymp/ecm/content.proto\"/\n" +
+	"(eolymp/commerce/fulfillment_server.proto\x12\x0feolymp.commerce\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"/\n" +
 	"\x12AllocateStockInput\x12\x19\n" +
 	"\border_id\x18\x01 \x01(\tR\aorderId\"\x15\n" +
 	"\x13AllocateStockOutput\"Z\n" +
 	"\x10RejectOrderInput\x12\x19\n" +
 	"\border_id\x18\x01 \x01(\tR\aorderId\x12+\n" +
 	"\x06reason\x18\x02 \x01(\v2\x13.eolymp.ecm.ContentR\x06reason\"\x13\n" +
-	"\x11RejectOrderOutput\"+\n" +
+	"\x11RejectOrderOutput\"\x82\x01\n" +
+	"\x11ProcessOrderInput\x12\x19\n" +
+	"\border_id\x18\x01 \x01(\tR\aorderId\x12R\n" +
+	"\x17estimated_shipping_date\x18- \x01(\v2\x1a.google.protobuf.TimestampR\x15estimatedShippingDate\"\x14\n" +
+	"\x12ProcessOrderOutput\"+\n" +
 	"\x0eShipOrderInput\x12\x19\n" +
 	"\border_id\x18\x01 \x01(\tR\aorderId\"\x11\n" +
-	"\x0fShipOrderOutput2\x98\x04\n" +
+	"\x0fShipOrderOutput2\xc8\x05\n" +
 	"\x12FulfillmentService\x12\xb1\x01\n" +
 	"\rAllocateStock\x12#.eolymp.commerce.AllocateStockInput\x1a$.eolymp.commerce.AllocateStockOutput\"U\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -298,7 +391,13 @@ const file_eolymp_commerce_fulfillment_server_proto_rawDesc = "" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15commerce:orders:write\x82\xd3\xe4\x93\x02!\"\x1f/store/orders/{order_id}/reject\x12\xa1\x01\n" +
+	"\x15commerce:orders:write\x82\xd3\xe4\x93\x02!\"\x1f/store/orders/{order_id}/reject\x12\xad\x01\n" +
+	"\fProcessOrder\x12\".eolymp.commerce.ProcessOrderInput\x1a#.eolymp.commerce.ProcessOrderOutput\"T\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\xa0@\xf8\xe2\n" +
+	"2\x82\xe3\n" +
+	"\x19\x8a\xe3\n" +
+	"\x15commerce:orders:write\x82\xd3\xe4\x93\x02\"\" /store/orders/{order_id}/process\x12\xa1\x01\n" +
 	"\tShipOrder\x12\x1f.eolymp.commerce.ShipOrderInput\x1a .eolymp.commerce.ShipOrderOutput\"Q\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
@@ -318,29 +417,35 @@ func file_eolymp_commerce_fulfillment_server_proto_rawDescGZIP() []byte {
 	return file_eolymp_commerce_fulfillment_server_proto_rawDescData
 }
 
-var file_eolymp_commerce_fulfillment_server_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_eolymp_commerce_fulfillment_server_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_eolymp_commerce_fulfillment_server_proto_goTypes = []any{
-	(*AllocateStockInput)(nil),  // 0: eolymp.commerce.AllocateStockInput
-	(*AllocateStockOutput)(nil), // 1: eolymp.commerce.AllocateStockOutput
-	(*RejectOrderInput)(nil),    // 2: eolymp.commerce.RejectOrderInput
-	(*RejectOrderOutput)(nil),   // 3: eolymp.commerce.RejectOrderOutput
-	(*ShipOrderInput)(nil),      // 4: eolymp.commerce.ShipOrderInput
-	(*ShipOrderOutput)(nil),     // 5: eolymp.commerce.ShipOrderOutput
-	(*ecm.Content)(nil),         // 6: eolymp.ecm.Content
+	(*AllocateStockInput)(nil),    // 0: eolymp.commerce.AllocateStockInput
+	(*AllocateStockOutput)(nil),   // 1: eolymp.commerce.AllocateStockOutput
+	(*RejectOrderInput)(nil),      // 2: eolymp.commerce.RejectOrderInput
+	(*RejectOrderOutput)(nil),     // 3: eolymp.commerce.RejectOrderOutput
+	(*ProcessOrderInput)(nil),     // 4: eolymp.commerce.ProcessOrderInput
+	(*ProcessOrderOutput)(nil),    // 5: eolymp.commerce.ProcessOrderOutput
+	(*ShipOrderInput)(nil),        // 6: eolymp.commerce.ShipOrderInput
+	(*ShipOrderOutput)(nil),       // 7: eolymp.commerce.ShipOrderOutput
+	(*ecm.Content)(nil),           // 8: eolymp.ecm.Content
+	(*timestamppb.Timestamp)(nil), // 9: google.protobuf.Timestamp
 }
 var file_eolymp_commerce_fulfillment_server_proto_depIdxs = []int32{
-	6, // 0: eolymp.commerce.RejectOrderInput.reason:type_name -> eolymp.ecm.Content
-	0, // 1: eolymp.commerce.FulfillmentService.AllocateStock:input_type -> eolymp.commerce.AllocateStockInput
-	2, // 2: eolymp.commerce.FulfillmentService.RejectOrder:input_type -> eolymp.commerce.RejectOrderInput
-	4, // 3: eolymp.commerce.FulfillmentService.ShipOrder:input_type -> eolymp.commerce.ShipOrderInput
-	1, // 4: eolymp.commerce.FulfillmentService.AllocateStock:output_type -> eolymp.commerce.AllocateStockOutput
-	3, // 5: eolymp.commerce.FulfillmentService.RejectOrder:output_type -> eolymp.commerce.RejectOrderOutput
-	5, // 6: eolymp.commerce.FulfillmentService.ShipOrder:output_type -> eolymp.commerce.ShipOrderOutput
-	4, // [4:7] is the sub-list for method output_type
-	1, // [1:4] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	8, // 0: eolymp.commerce.RejectOrderInput.reason:type_name -> eolymp.ecm.Content
+	9, // 1: eolymp.commerce.ProcessOrderInput.estimated_shipping_date:type_name -> google.protobuf.Timestamp
+	0, // 2: eolymp.commerce.FulfillmentService.AllocateStock:input_type -> eolymp.commerce.AllocateStockInput
+	2, // 3: eolymp.commerce.FulfillmentService.RejectOrder:input_type -> eolymp.commerce.RejectOrderInput
+	4, // 4: eolymp.commerce.FulfillmentService.ProcessOrder:input_type -> eolymp.commerce.ProcessOrderInput
+	6, // 5: eolymp.commerce.FulfillmentService.ShipOrder:input_type -> eolymp.commerce.ShipOrderInput
+	1, // 6: eolymp.commerce.FulfillmentService.AllocateStock:output_type -> eolymp.commerce.AllocateStockOutput
+	3, // 7: eolymp.commerce.FulfillmentService.RejectOrder:output_type -> eolymp.commerce.RejectOrderOutput
+	5, // 8: eolymp.commerce.FulfillmentService.ProcessOrder:output_type -> eolymp.commerce.ProcessOrderOutput
+	7, // 9: eolymp.commerce.FulfillmentService.ShipOrder:output_type -> eolymp.commerce.ShipOrderOutput
+	6, // [6:10] is the sub-list for method output_type
+	2, // [2:6] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_commerce_fulfillment_server_proto_init() }
@@ -354,7 +459,7 @@ func file_eolymp_commerce_fulfillment_server_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_commerce_fulfillment_server_proto_rawDesc), len(file_eolymp_commerce_fulfillment_server_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   6,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

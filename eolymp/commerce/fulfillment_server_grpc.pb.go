@@ -21,6 +21,7 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	FulfillmentService_AllocateStock_FullMethodName = "/eolymp.commerce.FulfillmentService/AllocateStock"
 	FulfillmentService_RejectOrder_FullMethodName   = "/eolymp.commerce.FulfillmentService/RejectOrder"
+	FulfillmentService_ProcessOrder_FullMethodName  = "/eolymp.commerce.FulfillmentService/ProcessOrder"
 	FulfillmentService_ShipOrder_FullMethodName     = "/eolymp.commerce.FulfillmentService/ShipOrder"
 )
 
@@ -32,6 +33,7 @@ type FulfillmentServiceClient interface {
 	// RejectOrder allows admin to reject an order with a reason that will be shown to the user.
 	// This is different from CancelOrder which is user-initiated without a reason.
 	RejectOrder(ctx context.Context, in *RejectOrderInput, opts ...grpc.CallOption) (*RejectOrderOutput, error)
+	ProcessOrder(ctx context.Context, in *ProcessOrderInput, opts ...grpc.CallOption) (*ProcessOrderOutput, error)
 	ShipOrder(ctx context.Context, in *ShipOrderInput, opts ...grpc.CallOption) (*ShipOrderOutput, error)
 }
 
@@ -63,6 +65,16 @@ func (c *fulfillmentServiceClient) RejectOrder(ctx context.Context, in *RejectOr
 	return out, nil
 }
 
+func (c *fulfillmentServiceClient) ProcessOrder(ctx context.Context, in *ProcessOrderInput, opts ...grpc.CallOption) (*ProcessOrderOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ProcessOrderOutput)
+	err := c.cc.Invoke(ctx, FulfillmentService_ProcessOrder_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *fulfillmentServiceClient) ShipOrder(ctx context.Context, in *ShipOrderInput, opts ...grpc.CallOption) (*ShipOrderOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ShipOrderOutput)
@@ -81,6 +93,7 @@ type FulfillmentServiceServer interface {
 	// RejectOrder allows admin to reject an order with a reason that will be shown to the user.
 	// This is different from CancelOrder which is user-initiated without a reason.
 	RejectOrder(context.Context, *RejectOrderInput) (*RejectOrderOutput, error)
+	ProcessOrder(context.Context, *ProcessOrderInput) (*ProcessOrderOutput, error)
 	ShipOrder(context.Context, *ShipOrderInput) (*ShipOrderOutput, error)
 }
 
@@ -96,6 +109,9 @@ func (UnimplementedFulfillmentServiceServer) AllocateStock(context.Context, *All
 }
 func (UnimplementedFulfillmentServiceServer) RejectOrder(context.Context, *RejectOrderInput) (*RejectOrderOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RejectOrder not implemented")
+}
+func (UnimplementedFulfillmentServiceServer) ProcessOrder(context.Context, *ProcessOrderInput) (*ProcessOrderOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ProcessOrder not implemented")
 }
 func (UnimplementedFulfillmentServiceServer) ShipOrder(context.Context, *ShipOrderInput) (*ShipOrderOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ShipOrder not implemented")
@@ -156,6 +172,24 @@ func _FulfillmentService_RejectOrder_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _FulfillmentService_ProcessOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ProcessOrderInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FulfillmentServiceServer).ProcessOrder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: FulfillmentService_ProcessOrder_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FulfillmentServiceServer).ProcessOrder(ctx, req.(*ProcessOrderInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _FulfillmentService_ShipOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ShipOrderInput)
 	if err := dec(in); err != nil {
@@ -188,6 +222,10 @@ var FulfillmentService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RejectOrder",
 			Handler:    _FulfillmentService_RejectOrder_Handler,
+		},
+		{
+			MethodName: "ProcessOrder",
+			Handler:    _FulfillmentService_ProcessOrder_Handler,
 		},
 		{
 			MethodName: "ShipOrder",
