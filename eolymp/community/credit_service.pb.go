@@ -150,6 +150,7 @@ func (x *GrantCreditInput) GetGrant() *Credit_Grant {
 type GrantCreditOutput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	GrantId       string                 `protobuf:"bytes,1,opt,name=grant_id,json=grantId,proto3" json:"grant_id,omitempty"`
+	TransactionId string                 `protobuf:"bytes,2,opt,name=transaction_id,json=transactionId,proto3" json:"transaction_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -187,6 +188,13 @@ func (*GrantCreditOutput) Descriptor() ([]byte, []int) {
 func (x *GrantCreditOutput) GetGrantId() string {
 	if x != nil {
 		return x.GrantId
+	}
+	return ""
+}
+
+func (x *GrantCreditOutput) GetTransactionId() string {
+	if x != nil {
+		return x.TransactionId
 	}
 	return ""
 }
@@ -816,9 +824,10 @@ const file_eolymp_community_credit_service_proto_rawDesc = "" +
 	"\x15DescribeBalanceOutput\x12\x18\n" +
 	"\abalance\x18\x01 \x01(\rR\abalance\"H\n" +
 	"\x10GrantCreditInput\x124\n" +
-	"\x05grant\x18\x01 \x01(\v2\x1e.eolymp.community.Credit.GrantR\x05grant\".\n" +
+	"\x05grant\x18\x01 \x01(\v2\x1e.eolymp.community.Credit.GrantR\x05grant\"U\n" +
 	"\x11GrantCreditOutput\x12\x19\n" +
-	"\bgrant_id\x18\x01 \x01(\tR\agrantId\".\n" +
+	"\bgrant_id\x18\x01 \x01(\tR\agrantId\x12%\n" +
+	"\x0etransaction_id\x18\x02 \x01(\tR\rtransactionId\".\n" +
 	"\x11CancelCreditInput\x12\x19\n" +
 	"\bgrant_id\x18\x01 \x01(\tR\agrantId\"\x14\n" +
 	"\x12CancelCreditOutput\"\xb1\x03\n" +
