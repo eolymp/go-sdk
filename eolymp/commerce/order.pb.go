@@ -31,6 +31,7 @@ const (
 	Order_PROCESSING  Order_Status = 3 // Order is ready for processing.
 	Order_CANCELED    Order_Status = 4 // Order is canceled.
 	Order_SHIPPED     Order_Status = 5 // Order is shipped.
+	Order_COMPLETE    Order_Status = 6 // Order is complete.
 )
 
 // Enum value maps for Order_Status.
@@ -42,6 +43,7 @@ var (
 		3: "PROCESSING",
 		4: "CANCELED",
 		5: "SHIPPED",
+		6: "COMPLETE",
 	}
 	Order_Status_value = map[string]int32{
 		"UNSPECIFIED": 0,
@@ -50,6 +52,7 @@ var (
 		"PROCESSING":  3,
 		"CANCELED":    4,
 		"SHIPPED":     5,
+		"COMPLETE":    6,
 	}
 )
 
@@ -101,7 +104,7 @@ type Order struct {
 	TaxRate               uint32                 `protobuf:"varint,25,opt,name=tax_rate,json=taxRate,proto3" json:"tax_rate,omitempty"` // in hundredth of percent, e.g. 755 means 7.55%
 	TaxNote               string                 `protobuf:"bytes,26,opt,name=tax_note,json=taxNote,proto3" json:"tax_note,omitempty"`
 	GrandTotal            uint32                 `protobuf:"varint,30,opt,name=grand_total,json=grandTotal,proto3" json:"grand_total,omitempty"`
-	TrackingUrl           string                 `protobuf:"bytes,50,opt,name=tracking_url,json=trackingUrl,proto3" json:"tracking_url,omitempty"`
+	TrackingLink          string                 `protobuf:"bytes,50,opt,name=tracking_link,json=trackingLink,proto3" json:"tracking_link,omitempty"`
 	CreatedAt             *timestamppb.Timestamp `protobuf:"bytes,100,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	UpdatedAt             *timestamppb.Timestamp `protobuf:"bytes,101,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
 	unknownFields         protoimpl.UnknownFields
@@ -257,9 +260,9 @@ func (x *Order) GetGrandTotal() uint32 {
 	return 0
 }
 
-func (x *Order) GetTrackingUrl() string {
+func (x *Order) GetTrackingLink() string {
 	if x != nil {
-		return x.TrackingUrl
+		return x.TrackingLink
 	}
 	return ""
 }
@@ -422,7 +425,7 @@ var File_eolymp_commerce_order_proto protoreflect.FileDescriptor
 
 const file_eolymp_commerce_order_proto_rawDesc = "" +
 	"\n" +
-	"\x1beolymp/commerce/order.proto\x12\x0feolymp.commerce\x1a\x1deolymp/commerce/address.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xa7\v\n" +
+	"\x1beolymp/commerce/order.proto\x12\x0feolymp.commerce\x1a\x1deolymp/commerce/address.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xb7\v\n" +
 	"\x05Order\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1c\n" +
 	"\treference\x18\x02 \x01(\tR\treference\x12\x1b\n" +
@@ -443,8 +446,8 @@ const file_eolymp_commerce_order_proto_rawDesc = "" +
 	"\btax_rate\x18\x19 \x01(\rR\ataxRate\x12\x19\n" +
 	"\btax_note\x18\x1a \x01(\tR\ataxNote\x12\x1f\n" +
 	"\vgrand_total\x18\x1e \x01(\rR\n" +
-	"grandTotal\x12!\n" +
-	"\ftracking_url\x182 \x01(\tR\vtrackingUrl\x129\n" +
+	"grandTotal\x12#\n" +
+	"\rtracking_link\x182 \x01(\tR\ftrackingLink\x129\n" +
 	"\n" +
 	"created_at\x18d \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
 	"\n" +
@@ -466,7 +469,7 @@ const file_eolymp_commerce_order_proto_rawDesc = "" +
 	"\vunit_amount\x18\x15 \x01(\rR\n" +
 	"unitAmount\x12!\n" +
 	"\ftotal_amount\x18\x16 \x01(\rR\vtotalAmount\x12'\n" +
-	"\x0fdiscount_amount\x18\x17 \x01(\rR\x0ediscountAmount\"^\n" +
+	"\x0fdiscount_amount\x18\x17 \x01(\rR\x0ediscountAmount\"l\n" +
 	"\x06Status\x12\x0f\n" +
 	"\vUNSPECIFIED\x10\x00\x12\v\n" +
 	"\aCREATED\x10\x01\x12\v\n" +
@@ -474,7 +477,8 @@ const file_eolymp_commerce_order_proto_rawDesc = "" +
 	"\n" +
 	"PROCESSING\x10\x03\x12\f\n" +
 	"\bCANCELED\x10\x04\x12\v\n" +
-	"\aSHIPPED\x10\x05B3Z1github.com/eolymp/go-sdk/eolymp/commerce;commerceb\x06proto3"
+	"\aSHIPPED\x10\x05\x12\f\n" +
+	"\bCOMPLETE\x10\x06B3Z1github.com/eolymp/go-sdk/eolymp/commerce;commerceb\x06proto3"
 
 var (
 	file_eolymp_commerce_order_proto_rawDescOnce sync.Once

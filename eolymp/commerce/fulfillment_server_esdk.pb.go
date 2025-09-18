@@ -163,3 +163,19 @@ func (s *FulfillmentServiceService) ShipOrder(ctx context.Context, in *ShipOrder
 
 	return out, nil
 }
+
+func (s *FulfillmentServiceService) CompleteOrder(ctx context.Context, in *CompleteOrderInput) (*CompleteOrderOutput, error) {
+	out := &CompleteOrderOutput{}
+	path := "/store/orders/" + url.PathEscape(in.GetOrderId()) + "/complete"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.OrderId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
