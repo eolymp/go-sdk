@@ -542,6 +542,166 @@ func (*UpdateBillingAddressOutput) Descriptor() ([]byte, []int) {
 	return file_eolymp_commerce_shopping_service_proto_rawDescGZIP(), []int{11}
 }
 
+type UpdateShippingMethodInput struct {
+	state            protoimpl.MessageState `protogen:"open.v1"`
+	ShippingMethodId string                 `protobuf:"bytes,1,opt,name=shipping_method_id,json=shippingMethodId,proto3" json:"shipping_method_id,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
+}
+
+func (x *UpdateShippingMethodInput) Reset() {
+	*x = UpdateShippingMethodInput{}
+	mi := &file_eolymp_commerce_shopping_service_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateShippingMethodInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateShippingMethodInput) ProtoMessage() {}
+
+func (x *UpdateShippingMethodInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_commerce_shopping_service_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateShippingMethodInput.ProtoReflect.Descriptor instead.
+func (*UpdateShippingMethodInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_commerce_shopping_service_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *UpdateShippingMethodInput) GetShippingMethodId() string {
+	if x != nil {
+		return x.ShippingMethodId
+	}
+	return ""
+}
+
+type UpdateShippingMethodOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateShippingMethodOutput) Reset() {
+	*x = UpdateShippingMethodOutput{}
+	mi := &file_eolymp_commerce_shopping_service_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateShippingMethodOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateShippingMethodOutput) ProtoMessage() {}
+
+func (x *UpdateShippingMethodOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_commerce_shopping_service_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateShippingMethodOutput.ProtoReflect.Descriptor instead.
+func (*UpdateShippingMethodOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_commerce_shopping_service_proto_rawDescGZIP(), []int{13}
+}
+
+type ListShippingMethodsInput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListShippingMethodsInput) Reset() {
+	*x = ListShippingMethodsInput{}
+	mi := &file_eolymp_commerce_shopping_service_proto_msgTypes[14]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListShippingMethodsInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListShippingMethodsInput) ProtoMessage() {}
+
+func (x *ListShippingMethodsInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_commerce_shopping_service_proto_msgTypes[14]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListShippingMethodsInput.ProtoReflect.Descriptor instead.
+func (*ListShippingMethodsInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_commerce_shopping_service_proto_rawDescGZIP(), []int{14}
+}
+
+type ListShippingMethodsOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Items         []*ShippingMethod      `protobuf:"bytes,1,rep,name=items,proto3" json:"items,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListShippingMethodsOutput) Reset() {
+	*x = ListShippingMethodsOutput{}
+	mi := &file_eolymp_commerce_shopping_service_proto_msgTypes[15]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListShippingMethodsOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListShippingMethodsOutput) ProtoMessage() {}
+
+func (x *ListShippingMethodsOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_commerce_shopping_service_proto_msgTypes[15]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListShippingMethodsOutput.ProtoReflect.Descriptor instead.
+func (*ListShippingMethodsOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_commerce_shopping_service_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *ListShippingMethodsOutput) GetItems() []*ShippingMethod {
+	if x != nil {
+		return x.Items
+	}
+	return nil
+}
+
 type PlaceOrderInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
@@ -550,7 +710,7 @@ type PlaceOrderInput struct {
 
 func (x *PlaceOrderInput) Reset() {
 	*x = PlaceOrderInput{}
-	mi := &file_eolymp_commerce_shopping_service_proto_msgTypes[12]
+	mi := &file_eolymp_commerce_shopping_service_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -562,7 +722,7 @@ func (x *PlaceOrderInput) String() string {
 func (*PlaceOrderInput) ProtoMessage() {}
 
 func (x *PlaceOrderInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_commerce_shopping_service_proto_msgTypes[12]
+	mi := &file_eolymp_commerce_shopping_service_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -575,7 +735,7 @@ func (x *PlaceOrderInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PlaceOrderInput.ProtoReflect.Descriptor instead.
 func (*PlaceOrderInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_commerce_shopping_service_proto_rawDescGZIP(), []int{12}
+	return file_eolymp_commerce_shopping_service_proto_rawDescGZIP(), []int{16}
 }
 
 type PlaceOrderOutput struct {
@@ -588,7 +748,7 @@ type PlaceOrderOutput struct {
 
 func (x *PlaceOrderOutput) Reset() {
 	*x = PlaceOrderOutput{}
-	mi := &file_eolymp_commerce_shopping_service_proto_msgTypes[13]
+	mi := &file_eolymp_commerce_shopping_service_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -600,7 +760,7 @@ func (x *PlaceOrderOutput) String() string {
 func (*PlaceOrderOutput) ProtoMessage() {}
 
 func (x *PlaceOrderOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_commerce_shopping_service_proto_msgTypes[13]
+	mi := &file_eolymp_commerce_shopping_service_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -613,7 +773,7 @@ func (x *PlaceOrderOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PlaceOrderOutput.ProtoReflect.Descriptor instead.
 func (*PlaceOrderOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_commerce_shopping_service_proto_rawDescGZIP(), []int{13}
+	return file_eolymp_commerce_shopping_service_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *PlaceOrderOutput) GetOrderId() string {
@@ -634,7 +794,7 @@ var File_eolymp_commerce_shopping_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_commerce_shopping_service_proto_rawDesc = "" +
 	"\n" +
-	"&eolymp/commerce/shopping_service.proto\x12\x0feolymp.commerce\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1deolymp/commerce/address.proto\x1a#eolymp/commerce/shopping_cart.proto\"\x1b\n" +
+	"&eolymp/commerce/shopping_service.proto\x12\x0feolymp.commerce\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1deolymp/commerce/address.proto\x1a%eolymp/commerce/shipping_method.proto\x1a#eolymp/commerce/shopping_cart.proto\"\x1b\n" +
 	"\x19DescribeShoppingCartInput\"O\n" +
 	"\x1aDescribeShoppingCartOutput\x121\n" +
 	"\x04cart\x18\x01 \x01(\v2\x1d.eolymp.commerce.ShoppingCartR\x04cart\"w\n" +
@@ -659,11 +819,17 @@ const file_eolymp_commerce_shopping_service_proto_rawDesc = "" +
 	"\x19UpdateBillingAddressInput\x122\n" +
 	"\aaddress\x18\x01 \x01(\v2\x18.eolymp.commerce.AddressR\aaddress\x12(\n" +
 	"\x10same_as_shipping\x18\x02 \x01(\bR\x0esameAsShipping\"\x1c\n" +
-	"\x1aUpdateBillingAddressOutput\"\x11\n" +
+	"\x1aUpdateBillingAddressOutput\"I\n" +
+	"\x19UpdateShippingMethodInput\x12,\n" +
+	"\x12shipping_method_id\x18\x01 \x01(\tR\x10shippingMethodId\"\x1c\n" +
+	"\x1aUpdateShippingMethodOutput\"\x1a\n" +
+	"\x18ListShippingMethodsInput\"R\n" +
+	"\x19ListShippingMethodsOutput\x125\n" +
+	"\x05items\x18\x01 \x03(\v2\x1f.eolymp.commerce.ShippingMethodR\x05items\"\x11\n" +
 	"\x0fPlaceOrderInput\"P\n" +
 	"\x10PlaceOrderOutput\x12\x19\n" +
 	"\border_id\x18\x01 \x01(\tR\aorderId\x12!\n" +
-	"\forder_number\x18\x02 \x01(\tR\vorderNumber2\xee\b\n" +
+	"\forder_number\x18\x02 \x01(\tR\vorderNumber2\xb8\v\n" +
 	"\x0fShoppingService\x12\x93\x01\n" +
 	"\x14DescribeShoppingCart\x12*.eolymp.commerce.DescribeShoppingCartInput\x1a+.eolymp.commerce.DescribeShoppingCartOutput\"\"\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -693,7 +859,17 @@ const file_eolymp_commerce_shopping_service_proto_rawDesc = "" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\n" +
-	"\x82\xd3\xe4\x93\x02\x1d\"\x1b/store/cart/billing-address\x12{\n" +
+	"\x82\xd3\xe4\x93\x02\x1d\"\x1b/store/cart/billing-address\x12\xa3\x01\n" +
+	"\x14UpdateShippingMethod\x12*.eolymp.commerce.UpdateShippingMethodInput\x1a+.eolymp.commerce.UpdateShippingMethodOutput\"2\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\x80?\xf8\xe2\n" +
+	"\n" +
+	"\x82\xd3\xe4\x93\x02\x1d\"\x1b/store/cart/shipping-method\x12\xa1\x01\n" +
+	"\x13ListShippingMethods\x12).eolymp.commerce.ListShippingMethodsInput\x1a*.eolymp.commerce.ListShippingMethodsOutput\"3\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\x80?\xf8\xe2\n" +
+	"\n" +
+	"\x82\xd3\xe4\x93\x02\x1e\x12\x1c/store/cart/shipping-methods\x12{\n" +
 	"\n" +
 	"PlaceOrder\x12 .eolymp.commerce.PlaceOrderInput\x1a!.eolymp.commerce.PlaceOrderOutput\"(\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -713,7 +889,7 @@ func file_eolymp_commerce_shopping_service_proto_rawDescGZIP() []byte {
 	return file_eolymp_commerce_shopping_service_proto_rawDescData
 }
 
-var file_eolymp_commerce_shopping_service_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
+var file_eolymp_commerce_shopping_service_proto_msgTypes = make([]protoimpl.MessageInfo, 18)
 var file_eolymp_commerce_shopping_service_proto_goTypes = []any{
 	(*DescribeShoppingCartInput)(nil),    // 0: eolymp.commerce.DescribeShoppingCartInput
 	(*DescribeShoppingCartOutput)(nil),   // 1: eolymp.commerce.DescribeShoppingCartOutput
@@ -727,34 +903,44 @@ var file_eolymp_commerce_shopping_service_proto_goTypes = []any{
 	(*UpdateShippingAddressOutput)(nil),  // 9: eolymp.commerce.UpdateShippingAddressOutput
 	(*UpdateBillingAddressInput)(nil),    // 10: eolymp.commerce.UpdateBillingAddressInput
 	(*UpdateBillingAddressOutput)(nil),   // 11: eolymp.commerce.UpdateBillingAddressOutput
-	(*PlaceOrderInput)(nil),              // 12: eolymp.commerce.PlaceOrderInput
-	(*PlaceOrderOutput)(nil),             // 13: eolymp.commerce.PlaceOrderOutput
-	(*ShoppingCart)(nil),                 // 14: eolymp.commerce.ShoppingCart
-	(*Address)(nil),                      // 15: eolymp.commerce.Address
+	(*UpdateShippingMethodInput)(nil),    // 12: eolymp.commerce.UpdateShippingMethodInput
+	(*UpdateShippingMethodOutput)(nil),   // 13: eolymp.commerce.UpdateShippingMethodOutput
+	(*ListShippingMethodsInput)(nil),     // 14: eolymp.commerce.ListShippingMethodsInput
+	(*ListShippingMethodsOutput)(nil),    // 15: eolymp.commerce.ListShippingMethodsOutput
+	(*PlaceOrderInput)(nil),              // 16: eolymp.commerce.PlaceOrderInput
+	(*PlaceOrderOutput)(nil),             // 17: eolymp.commerce.PlaceOrderOutput
+	(*ShoppingCart)(nil),                 // 18: eolymp.commerce.ShoppingCart
+	(*Address)(nil),                      // 19: eolymp.commerce.Address
+	(*ShippingMethod)(nil),               // 20: eolymp.commerce.ShippingMethod
 }
 var file_eolymp_commerce_shopping_service_proto_depIdxs = []int32{
-	14, // 0: eolymp.commerce.DescribeShoppingCartOutput.cart:type_name -> eolymp.commerce.ShoppingCart
-	15, // 1: eolymp.commerce.UpdateShippingAddressInput.address:type_name -> eolymp.commerce.Address
-	15, // 2: eolymp.commerce.UpdateBillingAddressInput.address:type_name -> eolymp.commerce.Address
-	0,  // 3: eolymp.commerce.ShoppingService.DescribeShoppingCart:input_type -> eolymp.commerce.DescribeShoppingCartInput
-	2,  // 4: eolymp.commerce.ShoppingService.CreateShoppingCartItem:input_type -> eolymp.commerce.CreateShoppingCartItemInput
-	4,  // 5: eolymp.commerce.ShoppingService.UpdateShoppingCartItem:input_type -> eolymp.commerce.UpdateShoppingCartItemInput
-	6,  // 6: eolymp.commerce.ShoppingService.DeleteShoppingCartItem:input_type -> eolymp.commerce.DeleteShoppingCartItemInput
-	8,  // 7: eolymp.commerce.ShoppingService.UpdateShippingAddress:input_type -> eolymp.commerce.UpdateShippingAddressInput
-	10, // 8: eolymp.commerce.ShoppingService.UpdateBillingAddress:input_type -> eolymp.commerce.UpdateBillingAddressInput
-	12, // 9: eolymp.commerce.ShoppingService.PlaceOrder:input_type -> eolymp.commerce.PlaceOrderInput
-	1,  // 10: eolymp.commerce.ShoppingService.DescribeShoppingCart:output_type -> eolymp.commerce.DescribeShoppingCartOutput
-	3,  // 11: eolymp.commerce.ShoppingService.CreateShoppingCartItem:output_type -> eolymp.commerce.CreateShoppingCartItemOutput
-	5,  // 12: eolymp.commerce.ShoppingService.UpdateShoppingCartItem:output_type -> eolymp.commerce.UpdateShoppingCartItemOutput
-	7,  // 13: eolymp.commerce.ShoppingService.DeleteShoppingCartItem:output_type -> eolymp.commerce.DeleteShoppingCartItemOutput
-	9,  // 14: eolymp.commerce.ShoppingService.UpdateShippingAddress:output_type -> eolymp.commerce.UpdateShippingAddressOutput
-	11, // 15: eolymp.commerce.ShoppingService.UpdateBillingAddress:output_type -> eolymp.commerce.UpdateBillingAddressOutput
-	13, // 16: eolymp.commerce.ShoppingService.PlaceOrder:output_type -> eolymp.commerce.PlaceOrderOutput
-	10, // [10:17] is the sub-list for method output_type
-	3,  // [3:10] is the sub-list for method input_type
-	3,  // [3:3] is the sub-list for extension type_name
-	3,  // [3:3] is the sub-list for extension extendee
-	0,  // [0:3] is the sub-list for field type_name
+	18, // 0: eolymp.commerce.DescribeShoppingCartOutput.cart:type_name -> eolymp.commerce.ShoppingCart
+	19, // 1: eolymp.commerce.UpdateShippingAddressInput.address:type_name -> eolymp.commerce.Address
+	19, // 2: eolymp.commerce.UpdateBillingAddressInput.address:type_name -> eolymp.commerce.Address
+	20, // 3: eolymp.commerce.ListShippingMethodsOutput.items:type_name -> eolymp.commerce.ShippingMethod
+	0,  // 4: eolymp.commerce.ShoppingService.DescribeShoppingCart:input_type -> eolymp.commerce.DescribeShoppingCartInput
+	2,  // 5: eolymp.commerce.ShoppingService.CreateShoppingCartItem:input_type -> eolymp.commerce.CreateShoppingCartItemInput
+	4,  // 6: eolymp.commerce.ShoppingService.UpdateShoppingCartItem:input_type -> eolymp.commerce.UpdateShoppingCartItemInput
+	6,  // 7: eolymp.commerce.ShoppingService.DeleteShoppingCartItem:input_type -> eolymp.commerce.DeleteShoppingCartItemInput
+	8,  // 8: eolymp.commerce.ShoppingService.UpdateShippingAddress:input_type -> eolymp.commerce.UpdateShippingAddressInput
+	10, // 9: eolymp.commerce.ShoppingService.UpdateBillingAddress:input_type -> eolymp.commerce.UpdateBillingAddressInput
+	12, // 10: eolymp.commerce.ShoppingService.UpdateShippingMethod:input_type -> eolymp.commerce.UpdateShippingMethodInput
+	14, // 11: eolymp.commerce.ShoppingService.ListShippingMethods:input_type -> eolymp.commerce.ListShippingMethodsInput
+	16, // 12: eolymp.commerce.ShoppingService.PlaceOrder:input_type -> eolymp.commerce.PlaceOrderInput
+	1,  // 13: eolymp.commerce.ShoppingService.DescribeShoppingCart:output_type -> eolymp.commerce.DescribeShoppingCartOutput
+	3,  // 14: eolymp.commerce.ShoppingService.CreateShoppingCartItem:output_type -> eolymp.commerce.CreateShoppingCartItemOutput
+	5,  // 15: eolymp.commerce.ShoppingService.UpdateShoppingCartItem:output_type -> eolymp.commerce.UpdateShoppingCartItemOutput
+	7,  // 16: eolymp.commerce.ShoppingService.DeleteShoppingCartItem:output_type -> eolymp.commerce.DeleteShoppingCartItemOutput
+	9,  // 17: eolymp.commerce.ShoppingService.UpdateShippingAddress:output_type -> eolymp.commerce.UpdateShippingAddressOutput
+	11, // 18: eolymp.commerce.ShoppingService.UpdateBillingAddress:output_type -> eolymp.commerce.UpdateBillingAddressOutput
+	13, // 19: eolymp.commerce.ShoppingService.UpdateShippingMethod:output_type -> eolymp.commerce.UpdateShippingMethodOutput
+	15, // 20: eolymp.commerce.ShoppingService.ListShippingMethods:output_type -> eolymp.commerce.ListShippingMethodsOutput
+	17, // 21: eolymp.commerce.ShoppingService.PlaceOrder:output_type -> eolymp.commerce.PlaceOrderOutput
+	13, // [13:22] is the sub-list for method output_type
+	4,  // [4:13] is the sub-list for method input_type
+	4,  // [4:4] is the sub-list for extension type_name
+	4,  // [4:4] is the sub-list for extension extendee
+	0,  // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_commerce_shopping_service_proto_init() }
@@ -763,6 +949,7 @@ func file_eolymp_commerce_shopping_service_proto_init() {
 		return
 	}
 	file_eolymp_commerce_address_proto_init()
+	file_eolymp_commerce_shipping_method_proto_init()
 	file_eolymp_commerce_shopping_cart_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -770,7 +957,7 @@ func file_eolymp_commerce_shopping_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_commerce_shopping_service_proto_rawDesc), len(file_eolymp_commerce_shopping_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   14,
+			NumMessages:   18,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

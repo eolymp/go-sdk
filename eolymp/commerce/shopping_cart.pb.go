@@ -31,6 +31,7 @@ type ShoppingCart struct {
 	ShippingAddress       *Address               `protobuf:"bytes,41,opt,name=shipping_address,json=shippingAddress,proto3" json:"shipping_address,omitempty"`
 	BillingSameAsShipping bool                   `protobuf:"varint,42,opt,name=billing_same_as_shipping,json=billingSameAsShipping,proto3" json:"billing_same_as_shipping,omitempty"`
 	Currency              string                 `protobuf:"bytes,20,opt,name=currency,proto3" json:"currency,omitempty"`
+	ShippingMethod        string                 `protobuf:"bytes,50,opt,name=shipping_method,json=shippingMethod,proto3" json:"shipping_method,omitempty"`
 	TotalAmount           uint32                 `protobuf:"varint,21,opt,name=total_amount,json=totalAmount,proto3" json:"total_amount,omitempty"`
 	ShippingAmount        uint32                 `protobuf:"varint,22,opt,name=shipping_amount,json=shippingAmount,proto3" json:"shipping_amount,omitempty"`
 	DiscountAmount        uint32                 `protobuf:"varint,23,opt,name=discount_amount,json=discountAmount,proto3" json:"discount_amount,omitempty"`
@@ -110,6 +111,13 @@ func (x *ShoppingCart) GetBillingSameAsShipping() bool {
 func (x *ShoppingCart) GetCurrency() string {
 	if x != nil {
 		return x.Currency
+	}
+	return ""
+}
+
+func (x *ShoppingCart) GetShippingMethod() string {
+	if x != nil {
+		return x.ShippingMethod
 	}
 	return ""
 }
@@ -259,7 +267,7 @@ var File_eolymp_commerce_shopping_cart_proto protoreflect.FileDescriptor
 
 const file_eolymp_commerce_shopping_cart_proto_rawDesc = "" +
 	"\n" +
-	"#eolymp/commerce/shopping_cart.proto\x12\x0feolymp.commerce\x1a\x1deolymp/commerce/address.proto\"\x80\x06\n" +
+	"#eolymp/commerce/shopping_cart.proto\x12\x0feolymp.commerce\x1a\x1deolymp/commerce/address.proto\"\xa9\x06\n" +
 	"\fShoppingCart\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x128\n" +
 	"\x05items\x18\n" +
@@ -267,7 +275,8 @@ const file_eolymp_commerce_shopping_cart_proto_rawDesc = "" +
 	"\x0fbilling_address\x18( \x01(\v2\x18.eolymp.commerce.AddressR\x0ebillingAddress\x12C\n" +
 	"\x10shipping_address\x18) \x01(\v2\x18.eolymp.commerce.AddressR\x0fshippingAddress\x127\n" +
 	"\x18billing_same_as_shipping\x18* \x01(\bR\x15billingSameAsShipping\x12\x1a\n" +
-	"\bcurrency\x18\x14 \x01(\tR\bcurrency\x12!\n" +
+	"\bcurrency\x18\x14 \x01(\tR\bcurrency\x12'\n" +
+	"\x0fshipping_method\x182 \x01(\tR\x0eshippingMethod\x12!\n" +
 	"\ftotal_amount\x18\x15 \x01(\rR\vtotalAmount\x12'\n" +
 	"\x0fshipping_amount\x18\x16 \x01(\rR\x0eshippingAmount\x12'\n" +
 	"\x0fdiscount_amount\x18\x17 \x01(\rR\x0ediscountAmount\x12\x1d\n" +
