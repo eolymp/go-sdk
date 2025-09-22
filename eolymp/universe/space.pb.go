@@ -172,10 +172,11 @@ func (Space_Extra) EnumDescriptor() ([]byte, []int) {
 type Space_Feature int32
 
 const (
-	Space_UNKNOWN_FEATURE Space_Feature = 0
-	Space_PRINTERS        Space_Feature = 1
-	Space_NEWSLETTERS     Space_Feature = 2
-	Space_MEMBER_CREDITS  Space_Feature = 3
+	Space_UNKNOWN_FEATURE   Space_Feature = 0
+	Space_PRINTERS          Space_Feature = 1
+	Space_NEWSLETTERS       Space_Feature = 2
+	Space_MEMBER_CREDITS    Space_Feature = 3
+	Space_MERCHANDISE_STORE Space_Feature = 4
 )
 
 // Enum value maps for Space_Feature.
@@ -185,12 +186,14 @@ var (
 		1: "PRINTERS",
 		2: "NEWSLETTERS",
 		3: "MEMBER_CREDITS",
+		4: "MERCHANDISE_STORE",
 	}
 	Space_Feature_value = map[string]int32{
-		"UNKNOWN_FEATURE": 0,
-		"PRINTERS":        1,
-		"NEWSLETTERS":     2,
-		"MEMBER_CREDITS":  3,
+		"UNKNOWN_FEATURE":   0,
+		"PRINTERS":          1,
+		"NEWSLETTERS":       2,
+		"MEMBER_CREDITS":    3,
+		"MERCHANDISE_STORE": 4,
 	}
 )
 
@@ -457,7 +460,7 @@ var File_eolymp_universe_space_proto protoreflect.FileDescriptor
 
 const file_eolymp_universe_space_proto_rawDesc = "" +
 	"\n" +
-	"\x1beolymp/universe/space.proto\x12\x0feolymp.universe\x1a\x1beolymp/universe/quota.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xf7\b\n" +
+	"\x1beolymp/universe/space.proto\x12\x0feolymp.universe\x1a\x1beolymp/universe/quota.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x8e\t\n" +
 	"\x05Space\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x10\n" +
 	"\x03key\x18\x02 \x01(\tR\x03key\x12\x10\n" +
@@ -500,12 +503,13 @@ const file_eolymp_universe_space_proto_rawDesc = "" +
 	"\aPRIVATE\x10\x02\",\n" +
 	"\x05Extra\x12\x11\n" +
 	"\rUNKNOWN_EXTRA\x10\x00\x12\x10\n" +
-	"\fSUBSCRIPTION\x10\x01\"Q\n" +
+	"\fSUBSCRIPTION\x10\x01\"h\n" +
 	"\aFeature\x12\x13\n" +
 	"\x0fUNKNOWN_FEATURE\x10\x00\x12\f\n" +
 	"\bPRINTERS\x10\x01\x12\x0f\n" +
 	"\vNEWSLETTERS\x10\x02\x12\x12\n" +
-	"\x0eMEMBER_CREDITS\x10\x03B3Z1github.com/eolymp/go-sdk/eolymp/universe;universeb\x06proto3"
+	"\x0eMEMBER_CREDITS\x10\x03\x12\x15\n" +
+	"\x11MERCHANDISE_STORE\x10\x04B3Z1github.com/eolymp/go-sdk/eolymp/universe;universeb\x06proto3"
 
 var (
 	file_eolymp_universe_space_proto_rawDescOnce sync.Once
