@@ -92,7 +92,8 @@ const (
 	Product_Patch_SUMMARY       Product_Patch_Field = 11
 	Product_Patch_DESCRIPTION   Product_Patch_Field = 3
 	Product_Patch_IMAGES        Product_Patch_Field = 4
-	Product_Patch_UNIT_PRICE    Product_Patch_Field = 5
+	Product_Patch_PRICE         Product_Patch_Field = 5
+	Product_Patch_REGULAR_PRICE Product_Patch_Field = 6
 	Product_Patch_ATTRIBUTES    Product_Patch_Field = 7
 	Product_Patch_VARIANTS      Product_Patch_Field = 8
 	Product_Patch_FEATURED      Product_Patch_Field = 9
@@ -109,7 +110,8 @@ var (
 		11: "SUMMARY",
 		3:  "DESCRIPTION",
 		4:  "IMAGES",
-		5:  "UNIT_PRICE",
+		5:  "PRICE",
+		6:  "REGULAR_PRICE",
 		7:  "ATTRIBUTES",
 		8:  "VARIANTS",
 		9:  "FEATURED",
@@ -123,7 +125,8 @@ var (
 		"SUMMARY":       11,
 		"DESCRIPTION":   3,
 		"IMAGES":        4,
-		"UNIT_PRICE":    5,
+		"PRICE":         5,
+		"REGULAR_PRICE": 6,
 		"ATTRIBUTES":    7,
 		"VARIANTS":      8,
 		"FEATURED":      9,
@@ -171,9 +174,11 @@ type Product struct {
 	Inactive      bool                   `protobuf:"varint,32,opt,name=inactive,proto3" json:"inactive,omitempty"`
 	Backorder     bool                   `protobuf:"varint,33,opt,name=backorder,proto3" json:"backorder,omitempty"`
 	Currency      string                 `protobuf:"bytes,20,opt,name=currency,proto3" json:"currency,omitempty"`
-	UnitPrice     uint32                 `protobuf:"varint,21,opt,name=unit_price,json=unitPrice,proto3" json:"unit_price,omitempty"`
+	Price         uint32                 `protobuf:"varint,21,opt,name=price,proto3" json:"price,omitempty"`                                   // current (sell) price
+	RegularPrice  uint32                 `protobuf:"varint,22,opt,name=regular_price,json=regularPrice,proto3" json:"regular_price,omitempty"` // optionally, regular product price (before discount)
 	Attributes    []*Product_Attribute   `protobuf:"bytes,40,rep,name=attributes,proto3" json:"attributes,omitempty"`
 	Variants      []*Product_Variant     `protobuf:"bytes,50,rep,name=variants,proto3" json:"variants,omitempty"`
+	Cursor        string                 `protobuf:"bytes,100,opt,name=cursor,proto3" json:"cursor,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -278,9 +283,16 @@ func (x *Product) GetCurrency() string {
 	return ""
 }
 
-func (x *Product) GetUnitPrice() uint32 {
+func (x *Product) GetPrice() uint32 {
 	if x != nil {
-		return x.UnitPrice
+		return x.Price
+	}
+	return 0
+}
+
+func (x *Product) GetRegularPrice() uint32 {
+	if x != nil {
+		return x.RegularPrice
 	}
 	return 0
 }
@@ -297,6 +309,13 @@ func (x *Product) GetVariants() []*Product_Variant {
 		return x.Variants
 	}
 	return nil
+}
+
+func (x *Product) GetCursor() string {
+	if x != nil {
+		return x.Cursor
+	}
+	return ""
 }
 
 type Product_Extra struct {
@@ -605,7 +624,7 @@ var File_eolymp_commerce_product_proto protoreflect.FileDescriptor
 
 const file_eolymp_commerce_product_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/commerce/product.proto\x12\x0feolymp.commerce\x1a\x18eolymp/ecm/content.proto\"\xa0\v\n" +
+	"\x1deolymp/commerce/product.proto\x12\x0feolymp.commerce\x1a\x18eolymp/ecm/content.proto\"\xe2\v\n" +
 	"\aProduct\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12-\n" +
@@ -618,13 +637,14 @@ const file_eolymp_commerce_product_proto_rawDesc = "" +
 	"\bfeatured\x18\x1f \x01(\bR\bfeatured\x12\x1a\n" +
 	"\binactive\x18  \x01(\bR\binactive\x12\x1c\n" +
 	"\tbackorder\x18! \x01(\bR\tbackorder\x12\x1a\n" +
-	"\bcurrency\x18\x14 \x01(\tR\bcurrency\x12\x1d\n" +
-	"\n" +
-	"unit_price\x18\x15 \x01(\rR\tunitPrice\x12B\n" +
+	"\bcurrency\x18\x14 \x01(\tR\bcurrency\x12\x14\n" +
+	"\x05price\x18\x15 \x01(\rR\x05price\x12#\n" +
+	"\rregular_price\x18\x16 \x01(\rR\fregularPrice\x12B\n" +
 	"\n" +
 	"attributes\x18( \x03(\v2\".eolymp.commerce.Product.AttributeR\n" +
 	"attributes\x12<\n" +
-	"\bvariants\x182 \x03(\v2 .eolymp.commerce.Product.VariantR\bvariants\x1a\x98\x01\n" +
+	"\bvariants\x182 \x03(\v2 .eolymp.commerce.Product.VariantR\bvariants\x12\x16\n" +
+	"\x06cursor\x18d \x01(\tR\x06cursor\x1a\x98\x01\n" +
 	"\x05Extra\"\x8e\x01\n" +
 	"\x05Field\x12\x11\n" +
 	"\rUNKNOWN_FIELD\x10\x00\x12\x11\n" +
@@ -634,8 +654,8 @@ const file_eolymp_commerce_product_proto_rawDesc = "" +
 	"\x12DESCRIPTION_RENDER\x10\x02\x12\x0e\n" +
 	"\n" +
 	"ATTRIBUTES\x10\x03\x12\f\n" +
-	"\bVARIANTS\x10\x04\x1a\xba\x01\n" +
-	"\x05Patch\"\xb0\x01\n" +
+	"\bVARIANTS\x10\x04\x1a\xc8\x01\n" +
+	"\x05Patch\"\xbe\x01\n" +
 	"\x05Field\x12\x11\n" +
 	"\rUNKNOWN_FIELD\x10\x00\x12\a\n" +
 	"\x03ALL\x10\x01\x12\b\n" +
@@ -643,9 +663,9 @@ const file_eolymp_commerce_product_proto_rawDesc = "" +
 	"\aSUMMARY\x10\v\x12\x0f\n" +
 	"\vDESCRIPTION\x10\x03\x12\n" +
 	"\n" +
-	"\x06IMAGES\x10\x04\x12\x0e\n" +
-	"\n" +
-	"UNIT_PRICE\x10\x05\x12\x0e\n" +
+	"\x06IMAGES\x10\x04\x12\t\n" +
+	"\x05PRICE\x10\x05\x12\x11\n" +
+	"\rREGULAR_PRICE\x10\x06\x12\x0e\n" +
 	"\n" +
 	"ATTRIBUTES\x10\a\x12\f\n" +
 	"\bVARIANTS\x10\b\x12\f\n" +
