@@ -61,6 +61,8 @@ const (
 	Action_POST_LIST        Action = 142 // allows to list posts, automatically assigned if user has read access to any of the posts
 	Action_POST_READ        Action = 140
 	Action_POST_WRITE       Action = 141
+	Action_STORE_READ       Action = 150
+	Action_STORE_WRITE      Action = 151
 )
 
 // Enum value maps for Action.
@@ -103,6 +105,8 @@ var (
 		142: "POST_LIST",
 		140: "POST_READ",
 		141: "POST_WRITE",
+		150: "STORE_READ",
+		151: "STORE_WRITE",
 	}
 	Action_value = map[string]int32{
 		"UNKNOWN_ACTION":   0,
@@ -142,6 +146,8 @@ var (
 		"POST_LIST":        142,
 		"POST_READ":        140,
 		"POST_WRITE":       141,
+		"STORE_READ":       150,
+		"STORE_WRITE":      151,
 	}
 )
 
@@ -177,7 +183,7 @@ var File_eolymp_acl_action_proto protoreflect.FileDescriptor
 const file_eolymp_acl_action_proto_rawDesc = "" +
 	"\n" +
 	"\x17eolymp/acl/action.proto\x12\n" +
-	"eolymp.acl*\xa9\x05\n" +
+	"eolymp.acl*\xcc\x05\n" +
 	"\x06Action\x12\x12\n" +
 	"\x0eUNKNOWN_ACTION\x10\x00\x12\x0e\n" +
 	"\n" +
@@ -219,7 +225,10 @@ const file_eolymp_acl_action_proto_rawDesc = "" +
 	"\tPOST_LIST\x10\x8e\x01\x12\x0e\n" +
 	"\tPOST_READ\x10\x8c\x01\x12\x0f\n" +
 	"\n" +
-	"POST_WRITE\x10\x8d\x01B)Z'github.com/eolymp/go-sdk/eolymp/acl;aclb\x06proto3"
+	"POST_WRITE\x10\x8d\x01\x12\x0f\n" +
+	"\n" +
+	"STORE_READ\x10\x96\x01\x12\x10\n" +
+	"\vSTORE_WRITE\x10\x97\x01B)Z'github.com/eolymp/go-sdk/eolymp/acl;aclb\x06proto3"
 
 var (
 	file_eolymp_acl_action_proto_rawDescOnce sync.Once
