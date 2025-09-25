@@ -819,7 +819,7 @@ var File_eolymp_community_credit_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_credit_service_proto_rawDesc = "" +
 	"\n" +
-	"%eolymp/community/credit_service.proto\x12\x10eolymp.community\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1deolymp/community/credit.proto\x1a!eolymp/wellknown/expression.proto\"\x16\n" +
+	"%eolymp/community/credit_service.proto\x12\x10eolymp.community\x1a\x1deolymp/annotations/http.proto\x1a\x1ceolymp/annotations/mcp.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1deolymp/community/credit.proto\x1a!eolymp/wellknown/expression.proto\"\x16\n" +
 	"\x14DescribeBalanceInput\"1\n" +
 	"\x15DescribeBalanceOutput\x12\x18\n" +
 	"\abalance\x18\x01 \x01(\rR\abalance\"H\n" +
@@ -864,33 +864,37 @@ const file_eolymp_community_credit_service_proto_rawDesc = "" +
 	"\x11RefundCreditInput\x12%\n" +
 	"\x0etransaction_id\x18\x01 \x01(\tR\rtransactionId\x12\x16\n" +
 	"\x06amount\x18\x02 \x01(\rR\x06amount\"\x14\n" +
-	"\x12RefundCreditOutput2\xcd\t\n" +
-	"\rCreditService\x12\xa7\x01\n" +
-	"\x0fDescribeBalance\x12&.eolymp.community.DescribeBalanceInput\x1a'.eolymp.community.DescribeBalanceOutput\"C\xea\xe2\n" +
+	"\x12RefundCreditOutput2\xee\v\n" +
+	"\rCreditService\x12\xe2\x01\n" +
+	"\x0fDescribeBalance\x12&.eolymp.community.DescribeBalanceInput\x1a'.eolymp.community.DescribeBalanceOutput\"~\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15community:credit:read\x82\xd3\xe4\x93\x02\x11\x12\x0f/credit/balance\x12\x9b\x01\n" +
-	"\vGrantCredit\x12\".eolymp.community.GrantCreditInput\x1a#.eolymp.community.GrantCreditOutput\"C\xea\xe2\n" +
+	"\x15community:credit:read\x8a\xf0\xf0\xe4\x015\n" +
+	"\x1acommunity.describe_balance\x12\x17Retrieve member balance\x82\xd3\xe4\x93\x02\x11\x12\x0f/credit/balance\x12\xd5\x01\n" +
+	"\vGrantCredit\x12\".eolymp.community.GrantCreditInput\x1a#.eolymp.community.GrantCreditOutput\"}\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
-	"\x16community:credit:write\x82\xd3\xe4\x93\x02\x10\"\x0e/credit/grants\x12\xa9\x01\n" +
-	"\fCancelCredit\x12#.eolymp.community.CancelCreditInput\x1a$.eolymp.community.CancelCreditOutput\"N\xea\xe2\n" +
+	"\x16community:credit:write\x8a\xf0\xf0\xe4\x014\n" +
+	"\x16community.grant_credit\x12\x18Grant credit to a member\x18\x01\x82\xd3\xe4\x93\x02\x10\"\x0e/credit/grants\x12\xe6\x01\n" +
+	"\fCancelCredit\x12#.eolymp.community.CancelCreditInput\x1a$.eolymp.community.CancelCreditOutput\"\x8a\x01\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
-	"\x16community:credit:write\x82\xd3\xe4\x93\x02\x1b*\x19/credit/grants/{grant_id}\x12\xa9\x01\n" +
-	"\x10ListCreditGrants\x12'.eolymp.community.ListCreditGrantsInput\x1a(.eolymp.community.ListCreditGrantsOutput\"B\xea\xe2\n" +
+	"\x16community:credit:write\x8a\xf0\xf0\xe4\x016\n" +
+	"\x17community.cancel_credit\x12\x19Cancel credit grant by ID\x18\x01\x82\xd3\xe4\x93\x02\x1b*\x19/credit/grants/{grant_id}\x12\xf9\x01\n" +
+	"\x10ListCreditGrants\x12'.eolymp.community.ListCreditGrantsInput\x1a(.eolymp.community.ListCreditGrantsOutput\"\x91\x01\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15community:credit:read\x82\xd3\xe4\x93\x02\x10\x12\x0e/credit/grants\x12\x9e\x01\n" +
+	"\x15community:credit:read\x8a\xf0\xf0\xe4\x01I\n" +
+	"\x1ccommunity.list_credit_grants\x12)Find credit grants for a member by his ID\x82\xd3\xe4\x93\x02\x10\x12\x0e/credit/grants\x12\x9e\x01\n" +
 	"\fRedeemCredit\x12#.eolymp.community.RedeemCreditInput\x1a$.eolymp.community.RedeemCreditOutput\"C\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
@@ -910,7 +914,7 @@ const file_eolymp_community_credit_service_proto_rawDesc = "" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
-	"\x16community:credit:write\x82\xd3\xe4\x93\x02.\",/credit/transactions/{transaction_id}/refundB5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
+	"\x16community:credit:write\x82\xd3\xe4\x93\x02.\",/credit/transactions/{transaction_id}/refund\x1a\x1d\x82\xf0\xf0\xe4\x01\x17eolymp.community.MemberB5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
 
 var (
 	file_eolymp_community_credit_service_proto_rawDescOnce sync.Once

@@ -78,31 +78,37 @@ func (Member_Extra) EnumDescriptor() ([]byte, []int) {
 }
 
 type Member struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
-	Id             string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	DisplayName    string                 `protobuf:"bytes,2,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"` // display name, readonly, users nickname, name, attribute, ghosts name or teams name
-	Url            string                 `protobuf:"bytes,3,opt,name=url,proto3" json:"url,omitempty"`
-	Rank           int32                  `protobuf:"varint,70,opt,name=rank,proto3" json:"rank,omitempty"`
-	RankLower      int32                  `protobuf:"varint,72,opt,name=rank_lower,json=rankLower,proto3" json:"rank_lower,omitempty"`
-	Rating         int32                  `protobuf:"varint,71,opt,name=rating,proto3" json:"rating,omitempty"`
-	Level          uint32                 `protobuf:"varint,79,opt,name=level,proto3" json:"level,omitempty"` // level from 0 (beginner) to 12 (legendary), calculated based on the user's rating
-	Inactive       bool                   `protobuf:"varint,11,opt,name=inactive,proto3" json:"inactive,omitempty"`
-	Incomplete     bool                   `protobuf:"varint,20,opt,name=incomplete,proto3" json:"incomplete,omitempty"` // member profile (attributes) is missing some information
-	Unofficial     bool                   `protobuf:"varint,30,opt,name=unofficial,proto3" json:"unofficial,omitempty"` // member participates in all competitions unofficially
-	Secret         bool                   `protobuf:"varint,40,opt,name=secret,proto3" json:"secret,omitempty"`         // member is secret and does not appear on anywhere (for example, an admin who performs testing)
-	TierId         string                 `protobuf:"bytes,50,opt,name=tier_id,json=tierId,proto3" json:"tier_id,omitempty"`
-	FallbackTierId string                 `protobuf:"bytes,51,opt,name=fallback_tier_id,json=fallbackTierId,proto3" json:"fallback_tier_id,omitempty"`
-	CreatedAt      *timestamppb.Timestamp `protobuf:"bytes,60,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	SeatedAt       *timestamppb.Timestamp `protobuf:"bytes,61,opt,name=seated_at,json=seatedAt,proto3" json:"seated_at,omitempty"`
-	ActiveAt       *timestamppb.Timestamp `protobuf:"bytes,62,opt,name=active_at,json=activeAt,proto3" json:"active_at,omitempty"`
+	state       protoimpl.MessageState `protogen:"open.v1"`
+	Id          string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	DisplayName string                 `protobuf:"bytes,2,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"` // display name, readonly, users nickname, name, attribute, ghosts name or teams name
+	Url         string                 `protobuf:"bytes,3,opt,name=url,proto3" json:"url,omitempty"`
+	Rank        int32                  `protobuf:"varint,70,opt,name=rank,proto3" json:"rank,omitempty"`                            // User rank based on EloMMR rating
+	RankLower   int32                  `protobuf:"varint,72,opt,name=rank_lower,json=rankLower,proto3" json:"rank_lower,omitempty"` // User rank lower bound
+	Rating      int32                  `protobuf:"varint,71,opt,name=rating,proto3" json:"rating,omitempty"`                        // EloMMR rating value
+	Level       uint32                 `protobuf:"varint,79,opt,name=level,proto3" json:"level,omitempty"`                          // level from 0 (beginner) to 12 (legendary), calculated based on the user's rating
+	Inactive    bool                   `protobuf:"varint,11,opt,name=inactive,proto3" json:"inactive,omitempty"`                    // member account is inactive
+	Incomplete  bool                   `protobuf:"varint,20,opt,name=incomplete,proto3" json:"incomplete,omitempty"`                // member profile (attributes) is missing some information
+	Unofficial  bool                   `protobuf:"varint,30,opt,name=unofficial,proto3" json:"unofficial,omitempty"`                // member participates in all competitions unofficially
+	Secret      bool                   `protobuf:"varint,40,opt,name=secret,proto3" json:"secret,omitempty"`                        // member is secret and does not appear on anywhere (for example, an admin who performs testing)
+	CreatedAt   *timestamppb.Timestamp `protobuf:"bytes,60,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`  // Time when user account was created.
+	SeatedAt    *timestamppb.Timestamp `protobuf:"bytes,61,opt,name=seated_at,json=seatedAt,proto3" json:"seated_at,omitempty"`     // Time when user was seated in the space.
+	ActiveAt    *timestamppb.Timestamp `protobuf:"bytes,62,opt,name=active_at,json=activeAt,proto3" json:"active_at,omitempty"`     // Last time when user was active
+	// Account information depending on the user type.
+	//
 	// Types that are valid to be assigned to Account:
 	//
 	//	*Member_User
 	//	*Member_Team
 	//	*Member_Ghost
-	Account       isMember_Account   `protobuf_oneof:"account"`
-	Stats         *Member_Stats      `protobuf:"bytes,300,opt,name=stats,proto3" json:"stats,omitempty"`
-	Groups        []string           `protobuf:"bytes,200,rep,name=groups,proto3" json:"groups,omitempty"`
+	Account isMember_Account `protobuf_oneof:"account"`
+	// Member statistics.
+	// Requires STATS extra.
+	Stats *Member_Stats `protobuf:"bytes,300,opt,name=stats,proto3" json:"stats,omitempty"`
+	// List of Group ID assigned to the member.
+	// Requires GROUPS extra.
+	Groups []string `protobuf:"bytes,200,rep,name=groups,proto3" json:"groups,omitempty"`
+	// Additional profile attributes about the member.
+	// Requires ATTRIBUTES extra.
 	Attributes    []*Attribute_Value `protobuf:"bytes,900,rep,name=attributes,proto3" json:"attributes,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -215,20 +221,6 @@ func (x *Member) GetSecret() bool {
 	return false
 }
 
-func (x *Member) GetTierId() string {
-	if x != nil {
-		return x.TierId
-	}
-	return ""
-}
-
-func (x *Member) GetFallbackTierId() string {
-	if x != nil {
-		return x.FallbackTierId
-	}
-	return ""
-}
-
 func (x *Member) GetCreatedAt() *timestamppb.Timestamp {
 	if x != nil {
 		return x.CreatedAt
@@ -329,10 +321,10 @@ func (*Member_Ghost) isMember_Account() {}
 
 type Member_Stats struct {
 	state               protoimpl.MessageState `protogen:"open.v1"`
-	Streak              int32                  `protobuf:"varint,10,opt,name=streak,proto3" json:"streak,omitempty"`
-	ProblemsSolved      int32                  `protobuf:"varint,20,opt,name=problems_solved,json=problemsSolved,proto3" json:"problems_solved,omitempty"`
-	SubmissionsAccepted int32                  `protobuf:"varint,30,opt,name=submissions_accepted,json=submissionsAccepted,proto3" json:"submissions_accepted,omitempty"`
-	SubmissionsTotal    int32                  `protobuf:"varint,41,opt,name=submissions_total,json=submissionsTotal,proto3" json:"submissions_total,omitempty"`
+	Streak              int32                  `protobuf:"varint,10,opt,name=streak,proto3" json:"streak,omitempty"`                                                      // how many days in a row member solved a problem
+	ProblemsSolved      int32                  `protobuf:"varint,20,opt,name=problems_solved,json=problemsSolved,proto3" json:"problems_solved,omitempty"`                // how many problems has been solved ever
+	SubmissionsAccepted int32                  `protobuf:"varint,30,opt,name=submissions_accepted,json=submissionsAccepted,proto3" json:"submissions_accepted,omitempty"` // how many submissions have been accepted
+	SubmissionsTotal    int32                  `protobuf:"varint,41,opt,name=submissions_total,json=submissionsTotal,proto3" json:"submissions_total,omitempty"`          // how many submissions where made
 	unknownFields       protoimpl.UnknownFields
 	sizeCache           protoimpl.SizeCache
 }
@@ -399,7 +391,7 @@ var File_eolymp_community_member_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_member_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/community/member.proto\x12\x10eolymp.community\x1a eolymp/community/attribute.proto\x1a#eolymp/community/member_ghost.proto\x1a\"eolymp/community/member_team.proto\x1a\"eolymp/community/member_user.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xb1\b\n" +
+	"\x1deolymp/community/member.proto\x12\x10eolymp.community\x1a eolymp/community/attribute.proto\x1a#eolymp/community/member_ghost.proto\x1a\"eolymp/community/member_team.proto\x1a\"eolymp/community/member_user.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xee\a\n" +
 	"\x06Member\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12!\n" +
 	"\fdisplay_name\x18\x02 \x01(\tR\vdisplayName\x12\x10\n" +
@@ -416,9 +408,7 @@ const file_eolymp_community_member_proto_rawDesc = "" +
 	"\n" +
 	"unofficial\x18\x1e \x01(\bR\n" +
 	"unofficial\x12\x16\n" +
-	"\x06secret\x18( \x01(\bR\x06secret\x12\x17\n" +
-	"\atier_id\x182 \x01(\tR\x06tierId\x12(\n" +
-	"\x10fallback_tier_id\x183 \x01(\tR\x0efallbackTierId\x129\n" +
+	"\x06secret\x18( \x01(\bR\x06secret\x129\n" +
 	"\n" +
 	"created_at\x18< \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x127\n" +
 	"\tseated_at\x18= \x01(\v2\x1a.google.protobuf.TimestampR\bseatedAt\x127\n" +
