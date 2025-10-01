@@ -614,7 +614,7 @@ func (*RestoreMemberOutput) Descriptor() ([]byte, []int) {
 type DescribeMemberInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	MemberId      string                 `protobuf:"bytes,1,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
-	Extra         []*Member_Extra        `protobuf:"bytes,1123,rep,name=extra,proto3" json:"extra,omitempty"`
+	Extra         []Member_Extra_Field   `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.community.Member_Extra_Field" json:"extra,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -656,7 +656,7 @@ func (x *DescribeMemberInput) GetMemberId() string {
 	return ""
 }
 
-func (x *DescribeMemberInput) GetExtra() []*Member_Extra {
+func (x *DescribeMemberInput) GetExtra() []Member_Extra_Field {
 	if x != nil {
 		return x.Extra
 	}
@@ -715,7 +715,7 @@ type ListMembersInput struct {
 	Search        string                    `protobuf:"bytes,41,opt,name=search,proto3" json:"search,omitempty"`
 	Sort          ListMembersInput_Sortable `protobuf:"varint,50,opt,name=sort,proto3,enum=eolymp.community.ListMembersInput_Sortable" json:"sort,omitempty"`
 	Order         wellknown.Direction       `protobuf:"varint,51,opt,name=order,proto3,enum=eolymp.wellknown.Direction" json:"order,omitempty"`
-	Extra         []*Member_Extra           `protobuf:"bytes,1123,rep,name=extra,proto3" json:"extra,omitempty"`
+	Extra         []Member_Extra_Field      `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.community.Member_Extra_Field" json:"extra,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -792,7 +792,7 @@ func (x *ListMembersInput) GetOrder() wellknown.Direction {
 	return wellknown.Direction(0)
 }
 
-func (x *ListMembersInput) GetExtra() []*Member_Extra {
+func (x *ListMembersInput) GetExtra() []Member_Extra_Field {
 	if x != nil {
 		return x.Extra
 	}
@@ -1421,12 +1421,12 @@ const file_eolymp_community_member_service_proto_rawDesc = "" +
 	"\x12DeleteMemberOutput\"1\n" +
 	"\x12RestoreMemberInput\x12\x1b\n" +
 	"\tmember_id\x18\x01 \x01(\tR\bmemberId\"\x15\n" +
-	"\x13RestoreMemberOutput\"i\n" +
+	"\x13RestoreMemberOutput\"o\n" +
 	"\x13DescribeMemberInput\x12\x1b\n" +
-	"\tmember_id\x18\x01 \x01(\tR\bmemberId\x125\n" +
-	"\x05extra\x18\xe3\b \x03(\v2\x1e.eolymp.community.Member.ExtraR\x05extra\"H\n" +
+	"\tmember_id\x18\x01 \x01(\tR\bmemberId\x12;\n" +
+	"\x05extra\x18\xe3\b \x03(\x0e2$.eolymp.community.Member.Extra.FieldR\x05extra\"H\n" +
 	"\x14DescribeMemberOutput\x120\n" +
-	"\x06member\x18\x01 \x01(\v2\x18.eolymp.community.MemberR\x06member\"\x96\x0e\n" +
+	"\x06member\x18\x01 \x01(\v2\x18.eolymp.community.MemberR\x06member\"\x9c\x0e\n" +
 	"\x10ListMembersInput\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
@@ -1434,8 +1434,8 @@ const file_eolymp_community_member_service_proto_rawDesc = "" +
 	"\afilters\x18( \x01(\v2).eolymp.community.ListMembersInput.FilterR\afilters\x12\x16\n" +
 	"\x06search\x18) \x01(\tR\x06search\x12?\n" +
 	"\x04sort\x182 \x01(\x0e2+.eolymp.community.ListMembersInput.SortableR\x04sort\x121\n" +
-	"\x05order\x183 \x01(\x0e2\x1b.eolymp.wellknown.DirectionR\x05order\x125\n" +
-	"\x05extra\x18\xe3\b \x03(\v2\x1e.eolymp.community.Member.ExtraR\x05extra\x1a\xaf\x01\n" +
+	"\x05order\x183 \x01(\x0e2\x1b.eolymp.wellknown.DirectionR\x05order\x12;\n" +
+	"\x05extra\x18\xe3\b \x03(\x0e2$.eolymp.community.Member.Extra.FieldR\x05extra\x1a\xaf\x01\n" +
 	"\x13ExpressionAttribute\x12#\n" +
 	"\rattribute_key\x18\x01 \x01(\tR\fattributeKey\x127\n" +
 	"\x06number\x18\n" +
@@ -1602,7 +1602,7 @@ var file_eolymp_community_member_service_proto_goTypes = []any{
 	(*ListMembersInput_Filter)(nil),              // 23: eolymp.community.ListMembersInput.Filter
 	(*Member)(nil),                               // 24: eolymp.community.Member
 	(Member_Patch_Field)(0),                      // 25: eolymp.community.Member.Patch.Field
-	(*Member_Extra)(nil),                         // 26: eolymp.community.Member.Extra
+	(Member_Extra_Field)(0),                      // 26: eolymp.community.Member.Extra.Field
 	(wellknown.Direction)(0),                     // 27: eolymp.wellknown.Direction
 	(*timestamppb.Timestamp)(nil),                // 28: google.protobuf.Timestamp
 	(*wellknown.ExpressionInt)(nil),              // 29: eolymp.wellknown.ExpressionInt
@@ -1618,12 +1618,12 @@ var file_eolymp_community_member_service_proto_depIdxs = []int32{
 	24, // 2: eolymp.community.CreateMemberInput.member:type_name -> eolymp.community.Member
 	25, // 3: eolymp.community.UpdateMemberInput.patch:type_name -> eolymp.community.Member.Patch.Field
 	24, // 4: eolymp.community.UpdateMemberInput.member:type_name -> eolymp.community.Member
-	26, // 5: eolymp.community.DescribeMemberInput.extra:type_name -> eolymp.community.Member.Extra
+	26, // 5: eolymp.community.DescribeMemberInput.extra:type_name -> eolymp.community.Member.Extra.Field
 	24, // 6: eolymp.community.DescribeMemberOutput.member:type_name -> eolymp.community.Member
 	23, // 7: eolymp.community.ListMembersInput.filters:type_name -> eolymp.community.ListMembersInput.Filter
 	0,  // 8: eolymp.community.ListMembersInput.sort:type_name -> eolymp.community.ListMembersInput.Sortable
 	27, // 9: eolymp.community.ListMembersInput.order:type_name -> eolymp.wellknown.Direction
-	26, // 10: eolymp.community.ListMembersInput.extra:type_name -> eolymp.community.Member.Extra
+	26, // 10: eolymp.community.ListMembersInput.extra:type_name -> eolymp.community.Member.Extra.Field
 	24, // 11: eolymp.community.ListMembersOutput.items:type_name -> eolymp.community.Member
 	28, // 12: eolymp.community.DescribeMemberUsageInput.period_start:type_name -> google.protobuf.Timestamp
 	28, // 13: eolymp.community.DescribeMemberUsageInput.period_end:type_name -> google.protobuf.Timestamp
