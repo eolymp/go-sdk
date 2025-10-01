@@ -225,22 +225,23 @@ func (Space_Feature) EnumDescriptor() ([]byte, []int) {
 }
 
 type Space struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`                                    // space unique identifier
-	Key           string                 `protobuf:"bytes,2,opt,name=key,proto3" json:"key,omitempty"`                                  // space key used to build URLs
-	Url           string                 `protobuf:"bytes,3,opt,name=url,proto3" json:"url,omitempty"`                                  // space url
-	HomeUrl       string                 `protobuf:"bytes,50,opt,name=home_url,json=homeUrl,proto3" json:"home_url,omitempty"`          // space home page URL
-	IssuerUrl     string                 `protobuf:"bytes,51,opt,name=issuer_url,json=issuerUrl,proto3" json:"issuer_url,omitempty"`    // space issuer URL (used for issuing tokens)
-	GraphqlUrl    string                 `protobuf:"bytes,52,opt,name=graphql_url,json=graphqlUrl,proto3" json:"graphql_url,omitempty"` // space graphql endpoint
-	Name          string                 `protobuf:"bytes,10,opt,name=name,proto3" json:"name,omitempty"`                               // human friendly name
-	Image         string                 `protobuf:"bytes,11,opt,name=image,proto3" json:"image,omitempty"`                             // space logo image
-	Visibility    Space_Visibility       `protobuf:"varint,14,opt,name=visibility,proto3,enum=eolymp.universe.Space_Visibility" json:"visibility,omitempty"`
-	Features      []Space_Feature        `protobuf:"varint,17,rep,packed,name=features,proto3,enum=eolymp.universe.Space_Feature" json:"features,omitempty"`
-	Status        Space_Status           `protobuf:"varint,16,opt,name=status,proto3,enum=eolymp.universe.Space_Status" json:"status,omitempty"` // space status
-	Subscription  *Space_Subscription    `protobuf:"bytes,800,opt,name=subscription,proto3" json:"subscription,omitempty"`                       // subscription details (private)
-	Affiliation   string                 `protobuf:"bytes,15,opt,name=affiliation,proto3" json:"affiliation,omitempty"`                          // space affiliation label
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Id             string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`                                    // space unique identifier
+	Key            string                 `protobuf:"bytes,2,opt,name=key,proto3" json:"key,omitempty"`                                  // space key used to build URLs
+	Url            string                 `protobuf:"bytes,3,opt,name=url,proto3" json:"url,omitempty"`                                  // space url
+	HomeUrl        string                 `protobuf:"bytes,50,opt,name=home_url,json=homeUrl,proto3" json:"home_url,omitempty"`          // space home page URL
+	IssuerUrl      string                 `protobuf:"bytes,51,opt,name=issuer_url,json=issuerUrl,proto3" json:"issuer_url,omitempty"`    // space issuer URL (used for issuing tokens)
+	GraphqlUrl     string                 `protobuf:"bytes,52,opt,name=graphql_url,json=graphqlUrl,proto3" json:"graphql_url,omitempty"` // space graphql endpoint
+	Name           string                 `protobuf:"bytes,10,opt,name=name,proto3" json:"name,omitempty"`                               // human friendly name
+	Image          string                 `protobuf:"bytes,11,opt,name=image,proto3" json:"image,omitempty"`                             // space logo image
+	Visibility     Space_Visibility       `protobuf:"varint,14,opt,name=visibility,proto3,enum=eolymp.universe.Space_Visibility" json:"visibility,omitempty"`
+	Features       []Space_Feature        `protobuf:"varint,17,rep,packed,name=features,proto3,enum=eolymp.universe.Space_Feature" json:"features,omitempty"`
+	Status         Space_Status           `protobuf:"varint,16,opt,name=status,proto3,enum=eolymp.universe.Space_Status" json:"status,omitempty"`      // space status
+	Subscription   *Space_Subscription    `protobuf:"bytes,800,opt,name=subscription,proto3" json:"subscription,omitempty"`                            // subscription details (private)
+	Affiliation    string                 `protobuf:"bytes,15,opt,name=affiliation,proto3" json:"affiliation,omitempty"`                               // space affiliation label
+	DiscordGuildId string                 `protobuf:"bytes,18,opt,name=discord_guild_id,json=discordGuildId,proto3" json:"discord_guild_id,omitempty"` // discord guild ID
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *Space) Reset() {
@@ -364,6 +365,13 @@ func (x *Space) GetAffiliation() string {
 	return ""
 }
 
+func (x *Space) GetDiscordGuildId() string {
+	if x != nil {
+		return x.DiscordGuildId
+	}
+	return ""
+}
+
 type Space_Subscription struct {
 	state              protoimpl.MessageState `protogen:"open.v1"`
 	Plan               string                 `protobuf:"bytes,1,opt,name=plan,proto3" json:"plan,omitempty"`
@@ -460,7 +468,7 @@ var File_eolymp_universe_space_proto protoreflect.FileDescriptor
 
 const file_eolymp_universe_space_proto_rawDesc = "" +
 	"\n" +
-	"\x1beolymp/universe/space.proto\x12\x0feolymp.universe\x1a\x1beolymp/universe/quota.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x8e\t\n" +
+	"\x1beolymp/universe/space.proto\x12\x0feolymp.universe\x1a\x1beolymp/universe/quota.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xb8\t\n" +
 	"\x05Space\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x10\n" +
 	"\x03key\x18\x02 \x01(\tR\x03key\x12\x10\n" +
@@ -479,7 +487,8 @@ const file_eolymp_universe_space_proto_rawDesc = "" +
 	"\bfeatures\x18\x11 \x03(\x0e2\x1e.eolymp.universe.Space.FeatureR\bfeatures\x125\n" +
 	"\x06status\x18\x10 \x01(\x0e2\x1d.eolymp.universe.Space.StatusR\x06status\x12H\n" +
 	"\fsubscription\x18\xa0\x06 \x01(\v2#.eolymp.universe.Space.SubscriptionR\fsubscription\x12 \n" +
-	"\vaffiliation\x18\x0f \x01(\tR\vaffiliation\x1a\x8e\x03\n" +
+	"\vaffiliation\x18\x0f \x01(\tR\vaffiliation\x12(\n" +
+	"\x10discord_guild_id\x18\x12 \x01(\tR\x0ediscordGuildId\x1a\x8e\x03\n" +
 	"\fSubscription\x12\x12\n" +
 	"\x04plan\x18\x01 \x01(\tR\x04plan\x12\x14\n" +
 	"\x05seats\x18\x02 \x01(\rR\x05seats\x12,\n" +
