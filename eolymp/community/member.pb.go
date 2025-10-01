@@ -220,10 +220,9 @@ type Member struct {
 	// Member statistics.
 	// Requires STATS extra.
 	Stats *Member_Stats `protobuf:"bytes,300,opt,name=stats,proto3" json:"stats,omitempty"`
-	// List of groups assigned to the member.
+	// List of groups IDs assigned to the member.
 	// Requires GROUPS extra.
-	Groups   []*Group `protobuf:"bytes,201,rep,name=groups,proto3" json:"groups,omitempty"`
-	GroupIds []string `protobuf:"bytes,200,rep,name=group_ids,json=groupIds,proto3" json:"group_ids,omitempty"`
+	Groups []string `protobuf:"bytes,200,rep,name=groups,proto3" json:"groups,omitempty"`
 	// Additional profile attributes about the member.
 	// Requires ATTRIBUTES extra.
 	Attributes []*Attribute_Value `protobuf:"bytes,900,rep,name=attributes,proto3" json:"attributes,omitempty"`
@@ -409,16 +408,9 @@ func (x *Member) GetStats() *Member_Stats {
 	return nil
 }
 
-func (x *Member) GetGroups() []*Group {
+func (x *Member) GetGroups() []string {
 	if x != nil {
 		return x.Groups
-	}
-	return nil
-}
-
-func (x *Member) GetGroupIds() []string {
-	if x != nil {
-		return x.GroupIds
 	}
 	return nil
 }
@@ -603,7 +595,7 @@ var File_eolymp_community_member_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_member_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/community/member.proto\x12\x10eolymp.community\x1a eolymp/community/attribute.proto\x1a\x1ceolymp/community/group.proto\x1a#eolymp/community/member_ghost.proto\x1a\"eolymp/community/member_team.proto\x1a\"eolymp/community/member_user.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc1\r\n" +
+	"\x1deolymp/community/member.proto\x12\x10eolymp.community\x1a eolymp/community/attribute.proto\x1a\x1ceolymp/community/group.proto\x1a#eolymp/community/member_ghost.proto\x1a\"eolymp/community/member_team.proto\x1a\"eolymp/community/member_user.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x8a\r\n" +
 	"\x06Member\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x10\n" +
 	"\x03url\x18\x03 \x01(\tR\x03url\x12!\n" +
@@ -629,9 +621,8 @@ const file_eolymp_community_member_proto_rawDesc = "" +
 	"\x04user\x18d \x01(\v2\x16.eolymp.community.UserH\x00R\x04user\x12,\n" +
 	"\x04team\x18e \x01(\v2\x16.eolymp.community.TeamH\x00R\x04team\x12/\n" +
 	"\x05ghost\x18f \x01(\v2\x17.eolymp.community.GhostH\x00R\x05ghost\x125\n" +
-	"\x05stats\x18\xac\x02 \x01(\v2\x1e.eolymp.community.Member.StatsR\x05stats\x120\n" +
-	"\x06groups\x18\xc9\x01 \x03(\v2\x17.eolymp.community.GroupR\x06groups\x12\x1c\n" +
-	"\tgroup_ids\x18\xc8\x01 \x03(\tR\bgroupIds\x12B\n" +
+	"\x05stats\x18\xac\x02 \x01(\v2\x1e.eolymp.community.Member.StatsR\x05stats\x12\x17\n" +
+	"\x06groups\x18\xc8\x01 \x03(\tR\x06groups\x12B\n" +
 	"\n" +
 	"attributes\x18\x84\a \x03(\v2!.eolymp.community.Attribute.ValueR\n" +
 	"attributes\x12C\n" +
@@ -715,8 +706,7 @@ var file_eolymp_community_member_proto_goTypes = []any{
 	(*User)(nil),                  // 8: eolymp.community.User
 	(*Team)(nil),                  // 9: eolymp.community.Team
 	(*Ghost)(nil),                 // 10: eolymp.community.Ghost
-	(*Group)(nil),                 // 11: eolymp.community.Group
-	(*Attribute_Value)(nil),       // 12: eolymp.community.Attribute.Value
+	(*Attribute_Value)(nil),       // 11: eolymp.community.Attribute.Value
 }
 var file_eolymp_community_member_proto_depIdxs = []int32{
 	7,  // 0: eolymp.community.Member.created_at:type_name -> google.protobuf.Timestamp
@@ -726,14 +716,13 @@ var file_eolymp_community_member_proto_depIdxs = []int32{
 	9,  // 4: eolymp.community.Member.team:type_name -> eolymp.community.Team
 	10, // 5: eolymp.community.Member.ghost:type_name -> eolymp.community.Ghost
 	5,  // 6: eolymp.community.Member.stats:type_name -> eolymp.community.Member.Stats
-	11, // 7: eolymp.community.Member.groups:type_name -> eolymp.community.Group
-	12, // 8: eolymp.community.Member.attributes:type_name -> eolymp.community.Attribute.Value
-	6,  // 9: eolymp.community.Member.metadata:type_name -> eolymp.community.Member.MetadataEntry
-	10, // [10:10] is the sub-list for method output_type
-	10, // [10:10] is the sub-list for method input_type
-	10, // [10:10] is the sub-list for extension type_name
-	10, // [10:10] is the sub-list for extension extendee
-	0,  // [0:10] is the sub-list for field type_name
+	11, // 7: eolymp.community.Member.attributes:type_name -> eolymp.community.Attribute.Value
+	6,  // 8: eolymp.community.Member.metadata:type_name -> eolymp.community.Member.MetadataEntry
+	9,  // [9:9] is the sub-list for method output_type
+	9,  // [9:9] is the sub-list for method input_type
+	9,  // [9:9] is the sub-list for extension type_name
+	9,  // [9:9] is the sub-list for extension extendee
+	0,  // [0:9] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_community_member_proto_init() }
