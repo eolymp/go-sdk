@@ -22,75 +22,194 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type Member_Extra int32
+type Member_Extra_Field int32
 
 const (
-	Member_NO_EXTRA   Member_Extra = 0
-	Member_STATS      Member_Extra = 2
-	Member_GROUPS     Member_Extra = 3
-	Member_ATTRIBUTES Member_Extra = 4
+	Member_Extra_NO_EXTRA   Member_Extra_Field = 0
+	Member_Extra_STATS      Member_Extra_Field = 2
+	Member_Extra_GROUPS     Member_Extra_Field = 3
+	Member_Extra_ATTRIBUTES Member_Extra_Field = 4
+	Member_Extra_METADATA   Member_Extra_Field = 5
 )
 
-// Enum value maps for Member_Extra.
+// Enum value maps for Member_Extra_Field.
 var (
-	Member_Extra_name = map[int32]string{
+	Member_Extra_Field_name = map[int32]string{
 		0: "NO_EXTRA",
 		2: "STATS",
 		3: "GROUPS",
 		4: "ATTRIBUTES",
+		5: "METADATA",
 	}
-	Member_Extra_value = map[string]int32{
+	Member_Extra_Field_value = map[string]int32{
 		"NO_EXTRA":   0,
 		"STATS":      2,
 		"GROUPS":     3,
 		"ATTRIBUTES": 4,
+		"METADATA":   5,
 	}
 )
 
-func (x Member_Extra) Enum() *Member_Extra {
-	p := new(Member_Extra)
+func (x Member_Extra_Field) Enum() *Member_Extra_Field {
+	p := new(Member_Extra_Field)
 	*p = x
 	return p
 }
 
-func (x Member_Extra) String() string {
+func (x Member_Extra_Field) String() string {
 	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
 }
 
-func (Member_Extra) Descriptor() protoreflect.EnumDescriptor {
+func (Member_Extra_Field) Descriptor() protoreflect.EnumDescriptor {
 	return file_eolymp_community_member_proto_enumTypes[0].Descriptor()
 }
 
-func (Member_Extra) Type() protoreflect.EnumType {
+func (Member_Extra_Field) Type() protoreflect.EnumType {
 	return &file_eolymp_community_member_proto_enumTypes[0]
 }
 
-func (x Member_Extra) Number() protoreflect.EnumNumber {
+func (x Member_Extra_Field) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use Member_Extra.Descriptor instead.
-func (Member_Extra) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_community_member_proto_rawDescGZIP(), []int{0, 0}
+// Deprecated: Use Member_Extra_Field.Descriptor instead.
+func (Member_Extra_Field) EnumDescriptor() ([]byte, []int) {
+	return file_eolymp_community_member_proto_rawDescGZIP(), []int{0, 0, 0}
+}
+
+type Member_Patch_Field int32
+
+const (
+	Member_Patch_UNKNOWN                   Member_Patch_Field = 0 // change all properties (same as an empty patch)
+	Member_Patch_EXTERNAL_REF              Member_Patch_Field = 6
+	Member_Patch_INACTIVE                  Member_Patch_Field = 1   // change active/inactive flag
+	Member_Patch_UNOFFICIAL                Member_Patch_Field = 2   // change official/unofficial flag
+	Member_Patch_GROUPS                    Member_Patch_Field = 3   // change groups
+	Member_Patch_GROUPS_ADD                Member_Patch_Field = 4   // add new groups specified in member.groups to the existing ones
+	Member_Patch_GROUPS_REMOVE             Member_Patch_Field = 5   // remove groups specified in member.groups from the existing ones
+	Member_Patch_ACCOUNT                   Member_Patch_Field = 100 // change all account details
+	Member_Patch_USER_NICKNAME             Member_Patch_Field = 101
+	Member_Patch_USER_EMAIL                Member_Patch_Field = 102
+	Member_Patch_USER_PASSWORD             Member_Patch_Field = 103
+	Member_Patch_USER_NAME                 Member_Patch_Field = 104
+	Member_Patch_USER_PICTURE              Member_Patch_Field = 105
+	Member_Patch_USER_BIRTHDAY             Member_Patch_Field = 106
+	Member_Patch_USER_COUNTRY              Member_Patch_Field = 107
+	Member_Patch_USER_CITY                 Member_Patch_Field = 108
+	Member_Patch_USER_PREFERENCES          Member_Patch_Field = 109
+	Member_Patch_USER_PREFERENCES_LOCALE   Member_Patch_Field = 190
+	Member_Patch_USER_PREFERENCES_TIMEZONE Member_Patch_Field = 191
+	Member_Patch_USER_PREFERENCES_RUNTIME  Member_Patch_Field = 192
+	Member_Patch_USER_EMAIL_SUBSCRIPTIONS  Member_Patch_Field = 110
+	Member_Patch_TEAM_NAME                 Member_Patch_Field = 200
+	Member_Patch_GHOST_NAME                Member_Patch_Field = 300
+	Member_Patch_ATTRIBUTES                Member_Patch_Field = 900
+	Member_Patch_METADATA                  Member_Patch_Field = 901
+)
+
+// Enum value maps for Member_Patch_Field.
+var (
+	Member_Patch_Field_name = map[int32]string{
+		0:   "UNKNOWN",
+		6:   "EXTERNAL_REF",
+		1:   "INACTIVE",
+		2:   "UNOFFICIAL",
+		3:   "GROUPS",
+		4:   "GROUPS_ADD",
+		5:   "GROUPS_REMOVE",
+		100: "ACCOUNT",
+		101: "USER_NICKNAME",
+		102: "USER_EMAIL",
+		103: "USER_PASSWORD",
+		104: "USER_NAME",
+		105: "USER_PICTURE",
+		106: "USER_BIRTHDAY",
+		107: "USER_COUNTRY",
+		108: "USER_CITY",
+		109: "USER_PREFERENCES",
+		190: "USER_PREFERENCES_LOCALE",
+		191: "USER_PREFERENCES_TIMEZONE",
+		192: "USER_PREFERENCES_RUNTIME",
+		110: "USER_EMAIL_SUBSCRIPTIONS",
+		200: "TEAM_NAME",
+		300: "GHOST_NAME",
+		900: "ATTRIBUTES",
+		901: "METADATA",
+	}
+	Member_Patch_Field_value = map[string]int32{
+		"UNKNOWN":                   0,
+		"EXTERNAL_REF":              6,
+		"INACTIVE":                  1,
+		"UNOFFICIAL":                2,
+		"GROUPS":                    3,
+		"GROUPS_ADD":                4,
+		"GROUPS_REMOVE":             5,
+		"ACCOUNT":                   100,
+		"USER_NICKNAME":             101,
+		"USER_EMAIL":                102,
+		"USER_PASSWORD":             103,
+		"USER_NAME":                 104,
+		"USER_PICTURE":              105,
+		"USER_BIRTHDAY":             106,
+		"USER_COUNTRY":              107,
+		"USER_CITY":                 108,
+		"USER_PREFERENCES":          109,
+		"USER_PREFERENCES_LOCALE":   190,
+		"USER_PREFERENCES_TIMEZONE": 191,
+		"USER_PREFERENCES_RUNTIME":  192,
+		"USER_EMAIL_SUBSCRIPTIONS":  110,
+		"TEAM_NAME":                 200,
+		"GHOST_NAME":                300,
+		"ATTRIBUTES":                900,
+		"METADATA":                  901,
+	}
+)
+
+func (x Member_Patch_Field) Enum() *Member_Patch_Field {
+	p := new(Member_Patch_Field)
+	*p = x
+	return p
+}
+
+func (x Member_Patch_Field) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (Member_Patch_Field) Descriptor() protoreflect.EnumDescriptor {
+	return file_eolymp_community_member_proto_enumTypes[1].Descriptor()
+}
+
+func (Member_Patch_Field) Type() protoreflect.EnumType {
+	return &file_eolymp_community_member_proto_enumTypes[1]
+}
+
+func (x Member_Patch_Field) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use Member_Patch_Field.Descriptor instead.
+func (Member_Patch_Field) EnumDescriptor() ([]byte, []int) {
+	return file_eolymp_community_member_proto_rawDescGZIP(), []int{0, 1, 0}
 }
 
 type Member struct {
 	state       protoimpl.MessageState `protogen:"open.v1"`
 	Id          string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	DisplayName string                 `protobuf:"bytes,2,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"` // display name, readonly, users nickname, name, attribute, ghosts name or teams name
 	Url         string                 `protobuf:"bytes,3,opt,name=url,proto3" json:"url,omitempty"`
-	Rank        int32                  `protobuf:"varint,70,opt,name=rank,proto3" json:"rank,omitempty"`                            // User rank based on EloMMR rating
-	RankLower   int32                  `protobuf:"varint,72,opt,name=rank_lower,json=rankLower,proto3" json:"rank_lower,omitempty"` // User rank lower bound
-	Rating      int32                  `protobuf:"varint,71,opt,name=rating,proto3" json:"rating,omitempty"`                        // EloMMR rating value
-	Level       uint32                 `protobuf:"varint,79,opt,name=level,proto3" json:"level,omitempty"`                          // level from 0 (beginner) to 12 (legendary), calculated based on the user's rating
-	Inactive    bool                   `protobuf:"varint,11,opt,name=inactive,proto3" json:"inactive,omitempty"`                    // member account is inactive
-	Incomplete  bool                   `protobuf:"varint,20,opt,name=incomplete,proto3" json:"incomplete,omitempty"`                // member profile (attributes) is missing some information
-	Unofficial  bool                   `protobuf:"varint,30,opt,name=unofficial,proto3" json:"unofficial,omitempty"`                // member participates in all competitions unofficially
-	Secret      bool                   `protobuf:"varint,40,opt,name=secret,proto3" json:"secret,omitempty"`                        // member is secret and does not appear on anywhere (for example, an admin who performs testing)
-	CreatedAt   *timestamppb.Timestamp `protobuf:"bytes,60,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`  // Time when user account was created.
-	SeatedAt    *timestamppb.Timestamp `protobuf:"bytes,61,opt,name=seated_at,json=seatedAt,proto3" json:"seated_at,omitempty"`     // Time when user was seated in the space.
-	ActiveAt    *timestamppb.Timestamp `protobuf:"bytes,62,opt,name=active_at,json=activeAt,proto3" json:"active_at,omitempty"`     // Last time when user was active
-	// Account information depending on the user type.
+	ExternalRef string                 `protobuf:"bytes,4,opt,name=external_ref,json=externalRef,proto3" json:"external_ref,omitempty"` // a member's ID in the external system
+	DisplayName string                 `protobuf:"bytes,2,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"` // display name, readonly, users nickname, name, attribute, ghosts name or teams name
+	Rank        int32                  `protobuf:"varint,70,opt,name=rank,proto3" json:"rank,omitempty"`                                // User rank based on EloMMR rating
+	RankLower   int32                  `protobuf:"varint,72,opt,name=rank_lower,json=rankLower,proto3" json:"rank_lower,omitempty"`     // User rank lower bound
+	Rating      int32                  `protobuf:"varint,71,opt,name=rating,proto3" json:"rating,omitempty"`                            // EloMMR rating value
+	Level       uint32                 `protobuf:"varint,79,opt,name=level,proto3" json:"level,omitempty"`                              // level from 0 (beginner) to 12 (legendary), calculated based on the user's rating
+	Inactive    bool                   `protobuf:"varint,11,opt,name=inactive,proto3" json:"inactive,omitempty"`                        // member account is inactive
+	Incomplete  bool                   `protobuf:"varint,20,opt,name=incomplete,proto3" json:"incomplete,omitempty"`                    // member profile (attributes) is missing some information
+	Unofficial  bool                   `protobuf:"varint,30,opt,name=unofficial,proto3" json:"unofficial,omitempty"`                    // member participates in all competitions unofficially
+	Secret      bool                   `protobuf:"varint,40,opt,name=secret,proto3" json:"secret,omitempty"`                            // member is secret and does not appear on anywhere (for example, an admin who performs testing)
+	CreatedAt   *timestamppb.Timestamp `protobuf:"bytes,60,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`      // Time when user account was created.
+	SeatedAt    *timestamppb.Timestamp `protobuf:"bytes,61,opt,name=seated_at,json=seatedAt,proto3" json:"seated_at,omitempty"`         // Time when user was seated in the space.
+	ActiveAt    *timestamppb.Timestamp `protobuf:"bytes,62,opt,name=active_at,json=activeAt,proto3" json:"active_at,omitempty"`         // Last time when user was active
+	// Account information depending on the member type.
 	//
 	// Types that are valid to be assigned to Account:
 	//
@@ -101,12 +220,15 @@ type Member struct {
 	// Member statistics.
 	// Requires STATS extra.
 	Stats *Member_Stats `protobuf:"bytes,300,opt,name=stats,proto3" json:"stats,omitempty"`
-	// List of Group ID assigned to the member.
+	// List of groups assigned to the member.
 	// Requires GROUPS extra.
-	Groups []string `protobuf:"bytes,200,rep,name=groups,proto3" json:"groups,omitempty"`
+	Groups   []*Group `protobuf:"bytes,201,rep,name=groups,proto3" json:"groups,omitempty"`
+	GroupIds []string `protobuf:"bytes,200,rep,name=group_ids,json=groupIds,proto3" json:"group_ids,omitempty"`
 	// Additional profile attributes about the member.
 	// Requires ATTRIBUTES extra.
-	Attributes    []*Attribute_Value `protobuf:"bytes,900,rep,name=attributes,proto3" json:"attributes,omitempty"`
+	Attributes []*Attribute_Value `protobuf:"bytes,900,rep,name=attributes,proto3" json:"attributes,omitempty"`
+	// additional key-value properties used by external systems
+	Metadata      map[string]string `protobuf:"bytes,1024,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -148,16 +270,23 @@ func (x *Member) GetId() string {
 	return ""
 }
 
-func (x *Member) GetDisplayName() string {
+func (x *Member) GetUrl() string {
 	if x != nil {
-		return x.DisplayName
+		return x.Url
 	}
 	return ""
 }
 
-func (x *Member) GetUrl() string {
+func (x *Member) GetExternalRef() string {
 	if x != nil {
-		return x.Url
+		return x.ExternalRef
+	}
+	return ""
+}
+
+func (x *Member) GetDisplayName() string {
+	if x != nil {
+		return x.DisplayName
 	}
 	return ""
 }
@@ -280,9 +409,16 @@ func (x *Member) GetStats() *Member_Stats {
 	return nil
 }
 
-func (x *Member) GetGroups() []string {
+func (x *Member) GetGroups() []*Group {
 	if x != nil {
 		return x.Groups
+	}
+	return nil
+}
+
+func (x *Member) GetGroupIds() []string {
+	if x != nil {
+		return x.GroupIds
 	}
 	return nil
 }
@@ -290,6 +426,13 @@ func (x *Member) GetGroups() []string {
 func (x *Member) GetAttributes() []*Attribute_Value {
 	if x != nil {
 		return x.Attributes
+	}
+	return nil
+}
+
+func (x *Member) GetMetadata() map[string]string {
+	if x != nil {
+		return x.Metadata
 	}
 	return nil
 }
@@ -316,6 +459,78 @@ func (*Member_Team) isMember_Account() {}
 
 func (*Member_Ghost) isMember_Account() {}
 
+type Member_Extra struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Member_Extra) Reset() {
+	*x = Member_Extra{}
+	mi := &file_eolymp_community_member_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Member_Extra) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Member_Extra) ProtoMessage() {}
+
+func (x *Member_Extra) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_community_member_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Member_Extra.ProtoReflect.Descriptor instead.
+func (*Member_Extra) Descriptor() ([]byte, []int) {
+	return file_eolymp_community_member_proto_rawDescGZIP(), []int{0, 0}
+}
+
+type Member_Patch struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Member_Patch) Reset() {
+	*x = Member_Patch{}
+	mi := &file_eolymp_community_member_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Member_Patch) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Member_Patch) ProtoMessage() {}
+
+func (x *Member_Patch) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_community_member_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Member_Patch.ProtoReflect.Descriptor instead.
+func (*Member_Patch) Descriptor() ([]byte, []int) {
+	return file_eolymp_community_member_proto_rawDescGZIP(), []int{0, 1}
+}
+
 type Member_Stats struct {
 	state               protoimpl.MessageState `protogen:"open.v1"`
 	Streak              int32                  `protobuf:"varint,10,opt,name=streak,proto3" json:"streak,omitempty"`                                                      // how many days in a row member solved a problem
@@ -328,7 +543,7 @@ type Member_Stats struct {
 
 func (x *Member_Stats) Reset() {
 	*x = Member_Stats{}
-	mi := &file_eolymp_community_member_proto_msgTypes[1]
+	mi := &file_eolymp_community_member_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -340,7 +555,7 @@ func (x *Member_Stats) String() string {
 func (*Member_Stats) ProtoMessage() {}
 
 func (x *Member_Stats) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_community_member_proto_msgTypes[1]
+	mi := &file_eolymp_community_member_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -353,7 +568,7 @@ func (x *Member_Stats) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Member_Stats.ProtoReflect.Descriptor instead.
 func (*Member_Stats) Descriptor() ([]byte, []int) {
-	return file_eolymp_community_member_proto_rawDescGZIP(), []int{0, 0}
+	return file_eolymp_community_member_proto_rawDescGZIP(), []int{0, 2}
 }
 
 func (x *Member_Stats) GetStreak() int32 {
@@ -388,11 +603,12 @@ var File_eolymp_community_member_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_member_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/community/member.proto\x12\x10eolymp.community\x1a eolymp/community/attribute.proto\x1a#eolymp/community/member_ghost.proto\x1a\"eolymp/community/member_team.proto\x1a\"eolymp/community/member_user.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xe4\a\n" +
+	"\x1deolymp/community/member.proto\x12\x10eolymp.community\x1a eolymp/community/attribute.proto\x1a\x1ceolymp/community/group.proto\x1a#eolymp/community/member_ghost.proto\x1a\"eolymp/community/member_team.proto\x1a\"eolymp/community/member_user.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc1\r\n" +
 	"\x06Member\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12!\n" +
-	"\fdisplay_name\x18\x02 \x01(\tR\vdisplayName\x12\x10\n" +
-	"\x03url\x18\x03 \x01(\tR\x03url\x12\x12\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x10\n" +
+	"\x03url\x18\x03 \x01(\tR\x03url\x12!\n" +
+	"\fexternal_ref\x18\x04 \x01(\tR\vexternalRef\x12!\n" +
+	"\fdisplay_name\x18\x02 \x01(\tR\vdisplayName\x12\x12\n" +
 	"\x04rank\x18F \x01(\x05R\x04rank\x12\x1d\n" +
 	"\n" +
 	"rank_lower\x18H \x01(\x05R\trankLower\x12\x16\n" +
@@ -413,24 +629,64 @@ const file_eolymp_community_member_proto_rawDesc = "" +
 	"\x04user\x18d \x01(\v2\x16.eolymp.community.UserH\x00R\x04user\x12,\n" +
 	"\x04team\x18e \x01(\v2\x16.eolymp.community.TeamH\x00R\x04team\x12/\n" +
 	"\x05ghost\x18f \x01(\v2\x17.eolymp.community.GhostH\x00R\x05ghost\x125\n" +
-	"\x05stats\x18\xac\x02 \x01(\v2\x1e.eolymp.community.Member.StatsR\x05stats\x12\x17\n" +
-	"\x06groups\x18\xc8\x01 \x03(\tR\x06groups\x12B\n" +
+	"\x05stats\x18\xac\x02 \x01(\v2\x1e.eolymp.community.Member.StatsR\x05stats\x120\n" +
+	"\x06groups\x18\xc9\x01 \x03(\v2\x17.eolymp.community.GroupR\x06groups\x12\x1c\n" +
+	"\tgroup_ids\x18\xc8\x01 \x03(\tR\bgroupIds\x12B\n" +
 	"\n" +
 	"attributes\x18\x84\a \x03(\v2!.eolymp.community.Attribute.ValueR\n" +
-	"attributes\x1a\xa8\x01\n" +
-	"\x05Stats\x12\x16\n" +
-	"\x06streak\x18\n" +
-	" \x01(\x05R\x06streak\x12'\n" +
-	"\x0fproblems_solved\x18\x14 \x01(\x05R\x0eproblemsSolved\x121\n" +
-	"\x14submissions_accepted\x18\x1e \x01(\x05R\x13submissionsAccepted\x12+\n" +
-	"\x11submissions_total\x18) \x01(\x05R\x10submissionsTotal\"<\n" +
-	"\x05Extra\x12\f\n" +
+	"attributes\x12C\n" +
+	"\bmetadata\x18\x80\b \x03(\v2&.eolymp.community.Member.MetadataEntryR\bmetadata\x1aS\n" +
+	"\x05Extra\"J\n" +
+	"\x05Field\x12\f\n" +
 	"\bNO_EXTRA\x10\x00\x12\t\n" +
 	"\x05STATS\x10\x02\x12\n" +
 	"\n" +
 	"\x06GROUPS\x10\x03\x12\x0e\n" +
 	"\n" +
-	"ATTRIBUTES\x10\x04B\t\n" +
+	"ATTRIBUTES\x10\x04\x12\f\n" +
+	"\bMETADATA\x10\x05\x1a\xe7\x03\n" +
+	"\x05Patch\"\xdd\x03\n" +
+	"\x05Field\x12\v\n" +
+	"\aUNKNOWN\x10\x00\x12\x10\n" +
+	"\fEXTERNAL_REF\x10\x06\x12\f\n" +
+	"\bINACTIVE\x10\x01\x12\x0e\n" +
+	"\n" +
+	"UNOFFICIAL\x10\x02\x12\n" +
+	"\n" +
+	"\x06GROUPS\x10\x03\x12\x0e\n" +
+	"\n" +
+	"GROUPS_ADD\x10\x04\x12\x11\n" +
+	"\rGROUPS_REMOVE\x10\x05\x12\v\n" +
+	"\aACCOUNT\x10d\x12\x11\n" +
+	"\rUSER_NICKNAME\x10e\x12\x0e\n" +
+	"\n" +
+	"USER_EMAIL\x10f\x12\x11\n" +
+	"\rUSER_PASSWORD\x10g\x12\r\n" +
+	"\tUSER_NAME\x10h\x12\x10\n" +
+	"\fUSER_PICTURE\x10i\x12\x11\n" +
+	"\rUSER_BIRTHDAY\x10j\x12\x10\n" +
+	"\fUSER_COUNTRY\x10k\x12\r\n" +
+	"\tUSER_CITY\x10l\x12\x14\n" +
+	"\x10USER_PREFERENCES\x10m\x12\x1c\n" +
+	"\x17USER_PREFERENCES_LOCALE\x10\xbe\x01\x12\x1e\n" +
+	"\x19USER_PREFERENCES_TIMEZONE\x10\xbf\x01\x12\x1d\n" +
+	"\x18USER_PREFERENCES_RUNTIME\x10\xc0\x01\x12\x1c\n" +
+	"\x18USER_EMAIL_SUBSCRIPTIONS\x10n\x12\x0e\n" +
+	"\tTEAM_NAME\x10\xc8\x01\x12\x0f\n" +
+	"\n" +
+	"GHOST_NAME\x10\xac\x02\x12\x0f\n" +
+	"\n" +
+	"ATTRIBUTES\x10\x84\a\x12\r\n" +
+	"\bMETADATA\x10\x85\a\x1a\xa8\x01\n" +
+	"\x05Stats\x12\x16\n" +
+	"\x06streak\x18\n" +
+	" \x01(\x05R\x06streak\x12'\n" +
+	"\x0fproblems_solved\x18\x14 \x01(\x05R\x0eproblemsSolved\x121\n" +
+	"\x14submissions_accepted\x18\x1e \x01(\x05R\x13submissionsAccepted\x12+\n" +
+	"\x11submissions_total\x18) \x01(\x05R\x10submissionsTotal\x1a;\n" +
+	"\rMetadataEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01B\t\n" +
 	"\aaccountB5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
 
 var (
@@ -445,32 +701,39 @@ func file_eolymp_community_member_proto_rawDescGZIP() []byte {
 	return file_eolymp_community_member_proto_rawDescData
 }
 
-var file_eolymp_community_member_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_eolymp_community_member_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_eolymp_community_member_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_eolymp_community_member_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_eolymp_community_member_proto_goTypes = []any{
-	(Member_Extra)(0),             // 0: eolymp.community.Member.Extra
-	(*Member)(nil),                // 1: eolymp.community.Member
-	(*Member_Stats)(nil),          // 2: eolymp.community.Member.Stats
-	(*timestamppb.Timestamp)(nil), // 3: google.protobuf.Timestamp
-	(*User)(nil),                  // 4: eolymp.community.User
-	(*Team)(nil),                  // 5: eolymp.community.Team
-	(*Ghost)(nil),                 // 6: eolymp.community.Ghost
-	(*Attribute_Value)(nil),       // 7: eolymp.community.Attribute.Value
+	(Member_Extra_Field)(0),       // 0: eolymp.community.Member.Extra.Field
+	(Member_Patch_Field)(0),       // 1: eolymp.community.Member.Patch.Field
+	(*Member)(nil),                // 2: eolymp.community.Member
+	(*Member_Extra)(nil),          // 3: eolymp.community.Member.Extra
+	(*Member_Patch)(nil),          // 4: eolymp.community.Member.Patch
+	(*Member_Stats)(nil),          // 5: eolymp.community.Member.Stats
+	nil,                           // 6: eolymp.community.Member.MetadataEntry
+	(*timestamppb.Timestamp)(nil), // 7: google.protobuf.Timestamp
+	(*User)(nil),                  // 8: eolymp.community.User
+	(*Team)(nil),                  // 9: eolymp.community.Team
+	(*Ghost)(nil),                 // 10: eolymp.community.Ghost
+	(*Group)(nil),                 // 11: eolymp.community.Group
+	(*Attribute_Value)(nil),       // 12: eolymp.community.Attribute.Value
 }
 var file_eolymp_community_member_proto_depIdxs = []int32{
-	3, // 0: eolymp.community.Member.created_at:type_name -> google.protobuf.Timestamp
-	3, // 1: eolymp.community.Member.seated_at:type_name -> google.protobuf.Timestamp
-	3, // 2: eolymp.community.Member.active_at:type_name -> google.protobuf.Timestamp
-	4, // 3: eolymp.community.Member.user:type_name -> eolymp.community.User
-	5, // 4: eolymp.community.Member.team:type_name -> eolymp.community.Team
-	6, // 5: eolymp.community.Member.ghost:type_name -> eolymp.community.Ghost
-	2, // 6: eolymp.community.Member.stats:type_name -> eolymp.community.Member.Stats
-	7, // 7: eolymp.community.Member.attributes:type_name -> eolymp.community.Attribute.Value
-	8, // [8:8] is the sub-list for method output_type
-	8, // [8:8] is the sub-list for method input_type
-	8, // [8:8] is the sub-list for extension type_name
-	8, // [8:8] is the sub-list for extension extendee
-	0, // [0:8] is the sub-list for field type_name
+	7,  // 0: eolymp.community.Member.created_at:type_name -> google.protobuf.Timestamp
+	7,  // 1: eolymp.community.Member.seated_at:type_name -> google.protobuf.Timestamp
+	7,  // 2: eolymp.community.Member.active_at:type_name -> google.protobuf.Timestamp
+	8,  // 3: eolymp.community.Member.user:type_name -> eolymp.community.User
+	9,  // 4: eolymp.community.Member.team:type_name -> eolymp.community.Team
+	10, // 5: eolymp.community.Member.ghost:type_name -> eolymp.community.Ghost
+	5,  // 6: eolymp.community.Member.stats:type_name -> eolymp.community.Member.Stats
+	11, // 7: eolymp.community.Member.groups:type_name -> eolymp.community.Group
+	12, // 8: eolymp.community.Member.attributes:type_name -> eolymp.community.Attribute.Value
+	6,  // 9: eolymp.community.Member.metadata:type_name -> eolymp.community.Member.MetadataEntry
+	10, // [10:10] is the sub-list for method output_type
+	10, // [10:10] is the sub-list for method input_type
+	10, // [10:10] is the sub-list for extension type_name
+	10, // [10:10] is the sub-list for extension extendee
+	0,  // [0:10] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_community_member_proto_init() }
@@ -479,6 +742,7 @@ func file_eolymp_community_member_proto_init() {
 		return
 	}
 	file_eolymp_community_attribute_proto_init()
+	file_eolymp_community_group_proto_init()
 	file_eolymp_community_member_ghost_proto_init()
 	file_eolymp_community_member_team_proto_init()
 	file_eolymp_community_member_user_proto_init()
@@ -492,8 +756,8 @@ func file_eolymp_community_member_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_community_member_proto_rawDesc), len(file_eolymp_community_member_proto_rawDesc)),
-			NumEnums:      1,
-			NumMessages:   2,
+			NumEnums:      2,
+			NumMessages:   5,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

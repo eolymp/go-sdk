@@ -543,7 +543,7 @@ type ListGroupsInput_Filter struct {
 	state         protoimpl.MessageState        `protogen:"open.v1"`
 	Query         string                        `protobuf:"bytes,1,opt,name=query,proto3" json:"query,omitempty"`
 	Id            []*wellknown.ExpressionID     `protobuf:"bytes,2,rep,name=id,proto3" json:"id,omitempty"`
-	Key           []*wellknown.ExpressionID     `protobuf:"bytes,4,rep,name=key,proto3" json:"key,omitempty"`
+	ExternalRef   []*wellknown.ExpressionID     `protobuf:"bytes,4,rep,name=external_ref,json=externalRef,proto3" json:"external_ref,omitempty"`
 	Name          []*wellknown.ExpressionString `protobuf:"bytes,3,rep,name=name,proto3" json:"name,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -593,9 +593,9 @@ func (x *ListGroupsInput_Filter) GetId() []*wellknown.ExpressionID {
 	return nil
 }
 
-func (x *ListGroupsInput_Filter) GetKey() []*wellknown.ExpressionID {
+func (x *ListGroupsInput_Filter) GetExternalRef() []*wellknown.ExpressionID {
 	if x != nil {
-		return x.Key
+		return x.ExternalRef
 	}
 	return nil
 }
@@ -630,16 +630,16 @@ const file_eolymp_community_group_service_proto_rawDesc = "" +
 	"\x12DescribeGroupInput\x12\x19\n" +
 	"\bgroup_id\x18\x01 \x01(\tR\agroupId\"D\n" +
 	"\x13DescribeGroupOutput\x12-\n" +
-	"\x05group\x18\x01 \x01(\v2\x17.eolymp.community.GroupR\x05group\"\xbc\x02\n" +
+	"\x05group\x18\x01 \x01(\v2\x17.eolymp.community.GroupR\x05group\"\xcd\x02\n" +
 	"\x0fListGroupsInput\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
 	"\x04size\x18\v \x01(\x05R\x04size\x12B\n" +
-	"\afilters\x18( \x01(\v2(.eolymp.community.ListGroupsInput.FilterR\afilters\x1a\xb8\x01\n" +
+	"\afilters\x18( \x01(\v2(.eolymp.community.ListGroupsInput.FilterR\afilters\x1a\xc9\x01\n" +
 	"\x06Filter\x12\x14\n" +
 	"\x05query\x18\x01 \x01(\tR\x05query\x12.\n" +
-	"\x02id\x18\x02 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\x120\n" +
-	"\x03key\x18\x04 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x03key\x126\n" +
+	"\x02id\x18\x02 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\x12A\n" +
+	"\fexternal_ref\x18\x04 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\vexternalRef\x126\n" +
 	"\x04name\x18\x03 \x03(\v2\".eolymp.wellknown.ExpressionStringR\x04name\"W\n" +
 	"\x10ListGroupsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12-\n" +
@@ -718,7 +718,7 @@ var file_eolymp_community_group_service_proto_depIdxs = []int32{
 	11, // 6: eolymp.community.ListGroupsInput.filters:type_name -> eolymp.community.ListGroupsInput.Filter
 	12, // 7: eolymp.community.ListGroupsOutput.items:type_name -> eolymp.community.Group
 	14, // 8: eolymp.community.ListGroupsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	14, // 9: eolymp.community.ListGroupsInput.Filter.key:type_name -> eolymp.wellknown.ExpressionID
+	14, // 9: eolymp.community.ListGroupsInput.Filter.external_ref:type_name -> eolymp.wellknown.ExpressionID
 	15, // 10: eolymp.community.ListGroupsInput.Filter.name:type_name -> eolymp.wellknown.ExpressionString
 	1,  // 11: eolymp.community.GroupService.CreateGroup:input_type -> eolymp.community.CreateGroupInput
 	3,  // 12: eolymp.community.GroupService.UpdateGroup:input_type -> eolymp.community.UpdateGroupInput

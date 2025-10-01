@@ -251,7 +251,7 @@ type DescribeAccountOutput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Member        *Member                `protobuf:"bytes,1,opt,name=member,proto3" json:"member,omitempty"`
 	Team          *Member                `protobuf:"bytes,2,opt,name=team,proto3" json:"team,omitempty"`
-	Extra         []Member_Extra         `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.community.Member_Extra" json:"extra,omitempty"`
+	Extra         []*Member_Extra        `protobuf:"bytes,1123,rep,name=extra,proto3" json:"extra,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -300,7 +300,7 @@ func (x *DescribeAccountOutput) GetTeam() *Member {
 	return nil
 }
 
-func (x *DescribeAccountOutput) GetExtra() []Member_Extra {
+func (x *DescribeAccountOutput) GetExtra() []*Member_Extra {
 	if x != nil {
 		return x.Extra
 	}
@@ -1170,7 +1170,7 @@ const file_eolymp_community_account_service_proto_rawDesc = "" +
 	"\x15DescribeAccountOutput\x120\n" +
 	"\x06member\x18\x01 \x01(\v2\x18.eolymp.community.MemberR\x06member\x12,\n" +
 	"\x04team\x18\x02 \x01(\v2\x18.eolymp.community.MemberR\x04team\x125\n" +
-	"\x05extra\x18\xe3\b \x03(\x0e2\x1e.eolymp.community.Member.ExtraR\x05extra\"\xf3\x03\n" +
+	"\x05extra\x18\xe3\b \x03(\v2\x1e.eolymp.community.Member.ExtraR\x05extra\"\xf3\x03\n" +
 	"\x12UpdateAccountInput\x12@\n" +
 	"\x05patch\x18\x01 \x03(\x0e2*.eolymp.community.UpdateAccountInput.PatchR\x05patch\x12)\n" +
 	"\x10current_password\x18\x02 \x01(\tR\x0fcurrentPassword\x120\n" +
@@ -1325,7 +1325,7 @@ var file_eolymp_community_account_service_proto_goTypes = []any{
 	(*UpdateEmailSubscriptionInput)(nil),    // 21: eolymp.community.UpdateEmailSubscriptionInput
 	(*UpdateEmailSubscriptionOutput)(nil),   // 22: eolymp.community.UpdateEmailSubscriptionOutput
 	(*Member)(nil),                          // 23: eolymp.community.Member
-	(Member_Extra)(0),                       // 24: eolymp.community.Member.Extra
+	(*Member_Extra)(nil),                    // 24: eolymp.community.Member.Extra
 	(EmailType)(0),                          // 25: eolymp.community.EmailType
 }
 var file_eolymp_community_account_service_proto_depIdxs = []int32{

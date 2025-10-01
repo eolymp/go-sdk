@@ -91,13 +91,13 @@ func (Group_Patch_Field) EnumDescriptor() ([]byte, []int) {
 type Group struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Key           string                 `protobuf:"bytes,4,opt,name=key,proto3" json:"key,omitempty"`                 // a human friendly ID, optional
 	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`               // group name
 	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"` // group description
-	Index         uint32                 `protobuf:"varint,5,opt,name=index,proto3" json:"index,omitempty"`            // index group order
-	Icon          string                 `protobuf:"bytes,10,opt,name=icon,proto3" json:"icon,omitempty"`              // a URL for an icon, displayed in front of a username on the site
-	Badge         string                 `protobuf:"bytes,11,opt,name=badge,proto3" json:"badge,omitempty"`            // a string displayed next to the username on the site
-	Color         string                 `protobuf:"bytes,12,opt,name=color,proto3" json:"color,omitempty"`            // a hexadecimal color code, displayed in the given color.
+	ExternalRef   string                 `protobuf:"bytes,4,opt,name=external_ref,json=externalRef,proto3" json:"external_ref,omitempty"`
+	Icon          string                 `protobuf:"bytes,10,opt,name=icon,proto3" json:"icon,omitempty"`                                                                                     // a URL for an icon, displayed in front of a username on the site
+	Badge         string                 `protobuf:"bytes,11,opt,name=badge,proto3" json:"badge,omitempty"`                                                                                   // a string displayed next to the username on the site
+	Color         string                 `protobuf:"bytes,12,opt,name=color,proto3" json:"color,omitempty"`                                                                                   // a hexadecimal color code, displayed in the given color.
+	Metadata      map[string]string      `protobuf:"bytes,1024,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"` // additional key-value properties used by external systems
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -139,13 +139,6 @@ func (x *Group) GetId() string {
 	return ""
 }
 
-func (x *Group) GetKey() string {
-	if x != nil {
-		return x.Key
-	}
-	return ""
-}
-
 func (x *Group) GetName() string {
 	if x != nil {
 		return x.Name
@@ -160,11 +153,11 @@ func (x *Group) GetDescription() string {
 	return ""
 }
 
-func (x *Group) GetIndex() uint32 {
+func (x *Group) GetExternalRef() string {
 	if x != nil {
-		return x.Index
+		return x.ExternalRef
 	}
-	return 0
+	return ""
 }
 
 func (x *Group) GetIcon() string {
@@ -186,6 +179,13 @@ func (x *Group) GetColor() string {
 		return x.Color
 	}
 	return ""
+}
+
+func (x *Group) GetMetadata() map[string]string {
+	if x != nil {
+		return x.Metadata
+	}
+	return nil
 }
 
 type Group_Patch struct {
@@ -228,17 +228,17 @@ var File_eolymp_community_group_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_group_proto_rawDesc = "" +
 	"\n" +
-	"\x1ceolymp/community/group.proto\x12\x10eolymp.community\"\x98\x02\n" +
+	"\x1ceolymp/community/group.proto\x12\x10eolymp.community\"\x94\x03\n" +
 	"\x05Group\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x10\n" +
-	"\x03key\x18\x04 \x01(\tR\x03key\x12\x12\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
-	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x14\n" +
-	"\x05index\x18\x05 \x01(\rR\x05index\x12\x12\n" +
+	"\vdescription\x18\x03 \x01(\tR\vdescription\x12!\n" +
+	"\fexternal_ref\x18\x04 \x01(\tR\vexternalRef\x12\x12\n" +
 	"\x04icon\x18\n" +
 	" \x01(\tR\x04icon\x12\x14\n" +
 	"\x05badge\x18\v \x01(\tR\x05badge\x12\x14\n" +
-	"\x05color\x18\f \x01(\tR\x05color\x1aa\n" +
+	"\x05color\x18\f \x01(\tR\x05color\x12B\n" +
+	"\bmetadata\x18\x80\b \x03(\v2%.eolymp.community.Group.MetadataEntryR\bmetadata\x1aa\n" +
 	"\x05Patch\"X\n" +
 	"\x05Field\x12\v\n" +
 	"\aUNKNOWN\x10\x00\x12\b\n" +
@@ -247,7 +247,10 @@ const file_eolymp_community_group_proto_rawDesc = "" +
 	"\x03KEY\x10\x03\x12\b\n" +
 	"\x04ICON\x10\x04\x12\t\n" +
 	"\x05BADGE\x10\x05\x12\t\n" +
-	"\x05COLOR\x10\x06B5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
+	"\x05COLOR\x10\x06\x1a;\n" +
+	"\rMetadataEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01B5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
 
 var (
 	file_eolymp_community_group_proto_rawDescOnce sync.Once
@@ -262,18 +265,20 @@ func file_eolymp_community_group_proto_rawDescGZIP() []byte {
 }
 
 var file_eolymp_community_group_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_eolymp_community_group_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_eolymp_community_group_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_eolymp_community_group_proto_goTypes = []any{
 	(Group_Patch_Field)(0), // 0: eolymp.community.Group.Patch.Field
 	(*Group)(nil),          // 1: eolymp.community.Group
 	(*Group_Patch)(nil),    // 2: eolymp.community.Group.Patch
+	nil,                    // 3: eolymp.community.Group.MetadataEntry
 }
 var file_eolymp_community_group_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	3, // 0: eolymp.community.Group.metadata:type_name -> eolymp.community.Group.MetadataEntry
+	1, // [1:1] is the sub-list for method output_type
+	1, // [1:1] is the sub-list for method input_type
+	1, // [1:1] is the sub-list for extension type_name
+	1, // [1:1] is the sub-list for extension extendee
+	0, // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_community_group_proto_init() }
@@ -287,7 +292,7 @@ func file_eolymp_community_group_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_community_group_proto_rawDesc), len(file_eolymp_community_group_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   2,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
