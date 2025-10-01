@@ -43,6 +43,7 @@ type User struct {
 	PasswordChangedOn *timestamppb.Timestamp `protobuf:"bytes,37,opt,name=password_changed_on,json=passwordChangedOn,proto3" json:"password_changed_on,omitempty"` // Exact time when user has changed password last time
 	Locale            string                 `protobuf:"bytes,40,opt,name=locale,proto3" json:"locale,omitempty"`                                                  // Locale
 	Aliases           []*User_Alias          `protobuf:"bytes,14,rep,name=aliases,proto3" json:"aliases,omitempty"`
+	DiscordUserId     string                 `protobuf:"bytes,100,opt,name=discord_user_id,json=discordUserId,proto3" json:"discord_user_id,omitempty"`
 	unknownFields     protoimpl.UnknownFields
 	sizeCache         protoimpl.SizeCache
 }
@@ -210,6 +211,13 @@ func (x *User) GetAliases() []*User_Alias {
 	return nil
 }
 
+func (x *User) GetDiscordUserId() string {
+	if x != nil {
+		return x.DiscordUserId
+	}
+	return ""
+}
+
 type User_Alias struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Nickname      string                 `protobuf:"bytes,1,opt,name=nickname,proto3" json:"nickname,omitempty"`                    // the nickname used by a user in the past
@@ -266,7 +274,7 @@ var File_eolymp_cognito_user_proto protoreflect.FileDescriptor
 
 const file_eolymp_cognito_user_proto_rawDesc = "" +
 	"\n" +
-	"\x19eolymp/cognito/user.proto\x12\x0eeolymp.cognito\x1a\x1fgoogle/protobuf/timestamp.proto\"\x95\x06\n" +
+	"\x19eolymp/cognito/user.proto\x12\x0eeolymp.cognito\x1a\x1fgoogle/protobuf/timestamp.proto\"\xbd\x06\n" +
 	"\x04User\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1a\n" +
 	"\busername\x18\x02 \x01(\tR\busername\x12\x14\n" +
@@ -289,7 +297,8 @@ const file_eolymp_cognito_user_proto_rawDesc = "" +
 	"\x13username_changed_on\x18$ \x01(\v2\x1a.google.protobuf.TimestampR\x11usernameChangedOn\x12J\n" +
 	"\x13password_changed_on\x18% \x01(\v2\x1a.google.protobuf.TimestampR\x11passwordChangedOn\x12\x16\n" +
 	"\x06locale\x18( \x01(\tR\x06locale\x124\n" +
-	"\aaliases\x18\x0e \x03(\v2\x1a.eolymp.cognito.User.AliasR\aaliases\x1a^\n" +
+	"\aaliases\x18\x0e \x03(\v2\x1a.eolymp.cognito.User.AliasR\aaliases\x12&\n" +
+	"\x0fdiscord_user_id\x18d \x01(\tR\rdiscordUserId\x1a^\n" +
 	"\x05Alias\x12\x1a\n" +
 	"\bnickname\x18\x01 \x01(\tR\bnickname\x129\n" +
 	"\n" +
