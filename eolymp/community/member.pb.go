@@ -26,7 +26,6 @@ type Member_Extra int32
 
 const (
 	Member_NO_EXTRA   Member_Extra = 0
-	Member_TIER       Member_Extra = 1
 	Member_STATS      Member_Extra = 2
 	Member_GROUPS     Member_Extra = 3
 	Member_ATTRIBUTES Member_Extra = 4
@@ -36,14 +35,12 @@ const (
 var (
 	Member_Extra_name = map[int32]string{
 		0: "NO_EXTRA",
-		1: "TIER",
 		2: "STATS",
 		3: "GROUPS",
 		4: "ATTRIBUTES",
 	}
 	Member_Extra_value = map[string]int32{
 		"NO_EXTRA":   0,
-		"TIER":       1,
 		"STATS":      2,
 		"GROUPS":     3,
 		"ATTRIBUTES": 4,
@@ -391,7 +388,7 @@ var File_eolymp_community_member_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_member_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/community/member.proto\x12\x10eolymp.community\x1a eolymp/community/attribute.proto\x1a#eolymp/community/member_ghost.proto\x1a\"eolymp/community/member_team.proto\x1a\"eolymp/community/member_user.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xee\a\n" +
+	"\x1deolymp/community/member.proto\x12\x10eolymp.community\x1a eolymp/community/attribute.proto\x1a#eolymp/community/member_ghost.proto\x1a\"eolymp/community/member_team.proto\x1a\"eolymp/community/member_user.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xe4\a\n" +
 	"\x06Member\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12!\n" +
 	"\fdisplay_name\x18\x02 \x01(\tR\vdisplayName\x12\x10\n" +
@@ -426,10 +423,9 @@ const file_eolymp_community_member_proto_rawDesc = "" +
 	" \x01(\x05R\x06streak\x12'\n" +
 	"\x0fproblems_solved\x18\x14 \x01(\x05R\x0eproblemsSolved\x121\n" +
 	"\x14submissions_accepted\x18\x1e \x01(\x05R\x13submissionsAccepted\x12+\n" +
-	"\x11submissions_total\x18) \x01(\x05R\x10submissionsTotal\"F\n" +
+	"\x11submissions_total\x18) \x01(\x05R\x10submissionsTotal\"<\n" +
 	"\x05Extra\x12\f\n" +
-	"\bNO_EXTRA\x10\x00\x12\b\n" +
-	"\x04TIER\x10\x01\x12\t\n" +
+	"\bNO_EXTRA\x10\x00\x12\t\n" +
 	"\x05STATS\x10\x02\x12\n" +
 	"\n" +
 	"\x06GROUPS\x10\x03\x12\x0e\n" +
