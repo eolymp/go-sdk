@@ -595,7 +595,7 @@ var File_eolymp_community_member_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_member_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/community/member.proto\x12\x10eolymp.community\x1a eolymp/community/attribute.proto\x1a\x1ceolymp/community/group.proto\x1a#eolymp/community/member_ghost.proto\x1a\"eolymp/community/member_team.proto\x1a\"eolymp/community/member_user.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x8a\r\n" +
+	"\x1deolymp/community/member.proto\x12\x10eolymp.community\x1a eolymp/community/attribute.proto\x1a#eolymp/community/member_ghost.proto\x1a\"eolymp/community/member_team.proto\x1a\"eolymp/community/member_user.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x8a\r\n" +
 	"\x06Member\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x10\n" +
 	"\x03url\x18\x03 \x01(\tR\x03url\x12!\n" +
@@ -731,7 +731,6 @@ func file_eolymp_community_member_proto_init() {
 		return
 	}
 	file_eolymp_community_attribute_proto_init()
-	file_eolymp_community_group_proto_init()
 	file_eolymp_community_member_ghost_proto_init()
 	file_eolymp_community_member_team_proto_init()
 	file_eolymp_community_member_user_proto_init()
