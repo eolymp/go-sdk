@@ -24,13 +24,14 @@ const (
 type Group_Patch_Field int32
 
 const (
-	Group_Patch_UNKNOWN     Group_Patch_Field = 0
-	Group_Patch_NAME        Group_Patch_Field = 1
-	Group_Patch_DESCRIPTION Group_Patch_Field = 2
-	Group_Patch_KEY         Group_Patch_Field = 3
-	Group_Patch_ICON        Group_Patch_Field = 4
-	Group_Patch_BADGE       Group_Patch_Field = 5
-	Group_Patch_COLOR       Group_Patch_Field = 6
+	Group_Patch_UNKNOWN      Group_Patch_Field = 0
+	Group_Patch_NAME         Group_Patch_Field = 1
+	Group_Patch_DESCRIPTION  Group_Patch_Field = 2
+	Group_Patch_EXTERNAL_REF Group_Patch_Field = 3
+	Group_Patch_ICON         Group_Patch_Field = 4
+	Group_Patch_BADGE        Group_Patch_Field = 5
+	Group_Patch_COLOR        Group_Patch_Field = 6
+	Group_Patch_METADATA     Group_Patch_Field = 7
 )
 
 // Enum value maps for Group_Patch_Field.
@@ -39,19 +40,21 @@ var (
 		0: "UNKNOWN",
 		1: "NAME",
 		2: "DESCRIPTION",
-		3: "KEY",
+		3: "EXTERNAL_REF",
 		4: "ICON",
 		5: "BADGE",
 		6: "COLOR",
+		7: "METADATA",
 	}
 	Group_Patch_Field_value = map[string]int32{
-		"UNKNOWN":     0,
-		"NAME":        1,
-		"DESCRIPTION": 2,
-		"KEY":         3,
-		"ICON":        4,
-		"BADGE":       5,
-		"COLOR":       6,
+		"UNKNOWN":      0,
+		"NAME":         1,
+		"DESCRIPTION":  2,
+		"EXTERNAL_REF": 3,
+		"ICON":         4,
+		"BADGE":        5,
+		"COLOR":        6,
+		"METADATA":     7,
 	}
 )
 
@@ -228,7 +231,7 @@ var File_eolymp_community_group_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_group_proto_rawDesc = "" +
 	"\n" +
-	"\x1ceolymp/community/group.proto\x12\x10eolymp.community\"\x94\x03\n" +
+	"\x1ceolymp/community/group.proto\x12\x10eolymp.community\"\xab\x03\n" +
 	"\x05Group\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
@@ -238,16 +241,17 @@ const file_eolymp_community_group_proto_rawDesc = "" +
 	" \x01(\tR\x04icon\x12\x14\n" +
 	"\x05badge\x18\v \x01(\tR\x05badge\x12\x14\n" +
 	"\x05color\x18\f \x01(\tR\x05color\x12B\n" +
-	"\bmetadata\x18\x80\b \x03(\v2%.eolymp.community.Group.MetadataEntryR\bmetadata\x1aa\n" +
-	"\x05Patch\"X\n" +
+	"\bmetadata\x18\x80\b \x03(\v2%.eolymp.community.Group.MetadataEntryR\bmetadata\x1ax\n" +
+	"\x05Patch\"o\n" +
 	"\x05Field\x12\v\n" +
 	"\aUNKNOWN\x10\x00\x12\b\n" +
 	"\x04NAME\x10\x01\x12\x0f\n" +
-	"\vDESCRIPTION\x10\x02\x12\a\n" +
-	"\x03KEY\x10\x03\x12\b\n" +
+	"\vDESCRIPTION\x10\x02\x12\x10\n" +
+	"\fEXTERNAL_REF\x10\x03\x12\b\n" +
 	"\x04ICON\x10\x04\x12\t\n" +
 	"\x05BADGE\x10\x05\x12\t\n" +
-	"\x05COLOR\x10\x06\x1a;\n" +
+	"\x05COLOR\x10\x06\x12\f\n" +
+	"\bMETADATA\x10\a\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01B5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
