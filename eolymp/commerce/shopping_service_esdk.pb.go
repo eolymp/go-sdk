@@ -176,28 +176,6 @@ func (s *ShoppingServiceService) UpdateBillingAddress(ctx context.Context, in *U
 	return out, nil
 }
 
-func (s *ShoppingServiceService) UpdateShippingMethod(ctx context.Context, in *UpdateShippingMethodInput) (*UpdateShippingMethodOutput, error) {
-	out := &UpdateShippingMethodOutput{}
-	path := "/store/cart/shipping-method"
-
-	if err := s.do(ctx, "POST", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *ShoppingServiceService) ListShippingMethods(ctx context.Context, in *ListShippingMethodsInput) (*ListShippingMethodsOutput, error) {
-	out := &ListShippingMethodsOutput{}
-	path := "/store/cart/shipping-methods"
-
-	if err := s.do(ctx, "GET", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
 func (s *ShoppingServiceService) PlaceOrder(ctx context.Context, in *PlaceOrderInput) (*PlaceOrderOutput, error) {
 	out := &PlaceOrderOutput{}
 	path := "/store/cart:order"

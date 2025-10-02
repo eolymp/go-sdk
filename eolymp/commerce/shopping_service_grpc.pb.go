@@ -25,8 +25,6 @@ const (
 	ShoppingService_DeleteShoppingCartItem_FullMethodName = "/eolymp.commerce.ShoppingService/DeleteShoppingCartItem"
 	ShoppingService_UpdateShippingAddress_FullMethodName  = "/eolymp.commerce.ShoppingService/UpdateShippingAddress"
 	ShoppingService_UpdateBillingAddress_FullMethodName   = "/eolymp.commerce.ShoppingService/UpdateBillingAddress"
-	ShoppingService_UpdateShippingMethod_FullMethodName   = "/eolymp.commerce.ShoppingService/UpdateShippingMethod"
-	ShoppingService_ListShippingMethods_FullMethodName    = "/eolymp.commerce.ShoppingService/ListShippingMethods"
 	ShoppingService_PlaceOrder_FullMethodName             = "/eolymp.commerce.ShoppingService/PlaceOrder"
 )
 
@@ -40,8 +38,6 @@ type ShoppingServiceClient interface {
 	DeleteShoppingCartItem(ctx context.Context, in *DeleteShoppingCartItemInput, opts ...grpc.CallOption) (*DeleteShoppingCartItemOutput, error)
 	UpdateShippingAddress(ctx context.Context, in *UpdateShippingAddressInput, opts ...grpc.CallOption) (*UpdateShippingAddressOutput, error)
 	UpdateBillingAddress(ctx context.Context, in *UpdateBillingAddressInput, opts ...grpc.CallOption) (*UpdateBillingAddressOutput, error)
-	UpdateShippingMethod(ctx context.Context, in *UpdateShippingMethodInput, opts ...grpc.CallOption) (*UpdateShippingMethodOutput, error)
-	ListShippingMethods(ctx context.Context, in *ListShippingMethodsInput, opts ...grpc.CallOption) (*ListShippingMethodsOutput, error)
 	PlaceOrder(ctx context.Context, in *PlaceOrderInput, opts ...grpc.CallOption) (*PlaceOrderOutput, error)
 }
 
@@ -113,26 +109,6 @@ func (c *shoppingServiceClient) UpdateBillingAddress(ctx context.Context, in *Up
 	return out, nil
 }
 
-func (c *shoppingServiceClient) UpdateShippingMethod(ctx context.Context, in *UpdateShippingMethodInput, opts ...grpc.CallOption) (*UpdateShippingMethodOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(UpdateShippingMethodOutput)
-	err := c.cc.Invoke(ctx, ShoppingService_UpdateShippingMethod_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *shoppingServiceClient) ListShippingMethods(ctx context.Context, in *ListShippingMethodsInput, opts ...grpc.CallOption) (*ListShippingMethodsOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ListShippingMethodsOutput)
-	err := c.cc.Invoke(ctx, ShoppingService_ListShippingMethods_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *shoppingServiceClient) PlaceOrder(ctx context.Context, in *PlaceOrderInput, opts ...grpc.CallOption) (*PlaceOrderOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(PlaceOrderOutput)
@@ -153,8 +129,6 @@ type ShoppingServiceServer interface {
 	DeleteShoppingCartItem(context.Context, *DeleteShoppingCartItemInput) (*DeleteShoppingCartItemOutput, error)
 	UpdateShippingAddress(context.Context, *UpdateShippingAddressInput) (*UpdateShippingAddressOutput, error)
 	UpdateBillingAddress(context.Context, *UpdateBillingAddressInput) (*UpdateBillingAddressOutput, error)
-	UpdateShippingMethod(context.Context, *UpdateShippingMethodInput) (*UpdateShippingMethodOutput, error)
-	ListShippingMethods(context.Context, *ListShippingMethodsInput) (*ListShippingMethodsOutput, error)
 	PlaceOrder(context.Context, *PlaceOrderInput) (*PlaceOrderOutput, error)
 }
 
@@ -182,12 +156,6 @@ func (UnimplementedShoppingServiceServer) UpdateShippingAddress(context.Context,
 }
 func (UnimplementedShoppingServiceServer) UpdateBillingAddress(context.Context, *UpdateBillingAddressInput) (*UpdateBillingAddressOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateBillingAddress not implemented")
-}
-func (UnimplementedShoppingServiceServer) UpdateShippingMethod(context.Context, *UpdateShippingMethodInput) (*UpdateShippingMethodOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateShippingMethod not implemented")
-}
-func (UnimplementedShoppingServiceServer) ListShippingMethods(context.Context, *ListShippingMethodsInput) (*ListShippingMethodsOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListShippingMethods not implemented")
 }
 func (UnimplementedShoppingServiceServer) PlaceOrder(context.Context, *PlaceOrderInput) (*PlaceOrderOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PlaceOrder not implemented")
@@ -320,42 +288,6 @@ func _ShoppingService_UpdateBillingAddress_Handler(srv interface{}, ctx context.
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ShoppingService_UpdateShippingMethod_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateShippingMethodInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ShoppingServiceServer).UpdateShippingMethod(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ShoppingService_UpdateShippingMethod_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ShoppingServiceServer).UpdateShippingMethod(ctx, req.(*UpdateShippingMethodInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ShoppingService_ListShippingMethods_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListShippingMethodsInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ShoppingServiceServer).ListShippingMethods(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ShoppingService_ListShippingMethods_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ShoppingServiceServer).ListShippingMethods(ctx, req.(*ListShippingMethodsInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _ShoppingService_PlaceOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(PlaceOrderInput)
 	if err := dec(in); err != nil {
@@ -404,14 +336,6 @@ var ShoppingService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateBillingAddress",
 			Handler:    _ShoppingService_UpdateBillingAddress_Handler,
-		},
-		{
-			MethodName: "UpdateShippingMethod",
-			Handler:    _ShoppingService_UpdateShippingMethod_Handler,
-		},
-		{
-			MethodName: "ListShippingMethods",
-			Handler:    _ShoppingService_ListShippingMethods_Handler,
 		},
 		{
 			MethodName: "PlaceOrder",

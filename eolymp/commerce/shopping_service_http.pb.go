@@ -143,12 +143,6 @@ func RegisterShoppingServiceHttpHandlers(router *mux.Router, prefix string, cli 
 	router.Handle(prefix+"/store/cart/billing-address", _ShoppingService_UpdateBillingAddress_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.commerce.ShoppingService.UpdateBillingAddress")
-	router.Handle(prefix+"/store/cart/shipping-method", _ShoppingService_UpdateShippingMethod_Rule0(cli)).
-		Methods("POST").
-		Name("eolymp.commerce.ShoppingService.UpdateShippingMethod")
-	router.Handle(prefix+"/store/cart/shipping-methods", _ShoppingService_ListShippingMethods_Rule0(cli)).
-		Methods("GET").
-		Name("eolymp.commerce.ShoppingService.ListShippingMethods")
 	router.Handle(prefix+"/store/cart:order", _ShoppingService_PlaceOrder_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.commerce.ShoppingService.PlaceOrder")
@@ -288,50 +282,6 @@ func _ShoppingService_UpdateBillingAddress_Rule0(cli ShoppingServiceClient) http
 		var header, trailer metadata.MD
 
 		out, err := cli.UpdateBillingAddress(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
-		if err != nil {
-			_ShoppingService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_ShoppingService_HTTPWriteResponse(w, out, header, trailer)
-	})
-}
-
-func _ShoppingService_UpdateShippingMethod_Rule0(cli ShoppingServiceClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &UpdateShippingMethodInput{}
-
-		if err := _ShoppingService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_ShoppingService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		var header, trailer metadata.MD
-
-		out, err := cli.UpdateShippingMethod(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
-		if err != nil {
-			_ShoppingService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_ShoppingService_HTTPWriteResponse(w, out, header, trailer)
-	})
-}
-
-func _ShoppingService_ListShippingMethods_Rule0(cli ShoppingServiceClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ListShippingMethodsInput{}
-
-		if err := _ShoppingService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
-			_ShoppingService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		var header, trailer metadata.MD
-
-		out, err := cli.ListShippingMethods(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ShoppingService_HTTPWriteErrorResponse(w, err)
 			return
