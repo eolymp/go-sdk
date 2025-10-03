@@ -281,11 +281,12 @@ func (*ProcessOrderOutput) Descriptor() ([]byte, []int) {
 }
 
 type ShipOrderInput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	OrderId       string                 `protobuf:"bytes,1,opt,name=order_id,json=orderId,proto3" json:"order_id,omitempty"`
-	TrackingLink  string                 `protobuf:"bytes,2,opt,name=tracking_link,json=trackingLink,proto3" json:"tracking_link,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	OrderId        string                 `protobuf:"bytes,1,opt,name=order_id,json=orderId,proto3" json:"order_id,omitempty"`
+	TrackingLink   string                 `protobuf:"bytes,2,opt,name=tracking_link,json=trackingLink,proto3" json:"tracking_link,omitempty"`
+	TrackingNumber string                 `protobuf:"bytes,3,opt,name=tracking_number,json=trackingNumber,proto3" json:"tracking_number,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *ShipOrderInput) Reset() {
@@ -328,6 +329,13 @@ func (x *ShipOrderInput) GetOrderId() string {
 func (x *ShipOrderInput) GetTrackingLink() string {
 	if x != nil {
 		return x.TrackingLink
+	}
+	return ""
+}
+
+func (x *ShipOrderInput) GetTrackingNumber() string {
+	if x != nil {
+		return x.TrackingNumber
 	}
 	return ""
 }
@@ -463,10 +471,11 @@ const file_eolymp_commerce_fulfillment_server_proto_rawDesc = "" +
 	"\x11ProcessOrderInput\x12\x19\n" +
 	"\border_id\x18\x01 \x01(\tR\aorderId\x12R\n" +
 	"\x17estimated_shipping_date\x18- \x01(\v2\x1a.google.protobuf.TimestampR\x15estimatedShippingDate\"\x14\n" +
-	"\x12ProcessOrderOutput\"P\n" +
+	"\x12ProcessOrderOutput\"y\n" +
 	"\x0eShipOrderInput\x12\x19\n" +
 	"\border_id\x18\x01 \x01(\tR\aorderId\x12#\n" +
-	"\rtracking_link\x18\x02 \x01(\tR\ftrackingLink\"\x11\n" +
+	"\rtracking_link\x18\x02 \x01(\tR\ftrackingLink\x12'\n" +
+	"\x0ftracking_number\x18\x03 \x01(\tR\x0etrackingNumber\"\x11\n" +
 	"\x0fShipOrderOutput\"/\n" +
 	"\x12CompleteOrderInput\x12\x19\n" +
 	"\border_id\x18\x01 \x01(\tR\aorderId\"\x15\n" +

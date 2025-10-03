@@ -105,6 +105,7 @@ type Order struct {
 	TaxNote               string                 `protobuf:"bytes,26,opt,name=tax_note,json=taxNote,proto3" json:"tax_note,omitempty"`
 	GrandTotal            uint32                 `protobuf:"varint,30,opt,name=grand_total,json=grandTotal,proto3" json:"grand_total,omitempty"`
 	TrackingLink          string                 `protobuf:"bytes,50,opt,name=tracking_link,json=trackingLink,proto3" json:"tracking_link,omitempty"`
+	TrackingNumber        string                 `protobuf:"bytes,51,opt,name=tracking_number,json=trackingNumber,proto3" json:"tracking_number,omitempty"`
 	CreatedAt             *timestamppb.Timestamp `protobuf:"bytes,100,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	UpdatedAt             *timestamppb.Timestamp `protobuf:"bytes,101,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
 	unknownFields         protoimpl.UnknownFields
@@ -267,6 +268,13 @@ func (x *Order) GetTrackingLink() string {
 	return ""
 }
 
+func (x *Order) GetTrackingNumber() string {
+	if x != nil {
+		return x.TrackingNumber
+	}
+	return ""
+}
+
 func (x *Order) GetCreatedAt() *timestamppb.Timestamp {
 	if x != nil {
 		return x.CreatedAt
@@ -425,7 +433,7 @@ var File_eolymp_commerce_order_proto protoreflect.FileDescriptor
 
 const file_eolymp_commerce_order_proto_rawDesc = "" +
 	"\n" +
-	"\x1beolymp/commerce/order.proto\x12\x0feolymp.commerce\x1a\x1deolymp/commerce/address.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xb7\v\n" +
+	"\x1beolymp/commerce/order.proto\x12\x0feolymp.commerce\x1a\x1deolymp/commerce/address.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xe0\v\n" +
 	"\x05Order\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1c\n" +
 	"\treference\x18\x02 \x01(\tR\treference\x12\x1b\n" +
@@ -447,7 +455,8 @@ const file_eolymp_commerce_order_proto_rawDesc = "" +
 	"\btax_note\x18\x1a \x01(\tR\ataxNote\x12\x1f\n" +
 	"\vgrand_total\x18\x1e \x01(\rR\n" +
 	"grandTotal\x12#\n" +
-	"\rtracking_link\x182 \x01(\tR\ftrackingLink\x129\n" +
+	"\rtracking_link\x182 \x01(\tR\ftrackingLink\x12'\n" +
+	"\x0ftracking_number\x183 \x01(\tR\x0etrackingNumber\x129\n" +
 	"\n" +
 	"created_at\x18d \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
 	"\n" +
