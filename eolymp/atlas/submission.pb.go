@@ -221,7 +221,8 @@ type Submission struct {
 	Lang               string                 `protobuf:"bytes,10,opt,name=lang,proto3" json:"lang,omitempty"`                                             // programming language
 	Source             string                 `protobuf:"bytes,11,opt,name=source,proto3" json:"source,omitempty"`                                         // deprecated: source code
 	SourceUrl          string                 `protobuf:"bytes,13,opt,name=source_url,json=sourceUrl,proto3" json:"source_url,omitempty"`                  // source code URL
-	Signature          string                 `protobuf:"bytes,12,opt,name=signature,proto3" json:"signature,omitempty"`                                   // source code signature
+	Values             []*Submission_Value    `protobuf:"bytes,14,rep,name=values,proto3" json:"values,omitempty"`                                         // submission values
+	Signature          string                 `protobuf:"bytes,12,opt,name=signature,proto3" json:"signature,omitempty"`                                   // submission signature
 	Status             Submission_Status      `protobuf:"varint,20,opt,name=status,proto3,enum=eolymp.atlas.Submission_Status" json:"status,omitempty"`    // status (see explanation for enumeration values)
 	Verdict            Submission_Verdict     `protobuf:"varint,22,opt,name=verdict,proto3,enum=eolymp.atlas.Submission_Verdict" json:"verdict,omitempty"` // overall verdict based on verdicts in groups / runs
 	Error              string                 `protobuf:"bytes,21,opt,name=error,proto3" json:"error,omitempty"`                                           // error message in case status is ERROR
@@ -349,6 +350,13 @@ func (x *Submission) GetSourceUrl() string {
 		return x.SourceUrl
 	}
 	return ""
+}
+
+func (x *Submission) GetValues() []*Submission_Value {
+	if x != nil {
+		return x.Values
+	}
+	return nil
 }
 
 func (x *Submission) GetSignature() string {
@@ -776,11 +784,205 @@ func (x *Submission_Group) GetRuns() []*Submission_Run {
 	return nil
 }
 
+type Submission_Value struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	Name  string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	// Types that are valid to be assigned to Value:
+	//
+	//	*Submission_Value_Code_
+	//	*Submission_Value_File_
+	Value         isSubmission_Value_Value `protobuf_oneof:"value"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Submission_Value) Reset() {
+	*x = Submission_Value{}
+	mi := &file_eolymp_atlas_submission_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Submission_Value) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Submission_Value) ProtoMessage() {}
+
+func (x *Submission_Value) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_submission_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Submission_Value.ProtoReflect.Descriptor instead.
+func (*Submission_Value) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_submission_proto_rawDescGZIP(), []int{0, 2}
+}
+
+func (x *Submission_Value) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *Submission_Value) GetValue() isSubmission_Value_Value {
+	if x != nil {
+		return x.Value
+	}
+	return nil
+}
+
+func (x *Submission_Value) GetCode() *Submission_Value_Code {
+	if x != nil {
+		if x, ok := x.Value.(*Submission_Value_Code_); ok {
+			return x.Code
+		}
+	}
+	return nil
+}
+
+func (x *Submission_Value) GetFile() *Submission_Value_File {
+	if x != nil {
+		if x, ok := x.Value.(*Submission_Value_File_); ok {
+			return x.File
+		}
+	}
+	return nil
+}
+
+type isSubmission_Value_Value interface {
+	isSubmission_Value_Value()
+}
+
+type Submission_Value_Code_ struct {
+	Code *Submission_Value_Code `protobuf:"bytes,10,opt,name=code,proto3,oneof"`
+}
+
+type Submission_Value_File_ struct {
+	File *Submission_Value_File `protobuf:"bytes,11,opt,name=file,proto3,oneof"`
+}
+
+func (*Submission_Value_Code_) isSubmission_Value_Value() {}
+
+func (*Submission_Value_File_) isSubmission_Value_Value() {}
+
+type Submission_Value_Code struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Runtime       string                 `protobuf:"bytes,1,opt,name=runtime,proto3" json:"runtime,omitempty"`
+	SourceUrl     string                 `protobuf:"bytes,2,opt,name=source_url,json=sourceUrl,proto3" json:"source_url,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Submission_Value_Code) Reset() {
+	*x = Submission_Value_Code{}
+	mi := &file_eolymp_atlas_submission_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Submission_Value_Code) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Submission_Value_Code) ProtoMessage() {}
+
+func (x *Submission_Value_Code) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_submission_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Submission_Value_Code.ProtoReflect.Descriptor instead.
+func (*Submission_Value_Code) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_submission_proto_rawDescGZIP(), []int{0, 2, 0}
+}
+
+func (x *Submission_Value_Code) GetRuntime() string {
+	if x != nil {
+		return x.Runtime
+	}
+	return ""
+}
+
+func (x *Submission_Value_Code) GetSourceUrl() string {
+	if x != nil {
+		return x.SourceUrl
+	}
+	return ""
+}
+
+type Submission_Value_File struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Filename      string                 `protobuf:"bytes,1,opt,name=filename,proto3" json:"filename,omitempty"`
+	DataUrl       string                 `protobuf:"bytes,2,opt,name=data_url,json=dataUrl,proto3" json:"data_url,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Submission_Value_File) Reset() {
+	*x = Submission_Value_File{}
+	mi := &file_eolymp_atlas_submission_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Submission_Value_File) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Submission_Value_File) ProtoMessage() {}
+
+func (x *Submission_Value_File) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_submission_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Submission_Value_File.ProtoReflect.Descriptor instead.
+func (*Submission_Value_File) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_submission_proto_rawDescGZIP(), []int{0, 2, 1}
+}
+
+func (x *Submission_Value_File) GetFilename() string {
+	if x != nil {
+		return x.Filename
+	}
+	return ""
+}
+
+func (x *Submission_Value_File) GetDataUrl() string {
+	if x != nil {
+		return x.DataUrl
+	}
+	return ""
+}
+
 var File_eolymp_atlas_submission_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_submission_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/atlas/submission.proto\x12\feolymp.atlas\x1a#eolymp/atlas/testing_feedback.proto\x1a\"eolymp/atlas/testing_scoring.proto\x1a\x1beolymp/executor/stats.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xda\x12\n" +
+	"\x1deolymp/atlas/submission.proto\x12\feolymp.atlas\x1a#eolymp/atlas/testing_feedback.proto\x1a\"eolymp/atlas/testing_scoring.proto\x1a\x1beolymp/executor/stats.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xaf\x15\n" +
 	"\n" +
 	"Submission\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1d\n" +
@@ -795,7 +997,8 @@ const file_eolymp_atlas_submission_proto_rawDesc = "" +
 	" \x01(\tR\x04lang\x12\x16\n" +
 	"\x06source\x18\v \x01(\tR\x06source\x12\x1d\n" +
 	"\n" +
-	"source_url\x18\r \x01(\tR\tsourceUrl\x12\x1c\n" +
+	"source_url\x18\r \x01(\tR\tsourceUrl\x126\n" +
+	"\x06values\x18\x0e \x03(\v2\x1e.eolymp.atlas.Submission.ValueR\x06values\x12\x1c\n" +
 	"\tsignature\x18\f \x01(\tR\tsignature\x127\n" +
 	"\x06status\x18\x14 \x01(\x0e2\x1f.eolymp.atlas.Submission.StatusR\x06status\x12:\n" +
 	"\averdict\x18\x16 \x01(\x0e2 .eolymp.atlas.Submission.VerdictR\averdict\x12\x14\n" +
@@ -851,7 +1054,20 @@ const file_eolymp_atlas_submission_proto_rawDesc = "" +
 	"\tcpu_usage\x18* \x01(\rR\bcpuUsage\x12!\n" +
 	"\fmemory_usage\x18. \x01(\x04R\vmemoryUsage\x12%\n" +
 	"\x0eresource_usage\x18/ \x01(\x02R\rresourceUsage\x120\n" +
-	"\x04runs\x18d \x03(\v2\x1c.eolymp.atlas.Submission.RunR\x04runs\"+\n" +
+	"\x04runs\x18d \x03(\v2\x1c.eolymp.atlas.Submission.RunR\x04runs\x1a\x9a\x02\n" +
+	"\x05Value\x12\x12\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\x129\n" +
+	"\x04code\x18\n" +
+	" \x01(\v2#.eolymp.atlas.Submission.Value.CodeH\x00R\x04code\x129\n" +
+	"\x04file\x18\v \x01(\v2#.eolymp.atlas.Submission.Value.FileH\x00R\x04file\x1a?\n" +
+	"\x04Code\x12\x18\n" +
+	"\aruntime\x18\x01 \x01(\tR\aruntime\x12\x1d\n" +
+	"\n" +
+	"source_url\x18\x02 \x01(\tR\tsourceUrl\x1a=\n" +
+	"\x04File\x12\x1a\n" +
+	"\bfilename\x18\x01 \x01(\tR\bfilename\x12\x19\n" +
+	"\bdata_url\x18\x02 \x01(\tR\adataUrlB\a\n" +
+	"\x05value\"+\n" +
 	"\x05Extra\x12\f\n" +
 	"\bNO_EXTRA\x10\x00\x12\n" +
 	"\n" +
@@ -894,7 +1110,7 @@ func file_eolymp_atlas_submission_proto_rawDescGZIP() []byte {
 }
 
 var file_eolymp_atlas_submission_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
-var file_eolymp_atlas_submission_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_eolymp_atlas_submission_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_eolymp_atlas_submission_proto_goTypes = []any{
 	(Submission_Extra)(0),         // 0: eolymp.atlas.Submission.Extra
 	(Submission_Status)(0),        // 1: eolymp.atlas.Submission.Status
@@ -902,32 +1118,38 @@ var file_eolymp_atlas_submission_proto_goTypes = []any{
 	(*Submission)(nil),            // 3: eolymp.atlas.Submission
 	(*Submission_Run)(nil),        // 4: eolymp.atlas.Submission.Run
 	(*Submission_Group)(nil),      // 5: eolymp.atlas.Submission.Group
-	(*timestamppb.Timestamp)(nil), // 6: google.protobuf.Timestamp
-	(*executor.Stats)(nil),        // 7: eolymp.executor.Stats
-	(ScoringMode)(0),              // 8: eolymp.atlas.ScoringMode
-	(FeedbackPolicy)(0),           // 9: eolymp.atlas.FeedbackPolicy
+	(*Submission_Value)(nil),      // 6: eolymp.atlas.Submission.Value
+	(*Submission_Value_Code)(nil), // 7: eolymp.atlas.Submission.Value.Code
+	(*Submission_Value_File)(nil), // 8: eolymp.atlas.Submission.Value.File
+	(*timestamppb.Timestamp)(nil), // 9: google.protobuf.Timestamp
+	(*executor.Stats)(nil),        // 10: eolymp.executor.Stats
+	(ScoringMode)(0),              // 11: eolymp.atlas.ScoringMode
+	(FeedbackPolicy)(0),           // 12: eolymp.atlas.FeedbackPolicy
 }
 var file_eolymp_atlas_submission_proto_depIdxs = []int32{
-	6,  // 0: eolymp.atlas.Submission.submitted_at:type_name -> google.protobuf.Timestamp
-	6,  // 1: eolymp.atlas.Submission.judged_at:type_name -> google.protobuf.Timestamp
-	1,  // 2: eolymp.atlas.Submission.status:type_name -> eolymp.atlas.Submission.Status
-	2,  // 3: eolymp.atlas.Submission.verdict:type_name -> eolymp.atlas.Submission.Verdict
-	5,  // 4: eolymp.atlas.Submission.groups:type_name -> eolymp.atlas.Submission.Group
-	1,  // 5: eolymp.atlas.Submission.Run.status:type_name -> eolymp.atlas.Submission.Status
-	2,  // 6: eolymp.atlas.Submission.Run.verdict:type_name -> eolymp.atlas.Submission.Verdict
-	7,  // 7: eolymp.atlas.Submission.Run.debug_stats:type_name -> eolymp.executor.Stats
-	7,  // 8: eolymp.atlas.Submission.Run.checker_stats:type_name -> eolymp.executor.Stats
-	7,  // 9: eolymp.atlas.Submission.Run.interactor_stats:type_name -> eolymp.executor.Stats
-	1,  // 10: eolymp.atlas.Submission.Group.status:type_name -> eolymp.atlas.Submission.Status
-	2,  // 11: eolymp.atlas.Submission.Group.verdict:type_name -> eolymp.atlas.Submission.Verdict
-	8,  // 12: eolymp.atlas.Submission.Group.scoring_mode:type_name -> eolymp.atlas.ScoringMode
-	9,  // 13: eolymp.atlas.Submission.Group.feedback_policy:type_name -> eolymp.atlas.FeedbackPolicy
-	4,  // 14: eolymp.atlas.Submission.Group.runs:type_name -> eolymp.atlas.Submission.Run
-	15, // [15:15] is the sub-list for method output_type
-	15, // [15:15] is the sub-list for method input_type
-	15, // [15:15] is the sub-list for extension type_name
-	15, // [15:15] is the sub-list for extension extendee
-	0,  // [0:15] is the sub-list for field type_name
+	9,  // 0: eolymp.atlas.Submission.submitted_at:type_name -> google.protobuf.Timestamp
+	9,  // 1: eolymp.atlas.Submission.judged_at:type_name -> google.protobuf.Timestamp
+	6,  // 2: eolymp.atlas.Submission.values:type_name -> eolymp.atlas.Submission.Value
+	1,  // 3: eolymp.atlas.Submission.status:type_name -> eolymp.atlas.Submission.Status
+	2,  // 4: eolymp.atlas.Submission.verdict:type_name -> eolymp.atlas.Submission.Verdict
+	5,  // 5: eolymp.atlas.Submission.groups:type_name -> eolymp.atlas.Submission.Group
+	1,  // 6: eolymp.atlas.Submission.Run.status:type_name -> eolymp.atlas.Submission.Status
+	2,  // 7: eolymp.atlas.Submission.Run.verdict:type_name -> eolymp.atlas.Submission.Verdict
+	10, // 8: eolymp.atlas.Submission.Run.debug_stats:type_name -> eolymp.executor.Stats
+	10, // 9: eolymp.atlas.Submission.Run.checker_stats:type_name -> eolymp.executor.Stats
+	10, // 10: eolymp.atlas.Submission.Run.interactor_stats:type_name -> eolymp.executor.Stats
+	1,  // 11: eolymp.atlas.Submission.Group.status:type_name -> eolymp.atlas.Submission.Status
+	2,  // 12: eolymp.atlas.Submission.Group.verdict:type_name -> eolymp.atlas.Submission.Verdict
+	11, // 13: eolymp.atlas.Submission.Group.scoring_mode:type_name -> eolymp.atlas.ScoringMode
+	12, // 14: eolymp.atlas.Submission.Group.feedback_policy:type_name -> eolymp.atlas.FeedbackPolicy
+	4,  // 15: eolymp.atlas.Submission.Group.runs:type_name -> eolymp.atlas.Submission.Run
+	7,  // 16: eolymp.atlas.Submission.Value.code:type_name -> eolymp.atlas.Submission.Value.Code
+	8,  // 17: eolymp.atlas.Submission.Value.file:type_name -> eolymp.atlas.Submission.Value.File
+	18, // [18:18] is the sub-list for method output_type
+	18, // [18:18] is the sub-list for method input_type
+	18, // [18:18] is the sub-list for extension type_name
+	18, // [18:18] is the sub-list for extension extendee
+	0,  // [0:18] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_atlas_submission_proto_init() }
@@ -941,13 +1163,17 @@ func file_eolymp_atlas_submission_proto_init() {
 		(*Submission_UserId)(nil),
 		(*Submission_MemberId)(nil),
 	}
+	file_eolymp_atlas_submission_proto_msgTypes[3].OneofWrappers = []any{
+		(*Submission_Value_Code_)(nil),
+		(*Submission_Value_File_)(nil),
+	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_atlas_submission_proto_rawDesc), len(file_eolymp_atlas_submission_proto_rawDesc)),
 			NumEnums:      3,
-			NumMessages:   3,
+			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

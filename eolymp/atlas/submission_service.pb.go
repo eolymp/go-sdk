@@ -133,6 +133,7 @@ type CreateSubmissionInput struct {
 	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	Lang          string                 `protobuf:"bytes,2,opt,name=lang,proto3" json:"lang,omitempty"`
 	Source        string                 `protobuf:"bytes,3,opt,name=source,proto3" json:"source,omitempty"`
+	Values        []*Submission_Value    `protobuf:"bytes,4,rep,name=values,proto3" json:"values,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -186,6 +187,13 @@ func (x *CreateSubmissionInput) GetSource() string {
 		return x.Source
 	}
 	return ""
+}
+
+func (x *CreateSubmissionInput) GetValues() []*Submission_Value {
+	if x != nil {
+		return x.Values
+	}
+	return nil
 }
 
 type CreateSubmissionOutput struct {
@@ -986,12 +994,13 @@ const file_eolymp_atlas_submission_service_proto_rawDesc = "" +
 	"\n" +
 	"submission\x18\x01 \x01(\v2\x18.eolymp.atlas.SubmissionR\n" +
 	"submission\x12\x16\n" +
-	"\x06update\x18\x02 \x01(\bR\x06update\"b\n" +
+	"\x06update\x18\x02 \x01(\bR\x06update\"\x9a\x01\n" +
 	"\x15CreateSubmissionInput\x12\x1d\n" +
 	"\n" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x12\n" +
 	"\x04lang\x18\x02 \x01(\tR\x04lang\x12\x16\n" +
-	"\x06source\x18\x03 \x01(\tR\x06source\"=\n" +
+	"\x06source\x18\x03 \x01(\tR\x06source\x126\n" +
+	"\x06values\x18\x04 \x03(\v2\x1e.eolymp.atlas.Submission.ValueR\x06values\"=\n" +
 	"\x16CreateSubmissionOutput\x12#\n" +
 	"\rsubmission_id\x18\x01 \x01(\tR\fsubmissionId\">\n" +
 	"\x17DescribeSubmissionInput\x12#\n" +
@@ -1126,56 +1135,58 @@ var file_eolymp_atlas_submission_service_proto_goTypes = []any{
 	(*ListProblemTopOutput)(nil),          // 15: eolymp.atlas.ListProblemTopOutput
 	(*ListSubmissionsInput_Filter)(nil),   // 16: eolymp.atlas.ListSubmissionsInput.Filter
 	(*Submission)(nil),                    // 17: eolymp.atlas.Submission
-	(Submission_Extra)(0),                 // 18: eolymp.atlas.Submission.Extra
-	(*timestamppb.Timestamp)(nil),         // 19: google.protobuf.Timestamp
-	(*wellknown.ExpressionID)(nil),        // 20: eolymp.wellknown.ExpressionID
-	(*wellknown.ExpressionTimestamp)(nil), // 21: eolymp.wellknown.ExpressionTimestamp
-	(*wellknown.ExpressionEnum)(nil),      // 22: eolymp.wellknown.ExpressionEnum
-	(*wellknown.ExpressionFloat)(nil),     // 23: eolymp.wellknown.ExpressionFloat
+	(*Submission_Value)(nil),              // 18: eolymp.atlas.Submission.Value
+	(Submission_Extra)(0),                 // 19: eolymp.atlas.Submission.Extra
+	(*timestamppb.Timestamp)(nil),         // 20: google.protobuf.Timestamp
+	(*wellknown.ExpressionID)(nil),        // 21: eolymp.wellknown.ExpressionID
+	(*wellknown.ExpressionTimestamp)(nil), // 22: eolymp.wellknown.ExpressionTimestamp
+	(*wellknown.ExpressionEnum)(nil),      // 23: eolymp.wellknown.ExpressionEnum
+	(*wellknown.ExpressionFloat)(nil),     // 24: eolymp.wellknown.ExpressionFloat
 }
 var file_eolymp_atlas_submission_service_proto_depIdxs = []int32{
 	17, // 0: eolymp.atlas.SubmissionChangedEvent.before:type_name -> eolymp.atlas.Submission
 	17, // 1: eolymp.atlas.SubmissionChangedEvent.after:type_name -> eolymp.atlas.Submission
 	17, // 2: eolymp.atlas.SubmissionCompleteEvent.submission:type_name -> eolymp.atlas.Submission
-	17, // 3: eolymp.atlas.DescribeSubmissionOutput.submission:type_name -> eolymp.atlas.Submission
-	18, // 4: eolymp.atlas.DescribeSubmissionOutput.extra:type_name -> eolymp.atlas.Submission.Extra
-	18, // 5: eolymp.atlas.WatchSubmissionInput.extra:type_name -> eolymp.atlas.Submission.Extra
-	17, // 6: eolymp.atlas.WatchSubmissionOutput.submission:type_name -> eolymp.atlas.Submission
-	16, // 7: eolymp.atlas.ListSubmissionsInput.filters:type_name -> eolymp.atlas.ListSubmissionsInput.Filter
-	18, // 8: eolymp.atlas.ListSubmissionsInput.extra:type_name -> eolymp.atlas.Submission.Extra
-	17, // 9: eolymp.atlas.ListSubmissionsOutput.items:type_name -> eolymp.atlas.Submission
-	19, // 10: eolymp.atlas.DescribeSubmissionUsageInput.period_start:type_name -> google.protobuf.Timestamp
-	19, // 11: eolymp.atlas.DescribeSubmissionUsageInput.period_end:type_name -> google.protobuf.Timestamp
-	17, // 12: eolymp.atlas.ListProblemTopOutput.items:type_name -> eolymp.atlas.Submission
-	20, // 13: eolymp.atlas.ListSubmissionsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	20, // 14: eolymp.atlas.ListSubmissionsInput.Filter.problem_id:type_name -> eolymp.wellknown.ExpressionID
-	20, // 15: eolymp.atlas.ListSubmissionsInput.Filter.user_id:type_name -> eolymp.wellknown.ExpressionID
-	20, // 16: eolymp.atlas.ListSubmissionsInput.Filter.member_id:type_name -> eolymp.wellknown.ExpressionID
-	21, // 17: eolymp.atlas.ListSubmissionsInput.Filter.submitted_at:type_name -> eolymp.wellknown.ExpressionTimestamp
-	22, // 18: eolymp.atlas.ListSubmissionsInput.Filter.runtime:type_name -> eolymp.wellknown.ExpressionEnum
-	22, // 19: eolymp.atlas.ListSubmissionsInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
-	22, // 20: eolymp.atlas.ListSubmissionsInput.Filter.verdict:type_name -> eolymp.wellknown.ExpressionEnum
-	23, // 21: eolymp.atlas.ListSubmissionsInput.Filter.score:type_name -> eolymp.wellknown.ExpressionFloat
-	23, // 22: eolymp.atlas.ListSubmissionsInput.Filter.percentage:type_name -> eolymp.wellknown.ExpressionFloat
-	2,  // 23: eolymp.atlas.SubmissionService.CreateSubmission:input_type -> eolymp.atlas.CreateSubmissionInput
-	8,  // 24: eolymp.atlas.SubmissionService.RetestSubmission:input_type -> eolymp.atlas.RetestSubmissionInput
-	4,  // 25: eolymp.atlas.SubmissionService.DescribeSubmission:input_type -> eolymp.atlas.DescribeSubmissionInput
-	6,  // 26: eolymp.atlas.SubmissionService.WatchSubmission:input_type -> eolymp.atlas.WatchSubmissionInput
-	10, // 27: eolymp.atlas.SubmissionService.ListSubmissions:input_type -> eolymp.atlas.ListSubmissionsInput
-	12, // 28: eolymp.atlas.SubmissionService.DescribeSubmissionUsage:input_type -> eolymp.atlas.DescribeSubmissionUsageInput
-	14, // 29: eolymp.atlas.SubmissionService.ListProblemTop:input_type -> eolymp.atlas.ListProblemTopInput
-	3,  // 30: eolymp.atlas.SubmissionService.CreateSubmission:output_type -> eolymp.atlas.CreateSubmissionOutput
-	9,  // 31: eolymp.atlas.SubmissionService.RetestSubmission:output_type -> eolymp.atlas.RetestSubmissionOutput
-	5,  // 32: eolymp.atlas.SubmissionService.DescribeSubmission:output_type -> eolymp.atlas.DescribeSubmissionOutput
-	7,  // 33: eolymp.atlas.SubmissionService.WatchSubmission:output_type -> eolymp.atlas.WatchSubmissionOutput
-	11, // 34: eolymp.atlas.SubmissionService.ListSubmissions:output_type -> eolymp.atlas.ListSubmissionsOutput
-	13, // 35: eolymp.atlas.SubmissionService.DescribeSubmissionUsage:output_type -> eolymp.atlas.DescribeSubmissionUsageOutput
-	15, // 36: eolymp.atlas.SubmissionService.ListProblemTop:output_type -> eolymp.atlas.ListProblemTopOutput
-	30, // [30:37] is the sub-list for method output_type
-	23, // [23:30] is the sub-list for method input_type
-	23, // [23:23] is the sub-list for extension type_name
-	23, // [23:23] is the sub-list for extension extendee
-	0,  // [0:23] is the sub-list for field type_name
+	18, // 3: eolymp.atlas.CreateSubmissionInput.values:type_name -> eolymp.atlas.Submission.Value
+	17, // 4: eolymp.atlas.DescribeSubmissionOutput.submission:type_name -> eolymp.atlas.Submission
+	19, // 5: eolymp.atlas.DescribeSubmissionOutput.extra:type_name -> eolymp.atlas.Submission.Extra
+	19, // 6: eolymp.atlas.WatchSubmissionInput.extra:type_name -> eolymp.atlas.Submission.Extra
+	17, // 7: eolymp.atlas.WatchSubmissionOutput.submission:type_name -> eolymp.atlas.Submission
+	16, // 8: eolymp.atlas.ListSubmissionsInput.filters:type_name -> eolymp.atlas.ListSubmissionsInput.Filter
+	19, // 9: eolymp.atlas.ListSubmissionsInput.extra:type_name -> eolymp.atlas.Submission.Extra
+	17, // 10: eolymp.atlas.ListSubmissionsOutput.items:type_name -> eolymp.atlas.Submission
+	20, // 11: eolymp.atlas.DescribeSubmissionUsageInput.period_start:type_name -> google.protobuf.Timestamp
+	20, // 12: eolymp.atlas.DescribeSubmissionUsageInput.period_end:type_name -> google.protobuf.Timestamp
+	17, // 13: eolymp.atlas.ListProblemTopOutput.items:type_name -> eolymp.atlas.Submission
+	21, // 14: eolymp.atlas.ListSubmissionsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	21, // 15: eolymp.atlas.ListSubmissionsInput.Filter.problem_id:type_name -> eolymp.wellknown.ExpressionID
+	21, // 16: eolymp.atlas.ListSubmissionsInput.Filter.user_id:type_name -> eolymp.wellknown.ExpressionID
+	21, // 17: eolymp.atlas.ListSubmissionsInput.Filter.member_id:type_name -> eolymp.wellknown.ExpressionID
+	22, // 18: eolymp.atlas.ListSubmissionsInput.Filter.submitted_at:type_name -> eolymp.wellknown.ExpressionTimestamp
+	23, // 19: eolymp.atlas.ListSubmissionsInput.Filter.runtime:type_name -> eolymp.wellknown.ExpressionEnum
+	23, // 20: eolymp.atlas.ListSubmissionsInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
+	23, // 21: eolymp.atlas.ListSubmissionsInput.Filter.verdict:type_name -> eolymp.wellknown.ExpressionEnum
+	24, // 22: eolymp.atlas.ListSubmissionsInput.Filter.score:type_name -> eolymp.wellknown.ExpressionFloat
+	24, // 23: eolymp.atlas.ListSubmissionsInput.Filter.percentage:type_name -> eolymp.wellknown.ExpressionFloat
+	2,  // 24: eolymp.atlas.SubmissionService.CreateSubmission:input_type -> eolymp.atlas.CreateSubmissionInput
+	8,  // 25: eolymp.atlas.SubmissionService.RetestSubmission:input_type -> eolymp.atlas.RetestSubmissionInput
+	4,  // 26: eolymp.atlas.SubmissionService.DescribeSubmission:input_type -> eolymp.atlas.DescribeSubmissionInput
+	6,  // 27: eolymp.atlas.SubmissionService.WatchSubmission:input_type -> eolymp.atlas.WatchSubmissionInput
+	10, // 28: eolymp.atlas.SubmissionService.ListSubmissions:input_type -> eolymp.atlas.ListSubmissionsInput
+	12, // 29: eolymp.atlas.SubmissionService.DescribeSubmissionUsage:input_type -> eolymp.atlas.DescribeSubmissionUsageInput
+	14, // 30: eolymp.atlas.SubmissionService.ListProblemTop:input_type -> eolymp.atlas.ListProblemTopInput
+	3,  // 31: eolymp.atlas.SubmissionService.CreateSubmission:output_type -> eolymp.atlas.CreateSubmissionOutput
+	9,  // 32: eolymp.atlas.SubmissionService.RetestSubmission:output_type -> eolymp.atlas.RetestSubmissionOutput
+	5,  // 33: eolymp.atlas.SubmissionService.DescribeSubmission:output_type -> eolymp.atlas.DescribeSubmissionOutput
+	7,  // 34: eolymp.atlas.SubmissionService.WatchSubmission:output_type -> eolymp.atlas.WatchSubmissionOutput
+	11, // 35: eolymp.atlas.SubmissionService.ListSubmissions:output_type -> eolymp.atlas.ListSubmissionsOutput
+	13, // 36: eolymp.atlas.SubmissionService.DescribeSubmissionUsage:output_type -> eolymp.atlas.DescribeSubmissionUsageOutput
+	15, // 37: eolymp.atlas.SubmissionService.ListProblemTop:output_type -> eolymp.atlas.ListProblemTopOutput
+	31, // [31:38] is the sub-list for method output_type
+	24, // [24:31] is the sub-list for method input_type
+	24, // [24:24] is the sub-list for extension type_name
+	24, // [24:24] is the sub-list for extension extendee
+	0,  // [0:24] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_atlas_submission_service_proto_init() }
