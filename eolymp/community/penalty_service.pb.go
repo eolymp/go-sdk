@@ -589,7 +589,7 @@ const file_eolymp_community_penalty_service_proto_rawDesc = "" +
 	"\x05extra\x18\xe3\b \x03(\x0e2\x1f.eolymp.community.Penalty.ExtraR\x05extra\"\\\n" +
 	"\x13ListPenaltiesOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12/\n" +
-	"\x05items\x18\x02 \x03(\v2\x19.eolymp.community.PenaltyR\x05items2\xf6\b\n" +
+	"\x05items\x18\x02 \x03(\v2\x19.eolymp.community.PenaltyR\x05items2\xef\b\n" +
 	"\x0ePenaltyService\x12\xe1\x01\n" +
 	"\rCreatePenalty\x12$.eolymp.community.CreatePenaltyInput\x1a%.eolymp.community.CreatePenaltyOutput\"\x82\x01\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -626,7 +626,7 @@ const file_eolymp_community_penalty_service_proto_rawDesc = "" +
 	"\x19\x8a\xe3\n" +
 	"\x15community:member:read\x8a\xf0\xf0\xe4\x017\n" +
 	"\x18community.list_penalties\x12\x1bFind penalties for a member\x82\xd3\xe4\x93\x02\f\x12\n" +
-	"/penalties\x1a\x1d\x82\xf0\xf0\xe4\x01\x17eolymp.community.MemberB5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
+	"/penalties\x1a\x16\x82\xf0\xf0\xe4\x01\x10community.MemberB5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
 
 var (
 	file_eolymp_community_penalty_service_proto_rawDescOnce sync.Once

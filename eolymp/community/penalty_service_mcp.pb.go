@@ -15,10 +15,10 @@ type _PenaltyServiceMCPServer interface {
 
 // RegisterPenaltyServiceMCPTools registers tools for PenaltyService
 func RegisterPenaltyServiceMCPTools(mcp _PenaltyServiceMCPServer, srv PenaltyServiceClient) {
-	mcp.AddTool("community.create_penalty", "Create new penalty for a member", true, []string{"eolymp.community.Member"}, &CreatePenaltyInput{}, &CreatePenaltyOutput{}, _mcp_PenaltyService_CreatePenalty(srv))
-	mcp.AddTool("community.update_penalty", "Update existing penalty by ID", true, []string{"eolymp.community.Member"}, &UpdatePenaltyInput{}, &UpdatePenaltyOutput{}, _mcp_PenaltyService_UpdatePenalty(srv))
-	mcp.AddTool("community.delete_penalty", "Delete penalty by ID", true, []string{"eolymp.community.Member"}, &DeletePenaltyInput{}, &DeletePenaltyOutput{}, _mcp_PenaltyService_DeletePenalty(srv))
-	mcp.AddTool("community.list_penalties", "Find penalties for a member", false, []string{"eolymp.community.Member"}, &ListPenaltiesInput{}, &ListPenaltiesOutput{}, _mcp_PenaltyService_ListPenalties(srv))
+	mcp.AddTool("community.create_penalty", "Create new penalty for a member", true, []string{"community.Member"}, &CreatePenaltyInput{}, &CreatePenaltyOutput{}, _mcp_PenaltyService_CreatePenalty(srv))
+	mcp.AddTool("community.update_penalty", "Update existing penalty by ID", true, []string{"community.Member"}, &UpdatePenaltyInput{}, &UpdatePenaltyOutput{}, _mcp_PenaltyService_UpdatePenalty(srv))
+	mcp.AddTool("community.delete_penalty", "Delete penalty by ID", true, []string{"community.Member"}, &DeletePenaltyInput{}, &DeletePenaltyOutput{}, _mcp_PenaltyService_DeletePenalty(srv))
+	mcp.AddTool("community.list_penalties", "Find penalties for a member", false, []string{"community.Member"}, &ListPenaltiesInput{}, &ListPenaltiesOutput{}, _mcp_PenaltyService_ListPenalties(srv))
 }
 
 func _mcp_PenaltyService_CreatePenalty(srv PenaltyServiceClient) func(ctx context.Context, raw []byte) (any, error) {

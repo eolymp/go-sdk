@@ -150,7 +150,7 @@ type Problem struct {
 	Origin  string       `protobuf:"bytes,13,opt,name=origin,proto3" json:"origin,omitempty"`
 	Title   string       `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
 	Content *ecm.Content `protobuf:"bytes,3,opt,name=content,proto3" json:"content,omitempty"`
-	// Problem topics (ID of topics from eolymp.taxonomy.TopicService)
+	// Problem topics (ID of topics from taxonomy.TopicService)
 	Topics      []string             `protobuf:"bytes,20,rep,name=topics,proto3" json:"topics,omitempty"`
 	Score       float32              `protobuf:"fixed32,31,opt,name=score,proto3" json:"score,omitempty"`           // Total score
 	Constraints *Problem_Constraints `protobuf:"bytes,30,opt,name=constraints,proto3" json:"constraints,omitempty"` // Constraints

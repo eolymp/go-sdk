@@ -133,7 +133,7 @@ type Course struct {
 	ImageUrl    string                 `protobuf:"bytes,13,opt,name=image_url,json=imageUrl,proto3" json:"image_url,omitempty"`
 	Visibility  Course_Visibility      `protobuf:"varint,14,opt,name=visibility,proto3,enum=eolymp.course.Course_Visibility" json:"visibility,omitempty"`
 	Duration    uint32                 `protobuf:"varint,15,opt,name=duration,proto3" json:"duration,omitempty"`
-	// Problem topics (ID of topics from eolymp.taxonomy.TopicService)
+	// Problem topics (ID of topics from taxonomy.TopicService)
 	Topics        []string `protobuf:"bytes,16,rep,name=topics,proto3" json:"topics,omitempty"`
 	Estimate      uint32   `protobuf:"varint,20,opt,name=estimate,proto3" json:"estimate,omitempty"`
 	unknownFields protoimpl.UnknownFields

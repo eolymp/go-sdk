@@ -597,7 +597,7 @@ const file_eolymp_community_attribute_service_proto_rawDesc = "" +
 	"\x04type\x18\x05 \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x04type\"_\n" +
 	"\x14ListAttributesOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x121\n" +
-	"\x05items\x18\x02 \x03(\v2\x1b.eolymp.community.AttributeR\x05items2\xb2\a\n" +
+	"\x05items\x18\x02 \x03(\v2\x1b.eolymp.community.AttributeR\x05items2\xab\a\n" +
 	"\x10AttributeService\x12\xa7\x01\n" +
 	"\x0fCreateAttribute\x12&.eolymp.community.CreateAttributeInput\x1a'.eolymp.community.CreateAttributeOutput\"C\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -628,7 +628,7 @@ const file_eolymp_community_attribute_service_proto_rawDesc = "" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x1c\x8a\xe3\n" +
-	"\x18community:attribute:read\x82\xd3\xe4\x93\x02\r\x12\v/attributes\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
+	"\x18community:attribute:read\x82\xd3\xe4\x93\x02\r\x12\v/attributes\x1a\x14\x82\xf0\xf0\xe4\x01\x0euniverse.SpaceB5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
 
 var (
 	file_eolymp_community_attribute_service_proto_rawDescOnce sync.Once
