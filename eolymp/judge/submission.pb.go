@@ -79,14 +79,15 @@ type Submission struct {
 	state         protoimpl.MessageState   `protogen:"open.v1"`
 	Id            string                   `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"` // unique identifier
 	Url           string                   `protobuf:"bytes,7,opt,name=url,proto3" json:"url,omitempty"`
-	ContestId     string                   `protobuf:"bytes,2,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`                   // contest
-	ProblemId     string                   `protobuf:"bytes,3,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`                   // problem
-	ParticipantId string                   `protobuf:"bytes,4,opt,name=participant_id,json=participantId,proto3" json:"participant_id,omitempty"`       // submitter
-	SubmittedAt   *timestamppb.Timestamp   `protobuf:"bytes,5,opt,name=submitted_at,json=submittedAt,proto3" json:"submitted_at,omitempty"`             // time when submission was created
-	Deleted       bool                     `protobuf:"varint,6,opt,name=deleted,proto3" json:"deleted,omitempty"`                                       // mark deleted (excluded from scoring) submissions
-	Lang          string                   `protobuf:"bytes,10,opt,name=lang,proto3" json:"lang,omitempty"`                                             // programming language
-	Source        string                   `protobuf:"bytes,11,opt,name=source,proto3" json:"source,omitempty"`                                         // source code
-	SourceUrl     string                   `protobuf:"bytes,110,opt,name=source_url,json=sourceUrl,proto3" json:"source_url,omitempty"`                 // source code URL (overrides source)
+	ContestId     string                   `protobuf:"bytes,2,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`             // contest
+	ProblemId     string                   `protobuf:"bytes,3,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`             // problem
+	ParticipantId string                   `protobuf:"bytes,4,opt,name=participant_id,json=participantId,proto3" json:"participant_id,omitempty"` // submitter
+	SubmittedAt   *timestamppb.Timestamp   `protobuf:"bytes,5,opt,name=submitted_at,json=submittedAt,proto3" json:"submitted_at,omitempty"`       // time when submission was created
+	Deleted       bool                     `protobuf:"varint,6,opt,name=deleted,proto3" json:"deleted,omitempty"`                                 // mark deleted (excluded from scoring) submissions
+	Lang          string                   `protobuf:"bytes,10,opt,name=lang,proto3" json:"lang,omitempty"`                                       // programming language
+	Source        string                   `protobuf:"bytes,11,opt,name=source,proto3" json:"source,omitempty"`                                   // source code
+	SourceUrl     string                   `protobuf:"bytes,110,opt,name=source_url,json=sourceUrl,proto3" json:"source_url,omitempty"`           // source code URL (overrides source)
+	Values        *atlas.Submission_Value  `protobuf:"bytes,111,opt,name=values,proto3" json:"values,omitempty"`
 	Signature     string                   `protobuf:"bytes,12,opt,name=signature,proto3" json:"signature,omitempty"`                                   // source code
 	Status        atlas.Submission_Status  `protobuf:"varint,20,opt,name=status,proto3,enum=eolymp.atlas.Submission_Status" json:"status,omitempty"`    // status (see explanation for enumeration values)
 	Verdict       atlas.Submission_Verdict `protobuf:"varint,22,opt,name=verdict,proto3,enum=eolymp.atlas.Submission_Verdict" json:"verdict,omitempty"` // overall verdict based on verdicts in groups/runs
@@ -204,6 +205,13 @@ func (x *Submission) GetSourceUrl() string {
 		return x.SourceUrl
 	}
 	return ""
+}
+
+func (x *Submission) GetValues() *atlas.Submission_Value {
+	if x != nil {
+		return x.Values
+	}
+	return nil
 }
 
 func (x *Submission) GetSignature() string {
@@ -571,7 +579,7 @@ var File_eolymp_judge_submission_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_submission_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/judge/submission.proto\x12\feolymp.judge\x1a\x1deolymp/atlas/submission.proto\x1a#eolymp/atlas/testing_feedback.proto\x1a\"eolymp/atlas/testing_scoring.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x80\x0e\n" +
+	"\x1deolymp/judge/submission.proto\x12\feolymp.judge\x1a\x1deolymp/atlas/submission.proto\x1a#eolymp/atlas/testing_feedback.proto\x1a\"eolymp/atlas/testing_scoring.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xb8\x0e\n" +
 	"\n" +
 	"Submission\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x10\n" +
@@ -587,7 +595,8 @@ const file_eolymp_judge_submission_proto_rawDesc = "" +
 	" \x01(\tR\x04lang\x12\x16\n" +
 	"\x06source\x18\v \x01(\tR\x06source\x12\x1d\n" +
 	"\n" +
-	"source_url\x18n \x01(\tR\tsourceUrl\x12\x1c\n" +
+	"source_url\x18n \x01(\tR\tsourceUrl\x126\n" +
+	"\x06values\x18o \x01(\v2\x1e.eolymp.atlas.Submission.ValueR\x06values\x12\x1c\n" +
 	"\tsignature\x18\f \x01(\tR\tsignature\x127\n" +
 	"\x06status\x18\x14 \x01(\x0e2\x1f.eolymp.atlas.Submission.StatusR\x06status\x12:\n" +
 	"\averdict\x18\x16 \x01(\x0e2 .eolymp.atlas.Submission.VerdictR\averdict\x12\x14\n" +
@@ -657,33 +666,35 @@ func file_eolymp_judge_submission_proto_rawDescGZIP() []byte {
 var file_eolymp_judge_submission_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_eolymp_judge_submission_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_eolymp_judge_submission_proto_goTypes = []any{
-	(Submission_Extra)(0),         // 0: eolymp.judge.Submission.Extra
-	(*Submission)(nil),            // 1: eolymp.judge.Submission
-	(*Submission_Run)(nil),        // 2: eolymp.judge.Submission.Run
-	(*Submission_Group)(nil),      // 3: eolymp.judge.Submission.Group
-	(*timestamppb.Timestamp)(nil), // 4: google.protobuf.Timestamp
-	(atlas.Submission_Status)(0),  // 5: eolymp.atlas.Submission.Status
-	(atlas.Submission_Verdict)(0), // 6: eolymp.atlas.Submission.Verdict
-	(atlas.ScoringMode)(0),        // 7: eolymp.atlas.ScoringMode
-	(atlas.FeedbackPolicy)(0),     // 8: eolymp.atlas.FeedbackPolicy
+	(Submission_Extra)(0),          // 0: eolymp.judge.Submission.Extra
+	(*Submission)(nil),             // 1: eolymp.judge.Submission
+	(*Submission_Run)(nil),         // 2: eolymp.judge.Submission.Run
+	(*Submission_Group)(nil),       // 3: eolymp.judge.Submission.Group
+	(*timestamppb.Timestamp)(nil),  // 4: google.protobuf.Timestamp
+	(*atlas.Submission_Value)(nil), // 5: eolymp.atlas.Submission.Value
+	(atlas.Submission_Status)(0),   // 6: eolymp.atlas.Submission.Status
+	(atlas.Submission_Verdict)(0),  // 7: eolymp.atlas.Submission.Verdict
+	(atlas.ScoringMode)(0),         // 8: eolymp.atlas.ScoringMode
+	(atlas.FeedbackPolicy)(0),      // 9: eolymp.atlas.FeedbackPolicy
 }
 var file_eolymp_judge_submission_proto_depIdxs = []int32{
 	4,  // 0: eolymp.judge.Submission.submitted_at:type_name -> google.protobuf.Timestamp
-	5,  // 1: eolymp.judge.Submission.status:type_name -> eolymp.atlas.Submission.Status
-	6,  // 2: eolymp.judge.Submission.verdict:type_name -> eolymp.atlas.Submission.Verdict
-	3,  // 3: eolymp.judge.Submission.groups:type_name -> eolymp.judge.Submission.Group
-	5,  // 4: eolymp.judge.Submission.Run.status:type_name -> eolymp.atlas.Submission.Status
-	6,  // 5: eolymp.judge.Submission.Run.verdict:type_name -> eolymp.atlas.Submission.Verdict
-	5,  // 6: eolymp.judge.Submission.Group.status:type_name -> eolymp.atlas.Submission.Status
-	6,  // 7: eolymp.judge.Submission.Group.verdict:type_name -> eolymp.atlas.Submission.Verdict
-	7,  // 8: eolymp.judge.Submission.Group.scoring_mode:type_name -> eolymp.atlas.ScoringMode
-	8,  // 9: eolymp.judge.Submission.Group.feedback_policy:type_name -> eolymp.atlas.FeedbackPolicy
-	2,  // 10: eolymp.judge.Submission.Group.runs:type_name -> eolymp.judge.Submission.Run
-	11, // [11:11] is the sub-list for method output_type
-	11, // [11:11] is the sub-list for method input_type
-	11, // [11:11] is the sub-list for extension type_name
-	11, // [11:11] is the sub-list for extension extendee
-	0,  // [0:11] is the sub-list for field type_name
+	5,  // 1: eolymp.judge.Submission.values:type_name -> eolymp.atlas.Submission.Value
+	6,  // 2: eolymp.judge.Submission.status:type_name -> eolymp.atlas.Submission.Status
+	7,  // 3: eolymp.judge.Submission.verdict:type_name -> eolymp.atlas.Submission.Verdict
+	3,  // 4: eolymp.judge.Submission.groups:type_name -> eolymp.judge.Submission.Group
+	6,  // 5: eolymp.judge.Submission.Run.status:type_name -> eolymp.atlas.Submission.Status
+	7,  // 6: eolymp.judge.Submission.Run.verdict:type_name -> eolymp.atlas.Submission.Verdict
+	6,  // 7: eolymp.judge.Submission.Group.status:type_name -> eolymp.atlas.Submission.Status
+	7,  // 8: eolymp.judge.Submission.Group.verdict:type_name -> eolymp.atlas.Submission.Verdict
+	8,  // 9: eolymp.judge.Submission.Group.scoring_mode:type_name -> eolymp.atlas.ScoringMode
+	9,  // 10: eolymp.judge.Submission.Group.feedback_policy:type_name -> eolymp.atlas.FeedbackPolicy
+	2,  // 11: eolymp.judge.Submission.Group.runs:type_name -> eolymp.judge.Submission.Run
+	12, // [12:12] is the sub-list for method output_type
+	12, // [12:12] is the sub-list for method input_type
+	12, // [12:12] is the sub-list for extension type_name
+	12, // [12:12] is the sub-list for extension extendee
+	0,  // [0:12] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_judge_submission_proto_init() }
