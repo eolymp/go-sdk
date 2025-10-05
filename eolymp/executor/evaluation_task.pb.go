@@ -317,6 +317,14 @@ type EvaluationTask_Run struct {
 	//	*EvaluationTask_Run_InputContent
 	//	*EvaluationTask_Run_InputGenerator
 	Input isEvaluationTask_Run_Input `protobuf_oneof:"input"`
+	// output might be uploaded directly (for example output-only problems)
+	// if output is set, submission is not execited and output is used as is
+	//
+	// Types that are valid to be assigned to Output:
+	//
+	//	*EvaluationTask_Run_OutputUrl
+	//	*EvaluationTask_Run_OutputContent
+	Output isEvaluationTask_Run_Output `protobuf_oneof:"output"`
 	// Types that are valid to be assigned to Answer:
 	//
 	//	*EvaluationTask_Run_AnswerUrl
@@ -440,6 +448,31 @@ func (x *EvaluationTask_Run) GetInputGenerator() *EvaluationTask_Generator {
 	return nil
 }
 
+func (x *EvaluationTask_Run) GetOutput() isEvaluationTask_Run_Output {
+	if x != nil {
+		return x.Output
+	}
+	return nil
+}
+
+func (x *EvaluationTask_Run) GetOutputUrl() string {
+	if x != nil {
+		if x, ok := x.Output.(*EvaluationTask_Run_OutputUrl); ok {
+			return x.OutputUrl
+		}
+	}
+	return ""
+}
+
+func (x *EvaluationTask_Run) GetOutputContent() string {
+	if x != nil {
+		if x, ok := x.Output.(*EvaluationTask_Run_OutputContent); ok {
+			return x.OutputContent
+		}
+	}
+	return ""
+}
+
 func (x *EvaluationTask_Run) GetAnswer() isEvaluationTask_Run_Answer {
 	if x != nil {
 		return x.Answer
@@ -495,6 +528,22 @@ func (*EvaluationTask_Run_InputUrl) isEvaluationTask_Run_Input() {}
 func (*EvaluationTask_Run_InputContent) isEvaluationTask_Run_Input() {}
 
 func (*EvaluationTask_Run_InputGenerator) isEvaluationTask_Run_Input() {}
+
+type isEvaluationTask_Run_Output interface {
+	isEvaluationTask_Run_Output()
+}
+
+type EvaluationTask_Run_OutputUrl struct {
+	OutputUrl string `protobuf:"bytes,32,opt,name=output_url,json=outputUrl,proto3,oneof"` // download output via URL
+}
+
+type EvaluationTask_Run_OutputContent struct {
+	OutputContent string `protobuf:"bytes,31,opt,name=output_content,json=outputContent,proto3,oneof"` // use output from this field (up to 1KB)
+}
+
+func (*EvaluationTask_Run_OutputUrl) isEvaluationTask_Run_Output() {}
+
+func (*EvaluationTask_Run_OutputContent) isEvaluationTask_Run_Output() {}
 
 type isEvaluationTask_Run_Answer interface {
 	isEvaluationTask_Run_Answer()
@@ -702,7 +751,7 @@ var File_eolymp_executor_evaluation_task_proto protoreflect.FileDescriptor
 
 const file_eolymp_executor_evaluation_task_proto_rawDesc = "" +
 	"\n" +
-	"%eolymp/executor/evaluation_task.proto\x12\x0feolymp.executor\x1a\x1deolymp/executor/checker.proto\x1a\x1ceolymp/executor/script.proto\"\xd2\x10\n" +
+	"%eolymp/executor/evaluation_task.proto\x12\x0feolymp.executor\x1a\x1deolymp/executor/checker.proto\x1a\x1ceolymp/executor/script.proto\"\xa6\x11\n" +
 	"\x0eEvaluationTask\x12\x17\n" +
 	"\atask_id\x18\x01 \x01(\tR\x06taskId\x12\x1c\n" +
 	"\treference\x18\x02 \x01(\tR\treference\x12\x16\n" +
@@ -727,7 +776,7 @@ const file_eolymp_executor_evaluation_task_proto_rawDesc = "" +
 	"\tGenerator\x12\x1f\n" +
 	"\vscript_name\x18\x01 \x01(\tR\n" +
 	"scriptName\x12\x1c\n" +
-	"\targuments\x18\x02 \x03(\tR\targuments\x1a\xda\x04\n" +
+	"\targuments\x18\x02 \x03(\tR\targuments\x1a\xae\x05\n" +
 	"\x03Run\x12\x1c\n" +
 	"\treference\x18\x01 \x01(\tR\treference\x12\x14\n" +
 	"\x05index\x18\x02 \x01(\rR\x05index\x12\x14\n" +
@@ -740,13 +789,17 @@ const file_eolymp_executor_evaluation_task_proto_rawDesc = "" +
 	"\rinput_content\x18\v \x01(\tH\x00R\finputContent\x12T\n" +
 	"\x0finput_generator\x18\r \x01(\v2).eolymp.executor.EvaluationTask.GeneratorH\x00R\x0einputGenerator\x12\x1f\n" +
 	"\n" +
-	"answer_url\x18\x16 \x01(\tH\x01R\tanswerUrl\x12'\n" +
-	"\x0eanswer_content\x18\x15 \x01(\tH\x01R\ranswerContent\x12V\n" +
-	"\x10answer_generator\x18\x17 \x01(\v2).eolymp.executor.EvaluationTask.GeneratorH\x01R\x0fanswerGenerator\x1a6\n" +
+	"output_url\x18  \x01(\tH\x01R\toutputUrl\x12'\n" +
+	"\x0eoutput_content\x18\x1f \x01(\tH\x01R\routputContent\x12\x1f\n" +
+	"\n" +
+	"answer_url\x18\x16 \x01(\tH\x02R\tanswerUrl\x12'\n" +
+	"\x0eanswer_content\x18\x15 \x01(\tH\x02R\ranswerContent\x12V\n" +
+	"\x10answer_generator\x18\x17 \x01(\v2).eolymp.executor.EvaluationTask.GeneratorH\x02R\x0fanswerGenerator\x1a6\n" +
 	"\bEnvEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01B\a\n" +
 	"\x05inputB\b\n" +
+	"\x06outputB\b\n" +
 	"\x06answer\x1a\xf8\x01\n" +
 	"\fPrecondition\x12\x1a\n" +
 	"\bselector\x18\x01 \x03(\tR\bselector\x12\x1d\n" +
@@ -830,6 +883,8 @@ func file_eolymp_executor_evaluation_task_proto_init() {
 		(*EvaluationTask_Run_InputUrl)(nil),
 		(*EvaluationTask_Run_InputContent)(nil),
 		(*EvaluationTask_Run_InputGenerator)(nil),
+		(*EvaluationTask_Run_OutputUrl)(nil),
+		(*EvaluationTask_Run_OutputContent)(nil),
 		(*EvaluationTask_Run_AnswerUrl)(nil),
 		(*EvaluationTask_Run_AnswerContent)(nil),
 		(*EvaluationTask_Run_AnswerGenerator)(nil),
