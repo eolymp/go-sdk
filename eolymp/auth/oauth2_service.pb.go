@@ -782,6 +782,230 @@ func (x *ListCertificatesOutput) GetItems() []*Certificate {
 	return nil
 }
 
+type RegisterClientInput struct {
+	state                   protoimpl.MessageState `protogen:"open.v1"`
+	RedirectUris            []string               `protobuf:"bytes,1,rep,name=redirect_uris,json=redirectUris,proto3" json:"redirect_uris,omitempty"`
+	TokenEndpointAuthMethod string                 `protobuf:"bytes,2,opt,name=token_endpoint_auth_method,json=tokenEndpointAuthMethod,proto3" json:"token_endpoint_auth_method,omitempty"`
+	GrantTypes              []string               `protobuf:"bytes,3,rep,name=grant_types,json=grantTypes,proto3" json:"grant_types,omitempty"`
+	ResponseTypes           []string               `protobuf:"bytes,4,rep,name=response_types,json=responseTypes,proto3" json:"response_types,omitempty"`
+	ClientName              string                 `protobuf:"bytes,5,opt,name=client_name,json=clientName,proto3" json:"client_name,omitempty"`
+	ClientUri               string                 `protobuf:"bytes,6,opt,name=client_uri,json=clientUri,proto3" json:"client_uri,omitempty"`
+	LogoUri                 string                 `protobuf:"bytes,7,opt,name=logo_uri,json=logoUri,proto3" json:"logo_uri,omitempty"`
+	Scope                   string                 `protobuf:"bytes,8,opt,name=scope,proto3" json:"scope,omitempty"`
+	Contacts                []string               `protobuf:"bytes,9,rep,name=contacts,proto3" json:"contacts,omitempty"`
+	TosUri                  string                 `protobuf:"bytes,10,opt,name=tos_uri,json=tosUri,proto3" json:"tos_uri,omitempty"`
+	PolicyUri               string                 `protobuf:"bytes,11,opt,name=policy_uri,json=policyUri,proto3" json:"policy_uri,omitempty"`
+	JwksUri                 string                 `protobuf:"bytes,12,opt,name=jwks_uri,json=jwksUri,proto3" json:"jwks_uri,omitempty"`
+	SoftwareId              string                 `protobuf:"bytes,13,opt,name=software_id,json=softwareId,proto3" json:"software_id,omitempty"`
+	SoftwareVersion         string                 `protobuf:"bytes,14,opt,name=software_version,json=softwareVersion,proto3" json:"software_version,omitempty"`
+	SoftwareStatement       string                 `protobuf:"bytes,100,opt,name=software_statement,json=softwareStatement,proto3" json:"software_statement,omitempty"`
+	unknownFields           protoimpl.UnknownFields
+	sizeCache               protoimpl.SizeCache
+}
+
+func (x *RegisterClientInput) Reset() {
+	*x = RegisterClientInput{}
+	mi := &file_eolymp_auth_oauth2_service_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RegisterClientInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RegisterClientInput) ProtoMessage() {}
+
+func (x *RegisterClientInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_auth_oauth2_service_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RegisterClientInput.ProtoReflect.Descriptor instead.
+func (*RegisterClientInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_auth_oauth2_service_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *RegisterClientInput) GetRedirectUris() []string {
+	if x != nil {
+		return x.RedirectUris
+	}
+	return nil
+}
+
+func (x *RegisterClientInput) GetTokenEndpointAuthMethod() string {
+	if x != nil {
+		return x.TokenEndpointAuthMethod
+	}
+	return ""
+}
+
+func (x *RegisterClientInput) GetGrantTypes() []string {
+	if x != nil {
+		return x.GrantTypes
+	}
+	return nil
+}
+
+func (x *RegisterClientInput) GetResponseTypes() []string {
+	if x != nil {
+		return x.ResponseTypes
+	}
+	return nil
+}
+
+func (x *RegisterClientInput) GetClientName() string {
+	if x != nil {
+		return x.ClientName
+	}
+	return ""
+}
+
+func (x *RegisterClientInput) GetClientUri() string {
+	if x != nil {
+		return x.ClientUri
+	}
+	return ""
+}
+
+func (x *RegisterClientInput) GetLogoUri() string {
+	if x != nil {
+		return x.LogoUri
+	}
+	return ""
+}
+
+func (x *RegisterClientInput) GetScope() string {
+	if x != nil {
+		return x.Scope
+	}
+	return ""
+}
+
+func (x *RegisterClientInput) GetContacts() []string {
+	if x != nil {
+		return x.Contacts
+	}
+	return nil
+}
+
+func (x *RegisterClientInput) GetTosUri() string {
+	if x != nil {
+		return x.TosUri
+	}
+	return ""
+}
+
+func (x *RegisterClientInput) GetPolicyUri() string {
+	if x != nil {
+		return x.PolicyUri
+	}
+	return ""
+}
+
+func (x *RegisterClientInput) GetJwksUri() string {
+	if x != nil {
+		return x.JwksUri
+	}
+	return ""
+}
+
+func (x *RegisterClientInput) GetSoftwareId() string {
+	if x != nil {
+		return x.SoftwareId
+	}
+	return ""
+}
+
+func (x *RegisterClientInput) GetSoftwareVersion() string {
+	if x != nil {
+		return x.SoftwareVersion
+	}
+	return ""
+}
+
+func (x *RegisterClientInput) GetSoftwareStatement() string {
+	if x != nil {
+		return x.SoftwareStatement
+	}
+	return ""
+}
+
+type RegisterClientOutput struct {
+	state                 protoimpl.MessageState `protogen:"open.v1"`
+	ClientId              string                 `protobuf:"bytes,1,opt,name=client_id,json=clientId,proto3" json:"client_id,omitempty"`
+	ClientSecret          string                 `protobuf:"bytes,2,opt,name=client_secret,json=clientSecret,proto3" json:"client_secret,omitempty"`
+	ClientIdIssuedAt      *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=client_id_issued_at,json=clientIdIssuedAt,proto3" json:"client_id_issued_at,omitempty"`
+	ClientSecretExpiresAt *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=client_secret_expires_at,json=clientSecretExpiresAt,proto3" json:"client_secret_expires_at,omitempty"`
+	unknownFields         protoimpl.UnknownFields
+	sizeCache             protoimpl.SizeCache
+}
+
+func (x *RegisterClientOutput) Reset() {
+	*x = RegisterClientOutput{}
+	mi := &file_eolymp_auth_oauth2_service_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RegisterClientOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RegisterClientOutput) ProtoMessage() {}
+
+func (x *RegisterClientOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_auth_oauth2_service_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RegisterClientOutput.ProtoReflect.Descriptor instead.
+func (*RegisterClientOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_auth_oauth2_service_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *RegisterClientOutput) GetClientId() string {
+	if x != nil {
+		return x.ClientId
+	}
+	return ""
+}
+
+func (x *RegisterClientOutput) GetClientSecret() string {
+	if x != nil {
+		return x.ClientSecret
+	}
+	return ""
+}
+
+func (x *RegisterClientOutput) GetClientIdIssuedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.ClientIdIssuedAt
+	}
+	return nil
+}
+
+func (x *RegisterClientOutput) GetClientSecretExpiresAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.ClientSecretExpiresAt
+	}
+	return nil
+}
+
 var File_eolymp_auth_oauth2_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_auth_oauth2_service_proto_rawDesc = "" +
@@ -845,7 +1069,34 @@ const file_eolymp_auth_oauth2_service_proto_rawDesc = "" +
 	" \x01(\v2\x13.eolymp.auth.ClaimsR\x06claims\"\x17\n" +
 	"\x15ListCertificatesInput\"H\n" +
 	"\x16ListCertificatesOutput\x12.\n" +
-	"\x05items\x18\x01 \x03(\v2\x18.eolymp.auth.CertificateR\x05items2\xde\x04\n" +
+	"\x05items\x18\x01 \x03(\v2\x18.eolymp.auth.CertificateR\x05items\"\x9a\x04\n" +
+	"\x13RegisterClientInput\x12#\n" +
+	"\rredirect_uris\x18\x01 \x03(\tR\fredirectUris\x12;\n" +
+	"\x1atoken_endpoint_auth_method\x18\x02 \x01(\tR\x17tokenEndpointAuthMethod\x12\x1f\n" +
+	"\vgrant_types\x18\x03 \x03(\tR\n" +
+	"grantTypes\x12%\n" +
+	"\x0eresponse_types\x18\x04 \x03(\tR\rresponseTypes\x12\x1f\n" +
+	"\vclient_name\x18\x05 \x01(\tR\n" +
+	"clientName\x12\x1d\n" +
+	"\n" +
+	"client_uri\x18\x06 \x01(\tR\tclientUri\x12\x19\n" +
+	"\blogo_uri\x18\a \x01(\tR\alogoUri\x12\x14\n" +
+	"\x05scope\x18\b \x01(\tR\x05scope\x12\x1a\n" +
+	"\bcontacts\x18\t \x03(\tR\bcontacts\x12\x17\n" +
+	"\atos_uri\x18\n" +
+	" \x01(\tR\x06tosUri\x12\x1d\n" +
+	"\n" +
+	"policy_uri\x18\v \x01(\tR\tpolicyUri\x12\x19\n" +
+	"\bjwks_uri\x18\f \x01(\tR\ajwksUri\x12\x1f\n" +
+	"\vsoftware_id\x18\r \x01(\tR\n" +
+	"softwareId\x12)\n" +
+	"\x10software_version\x18\x0e \x01(\tR\x0fsoftwareVersion\x12-\n" +
+	"\x12software_statement\x18d \x01(\tR\x11softwareStatement\"\xf8\x01\n" +
+	"\x14RegisterClientOutput\x12\x1b\n" +
+	"\tclient_id\x18\x01 \x01(\tR\bclientId\x12#\n" +
+	"\rclient_secret\x18\x02 \x01(\tR\fclientSecret\x12I\n" +
+	"\x13client_id_issued_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\x10clientIdIssuedAt\x12S\n" +
+	"\x18client_secret_expires_at\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\x15clientSecretExpiresAt2\xc6\x05\n" +
 	"\rOAuth2Service\x12[\n" +
 	"\n" +
 	"IssueToken\x12\x1c.eolymp.auth.IssueTokenInput\x1a\x1d.eolymp.auth.IssueTokenOutput\"\x10\xea\xe2\n" +
@@ -871,7 +1122,12 @@ const file_eolymp_auth_oauth2_service_proto_rawDesc = "" +
 	"\x10ListCertificates\x12\".eolymp.auth.ListCertificatesInput\x1a#.eolymp.auth.ListCertificatesOutput\"\x10\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00\xf0A\xf8\xe2\n" +
-	"\xac\x02B+Z)github.com/eolymp/go-sdk/eolymp/auth;authb\x06proto3"
+	"\xac\x02\x12f\n" +
+	"\x0eRegisterClient\x12 .eolymp.auth.RegisterClientInput\x1a!.eolymp.auth.RegisterClientOutput\"\x0f\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00@@\xf8\xe2\n" +
+	"\n" +
+	"B+Z)github.com/eolymp/go-sdk/eolymp/auth;authb\x06proto3"
 
 var (
 	file_eolymp_auth_oauth2_service_proto_rawDescOnce sync.Once
@@ -886,7 +1142,7 @@ func file_eolymp_auth_oauth2_service_proto_rawDescGZIP() []byte {
 }
 
 var file_eolymp_auth_oauth2_service_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_eolymp_auth_oauth2_service_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
+var file_eolymp_auth_oauth2_service_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
 var file_eolymp_auth_oauth2_service_proto_goTypes = []any{
 	(IssueTokenInput_GrantType)(0), // 0: eolymp.auth.IssueTokenInput.GrantType
 	(*IssueTokenInput)(nil),        // 1: eolymp.auth.IssueTokenInput
@@ -901,34 +1157,40 @@ var file_eolymp_auth_oauth2_service_proto_goTypes = []any{
 	(*UserInfoOutput)(nil),         // 10: eolymp.auth.UserInfoOutput
 	(*ListCertificatesInput)(nil),  // 11: eolymp.auth.ListCertificatesInput
 	(*ListCertificatesOutput)(nil), // 12: eolymp.auth.ListCertificatesOutput
-	(*Claims)(nil),                 // 13: eolymp.auth.Claims
-	(*timestamppb.Timestamp)(nil),  // 14: google.protobuf.Timestamp
-	(*Certificate)(nil),            // 15: eolymp.auth.Certificate
+	(*RegisterClientInput)(nil),    // 13: eolymp.auth.RegisterClientInput
+	(*RegisterClientOutput)(nil),   // 14: eolymp.auth.RegisterClientOutput
+	(*Claims)(nil),                 // 15: eolymp.auth.Claims
+	(*timestamppb.Timestamp)(nil),  // 16: google.protobuf.Timestamp
+	(*Certificate)(nil),            // 17: eolymp.auth.Certificate
 }
 var file_eolymp_auth_oauth2_service_proto_depIdxs = []int32{
 	0,  // 0: eolymp.auth.IssueTokenInput.grant_type:type_name -> eolymp.auth.IssueTokenInput.GrantType
-	13, // 1: eolymp.auth.IssueTokenOutput.claims:type_name -> eolymp.auth.Claims
-	14, // 2: eolymp.auth.IntrospectTokenOutput.expire:type_name -> google.protobuf.Timestamp
-	13, // 3: eolymp.auth.IntrospectTokenOutput.claims:type_name -> eolymp.auth.Claims
-	13, // 4: eolymp.auth.UserInfoOutput.claims:type_name -> eolymp.auth.Claims
-	15, // 5: eolymp.auth.ListCertificatesOutput.items:type_name -> eolymp.auth.Certificate
-	1,  // 6: eolymp.auth.OAuth2Service.IssueToken:input_type -> eolymp.auth.IssueTokenInput
-	3,  // 7: eolymp.auth.OAuth2Service.IntrospectToken:input_type -> eolymp.auth.IntrospectTokenInput
-	5,  // 8: eolymp.auth.OAuth2Service.RevokeToken:input_type -> eolymp.auth.RevokeTokenInput
-	7,  // 9: eolymp.auth.OAuth2Service.RequestAuth:input_type -> eolymp.auth.RequestAuthInput
-	9,  // 10: eolymp.auth.OAuth2Service.UserInfo:input_type -> eolymp.auth.UserInfoInput
-	11, // 11: eolymp.auth.OAuth2Service.ListCertificates:input_type -> eolymp.auth.ListCertificatesInput
-	2,  // 12: eolymp.auth.OAuth2Service.IssueToken:output_type -> eolymp.auth.IssueTokenOutput
-	4,  // 13: eolymp.auth.OAuth2Service.IntrospectToken:output_type -> eolymp.auth.IntrospectTokenOutput
-	6,  // 14: eolymp.auth.OAuth2Service.RevokeToken:output_type -> eolymp.auth.RevokeTokenOutput
-	8,  // 15: eolymp.auth.OAuth2Service.RequestAuth:output_type -> eolymp.auth.RequestAuthOutput
-	10, // 16: eolymp.auth.OAuth2Service.UserInfo:output_type -> eolymp.auth.UserInfoOutput
-	12, // 17: eolymp.auth.OAuth2Service.ListCertificates:output_type -> eolymp.auth.ListCertificatesOutput
-	12, // [12:18] is the sub-list for method output_type
-	6,  // [6:12] is the sub-list for method input_type
-	6,  // [6:6] is the sub-list for extension type_name
-	6,  // [6:6] is the sub-list for extension extendee
-	0,  // [0:6] is the sub-list for field type_name
+	15, // 1: eolymp.auth.IssueTokenOutput.claims:type_name -> eolymp.auth.Claims
+	16, // 2: eolymp.auth.IntrospectTokenOutput.expire:type_name -> google.protobuf.Timestamp
+	15, // 3: eolymp.auth.IntrospectTokenOutput.claims:type_name -> eolymp.auth.Claims
+	15, // 4: eolymp.auth.UserInfoOutput.claims:type_name -> eolymp.auth.Claims
+	17, // 5: eolymp.auth.ListCertificatesOutput.items:type_name -> eolymp.auth.Certificate
+	16, // 6: eolymp.auth.RegisterClientOutput.client_id_issued_at:type_name -> google.protobuf.Timestamp
+	16, // 7: eolymp.auth.RegisterClientOutput.client_secret_expires_at:type_name -> google.protobuf.Timestamp
+	1,  // 8: eolymp.auth.OAuth2Service.IssueToken:input_type -> eolymp.auth.IssueTokenInput
+	3,  // 9: eolymp.auth.OAuth2Service.IntrospectToken:input_type -> eolymp.auth.IntrospectTokenInput
+	5,  // 10: eolymp.auth.OAuth2Service.RevokeToken:input_type -> eolymp.auth.RevokeTokenInput
+	7,  // 11: eolymp.auth.OAuth2Service.RequestAuth:input_type -> eolymp.auth.RequestAuthInput
+	9,  // 12: eolymp.auth.OAuth2Service.UserInfo:input_type -> eolymp.auth.UserInfoInput
+	11, // 13: eolymp.auth.OAuth2Service.ListCertificates:input_type -> eolymp.auth.ListCertificatesInput
+	13, // 14: eolymp.auth.OAuth2Service.RegisterClient:input_type -> eolymp.auth.RegisterClientInput
+	2,  // 15: eolymp.auth.OAuth2Service.IssueToken:output_type -> eolymp.auth.IssueTokenOutput
+	4,  // 16: eolymp.auth.OAuth2Service.IntrospectToken:output_type -> eolymp.auth.IntrospectTokenOutput
+	6,  // 17: eolymp.auth.OAuth2Service.RevokeToken:output_type -> eolymp.auth.RevokeTokenOutput
+	8,  // 18: eolymp.auth.OAuth2Service.RequestAuth:output_type -> eolymp.auth.RequestAuthOutput
+	10, // 19: eolymp.auth.OAuth2Service.UserInfo:output_type -> eolymp.auth.UserInfoOutput
+	12, // 20: eolymp.auth.OAuth2Service.ListCertificates:output_type -> eolymp.auth.ListCertificatesOutput
+	14, // 21: eolymp.auth.OAuth2Service.RegisterClient:output_type -> eolymp.auth.RegisterClientOutput
+	15, // [15:22] is the sub-list for method output_type
+	8,  // [8:15] is the sub-list for method input_type
+	8,  // [8:8] is the sub-list for extension type_name
+	8,  // [8:8] is the sub-list for extension extendee
+	0,  // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_auth_oauth2_service_proto_init() }
@@ -944,7 +1206,7 @@ func file_eolymp_auth_oauth2_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_auth_oauth2_service_proto_rawDesc), len(file_eolymp_auth_oauth2_service_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   12,
+			NumMessages:   14,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
