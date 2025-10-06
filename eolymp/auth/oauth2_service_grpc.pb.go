@@ -19,11 +19,12 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	OAuth2Service_IssueToken_FullMethodName      = "/eolymp.auth.OAuth2Service/IssueToken"
-	OAuth2Service_IntrospectToken_FullMethodName = "/eolymp.auth.OAuth2Service/IntrospectToken"
-	OAuth2Service_RevokeToken_FullMethodName     = "/eolymp.auth.OAuth2Service/RevokeToken"
-	OAuth2Service_RequestAuth_FullMethodName     = "/eolymp.auth.OAuth2Service/RequestAuth"
-	OAuth2Service_UserInfo_FullMethodName        = "/eolymp.auth.OAuth2Service/UserInfo"
+	OAuth2Service_IssueToken_FullMethodName       = "/eolymp.auth.OAuth2Service/IssueToken"
+	OAuth2Service_IntrospectToken_FullMethodName  = "/eolymp.auth.OAuth2Service/IntrospectToken"
+	OAuth2Service_RevokeToken_FullMethodName      = "/eolymp.auth.OAuth2Service/RevokeToken"
+	OAuth2Service_RequestAuth_FullMethodName      = "/eolymp.auth.OAuth2Service/RequestAuth"
+	OAuth2Service_UserInfo_FullMethodName         = "/eolymp.auth.OAuth2Service/UserInfo"
+	OAuth2Service_ListCertificates_FullMethodName = "/eolymp.auth.OAuth2Service/ListCertificates"
 )
 
 // OAuth2ServiceClient is the client API for OAuth2Service service.
@@ -40,6 +41,8 @@ type OAuth2ServiceClient interface {
 	RequestAuth(ctx context.Context, in *RequestAuthInput, opts ...grpc.CallOption) (*RequestAuthOutput, error)
 	// returns claims for currently authenticated user
 	UserInfo(ctx context.Context, in *UserInfoInput, opts ...grpc.CallOption) (*UserInfoOutput, error)
+	// returns JWT keys used to create id_token
+	ListCertificates(ctx context.Context, in *ListCertificatesInput, opts ...grpc.CallOption) (*ListCertificatesOutput, error)
 }
 
 type oAuth2ServiceClient struct {
@@ -100,6 +103,16 @@ func (c *oAuth2ServiceClient) UserInfo(ctx context.Context, in *UserInfoInput, o
 	return out, nil
 }
 
+func (c *oAuth2ServiceClient) ListCertificates(ctx context.Context, in *ListCertificatesInput, opts ...grpc.CallOption) (*ListCertificatesOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListCertificatesOutput)
+	err := c.cc.Invoke(ctx, OAuth2Service_ListCertificates_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OAuth2ServiceServer is the server API for OAuth2Service service.
 // All implementations should embed UnimplementedOAuth2ServiceServer
 // for forward compatibility.
@@ -114,6 +127,8 @@ type OAuth2ServiceServer interface {
 	RequestAuth(context.Context, *RequestAuthInput) (*RequestAuthOutput, error)
 	// returns claims for currently authenticated user
 	UserInfo(context.Context, *UserInfoInput) (*UserInfoOutput, error)
+	// returns JWT keys used to create id_token
+	ListCertificates(context.Context, *ListCertificatesInput) (*ListCertificatesOutput, error)
 }
 
 // UnimplementedOAuth2ServiceServer should be embedded to have
@@ -137,6 +152,9 @@ func (UnimplementedOAuth2ServiceServer) RequestAuth(context.Context, *RequestAut
 }
 func (UnimplementedOAuth2ServiceServer) UserInfo(context.Context, *UserInfoInput) (*UserInfoOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UserInfo not implemented")
+}
+func (UnimplementedOAuth2ServiceServer) ListCertificates(context.Context, *ListCertificatesInput) (*ListCertificatesOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListCertificates not implemented")
 }
 func (UnimplementedOAuth2ServiceServer) testEmbeddedByValue() {}
 
@@ -248,6 +266,24 @@ func _OAuth2Service_UserInfo_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OAuth2Service_ListCertificates_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListCertificatesInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OAuth2ServiceServer).ListCertificates(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OAuth2Service_ListCertificates_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OAuth2ServiceServer).ListCertificates(ctx, req.(*ListCertificatesInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // OAuth2Service_ServiceDesc is the grpc.ServiceDesc for OAuth2Service service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -274,6 +310,10 @@ var OAuth2Service_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UserInfo",
 			Handler:    _OAuth2Service_UserInfo_Handler,
+		},
+		{
+			MethodName: "ListCertificates",
+			Handler:    _OAuth2Service_ListCertificates_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

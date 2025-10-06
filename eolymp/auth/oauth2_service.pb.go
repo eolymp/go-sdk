@@ -702,11 +702,91 @@ func (x *UserInfoOutput) GetClaims() *Claims {
 	return nil
 }
 
+type ListCertificatesInput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListCertificatesInput) Reset() {
+	*x = ListCertificatesInput{}
+	mi := &file_eolymp_auth_oauth2_service_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListCertificatesInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListCertificatesInput) ProtoMessage() {}
+
+func (x *ListCertificatesInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_auth_oauth2_service_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListCertificatesInput.ProtoReflect.Descriptor instead.
+func (*ListCertificatesInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_auth_oauth2_service_proto_rawDescGZIP(), []int{10}
+}
+
+type ListCertificatesOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Items         []*Certificate         `protobuf:"bytes,1,rep,name=items,proto3" json:"items,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListCertificatesOutput) Reset() {
+	*x = ListCertificatesOutput{}
+	mi := &file_eolymp_auth_oauth2_service_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListCertificatesOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListCertificatesOutput) ProtoMessage() {}
+
+func (x *ListCertificatesOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_auth_oauth2_service_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListCertificatesOutput.ProtoReflect.Descriptor instead.
+func (*ListCertificatesOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_auth_oauth2_service_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *ListCertificatesOutput) GetItems() []*Certificate {
+	if x != nil {
+		return x.Items
+	}
+	return nil
+}
+
 var File_eolymp_auth_oauth2_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_auth_oauth2_service_proto_rawDesc = "" +
 	"\n" +
-	" eolymp/auth/oauth2_service.proto\x12\veolymp.auth\x1a\"eolymp/annotations/ratelimit.proto\x1a\x18eolymp/auth/claims.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xcc\x03\n" +
+	" eolymp/auth/oauth2_service.proto\x12\veolymp.auth\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1deolymp/auth/certificate.proto\x1a\x18eolymp/auth/claims.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xcc\x03\n" +
 	"\x0fIssueTokenInput\x12E\n" +
 	"\n" +
 	"grant_type\x18\x01 \x01(\x0e2&.eolymp.auth.IssueTokenInput.GrantTypeR\tgrantType\x12\x1a\n" +
@@ -762,7 +842,10 @@ const file_eolymp_auth_oauth2_service_proto_rawDesc = "" +
 	"\rUserInfoInput\"=\n" +
 	"\x0eUserInfoOutput\x12+\n" +
 	"\x06claims\x18\n" +
-	" \x01(\v2\x13.eolymp.auth.ClaimsR\x06claims2\xef\x03\n" +
+	" \x01(\v2\x13.eolymp.auth.ClaimsR\x06claims\"\x17\n" +
+	"\x15ListCertificatesInput\"H\n" +
+	"\x16ListCertificatesOutput\x12.\n" +
+	"\x05items\x18\x01 \x03(\v2\x18.eolymp.auth.CertificateR\x05items2\xde\x04\n" +
 	"\rOAuth2Service\x12[\n" +
 	"\n" +
 	"IssueToken\x12\x1c.eolymp.auth.IssueTokenInput\x1a\x1d.eolymp.auth.IssueTokenOutput\"\x10\xea\xe2\n" +
@@ -784,6 +867,10 @@ const file_eolymp_auth_oauth2_service_proto_rawDesc = "" +
 	"\bUserInfo\x12\x1a.eolymp.auth.UserInfoInput\x1a\x1b.eolymp.auth.UserInfoOutput\"\x10\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00\xf0A\xf8\xe2\n" +
+	"\xac\x02\x12m\n" +
+	"\x10ListCertificates\x12\".eolymp.auth.ListCertificatesInput\x1a#.eolymp.auth.ListCertificatesOutput\"\x10\xea\xe2\n" +
+	"\f\xf5\xe2\n" +
+	"\x00\x00\xf0A\xf8\xe2\n" +
 	"\xac\x02B+Z)github.com/eolymp/go-sdk/eolymp/auth;authb\x06proto3"
 
 var (
@@ -799,7 +886,7 @@ func file_eolymp_auth_oauth2_service_proto_rawDescGZIP() []byte {
 }
 
 var file_eolymp_auth_oauth2_service_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_eolymp_auth_oauth2_service_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_eolymp_auth_oauth2_service_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
 var file_eolymp_auth_oauth2_service_proto_goTypes = []any{
 	(IssueTokenInput_GrantType)(0), // 0: eolymp.auth.IssueTokenInput.GrantType
 	(*IssueTokenInput)(nil),        // 1: eolymp.auth.IssueTokenInput
@@ -812,30 +899,36 @@ var file_eolymp_auth_oauth2_service_proto_goTypes = []any{
 	(*RequestAuthOutput)(nil),      // 8: eolymp.auth.RequestAuthOutput
 	(*UserInfoInput)(nil),          // 9: eolymp.auth.UserInfoInput
 	(*UserInfoOutput)(nil),         // 10: eolymp.auth.UserInfoOutput
-	(*Claims)(nil),                 // 11: eolymp.auth.Claims
-	(*timestamppb.Timestamp)(nil),  // 12: google.protobuf.Timestamp
+	(*ListCertificatesInput)(nil),  // 11: eolymp.auth.ListCertificatesInput
+	(*ListCertificatesOutput)(nil), // 12: eolymp.auth.ListCertificatesOutput
+	(*Claims)(nil),                 // 13: eolymp.auth.Claims
+	(*timestamppb.Timestamp)(nil),  // 14: google.protobuf.Timestamp
+	(*Certificate)(nil),            // 15: eolymp.auth.Certificate
 }
 var file_eolymp_auth_oauth2_service_proto_depIdxs = []int32{
 	0,  // 0: eolymp.auth.IssueTokenInput.grant_type:type_name -> eolymp.auth.IssueTokenInput.GrantType
-	11, // 1: eolymp.auth.IssueTokenOutput.claims:type_name -> eolymp.auth.Claims
-	12, // 2: eolymp.auth.IntrospectTokenOutput.expire:type_name -> google.protobuf.Timestamp
-	11, // 3: eolymp.auth.IntrospectTokenOutput.claims:type_name -> eolymp.auth.Claims
-	11, // 4: eolymp.auth.UserInfoOutput.claims:type_name -> eolymp.auth.Claims
-	1,  // 5: eolymp.auth.OAuth2Service.IssueToken:input_type -> eolymp.auth.IssueTokenInput
-	3,  // 6: eolymp.auth.OAuth2Service.IntrospectToken:input_type -> eolymp.auth.IntrospectTokenInput
-	5,  // 7: eolymp.auth.OAuth2Service.RevokeToken:input_type -> eolymp.auth.RevokeTokenInput
-	7,  // 8: eolymp.auth.OAuth2Service.RequestAuth:input_type -> eolymp.auth.RequestAuthInput
-	9,  // 9: eolymp.auth.OAuth2Service.UserInfo:input_type -> eolymp.auth.UserInfoInput
-	2,  // 10: eolymp.auth.OAuth2Service.IssueToken:output_type -> eolymp.auth.IssueTokenOutput
-	4,  // 11: eolymp.auth.OAuth2Service.IntrospectToken:output_type -> eolymp.auth.IntrospectTokenOutput
-	6,  // 12: eolymp.auth.OAuth2Service.RevokeToken:output_type -> eolymp.auth.RevokeTokenOutput
-	8,  // 13: eolymp.auth.OAuth2Service.RequestAuth:output_type -> eolymp.auth.RequestAuthOutput
-	10, // 14: eolymp.auth.OAuth2Service.UserInfo:output_type -> eolymp.auth.UserInfoOutput
-	10, // [10:15] is the sub-list for method output_type
-	5,  // [5:10] is the sub-list for method input_type
-	5,  // [5:5] is the sub-list for extension type_name
-	5,  // [5:5] is the sub-list for extension extendee
-	0,  // [0:5] is the sub-list for field type_name
+	13, // 1: eolymp.auth.IssueTokenOutput.claims:type_name -> eolymp.auth.Claims
+	14, // 2: eolymp.auth.IntrospectTokenOutput.expire:type_name -> google.protobuf.Timestamp
+	13, // 3: eolymp.auth.IntrospectTokenOutput.claims:type_name -> eolymp.auth.Claims
+	13, // 4: eolymp.auth.UserInfoOutput.claims:type_name -> eolymp.auth.Claims
+	15, // 5: eolymp.auth.ListCertificatesOutput.items:type_name -> eolymp.auth.Certificate
+	1,  // 6: eolymp.auth.OAuth2Service.IssueToken:input_type -> eolymp.auth.IssueTokenInput
+	3,  // 7: eolymp.auth.OAuth2Service.IntrospectToken:input_type -> eolymp.auth.IntrospectTokenInput
+	5,  // 8: eolymp.auth.OAuth2Service.RevokeToken:input_type -> eolymp.auth.RevokeTokenInput
+	7,  // 9: eolymp.auth.OAuth2Service.RequestAuth:input_type -> eolymp.auth.RequestAuthInput
+	9,  // 10: eolymp.auth.OAuth2Service.UserInfo:input_type -> eolymp.auth.UserInfoInput
+	11, // 11: eolymp.auth.OAuth2Service.ListCertificates:input_type -> eolymp.auth.ListCertificatesInput
+	2,  // 12: eolymp.auth.OAuth2Service.IssueToken:output_type -> eolymp.auth.IssueTokenOutput
+	4,  // 13: eolymp.auth.OAuth2Service.IntrospectToken:output_type -> eolymp.auth.IntrospectTokenOutput
+	6,  // 14: eolymp.auth.OAuth2Service.RevokeToken:output_type -> eolymp.auth.RevokeTokenOutput
+	8,  // 15: eolymp.auth.OAuth2Service.RequestAuth:output_type -> eolymp.auth.RequestAuthOutput
+	10, // 16: eolymp.auth.OAuth2Service.UserInfo:output_type -> eolymp.auth.UserInfoOutput
+	12, // 17: eolymp.auth.OAuth2Service.ListCertificates:output_type -> eolymp.auth.ListCertificatesOutput
+	12, // [12:18] is the sub-list for method output_type
+	6,  // [6:12] is the sub-list for method input_type
+	6,  // [6:6] is the sub-list for extension type_name
+	6,  // [6:6] is the sub-list for extension extendee
+	0,  // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_auth_oauth2_service_proto_init() }
@@ -843,6 +936,7 @@ func file_eolymp_auth_oauth2_service_proto_init() {
 	if File_eolymp_auth_oauth2_service_proto != nil {
 		return
 	}
+	file_eolymp_auth_certificate_proto_init()
 	file_eolymp_auth_claims_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -850,7 +944,7 @@ func file_eolymp_auth_oauth2_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_auth_oauth2_service_proto_rawDesc), len(file_eolymp_auth_oauth2_service_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   10,
+			NumMessages:   12,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
