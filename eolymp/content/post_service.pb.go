@@ -2356,102 +2356,102 @@ const file_eolymp_content_post_service_proto_rawDesc = "" +
 	"\x1aDeletePostTranslationInput\x12\x17\n" +
 	"\apost_id\x18\x01 \x01(\tR\x06postId\x12%\n" +
 	"\x0etranslation_id\x18\x02 \x01(\tR\rtranslationId\"\x1d\n" +
-	"\x1bDeletePostTranslationOutput2\xd4\x14\n" +
-	"\vPostService\x12\x98\x01\n" +
-	"\fDescribePost\x12!.eolymp.content.DescribePostInput\x1a\".eolymp.content.DescribePostOutput\"A\xea\xe2\n" +
+	"\x1bDeletePostTranslationOutput2\xd8\x14\n" +
+	"\vPostService\x12\x9b\x01\n" +
+	"\fDescribePost\x12!.eolymp.content.DescribePostInput\x1a\".eolymp.content.DescribePostOutput\"D\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"\xf4\x03\x82\xe3\n" +
-	"\x15\x8a\xe3\n" +
-	"\x11content:post:read\x82\xd3\xe4\x93\x02\x12\x12\x10/posts/{post_id}\x12\x84\x01\n" +
-	"\tListPosts\x12\x1e.eolymp.content.ListPostsInput\x1a\x1f.eolymp.content.ListPostsOutput\"6\xea\xe2\n" +
+	"\x18\x8a\xe3\n" +
+	"\x14discussion:post:read\x82\xd3\xe4\x93\x02\x12\x12\x10/posts/{post_id}\x12\x87\x01\n" +
+	"\tListPosts\x12\x1e.eolymp.content.ListPostsInput\x1a\x1f.eolymp.content.ListPostsOutput\"9\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
-	"\x15\x8a\xe3\n" +
-	"\x11content:post:read\x82\xd3\xe4\x93\x02\b\x12\x06/posts\x12\x88\x01\n" +
+	"\x18\x8a\xe3\n" +
+	"\x14discussion:post:read\x82\xd3\xe4\x93\x02\b\x12\x06/posts\x12\x8b\x01\n" +
 	"\n" +
-	"CreatePost\x12\x1f.eolymp.content.CreatePostInput\x1a .eolymp.content.CreatePostOutput\"7\xea\xe2\n" +
+	"CreatePost\x12\x1f.eolymp.content.CreatePostInput\x1a .eolymp.content.CreatePostOutput\":\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
-	"\x16\x8a\xe3\n" +
-	"\x12content:post:write\x82\xd3\xe4\x93\x02\b\"\x06/posts\x12\x92\x01\n" +
+	"\x19\x8a\xe3\n" +
+	"\x15discussion:post:write\x82\xd3\xe4\x93\x02\b\"\x06/posts\x12\x95\x01\n" +
 	"\n" +
-	"UpdatePost\x12\x1f.eolymp.content.UpdatePostInput\x1a .eolymp.content.UpdatePostOutput\"A\xea\xe2\n" +
+	"UpdatePost\x12\x1f.eolymp.content.UpdatePostInput\x1a .eolymp.content.UpdatePostOutput\"D\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
-	"\x16\x8a\xe3\n" +
-	"\x12content:post:write\x82\xd3\xe4\x93\x02\x12\x1a\x10/posts/{post_id}\x12\x9d\x01\n" +
-	"\vPublishPost\x12 .eolymp.content.PublishPostInput\x1a!.eolymp.content.PublishPostOutput\"I\xea\xe2\n" +
+	"\x19\x8a\xe3\n" +
+	"\x15discussion:post:write\x82\xd3\xe4\x93\x02\x12\x1a\x10/posts/{post_id}\x12\xa0\x01\n" +
+	"\vPublishPost\x12 .eolymp.content.PublishPostInput\x1a!.eolymp.content.PublishPostOutput\"L\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
-	"\x16\x8a\xe3\n" +
-	"\x12content:post:write\x82\xd3\xe4\x93\x02\x1a\"\x18/posts/{post_id}/publish\x12\xa3\x01\n" +
-	"\rUnpublishPost\x12\".eolymp.content.UnpublishPostInput\x1a#.eolymp.content.UnpublishPostOutput\"I\xea\xe2\n" +
+	"\x19\x8a\xe3\n" +
+	"\x15discussion:post:write\x82\xd3\xe4\x93\x02\x1a\"\x18/posts/{post_id}/publish\x12\xa6\x01\n" +
+	"\rUnpublishPost\x12\".eolymp.content.UnpublishPostInput\x1a#.eolymp.content.UnpublishPostOutput\"L\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
-	"\x16\x8a\xe3\n" +
-	"\x12content:post:write\x82\xd3\xe4\x93\x02\x1a*\x18/posts/{post_id}/publish\x12\xa1\x01\n" +
-	"\fModeratePost\x12!.eolymp.content.ModeratePostInput\x1a\".eolymp.content.ModeratePostOutput\"J\xea\xe2\n" +
+	"\x19\x8a\xe3\n" +
+	"\x15discussion:post:write\x82\xd3\xe4\x93\x02\x1a*\x18/posts/{post_id}/publish\x12\xa4\x01\n" +
+	"\fModeratePost\x12!.eolymp.content.ModeratePostInput\x1a\".eolymp.content.ModeratePostOutput\"M\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
-	"\x16\x8a\xe3\n" +
-	"\x12content:post:write\x82\xd3\xe4\x93\x02\x1b\"\x19/posts/{post_id}/moderate\x12\x92\x01\n" +
+	"\x19\x8a\xe3\n" +
+	"\x15discussion:post:write\x82\xd3\xe4\x93\x02\x1b\"\x19/posts/{post_id}/moderate\x12\x95\x01\n" +
 	"\n" +
-	"DeletePost\x12\x1f.eolymp.content.DeletePostInput\x1a .eolymp.content.DeletePostOutput\"A\xea\xe2\n" +
+	"DeletePost\x12\x1f.eolymp.content.DeletePostInput\x1a .eolymp.content.DeletePostOutput\"D\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
-	"\x16\x8a\xe3\n" +
-	"\x12content:post:write\x82\xd3\xe4\x93\x02\x12*\x10/posts/{post_id}\x12\x94\x01\n" +
+	"\x19\x8a\xe3\n" +
+	"\x15discussion:post:write\x82\xd3\xe4\x93\x02\x12*\x10/posts/{post_id}\x12\x94\x01\n" +
 	"\bVotePost\x12\x1d.eolymp.content.VotePostInput\x1a\x1e.eolymp.content.VotePostOutput\"I\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15content:message:write\x82\xd3\xe4\x93\x02\x17\"\x15/posts/{post_id}/vote\x12\xa8\x01\n" +
+	"\x15discussion:post:write\x82\xd3\xe4\x93\x02\x17\"\x15/posts/{post_id}/vote\x12\xa8\x01\n" +
 	"\rTranslatePost\x12\".eolymp.content.TranslatePostInput\x1a#.eolymp.content.TranslatePostOutput\"N\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15content:message:write\x82\xd3\xe4\x93\x02\x1c\"\x1a/posts/{post_id}/translate\x12\xde\x01\n" +
-	"\x17DescribePostTranslation\x12,.eolymp.content.DescribePostTranslationInput\x1a-.eolymp.content.DescribePostTranslationOutput\"f\xea\xe2\n" +
+	"\x15discussion:post:write\x82\xd3\xe4\x93\x02\x1c\"\x1a/posts/{post_id}/translate\x12\xda\x01\n" +
+	"\x17DescribePostTranslation\x12,.eolymp.content.DescribePostTranslationInput\x1a-.eolymp.content.DescribePostTranslationOutput\"b\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"\xf4\x03\x82\xe3\n" +
-	"\x1c\x8a\xe3\n" +
-	"\x18typewriter:fragment:read\x82\xd3\xe4\x93\x020\x12./posts/{post_id}/translations/{translation_id}\x12\xc3\x01\n" +
-	"\x14ListPostTranslations\x12).eolymp.content.ListPostTranslationsInput\x1a*.eolymp.content.ListPostTranslationsOutput\"T\xea\xe2\n" +
+	"\x18\x8a\xe3\n" +
+	"\x14discussion:post:read\x82\xd3\xe4\x93\x020\x12./posts/{post_id}/translations/{translation_id}\x12\xbf\x01\n" +
+	"\x14ListPostTranslations\x12).eolymp.content.ListPostTranslationsInput\x1a*.eolymp.content.ListPostTranslationsOutput\"P\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
-	"\x1c\x8a\xe3\n" +
-	"\x18typewriter:fragment:read\x82\xd3\xe4\x93\x02\x1f\x12\x1d/posts/{post_id}/translations\x12\xc7\x01\n" +
-	"\x15CreatePostTranslation\x12*.eolymp.content.CreatePostTranslationInput\x1a+.eolymp.content.CreatePostTranslationOutput\"U\xea\xe2\n" +
+	"\x18\x8a\xe3\n" +
+	"\x14discussion:post:read\x82\xd3\xe4\x93\x02\x1f\x12\x1d/posts/{post_id}/translations\x12\xc3\x01\n" +
+	"\x15CreatePostTranslation\x12*.eolymp.content.CreatePostTranslationInput\x1a+.eolymp.content.CreatePostTranslationOutput\"Q\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
-	"\x1d\x8a\xe3\n" +
-	"\x19typewriter:fragment:write\x82\xd3\xe4\x93\x02\x1f\"\x1d/posts/{post_id}/translations\x12\xd8\x01\n" +
-	"\x15UpdatePostTranslation\x12*.eolymp.content.UpdatePostTranslationInput\x1a+.eolymp.content.UpdatePostTranslationOutput\"f\xea\xe2\n" +
+	"\x19\x8a\xe3\n" +
+	"\x15discussion:post:write\x82\xd3\xe4\x93\x02\x1f\"\x1d/posts/{post_id}/translations\x12\xd4\x01\n" +
+	"\x15UpdatePostTranslation\x12*.eolymp.content.UpdatePostTranslationInput\x1a+.eolymp.content.UpdatePostTranslationOutput\"b\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
-	"\x1d\x8a\xe3\n" +
-	"\x19typewriter:fragment:write\x82\xd3\xe4\x93\x020\x1a./posts/{post_id}/translations/{translation_id}\x12\xd8\x01\n" +
-	"\x15DeletePostTranslation\x12*.eolymp.content.DeletePostTranslationInput\x1a+.eolymp.content.DeletePostTranslationOutput\"f\xea\xe2\n" +
+	"\x19\x8a\xe3\n" +
+	"\x15discussion:post:write\x82\xd3\xe4\x93\x020\x1a./posts/{post_id}/translations/{translation_id}\x12\xd4\x01\n" +
+	"\x15DeletePostTranslation\x12*.eolymp.content.DeletePostTranslationInput\x1a+.eolymp.content.DeletePostTranslationOutput\"b\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
-	"\x1d\x8a\xe3\n" +
-	"\x19typewriter:fragment:write\x82\xd3\xe4\x93\x020*./posts/{post_id}/translations/{translation_id}\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB1Z/github.com/eolymp/go-sdk/eolymp/content;contentb\x06proto3"
+	"\x19\x8a\xe3\n" +
+	"\x15discussion:post:write\x82\xd3\xe4\x93\x020*./posts/{post_id}/translations/{translation_id}\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB1Z/github.com/eolymp/go-sdk/eolymp/content;contentb\x06proto3"
 
 var (
 	file_eolymp_content_post_service_proto_rawDescOnce sync.Once
