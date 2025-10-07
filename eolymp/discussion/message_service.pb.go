@@ -1089,7 +1089,7 @@ const file_eolymp_discussion_message_service_proto_rawDesc = "" +
 	"\x06Record\x12\x1a\n" +
 	"\brevision\x18\x01 \x01(\x05R\brevision\x128\n" +
 	"\ttimestamp\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\ttimestamp\x12-\n" +
-	"\amessage\x18\x03 \x01(\v2\x13.eolymp.ecm.ContentR\amessage2\x8f\n" +
+	"\amessage\x18\x03 \x01(\v2\x13.eolymp.ecm.ContentR\amessage2\x8c\n" +
 	"\n" +
 	"\x0eMessageService\x12\xb3\x01\n" +
 	"\x0fDescribeMessage\x12'.eolymp.discussion.DescribeMessageInput\x1a(.eolymp.discussion.DescribeMessageOutput\"M\xea\xe2\n" +
@@ -1134,7 +1134,7 @@ const file_eolymp_discussion_message_service_proto_rawDesc = "" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x1b\x8a\xe3\n" +
-	"\x17discussion:message:read\x82\xd3\xe4\x93\x02 \x12\x1e/messages/{message_id}/changes\x1a6\x82\xf0\xf0\xe4\x01\x16eolymp.discussion.Post\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.ProblemB7Z5github.com/eolymp/go-sdk/eolymp/discussion;discussionb\x06proto3"
+	"\x17discussion:message:read\x82\xd3\xe4\x93\x02 \x12\x1e/messages/{message_id}/changes\x1a3\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.Problem\x82\xf0\xf0\xe4\x01\x13eolymp.content.PostB7Z5github.com/eolymp/go-sdk/eolymp/discussion;discussionb\x06proto3"
 
 var (
 	file_eolymp_discussion_message_service_proto_rawDescOnce sync.Once

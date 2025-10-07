@@ -192,7 +192,7 @@ const file_eolymp_discussion_subscription_service_proto_rawDesc = "" +
 	"\fsubscription\x18\x01 \x01(\v2\x1f.eolymp.discussion.SubscriptionR\fsubscription\"^\n" +
 	"\x17UpdateSubscriptionInput\x12C\n" +
 	"\fsubscription\x18\x01 \x01(\v2\x1f.eolymp.discussion.SubscriptionR\fsubscription\"\x1a\n" +
-	"\x18UpdateSubscriptionOutput2\xc9\x03\n" +
+	"\x18UpdateSubscriptionOutput2\xc6\x03\n" +
 	"\x13SubscriptionService\x12\xbe\x01\n" +
 	"\x14DescribeSubscription\x12,.eolymp.discussion.DescribeSubscriptionInput\x1a-.eolymp.discussion.DescribeSubscriptionOutput\"I\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
@@ -205,7 +205,7 @@ const file_eolymp_discussion_subscription_service_proto_rawDesc = "" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"!\x8a\xe3\n" +
-	"\x1ddiscussion:subscription:write\x82\xd3\xe4\x93\x02\x0f\x1a\r/subscription\x1a6\x82\xf0\xf0\xe4\x01\x16eolymp.discussion.Post\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.ProblemB7Z5github.com/eolymp/go-sdk/eolymp/discussion;discussionb\x06proto3"
+	"\x1ddiscussion:subscription:write\x82\xd3\xe4\x93\x02\x0f\x1a\r/subscription\x1a3\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.Problem\x82\xf0\xf0\xe4\x01\x13eolymp.content.PostB7Z5github.com/eolymp/go-sdk/eolymp/discussion;discussionb\x06proto3"
 
 var (
 	file_eolymp_discussion_subscription_service_proto_rawDescOnce sync.Once
