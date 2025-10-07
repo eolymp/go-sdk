@@ -340,7 +340,7 @@ const file_eolymp_community_access_key_service_proto_rawDesc = "" +
 	"\x04size\x18\v \x01(\x05R\x04size\"_\n" +
 	"\x14ListAccessKeysOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x121\n" +
-	"\x05items\x18\x02 \x03(\v2\x1b.eolymp.community.AccessKeyR\x05items2\xb3\x04\n" +
+	"\x05items\x18\x02 \x03(\v2\x1b.eolymp.community.AccessKeyR\x05items2\xba\x04\n" +
 	"\x10AccessKeyService\x12\xa9\x01\n" +
 	"\x0fCreateAccessKey\x12&.eolymp.community.CreateAccessKeyInput\x1a'.eolymp.community.CreateAccessKeyOutput\"E\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -360,7 +360,7 @@ const file_eolymp_community_access_key_service_proto_rawDesc = "" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x1d\x8a\xe3\n" +
-	"\x19community:access-key:read\x82\xd3\xe4\x93\x02\x0e\x12\f/access-keys\x1a\x16\x82\xf0\xf0\xe4\x01\x10community.MemberB5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
+	"\x19community:access-key:read\x82\xd3\xe4\x93\x02\x0e\x12\f/access-keys\x1a\x1d\x82\xf0\xf0\xe4\x01\x17eolymp.community.MemberB5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
 
 var (
 	file_eolymp_community_access_key_service_proto_rawDescOnce sync.Once

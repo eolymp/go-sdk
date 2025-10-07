@@ -460,7 +460,7 @@ var File_eolymp_commerce_fulfillment_server_proto protoreflect.FileDescriptor
 
 const file_eolymp_commerce_fulfillment_server_proto_rawDesc = "" +
 	"\n" +
-	"(eolymp/commerce/fulfillment_server.proto\x12\x0feolymp.commerce\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"/\n" +
+	"(eolymp/commerce/fulfillment_server.proto\x12\x0feolymp.commerce\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"/\n" +
 	"\x12AllocateStockInput\x12\x19\n" +
 	"\border_id\x18\x01 \x01(\tR\aorderId\"\x15\n" +
 	"\x13AllocateStockOutput\"Z\n" +
@@ -479,7 +479,7 @@ const file_eolymp_commerce_fulfillment_server_proto_rawDesc = "" +
 	"\x0fShipOrderOutput\"/\n" +
 	"\x12CompleteOrderInput\x12\x19\n" +
 	"\border_id\x18\x01 \x01(\tR\aorderId\"\x15\n" +
-	"\x13CompleteOrderOutput2\xfc\x06\n" +
+	"\x13CompleteOrderOutput2\x99\a\n" +
 	"\x12FulfillmentService\x12\xb1\x01\n" +
 	"\rAllocateStock\x12#.eolymp.commerce.AllocateStockInput\x1a$.eolymp.commerce.AllocateStockOutput\"U\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -510,7 +510,7 @@ const file_eolymp_commerce_fulfillment_server_proto_rawDesc = "" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15commerce:orders:write\x82\xd3\xe4\x93\x02#\"!/store/orders/{order_id}/completeB3Z1github.com/eolymp/go-sdk/eolymp/commerce;commerceb\x06proto3"
+	"\x15commerce:orders:write\x82\xd3\xe4\x93\x02#\"!/store/orders/{order_id}/complete\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB3Z1github.com/eolymp/go-sdk/eolymp/commerce;commerceb\x06proto3"
 
 var (
 	file_eolymp_commerce_fulfillment_server_proto_rawDescOnce sync.Once

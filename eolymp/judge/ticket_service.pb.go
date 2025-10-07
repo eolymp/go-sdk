@@ -2043,7 +2043,7 @@ var File_eolymp_judge_ticket_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_ticket_service_proto_rawDesc = "" +
 	"\n" +
-	"!eolymp/judge/ticket_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x18eolymp/ecm/content.proto\x1a\x19eolymp/judge/ticket.proto\x1a\x1feolymp/judge/ticket_reply.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x84\x01\n" +
+	"!eolymp/judge/ticket_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x18eolymp/ecm/content.proto\x1a\x19eolymp/judge/ticket.proto\x1a\x1feolymp/judge/ticket_reply.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x84\x01\n" +
 	"\x12TicketChangedEvent\x12\x14\n" +
 	"\x05scope\x18\n" +
 	" \x01(\tR\x05scope\x12,\n" +
@@ -2186,7 +2186,7 @@ const file_eolymp_judge_ticket_service_proto_rawDesc = "" +
 	"\rUNKNOWN_EVENT\x10\x00\x12\v\n" +
 	"\aCREATED\x10\x01\x12\v\n" +
 	"\aUPDATED\x10\x02\x12\v\n" +
-	"\aDELETED\x10\x032\xc9\x11\n" +
+	"\aDELETED\x10\x032\xe5\x11\n" +
 	"\rTicketService\x12\x93\x01\n" +
 	"\fCreateTicket\x12\x1f.eolymp.judge.CreateTicketInput\x1a .eolymp.judge.CreateTicketOutput\"@\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -2275,7 +2275,7 @@ const file_eolymp_judge_ticket_service_proto_rawDesc = "" +
 	"\x13judge:contest:write\x82\xd3\xe4\x93\x02)\"'/tickets/{ticket_id}/replies/{reply_id}\x12o\n" +
 	"\fWatchReplies\x12\x1f.eolymp.judge.WatchRepliesInput\x1a .eolymp.judge.WatchRepliesOutput\"\x1a\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12judge:contest:read0\x01B-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
+	"\x12judge:contest:read0\x01\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.judge.ContestB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
 
 var (
 	file_eolymp_judge_ticket_service_proto_rawDescOnce sync.Once

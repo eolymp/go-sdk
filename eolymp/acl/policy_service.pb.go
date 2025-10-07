@@ -729,7 +729,7 @@ var File_eolymp_acl_policy_service_proto protoreflect.FileDescriptor
 const file_eolymp_acl_policy_service_proto_rawDesc = "" +
 	"\n" +
 	"\x1feolymp/acl/policy_service.proto\x12\n" +
-	"eolymp.acl\x1a\x17eolymp/acl/policy.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a!eolymp/wellknown/expression.proto\"?\n" +
+	"eolymp.acl\x1a\x17eolymp/acl/policy.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a!eolymp/wellknown/expression.proto\"?\n" +
 	"\x11CreatePolicyInput\x12*\n" +
 	"\x06policy\x18\x01 \x01(\v2\x12.eolymp.acl.PolicyR\x06policy\"1\n" +
 	"\x12CreatePolicyOutput\x12\x1b\n" +
@@ -773,7 +773,7 @@ const file_eolymp_acl_policy_service_proto_rawDesc = "" +
 	"\fsrc_resource\x18\x03 \x01(\tR\vsrcResource\x12!\n" +
 	"\fdst_resource\x18\x04 \x01(\tR\vdstResource\"7\n" +
 	"\x12CopyPoliciesOutput\x12!\n" +
-	"\fcopies_count\x18\x01 \x01(\x05R\vcopiesCount2\xe5\x05\n" +
+	"\fcopies_count\x18\x01 \x01(\x05R\vcopiesCount2\x82\x06\n" +
 	"\rPolicyService\x12o\n" +
 	"\fCreatePolicy\x12\x1d.eolymp.acl.CreatePolicyInput\x1a\x1e.eolymp.acl.CreatePolicyOutput\" \xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -798,7 +798,7 @@ const file_eolymp_acl_policy_service_proto_rawDesc = "" +
 	"\fCopyPolicies\x12\x1d.eolymp.acl.CopyPoliciesInput\x1a\x1e.eolymp.acl.CopyPoliciesOutput\"%\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
-	"\x14\x82\xd3\xe4\x93\x02\x10\"\x0e/policies:copyB)Z'github.com/eolymp/go-sdk/eolymp/acl;aclb\x06proto3"
+	"\x14\x82\xd3\xe4\x93\x02\x10\"\x0e/policies:copy\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB)Z'github.com/eolymp/go-sdk/eolymp/acl;aclb\x06proto3"
 
 var (
 	file_eolymp_acl_policy_service_proto_rawDescOnce sync.Once

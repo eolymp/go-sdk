@@ -2193,7 +2193,7 @@ var File_eolymp_discussion_post_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_discussion_post_service_proto_rawDesc = "" +
 	"\n" +
-	"$eolymp/discussion/post_service.proto\x12\x11eolymp.discussion\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1ceolymp/discussion/post.proto\x1a\x18eolymp/ecm/content.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"\x9f\x01\n" +
+	"$eolymp/discussion/post_service.proto\x12\x11eolymp.discussion\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1ceolymp/discussion/post.proto\x1a\x18eolymp/ecm/content.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"\x9f\x01\n" +
 	"\x10PostChangedEvent\x12/\n" +
 	"\x06before\x18\x01 \x01(\v2\x17.eolymp.discussion.PostR\x06before\x12-\n" +
 	"\x05after\x18\x02 \x01(\v2\x17.eolymp.discussion.PostR\x05after\x12+\n" +
@@ -2356,7 +2356,7 @@ const file_eolymp_discussion_post_service_proto_rawDesc = "" +
 	"\x1aDeletePostTranslationInput\x12\x17\n" +
 	"\apost_id\x18\x01 \x01(\tR\x06postId\x12%\n" +
 	"\x0etranslation_id\x18\x02 \x01(\tR\rtranslationId\"\x1d\n" +
-	"\x1bDeletePostTranslationOutput2\xaf\x15\n" +
+	"\x1bDeletePostTranslationOutput2\xcc\x15\n" +
 	"\vPostService\x12\xa1\x01\n" +
 	"\fDescribePost\x12$.eolymp.discussion.DescribePostInput\x1a%.eolymp.discussion.DescribePostOutput\"D\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
@@ -2451,7 +2451,7 @@ const file_eolymp_discussion_post_service_proto_rawDesc = "" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x1d\x8a\xe3\n" +
-	"\x19typewriter:fragment:write\x82\xd3\xe4\x93\x020*./posts/{post_id}/translations/{translation_id}B7Z5github.com/eolymp/go-sdk/eolymp/discussion;discussionb\x06proto3"
+	"\x19typewriter:fragment:write\x82\xd3\xe4\x93\x020*./posts/{post_id}/translations/{translation_id}\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB7Z5github.com/eolymp/go-sdk/eolymp/discussion;discussionb\x06proto3"
 
 var (
 	file_eolymp_discussion_post_service_proto_rawDescOnce sync.Once

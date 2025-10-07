@@ -15,8 +15,8 @@ type _MemberServiceMCPServer interface {
 
 // RegisterMemberServiceMCPTools registers tools for MemberService
 func RegisterMemberServiceMCPTools(mcp _MemberServiceMCPServer, srv MemberServiceClient) {
-	mcp.AddTool("community.update_member", "Modify member by ID", false, []string{"universe.Space"}, &UpdateMemberInput{}, &UpdateMemberOutput{}, _mcp_MemberService_UpdateMember(srv))
-	mcp.AddTool("community.list_members", "Find members matching criteria", false, []string{"universe.Space"}, &ListMembersInput{}, &ListMembersOutput{}, _mcp_MemberService_ListMembers(srv))
+	mcp.AddTool("community.update_member", "Modify member by ID", false, []string{"eolymp.universe.Space"}, &UpdateMemberInput{}, &UpdateMemberOutput{}, _mcp_MemberService_UpdateMember(srv))
+	mcp.AddTool("community.list_members", "Find members matching criteria", false, []string{"eolymp.universe.Space"}, &ListMembersInput{}, &ListMembersOutput{}, _mcp_MemberService_ListMembers(srv))
 }
 
 func _mcp_MemberService_UpdateMember(srv MemberServiceClient) func(ctx context.Context, raw []byte) (any, error) {

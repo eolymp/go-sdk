@@ -401,7 +401,7 @@ var File_eolymp_community_email_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_email_service_proto_rawDesc = "" +
 	"\n" +
-	"$eolymp/community/email_service.proto\x12\x10eolymp.community\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a!eolymp/community/email_type.proto\x1a\x18eolymp/ecm/content.proto\"\xff\x05\n" +
+	"$eolymp/community/email_service.proto\x12\x10eolymp.community\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a!eolymp/community/email_type.proto\x1a\x18eolymp/ecm/content.proto\"\xff\x05\n" +
 	"\x0eSendEmailInput\x12\x1b\n" +
 	"\tmember_id\x18\x01 \x01(\tR\bmemberId\x12\x17\n" +
 	"\adry_run\x18\x14 \x01(\bR\x06dryRun\x12\x15\n" +
@@ -436,7 +436,7 @@ const file_eolymp_community_email_service_proto_rawDesc = "" +
 	"\x17DescribeEmailUsageInput\"d\n" +
 	"\x18DescribeEmailUsageOutput\x12!\n" +
 	"\fdaily_emails\x18\x02 \x01(\rR\vdailyEmails\x12%\n" +
-	"\x0emonthly_emails\x18\x03 \x01(\rR\rmonthlyEmails2\xe4\x02\n" +
+	"\x0emonthly_emails\x18\x03 \x01(\rR\rmonthlyEmails2\x81\x03\n" +
 	"\fEmailService\x12\xa2\x01\n" +
 	"\tSendEmail\x12 .eolymp.community.SendEmailInput\x1a!.eolymp.community.SendEmailOutput\"P\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -449,7 +449,7 @@ const file_eolymp_community_email_service_proto_rawDesc = "" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15community:member:read\x82\xd3\xe4\x93\x02\x0f\x12\r/usage/emailsB5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
+	"\x15community:member:read\x82\xd3\xe4\x93\x02\x0f\x12\r/usage/emails\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
 
 var (
 	file_eolymp_community_email_service_proto_rawDescOnce sync.Once

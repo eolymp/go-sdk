@@ -490,7 +490,7 @@ var File_eolymp_judge_passcode_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_passcode_service_proto_rawDesc = "" +
 	"\n" +
-	"#eolymp/judge/passcode_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\"4\n" +
+	"#eolymp/judge/passcode_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\"4\n" +
 	"\x13VerifyPasscodeInput\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\"H\n" +
@@ -518,7 +518,7 @@ const file_eolymp_judge_passcode_service_proto_rawDesc = "" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\x12%\n" +
 	"\x0eparticipant_id\x18\x02 \x01(\tR\rparticipantId\"\x16\n" +
-	"\x14RemovePasscodeOutput2\xe1\x06\n" +
+	"\x14RemovePasscodeOutput2\xfd\x06\n" +
 	"\x0fPasscodeService\x12\x9a\x01\n" +
 	"\x0eVerifyPasscode\x12!.eolymp.judge.VerifyPasscodeInput\x1a\".eolymp.judge.VerifyPasscodeOutput\"A\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -549,7 +549,7 @@ const file_eolymp_judge_passcode_service_proto_rawDesc = "" +
 	"\x00\x00 A\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13judge:contest:write\x82\xd3\xe4\x93\x02)*'/participants/{participant_id}/passcodeB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
+	"\x13judge:contest:write\x82\xd3\xe4\x93\x02)*'/participants/{participant_id}/passcode\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.judge.ContestB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
 
 var (
 	file_eolymp_judge_passcode_service_proto_rawDescOnce sync.Once

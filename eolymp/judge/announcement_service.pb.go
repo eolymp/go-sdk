@@ -1099,7 +1099,7 @@ var File_eolymp_judge_announcement_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_announcement_service_proto_rawDesc = "" +
 	"\n" +
-	"'eolymp/judge/announcement_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1feolymp/judge/announcement.proto\x1a!eolymp/wellknown/expression.proto\"x\n" +
+	"'eolymp/judge/announcement_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1feolymp/judge/announcement.proto\x1a!eolymp/wellknown/expression.proto\"x\n" +
 	"\x17CreateAnnouncementInput\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\x12>\n" +
@@ -1166,7 +1166,7 @@ const file_eolymp_judge_announcement_service_proto_rawDesc = "" +
 	"\aDELETED\x10\x03\"\x1f\n" +
 	"\x1dWatchAnnouncementSummaryInput\"C\n" +
 	"\x1eWatchAnnouncementSummaryOutput\x12!\n" +
-	"\funread_count\x18\x01 \x01(\rR\vunreadCount2\xbe\r\n" +
+	"\funread_count\x18\x01 \x01(\rR\vunreadCount2\xda\r\n" +
 	"\x13AnnouncementService\x12\xa5\x01\n" +
 	"\x12CreateAnnouncement\x12%.eolymp.judge.CreateAnnouncementInput\x1a&.eolymp.judge.CreateAnnouncementOutput\"@\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -1222,7 +1222,7 @@ const file_eolymp_judge_announcement_service_proto_rawDesc = "" +
 	"\x12judge:contest:read0\x01\x12\x93\x01\n" +
 	"\x18WatchAnnouncementSummary\x12+.eolymp.judge.WatchAnnouncementSummaryInput\x1a,.eolymp.judge.WatchAnnouncementSummaryOutput\"\x1a\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12judge:contest:read0\x01B-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
+	"\x12judge:contest:read0\x01\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.judge.ContestB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
 
 var (
 	file_eolymp_judge_announcement_service_proto_rawDescOnce sync.Once

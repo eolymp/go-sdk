@@ -402,7 +402,7 @@ var File_eolymp_certificate_certificate_service_proto protoreflect.FileDescripto
 
 const file_eolymp_certificate_certificate_service_proto_rawDesc = "" +
 	"\n" +
-	",eolymp/certificate/certificate_service.proto\x12\x12eolymp.certificate\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a$eolymp/certificate/certificate.proto\"[\n" +
+	",eolymp/certificate/certificate_service.proto\x12\x12eolymp.certificate\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a$eolymp/certificate/certificate.proto\"[\n" +
 	"\x16CreateCertificateInput\x12A\n" +
 	"\vcertificate\x18\x01 \x01(\v2\x1f.eolymp.certificate.CertificateR\vcertificate\"c\n" +
 	"\x17CreateCertificateOutput\x12%\n" +
@@ -422,7 +422,7 @@ const file_eolymp_certificate_certificate_service_proto_rawDesc = "" +
 	"\tmember_id\x18\x14 \x01(\tR\bmemberId\"e\n" +
 	"\x16ListCertificatesOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x125\n" +
-	"\x05items\x18\x02 \x03(\v2\x1f.eolymp.certificate.CertificateR\x05items2\xad\x06\n" +
+	"\x05items\x18\x02 \x03(\v2\x1f.eolymp.certificate.CertificateR\x05items2\xca\x06\n" +
 	"\x12CertificateService\x12\xb7\x01\n" +
 	"\x11CreateCertificate\x12*.eolymp.certificate.CreateCertificateInput\x1a+.eolymp.certificate.CreateCertificateOutput\"I\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -449,7 +449,7 @@ const file_eolymp_certificate_certificate_service_proto_rawDesc = "" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	" \x8a\xe3\n" +
-	"\x1ccertificate:certificate:read\x82\xd3\xe4\x93\x02#\x12!/members/{member_id}/certificatesB9Z7github.com/eolymp/go-sdk/eolymp/certificate;certificateb\x06proto3"
+	"\x1ccertificate:certificate:read\x82\xd3\xe4\x93\x02#\x12!/members/{member_id}/certificates\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB9Z7github.com/eolymp/go-sdk/eolymp/certificate;certificateb\x06proto3"
 
 var (
 	file_eolymp_certificate_certificate_service_proto_rawDescOnce sync.Once

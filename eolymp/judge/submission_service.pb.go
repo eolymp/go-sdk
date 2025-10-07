@@ -1131,7 +1131,7 @@ var File_eolymp_judge_submission_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_submission_service_proto_rawDesc = "" +
 	"\n" +
-	"%eolymp/judge/submission_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1deolymp/atlas/submission.proto\x1a\x1deolymp/judge/submission.proto\x1a!eolymp/wellknown/expression.proto\"\xb9\x01\n" +
+	"%eolymp/judge/submission_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1deolymp/atlas/submission.proto\x1a\x1deolymp/judge/submission.proto\x1a!eolymp/wellknown/expression.proto\"\xb9\x01\n" +
 	"\x15CreateSubmissionInput\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\x12\x1d\n" +
@@ -1215,7 +1215,7 @@ const file_eolymp_judge_submission_service_proto_rawDesc = "" +
 	"\x16AnalyzeSubmissionInput\x12#\n" +
 	"\rsubmission_id\x18\n" +
 	" \x01(\tR\fsubmissionId\"\x19\n" +
-	"\x17AnalyzeSubmissionOutput2\xd1\r\n" +
+	"\x17AnalyzeSubmissionOutput2\xed\r\n" +
 	"\x11SubmissionService\x12\xb9\x01\n" +
 	"\x10CreateSubmission\x12#.eolymp.judge.CreateSubmissionInput\x1a$.eolymp.judge.CreateSubmissionOutput\"Z\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -1276,7 +1276,7 @@ const file_eolymp_judge_submission_service_proto_rawDesc = "" +
 	"\x00\x00 A\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13judge:contest:write\x82\xd3\xe4\x93\x02&\"$/submissions/{submission_id}/analyzeB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
+	"\x13judge:contest:write\x82\xd3\xe4\x93\x02&\"$/submissions/{submission_id}/analyze\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.judge.ContestB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
 
 var (
 	file_eolymp_judge_submission_service_proto_rawDescOnce sync.Once

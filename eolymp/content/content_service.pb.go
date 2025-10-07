@@ -1568,7 +1568,7 @@ var File_eolymp_content_content_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_content_content_service_proto_rawDesc = "" +
 	"\n" +
-	"$eolymp/content/content_service.proto\x12\x0eeolymp.content\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1deolymp/content/fragment.proto\x1a\x1ceolymp/content/variant.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"o\n" +
+	"$eolymp/content/content_service.proto\x12\x0eeolymp.content\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1deolymp/content/fragment.proto\x1a\x1ceolymp/content/variant.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"o\n" +
 	"\x15DescribeFragmentInput\x12\x1f\n" +
 	"\vfragment_id\x18\x01 \x01(\tR\n" +
 	"fragmentId\x125\n" +
@@ -1677,7 +1677,7 @@ const file_eolymp_content_content_service_proto_rawDesc = "" +
 	"\x05extra\x18\xe3\b \x03(\x0e2\x1e.eolymp.content.Fragment.ExtraR\x05extra\"Y\n" +
 	"\x11ListParentsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12.\n" +
-	"\x05items\x18\x02 \x03(\v2\x18.eolymp.content.FragmentR\x05items2\xf6\x12\n" +
+	"\x05items\x18\x02 \x03(\v2\x18.eolymp.content.FragmentR\x05items2\xad\x13\n" +
 	"\x0eContentService\x12\xbb\x01\n" +
 	"\x10DescribeFragment\x12%.eolymp.content.DescribeFragmentInput\x1a&.eolymp.content.DescribeFragmentOutput\"X\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
@@ -1757,7 +1757,7 @@ const file_eolymp_content_content_service_proto_rawDesc = "" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"\xf4\x03\x82\xe3\n" +
 	"\x1c\x8a\xe3\n" +
-	"\x18typewriter:fragment:read\x82\xd3\xe4\x93\x02\x12\x12\x10/content/parentsB1Z/github.com/eolymp/go-sdk/eolymp/content;contentb\x06proto3"
+	"\x18typewriter:fragment:read\x82\xd3\xe4\x93\x02\x12\x12\x10/content/parents\x1a5\x82\xf0\xf0\xe4\x01\x15eolymp.universe.Space\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.ProblemB1Z/github.com/eolymp/go-sdk/eolymp/content;contentb\x06proto3"
 
 var (
 	file_eolymp_content_content_service_proto_rawDescOnce sync.Once

@@ -211,7 +211,7 @@ var File_eolymp_judge_registration_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_registration_service_proto_rawDesc = "" +
 	"\n" +
-	"'eolymp/judge/registration_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a eolymp/community/attribute.proto\":\n" +
+	"'eolymp/judge/registration_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a eolymp/community/attribute.proto\":\n" +
 	"\x19DescribeRegistrationInput\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\"\x94\x01\n" +
@@ -224,7 +224,7 @@ const file_eolymp_judge_registration_service_proto_rawDesc = "" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\x129\n" +
 	"\x06values\x18\x14 \x03(\v2!.eolymp.community.Attribute.ValueR\x06values\"\x1a\n" +
-	"\x18SubmitRegistrationOutput2\xf5\x02\n" +
+	"\x18SubmitRegistrationOutput2\x91\x03\n" +
 	"\x13RegistrationService\x12\xb0\x01\n" +
 	"\x14DescribeRegistration\x12'.eolymp.judge.DescribeRegistrationInput\x1a(.eolymp.judge.DescribeRegistrationOutput\"E\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -238,7 +238,7 @@ const file_eolymp_judge_registration_service_proto_rawDesc = "" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x03\x82\xe3\n" +
 	"\x1d\x8a\xe3\n" +
-	"\x19judge:contest:participate\x82\xd3\xe4\x93\x02\x0f\"\r/registrationB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
+	"\x19judge:contest:participate\x82\xd3\xe4\x93\x02\x0f\"\r/registration\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.judge.ContestB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
 
 var (
 	file_eolymp_judge_registration_service_proto_rawDescOnce sync.Once

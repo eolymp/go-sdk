@@ -871,7 +871,7 @@ var File_eolymp_judge_score_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_score_service_proto_rawDesc = "" +
 	"\n" +
-	" eolymp/judge/score_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x19eolymp/judge/result.proto\x1a\x18eolymp/judge/score.proto\"2\n" +
+	" eolymp/judge/score_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x19eolymp/judge/result.proto\x1a\x18eolymp/judge/score.proto\"2\n" +
 	"\x11RebuildScoreInput\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\"5\n" +
@@ -933,7 +933,7 @@ const file_eolymp_judge_score_service_proto_rawDesc = "" +
 	"timeOffset\"3\n" +
 	"\x12ExportResultOutput\x12\x1d\n" +
 	"\n" +
-	"export_url\x18\x01 \x01(\tR\texportUrl2\xb3\t\n" +
+	"export_url\x18\x01 \x01(\tR\texportUrl2\xcf\t\n" +
 	"\fScoreService\x12\x84\x01\n" +
 	"\x0fIntrospectScore\x12\".eolymp.judge.IntrospectScoreInput\x1a#.eolymp.judge.IntrospectScoreOutput\"(\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -982,7 +982,7 @@ const file_eolymp_judge_score_service_proto_rawDesc = "" +
 	"\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
 	"\x13judge:contest:write\x82\xd3\xe4\x93\x02\n" +
-	"\"\b/rebuildB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
+	"\"\b/rebuild\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.judge.ContestB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
 
 var (
 	file_eolymp_judge_score_service_proto_rawDescOnce sync.Once

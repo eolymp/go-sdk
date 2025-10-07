@@ -463,7 +463,7 @@ var File_eolymp_community_session_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_session_service_proto_rawDesc = "" +
 	"\n" +
-	"&eolymp/community/session_service.proto\x12\x10eolymp.community\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1eeolymp/community/session.proto\x1a!eolymp/wellknown/expression.proto\"5\n" +
+	"&eolymp/community/session_service.proto\x12\x10eolymp.community\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1eeolymp/community/session.proto\x1a!eolymp/wellknown/expression.proto\"5\n" +
 	"\x14DescribeSessionInput\x12\x1d\n" +
 	"\n" +
 	"session_id\x18\x01 \x01(\tR\tsessionId\"L\n" +
@@ -492,7 +492,7 @@ const file_eolymp_community_session_service_proto_rawDesc = "" +
 	"\n" +
 	"session_id\x18\x01 \x01(\tR\tsessionId\"Q\n" +
 	"\x1aTerminateAllSessionsOutput\x123\n" +
-	"\asession\x18\x01 \x01(\v2\x19.eolymp.community.SessionR\asession2\xdb\x05\n" +
+	"\asession\x18\x01 \x01(\v2\x19.eolymp.community.SessionR\asession2\xf8\x05\n" +
 	"\x0eSessionService\x12\xae\x01\n" +
 	"\x0fDescribeSession\x12&.eolymp.community.DescribeSessionInput\x1a'.eolymp.community.DescribeSessionOutput\"J\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -517,7 +517,7 @@ const file_eolymp_community_session_service_proto_rawDesc = "" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15community:member:read\x82\xd3\xe4\x93\x02\x19\"\x17/sessions:terminate-allB5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
+	"\x15community:member:read\x82\xd3\xe4\x93\x02\x19\"\x17/sessions:terminate-all\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
 
 var (
 	file_eolymp_community_session_service_proto_rawDescOnce sync.Once

@@ -15,10 +15,10 @@ type _CreditServiceMCPServer interface {
 
 // RegisterCreditServiceMCPTools registers tools for CreditService
 func RegisterCreditServiceMCPTools(mcp _CreditServiceMCPServer, srv CreditServiceClient) {
-	mcp.AddTool("community.describe_balance", "Retrieve member balance", false, []string{"community.Member"}, &DescribeBalanceInput{}, &DescribeBalanceOutput{}, _mcp_CreditService_DescribeBalance(srv))
-	mcp.AddTool("community.grant_credit", "Grant credit to a member", true, []string{"community.Member"}, &GrantCreditInput{}, &GrantCreditOutput{}, _mcp_CreditService_GrantCredit(srv))
-	mcp.AddTool("community.cancel_credit", "Cancel credit grant by ID", true, []string{"community.Member"}, &CancelCreditInput{}, &CancelCreditOutput{}, _mcp_CreditService_CancelCredit(srv))
-	mcp.AddTool("community.list_credit_grants", "Find credit grants for a member by his ID", false, []string{"community.Member"}, &ListCreditGrantsInput{}, &ListCreditGrantsOutput{}, _mcp_CreditService_ListCreditGrants(srv))
+	mcp.AddTool("community.describe_balance", "Retrieve member balance", false, []string{"eolymp.community.Member"}, &DescribeBalanceInput{}, &DescribeBalanceOutput{}, _mcp_CreditService_DescribeBalance(srv))
+	mcp.AddTool("community.grant_credit", "Grant credit to a member", true, []string{"eolymp.community.Member"}, &GrantCreditInput{}, &GrantCreditOutput{}, _mcp_CreditService_GrantCredit(srv))
+	mcp.AddTool("community.cancel_credit", "Cancel credit grant by ID", true, []string{"eolymp.community.Member"}, &CancelCreditInput{}, &CancelCreditOutput{}, _mcp_CreditService_CancelCredit(srv))
+	mcp.AddTool("community.list_credit_grants", "Find credit grants for a member by his ID", false, []string{"eolymp.community.Member"}, &ListCreditGrantsInput{}, &ListCreditGrantsOutput{}, _mcp_CreditService_ListCreditGrants(srv))
 }
 
 func _mcp_CreditService_DescribeBalance(srv CreditServiceClient) func(ctx context.Context, raw []byte) (any, error) {

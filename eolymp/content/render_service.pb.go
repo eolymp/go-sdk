@@ -115,16 +115,16 @@ var File_eolymp_content_render_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_content_render_service_proto_rawDesc = "" +
 	"\n" +
-	"#eolymp/content/render_service.proto\x12\x0eeolymp.content\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x18eolymp/ecm/content.proto\x1a\x15eolymp/ecm/node.proto\"C\n" +
+	"#eolymp/content/render_service.proto\x12\x0eeolymp.content\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x18eolymp/ecm/content.proto\x1a\x15eolymp/ecm/node.proto\"C\n" +
 	"\x12RenderContentInput\x12-\n" +
 	"\acontent\x18\x01 \x01(\v2\x13.eolymp.ecm.ContentR\acontent\"?\n" +
 	"\x13RenderContentOutput\x12(\n" +
-	"\x06render\x18\x01 \x01(\v2\x10.eolymp.ecm.NodeR\x06render2\x9f\x01\n" +
+	"\x06render\x18\x01 \x01(\v2\x10.eolymp.ecm.NodeR\x06render2\xbc\x01\n" +
 	"\rRenderService\x12\x8d\x01\n" +
 	"\rRenderContent\x12\".eolymp.content.RenderContentInput\x1a#.eolymp.content.RenderContentOutput\"3\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xc8A\xf8\xe2\n" +
-	"d\x82\xd3\xe4\x93\x02\x1eZ\v\"\t/renderer\"\x0f/content:renderB1Z/github.com/eolymp/go-sdk/eolymp/content;contentb\x06proto3"
+	"d\x82\xd3\xe4\x93\x02\x1eZ\v\"\t/renderer\"\x0f/content:render\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB1Z/github.com/eolymp/go-sdk/eolymp/content;contentb\x06proto3"
 
 var (
 	file_eolymp_content_render_service_proto_rawDescOnce sync.Once

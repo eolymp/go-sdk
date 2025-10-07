@@ -668,7 +668,7 @@ var File_eolymp_commerce_product_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_commerce_product_service_proto_rawDesc = "" +
 	"\n" +
-	"%eolymp/commerce/product_service.proto\x12\x0feolymp.commerce\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1deolymp/commerce/product.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"H\n" +
+	"%eolymp/commerce/product_service.proto\x12\x0feolymp.commerce\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1deolymp/commerce/product.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"H\n" +
 	"\x12CreateProductInput\x122\n" +
 	"\aproduct\x18\x01 \x01(\v2\x18.eolymp.commerce.ProductR\aproduct\"4\n" +
 	"\x13CreateProductOutput\x12\x1d\n" +
@@ -712,7 +712,7 @@ const file_eolymp_commerce_product_service_proto_rawDesc = "" +
 	"\aDEFAULT\x10\x00\"Z\n" +
 	"\x12ListProductsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12.\n" +
-	"\x05items\x18\x02 \x03(\v2\x18.eolymp.commerce.ProductR\x05items2\xe7\x06\n" +
+	"\x05items\x18\x02 \x03(\v2\x18.eolymp.commerce.ProductR\x05items2\x84\a\n" +
 	"\x0eProductService\x12\xa0\x01\n" +
 	"\rCreateProduct\x12#.eolymp.commerce.CreateProductInput\x1a$.eolymp.commerce.CreateProductOutput\"D\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -743,7 +743,7 @@ const file_eolymp_commerce_product_service_proto_rawDesc = "" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15commerce:catalog:read\x82\xd3\xe4\x93\x02\x11\x12\x0f/store/productsB3Z1github.com/eolymp/go-sdk/eolymp/commerce;commerceb\x06proto3"
+	"\x15commerce:catalog:read\x82\xd3\xe4\x93\x02\x11\x12\x0f/store/products\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB3Z1github.com/eolymp/go-sdk/eolymp/commerce;commerceb\x06proto3"
 
 var (
 	file_eolymp_commerce_product_service_proto_rawDescOnce sync.Once

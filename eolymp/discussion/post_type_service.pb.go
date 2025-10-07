@@ -506,7 +506,7 @@ var File_eolymp_discussion_post_type_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_discussion_post_type_service_proto_rawDesc = "" +
 	"\n" +
-	")eolymp/discussion/post_type_service.proto\x12\x11eolymp.discussion\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a!eolymp/discussion/post_type.proto\"\x82\x01\n" +
+	")eolymp/discussion/post_type_service.proto\x12\x11eolymp.discussion\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a!eolymp/discussion/post_type.proto\"\x82\x01\n" +
 	"\x15DescribePostTypeInput\x12\x17\n" +
 	"\atype_id\x18\x01 \x01(\tR\x06typeId\x12\x16\n" +
 	"\x06locale\x18\n" +
@@ -533,7 +533,7 @@ const file_eolymp_discussion_post_type_service_proto_rawDesc = "" +
 	"\x14UpdatePostTypeOutput\".\n" +
 	"\x13DeletePostTypeInput\x12\x17\n" +
 	"\atype_id\x18\x01 \x01(\tR\x06typeId\"\x16\n" +
-	"\x14DeletePostTypeOutput2\xc1\x06\n" +
+	"\x14DeletePostTypeOutput2\xde\x06\n" +
 	"\x0fPostTypeService\x12\x96\x01\n" +
 	"\x10DescribePostType\x12(.eolymp.discussion.DescribePostTypeInput\x1a).eolymp.discussion.DescribePostTypeOutput\"-\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
@@ -560,7 +560,7 @@ const file_eolymp_discussion_post_type_service_proto_rawDesc = "" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x1e\x8a\xe3\n" +
-	"\x1adiscussion:post-type:write\x82\xd3\xe4\x93\x02\x17*\x15/post-types/{type_id}B7Z5github.com/eolymp/go-sdk/eolymp/discussion;discussionb\x06proto3"
+	"\x1adiscussion:post-type:write\x82\xd3\xe4\x93\x02\x17*\x15/post-types/{type_id}\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB7Z5github.com/eolymp/go-sdk/eolymp/discussion;discussionb\x06proto3"
 
 var (
 	file_eolymp_discussion_post_type_service_proto_rawDescOnce sync.Once

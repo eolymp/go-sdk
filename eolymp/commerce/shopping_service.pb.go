@@ -794,7 +794,7 @@ var File_eolymp_commerce_shopping_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_commerce_shopping_service_proto_rawDesc = "" +
 	"\n" +
-	"&eolymp/commerce/shopping_service.proto\x12\x0feolymp.commerce\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1deolymp/commerce/address.proto\x1a%eolymp/commerce/shipping_method.proto\x1a#eolymp/commerce/shopping_cart.proto\"\x1b\n" +
+	"&eolymp/commerce/shopping_service.proto\x12\x0feolymp.commerce\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1deolymp/commerce/address.proto\x1a%eolymp/commerce/shipping_method.proto\x1a#eolymp/commerce/shopping_cart.proto\"\x1b\n" +
 	"\x19DescribeShoppingCartInput\"O\n" +
 	"\x1aDescribeShoppingCartOutput\x121\n" +
 	"\x04cart\x18\x01 \x01(\v2\x1d.eolymp.commerce.ShoppingCartR\x04cart\"w\n" +
@@ -829,7 +829,7 @@ const file_eolymp_commerce_shopping_service_proto_rawDesc = "" +
 	"\x0fPlaceOrderInput\"P\n" +
 	"\x10PlaceOrderOutput\x12\x19\n" +
 	"\border_id\x18\x01 \x01(\tR\aorderId\x12!\n" +
-	"\forder_number\x18\x02 \x01(\tR\vorderNumber2\xb8\v\n" +
+	"\forder_number\x18\x02 \x01(\tR\vorderNumber2\xd5\v\n" +
 	"\x0fShoppingService\x12\x93\x01\n" +
 	"\x14DescribeShoppingCart\x12*.eolymp.commerce.DescribeShoppingCartInput\x1a+.eolymp.commerce.DescribeShoppingCartOutput\"\"\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -875,7 +875,7 @@ const file_eolymp_commerce_shopping_service_proto_rawDesc = "" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\n" +
-	"\x82\xd3\xe4\x93\x02\x13\"\x11/store/cart:orderB3Z1github.com/eolymp/go-sdk/eolymp/commerce;commerceb\x06proto3"
+	"\x82\xd3\xe4\x93\x02\x13\"\x11/store/cart:order\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB3Z1github.com/eolymp/go-sdk/eolymp/commerce;commerceb\x06proto3"
 
 var (
 	file_eolymp_commerce_shopping_service_proto_rawDescOnce sync.Once

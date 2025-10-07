@@ -1201,7 +1201,7 @@ var File_eolymp_reward_achievement_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_reward_achievement_service_proto_rawDesc = "" +
 	"\n" +
-	"'eolymp/reward/achievement_service.proto\x12\reolymp.reward\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1feolymp/reward/achievement.proto\x1a!eolymp/wellknown/expression.proto\"V\n" +
+	"'eolymp/reward/achievement_service.proto\x12\reolymp.reward\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1feolymp/reward/achievement.proto\x1a!eolymp/wellknown/expression.proto\"V\n" +
 	"\x16CreateAchievementInput\x12<\n" +
 	"\vachievement\x18\x01 \x01(\v2\x1a.eolymp.reward.AchievementR\vachievement\"@\n" +
 	"\x17CreateAchievementOutput\x12%\n" +
@@ -1272,7 +1272,7 @@ const file_eolymp_reward_achievement_service_proto_rawDesc = "" +
 	"!DeleteAchievementTranslationInput\x12%\n" +
 	"\x0eachievement_id\x18\x01 \x01(\tR\rachievementId\x12%\n" +
 	"\x0etranslation_id\x18\x02 \x01(\tR\rtranslationId\"$\n" +
-	"\"DeleteAchievementTranslationOutput2\xe1\x10\n" +
+	"\"DeleteAchievementTranslationOutput2\xfe\x10\n" +
 	"\x12AchievementService\x12\xa6\x01\n" +
 	"\x11CreateAchievement\x12%.eolymp.reward.CreateAchievementInput\x1a&.eolymp.reward.CreateAchievementOutput\"B\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -1333,7 +1333,7 @@ const file_eolymp_reward_achievement_service_proto_rawDesc = "" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x1d\x8a\xe3\n" +
-	"\x19typewriter:fragment:write\x82\xd3\xe4\x93\x02>*</achievements/{achievement_id}/translations/{translation_id}B/Z-github.com/eolymp/go-sdk/eolymp/reward;rewardb\x06proto3"
+	"\x19typewriter:fragment:write\x82\xd3\xe4\x93\x02>*</achievements/{achievement_id}/translations/{translation_id}\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB/Z-github.com/eolymp/go-sdk/eolymp/reward;rewardb\x06proto3"
 
 var (
 	file_eolymp_reward_achievement_service_proto_rawDescOnce sync.Once

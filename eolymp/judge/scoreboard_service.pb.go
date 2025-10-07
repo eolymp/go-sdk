@@ -311,7 +311,7 @@ var File_eolymp_judge_scoreboard_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_scoreboard_service_proto_rawDesc = "" +
 	"\n" +
-	"%eolymp/judge/scoreboard_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1deolymp/judge/scoreboard.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"4\n" +
+	"%eolymp/judge/scoreboard_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1deolymp/judge/scoreboard.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"4\n" +
 	"\x17DescribeScoreboardInput\x12\x19\n" +
 	"\bround_id\x18\x01 \x01(\tR\aroundId\"T\n" +
 	"\x18DescribeScoreboardOutput\x128\n" +
@@ -335,7 +335,7 @@ const file_eolymp_judge_scoreboard_service_proto_rawDesc = "" +
 	"\fdisqualified\x18\v \x03(\v2 .eolymp.wellknown.ExpressionBoolR\fdisqualified\"d\n" +
 	"\x18ListScoreboardRowsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x122\n" +
-	"\x05items\x18\x02 \x03(\v2\x1c.eolymp.judge.Scoreboard.RowR\x05items2\xe2\x02\n" +
+	"\x05items\x18\x02 \x03(\v2\x1c.eolymp.judge.Scoreboard.RowR\x05items2\xfe\x02\n" +
 	"\x11ScoreboardService\x12\xa2\x01\n" +
 	"\x12DescribeScoreboard\x12%.eolymp.judge.DescribeScoreboardInput\x1a&.eolymp.judge.DescribeScoreboardOutput\"=\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
@@ -348,7 +348,7 @@ const file_eolymp_judge_scoreboard_service_proto_rawDesc = "" +
 	"\x00\x00HB\xf8\xe2\n" +
 	"\xc8\x01\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12judge:contest:read\x82\xd3\xe4\x93\x02\x12\x12\x10/scoreboard/rowsB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
+	"\x12judge:contest:read\x82\xd3\xe4\x93\x02\x12\x12\x10/scoreboard/rows\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.judge.ContestB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
 
 var (
 	file_eolymp_judge_scoreboard_service_proto_rawDescOnce sync.Once

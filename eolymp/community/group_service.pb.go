@@ -643,7 +643,7 @@ const file_eolymp_community_group_service_proto_rawDesc = "" +
 	"\x04name\x18\x03 \x03(\v2\".eolymp.wellknown.ExpressionStringR\x04name\"W\n" +
 	"\x10ListGroupsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12-\n" +
-	"\x05items\x18\x02 \x03(\v2\x17.eolymp.community.GroupR\x05items2\xb4\x06\n" +
+	"\x05items\x18\x02 \x03(\v2\x17.eolymp.community.GroupR\x05items2\xbb\x06\n" +
 	"\fGroupService\x12\x93\x01\n" +
 	"\vCreateGroup\x12\".eolymp.community.CreateGroupInput\x1a#.eolymp.community.CreateGroupOutput\";\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -675,7 +675,7 @@ const file_eolymp_community_group_service_proto_rawDesc = "" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14community:group:read\x82\xd3\xe4\x93\x02\t\x12\a/groups\x1a\x14\x82\xf0\xf0\xe4\x01\x0euniverse.SpaceB5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
+	"\x14community:group:read\x82\xd3\xe4\x93\x02\t\x12\a/groups\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
 
 var (
 	file_eolymp_community_group_service_proto_rawDescOnce sync.Once

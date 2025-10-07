@@ -607,7 +607,7 @@ var File_eolymp_judge_violation_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_violation_service_proto_rawDesc = "" +
 	"\n" +
-	"$eolymp/judge/violation_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1ceolymp/judge/violation.proto\x1a!eolymp/wellknown/expression.proto\"n\n" +
+	"$eolymp/judge/violation_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1ceolymp/judge/violation.proto\x1a!eolymp/wellknown/expression.proto\"n\n" +
 	"\x14CreateViolationInput\x125\n" +
 	"\tviolation\x18\x01 \x01(\v2\x17.eolymp.judge.ViolationR\tviolation\x12\x1f\n" +
 	"\vdont_notify\x18\x02 \x01(\bR\n" +
@@ -645,7 +645,7 @@ const file_eolymp_judge_violation_service_proto_rawDesc = "" +
 	"\fconfirmed_by\x18\t \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\vconfirmedBy\"[\n" +
 	"\x14ListViolationsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12-\n" +
-	"\x05items\x18\x02 \x03(\v2\x17.eolymp.judge.ViolationR\x05items2\xcc\x06\n" +
+	"\x05items\x18\x02 \x03(\v2\x17.eolymp.judge.ViolationR\x05items2\xe8\x06\n" +
 	"\x10ViolationService\x12\x99\x01\n" +
 	"\x0fCreateViolation\x12\".eolymp.judge.CreateViolationInput\x1a#.eolymp.judge.CreateViolationOutput\"=\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -676,7 +676,7 @@ const file_eolymp_judge_violation_service_proto_rawDesc = "" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12judge:contest:read\x82\xd3\xe4\x93\x02\r\x12\v/violationsB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
+	"\x12judge:contest:read\x82\xd3\xe4\x93\x02\r\x12\v/violations\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.judge.ContestB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
 
 var (
 	file_eolymp_judge_violation_service_proto_rawDescOnce sync.Once

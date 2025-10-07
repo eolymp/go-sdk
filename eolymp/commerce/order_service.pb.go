@@ -496,7 +496,7 @@ var File_eolymp_commerce_order_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_commerce_order_service_proto_rawDesc = "" +
 	"\n" +
-	"#eolymp/commerce/order_service.proto\x12\x0feolymp.commerce\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1beolymp/commerce/order.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"q\n" +
+	"#eolymp/commerce/order_service.proto\x12\x0feolymp.commerce\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1beolymp/commerce/order.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"q\n" +
 	"\x11OrderChangedEvent\x12.\n" +
 	"\x06before\x18\x01 \x01(\v2\x16.eolymp.commerce.OrderR\x06before\x12,\n" +
 	"\x05after\x18\x02 \x01(\v2\x16.eolymp.commerce.OrderR\x05after\"-\n" +
@@ -524,7 +524,7 @@ const file_eolymp_commerce_order_service_proto_rawDesc = "" +
 	"\aDEFAULT\x10\x00\"V\n" +
 	"\x10ListOrdersOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12,\n" +
-	"\x05items\x18\x02 \x03(\v2\x16.eolymp.commerce.OrderR\x05items2\x80\x04\n" +
+	"\x05items\x18\x02 \x03(\v2\x16.eolymp.commerce.OrderR\x05items2\x9d\x04\n" +
 	"\fOrderService\x12\xab\x01\n" +
 	"\vCancelOrder\x12!.eolymp.commerce.CancelOrderInput\x1a\".eolymp.commerce.CancelOrderOutput\"U\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -544,7 +544,7 @@ const file_eolymp_commerce_order_service_proto_rawDesc = "" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
-	"\x16commerce:shopping:read\x82\xd3\xe4\x93\x02\x0f\x12\r/store/ordersB3Z1github.com/eolymp/go-sdk/eolymp/commerce;commerceb\x06proto3"
+	"\x16commerce:shopping:read\x82\xd3\xe4\x93\x02\x0f\x12\r/store/orders\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB3Z1github.com/eolymp/go-sdk/eolymp/commerce;commerceb\x06proto3"
 
 var (
 	file_eolymp_commerce_order_service_proto_rawDescOnce sync.Once

@@ -186,13 +186,13 @@ var File_eolymp_community_configuration_service_proto protoreflect.FileDescripto
 
 const file_eolymp_community_configuration_service_proto_rawDesc = "" +
 	"\n" +
-	",eolymp/community/configuration_service.proto\x12\x10eolymp.community\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a-eolymp/community/configuration_identity.proto\"\x1d\n" +
+	",eolymp/community/configuration_service.proto\x12\x10eolymp.community\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a-eolymp/community/configuration_identity.proto\"\x1d\n" +
 	"\x1bDescribeIdentityConfigInput\"X\n" +
 	"\x1cDescribeIdentityConfigOutput\x128\n" +
 	"\x06config\x18\x01 \x01(\v2 .eolymp.community.IdentityConfigR\x06config\"X\n" +
 	"\x1cConfigureIdentityConfigInput\x128\n" +
 	"\x06config\x18\x01 \x01(\v2 .eolymp.community.IdentityConfigR\x06config\"\x1f\n" +
-	"\x1dConfigureIdentityConfigOutput2\xff\x02\n" +
+	"\x1dConfigureIdentityConfigOutput2\x9c\x03\n" +
 	"\x14ConfigurationService\x12\xa1\x01\n" +
 	"\x16DescribeIdentityConfig\x12-.eolymp.community.DescribeIdentityConfigInput\x1a..eolymp.community.DescribeIdentityConfigOutput\"(\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -203,7 +203,7 @@ const file_eolymp_community_configuration_service_proto_rawDesc = "" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
-	"\x16community:member:write\x82\xd3\xe4\x93\x02\x13\x1a\x11/configs/identityB5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
+	"\x16community:member:write\x82\xd3\xe4\x93\x02\x13\x1a\x11/configs/identity\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
 
 var (
 	file_eolymp_community_configuration_service_proto_rawDescOnce sync.Once
