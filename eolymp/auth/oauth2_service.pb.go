@@ -939,13 +939,27 @@ func (x *RegisterClientInput) GetSoftwareStatement() string {
 }
 
 type RegisterClientOutput struct {
-	state                 protoimpl.MessageState `protogen:"open.v1"`
-	ClientId              string                 `protobuf:"bytes,1,opt,name=client_id,json=clientId,proto3" json:"client_id,omitempty"`
-	ClientSecret          string                 `protobuf:"bytes,2,opt,name=client_secret,json=clientSecret,proto3" json:"client_secret,omitempty"`
-	ClientIdIssuedAt      *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=client_id_issued_at,json=clientIdIssuedAt,proto3" json:"client_id_issued_at,omitempty"`
-	ClientSecretExpiresAt *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=client_secret_expires_at,json=clientSecretExpiresAt,proto3" json:"client_secret_expires_at,omitempty"`
-	unknownFields         protoimpl.UnknownFields
-	sizeCache             protoimpl.SizeCache
+	state                        protoimpl.MessageState `protogen:"open.v1"`
+	ClientId                     string                 `protobuf:"bytes,1,opt,name=client_id,json=clientId,proto3" json:"client_id,omitempty"`
+	ClientSecret                 string                 `protobuf:"bytes,2,opt,name=client_secret,json=clientSecret,proto3" json:"client_secret,omitempty"`
+	ClientIdIssuedAt             *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=client_id_issued_at,json=clientIdIssuedAt,proto3" json:"client_id_issued_at,omitempty"`
+	ClientSecretExpiresAt        *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=client_secret_expires_at,json=clientSecretExpiresAt,proto3" json:"client_secret_expires_at,omitempty"`
+	RegistrationAccessToken      string                 `protobuf:"bytes,5,opt,name=registration_access_token,json=registrationAccessToken,proto3" json:"registration_access_token,omitempty"`
+	RegistrationClientUri        string                 `protobuf:"bytes,6,opt,name=registration_client_uri,json=registrationClientUri,proto3" json:"registration_client_uri,omitempty"`
+	TokenEndpointAuthMethod      string                 `protobuf:"bytes,7,opt,name=token_endpoint_auth_method,json=tokenEndpointAuthMethod,proto3" json:"token_endpoint_auth_method,omitempty"`
+	ApplicationType              string                 `protobuf:"bytes,8,opt,name=application_type,json=applicationType,proto3" json:"application_type,omitempty"`
+	RedirectUris                 []string               `protobuf:"bytes,9,rep,name=redirect_uris,json=redirectUris,proto3" json:"redirect_uris,omitempty"`
+	ClientName                   string                 `protobuf:"bytes,10,opt,name=client_name,json=clientName,proto3" json:"client_name,omitempty"`
+	LogoUri                      string                 `protobuf:"bytes,11,opt,name=logo_uri,json=logoUri,proto3" json:"logo_uri,omitempty"`
+	SubjectType                  string                 `protobuf:"bytes,12,opt,name=subject_type,json=subjectType,proto3" json:"subject_type,omitempty"`
+	SectorIdentifierUri          string                 `protobuf:"bytes,13,opt,name=sector_identifier_uri,json=sectorIdentifierUri,proto3" json:"sector_identifier_uri,omitempty"`
+	JwksUri                      string                 `protobuf:"bytes,14,opt,name=jwks_uri,json=jwksUri,proto3" json:"jwks_uri,omitempty"`
+	UserinfoEncryptedResponseAlg string                 `protobuf:"bytes,15,opt,name=userinfo_encrypted_response_alg,json=userinfoEncryptedResponseAlg,proto3" json:"userinfo_encrypted_response_alg,omitempty"`
+	UserinfoEncryptedResponseEnc string                 `protobuf:"bytes,16,opt,name=userinfo_encrypted_response_enc,json=userinfoEncryptedResponseEnc,proto3" json:"userinfo_encrypted_response_enc,omitempty"`
+	Contacts                     []string               `protobuf:"bytes,17,rep,name=contacts,proto3" json:"contacts,omitempty"`
+	RequestUris                  []string               `protobuf:"bytes,18,rep,name=request_uris,json=requestUris,proto3" json:"request_uris,omitempty"`
+	unknownFields                protoimpl.UnknownFields
+	sizeCache                    protoimpl.SizeCache
 }
 
 func (x *RegisterClientOutput) Reset() {
@@ -1002,6 +1016,104 @@ func (x *RegisterClientOutput) GetClientIdIssuedAt() *timestamppb.Timestamp {
 func (x *RegisterClientOutput) GetClientSecretExpiresAt() *timestamppb.Timestamp {
 	if x != nil {
 		return x.ClientSecretExpiresAt
+	}
+	return nil
+}
+
+func (x *RegisterClientOutput) GetRegistrationAccessToken() string {
+	if x != nil {
+		return x.RegistrationAccessToken
+	}
+	return ""
+}
+
+func (x *RegisterClientOutput) GetRegistrationClientUri() string {
+	if x != nil {
+		return x.RegistrationClientUri
+	}
+	return ""
+}
+
+func (x *RegisterClientOutput) GetTokenEndpointAuthMethod() string {
+	if x != nil {
+		return x.TokenEndpointAuthMethod
+	}
+	return ""
+}
+
+func (x *RegisterClientOutput) GetApplicationType() string {
+	if x != nil {
+		return x.ApplicationType
+	}
+	return ""
+}
+
+func (x *RegisterClientOutput) GetRedirectUris() []string {
+	if x != nil {
+		return x.RedirectUris
+	}
+	return nil
+}
+
+func (x *RegisterClientOutput) GetClientName() string {
+	if x != nil {
+		return x.ClientName
+	}
+	return ""
+}
+
+func (x *RegisterClientOutput) GetLogoUri() string {
+	if x != nil {
+		return x.LogoUri
+	}
+	return ""
+}
+
+func (x *RegisterClientOutput) GetSubjectType() string {
+	if x != nil {
+		return x.SubjectType
+	}
+	return ""
+}
+
+func (x *RegisterClientOutput) GetSectorIdentifierUri() string {
+	if x != nil {
+		return x.SectorIdentifierUri
+	}
+	return ""
+}
+
+func (x *RegisterClientOutput) GetJwksUri() string {
+	if x != nil {
+		return x.JwksUri
+	}
+	return ""
+}
+
+func (x *RegisterClientOutput) GetUserinfoEncryptedResponseAlg() string {
+	if x != nil {
+		return x.UserinfoEncryptedResponseAlg
+	}
+	return ""
+}
+
+func (x *RegisterClientOutput) GetUserinfoEncryptedResponseEnc() string {
+	if x != nil {
+		return x.UserinfoEncryptedResponseEnc
+	}
+	return ""
+}
+
+func (x *RegisterClientOutput) GetContacts() []string {
+	if x != nil {
+		return x.Contacts
+	}
+	return nil
+}
+
+func (x *RegisterClientOutput) GetRequestUris() []string {
+	if x != nil {
+		return x.RequestUris
 	}
 	return nil
 }
@@ -1091,12 +1203,28 @@ const file_eolymp_auth_oauth2_service_proto_rawDesc = "" +
 	"\vsoftware_id\x18\r \x01(\tR\n" +
 	"softwareId\x12)\n" +
 	"\x10software_version\x18\x0e \x01(\tR\x0fsoftwareVersion\x12-\n" +
-	"\x12software_statement\x18d \x01(\tR\x11softwareStatement\"\xf8\x01\n" +
+	"\x12software_statement\x18d \x01(\tR\x11softwareStatement\"\xf4\x06\n" +
 	"\x14RegisterClientOutput\x12\x1b\n" +
 	"\tclient_id\x18\x01 \x01(\tR\bclientId\x12#\n" +
 	"\rclient_secret\x18\x02 \x01(\tR\fclientSecret\x12I\n" +
 	"\x13client_id_issued_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\x10clientIdIssuedAt\x12S\n" +
-	"\x18client_secret_expires_at\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\x15clientSecretExpiresAt2\xc6\x05\n" +
+	"\x18client_secret_expires_at\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\x15clientSecretExpiresAt\x12:\n" +
+	"\x19registration_access_token\x18\x05 \x01(\tR\x17registrationAccessToken\x126\n" +
+	"\x17registration_client_uri\x18\x06 \x01(\tR\x15registrationClientUri\x12;\n" +
+	"\x1atoken_endpoint_auth_method\x18\a \x01(\tR\x17tokenEndpointAuthMethod\x12)\n" +
+	"\x10application_type\x18\b \x01(\tR\x0fapplicationType\x12#\n" +
+	"\rredirect_uris\x18\t \x03(\tR\fredirectUris\x12\x1f\n" +
+	"\vclient_name\x18\n" +
+	" \x01(\tR\n" +
+	"clientName\x12\x19\n" +
+	"\blogo_uri\x18\v \x01(\tR\alogoUri\x12!\n" +
+	"\fsubject_type\x18\f \x01(\tR\vsubjectType\x122\n" +
+	"\x15sector_identifier_uri\x18\r \x01(\tR\x13sectorIdentifierUri\x12\x19\n" +
+	"\bjwks_uri\x18\x0e \x01(\tR\ajwksUri\x12E\n" +
+	"\x1fuserinfo_encrypted_response_alg\x18\x0f \x01(\tR\x1cuserinfoEncryptedResponseAlg\x12E\n" +
+	"\x1fuserinfo_encrypted_response_enc\x18\x10 \x01(\tR\x1cuserinfoEncryptedResponseEnc\x12\x1a\n" +
+	"\bcontacts\x18\x11 \x03(\tR\bcontacts\x12!\n" +
+	"\frequest_uris\x18\x12 \x03(\tR\vrequestUris2\xc6\x05\n" +
 	"\rOAuth2Service\x12[\n" +
 	"\n" +
 	"IssueToken\x12\x1c.eolymp.auth.IssueTokenInput\x1a\x1d.eolymp.auth.IssueTokenOutput\"\x10\xea\xe2\n" +
