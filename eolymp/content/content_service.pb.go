@@ -1757,7 +1757,7 @@ const file_eolymp_content_content_service_proto_rawDesc = "" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"\xf4\x03\x82\xe3\n" +
 	"\x1c\x8a\xe3\n" +
-	"\x18typewriter:fragment:read\x82\xd3\xe4\x93\x02\x12\x12\x10/content/parents\x1a5\x82\xf0\xf0\xe4\x01\x15eolymp.universe.Space\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.ProblemB1Z/github.com/eolymp/go-sdk/eolymp/content;contentb\x06proto3"
+	"\x18typewriter:fragment:read\x82\xd3\xe4\x93\x02\x12\x12\x10/content/parents\x1a5\x82\xf0\xf0\xe4\x01\x15eolymp.universe.Space\x82\xf0\xf0\xe4\x01\x14eolymp.judge.ContestB1Z/github.com/eolymp/go-sdk/eolymp/content;contentb\x06proto3"
 
 var (
 	file_eolymp_content_content_service_proto_rawDescOnce sync.Once
