@@ -2,9 +2,9 @@
 // versions:
 // 	protoc-gen-go v1.36.10
 // 	protoc        v5.29.4
-// source: eolymp/discussion/post.proto
+// source: eolymp/content/post.proto
 
-package discussion
+package content
 
 import (
 	ecm "github.com/eolymp/go-sdk/eolymp/ecm"
@@ -63,11 +63,11 @@ func (x Post_Moderation) String() string {
 }
 
 func (Post_Moderation) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_discussion_post_proto_enumTypes[0].Descriptor()
+	return file_eolymp_content_post_proto_enumTypes[0].Descriptor()
 }
 
 func (Post_Moderation) Type() protoreflect.EnumType {
-	return &file_eolymp_discussion_post_proto_enumTypes[0]
+	return &file_eolymp_content_post_proto_enumTypes[0]
 }
 
 func (x Post_Moderation) Number() protoreflect.EnumNumber {
@@ -76,7 +76,7 @@ func (x Post_Moderation) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use Post_Moderation.Descriptor instead.
 func (Post_Moderation) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_discussion_post_proto_rawDescGZIP(), []int{0, 0}
+	return file_eolymp_content_post_proto_rawDescGZIP(), []int{0, 0}
 }
 
 type Post_Extra int32
@@ -118,11 +118,11 @@ func (x Post_Extra) String() string {
 }
 
 func (Post_Extra) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_discussion_post_proto_enumTypes[1].Descriptor()
+	return file_eolymp_content_post_proto_enumTypes[1].Descriptor()
 }
 
 func (Post_Extra) Type() protoreflect.EnumType {
-	return &file_eolymp_discussion_post_proto_enumTypes[1]
+	return &file_eolymp_content_post_proto_enumTypes[1]
 }
 
 func (x Post_Extra) Number() protoreflect.EnumNumber {
@@ -131,20 +131,20 @@ func (x Post_Extra) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use Post_Extra.Descriptor instead.
 func (Post_Extra) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_discussion_post_proto_rawDescGZIP(), []int{0, 1}
+	return file_eolymp_content_post_proto_rawDescGZIP(), []int{0, 1}
 }
 
 type Post struct {
 	state      protoimpl.MessageState `protogen:"open.v1"`
 	Id         string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	Url        string                 `protobuf:"bytes,2,opt,name=url,proto3" json:"url,omitempty"`
-	SourceId   string                 `protobuf:"bytes,7,opt,name=source_id,json=sourceId,proto3" json:"source_id,omitempty"`                             // if set, marks this post as translation for a post specified in this field
-	SourceUrl  string                 `protobuf:"bytes,8,opt,name=source_url,json=sourceUrl,proto3" json:"source_url,omitempty"`                          // populated if source_id is set
-	Draft      bool                   `protobuf:"varint,3,opt,name=draft,proto3" json:"draft,omitempty"`                                                  // marked as draft and only shown to author
-	Public     bool                   `protobuf:"varint,4,opt,name=public,proto3" json:"public,omitempty"`                                                // visible and available to everyone (ie. published and passed moderation)
-	Featured   bool                   `protobuf:"varint,9,opt,name=featured,proto3" json:"featured,omitempty"`                                            // marked as featured (shown on home page)
-	Pinned     bool                   `protobuf:"varint,13,opt,name=pinned,proto3" json:"pinned,omitempty"`                                               // pinned on top of the page
-	Moderation Post_Moderation        `protobuf:"varint,5,opt,name=moderation,proto3,enum=eolymp.discussion.Post_Moderation" json:"moderation,omitempty"` // moderation status
+	SourceId   string                 `protobuf:"bytes,7,opt,name=source_id,json=sourceId,proto3" json:"source_id,omitempty"`                          // if set, marks this post as translation for a post specified in this field
+	SourceUrl  string                 `protobuf:"bytes,8,opt,name=source_url,json=sourceUrl,proto3" json:"source_url,omitempty"`                       // populated if source_id is set
+	Draft      bool                   `protobuf:"varint,3,opt,name=draft,proto3" json:"draft,omitempty"`                                               // marked as draft and only shown to author
+	Public     bool                   `protobuf:"varint,4,opt,name=public,proto3" json:"public,omitempty"`                                             // visible and available to everyone (ie. published and passed moderation)
+	Featured   bool                   `protobuf:"varint,9,opt,name=featured,proto3" json:"featured,omitempty"`                                         // marked as featured (shown on home page)
+	Pinned     bool                   `protobuf:"varint,13,opt,name=pinned,proto3" json:"pinned,omitempty"`                                            // pinned on top of the page
+	Moderation Post_Moderation        `protobuf:"varint,5,opt,name=moderation,proto3,enum=eolymp.content.Post_Moderation" json:"moderation,omitempty"` // moderation status
 	// Types that are valid to be assigned to Author:
 	//
 	//	*Post_UserId
@@ -170,7 +170,7 @@ type Post struct {
 
 func (x *Post) Reset() {
 	*x = Post{}
-	mi := &file_eolymp_discussion_post_proto_msgTypes[0]
+	mi := &file_eolymp_content_post_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -182,7 +182,7 @@ func (x *Post) String() string {
 func (*Post) ProtoMessage() {}
 
 func (x *Post) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_discussion_post_proto_msgTypes[0]
+	mi := &file_eolymp_content_post_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -195,7 +195,7 @@ func (x *Post) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Post.ProtoReflect.Descriptor instead.
 func (*Post) Descriptor() ([]byte, []int) {
-	return file_eolymp_discussion_post_proto_rawDescGZIP(), []int{0}
+	return file_eolymp_content_post_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *Post) GetId() string {
@@ -413,7 +413,7 @@ type Post_Translation struct {
 
 func (x *Post_Translation) Reset() {
 	*x = Post_Translation{}
-	mi := &file_eolymp_discussion_post_proto_msgTypes[1]
+	mi := &file_eolymp_content_post_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -425,7 +425,7 @@ func (x *Post_Translation) String() string {
 func (*Post_Translation) ProtoMessage() {}
 
 func (x *Post_Translation) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_discussion_post_proto_msgTypes[1]
+	mi := &file_eolymp_content_post_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -438,7 +438,7 @@ func (x *Post_Translation) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Post_Translation.ProtoReflect.Descriptor instead.
 func (*Post_Translation) Descriptor() ([]byte, []int) {
-	return file_eolymp_discussion_post_proto_rawDescGZIP(), []int{0, 0}
+	return file_eolymp_content_post_proto_rawDescGZIP(), []int{0, 0}
 }
 
 func (x *Post_Translation) GetId() string {
@@ -488,7 +488,7 @@ type Post_Image struct {
 
 func (x *Post_Image) Reset() {
 	*x = Post_Image{}
-	mi := &file_eolymp_discussion_post_proto_msgTypes[2]
+	mi := &file_eolymp_content_post_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -500,7 +500,7 @@ func (x *Post_Image) String() string {
 func (*Post_Image) ProtoMessage() {}
 
 func (x *Post_Image) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_discussion_post_proto_msgTypes[2]
+	mi := &file_eolymp_content_post_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -513,7 +513,7 @@ func (x *Post_Image) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Post_Image.ProtoReflect.Descriptor instead.
 func (*Post_Image) Descriptor() ([]byte, []int) {
-	return file_eolymp_discussion_post_proto_rawDescGZIP(), []int{0, 1}
+	return file_eolymp_content_post_proto_rawDescGZIP(), []int{0, 1}
 }
 
 func (x *Post_Image) GetSrc() string {
@@ -555,7 +555,7 @@ type Post_Preview struct {
 
 func (x *Post_Preview) Reset() {
 	*x = Post_Preview{}
-	mi := &file_eolymp_discussion_post_proto_msgTypes[3]
+	mi := &file_eolymp_content_post_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -567,7 +567,7 @@ func (x *Post_Preview) String() string {
 func (*Post_Preview) ProtoMessage() {}
 
 func (x *Post_Preview) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_discussion_post_proto_msgTypes[3]
+	mi := &file_eolymp_content_post_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -580,7 +580,7 @@ func (x *Post_Preview) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Post_Preview.ProtoReflect.Descriptor instead.
 func (*Post_Preview) Descriptor() ([]byte, []int) {
-	return file_eolymp_discussion_post_proto_rawDescGZIP(), []int{0, 2}
+	return file_eolymp_content_post_proto_rawDescGZIP(), []int{0, 2}
 }
 
 func (x *Post_Preview) GetTitle() string {
@@ -604,11 +604,11 @@ func (x *Post_Preview) GetContent() *ecm.Node {
 	return nil
 }
 
-var File_eolymp_discussion_post_proto protoreflect.FileDescriptor
+var File_eolymp_content_post_proto protoreflect.FileDescriptor
 
-const file_eolymp_discussion_post_proto_rawDesc = "" +
+const file_eolymp_content_post_proto_rawDesc = "" +
 	"\n" +
-	"\x1ceolymp/discussion/post.proto\x12\x11eolymp.discussion\x1a\x18eolymp/ecm/content.proto\x1a\x15eolymp/ecm/node.proto\x1a\x1beolymp/wellknown/link.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xa3\v\n" +
+	"\x19eolymp/content/post.proto\x12\x0eeolymp.content\x1a\x18eolymp/ecm/content.proto\x1a\x15eolymp/ecm/node.proto\x1a\x1beolymp/wellknown/link.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x99\v\n" +
 	"\x04Post\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x10\n" +
 	"\x03url\x18\x02 \x01(\tR\x03url\x12\x1b\n" +
@@ -618,9 +618,9 @@ const file_eolymp_discussion_post_proto_rawDesc = "" +
 	"\x05draft\x18\x03 \x01(\bR\x05draft\x12\x16\n" +
 	"\x06public\x18\x04 \x01(\bR\x06public\x12\x1a\n" +
 	"\bfeatured\x18\t \x01(\bR\bfeatured\x12\x16\n" +
-	"\x06pinned\x18\r \x01(\bR\x06pinned\x12B\n" +
+	"\x06pinned\x18\r \x01(\bR\x06pinned\x12?\n" +
 	"\n" +
-	"moderation\x18\x05 \x01(\x0e2\".eolymp.discussion.Post.ModerationR\n" +
+	"moderation\x18\x05 \x01(\x0e2\x1f.eolymp.content.Post.ModerationR\n" +
 	"moderation\x12\x19\n" +
 	"\auser_id\x18\n" +
 	" \x01(\tH\x00R\x06userId\x12\x1d\n" +
@@ -634,8 +634,8 @@ const file_eolymp_discussion_post_proto_rawDesc = "" +
 	"\x06locale\x18f \x01(\tR\x06locale\x12\x14\n" +
 	"\x05title\x18g \x01(\tR\x05title\x12\x1b\n" +
 	"\timage_url\x18h \x01(\tR\bimageUrl\x12-\n" +
-	"\acontent\x18e \x01(\v2\x13.eolymp.ecm.ContentR\acontent\x129\n" +
-	"\apreview\x18n \x01(\v2\x1f.eolymp.discussion.Post.PreviewR\apreview\x12\x12\n" +
+	"\acontent\x18e \x01(\v2\x13.eolymp.ecm.ContentR\acontent\x126\n" +
+	"\apreview\x18n \x01(\v2\x1c.eolymp.content.Post.PreviewR\apreview\x12\x12\n" +
 	"\x04vote\x18\f \x01(\x05R\x04vote\x12\x1d\n" +
 	"\n" +
 	"vote_count\x18\x1e \x01(\x05R\tvoteCount\x12\x1f\n" +
@@ -653,10 +653,10 @@ const file_eolymp_discussion_post_proto_rawDesc = "" +
 	"\x03src\x18\x01 \x01(\tR\x03src\x12\x14\n" +
 	"\x05width\x18\x02 \x01(\x05R\x05width\x12\x16\n" +
 	"\x06height\x18\x03 \x01(\x05R\x06height\x12\x14\n" +
-	"\x05class\x18\x04 \x03(\tR\x05class\x1a\x80\x01\n" +
+	"\x05class\x18\x04 \x03(\tR\x05class\x1a}\n" +
 	"\aPreview\x12\x14\n" +
-	"\x05title\x18\x01 \x01(\tR\x05title\x123\n" +
-	"\x05image\x18\x02 \x01(\v2\x1d.eolymp.discussion.Post.ImageR\x05image\x12*\n" +
+	"\x05title\x18\x01 \x01(\tR\x05title\x120\n" +
+	"\x05image\x18\x02 \x01(\v2\x1a.eolymp.content.Post.ImageR\x05image\x12*\n" +
 	"\acontent\x18\x03 \x01(\v2\x10.eolymp.ecm.NodeR\acontent\"\\\n" +
 	"\n" +
 	"Moderation\x12\x16\n" +
@@ -671,45 +671,45 @@ const file_eolymp_discussion_post_proto_rawDesc = "" +
 	"\x0eCONTENT_RENDER\x10\x02\x12\v\n" +
 	"\aPREVIEW\x10\x03\x12\b\n" +
 	"\x04VOTE\x10\x04B\b\n" +
-	"\x06authorB7Z5github.com/eolymp/go-sdk/eolymp/discussion;discussionb\x06proto3"
+	"\x06authorB1Z/github.com/eolymp/go-sdk/eolymp/content;contentb\x06proto3"
 
 var (
-	file_eolymp_discussion_post_proto_rawDescOnce sync.Once
-	file_eolymp_discussion_post_proto_rawDescData []byte
+	file_eolymp_content_post_proto_rawDescOnce sync.Once
+	file_eolymp_content_post_proto_rawDescData []byte
 )
 
-func file_eolymp_discussion_post_proto_rawDescGZIP() []byte {
-	file_eolymp_discussion_post_proto_rawDescOnce.Do(func() {
-		file_eolymp_discussion_post_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_eolymp_discussion_post_proto_rawDesc), len(file_eolymp_discussion_post_proto_rawDesc)))
+func file_eolymp_content_post_proto_rawDescGZIP() []byte {
+	file_eolymp_content_post_proto_rawDescOnce.Do(func() {
+		file_eolymp_content_post_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_eolymp_content_post_proto_rawDesc), len(file_eolymp_content_post_proto_rawDesc)))
 	})
-	return file_eolymp_discussion_post_proto_rawDescData
+	return file_eolymp_content_post_proto_rawDescData
 }
 
-var file_eolymp_discussion_post_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_eolymp_discussion_post_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
-var file_eolymp_discussion_post_proto_goTypes = []any{
-	(Post_Moderation)(0),          // 0: eolymp.discussion.Post.Moderation
-	(Post_Extra)(0),               // 1: eolymp.discussion.Post.Extra
-	(*Post)(nil),                  // 2: eolymp.discussion.Post
-	(*Post_Translation)(nil),      // 3: eolymp.discussion.Post.Translation
-	(*Post_Image)(nil),            // 4: eolymp.discussion.Post.Image
-	(*Post_Preview)(nil),          // 5: eolymp.discussion.Post.Preview
+var file_eolymp_content_post_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_eolymp_content_post_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_eolymp_content_post_proto_goTypes = []any{
+	(Post_Moderation)(0),          // 0: eolymp.content.Post.Moderation
+	(Post_Extra)(0),               // 1: eolymp.content.Post.Extra
+	(*Post)(nil),                  // 2: eolymp.content.Post
+	(*Post_Translation)(nil),      // 3: eolymp.content.Post.Translation
+	(*Post_Image)(nil),            // 4: eolymp.content.Post.Image
+	(*Post_Preview)(nil),          // 5: eolymp.content.Post.Preview
 	(*timestamppb.Timestamp)(nil), // 6: google.protobuf.Timestamp
 	(*ecm.Content)(nil),           // 7: eolymp.ecm.Content
 	(*wellknown.Link)(nil),        // 8: eolymp.wellknown.Link
 	(*ecm.Node)(nil),              // 9: eolymp.ecm.Node
 }
-var file_eolymp_discussion_post_proto_depIdxs = []int32{
-	0,  // 0: eolymp.discussion.Post.moderation:type_name -> eolymp.discussion.Post.Moderation
-	6,  // 1: eolymp.discussion.Post.created_at:type_name -> google.protobuf.Timestamp
-	6,  // 2: eolymp.discussion.Post.published_at:type_name -> google.protobuf.Timestamp
-	6,  // 3: eolymp.discussion.Post.updated_at:type_name -> google.protobuf.Timestamp
-	7,  // 4: eolymp.discussion.Post.content:type_name -> eolymp.ecm.Content
-	5,  // 5: eolymp.discussion.Post.preview:type_name -> eolymp.discussion.Post.Preview
-	8,  // 6: eolymp.discussion.Post.links:type_name -> eolymp.wellknown.Link
-	7,  // 7: eolymp.discussion.Post.Translation.content:type_name -> eolymp.ecm.Content
-	4,  // 8: eolymp.discussion.Post.Preview.image:type_name -> eolymp.discussion.Post.Image
-	9,  // 9: eolymp.discussion.Post.Preview.content:type_name -> eolymp.ecm.Node
+var file_eolymp_content_post_proto_depIdxs = []int32{
+	0,  // 0: eolymp.content.Post.moderation:type_name -> eolymp.content.Post.Moderation
+	6,  // 1: eolymp.content.Post.created_at:type_name -> google.protobuf.Timestamp
+	6,  // 2: eolymp.content.Post.published_at:type_name -> google.protobuf.Timestamp
+	6,  // 3: eolymp.content.Post.updated_at:type_name -> google.protobuf.Timestamp
+	7,  // 4: eolymp.content.Post.content:type_name -> eolymp.ecm.Content
+	5,  // 5: eolymp.content.Post.preview:type_name -> eolymp.content.Post.Preview
+	8,  // 6: eolymp.content.Post.links:type_name -> eolymp.wellknown.Link
+	7,  // 7: eolymp.content.Post.Translation.content:type_name -> eolymp.ecm.Content
+	4,  // 8: eolymp.content.Post.Preview.image:type_name -> eolymp.content.Post.Image
+	9,  // 9: eolymp.content.Post.Preview.content:type_name -> eolymp.ecm.Node
 	10, // [10:10] is the sub-list for method output_type
 	10, // [10:10] is the sub-list for method input_type
 	10, // [10:10] is the sub-list for extension type_name
@@ -717,12 +717,12 @@ var file_eolymp_discussion_post_proto_depIdxs = []int32{
 	0,  // [0:10] is the sub-list for field type_name
 }
 
-func init() { file_eolymp_discussion_post_proto_init() }
-func file_eolymp_discussion_post_proto_init() {
-	if File_eolymp_discussion_post_proto != nil {
+func init() { file_eolymp_content_post_proto_init() }
+func file_eolymp_content_post_proto_init() {
+	if File_eolymp_content_post_proto != nil {
 		return
 	}
-	file_eolymp_discussion_post_proto_msgTypes[0].OneofWrappers = []any{
+	file_eolymp_content_post_proto_msgTypes[0].OneofWrappers = []any{
 		(*Post_UserId)(nil),
 		(*Post_MemberId)(nil),
 	}
@@ -730,18 +730,18 @@ func file_eolymp_discussion_post_proto_init() {
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_discussion_post_proto_rawDesc), len(file_eolymp_discussion_post_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_content_post_proto_rawDesc), len(file_eolymp_content_post_proto_rawDesc)),
 			NumEnums:      2,
 			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_eolymp_discussion_post_proto_goTypes,
-		DependencyIndexes: file_eolymp_discussion_post_proto_depIdxs,
-		EnumInfos:         file_eolymp_discussion_post_proto_enumTypes,
-		MessageInfos:      file_eolymp_discussion_post_proto_msgTypes,
+		GoTypes:           file_eolymp_content_post_proto_goTypes,
+		DependencyIndexes: file_eolymp_content_post_proto_depIdxs,
+		EnumInfos:         file_eolymp_content_post_proto_enumTypes,
+		MessageInfos:      file_eolymp_content_post_proto_msgTypes,
 	}.Build()
-	File_eolymp_discussion_post_proto = out.File
-	file_eolymp_discussion_post_proto_goTypes = nil
-	file_eolymp_discussion_post_proto_depIdxs = nil
+	File_eolymp_content_post_proto = out.File
+	file_eolymp_content_post_proto_goTypes = nil
+	file_eolymp_content_post_proto_depIdxs = nil
 }

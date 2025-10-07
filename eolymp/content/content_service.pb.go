@@ -1568,7 +1568,7 @@ var File_eolymp_content_content_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_content_content_service_proto_rawDesc = "" +
 	"\n" +
-	"$eolymp/content/content_service.proto\x12\x0eeolymp.content\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1deolymp/content/fragment.proto\x1a\x1ceolymp/content/variant.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"o\n" +
+	"$eolymp/content/content_service.proto\x12\x0eeolymp.content\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a%eolymp/content/content_fragment.proto\x1a\x1ceolymp/content/variant.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"o\n" +
 	"\x15DescribeFragmentInput\x12\x1f\n" +
 	"\vfragment_id\x18\x01 \x01(\tR\n" +
 	"fragmentId\x125\n" +
@@ -1879,7 +1879,7 @@ func file_eolymp_content_content_service_proto_init() {
 	if File_eolymp_content_content_service_proto != nil {
 		return
 	}
-	file_eolymp_content_fragment_proto_init()
+	file_eolymp_content_content_fragment_proto_init()
 	file_eolymp_content_variant_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{

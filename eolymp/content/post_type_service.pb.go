@@ -2,9 +2,9 @@
 // versions:
 // 	protoc-gen-go v1.36.10
 // 	protoc        v5.29.4
-// source: eolymp/discussion/post_type_service.proto
+// source: eolymp/content/post_type_service.proto
 
-package discussion
+package content
 
 import (
 	_ "github.com/eolymp/go-sdk/eolymp/annotations"
@@ -26,14 +26,14 @@ type DescribePostTypeInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	TypeId        string                 `protobuf:"bytes,1,opt,name=type_id,json=typeId,proto3" json:"type_id,omitempty"`
 	Locale        string                 `protobuf:"bytes,10,opt,name=locale,proto3" json:"locale,omitempty"` // if set, load type name in a given locale
-	Extra         []PostType_Extra       `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.discussion.PostType_Extra" json:"extra,omitempty"`
+	Extra         []PostType_Extra       `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.content.PostType_Extra" json:"extra,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *DescribePostTypeInput) Reset() {
 	*x = DescribePostTypeInput{}
-	mi := &file_eolymp_discussion_post_type_service_proto_msgTypes[0]
+	mi := &file_eolymp_content_post_type_service_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -45,7 +45,7 @@ func (x *DescribePostTypeInput) String() string {
 func (*DescribePostTypeInput) ProtoMessage() {}
 
 func (x *DescribePostTypeInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_discussion_post_type_service_proto_msgTypes[0]
+	mi := &file_eolymp_content_post_type_service_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -58,7 +58,7 @@ func (x *DescribePostTypeInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribePostTypeInput.ProtoReflect.Descriptor instead.
 func (*DescribePostTypeInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_discussion_post_type_service_proto_rawDescGZIP(), []int{0}
+	return file_eolymp_content_post_type_service_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *DescribePostTypeInput) GetTypeId() string {
@@ -91,7 +91,7 @@ type DescribePostTypeOutput struct {
 
 func (x *DescribePostTypeOutput) Reset() {
 	*x = DescribePostTypeOutput{}
-	mi := &file_eolymp_discussion_post_type_service_proto_msgTypes[1]
+	mi := &file_eolymp_content_post_type_service_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -103,7 +103,7 @@ func (x *DescribePostTypeOutput) String() string {
 func (*DescribePostTypeOutput) ProtoMessage() {}
 
 func (x *DescribePostTypeOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_discussion_post_type_service_proto_msgTypes[1]
+	mi := &file_eolymp_content_post_type_service_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -116,7 +116,7 @@ func (x *DescribePostTypeOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribePostTypeOutput.ProtoReflect.Descriptor instead.
 func (*DescribePostTypeOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_discussion_post_type_service_proto_rawDescGZIP(), []int{1}
+	return file_eolymp_content_post_type_service_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *DescribePostTypeOutput) GetType() *PostType {
@@ -131,14 +131,14 @@ type ListPostTypesInput struct {
 	Offset        int32                  `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
 	Size          int32                  `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
 	Locale        string                 `protobuf:"bytes,20,opt,name=locale,proto3" json:"locale,omitempty"` // if set, load type name in a given locale
-	Extra         []PostType_Extra       `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.discussion.PostType_Extra" json:"extra,omitempty"`
+	Extra         []PostType_Extra       `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.content.PostType_Extra" json:"extra,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ListPostTypesInput) Reset() {
 	*x = ListPostTypesInput{}
-	mi := &file_eolymp_discussion_post_type_service_proto_msgTypes[2]
+	mi := &file_eolymp_content_post_type_service_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -150,7 +150,7 @@ func (x *ListPostTypesInput) String() string {
 func (*ListPostTypesInput) ProtoMessage() {}
 
 func (x *ListPostTypesInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_discussion_post_type_service_proto_msgTypes[2]
+	mi := &file_eolymp_content_post_type_service_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -163,7 +163,7 @@ func (x *ListPostTypesInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListPostTypesInput.ProtoReflect.Descriptor instead.
 func (*ListPostTypesInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_discussion_post_type_service_proto_rawDescGZIP(), []int{2}
+	return file_eolymp_content_post_type_service_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *ListPostTypesInput) GetOffset() int32 {
@@ -204,7 +204,7 @@ type ListPostTypesOutput struct {
 
 func (x *ListPostTypesOutput) Reset() {
 	*x = ListPostTypesOutput{}
-	mi := &file_eolymp_discussion_post_type_service_proto_msgTypes[3]
+	mi := &file_eolymp_content_post_type_service_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -216,7 +216,7 @@ func (x *ListPostTypesOutput) String() string {
 func (*ListPostTypesOutput) ProtoMessage() {}
 
 func (x *ListPostTypesOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_discussion_post_type_service_proto_msgTypes[3]
+	mi := &file_eolymp_content_post_type_service_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -229,7 +229,7 @@ func (x *ListPostTypesOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListPostTypesOutput.ProtoReflect.Descriptor instead.
 func (*ListPostTypesOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_discussion_post_type_service_proto_rawDescGZIP(), []int{3}
+	return file_eolymp_content_post_type_service_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *ListPostTypesOutput) GetTotal() int32 {
@@ -255,7 +255,7 @@ type CreatePostTypeInput struct {
 
 func (x *CreatePostTypeInput) Reset() {
 	*x = CreatePostTypeInput{}
-	mi := &file_eolymp_discussion_post_type_service_proto_msgTypes[4]
+	mi := &file_eolymp_content_post_type_service_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -267,7 +267,7 @@ func (x *CreatePostTypeInput) String() string {
 func (*CreatePostTypeInput) ProtoMessage() {}
 
 func (x *CreatePostTypeInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_discussion_post_type_service_proto_msgTypes[4]
+	mi := &file_eolymp_content_post_type_service_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -280,7 +280,7 @@ func (x *CreatePostTypeInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreatePostTypeInput.ProtoReflect.Descriptor instead.
 func (*CreatePostTypeInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_discussion_post_type_service_proto_rawDescGZIP(), []int{4}
+	return file_eolymp_content_post_type_service_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *CreatePostTypeInput) GetType() *PostType {
@@ -299,7 +299,7 @@ type CreatePostTypeOutput struct {
 
 func (x *CreatePostTypeOutput) Reset() {
 	*x = CreatePostTypeOutput{}
-	mi := &file_eolymp_discussion_post_type_service_proto_msgTypes[5]
+	mi := &file_eolymp_content_post_type_service_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -311,7 +311,7 @@ func (x *CreatePostTypeOutput) String() string {
 func (*CreatePostTypeOutput) ProtoMessage() {}
 
 func (x *CreatePostTypeOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_discussion_post_type_service_proto_msgTypes[5]
+	mi := &file_eolymp_content_post_type_service_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -324,7 +324,7 @@ func (x *CreatePostTypeOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreatePostTypeOutput.ProtoReflect.Descriptor instead.
 func (*CreatePostTypeOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_discussion_post_type_service_proto_rawDescGZIP(), []int{5}
+	return file_eolymp_content_post_type_service_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *CreatePostTypeOutput) GetTypeId() string {
@@ -344,7 +344,7 @@ type UpdatePostTypeInput struct {
 
 func (x *UpdatePostTypeInput) Reset() {
 	*x = UpdatePostTypeInput{}
-	mi := &file_eolymp_discussion_post_type_service_proto_msgTypes[6]
+	mi := &file_eolymp_content_post_type_service_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -356,7 +356,7 @@ func (x *UpdatePostTypeInput) String() string {
 func (*UpdatePostTypeInput) ProtoMessage() {}
 
 func (x *UpdatePostTypeInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_discussion_post_type_service_proto_msgTypes[6]
+	mi := &file_eolymp_content_post_type_service_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -369,7 +369,7 @@ func (x *UpdatePostTypeInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdatePostTypeInput.ProtoReflect.Descriptor instead.
 func (*UpdatePostTypeInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_discussion_post_type_service_proto_rawDescGZIP(), []int{6}
+	return file_eolymp_content_post_type_service_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *UpdatePostTypeInput) GetTypeId() string {
@@ -394,7 +394,7 @@ type UpdatePostTypeOutput struct {
 
 func (x *UpdatePostTypeOutput) Reset() {
 	*x = UpdatePostTypeOutput{}
-	mi := &file_eolymp_discussion_post_type_service_proto_msgTypes[7]
+	mi := &file_eolymp_content_post_type_service_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -406,7 +406,7 @@ func (x *UpdatePostTypeOutput) String() string {
 func (*UpdatePostTypeOutput) ProtoMessage() {}
 
 func (x *UpdatePostTypeOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_discussion_post_type_service_proto_msgTypes[7]
+	mi := &file_eolymp_content_post_type_service_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -419,7 +419,7 @@ func (x *UpdatePostTypeOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdatePostTypeOutput.ProtoReflect.Descriptor instead.
 func (*UpdatePostTypeOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_discussion_post_type_service_proto_rawDescGZIP(), []int{7}
+	return file_eolymp_content_post_type_service_proto_rawDescGZIP(), []int{7}
 }
 
 type DeletePostTypeInput struct {
@@ -431,7 +431,7 @@ type DeletePostTypeInput struct {
 
 func (x *DeletePostTypeInput) Reset() {
 	*x = DeletePostTypeInput{}
-	mi := &file_eolymp_discussion_post_type_service_proto_msgTypes[8]
+	mi := &file_eolymp_content_post_type_service_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -443,7 +443,7 @@ func (x *DeletePostTypeInput) String() string {
 func (*DeletePostTypeInput) ProtoMessage() {}
 
 func (x *DeletePostTypeInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_discussion_post_type_service_proto_msgTypes[8]
+	mi := &file_eolymp_content_post_type_service_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -456,7 +456,7 @@ func (x *DeletePostTypeInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeletePostTypeInput.ProtoReflect.Descriptor instead.
 func (*DeletePostTypeInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_discussion_post_type_service_proto_rawDescGZIP(), []int{8}
+	return file_eolymp_content_post_type_service_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *DeletePostTypeInput) GetTypeId() string {
@@ -474,7 +474,7 @@ type DeletePostTypeOutput struct {
 
 func (x *DeletePostTypeOutput) Reset() {
 	*x = DeletePostTypeOutput{}
-	mi := &file_eolymp_discussion_post_type_service_proto_msgTypes[9]
+	mi := &file_eolymp_content_post_type_service_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -486,7 +486,7 @@ func (x *DeletePostTypeOutput) String() string {
 func (*DeletePostTypeOutput) ProtoMessage() {}
 
 func (x *DeletePostTypeOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_discussion_post_type_service_proto_msgTypes[9]
+	mi := &file_eolymp_content_post_type_service_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -499,113 +499,113 @@ func (x *DeletePostTypeOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeletePostTypeOutput.ProtoReflect.Descriptor instead.
 func (*DeletePostTypeOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_discussion_post_type_service_proto_rawDescGZIP(), []int{9}
+	return file_eolymp_content_post_type_service_proto_rawDescGZIP(), []int{9}
 }
 
-var File_eolymp_discussion_post_type_service_proto protoreflect.FileDescriptor
+var File_eolymp_content_post_type_service_proto protoreflect.FileDescriptor
 
-const file_eolymp_discussion_post_type_service_proto_rawDesc = "" +
+const file_eolymp_content_post_type_service_proto_rawDesc = "" +
 	"\n" +
-	")eolymp/discussion/post_type_service.proto\x12\x11eolymp.discussion\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a!eolymp/discussion/post_type.proto\"\x82\x01\n" +
+	"&eolymp/content/post_type_service.proto\x12\x0eeolymp.content\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1eeolymp/content/post_type.proto\"\x7f\n" +
 	"\x15DescribePostTypeInput\x12\x17\n" +
 	"\atype_id\x18\x01 \x01(\tR\x06typeId\x12\x16\n" +
 	"\x06locale\x18\n" +
-	" \x01(\tR\x06locale\x128\n" +
-	"\x05extra\x18\xe3\b \x03(\x0e2!.eolymp.discussion.PostType.ExtraR\x05extra\"I\n" +
-	"\x16DescribePostTypeOutput\x12/\n" +
-	"\x04type\x18\x01 \x01(\v2\x1b.eolymp.discussion.PostTypeR\x04type\"\x92\x01\n" +
+	" \x01(\tR\x06locale\x125\n" +
+	"\x05extra\x18\xe3\b \x03(\x0e2\x1e.eolymp.content.PostType.ExtraR\x05extra\"F\n" +
+	"\x16DescribePostTypeOutput\x12,\n" +
+	"\x04type\x18\x01 \x01(\v2\x18.eolymp.content.PostTypeR\x04type\"\x8f\x01\n" +
 	"\x12ListPostTypesInput\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
 	"\x04size\x18\v \x01(\x05R\x04size\x12\x16\n" +
-	"\x06locale\x18\x14 \x01(\tR\x06locale\x128\n" +
-	"\x05extra\x18\xe3\b \x03(\x0e2!.eolymp.discussion.PostType.ExtraR\x05extra\"^\n" +
+	"\x06locale\x18\x14 \x01(\tR\x06locale\x125\n" +
+	"\x05extra\x18\xe3\b \x03(\x0e2\x1e.eolymp.content.PostType.ExtraR\x05extra\"[\n" +
 	"\x13ListPostTypesOutput\x12\x14\n" +
-	"\x05total\x18\x01 \x01(\x05R\x05total\x121\n" +
-	"\x05items\x18\x02 \x03(\v2\x1b.eolymp.discussion.PostTypeR\x05items\"F\n" +
-	"\x13CreatePostTypeInput\x12/\n" +
-	"\x04type\x18\x01 \x01(\v2\x1b.eolymp.discussion.PostTypeR\x04type\"/\n" +
+	"\x05total\x18\x01 \x01(\x05R\x05total\x12.\n" +
+	"\x05items\x18\x02 \x03(\v2\x18.eolymp.content.PostTypeR\x05items\"C\n" +
+	"\x13CreatePostTypeInput\x12,\n" +
+	"\x04type\x18\x01 \x01(\v2\x18.eolymp.content.PostTypeR\x04type\"/\n" +
 	"\x14CreatePostTypeOutput\x12\x17\n" +
-	"\atype_id\x18\x01 \x01(\tR\x06typeId\"_\n" +
+	"\atype_id\x18\x01 \x01(\tR\x06typeId\"\\\n" +
 	"\x13UpdatePostTypeInput\x12\x17\n" +
-	"\atype_id\x18\x01 \x01(\tR\x06typeId\x12/\n" +
-	"\x04type\x18\x02 \x01(\v2\x1b.eolymp.discussion.PostTypeR\x04type\"\x16\n" +
+	"\atype_id\x18\x01 \x01(\tR\x06typeId\x12,\n" +
+	"\x04type\x18\x02 \x01(\v2\x18.eolymp.content.PostTypeR\x04type\"\x16\n" +
 	"\x14UpdatePostTypeOutput\".\n" +
 	"\x13DeletePostTypeInput\x12\x17\n" +
 	"\atype_id\x18\x01 \x01(\tR\x06typeId\"\x16\n" +
-	"\x14DeletePostTypeOutput2\xde\x06\n" +
-	"\x0fPostTypeService\x12\x96\x01\n" +
-	"\x10DescribePostType\x12(.eolymp.discussion.DescribePostTypeInput\x1a).eolymp.discussion.DescribePostTypeOutput\"-\xea\xe2\n" +
+	"\x14DeletePostTypeOutput2\xb6\x06\n" +
+	"\x0fPostTypeService\x12\x90\x01\n" +
+	"\x10DescribePostType\x12%.eolymp.content.DescribePostTypeInput\x1a&.eolymp.content.DescribePostTypeOutput\"-\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
-	"\xf4\x03\x82\xd3\xe4\x93\x02\x17\x12\x15/post-types/{type_id}\x12\x82\x01\n" +
-	"\rListPostTypes\x12%.eolymp.discussion.ListPostTypesInput\x1a&.eolymp.discussion.ListPostTypesOutput\"\"\xea\xe2\n" +
+	"\xf4\x03\x82\xd3\xe4\x93\x02\x17\x12\x15/post-types/{type_id}\x12|\n" +
+	"\rListPostTypes\x12\".eolymp.content.ListPostTypesInput\x1a#.eolymp.content.ListPostTypesOutput\"\"\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
-	"d\x82\xd3\xe4\x93\x02\r\x12\v/post-types\x12\xa7\x01\n" +
-	"\x0eCreatePostType\x12&.eolymp.discussion.CreatePostTypeInput\x1a'.eolymp.discussion.CreatePostTypeOutput\"D\xea\xe2\n" +
+	"d\x82\xd3\xe4\x93\x02\r\x12\v/post-types\x12\x9e\x01\n" +
+	"\x0eCreatePostType\x12#.eolymp.content.CreatePostTypeInput\x1a$.eolymp.content.CreatePostTypeOutput\"A\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
-	"\x1e\x8a\xe3\n" +
-	"\x1adiscussion:post-type:write\x82\xd3\xe4\x93\x02\r\"\v/post-types\x12\xb1\x01\n" +
-	"\x0eUpdatePostType\x12&.eolymp.discussion.UpdatePostTypeInput\x1a'.eolymp.discussion.UpdatePostTypeOutput\"N\xea\xe2\n" +
+	"\x1b\x8a\xe3\n" +
+	"\x17content:post-type:write\x82\xd3\xe4\x93\x02\r\"\v/post-types\x12\xa8\x01\n" +
+	"\x0eUpdatePostType\x12#.eolymp.content.UpdatePostTypeInput\x1a$.eolymp.content.UpdatePostTypeOutput\"K\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
-	"\x1e\x8a\xe3\n" +
-	"\x1adiscussion:post-type:write\x82\xd3\xe4\x93\x02\x17\x1a\x15/post-types/{type_id}\x12\xb1\x01\n" +
-	"\x0eDeletePostType\x12&.eolymp.discussion.DeletePostTypeInput\x1a'.eolymp.discussion.DeletePostTypeOutput\"N\xea\xe2\n" +
+	"\x1b\x8a\xe3\n" +
+	"\x17content:post-type:write\x82\xd3\xe4\x93\x02\x17\x1a\x15/post-types/{type_id}\x12\xa8\x01\n" +
+	"\x0eDeletePostType\x12#.eolymp.content.DeletePostTypeInput\x1a$.eolymp.content.DeletePostTypeOutput\"K\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
-	"\x1e\x8a\xe3\n" +
-	"\x1adiscussion:post-type:write\x82\xd3\xe4\x93\x02\x17*\x15/post-types/{type_id}\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB7Z5github.com/eolymp/go-sdk/eolymp/discussion;discussionb\x06proto3"
+	"\x1b\x8a\xe3\n" +
+	"\x17content:post-type:write\x82\xd3\xe4\x93\x02\x17*\x15/post-types/{type_id}\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB1Z/github.com/eolymp/go-sdk/eolymp/content;contentb\x06proto3"
 
 var (
-	file_eolymp_discussion_post_type_service_proto_rawDescOnce sync.Once
-	file_eolymp_discussion_post_type_service_proto_rawDescData []byte
+	file_eolymp_content_post_type_service_proto_rawDescOnce sync.Once
+	file_eolymp_content_post_type_service_proto_rawDescData []byte
 )
 
-func file_eolymp_discussion_post_type_service_proto_rawDescGZIP() []byte {
-	file_eolymp_discussion_post_type_service_proto_rawDescOnce.Do(func() {
-		file_eolymp_discussion_post_type_service_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_eolymp_discussion_post_type_service_proto_rawDesc), len(file_eolymp_discussion_post_type_service_proto_rawDesc)))
+func file_eolymp_content_post_type_service_proto_rawDescGZIP() []byte {
+	file_eolymp_content_post_type_service_proto_rawDescOnce.Do(func() {
+		file_eolymp_content_post_type_service_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_eolymp_content_post_type_service_proto_rawDesc), len(file_eolymp_content_post_type_service_proto_rawDesc)))
 	})
-	return file_eolymp_discussion_post_type_service_proto_rawDescData
+	return file_eolymp_content_post_type_service_proto_rawDescData
 }
 
-var file_eolymp_discussion_post_type_service_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
-var file_eolymp_discussion_post_type_service_proto_goTypes = []any{
-	(*DescribePostTypeInput)(nil),  // 0: eolymp.discussion.DescribePostTypeInput
-	(*DescribePostTypeOutput)(nil), // 1: eolymp.discussion.DescribePostTypeOutput
-	(*ListPostTypesInput)(nil),     // 2: eolymp.discussion.ListPostTypesInput
-	(*ListPostTypesOutput)(nil),    // 3: eolymp.discussion.ListPostTypesOutput
-	(*CreatePostTypeInput)(nil),    // 4: eolymp.discussion.CreatePostTypeInput
-	(*CreatePostTypeOutput)(nil),   // 5: eolymp.discussion.CreatePostTypeOutput
-	(*UpdatePostTypeInput)(nil),    // 6: eolymp.discussion.UpdatePostTypeInput
-	(*UpdatePostTypeOutput)(nil),   // 7: eolymp.discussion.UpdatePostTypeOutput
-	(*DeletePostTypeInput)(nil),    // 8: eolymp.discussion.DeletePostTypeInput
-	(*DeletePostTypeOutput)(nil),   // 9: eolymp.discussion.DeletePostTypeOutput
-	(PostType_Extra)(0),            // 10: eolymp.discussion.PostType.Extra
-	(*PostType)(nil),               // 11: eolymp.discussion.PostType
+var file_eolymp_content_post_type_service_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_eolymp_content_post_type_service_proto_goTypes = []any{
+	(*DescribePostTypeInput)(nil),  // 0: eolymp.content.DescribePostTypeInput
+	(*DescribePostTypeOutput)(nil), // 1: eolymp.content.DescribePostTypeOutput
+	(*ListPostTypesInput)(nil),     // 2: eolymp.content.ListPostTypesInput
+	(*ListPostTypesOutput)(nil),    // 3: eolymp.content.ListPostTypesOutput
+	(*CreatePostTypeInput)(nil),    // 4: eolymp.content.CreatePostTypeInput
+	(*CreatePostTypeOutput)(nil),   // 5: eolymp.content.CreatePostTypeOutput
+	(*UpdatePostTypeInput)(nil),    // 6: eolymp.content.UpdatePostTypeInput
+	(*UpdatePostTypeOutput)(nil),   // 7: eolymp.content.UpdatePostTypeOutput
+	(*DeletePostTypeInput)(nil),    // 8: eolymp.content.DeletePostTypeInput
+	(*DeletePostTypeOutput)(nil),   // 9: eolymp.content.DeletePostTypeOutput
+	(PostType_Extra)(0),            // 10: eolymp.content.PostType.Extra
+	(*PostType)(nil),               // 11: eolymp.content.PostType
 }
-var file_eolymp_discussion_post_type_service_proto_depIdxs = []int32{
-	10, // 0: eolymp.discussion.DescribePostTypeInput.extra:type_name -> eolymp.discussion.PostType.Extra
-	11, // 1: eolymp.discussion.DescribePostTypeOutput.type:type_name -> eolymp.discussion.PostType
-	10, // 2: eolymp.discussion.ListPostTypesInput.extra:type_name -> eolymp.discussion.PostType.Extra
-	11, // 3: eolymp.discussion.ListPostTypesOutput.items:type_name -> eolymp.discussion.PostType
-	11, // 4: eolymp.discussion.CreatePostTypeInput.type:type_name -> eolymp.discussion.PostType
-	11, // 5: eolymp.discussion.UpdatePostTypeInput.type:type_name -> eolymp.discussion.PostType
-	0,  // 6: eolymp.discussion.PostTypeService.DescribePostType:input_type -> eolymp.discussion.DescribePostTypeInput
-	2,  // 7: eolymp.discussion.PostTypeService.ListPostTypes:input_type -> eolymp.discussion.ListPostTypesInput
-	4,  // 8: eolymp.discussion.PostTypeService.CreatePostType:input_type -> eolymp.discussion.CreatePostTypeInput
-	6,  // 9: eolymp.discussion.PostTypeService.UpdatePostType:input_type -> eolymp.discussion.UpdatePostTypeInput
-	8,  // 10: eolymp.discussion.PostTypeService.DeletePostType:input_type -> eolymp.discussion.DeletePostTypeInput
-	1,  // 11: eolymp.discussion.PostTypeService.DescribePostType:output_type -> eolymp.discussion.DescribePostTypeOutput
-	3,  // 12: eolymp.discussion.PostTypeService.ListPostTypes:output_type -> eolymp.discussion.ListPostTypesOutput
-	5,  // 13: eolymp.discussion.PostTypeService.CreatePostType:output_type -> eolymp.discussion.CreatePostTypeOutput
-	7,  // 14: eolymp.discussion.PostTypeService.UpdatePostType:output_type -> eolymp.discussion.UpdatePostTypeOutput
-	9,  // 15: eolymp.discussion.PostTypeService.DeletePostType:output_type -> eolymp.discussion.DeletePostTypeOutput
+var file_eolymp_content_post_type_service_proto_depIdxs = []int32{
+	10, // 0: eolymp.content.DescribePostTypeInput.extra:type_name -> eolymp.content.PostType.Extra
+	11, // 1: eolymp.content.DescribePostTypeOutput.type:type_name -> eolymp.content.PostType
+	10, // 2: eolymp.content.ListPostTypesInput.extra:type_name -> eolymp.content.PostType.Extra
+	11, // 3: eolymp.content.ListPostTypesOutput.items:type_name -> eolymp.content.PostType
+	11, // 4: eolymp.content.CreatePostTypeInput.type:type_name -> eolymp.content.PostType
+	11, // 5: eolymp.content.UpdatePostTypeInput.type:type_name -> eolymp.content.PostType
+	0,  // 6: eolymp.content.PostTypeService.DescribePostType:input_type -> eolymp.content.DescribePostTypeInput
+	2,  // 7: eolymp.content.PostTypeService.ListPostTypes:input_type -> eolymp.content.ListPostTypesInput
+	4,  // 8: eolymp.content.PostTypeService.CreatePostType:input_type -> eolymp.content.CreatePostTypeInput
+	6,  // 9: eolymp.content.PostTypeService.UpdatePostType:input_type -> eolymp.content.UpdatePostTypeInput
+	8,  // 10: eolymp.content.PostTypeService.DeletePostType:input_type -> eolymp.content.DeletePostTypeInput
+	1,  // 11: eolymp.content.PostTypeService.DescribePostType:output_type -> eolymp.content.DescribePostTypeOutput
+	3,  // 12: eolymp.content.PostTypeService.ListPostTypes:output_type -> eolymp.content.ListPostTypesOutput
+	5,  // 13: eolymp.content.PostTypeService.CreatePostType:output_type -> eolymp.content.CreatePostTypeOutput
+	7,  // 14: eolymp.content.PostTypeService.UpdatePostType:output_type -> eolymp.content.UpdatePostTypeOutput
+	9,  // 15: eolymp.content.PostTypeService.DeletePostType:output_type -> eolymp.content.DeletePostTypeOutput
 	11, // [11:16] is the sub-list for method output_type
 	6,  // [6:11] is the sub-list for method input_type
 	6,  // [6:6] is the sub-list for extension type_name
@@ -613,27 +613,27 @@ var file_eolymp_discussion_post_type_service_proto_depIdxs = []int32{
 	0,  // [0:6] is the sub-list for field type_name
 }
 
-func init() { file_eolymp_discussion_post_type_service_proto_init() }
-func file_eolymp_discussion_post_type_service_proto_init() {
-	if File_eolymp_discussion_post_type_service_proto != nil {
+func init() { file_eolymp_content_post_type_service_proto_init() }
+func file_eolymp_content_post_type_service_proto_init() {
+	if File_eolymp_content_post_type_service_proto != nil {
 		return
 	}
-	file_eolymp_discussion_post_type_proto_init()
+	file_eolymp_content_post_type_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_discussion_post_type_service_proto_rawDesc), len(file_eolymp_discussion_post_type_service_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_content_post_type_service_proto_rawDesc), len(file_eolymp_content_post_type_service_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_eolymp_discussion_post_type_service_proto_goTypes,
-		DependencyIndexes: file_eolymp_discussion_post_type_service_proto_depIdxs,
-		MessageInfos:      file_eolymp_discussion_post_type_service_proto_msgTypes,
+		GoTypes:           file_eolymp_content_post_type_service_proto_goTypes,
+		DependencyIndexes: file_eolymp_content_post_type_service_proto_depIdxs,
+		MessageInfos:      file_eolymp_content_post_type_service_proto_msgTypes,
 	}.Build()
-	File_eolymp_discussion_post_type_service_proto = out.File
-	file_eolymp_discussion_post_type_service_proto_goTypes = nil
-	file_eolymp_discussion_post_type_service_proto_depIdxs = nil
+	File_eolymp_content_post_type_service_proto = out.File
+	file_eolymp_content_post_type_service_proto_goTypes = nil
+	file_eolymp_content_post_type_service_proto_depIdxs = nil
 }

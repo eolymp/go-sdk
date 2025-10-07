@@ -29,6 +29,7 @@ type Thread struct {
 	Vote          int32                  `protobuf:"varint,12,opt,name=vote,proto3" json:"vote,omitempty"`                               // vote of authenticated user (+1 or -1)
 	VoteCount     int32                  `protobuf:"varint,10,opt,name=vote_count,json=voteCount,proto3" json:"vote_count,omitempty"`    // total vote count
 	ReplyCount    int32                  `protobuf:"varint,11,opt,name=reply_count,json=replyCount,proto3" json:"reply_count,omitempty"` // total number of replies
+	Subscription  *Subscription          `protobuf:"bytes,100,opt,name=subscription,proto3" json:"subscription,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -105,11 +106,18 @@ func (x *Thread) GetReplyCount() int32 {
 	return 0
 }
 
+func (x *Thread) GetSubscription() *Subscription {
+	if x != nil {
+		return x.Subscription
+	}
+	return nil
+}
+
 var File_eolymp_discussion_thread_proto protoreflect.FileDescriptor
 
 const file_eolymp_discussion_thread_proto_rawDesc = "" +
 	"\n" +
-	"\x1eeolymp/discussion/thread.proto\x12\x11eolymp.discussion\"\x92\x01\n" +
+	"\x1eeolymp/discussion/thread.proto\x12\x11eolymp.discussion\x1a$eolymp/discussion/subscription.proto\"\xd7\x01\n" +
 	"\x06Thread\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x10\n" +
 	"\x03url\x18\x02 \x01(\tR\x03url\x12\x12\n" +
@@ -119,7 +127,8 @@ const file_eolymp_discussion_thread_proto_rawDesc = "" +
 	"vote_count\x18\n" +
 	" \x01(\x05R\tvoteCount\x12\x1f\n" +
 	"\vreply_count\x18\v \x01(\x05R\n" +
-	"replyCountB7Z5github.com/eolymp/go-sdk/eolymp/discussion;discussionb\x06proto3"
+	"replyCount\x12C\n" +
+	"\fsubscription\x18d \x01(\v2\x1f.eolymp.discussion.SubscriptionR\fsubscriptionB7Z5github.com/eolymp/go-sdk/eolymp/discussion;discussionb\x06proto3"
 
 var (
 	file_eolymp_discussion_thread_proto_rawDescOnce sync.Once
@@ -135,14 +144,16 @@ func file_eolymp_discussion_thread_proto_rawDescGZIP() []byte {
 
 var file_eolymp_discussion_thread_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_eolymp_discussion_thread_proto_goTypes = []any{
-	(*Thread)(nil), // 0: eolymp.discussion.Thread
+	(*Thread)(nil),       // 0: eolymp.discussion.Thread
+	(*Subscription)(nil), // 1: eolymp.discussion.Subscription
 }
 var file_eolymp_discussion_thread_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	1, // 0: eolymp.discussion.Thread.subscription:type_name -> eolymp.discussion.Subscription
+	1, // [1:1] is the sub-list for method output_type
+	1, // [1:1] is the sub-list for method input_type
+	1, // [1:1] is the sub-list for extension type_name
+	1, // [1:1] is the sub-list for extension extendee
+	0, // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_discussion_thread_proto_init() }
@@ -150,6 +161,7 @@ func file_eolymp_discussion_thread_proto_init() {
 	if File_eolymp_discussion_thread_proto != nil {
 		return
 	}
+	file_eolymp_discussion_subscription_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

@@ -2,9 +2,9 @@
 // versions:
 // 	protoc-gen-go v1.36.10
 // 	protoc        v5.29.4
-// source: eolymp/discussion/post_type.proto
+// source: eolymp/content/post_type.proto
 
-package discussion
+package content
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -51,11 +51,11 @@ func (x PostType_Extra) String() string {
 }
 
 func (PostType_Extra) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_discussion_post_type_proto_enumTypes[0].Descriptor()
+	return file_eolymp_content_post_type_proto_enumTypes[0].Descriptor()
 }
 
 func (PostType_Extra) Type() protoreflect.EnumType {
-	return &file_eolymp_discussion_post_type_proto_enumTypes[0]
+	return &file_eolymp_content_post_type_proto_enumTypes[0]
 }
 
 func (x PostType_Extra) Number() protoreflect.EnumNumber {
@@ -64,7 +64,7 @@ func (x PostType_Extra) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use PostType_Extra.Descriptor instead.
 func (PostType_Extra) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_discussion_post_type_proto_rawDescGZIP(), []int{0, 0}
+	return file_eolymp_content_post_type_proto_rawDescGZIP(), []int{0, 0}
 }
 
 type PostType struct {
@@ -80,7 +80,7 @@ type PostType struct {
 
 func (x *PostType) Reset() {
 	*x = PostType{}
-	mi := &file_eolymp_discussion_post_type_proto_msgTypes[0]
+	mi := &file_eolymp_content_post_type_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -92,7 +92,7 @@ func (x *PostType) String() string {
 func (*PostType) ProtoMessage() {}
 
 func (x *PostType) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_discussion_post_type_proto_msgTypes[0]
+	mi := &file_eolymp_content_post_type_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -105,7 +105,7 @@ func (x *PostType) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PostType.ProtoReflect.Descriptor instead.
 func (*PostType) Descriptor() ([]byte, []int) {
-	return file_eolymp_discussion_post_type_proto_rawDescGZIP(), []int{0}
+	return file_eolymp_content_post_type_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *PostType) GetId() string {
@@ -153,7 +153,7 @@ type PostType_Variant struct {
 
 func (x *PostType_Variant) Reset() {
 	*x = PostType_Variant{}
-	mi := &file_eolymp_discussion_post_type_proto_msgTypes[1]
+	mi := &file_eolymp_content_post_type_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -165,7 +165,7 @@ func (x *PostType_Variant) String() string {
 func (*PostType_Variant) ProtoMessage() {}
 
 func (x *PostType_Variant) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_discussion_post_type_proto_msgTypes[1]
+	mi := &file_eolymp_content_post_type_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -178,7 +178,7 @@ func (x *PostType_Variant) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PostType_Variant.ProtoReflect.Descriptor instead.
 func (*PostType_Variant) Descriptor() ([]byte, []int) {
-	return file_eolymp_discussion_post_type_proto_rawDescGZIP(), []int{0, 0}
+	return file_eolymp_content_post_type_proto_rawDescGZIP(), []int{0, 0}
 }
 
 func (x *PostType_Variant) GetLocale() string {
@@ -195,46 +195,46 @@ func (x *PostType_Variant) GetName() string {
 	return ""
 }
 
-var File_eolymp_discussion_post_type_proto protoreflect.FileDescriptor
+var File_eolymp_content_post_type_proto protoreflect.FileDescriptor
 
-const file_eolymp_discussion_post_type_proto_rawDesc = "" +
+const file_eolymp_content_post_type_proto_rawDesc = "" +
 	"\n" +
-	"!eolymp/discussion/post_type.proto\x12\x11eolymp.discussion\"\xfe\x01\n" +
+	"\x1eeolymp/content/post_type.proto\x12\x0eeolymp.content\"\xfb\x01\n" +
 	"\bPostType\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x16\n" +
 	"\x06hidden\x18\x03 \x01(\bR\x06hidden\x12\x14\n" +
 	"\x05order\x18\n" +
-	" \x01(\x05R\x05order\x12?\n" +
-	"\bvariants\x18d \x03(\v2#.eolymp.discussion.PostType.VariantR\bvariants\x1a5\n" +
+	" \x01(\x05R\x05order\x12<\n" +
+	"\bvariants\x18d \x03(\v2 .eolymp.content.PostType.VariantR\bvariants\x1a5\n" +
 	"\aVariant\x12\x16\n" +
 	"\x06locale\x18\x01 \x01(\tR\x06locale\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\"(\n" +
 	"\x05Extra\x12\x11\n" +
 	"\rUNKNOWN_EXTRA\x10\x00\x12\f\n" +
-	"\bVARIANTS\x10\x01B7Z5github.com/eolymp/go-sdk/eolymp/discussion;discussionb\x06proto3"
+	"\bVARIANTS\x10\x01B1Z/github.com/eolymp/go-sdk/eolymp/content;contentb\x06proto3"
 
 var (
-	file_eolymp_discussion_post_type_proto_rawDescOnce sync.Once
-	file_eolymp_discussion_post_type_proto_rawDescData []byte
+	file_eolymp_content_post_type_proto_rawDescOnce sync.Once
+	file_eolymp_content_post_type_proto_rawDescData []byte
 )
 
-func file_eolymp_discussion_post_type_proto_rawDescGZIP() []byte {
-	file_eolymp_discussion_post_type_proto_rawDescOnce.Do(func() {
-		file_eolymp_discussion_post_type_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_eolymp_discussion_post_type_proto_rawDesc), len(file_eolymp_discussion_post_type_proto_rawDesc)))
+func file_eolymp_content_post_type_proto_rawDescGZIP() []byte {
+	file_eolymp_content_post_type_proto_rawDescOnce.Do(func() {
+		file_eolymp_content_post_type_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_eolymp_content_post_type_proto_rawDesc), len(file_eolymp_content_post_type_proto_rawDesc)))
 	})
-	return file_eolymp_discussion_post_type_proto_rawDescData
+	return file_eolymp_content_post_type_proto_rawDescData
 }
 
-var file_eolymp_discussion_post_type_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_eolymp_discussion_post_type_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
-var file_eolymp_discussion_post_type_proto_goTypes = []any{
-	(PostType_Extra)(0),      // 0: eolymp.discussion.PostType.Extra
-	(*PostType)(nil),         // 1: eolymp.discussion.PostType
-	(*PostType_Variant)(nil), // 2: eolymp.discussion.PostType.Variant
+var file_eolymp_content_post_type_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_eolymp_content_post_type_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_eolymp_content_post_type_proto_goTypes = []any{
+	(PostType_Extra)(0),      // 0: eolymp.content.PostType.Extra
+	(*PostType)(nil),         // 1: eolymp.content.PostType
+	(*PostType_Variant)(nil), // 2: eolymp.content.PostType.Variant
 }
-var file_eolymp_discussion_post_type_proto_depIdxs = []int32{
-	2, // 0: eolymp.discussion.PostType.variants:type_name -> eolymp.discussion.PostType.Variant
+var file_eolymp_content_post_type_proto_depIdxs = []int32{
+	2, // 0: eolymp.content.PostType.variants:type_name -> eolymp.content.PostType.Variant
 	1, // [1:1] is the sub-list for method output_type
 	1, // [1:1] is the sub-list for method input_type
 	1, // [1:1] is the sub-list for extension type_name
@@ -242,27 +242,27 @@ var file_eolymp_discussion_post_type_proto_depIdxs = []int32{
 	0, // [0:1] is the sub-list for field type_name
 }
 
-func init() { file_eolymp_discussion_post_type_proto_init() }
-func file_eolymp_discussion_post_type_proto_init() {
-	if File_eolymp_discussion_post_type_proto != nil {
+func init() { file_eolymp_content_post_type_proto_init() }
+func file_eolymp_content_post_type_proto_init() {
+	if File_eolymp_content_post_type_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_discussion_post_type_proto_rawDesc), len(file_eolymp_discussion_post_type_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_content_post_type_proto_rawDesc), len(file_eolymp_content_post_type_proto_rawDesc)),
 			NumEnums:      1,
 			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_eolymp_discussion_post_type_proto_goTypes,
-		DependencyIndexes: file_eolymp_discussion_post_type_proto_depIdxs,
-		EnumInfos:         file_eolymp_discussion_post_type_proto_enumTypes,
-		MessageInfos:      file_eolymp_discussion_post_type_proto_msgTypes,
+		GoTypes:           file_eolymp_content_post_type_proto_goTypes,
+		DependencyIndexes: file_eolymp_content_post_type_proto_depIdxs,
+		EnumInfos:         file_eolymp_content_post_type_proto_enumTypes,
+		MessageInfos:      file_eolymp_content_post_type_proto_msgTypes,
 	}.Build()
-	File_eolymp_discussion_post_type_proto = out.File
-	file_eolymp_discussion_post_type_proto_goTypes = nil
-	file_eolymp_discussion_post_type_proto_depIdxs = nil
+	File_eolymp_content_post_type_proto = out.File
+	file_eolymp_content_post_type_proto_goTypes = nil
+	file_eolymp_content_post_type_proto_depIdxs = nil
 }

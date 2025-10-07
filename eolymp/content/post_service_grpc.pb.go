@@ -2,9 +2,9 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             v5.29.4
-// source: eolymp/discussion/post_service.proto
+// source: eolymp/content/post_service.proto
 
-package discussion
+package content
 
 import (
 	context "context"
@@ -19,21 +19,21 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	PostService_DescribePost_FullMethodName            = "/eolymp.discussion.PostService/DescribePost"
-	PostService_ListPosts_FullMethodName               = "/eolymp.discussion.PostService/ListPosts"
-	PostService_CreatePost_FullMethodName              = "/eolymp.discussion.PostService/CreatePost"
-	PostService_UpdatePost_FullMethodName              = "/eolymp.discussion.PostService/UpdatePost"
-	PostService_PublishPost_FullMethodName             = "/eolymp.discussion.PostService/PublishPost"
-	PostService_UnpublishPost_FullMethodName           = "/eolymp.discussion.PostService/UnpublishPost"
-	PostService_ModeratePost_FullMethodName            = "/eolymp.discussion.PostService/ModeratePost"
-	PostService_DeletePost_FullMethodName              = "/eolymp.discussion.PostService/DeletePost"
-	PostService_VotePost_FullMethodName                = "/eolymp.discussion.PostService/VotePost"
-	PostService_TranslatePost_FullMethodName           = "/eolymp.discussion.PostService/TranslatePost"
-	PostService_DescribePostTranslation_FullMethodName = "/eolymp.discussion.PostService/DescribePostTranslation"
-	PostService_ListPostTranslations_FullMethodName    = "/eolymp.discussion.PostService/ListPostTranslations"
-	PostService_CreatePostTranslation_FullMethodName   = "/eolymp.discussion.PostService/CreatePostTranslation"
-	PostService_UpdatePostTranslation_FullMethodName   = "/eolymp.discussion.PostService/UpdatePostTranslation"
-	PostService_DeletePostTranslation_FullMethodName   = "/eolymp.discussion.PostService/DeletePostTranslation"
+	PostService_DescribePost_FullMethodName            = "/eolymp.content.PostService/DescribePost"
+	PostService_ListPosts_FullMethodName               = "/eolymp.content.PostService/ListPosts"
+	PostService_CreatePost_FullMethodName              = "/eolymp.content.PostService/CreatePost"
+	PostService_UpdatePost_FullMethodName              = "/eolymp.content.PostService/UpdatePost"
+	PostService_PublishPost_FullMethodName             = "/eolymp.content.PostService/PublishPost"
+	PostService_UnpublishPost_FullMethodName           = "/eolymp.content.PostService/UnpublishPost"
+	PostService_ModeratePost_FullMethodName            = "/eolymp.content.PostService/ModeratePost"
+	PostService_DeletePost_FullMethodName              = "/eolymp.content.PostService/DeletePost"
+	PostService_VotePost_FullMethodName                = "/eolymp.content.PostService/VotePost"
+	PostService_TranslatePost_FullMethodName           = "/eolymp.content.PostService/TranslatePost"
+	PostService_DescribePostTranslation_FullMethodName = "/eolymp.content.PostService/DescribePostTranslation"
+	PostService_ListPostTranslations_FullMethodName    = "/eolymp.content.PostService/ListPostTranslations"
+	PostService_CreatePostTranslation_FullMethodName   = "/eolymp.content.PostService/CreatePostTranslation"
+	PostService_UpdatePostTranslation_FullMethodName   = "/eolymp.content.PostService/UpdatePostTranslation"
+	PostService_DeletePostTranslation_FullMethodName   = "/eolymp.content.PostService/DeletePostTranslation"
 )
 
 // PostServiceClient is the client API for PostService service.
@@ -582,7 +582,7 @@ func _PostService_DeletePostTranslation_Handler(srv interface{}, ctx context.Con
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var PostService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "eolymp.discussion.PostService",
+	ServiceName: "eolymp.content.PostService",
 	HandlerType: (*PostServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -647,5 +647,5 @@ var PostService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "eolymp/discussion/post_service.proto",
+	Metadata: "eolymp/content/post_service.proto",
 }

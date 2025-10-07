@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.10
 // 	protoc        v5.29.4
-// source: eolymp/content/fragment.proto
+// source: eolymp/content/content_fragment.proto
 
 package content
 
@@ -56,11 +56,11 @@ func (x Fragment_Extra) String() string {
 }
 
 func (Fragment_Extra) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_content_fragment_proto_enumTypes[0].Descriptor()
+	return file_eolymp_content_content_fragment_proto_enumTypes[0].Descriptor()
 }
 
 func (Fragment_Extra) Type() protoreflect.EnumType {
-	return &file_eolymp_content_fragment_proto_enumTypes[0]
+	return &file_eolymp_content_content_fragment_proto_enumTypes[0]
 }
 
 func (x Fragment_Extra) Number() protoreflect.EnumNumber {
@@ -69,7 +69,7 @@ func (x Fragment_Extra) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use Fragment_Extra.Descriptor instead.
 func (Fragment_Extra) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_content_fragment_proto_rawDescGZIP(), []int{0, 0}
+	return file_eolymp_content_content_fragment_proto_rawDescGZIP(), []int{0, 0}
 }
 
 type Fragment_Patch int32
@@ -120,11 +120,11 @@ func (x Fragment_Patch) String() string {
 }
 
 func (Fragment_Patch) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_content_fragment_proto_enumTypes[1].Descriptor()
+	return file_eolymp_content_content_fragment_proto_enumTypes[1].Descriptor()
 }
 
 func (Fragment_Patch) Type() protoreflect.EnumType {
-	return &file_eolymp_content_fragment_proto_enumTypes[1]
+	return &file_eolymp_content_content_fragment_proto_enumTypes[1]
 }
 
 func (x Fragment_Patch) Number() protoreflect.EnumNumber {
@@ -133,7 +133,7 @@ func (x Fragment_Patch) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use Fragment_Patch.Descriptor instead.
 func (Fragment_Patch) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_content_fragment_proto_rawDescGZIP(), []int{0, 1}
+	return file_eolymp_content_content_fragment_proto_rawDescGZIP(), []int{0, 1}
 }
 
 type Fragment struct {
@@ -153,7 +153,7 @@ type Fragment struct {
 
 func (x *Fragment) Reset() {
 	*x = Fragment{}
-	mi := &file_eolymp_content_fragment_proto_msgTypes[0]
+	mi := &file_eolymp_content_content_fragment_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -165,7 +165,7 @@ func (x *Fragment) String() string {
 func (*Fragment) ProtoMessage() {}
 
 func (x *Fragment) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_fragment_proto_msgTypes[0]
+	mi := &file_eolymp_content_content_fragment_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -178,7 +178,7 @@ func (x *Fragment) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Fragment.ProtoReflect.Descriptor instead.
 func (*Fragment) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_fragment_proto_rawDescGZIP(), []int{0}
+	return file_eolymp_content_content_fragment_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *Fragment) GetId() string {
@@ -244,11 +244,11 @@ func (x *Fragment) GetLabels() []string {
 	return nil
 }
 
-var File_eolymp_content_fragment_proto protoreflect.FileDescriptor
+var File_eolymp_content_content_fragment_proto protoreflect.FileDescriptor
 
-const file_eolymp_content_fragment_proto_rawDesc = "" +
+const file_eolymp_content_content_fragment_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/content/fragment.proto\x12\x0eeolymp.content\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x82\x04\n" +
+	"%eolymp/content/content_fragment.proto\x12\x0eeolymp.content\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x82\x04\n" +
 	"\bFragment\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04path\x18\n" +
@@ -278,27 +278,27 @@ const file_eolymp_content_fragment_proto_rawDesc = "" +
 	"\fPATCH_LABELS\x10\bB1Z/github.com/eolymp/go-sdk/eolymp/content;contentb\x06proto3"
 
 var (
-	file_eolymp_content_fragment_proto_rawDescOnce sync.Once
-	file_eolymp_content_fragment_proto_rawDescData []byte
+	file_eolymp_content_content_fragment_proto_rawDescOnce sync.Once
+	file_eolymp_content_content_fragment_proto_rawDescData []byte
 )
 
-func file_eolymp_content_fragment_proto_rawDescGZIP() []byte {
-	file_eolymp_content_fragment_proto_rawDescOnce.Do(func() {
-		file_eolymp_content_fragment_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_eolymp_content_fragment_proto_rawDesc), len(file_eolymp_content_fragment_proto_rawDesc)))
+func file_eolymp_content_content_fragment_proto_rawDescGZIP() []byte {
+	file_eolymp_content_content_fragment_proto_rawDescOnce.Do(func() {
+		file_eolymp_content_content_fragment_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_eolymp_content_content_fragment_proto_rawDesc), len(file_eolymp_content_content_fragment_proto_rawDesc)))
 	})
-	return file_eolymp_content_fragment_proto_rawDescData
+	return file_eolymp_content_content_fragment_proto_rawDescData
 }
 
-var file_eolymp_content_fragment_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_eolymp_content_fragment_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
-var file_eolymp_content_fragment_proto_goTypes = []any{
+var file_eolymp_content_content_fragment_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_eolymp_content_content_fragment_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_eolymp_content_content_fragment_proto_goTypes = []any{
 	(Fragment_Extra)(0),           // 0: eolymp.content.Fragment.Extra
 	(Fragment_Patch)(0),           // 1: eolymp.content.Fragment.Patch
 	(*Fragment)(nil),              // 2: eolymp.content.Fragment
 	(*ecm.Content)(nil),           // 3: eolymp.ecm.Content
 	(*timestamppb.Timestamp)(nil), // 4: google.protobuf.Timestamp
 }
-var file_eolymp_content_fragment_proto_depIdxs = []int32{
+var file_eolymp_content_content_fragment_proto_depIdxs = []int32{
 	3, // 0: eolymp.content.Fragment.content:type_name -> eolymp.ecm.Content
 	4, // 1: eolymp.content.Fragment.created_at:type_name -> google.protobuf.Timestamp
 	4, // 2: eolymp.content.Fragment.updated_at:type_name -> google.protobuf.Timestamp
@@ -309,27 +309,27 @@ var file_eolymp_content_fragment_proto_depIdxs = []int32{
 	0, // [0:3] is the sub-list for field type_name
 }
 
-func init() { file_eolymp_content_fragment_proto_init() }
-func file_eolymp_content_fragment_proto_init() {
-	if File_eolymp_content_fragment_proto != nil {
+func init() { file_eolymp_content_content_fragment_proto_init() }
+func file_eolymp_content_content_fragment_proto_init() {
+	if File_eolymp_content_content_fragment_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_content_fragment_proto_rawDesc), len(file_eolymp_content_fragment_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_content_content_fragment_proto_rawDesc), len(file_eolymp_content_content_fragment_proto_rawDesc)),
 			NumEnums:      2,
 			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_eolymp_content_fragment_proto_goTypes,
-		DependencyIndexes: file_eolymp_content_fragment_proto_depIdxs,
-		EnumInfos:         file_eolymp_content_fragment_proto_enumTypes,
-		MessageInfos:      file_eolymp_content_fragment_proto_msgTypes,
+		GoTypes:           file_eolymp_content_content_fragment_proto_goTypes,
+		DependencyIndexes: file_eolymp_content_content_fragment_proto_depIdxs,
+		EnumInfos:         file_eolymp_content_content_fragment_proto_enumTypes,
+		MessageInfos:      file_eolymp_content_content_fragment_proto_msgTypes,
 	}.Build()
-	File_eolymp_content_fragment_proto = out.File
-	file_eolymp_content_fragment_proto_goTypes = nil
-	file_eolymp_content_fragment_proto_depIdxs = nil
+	File_eolymp_content_content_fragment_proto = out.File
+	file_eolymp_content_content_fragment_proto_goTypes = nil
+	file_eolymp_content_content_fragment_proto_depIdxs = nil
 }

@@ -2,9 +2,9 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             v5.29.4
-// source: eolymp/discussion/post_type_service.proto
+// source: eolymp/content/post_type_service.proto
 
-package discussion
+package content
 
 import (
 	context "context"
@@ -19,11 +19,11 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	PostTypeService_DescribePostType_FullMethodName = "/eolymp.discussion.PostTypeService/DescribePostType"
-	PostTypeService_ListPostTypes_FullMethodName    = "/eolymp.discussion.PostTypeService/ListPostTypes"
-	PostTypeService_CreatePostType_FullMethodName   = "/eolymp.discussion.PostTypeService/CreatePostType"
-	PostTypeService_UpdatePostType_FullMethodName   = "/eolymp.discussion.PostTypeService/UpdatePostType"
-	PostTypeService_DeletePostType_FullMethodName   = "/eolymp.discussion.PostTypeService/DeletePostType"
+	PostTypeService_DescribePostType_FullMethodName = "/eolymp.content.PostTypeService/DescribePostType"
+	PostTypeService_ListPostTypes_FullMethodName    = "/eolymp.content.PostTypeService/ListPostTypes"
+	PostTypeService_CreatePostType_FullMethodName   = "/eolymp.content.PostTypeService/CreatePostType"
+	PostTypeService_UpdatePostType_FullMethodName   = "/eolymp.content.PostTypeService/UpdatePostType"
+	PostTypeService_DeletePostType_FullMethodName   = "/eolymp.content.PostTypeService/DeletePostType"
 )
 
 // PostTypeServiceClient is the client API for PostTypeService service.
@@ -242,7 +242,7 @@ func _PostTypeService_DeletePostType_Handler(srv interface{}, ctx context.Contex
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var PostTypeService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "eolymp.discussion.PostTypeService",
+	ServiceName: "eolymp.content.PostTypeService",
 	HandlerType: (*PostTypeServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -267,5 +267,5 @@ var PostTypeService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "eolymp/discussion/post_type_service.proto",
+	Metadata: "eolymp/content/post_type_service.proto",
 }

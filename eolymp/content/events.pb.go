@@ -145,7 +145,7 @@ var File_eolymp_content_events_proto protoreflect.FileDescriptor
 
 const file_eolymp_content_events_proto_rawDesc = "" +
 	"\n" +
-	"\x1beolymp/content/events.proto\x12\x0eeolymp.content\x1a\x1deolymp/content/fragment.proto\x1a\x1ceolymp/content/variant.proto\"\x8e\x01\n" +
+	"\x1beolymp/content/events.proto\x12\x0eeolymp.content\x1a%eolymp/content/content_fragment.proto\x1a\x1ceolymp/content/variant.proto\"\x8e\x01\n" +
 	"\x14FragmentChangedEvent\x12\x14\n" +
 	"\x05scope\x18\n" +
 	" \x01(\tR\x05scope\x120\n" +
@@ -194,7 +194,7 @@ func file_eolymp_content_events_proto_init() {
 	if File_eolymp_content_events_proto != nil {
 		return
 	}
-	file_eolymp_content_fragment_proto_init()
+	file_eolymp_content_content_fragment_proto_init()
 	file_eolymp_content_variant_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
