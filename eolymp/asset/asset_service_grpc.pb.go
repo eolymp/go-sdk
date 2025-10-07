@@ -23,6 +23,7 @@ const (
 	AssetService_UploadFile_FullMethodName              = "/eolymp.asset.AssetService/UploadFile"
 	AssetService_UploadAsset_FullMethodName             = "/eolymp.asset.AssetService/UploadAsset"
 	AssetService_LookupAsset_FullMethodName             = "/eolymp.asset.AssetService/LookupAsset"
+	AssetService_UseAsset_FullMethodName                = "/eolymp.asset.AssetService/UseAsset"
 	AssetService_StartMultipartUpload_FullMethodName    = "/eolymp.asset.AssetService/StartMultipartUpload"
 	AssetService_UploadPart_FullMethodName              = "/eolymp.asset.AssetService/UploadPart"
 	AssetService_CompleteMultipartUpload_FullMethodName = "/eolymp.asset.AssetService/CompleteMultipartUpload"
@@ -43,6 +44,13 @@ type AssetServiceClient interface {
 	UploadAsset(ctx context.Context, in *UploadAssetInput, opts ...grpc.CallOption) (*UploadAssetOutput, error)
 	// LookupAsset allows to lookup asset by the key
 	LookupAsset(ctx context.Context, in *LookupAssetInput, opts ...grpc.CallOption) (*LookupAssetOutput, error)
+	// UseAsset allows to add and remove usage tags to an asset.
+	//
+	// This API is used internally to keep track of files used by the system, assets without usage tags are considered to
+	// be unused and safe to delete.
+	//
+	// Whenever UseAsset is called, assets previously assigned to the resource will be detached.
+	UseAsset(ctx context.Context, in *UseAssetInput, opts ...grpc.CallOption) (*UseAssetOutput, error)
 	// StartMultipartUpload creates an upload_id, which then can be used with UploadPart API to upload file in parts of 5MB
 	StartMultipartUpload(ctx context.Context, in *StartMultipartUploadInput, opts ...grpc.CallOption) (*StartMultipartUploadOutput, error)
 	// UploadPart of a file, before calling this method you must start upload process using StartMultipartUpload API, once
@@ -99,6 +107,16 @@ func (c *assetServiceClient) LookupAsset(ctx context.Context, in *LookupAssetInp
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(LookupAssetOutput)
 	err := c.cc.Invoke(ctx, AssetService_LookupAsset_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *assetServiceClient) UseAsset(ctx context.Context, in *UseAssetInput, opts ...grpc.CallOption) (*UseAssetOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UseAssetOutput)
+	err := c.cc.Invoke(ctx, AssetService_UseAsset_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -177,6 +195,13 @@ type AssetServiceServer interface {
 	UploadAsset(context.Context, *UploadAssetInput) (*UploadAssetOutput, error)
 	// LookupAsset allows to lookup asset by the key
 	LookupAsset(context.Context, *LookupAssetInput) (*LookupAssetOutput, error)
+	// UseAsset allows to add and remove usage tags to an asset.
+	//
+	// This API is used internally to keep track of files used by the system, assets without usage tags are considered to
+	// be unused and safe to delete.
+	//
+	// Whenever UseAsset is called, assets previously assigned to the resource will be detached.
+	UseAsset(context.Context, *UseAssetInput) (*UseAssetOutput, error)
 	// StartMultipartUpload creates an upload_id, which then can be used with UploadPart API to upload file in parts of 5MB
 	StartMultipartUpload(context.Context, *StartMultipartUploadInput) (*StartMultipartUploadOutput, error)
 	// UploadPart of a file, before calling this method you must start upload process using StartMultipartUpload API, once
@@ -209,6 +234,9 @@ func (UnimplementedAssetServiceServer) UploadAsset(context.Context, *UploadAsset
 }
 func (UnimplementedAssetServiceServer) LookupAsset(context.Context, *LookupAssetInput) (*LookupAssetOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method LookupAsset not implemented")
+}
+func (UnimplementedAssetServiceServer) UseAsset(context.Context, *UseAssetInput) (*UseAssetOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UseAsset not implemented")
 }
 func (UnimplementedAssetServiceServer) StartMultipartUpload(context.Context, *StartMultipartUploadInput) (*StartMultipartUploadOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method StartMultipartUpload not implemented")
@@ -316,6 +344,24 @@ func _AssetService_LookupAsset_Handler(srv interface{}, ctx context.Context, dec
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AssetServiceServer).LookupAsset(ctx, req.(*LookupAssetInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AssetService_UseAsset_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UseAssetInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AssetServiceServer).UseAsset(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AssetService_UseAsset_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AssetServiceServer).UseAsset(ctx, req.(*UseAssetInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -450,6 +496,10 @@ var AssetService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "LookupAsset",
 			Handler:    _AssetService_LookupAsset_Handler,
+		},
+		{
+			MethodName: "UseAsset",
+			Handler:    _AssetService_UseAsset_Handler,
 		},
 		{
 			MethodName: "StartMultipartUpload",
