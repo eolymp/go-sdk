@@ -22,61 +22,6 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type Problem_Extra int32
-
-const (
-	Problem_UNKNOWN_EXTRA  Problem_Extra = 0
-	Problem_VOTE           Problem_Extra = 1
-	Problem_TITLE          Problem_Extra = 2
-	Problem_CONTENT_VALUE  Problem_Extra = 3
-	Problem_CONTENT_RENDER Problem_Extra = 4
-)
-
-// Enum value maps for Problem_Extra.
-var (
-	Problem_Extra_name = map[int32]string{
-		0: "UNKNOWN_EXTRA",
-		1: "VOTE",
-		2: "TITLE",
-		3: "CONTENT_VALUE",
-		4: "CONTENT_RENDER",
-	}
-	Problem_Extra_value = map[string]int32{
-		"UNKNOWN_EXTRA":  0,
-		"VOTE":           1,
-		"TITLE":          2,
-		"CONTENT_VALUE":  3,
-		"CONTENT_RENDER": 4,
-	}
-)
-
-func (x Problem_Extra) Enum() *Problem_Extra {
-	p := new(Problem_Extra)
-	*p = x
-	return p
-}
-
-func (x Problem_Extra) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (Problem_Extra) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_atlas_problem_proto_enumTypes[0].Descriptor()
-}
-
-func (Problem_Extra) Type() protoreflect.EnumType {
-	return &file_eolymp_atlas_problem_proto_enumTypes[0]
-}
-
-func (x Problem_Extra) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use Problem_Extra.Descriptor instead.
-func (Problem_Extra) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_atlas_problem_proto_rawDescGZIP(), []int{0, 0}
-}
-
 type Problem_Type int32
 
 const (
@@ -119,11 +64,11 @@ func (x Problem_Type) String() string {
 }
 
 func (Problem_Type) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_atlas_problem_proto_enumTypes[1].Descriptor()
+	return file_eolymp_atlas_problem_proto_enumTypes[0].Descriptor()
 }
 
 func (Problem_Type) Type() protoreflect.EnumType {
-	return &file_eolymp_atlas_problem_proto_enumTypes[1]
+	return &file_eolymp_atlas_problem_proto_enumTypes[0]
 }
 
 func (x Problem_Type) Number() protoreflect.EnumNumber {
@@ -132,24 +77,152 @@ func (x Problem_Type) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use Problem_Type.Descriptor instead.
 func (Problem_Type) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_atlas_problem_proto_rawDescGZIP(), []int{0, 1}
+	return file_eolymp_atlas_problem_proto_rawDescGZIP(), []int{0, 0}
+}
+
+type Problem_Extra_Field int32
+
+const (
+	Problem_Extra_UNKNOWN_EXTRA   Problem_Extra_Field = 0
+	Problem_Extra_VOTE            Problem_Extra_Field = 1
+	Problem_Extra_TITLE           Problem_Extra_Field = 2
+	Problem_Extra_CONTENT_VALUE   Problem_Extra_Field = 3
+	Problem_Extra_CONTENT_RENDER  Problem_Extra_Field = 4
+	Problem_Extra_SUBMISSION_FORM Problem_Extra_Field = 5
+	Problem_Extra_EXAMPLES        Problem_Extra_Field = 6
+)
+
+// Enum value maps for Problem_Extra_Field.
+var (
+	Problem_Extra_Field_name = map[int32]string{
+		0: "UNKNOWN_EXTRA",
+		1: "VOTE",
+		2: "TITLE",
+		3: "CONTENT_VALUE",
+		4: "CONTENT_RENDER",
+		5: "SUBMISSION_FORM",
+		6: "EXAMPLES",
+	}
+	Problem_Extra_Field_value = map[string]int32{
+		"UNKNOWN_EXTRA":   0,
+		"VOTE":            1,
+		"TITLE":           2,
+		"CONTENT_VALUE":   3,
+		"CONTENT_RENDER":  4,
+		"SUBMISSION_FORM": 5,
+		"EXAMPLES":        6,
+	}
+)
+
+func (x Problem_Extra_Field) Enum() *Problem_Extra_Field {
+	p := new(Problem_Extra_Field)
+	*p = x
+	return p
+}
+
+func (x Problem_Extra_Field) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (Problem_Extra_Field) Descriptor() protoreflect.EnumDescriptor {
+	return file_eolymp_atlas_problem_proto_enumTypes[1].Descriptor()
+}
+
+func (Problem_Extra_Field) Type() protoreflect.EnumType {
+	return &file_eolymp_atlas_problem_proto_enumTypes[1]
+}
+
+func (x Problem_Extra_Field) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use Problem_Extra_Field.Descriptor instead.
+func (Problem_Extra_Field) EnumDescriptor() ([]byte, []int) {
+	return file_eolymp_atlas_problem_proto_rawDescGZIP(), []int{0, 0, 0}
+}
+
+type Problem_Patch_Field int32
+
+const (
+	Problem_Patch_UNKNOWN_PATCH Problem_Patch_Field = 0
+	Problem_Patch_VISIBLE       Problem_Patch_Field = 1
+	Problem_Patch_PRIVATE       Problem_Patch_Field = 2
+	Problem_Patch_TOPICS        Problem_Patch_Field = 3
+	Problem_Patch_DIFFICULTY    Problem_Patch_Field = 4
+	Problem_Patch_ORIGIN        Problem_Patch_Field = 5
+	Problem_Patch_TYPE          Problem_Patch_Field = 6
+	Problem_Patch_NUMBER        Problem_Patch_Field = 7
+)
+
+// Enum value maps for Problem_Patch_Field.
+var (
+	Problem_Patch_Field_name = map[int32]string{
+		0: "UNKNOWN_PATCH",
+		1: "VISIBLE",
+		2: "PRIVATE",
+		3: "TOPICS",
+		4: "DIFFICULTY",
+		5: "ORIGIN",
+		6: "TYPE",
+		7: "NUMBER",
+	}
+	Problem_Patch_Field_value = map[string]int32{
+		"UNKNOWN_PATCH": 0,
+		"VISIBLE":       1,
+		"PRIVATE":       2,
+		"TOPICS":        3,
+		"DIFFICULTY":    4,
+		"ORIGIN":        5,
+		"TYPE":          6,
+		"NUMBER":        7,
+	}
+)
+
+func (x Problem_Patch_Field) Enum() *Problem_Patch_Field {
+	p := new(Problem_Patch_Field)
+	*p = x
+	return p
+}
+
+func (x Problem_Patch_Field) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (Problem_Patch_Field) Descriptor() protoreflect.EnumDescriptor {
+	return file_eolymp_atlas_problem_proto_enumTypes[2].Descriptor()
+}
+
+func (Problem_Patch_Field) Type() protoreflect.EnumType {
+	return &file_eolymp_atlas_problem_proto_enumTypes[2]
+}
+
+func (x Problem_Patch_Field) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use Problem_Patch_Field.Descriptor instead.
+func (Problem_Patch_Field) EnumDescriptor() ([]byte, []int) {
+	return file_eolymp_atlas_problem_proto_rawDescGZIP(), []int{0, 1, 0}
 }
 
 type Problem struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Unique identifier.
-	Id    string            `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Url   string            `protobuf:"bytes,682,opt,name=url,proto3" json:"url,omitempty"`
-	Type  Problem_Type      `protobuf:"varint,23,opt,name=type,proto3,enum=eolymp.atlas.Problem_Type" json:"type,omitempty"`
-	Links map[string]string `protobuf:"bytes,683,rep,name=links,proto3" json:"links,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	Id   string       `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Url  string       `protobuf:"bytes,682,opt,name=url,proto3" json:"url,omitempty"`
+	Type Problem_Type `protobuf:"varint,23,opt,name=type,proto3,enum=eolymp.atlas.Problem_Type" json:"type,omitempty"`
 	// Index in the public problem catalog.
 	Number int32 `protobuf:"varint,10,opt,name=number,proto3" json:"number,omitempty"`
 	// Problem is visible to users in public catalog.
 	Visible bool `protobuf:"varint,11,opt,name=visible,proto3" json:"visible,omitempty"`
 	// For imported problems, provides the source from where the problem is imported and synchronized.
-	Origin  string       `protobuf:"bytes,13,opt,name=origin,proto3" json:"origin,omitempty"`
-	Title   string       `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
-	Content *ecm.Content `protobuf:"bytes,3,opt,name=content,proto3" json:"content,omitempty"`
+	Origin       string       `protobuf:"bytes,13,opt,name=origin,proto3" json:"origin,omitempty"`
+	Locale       string       `protobuf:"bytes,3,opt,name=locale,proto3" json:"locale,omitempty"`                                 // Statement language
+	Title        string       `protobuf:"bytes,4,opt,name=title,proto3" json:"title,omitempty"`                                   // Problem title
+	Content      *ecm.Content `protobuf:"bytes,6,opt,name=content,proto3" json:"content,omitempty"`                               // Statement content
+	DownloadLink string       `protobuf:"bytes,7,opt,name=download_link,json=downloadLink,proto3" json:"download_link,omitempty"` // Statement download link, allows to download statement in original format.
+	Author       string       `protobuf:"bytes,101,opt,name=author,proto3" json:"author,omitempty"`                               // Problem author name.
+	Source       string       `protobuf:"bytes,102,opt,name=source,proto3" json:"source,omitempty"`                               // Problem source, name of the contest or olympiad where this problem was initially published.
 	// Problem topics (ID of topics from taxonomy.TopicService)
 	Topics      []string             `protobuf:"bytes,20,rep,name=topics,proto3" json:"topics,omitempty"`
 	Score       float32              `protobuf:"fixed32,31,opt,name=score,proto3" json:"score,omitempty"`           // Total score
@@ -162,9 +235,12 @@ type Problem struct {
 	Vote      int32 `protobuf:"varint,50,opt,name=vote,proto3" json:"vote,omitempty"`
 	VoteCount int32 `protobuf:"varint,51,opt,name=vote_count,json=voteCount,proto3" json:"vote_count,omitempty"`
 	// Difficulty from 0 (very easy) to 5 (very hard)
-	Difficulty    uint32 `protobuf:"varint,21,opt,name=difficulty,proto3" json:"difficulty,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Difficulty uint32 `protobuf:"varint,21,opt,name=difficulty,proto3" json:"difficulty,omitempty"`
+	// Submission form description
+	SubmissionForm *Form              `protobuf:"bytes,22,opt,name=submission_form,json=submissionForm,proto3" json:"submission_form,omitempty"`
+	Examples       []*Problem_Example `protobuf:"bytes,60,rep,name=examples,proto3" json:"examples,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *Problem) Reset() {
@@ -218,13 +294,6 @@ func (x *Problem) GetType() Problem_Type {
 	return Problem_UNKNOWN_TYPE
 }
 
-func (x *Problem) GetLinks() map[string]string {
-	if x != nil {
-		return x.Links
-	}
-	return nil
-}
-
 func (x *Problem) GetNumber() int32 {
 	if x != nil {
 		return x.Number
@@ -246,6 +315,13 @@ func (x *Problem) GetOrigin() string {
 	return ""
 }
 
+func (x *Problem) GetLocale() string {
+	if x != nil {
+		return x.Locale
+	}
+	return ""
+}
+
 func (x *Problem) GetTitle() string {
 	if x != nil {
 		return x.Title
@@ -258,6 +334,27 @@ func (x *Problem) GetContent() *ecm.Content {
 		return x.Content
 	}
 	return nil
+}
+
+func (x *Problem) GetDownloadLink() string {
+	if x != nil {
+		return x.DownloadLink
+	}
+	return ""
+}
+
+func (x *Problem) GetAuthor() string {
+	if x != nil {
+		return x.Author
+	}
+	return ""
+}
+
+func (x *Problem) GetSource() string {
+	if x != nil {
+		return x.Source
+	}
+	return ""
 }
 
 func (x *Problem) GetTopics() []string {
@@ -323,6 +420,92 @@ func (x *Problem) GetDifficulty() uint32 {
 	return 0
 }
 
+func (x *Problem) GetSubmissionForm() *Form {
+	if x != nil {
+		return x.SubmissionForm
+	}
+	return nil
+}
+
+func (x *Problem) GetExamples() []*Problem_Example {
+	if x != nil {
+		return x.Examples
+	}
+	return nil
+}
+
+type Problem_Extra struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Problem_Extra) Reset() {
+	*x = Problem_Extra{}
+	mi := &file_eolymp_atlas_problem_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Problem_Extra) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Problem_Extra) ProtoMessage() {}
+
+func (x *Problem_Extra) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_problem_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Problem_Extra.ProtoReflect.Descriptor instead.
+func (*Problem_Extra) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_problem_proto_rawDescGZIP(), []int{0, 0}
+}
+
+type Problem_Patch struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Problem_Patch) Reset() {
+	*x = Problem_Patch{}
+	mi := &file_eolymp_atlas_problem_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Problem_Patch) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Problem_Patch) ProtoMessage() {}
+
+func (x *Problem_Patch) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_problem_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Problem_Patch.ProtoReflect.Descriptor instead.
+func (*Problem_Patch) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_problem_proto_rawDescGZIP(), []int{0, 1}
+}
+
 type Problem_Constraints struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	TimeLimitMin   uint32                 `protobuf:"varint,60,opt,name=time_limit_min,json=timeLimitMin,proto3" json:"time_limit_min,omitempty"`
@@ -337,7 +520,7 @@ type Problem_Constraints struct {
 
 func (x *Problem_Constraints) Reset() {
 	*x = Problem_Constraints{}
-	mi := &file_eolymp_atlas_problem_proto_msgTypes[1]
+	mi := &file_eolymp_atlas_problem_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -349,7 +532,7 @@ func (x *Problem_Constraints) String() string {
 func (*Problem_Constraints) ProtoMessage() {}
 
 func (x *Problem_Constraints) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_problem_proto_msgTypes[1]
+	mi := &file_eolymp_atlas_problem_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -362,7 +545,7 @@ func (x *Problem_Constraints) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Problem_Constraints.ProtoReflect.Descriptor instead.
 func (*Problem_Constraints) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_problem_proto_rawDescGZIP(), []int{0, 0}
+	return file_eolymp_atlas_problem_proto_rawDescGZIP(), []int{0, 2}
 }
 
 func (x *Problem_Constraints) GetTimeLimitMin() uint32 {
@@ -407,22 +590,85 @@ func (x *Problem_Constraints) GetMemoryLimitMax() uint64 {
 	return 0
 }
 
+type Problem_Example struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Index         uint32                 `protobuf:"varint,1,opt,name=index,proto3" json:"index,omitempty"`
+	InputUrl      string                 `protobuf:"bytes,2,opt,name=input_url,json=inputUrl,proto3" json:"input_url,omitempty"`
+	AnswerUrl     string                 `protobuf:"bytes,3,opt,name=answer_url,json=answerUrl,proto3" json:"answer_url,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Problem_Example) Reset() {
+	*x = Problem_Example{}
+	mi := &file_eolymp_atlas_problem_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Problem_Example) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Problem_Example) ProtoMessage() {}
+
+func (x *Problem_Example) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_problem_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Problem_Example.ProtoReflect.Descriptor instead.
+func (*Problem_Example) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_problem_proto_rawDescGZIP(), []int{0, 3}
+}
+
+func (x *Problem_Example) GetIndex() uint32 {
+	if x != nil {
+		return x.Index
+	}
+	return 0
+}
+
+func (x *Problem_Example) GetInputUrl() string {
+	if x != nil {
+		return x.InputUrl
+	}
+	return ""
+}
+
+func (x *Problem_Example) GetAnswerUrl() string {
+	if x != nil {
+		return x.AnswerUrl
+	}
+	return ""
+}
+
 var File_eolymp_atlas_problem_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_problem_proto_rawDesc = "" +
 	"\n" +
-	"\x1aeolymp/atlas/problem.proto\x12\feolymp.atlas\x1a\x18eolymp/ecm/content.proto\"\xcf\b\n" +
+	"\x1aeolymp/atlas/problem.proto\x12\feolymp.atlas\x1a\x17eolymp/atlas/form.proto\x1a\x18eolymp/ecm/content.proto\"\xc8\v\n" +
 	"\aProblem\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x11\n" +
 	"\x03url\x18\xaa\x05 \x01(\tR\x03url\x12.\n" +
-	"\x04type\x18\x17 \x01(\x0e2\x1a.eolymp.atlas.Problem.TypeR\x04type\x127\n" +
-	"\x05links\x18\xab\x05 \x03(\v2 .eolymp.atlas.Problem.LinksEntryR\x05links\x12\x16\n" +
+	"\x04type\x18\x17 \x01(\x0e2\x1a.eolymp.atlas.Problem.TypeR\x04type\x12\x16\n" +
 	"\x06number\x18\n" +
 	" \x01(\x05R\x06number\x12\x18\n" +
 	"\avisible\x18\v \x01(\bR\avisible\x12\x16\n" +
-	"\x06origin\x18\r \x01(\tR\x06origin\x12\x14\n" +
-	"\x05title\x18\x02 \x01(\tR\x05title\x12-\n" +
-	"\acontent\x18\x03 \x01(\v2\x13.eolymp.ecm.ContentR\acontent\x12\x16\n" +
+	"\x06origin\x18\r \x01(\tR\x06origin\x12\x16\n" +
+	"\x06locale\x18\x03 \x01(\tR\x06locale\x12\x14\n" +
+	"\x05title\x18\x04 \x01(\tR\x05title\x12-\n" +
+	"\acontent\x18\x06 \x01(\v2\x13.eolymp.ecm.ContentR\acontent\x12#\n" +
+	"\rdownload_link\x18\a \x01(\tR\fdownloadLink\x12\x16\n" +
+	"\x06author\x18e \x01(\tR\x06author\x12\x16\n" +
+	"\x06source\x18f \x01(\tR\x06source\x12\x16\n" +
 	"\x06topics\x18\x14 \x03(\tR\x06topics\x12\x14\n" +
 	"\x05score\x18\x1f \x01(\x02R\x05score\x12C\n" +
 	"\vconstraints\x18\x1e \x01(\v2!.eolymp.atlas.Problem.ConstraintsR\vconstraints\x12'\n" +
@@ -434,24 +680,44 @@ const file_eolymp_atlas_problem_proto_rawDesc = "" +
 	"vote_count\x183 \x01(\x05R\tvoteCount\x12\x1e\n" +
 	"\n" +
 	"difficulty\x18\x15 \x01(\rR\n" +
-	"difficulty\x1a\xf5\x01\n" +
+	"difficulty\x12;\n" +
+	"\x0fsubmission_form\x18\x16 \x01(\v2\x12.eolymp.atlas.FormR\x0esubmissionForm\x129\n" +
+	"\bexamples\x18< \x03(\v2\x1d.eolymp.atlas.Problem.ExampleR\bexamples\x1a\x82\x01\n" +
+	"\x05Extra\"y\n" +
+	"\x05Field\x12\x11\n" +
+	"\rUNKNOWN_EXTRA\x10\x00\x12\b\n" +
+	"\x04VOTE\x10\x01\x12\t\n" +
+	"\x05TITLE\x10\x02\x12\x11\n" +
+	"\rCONTENT_VALUE\x10\x03\x12\x12\n" +
+	"\x0eCONTENT_RENDER\x10\x04\x12\x13\n" +
+	"\x0fSUBMISSION_FORM\x10\x05\x12\f\n" +
+	"\bEXAMPLES\x10\x06\x1a{\n" +
+	"\x05Patch\"r\n" +
+	"\x05Field\x12\x11\n" +
+	"\rUNKNOWN_PATCH\x10\x00\x12\v\n" +
+	"\aVISIBLE\x10\x01\x12\v\n" +
+	"\aPRIVATE\x10\x02\x12\n" +
+	"\n" +
+	"\x06TOPICS\x10\x03\x12\x0e\n" +
+	"\n" +
+	"DIFFICULTY\x10\x04\x12\n" +
+	"\n" +
+	"\x06ORIGIN\x10\x05\x12\b\n" +
+	"\x04TYPE\x10\x06\x12\n" +
+	"\n" +
+	"\x06NUMBER\x10\a\x1a\xf5\x01\n" +
 	"\vConstraints\x12$\n" +
 	"\x0etime_limit_min\x18< \x01(\rR\ftimeLimitMin\x12$\n" +
 	"\x0etime_limit_max\x18= \x01(\rR\ftimeLimitMax\x12\"\n" +
 	"\rcpu_limit_min\x18> \x01(\rR\vcpuLimitMin\x12\"\n" +
 	"\rcpu_limit_max\x18? \x01(\rR\vcpuLimitMax\x12(\n" +
 	"\x10memory_limit_min\x18@ \x01(\x04R\x0ememoryLimitMin\x12(\n" +
-	"\x10memory_limit_max\x18A \x01(\x04R\x0ememoryLimitMax\x1a8\n" +
+	"\x10memory_limit_max\x18A \x01(\x04R\x0ememoryLimitMax\x1a[\n" +
+	"\aExample\x12\x14\n" +
+	"\x05index\x18\x01 \x01(\rR\x05index\x12\x1b\n" +
+	"\tinput_url\x18\x02 \x01(\tR\binputUrl\x12\x1d\n" +
 	"\n" +
-	"LinksEntry\x12\x10\n" +
-	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"V\n" +
-	"\x05Extra\x12\x11\n" +
-	"\rUNKNOWN_EXTRA\x10\x00\x12\b\n" +
-	"\x04VOTE\x10\x01\x12\t\n" +
-	"\x05TITLE\x10\x02\x12\x11\n" +
-	"\rCONTENT_VALUE\x10\x03\x12\x12\n" +
-	"\x0eCONTENT_RENDER\x10\x04\"P\n" +
+	"answer_url\x18\x03 \x01(\tR\tanswerUrl\"P\n" +
 	"\x04Type\x12\x10\n" +
 	"\fUNKNOWN_TYPE\x10\x00\x12\v\n" +
 	"\aPROGRAM\x10\x01\x12\f\n" +
@@ -473,26 +739,31 @@ func file_eolymp_atlas_problem_proto_rawDescGZIP() []byte {
 	return file_eolymp_atlas_problem_proto_rawDescData
 }
 
-var file_eolymp_atlas_problem_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_eolymp_atlas_problem_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_eolymp_atlas_problem_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
+var file_eolymp_atlas_problem_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_eolymp_atlas_problem_proto_goTypes = []any{
-	(Problem_Extra)(0),          // 0: eolymp.atlas.Problem.Extra
-	(Problem_Type)(0),           // 1: eolymp.atlas.Problem.Type
-	(*Problem)(nil),             // 2: eolymp.atlas.Problem
-	(*Problem_Constraints)(nil), // 3: eolymp.atlas.Problem.Constraints
-	nil,                         // 4: eolymp.atlas.Problem.LinksEntry
-	(*ecm.Content)(nil),         // 5: eolymp.ecm.Content
+	(Problem_Type)(0),           // 0: eolymp.atlas.Problem.Type
+	(Problem_Extra_Field)(0),    // 1: eolymp.atlas.Problem.Extra.Field
+	(Problem_Patch_Field)(0),    // 2: eolymp.atlas.Problem.Patch.Field
+	(*Problem)(nil),             // 3: eolymp.atlas.Problem
+	(*Problem_Extra)(nil),       // 4: eolymp.atlas.Problem.Extra
+	(*Problem_Patch)(nil),       // 5: eolymp.atlas.Problem.Patch
+	(*Problem_Constraints)(nil), // 6: eolymp.atlas.Problem.Constraints
+	(*Problem_Example)(nil),     // 7: eolymp.atlas.Problem.Example
+	(*ecm.Content)(nil),         // 8: eolymp.ecm.Content
+	(*Form)(nil),                // 9: eolymp.atlas.Form
 }
 var file_eolymp_atlas_problem_proto_depIdxs = []int32{
-	1, // 0: eolymp.atlas.Problem.type:type_name -> eolymp.atlas.Problem.Type
-	4, // 1: eolymp.atlas.Problem.links:type_name -> eolymp.atlas.Problem.LinksEntry
-	5, // 2: eolymp.atlas.Problem.content:type_name -> eolymp.ecm.Content
-	3, // 3: eolymp.atlas.Problem.constraints:type_name -> eolymp.atlas.Problem.Constraints
-	4, // [4:4] is the sub-list for method output_type
-	4, // [4:4] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	0, // 0: eolymp.atlas.Problem.type:type_name -> eolymp.atlas.Problem.Type
+	8, // 1: eolymp.atlas.Problem.content:type_name -> eolymp.ecm.Content
+	6, // 2: eolymp.atlas.Problem.constraints:type_name -> eolymp.atlas.Problem.Constraints
+	9, // 3: eolymp.atlas.Problem.submission_form:type_name -> eolymp.atlas.Form
+	7, // 4: eolymp.atlas.Problem.examples:type_name -> eolymp.atlas.Problem.Example
+	5, // [5:5] is the sub-list for method output_type
+	5, // [5:5] is the sub-list for method input_type
+	5, // [5:5] is the sub-list for extension type_name
+	5, // [5:5] is the sub-list for extension extendee
+	0, // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_atlas_problem_proto_init() }
@@ -500,13 +771,14 @@ func file_eolymp_atlas_problem_proto_init() {
 	if File_eolymp_atlas_problem_proto != nil {
 		return
 	}
+	file_eolymp_atlas_form_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_atlas_problem_proto_rawDesc), len(file_eolymp_atlas_problem_proto_rawDesc)),
-			NumEnums:      2,
-			NumMessages:   3,
+			NumEnums:      3,
+			NumMessages:   5,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

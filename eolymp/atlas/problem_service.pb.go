@@ -73,70 +73,6 @@ func (ListProblemsInput_Sortable) EnumDescriptor() ([]byte, []int) {
 	return file_eolymp_atlas_problem_service_proto_rawDescGZIP(), []int{7, 0}
 }
 
-type UpdateProblemInput_Patch int32
-
-const (
-	UpdateProblemInput_ALL        UpdateProblemInput_Patch = 0
-	UpdateProblemInput_VISIBLE    UpdateProblemInput_Patch = 1
-	UpdateProblemInput_PRIVATE    UpdateProblemInput_Patch = 2
-	UpdateProblemInput_TOPICS     UpdateProblemInput_Patch = 3
-	UpdateProblemInput_DIFFICULTY UpdateProblemInput_Patch = 4
-	UpdateProblemInput_ORIGIN     UpdateProblemInput_Patch = 5
-	UpdateProblemInput_TYPE       UpdateProblemInput_Patch = 6
-	UpdateProblemInput_NUMBER     UpdateProblemInput_Patch = 7
-)
-
-// Enum value maps for UpdateProblemInput_Patch.
-var (
-	UpdateProblemInput_Patch_name = map[int32]string{
-		0: "ALL",
-		1: "VISIBLE",
-		2: "PRIVATE",
-		3: "TOPICS",
-		4: "DIFFICULTY",
-		5: "ORIGIN",
-		6: "TYPE",
-		7: "NUMBER",
-	}
-	UpdateProblemInput_Patch_value = map[string]int32{
-		"ALL":        0,
-		"VISIBLE":    1,
-		"PRIVATE":    2,
-		"TOPICS":     3,
-		"DIFFICULTY": 4,
-		"ORIGIN":     5,
-		"TYPE":       6,
-		"NUMBER":     7,
-	}
-)
-
-func (x UpdateProblemInput_Patch) Enum() *UpdateProblemInput_Patch {
-	p := new(UpdateProblemInput_Patch)
-	*p = x
-	return p
-}
-
-func (x UpdateProblemInput_Patch) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (UpdateProblemInput_Patch) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_atlas_problem_service_proto_enumTypes[1].Descriptor()
-}
-
-func (UpdateProblemInput_Patch) Type() protoreflect.EnumType {
-	return &file_eolymp_atlas_problem_service_proto_enumTypes[1]
-}
-
-func (x UpdateProblemInput_Patch) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use UpdateProblemInput_Patch.Descriptor instead.
-func (UpdateProblemInput_Patch) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_atlas_problem_service_proto_rawDescGZIP(), []int{13, 0}
-}
-
 type ProblemChangedEvent struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Before        *Problem               `protobuf:"bytes,1,opt,name=before,proto3" json:"before,omitempty"`
@@ -377,7 +313,7 @@ type DescribeProblemInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	Locale        string                 `protobuf:"bytes,1122,opt,name=locale,proto3" json:"locale,omitempty"` // load title and content in a specific locale
-	Extra         []Problem_Extra        `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.atlas.Problem_Extra" json:"extra,omitempty"`
+	Extra         []Problem_Extra_Field  `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.atlas.Problem_Extra_Field" json:"extra,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -426,7 +362,7 @@ func (x *DescribeProblemInput) GetLocale() string {
 	return ""
 }
 
-func (x *DescribeProblemInput) GetExtra() []Problem_Extra {
+func (x *DescribeProblemInput) GetExtra() []Problem_Extra_Field {
 	if x != nil {
 		return x.Extra
 	}
@@ -488,7 +424,7 @@ type ListProblemsInput struct {
 	Sort          ListProblemsInput_Sortable `protobuf:"varint,50,opt,name=sort,proto3,enum=eolymp.atlas.ListProblemsInput_Sortable" json:"sort,omitempty"`
 	Order         wellknown.Direction        `protobuf:"varint,51,opt,name=order,proto3,enum=eolymp.wellknown.Direction" json:"order,omitempty"`
 	Locale        string                     `protobuf:"bytes,1122,opt,name=locale,proto3" json:"locale,omitempty"` // load title and content in a specific locale
-	Extra         []Problem_Extra            `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.atlas.Problem_Extra" json:"extra,omitempty"`
+	Extra         []Problem_Extra_Field      `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.atlas.Problem_Extra_Field" json:"extra,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -572,7 +508,7 @@ func (x *ListProblemsInput) GetLocale() string {
 	return ""
 }
 
-func (x *ListProblemsInput) GetExtra() []Problem_Extra {
+func (x *ListProblemsInput) GetExtra() []Problem_Extra_Field {
 	if x != nil {
 		return x.Extra
 	}
@@ -810,9 +746,9 @@ func (*UpdatePrivacyOutput) Descriptor() ([]byte, []int) {
 type UpdateProblemInput struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// specify list of fields to update, if empty all fields are updated
-	Patch         []UpdateProblemInput_Patch `protobuf:"varint,1,rep,packed,name=patch,proto3,enum=eolymp.atlas.UpdateProblemInput_Patch" json:"patch,omitempty"`
-	ProblemId     string                     `protobuf:"bytes,2,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
-	Problem       *Problem                   `protobuf:"bytes,3,opt,name=problem,proto3" json:"problem,omitempty"`
+	Patch         []Problem_Patch_Field `protobuf:"varint,1,rep,packed,name=patch,proto3,enum=eolymp.atlas.Problem_Patch_Field" json:"patch,omitempty"`
+	ProblemId     string                `protobuf:"bytes,2,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
+	Problem       *Problem              `protobuf:"bytes,3,opt,name=problem,proto3" json:"problem,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -847,7 +783,7 @@ func (*UpdateProblemInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_problem_service_proto_rawDescGZIP(), []int{13}
 }
 
-func (x *UpdateProblemInput) GetPatch() []UpdateProblemInput_Patch {
+func (x *UpdateProblemInput) GetPatch() []Problem_Patch_Field {
 	if x != nil {
 		return x.Patch
 	}
@@ -1612,14 +1548,14 @@ const file_eolymp_atlas_problem_service_proto_rawDesc = "" +
 	"\x12DeleteProblemInput\x12\x1d\n" +
 	"\n" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\"\x15\n" +
-	"\x13DeleteProblemOutput\"\x82\x01\n" +
+	"\x13DeleteProblemOutput\"\x88\x01\n" +
 	"\x14DescribeProblemInput\x12\x1d\n" +
 	"\n" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x17\n" +
-	"\x06locale\x18\xe2\b \x01(\tR\x06locale\x122\n" +
-	"\x05extra\x18\xe3\b \x03(\x0e2\x1b.eolymp.atlas.Problem.ExtraR\x05extra\"H\n" +
+	"\x06locale\x18\xe2\b \x01(\tR\x06locale\x128\n" +
+	"\x05extra\x18\xe3\b \x03(\x0e2!.eolymp.atlas.Problem.Extra.FieldR\x05extra\"H\n" +
 	"\x15DescribeProblemOutput\x12/\n" +
-	"\aproblem\x18\x01 \x01(\v2\x15.eolymp.atlas.ProblemR\aproblem\"\xb5\a\n" +
+	"\aproblem\x18\x01 \x01(\v2\x15.eolymp.atlas.ProblemR\aproblem\"\xbb\a\n" +
 	"\x11ListProblemsInput\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
@@ -1628,8 +1564,8 @@ const file_eolymp_atlas_problem_service_proto_rawDesc = "" +
 	"\afilters\x18( \x01(\v2&.eolymp.atlas.ListProblemsInput.FilterR\afilters\x12<\n" +
 	"\x04sort\x182 \x01(\x0e2(.eolymp.atlas.ListProblemsInput.SortableR\x04sort\x121\n" +
 	"\x05order\x183 \x01(\x0e2\x1b.eolymp.wellknown.DirectionR\x05order\x12\x17\n" +
-	"\x06locale\x18\xe2\b \x01(\tR\x06locale\x122\n" +
-	"\x05extra\x18\xe3\b \x03(\x0e2\x1b.eolymp.atlas.Problem.ExtraR\x05extra\x1a\xa9\x04\n" +
+	"\x06locale\x18\xe2\b \x01(\tR\x06locale\x128\n" +
+	"\x05extra\x18\xe3\b \x03(\x0e2!.eolymp.atlas.Problem.Extra.FieldR\x05extra\x1a\xa9\x04\n" +
 	"\x06Filter\x12.\n" +
 	"\x02id\x18\x01 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\x129\n" +
 	"\btopic_id\x18\x02 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\atopicId\x12?\n" +
@@ -1661,25 +1597,12 @@ const file_eolymp_atlas_problem_service_proto_rawDesc = "" +
 	"\n" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x18\n" +
 	"\aprivate\x18\x02 \x01(\bR\aprivate\"\x15\n" +
-	"\x13UpdatePrivacyOutput\"\x8c\x02\n" +
-	"\x12UpdateProblemInput\x12<\n" +
-	"\x05patch\x18\x01 \x03(\x0e2&.eolymp.atlas.UpdateProblemInput.PatchR\x05patch\x12\x1d\n" +
+	"\x13UpdatePrivacyOutput\"\x9d\x01\n" +
+	"\x12UpdateProblemInput\x127\n" +
+	"\x05patch\x18\x01 \x03(\x0e2!.eolymp.atlas.Problem.Patch.FieldR\x05patch\x12\x1d\n" +
 	"\n" +
 	"problem_id\x18\x02 \x01(\tR\tproblemId\x12/\n" +
-	"\aproblem\x18\x03 \x01(\v2\x15.eolymp.atlas.ProblemR\aproblem\"h\n" +
-	"\x05Patch\x12\a\n" +
-	"\x03ALL\x10\x00\x12\v\n" +
-	"\aVISIBLE\x10\x01\x12\v\n" +
-	"\aPRIVATE\x10\x02\x12\n" +
-	"\n" +
-	"\x06TOPICS\x10\x03\x12\x0e\n" +
-	"\n" +
-	"DIFFICULTY\x10\x04\x12\n" +
-	"\n" +
-	"\x06ORIGIN\x10\x05\x12\b\n" +
-	"\x04TYPE\x10\x06\x12\n" +
-	"\n" +
-	"\x06NUMBER\x10\a\"\x15\n" +
+	"\aproblem\x18\x03 \x01(\v2\x15.eolymp.atlas.ProblemR\aproblem\"\x15\n" +
 	"\x13UpdateProblemOutput\"1\n" +
 	"\x10SyncProblemInput\x12\x1d\n" +
 	"\n" +
@@ -1800,43 +1723,43 @@ func file_eolymp_atlas_problem_service_proto_rawDescGZIP() []byte {
 	return file_eolymp_atlas_problem_service_proto_rawDescData
 }
 
-var file_eolymp_atlas_problem_service_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_eolymp_atlas_problem_service_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_eolymp_atlas_problem_service_proto_msgTypes = make([]protoimpl.MessageInfo, 27)
 var file_eolymp_atlas_problem_service_proto_goTypes = []any{
 	(ListProblemsInput_Sortable)(0),       // 0: eolymp.atlas.ListProblemsInput.Sortable
-	(UpdateProblemInput_Patch)(0),         // 1: eolymp.atlas.UpdateProblemInput.Patch
-	(*ProblemChangedEvent)(nil),           // 2: eolymp.atlas.ProblemChangedEvent
-	(*CreateProblemInput)(nil),            // 3: eolymp.atlas.CreateProblemInput
-	(*CreateProblemOutput)(nil),           // 4: eolymp.atlas.CreateProblemOutput
-	(*DeleteProblemInput)(nil),            // 5: eolymp.atlas.DeleteProblemInput
-	(*DeleteProblemOutput)(nil),           // 6: eolymp.atlas.DeleteProblemOutput
-	(*DescribeProblemInput)(nil),          // 7: eolymp.atlas.DescribeProblemInput
-	(*DescribeProblemOutput)(nil),         // 8: eolymp.atlas.DescribeProblemOutput
-	(*ListProblemsInput)(nil),             // 9: eolymp.atlas.ListProblemsInput
-	(*ListProblemsOutput)(nil),            // 10: eolymp.atlas.ListProblemsOutput
-	(*UpdateVisibilityInput)(nil),         // 11: eolymp.atlas.UpdateVisibilityInput
-	(*UpdateVisibilityOutput)(nil),        // 12: eolymp.atlas.UpdateVisibilityOutput
-	(*UpdatePrivacyInput)(nil),            // 13: eolymp.atlas.UpdatePrivacyInput
-	(*UpdatePrivacyOutput)(nil),           // 14: eolymp.atlas.UpdatePrivacyOutput
-	(*UpdateProblemInput)(nil),            // 15: eolymp.atlas.UpdateProblemInput
-	(*UpdateProblemOutput)(nil),           // 16: eolymp.atlas.UpdateProblemOutput
-	(*SyncProblemInput)(nil),              // 17: eolymp.atlas.SyncProblemInput
-	(*SyncProblemOutput)(nil),             // 18: eolymp.atlas.SyncProblemOutput
-	(*ListVersionsInput)(nil),             // 19: eolymp.atlas.ListVersionsInput
-	(*ListVersionsOutput)(nil),            // 20: eolymp.atlas.ListVersionsOutput
-	(*VoteProblemInput)(nil),              // 21: eolymp.atlas.VoteProblemInput
-	(*VoteProblemOutput)(nil),             // 22: eolymp.atlas.VoteProblemOutput
-	(*ListRuntimesInput)(nil),             // 23: eolymp.atlas.ListRuntimesInput
-	(*ListRuntimesOutput)(nil),            // 24: eolymp.atlas.ListRuntimesOutput
-	(*ExportProblemInput)(nil),            // 25: eolymp.atlas.ExportProblemInput
-	(*ExportProblemOutput)(nil),           // 26: eolymp.atlas.ExportProblemOutput
-	(*ListProblemsInput_Filter)(nil),      // 27: eolymp.atlas.ListProblemsInput.Filter
-	(*ListVersionsInput_Filter)(nil),      // 28: eolymp.atlas.ListVersionsInput.Filter
-	(*Problem)(nil),                       // 29: eolymp.atlas.Problem
-	(*Version)(nil),                       // 30: eolymp.atlas.Version
-	(*Statement)(nil),                     // 31: eolymp.atlas.Statement
-	(Problem_Extra)(0),                    // 32: eolymp.atlas.Problem.Extra
-	(wellknown.Direction)(0),              // 33: eolymp.wellknown.Direction
+	(*ProblemChangedEvent)(nil),           // 1: eolymp.atlas.ProblemChangedEvent
+	(*CreateProblemInput)(nil),            // 2: eolymp.atlas.CreateProblemInput
+	(*CreateProblemOutput)(nil),           // 3: eolymp.atlas.CreateProblemOutput
+	(*DeleteProblemInput)(nil),            // 4: eolymp.atlas.DeleteProblemInput
+	(*DeleteProblemOutput)(nil),           // 5: eolymp.atlas.DeleteProblemOutput
+	(*DescribeProblemInput)(nil),          // 6: eolymp.atlas.DescribeProblemInput
+	(*DescribeProblemOutput)(nil),         // 7: eolymp.atlas.DescribeProblemOutput
+	(*ListProblemsInput)(nil),             // 8: eolymp.atlas.ListProblemsInput
+	(*ListProblemsOutput)(nil),            // 9: eolymp.atlas.ListProblemsOutput
+	(*UpdateVisibilityInput)(nil),         // 10: eolymp.atlas.UpdateVisibilityInput
+	(*UpdateVisibilityOutput)(nil),        // 11: eolymp.atlas.UpdateVisibilityOutput
+	(*UpdatePrivacyInput)(nil),            // 12: eolymp.atlas.UpdatePrivacyInput
+	(*UpdatePrivacyOutput)(nil),           // 13: eolymp.atlas.UpdatePrivacyOutput
+	(*UpdateProblemInput)(nil),            // 14: eolymp.atlas.UpdateProblemInput
+	(*UpdateProblemOutput)(nil),           // 15: eolymp.atlas.UpdateProblemOutput
+	(*SyncProblemInput)(nil),              // 16: eolymp.atlas.SyncProblemInput
+	(*SyncProblemOutput)(nil),             // 17: eolymp.atlas.SyncProblemOutput
+	(*ListVersionsInput)(nil),             // 18: eolymp.atlas.ListVersionsInput
+	(*ListVersionsOutput)(nil),            // 19: eolymp.atlas.ListVersionsOutput
+	(*VoteProblemInput)(nil),              // 20: eolymp.atlas.VoteProblemInput
+	(*VoteProblemOutput)(nil),             // 21: eolymp.atlas.VoteProblemOutput
+	(*ListRuntimesInput)(nil),             // 22: eolymp.atlas.ListRuntimesInput
+	(*ListRuntimesOutput)(nil),            // 23: eolymp.atlas.ListRuntimesOutput
+	(*ExportProblemInput)(nil),            // 24: eolymp.atlas.ExportProblemInput
+	(*ExportProblemOutput)(nil),           // 25: eolymp.atlas.ExportProblemOutput
+	(*ListProblemsInput_Filter)(nil),      // 26: eolymp.atlas.ListProblemsInput.Filter
+	(*ListVersionsInput_Filter)(nil),      // 27: eolymp.atlas.ListVersionsInput.Filter
+	(*Problem)(nil),                       // 28: eolymp.atlas.Problem
+	(*Version)(nil),                       // 29: eolymp.atlas.Version
+	(*Statement)(nil),                     // 30: eolymp.atlas.Statement
+	(Problem_Extra_Field)(0),              // 31: eolymp.atlas.Problem.Extra.Field
+	(wellknown.Direction)(0),              // 32: eolymp.wellknown.Direction
+	(Problem_Patch_Field)(0),              // 33: eolymp.atlas.Problem.Patch.Field
 	(*runtime.Runtime)(nil),               // 34: eolymp.runtime.Runtime
 	(*wellknown.ExpressionID)(nil),        // 35: eolymp.wellknown.ExpressionID
 	(*wellknown.ExpressionBool)(nil),      // 36: eolymp.wellknown.ExpressionBool
@@ -1847,22 +1770,22 @@ var file_eolymp_atlas_problem_service_proto_goTypes = []any{
 	(*wellknown.ExpressionString)(nil),    // 41: eolymp.wellknown.ExpressionString
 }
 var file_eolymp_atlas_problem_service_proto_depIdxs = []int32{
-	29, // 0: eolymp.atlas.ProblemChangedEvent.before:type_name -> eolymp.atlas.Problem
-	29, // 1: eolymp.atlas.ProblemChangedEvent.after:type_name -> eolymp.atlas.Problem
-	30, // 2: eolymp.atlas.ProblemChangedEvent.version:type_name -> eolymp.atlas.Version
-	29, // 3: eolymp.atlas.CreateProblemInput.problem:type_name -> eolymp.atlas.Problem
-	31, // 4: eolymp.atlas.CreateProblemInput.statement:type_name -> eolymp.atlas.Statement
-	32, // 5: eolymp.atlas.DescribeProblemInput.extra:type_name -> eolymp.atlas.Problem.Extra
-	29, // 6: eolymp.atlas.DescribeProblemOutput.problem:type_name -> eolymp.atlas.Problem
-	27, // 7: eolymp.atlas.ListProblemsInput.filters:type_name -> eolymp.atlas.ListProblemsInput.Filter
+	28, // 0: eolymp.atlas.ProblemChangedEvent.before:type_name -> eolymp.atlas.Problem
+	28, // 1: eolymp.atlas.ProblemChangedEvent.after:type_name -> eolymp.atlas.Problem
+	29, // 2: eolymp.atlas.ProblemChangedEvent.version:type_name -> eolymp.atlas.Version
+	28, // 3: eolymp.atlas.CreateProblemInput.problem:type_name -> eolymp.atlas.Problem
+	30, // 4: eolymp.atlas.CreateProblemInput.statement:type_name -> eolymp.atlas.Statement
+	31, // 5: eolymp.atlas.DescribeProblemInput.extra:type_name -> eolymp.atlas.Problem.Extra.Field
+	28, // 6: eolymp.atlas.DescribeProblemOutput.problem:type_name -> eolymp.atlas.Problem
+	26, // 7: eolymp.atlas.ListProblemsInput.filters:type_name -> eolymp.atlas.ListProblemsInput.Filter
 	0,  // 8: eolymp.atlas.ListProblemsInput.sort:type_name -> eolymp.atlas.ListProblemsInput.Sortable
-	33, // 9: eolymp.atlas.ListProblemsInput.order:type_name -> eolymp.wellknown.Direction
-	32, // 10: eolymp.atlas.ListProblemsInput.extra:type_name -> eolymp.atlas.Problem.Extra
-	29, // 11: eolymp.atlas.ListProblemsOutput.items:type_name -> eolymp.atlas.Problem
-	1,  // 12: eolymp.atlas.UpdateProblemInput.patch:type_name -> eolymp.atlas.UpdateProblemInput.Patch
-	29, // 13: eolymp.atlas.UpdateProblemInput.problem:type_name -> eolymp.atlas.Problem
-	28, // 14: eolymp.atlas.ListVersionsInput.filters:type_name -> eolymp.atlas.ListVersionsInput.Filter
-	30, // 15: eolymp.atlas.ListVersionsOutput.items:type_name -> eolymp.atlas.Version
+	32, // 9: eolymp.atlas.ListProblemsInput.order:type_name -> eolymp.wellknown.Direction
+	31, // 10: eolymp.atlas.ListProblemsInput.extra:type_name -> eolymp.atlas.Problem.Extra.Field
+	28, // 11: eolymp.atlas.ListProblemsOutput.items:type_name -> eolymp.atlas.Problem
+	33, // 12: eolymp.atlas.UpdateProblemInput.patch:type_name -> eolymp.atlas.Problem.Patch.Field
+	28, // 13: eolymp.atlas.UpdateProblemInput.problem:type_name -> eolymp.atlas.Problem
+	27, // 14: eolymp.atlas.ListVersionsInput.filters:type_name -> eolymp.atlas.ListVersionsInput.Filter
+	29, // 15: eolymp.atlas.ListVersionsOutput.items:type_name -> eolymp.atlas.Version
 	34, // 16: eolymp.atlas.ListRuntimesOutput.items:type_name -> eolymp.runtime.Runtime
 	35, // 17: eolymp.atlas.ListProblemsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
 	35, // 18: eolymp.atlas.ListProblemsInput.Filter.topic_id:type_name -> eolymp.wellknown.ExpressionID
@@ -1878,26 +1801,26 @@ var file_eolymp_atlas_problem_service_proto_depIdxs = []int32{
 	40, // 28: eolymp.atlas.ListVersionsInput.Filter.created_at:type_name -> eolymp.wellknown.ExpressionTimestamp
 	38, // 29: eolymp.atlas.ListVersionsInput.Filter.change_op:type_name -> eolymp.wellknown.ExpressionEnum
 	41, // 30: eolymp.atlas.ListVersionsInput.Filter.change_path:type_name -> eolymp.wellknown.ExpressionString
-	3,  // 31: eolymp.atlas.ProblemService.CreateProblem:input_type -> eolymp.atlas.CreateProblemInput
-	15, // 32: eolymp.atlas.ProblemService.UpdateProblem:input_type -> eolymp.atlas.UpdateProblemInput
-	5,  // 33: eolymp.atlas.ProblemService.DeleteProblem:input_type -> eolymp.atlas.DeleteProblemInput
-	7,  // 34: eolymp.atlas.ProblemService.DescribeProblem:input_type -> eolymp.atlas.DescribeProblemInput
-	9,  // 35: eolymp.atlas.ProblemService.ListProblems:input_type -> eolymp.atlas.ListProblemsInput
-	17, // 36: eolymp.atlas.ProblemService.SyncProblem:input_type -> eolymp.atlas.SyncProblemInput
-	21, // 37: eolymp.atlas.ProblemService.VoteProblem:input_type -> eolymp.atlas.VoteProblemInput
-	19, // 38: eolymp.atlas.ProblemService.ListVersions:input_type -> eolymp.atlas.ListVersionsInput
-	23, // 39: eolymp.atlas.ProblemService.ListRuntimes:input_type -> eolymp.atlas.ListRuntimesInput
-	25, // 40: eolymp.atlas.ProblemService.ExportProblem:input_type -> eolymp.atlas.ExportProblemInput
-	4,  // 41: eolymp.atlas.ProblemService.CreateProblem:output_type -> eolymp.atlas.CreateProblemOutput
-	16, // 42: eolymp.atlas.ProblemService.UpdateProblem:output_type -> eolymp.atlas.UpdateProblemOutput
-	6,  // 43: eolymp.atlas.ProblemService.DeleteProblem:output_type -> eolymp.atlas.DeleteProblemOutput
-	8,  // 44: eolymp.atlas.ProblemService.DescribeProblem:output_type -> eolymp.atlas.DescribeProblemOutput
-	10, // 45: eolymp.atlas.ProblemService.ListProblems:output_type -> eolymp.atlas.ListProblemsOutput
-	18, // 46: eolymp.atlas.ProblemService.SyncProblem:output_type -> eolymp.atlas.SyncProblemOutput
-	22, // 47: eolymp.atlas.ProblemService.VoteProblem:output_type -> eolymp.atlas.VoteProblemOutput
-	20, // 48: eolymp.atlas.ProblemService.ListVersions:output_type -> eolymp.atlas.ListVersionsOutput
-	24, // 49: eolymp.atlas.ProblemService.ListRuntimes:output_type -> eolymp.atlas.ListRuntimesOutput
-	26, // 50: eolymp.atlas.ProblemService.ExportProblem:output_type -> eolymp.atlas.ExportProblemOutput
+	2,  // 31: eolymp.atlas.ProblemService.CreateProblem:input_type -> eolymp.atlas.CreateProblemInput
+	14, // 32: eolymp.atlas.ProblemService.UpdateProblem:input_type -> eolymp.atlas.UpdateProblemInput
+	4,  // 33: eolymp.atlas.ProblemService.DeleteProblem:input_type -> eolymp.atlas.DeleteProblemInput
+	6,  // 34: eolymp.atlas.ProblemService.DescribeProblem:input_type -> eolymp.atlas.DescribeProblemInput
+	8,  // 35: eolymp.atlas.ProblemService.ListProblems:input_type -> eolymp.atlas.ListProblemsInput
+	16, // 36: eolymp.atlas.ProblemService.SyncProblem:input_type -> eolymp.atlas.SyncProblemInput
+	20, // 37: eolymp.atlas.ProblemService.VoteProblem:input_type -> eolymp.atlas.VoteProblemInput
+	18, // 38: eolymp.atlas.ProblemService.ListVersions:input_type -> eolymp.atlas.ListVersionsInput
+	22, // 39: eolymp.atlas.ProblemService.ListRuntimes:input_type -> eolymp.atlas.ListRuntimesInput
+	24, // 40: eolymp.atlas.ProblemService.ExportProblem:input_type -> eolymp.atlas.ExportProblemInput
+	3,  // 41: eolymp.atlas.ProblemService.CreateProblem:output_type -> eolymp.atlas.CreateProblemOutput
+	15, // 42: eolymp.atlas.ProblemService.UpdateProblem:output_type -> eolymp.atlas.UpdateProblemOutput
+	5,  // 43: eolymp.atlas.ProblemService.DeleteProblem:output_type -> eolymp.atlas.DeleteProblemOutput
+	7,  // 44: eolymp.atlas.ProblemService.DescribeProblem:output_type -> eolymp.atlas.DescribeProblemOutput
+	9,  // 45: eolymp.atlas.ProblemService.ListProblems:output_type -> eolymp.atlas.ListProblemsOutput
+	17, // 46: eolymp.atlas.ProblemService.SyncProblem:output_type -> eolymp.atlas.SyncProblemOutput
+	21, // 47: eolymp.atlas.ProblemService.VoteProblem:output_type -> eolymp.atlas.VoteProblemOutput
+	19, // 48: eolymp.atlas.ProblemService.ListVersions:output_type -> eolymp.atlas.ListVersionsOutput
+	23, // 49: eolymp.atlas.ProblemService.ListRuntimes:output_type -> eolymp.atlas.ListRuntimesOutput
+	25, // 50: eolymp.atlas.ProblemService.ExportProblem:output_type -> eolymp.atlas.ExportProblemOutput
 	41, // [41:51] is the sub-list for method output_type
 	31, // [31:41] is the sub-list for method input_type
 	31, // [31:31] is the sub-list for extension type_name
@@ -1918,7 +1841,7 @@ func file_eolymp_atlas_problem_service_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_atlas_problem_service_proto_rawDesc), len(file_eolymp_atlas_problem_service_proto_rawDesc)),
-			NumEnums:      2,
+			NumEnums:      1,
 			NumMessages:   27,
 			NumExtensions: 0,
 			NumServices:   1,

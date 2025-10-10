@@ -78,61 +78,12 @@ func (Editor_Feature) EnumDescriptor() ([]byte, []int) {
 	return file_eolymp_atlas_editor_service_proto_rawDescGZIP(), []int{0, 0}
 }
 
-type Editor_Field_Type int32
-
-const (
-	Editor_Field_UNKNOWN_TYPE Editor_Field_Type = 0
-	Editor_Field_CODE         Editor_Field_Type = 1 // source code field
-	Editor_Field_FILE         Editor_Field_Type = 2 // file uploader
-)
-
-// Enum value maps for Editor_Field_Type.
-var (
-	Editor_Field_Type_name = map[int32]string{
-		0: "UNKNOWN_TYPE",
-		1: "CODE",
-		2: "FILE",
-	}
-	Editor_Field_Type_value = map[string]int32{
-		"UNKNOWN_TYPE": 0,
-		"CODE":         1,
-		"FILE":         2,
-	}
-)
-
-func (x Editor_Field_Type) Enum() *Editor_Field_Type {
-	p := new(Editor_Field_Type)
-	*p = x
-	return p
-}
-
-func (x Editor_Field_Type) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (Editor_Field_Type) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_atlas_editor_service_proto_enumTypes[1].Descriptor()
-}
-
-func (Editor_Field_Type) Type() protoreflect.EnumType {
-	return &file_eolymp_atlas_editor_service_proto_enumTypes[1]
-}
-
-func (x Editor_Field_Type) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use Editor_Field_Type.Descriptor instead.
-func (Editor_Field_Type) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_atlas_editor_service_proto_rawDescGZIP(), []int{0, 1, 0}
-}
-
 type Editor struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	State         *Editor_State          `protobuf:"bytes,1,opt,name=state,proto3" json:"state,omitempty"`                                                 // current state of the editor
 	Features      []Editor_Feature       `protobuf:"varint,10,rep,packed,name=features,proto3,enum=eolymp.atlas.Editor_Feature" json:"features,omitempty"` // list of enabled features
 	Runtimes      []*runtime.Runtime     `protobuf:"bytes,11,rep,name=runtimes,proto3" json:"runtimes,omitempty"`                                          // list of available runtimes
-	Fields        []*Editor_Field        `protobuf:"bytes,12,rep,name=fields,proto3" json:"fields,omitempty"`
+	Fields        []*Form_Field          `protobuf:"bytes,12,rep,name=fields,proto3" json:"fields,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -188,7 +139,7 @@ func (x *Editor) GetRuntimes() []*runtime.Runtime {
 	return nil
 }
 
-func (x *Editor) GetFields() []*Editor_Field {
+func (x *Editor) GetFields() []*Form_Field {
 	if x != nil {
 		return x.Fields
 	}
@@ -316,7 +267,7 @@ type DescribeEditorStateOutput struct {
 	Runtime       string                 `protobuf:"bytes,1,opt,name=runtime,proto3" json:"runtime,omitempty"`
 	SourceCode    string                 `protobuf:"bytes,2,opt,name=source_code,json=sourceCode,proto3" json:"source_code,omitempty"`
 	InputData     string                 `protobuf:"bytes,3,opt,name=input_data,json=inputData,proto3" json:"input_data,omitempty"`
-	Values        []*Submission_Value    `protobuf:"bytes,4,rep,name=values,proto3" json:"values,omitempty"`
+	Values        []*Form_Value          `protobuf:"bytes,4,rep,name=values,proto3" json:"values,omitempty"`
 	Features      []Editor_Feature       `protobuf:"varint,10,rep,packed,name=features,proto3,enum=eolymp.atlas.Editor_Feature" json:"features,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -373,7 +324,7 @@ func (x *DescribeEditorStateOutput) GetInputData() string {
 	return ""
 }
 
-func (x *DescribeEditorStateOutput) GetValues() []*Submission_Value {
+func (x *DescribeEditorStateOutput) GetValues() []*Form_Value {
 	if x != nil {
 		return x.Values
 	}
@@ -392,7 +343,7 @@ type UpdateEditorStateInput struct {
 	Runtime       string                 `protobuf:"bytes,1,opt,name=runtime,proto3" json:"runtime,omitempty"`
 	SourceCode    string                 `protobuf:"bytes,2,opt,name=source_code,json=sourceCode,proto3" json:"source_code,omitempty"`
 	InputData     string                 `protobuf:"bytes,3,opt,name=input_data,json=inputData,proto3" json:"input_data,omitempty"`
-	Values        []*Submission_Value    `protobuf:"bytes,4,rep,name=values,proto3" json:"values,omitempty"`
+	Values        []*Form_Value          `protobuf:"bytes,4,rep,name=values,proto3" json:"values,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -448,7 +399,7 @@ func (x *UpdateEditorStateInput) GetInputData() string {
 	return ""
 }
 
-func (x *UpdateEditorStateInput) GetValues() []*Submission_Value {
+func (x *UpdateEditorStateInput) GetValues() []*Form_Value {
 	if x != nil {
 		return x.Values
 	}
@@ -584,7 +535,7 @@ type Editor_State struct {
 	Runtime       string                 `protobuf:"bytes,1,opt,name=runtime,proto3" json:"runtime,omitempty"`
 	SourceCode    string                 `protobuf:"bytes,2,opt,name=source_code,json=sourceCode,proto3" json:"source_code,omitempty"`
 	InputData     string                 `protobuf:"bytes,3,opt,name=input_data,json=inputData,proto3" json:"input_data,omitempty"`
-	Values        []*Submission_Value    `protobuf:"bytes,10,rep,name=values,proto3" json:"values,omitempty"`
+	Values        []*Form_Value          `protobuf:"bytes,10,rep,name=values,proto3" json:"values,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -640,100 +591,32 @@ func (x *Editor_State) GetInputData() string {
 	return ""
 }
 
-func (x *Editor_State) GetValues() []*Submission_Value {
+func (x *Editor_State) GetValues() []*Form_Value {
 	if x != nil {
 		return x.Values
 	}
 	return nil
 }
 
-type Editor_Field struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	Label         string                 `protobuf:"bytes,2,opt,name=label,proto3" json:"label,omitempty"`
-	Type          Editor_Field_Type      `protobuf:"varint,3,opt,name=type,proto3,enum=eolymp.atlas.Editor_Field_Type" json:"type,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *Editor_Field) Reset() {
-	*x = Editor_Field{}
-	mi := &file_eolymp_atlas_editor_service_proto_msgTypes[10]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *Editor_Field) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*Editor_Field) ProtoMessage() {}
-
-func (x *Editor_Field) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_editor_service_proto_msgTypes[10]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Editor_Field.ProtoReflect.Descriptor instead.
-func (*Editor_Field) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_editor_service_proto_rawDescGZIP(), []int{0, 1}
-}
-
-func (x *Editor_Field) GetName() string {
-	if x != nil {
-		return x.Name
-	}
-	return ""
-}
-
-func (x *Editor_Field) GetLabel() string {
-	if x != nil {
-		return x.Label
-	}
-	return ""
-}
-
-func (x *Editor_Field) GetType() Editor_Field_Type {
-	if x != nil {
-		return x.Type
-	}
-	return Editor_Field_UNKNOWN_TYPE
-}
-
 var File_eolymp_atlas_editor_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_editor_service_proto_rawDesc = "" +
 	"\n" +
-	"!eolymp/atlas/editor_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1deolymp/atlas/submission.proto\x1a\x1ceolymp/runtime/runtime.proto\"\xee\x04\n" +
+	"!eolymp/atlas/editor_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x17eolymp/atlas/form.proto\x1a\x1ceolymp/runtime/runtime.proto\"\xcf\x03\n" +
 	"\x06Editor\x120\n" +
 	"\x05state\x18\x01 \x01(\v2\x1a.eolymp.atlas.Editor.StateR\x05state\x128\n" +
 	"\bfeatures\x18\n" +
 	" \x03(\x0e2\x1c.eolymp.atlas.Editor.FeatureR\bfeatures\x123\n" +
-	"\bruntimes\x18\v \x03(\v2\x17.eolymp.runtime.RuntimeR\bruntimes\x122\n" +
-	"\x06fields\x18\f \x03(\v2\x1a.eolymp.atlas.Editor.FieldR\x06fields\x1a\x99\x01\n" +
+	"\bruntimes\x18\v \x03(\v2\x17.eolymp.runtime.RuntimeR\bruntimes\x120\n" +
+	"\x06fields\x18\f \x03(\v2\x18.eolymp.atlas.Form.FieldR\x06fields\x1a\x93\x01\n" +
 	"\x05State\x12\x18\n" +
 	"\aruntime\x18\x01 \x01(\tR\aruntime\x12\x1f\n" +
 	"\vsource_code\x18\x02 \x01(\tR\n" +
 	"sourceCode\x12\x1d\n" +
 	"\n" +
-	"input_data\x18\x03 \x01(\tR\tinputData\x126\n" +
+	"input_data\x18\x03 \x01(\tR\tinputData\x120\n" +
 	"\x06values\x18\n" +
-	" \x03(\v2\x1e.eolymp.atlas.Submission.ValueR\x06values\x1a\x94\x01\n" +
-	"\x05Field\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04name\x12\x14\n" +
-	"\x05label\x18\x02 \x01(\tR\x05label\x123\n" +
-	"\x04type\x18\x03 \x01(\x0e2\x1f.eolymp.atlas.Editor.Field.TypeR\x04type\",\n" +
-	"\x04Type\x12\x10\n" +
-	"\fUNKNOWN_TYPE\x10\x00\x12\b\n" +
-	"\x04CODE\x10\x01\x12\b\n" +
-	"\x04FILE\x10\x02\"\\\n" +
+	" \x03(\v2\x18.eolymp.atlas.Form.ValueR\x06values\"\\\n" +
 	"\aFeature\x12\x13\n" +
 	"\x0fUNKNOWN_FEATURE\x10\x00\x12\x0e\n" +
 	"\n" +
@@ -744,23 +627,23 @@ const file_eolymp_atlas_editor_service_proto_rawDesc = "" +
 	"\x13DescribeEditorInput\"D\n" +
 	"\x14DescribeEditorOutput\x12,\n" +
 	"\x06editor\x18\x01 \x01(\v2\x14.eolymp.atlas.EditorR\x06editor\"\x1a\n" +
-	"\x18DescribeEditorStateInput\"\xe7\x01\n" +
+	"\x18DescribeEditorStateInput\"\xe1\x01\n" +
 	"\x19DescribeEditorStateOutput\x12\x18\n" +
 	"\aruntime\x18\x01 \x01(\tR\aruntime\x12\x1f\n" +
 	"\vsource_code\x18\x02 \x01(\tR\n" +
 	"sourceCode\x12\x1d\n" +
 	"\n" +
-	"input_data\x18\x03 \x01(\tR\tinputData\x126\n" +
-	"\x06values\x18\x04 \x03(\v2\x1e.eolymp.atlas.Submission.ValueR\x06values\x128\n" +
+	"input_data\x18\x03 \x01(\tR\tinputData\x120\n" +
+	"\x06values\x18\x04 \x03(\v2\x18.eolymp.atlas.Form.ValueR\x06values\x128\n" +
 	"\bfeatures\x18\n" +
-	" \x03(\x0e2\x1c.eolymp.atlas.Editor.FeatureR\bfeatures\"\xaa\x01\n" +
+	" \x03(\x0e2\x1c.eolymp.atlas.Editor.FeatureR\bfeatures\"\xa4\x01\n" +
 	"\x16UpdateEditorStateInput\x12\x18\n" +
 	"\aruntime\x18\x01 \x01(\tR\aruntime\x12\x1f\n" +
 	"\vsource_code\x18\x02 \x01(\tR\n" +
 	"sourceCode\x12\x1d\n" +
 	"\n" +
-	"input_data\x18\x03 \x01(\tR\tinputData\x126\n" +
-	"\x06values\x18\x04 \x03(\v2\x1e.eolymp.atlas.Submission.ValueR\x06values\"\x19\n" +
+	"input_data\x18\x03 \x01(\tR\tinputData\x120\n" +
+	"\x06values\x18\x04 \x03(\v2\x18.eolymp.atlas.Form.ValueR\x06values\"\x19\n" +
 	"\x17UpdateEditorStateOutput\"Q\n" +
 	"\x14PrintEditorCodeInput\x12\x18\n" +
 	"\aruntime\x18\x01 \x01(\tR\aruntime\x12\x1f\n" +
@@ -807,49 +690,47 @@ func file_eolymp_atlas_editor_service_proto_rawDescGZIP() []byte {
 	return file_eolymp_atlas_editor_service_proto_rawDescData
 }
 
-var file_eolymp_atlas_editor_service_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_eolymp_atlas_editor_service_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
+var file_eolymp_atlas_editor_service_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_eolymp_atlas_editor_service_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_eolymp_atlas_editor_service_proto_goTypes = []any{
 	(Editor_Feature)(0),               // 0: eolymp.atlas.Editor.Feature
-	(Editor_Field_Type)(0),            // 1: eolymp.atlas.Editor.Field.Type
-	(*Editor)(nil),                    // 2: eolymp.atlas.Editor
-	(*DescribeEditorInput)(nil),       // 3: eolymp.atlas.DescribeEditorInput
-	(*DescribeEditorOutput)(nil),      // 4: eolymp.atlas.DescribeEditorOutput
-	(*DescribeEditorStateInput)(nil),  // 5: eolymp.atlas.DescribeEditorStateInput
-	(*DescribeEditorStateOutput)(nil), // 6: eolymp.atlas.DescribeEditorStateOutput
-	(*UpdateEditorStateInput)(nil),    // 7: eolymp.atlas.UpdateEditorStateInput
-	(*UpdateEditorStateOutput)(nil),   // 8: eolymp.atlas.UpdateEditorStateOutput
-	(*PrintEditorCodeInput)(nil),      // 9: eolymp.atlas.PrintEditorCodeInput
-	(*PrintEditorCodeOutput)(nil),     // 10: eolymp.atlas.PrintEditorCodeOutput
-	(*Editor_State)(nil),              // 11: eolymp.atlas.Editor.State
-	(*Editor_Field)(nil),              // 12: eolymp.atlas.Editor.Field
-	(*runtime.Runtime)(nil),           // 13: eolymp.runtime.Runtime
-	(*Submission_Value)(nil),          // 14: eolymp.atlas.Submission.Value
+	(*Editor)(nil),                    // 1: eolymp.atlas.Editor
+	(*DescribeEditorInput)(nil),       // 2: eolymp.atlas.DescribeEditorInput
+	(*DescribeEditorOutput)(nil),      // 3: eolymp.atlas.DescribeEditorOutput
+	(*DescribeEditorStateInput)(nil),  // 4: eolymp.atlas.DescribeEditorStateInput
+	(*DescribeEditorStateOutput)(nil), // 5: eolymp.atlas.DescribeEditorStateOutput
+	(*UpdateEditorStateInput)(nil),    // 6: eolymp.atlas.UpdateEditorStateInput
+	(*UpdateEditorStateOutput)(nil),   // 7: eolymp.atlas.UpdateEditorStateOutput
+	(*PrintEditorCodeInput)(nil),      // 8: eolymp.atlas.PrintEditorCodeInput
+	(*PrintEditorCodeOutput)(nil),     // 9: eolymp.atlas.PrintEditorCodeOutput
+	(*Editor_State)(nil),              // 10: eolymp.atlas.Editor.State
+	(*runtime.Runtime)(nil),           // 11: eolymp.runtime.Runtime
+	(*Form_Field)(nil),                // 12: eolymp.atlas.Form.Field
+	(*Form_Value)(nil),                // 13: eolymp.atlas.Form.Value
 }
 var file_eolymp_atlas_editor_service_proto_depIdxs = []int32{
-	11, // 0: eolymp.atlas.Editor.state:type_name -> eolymp.atlas.Editor.State
+	10, // 0: eolymp.atlas.Editor.state:type_name -> eolymp.atlas.Editor.State
 	0,  // 1: eolymp.atlas.Editor.features:type_name -> eolymp.atlas.Editor.Feature
-	13, // 2: eolymp.atlas.Editor.runtimes:type_name -> eolymp.runtime.Runtime
-	12, // 3: eolymp.atlas.Editor.fields:type_name -> eolymp.atlas.Editor.Field
-	2,  // 4: eolymp.atlas.DescribeEditorOutput.editor:type_name -> eolymp.atlas.Editor
-	14, // 5: eolymp.atlas.DescribeEditorStateOutput.values:type_name -> eolymp.atlas.Submission.Value
+	11, // 2: eolymp.atlas.Editor.runtimes:type_name -> eolymp.runtime.Runtime
+	12, // 3: eolymp.atlas.Editor.fields:type_name -> eolymp.atlas.Form.Field
+	1,  // 4: eolymp.atlas.DescribeEditorOutput.editor:type_name -> eolymp.atlas.Editor
+	13, // 5: eolymp.atlas.DescribeEditorStateOutput.values:type_name -> eolymp.atlas.Form.Value
 	0,  // 6: eolymp.atlas.DescribeEditorStateOutput.features:type_name -> eolymp.atlas.Editor.Feature
-	14, // 7: eolymp.atlas.UpdateEditorStateInput.values:type_name -> eolymp.atlas.Submission.Value
-	14, // 8: eolymp.atlas.Editor.State.values:type_name -> eolymp.atlas.Submission.Value
-	1,  // 9: eolymp.atlas.Editor.Field.type:type_name -> eolymp.atlas.Editor.Field.Type
-	3,  // 10: eolymp.atlas.EditorService.DescribeEditor:input_type -> eolymp.atlas.DescribeEditorInput
-	5,  // 11: eolymp.atlas.EditorService.DescribeEditorState:input_type -> eolymp.atlas.DescribeEditorStateInput
-	7,  // 12: eolymp.atlas.EditorService.UpdateEditorState:input_type -> eolymp.atlas.UpdateEditorStateInput
-	9,  // 13: eolymp.atlas.EditorService.PrintEditorCode:input_type -> eolymp.atlas.PrintEditorCodeInput
-	4,  // 14: eolymp.atlas.EditorService.DescribeEditor:output_type -> eolymp.atlas.DescribeEditorOutput
-	6,  // 15: eolymp.atlas.EditorService.DescribeEditorState:output_type -> eolymp.atlas.DescribeEditorStateOutput
-	8,  // 16: eolymp.atlas.EditorService.UpdateEditorState:output_type -> eolymp.atlas.UpdateEditorStateOutput
-	10, // 17: eolymp.atlas.EditorService.PrintEditorCode:output_type -> eolymp.atlas.PrintEditorCodeOutput
-	14, // [14:18] is the sub-list for method output_type
-	10, // [10:14] is the sub-list for method input_type
-	10, // [10:10] is the sub-list for extension type_name
-	10, // [10:10] is the sub-list for extension extendee
-	0,  // [0:10] is the sub-list for field type_name
+	13, // 7: eolymp.atlas.UpdateEditorStateInput.values:type_name -> eolymp.atlas.Form.Value
+	13, // 8: eolymp.atlas.Editor.State.values:type_name -> eolymp.atlas.Form.Value
+	2,  // 9: eolymp.atlas.EditorService.DescribeEditor:input_type -> eolymp.atlas.DescribeEditorInput
+	4,  // 10: eolymp.atlas.EditorService.DescribeEditorState:input_type -> eolymp.atlas.DescribeEditorStateInput
+	6,  // 11: eolymp.atlas.EditorService.UpdateEditorState:input_type -> eolymp.atlas.UpdateEditorStateInput
+	8,  // 12: eolymp.atlas.EditorService.PrintEditorCode:input_type -> eolymp.atlas.PrintEditorCodeInput
+	3,  // 13: eolymp.atlas.EditorService.DescribeEditor:output_type -> eolymp.atlas.DescribeEditorOutput
+	5,  // 14: eolymp.atlas.EditorService.DescribeEditorState:output_type -> eolymp.atlas.DescribeEditorStateOutput
+	7,  // 15: eolymp.atlas.EditorService.UpdateEditorState:output_type -> eolymp.atlas.UpdateEditorStateOutput
+	9,  // 16: eolymp.atlas.EditorService.PrintEditorCode:output_type -> eolymp.atlas.PrintEditorCodeOutput
+	13, // [13:17] is the sub-list for method output_type
+	9,  // [9:13] is the sub-list for method input_type
+	9,  // [9:9] is the sub-list for extension type_name
+	9,  // [9:9] is the sub-list for extension extendee
+	0,  // [0:9] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_atlas_editor_service_proto_init() }
@@ -857,14 +738,14 @@ func file_eolymp_atlas_editor_service_proto_init() {
 	if File_eolymp_atlas_editor_service_proto != nil {
 		return
 	}
-	file_eolymp_atlas_submission_proto_init()
+	file_eolymp_atlas_form_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_atlas_editor_service_proto_rawDesc), len(file_eolymp_atlas_editor_service_proto_rawDesc)),
-			NumEnums:      2,
-			NumMessages:   11,
+			NumEnums:      1,
+			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

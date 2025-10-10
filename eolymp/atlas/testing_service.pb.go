@@ -2380,7 +2380,7 @@ const file_eolymp_atlas_testing_service_proto_rawDesc = "" +
 	"\n" +
 	"testset_id\x18\x02 \x01(\tR\ttestsetId\x12\x17\n" +
 	"\atest_id\x18\x03 \x01(\tR\x06testId\"\x12\n" +
-	"\x10DeleteTestOutput2\xe4\x17\n" +
+	"\x10DeleteTestOutput2\xb4\x18\n" +
 	"\x0eTestingService\x12\xa2\x01\n" +
 	"\x13UpdateTestingConfig\x12&.eolymp.atlas.UpdateTestingConfigInput\x1a'.eolymp.atlas.UpdateTestingConfigOutput\":\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -2473,40 +2473,40 @@ const file_eolymp_atlas_testing_service_proto_rawDesc = "" +
 	"\x00\x00 A\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\v\x12\t/testsets\x12\x9c\x01\n" +
+	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\v\x12\t/testsets\x12\xa6\x01\n" +
 	"\n" +
-	"CreateTest\x12\x1d.eolymp.atlas.CreateTestInput\x1a\x1e.eolymp.atlas.CreateTestOutput\"O\xea\xe2\n" +
+	"CreateTest\x12\x1d.eolymp.atlas.CreateTestInput\x1a\x1e.eolymp.atlas.CreateTestOutput\"Y\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
 	"\xc8\x01\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\x1e\"\x1c/testsets/{testset_id}/tests\x12\xa6\x01\n" +
+	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02(Z\b\"\x06/tests\"\x1c/testsets/{testset_id}/tests\x12\xba\x01\n" +
 	"\n" +
-	"UpdateTest\x12\x1d.eolymp.atlas.UpdateTestInput\x1a\x1e.eolymp.atlas.UpdateTestOutput\"Y\xea\xe2\n" +
+	"UpdateTest\x12\x1d.eolymp.atlas.UpdateTestInput\x1a\x1e.eolymp.atlas.UpdateTestOutput\"m\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
 	"\xc8\x01\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02(\x1a&/testsets/{testset_id}/tests/{test_id}\x12\xa6\x01\n" +
+	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02<Z(\x1a&/testsets/{testset_id}/tests/{test_id}\x1a\x10/tests/{test_id}\x12\xba\x01\n" +
 	"\n" +
-	"DeleteTest\x12\x1d.eolymp.atlas.DeleteTestInput\x1a\x1e.eolymp.atlas.DeleteTestOutput\"Y\xea\xe2\n" +
+	"DeleteTest\x12\x1d.eolymp.atlas.DeleteTestInput\x1a\x1e.eolymp.atlas.DeleteTestOutput\"m\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
 	"\xc8\x01\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02(*&/testsets/{testset_id}/tests/{test_id}\x12\xab\x01\n" +
-	"\fDescribeTest\x12\x1f.eolymp.atlas.DescribeTestInput\x1a .eolymp.atlas.DescribeTestOutput\"X\xea\xe2\n" +
+	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02<Z(*&/testsets/{testset_id}/tests/{test_id}*\x10/tests/{test_id}\x12\xbf\x01\n" +
+	"\fDescribeTest\x12\x1f.eolymp.atlas.DescribeTestInput\x1a .eolymp.atlas.DescribeTestOutput\"l\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02(\x12&/testsets/{testset_id}/tests/{test_id}\x12\x98\x01\n" +
-	"\tListTests\x12\x1c.eolymp.atlas.ListTestsInput\x1a\x1d.eolymp.atlas.ListTestsOutput\"N\xea\xe2\n" +
+	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02<Z(\x12&/testsets/{testset_id}/tests/{test_id}\x12\x10/tests/{test_id}\x12\xa2\x01\n" +
+	"\tListTests\x12\x1c.eolymp.atlas.ListTestsInput\x1a\x1d.eolymp.atlas.ListTestsOutput\"X\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\x1e\x12\x1c/testsets/{testset_id}/tests\x12\x8d\x01\n" +
+	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02(Z\x1e\x12\x1c/testsets/{testset_id}/tests\x12\x06/tests\x12\x8d\x01\n" +
 	"\fListExamples\x12\x1f.eolymp.atlas.ListExamplesInput\x1a .eolymp.atlas.ListExamplesOutput\":\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +

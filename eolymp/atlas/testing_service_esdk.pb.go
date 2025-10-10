@@ -276,11 +276,10 @@ func (s *TestingServiceService) CreateTest(ctx context.Context, in *CreateTestIn
 
 func (s *TestingServiceService) UpdateTest(ctx context.Context, in *UpdateTestInput) (*UpdateTestOutput, error) {
 	out := &UpdateTestOutput{}
-	path := "/testsets/" + url.PathEscape(in.GetTestsetId()) + "/tests/" + url.PathEscape(in.GetTestId())
+	path := "/tests/" + url.PathEscape(in.GetTestId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.TestsetId = ""
 		in.TestId = ""
 	}
 
@@ -293,11 +292,10 @@ func (s *TestingServiceService) UpdateTest(ctx context.Context, in *UpdateTestIn
 
 func (s *TestingServiceService) DeleteTest(ctx context.Context, in *DeleteTestInput) (*DeleteTestOutput, error) {
 	out := &DeleteTestOutput{}
-	path := "/testsets/" + url.PathEscape(in.GetTestsetId()) + "/tests/" + url.PathEscape(in.GetTestId())
+	path := "/tests/" + url.PathEscape(in.GetTestId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.TestsetId = ""
 		in.TestId = ""
 	}
 
@@ -310,11 +308,10 @@ func (s *TestingServiceService) DeleteTest(ctx context.Context, in *DeleteTestIn
 
 func (s *TestingServiceService) DescribeTest(ctx context.Context, in *DescribeTestInput) (*DescribeTestOutput, error) {
 	out := &DescribeTestOutput{}
-	path := "/testsets/" + url.PathEscape(in.GetTestsetId()) + "/tests/" + url.PathEscape(in.GetTestId())
+	path := "/tests/" + url.PathEscape(in.GetTestId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.TestsetId = ""
 		in.TestId = ""
 	}
 
@@ -327,12 +324,7 @@ func (s *TestingServiceService) DescribeTest(ctx context.Context, in *DescribeTe
 
 func (s *TestingServiceService) ListTests(ctx context.Context, in *ListTestsInput) (*ListTestsOutput, error) {
 	out := &ListTestsOutput{}
-	path := "/testsets/" + url.PathEscape(in.GetTestsetId()) + "/tests"
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.TestsetId = ""
-	}
+	path := "/tests"
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err

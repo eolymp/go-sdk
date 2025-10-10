@@ -167,16 +167,36 @@ func RegisterTestingServiceHttpHandlers(router *mux.Router, prefix string, cli T
 	router.Handle(prefix+"/testsets/{testset_id}/tests", _TestingService_CreateTest_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.TestingService.CreateTest")
-	router.Handle(prefix+"/testsets/{testset_id}/tests/{test_id}", _TestingService_UpdateTest_Rule0(cli)).
+
+	router.Handle(prefix+"/tests", _TestingService_CreateTest_Rule1(cli)).
+		Methods("POST").
+		Name("eolymp.atlas.TestingService.CreateTest")
+	router.Handle(prefix+"/tests/{test_id}", _TestingService_UpdateTest_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.atlas.TestingService.UpdateTest")
-	router.Handle(prefix+"/testsets/{testset_id}/tests/{test_id}", _TestingService_DeleteTest_Rule0(cli)).
+
+	router.Handle(prefix+"/testsets/{testset_id}/tests/{test_id}", _TestingService_UpdateTest_Rule1(cli)).
+		Methods("PUT").
+		Name("eolymp.atlas.TestingService.UpdateTest")
+	router.Handle(prefix+"/tests/{test_id}", _TestingService_DeleteTest_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.atlas.TestingService.DeleteTest")
-	router.Handle(prefix+"/testsets/{testset_id}/tests/{test_id}", _TestingService_DescribeTest_Rule0(cli)).
+
+	router.Handle(prefix+"/testsets/{testset_id}/tests/{test_id}", _TestingService_DeleteTest_Rule1(cli)).
+		Methods("DELETE").
+		Name("eolymp.atlas.TestingService.DeleteTest")
+	router.Handle(prefix+"/tests/{test_id}", _TestingService_DescribeTest_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.TestingService.DescribeTest")
-	router.Handle(prefix+"/testsets/{testset_id}/tests", _TestingService_ListTests_Rule0(cli)).
+
+	router.Handle(prefix+"/testsets/{testset_id}/tests/{test_id}", _TestingService_DescribeTest_Rule1(cli)).
+		Methods("GET").
+		Name("eolymp.atlas.TestingService.DescribeTest")
+	router.Handle(prefix+"/tests", _TestingService_ListTests_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.atlas.TestingService.ListTests")
+
+	router.Handle(prefix+"/testsets/{testset_id}/tests", _TestingService_ListTests_Rule1(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.TestingService.ListTests")
 	router.Handle(prefix+"/examples", _TestingService_ListExamples_Rule0(cli)).
@@ -509,7 +529,54 @@ func _TestingService_CreateTest_Rule0(cli TestingServiceClient) http.Handler {
 	})
 }
 
+func _TestingService_CreateTest_Rule1(cli TestingServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &CreateTestInput{}
+
+		if err := _TestingService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_TestingService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.CreateTest(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_TestingService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_TestingService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
 func _TestingService_UpdateTest_Rule0(cli TestingServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UpdateTestInput{}
+
+		if err := _TestingService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_TestingService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.TestId = vars["test_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateTest(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_TestingService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_TestingService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _TestingService_UpdateTest_Rule1(cli TestingServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateTestInput{}
 
@@ -546,6 +613,31 @@ func _TestingService_DeleteTest_Rule0(cli TestingServiceClient) http.Handler {
 		}
 
 		vars := mux.Vars(r)
+		in.TestId = vars["test_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.DeleteTest(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_TestingService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_TestingService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _TestingService_DeleteTest_Rule1(cli TestingServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DeleteTestInput{}
+
+		if err := _TestingService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_TestingService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
 		in.TestsetId = vars["testset_id"]
 		in.TestId = vars["test_id"]
 
@@ -572,6 +664,31 @@ func _TestingService_DescribeTest_Rule0(cli TestingServiceClient) http.Handler {
 		}
 
 		vars := mux.Vars(r)
+		in.TestId = vars["test_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeTest(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_TestingService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_TestingService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _TestingService_DescribeTest_Rule1(cli TestingServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeTestInput{}
+
+		if err := _TestingService_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_TestingService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
 		in.TestsetId = vars["testset_id"]
 		in.TestId = vars["test_id"]
 
@@ -588,6 +705,28 @@ func _TestingService_DescribeTest_Rule0(cli TestingServiceClient) http.Handler {
 }
 
 func _TestingService_ListTests_Rule0(cli TestingServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListTestsInput{}
+
+		if err := _TestingService_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_TestingService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.ListTests(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_TestingService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_TestingService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _TestingService_ListTests_Rule1(cli TestingServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListTestsInput{}
 

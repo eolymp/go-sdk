@@ -25,12 +25,12 @@ const (
 )
 
 type CreateSubmissionInput struct {
-	state         protoimpl.MessageState    `protogen:"open.v1"`
-	ContestId     string                    `protobuf:"bytes,1,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
-	ProblemId     string                    `protobuf:"bytes,2,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
-	Lang          string                    `protobuf:"bytes,3,opt,name=lang,proto3" json:"lang,omitempty"`
-	Source        string                    `protobuf:"bytes,4,opt,name=source,proto3" json:"source,omitempty"`
-	Values        []*atlas.Submission_Value `protobuf:"bytes,5,rep,name=values,proto3" json:"values,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ContestId     string                 `protobuf:"bytes,1,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
+	ProblemId     string                 `protobuf:"bytes,2,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
+	Lang          string                 `protobuf:"bytes,3,opt,name=lang,proto3" json:"lang,omitempty"`
+	Source        string                 `protobuf:"bytes,4,opt,name=source,proto3" json:"source,omitempty"`
+	Values        []*atlas.Form_Value    `protobuf:"bytes,5,rep,name=values,proto3" json:"values,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -93,7 +93,7 @@ func (x *CreateSubmissionInput) GetSource() string {
 	return ""
 }
 
-func (x *CreateSubmissionInput) GetValues() []*atlas.Submission_Value {
+func (x *CreateSubmissionInput) GetValues() []*atlas.Form_Value {
 	if x != nil {
 		return x.Values
 	}
@@ -1131,15 +1131,15 @@ var File_eolymp_judge_submission_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_submission_service_proto_rawDesc = "" +
 	"\n" +
-	"%eolymp/judge/submission_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1deolymp/atlas/submission.proto\x1a\x1deolymp/judge/submission.proto\x1a!eolymp/wellknown/expression.proto\"\xb9\x01\n" +
+	"%eolymp/judge/submission_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x17eolymp/atlas/form.proto\x1a\x1deolymp/judge/submission.proto\x1a!eolymp/wellknown/expression.proto\"\xb3\x01\n" +
 	"\x15CreateSubmissionInput\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\x12\x1d\n" +
 	"\n" +
 	"problem_id\x18\x02 \x01(\tR\tproblemId\x12\x12\n" +
 	"\x04lang\x18\x03 \x01(\tR\x04lang\x12\x16\n" +
-	"\x06source\x18\x04 \x01(\tR\x06source\x126\n" +
-	"\x06values\x18\x05 \x03(\v2\x1e.eolymp.atlas.Submission.ValueR\x06values\"=\n" +
+	"\x06source\x18\x04 \x01(\tR\x06source\x120\n" +
+	"\x06values\x18\x05 \x03(\v2\x18.eolymp.atlas.Form.ValueR\x06values\"=\n" +
 	"\x16CreateSubmissionOutput\x12#\n" +
 	"\rsubmission_id\x18\x01 \x01(\tR\fsubmissionId\"\xaa\x06\n" +
 	"\x14ListSubmissionsInput\x12\x1d\n" +
@@ -1313,7 +1313,7 @@ var file_eolymp_judge_submission_service_proto_goTypes = []any{
 	(*AnalyzeSubmissionInput)(nil),        // 18: eolymp.judge.AnalyzeSubmissionInput
 	(*AnalyzeSubmissionOutput)(nil),       // 19: eolymp.judge.AnalyzeSubmissionOutput
 	(*ListSubmissionsInput_Filter)(nil),   // 20: eolymp.judge.ListSubmissionsInput.Filter
-	(*atlas.Submission_Value)(nil),        // 21: eolymp.atlas.Submission.Value
+	(*atlas.Form_Value)(nil),              // 21: eolymp.atlas.Form.Value
 	(Submission_Extra)(0),                 // 22: eolymp.judge.Submission.Extra
 	(*Submission)(nil),                    // 23: eolymp.judge.Submission
 	(*wellknown.ExpressionID)(nil),        // 24: eolymp.wellknown.ExpressionID
@@ -1322,7 +1322,7 @@ var file_eolymp_judge_submission_service_proto_goTypes = []any{
 	(*wellknown.ExpressionTimestamp)(nil), // 27: eolymp.wellknown.ExpressionTimestamp
 }
 var file_eolymp_judge_submission_service_proto_depIdxs = []int32{
-	21, // 0: eolymp.judge.CreateSubmissionInput.values:type_name -> eolymp.atlas.Submission.Value
+	21, // 0: eolymp.judge.CreateSubmissionInput.values:type_name -> eolymp.atlas.Form.Value
 	20, // 1: eolymp.judge.ListSubmissionsInput.filters:type_name -> eolymp.judge.ListSubmissionsInput.Filter
 	22, // 2: eolymp.judge.ListSubmissionsInput.extra:type_name -> eolymp.judge.Submission.Extra
 	23, // 3: eolymp.judge.ListSubmissionsOutput.items:type_name -> eolymp.judge.Submission

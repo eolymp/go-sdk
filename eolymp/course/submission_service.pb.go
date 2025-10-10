@@ -25,11 +25,11 @@ const (
 )
 
 type CreateSubmissionInput struct {
-	state         protoimpl.MessageState  `protogen:"open.v1"`
-	MaterialId    string                  `protobuf:"bytes,1,opt,name=material_id,json=materialId,proto3" json:"material_id,omitempty"`
-	Runtime       string                  `protobuf:"bytes,2,opt,name=runtime,proto3" json:"runtime,omitempty"`
-	Source        string                  `protobuf:"bytes,3,opt,name=source,proto3" json:"source,omitempty"`
-	Values        *atlas.Submission_Value `protobuf:"bytes,4,opt,name=values,proto3" json:"values,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	MaterialId    string                 `protobuf:"bytes,1,opt,name=material_id,json=materialId,proto3" json:"material_id,omitempty"`
+	Runtime       string                 `protobuf:"bytes,2,opt,name=runtime,proto3" json:"runtime,omitempty"`
+	Source        string                 `protobuf:"bytes,3,opt,name=source,proto3" json:"source,omitempty"`
+	Values        *atlas.Form_Value      `protobuf:"bytes,4,opt,name=values,proto3" json:"values,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -85,7 +85,7 @@ func (x *CreateSubmissionInput) GetSource() string {
 	return ""
 }
 
-func (x *CreateSubmissionInput) GetValues() *atlas.Submission_Value {
+func (x *CreateSubmissionInput) GetValues() *atlas.Form_Value {
 	if x != nil {
 		return x.Values
 	}
@@ -546,13 +546,13 @@ var File_eolymp_course_submission_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_course_submission_service_proto_rawDesc = "" +
 	"\n" +
-	"&eolymp/course/submission_service.proto\x12\reolymp.course\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1deolymp/atlas/submission.proto\x1a!eolymp/wellknown/expression.proto\"\xa2\x01\n" +
+	"&eolymp/course/submission_service.proto\x12\reolymp.course\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x17eolymp/atlas/form.proto\x1a\x1deolymp/atlas/submission.proto\x1a!eolymp/wellknown/expression.proto\"\x9c\x01\n" +
 	"\x15CreateSubmissionInput\x12\x1f\n" +
 	"\vmaterial_id\x18\x01 \x01(\tR\n" +
 	"materialId\x12\x18\n" +
 	"\aruntime\x18\x02 \x01(\tR\aruntime\x12\x16\n" +
-	"\x06source\x18\x03 \x01(\tR\x06source\x126\n" +
-	"\x06values\x18\x04 \x01(\v2\x1e.eolymp.atlas.Submission.ValueR\x06values\"=\n" +
+	"\x06source\x18\x03 \x01(\tR\x06source\x120\n" +
+	"\x06values\x18\x04 \x01(\v2\x18.eolymp.atlas.Form.ValueR\x06values\"=\n" +
 	"\x16CreateSubmissionOutput\x12#\n" +
 	"\rsubmission_id\x18\x01 \x01(\tR\fsubmissionId\"\xb7\x05\n" +
 	"\x14ListSubmissionsInput\x12\x14\n" +
@@ -638,7 +638,7 @@ var file_eolymp_course_submission_service_proto_goTypes = []any{
 	(*WatchSubmissionInput)(nil),          // 6: eolymp.course.WatchSubmissionInput
 	(*WatchSubmissionOutput)(nil),         // 7: eolymp.course.WatchSubmissionOutput
 	(*ListSubmissionsInput_Filter)(nil),   // 8: eolymp.course.ListSubmissionsInput.Filter
-	(*atlas.Submission_Value)(nil),        // 9: eolymp.atlas.Submission.Value
+	(*atlas.Form_Value)(nil),              // 9: eolymp.atlas.Form.Value
 	(*atlas.Submission)(nil),              // 10: eolymp.atlas.Submission
 	(*wellknown.ExpressionID)(nil),        // 11: eolymp.wellknown.ExpressionID
 	(*wellknown.ExpressionTimestamp)(nil), // 12: eolymp.wellknown.ExpressionTimestamp
@@ -646,7 +646,7 @@ var file_eolymp_course_submission_service_proto_goTypes = []any{
 	(*wellknown.ExpressionFloat)(nil),     // 14: eolymp.wellknown.ExpressionFloat
 }
 var file_eolymp_course_submission_service_proto_depIdxs = []int32{
-	9,  // 0: eolymp.course.CreateSubmissionInput.values:type_name -> eolymp.atlas.Submission.Value
+	9,  // 0: eolymp.course.CreateSubmissionInput.values:type_name -> eolymp.atlas.Form.Value
 	8,  // 1: eolymp.course.ListSubmissionsInput.filters:type_name -> eolymp.course.ListSubmissionsInput.Filter
 	10, // 2: eolymp.course.ListSubmissionsOutput.items:type_name -> eolymp.atlas.Submission
 	10, // 3: eolymp.course.DescribeSubmissionOutput.submission:type_name -> eolymp.atlas.Submission
