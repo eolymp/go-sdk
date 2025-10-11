@@ -73,6 +73,76 @@ func (Test_Status) EnumDescriptor() ([]byte, []int) {
 	return file_eolymp_atlas_testing_test_proto_rawDescGZIP(), []int{0, 0}
 }
 
+type Test_Patch_Field int32
+
+const (
+	Test_Patch_UNKNOWN_PATCH  Test_Patch_Field = 0
+	Test_Patch_EXAMPLE        Test_Patch_Field = 1
+	Test_Patch_INACTIVE       Test_Patch_Field = 2
+	Test_Patch_SCORE          Test_Patch_Field = 3
+	Test_Patch_INPUT          Test_Patch_Field = 4
+	Test_Patch_ANSWER         Test_Patch_Field = 5
+	Test_Patch_INDEX          Test_Patch_Field = 8
+	Test_Patch_SECRET         Test_Patch_Field = 9
+	Test_Patch_EXAMPLE_INPUT  Test_Patch_Field = 6
+	Test_Patch_EXAMPLE_ANSWER Test_Patch_Field = 7
+)
+
+// Enum value maps for Test_Patch_Field.
+var (
+	Test_Patch_Field_name = map[int32]string{
+		0: "UNKNOWN_PATCH",
+		1: "EXAMPLE",
+		2: "INACTIVE",
+		3: "SCORE",
+		4: "INPUT",
+		5: "ANSWER",
+		8: "INDEX",
+		9: "SECRET",
+		6: "EXAMPLE_INPUT",
+		7: "EXAMPLE_ANSWER",
+	}
+	Test_Patch_Field_value = map[string]int32{
+		"UNKNOWN_PATCH":  0,
+		"EXAMPLE":        1,
+		"INACTIVE":       2,
+		"SCORE":          3,
+		"INPUT":          4,
+		"ANSWER":         5,
+		"INDEX":          8,
+		"SECRET":         9,
+		"EXAMPLE_INPUT":  6,
+		"EXAMPLE_ANSWER": 7,
+	}
+)
+
+func (x Test_Patch_Field) Enum() *Test_Patch_Field {
+	p := new(Test_Patch_Field)
+	*p = x
+	return p
+}
+
+func (x Test_Patch_Field) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (Test_Patch_Field) Descriptor() protoreflect.EnumDescriptor {
+	return file_eolymp_atlas_testing_test_proto_enumTypes[1].Descriptor()
+}
+
+func (Test_Patch_Field) Type() protoreflect.EnumType {
+	return &file_eolymp_atlas_testing_test_proto_enumTypes[1]
+}
+
+func (x Test_Patch_Field) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use Test_Patch_Field.Descriptor instead.
+func (Test_Patch_Field) EnumDescriptor() ([]byte, []int) {
+	return file_eolymp_atlas_testing_test_proto_rawDescGZIP(), []int{0, 0, 0}
+}
+
 type Test struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Test unique identifier.
@@ -314,6 +384,42 @@ func (*Test_AnswerUrl) isTest_Answer() {}
 
 func (*Test_AnswerGenerator) isTest_Answer() {}
 
+type Test_Patch struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Test_Patch) Reset() {
+	*x = Test_Patch{}
+	mi := &file_eolymp_atlas_testing_test_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Test_Patch) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Test_Patch) ProtoMessage() {}
+
+func (x *Test_Patch) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_testing_test_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Test_Patch.ProtoReflect.Descriptor instead.
+func (*Test_Patch) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_testing_test_proto_rawDescGZIP(), []int{0, 0}
+}
+
 type Test_Generator struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ScriptName    string                 `protobuf:"bytes,1,opt,name=script_name,json=scriptName,proto3" json:"script_name,omitempty"`
@@ -324,7 +430,7 @@ type Test_Generator struct {
 
 func (x *Test_Generator) Reset() {
 	*x = Test_Generator{}
-	mi := &file_eolymp_atlas_testing_test_proto_msgTypes[1]
+	mi := &file_eolymp_atlas_testing_test_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -336,7 +442,7 @@ func (x *Test_Generator) String() string {
 func (*Test_Generator) ProtoMessage() {}
 
 func (x *Test_Generator) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_testing_test_proto_msgTypes[1]
+	mi := &file_eolymp_atlas_testing_test_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -349,7 +455,7 @@ func (x *Test_Generator) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Test_Generator.ProtoReflect.Descriptor instead.
 func (*Test_Generator) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_testing_test_proto_rawDescGZIP(), []int{0, 0}
+	return file_eolymp_atlas_testing_test_proto_rawDescGZIP(), []int{0, 1}
 }
 
 func (x *Test_Generator) GetScriptName() string {
@@ -370,7 +476,7 @@ var File_eolymp_atlas_testing_test_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_testing_test_proto_rawDesc = "" +
 	"\n" +
-	"\x1feolymp/atlas/testing_test.proto\x12\feolymp.atlas\"\xda\x06\n" +
+	"\x1feolymp/atlas/testing_test.proto\x12\feolymp.atlas\"\xfc\a\n" +
 	"\x04Test\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1d\n" +
 	"\n" +
@@ -392,7 +498,21 @@ const file_eolymp_atlas_testing_test_proto_rawDesc = "" +
 	"\x0finput_generator\x18\f \x01(\v2\x1c.eolymp.atlas.Test.GeneratorH\x00R\x0einputGenerator\x12\x1f\n" +
 	"\n" +
 	"answer_url\x18\x15 \x01(\tH\x01R\tanswerUrl\x12I\n" +
-	"\x10answer_generator\x18\x16 \x01(\v2\x1c.eolymp.atlas.Test.GeneratorH\x01R\x0fanswerGenerator\x1aJ\n" +
+	"\x10answer_generator\x18\x16 \x01(\v2\x1c.eolymp.atlas.Test.GeneratorH\x01R\x0fanswerGenerator\x1a\x9f\x01\n" +
+	"\x05Patch\"\x95\x01\n" +
+	"\x05Field\x12\x11\n" +
+	"\rUNKNOWN_PATCH\x10\x00\x12\v\n" +
+	"\aEXAMPLE\x10\x01\x12\f\n" +
+	"\bINACTIVE\x10\x02\x12\t\n" +
+	"\x05SCORE\x10\x03\x12\t\n" +
+	"\x05INPUT\x10\x04\x12\n" +
+	"\n" +
+	"\x06ANSWER\x10\x05\x12\t\n" +
+	"\x05INDEX\x10\b\x12\n" +
+	"\n" +
+	"\x06SECRET\x10\t\x12\x11\n" +
+	"\rEXAMPLE_INPUT\x10\x06\x12\x12\n" +
+	"\x0eEXAMPLE_ANSWER\x10\a\x1aJ\n" +
 	"\tGenerator\x12\x1f\n" +
 	"\vscript_name\x18\x01 \x01(\tR\n" +
 	"scriptName\x12\x1c\n" +
@@ -417,17 +537,19 @@ func file_eolymp_atlas_testing_test_proto_rawDescGZIP() []byte {
 	return file_eolymp_atlas_testing_test_proto_rawDescData
 }
 
-var file_eolymp_atlas_testing_test_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_eolymp_atlas_testing_test_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_eolymp_atlas_testing_test_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_eolymp_atlas_testing_test_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_eolymp_atlas_testing_test_proto_goTypes = []any{
 	(Test_Status)(0),       // 0: eolymp.atlas.Test.Status
-	(*Test)(nil),           // 1: eolymp.atlas.Test
-	(*Test_Generator)(nil), // 2: eolymp.atlas.Test.Generator
+	(Test_Patch_Field)(0),  // 1: eolymp.atlas.Test.Patch.Field
+	(*Test)(nil),           // 2: eolymp.atlas.Test
+	(*Test_Patch)(nil),     // 3: eolymp.atlas.Test.Patch
+	(*Test_Generator)(nil), // 4: eolymp.atlas.Test.Generator
 }
 var file_eolymp_atlas_testing_test_proto_depIdxs = []int32{
 	0, // 0: eolymp.atlas.Test.status:type_name -> eolymp.atlas.Test.Status
-	2, // 1: eolymp.atlas.Test.input_generator:type_name -> eolymp.atlas.Test.Generator
-	2, // 2: eolymp.atlas.Test.answer_generator:type_name -> eolymp.atlas.Test.Generator
+	4, // 1: eolymp.atlas.Test.input_generator:type_name -> eolymp.atlas.Test.Generator
+	4, // 2: eolymp.atlas.Test.answer_generator:type_name -> eolymp.atlas.Test.Generator
 	3, // [3:3] is the sub-list for method output_type
 	3, // [3:3] is the sub-list for method input_type
 	3, // [3:3] is the sub-list for extension type_name
@@ -451,8 +573,8 @@ func file_eolymp_atlas_testing_test_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_atlas_testing_test_proto_rawDesc), len(file_eolymp_atlas_testing_test_proto_rawDesc)),
-			NumEnums:      1,
-			NumMessages:   2,
+			NumEnums:      2,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

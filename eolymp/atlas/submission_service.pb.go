@@ -285,9 +285,9 @@ func (x *DescribeSubmissionInput) GetSubmissionId() string {
 }
 
 type DescribeSubmissionOutput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Submission    *Submission            `protobuf:"bytes,1,opt,name=submission,proto3" json:"submission,omitempty"`
-	Extra         []Submission_Extra     `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.atlas.Submission_Extra" json:"extra,omitempty"`
+	state         protoimpl.MessageState   `protogen:"open.v1"`
+	Submission    *Submission              `protobuf:"bytes,1,opt,name=submission,proto3" json:"submission,omitempty"`
+	Extra         []Submission_Extra_Field `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.atlas.Submission_Extra_Field" json:"extra,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -329,7 +329,7 @@ func (x *DescribeSubmissionOutput) GetSubmission() *Submission {
 	return nil
 }
 
-func (x *DescribeSubmissionOutput) GetExtra() []Submission_Extra {
+func (x *DescribeSubmissionOutput) GetExtra() []Submission_Extra_Field {
 	if x != nil {
 		return x.Extra
 	}
@@ -337,9 +337,9 @@ func (x *DescribeSubmissionOutput) GetExtra() []Submission_Extra {
 }
 
 type WatchSubmissionInput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	SubmissionId  string                 `protobuf:"bytes,2,opt,name=submission_id,json=submissionId,proto3" json:"submission_id,omitempty"`
-	Extra         []Submission_Extra     `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.atlas.Submission_Extra" json:"extra,omitempty"`
+	state         protoimpl.MessageState   `protogen:"open.v1"`
+	SubmissionId  string                   `protobuf:"bytes,2,opt,name=submission_id,json=submissionId,proto3" json:"submission_id,omitempty"`
+	Extra         []Submission_Extra_Field `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.atlas.Submission_Extra_Field" json:"extra,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -381,7 +381,7 @@ func (x *WatchSubmissionInput) GetSubmissionId() string {
 	return ""
 }
 
-func (x *WatchSubmissionInput) GetExtra() []Submission_Extra {
+func (x *WatchSubmissionInput) GetExtra() []Submission_Extra_Field {
 	if x != nil {
 		return x.Extra
 	}
@@ -528,7 +528,7 @@ type ListSubmissionsInput struct {
 	Size   int32  `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
 	// data filters
 	Filters       *ListSubmissionsInput_Filter `protobuf:"bytes,40,opt,name=filters,proto3" json:"filters,omitempty"`
-	Extra         []Submission_Extra           `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.atlas.Submission_Extra" json:"extra,omitempty"`
+	Extra         []Submission_Extra_Field     `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.atlas.Submission_Extra_Field" json:"extra,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -591,7 +591,7 @@ func (x *ListSubmissionsInput) GetFilters() *ListSubmissionsInput_Filter {
 	return nil
 }
 
-func (x *ListSubmissionsInput) GetExtra() []Submission_Extra {
+func (x *ListSubmissionsInput) GetExtra() []Submission_Extra_Field {
 	if x != nil {
 		return x.Extra
 	}
@@ -1004,15 +1004,15 @@ const file_eolymp_atlas_submission_service_proto_rawDesc = "" +
 	"\x16CreateSubmissionOutput\x12#\n" +
 	"\rsubmission_id\x18\x01 \x01(\tR\fsubmissionId\">\n" +
 	"\x17DescribeSubmissionInput\x12#\n" +
-	"\rsubmission_id\x18\x02 \x01(\tR\fsubmissionId\"\x8b\x01\n" +
+	"\rsubmission_id\x18\x02 \x01(\tR\fsubmissionId\"\x91\x01\n" +
 	"\x18DescribeSubmissionOutput\x128\n" +
 	"\n" +
 	"submission\x18\x01 \x01(\v2\x18.eolymp.atlas.SubmissionR\n" +
-	"submission\x125\n" +
-	"\x05extra\x18\xe3\b \x03(\x0e2\x1e.eolymp.atlas.Submission.ExtraR\x05extra\"r\n" +
+	"submission\x12;\n" +
+	"\x05extra\x18\xe3\b \x03(\x0e2$.eolymp.atlas.Submission.Extra.FieldR\x05extra\"x\n" +
 	"\x14WatchSubmissionInput\x12#\n" +
-	"\rsubmission_id\x18\x02 \x01(\tR\fsubmissionId\x125\n" +
-	"\x05extra\x18\xe3\b \x03(\x0e2\x1e.eolymp.atlas.Submission.ExtraR\x05extra\"Q\n" +
+	"\rsubmission_id\x18\x02 \x01(\tR\fsubmissionId\x12;\n" +
+	"\x05extra\x18\xe3\b \x03(\x0e2$.eolymp.atlas.Submission.Extra.FieldR\x05extra\"Q\n" +
 	"\x15WatchSubmissionOutput\x128\n" +
 	"\n" +
 	"submission\x18\x01 \x01(\v2\x18.eolymp.atlas.SubmissionR\n" +
@@ -1020,14 +1020,14 @@ const file_eolymp_atlas_submission_service_proto_rawDesc = "" +
 	"\x15RetestSubmissionInput\x12#\n" +
 	"\rsubmission_id\x18\x02 \x01(\tR\fsubmissionId\x12\x14\n" +
 	"\x05debug\x18\x03 \x01(\bR\x05debug\"\x18\n" +
-	"\x16RetestSubmissionOutput\"\xbc\x06\n" +
+	"\x16RetestSubmissionOutput\"\xc2\x06\n" +
 	"\x14ListSubmissionsInput\x12\x14\n" +
 	"\x05after\x18\f \x01(\tR\x05after\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
 	"\x04size\x18\v \x01(\x05R\x04size\x12C\n" +
-	"\afilters\x18( \x01(\v2).eolymp.atlas.ListSubmissionsInput.FilterR\afilters\x125\n" +
-	"\x05extra\x18\xe3\b \x03(\x0e2\x1e.eolymp.atlas.Submission.ExtraR\x05extra\x1a\xe5\x04\n" +
+	"\afilters\x18( \x01(\v2).eolymp.atlas.ListSubmissionsInput.FilterR\afilters\x12;\n" +
+	"\x05extra\x18\xe3\b \x03(\x0e2$.eolymp.atlas.Submission.Extra.FieldR\x05extra\x1a\xe5\x04\n" +
 	"\x06Filter\x12.\n" +
 	"\x02id\x18\x01 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\x12=\n" +
 	"\n" +
@@ -1136,7 +1136,7 @@ var file_eolymp_atlas_submission_service_proto_goTypes = []any{
 	(*ListSubmissionsInput_Filter)(nil),   // 16: eolymp.atlas.ListSubmissionsInput.Filter
 	(*Submission)(nil),                    // 17: eolymp.atlas.Submission
 	(*Form_Value)(nil),                    // 18: eolymp.atlas.Form.Value
-	(Submission_Extra)(0),                 // 19: eolymp.atlas.Submission.Extra
+	(Submission_Extra_Field)(0),           // 19: eolymp.atlas.Submission.Extra.Field
 	(*timestamppb.Timestamp)(nil),         // 20: google.protobuf.Timestamp
 	(*wellknown.ExpressionID)(nil),        // 21: eolymp.wellknown.ExpressionID
 	(*wellknown.ExpressionTimestamp)(nil), // 22: eolymp.wellknown.ExpressionTimestamp
@@ -1149,11 +1149,11 @@ var file_eolymp_atlas_submission_service_proto_depIdxs = []int32{
 	17, // 2: eolymp.atlas.SubmissionCompleteEvent.submission:type_name -> eolymp.atlas.Submission
 	18, // 3: eolymp.atlas.CreateSubmissionInput.values:type_name -> eolymp.atlas.Form.Value
 	17, // 4: eolymp.atlas.DescribeSubmissionOutput.submission:type_name -> eolymp.atlas.Submission
-	19, // 5: eolymp.atlas.DescribeSubmissionOutput.extra:type_name -> eolymp.atlas.Submission.Extra
-	19, // 6: eolymp.atlas.WatchSubmissionInput.extra:type_name -> eolymp.atlas.Submission.Extra
+	19, // 5: eolymp.atlas.DescribeSubmissionOutput.extra:type_name -> eolymp.atlas.Submission.Extra.Field
+	19, // 6: eolymp.atlas.WatchSubmissionInput.extra:type_name -> eolymp.atlas.Submission.Extra.Field
 	17, // 7: eolymp.atlas.WatchSubmissionOutput.submission:type_name -> eolymp.atlas.Submission
 	16, // 8: eolymp.atlas.ListSubmissionsInput.filters:type_name -> eolymp.atlas.ListSubmissionsInput.Filter
-	19, // 9: eolymp.atlas.ListSubmissionsInput.extra:type_name -> eolymp.atlas.Submission.Extra
+	19, // 9: eolymp.atlas.ListSubmissionsInput.extra:type_name -> eolymp.atlas.Submission.Extra.Field
 	17, // 10: eolymp.atlas.ListSubmissionsOutput.items:type_name -> eolymp.atlas.Submission
 	20, // 11: eolymp.atlas.DescribeSubmissionUsageInput.period_start:type_name -> google.protobuf.Timestamp
 	20, // 12: eolymp.atlas.DescribeSubmissionUsageInput.period_end:type_name -> google.protobuf.Timestamp

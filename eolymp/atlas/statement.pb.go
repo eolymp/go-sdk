@@ -22,126 +22,123 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type Statement_Extra int32
+type Statement_Extra_Field int32
 
 const (
-	Statement_UNKNOWN_EXTRA  Statement_Extra = 0
-	Statement_CONTENT_RENDER Statement_Extra = 1
-	Statement_CONTENT_VALUE  Statement_Extra = 2
+	Statement_Extra_UNKNOWN_EXTRA  Statement_Extra_Field = 0
+	Statement_Extra_CONTENT_RENDER Statement_Extra_Field = 1
+	Statement_Extra_CONTENT_VALUE  Statement_Extra_Field = 2
 )
 
-// Enum value maps for Statement_Extra.
+// Enum value maps for Statement_Extra_Field.
 var (
-	Statement_Extra_name = map[int32]string{
+	Statement_Extra_Field_name = map[int32]string{
 		0: "UNKNOWN_EXTRA",
 		1: "CONTENT_RENDER",
 		2: "CONTENT_VALUE",
 	}
-	Statement_Extra_value = map[string]int32{
+	Statement_Extra_Field_value = map[string]int32{
 		"UNKNOWN_EXTRA":  0,
 		"CONTENT_RENDER": 1,
 		"CONTENT_VALUE":  2,
 	}
 )
 
-func (x Statement_Extra) Enum() *Statement_Extra {
-	p := new(Statement_Extra)
+func (x Statement_Extra_Field) Enum() *Statement_Extra_Field {
+	p := new(Statement_Extra_Field)
 	*p = x
 	return p
 }
 
-func (x Statement_Extra) String() string {
+func (x Statement_Extra_Field) String() string {
 	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
 }
 
-func (Statement_Extra) Descriptor() protoreflect.EnumDescriptor {
+func (Statement_Extra_Field) Descriptor() protoreflect.EnumDescriptor {
 	return file_eolymp_atlas_statement_proto_enumTypes[0].Descriptor()
 }
 
-func (Statement_Extra) Type() protoreflect.EnumType {
+func (Statement_Extra_Field) Type() protoreflect.EnumType {
 	return &file_eolymp_atlas_statement_proto_enumTypes[0]
 }
 
-func (x Statement_Extra) Number() protoreflect.EnumNumber {
+func (x Statement_Extra_Field) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use Statement_Extra.Descriptor instead.
-func (Statement_Extra) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_atlas_statement_proto_rawDescGZIP(), []int{0, 0}
+// Deprecated: Use Statement_Extra_Field.Descriptor instead.
+func (Statement_Extra_Field) EnumDescriptor() ([]byte, []int) {
+	return file_eolymp_atlas_statement_proto_rawDescGZIP(), []int{0, 0, 0}
 }
 
-type Statement_Patch int32
+type Statement_Patch_Field int32
 
 const (
-	Statement_UNKNOWN_PATCH       Statement_Patch = 0
-	Statement_PATCH_ALL           Statement_Patch = 1
-	Statement_PATCH_LOCALE        Statement_Patch = 2
-	Statement_PATCH_AUTOMATIC     Statement_Patch = 8
-	Statement_PATCH_DRAFT         Statement_Patch = 9
-	Statement_PATCH_TITLE         Statement_Patch = 3
-	Statement_PATCH_CONTENT       Statement_Patch = 4
-	Statement_PATCH_DOWNLOAD_LINK Statement_Patch = 5
-	Statement_PATCH_AUTHOR        Statement_Patch = 6
-	Statement_PATCH_SOURCE        Statement_Patch = 7
-	Statement_PATCH_AUTHOR_ID     Statement_Patch = 10
+	Statement_Patch_UNKNOWN_PATCH Statement_Patch_Field = 0
+	Statement_Patch_LOCALE        Statement_Patch_Field = 2
+	Statement_Patch_AUTOMATIC     Statement_Patch_Field = 8
+	Statement_Patch_DRAFT         Statement_Patch_Field = 9
+	Statement_Patch_TITLE         Statement_Patch_Field = 3
+	Statement_Patch_CONTENT       Statement_Patch_Field = 4
+	Statement_Patch_DOWNLOAD_LINK Statement_Patch_Field = 5
+	Statement_Patch_AUTHOR        Statement_Patch_Field = 6
+	Statement_Patch_SOURCE        Statement_Patch_Field = 7
+	Statement_Patch_AUTHOR_ID     Statement_Patch_Field = 10
 )
 
-// Enum value maps for Statement_Patch.
+// Enum value maps for Statement_Patch_Field.
 var (
-	Statement_Patch_name = map[int32]string{
+	Statement_Patch_Field_name = map[int32]string{
 		0:  "UNKNOWN_PATCH",
-		1:  "PATCH_ALL",
-		2:  "PATCH_LOCALE",
-		8:  "PATCH_AUTOMATIC",
-		9:  "PATCH_DRAFT",
-		3:  "PATCH_TITLE",
-		4:  "PATCH_CONTENT",
-		5:  "PATCH_DOWNLOAD_LINK",
-		6:  "PATCH_AUTHOR",
-		7:  "PATCH_SOURCE",
-		10: "PATCH_AUTHOR_ID",
+		2:  "LOCALE",
+		8:  "AUTOMATIC",
+		9:  "DRAFT",
+		3:  "TITLE",
+		4:  "CONTENT",
+		5:  "DOWNLOAD_LINK",
+		6:  "AUTHOR",
+		7:  "SOURCE",
+		10: "AUTHOR_ID",
 	}
-	Statement_Patch_value = map[string]int32{
-		"UNKNOWN_PATCH":       0,
-		"PATCH_ALL":           1,
-		"PATCH_LOCALE":        2,
-		"PATCH_AUTOMATIC":     8,
-		"PATCH_DRAFT":         9,
-		"PATCH_TITLE":         3,
-		"PATCH_CONTENT":       4,
-		"PATCH_DOWNLOAD_LINK": 5,
-		"PATCH_AUTHOR":        6,
-		"PATCH_SOURCE":        7,
-		"PATCH_AUTHOR_ID":     10,
+	Statement_Patch_Field_value = map[string]int32{
+		"UNKNOWN_PATCH": 0,
+		"LOCALE":        2,
+		"AUTOMATIC":     8,
+		"DRAFT":         9,
+		"TITLE":         3,
+		"CONTENT":       4,
+		"DOWNLOAD_LINK": 5,
+		"AUTHOR":        6,
+		"SOURCE":        7,
+		"AUTHOR_ID":     10,
 	}
 )
 
-func (x Statement_Patch) Enum() *Statement_Patch {
-	p := new(Statement_Patch)
+func (x Statement_Patch_Field) Enum() *Statement_Patch_Field {
+	p := new(Statement_Patch_Field)
 	*p = x
 	return p
 }
 
-func (x Statement_Patch) String() string {
+func (x Statement_Patch_Field) String() string {
 	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
 }
 
-func (Statement_Patch) Descriptor() protoreflect.EnumDescriptor {
+func (Statement_Patch_Field) Descriptor() protoreflect.EnumDescriptor {
 	return file_eolymp_atlas_statement_proto_enumTypes[1].Descriptor()
 }
 
-func (Statement_Patch) Type() protoreflect.EnumType {
+func (Statement_Patch_Field) Type() protoreflect.EnumType {
 	return &file_eolymp_atlas_statement_proto_enumTypes[1]
 }
 
-func (x Statement_Patch) Number() protoreflect.EnumNumber {
+func (x Statement_Patch_Field) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use Statement_Patch.Descriptor instead.
-func (Statement_Patch) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_atlas_statement_proto_rawDescGZIP(), []int{0, 1}
+// Deprecated: Use Statement_Patch_Field.Descriptor instead.
+func (Statement_Patch_Field) EnumDescriptor() ([]byte, []int) {
+	return file_eolymp_atlas_statement_proto_rawDescGZIP(), []int{0, 1, 0}
 }
 
 type Statement struct {
@@ -260,11 +257,83 @@ func (x *Statement) GetAuthorId() string {
 	return ""
 }
 
+type Statement_Extra struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Statement_Extra) Reset() {
+	*x = Statement_Extra{}
+	mi := &file_eolymp_atlas_statement_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Statement_Extra) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Statement_Extra) ProtoMessage() {}
+
+func (x *Statement_Extra) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_statement_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Statement_Extra.ProtoReflect.Descriptor instead.
+func (*Statement_Extra) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_statement_proto_rawDescGZIP(), []int{0, 0}
+}
+
+type Statement_Patch struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Statement_Patch) Reset() {
+	*x = Statement_Patch{}
+	mi := &file_eolymp_atlas_statement_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Statement_Patch) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Statement_Patch) ProtoMessage() {}
+
+func (x *Statement_Patch) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_statement_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Statement_Patch.ProtoReflect.Descriptor instead.
+func (*Statement_Patch) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_statement_proto_rawDescGZIP(), []int{0, 1}
+}
+
 var File_eolymp_atlas_statement_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_statement_proto_rawDesc = "" +
 	"\n" +
-	"\x1ceolymp/atlas/statement.proto\x12\feolymp.atlas\x1a\x18eolymp/ecm/content.proto\"\xbb\x04\n" +
+	"\x1ceolymp/atlas/statement.proto\x12\feolymp.atlas\x1a\x18eolymp/ecm/content.proto\"\x89\x04\n" +
 	"\tStatement\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x16\n" +
 	"\x06locale\x18\x03 \x01(\tR\x06locale\x12\x1c\n" +
@@ -275,23 +344,27 @@ const file_eolymp_atlas_statement_proto_rawDesc = "" +
 	"\rdownload_link\x18\a \x01(\tR\fdownloadLink\x12\x16\n" +
 	"\x06author\x18e \x01(\tR\x06author\x12\x16\n" +
 	"\x06source\x18f \x01(\tR\x06source\x12\x1b\n" +
-	"\tauthor_id\x18g \x01(\tR\bauthorId\"A\n" +
-	"\x05Extra\x12\x11\n" +
+	"\tauthor_id\x18g \x01(\tR\bauthorId\x1aJ\n" +
+	"\x05Extra\"A\n" +
+	"\x05Field\x12\x11\n" +
 	"\rUNKNOWN_EXTRA\x10\x00\x12\x12\n" +
 	"\x0eCONTENT_RENDER\x10\x01\x12\x11\n" +
-	"\rCONTENT_VALUE\x10\x02\"\xd7\x01\n" +
-	"\x05Patch\x12\x11\n" +
-	"\rUNKNOWN_PATCH\x10\x00\x12\r\n" +
-	"\tPATCH_ALL\x10\x01\x12\x10\n" +
-	"\fPATCH_LOCALE\x10\x02\x12\x13\n" +
-	"\x0fPATCH_AUTOMATIC\x10\b\x12\x0f\n" +
-	"\vPATCH_DRAFT\x10\t\x12\x0f\n" +
-	"\vPATCH_TITLE\x10\x03\x12\x11\n" +
-	"\rPATCH_CONTENT\x10\x04\x12\x17\n" +
-	"\x13PATCH_DOWNLOAD_LINK\x10\x05\x12\x10\n" +
-	"\fPATCH_AUTHOR\x10\x06\x12\x10\n" +
-	"\fPATCH_SOURCE\x10\a\x12\x13\n" +
-	"\x0fPATCH_AUTHOR_ID\x10\n" +
+	"\rCONTENT_VALUE\x10\x02\x1a\x9c\x01\n" +
+	"\x05Patch\"\x92\x01\n" +
+	"\x05Field\x12\x11\n" +
+	"\rUNKNOWN_PATCH\x10\x00\x12\n" +
+	"\n" +
+	"\x06LOCALE\x10\x02\x12\r\n" +
+	"\tAUTOMATIC\x10\b\x12\t\n" +
+	"\x05DRAFT\x10\t\x12\t\n" +
+	"\x05TITLE\x10\x03\x12\v\n" +
+	"\aCONTENT\x10\x04\x12\x11\n" +
+	"\rDOWNLOAD_LINK\x10\x05\x12\n" +
+	"\n" +
+	"\x06AUTHOR\x10\x06\x12\n" +
+	"\n" +
+	"\x06SOURCE\x10\a\x12\r\n" +
+	"\tAUTHOR_ID\x10\n" +
 	"B-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
@@ -307,15 +380,17 @@ func file_eolymp_atlas_statement_proto_rawDescGZIP() []byte {
 }
 
 var file_eolymp_atlas_statement_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_eolymp_atlas_statement_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_eolymp_atlas_statement_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_eolymp_atlas_statement_proto_goTypes = []any{
-	(Statement_Extra)(0), // 0: eolymp.atlas.Statement.Extra
-	(Statement_Patch)(0), // 1: eolymp.atlas.Statement.Patch
-	(*Statement)(nil),    // 2: eolymp.atlas.Statement
-	(*ecm.Content)(nil),  // 3: eolymp.ecm.Content
+	(Statement_Extra_Field)(0), // 0: eolymp.atlas.Statement.Extra.Field
+	(Statement_Patch_Field)(0), // 1: eolymp.atlas.Statement.Patch.Field
+	(*Statement)(nil),          // 2: eolymp.atlas.Statement
+	(*Statement_Extra)(nil),    // 3: eolymp.atlas.Statement.Extra
+	(*Statement_Patch)(nil),    // 4: eolymp.atlas.Statement.Patch
+	(*ecm.Content)(nil),        // 5: eolymp.ecm.Content
 }
 var file_eolymp_atlas_statement_proto_depIdxs = []int32{
-	3, // 0: eolymp.atlas.Statement.content:type_name -> eolymp.ecm.Content
+	5, // 0: eolymp.atlas.Statement.content:type_name -> eolymp.ecm.Content
 	1, // [1:1] is the sub-list for method output_type
 	1, // [1:1] is the sub-list for method input_type
 	1, // [1:1] is the sub-list for extension type_name
@@ -334,7 +409,7 @@ func file_eolymp_atlas_statement_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_atlas_statement_proto_rawDesc), len(file_eolymp_atlas_statement_proto_rawDesc)),
 			NumEnums:      2,
-			NumMessages:   1,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

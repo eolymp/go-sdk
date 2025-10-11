@@ -22,50 +22,108 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type Script_Extra int32
+type Script_Extra_Field int32
 
 const (
-	Script_NO_EXTRA Script_Extra = 0
-	Script_SOURCE   Script_Extra = 1
+	Script_Extra_UNKNOWN_EXTRA Script_Extra_Field = 0
+	Script_Extra_SOURCE        Script_Extra_Field = 1
 )
 
-// Enum value maps for Script_Extra.
+// Enum value maps for Script_Extra_Field.
 var (
-	Script_Extra_name = map[int32]string{
-		0: "NO_EXTRA",
+	Script_Extra_Field_name = map[int32]string{
+		0: "UNKNOWN_EXTRA",
 		1: "SOURCE",
 	}
-	Script_Extra_value = map[string]int32{
-		"NO_EXTRA": 0,
-		"SOURCE":   1,
+	Script_Extra_Field_value = map[string]int32{
+		"UNKNOWN_EXTRA": 0,
+		"SOURCE":        1,
 	}
 )
 
-func (x Script_Extra) Enum() *Script_Extra {
-	p := new(Script_Extra)
+func (x Script_Extra_Field) Enum() *Script_Extra_Field {
+	p := new(Script_Extra_Field)
 	*p = x
 	return p
 }
 
-func (x Script_Extra) String() string {
+func (x Script_Extra_Field) String() string {
 	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
 }
 
-func (Script_Extra) Descriptor() protoreflect.EnumDescriptor {
+func (Script_Extra_Field) Descriptor() protoreflect.EnumDescriptor {
 	return file_eolymp_atlas_script_proto_enumTypes[0].Descriptor()
 }
 
-func (Script_Extra) Type() protoreflect.EnumType {
+func (Script_Extra_Field) Type() protoreflect.EnumType {
 	return &file_eolymp_atlas_script_proto_enumTypes[0]
 }
 
-func (x Script_Extra) Number() protoreflect.EnumNumber {
+func (x Script_Extra_Field) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use Script_Extra.Descriptor instead.
-func (Script_Extra) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_atlas_script_proto_rawDescGZIP(), []int{0, 0}
+// Deprecated: Use Script_Extra_Field.Descriptor instead.
+func (Script_Extra_Field) EnumDescriptor() ([]byte, []int) {
+	return file_eolymp_atlas_script_proto_rawDescGZIP(), []int{0, 0, 0}
+}
+
+type Script_Patch_Field int32
+
+const (
+	Script_Patch_UNKNOWN_PATCH Script_Patch_Field = 0
+	Script_Patch_NAME          Script_Patch_Field = 1
+	Script_Patch_SECRET        Script_Patch_Field = 2
+	Script_Patch_RUNTIME       Script_Patch_Field = 3
+	Script_Patch_SOURCE_URL    Script_Patch_Field = 4
+	Script_Patch_FILES         Script_Patch_Field = 5
+)
+
+// Enum value maps for Script_Patch_Field.
+var (
+	Script_Patch_Field_name = map[int32]string{
+		0: "UNKNOWN_PATCH",
+		1: "NAME",
+		2: "SECRET",
+		3: "RUNTIME",
+		4: "SOURCE_URL",
+		5: "FILES",
+	}
+	Script_Patch_Field_value = map[string]int32{
+		"UNKNOWN_PATCH": 0,
+		"NAME":          1,
+		"SECRET":        2,
+		"RUNTIME":       3,
+		"SOURCE_URL":    4,
+		"FILES":         5,
+	}
+)
+
+func (x Script_Patch_Field) Enum() *Script_Patch_Field {
+	p := new(Script_Patch_Field)
+	*p = x
+	return p
+}
+
+func (x Script_Patch_Field) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (Script_Patch_Field) Descriptor() protoreflect.EnumDescriptor {
+	return file_eolymp_atlas_script_proto_enumTypes[1].Descriptor()
+}
+
+func (Script_Patch_Field) Type() protoreflect.EnumType {
+	return &file_eolymp_atlas_script_proto_enumTypes[1]
+}
+
+func (x Script_Patch_Field) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use Script_Patch_Field.Descriptor instead.
+func (Script_Patch_Field) EnumDescriptor() ([]byte, []int) {
+	return file_eolymp_atlas_script_proto_rawDescGZIP(), []int{0, 1, 0}
 }
 
 type Script struct {
@@ -156,11 +214,83 @@ func (x *Script) GetFiles() []*executor.File {
 	return nil
 }
 
+type Script_Extra struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Script_Extra) Reset() {
+	*x = Script_Extra{}
+	mi := &file_eolymp_atlas_script_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Script_Extra) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Script_Extra) ProtoMessage() {}
+
+func (x *Script_Extra) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_script_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Script_Extra.ProtoReflect.Descriptor instead.
+func (*Script_Extra) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_script_proto_rawDescGZIP(), []int{0, 0}
+}
+
+type Script_Patch struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Script_Patch) Reset() {
+	*x = Script_Patch{}
+	mi := &file_eolymp_atlas_script_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Script_Patch) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Script_Patch) ProtoMessage() {}
+
+func (x *Script_Patch) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_script_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Script_Patch.ProtoReflect.Descriptor instead.
+func (*Script_Patch) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_script_proto_rawDescGZIP(), []int{0, 1}
+}
+
 var File_eolymp_atlas_script_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_script_proto_rawDesc = "" +
 	"\n" +
-	"\x19eolymp/atlas/script.proto\x12\feolymp.atlas\x1a\x1aeolymp/executor/file.proto\"\xc6\x01\n" +
+	"\x19eolymp/atlas/script.proto\x12\feolymp.atlas\x1a\x1aeolymp/executor/file.proto\"\xb7\x02\n" +
 	"\x06Script\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x16\n" +
@@ -168,11 +298,22 @@ const file_eolymp_atlas_script_proto_rawDesc = "" +
 	"\aruntime\x18\n" +
 	" \x01(\tR\aruntime\x12\x16\n" +
 	"\x06source\x18\v \x01(\tR\x06source\x12+\n" +
-	"\x05files\x18\x14 \x03(\v2\x15.eolymp.executor.FileR\x05files\"!\n" +
-	"\x05Extra\x12\f\n" +
-	"\bNO_EXTRA\x10\x00\x12\n" +
+	"\x05files\x18\x14 \x03(\v2\x15.eolymp.executor.FileR\x05files\x1a/\n" +
+	"\x05Extra\"&\n" +
+	"\x05Field\x12\x11\n" +
+	"\rUNKNOWN_EXTRA\x10\x00\x12\n" +
 	"\n" +
-	"\x06SOURCE\x10\x01B-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x06SOURCE\x10\x01\x1aa\n" +
+	"\x05Patch\"X\n" +
+	"\x05Field\x12\x11\n" +
+	"\rUNKNOWN_PATCH\x10\x00\x12\b\n" +
+	"\x04NAME\x10\x01\x12\n" +
+	"\n" +
+	"\x06SECRET\x10\x02\x12\v\n" +
+	"\aRUNTIME\x10\x03\x12\x0e\n" +
+	"\n" +
+	"SOURCE_URL\x10\x04\x12\t\n" +
+	"\x05FILES\x10\x05B-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_script_proto_rawDescOnce sync.Once
@@ -186,15 +327,18 @@ func file_eolymp_atlas_script_proto_rawDescGZIP() []byte {
 	return file_eolymp_atlas_script_proto_rawDescData
 }
 
-var file_eolymp_atlas_script_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_eolymp_atlas_script_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_eolymp_atlas_script_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_eolymp_atlas_script_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_eolymp_atlas_script_proto_goTypes = []any{
-	(Script_Extra)(0),     // 0: eolymp.atlas.Script.Extra
-	(*Script)(nil),        // 1: eolymp.atlas.Script
-	(*executor.File)(nil), // 2: eolymp.executor.File
+	(Script_Extra_Field)(0), // 0: eolymp.atlas.Script.Extra.Field
+	(Script_Patch_Field)(0), // 1: eolymp.atlas.Script.Patch.Field
+	(*Script)(nil),          // 2: eolymp.atlas.Script
+	(*Script_Extra)(nil),    // 3: eolymp.atlas.Script.Extra
+	(*Script_Patch)(nil),    // 4: eolymp.atlas.Script.Patch
+	(*executor.File)(nil),   // 5: eolymp.executor.File
 }
 var file_eolymp_atlas_script_proto_depIdxs = []int32{
-	2, // 0: eolymp.atlas.Script.files:type_name -> eolymp.executor.File
+	5, // 0: eolymp.atlas.Script.files:type_name -> eolymp.executor.File
 	1, // [1:1] is the sub-list for method output_type
 	1, // [1:1] is the sub-list for method input_type
 	1, // [1:1] is the sub-list for extension type_name
@@ -212,8 +356,8 @@ func file_eolymp_atlas_script_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_atlas_script_proto_rawDesc), len(file_eolymp_atlas_script_proto_rawDesc)),
-			NumEnums:      1,
-			NumMessages:   1,
+			NumEnums:      2,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

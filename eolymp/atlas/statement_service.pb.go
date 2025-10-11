@@ -83,12 +83,12 @@ func (x *StatementChangedEvent) GetAfter() *Statement {
 }
 
 type ListStatementsInput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Offset        int32                  `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
-	Size          int32                  `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
-	Render        bool                   `protobuf:"varint,2,opt,name=render,proto3" json:"render,omitempty"`
-	Version       uint32                 `protobuf:"varint,100,opt,name=version,proto3" json:"version,omitempty"` // request data for specific problem version
-	Extra         []Statement_Extra      `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.atlas.Statement_Extra" json:"extra,omitempty"`
+	state         protoimpl.MessageState  `protogen:"open.v1"`
+	Offset        int32                   `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
+	Size          int32                   `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
+	Render        bool                    `protobuf:"varint,2,opt,name=render,proto3" json:"render,omitempty"`
+	Version       uint32                  `protobuf:"varint,100,opt,name=version,proto3" json:"version,omitempty"` // request data for specific problem version
+	Extra         []Statement_Extra_Field `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.atlas.Statement_Extra_Field" json:"extra,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -151,7 +151,7 @@ func (x *ListStatementsInput) GetVersion() uint32 {
 	return 0
 }
 
-func (x *ListStatementsInput) GetExtra() []Statement_Extra {
+func (x *ListStatementsInput) GetExtra() []Statement_Extra_Field {
 	if x != nil {
 		return x.Extra
 	}
@@ -323,11 +323,11 @@ func (x *TranslateStatementsOutput) GetJobId() string {
 }
 
 type DescribeStatementInput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	StatementId   string                 `protobuf:"bytes,2,opt,name=statement_id,json=statementId,proto3" json:"statement_id,omitempty"`
-	Render        bool                   `protobuf:"varint,3,opt,name=render,proto3" json:"render,omitempty"`     // deprecated
-	Version       uint32                 `protobuf:"varint,100,opt,name=version,proto3" json:"version,omitempty"` // request data for specific problem version
-	Extra         []Statement_Extra      `protobuf:"varint,10,rep,packed,name=extra,proto3,enum=eolymp.atlas.Statement_Extra" json:"extra,omitempty"`
+	state         protoimpl.MessageState  `protogen:"open.v1"`
+	StatementId   string                  `protobuf:"bytes,2,opt,name=statement_id,json=statementId,proto3" json:"statement_id,omitempty"`
+	Render        bool                    `protobuf:"varint,3,opt,name=render,proto3" json:"render,omitempty"`     // deprecated
+	Version       uint32                  `protobuf:"varint,100,opt,name=version,proto3" json:"version,omitempty"` // request data for specific problem version
+	Extra         []Statement_Extra_Field `protobuf:"varint,10,rep,packed,name=extra,proto3,enum=eolymp.atlas.Statement_Extra_Field" json:"extra,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -383,7 +383,7 @@ func (x *DescribeStatementInput) GetVersion() uint32 {
 	return 0
 }
 
-func (x *DescribeStatementInput) GetExtra() []Statement_Extra {
+func (x *DescribeStatementInput) GetExtra() []Statement_Extra_Field {
 	if x != nil {
 		return x.Extra
 	}
@@ -435,11 +435,11 @@ func (x *DescribeStatementOutput) GetStatement() *Statement {
 }
 
 type LookupStatementInput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Locale        string                 `protobuf:"bytes,2,opt,name=locale,proto3" json:"locale,omitempty"`
-	Render        bool                   `protobuf:"varint,3,opt,name=render,proto3" json:"render,omitempty"`     // deprecated
-	Version       uint32                 `protobuf:"varint,100,opt,name=version,proto3" json:"version,omitempty"` // request data for specific problem version
-	Extra         []Statement_Extra      `protobuf:"varint,10,rep,packed,name=extra,proto3,enum=eolymp.atlas.Statement_Extra" json:"extra,omitempty"`
+	state         protoimpl.MessageState  `protogen:"open.v1"`
+	Locale        string                  `protobuf:"bytes,2,opt,name=locale,proto3" json:"locale,omitempty"`
+	Render        bool                    `protobuf:"varint,3,opt,name=render,proto3" json:"render,omitempty"`     // deprecated
+	Version       uint32                  `protobuf:"varint,100,opt,name=version,proto3" json:"version,omitempty"` // request data for specific problem version
+	Extra         []Statement_Extra_Field `protobuf:"varint,10,rep,packed,name=extra,proto3,enum=eolymp.atlas.Statement_Extra_Field" json:"extra,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -495,7 +495,7 @@ func (x *LookupStatementInput) GetVersion() uint32 {
 	return 0
 }
 
-func (x *LookupStatementInput) GetExtra() []Statement_Extra {
+func (x *LookupStatementInput) GetExtra() []Statement_Extra_Field {
 	if x != nil {
 		return x.Extra
 	}
@@ -723,10 +723,10 @@ func (x *CreateStatementOutput) GetStatementId() string {
 }
 
 type UpdateStatementInput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Patch         []Statement_Patch      `protobuf:"varint,10,rep,packed,name=patch,proto3,enum=eolymp.atlas.Statement_Patch" json:"patch,omitempty"`
-	StatementId   string                 `protobuf:"bytes,2,opt,name=statement_id,json=statementId,proto3" json:"statement_id,omitempty"`
-	Statement     *Statement             `protobuf:"bytes,3,opt,name=statement,proto3" json:"statement,omitempty"`
+	state         protoimpl.MessageState  `protogen:"open.v1"`
+	Patch         []Statement_Patch_Field `protobuf:"varint,10,rep,packed,name=patch,proto3,enum=eolymp.atlas.Statement_Patch_Field" json:"patch,omitempty"`
+	StatementId   string                  `protobuf:"bytes,2,opt,name=statement_id,json=statementId,proto3" json:"statement_id,omitempty"`
+	Statement     *Statement              `protobuf:"bytes,3,opt,name=statement,proto3" json:"statement,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -761,7 +761,7 @@ func (*UpdateStatementInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_statement_service_proto_rawDescGZIP(), []int{13}
 }
 
-func (x *UpdateStatementInput) GetPatch() []Statement_Patch {
+func (x *UpdateStatementInput) GetPatch() []Statement_Patch_Field {
 	if x != nil {
 		return x.Patch
 	}
@@ -995,14 +995,14 @@ const file_eolymp_atlas_statement_service_proto_rawDesc = "" +
 	"\n" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\x12/\n" +
 	"\x06before\x18\x02 \x01(\v2\x17.eolymp.atlas.StatementR\x06before\x12-\n" +
-	"\x05after\x18\x03 \x01(\v2\x17.eolymp.atlas.StatementR\x05after\"\xa9\x01\n" +
+	"\x05after\x18\x03 \x01(\v2\x17.eolymp.atlas.StatementR\x05after\"\xaf\x01\n" +
 	"\x13ListStatementsInput\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
 	"\x04size\x18\v \x01(\x05R\x04size\x12\x16\n" +
 	"\x06render\x18\x02 \x01(\bR\x06render\x12\x18\n" +
-	"\aversion\x18d \x01(\rR\aversion\x124\n" +
-	"\x05extra\x18\xe3\b \x03(\x0e2\x1d.eolymp.atlas.Statement.ExtraR\x05extra\"[\n" +
+	"\aversion\x18d \x01(\rR\aversion\x12:\n" +
+	"\x05extra\x18\xe3\b \x03(\x0e2#.eolymp.atlas.Statement.Extra.FieldR\x05extra\"[\n" +
 	"\x14ListStatementsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12-\n" +
 	"\x05items\x18\x02 \x03(\v2\x17.eolymp.atlas.StatementR\x05items\"\x9e\x01\n" +
@@ -1012,21 +1012,21 @@ const file_eolymp_atlas_statement_service_proto_rawDesc = "" +
 	"\x10target_automatic\x18\x03 \x01(\bR\x0ftargetAutomatic\x12'\n" +
 	"\x0foverride_manual\x18\x04 \x01(\bR\x0eoverrideManual\"2\n" +
 	"\x19TranslateStatementsOutput\x12\x15\n" +
-	"\x06job_id\x18\x01 \x01(\tR\x05jobId\"\xa2\x01\n" +
+	"\x06job_id\x18\x01 \x01(\tR\x05jobId\"\xa8\x01\n" +
 	"\x16DescribeStatementInput\x12!\n" +
 	"\fstatement_id\x18\x02 \x01(\tR\vstatementId\x12\x16\n" +
 	"\x06render\x18\x03 \x01(\bR\x06render\x12\x18\n" +
-	"\aversion\x18d \x01(\rR\aversion\x123\n" +
+	"\aversion\x18d \x01(\rR\aversion\x129\n" +
 	"\x05extra\x18\n" +
-	" \x03(\x0e2\x1d.eolymp.atlas.Statement.ExtraR\x05extra\"P\n" +
+	" \x03(\x0e2#.eolymp.atlas.Statement.Extra.FieldR\x05extra\"P\n" +
 	"\x17DescribeStatementOutput\x125\n" +
-	"\tstatement\x18\x01 \x01(\v2\x17.eolymp.atlas.StatementR\tstatement\"\x95\x01\n" +
+	"\tstatement\x18\x01 \x01(\v2\x17.eolymp.atlas.StatementR\tstatement\"\x9b\x01\n" +
 	"\x14LookupStatementInput\x12\x16\n" +
 	"\x06locale\x18\x02 \x01(\tR\x06locale\x12\x16\n" +
 	"\x06render\x18\x03 \x01(\bR\x06render\x12\x18\n" +
-	"\aversion\x18d \x01(\rR\aversion\x123\n" +
+	"\aversion\x18d \x01(\rR\aversion\x129\n" +
 	"\x05extra\x18\n" +
-	" \x03(\x0e2\x1d.eolymp.atlas.Statement.ExtraR\x05extra\"N\n" +
+	" \x03(\x0e2#.eolymp.atlas.Statement.Extra.FieldR\x05extra\"N\n" +
 	"\x15LookupStatementOutput\x125\n" +
 	"\tstatement\x18\x01 \x01(\v2\x17.eolymp.atlas.StatementR\tstatement\"N\n" +
 	"\x15PreviewStatementInput\x125\n" +
@@ -1036,10 +1036,10 @@ const file_eolymp_atlas_statement_service_proto_rawDesc = "" +
 	"\x14CreateStatementInput\x125\n" +
 	"\tstatement\x18\x02 \x01(\v2\x17.eolymp.atlas.StatementR\tstatement\":\n" +
 	"\x15CreateStatementOutput\x12!\n" +
-	"\fstatement_id\x18\x01 \x01(\tR\vstatementId\"\xa5\x01\n" +
-	"\x14UpdateStatementInput\x123\n" +
+	"\fstatement_id\x18\x01 \x01(\tR\vstatementId\"\xab\x01\n" +
+	"\x14UpdateStatementInput\x129\n" +
 	"\x05patch\x18\n" +
-	" \x03(\x0e2\x1d.eolymp.atlas.Statement.PatchR\x05patch\x12!\n" +
+	" \x03(\x0e2#.eolymp.atlas.Statement.Patch.FieldR\x05patch\x12!\n" +
 	"\fstatement_id\x18\x02 \x01(\tR\vstatementId\x125\n" +
 	"\tstatement\x18\x03 \x01(\v2\x17.eolymp.atlas.StatementR\tstatement\"\x17\n" +
 	"\x15UpdateStatementOutput\"9\n" +
@@ -1143,22 +1143,22 @@ var file_eolymp_atlas_statement_service_proto_goTypes = []any{
 	(*ExportStatementInput)(nil),      // 17: eolymp.atlas.ExportStatementInput
 	(*ExportStatementOutput)(nil),     // 18: eolymp.atlas.ExportStatementOutput
 	(*Statement)(nil),                 // 19: eolymp.atlas.Statement
-	(Statement_Extra)(0),              // 20: eolymp.atlas.Statement.Extra
-	(Statement_Patch)(0),              // 21: eolymp.atlas.Statement.Patch
+	(Statement_Extra_Field)(0),        // 20: eolymp.atlas.Statement.Extra.Field
+	(Statement_Patch_Field)(0),        // 21: eolymp.atlas.Statement.Patch.Field
 }
 var file_eolymp_atlas_statement_service_proto_depIdxs = []int32{
 	19, // 0: eolymp.atlas.StatementChangedEvent.before:type_name -> eolymp.atlas.Statement
 	19, // 1: eolymp.atlas.StatementChangedEvent.after:type_name -> eolymp.atlas.Statement
-	20, // 2: eolymp.atlas.ListStatementsInput.extra:type_name -> eolymp.atlas.Statement.Extra
+	20, // 2: eolymp.atlas.ListStatementsInput.extra:type_name -> eolymp.atlas.Statement.Extra.Field
 	19, // 3: eolymp.atlas.ListStatementsOutput.items:type_name -> eolymp.atlas.Statement
-	20, // 4: eolymp.atlas.DescribeStatementInput.extra:type_name -> eolymp.atlas.Statement.Extra
+	20, // 4: eolymp.atlas.DescribeStatementInput.extra:type_name -> eolymp.atlas.Statement.Extra.Field
 	19, // 5: eolymp.atlas.DescribeStatementOutput.statement:type_name -> eolymp.atlas.Statement
-	20, // 6: eolymp.atlas.LookupStatementInput.extra:type_name -> eolymp.atlas.Statement.Extra
+	20, // 6: eolymp.atlas.LookupStatementInput.extra:type_name -> eolymp.atlas.Statement.Extra.Field
 	19, // 7: eolymp.atlas.LookupStatementOutput.statement:type_name -> eolymp.atlas.Statement
 	19, // 8: eolymp.atlas.PreviewStatementInput.statement:type_name -> eolymp.atlas.Statement
 	19, // 9: eolymp.atlas.PreviewStatementOutput.statement:type_name -> eolymp.atlas.Statement
 	19, // 10: eolymp.atlas.CreateStatementInput.statement:type_name -> eolymp.atlas.Statement
-	21, // 11: eolymp.atlas.UpdateStatementInput.patch:type_name -> eolymp.atlas.Statement.Patch
+	21, // 11: eolymp.atlas.UpdateStatementInput.patch:type_name -> eolymp.atlas.Statement.Patch.Field
 	19, // 12: eolymp.atlas.UpdateStatementInput.statement:type_name -> eolymp.atlas.Statement
 	11, // 13: eolymp.atlas.StatementService.CreateStatement:input_type -> eolymp.atlas.CreateStatementInput
 	13, // 14: eolymp.atlas.StatementService.UpdateStatement:input_type -> eolymp.atlas.UpdateStatementInput

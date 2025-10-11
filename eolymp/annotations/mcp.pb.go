@@ -143,6 +143,14 @@ var file_eolymp_annotations_mcp_proto_extTypes = []protoimpl.ExtensionInfo{
 		Tag:           "bytes,60000004,opt,name=mcp_field_desc",
 		Filename:      "eolymp/annotations/mcp.proto",
 	},
+	{
+		ExtendedType:  (*descriptorpb.FieldOptions)(nil),
+		ExtensionType: (*bool)(nil),
+		Field:         60000005,
+		Name:          "eolymp.api.mcp_read_only",
+		Tag:           "varint,60000005,opt,name=mcp_read_only",
+		Filename:      "eolymp/annotations/mcp.proto",
+	},
 }
 
 // Extension fields to descriptorpb.MethodOptions.
@@ -161,6 +169,8 @@ var (
 var (
 	// optional string mcp_field_desc = 60000004;
 	E_McpFieldDesc = &file_eolymp_annotations_mcp_proto_extTypes[2]
+	// optional bool mcp_read_only = 60000005;
+	E_McpReadOnly = &file_eolymp_annotations_mcp_proto_extTypes[3]
 )
 
 var File_eolymp_annotations_mcp_proto protoreflect.FileDescriptor
@@ -176,7 +186,8 @@ const file_eolymp_annotations_mcp_proto_rawDesc = "" +
 	"\x14require_confirmation\x18\x03 \x01(\bR\x13requireConfirmation:R\n" +
 	"\bmcp_tool\x12\x1e.google.protobuf.MethodOptions\x18\x81\x8e\xce\x1c \x01(\v2\x14.eolymp.api.MCP.ToolR\amcpTool:J\n" +
 	"\x0emcp_value_desc\x12!.google.protobuf.EnumValueOptions\x18\x83\x8e\xce\x1c \x01(\tR\fmcpValueDesc:F\n" +
-	"\x0emcp_field_desc\x12\x1d.google.protobuf.FieldOptions\x18\x84\x8e\xce\x1c \x01(\tR\fmcpFieldDescB9Z7github.com/eolymp/go-sdk/eolymp/annotations;annotationsb\x06proto3"
+	"\x0emcp_field_desc\x12\x1d.google.protobuf.FieldOptions\x18\x84\x8e\xce\x1c \x01(\tR\fmcpFieldDesc:D\n" +
+	"\rmcp_read_only\x12\x1d.google.protobuf.FieldOptions\x18\x85\x8e\xce\x1c \x01(\bR\vmcpReadOnlyB9Z7github.com/eolymp/go-sdk/eolymp/annotations;annotationsb\x06proto3"
 
 var (
 	file_eolymp_annotations_mcp_proto_rawDescOnce sync.Once
@@ -202,11 +213,12 @@ var file_eolymp_annotations_mcp_proto_depIdxs = []int32{
 	2, // 0: eolymp.api.mcp_tool:extendee -> google.protobuf.MethodOptions
 	3, // 1: eolymp.api.mcp_value_desc:extendee -> google.protobuf.EnumValueOptions
 	4, // 2: eolymp.api.mcp_field_desc:extendee -> google.protobuf.FieldOptions
-	1, // 3: eolymp.api.mcp_tool:type_name -> eolymp.api.MCP.Tool
-	4, // [4:4] is the sub-list for method output_type
-	4, // [4:4] is the sub-list for method input_type
-	3, // [3:4] is the sub-list for extension type_name
-	0, // [0:3] is the sub-list for extension extendee
+	4, // 3: eolymp.api.mcp_read_only:extendee -> google.protobuf.FieldOptions
+	1, // 4: eolymp.api.mcp_tool:type_name -> eolymp.api.MCP.Tool
+	5, // [5:5] is the sub-list for method output_type
+	5, // [5:5] is the sub-list for method input_type
+	4, // [4:5] is the sub-list for extension type_name
+	0, // [0:4] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
 }
 
@@ -222,7 +234,7 @@ func file_eolymp_annotations_mcp_proto_init() {
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_annotations_mcp_proto_rawDesc), len(file_eolymp_annotations_mcp_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   2,
-			NumExtensions: 3,
+			NumExtensions: 4,
 			NumServices:   0,
 		},
 		GoTypes:           file_eolymp_annotations_mcp_proto_goTypes,

@@ -22,67 +22,6 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type UpdateCodeTemplateInput_Patch int32
-
-const (
-	UpdateCodeTemplateInput_ALL     UpdateCodeTemplateInput_Patch = 0
-	UpdateCodeTemplateInput_RUNTIME UpdateCodeTemplateInput_Patch = 1
-	UpdateCodeTemplateInput_SOURCE  UpdateCodeTemplateInput_Patch = 2
-	UpdateCodeTemplateInput_HEADER  UpdateCodeTemplateInput_Patch = 3
-	UpdateCodeTemplateInput_FOOTER  UpdateCodeTemplateInput_Patch = 4
-	UpdateCodeTemplateInput_SECRET  UpdateCodeTemplateInput_Patch = 5
-	UpdateCodeTemplateInput_FILES   UpdateCodeTemplateInput_Patch = 6
-)
-
-// Enum value maps for UpdateCodeTemplateInput_Patch.
-var (
-	UpdateCodeTemplateInput_Patch_name = map[int32]string{
-		0: "ALL",
-		1: "RUNTIME",
-		2: "SOURCE",
-		3: "HEADER",
-		4: "FOOTER",
-		5: "SECRET",
-		6: "FILES",
-	}
-	UpdateCodeTemplateInput_Patch_value = map[string]int32{
-		"ALL":     0,
-		"RUNTIME": 1,
-		"SOURCE":  2,
-		"HEADER":  3,
-		"FOOTER":  4,
-		"SECRET":  5,
-		"FILES":   6,
-	}
-)
-
-func (x UpdateCodeTemplateInput_Patch) Enum() *UpdateCodeTemplateInput_Patch {
-	p := new(UpdateCodeTemplateInput_Patch)
-	*p = x
-	return p
-}
-
-func (x UpdateCodeTemplateInput_Patch) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (UpdateCodeTemplateInput_Patch) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_atlas_code_template_service_proto_enumTypes[0].Descriptor()
-}
-
-func (UpdateCodeTemplateInput_Patch) Type() protoreflect.EnumType {
-	return &file_eolymp_atlas_code_template_service_proto_enumTypes[0]
-}
-
-func (x UpdateCodeTemplateInput_Patch) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use UpdateCodeTemplateInput_Patch.Descriptor instead.
-func (UpdateCodeTemplateInput_Patch) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_atlas_code_template_service_proto_rawDescGZIP(), []int{2, 0}
-}
-
 type CreateCodeTemplateInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Template      *Template              `protobuf:"bytes,2,opt,name=template,proto3" json:"template,omitempty"`
@@ -644,23 +583,11 @@ const file_eolymp_atlas_code_template_service_proto_rawDesc = "" +
 	"\btemplate\x18\x02 \x01(\v2\x16.eolymp.atlas.TemplateR\btemplate\";\n" +
 	"\x18CreateCodeTemplateOutput\x12\x1f\n" +
 	"\vtemplate_id\x18\x01 \x01(\tR\n" +
-	"templateId\"\xc8\x01\n" +
+	"templateId\"n\n" +
 	"\x17UpdateCodeTemplateInput\x12\x1f\n" +
 	"\vtemplate_id\x18\x02 \x01(\tR\n" +
 	"templateId\x122\n" +
-	"\btemplate\x18\x03 \x01(\v2\x16.eolymp.atlas.TemplateR\btemplate\"X\n" +
-	"\x05Patch\x12\a\n" +
-	"\x03ALL\x10\x00\x12\v\n" +
-	"\aRUNTIME\x10\x01\x12\n" +
-	"\n" +
-	"\x06SOURCE\x10\x02\x12\n" +
-	"\n" +
-	"\x06HEADER\x10\x03\x12\n" +
-	"\n" +
-	"\x06FOOTER\x10\x04\x12\n" +
-	"\n" +
-	"\x06SECRET\x10\x05\x12\t\n" +
-	"\x05FILES\x10\x06\"\x1a\n" +
+	"\btemplate\x18\x03 \x01(\v2\x16.eolymp.atlas.TemplateR\btemplate\"\x1a\n" +
 	"\x18UpdateCodeTemplateOutput\":\n" +
 	"\x17DeleteCodeTemplateInput\x12\x1f\n" +
 	"\vtemplate_id\x18\x02 \x01(\tR\n" +
@@ -739,42 +666,40 @@ func file_eolymp_atlas_code_template_service_proto_rawDescGZIP() []byte {
 	return file_eolymp_atlas_code_template_service_proto_rawDescData
 }
 
-var file_eolymp_atlas_code_template_service_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_eolymp_atlas_code_template_service_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
 var file_eolymp_atlas_code_template_service_proto_goTypes = []any{
-	(UpdateCodeTemplateInput_Patch)(0), // 0: eolymp.atlas.UpdateCodeTemplateInput.Patch
-	(*CreateCodeTemplateInput)(nil),    // 1: eolymp.atlas.CreateCodeTemplateInput
-	(*CreateCodeTemplateOutput)(nil),   // 2: eolymp.atlas.CreateCodeTemplateOutput
-	(*UpdateCodeTemplateInput)(nil),    // 3: eolymp.atlas.UpdateCodeTemplateInput
-	(*UpdateCodeTemplateOutput)(nil),   // 4: eolymp.atlas.UpdateCodeTemplateOutput
-	(*DeleteCodeTemplateInput)(nil),    // 5: eolymp.atlas.DeleteCodeTemplateInput
-	(*DeleteCodeTemplateOutput)(nil),   // 6: eolymp.atlas.DeleteCodeTemplateOutput
-	(*ListCodeTemplatesInput)(nil),     // 7: eolymp.atlas.ListCodeTemplatesInput
-	(*ListCodeTemplatesOutput)(nil),    // 8: eolymp.atlas.ListCodeTemplatesOutput
-	(*DescribeCodeTemplateInput)(nil),  // 9: eolymp.atlas.DescribeCodeTemplateInput
-	(*DescribeCodeTemplateOutput)(nil), // 10: eolymp.atlas.DescribeCodeTemplateOutput
-	(*LookupCodeTemplateInput)(nil),    // 11: eolymp.atlas.LookupCodeTemplateInput
-	(*LookupCodeTemplateOutput)(nil),   // 12: eolymp.atlas.LookupCodeTemplateOutput
-	(*Template)(nil),                   // 13: eolymp.atlas.Template
+	(*CreateCodeTemplateInput)(nil),    // 0: eolymp.atlas.CreateCodeTemplateInput
+	(*CreateCodeTemplateOutput)(nil),   // 1: eolymp.atlas.CreateCodeTemplateOutput
+	(*UpdateCodeTemplateInput)(nil),    // 2: eolymp.atlas.UpdateCodeTemplateInput
+	(*UpdateCodeTemplateOutput)(nil),   // 3: eolymp.atlas.UpdateCodeTemplateOutput
+	(*DeleteCodeTemplateInput)(nil),    // 4: eolymp.atlas.DeleteCodeTemplateInput
+	(*DeleteCodeTemplateOutput)(nil),   // 5: eolymp.atlas.DeleteCodeTemplateOutput
+	(*ListCodeTemplatesInput)(nil),     // 6: eolymp.atlas.ListCodeTemplatesInput
+	(*ListCodeTemplatesOutput)(nil),    // 7: eolymp.atlas.ListCodeTemplatesOutput
+	(*DescribeCodeTemplateInput)(nil),  // 8: eolymp.atlas.DescribeCodeTemplateInput
+	(*DescribeCodeTemplateOutput)(nil), // 9: eolymp.atlas.DescribeCodeTemplateOutput
+	(*LookupCodeTemplateInput)(nil),    // 10: eolymp.atlas.LookupCodeTemplateInput
+	(*LookupCodeTemplateOutput)(nil),   // 11: eolymp.atlas.LookupCodeTemplateOutput
+	(*Template)(nil),                   // 12: eolymp.atlas.Template
 }
 var file_eolymp_atlas_code_template_service_proto_depIdxs = []int32{
-	13, // 0: eolymp.atlas.CreateCodeTemplateInput.template:type_name -> eolymp.atlas.Template
-	13, // 1: eolymp.atlas.UpdateCodeTemplateInput.template:type_name -> eolymp.atlas.Template
-	13, // 2: eolymp.atlas.ListCodeTemplatesOutput.items:type_name -> eolymp.atlas.Template
-	13, // 3: eolymp.atlas.DescribeCodeTemplateOutput.template:type_name -> eolymp.atlas.Template
-	13, // 4: eolymp.atlas.LookupCodeTemplateOutput.template:type_name -> eolymp.atlas.Template
-	1,  // 5: eolymp.atlas.CodeTemplateService.CreateCodeTemplate:input_type -> eolymp.atlas.CreateCodeTemplateInput
-	3,  // 6: eolymp.atlas.CodeTemplateService.UpdateCodeTemplate:input_type -> eolymp.atlas.UpdateCodeTemplateInput
-	5,  // 7: eolymp.atlas.CodeTemplateService.DeleteCodeTemplate:input_type -> eolymp.atlas.DeleteCodeTemplateInput
-	7,  // 8: eolymp.atlas.CodeTemplateService.ListCodeTemplates:input_type -> eolymp.atlas.ListCodeTemplatesInput
-	9,  // 9: eolymp.atlas.CodeTemplateService.DescribeCodeTemplate:input_type -> eolymp.atlas.DescribeCodeTemplateInput
-	11, // 10: eolymp.atlas.CodeTemplateService.LookupCodeTemplate:input_type -> eolymp.atlas.LookupCodeTemplateInput
-	2,  // 11: eolymp.atlas.CodeTemplateService.CreateCodeTemplate:output_type -> eolymp.atlas.CreateCodeTemplateOutput
-	4,  // 12: eolymp.atlas.CodeTemplateService.UpdateCodeTemplate:output_type -> eolymp.atlas.UpdateCodeTemplateOutput
-	6,  // 13: eolymp.atlas.CodeTemplateService.DeleteCodeTemplate:output_type -> eolymp.atlas.DeleteCodeTemplateOutput
-	8,  // 14: eolymp.atlas.CodeTemplateService.ListCodeTemplates:output_type -> eolymp.atlas.ListCodeTemplatesOutput
-	10, // 15: eolymp.atlas.CodeTemplateService.DescribeCodeTemplate:output_type -> eolymp.atlas.DescribeCodeTemplateOutput
-	12, // 16: eolymp.atlas.CodeTemplateService.LookupCodeTemplate:output_type -> eolymp.atlas.LookupCodeTemplateOutput
+	12, // 0: eolymp.atlas.CreateCodeTemplateInput.template:type_name -> eolymp.atlas.Template
+	12, // 1: eolymp.atlas.UpdateCodeTemplateInput.template:type_name -> eolymp.atlas.Template
+	12, // 2: eolymp.atlas.ListCodeTemplatesOutput.items:type_name -> eolymp.atlas.Template
+	12, // 3: eolymp.atlas.DescribeCodeTemplateOutput.template:type_name -> eolymp.atlas.Template
+	12, // 4: eolymp.atlas.LookupCodeTemplateOutput.template:type_name -> eolymp.atlas.Template
+	0,  // 5: eolymp.atlas.CodeTemplateService.CreateCodeTemplate:input_type -> eolymp.atlas.CreateCodeTemplateInput
+	2,  // 6: eolymp.atlas.CodeTemplateService.UpdateCodeTemplate:input_type -> eolymp.atlas.UpdateCodeTemplateInput
+	4,  // 7: eolymp.atlas.CodeTemplateService.DeleteCodeTemplate:input_type -> eolymp.atlas.DeleteCodeTemplateInput
+	6,  // 8: eolymp.atlas.CodeTemplateService.ListCodeTemplates:input_type -> eolymp.atlas.ListCodeTemplatesInput
+	8,  // 9: eolymp.atlas.CodeTemplateService.DescribeCodeTemplate:input_type -> eolymp.atlas.DescribeCodeTemplateInput
+	10, // 10: eolymp.atlas.CodeTemplateService.LookupCodeTemplate:input_type -> eolymp.atlas.LookupCodeTemplateInput
+	1,  // 11: eolymp.atlas.CodeTemplateService.CreateCodeTemplate:output_type -> eolymp.atlas.CreateCodeTemplateOutput
+	3,  // 12: eolymp.atlas.CodeTemplateService.UpdateCodeTemplate:output_type -> eolymp.atlas.UpdateCodeTemplateOutput
+	5,  // 13: eolymp.atlas.CodeTemplateService.DeleteCodeTemplate:output_type -> eolymp.atlas.DeleteCodeTemplateOutput
+	7,  // 14: eolymp.atlas.CodeTemplateService.ListCodeTemplates:output_type -> eolymp.atlas.ListCodeTemplatesOutput
+	9,  // 15: eolymp.atlas.CodeTemplateService.DescribeCodeTemplate:output_type -> eolymp.atlas.DescribeCodeTemplateOutput
+	11, // 16: eolymp.atlas.CodeTemplateService.LookupCodeTemplate:output_type -> eolymp.atlas.LookupCodeTemplateOutput
 	11, // [11:17] is the sub-list for method output_type
 	5,  // [5:11] is the sub-list for method input_type
 	5,  // [5:5] is the sub-list for extension type_name
@@ -793,14 +718,13 @@ func file_eolymp_atlas_code_template_service_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_atlas_code_template_service_proto_rawDesc), len(file_eolymp_atlas_code_template_service_proto_rawDesc)),
-			NumEnums:      1,
+			NumEnums:      0,
 			NumMessages:   12,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
 		GoTypes:           file_eolymp_atlas_code_template_service_proto_goTypes,
 		DependencyIndexes: file_eolymp_atlas_code_template_service_proto_depIdxs,
-		EnumInfos:         file_eolymp_atlas_code_template_service_proto_enumTypes,
 		MessageInfos:      file_eolymp_atlas_code_template_service_proto_msgTypes,
 	}.Build()
 	File_eolymp_atlas_code_template_service_proto = out.File

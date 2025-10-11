@@ -23,64 +23,6 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type UpdateScriptInput_Patch int32
-
-const (
-	UpdateScriptInput_ALL        UpdateScriptInput_Patch = 0
-	UpdateScriptInput_NAME       UpdateScriptInput_Patch = 1
-	UpdateScriptInput_SECRET     UpdateScriptInput_Patch = 2
-	UpdateScriptInput_RUNTIME    UpdateScriptInput_Patch = 3
-	UpdateScriptInput_SOURCE_URL UpdateScriptInput_Patch = 4
-	UpdateScriptInput_FILES      UpdateScriptInput_Patch = 5
-)
-
-// Enum value maps for UpdateScriptInput_Patch.
-var (
-	UpdateScriptInput_Patch_name = map[int32]string{
-		0: "ALL",
-		1: "NAME",
-		2: "SECRET",
-		3: "RUNTIME",
-		4: "SOURCE_URL",
-		5: "FILES",
-	}
-	UpdateScriptInput_Patch_value = map[string]int32{
-		"ALL":        0,
-		"NAME":       1,
-		"SECRET":     2,
-		"RUNTIME":    3,
-		"SOURCE_URL": 4,
-		"FILES":      5,
-	}
-)
-
-func (x UpdateScriptInput_Patch) Enum() *UpdateScriptInput_Patch {
-	p := new(UpdateScriptInput_Patch)
-	*p = x
-	return p
-}
-
-func (x UpdateScriptInput_Patch) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (UpdateScriptInput_Patch) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_atlas_script_service_proto_enumTypes[0].Descriptor()
-}
-
-func (UpdateScriptInput_Patch) Type() protoreflect.EnumType {
-	return &file_eolymp_atlas_script_service_proto_enumTypes[0]
-}
-
-func (x UpdateScriptInput_Patch) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use UpdateScriptInput_Patch.Descriptor instead.
-func (UpdateScriptInput_Patch) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_atlas_script_service_proto_rawDescGZIP(), []int{3, 0}
-}
-
 type ListScriptsInput_Sortable int32
 
 const (
@@ -108,11 +50,11 @@ func (x ListScriptsInput_Sortable) String() string {
 }
 
 func (ListScriptsInput_Sortable) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_atlas_script_service_proto_enumTypes[1].Descriptor()
+	return file_eolymp_atlas_script_service_proto_enumTypes[0].Descriptor()
 }
 
 func (ListScriptsInput_Sortable) Type() protoreflect.EnumType {
-	return &file_eolymp_atlas_script_service_proto_enumTypes[1]
+	return &file_eolymp_atlas_script_service_proto_enumTypes[0]
 }
 
 func (x ListScriptsInput_Sortable) Number() protoreflect.EnumNumber {
@@ -273,11 +215,10 @@ func (x *CreateScriptOutput) GetScriptId() string {
 }
 
 type UpdateScriptInput struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// specify list of fields to update, if empty all fields are updated
-	Patch         []UpdateScriptInput_Patch `protobuf:"varint,1,rep,packed,name=patch,proto3,enum=eolymp.atlas.UpdateScriptInput_Patch" json:"patch,omitempty"`
-	ScriptId      string                    `protobuf:"bytes,2,opt,name=script_id,json=scriptId,proto3" json:"script_id,omitempty"`
-	Script        *Script                   `protobuf:"bytes,3,opt,name=script,proto3" json:"script,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Patch         []Script_Patch_Field   `protobuf:"varint,1,rep,packed,name=patch,proto3,enum=eolymp.atlas.Script_Patch_Field" json:"patch,omitempty"`
+	ScriptId      string                 `protobuf:"bytes,2,opt,name=script_id,json=scriptId,proto3" json:"script_id,omitempty"`
+	Script        *Script                `protobuf:"bytes,3,opt,name=script,proto3" json:"script,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -312,7 +253,7 @@ func (*UpdateScriptInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_script_service_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *UpdateScriptInput) GetPatch() []UpdateScriptInput_Patch {
+func (x *UpdateScriptInput) GetPatch() []Script_Patch_Field {
 	if x != nil {
 		return x.Patch
 	}
@@ -453,7 +394,7 @@ type DescribeScriptInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ScriptId      string                 `protobuf:"bytes,1,opt,name=script_id,json=scriptId,proto3" json:"script_id,omitempty"`
 	Version       uint32                 `protobuf:"varint,100,opt,name=version,proto3" json:"version,omitempty"` // request data for specific problem version
-	Extra         []Script_Extra         `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.atlas.Script_Extra" json:"extra,omitempty"`
+	Extra         []Script_Extra_Field   `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.atlas.Script_Extra_Field" json:"extra,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -502,7 +443,7 @@ func (x *DescribeScriptInput) GetVersion() uint32 {
 	return 0
 }
 
-func (x *DescribeScriptInput) GetExtra() []Script_Extra {
+func (x *DescribeScriptInput) GetExtra() []Script_Extra_Field {
 	if x != nil {
 		return x.Extra
 	}
@@ -564,7 +505,7 @@ type ListScriptsInput struct {
 	Filters       *ListScriptsInput_Filter  `protobuf:"bytes,40,opt,name=filters,proto3" json:"filters,omitempty"`
 	Sort          ListScriptsInput_Sortable `protobuf:"varint,50,opt,name=sort,proto3,enum=eolymp.atlas.ListScriptsInput_Sortable" json:"sort,omitempty"`
 	Order         wellknown.Direction       `protobuf:"varint,51,opt,name=order,proto3,enum=eolymp.wellknown.Direction" json:"order,omitempty"`
-	Extra         []Script_Extra            `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.atlas.Script_Extra" json:"extra,omitempty"`
+	Extra         []Script_Extra_Field      `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.atlas.Script_Extra_Field" json:"extra,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -648,7 +589,7 @@ func (x *ListScriptsInput) GetOrder() wellknown.Direction {
 	return wellknown.Direction(0)
 }
 
-func (x *ListScriptsInput) GetExtra() []Script_Extra {
+func (x *ListScriptsInput) GetExtra() []Script_Extra_Field {
 	if x != nil {
 		return x.Extra
 	}
@@ -860,30 +801,21 @@ const file_eolymp_atlas_script_service_proto_rawDesc = "" +
 	"\x11CreateScriptInput\x12,\n" +
 	"\x06script\x18\x01 \x01(\v2\x14.eolymp.atlas.ScriptR\x06script\"1\n" +
 	"\x12CreateScriptOutput\x12\x1b\n" +
-	"\tscript_id\x18\x01 \x01(\tR\bscriptId\"\xeb\x01\n" +
-	"\x11UpdateScriptInput\x12;\n" +
-	"\x05patch\x18\x01 \x03(\x0e2%.eolymp.atlas.UpdateScriptInput.PatchR\x05patch\x12\x1b\n" +
+	"\tscript_id\x18\x01 \x01(\tR\bscriptId\"\x96\x01\n" +
+	"\x11UpdateScriptInput\x126\n" +
+	"\x05patch\x18\x01 \x03(\x0e2 .eolymp.atlas.Script.Patch.FieldR\x05patch\x12\x1b\n" +
 	"\tscript_id\x18\x02 \x01(\tR\bscriptId\x12,\n" +
-	"\x06script\x18\x03 \x01(\v2\x14.eolymp.atlas.ScriptR\x06script\"N\n" +
-	"\x05Patch\x12\a\n" +
-	"\x03ALL\x10\x00\x12\b\n" +
-	"\x04NAME\x10\x01\x12\n" +
-	"\n" +
-	"\x06SECRET\x10\x02\x12\v\n" +
-	"\aRUNTIME\x10\x03\x12\x0e\n" +
-	"\n" +
-	"SOURCE_URL\x10\x04\x12\t\n" +
-	"\x05FILES\x10\x05\"\x14\n" +
+	"\x06script\x18\x03 \x01(\v2\x14.eolymp.atlas.ScriptR\x06script\"\x14\n" +
 	"\x12UpdateScriptOutput\"0\n" +
 	"\x11DeleteScriptInput\x12\x1b\n" +
 	"\tscript_id\x18\x01 \x01(\tR\bscriptId\"\x14\n" +
-	"\x12DeleteScriptOutput\"\x7f\n" +
+	"\x12DeleteScriptOutput\"\x85\x01\n" +
 	"\x13DescribeScriptInput\x12\x1b\n" +
 	"\tscript_id\x18\x01 \x01(\tR\bscriptId\x12\x18\n" +
-	"\aversion\x18d \x01(\rR\aversion\x121\n" +
-	"\x05extra\x18\xe3\b \x03(\x0e2\x1a.eolymp.atlas.Script.ExtraR\x05extra\"D\n" +
+	"\aversion\x18d \x01(\rR\aversion\x127\n" +
+	"\x05extra\x18\xe3\b \x03(\x0e2 .eolymp.atlas.Script.Extra.FieldR\x05extra\"D\n" +
 	"\x14DescribeScriptOutput\x12,\n" +
-	"\x06script\x18\x01 \x01(\v2\x14.eolymp.atlas.ScriptR\x06script\"\x99\x04\n" +
+	"\x06script\x18\x01 \x01(\v2\x14.eolymp.atlas.ScriptR\x06script\"\x9f\x04\n" +
 	"\x10ListScriptsInput\x12\x18\n" +
 	"\aversion\x18d \x01(\rR\aversion\x12\x16\n" +
 	"\x06offset\x18\n" +
@@ -892,8 +824,8 @@ const file_eolymp_atlas_script_service_proto_rawDesc = "" +
 	"\x06search\x18\x14 \x01(\tR\x06search\x12?\n" +
 	"\afilters\x18( \x01(\v2%.eolymp.atlas.ListScriptsInput.FilterR\afilters\x12;\n" +
 	"\x04sort\x182 \x01(\x0e2'.eolymp.atlas.ListScriptsInput.SortableR\x04sort\x121\n" +
-	"\x05order\x183 \x01(\x0e2\x1b.eolymp.wellknown.DirectionR\x05order\x121\n" +
-	"\x05extra\x18\xe3\b \x03(\x0e2\x1a.eolymp.atlas.Script.ExtraR\x05extra\x1a\xac\x01\n" +
+	"\x05order\x183 \x01(\x0e2\x1b.eolymp.wellknown.DirectionR\x05order\x127\n" +
+	"\x05extra\x18\xe3\b \x03(\x0e2 .eolymp.atlas.Script.Extra.FieldR\x05extra\x1a\xac\x01\n" +
 	"\x06Filter\x12.\n" +
 	"\x02id\x18\n" +
 	" \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\x126\n" +
@@ -961,60 +893,60 @@ func file_eolymp_atlas_script_service_proto_rawDescGZIP() []byte {
 	return file_eolymp_atlas_script_service_proto_rawDescData
 }
 
-var file_eolymp_atlas_script_service_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_eolymp_atlas_script_service_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_eolymp_atlas_script_service_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
 var file_eolymp_atlas_script_service_proto_goTypes = []any{
-	(UpdateScriptInput_Patch)(0),       // 0: eolymp.atlas.UpdateScriptInput.Patch
-	(ListScriptsInput_Sortable)(0),     // 1: eolymp.atlas.ListScriptsInput.Sortable
-	(*ScriptChangedEvent)(nil),         // 2: eolymp.atlas.ScriptChangedEvent
-	(*CreateScriptInput)(nil),          // 3: eolymp.atlas.CreateScriptInput
-	(*CreateScriptOutput)(nil),         // 4: eolymp.atlas.CreateScriptOutput
-	(*UpdateScriptInput)(nil),          // 5: eolymp.atlas.UpdateScriptInput
-	(*UpdateScriptOutput)(nil),         // 6: eolymp.atlas.UpdateScriptOutput
-	(*DeleteScriptInput)(nil),          // 7: eolymp.atlas.DeleteScriptInput
-	(*DeleteScriptOutput)(nil),         // 8: eolymp.atlas.DeleteScriptOutput
-	(*DescribeScriptInput)(nil),        // 9: eolymp.atlas.DescribeScriptInput
-	(*DescribeScriptOutput)(nil),       // 10: eolymp.atlas.DescribeScriptOutput
-	(*ListScriptsInput)(nil),           // 11: eolymp.atlas.ListScriptsInput
-	(*ListScriptsOutput)(nil),          // 12: eolymp.atlas.ListScriptsOutput
-	(*ExecuteStressCheckInput)(nil),    // 13: eolymp.atlas.ExecuteStressCheckInput
-	(*ExecuteStressCheckOutput)(nil),   // 14: eolymp.atlas.ExecuteStressCheckOutput
-	(*ListScriptsInput_Filter)(nil),    // 15: eolymp.atlas.ListScriptsInput.Filter
-	(*Script)(nil),                     // 16: eolymp.atlas.Script
-	(Script_Extra)(0),                  // 17: eolymp.atlas.Script.Extra
+	(ListScriptsInput_Sortable)(0),     // 0: eolymp.atlas.ListScriptsInput.Sortable
+	(*ScriptChangedEvent)(nil),         // 1: eolymp.atlas.ScriptChangedEvent
+	(*CreateScriptInput)(nil),          // 2: eolymp.atlas.CreateScriptInput
+	(*CreateScriptOutput)(nil),         // 3: eolymp.atlas.CreateScriptOutput
+	(*UpdateScriptInput)(nil),          // 4: eolymp.atlas.UpdateScriptInput
+	(*UpdateScriptOutput)(nil),         // 5: eolymp.atlas.UpdateScriptOutput
+	(*DeleteScriptInput)(nil),          // 6: eolymp.atlas.DeleteScriptInput
+	(*DeleteScriptOutput)(nil),         // 7: eolymp.atlas.DeleteScriptOutput
+	(*DescribeScriptInput)(nil),        // 8: eolymp.atlas.DescribeScriptInput
+	(*DescribeScriptOutput)(nil),       // 9: eolymp.atlas.DescribeScriptOutput
+	(*ListScriptsInput)(nil),           // 10: eolymp.atlas.ListScriptsInput
+	(*ListScriptsOutput)(nil),          // 11: eolymp.atlas.ListScriptsOutput
+	(*ExecuteStressCheckInput)(nil),    // 12: eolymp.atlas.ExecuteStressCheckInput
+	(*ExecuteStressCheckOutput)(nil),   // 13: eolymp.atlas.ExecuteStressCheckOutput
+	(*ListScriptsInput_Filter)(nil),    // 14: eolymp.atlas.ListScriptsInput.Filter
+	(*Script)(nil),                     // 15: eolymp.atlas.Script
+	(Script_Patch_Field)(0),            // 16: eolymp.atlas.Script.Patch.Field
+	(Script_Extra_Field)(0),            // 17: eolymp.atlas.Script.Extra.Field
 	(wellknown.Direction)(0),           // 18: eolymp.wellknown.Direction
 	(*wellknown.ExpressionID)(nil),     // 19: eolymp.wellknown.ExpressionID
 	(*wellknown.ExpressionString)(nil), // 20: eolymp.wellknown.ExpressionString
 	(*wellknown.ExpressionEnum)(nil),   // 21: eolymp.wellknown.ExpressionEnum
 }
 var file_eolymp_atlas_script_service_proto_depIdxs = []int32{
-	16, // 0: eolymp.atlas.ScriptChangedEvent.before:type_name -> eolymp.atlas.Script
-	16, // 1: eolymp.atlas.ScriptChangedEvent.after:type_name -> eolymp.atlas.Script
-	16, // 2: eolymp.atlas.CreateScriptInput.script:type_name -> eolymp.atlas.Script
-	0,  // 3: eolymp.atlas.UpdateScriptInput.patch:type_name -> eolymp.atlas.UpdateScriptInput.Patch
-	16, // 4: eolymp.atlas.UpdateScriptInput.script:type_name -> eolymp.atlas.Script
-	17, // 5: eolymp.atlas.DescribeScriptInput.extra:type_name -> eolymp.atlas.Script.Extra
-	16, // 6: eolymp.atlas.DescribeScriptOutput.script:type_name -> eolymp.atlas.Script
-	15, // 7: eolymp.atlas.ListScriptsInput.filters:type_name -> eolymp.atlas.ListScriptsInput.Filter
-	1,  // 8: eolymp.atlas.ListScriptsInput.sort:type_name -> eolymp.atlas.ListScriptsInput.Sortable
+	15, // 0: eolymp.atlas.ScriptChangedEvent.before:type_name -> eolymp.atlas.Script
+	15, // 1: eolymp.atlas.ScriptChangedEvent.after:type_name -> eolymp.atlas.Script
+	15, // 2: eolymp.atlas.CreateScriptInput.script:type_name -> eolymp.atlas.Script
+	16, // 3: eolymp.atlas.UpdateScriptInput.patch:type_name -> eolymp.atlas.Script.Patch.Field
+	15, // 4: eolymp.atlas.UpdateScriptInput.script:type_name -> eolymp.atlas.Script
+	17, // 5: eolymp.atlas.DescribeScriptInput.extra:type_name -> eolymp.atlas.Script.Extra.Field
+	15, // 6: eolymp.atlas.DescribeScriptOutput.script:type_name -> eolymp.atlas.Script
+	14, // 7: eolymp.atlas.ListScriptsInput.filters:type_name -> eolymp.atlas.ListScriptsInput.Filter
+	0,  // 8: eolymp.atlas.ListScriptsInput.sort:type_name -> eolymp.atlas.ListScriptsInput.Sortable
 	18, // 9: eolymp.atlas.ListScriptsInput.order:type_name -> eolymp.wellknown.Direction
-	17, // 10: eolymp.atlas.ListScriptsInput.extra:type_name -> eolymp.atlas.Script.Extra
-	16, // 11: eolymp.atlas.ListScriptsOutput.items:type_name -> eolymp.atlas.Script
+	17, // 10: eolymp.atlas.ListScriptsInput.extra:type_name -> eolymp.atlas.Script.Extra.Field
+	15, // 11: eolymp.atlas.ListScriptsOutput.items:type_name -> eolymp.atlas.Script
 	19, // 12: eolymp.atlas.ListScriptsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
 	20, // 13: eolymp.atlas.ListScriptsInput.Filter.name:type_name -> eolymp.wellknown.ExpressionString
 	21, // 14: eolymp.atlas.ListScriptsInput.Filter.runtime:type_name -> eolymp.wellknown.ExpressionEnum
-	3,  // 15: eolymp.atlas.ScriptService.CreateScript:input_type -> eolymp.atlas.CreateScriptInput
-	5,  // 16: eolymp.atlas.ScriptService.UpdateScript:input_type -> eolymp.atlas.UpdateScriptInput
-	7,  // 17: eolymp.atlas.ScriptService.DeleteScript:input_type -> eolymp.atlas.DeleteScriptInput
-	9,  // 18: eolymp.atlas.ScriptService.DescribeScript:input_type -> eolymp.atlas.DescribeScriptInput
-	11, // 19: eolymp.atlas.ScriptService.ListScripts:input_type -> eolymp.atlas.ListScriptsInput
-	13, // 20: eolymp.atlas.ScriptService.ExecuteStressCheck:input_type -> eolymp.atlas.ExecuteStressCheckInput
-	4,  // 21: eolymp.atlas.ScriptService.CreateScript:output_type -> eolymp.atlas.CreateScriptOutput
-	6,  // 22: eolymp.atlas.ScriptService.UpdateScript:output_type -> eolymp.atlas.UpdateScriptOutput
-	8,  // 23: eolymp.atlas.ScriptService.DeleteScript:output_type -> eolymp.atlas.DeleteScriptOutput
-	10, // 24: eolymp.atlas.ScriptService.DescribeScript:output_type -> eolymp.atlas.DescribeScriptOutput
-	12, // 25: eolymp.atlas.ScriptService.ListScripts:output_type -> eolymp.atlas.ListScriptsOutput
-	14, // 26: eolymp.atlas.ScriptService.ExecuteStressCheck:output_type -> eolymp.atlas.ExecuteStressCheckOutput
+	2,  // 15: eolymp.atlas.ScriptService.CreateScript:input_type -> eolymp.atlas.CreateScriptInput
+	4,  // 16: eolymp.atlas.ScriptService.UpdateScript:input_type -> eolymp.atlas.UpdateScriptInput
+	6,  // 17: eolymp.atlas.ScriptService.DeleteScript:input_type -> eolymp.atlas.DeleteScriptInput
+	8,  // 18: eolymp.atlas.ScriptService.DescribeScript:input_type -> eolymp.atlas.DescribeScriptInput
+	10, // 19: eolymp.atlas.ScriptService.ListScripts:input_type -> eolymp.atlas.ListScriptsInput
+	12, // 20: eolymp.atlas.ScriptService.ExecuteStressCheck:input_type -> eolymp.atlas.ExecuteStressCheckInput
+	3,  // 21: eolymp.atlas.ScriptService.CreateScript:output_type -> eolymp.atlas.CreateScriptOutput
+	5,  // 22: eolymp.atlas.ScriptService.UpdateScript:output_type -> eolymp.atlas.UpdateScriptOutput
+	7,  // 23: eolymp.atlas.ScriptService.DeleteScript:output_type -> eolymp.atlas.DeleteScriptOutput
+	9,  // 24: eolymp.atlas.ScriptService.DescribeScript:output_type -> eolymp.atlas.DescribeScriptOutput
+	11, // 25: eolymp.atlas.ScriptService.ListScripts:output_type -> eolymp.atlas.ListScriptsOutput
+	13, // 26: eolymp.atlas.ScriptService.ExecuteStressCheck:output_type -> eolymp.atlas.ExecuteStressCheckOutput
 	21, // [21:27] is the sub-list for method output_type
 	15, // [15:21] is the sub-list for method input_type
 	15, // [15:15] is the sub-list for extension type_name
@@ -1033,7 +965,7 @@ func file_eolymp_atlas_script_service_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_atlas_script_service_proto_rawDesc), len(file_eolymp_atlas_script_service_proto_rawDesc)),
-			NumEnums:      2,
+			NumEnums:      1,
 			NumMessages:   14,
 			NumExtensions: 0,
 			NumServices:   1,

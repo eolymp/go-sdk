@@ -7,6 +7,7 @@
 package atlas
 
 import (
+	_ "github.com/eolymp/go-sdk/eolymp/annotations"
 	ecm "github.com/eolymp/go-sdk/eolymp/ecm"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -654,35 +655,35 @@ var File_eolymp_atlas_problem_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_problem_proto_rawDesc = "" +
 	"\n" +
-	"\x1aeolymp/atlas/problem.proto\x12\feolymp.atlas\x1a\x17eolymp/atlas/form.proto\x1a\x18eolymp/ecm/content.proto\"\xc8\v\n" +
-	"\aProblem\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x11\n" +
-	"\x03url\x18\xaa\x05 \x01(\tR\x03url\x12.\n" +
+	"\x1aeolymp/atlas/problem.proto\x12\feolymp.atlas\x1a\x1ceolymp/annotations/mcp.proto\x1a\x17eolymp/atlas/form.proto\x1a\x18eolymp/ecm/content.proto\"\xd0\f\n" +
+	"\aProblem\x12\x16\n" +
+	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x19\n" +
+	"\x03url\x18\xaa\x05 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x03url\x12.\n" +
 	"\x04type\x18\x17 \x01(\x0e2\x1a.eolymp.atlas.Problem.TypeR\x04type\x12\x16\n" +
 	"\x06number\x18\n" +
 	" \x01(\x05R\x06number\x12\x18\n" +
 	"\avisible\x18\v \x01(\bR\avisible\x12\x16\n" +
-	"\x06origin\x18\r \x01(\tR\x06origin\x12\x16\n" +
-	"\x06locale\x18\x03 \x01(\tR\x06locale\x12\x14\n" +
-	"\x05title\x18\x04 \x01(\tR\x05title\x12-\n" +
-	"\acontent\x18\x06 \x01(\v2\x13.eolymp.ecm.ContentR\acontent\x12#\n" +
-	"\rdownload_link\x18\a \x01(\tR\fdownloadLink\x12\x16\n" +
-	"\x06author\x18e \x01(\tR\x06author\x12\x16\n" +
-	"\x06source\x18f \x01(\tR\x06source\x12\x16\n" +
-	"\x06topics\x18\x14 \x03(\tR\x06topics\x12\x14\n" +
-	"\x05score\x18\x1f \x01(\x02R\x05score\x12C\n" +
-	"\vconstraints\x18\x1e \x01(\v2!.eolymp.atlas.Problem.ConstraintsR\vconstraints\x12'\n" +
-	"\x0facceptance_rate\x18( \x01(\x02R\x0eacceptanceRate\x12+\n" +
-	"\x11submissions_count\x18* \x01(\rR\x10submissionsCount\x121\n" +
-	"\x14submissions_accepted\x18+ \x01(\rR\x13submissionsAccepted\x12\x12\n" +
-	"\x04vote\x182 \x01(\x05R\x04vote\x12\x1d\n" +
+	"\x06origin\x18\r \x01(\tR\x06origin\x12\x1e\n" +
+	"\x06locale\x18\x03 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x06locale\x12\x1c\n" +
+	"\x05title\x18\x04 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x05title\x125\n" +
+	"\acontent\x18\x06 \x01(\v2\x13.eolymp.ecm.ContentB\x06\xa8\xf0\xf0\xe4\x01\x01R\acontent\x12+\n" +
+	"\rdownload_link\x18\a \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\fdownloadLink\x12\x1e\n" +
+	"\x06author\x18e \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x06author\x12\x1e\n" +
+	"\x06source\x18f \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x06source\x12\x16\n" +
+	"\x06topics\x18\x14 \x03(\tR\x06topics\x12\x1c\n" +
+	"\x05score\x18\x1f \x01(\x02B\x06\xa8\xf0\xf0\xe4\x01\x01R\x05score\x12K\n" +
+	"\vconstraints\x18\x1e \x01(\v2!.eolymp.atlas.Problem.ConstraintsB\x06\xa8\xf0\xf0\xe4\x01\x01R\vconstraints\x12/\n" +
+	"\x0facceptance_rate\x18( \x01(\x02B\x06\xa8\xf0\xf0\xe4\x01\x01R\x0eacceptanceRate\x123\n" +
+	"\x11submissions_count\x18* \x01(\rB\x06\xa8\xf0\xf0\xe4\x01\x01R\x10submissionsCount\x129\n" +
+	"\x14submissions_accepted\x18+ \x01(\rB\x06\xa8\xf0\xf0\xe4\x01\x01R\x13submissionsAccepted\x12\x1a\n" +
+	"\x04vote\x182 \x01(\x05B\x06\xa8\xf0\xf0\xe4\x01\x01R\x04vote\x12%\n" +
 	"\n" +
-	"vote_count\x183 \x01(\x05R\tvoteCount\x12\x1e\n" +
+	"vote_count\x183 \x01(\x05B\x06\xa8\xf0\xf0\xe4\x01\x01R\tvoteCount\x12\x1e\n" +
 	"\n" +
 	"difficulty\x18\x15 \x01(\rR\n" +
-	"difficulty\x12;\n" +
-	"\x0fsubmission_form\x18\x16 \x01(\v2\x12.eolymp.atlas.FormR\x0esubmissionForm\x129\n" +
-	"\bexamples\x18< \x03(\v2\x1d.eolymp.atlas.Problem.ExampleR\bexamples\x1a\x82\x01\n" +
+	"difficulty\x12C\n" +
+	"\x0fsubmission_form\x18\x16 \x01(\v2\x12.eolymp.atlas.FormB\x06\xa8\xf0\xf0\xe4\x01\x01R\x0esubmissionForm\x12A\n" +
+	"\bexamples\x18< \x03(\v2\x1d.eolymp.atlas.Problem.ExampleB\x06\xa8\xf0\xf0\xe4\x01\x01R\bexamples\x1a\x82\x01\n" +
 	"\x05Extra\"y\n" +
 	"\x05Field\x12\x11\n" +
 	"\rUNKNOWN_EXTRA\x10\x00\x12\b\n" +

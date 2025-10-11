@@ -25,11 +25,10 @@ const (
 type ListEditorialsInput struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// pagination
-	Offset        int32             `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
-	Size          int32             `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
-	Version       uint32            `protobuf:"varint,100,opt,name=version,proto3" json:"version,omitempty"` // request data for specific problem version
-	Render        bool              `protobuf:"varint,1,opt,name=render,proto3" json:"render,omitempty"`     // deprecated
-	Extra         []Editorial_Extra `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.atlas.Editorial_Extra" json:"extra,omitempty"`
+	Offset        int32                   `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
+	Size          int32                   `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
+	Version       uint32                  `protobuf:"varint,100,opt,name=version,proto3" json:"version,omitempty"` // request data for specific problem version
+	Extra         []Editorial_Extra_Field `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.atlas.Editorial_Extra_Field" json:"extra,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -85,14 +84,7 @@ func (x *ListEditorialsInput) GetVersion() uint32 {
 	return 0
 }
 
-func (x *ListEditorialsInput) GetRender() bool {
-	if x != nil {
-		return x.Render
-	}
-	return false
-}
-
-func (x *ListEditorialsInput) GetExtra() []Editorial_Extra {
+func (x *ListEditorialsInput) GetExtra() []Editorial_Extra_Field {
 	if x != nil {
 		return x.Extra
 	}
@@ -152,11 +144,10 @@ func (x *ListEditorialsOutput) GetItems() []*Editorial {
 }
 
 type DescribeEditorialInput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	EditorialId   string                 `protobuf:"bytes,2,opt,name=editorial_id,json=editorialId,proto3" json:"editorial_id,omitempty"`
-	Version       uint32                 `protobuf:"varint,100,opt,name=version,proto3" json:"version,omitempty"` // request data for specific problem version
-	Render        bool                   `protobuf:"varint,3,opt,name=render,proto3" json:"render,omitempty"`     // deprecated
-	Extra         []Editorial_Extra      `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.atlas.Editorial_Extra" json:"extra,omitempty"`
+	state         protoimpl.MessageState  `protogen:"open.v1"`
+	EditorialId   string                  `protobuf:"bytes,2,opt,name=editorial_id,json=editorialId,proto3" json:"editorial_id,omitempty"`
+	Version       uint32                  `protobuf:"varint,100,opt,name=version,proto3" json:"version,omitempty"` // request data for specific problem version
+	Extra         []Editorial_Extra_Field `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.atlas.Editorial_Extra_Field" json:"extra,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -205,14 +196,7 @@ func (x *DescribeEditorialInput) GetVersion() uint32 {
 	return 0
 }
 
-func (x *DescribeEditorialInput) GetRender() bool {
-	if x != nil {
-		return x.Render
-	}
-	return false
-}
-
-func (x *DescribeEditorialInput) GetExtra() []Editorial_Extra {
+func (x *DescribeEditorialInput) GetExtra() []Editorial_Extra_Field {
 	if x != nil {
 		return x.Extra
 	}
@@ -264,11 +248,10 @@ func (x *DescribeEditorialOutput) GetEditorial() *Editorial {
 }
 
 type LookupEditorialInput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Locale        string                 `protobuf:"bytes,2,opt,name=locale,proto3" json:"locale,omitempty"`
-	Version       uint32                 `protobuf:"varint,100,opt,name=version,proto3" json:"version,omitempty"` // request data for specific problem version
-	Render        bool                   `protobuf:"varint,3,opt,name=render,proto3" json:"render,omitempty"`     // deprecated
-	Extra         []Editorial_Extra      `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.atlas.Editorial_Extra" json:"extra,omitempty"`
+	state         protoimpl.MessageState  `protogen:"open.v1"`
+	Locale        string                  `protobuf:"bytes,2,opt,name=locale,proto3" json:"locale,omitempty"`
+	Version       uint32                  `protobuf:"varint,100,opt,name=version,proto3" json:"version,omitempty"` // request data for specific problem version
+	Extra         []Editorial_Extra_Field `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.atlas.Editorial_Extra_Field" json:"extra,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -317,14 +300,7 @@ func (x *LookupEditorialInput) GetVersion() uint32 {
 	return 0
 }
 
-func (x *LookupEditorialInput) GetRender() bool {
-	if x != nil {
-		return x.Render
-	}
-	return false
-}
-
-func (x *LookupEditorialInput) GetExtra() []Editorial_Extra {
+func (x *LookupEditorialInput) GetExtra() []Editorial_Extra_Field {
 	if x != nil {
 		return x.Extra
 	}
@@ -552,10 +528,10 @@ func (x *CreateEditorialOutput) GetEditorialId() string {
 }
 
 type UpdateEditorialInput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Patch         []Editorial_Patch      `protobuf:"varint,10,rep,packed,name=patch,proto3,enum=eolymp.atlas.Editorial_Patch" json:"patch,omitempty"`
-	EditorialId   string                 `protobuf:"bytes,2,opt,name=editorial_id,json=editorialId,proto3" json:"editorial_id,omitempty"`
-	Editorial     *Editorial             `protobuf:"bytes,3,opt,name=editorial,proto3" json:"editorial,omitempty"`
+	state         protoimpl.MessageState  `protogen:"open.v1"`
+	Patch         []Editorial_Patch_Field `protobuf:"varint,10,rep,packed,name=patch,proto3,enum=eolymp.atlas.Editorial_Patch_Field" json:"patch,omitempty"`
+	EditorialId   string                  `protobuf:"bytes,2,opt,name=editorial_id,json=editorialId,proto3" json:"editorial_id,omitempty"`
+	Editorial     *Editorial              `protobuf:"bytes,3,opt,name=editorial,proto3" json:"editorial,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -590,7 +566,7 @@ func (*UpdateEditorialInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_editorial_service_proto_rawDescGZIP(), []int{10}
 }
 
-func (x *UpdateEditorialInput) GetPatch() []Editorial_Patch {
+func (x *UpdateEditorialInput) GetPatch() []Editorial_Patch_Field {
 	if x != nil {
 		return x.Patch
 	}
@@ -843,29 +819,26 @@ var File_eolymp_atlas_editorial_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_editorial_service_proto_rawDesc = "" +
 	"\n" +
-	"$eolymp/atlas/editorial_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1ceolymp/atlas/editorial.proto\"\xa9\x01\n" +
+	"$eolymp/atlas/editorial_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1ceolymp/atlas/editorial.proto\"\x97\x01\n" +
 	"\x13ListEditorialsInput\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
 	"\x04size\x18\v \x01(\x05R\x04size\x12\x18\n" +
-	"\aversion\x18d \x01(\rR\aversion\x12\x16\n" +
-	"\x06render\x18\x01 \x01(\bR\x06render\x124\n" +
-	"\x05extra\x18\xe3\b \x03(\x0e2\x1d.eolymp.atlas.Editorial.ExtraR\x05extra\"[\n" +
+	"\aversion\x18d \x01(\rR\aversion\x12:\n" +
+	"\x05extra\x18\xe3\b \x03(\x0e2#.eolymp.atlas.Editorial.Extra.FieldR\x05extra\"[\n" +
 	"\x14ListEditorialsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12-\n" +
-	"\x05items\x18\x02 \x03(\v2\x17.eolymp.atlas.EditorialR\x05items\"\xa3\x01\n" +
+	"\x05items\x18\x02 \x03(\v2\x17.eolymp.atlas.EditorialR\x05items\"\x91\x01\n" +
 	"\x16DescribeEditorialInput\x12!\n" +
 	"\feditorial_id\x18\x02 \x01(\tR\veditorialId\x12\x18\n" +
-	"\aversion\x18d \x01(\rR\aversion\x12\x16\n" +
-	"\x06render\x18\x03 \x01(\bR\x06render\x124\n" +
-	"\x05extra\x18\xe3\b \x03(\x0e2\x1d.eolymp.atlas.Editorial.ExtraR\x05extra\"P\n" +
+	"\aversion\x18d \x01(\rR\aversion\x12:\n" +
+	"\x05extra\x18\xe3\b \x03(\x0e2#.eolymp.atlas.Editorial.Extra.FieldR\x05extra\"P\n" +
 	"\x17DescribeEditorialOutput\x125\n" +
-	"\teditorial\x18\x01 \x01(\v2\x17.eolymp.atlas.EditorialR\teditorial\"\x96\x01\n" +
+	"\teditorial\x18\x01 \x01(\v2\x17.eolymp.atlas.EditorialR\teditorial\"\x84\x01\n" +
 	"\x14LookupEditorialInput\x12\x16\n" +
 	"\x06locale\x18\x02 \x01(\tR\x06locale\x12\x18\n" +
-	"\aversion\x18d \x01(\rR\aversion\x12\x16\n" +
-	"\x06render\x18\x03 \x01(\bR\x06render\x124\n" +
-	"\x05extra\x18\xe3\b \x03(\x0e2\x1d.eolymp.atlas.Editorial.ExtraR\x05extra\"N\n" +
+	"\aversion\x18d \x01(\rR\aversion\x12:\n" +
+	"\x05extra\x18\xe3\b \x03(\x0e2#.eolymp.atlas.Editorial.Extra.FieldR\x05extra\"N\n" +
 	"\x15LookupEditorialOutput\x125\n" +
 	"\teditorial\x18\x01 \x01(\v2\x17.eolymp.atlas.EditorialR\teditorial\"N\n" +
 	"\x15PreviewEditorialInput\x125\n" +
@@ -875,10 +848,10 @@ const file_eolymp_atlas_editorial_service_proto_rawDesc = "" +
 	"\x14CreateEditorialInput\x125\n" +
 	"\teditorial\x18\x02 \x01(\v2\x17.eolymp.atlas.EditorialR\teditorial\":\n" +
 	"\x15CreateEditorialOutput\x12!\n" +
-	"\feditorial_id\x18\x01 \x01(\tR\veditorialId\"\xa5\x01\n" +
-	"\x14UpdateEditorialInput\x123\n" +
+	"\feditorial_id\x18\x01 \x01(\tR\veditorialId\"\xab\x01\n" +
+	"\x14UpdateEditorialInput\x129\n" +
 	"\x05patch\x18\n" +
-	" \x03(\x0e2\x1d.eolymp.atlas.Editorial.PatchR\x05patch\x12!\n" +
+	" \x03(\x0e2#.eolymp.atlas.Editorial.Patch.FieldR\x05patch\x12!\n" +
 	"\feditorial_id\x18\x02 \x01(\tR\veditorialId\x125\n" +
 	"\teditorial\x18\x03 \x01(\v2\x17.eolymp.atlas.EditorialR\teditorial\"\x17\n" +
 	"\x15UpdateEditorialOutput\"9\n" +
@@ -975,21 +948,21 @@ var file_eolymp_atlas_editorial_service_proto_goTypes = []any{
 	(*DeleteEditorialOutput)(nil),     // 13: eolymp.atlas.DeleteEditorialOutput
 	(*TranslateEditorialsInput)(nil),  // 14: eolymp.atlas.TranslateEditorialsInput
 	(*TranslateEditorialsOutput)(nil), // 15: eolymp.atlas.TranslateEditorialsOutput
-	(Editorial_Extra)(0),              // 16: eolymp.atlas.Editorial.Extra
+	(Editorial_Extra_Field)(0),        // 16: eolymp.atlas.Editorial.Extra.Field
 	(*Editorial)(nil),                 // 17: eolymp.atlas.Editorial
-	(Editorial_Patch)(0),              // 18: eolymp.atlas.Editorial.Patch
+	(Editorial_Patch_Field)(0),        // 18: eolymp.atlas.Editorial.Patch.Field
 }
 var file_eolymp_atlas_editorial_service_proto_depIdxs = []int32{
-	16, // 0: eolymp.atlas.ListEditorialsInput.extra:type_name -> eolymp.atlas.Editorial.Extra
+	16, // 0: eolymp.atlas.ListEditorialsInput.extra:type_name -> eolymp.atlas.Editorial.Extra.Field
 	17, // 1: eolymp.atlas.ListEditorialsOutput.items:type_name -> eolymp.atlas.Editorial
-	16, // 2: eolymp.atlas.DescribeEditorialInput.extra:type_name -> eolymp.atlas.Editorial.Extra
+	16, // 2: eolymp.atlas.DescribeEditorialInput.extra:type_name -> eolymp.atlas.Editorial.Extra.Field
 	17, // 3: eolymp.atlas.DescribeEditorialOutput.editorial:type_name -> eolymp.atlas.Editorial
-	16, // 4: eolymp.atlas.LookupEditorialInput.extra:type_name -> eolymp.atlas.Editorial.Extra
+	16, // 4: eolymp.atlas.LookupEditorialInput.extra:type_name -> eolymp.atlas.Editorial.Extra.Field
 	17, // 5: eolymp.atlas.LookupEditorialOutput.editorial:type_name -> eolymp.atlas.Editorial
 	17, // 6: eolymp.atlas.PreviewEditorialInput.editorial:type_name -> eolymp.atlas.Editorial
 	17, // 7: eolymp.atlas.PreviewEditorialOutput.editorial:type_name -> eolymp.atlas.Editorial
 	17, // 8: eolymp.atlas.CreateEditorialInput.editorial:type_name -> eolymp.atlas.Editorial
-	18, // 9: eolymp.atlas.UpdateEditorialInput.patch:type_name -> eolymp.atlas.Editorial.Patch
+	18, // 9: eolymp.atlas.UpdateEditorialInput.patch:type_name -> eolymp.atlas.Editorial.Patch.Field
 	17, // 10: eolymp.atlas.UpdateEditorialInput.editorial:type_name -> eolymp.atlas.Editorial
 	8,  // 11: eolymp.atlas.EditorialService.CreateEditorial:input_type -> eolymp.atlas.CreateEditorialInput
 	10, // 12: eolymp.atlas.EditorialService.UpdateEditorial:input_type -> eolymp.atlas.UpdateEditorialInput

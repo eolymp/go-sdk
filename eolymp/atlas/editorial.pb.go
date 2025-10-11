@@ -22,117 +22,117 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type Editorial_Extra int32
+type Editorial_Extra_Field int32
 
 const (
-	Editorial_NO_EXTRA       Editorial_Extra = 0
-	Editorial_CONTENT_RENDER Editorial_Extra = 1
-	Editorial_CONTENT_VALUE  Editorial_Extra = 2
+	Editorial_Extra_UNKNOWN_EXTRA  Editorial_Extra_Field = 0
+	Editorial_Extra_CONTENT_RENDER Editorial_Extra_Field = 1
+	Editorial_Extra_CONTENT_VALUE  Editorial_Extra_Field = 2
 )
 
-// Enum value maps for Editorial_Extra.
+// Enum value maps for Editorial_Extra_Field.
 var (
-	Editorial_Extra_name = map[int32]string{
-		0: "NO_EXTRA",
+	Editorial_Extra_Field_name = map[int32]string{
+		0: "UNKNOWN_EXTRA",
 		1: "CONTENT_RENDER",
 		2: "CONTENT_VALUE",
 	}
-	Editorial_Extra_value = map[string]int32{
-		"NO_EXTRA":       0,
+	Editorial_Extra_Field_value = map[string]int32{
+		"UNKNOWN_EXTRA":  0,
 		"CONTENT_RENDER": 1,
 		"CONTENT_VALUE":  2,
 	}
 )
 
-func (x Editorial_Extra) Enum() *Editorial_Extra {
-	p := new(Editorial_Extra)
+func (x Editorial_Extra_Field) Enum() *Editorial_Extra_Field {
+	p := new(Editorial_Extra_Field)
 	*p = x
 	return p
 }
 
-func (x Editorial_Extra) String() string {
+func (x Editorial_Extra_Field) String() string {
 	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
 }
 
-func (Editorial_Extra) Descriptor() protoreflect.EnumDescriptor {
+func (Editorial_Extra_Field) Descriptor() protoreflect.EnumDescriptor {
 	return file_eolymp_atlas_editorial_proto_enumTypes[0].Descriptor()
 }
 
-func (Editorial_Extra) Type() protoreflect.EnumType {
+func (Editorial_Extra_Field) Type() protoreflect.EnumType {
 	return &file_eolymp_atlas_editorial_proto_enumTypes[0]
 }
 
-func (x Editorial_Extra) Number() protoreflect.EnumNumber {
+func (x Editorial_Extra_Field) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use Editorial_Extra.Descriptor instead.
-func (Editorial_Extra) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_atlas_editorial_proto_rawDescGZIP(), []int{0, 0}
+// Deprecated: Use Editorial_Extra_Field.Descriptor instead.
+func (Editorial_Extra_Field) EnumDescriptor() ([]byte, []int) {
+	return file_eolymp_atlas_editorial_proto_rawDescGZIP(), []int{0, 0, 0}
 }
 
-type Editorial_Patch int32
+type Editorial_Patch_Field int32
 
 const (
-	Editorial_UNKNOWN_PATCH       Editorial_Patch = 0
-	Editorial_PATCH_ALL           Editorial_Patch = 1
-	Editorial_PATCH_LOCALE        Editorial_Patch = 2
-	Editorial_PATCH_AUTOMATIC     Editorial_Patch = 3
-	Editorial_PATCH_DRAFT         Editorial_Patch = 4
-	Editorial_PATCH_CONTENT       Editorial_Patch = 5
-	Editorial_PATCH_DOWNLOAD_LINK Editorial_Patch = 6
-	Editorial_PATCH_AUTHOR_ID     Editorial_Patch = 7
+	Editorial_Patch_UNKNOWN_PATCH Editorial_Patch_Field = 0
+	Editorial_Patch_ALL           Editorial_Patch_Field = 1
+	Editorial_Patch_LOCALE        Editorial_Patch_Field = 2
+	Editorial_Patch_AUTOMATIC     Editorial_Patch_Field = 3
+	Editorial_Patch_DRAFT         Editorial_Patch_Field = 4
+	Editorial_Patch_CONTENT       Editorial_Patch_Field = 5
+	Editorial_Patch_DOWNLOAD_LINK Editorial_Patch_Field = 6
+	Editorial_Patch_AUTHOR_ID     Editorial_Patch_Field = 7
 )
 
-// Enum value maps for Editorial_Patch.
+// Enum value maps for Editorial_Patch_Field.
 var (
-	Editorial_Patch_name = map[int32]string{
+	Editorial_Patch_Field_name = map[int32]string{
 		0: "UNKNOWN_PATCH",
-		1: "PATCH_ALL",
-		2: "PATCH_LOCALE",
-		3: "PATCH_AUTOMATIC",
-		4: "PATCH_DRAFT",
-		5: "PATCH_CONTENT",
-		6: "PATCH_DOWNLOAD_LINK",
-		7: "PATCH_AUTHOR_ID",
+		1: "ALL",
+		2: "LOCALE",
+		3: "AUTOMATIC",
+		4: "DRAFT",
+		5: "CONTENT",
+		6: "DOWNLOAD_LINK",
+		7: "AUTHOR_ID",
 	}
-	Editorial_Patch_value = map[string]int32{
-		"UNKNOWN_PATCH":       0,
-		"PATCH_ALL":           1,
-		"PATCH_LOCALE":        2,
-		"PATCH_AUTOMATIC":     3,
-		"PATCH_DRAFT":         4,
-		"PATCH_CONTENT":       5,
-		"PATCH_DOWNLOAD_LINK": 6,
-		"PATCH_AUTHOR_ID":     7,
+	Editorial_Patch_Field_value = map[string]int32{
+		"UNKNOWN_PATCH": 0,
+		"ALL":           1,
+		"LOCALE":        2,
+		"AUTOMATIC":     3,
+		"DRAFT":         4,
+		"CONTENT":       5,
+		"DOWNLOAD_LINK": 6,
+		"AUTHOR_ID":     7,
 	}
 )
 
-func (x Editorial_Patch) Enum() *Editorial_Patch {
-	p := new(Editorial_Patch)
+func (x Editorial_Patch_Field) Enum() *Editorial_Patch_Field {
+	p := new(Editorial_Patch_Field)
 	*p = x
 	return p
 }
 
-func (x Editorial_Patch) String() string {
+func (x Editorial_Patch_Field) String() string {
 	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
 }
 
-func (Editorial_Patch) Descriptor() protoreflect.EnumDescriptor {
+func (Editorial_Patch_Field) Descriptor() protoreflect.EnumDescriptor {
 	return file_eolymp_atlas_editorial_proto_enumTypes[1].Descriptor()
 }
 
-func (Editorial_Patch) Type() protoreflect.EnumType {
+func (Editorial_Patch_Field) Type() protoreflect.EnumType {
 	return &file_eolymp_atlas_editorial_proto_enumTypes[1]
 }
 
-func (x Editorial_Patch) Number() protoreflect.EnumNumber {
+func (x Editorial_Patch_Field) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use Editorial_Patch.Descriptor instead.
-func (Editorial_Patch) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_atlas_editorial_proto_rawDescGZIP(), []int{0, 1}
+// Deprecated: Use Editorial_Patch_Field.Descriptor instead.
+func (Editorial_Patch_Field) EnumDescriptor() ([]byte, []int) {
+	return file_eolymp_atlas_editorial_proto_rawDescGZIP(), []int{0, 1, 0}
 }
 
 type Editorial struct {
@@ -227,11 +227,83 @@ func (x *Editorial) GetAuthorId() string {
 	return ""
 }
 
+type Editorial_Extra struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Editorial_Extra) Reset() {
+	*x = Editorial_Extra{}
+	mi := &file_eolymp_atlas_editorial_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Editorial_Extra) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Editorial_Extra) ProtoMessage() {}
+
+func (x *Editorial_Extra) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_editorial_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Editorial_Extra.ProtoReflect.Descriptor instead.
+func (*Editorial_Extra) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_editorial_proto_rawDescGZIP(), []int{0, 0}
+}
+
+type Editorial_Patch struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Editorial_Patch) Reset() {
+	*x = Editorial_Patch{}
+	mi := &file_eolymp_atlas_editorial_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Editorial_Patch) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Editorial_Patch) ProtoMessage() {}
+
+func (x *Editorial_Patch) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_editorial_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Editorial_Patch.ProtoReflect.Descriptor instead.
+func (*Editorial_Patch) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_editorial_proto_rawDescGZIP(), []int{0, 1}
+}
+
 var File_eolymp_atlas_editorial_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_editorial_proto_rawDesc = "" +
 	"\n" +
-	"\x1ceolymp/atlas/editorial.proto\x12\feolymp.atlas\x1a\x18eolymp/ecm/content.proto\"\xbb\x03\n" +
+	"\x1ceolymp/atlas/editorial.proto\x12\feolymp.atlas\x1a\x18eolymp/ecm/content.proto\"\xa8\x03\n" +
 	"\tEditorial\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x16\n" +
 	"\x06locale\x18\x03 \x01(\tR\x06locale\x12\x1c\n" +
@@ -240,20 +312,23 @@ const file_eolymp_atlas_editorial_proto_rawDesc = "" +
 	" \x01(\bR\x05draft\x12-\n" +
 	"\acontent\x18\x06 \x01(\v2\x13.eolymp.ecm.ContentR\acontent\x12#\n" +
 	"\rdownload_link\x18\a \x01(\tR\fdownloadLink\x12\x1b\n" +
-	"\tauthor_id\x18g \x01(\tR\bauthorId\"<\n" +
-	"\x05Extra\x12\f\n" +
-	"\bNO_EXTRA\x10\x00\x12\x12\n" +
+	"\tauthor_id\x18g \x01(\tR\bauthorId\x1aJ\n" +
+	"\x05Extra\"A\n" +
+	"\x05Field\x12\x11\n" +
+	"\rUNKNOWN_EXTRA\x10\x00\x12\x12\n" +
 	"\x0eCONTENT_RENDER\x10\x01\x12\x11\n" +
-	"\rCONTENT_VALUE\x10\x02\"\xa2\x01\n" +
-	"\x05Patch\x12\x11\n" +
-	"\rUNKNOWN_PATCH\x10\x00\x12\r\n" +
-	"\tPATCH_ALL\x10\x01\x12\x10\n" +
-	"\fPATCH_LOCALE\x10\x02\x12\x13\n" +
-	"\x0fPATCH_AUTOMATIC\x10\x03\x12\x0f\n" +
-	"\vPATCH_DRAFT\x10\x04\x12\x11\n" +
-	"\rPATCH_CONTENT\x10\x05\x12\x17\n" +
-	"\x13PATCH_DOWNLOAD_LINK\x10\x06\x12\x13\n" +
-	"\x0fPATCH_AUTHOR_ID\x10\aB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\rCONTENT_VALUE\x10\x02\x1a\x81\x01\n" +
+	"\x05Patch\"x\n" +
+	"\x05Field\x12\x11\n" +
+	"\rUNKNOWN_PATCH\x10\x00\x12\a\n" +
+	"\x03ALL\x10\x01\x12\n" +
+	"\n" +
+	"\x06LOCALE\x10\x02\x12\r\n" +
+	"\tAUTOMATIC\x10\x03\x12\t\n" +
+	"\x05DRAFT\x10\x04\x12\v\n" +
+	"\aCONTENT\x10\x05\x12\x11\n" +
+	"\rDOWNLOAD_LINK\x10\x06\x12\r\n" +
+	"\tAUTHOR_ID\x10\aB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_editorial_proto_rawDescOnce sync.Once
@@ -268,15 +343,17 @@ func file_eolymp_atlas_editorial_proto_rawDescGZIP() []byte {
 }
 
 var file_eolymp_atlas_editorial_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_eolymp_atlas_editorial_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_eolymp_atlas_editorial_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_eolymp_atlas_editorial_proto_goTypes = []any{
-	(Editorial_Extra)(0), // 0: eolymp.atlas.Editorial.Extra
-	(Editorial_Patch)(0), // 1: eolymp.atlas.Editorial.Patch
-	(*Editorial)(nil),    // 2: eolymp.atlas.Editorial
-	(*ecm.Content)(nil),  // 3: eolymp.ecm.Content
+	(Editorial_Extra_Field)(0), // 0: eolymp.atlas.Editorial.Extra.Field
+	(Editorial_Patch_Field)(0), // 1: eolymp.atlas.Editorial.Patch.Field
+	(*Editorial)(nil),          // 2: eolymp.atlas.Editorial
+	(*Editorial_Extra)(nil),    // 3: eolymp.atlas.Editorial.Extra
+	(*Editorial_Patch)(nil),    // 4: eolymp.atlas.Editorial.Patch
+	(*ecm.Content)(nil),        // 5: eolymp.ecm.Content
 }
 var file_eolymp_atlas_editorial_proto_depIdxs = []int32{
-	3, // 0: eolymp.atlas.Editorial.content:type_name -> eolymp.ecm.Content
+	5, // 0: eolymp.atlas.Editorial.content:type_name -> eolymp.ecm.Content
 	1, // [1:1] is the sub-list for method output_type
 	1, // [1:1] is the sub-list for method input_type
 	1, // [1:1] is the sub-list for extension type_name
@@ -295,7 +372,7 @@ func file_eolymp_atlas_editorial_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_atlas_editorial_proto_rawDesc), len(file_eolymp_atlas_editorial_proto_rawDesc)),
 			NumEnums:      2,
-			NumMessages:   1,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
