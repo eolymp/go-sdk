@@ -4,6 +4,7 @@
 package ranker
 
 import (
+	go_querystring "github.com/eolymp/go-querystring"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -13,20 +14,29 @@ import (
 	proto "google.golang.org/protobuf/proto"
 	ioutil "io/ioutil"
 	http "net/http"
+	url "net/url"
+	strconv "strconv"
 )
 
 // _Ranker_HTTPReadQueryString parses body into proto.Message
 func _Ranker_HTTPReadQueryString(r *http.Request, v proto.Message) error {
-	query := r.URL.Query().Get("q")
-	if query == "" {
-		return nil
+	if h := r.Header.Values("Strict-Parsing"); len(h) > 0 {
+		strict, err := strconv.ParseBool(h[len(h)-1])
+		if err != nil {
+			return err
+		}
+
+		if strict {
+			query, err := url.ParseQuery(r.URL.RawQuery)
+			if err != nil {
+				return err
+			}
+
+			return go_querystring.UnmarshalStrict(query, v)
+		}
 	}
 
-	if err := (protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal([]byte(query), v)); err != nil {
-		return err
-	}
-
-	return nil
+	return go_querystring.Unmarshal(r.URL.Query(), v)
 }
 
 // _Ranker_HTTPReadRequestBody parses body into proto.Message
