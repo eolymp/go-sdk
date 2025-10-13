@@ -313,8 +313,8 @@ func (*Form_Value_File_) isForm_Value_Value() {}
 type Form_Field_Code struct {
 	state                protoimpl.MessageState `protogen:"open.v1"`
 	Runtimes             []string               `protobuf:"bytes,1,rep,name=runtimes,proto3" json:"runtimes,omitempty"`                                                     // allowed code execution runtimes
-	MaxAttachments       uint32                 `protobuf:"varint,2,opt,name=max_attachments,json=maxAttachments,proto3" json:"max_attachments,omitempty"`                  // maximum number of attachments, 0 means no attachments
-	MaxAttachmentSize    uint32                 `protobuf:"varint,5,opt,name=max_attachment_size,json=maxAttachmentSize,proto3" json:"max_attachment_size,omitempty"`       // max attachment size in bytes, 0 means not limit
+	MaxAttachments       uint32                 `protobuf:"varint,2,opt,name=max_attachments,json=maxAttachments,proto3" json:"max_attachments,omitempty"`                  // maximum number of attachments, 0 means no attachments are allowed
+	AttachmentMaxSize    uint32                 `protobuf:"varint,5,opt,name=attachment_max_size,json=attachmentMaxSize,proto3" json:"attachment_max_size,omitempty"`       // max attachment size in bytes, 0 means not limit
 	AttachmentTypes      []string               `protobuf:"bytes,3,rep,name=attachment_types,json=attachmentTypes,proto3" json:"attachment_types,omitempty"`                // allowed mime types for attachments, empty means all allowed
 	AttachmentExtensions []string               `protobuf:"bytes,4,rep,name=attachment_extensions,json=attachmentExtensions,proto3" json:"attachment_extensions,omitempty"` // allowed file extensions for attachments (with leading .), empty means all
 	unknownFields        protoimpl.UnknownFields
@@ -365,9 +365,9 @@ func (x *Form_Field_Code) GetMaxAttachments() uint32 {
 	return 0
 }
 
-func (x *Form_Field_Code) GetMaxAttachmentSize() uint32 {
+func (x *Form_Field_Code) GetAttachmentMaxSize() uint32 {
 	if x != nil {
-		return x.MaxAttachmentSize
+		return x.AttachmentMaxSize
 	}
 	return 0
 }
@@ -575,7 +575,7 @@ const file_eolymp_atlas_form_proto_rawDesc = "" +
 	"\x04Code\x12\x1a\n" +
 	"\bruntimes\x18\x01 \x03(\tR\bruntimes\x12'\n" +
 	"\x0fmax_attachments\x18\x02 \x01(\rR\x0emaxAttachments\x12.\n" +
-	"\x13max_attachment_size\x18\x05 \x01(\rR\x11maxAttachmentSize\x12)\n" +
+	"\x13attachment_max_size\x18\x05 \x01(\rR\x11attachmentMaxSize\x12)\n" +
 	"\x10attachment_types\x18\x03 \x03(\tR\x0fattachmentTypes\x123\n" +
 	"\x15attachment_extensions\x18\x04 \x03(\tR\x14attachmentExtensions\x1aW\n" +
 	"\x04File\x12\x14\n" +
