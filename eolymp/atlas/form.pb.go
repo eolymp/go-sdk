@@ -115,10 +115,15 @@ func (x *Form) GetFields() []*Form_Field {
 }
 
 type Form_Field struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	Label         string                 `protobuf:"bytes,2,opt,name=label,proto3" json:"label,omitempty"`
-	Type          Form_Field_Type        `protobuf:"varint,3,opt,name=type,proto3,enum=eolymp.atlas.Form_Field_Type" json:"type,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	Name  string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Label string                 `protobuf:"bytes,2,opt,name=label,proto3" json:"label,omitempty"`
+	Type  Form_Field_Type        `protobuf:"varint,3,opt,name=type,proto3,enum=eolymp.atlas.Form_Field_Type" json:"type,omitempty"`
+	// Types that are valid to be assigned to Input:
+	//
+	//	*Form_Field_Code_
+	//	*Form_Field_File_
+	Input         isForm_Field_Input `protobuf_oneof:"input"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -173,6 +178,47 @@ func (x *Form_Field) GetType() Form_Field_Type {
 	}
 	return Form_Field_UNKNOWN_TYPE
 }
+
+func (x *Form_Field) GetInput() isForm_Field_Input {
+	if x != nil {
+		return x.Input
+	}
+	return nil
+}
+
+func (x *Form_Field) GetCode() *Form_Field_Code {
+	if x != nil {
+		if x, ok := x.Input.(*Form_Field_Code_); ok {
+			return x.Code
+		}
+	}
+	return nil
+}
+
+func (x *Form_Field) GetFile() *Form_Field_File {
+	if x != nil {
+		if x, ok := x.Input.(*Form_Field_File_); ok {
+			return x.File
+		}
+	}
+	return nil
+}
+
+type isForm_Field_Input interface {
+	isForm_Field_Input()
+}
+
+type Form_Field_Code_ struct {
+	Code *Form_Field_Code `protobuf:"bytes,101,opt,name=code,proto3,oneof"`
+}
+
+type Form_Field_File_ struct {
+	File *Form_Field_File `protobuf:"bytes,102,opt,name=file,proto3,oneof"`
+}
+
+func (*Form_Field_Code_) isForm_Field_Input() {}
+
+func (*Form_Field_File_) isForm_Field_Input() {}
 
 type Form_Value struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
@@ -264,17 +310,154 @@ func (*Form_Value_Code_) isForm_Value_Value() {}
 
 func (*Form_Value_File_) isForm_Value_Value() {}
 
+type Form_Field_Code struct {
+	state                protoimpl.MessageState `protogen:"open.v1"`
+	Runtimes             []string               `protobuf:"bytes,1,rep,name=runtimes,proto3" json:"runtimes,omitempty"`                                                     // allowed code execution runtimes
+	MaxAttachments       uint32                 `protobuf:"varint,2,opt,name=max_attachments,json=maxAttachments,proto3" json:"max_attachments,omitempty"`                  // maximum number of attachments, 0 means no attachments
+	MaxAttachmentSize    uint32                 `protobuf:"varint,5,opt,name=max_attachment_size,json=maxAttachmentSize,proto3" json:"max_attachment_size,omitempty"`       // max attachment size in bytes, 0 means not limit
+	AttachmentTypes      []string               `protobuf:"bytes,3,rep,name=attachment_types,json=attachmentTypes,proto3" json:"attachment_types,omitempty"`                // allowed mime types for attachments, empty means all allowed
+	AttachmentExtensions []string               `protobuf:"bytes,4,rep,name=attachment_extensions,json=attachmentExtensions,proto3" json:"attachment_extensions,omitempty"` // allowed file extensions for attachments (with leading .), empty means all
+	unknownFields        protoimpl.UnknownFields
+	sizeCache            protoimpl.SizeCache
+}
+
+func (x *Form_Field_Code) Reset() {
+	*x = Form_Field_Code{}
+	mi := &file_eolymp_atlas_form_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Form_Field_Code) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Form_Field_Code) ProtoMessage() {}
+
+func (x *Form_Field_Code) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_form_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Form_Field_Code.ProtoReflect.Descriptor instead.
+func (*Form_Field_Code) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_form_proto_rawDescGZIP(), []int{0, 0, 0}
+}
+
+func (x *Form_Field_Code) GetRuntimes() []string {
+	if x != nil {
+		return x.Runtimes
+	}
+	return nil
+}
+
+func (x *Form_Field_Code) GetMaxAttachments() uint32 {
+	if x != nil {
+		return x.MaxAttachments
+	}
+	return 0
+}
+
+func (x *Form_Field_Code) GetMaxAttachmentSize() uint32 {
+	if x != nil {
+		return x.MaxAttachmentSize
+	}
+	return 0
+}
+
+func (x *Form_Field_Code) GetAttachmentTypes() []string {
+	if x != nil {
+		return x.AttachmentTypes
+	}
+	return nil
+}
+
+func (x *Form_Field_Code) GetAttachmentExtensions() []string {
+	if x != nil {
+		return x.AttachmentExtensions
+	}
+	return nil
+}
+
+type Form_Field_File struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Types         []string               `protobuf:"bytes,1,rep,name=types,proto3" json:"types,omitempty"`                     // allowed mime types, empty means all types are allowed
+	Extensions    []string               `protobuf:"bytes,2,rep,name=extensions,proto3" json:"extensions,omitempty"`           // allowed file extensions (with leading .), empty means all
+	MaxSize       uint32                 `protobuf:"varint,3,opt,name=max_size,json=maxSize,proto3" json:"max_size,omitempty"` // max file size in bytes, 0 means no limit
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Form_Field_File) Reset() {
+	*x = Form_Field_File{}
+	mi := &file_eolymp_atlas_form_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Form_Field_File) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Form_Field_File) ProtoMessage() {}
+
+func (x *Form_Field_File) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_form_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Form_Field_File.ProtoReflect.Descriptor instead.
+func (*Form_Field_File) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_form_proto_rawDescGZIP(), []int{0, 0, 1}
+}
+
+func (x *Form_Field_File) GetTypes() []string {
+	if x != nil {
+		return x.Types
+	}
+	return nil
+}
+
+func (x *Form_Field_File) GetExtensions() []string {
+	if x != nil {
+		return x.Extensions
+	}
+	return nil
+}
+
+func (x *Form_Field_File) GetMaxSize() uint32 {
+	if x != nil {
+		return x.MaxSize
+	}
+	return 0
+}
+
 type Form_Value_Code struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Runtime       string                 `protobuf:"bytes,1,opt,name=runtime,proto3" json:"runtime,omitempty"`
 	SourceUrl     string                 `protobuf:"bytes,2,opt,name=source_url,json=sourceUrl,proto3" json:"source_url,omitempty"`
+	Attachments   []*Form_Value_File     `protobuf:"bytes,3,rep,name=attachments,proto3" json:"attachments,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Form_Value_Code) Reset() {
 	*x = Form_Value_Code{}
-	mi := &file_eolymp_atlas_form_proto_msgTypes[3]
+	mi := &file_eolymp_atlas_form_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -286,7 +469,7 @@ func (x *Form_Value_Code) String() string {
 func (*Form_Value_Code) ProtoMessage() {}
 
 func (x *Form_Value_Code) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_form_proto_msgTypes[3]
+	mi := &file_eolymp_atlas_form_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -316,6 +499,13 @@ func (x *Form_Value_Code) GetSourceUrl() string {
 	return ""
 }
 
+func (x *Form_Value_Code) GetAttachments() []*Form_Value_File {
+	if x != nil {
+		return x.Attachments
+	}
+	return nil
+}
+
 type Form_Value_File struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Filename      string                 `protobuf:"bytes,1,opt,name=filename,proto3" json:"filename,omitempty"`
@@ -326,7 +516,7 @@ type Form_Value_File struct {
 
 func (x *Form_Value_File) Reset() {
 	*x = Form_Value_File{}
-	mi := &file_eolymp_atlas_form_proto_msgTypes[4]
+	mi := &file_eolymp_atlas_form_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -338,7 +528,7 @@ func (x *Form_Value_File) String() string {
 func (*Form_Value_File) ProtoMessage() {}
 
 func (x *Form_Value_File) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_form_proto_msgTypes[4]
+	mi := &file_eolymp_atlas_form_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -372,27 +562,43 @@ var File_eolymp_atlas_form_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_form_proto_rawDesc = "" +
 	"\n" +
-	"\x17eolymp/atlas/form.proto\x12\feolymp.atlas\"\xde\x03\n" +
+	"\x17eolymp/atlas/form.proto\x12\feolymp.atlas\"\xca\a\n" +
 	"\x04Form\x120\n" +
 	"\x06fields\x18\n" +
-	" \x03(\v2\x18.eolymp.atlas.Form.FieldR\x06fields\x1a\x92\x01\n" +
+	" \x03(\v2\x18.eolymp.atlas.Form.FieldR\x06fields\x1a\xbc\x04\n" +
 	"\x05Field\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x14\n" +
 	"\x05label\x18\x02 \x01(\tR\x05label\x121\n" +
-	"\x04type\x18\x03 \x01(\x0e2\x1d.eolymp.atlas.Form.Field.TypeR\x04type\",\n" +
+	"\x04type\x18\x03 \x01(\x0e2\x1d.eolymp.atlas.Form.Field.TypeR\x04type\x123\n" +
+	"\x04code\x18e \x01(\v2\x1d.eolymp.atlas.Form.Field.CodeH\x00R\x04code\x123\n" +
+	"\x04file\x18f \x01(\v2\x1d.eolymp.atlas.Form.Field.FileH\x00R\x04file\x1a\xdb\x01\n" +
+	"\x04Code\x12\x1a\n" +
+	"\bruntimes\x18\x01 \x03(\tR\bruntimes\x12'\n" +
+	"\x0fmax_attachments\x18\x02 \x01(\rR\x0emaxAttachments\x12.\n" +
+	"\x13max_attachment_size\x18\x05 \x01(\rR\x11maxAttachmentSize\x12)\n" +
+	"\x10attachment_types\x18\x03 \x03(\tR\x0fattachmentTypes\x123\n" +
+	"\x15attachment_extensions\x18\x04 \x03(\tR\x14attachmentExtensions\x1aW\n" +
+	"\x04File\x12\x14\n" +
+	"\x05types\x18\x01 \x03(\tR\x05types\x12\x1e\n" +
+	"\n" +
+	"extensions\x18\x02 \x03(\tR\n" +
+	"extensions\x12\x19\n" +
+	"\bmax_size\x18\x03 \x01(\rR\amaxSize\",\n" +
 	"\x04Type\x12\x10\n" +
 	"\fUNKNOWN_TYPE\x10\x00\x12\b\n" +
 	"\x04CODE\x10\x01\x12\b\n" +
-	"\x04FILE\x10\x02\x1a\x8e\x02\n" +
+	"\x04FILE\x10\x02B\a\n" +
+	"\x05input\x1a\xd0\x02\n" +
 	"\x05Value\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x123\n" +
 	"\x04code\x18\n" +
 	" \x01(\v2\x1d.eolymp.atlas.Form.Value.CodeH\x00R\x04code\x123\n" +
-	"\x04file\x18\v \x01(\v2\x1d.eolymp.atlas.Form.Value.FileH\x00R\x04file\x1a?\n" +
+	"\x04file\x18\v \x01(\v2\x1d.eolymp.atlas.Form.Value.FileH\x00R\x04file\x1a\x80\x01\n" +
 	"\x04Code\x12\x18\n" +
 	"\aruntime\x18\x01 \x01(\tR\aruntime\x12\x1d\n" +
 	"\n" +
-	"source_url\x18\x02 \x01(\tR\tsourceUrl\x1a=\n" +
+	"source_url\x18\x02 \x01(\tR\tsourceUrl\x12?\n" +
+	"\vattachments\x18\x03 \x03(\v2\x1d.eolymp.atlas.Form.Value.FileR\vattachments\x1a=\n" +
 	"\x04File\x12\x1a\n" +
 	"\bfilename\x18\x01 \x01(\tR\bfilename\x12\x19\n" +
 	"\bdata_url\x18\x02 \x01(\tR\adataUrlB\a\n" +
@@ -411,31 +617,40 @@ func file_eolymp_atlas_form_proto_rawDescGZIP() []byte {
 }
 
 var file_eolymp_atlas_form_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_eolymp_atlas_form_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_eolymp_atlas_form_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_eolymp_atlas_form_proto_goTypes = []any{
 	(Form_Field_Type)(0),    // 0: eolymp.atlas.Form.Field.Type
 	(*Form)(nil),            // 1: eolymp.atlas.Form
 	(*Form_Field)(nil),      // 2: eolymp.atlas.Form.Field
 	(*Form_Value)(nil),      // 3: eolymp.atlas.Form.Value
-	(*Form_Value_Code)(nil), // 4: eolymp.atlas.Form.Value.Code
-	(*Form_Value_File)(nil), // 5: eolymp.atlas.Form.Value.File
+	(*Form_Field_Code)(nil), // 4: eolymp.atlas.Form.Field.Code
+	(*Form_Field_File)(nil), // 5: eolymp.atlas.Form.Field.File
+	(*Form_Value_Code)(nil), // 6: eolymp.atlas.Form.Value.Code
+	(*Form_Value_File)(nil), // 7: eolymp.atlas.Form.Value.File
 }
 var file_eolymp_atlas_form_proto_depIdxs = []int32{
 	2, // 0: eolymp.atlas.Form.fields:type_name -> eolymp.atlas.Form.Field
 	0, // 1: eolymp.atlas.Form.Field.type:type_name -> eolymp.atlas.Form.Field.Type
-	4, // 2: eolymp.atlas.Form.Value.code:type_name -> eolymp.atlas.Form.Value.Code
-	5, // 3: eolymp.atlas.Form.Value.file:type_name -> eolymp.atlas.Form.Value.File
-	4, // [4:4] is the sub-list for method output_type
-	4, // [4:4] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	4, // 2: eolymp.atlas.Form.Field.code:type_name -> eolymp.atlas.Form.Field.Code
+	5, // 3: eolymp.atlas.Form.Field.file:type_name -> eolymp.atlas.Form.Field.File
+	6, // 4: eolymp.atlas.Form.Value.code:type_name -> eolymp.atlas.Form.Value.Code
+	7, // 5: eolymp.atlas.Form.Value.file:type_name -> eolymp.atlas.Form.Value.File
+	7, // 6: eolymp.atlas.Form.Value.Code.attachments:type_name -> eolymp.atlas.Form.Value.File
+	7, // [7:7] is the sub-list for method output_type
+	7, // [7:7] is the sub-list for method input_type
+	7, // [7:7] is the sub-list for extension type_name
+	7, // [7:7] is the sub-list for extension extendee
+	0, // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_atlas_form_proto_init() }
 func file_eolymp_atlas_form_proto_init() {
 	if File_eolymp_atlas_form_proto != nil {
 		return
+	}
+	file_eolymp_atlas_form_proto_msgTypes[1].OneofWrappers = []any{
+		(*Form_Field_Code_)(nil),
+		(*Form_Field_File_)(nil),
 	}
 	file_eolymp_atlas_form_proto_msgTypes[2].OneofWrappers = []any{
 		(*Form_Value_Code_)(nil),
@@ -447,7 +662,7 @@ func file_eolymp_atlas_form_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_atlas_form_proto_rawDesc), len(file_eolymp_atlas_form_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   5,
+			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
