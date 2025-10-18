@@ -153,21 +153,41 @@ func RegisterContentServiceHttpHandlers(router *mux.Router, prefix string, cli C
 	router.Handle(prefix+"/content/fragments/{fragment_id}/translate", _ContentService_TranslateFragment_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.content.ContentService.TranslateFragment")
-	router.Handle(prefix+"/content/fragments/{fragment_id}/variants/{variant_id}", _ContentService_DescribeVariant_Rule0(cli)).
+	router.Handle(prefix+"/content/fragments/{fragment_id}/translations/{translation_id}", _ContentService_DescribeFragmentTranslation_Rule0(cli)).
 		Methods("GET").
-		Name("eolymp.content.ContentService.DescribeVariant")
-	router.Handle(prefix+"/content/fragments/{fragment_id}/variants", _ContentService_ListVariants_Rule0(cli)).
+		Name("eolymp.content.ContentService.DescribeFragmentTranslation")
+
+	router.Handle(prefix+"/content/fragments/{fragment_id}/variants/{translation_id}", _ContentService_DescribeFragmentTranslation_Rule1(cli)).
 		Methods("GET").
-		Name("eolymp.content.ContentService.ListVariants")
-	router.Handle(prefix+"/content/fragments/{fragment_id}/variants", _ContentService_CreateVariant_Rule0(cli)).
+		Name("eolymp.content.ContentService.DescribeFragmentTranslation")
+	router.Handle(prefix+"/content/fragments/{fragment_id}/translations", _ContentService_ListFragmentTranslations_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.content.ContentService.ListFragmentTranslations")
+
+	router.Handle(prefix+"/content/fragments/{fragment_id}/variants", _ContentService_ListFragmentTranslations_Rule1(cli)).
+		Methods("GET").
+		Name("eolymp.content.ContentService.ListFragmentTranslations")
+	router.Handle(prefix+"/content/fragments/{fragment_id}/translations", _ContentService_CreateFragmentTranslation_Rule0(cli)).
 		Methods("POST").
-		Name("eolymp.content.ContentService.CreateVariant")
-	router.Handle(prefix+"/content/fragments/{fragment_id}/variants/{variant_id}", _ContentService_UpdateVariant_Rule0(cli)).
+		Name("eolymp.content.ContentService.CreateFragmentTranslation")
+
+	router.Handle(prefix+"/content/fragments/{fragment_id}/variants", _ContentService_CreateFragmentTranslation_Rule1(cli)).
+		Methods("POST").
+		Name("eolymp.content.ContentService.CreateFragmentTranslation")
+	router.Handle(prefix+"/content/fragments/{fragment_id}/translations/{translation_id}", _ContentService_UpdateFragmentTranslation_Rule0(cli)).
 		Methods("PUT").
-		Name("eolymp.content.ContentService.UpdateVariant")
-	router.Handle(prefix+"/content/fragments/{fragment_id}/variants/{variant_id}", _ContentService_DeleteVariant_Rule0(cli)).
+		Name("eolymp.content.ContentService.UpdateFragmentTranslation")
+
+	router.Handle(prefix+"/content/fragments/{fragment_id}/variants/{translation_id}", _ContentService_UpdateFragmentTranslation_Rule1(cli)).
+		Methods("PUT").
+		Name("eolymp.content.ContentService.UpdateFragmentTranslation")
+	router.Handle(prefix+"/content/fragments/{fragment_id}/translations/{translation_id}", _ContentService_DeleteFragmentTranslation_Rule0(cli)).
 		Methods("DELETE").
-		Name("eolymp.content.ContentService.DeleteVariant")
+		Name("eolymp.content.ContentService.DeleteFragmentTranslation")
+
+	router.Handle(prefix+"/content/fragments/{fragment_id}/variants/{translation_id}", _ContentService_DeleteFragmentTranslation_Rule1(cli)).
+		Methods("DELETE").
+		Name("eolymp.content.ContentService.DeleteFragmentTranslation")
 	router.Handle(prefix+"/content/path", _ContentService_DescribePath_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.content.ContentService.DescribePath")
@@ -325,9 +345,9 @@ func _ContentService_TranslateFragment_Rule0(cli ContentServiceClient) http.Hand
 	})
 }
 
-func _ContentService_DescribeVariant_Rule0(cli ContentServiceClient) http.Handler {
+func _ContentService_DescribeFragmentTranslation_Rule0(cli ContentServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DescribeVariantInput{}
+		in := &DescribeFragmentTranslationInput{}
 
 		if err := _ContentService_HTTPReadQueryString(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
@@ -337,11 +357,11 @@ func _ContentService_DescribeVariant_Rule0(cli ContentServiceClient) http.Handle
 
 		vars := mux.Vars(r)
 		in.FragmentId = vars["fragment_id"]
-		in.VariantId = vars["variant_id"]
+		in.TranslationId = vars["translation_id"]
 
 		var header, trailer metadata.MD
 
-		out, err := cli.DescribeVariant(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		out, err := cli.DescribeFragmentTranslation(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ContentService_HTTPWriteErrorResponse(w, err)
 			return
@@ -351,9 +371,35 @@ func _ContentService_DescribeVariant_Rule0(cli ContentServiceClient) http.Handle
 	})
 }
 
-func _ContentService_ListVariants_Rule0(cli ContentServiceClient) http.Handler {
+func _ContentService_DescribeFragmentTranslation_Rule1(cli ContentServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ListVariantsInput{}
+		in := &DescribeFragmentTranslationInput{}
+
+		if err := _ContentService_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_ContentService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.FragmentId = vars["fragment_id"]
+		in.TranslationId = vars["translation_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeFragmentTranslation(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ContentService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ContentService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ContentService_ListFragmentTranslations_Rule0(cli ContentServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListFragmentTranslationsInput{}
 
 		if err := _ContentService_HTTPReadQueryString(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
@@ -366,7 +412,7 @@ func _ContentService_ListVariants_Rule0(cli ContentServiceClient) http.Handler {
 
 		var header, trailer metadata.MD
 
-		out, err := cli.ListVariants(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		out, err := cli.ListFragmentTranslations(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ContentService_HTTPWriteErrorResponse(w, err)
 			return
@@ -376,9 +422,34 @@ func _ContentService_ListVariants_Rule0(cli ContentServiceClient) http.Handler {
 	})
 }
 
-func _ContentService_CreateVariant_Rule0(cli ContentServiceClient) http.Handler {
+func _ContentService_ListFragmentTranslations_Rule1(cli ContentServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &CreateVariantInput{}
+		in := &ListFragmentTranslationsInput{}
+
+		if err := _ContentService_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_ContentService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.FragmentId = vars["fragment_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.ListFragmentTranslations(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ContentService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ContentService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ContentService_CreateFragmentTranslation_Rule0(cli ContentServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &CreateFragmentTranslationInput{}
 
 		if err := _ContentService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
@@ -391,7 +462,7 @@ func _ContentService_CreateVariant_Rule0(cli ContentServiceClient) http.Handler 
 
 		var header, trailer metadata.MD
 
-		out, err := cli.CreateVariant(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		out, err := cli.CreateFragmentTranslation(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ContentService_HTTPWriteErrorResponse(w, err)
 			return
@@ -401,9 +472,9 @@ func _ContentService_CreateVariant_Rule0(cli ContentServiceClient) http.Handler 
 	})
 }
 
-func _ContentService_UpdateVariant_Rule0(cli ContentServiceClient) http.Handler {
+func _ContentService_CreateFragmentTranslation_Rule1(cli ContentServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &UpdateVariantInput{}
+		in := &CreateFragmentTranslationInput{}
 
 		if err := _ContentService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
@@ -413,11 +484,10 @@ func _ContentService_UpdateVariant_Rule0(cli ContentServiceClient) http.Handler 
 
 		vars := mux.Vars(r)
 		in.FragmentId = vars["fragment_id"]
-		in.VariantId = vars["variant_id"]
 
 		var header, trailer metadata.MD
 
-		out, err := cli.UpdateVariant(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		out, err := cli.CreateFragmentTranslation(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ContentService_HTTPWriteErrorResponse(w, err)
 			return
@@ -427,9 +497,9 @@ func _ContentService_UpdateVariant_Rule0(cli ContentServiceClient) http.Handler 
 	})
 }
 
-func _ContentService_DeleteVariant_Rule0(cli ContentServiceClient) http.Handler {
+func _ContentService_UpdateFragmentTranslation_Rule0(cli ContentServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DeleteVariantInput{}
+		in := &UpdateFragmentTranslationInput{}
 
 		if err := _ContentService_HTTPReadRequestBody(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
@@ -439,11 +509,89 @@ func _ContentService_DeleteVariant_Rule0(cli ContentServiceClient) http.Handler 
 
 		vars := mux.Vars(r)
 		in.FragmentId = vars["fragment_id"]
-		in.VariantId = vars["variant_id"]
+		in.TranslationId = vars["translation_id"]
 
 		var header, trailer metadata.MD
 
-		out, err := cli.DeleteVariant(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		out, err := cli.UpdateFragmentTranslation(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ContentService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ContentService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ContentService_UpdateFragmentTranslation_Rule1(cli ContentServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UpdateFragmentTranslationInput{}
+
+		if err := _ContentService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_ContentService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.FragmentId = vars["fragment_id"]
+		in.TranslationId = vars["translation_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateFragmentTranslation(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ContentService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ContentService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ContentService_DeleteFragmentTranslation_Rule0(cli ContentServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DeleteFragmentTranslationInput{}
+
+		if err := _ContentService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_ContentService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.FragmentId = vars["fragment_id"]
+		in.TranslationId = vars["translation_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.DeleteFragmentTranslation(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ContentService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ContentService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ContentService_DeleteFragmentTranslation_Rule1(cli ContentServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DeleteFragmentTranslationInput{}
+
+		if err := _ContentService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_ContentService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.FragmentId = vars["fragment_id"]
+		in.TranslationId = vars["translation_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.DeleteFragmentTranslation(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ContentService_HTTPWriteErrorResponse(w, err)
 			return

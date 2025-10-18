@@ -7,6 +7,7 @@
 package ecm
 
 import (
+	_ "github.com/eolymp/go-sdk/eolymp/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -28,7 +29,6 @@ type Content struct {
 	//	*Content_Html
 	//	*Content_Latex
 	//	*Content_Markdown
-	//	*Content_Ecm
 	Value         isContent_Value `protobuf_oneof:"value"`
 	Render        *Node           `protobuf:"bytes,99,opt,name=render,proto3" json:"render,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -99,15 +99,6 @@ func (x *Content) GetMarkdown() string {
 	return ""
 }
 
-func (x *Content) GetEcm() *Node {
-	if x != nil {
-		if x, ok := x.Value.(*Content_Ecm); ok {
-			return x.Ecm
-		}
-	}
-	return nil
-}
-
 func (x *Content) GetRender() *Node {
 	if x != nil {
 		return x.Render
@@ -131,30 +122,23 @@ type Content_Markdown struct {
 	Markdown string `protobuf:"bytes,3,opt,name=markdown,proto3,oneof"`
 }
 
-type Content_Ecm struct {
-	Ecm *Node `protobuf:"bytes,4,opt,name=ecm,proto3,oneof"`
-}
-
 func (*Content_Html) isContent_Value() {}
 
 func (*Content_Latex) isContent_Value() {}
 
 func (*Content_Markdown) isContent_Value() {}
 
-func (*Content_Ecm) isContent_Value() {}
-
 var File_eolymp_ecm_content_proto protoreflect.FileDescriptor
 
 const file_eolymp_ecm_content_proto_rawDesc = "" +
 	"\n" +
 	"\x18eolymp/ecm/content.proto\x12\n" +
-	"eolymp.ecm\x1a\x15eolymp/ecm/node.proto\"\xae\x01\n" +
+	"eolymp.ecm\x1a\x1ceolymp/annotations/mcp.proto\x1a\x15eolymp/ecm/node.proto\"\x90\x01\n" +
 	"\aContent\x12\x14\n" +
 	"\x04html\x18\x01 \x01(\tH\x00R\x04html\x12\x16\n" +
 	"\x05latex\x18\x02 \x01(\tH\x00R\x05latex\x12\x1c\n" +
-	"\bmarkdown\x18\x03 \x01(\tH\x00R\bmarkdown\x12$\n" +
-	"\x03ecm\x18\x04 \x01(\v2\x10.eolymp.ecm.NodeH\x00R\x03ecm\x12(\n" +
-	"\x06render\x18c \x01(\v2\x10.eolymp.ecm.NodeR\x06renderB\a\n" +
+	"\bmarkdown\x18\x03 \x01(\tH\x00R\bmarkdown\x120\n" +
+	"\x06render\x18c \x01(\v2\x10.eolymp.ecm.NodeB\x06\xa8\xf0\xf0\xe4\x01\x01R\x06renderB\a\n" +
 	"\x05valueB)Z'github.com/eolymp/go-sdk/eolymp/ecm;ecmb\x06proto3"
 
 var (
@@ -175,13 +159,12 @@ var file_eolymp_ecm_content_proto_goTypes = []any{
 	(*Node)(nil),    // 1: eolymp.ecm.Node
 }
 var file_eolymp_ecm_content_proto_depIdxs = []int32{
-	1, // 0: eolymp.ecm.Content.ecm:type_name -> eolymp.ecm.Node
-	1, // 1: eolymp.ecm.Content.render:type_name -> eolymp.ecm.Node
-	2, // [2:2] is the sub-list for method output_type
-	2, // [2:2] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	1, // 0: eolymp.ecm.Content.render:type_name -> eolymp.ecm.Node
+	1, // [1:1] is the sub-list for method output_type
+	1, // [1:1] is the sub-list for method input_type
+	1, // [1:1] is the sub-list for extension type_name
+	1, // [1:1] is the sub-list for extension extendee
+	0, // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_ecm_content_proto_init() }
@@ -194,7 +177,6 @@ func file_eolymp_ecm_content_proto_init() {
 		(*Content_Html)(nil),
 		(*Content_Latex)(nil),
 		(*Content_Markdown)(nil),
-		(*Content_Ecm)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{

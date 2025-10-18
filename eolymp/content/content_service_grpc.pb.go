@@ -19,19 +19,19 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	ContentService_DescribeFragment_FullMethodName  = "/eolymp.content.ContentService/DescribeFragment"
-	ContentService_ListFragments_FullMethodName     = "/eolymp.content.ContentService/ListFragments"
-	ContentService_CreateFragment_FullMethodName    = "/eolymp.content.ContentService/CreateFragment"
-	ContentService_UpdateFragment_FullMethodName    = "/eolymp.content.ContentService/UpdateFragment"
-	ContentService_DeleteFragment_FullMethodName    = "/eolymp.content.ContentService/DeleteFragment"
-	ContentService_TranslateFragment_FullMethodName = "/eolymp.content.ContentService/TranslateFragment"
-	ContentService_DescribeVariant_FullMethodName   = "/eolymp.content.ContentService/DescribeVariant"
-	ContentService_ListVariants_FullMethodName      = "/eolymp.content.ContentService/ListVariants"
-	ContentService_CreateVariant_FullMethodName     = "/eolymp.content.ContentService/CreateVariant"
-	ContentService_UpdateVariant_FullMethodName     = "/eolymp.content.ContentService/UpdateVariant"
-	ContentService_DeleteVariant_FullMethodName     = "/eolymp.content.ContentService/DeleteVariant"
-	ContentService_DescribePath_FullMethodName      = "/eolymp.content.ContentService/DescribePath"
-	ContentService_ListParents_FullMethodName       = "/eolymp.content.ContentService/ListParents"
+	ContentService_DescribeFragment_FullMethodName            = "/eolymp.content.ContentService/DescribeFragment"
+	ContentService_ListFragments_FullMethodName               = "/eolymp.content.ContentService/ListFragments"
+	ContentService_CreateFragment_FullMethodName              = "/eolymp.content.ContentService/CreateFragment"
+	ContentService_UpdateFragment_FullMethodName              = "/eolymp.content.ContentService/UpdateFragment"
+	ContentService_DeleteFragment_FullMethodName              = "/eolymp.content.ContentService/DeleteFragment"
+	ContentService_TranslateFragment_FullMethodName           = "/eolymp.content.ContentService/TranslateFragment"
+	ContentService_DescribeFragmentTranslation_FullMethodName = "/eolymp.content.ContentService/DescribeFragmentTranslation"
+	ContentService_ListFragmentTranslations_FullMethodName    = "/eolymp.content.ContentService/ListFragmentTranslations"
+	ContentService_CreateFragmentTranslation_FullMethodName   = "/eolymp.content.ContentService/CreateFragmentTranslation"
+	ContentService_UpdateFragmentTranslation_FullMethodName   = "/eolymp.content.ContentService/UpdateFragmentTranslation"
+	ContentService_DeleteFragmentTranslation_FullMethodName   = "/eolymp.content.ContentService/DeleteFragmentTranslation"
+	ContentService_DescribePath_FullMethodName                = "/eolymp.content.ContentService/DescribePath"
+	ContentService_ListParents_FullMethodName                 = "/eolymp.content.ContentService/ListParents"
 )
 
 // ContentServiceClient is the client API for ContentService service.
@@ -44,11 +44,11 @@ type ContentServiceClient interface {
 	UpdateFragment(ctx context.Context, in *UpdateFragmentInput, opts ...grpc.CallOption) (*UpdateFragmentOutput, error)
 	DeleteFragment(ctx context.Context, in *DeleteFragmentInput, opts ...grpc.CallOption) (*DeleteFragmentOutput, error)
 	TranslateFragment(ctx context.Context, in *TranslateFragmentInput, opts ...grpc.CallOption) (*TranslateFragmentOutput, error)
-	DescribeVariant(ctx context.Context, in *DescribeVariantInput, opts ...grpc.CallOption) (*DescribeVariantOutput, error)
-	ListVariants(ctx context.Context, in *ListVariantsInput, opts ...grpc.CallOption) (*ListVariantsOutput, error)
-	CreateVariant(ctx context.Context, in *CreateVariantInput, opts ...grpc.CallOption) (*CreateVariantOutput, error)
-	UpdateVariant(ctx context.Context, in *UpdateVariantInput, opts ...grpc.CallOption) (*UpdateVariantOutput, error)
-	DeleteVariant(ctx context.Context, in *DeleteVariantInput, opts ...grpc.CallOption) (*DeleteVariantOutput, error)
+	DescribeFragmentTranslation(ctx context.Context, in *DescribeFragmentTranslationInput, opts ...grpc.CallOption) (*DescribeFragmentTranslationOutput, error)
+	ListFragmentTranslations(ctx context.Context, in *ListFragmentTranslationsInput, opts ...grpc.CallOption) (*ListFragmentTranslationsOutput, error)
+	CreateFragmentTranslation(ctx context.Context, in *CreateFragmentTranslationInput, opts ...grpc.CallOption) (*CreateFragmentTranslationOutput, error)
+	UpdateFragmentTranslation(ctx context.Context, in *UpdateFragmentTranslationInput, opts ...grpc.CallOption) (*UpdateFragmentTranslationOutput, error)
+	DeleteFragmentTranslation(ctx context.Context, in *DeleteFragmentTranslationInput, opts ...grpc.CallOption) (*DeleteFragmentTranslationOutput, error)
 	DescribePath(ctx context.Context, in *DescribePathInput, opts ...grpc.CallOption) (*DescribePathOutput, error)
 	ListParents(ctx context.Context, in *ListParentsInput, opts ...grpc.CallOption) (*ListParentsOutput, error)
 }
@@ -121,50 +121,50 @@ func (c *contentServiceClient) TranslateFragment(ctx context.Context, in *Transl
 	return out, nil
 }
 
-func (c *contentServiceClient) DescribeVariant(ctx context.Context, in *DescribeVariantInput, opts ...grpc.CallOption) (*DescribeVariantOutput, error) {
+func (c *contentServiceClient) DescribeFragmentTranslation(ctx context.Context, in *DescribeFragmentTranslationInput, opts ...grpc.CallOption) (*DescribeFragmentTranslationOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DescribeVariantOutput)
-	err := c.cc.Invoke(ctx, ContentService_DescribeVariant_FullMethodName, in, out, cOpts...)
+	out := new(DescribeFragmentTranslationOutput)
+	err := c.cc.Invoke(ctx, ContentService_DescribeFragmentTranslation_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *contentServiceClient) ListVariants(ctx context.Context, in *ListVariantsInput, opts ...grpc.CallOption) (*ListVariantsOutput, error) {
+func (c *contentServiceClient) ListFragmentTranslations(ctx context.Context, in *ListFragmentTranslationsInput, opts ...grpc.CallOption) (*ListFragmentTranslationsOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ListVariantsOutput)
-	err := c.cc.Invoke(ctx, ContentService_ListVariants_FullMethodName, in, out, cOpts...)
+	out := new(ListFragmentTranslationsOutput)
+	err := c.cc.Invoke(ctx, ContentService_ListFragmentTranslations_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *contentServiceClient) CreateVariant(ctx context.Context, in *CreateVariantInput, opts ...grpc.CallOption) (*CreateVariantOutput, error) {
+func (c *contentServiceClient) CreateFragmentTranslation(ctx context.Context, in *CreateFragmentTranslationInput, opts ...grpc.CallOption) (*CreateFragmentTranslationOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(CreateVariantOutput)
-	err := c.cc.Invoke(ctx, ContentService_CreateVariant_FullMethodName, in, out, cOpts...)
+	out := new(CreateFragmentTranslationOutput)
+	err := c.cc.Invoke(ctx, ContentService_CreateFragmentTranslation_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *contentServiceClient) UpdateVariant(ctx context.Context, in *UpdateVariantInput, opts ...grpc.CallOption) (*UpdateVariantOutput, error) {
+func (c *contentServiceClient) UpdateFragmentTranslation(ctx context.Context, in *UpdateFragmentTranslationInput, opts ...grpc.CallOption) (*UpdateFragmentTranslationOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(UpdateVariantOutput)
-	err := c.cc.Invoke(ctx, ContentService_UpdateVariant_FullMethodName, in, out, cOpts...)
+	out := new(UpdateFragmentTranslationOutput)
+	err := c.cc.Invoke(ctx, ContentService_UpdateFragmentTranslation_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *contentServiceClient) DeleteVariant(ctx context.Context, in *DeleteVariantInput, opts ...grpc.CallOption) (*DeleteVariantOutput, error) {
+func (c *contentServiceClient) DeleteFragmentTranslation(ctx context.Context, in *DeleteFragmentTranslationInput, opts ...grpc.CallOption) (*DeleteFragmentTranslationOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DeleteVariantOutput)
-	err := c.cc.Invoke(ctx, ContentService_DeleteVariant_FullMethodName, in, out, cOpts...)
+	out := new(DeleteFragmentTranslationOutput)
+	err := c.cc.Invoke(ctx, ContentService_DeleteFragmentTranslation_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -201,11 +201,11 @@ type ContentServiceServer interface {
 	UpdateFragment(context.Context, *UpdateFragmentInput) (*UpdateFragmentOutput, error)
 	DeleteFragment(context.Context, *DeleteFragmentInput) (*DeleteFragmentOutput, error)
 	TranslateFragment(context.Context, *TranslateFragmentInput) (*TranslateFragmentOutput, error)
-	DescribeVariant(context.Context, *DescribeVariantInput) (*DescribeVariantOutput, error)
-	ListVariants(context.Context, *ListVariantsInput) (*ListVariantsOutput, error)
-	CreateVariant(context.Context, *CreateVariantInput) (*CreateVariantOutput, error)
-	UpdateVariant(context.Context, *UpdateVariantInput) (*UpdateVariantOutput, error)
-	DeleteVariant(context.Context, *DeleteVariantInput) (*DeleteVariantOutput, error)
+	DescribeFragmentTranslation(context.Context, *DescribeFragmentTranslationInput) (*DescribeFragmentTranslationOutput, error)
+	ListFragmentTranslations(context.Context, *ListFragmentTranslationsInput) (*ListFragmentTranslationsOutput, error)
+	CreateFragmentTranslation(context.Context, *CreateFragmentTranslationInput) (*CreateFragmentTranslationOutput, error)
+	UpdateFragmentTranslation(context.Context, *UpdateFragmentTranslationInput) (*UpdateFragmentTranslationOutput, error)
+	DeleteFragmentTranslation(context.Context, *DeleteFragmentTranslationInput) (*DeleteFragmentTranslationOutput, error)
 	DescribePath(context.Context, *DescribePathInput) (*DescribePathOutput, error)
 	ListParents(context.Context, *ListParentsInput) (*ListParentsOutput, error)
 }
@@ -235,20 +235,20 @@ func (UnimplementedContentServiceServer) DeleteFragment(context.Context, *Delete
 func (UnimplementedContentServiceServer) TranslateFragment(context.Context, *TranslateFragmentInput) (*TranslateFragmentOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method TranslateFragment not implemented")
 }
-func (UnimplementedContentServiceServer) DescribeVariant(context.Context, *DescribeVariantInput) (*DescribeVariantOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DescribeVariant not implemented")
+func (UnimplementedContentServiceServer) DescribeFragmentTranslation(context.Context, *DescribeFragmentTranslationInput) (*DescribeFragmentTranslationOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeFragmentTranslation not implemented")
 }
-func (UnimplementedContentServiceServer) ListVariants(context.Context, *ListVariantsInput) (*ListVariantsOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListVariants not implemented")
+func (UnimplementedContentServiceServer) ListFragmentTranslations(context.Context, *ListFragmentTranslationsInput) (*ListFragmentTranslationsOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListFragmentTranslations not implemented")
 }
-func (UnimplementedContentServiceServer) CreateVariant(context.Context, *CreateVariantInput) (*CreateVariantOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateVariant not implemented")
+func (UnimplementedContentServiceServer) CreateFragmentTranslation(context.Context, *CreateFragmentTranslationInput) (*CreateFragmentTranslationOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateFragmentTranslation not implemented")
 }
-func (UnimplementedContentServiceServer) UpdateVariant(context.Context, *UpdateVariantInput) (*UpdateVariantOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateVariant not implemented")
+func (UnimplementedContentServiceServer) UpdateFragmentTranslation(context.Context, *UpdateFragmentTranslationInput) (*UpdateFragmentTranslationOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateFragmentTranslation not implemented")
 }
-func (UnimplementedContentServiceServer) DeleteVariant(context.Context, *DeleteVariantInput) (*DeleteVariantOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteVariant not implemented")
+func (UnimplementedContentServiceServer) DeleteFragmentTranslation(context.Context, *DeleteFragmentTranslationInput) (*DeleteFragmentTranslationOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteFragmentTranslation not implemented")
 }
 func (UnimplementedContentServiceServer) DescribePath(context.Context, *DescribePathInput) (*DescribePathOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribePath not implemented")
@@ -384,92 +384,92 @@ func _ContentService_TranslateFragment_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ContentService_DescribeVariant_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DescribeVariantInput)
+func _ContentService_DescribeFragmentTranslation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeFragmentTranslationInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ContentServiceServer).DescribeVariant(ctx, in)
+		return srv.(ContentServiceServer).DescribeFragmentTranslation(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ContentService_DescribeVariant_FullMethodName,
+		FullMethod: ContentService_DescribeFragmentTranslation_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ContentServiceServer).DescribeVariant(ctx, req.(*DescribeVariantInput))
+		return srv.(ContentServiceServer).DescribeFragmentTranslation(ctx, req.(*DescribeFragmentTranslationInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ContentService_ListVariants_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListVariantsInput)
+func _ContentService_ListFragmentTranslations_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListFragmentTranslationsInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ContentServiceServer).ListVariants(ctx, in)
+		return srv.(ContentServiceServer).ListFragmentTranslations(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ContentService_ListVariants_FullMethodName,
+		FullMethod: ContentService_ListFragmentTranslations_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ContentServiceServer).ListVariants(ctx, req.(*ListVariantsInput))
+		return srv.(ContentServiceServer).ListFragmentTranslations(ctx, req.(*ListFragmentTranslationsInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ContentService_CreateVariant_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateVariantInput)
+func _ContentService_CreateFragmentTranslation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateFragmentTranslationInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ContentServiceServer).CreateVariant(ctx, in)
+		return srv.(ContentServiceServer).CreateFragmentTranslation(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ContentService_CreateVariant_FullMethodName,
+		FullMethod: ContentService_CreateFragmentTranslation_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ContentServiceServer).CreateVariant(ctx, req.(*CreateVariantInput))
+		return srv.(ContentServiceServer).CreateFragmentTranslation(ctx, req.(*CreateFragmentTranslationInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ContentService_UpdateVariant_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateVariantInput)
+func _ContentService_UpdateFragmentTranslation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateFragmentTranslationInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ContentServiceServer).UpdateVariant(ctx, in)
+		return srv.(ContentServiceServer).UpdateFragmentTranslation(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ContentService_UpdateVariant_FullMethodName,
+		FullMethod: ContentService_UpdateFragmentTranslation_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ContentServiceServer).UpdateVariant(ctx, req.(*UpdateVariantInput))
+		return srv.(ContentServiceServer).UpdateFragmentTranslation(ctx, req.(*UpdateFragmentTranslationInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ContentService_DeleteVariant_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteVariantInput)
+func _ContentService_DeleteFragmentTranslation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteFragmentTranslationInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ContentServiceServer).DeleteVariant(ctx, in)
+		return srv.(ContentServiceServer).DeleteFragmentTranslation(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ContentService_DeleteVariant_FullMethodName,
+		FullMethod: ContentService_DeleteFragmentTranslation_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ContentServiceServer).DeleteVariant(ctx, req.(*DeleteVariantInput))
+		return srv.(ContentServiceServer).DeleteFragmentTranslation(ctx, req.(*DeleteFragmentTranslationInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -542,24 +542,24 @@ var ContentService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _ContentService_TranslateFragment_Handler,
 		},
 		{
-			MethodName: "DescribeVariant",
-			Handler:    _ContentService_DescribeVariant_Handler,
+			MethodName: "DescribeFragmentTranslation",
+			Handler:    _ContentService_DescribeFragmentTranslation_Handler,
 		},
 		{
-			MethodName: "ListVariants",
-			Handler:    _ContentService_ListVariants_Handler,
+			MethodName: "ListFragmentTranslations",
+			Handler:    _ContentService_ListFragmentTranslations_Handler,
 		},
 		{
-			MethodName: "CreateVariant",
-			Handler:    _ContentService_CreateVariant_Handler,
+			MethodName: "CreateFragmentTranslation",
+			Handler:    _ContentService_CreateFragmentTranslation_Handler,
 		},
 		{
-			MethodName: "UpdateVariant",
-			Handler:    _ContentService_UpdateVariant_Handler,
+			MethodName: "UpdateFragmentTranslation",
+			Handler:    _ContentService_UpdateFragmentTranslation_Handler,
 		},
 		{
-			MethodName: "DeleteVariant",
-			Handler:    _ContentService_DeleteVariant_Handler,
+			MethodName: "DeleteFragmentTranslation",
+			Handler:    _ContentService_DeleteFragmentTranslation_Handler,
 		},
 		{
 			MethodName: "DescribePath",

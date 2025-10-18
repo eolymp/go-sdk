@@ -186,14 +186,14 @@ func (s *ContentServiceService) TranslateFragment(ctx context.Context, in *Trans
 	return out, nil
 }
 
-func (s *ContentServiceService) DescribeVariant(ctx context.Context, in *DescribeVariantInput) (*DescribeVariantOutput, error) {
-	out := &DescribeVariantOutput{}
-	path := "/content/fragments/" + url.PathEscape(in.GetFragmentId()) + "/variants/" + url.PathEscape(in.GetVariantId())
+func (s *ContentServiceService) DescribeFragmentTranslation(ctx context.Context, in *DescribeFragmentTranslationInput) (*DescribeFragmentTranslationOutput, error) {
+	out := &DescribeFragmentTranslationOutput{}
+	path := "/content/fragments/" + url.PathEscape(in.GetFragmentId()) + "/translations/" + url.PathEscape(in.GetTranslationId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
 		in.FragmentId = ""
-		in.VariantId = ""
+		in.TranslationId = ""
 	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
@@ -203,9 +203,9 @@ func (s *ContentServiceService) DescribeVariant(ctx context.Context, in *Describ
 	return out, nil
 }
 
-func (s *ContentServiceService) ListVariants(ctx context.Context, in *ListVariantsInput) (*ListVariantsOutput, error) {
-	out := &ListVariantsOutput{}
-	path := "/content/fragments/" + url.PathEscape(in.GetFragmentId()) + "/variants"
+func (s *ContentServiceService) ListFragmentTranslations(ctx context.Context, in *ListFragmentTranslationsInput) (*ListFragmentTranslationsOutput, error) {
+	out := &ListFragmentTranslationsOutput{}
+	path := "/content/fragments/" + url.PathEscape(in.GetFragmentId()) + "/translations"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
@@ -219,9 +219,9 @@ func (s *ContentServiceService) ListVariants(ctx context.Context, in *ListVarian
 	return out, nil
 }
 
-func (s *ContentServiceService) CreateVariant(ctx context.Context, in *CreateVariantInput) (*CreateVariantOutput, error) {
-	out := &CreateVariantOutput{}
-	path := "/content/fragments/" + url.PathEscape(in.GetFragmentId()) + "/variants"
+func (s *ContentServiceService) CreateFragmentTranslation(ctx context.Context, in *CreateFragmentTranslationInput) (*CreateFragmentTranslationOutput, error) {
+	out := &CreateFragmentTranslationOutput{}
+	path := "/content/fragments/" + url.PathEscape(in.GetFragmentId()) + "/translations"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
@@ -235,14 +235,14 @@ func (s *ContentServiceService) CreateVariant(ctx context.Context, in *CreateVar
 	return out, nil
 }
 
-func (s *ContentServiceService) UpdateVariant(ctx context.Context, in *UpdateVariantInput) (*UpdateVariantOutput, error) {
-	out := &UpdateVariantOutput{}
-	path := "/content/fragments/" + url.PathEscape(in.GetFragmentId()) + "/variants/" + url.PathEscape(in.GetVariantId())
+func (s *ContentServiceService) UpdateFragmentTranslation(ctx context.Context, in *UpdateFragmentTranslationInput) (*UpdateFragmentTranslationOutput, error) {
+	out := &UpdateFragmentTranslationOutput{}
+	path := "/content/fragments/" + url.PathEscape(in.GetFragmentId()) + "/translations/" + url.PathEscape(in.GetTranslationId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
 		in.FragmentId = ""
-		in.VariantId = ""
+		in.TranslationId = ""
 	}
 
 	if err := s.do(ctx, "PUT", path, in, out); err != nil {
@@ -252,14 +252,14 @@ func (s *ContentServiceService) UpdateVariant(ctx context.Context, in *UpdateVar
 	return out, nil
 }
 
-func (s *ContentServiceService) DeleteVariant(ctx context.Context, in *DeleteVariantInput) (*DeleteVariantOutput, error) {
-	out := &DeleteVariantOutput{}
-	path := "/content/fragments/" + url.PathEscape(in.GetFragmentId()) + "/variants/" + url.PathEscape(in.GetVariantId())
+func (s *ContentServiceService) DeleteFragmentTranslation(ctx context.Context, in *DeleteFragmentTranslationInput) (*DeleteFragmentTranslationOutput, error) {
+	out := &DeleteFragmentTranslationOutput{}
+	path := "/content/fragments/" + url.PathEscape(in.GetFragmentId()) + "/translations/" + url.PathEscape(in.GetTranslationId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
 		in.FragmentId = ""
-		in.VariantId = ""
+		in.TranslationId = ""
 	}
 
 	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
