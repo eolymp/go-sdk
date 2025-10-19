@@ -2577,7 +2577,7 @@ var File_eolymp_l10n_localization_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_l10n_localization_service_proto_rawDesc = "" +
 	"\n" +
-	"&eolymp/l10n/localization_service.proto\x12\veolymp.l10n\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x16eolymp/l10n/term.proto\x1a\x1deolymp/l10n/translation.proto\x1a\"eolymp/l10n/translation_pair.proto\x1a!eolymp/wellknown/expression.proto\"8\n" +
+	"&eolymp/l10n/localization_service.proto\x12\veolymp.l10n\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x16eolymp/l10n/term.proto\x1a\x1deolymp/l10n/translation.proto\x1a\"eolymp/l10n/translation_pair.proto\x1a!eolymp/wellknown/expression.proto\"8\n" +
 	"\x0fCreateTermInput\x12%\n" +
 	"\x04term\x18\x01 \x01(\v2\x11.eolymp.l10n.TermR\x04term\"+\n" +
 	"\x10CreateTermOutput\x12\x17\n" +
@@ -2732,7 +2732,7 @@ const file_eolymp_l10n_localization_service_proto_rawDesc = "" +
 	"\x1aListTranslationPairsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12\x19\n" +
 	"\bhas_more\x18\x02 \x01(\bR\ahasMore\x122\n" +
-	"\x05items\x18\x03 \x03(\v2\x1c.eolymp.l10n.TranslationPairR\x05items2\x83\x1b\n" +
+	"\x05items\x18\x03 \x03(\v2\x1c.eolymp.l10n.TranslationPairR\x05items2\x9e\x1b\n" +
 	"\x13LocalizationService\x12\x7f\n" +
 	"\n" +
 	"CreateTerm\x12\x1c.eolymp.l10n.CreateTermInput\x1a\x1d.eolymp.l10n.CreateTermOutput\"4\xea\xe2\n" +
@@ -2863,7 +2863,7 @@ const file_eolymp_l10n_localization_service_proto_rawDesc = "" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15l10n:translation:read\x82\xd3\xe4\x93\x02\x15\x12\x13/translate/{locale}B+Z)github.com/eolymp/go-sdk/eolymp/l10n;l10nb\x06proto3"
+	"\x15l10n:translation:read\x82\xd3\xe4\x93\x02\x15\x12\x13/translate/{locale}\x1a\x19\x82\xf0\xf0\xe4\x01\x13eolymp.l10n.ProjectB+Z)github.com/eolymp/go-sdk/eolymp/l10n;l10nb\x06proto3"
 
 var (
 	file_eolymp_l10n_localization_service_proto_rawDescOnce sync.Once
