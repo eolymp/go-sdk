@@ -7,6 +7,7 @@
 package l10n
 
 import (
+	_ "github.com/eolymp/go-sdk/eolymp/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
@@ -178,19 +179,19 @@ var File_eolymp_l10n_translation_proto protoreflect.FileDescriptor
 
 const file_eolymp_l10n_translation_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/l10n/translation.proto\x12\veolymp.l10n\x1a\x1fgoogle/protobuf/timestamp.proto\"\xfb\x02\n" +
-	"\vTranslation\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x16\n" +
+	"\x1deolymp/l10n/translation.proto\x12\veolymp.l10n\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xa3\x03\n" +
+	"\vTranslation\x12\x16\n" +
+	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x16\n" +
 	"\x06locale\x18\x02 \x01(\tR\x06locale\x12\x18\n" +
-	"\amessage\x18\x03 \x01(\tR\amessage\x127\n" +
-	"\x06status\x18\x04 \x01(\x0e2\x1f.eolymp.l10n.Translation.StatusR\x06status\x12!\n" +
-	"\fneeds_review\x18\x05 \x01(\bR\vneedsReview\x12\x1d\n" +
+	"\amessage\x18\x03 \x01(\tR\amessage\x12?\n" +
+	"\x06status\x18\x04 \x01(\x0e2\x1f.eolymp.l10n.Translation.StatusB\x06\xa8\xf0\xf0\xe4\x01\x01R\x06status\x12!\n" +
+	"\fneeds_review\x18\x05 \x01(\bR\vneedsReview\x12%\n" +
 	"\n" +
 	"created_by\x18\n" +
-	" \x01(\tR\tcreatedBy\x129\n" +
+	" \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\tcreatedBy\x12A\n" +
 	"\n" +
-	"created_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x12;\n" +
-	"\vapproved_at\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\n" +
+	"created_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\tcreatedAt\x12C\n" +
+	"\vapproved_at\x18\f \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\n" +
 	"approvedAt\"7\n" +
 	"\x06Status\x12\b\n" +
 	"\x04NONE\x10\x00\x12\v\n" +

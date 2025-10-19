@@ -2577,7 +2577,7 @@ var File_eolymp_l10n_localization_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_l10n_localization_service_proto_rawDesc = "" +
 	"\n" +
-	"&eolymp/l10n/localization_service.proto\x12\veolymp.l10n\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x16eolymp/l10n/term.proto\x1a\x1deolymp/l10n/translation.proto\x1a\"eolymp/l10n/translation_pair.proto\x1a!eolymp/wellknown/expression.proto\"8\n" +
+	"&eolymp/l10n/localization_service.proto\x12\veolymp.l10n\x1a\x1deolymp/annotations/http.proto\x1a\x1ceolymp/annotations/mcp.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x16eolymp/l10n/term.proto\x1a\x1deolymp/l10n/translation.proto\x1a\"eolymp/l10n/translation_pair.proto\x1a!eolymp/wellknown/expression.proto\"8\n" +
 	"\x0fCreateTermInput\x12%\n" +
 	"\x04term\x18\x01 \x01(\v2\x11.eolymp.l10n.TermR\x04term\"+\n" +
 	"\x10CreateTermOutput\x12\x17\n" +
@@ -2709,7 +2709,7 @@ const file_eolymp_l10n_localization_service_proto_rawDesc = "" +
 	"\ftranslations\x18\x02 \x03(\v27.eolymp.l10n.ExportTranslationsOutput.TranslationsEntryR\ftranslations\x1a?\n" +
 	"\x11TranslationsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\x92\x05\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\x8c\x06\n" +
 	"\x19ListTranslationPairsInput\x12\x16\n" +
 	"\x06locale\x18\x01 \x01(\tR\x06locale\x12\x16\n" +
 	"\x06source\x18\x02 \x01(\tR\x06source\x12\x12\n" +
@@ -2718,15 +2718,15 @@ const file_eolymp_l10n_localization_service_proto_rawDesc = "" +
 	"\x06offset\x18\v \x01(\x05H\x00R\x06offset\x12\x16\n" +
 	"\x05after\x18\f \x01(\tH\x00R\x05after\x12\x18\n" +
 	"\x06before\x18\r \x01(\tH\x00R\x06before\x12G\n" +
-	"\afilters\x18( \x01(\v2-.eolymp.l10n.ListTranslationPairsInput.FilterR\afilters\x1a\x91\x03\n" +
+	"\afilters\x18( \x01(\v2-.eolymp.l10n.ListTranslationPairsInput.FilterR\afilters\x1a\x8b\x04\n" +
 	"\x06Filter\x12\x14\n" +
 	"\x05query\x18\x01 \x01(\tR\x05query\x12=\n" +
 	"\bterm_key\x18\n" +
-	" \x03(\v2\".eolymp.wellknown.ExpressionStringR\atermKey\x12A\n" +
-	"\vterm_status\x18\v \x03(\v2 .eolymp.wellknown.ExpressionEnumR\n" +
+	" \x03(\v2\".eolymp.wellknown.ExpressionStringR\atermKey\x12p\n" +
+	"\vterm_status\x18\v \x03(\v2 .eolymp.wellknown.ExpressionEnumB-\xa2\xf0\xf0\xe4\x01'possible values: `ACTIVE`, `DEPRECATED`R\n" +
 	"termStatus\x12I\n" +
-	"\x0esource_message\x18\x14 \x03(\v2\".eolymp.wellknown.ExpressionStringR\rsourceMessage\x12O\n" +
-	"\x12translation_status\x18\x1e \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x11translationStatus\x12S\n" +
+	"\x0esource_message\x18\x14 \x03(\v2\".eolymp.wellknown.ExpressionStringR\rsourceMessage\x12\x99\x01\n" +
+	"\x12translation_status\x18\x1e \x03(\v2 .eolymp.wellknown.ExpressionEnumBH\xa2\xf0\xf0\xe4\x01Bpossible values: `MISSING`, `OUTDATED`, `NEEDS_REVIEW`, `APPROVED`R\x11translationStatus\x12S\n" +
 	"\x13translation_message\x18\x1f \x03(\v2\".eolymp.wellknown.ExpressionStringR\x12translationMessageB\b\n" +
 	"\x06cursor\"\x81\x01\n" +
 	"\x1aListTranslationPairsOutput\x12\x14\n" +
