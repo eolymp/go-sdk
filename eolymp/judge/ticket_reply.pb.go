@@ -7,6 +7,7 @@
 package judge
 
 import (
+	_ "github.com/eolymp/go-sdk/eolymp/annotations"
 	ecm "github.com/eolymp/go-sdk/eolymp/ecm"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -196,16 +197,16 @@ var File_eolymp_judge_ticket_reply_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_ticket_reply_proto_rawDesc = "" +
 	"\n" +
-	"\x1feolymp/judge/ticket_reply.proto\x12\feolymp.judge\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xa0\x02\n" +
-	"\x05Reply\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1b\n" +
-	"\tticket_id\x18\x02 \x01(\tR\bticketId\x12\x19\n" +
-	"\auser_id\x18\x03 \x01(\tH\x00R\x06userId\x12\x1d\n" +
-	"\tmember_id\x18\x04 \x01(\tH\x00R\bmemberId\x12-\n" +
+	"\x1feolymp/judge/ticket_reply.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc8\x02\n" +
+	"\x05Reply\x12\x16\n" +
+	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12#\n" +
+	"\tticket_id\x18\x02 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\bticketId\x12!\n" +
+	"\auser_id\x18\x03 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01H\x00R\x06userId\x12%\n" +
+	"\tmember_id\x18\x04 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01H\x00R\bmemberId\x12-\n" +
 	"\amessage\x18\n" +
-	" \x01(\v2\x13.eolymp.ecm.ContentR\amessage\x129\n" +
+	" \x01(\v2\x13.eolymp.ecm.ContentR\amessage\x12A\n" +
 	"\n" +
-	"created_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\"<\n" +
+	"created_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\tcreatedAt\"<\n" +
 	"\x05Extra\x12\f\n" +
 	"\bNO_EXTRA\x10\x00\x12\x12\n" +
 	"\x0eMESSAGE_RENDER\x10\x01\x12\x11\n" +

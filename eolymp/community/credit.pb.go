@@ -7,6 +7,7 @@
 package community
 
 import (
+	_ "github.com/eolymp/go-sdk/eolymp/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
@@ -238,21 +239,21 @@ var File_eolymp_community_credit_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_credit_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/community/credit.proto\x12\x10eolymp.community\x1a\x1fgoogle/protobuf/timestamp.proto\"\xd4\x03\n" +
-	"\x06Credit\x1a\xbd\x02\n" +
-	"\x05Grant\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1c\n" +
+	"\x1deolymp/community/credit.proto\x12\x10eolymp.community\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x84\x04\n" +
+	"\x06Credit\x1a\xed\x02\n" +
+	"\x05Grant\x12\x16\n" +
+	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x1c\n" +
 	"\treference\x18\x02 \x01(\tR\treference\x12\x12\n" +
-	"\x04note\x18\x03 \x01(\tR\x04note\x12\x16\n" +
-	"\x06active\x18\x14 \x01(\bR\x06active\x12\x18\n" +
-	"\arevoked\x18\x15 \x01(\bR\arevoked\x12!\n" +
-	"\ftotal_amount\x18\x04 \x01(\rR\vtotalAmount\x12'\n" +
-	"\x0fredeemed_amount\x18\x05 \x01(\rR\x0eredeemedAmount\x129\n" +
+	"\x04note\x18\x03 \x01(\tR\x04note\x12\x1e\n" +
+	"\x06active\x18\x14 \x01(\bB\x06\xa8\xf0\xf0\xe4\x01\x01R\x06active\x12 \n" +
+	"\arevoked\x18\x15 \x01(\bB\x06\xa8\xf0\xf0\xe4\x01\x01R\arevoked\x12!\n" +
+	"\ftotal_amount\x18\x04 \x01(\rR\vtotalAmount\x12/\n" +
+	"\x0fredeemed_amount\x18\x05 \x01(\rB\x06\xa8\xf0\xf0\xe4\x01\x01R\x0eredeemedAmount\x12A\n" +
 	"\n" +
 	"granted_at\x18\n" +
-	" \x01(\v2\x1a.google.protobuf.TimestampR\tgrantedAt\x129\n" +
+	" \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\tgrantedAt\x12A\n" +
 	"\n" +
-	"expires_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\texpiresAt\x1a\x89\x01\n" +
+	"expires_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\texpiresAt\x1a\x89\x01\n" +
 	"\vTransaction\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x128\n" +
 	"\ttimestamp\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\ttimestamp\x12\x18\n" +

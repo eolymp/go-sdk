@@ -7,6 +7,7 @@
 package community
 
 import (
+	_ "github.com/eolymp/go-sdk/eolymp/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
@@ -595,17 +596,17 @@ var File_eolymp_community_member_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_member_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/community/member.proto\x12\x10eolymp.community\x1a eolymp/community/attribute.proto\x1a#eolymp/community/member_ghost.proto\x1a\"eolymp/community/member_team.proto\x1a\"eolymp/community/member_user.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x8a\r\n" +
-	"\x06Member\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x10\n" +
-	"\x03url\x18\x03 \x01(\tR\x03url\x12!\n" +
-	"\fexternal_ref\x18\x04 \x01(\tR\vexternalRef\x12!\n" +
-	"\fdisplay_name\x18\x02 \x01(\tR\vdisplayName\x12\x12\n" +
-	"\x04rank\x18F \x01(\x05R\x04rank\x12\x1d\n" +
+	"\x1deolymp/community/member.proto\x12\x10eolymp.community\x1a\x1ceolymp/annotations/mcp.proto\x1a eolymp/community/attribute.proto\x1a#eolymp/community/member_ghost.proto\x1a\"eolymp/community/member_team.proto\x1a\"eolymp/community/member_user.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xe2\r\n" +
+	"\x06Member\x12\x16\n" +
+	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x18\n" +
+	"\x03url\x18\x03 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x03url\x12!\n" +
+	"\fexternal_ref\x18\x04 \x01(\tR\vexternalRef\x12)\n" +
+	"\fdisplay_name\x18\x02 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\vdisplayName\x12\x1a\n" +
+	"\x04rank\x18F \x01(\x05B\x06\xa8\xf0\xf0\xe4\x01\x01R\x04rank\x12%\n" +
 	"\n" +
-	"rank_lower\x18H \x01(\x05R\trankLower\x12\x16\n" +
-	"\x06rating\x18G \x01(\x05R\x06rating\x12\x14\n" +
-	"\x05level\x18O \x01(\rR\x05level\x12\x1a\n" +
+	"rank_lower\x18H \x01(\x05B\x06\xa8\xf0\xf0\xe4\x01\x01R\trankLower\x12\x1e\n" +
+	"\x06rating\x18G \x01(\x05B\x06\xa8\xf0\xf0\xe4\x01\x01R\x06rating\x12\x1c\n" +
+	"\x05level\x18O \x01(\rB\x06\xa8\xf0\xf0\xe4\x01\x01R\x05level\x12\x1a\n" +
 	"\binactive\x18\v \x01(\bR\binactive\x12\x1e\n" +
 	"\n" +
 	"incomplete\x18\x14 \x01(\bR\n" +
@@ -613,15 +614,15 @@ const file_eolymp_community_member_proto_rawDesc = "" +
 	"\n" +
 	"unofficial\x18\x1e \x01(\bR\n" +
 	"unofficial\x12\x16\n" +
-	"\x06secret\x18( \x01(\bR\x06secret\x129\n" +
+	"\x06secret\x18( \x01(\bR\x06secret\x12A\n" +
 	"\n" +
-	"created_at\x18< \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x127\n" +
-	"\tseated_at\x18= \x01(\v2\x1a.google.protobuf.TimestampR\bseatedAt\x127\n" +
-	"\tactive_at\x18> \x01(\v2\x1a.google.protobuf.TimestampR\bactiveAt\x12,\n" +
+	"created_at\x18< \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\tcreatedAt\x12?\n" +
+	"\tseated_at\x18= \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\bseatedAt\x12?\n" +
+	"\tactive_at\x18> \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\bactiveAt\x12,\n" +
 	"\x04user\x18d \x01(\v2\x16.eolymp.community.UserH\x00R\x04user\x12,\n" +
 	"\x04team\x18e \x01(\v2\x16.eolymp.community.TeamH\x00R\x04team\x12/\n" +
-	"\x05ghost\x18f \x01(\v2\x17.eolymp.community.GhostH\x00R\x05ghost\x125\n" +
-	"\x05stats\x18\xac\x02 \x01(\v2\x1e.eolymp.community.Member.StatsR\x05stats\x12\x17\n" +
+	"\x05ghost\x18f \x01(\v2\x17.eolymp.community.GhostH\x00R\x05ghost\x12=\n" +
+	"\x05stats\x18\xac\x02 \x01(\v2\x1e.eolymp.community.Member.StatsB\x06\xa8\xf0\xf0\xe4\x01\x01R\x05stats\x12\x17\n" +
 	"\x06groups\x18\xc8\x01 \x03(\tR\x06groups\x12B\n" +
 	"\n" +
 	"attributes\x18\x84\a \x03(\v2!.eolymp.community.Attribute.ValueR\n" +

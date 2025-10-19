@@ -7,6 +7,7 @@
 package content
 
 import (
+	_ "github.com/eolymp/go-sdk/eolymp/annotations"
 	ecm "github.com/eolymp/go-sdk/eolymp/ecm"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -393,19 +394,19 @@ var File_eolymp_content_content_fragment_proto protoreflect.FileDescriptor
 
 const file_eolymp_content_content_fragment_proto_rawDesc = "" +
 	"\n" +
-	"%eolymp/content/content_fragment.proto\x12\x0eeolymp.content\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x80\x05\n" +
-	"\bFragment\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
+	"%eolymp/content/content_fragment.proto\x12\x0eeolymp.content\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xa0\x05\n" +
+	"\bFragment\x12\x16\n" +
+	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x12\n" +
 	"\x04path\x18\n" +
 	" \x01(\tR\x04path\x12\x16\n" +
 	"\x06locale\x18\v \x01(\tR\x06locale\x12\x14\n" +
 	"\x05draft\x18\r \x01(\bR\x05draft\x12\x14\n" +
 	"\x05title\x18\f \x01(\tR\x05title\x12-\n" +
-	"\acontent\x183 \x01(\v2\x13.eolymp.ecm.ContentR\acontent\x129\n" +
+	"\acontent\x183 \x01(\v2\x13.eolymp.ecm.ContentR\acontent\x12A\n" +
 	"\n" +
-	"created_at\x18< \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
+	"created_at\x18< \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\tcreatedAt\x12A\n" +
 	"\n" +
-	"updated_at\x18= \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12\x16\n" +
+	"updated_at\x18= \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\tupdatedAt\x12\x16\n" +
 	"\x06labels\x18d \x03(\tR\x06labels\x1aJ\n" +
 	"\x05Extra\"A\n" +
 	"\x05Field\x12\x11\n" +
@@ -422,9 +423,9 @@ const file_eolymp_content_content_fragment_proto_rawDesc = "" +
 	"\x05TITLE\x10\x06\x12\v\n" +
 	"\aCONTENT\x10\a\x12\n" +
 	"\n" +
-	"\x06LABELS\x10\b\x1a\x98\x01\n" +
-	"\vTranslation\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x16\n" +
+	"\x06LABELS\x10\b\x1a\xa0\x01\n" +
+	"\vTranslation\x12\x16\n" +
+	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x16\n" +
 	"\x06locale\x18\v \x01(\tR\x06locale\x12\x14\n" +
 	"\x05title\x18\f \x01(\tR\x05title\x12-\n" +
 	"\acontent\x183 \x01(\v2\x13.eolymp.ecm.ContentR\acontent\x12\x1c\n" +

@@ -7,6 +7,7 @@
 package judge
 
 import (
+	_ "github.com/eolymp/go-sdk/eolymp/annotations"
 	ecm "github.com/eolymp/go-sdk/eolymp/ecm"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -298,29 +299,29 @@ var File_eolymp_judge_ticket_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_ticket_proto_rawDesc = "" +
 	"\n" +
-	"\x19eolymp/judge/ticket.proto\x12\feolymp.judge\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xdb\x05\n" +
-	"\x06Ticket\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1d\n" +
+	"\x19eolymp/judge/ticket.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc3\x06\n" +
+	"\x06Ticket\x12\x16\n" +
+	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12%\n" +
 	"\n" +
-	"contest_id\x18\x02 \x01(\tR\tcontestId\x12%\n" +
-	"\x0eparticipant_id\x18\x03 \x01(\tR\rparticipantId\x12\x1b\n" +
-	"\tmember_id\x18\x04 \x01(\tR\bmemberId\x123\n" +
-	"\x06status\x18\x05 \x01(\x0e2\x1b.eolymp.judge.Ticket.StatusR\x06status\x12\x18\n" +
+	"contest_id\x18\x02 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\tcontestId\x12-\n" +
+	"\x0eparticipant_id\x18\x03 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\rparticipantId\x12#\n" +
+	"\tmember_id\x18\x04 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\bmemberId\x12;\n" +
+	"\x06status\x18\x05 \x01(\x0e2\x1b.eolymp.judge.Ticket.StatusB\x06\xa8\xf0\xf0\xe4\x01\x01R\x06status\x12\x18\n" +
 	"\asubject\x18\n" +
 	" \x01(\tR\asubject\x12-\n" +
-	"\amessage\x18\f \x01(\v2\x13.eolymp.ecm.ContentR\amessage\x12\x1f\n" +
-	"\vraw_message\x18\v \x01(\tR\n" +
-	"rawMessage\x12\x17\n" +
-	"\ais_read\x18\x15 \x01(\bR\x06isRead\x12\x1f\n" +
-	"\vreply_count\x18\x1e \x01(\rR\n" +
-	"replyCount\x129\n" +
+	"\amessage\x18\f \x01(\v2\x13.eolymp.ecm.ContentR\amessage\x12'\n" +
+	"\vraw_message\x18\v \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\n" +
+	"rawMessage\x12\x1f\n" +
+	"\ais_read\x18\x15 \x01(\bB\x06\xa8\xf0\xf0\xe4\x01\x01R\x06isRead\x12'\n" +
+	"\vreply_count\x18\x1e \x01(\rB\x06\xa8\xf0\xf0\xe4\x01\x01R\n" +
+	"replyCount\x12A\n" +
 	"\n" +
-	"created_at\x18\x17 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
+	"created_at\x18\x17 \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\tcreatedAt\x12A\n" +
 	"\n" +
-	"updated_at\x18\x18 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x123\n" +
-	"\aread_at\x18\x19 \x01(\v2\x1a.google.protobuf.TimestampR\x06readAt\x12>\n" +
-	"\rlast_reply_at\x18\x1a \x01(\v2\x1a.google.protobuf.TimestampR\vlastReplyAt\x12\x16\n" +
-	"\x06cursor\x18d \x01(\tR\x06cursor\"<\n" +
+	"updated_at\x18\x18 \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\tupdatedAt\x12;\n" +
+	"\aread_at\x18\x19 \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\x06readAt\x12F\n" +
+	"\rlast_reply_at\x18\x1a \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\vlastReplyAt\x12\x1e\n" +
+	"\x06cursor\x18d \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x06cursor\"<\n" +
 	"\x05Extra\x12\f\n" +
 	"\bNO_EXTRA\x10\x00\x12\x12\n" +
 	"\x0eMESSAGE_RENDER\x10\x01\x12\x11\n" +

@@ -7,6 +7,7 @@
 package content
 
 import (
+	_ "github.com/eolymp/go-sdk/eolymp/annotations"
 	ecm "github.com/eolymp/go-sdk/eolymp/ecm"
 	wellknown "github.com/eolymp/go-sdk/eolymp/wellknown"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -608,41 +609,41 @@ var File_eolymp_content_post_proto protoreflect.FileDescriptor
 
 const file_eolymp_content_post_proto_rawDesc = "" +
 	"\n" +
-	"\x19eolymp/content/post.proto\x12\x0eeolymp.content\x1a\x18eolymp/ecm/content.proto\x1a\x15eolymp/ecm/node.proto\x1a\x1beolymp/wellknown/link.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x99\v\n" +
-	"\x04Post\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x10\n" +
-	"\x03url\x18\x02 \x01(\tR\x03url\x12\x1b\n" +
-	"\tsource_id\x18\a \x01(\tR\bsourceId\x12\x1d\n" +
+	"\x19eolymp/content/post.proto\x12\x0eeolymp.content\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\x1a\x15eolymp/ecm/node.proto\x1a\x1beolymp/wellknown/link.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x99\f\n" +
+	"\x04Post\x12\x16\n" +
+	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x18\n" +
+	"\x03url\x18\x02 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x03url\x12#\n" +
+	"\tsource_id\x18\a \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\bsourceId\x12%\n" +
 	"\n" +
-	"source_url\x18\b \x01(\tR\tsourceUrl\x12\x14\n" +
-	"\x05draft\x18\x03 \x01(\bR\x05draft\x12\x16\n" +
-	"\x06public\x18\x04 \x01(\bR\x06public\x12\x1a\n" +
+	"source_url\x18\b \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\tsourceUrl\x12\x14\n" +
+	"\x05draft\x18\x03 \x01(\bR\x05draft\x12\x1e\n" +
+	"\x06public\x18\x04 \x01(\bB\x06\xa8\xf0\xf0\xe4\x01\x01R\x06public\x12\x1a\n" +
 	"\bfeatured\x18\t \x01(\bR\bfeatured\x12\x16\n" +
-	"\x06pinned\x18\r \x01(\bR\x06pinned\x12?\n" +
+	"\x06pinned\x18\r \x01(\bR\x06pinned\x12G\n" +
 	"\n" +
-	"moderation\x18\x05 \x01(\x0e2\x1f.eolymp.content.Post.ModerationR\n" +
-	"moderation\x12\x19\n" +
+	"moderation\x18\x05 \x01(\x0e2\x1f.eolymp.content.Post.ModerationB\x06\xa8\xf0\xf0\xe4\x01\x01R\n" +
+	"moderation\x12!\n" +
 	"\auser_id\x18\n" +
-	" \x01(\tH\x00R\x06userId\x12\x1d\n" +
-	"\tmember_id\x18\v \x01(\tH\x00R\bmemberId\x129\n" +
+	" \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01H\x00R\x06userId\x12%\n" +
+	"\tmember_id\x18\v \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01H\x00R\bmemberId\x12A\n" +
 	"\n" +
-	"created_at\x18\x14 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x12=\n" +
-	"\fpublished_at\x18\x15 \x01(\v2\x1a.google.protobuf.TimestampR\vpublishedAt\x129\n" +
+	"created_at\x18\x14 \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\tcreatedAt\x12E\n" +
+	"\fpublished_at\x18\x15 \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\vpublishedAt\x12A\n" +
 	"\n" +
-	"updated_at\x18\x16 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12\x17\n" +
+	"updated_at\x18\x16 \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\tupdatedAt\x12\x17\n" +
 	"\atype_id\x18\x06 \x01(\tR\x06typeId\x12\x16\n" +
 	"\x06locale\x18f \x01(\tR\x06locale\x12\x14\n" +
 	"\x05title\x18g \x01(\tR\x05title\x12\x1b\n" +
 	"\timage_url\x18h \x01(\tR\bimageUrl\x12-\n" +
-	"\acontent\x18e \x01(\v2\x13.eolymp.ecm.ContentR\acontent\x126\n" +
-	"\apreview\x18n \x01(\v2\x1c.eolymp.content.Post.PreviewR\apreview\x12\x12\n" +
-	"\x04vote\x18\f \x01(\x05R\x04vote\x12\x1d\n" +
+	"\acontent\x18e \x01(\v2\x13.eolymp.ecm.ContentR\acontent\x12>\n" +
+	"\apreview\x18n \x01(\v2\x1c.eolymp.content.Post.PreviewB\x06\xa8\xf0\xf0\xe4\x01\x01R\apreview\x12\x1a\n" +
+	"\x04vote\x18\f \x01(\x05B\x06\xa8\xf0\xf0\xe4\x01\x01R\x04vote\x12%\n" +
 	"\n" +
-	"vote_count\x18\x1e \x01(\x05R\tvoteCount\x12\x1f\n" +
-	"\vreply_count\x18\x1f \x01(\x05R\n" +
+	"vote_count\x18\x1e \x01(\x05B\x06\xa8\xf0\xf0\xe4\x01\x01R\tvoteCount\x12'\n" +
+	"\vreply_count\x18\x1f \x01(\x05B\x06\xa8\xf0\xf0\xe4\x01\x01R\n" +
 	"replyCount\x12\x16\n" +
-	"\x06labels\x18x \x03(\tR\x06labels\x12-\n" +
-	"\x05links\x18\xc8\x01 \x03(\v2\x16.eolymp.wellknown.LinkR\x05links\x1a\x9a\x01\n" +
+	"\x06labels\x18x \x03(\tR\x06labels\x125\n" +
+	"\x05links\x18\xc8\x01 \x03(\v2\x16.eolymp.wellknown.LinkB\x06\xa8\xf0\xf0\xe4\x01\x01R\x05links\x1a\x9a\x01\n" +
 	"\vTranslation\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x16\n" +
 	"\x06locale\x18f \x01(\tR\x06locale\x12-\n" +

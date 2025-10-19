@@ -7,6 +7,7 @@
 package judge
 
 import (
+	_ "github.com/eolymp/go-sdk/eolymp/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
@@ -483,11 +484,11 @@ var File_eolymp_judge_participant_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_participant_proto_rawDesc = "" +
 	"\n" +
-	"\x1eeolymp/judge/participant.proto\x12\feolymp.judge\x1a\x18eolymp/judge/medal.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc3\b\n" +
-	"\vParticipant\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1b\n" +
-	"\tmember_id\x18\x04 \x01(\tR\bmemberId\x12!\n" +
-	"\fdisplay_name\x18\x05 \x01(\tR\vdisplayName\x122\n" +
+	"\x1eeolymp/judge/participant.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/judge/medal.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x83\t\n" +
+	"\vParticipant\x12\x16\n" +
+	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x1b\n" +
+	"\tmember_id\x18\x04 \x01(\tR\bmemberId\x12)\n" +
+	"\fdisplay_name\x18\x05 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\vdisplayName\x122\n" +
 	"\x04role\x18\x03 \x01(\x0e2\x1e.eolymp.judge.Participant.RoleR\x04role\x12\x1e\n" +
 	"\n" +
 	"unofficial\x18\x06 \x01(\bR\n" +
@@ -498,16 +499,16 @@ const file_eolymp_judge_participant_proto_rawDesc = "" +
 	"\x05ghost\x18\b \x01(\bR\x05ghost\x12\x1c\n" +
 	"\tfinalized\x18\f \x01(\bR\tfinalized\x12)\n" +
 	"\x05medal\x18\t \x01(\x0e2\x13.eolymp.judge.MedalR\x05medal\x128\n" +
-	"\x06status\x18\x14 \x01(\x0e2 .eolymp.judge.Participant.StatusR\x06status\x129\n" +
+	"\x06status\x18\x14 \x01(\x0e2 .eolymp.judge.Participant.StatusR\x06status\x12A\n" +
 	"\n" +
-	"started_at\x18\x15 \x01(\v2\x1a.google.protobuf.TimestampR\tstartedAt\x121\n" +
-	"\x06end_at\x18\x19 \x01(\v2\x1a.google.protobuf.TimestampR\x05endAt\x12\x1d\n" +
+	"started_at\x18\x15 \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\tstartedAt\x129\n" +
+	"\x06end_at\x18\x19 \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\x05endAt\x12\x1d\n" +
 	"\n" +
-	"bonus_time\x18\x1b \x01(\rR\tbonusTime\x12'\n" +
-	"\x0fviolation_count\x18\x1c \x01(\rR\x0eviolationCount\x12\x1a\n" +
-	"\bpasscode\x18\x1e \x01(\tR\bpasscode\x12%\n" +
-	"\x0ecertificate_id\x18  \x01(\tR\rcertificateId\x12:\n" +
-	"\asubmits\x18( \x03(\v2 .eolymp.judge.Participant.SubmitR\asubmits\x1a|\n" +
+	"bonus_time\x18\x1b \x01(\rR\tbonusTime\x12/\n" +
+	"\x0fviolation_count\x18\x1c \x01(\rB\x06\xa8\xf0\xf0\xe4\x01\x01R\x0eviolationCount\x12\"\n" +
+	"\bpasscode\x18\x1e \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\bpasscode\x12-\n" +
+	"\x0ecertificate_id\x18  \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\rcertificateId\x12B\n" +
+	"\asubmits\x18( \x03(\v2 .eolymp.judge.Participant.SubmitB\x06\xa8\xf0\xf0\xe4\x01\x01R\asubmits\x1a|\n" +
 	"\x05Patch\"s\n" +
 	"\x05Field\x12\a\n" +
 	"\x03ALL\x10\x00\x12\x10\n" +

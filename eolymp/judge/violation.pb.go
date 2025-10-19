@@ -7,6 +7,7 @@
 package judge
 
 import (
+	_ "github.com/eolymp/go-sdk/eolymp/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
@@ -342,22 +343,22 @@ var File_eolymp_judge_violation_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_violation_proto_rawDesc = "" +
 	"\n" +
-	"\x1ceolymp/judge/violation.proto\x12\feolymp.judge\x1a\x1fgoogle/protobuf/timestamp.proto\"\xa0\x05\n" +
-	"\tViolation\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x126\n" +
-	"\x06status\x18\a \x01(\x0e2\x1e.eolymp.judge.Violation.StatusR\x06status\x120\n" +
+	"\x1ceolymp/judge/violation.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xe0\x05\n" +
+	"\tViolation\x12\x16\n" +
+	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12>\n" +
+	"\x06status\x18\a \x01(\x0e2\x1e.eolymp.judge.Violation.StatusB\x06\xa8\xf0\xf0\xe4\x01\x01R\x06status\x120\n" +
 	"\x04type\x18\b \x01(\x0e2\x1c.eolymp.judge.Violation.TypeR\x04type\x12\x18\n" +
 	"\asummary\x18\x03 \x01(\tR\asummary\x12\x1c\n" +
-	"\tautomatic\x18\x04 \x01(\bR\tautomatic\x12%\n" +
-	"\x0eparticipant_id\x18\x05 \x01(\tR\rparticipantId\x12#\n" +
-	"\rsubmission_id\x18\x06 \x01(\tR\fsubmissionId\x12\x1d\n" +
+	"\tautomatic\x18\x04 \x01(\bR\tautomatic\x12-\n" +
+	"\x0eparticipant_id\x18\x05 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\rparticipantId\x12+\n" +
+	"\rsubmission_id\x18\x06 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\fsubmissionId\x12%\n" +
 	"\n" +
 	"created_by\x18\n" +
-	" \x01(\tR\tcreatedBy\x129\n" +
+	" \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\tcreatedBy\x12A\n" +
 	"\n" +
-	"created_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x12!\n" +
-	"\fconfirmed_by\x18\f \x01(\tR\vconfirmedBy\x12=\n" +
-	"\fconfirmed_at\x18\r \x01(\v2\x1a.google.protobuf.TimestampR\vconfirmedAt\x1aI\n" +
+	"created_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\tcreatedAt\x12)\n" +
+	"\fconfirmed_by\x18\f \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\vconfirmedBy\x12E\n" +
+	"\fconfirmed_at\x18\r \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\vconfirmedAt\x1aI\n" +
 	"\x05Patch\"@\n" +
 	"\x05Field\x12\x0f\n" +
 	"\vUNSPECIFIED\x10\x00\x12\v\n" +

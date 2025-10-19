@@ -7,6 +7,7 @@
 package community
 
 import (
+	_ "github.com/eolymp/go-sdk/eolymp/annotations"
 	ecm "github.com/eolymp/go-sdk/eolymp/ecm"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -184,19 +185,19 @@ var File_eolymp_community_achievement_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_achievement_proto_rawDesc = "" +
 	"\n" +
-	"\"eolymp/community/achievement.proto\x12\x10eolymp.community\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xd8\x02\n" +
-	"\vAchievement\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x14\n" +
+	"\"eolymp/community/achievement.proto\x12\x10eolymp.community\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xf0\x02\n" +
+	"\vAchievement\x12\x16\n" +
+	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\rR\x05value\x12\x16\n" +
 	"\x06rarity\x18\x03 \x01(\rR\x06rarity\x12\x1a\n" +
-	"\bquantity\x18\x04 \x01(\rR\bquantity\x129\n" +
+	"\bquantity\x18\x04 \x01(\rR\bquantity\x12A\n" +
 	"\n" +
-	"awarded_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\tawardedAt\x12\x12\n" +
+	"awarded_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\tawardedAt\x12\x12\n" +
 	"\x04name\x18\n" +
 	" \x01(\tR\x04name\x12\x1b\n" +
 	"\timage_url\x18\f \x01(\tR\bimageUrl\x12-\n" +
-	"\asummary\x18\v \x01(\v2\x13.eolymp.ecm.ContentR\asummary\x12\x16\n" +
-	"\x06cursor\x18d \x01(\tR\x06cursor\"<\n" +
+	"\asummary\x18\v \x01(\v2\x13.eolymp.ecm.ContentR\asummary\x12\x1e\n" +
+	"\x06cursor\x18d \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x06cursor\"<\n" +
 	"\x05Extra\x12\f\n" +
 	"\bNO_EXTRA\x10\x00\x12\x11\n" +
 	"\rSUMMARY_VALUE\x10\x01\x12\x12\n" +

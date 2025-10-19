@@ -7,6 +7,7 @@
 package judge
 
 import (
+	_ "github.com/eolymp/go-sdk/eolymp/annotations"
 	runtime "github.com/eolymp/go-sdk/eolymp/runtime"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -1336,17 +1337,17 @@ var File_eolymp_judge_contest_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\n" +
-	"\x1aeolymp/judge/contest.proto\x12\feolymp.judge\x1a\x1ceolymp/runtime/runtime.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc1\x1c\n" +
-	"\aContest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x10\n" +
-	"\x03url\x18\x02 \x01(\tR\x03url\x12\x12\n" +
+	"\x1aeolymp/judge/contest.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1ceolymp/runtime/runtime.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x81\x1d\n" +
+	"\aContest\x12\x16\n" +
+	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x18\n" +
+	"\x03url\x18\x02 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x03url\x12\x12\n" +
 	"\x04name\x18\x03 \x01(\tR\x04name\x12\x1b\n" +
 	"\timage_url\x18\x04 \x01(\tR\bimageUrl\x127\n" +
 	"\tstarts_at\x18\n" +
 	" \x01(\v2\x1a.google.protobuf.TimestampR\bstartsAt\x123\n" +
 	"\aends_at\x18\x0f \x01(\v2\x1a.google.protobuf.TimestampR\x06endsAt\x12\x1a\n" +
-	"\bduration\x18\f \x01(\rR\bduration\x124\n" +
-	"\x06status\x18\x14 \x01(\x0e2\x1c.eolymp.judge.Contest.StatusR\x06status\x12@\n" +
+	"\bduration\x18\f \x01(\rR\bduration\x12<\n" +
+	"\x06status\x18\x14 \x01(\x0e2\x1c.eolymp.judge.Contest.StatusB\x06\xa8\xf0\xf0\xe4\x01\x01R\x06status\x12@\n" +
 	"\n" +
 	"visibility\x18\x1e \x01(\x0e2 .eolymp.judge.Contest.VisibilityR\n" +
 	"visibility\x12V\n" +
@@ -1359,11 +1360,11 @@ const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\rallow_upsolve\x18& \x01(\bR\fallowUpsolve\x12%\n" +
 	"\x0eallow_followup\x18' \x01(\bR\rallowFollowup\x124\n" +
 	"\x06format\x18  \x01(\x0e2\x1c.eolymp.judge.Contest.FormatR\x06format\x12\x10\n" +
-	"\x03key\x18( \x01(\tR\x03key\x12#\n" +
-	"\rproblem_count\x18< \x01(\rR\fproblemCount\x120\n" +
-	"\x14problem_count_hidden\x18= \x01(\bR\x12problemCountHidden\x12+\n" +
-	"\x11participant_count\x18> \x01(\rR\x10participantCount\x128\n" +
-	"\x18participant_count_hidden\x18? \x01(\bR\x16participantCountHidden\x12A\n" +
+	"\x03key\x18( \x01(\tR\x03key\x12+\n" +
+	"\rproblem_count\x18< \x01(\rB\x06\xa8\xf0\xf0\xe4\x01\x01R\fproblemCount\x128\n" +
+	"\x14problem_count_hidden\x18= \x01(\bB\x06\xa8\xf0\xf0\xe4\x01\x01R\x12problemCountHidden\x123\n" +
+	"\x11participant_count\x18> \x01(\rB\x06\xa8\xf0\xf0\xe4\x01\x01R\x10participantCount\x12@\n" +
+	"\x18participant_count_hidden\x18? \x01(\bB\x06\xa8\xf0\xf0\xe4\x01\x01R\x16participantCountHidden\x12A\n" +
 	"\x0efeatured_until\x182 \x01(\v2\x1a.google.protobuf.TimestampR\rfeaturedUntil\x12\x1d\n" +
 	"\n" +
 	"printer_id\x18G \x01(\tR\tprinterId\x12L\n" +
@@ -1371,8 +1372,8 @@ const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\x11scoreboard_config\x18i \x01(\v2&.eolymp.judge.Contest.ScoreboardConfigR\x10scoreboardConfig\x12V\n" +
 	"\x12environment_config\x18o \x01(\v2'.eolymp.judge.Contest.EnvironmentConfigR\x11environmentConfig\x12\\\n" +
 	"\x14certification_config\x18p \x01(\v2).eolymp.judge.Contest.CertificationConfigR\x13certificationConfig\x12S\n" +
-	"\x11plagiarism_config\x18q \x01(\v2&.eolymp.judge.Contest.PlagiarismConfigR\x10plagiarismConfig\x121\n" +
-	"\x05staff\x18x \x03(\v2\x1b.eolymp.judge.Contest.StaffR\x05staff\x1a\xed\x03\n" +
+	"\x11plagiarism_config\x18q \x01(\v2&.eolymp.judge.Contest.PlagiarismConfigR\x10plagiarismConfig\x129\n" +
+	"\x05staff\x18x \x03(\v2\x1b.eolymp.judge.Contest.StaffB\x06\xa8\xf0\xf0\xe4\x01\x01R\x05staff\x1a\xed\x03\n" +
 	"\x05Patch\"\xe3\x03\n" +
 	"\x05Field\x12\v\n" +
 	"\aUNKNOWN\x10\x00\x12\b\n" +

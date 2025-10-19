@@ -7,6 +7,7 @@
 package community
 
 import (
+	_ "github.com/eolymp/go-sdk/eolymp/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
@@ -318,20 +319,20 @@ var File_eolymp_community_member_user_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_member_user_proto_rawDesc = "" +
 	"\n" +
-	"\"eolymp/community/member_user.proto\x12\x10eolymp.community\x1a!eolymp/community/email_type.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xea\x06\n" +
+	"\"eolymp/community/member_user.proto\x12\x10eolymp.community\x1a\x1ceolymp/annotations/mcp.proto\x1a!eolymp/community/email_type.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x92\a\n" +
 	"\x04User\x12\x16\n" +
 	"\x06issuer\x18\x01 \x01(\tR\x06issuer\x12\x18\n" +
 	"\asubject\x18\x02 \x01(\tR\asubject\x12\x1a\n" +
 	"\bnickname\x18\n" +
-	" \x01(\tR\bnickname\x126\n" +
-	"\x17nickname_change_timeout\x18\v \x01(\rR\x15nicknameChangeTimeout\x126\n" +
-	"\aaliases\x18\r \x03(\v2\x1c.eolymp.community.User.AliasR\aaliases\x12\x14\n" +
-	"\x05email\x18\x14 \x01(\tR\x05email\x12%\n" +
-	"\x0eemail_verified\x18\x15 \x01(\bR\remailVerified\x12)\n" +
-	"\x10email_restricted\x18\f \x01(\bR\x0femailRestricted\x12L\n" +
+	" \x01(\tR\bnickname\x12>\n" +
+	"\x17nickname_change_timeout\x18\v \x01(\rB\x06\xa8\xf0\xf0\xe4\x01\x01R\x15nicknameChangeTimeout\x12>\n" +
+	"\aaliases\x18\r \x03(\v2\x1c.eolymp.community.User.AliasB\x06\xa8\xf0\xf0\xe4\x01\x01R\aaliases\x12\x14\n" +
+	"\x05email\x18\x14 \x01(\tR\x05email\x12-\n" +
+	"\x0eemail_verified\x18\x15 \x01(\bB\x06\xa8\xf0\xf0\xe4\x01\x01R\remailVerified\x121\n" +
+	"\x10email_restricted\x18\f \x01(\bB\x06\xa8\xf0\xf0\xe4\x01\x01R\x0femailRestricted\x12L\n" +
 	"\x13email_subscriptions\x18\x16 \x03(\x0e2\x1b.eolymp.community.EmailTypeR\x12emailSubscriptions\x12\x1a\n" +
-	"\bpassword\x18\x1e \x01(\tR\bpassword\x12!\n" +
-	"\fpassword_age\x18\x1f \x01(\rR\vpasswordAge\x12\x12\n" +
+	"\bpassword\x18\x1e \x01(\tR\bpassword\x12)\n" +
+	"\fpassword_age\x18\x1f \x01(\rB\x06\xa8\xf0\xf0\xe4\x01\x01R\vpasswordAge\x12\x12\n" +
 	"\x04name\x18( \x01(\tR\x04name\x12\x18\n" +
 	"\apicture\x182 \x01(\tR\apicture\x126\n" +
 	"\bbirthday\x18< \x01(\v2\x1a.google.protobuf.TimestampR\bbirthday\x12\x18\n" +

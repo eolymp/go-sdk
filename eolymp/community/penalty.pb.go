@@ -7,6 +7,7 @@
 package community
 
 import (
+	_ "github.com/eolymp/go-sdk/eolymp/annotations"
 	ecm "github.com/eolymp/go-sdk/eolymp/ecm"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -176,19 +177,19 @@ var File_eolymp_community_penalty_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_penalty_proto_rawDesc = "" +
 	"\n" +
-	"\x1eeolymp/community/penalty.proto\x12\x10eolymp.community\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x93\x03\n" +
-	"\aPenalty\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x18\n" +
+	"\x1eeolymp/community/penalty.proto\x12\x10eolymp.community\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xb3\x03\n" +
+	"\aPenalty\x12\x16\n" +
+	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x18\n" +
 	"\asummary\x18\x02 \x01(\tR\asummary\x125\n" +
 	"\vdescription\x18\x03 \x01(\v2\x13.eolymp.ecm.ContentR\vdescription\x12\x16\n" +
 	"\x06silent\x18\x04 \x01(\bR\x06silent\x12\x14\n" +
-	"\x05scope\x18\x14 \x03(\tR\x05scope\x129\n" +
+	"\x05scope\x18\x14 \x03(\tR\x05scope\x12A\n" +
 	"\n" +
 	"created_at\x18\n" +
-	" \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
+	" \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\tcreatedAt\x12A\n" +
 	"\n" +
-	"expires_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\texpiresAt\x12=\n" +
-	"\fcancelled_at\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\vcancelledAt\"D\n" +
+	"expires_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\texpiresAt\x12E\n" +
+	"\fcancelled_at\x18\f \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\vcancelledAt\"D\n" +
 	"\x05Extra\x12\f\n" +
 	"\bNO_EXTRA\x10\x00\x12\x15\n" +
 	"\x11DESCRIPTION_VALUE\x10\x01\x12\x16\n" +
