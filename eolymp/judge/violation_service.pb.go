@@ -607,7 +607,7 @@ var File_eolymp_judge_violation_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_violation_service_proto_rawDesc = "" +
 	"\n" +
-	"$eolymp/judge/violation_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1ceolymp/judge/violation.proto\x1a!eolymp/wellknown/expression.proto\"n\n" +
+	"$eolymp/judge/violation_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\x1ceolymp/annotations/mcp.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1ceolymp/judge/violation.proto\x1a!eolymp/wellknown/expression.proto\"n\n" +
 	"\x14CreateViolationInput\x125\n" +
 	"\tviolation\x18\x01 \x01(\v2\x17.eolymp.judge.ViolationR\tviolation\x12\x1f\n" +
 	"\vdont_notify\x18\x02 \x01(\bR\n" +
@@ -625,16 +625,16 @@ const file_eolymp_judge_violation_service_proto_rawDesc = "" +
 	"\x16DescribeViolationInput\x12!\n" +
 	"\fviolation_id\x18\x01 \x01(\tR\vviolationId\"P\n" +
 	"\x17DescribeViolationOutput\x125\n" +
-	"\tviolation\x18\x01 \x01(\v2\x17.eolymp.judge.ViolationR\tviolation\"\xbc\x05\n" +
+	"\tviolation\x18\x01 \x01(\v2\x17.eolymp.judge.ViolationR\tviolation\"\xc0\x06\n" +
 	"\x13ListViolationsInput\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
 	"\x04size\x18\v \x01(\x05R\x04size\x12B\n" +
-	"\afilters\x18( \x01(\v2(.eolymp.judge.ListViolationsInput.FilterR\afilters\x1a\xb4\x04\n" +
+	"\afilters\x18( \x01(\v2(.eolymp.judge.ListViolationsInput.FilterR\afilters\x1a\xb8\x05\n" +
 	"\x06Filter\x12.\n" +
-	"\x02id\x18\x02 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\x128\n" +
-	"\x06status\x18\x03 \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x06status\x124\n" +
-	"\x04type\x18\x05 \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x04type\x12<\n" +
+	"\x02id\x18\x02 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\x12\x81\x01\n" +
+	"\x06status\x18\x03 \x03(\v2 .eolymp.wellknown.ExpressionEnumBG\xa2\xf0\xf0\xe4\x01Avalid values `PENDING` (pending review), `CONFIRMED`, `CANCELLED`R\x06status\x12n\n" +
+	"\x04type\x18\x05 \x03(\v2 .eolymp.wellknown.ExpressionEnumB8\xa2\xf0\xf0\xe4\x012valid values `OTHER`, `PLAGIARISM`, `GEN_AI_USAGE`R\x04type\x12<\n" +
 	"\asummary\x18\x04 \x03(\v2\".eolymp.wellknown.ExpressionStringR\asummary\x12>\n" +
 	"\tautomatic\x18\n" +
 	" \x03(\v2 .eolymp.wellknown.ExpressionBoolR\tautomatic\x12E\n" +

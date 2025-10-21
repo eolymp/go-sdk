@@ -1131,7 +1131,7 @@ var File_eolymp_judge_submission_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_submission_service_proto_rawDesc = "" +
 	"\n" +
-	"%eolymp/judge/submission_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x17eolymp/atlas/form.proto\x1a\x1deolymp/judge/submission.proto\x1a!eolymp/wellknown/expression.proto\"\xb3\x01\n" +
+	"%eolymp/judge/submission_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\x1ceolymp/annotations/mcp.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x17eolymp/atlas/form.proto\x1a\x1deolymp/judge/submission.proto\x1a!eolymp/wellknown/expression.proto\"\xb3\x01\n" +
 	"\x15CreateSubmissionInput\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\x12\x1d\n" +
@@ -1141,7 +1141,7 @@ const file_eolymp_judge_submission_service_proto_rawDesc = "" +
 	"\x06source\x18\x04 \x01(\tR\x06source\x120\n" +
 	"\x06values\x18\x05 \x03(\v2\x18.eolymp.atlas.Form.ValueR\x06values\"=\n" +
 	"\x16CreateSubmissionOutput\x12#\n" +
-	"\rsubmission_id\x18\x01 \x01(\tR\fsubmissionId\"\xaa\x06\n" +
+	"\rsubmission_id\x18\x01 \x01(\tR\fsubmissionId\"\xa0\b\n" +
 	"\x14ListSubmissionsInput\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\x12\x14\n" +
@@ -1150,20 +1150,21 @@ const file_eolymp_judge_submission_service_proto_rawDesc = "" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
 	"\x04size\x18\v \x01(\x05R\x04size\x12C\n" +
 	"\afilters\x18( \x01(\v2).eolymp.judge.ListSubmissionsInput.FilterR\afilters\x125\n" +
-	"\x05extra\x18\xe3\b \x03(\x0e2\x1e.eolymp.judge.Submission.ExtraR\x05extra\x1a\xb4\x04\n" +
+	"\x05extra\x18\xe3\b \x03(\x0e2\x1e.eolymp.judge.Submission.ExtraR\x05extra\x1a\xaa\x06\n" +
 	"\x06Filter\x12.\n" +
 	"\x02id\x18\x01 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\x12E\n" +
 	"\x0eparticipant_id\x18\x02 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\rparticipantId\x12=\n" +
 	"\n" +
-	"problem_id\x18\x03 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\tproblemId\x128\n" +
-	"\x06status\x18\x04 \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x06status\x124\n" +
-	"\x04lang\x18\x05 \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x04lang\x127\n" +
+	"problem_id\x18\x03 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\tproblemId\x12\xfc\x01\n" +
+	"\x06status\x18\x04 \x03(\v2 .eolymp.wellknown.ExpressionEnumB\xc1\x01\xa2\xf0\xf0\xe4\x01\xba\x01valid values `PENDING`, `PROVISIONING`, `INITIALIZING`, `TESTING`, `COMPLETE` (testing complete), `TIMEOUT` (took too long to test), `ERROR` (compilation error), `FAILURE` (system error)R\x06status\x12F\n" +
+	"\x04lang\x18\x05 \x03(\v2 .eolymp.wellknown.ExpressionEnumB\x10\xa2\xf0\xf0\xe4\x01\n" +
+	"runtime idR\x04lang\x127\n" +
 	"\x05score\x18\x06 \x03(\v2!.eolymp.wellknown.ExpressionFloatR\x05score\x12A\n" +
 	"\n" +
 	"percentage\x18\a \x03(\v2!.eolymp.wellknown.ExpressionFloatR\n" +
 	"percentage\x12H\n" +
-	"\fsubmitted_at\x18\b \x03(\v2%.eolymp.wellknown.ExpressionTimestampR\vsubmittedAt\x12>\n" +
-	"\tsignature\x18\t \x03(\v2 .eolymp.wellknown.ExpressionEnumR\tsignature\"\x87\x01\n" +
+	"\fsubmitted_at\x18\b \x03(\v2%.eolymp.wellknown.ExpressionTimestampR\vsubmittedAt\x12]\n" +
+	"\tsignature\x18\t \x03(\v2 .eolymp.wellknown.ExpressionEnumB\x1d\xa2\xf0\xf0\xe4\x01\x17source code fingerprintR\tsignature\"\x87\x01\n" +
 	"\x15ListSubmissionsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12.\n" +
 	"\x05items\x18\x02 \x03(\v2\x18.eolymp.judge.SubmissionR\x05items\x12(\n" +

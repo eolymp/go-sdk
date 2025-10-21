@@ -2043,7 +2043,7 @@ var File_eolymp_judge_ticket_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_ticket_service_proto_rawDesc = "" +
 	"\n" +
-	"!eolymp/judge/ticket_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x18eolymp/ecm/content.proto\x1a\x19eolymp/judge/ticket.proto\x1a\x1feolymp/judge/ticket_reply.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x84\x01\n" +
+	"!eolymp/judge/ticket_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\x1ceolymp/annotations/mcp.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x18eolymp/ecm/content.proto\x1a\x19eolymp/judge/ticket.proto\x1a\x1feolymp/judge/ticket_reply.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x84\x01\n" +
 	"\x12TicketChangedEvent\x12\x14\n" +
 	"\x05scope\x18\n" +
 	" \x01(\tR\x05scope\x12,\n" +
@@ -2089,7 +2089,7 @@ const file_eolymp_judge_ticket_service_proto_rawDesc = "" +
 	"\tticket_id\x18\x02 \x01(\tR\bticketId\x121\n" +
 	"\x05extra\x18\xe3\b \x03(\x0e2\x1a.eolymp.judge.Ticket.ExtraR\x05extra\"D\n" +
 	"\x14DescribeTicketOutput\x12,\n" +
-	"\x06ticket\x18\x01 \x01(\v2\x14.eolymp.judge.TicketR\x06ticket\"\xbe\x06\n" +
+	"\x06ticket\x18\x01 \x01(\v2\x14.eolymp.judge.TicketR\x06ticket\"\xa5\a\n" +
 	"\x10ListTicketsInput\x12\x14\n" +
 	"\x05after\x18\f \x01(\tR\x05after\x12\x16\n" +
 	"\x06offset\x18\n" +
@@ -2098,7 +2098,7 @@ const file_eolymp_judge_ticket_service_proto_rawDesc = "" +
 	"\afilters\x18( \x01(\v2%.eolymp.judge.ListTicketsInput.FilterR\afilters\x127\n" +
 	"\x04sort\x182 \x01(\x0e2#.eolymp.judge.ListTicketsInput.SortR\x04sort\x121\n" +
 	"\x05order\x183 \x01(\x0e2\x1b.eolymp.wellknown.DirectionR\x05order\x121\n" +
-	"\x05extra\x18\xe3\b \x03(\x0e2\x1a.eolymp.judge.Ticket.ExtraR\x05extra\x1a\xdf\x03\n" +
+	"\x05extra\x18\xe3\b \x03(\x0e2\x1a.eolymp.judge.Ticket.ExtraR\x05extra\x1a\xc6\x04\n" +
 	"\x06Filter\x12.\n" +
 	"\x02id\x18\x01 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\x12=\n" +
 	"\n" +
@@ -2107,8 +2107,8 @@ const file_eolymp_judge_ticket_service_proto_rawDesc = "" +
 	"\tmember_id\x18\b \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\bmemberId\x129\n" +
 	"\ais_read\x18\x05 \x03(\v2 .eolymp.wellknown.ExpressionBoolR\x06isRead\x129\n" +
 	"\ais_open\x18\x06 \x03(\v2 .eolymp.wellknown.ExpressionBoolR\x06isOpen\x122\n" +
-	"\x03own\x18\a \x03(\v2 .eolymp.wellknown.ExpressionBoolR\x03own\x128\n" +
-	"\x06status\x18\t \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x06status\"&\n" +
+	"\x03own\x18\a \x03(\v2 .eolymp.wellknown.ExpressionBoolR\x03own\x12\x9e\x01\n" +
+	"\x06status\x18\t \x03(\v2 .eolymp.wellknown.ExpressionEnumBd\xa2\xf0\xf0\xe4\x01^valid values `AWAITING` (requires response from jury), `RESOLVED` (answered by jury), `CLOSED`R\x06status\"&\n" +
 	"\x04Sort\x12\x0e\n" +
 	"\n" +
 	"CREATED_AT\x10\x00\x12\x0e\n" +

@@ -1810,7 +1810,7 @@ var File_eolymp_judge_participant_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_participant_service_proto_rawDesc = "" +
 	"\n" +
-	"&eolymp/judge/participant_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1eeolymp/judge/participant.proto\x1a\x19eolymp/judge/result.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"\x9c\x01\n" +
+	"&eolymp/judge/participant_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\x1ceolymp/annotations/mcp.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1eeolymp/judge/participant.proto\x1a\x19eolymp/judge/result.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"\x9c\x01\n" +
 	"\x17ParticipantChangedEvent\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\n" +
@@ -1882,7 +1882,8 @@ const file_eolymp_judge_participant_service_proto_rawDesc = "" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\x12%\n" +
 	"\x0eparticipant_id\x18\x02 \x01(\tR\rparticipantId\"X\n" +
 	"\x19DescribeParticipantOutput\x12;\n" +
-	"\vparticipant\x18\x01 \x01(\v2\x19.eolymp.judge.ParticipantR\vparticipant\"\xa0\b\n" +
+	"\vparticipant\x18\x01 \x01(\v2\x19.eolymp.judge.ParticipantR\vparticipant\"\xf8\n" +
+	"\n" +
 	"\x15ListParticipantsInput\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\x12\x16\n" +
@@ -1892,12 +1893,12 @@ const file_eolymp_judge_participant_service_proto_rawDesc = "" +
 	"\x06search\x18\x14 \x01(\tR\x06search\x12D\n" +
 	"\afilters\x18( \x01(\v2*.eolymp.judge.ListParticipantsInput.FilterR\afilters\x12@\n" +
 	"\x04sort\x182 \x01(\x0e2,.eolymp.judge.ListParticipantsInput.SortableR\x04sort\x121\n" +
-	"\x05order\x183 \x01(\x0e2\x1b.eolymp.wellknown.DirectionR\x05order\x1a\xad\x05\n" +
+	"\x05order\x183 \x01(\x0e2\x1b.eolymp.wellknown.DirectionR\x05order\x1a\x85\b\n" +
 	"\x06Filter\x12.\n" +
 	"\x02id\x18\x01 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\x12;\n" +
 	"\tmember_id\x18\x02 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\bmemberId\x129\n" +
-	"\bgroup_id\x18\x04 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\agroupId\x128\n" +
-	"\x06status\x18\x03 \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x06status\x12D\n" +
+	"\bgroup_id\x18\x04 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\agroupId\x12\xb6\x01\n" +
+	"\x06status\x18\x03 \x03(\v2 .eolymp.wellknown.ExpressionEnumB|\xa2\xf0\xf0\xe4\x01vvalid values `INACTIVE` (disabled), `READY` (ready to start), `ACTIVE` (actively participating), `COMPLETE` (finished)R\x06status\x12D\n" +
 	"\n" +
 	"started_at\x18\x06 \x03(\v2%.eolymp.wellknown.ExpressionTimestampR\tstartedAt\x12@\n" +
 	"\n" +
@@ -1905,10 +1906,10 @@ const file_eolymp_judge_participant_service_proto_rawDesc = "" +
 	" \x03(\v2 .eolymp.wellknown.ExpressionBoolR\n" +
 	"unofficial\x12D\n" +
 	"\fdisqualified\x18\v \x03(\v2 .eolymp.wellknown.ExpressionBoolR\fdisqualified\x12<\n" +
-	"\binactive\x18\f \x03(\v2 .eolymp.wellknown.ExpressionBoolR\binactive\x124\n" +
-	"\x04role\x18\r \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x04role\x126\n" +
-	"\x05staff\x18\x0e \x03(\v2 .eolymp.wellknown.ExpressionBoolR\x05staff\x12G\n" +
-	"\x0ehas_violations\x18\x0f \x03(\v2 .eolymp.wellknown.ExpressionBoolR\rhasViolations\"9\n" +
+	"\binactive\x18\f \x03(\v2 .eolymp.wellknown.ExpressionBoolR\binactive\x12\x82\x01\n" +
+	"\x04role\x18\r \x03(\v2 .eolymp.wellknown.ExpressionEnumBL\xa2\xf0\xf0\xe4\x01Fvalid values `PARTICIPANT`, `STAFF`, `TESTER`, `AUTHOR`, `COORDINATOR`R\x04role\x12{\n" +
+	"\x05staff\x18\x0e \x03(\v2 .eolymp.wellknown.ExpressionBoolBC\xa2\xf0\xf0\xe4\x01=staff are all participants with role other than `PARTICIPANT`R\x05staff\x12\x8b\x01\n" +
+	"\x0ehas_violations\x18\x0f \x03(\v2 .eolymp.wellknown.ExpressionBoolBB\xa2\xf0\xf0\xe4\x01<filter participants who have PENDING or CONFIRMED violationsR\rhasViolations\"9\n" +
 	"\bSortable\x12\v\n" +
 	"\aDEFAULT\x10\x00\x12\x10\n" +
 	"\fDISPLAY_NAME\x10\x01\x12\x0e\n" +

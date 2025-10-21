@@ -11,7 +11,6 @@ import (
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	descriptorpb "google.golang.org/protobuf/types/descriptorpb"
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 )
 
@@ -22,111 +21,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type MCP struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *MCP) Reset() {
-	*x = MCP{}
-	mi := &file_eolymp_annotations_mcp_proto_msgTypes[0]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *MCP) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*MCP) ProtoMessage() {}
-
-func (x *MCP) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_annotations_mcp_proto_msgTypes[0]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use MCP.ProtoReflect.Descriptor instead.
-func (*MCP) Descriptor() ([]byte, []int) {
-	return file_eolymp_annotations_mcp_proto_rawDescGZIP(), []int{0}
-}
-
-type MCP_Tool struct {
-	state               protoimpl.MessageState `protogen:"open.v1"`
-	Name                string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	Description         string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
-	RequireConfirmation bool                   `protobuf:"varint,3,opt,name=require_confirmation,json=requireConfirmation,proto3" json:"require_confirmation,omitempty"`
-	unknownFields       protoimpl.UnknownFields
-	sizeCache           protoimpl.SizeCache
-}
-
-func (x *MCP_Tool) Reset() {
-	*x = MCP_Tool{}
-	mi := &file_eolymp_annotations_mcp_proto_msgTypes[1]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *MCP_Tool) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*MCP_Tool) ProtoMessage() {}
-
-func (x *MCP_Tool) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_annotations_mcp_proto_msgTypes[1]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use MCP_Tool.ProtoReflect.Descriptor instead.
-func (*MCP_Tool) Descriptor() ([]byte, []int) {
-	return file_eolymp_annotations_mcp_proto_rawDescGZIP(), []int{0, 0}
-}
-
-func (x *MCP_Tool) GetName() string {
-	if x != nil {
-		return x.Name
-	}
-	return ""
-}
-
-func (x *MCP_Tool) GetDescription() string {
-	if x != nil {
-		return x.Description
-	}
-	return ""
-}
-
-func (x *MCP_Tool) GetRequireConfirmation() bool {
-	if x != nil {
-		return x.RequireConfirmation
-	}
-	return false
-}
-
 var file_eolymp_annotations_mcp_proto_extTypes = []protoimpl.ExtensionInfo{
-	{
-		ExtendedType:  (*descriptorpb.MethodOptions)(nil),
-		ExtensionType: (*MCP_Tool)(nil),
-		Field:         60000001,
-		Name:          "eolymp.api.mcp_tool",
-		Tag:           "bytes,60000001,opt,name=mcp_tool",
-		Filename:      "eolymp/annotations/mcp.proto",
-	},
 	{
 		ExtendedType:  (*descriptorpb.EnumValueOptions)(nil),
 		ExtensionType: (*string)(nil),
@@ -151,26 +46,34 @@ var file_eolymp_annotations_mcp_proto_extTypes = []protoimpl.ExtensionInfo{
 		Tag:           "varint,60000005,opt,name=read_only",
 		Filename:      "eolymp/annotations/mcp.proto",
 	},
+	{
+		ExtendedType:  (*descriptorpb.MethodOptions)(nil),
+		ExtensionType: (*string)(nil),
+		Field:         60000004,
+		Name:          "eolymp.api.mcp_tool_desc",
+		Tag:           "bytes,60000004,opt,name=mcp_tool_desc",
+		Filename:      "eolymp/annotations/mcp.proto",
+	},
 }
-
-// Extension fields to descriptorpb.MethodOptions.
-var (
-	// optional eolymp.api.MCP.Tool mcp_tool = 60000001;
-	E_McpTool = &file_eolymp_annotations_mcp_proto_extTypes[0]
-)
 
 // Extension fields to descriptorpb.EnumValueOptions.
 var (
 	// optional string mcp_value_desc = 60000003;
-	E_McpValueDesc = &file_eolymp_annotations_mcp_proto_extTypes[1]
+	E_McpValueDesc = &file_eolymp_annotations_mcp_proto_extTypes[0]
 )
 
 // Extension fields to descriptorpb.FieldOptions.
 var (
 	// optional string mcp_field_desc = 60000004;
-	E_McpFieldDesc = &file_eolymp_annotations_mcp_proto_extTypes[2]
+	E_McpFieldDesc = &file_eolymp_annotations_mcp_proto_extTypes[1]
 	// optional bool read_only = 60000005;
-	E_ReadOnly = &file_eolymp_annotations_mcp_proto_extTypes[3]
+	E_ReadOnly = &file_eolymp_annotations_mcp_proto_extTypes[2]
+)
+
+// Extension fields to descriptorpb.MethodOptions.
+var (
+	// optional string mcp_tool_desc = 60000004;
+	E_McpToolDesc = &file_eolymp_annotations_mcp_proto_extTypes[3]
 )
 
 var File_eolymp_annotations_mcp_proto protoreflect.FileDescriptor
@@ -178,46 +81,25 @@ var File_eolymp_annotations_mcp_proto protoreflect.FileDescriptor
 const file_eolymp_annotations_mcp_proto_rawDesc = "" +
 	"\n" +
 	"\x1ceolymp/annotations/mcp.proto\x12\n" +
-	"eolymp.api\x1a google/protobuf/descriptor.proto\"v\n" +
-	"\x03MCP\x1ao\n" +
-	"\x04Tool\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04name\x12 \n" +
-	"\vdescription\x18\x02 \x01(\tR\vdescription\x121\n" +
-	"\x14require_confirmation\x18\x03 \x01(\bR\x13requireConfirmation:R\n" +
-	"\bmcp_tool\x12\x1e.google.protobuf.MethodOptions\x18\x81\x8e\xce\x1c \x01(\v2\x14.eolymp.api.MCP.ToolR\amcpTool:J\n" +
+	"eolymp.api\x1a google/protobuf/descriptor.proto:J\n" +
 	"\x0emcp_value_desc\x12!.google.protobuf.EnumValueOptions\x18\x83\x8e\xce\x1c \x01(\tR\fmcpValueDesc:F\n" +
 	"\x0emcp_field_desc\x12\x1d.google.protobuf.FieldOptions\x18\x84\x8e\xce\x1c \x01(\tR\fmcpFieldDesc:=\n" +
-	"\tread_only\x12\x1d.google.protobuf.FieldOptions\x18\x85\x8e\xce\x1c \x01(\bR\breadOnlyB9Z7github.com/eolymp/go-sdk/eolymp/annotations;annotationsb\x06proto3"
+	"\tread_only\x12\x1d.google.protobuf.FieldOptions\x18\x85\x8e\xce\x1c \x01(\bR\breadOnly:E\n" +
+	"\rmcp_tool_desc\x12\x1e.google.protobuf.MethodOptions\x18\x84\x8e\xce\x1c \x01(\tR\vmcpToolDescB9Z7github.com/eolymp/go-sdk/eolymp/annotations;annotationsb\x06proto3"
 
-var (
-	file_eolymp_annotations_mcp_proto_rawDescOnce sync.Once
-	file_eolymp_annotations_mcp_proto_rawDescData []byte
-)
-
-func file_eolymp_annotations_mcp_proto_rawDescGZIP() []byte {
-	file_eolymp_annotations_mcp_proto_rawDescOnce.Do(func() {
-		file_eolymp_annotations_mcp_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_eolymp_annotations_mcp_proto_rawDesc), len(file_eolymp_annotations_mcp_proto_rawDesc)))
-	})
-	return file_eolymp_annotations_mcp_proto_rawDescData
-}
-
-var file_eolymp_annotations_mcp_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_eolymp_annotations_mcp_proto_goTypes = []any{
-	(*MCP)(nil),                           // 0: eolymp.api.MCP
-	(*MCP_Tool)(nil),                      // 1: eolymp.api.MCP.Tool
+	(*descriptorpb.EnumValueOptions)(nil), // 0: google.protobuf.EnumValueOptions
+	(*descriptorpb.FieldOptions)(nil),     // 1: google.protobuf.FieldOptions
 	(*descriptorpb.MethodOptions)(nil),    // 2: google.protobuf.MethodOptions
-	(*descriptorpb.EnumValueOptions)(nil), // 3: google.protobuf.EnumValueOptions
-	(*descriptorpb.FieldOptions)(nil),     // 4: google.protobuf.FieldOptions
 }
 var file_eolymp_annotations_mcp_proto_depIdxs = []int32{
-	2, // 0: eolymp.api.mcp_tool:extendee -> google.protobuf.MethodOptions
-	3, // 1: eolymp.api.mcp_value_desc:extendee -> google.protobuf.EnumValueOptions
-	4, // 2: eolymp.api.mcp_field_desc:extendee -> google.protobuf.FieldOptions
-	4, // 3: eolymp.api.read_only:extendee -> google.protobuf.FieldOptions
-	1, // 4: eolymp.api.mcp_tool:type_name -> eolymp.api.MCP.Tool
-	5, // [5:5] is the sub-list for method output_type
-	5, // [5:5] is the sub-list for method input_type
-	4, // [4:5] is the sub-list for extension type_name
+	0, // 0: eolymp.api.mcp_value_desc:extendee -> google.protobuf.EnumValueOptions
+	1, // 1: eolymp.api.mcp_field_desc:extendee -> google.protobuf.FieldOptions
+	1, // 2: eolymp.api.read_only:extendee -> google.protobuf.FieldOptions
+	2, // 3: eolymp.api.mcp_tool_desc:extendee -> google.protobuf.MethodOptions
+	4, // [4:4] is the sub-list for method output_type
+	4, // [4:4] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
 	0, // [0:4] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
 }
@@ -233,13 +115,12 @@ func file_eolymp_annotations_mcp_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_annotations_mcp_proto_rawDesc), len(file_eolymp_annotations_mcp_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   0,
 			NumExtensions: 4,
 			NumServices:   0,
 		},
 		GoTypes:           file_eolymp_annotations_mcp_proto_goTypes,
 		DependencyIndexes: file_eolymp_annotations_mcp_proto_depIdxs,
-		MessageInfos:      file_eolymp_annotations_mcp_proto_msgTypes,
 		ExtensionInfos:    file_eolymp_annotations_mcp_proto_extTypes,
 	}.Build()
 	File_eolymp_annotations_mcp_proto = out.File

@@ -1615,23 +1615,24 @@ func (x *DescribeContestUsageOutput) GetMonthlyContests() uint32 {
 }
 
 type ListContestsInput_Filter struct {
-	state         protoimpl.MessageState           `protogen:"open.v1"`
-	Id            []*wellknown.ExpressionID        `protobuf:"bytes,1,rep,name=id,proto3" json:"id,omitempty"`
-	Name          []*wellknown.ExpressionString    `protobuf:"bytes,3,rep,name=name,proto3" json:"name,omitempty"`
-	StartsAt      []*wellknown.ExpressionTimestamp `protobuf:"bytes,4,rep,name=starts_at,json=startsAt,proto3" json:"starts_at,omitempty"`
-	EndsAt        []*wellknown.ExpressionTimestamp `protobuf:"bytes,5,rep,name=ends_at,json=endsAt,proto3" json:"ends_at,omitempty"`
-	Public        []*wellknown.ExpressionBool      `protobuf:"bytes,6,rep,name=public,proto3" json:"public,omitempty"`         // deprecated, same as visibility=PUBLIC
-	Visibility    []*wellknown.ExpressionEnum      `protobuf:"bytes,7,rep,name=visibility,proto3" json:"visibility,omitempty"` // PUBLIC, UNLISTED, PRIVATE
-	Format        []*wellknown.ExpressionEnum      `protobuf:"bytes,8,rep,name=format,proto3" json:"format,omitempty"`         // IOI, ICPC
-	Status        []*wellknown.ExpressionEnum      `protobuf:"bytes,10,rep,name=status,proto3" json:"status,omitempty"`        // SCHEDULED, OPEN, ACTIVE, COMPLETE, UPSOLVE
-	Featured      []*wellknown.ExpressionBool      `protobuf:"bytes,11,rep,name=featured,proto3" json:"featured,omitempty"`
-	Year          []*wellknown.ExpressionInt       `protobuf:"bytes,100,rep,name=year,proto3" json:"year,omitempty"`
-	Scale         []*wellknown.ExpressionEnum      `protobuf:"bytes,101,rep,name=scale,proto3" json:"scale,omitempty"`
-	Series        []*wellknown.ExpressionEnum      `protobuf:"bytes,102,rep,name=series,proto3" json:"series,omitempty"`
-	Difficulty    []*wellknown.ExpressionInt       `protobuf:"bytes,103,rep,name=difficulty,proto3" json:"difficulty,omitempty"` // 1 to 5
-	Country       []*wellknown.ExpressionEnum      `protobuf:"bytes,104,rep,name=country,proto3" json:"country,omitempty"`
-	Region        []*wellknown.ExpressionEnum      `protobuf:"bytes,105,rep,name=region,proto3" json:"region,omitempty"`
-	City          []*wellknown.ExpressionString    `protobuf:"bytes,106,rep,name=city,proto3" json:"city,omitempty"`
+	state    protoimpl.MessageState           `protogen:"open.v1"`
+	Id       []*wellknown.ExpressionID        `protobuf:"bytes,1,rep,name=id,proto3" json:"id,omitempty"`
+	Name     []*wellknown.ExpressionString    `protobuf:"bytes,3,rep,name=name,proto3" json:"name,omitempty"`
+	StartsAt []*wellknown.ExpressionTimestamp `protobuf:"bytes,4,rep,name=starts_at,json=startsAt,proto3" json:"starts_at,omitempty"`
+	EndsAt   []*wellknown.ExpressionTimestamp `protobuf:"bytes,5,rep,name=ends_at,json=endsAt,proto3" json:"ends_at,omitempty"`
+	// Deprecated: Marked as deprecated in eolymp/judge/contest_service.proto.
+	Public        []*wellknown.ExpressionBool   `protobuf:"bytes,6,rep,name=public,proto3" json:"public,omitempty"`         // deprecated, same as visibility=PUBLIC
+	Visibility    []*wellknown.ExpressionEnum   `protobuf:"bytes,7,rep,name=visibility,proto3" json:"visibility,omitempty"` // PUBLIC, UNLISTED, PRIVATE
+	Format        []*wellknown.ExpressionEnum   `protobuf:"bytes,8,rep,name=format,proto3" json:"format,omitempty"`         // IOI, ICPC
+	Status        []*wellknown.ExpressionEnum   `protobuf:"bytes,10,rep,name=status,proto3" json:"status,omitempty"`        // SCHEDULED, OPEN, ACTIVE, COMPLETE, UPSOLVE
+	Featured      []*wellknown.ExpressionBool   `protobuf:"bytes,11,rep,name=featured,proto3" json:"featured,omitempty"`
+	Year          []*wellknown.ExpressionInt    `protobuf:"bytes,100,rep,name=year,proto3" json:"year,omitempty"`
+	Scale         []*wellknown.ExpressionEnum   `protobuf:"bytes,101,rep,name=scale,proto3" json:"scale,omitempty"`
+	Series        []*wellknown.ExpressionEnum   `protobuf:"bytes,102,rep,name=series,proto3" json:"series,omitempty"`
+	Difficulty    []*wellknown.ExpressionInt    `protobuf:"bytes,103,rep,name=difficulty,proto3" json:"difficulty,omitempty"` // 1 to 5
+	Country       []*wellknown.ExpressionEnum   `protobuf:"bytes,104,rep,name=country,proto3" json:"country,omitempty"`
+	Region        []*wellknown.ExpressionEnum   `protobuf:"bytes,105,rep,name=region,proto3" json:"region,omitempty"`
+	City          []*wellknown.ExpressionString `protobuf:"bytes,106,rep,name=city,proto3" json:"city,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1694,6 +1695,7 @@ func (x *ListContestsInput_Filter) GetEndsAt() []*wellknown.ExpressionTimestamp 
 	return nil
 }
 
+// Deprecated: Marked as deprecated in eolymp/judge/contest_service.proto.
 func (x *ListContestsInput_Filter) GetPublic() []*wellknown.ExpressionBool {
 	if x != nil {
 		return x.Public
@@ -1782,7 +1784,7 @@ var File_eolymp_judge_contest_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_contest_service_proto_rawDesc = "" +
 	"\n" +
-	"\"eolymp/judge/contest_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1beolymp/judge/activity.proto\x1a\x1aeolymp/judge/contest.proto\x1a!eolymp/wellknown/expression.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"q\n" +
+	"\"eolymp/judge/contest_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\x1ceolymp/annotations/mcp.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1beolymp/judge/activity.proto\x1a\x1aeolymp/judge/contest.proto\x1a!eolymp/wellknown/expression.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"q\n" +
 	"\x13ContestChangedEvent\x12-\n" +
 	"\x06before\x18\x01 \x01(\v2\x15.eolymp.judge.ContestR\x06before\x12+\n" +
 	"\x05after\x18\x02 \x01(\v2\x15.eolymp.judge.ContestR\x05after\"E\n" +
@@ -1821,32 +1823,33 @@ const file_eolymp_judge_contest_service_proto_rawDesc = "" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\x128\n" +
 	"\x05extra\x18\xe3\b \x03(\x0e2!.eolymp.judge.Contest.Extra.FieldR\x05extra\"H\n" +
 	"\x15DescribeContestOutput\x12/\n" +
-	"\acontest\x18\x01 \x01(\v2\x15.eolymp.judge.ContestR\acontest\"\x8e\t\n" +
+	"\acontest\x18\x01 \x01(\v2\x15.eolymp.judge.ContestR\acontest\"\xb4\f\n" +
 	"\x11ListContestsInput\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
 	"\x04size\x18\v \x01(\x05R\x04size\x12\x16\n" +
 	"\x06search\x18\x14 \x01(\tR\x06search\x12@\n" +
 	"\afilters\x18( \x01(\v2&.eolymp.judge.ListContestsInput.FilterR\afilters\x128\n" +
-	"\x05extra\x18\xe3\b \x03(\x0e2!.eolymp.judge.Contest.Extra.FieldR\x05extra\x1a\xb8\a\n" +
+	"\x05extra\x18\xe3\b \x03(\x0e2!.eolymp.judge.Contest.Extra.FieldR\x05extra\x1a\xde\n" +
+	"\n" +
 	"\x06Filter\x12.\n" +
 	"\x02id\x18\x01 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\x126\n" +
 	"\x04name\x18\x03 \x03(\v2\".eolymp.wellknown.ExpressionStringR\x04name\x12B\n" +
 	"\tstarts_at\x18\x04 \x03(\v2%.eolymp.wellknown.ExpressionTimestampR\bstartsAt\x12>\n" +
-	"\aends_at\x18\x05 \x03(\v2%.eolymp.wellknown.ExpressionTimestampR\x06endsAt\x128\n" +
-	"\x06public\x18\x06 \x03(\v2 .eolymp.wellknown.ExpressionBoolR\x06public\x12@\n" +
+	"\aends_at\x18\x05 \x03(\v2%.eolymp.wellknown.ExpressionTimestampR\x06endsAt\x12<\n" +
+	"\x06public\x18\x06 \x03(\v2 .eolymp.wellknown.ExpressionBoolB\x02\x18\x01R\x06public\x12\xe1\x01\n" +
 	"\n" +
-	"visibility\x18\a \x03(\v2 .eolymp.wellknown.ExpressionEnumR\n" +
-	"visibility\x128\n" +
-	"\x06format\x18\b \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x06format\x128\n" +
+	"visibility\x18\a \x03(\v2 .eolymp.wellknown.ExpressionEnumB\x9e\x01\xa2\xf0\xf0\xe4\x01\x97\x01valid values `PUBLIC` (visible and open to everyone), `UNLISTED` (not visible but open to everyone) and `PRIVATE` (visible and open for selected users)R\n" +
+	"visibility\x12Z\n" +
+	"\x06format\x18\b \x03(\v2 .eolymp.wellknown.ExpressionEnumB \xa2\xf0\xf0\xe4\x01\x1avalid values `IOC`, `ICPC`R\x06format\x12\xe8\x01\n" +
 	"\x06status\x18\n" +
-	" \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x06status\x12<\n" +
+	" \x03(\v2 .eolymp.wellknown.ExpressionEnumB\xad\x01\xa2\xf0\xf0\xe4\x01\xa6\x01valid values `SCHEDULED` (not started), `OPEN` (in progress), `ACTIVE` (current user participates), `COMPLETE` (finished), `UPSOLVE` (finished, but users can upsolve)R\x06status\x12<\n" +
 	"\bfeatured\x18\v \x03(\v2 .eolymp.wellknown.ExpressionBoolR\bfeatured\x123\n" +
 	"\x04year\x18d \x03(\v2\x1f.eolymp.wellknown.ExpressionIntR\x04year\x126\n" +
 	"\x05scale\x18e \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x05scale\x128\n" +
-	"\x06series\x18f \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x06series\x12?\n" +
+	"\x06series\x18f \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x06series\x12l\n" +
 	"\n" +
-	"difficulty\x18g \x03(\v2\x1f.eolymp.wellknown.ExpressionIntR\n" +
+	"difficulty\x18g \x03(\v2\x1f.eolymp.wellknown.ExpressionIntB+\xa2\xf0\xf0\xe4\x01%value from 1 (easiest) to 5 (hardest)R\n" +
 	"difficulty\x12:\n" +
 	"\acountry\x18h \x03(\v2 .eolymp.wellknown.ExpressionEnumR\acountry\x128\n" +
 	"\x06region\x18i \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x06region\x126\n" +
