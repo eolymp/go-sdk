@@ -28,12 +28,12 @@ type Contest_Status int32
 
 const (
 	Contest_STATUS_UNKNOWN Contest_Status = 0 // reserved, should not be used
-	Contest_SCHEDULED      Contest_Status = 1 // contest hasn't started yet
-	Contest_OPEN           Contest_Status = 2 // contest has started, participants can participate
-	Contest_COMPLETE       Contest_Status = 3 // contest is finished
-	Contest_SUSPENDED      Contest_Status = 4 // contest has been suspended, interface is not available
-	Contest_FROZEN         Contest_Status = 5 // contest has been frozen, interface is available but submission is restricted
-	Contest_FINALIZED      Contest_Status = 6 // contest has been finalized and archived
+	Contest_SCHEDULED      Contest_Status = 1
+	Contest_OPEN           Contest_Status = 2
+	Contest_COMPLETE       Contest_Status = 3
+	Contest_SUSPENDED      Contest_Status = 4
+	Contest_FROZEN         Contest_Status = 5
+	Contest_FINALIZED      Contest_Status = 6
 )
 
 // Enum value maps for Contest_Status.
@@ -89,9 +89,9 @@ type Contest_Visibility int32
 
 const (
 	Contest_VISIBILITY_UNKNOWN Contest_Visibility = 0 // reserved, should not be used
-	Contest_PUBLIC             Contest_Visibility = 1 // visible to everyone and shown on the website
-	Contest_UNLISTED           Contest_Visibility = 2 // anyone can participate, but not shown on the website
-	Contest_PRIVATE            Contest_Visibility = 3 // only explicitly added participants can participate
+	Contest_PUBLIC             Contest_Visibility = 1
+	Contest_UNLISTED           Contest_Visibility = 2
+	Contest_PRIVATE            Contest_Visibility = 3
 )
 
 // Enum value maps for Contest_Visibility.
@@ -141,8 +141,8 @@ type Contest_ParticipationMode int32
 
 const (
 	Contest_PARTICIPATION_MODE_UNKNOWN Contest_ParticipationMode = 0 // reserved, should not be used
-	Contest_ONLINE                     Contest_ParticipationMode = 1 // everyone start and finish together
-	Contest_VIRTUAL                    Contest_ParticipationMode = 2 // participants can start contest individually
+	Contest_ONLINE                     Contest_ParticipationMode = 1
+	Contest_VIRTUAL                    Contest_ParticipationMode = 2
 )
 
 // Enum value maps for Contest_ParticipationMode.
@@ -470,9 +470,9 @@ type Contest_ScoreboardConfig_Visibility int32
 
 const (
 	Contest_ScoreboardConfig_UNKNOWN_VISIBILITY Contest_ScoreboardConfig_Visibility = 0
-	Contest_ScoreboardConfig_INVISIBLE          Contest_ScoreboardConfig_Visibility = 1 // visible only to organizers
-	Contest_ScoreboardConfig_INTERNAL           Contest_ScoreboardConfig_Visibility = 2 // visible to participants and organizers
-	Contest_ScoreboardConfig_PUBLIC             Contest_ScoreboardConfig_Visibility = 3 // visible to everyone
+	Contest_ScoreboardConfig_INVISIBLE          Contest_ScoreboardConfig_Visibility = 1
+	Contest_ScoreboardConfig_INTERNAL           Contest_ScoreboardConfig_Visibility = 2
+	Contest_ScoreboardConfig_PUBLIC             Contest_ScoreboardConfig_Visibility = 3
 )
 
 // Enum value maps for Contest_ScoreboardConfig_Visibility.
@@ -1337,7 +1337,7 @@ var File_eolymp_judge_contest_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\n" +
-	"\x1aeolymp/judge/contest.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1ceolymp/runtime/runtime.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x81\x1d\n" +
+	"\x1aeolymp/judge/contest.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1ceolymp/runtime/runtime.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc1\"\n" +
 	"\aContest\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x18\n" +
 	"\x03url\x18\x02 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x03url\x12\x12\n" +
@@ -1365,9 +1365,9 @@ const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\x14problem_count_hidden\x18= \x01(\bB\x06\xa8\xf0\xf0\xe4\x01\x01R\x12problemCountHidden\x123\n" +
 	"\x11participant_count\x18> \x01(\rB\x06\xa8\xf0\xf0\xe4\x01\x01R\x10participantCount\x12@\n" +
 	"\x18participant_count_hidden\x18? \x01(\bB\x06\xa8\xf0\xf0\xe4\x01\x01R\x16participantCountHidden\x12A\n" +
-	"\x0efeatured_until\x182 \x01(\v2\x1a.google.protobuf.TimestampR\rfeaturedUntil\x12\x1d\n" +
+	"\x0efeatured_until\x182 \x01(\v2\x1a.google.protobuf.TimestampR\rfeaturedUntil\x12%\n" +
 	"\n" +
-	"printer_id\x18G \x01(\tR\tprinterId\x12L\n" +
+	"printer_id\x18G \x01(\tB\x06\xb0\xf0\xf0\xe4\x01\x01R\tprinterId\x12L\n" +
 	"\x0eclassification\x18n \x01(\v2$.eolymp.judge.Contest.ClassificationR\x0eclassification\x12S\n" +
 	"\x11scoreboard_config\x18i \x01(\v2&.eolymp.judge.Contest.ScoreboardConfigR\x10scoreboardConfig\x12V\n" +
 	"\x12environment_config\x18o \x01(\v2'.eolymp.judge.Contest.EnvironmentConfigR\x11environmentConfig\x12\\\n" +
@@ -1428,7 +1428,7 @@ const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\x05LOCAL\x10\x01\x12\f\n" +
 	"\bREGIONAL\x10\x02\x12\f\n" +
 	"\bNATIONAL\x10\x03\x12\x11\n" +
-	"\rINTERNATIONAL\x10\x04\x1a\x8b\x03\n" +
+	"\rINTERNATIONAL\x10\x04\x1a\xf7\x03\n" +
 	"\x10ScoreboardConfig\x12Q\n" +
 	"\n" +
 	"visibility\x18\x01 \x01(\x0e21.eolymp.judge.Contest.ScoreboardConfig.VisibilityR\n" +
@@ -1439,14 +1439,13 @@ const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\vtie_breaker\x18\x05 \x01(\tR\n" +
 	"tieBreaker\x12\"\n" +
 	"\rno_spoiler_ui\x18\x06 \x01(\bR\vnoSpoilerUi\x12\x1b\n" +
-	"\tshare_key\x18\a \x01(\tR\bshareKey\"M\n" +
+	"\tshare_key\x18\a \x01(\tR\bshareKey\"\xb8\x01\n" +
 	"\n" +
 	"Visibility\x12\x16\n" +
-	"\x12UNKNOWN_VISIBILITY\x10\x00\x12\r\n" +
-	"\tINVISIBLE\x10\x01\x12\f\n" +
-	"\bINTERNAL\x10\x02\x12\n" +
-	"\n" +
-	"\x06PUBLIC\x10\x03\x1a\xd1\x01\n" +
+	"\x12UNKNOWN_VISIBILITY\x10\x00\x12/\n" +
+	"\tINVISIBLE\x10\x01\x1a \x9a\xf0\xf0\xe4\x01\x1avisible only to organizers\x12:\n" +
+	"\bINTERNAL\x10\x02\x1a,\x9a\xf0\xf0\xe4\x01&visible to participants and organizers\x12%\n" +
+	"\x06PUBLIC\x10\x03\x1a\x19\x9a\xf0\xf0\xe4\x01\x13visible to everyone\x1a\xd1\x01\n" +
 	"\x13CertificationConfig\x12\x18\n" +
 	"\aenabled\x18\x01 \x01(\bR\aenabled\x12 \n" +
 	"\vaffiliation\x18\x02 \x01(\tR\vaffiliation\x12J\n" +
@@ -1461,28 +1460,25 @@ const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\x05Staff\x12\x1b\n" +
 	"\tmember_id\x18\x01 \x01(\tR\bmemberId\x12!\n" +
 	"\fdisplay_name\x18\x02 \x01(\tR\vdisplayName\x12\x12\n" +
-	"\x04role\x18\x03 \x01(\tR\x04role\"m\n" +
+	"\x04role\x18\x03 \x01(\tR\x04role\"\xaf\x03\n" +
 	"\x06Status\x12\x12\n" +
-	"\x0eSTATUS_UNKNOWN\x10\x00\x12\r\n" +
-	"\tSCHEDULED\x10\x01\x12\b\n" +
-	"\x04OPEN\x10\x02\x12\f\n" +
-	"\bCOMPLETE\x10\x03\x12\r\n" +
-	"\tSUSPENDED\x10\x04\x12\n" +
-	"\n" +
-	"\x06FROZEN\x10\x05\x12\r\n" +
-	"\tFINALIZED\x10\x06\"K\n" +
+	"\x0eSTATUS_UNKNOWN\x10\x00\x12/\n" +
+	"\tSCHEDULED\x10\x01\x1a \x9a\xf0\xf0\xe4\x01\x1acontest hasn't started yet\x12A\n" +
+	"\x04OPEN\x10\x02\x1a7\x9a\xf0\xf0\xe4\x011contest has started, participants can participate\x12'\n" +
+	"\bCOMPLETE\x10\x03\x1a\x19\x9a\xf0\xf0\xe4\x01\x13contest is finished\x12K\n" +
+	"\tSUSPENDED\x10\x04\x1a<\x9a\xf0\xf0\xe4\x016contest has been suspended, interface is not available\x12^\n" +
+	"\x06FROZEN\x10\x05\x1aR\x9a\xf0\xf0\xe4\x01Lcontest has been frozen, interface is available but submission is restricted\x12G\n" +
+	"\tFINALIZED\x10\x06\x1a8\x9a\xf0\xf0\xe4\x012complete, results are final and can not be changed\"\xf5\x01\n" +
 	"\n" +
 	"Visibility\x12\x16\n" +
-	"\x12VISIBILITY_UNKNOWN\x10\x00\x12\n" +
-	"\n" +
-	"\x06PUBLIC\x10\x01\x12\f\n" +
-	"\bUNLISTED\x10\x02\x12\v\n" +
-	"\aPRIVATE\x10\x03\"L\n" +
+	"\x12VISIBILITY_UNKNOWN\x10\x00\x12>\n" +
+	"\x06PUBLIC\x10\x01\x1a2\x9a\xf0\xf0\xe4\x01,visible to everyone and shown on the website\x12H\n" +
+	"\bUNLISTED\x10\x02\x1a:\x9a\xf0\xf0\xe4\x014anyone can participate, but not shown on the website\x12E\n" +
+	"\aPRIVATE\x10\x03\x1a8\x9a\xf0\xf0\xe4\x012only explicitly added participants can participate\"\xa9\x01\n" +
 	"\x11ParticipationMode\x12\x1e\n" +
-	"\x1aPARTICIPATION_MODE_UNKNOWN\x10\x00\x12\n" +
-	"\n" +
-	"\x06ONLINE\x10\x01\x12\v\n" +
-	"\aVIRTUAL\x10\x02\"/\n" +
+	"\x1aPARTICIPATION_MODE_UNKNOWN\x10\x00\x124\n" +
+	"\x06ONLINE\x10\x01\x1a(\x9a\xf0\xf0\xe4\x01\"everyone start and finish together\x12>\n" +
+	"\aVIRTUAL\x10\x02\x1a1\x9a\xf0\xf0\xe4\x01+participants can start contest individually\"/\n" +
 	"\x06Format\x12\x12\n" +
 	"\x0eFORMAT_UNKNOWN\x10\x00\x12\a\n" +
 	"\x03IOI\x10\x01\x12\b\n" +

@@ -871,7 +871,7 @@ var File_eolymp_judge_score_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_score_service_proto_rawDesc = "" +
 	"\n" +
-	" eolymp/judge/score_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x19eolymp/judge/result.proto\x1a\x18eolymp/judge/score.proto\"2\n" +
+	" eolymp/judge/score_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\x1ceolymp/annotations/mcp.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x19eolymp/judge/result.proto\x1a\x18eolymp/judge/score.proto\"2\n" +
 	"\x11RebuildScoreInput\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\"5\n" +
@@ -912,12 +912,12 @@ const file_eolymp_judge_score_service_proto_rawDesc = "" +
 	"\x0eparticipant_id\x18\x02 \x01(\tR\rparticipantId\"@\n" +
 	"\x11ExportScoreOutput\x12+\n" +
 	"\x06scores\x18\n" +
-	" \x03(\v2\x13.eolymp.judge.ScoreR\x06scores\"\xb3\x01\n" +
+	" \x03(\v2\x13.eolymp.judge.ScoreR\x06scores\"\xbb\x01\n" +
 	"\x0fListResultInput\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\x124\n" +
-	"\x04mode\x18\x02 \x01(\x0e2 .eolymp.judge.Score.FetchingModeR\x04mode\x12\x1f\n" +
-	"\vtime_offset\x18\x03 \x01(\x05R\n" +
+	"\x04mode\x18\x02 \x01(\x0e2 .eolymp.judge.Score.FetchingModeR\x04mode\x12'\n" +
+	"\vtime_offset\x18\x03 \x01(\x05B\x06\xb0\xf0\xf0\xe4\x01\x01R\n" +
 	"timeOffset\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +

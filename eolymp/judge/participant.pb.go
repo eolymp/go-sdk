@@ -228,6 +228,8 @@ type Participant struct {
 	// Passcode is a code participant has to enter before she can begin contest.
 	// This field is only populated when request is made by contest owner.
 	// Passcode is read-only and should be set using ResetPasscode method.
+	//
+	// Deprecated: Marked as deprecated in eolymp/judge/participant.proto.
 	Passcode      string `protobuf:"bytes,30,opt,name=passcode,proto3" json:"passcode,omitempty"`
 	CertificateId string `protobuf:"bytes,32,opt,name=certificate_id,json=certificateId,proto3" json:"certificate_id,omitempty"` // Participation certificate ID.
 	// Submit counter is used to count how many times user submitted the problem.
@@ -371,6 +373,7 @@ func (x *Participant) GetViolationCount() uint32 {
 	return 0
 }
 
+// Deprecated: Marked as deprecated in eolymp/judge/participant.proto.
 func (x *Participant) GetPasscode() string {
 	if x != nil {
 		return x.Passcode
@@ -484,7 +487,8 @@ var File_eolymp_judge_participant_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_participant_proto_rawDesc = "" +
 	"\n" +
-	"\x1eeolymp/judge/participant.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/judge/medal.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x83\t\n" +
+	"\x1eeolymp/judge/participant.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/judge/medal.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xf7\n" +
+	"\n" +
 	"\vParticipant\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x1b\n" +
 	"\tmember_id\x18\x04 \x01(\tR\bmemberId\x12)\n" +
@@ -495,9 +499,9 @@ const file_eolymp_judge_participant_proto_rawDesc = "" +
 	"unofficial\x12\x1a\n" +
 	"\binactive\x18\n" +
 	" \x01(\bR\binactive\x12\"\n" +
-	"\fdisqualified\x18\v \x01(\bR\fdisqualified\x12\x14\n" +
-	"\x05ghost\x18\b \x01(\bR\x05ghost\x12\x1c\n" +
-	"\tfinalized\x18\f \x01(\bR\tfinalized\x12)\n" +
+	"\fdisqualified\x18\v \x01(\bR\fdisqualified\x12\x1c\n" +
+	"\x05ghost\x18\b \x01(\bB\x06\xb0\xf0\xf0\xe4\x01\x01R\x05ghost\x12$\n" +
+	"\tfinalized\x18\f \x01(\bB\x06\xb0\xf0\xf0\xe4\x01\x01R\tfinalized\x12)\n" +
 	"\x05medal\x18\t \x01(\x0e2\x13.eolymp.judge.MedalR\x05medal\x128\n" +
 	"\x06status\x18\x14 \x01(\x0e2 .eolymp.judge.Participant.StatusR\x06status\x12A\n" +
 	"\n" +
@@ -505,8 +509,8 @@ const file_eolymp_judge_participant_proto_rawDesc = "" +
 	"\x06end_at\x18\x19 \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\x05endAt\x12\x1d\n" +
 	"\n" +
 	"bonus_time\x18\x1b \x01(\rR\tbonusTime\x12/\n" +
-	"\x0fviolation_count\x18\x1c \x01(\rB\x06\xa8\xf0\xf0\xe4\x01\x01R\x0eviolationCount\x12\"\n" +
-	"\bpasscode\x18\x1e \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\bpasscode\x12-\n" +
+	"\x0fviolation_count\x18\x1c \x01(\rB\x06\xa8\xf0\xf0\xe4\x01\x01R\x0eviolationCount\x12$\n" +
+	"\bpasscode\x18\x1e \x01(\tB\b\xa8\xf0\xf0\xe4\x01\x01\x18\x01R\bpasscode\x12-\n" +
 	"\x0ecertificate_id\x18  \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\rcertificateId\x12B\n" +
 	"\asubmits\x18( \x03(\v2 .eolymp.judge.Participant.SubmitB\x06\xa8\xf0\xf0\xe4\x01\x01R\asubmits\x1a|\n" +
 	"\x05Patch\"s\n" +
@@ -524,18 +528,16 @@ const file_eolymp_judge_participant_proto_rawDesc = "" +
 	"\x06Submit\x12\x1d\n" +
 	"\n" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x18\n" +
-	"\acounter\x18\x02 \x01(\rR\acounter\"t\n" +
+	"\acounter\x18\x02 \x01(\rR\acounter\"\xd5\x02\n" +
 	"\x06Status\x12\x12\n" +
-	"\x0eUNKNOWN_STATUS\x10\x00\x12\v\n" +
-	"\aWAITING\x10\x05\x12\t\n" +
-	"\x05READY\x10\x01\x12\n" +
-	"\n" +
-	"\x06ACTIVE\x10\x02\x12\f\n" +
-	"\bCOMPLETE\x10\x03\x12\v\n" +
-	"\aUPSOLVE\x10\a\x12\v\n" +
-	"\aBLOCKED\x10\b\x12\n" +
-	"\n" +
-	"\x06PAUSED\x10\t\"K\n" +
+	"\x0eUNKNOWN_STATUS\x10\x00\x12$\n" +
+	"\aWAITING\x10\x05\x1a\x17\x9a\xf0\xf0\xe4\x01\x11can not start yet\x12\x1f\n" +
+	"\x05READY\x10\x01\x1a\x14\x9a\xf0\xf0\xe4\x01\x0eready to start\x12!\n" +
+	"\x06ACTIVE\x10\x02\x1a\x15\x9a\xf0\xf0\xe4\x01\x0fstarted contest\x12$\n" +
+	"\bCOMPLETE\x10\x03\x1a\x16\x9a\xf0\xf0\xe4\x01\x10finished contest\x12E\n" +
+	"\aUPSOLVE\x10\a\x1a8\x9a\xf0\xf0\xe4\x012finished contest and can continue solving problems\x12(\n" +
+	"\aBLOCKED\x10\b\x1a\x1b\x9a\xf0\xf0\xe4\x01\x15blocked by organisers\x126\n" +
+	"\x06PAUSED\x10\t\x1a*\x9a\xf0\xf0\xe4\x01$has paused participation voluntarily\"K\n" +
 	"\x04Role\x12\x0f\n" +
 	"\vPARTICIPANT\x10\x00\x12\t\n" +
 	"\x05STAFF\x10\x01\x12\n" +

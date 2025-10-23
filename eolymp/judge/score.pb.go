@@ -7,6 +7,7 @@
 package judge
 
 import (
+	_ "github.com/eolymp/go-sdk/eolymp/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
@@ -381,7 +382,7 @@ var File_eolymp_judge_score_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_score_proto_rawDesc = "" +
 	"\n" +
-	"\x18eolymp/judge/score.proto\x12\feolymp.judge\x1a\x1fgoogle/protobuf/timestamp.proto\"\xbc\x06\n" +
+	"\x18eolymp/judge/score.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xa5\a\n" +
 	"\x05Score\x12\x1f\n" +
 	"\vvalid_after\x18\x01 \x01(\rR\n" +
 	"validAfter\x12\x1f\n" +
@@ -416,16 +417,13 @@ const file_eolymp_judge_score_proto_rawDesc = "" +
 	"\x05index\x18\x02 \x01(\rR\x05index\x12\x12\n" +
 	"\x04cost\x18\n" +
 	" \x01(\x02R\x04cost\x12\x14\n" +
-	"\x05score\x18\v \x01(\x02R\x05score\"M\n" +
-	"\fFetchingMode\x12\n" +
-	"\n" +
-	"\x06ACTUAL\x10\x00\x12\f\n" +
-	"\bPUNCTUAL\x10\x01\x12\n" +
-	"\n" +
-	"\x06LATEST\x10\x02\x12\n" +
-	"\n" +
-	"\x06FROZEN\x10\x03\x12\v\n" +
-	"\aUPSOLVE\x10\x04B-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
+	"\x05score\x18\v \x01(\x02R\x05score\"\xb5\x01\n" +
+	"\fFetchingMode\x12\x12\n" +
+	"\x06ACTUAL\x10\x00\x1a\x06\xb8\xf0\xf0\xe4\x01\x01\x12\x14\n" +
+	"\bPUNCTUAL\x10\x01\x1a\x06\xb8\xf0\xf0\xe4\x01\x01\x125\n" +
+	"\x06LATEST\x10\x02\x1a)\x9a\xf0\xf0\xe4\x01#score received during official time\x12\x12\n" +
+	"\x06FROZEN\x10\x03\x1a\x06\xb8\xf0\xf0\xe4\x01\x01\x120\n" +
+	"\aUPSOLVE\x10\x04\x1a#\x9a\xf0\xf0\xe4\x01\x1dscore received during upsolveB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
 
 var (
 	file_eolymp_judge_score_proto_rawDescOnce sync.Once
