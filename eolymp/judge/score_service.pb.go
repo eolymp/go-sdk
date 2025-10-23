@@ -889,13 +889,13 @@ const file_eolymp_judge_score_service_proto_rawDesc = "" +
 	"\x0eparticipant_id\x18\x02 \x01(\tR\rparticipantId\x124\n" +
 	"\x04mode\x18\x03 \x01(\x0e2 .eolymp.judge.Score.FetchingModeR\x04mode\"=\n" +
 	"\x10WatchScoreOutput\x12)\n" +
-	"\x05score\x18\x01 \x01(\v2\x13.eolymp.judge.ScoreR\x05score\"\xb1\x01\n" +
+	"\x05score\x18\x01 \x01(\v2\x13.eolymp.judge.ScoreR\x05score\"\xb9\x01\n" +
 	"\x12DescribeScoreInput\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\x12%\n" +
 	"\x0eparticipant_id\x18\x02 \x01(\tR\rparticipantId\x124\n" +
-	"\x04mode\x18\x03 \x01(\x0e2 .eolymp.judge.Score.FetchingModeR\x04mode\x12\x1f\n" +
-	"\vtime_offset\x18\x04 \x01(\x05R\n" +
+	"\x04mode\x18\x03 \x01(\x0e2 .eolymp.judge.Score.FetchingModeR\x04mode\x12'\n" +
+	"\vtime_offset\x18\x04 \x01(\x05B\x06\xb0\xf0\xf0\xe4\x01\x01R\n" +
 	"timeOffset\"@\n" +
 	"\x13DescribeScoreOutput\x12)\n" +
 	"\x05score\x18\x01 \x01(\v2\x13.eolymp.judge.ScoreR\x05score\"\x85\x01\n" +
