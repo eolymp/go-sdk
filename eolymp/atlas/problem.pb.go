@@ -27,11 +27,11 @@ type Problem_Type int32
 
 const (
 	Problem_UNKNOWN_TYPE Problem_Type = 0
-	Problem_PROGRAM      Problem_Type = 1 // program problem, user should write a program to solve it
-	Problem_FUNCTION     Problem_Type = 2 // function problem, user should write a function to solve it
-	Problem_OUTPUT       Problem_Type = 3 // output-only problem, user should upload answer file to solve it
-	Problem_SQL          Problem_Type = 4 // SQL problem, user should write SQL queries to solve it
-	Problem_ML           Problem_Type = 5 // Machine learning problem
+	Problem_PROGRAM      Problem_Type = 1
+	Problem_FUNCTION     Problem_Type = 2
+	Problem_OUTPUT       Problem_Type = 3
+	Problem_SQL          Problem_Type = 4
+	Problem_ML           Problem_Type = 5
 )
 
 // Enum value maps for Problem_Type.
@@ -655,7 +655,7 @@ var File_eolymp_atlas_problem_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_problem_proto_rawDesc = "" +
 	"\n" +
-	"\x1aeolymp/atlas/problem.proto\x12\feolymp.atlas\x1a\x1ceolymp/annotations/mcp.proto\x1a\x17eolymp/atlas/form.proto\x1a\x18eolymp/ecm/content.proto\"\xd0\f\n" +
+	"\x1aeolymp/atlas/problem.proto\x12\feolymp.atlas\x1a\x1ceolymp/annotations/mcp.proto\x1a\x17eolymp/atlas/form.proto\x1a\x18eolymp/ecm/content.proto\"\x89\x0f\n" +
 	"\aProblem\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x19\n" +
 	"\x03url\x18\xaa\x05 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x03url\x12.\n" +
@@ -683,14 +683,14 @@ const file_eolymp_atlas_problem_proto_rawDesc = "" +
 	"difficulty\x18\x15 \x01(\rR\n" +
 	"difficulty\x12C\n" +
 	"\x0fsubmission_form\x18\x16 \x01(\v2\x12.eolymp.atlas.FormB\x06\xa8\xf0\xf0\xe4\x01\x01R\x0esubmissionForm\x12A\n" +
-	"\bexamples\x18< \x03(\v2\x1d.eolymp.atlas.Problem.ExampleB\x06\xa8\xf0\xf0\xe4\x01\x01R\bexamples\x1a\x82\x01\n" +
-	"\x05Extra\"y\n" +
+	"\bexamples\x18< \x03(\v2\x1d.eolymp.atlas.Problem.ExampleB\x06\xa8\xf0\xf0\xe4\x01\x01R\bexamples\x1a\x93\x01\n" +
+	"\x05Extra\"\x89\x01\n" +
 	"\x05Field\x12\x11\n" +
-	"\rUNKNOWN_EXTRA\x10\x00\x12\b\n" +
-	"\x04VOTE\x10\x01\x12\t\n" +
+	"\rUNKNOWN_EXTRA\x10\x00\x12\x10\n" +
+	"\x04VOTE\x10\x01\x1a\x06\xb8\xf0\xf0\xe4\x01\x01\x12\t\n" +
 	"\x05TITLE\x10\x02\x12\x11\n" +
-	"\rCONTENT_VALUE\x10\x03\x12\x12\n" +
-	"\x0eCONTENT_RENDER\x10\x04\x12\x13\n" +
+	"\rCONTENT_VALUE\x10\x03\x12\x1a\n" +
+	"\x0eCONTENT_RENDER\x10\x04\x1a\x06\xb8\xf0\xf0\xe4\x01\x01\x12\x13\n" +
 	"\x0fSUBMISSION_FORM\x10\x05\x12\f\n" +
 	"\bEXAMPLES\x10\x06\x1a{\n" +
 	"\x05Patch\"r\n" +
@@ -718,15 +718,14 @@ const file_eolymp_atlas_problem_proto_rawDesc = "" +
 	"\x05index\x18\x01 \x01(\rR\x05index\x12\x1b\n" +
 	"\tinput_url\x18\x02 \x01(\tR\binputUrl\x12\x1d\n" +
 	"\n" +
-	"answer_url\x18\x03 \x01(\tR\tanswerUrl\"P\n" +
+	"answer_url\x18\x03 \x01(\tR\tanswerUrl\"\xf7\x02\n" +
 	"\x04Type\x12\x10\n" +
-	"\fUNKNOWN_TYPE\x10\x00\x12\v\n" +
-	"\aPROGRAM\x10\x01\x12\f\n" +
-	"\bFUNCTION\x10\x02\x12\n" +
-	"\n" +
-	"\x06OUTPUT\x10\x03\x12\a\n" +
-	"\x03SQL\x10\x04\x12\x06\n" +
-	"\x02ML\x10\x05B-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\fUNKNOWN_TYPE\x10\x00\x12K\n" +
+	"\aPROGRAM\x10\x01\x1a>\x9a\xf0\xf0\xe4\x018program problem, user should write a program to solve it\x12N\n" +
+	"\bFUNCTION\x10\x02\x1a@\x9a\xf0\xf0\xe4\x01:function problem, user should write a function to solve it\x12Q\n" +
+	"\x06OUTPUT\x10\x03\x1aE\x9a\xf0\xf0\xe4\x01?output-only problem, user should upload answer file to solve it\x12E\n" +
+	"\x03SQL\x10\x04\x1a<\x9a\xf0\xf0\xe4\x016SQL problem, user should write SQL queries to solve it\x12&\n" +
+	"\x02ML\x10\x05\x1a\x1e\x9a\xf0\xf0\xe4\x01\x18Machine learning problemB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_problem_proto_rawDescOnce sync.Once
