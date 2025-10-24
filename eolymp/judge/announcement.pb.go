@@ -7,6 +7,7 @@
 package judge
 
 import (
+	_ "github.com/eolymp/go-sdk/eolymp/annotations"
 	ecm "github.com/eolymp/go-sdk/eolymp/ecm"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -157,19 +158,19 @@ var File_eolymp_judge_announcement_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_announcement_proto_rawDesc = "" +
 	"\n" +
-	"\x1feolymp/judge/announcement.proto\x12\feolymp.judge\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xff\x01\n" +
-	"\fAnnouncement\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1d\n" +
+	"\x1feolymp/judge/announcement.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x9f\x02\n" +
+	"\fAnnouncement\x12\x16\n" +
+	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12%\n" +
 	"\n" +
-	"contest_id\x18\x02 \x01(\tR\tcontestId\x129\n" +
+	"contest_id\x18\x02 \x01(\tB\x06\xb0\xf0\xf0\xe4\x01\x01R\tcontestId\x12A\n" +
 	"\n" +
-	"created_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x12\x18\n" +
+	"created_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\tcreatedAt\x12\x18\n" +
 	"\asubject\x18\n" +
 	" \x01(\tR\asubject\x12-\n" +
-	"\amessage\x18\v \x01(\v2\x13.eolymp.ecm.ContentR\amessage\"<\n" +
+	"\amessage\x18\v \x01(\v2\x13.eolymp.ecm.ContentR\amessage\"D\n" +
 	"\x05Extra\x12\f\n" +
-	"\bNO_EXTRA\x10\x00\x12\x12\n" +
-	"\x0eMESSAGE_RENDER\x10\x01\x12\x11\n" +
+	"\bNO_EXTRA\x10\x00\x12\x1a\n" +
+	"\x0eMESSAGE_RENDER\x10\x01\x1a\x06\xb8\xf0\xf0\xe4\x01\x01\x12\x11\n" +
 	"\rMESSAGE_VALUE\x10\x02B-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
 
 var (

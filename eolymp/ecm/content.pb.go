@@ -133,9 +133,9 @@ var File_eolymp_ecm_content_proto protoreflect.FileDescriptor
 const file_eolymp_ecm_content_proto_rawDesc = "" +
 	"\n" +
 	"\x18eolymp/ecm/content.proto\x12\n" +
-	"eolymp.ecm\x1a\x1ceolymp/annotations/mcp.proto\x1a\x15eolymp/ecm/node.proto\"\x90\x01\n" +
-	"\aContent\x12\x14\n" +
-	"\x04html\x18\x01 \x01(\tH\x00R\x04html\x12\x16\n" +
+	"eolymp.ecm\x1a\x1ceolymp/annotations/mcp.proto\x1a\x15eolymp/ecm/node.proto\"\x98\x01\n" +
+	"\aContent\x12\x1c\n" +
+	"\x04html\x18\x01 \x01(\tB\x06\xb0\xf0\xf0\xe4\x01\x01H\x00R\x04html\x12\x16\n" +
 	"\x05latex\x18\x02 \x01(\tH\x00R\x05latex\x12\x1c\n" +
 	"\bmarkdown\x18\x03 \x01(\tH\x00R\bmarkdown\x120\n" +
 	"\x06render\x18c \x01(\v2\x10.eolymp.ecm.NodeB\x06\xa8\xf0\xf0\xe4\x01\x01R\x06renderB\a\n" +

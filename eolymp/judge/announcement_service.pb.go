@@ -77,7 +77,6 @@ func (WatchAnnouncementsOutput_Event) EnumDescriptor() ([]byte, []int) {
 
 type CreateAnnouncementInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	ContestId     string                 `protobuf:"bytes,1,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
 	Announcement  *Announcement          `protobuf:"bytes,2,opt,name=announcement,proto3" json:"announcement,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -111,13 +110,6 @@ func (x *CreateAnnouncementInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use CreateAnnouncementInput.ProtoReflect.Descriptor instead.
 func (*CreateAnnouncementInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_judge_announcement_service_proto_rawDescGZIP(), []int{0}
-}
-
-func (x *CreateAnnouncementInput) GetContestId() string {
-	if x != nil {
-		return x.ContestId
-	}
-	return ""
 }
 
 func (x *CreateAnnouncementInput) GetAnnouncement() *Announcement {
@@ -173,7 +165,6 @@ func (x *CreateAnnouncementOutput) GetId() string {
 
 type UpdateAnnouncementInput struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
-	ContestId      string                 `protobuf:"bytes,1,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
 	AnnouncementId string                 `protobuf:"bytes,2,opt,name=announcement_id,json=announcementId,proto3" json:"announcement_id,omitempty"`
 	Announcement   *Announcement          `protobuf:"bytes,3,opt,name=announcement,proto3" json:"announcement,omitempty"`
 	unknownFields  protoimpl.UnknownFields
@@ -208,13 +199,6 @@ func (x *UpdateAnnouncementInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use UpdateAnnouncementInput.ProtoReflect.Descriptor instead.
 func (*UpdateAnnouncementInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_judge_announcement_service_proto_rawDescGZIP(), []int{2}
-}
-
-func (x *UpdateAnnouncementInput) GetContestId() string {
-	if x != nil {
-		return x.ContestId
-	}
-	return ""
 }
 
 func (x *UpdateAnnouncementInput) GetAnnouncementId() string {
@@ -269,7 +253,6 @@ func (*UpdateAnnouncementOutput) Descriptor() ([]byte, []int) {
 
 type DeleteAnnouncementInput struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
-	ContestId      string                 `protobuf:"bytes,1,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
 	AnnouncementId string                 `protobuf:"bytes,2,opt,name=announcement_id,json=announcementId,proto3" json:"announcement_id,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
@@ -303,13 +286,6 @@ func (x *DeleteAnnouncementInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DeleteAnnouncementInput.ProtoReflect.Descriptor instead.
 func (*DeleteAnnouncementInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_judge_announcement_service_proto_rawDescGZIP(), []int{4}
-}
-
-func (x *DeleteAnnouncementInput) GetContestId() string {
-	if x != nil {
-		return x.ContestId
-	}
-	return ""
 }
 
 func (x *DeleteAnnouncementInput) GetAnnouncementId() string {
@@ -357,7 +333,6 @@ func (*DeleteAnnouncementOutput) Descriptor() ([]byte, []int) {
 
 type ReadAnnouncementInput struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
-	ContestId      string                 `protobuf:"bytes,1,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
 	AnnouncementId string                 `protobuf:"bytes,2,opt,name=announcement_id,json=announcementId,proto3" json:"announcement_id,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
@@ -391,13 +366,6 @@ func (x *ReadAnnouncementInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ReadAnnouncementInput.ProtoReflect.Descriptor instead.
 func (*ReadAnnouncementInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_judge_announcement_service_proto_rawDescGZIP(), []int{6}
-}
-
-func (x *ReadAnnouncementInput) GetContestId() string {
-	if x != nil {
-		return x.ContestId
-	}
-	return ""
 }
 
 func (x *ReadAnnouncementInput) GetAnnouncementId() string {
@@ -445,7 +413,6 @@ func (*ReadAnnouncementOutput) Descriptor() ([]byte, []int) {
 
 type DescribeAnnouncementInput struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
-	ContestId      string                 `protobuf:"bytes,1,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
 	AnnouncementId string                 `protobuf:"bytes,2,opt,name=announcement_id,json=announcementId,proto3" json:"announcement_id,omitempty"`
 	Extra          []Announcement_Extra   `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.judge.Announcement_Extra" json:"extra,omitempty"`
 	unknownFields  protoimpl.UnknownFields
@@ -480,13 +447,6 @@ func (x *DescribeAnnouncementInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DescribeAnnouncementInput.ProtoReflect.Descriptor instead.
 func (*DescribeAnnouncementInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_judge_announcement_service_proto_rawDescGZIP(), []int{8}
-}
-
-func (x *DescribeAnnouncementInput) GetContestId() string {
-	if x != nil {
-		return x.ContestId
-	}
-	return ""
 }
 
 func (x *DescribeAnnouncementInput) GetAnnouncementId() string {
@@ -549,7 +509,6 @@ func (x *DescribeAnnouncementOutput) GetAnnouncement() *Announcement {
 
 type DescribeAnnouncementStatusInput struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
-	ContestId      string                 `protobuf:"bytes,1,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
 	AnnouncementId string                 `protobuf:"bytes,2,opt,name=announcement_id,json=announcementId,proto3" json:"announcement_id,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
@@ -583,13 +542,6 @@ func (x *DescribeAnnouncementStatusInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DescribeAnnouncementStatusInput.ProtoReflect.Descriptor instead.
 func (*DescribeAnnouncementStatusInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_judge_announcement_service_proto_rawDescGZIP(), []int{10}
-}
-
-func (x *DescribeAnnouncementStatusInput) GetContestId() string {
-	if x != nil {
-		return x.ContestId
-	}
-	return ""
 }
 
 func (x *DescribeAnnouncementStatusInput) GetAnnouncementId() string {
@@ -645,7 +597,6 @@ func (x *DescribeAnnouncementStatusOutput) GetIsRead() bool {
 
 type ListAnnouncementsInput struct {
 	state         protoimpl.MessageState         `protogen:"open.v1"`
-	ContestId     string                         `protobuf:"bytes,1,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
 	Offset        int32                          `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
 	Size          int32                          `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
 	Filters       *ListAnnouncementsInput_Filter `protobuf:"bytes,40,opt,name=filters,proto3" json:"filters,omitempty"`
@@ -682,13 +633,6 @@ func (x *ListAnnouncementsInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ListAnnouncementsInput.ProtoReflect.Descriptor instead.
 func (*ListAnnouncementsInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_judge_announcement_service_proto_rawDescGZIP(), []int{12}
-}
-
-func (x *ListAnnouncementsInput) GetContestId() string {
-	if x != nil {
-		return x.ContestId
-	}
-	return ""
 }
 
 func (x *ListAnnouncementsInput) GetOffset() int32 {
@@ -1099,45 +1043,31 @@ var File_eolymp_judge_announcement_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_announcement_service_proto_rawDesc = "" +
 	"\n" +
-	"'eolymp/judge/announcement_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1feolymp/judge/announcement.proto\x1a!eolymp/wellknown/expression.proto\"x\n" +
-	"\x17CreateAnnouncementInput\x12\x1d\n" +
-	"\n" +
-	"contest_id\x18\x01 \x01(\tR\tcontestId\x12>\n" +
+	"'eolymp/judge/announcement_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1feolymp/judge/announcement.proto\x1a!eolymp/wellknown/expression.proto\"Y\n" +
+	"\x17CreateAnnouncementInput\x12>\n" +
 	"\fannouncement\x18\x02 \x01(\v2\x1a.eolymp.judge.AnnouncementR\fannouncement\"*\n" +
 	"\x18CreateAnnouncementOutput\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\"\xa1\x01\n" +
-	"\x17UpdateAnnouncementInput\x12\x1d\n" +
-	"\n" +
-	"contest_id\x18\x01 \x01(\tR\tcontestId\x12'\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\"\x82\x01\n" +
+	"\x17UpdateAnnouncementInput\x12'\n" +
 	"\x0fannouncement_id\x18\x02 \x01(\tR\x0eannouncementId\x12>\n" +
 	"\fannouncement\x18\x03 \x01(\v2\x1a.eolymp.judge.AnnouncementR\fannouncement\"\x1a\n" +
-	"\x18UpdateAnnouncementOutput\"a\n" +
-	"\x17DeleteAnnouncementInput\x12\x1d\n" +
-	"\n" +
-	"contest_id\x18\x01 \x01(\tR\tcontestId\x12'\n" +
+	"\x18UpdateAnnouncementOutput\"B\n" +
+	"\x17DeleteAnnouncementInput\x12'\n" +
 	"\x0fannouncement_id\x18\x02 \x01(\tR\x0eannouncementId\"\x1a\n" +
-	"\x18DeleteAnnouncementOutput\"_\n" +
-	"\x15ReadAnnouncementInput\x12\x1d\n" +
-	"\n" +
-	"contest_id\x18\x01 \x01(\tR\tcontestId\x12'\n" +
+	"\x18DeleteAnnouncementOutput\"@\n" +
+	"\x15ReadAnnouncementInput\x12'\n" +
 	"\x0fannouncement_id\x18\x02 \x01(\tR\x0eannouncementId\"\x18\n" +
-	"\x16ReadAnnouncementOutput\"\x9c\x01\n" +
-	"\x19DescribeAnnouncementInput\x12\x1d\n" +
-	"\n" +
-	"contest_id\x18\x01 \x01(\tR\tcontestId\x12'\n" +
+	"\x16ReadAnnouncementOutput\"}\n" +
+	"\x19DescribeAnnouncementInput\x12'\n" +
 	"\x0fannouncement_id\x18\x02 \x01(\tR\x0eannouncementId\x127\n" +
 	"\x05extra\x18\xe3\b \x03(\x0e2 .eolymp.judge.Announcement.ExtraR\x05extra\"\\\n" +
 	"\x1aDescribeAnnouncementOutput\x12>\n" +
-	"\fannouncement\x18\x01 \x01(\v2\x1a.eolymp.judge.AnnouncementR\fannouncement\"i\n" +
-	"\x1fDescribeAnnouncementStatusInput\x12\x1d\n" +
-	"\n" +
-	"contest_id\x18\x01 \x01(\tR\tcontestId\x12'\n" +
+	"\fannouncement\x18\x01 \x01(\v2\x1a.eolymp.judge.AnnouncementR\fannouncement\"J\n" +
+	"\x1fDescribeAnnouncementStatusInput\x12'\n" +
 	"\x0fannouncement_id\x18\x02 \x01(\tR\x0eannouncementId\";\n" +
 	" DescribeAnnouncementStatusOutput\x12\x17\n" +
-	"\ais_read\x18\x01 \x01(\bR\x06isRead\"\xd8\x02\n" +
-	"\x16ListAnnouncementsInput\x12\x1d\n" +
-	"\n" +
-	"contest_id\x18\x01 \x01(\tR\tcontestId\x12\x16\n" +
+	"\ais_read\x18\x01 \x01(\bR\x06isRead\"\xb9\x02\n" +
+	"\x16ListAnnouncementsInput\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
 	"\x04size\x18\v \x01(\x05R\x04size\x12E\n" +
