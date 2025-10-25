@@ -33,6 +33,7 @@ const (
 	TicketService_DescribeReply_FullMethodName      = "/eolymp.judge.TicketService/DescribeReply"
 	TicketService_DeleteReply_FullMethodName        = "/eolymp.judge.TicketService/DeleteReply"
 	TicketService_UpdateReply_FullMethodName        = "/eolymp.judge.TicketService/UpdateReply"
+	TicketService_SuggestReply_FullMethodName       = "/eolymp.judge.TicketService/SuggestReply"
 	TicketService_WatchReplies_FullMethodName       = "/eolymp.judge.TicketService/WatchReplies"
 )
 
@@ -62,6 +63,7 @@ type TicketServiceClient interface {
 	DeleteReply(ctx context.Context, in *DeleteReplyInput, opts ...grpc.CallOption) (*DeleteReplyOutput, error)
 	// UpdateReply allows author to update his own reply.
 	UpdateReply(ctx context.Context, in *UpdateReplyInput, opts ...grpc.CallOption) (*UpdateReplyOutput, error)
+	SuggestReply(ctx context.Context, in *SuggestReplyInput, opts ...grpc.CallOption) (*SuggestReplyOutput, error)
 	WatchReplies(ctx context.Context, in *WatchRepliesInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchRepliesOutput], error)
 }
 
@@ -240,6 +242,16 @@ func (c *ticketServiceClient) UpdateReply(ctx context.Context, in *UpdateReplyIn
 	return out, nil
 }
 
+func (c *ticketServiceClient) SuggestReply(ctx context.Context, in *SuggestReplyInput, opts ...grpc.CallOption) (*SuggestReplyOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SuggestReplyOutput)
+	err := c.cc.Invoke(ctx, TicketService_SuggestReply_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *ticketServiceClient) WatchReplies(ctx context.Context, in *WatchRepliesInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchRepliesOutput], error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	stream, err := c.cc.NewStream(ctx, &TicketService_ServiceDesc.Streams[3], TicketService_WatchReplies_FullMethodName, cOpts...)
@@ -285,6 +297,7 @@ type TicketServiceServer interface {
 	DeleteReply(context.Context, *DeleteReplyInput) (*DeleteReplyOutput, error)
 	// UpdateReply allows author to update his own reply.
 	UpdateReply(context.Context, *UpdateReplyInput) (*UpdateReplyOutput, error)
+	SuggestReply(context.Context, *SuggestReplyInput) (*SuggestReplyOutput, error)
 	WatchReplies(*WatchRepliesInput, grpc.ServerStreamingServer[WatchRepliesOutput]) error
 }
 
@@ -336,6 +349,9 @@ func (UnimplementedTicketServiceServer) DeleteReply(context.Context, *DeleteRepl
 }
 func (UnimplementedTicketServiceServer) UpdateReply(context.Context, *UpdateReplyInput) (*UpdateReplyOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateReply not implemented")
+}
+func (UnimplementedTicketServiceServer) SuggestReply(context.Context, *SuggestReplyInput) (*SuggestReplyOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SuggestReply not implemented")
 }
 func (UnimplementedTicketServiceServer) WatchReplies(*WatchRepliesInput, grpc.ServerStreamingServer[WatchRepliesOutput]) error {
 	return status.Errorf(codes.Unimplemented, "method WatchReplies not implemented")
@@ -591,6 +607,24 @@ func _TicketService_UpdateReply_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _TicketService_SuggestReply_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SuggestReplyInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TicketServiceServer).SuggestReply(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TicketService_SuggestReply_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TicketServiceServer).SuggestReply(ctx, req.(*SuggestReplyInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _TicketService_WatchReplies_Handler(srv interface{}, stream grpc.ServerStream) error {
 	m := new(WatchRepliesInput)
 	if err := stream.RecvMsg(m); err != nil {
@@ -652,6 +686,10 @@ var TicketService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateReply",
 			Handler:    _TicketService_UpdateReply_Handler,
+		},
+		{
+			MethodName: "SuggestReply",
+			Handler:    _TicketService_SuggestReply_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

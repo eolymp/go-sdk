@@ -268,3 +268,19 @@ func (s *TicketServiceService) UpdateReply(ctx context.Context, in *UpdateReplyI
 
 	return out, nil
 }
+
+func (s *TicketServiceService) SuggestReply(ctx context.Context, in *SuggestReplyInput) (*SuggestReplyOutput, error) {
+	out := &SuggestReplyOutput{}
+	path := "/tickets/" + url.PathEscape(in.GetTicketId()) + "/replies:suggest"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.TicketId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

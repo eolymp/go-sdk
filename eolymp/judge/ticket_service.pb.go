@@ -221,7 +221,7 @@ func (x WatchRepliesOutput_Event) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use WatchRepliesOutput_Event.Descriptor instead.
 func (WatchRepliesOutput_Event) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_judge_ticket_service_proto_rawDescGZIP(), []int{31, 0}
+	return file_eolymp_judge_ticket_service_proto_rawDescGZIP(), []int{33, 0}
 }
 
 type TicketChangedEvent struct {
@@ -1827,6 +1827,94 @@ func (*UpdateReplyOutput) Descriptor() ([]byte, []int) {
 	return file_eolymp_judge_ticket_service_proto_rawDescGZIP(), []int{29}
 }
 
+type SuggestReplyInput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TicketId      string                 `protobuf:"bytes,1,opt,name=ticket_id,json=ticketId,proto3" json:"ticket_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SuggestReplyInput) Reset() {
+	*x = SuggestReplyInput{}
+	mi := &file_eolymp_judge_ticket_service_proto_msgTypes[30]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SuggestReplyInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SuggestReplyInput) ProtoMessage() {}
+
+func (x *SuggestReplyInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_judge_ticket_service_proto_msgTypes[30]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SuggestReplyInput.ProtoReflect.Descriptor instead.
+func (*SuggestReplyInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_judge_ticket_service_proto_rawDescGZIP(), []int{30}
+}
+
+func (x *SuggestReplyInput) GetTicketId() string {
+	if x != nil {
+		return x.TicketId
+	}
+	return ""
+}
+
+type SuggestReplyOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Suggestion    *ecm.Content           `protobuf:"bytes,3,opt,name=suggestion,proto3" json:"suggestion,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SuggestReplyOutput) Reset() {
+	*x = SuggestReplyOutput{}
+	mi := &file_eolymp_judge_ticket_service_proto_msgTypes[31]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SuggestReplyOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SuggestReplyOutput) ProtoMessage() {}
+
+func (x *SuggestReplyOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_judge_ticket_service_proto_msgTypes[31]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SuggestReplyOutput.ProtoReflect.Descriptor instead.
+func (*SuggestReplyOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_judge_ticket_service_proto_rawDescGZIP(), []int{31}
+}
+
+func (x *SuggestReplyOutput) GetSuggestion() *ecm.Content {
+	if x != nil {
+		return x.Suggestion
+	}
+	return nil
+}
+
 type WatchRepliesInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	TicketId      string                 `protobuf:"bytes,1,opt,name=ticket_id,json=ticketId,proto3" json:"ticket_id,omitempty"`
@@ -1838,7 +1926,7 @@ type WatchRepliesInput struct {
 
 func (x *WatchRepliesInput) Reset() {
 	*x = WatchRepliesInput{}
-	mi := &file_eolymp_judge_ticket_service_proto_msgTypes[30]
+	mi := &file_eolymp_judge_ticket_service_proto_msgTypes[32]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1850,7 +1938,7 @@ func (x *WatchRepliesInput) String() string {
 func (*WatchRepliesInput) ProtoMessage() {}
 
 func (x *WatchRepliesInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_ticket_service_proto_msgTypes[30]
+	mi := &file_eolymp_judge_ticket_service_proto_msgTypes[32]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1863,7 +1951,7 @@ func (x *WatchRepliesInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WatchRepliesInput.ProtoReflect.Descriptor instead.
 func (*WatchRepliesInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_ticket_service_proto_rawDescGZIP(), []int{30}
+	return file_eolymp_judge_ticket_service_proto_rawDescGZIP(), []int{32}
 }
 
 func (x *WatchRepliesInput) GetTicketId() string {
@@ -1897,7 +1985,7 @@ type WatchRepliesOutput struct {
 
 func (x *WatchRepliesOutput) Reset() {
 	*x = WatchRepliesOutput{}
-	mi := &file_eolymp_judge_ticket_service_proto_msgTypes[31]
+	mi := &file_eolymp_judge_ticket_service_proto_msgTypes[33]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1909,7 +1997,7 @@ func (x *WatchRepliesOutput) String() string {
 func (*WatchRepliesOutput) ProtoMessage() {}
 
 func (x *WatchRepliesOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_ticket_service_proto_msgTypes[31]
+	mi := &file_eolymp_judge_ticket_service_proto_msgTypes[33]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1922,7 +2010,7 @@ func (x *WatchRepliesOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WatchRepliesOutput.ProtoReflect.Descriptor instead.
 func (*WatchRepliesOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_ticket_service_proto_rawDescGZIP(), []int{31}
+	return file_eolymp_judge_ticket_service_proto_rawDescGZIP(), []int{33}
 }
 
 func (x *WatchRepliesOutput) GetEvent() WatchRepliesOutput_Event {
@@ -1955,7 +2043,7 @@ type ListTicketsInput_Filter struct {
 
 func (x *ListTicketsInput_Filter) Reset() {
 	*x = ListTicketsInput_Filter{}
-	mi := &file_eolymp_judge_ticket_service_proto_msgTypes[32]
+	mi := &file_eolymp_judge_ticket_service_proto_msgTypes[34]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1967,7 +2055,7 @@ func (x *ListTicketsInput_Filter) String() string {
 func (*ListTicketsInput_Filter) ProtoMessage() {}
 
 func (x *ListTicketsInput_Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_ticket_service_proto_msgTypes[32]
+	mi := &file_eolymp_judge_ticket_service_proto_msgTypes[34]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2174,7 +2262,13 @@ const file_eolymp_judge_ticket_service_proto_rawDesc = "" +
 	"\tticket_id\x18\x01 \x01(\tR\bticketId\x12\x19\n" +
 	"\breply_id\x18\x02 \x01(\tR\areplyId\x12-\n" +
 	"\amessage\x18\x03 \x01(\v2\x13.eolymp.ecm.ContentR\amessage\"\x13\n" +
-	"\x11UpdateReplyOutput\"z\n" +
+	"\x11UpdateReplyOutput\"0\n" +
+	"\x11SuggestReplyInput\x12\x1b\n" +
+	"\tticket_id\x18\x01 \x01(\tR\bticketId\"I\n" +
+	"\x12SuggestReplyOutput\x123\n" +
+	"\n" +
+	"suggestion\x18\x03 \x01(\v2\x13.eolymp.ecm.ContentR\n" +
+	"suggestion\"z\n" +
 	"\x11WatchRepliesInput\x12\x1b\n" +
 	"\tticket_id\x18\x01 \x01(\tR\bticketId\x12\x16\n" +
 	"\x06cursor\x18\x02 \x01(\tR\x06cursor\x120\n" +
@@ -2186,7 +2280,7 @@ const file_eolymp_judge_ticket_service_proto_rawDesc = "" +
 	"\rUNKNOWN_EVENT\x10\x00\x12\v\n" +
 	"\aCREATED\x10\x01\x12\v\n" +
 	"\aUPDATED\x10\x02\x12\v\n" +
-	"\aDELETED\x10\x032\xe5\x11\n" +
+	"\aDELETED\x10\x032\x91\x13\n" +
 	"\rTicketService\x12\x93\x01\n" +
 	"\fCreateTicket\x12\x1f.eolymp.judge.CreateTicketInput\x1a .eolymp.judge.CreateTicketOutput\"@\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -2272,7 +2366,14 @@ const file_eolymp_judge_ticket_service_proto_rawDesc = "" +
 	"\xd7#>\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13judge:contest:write\x82\xd3\xe4\x93\x02)\"'/tickets/{ticket_id}/replies/{reply_id}\x12o\n" +
+	"\x13judge:contest:write\x82\xd3\xe4\x93\x02)\"'/tickets/{ticket_id}/replies/{reply_id}\x12\xa9\x01\n" +
+	"\fSuggestReply\x12\x1f.eolymp.judge.SuggestReplyInput\x1a .eolymp.judge.SuggestReplyOutput\"V\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\n" +
+	"\xd7#>\xf8\xe2\n" +
+	"\x05\x82\xe3\n" +
+	"\x17\x8a\xe3\n" +
+	"\x13judge:contest:write\x82\xd3\xe4\x93\x02&\"$/tickets/{ticket_id}/replies:suggest\x12o\n" +
 	"\fWatchReplies\x12\x1f.eolymp.judge.WatchRepliesInput\x1a .eolymp.judge.WatchRepliesOutput\"\x1a\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12judge:contest:read0\x01\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.judge.ContestB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
@@ -2290,7 +2391,7 @@ func file_eolymp_judge_ticket_service_proto_rawDescGZIP() []byte {
 }
 
 var file_eolymp_judge_ticket_service_proto_enumTypes = make([]protoimpl.EnumInfo, 4)
-var file_eolymp_judge_ticket_service_proto_msgTypes = make([]protoimpl.MessageInfo, 33)
+var file_eolymp_judge_ticket_service_proto_msgTypes = make([]protoimpl.MessageInfo, 35)
 var file_eolymp_judge_ticket_service_proto_goTypes = []any{
 	(UpdateTicketInput_Patch)(0),     // 0: eolymp.judge.UpdateTicketInput.Patch
 	(ListTicketsInput_Sort)(0),       // 1: eolymp.judge.ListTicketsInput.Sort
@@ -2326,95 +2427,100 @@ var file_eolymp_judge_ticket_service_proto_goTypes = []any{
 	(*DeleteReplyOutput)(nil),        // 31: eolymp.judge.DeleteReplyOutput
 	(*UpdateReplyInput)(nil),         // 32: eolymp.judge.UpdateReplyInput
 	(*UpdateReplyOutput)(nil),        // 33: eolymp.judge.UpdateReplyOutput
-	(*WatchRepliesInput)(nil),        // 34: eolymp.judge.WatchRepliesInput
-	(*WatchRepliesOutput)(nil),       // 35: eolymp.judge.WatchRepliesOutput
-	(*ListTicketsInput_Filter)(nil),  // 36: eolymp.judge.ListTicketsInput.Filter
-	(*Ticket)(nil),                   // 37: eolymp.judge.Ticket
-	(*Reply)(nil),                    // 38: eolymp.judge.Reply
-	(*ecm.Content)(nil),              // 39: eolymp.ecm.Content
-	(*timestamppb.Timestamp)(nil),    // 40: google.protobuf.Timestamp
-	(Ticket_Extra)(0),                // 41: eolymp.judge.Ticket.Extra
-	(wellknown.Direction)(0),         // 42: eolymp.wellknown.Direction
-	(Ticket_Status)(0),               // 43: eolymp.judge.Ticket.Status
-	(Reply_Extra)(0),                 // 44: eolymp.judge.Reply.Extra
-	(*wellknown.ExpressionID)(nil),   // 45: eolymp.wellknown.ExpressionID
-	(*wellknown.ExpressionBool)(nil), // 46: eolymp.wellknown.ExpressionBool
-	(*wellknown.ExpressionEnum)(nil), // 47: eolymp.wellknown.ExpressionEnum
+	(*SuggestReplyInput)(nil),        // 34: eolymp.judge.SuggestReplyInput
+	(*SuggestReplyOutput)(nil),       // 35: eolymp.judge.SuggestReplyOutput
+	(*WatchRepliesInput)(nil),        // 36: eolymp.judge.WatchRepliesInput
+	(*WatchRepliesOutput)(nil),       // 37: eolymp.judge.WatchRepliesOutput
+	(*ListTicketsInput_Filter)(nil),  // 38: eolymp.judge.ListTicketsInput.Filter
+	(*Ticket)(nil),                   // 39: eolymp.judge.Ticket
+	(*Reply)(nil),                    // 40: eolymp.judge.Reply
+	(*ecm.Content)(nil),              // 41: eolymp.ecm.Content
+	(*timestamppb.Timestamp)(nil),    // 42: google.protobuf.Timestamp
+	(Ticket_Extra)(0),                // 43: eolymp.judge.Ticket.Extra
+	(wellknown.Direction)(0),         // 44: eolymp.wellknown.Direction
+	(Ticket_Status)(0),               // 45: eolymp.judge.Ticket.Status
+	(Reply_Extra)(0),                 // 46: eolymp.judge.Reply.Extra
+	(*wellknown.ExpressionID)(nil),   // 47: eolymp.wellknown.ExpressionID
+	(*wellknown.ExpressionBool)(nil), // 48: eolymp.wellknown.ExpressionBool
+	(*wellknown.ExpressionEnum)(nil), // 49: eolymp.wellknown.ExpressionEnum
 }
 var file_eolymp_judge_ticket_service_proto_depIdxs = []int32{
-	37, // 0: eolymp.judge.TicketChangedEvent.before:type_name -> eolymp.judge.Ticket
-	37, // 1: eolymp.judge.TicketChangedEvent.after:type_name -> eolymp.judge.Ticket
-	38, // 2: eolymp.judge.ReplyChangedEvent.before:type_name -> eolymp.judge.Reply
-	38, // 3: eolymp.judge.ReplyChangedEvent.after:type_name -> eolymp.judge.Reply
-	39, // 4: eolymp.judge.CreateTicketInput.message:type_name -> eolymp.ecm.Content
+	39, // 0: eolymp.judge.TicketChangedEvent.before:type_name -> eolymp.judge.Ticket
+	39, // 1: eolymp.judge.TicketChangedEvent.after:type_name -> eolymp.judge.Ticket
+	40, // 2: eolymp.judge.ReplyChangedEvent.before:type_name -> eolymp.judge.Reply
+	40, // 3: eolymp.judge.ReplyChangedEvent.after:type_name -> eolymp.judge.Reply
+	41, // 4: eolymp.judge.CreateTicketInput.message:type_name -> eolymp.ecm.Content
 	0,  // 5: eolymp.judge.UpdateTicketInput.patch:type_name -> eolymp.judge.UpdateTicketInput.Patch
-	37, // 6: eolymp.judge.UpdateTicketInput.ticket:type_name -> eolymp.judge.Ticket
-	40, // 7: eolymp.judge.ReadTicketInput.timestamp:type_name -> google.protobuf.Timestamp
-	41, // 8: eolymp.judge.DescribeTicketInput.extra:type_name -> eolymp.judge.Ticket.Extra
-	37, // 9: eolymp.judge.DescribeTicketOutput.ticket:type_name -> eolymp.judge.Ticket
-	36, // 10: eolymp.judge.ListTicketsInput.filters:type_name -> eolymp.judge.ListTicketsInput.Filter
+	39, // 6: eolymp.judge.UpdateTicketInput.ticket:type_name -> eolymp.judge.Ticket
+	42, // 7: eolymp.judge.ReadTicketInput.timestamp:type_name -> google.protobuf.Timestamp
+	43, // 8: eolymp.judge.DescribeTicketInput.extra:type_name -> eolymp.judge.Ticket.Extra
+	39, // 9: eolymp.judge.DescribeTicketOutput.ticket:type_name -> eolymp.judge.Ticket
+	38, // 10: eolymp.judge.ListTicketsInput.filters:type_name -> eolymp.judge.ListTicketsInput.Filter
 	1,  // 11: eolymp.judge.ListTicketsInput.sort:type_name -> eolymp.judge.ListTicketsInput.Sort
-	42, // 12: eolymp.judge.ListTicketsInput.order:type_name -> eolymp.wellknown.Direction
-	41, // 13: eolymp.judge.ListTicketsInput.extra:type_name -> eolymp.judge.Ticket.Extra
-	37, // 14: eolymp.judge.ListTicketsOutput.items:type_name -> eolymp.judge.Ticket
-	39, // 15: eolymp.judge.ReplyTicketInput.message:type_name -> eolymp.ecm.Content
-	43, // 16: eolymp.judge.ReplyTicketInput.change_status_to:type_name -> eolymp.judge.Ticket.Status
-	41, // 17: eolymp.judge.WatchTicketInput.extra:type_name -> eolymp.judge.Ticket.Extra
-	37, // 18: eolymp.judge.WatchTicketOutput.ticket:type_name -> eolymp.judge.Ticket
-	41, // 19: eolymp.judge.WatchTicketsInput.extra:type_name -> eolymp.judge.Ticket.Extra
+	44, // 12: eolymp.judge.ListTicketsInput.order:type_name -> eolymp.wellknown.Direction
+	43, // 13: eolymp.judge.ListTicketsInput.extra:type_name -> eolymp.judge.Ticket.Extra
+	39, // 14: eolymp.judge.ListTicketsOutput.items:type_name -> eolymp.judge.Ticket
+	41, // 15: eolymp.judge.ReplyTicketInput.message:type_name -> eolymp.ecm.Content
+	45, // 16: eolymp.judge.ReplyTicketInput.change_status_to:type_name -> eolymp.judge.Ticket.Status
+	43, // 17: eolymp.judge.WatchTicketInput.extra:type_name -> eolymp.judge.Ticket.Extra
+	39, // 18: eolymp.judge.WatchTicketOutput.ticket:type_name -> eolymp.judge.Ticket
+	43, // 19: eolymp.judge.WatchTicketsInput.extra:type_name -> eolymp.judge.Ticket.Extra
 	2,  // 20: eolymp.judge.WatchTicketsOutput.event:type_name -> eolymp.judge.WatchTicketsOutput.Event
-	37, // 21: eolymp.judge.WatchTicketsOutput.ticket:type_name -> eolymp.judge.Ticket
-	44, // 22: eolymp.judge.ListRepliesInput.extra:type_name -> eolymp.judge.Reply.Extra
-	38, // 23: eolymp.judge.ListRepliesOutput.items:type_name -> eolymp.judge.Reply
-	44, // 24: eolymp.judge.DescribeReplyInput.extra:type_name -> eolymp.judge.Reply.Extra
-	38, // 25: eolymp.judge.DescribeReplyOutput.reply:type_name -> eolymp.judge.Reply
-	39, // 26: eolymp.judge.UpdateReplyInput.message:type_name -> eolymp.ecm.Content
-	44, // 27: eolymp.judge.WatchRepliesInput.extra:type_name -> eolymp.judge.Reply.Extra
-	3,  // 28: eolymp.judge.WatchRepliesOutput.event:type_name -> eolymp.judge.WatchRepliesOutput.Event
-	38, // 29: eolymp.judge.WatchRepliesOutput.reply:type_name -> eolymp.judge.Reply
-	45, // 30: eolymp.judge.ListTicketsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	45, // 31: eolymp.judge.ListTicketsInput.Filter.contest_id:type_name -> eolymp.wellknown.ExpressionID
-	45, // 32: eolymp.judge.ListTicketsInput.Filter.participant_id:type_name -> eolymp.wellknown.ExpressionID
-	45, // 33: eolymp.judge.ListTicketsInput.Filter.member_id:type_name -> eolymp.wellknown.ExpressionID
-	46, // 34: eolymp.judge.ListTicketsInput.Filter.is_read:type_name -> eolymp.wellknown.ExpressionBool
-	46, // 35: eolymp.judge.ListTicketsInput.Filter.is_open:type_name -> eolymp.wellknown.ExpressionBool
-	46, // 36: eolymp.judge.ListTicketsInput.Filter.own:type_name -> eolymp.wellknown.ExpressionBool
-	47, // 37: eolymp.judge.ListTicketsInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
-	6,  // 38: eolymp.judge.TicketService.CreateTicket:input_type -> eolymp.judge.CreateTicketInput
-	8,  // 39: eolymp.judge.TicketService.UpdateTicket:input_type -> eolymp.judge.UpdateTicketInput
-	10, // 40: eolymp.judge.TicketService.ReadTicket:input_type -> eolymp.judge.ReadTicketInput
-	12, // 41: eolymp.judge.TicketService.DeleteTicket:input_type -> eolymp.judge.DeleteTicketInput
-	14, // 42: eolymp.judge.TicketService.DescribeTicket:input_type -> eolymp.judge.DescribeTicketInput
-	16, // 43: eolymp.judge.TicketService.ListTickets:input_type -> eolymp.judge.ListTicketsInput
-	18, // 44: eolymp.judge.TicketService.ReplyTicket:input_type -> eolymp.judge.ReplyTicketInput
-	20, // 45: eolymp.judge.TicketService.WatchTicket:input_type -> eolymp.judge.WatchTicketInput
-	22, // 46: eolymp.judge.TicketService.WatchTickets:input_type -> eolymp.judge.WatchTicketsInput
-	24, // 47: eolymp.judge.TicketService.WatchTicketSummary:input_type -> eolymp.judge.WatchTicketSummaryInput
-	26, // 48: eolymp.judge.TicketService.ListReplies:input_type -> eolymp.judge.ListRepliesInput
-	28, // 49: eolymp.judge.TicketService.DescribeReply:input_type -> eolymp.judge.DescribeReplyInput
-	30, // 50: eolymp.judge.TicketService.DeleteReply:input_type -> eolymp.judge.DeleteReplyInput
-	32, // 51: eolymp.judge.TicketService.UpdateReply:input_type -> eolymp.judge.UpdateReplyInput
-	34, // 52: eolymp.judge.TicketService.WatchReplies:input_type -> eolymp.judge.WatchRepliesInput
-	7,  // 53: eolymp.judge.TicketService.CreateTicket:output_type -> eolymp.judge.CreateTicketOutput
-	9,  // 54: eolymp.judge.TicketService.UpdateTicket:output_type -> eolymp.judge.UpdateTicketOutput
-	11, // 55: eolymp.judge.TicketService.ReadTicket:output_type -> eolymp.judge.ReadTicketOutput
-	13, // 56: eolymp.judge.TicketService.DeleteTicket:output_type -> eolymp.judge.DeleteTicketOutput
-	15, // 57: eolymp.judge.TicketService.DescribeTicket:output_type -> eolymp.judge.DescribeTicketOutput
-	17, // 58: eolymp.judge.TicketService.ListTickets:output_type -> eolymp.judge.ListTicketsOutput
-	19, // 59: eolymp.judge.TicketService.ReplyTicket:output_type -> eolymp.judge.ReplyTicketOutput
-	21, // 60: eolymp.judge.TicketService.WatchTicket:output_type -> eolymp.judge.WatchTicketOutput
-	23, // 61: eolymp.judge.TicketService.WatchTickets:output_type -> eolymp.judge.WatchTicketsOutput
-	25, // 62: eolymp.judge.TicketService.WatchTicketSummary:output_type -> eolymp.judge.WatchTicketSummaryOutput
-	27, // 63: eolymp.judge.TicketService.ListReplies:output_type -> eolymp.judge.ListRepliesOutput
-	29, // 64: eolymp.judge.TicketService.DescribeReply:output_type -> eolymp.judge.DescribeReplyOutput
-	31, // 65: eolymp.judge.TicketService.DeleteReply:output_type -> eolymp.judge.DeleteReplyOutput
-	33, // 66: eolymp.judge.TicketService.UpdateReply:output_type -> eolymp.judge.UpdateReplyOutput
-	35, // 67: eolymp.judge.TicketService.WatchReplies:output_type -> eolymp.judge.WatchRepliesOutput
-	53, // [53:68] is the sub-list for method output_type
-	38, // [38:53] is the sub-list for method input_type
-	38, // [38:38] is the sub-list for extension type_name
-	38, // [38:38] is the sub-list for extension extendee
-	0,  // [0:38] is the sub-list for field type_name
+	39, // 21: eolymp.judge.WatchTicketsOutput.ticket:type_name -> eolymp.judge.Ticket
+	46, // 22: eolymp.judge.ListRepliesInput.extra:type_name -> eolymp.judge.Reply.Extra
+	40, // 23: eolymp.judge.ListRepliesOutput.items:type_name -> eolymp.judge.Reply
+	46, // 24: eolymp.judge.DescribeReplyInput.extra:type_name -> eolymp.judge.Reply.Extra
+	40, // 25: eolymp.judge.DescribeReplyOutput.reply:type_name -> eolymp.judge.Reply
+	41, // 26: eolymp.judge.UpdateReplyInput.message:type_name -> eolymp.ecm.Content
+	41, // 27: eolymp.judge.SuggestReplyOutput.suggestion:type_name -> eolymp.ecm.Content
+	46, // 28: eolymp.judge.WatchRepliesInput.extra:type_name -> eolymp.judge.Reply.Extra
+	3,  // 29: eolymp.judge.WatchRepliesOutput.event:type_name -> eolymp.judge.WatchRepliesOutput.Event
+	40, // 30: eolymp.judge.WatchRepliesOutput.reply:type_name -> eolymp.judge.Reply
+	47, // 31: eolymp.judge.ListTicketsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	47, // 32: eolymp.judge.ListTicketsInput.Filter.contest_id:type_name -> eolymp.wellknown.ExpressionID
+	47, // 33: eolymp.judge.ListTicketsInput.Filter.participant_id:type_name -> eolymp.wellknown.ExpressionID
+	47, // 34: eolymp.judge.ListTicketsInput.Filter.member_id:type_name -> eolymp.wellknown.ExpressionID
+	48, // 35: eolymp.judge.ListTicketsInput.Filter.is_read:type_name -> eolymp.wellknown.ExpressionBool
+	48, // 36: eolymp.judge.ListTicketsInput.Filter.is_open:type_name -> eolymp.wellknown.ExpressionBool
+	48, // 37: eolymp.judge.ListTicketsInput.Filter.own:type_name -> eolymp.wellknown.ExpressionBool
+	49, // 38: eolymp.judge.ListTicketsInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
+	6,  // 39: eolymp.judge.TicketService.CreateTicket:input_type -> eolymp.judge.CreateTicketInput
+	8,  // 40: eolymp.judge.TicketService.UpdateTicket:input_type -> eolymp.judge.UpdateTicketInput
+	10, // 41: eolymp.judge.TicketService.ReadTicket:input_type -> eolymp.judge.ReadTicketInput
+	12, // 42: eolymp.judge.TicketService.DeleteTicket:input_type -> eolymp.judge.DeleteTicketInput
+	14, // 43: eolymp.judge.TicketService.DescribeTicket:input_type -> eolymp.judge.DescribeTicketInput
+	16, // 44: eolymp.judge.TicketService.ListTickets:input_type -> eolymp.judge.ListTicketsInput
+	18, // 45: eolymp.judge.TicketService.ReplyTicket:input_type -> eolymp.judge.ReplyTicketInput
+	20, // 46: eolymp.judge.TicketService.WatchTicket:input_type -> eolymp.judge.WatchTicketInput
+	22, // 47: eolymp.judge.TicketService.WatchTickets:input_type -> eolymp.judge.WatchTicketsInput
+	24, // 48: eolymp.judge.TicketService.WatchTicketSummary:input_type -> eolymp.judge.WatchTicketSummaryInput
+	26, // 49: eolymp.judge.TicketService.ListReplies:input_type -> eolymp.judge.ListRepliesInput
+	28, // 50: eolymp.judge.TicketService.DescribeReply:input_type -> eolymp.judge.DescribeReplyInput
+	30, // 51: eolymp.judge.TicketService.DeleteReply:input_type -> eolymp.judge.DeleteReplyInput
+	32, // 52: eolymp.judge.TicketService.UpdateReply:input_type -> eolymp.judge.UpdateReplyInput
+	34, // 53: eolymp.judge.TicketService.SuggestReply:input_type -> eolymp.judge.SuggestReplyInput
+	36, // 54: eolymp.judge.TicketService.WatchReplies:input_type -> eolymp.judge.WatchRepliesInput
+	7,  // 55: eolymp.judge.TicketService.CreateTicket:output_type -> eolymp.judge.CreateTicketOutput
+	9,  // 56: eolymp.judge.TicketService.UpdateTicket:output_type -> eolymp.judge.UpdateTicketOutput
+	11, // 57: eolymp.judge.TicketService.ReadTicket:output_type -> eolymp.judge.ReadTicketOutput
+	13, // 58: eolymp.judge.TicketService.DeleteTicket:output_type -> eolymp.judge.DeleteTicketOutput
+	15, // 59: eolymp.judge.TicketService.DescribeTicket:output_type -> eolymp.judge.DescribeTicketOutput
+	17, // 60: eolymp.judge.TicketService.ListTickets:output_type -> eolymp.judge.ListTicketsOutput
+	19, // 61: eolymp.judge.TicketService.ReplyTicket:output_type -> eolymp.judge.ReplyTicketOutput
+	21, // 62: eolymp.judge.TicketService.WatchTicket:output_type -> eolymp.judge.WatchTicketOutput
+	23, // 63: eolymp.judge.TicketService.WatchTickets:output_type -> eolymp.judge.WatchTicketsOutput
+	25, // 64: eolymp.judge.TicketService.WatchTicketSummary:output_type -> eolymp.judge.WatchTicketSummaryOutput
+	27, // 65: eolymp.judge.TicketService.ListReplies:output_type -> eolymp.judge.ListRepliesOutput
+	29, // 66: eolymp.judge.TicketService.DescribeReply:output_type -> eolymp.judge.DescribeReplyOutput
+	31, // 67: eolymp.judge.TicketService.DeleteReply:output_type -> eolymp.judge.DeleteReplyOutput
+	33, // 68: eolymp.judge.TicketService.UpdateReply:output_type -> eolymp.judge.UpdateReplyOutput
+	35, // 69: eolymp.judge.TicketService.SuggestReply:output_type -> eolymp.judge.SuggestReplyOutput
+	37, // 70: eolymp.judge.TicketService.WatchReplies:output_type -> eolymp.judge.WatchRepliesOutput
+	55, // [55:71] is the sub-list for method output_type
+	39, // [39:55] is the sub-list for method input_type
+	39, // [39:39] is the sub-list for extension type_name
+	39, // [39:39] is the sub-list for extension extendee
+	0,  // [0:39] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_judge_ticket_service_proto_init() }
@@ -2430,7 +2536,7 @@ func file_eolymp_judge_ticket_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_judge_ticket_service_proto_rawDesc), len(file_eolymp_judge_ticket_service_proto_rawDesc)),
 			NumEnums:      4,
-			NumMessages:   33,
+			NumMessages:   35,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

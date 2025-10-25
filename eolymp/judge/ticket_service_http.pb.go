@@ -168,6 +168,9 @@ func RegisterTicketServiceHttpHandlers(router *mux.Router, prefix string, cli Ti
 	router.Handle(prefix+"/tickets/{ticket_id}/replies/{reply_id}", _TicketService_UpdateReply_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.TicketService.UpdateReply")
+	router.Handle(prefix+"/tickets/{ticket_id}/replies:suggest", _TicketService_SuggestReply_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.judge.TicketService.SuggestReply")
 }
 
 // RegisterTicketServiceHttpProxy adds proxy handlers for for TicketServiceClient
@@ -438,6 +441,31 @@ func _TicketService_UpdateReply_Rule0(cli TicketServiceClient) http.Handler {
 		var header, trailer metadata.MD
 
 		out, err := cli.UpdateReply(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_TicketService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_TicketService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _TicketService_SuggestReply_Rule0(cli TicketServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &SuggestReplyInput{}
+
+		if err := _TicketService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_TicketService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.TicketId = vars["ticket_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.SuggestReply(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_TicketService_HTTPWriteErrorResponse(w, err)
 			return
