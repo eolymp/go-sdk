@@ -578,7 +578,7 @@ var File_eolymp_atlas_code_template_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_code_template_service_proto_rawDesc = "" +
 	"\n" +
-	"(eolymp/atlas/code_template_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a eolymp/atlas/code_template.proto\"M\n" +
+	"(eolymp/atlas/code_template_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a eolymp/atlas/code_template.proto\"M\n" +
 	"\x17CreateCodeTemplateInput\x122\n" +
 	"\btemplate\x18\x02 \x01(\v2\x16.eolymp.atlas.TemplateR\btemplate\";\n" +
 	"\x18CreateCodeTemplateOutput\x12\x1f\n" +
@@ -610,7 +610,7 @@ const file_eolymp_atlas_code_template_service_proto_rawDesc = "" +
 	"\x17LookupCodeTemplateInput\x12\x18\n" +
 	"\aruntime\x18\x02 \x01(\tR\aruntime\"N\n" +
 	"\x18LookupCodeTemplateOutput\x122\n" +
-	"\btemplate\x18\x01 \x01(\v2\x16.eolymp.atlas.TemplateR\btemplate2\x96\b\n" +
+	"\btemplate\x18\x01 \x01(\v2\x16.eolymp.atlas.TemplateR\btemplate2\xb2\b\n" +
 	"\x13CodeTemplateService\x12\xa1\x01\n" +
 	"\x12CreateCodeTemplate\x12%.eolymp.atlas.CreateCodeTemplateInput\x1a&.eolymp.atlas.CreateCodeTemplateOutput\"<\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -652,7 +652,7 @@ const file_eolymp_atlas_code_template_service_proto_rawDesc = "" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\v\x12\t/templateB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\v\x12\t/template\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.ProblemB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_code_template_service_proto_rawDescOnce sync.Once

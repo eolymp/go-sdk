@@ -819,7 +819,7 @@ var File_eolymp_atlas_editorial_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_editorial_service_proto_rawDesc = "" +
 	"\n" +
-	"$eolymp/atlas/editorial_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1ceolymp/atlas/editorial.proto\"\x97\x01\n" +
+	"$eolymp/atlas/editorial_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1ceolymp/atlas/editorial.proto\"\x97\x01\n" +
 	"\x13ListEditorialsInput\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
@@ -864,7 +864,7 @@ const file_eolymp_atlas_editorial_service_proto_rawDesc = "" +
 	"\x10target_automatic\x18\x03 \x01(\bR\x0ftargetAutomatic\x12'\n" +
 	"\x0foverride_manual\x18\x04 \x01(\bR\x0eoverrideManual\"2\n" +
 	"\x19TranslateEditorialsOutput\x12\x15\n" +
-	"\x06job_id\x18\x01 \x01(\tR\x05jobId2\xbd\n" +
+	"\x06job_id\x18\x01 \x01(\tR\x05jobId2\xd9\n" +
 	"\n" +
 	"\x10EditorialService\x12\x99\x01\n" +
 	"\x0fCreateEditorial\x12\".eolymp.atlas.CreateEditorialInput\x1a#.eolymp.atlas.CreateEditorialOutput\"=\xea\xe2\n" +
@@ -916,7 +916,7 @@ const file_eolymp_atlas_editorial_service_proto_rawDesc = "" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\x17\"\x15/editorials:translateB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\x17\"\x15/editorials:translate\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.ProblemB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_editorial_service_proto_rawDescOnce sync.Once

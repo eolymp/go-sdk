@@ -138,19 +138,19 @@ var File_eolymp_feed_feed_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_feed_feed_service_proto_rawDesc = "" +
 	"\n" +
-	"\x1eeolymp/feed/feed_service.proto\x12\veolymp.feed\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x17eolymp/feed/entry.proto\"<\n" +
+	"\x1eeolymp/feed/feed_service.proto\x12\veolymp.feed\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x17eolymp/feed/entry.proto\"<\n" +
 	"\x10ListEntriesInput\x12\x12\n" +
 	"\x04size\x18\v \x01(\x05R\x04size\x12\x14\n" +
 	"\x05after\x18\f \x01(\tR\x05after\"}\n" +
 	"\x11ListEntriesOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12(\n" +
 	"\x05items\x18\x02 \x03(\v2\x12.eolymp.feed.EntryR\x05items\x12(\n" +
-	"\x10next_page_cursor\x18\x03 \x01(\tR\x0enextPageCursor2y\n" +
+	"\x10next_page_cursor\x18\x03 \x01(\tR\x0enextPageCursor2\x98\x01\n" +
 	"\vFeedService\x12j\n" +
 	"\vListEntries\x12\x1d.eolymp.feed.ListEntriesInput\x1a\x1e.eolymp.feed.ListEntriesOutput\"\x1c\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
-	"\x14\x82\xd3\xe4\x93\x02\a\x12\x05/feedB+Z)github.com/eolymp/go-sdk/eolymp/feed;feedb\x06proto3"
+	"\x14\x82\xd3\xe4\x93\x02\a\x12\x05/feed\x1a\x1d\x82\xf0\xf0\xe4\x01\x17eolymp.community.MemberB+Z)github.com/eolymp/go-sdk/eolymp/feed;feedb\x06proto3"
 
 var (
 	file_eolymp_feed_feed_service_proto_rawDescOnce sync.Once

@@ -860,7 +860,7 @@ var File_eolymp_course_course_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_course_course_service_proto_rawDesc = "" +
 	"\n" +
-	"\"eolymp/course/course_service.proto\x12\reolymp.course\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1aeolymp/course/course.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"\x86\x04\n" +
+	"\"eolymp/course/course_service.proto\x12\reolymp.course\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1aeolymp/course/course.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"\x86\x04\n" +
 	"\x10ListCoursesInput\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
@@ -921,7 +921,7 @@ const file_eolymp_course_course_service_proto_rawDesc = "" +
 	"\vASSIGNMENTS\x10\x03\x12\x0f\n" +
 	"\vPERMISSIONS\x10\x04\"8\n" +
 	"\x10CopyCourseOutput\x12$\n" +
-	"\x0ecopy_course_id\x18\x01 \x01(\tR\fcopyCourseId2\xab\a\n" +
+	"\x0ecopy_course_id\x18\x01 \x01(\tR\fcopyCourseId2\xc8\a\n" +
 	"\rCourseService\x12\x8f\x01\n" +
 	"\fCreateCourse\x12 .eolymp.course.CreateCourseInput\x1a!.eolymp.course.CreateCourseOutput\":\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -961,7 +961,7 @@ const file_eolymp_course_course_service_proto_rawDesc = "" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13course:course:write\x82\xd3\xe4\x93\x02\x1b\"\x19/courses/{course_id}/copyB/Z-github.com/eolymp/go-sdk/eolymp/course;courseb\x06proto3"
+	"\x13course:course:write\x82\xd3\xe4\x93\x02\x1b\"\x19/courses/{course_id}/copy\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB/Z-github.com/eolymp/go-sdk/eolymp/course;courseb\x06proto3"
 
 var (
 	file_eolymp_course_course_service_proto_rawDescOnce sync.Once

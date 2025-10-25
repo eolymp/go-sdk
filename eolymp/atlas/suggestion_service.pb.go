@@ -782,7 +782,7 @@ var File_eolymp_atlas_suggestion_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_suggestion_service_proto_rawDesc = "" +
 	"\n" +
-	"%eolymp/atlas/suggestion_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1deolymp/atlas/suggestion.proto\x1a\x18eolymp/ecm/content.proto\x1a!eolymp/wellknown/expression.proto\"\x99\x01\n" +
+	"%eolymp/atlas/suggestion_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1deolymp/atlas/suggestion.proto\x1a\x18eolymp/ecm/content.proto\x1a!eolymp/wellknown/expression.proto\"\x99\x01\n" +
 	"\x16SuggestionChangedEvent\x12\x1d\n" +
 	"\n" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\x120\n" +
@@ -828,7 +828,7 @@ const file_eolymp_atlas_suggestion_service_proto_rawDesc = "" +
 	"\x18DescribeSuggestionOutput\x128\n" +
 	"\n" +
 	"suggestion\x18\x01 \x01(\v2\x18.eolymp.atlas.SuggestionR\n" +
-	"suggestion2\x9e\b\n" +
+	"suggestion2\xba\b\n" +
 	"\x11SuggestionService\x12\x82\x01\n" +
 	"\x10CreateSuggestion\x12#.eolymp.atlas.CreateSuggestionInput\x1a$.eolymp.atlas.CreateSuggestionOutput\"#\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -862,7 +862,7 @@ const file_eolymp_atlas_suggestion_service_proto_rawDesc = "" +
 	"\x12DescribeSuggestion\x12%.eolymp.atlas.DescribeSuggestionInput\x1a&.eolymp.atlas.DescribeSuggestionOutput\"3\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
-	"d\x82\xd3\xe4\x93\x02\x1e\x12\x1c/suggestions/{suggestion_id}B-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"d\x82\xd3\xe4\x93\x02\x1e\x12\x1c/suggestions/{suggestion_id}\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.ProblemB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_suggestion_service_proto_rawDescOnce sync.Once

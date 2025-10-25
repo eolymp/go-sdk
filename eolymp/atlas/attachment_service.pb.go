@@ -554,7 +554,7 @@ var File_eolymp_atlas_attachment_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_attachment_service_proto_rawDesc = "" +
 	"\n" +
-	"%eolymp/atlas/attachment_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1deolymp/atlas/attachment.proto\x1a!eolymp/wellknown/expression.proto\"Q\n" +
+	"%eolymp/atlas/attachment_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1deolymp/atlas/attachment.proto\x1a!eolymp/wellknown/expression.proto\"Q\n" +
 	"\x15CreateAttachmentInput\x128\n" +
 	"\n" +
 	"attachment\x18\x02 \x01(\v2\x18.eolymp.atlas.AttachmentR\n" +
@@ -588,7 +588,7 @@ const file_eolymp_atlas_attachment_service_proto_rawDesc = "" +
 	"\x18DescribeAttachmentOutput\x128\n" +
 	"\n" +
 	"attachment\x18\x01 \x01(\v2\x18.eolymp.atlas.AttachmentR\n" +
-	"attachment2\xe4\x06\n" +
+	"attachment2\x80\a\n" +
 	"\x11AttachmentService\x12\x9d\x01\n" +
 	"\x10CreateAttachment\x12#.eolymp.atlas.CreateAttachmentInput\x1a$.eolymp.atlas.CreateAttachmentOutput\">\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -622,7 +622,7 @@ const file_eolymp_atlas_attachment_service_proto_rawDesc = "" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\x1e\x12\x1c/attachments/{attachment_id}B-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\x1e\x12\x1c/attachments/{attachment_id}\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.ProblemB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_attachment_service_proto_rawDescOnce sync.Once

@@ -436,7 +436,7 @@ var File_eolymp_judge_admission_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_admission_service_proto_rawDesc = "" +
 	"\n" +
-	"$eolymp/judge/admission_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1deolymp/community/member.proto\"\x17\n" +
+	"$eolymp/judge/admission_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1deolymp/community/member.proto\"\x17\n" +
 	"\x15RequestAdmissionInput\"H\n" +
 	"\x16RequestAdmissionOutput\x12\x1a\n" +
 	"\brequired\x18\x01 \x01(\bR\brequired\x12\x12\n" +
@@ -458,7 +458,7 @@ const file_eolymp_judge_admission_service_proto_rawDesc = "" +
 	"\x06Status\x12\x12\n" +
 	"\x0eUNKNOWN_STATUS\x10\x00\x12\f\n" +
 	"\bACCEPTED\x10\x01\x12\v\n" +
-	"\aEXPIRED\x10\x022\x87\x05\n" +
+	"\aEXPIRED\x10\x022\xa3\x05\n" +
 	"\x10AdmissionService\x12\xa9\x01\n" +
 	"\x10RequestAdmission\x12#.eolymp.judge.RequestAdmissionInput\x1a$.eolymp.judge.RequestAdmissionOutput\"J\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -480,7 +480,7 @@ const file_eolymp_judge_admission_service_proto_rawDesc = "" +
 	"\x00\x00 A\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13judge:contest:write\x82\xd3\xe4\x93\x02\x13\"\x11/admission:acceptB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
+	"\x13judge:contest:write\x82\xd3\xe4\x93\x02\x13\"\x11/admission:accept\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.judge.ContestB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
 
 var (
 	file_eolymp_judge_admission_service_proto_rawDescOnce sync.Once

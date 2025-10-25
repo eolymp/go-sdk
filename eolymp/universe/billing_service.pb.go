@@ -1427,7 +1427,7 @@ var File_eolymp_universe_billing_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_universe_billing_service_proto_rawDesc = "" +
 	"\n" +
-	"%eolymp/universe/billing_service.proto\x12\x0feolymp.universe\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1deolymp/commerce/invoice.proto\x1a\x1deolymp/universe/billing.proto\x1a\x1aeolymp/universe/plan.proto\"!\n" +
+	"%eolymp/universe/billing_service.proto\x12\x0feolymp.universe\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1deolymp/commerce/invoice.proto\x1a\x1deolymp/universe/billing.proto\x1a\x1aeolymp/universe/plan.proto\"!\n" +
 	"\x1fDescribeBillingInformationInput\"\\\n" +
 	" DescribeBillingInformationOutput\x128\n" +
 	"\x04info\x18\x01 \x01(\v2$.eolymp.universe.Billing.InformationR\x04info\"Y\n" +
@@ -1507,7 +1507,7 @@ const file_eolymp_universe_billing_service_proto_rawDesc = "" +
 	"\x05extra\x18\xe3\b \x03(\x0e2\x1b.eolymp.universe.Plan.ExtraR\x05extra\"]\n" +
 	"\x18ListAvailablePlansOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12+\n" +
-	"\x05items\x18\x02 \x03(\v2\x15.eolymp.universe.PlanR\x05items2\x95\x12\n" +
+	"\x05items\x18\x02 \x03(\v2\x15.eolymp.universe.PlanR\x05items2\xb2\x12\n" +
 	"\x0eBillingService\x12\xa7\x01\n" +
 	"\x1aDescribeBillingInformation\x120.eolymp.universe.DescribeBillingInformationInput\x1a1.eolymp.universe.DescribeBillingInformationOutput\"$\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -1570,7 +1570,7 @@ const file_eolymp_universe_billing_service_proto_rawDesc = "" +
 	"\x12ListAvailablePlans\x12(.eolymp.universe.ListAvailablePlansInput\x1a).eolymp.universe.ListAvailablePlansOutput\"%\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
-	"2\x82\xd3\xe4\x93\x02\x10\"\x0e/billing/plansB3Z1github.com/eolymp/go-sdk/eolymp/universe;universeb\x06proto3"
+	"2\x82\xd3\xe4\x93\x02\x10\"\x0e/billing/plans\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB3Z1github.com/eolymp/go-sdk/eolymp/universe;universeb\x06proto3"
 
 var (
 	file_eolymp_universe_billing_service_proto_rawDescOnce sync.Once

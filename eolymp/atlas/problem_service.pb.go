@@ -1534,7 +1534,7 @@ var File_eolymp_atlas_problem_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_problem_service_proto_rawDesc = "" +
 	"\n" +
-	"\"eolymp/atlas/problem_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1aeolymp/atlas/problem.proto\x1a\x1ceolymp/atlas/statement.proto\x1a\x1aeolymp/atlas/version.proto\x1a\x1ceolymp/runtime/runtime.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"\xa2\x01\n" +
+	"\"eolymp/atlas/problem_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1aeolymp/atlas/problem.proto\x1a\x1ceolymp/atlas/statement.proto\x1a\x1aeolymp/atlas/version.proto\x1a\x1ceolymp/runtime/runtime.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"\xa2\x01\n" +
 	"\x13ProblemChangedEvent\x12-\n" +
 	"\x06before\x18\x01 \x01(\v2\x15.eolymp.atlas.ProblemR\x06before\x12+\n" +
 	"\x05after\x18\x02 \x01(\v2\x15.eolymp.atlas.ProblemR\x05after\x12/\n" +
@@ -1647,7 +1647,7 @@ const file_eolymp_atlas_problem_service_proto_rawDesc = "" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x18\n" +
 	"\aversion\x18d \x01(\rR\aversion\"8\n" +
 	"\x13ExportProblemOutput\x12!\n" +
-	"\fsnapshot_url\x18\x01 \x01(\tR\vsnapshotUrl2\xc2\f\n" +
+	"\fsnapshot_url\x18\x01 \x01(\tR\vsnapshotUrl2\xdf\f\n" +
 	"\x0eProblemService\x12\x91\x01\n" +
 	"\rCreateProblem\x12 .eolymp.atlas.CreateProblemInput\x1a!.eolymp.atlas.CreateProblemOutput\";\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -1709,7 +1709,7 @@ const file_eolymp_atlas_problem_service_proto_rawDesc = "" +
 	"\xd7#>\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02!\x12\x1f/problems/{problem_id}/snapshotB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02!\x12\x1f/problems/{problem_id}/snapshot\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_problem_service_proto_rawDescOnce sync.Once

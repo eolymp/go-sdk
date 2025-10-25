@@ -266,7 +266,7 @@ var File_eolymp_universe_plan_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_universe_plan_service_proto_rawDesc = "" +
 	"\n" +
-	"\"eolymp/universe/plan_service.proto\x12\x0feolymp.universe\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1aeolymp/universe/plan.proto\"\x94\x01\n" +
+	"\"eolymp/universe/plan_service.proto\x12\x0feolymp.universe\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1aeolymp/universe/plan.proto\"\x94\x01\n" +
 	"\x11DescribePlanInput\x12\x17\n" +
 	"\aplan_id\x18\x01 \x01(\tR\x06planId\x12\x16\n" +
 	"\x06locale\x18e \x01(\tR\x06locale\x12\x1a\n" +
@@ -283,7 +283,7 @@ const file_eolymp_universe_plan_service_proto_rawDesc = "" +
 	"\x05extra\x18\xe3\b \x03(\x0e2\x1b.eolymp.universe.Plan.ExtraR\x05extra\"T\n" +
 	"\x0fListPlansOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12+\n" +
-	"\x05items\x18\x02 \x03(\v2\x15.eolymp.universe.PlanR\x05items2\xff\x01\n" +
+	"\x05items\x18\x02 \x03(\v2\x15.eolymp.universe.PlanR\x05items2\x9c\x02\n" +
 	"\vPlanService\x12\x80\x01\n" +
 	"\fDescribePlan\x12\".eolymp.universe.DescribePlanInput\x1a#.eolymp.universe.DescribePlanOutput\"'\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -292,7 +292,7 @@ const file_eolymp_universe_plan_service_proto_rawDesc = "" +
 	"\tListPlans\x12\x1f.eolymp.universe.ListPlansInput\x1a .eolymp.universe.ListPlansOutput\"\x1d\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
-	"\x14\x82\xd3\xe4\x93\x02\b\x12\x06/plansB3Z1github.com/eolymp/go-sdk/eolymp/universe;universeb\x06proto3"
+	"\x14\x82\xd3\xe4\x93\x02\b\x12\x06/plans\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB3Z1github.com/eolymp/go-sdk/eolymp/universe;universeb\x06proto3"
 
 var (
 	file_eolymp_universe_plan_service_proto_rawDescOnce sync.Once

@@ -254,7 +254,7 @@ var File_eolymp_atlas_bookmark_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_bookmark_service_proto_rawDesc = "" +
 	"\n" +
-	"#eolymp/atlas/bookmark_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\"\x80\x01\n" +
+	"#eolymp/atlas/bookmark_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\"\x80\x01\n" +
 	"\x14BookmarkChangedEvent\x12\x1d\n" +
 	"\n" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x1b\n" +
@@ -266,7 +266,7 @@ const file_eolymp_atlas_bookmark_service_proto_rawDesc = "" +
 	"\x11SetBookmarkOutput\"\x12\n" +
 	"\x10GetBookmarkInput\"/\n" +
 	"\x11GetBookmarkOutput\x12\x1a\n" +
-	"\bbookmark\x18\x01 \x01(\bR\bbookmark2\xf5\x01\n" +
+	"\bbookmark\x18\x01 \x01(\bR\bbookmark2\x91\x02\n" +
 	"\x0fBookmarkService\x12p\n" +
 	"\vGetBookmark\x12\x1e.eolymp.atlas.GetBookmarkInput\x1a\x1f.eolymp.atlas.GetBookmarkOutput\" \xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -276,7 +276,7 @@ const file_eolymp_atlas_bookmark_service_proto_rawDesc = "" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\n" +
-	"\x82\xd3\xe4\x93\x02\v\"\t/bookmarkB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x82\xd3\xe4\x93\x02\v\"\t/bookmark\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.ProblemB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_bookmark_service_proto_rawDescOnce sync.Once

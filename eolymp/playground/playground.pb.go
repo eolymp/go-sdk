@@ -344,7 +344,7 @@ var File_eolymp_playground_playground_proto protoreflect.FileDescriptor
 
 const file_eolymp_playground_playground_proto_rawDesc = "" +
 	"\n" +
-	"\"eolymp/playground/playground.proto\x12\x11eolymp.playground\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1beolymp/playground/run.proto\"\x8b\x01\n" +
+	"\"eolymp/playground/playground.proto\x12\x11eolymp.playground\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1beolymp/playground/run.proto\"\x8b\x01\n" +
 	"\x0eCreateRunInput\x12\x18\n" +
 	"\aruntime\x18\x02 \x01(\tR\aruntime\x12\x16\n" +
 	"\x06source\x18d \x01(\tR\x06source\x12\x1f\n" +
@@ -361,7 +361,7 @@ const file_eolymp_playground_playground_proto_rawDesc = "" +
 	"\rWatchRunInput\x12\x15\n" +
 	"\x06run_id\x18\x01 \x01(\tR\x05runId\":\n" +
 	"\x0eWatchRunOutput\x12(\n" +
-	"\x03run\x18\x01 \x01(\v2\x16.eolymp.playground.RunR\x03run2\xd4\x03\n" +
+	"\x03run\x18\x01 \x01(\v2\x16.eolymp.playground.RunR\x03run2\xf0\x03\n" +
 	"\n" +
 	"Playground\x12\x8c\x01\n" +
 	"\tCreateRun\x12!.eolymp.playground.CreateRunInput\x1a\".eolymp.playground.CreateRunOutput\"8\xea\xe2\n" +
@@ -384,7 +384,7 @@ const file_eolymp_playground_playground_proto_rawDesc = "" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13playground:run:read\x82\xd3\xe4\x93\x02\x16\x12\x14/runs/{run_id}/watch0\x01B7Z5github.com/eolymp/go-sdk/eolymp/playground;playgroundb\x06proto3"
+	"\x13playground:run:read\x82\xd3\xe4\x93\x02\x16\x12\x14/runs/{run_id}/watch0\x01\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.ProblemB7Z5github.com/eolymp/go-sdk/eolymp/playground;playgroundb\x06proto3"
 
 var (
 	file_eolymp_playground_playground_proto_rawDescOnce sync.Once

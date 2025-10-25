@@ -242,7 +242,7 @@ var File_eolymp_auth_sso_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_auth_sso_service_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/auth/sso_service.proto\x12\veolymp.auth\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a eolymp/auth/linked_account.proto\"l\n" +
+	"\x1deolymp/auth/sso_service.proto\x12\veolymp.auth\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a eolymp/auth/linked_account.proto\"l\n" +
 	"\x12SignonRequestInput\x123\n" +
 	"\x04type\x18\x01 \x01(\x0e2\x1f.eolymp.auth.LinkedAccount.TypeR\x04type\x12!\n" +
 	"\fcallback_uri\x18\x02 \x01(\tR\vcallbackUri\"8\n" +
@@ -257,7 +257,7 @@ const file_eolymp_auth_sso_service_proto_rawDesc = "" +
 	"token_type\x18\x02 \x01(\tR\ttokenType\x12\x1d\n" +
 	"\n" +
 	"expires_in\x18\x03 \x01(\rR\texpiresIn\x12#\n" +
-	"\rrefresh_token\x18\x04 \x01(\tR\frefreshToken2\x82\x02\n" +
+	"\rrefresh_token\x18\x04 \x01(\tR\frefreshToken2\x9f\x02\n" +
 	"\n" +
 	"SSOService\x12w\n" +
 	"\rSignonRequest\x12\x1f.eolymp.auth.SignonRequestInput\x1a .eolymp.auth.SignonRequestOutput\"#\xea\xe2\n" +
@@ -267,7 +267,7 @@ const file_eolymp_auth_sso_service_proto_rawDesc = "" +
 	"\x0eSignonExchange\x12 .eolymp.auth.SignonExchangeInput\x1a!.eolymp.auth.SignonExchangeOutput\"$\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
-	"2\x82\xd3\xe4\x93\x02\x0f\"\r/sso:exchangeB+Z)github.com/eolymp/go-sdk/eolymp/auth;authb\x06proto3"
+	"2\x82\xd3\xe4\x93\x02\x0f\"\r/sso:exchange\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB+Z)github.com/eolymp/go-sdk/eolymp/auth;authb\x06proto3"
 
 var (
 	file_eolymp_auth_sso_service_proto_rawDescOnce sync.Once

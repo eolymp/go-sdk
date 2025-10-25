@@ -986,7 +986,7 @@ var File_eolymp_atlas_submission_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_submission_service_proto_rawDesc = "" +
 	"\n" +
-	"%eolymp/atlas/submission_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x17eolymp/atlas/form.proto\x1a\x1deolymp/atlas/submission.proto\x1a!eolymp/wellknown/expression.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"z\n" +
+	"%eolymp/atlas/submission_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x17eolymp/atlas/form.proto\x1a\x1deolymp/atlas/submission.proto\x1a!eolymp/wellknown/expression.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"z\n" +
 	"\x16SubmissionChangedEvent\x120\n" +
 	"\x06before\x18\x01 \x01(\v2\x18.eolymp.atlas.SubmissionR\x06before\x12.\n" +
 	"\x05after\x18\x02 \x01(\v2\x18.eolymp.atlas.SubmissionR\x05after\"k\n" +
@@ -1060,7 +1060,7 @@ const file_eolymp_atlas_submission_service_proto_rawDesc = "" +
 	"\n" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\"F\n" +
 	"\x14ListProblemTopOutput\x12.\n" +
-	"\x05items\x18\x02 \x03(\v2\x18.eolymp.atlas.SubmissionR\x05items2\x99\t\n" +
+	"\x05items\x18\x02 \x03(\v2\x18.eolymp.atlas.SubmissionR\x05items2\xb6\t\n" +
 	"\x11SubmissionService\x12\xa0\x01\n" +
 	"\x10CreateSubmission\x12#.eolymp.atlas.CreateSubmissionInput\x1a$.eolymp.atlas.CreateSubmissionOutput\"A\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -1101,7 +1101,7 @@ const file_eolymp_atlas_submission_service_proto_rawDesc = "" +
 	"\x15atlas:submission:read\x82\xd3\xe4\x93\x02\x14\x12\x12/usage/submissions\x12\x95\x01\n" +
 	"\x0eListProblemTop\x12!.eolymp.atlas.ListProblemTopInput\x1a\".eolymp.atlas.ListProblemTopOutput\"<\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\x1c\x12\x1a/problems/{problem_id}/topB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\x1c\x12\x1a/problems/{problem_id}/top\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_submission_service_proto_rawDescOnce sync.Once

@@ -1015,7 +1015,7 @@ var File_eolymp_course_module_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_course_module_service_proto_rawDesc = "" +
 	"\n" +
-	"\"eolymp/course/module_service.proto\x12\reolymp.course\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1aeolymp/course/module.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"B\n" +
+	"\"eolymp/course/module_service.proto\x12\reolymp.course\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1aeolymp/course/module.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"B\n" +
 	"\x11CreateModuleInput\x12-\n" +
 	"\x06module\x18\x01 \x01(\v2\x15.eolymp.course.ModuleR\x06module\"1\n" +
 	"\x12CreateModuleOutput\x12\x1b\n" +
@@ -1079,7 +1079,7 @@ const file_eolymp_course_module_service_proto_rawDesc = "" +
 	"\x05grade\x18\x03 \x01(\rH\x00R\x05grade\x12\x1a\n" +
 	"\aexcused\x18\x04 \x01(\bH\x00R\aexcusedB\a\n" +
 	"\x05value\"\x13\n" +
-	"\x11GradeModuleOutput2\xce\b\n" +
+	"\x11GradeModuleOutput2\xea\b\n" +
 	"\rModuleService\x12\x8f\x01\n" +
 	"\fCreateModule\x12 .eolymp.course.CreateModuleInput\x1a!.eolymp.course.CreateModuleOutput\":\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -1124,7 +1124,7 @@ const file_eolymp_course_module_service_proto_rawDesc = "" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12course:course:read\x82\xd3\xe4\x93\x02\x1c\"\x1a/modules/{module_id}/gradeB/Z-github.com/eolymp/go-sdk/eolymp/course;courseb\x06proto3"
+	"\x12course:course:read\x82\xd3\xe4\x93\x02\x1c\"\x1a/modules/{module_id}/grade\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.course.CourseB/Z-github.com/eolymp/go-sdk/eolymp/course;courseb\x06proto3"
 
 var (
 	file_eolymp_course_module_service_proto_rawDescOnce sync.Once

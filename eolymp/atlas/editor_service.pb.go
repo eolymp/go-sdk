@@ -602,7 +602,7 @@ var File_eolymp_atlas_editor_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_editor_service_proto_rawDesc = "" +
 	"\n" +
-	"!eolymp/atlas/editor_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x17eolymp/atlas/form.proto\x1a\x1ceolymp/runtime/runtime.proto\"\xcf\x03\n" +
+	"!eolymp/atlas/editor_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x17eolymp/atlas/form.proto\x1a\x1ceolymp/runtime/runtime.proto\"\xcf\x03\n" +
 	"\x06Editor\x120\n" +
 	"\x05state\x18\x01 \x01(\v2\x1a.eolymp.atlas.Editor.StateR\x05state\x128\n" +
 	"\bfeatures\x18\n" +
@@ -649,7 +649,7 @@ const file_eolymp_atlas_editor_service_proto_rawDesc = "" +
 	"\aruntime\x18\x01 \x01(\tR\aruntime\x12\x1f\n" +
 	"\vsource_code\x18\x02 \x01(\tR\n" +
 	"sourceCode\"\x17\n" +
-	"\x15PrintEditorCodeOutput2\x9a\x05\n" +
+	"\x15PrintEditorCodeOutput2\xb6\x05\n" +
 	"\rEditorService\x12\x94\x01\n" +
 	"\x0eDescribeEditor\x12!.eolymp.atlas.DescribeEditorInput\x1a\".eolymp.atlas.DescribeEditorOutput\";\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -676,7 +676,7 @@ const file_eolymp_atlas_editor_service_proto_rawDesc = "" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x02\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
-	"\x16atlas:submission:write\x82\xd3\xe4\x93\x02\x0f\"\r/editor/printB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x16atlas:submission:write\x82\xd3\xe4\x93\x02\x0f\"\r/editor/print\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.ProblemB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_editor_service_proto_rawDescOnce sync.Once

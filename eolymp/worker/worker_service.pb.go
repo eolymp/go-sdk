@@ -429,7 +429,7 @@ var File_eolymp_worker_worker_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_worker_worker_service_proto_rawDesc = "" +
 	"\n" +
-	"\"eolymp/worker/worker_service.proto\x12\reolymp.worker\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a!eolymp/wellknown/expression.proto\x1a\x1eeolymp/worker/worker_job.proto\"7\n" +
+	"\"eolymp/worker/worker_service.proto\x12\reolymp.worker\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a!eolymp/wellknown/expression.proto\x1a\x1eeolymp/worker/worker_job.proto\"7\n" +
 	"\x0fJobTriggerEvent\x12$\n" +
 	"\x03job\x18\x01 \x01(\v2\x12.eolymp.worker.JobR\x03job\"\xa2\x01\n" +
 	"\x0eCreateJobInput\x12\x12\n" +
@@ -455,7 +455,7 @@ const file_eolymp_worker_worker_service_proto_rawDesc = "" +
 	"\x06status\x18\x03 \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x06status\"P\n" +
 	"\x0eListJobsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12(\n" +
-	"\x05items\x18\x02 \x03(\v2\x12.eolymp.worker.JobR\x05items2\xec\x02\n" +
+	"\x05items\x18\x02 \x03(\v2\x12.eolymp.worker.JobR\x05items2\x89\x03\n" +
 	"\rWorkerService\x12L\n" +
 	"\tCreateJob\x12\x1d.eolymp.worker.CreateJobInput\x1a\x1e.eolymp.worker.CreateJobOutput\"\x00\x12\x8e\x01\n" +
 	"\vDescribeJob\x12\x1f.eolymp.worker.DescribeJobInput\x1a .eolymp.worker.DescribeJobOutput\"<\xea\xe2\n" +
@@ -471,7 +471,7 @@ const file_eolymp_worker_worker_service_proto_rawDesc = "" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x13\x8a\xe3\n" +
-	"\x0fworker:job:read\x82\xd3\xe4\x93\x02\a\x12\x05/jobsB/Z-github.com/eolymp/go-sdk/eolymp/worker;workerb\x06proto3"
+	"\x0fworker:job:read\x82\xd3\xe4\x93\x02\a\x12\x05/jobs\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB/Z-github.com/eolymp/go-sdk/eolymp/worker;workerb\x06proto3"
 
 var (
 	file_eolymp_worker_worker_service_proto_rawDescOnce sync.Once

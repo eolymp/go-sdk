@@ -418,7 +418,7 @@ var File_eolymp_ranker_ranker_proto protoreflect.FileDescriptor
 
 const file_eolymp_ranker_ranker_proto_rawDesc = "" +
 	"\n" +
-	"\x1aeolymp/ranker/ranker.proto\x12\reolymp.ranker\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1ceolymp/ranker/activity.proto\x1a\x1eeolymp/ranker/scoreboard.proto\x1a&eolymp/ranker/scoreboard_service.proto\"f\n" +
+	"\x1aeolymp/ranker/ranker.proto\x12\reolymp.ranker\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1ceolymp/ranker/activity.proto\x1a\x1eeolymp/ranker/scoreboard.proto\x1a&eolymp/ranker/scoreboard_service.proto\"f\n" +
 	"\x13ListActivitiesInput\x12#\n" +
 	"\rscoreboard_id\x18\x01 \x01(\tR\fscoreboardId\x12\x16\n" +
 	"\x06offset\x18\n" +
@@ -440,7 +440,7 @@ const file_eolymp_ranker_ranker_proto_rawDesc = "" +
 	"\rscoreboard_id\x18\x01 \x01(\tR\fscoreboardId\"j\n" +
 	"\x1aListScheduledActionsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x126\n" +
-	"\x05items\x18\x02 \x03(\v2 .eolymp.ranker.Scoreboard.ActionR\x05items2\xfe\x19\n" +
+	"\x05items\x18\x02 \x03(\v2 .eolymp.ranker.Scoreboard.ActionR\x05items2\x9b\x1a\n" +
 	"\x06Ranker\x12\xa3\x01\n" +
 	"\x10CreateScoreboard\x12$.eolymp.ranker.CreateScoreboardInput\x1a%.eolymp.ranker.CreateScoreboardOutput\"B\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -545,7 +545,7 @@ const file_eolymp_ranker_ranker_proto_rawDesc = "" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x1b\x8a\xe3\n" +
-	"\x17ranker:scoreboard:write\x82\xd3\xe4\x93\x02'\x12%/scoreboards/{scoreboard_id}/scheduleB/Z-github.com/eolymp/go-sdk/eolymp/ranker;rankerb\x06proto3"
+	"\x17ranker:scoreboard:write\x82\xd3\xe4\x93\x02'\x12%/scoreboards/{scoreboard_id}/schedule\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB/Z-github.com/eolymp/go-sdk/eolymp/ranker;rankerb\x06proto3"
 
 var (
 	file_eolymp_ranker_ranker_proto_rawDescOnce sync.Once

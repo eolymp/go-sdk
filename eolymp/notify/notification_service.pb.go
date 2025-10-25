@@ -738,7 +738,7 @@ var File_eolymp_notify_notification_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_notify_notification_service_proto_rawDesc = "" +
 	"\n" +
-	"(eolymp/notify/notification_service.proto\x12\reolymp.notify\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a eolymp/notify/notification.proto\x1a\x1feolymp/notify/preferences.proto\"T\n" +
+	"(eolymp/notify/notification_service.proto\x12\reolymp.notify\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a eolymp/notify/notification.proto\x1a\x1feolymp/notify/preferences.proto\"T\n" +
 	"\x11NotificationEvent\x12?\n" +
 	"\fnotification\x18\x01 \x01(\v2\x1b.eolymp.notify.NotificationR\fnotification\"Z\n" +
 	"\x17CreateNotificationInput\x12?\n" +
@@ -774,7 +774,7 @@ const file_eolymp_notify_notification_service_proto_rawDesc = "" +
 	"\x12\x15\n" +
 	"\x11SUBSCRIPTIONS_ADD\x10\v\x12\x18\n" +
 	"\x14SUBSCRIPTIONS_REMOVE\x10\f\"\x19\n" +
-	"\x17UpdatePreferencesOutput2\xb7\b\n" +
+	"\x17UpdatePreferencesOutput2\xd4\b\n" +
 	"\x13NotificationService\x12v\n" +
 	"\x12CreateNotification\x12&.eolymp.notify.CreateNotificationInput\x1a'.eolymp.notify.CreateNotificationOutput\"\x0f\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -805,7 +805,7 @@ const file_eolymp_notify_notification_service_proto_rawDesc = "" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\n" +
-	"\x82\xd3\xe4\x93\x02\x1c\"\x1a/preferences/notificationsB/Z-github.com/eolymp/go-sdk/eolymp/notify;notifyb\x06proto3"
+	"\x82\xd3\xe4\x93\x02\x1c\"\x1a/preferences/notifications\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB/Z-github.com/eolymp/go-sdk/eolymp/notify;notifyb\x06proto3"
 
 var (
 	file_eolymp_notify_notification_service_proto_rawDescOnce sync.Once

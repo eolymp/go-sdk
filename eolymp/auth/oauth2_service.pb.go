@@ -1122,7 +1122,7 @@ var File_eolymp_auth_oauth2_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_auth_oauth2_service_proto_rawDesc = "" +
 	"\n" +
-	" eolymp/auth/oauth2_service.proto\x12\veolymp.auth\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1deolymp/auth/certificate.proto\x1a\x18eolymp/auth/claims.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xcc\x03\n" +
+	" eolymp/auth/oauth2_service.proto\x12\veolymp.auth\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1deolymp/auth/certificate.proto\x1a\x18eolymp/auth/claims.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xcc\x03\n" +
 	"\x0fIssueTokenInput\x12E\n" +
 	"\n" +
 	"grant_type\x18\x01 \x01(\x0e2&.eolymp.auth.IssueTokenInput.GrantTypeR\tgrantType\x12\x1a\n" +
@@ -1224,7 +1224,7 @@ const file_eolymp_auth_oauth2_service_proto_rawDesc = "" +
 	"\x1fuserinfo_encrypted_response_alg\x18\x0f \x01(\tR\x1cuserinfoEncryptedResponseAlg\x12E\n" +
 	"\x1fuserinfo_encrypted_response_enc\x18\x10 \x01(\tR\x1cuserinfoEncryptedResponseEnc\x12\x1a\n" +
 	"\bcontacts\x18\x11 \x03(\tR\bcontacts\x12!\n" +
-	"\frequest_uris\x18\x12 \x03(\tR\vrequestUris2\xc6\x05\n" +
+	"\frequest_uris\x18\x12 \x03(\tR\vrequestUris2\xe3\x05\n" +
 	"\rOAuth2Service\x12[\n" +
 	"\n" +
 	"IssueToken\x12\x1c.eolymp.auth.IssueTokenInput\x1a\x1d.eolymp.auth.IssueTokenOutput\"\x10\xea\xe2\n" +
@@ -1255,7 +1255,7 @@ const file_eolymp_auth_oauth2_service_proto_rawDesc = "" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00@@\xf8\xe2\n" +
 	"\n" +
-	"B+Z)github.com/eolymp/go-sdk/eolymp/auth;authb\x06proto3"
+	"\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB+Z)github.com/eolymp/go-sdk/eolymp/auth;authb\x06proto3"
 
 var (
 	file_eolymp_auth_oauth2_service_proto_rawDescOnce sync.Once

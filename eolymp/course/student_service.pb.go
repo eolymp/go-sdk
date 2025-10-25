@@ -1533,7 +1533,7 @@ var File_eolymp_course_student_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_course_student_service_proto_rawDesc = "" +
 	"\n" +
-	"#eolymp/course/student_service.proto\x12\reolymp.course\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1eeolymp/course/assignment.proto\x1a\x1ceolymp/course/material.proto\x1a\x1aeolymp/course/module.proto\x1a\x1beolymp/course/student.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"F\n" +
+	"#eolymp/course/student_service.proto\x12\reolymp.course\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1eeolymp/course/assignment.proto\x1a\x1ceolymp/course/material.proto\x1a\x1aeolymp/course/module.proto\x1a\x1beolymp/course/student.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"F\n" +
 	"\x12CreateStudentInput\x120\n" +
 	"\astudent\x18\x01 \x01(\v2\x16.eolymp.course.StudentR\astudent\"4\n" +
 	"\x13CreateStudentOutput\x12\x1d\n" +
@@ -1624,7 +1624,7 @@ const file_eolymp_course_student_service_proto_rawDesc = "" +
 	"\tmember_id\x18\x01 \x01(\tR\bmemberId\x12\x1b\n" +
 	"\tmodule_id\x18\x02 \x01(\tR\bmoduleId\"P\n" +
 	"\x16ListModuleGradesOutput\x126\n" +
-	"\x05items\x18\x01 \x03(\v2 .eolymp.course.Material.ProgressR\x05items2\x8b\x11\n" +
+	"\x05items\x18\x01 \x03(\v2 .eolymp.course.Material.ProgressR\x05items2\xa7\x11\n" +
 	"\x0eStudentService\x12\x93\x01\n" +
 	"\rCreateStudent\x12!.eolymp.course.CreateStudentInput\x1a\".eolymp.course.CreateStudentOutput\";\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -1702,7 +1702,7 @@ const file_eolymp_course_student_service_proto_rawDesc = "" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12course:course:read\x82\xd3\xe4\x93\x02*\x12(/students/{member_id}/grades/{module_id}B/Z-github.com/eolymp/go-sdk/eolymp/course;courseb\x06proto3"
+	"\x12course:course:read\x82\xd3\xe4\x93\x02*\x12(/students/{member_id}/grades/{module_id}\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.course.CourseB/Z-github.com/eolymp/go-sdk/eolymp/course;courseb\x06proto3"
 
 var (
 	file_eolymp_course_student_service_proto_rawDescOnce sync.Once

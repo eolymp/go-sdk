@@ -367,7 +367,7 @@ var File_eolymp_atlas_submission_assistant_service_proto protoreflect.FileDescri
 
 const file_eolymp_atlas_submission_assistant_service_proto_rawDesc = "" +
 	"\n" +
-	"/eolymp/atlas/submission_assistant_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x15eolymp/ecm/node.proto\"\x84\x01\n" +
+	"/eolymp/atlas/submission_assistant_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x15eolymp/ecm/node.proto\"\x84\x01\n" +
 	"\x16DebugAssistanceMessage\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x16\n" +
 	"\x06locale\x18\x03 \x01(\tR\x06locale\x12*\n" +
@@ -385,7 +385,7 @@ const file_eolymp_atlas_submission_assistant_service_proto_rawDesc = "" +
 	"\x18RateDebugAssistanceInput\x12#\n" +
 	"\rsubmission_id\x18\x01 \x01(\tR\fsubmissionId\x12\x16\n" +
 	"\x06rating\x18\x02 \x01(\x05R\x06rating\"\x1b\n" +
-	"\x19RateDebugAssistanceOutput2\xba\x04\n" +
+	"\x19RateDebugAssistanceOutput2\xd6\x04\n" +
 	"\x1aSubmissionAssistantService\x12\xb4\x01\n" +
 	"\x16RequestDebugAssistance\x12).eolymp.atlas.RequestDebugAssistanceInput\x1a*.eolymp.atlas.RequestDebugAssistanceOutput\"C\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -398,7 +398,7 @@ const file_eolymp_atlas_submission_assistant_service_proto_rawDesc = "" +
 	"\x13RateDebugAssistance\x12&.eolymp.atlas.RateDebugAssistanceInput\x1a'.eolymp.atlas.RateDebugAssistanceOutput\"B\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
-	"\x05\x82\xd3\xe4\x93\x02-\"+/submissions/{submission_id}/assistant:rateB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x05\x82\xd3\xe4\x93\x02-\"+/submissions/{submission_id}/assistant:rate\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.ProblemB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_submission_assistant_service_proto_rawDescOnce sync.Once

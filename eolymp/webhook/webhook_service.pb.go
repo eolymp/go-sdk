@@ -578,7 +578,7 @@ var File_eolymp_webhook_webhook_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_webhook_webhook_service_proto_rawDesc = "" +
 	"\n" +
-	"$eolymp/webhook/webhook_service.proto\x12\x0eeolymp.webhook\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1ceolymp/webhook/webhook.proto\"G\n" +
+	"$eolymp/webhook/webhook_service.proto\x12\x0eeolymp.webhook\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1ceolymp/webhook/webhook.proto\"G\n" +
 	"\x12CreateWebhookInput\x121\n" +
 	"\awebhook\x18\x01 \x01(\v2\x17.eolymp.webhook.WebhookR\awebhook\"4\n" +
 	"\x13CreateWebhookOutput\x12\x1d\n" +
@@ -611,7 +611,7 @@ const file_eolymp_webhook_webhook_service_proto_rawDesc = "" +
 	"webhook_id\x18\x01 \x01(\tR\twebhookId\"G\n" +
 	"\x11TestWebhookOutput\x12\x16\n" +
 	"\x06status\x18\x01 \x01(\x05R\x06status\x12\x1a\n" +
-	"\bresponse\x18\x02 \x01(\tR\bresponse2\xe0\a\n" +
+	"\bresponse\x18\x02 \x01(\tR\bresponse2\xfd\a\n" +
 	"\x0eWebhookService\x12\x97\x01\n" +
 	"\rCreateWebhook\x12\".eolymp.webhook.CreateWebhookInput\x1a#.eolymp.webhook.CreateWebhookOutput\"=\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -648,7 +648,7 @@ const file_eolymp_webhook_webhook_service_proto_rawDesc = "" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15webhook:webhook:write\x82\xd3\xe4\x93\x02\x1d\"\x1b/webhooks/{webhook_id}/testB1Z/github.com/eolymp/go-sdk/eolymp/webhook;webhookb\x06proto3"
+	"\x15webhook:webhook:write\x82\xd3\xe4\x93\x02\x1d\"\x1b/webhooks/{webhook_id}/test\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB1Z/github.com/eolymp/go-sdk/eolymp/webhook;webhookb\x06proto3"
 
 var (
 	file_eolymp_webhook_webhook_service_proto_rawDescOnce sync.Once

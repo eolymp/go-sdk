@@ -1060,7 +1060,7 @@ var File_eolymp_course_class_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_course_class_service_proto_rawDesc = "" +
 	"\n" +
-	"!eolymp/course/class_service.proto\x12\reolymp.course\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1eeolymp/course/assignment.proto\x1a\x19eolymp/course/class.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\x1a\x1fgoogle/protobuf/timestamp.proto\">\n" +
+	"!eolymp/course/class_service.proto\x12\reolymp.course\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1eeolymp/course/assignment.proto\x1a\x19eolymp/course/class.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\x1a\x1fgoogle/protobuf/timestamp.proto\">\n" +
 	"\x10CreateClassInput\x12*\n" +
 	"\x05class\x18\x01 \x01(\v2\x14.eolymp.course.ClassR\x05class\".\n" +
 	"\x11CreateClassOutput\x12\x19\n" +
@@ -1126,7 +1126,7 @@ const file_eolymp_course_class_service_proto_rawDesc = "" +
 	"\x1aDeleteClassAssignmentInput\x12\x19\n" +
 	"\bgroup_id\x18\x01 \x01(\tR\agroupId\x12\x1b\n" +
 	"\tmodule_id\x18\x02 \x01(\tR\bmoduleId\"\x1d\n" +
-	"\x1bDeleteClassAssignmentOutput2\xc4\n" +
+	"\x1bDeleteClassAssignmentOutput2\xe0\n" +
 	"\n" +
 	"\fClassService\x12\x8c\x01\n" +
 	"\vCreateClass\x12\x1f.eolymp.course.CreateClassInput\x1a .eolymp.course.CreateClassOutput\":\xea\xe2\n" +
@@ -1178,7 +1178,7 @@ const file_eolymp_course_class_service_proto_rawDesc = "" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12course:course:read\x82\xd3\xe4\x93\x02!*\x1f/classes/{group_id}/assignmentsB/Z-github.com/eolymp/go-sdk/eolymp/course;courseb\x06proto3"
+	"\x12course:course:read\x82\xd3\xe4\x93\x02!*\x1f/classes/{group_id}/assignments\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.course.CourseB/Z-github.com/eolymp/go-sdk/eolymp/course;courseb\x06proto3"
 
 var (
 	file_eolymp_course_class_service_proto_rawDescOnce sync.Once

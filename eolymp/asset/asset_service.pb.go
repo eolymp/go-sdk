@@ -1352,7 +1352,7 @@ var File_eolymp_asset_asset_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_asset_asset_service_proto_rawDesc = "" +
 	"\n" +
-	" eolymp/asset/asset_service.proto\x12\feolymp.asset\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\"\x93\x03\n" +
+	" eolymp/asset/asset_service.proto\x12\feolymp.asset\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\"\x93\x03\n" +
 	"\x10UploadImageInput\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x12\n" +
 	"\x04type\x18\x02 \x01(\tR\x04type\x127\n" +
@@ -1435,7 +1435,7 @@ const file_eolymp_asset_asset_service_proto_rawDesc = "" +
 	"\rUseAssetInput\x12\x1a\n" +
 	"\bresource\x18\x01 \x01(\tR\bresource\x12\x16\n" +
 	"\x06assets\x18\x02 \x03(\tR\x06assets\"\x10\n" +
-	"\x0eUseAssetOutput2\xcf\f\n" +
+	"\x0eUseAssetOutput2\xec\f\n" +
 	"\fAssetService\x12\x8e\x01\n" +
 	"\vUploadImage\x12\x1e.eolymp.asset.UploadImageInput\x1a\x1f.eolymp.asset.UploadImageOutput\">\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -1504,7 +1504,7 @@ const file_eolymp_asset_asset_service_proto_rawDesc = "" +
 	"\x00\x00 A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x15\x8a\xe3\n" +
-	"\x11asset:asset:write\x82\xd3\xe4\x93\x02\x16\x1a\x14/streams/{stream_id}B-Z+github.com/eolymp/go-sdk/eolymp/asset;assetb\x06proto3"
+	"\x11asset:asset:write\x82\xd3\xe4\x93\x02\x16\x1a\x14/streams/{stream_id}\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/asset;assetb\x06proto3"
 
 var (
 	file_eolymp_asset_asset_service_proto_rawDescOnce sync.Once

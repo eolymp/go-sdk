@@ -619,7 +619,7 @@ var File_eolymp_runtime_runtime_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_runtime_runtime_service_proto_rawDesc = "" +
 	"\n" +
-	"$eolymp/runtime/runtime_service.proto\x12\x0eeolymp.runtime\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1deolymp/runtime/language.proto\x1a\x1ceolymp/runtime/runtime.proto\x1a!eolymp/wellknown/expression.proto\"8\n" +
+	"$eolymp/runtime/runtime_service.proto\x12\x0eeolymp.runtime\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1deolymp/runtime/language.proto\x1a\x1ceolymp/runtime/runtime.proto\x1a!eolymp/wellknown/expression.proto\"8\n" +
 	"\x15DescribeLanguageInput\x12\x1f\n" +
 	"\vlanguage_id\x18\x01 \x01(\tR\n" +
 	"languageId\"N\n" +
@@ -658,7 +658,7 @@ const file_eolymp_runtime_runtime_service_proto_rawDesc = "" +
 	"\n" +
 	"runtime_id\x18\x01 \x01(\tR\truntimeId\"8\n" +
 	"\x1aDescribeCodeTemplateOutput\x12\x1a\n" +
-	"\btemplate\x18\x01 \x01(\tR\btemplate2\xe3\x06\n" +
+	"\btemplate\x18\x01 \x01(\tR\btemplate2\x80\a\n" +
 	"\x0eRuntimeService\x12\xaf\x01\n" +
 	"\x10DescribeLanguage\x12%.eolymp.runtime.DescribeLanguageInput\x1a&.eolymp.runtime.DescribeLanguageOutput\"L\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
@@ -691,7 +691,7 @@ const file_eolymp_runtime_runtime_service_proto_rawDesc = "" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"\xc8\x01\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14runtime:runtime:read\x82\xd3\xe4\x93\x02 \x12\x1e/runtime/{runtime_id}/templateB1Z/github.com/eolymp/go-sdk/eolymp/runtime;runtimeb\x06proto3"
+	"\x14runtime:runtime:read\x82\xd3\xe4\x93\x02 \x12\x1e/runtime/{runtime_id}/template\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB1Z/github.com/eolymp/go-sdk/eolymp/runtime;runtimeb\x06proto3"
 
 var (
 	file_eolymp_runtime_runtime_service_proto_rawDescOnce sync.Once

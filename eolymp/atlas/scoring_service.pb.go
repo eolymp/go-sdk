@@ -323,7 +323,7 @@ var File_eolymp_atlas_scoring_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_scoring_service_proto_rawDesc = "" +
 	"\n" +
-	"\"eolymp/atlas/scoring_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\x1eeolymp/annotations/scope.proto\x1a eolymp/atlas/scoring_score.proto\"\xa7\x01\n" +
+	"\"eolymp/atlas/scoring_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\x1eeolymp/annotations/scope.proto\x1a eolymp/atlas/scoring_score.proto\"\xa7\x01\n" +
 	"\x11ScoreChangedEvent\x12\x1d\n" +
 	"\n" +
 	"problem_id\x18\x03 \x01(\tR\tproblemId\x12\x1b\n" +
@@ -340,7 +340,7 @@ const file_eolymp_atlas_scoring_service_proto_rawDesc = "" +
 	"\x05Range\x12\x14\n" +
 	"\x05grade\x18\x01 \x01(\rR\x05grade\x12\x1f\n" +
 	"\vupper_bound\x18\x02 \x01(\x02R\n" +
-	"upperBound2\xbf\x02\n" +
+	"upperBound2\xdb\x02\n" +
 	"\x0eScoringService\x12\x8e\x01\n" +
 	"\rDescribeScore\x12 .eolymp.atlas.DescribeScoreInput\x1a!.eolymp.atlas.DescribeScoreOutput\"8\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
@@ -348,7 +348,7 @@ const file_eolymp_atlas_scoring_service_proto_rawDesc = "" +
 	"\x16DescribeProblemGrading\x12).eolymp.atlas.DescribeProblemGradingInput\x1a*.eolymp.atlas.DescribeProblemGradingOutput\"*\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\n" +
-	"\x12\b/gradingB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x12\b/grading\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.ProblemB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_scoring_service_proto_rawDescOnce sync.Once

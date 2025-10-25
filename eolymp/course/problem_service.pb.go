@@ -779,7 +779,7 @@ var File_eolymp_course_problem_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_course_problem_service_proto_rawDesc = "" +
 	"\n" +
-	"#eolymp/course/problem_service.proto\x12\reolymp.course\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a eolymp/atlas/code_template.proto\x1a\x1ceolymp/atlas/statement.proto\x1a\x1feolymp/atlas/testing_test.proto\x1a&eolymp/course/submission_service.proto\x1a\x1beolymp/playground/run.proto\x1a\x1ceolymp/runtime/runtime.proto\"\x15\n" +
+	"#eolymp/course/problem_service.proto\x12\reolymp.course\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a eolymp/atlas/code_template.proto\x1a\x1ceolymp/atlas/statement.proto\x1a\x1feolymp/atlas/testing_test.proto\x1a&eolymp/course/submission_service.proto\x1a\x1beolymp/playground/run.proto\x1a\x1ceolymp/runtime/runtime.proto\"\x15\n" +
 	"\x13ListStatementsInput\"[\n" +
 	"\x14ListStatementsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12-\n" +
@@ -815,7 +815,7 @@ const file_eolymp_course_problem_service_proto_rawDesc = "" +
 	"\x11ListRuntimesInput\"Y\n" +
 	"\x12ListRuntimesOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12-\n" +
-	"\x05items\x18\x02 \x03(\v2\x17.eolymp.runtime.RuntimeR\x05items2\xb9\x0e\n" +
+	"\x05items\x18\x02 \x03(\v2\x17.eolymp.runtime.RuntimeR\x05items2\xd7\x0e\n" +
 	"\x0eProblemService\x12\x97\x01\n" +
 	"\x0eListStatements\x12\".eolymp.course.ListStatementsInput\x1a#.eolymp.course.ListStatementsOutput\"<\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -892,7 +892,7 @@ const file_eolymp_course_problem_service_proto_rawDesc = "" +
 	"\x19\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12course:course:read\x82\xd3\xe4\x93\x02\n" +
-	"\x12\b/runtimeB/Z-github.com/eolymp/go-sdk/eolymp/course;courseb\x06proto3"
+	"\x12\b/runtime\x1a\x1c\x82\xf0\xf0\xe4\x01\x16eolymp.course.MaterialB/Z-github.com/eolymp/go-sdk/eolymp/course;courseb\x06proto3"
 
 var (
 	file_eolymp_course_problem_service_proto_rawDescOnce sync.Once
