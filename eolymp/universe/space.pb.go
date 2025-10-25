@@ -7,6 +7,7 @@
 package universe
 
 import (
+	_ "github.com/eolymp/go-sdk/eolymp/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
@@ -123,52 +124,6 @@ func (Space_Visibility) EnumDescriptor() ([]byte, []int) {
 	return file_eolymp_universe_space_proto_rawDescGZIP(), []int{0, 1}
 }
 
-type Space_Extra int32
-
-const (
-	Space_UNKNOWN_EXTRA Space_Extra = 0
-	Space_SUBSCRIPTION  Space_Extra = 1
-)
-
-// Enum value maps for Space_Extra.
-var (
-	Space_Extra_name = map[int32]string{
-		0: "UNKNOWN_EXTRA",
-		1: "SUBSCRIPTION",
-	}
-	Space_Extra_value = map[string]int32{
-		"UNKNOWN_EXTRA": 0,
-		"SUBSCRIPTION":  1,
-	}
-)
-
-func (x Space_Extra) Enum() *Space_Extra {
-	p := new(Space_Extra)
-	*p = x
-	return p
-}
-
-func (x Space_Extra) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (Space_Extra) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_universe_space_proto_enumTypes[2].Descriptor()
-}
-
-func (Space_Extra) Type() protoreflect.EnumType {
-	return &file_eolymp_universe_space_proto_enumTypes[2]
-}
-
-func (x Space_Extra) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use Space_Extra.Descriptor instead.
-func (Space_Extra) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_universe_space_proto_rawDescGZIP(), []int{0, 2}
-}
-
 type Space_Feature int32
 
 const (
@@ -208,11 +163,11 @@ func (x Space_Feature) String() string {
 }
 
 func (Space_Feature) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_universe_space_proto_enumTypes[3].Descriptor()
+	return file_eolymp_universe_space_proto_enumTypes[2].Descriptor()
 }
 
 func (Space_Feature) Type() protoreflect.EnumType {
-	return &file_eolymp_universe_space_proto_enumTypes[3]
+	return &file_eolymp_universe_space_proto_enumTypes[2]
 }
 
 func (x Space_Feature) Number() protoreflect.EnumNumber {
@@ -221,25 +176,130 @@ func (x Space_Feature) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use Space_Feature.Descriptor instead.
 func (Space_Feature) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_universe_space_proto_rawDescGZIP(), []int{0, 3}
+	return file_eolymp_universe_space_proto_rawDescGZIP(), []int{0, 2}
+}
+
+type Space_Extra_Field int32
+
+const (
+	Space_Extra_UNKNOWN_EXTRA Space_Extra_Field = 0
+	Space_Extra_SUBSCRIPTION  Space_Extra_Field = 1
+)
+
+// Enum value maps for Space_Extra_Field.
+var (
+	Space_Extra_Field_name = map[int32]string{
+		0: "UNKNOWN_EXTRA",
+		1: "SUBSCRIPTION",
+	}
+	Space_Extra_Field_value = map[string]int32{
+		"UNKNOWN_EXTRA": 0,
+		"SUBSCRIPTION":  1,
+	}
+)
+
+func (x Space_Extra_Field) Enum() *Space_Extra_Field {
+	p := new(Space_Extra_Field)
+	*p = x
+	return p
+}
+
+func (x Space_Extra_Field) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (Space_Extra_Field) Descriptor() protoreflect.EnumDescriptor {
+	return file_eolymp_universe_space_proto_enumTypes[3].Descriptor()
+}
+
+func (Space_Extra_Field) Type() protoreflect.EnumType {
+	return &file_eolymp_universe_space_proto_enumTypes[3]
+}
+
+func (x Space_Extra_Field) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use Space_Extra_Field.Descriptor instead.
+func (Space_Extra_Field) EnumDescriptor() ([]byte, []int) {
+	return file_eolymp_universe_space_proto_rawDescGZIP(), []int{0, 0, 0}
+}
+
+type Space_Patch_Field int32
+
+const (
+	Space_Patch_UNKNOWN_PATCH Space_Patch_Field = 0
+	Space_Patch_KEY           Space_Patch_Field = 1
+	Space_Patch_NAME          Space_Patch_Field = 2
+	Space_Patch_IMAGE         Space_Patch_Field = 3
+	Space_Patch_VISIBILITY    Space_Patch_Field = 5
+	Space_Patch_LOCALES       Space_Patch_Field = 6
+)
+
+// Enum value maps for Space_Patch_Field.
+var (
+	Space_Patch_Field_name = map[int32]string{
+		0: "UNKNOWN_PATCH",
+		1: "KEY",
+		2: "NAME",
+		3: "IMAGE",
+		5: "VISIBILITY",
+		6: "LOCALES",
+	}
+	Space_Patch_Field_value = map[string]int32{
+		"UNKNOWN_PATCH": 0,
+		"KEY":           1,
+		"NAME":          2,
+		"IMAGE":         3,
+		"VISIBILITY":    5,
+		"LOCALES":       6,
+	}
+)
+
+func (x Space_Patch_Field) Enum() *Space_Patch_Field {
+	p := new(Space_Patch_Field)
+	*p = x
+	return p
+}
+
+func (x Space_Patch_Field) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (Space_Patch_Field) Descriptor() protoreflect.EnumDescriptor {
+	return file_eolymp_universe_space_proto_enumTypes[4].Descriptor()
+}
+
+func (Space_Patch_Field) Type() protoreflect.EnumType {
+	return &file_eolymp_universe_space_proto_enumTypes[4]
+}
+
+func (x Space_Patch_Field) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use Space_Patch_Field.Descriptor instead.
+func (Space_Patch_Field) EnumDescriptor() ([]byte, []int) {
+	return file_eolymp_universe_space_proto_rawDescGZIP(), []int{0, 1, 0}
 }
 
 type Space struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	Id             string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`                                    // space unique identifier
-	Key            string                 `protobuf:"bytes,2,opt,name=key,proto3" json:"key,omitempty"`                                  // space key used to build URLs
 	Url            string                 `protobuf:"bytes,3,opt,name=url,proto3" json:"url,omitempty"`                                  // space url
 	HomeUrl        string                 `protobuf:"bytes,50,opt,name=home_url,json=homeUrl,proto3" json:"home_url,omitempty"`          // space home page URL
 	IssuerUrl      string                 `protobuf:"bytes,51,opt,name=issuer_url,json=issuerUrl,proto3" json:"issuer_url,omitempty"`    // space issuer URL (used for issuing tokens)
 	GraphqlUrl     string                 `protobuf:"bytes,52,opt,name=graphql_url,json=graphqlUrl,proto3" json:"graphql_url,omitempty"` // space graphql endpoint
+	Key            string                 `protobuf:"bytes,2,opt,name=key,proto3" json:"key,omitempty"`                                  // space key used to build URLs
 	Name           string                 `protobuf:"bytes,10,opt,name=name,proto3" json:"name,omitempty"`                               // human friendly name
 	Image          string                 `protobuf:"bytes,11,opt,name=image,proto3" json:"image,omitempty"`                             // space logo image
 	Visibility     Space_Visibility       `protobuf:"varint,14,opt,name=visibility,proto3,enum=eolymp.universe.Space_Visibility" json:"visibility,omitempty"`
+	Status         Space_Status           `protobuf:"varint,16,opt,name=status,proto3,enum=eolymp.universe.Space_Status" json:"status,omitempty"` // space status
 	Features       []Space_Feature        `protobuf:"varint,17,rep,packed,name=features,proto3,enum=eolymp.universe.Space_Feature" json:"features,omitempty"`
-	Status         Space_Status           `protobuf:"varint,16,opt,name=status,proto3,enum=eolymp.universe.Space_Status" json:"status,omitempty"`      // space status
 	Subscription   *Space_Subscription    `protobuf:"bytes,800,opt,name=subscription,proto3" json:"subscription,omitempty"`                            // subscription details (private)
 	Affiliation    string                 `protobuf:"bytes,15,opt,name=affiliation,proto3" json:"affiliation,omitempty"`                               // space affiliation label
 	DiscordGuildId string                 `protobuf:"bytes,18,opt,name=discord_guild_id,json=discordGuildId,proto3" json:"discord_guild_id,omitempty"` // discord guild ID
+	Locales        []string               `protobuf:"bytes,19,rep,name=locales,proto3" json:"locales,omitempty"`                                       // available locales
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -281,13 +341,6 @@ func (x *Space) GetId() string {
 	return ""
 }
 
-func (x *Space) GetKey() string {
-	if x != nil {
-		return x.Key
-	}
-	return ""
-}
-
 func (x *Space) GetUrl() string {
 	if x != nil {
 		return x.Url
@@ -316,6 +369,13 @@ func (x *Space) GetGraphqlUrl() string {
 	return ""
 }
 
+func (x *Space) GetKey() string {
+	if x != nil {
+		return x.Key
+	}
+	return ""
+}
+
 func (x *Space) GetName() string {
 	if x != nil {
 		return x.Name
@@ -337,18 +397,18 @@ func (x *Space) GetVisibility() Space_Visibility {
 	return Space_UNKNOWN_VISIBILITY
 }
 
-func (x *Space) GetFeatures() []Space_Feature {
-	if x != nil {
-		return x.Features
-	}
-	return nil
-}
-
 func (x *Space) GetStatus() Space_Status {
 	if x != nil {
 		return x.Status
 	}
 	return Space_UNKNOWN_STATUS
+}
+
+func (x *Space) GetFeatures() []Space_Feature {
+	if x != nil {
+		return x.Features
+	}
+	return nil
 }
 
 func (x *Space) GetSubscription() *Space_Subscription {
@@ -372,6 +432,85 @@ func (x *Space) GetDiscordGuildId() string {
 	return ""
 }
 
+func (x *Space) GetLocales() []string {
+	if x != nil {
+		return x.Locales
+	}
+	return nil
+}
+
+type Space_Extra struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Space_Extra) Reset() {
+	*x = Space_Extra{}
+	mi := &file_eolymp_universe_space_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Space_Extra) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Space_Extra) ProtoMessage() {}
+
+func (x *Space_Extra) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_universe_space_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Space_Extra.ProtoReflect.Descriptor instead.
+func (*Space_Extra) Descriptor() ([]byte, []int) {
+	return file_eolymp_universe_space_proto_rawDescGZIP(), []int{0, 0}
+}
+
+type Space_Patch struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Space_Patch) Reset() {
+	*x = Space_Patch{}
+	mi := &file_eolymp_universe_space_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Space_Patch) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Space_Patch) ProtoMessage() {}
+
+func (x *Space_Patch) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_universe_space_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Space_Patch.ProtoReflect.Descriptor instead.
+func (*Space_Patch) Descriptor() ([]byte, []int) {
+	return file_eolymp_universe_space_proto_rawDescGZIP(), []int{0, 1}
+}
+
 type Space_Subscription struct {
 	state              protoimpl.MessageState `protogen:"open.v1"`
 	Plan               string                 `protobuf:"bytes,1,opt,name=plan,proto3" json:"plan,omitempty"`
@@ -387,7 +526,7 @@ type Space_Subscription struct {
 
 func (x *Space_Subscription) Reset() {
 	*x = Space_Subscription{}
-	mi := &file_eolymp_universe_space_proto_msgTypes[1]
+	mi := &file_eolymp_universe_space_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -399,7 +538,7 @@ func (x *Space_Subscription) String() string {
 func (*Space_Subscription) ProtoMessage() {}
 
 func (x *Space_Subscription) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_universe_space_proto_msgTypes[1]
+	mi := &file_eolymp_universe_space_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -412,7 +551,7 @@ func (x *Space_Subscription) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Space_Subscription.ProtoReflect.Descriptor instead.
 func (*Space_Subscription) Descriptor() ([]byte, []int) {
-	return file_eolymp_universe_space_proto_rawDescGZIP(), []int{0, 0}
+	return file_eolymp_universe_space_proto_rawDescGZIP(), []int{0, 2}
 }
 
 func (x *Space_Subscription) GetPlan() string {
@@ -468,27 +607,42 @@ var File_eolymp_universe_space_proto protoreflect.FileDescriptor
 
 const file_eolymp_universe_space_proto_rawDesc = "" +
 	"\n" +
-	"\x1beolymp/universe/space.proto\x12\x0feolymp.universe\x1a\x1beolymp/universe/quota.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xb8\t\n" +
+	"\x1beolymp/universe/space.proto\x12\x0feolymp.universe\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1beolymp/universe/quota.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xe3\n" +
+	"\n" +
 	"\x05Space\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x10\n" +
-	"\x03key\x18\x02 \x01(\tR\x03key\x12\x10\n" +
 	"\x03url\x18\x03 \x01(\tR\x03url\x12\x19\n" +
 	"\bhome_url\x182 \x01(\tR\ahomeUrl\x12\x1d\n" +
 	"\n" +
 	"issuer_url\x183 \x01(\tR\tissuerUrl\x12\x1f\n" +
 	"\vgraphql_url\x184 \x01(\tR\n" +
-	"graphqlUrl\x12\x12\n" +
+	"graphqlUrl\x12\x10\n" +
+	"\x03key\x18\x02 \x01(\tR\x03key\x12\x12\n" +
 	"\x04name\x18\n" +
 	" \x01(\tR\x04name\x12\x14\n" +
 	"\x05image\x18\v \x01(\tR\x05image\x12A\n" +
 	"\n" +
 	"visibility\x18\x0e \x01(\x0e2!.eolymp.universe.Space.VisibilityR\n" +
-	"visibility\x12:\n" +
-	"\bfeatures\x18\x11 \x03(\x0e2\x1e.eolymp.universe.Space.FeatureR\bfeatures\x125\n" +
-	"\x06status\x18\x10 \x01(\x0e2\x1d.eolymp.universe.Space.StatusR\x06status\x12H\n" +
-	"\fsubscription\x18\xa0\x06 \x01(\v2#.eolymp.universe.Space.SubscriptionR\fsubscription\x12 \n" +
-	"\vaffiliation\x18\x0f \x01(\tR\vaffiliation\x12(\n" +
-	"\x10discord_guild_id\x18\x12 \x01(\tR\x0ediscordGuildId\x1a\x8e\x03\n" +
+	"visibility\x12=\n" +
+	"\x06status\x18\x10 \x01(\x0e2\x1d.eolymp.universe.Space.StatusB\x06\xa8\xf0\xf0\xe4\x01\x01R\x06status\x12B\n" +
+	"\bfeatures\x18\x11 \x03(\x0e2\x1e.eolymp.universe.Space.FeatureB\x06\xa8\xf0\xf0\xe4\x01\x01R\bfeatures\x12P\n" +
+	"\fsubscription\x18\xa0\x06 \x01(\v2#.eolymp.universe.Space.SubscriptionB\x06\xa8\xf0\xf0\xe4\x01\x01R\fsubscription\x12(\n" +
+	"\vaffiliation\x18\x0f \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\vaffiliation\x120\n" +
+	"\x10discord_guild_id\x18\x12 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x0ediscordGuildId\x12\x18\n" +
+	"\alocales\x18\x13 \x03(\tR\alocales\x1a5\n" +
+	"\x05Extra\",\n" +
+	"\x05Field\x12\x11\n" +
+	"\rUNKNOWN_EXTRA\x10\x00\x12\x10\n" +
+	"\fSUBSCRIPTION\x10\x01\x1a^\n" +
+	"\x05Patch\"U\n" +
+	"\x05Field\x12\x11\n" +
+	"\rUNKNOWN_PATCH\x10\x00\x12\a\n" +
+	"\x03KEY\x10\x01\x12\b\n" +
+	"\x04NAME\x10\x02\x12\t\n" +
+	"\x05IMAGE\x10\x03\x12\x0e\n" +
+	"\n" +
+	"VISIBILITY\x10\x05\x12\v\n" +
+	"\aLOCALES\x10\x06\x1a\x8e\x03\n" +
 	"\fSubscription\x12\x12\n" +
 	"\x04plan\x18\x01 \x01(\tR\x04plan\x12\x14\n" +
 	"\x05seats\x18\x02 \x01(\rR\x05seats\x12,\n" +
@@ -509,10 +663,7 @@ const file_eolymp_universe_space_proto_rawDesc = "" +
 	"\x12UNKNOWN_VISIBILITY\x10\x00\x12\n" +
 	"\n" +
 	"\x06PUBLIC\x10\x01\x12\v\n" +
-	"\aPRIVATE\x10\x02\",\n" +
-	"\x05Extra\x12\x11\n" +
-	"\rUNKNOWN_EXTRA\x10\x00\x12\x10\n" +
-	"\fSUBSCRIPTION\x10\x01\"h\n" +
+	"\aPRIVATE\x10\x02\"h\n" +
 	"\aFeature\x12\x13\n" +
 	"\x0fUNKNOWN_FEATURE\x10\x00\x12\f\n" +
 	"\bPRINTERS\x10\x01\x12\x0f\n" +
@@ -532,33 +683,36 @@ func file_eolymp_universe_space_proto_rawDescGZIP() []byte {
 	return file_eolymp_universe_space_proto_rawDescData
 }
 
-var file_eolymp_universe_space_proto_enumTypes = make([]protoimpl.EnumInfo, 4)
-var file_eolymp_universe_space_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_eolymp_universe_space_proto_enumTypes = make([]protoimpl.EnumInfo, 5)
+var file_eolymp_universe_space_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_eolymp_universe_space_proto_goTypes = []any{
 	(Space_Status)(0),             // 0: eolymp.universe.Space.Status
 	(Space_Visibility)(0),         // 1: eolymp.universe.Space.Visibility
-	(Space_Extra)(0),              // 2: eolymp.universe.Space.Extra
-	(Space_Feature)(0),            // 3: eolymp.universe.Space.Feature
-	(*Space)(nil),                 // 4: eolymp.universe.Space
-	(*Space_Subscription)(nil),    // 5: eolymp.universe.Space.Subscription
-	(*Quota)(nil),                 // 6: eolymp.universe.Quota
-	(*timestamppb.Timestamp)(nil), // 7: google.protobuf.Timestamp
+	(Space_Feature)(0),            // 2: eolymp.universe.Space.Feature
+	(Space_Extra_Field)(0),        // 3: eolymp.universe.Space.Extra.Field
+	(Space_Patch_Field)(0),        // 4: eolymp.universe.Space.Patch.Field
+	(*Space)(nil),                 // 5: eolymp.universe.Space
+	(*Space_Extra)(nil),           // 6: eolymp.universe.Space.Extra
+	(*Space_Patch)(nil),           // 7: eolymp.universe.Space.Patch
+	(*Space_Subscription)(nil),    // 8: eolymp.universe.Space.Subscription
+	(*Quota)(nil),                 // 9: eolymp.universe.Quota
+	(*timestamppb.Timestamp)(nil), // 10: google.protobuf.Timestamp
 }
 var file_eolymp_universe_space_proto_depIdxs = []int32{
-	1, // 0: eolymp.universe.Space.visibility:type_name -> eolymp.universe.Space.Visibility
-	3, // 1: eolymp.universe.Space.features:type_name -> eolymp.universe.Space.Feature
-	0, // 2: eolymp.universe.Space.status:type_name -> eolymp.universe.Space.Status
-	5, // 3: eolymp.universe.Space.subscription:type_name -> eolymp.universe.Space.Subscription
-	6, // 4: eolymp.universe.Space.Subscription.quota:type_name -> eolymp.universe.Quota
-	7, // 5: eolymp.universe.Space.Subscription.billing_period_start:type_name -> google.protobuf.Timestamp
-	7, // 6: eolymp.universe.Space.Subscription.billing_period_end:type_name -> google.protobuf.Timestamp
-	7, // 7: eolymp.universe.Space.Subscription.quota_period_start:type_name -> google.protobuf.Timestamp
-	7, // 8: eolymp.universe.Space.Subscription.quota_period_end:type_name -> google.protobuf.Timestamp
-	9, // [9:9] is the sub-list for method output_type
-	9, // [9:9] is the sub-list for method input_type
-	9, // [9:9] is the sub-list for extension type_name
-	9, // [9:9] is the sub-list for extension extendee
-	0, // [0:9] is the sub-list for field type_name
+	1,  // 0: eolymp.universe.Space.visibility:type_name -> eolymp.universe.Space.Visibility
+	0,  // 1: eolymp.universe.Space.status:type_name -> eolymp.universe.Space.Status
+	2,  // 2: eolymp.universe.Space.features:type_name -> eolymp.universe.Space.Feature
+	8,  // 3: eolymp.universe.Space.subscription:type_name -> eolymp.universe.Space.Subscription
+	9,  // 4: eolymp.universe.Space.Subscription.quota:type_name -> eolymp.universe.Quota
+	10, // 5: eolymp.universe.Space.Subscription.billing_period_start:type_name -> google.protobuf.Timestamp
+	10, // 6: eolymp.universe.Space.Subscription.billing_period_end:type_name -> google.protobuf.Timestamp
+	10, // 7: eolymp.universe.Space.Subscription.quota_period_start:type_name -> google.protobuf.Timestamp
+	10, // 8: eolymp.universe.Space.Subscription.quota_period_end:type_name -> google.protobuf.Timestamp
+	9,  // [9:9] is the sub-list for method output_type
+	9,  // [9:9] is the sub-list for method input_type
+	9,  // [9:9] is the sub-list for extension type_name
+	9,  // [9:9] is the sub-list for extension extendee
+	0,  // [0:9] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_universe_space_proto_init() }
@@ -572,8 +726,8 @@ func file_eolymp_universe_space_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_universe_space_proto_rawDesc), len(file_eolymp_universe_space_proto_rawDesc)),
-			NumEnums:      4,
-			NumMessages:   2,
+			NumEnums:      5,
+			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
