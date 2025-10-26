@@ -26,11 +26,12 @@ const (
 type Member_Extra_Field int32
 
 const (
-	Member_Extra_NO_EXTRA   Member_Extra_Field = 0
-	Member_Extra_STATS      Member_Extra_Field = 2
-	Member_Extra_GROUPS     Member_Extra_Field = 3
-	Member_Extra_ATTRIBUTES Member_Extra_Field = 4
-	Member_Extra_METADATA   Member_Extra_Field = 5
+	Member_Extra_NO_EXTRA     Member_Extra_Field = 0
+	Member_Extra_STATS        Member_Extra_Field = 2
+	Member_Extra_GROUPS       Member_Extra_Field = 3
+	Member_Extra_ATTRIBUTES   Member_Extra_Field = 4
+	Member_Extra_METADATA     Member_Extra_Field = 5
+	Member_Extra_RESTRICTIONS Member_Extra_Field = 6
 )
 
 // Enum value maps for Member_Extra_Field.
@@ -41,13 +42,15 @@ var (
 		3: "GROUPS",
 		4: "ATTRIBUTES",
 		5: "METADATA",
+		6: "RESTRICTIONS",
 	}
 	Member_Extra_Field_value = map[string]int32{
-		"NO_EXTRA":   0,
-		"STATS":      2,
-		"GROUPS":     3,
-		"ATTRIBUTES": 4,
-		"METADATA":   5,
+		"NO_EXTRA":     0,
+		"STATS":        2,
+		"GROUPS":       3,
+		"ATTRIBUTES":   4,
+		"METADATA":     5,
+		"RESTRICTIONS": 6,
 	}
 )
 
@@ -218,6 +221,9 @@ type Member struct {
 	//	*Member_Team
 	//	*Member_Ghost
 	Account isMember_Account `protobuf_oneof:"account"`
+	// Restrictions applied to the member profile.
+	// Requires RESTRICTIONS extra.
+	Restrictions []string `protobuf:"bytes,10,rep,name=restrictions,proto3" json:"restrictions,omitempty"`
 	// Member statistics.
 	// Requires STATS extra.
 	Stats *Member_Stats `protobuf:"bytes,300,opt,name=stats,proto3" json:"stats,omitempty"`
@@ -398,6 +404,13 @@ func (x *Member) GetGhost() *Ghost {
 		if x, ok := x.Account.(*Member_Ghost); ok {
 			return x.Ghost
 		}
+	}
+	return nil
+}
+
+func (x *Member) GetRestrictions() []string {
+	if x != nil {
+		return x.Restrictions
 	}
 	return nil
 }
@@ -596,7 +609,7 @@ var File_eolymp_community_member_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_member_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/community/member.proto\x12\x10eolymp.community\x1a\x1ceolymp/annotations/mcp.proto\x1a eolymp/community/attribute.proto\x1a#eolymp/community/member_ghost.proto\x1a\"eolymp/community/member_team.proto\x1a\"eolymp/community/member_user.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xe2\r\n" +
+	"\x1deolymp/community/member.proto\x12\x10eolymp.community\x1a\x1ceolymp/annotations/mcp.proto\x1a eolymp/community/attribute.proto\x1a#eolymp/community/member_ghost.proto\x1a\"eolymp/community/member_team.proto\x1a\"eolymp/community/member_user.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xa0\x0e\n" +
 	"\x06Member\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x18\n" +
 	"\x03url\x18\x03 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x03url\x12!\n" +
@@ -621,14 +634,16 @@ const file_eolymp_community_member_proto_rawDesc = "" +
 	"\tactive_at\x18> \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\bactiveAt\x12,\n" +
 	"\x04user\x18d \x01(\v2\x16.eolymp.community.UserH\x00R\x04user\x12,\n" +
 	"\x04team\x18e \x01(\v2\x16.eolymp.community.TeamH\x00R\x04team\x12/\n" +
-	"\x05ghost\x18f \x01(\v2\x17.eolymp.community.GhostH\x00R\x05ghost\x12=\n" +
+	"\x05ghost\x18f \x01(\v2\x17.eolymp.community.GhostH\x00R\x05ghost\x12*\n" +
+	"\frestrictions\x18\n" +
+	" \x03(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\frestrictions\x12=\n" +
 	"\x05stats\x18\xac\x02 \x01(\v2\x1e.eolymp.community.Member.StatsB\x06\xa8\xf0\xf0\xe4\x01\x01R\x05stats\x12\x17\n" +
 	"\x06groups\x18\xc8\x01 \x03(\tR\x06groups\x12B\n" +
 	"\n" +
 	"attributes\x18\x84\a \x03(\v2!.eolymp.community.Attribute.ValueR\n" +
 	"attributes\x12C\n" +
-	"\bmetadata\x18\x80\b \x03(\v2&.eolymp.community.Member.MetadataEntryR\bmetadata\x1aS\n" +
-	"\x05Extra\"J\n" +
+	"\bmetadata\x18\x80\b \x03(\v2&.eolymp.community.Member.MetadataEntryR\bmetadata\x1ae\n" +
+	"\x05Extra\"\\\n" +
 	"\x05Field\x12\f\n" +
 	"\bNO_EXTRA\x10\x00\x12\t\n" +
 	"\x05STATS\x10\x02\x12\n" +
@@ -636,7 +651,8 @@ const file_eolymp_community_member_proto_rawDesc = "" +
 	"\x06GROUPS\x10\x03\x12\x0e\n" +
 	"\n" +
 	"ATTRIBUTES\x10\x04\x12\f\n" +
-	"\bMETADATA\x10\x05\x1a\xe7\x03\n" +
+	"\bMETADATA\x10\x05\x12\x10\n" +
+	"\fRESTRICTIONS\x10\x06\x1a\xe7\x03\n" +
 	"\x05Patch\"\xdd\x03\n" +
 	"\x05Field\x12\v\n" +
 	"\aUNKNOWN\x10\x00\x12\x10\n" +
