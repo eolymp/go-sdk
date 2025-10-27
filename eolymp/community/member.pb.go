@@ -26,18 +26,20 @@ const (
 type Member_Extra_Field int32
 
 const (
-	Member_Extra_NO_EXTRA     Member_Extra_Field = 0
-	Member_Extra_STATS        Member_Extra_Field = 2
-	Member_Extra_GROUPS       Member_Extra_Field = 3
-	Member_Extra_ATTRIBUTES   Member_Extra_Field = 4
-	Member_Extra_METADATA     Member_Extra_Field = 5
-	Member_Extra_RESTRICTIONS Member_Extra_Field = 6
+	Member_Extra_UNKNOWN_EXTRA Member_Extra_Field = 0
+	Member_Extra_RANK          Member_Extra_Field = 1
+	Member_Extra_STATS         Member_Extra_Field = 2
+	Member_Extra_GROUPS        Member_Extra_Field = 3
+	Member_Extra_ATTRIBUTES    Member_Extra_Field = 4
+	Member_Extra_METADATA      Member_Extra_Field = 5
+	Member_Extra_RESTRICTIONS  Member_Extra_Field = 6
 )
 
 // Enum value maps for Member_Extra_Field.
 var (
 	Member_Extra_Field_name = map[int32]string{
-		0: "NO_EXTRA",
+		0: "UNKNOWN_EXTRA",
+		1: "RANK",
 		2: "STATS",
 		3: "GROUPS",
 		4: "ATTRIBUTES",
@@ -45,12 +47,13 @@ var (
 		6: "RESTRICTIONS",
 	}
 	Member_Extra_Field_value = map[string]int32{
-		"NO_EXTRA":     0,
-		"STATS":        2,
-		"GROUPS":       3,
-		"ATTRIBUTES":   4,
-		"METADATA":     5,
-		"RESTRICTIONS": 6,
+		"UNKNOWN_EXTRA": 0,
+		"RANK":          1,
+		"STATS":         2,
+		"GROUPS":        3,
+		"ATTRIBUTES":    4,
+		"METADATA":      5,
+		"RESTRICTIONS":  6,
 	}
 )
 
@@ -84,7 +87,7 @@ func (Member_Extra_Field) EnumDescriptor() ([]byte, []int) {
 type Member_Patch_Field int32
 
 const (
-	Member_Patch_UNKNOWN                   Member_Patch_Field = 0 // change all properties (same as an empty patch)
+	Member_Patch_UNKNOWN_PATCH             Member_Patch_Field = 0 // change all properties (same as an empty patch)
 	Member_Patch_EXTERNAL_REF              Member_Patch_Field = 6
 	Member_Patch_INACTIVE                  Member_Patch_Field = 1   // change active/inactive flag
 	Member_Patch_UNOFFICIAL                Member_Patch_Field = 2   // change official/unofficial flag
@@ -114,7 +117,7 @@ const (
 // Enum value maps for Member_Patch_Field.
 var (
 	Member_Patch_Field_name = map[int32]string{
-		0:   "UNKNOWN",
+		0:   "UNKNOWN_PATCH",
 		6:   "EXTERNAL_REF",
 		1:   "INACTIVE",
 		2:   "UNOFFICIAL",
@@ -141,7 +144,7 @@ var (
 		901: "METADATA",
 	}
 	Member_Patch_Field_value = map[string]int32{
-		"UNKNOWN":                   0,
+		"UNKNOWN_PATCH":             0,
 		"EXTERNAL_REF":              6,
 		"INACTIVE":                  1,
 		"UNOFFICIAL":                2,
@@ -609,7 +612,7 @@ var File_eolymp_community_member_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_member_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/community/member.proto\x12\x10eolymp.community\x1a\x1ceolymp/annotations/mcp.proto\x1a eolymp/community/attribute.proto\x1a#eolymp/community/member_ghost.proto\x1a\"eolymp/community/member_team.proto\x1a\"eolymp/community/member_user.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xa0\x0e\n" +
+	"\x1deolymp/community/member.proto\x12\x10eolymp.community\x1a\x1ceolymp/annotations/mcp.proto\x1a eolymp/community/attribute.proto\x1a#eolymp/community/member_ghost.proto\x1a\"eolymp/community/member_team.proto\x1a\"eolymp/community/member_user.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xb5\x0e\n" +
 	"\x06Member\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x18\n" +
 	"\x03url\x18\x03 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x03url\x12!\n" +
@@ -642,20 +645,21 @@ const file_eolymp_community_member_proto_rawDesc = "" +
 	"\n" +
 	"attributes\x18\x84\a \x03(\v2!.eolymp.community.Attribute.ValueR\n" +
 	"attributes\x12C\n" +
-	"\bmetadata\x18\x80\b \x03(\v2&.eolymp.community.Member.MetadataEntryR\bmetadata\x1ae\n" +
-	"\x05Extra\"\\\n" +
-	"\x05Field\x12\f\n" +
-	"\bNO_EXTRA\x10\x00\x12\t\n" +
+	"\bmetadata\x18\x80\b \x03(\v2&.eolymp.community.Member.MetadataEntryR\bmetadata\x1at\n" +
+	"\x05Extra\"k\n" +
+	"\x05Field\x12\x11\n" +
+	"\rUNKNOWN_EXTRA\x10\x00\x12\b\n" +
+	"\x04RANK\x10\x01\x12\t\n" +
 	"\x05STATS\x10\x02\x12\n" +
 	"\n" +
 	"\x06GROUPS\x10\x03\x12\x0e\n" +
 	"\n" +
 	"ATTRIBUTES\x10\x04\x12\f\n" +
 	"\bMETADATA\x10\x05\x12\x10\n" +
-	"\fRESTRICTIONS\x10\x06\x1a\xe7\x03\n" +
-	"\x05Patch\"\xdd\x03\n" +
-	"\x05Field\x12\v\n" +
-	"\aUNKNOWN\x10\x00\x12\x10\n" +
+	"\fRESTRICTIONS\x10\x06\x1a\xed\x03\n" +
+	"\x05Patch\"\xe3\x03\n" +
+	"\x05Field\x12\x11\n" +
+	"\rUNKNOWN_PATCH\x10\x00\x12\x10\n" +
 	"\fEXTERNAL_REF\x10\x06\x12\f\n" +
 	"\bINACTIVE\x10\x01\x12\x0e\n" +
 	"\n" +
