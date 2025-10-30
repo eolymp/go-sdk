@@ -33,6 +33,7 @@ const (
 	Member_Extra_ATTRIBUTES    Member_Extra_Field = 4
 	Member_Extra_METADATA      Member_Extra_Field = 5
 	Member_Extra_RESTRICTIONS  Member_Extra_Field = 6
+	Member_Extra_PRIVATE_DATA  Member_Extra_Field = 7 // add email, name, birthday and internal attributes
 )
 
 // Enum value maps for Member_Extra_Field.
@@ -45,6 +46,7 @@ var (
 		4: "ATTRIBUTES",
 		5: "METADATA",
 		6: "RESTRICTIONS",
+		7: "PRIVATE_DATA",
 	}
 	Member_Extra_Field_value = map[string]int32{
 		"UNKNOWN_EXTRA": 0,
@@ -54,6 +56,7 @@ var (
 		"ATTRIBUTES":    4,
 		"METADATA":      5,
 		"RESTRICTIONS":  6,
+		"PRIVATE_DATA":  7,
 	}
 )
 
@@ -612,7 +615,7 @@ var File_eolymp_community_member_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_member_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/community/member.proto\x12\x10eolymp.community\x1a\x1ceolymp/annotations/mcp.proto\x1a eolymp/community/attribute.proto\x1a#eolymp/community/member_ghost.proto\x1a\"eolymp/community/member_team.proto\x1a\"eolymp/community/member_user.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xb5\x0e\n" +
+	"\x1deolymp/community/member.proto\x12\x10eolymp.community\x1a\x1ceolymp/annotations/mcp.proto\x1a eolymp/community/attribute.proto\x1a#eolymp/community/member_ghost.proto\x1a\"eolymp/community/member_team.proto\x1a\"eolymp/community/member_user.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc8\x0e\n" +
 	"\x06Member\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x18\n" +
 	"\x03url\x18\x03 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x03url\x12!\n" +
@@ -645,8 +648,8 @@ const file_eolymp_community_member_proto_rawDesc = "" +
 	"\n" +
 	"attributes\x18\x84\a \x03(\v2!.eolymp.community.Attribute.ValueR\n" +
 	"attributes\x12C\n" +
-	"\bmetadata\x18\x80\b \x03(\v2&.eolymp.community.Member.MetadataEntryR\bmetadata\x1at\n" +
-	"\x05Extra\"k\n" +
+	"\bmetadata\x18\x80\b \x03(\v2&.eolymp.community.Member.MetadataEntryR\bmetadata\x1a\x86\x01\n" +
+	"\x05Extra\"}\n" +
 	"\x05Field\x12\x11\n" +
 	"\rUNKNOWN_EXTRA\x10\x00\x12\b\n" +
 	"\x04RANK\x10\x01\x12\t\n" +
@@ -656,7 +659,8 @@ const file_eolymp_community_member_proto_rawDesc = "" +
 	"\n" +
 	"ATTRIBUTES\x10\x04\x12\f\n" +
 	"\bMETADATA\x10\x05\x12\x10\n" +
-	"\fRESTRICTIONS\x10\x06\x1a\xed\x03\n" +
+	"\fRESTRICTIONS\x10\x06\x12\x10\n" +
+	"\fPRIVATE_DATA\x10\a\x1a\xed\x03\n" +
 	"\x05Patch\"\xe3\x03\n" +
 	"\x05Field\x12\x11\n" +
 	"\rUNKNOWN_PATCH\x10\x00\x12\x10\n" +
