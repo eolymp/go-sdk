@@ -35,7 +35,8 @@ type User struct {
 	Occupation        string                 `protobuf:"bytes,13,opt,name=occupation,proto3" json:"occupation,omitempty"`                                          // Occupation
 	Country           string                 `protobuf:"bytes,21,opt,name=country,proto3" json:"country,omitempty"`                                                // Country code
 	City              string                 `protobuf:"bytes,22,opt,name=city,proto3" json:"city,omitempty"`                                                      // City
-	EmailStatus       string                 `protobuf:"bytes,32,opt,name=email_status,json=emailStatus,proto3" json:"email_status,omitempty"`                     // Email confirmation status
+	EmailStatus       string                 `protobuf:"bytes,32,opt,name=email_status,json=emailStatus,proto3" json:"email_status,omitempty"`                     // Email confirmation status. Deprecated, use email_verified instead.
+	EmailVerified     bool                   `protobuf:"varint,38,opt,name=email_verified,json=emailVerified,proto3" json:"email_verified,omitempty"`              // Email verified (confirmed)
 	Birthday          string                 `protobuf:"bytes,33,opt,name=birthday,proto3" json:"birthday,omitempty"`                                              // Birthday
 	RegisteredOn      *timestamppb.Timestamp `protobuf:"bytes,34,opt,name=registered_on,json=registeredOn,proto3" json:"registered_on,omitempty"`                  // Exact time when user registered
 	LastActivity      *timestamppb.Timestamp `protobuf:"bytes,35,opt,name=last_activity,json=lastActivity,proto3" json:"last_activity,omitempty"`                  // Exact time when user was last active
@@ -162,6 +163,13 @@ func (x *User) GetEmailStatus() string {
 	return ""
 }
 
+func (x *User) GetEmailVerified() bool {
+	if x != nil {
+		return x.EmailVerified
+	}
+	return false
+}
+
 func (x *User) GetBirthday() string {
 	if x != nil {
 		return x.Birthday
@@ -274,7 +282,7 @@ var File_eolymp_cognito_user_proto protoreflect.FileDescriptor
 
 const file_eolymp_cognito_user_proto_rawDesc = "" +
 	"\n" +
-	"\x19eolymp/cognito/user.proto\x12\x0eeolymp.cognito\x1a\x1fgoogle/protobuf/timestamp.proto\"\xbd\x06\n" +
+	"\x19eolymp/cognito/user.proto\x12\x0eeolymp.cognito\x1a\x1fgoogle/protobuf/timestamp.proto\"\xe4\x06\n" +
 	"\x04User\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1a\n" +
 	"\busername\x18\x02 \x01(\tR\busername\x12\x14\n" +
@@ -290,7 +298,8 @@ const file_eolymp_cognito_user_proto_rawDesc = "" +
 	"occupation\x12\x18\n" +
 	"\acountry\x18\x15 \x01(\tR\acountry\x12\x12\n" +
 	"\x04city\x18\x16 \x01(\tR\x04city\x12!\n" +
-	"\femail_status\x18  \x01(\tR\vemailStatus\x12\x1a\n" +
+	"\femail_status\x18  \x01(\tR\vemailStatus\x12%\n" +
+	"\x0eemail_verified\x18& \x01(\bR\remailVerified\x12\x1a\n" +
 	"\bbirthday\x18! \x01(\tR\bbirthday\x12?\n" +
 	"\rregistered_on\x18\" \x01(\v2\x1a.google.protobuf.TimestampR\fregisteredOn\x12?\n" +
 	"\rlast_activity\x18# \x01(\v2\x1a.google.protobuf.TimestampR\flastActivity\x12J\n" +
