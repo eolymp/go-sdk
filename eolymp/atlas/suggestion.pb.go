@@ -79,18 +79,20 @@ func (Suggestion_Status) EnumDescriptor() ([]byte, []int) {
 }
 
 type Suggestion struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Status        Suggestion_Status      `protobuf:"varint,2,opt,name=status,proto3,enum=eolymp.atlas.Suggestion_Status" json:"status,omitempty"`
-	Locale        string                 `protobuf:"bytes,4,opt,name=locale,proto3" json:"locale,omitempty"`
-	Title         string                 `protobuf:"bytes,6,opt,name=title,proto3" json:"title,omitempty"`
-	MemberId      string                 `protobuf:"bytes,5,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
-	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,10,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
-	Topics        []string               `protobuf:"bytes,100,rep,name=topics,proto3" json:"topics,omitempty"`
-	Difficulty    uint32                 `protobuf:"varint,101,opt,name=difficulty,proto3" json:"difficulty,omitempty"`
-	Statement     *ecm.Content           `protobuf:"bytes,102,opt,name=statement,proto3" json:"statement,omitempty"`
-	Editorial     *ecm.Content           `protobuf:"bytes,103,opt,name=editorial,proto3" json:"editorial,omitempty"`
+	state        protoimpl.MessageState `protogen:"open.v1"`
+	Id           string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Status       Suggestion_Status      `protobuf:"varint,2,opt,name=status,proto3,enum=eolymp.atlas.Suggestion_Status" json:"status,omitempty"`
+	Version      uint32                 `protobuf:"varint,8,opt,name=version,proto3" json:"version,omitempty"` // problem version this suggestion applies to
+	MemberId     string                 `protobuf:"bytes,5,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
+	Contribution uint32                 `protobuf:"varint,7,opt,name=contribution,proto3" json:"contribution,omitempty"` // contribution score 0 - not significant or between 1 (minor) - 5 (major)
+	CreatedAt    *timestamppb.Timestamp `protobuf:"bytes,10,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt    *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	// Types that are valid to be assigned to Change:
+	//
+	//	*Suggestion_Classification_
+	//	*Suggestion_StatementChange_
+	//	*Suggestion_EditorialChange_
+	Change        isSuggestion_Change `protobuf_oneof:"change"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -139,18 +141,11 @@ func (x *Suggestion) GetStatus() Suggestion_Status {
 	return Suggestion_UNKNOWN_STATUS
 }
 
-func (x *Suggestion) GetLocale() string {
+func (x *Suggestion) GetVersion() uint32 {
 	if x != nil {
-		return x.Locale
+		return x.Version
 	}
-	return ""
-}
-
-func (x *Suggestion) GetTitle() string {
-	if x != nil {
-		return x.Title
-	}
-	return ""
+	return 0
 }
 
 func (x *Suggestion) GetMemberId() string {
@@ -158,6 +153,13 @@ func (x *Suggestion) GetMemberId() string {
 		return x.MemberId
 	}
 	return ""
+}
+
+func (x *Suggestion) GetContribution() uint32 {
+	if x != nil {
+		return x.Contribution
+	}
+	return 0
 }
 
 func (x *Suggestion) GetCreatedAt() *timestamppb.Timestamp {
@@ -174,28 +176,220 @@ func (x *Suggestion) GetUpdatedAt() *timestamppb.Timestamp {
 	return nil
 }
 
-func (x *Suggestion) GetTopics() []string {
+func (x *Suggestion) GetChange() isSuggestion_Change {
+	if x != nil {
+		return x.Change
+	}
+	return nil
+}
+
+func (x *Suggestion) GetClassification() *Suggestion_Classification {
+	if x != nil {
+		if x, ok := x.Change.(*Suggestion_Classification_); ok {
+			return x.Classification
+		}
+	}
+	return nil
+}
+
+func (x *Suggestion) GetStatementChange() *Suggestion_StatementChange {
+	if x != nil {
+		if x, ok := x.Change.(*Suggestion_StatementChange_); ok {
+			return x.StatementChange
+		}
+	}
+	return nil
+}
+
+func (x *Suggestion) GetEditorialChange() *Suggestion_EditorialChange {
+	if x != nil {
+		if x, ok := x.Change.(*Suggestion_EditorialChange_); ok {
+			return x.EditorialChange
+		}
+	}
+	return nil
+}
+
+type isSuggestion_Change interface {
+	isSuggestion_Change()
+}
+
+type Suggestion_Classification_ struct {
+	Classification *Suggestion_Classification `protobuf:"bytes,100,opt,name=classification,proto3,oneof"`
+}
+
+type Suggestion_StatementChange_ struct {
+	StatementChange *Suggestion_StatementChange `protobuf:"bytes,101,opt,name=statement_change,json=statementChange,proto3,oneof"`
+}
+
+type Suggestion_EditorialChange_ struct {
+	EditorialChange *Suggestion_EditorialChange `protobuf:"bytes,102,opt,name=editorial_change,json=editorialChange,proto3,oneof"`
+}
+
+func (*Suggestion_Classification_) isSuggestion_Change() {}
+
+func (*Suggestion_StatementChange_) isSuggestion_Change() {}
+
+func (*Suggestion_EditorialChange_) isSuggestion_Change() {}
+
+type Suggestion_Classification struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Topics        []string               `protobuf:"bytes,1,rep,name=topics,proto3" json:"topics,omitempty"`
+	Difficulty    uint32                 `protobuf:"varint,2,opt,name=difficulty,proto3" json:"difficulty,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Suggestion_Classification) Reset() {
+	*x = Suggestion_Classification{}
+	mi := &file_eolymp_atlas_suggestion_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Suggestion_Classification) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Suggestion_Classification) ProtoMessage() {}
+
+func (x *Suggestion_Classification) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_suggestion_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Suggestion_Classification.ProtoReflect.Descriptor instead.
+func (*Suggestion_Classification) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_suggestion_proto_rawDescGZIP(), []int{0, 0}
+}
+
+func (x *Suggestion_Classification) GetTopics() []string {
 	if x != nil {
 		return x.Topics
 	}
 	return nil
 }
 
-func (x *Suggestion) GetDifficulty() uint32 {
+func (x *Suggestion_Classification) GetDifficulty() uint32 {
 	if x != nil {
 		return x.Difficulty
 	}
 	return 0
 }
 
-func (x *Suggestion) GetStatement() *ecm.Content {
+type Suggestion_StatementChange struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Locale        string                 `protobuf:"bytes,1,opt,name=locale,proto3" json:"locale,omitempty"`
+	Title         string                 `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
+	Statement     *ecm.Content           `protobuf:"bytes,3,opt,name=statement,proto3" json:"statement,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Suggestion_StatementChange) Reset() {
+	*x = Suggestion_StatementChange{}
+	mi := &file_eolymp_atlas_suggestion_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Suggestion_StatementChange) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Suggestion_StatementChange) ProtoMessage() {}
+
+func (x *Suggestion_StatementChange) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_suggestion_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Suggestion_StatementChange.ProtoReflect.Descriptor instead.
+func (*Suggestion_StatementChange) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_suggestion_proto_rawDescGZIP(), []int{0, 1}
+}
+
+func (x *Suggestion_StatementChange) GetLocale() string {
+	if x != nil {
+		return x.Locale
+	}
+	return ""
+}
+
+func (x *Suggestion_StatementChange) GetTitle() string {
+	if x != nil {
+		return x.Title
+	}
+	return ""
+}
+
+func (x *Suggestion_StatementChange) GetStatement() *ecm.Content {
 	if x != nil {
 		return x.Statement
 	}
 	return nil
 }
 
-func (x *Suggestion) GetEditorial() *ecm.Content {
+type Suggestion_EditorialChange struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Locale        string                 `protobuf:"bytes,1,opt,name=locale,proto3" json:"locale,omitempty"`
+	Editorial     *ecm.Content           `protobuf:"bytes,2,opt,name=editorial,proto3" json:"editorial,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Suggestion_EditorialChange) Reset() {
+	*x = Suggestion_EditorialChange{}
+	mi := &file_eolymp_atlas_suggestion_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Suggestion_EditorialChange) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Suggestion_EditorialChange) ProtoMessage() {}
+
+func (x *Suggestion_EditorialChange) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_suggestion_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Suggestion_EditorialChange.ProtoReflect.Descriptor instead.
+func (*Suggestion_EditorialChange) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_suggestion_proto_rawDescGZIP(), []int{0, 2}
+}
+
+func (x *Suggestion_EditorialChange) GetLocale() string {
+	if x != nil {
+		return x.Locale
+	}
+	return ""
+}
+
+func (x *Suggestion_EditorialChange) GetEditorial() *ecm.Content {
 	if x != nil {
 		return x.Editorial
 	}
@@ -206,31 +400,41 @@ var File_eolymp_atlas_suggestion_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_suggestion_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/atlas/suggestion.proto\x12\feolymp.atlas\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x8a\x04\n" +
+	"\x1deolymp/atlas/suggestion.proto\x12\feolymp.atlas\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xa3\a\n" +
 	"\n" +
 	"Suggestion\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x127\n" +
-	"\x06status\x18\x02 \x01(\x0e2\x1f.eolymp.atlas.Suggestion.StatusR\x06status\x12\x16\n" +
-	"\x06locale\x18\x04 \x01(\tR\x06locale\x12\x14\n" +
-	"\x05title\x18\x06 \x01(\tR\x05title\x12\x1b\n" +
-	"\tmember_id\x18\x05 \x01(\tR\bmemberId\x129\n" +
+	"\x06status\x18\x02 \x01(\x0e2\x1f.eolymp.atlas.Suggestion.StatusR\x06status\x12\x18\n" +
+	"\aversion\x18\b \x01(\rR\aversion\x12\x1b\n" +
+	"\tmember_id\x18\x05 \x01(\tR\bmemberId\x12\"\n" +
+	"\fcontribution\x18\a \x01(\rR\fcontribution\x129\n" +
 	"\n" +
 	"created_at\x18\n" +
 	" \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
 	"\n" +
-	"updated_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12\x16\n" +
-	"\x06topics\x18d \x03(\tR\x06topics\x12\x1e\n" +
+	"updated_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12Q\n" +
+	"\x0eclassification\x18d \x01(\v2'.eolymp.atlas.Suggestion.ClassificationH\x00R\x0eclassification\x12U\n" +
+	"\x10statement_change\x18e \x01(\v2(.eolymp.atlas.Suggestion.StatementChangeH\x00R\x0fstatementChange\x12U\n" +
+	"\x10editorial_change\x18f \x01(\v2(.eolymp.atlas.Suggestion.EditorialChangeH\x00R\x0feditorialChange\x1aH\n" +
+	"\x0eClassification\x12\x16\n" +
+	"\x06topics\x18\x01 \x03(\tR\x06topics\x12\x1e\n" +
 	"\n" +
-	"difficulty\x18e \x01(\rR\n" +
-	"difficulty\x121\n" +
-	"\tstatement\x18f \x01(\v2\x13.eolymp.ecm.ContentR\tstatement\x121\n" +
-	"\teditorial\x18g \x01(\v2\x13.eolymp.ecm.ContentR\teditorial\"T\n" +
+	"difficulty\x18\x02 \x01(\rR\n" +
+	"difficulty\x1ar\n" +
+	"\x0fStatementChange\x12\x16\n" +
+	"\x06locale\x18\x01 \x01(\tR\x06locale\x12\x14\n" +
+	"\x05title\x18\x02 \x01(\tR\x05title\x121\n" +
+	"\tstatement\x18\x03 \x01(\v2\x13.eolymp.ecm.ContentR\tstatement\x1a\\\n" +
+	"\x0fEditorialChange\x12\x16\n" +
+	"\x06locale\x18\x01 \x01(\tR\x06locale\x121\n" +
+	"\teditorial\x18\x02 \x01(\v2\x13.eolymp.ecm.ContentR\teditorial\"T\n" +
 	"\x06Status\x12\x12\n" +
 	"\x0eUNKNOWN_STATUS\x10\x00\x12\v\n" +
 	"\aPENDING\x10\x01\x12\r\n" +
 	"\tIN_REVIEW\x10\x02\x12\f\n" +
 	"\bAPPROVED\x10\x03\x12\f\n" +
-	"\bREJECTED\x10\x04B-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\bREJECTED\x10\x04B\b\n" +
+	"\x06changeB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_suggestion_proto_rawDescOnce sync.Once
@@ -245,24 +449,30 @@ func file_eolymp_atlas_suggestion_proto_rawDescGZIP() []byte {
 }
 
 var file_eolymp_atlas_suggestion_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_eolymp_atlas_suggestion_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_eolymp_atlas_suggestion_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_eolymp_atlas_suggestion_proto_goTypes = []any{
-	(Suggestion_Status)(0),        // 0: eolymp.atlas.Suggestion.Status
-	(*Suggestion)(nil),            // 1: eolymp.atlas.Suggestion
-	(*timestamppb.Timestamp)(nil), // 2: google.protobuf.Timestamp
-	(*ecm.Content)(nil),           // 3: eolymp.ecm.Content
+	(Suggestion_Status)(0),             // 0: eolymp.atlas.Suggestion.Status
+	(*Suggestion)(nil),                 // 1: eolymp.atlas.Suggestion
+	(*Suggestion_Classification)(nil),  // 2: eolymp.atlas.Suggestion.Classification
+	(*Suggestion_StatementChange)(nil), // 3: eolymp.atlas.Suggestion.StatementChange
+	(*Suggestion_EditorialChange)(nil), // 4: eolymp.atlas.Suggestion.EditorialChange
+	(*timestamppb.Timestamp)(nil),      // 5: google.protobuf.Timestamp
+	(*ecm.Content)(nil),                // 6: eolymp.ecm.Content
 }
 var file_eolymp_atlas_suggestion_proto_depIdxs = []int32{
 	0, // 0: eolymp.atlas.Suggestion.status:type_name -> eolymp.atlas.Suggestion.Status
-	2, // 1: eolymp.atlas.Suggestion.created_at:type_name -> google.protobuf.Timestamp
-	2, // 2: eolymp.atlas.Suggestion.updated_at:type_name -> google.protobuf.Timestamp
-	3, // 3: eolymp.atlas.Suggestion.statement:type_name -> eolymp.ecm.Content
-	3, // 4: eolymp.atlas.Suggestion.editorial:type_name -> eolymp.ecm.Content
-	5, // [5:5] is the sub-list for method output_type
-	5, // [5:5] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	5, // 1: eolymp.atlas.Suggestion.created_at:type_name -> google.protobuf.Timestamp
+	5, // 2: eolymp.atlas.Suggestion.updated_at:type_name -> google.protobuf.Timestamp
+	2, // 3: eolymp.atlas.Suggestion.classification:type_name -> eolymp.atlas.Suggestion.Classification
+	3, // 4: eolymp.atlas.Suggestion.statement_change:type_name -> eolymp.atlas.Suggestion.StatementChange
+	4, // 5: eolymp.atlas.Suggestion.editorial_change:type_name -> eolymp.atlas.Suggestion.EditorialChange
+	6, // 6: eolymp.atlas.Suggestion.StatementChange.statement:type_name -> eolymp.ecm.Content
+	6, // 7: eolymp.atlas.Suggestion.EditorialChange.editorial:type_name -> eolymp.ecm.Content
+	8, // [8:8] is the sub-list for method output_type
+	8, // [8:8] is the sub-list for method input_type
+	8, // [8:8] is the sub-list for extension type_name
+	8, // [8:8] is the sub-list for extension extendee
+	0, // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_atlas_suggestion_proto_init() }
@@ -270,13 +480,18 @@ func file_eolymp_atlas_suggestion_proto_init() {
 	if File_eolymp_atlas_suggestion_proto != nil {
 		return
 	}
+	file_eolymp_atlas_suggestion_proto_msgTypes[0].OneofWrappers = []any{
+		(*Suggestion_Classification_)(nil),
+		(*Suggestion_StatementChange_)(nil),
+		(*Suggestion_EditorialChange_)(nil),
+	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_atlas_suggestion_proto_rawDesc), len(file_eolymp_atlas_suggestion_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   1,
+			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

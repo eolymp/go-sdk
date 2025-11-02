@@ -345,6 +345,7 @@ type ReviewSuggestionInput struct {
 	SuggestionId  string                 `protobuf:"bytes,2,opt,name=suggestion_id,json=suggestionId,proto3" json:"suggestion_id,omitempty"`
 	Status        Suggestion_Status      `protobuf:"varint,3,opt,name=status,proto3,enum=eolymp.atlas.Suggestion_Status" json:"status,omitempty"`
 	Comment       *ecm.Content           `protobuf:"bytes,4,opt,name=comment,proto3" json:"comment,omitempty"`
+	Contribution  uint32                 `protobuf:"varint,5,opt,name=contribution,proto3" json:"contribution,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -398,6 +399,13 @@ func (x *ReviewSuggestionInput) GetComment() *ecm.Content {
 		return x.Comment
 	}
 	return nil
+}
+
+func (x *ReviewSuggestionInput) GetContribution() uint32 {
+	if x != nil {
+		return x.Contribution
+	}
+	return 0
 }
 
 type ReviewSuggestionOutput struct {
@@ -802,11 +810,12 @@ const file_eolymp_atlas_suggestion_service_proto_rawDesc = "" +
 	"\x16UpdateSuggestionOutput\"<\n" +
 	"\x15DeleteSuggestionInput\x12#\n" +
 	"\rsuggestion_id\x18\x02 \x01(\tR\fsuggestionId\"\x18\n" +
-	"\x16DeleteSuggestionOutput\"\xa4\x01\n" +
+	"\x16DeleteSuggestionOutput\"\xc8\x01\n" +
 	"\x15ReviewSuggestionInput\x12#\n" +
 	"\rsuggestion_id\x18\x02 \x01(\tR\fsuggestionId\x127\n" +
 	"\x06status\x18\x03 \x01(\x0e2\x1f.eolymp.atlas.Suggestion.StatusR\x06status\x12-\n" +
-	"\acomment\x18\x04 \x01(\v2\x13.eolymp.ecm.ContentR\acomment\"\x18\n" +
+	"\acomment\x18\x04 \x01(\v2\x13.eolymp.ecm.ContentR\acomment\x12\"\n" +
+	"\fcontribution\x18\x05 \x01(\rR\fcontribution\"\x18\n" +
 	"\x16ReviewSuggestionOutput\">\n" +
 	"\x17ResubmitSuggestionInput\x12#\n" +
 	"\rsuggestion_id\x18\x02 \x01(\tR\fsuggestionId\"\x1a\n" +
