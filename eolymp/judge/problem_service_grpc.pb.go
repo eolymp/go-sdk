@@ -28,6 +28,7 @@ const (
 	ProblemService_LookupCodeTemplate_FullMethodName   = "/eolymp.judge.ProblemService/LookupCodeTemplate"
 	ProblemService_DescribeCodeTemplate_FullMethodName = "/eolymp.judge.ProblemService/DescribeCodeTemplate"
 	ProblemService_ListStatements_FullMethodName       = "/eolymp.judge.ProblemService/ListStatements"
+	ProblemService_DescribeEditorial_FullMethodName    = "/eolymp.judge.ProblemService/DescribeEditorial"
 	ProblemService_ListAttachments_FullMethodName      = "/eolymp.judge.ProblemService/ListAttachments"
 	ProblemService_ListExamples_FullMethodName         = "/eolymp.judge.ProblemService/ListExamples"
 	ProblemService_ListRuntimes_FullMethodName         = "/eolymp.judge.ProblemService/ListRuntimes"
@@ -50,6 +51,7 @@ type ProblemServiceClient interface {
 	// Return code template for problem
 	DescribeCodeTemplate(ctx context.Context, in *DescribeCodeTemplateInput, opts ...grpc.CallOption) (*DescribeCodeTemplateOutput, error)
 	ListStatements(ctx context.Context, in *ListStatementsInput, opts ...grpc.CallOption) (*ListStatementsOutput, error)
+	DescribeEditorial(ctx context.Context, in *DescribeEditorialInput, opts ...grpc.CallOption) (*DescribeEditorialOutput, error)
 	ListAttachments(ctx context.Context, in *ListAttachmentsInput, opts ...grpc.CallOption) (*ListAttachmentsOutput, error)
 	ListExamples(ctx context.Context, in *ListExamplesInput, opts ...grpc.CallOption) (*ListExamplesOutput, error)
 	ListRuntimes(ctx context.Context, in *ListRuntimesInput, opts ...grpc.CallOption) (*ListRuntimesOutput, error)
@@ -153,6 +155,16 @@ func (c *problemServiceClient) ListStatements(ctx context.Context, in *ListState
 	return out, nil
 }
 
+func (c *problemServiceClient) DescribeEditorial(ctx context.Context, in *DescribeEditorialInput, opts ...grpc.CallOption) (*DescribeEditorialOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DescribeEditorialOutput)
+	err := c.cc.Invoke(ctx, ProblemService_DescribeEditorial_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *problemServiceClient) ListAttachments(ctx context.Context, in *ListAttachmentsInput, opts ...grpc.CallOption) (*ListAttachmentsOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ListAttachmentsOutput)
@@ -200,6 +212,7 @@ type ProblemServiceServer interface {
 	// Return code template for problem
 	DescribeCodeTemplate(context.Context, *DescribeCodeTemplateInput) (*DescribeCodeTemplateOutput, error)
 	ListStatements(context.Context, *ListStatementsInput) (*ListStatementsOutput, error)
+	DescribeEditorial(context.Context, *DescribeEditorialInput) (*DescribeEditorialOutput, error)
 	ListAttachments(context.Context, *ListAttachmentsInput) (*ListAttachmentsOutput, error)
 	ListExamples(context.Context, *ListExamplesInput) (*ListExamplesOutput, error)
 	ListRuntimes(context.Context, *ListRuntimesInput) (*ListRuntimesOutput, error)
@@ -238,6 +251,9 @@ func (UnimplementedProblemServiceServer) DescribeCodeTemplate(context.Context, *
 }
 func (UnimplementedProblemServiceServer) ListStatements(context.Context, *ListStatementsInput) (*ListStatementsOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListStatements not implemented")
+}
+func (UnimplementedProblemServiceServer) DescribeEditorial(context.Context, *DescribeEditorialInput) (*DescribeEditorialOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeEditorial not implemented")
 }
 func (UnimplementedProblemServiceServer) ListAttachments(context.Context, *ListAttachmentsInput) (*ListAttachmentsOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListAttachments not implemented")
@@ -430,6 +446,24 @@ func _ProblemService_ListStatements_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ProblemService_DescribeEditorial_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeEditorialInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProblemServiceServer).DescribeEditorial(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProblemService_DescribeEditorial_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProblemServiceServer).DescribeEditorial(ctx, req.(*DescribeEditorialInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ProblemService_ListAttachments_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListAttachmentsInput)
 	if err := dec(in); err != nil {
@@ -526,6 +560,10 @@ var ProblemService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListStatements",
 			Handler:    _ProblemService_ListStatements_Handler,
+		},
+		{
+			MethodName: "DescribeEditorial",
+			Handler:    _ProblemService_DescribeEditorial_Handler,
 		},
 		{
 			MethodName: "ListAttachments",

@@ -252,6 +252,7 @@ const (
 	Contest_Patch_ALLOW_FINISH_EARLY       Contest_Patch_Field = 18
 	Contest_Patch_ALLOW_UPSOLVE            Contest_Patch_Field = 120
 	Contest_Patch_ALLOW_FOLLOWUP           Contest_Patch_Field = 121
+	Contest_Patch_DISPLAY_EDITORIALS       Contest_Patch_Field = 122
 	Contest_Patch_FORMAT                   Contest_Patch_Field = 10
 	Contest_Patch_KEY                      Contest_Patch_Field = 11
 	Contest_Patch_PROBLEM_COUNT_HIDDEN     Contest_Patch_Field = 12
@@ -283,6 +284,7 @@ var (
 		18:  "ALLOW_FINISH_EARLY",
 		120: "ALLOW_UPSOLVE",
 		121: "ALLOW_FOLLOWUP",
+		122: "DISPLAY_EDITORIALS",
 		10:  "FORMAT",
 		11:  "KEY",
 		12:  "PROBLEM_COUNT_HIDDEN",
@@ -311,6 +313,7 @@ var (
 		"ALLOW_FINISH_EARLY":       18,
 		"ALLOW_UPSOLVE":            120,
 		"ALLOW_FOLLOWUP":           121,
+		"DISPLAY_EDITORIALS":       122,
 		"FORMAT":                   10,
 		"KEY":                      11,
 		"PROBLEM_COUNT_HIDDEN":     12,
@@ -548,12 +551,13 @@ type Contest struct {
 	Visibility Contest_Visibility `protobuf:"varint,30,opt,name=visibility,proto3,enum=eolymp.judge.Contest_Visibility" json:"visibility,omitempty"`
 	// Participation mode defines timeframe for participation: online or virtual.
 	ParticipationMode Contest_ParticipationMode `protobuf:"varint,31,opt,name=participation_mode,json=participationMode,proto3,enum=eolymp.judge.Contest_ParticipationMode" json:"participation_mode,omitempty"`
-	JoinUnofficially  bool                      `protobuf:"varint,33,opt,name=join_unofficially,json=joinUnofficially,proto3" json:"join_unofficially,omitempty"`   // When participants join contests by themselves they will participate unofficially.
-	RequireAdmission  bool                      `protobuf:"varint,35,opt,name=require_admission,json=requireAdmission,proto3" json:"require_admission,omitempty"`   // Require manual admission to the contest
-	AllowPause        bool                      `protobuf:"varint,36,opt,name=allow_pause,json=allowPause,proto3" json:"allow_pause,omitempty"`                     // Allow participants to pause their screen
-	AllowFinishEarly  bool                      `protobuf:"varint,37,opt,name=allow_finish_early,json=allowFinishEarly,proto3" json:"allow_finish_early,omitempty"` // Allow participants to finish contest before the end time
-	AllowUpsolve      bool                      `protobuf:"varint,38,opt,name=allow_upsolve,json=allowUpsolve,proto3" json:"allow_upsolve,omitempty"`               // Allow participants to solve problem after completing the contest
-	AllowFollowup     bool                      `protobuf:"varint,39,opt,name=allow_followup,json=allowFollowup,proto3" json:"allow_followup,omitempty"`            // Allow new participants to unofficially and virtually participate in contest after it's over
+	JoinUnofficially  bool                      `protobuf:"varint,33,opt,name=join_unofficially,json=joinUnofficially,proto3" json:"join_unofficially,omitempty"`    // When participants join contests by themselves they will participate unofficially.
+	RequireAdmission  bool                      `protobuf:"varint,35,opt,name=require_admission,json=requireAdmission,proto3" json:"require_admission,omitempty"`    // Require manual admission to the contest
+	AllowPause        bool                      `protobuf:"varint,36,opt,name=allow_pause,json=allowPause,proto3" json:"allow_pause,omitempty"`                      // Allow participants to pause their screen
+	AllowFinishEarly  bool                      `protobuf:"varint,37,opt,name=allow_finish_early,json=allowFinishEarly,proto3" json:"allow_finish_early,omitempty"`  // Allow participants to finish contest before the end time
+	AllowUpsolve      bool                      `protobuf:"varint,38,opt,name=allow_upsolve,json=allowUpsolve,proto3" json:"allow_upsolve,omitempty"`                // Allow participants to solve problem after completing the contest
+	AllowFollowup     bool                      `protobuf:"varint,39,opt,name=allow_followup,json=allowFollowup,proto3" json:"allow_followup,omitempty"`             // Allow new participants to unofficially and virtually participate in contest after it's over
+	DisplayEditorials bool                      `protobuf:"varint,41,opt,name=display_editorials,json=displayEditorials,proto3" json:"display_editorials,omitempty"` // Display problem editorials after contest ends
 	// Format defines competition style IOI or ICPC.
 	Format Contest_Format `protobuf:"varint,32,opt,name=format,proto3,enum=eolymp.judge.Contest_Format" json:"format,omitempty"`
 	// Contest key used to make human friendly URLs.
@@ -725,6 +729,13 @@ func (x *Contest) GetAllowUpsolve() bool {
 func (x *Contest) GetAllowFollowup() bool {
 	if x != nil {
 		return x.AllowFollowup
+	}
+	return false
+}
+
+func (x *Contest) GetDisplayEditorials() bool {
+	if x != nil {
+		return x.DisplayEditorials
 	}
 	return false
 }
@@ -1406,7 +1417,7 @@ var File_eolymp_judge_contest_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\n" +
-	"\x1aeolymp/judge/contest.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1ceolymp/runtime/runtime.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xf6#\n" +
+	"\x1aeolymp/judge/contest.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1ceolymp/runtime/runtime.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xbd$\n" +
 	"\aContest\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x18\n" +
 	"\x03url\x18\x02 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x03url\x12\x12\n" +
@@ -1427,7 +1438,8 @@ const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"allowPause\x12,\n" +
 	"\x12allow_finish_early\x18% \x01(\bR\x10allowFinishEarly\x12#\n" +
 	"\rallow_upsolve\x18& \x01(\bR\fallowUpsolve\x12%\n" +
-	"\x0eallow_followup\x18' \x01(\bR\rallowFollowup\x124\n" +
+	"\x0eallow_followup\x18' \x01(\bR\rallowFollowup\x12-\n" +
+	"\x12display_editorials\x18) \x01(\bR\x11displayEditorials\x124\n" +
 	"\x06format\x18  \x01(\x0e2\x1c.eolymp.judge.Contest.FormatR\x06format\x12\x10\n" +
 	"\x03key\x18( \x01(\tR\x03key\x12+\n" +
 	"\rproblem_count\x18< \x01(\rB\x06\xa8\xf0\xf0\xe4\x01\x01R\fproblemCount\x128\n" +
@@ -1443,8 +1455,8 @@ const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\x14certification_config\x18p \x01(\v2).eolymp.judge.Contest.CertificationConfigR\x13certificationConfig\x12S\n" +
 	"\x11plagiarism_config\x18q \x01(\v2&.eolymp.judge.Contest.PlagiarismConfigR\x10plagiarismConfig\x12G\n" +
 	"\rrating_config\x18r \x01(\v2\".eolymp.judge.Contest.RatingConfigR\fratingConfig\x129\n" +
-	"\x05staff\x18x \x03(\v2\x1b.eolymp.judge.Contest.StaffB\x06\xa8\xf0\xf0\xe4\x01\x01R\x05staff\x1a\x81\x04\n" +
-	"\x05Patch\"\xf7\x03\n" +
+	"\x05staff\x18x \x03(\v2\x1b.eolymp.judge.Contest.StaffB\x06\xa8\xf0\xf0\xe4\x01\x01R\x05staff\x1a\x99\x04\n" +
+	"\x05Patch\"\x8f\x04\n" +
 	"\x05Field\x12\v\n" +
 	"\aUNKNOWN\x10\x00\x12\b\n" +
 	"\x04NAME\x10\x02\x12\r\n" +
@@ -1460,7 +1472,8 @@ const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\vALLOW_PAUSE\x10\x11\x12\x16\n" +
 	"\x12ALLOW_FINISH_EARLY\x10\x12\x12\x11\n" +
 	"\rALLOW_UPSOLVE\x10x\x12\x12\n" +
-	"\x0eALLOW_FOLLOWUP\x10y\x12\n" +
+	"\x0eALLOW_FOLLOWUP\x10y\x12\x16\n" +
+	"\x12DISPLAY_EDITORIALS\x10z\x12\n" +
 	"\n" +
 	"\x06FORMAT\x10\n" +
 	"\x12\a\n" +

@@ -162,6 +162,9 @@ func RegisterProblemServiceHttpHandlers(router *mux.Router, prefix string, cli P
 	router.Handle(prefix+"/problems/{problem_id}/statements", _ProblemService_ListStatements_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ProblemService.ListStatements")
+	router.Handle(prefix+"/problems/{problem_id}/editorial", _ProblemService_DescribeEditorial_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.judge.ProblemService.DescribeEditorial")
 	router.Handle(prefix+"/problems/{problem_id}/attachments", _ProblemService_ListAttachments_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ProblemService.ListAttachments")
@@ -389,6 +392,31 @@ func _ProblemService_ListStatements_Rule0(cli ProblemServiceClient) http.Handler
 		var header, trailer metadata.MD
 
 		out, err := cli.ListStatements(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ProblemService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ProblemService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ProblemService_DescribeEditorial_Rule0(cli ProblemServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeEditorialInput{}
+
+		if err := _ProblemService_HTTPReadQueryString(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_ProblemService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeEditorial(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
