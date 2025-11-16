@@ -263,6 +263,7 @@ const (
 	Contest_Patch_CERTIFICATION_CONFIG     Contest_Patch_Field = 151
 	Contest_Patch_ENVIRONMENT_CONFIG       Contest_Patch_Field = 152
 	Contest_Patch_PLAGIARISM_CONFIG        Contest_Patch_Field = 153
+	Contest_Patch_RATING_CONFIG            Contest_Patch_Field = 154
 )
 
 // Enum value maps for Contest_Patch_Field.
@@ -293,6 +294,7 @@ var (
 		151: "CERTIFICATION_CONFIG",
 		152: "ENVIRONMENT_CONFIG",
 		153: "PLAGIARISM_CONFIG",
+		154: "RATING_CONFIG",
 	}
 	Contest_Patch_Field_value = map[string]int32{
 		"UNKNOWN":                  0,
@@ -320,6 +322,7 @@ var (
 		"CERTIFICATION_CONFIG":     151,
 		"ENVIRONMENT_CONFIG":       152,
 		"PLAGIARISM_CONFIG":        153,
+		"RATING_CONFIG":            154,
 	}
 )
 
@@ -354,33 +357,36 @@ type Contest_Extra_Field int32
 
 const (
 	Contest_Extra_UNKNOWN              Contest_Extra_Field = 0 // reserved, should not be used
+	Contest_Extra_STAFF                Contest_Extra_Field = 5 // Staff members of the contest, used to display staff members in the contest UI
 	Contest_Extra_CLASSIFICATION       Contest_Extra_Field = 1
 	Contest_Extra_SCOREBOARD_CONFIG    Contest_Extra_Field = 2
 	Contest_Extra_CERTIFICATION_CONFIG Contest_Extra_Field = 3
 	Contest_Extra_ENVIRONMENT_CONFIG   Contest_Extra_Field = 4
 	Contest_Extra_PLAGIARISM_CONFIG    Contest_Extra_Field = 6
-	Contest_Extra_STAFF                Contest_Extra_Field = 5 // Staff members of the contest, used to display staff members in the contest UI
+	Contest_Extra_RATING_CONFIG        Contest_Extra_Field = 7
 )
 
 // Enum value maps for Contest_Extra_Field.
 var (
 	Contest_Extra_Field_name = map[int32]string{
 		0: "UNKNOWN",
+		5: "STAFF",
 		1: "CLASSIFICATION",
 		2: "SCOREBOARD_CONFIG",
 		3: "CERTIFICATION_CONFIG",
 		4: "ENVIRONMENT_CONFIG",
 		6: "PLAGIARISM_CONFIG",
-		5: "STAFF",
+		7: "RATING_CONFIG",
 	}
 	Contest_Extra_Field_value = map[string]int32{
 		"UNKNOWN":              0,
+		"STAFF":                5,
 		"CLASSIFICATION":       1,
 		"SCOREBOARD_CONFIG":    2,
 		"CERTIFICATION_CONFIG": 3,
 		"ENVIRONMENT_CONFIG":   4,
 		"PLAGIARISM_CONFIG":    6,
-		"STAFF":                5,
+		"RATING_CONFIG":        7,
 	}
 )
 
@@ -571,10 +577,14 @@ type Contest struct {
 	// Certification configuration allows to automatically issue participant certificates after finalization of the contest.
 	CertificationConfig *Contest_CertificationConfig `protobuf:"bytes,112,opt,name=certification_config,json=certificationConfig,proto3" json:"certification_config,omitempty"`
 	// Plagiarism configuration allows to configure plagiarism detection features for the contest.
+	// This feature requires space to support plagiarism.
 	PlagiarismConfig *Contest_PlagiarismConfig `protobuf:"bytes,113,opt,name=plagiarism_config,json=plagiarismConfig,proto3" json:"plagiarism_config,omitempty"`
-	Staff            []*Contest_Staff          `protobuf:"bytes,120,rep,name=staff,proto3" json:"staff,omitempty"` // Staff members of the contest (coordinator, tester, problem setter etc)
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
+	// Rating configuration allows to provide parameters for EloMMR rating calculation.
+	// This feature requires space to support ratings.
+	RatingConfig  *Contest_RatingConfig `protobuf:"bytes,114,opt,name=rating_config,json=ratingConfig,proto3" json:"rating_config,omitempty"`
+	Staff         []*Contest_Staff      `protobuf:"bytes,120,rep,name=staff,proto3" json:"staff,omitempty"` // Staff members of the contest (coordinator, tester, problem setter etc)
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Contest) Reset() {
@@ -806,6 +816,13 @@ func (x *Contest) GetCertificationConfig() *Contest_CertificationConfig {
 func (x *Contest) GetPlagiarismConfig() *Contest_PlagiarismConfig {
 	if x != nil {
 		return x.PlagiarismConfig
+	}
+	return nil
+}
+
+func (x *Contest) GetRatingConfig() *Contest_RatingConfig {
+	if x != nil {
+		return x.RatingConfig
 	}
 	return nil
 }
@@ -1073,6 +1090,58 @@ func (x *Contest_ScoreboardConfig) GetShareKey() string {
 	return ""
 }
 
+type Contest_RatingConfig struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Rated         bool                   `protobuf:"varint,1,opt,name=rated,proto3" json:"rated,omitempty"`
+	MaxRating     uint32                 `protobuf:"varint,7,opt,name=max_rating,json=maxRating,proto3" json:"max_rating,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Contest_RatingConfig) Reset() {
+	*x = Contest_RatingConfig{}
+	mi := &file_eolymp_judge_contest_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Contest_RatingConfig) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Contest_RatingConfig) ProtoMessage() {}
+
+func (x *Contest_RatingConfig) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_judge_contest_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Contest_RatingConfig.ProtoReflect.Descriptor instead.
+func (*Contest_RatingConfig) Descriptor() ([]byte, []int) {
+	return file_eolymp_judge_contest_proto_rawDescGZIP(), []int{0, 4}
+}
+
+func (x *Contest_RatingConfig) GetRated() bool {
+	if x != nil {
+		return x.Rated
+	}
+	return false
+}
+
+func (x *Contest_RatingConfig) GetMaxRating() uint32 {
+	if x != nil {
+		return x.MaxRating
+	}
+	return 0
+}
+
 type Contest_CertificationConfig struct {
 	state         protoimpl.MessageState                `protogen:"open.v1"`
 	Enabled       bool                                  `protobuf:"varint,1,opt,name=enabled,proto3" json:"enabled,omitempty"`        // Enable certificate generation, certificates are generated on contest finalization
@@ -1084,7 +1153,7 @@ type Contest_CertificationConfig struct {
 
 func (x *Contest_CertificationConfig) Reset() {
 	*x = Contest_CertificationConfig{}
-	mi := &file_eolymp_judge_contest_proto_msgTypes[5]
+	mi := &file_eolymp_judge_contest_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1096,7 +1165,7 @@ func (x *Contest_CertificationConfig) String() string {
 func (*Contest_CertificationConfig) ProtoMessage() {}
 
 func (x *Contest_CertificationConfig) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_contest_proto_msgTypes[5]
+	mi := &file_eolymp_judge_contest_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1109,7 +1178,7 @@ func (x *Contest_CertificationConfig) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Contest_CertificationConfig.ProtoReflect.Descriptor instead.
 func (*Contest_CertificationConfig) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_contest_proto_rawDescGZIP(), []int{0, 4}
+	return file_eolymp_judge_contest_proto_rawDescGZIP(), []int{0, 5}
 }
 
 func (x *Contest_CertificationConfig) GetEnabled() bool {
@@ -1142,7 +1211,7 @@ type Contest_EnvironmentConfig struct {
 
 func (x *Contest_EnvironmentConfig) Reset() {
 	*x = Contest_EnvironmentConfig{}
-	mi := &file_eolymp_judge_contest_proto_msgTypes[6]
+	mi := &file_eolymp_judge_contest_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1154,7 +1223,7 @@ func (x *Contest_EnvironmentConfig) String() string {
 func (*Contest_EnvironmentConfig) ProtoMessage() {}
 
 func (x *Contest_EnvironmentConfig) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_contest_proto_msgTypes[6]
+	mi := &file_eolymp_judge_contest_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1167,7 +1236,7 @@ func (x *Contest_EnvironmentConfig) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Contest_EnvironmentConfig.ProtoReflect.Descriptor instead.
 func (*Contest_EnvironmentConfig) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_contest_proto_rawDescGZIP(), []int{0, 5}
+	return file_eolymp_judge_contest_proto_rawDescGZIP(), []int{0, 6}
 }
 
 func (x *Contest_EnvironmentConfig) GetRuntimes() []*runtime.Runtime {
@@ -1186,7 +1255,7 @@ type Contest_PlagiarismConfig struct {
 
 func (x *Contest_PlagiarismConfig) Reset() {
 	*x = Contest_PlagiarismConfig{}
-	mi := &file_eolymp_judge_contest_proto_msgTypes[7]
+	mi := &file_eolymp_judge_contest_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1198,7 +1267,7 @@ func (x *Contest_PlagiarismConfig) String() string {
 func (*Contest_PlagiarismConfig) ProtoMessage() {}
 
 func (x *Contest_PlagiarismConfig) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_contest_proto_msgTypes[7]
+	mi := &file_eolymp_judge_contest_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1211,7 +1280,7 @@ func (x *Contest_PlagiarismConfig) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Contest_PlagiarismConfig.ProtoReflect.Descriptor instead.
 func (*Contest_PlagiarismConfig) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_contest_proto_rawDescGZIP(), []int{0, 6}
+	return file_eolymp_judge_contest_proto_rawDescGZIP(), []int{0, 7}
 }
 
 func (x *Contest_PlagiarismConfig) GetCheckGenaiUse() bool {
@@ -1232,7 +1301,7 @@ type Contest_Staff struct {
 
 func (x *Contest_Staff) Reset() {
 	*x = Contest_Staff{}
-	mi := &file_eolymp_judge_contest_proto_msgTypes[8]
+	mi := &file_eolymp_judge_contest_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1244,7 +1313,7 @@ func (x *Contest_Staff) String() string {
 func (*Contest_Staff) ProtoMessage() {}
 
 func (x *Contest_Staff) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_contest_proto_msgTypes[8]
+	mi := &file_eolymp_judge_contest_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1257,7 +1326,7 @@ func (x *Contest_Staff) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Contest_Staff.ProtoReflect.Descriptor instead.
 func (*Contest_Staff) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_contest_proto_rawDescGZIP(), []int{0, 7}
+	return file_eolymp_judge_contest_proto_rawDescGZIP(), []int{0, 8}
 }
 
 func (x *Contest_Staff) GetMemberId() string {
@@ -1291,7 +1360,7 @@ type Contest_CertificationConfig_Signer struct {
 
 func (x *Contest_CertificationConfig_Signer) Reset() {
 	*x = Contest_CertificationConfig_Signer{}
-	mi := &file_eolymp_judge_contest_proto_msgTypes[9]
+	mi := &file_eolymp_judge_contest_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1303,7 +1372,7 @@ func (x *Contest_CertificationConfig_Signer) String() string {
 func (*Contest_CertificationConfig_Signer) ProtoMessage() {}
 
 func (x *Contest_CertificationConfig_Signer) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_contest_proto_msgTypes[9]
+	mi := &file_eolymp_judge_contest_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1316,7 +1385,7 @@ func (x *Contest_CertificationConfig_Signer) ProtoReflect() protoreflect.Message
 
 // Deprecated: Use Contest_CertificationConfig_Signer.ProtoReflect.Descriptor instead.
 func (*Contest_CertificationConfig_Signer) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_contest_proto_rawDescGZIP(), []int{0, 4, 0}
+	return file_eolymp_judge_contest_proto_rawDescGZIP(), []int{0, 5, 0}
 }
 
 func (x *Contest_CertificationConfig_Signer) GetName() string {
@@ -1337,7 +1406,7 @@ var File_eolymp_judge_contest_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\n" +
-	"\x1aeolymp/judge/contest.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1ceolymp/runtime/runtime.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc1\"\n" +
+	"\x1aeolymp/judge/contest.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1ceolymp/runtime/runtime.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xf6#\n" +
 	"\aContest\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x18\n" +
 	"\x03url\x18\x02 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x03url\x12\x12\n" +
@@ -1372,9 +1441,10 @@ const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\x11scoreboard_config\x18i \x01(\v2&.eolymp.judge.Contest.ScoreboardConfigR\x10scoreboardConfig\x12V\n" +
 	"\x12environment_config\x18o \x01(\v2'.eolymp.judge.Contest.EnvironmentConfigR\x11environmentConfig\x12\\\n" +
 	"\x14certification_config\x18p \x01(\v2).eolymp.judge.Contest.CertificationConfigR\x13certificationConfig\x12S\n" +
-	"\x11plagiarism_config\x18q \x01(\v2&.eolymp.judge.Contest.PlagiarismConfigR\x10plagiarismConfig\x129\n" +
-	"\x05staff\x18x \x03(\v2\x1b.eolymp.judge.Contest.StaffB\x06\xa8\xf0\xf0\xe4\x01\x01R\x05staff\x1a\xed\x03\n" +
-	"\x05Patch\"\xe3\x03\n" +
+	"\x11plagiarism_config\x18q \x01(\v2&.eolymp.judge.Contest.PlagiarismConfigR\x10plagiarismConfig\x12G\n" +
+	"\rrating_config\x18r \x01(\v2\".eolymp.judge.Contest.RatingConfigR\fratingConfig\x129\n" +
+	"\x05staff\x18x \x03(\v2\x1b.eolymp.judge.Contest.StaffB\x06\xa8\xf0\xf0\xe4\x01\x01R\x05staff\x1a\x81\x04\n" +
+	"\x05Patch\"\xf7\x03\n" +
 	"\x05Field\x12\v\n" +
 	"\aUNKNOWN\x10\x00\x12\b\n" +
 	"\x04NAME\x10\x02\x12\r\n" +
@@ -1403,16 +1473,18 @@ const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\x11SCOREBOARD_CONFIG\x10\x96\x01\x12\x19\n" +
 	"\x14CERTIFICATION_CONFIG\x10\x97\x01\x12\x17\n" +
 	"\x12ENVIRONMENT_CONFIG\x10\x98\x01\x12\x16\n" +
-	"\x11PLAGIARISM_CONFIG\x10\x99\x01\x1a\x9d\x01\n" +
-	"\x05Extra\"\x93\x01\n" +
+	"\x11PLAGIARISM_CONFIG\x10\x99\x01\x12\x12\n" +
+	"\rRATING_CONFIG\x10\x9a\x01\x1a\xb0\x01\n" +
+	"\x05Extra\"\xa6\x01\n" +
 	"\x05Field\x12\v\n" +
-	"\aUNKNOWN\x10\x00\x12\x12\n" +
+	"\aUNKNOWN\x10\x00\x12\t\n" +
+	"\x05STAFF\x10\x05\x12\x12\n" +
 	"\x0eCLASSIFICATION\x10\x01\x12\x15\n" +
 	"\x11SCOREBOARD_CONFIG\x10\x02\x12\x18\n" +
 	"\x14CERTIFICATION_CONFIG\x10\x03\x12\x16\n" +
 	"\x12ENVIRONMENT_CONFIG\x10\x04\x12\x15\n" +
-	"\x11PLAGIARISM_CONFIG\x10\x06\x12\t\n" +
-	"\x05STAFF\x10\x05\x1a\xba\x02\n" +
+	"\x11PLAGIARISM_CONFIG\x10\x06\x12\x11\n" +
+	"\rRATING_CONFIG\x10\a\x1a\xba\x02\n" +
 	"\x0eClassification\x12\x12\n" +
 	"\x04year\x18\x01 \x01(\rR\x04year\x12\x16\n" +
 	"\x06series\x18\x02 \x01(\tR\x06series\x12@\n" +
@@ -1445,7 +1517,11 @@ const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\x12UNKNOWN_VISIBILITY\x10\x00\x12/\n" +
 	"\tINVISIBLE\x10\x01\x1a \x9a\xf0\xf0\xe4\x01\x1avisible only to organizers\x12:\n" +
 	"\bINTERNAL\x10\x02\x1a,\x9a\xf0\xf0\xe4\x01&visible to participants and organizers\x12%\n" +
-	"\x06PUBLIC\x10\x03\x1a\x19\x9a\xf0\xf0\xe4\x01\x13visible to everyone\x1a\xd1\x01\n" +
+	"\x06PUBLIC\x10\x03\x1a\x19\x9a\xf0\xf0\xe4\x01\x13visible to everyone\x1aC\n" +
+	"\fRatingConfig\x12\x14\n" +
+	"\x05rated\x18\x01 \x01(\bR\x05rated\x12\x1d\n" +
+	"\n" +
+	"max_rating\x18\a \x01(\rR\tmaxRating\x1a\xd1\x01\n" +
 	"\x13CertificationConfig\x12\x18\n" +
 	"\aenabled\x18\x01 \x01(\bR\aenabled\x12 \n" +
 	"\vaffiliation\x18\x02 \x01(\tR\vaffiliation\x12J\n" +
@@ -1497,7 +1573,7 @@ func file_eolymp_judge_contest_proto_rawDescGZIP() []byte {
 }
 
 var file_eolymp_judge_contest_proto_enumTypes = make([]protoimpl.EnumInfo, 8)
-var file_eolymp_judge_contest_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_eolymp_judge_contest_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
 var file_eolymp_judge_contest_proto_goTypes = []any{
 	(Contest_Status)(0),                        // 0: eolymp.judge.Contest.Status
 	(Contest_Visibility)(0),                    // 1: eolymp.judge.Contest.Visibility
@@ -1512,37 +1588,39 @@ var file_eolymp_judge_contest_proto_goTypes = []any{
 	(*Contest_Extra)(nil),                      // 10: eolymp.judge.Contest.Extra
 	(*Contest_Classification)(nil),             // 11: eolymp.judge.Contest.Classification
 	(*Contest_ScoreboardConfig)(nil),           // 12: eolymp.judge.Contest.ScoreboardConfig
-	(*Contest_CertificationConfig)(nil),        // 13: eolymp.judge.Contest.CertificationConfig
-	(*Contest_EnvironmentConfig)(nil),          // 14: eolymp.judge.Contest.EnvironmentConfig
-	(*Contest_PlagiarismConfig)(nil),           // 15: eolymp.judge.Contest.PlagiarismConfig
-	(*Contest_Staff)(nil),                      // 16: eolymp.judge.Contest.Staff
-	(*Contest_CertificationConfig_Signer)(nil), // 17: eolymp.judge.Contest.CertificationConfig.Signer
-	(*timestamppb.Timestamp)(nil),              // 18: google.protobuf.Timestamp
-	(*runtime.Runtime)(nil),                    // 19: eolymp.runtime.Runtime
+	(*Contest_RatingConfig)(nil),               // 13: eolymp.judge.Contest.RatingConfig
+	(*Contest_CertificationConfig)(nil),        // 14: eolymp.judge.Contest.CertificationConfig
+	(*Contest_EnvironmentConfig)(nil),          // 15: eolymp.judge.Contest.EnvironmentConfig
+	(*Contest_PlagiarismConfig)(nil),           // 16: eolymp.judge.Contest.PlagiarismConfig
+	(*Contest_Staff)(nil),                      // 17: eolymp.judge.Contest.Staff
+	(*Contest_CertificationConfig_Signer)(nil), // 18: eolymp.judge.Contest.CertificationConfig.Signer
+	(*timestamppb.Timestamp)(nil),              // 19: google.protobuf.Timestamp
+	(*runtime.Runtime)(nil),                    // 20: eolymp.runtime.Runtime
 }
 var file_eolymp_judge_contest_proto_depIdxs = []int32{
-	18, // 0: eolymp.judge.Contest.starts_at:type_name -> google.protobuf.Timestamp
-	18, // 1: eolymp.judge.Contest.ends_at:type_name -> google.protobuf.Timestamp
+	19, // 0: eolymp.judge.Contest.starts_at:type_name -> google.protobuf.Timestamp
+	19, // 1: eolymp.judge.Contest.ends_at:type_name -> google.protobuf.Timestamp
 	0,  // 2: eolymp.judge.Contest.status:type_name -> eolymp.judge.Contest.Status
 	1,  // 3: eolymp.judge.Contest.visibility:type_name -> eolymp.judge.Contest.Visibility
 	2,  // 4: eolymp.judge.Contest.participation_mode:type_name -> eolymp.judge.Contest.ParticipationMode
 	3,  // 5: eolymp.judge.Contest.format:type_name -> eolymp.judge.Contest.Format
-	18, // 6: eolymp.judge.Contest.featured_until:type_name -> google.protobuf.Timestamp
+	19, // 6: eolymp.judge.Contest.featured_until:type_name -> google.protobuf.Timestamp
 	11, // 7: eolymp.judge.Contest.classification:type_name -> eolymp.judge.Contest.Classification
 	12, // 8: eolymp.judge.Contest.scoreboard_config:type_name -> eolymp.judge.Contest.ScoreboardConfig
-	14, // 9: eolymp.judge.Contest.environment_config:type_name -> eolymp.judge.Contest.EnvironmentConfig
-	13, // 10: eolymp.judge.Contest.certification_config:type_name -> eolymp.judge.Contest.CertificationConfig
-	15, // 11: eolymp.judge.Contest.plagiarism_config:type_name -> eolymp.judge.Contest.PlagiarismConfig
-	16, // 12: eolymp.judge.Contest.staff:type_name -> eolymp.judge.Contest.Staff
-	6,  // 13: eolymp.judge.Contest.Classification.scale:type_name -> eolymp.judge.Contest.Classification.Scale
-	7,  // 14: eolymp.judge.Contest.ScoreboardConfig.visibility:type_name -> eolymp.judge.Contest.ScoreboardConfig.Visibility
-	17, // 15: eolymp.judge.Contest.CertificationConfig.signers:type_name -> eolymp.judge.Contest.CertificationConfig.Signer
-	19, // 16: eolymp.judge.Contest.EnvironmentConfig.runtimes:type_name -> eolymp.runtime.Runtime
-	17, // [17:17] is the sub-list for method output_type
-	17, // [17:17] is the sub-list for method input_type
-	17, // [17:17] is the sub-list for extension type_name
-	17, // [17:17] is the sub-list for extension extendee
-	0,  // [0:17] is the sub-list for field type_name
+	15, // 9: eolymp.judge.Contest.environment_config:type_name -> eolymp.judge.Contest.EnvironmentConfig
+	14, // 10: eolymp.judge.Contest.certification_config:type_name -> eolymp.judge.Contest.CertificationConfig
+	16, // 11: eolymp.judge.Contest.plagiarism_config:type_name -> eolymp.judge.Contest.PlagiarismConfig
+	13, // 12: eolymp.judge.Contest.rating_config:type_name -> eolymp.judge.Contest.RatingConfig
+	17, // 13: eolymp.judge.Contest.staff:type_name -> eolymp.judge.Contest.Staff
+	6,  // 14: eolymp.judge.Contest.Classification.scale:type_name -> eolymp.judge.Contest.Classification.Scale
+	7,  // 15: eolymp.judge.Contest.ScoreboardConfig.visibility:type_name -> eolymp.judge.Contest.ScoreboardConfig.Visibility
+	18, // 16: eolymp.judge.Contest.CertificationConfig.signers:type_name -> eolymp.judge.Contest.CertificationConfig.Signer
+	20, // 17: eolymp.judge.Contest.EnvironmentConfig.runtimes:type_name -> eolymp.runtime.Runtime
+	18, // [18:18] is the sub-list for method output_type
+	18, // [18:18] is the sub-list for method input_type
+	18, // [18:18] is the sub-list for extension type_name
+	18, // [18:18] is the sub-list for extension extendee
+	0,  // [0:18] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_judge_contest_proto_init() }
@@ -1556,7 +1634,7 @@ func file_eolymp_judge_contest_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_judge_contest_proto_rawDesc), len(file_eolymp_judge_contest_proto_rawDesc)),
 			NumEnums:      8,
-			NumMessages:   10,
+			NumMessages:   11,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
