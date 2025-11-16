@@ -132,7 +132,7 @@ const (
 	Space_NEWSLETTERS       Space_Feature = 2
 	Space_MEMBER_CREDITS    Space_Feature = 3
 	Space_MERCHANDISE_STORE Space_Feature = 4
-	Space_RANKING           Space_Feature = 5
+	Space_RATING            Space_Feature = 5
 )
 
 // Enum value maps for Space_Feature.
@@ -143,7 +143,7 @@ var (
 		2: "NEWSLETTERS",
 		3: "MEMBER_CREDITS",
 		4: "MERCHANDISE_STORE",
-		5: "RANKING",
+		5: "RATING",
 	}
 	Space_Feature_value = map[string]int32{
 		"UNKNOWN_FEATURE":   0,
@@ -151,7 +151,7 @@ var (
 		"NEWSLETTERS":       2,
 		"MEMBER_CREDITS":    3,
 		"MERCHANDISE_STORE": 4,
-		"RANKING":           5,
+		"RATING":            5,
 	}
 )
 
@@ -610,7 +610,7 @@ var File_eolymp_universe_space_proto protoreflect.FileDescriptor
 
 const file_eolymp_universe_space_proto_rawDesc = "" +
 	"\n" +
-	"\x1beolymp/universe/space.proto\x12\x0feolymp.universe\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1beolymp/universe/quota.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xf0\n" +
+	"\x1beolymp/universe/space.proto\x12\x0feolymp.universe\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1beolymp/universe/quota.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xef\n" +
 	"\n" +
 	"\x05Space\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x10\n" +
@@ -666,14 +666,15 @@ const file_eolymp_universe_space_proto_rawDesc = "" +
 	"\x12UNKNOWN_VISIBILITY\x10\x00\x12\n" +
 	"\n" +
 	"\x06PUBLIC\x10\x01\x12\v\n" +
-	"\aPRIVATE\x10\x02\"u\n" +
+	"\aPRIVATE\x10\x02\"t\n" +
 	"\aFeature\x12\x13\n" +
 	"\x0fUNKNOWN_FEATURE\x10\x00\x12\f\n" +
 	"\bPRINTERS\x10\x01\x12\x0f\n" +
 	"\vNEWSLETTERS\x10\x02\x12\x12\n" +
 	"\x0eMEMBER_CREDITS\x10\x03\x12\x15\n" +
-	"\x11MERCHANDISE_STORE\x10\x04\x12\v\n" +
-	"\aRANKING\x10\x05B3Z1github.com/eolymp/go-sdk/eolymp/universe;universeb\x06proto3"
+	"\x11MERCHANDISE_STORE\x10\x04\x12\n" +
+	"\n" +
+	"\x06RATING\x10\x05B3Z1github.com/eolymp/go-sdk/eolymp/universe;universeb\x06proto3"
 
 var (
 	file_eolymp_universe_space_proto_rawDescOnce sync.Once
