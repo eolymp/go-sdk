@@ -26,6 +26,7 @@ const (
 type LookupAddressInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	IpAddress     string                 `protobuf:"bytes,1,opt,name=ip_address,json=ipAddress,proto3" json:"ip_address,omitempty"`
+	Secret        string                 `protobuf:"bytes,2,opt,name=secret,proto3" json:"secret,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -63,6 +64,13 @@ func (*LookupAddressInput) Descriptor() ([]byte, []int) {
 func (x *LookupAddressInput) GetIpAddress() string {
 	if x != nil {
 		return x.IpAddress
+	}
+	return ""
+}
+
+func (x *LookupAddressInput) GetSecret() string {
+	if x != nil {
+		return x.Secret
 	}
 	return ""
 }
@@ -163,10 +171,11 @@ var File_eolymp_geolocation_geolocation_service_proto protoreflect.FileDescripto
 
 const file_eolymp_geolocation_geolocation_service_proto_rawDesc = "" +
 	"\n" +
-	",eolymp/geolocation/geolocation_service.proto\x12\x12eolymp.geolocation\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a!eolymp/wellknown/expression.proto\"3\n" +
+	",eolymp/geolocation/geolocation_service.proto\x12\x12eolymp.geolocation\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a!eolymp/wellknown/expression.proto\"K\n" +
 	"\x12LookupAddressInput\x12\x1d\n" +
 	"\n" +
-	"ip_address\x18\x01 \x01(\tR\tipAddress\"\xcd\x01\n" +
+	"ip_address\x18\x01 \x01(\tR\tipAddress\x12\x16\n" +
+	"\x06secret\x18\x02 \x01(\tR\x06secret\"\xcd\x01\n" +
 	"\x13LookupAddressOutput\x12\x1a\n" +
 	"\blatitude\x18\x01 \x01(\x02R\blatitude\x12\x1c\n" +
 	"\tlongitude\x18\x02 \x01(\x02R\tlongitude\x12\x18\n" +
