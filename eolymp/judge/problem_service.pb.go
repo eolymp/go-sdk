@@ -12,6 +12,7 @@ import (
 	runtime "github.com/eolymp/go-sdk/eolymp/runtime"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -451,6 +452,7 @@ type ListProblemsInput struct {
 	Size          int32                       `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
 	Locale        string                      `protobuf:"bytes,1122,opt,name=locale,proto3" json:"locale,omitempty"` // load title and content in a specific locale
 	Extra         []atlas.Problem_Extra_Field `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.atlas.Problem_Extra_Field" json:"extra,omitempty"`
+	Fields        *fieldmaskpb.FieldMask      `protobuf:"bytes,1124,opt,name=fields,proto3" json:"fields,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -513,6 +515,13 @@ func (x *ListProblemsInput) GetExtra() []atlas.Problem_Extra_Field {
 	return nil
 }
 
+func (x *ListProblemsInput) GetFields() *fieldmaskpb.FieldMask {
+	if x != nil {
+		return x.Fields
+	}
+	return nil
+}
+
 type ListProblemsOutput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Total         int32                  `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty"`
@@ -570,6 +579,7 @@ type DescribeProblemInput struct {
 	ProblemId     string                      `protobuf:"bytes,2,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	Locale        string                      `protobuf:"bytes,1122,opt,name=locale,proto3" json:"locale,omitempty"` // load title and content in a specific locale
 	Extra         []atlas.Problem_Extra_Field `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.atlas.Problem_Extra_Field" json:"extra,omitempty"`
+	Fields        *fieldmaskpb.FieldMask      `protobuf:"bytes,1124,opt,name=fields,proto3" json:"fields,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -621,6 +631,13 @@ func (x *DescribeProblemInput) GetLocale() string {
 func (x *DescribeProblemInput) GetExtra() []atlas.Problem_Extra_Field {
 	if x != nil {
 		return x.Extra
+	}
+	return nil
+}
+
+func (x *DescribeProblemInput) GetFields() *fieldmaskpb.FieldMask {
+	if x != nil {
+		return x.Fields
 	}
 	return nil
 }
@@ -1353,7 +1370,7 @@ var File_eolymp_judge_problem_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_problem_service_proto_rawDesc = "" +
 	"\n" +
-	"\"eolymp/judge/problem_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1ceolymp/atlas/editorial.proto\x1a\x1aeolymp/atlas/problem.proto\x1a\x1aeolymp/judge/problem.proto\x1a\x1beolymp/judge/template.proto\x1a\x1ceolymp/runtime/runtime.proto\"\x9d\x01\n" +
+	"\"eolymp/judge/problem_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1ceolymp/atlas/editorial.proto\x1a\x1aeolymp/atlas/problem.proto\x1a\x1aeolymp/judge/problem.proto\x1a\x1beolymp/judge/template.proto\x1a\x1ceolymp/runtime/runtime.proto\x1a google/protobuf/field_mask.proto\"\x9d\x01\n" +
 	"\x12ImportProblemInput\x12\x1b\n" +
 	"\timport_id\x18\x02 \x01(\tR\bimportId\x12\x14\n" +
 	"\x05index\x18\n" +
@@ -1381,21 +1398,23 @@ const file_eolymp_judge_problem_service_proto_rawDesc = "" +
 	"\x12DeleteProblemInput\x12\x1d\n" +
 	"\n" +
 	"problem_id\x18\x02 \x01(\tR\tproblemId\"\x15\n" +
-	"\x13DeleteProblemOutput\"\x92\x01\n" +
+	"\x13DeleteProblemOutput\"\xc7\x01\n" +
 	"\x11ListProblemsInput\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
 	"\x04size\x18\v \x01(\x05R\x04size\x12\x17\n" +
 	"\x06locale\x18\xe2\b \x01(\tR\x06locale\x128\n" +
-	"\x05extra\x18\xe3\b \x03(\x0e2!.eolymp.atlas.Problem.Extra.FieldR\x05extra\"W\n" +
+	"\x05extra\x18\xe3\b \x03(\x0e2!.eolymp.atlas.Problem.Extra.FieldR\x05extra\x123\n" +
+	"\x06fields\x18\xe4\b \x01(\v2\x1a.google.protobuf.FieldMaskR\x06fields\"W\n" +
 	"\x12ListProblemsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12+\n" +
-	"\x05items\x18\x02 \x03(\v2\x15.eolymp.judge.ProblemR\x05items\"\x88\x01\n" +
+	"\x05items\x18\x02 \x03(\v2\x15.eolymp.judge.ProblemR\x05items\"\xbd\x01\n" +
 	"\x14DescribeProblemInput\x12\x1d\n" +
 	"\n" +
 	"problem_id\x18\x02 \x01(\tR\tproblemId\x12\x17\n" +
 	"\x06locale\x18\xe2\b \x01(\tR\x06locale\x128\n" +
-	"\x05extra\x18\xe3\b \x03(\x0e2!.eolymp.atlas.Problem.Extra.FieldR\x05extra\"H\n" +
+	"\x05extra\x18\xe3\b \x03(\x0e2!.eolymp.atlas.Problem.Extra.FieldR\x05extra\x123\n" +
+	"\x06fields\x18\xe4\b \x01(\v2\x1a.google.protobuf.FieldMaskR\x06fields\"H\n" +
 	"\x15DescribeProblemOutput\x12/\n" +
 	"\aproblem\x18\x01 \x01(\v2\x15.eolymp.judge.ProblemR\aproblem\"[\n" +
 	"\x19DescribeCodeTemplateInput\x12\x1d\n" +
@@ -1569,60 +1588,63 @@ var file_eolymp_judge_problem_service_proto_goTypes = []any{
 	(*ListRuntimesOutput)(nil),         // 26: eolymp.judge.ListRuntimesOutput
 	(*Problem)(nil),                    // 27: eolymp.judge.Problem
 	(atlas.Problem_Extra_Field)(0),     // 28: eolymp.atlas.Problem.Extra.Field
-	(*Template)(nil),                   // 29: eolymp.judge.Template
-	(*Problem_Statement)(nil),          // 30: eolymp.judge.Problem.Statement
-	(atlas.Editorial_Extra_Field)(0),   // 31: eolymp.atlas.Editorial.Extra.Field
-	(*atlas.Editorial)(nil),            // 32: eolymp.atlas.Editorial
-	(*Problem_Attachment)(nil),         // 33: eolymp.judge.Problem.Attachment
-	(*Problem_Test)(nil),               // 34: eolymp.judge.Problem.Test
-	(*runtime.Runtime)(nil),            // 35: eolymp.runtime.Runtime
+	(*fieldmaskpb.FieldMask)(nil),      // 29: google.protobuf.FieldMask
+	(*Template)(nil),                   // 30: eolymp.judge.Template
+	(*Problem_Statement)(nil),          // 31: eolymp.judge.Problem.Statement
+	(atlas.Editorial_Extra_Field)(0),   // 32: eolymp.atlas.Editorial.Extra.Field
+	(*atlas.Editorial)(nil),            // 33: eolymp.atlas.Editorial
+	(*Problem_Attachment)(nil),         // 34: eolymp.judge.Problem.Attachment
+	(*Problem_Test)(nil),               // 35: eolymp.judge.Problem.Test
+	(*runtime.Runtime)(nil),            // 36: eolymp.runtime.Runtime
 }
 var file_eolymp_judge_problem_service_proto_depIdxs = []int32{
 	0,  // 0: eolymp.judge.UpdateProblemInput.patch:type_name -> eolymp.judge.UpdateProblemInput.Patch
 	27, // 1: eolymp.judge.UpdateProblemInput.problem:type_name -> eolymp.judge.Problem
 	28, // 2: eolymp.judge.ListProblemsInput.extra:type_name -> eolymp.atlas.Problem.Extra.Field
-	27, // 3: eolymp.judge.ListProblemsOutput.items:type_name -> eolymp.judge.Problem
-	28, // 4: eolymp.judge.DescribeProblemInput.extra:type_name -> eolymp.atlas.Problem.Extra.Field
-	27, // 5: eolymp.judge.DescribeProblemOutput.problem:type_name -> eolymp.judge.Problem
-	29, // 6: eolymp.judge.DescribeCodeTemplateOutput.template:type_name -> eolymp.judge.Template
-	29, // 7: eolymp.judge.LookupCodeTemplateOutput.template:type_name -> eolymp.judge.Template
-	30, // 8: eolymp.judge.ListStatementsOutput.items:type_name -> eolymp.judge.Problem.Statement
-	31, // 9: eolymp.judge.DescribeEditorialInput.extra:type_name -> eolymp.atlas.Editorial.Extra.Field
-	32, // 10: eolymp.judge.DescribeEditorialOutput.editorial:type_name -> eolymp.atlas.Editorial
-	33, // 11: eolymp.judge.ListAttachmentsOutput.items:type_name -> eolymp.judge.Problem.Attachment
-	34, // 12: eolymp.judge.ListExamplesOutput.items:type_name -> eolymp.judge.Problem.Test
-	35, // 13: eolymp.judge.ListRuntimesOutput.items:type_name -> eolymp.runtime.Runtime
-	1,  // 14: eolymp.judge.ProblemService.ImportProblem:input_type -> eolymp.judge.ImportProblemInput
-	3,  // 15: eolymp.judge.ProblemService.SyncProblem:input_type -> eolymp.judge.SyncProblemInput
-	5,  // 16: eolymp.judge.ProblemService.UpdateProblem:input_type -> eolymp.judge.UpdateProblemInput
-	9,  // 17: eolymp.judge.ProblemService.ListProblems:input_type -> eolymp.judge.ListProblemsInput
-	11, // 18: eolymp.judge.ProblemService.DescribeProblem:input_type -> eolymp.judge.DescribeProblemInput
-	7,  // 19: eolymp.judge.ProblemService.DeleteProblem:input_type -> eolymp.judge.DeleteProblemInput
-	15, // 20: eolymp.judge.ProblemService.LookupCodeTemplate:input_type -> eolymp.judge.LookupCodeTemplateInput
-	13, // 21: eolymp.judge.ProblemService.DescribeCodeTemplate:input_type -> eolymp.judge.DescribeCodeTemplateInput
-	17, // 22: eolymp.judge.ProblemService.ListStatements:input_type -> eolymp.judge.ListStatementsInput
-	19, // 23: eolymp.judge.ProblemService.DescribeEditorial:input_type -> eolymp.judge.DescribeEditorialInput
-	21, // 24: eolymp.judge.ProblemService.ListAttachments:input_type -> eolymp.judge.ListAttachmentsInput
-	23, // 25: eolymp.judge.ProblemService.ListExamples:input_type -> eolymp.judge.ListExamplesInput
-	25, // 26: eolymp.judge.ProblemService.ListRuntimes:input_type -> eolymp.judge.ListRuntimesInput
-	2,  // 27: eolymp.judge.ProblemService.ImportProblem:output_type -> eolymp.judge.ImportProblemOutput
-	4,  // 28: eolymp.judge.ProblemService.SyncProblem:output_type -> eolymp.judge.SyncProblemOutput
-	6,  // 29: eolymp.judge.ProblemService.UpdateProblem:output_type -> eolymp.judge.UpdateProblemOutput
-	10, // 30: eolymp.judge.ProblemService.ListProblems:output_type -> eolymp.judge.ListProblemsOutput
-	12, // 31: eolymp.judge.ProblemService.DescribeProblem:output_type -> eolymp.judge.DescribeProblemOutput
-	8,  // 32: eolymp.judge.ProblemService.DeleteProblem:output_type -> eolymp.judge.DeleteProblemOutput
-	16, // 33: eolymp.judge.ProblemService.LookupCodeTemplate:output_type -> eolymp.judge.LookupCodeTemplateOutput
-	14, // 34: eolymp.judge.ProblemService.DescribeCodeTemplate:output_type -> eolymp.judge.DescribeCodeTemplateOutput
-	18, // 35: eolymp.judge.ProblemService.ListStatements:output_type -> eolymp.judge.ListStatementsOutput
-	20, // 36: eolymp.judge.ProblemService.DescribeEditorial:output_type -> eolymp.judge.DescribeEditorialOutput
-	22, // 37: eolymp.judge.ProblemService.ListAttachments:output_type -> eolymp.judge.ListAttachmentsOutput
-	24, // 38: eolymp.judge.ProblemService.ListExamples:output_type -> eolymp.judge.ListExamplesOutput
-	26, // 39: eolymp.judge.ProblemService.ListRuntimes:output_type -> eolymp.judge.ListRuntimesOutput
-	27, // [27:40] is the sub-list for method output_type
-	14, // [14:27] is the sub-list for method input_type
-	14, // [14:14] is the sub-list for extension type_name
-	14, // [14:14] is the sub-list for extension extendee
-	0,  // [0:14] is the sub-list for field type_name
+	29, // 3: eolymp.judge.ListProblemsInput.fields:type_name -> google.protobuf.FieldMask
+	27, // 4: eolymp.judge.ListProblemsOutput.items:type_name -> eolymp.judge.Problem
+	28, // 5: eolymp.judge.DescribeProblemInput.extra:type_name -> eolymp.atlas.Problem.Extra.Field
+	29, // 6: eolymp.judge.DescribeProblemInput.fields:type_name -> google.protobuf.FieldMask
+	27, // 7: eolymp.judge.DescribeProblemOutput.problem:type_name -> eolymp.judge.Problem
+	30, // 8: eolymp.judge.DescribeCodeTemplateOutput.template:type_name -> eolymp.judge.Template
+	30, // 9: eolymp.judge.LookupCodeTemplateOutput.template:type_name -> eolymp.judge.Template
+	31, // 10: eolymp.judge.ListStatementsOutput.items:type_name -> eolymp.judge.Problem.Statement
+	32, // 11: eolymp.judge.DescribeEditorialInput.extra:type_name -> eolymp.atlas.Editorial.Extra.Field
+	33, // 12: eolymp.judge.DescribeEditorialOutput.editorial:type_name -> eolymp.atlas.Editorial
+	34, // 13: eolymp.judge.ListAttachmentsOutput.items:type_name -> eolymp.judge.Problem.Attachment
+	35, // 14: eolymp.judge.ListExamplesOutput.items:type_name -> eolymp.judge.Problem.Test
+	36, // 15: eolymp.judge.ListRuntimesOutput.items:type_name -> eolymp.runtime.Runtime
+	1,  // 16: eolymp.judge.ProblemService.ImportProblem:input_type -> eolymp.judge.ImportProblemInput
+	3,  // 17: eolymp.judge.ProblemService.SyncProblem:input_type -> eolymp.judge.SyncProblemInput
+	5,  // 18: eolymp.judge.ProblemService.UpdateProblem:input_type -> eolymp.judge.UpdateProblemInput
+	9,  // 19: eolymp.judge.ProblemService.ListProblems:input_type -> eolymp.judge.ListProblemsInput
+	11, // 20: eolymp.judge.ProblemService.DescribeProblem:input_type -> eolymp.judge.DescribeProblemInput
+	7,  // 21: eolymp.judge.ProblemService.DeleteProblem:input_type -> eolymp.judge.DeleteProblemInput
+	15, // 22: eolymp.judge.ProblemService.LookupCodeTemplate:input_type -> eolymp.judge.LookupCodeTemplateInput
+	13, // 23: eolymp.judge.ProblemService.DescribeCodeTemplate:input_type -> eolymp.judge.DescribeCodeTemplateInput
+	17, // 24: eolymp.judge.ProblemService.ListStatements:input_type -> eolymp.judge.ListStatementsInput
+	19, // 25: eolymp.judge.ProblemService.DescribeEditorial:input_type -> eolymp.judge.DescribeEditorialInput
+	21, // 26: eolymp.judge.ProblemService.ListAttachments:input_type -> eolymp.judge.ListAttachmentsInput
+	23, // 27: eolymp.judge.ProblemService.ListExamples:input_type -> eolymp.judge.ListExamplesInput
+	25, // 28: eolymp.judge.ProblemService.ListRuntimes:input_type -> eolymp.judge.ListRuntimesInput
+	2,  // 29: eolymp.judge.ProblemService.ImportProblem:output_type -> eolymp.judge.ImportProblemOutput
+	4,  // 30: eolymp.judge.ProblemService.SyncProblem:output_type -> eolymp.judge.SyncProblemOutput
+	6,  // 31: eolymp.judge.ProblemService.UpdateProblem:output_type -> eolymp.judge.UpdateProblemOutput
+	10, // 32: eolymp.judge.ProblemService.ListProblems:output_type -> eolymp.judge.ListProblemsOutput
+	12, // 33: eolymp.judge.ProblemService.DescribeProblem:output_type -> eolymp.judge.DescribeProblemOutput
+	8,  // 34: eolymp.judge.ProblemService.DeleteProblem:output_type -> eolymp.judge.DeleteProblemOutput
+	16, // 35: eolymp.judge.ProblemService.LookupCodeTemplate:output_type -> eolymp.judge.LookupCodeTemplateOutput
+	14, // 36: eolymp.judge.ProblemService.DescribeCodeTemplate:output_type -> eolymp.judge.DescribeCodeTemplateOutput
+	18, // 37: eolymp.judge.ProblemService.ListStatements:output_type -> eolymp.judge.ListStatementsOutput
+	20, // 38: eolymp.judge.ProblemService.DescribeEditorial:output_type -> eolymp.judge.DescribeEditorialOutput
+	22, // 39: eolymp.judge.ProblemService.ListAttachments:output_type -> eolymp.judge.ListAttachmentsOutput
+	24, // 40: eolymp.judge.ProblemService.ListExamples:output_type -> eolymp.judge.ListExamplesOutput
+	26, // 41: eolymp.judge.ProblemService.ListRuntimes:output_type -> eolymp.judge.ListRuntimesOutput
+	29, // [29:42] is the sub-list for method output_type
+	16, // [16:29] is the sub-list for method input_type
+	16, // [16:16] is the sub-list for extension type_name
+	16, // [16:16] is the sub-list for extension extendee
+	0,  // [0:16] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_judge_problem_service_proto_init() }
