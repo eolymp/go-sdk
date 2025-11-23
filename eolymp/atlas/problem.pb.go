@@ -84,37 +84,22 @@ func (Problem_Type) EnumDescriptor() ([]byte, []int) {
 type Problem_Extra_Field int32
 
 const (
-	Problem_Extra_UNKNOWN_EXTRA   Problem_Extra_Field = 0
-	Problem_Extra_VOTE            Problem_Extra_Field = 1
-	Problem_Extra_TITLE           Problem_Extra_Field = 2
-	Problem_Extra_CONTENT_VALUE   Problem_Extra_Field = 3
-	Problem_Extra_CONTENT_RENDER  Problem_Extra_Field = 4
-	Problem_Extra_SUBMISSION_FORM Problem_Extra_Field = 5
-	Problem_Extra_EXAMPLES        Problem_Extra_Field = 6
-	Problem_Extra_CONSTRAINTS     Problem_Extra_Field = 7
+	Problem_Extra_UNKNOWN_EXTRA  Problem_Extra_Field = 0
+	Problem_Extra_CONTENT_VALUE  Problem_Extra_Field = 3
+	Problem_Extra_CONTENT_RENDER Problem_Extra_Field = 4
 )
 
 // Enum value maps for Problem_Extra_Field.
 var (
 	Problem_Extra_Field_name = map[int32]string{
 		0: "UNKNOWN_EXTRA",
-		1: "VOTE",
-		2: "TITLE",
 		3: "CONTENT_VALUE",
 		4: "CONTENT_RENDER",
-		5: "SUBMISSION_FORM",
-		6: "EXAMPLES",
-		7: "CONSTRAINTS",
 	}
 	Problem_Extra_Field_value = map[string]int32{
-		"UNKNOWN_EXTRA":   0,
-		"VOTE":            1,
-		"TITLE":           2,
-		"CONTENT_VALUE":   3,
-		"CONTENT_RENDER":  4,
-		"SUBMISSION_FORM": 5,
-		"EXAMPLES":        6,
-		"CONSTRAINTS":     7,
+		"UNKNOWN_EXTRA":  0,
+		"CONTENT_VALUE":  3,
+		"CONTENT_RENDER": 4,
 	}
 )
 
@@ -666,7 +651,7 @@ var File_eolymp_atlas_problem_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_problem_proto_rawDesc = "" +
 	"\n" +
-	"\x1aeolymp/atlas/problem.proto\x12\feolymp.atlas\x1a\x1ceolymp/annotations/mcp.proto\x1a\x17eolymp/atlas/form.proto\x1a\x18eolymp/ecm/content.proto\"\x80\x11\n" +
+	"\x1aeolymp/atlas/problem.proto\x12\feolymp.atlas\x1a\x1ceolymp/annotations/mcp.proto\x1a\x17eolymp/atlas/form.proto\x1a\x18eolymp/ecm/content.proto\"\x8a\x0f\n" +
 	"\aProblem\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x19\n" +
 	"\x03url\x18\xaa\x05 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x03url\x12.\n" +
@@ -695,17 +680,12 @@ const file_eolymp_atlas_problem_proto_rawDesc = "" +
 	"difficulty\x18\x15 \x01(\rR\n" +
 	"difficulty\x12C\n" +
 	"\x0fsubmission_form\x18\x16 \x01(\v2\x12.eolymp.atlas.FormB\x06\xa8\xf0\xf0\xe4\x01\x01R\x0esubmissionForm\x12A\n" +
-	"\bexamples\x18< \x03(\v2\x1d.eolymp.atlas.Problem.ExampleB\x06\xa8\xf0\xf0\xe4\x01\x01R\bexamples\x1a\xe8\x02\n" +
-	"\x05Extra\"\xde\x02\n" +
+	"\bexamples\x18< \x03(\v2\x1d.eolymp.atlas.Problem.ExampleB\x06\xa8\xf0\xf0\xe4\x01\x01R\bexamples\x1as\n" +
+	"\x05Extra\"j\n" +
 	"\x05Field\x12\x11\n" +
-	"\rUNKNOWN_EXTRA\x10\x00\x12\x10\n" +
-	"\x04VOTE\x10\x01\x1a\x06\xb8\xf0\xf0\xe4\x01\x01\x12&\n" +
-	"\x05TITLE\x10\x02\x1a\x1b\x9a\xf0\xf0\xe4\x01\x15include problem title\x122\n" +
+	"\rUNKNOWN_EXTRA\x10\x00\x122\n" +
 	"\rCONTENT_VALUE\x10\x03\x1a\x1f\x9a\xf0\xf0\xe4\x01\x19include problem statement\x12\x1a\n" +
-	"\x0eCONTENT_RENDER\x10\x04\x1a\x06\xb8\xf0\xf0\xe4\x01\x01\x12:\n" +
-	"\x0fSUBMISSION_FORM\x10\x05\x1a%\x9a\xf0\xf0\xe4\x01\x1finclude submission form details\x125\n" +
-	"\bEXAMPLES\x10\x06\x1a'\x9a\xf0\xf0\xe4\x01!include input and answer examples\x12E\n" +
-	"\vCONSTRAINTS\x10\a\x1a4\x9a\xf0\xf0\xe4\x01.include time, memory and file size constraints\x1a{\n" +
+	"\x0eCONTENT_RENDER\x10\x04\x1a\x06\xb8\xf0\xf0\xe4\x01\x01\x1a{\n" +
 	"\x05Patch\"r\n" +
 	"\x05Field\x12\x11\n" +
 	"\rUNKNOWN_PATCH\x10\x00\x12\v\n" +
