@@ -47,10 +47,11 @@ type Problem struct {
 	SubmitLimit    uint32                     `protobuf:"varint,203,opt,name=submit_limit,json=submitLimit,proto3" json:"submit_limit,omitempty"`
 	Score          float32                    `protobuf:"fixed32,3,opt,name=score,proto3" json:"score,omitempty"`                                  // score for solving problem
 	Constraints    *atlas.Problem_Constraints `protobuf:"bytes,30,opt,name=constraints,proto3" json:"constraints,omitempty"`                       // Constraints
-	Locale         string                     `protobuf:"bytes,20,opt,name=locale,proto3" json:"locale,omitempty"`                                 // Statement language
+	Language       string                     `protobuf:"bytes,20,opt,name=language,proto3" json:"language,omitempty"`                             // Statement language
 	Title          string                     `protobuf:"bytes,21,opt,name=title,proto3" json:"title,omitempty"`                                   // Problem title
 	Content        *ecm.Content               `protobuf:"bytes,22,opt,name=content,proto3" json:"content,omitempty"`                               // Statement content
 	DownloadLink   string                     `protobuf:"bytes,24,opt,name=download_link,json=downloadLink,proto3" json:"download_link,omitempty"` // Statement download link, allows to download statement in original format.
+	Languages      []string                   `protobuf:"bytes,25,rep,name=languages,proto3" json:"languages,omitempty"`                           // list of languages the statement is available in
 	SubmissionForm *atlas.Form                `protobuf:"bytes,61,opt,name=submission_form,json=submissionForm,proto3" json:"submission_form,omitempty"`
 	Examples       []*atlas.Problem_Example   `protobuf:"bytes,60,rep,name=examples,proto3" json:"examples,omitempty"`
 	unknownFields  protoimpl.UnknownFields
@@ -198,9 +199,9 @@ func (x *Problem) GetConstraints() *atlas.Problem_Constraints {
 	return nil
 }
 
-func (x *Problem) GetLocale() string {
+func (x *Problem) GetLanguage() string {
 	if x != nil {
-		return x.Locale
+		return x.Language
 	}
 	return ""
 }
@@ -224,6 +225,13 @@ func (x *Problem) GetDownloadLink() string {
 		return x.DownloadLink
 	}
 	return ""
+}
+
+func (x *Problem) GetLanguages() []string {
+	if x != nil {
+		return x.Languages
+	}
+	return nil
 }
 
 func (x *Problem) GetSubmissionForm() *atlas.Form {
@@ -451,7 +459,7 @@ var File_eolymp_judge_problem_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_problem_proto_rawDesc = "" +
 	"\n" +
-	"\x1aeolymp/judge/problem.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x17eolymp/atlas/form.proto\x1a\x1aeolymp/atlas/problem.proto\x1a#eolymp/atlas/testing_feedback.proto\x1a\x18eolymp/ecm/content.proto\x1a\x15eolymp/ecm/node.proto\"\xe5\f\n" +
+	"\x1aeolymp/judge/problem.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x17eolymp/atlas/form.proto\x1a\x1aeolymp/atlas/problem.proto\x1a#eolymp/atlas/testing_feedback.proto\x1a\x18eolymp/ecm/content.proto\x1a\x15eolymp/ecm/node.proto\"\x87\r\n" +
 	"\aProblem\x12!\n" +
 	"\n" +
 	"contest_id\x18\x05 \x01(\tB\x02\x18\x01R\tcontestId\x12\x0e\n" +
@@ -470,11 +478,12 @@ const file_eolymp_judge_problem_proto_rawDesc = "" +
 	"\x0ffile_size_limit\x18\xca\x01 \x01(\x04B\b\xb0\xf0\xf0\xe4\x01\x01\x18\x01R\rfileSizeLimit\x12Z\n" +
 	"\fsubmit_limit\x18\xcb\x01 \x01(\rB6\xa2\xf0\xf0\xe4\x01.limit in number of submissions per participant\x18\x01R\vsubmitLimit\x12\x14\n" +
 	"\x05score\x18\x03 \x01(\x02R\x05score\x12C\n" +
-	"\vconstraints\x18\x1e \x01(\v2!.eolymp.atlas.Problem.ConstraintsR\vconstraints\x12\x16\n" +
-	"\x06locale\x18\x14 \x01(\tR\x06locale\x12\x14\n" +
+	"\vconstraints\x18\x1e \x01(\v2!.eolymp.atlas.Problem.ConstraintsR\vconstraints\x12\x1a\n" +
+	"\blanguage\x18\x14 \x01(\tR\blanguage\x12\x14\n" +
 	"\x05title\x18\x15 \x01(\tR\x05title\x12\\\n" +
 	"\acontent\x18\x16 \x01(\v2\x13.eolymp.ecm.ContentB-\xa2\xf0\xf0\xe4\x01'problem statement in requested languageR\acontent\x12U\n" +
-	"\rdownload_link\x18\x18 \x01(\tB0\xa2\xf0\xf0\xe4\x01*a link to download statement in PDF formatR\fdownloadLink\x12;\n" +
+	"\rdownload_link\x18\x18 \x01(\tB0\xa2\xf0\xf0\xe4\x01*a link to download statement in PDF formatR\fdownloadLink\x12\x1c\n" +
+	"\tlanguages\x18\x19 \x03(\tR\tlanguages\x12;\n" +
 	"\x0fsubmission_form\x18= \x01(\v2\x12.eolymp.atlas.FormR\x0esubmissionForm\x129\n" +
 	"\bexamples\x18< \x03(\v2\x1d.eolymp.atlas.Problem.ExampleR\bexamples\x1a\x8a\x01\n" +
 	"\tStatement\x12\x16\n" +

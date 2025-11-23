@@ -91,6 +91,7 @@ const (
 	Problem_Extra_CONTENT_RENDER  Problem_Extra_Field = 4
 	Problem_Extra_SUBMISSION_FORM Problem_Extra_Field = 5
 	Problem_Extra_EXAMPLES        Problem_Extra_Field = 6
+	Problem_Extra_CONSTRAINTS     Problem_Extra_Field = 7
 )
 
 // Enum value maps for Problem_Extra_Field.
@@ -103,6 +104,7 @@ var (
 		4: "CONTENT_RENDER",
 		5: "SUBMISSION_FORM",
 		6: "EXAMPLES",
+		7: "CONSTRAINTS",
 	}
 	Problem_Extra_Field_value = map[string]int32{
 		"UNKNOWN_EXTRA":   0,
@@ -112,6 +114,7 @@ var (
 		"CONTENT_RENDER":  4,
 		"SUBMISSION_FORM": 5,
 		"EXAMPLES":        6,
+		"CONSTRAINTS":     7,
 	}
 )
 
@@ -218,12 +221,13 @@ type Problem struct {
 	Visible bool `protobuf:"varint,11,opt,name=visible,proto3" json:"visible,omitempty"`
 	// For imported problems, provides the source from where the problem is imported and synchronized.
 	Origin       string       `protobuf:"bytes,13,opt,name=origin,proto3" json:"origin,omitempty"`
-	Locale       string       `protobuf:"bytes,3,opt,name=locale,proto3" json:"locale,omitempty"`                                 // Statement language
+	Language     string       `protobuf:"bytes,3,opt,name=language,proto3" json:"language,omitempty"`                             // Statement language
 	Title        string       `protobuf:"bytes,4,opt,name=title,proto3" json:"title,omitempty"`                                   // Problem title
 	Content      *ecm.Content `protobuf:"bytes,6,opt,name=content,proto3" json:"content,omitempty"`                               // Statement content
 	DownloadLink string       `protobuf:"bytes,7,opt,name=download_link,json=downloadLink,proto3" json:"download_link,omitempty"` // Statement download link, allows to download statement in original format.
 	Author       string       `protobuf:"bytes,101,opt,name=author,proto3" json:"author,omitempty"`                               // Problem author name.
 	Source       string       `protobuf:"bytes,102,opt,name=source,proto3" json:"source,omitempty"`                               // Problem source, name of the contest or olympiad where this problem was initially published.
+	Languages    []string     `protobuf:"bytes,103,rep,name=languages,proto3" json:"languages,omitempty"`                         // list of languages the statement is available in
 	// Problem topics (ID of topics from taxonomy.TopicService)
 	Topics      []string             `protobuf:"bytes,20,rep,name=topics,proto3" json:"topics,omitempty"`
 	Score       float32              `protobuf:"fixed32,31,opt,name=score,proto3" json:"score,omitempty"`           // Total score
@@ -316,9 +320,9 @@ func (x *Problem) GetOrigin() string {
 	return ""
 }
 
-func (x *Problem) GetLocale() string {
+func (x *Problem) GetLanguage() string {
 	if x != nil {
-		return x.Locale
+		return x.Language
 	}
 	return ""
 }
@@ -356,6 +360,13 @@ func (x *Problem) GetSource() string {
 		return x.Source
 	}
 	return ""
+}
+
+func (x *Problem) GetLanguages() []string {
+	if x != nil {
+		return x.Languages
+	}
+	return nil
 }
 
 func (x *Problem) GetTopics() []string {
@@ -655,7 +666,7 @@ var File_eolymp_atlas_problem_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_problem_proto_rawDesc = "" +
 	"\n" +
-	"\x1aeolymp/atlas/problem.proto\x12\feolymp.atlas\x1a\x1ceolymp/annotations/mcp.proto\x1a\x17eolymp/atlas/form.proto\x1a\x18eolymp/ecm/content.proto\"\x97\x10\n" +
+	"\x1aeolymp/atlas/problem.proto\x12\feolymp.atlas\x1a\x1ceolymp/annotations/mcp.proto\x1a\x17eolymp/atlas/form.proto\x1a\x18eolymp/ecm/content.proto\"\x80\x11\n" +
 	"\aProblem\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x19\n" +
 	"\x03url\x18\xaa\x05 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x03url\x12.\n" +
@@ -663,13 +674,14 @@ const file_eolymp_atlas_problem_proto_rawDesc = "" +
 	"\x06number\x18\n" +
 	" \x01(\x05R\x06number\x12\x18\n" +
 	"\avisible\x18\v \x01(\bR\avisible\x12\x16\n" +
-	"\x06origin\x18\r \x01(\tR\x06origin\x12\x1e\n" +
-	"\x06locale\x18\x03 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x06locale\x12\x1c\n" +
+	"\x06origin\x18\r \x01(\tR\x06origin\x12\"\n" +
+	"\blanguage\x18\x03 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\blanguage\x12\x1c\n" +
 	"\x05title\x18\x04 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x05title\x125\n" +
 	"\acontent\x18\x06 \x01(\v2\x13.eolymp.ecm.ContentB\x06\xa8\xf0\xf0\xe4\x01\x01R\acontent\x12+\n" +
 	"\rdownload_link\x18\a \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\fdownloadLink\x12\x1e\n" +
 	"\x06author\x18e \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x06author\x12\x1e\n" +
-	"\x06source\x18f \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x06source\x12\x16\n" +
+	"\x06source\x18f \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x06source\x12\x1c\n" +
+	"\tlanguages\x18g \x03(\tR\tlanguages\x12\x16\n" +
 	"\x06topics\x18\x14 \x03(\tR\x06topics\x12\x1c\n" +
 	"\x05score\x18\x1f \x01(\x02B\x06\xa8\xf0\xf0\xe4\x01\x01R\x05score\x12K\n" +
 	"\vconstraints\x18\x1e \x01(\v2!.eolymp.atlas.Problem.ConstraintsB\x06\xa8\xf0\xf0\xe4\x01\x01R\vconstraints\x12/\n" +
@@ -683,8 +695,8 @@ const file_eolymp_atlas_problem_proto_rawDesc = "" +
 	"difficulty\x18\x15 \x01(\rR\n" +
 	"difficulty\x12C\n" +
 	"\x0fsubmission_form\x18\x16 \x01(\v2\x12.eolymp.atlas.FormB\x06\xa8\xf0\xf0\xe4\x01\x01R\x0esubmissionForm\x12A\n" +
-	"\bexamples\x18< \x03(\v2\x1d.eolymp.atlas.Problem.ExampleB\x06\xa8\xf0\xf0\xe4\x01\x01R\bexamples\x1a\xa1\x02\n" +
-	"\x05Extra\"\x97\x02\n" +
+	"\bexamples\x18< \x03(\v2\x1d.eolymp.atlas.Problem.ExampleB\x06\xa8\xf0\xf0\xe4\x01\x01R\bexamples\x1a\xe8\x02\n" +
+	"\x05Extra\"\xde\x02\n" +
 	"\x05Field\x12\x11\n" +
 	"\rUNKNOWN_EXTRA\x10\x00\x12\x10\n" +
 	"\x04VOTE\x10\x01\x1a\x06\xb8\xf0\xf0\xe4\x01\x01\x12&\n" +
@@ -692,7 +704,8 @@ const file_eolymp_atlas_problem_proto_rawDesc = "" +
 	"\rCONTENT_VALUE\x10\x03\x1a\x1f\x9a\xf0\xf0\xe4\x01\x19include problem statement\x12\x1a\n" +
 	"\x0eCONTENT_RENDER\x10\x04\x1a\x06\xb8\xf0\xf0\xe4\x01\x01\x12:\n" +
 	"\x0fSUBMISSION_FORM\x10\x05\x1a%\x9a\xf0\xf0\xe4\x01\x1finclude submission form details\x125\n" +
-	"\bEXAMPLES\x10\x06\x1a'\x9a\xf0\xf0\xe4\x01!include input and answer examples\x1a{\n" +
+	"\bEXAMPLES\x10\x06\x1a'\x9a\xf0\xf0\xe4\x01!include input and answer examples\x12E\n" +
+	"\vCONSTRAINTS\x10\a\x1a4\x9a\xf0\xf0\xe4\x01.include time, memory and file size constraints\x1a{\n" +
 	"\x05Patch\"r\n" +
 	"\x05Field\x12\x11\n" +
 	"\rUNKNOWN_PATCH\x10\x00\x12\v\n" +
