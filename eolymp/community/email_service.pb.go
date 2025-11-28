@@ -290,7 +290,7 @@ type SendEmailInput_Message struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Subject       string                 `protobuf:"bytes,12,opt,name=subject,proto3" json:"subject,omitempty"`
 	Body          *ecm.Content           `protobuf:"bytes,13,opt,name=body,proto3" json:"body,omitempty"`
-	Parameters    *structpb.Struct       `protobuf:"bytes,14,opt,name=parameters,proto3" json:"parameters,omitempty"`
+	Data          *structpb.Struct       `protobuf:"bytes,14,opt,name=data,proto3" json:"data,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -339,9 +339,9 @@ func (x *SendEmailInput_Message) GetBody() *ecm.Content {
 	return nil
 }
 
-func (x *SendEmailInput_Message) GetParameters() *structpb.Struct {
+func (x *SendEmailInput_Message) GetData() *structpb.Struct {
 	if x != nil {
-		return x.Parameters
+		return x.Data
 	}
 	return nil
 }
@@ -349,7 +349,7 @@ func (x *SendEmailInput_Message) GetParameters() *structpb.Struct {
 type SendEmailInput_Fragment struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Path          string                 `protobuf:"bytes,12,opt,name=path,proto3" json:"path,omitempty"`
-	Parameters    *structpb.Struct       `protobuf:"bytes,14,opt,name=parameters,proto3" json:"parameters,omitempty"`
+	Data          *structpb.Struct       `protobuf:"bytes,14,opt,name=data,proto3" json:"data,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -391,9 +391,9 @@ func (x *SendEmailInput_Fragment) GetPath() string {
 	return ""
 }
 
-func (x *SendEmailInput_Fragment) GetParameters() *structpb.Struct {
+func (x *SendEmailInput_Fragment) GetData() *structpb.Struct {
 	if x != nil {
-		return x.Parameters
+		return x.Data
 	}
 	return nil
 }
@@ -402,7 +402,7 @@ var File_eolymp_community_email_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_email_service_proto_rawDesc = "" +
 	"\n" +
-	"$eolymp/community/email_service.proto\x12\x10eolymp.community\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a!eolymp/community/email_type.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1cgoogle/protobuf/struct.proto\"\xbd\x04\n" +
+	"$eolymp/community/email_service.proto\x12\x10eolymp.community\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a!eolymp/community/email_type.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1cgoogle/protobuf/struct.proto\"\xa4\x04\n" +
 	"\x0eSendEmailInput\x12\x1b\n" +
 	"\tmember_id\x18\x01 \x01(\tR\bmemberId\x12\x17\n" +
 	"\adry_run\x18\x14 \x01(\bR\x06dryRun\x12\x15\n" +
@@ -412,18 +412,14 @@ const file_eolymp_community_email_service_proto_rawDesc = "" +
 	"\bcampaign\x18\x0f \x01(\tR\bcampaign\x12\x16\n" +
 	"\x06locale\x18\v \x01(\tR\x06locale\x12D\n" +
 	"\amessage\x18\x1e \x01(\v2(.eolymp.community.SendEmailInput.MessageH\x00R\amessage\x12G\n" +
-	"\bfragment\x18\x1f \x01(\v2).eolymp.community.SendEmailInput.FragmentH\x00R\bfragment\x1a\x85\x01\n" +
+	"\bfragment\x18\x1f \x01(\v2).eolymp.community.SendEmailInput.FragmentH\x00R\bfragment\x1ay\n" +
 	"\aMessage\x12\x18\n" +
 	"\asubject\x18\f \x01(\tR\asubject\x12'\n" +
-	"\x04body\x18\r \x01(\v2\x13.eolymp.ecm.ContentR\x04body\x127\n" +
-	"\n" +
-	"parameters\x18\x0e \x01(\v2\x17.google.protobuf.StructR\n" +
-	"parameters\x1aW\n" +
+	"\x04body\x18\r \x01(\v2\x13.eolymp.ecm.ContentR\x04body\x12+\n" +
+	"\x04data\x18\x0e \x01(\v2\x17.google.protobuf.StructR\x04data\x1aK\n" +
 	"\bFragment\x12\x12\n" +
-	"\x04path\x18\f \x01(\tR\x04path\x127\n" +
-	"\n" +
-	"parameters\x18\x0e \x01(\v2\x17.google.protobuf.StructR\n" +
-	"parametersB\t\n" +
+	"\x04path\x18\f \x01(\tR\x04path\x12+\n" +
+	"\x04data\x18\x0e \x01(\v2\x17.google.protobuf.StructR\x04dataB\t\n" +
 	"\acontent\"0\n" +
 	"\x0fSendEmailOutput\x12\x1d\n" +
 	"\n" +
@@ -475,8 +471,8 @@ var file_eolymp_community_email_service_proto_depIdxs = []int32{
 	4, // 1: eolymp.community.SendEmailInput.message:type_name -> eolymp.community.SendEmailInput.Message
 	5, // 2: eolymp.community.SendEmailInput.fragment:type_name -> eolymp.community.SendEmailInput.Fragment
 	7, // 3: eolymp.community.SendEmailInput.Message.body:type_name -> eolymp.ecm.Content
-	8, // 4: eolymp.community.SendEmailInput.Message.parameters:type_name -> google.protobuf.Struct
-	8, // 5: eolymp.community.SendEmailInput.Fragment.parameters:type_name -> google.protobuf.Struct
+	8, // 4: eolymp.community.SendEmailInput.Message.data:type_name -> google.protobuf.Struct
+	8, // 5: eolymp.community.SendEmailInput.Fragment.data:type_name -> google.protobuf.Struct
 	0, // 6: eolymp.community.EmailService.SendEmail:input_type -> eolymp.community.SendEmailInput
 	2, // 7: eolymp.community.EmailService.DescribeEmailUsage:input_type -> eolymp.community.DescribeEmailUsageInput
 	1, // 8: eolymp.community.EmailService.SendEmail:output_type -> eolymp.community.SendEmailOutput
