@@ -16,17 +16,17 @@ import (
 	os "os"
 )
 
-type _CampaignServiceHttpClient interface {
+type _NewsletterServiceHttpClient interface {
 	Do(*http.Request) (*http.Response, error)
 }
 
-type CampaignServiceService struct {
+type NewsletterServiceService struct {
 	base string
-	cli  _CampaignServiceHttpClient
+	cli  _NewsletterServiceHttpClient
 }
 
-// NewCampaignServiceHttpClient constructs client for CampaignService
-func NewCampaignServiceHttpClient(url string, cli _CampaignServiceHttpClient) *CampaignServiceService {
+// NewNewsletterServiceHttpClient constructs client for NewsletterService
+func NewNewsletterServiceHttpClient(url string, cli _NewsletterServiceHttpClient) *NewsletterServiceService {
 	if url == "" {
 		url = os.Getenv("EOLYMP_API_URL")
 		if url == "" {
@@ -34,10 +34,10 @@ func NewCampaignServiceHttpClient(url string, cli _CampaignServiceHttpClient) *C
 		}
 	}
 
-	return &CampaignServiceService{base: url, cli: cli}
+	return &NewsletterServiceService{base: url, cli: cli}
 }
 
-func (s *CampaignServiceService) do(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
+func (s *NewsletterServiceService) do(ctx context.Context, verb, path string, in, out proto.Message) (err error) {
 	var body io.Reader
 
 	if in != nil {
@@ -100,9 +100,9 @@ func (s *CampaignServiceService) do(ctx context.Context, verb, path string, in, 
 	return nil
 }
 
-func (s *CampaignServiceService) CreateCampaign(ctx context.Context, in *CreateCampaignInput) (*CreateCampaignOutput, error) {
-	out := &CreateCampaignOutput{}
-	path := "/campaigns"
+func (s *NewsletterServiceService) CreateNewsletter(ctx context.Context, in *CreateNewsletterInput) (*CreateNewsletterOutput, error) {
+	out := &CreateNewsletterOutput{}
+	path := "/newsletters"
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
@@ -111,13 +111,13 @@ func (s *CampaignServiceService) CreateCampaign(ctx context.Context, in *CreateC
 	return out, nil
 }
 
-func (s *CampaignServiceService) UpdateCampaign(ctx context.Context, in *UpdateCampaignInput) (*UpdateCampaignOutput, error) {
-	out := &UpdateCampaignOutput{}
-	path := "/campaigns/" + url.PathEscape(in.GetCampaignId())
+func (s *NewsletterServiceService) UpdateNewsletter(ctx context.Context, in *UpdateNewsletterInput) (*UpdateNewsletterOutput, error) {
+	out := &UpdateNewsletterOutput{}
+	path := "/newsletters/" + url.PathEscape(in.GetNewsletterId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.CampaignId = ""
+		in.NewsletterId = ""
 	}
 
 	if err := s.do(ctx, "PUT", path, in, out); err != nil {
@@ -127,13 +127,13 @@ func (s *CampaignServiceService) UpdateCampaign(ctx context.Context, in *UpdateC
 	return out, nil
 }
 
-func (s *CampaignServiceService) DeleteCampaign(ctx context.Context, in *DeleteCampaignInput) (*DeleteCampaignOutput, error) {
-	out := &DeleteCampaignOutput{}
-	path := "/campaigns/" + url.PathEscape(in.GetCampaignId())
+func (s *NewsletterServiceService) DeleteNewsletter(ctx context.Context, in *DeleteNewsletterInput) (*DeleteNewsletterOutput, error) {
+	out := &DeleteNewsletterOutput{}
+	path := "/newsletters/" + url.PathEscape(in.GetNewsletterId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.CampaignId = ""
+		in.NewsletterId = ""
 	}
 
 	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
@@ -143,13 +143,13 @@ func (s *CampaignServiceService) DeleteCampaign(ctx context.Context, in *DeleteC
 	return out, nil
 }
 
-func (s *CampaignServiceService) DescribeCampaign(ctx context.Context, in *DescribeCampaignInput) (*DescribeCampaignOutput, error) {
-	out := &DescribeCampaignOutput{}
-	path := "/campaigns/" + url.PathEscape(in.GetCampaignId())
+func (s *NewsletterServiceService) DescribeNewsletter(ctx context.Context, in *DescribeNewsletterInput) (*DescribeNewsletterOutput, error) {
+	out := &DescribeNewsletterOutput{}
+	path := "/newsletters/" + url.PathEscape(in.GetNewsletterId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.CampaignId = ""
+		in.NewsletterId = ""
 	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
@@ -159,9 +159,9 @@ func (s *CampaignServiceService) DescribeCampaign(ctx context.Context, in *Descr
 	return out, nil
 }
 
-func (s *CampaignServiceService) ListCampaigns(ctx context.Context, in *ListCampaignsInput) (*ListCampaignsOutput, error) {
-	out := &ListCampaignsOutput{}
-	path := "/campaigns"
+func (s *NewsletterServiceService) ListNewsletters(ctx context.Context, in *ListNewslettersInput) (*ListNewslettersOutput, error) {
+	out := &ListNewslettersOutput{}
+	path := "/newsletters"
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
@@ -170,13 +170,13 @@ func (s *CampaignServiceService) ListCampaigns(ctx context.Context, in *ListCamp
 	return out, nil
 }
 
-func (s *CampaignServiceService) TestCampaign(ctx context.Context, in *TestCampaignInput) (*TestCampaignOutput, error) {
-	out := &TestCampaignOutput{}
-	path := "/campaigns/" + url.PathEscape(in.GetCampaignId()) + "/test"
+func (s *NewsletterServiceService) TestNewsletter(ctx context.Context, in *TestNewsletterInput) (*TestNewsletterOutput, error) {
+	out := &TestNewsletterOutput{}
+	path := "/newsletters/" + url.PathEscape(in.GetNewsletterId()) + "/test"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.CampaignId = ""
+		in.NewsletterId = ""
 	}
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
@@ -186,13 +186,13 @@ func (s *CampaignServiceService) TestCampaign(ctx context.Context, in *TestCampa
 	return out, nil
 }
 
-func (s *CampaignServiceService) SendCampaign(ctx context.Context, in *SendCampaignInput) (*SendCampaignOutput, error) {
-	out := &SendCampaignOutput{}
-	path := "/campaigns/" + url.PathEscape(in.GetCampaignId()) + "/send"
+func (s *NewsletterServiceService) SendNewsletter(ctx context.Context, in *SendNewsletterInput) (*SendNewsletterOutput, error) {
+	out := &SendNewsletterOutput{}
+	path := "/newsletters/" + url.PathEscape(in.GetNewsletterId()) + "/send"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.CampaignId = ""
+		in.NewsletterId = ""
 	}
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
@@ -202,13 +202,13 @@ func (s *CampaignServiceService) SendCampaign(ctx context.Context, in *SendCampa
 	return out, nil
 }
 
-func (s *CampaignServiceService) TranslateCampaign(ctx context.Context, in *TranslateCampaignInput) (*TranslateCampaignOutput, error) {
-	out := &TranslateCampaignOutput{}
-	path := "/campaigns/" + url.PathEscape(in.GetCampaignId()) + "/translate"
+func (s *NewsletterServiceService) TranslateNewsletter(ctx context.Context, in *TranslateNewsletterInput) (*TranslateNewsletterOutput, error) {
+	out := &TranslateNewsletterOutput{}
+	path := "/newsletters/" + url.PathEscape(in.GetNewsletterId()) + "/translate"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.CampaignId = ""
+		in.NewsletterId = ""
 	}
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
@@ -218,13 +218,13 @@ func (s *CampaignServiceService) TranslateCampaign(ctx context.Context, in *Tran
 	return out, nil
 }
 
-func (s *CampaignServiceService) CreateTranslation(ctx context.Context, in *CreateTranslationInput) (*CreateTranslationOutput, error) {
+func (s *NewsletterServiceService) CreateTranslation(ctx context.Context, in *CreateTranslationInput) (*CreateTranslationOutput, error) {
 	out := &CreateTranslationOutput{}
-	path := "/campaigns/" + url.PathEscape(in.GetCampaignId()) + "/translations"
+	path := "/newsletters/" + url.PathEscape(in.GetNewsletterId()) + "/translations"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.CampaignId = ""
+		in.NewsletterId = ""
 	}
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
@@ -234,13 +234,13 @@ func (s *CampaignServiceService) CreateTranslation(ctx context.Context, in *Crea
 	return out, nil
 }
 
-func (s *CampaignServiceService) UpdateTranslation(ctx context.Context, in *UpdateTranslationInput) (*UpdateTranslationOutput, error) {
+func (s *NewsletterServiceService) UpdateTranslation(ctx context.Context, in *UpdateTranslationInput) (*UpdateTranslationOutput, error) {
 	out := &UpdateTranslationOutput{}
-	path := "/campaigns/" + url.PathEscape(in.GetCampaignId()) + "/translations/" + url.PathEscape(in.GetTranslationId())
+	path := "/newsletters/" + url.PathEscape(in.GetNewsletterId()) + "/translations/" + url.PathEscape(in.GetTranslationId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.CampaignId = ""
+		in.NewsletterId = ""
 		in.TranslationId = ""
 	}
 
@@ -251,13 +251,13 @@ func (s *CampaignServiceService) UpdateTranslation(ctx context.Context, in *Upda
 	return out, nil
 }
 
-func (s *CampaignServiceService) DeleteTranslation(ctx context.Context, in *DeleteTranslationInput) (*DeleteTranslationOutput, error) {
+func (s *NewsletterServiceService) DeleteTranslation(ctx context.Context, in *DeleteTranslationInput) (*DeleteTranslationOutput, error) {
 	out := &DeleteTranslationOutput{}
-	path := "/campaigns/" + url.PathEscape(in.GetCampaignId()) + "/translations/" + url.PathEscape(in.GetTranslationId())
+	path := "/newsletters/" + url.PathEscape(in.GetNewsletterId()) + "/translations/" + url.PathEscape(in.GetTranslationId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.CampaignId = ""
+		in.NewsletterId = ""
 		in.TranslationId = ""
 	}
 
@@ -268,13 +268,13 @@ func (s *CampaignServiceService) DeleteTranslation(ctx context.Context, in *Dele
 	return out, nil
 }
 
-func (s *CampaignServiceService) DescribeTranslation(ctx context.Context, in *DescribeTranslationInput) (*DescribeTranslationOutput, error) {
+func (s *NewsletterServiceService) DescribeTranslation(ctx context.Context, in *DescribeTranslationInput) (*DescribeTranslationOutput, error) {
 	out := &DescribeTranslationOutput{}
-	path := "/campaigns/" + url.PathEscape(in.GetCampaignId()) + "/translations/" + url.PathEscape(in.GetTranslationId())
+	path := "/newsletters/" + url.PathEscape(in.GetNewsletterId()) + "/translations/" + url.PathEscape(in.GetTranslationId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.CampaignId = ""
+		in.NewsletterId = ""
 		in.TranslationId = ""
 	}
 
@@ -285,13 +285,13 @@ func (s *CampaignServiceService) DescribeTranslation(ctx context.Context, in *De
 	return out, nil
 }
 
-func (s *CampaignServiceService) ListTranslations(ctx context.Context, in *ListTranslationsInput) (*ListTranslationsOutput, error) {
+func (s *NewsletterServiceService) ListTranslations(ctx context.Context, in *ListTranslationsInput) (*ListTranslationsOutput, error) {
 	out := &ListTranslationsOutput{}
-	path := "/campaigns/" + url.PathEscape(in.GetCampaignId()) + "/translations"
+	path := "/newsletters/" + url.PathEscape(in.GetNewsletterId()) + "/translations"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.CampaignId = ""
+		in.NewsletterId = ""
 	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
@@ -301,13 +301,13 @@ func (s *CampaignServiceService) ListTranslations(ctx context.Context, in *ListT
 	return out, nil
 }
 
-func (s *CampaignServiceService) CreateRecipient(ctx context.Context, in *CreateRecipientInput) (*CreateRecipientOutput, error) {
+func (s *NewsletterServiceService) CreateRecipient(ctx context.Context, in *CreateRecipientInput) (*CreateRecipientOutput, error) {
 	out := &CreateRecipientOutput{}
-	path := "/campaigns/" + url.PathEscape(in.GetCampaignId()) + "/recipients"
+	path := "/newsletters/" + url.PathEscape(in.GetNewsletterId()) + "/recipients"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.CampaignId = ""
+		in.NewsletterId = ""
 	}
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
@@ -317,13 +317,13 @@ func (s *CampaignServiceService) CreateRecipient(ctx context.Context, in *Create
 	return out, nil
 }
 
-func (s *CampaignServiceService) ImportRecipient(ctx context.Context, in *ImportRecipientInput) (*ImportRecipientOutput, error) {
+func (s *NewsletterServiceService) ImportRecipient(ctx context.Context, in *ImportRecipientInput) (*ImportRecipientOutput, error) {
 	out := &ImportRecipientOutput{}
-	path := "/campaigns/" + url.PathEscape(in.GetCampaignId()) + "/recipients:import"
+	path := "/newsletters/" + url.PathEscape(in.GetNewsletterId()) + "/recipients:import"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.CampaignId = ""
+		in.NewsletterId = ""
 	}
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
@@ -333,13 +333,13 @@ func (s *CampaignServiceService) ImportRecipient(ctx context.Context, in *Import
 	return out, nil
 }
 
-func (s *CampaignServiceService) DeleteRecipient(ctx context.Context, in *DeleteRecipientInput) (*DeleteRecipientOutput, error) {
+func (s *NewsletterServiceService) DeleteRecipient(ctx context.Context, in *DeleteRecipientInput) (*DeleteRecipientOutput, error) {
 	out := &DeleteRecipientOutput{}
-	path := "/campaigns/" + url.PathEscape(in.GetCampaignId()) + "/recipients/" + url.PathEscape(in.GetRecipientId())
+	path := "/newsletters/" + url.PathEscape(in.GetNewsletterId()) + "/recipients/" + url.PathEscape(in.GetRecipientId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.CampaignId = ""
+		in.NewsletterId = ""
 		in.RecipientId = ""
 	}
 
@@ -350,13 +350,13 @@ func (s *CampaignServiceService) DeleteRecipient(ctx context.Context, in *Delete
 	return out, nil
 }
 
-func (s *CampaignServiceService) ListRecipients(ctx context.Context, in *ListRecipientsInput) (*ListRecipientsOutput, error) {
+func (s *NewsletterServiceService) ListRecipients(ctx context.Context, in *ListRecipientsInput) (*ListRecipientsOutput, error) {
 	out := &ListRecipientsOutput{}
-	path := "/campaigns/" + url.PathEscape(in.GetCampaignId()) + "/recipients"
+	path := "/newsletters/" + url.PathEscape(in.GetNewsletterId()) + "/recipients"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.CampaignId = ""
+		in.NewsletterId = ""
 	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
@@ -366,13 +366,13 @@ func (s *CampaignServiceService) ListRecipients(ctx context.Context, in *ListRec
 	return out, nil
 }
 
-func (s *CampaignServiceService) DescribeRecipient(ctx context.Context, in *DescribeRecipientInput) (*DescribeRecipientOutput, error) {
+func (s *NewsletterServiceService) DescribeRecipient(ctx context.Context, in *DescribeRecipientInput) (*DescribeRecipientOutput, error) {
 	out := &DescribeRecipientOutput{}
-	path := "/campaigns/" + url.PathEscape(in.GetCampaignId()) + "/recipients/" + url.PathEscape(in.GetRecipientId())
+	path := "/newsletters/" + url.PathEscape(in.GetNewsletterId()) + "/recipients/" + url.PathEscape(in.GetRecipientId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.CampaignId = ""
+		in.NewsletterId = ""
 		in.RecipientId = ""
 	}
 

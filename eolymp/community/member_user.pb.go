@@ -8,6 +8,7 @@ package community
 
 import (
 	_ "github.com/eolymp/go-sdk/eolymp/annotations"
+	mail "github.com/eolymp/go-sdk/eolymp/mail"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
@@ -33,7 +34,7 @@ type User struct {
 	Email                 string                 `protobuf:"bytes,20,opt,name=email,proto3" json:"email,omitempty"`
 	EmailVerified         bool                   `protobuf:"varint,21,opt,name=email_verified,json=emailVerified,proto3" json:"email_verified,omitempty"`
 	EmailRestricted       bool                   `protobuf:"varint,12,opt,name=email_restricted,json=emailRestricted,proto3" json:"email_restricted,omitempty"` // true if email verification is required but not complete
-	EmailSubscriptions    []EmailType            `protobuf:"varint,22,rep,packed,name=email_subscriptions,json=emailSubscriptions,proto3,enum=eolymp.community.EmailType" json:"email_subscriptions,omitempty"`
+	EmailSubscriptions    []mail.EmailType       `protobuf:"varint,22,rep,packed,name=email_subscriptions,json=emailSubscriptions,proto3,enum=eolymp.mail.EmailType" json:"email_subscriptions,omitempty"`
 	Password              string                 `protobuf:"bytes,30,opt,name=password,proto3" json:"password,omitempty"`
 	PasswordAge           uint32                 `protobuf:"varint,31,opt,name=password_age,json=passwordAge,proto3" json:"password_age,omitempty"`
 	Name                  string                 `protobuf:"bytes,40,opt,name=name,proto3" json:"name,omitempty"`
@@ -133,7 +134,7 @@ func (x *User) GetEmailRestricted() bool {
 	return false
 }
 
-func (x *User) GetEmailSubscriptions() []EmailType {
+func (x *User) GetEmailSubscriptions() []mail.EmailType {
 	if x != nil {
 		return x.EmailSubscriptions
 	}
@@ -319,7 +320,7 @@ var File_eolymp_community_member_user_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_member_user_proto_rawDesc = "" +
 	"\n" +
-	"\"eolymp/community/member_user.proto\x12\x10eolymp.community\x1a\x1ceolymp/annotations/mcp.proto\x1a!eolymp/community/email_type.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x92\a\n" +
+	"\"eolymp/community/member_user.proto\x12\x10eolymp.community\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1ceolymp/mail/email_type.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x8d\a\n" +
 	"\x04User\x12\x16\n" +
 	"\x06issuer\x18\x01 \x01(\tR\x06issuer\x12\x18\n" +
 	"\asubject\x18\x02 \x01(\tR\asubject\x12\x1a\n" +
@@ -329,8 +330,8 @@ const file_eolymp_community_member_user_proto_rawDesc = "" +
 	"\aaliases\x18\r \x03(\v2\x1c.eolymp.community.User.AliasB\x06\xa8\xf0\xf0\xe4\x01\x01R\aaliases\x12\x14\n" +
 	"\x05email\x18\x14 \x01(\tR\x05email\x12-\n" +
 	"\x0eemail_verified\x18\x15 \x01(\bB\x06\xa8\xf0\xf0\xe4\x01\x01R\remailVerified\x121\n" +
-	"\x10email_restricted\x18\f \x01(\bB\x06\xa8\xf0\xf0\xe4\x01\x01R\x0femailRestricted\x12L\n" +
-	"\x13email_subscriptions\x18\x16 \x03(\x0e2\x1b.eolymp.community.EmailTypeR\x12emailSubscriptions\x12\x1a\n" +
+	"\x10email_restricted\x18\f \x01(\bB\x06\xa8\xf0\xf0\xe4\x01\x01R\x0femailRestricted\x12G\n" +
+	"\x13email_subscriptions\x18\x16 \x03(\x0e2\x16.eolymp.mail.EmailTypeR\x12emailSubscriptions\x12\x1a\n" +
 	"\bpassword\x18\x1e \x01(\tR\bpassword\x12)\n" +
 	"\fpassword_age\x18\x1f \x01(\rB\x06\xa8\xf0\xf0\xe4\x01\x01R\vpasswordAge\x12\x12\n" +
 	"\x04name\x18( \x01(\tR\x04name\x12\x18\n" +
@@ -367,12 +368,12 @@ var file_eolymp_community_member_user_proto_goTypes = []any{
 	(*User)(nil),                  // 0: eolymp.community.User
 	(*User_Preferences)(nil),      // 1: eolymp.community.User.Preferences
 	(*User_Alias)(nil),            // 2: eolymp.community.User.Alias
-	(EmailType)(0),                // 3: eolymp.community.EmailType
+	(mail.EmailType)(0),           // 3: eolymp.mail.EmailType
 	(*timestamppb.Timestamp)(nil), // 4: google.protobuf.Timestamp
 }
 var file_eolymp_community_member_user_proto_depIdxs = []int32{
 	2, // 0: eolymp.community.User.aliases:type_name -> eolymp.community.User.Alias
-	3, // 1: eolymp.community.User.email_subscriptions:type_name -> eolymp.community.EmailType
+	3, // 1: eolymp.community.User.email_subscriptions:type_name -> eolymp.mail.EmailType
 	4, // 2: eolymp.community.User.birthday:type_name -> google.protobuf.Timestamp
 	1, // 3: eolymp.community.User.preferences:type_name -> eolymp.community.User.Preferences
 	4, // 4: eolymp.community.User.Alias.changed_at:type_name -> google.protobuf.Timestamp
@@ -388,7 +389,6 @@ func file_eolymp_community_member_user_proto_init() {
 	if File_eolymp_community_member_user_proto != nil {
 		return
 	}
-	file_eolymp_community_email_type_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

@@ -2,9 +2,9 @@
 // versions:
 // - protoc-gen-go-grpc v1.6.0
 // - protoc             v5.29.4
-// source: eolymp/community/email_service.proto
+// source: eolymp/mail/email_service.proto
 
-package community
+package mail
 
 import (
 	context "context"
@@ -19,8 +19,8 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	EmailService_SendEmail_FullMethodName          = "/eolymp.community.EmailService/SendEmail"
-	EmailService_DescribeEmailUsage_FullMethodName = "/eolymp.community.EmailService/DescribeEmailUsage"
+	EmailService_SendEmail_FullMethodName          = "/eolymp.mail.EmailService/SendEmail"
+	EmailService_DescribeEmailUsage_FullMethodName = "/eolymp.mail.EmailService/DescribeEmailUsage"
 )
 
 // EmailServiceClient is the client API for EmailService service.
@@ -144,7 +144,7 @@ func _EmailService_DescribeEmailUsage_Handler(srv interface{}, ctx context.Conte
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var EmailService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "eolymp.community.EmailService",
+	ServiceName: "eolymp.mail.EmailService",
 	HandlerType: (*EmailServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -157,5 +157,5 @@ var EmailService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "eolymp/community/email_service.proto",
+	Metadata: "eolymp/mail/email_service.proto",
 }

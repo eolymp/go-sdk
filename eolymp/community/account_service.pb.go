@@ -8,6 +8,7 @@ package community
 
 import (
 	_ "github.com/eolymp/go-sdk/eolymp/annotations"
+	mail "github.com/eolymp/go-sdk/eolymp/mail"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -1017,7 +1018,7 @@ func (x *DescribeEmailSubscriptionInput) GetToken() string {
 
 type DescribeEmailSubscriptionOutput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Subscriptions []EmailType            `protobuf:"varint,1,rep,packed,name=subscriptions,proto3,enum=eolymp.community.EmailType" json:"subscriptions,omitempty"`
+	Subscriptions []mail.EmailType       `protobuf:"varint,1,rep,packed,name=subscriptions,proto3,enum=eolymp.mail.EmailType" json:"subscriptions,omitempty"`
 	Email         string                 `protobuf:"bytes,2,opt,name=email,proto3" json:"email,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -1053,7 +1054,7 @@ func (*DescribeEmailSubscriptionOutput) Descriptor() ([]byte, []int) {
 	return file_eolymp_community_account_service_proto_rawDescGZIP(), []int{19}
 }
 
-func (x *DescribeEmailSubscriptionOutput) GetSubscriptions() []EmailType {
+func (x *DescribeEmailSubscriptionOutput) GetSubscriptions() []mail.EmailType {
 	if x != nil {
 		return x.Subscriptions
 	}
@@ -1070,7 +1071,7 @@ func (x *DescribeEmailSubscriptionOutput) GetEmail() string {
 type UpdateEmailSubscriptionInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Token         string                 `protobuf:"bytes,1,opt,name=token,proto3" json:"token,omitempty"` // secret from the email
-	Subscriptions []EmailType            `protobuf:"varint,2,rep,packed,name=subscriptions,proto3,enum=eolymp.community.EmailType" json:"subscriptions,omitempty"`
+	Subscriptions []mail.EmailType       `protobuf:"varint,2,rep,packed,name=subscriptions,proto3,enum=eolymp.mail.EmailType" json:"subscriptions,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1112,7 +1113,7 @@ func (x *UpdateEmailSubscriptionInput) GetToken() string {
 	return ""
 }
 
-func (x *UpdateEmailSubscriptionInput) GetSubscriptions() []EmailType {
+func (x *UpdateEmailSubscriptionInput) GetSubscriptions() []mail.EmailType {
 	if x != nil {
 		return x.Subscriptions
 	}
@@ -1159,7 +1160,7 @@ var File_eolymp_community_account_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_account_service_proto_rawDesc = "" +
 	"\n" +
-	"&eolymp/community/account_service.proto\x12\x10eolymp.community\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a!eolymp/community/email_type.proto\x1a\x1deolymp/community/member.proto\"`\n" +
+	"&eolymp/community/account_service.proto\x12\x10eolymp.community\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1deolymp/community/member.proto\x1a\x1ceolymp/mail/email_type.proto\"`\n" +
 	"\x12CreateAccountInput\x120\n" +
 	"\x06member\x18\x01 \x01(\v2\x18.eolymp.community.MemberR\x06member\x12\x18\n" +
 	"\acaptcha\x18d \x01(\tR\acaptcha\"F\n" +
@@ -1227,13 +1228,13 @@ const file_eolymp_community_account_service_proto_rawDesc = "" +
 	"\tmember_id\x18\x03 \x01(\tR\bmemberId\"\x17\n" +
 	"\x15CompleteRecoverOutput\"6\n" +
 	"\x1eDescribeEmailSubscriptionInput\x12\x14\n" +
-	"\x05token\x18\x01 \x01(\tR\x05token\"z\n" +
-	"\x1fDescribeEmailSubscriptionOutput\x12A\n" +
-	"\rsubscriptions\x18\x01 \x03(\x0e2\x1b.eolymp.community.EmailTypeR\rsubscriptions\x12\x14\n" +
-	"\x05email\x18\x02 \x01(\tR\x05email\"w\n" +
+	"\x05token\x18\x01 \x01(\tR\x05token\"u\n" +
+	"\x1fDescribeEmailSubscriptionOutput\x12<\n" +
+	"\rsubscriptions\x18\x01 \x03(\x0e2\x16.eolymp.mail.EmailTypeR\rsubscriptions\x12\x14\n" +
+	"\x05email\x18\x02 \x01(\tR\x05email\"r\n" +
 	"\x1cUpdateEmailSubscriptionInput\x12\x14\n" +
-	"\x05token\x18\x01 \x01(\tR\x05token\x12A\n" +
-	"\rsubscriptions\x18\x02 \x03(\x0e2\x1b.eolymp.community.EmailTypeR\rsubscriptions\"\x1f\n" +
+	"\x05token\x18\x01 \x01(\tR\x05token\x12<\n" +
+	"\rsubscriptions\x18\x02 \x03(\x0e2\x16.eolymp.mail.EmailTypeR\rsubscriptions\"\x1f\n" +
 	"\x1dUpdateEmailSubscriptionOutput2\x96\r\n" +
 	"\x0eAccountService\x12}\n" +
 	"\rCreateAccount\x12$.eolymp.community.CreateAccountInput\x1a%.eolymp.community.CreateAccountOutput\"\x1f\xea\xe2\n" +
@@ -1326,7 +1327,7 @@ var file_eolymp_community_account_service_proto_goTypes = []any{
 	(*UpdateEmailSubscriptionOutput)(nil),   // 22: eolymp.community.UpdateEmailSubscriptionOutput
 	(*Member)(nil),                          // 23: eolymp.community.Member
 	(*Member_Extra)(nil),                    // 24: eolymp.community.Member.Extra
-	(EmailType)(0),                          // 25: eolymp.community.EmailType
+	(mail.EmailType)(0),                     // 25: eolymp.mail.EmailType
 }
 var file_eolymp_community_account_service_proto_depIdxs = []int32{
 	23, // 0: eolymp.community.CreateAccountInput.member:type_name -> eolymp.community.Member
@@ -1335,8 +1336,8 @@ var file_eolymp_community_account_service_proto_depIdxs = []int32{
 	24, // 3: eolymp.community.DescribeAccountOutput.extra:type_name -> eolymp.community.Member.Extra
 	0,  // 4: eolymp.community.UpdateAccountInput.patch:type_name -> eolymp.community.UpdateAccountInput.Patch
 	23, // 5: eolymp.community.UpdateAccountInput.member:type_name -> eolymp.community.Member
-	25, // 6: eolymp.community.DescribeEmailSubscriptionOutput.subscriptions:type_name -> eolymp.community.EmailType
-	25, // 7: eolymp.community.UpdateEmailSubscriptionInput.subscriptions:type_name -> eolymp.community.EmailType
+	25, // 6: eolymp.community.DescribeEmailSubscriptionOutput.subscriptions:type_name -> eolymp.mail.EmailType
+	25, // 7: eolymp.community.UpdateEmailSubscriptionInput.subscriptions:type_name -> eolymp.mail.EmailType
 	1,  // 8: eolymp.community.AccountService.CreateAccount:input_type -> eolymp.community.CreateAccountInput
 	3,  // 9: eolymp.community.AccountService.DescribeAccount:input_type -> eolymp.community.DescribeAccountInput
 	5,  // 10: eolymp.community.AccountService.UpdateAccount:input_type -> eolymp.community.UpdateAccountInput
@@ -1371,7 +1372,6 @@ func file_eolymp_community_account_service_proto_init() {
 	if File_eolymp_community_account_service_proto != nil {
 		return
 	}
-	file_eolymp_community_email_type_proto_init()
 	file_eolymp_community_member_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{

@@ -2,9 +2,9 @@
 // versions:
 // 	protoc-gen-go v1.36.10
 // 	protoc        v5.29.4
-// source: eolymp/newsletter/recipient.proto
+// source: eolymp/mail/newsletter_recipient.proto
 
-package newsletter
+package mail
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -70,11 +70,11 @@ func (x Recipient_Status) String() string {
 }
 
 func (Recipient_Status) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_newsletter_recipient_proto_enumTypes[0].Descriptor()
+	return file_eolymp_mail_newsletter_recipient_proto_enumTypes[0].Descriptor()
 }
 
 func (Recipient_Status) Type() protoreflect.EnumType {
-	return &file_eolymp_newsletter_recipient_proto_enumTypes[0]
+	return &file_eolymp_mail_newsletter_recipient_proto_enumTypes[0]
 }
 
 func (x Recipient_Status) Number() protoreflect.EnumNumber {
@@ -83,7 +83,7 @@ func (x Recipient_Status) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use Recipient_Status.Descriptor instead.
 func (Recipient_Status) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_newsletter_recipient_proto_rawDescGZIP(), []int{0, 0}
+	return file_eolymp_mail_newsletter_recipient_proto_rawDescGZIP(), []int{0, 0}
 }
 
 type Recipient struct {
@@ -94,7 +94,7 @@ type Recipient struct {
 	SentAt        *timestamppb.Timestamp `protobuf:"bytes,12,opt,name=sent_at,json=sentAt,proto3" json:"sent_at,omitempty"`
 	DeliveredAt   *timestamppb.Timestamp `protobuf:"bytes,13,opt,name=delivered_at,json=deliveredAt,proto3" json:"delivered_at,omitempty"`
 	MemberId      string                 `protobuf:"bytes,2,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
-	Status        Recipient_Status       `protobuf:"varint,3,opt,name=status,proto3,enum=eolymp.newsletter.Recipient_Status" json:"status,omitempty"`
+	Status        Recipient_Status       `protobuf:"varint,3,opt,name=status,proto3,enum=eolymp.mail.Recipient_Status" json:"status,omitempty"`
 	StatusReason  string                 `protobuf:"bytes,4,opt,name=status_reason,json=statusReason,proto3" json:"status_reason,omitempty"`
 	Parameters    map[string]string      `protobuf:"bytes,5,rep,name=parameters,proto3" json:"parameters,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	unknownFields protoimpl.UnknownFields
@@ -103,7 +103,7 @@ type Recipient struct {
 
 func (x *Recipient) Reset() {
 	*x = Recipient{}
-	mi := &file_eolymp_newsletter_recipient_proto_msgTypes[0]
+	mi := &file_eolymp_mail_newsletter_recipient_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -115,7 +115,7 @@ func (x *Recipient) String() string {
 func (*Recipient) ProtoMessage() {}
 
 func (x *Recipient) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_newsletter_recipient_proto_msgTypes[0]
+	mi := &file_eolymp_mail_newsletter_recipient_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -128,7 +128,7 @@ func (x *Recipient) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Recipient.ProtoReflect.Descriptor instead.
 func (*Recipient) Descriptor() ([]byte, []int) {
-	return file_eolymp_newsletter_recipient_proto_rawDescGZIP(), []int{0}
+	return file_eolymp_mail_newsletter_recipient_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *Recipient) GetId() string {
@@ -194,11 +194,11 @@ func (x *Recipient) GetParameters() map[string]string {
 	return nil
 }
 
-var File_eolymp_newsletter_recipient_proto protoreflect.FileDescriptor
+var File_eolymp_mail_newsletter_recipient_proto protoreflect.FileDescriptor
 
-const file_eolymp_newsletter_recipient_proto_rawDesc = "" +
+const file_eolymp_mail_newsletter_recipient_proto_rawDesc = "" +
 	"\n" +
-	"!eolymp/newsletter/recipient.proto\x12\x11eolymp.newsletter\x1a\x1fgoogle/protobuf/timestamp.proto\"\x87\x05\n" +
+	"&eolymp/mail/newsletter_recipient.proto\x12\veolymp.mail\x1a\x1fgoogle/protobuf/timestamp.proto\"\xfb\x04\n" +
 	"\tRecipient\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x129\n" +
 	"\n" +
@@ -208,11 +208,11 @@ const file_eolymp_newsletter_recipient_proto_rawDesc = "" +
 	"updated_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x123\n" +
 	"\asent_at\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\x06sentAt\x12=\n" +
 	"\fdelivered_at\x18\r \x01(\v2\x1a.google.protobuf.TimestampR\vdeliveredAt\x12\x1b\n" +
-	"\tmember_id\x18\x02 \x01(\tR\bmemberId\x12;\n" +
-	"\x06status\x18\x03 \x01(\x0e2#.eolymp.newsletter.Recipient.StatusR\x06status\x12#\n" +
-	"\rstatus_reason\x18\x04 \x01(\tR\fstatusReason\x12L\n" +
+	"\tmember_id\x18\x02 \x01(\tR\bmemberId\x125\n" +
+	"\x06status\x18\x03 \x01(\x0e2\x1d.eolymp.mail.Recipient.StatusR\x06status\x12#\n" +
+	"\rstatus_reason\x18\x04 \x01(\tR\fstatusReason\x12F\n" +
 	"\n" +
-	"parameters\x18\x05 \x03(\v2,.eolymp.newsletter.Recipient.ParametersEntryR\n" +
+	"parameters\x18\x05 \x03(\v2&.eolymp.mail.Recipient.ParametersEntryR\n" +
 	"parameters\x1a=\n" +
 	"\x0fParametersEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
@@ -225,35 +225,35 @@ const file_eolymp_newsletter_recipient_proto_rawDesc = "" +
 	"\tDELIVERED\x10\x04\x12\v\n" +
 	"\aBOUNCED\x10\x05\x12\v\n" +
 	"\aSKIPPED\x10\x06\x12\t\n" +
-	"\x05ERROR\x10\aB7Z5github.com/eolymp/go-sdk/eolymp/newsletter;newsletterb\x06proto3"
+	"\x05ERROR\x10\aB+Z)github.com/eolymp/go-sdk/eolymp/mail;mailb\x06proto3"
 
 var (
-	file_eolymp_newsletter_recipient_proto_rawDescOnce sync.Once
-	file_eolymp_newsletter_recipient_proto_rawDescData []byte
+	file_eolymp_mail_newsletter_recipient_proto_rawDescOnce sync.Once
+	file_eolymp_mail_newsletter_recipient_proto_rawDescData []byte
 )
 
-func file_eolymp_newsletter_recipient_proto_rawDescGZIP() []byte {
-	file_eolymp_newsletter_recipient_proto_rawDescOnce.Do(func() {
-		file_eolymp_newsletter_recipient_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_eolymp_newsletter_recipient_proto_rawDesc), len(file_eolymp_newsletter_recipient_proto_rawDesc)))
+func file_eolymp_mail_newsletter_recipient_proto_rawDescGZIP() []byte {
+	file_eolymp_mail_newsletter_recipient_proto_rawDescOnce.Do(func() {
+		file_eolymp_mail_newsletter_recipient_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_eolymp_mail_newsletter_recipient_proto_rawDesc), len(file_eolymp_mail_newsletter_recipient_proto_rawDesc)))
 	})
-	return file_eolymp_newsletter_recipient_proto_rawDescData
+	return file_eolymp_mail_newsletter_recipient_proto_rawDescData
 }
 
-var file_eolymp_newsletter_recipient_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_eolymp_newsletter_recipient_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
-var file_eolymp_newsletter_recipient_proto_goTypes = []any{
-	(Recipient_Status)(0),         // 0: eolymp.newsletter.Recipient.Status
-	(*Recipient)(nil),             // 1: eolymp.newsletter.Recipient
-	nil,                           // 2: eolymp.newsletter.Recipient.ParametersEntry
+var file_eolymp_mail_newsletter_recipient_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_eolymp_mail_newsletter_recipient_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_eolymp_mail_newsletter_recipient_proto_goTypes = []any{
+	(Recipient_Status)(0),         // 0: eolymp.mail.Recipient.Status
+	(*Recipient)(nil),             // 1: eolymp.mail.Recipient
+	nil,                           // 2: eolymp.mail.Recipient.ParametersEntry
 	(*timestamppb.Timestamp)(nil), // 3: google.protobuf.Timestamp
 }
-var file_eolymp_newsletter_recipient_proto_depIdxs = []int32{
-	3, // 0: eolymp.newsletter.Recipient.created_at:type_name -> google.protobuf.Timestamp
-	3, // 1: eolymp.newsletter.Recipient.updated_at:type_name -> google.protobuf.Timestamp
-	3, // 2: eolymp.newsletter.Recipient.sent_at:type_name -> google.protobuf.Timestamp
-	3, // 3: eolymp.newsletter.Recipient.delivered_at:type_name -> google.protobuf.Timestamp
-	0, // 4: eolymp.newsletter.Recipient.status:type_name -> eolymp.newsletter.Recipient.Status
-	2, // 5: eolymp.newsletter.Recipient.parameters:type_name -> eolymp.newsletter.Recipient.ParametersEntry
+var file_eolymp_mail_newsletter_recipient_proto_depIdxs = []int32{
+	3, // 0: eolymp.mail.Recipient.created_at:type_name -> google.protobuf.Timestamp
+	3, // 1: eolymp.mail.Recipient.updated_at:type_name -> google.protobuf.Timestamp
+	3, // 2: eolymp.mail.Recipient.sent_at:type_name -> google.protobuf.Timestamp
+	3, // 3: eolymp.mail.Recipient.delivered_at:type_name -> google.protobuf.Timestamp
+	0, // 4: eolymp.mail.Recipient.status:type_name -> eolymp.mail.Recipient.Status
+	2, // 5: eolymp.mail.Recipient.parameters:type_name -> eolymp.mail.Recipient.ParametersEntry
 	6, // [6:6] is the sub-list for method output_type
 	6, // [6:6] is the sub-list for method input_type
 	6, // [6:6] is the sub-list for extension type_name
@@ -261,27 +261,27 @@ var file_eolymp_newsletter_recipient_proto_depIdxs = []int32{
 	0, // [0:6] is the sub-list for field type_name
 }
 
-func init() { file_eolymp_newsletter_recipient_proto_init() }
-func file_eolymp_newsletter_recipient_proto_init() {
-	if File_eolymp_newsletter_recipient_proto != nil {
+func init() { file_eolymp_mail_newsletter_recipient_proto_init() }
+func file_eolymp_mail_newsletter_recipient_proto_init() {
+	if File_eolymp_mail_newsletter_recipient_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_newsletter_recipient_proto_rawDesc), len(file_eolymp_newsletter_recipient_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_mail_newsletter_recipient_proto_rawDesc), len(file_eolymp_mail_newsletter_recipient_proto_rawDesc)),
 			NumEnums:      1,
 			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_eolymp_newsletter_recipient_proto_goTypes,
-		DependencyIndexes: file_eolymp_newsletter_recipient_proto_depIdxs,
-		EnumInfos:         file_eolymp_newsletter_recipient_proto_enumTypes,
-		MessageInfos:      file_eolymp_newsletter_recipient_proto_msgTypes,
+		GoTypes:           file_eolymp_mail_newsletter_recipient_proto_goTypes,
+		DependencyIndexes: file_eolymp_mail_newsletter_recipient_proto_depIdxs,
+		EnumInfos:         file_eolymp_mail_newsletter_recipient_proto_enumTypes,
+		MessageInfos:      file_eolymp_mail_newsletter_recipient_proto_msgTypes,
 	}.Build()
-	File_eolymp_newsletter_recipient_proto = out.File
-	file_eolymp_newsletter_recipient_proto_goTypes = nil
-	file_eolymp_newsletter_recipient_proto_depIdxs = nil
+	File_eolymp_mail_newsletter_recipient_proto = out.File
+	file_eolymp_mail_newsletter_recipient_proto_goTypes = nil
+	file_eolymp_mail_newsletter_recipient_proto_depIdxs = nil
 }

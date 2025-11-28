@@ -8,7 +8,6 @@ package geolocation
 
 import (
 	_ "github.com/eolymp/go-sdk/eolymp/annotations"
-	_ "github.com/eolymp/go-sdk/eolymp/wellknown"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -171,7 +170,7 @@ var File_eolymp_geolocation_geolocation_service_proto protoreflect.FileDescripto
 
 const file_eolymp_geolocation_geolocation_service_proto_rawDesc = "" +
 	"\n" +
-	",eolymp/geolocation/geolocation_service.proto\x12\x12eolymp.geolocation\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a!eolymp/wellknown/expression.proto\"K\n" +
+	",eolymp/geolocation/geolocation_service.proto\x12\x12eolymp.geolocation\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\"K\n" +
 	"\x12LookupAddressInput\x12\x1d\n" +
 	"\n" +
 	"ip_address\x18\x01 \x01(\tR\tipAddress\x12\x16\n" +

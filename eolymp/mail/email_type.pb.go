@@ -2,9 +2,9 @@
 // versions:
 // 	protoc-gen-go v1.36.10
 // 	protoc        v5.29.4
-// source: eolymp/community/email_type.proto
+// source: eolymp/mail/email_type.proto
 
-package community
+package mail
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -63,11 +63,11 @@ func (x EmailType) String() string {
 }
 
 func (EmailType) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_community_email_type_proto_enumTypes[0].Descriptor()
+	return file_eolymp_mail_email_type_proto_enumTypes[0].Descriptor()
 }
 
 func (EmailType) Type() protoreflect.EnumType {
-	return &file_eolymp_community_email_type_proto_enumTypes[0]
+	return &file_eolymp_mail_email_type_proto_enumTypes[0]
 }
 
 func (x EmailType) Number() protoreflect.EnumNumber {
@@ -76,14 +76,14 @@ func (x EmailType) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use EmailType.Descriptor instead.
 func (EmailType) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_community_email_type_proto_rawDescGZIP(), []int{0}
+	return file_eolymp_mail_email_type_proto_rawDescGZIP(), []int{0}
 }
 
-var File_eolymp_community_email_type_proto protoreflect.FileDescriptor
+var File_eolymp_mail_email_type_proto protoreflect.FileDescriptor
 
-const file_eolymp_community_email_type_proto_rawDesc = "" +
+const file_eolymp_mail_email_type_proto_rawDesc = "" +
 	"\n" +
-	"!eolymp/community/email_type.proto\x12\x10eolymp.community*b\n" +
+	"\x1ceolymp/mail/email_type.proto\x12\veolymp.mail*b\n" +
 	"\tEmailType\x12\x10\n" +
 	"\fUNKNOWN_TYPE\x10\x00\x12\v\n" +
 	"\aACCOUNT\x10\x01\x12\x0e\n" +
@@ -92,25 +92,25 @@ const file_eolymp_community_email_type_proto_rawDesc = "" +
 	"\aUPDATES\x10\x03\x12\x0e\n" +
 	"\n" +
 	"COMMERCIAL\x10\x04\x12\t\n" +
-	"\x05OTHER\x10\x05B5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
+	"\x05OTHER\x10\x05B+Z)github.com/eolymp/go-sdk/eolymp/mail;mailb\x06proto3"
 
 var (
-	file_eolymp_community_email_type_proto_rawDescOnce sync.Once
-	file_eolymp_community_email_type_proto_rawDescData []byte
+	file_eolymp_mail_email_type_proto_rawDescOnce sync.Once
+	file_eolymp_mail_email_type_proto_rawDescData []byte
 )
 
-func file_eolymp_community_email_type_proto_rawDescGZIP() []byte {
-	file_eolymp_community_email_type_proto_rawDescOnce.Do(func() {
-		file_eolymp_community_email_type_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_eolymp_community_email_type_proto_rawDesc), len(file_eolymp_community_email_type_proto_rawDesc)))
+func file_eolymp_mail_email_type_proto_rawDescGZIP() []byte {
+	file_eolymp_mail_email_type_proto_rawDescOnce.Do(func() {
+		file_eolymp_mail_email_type_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_eolymp_mail_email_type_proto_rawDesc), len(file_eolymp_mail_email_type_proto_rawDesc)))
 	})
-	return file_eolymp_community_email_type_proto_rawDescData
+	return file_eolymp_mail_email_type_proto_rawDescData
 }
 
-var file_eolymp_community_email_type_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_eolymp_community_email_type_proto_goTypes = []any{
-	(EmailType)(0), // 0: eolymp.community.EmailType
+var file_eolymp_mail_email_type_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_eolymp_mail_email_type_proto_goTypes = []any{
+	(EmailType)(0), // 0: eolymp.mail.EmailType
 }
-var file_eolymp_community_email_type_proto_depIdxs = []int32{
+var file_eolymp_mail_email_type_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
 	0, // [0:0] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
@@ -118,26 +118,26 @@ var file_eolymp_community_email_type_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for field type_name
 }
 
-func init() { file_eolymp_community_email_type_proto_init() }
-func file_eolymp_community_email_type_proto_init() {
-	if File_eolymp_community_email_type_proto != nil {
+func init() { file_eolymp_mail_email_type_proto_init() }
+func file_eolymp_mail_email_type_proto_init() {
+	if File_eolymp_mail_email_type_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_community_email_type_proto_rawDesc), len(file_eolymp_community_email_type_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_mail_email_type_proto_rawDesc), len(file_eolymp_mail_email_type_proto_rawDesc)),
 			NumEnums:      1,
 			NumMessages:   0,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_eolymp_community_email_type_proto_goTypes,
-		DependencyIndexes: file_eolymp_community_email_type_proto_depIdxs,
-		EnumInfos:         file_eolymp_community_email_type_proto_enumTypes,
+		GoTypes:           file_eolymp_mail_email_type_proto_goTypes,
+		DependencyIndexes: file_eolymp_mail_email_type_proto_depIdxs,
+		EnumInfos:         file_eolymp_mail_email_type_proto_enumTypes,
 	}.Build()
-	File_eolymp_community_email_type_proto = out.File
-	file_eolymp_community_email_type_proto_goTypes = nil
-	file_eolymp_community_email_type_proto_depIdxs = nil
+	File_eolymp_mail_email_type_proto = out.File
+	file_eolymp_mail_email_type_proto_goTypes = nil
+	file_eolymp_mail_email_type_proto_depIdxs = nil
 }
