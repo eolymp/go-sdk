@@ -23,29 +23,29 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type Newsletter_Patch int32
+type Newsletter_Patch_Field int32
 
 const (
-	Newsletter_ALL     Newsletter_Patch = 0
-	Newsletter_TYPE    Newsletter_Patch = 1
-	Newsletter_NAME    Newsletter_Patch = 5
-	Newsletter_SUBJECT Newsletter_Patch = 2
-	Newsletter_CONTENT Newsletter_Patch = 3
-	Newsletter_LOCALE  Newsletter_Patch = 4
+	Newsletter_Patch_UNKNOWN Newsletter_Patch_Field = 0
+	Newsletter_Patch_TYPE    Newsletter_Patch_Field = 1
+	Newsletter_Patch_NAME    Newsletter_Patch_Field = 5
+	Newsletter_Patch_SUBJECT Newsletter_Patch_Field = 2
+	Newsletter_Patch_CONTENT Newsletter_Patch_Field = 3
+	Newsletter_Patch_LOCALE  Newsletter_Patch_Field = 4
 )
 
-// Enum value maps for Newsletter_Patch.
+// Enum value maps for Newsletter_Patch_Field.
 var (
-	Newsletter_Patch_name = map[int32]string{
-		0: "ALL",
+	Newsletter_Patch_Field_name = map[int32]string{
+		0: "UNKNOWN",
 		1: "TYPE",
 		5: "NAME",
 		2: "SUBJECT",
 		3: "CONTENT",
 		4: "LOCALE",
 	}
-	Newsletter_Patch_value = map[string]int32{
-		"ALL":     0,
+	Newsletter_Patch_Field_value = map[string]int32{
+		"UNKNOWN": 0,
 		"TYPE":    1,
 		"NAME":    5,
 		"SUBJECT": 2,
@@ -54,80 +54,80 @@ var (
 	}
 )
 
-func (x Newsletter_Patch) Enum() *Newsletter_Patch {
-	p := new(Newsletter_Patch)
+func (x Newsletter_Patch_Field) Enum() *Newsletter_Patch_Field {
+	p := new(Newsletter_Patch_Field)
 	*p = x
 	return p
 }
 
-func (x Newsletter_Patch) String() string {
+func (x Newsletter_Patch_Field) String() string {
 	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
 }
 
-func (Newsletter_Patch) Descriptor() protoreflect.EnumDescriptor {
+func (Newsletter_Patch_Field) Descriptor() protoreflect.EnumDescriptor {
 	return file_eolymp_mail_newsletter_proto_enumTypes[0].Descriptor()
 }
 
-func (Newsletter_Patch) Type() protoreflect.EnumType {
+func (Newsletter_Patch_Field) Type() protoreflect.EnumType {
 	return &file_eolymp_mail_newsletter_proto_enumTypes[0]
 }
 
-func (x Newsletter_Patch) Number() protoreflect.EnumNumber {
+func (x Newsletter_Patch_Field) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use Newsletter_Patch.Descriptor instead.
-func (Newsletter_Patch) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_mail_newsletter_proto_rawDescGZIP(), []int{0, 0}
+// Deprecated: Use Newsletter_Patch_Field.Descriptor instead.
+func (Newsletter_Patch_Field) EnumDescriptor() ([]byte, []int) {
+	return file_eolymp_mail_newsletter_proto_rawDescGZIP(), []int{0, 0, 0}
 }
 
-type Newsletter_Extra int32
+type Newsletter_Extra_Field int32
 
 const (
-	Newsletter_UNKNOWN_EXTRA  Newsletter_Extra = 0
-	Newsletter_CONTENT_VALUE  Newsletter_Extra = 1
-	Newsletter_CONTENT_RENDER Newsletter_Extra = 2
+	Newsletter_Extra_UNKNOWN_EXTRA  Newsletter_Extra_Field = 0
+	Newsletter_Extra_CONTENT_VALUE  Newsletter_Extra_Field = 1
+	Newsletter_Extra_CONTENT_RENDER Newsletter_Extra_Field = 2
 )
 
-// Enum value maps for Newsletter_Extra.
+// Enum value maps for Newsletter_Extra_Field.
 var (
-	Newsletter_Extra_name = map[int32]string{
+	Newsletter_Extra_Field_name = map[int32]string{
 		0: "UNKNOWN_EXTRA",
 		1: "CONTENT_VALUE",
 		2: "CONTENT_RENDER",
 	}
-	Newsletter_Extra_value = map[string]int32{
+	Newsletter_Extra_Field_value = map[string]int32{
 		"UNKNOWN_EXTRA":  0,
 		"CONTENT_VALUE":  1,
 		"CONTENT_RENDER": 2,
 	}
 )
 
-func (x Newsletter_Extra) Enum() *Newsletter_Extra {
-	p := new(Newsletter_Extra)
+func (x Newsletter_Extra_Field) Enum() *Newsletter_Extra_Field {
+	p := new(Newsletter_Extra_Field)
 	*p = x
 	return p
 }
 
-func (x Newsletter_Extra) String() string {
+func (x Newsletter_Extra_Field) String() string {
 	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
 }
 
-func (Newsletter_Extra) Descriptor() protoreflect.EnumDescriptor {
+func (Newsletter_Extra_Field) Descriptor() protoreflect.EnumDescriptor {
 	return file_eolymp_mail_newsletter_proto_enumTypes[1].Descriptor()
 }
 
-func (Newsletter_Extra) Type() protoreflect.EnumType {
+func (Newsletter_Extra_Field) Type() protoreflect.EnumType {
 	return &file_eolymp_mail_newsletter_proto_enumTypes[1]
 }
 
-func (x Newsletter_Extra) Number() protoreflect.EnumNumber {
+func (x Newsletter_Extra_Field) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use Newsletter_Extra.Descriptor instead.
-func (Newsletter_Extra) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_mail_newsletter_proto_rawDescGZIP(), []int{0, 1}
+// Deprecated: Use Newsletter_Extra_Field.Descriptor instead.
+func (Newsletter_Extra_Field) EnumDescriptor() ([]byte, []int) {
+	return file_eolymp_mail_newsletter_proto_rawDescGZIP(), []int{0, 1, 0}
 }
 
 type Newsletter struct {
@@ -246,6 +246,78 @@ func (x *Newsletter) GetErrorCount() uint32 {
 	return 0
 }
 
+type Newsletter_Patch struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Newsletter_Patch) Reset() {
+	*x = Newsletter_Patch{}
+	mi := &file_eolymp_mail_newsletter_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Newsletter_Patch) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Newsletter_Patch) ProtoMessage() {}
+
+func (x *Newsletter_Patch) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_mail_newsletter_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Newsletter_Patch.ProtoReflect.Descriptor instead.
+func (*Newsletter_Patch) Descriptor() ([]byte, []int) {
+	return file_eolymp_mail_newsletter_proto_rawDescGZIP(), []int{0, 0}
+}
+
+type Newsletter_Extra struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Newsletter_Extra) Reset() {
+	*x = Newsletter_Extra{}
+	mi := &file_eolymp_mail_newsletter_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Newsletter_Extra) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Newsletter_Extra) ProtoMessage() {}
+
+func (x *Newsletter_Extra) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_mail_newsletter_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Newsletter_Extra.ProtoReflect.Descriptor instead.
+func (*Newsletter_Extra) Descriptor() ([]byte, []int) {
+	return file_eolymp_mail_newsletter_proto_rawDescGZIP(), []int{0, 1}
+}
+
 type Newsletter_Translation struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -259,7 +331,7 @@ type Newsletter_Translation struct {
 
 func (x *Newsletter_Translation) Reset() {
 	*x = Newsletter_Translation{}
-	mi := &file_eolymp_mail_newsletter_proto_msgTypes[1]
+	mi := &file_eolymp_mail_newsletter_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -271,7 +343,7 @@ func (x *Newsletter_Translation) String() string {
 func (*Newsletter_Translation) ProtoMessage() {}
 
 func (x *Newsletter_Translation) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_mail_newsletter_proto_msgTypes[1]
+	mi := &file_eolymp_mail_newsletter_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -284,7 +356,7 @@ func (x *Newsletter_Translation) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Newsletter_Translation.ProtoReflect.Descriptor instead.
 func (*Newsletter_Translation) Descriptor() ([]byte, []int) {
-	return file_eolymp_mail_newsletter_proto_rawDescGZIP(), []int{0, 0}
+	return file_eolymp_mail_newsletter_proto_rawDescGZIP(), []int{0, 2}
 }
 
 func (x *Newsletter_Translation) GetId() string {
@@ -326,7 +398,7 @@ var File_eolymp_mail_newsletter_proto protoreflect.FileDescriptor
 
 const file_eolymp_mail_newsletter_proto_rawDesc = "" +
 	"\n" +
-	"\x1ceolymp/mail/newsletter.proto\x12\veolymp.mail\x1a\x18eolymp/ecm/content.proto\x1a\x1ceolymp/mail/email_type.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x9e\x05\n" +
+	"\x1ceolymp/mail/newsletter.proto\x12\veolymp.mail\x1a\x18eolymp/ecm/content.proto\x1a\x1ceolymp/mail/email_type.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xb4\x05\n" +
 	"\n" +
 	"Newsletter\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12*\n" +
@@ -342,25 +414,27 @@ const file_eolymp_mail_newsletter_proto_rawDesc = "" +
 	"\n" +
 	"sent_count\x18  \x01(\rR\tsentCount\x12\x1f\n" +
 	"\verror_count\x18! \x01(\rR\n" +
-	"errorCount\x1a\x9c\x01\n" +
-	"\vTranslation\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x16\n" +
-	"\x06locale\x18f \x01(\tR\x06locale\x12\x18\n" +
-	"\asubject\x18g \x01(\tR\asubject\x12-\n" +
-	"\acontent\x18h \x01(\v2\x13.eolymp.ecm.ContentR\acontent\x12\x1c\n" +
-	"\tautomatic\x18i \x01(\bR\tautomatic\"J\n" +
-	"\x05Patch\x12\a\n" +
-	"\x03ALL\x10\x00\x12\b\n" +
+	"errorCount\x1aW\n" +
+	"\x05Patch\"N\n" +
+	"\x05Field\x12\v\n" +
+	"\aUNKNOWN\x10\x00\x12\b\n" +
 	"\x04TYPE\x10\x01\x12\b\n" +
 	"\x04NAME\x10\x05\x12\v\n" +
 	"\aSUBJECT\x10\x02\x12\v\n" +
 	"\aCONTENT\x10\x03\x12\n" +
 	"\n" +
-	"\x06LOCALE\x10\x04\"A\n" +
-	"\x05Extra\x12\x11\n" +
+	"\x06LOCALE\x10\x04\x1aJ\n" +
+	"\x05Extra\"A\n" +
+	"\x05Field\x12\x11\n" +
 	"\rUNKNOWN_EXTRA\x10\x00\x12\x11\n" +
 	"\rCONTENT_VALUE\x10\x01\x12\x12\n" +
-	"\x0eCONTENT_RENDER\x10\x02B+Z)github.com/eolymp/go-sdk/eolymp/mail;mailb\x06proto3"
+	"\x0eCONTENT_RENDER\x10\x02\x1a\x9c\x01\n" +
+	"\vTranslation\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x16\n" +
+	"\x06locale\x18f \x01(\tR\x06locale\x12\x18\n" +
+	"\asubject\x18g \x01(\tR\asubject\x12-\n" +
+	"\acontent\x18h \x01(\v2\x13.eolymp.ecm.ContentR\acontent\x12\x1c\n" +
+	"\tautomatic\x18i \x01(\bR\tautomaticB+Z)github.com/eolymp/go-sdk/eolymp/mail;mailb\x06proto3"
 
 var (
 	file_eolymp_mail_newsletter_proto_rawDescOnce sync.Once
@@ -375,21 +449,23 @@ func file_eolymp_mail_newsletter_proto_rawDescGZIP() []byte {
 }
 
 var file_eolymp_mail_newsletter_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_eolymp_mail_newsletter_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_eolymp_mail_newsletter_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_eolymp_mail_newsletter_proto_goTypes = []any{
-	(Newsletter_Patch)(0),          // 0: eolymp.mail.Newsletter.Patch
-	(Newsletter_Extra)(0),          // 1: eolymp.mail.Newsletter.Extra
+	(Newsletter_Patch_Field)(0),    // 0: eolymp.mail.Newsletter.Patch.Field
+	(Newsletter_Extra_Field)(0),    // 1: eolymp.mail.Newsletter.Extra.Field
 	(*Newsletter)(nil),             // 2: eolymp.mail.Newsletter
-	(*Newsletter_Translation)(nil), // 3: eolymp.mail.Newsletter.Translation
-	(EmailType)(0),                 // 4: eolymp.mail.EmailType
-	(*timestamppb.Timestamp)(nil),  // 5: google.protobuf.Timestamp
-	(*ecm.Content)(nil),            // 6: eolymp.ecm.Content
+	(*Newsletter_Patch)(nil),       // 3: eolymp.mail.Newsletter.Patch
+	(*Newsletter_Extra)(nil),       // 4: eolymp.mail.Newsletter.Extra
+	(*Newsletter_Translation)(nil), // 5: eolymp.mail.Newsletter.Translation
+	(EmailType)(0),                 // 6: eolymp.mail.EmailType
+	(*timestamppb.Timestamp)(nil),  // 7: google.protobuf.Timestamp
+	(*ecm.Content)(nil),            // 8: eolymp.ecm.Content
 }
 var file_eolymp_mail_newsletter_proto_depIdxs = []int32{
-	4, // 0: eolymp.mail.Newsletter.type:type_name -> eolymp.mail.EmailType
-	5, // 1: eolymp.mail.Newsletter.created_at:type_name -> google.protobuf.Timestamp
-	6, // 2: eolymp.mail.Newsletter.content:type_name -> eolymp.ecm.Content
-	6, // 3: eolymp.mail.Newsletter.Translation.content:type_name -> eolymp.ecm.Content
+	6, // 0: eolymp.mail.Newsletter.type:type_name -> eolymp.mail.EmailType
+	7, // 1: eolymp.mail.Newsletter.created_at:type_name -> google.protobuf.Timestamp
+	8, // 2: eolymp.mail.Newsletter.content:type_name -> eolymp.ecm.Content
+	8, // 3: eolymp.mail.Newsletter.Translation.content:type_name -> eolymp.ecm.Content
 	4, // [4:4] is the sub-list for method output_type
 	4, // [4:4] is the sub-list for method input_type
 	4, // [4:4] is the sub-list for extension type_name
@@ -409,7 +485,7 @@ func file_eolymp_mail_newsletter_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_mail_newsletter_proto_rawDesc), len(file_eolymp_mail_newsletter_proto_rawDesc)),
 			NumEnums:      2,
-			NumMessages:   2,
+			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

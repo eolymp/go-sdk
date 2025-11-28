@@ -155,10 +155,10 @@ func (x *CreateNewsletterOutput) GetNewsletterId() string {
 }
 
 type UpdateNewsletterInput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Patch         []Newsletter_Patch     `protobuf:"varint,1,rep,packed,name=patch,proto3,enum=eolymp.mail.Newsletter_Patch" json:"patch,omitempty"`
-	NewsletterId  string                 `protobuf:"bytes,2,opt,name=newsletter_id,json=newsletterId,proto3" json:"newsletter_id,omitempty"`
-	Newsletter    *Newsletter            `protobuf:"bytes,3,opt,name=newsletter,proto3" json:"newsletter,omitempty"`
+	state         protoimpl.MessageState   `protogen:"open.v1"`
+	Patch         []Newsletter_Patch_Field `protobuf:"varint,1,rep,packed,name=patch,proto3,enum=eolymp.mail.Newsletter_Patch_Field" json:"patch,omitempty"`
+	NewsletterId  string                   `protobuf:"bytes,2,opt,name=newsletter_id,json=newsletterId,proto3" json:"newsletter_id,omitempty"`
+	Newsletter    *Newsletter              `protobuf:"bytes,3,opt,name=newsletter,proto3" json:"newsletter,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -193,7 +193,7 @@ func (*UpdateNewsletterInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_mail_newsletter_service_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *UpdateNewsletterInput) GetPatch() []Newsletter_Patch {
+func (x *UpdateNewsletterInput) GetPatch() []Newsletter_Patch_Field {
 	if x != nil {
 		return x.Patch
 	}
@@ -331,9 +331,9 @@ func (*DeleteNewsletterOutput) Descriptor() ([]byte, []int) {
 }
 
 type DescribeNewsletterInput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	NewsletterId  string                 `protobuf:"bytes,1,opt,name=newsletter_id,json=newsletterId,proto3" json:"newsletter_id,omitempty"`
-	Extra         []Newsletter_Extra     `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.mail.Newsletter_Extra" json:"extra,omitempty"`
+	state         protoimpl.MessageState   `protogen:"open.v1"`
+	NewsletterId  string                   `protobuf:"bytes,1,opt,name=newsletter_id,json=newsletterId,proto3" json:"newsletter_id,omitempty"`
+	Extra         []Newsletter_Extra_Field `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.mail.Newsletter_Extra_Field" json:"extra,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -375,7 +375,7 @@ func (x *DescribeNewsletterInput) GetNewsletterId() string {
 	return ""
 }
 
-func (x *DescribeNewsletterInput) GetExtra() []Newsletter_Extra {
+func (x *DescribeNewsletterInput) GetExtra() []Newsletter_Extra_Field {
 	if x != nil {
 		return x.Extra
 	}
@@ -435,7 +435,7 @@ type ListNewslettersInput struct {
 	Sort          ListNewslettersInput_Sort    `protobuf:"varint,50,opt,name=sort,proto3,enum=eolymp.mail.ListNewslettersInput_Sort" json:"sort,omitempty"`
 	Order         wellknown.Direction          `protobuf:"varint,51,opt,name=order,proto3,enum=eolymp.wellknown.Direction" json:"order,omitempty"`
 	Locale        string                       `protobuf:"bytes,1122,opt,name=locale,proto3" json:"locale,omitempty"`
-	Extra         []Newsletter_Extra           `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.mail.Newsletter_Extra" json:"extra,omitempty"`
+	Extra         []Newsletter_Extra_Field     `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.mail.Newsletter_Extra_Field" json:"extra,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -519,7 +519,7 @@ func (x *ListNewslettersInput) GetLocale() string {
 	return ""
 }
 
-func (x *ListNewslettersInput) GetExtra() []Newsletter_Extra {
+func (x *ListNewslettersInput) GetExtra() []Newsletter_Extra_Field {
 	if x != nil {
 		return x.Extra
 	}
@@ -995,11 +995,11 @@ func (x *CreateTranslationOutput) GetTranslationId() string {
 }
 
 type UpdateTranslationInput struct {
-	state         protoimpl.MessageState  `protogen:"open.v1"`
-	Patch         []Newsletter_Patch      `protobuf:"varint,1,rep,packed,name=patch,proto3,enum=eolymp.mail.Newsletter_Patch" json:"patch,omitempty"`
-	NewsletterId  string                  `protobuf:"bytes,2,opt,name=newsletter_id,json=newsletterId,proto3" json:"newsletter_id,omitempty"`
-	TranslationId string                  `protobuf:"bytes,3,opt,name=translation_id,json=translationId,proto3" json:"translation_id,omitempty"`
-	Translation   *Newsletter_Translation `protobuf:"bytes,4,opt,name=translation,proto3" json:"translation,omitempty"`
+	state         protoimpl.MessageState   `protogen:"open.v1"`
+	Patch         []Newsletter_Patch_Field `protobuf:"varint,1,rep,packed,name=patch,proto3,enum=eolymp.mail.Newsletter_Patch_Field" json:"patch,omitempty"`
+	NewsletterId  string                   `protobuf:"bytes,2,opt,name=newsletter_id,json=newsletterId,proto3" json:"newsletter_id,omitempty"`
+	TranslationId string                   `protobuf:"bytes,3,opt,name=translation_id,json=translationId,proto3" json:"translation_id,omitempty"`
+	Translation   *Newsletter_Translation  `protobuf:"bytes,4,opt,name=translation,proto3" json:"translation,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1034,7 +1034,7 @@ func (*UpdateTranslationInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_mail_newsletter_service_proto_rawDescGZIP(), []int{18}
 }
 
-func (x *UpdateTranslationInput) GetPatch() []Newsletter_Patch {
+func (x *UpdateTranslationInput) GetPatch() []Newsletter_Patch_Field {
 	if x != nil {
 		return x.Patch
 	}
@@ -2138,9 +2138,9 @@ const file_eolymp_mail_newsletter_service_proto_rawDesc = "" +
 	"newsletter\x18\x01 \x01(\v2\x17.eolymp.mail.NewsletterR\n" +
 	"newsletter\"=\n" +
 	"\x16CreateNewsletterOutput\x12#\n" +
-	"\rnewsletter_id\x18\x01 \x01(\tR\fnewsletterId\"\xaa\x01\n" +
-	"\x15UpdateNewsletterInput\x123\n" +
-	"\x05patch\x18\x01 \x03(\x0e2\x1d.eolymp.mail.Newsletter.PatchR\x05patch\x12#\n" +
+	"\rnewsletter_id\x18\x01 \x01(\tR\fnewsletterId\"\xb0\x01\n" +
+	"\x15UpdateNewsletterInput\x129\n" +
+	"\x05patch\x18\x01 \x03(\x0e2#.eolymp.mail.Newsletter.Patch.FieldR\x05patch\x12#\n" +
 	"\rnewsletter_id\x18\x02 \x01(\tR\fnewsletterId\x127\n" +
 	"\n" +
 	"newsletter\x18\x03 \x01(\v2\x17.eolymp.mail.NewsletterR\n" +
@@ -2148,14 +2148,14 @@ const file_eolymp_mail_newsletter_service_proto_rawDesc = "" +
 	"\x16UpdateNewsletterOutput\"<\n" +
 	"\x15DeleteNewsletterInput\x12#\n" +
 	"\rnewsletter_id\x18\x01 \x01(\tR\fnewsletterId\"\x18\n" +
-	"\x16DeleteNewsletterOutput\"t\n" +
+	"\x16DeleteNewsletterOutput\"z\n" +
 	"\x17DescribeNewsletterInput\x12#\n" +
-	"\rnewsletter_id\x18\x01 \x01(\tR\fnewsletterId\x124\n" +
-	"\x05extra\x18\xe3\b \x03(\x0e2\x1d.eolymp.mail.Newsletter.ExtraR\x05extra\"S\n" +
+	"\rnewsletter_id\x18\x01 \x01(\tR\fnewsletterId\x12:\n" +
+	"\x05extra\x18\xe3\b \x03(\x0e2#.eolymp.mail.Newsletter.Extra.FieldR\x05extra\"S\n" +
 	"\x18DescribeNewsletterOutput\x127\n" +
 	"\n" +
 	"newsletter\x18\x01 \x01(\v2\x17.eolymp.mail.NewsletterR\n" +
-	"newsletter\"\xe4\x03\n" +
+	"newsletter\"\xea\x03\n" +
 	"\x14ListNewslettersInput\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
@@ -2164,8 +2164,8 @@ const file_eolymp_mail_newsletter_service_proto_rawDesc = "" +
 	"\x06search\x18) \x01(\tR\x06search\x12:\n" +
 	"\x04sort\x182 \x01(\x0e2&.eolymp.mail.ListNewslettersInput.SortR\x04sort\x121\n" +
 	"\x05order\x183 \x01(\x0e2\x1b.eolymp.wellknown.DirectionR\x05order\x12\x17\n" +
-	"\x06locale\x18\xe2\b \x01(\tR\x06locale\x124\n" +
-	"\x05extra\x18\xe3\b \x03(\x0e2\x1d.eolymp.mail.Newsletter.ExtraR\x05extra\x1an\n" +
+	"\x06locale\x18\xe2\b \x01(\tR\x06locale\x12:\n" +
+	"\x05extra\x18\xe3\b \x03(\x0e2#.eolymp.mail.Newsletter.Extra.FieldR\x05extra\x1an\n" +
 	"\x06Filter\x12.\n" +
 	"\x02id\x18\x02 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\x124\n" +
 	"\x04type\x18\x03 \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x04type\"\x16\n" +
@@ -2203,9 +2203,9 @@ const file_eolymp_mail_newsletter_service_proto_rawDesc = "" +
 	"\rnewsletter_id\x18\x01 \x01(\tR\fnewsletterId\x12E\n" +
 	"\vtranslation\x18\x02 \x01(\v2#.eolymp.mail.Newsletter.TranslationR\vtranslation\"@\n" +
 	"\x17CreateTranslationOutput\x12%\n" +
-	"\x0etranslation_id\x18\x01 \x01(\tR\rtranslationId\"\xe0\x01\n" +
-	"\x16UpdateTranslationInput\x123\n" +
-	"\x05patch\x18\x01 \x03(\x0e2\x1d.eolymp.mail.Newsletter.PatchR\x05patch\x12#\n" +
+	"\x0etranslation_id\x18\x01 \x01(\tR\rtranslationId\"\xe6\x01\n" +
+	"\x16UpdateTranslationInput\x129\n" +
+	"\x05patch\x18\x01 \x03(\x0e2#.eolymp.mail.Newsletter.Patch.FieldR\x05patch\x12#\n" +
 	"\rnewsletter_id\x18\x02 \x01(\tR\fnewsletterId\x12%\n" +
 	"\x0etranslation_id\x18\x03 \x01(\tR\rtranslationId\x12E\n" +
 	"\vtranslation\x18\x04 \x01(\v2#.eolymp.mail.Newsletter.TranslationR\vtranslation\"\x19\n" +
@@ -2445,8 +2445,8 @@ var file_eolymp_mail_newsletter_service_proto_goTypes = []any{
 	nil,                                  // 41: eolymp.mail.ImportRecipientInput.ParametersEntry
 	(*ListRecipientsInput_Filter)(nil),   // 42: eolymp.mail.ListRecipientsInput.Filter
 	(*Newsletter)(nil),                   // 43: eolymp.mail.Newsletter
-	(Newsletter_Patch)(0),                // 44: eolymp.mail.Newsletter.Patch
-	(Newsletter_Extra)(0),                // 45: eolymp.mail.Newsletter.Extra
+	(Newsletter_Patch_Field)(0),          // 44: eolymp.mail.Newsletter.Patch.Field
+	(Newsletter_Extra_Field)(0),          // 45: eolymp.mail.Newsletter.Extra.Field
 	(wellknown.Direction)(0),             // 46: eolymp.wellknown.Direction
 	(*Newsletter_Translation)(nil),       // 47: eolymp.mail.Newsletter.Translation
 	(*Recipient)(nil),                    // 48: eolymp.mail.Recipient
@@ -2455,18 +2455,18 @@ var file_eolymp_mail_newsletter_service_proto_goTypes = []any{
 }
 var file_eolymp_mail_newsletter_service_proto_depIdxs = []int32{
 	43, // 0: eolymp.mail.CreateNewsletterInput.newsletter:type_name -> eolymp.mail.Newsletter
-	44, // 1: eolymp.mail.UpdateNewsletterInput.patch:type_name -> eolymp.mail.Newsletter.Patch
+	44, // 1: eolymp.mail.UpdateNewsletterInput.patch:type_name -> eolymp.mail.Newsletter.Patch.Field
 	43, // 2: eolymp.mail.UpdateNewsletterInput.newsletter:type_name -> eolymp.mail.Newsletter
-	45, // 3: eolymp.mail.DescribeNewsletterInput.extra:type_name -> eolymp.mail.Newsletter.Extra
+	45, // 3: eolymp.mail.DescribeNewsletterInput.extra:type_name -> eolymp.mail.Newsletter.Extra.Field
 	43, // 4: eolymp.mail.DescribeNewsletterOutput.newsletter:type_name -> eolymp.mail.Newsletter
 	37, // 5: eolymp.mail.ListNewslettersInput.filters:type_name -> eolymp.mail.ListNewslettersInput.Filter
 	0,  // 6: eolymp.mail.ListNewslettersInput.sort:type_name -> eolymp.mail.ListNewslettersInput.Sort
 	46, // 7: eolymp.mail.ListNewslettersInput.order:type_name -> eolymp.wellknown.Direction
-	45, // 8: eolymp.mail.ListNewslettersInput.extra:type_name -> eolymp.mail.Newsletter.Extra
+	45, // 8: eolymp.mail.ListNewslettersInput.extra:type_name -> eolymp.mail.Newsletter.Extra.Field
 	43, // 9: eolymp.mail.ListNewslettersOutput.items:type_name -> eolymp.mail.Newsletter
 	38, // 10: eolymp.mail.TestNewsletterInput.parameters:type_name -> eolymp.mail.TestNewsletterInput.ParametersEntry
 	47, // 11: eolymp.mail.CreateTranslationInput.translation:type_name -> eolymp.mail.Newsletter.Translation
-	44, // 12: eolymp.mail.UpdateTranslationInput.patch:type_name -> eolymp.mail.Newsletter.Patch
+	44, // 12: eolymp.mail.UpdateTranslationInput.patch:type_name -> eolymp.mail.Newsletter.Patch.Field
 	47, // 13: eolymp.mail.UpdateTranslationInput.translation:type_name -> eolymp.mail.Newsletter.Translation
 	47, // 14: eolymp.mail.DescribeTranslationOutput.translation:type_name -> eolymp.mail.Newsletter.Translation
 	39, // 15: eolymp.mail.ListTranslationsInput.filters:type_name -> eolymp.mail.ListTranslationsInput.Filter
