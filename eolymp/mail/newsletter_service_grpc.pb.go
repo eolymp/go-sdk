@@ -4,7 +4,7 @@
 // - protoc             v5.29.4
 // source: eolymp/mail/newsletter_service.proto
 
-package newsletter
+package mail
 
 import (
 	context "context"

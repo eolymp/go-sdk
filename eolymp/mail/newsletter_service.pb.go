@@ -4,11 +4,10 @@
 // 	protoc        v5.29.4
 // source: eolymp/mail/newsletter_service.proto
 
-package newsletter
+package mail
 
 import (
 	_ "github.com/eolymp/go-sdk/eolymp/annotations"
-	mail "github.com/eolymp/go-sdk/eolymp/mail"
 	wellknown "github.com/eolymp/go-sdk/eolymp/wellknown"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -69,7 +68,7 @@ func (ListNewslettersInput_Sort) EnumDescriptor() ([]byte, []int) {
 
 type CreateNewsletterInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Newsletter    *mail.Newsletter       `protobuf:"bytes,1,opt,name=newsletter,proto3" json:"newsletter,omitempty"`
+	Newsletter    *Newsletter            `protobuf:"bytes,1,opt,name=newsletter,proto3" json:"newsletter,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -104,7 +103,7 @@ func (*CreateNewsletterInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_mail_newsletter_service_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *CreateNewsletterInput) GetNewsletter() *mail.Newsletter {
+func (x *CreateNewsletterInput) GetNewsletter() *Newsletter {
 	if x != nil {
 		return x.Newsletter
 	}
@@ -156,10 +155,10 @@ func (x *CreateNewsletterOutput) GetNewsletterId() string {
 }
 
 type UpdateNewsletterInput struct {
-	state         protoimpl.MessageState  `protogen:"open.v1"`
-	Patch         []mail.Newsletter_Patch `protobuf:"varint,1,rep,packed,name=patch,proto3,enum=eolymp.mail.Newsletter_Patch" json:"patch,omitempty"`
-	NewsletterId  string                  `protobuf:"bytes,2,opt,name=newsletter_id,json=newsletterId,proto3" json:"newsletter_id,omitempty"`
-	Newsletter    *mail.Newsletter        `protobuf:"bytes,3,opt,name=newsletter,proto3" json:"newsletter,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Patch         []Newsletter_Patch     `protobuf:"varint,1,rep,packed,name=patch,proto3,enum=eolymp.mail.Newsletter_Patch" json:"patch,omitempty"`
+	NewsletterId  string                 `protobuf:"bytes,2,opt,name=newsletter_id,json=newsletterId,proto3" json:"newsletter_id,omitempty"`
+	Newsletter    *Newsletter            `protobuf:"bytes,3,opt,name=newsletter,proto3" json:"newsletter,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -194,7 +193,7 @@ func (*UpdateNewsletterInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_mail_newsletter_service_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *UpdateNewsletterInput) GetPatch() []mail.Newsletter_Patch {
+func (x *UpdateNewsletterInput) GetPatch() []Newsletter_Patch {
 	if x != nil {
 		return x.Patch
 	}
@@ -208,7 +207,7 @@ func (x *UpdateNewsletterInput) GetNewsletterId() string {
 	return ""
 }
 
-func (x *UpdateNewsletterInput) GetNewsletter() *mail.Newsletter {
+func (x *UpdateNewsletterInput) GetNewsletter() *Newsletter {
 	if x != nil {
 		return x.Newsletter
 	}
@@ -332,9 +331,9 @@ func (*DeleteNewsletterOutput) Descriptor() ([]byte, []int) {
 }
 
 type DescribeNewsletterInput struct {
-	state         protoimpl.MessageState  `protogen:"open.v1"`
-	NewsletterId  string                  `protobuf:"bytes,1,opt,name=newsletter_id,json=newsletterId,proto3" json:"newsletter_id,omitempty"`
-	Extra         []mail.Newsletter_Extra `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.mail.Newsletter_Extra" json:"extra,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	NewsletterId  string                 `protobuf:"bytes,1,opt,name=newsletter_id,json=newsletterId,proto3" json:"newsletter_id,omitempty"`
+	Extra         []Newsletter_Extra     `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.mail.Newsletter_Extra" json:"extra,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -376,7 +375,7 @@ func (x *DescribeNewsletterInput) GetNewsletterId() string {
 	return ""
 }
 
-func (x *DescribeNewsletterInput) GetExtra() []mail.Newsletter_Extra {
+func (x *DescribeNewsletterInput) GetExtra() []Newsletter_Extra {
 	if x != nil {
 		return x.Extra
 	}
@@ -385,7 +384,7 @@ func (x *DescribeNewsletterInput) GetExtra() []mail.Newsletter_Extra {
 
 type DescribeNewsletterOutput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Newsletter    *mail.Newsletter       `protobuf:"bytes,1,opt,name=newsletter,proto3" json:"newsletter,omitempty"`
+	Newsletter    *Newsletter            `protobuf:"bytes,1,opt,name=newsletter,proto3" json:"newsletter,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -420,7 +419,7 @@ func (*DescribeNewsletterOutput) Descriptor() ([]byte, []int) {
 	return file_eolymp_mail_newsletter_service_proto_rawDescGZIP(), []int{7}
 }
 
-func (x *DescribeNewsletterOutput) GetNewsletter() *mail.Newsletter {
+func (x *DescribeNewsletterOutput) GetNewsletter() *Newsletter {
 	if x != nil {
 		return x.Newsletter
 	}
@@ -436,7 +435,7 @@ type ListNewslettersInput struct {
 	Sort          ListNewslettersInput_Sort    `protobuf:"varint,50,opt,name=sort,proto3,enum=eolymp.mail.ListNewslettersInput_Sort" json:"sort,omitempty"`
 	Order         wellknown.Direction          `protobuf:"varint,51,opt,name=order,proto3,enum=eolymp.wellknown.Direction" json:"order,omitempty"`
 	Locale        string                       `protobuf:"bytes,1122,opt,name=locale,proto3" json:"locale,omitempty"`
-	Extra         []mail.Newsletter_Extra      `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.mail.Newsletter_Extra" json:"extra,omitempty"`
+	Extra         []Newsletter_Extra           `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.mail.Newsletter_Extra" json:"extra,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -520,7 +519,7 @@ func (x *ListNewslettersInput) GetLocale() string {
 	return ""
 }
 
-func (x *ListNewslettersInput) GetExtra() []mail.Newsletter_Extra {
+func (x *ListNewslettersInput) GetExtra() []Newsletter_Extra {
 	if x != nil {
 		return x.Extra
 	}
@@ -530,7 +529,7 @@ func (x *ListNewslettersInput) GetExtra() []mail.Newsletter_Extra {
 type ListNewslettersOutput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Total         int32                  `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty"`
-	Items         []*mail.Newsletter     `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
+	Items         []*Newsletter          `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -572,7 +571,7 @@ func (x *ListNewslettersOutput) GetTotal() int32 {
 	return 0
 }
 
-func (x *ListNewslettersOutput) GetItems() []*mail.Newsletter {
+func (x *ListNewslettersOutput) GetItems() []*Newsletter {
 	if x != nil {
 		return x.Items
 	}
@@ -900,9 +899,9 @@ func (x *TranslateNewsletterOutput) GetJobId() string {
 }
 
 type CreateTranslationInput struct {
-	state         protoimpl.MessageState       `protogen:"open.v1"`
-	NewsletterId  string                       `protobuf:"bytes,1,opt,name=newsletter_id,json=newsletterId,proto3" json:"newsletter_id,omitempty"`
-	Translation   *mail.Newsletter_Translation `protobuf:"bytes,2,opt,name=translation,proto3" json:"translation,omitempty"`
+	state         protoimpl.MessageState  `protogen:"open.v1"`
+	NewsletterId  string                  `protobuf:"bytes,1,opt,name=newsletter_id,json=newsletterId,proto3" json:"newsletter_id,omitempty"`
+	Translation   *Newsletter_Translation `protobuf:"bytes,2,opt,name=translation,proto3" json:"translation,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -944,7 +943,7 @@ func (x *CreateTranslationInput) GetNewsletterId() string {
 	return ""
 }
 
-func (x *CreateTranslationInput) GetTranslation() *mail.Newsletter_Translation {
+func (x *CreateTranslationInput) GetTranslation() *Newsletter_Translation {
 	if x != nil {
 		return x.Translation
 	}
@@ -996,11 +995,11 @@ func (x *CreateTranslationOutput) GetTranslationId() string {
 }
 
 type UpdateTranslationInput struct {
-	state         protoimpl.MessageState       `protogen:"open.v1"`
-	Patch         []mail.Newsletter_Patch      `protobuf:"varint,1,rep,packed,name=patch,proto3,enum=eolymp.mail.Newsletter_Patch" json:"patch,omitempty"`
-	NewsletterId  string                       `protobuf:"bytes,2,opt,name=newsletter_id,json=newsletterId,proto3" json:"newsletter_id,omitempty"`
-	TranslationId string                       `protobuf:"bytes,3,opt,name=translation_id,json=translationId,proto3" json:"translation_id,omitempty"`
-	Translation   *mail.Newsletter_Translation `protobuf:"bytes,4,opt,name=translation,proto3" json:"translation,omitempty"`
+	state         protoimpl.MessageState  `protogen:"open.v1"`
+	Patch         []Newsletter_Patch      `protobuf:"varint,1,rep,packed,name=patch,proto3,enum=eolymp.mail.Newsletter_Patch" json:"patch,omitempty"`
+	NewsletterId  string                  `protobuf:"bytes,2,opt,name=newsletter_id,json=newsletterId,proto3" json:"newsletter_id,omitempty"`
+	TranslationId string                  `protobuf:"bytes,3,opt,name=translation_id,json=translationId,proto3" json:"translation_id,omitempty"`
+	Translation   *Newsletter_Translation `protobuf:"bytes,4,opt,name=translation,proto3" json:"translation,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1035,7 +1034,7 @@ func (*UpdateTranslationInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_mail_newsletter_service_proto_rawDescGZIP(), []int{18}
 }
 
-func (x *UpdateTranslationInput) GetPatch() []mail.Newsletter_Patch {
+func (x *UpdateTranslationInput) GetPatch() []Newsletter_Patch {
 	if x != nil {
 		return x.Patch
 	}
@@ -1056,7 +1055,7 @@ func (x *UpdateTranslationInput) GetTranslationId() string {
 	return ""
 }
 
-func (x *UpdateTranslationInput) GetTranslation() *mail.Newsletter_Translation {
+func (x *UpdateTranslationInput) GetTranslation() *Newsletter_Translation {
 	if x != nil {
 		return x.Translation
 	}
@@ -1240,8 +1239,8 @@ func (x *DescribeTranslationInput) GetTranslationId() string {
 }
 
 type DescribeTranslationOutput struct {
-	state         protoimpl.MessageState       `protogen:"open.v1"`
-	Translation   *mail.Newsletter_Translation `protobuf:"bytes,1,opt,name=translation,proto3" json:"translation,omitempty"`
+	state         protoimpl.MessageState  `protogen:"open.v1"`
+	Translation   *Newsletter_Translation `protobuf:"bytes,1,opt,name=translation,proto3" json:"translation,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1276,7 +1275,7 @@ func (*DescribeTranslationOutput) Descriptor() ([]byte, []int) {
 	return file_eolymp_mail_newsletter_service_proto_rawDescGZIP(), []int{23}
 }
 
-func (x *DescribeTranslationOutput) GetTranslation() *mail.Newsletter_Translation {
+func (x *DescribeTranslationOutput) GetTranslation() *Newsletter_Translation {
 	if x != nil {
 		return x.Translation
 	}
@@ -1354,9 +1353,9 @@ func (x *ListTranslationsInput) GetFilters() *ListTranslationsInput_Filter {
 }
 
 type ListTranslationsOutput struct {
-	state         protoimpl.MessageState         `protogen:"open.v1"`
-	Total         int32                          `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty"`
-	Items         []*mail.Newsletter_Translation `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
+	state         protoimpl.MessageState    `protogen:"open.v1"`
+	Total         int32                     `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty"`
+	Items         []*Newsletter_Translation `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1398,7 +1397,7 @@ func (x *ListTranslationsOutput) GetTotal() int32 {
 	return 0
 }
 
-func (x *ListTranslationsOutput) GetItems() []*mail.Newsletter_Translation {
+func (x *ListTranslationsOutput) GetItems() []*Newsletter_Translation {
 	if x != nil {
 		return x.Items
 	}
@@ -1820,7 +1819,7 @@ func (x *ListRecipientsInput) GetFilters() *ListRecipientsInput_Filter {
 type ListRecipientsOutput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Total         int32                  `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty"`
-	Items         []*mail.Recipient      `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
+	Items         []*Recipient           `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1862,7 +1861,7 @@ func (x *ListRecipientsOutput) GetTotal() int32 {
 	return 0
 }
 
-func (x *ListRecipientsOutput) GetItems() []*mail.Recipient {
+func (x *ListRecipientsOutput) GetItems() []*Recipient {
 	if x != nil {
 		return x.Items
 	}
@@ -1923,7 +1922,7 @@ func (x *DescribeRecipientInput) GetRecipientId() string {
 
 type DescribeRecipientOutput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Recipient     *mail.Recipient        `protobuf:"bytes,1,opt,name=recipient,proto3" json:"recipient,omitempty"`
+	Recipient     *Recipient             `protobuf:"bytes,1,opt,name=recipient,proto3" json:"recipient,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1958,7 +1957,7 @@ func (*DescribeRecipientOutput) Descriptor() ([]byte, []int) {
 	return file_eolymp_mail_newsletter_service_proto_rawDescGZIP(), []int{35}
 }
 
-func (x *DescribeRecipientOutput) GetRecipient() *mail.Recipient {
+func (x *DescribeRecipientOutput) GetRecipient() *Recipient {
 	if x != nil {
 		return x.Recipient
 	}
@@ -2385,7 +2384,7 @@ const file_eolymp_mail_newsletter_service_proto_rawDesc = "" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x1f\x8a\xe3\n" +
-	"\x1bnewsletter:newsletter:write\x82\xd3\xe4\x93\x028\x126/newsletters/{newsletter_id}/recipients/{recipient_id}\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB7Z5github.com/eolymp/go-sdk/eolymp/newsletter;newsletterb\x06proto3"
+	"\x1bnewsletter:newsletter:write\x82\xd3\xe4\x93\x028\x126/newsletters/{newsletter_id}/recipients/{recipient_id}\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB+Z)github.com/eolymp/go-sdk/eolymp/mail;mailb\x06proto3"
 
 var (
 	file_eolymp_mail_newsletter_service_proto_rawDescOnce sync.Once
@@ -2445,12 +2444,12 @@ var file_eolymp_mail_newsletter_service_proto_goTypes = []any{
 	nil,                                  // 40: eolymp.mail.CreateRecipientInput.ParametersEntry
 	nil,                                  // 41: eolymp.mail.ImportRecipientInput.ParametersEntry
 	(*ListRecipientsInput_Filter)(nil),   // 42: eolymp.mail.ListRecipientsInput.Filter
-	(*mail.Newsletter)(nil),              // 43: eolymp.mail.Newsletter
-	(mail.Newsletter_Patch)(0),           // 44: eolymp.mail.Newsletter.Patch
-	(mail.Newsletter_Extra)(0),           // 45: eolymp.mail.Newsletter.Extra
+	(*Newsletter)(nil),                   // 43: eolymp.mail.Newsletter
+	(Newsletter_Patch)(0),                // 44: eolymp.mail.Newsletter.Patch
+	(Newsletter_Extra)(0),                // 45: eolymp.mail.Newsletter.Extra
 	(wellknown.Direction)(0),             // 46: eolymp.wellknown.Direction
-	(*mail.Newsletter_Translation)(nil),  // 47: eolymp.mail.Newsletter.Translation
-	(*mail.Recipient)(nil),               // 48: eolymp.mail.Recipient
+	(*Newsletter_Translation)(nil),       // 47: eolymp.mail.Newsletter.Translation
+	(*Recipient)(nil),                    // 48: eolymp.mail.Recipient
 	(*wellknown.ExpressionID)(nil),       // 49: eolymp.wellknown.ExpressionID
 	(*wellknown.ExpressionEnum)(nil),     // 50: eolymp.wellknown.ExpressionEnum
 }
@@ -2532,6 +2531,8 @@ func file_eolymp_mail_newsletter_service_proto_init() {
 	if File_eolymp_mail_newsletter_service_proto != nil {
 		return
 	}
+	file_eolymp_mail_newsletter_proto_init()
+	file_eolymp_mail_newsletter_recipient_proto_init()
 	file_eolymp_mail_newsletter_service_proto_msgTypes[28].OneofWrappers = []any{
 		(*ImportRecipientInput_AllMembers)(nil),
 		(*ImportRecipientInput_GroupId)(nil),
