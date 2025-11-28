@@ -11,6 +11,7 @@ import (
 	ecm "github.com/eolymp/go-sdk/eolymp/ecm"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	structpb "google.golang.org/protobuf/types/known/structpb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -289,7 +290,7 @@ type SendEmailInput_Message struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Subject       string                 `protobuf:"bytes,12,opt,name=subject,proto3" json:"subject,omitempty"`
 	Body          *ecm.Content           `protobuf:"bytes,13,opt,name=body,proto3" json:"body,omitempty"`
-	Parameters    map[string]string      `protobuf:"bytes,14,rep,name=parameters,proto3" json:"parameters,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	Parameters    *structpb.Struct       `protobuf:"bytes,14,opt,name=parameters,proto3" json:"parameters,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -338,7 +339,7 @@ func (x *SendEmailInput_Message) GetBody() *ecm.Content {
 	return nil
 }
 
-func (x *SendEmailInput_Message) GetParameters() map[string]string {
+func (x *SendEmailInput_Message) GetParameters() *structpb.Struct {
 	if x != nil {
 		return x.Parameters
 	}
@@ -348,7 +349,7 @@ func (x *SendEmailInput_Message) GetParameters() map[string]string {
 type SendEmailInput_Fragment struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Path          string                 `protobuf:"bytes,12,opt,name=path,proto3" json:"path,omitempty"`
-	Parameters    map[string]string      `protobuf:"bytes,14,rep,name=parameters,proto3" json:"parameters,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	Parameters    *structpb.Struct       `protobuf:"bytes,14,opt,name=parameters,proto3" json:"parameters,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -390,7 +391,7 @@ func (x *SendEmailInput_Fragment) GetPath() string {
 	return ""
 }
 
-func (x *SendEmailInput_Fragment) GetParameters() map[string]string {
+func (x *SendEmailInput_Fragment) GetParameters() *structpb.Struct {
 	if x != nil {
 		return x.Parameters
 	}
@@ -401,7 +402,7 @@ var File_eolymp_community_email_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_email_service_proto_rawDesc = "" +
 	"\n" +
-	"$eolymp/community/email_service.proto\x12\x10eolymp.community\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a!eolymp/community/email_type.proto\x1a\x18eolymp/ecm/content.proto\"\xff\x05\n" +
+	"$eolymp/community/email_service.proto\x12\x10eolymp.community\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a!eolymp/community/email_type.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1cgoogle/protobuf/struct.proto\"\xbd\x04\n" +
 	"\x0eSendEmailInput\x12\x1b\n" +
 	"\tmember_id\x18\x01 \x01(\tR\bmemberId\x12\x17\n" +
 	"\adry_run\x18\x14 \x01(\bR\x06dryRun\x12\x15\n" +
@@ -411,24 +412,18 @@ const file_eolymp_community_email_service_proto_rawDesc = "" +
 	"\bcampaign\x18\x0f \x01(\tR\bcampaign\x12\x16\n" +
 	"\x06locale\x18\v \x01(\tR\x06locale\x12D\n" +
 	"\amessage\x18\x1e \x01(\v2(.eolymp.community.SendEmailInput.MessageH\x00R\amessage\x12G\n" +
-	"\bfragment\x18\x1f \x01(\v2).eolymp.community.SendEmailInput.FragmentH\x00R\bfragment\x1a\xe5\x01\n" +
+	"\bfragment\x18\x1f \x01(\v2).eolymp.community.SendEmailInput.FragmentH\x00R\bfragment\x1a\x85\x01\n" +
 	"\aMessage\x12\x18\n" +
 	"\asubject\x18\f \x01(\tR\asubject\x12'\n" +
-	"\x04body\x18\r \x01(\v2\x13.eolymp.ecm.ContentR\x04body\x12X\n" +
+	"\x04body\x18\r \x01(\v2\x13.eolymp.ecm.ContentR\x04body\x127\n" +
 	"\n" +
-	"parameters\x18\x0e \x03(\v28.eolymp.community.SendEmailInput.Message.ParametersEntryR\n" +
-	"parameters\x1a=\n" +
-	"\x0fParametersEntry\x12\x10\n" +
-	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\x1a\xb8\x01\n" +
+	"parameters\x18\x0e \x01(\v2\x17.google.protobuf.StructR\n" +
+	"parameters\x1aW\n" +
 	"\bFragment\x12\x12\n" +
-	"\x04path\x18\f \x01(\tR\x04path\x12Y\n" +
+	"\x04path\x18\f \x01(\tR\x04path\x127\n" +
 	"\n" +
-	"parameters\x18\x0e \x03(\v29.eolymp.community.SendEmailInput.Fragment.ParametersEntryR\n" +
-	"parameters\x1a=\n" +
-	"\x0fParametersEntry\x12\x10\n" +
-	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01B\t\n" +
+	"parameters\x18\x0e \x01(\v2\x17.google.protobuf.StructR\n" +
+	"parametersB\t\n" +
 	"\acontent\"0\n" +
 	"\x0fSendEmailOutput\x12\x1d\n" +
 	"\n" +
@@ -463,7 +458,7 @@ func file_eolymp_community_email_service_proto_rawDescGZIP() []byte {
 	return file_eolymp_community_email_service_proto_rawDescData
 }
 
-var file_eolymp_community_email_service_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
+var file_eolymp_community_email_service_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_eolymp_community_email_service_proto_goTypes = []any{
 	(*SendEmailInput)(nil),           // 0: eolymp.community.SendEmailInput
 	(*SendEmailOutput)(nil),          // 1: eolymp.community.SendEmailOutput
@@ -471,18 +466,17 @@ var file_eolymp_community_email_service_proto_goTypes = []any{
 	(*DescribeEmailUsageOutput)(nil), // 3: eolymp.community.DescribeEmailUsageOutput
 	(*SendEmailInput_Message)(nil),   // 4: eolymp.community.SendEmailInput.Message
 	(*SendEmailInput_Fragment)(nil),  // 5: eolymp.community.SendEmailInput.Fragment
-	nil,                              // 6: eolymp.community.SendEmailInput.Message.ParametersEntry
-	nil,                              // 7: eolymp.community.SendEmailInput.Fragment.ParametersEntry
-	(EmailType)(0),                   // 8: eolymp.community.EmailType
-	(*ecm.Content)(nil),              // 9: eolymp.ecm.Content
+	(EmailType)(0),                   // 6: eolymp.community.EmailType
+	(*ecm.Content)(nil),              // 7: eolymp.ecm.Content
+	(*structpb.Struct)(nil),          // 8: google.protobuf.Struct
 }
 var file_eolymp_community_email_service_proto_depIdxs = []int32{
-	8, // 0: eolymp.community.SendEmailInput.type:type_name -> eolymp.community.EmailType
+	6, // 0: eolymp.community.SendEmailInput.type:type_name -> eolymp.community.EmailType
 	4, // 1: eolymp.community.SendEmailInput.message:type_name -> eolymp.community.SendEmailInput.Message
 	5, // 2: eolymp.community.SendEmailInput.fragment:type_name -> eolymp.community.SendEmailInput.Fragment
-	9, // 3: eolymp.community.SendEmailInput.Message.body:type_name -> eolymp.ecm.Content
-	6, // 4: eolymp.community.SendEmailInput.Message.parameters:type_name -> eolymp.community.SendEmailInput.Message.ParametersEntry
-	7, // 5: eolymp.community.SendEmailInput.Fragment.parameters:type_name -> eolymp.community.SendEmailInput.Fragment.ParametersEntry
+	7, // 3: eolymp.community.SendEmailInput.Message.body:type_name -> eolymp.ecm.Content
+	8, // 4: eolymp.community.SendEmailInput.Message.parameters:type_name -> google.protobuf.Struct
+	8, // 5: eolymp.community.SendEmailInput.Fragment.parameters:type_name -> google.protobuf.Struct
 	0, // 6: eolymp.community.EmailService.SendEmail:input_type -> eolymp.community.SendEmailInput
 	2, // 7: eolymp.community.EmailService.DescribeEmailUsage:input_type -> eolymp.community.DescribeEmailUsageInput
 	1, // 8: eolymp.community.EmailService.SendEmail:output_type -> eolymp.community.SendEmailOutput
@@ -510,7 +504,7 @@ func file_eolymp_community_email_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_community_email_service_proto_rawDesc), len(file_eolymp_community_email_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   8,
+			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
