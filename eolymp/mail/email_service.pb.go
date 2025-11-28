@@ -25,14 +25,13 @@ const (
 )
 
 type SendEmailInput struct {
-	state            protoimpl.MessageState `protogen:"open.v1"`
-	MemberId         string                 `protobuf:"bytes,1,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
-	DeduplicationKey string                 `protobuf:"bytes,2,opt,name=deduplication_key,json=deduplicationKey,proto3" json:"deduplication_key,omitempty"` // a key uniquely identifies the message, it is used to ensure same email is not sent twice
-	DryRun           bool                   `protobuf:"varint,20,opt,name=dry_run,json=dryRun,proto3" json:"dry_run,omitempty"`                             // send a test email to the current user instead of the member
-	BccMe            bool                   `protobuf:"varint,21,opt,name=bcc_me,json=bccMe,proto3" json:"bcc_me,omitempty"`                                // send a copy of the email to the current user
-	Type             EmailType              `protobuf:"varint,10,opt,name=type,proto3,enum=eolymp.mail.EmailType" json:"type,omitempty"`
-	Campaign         string                 `protobuf:"bytes,15,opt,name=campaign,proto3" json:"campaign,omitempty"` // for internal use, campaign id for tracking feedback
-	Locale           string                 `protobuf:"bytes,11,opt,name=locale,proto3" json:"locale,omitempty"`     // locale for the content
+	state    protoimpl.MessageState `protogen:"open.v1"`
+	MemberId string                 `protobuf:"bytes,1,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
+	EmailRef string                 `protobuf:"bytes,2,opt,name=email_ref,json=emailRef,proto3" json:"email_ref,omitempty"` // a key uniquely identifies the message, it is used to ensure same email is not sent twice
+	DryRun   bool                   `protobuf:"varint,20,opt,name=dry_run,json=dryRun,proto3" json:"dry_run,omitempty"`     // send a test email to the current user instead of the member
+	BccMe    bool                   `protobuf:"varint,21,opt,name=bcc_me,json=bccMe,proto3" json:"bcc_me,omitempty"`        // send a copy of the email to the current user
+	Type     EmailType              `protobuf:"varint,10,opt,name=type,proto3,enum=eolymp.mail.EmailType" json:"type,omitempty"`
+	Locale   string                 `protobuf:"bytes,11,opt,name=locale,proto3" json:"locale,omitempty"` // locale for the content
 	// Types that are valid to be assigned to Content:
 	//
 	//	*SendEmailInput_Message_
@@ -79,9 +78,9 @@ func (x *SendEmailInput) GetMemberId() string {
 	return ""
 }
 
-func (x *SendEmailInput) GetDeduplicationKey() string {
+func (x *SendEmailInput) GetEmailRef() string {
 	if x != nil {
-		return x.DeduplicationKey
+		return x.EmailRef
 	}
 	return ""
 }
@@ -105,13 +104,6 @@ func (x *SendEmailInput) GetType() EmailType {
 		return x.Type
 	}
 	return EmailType_UNKNOWN_TYPE
-}
-
-func (x *SendEmailInput) GetCampaign() string {
-	if x != nil {
-		return x.Campaign
-	}
-	return ""
 }
 
 func (x *SendEmailInput) GetLocale() string {
@@ -410,15 +402,14 @@ var File_eolymp_mail_email_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_mail_email_service_proto_rawDesc = "" +
 	"\n" +
-	"\x1feolymp/mail/email_service.proto\x12\veolymp.mail\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1ceolymp/mail/email_type.proto\x1a\x1cgoogle/protobuf/struct.proto\"\xc2\x04\n" +
+	"\x1feolymp/mail/email_service.proto\x12\veolymp.mail\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1ceolymp/mail/email_type.proto\x1a\x1cgoogle/protobuf/struct.proto\"\x96\x04\n" +
 	"\x0eSendEmailInput\x12\x1b\n" +
-	"\tmember_id\x18\x01 \x01(\tR\bmemberId\x12+\n" +
-	"\x11deduplication_key\x18\x02 \x01(\tR\x10deduplicationKey\x12\x17\n" +
+	"\tmember_id\x18\x01 \x01(\tR\bmemberId\x12\x1b\n" +
+	"\temail_ref\x18\x02 \x01(\tR\bemailRef\x12\x17\n" +
 	"\adry_run\x18\x14 \x01(\bR\x06dryRun\x12\x15\n" +
 	"\x06bcc_me\x18\x15 \x01(\bR\x05bccMe\x12*\n" +
 	"\x04type\x18\n" +
-	" \x01(\x0e2\x16.eolymp.mail.EmailTypeR\x04type\x12\x1a\n" +
-	"\bcampaign\x18\x0f \x01(\tR\bcampaign\x12\x16\n" +
+	" \x01(\x0e2\x16.eolymp.mail.EmailTypeR\x04type\x12\x16\n" +
 	"\x06locale\x18\v \x01(\tR\x06locale\x12?\n" +
 	"\amessage\x18\x1e \x01(\v2#.eolymp.mail.SendEmailInput.MessageH\x00R\amessage\x12B\n" +
 	"\btemplate\x18\x1f \x01(\v2$.eolymp.mail.SendEmailInput.TemplateH\x00R\btemplate\x1ay\n" +
