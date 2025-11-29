@@ -737,7 +737,7 @@ const file_eolymp_commerce_product_service_proto_rawDesc = "" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15commerce:catalog:read\x82\xd3\xe4\x93\x02\x1e\"\x1c/store/products/{product_id}\x12\x9c\x01\n" +
+	"\x15commerce:catalog:read\x82\xd3\xe4\x93\x02\x1e\x12\x1c/store/products/{product_id}\x12\x9c\x01\n" +
 	"\fListProducts\x12\".eolymp.commerce.ListProductsInput\x1a#.eolymp.commerce.ListProductsOutput\"C\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +

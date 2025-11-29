@@ -145,7 +145,7 @@ func RegisterProductServiceHttpHandlers(router *mux.Router, prefix string, cli P
 		Methods("DELETE").
 		Name("eolymp.commerce.ProductService.DeleteProduct")
 	router.Handle(prefix+"/store/products/{product_id}", _ProductService_DescribeProduct_Rule0(cli)).
-		Methods("POST").
+		Methods("GET").
 		Name("eolymp.commerce.ProductService.DescribeProduct")
 	router.Handle(prefix+"/store/products", _ProductService_ListProducts_Rule0(cli)).
 		Methods("GET").
@@ -233,7 +233,7 @@ func _ProductService_DescribeProduct_Rule0(cli ProductServiceClient) http.Handle
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeProductInput{}
 
-		if err := _ProductService_HTTPReadRequestBody(r, in); err != nil {
+		if err := _ProductService_HTTPReadQueryString(r, in); err != nil {
 			err = status.Error(codes.InvalidArgument, err.Error())
 			_ProductService_HTTPWriteErrorResponse(w, err)
 			return

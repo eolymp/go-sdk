@@ -152,7 +152,7 @@ func (s *ProductServiceService) DescribeProduct(ctx context.Context, in *Describ
 		in.ProductId = ""
 	}
 
-	if err := s.do(ctx, "POST", path, in, out); err != nil {
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
 	}
 
