@@ -94,6 +94,8 @@ const (
 	Member_Patch_EXTERNAL_REF              Member_Patch_Field = 6
 	Member_Patch_INACTIVE                  Member_Patch_Field = 1   // change active/inactive flag
 	Member_Patch_UNOFFICIAL                Member_Patch_Field = 2   // change official/unofficial flag
+	Member_Patch_ACTIVE_PERIOD_START       Member_Patch_Field = 7   // apply active period start/end dates
+	Member_Patch_ACTIVE_PERIOD_END         Member_Patch_Field = 8   // apply active period start/end dates
 	Member_Patch_GROUPS                    Member_Patch_Field = 3   // change groups
 	Member_Patch_GROUPS_ADD                Member_Patch_Field = 4   // add new groups specified in member.groups to the existing ones
 	Member_Patch_GROUPS_REMOVE             Member_Patch_Field = 5   // remove groups specified in member.groups from the existing ones
@@ -124,6 +126,8 @@ var (
 		6:   "EXTERNAL_REF",
 		1:   "INACTIVE",
 		2:   "UNOFFICIAL",
+		7:   "ACTIVE_PERIOD_START",
+		8:   "ACTIVE_PERIOD_END",
 		3:   "GROUPS",
 		4:   "GROUPS_ADD",
 		5:   "GROUPS_REMOVE",
@@ -151,6 +155,8 @@ var (
 		"EXTERNAL_REF":              6,
 		"INACTIVE":                  1,
 		"UNOFFICIAL":                2,
+		"ACTIVE_PERIOD_START":       7,
+		"ACTIVE_PERIOD_END":         8,
 		"GROUPS":                    3,
 		"GROUPS_ADD":                4,
 		"GROUPS_REMOVE":             5,
@@ -203,22 +209,24 @@ func (Member_Patch_Field) EnumDescriptor() ([]byte, []int) {
 }
 
 type Member struct {
-	state       protoimpl.MessageState `protogen:"open.v1"`
-	Id          string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Url         string                 `protobuf:"bytes,3,opt,name=url,proto3" json:"url,omitempty"`
-	ExternalRef string                 `protobuf:"bytes,4,opt,name=external_ref,json=externalRef,proto3" json:"external_ref,omitempty"` // a member's ID in the external system
-	DisplayName string                 `protobuf:"bytes,2,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"` // display name, readonly, users nickname, name, attribute, ghosts name or teams name
-	Rank        int32                  `protobuf:"varint,70,opt,name=rank,proto3" json:"rank,omitempty"`                                // User rank based on EloMMR rating
-	RankLower   int32                  `protobuf:"varint,72,opt,name=rank_lower,json=rankLower,proto3" json:"rank_lower,omitempty"`     // User rank lower bound
-	Rating      int32                  `protobuf:"varint,71,opt,name=rating,proto3" json:"rating,omitempty"`                            // EloMMR rating value
-	Level       uint32                 `protobuf:"varint,79,opt,name=level,proto3" json:"level,omitempty"`                              // level from 0 (beginner) to 12 (legendary), calculated based on the user's rating
-	Inactive    bool                   `protobuf:"varint,11,opt,name=inactive,proto3" json:"inactive,omitempty"`                        // member account is inactive
-	Incomplete  bool                   `protobuf:"varint,20,opt,name=incomplete,proto3" json:"incomplete,omitempty"`                    // member profile (attributes) is missing some information
-	Unofficial  bool                   `protobuf:"varint,30,opt,name=unofficial,proto3" json:"unofficial,omitempty"`                    // member participates in all competitions unofficially
-	Secret      bool                   `protobuf:"varint,40,opt,name=secret,proto3" json:"secret,omitempty"`                            // member is secret and does not appear on anywhere (for example, an admin who performs testing)
-	CreatedAt   *timestamppb.Timestamp `protobuf:"bytes,60,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`      // Time when user account was created.
-	SeatedAt    *timestamppb.Timestamp `protobuf:"bytes,61,opt,name=seated_at,json=seatedAt,proto3" json:"seated_at,omitempty"`         // Time when user was seated in the space.
-	ActiveAt    *timestamppb.Timestamp `protobuf:"bytes,62,opt,name=active_at,json=activeAt,proto3" json:"active_at,omitempty"`         // Last time when user was active
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	Id                string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Url               string                 `protobuf:"bytes,3,opt,name=url,proto3" json:"url,omitempty"`
+	ExternalRef       string                 `protobuf:"bytes,4,opt,name=external_ref,json=externalRef,proto3" json:"external_ref,omitempty"`                      // a member's ID in the external system
+	DisplayName       string                 `protobuf:"bytes,2,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`                      // display name, readonly, users nickname, name, attribute, ghosts name or teams name
+	Rank              int32                  `protobuf:"varint,70,opt,name=rank,proto3" json:"rank,omitempty"`                                                     // User rank based on EloMMR rating
+	RankLower         int32                  `protobuf:"varint,72,opt,name=rank_lower,json=rankLower,proto3" json:"rank_lower,omitempty"`                          // User rank lower bound
+	Rating            int32                  `protobuf:"varint,71,opt,name=rating,proto3" json:"rating,omitempty"`                                                 // EloMMR rating value
+	Level             uint32                 `protobuf:"varint,79,opt,name=level,proto3" json:"level,omitempty"`                                                   // level from 0 (beginner) to 12 (legendary), calculated based on the user's rating
+	Inactive          bool                   `protobuf:"varint,11,opt,name=inactive,proto3" json:"inactive,omitempty"`                                             // member account is inactive
+	Incomplete        bool                   `protobuf:"varint,20,opt,name=incomplete,proto3" json:"incomplete,omitempty"`                                         // member profile (attributes) is missing some information
+	Unofficial        bool                   `protobuf:"varint,30,opt,name=unofficial,proto3" json:"unofficial,omitempty"`                                         // member participates in all competitions unofficially
+	Secret            bool                   `protobuf:"varint,40,opt,name=secret,proto3" json:"secret,omitempty"`                                                 // member is secret and does not appear on anywhere (for example, an admin who performs testing)
+	ActivePeriodStart *timestamppb.Timestamp `protobuf:"bytes,12,opt,name=active_period_start,json=activePeriodStart,proto3" json:"active_period_start,omitempty"` // optional, time when member will become active
+	ActivePeriodEnd   *timestamppb.Timestamp `protobuf:"bytes,13,opt,name=active_period_end,json=activePeriodEnd,proto3" json:"active_period_end,omitempty"`       // optional, time when member will become inactive
+	CreatedAt         *timestamppb.Timestamp `protobuf:"bytes,60,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`                           // Time when user account was created.
+	SeatedAt          *timestamppb.Timestamp `protobuf:"bytes,61,opt,name=seated_at,json=seatedAt,proto3" json:"seated_at,omitempty"`                              // Time when user was seated in the space.
+	ActiveAt          *timestamppb.Timestamp `protobuf:"bytes,62,opt,name=active_at,json=activeAt,proto3" json:"active_at,omitempty"`                              // Last time when user was active
 	// Account information depending on the member type.
 	//
 	// Types that are valid to be assigned to Account:
@@ -357,6 +365,20 @@ func (x *Member) GetSecret() bool {
 		return x.Secret
 	}
 	return false
+}
+
+func (x *Member) GetActivePeriodStart() *timestamppb.Timestamp {
+	if x != nil {
+		return x.ActivePeriodStart
+	}
+	return nil
+}
+
+func (x *Member) GetActivePeriodEnd() *timestamppb.Timestamp {
+	if x != nil {
+		return x.ActivePeriodEnd
+	}
+	return nil
 }
 
 func (x *Member) GetCreatedAt() *timestamppb.Timestamp {
@@ -615,7 +637,7 @@ var File_eolymp_community_member_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_member_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/community/member.proto\x12\x10eolymp.community\x1a\x1ceolymp/annotations/mcp.proto\x1a eolymp/community/attribute.proto\x1a#eolymp/community/member_ghost.proto\x1a\"eolymp/community/member_team.proto\x1a\"eolymp/community/member_user.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc8\x0e\n" +
+	"\x1deolymp/community/member.proto\x12\x10eolymp.community\x1a\x1ceolymp/annotations/mcp.proto\x1a eolymp/community/attribute.proto\x1a#eolymp/community/member_ghost.proto\x1a\"eolymp/community/member_team.proto\x1a\"eolymp/community/member_user.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x8c\x10\n" +
 	"\x06Member\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x18\n" +
 	"\x03url\x18\x03 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x03url\x12!\n" +
@@ -633,7 +655,9 @@ const file_eolymp_community_member_proto_rawDesc = "" +
 	"\n" +
 	"unofficial\x18\x1e \x01(\bR\n" +
 	"unofficial\x12\x16\n" +
-	"\x06secret\x18( \x01(\bR\x06secret\x12A\n" +
+	"\x06secret\x18( \x01(\bR\x06secret\x12J\n" +
+	"\x13active_period_start\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\x11activePeriodStart\x12F\n" +
+	"\x11active_period_end\x18\r \x01(\v2\x1a.google.protobuf.TimestampR\x0factivePeriodEnd\x12A\n" +
 	"\n" +
 	"created_at\x18< \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\tcreatedAt\x12?\n" +
 	"\tseated_at\x18= \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\bseatedAt\x12?\n" +
@@ -660,14 +684,16 @@ const file_eolymp_community_member_proto_rawDesc = "" +
 	"ATTRIBUTES\x10\x04\x12\f\n" +
 	"\bMETADATA\x10\x05\x12\x10\n" +
 	"\fRESTRICTIONS\x10\x06\x12\x10\n" +
-	"\fPRIVATE_DATA\x10\a\x1a\xed\x03\n" +
-	"\x05Patch\"\xe3\x03\n" +
+	"\fPRIVATE_DATA\x10\a\x1a\x9d\x04\n" +
+	"\x05Patch\"\x93\x04\n" +
 	"\x05Field\x12\x11\n" +
 	"\rUNKNOWN_PATCH\x10\x00\x12\x10\n" +
 	"\fEXTERNAL_REF\x10\x06\x12\f\n" +
 	"\bINACTIVE\x10\x01\x12\x0e\n" +
 	"\n" +
-	"UNOFFICIAL\x10\x02\x12\n" +
+	"UNOFFICIAL\x10\x02\x12\x17\n" +
+	"\x13ACTIVE_PERIOD_START\x10\a\x12\x15\n" +
+	"\x11ACTIVE_PERIOD_END\x10\b\x12\n" +
 	"\n" +
 	"\x06GROUPS\x10\x03\x12\x0e\n" +
 	"\n" +
@@ -734,20 +760,22 @@ var file_eolymp_community_member_proto_goTypes = []any{
 	(*Attribute_Value)(nil),       // 11: eolymp.community.Attribute.Value
 }
 var file_eolymp_community_member_proto_depIdxs = []int32{
-	7,  // 0: eolymp.community.Member.created_at:type_name -> google.protobuf.Timestamp
-	7,  // 1: eolymp.community.Member.seated_at:type_name -> google.protobuf.Timestamp
-	7,  // 2: eolymp.community.Member.active_at:type_name -> google.protobuf.Timestamp
-	8,  // 3: eolymp.community.Member.user:type_name -> eolymp.community.User
-	9,  // 4: eolymp.community.Member.team:type_name -> eolymp.community.Team
-	10, // 5: eolymp.community.Member.ghost:type_name -> eolymp.community.Ghost
-	5,  // 6: eolymp.community.Member.stats:type_name -> eolymp.community.Member.Stats
-	11, // 7: eolymp.community.Member.attributes:type_name -> eolymp.community.Attribute.Value
-	6,  // 8: eolymp.community.Member.metadata:type_name -> eolymp.community.Member.MetadataEntry
-	9,  // [9:9] is the sub-list for method output_type
-	9,  // [9:9] is the sub-list for method input_type
-	9,  // [9:9] is the sub-list for extension type_name
-	9,  // [9:9] is the sub-list for extension extendee
-	0,  // [0:9] is the sub-list for field type_name
+	7,  // 0: eolymp.community.Member.active_period_start:type_name -> google.protobuf.Timestamp
+	7,  // 1: eolymp.community.Member.active_period_end:type_name -> google.protobuf.Timestamp
+	7,  // 2: eolymp.community.Member.created_at:type_name -> google.protobuf.Timestamp
+	7,  // 3: eolymp.community.Member.seated_at:type_name -> google.protobuf.Timestamp
+	7,  // 4: eolymp.community.Member.active_at:type_name -> google.protobuf.Timestamp
+	8,  // 5: eolymp.community.Member.user:type_name -> eolymp.community.User
+	9,  // 6: eolymp.community.Member.team:type_name -> eolymp.community.Team
+	10, // 7: eolymp.community.Member.ghost:type_name -> eolymp.community.Ghost
+	5,  // 8: eolymp.community.Member.stats:type_name -> eolymp.community.Member.Stats
+	11, // 9: eolymp.community.Member.attributes:type_name -> eolymp.community.Attribute.Value
+	6,  // 10: eolymp.community.Member.metadata:type_name -> eolymp.community.Member.MetadataEntry
+	11, // [11:11] is the sub-list for method output_type
+	11, // [11:11] is the sub-list for method input_type
+	11, // [11:11] is the sub-list for extension type_name
+	11, // [11:11] is the sub-list for extension extendee
+	0,  // [0:11] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_community_member_proto_init() }
