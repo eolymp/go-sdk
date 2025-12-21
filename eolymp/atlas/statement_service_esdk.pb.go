@@ -218,3 +218,19 @@ func (s *StatementServiceService) ExportStatement(ctx context.Context, in *Expor
 
 	return out, nil
 }
+
+func (s *StatementServiceService) ListStatementVersions(ctx context.Context, in *ListStatementVersionsInput) (*ListStatementVersionsOutput, error) {
+	out := &ListStatementVersionsOutput{}
+	path := "/statements/" + url.PathEscape(in.GetStatementId()) + "/versions"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.StatementId = ""
+	}
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
