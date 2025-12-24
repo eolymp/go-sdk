@@ -141,6 +141,9 @@ func RegisterProfileServiceHttpHandlers(router *mux.Router, prefix string, cli P
 	router.Handle(prefix+"/vendor/profiles", _ProfileService_UpdateProfile_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.vendor.ProfileService.UpdateProfile")
+	router.Handle(prefix+"/vendor/profiles:submit", _ProfileService_SubmitProfile_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.vendor.ProfileService.SubmitProfile")
 }
 
 // RegisterProfileServiceHttpProxy adds proxy handlers for for ProfileServiceClient
@@ -183,6 +186,28 @@ func _ProfileService_UpdateProfile_Rule0(cli ProfileServiceClient) http.Handler 
 		var header, trailer metadata.MD
 
 		out, err := cli.UpdateProfile(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ProfileService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ProfileService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ProfileService_SubmitProfile_Rule0(cli ProfileServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &SubmitProfileInput{}
+
+		if err := _ProfileService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_ProfileService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.SubmitProfile(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ProfileService_HTTPWriteErrorResponse(w, err)
 			return

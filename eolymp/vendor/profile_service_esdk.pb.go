@@ -121,3 +121,14 @@ func (s *ProfileServiceService) UpdateProfile(ctx context.Context, in *UpdatePro
 
 	return out, nil
 }
+
+func (s *ProfileServiceService) SubmitProfile(ctx context.Context, in *SubmitProfileInput) (*SubmitProfileOutput, error) {
+	out := &SubmitProfileOutput{}
+	path := "/vendor/profiles:submit"
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

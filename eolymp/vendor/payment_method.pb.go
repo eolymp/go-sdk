@@ -7,10 +7,8 @@
 package vendor
 
 import (
-	_ "github.com/eolymp/go-sdk/eolymp/ecm"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	_ "google.golang.org/protobuf/types/known/timestamppb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -237,7 +235,7 @@ var File_eolymp_vendor_payment_method_proto protoreflect.FileDescriptor
 
 const file_eolymp_vendor_payment_method_proto_rawDesc = "" +
 	"\n" +
-	"\"eolymp/vendor/payment_method.proto\x12\reolymp.vendor\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x8f\x03\n" +
+	"\"eolymp/vendor/payment_method.proto\x12\reolymp.vendor\"\x8f\x03\n" +
 	"\rPaymentMethod\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x18\n" +

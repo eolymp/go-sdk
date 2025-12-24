@@ -535,7 +535,7 @@ var File_eolymp_vendor_payment_method_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_vendor_payment_method_service_proto_rawDesc = "" +
 	"\n" +
-	"*eolymp/vendor/payment_method_service.proto\x12\reolymp.vendor\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\"eolymp/vendor/payment_method.proto\x1a!eolymp/wellknown/expression.proto\"P\n" +
+	"*eolymp/vendor/payment_method_service.proto\x12\reolymp.vendor\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\"eolymp/vendor/payment_method.proto\x1a!eolymp/wellknown/expression.proto\"P\n" +
 	"\x18CreatePaymentMethodInput\x124\n" +
 	"\x06method\x18\x01 \x01(\v2\x1c.eolymp.vendor.PaymentMethodR\x06method\"8\n" +
 	"\x19CreatePaymentMethodOutput\x12\x1b\n" +

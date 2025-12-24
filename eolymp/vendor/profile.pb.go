@@ -7,7 +7,6 @@
 package vendor
 
 import (
-	_ "github.com/eolymp/go-sdk/eolymp/ecm"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
@@ -27,24 +26,27 @@ type Profile_Status int32
 
 const (
 	Profile_UNKNOWN_STATUS Profile_Status = 0
-	Profile_PENDING        Profile_Status = 1
-	Profile_REVIEW         Profile_Status = 2
-	Profile_APPROVED       Profile_Status = 3
+	Profile_DRAFT          Profile_Status = 1 // not submitted
+	Profile_REVIEW         Profile_Status = 2 // submitted, not reviewed
+	Profile_APPROVED       Profile_Status = 3 // submitted, approved
+	Profile_REJECTED       Profile_Status = 4 // submitted. rejected
 )
 
 // Enum value maps for Profile_Status.
 var (
 	Profile_Status_name = map[int32]string{
 		0: "UNKNOWN_STATUS",
-		1: "PENDING",
+		1: "DRAFT",
 		2: "REVIEW",
 		3: "APPROVED",
+		4: "REJECTED",
 	}
 	Profile_Status_value = map[string]int32{
 		"UNKNOWN_STATUS": 0,
-		"PENDING":        1,
+		"DRAFT":          1,
 		"REVIEW":         2,
 		"APPROVED":       3,
+		"REJECTED":       4,
 	}
 )
 
@@ -75,6 +77,73 @@ func (Profile_Status) EnumDescriptor() ([]byte, []int) {
 	return file_eolymp_vendor_profile_proto_rawDescGZIP(), []int{0, 0}
 }
 
+type Profile_Patch_Field int32
+
+const (
+	Profile_Patch_UNKNONWN_FIELD Profile_Patch_Field = 0
+	Profile_Patch_FIRST_NAME     Profile_Patch_Field = 1
+	Profile_Patch_LAST_NAME      Profile_Patch_Field = 2
+	Profile_Patch_COMPANY_NAME   Profile_Patch_Field = 3
+	Profile_Patch_BIRTHDAY       Profile_Patch_Field = 4
+	Profile_Patch_EMAIL          Profile_Patch_Field = 5
+	Profile_Patch_PHONE          Profile_Patch_Field = 6
+	Profile_Patch_TAX_ID         Profile_Patch_Field = 7
+	Profile_Patch_ADDRESS        Profile_Patch_Field = 8
+)
+
+// Enum value maps for Profile_Patch_Field.
+var (
+	Profile_Patch_Field_name = map[int32]string{
+		0: "UNKNONWN_FIELD",
+		1: "FIRST_NAME",
+		2: "LAST_NAME",
+		3: "COMPANY_NAME",
+		4: "BIRTHDAY",
+		5: "EMAIL",
+		6: "PHONE",
+		7: "TAX_ID",
+		8: "ADDRESS",
+	}
+	Profile_Patch_Field_value = map[string]int32{
+		"UNKNONWN_FIELD": 0,
+		"FIRST_NAME":     1,
+		"LAST_NAME":      2,
+		"COMPANY_NAME":   3,
+		"BIRTHDAY":       4,
+		"EMAIL":          5,
+		"PHONE":          6,
+		"TAX_ID":         7,
+		"ADDRESS":        8,
+	}
+)
+
+func (x Profile_Patch_Field) Enum() *Profile_Patch_Field {
+	p := new(Profile_Patch_Field)
+	*p = x
+	return p
+}
+
+func (x Profile_Patch_Field) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (Profile_Patch_Field) Descriptor() protoreflect.EnumDescriptor {
+	return file_eolymp_vendor_profile_proto_enumTypes[1].Descriptor()
+}
+
+func (Profile_Patch_Field) Type() protoreflect.EnumType {
+	return &file_eolymp_vendor_profile_proto_enumTypes[1]
+}
+
+func (x Profile_Patch_Field) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use Profile_Patch_Field.Descriptor instead.
+func (Profile_Patch_Field) EnumDescriptor() ([]byte, []int) {
+	return file_eolymp_vendor_profile_proto_rawDescGZIP(), []int{0, 0, 0}
+}
+
 type Profile struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -82,9 +151,11 @@ type Profile struct {
 	StatusReason  string                 `protobuf:"bytes,3,opt,name=status_reason,json=statusReason,proto3" json:"status_reason,omitempty"`
 	FirstName     string                 `protobuf:"bytes,10,opt,name=first_name,json=firstName,proto3" json:"first_name,omitempty"`
 	LastName      string                 `protobuf:"bytes,11,opt,name=last_name,json=lastName,proto3" json:"last_name,omitempty"`
+	CompanyName   string                 `protobuf:"bytes,16,opt,name=company_name,json=companyName,proto3" json:"company_name,omitempty"`
 	Birthday      *timestamppb.Timestamp `protobuf:"bytes,12,opt,name=birthday,proto3" json:"birthday,omitempty"`
 	Email         string                 `protobuf:"bytes,13,opt,name=email,proto3" json:"email,omitempty"`
 	Phone         string                 `protobuf:"bytes,14,opt,name=phone,proto3" json:"phone,omitempty"`
+	TaxId         string                 `protobuf:"bytes,15,opt,name=tax_id,json=taxId,proto3" json:"tax_id,omitempty"`
 	Country       string                 `protobuf:"bytes,200,opt,name=country,proto3" json:"country,omitempty"` // two letter code, lowercase
 	State         string                 `protobuf:"bytes,201,opt,name=state,proto3" json:"state,omitempty"`
 	PostalCode    string                 `protobuf:"bytes,202,opt,name=postal_code,json=postalCode,proto3" json:"postal_code,omitempty"`
@@ -162,6 +233,13 @@ func (x *Profile) GetLastName() string {
 	return ""
 }
 
+func (x *Profile) GetCompanyName() string {
+	if x != nil {
+		return x.CompanyName
+	}
+	return ""
+}
+
 func (x *Profile) GetBirthday() *timestamppb.Timestamp {
 	if x != nil {
 		return x.Birthday
@@ -179,6 +257,13 @@ func (x *Profile) GetEmail() string {
 func (x *Profile) GetPhone() string {
 	if x != nil {
 		return x.Phone
+	}
+	return ""
+}
+
+func (x *Profile) GetTaxId() string {
+	if x != nil {
+		return x.TaxId
 	}
 	return ""
 }
@@ -239,11 +324,47 @@ func (x *Profile) GetUpdatedAt() *timestamppb.Timestamp {
 	return nil
 }
 
+type Profile_Patch struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Profile_Patch) Reset() {
+	*x = Profile_Patch{}
+	mi := &file_eolymp_vendor_profile_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Profile_Patch) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Profile_Patch) ProtoMessage() {}
+
+func (x *Profile_Patch) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_vendor_profile_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Profile_Patch.ProtoReflect.Descriptor instead.
+func (*Profile_Patch) Descriptor() ([]byte, []int) {
+	return file_eolymp_vendor_profile_proto_rawDescGZIP(), []int{0, 0}
+}
+
 var File_eolymp_vendor_profile_proto protoreflect.FileDescriptor
 
 const file_eolymp_vendor_profile_proto_rawDesc = "" +
 	"\n" +
-	"\x1beolymp/vendor/profile.proto\x12\reolymp.vendor\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xe7\x04\n" +
+	"\x1beolymp/vendor/profile.proto\x12\reolymp.vendor\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc3\x06\n" +
 	"\aProfile\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x125\n" +
 	"\x06status\x18\x02 \x01(\x0e2\x1d.eolymp.vendor.Profile.StatusR\x06status\x12#\n" +
@@ -251,10 +372,12 @@ const file_eolymp_vendor_profile_proto_rawDesc = "" +
 	"\n" +
 	"first_name\x18\n" +
 	" \x01(\tR\tfirstName\x12\x1b\n" +
-	"\tlast_name\x18\v \x01(\tR\blastName\x126\n" +
+	"\tlast_name\x18\v \x01(\tR\blastName\x12!\n" +
+	"\fcompany_name\x18\x10 \x01(\tR\vcompanyName\x126\n" +
 	"\bbirthday\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\bbirthday\x12\x14\n" +
 	"\x05email\x18\r \x01(\tR\x05email\x12\x14\n" +
-	"\x05phone\x18\x0e \x01(\tR\x05phone\x12\x19\n" +
+	"\x05phone\x18\x0e \x01(\tR\x05phone\x12\x15\n" +
+	"\x06tax_id\x18\x0f \x01(\tR\x05taxId\x12\x19\n" +
 	"\acountry\x18\xc8\x01 \x01(\tR\acountry\x12\x15\n" +
 	"\x05state\x18\xc9\x01 \x01(\tR\x05state\x12 \n" +
 	"\vpostal_code\x18\xca\x01 \x01(\tR\n" +
@@ -265,13 +388,27 @@ const file_eolymp_vendor_profile_proto_rawDesc = "" +
 	"\n" +
 	"created_at\x18\x15 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
 	"\n" +
-	"updated_at\x18\x16 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\"C\n" +
+	"updated_at\x18\x16 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x1a\x93\x01\n" +
+	"\x05Patch\"\x89\x01\n" +
+	"\x05Field\x12\x12\n" +
+	"\x0eUNKNONWN_FIELD\x10\x00\x12\x0e\n" +
+	"\n" +
+	"FIRST_NAME\x10\x01\x12\r\n" +
+	"\tLAST_NAME\x10\x02\x12\x10\n" +
+	"\fCOMPANY_NAME\x10\x03\x12\f\n" +
+	"\bBIRTHDAY\x10\x04\x12\t\n" +
+	"\x05EMAIL\x10\x05\x12\t\n" +
+	"\x05PHONE\x10\x06\x12\n" +
+	"\n" +
+	"\x06TAX_ID\x10\a\x12\v\n" +
+	"\aADDRESS\x10\b\"O\n" +
 	"\x06Status\x12\x12\n" +
-	"\x0eUNKNOWN_STATUS\x10\x00\x12\v\n" +
-	"\aPENDING\x10\x01\x12\n" +
+	"\x0eUNKNOWN_STATUS\x10\x00\x12\t\n" +
+	"\x05DRAFT\x10\x01\x12\n" +
 	"\n" +
 	"\x06REVIEW\x10\x02\x12\f\n" +
-	"\bAPPROVED\x10\x03B/Z-github.com/eolymp/go-sdk/eolymp/vendor;vendorb\x06proto3"
+	"\bAPPROVED\x10\x03\x12\f\n" +
+	"\bREJECTED\x10\x04B/Z-github.com/eolymp/go-sdk/eolymp/vendor;vendorb\x06proto3"
 
 var (
 	file_eolymp_vendor_profile_proto_rawDescOnce sync.Once
@@ -285,18 +422,20 @@ func file_eolymp_vendor_profile_proto_rawDescGZIP() []byte {
 	return file_eolymp_vendor_profile_proto_rawDescData
 }
 
-var file_eolymp_vendor_profile_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_eolymp_vendor_profile_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_eolymp_vendor_profile_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_eolymp_vendor_profile_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_eolymp_vendor_profile_proto_goTypes = []any{
 	(Profile_Status)(0),           // 0: eolymp.vendor.Profile.Status
-	(*Profile)(nil),               // 1: eolymp.vendor.Profile
-	(*timestamppb.Timestamp)(nil), // 2: google.protobuf.Timestamp
+	(Profile_Patch_Field)(0),      // 1: eolymp.vendor.Profile.Patch.Field
+	(*Profile)(nil),               // 2: eolymp.vendor.Profile
+	(*Profile_Patch)(nil),         // 3: eolymp.vendor.Profile.Patch
+	(*timestamppb.Timestamp)(nil), // 4: google.protobuf.Timestamp
 }
 var file_eolymp_vendor_profile_proto_depIdxs = []int32{
 	0, // 0: eolymp.vendor.Profile.status:type_name -> eolymp.vendor.Profile.Status
-	2, // 1: eolymp.vendor.Profile.birthday:type_name -> google.protobuf.Timestamp
-	2, // 2: eolymp.vendor.Profile.created_at:type_name -> google.protobuf.Timestamp
-	2, // 3: eolymp.vendor.Profile.updated_at:type_name -> google.protobuf.Timestamp
+	4, // 1: eolymp.vendor.Profile.birthday:type_name -> google.protobuf.Timestamp
+	4, // 2: eolymp.vendor.Profile.created_at:type_name -> google.protobuf.Timestamp
+	4, // 3: eolymp.vendor.Profile.updated_at:type_name -> google.protobuf.Timestamp
 	4, // [4:4] is the sub-list for method output_type
 	4, // [4:4] is the sub-list for method input_type
 	4, // [4:4] is the sub-list for extension type_name
@@ -314,8 +453,8 @@ func file_eolymp_vendor_profile_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_vendor_profile_proto_rawDesc), len(file_eolymp_vendor_profile_proto_rawDesc)),
-			NumEnums:      1,
-			NumMessages:   1,
+			NumEnums:      2,
+			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
