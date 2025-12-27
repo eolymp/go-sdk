@@ -26,12 +26,13 @@ const (
 type Newsletter_Patch_Field int32
 
 const (
-	Newsletter_Patch_UNKNOWN Newsletter_Patch_Field = 0
-	Newsletter_Patch_TYPE    Newsletter_Patch_Field = 1
-	Newsletter_Patch_NAME    Newsletter_Patch_Field = 5
-	Newsletter_Patch_SUBJECT Newsletter_Patch_Field = 2
-	Newsletter_Patch_CONTENT Newsletter_Patch_Field = 3
-	Newsletter_Patch_LOCALE  Newsletter_Patch_Field = 4
+	Newsletter_Patch_UNKNOWN      Newsletter_Patch_Field = 0
+	Newsletter_Patch_TYPE         Newsletter_Patch_Field = 1
+	Newsletter_Patch_NAME         Newsletter_Patch_Field = 5
+	Newsletter_Patch_SUBJECT      Newsletter_Patch_Field = 2
+	Newsletter_Patch_CONTENT      Newsletter_Patch_Field = 3
+	Newsletter_Patch_LOCALE       Newsletter_Patch_Field = 4
+	Newsletter_Patch_SCHEDULED_AT Newsletter_Patch_Field = 6
 )
 
 // Enum value maps for Newsletter_Patch_Field.
@@ -43,14 +44,16 @@ var (
 		2: "SUBJECT",
 		3: "CONTENT",
 		4: "LOCALE",
+		6: "SCHEDULED_AT",
 	}
 	Newsletter_Patch_Field_value = map[string]int32{
-		"UNKNOWN": 0,
-		"TYPE":    1,
-		"NAME":    5,
-		"SUBJECT": 2,
-		"CONTENT": 3,
-		"LOCALE":  4,
+		"UNKNOWN":      0,
+		"TYPE":         1,
+		"NAME":         5,
+		"SUBJECT":      2,
+		"CONTENT":      3,
+		"LOCALE":       4,
+		"SCHEDULED_AT": 6,
 	}
 )
 
@@ -135,6 +138,7 @@ type Newsletter struct {
 	Id              string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	Type            EmailType              `protobuf:"varint,2,opt,name=type,proto3,enum=eolymp.mail.EmailType" json:"type,omitempty"`
 	CreatedAt       *timestamppb.Timestamp `protobuf:"bytes,20,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	ScheduledAt     *timestamppb.Timestamp `protobuf:"bytes,21,opt,name=scheduled_at,json=scheduledAt,proto3" json:"scheduled_at,omitempty"`
 	Name            string                 `protobuf:"bytes,10,opt,name=name,proto3" json:"name,omitempty"`
 	Subject         string                 `protobuf:"bytes,11,opt,name=subject,proto3" json:"subject,omitempty"`
 	Content         *ecm.Content           `protobuf:"bytes,12,opt,name=content,proto3" json:"content,omitempty"`
@@ -193,6 +197,13 @@ func (x *Newsletter) GetType() EmailType {
 func (x *Newsletter) GetCreatedAt() *timestamppb.Timestamp {
 	if x != nil {
 		return x.CreatedAt
+	}
+	return nil
+}
+
+func (x *Newsletter) GetScheduledAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.ScheduledAt
 	}
 	return nil
 }
@@ -398,13 +409,14 @@ var File_eolymp_mail_newsletter_proto protoreflect.FileDescriptor
 
 const file_eolymp_mail_newsletter_proto_rawDesc = "" +
 	"\n" +
-	"\x1ceolymp/mail/newsletter.proto\x12\veolymp.mail\x1a\x18eolymp/ecm/content.proto\x1a\x1ceolymp/mail/email_type.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xb4\x05\n" +
+	"\x1ceolymp/mail/newsletter.proto\x12\veolymp.mail\x1a\x18eolymp/ecm/content.proto\x1a\x1ceolymp/mail/email_type.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x85\x06\n" +
 	"\n" +
 	"Newsletter\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12*\n" +
 	"\x04type\x18\x02 \x01(\x0e2\x16.eolymp.mail.EmailTypeR\x04type\x129\n" +
 	"\n" +
-	"created_at\x18\x14 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x12\x12\n" +
+	"created_at\x18\x14 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x12=\n" +
+	"\fscheduled_at\x18\x15 \x01(\v2\x1a.google.protobuf.TimestampR\vscheduledAt\x12\x12\n" +
 	"\x04name\x18\n" +
 	" \x01(\tR\x04name\x12\x18\n" +
 	"\asubject\x18\v \x01(\tR\asubject\x12-\n" +
@@ -414,8 +426,8 @@ const file_eolymp_mail_newsletter_proto_rawDesc = "" +
 	"\n" +
 	"sent_count\x18  \x01(\rR\tsentCount\x12\x1f\n" +
 	"\verror_count\x18! \x01(\rR\n" +
-	"errorCount\x1aW\n" +
-	"\x05Patch\"N\n" +
+	"errorCount\x1ai\n" +
+	"\x05Patch\"`\n" +
 	"\x05Field\x12\v\n" +
 	"\aUNKNOWN\x10\x00\x12\b\n" +
 	"\x04TYPE\x10\x01\x12\b\n" +
@@ -423,7 +435,8 @@ const file_eolymp_mail_newsletter_proto_rawDesc = "" +
 	"\aSUBJECT\x10\x02\x12\v\n" +
 	"\aCONTENT\x10\x03\x12\n" +
 	"\n" +
-	"\x06LOCALE\x10\x04\x1aJ\n" +
+	"\x06LOCALE\x10\x04\x12\x10\n" +
+	"\fSCHEDULED_AT\x10\x06\x1aJ\n" +
 	"\x05Extra\"A\n" +
 	"\x05Field\x12\x11\n" +
 	"\rUNKNOWN_EXTRA\x10\x00\x12\x11\n" +
@@ -464,13 +477,14 @@ var file_eolymp_mail_newsletter_proto_goTypes = []any{
 var file_eolymp_mail_newsletter_proto_depIdxs = []int32{
 	6, // 0: eolymp.mail.Newsletter.type:type_name -> eolymp.mail.EmailType
 	7, // 1: eolymp.mail.Newsletter.created_at:type_name -> google.protobuf.Timestamp
-	8, // 2: eolymp.mail.Newsletter.content:type_name -> eolymp.ecm.Content
-	8, // 3: eolymp.mail.Newsletter.Translation.content:type_name -> eolymp.ecm.Content
-	4, // [4:4] is the sub-list for method output_type
-	4, // [4:4] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	7, // 2: eolymp.mail.Newsletter.scheduled_at:type_name -> google.protobuf.Timestamp
+	8, // 3: eolymp.mail.Newsletter.content:type_name -> eolymp.ecm.Content
+	8, // 4: eolymp.mail.Newsletter.Translation.content:type_name -> eolymp.ecm.Content
+	5, // [5:5] is the sub-list for method output_type
+	5, // [5:5] is the sub-list for method input_type
+	5, // [5:5] is the sub-list for extension type_name
+	5, // [5:5] is the sub-list for extension extendee
+	0, // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_mail_newsletter_proto_init() }
