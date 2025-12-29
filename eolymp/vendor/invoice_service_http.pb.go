@@ -153,6 +153,9 @@ func RegisterInvoiceServiceHttpHandlers(router *mux.Router, prefix string, cli I
 	router.Handle(prefix+"/vendor/invoices/{invoice_id}/document", _InvoiceService_UploadInvoiceDocument_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.vendor.InvoiceService.UploadInvoiceDocument")
+	router.Handle(prefix+"/vendor/invoices/{invoice_id}/submit", _InvoiceService_SubmitInvoice_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.vendor.InvoiceService.SubmitInvoice")
 	router.Handle(prefix+"/vendor/invoices/{invoice_id}/approve", _InvoiceService_ApproveInvoice_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.vendor.InvoiceService.ApproveInvoice")
@@ -301,6 +304,31 @@ func _InvoiceService_UploadInvoiceDocument_Rule0(cli InvoiceServiceClient) http.
 		var header, trailer metadata.MD
 
 		out, err := cli.UploadInvoiceDocument(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_InvoiceService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_InvoiceService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _InvoiceService_SubmitInvoice_Rule0(cli InvoiceServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &SubmitInvoiceInput{}
+
+		if err := _InvoiceService_HTTPReadRequestBody(r, in); err != nil {
+			err = status.Error(codes.InvalidArgument, err.Error())
+			_InvoiceService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.InvoiceId = vars["invoice_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.SubmitInvoice(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_InvoiceService_HTTPWriteErrorResponse(w, err)
 			return

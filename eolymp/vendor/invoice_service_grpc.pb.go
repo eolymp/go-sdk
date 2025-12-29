@@ -25,6 +25,7 @@ const (
 	InvoiceService_UpdateInvoice_FullMethodName         = "/eolymp.vendor.InvoiceService/UpdateInvoice"
 	InvoiceService_DeleteInvoice_FullMethodName         = "/eolymp.vendor.InvoiceService/DeleteInvoice"
 	InvoiceService_UploadInvoiceDocument_FullMethodName = "/eolymp.vendor.InvoiceService/UploadInvoiceDocument"
+	InvoiceService_SubmitInvoice_FullMethodName         = "/eolymp.vendor.InvoiceService/SubmitInvoice"
 	InvoiceService_ApproveInvoice_FullMethodName        = "/eolymp.vendor.InvoiceService/ApproveInvoice"
 	InvoiceService_RejectInvoice_FullMethodName         = "/eolymp.vendor.InvoiceService/RejectInvoice"
 )
@@ -39,6 +40,7 @@ type InvoiceServiceClient interface {
 	UpdateInvoice(ctx context.Context, in *UpdateInvoiceInput, opts ...grpc.CallOption) (*UpdateInvoiceOutput, error)
 	DeleteInvoice(ctx context.Context, in *DeleteInvoiceInput, opts ...grpc.CallOption) (*DeleteInvoiceOutput, error)
 	UploadInvoiceDocument(ctx context.Context, in *UploadInvoiceDocumentInput, opts ...grpc.CallOption) (*UploadInvoiceDocumentOutput, error)
+	SubmitInvoice(ctx context.Context, in *SubmitInvoiceInput, opts ...grpc.CallOption) (*SubmitInvoiceOutput, error)
 	ApproveInvoice(ctx context.Context, in *ApproveInvoiceInput, opts ...grpc.CallOption) (*ApproveInvoiceOutput, error)
 	RejectInvoice(ctx context.Context, in *RejectInvoiceInput, opts ...grpc.CallOption) (*RejectInvoiceOutput, error)
 }
@@ -111,6 +113,16 @@ func (c *invoiceServiceClient) UploadInvoiceDocument(ctx context.Context, in *Up
 	return out, nil
 }
 
+func (c *invoiceServiceClient) SubmitInvoice(ctx context.Context, in *SubmitInvoiceInput, opts ...grpc.CallOption) (*SubmitInvoiceOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SubmitInvoiceOutput)
+	err := c.cc.Invoke(ctx, InvoiceService_SubmitInvoice_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *invoiceServiceClient) ApproveInvoice(ctx context.Context, in *ApproveInvoiceInput, opts ...grpc.CallOption) (*ApproveInvoiceOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ApproveInvoiceOutput)
@@ -141,6 +153,7 @@ type InvoiceServiceServer interface {
 	UpdateInvoice(context.Context, *UpdateInvoiceInput) (*UpdateInvoiceOutput, error)
 	DeleteInvoice(context.Context, *DeleteInvoiceInput) (*DeleteInvoiceOutput, error)
 	UploadInvoiceDocument(context.Context, *UploadInvoiceDocumentInput) (*UploadInvoiceDocumentOutput, error)
+	SubmitInvoice(context.Context, *SubmitInvoiceInput) (*SubmitInvoiceOutput, error)
 	ApproveInvoice(context.Context, *ApproveInvoiceInput) (*ApproveInvoiceOutput, error)
 	RejectInvoice(context.Context, *RejectInvoiceInput) (*RejectInvoiceOutput, error)
 }
@@ -169,6 +182,9 @@ func (UnimplementedInvoiceServiceServer) DeleteInvoice(context.Context, *DeleteI
 }
 func (UnimplementedInvoiceServiceServer) UploadInvoiceDocument(context.Context, *UploadInvoiceDocumentInput) (*UploadInvoiceDocumentOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method UploadInvoiceDocument not implemented")
+}
+func (UnimplementedInvoiceServiceServer) SubmitInvoice(context.Context, *SubmitInvoiceInput) (*SubmitInvoiceOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method SubmitInvoice not implemented")
 }
 func (UnimplementedInvoiceServiceServer) ApproveInvoice(context.Context, *ApproveInvoiceInput) (*ApproveInvoiceOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method ApproveInvoice not implemented")
@@ -304,6 +320,24 @@ func _InvoiceService_UploadInvoiceDocument_Handler(srv interface{}, ctx context.
 	return interceptor(ctx, in, info, handler)
 }
 
+func _InvoiceService_SubmitInvoice_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SubmitInvoiceInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(InvoiceServiceServer).SubmitInvoice(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: InvoiceService_SubmitInvoice_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(InvoiceServiceServer).SubmitInvoice(ctx, req.(*SubmitInvoiceInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _InvoiceService_ApproveInvoice_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ApproveInvoiceInput)
 	if err := dec(in); err != nil {
@@ -370,6 +404,10 @@ var InvoiceService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UploadInvoiceDocument",
 			Handler:    _InvoiceService_UploadInvoiceDocument_Handler,
+		},
+		{
+			MethodName: "SubmitInvoice",
+			Handler:    _InvoiceService_SubmitInvoice_Handler,
 		},
 		{
 			MethodName: "ApproveInvoice",

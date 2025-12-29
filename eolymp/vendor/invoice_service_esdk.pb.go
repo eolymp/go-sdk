@@ -186,6 +186,22 @@ func (s *InvoiceServiceService) UploadInvoiceDocument(ctx context.Context, in *U
 	return out, nil
 }
 
+func (s *InvoiceServiceService) SubmitInvoice(ctx context.Context, in *SubmitInvoiceInput) (*SubmitInvoiceOutput, error) {
+	out := &SubmitInvoiceOutput{}
+	path := "/vendor/invoices/" + url.PathEscape(in.GetInvoiceId()) + "/submit"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.InvoiceId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *InvoiceServiceService) ApproveInvoice(ctx context.Context, in *ApproveInvoiceInput) (*ApproveInvoiceOutput, error) {
 	out := &ApproveInvoiceOutput{}
 	path := "/vendor/invoices/" + url.PathEscape(in.GetInvoiceId()) + "/approve"
