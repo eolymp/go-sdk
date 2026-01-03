@@ -83,12 +83,13 @@ func (Invoice_Status) EnumDescriptor() ([]byte, []int) {
 type Invoice_Patch_Field int32
 
 const (
-	Invoice_Patch_UNKNOWN_FIELD Invoice_Patch_Field = 0
-	Invoice_Patch_NUMBER        Invoice_Patch_Field = 1
-	Invoice_Patch_CURRENCY      Invoice_Patch_Field = 5
-	Invoice_Patch_INVOICE_DATE  Invoice_Patch_Field = 2
-	Invoice_Patch_DUE_DATE      Invoice_Patch_Field = 3
-	Invoice_Patch_LINES         Invoice_Patch_Field = 4
+	Invoice_Patch_UNKNOWN_FIELD  Invoice_Patch_Field = 0
+	Invoice_Patch_NUMBER         Invoice_Patch_Field = 1
+	Invoice_Patch_CURRENCY       Invoice_Patch_Field = 5
+	Invoice_Patch_INVOICE_DATE   Invoice_Patch_Field = 2
+	Invoice_Patch_DUE_DATE       Invoice_Patch_Field = 3
+	Invoice_Patch_LINES          Invoice_Patch_Field = 4
+	Invoice_Patch_PAYMENT_METHOD Invoice_Patch_Field = 6
 )
 
 // Enum value maps for Invoice_Patch_Field.
@@ -100,14 +101,16 @@ var (
 		2: "INVOICE_DATE",
 		3: "DUE_DATE",
 		4: "LINES",
+		6: "PAYMENT_METHOD",
 	}
 	Invoice_Patch_Field_value = map[string]int32{
-		"UNKNOWN_FIELD": 0,
-		"NUMBER":        1,
-		"CURRENCY":      5,
-		"INVOICE_DATE":  2,
-		"DUE_DATE":      3,
-		"LINES":         4,
+		"UNKNOWN_FIELD":  0,
+		"NUMBER":         1,
+		"CURRENCY":       5,
+		"INVOICE_DATE":   2,
+		"DUE_DATE":       3,
+		"LINES":          4,
+		"PAYMENT_METHOD": 6,
 	}
 )
 
@@ -139,24 +142,25 @@ func (Invoice_Patch_Field) EnumDescriptor() ([]byte, []int) {
 }
 
 type Invoice struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
-	Id             string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Number         string                 `protobuf:"bytes,2,opt,name=number,proto3" json:"number,omitempty"`
-	Currency       string                 `protobuf:"bytes,10,opt,name=currency,proto3" json:"currency,omitempty"`
-	Status         Invoice_Status         `protobuf:"varint,11,opt,name=status,proto3,enum=eolymp.vendor.Invoice_Status" json:"status,omitempty"`
-	StatusReason   string                 `protobuf:"bytes,12,opt,name=status_reason,json=statusReason,proto3" json:"status_reason,omitempty"`
-	VendorId       string                 `protobuf:"bytes,13,opt,name=vendor_id,json=vendorId,proto3" json:"vendor_id,omitempty"`
-	InvoiceDate    *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=invoice_date,json=invoiceDate,proto3" json:"invoice_date,omitempty"`
-	DueDate        *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=due_date,json=dueDate,proto3" json:"due_date,omitempty"`
-	Lines          []*Invoice_Line        `protobuf:"bytes,5,rep,name=lines,proto3" json:"lines,omitempty"`
-	SubtotalAmount int32                  `protobuf:"varint,6,opt,name=subtotal_amount,json=subtotalAmount,proto3" json:"subtotal_amount,omitempty"`
-	TaxAmount      int32                  `protobuf:"varint,7,opt,name=tax_amount,json=taxAmount,proto3" json:"tax_amount,omitempty"`
-	GrandTotal     int32                  `protobuf:"varint,8,opt,name=grand_total,json=grandTotal,proto3" json:"grand_total,omitempty"`
-	DocumentUrl    string                 `protobuf:"bytes,9,opt,name=document_url,json=documentUrl,proto3" json:"document_url,omitempty"`
-	CreatedAt      *timestamppb.Timestamp `protobuf:"bytes,21,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	UpdatedAt      *timestamppb.Timestamp `protobuf:"bytes,22,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	Id              string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Number          string                 `protobuf:"bytes,2,opt,name=number,proto3" json:"number,omitempty"`
+	Currency        string                 `protobuf:"bytes,10,opt,name=currency,proto3" json:"currency,omitempty"`
+	Status          Invoice_Status         `protobuf:"varint,11,opt,name=status,proto3,enum=eolymp.vendor.Invoice_Status" json:"status,omitempty"`
+	StatusReason    string                 `protobuf:"bytes,12,opt,name=status_reason,json=statusReason,proto3" json:"status_reason,omitempty"`
+	VendorId        string                 `protobuf:"bytes,13,opt,name=vendor_id,json=vendorId,proto3" json:"vendor_id,omitempty"`
+	PaymentMethodId string                 `protobuf:"bytes,14,opt,name=payment_method_id,json=paymentMethodId,proto3" json:"payment_method_id,omitempty"`
+	InvoiceDate     *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=invoice_date,json=invoiceDate,proto3" json:"invoice_date,omitempty"`
+	DueDate         *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=due_date,json=dueDate,proto3" json:"due_date,omitempty"`
+	Lines           []*Invoice_Line        `protobuf:"bytes,5,rep,name=lines,proto3" json:"lines,omitempty"`
+	SubtotalAmount  int32                  `protobuf:"varint,6,opt,name=subtotal_amount,json=subtotalAmount,proto3" json:"subtotal_amount,omitempty"`
+	TaxAmount       int32                  `protobuf:"varint,7,opt,name=tax_amount,json=taxAmount,proto3" json:"tax_amount,omitempty"`
+	GrandTotal      int32                  `protobuf:"varint,8,opt,name=grand_total,json=grandTotal,proto3" json:"grand_total,omitempty"`
+	DocumentUrl     string                 `protobuf:"bytes,9,opt,name=document_url,json=documentUrl,proto3" json:"document_url,omitempty"`
+	CreatedAt       *timestamppb.Timestamp `protobuf:"bytes,21,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt       *timestamppb.Timestamp `protobuf:"bytes,22,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *Invoice) Reset() {
@@ -227,6 +231,13 @@ func (x *Invoice) GetStatusReason() string {
 func (x *Invoice) GetVendorId() string {
 	if x != nil {
 		return x.VendorId
+	}
+	return ""
+}
+
+func (x *Invoice) GetPaymentMethodId() string {
+	if x != nil {
+		return x.PaymentMethodId
 	}
 	return ""
 }
@@ -402,7 +413,7 @@ var File_eolymp_vendor_invoice_proto protoreflect.FileDescriptor
 
 const file_eolymp_vendor_invoice_proto_rawDesc = "" +
 	"\n" +
-	"\x1beolymp/vendor/invoice.proto\x12\reolymp.vendor\x1a\x1fgoogle/protobuf/timestamp.proto\"\xa4\a\n" +
+	"\x1beolymp/vendor/invoice.proto\x12\reolymp.vendor\x1a\x1fgoogle/protobuf/timestamp.proto\"\xe4\a\n" +
 	"\aInvoice\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x16\n" +
 	"\x06number\x18\x02 \x01(\tR\x06number\x12\x1a\n" +
@@ -410,7 +421,8 @@ const file_eolymp_vendor_invoice_proto_rawDesc = "" +
 	" \x01(\tR\bcurrency\x125\n" +
 	"\x06status\x18\v \x01(\x0e2\x1d.eolymp.vendor.Invoice.StatusR\x06status\x12#\n" +
 	"\rstatus_reason\x18\f \x01(\tR\fstatusReason\x12\x1b\n" +
-	"\tvendor_id\x18\r \x01(\tR\bvendorId\x12=\n" +
+	"\tvendor_id\x18\r \x01(\tR\bvendorId\x12*\n" +
+	"\x11payment_method_id\x18\x0e \x01(\tR\x0fpaymentMethodId\x12=\n" +
 	"\finvoice_date\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\vinvoiceDate\x125\n" +
 	"\bdue_date\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\adueDate\x121\n" +
 	"\x05lines\x18\x05 \x03(\v2\x1b.eolymp.vendor.Invoice.LineR\x05lines\x12'\n" +
@@ -429,8 +441,8 @@ const file_eolymp_vendor_invoice_proto_rawDesc = "" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x18\n" +
 	"\asummary\x18\x03 \x01(\tR\asummary\x12\x1f\n" +
 	"\vtotal_price\x18\x04 \x01(\x05R\n" +
-	"totalPrice\x1ah\n" +
-	"\x05Patch\"_\n" +
+	"totalPrice\x1a|\n" +
+	"\x05Patch\"s\n" +
 	"\x05Field\x12\x11\n" +
 	"\rUNKNOWN_FIELD\x10\x00\x12\n" +
 	"\n" +
@@ -438,7 +450,8 @@ const file_eolymp_vendor_invoice_proto_rawDesc = "" +
 	"\bCURRENCY\x10\x05\x12\x10\n" +
 	"\fINVOICE_DATE\x10\x02\x12\f\n" +
 	"\bDUE_DATE\x10\x03\x12\t\n" +
-	"\x05LINES\x10\x04\"Z\n" +
+	"\x05LINES\x10\x04\x12\x12\n" +
+	"\x0ePAYMENT_METHOD\x10\x06\"Z\n" +
 	"\x06Status\x12\x12\n" +
 	"\x0eUNKNOWN_STATUS\x10\x00\x12\t\n" +
 	"\x05DRAFT\x10\x01\x12\v\n" +
