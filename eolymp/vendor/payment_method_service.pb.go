@@ -372,6 +372,7 @@ type ListPaymentMethodsInput struct {
 	After         string                          `protobuf:"bytes,12,opt,name=after,proto3" json:"after,omitempty"`
 	Size          int32                           `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
 	Offset        int32                           `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
+	Search        string                          `protobuf:"bytes,20,opt,name=search,proto3" json:"search,omitempty"`
 	Filters       *ListPaymentMethodsInput_Filter `protobuf:"bytes,40,opt,name=filters,proto3" json:"filters,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -426,6 +427,13 @@ func (x *ListPaymentMethodsInput) GetOffset() int32 {
 		return x.Offset
 	}
 	return 0
+}
+
+func (x *ListPaymentMethodsInput) GetSearch() string {
+	if x != nil {
+		return x.Search
+	}
+	return ""
 }
 
 func (x *ListPaymentMethodsInput) GetFilters() *ListPaymentMethodsInput_Filter {
@@ -550,12 +558,13 @@ const file_eolymp_vendor_payment_method_service_proto_rawDesc = "" +
 	"\x1aDescribePaymentMethodInput\x12\x1b\n" +
 	"\tmethod_id\x18\x01 \x01(\tR\bmethodId\"S\n" +
 	"\x1bDescribePaymentMethodOutput\x124\n" +
-	"\x06method\x18\x01 \x01(\v2\x1c.eolymp.vendor.PaymentMethodR\x06method\"\xde\x01\n" +
+	"\x06method\x18\x01 \x01(\v2\x1c.eolymp.vendor.PaymentMethodR\x06method\"\xf6\x01\n" +
 	"\x17ListPaymentMethodsInput\x12\x14\n" +
 	"\x05after\x18\f \x01(\tR\x05after\x12\x12\n" +
 	"\x04size\x18\v \x01(\x05R\x04size\x12\x16\n" +
 	"\x06offset\x18\n" +
-	" \x01(\x05R\x06offset\x12G\n" +
+	" \x01(\x05R\x06offset\x12\x16\n" +
+	"\x06search\x18\x14 \x01(\tR\x06search\x12G\n" +
 	"\afilters\x18( \x01(\v2-.eolymp.vendor.ListPaymentMethodsInput.FilterR\afilters\x1a8\n" +
 	"\x06Filter\x12.\n" +
 	"\x02id\x18\x02 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\"d\n" +
