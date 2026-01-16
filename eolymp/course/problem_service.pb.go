@@ -815,7 +815,7 @@ const file_eolymp_course_problem_service_proto_rawDesc = "" +
 	"\x11ListRuntimesInput\"Y\n" +
 	"\x12ListRuntimesOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12-\n" +
-	"\x05items\x18\x02 \x03(\v2\x17.eolymp.runtime.RuntimeR\x05items2\xd7\x0e\n" +
+	"\x05items\x18\x02 \x03(\v2\x17.eolymp.runtime.RuntimeR\x05items2\xde\x0e\n" +
 	"\x0eProblemService\x12\x97\x01\n" +
 	"\x0eListStatements\x12\".eolymp.course.ListStatementsInput\x1a#.eolymp.course.ListStatementsOutput\"<\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -834,15 +834,16 @@ const file_eolymp_course_problem_service_proto_rawDesc = "" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12course:course:read\x82\xd3\xe4\x93\x02\v\x12\t/examples\x12\xa0\x01\n" +
-	"\x10CreateSubmission\x12$.eolymp.course.CreateSubmissionInput\x1a%.eolymp.course.CreateSubmissionOutput\"?\xea\xe2\n" +
+	"\x12course:course:read\x82\xd3\xe4\x93\x02\v\x12\t/examples\x12\xa7\x01\n" +
+	"\x10CreateSubmission\x12$.eolymp.course.CreateSubmissionInput\x1a%.eolymp.course.CreateSubmissionOutput\"F\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\n" +
 	"\xd7#>\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14course:course:submit\x82\xd3\xe4\x93\x02\x0e\"\f/submissions\x12\x9b\x01\n" +
+	"\x14course:course:submit\x82\xd3\xe4\x93\x02\x15\x98\xe3\n" +
+	"\x80\x80\xc0\x02\"\f/submissions\x12\x9b\x01\n" +
 	"\x0fListSubmissions\x12#.eolymp.course.ListSubmissionsInput\x1a$.eolymp.course.ListSubmissionsOutput\"=\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +

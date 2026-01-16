@@ -1216,16 +1216,17 @@ const file_eolymp_judge_submission_service_proto_rawDesc = "" +
 	"\x16AnalyzeSubmissionInput\x12#\n" +
 	"\rsubmission_id\x18\n" +
 	" \x01(\tR\fsubmissionId\"\x19\n" +
-	"\x17AnalyzeSubmissionOutput2\xed\r\n" +
-	"\x11SubmissionService\x12\xb9\x01\n" +
-	"\x10CreateSubmission\x12#.eolymp.judge.CreateSubmissionInput\x1a$.eolymp.judge.CreateSubmissionOutput\"Z\xea\xe2\n" +
+	"\x17AnalyzeSubmissionOutput2\xf4\r\n" +
+	"\x11SubmissionService\x12\xc0\x01\n" +
+	"\x10CreateSubmission\x12#.eolymp.judge.CreateSubmissionInput\x1a$.eolymp.judge.CreateSubmissionOutput\"a\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\n" +
 	"\xd7#>\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x1d\x8a\xe3\n" +
-	"\x19judge:contest:participate\x82\xd3\xe4\x93\x02$\"\"/problems/{problem_id}/submissions\x12\x99\x01\n" +
+	"\x19judge:contest:participate\x82\xd3\xe4\x93\x02+\x98\xe3\n" +
+	"\x80\x80\xc0\x02\"\"/problems/{problem_id}/submissions\x12\x99\x01\n" +
 	"\x0fListSubmissions\x12\".eolymp.judge.ListSubmissionsInput\x1a#.eolymp.judge.ListSubmissionsOutput\"=\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +

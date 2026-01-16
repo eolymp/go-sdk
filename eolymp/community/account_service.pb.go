@@ -1235,7 +1235,7 @@ const file_eolymp_community_account_service_proto_rawDesc = "" +
 	"\x1cUpdateEmailSubscriptionInput\x12\x14\n" +
 	"\x05token\x18\x01 \x01(\tR\x05token\x12<\n" +
 	"\rsubscriptions\x18\x02 \x03(\x0e2\x16.eolymp.mail.EmailTypeR\rsubscriptions\"\x1f\n" +
-	"\x1dUpdateEmailSubscriptionOutput2\x96\r\n" +
+	"\x1dUpdateEmailSubscriptionOutput2\x9d\r\n" +
 	"\x0eAccountService\x12}\n" +
 	"\rCreateAccount\x12$.eolymp.community.CreateAccountInput\x1a%.eolymp.community.CreateAccountOutput\"\x1f\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -1251,11 +1251,12 @@ const file_eolymp_community_account_service_proto_rawDesc = "" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xd3\xe4\x93\x02\n" +
-	"\x1a\b/account\x12\x85\x01\n" +
-	"\rUploadPicture\x12$.eolymp.community.UploadPictureInput\x1a%.eolymp.community.UploadPictureOutput\"'\xea\xe2\n" +
+	"\x1a\b/account\x12\x8c\x01\n" +
+	"\rUploadPicture\x12$.eolymp.community.UploadPictureInput\x1a%.eolymp.community.UploadPictureOutput\".\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
-	"\x05\x82\xd3\xe4\x93\x02\x12\"\x10/account/picture\x12}\n" +
+	"\x05\x82\xd3\xe4\x93\x02\x19\x98\xe3\n" +
+	"\x80\x80\x80\x01\"\x10/account/picture\x12}\n" +
 	"\rDeleteAccount\x12$.eolymp.community.DeleteAccountInput\x1a%.eolymp.community.DeleteAccountOutput\"\x1f\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +

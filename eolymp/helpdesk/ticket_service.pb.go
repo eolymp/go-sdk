@@ -1580,7 +1580,7 @@ const file_eolymp_helpdesk_ticket_service_proto_rawDesc = "" +
 	"\x04type\x18\x02 \x01(\tR\x04type\x12\x12\n" +
 	"\x04data\x18\x03 \x01(\fR\x04data\"?\n" +
 	"\x16UploadAttachmentOutput\x12%\n" +
-	"\x0eattachment_url\x18\x01 \x01(\tR\rattachmentUrl2\xff\x13\n" +
+	"\x0eattachment_url\x18\x01 \x01(\tR\rattachmentUrl2\x86\x14\n" +
 	"\rTicketService\x12\x9e\x01\n" +
 	"\fCreateTicket\x12\".eolymp.helpdesk.CreateTicketInput\x1a#.eolymp.helpdesk.CreateTicketOutput\"E\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -1671,13 +1671,14 @@ const file_eolymp_helpdesk_ticket_service_proto_rawDesc = "" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15helpdesk:ticket:write\x82\xd3\xe4\x93\x025\x123/helpdesk/tickets/{ticket_id}/comments/{comment_id}\x12\xae\x01\n" +
-	"\x10UploadAttachment\x12&.eolymp.helpdesk.UploadAttachmentInput\x1a'.eolymp.helpdesk.UploadAttachmentOutput\"I\xea\xe2\n" +
+	"\x15helpdesk:ticket:write\x82\xd3\xe4\x93\x025\x123/helpdesk/tickets/{ticket_id}/comments/{comment_id}\x12\xb5\x01\n" +
+	"\x10UploadAttachment\x12&.eolymp.helpdesk.UploadAttachmentInput\x1a'.eolymp.helpdesk.UploadAttachmentOutput\"P\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15helpdesk:ticket:write\x82\xd3\xe4\x93\x02\x17\"\x15/helpdesk/attachments\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.judge.ContestB3Z1github.com/eolymp/go-sdk/eolymp/helpdesk;helpdeskb\x06proto3"
+	"\x15helpdesk:ticket:write\x82\xd3\xe4\x93\x02\x1e\x98\xe3\n" +
+	"\x80\x80\x80\x01\"\x15/helpdesk/attachments\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.judge.ContestB3Z1github.com/eolymp/go-sdk/eolymp/helpdesk;helpdeskb\x06proto3"
 
 var (
 	file_eolymp_helpdesk_ticket_service_proto_rawDescOnce sync.Once

@@ -89,6 +89,7 @@ type HttpRule struct {
 	Body               string             `protobuf:"bytes,7,opt,name=body,proto3" json:"body,omitempty"`
 	ResponseBody       string             `protobuf:"bytes,12,opt,name=response_body,json=responseBody,proto3" json:"response_body,omitempty"`
 	AdditionalBindings []*HttpRule        `protobuf:"bytes,11,rep,name=additional_bindings,json=additionalBindings,proto3" json:"additional_bindings,omitempty"`
+	MaxSize            int64              `protobuf:"varint,22067,opt,name=max_size,json=maxSize,proto3" json:"max_size,omitempty"` // max request body size in bytes
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
 }
@@ -212,6 +213,13 @@ func (x *HttpRule) GetAdditionalBindings() []*HttpRule {
 	return nil
 }
 
+func (x *HttpRule) GetMaxSize() int64 {
+	if x != nil {
+		return x.MaxSize
+	}
+	return 0
+}
+
 type isHttpRule_Pattern interface {
 	isHttpRule_Pattern()
 }
@@ -329,7 +337,7 @@ const file_eolymp_annotations_http_proto_rawDesc = "" +
 	"eolymp.api\x1a google/protobuf/descriptor.proto\"y\n" +
 	"\x04Http\x12*\n" +
 	"\x05rules\x18\x01 \x03(\v2\x14.eolymp.api.HttpRuleR\x05rules\x12E\n" +
-	"\x1ffully_decode_reserved_expansion\x18\x02 \x01(\bR\x1cfullyDecodeReservedExpansion\"\xda\x02\n" +
+	"\x1ffully_decode_reserved_expansion\x18\x02 \x01(\bR\x1cfullyDecodeReservedExpansion\"\xf7\x02\n" +
 	"\bHttpRule\x12\x1a\n" +
 	"\bselector\x18\x01 \x01(\tR\bselector\x12\x12\n" +
 	"\x03get\x18\x02 \x01(\tH\x00R\x03get\x12\x12\n" +
@@ -340,7 +348,8 @@ const file_eolymp_annotations_http_proto_rawDesc = "" +
 	"\x06custom\x18\b \x01(\v2\x1d.eolymp.api.CustomHttpPatternH\x00R\x06custom\x12\x12\n" +
 	"\x04body\x18\a \x01(\tR\x04body\x12#\n" +
 	"\rresponse_body\x18\f \x01(\tR\fresponseBody\x12E\n" +
-	"\x13additional_bindings\x18\v \x03(\v2\x14.eolymp.api.HttpRuleR\x12additionalBindingsB\t\n" +
+	"\x13additional_bindings\x18\v \x03(\v2\x14.eolymp.api.HttpRuleR\x12additionalBindings\x12\x1b\n" +
+	"\bmax_size\x18\xb3\xac\x01 \x01(\x03R\amaxSizeB\t\n" +
 	"\apattern\";\n" +
 	"\x11CustomHttpPattern\x12\x12\n" +
 	"\x04kind\x18\x01 \x01(\tR\x04kind\x12\x12\n" +

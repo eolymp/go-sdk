@@ -588,16 +588,17 @@ const file_eolymp_course_submission_service_proto_rawDesc = "" +
 	"\x15WatchSubmissionOutput\x128\n" +
 	"\n" +
 	"submission\x18\x01 \x01(\v2\x18.eolymp.atlas.SubmissionR\n" +
-	"submission2\xa3\x05\n" +
-	"\x11SubmissionService\x12\xa0\x01\n" +
-	"\x10CreateSubmission\x12$.eolymp.course.CreateSubmissionInput\x1a%.eolymp.course.CreateSubmissionOutput\"?\xea\xe2\n" +
+	"submission2\xaa\x05\n" +
+	"\x11SubmissionService\x12\xa7\x01\n" +
+	"\x10CreateSubmission\x12$.eolymp.course.CreateSubmissionInput\x1a%.eolymp.course.CreateSubmissionOutput\"F\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\n" +
 	"\xd7#>\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14course:course:submit\x82\xd3\xe4\x93\x02\x0e\"\f/submissions\x12\x9b\x01\n" +
+	"\x14course:course:submit\x82\xd3\xe4\x93\x02\x15\x98\xe3\n" +
+	"\x80\x80\xc0\x02\"\f/submissions\x12\x9b\x01\n" +
 	"\x0fListSubmissions\x12#.eolymp.course.ListSubmissionsInput\x1a$.eolymp.course.ListSubmissionsOutput\"=\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +

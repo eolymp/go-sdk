@@ -982,7 +982,7 @@ const file_eolymp_vendor_invoice_service_proto_rawDesc = "" +
 	"\n" +
 	"invoice_id\x18\x01 \x01(\tR\tinvoiceId\x12\x18\n" +
 	"\acomment\x18\x02 \x01(\tR\acomment\"\x15\n" +
-	"\x13RejectInvoiceOutput2\xb4\f\n" +
+	"\x13RejectInvoiceOutput2\xbb\f\n" +
 	"\x0eInvoiceService\x12\x97\x01\n" +
 	"\fListInvoices\x12 .eolymp.vendor.ListInvoicesInput\x1a!.eolymp.vendor.ListInvoicesOutput\"B\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -1013,13 +1013,14 @@ const file_eolymp_vendor_invoice_service_proto_rawDesc = "" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14vendor:profile:write\x82\xd3\xe4\x93\x02\x1f*\x1d/vendor/invoices/{invoice_id}\x12\xc9\x01\n" +
-	"\x15UploadInvoiceDocument\x12).eolymp.vendor.UploadInvoiceDocumentInput\x1a*.eolymp.vendor.UploadInvoiceDocumentOutput\"Y\xea\xe2\n" +
+	"\x14vendor:profile:write\x82\xd3\xe4\x93\x02\x1f*\x1d/vendor/invoices/{invoice_id}\x12\xd0\x01\n" +
+	"\x15UploadInvoiceDocument\x12).eolymp.vendor.UploadInvoiceDocumentInput\x1a*.eolymp.vendor.UploadInvoiceDocumentOutput\"`\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14vendor:profile:write\x82\xd3\xe4\x93\x02(\"&/vendor/invoices/{invoice_id}/document\x12\xaf\x01\n" +
+	"\x14vendor:profile:write\x82\xd3\xe4\x93\x02/\x98\xe3\n" +
+	"\x80\x80\x80\x01\"&/vendor/invoices/{invoice_id}/document\x12\xaf\x01\n" +
 	"\rSubmitInvoice\x12!.eolymp.vendor.SubmitInvoiceInput\x1a\".eolymp.vendor.SubmitInvoiceOutput\"W\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +

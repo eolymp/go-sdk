@@ -1060,15 +1060,16 @@ const file_eolymp_atlas_submission_service_proto_rawDesc = "" +
 	"\n" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\"F\n" +
 	"\x14ListProblemTopOutput\x12.\n" +
-	"\x05items\x18\x02 \x03(\v2\x18.eolymp.atlas.SubmissionR\x05items2\xb6\t\n" +
-	"\x11SubmissionService\x12\xa0\x01\n" +
-	"\x10CreateSubmission\x12#.eolymp.atlas.CreateSubmissionInput\x1a$.eolymp.atlas.CreateSubmissionOutput\"A\xea\xe2\n" +
+	"\x05items\x18\x02 \x03(\v2\x18.eolymp.atlas.SubmissionR\x05items2\xbd\t\n" +
+	"\x11SubmissionService\x12\xa7\x01\n" +
+	"\x10CreateSubmission\x12#.eolymp.atlas.CreateSubmissionInput\x1a$.eolymp.atlas.CreateSubmissionOutput\"H\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\n" +
 	"\xd7#>\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
-	"\x16atlas:submission:write\x82\xd3\xe4\x93\x02\x0e\"\f/submissions\x12\xb7\x01\n" +
+	"\x16atlas:submission:write\x82\xd3\xe4\x93\x02\x15\x98\xe3\n" +
+	"\x80\x80\xc0\x02\"\f/submissions\x12\xb7\x01\n" +
 	"\x10RetestSubmission\x12#.eolymp.atlas.RetestSubmissionInput\x1a$.eolymp.atlas.RetestSubmissionOutput\"X\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
