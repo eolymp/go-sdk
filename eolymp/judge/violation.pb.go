@@ -8,6 +8,7 @@ package judge
 
 import (
 	_ "github.com/eolymp/go-sdk/eolymp/annotations"
+	ecm "github.com/eolymp/go-sdk/eolymp/ecm"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
@@ -184,11 +185,15 @@ type Violation struct {
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	Status        Violation_Status       `protobuf:"varint,7,opt,name=status,proto3,enum=eolymp.judge.Violation_Status" json:"status,omitempty"`
 	Type          Violation_Type         `protobuf:"varint,8,opt,name=type,proto3,enum=eolymp.judge.Violation_Type" json:"type,omitempty"`
-	Summary       string                 `protobuf:"bytes,3,opt,name=summary,proto3" json:"summary,omitempty"`                                  // short summary of the violation
+	Summary       *ecm.Content           `protobuf:"bytes,14,opt,name=summary,proto3" json:"summary,omitempty"`                                 // short summary of the violation
 	Automatic     bool                   `protobuf:"varint,4,opt,name=automatic,proto3" json:"automatic,omitempty"`                             // whether the violation was automatically detected by the system
 	ParticipantId string                 `protobuf:"bytes,5,opt,name=participant_id,json=participantId,proto3" json:"participant_id,omitempty"` // participant who received the violation
-	SubmissionId  string                 `protobuf:"bytes,6,opt,name=submission_id,json=submissionId,proto3" json:"submission_id,omitempty"`    // submission ID, if applicable
-	CreatedBy     string                 `protobuf:"bytes,10,opt,name=created_by,json=createdBy,proto3" json:"created_by,omitempty"`            // user ID of the person who created the violation
+	// Deprecated: Marked as deprecated in eolymp/judge/violation.proto.
+	SubmissionId string   `protobuf:"bytes,6,opt,name=submission_id,json=submissionId,proto3" json:"submission_id,omitempty"` // submission ID, if applicable
+	Submissions  []string `protobuf:"bytes,9,rep,name=submissions,proto3" json:"submissions,omitempty"`                       // submission IDs, if applicable
+	// Deprecated: Marked as deprecated in eolymp/judge/violation.proto.
+	SummaryText   string                 `protobuf:"bytes,3,opt,name=summary_text,json=summaryText,proto3" json:"summary_text,omitempty"` // short summary of the violation
+	CreatedBy     string                 `protobuf:"bytes,10,opt,name=created_by,json=createdBy,proto3" json:"created_by,omitempty"`      // user ID of the person who created the violation
 	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	ConfirmedBy   string                 `protobuf:"bytes,12,opt,name=confirmed_by,json=confirmedBy,proto3" json:"confirmed_by,omitempty"` // user ID of the person who confirmed the violation
 	ConfirmedAt   *timestamppb.Timestamp `protobuf:"bytes,13,opt,name=confirmed_at,json=confirmedAt,proto3" json:"confirmed_at,omitempty"`
@@ -247,11 +252,11 @@ func (x *Violation) GetType() Violation_Type {
 	return Violation_UNKNOWN_TYPE
 }
 
-func (x *Violation) GetSummary() string {
+func (x *Violation) GetSummary() *ecm.Content {
 	if x != nil {
 		return x.Summary
 	}
-	return ""
+	return nil
 }
 
 func (x *Violation) GetAutomatic() bool {
@@ -268,9 +273,25 @@ func (x *Violation) GetParticipantId() string {
 	return ""
 }
 
+// Deprecated: Marked as deprecated in eolymp/judge/violation.proto.
 func (x *Violation) GetSubmissionId() string {
 	if x != nil {
 		return x.SubmissionId
+	}
+	return ""
+}
+
+func (x *Violation) GetSubmissions() []string {
+	if x != nil {
+		return x.Submissions
+	}
+	return nil
+}
+
+// Deprecated: Marked as deprecated in eolymp/judge/violation.proto.
+func (x *Violation) GetSummaryText() string {
+	if x != nil {
+		return x.SummaryText
 	}
 	return ""
 }
@@ -343,15 +364,17 @@ var File_eolymp_judge_violation_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_violation_proto_rawDesc = "" +
 	"\n" +
-	"\x1ceolymp/judge/violation.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xe0\x05\n" +
+	"\x1ceolymp/judge/violation.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc8\x06\n" +
 	"\tViolation\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12>\n" +
 	"\x06status\x18\a \x01(\x0e2\x1e.eolymp.judge.Violation.StatusB\x06\xa8\xf0\xf0\xe4\x01\x01R\x06status\x120\n" +
-	"\x04type\x18\b \x01(\x0e2\x1c.eolymp.judge.Violation.TypeR\x04type\x12\x18\n" +
-	"\asummary\x18\x03 \x01(\tR\asummary\x12\x1c\n" +
+	"\x04type\x18\b \x01(\x0e2\x1c.eolymp.judge.Violation.TypeR\x04type\x12-\n" +
+	"\asummary\x18\x0e \x01(\v2\x13.eolymp.ecm.ContentR\asummary\x12\x1c\n" +
 	"\tautomatic\x18\x04 \x01(\bR\tautomatic\x12-\n" +
-	"\x0eparticipant_id\x18\x05 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\rparticipantId\x12+\n" +
-	"\rsubmission_id\x18\x06 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\fsubmissionId\x12%\n" +
+	"\x0eparticipant_id\x18\x05 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\rparticipantId\x12-\n" +
+	"\rsubmission_id\x18\x06 \x01(\tB\b\xa8\xf0\xf0\xe4\x01\x01\x18\x01R\fsubmissionId\x12(\n" +
+	"\vsubmissions\x18\t \x03(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\vsubmissions\x12%\n" +
+	"\fsummary_text\x18\x03 \x01(\tB\x02\x18\x01R\vsummaryText\x12%\n" +
 	"\n" +
 	"created_by\x18\n" +
 	" \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\tcreatedBy\x12A\n" +
@@ -398,18 +421,20 @@ var file_eolymp_judge_violation_proto_goTypes = []any{
 	(Violation_Patch_Field)(0),    // 2: eolymp.judge.Violation.Patch.Field
 	(*Violation)(nil),             // 3: eolymp.judge.Violation
 	(*Violation_Patch)(nil),       // 4: eolymp.judge.Violation.Patch
-	(*timestamppb.Timestamp)(nil), // 5: google.protobuf.Timestamp
+	(*ecm.Content)(nil),           // 5: eolymp.ecm.Content
+	(*timestamppb.Timestamp)(nil), // 6: google.protobuf.Timestamp
 }
 var file_eolymp_judge_violation_proto_depIdxs = []int32{
 	0, // 0: eolymp.judge.Violation.status:type_name -> eolymp.judge.Violation.Status
 	1, // 1: eolymp.judge.Violation.type:type_name -> eolymp.judge.Violation.Type
-	5, // 2: eolymp.judge.Violation.created_at:type_name -> google.protobuf.Timestamp
-	5, // 3: eolymp.judge.Violation.confirmed_at:type_name -> google.protobuf.Timestamp
-	4, // [4:4] is the sub-list for method output_type
-	4, // [4:4] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	5, // 2: eolymp.judge.Violation.summary:type_name -> eolymp.ecm.Content
+	6, // 3: eolymp.judge.Violation.created_at:type_name -> google.protobuf.Timestamp
+	6, // 4: eolymp.judge.Violation.confirmed_at:type_name -> google.protobuf.Timestamp
+	5, // [5:5] is the sub-list for method output_type
+	5, // [5:5] is the sub-list for method input_type
+	5, // [5:5] is the sub-list for extension type_name
+	5, // [5:5] is the sub-list for extension extendee
+	0, // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_judge_violation_proto_init() }
