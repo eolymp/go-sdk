@@ -168,7 +168,7 @@ func _SubscriptionService_DescribeSubscription_Rule0(cli SubscriptionServiceClie
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeSubscriptionInput{}
 
-		if err := _SubscriptionService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _SubscriptionService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_SubscriptionService_HTTPWriteErrorResponse(w, err)
 			return
 		}

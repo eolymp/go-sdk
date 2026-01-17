@@ -168,7 +168,7 @@ func _ScoringService_DescribeScore_Rule0(cli ScoringServiceClient) http.Handler 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeScoreInput{}
 
-		if err := _ScoringService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ScoringService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ScoringService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -192,7 +192,7 @@ func _ScoringService_DescribeProblemGrading_Rule0(cli ScoringServiceClient) http
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeProblemGradingInput{}
 
-		if err := _ScoringService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ScoringService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ScoringService_HTTPWriteErrorResponse(w, err)
 			return
 		}

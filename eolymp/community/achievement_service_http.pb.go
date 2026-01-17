@@ -219,7 +219,7 @@ func _AchievementService_ListAchievements_Rule0(cli AchievementServiceClient) ht
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListAchievementsInput{}
 
-		if err := _AchievementService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _AchievementService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_AchievementService_HTTPWriteErrorResponse(w, err)
 			return
 		}

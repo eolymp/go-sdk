@@ -260,7 +260,7 @@ func _TestingService_DescribeTestingConfig_Rule0(cli TestingServiceClient) http.
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeTestingConfigInput{}
 
-		if err := _TestingService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _TestingService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -302,7 +302,7 @@ func _TestingService_DescribeChecker_Rule0(cli TestingServiceClient) http.Handle
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeCheckerInput{}
 
-		if err := _TestingService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _TestingService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -344,7 +344,7 @@ func _TestingService_DescribeInteractor_Rule0(cli TestingServiceClient) http.Han
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeInteractorInput{}
 
-		if err := _TestingService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _TestingService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -386,7 +386,7 @@ func _TestingService_DescribeValidator_Rule0(cli TestingServiceClient) http.Hand
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeValidatorInput{}
 
-		if err := _TestingService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _TestingService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -476,7 +476,7 @@ func _TestingService_DescribeTestset_Rule0(cli TestingServiceClient) http.Handle
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeTestsetInput{}
 
-		if err := _TestingService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _TestingService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -500,7 +500,7 @@ func _TestingService_ListTestsets_Rule0(cli TestingServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListTestsetsInput{}
 
-		if err := _TestingService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _TestingService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -664,7 +664,7 @@ func _TestingService_DescribeTest_Rule0(cli TestingServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeTestInput{}
 
-		if err := _TestingService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _TestingService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -688,7 +688,7 @@ func _TestingService_DescribeTest_Rule1(cli TestingServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeTestInput{}
 
-		if err := _TestingService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _TestingService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -713,7 +713,7 @@ func _TestingService_ListTests_Rule0(cli TestingServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListTestsInput{}
 
-		if err := _TestingService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _TestingService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -734,7 +734,7 @@ func _TestingService_ListTests_Rule1(cli TestingServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListTestsInput{}
 
-		if err := _TestingService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _TestingService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -758,7 +758,7 @@ func _TestingService_ListExamples_Rule0(cli TestingServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListExamplesInput{}
 
-		if err := _TestingService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _TestingService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}

@@ -168,7 +168,7 @@ func _ProjectService_ListProjects_Rule0(cli ProjectServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListProjectsInput{}
 
-		if err := _ProjectService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ProjectService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ProjectService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -189,7 +189,7 @@ func _ProjectService_DescribeProject_Rule0(cli ProjectServiceClient) http.Handle
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeProjectInput{}
 
-		if err := _ProjectService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ProjectService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ProjectService_HTTPWriteErrorResponse(w, err)
 			return
 		}

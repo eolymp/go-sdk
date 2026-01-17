@@ -300,7 +300,7 @@ func _ContestService_DescribeContest_Rule0(cli ContestServiceClient) http.Handle
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeContestInput{}
 
-		if err := _ContestService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ContestService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ContestService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -324,7 +324,7 @@ func _ContestService_ListContests_Rule0(cli ContestServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListContestsInput{}
 
-		if err := _ContestService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ContestService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ContestService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -513,7 +513,7 @@ func _ContestService_ListActivities_Rule0(cli ContestServiceClient) http.Handler
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListActivitiesInput{}
 
-		if err := _ContestService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ContestService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ContestService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -537,7 +537,7 @@ func _ContestService_DescribeContestUsage_Rule0(cli ContestServiceClient) http.H
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeContestUsageInput{}
 
-		if err := _ContestService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ContestService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ContestService_HTTPWriteErrorResponse(w, err)
 			return
 		}

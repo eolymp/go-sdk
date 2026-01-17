@@ -168,7 +168,7 @@ func _ScoreboardService_DescribeScoreboard_Rule0(cli ScoreboardServiceClient) ht
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeScoreboardInput{}
 
-		if err := _ScoreboardService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ScoreboardService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ScoreboardService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -189,7 +189,7 @@ func _ScoreboardService_ListScoreboardRows_Rule0(cli ScoreboardServiceClient) ht
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListScoreboardRowsInput{}
 
-		if err := _ScoreboardService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ScoreboardService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ScoreboardService_HTTPWriteErrorResponse(w, err)
 			return
 		}

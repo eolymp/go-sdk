@@ -183,7 +183,7 @@ func _MessageService_DescribeMessage_Rule0(cli MessageServiceClient) http.Handle
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeMessageInput{}
 
-		if err := _MessageService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _MessageService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_MessageService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -207,7 +207,7 @@ func _MessageService_ListMessages_Rule0(cli MessageServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListMessagesInput{}
 
-		if err := _MessageService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _MessageService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_MessageService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -321,7 +321,7 @@ func _MessageService_ListMessageChanges_Rule0(cli MessageServiceClient) http.Han
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListMessageChangesInput{}
 
-		if err := _MessageService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _MessageService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_MessageService_HTTPWriteErrorResponse(w, err)
 			return
 		}

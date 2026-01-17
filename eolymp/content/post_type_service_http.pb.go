@@ -177,7 +177,7 @@ func _PostTypeService_DescribePostType_Rule0(cli PostTypeServiceClient) http.Han
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribePostTypeInput{}
 
-		if err := _PostTypeService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _PostTypeService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_PostTypeService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -201,7 +201,7 @@ func _PostTypeService_ListPostTypes_Rule0(cli PostTypeServiceClient) http.Handle
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListPostTypesInput{}
 
-		if err := _PostTypeService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _PostTypeService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_PostTypeService_HTTPWriteErrorResponse(w, err)
 			return
 		}

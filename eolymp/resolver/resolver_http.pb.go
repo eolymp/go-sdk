@@ -165,7 +165,7 @@ func _Resolver_ResolveName_Rule0(cli ResolverClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ResolveNameInput{}
 
-		if err := _Resolver_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _Resolver_HTTPReadQueryString(r, in, 131072); err != nil {
 			_Resolver_HTTPWriteErrorResponse(w, err)
 			return
 		}

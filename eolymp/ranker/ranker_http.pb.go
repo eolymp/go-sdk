@@ -306,7 +306,7 @@ func _Ranker_DescribeScoreboard_Rule0(cli RankerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeScoreboardInput{}
 
-		if err := _Ranker_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _Ranker_HTTPReadQueryString(r, in, 131072); err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -330,7 +330,7 @@ func _Ranker_ListScoreboards_Rule0(cli RankerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListScoreboardsInput{}
 
-		if err := _Ranker_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _Ranker_HTTPReadQueryString(r, in, 131072); err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -351,7 +351,7 @@ func _Ranker_DescribeScoreboardRow_Rule0(cli RankerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeScoreboardRowInput{}
 
-		if err := _Ranker_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _Ranker_HTTPReadQueryString(r, in, 131072); err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -376,7 +376,7 @@ func _Ranker_ListScoreboardRows_Rule0(cli RankerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListScoreboardRowsInput{}
 
-		if err := _Ranker_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _Ranker_HTTPReadQueryString(r, in, 131072); err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -474,7 +474,7 @@ func _Ranker_DescribeScoreboardColumn_Rule0(cli RankerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeScoreboardColumnInput{}
 
-		if err := _Ranker_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _Ranker_HTTPReadQueryString(r, in, 131072); err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -499,7 +499,7 @@ func _Ranker_ListScoreboardColumns_Rule0(cli RankerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListScoreboardColumnsInput{}
 
-		if err := _Ranker_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _Ranker_HTTPReadQueryString(r, in, 131072); err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -523,7 +523,7 @@ func _Ranker_ListActivities_Rule0(cli RankerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListActivitiesInput{}
 
-		if err := _Ranker_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _Ranker_HTTPReadQueryString(r, in, 131072); err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -596,7 +596,7 @@ func _Ranker_ListScheduledActions_Rule0(cli RankerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListScheduledActionsInput{}
 
-		if err := _Ranker_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _Ranker_HTTPReadQueryString(r, in, 131072); err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}

@@ -192,7 +192,7 @@ func _EmailService_DescribeEmailUsage_Rule0(cli EmailServiceClient) http.Handler
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeEmailUsageInput{}
 
-		if err := _EmailService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _EmailService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_EmailService_HTTPWriteErrorResponse(w, err)
 			return
 		}

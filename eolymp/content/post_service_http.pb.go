@@ -207,7 +207,7 @@ func _PostService_DescribePost_Rule0(cli PostServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribePostInput{}
 
-		if err := _PostService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _PostService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_PostService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -231,7 +231,7 @@ func _PostService_ListPosts_Rule0(cli PostServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListPostsInput{}
 
-		if err := _PostService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _PostService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_PostService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -441,7 +441,7 @@ func _PostService_DescribePostTranslation_Rule0(cli PostServiceClient) http.Hand
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribePostTranslationInput{}
 
-		if err := _PostService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _PostService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_PostService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -466,7 +466,7 @@ func _PostService_ListPostTranslations_Rule0(cli PostServiceClient) http.Handler
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListPostTranslationsInput{}
 
-		if err := _PostService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _PostService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_PostService_HTTPWriteErrorResponse(w, err)
 			return
 		}

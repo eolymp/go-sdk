@@ -255,7 +255,7 @@ func _EditorialService_DescribeEditorial_Rule0(cli EditorialServiceClient) http.
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeEditorialInput{}
 
-		if err := _EditorialService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _EditorialService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_EditorialService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -279,7 +279,7 @@ func _EditorialService_LookupEditorial_Rule0(cli EditorialServiceClient) http.Ha
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &LookupEditorialInput{}
 
-		if err := _EditorialService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _EditorialService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_EditorialService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -321,7 +321,7 @@ func _EditorialService_ListEditorials_Rule0(cli EditorialServiceClient) http.Han
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListEditorialsInput{}
 
-		if err := _EditorialService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _EditorialService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_EditorialService_HTTPWriteErrorResponse(w, err)
 			return
 		}

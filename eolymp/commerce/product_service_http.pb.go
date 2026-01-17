@@ -246,7 +246,7 @@ func _ProductService_DescribeProduct_Rule0(cli ProductServiceClient) http.Handle
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeProductInput{}
 
-		if err := _ProductService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ProductService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ProductService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -270,7 +270,7 @@ func _ProductService_ListProducts_Rule0(cli ProductServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListProductsInput{}
 
-		if err := _ProductService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ProductService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ProductService_HTTPWriteErrorResponse(w, err)
 			return
 		}

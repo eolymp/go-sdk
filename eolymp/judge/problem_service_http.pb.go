@@ -270,7 +270,7 @@ func _ProblemService_ListProblems_Rule0(cli ProblemServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListProblemsInput{}
 
-		if err := _ProblemService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ProblemService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -291,7 +291,7 @@ func _ProblemService_DescribeProblem_Rule0(cli ProblemServiceClient) http.Handle
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeProblemInput{}
 
-		if err := _ProblemService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ProblemService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -339,7 +339,7 @@ func _ProblemService_LookupCodeTemplate_Rule0(cli ProblemServiceClient) http.Han
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &LookupCodeTemplateInput{}
 
-		if err := _ProblemService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ProblemService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -363,7 +363,7 @@ func _ProblemService_DescribeCodeTemplate_Rule0(cli ProblemServiceClient) http.H
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeCodeTemplateInput{}
 
-		if err := _ProblemService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ProblemService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -388,7 +388,7 @@ func _ProblemService_ListStatements_Rule0(cli ProblemServiceClient) http.Handler
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListStatementsInput{}
 
-		if err := _ProblemService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ProblemService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -412,7 +412,7 @@ func _ProblemService_DescribeEditorial_Rule0(cli ProblemServiceClient) http.Hand
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeEditorialInput{}
 
-		if err := _ProblemService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ProblemService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -436,7 +436,7 @@ func _ProblemService_ListAttachments_Rule0(cli ProblemServiceClient) http.Handle
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListAttachmentsInput{}
 
-		if err := _ProblemService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ProblemService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -460,7 +460,7 @@ func _ProblemService_ListExamples_Rule0(cli ProblemServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListExamplesInput{}
 
-		if err := _ProblemService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ProblemService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -484,7 +484,7 @@ func _ProblemService_ListRuntimes_Rule0(cli ProblemServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListRuntimesInput{}
 
-		if err := _ProblemService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ProblemService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
 		}

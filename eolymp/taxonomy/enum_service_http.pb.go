@@ -270,7 +270,7 @@ func _EnumService_DescribeEnum_Rule0(cli EnumServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeEnumInput{}
 
-		if err := _EnumService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _EnumService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_EnumService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -294,7 +294,7 @@ func _EnumService_ListEnums_Rule0(cli EnumServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListEnumsInput{}
 
-		if err := _EnumService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _EnumService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_EnumService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -389,7 +389,7 @@ func _EnumService_DescribeValue_Rule0(cli EnumServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeValueInput{}
 
-		if err := _EnumService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _EnumService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_EnumService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -414,7 +414,7 @@ func _EnumService_ListValues_Rule0(cli EnumServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListValuesInput{}
 
-		if err := _EnumService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _EnumService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_EnumService_HTTPWriteErrorResponse(w, err)
 			return
 		}

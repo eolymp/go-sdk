@@ -168,7 +168,7 @@ func _InstitutionService_ListInstitutions_Rule0(cli InstitutionServiceClient) ht
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListInstitutionsInput{}
 
-		if err := _InstitutionService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _InstitutionService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_InstitutionService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -189,7 +189,7 @@ func _InstitutionService_DescribeInstitution_Rule0(cli InstitutionServiceClient)
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeInstitutionInput{}
 
-		if err := _InstitutionService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _InstitutionService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_InstitutionService_HTTPWriteErrorResponse(w, err)
 			return
 		}

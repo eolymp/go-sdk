@@ -252,7 +252,7 @@ func _ModuleService_DescribeModule_Rule0(cli ModuleServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeModuleInput{}
 
-		if err := _ModuleService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ModuleService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ModuleService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -276,7 +276,7 @@ func _ModuleService_ListModules_Rule0(cli ModuleServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListModulesInput{}
 
-		if err := _ModuleService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ModuleService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ModuleService_HTTPWriteErrorResponse(w, err)
 			return
 		}

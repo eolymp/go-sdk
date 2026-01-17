@@ -246,7 +246,7 @@ func _LocalizationService_ListTerms_Rule0(cli LocalizationServiceClient) http.Ha
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListTermsInput{}
 
-		if err := _LocalizationService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _LocalizationService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -363,7 +363,7 @@ func _LocalizationService_DescribeTerm_Rule0(cli LocalizationServiceClient) http
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeTermInput{}
 
-		if err := _LocalizationService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _LocalizationService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -456,7 +456,7 @@ func _LocalizationService_ListLocales_Rule0(cli LocalizationServiceClient) http.
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListLocalesInput{}
 
-		if err := _LocalizationService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _LocalizationService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -501,7 +501,7 @@ func _LocalizationService_ListTranslations_Rule0(cli LocalizationServiceClient) 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListTranslationsInput{}
 
-		if err := _LocalizationService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _LocalizationService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -550,7 +550,7 @@ func _LocalizationService_SuggestTranslation_Rule0(cli LocalizationServiceClient
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &SuggestTranslationInput{}
 
-		if err := _LocalizationService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _LocalizationService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -674,7 +674,7 @@ func _LocalizationService_ExportTranslations_Rule0(cli LocalizationServiceClient
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ExportTranslationsInput{}
 
-		if err := _LocalizationService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _LocalizationService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -698,7 +698,7 @@ func _LocalizationService_ListTranslationPairs_Rule0(cli LocalizationServiceClie
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListTranslationPairsInput{}
 
-		if err := _LocalizationService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _LocalizationService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
 		}

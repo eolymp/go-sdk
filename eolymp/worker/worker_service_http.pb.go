@@ -168,7 +168,7 @@ func _WorkerService_DescribeJob_Rule0(cli WorkerServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeJobInput{}
 
-		if err := _WorkerService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _WorkerService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_WorkerService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -192,7 +192,7 @@ func _WorkerService_ListJobs_Rule0(cli WorkerServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListJobsInput{}
 
-		if err := _WorkerService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _WorkerService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_WorkerService_HTTPWriteErrorResponse(w, err)
 			return
 		}

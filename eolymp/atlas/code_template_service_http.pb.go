@@ -249,7 +249,7 @@ func _CodeTemplateService_ListCodeTemplates_Rule0(cli CodeTemplateServiceClient)
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListCodeTemplatesInput{}
 
-		if err := _CodeTemplateService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _CodeTemplateService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_CodeTemplateService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -270,7 +270,7 @@ func _CodeTemplateService_DescribeCodeTemplate_Rule0(cli CodeTemplateServiceClie
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeCodeTemplateInput{}
 
-		if err := _CodeTemplateService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _CodeTemplateService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_CodeTemplateService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -294,7 +294,7 @@ func _CodeTemplateService_LookupCodeTemplate_Rule0(cli CodeTemplateServiceClient
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &LookupCodeTemplateInput{}
 
-		if err := _CodeTemplateService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _CodeTemplateService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_CodeTemplateService_HTTPWriteErrorResponse(w, err)
 			return
 		}

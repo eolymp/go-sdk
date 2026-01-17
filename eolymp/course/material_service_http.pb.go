@@ -279,7 +279,7 @@ func _MaterialService_DescribeMaterial_Rule0(cli MaterialServiceClient) http.Han
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeMaterialInput{}
 
-		if err := _MaterialService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _MaterialService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_MaterialService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -303,7 +303,7 @@ func _MaterialService_ListMaterials_Rule0(cli MaterialServiceClient) http.Handle
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListMaterialsInput{}
 
-		if err := _MaterialService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _MaterialService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_MaterialService_HTTPWriteErrorResponse(w, err)
 			return
 		}

@@ -189,7 +189,7 @@ func _InvoiceService_ListInvoices_Rule0(cli InvoiceServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListInvoicesInput{}
 
-		if err := _InvoiceService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _InvoiceService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_InvoiceService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -210,7 +210,7 @@ func _InvoiceService_DescribeInvoice_Rule0(cli InvoiceServiceClient) http.Handle
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeInvoiceInput{}
 
-		if err := _InvoiceService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _InvoiceService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_InvoiceService_HTTPWriteErrorResponse(w, err)
 			return
 		}

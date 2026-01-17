@@ -309,7 +309,7 @@ func _MemberService_DescribeMember_Rule0(cli MemberServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeMemberInput{}
 
-		if err := _MemberService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _MemberService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_MemberService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -333,7 +333,7 @@ func _MemberService_ListMembers_Rule0(cli MemberServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListMembersInput{}
 
-		if err := _MemberService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _MemberService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_MemberService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -404,7 +404,7 @@ func _MemberService_DescribeMemberUsage_Rule0(cli MemberServiceClient) http.Hand
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeMemberUsageInput{}
 
-		if err := _MemberService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _MemberService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_MemberService_HTTPWriteErrorResponse(w, err)
 			return
 		}

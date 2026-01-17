@@ -276,7 +276,7 @@ func _AnnouncementService_DescribeAnnouncement_Rule0(cli AnnouncementServiceClie
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeAnnouncementInput{}
 
-		if err := _AnnouncementService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _AnnouncementService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_AnnouncementService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -300,7 +300,7 @@ func _AnnouncementService_DescribeAnnouncementStatus_Rule0(cli AnnouncementServi
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeAnnouncementStatusInput{}
 
-		if err := _AnnouncementService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _AnnouncementService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_AnnouncementService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -324,7 +324,7 @@ func _AnnouncementService_ListAnnouncements_Rule0(cli AnnouncementServiceClient)
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListAnnouncementsInput{}
 
-		if err := _AnnouncementService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _AnnouncementService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_AnnouncementService_HTTPWriteErrorResponse(w, err)
 			return
 		}

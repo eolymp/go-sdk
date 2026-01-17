@@ -168,7 +168,7 @@ func _RegistrationService_DescribeRegistration_Rule0(cli RegistrationServiceClie
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeRegistrationInput{}
 
-		if err := _RegistrationService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _RegistrationService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_RegistrationService_HTTPWriteErrorResponse(w, err)
 			return
 		}

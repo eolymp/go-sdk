@@ -174,7 +174,7 @@ func _EditorService_DescribeEditor_Rule0(cli EditorServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeEditorInput{}
 
-		if err := _EditorService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _EditorService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_EditorService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -195,7 +195,7 @@ func _EditorService_DescribeEditorState_Rule0(cli EditorServiceClient) http.Hand
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeEditorStateInput{}
 
-		if err := _EditorService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _EditorService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_EditorService_HTTPWriteErrorResponse(w, err)
 			return
 		}

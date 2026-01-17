@@ -177,7 +177,7 @@ func _RuntimeService_DescribeLanguage_Rule0(cli RuntimeServiceClient) http.Handl
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeLanguageInput{}
 
-		if err := _RuntimeService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _RuntimeService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_RuntimeService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -201,7 +201,7 @@ func _RuntimeService_ListLanguages_Rule0(cli RuntimeServiceClient) http.Handler 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListLanguagesInput{}
 
-		if err := _RuntimeService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _RuntimeService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_RuntimeService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -222,7 +222,7 @@ func _RuntimeService_DescribeRuntime_Rule0(cli RuntimeServiceClient) http.Handle
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeRuntimeInput{}
 
-		if err := _RuntimeService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _RuntimeService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_RuntimeService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -246,7 +246,7 @@ func _RuntimeService_ListRuntimes_Rule0(cli RuntimeServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListRuntimesInput{}
 
-		if err := _RuntimeService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _RuntimeService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_RuntimeService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -267,7 +267,7 @@ func _RuntimeService_DescribeCodeTemplate_Rule0(cli RuntimeServiceClient) http.H
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeCodeTemplateInput{}
 
-		if err := _RuntimeService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _RuntimeService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_RuntimeService_HTTPWriteErrorResponse(w, err)
 			return
 		}

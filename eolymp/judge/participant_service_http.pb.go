@@ -342,7 +342,7 @@ func _ParticipantService_DescribeParticipant_Rule0(cli ParticipantServiceClient)
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeParticipantInput{}
 
-		if err := _ParticipantService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ParticipantService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ParticipantService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -366,7 +366,7 @@ func _ParticipantService_ListParticipants_Rule0(cli ParticipantServiceClient) ht
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListParticipantsInput{}
 
-		if err := _ParticipantService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ParticipantService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ParticipantService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -408,7 +408,7 @@ func _ParticipantService_DescribeViewer_Rule0(cli ParticipantServiceClient) http
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeViewerInput{}
 
-		if err := _ParticipantService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ParticipantService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ParticipantService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -471,7 +471,7 @@ func _ParticipantService_FinishContest_Rule0(cli ParticipantServiceClient) http.
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &FinishContestInput{}
 
-		if err := _ParticipantService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ParticipantService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ParticipantService_HTTPWriteErrorResponse(w, err)
 			return
 		}

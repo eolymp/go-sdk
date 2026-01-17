@@ -219,7 +219,7 @@ func _CertificateService_DescribeCertificate_Rule0(cli CertificateServiceClient)
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeCertificateInput{}
 
-		if err := _CertificateService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _CertificateService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_CertificateService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -243,7 +243,7 @@ func _CertificateService_ListCertificates_Rule0(cli CertificateServiceClient) ht
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListCertificatesInput{}
 
-		if err := _CertificateService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _CertificateService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_CertificateService_HTTPWriteErrorResponse(w, err)
 			return
 		}

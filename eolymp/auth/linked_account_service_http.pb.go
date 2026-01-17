@@ -243,7 +243,7 @@ func _LinkedAccountService_DescribeLinkedAccount_Rule0(cli LinkedAccountServiceC
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeLinkedAccountInput{}
 
-		if err := _LinkedAccountService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _LinkedAccountService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_LinkedAccountService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -267,7 +267,7 @@ func _LinkedAccountService_ListLinkedAccounts_Rule0(cli LinkedAccountServiceClie
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListLinkedAccountsInput{}
 
-		if err := _LinkedAccountService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _LinkedAccountService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_LinkedAccountService_HTTPWriteErrorResponse(w, err)
 			return
 		}

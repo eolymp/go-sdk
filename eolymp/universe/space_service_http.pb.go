@@ -180,7 +180,7 @@ func _SpaceService_LookupSpace_Rule0(cli SpaceServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &LookupSpaceInput{}
 
-		if err := _SpaceService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _SpaceService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_SpaceService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -273,7 +273,7 @@ func _SpaceService_DescribeSpace_Rule0(cli SpaceServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeSpaceInput{}
 
-		if err := _SpaceService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _SpaceService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_SpaceService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -297,7 +297,7 @@ func _SpaceService_ListSpaces_Rule0(cli SpaceServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListSpacesInput{}
 
-		if err := _SpaceService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _SpaceService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_SpaceService_HTTPWriteErrorResponse(w, err)
 			return
 		}

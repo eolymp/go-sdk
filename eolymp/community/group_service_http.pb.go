@@ -246,7 +246,7 @@ func _GroupService_DescribeGroup_Rule0(cli GroupServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeGroupInput{}
 
-		if err := _GroupService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _GroupService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_GroupService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -270,7 +270,7 @@ func _GroupService_ListGroups_Rule0(cli GroupServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListGroupsInput{}
 
-		if err := _GroupService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _GroupService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_GroupService_HTTPWriteErrorResponse(w, err)
 			return
 		}

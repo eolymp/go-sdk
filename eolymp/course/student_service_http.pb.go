@@ -267,7 +267,7 @@ func _StudentService_DescribeStudent_Rule0(cli StudentServiceClient) http.Handle
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeStudentInput{}
 
-		if err := _StudentService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _StudentService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_StudentService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -291,7 +291,7 @@ func _StudentService_ListStudents_Rule0(cli StudentServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListStudentsInput{}
 
-		if err := _StudentService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _StudentService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_StudentService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -333,7 +333,7 @@ func _StudentService_DescribeViewer_Rule0(cli StudentServiceClient) http.Handler
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeViewerInput{}
 
-		if err := _StudentService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _StudentService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_StudentService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -354,7 +354,7 @@ func _StudentService_ListStudentAssignments_Rule0(cli StudentServiceClient) http
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListStudentAssignmentsInput{}
 
-		if err := _StudentService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _StudentService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_StudentService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -426,7 +426,7 @@ func _StudentService_ListStudentGrades_Rule0(cli StudentServiceClient) http.Hand
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListStudentGradesInput{}
 
-		if err := _StudentService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _StudentService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_StudentService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -450,7 +450,7 @@ func _StudentService_ListModuleGrades_Rule0(cli StudentServiceClient) http.Handl
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListModuleGradesInput{}
 
-		if err := _StudentService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _StudentService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_StudentService_HTTPWriteErrorResponse(w, err)
 			return
 		}

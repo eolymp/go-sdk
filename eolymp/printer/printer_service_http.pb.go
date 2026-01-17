@@ -261,7 +261,7 @@ func _PrinterService_DescribePrinter_Rule0(cli PrinterServiceClient) http.Handle
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribePrinterInput{}
 
-		if err := _PrinterService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _PrinterService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_PrinterService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -285,7 +285,7 @@ func _PrinterService_ListPrinters_Rule0(cli PrinterServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListPrintersInput{}
 
-		if err := _PrinterService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _PrinterService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_PrinterService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -330,7 +330,7 @@ func _PrinterService_DescribePrinterJob_Rule0(cli PrinterServiceClient) http.Han
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribePrinterJobInput{}
 
-		if err := _PrinterService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _PrinterService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_PrinterService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -355,7 +355,7 @@ func _PrinterService_ListPrinterJobs_Rule0(cli PrinterServiceClient) http.Handle
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListPrinterJobsInput{}
 
-		if err := _PrinterService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _PrinterService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_PrinterService_HTTPWriteErrorResponse(w, err)
 			return
 		}

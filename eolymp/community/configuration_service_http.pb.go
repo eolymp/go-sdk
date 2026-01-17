@@ -168,7 +168,7 @@ func _ConfigurationService_DescribeIdentityConfig_Rule0(cli ConfigurationService
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeIdentityConfigInput{}
 
-		if err := _ConfigurationService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ConfigurationService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ConfigurationService_HTTPWriteErrorResponse(w, err)
 			return
 		}

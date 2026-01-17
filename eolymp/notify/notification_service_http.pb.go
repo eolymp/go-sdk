@@ -180,7 +180,7 @@ func _NotificationService_DescribeNotification_Rule0(cli NotificationServiceClie
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeNotificationInput{}
 
-		if err := _NotificationService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _NotificationService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_NotificationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -252,7 +252,7 @@ func _NotificationService_ListNotifications_Rule0(cli NotificationServiceClient)
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListNotificationsInput{}
 
-		if err := _NotificationService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _NotificationService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_NotificationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -273,7 +273,7 @@ func _NotificationService_DescribePreferences_Rule0(cli NotificationServiceClien
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribePreferencesInput{}
 
-		if err := _NotificationService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _NotificationService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_NotificationService_HTTPWriteErrorResponse(w, err)
 			return
 		}

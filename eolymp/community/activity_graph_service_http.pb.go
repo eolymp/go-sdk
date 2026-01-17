@@ -165,7 +165,7 @@ func _ActivityGraphService_DescribeActivityGraph_Rule0(cli ActivityGraphServiceC
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeActivityGraphInput{}
 
-		if err := _ActivityGraphService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ActivityGraphService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ActivityGraphService_HTTPWriteErrorResponse(w, err)
 			return
 		}

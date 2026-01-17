@@ -195,7 +195,7 @@ func _SubmissionAssistantService_DescribeDebugAssistance_Rule0(cli SubmissionAss
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeDebugAssistanceInput{}
 
-		if err := _SubmissionAssistantService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _SubmissionAssistantService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_SubmissionAssistantService_HTTPWriteErrorResponse(w, err)
 			return
 		}

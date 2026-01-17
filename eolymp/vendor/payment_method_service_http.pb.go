@@ -246,7 +246,7 @@ func _PaymentMethodService_DescribePaymentMethod_Rule0(cli PaymentMethodServiceC
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribePaymentMethodInput{}
 
-		if err := _PaymentMethodService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _PaymentMethodService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_PaymentMethodService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -270,7 +270,7 @@ func _PaymentMethodService_ListPaymentMethods_Rule0(cli PaymentMethodServiceClie
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListPaymentMethodsInput{}
 
-		if err := _PaymentMethodService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _PaymentMethodService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_PaymentMethodService_HTTPWriteErrorResponse(w, err)
 			return
 		}

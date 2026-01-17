@@ -168,7 +168,7 @@ func _BookmarkService_GetBookmark_Rule0(cli BookmarkServiceClient) http.Handler 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &GetBookmarkInput{}
 
-		if err := _BookmarkService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _BookmarkService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_BookmarkService_HTTPWriteErrorResponse(w, err)
 			return
 		}

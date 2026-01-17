@@ -168,7 +168,7 @@ func _PlanService_DescribePlan_Rule0(cli PlanServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribePlanInput{}
 
-		if err := _PlanService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _PlanService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_PlanService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -192,7 +192,7 @@ func _PlanService_ListPlans_Rule0(cli PlanServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListPlansInput{}
 
-		if err := _PlanService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _PlanService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_PlanService_HTTPWriteErrorResponse(w, err)
 			return
 		}

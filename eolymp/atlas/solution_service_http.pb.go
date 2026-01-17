@@ -249,7 +249,7 @@ func _SolutionService_DescribeSolution_Rule0(cli SolutionServiceClient) http.Han
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeSolutionInput{}
 
-		if err := _SolutionService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _SolutionService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_SolutionService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -273,7 +273,7 @@ func _SolutionService_ListSolutions_Rule0(cli SolutionServiceClient) http.Handle
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListSolutionsInput{}
 
-		if err := _SolutionService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _SolutionService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_SolutionService_HTTPWriteErrorResponse(w, err)
 			return
 		}

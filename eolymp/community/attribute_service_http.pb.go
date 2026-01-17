@@ -246,7 +246,7 @@ func _AttributeService_DescribeAttribute_Rule0(cli AttributeServiceClient) http.
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeAttributeInput{}
 
-		if err := _AttributeService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _AttributeService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_AttributeService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -270,7 +270,7 @@ func _AttributeService_ListAttributes_Rule0(cli AttributeServiceClient) http.Han
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListAttributesInput{}
 
-		if err := _AttributeService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _AttributeService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_AttributeService_HTTPWriteErrorResponse(w, err)
 			return
 		}

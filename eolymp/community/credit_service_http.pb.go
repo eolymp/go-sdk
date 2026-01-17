@@ -183,7 +183,7 @@ func _CreditService_DescribeBalance_Rule0(cli CreditServiceClient) http.Handler 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeBalanceInput{}
 
-		if err := _CreditService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _CreditService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_CreditService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -249,7 +249,7 @@ func _CreditService_ListCreditGrants_Rule0(cli CreditServiceClient) http.Handler
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListCreditGrantsInput{}
 
-		if err := _CreditService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _CreditService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_CreditService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -291,7 +291,7 @@ func _CreditService_ListCreditTransactions_Rule0(cli CreditServiceClient) http.H
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListCreditTransactionsInput{}
 
-		if err := _CreditService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _CreditService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_CreditService_HTTPWriteErrorResponse(w, err)
 			return
 		}

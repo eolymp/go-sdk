@@ -249,7 +249,7 @@ func _WebhookService_DescribeWebhook_Rule0(cli WebhookServiceClient) http.Handle
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeWebhookInput{}
 
-		if err := _WebhookService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _WebhookService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_WebhookService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -273,7 +273,7 @@ func _WebhookService_ListWebhooks_Rule0(cli WebhookServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListWebhooksInput{}
 
-		if err := _WebhookService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _WebhookService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_WebhookService_HTTPWriteErrorResponse(w, err)
 			return
 		}

@@ -291,7 +291,7 @@ func _TicketService_DescribeTicket_Rule0(cli TicketServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeTicketInput{}
 
-		if err := _TicketService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _TicketService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_TicketService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -315,7 +315,7 @@ func _TicketService_ListTickets_Rule0(cli TicketServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListTicketsInput{}
 
-		if err := _TicketService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _TicketService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_TicketService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -360,7 +360,7 @@ func _TicketService_ListReplies_Rule0(cli TicketServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListRepliesInput{}
 
-		if err := _TicketService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _TicketService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_TicketService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -384,7 +384,7 @@ func _TicketService_DescribeReply_Rule0(cli TicketServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeReplyInput{}
 
-		if err := _TicketService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _TicketService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_TicketService_HTTPWriteErrorResponse(w, err)
 			return
 		}

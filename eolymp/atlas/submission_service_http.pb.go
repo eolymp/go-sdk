@@ -225,7 +225,7 @@ func _SubmissionService_DescribeSubmission_Rule0(cli SubmissionServiceClient) ht
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeSubmissionInput{}
 
-		if err := _SubmissionService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _SubmissionService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_SubmissionService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -249,7 +249,7 @@ func _SubmissionService_ListSubmissions_Rule0(cli SubmissionServiceClient) http.
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListSubmissionsInput{}
 
-		if err := _SubmissionService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _SubmissionService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_SubmissionService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -270,7 +270,7 @@ func _SubmissionService_DescribeSubmissionUsage_Rule0(cli SubmissionServiceClien
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeSubmissionUsageInput{}
 
-		if err := _SubmissionService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _SubmissionService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_SubmissionService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -291,7 +291,7 @@ func _SubmissionService_ListProblemTop_Rule0(cli SubmissionServiceClient) http.H
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListProblemTopInput{}
 
-		if err := _SubmissionService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _SubmissionService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_SubmissionService_HTTPWriteErrorResponse(w, err)
 			return
 		}

@@ -192,7 +192,7 @@ func _AdmissionService_DescribeAdmission_Rule0(cli AdmissionServiceClient) http.
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeAdmissionInput{}
 
-		if err := _AdmissionService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _AdmissionService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_AdmissionService_HTTPWriteErrorResponse(w, err)
 			return
 		}

@@ -192,7 +192,7 @@ func _ThreadService_DescribeThread_Rule0(cli ThreadServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeThreadInput{}
 
-		if err := _ThreadService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ThreadService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ThreadService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -255,7 +255,7 @@ func _ThreadService_DescribeMessage_Rule0(cli ThreadServiceClient) http.Handler 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeMessageInput{}
 
-		if err := _ThreadService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ThreadService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ThreadService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -279,7 +279,7 @@ func _ThreadService_ListMessages_Rule0(cli ThreadServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListMessagesInput{}
 
-		if err := _ThreadService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ThreadService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ThreadService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -393,7 +393,7 @@ func _ThreadService_ListMessageChanges_Rule0(cli ThreadServiceClient) http.Handl
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListMessageChangesInput{}
 
-		if err := _ThreadService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ThreadService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ThreadService_HTTPWriteErrorResponse(w, err)
 			return
 		}

@@ -221,7 +221,7 @@ func _ContentService_DescribeFragment_Rule0(cli ContentServiceClient) http.Handl
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeFragmentInput{}
 
-		if err := _ContentService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ContentService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ContentService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -245,7 +245,7 @@ func _ContentService_ListFragments_Rule0(cli ContentServiceClient) http.Handler 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListFragmentsInput{}
 
-		if err := _ContentService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ContentService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ContentService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -359,7 +359,7 @@ func _ContentService_DescribeFragmentTranslation_Rule0(cli ContentServiceClient)
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeFragmentTranslationInput{}
 
-		if err := _ContentService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ContentService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ContentService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -384,7 +384,7 @@ func _ContentService_DescribeFragmentTranslation_Rule1(cli ContentServiceClient)
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeFragmentTranslationInput{}
 
-		if err := _ContentService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ContentService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ContentService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -409,7 +409,7 @@ func _ContentService_ListFragmentTranslations_Rule0(cli ContentServiceClient) ht
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListFragmentTranslationsInput{}
 
-		if err := _ContentService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ContentService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ContentService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -433,7 +433,7 @@ func _ContentService_ListFragmentTranslations_Rule1(cli ContentServiceClient) ht
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListFragmentTranslationsInput{}
 
-		if err := _ContentService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ContentService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ContentService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -605,7 +605,7 @@ func _ContentService_DescribePath_Rule0(cli ContentServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribePathInput{}
 
-		if err := _ContentService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ContentService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ContentService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -626,7 +626,7 @@ func _ContentService_ListParents_Rule0(cli ContentServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListParentsInput{}
 
-		if err := _ContentService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ContentService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ContentService_HTTPWriteErrorResponse(w, err)
 			return
 		}

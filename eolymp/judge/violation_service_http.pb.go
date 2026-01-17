@@ -246,7 +246,7 @@ func _ViolationService_DescribeViolation_Rule0(cli ViolationServiceClient) http.
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeViolationInput{}
 
-		if err := _ViolationService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ViolationService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ViolationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -270,7 +270,7 @@ func _ViolationService_ListViolations_Rule0(cli ViolationServiceClient) http.Han
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListViolationsInput{}
 
-		if err := _ViolationService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ViolationService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ViolationService_HTTPWriteErrorResponse(w, err)
 			return
 		}

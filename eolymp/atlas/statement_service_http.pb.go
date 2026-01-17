@@ -261,7 +261,7 @@ func _StatementService_DescribeStatement_Rule0(cli StatementServiceClient) http.
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeStatementInput{}
 
-		if err := _StatementService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _StatementService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_StatementService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -285,7 +285,7 @@ func _StatementService_LookupStatement_Rule0(cli StatementServiceClient) http.Ha
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &LookupStatementInput{}
 
-		if err := _StatementService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _StatementService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_StatementService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -327,7 +327,7 @@ func _StatementService_ListStatements_Rule0(cli StatementServiceClient) http.Han
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListStatementsInput{}
 
-		if err := _StatementService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _StatementService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_StatementService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -393,7 +393,7 @@ func _StatementService_ListStatementVersions_Rule0(cli StatementServiceClient) h
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListStatementVersionsInput{}
 
-		if err := _StatementService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _StatementService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_StatementService_HTTPWriteErrorResponse(w, err)
 			return
 		}

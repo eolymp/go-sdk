@@ -183,7 +183,7 @@ func _ScoreService_IntrospectScore_Rule0(cli ScoreServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &IntrospectScoreInput{}
 
-		if err := _ScoreService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ScoreService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ScoreService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -204,7 +204,7 @@ func _ScoreService_DescribeScore_Rule0(cli ScoreServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeScoreInput{}
 
-		if err := _ScoreService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ScoreService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ScoreService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -252,7 +252,7 @@ func _ScoreService_ExportScore_Rule0(cli ScoreServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ExportScoreInput{}
 
-		if err := _ScoreService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ScoreService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ScoreService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -276,7 +276,7 @@ func _ScoreService_ListResult_Rule0(cli ScoreServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListResultInput{}
 
-		if err := _ScoreService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ScoreService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ScoreService_HTTPWriteErrorResponse(w, err)
 			return
 		}

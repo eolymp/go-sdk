@@ -219,7 +219,7 @@ func _OrderService_ListOrders_Rule0(cli OrderServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListOrdersInput{}
 
-		if err := _OrderService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _OrderService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_OrderService_HTTPWriteErrorResponse(w, err)
 			return
 		}

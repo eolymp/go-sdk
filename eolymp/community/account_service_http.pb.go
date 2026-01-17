@@ -216,7 +216,7 @@ func _AccountService_DescribeAccount_Rule0(cli AccountServiceClient) http.Handle
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeAccountInput{}
 
-		if err := _AccountService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _AccountService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_AccountService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -384,7 +384,7 @@ func _AccountService_DescribeEmailSubscription_Rule0(cli AccountServiceClient) h
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeEmailSubscriptionInput{}
 
-		if err := _AccountService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _AccountService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_AccountService_HTTPWriteErrorResponse(w, err)
 			return
 		}

@@ -189,7 +189,7 @@ func _ShoppingService_DescribeShoppingCart_Rule0(cli ShoppingServiceClient) http
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeShoppingCartInput{}
 
-		if err := _ShoppingService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ShoppingService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ShoppingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -342,7 +342,7 @@ func _ShoppingService_ListShippingMethods_Rule0(cli ShoppingServiceClient) http.
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListShippingMethodsInput{}
 
-		if err := _ShoppingService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ShoppingService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ShoppingService_HTTPWriteErrorResponse(w, err)
 			return
 		}

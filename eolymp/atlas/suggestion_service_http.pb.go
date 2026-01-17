@@ -300,7 +300,7 @@ func _SuggestionService_ListSuggestions_Rule0(cli SuggestionServiceClient) http.
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListSuggestionsInput{}
 
-		if err := _SuggestionService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _SuggestionService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_SuggestionService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -321,7 +321,7 @@ func _SuggestionService_DescribeSuggestion_Rule0(cli SuggestionServiceClient) ht
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeSuggestionInput{}
 
-		if err := _SuggestionService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _SuggestionService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_SuggestionService_HTTPWriteErrorResponse(w, err)
 			return
 		}

@@ -171,7 +171,7 @@ func _ProfileService_DescribeProfile_Rule0(cli ProfileServiceClient) http.Handle
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeProfileInput{}
 
-		if err := _ProfileService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ProfileService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ProfileService_HTTPWriteErrorResponse(w, err)
 			return
 		}

@@ -246,7 +246,7 @@ func _AttachmentService_ListAttachments_Rule0(cli AttachmentServiceClient) http.
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListAttachmentsInput{}
 
-		if err := _AttachmentService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _AttachmentService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_AttachmentService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -267,7 +267,7 @@ func _AttachmentService_DescribeAttachment_Rule0(cli AttachmentServiceClient) ht
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeAttachmentInput{}
 
-		if err := _AttachmentService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _AttachmentService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_AttachmentService_HTTPWriteErrorResponse(w, err)
 			return
 		}

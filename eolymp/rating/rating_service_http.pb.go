@@ -252,7 +252,7 @@ func _RatingService_DescribeRating_Rule0(cli RatingServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeRatingInput{}
 
-		if err := _RatingService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _RatingService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_RatingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -276,7 +276,7 @@ func _RatingService_ListRating_Rule0(cli RatingServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListRatingInput{}
 
-		if err := _RatingService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _RatingService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_RatingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -300,7 +300,7 @@ func _RatingService_DescribeRatingBoundaries_Rule0(cli RatingServiceClient) http
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeRatingBoundariesInput{}
 
-		if err := _RatingService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _RatingService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_RatingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -321,7 +321,7 @@ func _RatingService_DescribeRatingDistribution_Rule0(cli RatingServiceClient) ht
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeRatingDistributionInput{}
 
-		if err := _RatingService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _RatingService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_RatingService_HTTPWriteErrorResponse(w, err)
 			return
 		}

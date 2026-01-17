@@ -255,7 +255,7 @@ func _ClassService_DescribeClass_Rule0(cli ClassServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeClassInput{}
 
-		if err := _ClassService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ClassService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ClassService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -279,7 +279,7 @@ func _ClassService_ListClasses_Rule0(cli ClassServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListClassesInput{}
 
-		if err := _ClassService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ClassService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ClassService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -300,7 +300,7 @@ func _ClassService_ListClassAssignments_Rule0(cli ClassServiceClient) http.Handl
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListClassAssignmentsInput{}
 
-		if err := _ClassService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ClassService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ClassService_HTTPWriteErrorResponse(w, err)
 			return
 		}

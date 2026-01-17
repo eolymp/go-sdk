@@ -249,7 +249,7 @@ func _PolicyService_DescribePolicy_Rule0(cli PolicyServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribePolicyInput{}
 
-		if err := _PolicyService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _PolicyService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_PolicyService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -273,7 +273,7 @@ func _PolicyService_ListPolicies_Rule0(cli PolicyServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListPoliciesInput{}
 
-		if err := _PolicyService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _PolicyService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_PolicyService_HTTPWriteErrorResponse(w, err)
 			return
 		}

@@ -174,7 +174,7 @@ func _GeographyService_ListCountries_Rule0(cli GeographyServiceClient) http.Hand
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListCountriesInput{}
 
-		if err := _GeographyService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _GeographyService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_GeographyService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -195,7 +195,7 @@ func _GeographyService_DescribeCountry_Rule0(cli GeographyServiceClient) http.Ha
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeCountryInput{}
 
-		if err := _GeographyService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _GeographyService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_GeographyService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -219,7 +219,7 @@ func _GeographyService_ListRegions_Rule0(cli GeographyServiceClient) http.Handle
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListRegionsInput{}
 
-		if err := _GeographyService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _GeographyService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_GeographyService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -240,7 +240,7 @@ func _GeographyService_DescribeRegion_Rule0(cli GeographyServiceClient) http.Han
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeRegionInput{}
 
-		if err := _GeographyService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _GeographyService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_GeographyService_HTTPWriteErrorResponse(w, err)
 			return
 		}

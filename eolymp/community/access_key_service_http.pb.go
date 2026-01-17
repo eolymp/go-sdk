@@ -216,7 +216,7 @@ func _AccessKeyService_ListAccessKeys_Rule0(cli AccessKeyServiceClient) http.Han
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListAccessKeysInput{}
 
-		if err := _AccessKeyService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _AccessKeyService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_AccessKeyService_HTTPWriteErrorResponse(w, err)
 			return
 		}

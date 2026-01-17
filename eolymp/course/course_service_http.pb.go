@@ -249,7 +249,7 @@ func _CourseService_DescribeCourse_Rule0(cli CourseServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeCourseInput{}
 
-		if err := _CourseService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _CourseService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_CourseService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -273,7 +273,7 @@ func _CourseService_ListCourses_Rule0(cli CourseServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListCoursesInput{}
 
-		if err := _CourseService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _CourseService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_CourseService_HTTPWriteErrorResponse(w, err)
 			return
 		}

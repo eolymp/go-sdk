@@ -174,7 +174,7 @@ func _SessionService_DescribeSession_Rule0(cli SessionServiceClient) http.Handle
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeSessionInput{}
 
-		if err := _SessionService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _SessionService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_SessionService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -198,7 +198,7 @@ func _SessionService_ListSessions_Rule0(cli SessionServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListSessionsInput{}
 
-		if err := _SessionService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _SessionService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_SessionService_HTTPWriteErrorResponse(w, err)
 			return
 		}

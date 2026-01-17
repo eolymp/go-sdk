@@ -165,7 +165,7 @@ func _GeolocationService_LookupAddress_Rule0(cli GeolocationServiceClient) http.
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &LookupAddressInput{}
 
-		if err := _GeolocationService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _GeolocationService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_GeolocationService_HTTPWriteErrorResponse(w, err)
 			return
 		}

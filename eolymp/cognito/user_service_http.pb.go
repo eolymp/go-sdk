@@ -168,7 +168,7 @@ func _UserService_DescribeUser_Rule0(cli UserServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeUserInput{}
 
-		if err := _UserService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _UserService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_UserService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -192,7 +192,7 @@ func _UserService_ListUsers_Rule0(cli UserServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListUsersInput{}
 
-		if err := _UserService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _UserService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_UserService_HTTPWriteErrorResponse(w, err)
 			return
 		}

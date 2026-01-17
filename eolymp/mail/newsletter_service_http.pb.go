@@ -285,7 +285,7 @@ func _NewsletterService_DescribeNewsletter_Rule0(cli NewsletterServiceClient) ht
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeNewsletterInput{}
 
-		if err := _NewsletterService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _NewsletterService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_NewsletterService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -309,7 +309,7 @@ func _NewsletterService_ListNewsletters_Rule0(cli NewsletterServiceClient) http.
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListNewslettersInput{}
 
-		if err := _NewsletterService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _NewsletterService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_NewsletterService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -476,7 +476,7 @@ func _NewsletterService_DescribeTranslation_Rule0(cli NewsletterServiceClient) h
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeTranslationInput{}
 
-		if err := _NewsletterService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _NewsletterService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_NewsletterService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -501,7 +501,7 @@ func _NewsletterService_ListTranslations_Rule0(cli NewsletterServiceClient) http
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListTranslationsInput{}
 
-		if err := _NewsletterService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _NewsletterService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_NewsletterService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -598,7 +598,7 @@ func _NewsletterService_ListRecipients_Rule0(cli NewsletterServiceClient) http.H
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListRecipientsInput{}
 
-		if err := _NewsletterService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _NewsletterService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_NewsletterService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -622,7 +622,7 @@ func _NewsletterService_DescribeRecipient_Rule0(cli NewsletterServiceClient) htt
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeRecipientInput{}
 
-		if err := _NewsletterService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _NewsletterService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_NewsletterService_HTTPWriteErrorResponse(w, err)
 			return
 		}

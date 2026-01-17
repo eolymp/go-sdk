@@ -207,7 +207,7 @@ func _BillingService_DescribeBillingInformation_Rule0(cli BillingServiceClient) 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeBillingInformationInput{}
 
-		if err := _BillingService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _BillingService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_BillingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -249,7 +249,7 @@ func _BillingService_DescribeSubscription_Rule0(cli BillingServiceClient) http.H
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeSubscriptionInput{}
 
-		if err := _BillingService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _BillingService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_BillingService_HTTPWriteErrorResponse(w, err)
 			return
 		}

@@ -261,7 +261,7 @@ func _ProblemService_DescribeProblem_Rule0(cli ProblemServiceClient) http.Handle
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeProblemInput{}
 
-		if err := _ProblemService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ProblemService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -285,7 +285,7 @@ func _ProblemService_ListProblems_Rule0(cli ProblemServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListProblemsInput{}
 
-		if err := _ProblemService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ProblemService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -354,7 +354,7 @@ func _ProblemService_ListVersions_Rule0(cli ProblemServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListVersionsInput{}
 
-		if err := _ProblemService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ProblemService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -378,7 +378,7 @@ func _ProblemService_ListRuntimes_Rule0(cli ProblemServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListRuntimesInput{}
 
-		if err := _ProblemService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ProblemService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -402,7 +402,7 @@ func _ProblemService_ExportProblem_Rule0(cli ProblemServiceClient) http.Handler 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ExportProblemInput{}
 
-		if err := _ProblemService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _ProblemService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
 		}

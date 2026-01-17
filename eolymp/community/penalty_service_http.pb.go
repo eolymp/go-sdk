@@ -246,7 +246,7 @@ func _PenaltyService_DescribePenalty_Rule0(cli PenaltyServiceClient) http.Handle
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribePenaltyInput{}
 
-		if err := _PenaltyService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _PenaltyService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_PenaltyService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -270,7 +270,7 @@ func _PenaltyService_ListPenalties_Rule0(cli PenaltyServiceClient) http.Handler 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListPenaltiesInput{}
 
-		if err := _PenaltyService_HTTPReadQueryString(r, in, 1048576); err != nil {
+		if err := _PenaltyService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_PenaltyService_HTTPWriteErrorResponse(w, err)
 			return
 		}
