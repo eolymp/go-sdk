@@ -4,6 +4,7 @@
 package judge
 
 import (
+	errors "errors"
 	go_querystring "github.com/eolymp/go-querystring"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
@@ -12,14 +13,20 @@ import (
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
-	ioutil "io/ioutil"
+	io "io"
 	http "net/http"
 	url "net/url"
 	strconv "strconv"
 )
 
-// _ParticipantService_HTTPReadQueryString parses body into proto.Message
-func _ParticipantService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+var errParticipantServiceRequestTooLarge = errors.New("request too large")
+
+// _ParticipantService_HTTPReadQueryString parses query string into proto.Message with size limit
+func _ParticipantService_HTTPReadQueryString(r *http.Request, v proto.Message, maxSize int64) error {
+	if int64(len(r.URL.RawQuery)) > maxSize {
+		return errParticipantServiceRequestTooLarge
+	}
+
 	if h := r.Header.Values("Strict-Parsing"); len(h) > 0 {
 		strict, err := strconv.ParseBool(h[len(h)-1])
 		if err != nil {
@@ -39,10 +46,13 @@ func _ParticipantService_HTTPReadQueryString(r *http.Request, v proto.Message) e
 	return go_querystring.Unmarshal(r.URL.Query(), v)
 }
 
-// _ParticipantService_HTTPReadRequestBody parses body into proto.Message
-func _ParticipantService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
-	data, err := ioutil.ReadAll(r.Body)
+// _ParticipantService_HTTPReadRequestBody parses body into proto.Message with size limit
+func _ParticipantService_HTTPReadRequestBody(r *http.Request, v proto.Message, maxSize int64) error {
+	data, err := io.ReadAll(http.MaxBytesReader(nil, r.Body, maxSize))
 	if err != nil {
+		if err.Error() == "http: request body too large" {
+			return errParticipantServiceRequestTooLarge
+		}
 		return err
 	}
 
@@ -83,6 +93,12 @@ func _ParticipantService_HTTPWriteResponse(w http.ResponseWriter, v proto.Messag
 // _ParticipantService_HTTPWriteErrorResponse writes error to HTTP response with error status code
 func _ParticipantService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
+
+	if e == errParticipantServiceRequestTooLarge {
+		w.WriteHeader(http.StatusRequestEntityTooLarge)
+		_, _ = w.Write([]byte("request too large"))
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -185,8 +201,7 @@ func _ParticipantService_AssignParticipant_Rule0(cli ParticipantServiceClient) h
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &AssignParticipantInput{}
 
-		if err := _ParticipantService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ParticipantService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_ParticipantService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -207,8 +222,7 @@ func _ParticipantService_EnableParticipant_Rule0(cli ParticipantServiceClient) h
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &EnableParticipantInput{}
 
-		if err := _ParticipantService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ParticipantService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_ParticipantService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -232,8 +246,7 @@ func _ParticipantService_DisableParticipant_Rule0(cli ParticipantServiceClient) 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DisableParticipantInput{}
 
-		if err := _ParticipantService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ParticipantService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_ParticipantService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -257,8 +270,7 @@ func _ParticipantService_UpdateParticipant_Rule0(cli ParticipantServiceClient) h
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateParticipantInput{}
 
-		if err := _ParticipantService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ParticipantService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_ParticipantService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -282,8 +294,7 @@ func _ParticipantService_DisqualifyParticipant_Rule0(cli ParticipantServiceClien
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DisqualifyParticipantInput{}
 
-		if err := _ParticipantService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ParticipantService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_ParticipantService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -307,8 +318,7 @@ func _ParticipantService_DeleteParticipant_Rule0(cli ParticipantServiceClient) h
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteParticipantInput{}
 
-		if err := _ParticipantService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ParticipantService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_ParticipantService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -332,8 +342,7 @@ func _ParticipantService_DescribeParticipant_Rule0(cli ParticipantServiceClient)
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeParticipantInput{}
 
-		if err := _ParticipantService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ParticipantService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_ParticipantService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -357,8 +366,7 @@ func _ParticipantService_ListParticipants_Rule0(cli ParticipantServiceClient) ht
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListParticipantsInput{}
 
-		if err := _ParticipantService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ParticipantService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_ParticipantService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -379,8 +387,7 @@ func _ParticipantService_JoinContest_Rule0(cli ParticipantServiceClient) http.Ha
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &JoinContestInput{}
 
-		if err := _ParticipantService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ParticipantService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_ParticipantService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -401,8 +408,7 @@ func _ParticipantService_DescribeViewer_Rule0(cli ParticipantServiceClient) http
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeViewerInput{}
 
-		if err := _ParticipantService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ParticipantService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_ParticipantService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -423,8 +429,7 @@ func _ParticipantService_StartContest_Rule0(cli ParticipantServiceClient) http.H
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &StartContestInput{}
 
-		if err := _ParticipantService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ParticipantService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_ParticipantService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -445,8 +450,7 @@ func _ParticipantService_PauseContest_Rule0(cli ParticipantServiceClient) http.H
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &PauseContestInput{}
 
-		if err := _ParticipantService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ParticipantService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_ParticipantService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -467,8 +471,7 @@ func _ParticipantService_FinishContest_Rule0(cli ParticipantServiceClient) http.
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &FinishContestInput{}
 
-		if err := _ParticipantService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ParticipantService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_ParticipantService_HTTPWriteErrorResponse(w, err)
 			return
 		}

@@ -4,6 +4,7 @@
 package commerce
 
 import (
+	errors "errors"
 	go_querystring "github.com/eolymp/go-querystring"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
@@ -12,14 +13,20 @@ import (
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
-	ioutil "io/ioutil"
+	io "io"
 	http "net/http"
 	url "net/url"
 	strconv "strconv"
 )
 
-// _ShoppingService_HTTPReadQueryString parses body into proto.Message
-func _ShoppingService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+var errShoppingServiceRequestTooLarge = errors.New("request too large")
+
+// _ShoppingService_HTTPReadQueryString parses query string into proto.Message with size limit
+func _ShoppingService_HTTPReadQueryString(r *http.Request, v proto.Message, maxSize int64) error {
+	if int64(len(r.URL.RawQuery)) > maxSize {
+		return errShoppingServiceRequestTooLarge
+	}
+
 	if h := r.Header.Values("Strict-Parsing"); len(h) > 0 {
 		strict, err := strconv.ParseBool(h[len(h)-1])
 		if err != nil {
@@ -39,10 +46,13 @@ func _ShoppingService_HTTPReadQueryString(r *http.Request, v proto.Message) erro
 	return go_querystring.Unmarshal(r.URL.Query(), v)
 }
 
-// _ShoppingService_HTTPReadRequestBody parses body into proto.Message
-func _ShoppingService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
-	data, err := ioutil.ReadAll(r.Body)
+// _ShoppingService_HTTPReadRequestBody parses body into proto.Message with size limit
+func _ShoppingService_HTTPReadRequestBody(r *http.Request, v proto.Message, maxSize int64) error {
+	data, err := io.ReadAll(http.MaxBytesReader(nil, r.Body, maxSize))
 	if err != nil {
+		if err.Error() == "http: request body too large" {
+			return errShoppingServiceRequestTooLarge
+		}
 		return err
 	}
 
@@ -83,6 +93,12 @@ func _ShoppingService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, 
 // _ShoppingService_HTTPWriteErrorResponse writes error to HTTP response with error status code
 func _ShoppingService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
+
+	if e == errShoppingServiceRequestTooLarge {
+		w.WriteHeader(http.StatusRequestEntityTooLarge)
+		_, _ = w.Write([]byte("request too large"))
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -173,8 +189,7 @@ func _ShoppingService_DescribeShoppingCart_Rule0(cli ShoppingServiceClient) http
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeShoppingCartInput{}
 
-		if err := _ShoppingService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ShoppingService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_ShoppingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -195,8 +210,7 @@ func _ShoppingService_CreateShoppingCartItem_Rule0(cli ShoppingServiceClient) ht
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateShoppingCartItemInput{}
 
-		if err := _ShoppingService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ShoppingService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_ShoppingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -217,8 +231,7 @@ func _ShoppingService_UpdateShoppingCartItem_Rule0(cli ShoppingServiceClient) ht
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateShoppingCartItemInput{}
 
-		if err := _ShoppingService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ShoppingService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_ShoppingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -242,8 +255,7 @@ func _ShoppingService_DeleteShoppingCartItem_Rule0(cli ShoppingServiceClient) ht
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteShoppingCartItemInput{}
 
-		if err := _ShoppingService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ShoppingService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_ShoppingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -267,8 +279,7 @@ func _ShoppingService_UpdateShippingAddress_Rule0(cli ShoppingServiceClient) htt
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateShippingAddressInput{}
 
-		if err := _ShoppingService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ShoppingService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_ShoppingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -289,8 +300,7 @@ func _ShoppingService_UpdateBillingAddress_Rule0(cli ShoppingServiceClient) http
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateBillingAddressInput{}
 
-		if err := _ShoppingService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ShoppingService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_ShoppingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -311,8 +321,7 @@ func _ShoppingService_UpdateShippingMethod_Rule0(cli ShoppingServiceClient) http
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateShippingMethodInput{}
 
-		if err := _ShoppingService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ShoppingService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_ShoppingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -333,8 +342,7 @@ func _ShoppingService_ListShippingMethods_Rule0(cli ShoppingServiceClient) http.
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListShippingMethodsInput{}
 
-		if err := _ShoppingService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ShoppingService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_ShoppingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -355,8 +363,7 @@ func _ShoppingService_PlaceOrder_Rule0(cli ShoppingServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &PlaceOrderInput{}
 
-		if err := _ShoppingService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ShoppingService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_ShoppingService_HTTPWriteErrorResponse(w, err)
 			return
 		}

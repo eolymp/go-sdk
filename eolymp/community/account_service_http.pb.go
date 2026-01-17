@@ -4,6 +4,7 @@
 package community
 
 import (
+	errors "errors"
 	go_querystring "github.com/eolymp/go-querystring"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
@@ -12,14 +13,20 @@ import (
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
-	ioutil "io/ioutil"
+	io "io"
 	http "net/http"
 	url "net/url"
 	strconv "strconv"
 )
 
-// _AccountService_HTTPReadQueryString parses body into proto.Message
-func _AccountService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+var errAccountServiceRequestTooLarge = errors.New("request too large")
+
+// _AccountService_HTTPReadQueryString parses query string into proto.Message with size limit
+func _AccountService_HTTPReadQueryString(r *http.Request, v proto.Message, maxSize int64) error {
+	if int64(len(r.URL.RawQuery)) > maxSize {
+		return errAccountServiceRequestTooLarge
+	}
+
 	if h := r.Header.Values("Strict-Parsing"); len(h) > 0 {
 		strict, err := strconv.ParseBool(h[len(h)-1])
 		if err != nil {
@@ -39,10 +46,13 @@ func _AccountService_HTTPReadQueryString(r *http.Request, v proto.Message) error
 	return go_querystring.Unmarshal(r.URL.Query(), v)
 }
 
-// _AccountService_HTTPReadRequestBody parses body into proto.Message
-func _AccountService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
-	data, err := ioutil.ReadAll(r.Body)
+// _AccountService_HTTPReadRequestBody parses body into proto.Message with size limit
+func _AccountService_HTTPReadRequestBody(r *http.Request, v proto.Message, maxSize int64) error {
+	data, err := io.ReadAll(http.MaxBytesReader(nil, r.Body, maxSize))
 	if err != nil {
+		if err.Error() == "http: request body too large" {
+			return errAccountServiceRequestTooLarge
+		}
 		return err
 	}
 
@@ -83,6 +93,12 @@ func _AccountService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h
 // _AccountService_HTTPWriteErrorResponse writes error to HTTP response with error status code
 func _AccountService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
+
+	if e == errAccountServiceRequestTooLarge {
+		w.WriteHeader(http.StatusRequestEntityTooLarge)
+		_, _ = w.Write([]byte("request too large"))
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -179,8 +195,7 @@ func _AccountService_CreateAccount_Rule0(cli AccountServiceClient) http.Handler 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateAccountInput{}
 
-		if err := _AccountService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _AccountService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_AccountService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -201,8 +216,7 @@ func _AccountService_DescribeAccount_Rule0(cli AccountServiceClient) http.Handle
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeAccountInput{}
 
-		if err := _AccountService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _AccountService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_AccountService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -223,8 +237,7 @@ func _AccountService_UpdateAccount_Rule0(cli AccountServiceClient) http.Handler 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateAccountInput{}
 
-		if err := _AccountService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _AccountService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_AccountService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -245,8 +258,7 @@ func _AccountService_UploadPicture_Rule0(cli AccountServiceClient) http.Handler 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UploadPictureInput{}
 
-		if err := _AccountService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _AccountService_HTTPReadRequestBody(r, in, 2097152); err != nil {
 			_AccountService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -267,8 +279,7 @@ func _AccountService_DeleteAccount_Rule0(cli AccountServiceClient) http.Handler 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteAccountInput{}
 
-		if err := _AccountService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _AccountService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_AccountService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -289,8 +300,7 @@ func _AccountService_ResendVerification_Rule0(cli AccountServiceClient) http.Han
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ResendVerificationInput{}
 
-		if err := _AccountService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _AccountService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_AccountService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -311,8 +321,7 @@ func _AccountService_CompleteVerification_Rule0(cli AccountServiceClient) http.H
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CompleteVerificationInput{}
 
-		if err := _AccountService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _AccountService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_AccountService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -333,8 +342,7 @@ func _AccountService_StartRecovery_Rule0(cli AccountServiceClient) http.Handler 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &StartRecoveryInput{}
 
-		if err := _AccountService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _AccountService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_AccountService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -355,8 +363,7 @@ func _AccountService_CompleteRecovery_Rule0(cli AccountServiceClient) http.Handl
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CompleteRecoverInput{}
 
-		if err := _AccountService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _AccountService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_AccountService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -377,8 +384,7 @@ func _AccountService_DescribeEmailSubscription_Rule0(cli AccountServiceClient) h
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeEmailSubscriptionInput{}
 
-		if err := _AccountService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _AccountService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_AccountService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -399,8 +405,7 @@ func _AccountService_UpdateEmailSubscription_Rule0(cli AccountServiceClient) htt
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateEmailSubscriptionInput{}
 
-		if err := _AccountService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _AccountService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_AccountService_HTTPWriteErrorResponse(w, err)
 			return
 		}

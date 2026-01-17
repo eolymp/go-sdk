@@ -4,6 +4,7 @@
 package commerce
 
 import (
+	errors "errors"
 	go_querystring "github.com/eolymp/go-querystring"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
@@ -12,14 +13,20 @@ import (
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
-	ioutil "io/ioutil"
+	io "io"
 	http "net/http"
 	url "net/url"
 	strconv "strconv"
 )
 
-// _OrderService_HTTPReadQueryString parses body into proto.Message
-func _OrderService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+var errOrderServiceRequestTooLarge = errors.New("request too large")
+
+// _OrderService_HTTPReadQueryString parses query string into proto.Message with size limit
+func _OrderService_HTTPReadQueryString(r *http.Request, v proto.Message, maxSize int64) error {
+	if int64(len(r.URL.RawQuery)) > maxSize {
+		return errOrderServiceRequestTooLarge
+	}
+
 	if h := r.Header.Values("Strict-Parsing"); len(h) > 0 {
 		strict, err := strconv.ParseBool(h[len(h)-1])
 		if err != nil {
@@ -39,10 +46,13 @@ func _OrderService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
 	return go_querystring.Unmarshal(r.URL.Query(), v)
 }
 
-// _OrderService_HTTPReadRequestBody parses body into proto.Message
-func _OrderService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
-	data, err := ioutil.ReadAll(r.Body)
+// _OrderService_HTTPReadRequestBody parses body into proto.Message with size limit
+func _OrderService_HTTPReadRequestBody(r *http.Request, v proto.Message, maxSize int64) error {
+	data, err := io.ReadAll(http.MaxBytesReader(nil, r.Body, maxSize))
 	if err != nil {
+		if err.Error() == "http: request body too large" {
+			return errOrderServiceRequestTooLarge
+		}
 		return err
 	}
 
@@ -83,6 +93,12 @@ func _OrderService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h, 
 // _OrderService_HTTPWriteErrorResponse writes error to HTTP response with error status code
 func _OrderService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
+
+	if e == errOrderServiceRequestTooLarge {
+		w.WriteHeader(http.StatusRequestEntityTooLarge)
+		_, _ = w.Write([]byte("request too large"))
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -155,8 +171,7 @@ func _OrderService_CancelOrder_Rule0(cli OrderServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CancelOrderInput{}
 
-		if err := _OrderService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _OrderService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_OrderService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -180,8 +195,7 @@ func _OrderService_DescribeOrder_Rule0(cli OrderServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeOrderInput{}
 
-		if err := _OrderService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _OrderService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_OrderService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -205,8 +219,7 @@ func _OrderService_ListOrders_Rule0(cli OrderServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListOrdersInput{}
 
-		if err := _OrderService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _OrderService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_OrderService_HTTPWriteErrorResponse(w, err)
 			return
 		}

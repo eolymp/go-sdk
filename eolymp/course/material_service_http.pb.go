@@ -4,6 +4,7 @@
 package course
 
 import (
+	errors "errors"
 	go_querystring "github.com/eolymp/go-querystring"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
@@ -12,14 +13,20 @@ import (
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
-	ioutil "io/ioutil"
+	io "io"
 	http "net/http"
 	url "net/url"
 	strconv "strconv"
 )
 
-// _MaterialService_HTTPReadQueryString parses body into proto.Message
-func _MaterialService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+var errMaterialServiceRequestTooLarge = errors.New("request too large")
+
+// _MaterialService_HTTPReadQueryString parses query string into proto.Message with size limit
+func _MaterialService_HTTPReadQueryString(r *http.Request, v proto.Message, maxSize int64) error {
+	if int64(len(r.URL.RawQuery)) > maxSize {
+		return errMaterialServiceRequestTooLarge
+	}
+
 	if h := r.Header.Values("Strict-Parsing"); len(h) > 0 {
 		strict, err := strconv.ParseBool(h[len(h)-1])
 		if err != nil {
@@ -39,10 +46,13 @@ func _MaterialService_HTTPReadQueryString(r *http.Request, v proto.Message) erro
 	return go_querystring.Unmarshal(r.URL.Query(), v)
 }
 
-// _MaterialService_HTTPReadRequestBody parses body into proto.Message
-func _MaterialService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
-	data, err := ioutil.ReadAll(r.Body)
+// _MaterialService_HTTPReadRequestBody parses body into proto.Message with size limit
+func _MaterialService_HTTPReadRequestBody(r *http.Request, v proto.Message, maxSize int64) error {
+	data, err := io.ReadAll(http.MaxBytesReader(nil, r.Body, maxSize))
 	if err != nil {
+		if err.Error() == "http: request body too large" {
+			return errMaterialServiceRequestTooLarge
+		}
 		return err
 	}
 
@@ -83,6 +93,12 @@ func _MaterialService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, 
 // _MaterialService_HTTPWriteErrorResponse writes error to HTTP response with error status code
 func _MaterialService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
+
+	if e == errMaterialServiceRequestTooLarge {
+		w.WriteHeader(http.StatusRequestEntityTooLarge)
+		_, _ = w.Write([]byte("request too large"))
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -170,8 +186,7 @@ func _MaterialService_CreateMaterial_Rule0(cli MaterialServiceClient) http.Handl
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateMaterialInput{}
 
-		if err := _MaterialService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _MaterialService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_MaterialService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -192,8 +207,7 @@ func _MaterialService_UpdateMaterial_Rule0(cli MaterialServiceClient) http.Handl
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateMaterialInput{}
 
-		if err := _MaterialService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _MaterialService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_MaterialService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -217,8 +231,7 @@ func _MaterialService_MoveMaterial_Rule0(cli MaterialServiceClient) http.Handler
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &MoveMaterialInput{}
 
-		if err := _MaterialService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _MaterialService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_MaterialService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -242,8 +255,7 @@ func _MaterialService_DeleteMaterial_Rule0(cli MaterialServiceClient) http.Handl
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteMaterialInput{}
 
-		if err := _MaterialService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _MaterialService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_MaterialService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -267,8 +279,7 @@ func _MaterialService_DescribeMaterial_Rule0(cli MaterialServiceClient) http.Han
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeMaterialInput{}
 
-		if err := _MaterialService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _MaterialService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_MaterialService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -292,8 +303,7 @@ func _MaterialService_ListMaterials_Rule0(cli MaterialServiceClient) http.Handle
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListMaterialsInput{}
 
-		if err := _MaterialService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _MaterialService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_MaterialService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -314,8 +324,7 @@ func _MaterialService_ReportProgress_Rule0(cli MaterialServiceClient) http.Handl
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ReportProgressInput{}
 
-		if err := _MaterialService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _MaterialService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_MaterialService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -339,8 +348,7 @@ func _MaterialService_GradeMaterial_Rule0(cli MaterialServiceClient) http.Handle
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &GradeMaterialInput{}
 
-		if err := _MaterialService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _MaterialService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_MaterialService_HTTPWriteErrorResponse(w, err)
 			return
 		}

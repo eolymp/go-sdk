@@ -4,6 +4,7 @@
 package commerce
 
 import (
+	errors "errors"
 	go_querystring "github.com/eolymp/go-querystring"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
@@ -12,14 +13,20 @@ import (
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
-	ioutil "io/ioutil"
+	io "io"
 	http "net/http"
 	url "net/url"
 	strconv "strconv"
 )
 
-// _FulfillmentService_HTTPReadQueryString parses body into proto.Message
-func _FulfillmentService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+var errFulfillmentServiceRequestTooLarge = errors.New("request too large")
+
+// _FulfillmentService_HTTPReadQueryString parses query string into proto.Message with size limit
+func _FulfillmentService_HTTPReadQueryString(r *http.Request, v proto.Message, maxSize int64) error {
+	if int64(len(r.URL.RawQuery)) > maxSize {
+		return errFulfillmentServiceRequestTooLarge
+	}
+
 	if h := r.Header.Values("Strict-Parsing"); len(h) > 0 {
 		strict, err := strconv.ParseBool(h[len(h)-1])
 		if err != nil {
@@ -39,10 +46,13 @@ func _FulfillmentService_HTTPReadQueryString(r *http.Request, v proto.Message) e
 	return go_querystring.Unmarshal(r.URL.Query(), v)
 }
 
-// _FulfillmentService_HTTPReadRequestBody parses body into proto.Message
-func _FulfillmentService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
-	data, err := ioutil.ReadAll(r.Body)
+// _FulfillmentService_HTTPReadRequestBody parses body into proto.Message with size limit
+func _FulfillmentService_HTTPReadRequestBody(r *http.Request, v proto.Message, maxSize int64) error {
+	data, err := io.ReadAll(http.MaxBytesReader(nil, r.Body, maxSize))
 	if err != nil {
+		if err.Error() == "http: request body too large" {
+			return errFulfillmentServiceRequestTooLarge
+		}
 		return err
 	}
 
@@ -83,6 +93,12 @@ func _FulfillmentService_HTTPWriteResponse(w http.ResponseWriter, v proto.Messag
 // _FulfillmentService_HTTPWriteErrorResponse writes error to HTTP response with error status code
 func _FulfillmentService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
+
+	if e == errFulfillmentServiceRequestTooLarge {
+		w.WriteHeader(http.StatusRequestEntityTooLarge)
+		_, _ = w.Write([]byte("request too large"))
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -161,8 +177,7 @@ func _FulfillmentService_AllocateStock_Rule0(cli FulfillmentServiceClient) http.
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &AllocateStockInput{}
 
-		if err := _FulfillmentService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _FulfillmentService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_FulfillmentService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -186,8 +201,7 @@ func _FulfillmentService_RejectOrder_Rule0(cli FulfillmentServiceClient) http.Ha
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &RejectOrderInput{}
 
-		if err := _FulfillmentService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _FulfillmentService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_FulfillmentService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -211,8 +225,7 @@ func _FulfillmentService_ProcessOrder_Rule0(cli FulfillmentServiceClient) http.H
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ProcessOrderInput{}
 
-		if err := _FulfillmentService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _FulfillmentService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_FulfillmentService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -236,8 +249,7 @@ func _FulfillmentService_ShipOrder_Rule0(cli FulfillmentServiceClient) http.Hand
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ShipOrderInput{}
 
-		if err := _FulfillmentService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _FulfillmentService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_FulfillmentService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -261,8 +273,7 @@ func _FulfillmentService_CompleteOrder_Rule0(cli FulfillmentServiceClient) http.
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CompleteOrderInput{}
 
-		if err := _FulfillmentService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _FulfillmentService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_FulfillmentService_HTTPWriteErrorResponse(w, err)
 			return
 		}

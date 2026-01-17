@@ -4,6 +4,7 @@
 package judge
 
 import (
+	errors "errors"
 	go_querystring "github.com/eolymp/go-querystring"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
@@ -12,14 +13,20 @@ import (
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
-	ioutil "io/ioutil"
+	io "io"
 	http "net/http"
 	url "net/url"
 	strconv "strconv"
 )
 
-// _RegistrationService_HTTPReadQueryString parses body into proto.Message
-func _RegistrationService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+var errRegistrationServiceRequestTooLarge = errors.New("request too large")
+
+// _RegistrationService_HTTPReadQueryString parses query string into proto.Message with size limit
+func _RegistrationService_HTTPReadQueryString(r *http.Request, v proto.Message, maxSize int64) error {
+	if int64(len(r.URL.RawQuery)) > maxSize {
+		return errRegistrationServiceRequestTooLarge
+	}
+
 	if h := r.Header.Values("Strict-Parsing"); len(h) > 0 {
 		strict, err := strconv.ParseBool(h[len(h)-1])
 		if err != nil {
@@ -39,10 +46,13 @@ func _RegistrationService_HTTPReadQueryString(r *http.Request, v proto.Message) 
 	return go_querystring.Unmarshal(r.URL.Query(), v)
 }
 
-// _RegistrationService_HTTPReadRequestBody parses body into proto.Message
-func _RegistrationService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
-	data, err := ioutil.ReadAll(r.Body)
+// _RegistrationService_HTTPReadRequestBody parses body into proto.Message with size limit
+func _RegistrationService_HTTPReadRequestBody(r *http.Request, v proto.Message, maxSize int64) error {
+	data, err := io.ReadAll(http.MaxBytesReader(nil, r.Body, maxSize))
 	if err != nil {
+		if err.Error() == "http: request body too large" {
+			return errRegistrationServiceRequestTooLarge
+		}
 		return err
 	}
 
@@ -83,6 +93,12 @@ func _RegistrationService_HTTPWriteResponse(w http.ResponseWriter, v proto.Messa
 // _RegistrationService_HTTPWriteErrorResponse writes error to HTTP response with error status code
 func _RegistrationService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
+
+	if e == errRegistrationServiceRequestTooLarge {
+		w.WriteHeader(http.StatusRequestEntityTooLarge)
+		_, _ = w.Write([]byte("request too large"))
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -152,8 +168,7 @@ func _RegistrationService_DescribeRegistration_Rule0(cli RegistrationServiceClie
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeRegistrationInput{}
 
-		if err := _RegistrationService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _RegistrationService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_RegistrationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -174,8 +189,7 @@ func _RegistrationService_SubmitRegistration_Rule0(cli RegistrationServiceClient
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &SubmitRegistrationInput{}
 
-		if err := _RegistrationService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _RegistrationService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_RegistrationService_HTTPWriteErrorResponse(w, err)
 			return
 		}

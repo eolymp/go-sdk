@@ -4,6 +4,7 @@
 package taxonomy
 
 import (
+	errors "errors"
 	go_querystring "github.com/eolymp/go-querystring"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
@@ -12,14 +13,20 @@ import (
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
-	ioutil "io/ioutil"
+	io "io"
 	http "net/http"
 	url "net/url"
 	strconv "strconv"
 )
 
-// _GeographyService_HTTPReadQueryString parses body into proto.Message
-func _GeographyService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+var errGeographyServiceRequestTooLarge = errors.New("request too large")
+
+// _GeographyService_HTTPReadQueryString parses query string into proto.Message with size limit
+func _GeographyService_HTTPReadQueryString(r *http.Request, v proto.Message, maxSize int64) error {
+	if int64(len(r.URL.RawQuery)) > maxSize {
+		return errGeographyServiceRequestTooLarge
+	}
+
 	if h := r.Header.Values("Strict-Parsing"); len(h) > 0 {
 		strict, err := strconv.ParseBool(h[len(h)-1])
 		if err != nil {
@@ -39,10 +46,13 @@ func _GeographyService_HTTPReadQueryString(r *http.Request, v proto.Message) err
 	return go_querystring.Unmarshal(r.URL.Query(), v)
 }
 
-// _GeographyService_HTTPReadRequestBody parses body into proto.Message
-func _GeographyService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
-	data, err := ioutil.ReadAll(r.Body)
+// _GeographyService_HTTPReadRequestBody parses body into proto.Message with size limit
+func _GeographyService_HTTPReadRequestBody(r *http.Request, v proto.Message, maxSize int64) error {
+	data, err := io.ReadAll(http.MaxBytesReader(nil, r.Body, maxSize))
 	if err != nil {
+		if err.Error() == "http: request body too large" {
+			return errGeographyServiceRequestTooLarge
+		}
 		return err
 	}
 
@@ -83,6 +93,12 @@ func _GeographyService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message,
 // _GeographyService_HTTPWriteErrorResponse writes error to HTTP response with error status code
 func _GeographyService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
+
+	if e == errGeographyServiceRequestTooLarge {
+		w.WriteHeader(http.StatusRequestEntityTooLarge)
+		_, _ = w.Write([]byte("request too large"))
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -158,8 +174,7 @@ func _GeographyService_ListCountries_Rule0(cli GeographyServiceClient) http.Hand
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListCountriesInput{}
 
-		if err := _GeographyService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _GeographyService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_GeographyService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -180,8 +195,7 @@ func _GeographyService_DescribeCountry_Rule0(cli GeographyServiceClient) http.Ha
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeCountryInput{}
 
-		if err := _GeographyService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _GeographyService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_GeographyService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -205,8 +219,7 @@ func _GeographyService_ListRegions_Rule0(cli GeographyServiceClient) http.Handle
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListRegionsInput{}
 
-		if err := _GeographyService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _GeographyService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_GeographyService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -227,8 +240,7 @@ func _GeographyService_DescribeRegion_Rule0(cli GeographyServiceClient) http.Han
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeRegionInput{}
 
-		if err := _GeographyService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _GeographyService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_GeographyService_HTTPWriteErrorResponse(w, err)
 			return
 		}

@@ -4,6 +4,7 @@
 package commerce
 
 import (
+	errors "errors"
 	go_querystring "github.com/eolymp/go-querystring"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
@@ -12,14 +13,20 @@ import (
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
-	ioutil "io/ioutil"
+	io "io"
 	http "net/http"
 	url "net/url"
 	strconv "strconv"
 )
 
-// _ProductService_HTTPReadQueryString parses body into proto.Message
-func _ProductService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+var errProductServiceRequestTooLarge = errors.New("request too large")
+
+// _ProductService_HTTPReadQueryString parses query string into proto.Message with size limit
+func _ProductService_HTTPReadQueryString(r *http.Request, v proto.Message, maxSize int64) error {
+	if int64(len(r.URL.RawQuery)) > maxSize {
+		return errProductServiceRequestTooLarge
+	}
+
 	if h := r.Header.Values("Strict-Parsing"); len(h) > 0 {
 		strict, err := strconv.ParseBool(h[len(h)-1])
 		if err != nil {
@@ -39,10 +46,13 @@ func _ProductService_HTTPReadQueryString(r *http.Request, v proto.Message) error
 	return go_querystring.Unmarshal(r.URL.Query(), v)
 }
 
-// _ProductService_HTTPReadRequestBody parses body into proto.Message
-func _ProductService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
-	data, err := ioutil.ReadAll(r.Body)
+// _ProductService_HTTPReadRequestBody parses body into proto.Message with size limit
+func _ProductService_HTTPReadRequestBody(r *http.Request, v proto.Message, maxSize int64) error {
+	data, err := io.ReadAll(http.MaxBytesReader(nil, r.Body, maxSize))
 	if err != nil {
+		if err.Error() == "http: request body too large" {
+			return errProductServiceRequestTooLarge
+		}
 		return err
 	}
 
@@ -83,6 +93,12 @@ func _ProductService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h
 // _ProductService_HTTPWriteErrorResponse writes error to HTTP response with error status code
 func _ProductService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
+
+	if e == errProductServiceRequestTooLarge {
+		w.WriteHeader(http.StatusRequestEntityTooLarge)
+		_, _ = w.Write([]byte("request too large"))
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -161,8 +177,7 @@ func _ProductService_CreateProduct_Rule0(cli ProductServiceClient) http.Handler 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateProductInput{}
 
-		if err := _ProductService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ProductService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_ProductService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -183,8 +198,7 @@ func _ProductService_UpdateProduct_Rule0(cli ProductServiceClient) http.Handler 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateProductInput{}
 
-		if err := _ProductService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ProductService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_ProductService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -208,8 +222,7 @@ func _ProductService_DeleteProduct_Rule0(cli ProductServiceClient) http.Handler 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteProductInput{}
 
-		if err := _ProductService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ProductService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_ProductService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -233,8 +246,7 @@ func _ProductService_DescribeProduct_Rule0(cli ProductServiceClient) http.Handle
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeProductInput{}
 
-		if err := _ProductService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ProductService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_ProductService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -258,8 +270,7 @@ func _ProductService_ListProducts_Rule0(cli ProductServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListProductsInput{}
 
-		if err := _ProductService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ProductService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_ProductService_HTTPWriteErrorResponse(w, err)
 			return
 		}

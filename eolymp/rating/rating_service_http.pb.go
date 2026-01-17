@@ -4,6 +4,7 @@
 package rating
 
 import (
+	errors "errors"
 	go_querystring "github.com/eolymp/go-querystring"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
@@ -12,14 +13,20 @@ import (
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
-	ioutil "io/ioutil"
+	io "io"
 	http "net/http"
 	url "net/url"
 	strconv "strconv"
 )
 
-// _RatingService_HTTPReadQueryString parses body into proto.Message
-func _RatingService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+var errRatingServiceRequestTooLarge = errors.New("request too large")
+
+// _RatingService_HTTPReadQueryString parses query string into proto.Message with size limit
+func _RatingService_HTTPReadQueryString(r *http.Request, v proto.Message, maxSize int64) error {
+	if int64(len(r.URL.RawQuery)) > maxSize {
+		return errRatingServiceRequestTooLarge
+	}
+
 	if h := r.Header.Values("Strict-Parsing"); len(h) > 0 {
 		strict, err := strconv.ParseBool(h[len(h)-1])
 		if err != nil {
@@ -39,10 +46,13 @@ func _RatingService_HTTPReadQueryString(r *http.Request, v proto.Message) error 
 	return go_querystring.Unmarshal(r.URL.Query(), v)
 }
 
-// _RatingService_HTTPReadRequestBody parses body into proto.Message
-func _RatingService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
-	data, err := ioutil.ReadAll(r.Body)
+// _RatingService_HTTPReadRequestBody parses body into proto.Message with size limit
+func _RatingService_HTTPReadRequestBody(r *http.Request, v proto.Message, maxSize int64) error {
+	data, err := io.ReadAll(http.MaxBytesReader(nil, r.Body, maxSize))
 	if err != nil {
+		if err.Error() == "http: request body too large" {
+			return errRatingServiceRequestTooLarge
+		}
 		return err
 	}
 
@@ -83,6 +93,12 @@ func _RatingService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h,
 // _RatingService_HTTPWriteErrorResponse writes error to HTTP response with error status code
 func _RatingService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
+
+	if e == errRatingServiceRequestTooLarge {
+		w.WriteHeader(http.StatusRequestEntityTooLarge)
+		_, _ = w.Write([]byte("request too large"))
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -167,8 +183,7 @@ func _RatingService_SetRating_Rule0(cli RatingServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &SetRatingInput{}
 
-		if err := _RatingService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _RatingService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_RatingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -189,8 +204,7 @@ func _RatingService_UpdateRating_Rule0(cli RatingServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateRatingInput{}
 
-		if err := _RatingService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _RatingService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_RatingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -214,8 +228,7 @@ func _RatingService_DeleteRating_Rule0(cli RatingServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteRatingInput{}
 
-		if err := _RatingService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _RatingService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_RatingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -239,8 +252,7 @@ func _RatingService_DescribeRating_Rule0(cli RatingServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeRatingInput{}
 
-		if err := _RatingService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _RatingService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_RatingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -264,8 +276,7 @@ func _RatingService_ListRating_Rule0(cli RatingServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListRatingInput{}
 
-		if err := _RatingService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _RatingService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_RatingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -289,8 +300,7 @@ func _RatingService_DescribeRatingBoundaries_Rule0(cli RatingServiceClient) http
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeRatingBoundariesInput{}
 
-		if err := _RatingService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _RatingService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_RatingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -311,8 +321,7 @@ func _RatingService_DescribeRatingDistribution_Rule0(cli RatingServiceClient) ht
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeRatingDistributionInput{}
 
-		if err := _RatingService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _RatingService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_RatingService_HTTPWriteErrorResponse(w, err)
 			return
 		}

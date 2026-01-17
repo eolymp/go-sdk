@@ -4,6 +4,7 @@
 package universe
 
 import (
+	errors "errors"
 	go_querystring "github.com/eolymp/go-querystring"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
@@ -12,14 +13,20 @@ import (
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
-	ioutil "io/ioutil"
+	io "io"
 	http "net/http"
 	url "net/url"
 	strconv "strconv"
 )
 
-// _BillingService_HTTPReadQueryString parses body into proto.Message
-func _BillingService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+var errBillingServiceRequestTooLarge = errors.New("request too large")
+
+// _BillingService_HTTPReadQueryString parses query string into proto.Message with size limit
+func _BillingService_HTTPReadQueryString(r *http.Request, v proto.Message, maxSize int64) error {
+	if int64(len(r.URL.RawQuery)) > maxSize {
+		return errBillingServiceRequestTooLarge
+	}
+
 	if h := r.Header.Values("Strict-Parsing"); len(h) > 0 {
 		strict, err := strconv.ParseBool(h[len(h)-1])
 		if err != nil {
@@ -39,10 +46,13 @@ func _BillingService_HTTPReadQueryString(r *http.Request, v proto.Message) error
 	return go_querystring.Unmarshal(r.URL.Query(), v)
 }
 
-// _BillingService_HTTPReadRequestBody parses body into proto.Message
-func _BillingService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
-	data, err := ioutil.ReadAll(r.Body)
+// _BillingService_HTTPReadRequestBody parses body into proto.Message with size limit
+func _BillingService_HTTPReadRequestBody(r *http.Request, v proto.Message, maxSize int64) error {
+	data, err := io.ReadAll(http.MaxBytesReader(nil, r.Body, maxSize))
 	if err != nil {
+		if err.Error() == "http: request body too large" {
+			return errBillingServiceRequestTooLarge
+		}
 		return err
 	}
 
@@ -83,6 +93,12 @@ func _BillingService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h
 // _BillingService_HTTPWriteErrorResponse writes error to HTTP response with error status code
 func _BillingService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
+
+	if e == errBillingServiceRequestTooLarge {
+		w.WriteHeader(http.StatusRequestEntityTooLarge)
+		_, _ = w.Write([]byte("request too large"))
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -191,8 +207,7 @@ func _BillingService_DescribeBillingInformation_Rule0(cli BillingServiceClient) 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeBillingInformationInput{}
 
-		if err := _BillingService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _BillingService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_BillingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -213,8 +228,7 @@ func _BillingService_UpdateBillingInformation_Rule0(cli BillingServiceClient) ht
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateBillingInformationInput{}
 
-		if err := _BillingService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _BillingService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_BillingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -235,8 +249,7 @@ func _BillingService_DescribeSubscription_Rule0(cli BillingServiceClient) http.H
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeSubscriptionInput{}
 
-		if err := _BillingService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _BillingService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_BillingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -257,8 +270,7 @@ func _BillingService_CreateSubscription_Rule0(cli BillingServiceClient) http.Han
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateSubscriptionInput{}
 
-		if err := _BillingService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _BillingService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_BillingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -279,8 +291,7 @@ func _BillingService_UpdateSubscription_Rule0(cli BillingServiceClient) http.Han
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateSubscriptionInput{}
 
-		if err := _BillingService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _BillingService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_BillingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -301,8 +312,7 @@ func _BillingService_CancelSubscription_Rule0(cli BillingServiceClient) http.Han
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CancelSubscriptionInput{}
 
-		if err := _BillingService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _BillingService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_BillingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -323,8 +333,7 @@ func _BillingService_StartSubscriptionTrial_Rule0(cli BillingServiceClient) http
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &StartSubscriptionTrialInput{}
 
-		if err := _BillingService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _BillingService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_BillingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -345,8 +354,7 @@ func _BillingService_EndSubscriptionTrial_Rule0(cli BillingServiceClient) http.H
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &EndSubscriptionTrialInput{}
 
-		if err := _BillingService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _BillingService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_BillingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -367,8 +375,7 @@ func _BillingService_SimulateSubscription_Rule0(cli BillingServiceClient) http.H
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &SimulateSubscriptionInput{}
 
-		if err := _BillingService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _BillingService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_BillingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -389,8 +396,7 @@ func _BillingService_CreatePortalLink_Rule0(cli BillingServiceClient) http.Handl
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreatePortalLinkInput{}
 
-		if err := _BillingService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _BillingService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_BillingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -411,8 +417,7 @@ func _BillingService_UpcomingInvoice_Rule0(cli BillingServiceClient) http.Handle
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpcomingInvoiceInput{}
 
-		if err := _BillingService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _BillingService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_BillingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -433,8 +438,7 @@ func _BillingService_DescribeInvoice_Rule0(cli BillingServiceClient) http.Handle
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeInvoiceInput{}
 
-		if err := _BillingService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _BillingService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_BillingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -458,8 +462,7 @@ func _BillingService_PayInvoice_Rule0(cli BillingServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &PayInvoiceInput{}
 
-		if err := _BillingService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _BillingService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_BillingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -483,8 +486,7 @@ func _BillingService_ListInvoices_Rule0(cli BillingServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListInvoicesInput{}
 
-		if err := _BillingService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _BillingService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_BillingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -505,8 +507,7 @@ func _BillingService_ListAvailablePlans_Rule0(cli BillingServiceClient) http.Han
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListAvailablePlansInput{}
 
-		if err := _BillingService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _BillingService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_BillingService_HTTPWriteErrorResponse(w, err)
 			return
 		}

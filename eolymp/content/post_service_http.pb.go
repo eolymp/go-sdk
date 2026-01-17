@@ -4,6 +4,7 @@
 package content
 
 import (
+	errors "errors"
 	go_querystring "github.com/eolymp/go-querystring"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
@@ -12,14 +13,20 @@ import (
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
-	ioutil "io/ioutil"
+	io "io"
 	http "net/http"
 	url "net/url"
 	strconv "strconv"
 )
 
-// _PostService_HTTPReadQueryString parses body into proto.Message
-func _PostService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+var errPostServiceRequestTooLarge = errors.New("request too large")
+
+// _PostService_HTTPReadQueryString parses query string into proto.Message with size limit
+func _PostService_HTTPReadQueryString(r *http.Request, v proto.Message, maxSize int64) error {
+	if int64(len(r.URL.RawQuery)) > maxSize {
+		return errPostServiceRequestTooLarge
+	}
+
 	if h := r.Header.Values("Strict-Parsing"); len(h) > 0 {
 		strict, err := strconv.ParseBool(h[len(h)-1])
 		if err != nil {
@@ -39,10 +46,13 @@ func _PostService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
 	return go_querystring.Unmarshal(r.URL.Query(), v)
 }
 
-// _PostService_HTTPReadRequestBody parses body into proto.Message
-func _PostService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
-	data, err := ioutil.ReadAll(r.Body)
+// _PostService_HTTPReadRequestBody parses body into proto.Message with size limit
+func _PostService_HTTPReadRequestBody(r *http.Request, v proto.Message, maxSize int64) error {
+	data, err := io.ReadAll(http.MaxBytesReader(nil, r.Body, maxSize))
 	if err != nil {
+		if err.Error() == "http: request body too large" {
+			return errPostServiceRequestTooLarge
+		}
 		return err
 	}
 
@@ -83,6 +93,12 @@ func _PostService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h, t
 // _PostService_HTTPWriteErrorResponse writes error to HTTP response with error status code
 func _PostService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
+
+	if e == errPostServiceRequestTooLarge {
+		w.WriteHeader(http.StatusRequestEntityTooLarge)
+		_, _ = w.Write([]byte("request too large"))
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -191,8 +207,7 @@ func _PostService_DescribePost_Rule0(cli PostServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribePostInput{}
 
-		if err := _PostService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _PostService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_PostService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -216,8 +231,7 @@ func _PostService_ListPosts_Rule0(cli PostServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListPostsInput{}
 
-		if err := _PostService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _PostService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_PostService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -238,8 +252,7 @@ func _PostService_CreatePost_Rule0(cli PostServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreatePostInput{}
 
-		if err := _PostService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _PostService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_PostService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -260,8 +273,7 @@ func _PostService_UpdatePost_Rule0(cli PostServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdatePostInput{}
 
-		if err := _PostService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _PostService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_PostService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -285,8 +297,7 @@ func _PostService_PublishPost_Rule0(cli PostServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &PublishPostInput{}
 
-		if err := _PostService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _PostService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_PostService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -310,8 +321,7 @@ func _PostService_UnpublishPost_Rule0(cli PostServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UnpublishPostInput{}
 
-		if err := _PostService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _PostService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_PostService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -335,8 +345,7 @@ func _PostService_ModeratePost_Rule0(cli PostServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ModeratePostInput{}
 
-		if err := _PostService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _PostService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_PostService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -360,8 +369,7 @@ func _PostService_DeletePost_Rule0(cli PostServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeletePostInput{}
 
-		if err := _PostService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _PostService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_PostService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -385,8 +393,7 @@ func _PostService_VotePost_Rule0(cli PostServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &VotePostInput{}
 
-		if err := _PostService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _PostService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_PostService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -410,8 +417,7 @@ func _PostService_TranslatePost_Rule0(cli PostServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &TranslatePostInput{}
 
-		if err := _PostService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _PostService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_PostService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -435,8 +441,7 @@ func _PostService_DescribePostTranslation_Rule0(cli PostServiceClient) http.Hand
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribePostTranslationInput{}
 
-		if err := _PostService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _PostService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_PostService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -461,8 +466,7 @@ func _PostService_ListPostTranslations_Rule0(cli PostServiceClient) http.Handler
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListPostTranslationsInput{}
 
-		if err := _PostService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _PostService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_PostService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -486,8 +490,7 @@ func _PostService_CreatePostTranslation_Rule0(cli PostServiceClient) http.Handle
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreatePostTranslationInput{}
 
-		if err := _PostService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _PostService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_PostService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -511,8 +514,7 @@ func _PostService_UpdatePostTranslation_Rule0(cli PostServiceClient) http.Handle
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdatePostTranslationInput{}
 
-		if err := _PostService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _PostService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_PostService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -537,8 +539,7 @@ func _PostService_DeletePostTranslation_Rule0(cli PostServiceClient) http.Handle
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeletePostTranslationInput{}
 
-		if err := _PostService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _PostService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_PostService_HTTPWriteErrorResponse(w, err)
 			return
 		}

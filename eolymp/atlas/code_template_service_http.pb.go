@@ -4,6 +4,7 @@
 package atlas
 
 import (
+	errors "errors"
 	go_querystring "github.com/eolymp/go-querystring"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
@@ -12,14 +13,20 @@ import (
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
-	ioutil "io/ioutil"
+	io "io"
 	http "net/http"
 	url "net/url"
 	strconv "strconv"
 )
 
-// _CodeTemplateService_HTTPReadQueryString parses body into proto.Message
-func _CodeTemplateService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+var errCodeTemplateServiceRequestTooLarge = errors.New("request too large")
+
+// _CodeTemplateService_HTTPReadQueryString parses query string into proto.Message with size limit
+func _CodeTemplateService_HTTPReadQueryString(r *http.Request, v proto.Message, maxSize int64) error {
+	if int64(len(r.URL.RawQuery)) > maxSize {
+		return errCodeTemplateServiceRequestTooLarge
+	}
+
 	if h := r.Header.Values("Strict-Parsing"); len(h) > 0 {
 		strict, err := strconv.ParseBool(h[len(h)-1])
 		if err != nil {
@@ -39,10 +46,13 @@ func _CodeTemplateService_HTTPReadQueryString(r *http.Request, v proto.Message) 
 	return go_querystring.Unmarshal(r.URL.Query(), v)
 }
 
-// _CodeTemplateService_HTTPReadRequestBody parses body into proto.Message
-func _CodeTemplateService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
-	data, err := ioutil.ReadAll(r.Body)
+// _CodeTemplateService_HTTPReadRequestBody parses body into proto.Message with size limit
+func _CodeTemplateService_HTTPReadRequestBody(r *http.Request, v proto.Message, maxSize int64) error {
+	data, err := io.ReadAll(http.MaxBytesReader(nil, r.Body, maxSize))
 	if err != nil {
+		if err.Error() == "http: request body too large" {
+			return errCodeTemplateServiceRequestTooLarge
+		}
 		return err
 	}
 
@@ -83,6 +93,12 @@ func _CodeTemplateService_HTTPWriteResponse(w http.ResponseWriter, v proto.Messa
 // _CodeTemplateService_HTTPWriteErrorResponse writes error to HTTP response with error status code
 func _CodeTemplateService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
+
+	if e == errCodeTemplateServiceRequestTooLarge {
+		w.WriteHeader(http.StatusRequestEntityTooLarge)
+		_, _ = w.Write([]byte("request too large"))
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -164,8 +180,7 @@ func _CodeTemplateService_CreateCodeTemplate_Rule0(cli CodeTemplateServiceClient
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateCodeTemplateInput{}
 
-		if err := _CodeTemplateService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _CodeTemplateService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_CodeTemplateService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -186,8 +201,7 @@ func _CodeTemplateService_UpdateCodeTemplate_Rule0(cli CodeTemplateServiceClient
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateCodeTemplateInput{}
 
-		if err := _CodeTemplateService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _CodeTemplateService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_CodeTemplateService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -211,8 +225,7 @@ func _CodeTemplateService_DeleteCodeTemplate_Rule0(cli CodeTemplateServiceClient
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteCodeTemplateInput{}
 
-		if err := _CodeTemplateService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _CodeTemplateService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_CodeTemplateService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -236,8 +249,7 @@ func _CodeTemplateService_ListCodeTemplates_Rule0(cli CodeTemplateServiceClient)
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListCodeTemplatesInput{}
 
-		if err := _CodeTemplateService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _CodeTemplateService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_CodeTemplateService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -258,8 +270,7 @@ func _CodeTemplateService_DescribeCodeTemplate_Rule0(cli CodeTemplateServiceClie
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeCodeTemplateInput{}
 
-		if err := _CodeTemplateService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _CodeTemplateService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_CodeTemplateService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -283,8 +294,7 @@ func _CodeTemplateService_LookupCodeTemplate_Rule0(cli CodeTemplateServiceClient
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &LookupCodeTemplateInput{}
 
-		if err := _CodeTemplateService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _CodeTemplateService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_CodeTemplateService_HTTPWriteErrorResponse(w, err)
 			return
 		}

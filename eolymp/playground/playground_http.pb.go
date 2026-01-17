@@ -4,6 +4,7 @@
 package playground
 
 import (
+	errors "errors"
 	go_querystring "github.com/eolymp/go-querystring"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
@@ -12,14 +13,20 @@ import (
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
-	ioutil "io/ioutil"
+	io "io"
 	http "net/http"
 	url "net/url"
 	strconv "strconv"
 )
 
-// _Playground_HTTPReadQueryString parses body into proto.Message
-func _Playground_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+var errPlaygroundRequestTooLarge = errors.New("request too large")
+
+// _Playground_HTTPReadQueryString parses query string into proto.Message with size limit
+func _Playground_HTTPReadQueryString(r *http.Request, v proto.Message, maxSize int64) error {
+	if int64(len(r.URL.RawQuery)) > maxSize {
+		return errPlaygroundRequestTooLarge
+	}
+
 	if h := r.Header.Values("Strict-Parsing"); len(h) > 0 {
 		strict, err := strconv.ParseBool(h[len(h)-1])
 		if err != nil {
@@ -39,10 +46,13 @@ func _Playground_HTTPReadQueryString(r *http.Request, v proto.Message) error {
 	return go_querystring.Unmarshal(r.URL.Query(), v)
 }
 
-// _Playground_HTTPReadRequestBody parses body into proto.Message
-func _Playground_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
-	data, err := ioutil.ReadAll(r.Body)
+// _Playground_HTTPReadRequestBody parses body into proto.Message with size limit
+func _Playground_HTTPReadRequestBody(r *http.Request, v proto.Message, maxSize int64) error {
+	data, err := io.ReadAll(http.MaxBytesReader(nil, r.Body, maxSize))
 	if err != nil {
+		if err.Error() == "http: request body too large" {
+			return errPlaygroundRequestTooLarge
+		}
 		return err
 	}
 
@@ -83,6 +93,12 @@ func _Playground_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h, t 
 // _Playground_HTTPWriteErrorResponse writes error to HTTP response with error status code
 func _Playground_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
+
+	if e == errPlaygroundRequestTooLarge {
+		w.WriteHeader(http.StatusRequestEntityTooLarge)
+		_, _ = w.Write([]byte("request too large"))
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -152,8 +168,7 @@ func _Playground_CreateRun_Rule0(cli PlaygroundClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateRunInput{}
 
-		if err := _Playground_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _Playground_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_Playground_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -174,8 +189,7 @@ func _Playground_DescribeRun_Rule0(cli PlaygroundClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeRunInput{}
 
-		if err := _Playground_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _Playground_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_Playground_HTTPWriteErrorResponse(w, err)
 			return
 		}

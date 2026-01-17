@@ -4,6 +4,7 @@
 package atlas
 
 import (
+	errors "errors"
 	go_querystring "github.com/eolymp/go-querystring"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
@@ -12,14 +13,20 @@ import (
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
-	ioutil "io/ioutil"
+	io "io"
 	http "net/http"
 	url "net/url"
 	strconv "strconv"
 )
 
-// _ScriptService_HTTPReadQueryString parses body into proto.Message
-func _ScriptService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+var errScriptServiceRequestTooLarge = errors.New("request too large")
+
+// _ScriptService_HTTPReadQueryString parses query string into proto.Message with size limit
+func _ScriptService_HTTPReadQueryString(r *http.Request, v proto.Message, maxSize int64) error {
+	if int64(len(r.URL.RawQuery)) > maxSize {
+		return errScriptServiceRequestTooLarge
+	}
+
 	if h := r.Header.Values("Strict-Parsing"); len(h) > 0 {
 		strict, err := strconv.ParseBool(h[len(h)-1])
 		if err != nil {
@@ -39,10 +46,13 @@ func _ScriptService_HTTPReadQueryString(r *http.Request, v proto.Message) error 
 	return go_querystring.Unmarshal(r.URL.Query(), v)
 }
 
-// _ScriptService_HTTPReadRequestBody parses body into proto.Message
-func _ScriptService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
-	data, err := ioutil.ReadAll(r.Body)
+// _ScriptService_HTTPReadRequestBody parses body into proto.Message with size limit
+func _ScriptService_HTTPReadRequestBody(r *http.Request, v proto.Message, maxSize int64) error {
+	data, err := io.ReadAll(http.MaxBytesReader(nil, r.Body, maxSize))
 	if err != nil {
+		if err.Error() == "http: request body too large" {
+			return errScriptServiceRequestTooLarge
+		}
 		return err
 	}
 
@@ -83,6 +93,12 @@ func _ScriptService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h,
 // _ScriptService_HTTPWriteErrorResponse writes error to HTTP response with error status code
 func _ScriptService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
+
+	if e == errScriptServiceRequestTooLarge {
+		w.WriteHeader(http.StatusRequestEntityTooLarge)
+		_, _ = w.Write([]byte("request too large"))
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -164,8 +180,7 @@ func _ScriptService_CreateScript_Rule0(cli ScriptServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateScriptInput{}
 
-		if err := _ScriptService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ScriptService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_ScriptService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -186,8 +201,7 @@ func _ScriptService_UpdateScript_Rule0(cli ScriptServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateScriptInput{}
 
-		if err := _ScriptService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ScriptService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_ScriptService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -211,8 +225,7 @@ func _ScriptService_DeleteScript_Rule0(cli ScriptServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteScriptInput{}
 
-		if err := _ScriptService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ScriptService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_ScriptService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -236,8 +249,7 @@ func _ScriptService_DescribeScript_Rule0(cli ScriptServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeScriptInput{}
 
-		if err := _ScriptService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ScriptService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_ScriptService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -261,8 +273,7 @@ func _ScriptService_ListScripts_Rule0(cli ScriptServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListScriptsInput{}
 
-		if err := _ScriptService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ScriptService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_ScriptService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -283,8 +294,7 @@ func _ScriptService_ExecuteStressCheck_Rule0(cli ScriptServiceClient) http.Handl
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ExecuteStressCheckInput{}
 
-		if err := _ScriptService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ScriptService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_ScriptService_HTTPWriteErrorResponse(w, err)
 			return
 		}

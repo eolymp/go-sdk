@@ -4,6 +4,7 @@
 package asset
 
 import (
+	errors "errors"
 	go_querystring "github.com/eolymp/go-querystring"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
@@ -12,14 +13,20 @@ import (
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
-	ioutil "io/ioutil"
+	io "io"
 	http "net/http"
 	url "net/url"
 	strconv "strconv"
 )
 
-// _AssetService_HTTPReadQueryString parses body into proto.Message
-func _AssetService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+var errAssetServiceRequestTooLarge = errors.New("request too large")
+
+// _AssetService_HTTPReadQueryString parses query string into proto.Message with size limit
+func _AssetService_HTTPReadQueryString(r *http.Request, v proto.Message, maxSize int64) error {
+	if int64(len(r.URL.RawQuery)) > maxSize {
+		return errAssetServiceRequestTooLarge
+	}
+
 	if h := r.Header.Values("Strict-Parsing"); len(h) > 0 {
 		strict, err := strconv.ParseBool(h[len(h)-1])
 		if err != nil {
@@ -39,10 +46,13 @@ func _AssetService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
 	return go_querystring.Unmarshal(r.URL.Query(), v)
 }
 
-// _AssetService_HTTPReadRequestBody parses body into proto.Message
-func _AssetService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
-	data, err := ioutil.ReadAll(r.Body)
+// _AssetService_HTTPReadRequestBody parses body into proto.Message with size limit
+func _AssetService_HTTPReadRequestBody(r *http.Request, v proto.Message, maxSize int64) error {
+	data, err := io.ReadAll(http.MaxBytesReader(nil, r.Body, maxSize))
 	if err != nil {
+		if err.Error() == "http: request body too large" {
+			return errAssetServiceRequestTooLarge
+		}
 		return err
 	}
 
@@ -83,6 +93,12 @@ func _AssetService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h, 
 // _AssetService_HTTPWriteErrorResponse writes error to HTTP response with error status code
 func _AssetService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
+
+	if e == errAssetServiceRequestTooLarge {
+		w.WriteHeader(http.StatusRequestEntityTooLarge)
+		_, _ = w.Write([]byte("request too large"))
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -176,8 +192,7 @@ func _AssetService_UploadImage_Rule0(cli AssetServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UploadImageInput{}
 
-		if err := _AssetService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _AssetService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_AssetService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -198,8 +213,7 @@ func _AssetService_UploadFile_Rule0(cli AssetServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UploadFileInput{}
 
-		if err := _AssetService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _AssetService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_AssetService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -220,8 +234,7 @@ func _AssetService_UploadAsset_Rule0(cli AssetServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UploadAssetInput{}
 
-		if err := _AssetService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _AssetService_HTTPReadRequestBody(r, in, 5767168); err != nil {
 			_AssetService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -242,8 +255,7 @@ func _AssetService_LookupAsset_Rule0(cli AssetServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &LookupAssetInput{}
 
-		if err := _AssetService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _AssetService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_AssetService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -264,8 +276,7 @@ func _AssetService_StartMultipartUpload_Rule0(cli AssetServiceClient) http.Handl
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &StartMultipartUploadInput{}
 
-		if err := _AssetService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _AssetService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_AssetService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -286,8 +297,7 @@ func _AssetService_UploadPart_Rule0(cli AssetServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UploadPartInput{}
 
-		if err := _AssetService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _AssetService_HTTPReadRequestBody(r, in, 5767168); err != nil {
 			_AssetService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -311,8 +321,7 @@ func _AssetService_CompleteMultipartUpload_Rule0(cli AssetServiceClient) http.Ha
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CompleteMultipartUploadInput{}
 
-		if err := _AssetService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _AssetService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_AssetService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -336,8 +345,7 @@ func _AssetService_StartStream_Rule0(cli AssetServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &StartStreamInput{}
 
-		if err := _AssetService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _AssetService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_AssetService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -358,8 +366,7 @@ func _AssetService_AppendStream_Rule0(cli AssetServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &AppendStreamInput{}
 
-		if err := _AssetService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _AssetService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_AssetService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -383,8 +390,7 @@ func _AssetService_CloseStream_Rule0(cli AssetServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CloseStreamInput{}
 
-		if err := _AssetService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _AssetService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_AssetService_HTTPWriteErrorResponse(w, err)
 			return
 		}

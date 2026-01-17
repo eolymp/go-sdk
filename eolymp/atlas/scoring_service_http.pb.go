@@ -4,6 +4,7 @@
 package atlas
 
 import (
+	errors "errors"
 	go_querystring "github.com/eolymp/go-querystring"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
@@ -12,14 +13,20 @@ import (
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
-	ioutil "io/ioutil"
+	io "io"
 	http "net/http"
 	url "net/url"
 	strconv "strconv"
 )
 
-// _ScoringService_HTTPReadQueryString parses body into proto.Message
-func _ScoringService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+var errScoringServiceRequestTooLarge = errors.New("request too large")
+
+// _ScoringService_HTTPReadQueryString parses query string into proto.Message with size limit
+func _ScoringService_HTTPReadQueryString(r *http.Request, v proto.Message, maxSize int64) error {
+	if int64(len(r.URL.RawQuery)) > maxSize {
+		return errScoringServiceRequestTooLarge
+	}
+
 	if h := r.Header.Values("Strict-Parsing"); len(h) > 0 {
 		strict, err := strconv.ParseBool(h[len(h)-1])
 		if err != nil {
@@ -39,10 +46,13 @@ func _ScoringService_HTTPReadQueryString(r *http.Request, v proto.Message) error
 	return go_querystring.Unmarshal(r.URL.Query(), v)
 }
 
-// _ScoringService_HTTPReadRequestBody parses body into proto.Message
-func _ScoringService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
-	data, err := ioutil.ReadAll(r.Body)
+// _ScoringService_HTTPReadRequestBody parses body into proto.Message with size limit
+func _ScoringService_HTTPReadRequestBody(r *http.Request, v proto.Message, maxSize int64) error {
+	data, err := io.ReadAll(http.MaxBytesReader(nil, r.Body, maxSize))
 	if err != nil {
+		if err.Error() == "http: request body too large" {
+			return errScoringServiceRequestTooLarge
+		}
 		return err
 	}
 
@@ -83,6 +93,12 @@ func _ScoringService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h
 // _ScoringService_HTTPWriteErrorResponse writes error to HTTP response with error status code
 func _ScoringService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
+
+	if e == errScoringServiceRequestTooLarge {
+		w.WriteHeader(http.StatusRequestEntityTooLarge)
+		_, _ = w.Write([]byte("request too large"))
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -152,8 +168,7 @@ func _ScoringService_DescribeScore_Rule0(cli ScoringServiceClient) http.Handler 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeScoreInput{}
 
-		if err := _ScoringService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ScoringService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_ScoringService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -177,8 +192,7 @@ func _ScoringService_DescribeProblemGrading_Rule0(cli ScoringServiceClient) http
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeProblemGradingInput{}
 
-		if err := _ScoringService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ScoringService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_ScoringService_HTTPWriteErrorResponse(w, err)
 			return
 		}

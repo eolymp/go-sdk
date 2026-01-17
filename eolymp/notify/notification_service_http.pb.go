@@ -4,6 +4,7 @@
 package notify
 
 import (
+	errors "errors"
 	go_querystring "github.com/eolymp/go-querystring"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
@@ -12,14 +13,20 @@ import (
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
-	ioutil "io/ioutil"
+	io "io"
 	http "net/http"
 	url "net/url"
 	strconv "strconv"
 )
 
-// _NotificationService_HTTPReadQueryString parses body into proto.Message
-func _NotificationService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+var errNotificationServiceRequestTooLarge = errors.New("request too large")
+
+// _NotificationService_HTTPReadQueryString parses query string into proto.Message with size limit
+func _NotificationService_HTTPReadQueryString(r *http.Request, v proto.Message, maxSize int64) error {
+	if int64(len(r.URL.RawQuery)) > maxSize {
+		return errNotificationServiceRequestTooLarge
+	}
+
 	if h := r.Header.Values("Strict-Parsing"); len(h) > 0 {
 		strict, err := strconv.ParseBool(h[len(h)-1])
 		if err != nil {
@@ -39,10 +46,13 @@ func _NotificationService_HTTPReadQueryString(r *http.Request, v proto.Message) 
 	return go_querystring.Unmarshal(r.URL.Query(), v)
 }
 
-// _NotificationService_HTTPReadRequestBody parses body into proto.Message
-func _NotificationService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
-	data, err := ioutil.ReadAll(r.Body)
+// _NotificationService_HTTPReadRequestBody parses body into proto.Message with size limit
+func _NotificationService_HTTPReadRequestBody(r *http.Request, v proto.Message, maxSize int64) error {
+	data, err := io.ReadAll(http.MaxBytesReader(nil, r.Body, maxSize))
 	if err != nil {
+		if err.Error() == "http: request body too large" {
+			return errNotificationServiceRequestTooLarge
+		}
 		return err
 	}
 
@@ -83,6 +93,12 @@ func _NotificationService_HTTPWriteResponse(w http.ResponseWriter, v proto.Messa
 // _NotificationService_HTTPWriteErrorResponse writes error to HTTP response with error status code
 func _NotificationService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
+
+	if e == errNotificationServiceRequestTooLarge {
+		w.WriteHeader(http.StatusRequestEntityTooLarge)
+		_, _ = w.Write([]byte("request too large"))
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -164,8 +180,7 @@ func _NotificationService_DescribeNotification_Rule0(cli NotificationServiceClie
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeNotificationInput{}
 
-		if err := _NotificationService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _NotificationService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_NotificationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -189,8 +204,7 @@ func _NotificationService_ReadNotification_Rule0(cli NotificationServiceClient) 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ReadNotificationInput{}
 
-		if err := _NotificationService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _NotificationService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_NotificationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -214,8 +228,7 @@ func _NotificationService_DeleteNotification_Rule0(cli NotificationServiceClient
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteNotificationInput{}
 
-		if err := _NotificationService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _NotificationService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_NotificationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -239,8 +252,7 @@ func _NotificationService_ListNotifications_Rule0(cli NotificationServiceClient)
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListNotificationsInput{}
 
-		if err := _NotificationService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _NotificationService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_NotificationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -261,8 +273,7 @@ func _NotificationService_DescribePreferences_Rule0(cli NotificationServiceClien
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribePreferencesInput{}
 
-		if err := _NotificationService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _NotificationService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_NotificationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -283,8 +294,7 @@ func _NotificationService_UpdatePreferences_Rule0(cli NotificationServiceClient)
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdatePreferencesInput{}
 
-		if err := _NotificationService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _NotificationService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_NotificationService_HTTPWriteErrorResponse(w, err)
 			return
 		}

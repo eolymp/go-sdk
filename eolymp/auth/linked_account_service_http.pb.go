@@ -4,6 +4,7 @@
 package auth
 
 import (
+	errors "errors"
 	go_querystring "github.com/eolymp/go-querystring"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
@@ -12,14 +13,20 @@ import (
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
-	ioutil "io/ioutil"
+	io "io"
 	http "net/http"
 	url "net/url"
 	strconv "strconv"
 )
 
-// _LinkedAccountService_HTTPReadQueryString parses body into proto.Message
-func _LinkedAccountService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+var errLinkedAccountServiceRequestTooLarge = errors.New("request too large")
+
+// _LinkedAccountService_HTTPReadQueryString parses query string into proto.Message with size limit
+func _LinkedAccountService_HTTPReadQueryString(r *http.Request, v proto.Message, maxSize int64) error {
+	if int64(len(r.URL.RawQuery)) > maxSize {
+		return errLinkedAccountServiceRequestTooLarge
+	}
+
 	if h := r.Header.Values("Strict-Parsing"); len(h) > 0 {
 		strict, err := strconv.ParseBool(h[len(h)-1])
 		if err != nil {
@@ -39,10 +46,13 @@ func _LinkedAccountService_HTTPReadQueryString(r *http.Request, v proto.Message)
 	return go_querystring.Unmarshal(r.URL.Query(), v)
 }
 
-// _LinkedAccountService_HTTPReadRequestBody parses body into proto.Message
-func _LinkedAccountService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
-	data, err := ioutil.ReadAll(r.Body)
+// _LinkedAccountService_HTTPReadRequestBody parses body into proto.Message with size limit
+func _LinkedAccountService_HTTPReadRequestBody(r *http.Request, v proto.Message, maxSize int64) error {
+	data, err := io.ReadAll(http.MaxBytesReader(nil, r.Body, maxSize))
 	if err != nil {
+		if err.Error() == "http: request body too large" {
+			return errLinkedAccountServiceRequestTooLarge
+		}
 		return err
 	}
 
@@ -83,6 +93,12 @@ func _LinkedAccountService_HTTPWriteResponse(w http.ResponseWriter, v proto.Mess
 // _LinkedAccountService_HTTPWriteErrorResponse writes error to HTTP response with error status code
 func _LinkedAccountService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
+
+	if e == errLinkedAccountServiceRequestTooLarge {
+		w.WriteHeader(http.StatusRequestEntityTooLarge)
+		_, _ = w.Write([]byte("request too large"))
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -161,8 +177,7 @@ func _LinkedAccountService_RequestLinkedAccount_Rule0(cli LinkedAccountServiceCl
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &RequestLinkedAccountInput{}
 
-		if err := _LinkedAccountService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _LinkedAccountService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_LinkedAccountService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -183,8 +198,7 @@ func _LinkedAccountService_CreateLinkedAccount_Rule0(cli LinkedAccountServiceCli
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateLinkedAccountInput{}
 
-		if err := _LinkedAccountService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _LinkedAccountService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_LinkedAccountService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -205,8 +219,7 @@ func _LinkedAccountService_DeleteLinkedAccount_Rule0(cli LinkedAccountServiceCli
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteLinkedAccountInput{}
 
-		if err := _LinkedAccountService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _LinkedAccountService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_LinkedAccountService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -230,8 +243,7 @@ func _LinkedAccountService_DescribeLinkedAccount_Rule0(cli LinkedAccountServiceC
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeLinkedAccountInput{}
 
-		if err := _LinkedAccountService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _LinkedAccountService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_LinkedAccountService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -255,8 +267,7 @@ func _LinkedAccountService_ListLinkedAccounts_Rule0(cli LinkedAccountServiceClie
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListLinkedAccountsInput{}
 
-		if err := _LinkedAccountService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _LinkedAccountService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_LinkedAccountService_HTTPWriteErrorResponse(w, err)
 			return
 		}

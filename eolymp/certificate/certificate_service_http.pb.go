@@ -4,6 +4,7 @@
 package certificate
 
 import (
+	errors "errors"
 	go_querystring "github.com/eolymp/go-querystring"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
@@ -12,14 +13,20 @@ import (
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
-	ioutil "io/ioutil"
+	io "io"
 	http "net/http"
 	url "net/url"
 	strconv "strconv"
 )
 
-// _CertificateService_HTTPReadQueryString parses body into proto.Message
-func _CertificateService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+var errCertificateServiceRequestTooLarge = errors.New("request too large")
+
+// _CertificateService_HTTPReadQueryString parses query string into proto.Message with size limit
+func _CertificateService_HTTPReadQueryString(r *http.Request, v proto.Message, maxSize int64) error {
+	if int64(len(r.URL.RawQuery)) > maxSize {
+		return errCertificateServiceRequestTooLarge
+	}
+
 	if h := r.Header.Values("Strict-Parsing"); len(h) > 0 {
 		strict, err := strconv.ParseBool(h[len(h)-1])
 		if err != nil {
@@ -39,10 +46,13 @@ func _CertificateService_HTTPReadQueryString(r *http.Request, v proto.Message) e
 	return go_querystring.Unmarshal(r.URL.Query(), v)
 }
 
-// _CertificateService_HTTPReadRequestBody parses body into proto.Message
-func _CertificateService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
-	data, err := ioutil.ReadAll(r.Body)
+// _CertificateService_HTTPReadRequestBody parses body into proto.Message with size limit
+func _CertificateService_HTTPReadRequestBody(r *http.Request, v proto.Message, maxSize int64) error {
+	data, err := io.ReadAll(http.MaxBytesReader(nil, r.Body, maxSize))
 	if err != nil {
+		if err.Error() == "http: request body too large" {
+			return errCertificateServiceRequestTooLarge
+		}
 		return err
 	}
 
@@ -83,6 +93,12 @@ func _CertificateService_HTTPWriteResponse(w http.ResponseWriter, v proto.Messag
 // _CertificateService_HTTPWriteErrorResponse writes error to HTTP response with error status code
 func _CertificateService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
+
+	if e == errCertificateServiceRequestTooLarge {
+		w.WriteHeader(http.StatusRequestEntityTooLarge)
+		_, _ = w.Write([]byte("request too large"))
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -158,8 +174,7 @@ func _CertificateService_CreateCertificate_Rule0(cli CertificateServiceClient) h
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateCertificateInput{}
 
-		if err := _CertificateService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _CertificateService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_CertificateService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -180,8 +195,7 @@ func _CertificateService_VoidCertificate_Rule0(cli CertificateServiceClient) htt
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &VoidCertificateInput{}
 
-		if err := _CertificateService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _CertificateService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_CertificateService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -205,8 +219,7 @@ func _CertificateService_DescribeCertificate_Rule0(cli CertificateServiceClient)
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeCertificateInput{}
 
-		if err := _CertificateService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _CertificateService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_CertificateService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -230,8 +243,7 @@ func _CertificateService_ListCertificates_Rule0(cli CertificateServiceClient) ht
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListCertificatesInput{}
 
-		if err := _CertificateService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _CertificateService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_CertificateService_HTTPWriteErrorResponse(w, err)
 			return
 		}

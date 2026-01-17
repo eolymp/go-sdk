@@ -4,6 +4,7 @@
 package universe
 
 import (
+	errors "errors"
 	go_querystring "github.com/eolymp/go-querystring"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
@@ -12,14 +13,20 @@ import (
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
-	ioutil "io/ioutil"
+	io "io"
 	http "net/http"
 	url "net/url"
 	strconv "strconv"
 )
 
-// _SpaceService_HTTPReadQueryString parses body into proto.Message
-func _SpaceService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+var errSpaceServiceRequestTooLarge = errors.New("request too large")
+
+// _SpaceService_HTTPReadQueryString parses query string into proto.Message with size limit
+func _SpaceService_HTTPReadQueryString(r *http.Request, v proto.Message, maxSize int64) error {
+	if int64(len(r.URL.RawQuery)) > maxSize {
+		return errSpaceServiceRequestTooLarge
+	}
+
 	if h := r.Header.Values("Strict-Parsing"); len(h) > 0 {
 		strict, err := strconv.ParseBool(h[len(h)-1])
 		if err != nil {
@@ -39,10 +46,13 @@ func _SpaceService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
 	return go_querystring.Unmarshal(r.URL.Query(), v)
 }
 
-// _SpaceService_HTTPReadRequestBody parses body into proto.Message
-func _SpaceService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
-	data, err := ioutil.ReadAll(r.Body)
+// _SpaceService_HTTPReadRequestBody parses body into proto.Message with size limit
+func _SpaceService_HTTPReadRequestBody(r *http.Request, v proto.Message, maxSize int64) error {
+	data, err := io.ReadAll(http.MaxBytesReader(nil, r.Body, maxSize))
 	if err != nil {
+		if err.Error() == "http: request body too large" {
+			return errSpaceServiceRequestTooLarge
+		}
 		return err
 	}
 
@@ -83,6 +93,12 @@ func _SpaceService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h, 
 // _SpaceService_HTTPWriteErrorResponse writes error to HTTP response with error status code
 func _SpaceService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
+
+	if e == errSpaceServiceRequestTooLarge {
+		w.WriteHeader(http.StatusRequestEntityTooLarge)
+		_, _ = w.Write([]byte("request too large"))
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -164,8 +180,7 @@ func _SpaceService_LookupSpace_Rule0(cli SpaceServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &LookupSpaceInput{}
 
-		if err := _SpaceService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _SpaceService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_SpaceService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -189,8 +204,7 @@ func _SpaceService_CreateSpace_Rule0(cli SpaceServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateSpaceInput{}
 
-		if err := _SpaceService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _SpaceService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_SpaceService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -211,8 +225,7 @@ func _SpaceService_UpdateSpace_Rule0(cli SpaceServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateSpaceInput{}
 
-		if err := _SpaceService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _SpaceService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_SpaceService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -236,8 +249,7 @@ func _SpaceService_DeleteSpace_Rule0(cli SpaceServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteSpaceInput{}
 
-		if err := _SpaceService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _SpaceService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_SpaceService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -261,8 +273,7 @@ func _SpaceService_DescribeSpace_Rule0(cli SpaceServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeSpaceInput{}
 
-		if err := _SpaceService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _SpaceService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_SpaceService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -286,8 +297,7 @@ func _SpaceService_ListSpaces_Rule0(cli SpaceServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListSpacesInput{}
 
-		if err := _SpaceService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _SpaceService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_SpaceService_HTTPWriteErrorResponse(w, err)
 			return
 		}

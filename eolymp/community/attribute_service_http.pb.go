@@ -4,6 +4,7 @@
 package community
 
 import (
+	errors "errors"
 	go_querystring "github.com/eolymp/go-querystring"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
@@ -12,14 +13,20 @@ import (
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
-	ioutil "io/ioutil"
+	io "io"
 	http "net/http"
 	url "net/url"
 	strconv "strconv"
 )
 
-// _AttributeService_HTTPReadQueryString parses body into proto.Message
-func _AttributeService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+var errAttributeServiceRequestTooLarge = errors.New("request too large")
+
+// _AttributeService_HTTPReadQueryString parses query string into proto.Message with size limit
+func _AttributeService_HTTPReadQueryString(r *http.Request, v proto.Message, maxSize int64) error {
+	if int64(len(r.URL.RawQuery)) > maxSize {
+		return errAttributeServiceRequestTooLarge
+	}
+
 	if h := r.Header.Values("Strict-Parsing"); len(h) > 0 {
 		strict, err := strconv.ParseBool(h[len(h)-1])
 		if err != nil {
@@ -39,10 +46,13 @@ func _AttributeService_HTTPReadQueryString(r *http.Request, v proto.Message) err
 	return go_querystring.Unmarshal(r.URL.Query(), v)
 }
 
-// _AttributeService_HTTPReadRequestBody parses body into proto.Message
-func _AttributeService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
-	data, err := ioutil.ReadAll(r.Body)
+// _AttributeService_HTTPReadRequestBody parses body into proto.Message with size limit
+func _AttributeService_HTTPReadRequestBody(r *http.Request, v proto.Message, maxSize int64) error {
+	data, err := io.ReadAll(http.MaxBytesReader(nil, r.Body, maxSize))
 	if err != nil {
+		if err.Error() == "http: request body too large" {
+			return errAttributeServiceRequestTooLarge
+		}
 		return err
 	}
 
@@ -83,6 +93,12 @@ func _AttributeService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message,
 // _AttributeService_HTTPWriteErrorResponse writes error to HTTP response with error status code
 func _AttributeService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
+
+	if e == errAttributeServiceRequestTooLarge {
+		w.WriteHeader(http.StatusRequestEntityTooLarge)
+		_, _ = w.Write([]byte("request too large"))
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -161,8 +177,7 @@ func _AttributeService_CreateAttribute_Rule0(cli AttributeServiceClient) http.Ha
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateAttributeInput{}
 
-		if err := _AttributeService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _AttributeService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_AttributeService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -183,8 +198,7 @@ func _AttributeService_UpdateAttribute_Rule0(cli AttributeServiceClient) http.Ha
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateAttributeInput{}
 
-		if err := _AttributeService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _AttributeService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_AttributeService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -208,8 +222,7 @@ func _AttributeService_RemoveAttribute_Rule0(cli AttributeServiceClient) http.Ha
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &RemoveAttributeInput{}
 
-		if err := _AttributeService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _AttributeService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_AttributeService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -233,8 +246,7 @@ func _AttributeService_DescribeAttribute_Rule0(cli AttributeServiceClient) http.
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeAttributeInput{}
 
-		if err := _AttributeService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _AttributeService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_AttributeService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -258,8 +270,7 @@ func _AttributeService_ListAttributes_Rule0(cli AttributeServiceClient) http.Han
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListAttributesInput{}
 
-		if err := _AttributeService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _AttributeService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_AttributeService_HTTPWriteErrorResponse(w, err)
 			return
 		}

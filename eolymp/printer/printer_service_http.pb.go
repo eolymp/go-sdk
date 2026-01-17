@@ -4,6 +4,7 @@
 package printer
 
 import (
+	errors "errors"
 	go_querystring "github.com/eolymp/go-querystring"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
@@ -12,14 +13,20 @@ import (
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
-	ioutil "io/ioutil"
+	io "io"
 	http "net/http"
 	url "net/url"
 	strconv "strconv"
 )
 
-// _PrinterService_HTTPReadQueryString parses body into proto.Message
-func _PrinterService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+var errPrinterServiceRequestTooLarge = errors.New("request too large")
+
+// _PrinterService_HTTPReadQueryString parses query string into proto.Message with size limit
+func _PrinterService_HTTPReadQueryString(r *http.Request, v proto.Message, maxSize int64) error {
+	if int64(len(r.URL.RawQuery)) > maxSize {
+		return errPrinterServiceRequestTooLarge
+	}
+
 	if h := r.Header.Values("Strict-Parsing"); len(h) > 0 {
 		strict, err := strconv.ParseBool(h[len(h)-1])
 		if err != nil {
@@ -39,10 +46,13 @@ func _PrinterService_HTTPReadQueryString(r *http.Request, v proto.Message) error
 	return go_querystring.Unmarshal(r.URL.Query(), v)
 }
 
-// _PrinterService_HTTPReadRequestBody parses body into proto.Message
-func _PrinterService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
-	data, err := ioutil.ReadAll(r.Body)
+// _PrinterService_HTTPReadRequestBody parses body into proto.Message with size limit
+func _PrinterService_HTTPReadRequestBody(r *http.Request, v proto.Message, maxSize int64) error {
+	data, err := io.ReadAll(http.MaxBytesReader(nil, r.Body, maxSize))
 	if err != nil {
+		if err.Error() == "http: request body too large" {
+			return errPrinterServiceRequestTooLarge
+		}
 		return err
 	}
 
@@ -83,6 +93,12 @@ func _PrinterService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h
 // _PrinterService_HTTPWriteErrorResponse writes error to HTTP response with error status code
 func _PrinterService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
+
+	if e == errPrinterServiceRequestTooLarge {
+		w.WriteHeader(http.StatusRequestEntityTooLarge)
+		_, _ = w.Write([]byte("request too large"))
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -176,8 +192,7 @@ func _PrinterService_CreatePrinter_Rule0(cli PrinterServiceClient) http.Handler 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreatePrinterInput{}
 
-		if err := _PrinterService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _PrinterService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_PrinterService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -198,8 +213,7 @@ func _PrinterService_UpdatePrinter_Rule0(cli PrinterServiceClient) http.Handler 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdatePrinterInput{}
 
-		if err := _PrinterService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _PrinterService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_PrinterService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -223,8 +237,7 @@ func _PrinterService_DeletePrinter_Rule0(cli PrinterServiceClient) http.Handler 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeletePrinterInput{}
 
-		if err := _PrinterService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _PrinterService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_PrinterService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -248,8 +261,7 @@ func _PrinterService_DescribePrinter_Rule0(cli PrinterServiceClient) http.Handle
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribePrinterInput{}
 
-		if err := _PrinterService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _PrinterService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_PrinterService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -273,8 +285,7 @@ func _PrinterService_ListPrinters_Rule0(cli PrinterServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListPrintersInput{}
 
-		if err := _PrinterService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _PrinterService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_PrinterService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -295,8 +306,7 @@ func _PrinterService_CreatePrinterJob_Rule0(cli PrinterServiceClient) http.Handl
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreatePrinterJobInput{}
 
-		if err := _PrinterService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _PrinterService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_PrinterService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -320,8 +330,7 @@ func _PrinterService_DescribePrinterJob_Rule0(cli PrinterServiceClient) http.Han
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribePrinterJobInput{}
 
-		if err := _PrinterService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _PrinterService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_PrinterService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -346,8 +355,7 @@ func _PrinterService_ListPrinterJobs_Rule0(cli PrinterServiceClient) http.Handle
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListPrinterJobsInput{}
 
-		if err := _PrinterService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _PrinterService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_PrinterService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -371,8 +379,7 @@ func _PrinterService_UpdatePrinterJob_Rule0(cli PrinterServiceClient) http.Handl
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdatePrinterJobInput{}
 
-		if err := _PrinterService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _PrinterService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_PrinterService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -397,8 +404,7 @@ func _PrinterService_DeletePrinterJob_Rule0(cli PrinterServiceClient) http.Handl
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeletePrinterJobInput{}
 
-		if err := _PrinterService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _PrinterService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_PrinterService_HTTPWriteErrorResponse(w, err)
 			return
 		}

@@ -4,6 +4,7 @@
 package community
 
 import (
+	errors "errors"
 	go_querystring "github.com/eolymp/go-querystring"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
@@ -12,14 +13,20 @@ import (
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
-	ioutil "io/ioutil"
+	io "io"
 	http "net/http"
 	url "net/url"
 	strconv "strconv"
 )
 
-// _MemberService_HTTPReadQueryString parses body into proto.Message
-func _MemberService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+var errMemberServiceRequestTooLarge = errors.New("request too large")
+
+// _MemberService_HTTPReadQueryString parses query string into proto.Message with size limit
+func _MemberService_HTTPReadQueryString(r *http.Request, v proto.Message, maxSize int64) error {
+	if int64(len(r.URL.RawQuery)) > maxSize {
+		return errMemberServiceRequestTooLarge
+	}
+
 	if h := r.Header.Values("Strict-Parsing"); len(h) > 0 {
 		strict, err := strconv.ParseBool(h[len(h)-1])
 		if err != nil {
@@ -39,10 +46,13 @@ func _MemberService_HTTPReadQueryString(r *http.Request, v proto.Message) error 
 	return go_querystring.Unmarshal(r.URL.Query(), v)
 }
 
-// _MemberService_HTTPReadRequestBody parses body into proto.Message
-func _MemberService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
-	data, err := ioutil.ReadAll(r.Body)
+// _MemberService_HTTPReadRequestBody parses body into proto.Message with size limit
+func _MemberService_HTTPReadRequestBody(r *http.Request, v proto.Message, maxSize int64) error {
+	data, err := io.ReadAll(http.MaxBytesReader(nil, r.Body, maxSize))
 	if err != nil {
+		if err.Error() == "http: request body too large" {
+			return errMemberServiceRequestTooLarge
+		}
 		return err
 	}
 
@@ -83,6 +93,12 @@ func _MemberService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h,
 // _MemberService_HTTPWriteErrorResponse writes error to HTTP response with error status code
 func _MemberService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
+
+	if e == errMemberServiceRequestTooLarge {
+		w.WriteHeader(http.StatusRequestEntityTooLarge)
+		_, _ = w.Write([]byte("request too large"))
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -176,8 +192,7 @@ func _MemberService_CreateMember_Rule0(cli MemberServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateMemberInput{}
 
-		if err := _MemberService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _MemberService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_MemberService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -198,8 +213,7 @@ func _MemberService_UpdateMember_Rule0(cli MemberServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateMemberInput{}
 
-		if err := _MemberService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _MemberService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_MemberService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -223,8 +237,7 @@ func _MemberService_UpdateMemberPicture_Rule0(cli MemberServiceClient) http.Hand
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateMemberPictureInput{}
 
-		if err := _MemberService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _MemberService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_MemberService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -248,8 +261,7 @@ func _MemberService_DeleteMember_Rule0(cli MemberServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteMemberInput{}
 
-		if err := _MemberService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _MemberService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_MemberService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -273,8 +285,7 @@ func _MemberService_RestoreMember_Rule0(cli MemberServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &RestoreMemberInput{}
 
-		if err := _MemberService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _MemberService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_MemberService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -298,8 +309,7 @@ func _MemberService_DescribeMember_Rule0(cli MemberServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeMemberInput{}
 
-		if err := _MemberService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _MemberService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_MemberService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -323,8 +333,7 @@ func _MemberService_ListMembers_Rule0(cli MemberServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListMembersInput{}
 
-		if err := _MemberService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _MemberService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_MemberService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -345,8 +354,7 @@ func _MemberService_AssignMember_Rule0(cli MemberServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &AssignMemberInput{}
 
-		if err := _MemberService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _MemberService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_MemberService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -371,8 +379,7 @@ func _MemberService_UnassignMember_Rule0(cli MemberServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UnassignMemberInput{}
 
-		if err := _MemberService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _MemberService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_MemberService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -397,8 +404,7 @@ func _MemberService_DescribeMemberUsage_Rule0(cli MemberServiceClient) http.Hand
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeMemberUsageInput{}
 
-		if err := _MemberService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _MemberService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_MemberService_HTTPWriteErrorResponse(w, err)
 			return
 		}

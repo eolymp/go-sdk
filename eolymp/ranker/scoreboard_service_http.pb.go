@@ -4,6 +4,7 @@
 package ranker
 
 import (
+	errors "errors"
 	go_querystring "github.com/eolymp/go-querystring"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
@@ -12,14 +13,20 @@ import (
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
-	ioutil "io/ioutil"
+	io "io"
 	http "net/http"
 	url "net/url"
 	strconv "strconv"
 )
 
-// _ScoreboardService_HTTPReadQueryString parses body into proto.Message
-func _ScoreboardService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+var errScoreboardServiceRequestTooLarge = errors.New("request too large")
+
+// _ScoreboardService_HTTPReadQueryString parses query string into proto.Message with size limit
+func _ScoreboardService_HTTPReadQueryString(r *http.Request, v proto.Message, maxSize int64) error {
+	if int64(len(r.URL.RawQuery)) > maxSize {
+		return errScoreboardServiceRequestTooLarge
+	}
+
 	if h := r.Header.Values("Strict-Parsing"); len(h) > 0 {
 		strict, err := strconv.ParseBool(h[len(h)-1])
 		if err != nil {
@@ -39,10 +46,13 @@ func _ScoreboardService_HTTPReadQueryString(r *http.Request, v proto.Message) er
 	return go_querystring.Unmarshal(r.URL.Query(), v)
 }
 
-// _ScoreboardService_HTTPReadRequestBody parses body into proto.Message
-func _ScoreboardService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
-	data, err := ioutil.ReadAll(r.Body)
+// _ScoreboardService_HTTPReadRequestBody parses body into proto.Message with size limit
+func _ScoreboardService_HTTPReadRequestBody(r *http.Request, v proto.Message, maxSize int64) error {
+	data, err := io.ReadAll(http.MaxBytesReader(nil, r.Body, maxSize))
 	if err != nil {
+		if err.Error() == "http: request body too large" {
+			return errScoreboardServiceRequestTooLarge
+		}
 		return err
 	}
 
@@ -83,6 +93,12 @@ func _ScoreboardService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message
 // _ScoreboardService_HTTPWriteErrorResponse writes error to HTTP response with error status code
 func _ScoreboardService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
+
+	if e == errScoreboardServiceRequestTooLarge {
+		w.WriteHeader(http.StatusRequestEntityTooLarge)
+		_, _ = w.Write([]byte("request too large"))
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -188,8 +204,7 @@ func _ScoreboardService_CreateScoreboard_Rule0(cli ScoreboardServiceClient) http
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateScoreboardInput{}
 
-		if err := _ScoreboardService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ScoreboardService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_ScoreboardService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -210,8 +225,7 @@ func _ScoreboardService_UpdateScoreboard_Rule0(cli ScoreboardServiceClient) http
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateScoreboardInput{}
 
-		if err := _ScoreboardService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ScoreboardService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_ScoreboardService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -235,8 +249,7 @@ func _ScoreboardService_RebuildScoreboard_Rule0(cli ScoreboardServiceClient) htt
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &RebuildScoreboardInput{}
 
-		if err := _ScoreboardService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ScoreboardService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_ScoreboardService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -260,8 +273,7 @@ func _ScoreboardService_DeleteScoreboard_Rule0(cli ScoreboardServiceClient) http
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteScoreboardInput{}
 
-		if err := _ScoreboardService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ScoreboardService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_ScoreboardService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -285,8 +297,7 @@ func _ScoreboardService_DescribeScoreboard_Rule0(cli ScoreboardServiceClient) ht
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeScoreboardInput{}
 
-		if err := _ScoreboardService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ScoreboardService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_ScoreboardService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -310,8 +321,7 @@ func _ScoreboardService_LookupScoreboard_Rule0(cli ScoreboardServiceClient) http
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &LookupScoreboardInput{}
 
-		if err := _ScoreboardService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ScoreboardService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_ScoreboardService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -332,8 +342,7 @@ func _ScoreboardService_ListScoreboards_Rule0(cli ScoreboardServiceClient) http.
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListScoreboardsInput{}
 
-		if err := _ScoreboardService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ScoreboardService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_ScoreboardService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -354,8 +363,7 @@ func _ScoreboardService_DescribeScoreboardRow_Rule0(cli ScoreboardServiceClient)
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeScoreboardRowInput{}
 
-		if err := _ScoreboardService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ScoreboardService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_ScoreboardService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -380,8 +388,7 @@ func _ScoreboardService_ListScoreboardRows_Rule0(cli ScoreboardServiceClient) ht
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListScoreboardRowsInput{}
 
-		if err := _ScoreboardService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ScoreboardService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_ScoreboardService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -405,8 +412,7 @@ func _ScoreboardService_AddScoreboardColumn_Rule0(cli ScoreboardServiceClient) h
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &AddScoreboardColumnInput{}
 
-		if err := _ScoreboardService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ScoreboardService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_ScoreboardService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -430,8 +436,7 @@ func _ScoreboardService_UpdateScoreboardColumn_Rule0(cli ScoreboardServiceClient
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateScoreboardColumnInput{}
 
-		if err := _ScoreboardService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ScoreboardService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_ScoreboardService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -456,8 +461,7 @@ func _ScoreboardService_DeleteScoreboardColumn_Rule0(cli ScoreboardServiceClient
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteScoreboardColumnInput{}
 
-		if err := _ScoreboardService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ScoreboardService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_ScoreboardService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -482,8 +486,7 @@ func _ScoreboardService_DescribeScoreboardColumn_Rule0(cli ScoreboardServiceClie
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeScoreboardColumnInput{}
 
-		if err := _ScoreboardService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ScoreboardService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_ScoreboardService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -508,8 +511,7 @@ func _ScoreboardService_ListScoreboardColumns_Rule0(cli ScoreboardServiceClient)
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListScoreboardColumnsInput{}
 
-		if err := _ScoreboardService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ScoreboardService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_ScoreboardService_HTTPWriteErrorResponse(w, err)
 			return
 		}

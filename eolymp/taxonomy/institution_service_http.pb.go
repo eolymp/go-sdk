@@ -4,6 +4,7 @@
 package taxonomy
 
 import (
+	errors "errors"
 	go_querystring "github.com/eolymp/go-querystring"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
@@ -12,14 +13,20 @@ import (
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
-	ioutil "io/ioutil"
+	io "io"
 	http "net/http"
 	url "net/url"
 	strconv "strconv"
 )
 
-// _InstitutionService_HTTPReadQueryString parses body into proto.Message
-func _InstitutionService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+var errInstitutionServiceRequestTooLarge = errors.New("request too large")
+
+// _InstitutionService_HTTPReadQueryString parses query string into proto.Message with size limit
+func _InstitutionService_HTTPReadQueryString(r *http.Request, v proto.Message, maxSize int64) error {
+	if int64(len(r.URL.RawQuery)) > maxSize {
+		return errInstitutionServiceRequestTooLarge
+	}
+
 	if h := r.Header.Values("Strict-Parsing"); len(h) > 0 {
 		strict, err := strconv.ParseBool(h[len(h)-1])
 		if err != nil {
@@ -39,10 +46,13 @@ func _InstitutionService_HTTPReadQueryString(r *http.Request, v proto.Message) e
 	return go_querystring.Unmarshal(r.URL.Query(), v)
 }
 
-// _InstitutionService_HTTPReadRequestBody parses body into proto.Message
-func _InstitutionService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
-	data, err := ioutil.ReadAll(r.Body)
+// _InstitutionService_HTTPReadRequestBody parses body into proto.Message with size limit
+func _InstitutionService_HTTPReadRequestBody(r *http.Request, v proto.Message, maxSize int64) error {
+	data, err := io.ReadAll(http.MaxBytesReader(nil, r.Body, maxSize))
 	if err != nil {
+		if err.Error() == "http: request body too large" {
+			return errInstitutionServiceRequestTooLarge
+		}
 		return err
 	}
 
@@ -83,6 +93,12 @@ func _InstitutionService_HTTPWriteResponse(w http.ResponseWriter, v proto.Messag
 // _InstitutionService_HTTPWriteErrorResponse writes error to HTTP response with error status code
 func _InstitutionService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
+
+	if e == errInstitutionServiceRequestTooLarge {
+		w.WriteHeader(http.StatusRequestEntityTooLarge)
+		_, _ = w.Write([]byte("request too large"))
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -152,8 +168,7 @@ func _InstitutionService_ListInstitutions_Rule0(cli InstitutionServiceClient) ht
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListInstitutionsInput{}
 
-		if err := _InstitutionService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _InstitutionService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_InstitutionService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -174,8 +189,7 @@ func _InstitutionService_DescribeInstitution_Rule0(cli InstitutionServiceClient)
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeInstitutionInput{}
 
-		if err := _InstitutionService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _InstitutionService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_InstitutionService_HTTPWriteErrorResponse(w, err)
 			return
 		}

@@ -4,6 +4,7 @@
 package judge
 
 import (
+	errors "errors"
 	go_querystring "github.com/eolymp/go-querystring"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
@@ -12,14 +13,20 @@ import (
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
-	ioutil "io/ioutil"
+	io "io"
 	http "net/http"
 	url "net/url"
 	strconv "strconv"
 )
 
-// _TicketService_HTTPReadQueryString parses body into proto.Message
-func _TicketService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+var errTicketServiceRequestTooLarge = errors.New("request too large")
+
+// _TicketService_HTTPReadQueryString parses query string into proto.Message with size limit
+func _TicketService_HTTPReadQueryString(r *http.Request, v proto.Message, maxSize int64) error {
+	if int64(len(r.URL.RawQuery)) > maxSize {
+		return errTicketServiceRequestTooLarge
+	}
+
 	if h := r.Header.Values("Strict-Parsing"); len(h) > 0 {
 		strict, err := strconv.ParseBool(h[len(h)-1])
 		if err != nil {
@@ -39,10 +46,13 @@ func _TicketService_HTTPReadQueryString(r *http.Request, v proto.Message) error 
 	return go_querystring.Unmarshal(r.URL.Query(), v)
 }
 
-// _TicketService_HTTPReadRequestBody parses body into proto.Message
-func _TicketService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
-	data, err := ioutil.ReadAll(r.Body)
+// _TicketService_HTTPReadRequestBody parses body into proto.Message with size limit
+func _TicketService_HTTPReadRequestBody(r *http.Request, v proto.Message, maxSize int64) error {
+	data, err := io.ReadAll(http.MaxBytesReader(nil, r.Body, maxSize))
 	if err != nil {
+		if err.Error() == "http: request body too large" {
+			return errTicketServiceRequestTooLarge
+		}
 		return err
 	}
 
@@ -83,6 +93,12 @@ func _TicketService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h,
 // _TicketService_HTTPWriteErrorResponse writes error to HTTP response with error status code
 func _TicketService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
+
+	if e == errTicketServiceRequestTooLarge {
+		w.WriteHeader(http.StatusRequestEntityTooLarge)
+		_, _ = w.Write([]byte("request too large"))
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -182,8 +198,7 @@ func _TicketService_CreateTicket_Rule0(cli TicketServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateTicketInput{}
 
-		if err := _TicketService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _TicketService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_TicketService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -204,8 +219,7 @@ func _TicketService_UpdateTicket_Rule0(cli TicketServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateTicketInput{}
 
-		if err := _TicketService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _TicketService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_TicketService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -229,8 +243,7 @@ func _TicketService_ReadTicket_Rule0(cli TicketServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ReadTicketInput{}
 
-		if err := _TicketService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _TicketService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_TicketService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -254,8 +267,7 @@ func _TicketService_DeleteTicket_Rule0(cli TicketServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteTicketInput{}
 
-		if err := _TicketService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _TicketService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_TicketService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -279,8 +291,7 @@ func _TicketService_DescribeTicket_Rule0(cli TicketServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeTicketInput{}
 
-		if err := _TicketService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _TicketService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_TicketService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -304,8 +315,7 @@ func _TicketService_ListTickets_Rule0(cli TicketServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListTicketsInput{}
 
-		if err := _TicketService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _TicketService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_TicketService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -326,8 +336,7 @@ func _TicketService_ReplyTicket_Rule0(cli TicketServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ReplyTicketInput{}
 
-		if err := _TicketService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _TicketService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_TicketService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -351,8 +360,7 @@ func _TicketService_ListReplies_Rule0(cli TicketServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListRepliesInput{}
 
-		if err := _TicketService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _TicketService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_TicketService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -376,8 +384,7 @@ func _TicketService_DescribeReply_Rule0(cli TicketServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeReplyInput{}
 
-		if err := _TicketService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _TicketService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_TicketService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -402,8 +409,7 @@ func _TicketService_DeleteReply_Rule0(cli TicketServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteReplyInput{}
 
-		if err := _TicketService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _TicketService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_TicketService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -428,8 +434,7 @@ func _TicketService_UpdateReply_Rule0(cli TicketServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateReplyInput{}
 
-		if err := _TicketService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _TicketService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_TicketService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -454,8 +459,7 @@ func _TicketService_SuggestReply_Rule0(cli TicketServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &SuggestReplyInput{}
 
-		if err := _TicketService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _TicketService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_TicketService_HTTPWriteErrorResponse(w, err)
 			return
 		}

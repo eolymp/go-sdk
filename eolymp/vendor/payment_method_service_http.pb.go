@@ -4,6 +4,7 @@
 package vendor
 
 import (
+	errors "errors"
 	go_querystring "github.com/eolymp/go-querystring"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
@@ -12,14 +13,20 @@ import (
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
-	ioutil "io/ioutil"
+	io "io"
 	http "net/http"
 	url "net/url"
 	strconv "strconv"
 )
 
-// _PaymentMethodService_HTTPReadQueryString parses body into proto.Message
-func _PaymentMethodService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+var errPaymentMethodServiceRequestTooLarge = errors.New("request too large")
+
+// _PaymentMethodService_HTTPReadQueryString parses query string into proto.Message with size limit
+func _PaymentMethodService_HTTPReadQueryString(r *http.Request, v proto.Message, maxSize int64) error {
+	if int64(len(r.URL.RawQuery)) > maxSize {
+		return errPaymentMethodServiceRequestTooLarge
+	}
+
 	if h := r.Header.Values("Strict-Parsing"); len(h) > 0 {
 		strict, err := strconv.ParseBool(h[len(h)-1])
 		if err != nil {
@@ -39,10 +46,13 @@ func _PaymentMethodService_HTTPReadQueryString(r *http.Request, v proto.Message)
 	return go_querystring.Unmarshal(r.URL.Query(), v)
 }
 
-// _PaymentMethodService_HTTPReadRequestBody parses body into proto.Message
-func _PaymentMethodService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
-	data, err := ioutil.ReadAll(r.Body)
+// _PaymentMethodService_HTTPReadRequestBody parses body into proto.Message with size limit
+func _PaymentMethodService_HTTPReadRequestBody(r *http.Request, v proto.Message, maxSize int64) error {
+	data, err := io.ReadAll(http.MaxBytesReader(nil, r.Body, maxSize))
 	if err != nil {
+		if err.Error() == "http: request body too large" {
+			return errPaymentMethodServiceRequestTooLarge
+		}
 		return err
 	}
 
@@ -83,6 +93,12 @@ func _PaymentMethodService_HTTPWriteResponse(w http.ResponseWriter, v proto.Mess
 // _PaymentMethodService_HTTPWriteErrorResponse writes error to HTTP response with error status code
 func _PaymentMethodService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
+
+	if e == errPaymentMethodServiceRequestTooLarge {
+		w.WriteHeader(http.StatusRequestEntityTooLarge)
+		_, _ = w.Write([]byte("request too large"))
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -161,8 +177,7 @@ func _PaymentMethodService_CreatePaymentMethod_Rule0(cli PaymentMethodServiceCli
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreatePaymentMethodInput{}
 
-		if err := _PaymentMethodService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _PaymentMethodService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_PaymentMethodService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -183,8 +198,7 @@ func _PaymentMethodService_UpdatePaymentMethod_Rule0(cli PaymentMethodServiceCli
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdatePaymentMethodInput{}
 
-		if err := _PaymentMethodService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _PaymentMethodService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_PaymentMethodService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -208,8 +222,7 @@ func _PaymentMethodService_DeletePaymentMethod_Rule0(cli PaymentMethodServiceCli
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeletePaymentMethodInput{}
 
-		if err := _PaymentMethodService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _PaymentMethodService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_PaymentMethodService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -233,8 +246,7 @@ func _PaymentMethodService_DescribePaymentMethod_Rule0(cli PaymentMethodServiceC
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribePaymentMethodInput{}
 
-		if err := _PaymentMethodService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _PaymentMethodService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_PaymentMethodService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -258,8 +270,7 @@ func _PaymentMethodService_ListPaymentMethods_Rule0(cli PaymentMethodServiceClie
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListPaymentMethodsInput{}
 
-		if err := _PaymentMethodService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _PaymentMethodService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_PaymentMethodService_HTTPWriteErrorResponse(w, err)
 			return
 		}

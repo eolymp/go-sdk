@@ -4,6 +4,7 @@
 package judge
 
 import (
+	errors "errors"
 	go_querystring "github.com/eolymp/go-querystring"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
@@ -12,14 +13,20 @@ import (
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
-	ioutil "io/ioutil"
+	io "io"
 	http "net/http"
 	url "net/url"
 	strconv "strconv"
 )
 
-// _ContestService_HTTPReadQueryString parses body into proto.Message
-func _ContestService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+var errContestServiceRequestTooLarge = errors.New("request too large")
+
+// _ContestService_HTTPReadQueryString parses query string into proto.Message with size limit
+func _ContestService_HTTPReadQueryString(r *http.Request, v proto.Message, maxSize int64) error {
+	if int64(len(r.URL.RawQuery)) > maxSize {
+		return errContestServiceRequestTooLarge
+	}
+
 	if h := r.Header.Values("Strict-Parsing"); len(h) > 0 {
 		strict, err := strconv.ParseBool(h[len(h)-1])
 		if err != nil {
@@ -39,10 +46,13 @@ func _ContestService_HTTPReadQueryString(r *http.Request, v proto.Message) error
 	return go_querystring.Unmarshal(r.URL.Query(), v)
 }
 
-// _ContestService_HTTPReadRequestBody parses body into proto.Message
-func _ContestService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
-	data, err := ioutil.ReadAll(r.Body)
+// _ContestService_HTTPReadRequestBody parses body into proto.Message with size limit
+func _ContestService_HTTPReadRequestBody(r *http.Request, v proto.Message, maxSize int64) error {
+	data, err := io.ReadAll(http.MaxBytesReader(nil, r.Body, maxSize))
 	if err != nil {
+		if err.Error() == "http: request body too large" {
+			return errContestServiceRequestTooLarge
+		}
 		return err
 	}
 
@@ -83,6 +93,12 @@ func _ContestService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h
 // _ContestService_HTTPWriteErrorResponse writes error to HTTP response with error status code
 func _ContestService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
+
+	if e == errContestServiceRequestTooLarge {
+		w.WriteHeader(http.StatusRequestEntityTooLarge)
+		_, _ = w.Write([]byte("request too large"))
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -191,8 +207,7 @@ func _ContestService_CreateContest_Rule0(cli ContestServiceClient) http.Handler 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateContestInput{}
 
-		if err := _ContestService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ContestService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_ContestService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -213,8 +228,7 @@ func _ContestService_DeleteContest_Rule0(cli ContestServiceClient) http.Handler 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteContestInput{}
 
-		if err := _ContestService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ContestService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_ContestService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -238,8 +252,7 @@ func _ContestService_UpdateContest_Rule0(cli ContestServiceClient) http.Handler 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateContestInput{}
 
-		if err := _ContestService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ContestService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_ContestService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -263,8 +276,7 @@ func _ContestService_CopyContest_Rule0(cli ContestServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CopyContestInput{}
 
-		if err := _ContestService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ContestService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_ContestService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -288,8 +300,7 @@ func _ContestService_DescribeContest_Rule0(cli ContestServiceClient) http.Handle
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeContestInput{}
 
-		if err := _ContestService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ContestService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_ContestService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -313,8 +324,7 @@ func _ContestService_ListContests_Rule0(cli ContestServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListContestsInput{}
 
-		if err := _ContestService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ContestService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_ContestService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -335,8 +345,7 @@ func _ContestService_OpenContest_Rule0(cli ContestServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &OpenContestInput{}
 
-		if err := _ContestService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ContestService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_ContestService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -360,8 +369,7 @@ func _ContestService_CloseContest_Rule0(cli ContestServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CloseContestInput{}
 
-		if err := _ContestService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ContestService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_ContestService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -385,8 +393,7 @@ func _ContestService_SuspendContest_Rule0(cli ContestServiceClient) http.Handler
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &SuspendContestInput{}
 
-		if err := _ContestService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ContestService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_ContestService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -410,8 +417,7 @@ func _ContestService_FreezeContest_Rule0(cli ContestServiceClient) http.Handler 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &FreezeContestInput{}
 
-		if err := _ContestService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ContestService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_ContestService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -435,8 +441,7 @@ func _ContestService_FinalizeContest_Rule0(cli ContestServiceClient) http.Handle
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &FinalizeContestInput{}
 
-		if err := _ContestService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ContestService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_ContestService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -460,8 +465,7 @@ func _ContestService_ResumeContest_Rule0(cli ContestServiceClient) http.Handler 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ResumeContestInput{}
 
-		if err := _ContestService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ContestService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_ContestService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -485,8 +489,7 @@ func _ContestService_AnalyzeContest_Rule0(cli ContestServiceClient) http.Handler
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &AnalyzeContestInput{}
 
-		if err := _ContestService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ContestService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_ContestService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -510,8 +513,7 @@ func _ContestService_ListActivities_Rule0(cli ContestServiceClient) http.Handler
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListActivitiesInput{}
 
-		if err := _ContestService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ContestService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_ContestService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -535,8 +537,7 @@ func _ContestService_DescribeContestUsage_Rule0(cli ContestServiceClient) http.H
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeContestUsageInput{}
 
-		if err := _ContestService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ContestService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_ContestService_HTTPWriteErrorResponse(w, err)
 			return
 		}

@@ -4,6 +4,7 @@
 package mail
 
 import (
+	errors "errors"
 	go_querystring "github.com/eolymp/go-querystring"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
@@ -12,14 +13,20 @@ import (
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
-	ioutil "io/ioutil"
+	io "io"
 	http "net/http"
 	url "net/url"
 	strconv "strconv"
 )
 
-// _EmailService_HTTPReadQueryString parses body into proto.Message
-func _EmailService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+var errEmailServiceRequestTooLarge = errors.New("request too large")
+
+// _EmailService_HTTPReadQueryString parses query string into proto.Message with size limit
+func _EmailService_HTTPReadQueryString(r *http.Request, v proto.Message, maxSize int64) error {
+	if int64(len(r.URL.RawQuery)) > maxSize {
+		return errEmailServiceRequestTooLarge
+	}
+
 	if h := r.Header.Values("Strict-Parsing"); len(h) > 0 {
 		strict, err := strconv.ParseBool(h[len(h)-1])
 		if err != nil {
@@ -39,10 +46,13 @@ func _EmailService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
 	return go_querystring.Unmarshal(r.URL.Query(), v)
 }
 
-// _EmailService_HTTPReadRequestBody parses body into proto.Message
-func _EmailService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
-	data, err := ioutil.ReadAll(r.Body)
+// _EmailService_HTTPReadRequestBody parses body into proto.Message with size limit
+func _EmailService_HTTPReadRequestBody(r *http.Request, v proto.Message, maxSize int64) error {
+	data, err := io.ReadAll(http.MaxBytesReader(nil, r.Body, maxSize))
 	if err != nil {
+		if err.Error() == "http: request body too large" {
+			return errEmailServiceRequestTooLarge
+		}
 		return err
 	}
 
@@ -83,6 +93,12 @@ func _EmailService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h, 
 // _EmailService_HTTPWriteErrorResponse writes error to HTTP response with error status code
 func _EmailService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
+
+	if e == errEmailServiceRequestTooLarge {
+		w.WriteHeader(http.StatusRequestEntityTooLarge)
+		_, _ = w.Write([]byte("request too large"))
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -152,8 +168,7 @@ func _EmailService_SendEmail_Rule0(cli EmailServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &SendEmailInput{}
 
-		if err := _EmailService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _EmailService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_EmailService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -177,8 +192,7 @@ func _EmailService_DescribeEmailUsage_Rule0(cli EmailServiceClient) http.Handler
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeEmailUsageInput{}
 
-		if err := _EmailService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _EmailService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_EmailService_HTTPWriteErrorResponse(w, err)
 			return
 		}

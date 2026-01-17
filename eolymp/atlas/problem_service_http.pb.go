@@ -4,6 +4,7 @@
 package atlas
 
 import (
+	errors "errors"
 	go_querystring "github.com/eolymp/go-querystring"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
@@ -12,14 +13,20 @@ import (
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
-	ioutil "io/ioutil"
+	io "io"
 	http "net/http"
 	url "net/url"
 	strconv "strconv"
 )
 
-// _ProblemService_HTTPReadQueryString parses body into proto.Message
-func _ProblemService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+var errProblemServiceRequestTooLarge = errors.New("request too large")
+
+// _ProblemService_HTTPReadQueryString parses query string into proto.Message with size limit
+func _ProblemService_HTTPReadQueryString(r *http.Request, v proto.Message, maxSize int64) error {
+	if int64(len(r.URL.RawQuery)) > maxSize {
+		return errProblemServiceRequestTooLarge
+	}
+
 	if h := r.Header.Values("Strict-Parsing"); len(h) > 0 {
 		strict, err := strconv.ParseBool(h[len(h)-1])
 		if err != nil {
@@ -39,10 +46,13 @@ func _ProblemService_HTTPReadQueryString(r *http.Request, v proto.Message) error
 	return go_querystring.Unmarshal(r.URL.Query(), v)
 }
 
-// _ProblemService_HTTPReadRequestBody parses body into proto.Message
-func _ProblemService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
-	data, err := ioutil.ReadAll(r.Body)
+// _ProblemService_HTTPReadRequestBody parses body into proto.Message with size limit
+func _ProblemService_HTTPReadRequestBody(r *http.Request, v proto.Message, maxSize int64) error {
+	data, err := io.ReadAll(http.MaxBytesReader(nil, r.Body, maxSize))
 	if err != nil {
+		if err.Error() == "http: request body too large" {
+			return errProblemServiceRequestTooLarge
+		}
 		return err
 	}
 
@@ -83,6 +93,12 @@ func _ProblemService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h
 // _ProblemService_HTTPWriteErrorResponse writes error to HTTP response with error status code
 func _ProblemService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
+
+	if e == errProblemServiceRequestTooLarge {
+		w.WriteHeader(http.StatusRequestEntityTooLarge)
+		_, _ = w.Write([]byte("request too large"))
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -176,8 +192,7 @@ func _ProblemService_CreateProblem_Rule0(cli ProblemServiceClient) http.Handler 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateProblemInput{}
 
-		if err := _ProblemService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ProblemService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -198,8 +213,7 @@ func _ProblemService_UpdateProblem_Rule0(cli ProblemServiceClient) http.Handler 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateProblemInput{}
 
-		if err := _ProblemService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ProblemService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -223,8 +237,7 @@ func _ProblemService_DeleteProblem_Rule0(cli ProblemServiceClient) http.Handler 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteProblemInput{}
 
-		if err := _ProblemService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ProblemService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -248,8 +261,7 @@ func _ProblemService_DescribeProblem_Rule0(cli ProblemServiceClient) http.Handle
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeProblemInput{}
 
-		if err := _ProblemService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ProblemService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -273,8 +285,7 @@ func _ProblemService_ListProblems_Rule0(cli ProblemServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListProblemsInput{}
 
-		if err := _ProblemService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ProblemService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -295,8 +306,7 @@ func _ProblemService_SyncProblem_Rule0(cli ProblemServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &SyncProblemInput{}
 
-		if err := _ProblemService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ProblemService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -320,8 +330,7 @@ func _ProblemService_VoteProblem_Rule0(cli ProblemServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &VoteProblemInput{}
 
-		if err := _ProblemService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ProblemService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -345,8 +354,7 @@ func _ProblemService_ListVersions_Rule0(cli ProblemServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListVersionsInput{}
 
-		if err := _ProblemService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ProblemService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -370,8 +378,7 @@ func _ProblemService_ListRuntimes_Rule0(cli ProblemServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListRuntimesInput{}
 
-		if err := _ProblemService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ProblemService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -395,8 +402,7 @@ func _ProblemService_ExportProblem_Rule0(cli ProblemServiceClient) http.Handler 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ExportProblemInput{}
 
-		if err := _ProblemService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ProblemService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
 		}

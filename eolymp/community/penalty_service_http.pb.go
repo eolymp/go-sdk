@@ -4,6 +4,7 @@
 package community
 
 import (
+	errors "errors"
 	go_querystring "github.com/eolymp/go-querystring"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
@@ -12,14 +13,20 @@ import (
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
-	ioutil "io/ioutil"
+	io "io"
 	http "net/http"
 	url "net/url"
 	strconv "strconv"
 )
 
-// _PenaltyService_HTTPReadQueryString parses body into proto.Message
-func _PenaltyService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+var errPenaltyServiceRequestTooLarge = errors.New("request too large")
+
+// _PenaltyService_HTTPReadQueryString parses query string into proto.Message with size limit
+func _PenaltyService_HTTPReadQueryString(r *http.Request, v proto.Message, maxSize int64) error {
+	if int64(len(r.URL.RawQuery)) > maxSize {
+		return errPenaltyServiceRequestTooLarge
+	}
+
 	if h := r.Header.Values("Strict-Parsing"); len(h) > 0 {
 		strict, err := strconv.ParseBool(h[len(h)-1])
 		if err != nil {
@@ -39,10 +46,13 @@ func _PenaltyService_HTTPReadQueryString(r *http.Request, v proto.Message) error
 	return go_querystring.Unmarshal(r.URL.Query(), v)
 }
 
-// _PenaltyService_HTTPReadRequestBody parses body into proto.Message
-func _PenaltyService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
-	data, err := ioutil.ReadAll(r.Body)
+// _PenaltyService_HTTPReadRequestBody parses body into proto.Message with size limit
+func _PenaltyService_HTTPReadRequestBody(r *http.Request, v proto.Message, maxSize int64) error {
+	data, err := io.ReadAll(http.MaxBytesReader(nil, r.Body, maxSize))
 	if err != nil {
+		if err.Error() == "http: request body too large" {
+			return errPenaltyServiceRequestTooLarge
+		}
 		return err
 	}
 
@@ -83,6 +93,12 @@ func _PenaltyService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h
 // _PenaltyService_HTTPWriteErrorResponse writes error to HTTP response with error status code
 func _PenaltyService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
+
+	if e == errPenaltyServiceRequestTooLarge {
+		w.WriteHeader(http.StatusRequestEntityTooLarge)
+		_, _ = w.Write([]byte("request too large"))
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -161,8 +177,7 @@ func _PenaltyService_CreatePenalty_Rule0(cli PenaltyServiceClient) http.Handler 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreatePenaltyInput{}
 
-		if err := _PenaltyService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _PenaltyService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_PenaltyService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -183,8 +198,7 @@ func _PenaltyService_UpdatePenalty_Rule0(cli PenaltyServiceClient) http.Handler 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdatePenaltyInput{}
 
-		if err := _PenaltyService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _PenaltyService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_PenaltyService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -208,8 +222,7 @@ func _PenaltyService_DeletePenalty_Rule0(cli PenaltyServiceClient) http.Handler 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeletePenaltyInput{}
 
-		if err := _PenaltyService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _PenaltyService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_PenaltyService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -233,8 +246,7 @@ func _PenaltyService_DescribePenalty_Rule0(cli PenaltyServiceClient) http.Handle
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribePenaltyInput{}
 
-		if err := _PenaltyService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _PenaltyService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_PenaltyService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -258,8 +270,7 @@ func _PenaltyService_ListPenalties_Rule0(cli PenaltyServiceClient) http.Handler 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListPenaltiesInput{}
 
-		if err := _PenaltyService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _PenaltyService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_PenaltyService_HTTPWriteErrorResponse(w, err)
 			return
 		}

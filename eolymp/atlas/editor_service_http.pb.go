@@ -4,6 +4,7 @@
 package atlas
 
 import (
+	errors "errors"
 	go_querystring "github.com/eolymp/go-querystring"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
@@ -12,14 +13,20 @@ import (
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
-	ioutil "io/ioutil"
+	io "io"
 	http "net/http"
 	url "net/url"
 	strconv "strconv"
 )
 
-// _EditorService_HTTPReadQueryString parses body into proto.Message
-func _EditorService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+var errEditorServiceRequestTooLarge = errors.New("request too large")
+
+// _EditorService_HTTPReadQueryString parses query string into proto.Message with size limit
+func _EditorService_HTTPReadQueryString(r *http.Request, v proto.Message, maxSize int64) error {
+	if int64(len(r.URL.RawQuery)) > maxSize {
+		return errEditorServiceRequestTooLarge
+	}
+
 	if h := r.Header.Values("Strict-Parsing"); len(h) > 0 {
 		strict, err := strconv.ParseBool(h[len(h)-1])
 		if err != nil {
@@ -39,10 +46,13 @@ func _EditorService_HTTPReadQueryString(r *http.Request, v proto.Message) error 
 	return go_querystring.Unmarshal(r.URL.Query(), v)
 }
 
-// _EditorService_HTTPReadRequestBody parses body into proto.Message
-func _EditorService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
-	data, err := ioutil.ReadAll(r.Body)
+// _EditorService_HTTPReadRequestBody parses body into proto.Message with size limit
+func _EditorService_HTTPReadRequestBody(r *http.Request, v proto.Message, maxSize int64) error {
+	data, err := io.ReadAll(http.MaxBytesReader(nil, r.Body, maxSize))
 	if err != nil {
+		if err.Error() == "http: request body too large" {
+			return errEditorServiceRequestTooLarge
+		}
 		return err
 	}
 
@@ -83,6 +93,12 @@ func _EditorService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h,
 // _EditorService_HTTPWriteErrorResponse writes error to HTTP response with error status code
 func _EditorService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
+
+	if e == errEditorServiceRequestTooLarge {
+		w.WriteHeader(http.StatusRequestEntityTooLarge)
+		_, _ = w.Write([]byte("request too large"))
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -158,8 +174,7 @@ func _EditorService_DescribeEditor_Rule0(cli EditorServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeEditorInput{}
 
-		if err := _EditorService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _EditorService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_EditorService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -180,8 +195,7 @@ func _EditorService_DescribeEditorState_Rule0(cli EditorServiceClient) http.Hand
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeEditorStateInput{}
 
-		if err := _EditorService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _EditorService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_EditorService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -202,8 +216,7 @@ func _EditorService_UpdateEditorState_Rule0(cli EditorServiceClient) http.Handle
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateEditorStateInput{}
 
-		if err := _EditorService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _EditorService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_EditorService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -224,8 +237,7 @@ func _EditorService_PrintEditorCode_Rule0(cli EditorServiceClient) http.Handler 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &PrintEditorCodeInput{}
 
-		if err := _EditorService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _EditorService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_EditorService_HTTPWriteErrorResponse(w, err)
 			return
 		}

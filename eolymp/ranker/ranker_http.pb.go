@@ -4,6 +4,7 @@
 package ranker
 
 import (
+	errors "errors"
 	go_querystring "github.com/eolymp/go-querystring"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
@@ -12,14 +13,20 @@ import (
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
-	ioutil "io/ioutil"
+	io "io"
 	http "net/http"
 	url "net/url"
 	strconv "strconv"
 )
 
-// _Ranker_HTTPReadQueryString parses body into proto.Message
-func _Ranker_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+var errRankerRequestTooLarge = errors.New("request too large")
+
+// _Ranker_HTTPReadQueryString parses query string into proto.Message with size limit
+func _Ranker_HTTPReadQueryString(r *http.Request, v proto.Message, maxSize int64) error {
+	if int64(len(r.URL.RawQuery)) > maxSize {
+		return errRankerRequestTooLarge
+	}
+
 	if h := r.Header.Values("Strict-Parsing"); len(h) > 0 {
 		strict, err := strconv.ParseBool(h[len(h)-1])
 		if err != nil {
@@ -39,10 +46,13 @@ func _Ranker_HTTPReadQueryString(r *http.Request, v proto.Message) error {
 	return go_querystring.Unmarshal(r.URL.Query(), v)
 }
 
-// _Ranker_HTTPReadRequestBody parses body into proto.Message
-func _Ranker_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
-	data, err := ioutil.ReadAll(r.Body)
+// _Ranker_HTTPReadRequestBody parses body into proto.Message with size limit
+func _Ranker_HTTPReadRequestBody(r *http.Request, v proto.Message, maxSize int64) error {
+	data, err := io.ReadAll(http.MaxBytesReader(nil, r.Body, maxSize))
 	if err != nil {
+		if err.Error() == "http: request body too large" {
+			return errRankerRequestTooLarge
+		}
 		return err
 	}
 
@@ -83,6 +93,12 @@ func _Ranker_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h, t meta
 // _Ranker_HTTPWriteErrorResponse writes error to HTTP response with error status code
 func _Ranker_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
+
+	if e == errRankerRequestTooLarge {
+		w.WriteHeader(http.StatusRequestEntityTooLarge)
+		_, _ = w.Write([]byte("request too large"))
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -197,8 +213,7 @@ func _Ranker_CreateScoreboard_Rule0(cli RankerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateScoreboardInput{}
 
-		if err := _Ranker_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _Ranker_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -219,8 +234,7 @@ func _Ranker_UpdateScoreboard_Rule0(cli RankerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateScoreboardInput{}
 
-		if err := _Ranker_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _Ranker_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -244,8 +258,7 @@ func _Ranker_RebuildScoreboard_Rule0(cli RankerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &RebuildScoreboardInput{}
 
-		if err := _Ranker_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _Ranker_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -269,8 +282,7 @@ func _Ranker_DeleteScoreboard_Rule0(cli RankerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteScoreboardInput{}
 
-		if err := _Ranker_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _Ranker_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -294,8 +306,7 @@ func _Ranker_DescribeScoreboard_Rule0(cli RankerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeScoreboardInput{}
 
-		if err := _Ranker_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _Ranker_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -319,8 +330,7 @@ func _Ranker_ListScoreboards_Rule0(cli RankerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListScoreboardsInput{}
 
-		if err := _Ranker_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _Ranker_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -341,8 +351,7 @@ func _Ranker_DescribeScoreboardRow_Rule0(cli RankerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeScoreboardRowInput{}
 
-		if err := _Ranker_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _Ranker_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -367,8 +376,7 @@ func _Ranker_ListScoreboardRows_Rule0(cli RankerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListScoreboardRowsInput{}
 
-		if err := _Ranker_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _Ranker_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -392,8 +400,7 @@ func _Ranker_AddScoreboardColumn_Rule0(cli RankerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &AddScoreboardColumnInput{}
 
-		if err := _Ranker_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _Ranker_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -417,8 +424,7 @@ func _Ranker_UpdateScoreboardColumn_Rule0(cli RankerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateScoreboardColumnInput{}
 
-		if err := _Ranker_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _Ranker_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -443,8 +449,7 @@ func _Ranker_DeleteScoreboardColumn_Rule0(cli RankerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteScoreboardColumnInput{}
 
-		if err := _Ranker_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _Ranker_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -469,8 +474,7 @@ func _Ranker_DescribeScoreboardColumn_Rule0(cli RankerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeScoreboardColumnInput{}
 
-		if err := _Ranker_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _Ranker_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -495,8 +499,7 @@ func _Ranker_ListScoreboardColumns_Rule0(cli RankerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListScoreboardColumnsInput{}
 
-		if err := _Ranker_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _Ranker_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -520,8 +523,7 @@ func _Ranker_ListActivities_Rule0(cli RankerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListActivitiesInput{}
 
-		if err := _Ranker_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _Ranker_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -545,8 +547,7 @@ func _Ranker_ScheduleAction_Rule0(cli RankerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ScheduleActionInput{}
 
-		if err := _Ranker_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _Ranker_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -570,8 +571,7 @@ func _Ranker_UnscheduleAction_Rule0(cli RankerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UnscheduleActionInput{}
 
-		if err := _Ranker_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _Ranker_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -596,8 +596,7 @@ func _Ranker_ListScheduledActions_Rule0(cli RankerClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListScheduledActionsInput{}
 
-		if err := _Ranker_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _Ranker_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_Ranker_HTTPWriteErrorResponse(w, err)
 			return
 		}

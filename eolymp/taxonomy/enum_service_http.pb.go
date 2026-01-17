@@ -4,6 +4,7 @@
 package taxonomy
 
 import (
+	errors "errors"
 	go_querystring "github.com/eolymp/go-querystring"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
@@ -12,14 +13,20 @@ import (
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
-	ioutil "io/ioutil"
+	io "io"
 	http "net/http"
 	url "net/url"
 	strconv "strconv"
 )
 
-// _EnumService_HTTPReadQueryString parses body into proto.Message
-func _EnumService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+var errEnumServiceRequestTooLarge = errors.New("request too large")
+
+// _EnumService_HTTPReadQueryString parses query string into proto.Message with size limit
+func _EnumService_HTTPReadQueryString(r *http.Request, v proto.Message, maxSize int64) error {
+	if int64(len(r.URL.RawQuery)) > maxSize {
+		return errEnumServiceRequestTooLarge
+	}
+
 	if h := r.Header.Values("Strict-Parsing"); len(h) > 0 {
 		strict, err := strconv.ParseBool(h[len(h)-1])
 		if err != nil {
@@ -39,10 +46,13 @@ func _EnumService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
 	return go_querystring.Unmarshal(r.URL.Query(), v)
 }
 
-// _EnumService_HTTPReadRequestBody parses body into proto.Message
-func _EnumService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
-	data, err := ioutil.ReadAll(r.Body)
+// _EnumService_HTTPReadRequestBody parses body into proto.Message with size limit
+func _EnumService_HTTPReadRequestBody(r *http.Request, v proto.Message, maxSize int64) error {
+	data, err := io.ReadAll(http.MaxBytesReader(nil, r.Body, maxSize))
 	if err != nil {
+		if err.Error() == "http: request body too large" {
+			return errEnumServiceRequestTooLarge
+		}
 		return err
 	}
 
@@ -83,6 +93,12 @@ func _EnumService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h, t
 // _EnumService_HTTPWriteErrorResponse writes error to HTTP response with error status code
 func _EnumService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
+
+	if e == errEnumServiceRequestTooLarge {
+		w.WriteHeader(http.StatusRequestEntityTooLarge)
+		_, _ = w.Write([]byte("request too large"))
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -185,8 +201,7 @@ func _EnumService_CreateEnum_Rule0(cli EnumServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateEnumInput{}
 
-		if err := _EnumService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _EnumService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_EnumService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -207,8 +222,7 @@ func _EnumService_DeleteEnum_Rule0(cli EnumServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteEnumInput{}
 
-		if err := _EnumService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _EnumService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_EnumService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -232,8 +246,7 @@ func _EnumService_UpdateEnum_Rule0(cli EnumServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateEnumInput{}
 
-		if err := _EnumService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _EnumService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_EnumService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -257,8 +270,7 @@ func _EnumService_DescribeEnum_Rule0(cli EnumServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeEnumInput{}
 
-		if err := _EnumService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _EnumService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_EnumService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -282,8 +294,7 @@ func _EnumService_ListEnums_Rule0(cli EnumServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListEnumsInput{}
 
-		if err := _EnumService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _EnumService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_EnumService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -304,8 +315,7 @@ func _EnumService_CreateValue_Rule0(cli EnumServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateValueInput{}
 
-		if err := _EnumService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _EnumService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_EnumService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -329,8 +339,7 @@ func _EnumService_DeleteValue_Rule0(cli EnumServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteValueInput{}
 
-		if err := _EnumService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _EnumService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_EnumService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -355,8 +364,7 @@ func _EnumService_UpdateValue_Rule0(cli EnumServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateValueInput{}
 
-		if err := _EnumService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _EnumService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_EnumService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -381,8 +389,7 @@ func _EnumService_DescribeValue_Rule0(cli EnumServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeValueInput{}
 
-		if err := _EnumService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _EnumService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_EnumService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -407,8 +414,7 @@ func _EnumService_ListValues_Rule0(cli EnumServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListValuesInput{}
 
-		if err := _EnumService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _EnumService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_EnumService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -432,8 +438,7 @@ func _EnumService_TranslateValue_Rule0(cli EnumServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &TranslateValueInput{}
 
-		if err := _EnumService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _EnumService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_EnumService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -459,8 +464,7 @@ func _EnumService_DeleteTranslation_Rule0(cli EnumServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteTranslationInput{}
 
-		if err := _EnumService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _EnumService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_EnumService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -486,8 +490,7 @@ func _EnumService_ListTranslations_Rule0(cli EnumServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListTranslationsInput{}
 
-		if err := _EnumService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _EnumService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_EnumService_HTTPWriteErrorResponse(w, err)
 			return
 		}

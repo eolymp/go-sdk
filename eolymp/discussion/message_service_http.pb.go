@@ -4,6 +4,7 @@
 package discussion
 
 import (
+	errors "errors"
 	go_querystring "github.com/eolymp/go-querystring"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
@@ -12,14 +13,20 @@ import (
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
-	ioutil "io/ioutil"
+	io "io"
 	http "net/http"
 	url "net/url"
 	strconv "strconv"
 )
 
-// _MessageService_HTTPReadQueryString parses body into proto.Message
-func _MessageService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+var errMessageServiceRequestTooLarge = errors.New("request too large")
+
+// _MessageService_HTTPReadQueryString parses query string into proto.Message with size limit
+func _MessageService_HTTPReadQueryString(r *http.Request, v proto.Message, maxSize int64) error {
+	if int64(len(r.URL.RawQuery)) > maxSize {
+		return errMessageServiceRequestTooLarge
+	}
+
 	if h := r.Header.Values("Strict-Parsing"); len(h) > 0 {
 		strict, err := strconv.ParseBool(h[len(h)-1])
 		if err != nil {
@@ -39,10 +46,13 @@ func _MessageService_HTTPReadQueryString(r *http.Request, v proto.Message) error
 	return go_querystring.Unmarshal(r.URL.Query(), v)
 }
 
-// _MessageService_HTTPReadRequestBody parses body into proto.Message
-func _MessageService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
-	data, err := ioutil.ReadAll(r.Body)
+// _MessageService_HTTPReadRequestBody parses body into proto.Message with size limit
+func _MessageService_HTTPReadRequestBody(r *http.Request, v proto.Message, maxSize int64) error {
+	data, err := io.ReadAll(http.MaxBytesReader(nil, r.Body, maxSize))
 	if err != nil {
+		if err.Error() == "http: request body too large" {
+			return errMessageServiceRequestTooLarge
+		}
 		return err
 	}
 
@@ -83,6 +93,12 @@ func _MessageService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h
 // _MessageService_HTTPWriteErrorResponse writes error to HTTP response with error status code
 func _MessageService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
+
+	if e == errMessageServiceRequestTooLarge {
+		w.WriteHeader(http.StatusRequestEntityTooLarge)
+		_, _ = w.Write([]byte("request too large"))
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -167,8 +183,7 @@ func _MessageService_DescribeMessage_Rule0(cli MessageServiceClient) http.Handle
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeMessageInput{}
 
-		if err := _MessageService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _MessageService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_MessageService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -192,8 +207,7 @@ func _MessageService_ListMessages_Rule0(cli MessageServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListMessagesInput{}
 
-		if err := _MessageService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _MessageService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_MessageService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -214,8 +228,7 @@ func _MessageService_PostMessage_Rule0(cli MessageServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &PostMessageInput{}
 
-		if err := _MessageService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _MessageService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_MessageService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -236,8 +249,7 @@ func _MessageService_UpdateMessage_Rule0(cli MessageServiceClient) http.Handler 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateMessageInput{}
 
-		if err := _MessageService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _MessageService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_MessageService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -261,8 +273,7 @@ func _MessageService_DeleteMessage_Rule0(cli MessageServiceClient) http.Handler 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteMessageInput{}
 
-		if err := _MessageService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _MessageService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_MessageService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -286,8 +297,7 @@ func _MessageService_VoteMessage_Rule0(cli MessageServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &VoteMessageInput{}
 
-		if err := _MessageService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _MessageService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_MessageService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -311,8 +321,7 @@ func _MessageService_ListMessageChanges_Rule0(cli MessageServiceClient) http.Han
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListMessageChangesInput{}
 
-		if err := _MessageService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _MessageService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_MessageService_HTTPWriteErrorResponse(w, err)
 			return
 		}

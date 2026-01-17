@@ -4,6 +4,7 @@
 package judge
 
 import (
+	errors "errors"
 	go_querystring "github.com/eolymp/go-querystring"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
@@ -12,14 +13,20 @@ import (
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
-	ioutil "io/ioutil"
+	io "io"
 	http "net/http"
 	url "net/url"
 	strconv "strconv"
 )
 
-// _AnnouncementService_HTTPReadQueryString parses body into proto.Message
-func _AnnouncementService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+var errAnnouncementServiceRequestTooLarge = errors.New("request too large")
+
+// _AnnouncementService_HTTPReadQueryString parses query string into proto.Message with size limit
+func _AnnouncementService_HTTPReadQueryString(r *http.Request, v proto.Message, maxSize int64) error {
+	if int64(len(r.URL.RawQuery)) > maxSize {
+		return errAnnouncementServiceRequestTooLarge
+	}
+
 	if h := r.Header.Values("Strict-Parsing"); len(h) > 0 {
 		strict, err := strconv.ParseBool(h[len(h)-1])
 		if err != nil {
@@ -39,10 +46,13 @@ func _AnnouncementService_HTTPReadQueryString(r *http.Request, v proto.Message) 
 	return go_querystring.Unmarshal(r.URL.Query(), v)
 }
 
-// _AnnouncementService_HTTPReadRequestBody parses body into proto.Message
-func _AnnouncementService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
-	data, err := ioutil.ReadAll(r.Body)
+// _AnnouncementService_HTTPReadRequestBody parses body into proto.Message with size limit
+func _AnnouncementService_HTTPReadRequestBody(r *http.Request, v proto.Message, maxSize int64) error {
+	data, err := io.ReadAll(http.MaxBytesReader(nil, r.Body, maxSize))
 	if err != nil {
+		if err.Error() == "http: request body too large" {
+			return errAnnouncementServiceRequestTooLarge
+		}
 		return err
 	}
 
@@ -83,6 +93,12 @@ func _AnnouncementService_HTTPWriteResponse(w http.ResponseWriter, v proto.Messa
 // _AnnouncementService_HTTPWriteErrorResponse writes error to HTTP response with error status code
 func _AnnouncementService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
+
+	if e == errAnnouncementServiceRequestTooLarge {
+		w.WriteHeader(http.StatusRequestEntityTooLarge)
+		_, _ = w.Write([]byte("request too large"))
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -167,8 +183,7 @@ func _AnnouncementService_CreateAnnouncement_Rule0(cli AnnouncementServiceClient
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateAnnouncementInput{}
 
-		if err := _AnnouncementService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _AnnouncementService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_AnnouncementService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -189,8 +204,7 @@ func _AnnouncementService_UpdateAnnouncement_Rule0(cli AnnouncementServiceClient
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateAnnouncementInput{}
 
-		if err := _AnnouncementService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _AnnouncementService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_AnnouncementService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -214,8 +228,7 @@ func _AnnouncementService_DeleteAnnouncement_Rule0(cli AnnouncementServiceClient
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteAnnouncementInput{}
 
-		if err := _AnnouncementService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _AnnouncementService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_AnnouncementService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -239,8 +252,7 @@ func _AnnouncementService_ReadAnnouncement_Rule0(cli AnnouncementServiceClient) 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ReadAnnouncementInput{}
 
-		if err := _AnnouncementService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _AnnouncementService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_AnnouncementService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -264,8 +276,7 @@ func _AnnouncementService_DescribeAnnouncement_Rule0(cli AnnouncementServiceClie
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeAnnouncementInput{}
 
-		if err := _AnnouncementService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _AnnouncementService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_AnnouncementService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -289,8 +300,7 @@ func _AnnouncementService_DescribeAnnouncementStatus_Rule0(cli AnnouncementServi
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeAnnouncementStatusInput{}
 
-		if err := _AnnouncementService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _AnnouncementService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_AnnouncementService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -314,8 +324,7 @@ func _AnnouncementService_ListAnnouncements_Rule0(cli AnnouncementServiceClient)
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListAnnouncementsInput{}
 
-		if err := _AnnouncementService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _AnnouncementService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_AnnouncementService_HTTPWriteErrorResponse(w, err)
 			return
 		}

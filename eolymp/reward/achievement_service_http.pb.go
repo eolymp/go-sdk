@@ -4,6 +4,7 @@
 package reward
 
 import (
+	errors "errors"
 	go_querystring "github.com/eolymp/go-querystring"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
@@ -12,14 +13,20 @@ import (
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
-	ioutil "io/ioutil"
+	io "io"
 	http "net/http"
 	url "net/url"
 	strconv "strconv"
 )
 
-// _AchievementService_HTTPReadQueryString parses body into proto.Message
-func _AchievementService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+var errAchievementServiceRequestTooLarge = errors.New("request too large")
+
+// _AchievementService_HTTPReadQueryString parses query string into proto.Message with size limit
+func _AchievementService_HTTPReadQueryString(r *http.Request, v proto.Message, maxSize int64) error {
+	if int64(len(r.URL.RawQuery)) > maxSize {
+		return errAchievementServiceRequestTooLarge
+	}
+
 	if h := r.Header.Values("Strict-Parsing"); len(h) > 0 {
 		strict, err := strconv.ParseBool(h[len(h)-1])
 		if err != nil {
@@ -39,10 +46,13 @@ func _AchievementService_HTTPReadQueryString(r *http.Request, v proto.Message) e
 	return go_querystring.Unmarshal(r.URL.Query(), v)
 }
 
-// _AchievementService_HTTPReadRequestBody parses body into proto.Message
-func _AchievementService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
-	data, err := ioutil.ReadAll(r.Body)
+// _AchievementService_HTTPReadRequestBody parses body into proto.Message with size limit
+func _AchievementService_HTTPReadRequestBody(r *http.Request, v proto.Message, maxSize int64) error {
+	data, err := io.ReadAll(http.MaxBytesReader(nil, r.Body, maxSize))
 	if err != nil {
+		if err.Error() == "http: request body too large" {
+			return errAchievementServiceRequestTooLarge
+		}
 		return err
 	}
 
@@ -83,6 +93,12 @@ func _AchievementService_HTTPWriteResponse(w http.ResponseWriter, v proto.Messag
 // _AchievementService_HTTPWriteErrorResponse writes error to HTTP response with error status code
 func _AchievementService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
+
+	if e == errAchievementServiceRequestTooLarge {
+		w.WriteHeader(http.StatusRequestEntityTooLarge)
+		_, _ = w.Write([]byte("request too large"))
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -176,8 +192,7 @@ func _AchievementService_CreateAchievement_Rule0(cli AchievementServiceClient) h
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateAchievementInput{}
 
-		if err := _AchievementService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _AchievementService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_AchievementService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -198,8 +213,7 @@ func _AchievementService_UpdateAchievement_Rule0(cli AchievementServiceClient) h
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateAchievementInput{}
 
-		if err := _AchievementService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _AchievementService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_AchievementService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -223,8 +237,7 @@ func _AchievementService_DeleteAchievement_Rule0(cli AchievementServiceClient) h
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteAchievementInput{}
 
-		if err := _AchievementService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _AchievementService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_AchievementService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -248,8 +261,7 @@ func _AchievementService_DescribeAchievement_Rule0(cli AchievementServiceClient)
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeAchievementInput{}
 
-		if err := _AchievementService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _AchievementService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_AchievementService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -273,8 +285,7 @@ func _AchievementService_ListAchievements_Rule0(cli AchievementServiceClient) ht
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListAchievementsInput{}
 
-		if err := _AchievementService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _AchievementService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_AchievementService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -295,8 +306,7 @@ func _AchievementService_DescribeAchievementTranslation_Rule0(cli AchievementSer
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeAchievementTranslationInput{}
 
-		if err := _AchievementService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _AchievementService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_AchievementService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -321,8 +331,7 @@ func _AchievementService_ListAchievementTranslations_Rule0(cli AchievementServic
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListAchievementTranslationsInput{}
 
-		if err := _AchievementService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _AchievementService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_AchievementService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -346,8 +355,7 @@ func _AchievementService_CreateAchievementTranslation_Rule0(cli AchievementServi
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateAchievementTranslationInput{}
 
-		if err := _AchievementService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _AchievementService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_AchievementService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -371,8 +379,7 @@ func _AchievementService_UpdateAchievementTranslation_Rule0(cli AchievementServi
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateAchievementTranslationInput{}
 
-		if err := _AchievementService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _AchievementService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_AchievementService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -397,8 +404,7 @@ func _AchievementService_DeleteAchievementTranslation_Rule0(cli AchievementServi
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteAchievementTranslationInput{}
 
-		if err := _AchievementService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _AchievementService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_AchievementService_HTTPWriteErrorResponse(w, err)
 			return
 		}

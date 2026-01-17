@@ -4,6 +4,7 @@
 package content
 
 import (
+	errors "errors"
 	go_querystring "github.com/eolymp/go-querystring"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
@@ -12,14 +13,20 @@ import (
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
-	ioutil "io/ioutil"
+	io "io"
 	http "net/http"
 	url "net/url"
 	strconv "strconv"
 )
 
-// _PostTypeService_HTTPReadQueryString parses body into proto.Message
-func _PostTypeService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+var errPostTypeServiceRequestTooLarge = errors.New("request too large")
+
+// _PostTypeService_HTTPReadQueryString parses query string into proto.Message with size limit
+func _PostTypeService_HTTPReadQueryString(r *http.Request, v proto.Message, maxSize int64) error {
+	if int64(len(r.URL.RawQuery)) > maxSize {
+		return errPostTypeServiceRequestTooLarge
+	}
+
 	if h := r.Header.Values("Strict-Parsing"); len(h) > 0 {
 		strict, err := strconv.ParseBool(h[len(h)-1])
 		if err != nil {
@@ -39,10 +46,13 @@ func _PostTypeService_HTTPReadQueryString(r *http.Request, v proto.Message) erro
 	return go_querystring.Unmarshal(r.URL.Query(), v)
 }
 
-// _PostTypeService_HTTPReadRequestBody parses body into proto.Message
-func _PostTypeService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
-	data, err := ioutil.ReadAll(r.Body)
+// _PostTypeService_HTTPReadRequestBody parses body into proto.Message with size limit
+func _PostTypeService_HTTPReadRequestBody(r *http.Request, v proto.Message, maxSize int64) error {
+	data, err := io.ReadAll(http.MaxBytesReader(nil, r.Body, maxSize))
 	if err != nil {
+		if err.Error() == "http: request body too large" {
+			return errPostTypeServiceRequestTooLarge
+		}
 		return err
 	}
 
@@ -83,6 +93,12 @@ func _PostTypeService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, 
 // _PostTypeService_HTTPWriteErrorResponse writes error to HTTP response with error status code
 func _PostTypeService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
+
+	if e == errPostTypeServiceRequestTooLarge {
+		w.WriteHeader(http.StatusRequestEntityTooLarge)
+		_, _ = w.Write([]byte("request too large"))
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -161,8 +177,7 @@ func _PostTypeService_DescribePostType_Rule0(cli PostTypeServiceClient) http.Han
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribePostTypeInput{}
 
-		if err := _PostTypeService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _PostTypeService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_PostTypeService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -186,8 +201,7 @@ func _PostTypeService_ListPostTypes_Rule0(cli PostTypeServiceClient) http.Handle
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListPostTypesInput{}
 
-		if err := _PostTypeService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _PostTypeService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_PostTypeService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -208,8 +222,7 @@ func _PostTypeService_CreatePostType_Rule0(cli PostTypeServiceClient) http.Handl
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreatePostTypeInput{}
 
-		if err := _PostTypeService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _PostTypeService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_PostTypeService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -230,8 +243,7 @@ func _PostTypeService_UpdatePostType_Rule0(cli PostTypeServiceClient) http.Handl
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdatePostTypeInput{}
 
-		if err := _PostTypeService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _PostTypeService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_PostTypeService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -255,8 +267,7 @@ func _PostTypeService_DeletePostType_Rule0(cli PostTypeServiceClient) http.Handl
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeletePostTypeInput{}
 
-		if err := _PostTypeService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _PostTypeService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_PostTypeService_HTTPWriteErrorResponse(w, err)
 			return
 		}

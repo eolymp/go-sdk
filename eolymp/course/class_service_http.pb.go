@@ -4,6 +4,7 @@
 package course
 
 import (
+	errors "errors"
 	go_querystring "github.com/eolymp/go-querystring"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
@@ -12,14 +13,20 @@ import (
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
-	ioutil "io/ioutil"
+	io "io"
 	http "net/http"
 	url "net/url"
 	strconv "strconv"
 )
 
-// _ClassService_HTTPReadQueryString parses body into proto.Message
-func _ClassService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+var errClassServiceRequestTooLarge = errors.New("request too large")
+
+// _ClassService_HTTPReadQueryString parses query string into proto.Message with size limit
+func _ClassService_HTTPReadQueryString(r *http.Request, v proto.Message, maxSize int64) error {
+	if int64(len(r.URL.RawQuery)) > maxSize {
+		return errClassServiceRequestTooLarge
+	}
+
 	if h := r.Header.Values("Strict-Parsing"); len(h) > 0 {
 		strict, err := strconv.ParseBool(h[len(h)-1])
 		if err != nil {
@@ -39,10 +46,13 @@ func _ClassService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
 	return go_querystring.Unmarshal(r.URL.Query(), v)
 }
 
-// _ClassService_HTTPReadRequestBody parses body into proto.Message
-func _ClassService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
-	data, err := ioutil.ReadAll(r.Body)
+// _ClassService_HTTPReadRequestBody parses body into proto.Message with size limit
+func _ClassService_HTTPReadRequestBody(r *http.Request, v proto.Message, maxSize int64) error {
+	data, err := io.ReadAll(http.MaxBytesReader(nil, r.Body, maxSize))
 	if err != nil {
+		if err.Error() == "http: request body too large" {
+			return errClassServiceRequestTooLarge
+		}
 		return err
 	}
 
@@ -83,6 +93,12 @@ func _ClassService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h, 
 // _ClassService_HTTPWriteErrorResponse writes error to HTTP response with error status code
 func _ClassService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
+
+	if e == errClassServiceRequestTooLarge {
+		w.WriteHeader(http.StatusRequestEntityTooLarge)
+		_, _ = w.Write([]byte("request too large"))
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -170,8 +186,7 @@ func _ClassService_CreateClass_Rule0(cli ClassServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateClassInput{}
 
-		if err := _ClassService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ClassService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_ClassService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -192,8 +207,7 @@ func _ClassService_UpdateClass_Rule0(cli ClassServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateClassInput{}
 
-		if err := _ClassService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ClassService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_ClassService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -217,8 +231,7 @@ func _ClassService_DeleteClass_Rule0(cli ClassServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteClassInput{}
 
-		if err := _ClassService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ClassService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_ClassService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -242,8 +255,7 @@ func _ClassService_DescribeClass_Rule0(cli ClassServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeClassInput{}
 
-		if err := _ClassService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ClassService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_ClassService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -267,8 +279,7 @@ func _ClassService_ListClasses_Rule0(cli ClassServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListClassesInput{}
 
-		if err := _ClassService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ClassService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_ClassService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -289,8 +300,7 @@ func _ClassService_ListClassAssignments_Rule0(cli ClassServiceClient) http.Handl
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListClassAssignmentsInput{}
 
-		if err := _ClassService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ClassService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_ClassService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -314,8 +324,7 @@ func _ClassService_UpdateClassAssignment_Rule0(cli ClassServiceClient) http.Hand
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateClassAssignmentInput{}
 
-		if err := _ClassService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ClassService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_ClassService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -339,8 +348,7 @@ func _ClassService_DeleteClassAssignment_Rule0(cli ClassServiceClient) http.Hand
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteClassAssignmentInput{}
 
-		if err := _ClassService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ClassService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_ClassService_HTTPWriteErrorResponse(w, err)
 			return
 		}

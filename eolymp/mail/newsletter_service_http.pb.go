@@ -4,6 +4,7 @@
 package mail
 
 import (
+	errors "errors"
 	go_querystring "github.com/eolymp/go-querystring"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
@@ -12,14 +13,20 @@ import (
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
-	ioutil "io/ioutil"
+	io "io"
 	http "net/http"
 	url "net/url"
 	strconv "strconv"
 )
 
-// _NewsletterService_HTTPReadQueryString parses body into proto.Message
-func _NewsletterService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+var errNewsletterServiceRequestTooLarge = errors.New("request too large")
+
+// _NewsletterService_HTTPReadQueryString parses query string into proto.Message with size limit
+func _NewsletterService_HTTPReadQueryString(r *http.Request, v proto.Message, maxSize int64) error {
+	if int64(len(r.URL.RawQuery)) > maxSize {
+		return errNewsletterServiceRequestTooLarge
+	}
+
 	if h := r.Header.Values("Strict-Parsing"); len(h) > 0 {
 		strict, err := strconv.ParseBool(h[len(h)-1])
 		if err != nil {
@@ -39,10 +46,13 @@ func _NewsletterService_HTTPReadQueryString(r *http.Request, v proto.Message) er
 	return go_querystring.Unmarshal(r.URL.Query(), v)
 }
 
-// _NewsletterService_HTTPReadRequestBody parses body into proto.Message
-func _NewsletterService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
-	data, err := ioutil.ReadAll(r.Body)
+// _NewsletterService_HTTPReadRequestBody parses body into proto.Message with size limit
+func _NewsletterService_HTTPReadRequestBody(r *http.Request, v proto.Message, maxSize int64) error {
+	data, err := io.ReadAll(http.MaxBytesReader(nil, r.Body, maxSize))
 	if err != nil {
+		if err.Error() == "http: request body too large" {
+			return errNewsletterServiceRequestTooLarge
+		}
 		return err
 	}
 
@@ -83,6 +93,12 @@ func _NewsletterService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message
 // _NewsletterService_HTTPWriteErrorResponse writes error to HTTP response with error status code
 func _NewsletterService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
+
+	if e == errNewsletterServiceRequestTooLarge {
+		w.WriteHeader(http.StatusRequestEntityTooLarge)
+		_, _ = w.Write([]byte("request too large"))
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -200,8 +216,7 @@ func _NewsletterService_CreateNewsletter_Rule0(cli NewsletterServiceClient) http
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateNewsletterInput{}
 
-		if err := _NewsletterService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _NewsletterService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_NewsletterService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -222,8 +237,7 @@ func _NewsletterService_UpdateNewsletter_Rule0(cli NewsletterServiceClient) http
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateNewsletterInput{}
 
-		if err := _NewsletterService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _NewsletterService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_NewsletterService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -247,8 +261,7 @@ func _NewsletterService_DeleteNewsletter_Rule0(cli NewsletterServiceClient) http
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteNewsletterInput{}
 
-		if err := _NewsletterService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _NewsletterService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_NewsletterService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -272,8 +285,7 @@ func _NewsletterService_DescribeNewsletter_Rule0(cli NewsletterServiceClient) ht
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeNewsletterInput{}
 
-		if err := _NewsletterService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _NewsletterService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_NewsletterService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -297,8 +309,7 @@ func _NewsletterService_ListNewsletters_Rule0(cli NewsletterServiceClient) http.
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListNewslettersInput{}
 
-		if err := _NewsletterService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _NewsletterService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_NewsletterService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -319,8 +330,7 @@ func _NewsletterService_TestNewsletter_Rule0(cli NewsletterServiceClient) http.H
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &TestNewsletterInput{}
 
-		if err := _NewsletterService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _NewsletterService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_NewsletterService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -344,8 +354,7 @@ func _NewsletterService_SendNewsletter_Rule0(cli NewsletterServiceClient) http.H
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &SendNewsletterInput{}
 
-		if err := _NewsletterService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _NewsletterService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_NewsletterService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -369,8 +378,7 @@ func _NewsletterService_TranslateNewsletter_Rule0(cli NewsletterServiceClient) h
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &TranslateNewsletterInput{}
 
-		if err := _NewsletterService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _NewsletterService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_NewsletterService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -394,8 +402,7 @@ func _NewsletterService_CreateTranslation_Rule0(cli NewsletterServiceClient) htt
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateTranslationInput{}
 
-		if err := _NewsletterService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _NewsletterService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_NewsletterService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -419,8 +426,7 @@ func _NewsletterService_UpdateTranslation_Rule0(cli NewsletterServiceClient) htt
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateTranslationInput{}
 
-		if err := _NewsletterService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _NewsletterService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_NewsletterService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -445,8 +451,7 @@ func _NewsletterService_DeleteTranslation_Rule0(cli NewsletterServiceClient) htt
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteTranslationInput{}
 
-		if err := _NewsletterService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _NewsletterService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_NewsletterService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -471,8 +476,7 @@ func _NewsletterService_DescribeTranslation_Rule0(cli NewsletterServiceClient) h
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeTranslationInput{}
 
-		if err := _NewsletterService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _NewsletterService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_NewsletterService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -497,8 +501,7 @@ func _NewsletterService_ListTranslations_Rule0(cli NewsletterServiceClient) http
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListTranslationsInput{}
 
-		if err := _NewsletterService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _NewsletterService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_NewsletterService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -522,8 +525,7 @@ func _NewsletterService_CreateRecipient_Rule0(cli NewsletterServiceClient) http.
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateRecipientInput{}
 
-		if err := _NewsletterService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _NewsletterService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_NewsletterService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -547,8 +549,7 @@ func _NewsletterService_ImportRecipient_Rule0(cli NewsletterServiceClient) http.
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ImportRecipientInput{}
 
-		if err := _NewsletterService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _NewsletterService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_NewsletterService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -572,8 +573,7 @@ func _NewsletterService_DeleteRecipient_Rule0(cli NewsletterServiceClient) http.
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteRecipientInput{}
 
-		if err := _NewsletterService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _NewsletterService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_NewsletterService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -598,8 +598,7 @@ func _NewsletterService_ListRecipients_Rule0(cli NewsletterServiceClient) http.H
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListRecipientsInput{}
 
-		if err := _NewsletterService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _NewsletterService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_NewsletterService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -623,8 +622,7 @@ func _NewsletterService_DescribeRecipient_Rule0(cli NewsletterServiceClient) htt
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeRecipientInput{}
 
-		if err := _NewsletterService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _NewsletterService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_NewsletterService_HTTPWriteErrorResponse(w, err)
 			return
 		}

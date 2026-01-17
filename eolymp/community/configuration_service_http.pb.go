@@ -4,6 +4,7 @@
 package community
 
 import (
+	errors "errors"
 	go_querystring "github.com/eolymp/go-querystring"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
@@ -12,14 +13,20 @@ import (
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
-	ioutil "io/ioutil"
+	io "io"
 	http "net/http"
 	url "net/url"
 	strconv "strconv"
 )
 
-// _ConfigurationService_HTTPReadQueryString parses body into proto.Message
-func _ConfigurationService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+var errConfigurationServiceRequestTooLarge = errors.New("request too large")
+
+// _ConfigurationService_HTTPReadQueryString parses query string into proto.Message with size limit
+func _ConfigurationService_HTTPReadQueryString(r *http.Request, v proto.Message, maxSize int64) error {
+	if int64(len(r.URL.RawQuery)) > maxSize {
+		return errConfigurationServiceRequestTooLarge
+	}
+
 	if h := r.Header.Values("Strict-Parsing"); len(h) > 0 {
 		strict, err := strconv.ParseBool(h[len(h)-1])
 		if err != nil {
@@ -39,10 +46,13 @@ func _ConfigurationService_HTTPReadQueryString(r *http.Request, v proto.Message)
 	return go_querystring.Unmarshal(r.URL.Query(), v)
 }
 
-// _ConfigurationService_HTTPReadRequestBody parses body into proto.Message
-func _ConfigurationService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
-	data, err := ioutil.ReadAll(r.Body)
+// _ConfigurationService_HTTPReadRequestBody parses body into proto.Message with size limit
+func _ConfigurationService_HTTPReadRequestBody(r *http.Request, v proto.Message, maxSize int64) error {
+	data, err := io.ReadAll(http.MaxBytesReader(nil, r.Body, maxSize))
 	if err != nil {
+		if err.Error() == "http: request body too large" {
+			return errConfigurationServiceRequestTooLarge
+		}
 		return err
 	}
 
@@ -83,6 +93,12 @@ func _ConfigurationService_HTTPWriteResponse(w http.ResponseWriter, v proto.Mess
 // _ConfigurationService_HTTPWriteErrorResponse writes error to HTTP response with error status code
 func _ConfigurationService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
+
+	if e == errConfigurationServiceRequestTooLarge {
+		w.WriteHeader(http.StatusRequestEntityTooLarge)
+		_, _ = w.Write([]byte("request too large"))
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -152,8 +168,7 @@ func _ConfigurationService_DescribeIdentityConfig_Rule0(cli ConfigurationService
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeIdentityConfigInput{}
 
-		if err := _ConfigurationService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ConfigurationService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_ConfigurationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -174,8 +189,7 @@ func _ConfigurationService_ConfigureIdentityConfig_Rule0(cli ConfigurationServic
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ConfigureIdentityConfigInput{}
 
-		if err := _ConfigurationService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _ConfigurationService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_ConfigurationService_HTTPWriteErrorResponse(w, err)
 			return
 		}

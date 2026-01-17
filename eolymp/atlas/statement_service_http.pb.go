@@ -4,6 +4,7 @@
 package atlas
 
 import (
+	errors "errors"
 	go_querystring "github.com/eolymp/go-querystring"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
@@ -12,14 +13,20 @@ import (
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
-	ioutil "io/ioutil"
+	io "io"
 	http "net/http"
 	url "net/url"
 	strconv "strconv"
 )
 
-// _StatementService_HTTPReadQueryString parses body into proto.Message
-func _StatementService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+var errStatementServiceRequestTooLarge = errors.New("request too large")
+
+// _StatementService_HTTPReadQueryString parses query string into proto.Message with size limit
+func _StatementService_HTTPReadQueryString(r *http.Request, v proto.Message, maxSize int64) error {
+	if int64(len(r.URL.RawQuery)) > maxSize {
+		return errStatementServiceRequestTooLarge
+	}
+
 	if h := r.Header.Values("Strict-Parsing"); len(h) > 0 {
 		strict, err := strconv.ParseBool(h[len(h)-1])
 		if err != nil {
@@ -39,10 +46,13 @@ func _StatementService_HTTPReadQueryString(r *http.Request, v proto.Message) err
 	return go_querystring.Unmarshal(r.URL.Query(), v)
 }
 
-// _StatementService_HTTPReadRequestBody parses body into proto.Message
-func _StatementService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
-	data, err := ioutil.ReadAll(r.Body)
+// _StatementService_HTTPReadRequestBody parses body into proto.Message with size limit
+func _StatementService_HTTPReadRequestBody(r *http.Request, v proto.Message, maxSize int64) error {
+	data, err := io.ReadAll(http.MaxBytesReader(nil, r.Body, maxSize))
 	if err != nil {
+		if err.Error() == "http: request body too large" {
+			return errStatementServiceRequestTooLarge
+		}
 		return err
 	}
 
@@ -83,6 +93,12 @@ func _StatementService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message,
 // _StatementService_HTTPWriteErrorResponse writes error to HTTP response with error status code
 func _StatementService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
+
+	if e == errStatementServiceRequestTooLarge {
+		w.WriteHeader(http.StatusRequestEntityTooLarge)
+		_, _ = w.Write([]byte("request too large"))
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -176,8 +192,7 @@ func _StatementService_CreateStatement_Rule0(cli StatementServiceClient) http.Ha
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateStatementInput{}
 
-		if err := _StatementService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _StatementService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_StatementService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -198,8 +213,7 @@ func _StatementService_UpdateStatement_Rule0(cli StatementServiceClient) http.Ha
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateStatementInput{}
 
-		if err := _StatementService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _StatementService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_StatementService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -223,8 +237,7 @@ func _StatementService_DeleteStatement_Rule0(cli StatementServiceClient) http.Ha
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteStatementInput{}
 
-		if err := _StatementService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _StatementService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_StatementService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -248,8 +261,7 @@ func _StatementService_DescribeStatement_Rule0(cli StatementServiceClient) http.
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeStatementInput{}
 
-		if err := _StatementService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _StatementService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_StatementService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -273,8 +285,7 @@ func _StatementService_LookupStatement_Rule0(cli StatementServiceClient) http.Ha
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &LookupStatementInput{}
 
-		if err := _StatementService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _StatementService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_StatementService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -295,8 +306,7 @@ func _StatementService_PreviewStatement_Rule0(cli StatementServiceClient) http.H
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &PreviewStatementInput{}
 
-		if err := _StatementService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _StatementService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_StatementService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -317,8 +327,7 @@ func _StatementService_ListStatements_Rule0(cli StatementServiceClient) http.Han
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListStatementsInput{}
 
-		if err := _StatementService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _StatementService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_StatementService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -339,8 +348,7 @@ func _StatementService_TranslateStatements_Rule0(cli StatementServiceClient) htt
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &TranslateStatementsInput{}
 
-		if err := _StatementService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _StatementService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_StatementService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -361,8 +369,7 @@ func _StatementService_ExportStatement_Rule0(cli StatementServiceClient) http.Ha
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ExportStatementInput{}
 
-		if err := _StatementService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _StatementService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_StatementService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -386,8 +393,7 @@ func _StatementService_ListStatementVersions_Rule0(cli StatementServiceClient) h
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListStatementVersionsInput{}
 
-		if err := _StatementService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _StatementService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_StatementService_HTTPWriteErrorResponse(w, err)
 			return
 		}

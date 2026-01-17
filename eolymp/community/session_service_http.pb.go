@@ -4,6 +4,7 @@
 package community
 
 import (
+	errors "errors"
 	go_querystring "github.com/eolymp/go-querystring"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
@@ -12,14 +13,20 @@ import (
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
-	ioutil "io/ioutil"
+	io "io"
 	http "net/http"
 	url "net/url"
 	strconv "strconv"
 )
 
-// _SessionService_HTTPReadQueryString parses body into proto.Message
-func _SessionService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+var errSessionServiceRequestTooLarge = errors.New("request too large")
+
+// _SessionService_HTTPReadQueryString parses query string into proto.Message with size limit
+func _SessionService_HTTPReadQueryString(r *http.Request, v proto.Message, maxSize int64) error {
+	if int64(len(r.URL.RawQuery)) > maxSize {
+		return errSessionServiceRequestTooLarge
+	}
+
 	if h := r.Header.Values("Strict-Parsing"); len(h) > 0 {
 		strict, err := strconv.ParseBool(h[len(h)-1])
 		if err != nil {
@@ -39,10 +46,13 @@ func _SessionService_HTTPReadQueryString(r *http.Request, v proto.Message) error
 	return go_querystring.Unmarshal(r.URL.Query(), v)
 }
 
-// _SessionService_HTTPReadRequestBody parses body into proto.Message
-func _SessionService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
-	data, err := ioutil.ReadAll(r.Body)
+// _SessionService_HTTPReadRequestBody parses body into proto.Message with size limit
+func _SessionService_HTTPReadRequestBody(r *http.Request, v proto.Message, maxSize int64) error {
+	data, err := io.ReadAll(http.MaxBytesReader(nil, r.Body, maxSize))
 	if err != nil {
+		if err.Error() == "http: request body too large" {
+			return errSessionServiceRequestTooLarge
+		}
 		return err
 	}
 
@@ -83,6 +93,12 @@ func _SessionService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h
 // _SessionService_HTTPWriteErrorResponse writes error to HTTP response with error status code
 func _SessionService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
+
+	if e == errSessionServiceRequestTooLarge {
+		w.WriteHeader(http.StatusRequestEntityTooLarge)
+		_, _ = w.Write([]byte("request too large"))
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -158,8 +174,7 @@ func _SessionService_DescribeSession_Rule0(cli SessionServiceClient) http.Handle
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeSessionInput{}
 
-		if err := _SessionService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _SessionService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_SessionService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -183,8 +198,7 @@ func _SessionService_ListSessions_Rule0(cli SessionServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListSessionsInput{}
 
-		if err := _SessionService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _SessionService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_SessionService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -205,8 +219,7 @@ func _SessionService_TerminateSession_Rule0(cli SessionServiceClient) http.Handl
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &TerminateSessionInput{}
 
-		if err := _SessionService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _SessionService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_SessionService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -230,8 +243,7 @@ func _SessionService_TerminateAllSessions_Rule0(cli SessionServiceClient) http.H
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &TerminateAllSessionsInput{}
 
-		if err := _SessionService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _SessionService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_SessionService_HTTPWriteErrorResponse(w, err)
 			return
 		}

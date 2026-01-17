@@ -4,6 +4,7 @@
 package atlas
 
 import (
+	errors "errors"
 	go_querystring "github.com/eolymp/go-querystring"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
@@ -12,14 +13,20 @@ import (
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
-	ioutil "io/ioutil"
+	io "io"
 	http "net/http"
 	url "net/url"
 	strconv "strconv"
 )
 
-// _AttachmentService_HTTPReadQueryString parses body into proto.Message
-func _AttachmentService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+var errAttachmentServiceRequestTooLarge = errors.New("request too large")
+
+// _AttachmentService_HTTPReadQueryString parses query string into proto.Message with size limit
+func _AttachmentService_HTTPReadQueryString(r *http.Request, v proto.Message, maxSize int64) error {
+	if int64(len(r.URL.RawQuery)) > maxSize {
+		return errAttachmentServiceRequestTooLarge
+	}
+
 	if h := r.Header.Values("Strict-Parsing"); len(h) > 0 {
 		strict, err := strconv.ParseBool(h[len(h)-1])
 		if err != nil {
@@ -39,10 +46,13 @@ func _AttachmentService_HTTPReadQueryString(r *http.Request, v proto.Message) er
 	return go_querystring.Unmarshal(r.URL.Query(), v)
 }
 
-// _AttachmentService_HTTPReadRequestBody parses body into proto.Message
-func _AttachmentService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
-	data, err := ioutil.ReadAll(r.Body)
+// _AttachmentService_HTTPReadRequestBody parses body into proto.Message with size limit
+func _AttachmentService_HTTPReadRequestBody(r *http.Request, v proto.Message, maxSize int64) error {
+	data, err := io.ReadAll(http.MaxBytesReader(nil, r.Body, maxSize))
 	if err != nil {
+		if err.Error() == "http: request body too large" {
+			return errAttachmentServiceRequestTooLarge
+		}
 		return err
 	}
 
@@ -83,6 +93,12 @@ func _AttachmentService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message
 // _AttachmentService_HTTPWriteErrorResponse writes error to HTTP response with error status code
 func _AttachmentService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
+
+	if e == errAttachmentServiceRequestTooLarge {
+		w.WriteHeader(http.StatusRequestEntityTooLarge)
+		_, _ = w.Write([]byte("request too large"))
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -161,8 +177,7 @@ func _AttachmentService_CreateAttachment_Rule0(cli AttachmentServiceClient) http
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateAttachmentInput{}
 
-		if err := _AttachmentService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _AttachmentService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_AttachmentService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -183,8 +198,7 @@ func _AttachmentService_UpdateAttachment_Rule0(cli AttachmentServiceClient) http
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateAttachmentInput{}
 
-		if err := _AttachmentService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _AttachmentService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_AttachmentService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -208,8 +222,7 @@ func _AttachmentService_DeleteAttachment_Rule0(cli AttachmentServiceClient) http
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteAttachmentInput{}
 
-		if err := _AttachmentService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _AttachmentService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_AttachmentService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -233,8 +246,7 @@ func _AttachmentService_ListAttachments_Rule0(cli AttachmentServiceClient) http.
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListAttachmentsInput{}
 
-		if err := _AttachmentService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _AttachmentService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_AttachmentService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -255,8 +267,7 @@ func _AttachmentService_DescribeAttachment_Rule0(cli AttachmentServiceClient) ht
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeAttachmentInput{}
 
-		if err := _AttachmentService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _AttachmentService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_AttachmentService_HTTPWriteErrorResponse(w, err)
 			return
 		}

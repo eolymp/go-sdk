@@ -4,6 +4,7 @@
 package l10n
 
 import (
+	errors "errors"
 	go_querystring "github.com/eolymp/go-querystring"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
@@ -12,14 +13,20 @@ import (
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
-	ioutil "io/ioutil"
+	io "io"
 	http "net/http"
 	url "net/url"
 	strconv "strconv"
 )
 
-// _LocalizationService_HTTPReadQueryString parses body into proto.Message
-func _LocalizationService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+var errLocalizationServiceRequestTooLarge = errors.New("request too large")
+
+// _LocalizationService_HTTPReadQueryString parses query string into proto.Message with size limit
+func _LocalizationService_HTTPReadQueryString(r *http.Request, v proto.Message, maxSize int64) error {
+	if int64(len(r.URL.RawQuery)) > maxSize {
+		return errLocalizationServiceRequestTooLarge
+	}
+
 	if h := r.Header.Values("Strict-Parsing"); len(h) > 0 {
 		strict, err := strconv.ParseBool(h[len(h)-1])
 		if err != nil {
@@ -39,10 +46,13 @@ func _LocalizationService_HTTPReadQueryString(r *http.Request, v proto.Message) 
 	return go_querystring.Unmarshal(r.URL.Query(), v)
 }
 
-// _LocalizationService_HTTPReadRequestBody parses body into proto.Message
-func _LocalizationService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
-	data, err := ioutil.ReadAll(r.Body)
+// _LocalizationService_HTTPReadRequestBody parses body into proto.Message with size limit
+func _LocalizationService_HTTPReadRequestBody(r *http.Request, v proto.Message, maxSize int64) error {
+	data, err := io.ReadAll(http.MaxBytesReader(nil, r.Body, maxSize))
 	if err != nil {
+		if err.Error() == "http: request body too large" {
+			return errLocalizationServiceRequestTooLarge
+		}
 		return err
 	}
 
@@ -83,6 +93,12 @@ func _LocalizationService_HTTPWriteResponse(w http.ResponseWriter, v proto.Messa
 // _LocalizationService_HTTPWriteErrorResponse writes error to HTTP response with error status code
 func _LocalizationService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
+
+	if e == errLocalizationServiceRequestTooLarge {
+		w.WriteHeader(http.StatusRequestEntityTooLarge)
+		_, _ = w.Write([]byte("request too large"))
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -209,8 +225,7 @@ func _LocalizationService_CreateTerm_Rule0(cli LocalizationServiceClient) http.H
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateTermInput{}
 
-		if err := _LocalizationService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _LocalizationService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -231,8 +246,7 @@ func _LocalizationService_ListTerms_Rule0(cli LocalizationServiceClient) http.Ha
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListTermsInput{}
 
-		if err := _LocalizationService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _LocalizationService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -253,8 +267,7 @@ func _LocalizationService_UpdateTerm_Rule0(cli LocalizationServiceClient) http.H
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateTermInput{}
 
-		if err := _LocalizationService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _LocalizationService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -278,8 +291,7 @@ func _LocalizationService_RestoreTerm_Rule0(cli LocalizationServiceClient) http.
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &RestoreTermInput{}
 
-		if err := _LocalizationService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _LocalizationService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -303,8 +315,7 @@ func _LocalizationService_DeprecateTerm_Rule0(cli LocalizationServiceClient) htt
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeprecateTermInput{}
 
-		if err := _LocalizationService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _LocalizationService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -328,8 +339,7 @@ func _LocalizationService_DeleteTerm_Rule0(cli LocalizationServiceClient) http.H
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteTermInput{}
 
-		if err := _LocalizationService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _LocalizationService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -353,8 +363,7 @@ func _LocalizationService_DescribeTerm_Rule0(cli LocalizationServiceClient) http
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeTermInput{}
 
-		if err := _LocalizationService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _LocalizationService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -378,8 +387,7 @@ func _LocalizationService_ImportTerms_Rule0(cli LocalizationServiceClient) http.
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ImportTermsInput{}
 
-		if err := _LocalizationService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _LocalizationService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -400,8 +408,7 @@ func _LocalizationService_AddLocale_Rule0(cli LocalizationServiceClient) http.Ha
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &AddLocaleInput{}
 
-		if err := _LocalizationService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _LocalizationService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -425,8 +432,7 @@ func _LocalizationService_RemoveLocale_Rule0(cli LocalizationServiceClient) http
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &RemoveLocaleInput{}
 
-		if err := _LocalizationService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _LocalizationService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -450,8 +456,7 @@ func _LocalizationService_ListLocales_Rule0(cli LocalizationServiceClient) http.
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListLocalesInput{}
 
-		if err := _LocalizationService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _LocalizationService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -472,8 +477,7 @@ func _LocalizationService_TranslateTerm_Rule0(cli LocalizationServiceClient) htt
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &TranslateTermInput{}
 
-		if err := _LocalizationService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _LocalizationService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -497,8 +501,7 @@ func _LocalizationService_ListTranslations_Rule0(cli LocalizationServiceClient) 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListTranslationsInput{}
 
-		if err := _LocalizationService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _LocalizationService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -522,8 +525,7 @@ func _LocalizationService_DeleteTranslation_Rule0(cli LocalizationServiceClient)
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteTranslationInput{}
 
-		if err := _LocalizationService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _LocalizationService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -548,8 +550,7 @@ func _LocalizationService_SuggestTranslation_Rule0(cli LocalizationServiceClient
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &SuggestTranslationInput{}
 
-		if err := _LocalizationService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _LocalizationService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -574,8 +575,7 @@ func _LocalizationService_UpdateTranslation_Rule0(cli LocalizationServiceClient)
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateTranslationInput{}
 
-		if err := _LocalizationService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _LocalizationService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -600,8 +600,7 @@ func _LocalizationService_ApproveTranslation_Rule0(cli LocalizationServiceClient
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ApproveTranslationInput{}
 
-		if err := _LocalizationService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _LocalizationService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -626,8 +625,7 @@ func _LocalizationService_RejectTranslation_Rule0(cli LocalizationServiceClient)
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &RejectTranslationInput{}
 
-		if err := _LocalizationService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _LocalizationService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -652,8 +650,7 @@ func _LocalizationService_ImportTranslations_Rule0(cli LocalizationServiceClient
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ImportTranslationsInput{}
 
-		if err := _LocalizationService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _LocalizationService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -677,8 +674,7 @@ func _LocalizationService_ExportTranslations_Rule0(cli LocalizationServiceClient
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ExportTranslationsInput{}
 
-		if err := _LocalizationService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _LocalizationService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -702,8 +698,7 @@ func _LocalizationService_ListTranslationPairs_Rule0(cli LocalizationServiceClie
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListTranslationPairsInput{}
 
-		if err := _LocalizationService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _LocalizationService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
 		}

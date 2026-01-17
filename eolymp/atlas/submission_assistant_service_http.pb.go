@@ -4,6 +4,7 @@
 package atlas
 
 import (
+	errors "errors"
 	go_querystring "github.com/eolymp/go-querystring"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
@@ -12,14 +13,20 @@ import (
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
-	ioutil "io/ioutil"
+	io "io"
 	http "net/http"
 	url "net/url"
 	strconv "strconv"
 )
 
-// _SubmissionAssistantService_HTTPReadQueryString parses body into proto.Message
-func _SubmissionAssistantService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+var errSubmissionAssistantServiceRequestTooLarge = errors.New("request too large")
+
+// _SubmissionAssistantService_HTTPReadQueryString parses query string into proto.Message with size limit
+func _SubmissionAssistantService_HTTPReadQueryString(r *http.Request, v proto.Message, maxSize int64) error {
+	if int64(len(r.URL.RawQuery)) > maxSize {
+		return errSubmissionAssistantServiceRequestTooLarge
+	}
+
 	if h := r.Header.Values("Strict-Parsing"); len(h) > 0 {
 		strict, err := strconv.ParseBool(h[len(h)-1])
 		if err != nil {
@@ -39,10 +46,13 @@ func _SubmissionAssistantService_HTTPReadQueryString(r *http.Request, v proto.Me
 	return go_querystring.Unmarshal(r.URL.Query(), v)
 }
 
-// _SubmissionAssistantService_HTTPReadRequestBody parses body into proto.Message
-func _SubmissionAssistantService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
-	data, err := ioutil.ReadAll(r.Body)
+// _SubmissionAssistantService_HTTPReadRequestBody parses body into proto.Message with size limit
+func _SubmissionAssistantService_HTTPReadRequestBody(r *http.Request, v proto.Message, maxSize int64) error {
+	data, err := io.ReadAll(http.MaxBytesReader(nil, r.Body, maxSize))
 	if err != nil {
+		if err.Error() == "http: request body too large" {
+			return errSubmissionAssistantServiceRequestTooLarge
+		}
 		return err
 	}
 
@@ -83,6 +93,12 @@ func _SubmissionAssistantService_HTTPWriteResponse(w http.ResponseWriter, v prot
 // _SubmissionAssistantService_HTTPWriteErrorResponse writes error to HTTP response with error status code
 func _SubmissionAssistantService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
+
+	if e == errSubmissionAssistantServiceRequestTooLarge {
+		w.WriteHeader(http.StatusRequestEntityTooLarge)
+		_, _ = w.Write([]byte("request too large"))
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -155,8 +171,7 @@ func _SubmissionAssistantService_RequestDebugAssistance_Rule0(cli SubmissionAssi
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &RequestDebugAssistanceInput{}
 
-		if err := _SubmissionAssistantService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _SubmissionAssistantService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_SubmissionAssistantService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -180,8 +195,7 @@ func _SubmissionAssistantService_DescribeDebugAssistance_Rule0(cli SubmissionAss
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeDebugAssistanceInput{}
 
-		if err := _SubmissionAssistantService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _SubmissionAssistantService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_SubmissionAssistantService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -205,8 +219,7 @@ func _SubmissionAssistantService_RateDebugAssistance_Rule0(cli SubmissionAssista
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &RateDebugAssistanceInput{}
 
-		if err := _SubmissionAssistantService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _SubmissionAssistantService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_SubmissionAssistantService_HTTPWriteErrorResponse(w, err)
 			return
 		}

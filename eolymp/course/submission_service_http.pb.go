@@ -4,6 +4,7 @@
 package course
 
 import (
+	errors "errors"
 	go_querystring "github.com/eolymp/go-querystring"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
@@ -12,14 +13,20 @@ import (
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
-	ioutil "io/ioutil"
+	io "io"
 	http "net/http"
 	url "net/url"
 	strconv "strconv"
 )
 
-// _SubmissionService_HTTPReadQueryString parses body into proto.Message
-func _SubmissionService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+var errSubmissionServiceRequestTooLarge = errors.New("request too large")
+
+// _SubmissionService_HTTPReadQueryString parses query string into proto.Message with size limit
+func _SubmissionService_HTTPReadQueryString(r *http.Request, v proto.Message, maxSize int64) error {
+	if int64(len(r.URL.RawQuery)) > maxSize {
+		return errSubmissionServiceRequestTooLarge
+	}
+
 	if h := r.Header.Values("Strict-Parsing"); len(h) > 0 {
 		strict, err := strconv.ParseBool(h[len(h)-1])
 		if err != nil {
@@ -39,10 +46,13 @@ func _SubmissionService_HTTPReadQueryString(r *http.Request, v proto.Message) er
 	return go_querystring.Unmarshal(r.URL.Query(), v)
 }
 
-// _SubmissionService_HTTPReadRequestBody parses body into proto.Message
-func _SubmissionService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
-	data, err := ioutil.ReadAll(r.Body)
+// _SubmissionService_HTTPReadRequestBody parses body into proto.Message with size limit
+func _SubmissionService_HTTPReadRequestBody(r *http.Request, v proto.Message, maxSize int64) error {
+	data, err := io.ReadAll(http.MaxBytesReader(nil, r.Body, maxSize))
 	if err != nil {
+		if err.Error() == "http: request body too large" {
+			return errSubmissionServiceRequestTooLarge
+		}
 		return err
 	}
 
@@ -83,6 +93,12 @@ func _SubmissionService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message
 // _SubmissionService_HTTPWriteErrorResponse writes error to HTTP response with error status code
 func _SubmissionService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
+
+	if e == errSubmissionServiceRequestTooLarge {
+		w.WriteHeader(http.StatusRequestEntityTooLarge)
+		_, _ = w.Write([]byte("request too large"))
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -155,8 +171,7 @@ func _SubmissionService_CreateSubmission_Rule0(cli SubmissionServiceClient) http
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateSubmissionInput{}
 
-		if err := _SubmissionService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _SubmissionService_HTTPReadRequestBody(r, in, 5242880); err != nil {
 			_SubmissionService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -177,8 +192,7 @@ func _SubmissionService_ListSubmissions_Rule0(cli SubmissionServiceClient) http.
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListSubmissionsInput{}
 
-		if err := _SubmissionService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _SubmissionService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_SubmissionService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -199,8 +213,7 @@ func _SubmissionService_DescribeSubmission_Rule0(cli SubmissionServiceClient) ht
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeSubmissionInput{}
 
-		if err := _SubmissionService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _SubmissionService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_SubmissionService_HTTPWriteErrorResponse(w, err)
 			return
 		}

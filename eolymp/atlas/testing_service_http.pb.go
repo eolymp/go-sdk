@@ -4,6 +4,7 @@
 package atlas
 
 import (
+	errors "errors"
 	go_querystring "github.com/eolymp/go-querystring"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
@@ -12,14 +13,20 @@ import (
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
-	ioutil "io/ioutil"
+	io "io"
 	http "net/http"
 	url "net/url"
 	strconv "strconv"
 )
 
-// _TestingService_HTTPReadQueryString parses body into proto.Message
-func _TestingService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+var errTestingServiceRequestTooLarge = errors.New("request too large")
+
+// _TestingService_HTTPReadQueryString parses query string into proto.Message with size limit
+func _TestingService_HTTPReadQueryString(r *http.Request, v proto.Message, maxSize int64) error {
+	if int64(len(r.URL.RawQuery)) > maxSize {
+		return errTestingServiceRequestTooLarge
+	}
+
 	if h := r.Header.Values("Strict-Parsing"); len(h) > 0 {
 		strict, err := strconv.ParseBool(h[len(h)-1])
 		if err != nil {
@@ -39,10 +46,13 @@ func _TestingService_HTTPReadQueryString(r *http.Request, v proto.Message) error
 	return go_querystring.Unmarshal(r.URL.Query(), v)
 }
 
-// _TestingService_HTTPReadRequestBody parses body into proto.Message
-func _TestingService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
-	data, err := ioutil.ReadAll(r.Body)
+// _TestingService_HTTPReadRequestBody parses body into proto.Message with size limit
+func _TestingService_HTTPReadRequestBody(r *http.Request, v proto.Message, maxSize int64) error {
+	data, err := io.ReadAll(http.MaxBytesReader(nil, r.Body, maxSize))
 	if err != nil {
+		if err.Error() == "http: request body too large" {
+			return errTestingServiceRequestTooLarge
+		}
 		return err
 	}
 
@@ -83,6 +93,12 @@ func _TestingService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h
 // _TestingService_HTTPWriteErrorResponse writes error to HTTP response with error status code
 func _TestingService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
+
+	if e == errTestingServiceRequestTooLarge {
+		w.WriteHeader(http.StatusRequestEntityTooLarge)
+		_, _ = w.Write([]byte("request too large"))
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -223,8 +239,7 @@ func _TestingService_UpdateTestingConfig_Rule0(cli TestingServiceClient) http.Ha
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateTestingConfigInput{}
 
-		if err := _TestingService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _TestingService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -245,8 +260,7 @@ func _TestingService_DescribeTestingConfig_Rule0(cli TestingServiceClient) http.
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeTestingConfigInput{}
 
-		if err := _TestingService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _TestingService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -267,8 +281,7 @@ func _TestingService_UpdateChecker_Rule0(cli TestingServiceClient) http.Handler 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateCheckerInput{}
 
-		if err := _TestingService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _TestingService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -289,8 +302,7 @@ func _TestingService_DescribeChecker_Rule0(cli TestingServiceClient) http.Handle
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeCheckerInput{}
 
-		if err := _TestingService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _TestingService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -311,8 +323,7 @@ func _TestingService_UpdateInteractor_Rule0(cli TestingServiceClient) http.Handl
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateInteractorInput{}
 
-		if err := _TestingService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _TestingService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -333,8 +344,7 @@ func _TestingService_DescribeInteractor_Rule0(cli TestingServiceClient) http.Han
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeInteractorInput{}
 
-		if err := _TestingService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _TestingService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -355,8 +365,7 @@ func _TestingService_UpdateValidator_Rule0(cli TestingServiceClient) http.Handle
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateValidatorInput{}
 
-		if err := _TestingService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _TestingService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -377,8 +386,7 @@ func _TestingService_DescribeValidator_Rule0(cli TestingServiceClient) http.Hand
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeValidatorInput{}
 
-		if err := _TestingService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _TestingService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -399,8 +407,7 @@ func _TestingService_CreateTestset_Rule0(cli TestingServiceClient) http.Handler 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateTestsetInput{}
 
-		if err := _TestingService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _TestingService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -421,8 +428,7 @@ func _TestingService_UpdateTestset_Rule0(cli TestingServiceClient) http.Handler 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateTestsetInput{}
 
-		if err := _TestingService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _TestingService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -446,8 +452,7 @@ func _TestingService_DeleteTestset_Rule0(cli TestingServiceClient) http.Handler 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteTestsetInput{}
 
-		if err := _TestingService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _TestingService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -471,8 +476,7 @@ func _TestingService_DescribeTestset_Rule0(cli TestingServiceClient) http.Handle
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeTestsetInput{}
 
-		if err := _TestingService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _TestingService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -496,8 +500,7 @@ func _TestingService_ListTestsets_Rule0(cli TestingServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListTestsetsInput{}
 
-		if err := _TestingService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _TestingService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -518,8 +521,7 @@ func _TestingService_CreateTest_Rule0(cli TestingServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateTestInput{}
 
-		if err := _TestingService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _TestingService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -543,8 +545,7 @@ func _TestingService_CreateTest_Rule1(cli TestingServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateTestInput{}
 
-		if err := _TestingService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _TestingService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -565,8 +566,7 @@ func _TestingService_UpdateTest_Rule0(cli TestingServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateTestInput{}
 
-		if err := _TestingService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _TestingService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -590,8 +590,7 @@ func _TestingService_UpdateTest_Rule1(cli TestingServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateTestInput{}
 
-		if err := _TestingService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _TestingService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -616,8 +615,7 @@ func _TestingService_DeleteTest_Rule0(cli TestingServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteTestInput{}
 
-		if err := _TestingService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _TestingService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -641,8 +639,7 @@ func _TestingService_DeleteTest_Rule1(cli TestingServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteTestInput{}
 
-		if err := _TestingService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _TestingService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -667,8 +664,7 @@ func _TestingService_DescribeTest_Rule0(cli TestingServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeTestInput{}
 
-		if err := _TestingService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _TestingService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -692,8 +688,7 @@ func _TestingService_DescribeTest_Rule1(cli TestingServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeTestInput{}
 
-		if err := _TestingService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _TestingService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -718,8 +713,7 @@ func _TestingService_ListTests_Rule0(cli TestingServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListTestsInput{}
 
-		if err := _TestingService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _TestingService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -740,8 +734,7 @@ func _TestingService_ListTests_Rule1(cli TestingServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListTestsInput{}
 
-		if err := _TestingService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _TestingService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -765,8 +758,7 @@ func _TestingService_ListExamples_Rule0(cli TestingServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListExamplesInput{}
 
-		if err := _TestingService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _TestingService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}

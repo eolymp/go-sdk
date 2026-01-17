@@ -4,6 +4,7 @@
 package vendor
 
 import (
+	errors "errors"
 	go_querystring "github.com/eolymp/go-querystring"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
@@ -12,14 +13,20 @@ import (
 	status "google.golang.org/grpc/status"
 	protojson "google.golang.org/protobuf/encoding/protojson"
 	proto "google.golang.org/protobuf/proto"
-	ioutil "io/ioutil"
+	io "io"
 	http "net/http"
 	url "net/url"
 	strconv "strconv"
 )
 
-// _InvoiceService_HTTPReadQueryString parses body into proto.Message
-func _InvoiceService_HTTPReadQueryString(r *http.Request, v proto.Message) error {
+var errInvoiceServiceRequestTooLarge = errors.New("request too large")
+
+// _InvoiceService_HTTPReadQueryString parses query string into proto.Message with size limit
+func _InvoiceService_HTTPReadQueryString(r *http.Request, v proto.Message, maxSize int64) error {
+	if int64(len(r.URL.RawQuery)) > maxSize {
+		return errInvoiceServiceRequestTooLarge
+	}
+
 	if h := r.Header.Values("Strict-Parsing"); len(h) > 0 {
 		strict, err := strconv.ParseBool(h[len(h)-1])
 		if err != nil {
@@ -39,10 +46,13 @@ func _InvoiceService_HTTPReadQueryString(r *http.Request, v proto.Message) error
 	return go_querystring.Unmarshal(r.URL.Query(), v)
 }
 
-// _InvoiceService_HTTPReadRequestBody parses body into proto.Message
-func _InvoiceService_HTTPReadRequestBody(r *http.Request, v proto.Message) error {
-	data, err := ioutil.ReadAll(r.Body)
+// _InvoiceService_HTTPReadRequestBody parses body into proto.Message with size limit
+func _InvoiceService_HTTPReadRequestBody(r *http.Request, v proto.Message, maxSize int64) error {
+	data, err := io.ReadAll(http.MaxBytesReader(nil, r.Body, maxSize))
 	if err != nil {
+		if err.Error() == "http: request body too large" {
+			return errInvoiceServiceRequestTooLarge
+		}
 		return err
 	}
 
@@ -83,6 +93,12 @@ func _InvoiceService_HTTPWriteResponse(w http.ResponseWriter, v proto.Message, h
 // _InvoiceService_HTTPWriteErrorResponse writes error to HTTP response with error status code
 func _InvoiceService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	s := status.Convert(e)
+
+	if e == errInvoiceServiceRequestTooLarge {
+		w.WriteHeader(http.StatusRequestEntityTooLarge)
+		_, _ = w.Write([]byte("request too large"))
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -173,8 +189,7 @@ func _InvoiceService_ListInvoices_Rule0(cli InvoiceServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ListInvoicesInput{}
 
-		if err := _InvoiceService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _InvoiceService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_InvoiceService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -195,8 +210,7 @@ func _InvoiceService_DescribeInvoice_Rule0(cli InvoiceServiceClient) http.Handle
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DescribeInvoiceInput{}
 
-		if err := _InvoiceService_HTTPReadQueryString(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _InvoiceService_HTTPReadQueryString(r, in, 1048576); err != nil {
 			_InvoiceService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -220,8 +234,7 @@ func _InvoiceService_CreateInvoice_Rule0(cli InvoiceServiceClient) http.Handler 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &CreateInvoiceInput{}
 
-		if err := _InvoiceService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _InvoiceService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_InvoiceService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -242,8 +255,7 @@ func _InvoiceService_UpdateInvoice_Rule0(cli InvoiceServiceClient) http.Handler 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UpdateInvoiceInput{}
 
-		if err := _InvoiceService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _InvoiceService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_InvoiceService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -267,8 +279,7 @@ func _InvoiceService_DeleteInvoice_Rule0(cli InvoiceServiceClient) http.Handler 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteInvoiceInput{}
 
-		if err := _InvoiceService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _InvoiceService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_InvoiceService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -292,8 +303,7 @@ func _InvoiceService_UploadInvoiceDocument_Rule0(cli InvoiceServiceClient) http.
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UploadInvoiceDocumentInput{}
 
-		if err := _InvoiceService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _InvoiceService_HTTPReadRequestBody(r, in, 2097152); err != nil {
 			_InvoiceService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -317,8 +327,7 @@ func _InvoiceService_SubmitInvoice_Rule0(cli InvoiceServiceClient) http.Handler 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &SubmitInvoiceInput{}
 
-		if err := _InvoiceService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _InvoiceService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_InvoiceService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -342,8 +351,7 @@ func _InvoiceService_ApproveInvoice_Rule0(cli InvoiceServiceClient) http.Handler
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &ApproveInvoiceInput{}
 
-		if err := _InvoiceService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _InvoiceService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_InvoiceService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -367,8 +375,7 @@ func _InvoiceService_RejectInvoice_Rule0(cli InvoiceServiceClient) http.Handler 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &RejectInvoiceInput{}
 
-		if err := _InvoiceService_HTTPReadRequestBody(r, in); err != nil {
-			err = status.Error(codes.InvalidArgument, err.Error())
+		if err := _InvoiceService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_InvoiceService_HTTPWriteErrorResponse(w, err)
 			return
 		}
