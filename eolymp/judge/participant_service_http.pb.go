@@ -163,6 +163,9 @@ func RegisterParticipantServiceHttpHandlers(router *mux.Router, prefix string, c
 	router.Handle(prefix+"/participants/{participant_id}", _ParticipantService_UpdateParticipant_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.judge.ParticipantService.UpdateParticipant")
+	router.Handle(prefix+"/participants/{participant_id}/analyze", _ParticipantService_AnalyzeParticipant_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.judge.ParticipantService.AnalyzeParticipant")
 	router.Handle(prefix+"/participants/{participant_id}/disqualify", _ParticipantService_DisqualifyParticipant_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.ParticipantService.DisqualifyParticipant")
@@ -281,6 +284,30 @@ func _ParticipantService_UpdateParticipant_Rule0(cli ParticipantServiceClient) h
 		var header, trailer metadata.MD
 
 		out, err := cli.UpdateParticipant(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ParticipantService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ParticipantService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ParticipantService_AnalyzeParticipant_Rule0(cli ParticipantServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &AnalyzeParticipantInput{}
+
+		if err := _ParticipantService_HTTPReadRequestBody(r, in, 1048576); err != nil {
+			_ParticipantService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ParticipantId = vars["participant_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.AnalyzeParticipant(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ParticipantService_HTTPWriteErrorResponse(w, err)
 			return
