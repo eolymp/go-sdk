@@ -1456,7 +1456,7 @@ const file_eolymp_asset_asset_service_proto_rawDesc = "" +
 	"d\x82\xe3\n" +
 	"\x15\x8a\xe3\n" +
 	"\x11asset:asset:write\x82\xd3\xe4\x93\x02\x10\x98\xe3\n" +
-	"\x80\x80\xe0\x02\"\a/assets\x12\x8d\x01\n" +
+	"\xa0\xe6\x86\x04\"\a/assets\x12\x8d\x01\n" +
 	"\vLookupAsset\x12\x1e.eolymp.asset.LookupAssetInput\x1a\x1f.eolymp.asset.LookupAssetOutput\"=\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
@@ -1481,7 +1481,7 @@ const file_eolymp_asset_asset_service_proto_rawDesc = "" +
 	"d\x82\xe3\n" +
 	"\x15\x8a\xe3\n" +
 	"\x11asset:asset:write\x82\xd3\xe4\x93\x02\x1d\x98\xe3\n" +
-	"\x80\x80\xe0\x02\"\x14/uploads/{upload_id}\x12\xb8\x01\n" +
+	"\xa0\xe6\x86\x04\"\x14/uploads/{upload_id}\x12\xb8\x01\n" +
 	"\x17CompleteMultipartUpload\x12*.eolymp.asset.CompleteMultipartUploadInput\x1a+.eolymp.asset.CompleteMultipartUploadOutput\"D\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +

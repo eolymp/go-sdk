@@ -234,7 +234,7 @@ func _AssetService_UploadAsset_Rule0(cli AssetServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UploadAssetInput{}
 
-		if err := _AssetService_HTTPReadRequestBody(r, in, 5767168); err != nil {
+		if err := _AssetService_HTTPReadRequestBody(r, in, 8500000); err != nil {
 			_AssetService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -297,7 +297,7 @@ func _AssetService_UploadPart_Rule0(cli AssetServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UploadPartInput{}
 
-		if err := _AssetService_HTTPReadRequestBody(r, in, 5767168); err != nil {
+		if err := _AssetService_HTTPReadRequestBody(r, in, 8500000); err != nil {
 			_AssetService_HTTPWriteErrorResponse(w, err)
 			return
 		}
