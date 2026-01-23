@@ -63,6 +63,9 @@ const (
 	Action_POST_WRITE       Action = 141
 	Action_STORE_READ       Action = 150
 	Action_STORE_WRITE      Action = 151
+	Action_NEWSLETTER_LIST  Action = 162 // allows to list newsletters, automatically assigned if user has read access to any of the newsletters
+	Action_NEWSLETTER_READ  Action = 160
+	Action_NEWSLETTER_WRITE Action = 161
 )
 
 // Enum value maps for Action.
@@ -107,6 +110,9 @@ var (
 		141: "POST_WRITE",
 		150: "STORE_READ",
 		151: "STORE_WRITE",
+		162: "NEWSLETTER_LIST",
+		160: "NEWSLETTER_READ",
+		161: "NEWSLETTER_WRITE",
 	}
 	Action_value = map[string]int32{
 		"UNKNOWN_ACTION":   0,
@@ -148,6 +154,9 @@ var (
 		"POST_WRITE":       141,
 		"STORE_READ":       150,
 		"STORE_WRITE":      151,
+		"NEWSLETTER_LIST":  162,
+		"NEWSLETTER_READ":  160,
+		"NEWSLETTER_WRITE": 161,
 	}
 )
 
@@ -183,7 +192,7 @@ var File_eolymp_acl_action_proto protoreflect.FileDescriptor
 const file_eolymp_acl_action_proto_rawDesc = "" +
 	"\n" +
 	"\x17eolymp/acl/action.proto\x12\n" +
-	"eolymp.acl*\xcc\x05\n" +
+	"eolymp.acl*\x8f\x06\n" +
 	"\x06Action\x12\x12\n" +
 	"\x0eUNKNOWN_ACTION\x10\x00\x12\x0e\n" +
 	"\n" +
@@ -228,7 +237,10 @@ const file_eolymp_acl_action_proto_rawDesc = "" +
 	"POST_WRITE\x10\x8d\x01\x12\x0f\n" +
 	"\n" +
 	"STORE_READ\x10\x96\x01\x12\x10\n" +
-	"\vSTORE_WRITE\x10\x97\x01B)Z'github.com/eolymp/go-sdk/eolymp/acl;aclb\x06proto3"
+	"\vSTORE_WRITE\x10\x97\x01\x12\x14\n" +
+	"\x0fNEWSLETTER_LIST\x10\xa2\x01\x12\x14\n" +
+	"\x0fNEWSLETTER_READ\x10\xa0\x01\x12\x15\n" +
+	"\x10NEWSLETTER_WRITE\x10\xa1\x01B)Z'github.com/eolymp/go-sdk/eolymp/acl;aclb\x06proto3"
 
 var (
 	file_eolymp_acl_action_proto_rawDescOnce sync.Once
