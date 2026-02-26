@@ -518,6 +518,8 @@ type Space_Subscription struct {
 	state              protoimpl.MessageState `protogen:"open.v1"`
 	Plan               string                 `protobuf:"bytes,1,opt,name=plan,proto3" json:"plan,omitempty"`
 	Seats              uint32                 `protobuf:"varint,2,opt,name=seats,proto3" json:"seats,omitempty"`
+	Usage              uint32                 `protobuf:"varint,3,opt,name=usage,proto3" json:"usage,omitempty"`
+	UsageBasedBilling  bool                   `protobuf:"varint,5,opt,name=usage_based_billing,json=usageBasedBilling,proto3" json:"usage_based_billing,omitempty"`
 	Quota              *Quota                 `protobuf:"bytes,10,opt,name=quota,proto3" json:"quota,omitempty"`
 	BillingPeriodStart *timestamppb.Timestamp `protobuf:"bytes,90,opt,name=billing_period_start,json=billingPeriodStart,proto3" json:"billing_period_start,omitempty"`
 	BillingPeriodEnd   *timestamppb.Timestamp `protobuf:"bytes,91,opt,name=billing_period_end,json=billingPeriodEnd,proto3" json:"billing_period_end,omitempty"`
@@ -571,6 +573,20 @@ func (x *Space_Subscription) GetSeats() uint32 {
 	return 0
 }
 
+func (x *Space_Subscription) GetUsage() uint32 {
+	if x != nil {
+		return x.Usage
+	}
+	return 0
+}
+
+func (x *Space_Subscription) GetUsageBasedBilling() bool {
+	if x != nil {
+		return x.UsageBasedBilling
+	}
+	return false
+}
+
 func (x *Space_Subscription) GetQuota() *Quota {
 	if x != nil {
 		return x.Quota
@@ -610,8 +626,7 @@ var File_eolymp_universe_space_proto protoreflect.FileDescriptor
 
 const file_eolymp_universe_space_proto_rawDesc = "" +
 	"\n" +
-	"\x1beolymp/universe/space.proto\x12\x0feolymp.universe\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1beolymp/universe/quota.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xef\n" +
-	"\n" +
+	"\x1beolymp/universe/space.proto\x12\x0feolymp.universe\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1beolymp/universe/quota.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xb5\v\n" +
 	"\x05Space\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x10\n" +
 	"\x03url\x18\x03 \x01(\tR\x03url\x12\x19\n" +
@@ -645,10 +660,12 @@ const file_eolymp_universe_space_proto_rawDesc = "" +
 	"\x05IMAGE\x10\x03\x12\x0e\n" +
 	"\n" +
 	"VISIBILITY\x10\x05\x12\v\n" +
-	"\aLOCALES\x10\x06\x1a\x8e\x03\n" +
+	"\aLOCALES\x10\x06\x1a\xd4\x03\n" +
 	"\fSubscription\x12\x12\n" +
 	"\x04plan\x18\x01 \x01(\tR\x04plan\x12\x14\n" +
-	"\x05seats\x18\x02 \x01(\rR\x05seats\x12,\n" +
+	"\x05seats\x18\x02 \x01(\rR\x05seats\x12\x14\n" +
+	"\x05usage\x18\x03 \x01(\rR\x05usage\x12.\n" +
+	"\x13usage_based_billing\x18\x05 \x01(\bR\x11usageBasedBilling\x12,\n" +
 	"\x05quota\x18\n" +
 	" \x01(\v2\x16.eolymp.universe.QuotaR\x05quota\x12L\n" +
 	"\x14billing_period_start\x18Z \x01(\v2\x1a.google.protobuf.TimestampR\x12billingPeriodStart\x12H\n" +
