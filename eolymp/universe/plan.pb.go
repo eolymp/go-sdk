@@ -78,21 +78,24 @@ const (
 	Plan_ONETIME            Plan_Recurrence = 1
 	Plan_MONTHLY            Plan_Recurrence = 2
 	Plan_YEARLY             Plan_Recurrence = 3
+	Plan_USAGE_BASED        Plan_Recurrence = 10 // usage based
 )
 
 // Enum value maps for Plan_Recurrence.
 var (
 	Plan_Recurrence_name = map[int32]string{
-		0: "UNKNOWN_RECURRENCE",
-		1: "ONETIME",
-		2: "MONTHLY",
-		3: "YEARLY",
+		0:  "UNKNOWN_RECURRENCE",
+		1:  "ONETIME",
+		2:  "MONTHLY",
+		3:  "YEARLY",
+		10: "USAGE_BASED",
 	}
 	Plan_Recurrence_value = map[string]int32{
 		"UNKNOWN_RECURRENCE": 0,
 		"ONETIME":            1,
 		"MONTHLY":            2,
 		"YEARLY":             3,
+		"USAGE_BASED":        10,
 	}
 )
 
@@ -303,7 +306,7 @@ var File_eolymp_universe_plan_proto protoreflect.FileDescriptor
 
 const file_eolymp_universe_plan_proto_rawDesc = "" +
 	"\n" +
-	"\x1aeolymp/universe/plan.proto\x12\x0feolymp.universe\x1a\x18eolymp/ecm/content.proto\x1a\x1beolymp/universe/quota.proto\"\xf6\x04\n" +
+	"\x1aeolymp/universe/plan.proto\x12\x0feolymp.universe\x1a\x18eolymp/ecm/content.proto\x1a\x1beolymp/universe/quota.proto\"\x87\x05\n" +
 	"\x04Plan\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x125\n" +
@@ -326,14 +329,16 @@ const file_eolymp_universe_plan_proto_rawDesc = "" +
 	"\x05Extra\x12\f\n" +
 	"\bNO_EXTRA\x10\x00\x12\x16\n" +
 	"\x12DESCRIPTION_RENDER\x10\x01\x12\x15\n" +
-	"\x11DESCRIPTION_VALUE\x10\x02\"J\n" +
+	"\x11DESCRIPTION_VALUE\x10\x02\"[\n" +
 	"\n" +
 	"Recurrence\x12\x16\n" +
 	"\x12UNKNOWN_RECURRENCE\x10\x00\x12\v\n" +
 	"\aONETIME\x10\x01\x12\v\n" +
 	"\aMONTHLY\x10\x02\x12\n" +
 	"\n" +
-	"\x06YEARLY\x10\x03B3Z1github.com/eolymp/go-sdk/eolymp/universe;universeb\x06proto3"
+	"\x06YEARLY\x10\x03\x12\x0f\n" +
+	"\vUSAGE_BASED\x10\n" +
+	"B3Z1github.com/eolymp/go-sdk/eolymp/universe;universeb\x06proto3"
 
 var (
 	file_eolymp_universe_plan_proto_rawDescOnce sync.Once
