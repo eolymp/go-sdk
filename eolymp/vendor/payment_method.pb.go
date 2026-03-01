@@ -31,6 +31,7 @@ type PaymentMethod struct {
 	//
 	//	*PaymentMethod_SepaTransfer
 	//	*PaymentMethod_SwiftTransfer
+	//	*PaymentMethod_CryptoTransfer
 	Method        isPaymentMethod_Method `protobuf_oneof:"method"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -119,6 +120,15 @@ func (x *PaymentMethod) GetSwiftTransfer() *PaymentMethod_TransferSWIFT {
 	return nil
 }
 
+func (x *PaymentMethod) GetCryptoTransfer() *PaymentMethod_TransferCrypto {
+	if x != nil {
+		if x, ok := x.Method.(*PaymentMethod_CryptoTransfer); ok {
+			return x.CryptoTransfer
+		}
+	}
+	return nil
+}
+
 type isPaymentMethod_Method interface {
 	isPaymentMethod_Method()
 }
@@ -131,9 +141,15 @@ type PaymentMethod_SwiftTransfer struct {
 	SwiftTransfer *PaymentMethod_TransferSWIFT `protobuf:"bytes,102,opt,name=swift_transfer,json=swiftTransfer,proto3,oneof"`
 }
 
+type PaymentMethod_CryptoTransfer struct {
+	CryptoTransfer *PaymentMethod_TransferCrypto `protobuf:"bytes,103,opt,name=crypto_transfer,json=cryptoTransfer,proto3,oneof"`
+}
+
 func (*PaymentMethod_SepaTransfer) isPaymentMethod_Method() {}
 
 func (*PaymentMethod_SwiftTransfer) isPaymentMethod_Method() {}
+
+func (*PaymentMethod_CryptoTransfer) isPaymentMethod_Method() {}
 
 type PaymentMethod_TransferSEPA struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -231,23 +247,88 @@ func (x *PaymentMethod_TransferSWIFT) GetAccountNumber() string {
 	return ""
 }
 
+type PaymentMethod_TransferCrypto struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Token         string                 `protobuf:"bytes,1,opt,name=token,proto3" json:"token,omitempty"`
+	Network       string                 `protobuf:"bytes,2,opt,name=network,proto3" json:"network,omitempty"`
+	Address       string                 `protobuf:"bytes,3,opt,name=address,proto3" json:"address,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *PaymentMethod_TransferCrypto) Reset() {
+	*x = PaymentMethod_TransferCrypto{}
+	mi := &file_eolymp_vendor_payment_method_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PaymentMethod_TransferCrypto) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PaymentMethod_TransferCrypto) ProtoMessage() {}
+
+func (x *PaymentMethod_TransferCrypto) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_vendor_payment_method_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PaymentMethod_TransferCrypto.ProtoReflect.Descriptor instead.
+func (*PaymentMethod_TransferCrypto) Descriptor() ([]byte, []int) {
+	return file_eolymp_vendor_payment_method_proto_rawDescGZIP(), []int{0, 2}
+}
+
+func (x *PaymentMethod_TransferCrypto) GetToken() string {
+	if x != nil {
+		return x.Token
+	}
+	return ""
+}
+
+func (x *PaymentMethod_TransferCrypto) GetNetwork() string {
+	if x != nil {
+		return x.Network
+	}
+	return ""
+}
+
+func (x *PaymentMethod_TransferCrypto) GetAddress() string {
+	if x != nil {
+		return x.Address
+	}
+	return ""
+}
+
 var File_eolymp_vendor_payment_method_proto protoreflect.FileDescriptor
 
 const file_eolymp_vendor_payment_method_proto_rawDesc = "" +
 	"\n" +
-	"\"eolymp/vendor/payment_method.proto\x12\reolymp.vendor\"\x8f\x03\n" +
+	"\"eolymp/vendor/payment_method.proto\x12\reolymp.vendor\"\xc3\x04\n" +
 	"\rPaymentMethod\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x18\n" +
 	"\adefault\x18\x03 \x01(\bR\adefault\x12\x18\n" +
 	"\acountry\x18\x04 \x01(\tR\acountry\x12P\n" +
 	"\rsepa_transfer\x18e \x01(\v2).eolymp.vendor.PaymentMethod.TransferSEPAH\x00R\fsepaTransfer\x12S\n" +
-	"\x0eswift_transfer\x18f \x01(\v2*.eolymp.vendor.PaymentMethod.TransferSWIFTH\x00R\rswiftTransfer\x1a\"\n" +
+	"\x0eswift_transfer\x18f \x01(\v2*.eolymp.vendor.PaymentMethod.TransferSWIFTH\x00R\rswiftTransfer\x12V\n" +
+	"\x0fcrypto_transfer\x18g \x01(\v2+.eolymp.vendor.PaymentMethod.TransferCryptoH\x00R\x0ecryptoTransfer\x1a\"\n" +
 	"\fTransferSEPA\x12\x12\n" +
 	"\x04iban\x18\x01 \x01(\tR\x04iban\x1aQ\n" +
 	"\rTransferSWIFT\x12\x19\n" +
 	"\bbic_code\x18\x01 \x01(\tR\abicCode\x12%\n" +
-	"\x0eaccount_number\x18\x02 \x01(\tR\raccountNumberB\b\n" +
+	"\x0eaccount_number\x18\x02 \x01(\tR\raccountNumber\x1aZ\n" +
+	"\x0eTransferCrypto\x12\x14\n" +
+	"\x05token\x18\x01 \x01(\tR\x05token\x12\x18\n" +
+	"\anetwork\x18\x02 \x01(\tR\anetwork\x12\x18\n" +
+	"\aaddress\x18\x03 \x01(\tR\aaddressB\b\n" +
 	"\x06methodB/Z-github.com/eolymp/go-sdk/eolymp/vendor;vendorb\x06proto3"
 
 var (
@@ -262,20 +343,22 @@ func file_eolymp_vendor_payment_method_proto_rawDescGZIP() []byte {
 	return file_eolymp_vendor_payment_method_proto_rawDescData
 }
 
-var file_eolymp_vendor_payment_method_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_eolymp_vendor_payment_method_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_eolymp_vendor_payment_method_proto_goTypes = []any{
-	(*PaymentMethod)(nil),               // 0: eolymp.vendor.PaymentMethod
-	(*PaymentMethod_TransferSEPA)(nil),  // 1: eolymp.vendor.PaymentMethod.TransferSEPA
-	(*PaymentMethod_TransferSWIFT)(nil), // 2: eolymp.vendor.PaymentMethod.TransferSWIFT
+	(*PaymentMethod)(nil),                // 0: eolymp.vendor.PaymentMethod
+	(*PaymentMethod_TransferSEPA)(nil),   // 1: eolymp.vendor.PaymentMethod.TransferSEPA
+	(*PaymentMethod_TransferSWIFT)(nil),  // 2: eolymp.vendor.PaymentMethod.TransferSWIFT
+	(*PaymentMethod_TransferCrypto)(nil), // 3: eolymp.vendor.PaymentMethod.TransferCrypto
 }
 var file_eolymp_vendor_payment_method_proto_depIdxs = []int32{
 	1, // 0: eolymp.vendor.PaymentMethod.sepa_transfer:type_name -> eolymp.vendor.PaymentMethod.TransferSEPA
 	2, // 1: eolymp.vendor.PaymentMethod.swift_transfer:type_name -> eolymp.vendor.PaymentMethod.TransferSWIFT
-	2, // [2:2] is the sub-list for method output_type
-	2, // [2:2] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	3, // 2: eolymp.vendor.PaymentMethod.crypto_transfer:type_name -> eolymp.vendor.PaymentMethod.TransferCrypto
+	3, // [3:3] is the sub-list for method output_type
+	3, // [3:3] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_vendor_payment_method_proto_init() }
@@ -286,6 +369,7 @@ func file_eolymp_vendor_payment_method_proto_init() {
 	file_eolymp_vendor_payment_method_proto_msgTypes[0].OneofWrappers = []any{
 		(*PaymentMethod_SepaTransfer)(nil),
 		(*PaymentMethod_SwiftTransfer)(nil),
+		(*PaymentMethod_CryptoTransfer)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -293,7 +377,7 @@ func file_eolymp_vendor_payment_method_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_vendor_payment_method_proto_rawDesc), len(file_eolymp_vendor_payment_method_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   3,
+			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
