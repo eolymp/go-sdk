@@ -25,7 +25,6 @@ const (
 	OAuth2Service_RequestAuth_FullMethodName      = "/eolymp.auth.OAuth2Service/RequestAuth"
 	OAuth2Service_UserInfo_FullMethodName         = "/eolymp.auth.OAuth2Service/UserInfo"
 	OAuth2Service_ListCertificates_FullMethodName = "/eolymp.auth.OAuth2Service/ListCertificates"
-	OAuth2Service_RegisterClient_FullMethodName   = "/eolymp.auth.OAuth2Service/RegisterClient"
 )
 
 // OAuth2ServiceClient is the client API for OAuth2Service service.
@@ -44,8 +43,6 @@ type OAuth2ServiceClient interface {
 	UserInfo(ctx context.Context, in *UserInfoInput, opts ...grpc.CallOption) (*UserInfoOutput, error)
 	// returns JWT keys used to create id_token
 	ListCertificates(ctx context.Context, in *ListCertificatesInput, opts ...grpc.CallOption) (*ListCertificatesOutput, error)
-	// register clients dynamically
-	RegisterClient(ctx context.Context, in *RegisterClientInput, opts ...grpc.CallOption) (*RegisterClientOutput, error)
 }
 
 type oAuth2ServiceClient struct {
@@ -116,16 +113,6 @@ func (c *oAuth2ServiceClient) ListCertificates(ctx context.Context, in *ListCert
 	return out, nil
 }
 
-func (c *oAuth2ServiceClient) RegisterClient(ctx context.Context, in *RegisterClientInput, opts ...grpc.CallOption) (*RegisterClientOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(RegisterClientOutput)
-	err := c.cc.Invoke(ctx, OAuth2Service_RegisterClient_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // OAuth2ServiceServer is the server API for OAuth2Service service.
 // All implementations should embed UnimplementedOAuth2ServiceServer
 // for forward compatibility.
@@ -142,8 +129,6 @@ type OAuth2ServiceServer interface {
 	UserInfo(context.Context, *UserInfoInput) (*UserInfoOutput, error)
 	// returns JWT keys used to create id_token
 	ListCertificates(context.Context, *ListCertificatesInput) (*ListCertificatesOutput, error)
-	// register clients dynamically
-	RegisterClient(context.Context, *RegisterClientInput) (*RegisterClientOutput, error)
 }
 
 // UnimplementedOAuth2ServiceServer should be embedded to have
@@ -170,9 +155,6 @@ func (UnimplementedOAuth2ServiceServer) UserInfo(context.Context, *UserInfoInput
 }
 func (UnimplementedOAuth2ServiceServer) ListCertificates(context.Context, *ListCertificatesInput) (*ListCertificatesOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListCertificates not implemented")
-}
-func (UnimplementedOAuth2ServiceServer) RegisterClient(context.Context, *RegisterClientInput) (*RegisterClientOutput, error) {
-	return nil, status.Error(codes.Unimplemented, "method RegisterClient not implemented")
 }
 func (UnimplementedOAuth2ServiceServer) testEmbeddedByValue() {}
 
@@ -302,24 +284,6 @@ func _OAuth2Service_ListCertificates_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
-func _OAuth2Service_RegisterClient_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RegisterClientInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(OAuth2ServiceServer).RegisterClient(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: OAuth2Service_RegisterClient_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OAuth2ServiceServer).RegisterClient(ctx, req.(*RegisterClientInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // OAuth2Service_ServiceDesc is the grpc.ServiceDesc for OAuth2Service service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -350,10 +314,6 @@ var OAuth2Service_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListCertificates",
 			Handler:    _OAuth2Service_ListCertificates_Handler,
-		},
-		{
-			MethodName: "RegisterClient",
-			Handler:    _OAuth2Service_RegisterClient_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
