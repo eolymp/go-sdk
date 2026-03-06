@@ -28,8 +28,9 @@ const (
 	Profile_UNKNOWN_STATUS Profile_Status = 0
 	Profile_DRAFT          Profile_Status = 1 // not submitted
 	Profile_REVIEW         Profile_Status = 2 // submitted, not reviewed
-	Profile_APPROVED       Profile_Status = 3 // submitted, approved
-	Profile_REJECTED       Profile_Status = 4 // submitted. rejected
+	Profile_APPROVED       Profile_Status = 4 // submitted, approved (pending agreement signature)
+	Profile_ACTIVE         Profile_Status = 6 // submitted, approved and activated
+	Profile_REJECTED       Profile_Status = 5 // submitted. rejected
 )
 
 // Enum value maps for Profile_Status.
@@ -38,15 +39,17 @@ var (
 		0: "UNKNOWN_STATUS",
 		1: "DRAFT",
 		2: "REVIEW",
-		3: "APPROVED",
-		4: "REJECTED",
+		4: "APPROVED",
+		6: "ACTIVE",
+		5: "REJECTED",
 	}
 	Profile_Status_value = map[string]int32{
 		"UNKNOWN_STATUS": 0,
 		"DRAFT":          1,
 		"REVIEW":         2,
-		"APPROVED":       3,
-		"REJECTED":       4,
+		"APPROVED":       4,
+		"ACTIVE":         6,
+		"REJECTED":       5,
 	}
 )
 
@@ -364,7 +367,7 @@ var File_eolymp_vendor_profile_proto protoreflect.FileDescriptor
 
 const file_eolymp_vendor_profile_proto_rawDesc = "" +
 	"\n" +
-	"\x1beolymp/vendor/profile.proto\x12\reolymp.vendor\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc3\x06\n" +
+	"\x1beolymp/vendor/profile.proto\x12\reolymp.vendor\x1a\x1fgoogle/protobuf/timestamp.proto\"\xcf\x06\n" +
 	"\aProfile\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x125\n" +
 	"\x06status\x18\x02 \x01(\x0e2\x1d.eolymp.vendor.Profile.StatusR\x06status\x12#\n" +
@@ -401,14 +404,16 @@ const file_eolymp_vendor_profile_proto_rawDesc = "" +
 	"\x05PHONE\x10\x06\x12\n" +
 	"\n" +
 	"\x06TAX_ID\x10\a\x12\v\n" +
-	"\aADDRESS\x10\b\"O\n" +
+	"\aADDRESS\x10\b\"[\n" +
 	"\x06Status\x12\x12\n" +
 	"\x0eUNKNOWN_STATUS\x10\x00\x12\t\n" +
 	"\x05DRAFT\x10\x01\x12\n" +
 	"\n" +
 	"\x06REVIEW\x10\x02\x12\f\n" +
-	"\bAPPROVED\x10\x03\x12\f\n" +
-	"\bREJECTED\x10\x04B/Z-github.com/eolymp/go-sdk/eolymp/vendor;vendorb\x06proto3"
+	"\bAPPROVED\x10\x04\x12\n" +
+	"\n" +
+	"\x06ACTIVE\x10\x06\x12\f\n" +
+	"\bREJECTED\x10\x05B/Z-github.com/eolymp/go-sdk/eolymp/vendor;vendorb\x06proto3"
 
 var (
 	file_eolymp_vendor_profile_proto_rawDescOnce sync.Once
