@@ -1003,7 +1003,7 @@ const file_eolymp_rating_rating_service_proto_rawDesc = "" +
 	"min_rating\x18\x01 \x01(\x05R\tminRating\x12\x1d\n" +
 	"\n" +
 	"max_rating\x18\x02 \x01(\x05R\tmaxRating\x12\x14\n" +
-	"\x05count\x18\x03 \x01(\rR\x05count2\x90\t\n" +
+	"\x05count\x18\x03 \x01(\rR\x05count2\x8f\t\n" +
 	"\rRatingService\x12\x88\x01\n" +
 	"\tSetRating\x12\x1d.eolymp.rating.SetRatingInput\x1a\x1e.eolymp.rating.SetRatingOutput\"<\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -1043,7 +1043,7 @@ const file_eolymp_rating_rating_service_proto_rawDesc = "" +
 	"\x1aDescribeRatingDistribution\x12..eolymp.rating.DescribeRatingDistributionInput\x1a/.eolymp.rating.DescribeRatingDistributionOutput\"+\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
-	"d\x82\xd3\xe4\x93\x02\x16\x12\x14/rating-distribution\x1a\x1c\x82\xf0\xf0\xe4\x01\x16eolymp.community.SpaceB/Z-github.com/eolymp/go-sdk/eolymp/rating;ratingb\x06proto3"
+	"d\x82\xd3\xe4\x93\x02\x16\x12\x14/rating-distribution\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB/Z-github.com/eolymp/go-sdk/eolymp/rating;ratingb\x06proto3"
 
 var (
 	file_eolymp_rating_rating_service_proto_rawDescOnce sync.Once
