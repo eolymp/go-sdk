@@ -60,7 +60,7 @@ func (*DescribeProfileInput) Descriptor() ([]byte, []int) {
 
 type DescribeProfileOutput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Profile       *Profile               `protobuf:"bytes,1,opt,name=profile,proto3" json:"profile,omitempty"`
+	Profile       *Vendor                `protobuf:"bytes,1,opt,name=profile,proto3" json:"profile,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -95,7 +95,7 @@ func (*DescribeProfileOutput) Descriptor() ([]byte, []int) {
 	return file_eolymp_vendor_profile_service_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *DescribeProfileOutput) GetProfile() *Profile {
+func (x *DescribeProfileOutput) GetProfile() *Vendor {
 	if x != nil {
 		return x.Profile
 	}
@@ -104,8 +104,8 @@ func (x *DescribeProfileOutput) GetProfile() *Profile {
 
 type UpdateProfileInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Patch         []Profile_Patch_Field  `protobuf:"varint,1,rep,packed,name=patch,proto3,enum=eolymp.vendor.Profile_Patch_Field" json:"patch,omitempty"`
-	Profile       *Profile               `protobuf:"bytes,2,opt,name=profile,proto3" json:"profile,omitempty"`
+	Patch         []Vendor_Patch_Field   `protobuf:"varint,1,rep,packed,name=patch,proto3,enum=eolymp.vendor.Vendor_Patch_Field" json:"patch,omitempty"`
+	Profile       *Vendor                `protobuf:"bytes,2,opt,name=profile,proto3" json:"profile,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -140,14 +140,14 @@ func (*UpdateProfileInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_vendor_profile_service_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *UpdateProfileInput) GetPatch() []Profile_Patch_Field {
+func (x *UpdateProfileInput) GetPatch() []Vendor_Patch_Field {
 	if x != nil {
 		return x.Patch
 	}
 	return nil
 }
 
-func (x *UpdateProfileInput) GetProfile() *Profile {
+func (x *UpdateProfileInput) GetProfile() *Vendor {
 	if x != nil {
 		return x.Profile
 	}
@@ -266,35 +266,35 @@ var File_eolymp_vendor_profile_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_vendor_profile_service_proto_rawDesc = "" +
 	"\n" +
-	"#eolymp/vendor/profile_service.proto\x12\reolymp.vendor\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1beolymp/vendor/profile.proto\"\x16\n" +
-	"\x14DescribeProfileInput\"I\n" +
-	"\x15DescribeProfileOutput\x120\n" +
-	"\aprofile\x18\x01 \x01(\v2\x16.eolymp.vendor.ProfileR\aprofile\"\x80\x01\n" +
-	"\x12UpdateProfileInput\x128\n" +
-	"\x05patch\x18\x01 \x03(\x0e2\".eolymp.vendor.Profile.Patch.FieldR\x05patch\x120\n" +
-	"\aprofile\x18\x02 \x01(\v2\x16.eolymp.vendor.ProfileR\aprofile\"\x15\n" +
+	"#eolymp/vendor/profile_service.proto\x12\reolymp.vendor\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1aeolymp/vendor/vendor.proto\"\x16\n" +
+	"\x14DescribeProfileInput\"H\n" +
+	"\x15DescribeProfileOutput\x12/\n" +
+	"\aprofile\x18\x01 \x01(\v2\x15.eolymp.vendor.VendorR\aprofile\"~\n" +
+	"\x12UpdateProfileInput\x127\n" +
+	"\x05patch\x18\x01 \x03(\x0e2!.eolymp.vendor.Vendor.Patch.FieldR\x05patch\x12/\n" +
+	"\aprofile\x18\x02 \x01(\v2\x15.eolymp.vendor.VendorR\aprofile\"\x15\n" +
 	"\x13UpdateProfileOutput\"\x14\n" +
 	"\x12SubmitProfileInput\"\x15\n" +
-	"\x13SubmitProfileOutput2\xf6\x03\n" +
-	"\x0eProfileService\x12\xa0\x01\n" +
-	"\x0fDescribeProfile\x12#.eolymp.vendor.DescribeProfileInput\x1a$.eolymp.vendor.DescribeProfileOutput\"B\xea\xe2\n" +
+	"\x13SubmitProfileOutput2\xf3\x03\n" +
+	"\x0eProfileService\x12\x9f\x01\n" +
+	"\x0fDescribeProfile\x12#.eolymp.vendor.DescribeProfileInput\x1a$.eolymp.vendor.DescribeProfileOutput\"A\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13vendor:profile:read\x82\xd3\xe4\x93\x02\x12\x12\x10/vendor/profiles\x12\x9b\x01\n" +
-	"\rUpdateProfile\x12!.eolymp.vendor.UpdateProfileInput\x1a\".eolymp.vendor.UpdateProfileOutput\"C\xea\xe2\n" +
+	"\x13vendor:profile:read\x82\xd3\xe4\x93\x02\x11\x12\x0f/vendor-profile\x12\x9a\x01\n" +
+	"\rUpdateProfile\x12!.eolymp.vendor.UpdateProfileInput\x1a\".eolymp.vendor.UpdateProfileOutput\"B\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14vendor:profile:write\x82\xd3\xe4\x93\x02\x12\x1a\x10/vendor/profiles\x12\xa2\x01\n" +
-	"\rSubmitProfile\x12!.eolymp.vendor.SubmitProfileInput\x1a\".eolymp.vendor.SubmitProfileOutput\"J\xea\xe2\n" +
+	"\x14vendor:profile:write\x82\xd3\xe4\x93\x02\x11\x1a\x0f/vendor-profile\x12\xa1\x01\n" +
+	"\rSubmitProfile\x12!.eolymp.vendor.SubmitProfileInput\x1a\".eolymp.vendor.SubmitProfileOutput\"I\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14vendor:profile:write\x82\xd3\xe4\x93\x02\x19\"\x17/vendor/profiles:submitB/Z-github.com/eolymp/go-sdk/eolymp/vendor;vendorb\x06proto3"
+	"\x14vendor:profile:write\x82\xd3\xe4\x93\x02\x18\"\x16/vendor-profile:submitB/Z-github.com/eolymp/go-sdk/eolymp/vendor;vendorb\x06proto3"
 
 var (
 	file_eolymp_vendor_profile_service_proto_rawDescOnce sync.Once
@@ -316,13 +316,13 @@ var file_eolymp_vendor_profile_service_proto_goTypes = []any{
 	(*UpdateProfileOutput)(nil),   // 3: eolymp.vendor.UpdateProfileOutput
 	(*SubmitProfileInput)(nil),    // 4: eolymp.vendor.SubmitProfileInput
 	(*SubmitProfileOutput)(nil),   // 5: eolymp.vendor.SubmitProfileOutput
-	(*Profile)(nil),               // 6: eolymp.vendor.Profile
-	(Profile_Patch_Field)(0),      // 7: eolymp.vendor.Profile.Patch.Field
+	(*Vendor)(nil),                // 6: eolymp.vendor.Vendor
+	(Vendor_Patch_Field)(0),       // 7: eolymp.vendor.Vendor.Patch.Field
 }
 var file_eolymp_vendor_profile_service_proto_depIdxs = []int32{
-	6, // 0: eolymp.vendor.DescribeProfileOutput.profile:type_name -> eolymp.vendor.Profile
-	7, // 1: eolymp.vendor.UpdateProfileInput.patch:type_name -> eolymp.vendor.Profile.Patch.Field
-	6, // 2: eolymp.vendor.UpdateProfileInput.profile:type_name -> eolymp.vendor.Profile
+	6, // 0: eolymp.vendor.DescribeProfileOutput.profile:type_name -> eolymp.vendor.Vendor
+	7, // 1: eolymp.vendor.UpdateProfileInput.patch:type_name -> eolymp.vendor.Vendor.Patch.Field
+	6, // 2: eolymp.vendor.UpdateProfileInput.profile:type_name -> eolymp.vendor.Vendor
 	0, // 3: eolymp.vendor.ProfileService.DescribeProfile:input_type -> eolymp.vendor.DescribeProfileInput
 	2, // 4: eolymp.vendor.ProfileService.UpdateProfile:input_type -> eolymp.vendor.UpdateProfileInput
 	4, // 5: eolymp.vendor.ProfileService.SubmitProfile:input_type -> eolymp.vendor.SubmitProfileInput
@@ -341,7 +341,7 @@ func file_eolymp_vendor_profile_service_proto_init() {
 	if File_eolymp_vendor_profile_service_proto != nil {
 		return
 	}
-	file_eolymp_vendor_profile_proto_init()
+	file_eolymp_vendor_vendor_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

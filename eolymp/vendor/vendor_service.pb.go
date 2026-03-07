@@ -86,7 +86,7 @@ func (x *ListVendorsInput) GetFilters() *ListVendorsInput_Filter {
 type ListVendorsOutput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Total         int32                  `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty"`
-	Items         []*Profile             `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
+	Items         []*Vendor              `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -128,7 +128,7 @@ func (x *ListVendorsOutput) GetTotal() int32 {
 	return 0
 }
 
-func (x *ListVendorsOutput) GetItems() []*Profile {
+func (x *ListVendorsOutput) GetItems() []*Vendor {
 	if x != nil {
 		return x.Items
 	}
@@ -181,7 +181,7 @@ func (x *DescribeVendorInput) GetVendorId() string {
 
 type DescribeVendorOutput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Profile       *Profile               `protobuf:"bytes,1,opt,name=profile,proto3" json:"profile,omitempty"`
+	Vendor        *Vendor                `protobuf:"bytes,1,opt,name=vendor,proto3" json:"vendor,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -216,9 +216,9 @@ func (*DescribeVendorOutput) Descriptor() ([]byte, []int) {
 	return file_eolymp_vendor_vendor_service_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *DescribeVendorOutput) GetProfile() *Profile {
+func (x *DescribeVendorOutput) GetVendor() *Vendor {
 	if x != nil {
-		return x.Profile
+		return x.Vendor
 	}
 	return nil
 }
@@ -479,7 +479,7 @@ var File_eolymp_vendor_vendor_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_vendor_vendor_service_proto_rawDesc = "" +
 	"\n" +
-	"\"eolymp/vendor/vendor_service.proto\x12\reolymp.vendor\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1beolymp/vendor/profile.proto\x1a!eolymp/wellknown/expression.proto\"\xa2\x03\n" +
+	"\"eolymp/vendor/vendor_service.proto\x12\reolymp.vendor\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1aeolymp/vendor/vendor.proto\x1a!eolymp/wellknown/expression.proto\"\xa2\x03\n" +
 	"\x10ListVendorsInput\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
@@ -490,14 +490,14 @@ const file_eolymp_vendor_vendor_service_proto_rawDesc = "" +
 	"\auser_id\x18\x02 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x06userId\x128\n" +
 	"\x06status\x18\x03 \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x06status\x128\n" +
 	"\x05email\x18\x04 \x03(\v2\".eolymp.wellknown.ExpressionStringR\x05email\x128\n" +
-	"\acountry\x18\x05 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\acountry\"W\n" +
+	"\acountry\x18\x05 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\acountry\"V\n" +
 	"\x11ListVendorsOutput\x12\x14\n" +
-	"\x05total\x18\x01 \x01(\x05R\x05total\x12,\n" +
-	"\x05items\x18\x02 \x03(\v2\x16.eolymp.vendor.ProfileR\x05items\"2\n" +
+	"\x05total\x18\x01 \x01(\x05R\x05total\x12+\n" +
+	"\x05items\x18\x02 \x03(\v2\x15.eolymp.vendor.VendorR\x05items\"2\n" +
 	"\x13DescribeVendorInput\x12\x1b\n" +
-	"\tvendor_id\x18\x01 \x01(\tR\bvendorId\"H\n" +
-	"\x14DescribeVendorOutput\x120\n" +
-	"\aprofile\x18\x01 \x01(\v2\x16.eolymp.vendor.ProfileR\aprofile\"K\n" +
+	"\tvendor_id\x18\x01 \x01(\tR\bvendorId\"E\n" +
+	"\x14DescribeVendorOutput\x12-\n" +
+	"\x06vendor\x18\x01 \x01(\v2\x15.eolymp.vendor.VendorR\x06vendor\"K\n" +
 	"\x12ApproveVendorInput\x12\x1b\n" +
 	"\tvendor_id\x18\x01 \x01(\tR\bvendorId\x12\x18\n" +
 	"\acomment\x18\x02 \x01(\tR\acomment\"\x15\n" +
@@ -556,15 +556,15 @@ var file_eolymp_vendor_vendor_service_proto_goTypes = []any{
 	(*RejectVendorInput)(nil),          // 6: eolymp.vendor.RejectVendorInput
 	(*RejectVendorOutput)(nil),         // 7: eolymp.vendor.RejectVendorOutput
 	(*ListVendorsInput_Filter)(nil),    // 8: eolymp.vendor.ListVendorsInput.Filter
-	(*Profile)(nil),                    // 9: eolymp.vendor.Profile
+	(*Vendor)(nil),                     // 9: eolymp.vendor.Vendor
 	(*wellknown.ExpressionID)(nil),     // 10: eolymp.wellknown.ExpressionID
 	(*wellknown.ExpressionEnum)(nil),   // 11: eolymp.wellknown.ExpressionEnum
 	(*wellknown.ExpressionString)(nil), // 12: eolymp.wellknown.ExpressionString
 }
 var file_eolymp_vendor_vendor_service_proto_depIdxs = []int32{
 	8,  // 0: eolymp.vendor.ListVendorsInput.filters:type_name -> eolymp.vendor.ListVendorsInput.Filter
-	9,  // 1: eolymp.vendor.ListVendorsOutput.items:type_name -> eolymp.vendor.Profile
-	9,  // 2: eolymp.vendor.DescribeVendorOutput.profile:type_name -> eolymp.vendor.Profile
+	9,  // 1: eolymp.vendor.ListVendorsOutput.items:type_name -> eolymp.vendor.Vendor
+	9,  // 2: eolymp.vendor.DescribeVendorOutput.vendor:type_name -> eolymp.vendor.Vendor
 	10, // 3: eolymp.vendor.ListVendorsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
 	10, // 4: eolymp.vendor.ListVendorsInput.Filter.user_id:type_name -> eolymp.wellknown.ExpressionID
 	11, // 5: eolymp.vendor.ListVendorsInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
@@ -590,7 +590,7 @@ func file_eolymp_vendor_vendor_service_proto_init() {
 	if File_eolymp_vendor_vendor_service_proto != nil {
 		return
 	}
-	file_eolymp_vendor_profile_proto_init()
+	file_eolymp_vendor_vendor_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

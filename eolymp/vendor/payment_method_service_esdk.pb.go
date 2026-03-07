@@ -102,7 +102,12 @@ func (s *PaymentMethodServiceService) do(ctx context.Context, verb, path string,
 
 func (s *PaymentMethodServiceService) CreatePaymentMethod(ctx context.Context, in *CreatePaymentMethodInput) (*CreatePaymentMethodOutput, error) {
 	out := &CreatePaymentMethodOutput{}
-	path := "/vendor/payment-methods"
+	path := "/vendors/" + url.PathEscape(in.GetVendorId()) + "/payment-methods"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.VendorId = ""
+	}
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
@@ -113,10 +118,11 @@ func (s *PaymentMethodServiceService) CreatePaymentMethod(ctx context.Context, i
 
 func (s *PaymentMethodServiceService) UpdatePaymentMethod(ctx context.Context, in *UpdatePaymentMethodInput) (*UpdatePaymentMethodOutput, error) {
 	out := &UpdatePaymentMethodOutput{}
-	path := "/vendor/payment-methods/" + url.PathEscape(in.GetMethodId())
+	path := "/vendors/" + url.PathEscape(in.GetVendorId()) + "/payment-methods/" + url.PathEscape(in.GetMethodId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.VendorId = ""
 		in.MethodId = ""
 	}
 
@@ -129,10 +135,11 @@ func (s *PaymentMethodServiceService) UpdatePaymentMethod(ctx context.Context, i
 
 func (s *PaymentMethodServiceService) DeletePaymentMethod(ctx context.Context, in *DeletePaymentMethodInput) (*DeletePaymentMethodOutput, error) {
 	out := &DeletePaymentMethodOutput{}
-	path := "/vendor/payment-methods/" + url.PathEscape(in.GetMethodId())
+	path := "/vendors/" + url.PathEscape(in.GetVendorId()) + "/payment-methods/" + url.PathEscape(in.GetMethodId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.VendorId = ""
 		in.MethodId = ""
 	}
 
@@ -145,10 +152,11 @@ func (s *PaymentMethodServiceService) DeletePaymentMethod(ctx context.Context, i
 
 func (s *PaymentMethodServiceService) DescribePaymentMethod(ctx context.Context, in *DescribePaymentMethodInput) (*DescribePaymentMethodOutput, error) {
 	out := &DescribePaymentMethodOutput{}
-	path := "/vendor/payment-methods/" + url.PathEscape(in.GetMethodId())
+	path := "/vendors/" + url.PathEscape(in.GetVendorId()) + "/payment-methods/" + url.PathEscape(in.GetMethodId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.VendorId = ""
 		in.MethodId = ""
 	}
 
@@ -161,7 +169,12 @@ func (s *PaymentMethodServiceService) DescribePaymentMethod(ctx context.Context,
 
 func (s *PaymentMethodServiceService) ListPaymentMethods(ctx context.Context, in *ListPaymentMethodsInput) (*ListPaymentMethodsOutput, error) {
 	out := &ListPaymentMethodsOutput{}
-	path := "/vendor/payment-methods"
+	path := "/vendors/" + url.PathEscape(in.GetVendorId()) + "/payment-methods"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.VendorId = ""
+	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err

@@ -25,6 +25,7 @@ const (
 
 type CreatePaymentMethodInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	VendorId      string                 `protobuf:"bytes,2,opt,name=vendor_id,json=vendorId,proto3" json:"vendor_id,omitempty"`
 	Method        *PaymentMethod         `protobuf:"bytes,1,opt,name=method,proto3" json:"method,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -58,6 +59,13 @@ func (x *CreatePaymentMethodInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use CreatePaymentMethodInput.ProtoReflect.Descriptor instead.
 func (*CreatePaymentMethodInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_vendor_payment_method_service_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *CreatePaymentMethodInput) GetVendorId() string {
+	if x != nil {
+		return x.VendorId
+	}
+	return ""
 }
 
 func (x *CreatePaymentMethodInput) GetMethod() *PaymentMethod {
@@ -113,6 +121,7 @@ func (x *CreatePaymentMethodOutput) GetMethodId() string {
 
 type UpdatePaymentMethodInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	VendorId      string                 `protobuf:"bytes,3,opt,name=vendor_id,json=vendorId,proto3" json:"vendor_id,omitempty"`
 	MethodId      string                 `protobuf:"bytes,1,opt,name=method_id,json=methodId,proto3" json:"method_id,omitempty"`
 	Method        *PaymentMethod         `protobuf:"bytes,2,opt,name=method,proto3" json:"method,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -147,6 +156,13 @@ func (x *UpdatePaymentMethodInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use UpdatePaymentMethodInput.ProtoReflect.Descriptor instead.
 func (*UpdatePaymentMethodInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_vendor_payment_method_service_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *UpdatePaymentMethodInput) GetVendorId() string {
+	if x != nil {
+		return x.VendorId
+	}
+	return ""
 }
 
 func (x *UpdatePaymentMethodInput) GetMethodId() string {
@@ -201,6 +217,7 @@ func (*UpdatePaymentMethodOutput) Descriptor() ([]byte, []int) {
 
 type DeletePaymentMethodInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	VendorId      string                 `protobuf:"bytes,2,opt,name=vendor_id,json=vendorId,proto3" json:"vendor_id,omitempty"`
 	MethodId      string                 `protobuf:"bytes,1,opt,name=method_id,json=methodId,proto3" json:"method_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -234,6 +251,13 @@ func (x *DeletePaymentMethodInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DeletePaymentMethodInput.ProtoReflect.Descriptor instead.
 func (*DeletePaymentMethodInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_vendor_payment_method_service_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *DeletePaymentMethodInput) GetVendorId() string {
+	if x != nil {
+		return x.VendorId
+	}
+	return ""
 }
 
 func (x *DeletePaymentMethodInput) GetMethodId() string {
@@ -281,6 +305,7 @@ func (*DeletePaymentMethodOutput) Descriptor() ([]byte, []int) {
 
 type DescribePaymentMethodInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	VendorId      string                 `protobuf:"bytes,2,opt,name=vendor_id,json=vendorId,proto3" json:"vendor_id,omitempty"`
 	MethodId      string                 `protobuf:"bytes,1,opt,name=method_id,json=methodId,proto3" json:"method_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -314,6 +339,13 @@ func (x *DescribePaymentMethodInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DescribePaymentMethodInput.ProtoReflect.Descriptor instead.
 func (*DescribePaymentMethodInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_vendor_payment_method_service_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *DescribePaymentMethodInput) GetVendorId() string {
+	if x != nil {
+		return x.VendorId
+	}
+	return ""
 }
 
 func (x *DescribePaymentMethodInput) GetMethodId() string {
@@ -369,6 +401,7 @@ func (x *DescribePaymentMethodOutput) GetMethod() *PaymentMethod {
 
 type ListPaymentMethodsInput struct {
 	state         protoimpl.MessageState          `protogen:"open.v1"`
+	VendorId      string                          `protobuf:"bytes,1,opt,name=vendor_id,json=vendorId,proto3" json:"vendor_id,omitempty"`
 	After         string                          `protobuf:"bytes,12,opt,name=after,proto3" json:"after,omitempty"`
 	Size          int32                           `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
 	Offset        int32                           `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
@@ -406,6 +439,13 @@ func (x *ListPaymentMethodsInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ListPaymentMethodsInput.ProtoReflect.Descriptor instead.
 func (*ListPaymentMethodsInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_vendor_payment_method_service_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *ListPaymentMethodsInput) GetVendorId() string {
+	if x != nil {
+		return x.VendorId
+	}
+	return ""
 }
 
 func (x *ListPaymentMethodsInput) GetAfter() string {
@@ -543,23 +583,28 @@ var File_eolymp_vendor_payment_method_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_vendor_payment_method_service_proto_rawDesc = "" +
 	"\n" +
-	"*eolymp/vendor/payment_method_service.proto\x12\reolymp.vendor\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\"eolymp/vendor/payment_method.proto\x1a!eolymp/wellknown/expression.proto\"P\n" +
-	"\x18CreatePaymentMethodInput\x124\n" +
+	"*eolymp/vendor/payment_method_service.proto\x12\reolymp.vendor\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\"eolymp/vendor/payment_method.proto\x1a!eolymp/wellknown/expression.proto\"m\n" +
+	"\x18CreatePaymentMethodInput\x12\x1b\n" +
+	"\tvendor_id\x18\x02 \x01(\tR\bvendorId\x124\n" +
 	"\x06method\x18\x01 \x01(\v2\x1c.eolymp.vendor.PaymentMethodR\x06method\"8\n" +
 	"\x19CreatePaymentMethodOutput\x12\x1b\n" +
-	"\tmethod_id\x18\x01 \x01(\tR\bmethodId\"m\n" +
+	"\tmethod_id\x18\x01 \x01(\tR\bmethodId\"\x8a\x01\n" +
 	"\x18UpdatePaymentMethodInput\x12\x1b\n" +
+	"\tvendor_id\x18\x03 \x01(\tR\bvendorId\x12\x1b\n" +
 	"\tmethod_id\x18\x01 \x01(\tR\bmethodId\x124\n" +
 	"\x06method\x18\x02 \x01(\v2\x1c.eolymp.vendor.PaymentMethodR\x06method\"\x1b\n" +
-	"\x19UpdatePaymentMethodOutput\"7\n" +
+	"\x19UpdatePaymentMethodOutput\"T\n" +
 	"\x18DeletePaymentMethodInput\x12\x1b\n" +
+	"\tvendor_id\x18\x02 \x01(\tR\bvendorId\x12\x1b\n" +
 	"\tmethod_id\x18\x01 \x01(\tR\bmethodId\"\x1b\n" +
-	"\x19DeletePaymentMethodOutput\"9\n" +
+	"\x19DeletePaymentMethodOutput\"V\n" +
 	"\x1aDescribePaymentMethodInput\x12\x1b\n" +
+	"\tvendor_id\x18\x02 \x01(\tR\bvendorId\x12\x1b\n" +
 	"\tmethod_id\x18\x01 \x01(\tR\bmethodId\"S\n" +
 	"\x1bDescribePaymentMethodOutput\x124\n" +
-	"\x06method\x18\x01 \x01(\v2\x1c.eolymp.vendor.PaymentMethodR\x06method\"\xf6\x01\n" +
-	"\x17ListPaymentMethodsInput\x12\x14\n" +
+	"\x06method\x18\x01 \x01(\v2\x1c.eolymp.vendor.PaymentMethodR\x06method\"\x93\x02\n" +
+	"\x17ListPaymentMethodsInput\x12\x1b\n" +
+	"\tvendor_id\x18\x01 \x01(\tR\bvendorId\x12\x14\n" +
 	"\x05after\x18\f \x01(\tR\x05after\x12\x12\n" +
 	"\x04size\x18\v \x01(\x05R\x04size\x12\x16\n" +
 	"\x06offset\x18\n" +
@@ -570,38 +615,38 @@ const file_eolymp_vendor_payment_method_service_proto_rawDesc = "" +
 	"\x02id\x18\x02 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\"d\n" +
 	"\x18ListPaymentMethodsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x122\n" +
-	"\x05items\x18\x02 \x03(\v2\x1c.eolymp.vendor.PaymentMethodR\x05items2\xce\a\n" +
-	"\x14PaymentMethodService\x12\xb4\x01\n" +
-	"\x13CreatePaymentMethod\x12'.eolymp.vendor.CreatePaymentMethodInput\x1a(.eolymp.vendor.CreatePaymentMethodOutput\"J\xea\xe2\n" +
+	"\x05items\x18\x02 \x03(\v2\x1c.eolymp.vendor.PaymentMethodR\x05items2\x8f\b\n" +
+	"\x14PaymentMethodService\x12\xc1\x01\n" +
+	"\x13CreatePaymentMethod\x12'.eolymp.vendor.CreatePaymentMethodInput\x1a(.eolymp.vendor.CreatePaymentMethodOutput\"W\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14vendor:profile:write\x82\xd3\xe4\x93\x02\x19\"\x17/vendor/payment-methods\x12\xc0\x01\n" +
-	"\x13UpdatePaymentMethod\x12'.eolymp.vendor.UpdatePaymentMethodInput\x1a(.eolymp.vendor.UpdatePaymentMethodOutput\"V\xea\xe2\n" +
+	"\x14vendor:profile:write\x82\xd3\xe4\x93\x02&\"$/vendors/{vendor_id}/payment-methods\x12\xcd\x01\n" +
+	"\x13UpdatePaymentMethod\x12'.eolymp.vendor.UpdatePaymentMethodInput\x1a(.eolymp.vendor.UpdatePaymentMethodOutput\"c\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14vendor:profile:write\x82\xd3\xe4\x93\x02%\"#/vendor/payment-methods/{method_id}\x12\xc0\x01\n" +
-	"\x13DeletePaymentMethod\x12'.eolymp.vendor.DeletePaymentMethodInput\x1a(.eolymp.vendor.DeletePaymentMethodOutput\"V\xea\xe2\n" +
+	"\x14vendor:profile:write\x82\xd3\xe4\x93\x022\"0/vendors/{vendor_id}/payment-methods/{method_id}\x12\xcd\x01\n" +
+	"\x13DeletePaymentMethod\x12'.eolymp.vendor.DeletePaymentMethodInput\x1a(.eolymp.vendor.DeletePaymentMethodOutput\"c\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14vendor:profile:write\x82\xd3\xe4\x93\x02%*#/vendor/payment-methods/{method_id}\x12\xc5\x01\n" +
-	"\x15DescribePaymentMethod\x12).eolymp.vendor.DescribePaymentMethodInput\x1a*.eolymp.vendor.DescribePaymentMethodOutput\"U\xea\xe2\n" +
+	"\x14vendor:profile:write\x82\xd3\xe4\x93\x022*0/vendors/{vendor_id}/payment-methods/{method_id}\x12\xd2\x01\n" +
+	"\x15DescribePaymentMethod\x12).eolymp.vendor.DescribePaymentMethodInput\x1a*.eolymp.vendor.DescribePaymentMethodOutput\"b\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13vendor:profile:read\x82\xd3\xe4\x93\x02%\x12#/vendor/payment-methods/{method_id}\x12\xb0\x01\n" +
-	"\x12ListPaymentMethods\x12&.eolymp.vendor.ListPaymentMethodsInput\x1a'.eolymp.vendor.ListPaymentMethodsOutput\"I\xea\xe2\n" +
+	"\x13vendor:profile:read\x82\xd3\xe4\x93\x022\x120/vendors/{vendor_id}/payment-methods/{method_id}\x12\xbd\x01\n" +
+	"\x12ListPaymentMethods\x12&.eolymp.vendor.ListPaymentMethodsInput\x1a'.eolymp.vendor.ListPaymentMethodsOutput\"V\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13vendor:profile:read\x82\xd3\xe4\x93\x02\x19\x12\x17/vendor/payment-methodsB/Z-github.com/eolymp/go-sdk/eolymp/vendor;vendorb\x06proto3"
+	"\x13vendor:profile:read\x82\xd3\xe4\x93\x02&\x12$/vendors/{vendor_id}/payment-methodsB/Z-github.com/eolymp/go-sdk/eolymp/vendor;vendorb\x06proto3"
 
 var (
 	file_eolymp_vendor_payment_method_service_proto_rawDescOnce sync.Once

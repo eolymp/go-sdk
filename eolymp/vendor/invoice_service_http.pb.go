@@ -151,31 +151,31 @@ func _InvoiceService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 
 // RegisterInvoiceServiceHttpHandlers adds handlers for for InvoiceServiceClient
 func RegisterInvoiceServiceHttpHandlers(router *mux.Router, prefix string, cli InvoiceServiceClient) {
-	router.Handle(prefix+"/vendor/invoices", _InvoiceService_ListInvoices_Rule0(cli)).
+	router.Handle(prefix+"/vendor-invoices", _InvoiceService_ListInvoices_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.vendor.InvoiceService.ListInvoices")
-	router.Handle(prefix+"/vendor/invoices/{invoice_id}", _InvoiceService_DescribeInvoice_Rule0(cli)).
+	router.Handle(prefix+"/vendor-invoices/{invoice_id}", _InvoiceService_DescribeInvoice_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.vendor.InvoiceService.DescribeInvoice")
-	router.Handle(prefix+"/vendor/invoices", _InvoiceService_CreateInvoice_Rule0(cli)).
+	router.Handle(prefix+"/vendor-invoices", _InvoiceService_CreateInvoice_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.vendor.InvoiceService.CreateInvoice")
-	router.Handle(prefix+"/vendor/invoices/{invoice_id}", _InvoiceService_UpdateInvoice_Rule0(cli)).
+	router.Handle(prefix+"/vendor-invoices/{invoice_id}", _InvoiceService_UpdateInvoice_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.vendor.InvoiceService.UpdateInvoice")
-	router.Handle(prefix+"/vendor/invoices/{invoice_id}", _InvoiceService_DeleteInvoice_Rule0(cli)).
+	router.Handle(prefix+"/vendor-invoices/{invoice_id}", _InvoiceService_DeleteInvoice_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.vendor.InvoiceService.DeleteInvoice")
-	router.Handle(prefix+"/vendor/invoices/{invoice_id}/document", _InvoiceService_UploadInvoiceDocument_Rule0(cli)).
+	router.Handle(prefix+"/vendor-invoices/{invoice_id}/document", _InvoiceService_UploadInvoiceDocument_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.vendor.InvoiceService.UploadInvoiceDocument")
-	router.Handle(prefix+"/vendor/invoices/{invoice_id}/submit", _InvoiceService_SubmitInvoice_Rule0(cli)).
+	router.Handle(prefix+"/vendor-invoices/{invoice_id}/submit", _InvoiceService_SubmitInvoice_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.vendor.InvoiceService.SubmitInvoice")
-	router.Handle(prefix+"/vendor/invoices/{invoice_id}/approve", _InvoiceService_ApproveInvoice_Rule0(cli)).
+	router.Handle(prefix+"/vendor-invoices/{invoice_id}/approve", _InvoiceService_ApproveInvoice_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.vendor.InvoiceService.ApproveInvoice")
-	router.Handle(prefix+"/vendor/invoices/{invoice_id}/reject", _InvoiceService_RejectInvoice_Rule0(cli)).
+	router.Handle(prefix+"/vendor-invoices/{invoice_id}/reject", _InvoiceService_RejectInvoice_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.vendor.InvoiceService.RejectInvoice")
 }

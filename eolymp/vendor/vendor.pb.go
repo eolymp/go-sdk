@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.11
 // 	protoc        v6.31.1
-// source: eolymp/vendor/profile.proto
+// source: eolymp/vendor/vendor.proto
 
 package vendor
 
@@ -22,20 +22,20 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type Profile_Status int32
+type Vendor_Status int32
 
 const (
-	Profile_UNKNOWN_STATUS Profile_Status = 0
-	Profile_DRAFT          Profile_Status = 1 // not submitted
-	Profile_REVIEW         Profile_Status = 2 // submitted, not reviewed
-	Profile_APPROVED       Profile_Status = 4 // submitted, approved (pending agreement signature)
-	Profile_ACTIVE         Profile_Status = 6 // submitted, approved and activated
-	Profile_REJECTED       Profile_Status = 5 // submitted. rejected
+	Vendor_UNKNOWN_STATUS Vendor_Status = 0
+	Vendor_DRAFT          Vendor_Status = 1 // not submitted
+	Vendor_REVIEW         Vendor_Status = 2 // submitted, not reviewed
+	Vendor_APPROVED       Vendor_Status = 4 // submitted, approved (pending agreement signature)
+	Vendor_ACTIVE         Vendor_Status = 6 // submitted, approved and activated
+	Vendor_REJECTED       Vendor_Status = 5 // submitted. rejected
 )
 
-// Enum value maps for Profile_Status.
+// Enum value maps for Vendor_Status.
 var (
-	Profile_Status_name = map[int32]string{
+	Vendor_Status_name = map[int32]string{
 		0: "UNKNOWN_STATUS",
 		1: "DRAFT",
 		2: "REVIEW",
@@ -43,7 +43,7 @@ var (
 		6: "ACTIVE",
 		5: "REJECTED",
 	}
-	Profile_Status_value = map[string]int32{
+	Vendor_Status_value = map[string]int32{
 		"UNKNOWN_STATUS": 0,
 		"DRAFT":          1,
 		"REVIEW":         2,
@@ -53,50 +53,50 @@ var (
 	}
 )
 
-func (x Profile_Status) Enum() *Profile_Status {
-	p := new(Profile_Status)
+func (x Vendor_Status) Enum() *Vendor_Status {
+	p := new(Vendor_Status)
 	*p = x
 	return p
 }
 
-func (x Profile_Status) String() string {
+func (x Vendor_Status) String() string {
 	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
 }
 
-func (Profile_Status) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_vendor_profile_proto_enumTypes[0].Descriptor()
+func (Vendor_Status) Descriptor() protoreflect.EnumDescriptor {
+	return file_eolymp_vendor_vendor_proto_enumTypes[0].Descriptor()
 }
 
-func (Profile_Status) Type() protoreflect.EnumType {
-	return &file_eolymp_vendor_profile_proto_enumTypes[0]
+func (Vendor_Status) Type() protoreflect.EnumType {
+	return &file_eolymp_vendor_vendor_proto_enumTypes[0]
 }
 
-func (x Profile_Status) Number() protoreflect.EnumNumber {
+func (x Vendor_Status) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use Profile_Status.Descriptor instead.
-func (Profile_Status) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_vendor_profile_proto_rawDescGZIP(), []int{0, 0}
+// Deprecated: Use Vendor_Status.Descriptor instead.
+func (Vendor_Status) EnumDescriptor() ([]byte, []int) {
+	return file_eolymp_vendor_vendor_proto_rawDescGZIP(), []int{0, 0}
 }
 
-type Profile_Patch_Field int32
+type Vendor_Patch_Field int32
 
 const (
-	Profile_Patch_UNKNONWN_FIELD Profile_Patch_Field = 0
-	Profile_Patch_FIRST_NAME     Profile_Patch_Field = 1
-	Profile_Patch_LAST_NAME      Profile_Patch_Field = 2
-	Profile_Patch_COMPANY_NAME   Profile_Patch_Field = 3
-	Profile_Patch_BIRTHDAY       Profile_Patch_Field = 4
-	Profile_Patch_EMAIL          Profile_Patch_Field = 5
-	Profile_Patch_PHONE          Profile_Patch_Field = 6
-	Profile_Patch_TAX_ID         Profile_Patch_Field = 7
-	Profile_Patch_ADDRESS        Profile_Patch_Field = 8
+	Vendor_Patch_UNKNONWN_FIELD Vendor_Patch_Field = 0
+	Vendor_Patch_FIRST_NAME     Vendor_Patch_Field = 1
+	Vendor_Patch_LAST_NAME      Vendor_Patch_Field = 2
+	Vendor_Patch_COMPANY_NAME   Vendor_Patch_Field = 3
+	Vendor_Patch_BIRTHDAY       Vendor_Patch_Field = 4
+	Vendor_Patch_EMAIL          Vendor_Patch_Field = 5
+	Vendor_Patch_PHONE          Vendor_Patch_Field = 6
+	Vendor_Patch_TAX_ID         Vendor_Patch_Field = 7
+	Vendor_Patch_ADDRESS        Vendor_Patch_Field = 8
 )
 
-// Enum value maps for Profile_Patch_Field.
+// Enum value maps for Vendor_Patch_Field.
 var (
-	Profile_Patch_Field_name = map[int32]string{
+	Vendor_Patch_Field_name = map[int32]string{
 		0: "UNKNONWN_FIELD",
 		1: "FIRST_NAME",
 		2: "LAST_NAME",
@@ -107,7 +107,7 @@ var (
 		7: "TAX_ID",
 		8: "ADDRESS",
 	}
-	Profile_Patch_Field_value = map[string]int32{
+	Vendor_Patch_Field_value = map[string]int32{
 		"UNKNONWN_FIELD": 0,
 		"FIRST_NAME":     1,
 		"LAST_NAME":      2,
@@ -120,37 +120,37 @@ var (
 	}
 )
 
-func (x Profile_Patch_Field) Enum() *Profile_Patch_Field {
-	p := new(Profile_Patch_Field)
+func (x Vendor_Patch_Field) Enum() *Vendor_Patch_Field {
+	p := new(Vendor_Patch_Field)
 	*p = x
 	return p
 }
 
-func (x Profile_Patch_Field) String() string {
+func (x Vendor_Patch_Field) String() string {
 	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
 }
 
-func (Profile_Patch_Field) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_vendor_profile_proto_enumTypes[1].Descriptor()
+func (Vendor_Patch_Field) Descriptor() protoreflect.EnumDescriptor {
+	return file_eolymp_vendor_vendor_proto_enumTypes[1].Descriptor()
 }
 
-func (Profile_Patch_Field) Type() protoreflect.EnumType {
-	return &file_eolymp_vendor_profile_proto_enumTypes[1]
+func (Vendor_Patch_Field) Type() protoreflect.EnumType {
+	return &file_eolymp_vendor_vendor_proto_enumTypes[1]
 }
 
-func (x Profile_Patch_Field) Number() protoreflect.EnumNumber {
+func (x Vendor_Patch_Field) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use Profile_Patch_Field.Descriptor instead.
-func (Profile_Patch_Field) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_vendor_profile_proto_rawDescGZIP(), []int{0, 0, 0}
+// Deprecated: Use Vendor_Patch_Field.Descriptor instead.
+func (Vendor_Patch_Field) EnumDescriptor() ([]byte, []int) {
+	return file_eolymp_vendor_vendor_proto_rawDescGZIP(), []int{0, 0, 0}
 }
 
-type Profile struct {
+type Vendor struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Status        Profile_Status         `protobuf:"varint,2,opt,name=status,proto3,enum=eolymp.vendor.Profile_Status" json:"status,omitempty"`
+	Status        Vendor_Status          `protobuf:"varint,2,opt,name=status,proto3,enum=eolymp.vendor.Vendor_Status" json:"status,omitempty"`
 	StatusReason  string                 `protobuf:"bytes,3,opt,name=status_reason,json=statusReason,proto3" json:"status_reason,omitempty"`
 	FirstName     string                 `protobuf:"bytes,10,opt,name=first_name,json=firstName,proto3" json:"first_name,omitempty"`
 	LastName      string                 `protobuf:"bytes,11,opt,name=last_name,json=lastName,proto3" json:"last_name,omitempty"`
@@ -171,21 +171,21 @@ type Profile struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *Profile) Reset() {
-	*x = Profile{}
-	mi := &file_eolymp_vendor_profile_proto_msgTypes[0]
+func (x *Vendor) Reset() {
+	*x = Vendor{}
+	mi := &file_eolymp_vendor_vendor_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *Profile) String() string {
+func (x *Vendor) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*Profile) ProtoMessage() {}
+func (*Vendor) ProtoMessage() {}
 
-func (x *Profile) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_vendor_profile_proto_msgTypes[0]
+func (x *Vendor) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_vendor_vendor_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -196,158 +196,158 @@ func (x *Profile) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Profile.ProtoReflect.Descriptor instead.
-func (*Profile) Descriptor() ([]byte, []int) {
-	return file_eolymp_vendor_profile_proto_rawDescGZIP(), []int{0}
+// Deprecated: Use Vendor.ProtoReflect.Descriptor instead.
+func (*Vendor) Descriptor() ([]byte, []int) {
+	return file_eolymp_vendor_vendor_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *Profile) GetId() string {
+func (x *Vendor) GetId() string {
 	if x != nil {
 		return x.Id
 	}
 	return ""
 }
 
-func (x *Profile) GetStatus() Profile_Status {
+func (x *Vendor) GetStatus() Vendor_Status {
 	if x != nil {
 		return x.Status
 	}
-	return Profile_UNKNOWN_STATUS
+	return Vendor_UNKNOWN_STATUS
 }
 
-func (x *Profile) GetStatusReason() string {
+func (x *Vendor) GetStatusReason() string {
 	if x != nil {
 		return x.StatusReason
 	}
 	return ""
 }
 
-func (x *Profile) GetFirstName() string {
+func (x *Vendor) GetFirstName() string {
 	if x != nil {
 		return x.FirstName
 	}
 	return ""
 }
 
-func (x *Profile) GetLastName() string {
+func (x *Vendor) GetLastName() string {
 	if x != nil {
 		return x.LastName
 	}
 	return ""
 }
 
-func (x *Profile) GetCompanyName() string {
+func (x *Vendor) GetCompanyName() string {
 	if x != nil {
 		return x.CompanyName
 	}
 	return ""
 }
 
-func (x *Profile) GetBirthday() *timestamppb.Timestamp {
+func (x *Vendor) GetBirthday() *timestamppb.Timestamp {
 	if x != nil {
 		return x.Birthday
 	}
 	return nil
 }
 
-func (x *Profile) GetEmail() string {
+func (x *Vendor) GetEmail() string {
 	if x != nil {
 		return x.Email
 	}
 	return ""
 }
 
-func (x *Profile) GetPhone() string {
+func (x *Vendor) GetPhone() string {
 	if x != nil {
 		return x.Phone
 	}
 	return ""
 }
 
-func (x *Profile) GetTaxId() string {
+func (x *Vendor) GetTaxId() string {
 	if x != nil {
 		return x.TaxId
 	}
 	return ""
 }
 
-func (x *Profile) GetCountry() string {
+func (x *Vendor) GetCountry() string {
 	if x != nil {
 		return x.Country
 	}
 	return ""
 }
 
-func (x *Profile) GetState() string {
+func (x *Vendor) GetState() string {
 	if x != nil {
 		return x.State
 	}
 	return ""
 }
 
-func (x *Profile) GetPostalCode() string {
+func (x *Vendor) GetPostalCode() string {
 	if x != nil {
 		return x.PostalCode
 	}
 	return ""
 }
 
-func (x *Profile) GetCity() string {
+func (x *Vendor) GetCity() string {
 	if x != nil {
 		return x.City
 	}
 	return ""
 }
 
-func (x *Profile) GetLine1() string {
+func (x *Vendor) GetLine1() string {
 	if x != nil {
 		return x.Line1
 	}
 	return ""
 }
 
-func (x *Profile) GetLine2() string {
+func (x *Vendor) GetLine2() string {
 	if x != nil {
 		return x.Line2
 	}
 	return ""
 }
 
-func (x *Profile) GetCreatedAt() *timestamppb.Timestamp {
+func (x *Vendor) GetCreatedAt() *timestamppb.Timestamp {
 	if x != nil {
 		return x.CreatedAt
 	}
 	return nil
 }
 
-func (x *Profile) GetUpdatedAt() *timestamppb.Timestamp {
+func (x *Vendor) GetUpdatedAt() *timestamppb.Timestamp {
 	if x != nil {
 		return x.UpdatedAt
 	}
 	return nil
 }
 
-type Profile_Patch struct {
+type Vendor_Patch struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *Profile_Patch) Reset() {
-	*x = Profile_Patch{}
-	mi := &file_eolymp_vendor_profile_proto_msgTypes[1]
+func (x *Vendor_Patch) Reset() {
+	*x = Vendor_Patch{}
+	mi := &file_eolymp_vendor_vendor_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *Profile_Patch) String() string {
+func (x *Vendor_Patch) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*Profile_Patch) ProtoMessage() {}
+func (*Vendor_Patch) ProtoMessage() {}
 
-func (x *Profile_Patch) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_vendor_profile_proto_msgTypes[1]
+func (x *Vendor_Patch) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_vendor_vendor_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -358,19 +358,19 @@ func (x *Profile_Patch) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Profile_Patch.ProtoReflect.Descriptor instead.
-func (*Profile_Patch) Descriptor() ([]byte, []int) {
-	return file_eolymp_vendor_profile_proto_rawDescGZIP(), []int{0, 0}
+// Deprecated: Use Vendor_Patch.ProtoReflect.Descriptor instead.
+func (*Vendor_Patch) Descriptor() ([]byte, []int) {
+	return file_eolymp_vendor_vendor_proto_rawDescGZIP(), []int{0, 0}
 }
 
-var File_eolymp_vendor_profile_proto protoreflect.FileDescriptor
+var File_eolymp_vendor_vendor_proto protoreflect.FileDescriptor
 
-const file_eolymp_vendor_profile_proto_rawDesc = "" +
+const file_eolymp_vendor_vendor_proto_rawDesc = "" +
 	"\n" +
-	"\x1beolymp/vendor/profile.proto\x12\reolymp.vendor\x1a\x1fgoogle/protobuf/timestamp.proto\"\xcf\x06\n" +
-	"\aProfile\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x125\n" +
-	"\x06status\x18\x02 \x01(\x0e2\x1d.eolymp.vendor.Profile.StatusR\x06status\x12#\n" +
+	"\x1aeolymp/vendor/vendor.proto\x12\reolymp.vendor\x1a\x1fgoogle/protobuf/timestamp.proto\"\xcd\x06\n" +
+	"\x06Vendor\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x124\n" +
+	"\x06status\x18\x02 \x01(\x0e2\x1c.eolymp.vendor.Vendor.StatusR\x06status\x12#\n" +
 	"\rstatus_reason\x18\x03 \x01(\tR\fstatusReason\x12\x1d\n" +
 	"\n" +
 	"first_name\x18\n" +
@@ -416,31 +416,31 @@ const file_eolymp_vendor_profile_proto_rawDesc = "" +
 	"\bREJECTED\x10\x05B/Z-github.com/eolymp/go-sdk/eolymp/vendor;vendorb\x06proto3"
 
 var (
-	file_eolymp_vendor_profile_proto_rawDescOnce sync.Once
-	file_eolymp_vendor_profile_proto_rawDescData []byte
+	file_eolymp_vendor_vendor_proto_rawDescOnce sync.Once
+	file_eolymp_vendor_vendor_proto_rawDescData []byte
 )
 
-func file_eolymp_vendor_profile_proto_rawDescGZIP() []byte {
-	file_eolymp_vendor_profile_proto_rawDescOnce.Do(func() {
-		file_eolymp_vendor_profile_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_eolymp_vendor_profile_proto_rawDesc), len(file_eolymp_vendor_profile_proto_rawDesc)))
+func file_eolymp_vendor_vendor_proto_rawDescGZIP() []byte {
+	file_eolymp_vendor_vendor_proto_rawDescOnce.Do(func() {
+		file_eolymp_vendor_vendor_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_eolymp_vendor_vendor_proto_rawDesc), len(file_eolymp_vendor_vendor_proto_rawDesc)))
 	})
-	return file_eolymp_vendor_profile_proto_rawDescData
+	return file_eolymp_vendor_vendor_proto_rawDescData
 }
 
-var file_eolymp_vendor_profile_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_eolymp_vendor_profile_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
-var file_eolymp_vendor_profile_proto_goTypes = []any{
-	(Profile_Status)(0),           // 0: eolymp.vendor.Profile.Status
-	(Profile_Patch_Field)(0),      // 1: eolymp.vendor.Profile.Patch.Field
-	(*Profile)(nil),               // 2: eolymp.vendor.Profile
-	(*Profile_Patch)(nil),         // 3: eolymp.vendor.Profile.Patch
+var file_eolymp_vendor_vendor_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_eolymp_vendor_vendor_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_eolymp_vendor_vendor_proto_goTypes = []any{
+	(Vendor_Status)(0),            // 0: eolymp.vendor.Vendor.Status
+	(Vendor_Patch_Field)(0),       // 1: eolymp.vendor.Vendor.Patch.Field
+	(*Vendor)(nil),                // 2: eolymp.vendor.Vendor
+	(*Vendor_Patch)(nil),          // 3: eolymp.vendor.Vendor.Patch
 	(*timestamppb.Timestamp)(nil), // 4: google.protobuf.Timestamp
 }
-var file_eolymp_vendor_profile_proto_depIdxs = []int32{
-	0, // 0: eolymp.vendor.Profile.status:type_name -> eolymp.vendor.Profile.Status
-	4, // 1: eolymp.vendor.Profile.birthday:type_name -> google.protobuf.Timestamp
-	4, // 2: eolymp.vendor.Profile.created_at:type_name -> google.protobuf.Timestamp
-	4, // 3: eolymp.vendor.Profile.updated_at:type_name -> google.protobuf.Timestamp
+var file_eolymp_vendor_vendor_proto_depIdxs = []int32{
+	0, // 0: eolymp.vendor.Vendor.status:type_name -> eolymp.vendor.Vendor.Status
+	4, // 1: eolymp.vendor.Vendor.birthday:type_name -> google.protobuf.Timestamp
+	4, // 2: eolymp.vendor.Vendor.created_at:type_name -> google.protobuf.Timestamp
+	4, // 3: eolymp.vendor.Vendor.updated_at:type_name -> google.protobuf.Timestamp
 	4, // [4:4] is the sub-list for method output_type
 	4, // [4:4] is the sub-list for method input_type
 	4, // [4:4] is the sub-list for extension type_name
@@ -448,27 +448,27 @@ var file_eolymp_vendor_profile_proto_depIdxs = []int32{
 	0, // [0:4] is the sub-list for field type_name
 }
 
-func init() { file_eolymp_vendor_profile_proto_init() }
-func file_eolymp_vendor_profile_proto_init() {
-	if File_eolymp_vendor_profile_proto != nil {
+func init() { file_eolymp_vendor_vendor_proto_init() }
+func file_eolymp_vendor_vendor_proto_init() {
+	if File_eolymp_vendor_vendor_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_vendor_profile_proto_rawDesc), len(file_eolymp_vendor_profile_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_vendor_vendor_proto_rawDesc), len(file_eolymp_vendor_vendor_proto_rawDesc)),
 			NumEnums:      2,
 			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_eolymp_vendor_profile_proto_goTypes,
-		DependencyIndexes: file_eolymp_vendor_profile_proto_depIdxs,
-		EnumInfos:         file_eolymp_vendor_profile_proto_enumTypes,
-		MessageInfos:      file_eolymp_vendor_profile_proto_msgTypes,
+		GoTypes:           file_eolymp_vendor_vendor_proto_goTypes,
+		DependencyIndexes: file_eolymp_vendor_vendor_proto_depIdxs,
+		EnumInfos:         file_eolymp_vendor_vendor_proto_enumTypes,
+		MessageInfos:      file_eolymp_vendor_vendor_proto_msgTypes,
 	}.Build()
-	File_eolymp_vendor_profile_proto = out.File
-	file_eolymp_vendor_profile_proto_goTypes = nil
-	file_eolymp_vendor_profile_proto_depIdxs = nil
+	File_eolymp_vendor_vendor_proto = out.File
+	file_eolymp_vendor_vendor_proto_goTypes = nil
+	file_eolymp_vendor_vendor_proto_depIdxs = nil
 }

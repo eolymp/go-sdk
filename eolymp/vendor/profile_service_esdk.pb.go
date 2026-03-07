@@ -102,7 +102,7 @@ func (s *ProfileServiceService) do(ctx context.Context, verb, path string, in, o
 
 func (s *ProfileServiceService) DescribeProfile(ctx context.Context, in *DescribeProfileInput) (*DescribeProfileOutput, error) {
 	out := &DescribeProfileOutput{}
-	path := "/vendor/profiles"
+	path := "/vendor-profile"
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
@@ -113,7 +113,7 @@ func (s *ProfileServiceService) DescribeProfile(ctx context.Context, in *Describ
 
 func (s *ProfileServiceService) UpdateProfile(ctx context.Context, in *UpdateProfileInput) (*UpdateProfileOutput, error) {
 	out := &UpdateProfileOutput{}
-	path := "/vendor/profiles"
+	path := "/vendor-profile"
 
 	if err := s.do(ctx, "PUT", path, in, out); err != nil {
 		return nil, err
@@ -124,7 +124,7 @@ func (s *ProfileServiceService) UpdateProfile(ctx context.Context, in *UpdatePro
 
 func (s *ProfileServiceService) SubmitProfile(ctx context.Context, in *SubmitProfileInput) (*SubmitProfileOutput, error) {
 	out := &SubmitProfileOutput{}
-	path := "/vendor/profiles:submit"
+	path := "/vendor-profile:submit"
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err

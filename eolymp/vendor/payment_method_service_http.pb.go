@@ -151,19 +151,19 @@ func _PaymentMethodService_HTTPWriteErrorResponse(w http.ResponseWriter, e error
 
 // RegisterPaymentMethodServiceHttpHandlers adds handlers for for PaymentMethodServiceClient
 func RegisterPaymentMethodServiceHttpHandlers(router *mux.Router, prefix string, cli PaymentMethodServiceClient) {
-	router.Handle(prefix+"/vendor/payment-methods", _PaymentMethodService_CreatePaymentMethod_Rule0(cli)).
+	router.Handle(prefix+"/vendors/{vendor_id}/payment-methods", _PaymentMethodService_CreatePaymentMethod_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.vendor.PaymentMethodService.CreatePaymentMethod")
-	router.Handle(prefix+"/vendor/payment-methods/{method_id}", _PaymentMethodService_UpdatePaymentMethod_Rule0(cli)).
+	router.Handle(prefix+"/vendors/{vendor_id}/payment-methods/{method_id}", _PaymentMethodService_UpdatePaymentMethod_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.vendor.PaymentMethodService.UpdatePaymentMethod")
-	router.Handle(prefix+"/vendor/payment-methods/{method_id}", _PaymentMethodService_DeletePaymentMethod_Rule0(cli)).
+	router.Handle(prefix+"/vendors/{vendor_id}/payment-methods/{method_id}", _PaymentMethodService_DeletePaymentMethod_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.vendor.PaymentMethodService.DeletePaymentMethod")
-	router.Handle(prefix+"/vendor/payment-methods/{method_id}", _PaymentMethodService_DescribePaymentMethod_Rule0(cli)).
+	router.Handle(prefix+"/vendors/{vendor_id}/payment-methods/{method_id}", _PaymentMethodService_DescribePaymentMethod_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.vendor.PaymentMethodService.DescribePaymentMethod")
-	router.Handle(prefix+"/vendor/payment-methods", _PaymentMethodService_ListPaymentMethods_Rule0(cli)).
+	router.Handle(prefix+"/vendors/{vendor_id}/payment-methods", _PaymentMethodService_ListPaymentMethods_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.vendor.PaymentMethodService.ListPaymentMethods")
 }
@@ -181,6 +181,9 @@ func _PaymentMethodService_CreatePaymentMethod_Rule0(cli PaymentMethodServiceCli
 			_PaymentMethodService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.VendorId = vars["vendor_id"]
 
 		var header, trailer metadata.MD
 
@@ -204,6 +207,7 @@ func _PaymentMethodService_UpdatePaymentMethod_Rule0(cli PaymentMethodServiceCli
 		}
 
 		vars := mux.Vars(r)
+		in.VendorId = vars["vendor_id"]
 		in.MethodId = vars["method_id"]
 
 		var header, trailer metadata.MD
@@ -228,6 +232,7 @@ func _PaymentMethodService_DeletePaymentMethod_Rule0(cli PaymentMethodServiceCli
 		}
 
 		vars := mux.Vars(r)
+		in.VendorId = vars["vendor_id"]
 		in.MethodId = vars["method_id"]
 
 		var header, trailer metadata.MD
@@ -252,6 +257,7 @@ func _PaymentMethodService_DescribePaymentMethod_Rule0(cli PaymentMethodServiceC
 		}
 
 		vars := mux.Vars(r)
+		in.VendorId = vars["vendor_id"]
 		in.MethodId = vars["method_id"]
 
 		var header, trailer metadata.MD
@@ -274,6 +280,9 @@ func _PaymentMethodService_ListPaymentMethods_Rule0(cli PaymentMethodServiceClie
 			_PaymentMethodService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.VendorId = vars["vendor_id"]
 
 		var header, trailer metadata.MD
 

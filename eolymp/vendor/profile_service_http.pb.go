@@ -151,13 +151,13 @@ func _ProfileService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 
 // RegisterProfileServiceHttpHandlers adds handlers for for ProfileServiceClient
 func RegisterProfileServiceHttpHandlers(router *mux.Router, prefix string, cli ProfileServiceClient) {
-	router.Handle(prefix+"/vendor/profiles", _ProfileService_DescribeProfile_Rule0(cli)).
+	router.Handle(prefix+"/vendor-profile", _ProfileService_DescribeProfile_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.vendor.ProfileService.DescribeProfile")
-	router.Handle(prefix+"/vendor/profiles", _ProfileService_UpdateProfile_Rule0(cli)).
+	router.Handle(prefix+"/vendor-profile", _ProfileService_UpdateProfile_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.vendor.ProfileService.UpdateProfile")
-	router.Handle(prefix+"/vendor/profiles:submit", _ProfileService_SubmitProfile_Rule0(cli)).
+	router.Handle(prefix+"/vendor-profile:submit", _ProfileService_SubmitProfile_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.vendor.ProfileService.SubmitProfile")
 }

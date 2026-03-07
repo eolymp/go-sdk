@@ -102,7 +102,7 @@ func (s *InvoiceServiceService) do(ctx context.Context, verb, path string, in, o
 
 func (s *InvoiceServiceService) ListInvoices(ctx context.Context, in *ListInvoicesInput) (*ListInvoicesOutput, error) {
 	out := &ListInvoicesOutput{}
-	path := "/vendor/invoices"
+	path := "/vendor-invoices"
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
@@ -113,7 +113,7 @@ func (s *InvoiceServiceService) ListInvoices(ctx context.Context, in *ListInvoic
 
 func (s *InvoiceServiceService) DescribeInvoice(ctx context.Context, in *DescribeInvoiceInput) (*DescribeInvoiceOutput, error) {
 	out := &DescribeInvoiceOutput{}
-	path := "/vendor/invoices/" + url.PathEscape(in.GetInvoiceId())
+	path := "/vendor-invoices/" + url.PathEscape(in.GetInvoiceId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
@@ -129,7 +129,7 @@ func (s *InvoiceServiceService) DescribeInvoice(ctx context.Context, in *Describ
 
 func (s *InvoiceServiceService) CreateInvoice(ctx context.Context, in *CreateInvoiceInput) (*CreateInvoiceOutput, error) {
 	out := &CreateInvoiceOutput{}
-	path := "/vendor/invoices"
+	path := "/vendor-invoices"
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
@@ -140,7 +140,7 @@ func (s *InvoiceServiceService) CreateInvoice(ctx context.Context, in *CreateInv
 
 func (s *InvoiceServiceService) UpdateInvoice(ctx context.Context, in *UpdateInvoiceInput) (*UpdateInvoiceOutput, error) {
 	out := &UpdateInvoiceOutput{}
-	path := "/vendor/invoices/" + url.PathEscape(in.GetInvoiceId())
+	path := "/vendor-invoices/" + url.PathEscape(in.GetInvoiceId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
@@ -156,7 +156,7 @@ func (s *InvoiceServiceService) UpdateInvoice(ctx context.Context, in *UpdateInv
 
 func (s *InvoiceServiceService) DeleteInvoice(ctx context.Context, in *DeleteInvoiceInput) (*DeleteInvoiceOutput, error) {
 	out := &DeleteInvoiceOutput{}
-	path := "/vendor/invoices/" + url.PathEscape(in.GetInvoiceId())
+	path := "/vendor-invoices/" + url.PathEscape(in.GetInvoiceId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
@@ -172,7 +172,7 @@ func (s *InvoiceServiceService) DeleteInvoice(ctx context.Context, in *DeleteInv
 
 func (s *InvoiceServiceService) UploadInvoiceDocument(ctx context.Context, in *UploadInvoiceDocumentInput) (*UploadInvoiceDocumentOutput, error) {
 	out := &UploadInvoiceDocumentOutput{}
-	path := "/vendor/invoices/" + url.PathEscape(in.GetInvoiceId()) + "/document"
+	path := "/vendor-invoices/" + url.PathEscape(in.GetInvoiceId()) + "/document"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
@@ -188,7 +188,7 @@ func (s *InvoiceServiceService) UploadInvoiceDocument(ctx context.Context, in *U
 
 func (s *InvoiceServiceService) SubmitInvoice(ctx context.Context, in *SubmitInvoiceInput) (*SubmitInvoiceOutput, error) {
 	out := &SubmitInvoiceOutput{}
-	path := "/vendor/invoices/" + url.PathEscape(in.GetInvoiceId()) + "/submit"
+	path := "/vendor-invoices/" + url.PathEscape(in.GetInvoiceId()) + "/submit"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
@@ -204,7 +204,7 @@ func (s *InvoiceServiceService) SubmitInvoice(ctx context.Context, in *SubmitInv
 
 func (s *InvoiceServiceService) ApproveInvoice(ctx context.Context, in *ApproveInvoiceInput) (*ApproveInvoiceOutput, error) {
 	out := &ApproveInvoiceOutput{}
-	path := "/vendor/invoices/" + url.PathEscape(in.GetInvoiceId()) + "/approve"
+	path := "/vendor-invoices/" + url.PathEscape(in.GetInvoiceId()) + "/approve"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
@@ -220,7 +220,7 @@ func (s *InvoiceServiceService) ApproveInvoice(ctx context.Context, in *ApproveI
 
 func (s *InvoiceServiceService) RejectInvoice(ctx context.Context, in *RejectInvoiceInput) (*RejectInvoiceOutput, error) {
 	out := &RejectInvoiceOutput{}
-	path := "/vendor/invoices/" + url.PathEscape(in.GetInvoiceId()) + "/reject"
+	path := "/vendor-invoices/" + url.PathEscape(in.GetInvoiceId()) + "/reject"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
