@@ -30,7 +30,6 @@ const (
 	IssueTokenInput_PASSWORD           IssueTokenInput_GrantType = 1
 	IssueTokenInput_AUTHORIZATION_CODE IssueTokenInput_GrantType = 2
 	IssueTokenInput_REFRESH_TOKEN      IssueTokenInput_GrantType = 3
-	IssueTokenInput_EOLYMP_SIGNIN      IssueTokenInput_GrantType = 4
 )
 
 // Enum value maps for IssueTokenInput_GrantType.
@@ -40,14 +39,12 @@ var (
 		1: "PASSWORD",
 		2: "AUTHORIZATION_CODE",
 		3: "REFRESH_TOKEN",
-		4: "EOLYMP_SIGNIN",
 	}
 	IssueTokenInput_GrantType_value = map[string]int32{
 		"NONE":               0,
 		"PASSWORD":           1,
 		"AUTHORIZATION_CODE": 2,
 		"REFRESH_TOKEN":      3,
-		"EOLYMP_SIGNIN":      4,
 	}
 )
 
@@ -786,7 +783,7 @@ var File_eolymp_auth_oauth2_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_auth_oauth2_service_proto_rawDesc = "" +
 	"\n" +
-	" eolymp/auth/oauth2_service.proto\x12\veolymp.auth\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1deolymp/auth/certificate.proto\x1a\x18eolymp/auth/claims.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xcc\x03\n" +
+	" eolymp/auth/oauth2_service.proto\x12\veolymp.auth\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1deolymp/auth/certificate.proto\x1a\x18eolymp/auth/claims.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xb9\x03\n" +
 	"\x0fIssueTokenInput\x12E\n" +
 	"\n" +
 	"grant_type\x18\x01 \x01(\x0e2&.eolymp.auth.IssueTokenInput.GrantTypeR\tgrantType\x12\x1a\n" +
@@ -799,13 +796,12 @@ const file_eolymp_auth_oauth2_service_proto_rawDesc = "" +
 	"\x05scope\x18\b \x01(\tR\x05scope\x12#\n" +
 	"\rrefresh_token\x18\t \x01(\tR\frefreshToken\x12!\n" +
 	"\fredirect_uri\x18\n" +
-	" \x01(\tR\vredirectUri\"a\n" +
+	" \x01(\tR\vredirectUri\"N\n" +
 	"\tGrantType\x12\b\n" +
 	"\x04NONE\x10\x00\x12\f\n" +
 	"\bPASSWORD\x10\x01\x12\x16\n" +
 	"\x12AUTHORIZATION_CODE\x10\x02\x12\x11\n" +
-	"\rREFRESH_TOKEN\x10\x03\x12\x11\n" +
-	"\rEOLYMP_SIGNIN\x10\x04\"\xf6\x01\n" +
+	"\rREFRESH_TOKEN\x10\x03\"\xf6\x01\n" +
 	"\x10IssueTokenOutput\x12!\n" +
 	"\faccess_token\x18\x01 \x01(\tR\vaccessToken\x12\x1d\n" +
 	"\n" +
