@@ -23,11 +23,13 @@ const (
 )
 
 type SignonRequestInput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Type          LinkedAccount_Type     `protobuf:"varint,1,opt,name=type,proto3,enum=eolymp.auth.LinkedAccount_Type" json:"type,omitempty"`
-	CallbackUri   string                 `protobuf:"bytes,2,opt,name=callback_uri,json=callbackUri,proto3" json:"callback_uri,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state               protoimpl.MessageState `protogen:"open.v1"`
+	Type                LinkedAccount_Type     `protobuf:"varint,1,opt,name=type,proto3,enum=eolymp.auth.LinkedAccount_Type" json:"type,omitempty"`
+	CallbackUri         string                 `protobuf:"bytes,2,opt,name=callback_uri,json=callbackUri,proto3" json:"callback_uri,omitempty"`
+	CodeChallenge       string                 `protobuf:"bytes,3,opt,name=code_challenge,json=codeChallenge,proto3" json:"code_challenge,omitempty"`
+	CodeChallengeMethod string                 `protobuf:"bytes,4,opt,name=code_challenge_method,json=codeChallengeMethod,proto3" json:"code_challenge_method,omitempty"`
+	unknownFields       protoimpl.UnknownFields
+	sizeCache           protoimpl.SizeCache
 }
 
 func (x *SignonRequestInput) Reset() {
@@ -70,6 +72,20 @@ func (x *SignonRequestInput) GetType() LinkedAccount_Type {
 func (x *SignonRequestInput) GetCallbackUri() string {
 	if x != nil {
 		return x.CallbackUri
+	}
+	return ""
+}
+
+func (x *SignonRequestInput) GetCodeChallenge() string {
+	if x != nil {
+		return x.CodeChallenge
+	}
+	return ""
+}
+
+func (x *SignonRequestInput) GetCodeChallengeMethod() string {
+	if x != nil {
+		return x.CodeChallengeMethod
 	}
 	return ""
 }
@@ -120,8 +136,9 @@ func (x *SignonRequestOutput) GetRedirectUri() string {
 
 type SignonExchangeInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Code          string                 `protobuf:"bytes,1,opt,name=code,proto3" json:"code,omitempty"`
 	State         string                 `protobuf:"bytes,2,opt,name=state,proto3" json:"state,omitempty"`
+	Code          string                 `protobuf:"bytes,1,opt,name=code,proto3" json:"code,omitempty"`
+	CodeVerifier  string                 `protobuf:"bytes,3,opt,name=code_verifier,json=codeVerifier,proto3" json:"code_verifier,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -156,6 +173,13 @@ func (*SignonExchangeInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_auth_sso_service_proto_rawDescGZIP(), []int{2}
 }
 
+func (x *SignonExchangeInput) GetState() string {
+	if x != nil {
+		return x.State
+	}
+	return ""
+}
+
 func (x *SignonExchangeInput) GetCode() string {
 	if x != nil {
 		return x.Code
@@ -163,9 +187,9 @@ func (x *SignonExchangeInput) GetCode() string {
 	return ""
 }
 
-func (x *SignonExchangeInput) GetState() string {
+func (x *SignonExchangeInput) GetCodeVerifier() string {
 	if x != nil {
-		return x.State
+		return x.CodeVerifier
 	}
 	return ""
 }
@@ -242,15 +266,18 @@ var File_eolymp_auth_sso_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_auth_sso_service_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/auth/sso_service.proto\x12\veolymp.auth\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a eolymp/auth/linked_account.proto\"l\n" +
+	"\x1deolymp/auth/sso_service.proto\x12\veolymp.auth\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a eolymp/auth/linked_account.proto\"\xc7\x01\n" +
 	"\x12SignonRequestInput\x123\n" +
 	"\x04type\x18\x01 \x01(\x0e2\x1f.eolymp.auth.LinkedAccount.TypeR\x04type\x12!\n" +
-	"\fcallback_uri\x18\x02 \x01(\tR\vcallbackUri\"8\n" +
+	"\fcallback_uri\x18\x02 \x01(\tR\vcallbackUri\x12%\n" +
+	"\x0ecode_challenge\x18\x03 \x01(\tR\rcodeChallenge\x122\n" +
+	"\x15code_challenge_method\x18\x04 \x01(\tR\x13codeChallengeMethod\"8\n" +
 	"\x13SignonRequestOutput\x12!\n" +
-	"\fredirect_uri\x18\x01 \x01(\tR\vredirectUri\"?\n" +
-	"\x13SignonExchangeInput\x12\x12\n" +
-	"\x04code\x18\x01 \x01(\tR\x04code\x12\x14\n" +
-	"\x05state\x18\x02 \x01(\tR\x05state\"\x9c\x01\n" +
+	"\fredirect_uri\x18\x01 \x01(\tR\vredirectUri\"d\n" +
+	"\x13SignonExchangeInput\x12\x14\n" +
+	"\x05state\x18\x02 \x01(\tR\x05state\x12\x12\n" +
+	"\x04code\x18\x01 \x01(\tR\x04code\x12#\n" +
+	"\rcode_verifier\x18\x03 \x01(\tR\fcodeVerifier\"\x9c\x01\n" +
 	"\x14SignonExchangeOutput\x12!\n" +
 	"\faccess_token\x18\x01 \x01(\tR\vaccessToken\x12\x1d\n" +
 	"\n" +
