@@ -23,13 +23,16 @@ const (
 )
 
 type SignonRequestInput struct {
-	state               protoimpl.MessageState `protogen:"open.v1"`
-	Type                LinkedAccount_Type     `protobuf:"varint,1,opt,name=type,proto3,enum=eolymp.auth.LinkedAccount_Type" json:"type,omitempty"`
-	CallbackUri         string                 `protobuf:"bytes,2,opt,name=callback_uri,json=callbackUri,proto3" json:"callback_uri,omitempty"`
-	CodeChallenge       string                 `protobuf:"bytes,3,opt,name=code_challenge,json=codeChallenge,proto3" json:"code_challenge,omitempty"`
-	CodeChallengeMethod string                 `protobuf:"bytes,4,opt,name=code_challenge_method,json=codeChallengeMethod,proto3" json:"code_challenge_method,omitempty"`
-	unknownFields       protoimpl.UnknownFields
-	sizeCache           protoimpl.SizeCache
+	state       protoimpl.MessageState `protogen:"open.v1"`
+	ProviderId  string                 `protobuf:"bytes,3,opt,name=provider_id,json=providerId,proto3" json:"provider_id,omitempty"`    // SSO provider
+	ClientId    string                 `protobuf:"bytes,4,opt,name=client_id,json=clientId,proto3" json:"client_id,omitempty"`          // oauth2 client id
+	RedirectUri string                 `protobuf:"bytes,2,opt,name=redirect_uri,json=redirectUri,proto3" json:"redirect_uri,omitempty"` // redirect uri
+	// Deprecated: Marked as deprecated in eolymp/auth/sso_service.proto.
+	Type LinkedAccount_Type `protobuf:"varint,1,opt,name=type,proto3,enum=eolymp.auth.LinkedAccount_Type" json:"type,omitempty"`
+	// Deprecated: Marked as deprecated in eolymp/auth/sso_service.proto.
+	CallbackUri   string `protobuf:"bytes,5,opt,name=callback_uri,json=callbackUri,proto3" json:"callback_uri,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *SignonRequestInput) Reset() {
@@ -62,6 +65,28 @@ func (*SignonRequestInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_auth_sso_service_proto_rawDescGZIP(), []int{0}
 }
 
+func (x *SignonRequestInput) GetProviderId() string {
+	if x != nil {
+		return x.ProviderId
+	}
+	return ""
+}
+
+func (x *SignonRequestInput) GetClientId() string {
+	if x != nil {
+		return x.ClientId
+	}
+	return ""
+}
+
+func (x *SignonRequestInput) GetRedirectUri() string {
+	if x != nil {
+		return x.RedirectUri
+	}
+	return ""
+}
+
+// Deprecated: Marked as deprecated in eolymp/auth/sso_service.proto.
 func (x *SignonRequestInput) GetType() LinkedAccount_Type {
 	if x != nil {
 		return x.Type
@@ -69,23 +94,10 @@ func (x *SignonRequestInput) GetType() LinkedAccount_Type {
 	return LinkedAccount_UNKNOWN_TYPE
 }
 
+// Deprecated: Marked as deprecated in eolymp/auth/sso_service.proto.
 func (x *SignonRequestInput) GetCallbackUri() string {
 	if x != nil {
 		return x.CallbackUri
-	}
-	return ""
-}
-
-func (x *SignonRequestInput) GetCodeChallenge() string {
-	if x != nil {
-		return x.CodeChallenge
-	}
-	return ""
-}
-
-func (x *SignonRequestInput) GetCodeChallengeMethod() string {
-	if x != nil {
-		return x.CodeChallengeMethod
 	}
 	return ""
 }
@@ -136,9 +148,10 @@ func (x *SignonRequestOutput) GetRedirectUri() string {
 
 type SignonExchangeInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	State         string                 `protobuf:"bytes,2,opt,name=state,proto3" json:"state,omitempty"`
 	Code          string                 `protobuf:"bytes,1,opt,name=code,proto3" json:"code,omitempty"`
-	CodeVerifier  string                 `protobuf:"bytes,3,opt,name=code_verifier,json=codeVerifier,proto3" json:"code_verifier,omitempty"`
+	State         string                 `protobuf:"bytes,2,opt,name=state,proto3" json:"state,omitempty"`
+	ClientId      string                 `protobuf:"bytes,3,opt,name=client_id,json=clientId,proto3" json:"client_id,omitempty"`             // oauth2 client id
+	ClientSecret  string                 `protobuf:"bytes,4,opt,name=client_secret,json=clientSecret,proto3" json:"client_secret,omitempty"` // oauth2 client secret
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -173,13 +186,6 @@ func (*SignonExchangeInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_auth_sso_service_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *SignonExchangeInput) GetState() string {
-	if x != nil {
-		return x.State
-	}
-	return ""
-}
-
 func (x *SignonExchangeInput) GetCode() string {
 	if x != nil {
 		return x.Code
@@ -187,9 +193,23 @@ func (x *SignonExchangeInput) GetCode() string {
 	return ""
 }
 
-func (x *SignonExchangeInput) GetCodeVerifier() string {
+func (x *SignonExchangeInput) GetState() string {
 	if x != nil {
-		return x.CodeVerifier
+		return x.State
+	}
+	return ""
+}
+
+func (x *SignonExchangeInput) GetClientId() string {
+	if x != nil {
+		return x.ClientId
+	}
+	return ""
+}
+
+func (x *SignonExchangeInput) GetClientSecret() string {
+	if x != nil {
+		return x.ClientSecret
 	}
 	return ""
 }
@@ -266,18 +286,21 @@ var File_eolymp_auth_sso_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_auth_sso_service_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/auth/sso_service.proto\x12\veolymp.auth\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a eolymp/auth/linked_account.proto\"\xc7\x01\n" +
-	"\x12SignonRequestInput\x123\n" +
-	"\x04type\x18\x01 \x01(\x0e2\x1f.eolymp.auth.LinkedAccount.TypeR\x04type\x12!\n" +
-	"\fcallback_uri\x18\x02 \x01(\tR\vcallbackUri\x12%\n" +
-	"\x0ecode_challenge\x18\x03 \x01(\tR\rcodeChallenge\x122\n" +
-	"\x15code_challenge_method\x18\x04 \x01(\tR\x13codeChallengeMethod\"8\n" +
+	"\x1deolymp/auth/sso_service.proto\x12\veolymp.auth\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a eolymp/auth/linked_account.proto\"\xd5\x01\n" +
+	"\x12SignonRequestInput\x12\x1f\n" +
+	"\vprovider_id\x18\x03 \x01(\tR\n" +
+	"providerId\x12\x1b\n" +
+	"\tclient_id\x18\x04 \x01(\tR\bclientId\x12!\n" +
+	"\fredirect_uri\x18\x02 \x01(\tR\vredirectUri\x127\n" +
+	"\x04type\x18\x01 \x01(\x0e2\x1f.eolymp.auth.LinkedAccount.TypeB\x02\x18\x01R\x04type\x12%\n" +
+	"\fcallback_uri\x18\x05 \x01(\tB\x02\x18\x01R\vcallbackUri\"8\n" +
 	"\x13SignonRequestOutput\x12!\n" +
-	"\fredirect_uri\x18\x01 \x01(\tR\vredirectUri\"d\n" +
-	"\x13SignonExchangeInput\x12\x14\n" +
-	"\x05state\x18\x02 \x01(\tR\x05state\x12\x12\n" +
-	"\x04code\x18\x01 \x01(\tR\x04code\x12#\n" +
-	"\rcode_verifier\x18\x03 \x01(\tR\fcodeVerifier\"\x9c\x01\n" +
+	"\fredirect_uri\x18\x01 \x01(\tR\vredirectUri\"\x81\x01\n" +
+	"\x13SignonExchangeInput\x12\x12\n" +
+	"\x04code\x18\x01 \x01(\tR\x04code\x12\x14\n" +
+	"\x05state\x18\x02 \x01(\tR\x05state\x12\x1b\n" +
+	"\tclient_id\x18\x03 \x01(\tR\bclientId\x12#\n" +
+	"\rclient_secret\x18\x04 \x01(\tR\fclientSecret\"\x9c\x01\n" +
 	"\x14SignonExchangeOutput\x12!\n" +
 	"\faccess_token\x18\x01 \x01(\tR\vaccessToken\x12\x1d\n" +
 	"\n" +
