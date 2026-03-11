@@ -153,9 +153,9 @@ type Invoice struct {
 	InvoiceDate     *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=invoice_date,json=invoiceDate,proto3" json:"invoice_date,omitempty"`
 	DueDate         *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=due_date,json=dueDate,proto3" json:"due_date,omitempty"`
 	Lines           []*Invoice_Line        `protobuf:"bytes,5,rep,name=lines,proto3" json:"lines,omitempty"`
-	SubtotalAmount  int32                  `protobuf:"varint,6,opt,name=subtotal_amount,json=subtotalAmount,proto3" json:"subtotal_amount,omitempty"`
-	TaxAmount       int32                  `protobuf:"varint,7,opt,name=tax_amount,json=taxAmount,proto3" json:"tax_amount,omitempty"`
-	GrandTotal      int32                  `protobuf:"varint,8,opt,name=grand_total,json=grandTotal,proto3" json:"grand_total,omitempty"`
+	SubtotalAmount  float32                `protobuf:"fixed32,6,opt,name=subtotal_amount,json=subtotalAmount,proto3" json:"subtotal_amount,omitempty"`
+	TaxAmount       float32                `protobuf:"fixed32,7,opt,name=tax_amount,json=taxAmount,proto3" json:"tax_amount,omitempty"`
+	GrandTotal      float32                `protobuf:"fixed32,8,opt,name=grand_total,json=grandTotal,proto3" json:"grand_total,omitempty"`
 	DocumentUrl     string                 `protobuf:"bytes,9,opt,name=document_url,json=documentUrl,proto3" json:"document_url,omitempty"`
 	CreatedAt       *timestamppb.Timestamp `protobuf:"bytes,21,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	UpdatedAt       *timestamppb.Timestamp `protobuf:"bytes,22,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
@@ -263,21 +263,21 @@ func (x *Invoice) GetLines() []*Invoice_Line {
 	return nil
 }
 
-func (x *Invoice) GetSubtotalAmount() int32 {
+func (x *Invoice) GetSubtotalAmount() float32 {
 	if x != nil {
 		return x.SubtotalAmount
 	}
 	return 0
 }
 
-func (x *Invoice) GetTaxAmount() int32 {
+func (x *Invoice) GetTaxAmount() float32 {
 	if x != nil {
 		return x.TaxAmount
 	}
 	return 0
 }
 
-func (x *Invoice) GetGrandTotal() int32 {
+func (x *Invoice) GetGrandTotal() float32 {
 	if x != nil {
 		return x.GrandTotal
 	}
@@ -310,7 +310,7 @@ type Invoice_Line struct {
 	Index         uint32                 `protobuf:"varint,1,opt,name=index,proto3" json:"index,omitempty"`
 	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
 	Summary       string                 `protobuf:"bytes,3,opt,name=summary,proto3" json:"summary,omitempty"`
-	TotalPrice    int32                  `protobuf:"varint,4,opt,name=total_price,json=totalPrice,proto3" json:"total_price,omitempty"`
+	TotalPrice    float32                `protobuf:"fixed32,4,opt,name=total_price,json=totalPrice,proto3" json:"total_price,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -366,7 +366,7 @@ func (x *Invoice_Line) GetSummary() string {
 	return ""
 }
 
-func (x *Invoice_Line) GetTotalPrice() int32 {
+func (x *Invoice_Line) GetTotalPrice() float32 {
 	if x != nil {
 		return x.TotalPrice
 	}
@@ -426,10 +426,10 @@ const file_eolymp_vendor_invoice_proto_rawDesc = "" +
 	"\finvoice_date\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\vinvoiceDate\x125\n" +
 	"\bdue_date\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\adueDate\x121\n" +
 	"\x05lines\x18\x05 \x03(\v2\x1b.eolymp.vendor.Invoice.LineR\x05lines\x12'\n" +
-	"\x0fsubtotal_amount\x18\x06 \x01(\x05R\x0esubtotalAmount\x12\x1d\n" +
+	"\x0fsubtotal_amount\x18\x06 \x01(\x02R\x0esubtotalAmount\x12\x1d\n" +
 	"\n" +
-	"tax_amount\x18\a \x01(\x05R\ttaxAmount\x12\x1f\n" +
-	"\vgrand_total\x18\b \x01(\x05R\n" +
+	"tax_amount\x18\a \x01(\x02R\ttaxAmount\x12\x1f\n" +
+	"\vgrand_total\x18\b \x01(\x02R\n" +
 	"grandTotal\x12!\n" +
 	"\fdocument_url\x18\t \x01(\tR\vdocumentUrl\x129\n" +
 	"\n" +
@@ -440,7 +440,7 @@ const file_eolymp_vendor_invoice_proto_rawDesc = "" +
 	"\x05index\x18\x01 \x01(\rR\x05index\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x18\n" +
 	"\asummary\x18\x03 \x01(\tR\asummary\x12\x1f\n" +
-	"\vtotal_price\x18\x04 \x01(\x05R\n" +
+	"\vtotal_price\x18\x04 \x01(\x02R\n" +
 	"totalPrice\x1a|\n" +
 	"\x05Patch\"s\n" +
 	"\x05Field\x12\x11\n" +
