@@ -34,6 +34,7 @@ type PaymentMethod struct {
 	//	*PaymentMethod_CryptoTransfer
 	//	*PaymentMethod_NeftTransfer
 	//	*PaymentMethod_AchTransfer
+	//	*PaymentMethod_PaypalTransfer
 	Method        isPaymentMethod_Method `protobuf_oneof:"method"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -149,6 +150,15 @@ func (x *PaymentMethod) GetAchTransfer() *PaymentMethod_TransferACH {
 	return nil
 }
 
+func (x *PaymentMethod) GetPaypalTransfer() *PaymentMethod_TransferPayPal {
+	if x != nil {
+		if x, ok := x.Method.(*PaymentMethod_PaypalTransfer); ok {
+			return x.PaypalTransfer
+		}
+	}
+	return nil
+}
+
 type isPaymentMethod_Method interface {
 	isPaymentMethod_Method()
 }
@@ -173,6 +183,10 @@ type PaymentMethod_AchTransfer struct {
 	AchTransfer *PaymentMethod_TransferACH `protobuf:"bytes,105,opt,name=ach_transfer,json=achTransfer,proto3,oneof"`
 }
 
+type PaymentMethod_PaypalTransfer struct {
+	PaypalTransfer *PaymentMethod_TransferPayPal `protobuf:"bytes,106,opt,name=paypal_transfer,json=paypalTransfer,proto3,oneof"`
+}
+
 func (*PaymentMethod_SepaTransfer) isPaymentMethod_Method() {}
 
 func (*PaymentMethod_SwiftTransfer) isPaymentMethod_Method() {}
@@ -182,6 +196,8 @@ func (*PaymentMethod_CryptoTransfer) isPaymentMethod_Method() {}
 func (*PaymentMethod_NeftTransfer) isPaymentMethod_Method() {}
 
 func (*PaymentMethod_AchTransfer) isPaymentMethod_Method() {}
+
+func (*PaymentMethod_PaypalTransfer) isPaymentMethod_Method() {}
 
 type PaymentMethod_TransferSEPA struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -443,11 +459,55 @@ func (x *PaymentMethod_TransferCrypto) GetAddress() string {
 	return ""
 }
 
+type PaymentMethod_TransferPayPal struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Email         string                 `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *PaymentMethod_TransferPayPal) Reset() {
+	*x = PaymentMethod_TransferPayPal{}
+	mi := &file_eolymp_vendor_payment_method_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PaymentMethod_TransferPayPal) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PaymentMethod_TransferPayPal) ProtoMessage() {}
+
+func (x *PaymentMethod_TransferPayPal) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_vendor_payment_method_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PaymentMethod_TransferPayPal.ProtoReflect.Descriptor instead.
+func (*PaymentMethod_TransferPayPal) Descriptor() ([]byte, []int) {
+	return file_eolymp_vendor_payment_method_proto_rawDescGZIP(), []int{0, 5}
+}
+
+func (x *PaymentMethod_TransferPayPal) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
 var File_eolymp_vendor_payment_method_proto protoreflect.FileDescriptor
 
 const file_eolymp_vendor_payment_method_proto_rawDesc = "" +
 	"\n" +
-	"\"eolymp/vendor/payment_method.proto\x12\reolymp.vendor\"\x95\a\n" +
+	"\"eolymp/vendor/payment_method.proto\x12\reolymp.vendor\"\x95\b\n" +
 	"\rPaymentMethod\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x18\n" +
@@ -457,7 +517,8 @@ const file_eolymp_vendor_payment_method_proto_rawDesc = "" +
 	"\x0eswift_transfer\x18f \x01(\v2*.eolymp.vendor.PaymentMethod.TransferSWIFTH\x00R\rswiftTransfer\x12V\n" +
 	"\x0fcrypto_transfer\x18g \x01(\v2+.eolymp.vendor.PaymentMethod.TransferCryptoH\x00R\x0ecryptoTransfer\x12P\n" +
 	"\rneft_transfer\x18h \x01(\v2).eolymp.vendor.PaymentMethod.TransferNEFTH\x00R\fneftTransfer\x12M\n" +
-	"\fach_transfer\x18i \x01(\v2(.eolymp.vendor.PaymentMethod.TransferACHH\x00R\vachTransfer\x1a\"\n" +
+	"\fach_transfer\x18i \x01(\v2(.eolymp.vendor.PaymentMethod.TransferACHH\x00R\vachTransfer\x12V\n" +
+	"\x0fpaypal_transfer\x18j \x01(\v2+.eolymp.vendor.PaymentMethod.TransferPayPalH\x00R\x0epaypalTransfer\x1a\"\n" +
 	"\fTransferSEPA\x12\x12\n" +
 	"\x04iban\x18\x01 \x01(\tR\x04iban\x1aQ\n" +
 	"\rTransferSWIFT\x12\x19\n" +
@@ -472,7 +533,9 @@ const file_eolymp_vendor_payment_method_proto_rawDesc = "" +
 	"\x0eTransferCrypto\x12\x14\n" +
 	"\x05token\x18\x01 \x01(\tR\x05token\x12\x18\n" +
 	"\anetwork\x18\x02 \x01(\tR\anetwork\x12\x18\n" +
-	"\aaddress\x18\x03 \x01(\tR\aaddressB\b\n" +
+	"\aaddress\x18\x03 \x01(\tR\aaddress\x1a&\n" +
+	"\x0eTransferPayPal\x12\x14\n" +
+	"\x05email\x18\x01 \x01(\tR\x05emailB\b\n" +
 	"\x06methodB/Z-github.com/eolymp/go-sdk/eolymp/vendor;vendorb\x06proto3"
 
 var (
@@ -487,7 +550,7 @@ func file_eolymp_vendor_payment_method_proto_rawDescGZIP() []byte {
 	return file_eolymp_vendor_payment_method_proto_rawDescData
 }
 
-var file_eolymp_vendor_payment_method_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_eolymp_vendor_payment_method_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_eolymp_vendor_payment_method_proto_goTypes = []any{
 	(*PaymentMethod)(nil),                // 0: eolymp.vendor.PaymentMethod
 	(*PaymentMethod_TransferSEPA)(nil),   // 1: eolymp.vendor.PaymentMethod.TransferSEPA
@@ -495,6 +558,7 @@ var file_eolymp_vendor_payment_method_proto_goTypes = []any{
 	(*PaymentMethod_TransferNEFT)(nil),   // 3: eolymp.vendor.PaymentMethod.TransferNEFT
 	(*PaymentMethod_TransferACH)(nil),    // 4: eolymp.vendor.PaymentMethod.TransferACH
 	(*PaymentMethod_TransferCrypto)(nil), // 5: eolymp.vendor.PaymentMethod.TransferCrypto
+	(*PaymentMethod_TransferPayPal)(nil), // 6: eolymp.vendor.PaymentMethod.TransferPayPal
 }
 var file_eolymp_vendor_payment_method_proto_depIdxs = []int32{
 	1, // 0: eolymp.vendor.PaymentMethod.sepa_transfer:type_name -> eolymp.vendor.PaymentMethod.TransferSEPA
@@ -502,11 +566,12 @@ var file_eolymp_vendor_payment_method_proto_depIdxs = []int32{
 	5, // 2: eolymp.vendor.PaymentMethod.crypto_transfer:type_name -> eolymp.vendor.PaymentMethod.TransferCrypto
 	3, // 3: eolymp.vendor.PaymentMethod.neft_transfer:type_name -> eolymp.vendor.PaymentMethod.TransferNEFT
 	4, // 4: eolymp.vendor.PaymentMethod.ach_transfer:type_name -> eolymp.vendor.PaymentMethod.TransferACH
-	5, // [5:5] is the sub-list for method output_type
-	5, // [5:5] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	6, // 5: eolymp.vendor.PaymentMethod.paypal_transfer:type_name -> eolymp.vendor.PaymentMethod.TransferPayPal
+	6, // [6:6] is the sub-list for method output_type
+	6, // [6:6] is the sub-list for method input_type
+	6, // [6:6] is the sub-list for extension type_name
+	6, // [6:6] is the sub-list for extension extendee
+	0, // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_vendor_payment_method_proto_init() }
@@ -520,6 +585,7 @@ func file_eolymp_vendor_payment_method_proto_init() {
 		(*PaymentMethod_CryptoTransfer)(nil),
 		(*PaymentMethod_NeftTransfer)(nil),
 		(*PaymentMethod_AchTransfer)(nil),
+		(*PaymentMethod_PaypalTransfer)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -527,7 +593,7 @@ func file_eolymp_vendor_payment_method_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_vendor_payment_method_proto_rawDesc), len(file_eolymp_vendor_payment_method_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   6,
+			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
