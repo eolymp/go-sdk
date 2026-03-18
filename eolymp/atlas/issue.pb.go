@@ -175,7 +175,7 @@ type Issue struct {
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	Status        Issue_Status           `protobuf:"varint,2,opt,name=status,proto3,enum=eolymp.atlas.Issue_Status" json:"status,omitempty"`
 	Description   *ecm.Content           `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
-	MemberId      string                 `protobuf:"bytes,5,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
+	UserId        string                 `protobuf:"bytes,5,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,10,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -233,9 +233,9 @@ func (x *Issue) GetDescription() *ecm.Content {
 	return nil
 }
 
-func (x *Issue) GetMemberId() string {
+func (x *Issue) GetUserId() string {
 	if x != nil {
-		return x.MemberId
+		return x.UserId
 	}
 	return ""
 }
@@ -330,12 +330,12 @@ var File_eolymp_atlas_issue_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_issue_proto_rawDesc = "" +
 	"\n" +
-	"\x18eolymp/atlas/issue.proto\x12\feolymp.atlas\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xdf\x03\n" +
+	"\x18eolymp/atlas/issue.proto\x12\feolymp.atlas\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xdb\x03\n" +
 	"\x05Issue\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x122\n" +
 	"\x06status\x18\x02 \x01(\x0e2\x1a.eolymp.atlas.Issue.StatusR\x06status\x125\n" +
-	"\vdescription\x18\x03 \x01(\v2\x13.eolymp.ecm.ContentR\vdescription\x12\x1b\n" +
-	"\tmember_id\x18\x05 \x01(\tR\bmemberId\x129\n" +
+	"\vdescription\x18\x03 \x01(\v2\x13.eolymp.ecm.ContentR\vdescription\x12\x17\n" +
+	"\auser_id\x18\x05 \x01(\tR\x06userId\x129\n" +
 	"\n" +
 	"created_at\x18\n" +
 	" \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +

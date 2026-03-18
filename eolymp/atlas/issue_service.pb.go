@@ -27,18 +27,21 @@ type ListIssuesInput_Sortable int32
 
 const (
 	ListIssuesInput_DEFAULT    ListIssuesInput_Sortable = 0
-	ListIssuesInput_UPDATED_AT ListIssuesInput_Sortable = 1
+	ListIssuesInput_CREATED_AT ListIssuesInput_Sortable = 1
+	ListIssuesInput_UPDATED_AT ListIssuesInput_Sortable = 2
 )
 
 // Enum value maps for ListIssuesInput_Sortable.
 var (
 	ListIssuesInput_Sortable_name = map[int32]string{
 		0: "DEFAULT",
-		1: "UPDATED_AT",
+		1: "CREATED_AT",
+		2: "UPDATED_AT",
 	}
 	ListIssuesInput_Sortable_value = map[string]int32{
 		"DEFAULT":    0,
-		"UPDATED_AT": 1,
+		"CREATED_AT": 1,
+		"UPDATED_AT": 2,
 	}
 )
 
@@ -572,7 +575,7 @@ type ListIssuesInput_Filter struct {
 	state         protoimpl.MessageState      `protogen:"open.v1"`
 	Id            []*wellknown.ExpressionID   `protobuf:"bytes,1,rep,name=id,proto3" json:"id,omitempty"`
 	Status        []*wellknown.ExpressionEnum `protobuf:"bytes,2,rep,name=status,proto3" json:"status,omitempty"`
-	MemberId      []*wellknown.ExpressionID   `protobuf:"bytes,3,rep,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
+	UserId        []*wellknown.ExpressionID   `protobuf:"bytes,3,rep,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -621,9 +624,9 @@ func (x *ListIssuesInput_Filter) GetStatus() []*wellknown.ExpressionEnum {
 	return nil
 }
 
-func (x *ListIssuesInput_Filter) GetMemberId() []*wellknown.ExpressionID {
+func (x *ListIssuesInput_Filter) GetUserId() []*wellknown.ExpressionID {
 	if x != nil {
-		return x.MemberId
+		return x.UserId
 	}
 	return nil
 }
@@ -632,7 +635,7 @@ var File_eolymp_atlas_issue_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_issue_service_proto_rawDesc = "" +
 	"\n" +
-	" eolymp/atlas/issue_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x18eolymp/atlas/issue.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"\xff\x03\n" +
+	" eolymp/atlas/issue_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x18eolymp/atlas/issue.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"\x8b\x04\n" +
 	"\x0fListIssuesInput\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
@@ -640,15 +643,17 @@ const file_eolymp_atlas_issue_service_proto_rawDesc = "" +
 	"\afilters\x18( \x01(\v2$.eolymp.atlas.ListIssuesInput.FilterR\afilters\x12:\n" +
 	"\x04sort\x182 \x01(\x0e2&.eolymp.atlas.ListIssuesInput.SortableR\x04sort\x121\n" +
 	"\x05order\x183 \x01(\x0e2\x1b.eolymp.wellknown.DirectionR\x05order\x126\n" +
-	"\x05extra\x18\xe3\b \x03(\x0e2\x1f.eolymp.atlas.Issue.Extra.FieldR\x05extra\x1a\xaf\x01\n" +
+	"\x05extra\x18\xe3\b \x03(\x0e2\x1f.eolymp.atlas.Issue.Extra.FieldR\x05extra\x1a\xab\x01\n" +
 	"\x06Filter\x12.\n" +
 	"\x02id\x18\x01 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\x128\n" +
-	"\x06status\x18\x02 \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x06status\x12;\n" +
-	"\tmember_id\x18\x03 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\bmemberId\"'\n" +
+	"\x06status\x18\x02 \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x06status\x127\n" +
+	"\auser_id\x18\x03 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x06userId\"7\n" +
 	"\bSortable\x12\v\n" +
 	"\aDEFAULT\x10\x00\x12\x0e\n" +
 	"\n" +
-	"UPDATED_AT\x10\x01\"S\n" +
+	"CREATED_AT\x10\x01\x12\x0e\n" +
+	"\n" +
+	"UPDATED_AT\x10\x02\"S\n" +
 	"\x10ListIssuesOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12)\n" +
 	"\x05items\x18\x02 \x03(\v2\x13.eolymp.atlas.IssueR\x05items\"g\n" +
@@ -749,7 +754,7 @@ var file_eolymp_atlas_issue_service_proto_depIdxs = []int32{
 	14, // 9: eolymp.atlas.UpdateIssueInput.issue:type_name -> eolymp.atlas.Issue
 	16, // 10: eolymp.atlas.ListIssuesInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
 	17, // 11: eolymp.atlas.ListIssuesInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
-	16, // 12: eolymp.atlas.ListIssuesInput.Filter.member_id:type_name -> eolymp.wellknown.ExpressionID
+	16, // 12: eolymp.atlas.ListIssuesInput.Filter.user_id:type_name -> eolymp.wellknown.ExpressionID
 	1,  // 13: eolymp.atlas.IssueService.ListIssues:input_type -> eolymp.atlas.ListIssuesInput
 	3,  // 14: eolymp.atlas.IssueService.DescribeIssue:input_type -> eolymp.atlas.DescribeIssueInput
 	5,  // 15: eolymp.atlas.IssueService.CreateIssue:input_type -> eolymp.atlas.CreateIssueInput
