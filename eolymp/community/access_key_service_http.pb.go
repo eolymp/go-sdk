@@ -154,6 +154,9 @@ func RegisterAccessKeyServiceHttpHandlers(router *mux.Router, prefix string, cli
 	router.Handle(prefix+"/access-keys", _AccessKeyService_CreateAccessKey_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.community.AccessKeyService.CreateAccessKey")
+	router.Handle(prefix+"/access-keys/{key_id}", _AccessKeyService_UpdateAccessKey_Rule0(cli)).
+		Methods("PUT").
+		Name("eolymp.community.AccessKeyService.UpdateAccessKey")
 	router.Handle(prefix+"/access-keys/{key_id}", _AccessKeyService_DeleteAccessKey_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.community.AccessKeyService.DeleteAccessKey")
@@ -179,6 +182,30 @@ func _AccessKeyService_CreateAccessKey_Rule0(cli AccessKeyServiceClient) http.Ha
 		var header, trailer metadata.MD
 
 		out, err := cli.CreateAccessKey(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_AccessKeyService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_AccessKeyService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _AccessKeyService_UpdateAccessKey_Rule0(cli AccessKeyServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UpdateAccessKeyInput{}
+
+		if err := _AccessKeyService_HTTPReadRequestBody(r, in, 1048576); err != nil {
+			_AccessKeyService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.KeyId = vars["key_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateAccessKey(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_AccessKeyService_HTTPWriteErrorResponse(w, err)
 			return

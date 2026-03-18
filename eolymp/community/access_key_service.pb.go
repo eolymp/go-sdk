@@ -134,6 +134,94 @@ func (x *CreateAccessKeyOutput) GetSecret() string {
 	return ""
 }
 
+type UpdateAccessKeyInput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	KeyId         string                 `protobuf:"bytes,1,opt,name=key_id,json=keyId,proto3" json:"key_id,omitempty"`
+	Key           *AccessKey             `protobuf:"bytes,2,opt,name=key,proto3" json:"key,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateAccessKeyInput) Reset() {
+	*x = UpdateAccessKeyInput{}
+	mi := &file_eolymp_community_access_key_service_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateAccessKeyInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateAccessKeyInput) ProtoMessage() {}
+
+func (x *UpdateAccessKeyInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_community_access_key_service_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateAccessKeyInput.ProtoReflect.Descriptor instead.
+func (*UpdateAccessKeyInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_community_access_key_service_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *UpdateAccessKeyInput) GetKeyId() string {
+	if x != nil {
+		return x.KeyId
+	}
+	return ""
+}
+
+func (x *UpdateAccessKeyInput) GetKey() *AccessKey {
+	if x != nil {
+		return x.Key
+	}
+	return nil
+}
+
+type UpdateAccessKeyOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateAccessKeyOutput) Reset() {
+	*x = UpdateAccessKeyOutput{}
+	mi := &file_eolymp_community_access_key_service_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateAccessKeyOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateAccessKeyOutput) ProtoMessage() {}
+
+func (x *UpdateAccessKeyOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_community_access_key_service_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateAccessKeyOutput.ProtoReflect.Descriptor instead.
+func (*UpdateAccessKeyOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_community_access_key_service_proto_rawDescGZIP(), []int{3}
+}
+
 type DeleteAccessKeyInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	KeyId         string                 `protobuf:"bytes,1,opt,name=key_id,json=keyId,proto3" json:"key_id,omitempty"`
@@ -143,7 +231,7 @@ type DeleteAccessKeyInput struct {
 
 func (x *DeleteAccessKeyInput) Reset() {
 	*x = DeleteAccessKeyInput{}
-	mi := &file_eolymp_community_access_key_service_proto_msgTypes[2]
+	mi := &file_eolymp_community_access_key_service_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -155,7 +243,7 @@ func (x *DeleteAccessKeyInput) String() string {
 func (*DeleteAccessKeyInput) ProtoMessage() {}
 
 func (x *DeleteAccessKeyInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_community_access_key_service_proto_msgTypes[2]
+	mi := &file_eolymp_community_access_key_service_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -168,7 +256,7 @@ func (x *DeleteAccessKeyInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteAccessKeyInput.ProtoReflect.Descriptor instead.
 func (*DeleteAccessKeyInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_community_access_key_service_proto_rawDescGZIP(), []int{2}
+	return file_eolymp_community_access_key_service_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *DeleteAccessKeyInput) GetKeyId() string {
@@ -186,7 +274,7 @@ type DeleteAccessKeyOutput struct {
 
 func (x *DeleteAccessKeyOutput) Reset() {
 	*x = DeleteAccessKeyOutput{}
-	mi := &file_eolymp_community_access_key_service_proto_msgTypes[3]
+	mi := &file_eolymp_community_access_key_service_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -198,7 +286,7 @@ func (x *DeleteAccessKeyOutput) String() string {
 func (*DeleteAccessKeyOutput) ProtoMessage() {}
 
 func (x *DeleteAccessKeyOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_community_access_key_service_proto_msgTypes[3]
+	mi := &file_eolymp_community_access_key_service_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -211,7 +299,7 @@ func (x *DeleteAccessKeyOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteAccessKeyOutput.ProtoReflect.Descriptor instead.
 func (*DeleteAccessKeyOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_community_access_key_service_proto_rawDescGZIP(), []int{3}
+	return file_eolymp_community_access_key_service_proto_rawDescGZIP(), []int{5}
 }
 
 type ListAccessKeysInput struct {
@@ -224,7 +312,7 @@ type ListAccessKeysInput struct {
 
 func (x *ListAccessKeysInput) Reset() {
 	*x = ListAccessKeysInput{}
-	mi := &file_eolymp_community_access_key_service_proto_msgTypes[4]
+	mi := &file_eolymp_community_access_key_service_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -236,7 +324,7 @@ func (x *ListAccessKeysInput) String() string {
 func (*ListAccessKeysInput) ProtoMessage() {}
 
 func (x *ListAccessKeysInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_community_access_key_service_proto_msgTypes[4]
+	mi := &file_eolymp_community_access_key_service_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -249,7 +337,7 @@ func (x *ListAccessKeysInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListAccessKeysInput.ProtoReflect.Descriptor instead.
 func (*ListAccessKeysInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_community_access_key_service_proto_rawDescGZIP(), []int{4}
+	return file_eolymp_community_access_key_service_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *ListAccessKeysInput) GetOffset() int32 {
@@ -276,7 +364,7 @@ type ListAccessKeysOutput struct {
 
 func (x *ListAccessKeysOutput) Reset() {
 	*x = ListAccessKeysOutput{}
-	mi := &file_eolymp_community_access_key_service_proto_msgTypes[5]
+	mi := &file_eolymp_community_access_key_service_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -288,7 +376,7 @@ func (x *ListAccessKeysOutput) String() string {
 func (*ListAccessKeysOutput) ProtoMessage() {}
 
 func (x *ListAccessKeysOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_community_access_key_service_proto_msgTypes[5]
+	mi := &file_eolymp_community_access_key_service_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -301,7 +389,7 @@ func (x *ListAccessKeysOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListAccessKeysOutput.ProtoReflect.Descriptor instead.
 func (*ListAccessKeysOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_community_access_key_service_proto_rawDescGZIP(), []int{5}
+	return file_eolymp_community_access_key_service_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *ListAccessKeysOutput) GetTotal() int32 {
@@ -330,7 +418,11 @@ const file_eolymp_community_access_key_service_proto_rawDesc = "" +
 	"expires_in\x18\x03 \x01(\rR\texpiresIn\"F\n" +
 	"\x15CreateAccessKeyOutput\x12\x15\n" +
 	"\x06key_id\x18\x01 \x01(\tR\x05keyId\x12\x16\n" +
-	"\x06secret\x18\x02 \x01(\tR\x06secret\"-\n" +
+	"\x06secret\x18\x02 \x01(\tR\x06secret\"\\\n" +
+	"\x14UpdateAccessKeyInput\x12\x15\n" +
+	"\x06key_id\x18\x01 \x01(\tR\x05keyId\x12-\n" +
+	"\x03key\x18\x02 \x01(\v2\x1b.eolymp.community.AccessKeyR\x03key\"\x17\n" +
+	"\x15UpdateAccessKeyOutput\"-\n" +
 	"\x14DeleteAccessKeyInput\x12\x15\n" +
 	"\x06key_id\x18\x01 \x01(\tR\x05keyId\"\x17\n" +
 	"\x15DeleteAccessKeyOutput\"A\n" +
@@ -340,7 +432,7 @@ const file_eolymp_community_access_key_service_proto_rawDesc = "" +
 	"\x04size\x18\v \x01(\x05R\x04size\"_\n" +
 	"\x14ListAccessKeysOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x121\n" +
-	"\x05items\x18\x02 \x03(\v2\x1b.eolymp.community.AccessKeyR\x05items2\xba\x04\n" +
+	"\x05items\x18\x02 \x03(\v2\x1b.eolymp.community.AccessKeyR\x05items2\xef\x05\n" +
 	"\x10AccessKeyService\x12\xa9\x01\n" +
 	"\x0fCreateAccessKey\x12&.eolymp.community.CreateAccessKeyInput\x1a'.eolymp.community.CreateAccessKeyOutput\"E\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -349,6 +441,12 @@ const file_eolymp_community_access_key_service_proto_rawDesc = "" +
 	"\x82\xe3\n" +
 	"\x1e\x8a\xe3\n" +
 	"\x1acommunity:access-key:write\x82\xd3\xe4\x93\x02\x0e\"\f/access-keys\x12\xb2\x01\n" +
+	"\x0fUpdateAccessKey\x12&.eolymp.community.UpdateAccessKeyInput\x1a'.eolymp.community.UpdateAccessKeyOutput\"N\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\xa0@\xf8\xe2\n" +
+	"\x14\x82\xe3\n" +
+	"\x1e\x8a\xe3\n" +
+	"\x1acommunity:access-key:write\x82\xd3\xe4\x93\x02\x17\x1a\x15/access-keys/{key_id}\x12\xb2\x01\n" +
 	"\x0fDeleteAccessKey\x12&.eolymp.community.DeleteAccessKeyInput\x1a'.eolymp.community.DeleteAccessKeyOutput\"N\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
@@ -374,29 +472,34 @@ func file_eolymp_community_access_key_service_proto_rawDescGZIP() []byte {
 	return file_eolymp_community_access_key_service_proto_rawDescData
 }
 
-var file_eolymp_community_access_key_service_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_eolymp_community_access_key_service_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_eolymp_community_access_key_service_proto_goTypes = []any{
 	(*CreateAccessKeyInput)(nil),  // 0: eolymp.community.CreateAccessKeyInput
 	(*CreateAccessKeyOutput)(nil), // 1: eolymp.community.CreateAccessKeyOutput
-	(*DeleteAccessKeyInput)(nil),  // 2: eolymp.community.DeleteAccessKeyInput
-	(*DeleteAccessKeyOutput)(nil), // 3: eolymp.community.DeleteAccessKeyOutput
-	(*ListAccessKeysInput)(nil),   // 4: eolymp.community.ListAccessKeysInput
-	(*ListAccessKeysOutput)(nil),  // 5: eolymp.community.ListAccessKeysOutput
-	(*AccessKey)(nil),             // 6: eolymp.community.AccessKey
+	(*UpdateAccessKeyInput)(nil),  // 2: eolymp.community.UpdateAccessKeyInput
+	(*UpdateAccessKeyOutput)(nil), // 3: eolymp.community.UpdateAccessKeyOutput
+	(*DeleteAccessKeyInput)(nil),  // 4: eolymp.community.DeleteAccessKeyInput
+	(*DeleteAccessKeyOutput)(nil), // 5: eolymp.community.DeleteAccessKeyOutput
+	(*ListAccessKeysInput)(nil),   // 6: eolymp.community.ListAccessKeysInput
+	(*ListAccessKeysOutput)(nil),  // 7: eolymp.community.ListAccessKeysOutput
+	(*AccessKey)(nil),             // 8: eolymp.community.AccessKey
 }
 var file_eolymp_community_access_key_service_proto_depIdxs = []int32{
-	6, // 0: eolymp.community.ListAccessKeysOutput.items:type_name -> eolymp.community.AccessKey
-	0, // 1: eolymp.community.AccessKeyService.CreateAccessKey:input_type -> eolymp.community.CreateAccessKeyInput
-	2, // 2: eolymp.community.AccessKeyService.DeleteAccessKey:input_type -> eolymp.community.DeleteAccessKeyInput
-	4, // 3: eolymp.community.AccessKeyService.ListAccessKeys:input_type -> eolymp.community.ListAccessKeysInput
-	1, // 4: eolymp.community.AccessKeyService.CreateAccessKey:output_type -> eolymp.community.CreateAccessKeyOutput
-	3, // 5: eolymp.community.AccessKeyService.DeleteAccessKey:output_type -> eolymp.community.DeleteAccessKeyOutput
-	5, // 6: eolymp.community.AccessKeyService.ListAccessKeys:output_type -> eolymp.community.ListAccessKeysOutput
-	4, // [4:7] is the sub-list for method output_type
-	1, // [1:4] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	8, // 0: eolymp.community.UpdateAccessKeyInput.key:type_name -> eolymp.community.AccessKey
+	8, // 1: eolymp.community.ListAccessKeysOutput.items:type_name -> eolymp.community.AccessKey
+	0, // 2: eolymp.community.AccessKeyService.CreateAccessKey:input_type -> eolymp.community.CreateAccessKeyInput
+	2, // 3: eolymp.community.AccessKeyService.UpdateAccessKey:input_type -> eolymp.community.UpdateAccessKeyInput
+	4, // 4: eolymp.community.AccessKeyService.DeleteAccessKey:input_type -> eolymp.community.DeleteAccessKeyInput
+	6, // 5: eolymp.community.AccessKeyService.ListAccessKeys:input_type -> eolymp.community.ListAccessKeysInput
+	1, // 6: eolymp.community.AccessKeyService.CreateAccessKey:output_type -> eolymp.community.CreateAccessKeyOutput
+	3, // 7: eolymp.community.AccessKeyService.UpdateAccessKey:output_type -> eolymp.community.UpdateAccessKeyOutput
+	5, // 8: eolymp.community.AccessKeyService.DeleteAccessKey:output_type -> eolymp.community.DeleteAccessKeyOutput
+	7, // 9: eolymp.community.AccessKeyService.ListAccessKeys:output_type -> eolymp.community.ListAccessKeysOutput
+	6, // [6:10] is the sub-list for method output_type
+	2, // [2:6] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_community_access_key_service_proto_init() }
@@ -411,7 +514,7 @@ func file_eolymp_community_access_key_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_community_access_key_service_proto_rawDesc), len(file_eolymp_community_access_key_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   6,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

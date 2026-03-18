@@ -20,6 +20,7 @@ const _ = grpc.SupportPackageIsVersion9
 
 const (
 	AccessKeyService_CreateAccessKey_FullMethodName = "/eolymp.community.AccessKeyService/CreateAccessKey"
+	AccessKeyService_UpdateAccessKey_FullMethodName = "/eolymp.community.AccessKeyService/UpdateAccessKey"
 	AccessKeyService_DeleteAccessKey_FullMethodName = "/eolymp.community.AccessKeyService/DeleteAccessKey"
 	AccessKeyService_ListAccessKeys_FullMethodName  = "/eolymp.community.AccessKeyService/ListAccessKeys"
 )
@@ -30,6 +31,8 @@ const (
 type AccessKeyServiceClient interface {
 	// Create API key.
 	CreateAccessKey(ctx context.Context, in *CreateAccessKeyInput, opts ...grpc.CallOption) (*CreateAccessKeyOutput, error)
+	// Update API key name and scopes.
+	UpdateAccessKey(ctx context.Context, in *UpdateAccessKeyInput, opts ...grpc.CallOption) (*UpdateAccessKeyOutput, error)
 	// Delete API key.
 	DeleteAccessKey(ctx context.Context, in *DeleteAccessKeyInput, opts ...grpc.CallOption) (*DeleteAccessKeyOutput, error)
 	ListAccessKeys(ctx context.Context, in *ListAccessKeysInput, opts ...grpc.CallOption) (*ListAccessKeysOutput, error)
@@ -47,6 +50,16 @@ func (c *accessKeyServiceClient) CreateAccessKey(ctx context.Context, in *Create
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(CreateAccessKeyOutput)
 	err := c.cc.Invoke(ctx, AccessKeyService_CreateAccessKey_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *accessKeyServiceClient) UpdateAccessKey(ctx context.Context, in *UpdateAccessKeyInput, opts ...grpc.CallOption) (*UpdateAccessKeyOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateAccessKeyOutput)
+	err := c.cc.Invoke(ctx, AccessKeyService_UpdateAccessKey_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -79,6 +92,8 @@ func (c *accessKeyServiceClient) ListAccessKeys(ctx context.Context, in *ListAcc
 type AccessKeyServiceServer interface {
 	// Create API key.
 	CreateAccessKey(context.Context, *CreateAccessKeyInput) (*CreateAccessKeyOutput, error)
+	// Update API key name and scopes.
+	UpdateAccessKey(context.Context, *UpdateAccessKeyInput) (*UpdateAccessKeyOutput, error)
 	// Delete API key.
 	DeleteAccessKey(context.Context, *DeleteAccessKeyInput) (*DeleteAccessKeyOutput, error)
 	ListAccessKeys(context.Context, *ListAccessKeysInput) (*ListAccessKeysOutput, error)
@@ -93,6 +108,9 @@ type UnimplementedAccessKeyServiceServer struct{}
 
 func (UnimplementedAccessKeyServiceServer) CreateAccessKey(context.Context, *CreateAccessKeyInput) (*CreateAccessKeyOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method CreateAccessKey not implemented")
+}
+func (UnimplementedAccessKeyServiceServer) UpdateAccessKey(context.Context, *UpdateAccessKeyInput) (*UpdateAccessKeyOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpdateAccessKey not implemented")
 }
 func (UnimplementedAccessKeyServiceServer) DeleteAccessKey(context.Context, *DeleteAccessKeyInput) (*DeleteAccessKeyOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method DeleteAccessKey not implemented")
@@ -134,6 +152,24 @@ func _AccessKeyService_CreateAccessKey_Handler(srv interface{}, ctx context.Cont
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AccessKeyServiceServer).CreateAccessKey(ctx, req.(*CreateAccessKeyInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AccessKeyService_UpdateAccessKey_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateAccessKeyInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccessKeyServiceServer).UpdateAccessKey(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AccessKeyService_UpdateAccessKey_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccessKeyServiceServer).UpdateAccessKey(ctx, req.(*UpdateAccessKeyInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -184,6 +220,10 @@ var AccessKeyService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateAccessKey",
 			Handler:    _AccessKeyService_CreateAccessKey_Handler,
+		},
+		{
+			MethodName: "UpdateAccessKey",
+			Handler:    _AccessKeyService_UpdateAccessKey_Handler,
 		},
 		{
 			MethodName: "DeleteAccessKey",
