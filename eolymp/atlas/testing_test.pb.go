@@ -156,20 +156,34 @@ type Test struct {
 	Inactive           bool        `protobuf:"varint,7,opt,name=inactive,proto3" json:"inactive,omitempty"`                                                 // The test is inactive
 	Secret             bool        `protobuf:"varint,6,opt,name=secret,proto3" json:"secret,omitempty"`                                                     // Secret test, input and answer are never populated
 	Score              float32     `protobuf:"fixed32,5,opt,name=score,proto3" json:"score,omitempty"`                                                      // Score for passing this test
-	ExampleInputUrl    string      `protobuf:"bytes,40,opt,name=example_input_url,json=exampleInputUrl,proto3" json:"example_input_url,omitempty"`          // Optionally, override input data for example in statement
-	ExampleAnswerUrl   string      `protobuf:"bytes,41,opt,name=example_answer_url,json=exampleAnswerUrl,proto3" json:"example_answer_url,omitempty"`       // Optionally, override answer data for example in statement
 	GeneratedInputUrl  string      `protobuf:"bytes,50,opt,name=generated_input_url,json=generatedInputUrl,proto3" json:"generated_input_url,omitempty"`    // Generated input data
 	GeneratedAnswerUrl string      `protobuf:"bytes,51,opt,name=generated_answer_url,json=generatedAnswerUrl,proto3" json:"generated_answer_url,omitempty"` // Generated answer data
 	// Types that are valid to be assigned to Input:
 	//
 	//	*Test_InputUrl
+	//	*Test_InputContent
 	//	*Test_InputGenerator
 	Input isTest_Input `protobuf_oneof:"input"`
 	// Types that are valid to be assigned to Answer:
 	//
 	//	*Test_AnswerUrl
+	//	*Test_AnswerContent
 	//	*Test_AnswerGenerator
-	Answer        isTest_Answer `protobuf_oneof:"answer"`
+	Answer isTest_Answer `protobuf_oneof:"answer"`
+	// Optionally, override input data for example in statement
+	//
+	// Types that are valid to be assigned to ExampleInput:
+	//
+	//	*Test_ExampleInputUrl
+	//	*Test_ExampleInputContent
+	ExampleInput isTest_ExampleInput `protobuf_oneof:"example_input"`
+	// Optionally, override answer data for example in statement
+	//
+	// Types that are valid to be assigned to ExampleAnswer:
+	//
+	//	*Test_ExampleAnswerUrl
+	//	*Test_ExampleAnswerContent
+	ExampleAnswer isTest_ExampleAnswer `protobuf_oneof:"example_answer"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -274,20 +288,6 @@ func (x *Test) GetScore() float32 {
 	return 0
 }
 
-func (x *Test) GetExampleInputUrl() string {
-	if x != nil {
-		return x.ExampleInputUrl
-	}
-	return ""
-}
-
-func (x *Test) GetExampleAnswerUrl() string {
-	if x != nil {
-		return x.ExampleAnswerUrl
-	}
-	return ""
-}
-
 func (x *Test) GetGeneratedInputUrl() string {
 	if x != nil {
 		return x.GeneratedInputUrl
@@ -318,6 +318,15 @@ func (x *Test) GetInputUrl() string {
 	return ""
 }
 
+func (x *Test) GetInputContent() string {
+	if x != nil {
+		if x, ok := x.Input.(*Test_InputContent); ok {
+			return x.InputContent
+		}
+	}
+	return ""
+}
+
 func (x *Test) GetInputGenerator() *Test_Generator {
 	if x != nil {
 		if x, ok := x.Input.(*Test_InputGenerator); ok {
@@ -343,6 +352,15 @@ func (x *Test) GetAnswerUrl() string {
 	return ""
 }
 
+func (x *Test) GetAnswerContent() string {
+	if x != nil {
+		if x, ok := x.Answer.(*Test_AnswerContent); ok {
+			return x.AnswerContent
+		}
+	}
+	return ""
+}
+
 func (x *Test) GetAnswerGenerator() *Test_Generator {
 	if x != nil {
 		if x, ok := x.Answer.(*Test_AnswerGenerator); ok {
@@ -350,6 +368,56 @@ func (x *Test) GetAnswerGenerator() *Test_Generator {
 		}
 	}
 	return nil
+}
+
+func (x *Test) GetExampleInput() isTest_ExampleInput {
+	if x != nil {
+		return x.ExampleInput
+	}
+	return nil
+}
+
+func (x *Test) GetExampleInputUrl() string {
+	if x != nil {
+		if x, ok := x.ExampleInput.(*Test_ExampleInputUrl); ok {
+			return x.ExampleInputUrl
+		}
+	}
+	return ""
+}
+
+func (x *Test) GetExampleInputContent() string {
+	if x != nil {
+		if x, ok := x.ExampleInput.(*Test_ExampleInputContent); ok {
+			return x.ExampleInputContent
+		}
+	}
+	return ""
+}
+
+func (x *Test) GetExampleAnswer() isTest_ExampleAnswer {
+	if x != nil {
+		return x.ExampleAnswer
+	}
+	return nil
+}
+
+func (x *Test) GetExampleAnswerUrl() string {
+	if x != nil {
+		if x, ok := x.ExampleAnswer.(*Test_ExampleAnswerUrl); ok {
+			return x.ExampleAnswerUrl
+		}
+	}
+	return ""
+}
+
+func (x *Test) GetExampleAnswerContent() string {
+	if x != nil {
+		if x, ok := x.ExampleAnswer.(*Test_ExampleAnswerContent); ok {
+			return x.ExampleAnswerContent
+		}
+	}
+	return ""
 }
 
 type isTest_Input interface {
@@ -360,11 +428,17 @@ type Test_InputUrl struct {
 	InputUrl string `protobuf:"bytes,11,opt,name=input_url,json=inputUrl,proto3,oneof"`
 }
 
+type Test_InputContent struct {
+	InputContent string `protobuf:"bytes,13,opt,name=input_content,json=inputContent,proto3,oneof"`
+}
+
 type Test_InputGenerator struct {
 	InputGenerator *Test_Generator `protobuf:"bytes,12,opt,name=input_generator,json=inputGenerator,proto3,oneof"`
 }
 
 func (*Test_InputUrl) isTest_Input() {}
+
+func (*Test_InputContent) isTest_Input() {}
 
 func (*Test_InputGenerator) isTest_Input() {}
 
@@ -376,13 +450,51 @@ type Test_AnswerUrl struct {
 	AnswerUrl string `protobuf:"bytes,21,opt,name=answer_url,json=answerUrl,proto3,oneof"`
 }
 
+type Test_AnswerContent struct {
+	AnswerContent string `protobuf:"bytes,23,opt,name=answer_content,json=answerContent,proto3,oneof"`
+}
+
 type Test_AnswerGenerator struct {
 	AnswerGenerator *Test_Generator `protobuf:"bytes,22,opt,name=answer_generator,json=answerGenerator,proto3,oneof"`
 }
 
 func (*Test_AnswerUrl) isTest_Answer() {}
 
+func (*Test_AnswerContent) isTest_Answer() {}
+
 func (*Test_AnswerGenerator) isTest_Answer() {}
+
+type isTest_ExampleInput interface {
+	isTest_ExampleInput()
+}
+
+type Test_ExampleInputUrl struct {
+	ExampleInputUrl string `protobuf:"bytes,40,opt,name=example_input_url,json=exampleInputUrl,proto3,oneof"`
+}
+
+type Test_ExampleInputContent struct {
+	ExampleInputContent string `protobuf:"bytes,42,opt,name=example_input_content,json=exampleInputContent,proto3,oneof"`
+}
+
+func (*Test_ExampleInputUrl) isTest_ExampleInput() {}
+
+func (*Test_ExampleInputContent) isTest_ExampleInput() {}
+
+type isTest_ExampleAnswer interface {
+	isTest_ExampleAnswer()
+}
+
+type Test_ExampleAnswerUrl struct {
+	ExampleAnswerUrl string `protobuf:"bytes,41,opt,name=example_answer_url,json=exampleAnswerUrl,proto3,oneof"`
+}
+
+type Test_ExampleAnswerContent struct {
+	ExampleAnswerContent string `protobuf:"bytes,43,opt,name=example_answer_content,json=exampleAnswerContent,proto3,oneof"`
+}
+
+func (*Test_ExampleAnswerUrl) isTest_ExampleAnswer() {}
+
+func (*Test_ExampleAnswerContent) isTest_ExampleAnswer() {}
 
 type Test_Patch struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -476,7 +588,7 @@ var File_eolymp_atlas_testing_test_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_testing_test_proto_rawDesc = "" +
 	"\n" +
-	"\x1feolymp/atlas/testing_test.proto\x12\feolymp.atlas\"\xfc\a\n" +
+	"\x1feolymp/atlas/testing_test.proto\x12\feolymp.atlas\"\xe1\t\n" +
 	"\x04Test\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1d\n" +
 	"\n" +
@@ -489,16 +601,20 @@ const file_eolymp_atlas_testing_test_proto_rawDesc = "" +
 	"\aexample\x18\x04 \x01(\bR\aexample\x12\x1a\n" +
 	"\binactive\x18\a \x01(\bR\binactive\x12\x16\n" +
 	"\x06secret\x18\x06 \x01(\bR\x06secret\x12\x14\n" +
-	"\x05score\x18\x05 \x01(\x02R\x05score\x12*\n" +
-	"\x11example_input_url\x18( \x01(\tR\x0fexampleInputUrl\x12,\n" +
-	"\x12example_answer_url\x18) \x01(\tR\x10exampleAnswerUrl\x12.\n" +
+	"\x05score\x18\x05 \x01(\x02R\x05score\x12.\n" +
 	"\x13generated_input_url\x182 \x01(\tR\x11generatedInputUrl\x120\n" +
 	"\x14generated_answer_url\x183 \x01(\tR\x12generatedAnswerUrl\x12\x1d\n" +
-	"\tinput_url\x18\v \x01(\tH\x00R\binputUrl\x12G\n" +
+	"\tinput_url\x18\v \x01(\tH\x00R\binputUrl\x12%\n" +
+	"\rinput_content\x18\r \x01(\tH\x00R\finputContent\x12G\n" +
 	"\x0finput_generator\x18\f \x01(\v2\x1c.eolymp.atlas.Test.GeneratorH\x00R\x0einputGenerator\x12\x1f\n" +
 	"\n" +
-	"answer_url\x18\x15 \x01(\tH\x01R\tanswerUrl\x12I\n" +
-	"\x10answer_generator\x18\x16 \x01(\v2\x1c.eolymp.atlas.Test.GeneratorH\x01R\x0fanswerGenerator\x1a\x9f\x01\n" +
+	"answer_url\x18\x15 \x01(\tH\x01R\tanswerUrl\x12'\n" +
+	"\x0eanswer_content\x18\x17 \x01(\tH\x01R\ranswerContent\x12I\n" +
+	"\x10answer_generator\x18\x16 \x01(\v2\x1c.eolymp.atlas.Test.GeneratorH\x01R\x0fanswerGenerator\x12,\n" +
+	"\x11example_input_url\x18( \x01(\tH\x02R\x0fexampleInputUrl\x124\n" +
+	"\x15example_input_content\x18* \x01(\tH\x02R\x13exampleInputContent\x12.\n" +
+	"\x12example_answer_url\x18) \x01(\tH\x03R\x10exampleAnswerUrl\x126\n" +
+	"\x16example_answer_content\x18+ \x01(\tH\x03R\x14exampleAnswerContent\x1a\x9f\x01\n" +
 	"\x05Patch\"\x95\x01\n" +
 	"\x05Field\x12\x11\n" +
 	"\rUNKNOWN_PATCH\x10\x00\x12\v\n" +
@@ -523,7 +639,9 @@ const file_eolymp_atlas_testing_test_proto_rawDesc = "" +
 	"\x05READY\x10\x02\x12\v\n" +
 	"\aINVALID\x10\x03B\a\n" +
 	"\x05inputB\b\n" +
-	"\x06answerB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x06answerB\x0f\n" +
+	"\rexample_inputB\x10\n" +
+	"\x0eexample_answerB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_testing_test_proto_rawDescOnce sync.Once
@@ -564,9 +682,15 @@ func file_eolymp_atlas_testing_test_proto_init() {
 	}
 	file_eolymp_atlas_testing_test_proto_msgTypes[0].OneofWrappers = []any{
 		(*Test_InputUrl)(nil),
+		(*Test_InputContent)(nil),
 		(*Test_InputGenerator)(nil),
 		(*Test_AnswerUrl)(nil),
+		(*Test_AnswerContent)(nil),
 		(*Test_AnswerGenerator)(nil),
+		(*Test_ExampleInputUrl)(nil),
+		(*Test_ExampleInputContent)(nil),
+		(*Test_ExampleAnswerUrl)(nil),
+		(*Test_ExampleAnswerContent)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
