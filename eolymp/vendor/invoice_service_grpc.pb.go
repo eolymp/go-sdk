@@ -28,6 +28,7 @@ const (
 	InvoiceService_SubmitInvoice_FullMethodName         = "/eolymp.vendor.InvoiceService/SubmitInvoice"
 	InvoiceService_ApproveInvoice_FullMethodName        = "/eolymp.vendor.InvoiceService/ApproveInvoice"
 	InvoiceService_RejectInvoice_FullMethodName         = "/eolymp.vendor.InvoiceService/RejectInvoice"
+	InvoiceService_PayInvoice_FullMethodName            = "/eolymp.vendor.InvoiceService/PayInvoice"
 )
 
 // InvoiceServiceClient is the client API for InvoiceService service.
@@ -43,6 +44,7 @@ type InvoiceServiceClient interface {
 	SubmitInvoice(ctx context.Context, in *SubmitInvoiceInput, opts ...grpc.CallOption) (*SubmitInvoiceOutput, error)
 	ApproveInvoice(ctx context.Context, in *ApproveInvoiceInput, opts ...grpc.CallOption) (*ApproveInvoiceOutput, error)
 	RejectInvoice(ctx context.Context, in *RejectInvoiceInput, opts ...grpc.CallOption) (*RejectInvoiceOutput, error)
+	PayInvoice(ctx context.Context, in *PayInvoiceInput, opts ...grpc.CallOption) (*PayInvoiceOutput, error)
 }
 
 type invoiceServiceClient struct {
@@ -143,6 +145,16 @@ func (c *invoiceServiceClient) RejectInvoice(ctx context.Context, in *RejectInvo
 	return out, nil
 }
 
+func (c *invoiceServiceClient) PayInvoice(ctx context.Context, in *PayInvoiceInput, opts ...grpc.CallOption) (*PayInvoiceOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(PayInvoiceOutput)
+	err := c.cc.Invoke(ctx, InvoiceService_PayInvoice_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // InvoiceServiceServer is the server API for InvoiceService service.
 // All implementations should embed UnimplementedInvoiceServiceServer
 // for forward compatibility.
@@ -156,6 +168,7 @@ type InvoiceServiceServer interface {
 	SubmitInvoice(context.Context, *SubmitInvoiceInput) (*SubmitInvoiceOutput, error)
 	ApproveInvoice(context.Context, *ApproveInvoiceInput) (*ApproveInvoiceOutput, error)
 	RejectInvoice(context.Context, *RejectInvoiceInput) (*RejectInvoiceOutput, error)
+	PayInvoice(context.Context, *PayInvoiceInput) (*PayInvoiceOutput, error)
 }
 
 // UnimplementedInvoiceServiceServer should be embedded to have
@@ -191,6 +204,9 @@ func (UnimplementedInvoiceServiceServer) ApproveInvoice(context.Context, *Approv
 }
 func (UnimplementedInvoiceServiceServer) RejectInvoice(context.Context, *RejectInvoiceInput) (*RejectInvoiceOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method RejectInvoice not implemented")
+}
+func (UnimplementedInvoiceServiceServer) PayInvoice(context.Context, *PayInvoiceInput) (*PayInvoiceOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method PayInvoice not implemented")
 }
 func (UnimplementedInvoiceServiceServer) testEmbeddedByValue() {}
 
@@ -374,6 +390,24 @@ func _InvoiceService_RejectInvoice_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _InvoiceService_PayInvoice_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PayInvoiceInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(InvoiceServiceServer).PayInvoice(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: InvoiceService_PayInvoice_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(InvoiceServiceServer).PayInvoice(ctx, req.(*PayInvoiceInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // InvoiceService_ServiceDesc is the grpc.ServiceDesc for InvoiceService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -416,6 +450,10 @@ var InvoiceService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RejectInvoice",
 			Handler:    _InvoiceService_RejectInvoice_Handler,
+		},
+		{
+			MethodName: "PayInvoice",
+			Handler:    _InvoiceService_PayInvoice_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

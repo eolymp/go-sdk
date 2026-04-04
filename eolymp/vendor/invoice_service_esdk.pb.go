@@ -233,3 +233,19 @@ func (s *InvoiceServiceService) RejectInvoice(ctx context.Context, in *RejectInv
 
 	return out, nil
 }
+
+func (s *InvoiceServiceService) PayInvoice(ctx context.Context, in *PayInvoiceInput) (*PayInvoiceOutput, error) {
+	out := &PayInvoiceOutput{}
+	path := "/vendor-invoices/" + url.PathEscape(in.GetInvoiceId()) + "/pay"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.InvoiceId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

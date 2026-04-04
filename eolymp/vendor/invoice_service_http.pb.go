@@ -178,6 +178,9 @@ func RegisterInvoiceServiceHttpHandlers(router *mux.Router, prefix string, cli I
 	router.Handle(prefix+"/vendor-invoices/{invoice_id}/reject", _InvoiceService_RejectInvoice_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.vendor.InvoiceService.RejectInvoice")
+	router.Handle(prefix+"/vendor-invoices/{invoice_id}/pay", _InvoiceService_PayInvoice_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.vendor.InvoiceService.PayInvoice")
 }
 
 // RegisterInvoiceServiceHttpProxy adds proxy handlers for for InvoiceServiceClient
@@ -386,6 +389,30 @@ func _InvoiceService_RejectInvoice_Rule0(cli InvoiceServiceClient) http.Handler 
 		var header, trailer metadata.MD
 
 		out, err := cli.RejectInvoice(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_InvoiceService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_InvoiceService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _InvoiceService_PayInvoice_Rule0(cli InvoiceServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &PayInvoiceInput{}
+
+		if err := _InvoiceService_HTTPReadRequestBody(r, in, 1048576); err != nil {
+			_InvoiceService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.InvoiceId = vars["invoice_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.PayInvoice(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_InvoiceService_HTTPWriteErrorResponse(w, err)
 			return
