@@ -23,6 +23,58 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type InvoiceChangedEvent struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Before        *Invoice               `protobuf:"bytes,1,opt,name=before,proto3" json:"before,omitempty"`
+	After         *Invoice               `protobuf:"bytes,2,opt,name=after,proto3" json:"after,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *InvoiceChangedEvent) Reset() {
+	*x = InvoiceChangedEvent{}
+	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *InvoiceChangedEvent) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*InvoiceChangedEvent) ProtoMessage() {}
+
+func (x *InvoiceChangedEvent) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use InvoiceChangedEvent.ProtoReflect.Descriptor instead.
+func (*InvoiceChangedEvent) Descriptor() ([]byte, []int) {
+	return file_eolymp_vendor_invoice_service_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *InvoiceChangedEvent) GetBefore() *Invoice {
+	if x != nil {
+		return x.Before
+	}
+	return nil
+}
+
+func (x *InvoiceChangedEvent) GetAfter() *Invoice {
+	if x != nil {
+		return x.After
+	}
+	return nil
+}
+
 type ListInvoicesInput struct {
 	state         protoimpl.MessageState    `protogen:"open.v1"`
 	Offset        int32                     `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
@@ -35,7 +87,7 @@ type ListInvoicesInput struct {
 
 func (x *ListInvoicesInput) Reset() {
 	*x = ListInvoicesInput{}
-	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[0]
+	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -47,7 +99,7 @@ func (x *ListInvoicesInput) String() string {
 func (*ListInvoicesInput) ProtoMessage() {}
 
 func (x *ListInvoicesInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[0]
+	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -60,7 +112,7 @@ func (x *ListInvoicesInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListInvoicesInput.ProtoReflect.Descriptor instead.
 func (*ListInvoicesInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_vendor_invoice_service_proto_rawDescGZIP(), []int{0}
+	return file_eolymp_vendor_invoice_service_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *ListInvoicesInput) GetOffset() int32 {
@@ -101,7 +153,7 @@ type ListInvoicesOutput struct {
 
 func (x *ListInvoicesOutput) Reset() {
 	*x = ListInvoicesOutput{}
-	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[1]
+	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -113,7 +165,7 @@ func (x *ListInvoicesOutput) String() string {
 func (*ListInvoicesOutput) ProtoMessage() {}
 
 func (x *ListInvoicesOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[1]
+	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -126,7 +178,7 @@ func (x *ListInvoicesOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListInvoicesOutput.ProtoReflect.Descriptor instead.
 func (*ListInvoicesOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_vendor_invoice_service_proto_rawDescGZIP(), []int{1}
+	return file_eolymp_vendor_invoice_service_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *ListInvoicesOutput) GetTotal() int32 {
@@ -152,7 +204,7 @@ type DescribeInvoiceInput struct {
 
 func (x *DescribeInvoiceInput) Reset() {
 	*x = DescribeInvoiceInput{}
-	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[2]
+	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -164,7 +216,7 @@ func (x *DescribeInvoiceInput) String() string {
 func (*DescribeInvoiceInput) ProtoMessage() {}
 
 func (x *DescribeInvoiceInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[2]
+	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -177,7 +229,7 @@ func (x *DescribeInvoiceInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribeInvoiceInput.ProtoReflect.Descriptor instead.
 func (*DescribeInvoiceInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_vendor_invoice_service_proto_rawDescGZIP(), []int{2}
+	return file_eolymp_vendor_invoice_service_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *DescribeInvoiceInput) GetInvoiceId() string {
@@ -196,7 +248,7 @@ type DescribeInvoiceOutput struct {
 
 func (x *DescribeInvoiceOutput) Reset() {
 	*x = DescribeInvoiceOutput{}
-	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[3]
+	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -208,7 +260,7 @@ func (x *DescribeInvoiceOutput) String() string {
 func (*DescribeInvoiceOutput) ProtoMessage() {}
 
 func (x *DescribeInvoiceOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[3]
+	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -221,7 +273,7 @@ func (x *DescribeInvoiceOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribeInvoiceOutput.ProtoReflect.Descriptor instead.
 func (*DescribeInvoiceOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_vendor_invoice_service_proto_rawDescGZIP(), []int{3}
+	return file_eolymp_vendor_invoice_service_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *DescribeInvoiceOutput) GetInvoice() *Invoice {
@@ -240,7 +292,7 @@ type CreateInvoiceInput struct {
 
 func (x *CreateInvoiceInput) Reset() {
 	*x = CreateInvoiceInput{}
-	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[4]
+	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -252,7 +304,7 @@ func (x *CreateInvoiceInput) String() string {
 func (*CreateInvoiceInput) ProtoMessage() {}
 
 func (x *CreateInvoiceInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[4]
+	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -265,7 +317,7 @@ func (x *CreateInvoiceInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateInvoiceInput.ProtoReflect.Descriptor instead.
 func (*CreateInvoiceInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_vendor_invoice_service_proto_rawDescGZIP(), []int{4}
+	return file_eolymp_vendor_invoice_service_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *CreateInvoiceInput) GetInvoice() *Invoice {
@@ -284,7 +336,7 @@ type CreateInvoiceOutput struct {
 
 func (x *CreateInvoiceOutput) Reset() {
 	*x = CreateInvoiceOutput{}
-	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[5]
+	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -296,7 +348,7 @@ func (x *CreateInvoiceOutput) String() string {
 func (*CreateInvoiceOutput) ProtoMessage() {}
 
 func (x *CreateInvoiceOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[5]
+	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -309,7 +361,7 @@ func (x *CreateInvoiceOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateInvoiceOutput.ProtoReflect.Descriptor instead.
 func (*CreateInvoiceOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_vendor_invoice_service_proto_rawDescGZIP(), []int{5}
+	return file_eolymp_vendor_invoice_service_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *CreateInvoiceOutput) GetInvoiceId() string {
@@ -330,7 +382,7 @@ type UpdateInvoiceInput struct {
 
 func (x *UpdateInvoiceInput) Reset() {
 	*x = UpdateInvoiceInput{}
-	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[6]
+	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -342,7 +394,7 @@ func (x *UpdateInvoiceInput) String() string {
 func (*UpdateInvoiceInput) ProtoMessage() {}
 
 func (x *UpdateInvoiceInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[6]
+	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -355,7 +407,7 @@ func (x *UpdateInvoiceInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateInvoiceInput.ProtoReflect.Descriptor instead.
 func (*UpdateInvoiceInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_vendor_invoice_service_proto_rawDescGZIP(), []int{6}
+	return file_eolymp_vendor_invoice_service_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *UpdateInvoiceInput) GetPatch() []Invoice_Patch_Field {
@@ -387,7 +439,7 @@ type UpdateInvoiceOutput struct {
 
 func (x *UpdateInvoiceOutput) Reset() {
 	*x = UpdateInvoiceOutput{}
-	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[7]
+	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -399,7 +451,7 @@ func (x *UpdateInvoiceOutput) String() string {
 func (*UpdateInvoiceOutput) ProtoMessage() {}
 
 func (x *UpdateInvoiceOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[7]
+	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -412,7 +464,7 @@ func (x *UpdateInvoiceOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateInvoiceOutput.ProtoReflect.Descriptor instead.
 func (*UpdateInvoiceOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_vendor_invoice_service_proto_rawDescGZIP(), []int{7}
+	return file_eolymp_vendor_invoice_service_proto_rawDescGZIP(), []int{8}
 }
 
 type DeleteInvoiceInput struct {
@@ -424,7 +476,7 @@ type DeleteInvoiceInput struct {
 
 func (x *DeleteInvoiceInput) Reset() {
 	*x = DeleteInvoiceInput{}
-	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[8]
+	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -436,7 +488,7 @@ func (x *DeleteInvoiceInput) String() string {
 func (*DeleteInvoiceInput) ProtoMessage() {}
 
 func (x *DeleteInvoiceInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[8]
+	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -449,7 +501,7 @@ func (x *DeleteInvoiceInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteInvoiceInput.ProtoReflect.Descriptor instead.
 func (*DeleteInvoiceInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_vendor_invoice_service_proto_rawDescGZIP(), []int{8}
+	return file_eolymp_vendor_invoice_service_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *DeleteInvoiceInput) GetInvoiceId() string {
@@ -467,7 +519,7 @@ type DeleteInvoiceOutput struct {
 
 func (x *DeleteInvoiceOutput) Reset() {
 	*x = DeleteInvoiceOutput{}
-	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[9]
+	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -479,7 +531,7 @@ func (x *DeleteInvoiceOutput) String() string {
 func (*DeleteInvoiceOutput) ProtoMessage() {}
 
 func (x *DeleteInvoiceOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[9]
+	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -492,7 +544,7 @@ func (x *DeleteInvoiceOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteInvoiceOutput.ProtoReflect.Descriptor instead.
 func (*DeleteInvoiceOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_vendor_invoice_service_proto_rawDescGZIP(), []int{9}
+	return file_eolymp_vendor_invoice_service_proto_rawDescGZIP(), []int{10}
 }
 
 type UploadInvoiceDocumentInput struct {
@@ -506,7 +558,7 @@ type UploadInvoiceDocumentInput struct {
 
 func (x *UploadInvoiceDocumentInput) Reset() {
 	*x = UploadInvoiceDocumentInput{}
-	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[10]
+	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -518,7 +570,7 @@ func (x *UploadInvoiceDocumentInput) String() string {
 func (*UploadInvoiceDocumentInput) ProtoMessage() {}
 
 func (x *UploadInvoiceDocumentInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[10]
+	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -531,7 +583,7 @@ func (x *UploadInvoiceDocumentInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UploadInvoiceDocumentInput.ProtoReflect.Descriptor instead.
 func (*UploadInvoiceDocumentInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_vendor_invoice_service_proto_rawDescGZIP(), []int{10}
+	return file_eolymp_vendor_invoice_service_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *UploadInvoiceDocumentInput) GetInvoiceId() string {
@@ -564,7 +616,7 @@ type UploadInvoiceDocumentOutput struct {
 
 func (x *UploadInvoiceDocumentOutput) Reset() {
 	*x = UploadInvoiceDocumentOutput{}
-	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[11]
+	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -576,7 +628,7 @@ func (x *UploadInvoiceDocumentOutput) String() string {
 func (*UploadInvoiceDocumentOutput) ProtoMessage() {}
 
 func (x *UploadInvoiceDocumentOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[11]
+	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -589,7 +641,7 @@ func (x *UploadInvoiceDocumentOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UploadInvoiceDocumentOutput.ProtoReflect.Descriptor instead.
 func (*UploadInvoiceDocumentOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_vendor_invoice_service_proto_rawDescGZIP(), []int{11}
+	return file_eolymp_vendor_invoice_service_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *UploadInvoiceDocumentOutput) GetDocumentUrl() string {
@@ -609,7 +661,7 @@ type ApproveInvoiceInput struct {
 
 func (x *ApproveInvoiceInput) Reset() {
 	*x = ApproveInvoiceInput{}
-	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[12]
+	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -621,7 +673,7 @@ func (x *ApproveInvoiceInput) String() string {
 func (*ApproveInvoiceInput) ProtoMessage() {}
 
 func (x *ApproveInvoiceInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[12]
+	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -634,7 +686,7 @@ func (x *ApproveInvoiceInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ApproveInvoiceInput.ProtoReflect.Descriptor instead.
 func (*ApproveInvoiceInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_vendor_invoice_service_proto_rawDescGZIP(), []int{12}
+	return file_eolymp_vendor_invoice_service_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *ApproveInvoiceInput) GetInvoiceId() string {
@@ -659,7 +711,7 @@ type ApproveInvoiceOutput struct {
 
 func (x *ApproveInvoiceOutput) Reset() {
 	*x = ApproveInvoiceOutput{}
-	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[13]
+	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -671,7 +723,7 @@ func (x *ApproveInvoiceOutput) String() string {
 func (*ApproveInvoiceOutput) ProtoMessage() {}
 
 func (x *ApproveInvoiceOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[13]
+	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -684,7 +736,7 @@ func (x *ApproveInvoiceOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ApproveInvoiceOutput.ProtoReflect.Descriptor instead.
 func (*ApproveInvoiceOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_vendor_invoice_service_proto_rawDescGZIP(), []int{13}
+	return file_eolymp_vendor_invoice_service_proto_rawDescGZIP(), []int{14}
 }
 
 type SubmitInvoiceInput struct {
@@ -696,7 +748,7 @@ type SubmitInvoiceInput struct {
 
 func (x *SubmitInvoiceInput) Reset() {
 	*x = SubmitInvoiceInput{}
-	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[14]
+	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -708,7 +760,7 @@ func (x *SubmitInvoiceInput) String() string {
 func (*SubmitInvoiceInput) ProtoMessage() {}
 
 func (x *SubmitInvoiceInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[14]
+	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -721,7 +773,7 @@ func (x *SubmitInvoiceInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SubmitInvoiceInput.ProtoReflect.Descriptor instead.
 func (*SubmitInvoiceInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_vendor_invoice_service_proto_rawDescGZIP(), []int{14}
+	return file_eolymp_vendor_invoice_service_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *SubmitInvoiceInput) GetInvoiceId() string {
@@ -739,7 +791,7 @@ type SubmitInvoiceOutput struct {
 
 func (x *SubmitInvoiceOutput) Reset() {
 	*x = SubmitInvoiceOutput{}
-	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[15]
+	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -751,7 +803,7 @@ func (x *SubmitInvoiceOutput) String() string {
 func (*SubmitInvoiceOutput) ProtoMessage() {}
 
 func (x *SubmitInvoiceOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[15]
+	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -764,7 +816,7 @@ func (x *SubmitInvoiceOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SubmitInvoiceOutput.ProtoReflect.Descriptor instead.
 func (*SubmitInvoiceOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_vendor_invoice_service_proto_rawDescGZIP(), []int{15}
+	return file_eolymp_vendor_invoice_service_proto_rawDescGZIP(), []int{16}
 }
 
 type RejectInvoiceInput struct {
@@ -777,7 +829,7 @@ type RejectInvoiceInput struct {
 
 func (x *RejectInvoiceInput) Reset() {
 	*x = RejectInvoiceInput{}
-	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[16]
+	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -789,7 +841,7 @@ func (x *RejectInvoiceInput) String() string {
 func (*RejectInvoiceInput) ProtoMessage() {}
 
 func (x *RejectInvoiceInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[16]
+	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -802,7 +854,7 @@ func (x *RejectInvoiceInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RejectInvoiceInput.ProtoReflect.Descriptor instead.
 func (*RejectInvoiceInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_vendor_invoice_service_proto_rawDescGZIP(), []int{16}
+	return file_eolymp_vendor_invoice_service_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *RejectInvoiceInput) GetInvoiceId() string {
@@ -827,7 +879,7 @@ type RejectInvoiceOutput struct {
 
 func (x *RejectInvoiceOutput) Reset() {
 	*x = RejectInvoiceOutput{}
-	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[17]
+	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[18]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -839,7 +891,7 @@ func (x *RejectInvoiceOutput) String() string {
 func (*RejectInvoiceOutput) ProtoMessage() {}
 
 func (x *RejectInvoiceOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[17]
+	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[18]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -852,7 +904,7 @@ func (x *RejectInvoiceOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RejectInvoiceOutput.ProtoReflect.Descriptor instead.
 func (*RejectInvoiceOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_vendor_invoice_service_proto_rawDescGZIP(), []int{17}
+	return file_eolymp_vendor_invoice_service_proto_rawDescGZIP(), []int{18}
 }
 
 type ListInvoicesInput_Filter struct {
@@ -867,7 +919,7 @@ type ListInvoicesInput_Filter struct {
 
 func (x *ListInvoicesInput_Filter) Reset() {
 	*x = ListInvoicesInput_Filter{}
-	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[18]
+	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[19]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -879,7 +931,7 @@ func (x *ListInvoicesInput_Filter) String() string {
 func (*ListInvoicesInput_Filter) ProtoMessage() {}
 
 func (x *ListInvoicesInput_Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[18]
+	mi := &file_eolymp_vendor_invoice_service_proto_msgTypes[19]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -892,7 +944,7 @@ func (x *ListInvoicesInput_Filter) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListInvoicesInput_Filter.ProtoReflect.Descriptor instead.
 func (*ListInvoicesInput_Filter) Descriptor() ([]byte, []int) {
-	return file_eolymp_vendor_invoice_service_proto_rawDescGZIP(), []int{0, 0}
+	return file_eolymp_vendor_invoice_service_proto_rawDescGZIP(), []int{1, 0}
 }
 
 func (x *ListInvoicesInput_Filter) GetId() []*wellknown.ExpressionID {
@@ -927,7 +979,10 @@ var File_eolymp_vendor_invoice_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_vendor_invoice_service_proto_rawDesc = "" +
 	"\n" +
-	"#eolymp/vendor/invoice_service.proto\x12\reolymp.vendor\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1beolymp/vendor/invoice.proto\x1a!eolymp/wellknown/expression.proto\"\x86\x03\n" +
+	"#eolymp/vendor/invoice_service.proto\x12\reolymp.vendor\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1beolymp/vendor/invoice.proto\x1a!eolymp/wellknown/expression.proto\"s\n" +
+	"\x13InvoiceChangedEvent\x12.\n" +
+	"\x06before\x18\x01 \x01(\v2\x16.eolymp.vendor.InvoiceR\x06before\x12,\n" +
+	"\x05after\x18\x02 \x01(\v2\x16.eolymp.vendor.InvoiceR\x05after\"\x86\x03\n" +
 	"\x11ListInvoicesInput\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
@@ -1052,67 +1107,70 @@ func file_eolymp_vendor_invoice_service_proto_rawDescGZIP() []byte {
 	return file_eolymp_vendor_invoice_service_proto_rawDescData
 }
 
-var file_eolymp_vendor_invoice_service_proto_msgTypes = make([]protoimpl.MessageInfo, 19)
+var file_eolymp_vendor_invoice_service_proto_msgTypes = make([]protoimpl.MessageInfo, 20)
 var file_eolymp_vendor_invoice_service_proto_goTypes = []any{
-	(*ListInvoicesInput)(nil),           // 0: eolymp.vendor.ListInvoicesInput
-	(*ListInvoicesOutput)(nil),          // 1: eolymp.vendor.ListInvoicesOutput
-	(*DescribeInvoiceInput)(nil),        // 2: eolymp.vendor.DescribeInvoiceInput
-	(*DescribeInvoiceOutput)(nil),       // 3: eolymp.vendor.DescribeInvoiceOutput
-	(*CreateInvoiceInput)(nil),          // 4: eolymp.vendor.CreateInvoiceInput
-	(*CreateInvoiceOutput)(nil),         // 5: eolymp.vendor.CreateInvoiceOutput
-	(*UpdateInvoiceInput)(nil),          // 6: eolymp.vendor.UpdateInvoiceInput
-	(*UpdateInvoiceOutput)(nil),         // 7: eolymp.vendor.UpdateInvoiceOutput
-	(*DeleteInvoiceInput)(nil),          // 8: eolymp.vendor.DeleteInvoiceInput
-	(*DeleteInvoiceOutput)(nil),         // 9: eolymp.vendor.DeleteInvoiceOutput
-	(*UploadInvoiceDocumentInput)(nil),  // 10: eolymp.vendor.UploadInvoiceDocumentInput
-	(*UploadInvoiceDocumentOutput)(nil), // 11: eolymp.vendor.UploadInvoiceDocumentOutput
-	(*ApproveInvoiceInput)(nil),         // 12: eolymp.vendor.ApproveInvoiceInput
-	(*ApproveInvoiceOutput)(nil),        // 13: eolymp.vendor.ApproveInvoiceOutput
-	(*SubmitInvoiceInput)(nil),          // 14: eolymp.vendor.SubmitInvoiceInput
-	(*SubmitInvoiceOutput)(nil),         // 15: eolymp.vendor.SubmitInvoiceOutput
-	(*RejectInvoiceInput)(nil),          // 16: eolymp.vendor.RejectInvoiceInput
-	(*RejectInvoiceOutput)(nil),         // 17: eolymp.vendor.RejectInvoiceOutput
-	(*ListInvoicesInput_Filter)(nil),    // 18: eolymp.vendor.ListInvoicesInput.Filter
-	(*Invoice)(nil),                     // 19: eolymp.vendor.Invoice
-	(Invoice_Patch_Field)(0),            // 20: eolymp.vendor.Invoice.Patch.Field
-	(*wellknown.ExpressionID)(nil),      // 21: eolymp.wellknown.ExpressionID
-	(*wellknown.ExpressionString)(nil),  // 22: eolymp.wellknown.ExpressionString
-	(*wellknown.ExpressionEnum)(nil),    // 23: eolymp.wellknown.ExpressionEnum
+	(*InvoiceChangedEvent)(nil),         // 0: eolymp.vendor.InvoiceChangedEvent
+	(*ListInvoicesInput)(nil),           // 1: eolymp.vendor.ListInvoicesInput
+	(*ListInvoicesOutput)(nil),          // 2: eolymp.vendor.ListInvoicesOutput
+	(*DescribeInvoiceInput)(nil),        // 3: eolymp.vendor.DescribeInvoiceInput
+	(*DescribeInvoiceOutput)(nil),       // 4: eolymp.vendor.DescribeInvoiceOutput
+	(*CreateInvoiceInput)(nil),          // 5: eolymp.vendor.CreateInvoiceInput
+	(*CreateInvoiceOutput)(nil),         // 6: eolymp.vendor.CreateInvoiceOutput
+	(*UpdateInvoiceInput)(nil),          // 7: eolymp.vendor.UpdateInvoiceInput
+	(*UpdateInvoiceOutput)(nil),         // 8: eolymp.vendor.UpdateInvoiceOutput
+	(*DeleteInvoiceInput)(nil),          // 9: eolymp.vendor.DeleteInvoiceInput
+	(*DeleteInvoiceOutput)(nil),         // 10: eolymp.vendor.DeleteInvoiceOutput
+	(*UploadInvoiceDocumentInput)(nil),  // 11: eolymp.vendor.UploadInvoiceDocumentInput
+	(*UploadInvoiceDocumentOutput)(nil), // 12: eolymp.vendor.UploadInvoiceDocumentOutput
+	(*ApproveInvoiceInput)(nil),         // 13: eolymp.vendor.ApproveInvoiceInput
+	(*ApproveInvoiceOutput)(nil),        // 14: eolymp.vendor.ApproveInvoiceOutput
+	(*SubmitInvoiceInput)(nil),          // 15: eolymp.vendor.SubmitInvoiceInput
+	(*SubmitInvoiceOutput)(nil),         // 16: eolymp.vendor.SubmitInvoiceOutput
+	(*RejectInvoiceInput)(nil),          // 17: eolymp.vendor.RejectInvoiceInput
+	(*RejectInvoiceOutput)(nil),         // 18: eolymp.vendor.RejectInvoiceOutput
+	(*ListInvoicesInput_Filter)(nil),    // 19: eolymp.vendor.ListInvoicesInput.Filter
+	(*Invoice)(nil),                     // 20: eolymp.vendor.Invoice
+	(Invoice_Patch_Field)(0),            // 21: eolymp.vendor.Invoice.Patch.Field
+	(*wellknown.ExpressionID)(nil),      // 22: eolymp.wellknown.ExpressionID
+	(*wellknown.ExpressionString)(nil),  // 23: eolymp.wellknown.ExpressionString
+	(*wellknown.ExpressionEnum)(nil),    // 24: eolymp.wellknown.ExpressionEnum
 }
 var file_eolymp_vendor_invoice_service_proto_depIdxs = []int32{
-	18, // 0: eolymp.vendor.ListInvoicesInput.filters:type_name -> eolymp.vendor.ListInvoicesInput.Filter
-	19, // 1: eolymp.vendor.ListInvoicesOutput.items:type_name -> eolymp.vendor.Invoice
-	19, // 2: eolymp.vendor.DescribeInvoiceOutput.invoice:type_name -> eolymp.vendor.Invoice
-	19, // 3: eolymp.vendor.CreateInvoiceInput.invoice:type_name -> eolymp.vendor.Invoice
-	20, // 4: eolymp.vendor.UpdateInvoiceInput.patch:type_name -> eolymp.vendor.Invoice.Patch.Field
-	19, // 5: eolymp.vendor.UpdateInvoiceInput.invoice:type_name -> eolymp.vendor.Invoice
-	21, // 6: eolymp.vendor.ListInvoicesInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	22, // 7: eolymp.vendor.ListInvoicesInput.Filter.number:type_name -> eolymp.wellknown.ExpressionString
-	23, // 8: eolymp.vendor.ListInvoicesInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
-	21, // 9: eolymp.vendor.ListInvoicesInput.Filter.vendor_id:type_name -> eolymp.wellknown.ExpressionID
-	0,  // 10: eolymp.vendor.InvoiceService.ListInvoices:input_type -> eolymp.vendor.ListInvoicesInput
-	2,  // 11: eolymp.vendor.InvoiceService.DescribeInvoice:input_type -> eolymp.vendor.DescribeInvoiceInput
-	4,  // 12: eolymp.vendor.InvoiceService.CreateInvoice:input_type -> eolymp.vendor.CreateInvoiceInput
-	6,  // 13: eolymp.vendor.InvoiceService.UpdateInvoice:input_type -> eolymp.vendor.UpdateInvoiceInput
-	8,  // 14: eolymp.vendor.InvoiceService.DeleteInvoice:input_type -> eolymp.vendor.DeleteInvoiceInput
-	10, // 15: eolymp.vendor.InvoiceService.UploadInvoiceDocument:input_type -> eolymp.vendor.UploadInvoiceDocumentInput
-	14, // 16: eolymp.vendor.InvoiceService.SubmitInvoice:input_type -> eolymp.vendor.SubmitInvoiceInput
-	12, // 17: eolymp.vendor.InvoiceService.ApproveInvoice:input_type -> eolymp.vendor.ApproveInvoiceInput
-	16, // 18: eolymp.vendor.InvoiceService.RejectInvoice:input_type -> eolymp.vendor.RejectInvoiceInput
-	1,  // 19: eolymp.vendor.InvoiceService.ListInvoices:output_type -> eolymp.vendor.ListInvoicesOutput
-	3,  // 20: eolymp.vendor.InvoiceService.DescribeInvoice:output_type -> eolymp.vendor.DescribeInvoiceOutput
-	5,  // 21: eolymp.vendor.InvoiceService.CreateInvoice:output_type -> eolymp.vendor.CreateInvoiceOutput
-	7,  // 22: eolymp.vendor.InvoiceService.UpdateInvoice:output_type -> eolymp.vendor.UpdateInvoiceOutput
-	9,  // 23: eolymp.vendor.InvoiceService.DeleteInvoice:output_type -> eolymp.vendor.DeleteInvoiceOutput
-	11, // 24: eolymp.vendor.InvoiceService.UploadInvoiceDocument:output_type -> eolymp.vendor.UploadInvoiceDocumentOutput
-	15, // 25: eolymp.vendor.InvoiceService.SubmitInvoice:output_type -> eolymp.vendor.SubmitInvoiceOutput
-	13, // 26: eolymp.vendor.InvoiceService.ApproveInvoice:output_type -> eolymp.vendor.ApproveInvoiceOutput
-	17, // 27: eolymp.vendor.InvoiceService.RejectInvoice:output_type -> eolymp.vendor.RejectInvoiceOutput
-	19, // [19:28] is the sub-list for method output_type
-	10, // [10:19] is the sub-list for method input_type
-	10, // [10:10] is the sub-list for extension type_name
-	10, // [10:10] is the sub-list for extension extendee
-	0,  // [0:10] is the sub-list for field type_name
+	20, // 0: eolymp.vendor.InvoiceChangedEvent.before:type_name -> eolymp.vendor.Invoice
+	20, // 1: eolymp.vendor.InvoiceChangedEvent.after:type_name -> eolymp.vendor.Invoice
+	19, // 2: eolymp.vendor.ListInvoicesInput.filters:type_name -> eolymp.vendor.ListInvoicesInput.Filter
+	20, // 3: eolymp.vendor.ListInvoicesOutput.items:type_name -> eolymp.vendor.Invoice
+	20, // 4: eolymp.vendor.DescribeInvoiceOutput.invoice:type_name -> eolymp.vendor.Invoice
+	20, // 5: eolymp.vendor.CreateInvoiceInput.invoice:type_name -> eolymp.vendor.Invoice
+	21, // 6: eolymp.vendor.UpdateInvoiceInput.patch:type_name -> eolymp.vendor.Invoice.Patch.Field
+	20, // 7: eolymp.vendor.UpdateInvoiceInput.invoice:type_name -> eolymp.vendor.Invoice
+	22, // 8: eolymp.vendor.ListInvoicesInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	23, // 9: eolymp.vendor.ListInvoicesInput.Filter.number:type_name -> eolymp.wellknown.ExpressionString
+	24, // 10: eolymp.vendor.ListInvoicesInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
+	22, // 11: eolymp.vendor.ListInvoicesInput.Filter.vendor_id:type_name -> eolymp.wellknown.ExpressionID
+	1,  // 12: eolymp.vendor.InvoiceService.ListInvoices:input_type -> eolymp.vendor.ListInvoicesInput
+	3,  // 13: eolymp.vendor.InvoiceService.DescribeInvoice:input_type -> eolymp.vendor.DescribeInvoiceInput
+	5,  // 14: eolymp.vendor.InvoiceService.CreateInvoice:input_type -> eolymp.vendor.CreateInvoiceInput
+	7,  // 15: eolymp.vendor.InvoiceService.UpdateInvoice:input_type -> eolymp.vendor.UpdateInvoiceInput
+	9,  // 16: eolymp.vendor.InvoiceService.DeleteInvoice:input_type -> eolymp.vendor.DeleteInvoiceInput
+	11, // 17: eolymp.vendor.InvoiceService.UploadInvoiceDocument:input_type -> eolymp.vendor.UploadInvoiceDocumentInput
+	15, // 18: eolymp.vendor.InvoiceService.SubmitInvoice:input_type -> eolymp.vendor.SubmitInvoiceInput
+	13, // 19: eolymp.vendor.InvoiceService.ApproveInvoice:input_type -> eolymp.vendor.ApproveInvoiceInput
+	17, // 20: eolymp.vendor.InvoiceService.RejectInvoice:input_type -> eolymp.vendor.RejectInvoiceInput
+	2,  // 21: eolymp.vendor.InvoiceService.ListInvoices:output_type -> eolymp.vendor.ListInvoicesOutput
+	4,  // 22: eolymp.vendor.InvoiceService.DescribeInvoice:output_type -> eolymp.vendor.DescribeInvoiceOutput
+	6,  // 23: eolymp.vendor.InvoiceService.CreateInvoice:output_type -> eolymp.vendor.CreateInvoiceOutput
+	8,  // 24: eolymp.vendor.InvoiceService.UpdateInvoice:output_type -> eolymp.vendor.UpdateInvoiceOutput
+	10, // 25: eolymp.vendor.InvoiceService.DeleteInvoice:output_type -> eolymp.vendor.DeleteInvoiceOutput
+	12, // 26: eolymp.vendor.InvoiceService.UploadInvoiceDocument:output_type -> eolymp.vendor.UploadInvoiceDocumentOutput
+	16, // 27: eolymp.vendor.InvoiceService.SubmitInvoice:output_type -> eolymp.vendor.SubmitInvoiceOutput
+	14, // 28: eolymp.vendor.InvoiceService.ApproveInvoice:output_type -> eolymp.vendor.ApproveInvoiceOutput
+	18, // 29: eolymp.vendor.InvoiceService.RejectInvoice:output_type -> eolymp.vendor.RejectInvoiceOutput
+	21, // [21:30] is the sub-list for method output_type
+	12, // [12:21] is the sub-list for method input_type
+	12, // [12:12] is the sub-list for extension type_name
+	12, // [12:12] is the sub-list for extension extendee
+	0,  // [0:12] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_vendor_invoice_service_proto_init() }
@@ -1127,7 +1185,7 @@ func file_eolymp_vendor_invoice_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_vendor_invoice_service_proto_rawDesc), len(file_eolymp_vendor_invoice_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   19,
+			NumMessages:   20,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

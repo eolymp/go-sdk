@@ -23,6 +23,58 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type VendorChangedEvent struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Before        *Vendor                `protobuf:"bytes,1,opt,name=before,proto3" json:"before,omitempty"`
+	After         *Vendor                `protobuf:"bytes,2,opt,name=after,proto3" json:"after,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *VendorChangedEvent) Reset() {
+	*x = VendorChangedEvent{}
+	mi := &file_eolymp_vendor_vendor_service_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *VendorChangedEvent) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*VendorChangedEvent) ProtoMessage() {}
+
+func (x *VendorChangedEvent) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_vendor_vendor_service_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use VendorChangedEvent.ProtoReflect.Descriptor instead.
+func (*VendorChangedEvent) Descriptor() ([]byte, []int) {
+	return file_eolymp_vendor_vendor_service_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *VendorChangedEvent) GetBefore() *Vendor {
+	if x != nil {
+		return x.Before
+	}
+	return nil
+}
+
+func (x *VendorChangedEvent) GetAfter() *Vendor {
+	if x != nil {
+		return x.After
+	}
+	return nil
+}
+
 type ListVendorsInput struct {
 	state         protoimpl.MessageState   `protogen:"open.v1"`
 	Offset        int32                    `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
@@ -34,7 +86,7 @@ type ListVendorsInput struct {
 
 func (x *ListVendorsInput) Reset() {
 	*x = ListVendorsInput{}
-	mi := &file_eolymp_vendor_vendor_service_proto_msgTypes[0]
+	mi := &file_eolymp_vendor_vendor_service_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -46,7 +98,7 @@ func (x *ListVendorsInput) String() string {
 func (*ListVendorsInput) ProtoMessage() {}
 
 func (x *ListVendorsInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_vendor_vendor_service_proto_msgTypes[0]
+	mi := &file_eolymp_vendor_vendor_service_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -59,7 +111,7 @@ func (x *ListVendorsInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListVendorsInput.ProtoReflect.Descriptor instead.
 func (*ListVendorsInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_vendor_vendor_service_proto_rawDescGZIP(), []int{0}
+	return file_eolymp_vendor_vendor_service_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *ListVendorsInput) GetOffset() int32 {
@@ -93,7 +145,7 @@ type ListVendorsOutput struct {
 
 func (x *ListVendorsOutput) Reset() {
 	*x = ListVendorsOutput{}
-	mi := &file_eolymp_vendor_vendor_service_proto_msgTypes[1]
+	mi := &file_eolymp_vendor_vendor_service_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -105,7 +157,7 @@ func (x *ListVendorsOutput) String() string {
 func (*ListVendorsOutput) ProtoMessage() {}
 
 func (x *ListVendorsOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_vendor_vendor_service_proto_msgTypes[1]
+	mi := &file_eolymp_vendor_vendor_service_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -118,7 +170,7 @@ func (x *ListVendorsOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListVendorsOutput.ProtoReflect.Descriptor instead.
 func (*ListVendorsOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_vendor_vendor_service_proto_rawDescGZIP(), []int{1}
+	return file_eolymp_vendor_vendor_service_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *ListVendorsOutput) GetTotal() int32 {
@@ -144,7 +196,7 @@ type DescribeVendorInput struct {
 
 func (x *DescribeVendorInput) Reset() {
 	*x = DescribeVendorInput{}
-	mi := &file_eolymp_vendor_vendor_service_proto_msgTypes[2]
+	mi := &file_eolymp_vendor_vendor_service_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -156,7 +208,7 @@ func (x *DescribeVendorInput) String() string {
 func (*DescribeVendorInput) ProtoMessage() {}
 
 func (x *DescribeVendorInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_vendor_vendor_service_proto_msgTypes[2]
+	mi := &file_eolymp_vendor_vendor_service_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -169,7 +221,7 @@ func (x *DescribeVendorInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribeVendorInput.ProtoReflect.Descriptor instead.
 func (*DescribeVendorInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_vendor_vendor_service_proto_rawDescGZIP(), []int{2}
+	return file_eolymp_vendor_vendor_service_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *DescribeVendorInput) GetVendorId() string {
@@ -188,7 +240,7 @@ type DescribeVendorOutput struct {
 
 func (x *DescribeVendorOutput) Reset() {
 	*x = DescribeVendorOutput{}
-	mi := &file_eolymp_vendor_vendor_service_proto_msgTypes[3]
+	mi := &file_eolymp_vendor_vendor_service_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -200,7 +252,7 @@ func (x *DescribeVendorOutput) String() string {
 func (*DescribeVendorOutput) ProtoMessage() {}
 
 func (x *DescribeVendorOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_vendor_vendor_service_proto_msgTypes[3]
+	mi := &file_eolymp_vendor_vendor_service_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -213,7 +265,7 @@ func (x *DescribeVendorOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribeVendorOutput.ProtoReflect.Descriptor instead.
 func (*DescribeVendorOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_vendor_vendor_service_proto_rawDescGZIP(), []int{3}
+	return file_eolymp_vendor_vendor_service_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *DescribeVendorOutput) GetVendor() *Vendor {
@@ -233,7 +285,7 @@ type ApproveVendorInput struct {
 
 func (x *ApproveVendorInput) Reset() {
 	*x = ApproveVendorInput{}
-	mi := &file_eolymp_vendor_vendor_service_proto_msgTypes[4]
+	mi := &file_eolymp_vendor_vendor_service_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -245,7 +297,7 @@ func (x *ApproveVendorInput) String() string {
 func (*ApproveVendorInput) ProtoMessage() {}
 
 func (x *ApproveVendorInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_vendor_vendor_service_proto_msgTypes[4]
+	mi := &file_eolymp_vendor_vendor_service_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -258,7 +310,7 @@ func (x *ApproveVendorInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ApproveVendorInput.ProtoReflect.Descriptor instead.
 func (*ApproveVendorInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_vendor_vendor_service_proto_rawDescGZIP(), []int{4}
+	return file_eolymp_vendor_vendor_service_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *ApproveVendorInput) GetVendorId() string {
@@ -283,7 +335,7 @@ type ApproveVendorOutput struct {
 
 func (x *ApproveVendorOutput) Reset() {
 	*x = ApproveVendorOutput{}
-	mi := &file_eolymp_vendor_vendor_service_proto_msgTypes[5]
+	mi := &file_eolymp_vendor_vendor_service_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -295,7 +347,7 @@ func (x *ApproveVendorOutput) String() string {
 func (*ApproveVendorOutput) ProtoMessage() {}
 
 func (x *ApproveVendorOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_vendor_vendor_service_proto_msgTypes[5]
+	mi := &file_eolymp_vendor_vendor_service_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -308,7 +360,7 @@ func (x *ApproveVendorOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ApproveVendorOutput.ProtoReflect.Descriptor instead.
 func (*ApproveVendorOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_vendor_vendor_service_proto_rawDescGZIP(), []int{5}
+	return file_eolymp_vendor_vendor_service_proto_rawDescGZIP(), []int{6}
 }
 
 type RejectVendorInput struct {
@@ -321,7 +373,7 @@ type RejectVendorInput struct {
 
 func (x *RejectVendorInput) Reset() {
 	*x = RejectVendorInput{}
-	mi := &file_eolymp_vendor_vendor_service_proto_msgTypes[6]
+	mi := &file_eolymp_vendor_vendor_service_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -333,7 +385,7 @@ func (x *RejectVendorInput) String() string {
 func (*RejectVendorInput) ProtoMessage() {}
 
 func (x *RejectVendorInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_vendor_vendor_service_proto_msgTypes[6]
+	mi := &file_eolymp_vendor_vendor_service_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -346,7 +398,7 @@ func (x *RejectVendorInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RejectVendorInput.ProtoReflect.Descriptor instead.
 func (*RejectVendorInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_vendor_vendor_service_proto_rawDescGZIP(), []int{6}
+	return file_eolymp_vendor_vendor_service_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *RejectVendorInput) GetVendorId() string {
@@ -371,7 +423,7 @@ type RejectVendorOutput struct {
 
 func (x *RejectVendorOutput) Reset() {
 	*x = RejectVendorOutput{}
-	mi := &file_eolymp_vendor_vendor_service_proto_msgTypes[7]
+	mi := &file_eolymp_vendor_vendor_service_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -383,7 +435,7 @@ func (x *RejectVendorOutput) String() string {
 func (*RejectVendorOutput) ProtoMessage() {}
 
 func (x *RejectVendorOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_vendor_vendor_service_proto_msgTypes[7]
+	mi := &file_eolymp_vendor_vendor_service_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -396,7 +448,7 @@ func (x *RejectVendorOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RejectVendorOutput.ProtoReflect.Descriptor instead.
 func (*RejectVendorOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_vendor_vendor_service_proto_rawDescGZIP(), []int{7}
+	return file_eolymp_vendor_vendor_service_proto_rawDescGZIP(), []int{8}
 }
 
 type ListVendorsInput_Filter struct {
@@ -412,7 +464,7 @@ type ListVendorsInput_Filter struct {
 
 func (x *ListVendorsInput_Filter) Reset() {
 	*x = ListVendorsInput_Filter{}
-	mi := &file_eolymp_vendor_vendor_service_proto_msgTypes[8]
+	mi := &file_eolymp_vendor_vendor_service_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -424,7 +476,7 @@ func (x *ListVendorsInput_Filter) String() string {
 func (*ListVendorsInput_Filter) ProtoMessage() {}
 
 func (x *ListVendorsInput_Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_vendor_vendor_service_proto_msgTypes[8]
+	mi := &file_eolymp_vendor_vendor_service_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -437,7 +489,7 @@ func (x *ListVendorsInput_Filter) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListVendorsInput_Filter.ProtoReflect.Descriptor instead.
 func (*ListVendorsInput_Filter) Descriptor() ([]byte, []int) {
-	return file_eolymp_vendor_vendor_service_proto_rawDescGZIP(), []int{0, 0}
+	return file_eolymp_vendor_vendor_service_proto_rawDescGZIP(), []int{1, 0}
 }
 
 func (x *ListVendorsInput_Filter) GetId() []*wellknown.ExpressionID {
@@ -479,7 +531,10 @@ var File_eolymp_vendor_vendor_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_vendor_vendor_service_proto_rawDesc = "" +
 	"\n" +
-	"\"eolymp/vendor/vendor_service.proto\x12\reolymp.vendor\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1aeolymp/vendor/vendor.proto\x1a!eolymp/wellknown/expression.proto\"\xa2\x03\n" +
+	"\"eolymp/vendor/vendor_service.proto\x12\reolymp.vendor\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1aeolymp/vendor/vendor.proto\x1a!eolymp/wellknown/expression.proto\"p\n" +
+	"\x12VendorChangedEvent\x12-\n" +
+	"\x06before\x18\x01 \x01(\v2\x15.eolymp.vendor.VendorR\x06before\x12+\n" +
+	"\x05after\x18\x02 \x01(\v2\x15.eolymp.vendor.VendorR\x05after\"\xa2\x03\n" +
 	"\x10ListVendorsInput\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
@@ -545,44 +600,47 @@ func file_eolymp_vendor_vendor_service_proto_rawDescGZIP() []byte {
 	return file_eolymp_vendor_vendor_service_proto_rawDescData
 }
 
-var file_eolymp_vendor_vendor_service_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
+var file_eolymp_vendor_vendor_service_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_eolymp_vendor_vendor_service_proto_goTypes = []any{
-	(*ListVendorsInput)(nil),           // 0: eolymp.vendor.ListVendorsInput
-	(*ListVendorsOutput)(nil),          // 1: eolymp.vendor.ListVendorsOutput
-	(*DescribeVendorInput)(nil),        // 2: eolymp.vendor.DescribeVendorInput
-	(*DescribeVendorOutput)(nil),       // 3: eolymp.vendor.DescribeVendorOutput
-	(*ApproveVendorInput)(nil),         // 4: eolymp.vendor.ApproveVendorInput
-	(*ApproveVendorOutput)(nil),        // 5: eolymp.vendor.ApproveVendorOutput
-	(*RejectVendorInput)(nil),          // 6: eolymp.vendor.RejectVendorInput
-	(*RejectVendorOutput)(nil),         // 7: eolymp.vendor.RejectVendorOutput
-	(*ListVendorsInput_Filter)(nil),    // 8: eolymp.vendor.ListVendorsInput.Filter
-	(*Vendor)(nil),                     // 9: eolymp.vendor.Vendor
-	(*wellknown.ExpressionID)(nil),     // 10: eolymp.wellknown.ExpressionID
-	(*wellknown.ExpressionEnum)(nil),   // 11: eolymp.wellknown.ExpressionEnum
-	(*wellknown.ExpressionString)(nil), // 12: eolymp.wellknown.ExpressionString
+	(*VendorChangedEvent)(nil),         // 0: eolymp.vendor.VendorChangedEvent
+	(*ListVendorsInput)(nil),           // 1: eolymp.vendor.ListVendorsInput
+	(*ListVendorsOutput)(nil),          // 2: eolymp.vendor.ListVendorsOutput
+	(*DescribeVendorInput)(nil),        // 3: eolymp.vendor.DescribeVendorInput
+	(*DescribeVendorOutput)(nil),       // 4: eolymp.vendor.DescribeVendorOutput
+	(*ApproveVendorInput)(nil),         // 5: eolymp.vendor.ApproveVendorInput
+	(*ApproveVendorOutput)(nil),        // 6: eolymp.vendor.ApproveVendorOutput
+	(*RejectVendorInput)(nil),          // 7: eolymp.vendor.RejectVendorInput
+	(*RejectVendorOutput)(nil),         // 8: eolymp.vendor.RejectVendorOutput
+	(*ListVendorsInput_Filter)(nil),    // 9: eolymp.vendor.ListVendorsInput.Filter
+	(*Vendor)(nil),                     // 10: eolymp.vendor.Vendor
+	(*wellknown.ExpressionID)(nil),     // 11: eolymp.wellknown.ExpressionID
+	(*wellknown.ExpressionEnum)(nil),   // 12: eolymp.wellknown.ExpressionEnum
+	(*wellknown.ExpressionString)(nil), // 13: eolymp.wellknown.ExpressionString
 }
 var file_eolymp_vendor_vendor_service_proto_depIdxs = []int32{
-	8,  // 0: eolymp.vendor.ListVendorsInput.filters:type_name -> eolymp.vendor.ListVendorsInput.Filter
-	9,  // 1: eolymp.vendor.ListVendorsOutput.items:type_name -> eolymp.vendor.Vendor
-	9,  // 2: eolymp.vendor.DescribeVendorOutput.vendor:type_name -> eolymp.vendor.Vendor
-	10, // 3: eolymp.vendor.ListVendorsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	10, // 4: eolymp.vendor.ListVendorsInput.Filter.user_id:type_name -> eolymp.wellknown.ExpressionID
-	11, // 5: eolymp.vendor.ListVendorsInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
-	12, // 6: eolymp.vendor.ListVendorsInput.Filter.email:type_name -> eolymp.wellknown.ExpressionString
-	10, // 7: eolymp.vendor.ListVendorsInput.Filter.country:type_name -> eolymp.wellknown.ExpressionID
-	0,  // 8: eolymp.vendor.VendorService.ListVendors:input_type -> eolymp.vendor.ListVendorsInput
-	2,  // 9: eolymp.vendor.VendorService.DescribeVendor:input_type -> eolymp.vendor.DescribeVendorInput
-	4,  // 10: eolymp.vendor.VendorService.ApproveVendor:input_type -> eolymp.vendor.ApproveVendorInput
-	6,  // 11: eolymp.vendor.VendorService.RejectVendor:input_type -> eolymp.vendor.RejectVendorInput
-	1,  // 12: eolymp.vendor.VendorService.ListVendors:output_type -> eolymp.vendor.ListVendorsOutput
-	3,  // 13: eolymp.vendor.VendorService.DescribeVendor:output_type -> eolymp.vendor.DescribeVendorOutput
-	5,  // 14: eolymp.vendor.VendorService.ApproveVendor:output_type -> eolymp.vendor.ApproveVendorOutput
-	7,  // 15: eolymp.vendor.VendorService.RejectVendor:output_type -> eolymp.vendor.RejectVendorOutput
-	12, // [12:16] is the sub-list for method output_type
-	8,  // [8:12] is the sub-list for method input_type
-	8,  // [8:8] is the sub-list for extension type_name
-	8,  // [8:8] is the sub-list for extension extendee
-	0,  // [0:8] is the sub-list for field type_name
+	10, // 0: eolymp.vendor.VendorChangedEvent.before:type_name -> eolymp.vendor.Vendor
+	10, // 1: eolymp.vendor.VendorChangedEvent.after:type_name -> eolymp.vendor.Vendor
+	9,  // 2: eolymp.vendor.ListVendorsInput.filters:type_name -> eolymp.vendor.ListVendorsInput.Filter
+	10, // 3: eolymp.vendor.ListVendorsOutput.items:type_name -> eolymp.vendor.Vendor
+	10, // 4: eolymp.vendor.DescribeVendorOutput.vendor:type_name -> eolymp.vendor.Vendor
+	11, // 5: eolymp.vendor.ListVendorsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	11, // 6: eolymp.vendor.ListVendorsInput.Filter.user_id:type_name -> eolymp.wellknown.ExpressionID
+	12, // 7: eolymp.vendor.ListVendorsInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
+	13, // 8: eolymp.vendor.ListVendorsInput.Filter.email:type_name -> eolymp.wellknown.ExpressionString
+	11, // 9: eolymp.vendor.ListVendorsInput.Filter.country:type_name -> eolymp.wellknown.ExpressionID
+	1,  // 10: eolymp.vendor.VendorService.ListVendors:input_type -> eolymp.vendor.ListVendorsInput
+	3,  // 11: eolymp.vendor.VendorService.DescribeVendor:input_type -> eolymp.vendor.DescribeVendorInput
+	5,  // 12: eolymp.vendor.VendorService.ApproveVendor:input_type -> eolymp.vendor.ApproveVendorInput
+	7,  // 13: eolymp.vendor.VendorService.RejectVendor:input_type -> eolymp.vendor.RejectVendorInput
+	2,  // 14: eolymp.vendor.VendorService.ListVendors:output_type -> eolymp.vendor.ListVendorsOutput
+	4,  // 15: eolymp.vendor.VendorService.DescribeVendor:output_type -> eolymp.vendor.DescribeVendorOutput
+	6,  // 16: eolymp.vendor.VendorService.ApproveVendor:output_type -> eolymp.vendor.ApproveVendorOutput
+	8,  // 17: eolymp.vendor.VendorService.RejectVendor:output_type -> eolymp.vendor.RejectVendorOutput
+	14, // [14:18] is the sub-list for method output_type
+	10, // [10:14] is the sub-list for method input_type
+	10, // [10:10] is the sub-list for extension type_name
+	10, // [10:10] is the sub-list for extension extendee
+	0,  // [0:10] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_vendor_vendor_service_proto_init() }
@@ -597,7 +655,7 @@ func file_eolymp_vendor_vendor_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_vendor_vendor_service_proto_rawDesc), len(file_eolymp_vendor_vendor_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   9,
+			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
