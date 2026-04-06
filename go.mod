@@ -5,7 +5,7 @@ go 1.26.1
 require (
 	github.com/eolymp/go-querystring v0.0.0-20251013135943-a2385717c082
 	github.com/gorilla/mux v1.8.1
-	google.golang.org/grpc v1.79.2
+	google.golang.org/grpc v1.79.3
 	google.golang.org/protobuf v1.36.11
 )
 
