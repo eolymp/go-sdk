@@ -86,21 +86,23 @@ const (
 	Test_Patch_SECRET         Test_Patch_Field = 9
 	Test_Patch_EXAMPLE_INPUT  Test_Patch_Field = 6
 	Test_Patch_EXAMPLE_ANSWER Test_Patch_Field = 7
+	Test_Patch_TESTSET        Test_Patch_Field = 10
 )
 
 // Enum value maps for Test_Patch_Field.
 var (
 	Test_Patch_Field_name = map[int32]string{
-		0: "UNKNOWN_PATCH",
-		1: "EXAMPLE",
-		2: "INACTIVE",
-		3: "SCORE",
-		4: "INPUT",
-		5: "ANSWER",
-		8: "INDEX",
-		9: "SECRET",
-		6: "EXAMPLE_INPUT",
-		7: "EXAMPLE_ANSWER",
+		0:  "UNKNOWN_PATCH",
+		1:  "EXAMPLE",
+		2:  "INACTIVE",
+		3:  "SCORE",
+		4:  "INPUT",
+		5:  "ANSWER",
+		8:  "INDEX",
+		9:  "SECRET",
+		6:  "EXAMPLE_INPUT",
+		7:  "EXAMPLE_ANSWER",
+		10: "TESTSET",
 	}
 	Test_Patch_Field_value = map[string]int32{
 		"UNKNOWN_PATCH":  0,
@@ -113,6 +115,7 @@ var (
 		"SECRET":         9,
 		"EXAMPLE_INPUT":  6,
 		"EXAMPLE_ANSWER": 7,
+		"TESTSET":        10,
 	}
 )
 
@@ -588,7 +591,7 @@ var File_eolymp_atlas_testing_test_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_testing_test_proto_rawDesc = "" +
 	"\n" +
-	"\x1feolymp/atlas/testing_test.proto\x12\feolymp.atlas\"\xe1\t\n" +
+	"\x1feolymp/atlas/testing_test.proto\x12\feolymp.atlas\"\xee\t\n" +
 	"\x04Test\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1d\n" +
 	"\n" +
@@ -614,8 +617,8 @@ const file_eolymp_atlas_testing_test_proto_rawDesc = "" +
 	"\x11example_input_url\x18( \x01(\tH\x02R\x0fexampleInputUrl\x124\n" +
 	"\x15example_input_content\x18* \x01(\tH\x02R\x13exampleInputContent\x12.\n" +
 	"\x12example_answer_url\x18) \x01(\tH\x03R\x10exampleAnswerUrl\x126\n" +
-	"\x16example_answer_content\x18+ \x01(\tH\x03R\x14exampleAnswerContent\x1a\x9f\x01\n" +
-	"\x05Patch\"\x95\x01\n" +
+	"\x16example_answer_content\x18+ \x01(\tH\x03R\x14exampleAnswerContent\x1a\xac\x01\n" +
+	"\x05Patch\"\xa2\x01\n" +
 	"\x05Field\x12\x11\n" +
 	"\rUNKNOWN_PATCH\x10\x00\x12\v\n" +
 	"\aEXAMPLE\x10\x01\x12\f\n" +
@@ -628,7 +631,9 @@ const file_eolymp_atlas_testing_test_proto_rawDesc = "" +
 	"\n" +
 	"\x06SECRET\x10\t\x12\x11\n" +
 	"\rEXAMPLE_INPUT\x10\x06\x12\x12\n" +
-	"\x0eEXAMPLE_ANSWER\x10\a\x1aJ\n" +
+	"\x0eEXAMPLE_ANSWER\x10\a\x12\v\n" +
+	"\aTESTSET\x10\n" +
+	"\x1aJ\n" +
 	"\tGenerator\x12\x1f\n" +
 	"\vscript_name\x18\x01 \x01(\tR\n" +
 	"scriptName\x12\x1c\n" +
