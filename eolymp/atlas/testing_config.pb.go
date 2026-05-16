@@ -25,6 +25,7 @@ type TestingConfig struct {
 	state               protoimpl.MessageState `protogen:"open.v1"`
 	RunCount            uint32                 `protobuf:"varint,1,opt,name=run_count,json=runCount,proto3" json:"run_count,omitempty"`                                  // number of runs
 	InteractiveFollowup bool                   `protobuf:"varint,2,opt,name=interactive_followup,json=interactiveFollowup,proto3" json:"interactive_followup,omitempty"` // use interactor in the second and subsequent runs
+	Type                Problem_Type           `protobuf:"varint,3,opt,name=type,proto3,enum=eolymp.atlas.Problem_Type" json:"type,omitempty"`                           // problem type
 	unknownFields       protoimpl.UnknownFields
 	sizeCache           protoimpl.SizeCache
 }
@@ -73,14 +74,22 @@ func (x *TestingConfig) GetInteractiveFollowup() bool {
 	return false
 }
 
+func (x *TestingConfig) GetType() Problem_Type {
+	if x != nil {
+		return x.Type
+	}
+	return Problem_UNKNOWN_TYPE
+}
+
 var File_eolymp_atlas_testing_config_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_testing_config_proto_rawDesc = "" +
 	"\n" +
-	"!eolymp/atlas/testing_config.proto\x12\feolymp.atlas\"_\n" +
+	"!eolymp/atlas/testing_config.proto\x12\feolymp.atlas\x1a\x1aeolymp/atlas/problem.proto\"\x8f\x01\n" +
 	"\rTestingConfig\x12\x1b\n" +
 	"\trun_count\x18\x01 \x01(\rR\brunCount\x121\n" +
-	"\x14interactive_followup\x18\x02 \x01(\bR\x13interactiveFollowupB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x14interactive_followup\x18\x02 \x01(\bR\x13interactiveFollowup\x12.\n" +
+	"\x04type\x18\x03 \x01(\x0e2\x1a.eolymp.atlas.Problem.TypeR\x04typeB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_testing_config_proto_rawDescOnce sync.Once
@@ -97,13 +106,15 @@ func file_eolymp_atlas_testing_config_proto_rawDescGZIP() []byte {
 var file_eolymp_atlas_testing_config_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_eolymp_atlas_testing_config_proto_goTypes = []any{
 	(*TestingConfig)(nil), // 0: eolymp.atlas.TestingConfig
+	(Problem_Type)(0),     // 1: eolymp.atlas.Problem.Type
 }
 var file_eolymp_atlas_testing_config_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	1, // 0: eolymp.atlas.TestingConfig.type:type_name -> eolymp.atlas.Problem.Type
+	1, // [1:1] is the sub-list for method output_type
+	1, // [1:1] is the sub-list for method input_type
+	1, // [1:1] is the sub-list for extension type_name
+	1, // [1:1] is the sub-list for extension extendee
+	0, // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_atlas_testing_config_proto_init() }
@@ -111,6 +122,7 @@ func file_eolymp_atlas_testing_config_proto_init() {
 	if File_eolymp_atlas_testing_config_proto != nil {
 		return
 	}
+	file_eolymp_atlas_problem_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
