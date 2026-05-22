@@ -32,6 +32,7 @@ const (
 	ProblemService_ListAttachments_FullMethodName      = "/eolymp.judge.ProblemService/ListAttachments"
 	ProblemService_ListExamples_FullMethodName         = "/eolymp.judge.ProblemService/ListExamples"
 	ProblemService_ListRuntimes_FullMethodName         = "/eolymp.judge.ProblemService/ListRuntimes"
+	ProblemService_ExportProblems_FullMethodName       = "/eolymp.judge.ProblemService/ExportProblems"
 )
 
 // ProblemServiceClient is the client API for ProblemService service.
@@ -55,6 +56,8 @@ type ProblemServiceClient interface {
 	ListAttachments(ctx context.Context, in *ListAttachmentsInput, opts ...grpc.CallOption) (*ListAttachmentsOutput, error)
 	ListExamples(ctx context.Context, in *ListExamplesInput, opts ...grpc.CallOption) (*ListExamplesOutput, error)
 	ListRuntimes(ctx context.Context, in *ListRuntimesInput, opts ...grpc.CallOption) (*ListRuntimesOutput, error)
+	// ExportProblems generates a PDF bundle for the given problem IDs (or all problems if none specified)
+	ExportProblems(ctx context.Context, in *ExportProblemsInput, opts ...grpc.CallOption) (*ExportProblemsOutput, error)
 }
 
 type problemServiceClient struct {
@@ -195,6 +198,16 @@ func (c *problemServiceClient) ListRuntimes(ctx context.Context, in *ListRuntime
 	return out, nil
 }
 
+func (c *problemServiceClient) ExportProblems(ctx context.Context, in *ExportProblemsInput, opts ...grpc.CallOption) (*ExportProblemsOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ExportProblemsOutput)
+	err := c.cc.Invoke(ctx, ProblemService_ExportProblems_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ProblemServiceServer is the server API for ProblemService service.
 // All implementations should embed UnimplementedProblemServiceServer
 // for forward compatibility.
@@ -216,6 +229,8 @@ type ProblemServiceServer interface {
 	ListAttachments(context.Context, *ListAttachmentsInput) (*ListAttachmentsOutput, error)
 	ListExamples(context.Context, *ListExamplesInput) (*ListExamplesOutput, error)
 	ListRuntimes(context.Context, *ListRuntimesInput) (*ListRuntimesOutput, error)
+	// ExportProblems generates a PDF bundle for the given problem IDs (or all problems if none specified)
+	ExportProblems(context.Context, *ExportProblemsInput) (*ExportProblemsOutput, error)
 }
 
 // UnimplementedProblemServiceServer should be embedded to have
@@ -263,6 +278,9 @@ func (UnimplementedProblemServiceServer) ListExamples(context.Context, *ListExam
 }
 func (UnimplementedProblemServiceServer) ListRuntimes(context.Context, *ListRuntimesInput) (*ListRuntimesOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListRuntimes not implemented")
+}
+func (UnimplementedProblemServiceServer) ExportProblems(context.Context, *ExportProblemsInput) (*ExportProblemsOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method ExportProblems not implemented")
 }
 func (UnimplementedProblemServiceServer) testEmbeddedByValue() {}
 
@@ -518,6 +536,24 @@ func _ProblemService_ListRuntimes_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ProblemService_ExportProblems_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ExportProblemsInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProblemServiceServer).ExportProblems(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProblemService_ExportProblems_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProblemServiceServer).ExportProblems(ctx, req.(*ExportProblemsInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ProblemService_ServiceDesc is the grpc.ServiceDesc for ProblemService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -576,6 +612,10 @@ var ProblemService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListRuntimes",
 			Handler:    _ProblemService_ListRuntimes_Handler,
+		},
+		{
+			MethodName: "ExportProblems",
+			Handler:    _ProblemService_ExportProblems_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

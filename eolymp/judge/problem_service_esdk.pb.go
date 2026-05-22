@@ -298,3 +298,14 @@ func (s *ProblemServiceService) ListRuntimes(ctx context.Context, in *ListRuntim
 
 	return out, nil
 }
+
+func (s *ProblemServiceService) ExportProblems(ctx context.Context, in *ExportProblemsInput) (*ExportProblemsOutput, error) {
+	out := &ExportProblemsOutput{}
+	path := "/problems:export"
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

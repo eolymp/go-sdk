@@ -190,6 +190,9 @@ func RegisterProblemServiceHttpHandlers(router *mux.Router, prefix string, cli P
 	router.Handle(prefix+"/problems/{problem_id}/runtime", _ProblemService_ListRuntimes_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ProblemService.ListRuntimes")
+	router.Handle(prefix+"/problems:export", _ProblemService_ExportProblems_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.judge.ProblemService.ExportProblems")
 }
 
 // RegisterProblemServiceHttpProxy adds proxy handlers for for ProblemServiceClient
@@ -495,6 +498,27 @@ func _ProblemService_ListRuntimes_Rule0(cli ProblemServiceClient) http.Handler {
 		var header, trailer metadata.MD
 
 		out, err := cli.ListRuntimes(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ProblemService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ProblemService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ProblemService_ExportProblems_Rule0(cli ProblemServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ExportProblemsInput{}
+
+		if err := _ProblemService_HTTPReadRequestBody(r, in, 1048576); err != nil {
+			_ProblemService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.ExportProblems(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
