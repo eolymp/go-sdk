@@ -26,6 +26,9 @@ type TestingConfig struct {
 	RunCount            uint32                 `protobuf:"varint,1,opt,name=run_count,json=runCount,proto3" json:"run_count,omitempty"`                                  // number of runs
 	InteractiveFollowup bool                   `protobuf:"varint,2,opt,name=interactive_followup,json=interactiveFollowup,proto3" json:"interactive_followup,omitempty"` // use interactor in the second and subsequent runs
 	Type                Problem_Type           `protobuf:"varint,3,opt,name=type,proto3,enum=eolymp.atlas.Problem_Type" json:"type,omitempty"`                           // problem type
+	TimeLimit           uint32                 `protobuf:"varint,4,opt,name=time_limit,json=timeLimit,proto3" json:"time_limit,omitempty"`                               // Wall-clock time limit (ms), problem-level default
+	CpuLimit            uint32                 `protobuf:"varint,5,opt,name=cpu_limit,json=cpuLimit,proto3" json:"cpu_limit,omitempty"`                                  // CPU time limit (ms), problem-level default
+	MemoryLimit         uint64                 `protobuf:"varint,6,opt,name=memory_limit,json=memoryLimit,proto3" json:"memory_limit,omitempty"`                         // Memory limit (bytes), problem-level default
 	unknownFields       protoimpl.UnknownFields
 	sizeCache           protoimpl.SizeCache
 }
@@ -81,15 +84,40 @@ func (x *TestingConfig) GetType() Problem_Type {
 	return Problem_UNKNOWN_TYPE
 }
 
+func (x *TestingConfig) GetTimeLimit() uint32 {
+	if x != nil {
+		return x.TimeLimit
+	}
+	return 0
+}
+
+func (x *TestingConfig) GetCpuLimit() uint32 {
+	if x != nil {
+		return x.CpuLimit
+	}
+	return 0
+}
+
+func (x *TestingConfig) GetMemoryLimit() uint64 {
+	if x != nil {
+		return x.MemoryLimit
+	}
+	return 0
+}
+
 var File_eolymp_atlas_testing_config_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_testing_config_proto_rawDesc = "" +
 	"\n" +
-	"!eolymp/atlas/testing_config.proto\x12\feolymp.atlas\x1a\x1aeolymp/atlas/problem.proto\"\x8f\x01\n" +
+	"!eolymp/atlas/testing_config.proto\x12\feolymp.atlas\x1a\x1aeolymp/atlas/problem.proto\"\xee\x01\n" +
 	"\rTestingConfig\x12\x1b\n" +
 	"\trun_count\x18\x01 \x01(\rR\brunCount\x121\n" +
 	"\x14interactive_followup\x18\x02 \x01(\bR\x13interactiveFollowup\x12.\n" +
-	"\x04type\x18\x03 \x01(\x0e2\x1a.eolymp.atlas.Problem.TypeR\x04typeB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x04type\x18\x03 \x01(\x0e2\x1a.eolymp.atlas.Problem.TypeR\x04type\x12\x1d\n" +
+	"\n" +
+	"time_limit\x18\x04 \x01(\rR\ttimeLimit\x12\x1b\n" +
+	"\tcpu_limit\x18\x05 \x01(\rR\bcpuLimit\x12!\n" +
+	"\fmemory_limit\x18\x06 \x01(\x04R\vmemoryLimitB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_testing_config_proto_rawDescOnce sync.Once
