@@ -32,6 +32,7 @@ const (
 	Order_CANCELED    Order_Status = 4 // Order is canceled.
 	Order_SHIPPED     Order_Status = 5 // Order is shipped.
 	Order_COMPLETE    Order_Status = 6 // Order is complete.
+	Order_RETURNED    Order_Status = 7 // Order has been returned by the customer.
 )
 
 // Enum value maps for Order_Status.
@@ -44,6 +45,7 @@ var (
 		4: "CANCELED",
 		5: "SHIPPED",
 		6: "COMPLETE",
+		7: "RETURNED",
 	}
 	Order_Status_value = map[string]int32{
 		"UNSPECIFIED": 0,
@@ -53,6 +55,7 @@ var (
 		"CANCELED":    4,
 		"SHIPPED":     5,
 		"COMPLETE":    6,
+		"RETURNED":    7,
 	}
 )
 
@@ -433,7 +436,7 @@ var File_eolymp_commerce_order_proto protoreflect.FileDescriptor
 
 const file_eolymp_commerce_order_proto_rawDesc = "" +
 	"\n" +
-	"\x1beolymp/commerce/order.proto\x12\x0feolymp.commerce\x1a\x1deolymp/commerce/address.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xe0\v\n" +
+	"\x1beolymp/commerce/order.proto\x12\x0feolymp.commerce\x1a\x1deolymp/commerce/address.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xee\v\n" +
 	"\x05Order\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1c\n" +
 	"\treference\x18\x02 \x01(\tR\treference\x12\x1b\n" +
@@ -478,7 +481,7 @@ const file_eolymp_commerce_order_proto_rawDesc = "" +
 	"\vunit_amount\x18\x15 \x01(\rR\n" +
 	"unitAmount\x12!\n" +
 	"\ftotal_amount\x18\x16 \x01(\rR\vtotalAmount\x12'\n" +
-	"\x0fdiscount_amount\x18\x17 \x01(\rR\x0ediscountAmount\"l\n" +
+	"\x0fdiscount_amount\x18\x17 \x01(\rR\x0ediscountAmount\"z\n" +
 	"\x06Status\x12\x0f\n" +
 	"\vUNSPECIFIED\x10\x00\x12\v\n" +
 	"\aCREATED\x10\x01\x12\v\n" +
@@ -487,7 +490,8 @@ const file_eolymp_commerce_order_proto_rawDesc = "" +
 	"PROCESSING\x10\x03\x12\f\n" +
 	"\bCANCELED\x10\x04\x12\v\n" +
 	"\aSHIPPED\x10\x05\x12\f\n" +
-	"\bCOMPLETE\x10\x06B3Z1github.com/eolymp/go-sdk/eolymp/commerce;commerceb\x06proto3"
+	"\bCOMPLETE\x10\x06\x12\f\n" +
+	"\bRETURNED\x10\aB3Z1github.com/eolymp/go-sdk/eolymp/commerce;commerceb\x06proto3"
 
 var (
 	file_eolymp_commerce_order_proto_rawDescOnce sync.Once

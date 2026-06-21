@@ -166,6 +166,9 @@ func RegisterFulfillmentServiceHttpHandlers(router *mux.Router, prefix string, c
 	router.Handle(prefix+"/store/orders/{order_id}/complete", _FulfillmentService_CompleteOrder_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.commerce.FulfillmentService.CompleteOrder")
+	router.Handle(prefix+"/store/orders/{order_id}/return", _FulfillmentService_MarkReturnedOrder_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.commerce.FulfillmentService.MarkReturnedOrder")
 }
 
 // RegisterFulfillmentServiceHttpProxy adds proxy handlers for for FulfillmentServiceClient
@@ -284,6 +287,30 @@ func _FulfillmentService_CompleteOrder_Rule0(cli FulfillmentServiceClient) http.
 		var header, trailer metadata.MD
 
 		out, err := cli.CompleteOrder(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_FulfillmentService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_FulfillmentService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _FulfillmentService_MarkReturnedOrder_Rule0(cli FulfillmentServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &MarkReturnedOrderInput{}
+
+		if err := _FulfillmentService_HTTPReadRequestBody(r, in, 1048576); err != nil {
+			_FulfillmentService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.OrderId = vars["order_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.MarkReturnedOrder(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_FulfillmentService_HTTPWriteErrorResponse(w, err)
 			return

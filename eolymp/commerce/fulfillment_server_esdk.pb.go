@@ -179,3 +179,19 @@ func (s *FulfillmentServiceService) CompleteOrder(ctx context.Context, in *Compl
 
 	return out, nil
 }
+
+func (s *FulfillmentServiceService) MarkReturnedOrder(ctx context.Context, in *MarkReturnedOrderInput) (*MarkReturnedOrderOutput, error) {
+	out := &MarkReturnedOrderOutput{}
+	path := "/store/orders/" + url.PathEscape(in.GetOrderId()) + "/return"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.OrderId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
