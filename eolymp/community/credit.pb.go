@@ -172,7 +172,7 @@ type Credit_Transaction struct {
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	Timestamp     *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
 	Summary       string                 `protobuf:"bytes,3,opt,name=summary,proto3" json:"summary,omitempty"`
-	Amount        uint32                 `protobuf:"varint,4,opt,name=amount,proto3" json:"amount,omitempty"`
+	Amount        int32                  `protobuf:"varint,4,opt,name=amount,proto3" json:"amount,omitempty"` // positive = credit/earn, negative = debit/spend/refund
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -228,7 +228,7 @@ func (x *Credit_Transaction) GetSummary() string {
 	return ""
 }
 
-func (x *Credit_Transaction) GetAmount() uint32 {
+func (x *Credit_Transaction) GetAmount() int32 {
 	if x != nil {
 		return x.Amount
 	}
@@ -258,7 +258,7 @@ const file_eolymp_community_credit_proto_rawDesc = "" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x128\n" +
 	"\ttimestamp\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\ttimestamp\x12\x18\n" +
 	"\asummary\x18\x03 \x01(\tR\asummary\x12\x16\n" +
-	"\x06amount\x18\x04 \x01(\rR\x06amountB5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
+	"\x06amount\x18\x04 \x01(\x05R\x06amountB5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
 
 var (
 	file_eolymp_community_credit_proto_rawDescOnce sync.Once

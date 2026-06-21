@@ -166,7 +166,7 @@ func RegisterCreditServiceHttpHandlers(router *mux.Router, prefix string, cli Cr
 	router.Handle(prefix+"/credit/redeem", _CreditService_RedeemCredit_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.community.CreditService.RedeemCredit")
-	router.Handle(prefix+"/credit/grants", _CreditService_ListCreditTransactions_Rule0(cli)).
+	router.Handle(prefix+"/credit/transactions", _CreditService_ListCreditTransactions_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.community.CreditService.ListCreditTransactions")
 	router.Handle(prefix+"/credit/transactions/{transaction_id}/refund", _CreditService_RefundCredit_Rule0(cli)).

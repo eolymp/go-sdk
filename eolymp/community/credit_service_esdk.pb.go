@@ -162,7 +162,7 @@ func (s *CreditServiceService) RedeemCredit(ctx context.Context, in *RedeemCredi
 
 func (s *CreditServiceService) ListCreditTransactions(ctx context.Context, in *ListCreditTransactionsInput) (*ListCreditTransactionsOutput, error) {
 	out := &ListCreditTransactionsOutput{}
-	path := "/credit/grants"
+	path := "/credit/transactions"
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
