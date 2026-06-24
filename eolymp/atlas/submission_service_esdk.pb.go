@@ -180,3 +180,14 @@ func (s *SubmissionServiceService) ListProblemTop(ctx context.Context, in *ListP
 
 	return out, nil
 }
+
+func (s *SubmissionServiceService) AggregateSubmissions(ctx context.Context, in *AggregateSubmissionsInput) (*AggregateSubmissionsOutput, error) {
+	out := &AggregateSubmissionsOutput{}
+	path := "/submissions:aggregate"
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

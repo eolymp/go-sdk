@@ -26,6 +26,7 @@ const (
 	SubmissionService_ListSubmissions_FullMethodName         = "/eolymp.atlas.SubmissionService/ListSubmissions"
 	SubmissionService_DescribeSubmissionUsage_FullMethodName = "/eolymp.atlas.SubmissionService/DescribeSubmissionUsage"
 	SubmissionService_ListProblemTop_FullMethodName          = "/eolymp.atlas.SubmissionService/ListProblemTop"
+	SubmissionService_AggregateSubmissions_FullMethodName    = "/eolymp.atlas.SubmissionService/AggregateSubmissions"
 )
 
 // SubmissionServiceClient is the client API for SubmissionService service.
@@ -39,6 +40,7 @@ type SubmissionServiceClient interface {
 	ListSubmissions(ctx context.Context, in *ListSubmissionsInput, opts ...grpc.CallOption) (*ListSubmissionsOutput, error)
 	DescribeSubmissionUsage(ctx context.Context, in *DescribeSubmissionUsageInput, opts ...grpc.CallOption) (*DescribeSubmissionUsageOutput, error)
 	ListProblemTop(ctx context.Context, in *ListProblemTopInput, opts ...grpc.CallOption) (*ListProblemTopOutput, error)
+	AggregateSubmissions(ctx context.Context, in *AggregateSubmissionsInput, opts ...grpc.CallOption) (*AggregateSubmissionsOutput, error)
 }
 
 type submissionServiceClient struct {
@@ -128,6 +130,16 @@ func (c *submissionServiceClient) ListProblemTop(ctx context.Context, in *ListPr
 	return out, nil
 }
 
+func (c *submissionServiceClient) AggregateSubmissions(ctx context.Context, in *AggregateSubmissionsInput, opts ...grpc.CallOption) (*AggregateSubmissionsOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(AggregateSubmissionsOutput)
+	err := c.cc.Invoke(ctx, SubmissionService_AggregateSubmissions_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SubmissionServiceServer is the server API for SubmissionService service.
 // All implementations should embed UnimplementedSubmissionServiceServer
 // for forward compatibility.
@@ -139,6 +151,7 @@ type SubmissionServiceServer interface {
 	ListSubmissions(context.Context, *ListSubmissionsInput) (*ListSubmissionsOutput, error)
 	DescribeSubmissionUsage(context.Context, *DescribeSubmissionUsageInput) (*DescribeSubmissionUsageOutput, error)
 	ListProblemTop(context.Context, *ListProblemTopInput) (*ListProblemTopOutput, error)
+	AggregateSubmissions(context.Context, *AggregateSubmissionsInput) (*AggregateSubmissionsOutput, error)
 }
 
 // UnimplementedSubmissionServiceServer should be embedded to have
@@ -168,6 +181,9 @@ func (UnimplementedSubmissionServiceServer) DescribeSubmissionUsage(context.Cont
 }
 func (UnimplementedSubmissionServiceServer) ListProblemTop(context.Context, *ListProblemTopInput) (*ListProblemTopOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListProblemTop not implemented")
+}
+func (UnimplementedSubmissionServiceServer) AggregateSubmissions(context.Context, *AggregateSubmissionsInput) (*AggregateSubmissionsOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method AggregateSubmissions not implemented")
 }
 func (UnimplementedSubmissionServiceServer) testEmbeddedByValue() {}
 
@@ -308,6 +324,24 @@ func _SubmissionService_ListProblemTop_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SubmissionService_AggregateSubmissions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AggregateSubmissionsInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SubmissionServiceServer).AggregateSubmissions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SubmissionService_AggregateSubmissions_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SubmissionServiceServer).AggregateSubmissions(ctx, req.(*AggregateSubmissionsInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // SubmissionService_ServiceDesc is the grpc.ServiceDesc for SubmissionService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -338,6 +372,10 @@ var SubmissionService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListProblemTop",
 			Handler:    _SubmissionService_ListProblemTop_Handler,
+		},
+		{
+			MethodName: "AggregateSubmissions",
+			Handler:    _SubmissionService_AggregateSubmissions_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{
