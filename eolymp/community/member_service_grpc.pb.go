@@ -19,16 +19,17 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	MemberService_CreateMember_FullMethodName        = "/eolymp.community.MemberService/CreateMember"
-	MemberService_UpdateMember_FullMethodName        = "/eolymp.community.MemberService/UpdateMember"
-	MemberService_UpdateMemberPicture_FullMethodName = "/eolymp.community.MemberService/UpdateMemberPicture"
-	MemberService_DeleteMember_FullMethodName        = "/eolymp.community.MemberService/DeleteMember"
-	MemberService_RestoreMember_FullMethodName       = "/eolymp.community.MemberService/RestoreMember"
-	MemberService_DescribeMember_FullMethodName      = "/eolymp.community.MemberService/DescribeMember"
-	MemberService_ListMembers_FullMethodName         = "/eolymp.community.MemberService/ListMembers"
-	MemberService_AssignMember_FullMethodName        = "/eolymp.community.MemberService/AssignMember"
-	MemberService_UnassignMember_FullMethodName      = "/eolymp.community.MemberService/UnassignMember"
-	MemberService_DescribeMemberUsage_FullMethodName = "/eolymp.community.MemberService/DescribeMemberUsage"
+	MemberService_CreateMember_FullMethodName           = "/eolymp.community.MemberService/CreateMember"
+	MemberService_UpdateMember_FullMethodName           = "/eolymp.community.MemberService/UpdateMember"
+	MemberService_UpdateMemberPicture_FullMethodName    = "/eolymp.community.MemberService/UpdateMemberPicture"
+	MemberService_DeleteMember_FullMethodName           = "/eolymp.community.MemberService/DeleteMember"
+	MemberService_RestoreMember_FullMethodName          = "/eolymp.community.MemberService/RestoreMember"
+	MemberService_DescribeMember_FullMethodName         = "/eolymp.community.MemberService/DescribeMember"
+	MemberService_ListMembers_FullMethodName            = "/eolymp.community.MemberService/ListMembers"
+	MemberService_AssignMember_FullMethodName           = "/eolymp.community.MemberService/AssignMember"
+	MemberService_UnassignMember_FullMethodName         = "/eolymp.community.MemberService/UnassignMember"
+	MemberService_DescribeMemberUsage_FullMethodName    = "/eolymp.community.MemberService/DescribeMemberUsage"
+	MemberService_StreamMemberReferences_FullMethodName = "/eolymp.community.MemberService/StreamMemberReferences"
 )
 
 // MemberServiceClient is the client API for MemberService service.
@@ -47,6 +48,7 @@ type MemberServiceClient interface {
 	AssignMember(ctx context.Context, in *AssignMemberInput, opts ...grpc.CallOption) (*AssignMemberOutput, error)
 	UnassignMember(ctx context.Context, in *UnassignMemberInput, opts ...grpc.CallOption) (*UnassignMemberOutput, error)
 	DescribeMemberUsage(ctx context.Context, in *DescribeMemberUsageInput, opts ...grpc.CallOption) (*DescribeMemberUsageOutput, error)
+	StreamMemberReferences(ctx context.Context, in *StreamMemberReferencesInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[StreamMemberReferencesOutput], error)
 }
 
 type memberServiceClient struct {
@@ -157,6 +159,25 @@ func (c *memberServiceClient) DescribeMemberUsage(ctx context.Context, in *Descr
 	return out, nil
 }
 
+func (c *memberServiceClient) StreamMemberReferences(ctx context.Context, in *StreamMemberReferencesInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[StreamMemberReferencesOutput], error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	stream, err := c.cc.NewStream(ctx, &MemberService_ServiceDesc.Streams[0], MemberService_StreamMemberReferences_FullMethodName, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &grpc.GenericClientStream[StreamMemberReferencesInput, StreamMemberReferencesOutput]{ClientStream: stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type MemberService_StreamMemberReferencesClient = grpc.ServerStreamingClient[StreamMemberReferencesOutput]
+
 // MemberServiceServer is the server API for MemberService service.
 // All implementations should embed UnimplementedMemberServiceServer
 // for forward compatibility.
@@ -173,6 +194,7 @@ type MemberServiceServer interface {
 	AssignMember(context.Context, *AssignMemberInput) (*AssignMemberOutput, error)
 	UnassignMember(context.Context, *UnassignMemberInput) (*UnassignMemberOutput, error)
 	DescribeMemberUsage(context.Context, *DescribeMemberUsageInput) (*DescribeMemberUsageOutput, error)
+	StreamMemberReferences(*StreamMemberReferencesInput, grpc.ServerStreamingServer[StreamMemberReferencesOutput]) error
 }
 
 // UnimplementedMemberServiceServer should be embedded to have
@@ -211,6 +233,9 @@ func (UnimplementedMemberServiceServer) UnassignMember(context.Context, *Unassig
 }
 func (UnimplementedMemberServiceServer) DescribeMemberUsage(context.Context, *DescribeMemberUsageInput) (*DescribeMemberUsageOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method DescribeMemberUsage not implemented")
+}
+func (UnimplementedMemberServiceServer) StreamMemberReferences(*StreamMemberReferencesInput, grpc.ServerStreamingServer[StreamMemberReferencesOutput]) error {
+	return status.Error(codes.Unimplemented, "method StreamMemberReferences not implemented")
 }
 func (UnimplementedMemberServiceServer) testEmbeddedByValue() {}
 
@@ -412,6 +437,17 @@ func _MemberService_DescribeMemberUsage_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _MemberService_StreamMemberReferences_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(StreamMemberReferencesInput)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(MemberServiceServer).StreamMemberReferences(m, &grpc.GenericServerStream[StreamMemberReferencesInput, StreamMemberReferencesOutput]{ServerStream: stream})
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type MemberService_StreamMemberReferencesServer = grpc.ServerStreamingServer[StreamMemberReferencesOutput]
+
 // MemberService_ServiceDesc is the grpc.ServiceDesc for MemberService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -460,6 +496,12 @@ var MemberService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _MemberService_DescribeMemberUsage_Handler,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "StreamMemberReferences",
+			Handler:       _MemberService_StreamMemberReferences_Handler,
+			ServerStreams: true,
+		},
+	},
 	Metadata: "eolymp/community/member_service.proto",
 }

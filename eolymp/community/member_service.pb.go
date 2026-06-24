@@ -1183,6 +1183,94 @@ func (x *DescribeMemberUsageOutput) GetNewMembers() uint32 {
 	return 0
 }
 
+type StreamMemberReferencesInput struct {
+	state         protoimpl.MessageState              `protogen:"open.v1"`
+	Filters       *StreamMemberReferencesInput_Filter `protobuf:"bytes,40,opt,name=filters,proto3" json:"filters,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *StreamMemberReferencesInput) Reset() {
+	*x = StreamMemberReferencesInput{}
+	mi := &file_eolymp_community_member_service_proto_msgTypes[22]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *StreamMemberReferencesInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*StreamMemberReferencesInput) ProtoMessage() {}
+
+func (x *StreamMemberReferencesInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_community_member_service_proto_msgTypes[22]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use StreamMemberReferencesInput.ProtoReflect.Descriptor instead.
+func (*StreamMemberReferencesInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_community_member_service_proto_rawDescGZIP(), []int{22}
+}
+
+func (x *StreamMemberReferencesInput) GetFilters() *StreamMemberReferencesInput_Filter {
+	if x != nil {
+		return x.Filters
+	}
+	return nil
+}
+
+type StreamMemberReferencesOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Items         []*Member_Reference    `protobuf:"bytes,1,rep,name=items,proto3" json:"items,omitempty"` // up to ~1000 references per streamed message
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *StreamMemberReferencesOutput) Reset() {
+	*x = StreamMemberReferencesOutput{}
+	mi := &file_eolymp_community_member_service_proto_msgTypes[23]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *StreamMemberReferencesOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*StreamMemberReferencesOutput) ProtoMessage() {}
+
+func (x *StreamMemberReferencesOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_community_member_service_proto_msgTypes[23]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use StreamMemberReferencesOutput.ProtoReflect.Descriptor instead.
+func (*StreamMemberReferencesOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_community_member_service_proto_rawDescGZIP(), []int{23}
+}
+
+func (x *StreamMemberReferencesOutput) GetItems() []*Member_Reference {
+	if x != nil {
+		return x.Items
+	}
+	return nil
+}
+
 type ListMembersInput_ExpressionAttribute struct {
 	state         protoimpl.MessageState      `protogen:"open.v1"`
 	AttributeKey  string                      `protobuf:"bytes,1,opt,name=attribute_key,json=attributeKey,proto3" json:"attribute_key,omitempty"`
@@ -1194,7 +1282,7 @@ type ListMembersInput_ExpressionAttribute struct {
 
 func (x *ListMembersInput_ExpressionAttribute) Reset() {
 	*x = ListMembersInput_ExpressionAttribute{}
-	mi := &file_eolymp_community_member_service_proto_msgTypes[22]
+	mi := &file_eolymp_community_member_service_proto_msgTypes[24]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1206,7 +1294,7 @@ func (x *ListMembersInput_ExpressionAttribute) String() string {
 func (*ListMembersInput_ExpressionAttribute) ProtoMessage() {}
 
 func (x *ListMembersInput_ExpressionAttribute) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_community_member_service_proto_msgTypes[22]
+	mi := &file_eolymp_community_member_service_proto_msgTypes[24]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1270,7 +1358,7 @@ type ListMembersInput_Filter struct {
 
 func (x *ListMembersInput_Filter) Reset() {
 	*x = ListMembersInput_Filter{}
-	mi := &file_eolymp_community_member_service_proto_msgTypes[23]
+	mi := &file_eolymp_community_member_service_proto_msgTypes[25]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1282,7 +1370,7 @@ func (x *ListMembersInput_Filter) String() string {
 func (*ListMembersInput_Filter) ProtoMessage() {}
 
 func (x *ListMembersInput_Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_community_member_service_proto_msgTypes[23]
+	mi := &file_eolymp_community_member_service_proto_msgTypes[25]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1431,6 +1519,214 @@ func (x *ListMembersInput_Filter) GetAttribute() []*ListMembersInput_ExpressionA
 	return nil
 }
 
+type StreamMemberReferencesInput_Filter struct {
+	state         protoimpl.MessageState                                    `protogen:"open.v1"`
+	Id            []*wellknown.ExpressionID                                 `protobuf:"bytes,1,rep,name=id,proto3" json:"id,omitempty"`
+	ExternalRef   []*wellknown.ExpressionID                                 `protobuf:"bytes,10,rep,name=external_ref,json=externalRef,proto3" json:"external_ref,omitempty"`
+	Type          []*wellknown.ExpressionEnum                               `protobuf:"bytes,2,rep,name=type,proto3" json:"type,omitempty"`
+	Inactive      []*wellknown.ExpressionBool                               `protobuf:"bytes,4,rep,name=inactive,proto3" json:"inactive,omitempty"`
+	Incomplete    []*wellknown.ExpressionBool                               `protobuf:"bytes,5,rep,name=incomplete,proto3" json:"incomplete,omitempty"`
+	Unofficial    []*wellknown.ExpressionBool                               `protobuf:"bytes,6,rep,name=unofficial,proto3" json:"unofficial,omitempty"`
+	Seated        []*wellknown.ExpressionBool                               `protobuf:"bytes,9,rep,name=seated,proto3" json:"seated,omitempty"`
+	TeamId        []*wellknown.ExpressionID                                 `protobuf:"bytes,7,rep,name=team_id,json=teamId,proto3" json:"team_id,omitempty"`
+	GroupId       []*wellknown.ExpressionID                                 `protobuf:"bytes,8,rep,name=group_id,json=groupId,proto3" json:"group_id,omitempty"`
+	Birthday      []*wellknown.ExpressionTimestamp                          `protobuf:"bytes,108,rep,name=birthday,proto3" json:"birthday,omitempty"`
+	Country       []*wellknown.ExpressionID                                 `protobuf:"bytes,109,rep,name=country,proto3" json:"country,omitempty"`
+	Score         []*wellknown.ExpressionInt                                `protobuf:"bytes,106,rep,name=score,proto3" json:"score,omitempty"`
+	CreatedAt     []*wellknown.ExpressionTimestamp                          `protobuf:"bytes,110,rep,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	Attribute     []*StreamMemberReferencesInput_Filter_ExpressionAttribute `protobuf:"bytes,107,rep,name=attribute,proto3" json:"attribute,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *StreamMemberReferencesInput_Filter) Reset() {
+	*x = StreamMemberReferencesInput_Filter{}
+	mi := &file_eolymp_community_member_service_proto_msgTypes[26]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *StreamMemberReferencesInput_Filter) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*StreamMemberReferencesInput_Filter) ProtoMessage() {}
+
+func (x *StreamMemberReferencesInput_Filter) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_community_member_service_proto_msgTypes[26]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use StreamMemberReferencesInput_Filter.ProtoReflect.Descriptor instead.
+func (*StreamMemberReferencesInput_Filter) Descriptor() ([]byte, []int) {
+	return file_eolymp_community_member_service_proto_rawDescGZIP(), []int{22, 0}
+}
+
+func (x *StreamMemberReferencesInput_Filter) GetId() []*wellknown.ExpressionID {
+	if x != nil {
+		return x.Id
+	}
+	return nil
+}
+
+func (x *StreamMemberReferencesInput_Filter) GetExternalRef() []*wellknown.ExpressionID {
+	if x != nil {
+		return x.ExternalRef
+	}
+	return nil
+}
+
+func (x *StreamMemberReferencesInput_Filter) GetType() []*wellknown.ExpressionEnum {
+	if x != nil {
+		return x.Type
+	}
+	return nil
+}
+
+func (x *StreamMemberReferencesInput_Filter) GetInactive() []*wellknown.ExpressionBool {
+	if x != nil {
+		return x.Inactive
+	}
+	return nil
+}
+
+func (x *StreamMemberReferencesInput_Filter) GetIncomplete() []*wellknown.ExpressionBool {
+	if x != nil {
+		return x.Incomplete
+	}
+	return nil
+}
+
+func (x *StreamMemberReferencesInput_Filter) GetUnofficial() []*wellknown.ExpressionBool {
+	if x != nil {
+		return x.Unofficial
+	}
+	return nil
+}
+
+func (x *StreamMemberReferencesInput_Filter) GetSeated() []*wellknown.ExpressionBool {
+	if x != nil {
+		return x.Seated
+	}
+	return nil
+}
+
+func (x *StreamMemberReferencesInput_Filter) GetTeamId() []*wellknown.ExpressionID {
+	if x != nil {
+		return x.TeamId
+	}
+	return nil
+}
+
+func (x *StreamMemberReferencesInput_Filter) GetGroupId() []*wellknown.ExpressionID {
+	if x != nil {
+		return x.GroupId
+	}
+	return nil
+}
+
+func (x *StreamMemberReferencesInput_Filter) GetBirthday() []*wellknown.ExpressionTimestamp {
+	if x != nil {
+		return x.Birthday
+	}
+	return nil
+}
+
+func (x *StreamMemberReferencesInput_Filter) GetCountry() []*wellknown.ExpressionID {
+	if x != nil {
+		return x.Country
+	}
+	return nil
+}
+
+func (x *StreamMemberReferencesInput_Filter) GetScore() []*wellknown.ExpressionInt {
+	if x != nil {
+		return x.Score
+	}
+	return nil
+}
+
+func (x *StreamMemberReferencesInput_Filter) GetCreatedAt() []*wellknown.ExpressionTimestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
+func (x *StreamMemberReferencesInput_Filter) GetAttribute() []*StreamMemberReferencesInput_Filter_ExpressionAttribute {
+	if x != nil {
+		return x.Attribute
+	}
+	return nil
+}
+
+type StreamMemberReferencesInput_Filter_ExpressionAttribute struct {
+	state         protoimpl.MessageState      `protogen:"open.v1"`
+	AttributeKey  string                      `protobuf:"bytes,1,opt,name=attribute_key,json=attributeKey,proto3" json:"attribute_key,omitempty"`
+	Number        *wellknown.ExpressionInt    `protobuf:"bytes,10,opt,name=number,proto3" json:"number,omitempty"`
+	String_       *wellknown.ExpressionString `protobuf:"bytes,11,opt,name=string,proto3" json:"string,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *StreamMemberReferencesInput_Filter_ExpressionAttribute) Reset() {
+	*x = StreamMemberReferencesInput_Filter_ExpressionAttribute{}
+	mi := &file_eolymp_community_member_service_proto_msgTypes[27]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *StreamMemberReferencesInput_Filter_ExpressionAttribute) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*StreamMemberReferencesInput_Filter_ExpressionAttribute) ProtoMessage() {}
+
+func (x *StreamMemberReferencesInput_Filter_ExpressionAttribute) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_community_member_service_proto_msgTypes[27]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use StreamMemberReferencesInput_Filter_ExpressionAttribute.ProtoReflect.Descriptor instead.
+func (*StreamMemberReferencesInput_Filter_ExpressionAttribute) Descriptor() ([]byte, []int) {
+	return file_eolymp_community_member_service_proto_rawDescGZIP(), []int{22, 0, 0}
+}
+
+func (x *StreamMemberReferencesInput_Filter_ExpressionAttribute) GetAttributeKey() string {
+	if x != nil {
+		return x.AttributeKey
+	}
+	return ""
+}
+
+func (x *StreamMemberReferencesInput_Filter_ExpressionAttribute) GetNumber() *wellknown.ExpressionInt {
+	if x != nil {
+		return x.Number
+	}
+	return nil
+}
+
+func (x *StreamMemberReferencesInput_Filter_ExpressionAttribute) GetString_() *wellknown.ExpressionString {
+	if x != nil {
+		return x.String_
+	}
+	return nil
+}
+
 var File_eolymp_community_member_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_member_service_proto_rawDesc = "" +
@@ -1540,7 +1836,37 @@ const file_eolymp_community_member_service_proto_rawDesc = "" +
 	"\rtotal_members\x18\x01 \x01(\rR\ftotalMembers\x12%\n" +
 	"\x0eactive_members\x18\x02 \x01(\rR\ractiveMembers\x12\x1f\n" +
 	"\vnew_members\x18\x03 \x01(\rR\n" +
-	"newMembers2\xf7\r\n" +
+	"newMembers\"\xa5\t\n" +
+	"\x1bStreamMemberReferencesInput\x12N\n" +
+	"\afilters\x18( \x01(\v24.eolymp.community.StreamMemberReferencesInput.FilterR\afilters\x1a\xb5\b\n" +
+	"\x06Filter\x12.\n" +
+	"\x02id\x18\x01 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\x12A\n" +
+	"\fexternal_ref\x18\n" +
+	" \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\vexternalRef\x124\n" +
+	"\x04type\x18\x02 \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x04type\x12<\n" +
+	"\binactive\x18\x04 \x03(\v2 .eolymp.wellknown.ExpressionBoolR\binactive\x12@\n" +
+	"\n" +
+	"incomplete\x18\x05 \x03(\v2 .eolymp.wellknown.ExpressionBoolR\n" +
+	"incomplete\x12@\n" +
+	"\n" +
+	"unofficial\x18\x06 \x03(\v2 .eolymp.wellknown.ExpressionBoolR\n" +
+	"unofficial\x128\n" +
+	"\x06seated\x18\t \x03(\v2 .eolymp.wellknown.ExpressionBoolR\x06seated\x127\n" +
+	"\ateam_id\x18\a \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x06teamId\x129\n" +
+	"\bgroup_id\x18\b \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\agroupId\x12A\n" +
+	"\bbirthday\x18l \x03(\v2%.eolymp.wellknown.ExpressionTimestampR\bbirthday\x128\n" +
+	"\acountry\x18m \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\acountry\x125\n" +
+	"\x05score\x18j \x03(\v2\x1f.eolymp.wellknown.ExpressionIntR\x05score\x12D\n" +
+	"\n" +
+	"created_at\x18n \x03(\v2%.eolymp.wellknown.ExpressionTimestampR\tcreatedAt\x12f\n" +
+	"\tattribute\x18k \x03(\v2H.eolymp.community.StreamMemberReferencesInput.Filter.ExpressionAttributeR\tattribute\x1a\xaf\x01\n" +
+	"\x13ExpressionAttribute\x12#\n" +
+	"\rattribute_key\x18\x01 \x01(\tR\fattributeKey\x127\n" +
+	"\x06number\x18\n" +
+	" \x01(\v2\x1f.eolymp.wellknown.ExpressionIntR\x06number\x12:\n" +
+	"\x06string\x18\v \x01(\v2\".eolymp.wellknown.ExpressionStringR\x06string\"X\n" +
+	"\x1cStreamMemberReferencesOutput\x128\n" +
+	"\x05items\x18\x01 \x03(\v2\".eolymp.community.Member.ReferenceR\x05items2\x92\x0f\n" +
 	"\rMemberService\x12\x98\x01\n" +
 	"\fCreateMember\x12#.eolymp.community.CreateMemberInput\x1a$.eolymp.community.CreateMemberOutput\"=\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -1603,7 +1929,10 @@ const file_eolymp_community_member_service_proto_rawDesc = "" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15community:member:read\x82\xd3\xe4\x93\x02\x10\x12\x0e/usage/members\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
+	"\x15community:member:read\x82\xd3\xe4\x93\x02\x10\x12\x0e/usage/members\x12\x98\x01\n" +
+	"\x16StreamMemberReferences\x12-.eolymp.community.StreamMemberReferencesInput\x1a..eolymp.community.StreamMemberReferencesOutput\"\x1d\x82\xe3\n" +
+	"\x19\x8a\xe3\n" +
+	"\x15community:member:read0\x01\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
 
 var (
 	file_eolymp_community_member_service_proto_rawDescOnce sync.Once
@@ -1618,106 +1947,131 @@ func file_eolymp_community_member_service_proto_rawDescGZIP() []byte {
 }
 
 var file_eolymp_community_member_service_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_eolymp_community_member_service_proto_msgTypes = make([]protoimpl.MessageInfo, 24)
+var file_eolymp_community_member_service_proto_msgTypes = make([]protoimpl.MessageInfo, 28)
 var file_eolymp_community_member_service_proto_goTypes = []any{
-	(ListMembersInput_Sortable)(0),               // 0: eolymp.community.ListMembersInput.Sortable
-	(*MemberChangedEvent)(nil),                   // 1: eolymp.community.MemberChangedEvent
-	(*MemberUsageEvent)(nil),                     // 2: eolymp.community.MemberUsageEvent
-	(*CreateMemberInput)(nil),                    // 3: eolymp.community.CreateMemberInput
-	(*CreateMemberOutput)(nil),                   // 4: eolymp.community.CreateMemberOutput
-	(*UpdateMemberInput)(nil),                    // 5: eolymp.community.UpdateMemberInput
-	(*UpdateMemberOutput)(nil),                   // 6: eolymp.community.UpdateMemberOutput
-	(*UpdateMemberPictureInput)(nil),             // 7: eolymp.community.UpdateMemberPictureInput
-	(*UpdateMemberPictureOutput)(nil),            // 8: eolymp.community.UpdateMemberPictureOutput
-	(*DeleteMemberInput)(nil),                    // 9: eolymp.community.DeleteMemberInput
-	(*DeleteMemberOutput)(nil),                   // 10: eolymp.community.DeleteMemberOutput
-	(*RestoreMemberInput)(nil),                   // 11: eolymp.community.RestoreMemberInput
-	(*RestoreMemberOutput)(nil),                  // 12: eolymp.community.RestoreMemberOutput
-	(*DescribeMemberInput)(nil),                  // 13: eolymp.community.DescribeMemberInput
-	(*DescribeMemberOutput)(nil),                 // 14: eolymp.community.DescribeMemberOutput
-	(*ListMembersInput)(nil),                     // 15: eolymp.community.ListMembersInput
-	(*ListMembersOutput)(nil),                    // 16: eolymp.community.ListMembersOutput
-	(*AssignMemberInput)(nil),                    // 17: eolymp.community.AssignMemberInput
-	(*AssignMemberOutput)(nil),                   // 18: eolymp.community.AssignMemberOutput
-	(*UnassignMemberInput)(nil),                  // 19: eolymp.community.UnassignMemberInput
-	(*UnassignMemberOutput)(nil),                 // 20: eolymp.community.UnassignMemberOutput
-	(*DescribeMemberUsageInput)(nil),             // 21: eolymp.community.DescribeMemberUsageInput
-	(*DescribeMemberUsageOutput)(nil),            // 22: eolymp.community.DescribeMemberUsageOutput
-	(*ListMembersInput_ExpressionAttribute)(nil), // 23: eolymp.community.ListMembersInput.ExpressionAttribute
-	(*ListMembersInput_Filter)(nil),              // 24: eolymp.community.ListMembersInput.Filter
-	(*Member)(nil),                               // 25: eolymp.community.Member
-	(Member_Patch_Field)(0),                      // 26: eolymp.community.Member.Patch.Field
-	(Member_Extra_Field)(0),                      // 27: eolymp.community.Member.Extra.Field
-	(wellknown.Direction)(0),                     // 28: eolymp.wellknown.Direction
-	(*timestamppb.Timestamp)(nil),                // 29: google.protobuf.Timestamp
-	(*wellknown.ExpressionInt)(nil),              // 30: eolymp.wellknown.ExpressionInt
-	(*wellknown.ExpressionString)(nil),           // 31: eolymp.wellknown.ExpressionString
-	(*wellknown.ExpressionID)(nil),               // 32: eolymp.wellknown.ExpressionID
-	(*wellknown.ExpressionEnum)(nil),             // 33: eolymp.wellknown.ExpressionEnum
-	(*wellknown.ExpressionBool)(nil),             // 34: eolymp.wellknown.ExpressionBool
-	(*wellknown.ExpressionTimestamp)(nil),        // 35: eolymp.wellknown.ExpressionTimestamp
+	(ListMembersInput_Sortable)(0),                                 // 0: eolymp.community.ListMembersInput.Sortable
+	(*MemberChangedEvent)(nil),                                     // 1: eolymp.community.MemberChangedEvent
+	(*MemberUsageEvent)(nil),                                       // 2: eolymp.community.MemberUsageEvent
+	(*CreateMemberInput)(nil),                                      // 3: eolymp.community.CreateMemberInput
+	(*CreateMemberOutput)(nil),                                     // 4: eolymp.community.CreateMemberOutput
+	(*UpdateMemberInput)(nil),                                      // 5: eolymp.community.UpdateMemberInput
+	(*UpdateMemberOutput)(nil),                                     // 6: eolymp.community.UpdateMemberOutput
+	(*UpdateMemberPictureInput)(nil),                               // 7: eolymp.community.UpdateMemberPictureInput
+	(*UpdateMemberPictureOutput)(nil),                              // 8: eolymp.community.UpdateMemberPictureOutput
+	(*DeleteMemberInput)(nil),                                      // 9: eolymp.community.DeleteMemberInput
+	(*DeleteMemberOutput)(nil),                                     // 10: eolymp.community.DeleteMemberOutput
+	(*RestoreMemberInput)(nil),                                     // 11: eolymp.community.RestoreMemberInput
+	(*RestoreMemberOutput)(nil),                                    // 12: eolymp.community.RestoreMemberOutput
+	(*DescribeMemberInput)(nil),                                    // 13: eolymp.community.DescribeMemberInput
+	(*DescribeMemberOutput)(nil),                                   // 14: eolymp.community.DescribeMemberOutput
+	(*ListMembersInput)(nil),                                       // 15: eolymp.community.ListMembersInput
+	(*ListMembersOutput)(nil),                                      // 16: eolymp.community.ListMembersOutput
+	(*AssignMemberInput)(nil),                                      // 17: eolymp.community.AssignMemberInput
+	(*AssignMemberOutput)(nil),                                     // 18: eolymp.community.AssignMemberOutput
+	(*UnassignMemberInput)(nil),                                    // 19: eolymp.community.UnassignMemberInput
+	(*UnassignMemberOutput)(nil),                                   // 20: eolymp.community.UnassignMemberOutput
+	(*DescribeMemberUsageInput)(nil),                               // 21: eolymp.community.DescribeMemberUsageInput
+	(*DescribeMemberUsageOutput)(nil),                              // 22: eolymp.community.DescribeMemberUsageOutput
+	(*StreamMemberReferencesInput)(nil),                            // 23: eolymp.community.StreamMemberReferencesInput
+	(*StreamMemberReferencesOutput)(nil),                           // 24: eolymp.community.StreamMemberReferencesOutput
+	(*ListMembersInput_ExpressionAttribute)(nil),                   // 25: eolymp.community.ListMembersInput.ExpressionAttribute
+	(*ListMembersInput_Filter)(nil),                                // 26: eolymp.community.ListMembersInput.Filter
+	(*StreamMemberReferencesInput_Filter)(nil),                     // 27: eolymp.community.StreamMemberReferencesInput.Filter
+	(*StreamMemberReferencesInput_Filter_ExpressionAttribute)(nil), // 28: eolymp.community.StreamMemberReferencesInput.Filter.ExpressionAttribute
+	(*Member)(nil),                                                 // 29: eolymp.community.Member
+	(Member_Patch_Field)(0),                                        // 30: eolymp.community.Member.Patch.Field
+	(Member_Extra_Field)(0),                                        // 31: eolymp.community.Member.Extra.Field
+	(wellknown.Direction)(0),                                       // 32: eolymp.wellknown.Direction
+	(*timestamppb.Timestamp)(nil),                                  // 33: google.protobuf.Timestamp
+	(*Member_Reference)(nil),                                       // 34: eolymp.community.Member.Reference
+	(*wellknown.ExpressionInt)(nil),                                // 35: eolymp.wellknown.ExpressionInt
+	(*wellknown.ExpressionString)(nil),                             // 36: eolymp.wellknown.ExpressionString
+	(*wellknown.ExpressionID)(nil),                                 // 37: eolymp.wellknown.ExpressionID
+	(*wellknown.ExpressionEnum)(nil),                               // 38: eolymp.wellknown.ExpressionEnum
+	(*wellknown.ExpressionBool)(nil),                               // 39: eolymp.wellknown.ExpressionBool
+	(*wellknown.ExpressionTimestamp)(nil),                          // 40: eolymp.wellknown.ExpressionTimestamp
 }
 var file_eolymp_community_member_service_proto_depIdxs = []int32{
-	25, // 0: eolymp.community.MemberChangedEvent.before:type_name -> eolymp.community.Member
-	25, // 1: eolymp.community.MemberChangedEvent.after:type_name -> eolymp.community.Member
-	25, // 2: eolymp.community.CreateMemberInput.member:type_name -> eolymp.community.Member
-	26, // 3: eolymp.community.UpdateMemberInput.patch:type_name -> eolymp.community.Member.Patch.Field
-	25, // 4: eolymp.community.UpdateMemberInput.member:type_name -> eolymp.community.Member
-	27, // 5: eolymp.community.DescribeMemberInput.extra:type_name -> eolymp.community.Member.Extra.Field
-	25, // 6: eolymp.community.DescribeMemberOutput.member:type_name -> eolymp.community.Member
-	24, // 7: eolymp.community.ListMembersInput.filters:type_name -> eolymp.community.ListMembersInput.Filter
+	29, // 0: eolymp.community.MemberChangedEvent.before:type_name -> eolymp.community.Member
+	29, // 1: eolymp.community.MemberChangedEvent.after:type_name -> eolymp.community.Member
+	29, // 2: eolymp.community.CreateMemberInput.member:type_name -> eolymp.community.Member
+	30, // 3: eolymp.community.UpdateMemberInput.patch:type_name -> eolymp.community.Member.Patch.Field
+	29, // 4: eolymp.community.UpdateMemberInput.member:type_name -> eolymp.community.Member
+	31, // 5: eolymp.community.DescribeMemberInput.extra:type_name -> eolymp.community.Member.Extra.Field
+	29, // 6: eolymp.community.DescribeMemberOutput.member:type_name -> eolymp.community.Member
+	26, // 7: eolymp.community.ListMembersInput.filters:type_name -> eolymp.community.ListMembersInput.Filter
 	0,  // 8: eolymp.community.ListMembersInput.sort:type_name -> eolymp.community.ListMembersInput.Sortable
-	28, // 9: eolymp.community.ListMembersInput.order:type_name -> eolymp.wellknown.Direction
-	27, // 10: eolymp.community.ListMembersInput.extra:type_name -> eolymp.community.Member.Extra.Field
-	25, // 11: eolymp.community.ListMembersOutput.items:type_name -> eolymp.community.Member
-	29, // 12: eolymp.community.DescribeMemberUsageInput.period_start:type_name -> google.protobuf.Timestamp
-	29, // 13: eolymp.community.DescribeMemberUsageInput.period_end:type_name -> google.protobuf.Timestamp
-	30, // 14: eolymp.community.ListMembersInput.ExpressionAttribute.number:type_name -> eolymp.wellknown.ExpressionInt
-	31, // 15: eolymp.community.ListMembersInput.ExpressionAttribute.string:type_name -> eolymp.wellknown.ExpressionString
-	32, // 16: eolymp.community.ListMembersInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	32, // 17: eolymp.community.ListMembersInput.Filter.external_ref:type_name -> eolymp.wellknown.ExpressionID
-	33, // 18: eolymp.community.ListMembersInput.Filter.type:type_name -> eolymp.wellknown.ExpressionEnum
-	31, // 19: eolymp.community.ListMembersInput.Filter.display_name:type_name -> eolymp.wellknown.ExpressionString
-	34, // 20: eolymp.community.ListMembersInput.Filter.inactive:type_name -> eolymp.wellknown.ExpressionBool
-	34, // 21: eolymp.community.ListMembersInput.Filter.incomplete:type_name -> eolymp.wellknown.ExpressionBool
-	34, // 22: eolymp.community.ListMembersInput.Filter.unofficial:type_name -> eolymp.wellknown.ExpressionBool
-	34, // 23: eolymp.community.ListMembersInput.Filter.seated:type_name -> eolymp.wellknown.ExpressionBool
-	32, // 24: eolymp.community.ListMembersInput.Filter.team_id:type_name -> eolymp.wellknown.ExpressionID
-	32, // 25: eolymp.community.ListMembersInput.Filter.group_id:type_name -> eolymp.wellknown.ExpressionID
-	31, // 26: eolymp.community.ListMembersInput.Filter.user_issuer:type_name -> eolymp.wellknown.ExpressionString
-	31, // 27: eolymp.community.ListMembersInput.Filter.user_subject:type_name -> eolymp.wellknown.ExpressionString
-	31, // 28: eolymp.community.ListMembersInput.Filter.user_email:type_name -> eolymp.wellknown.ExpressionString
-	31, // 29: eolymp.community.ListMembersInput.Filter.user_name:type_name -> eolymp.wellknown.ExpressionString
-	31, // 30: eolymp.community.ListMembersInput.Filter.user_nickname:type_name -> eolymp.wellknown.ExpressionString
-	35, // 31: eolymp.community.ListMembersInput.Filter.birthday:type_name -> eolymp.wellknown.ExpressionTimestamp
-	32, // 32: eolymp.community.ListMembersInput.Filter.country:type_name -> eolymp.wellknown.ExpressionID
-	30, // 33: eolymp.community.ListMembersInput.Filter.score:type_name -> eolymp.wellknown.ExpressionInt
-	23, // 34: eolymp.community.ListMembersInput.Filter.attribute:type_name -> eolymp.community.ListMembersInput.ExpressionAttribute
-	3,  // 35: eolymp.community.MemberService.CreateMember:input_type -> eolymp.community.CreateMemberInput
-	5,  // 36: eolymp.community.MemberService.UpdateMember:input_type -> eolymp.community.UpdateMemberInput
-	7,  // 37: eolymp.community.MemberService.UpdateMemberPicture:input_type -> eolymp.community.UpdateMemberPictureInput
-	9,  // 38: eolymp.community.MemberService.DeleteMember:input_type -> eolymp.community.DeleteMemberInput
-	11, // 39: eolymp.community.MemberService.RestoreMember:input_type -> eolymp.community.RestoreMemberInput
-	13, // 40: eolymp.community.MemberService.DescribeMember:input_type -> eolymp.community.DescribeMemberInput
-	15, // 41: eolymp.community.MemberService.ListMembers:input_type -> eolymp.community.ListMembersInput
-	17, // 42: eolymp.community.MemberService.AssignMember:input_type -> eolymp.community.AssignMemberInput
-	19, // 43: eolymp.community.MemberService.UnassignMember:input_type -> eolymp.community.UnassignMemberInput
-	21, // 44: eolymp.community.MemberService.DescribeMemberUsage:input_type -> eolymp.community.DescribeMemberUsageInput
-	4,  // 45: eolymp.community.MemberService.CreateMember:output_type -> eolymp.community.CreateMemberOutput
-	6,  // 46: eolymp.community.MemberService.UpdateMember:output_type -> eolymp.community.UpdateMemberOutput
-	8,  // 47: eolymp.community.MemberService.UpdateMemberPicture:output_type -> eolymp.community.UpdateMemberPictureOutput
-	10, // 48: eolymp.community.MemberService.DeleteMember:output_type -> eolymp.community.DeleteMemberOutput
-	12, // 49: eolymp.community.MemberService.RestoreMember:output_type -> eolymp.community.RestoreMemberOutput
-	14, // 50: eolymp.community.MemberService.DescribeMember:output_type -> eolymp.community.DescribeMemberOutput
-	16, // 51: eolymp.community.MemberService.ListMembers:output_type -> eolymp.community.ListMembersOutput
-	18, // 52: eolymp.community.MemberService.AssignMember:output_type -> eolymp.community.AssignMemberOutput
-	20, // 53: eolymp.community.MemberService.UnassignMember:output_type -> eolymp.community.UnassignMemberOutput
-	22, // 54: eolymp.community.MemberService.DescribeMemberUsage:output_type -> eolymp.community.DescribeMemberUsageOutput
-	45, // [45:55] is the sub-list for method output_type
-	35, // [35:45] is the sub-list for method input_type
-	35, // [35:35] is the sub-list for extension type_name
-	35, // [35:35] is the sub-list for extension extendee
-	0,  // [0:35] is the sub-list for field type_name
+	32, // 9: eolymp.community.ListMembersInput.order:type_name -> eolymp.wellknown.Direction
+	31, // 10: eolymp.community.ListMembersInput.extra:type_name -> eolymp.community.Member.Extra.Field
+	29, // 11: eolymp.community.ListMembersOutput.items:type_name -> eolymp.community.Member
+	33, // 12: eolymp.community.DescribeMemberUsageInput.period_start:type_name -> google.protobuf.Timestamp
+	33, // 13: eolymp.community.DescribeMemberUsageInput.period_end:type_name -> google.protobuf.Timestamp
+	27, // 14: eolymp.community.StreamMemberReferencesInput.filters:type_name -> eolymp.community.StreamMemberReferencesInput.Filter
+	34, // 15: eolymp.community.StreamMemberReferencesOutput.items:type_name -> eolymp.community.Member.Reference
+	35, // 16: eolymp.community.ListMembersInput.ExpressionAttribute.number:type_name -> eolymp.wellknown.ExpressionInt
+	36, // 17: eolymp.community.ListMembersInput.ExpressionAttribute.string:type_name -> eolymp.wellknown.ExpressionString
+	37, // 18: eolymp.community.ListMembersInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	37, // 19: eolymp.community.ListMembersInput.Filter.external_ref:type_name -> eolymp.wellknown.ExpressionID
+	38, // 20: eolymp.community.ListMembersInput.Filter.type:type_name -> eolymp.wellknown.ExpressionEnum
+	36, // 21: eolymp.community.ListMembersInput.Filter.display_name:type_name -> eolymp.wellknown.ExpressionString
+	39, // 22: eolymp.community.ListMembersInput.Filter.inactive:type_name -> eolymp.wellknown.ExpressionBool
+	39, // 23: eolymp.community.ListMembersInput.Filter.incomplete:type_name -> eolymp.wellknown.ExpressionBool
+	39, // 24: eolymp.community.ListMembersInput.Filter.unofficial:type_name -> eolymp.wellknown.ExpressionBool
+	39, // 25: eolymp.community.ListMembersInput.Filter.seated:type_name -> eolymp.wellknown.ExpressionBool
+	37, // 26: eolymp.community.ListMembersInput.Filter.team_id:type_name -> eolymp.wellknown.ExpressionID
+	37, // 27: eolymp.community.ListMembersInput.Filter.group_id:type_name -> eolymp.wellknown.ExpressionID
+	36, // 28: eolymp.community.ListMembersInput.Filter.user_issuer:type_name -> eolymp.wellknown.ExpressionString
+	36, // 29: eolymp.community.ListMembersInput.Filter.user_subject:type_name -> eolymp.wellknown.ExpressionString
+	36, // 30: eolymp.community.ListMembersInput.Filter.user_email:type_name -> eolymp.wellknown.ExpressionString
+	36, // 31: eolymp.community.ListMembersInput.Filter.user_name:type_name -> eolymp.wellknown.ExpressionString
+	36, // 32: eolymp.community.ListMembersInput.Filter.user_nickname:type_name -> eolymp.wellknown.ExpressionString
+	40, // 33: eolymp.community.ListMembersInput.Filter.birthday:type_name -> eolymp.wellknown.ExpressionTimestamp
+	37, // 34: eolymp.community.ListMembersInput.Filter.country:type_name -> eolymp.wellknown.ExpressionID
+	35, // 35: eolymp.community.ListMembersInput.Filter.score:type_name -> eolymp.wellknown.ExpressionInt
+	25, // 36: eolymp.community.ListMembersInput.Filter.attribute:type_name -> eolymp.community.ListMembersInput.ExpressionAttribute
+	37, // 37: eolymp.community.StreamMemberReferencesInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	37, // 38: eolymp.community.StreamMemberReferencesInput.Filter.external_ref:type_name -> eolymp.wellknown.ExpressionID
+	38, // 39: eolymp.community.StreamMemberReferencesInput.Filter.type:type_name -> eolymp.wellknown.ExpressionEnum
+	39, // 40: eolymp.community.StreamMemberReferencesInput.Filter.inactive:type_name -> eolymp.wellknown.ExpressionBool
+	39, // 41: eolymp.community.StreamMemberReferencesInput.Filter.incomplete:type_name -> eolymp.wellknown.ExpressionBool
+	39, // 42: eolymp.community.StreamMemberReferencesInput.Filter.unofficial:type_name -> eolymp.wellknown.ExpressionBool
+	39, // 43: eolymp.community.StreamMemberReferencesInput.Filter.seated:type_name -> eolymp.wellknown.ExpressionBool
+	37, // 44: eolymp.community.StreamMemberReferencesInput.Filter.team_id:type_name -> eolymp.wellknown.ExpressionID
+	37, // 45: eolymp.community.StreamMemberReferencesInput.Filter.group_id:type_name -> eolymp.wellknown.ExpressionID
+	40, // 46: eolymp.community.StreamMemberReferencesInput.Filter.birthday:type_name -> eolymp.wellknown.ExpressionTimestamp
+	37, // 47: eolymp.community.StreamMemberReferencesInput.Filter.country:type_name -> eolymp.wellknown.ExpressionID
+	35, // 48: eolymp.community.StreamMemberReferencesInput.Filter.score:type_name -> eolymp.wellknown.ExpressionInt
+	40, // 49: eolymp.community.StreamMemberReferencesInput.Filter.created_at:type_name -> eolymp.wellknown.ExpressionTimestamp
+	28, // 50: eolymp.community.StreamMemberReferencesInput.Filter.attribute:type_name -> eolymp.community.StreamMemberReferencesInput.Filter.ExpressionAttribute
+	35, // 51: eolymp.community.StreamMemberReferencesInput.Filter.ExpressionAttribute.number:type_name -> eolymp.wellknown.ExpressionInt
+	36, // 52: eolymp.community.StreamMemberReferencesInput.Filter.ExpressionAttribute.string:type_name -> eolymp.wellknown.ExpressionString
+	3,  // 53: eolymp.community.MemberService.CreateMember:input_type -> eolymp.community.CreateMemberInput
+	5,  // 54: eolymp.community.MemberService.UpdateMember:input_type -> eolymp.community.UpdateMemberInput
+	7,  // 55: eolymp.community.MemberService.UpdateMemberPicture:input_type -> eolymp.community.UpdateMemberPictureInput
+	9,  // 56: eolymp.community.MemberService.DeleteMember:input_type -> eolymp.community.DeleteMemberInput
+	11, // 57: eolymp.community.MemberService.RestoreMember:input_type -> eolymp.community.RestoreMemberInput
+	13, // 58: eolymp.community.MemberService.DescribeMember:input_type -> eolymp.community.DescribeMemberInput
+	15, // 59: eolymp.community.MemberService.ListMembers:input_type -> eolymp.community.ListMembersInput
+	17, // 60: eolymp.community.MemberService.AssignMember:input_type -> eolymp.community.AssignMemberInput
+	19, // 61: eolymp.community.MemberService.UnassignMember:input_type -> eolymp.community.UnassignMemberInput
+	21, // 62: eolymp.community.MemberService.DescribeMemberUsage:input_type -> eolymp.community.DescribeMemberUsageInput
+	23, // 63: eolymp.community.MemberService.StreamMemberReferences:input_type -> eolymp.community.StreamMemberReferencesInput
+	4,  // 64: eolymp.community.MemberService.CreateMember:output_type -> eolymp.community.CreateMemberOutput
+	6,  // 65: eolymp.community.MemberService.UpdateMember:output_type -> eolymp.community.UpdateMemberOutput
+	8,  // 66: eolymp.community.MemberService.UpdateMemberPicture:output_type -> eolymp.community.UpdateMemberPictureOutput
+	10, // 67: eolymp.community.MemberService.DeleteMember:output_type -> eolymp.community.DeleteMemberOutput
+	12, // 68: eolymp.community.MemberService.RestoreMember:output_type -> eolymp.community.RestoreMemberOutput
+	14, // 69: eolymp.community.MemberService.DescribeMember:output_type -> eolymp.community.DescribeMemberOutput
+	16, // 70: eolymp.community.MemberService.ListMembers:output_type -> eolymp.community.ListMembersOutput
+	18, // 71: eolymp.community.MemberService.AssignMember:output_type -> eolymp.community.AssignMemberOutput
+	20, // 72: eolymp.community.MemberService.UnassignMember:output_type -> eolymp.community.UnassignMemberOutput
+	22, // 73: eolymp.community.MemberService.DescribeMemberUsage:output_type -> eolymp.community.DescribeMemberUsageOutput
+	24, // 74: eolymp.community.MemberService.StreamMemberReferences:output_type -> eolymp.community.StreamMemberReferencesOutput
+	64, // [64:75] is the sub-list for method output_type
+	53, // [53:64] is the sub-list for method input_type
+	53, // [53:53] is the sub-list for extension type_name
+	53, // [53:53] is the sub-list for extension extendee
+	0,  // [0:53] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_community_member_service_proto_init() }
@@ -1732,7 +2086,7 @@ func file_eolymp_community_member_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_community_member_service_proto_rawDesc), len(file_eolymp_community_member_service_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   24,
+			NumMessages:   28,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

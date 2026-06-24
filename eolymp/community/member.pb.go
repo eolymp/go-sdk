@@ -84,7 +84,7 @@ func (x Member_Extra_Field) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use Member_Extra_Field.Descriptor instead.
 func (Member_Extra_Field) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_community_member_proto_rawDescGZIP(), []int{0, 0, 0}
+	return file_eolymp_community_member_proto_rawDescGZIP(), []int{0, 1, 0}
 }
 
 type Member_Patch_Field int32
@@ -205,7 +205,7 @@ func (x Member_Patch_Field) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use Member_Patch_Field.Descriptor instead.
 func (Member_Patch_Field) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_community_member_proto_rawDescGZIP(), []int{0, 1, 0}
+	return file_eolymp_community_member_proto_rawDescGZIP(), []int{0, 2, 0}
 }
 
 type Member struct {
@@ -493,6 +493,66 @@ func (*Member_Team) isMember_Account() {}
 
 func (*Member_Ghost) isMember_Account() {}
 
+type Member_Reference struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	DisplayName   string                 `protobuf:"bytes,2,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
+	Email         string                 `protobuf:"bytes,3,opt,name=email,proto3" json:"email,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Member_Reference) Reset() {
+	*x = Member_Reference{}
+	mi := &file_eolymp_community_member_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Member_Reference) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Member_Reference) ProtoMessage() {}
+
+func (x *Member_Reference) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_community_member_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Member_Reference.ProtoReflect.Descriptor instead.
+func (*Member_Reference) Descriptor() ([]byte, []int) {
+	return file_eolymp_community_member_proto_rawDescGZIP(), []int{0, 0}
+}
+
+func (x *Member_Reference) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *Member_Reference) GetDisplayName() string {
+	if x != nil {
+		return x.DisplayName
+	}
+	return ""
+}
+
+func (x *Member_Reference) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
 type Member_Extra struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
@@ -501,7 +561,7 @@ type Member_Extra struct {
 
 func (x *Member_Extra) Reset() {
 	*x = Member_Extra{}
-	mi := &file_eolymp_community_member_proto_msgTypes[1]
+	mi := &file_eolymp_community_member_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -513,7 +573,7 @@ func (x *Member_Extra) String() string {
 func (*Member_Extra) ProtoMessage() {}
 
 func (x *Member_Extra) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_community_member_proto_msgTypes[1]
+	mi := &file_eolymp_community_member_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -526,7 +586,7 @@ func (x *Member_Extra) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Member_Extra.ProtoReflect.Descriptor instead.
 func (*Member_Extra) Descriptor() ([]byte, []int) {
-	return file_eolymp_community_member_proto_rawDescGZIP(), []int{0, 0}
+	return file_eolymp_community_member_proto_rawDescGZIP(), []int{0, 1}
 }
 
 type Member_Patch struct {
@@ -537,7 +597,7 @@ type Member_Patch struct {
 
 func (x *Member_Patch) Reset() {
 	*x = Member_Patch{}
-	mi := &file_eolymp_community_member_proto_msgTypes[2]
+	mi := &file_eolymp_community_member_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -549,7 +609,7 @@ func (x *Member_Patch) String() string {
 func (*Member_Patch) ProtoMessage() {}
 
 func (x *Member_Patch) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_community_member_proto_msgTypes[2]
+	mi := &file_eolymp_community_member_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -562,7 +622,7 @@ func (x *Member_Patch) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Member_Patch.ProtoReflect.Descriptor instead.
 func (*Member_Patch) Descriptor() ([]byte, []int) {
-	return file_eolymp_community_member_proto_rawDescGZIP(), []int{0, 1}
+	return file_eolymp_community_member_proto_rawDescGZIP(), []int{0, 2}
 }
 
 type Member_Stats struct {
@@ -577,7 +637,7 @@ type Member_Stats struct {
 
 func (x *Member_Stats) Reset() {
 	*x = Member_Stats{}
-	mi := &file_eolymp_community_member_proto_msgTypes[3]
+	mi := &file_eolymp_community_member_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -589,7 +649,7 @@ func (x *Member_Stats) String() string {
 func (*Member_Stats) ProtoMessage() {}
 
 func (x *Member_Stats) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_community_member_proto_msgTypes[3]
+	mi := &file_eolymp_community_member_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -602,7 +662,7 @@ func (x *Member_Stats) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Member_Stats.ProtoReflect.Descriptor instead.
 func (*Member_Stats) Descriptor() ([]byte, []int) {
-	return file_eolymp_community_member_proto_rawDescGZIP(), []int{0, 2}
+	return file_eolymp_community_member_proto_rawDescGZIP(), []int{0, 3}
 }
 
 func (x *Member_Stats) GetStreak() int32 {
@@ -637,7 +697,7 @@ var File_eolymp_community_member_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_member_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/community/member.proto\x12\x10eolymp.community\x1a\x1ceolymp/annotations/mcp.proto\x1a eolymp/community/attribute.proto\x1a#eolymp/community/member_ghost.proto\x1a\"eolymp/community/member_team.proto\x1a\"eolymp/community/member_user.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x8c\x10\n" +
+	"\x1deolymp/community/member.proto\x12\x10eolymp.community\x1a\x1ceolymp/annotations/mcp.proto\x1a eolymp/community/attribute.proto\x1a#eolymp/community/member_ghost.proto\x1a\"eolymp/community/member_team.proto\x1a\"eolymp/community/member_user.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xe2\x10\n" +
 	"\x06Member\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x18\n" +
 	"\x03url\x18\x03 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x03url\x12!\n" +
@@ -672,7 +732,11 @@ const file_eolymp_community_member_proto_rawDesc = "" +
 	"\n" +
 	"attributes\x18\x84\a \x03(\v2!.eolymp.community.Attribute.ValueR\n" +
 	"attributes\x12C\n" +
-	"\bmetadata\x18\x80\b \x03(\v2&.eolymp.community.Member.MetadataEntryR\bmetadata\x1a\x86\x01\n" +
+	"\bmetadata\x18\x80\b \x03(\v2&.eolymp.community.Member.MetadataEntryR\bmetadata\x1aT\n" +
+	"\tReference\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12!\n" +
+	"\fdisplay_name\x18\x02 \x01(\tR\vdisplayName\x12\x14\n" +
+	"\x05email\x18\x03 \x01(\tR\x05email\x1a\x86\x01\n" +
 	"\x05Extra\"}\n" +
 	"\x05Field\x12\x11\n" +
 	"\rUNKNOWN_EXTRA\x10\x00\x12\b\n" +
@@ -744,33 +808,34 @@ func file_eolymp_community_member_proto_rawDescGZIP() []byte {
 }
 
 var file_eolymp_community_member_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_eolymp_community_member_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_eolymp_community_member_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_eolymp_community_member_proto_goTypes = []any{
 	(Member_Extra_Field)(0),       // 0: eolymp.community.Member.Extra.Field
 	(Member_Patch_Field)(0),       // 1: eolymp.community.Member.Patch.Field
 	(*Member)(nil),                // 2: eolymp.community.Member
-	(*Member_Extra)(nil),          // 3: eolymp.community.Member.Extra
-	(*Member_Patch)(nil),          // 4: eolymp.community.Member.Patch
-	(*Member_Stats)(nil),          // 5: eolymp.community.Member.Stats
-	nil,                           // 6: eolymp.community.Member.MetadataEntry
-	(*timestamppb.Timestamp)(nil), // 7: google.protobuf.Timestamp
-	(*User)(nil),                  // 8: eolymp.community.User
-	(*Team)(nil),                  // 9: eolymp.community.Team
-	(*Ghost)(nil),                 // 10: eolymp.community.Ghost
-	(*Attribute_Value)(nil),       // 11: eolymp.community.Attribute.Value
+	(*Member_Reference)(nil),      // 3: eolymp.community.Member.Reference
+	(*Member_Extra)(nil),          // 4: eolymp.community.Member.Extra
+	(*Member_Patch)(nil),          // 5: eolymp.community.Member.Patch
+	(*Member_Stats)(nil),          // 6: eolymp.community.Member.Stats
+	nil,                           // 7: eolymp.community.Member.MetadataEntry
+	(*timestamppb.Timestamp)(nil), // 8: google.protobuf.Timestamp
+	(*User)(nil),                  // 9: eolymp.community.User
+	(*Team)(nil),                  // 10: eolymp.community.Team
+	(*Ghost)(nil),                 // 11: eolymp.community.Ghost
+	(*Attribute_Value)(nil),       // 12: eolymp.community.Attribute.Value
 }
 var file_eolymp_community_member_proto_depIdxs = []int32{
-	7,  // 0: eolymp.community.Member.active_period_start:type_name -> google.protobuf.Timestamp
-	7,  // 1: eolymp.community.Member.active_period_end:type_name -> google.protobuf.Timestamp
-	7,  // 2: eolymp.community.Member.created_at:type_name -> google.protobuf.Timestamp
-	7,  // 3: eolymp.community.Member.seated_at:type_name -> google.protobuf.Timestamp
-	7,  // 4: eolymp.community.Member.active_at:type_name -> google.protobuf.Timestamp
-	8,  // 5: eolymp.community.Member.user:type_name -> eolymp.community.User
-	9,  // 6: eolymp.community.Member.team:type_name -> eolymp.community.Team
-	10, // 7: eolymp.community.Member.ghost:type_name -> eolymp.community.Ghost
-	5,  // 8: eolymp.community.Member.stats:type_name -> eolymp.community.Member.Stats
-	11, // 9: eolymp.community.Member.attributes:type_name -> eolymp.community.Attribute.Value
-	6,  // 10: eolymp.community.Member.metadata:type_name -> eolymp.community.Member.MetadataEntry
+	8,  // 0: eolymp.community.Member.active_period_start:type_name -> google.protobuf.Timestamp
+	8,  // 1: eolymp.community.Member.active_period_end:type_name -> google.protobuf.Timestamp
+	8,  // 2: eolymp.community.Member.created_at:type_name -> google.protobuf.Timestamp
+	8,  // 3: eolymp.community.Member.seated_at:type_name -> google.protobuf.Timestamp
+	8,  // 4: eolymp.community.Member.active_at:type_name -> google.protobuf.Timestamp
+	9,  // 5: eolymp.community.Member.user:type_name -> eolymp.community.User
+	10, // 6: eolymp.community.Member.team:type_name -> eolymp.community.Team
+	11, // 7: eolymp.community.Member.ghost:type_name -> eolymp.community.Ghost
+	6,  // 8: eolymp.community.Member.stats:type_name -> eolymp.community.Member.Stats
+	12, // 9: eolymp.community.Member.attributes:type_name -> eolymp.community.Attribute.Value
+	7,  // 10: eolymp.community.Member.metadata:type_name -> eolymp.community.Member.MetadataEntry
 	11, // [11:11] is the sub-list for method output_type
 	11, // [11:11] is the sub-list for method input_type
 	11, // [11:11] is the sub-list for extension type_name
@@ -798,7 +863,7 @@ func file_eolymp_community_member_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_community_member_proto_rawDesc), len(file_eolymp_community_member_proto_rawDesc)),
 			NumEnums:      2,
-			NumMessages:   5,
+			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
