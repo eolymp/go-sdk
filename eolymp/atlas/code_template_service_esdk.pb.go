@@ -180,3 +180,14 @@ func (s *CodeTemplateServiceService) LookupCodeTemplate(ctx context.Context, in 
 
 	return out, nil
 }
+
+func (s *CodeTemplateServiceService) GenerateCodeTemplates(ctx context.Context, in *GenerateCodeTemplatesInput) (*GenerateCodeTemplatesOutput, error) {
+	out := &GenerateCodeTemplatesOutput{}
+	path := "/templates:generate"
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

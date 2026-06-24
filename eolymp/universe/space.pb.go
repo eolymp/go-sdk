@@ -127,12 +127,13 @@ func (Space_Visibility) EnumDescriptor() ([]byte, []int) {
 type Space_Feature int32
 
 const (
-	Space_UNKNOWN_FEATURE   Space_Feature = 0
-	Space_PRINTERS          Space_Feature = 1
-	Space_NEWSLETTERS       Space_Feature = 2
-	Space_MEMBER_CREDITS    Space_Feature = 3
-	Space_MERCHANDISE_STORE Space_Feature = 4
-	Space_RATING            Space_Feature = 5
+	Space_UNKNOWN_FEATURE    Space_Feature = 0
+	Space_PRINTERS           Space_Feature = 1
+	Space_NEWSLETTERS        Space_Feature = 2
+	Space_MEMBER_CREDITS     Space_Feature = 3
+	Space_MERCHANDISE_STORE  Space_Feature = 4
+	Space_RATING             Space_Feature = 5
+	Space_TEMPLATE_GENERATOR Space_Feature = 6
 )
 
 // Enum value maps for Space_Feature.
@@ -144,14 +145,16 @@ var (
 		3: "MEMBER_CREDITS",
 		4: "MERCHANDISE_STORE",
 		5: "RATING",
+		6: "TEMPLATE_GENERATOR",
 	}
 	Space_Feature_value = map[string]int32{
-		"UNKNOWN_FEATURE":   0,
-		"PRINTERS":          1,
-		"NEWSLETTERS":       2,
-		"MEMBER_CREDITS":    3,
-		"MERCHANDISE_STORE": 4,
-		"RATING":            5,
+		"UNKNOWN_FEATURE":    0,
+		"PRINTERS":           1,
+		"NEWSLETTERS":        2,
+		"MEMBER_CREDITS":     3,
+		"MERCHANDISE_STORE":  4,
+		"RATING":             5,
+		"TEMPLATE_GENERATOR": 6,
 	}
 )
 
@@ -626,7 +629,7 @@ var File_eolymp_universe_space_proto protoreflect.FileDescriptor
 
 const file_eolymp_universe_space_proto_rawDesc = "" +
 	"\n" +
-	"\x1beolymp/universe/space.proto\x12\x0feolymp.universe\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1beolymp/universe/quota.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xb5\v\n" +
+	"\x1beolymp/universe/space.proto\x12\x0feolymp.universe\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1beolymp/universe/quota.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xce\v\n" +
 	"\x05Space\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x10\n" +
 	"\x03url\x18\x03 \x01(\tR\x03url\x12\x19\n" +
@@ -683,7 +686,7 @@ const file_eolymp_universe_space_proto_rawDesc = "" +
 	"\x12UNKNOWN_VISIBILITY\x10\x00\x12\n" +
 	"\n" +
 	"\x06PUBLIC\x10\x01\x12\v\n" +
-	"\aPRIVATE\x10\x02\"t\n" +
+	"\aPRIVATE\x10\x02\"\x8c\x01\n" +
 	"\aFeature\x12\x13\n" +
 	"\x0fUNKNOWN_FEATURE\x10\x00\x12\f\n" +
 	"\bPRINTERS\x10\x01\x12\x0f\n" +
@@ -691,7 +694,8 @@ const file_eolymp_universe_space_proto_rawDesc = "" +
 	"\x0eMEMBER_CREDITS\x10\x03\x12\x15\n" +
 	"\x11MERCHANDISE_STORE\x10\x04\x12\n" +
 	"\n" +
-	"\x06RATING\x10\x05B3Z1github.com/eolymp/go-sdk/eolymp/universe;universeb\x06proto3"
+	"\x06RATING\x10\x05\x12\x16\n" +
+	"\x12TEMPLATE_GENERATOR\x10\x06B3Z1github.com/eolymp/go-sdk/eolymp/universe;universeb\x06proto3"
 
 var (
 	file_eolymp_universe_space_proto_rawDescOnce sync.Once

@@ -169,6 +169,9 @@ func RegisterCodeTemplateServiceHttpHandlers(router *mux.Router, prefix string, 
 	router.Handle(prefix+"/template", _CodeTemplateService_LookupCodeTemplate_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.CodeTemplateService.LookupCodeTemplate")
+	router.Handle(prefix+"/templates:generate", _CodeTemplateService_GenerateCodeTemplates_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.atlas.CodeTemplateService.GenerateCodeTemplates")
 }
 
 // RegisterCodeTemplateServiceHttpProxy adds proxy handlers for for CodeTemplateServiceClient
@@ -302,6 +305,27 @@ func _CodeTemplateService_LookupCodeTemplate_Rule0(cli CodeTemplateServiceClient
 		var header, trailer metadata.MD
 
 		out, err := cli.LookupCodeTemplate(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_CodeTemplateService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_CodeTemplateService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _CodeTemplateService_GenerateCodeTemplates_Rule0(cli CodeTemplateServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &GenerateCodeTemplatesInput{}
+
+		if err := _CodeTemplateService_HTTPReadRequestBody(r, in, 1048576); err != nil {
+			_CodeTemplateService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.GenerateCodeTemplates(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_CodeTemplateService_HTTPWriteErrorResponse(w, err)
 			return

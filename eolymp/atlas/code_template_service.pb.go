@@ -574,6 +574,86 @@ func (x *LookupCodeTemplateOutput) GetTemplate() *Template {
 	return nil
 }
 
+type GenerateCodeTemplatesInput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Language      []string               `protobuf:"bytes,1,rep,name=language,proto3" json:"language,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GenerateCodeTemplatesInput) Reset() {
+	*x = GenerateCodeTemplatesInput{}
+	mi := &file_eolymp_atlas_code_template_service_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GenerateCodeTemplatesInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GenerateCodeTemplatesInput) ProtoMessage() {}
+
+func (x *GenerateCodeTemplatesInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_code_template_service_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GenerateCodeTemplatesInput.ProtoReflect.Descriptor instead.
+func (*GenerateCodeTemplatesInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_code_template_service_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *GenerateCodeTemplatesInput) GetLanguage() []string {
+	if x != nil {
+		return x.Language
+	}
+	return nil
+}
+
+type GenerateCodeTemplatesOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GenerateCodeTemplatesOutput) Reset() {
+	*x = GenerateCodeTemplatesOutput{}
+	mi := &file_eolymp_atlas_code_template_service_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GenerateCodeTemplatesOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GenerateCodeTemplatesOutput) ProtoMessage() {}
+
+func (x *GenerateCodeTemplatesOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_code_template_service_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GenerateCodeTemplatesOutput.ProtoReflect.Descriptor instead.
+func (*GenerateCodeTemplatesOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_code_template_service_proto_rawDescGZIP(), []int{13}
+}
+
 var File_eolymp_atlas_code_template_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_code_template_service_proto_rawDesc = "" +
@@ -610,7 +690,10 @@ const file_eolymp_atlas_code_template_service_proto_rawDesc = "" +
 	"\x17LookupCodeTemplateInput\x12\x18\n" +
 	"\aruntime\x18\x02 \x01(\tR\aruntime\"N\n" +
 	"\x18LookupCodeTemplateOutput\x122\n" +
-	"\btemplate\x18\x01 \x01(\v2\x16.eolymp.atlas.TemplateR\btemplate2\xb2\b\n" +
+	"\btemplate\x18\x01 \x01(\v2\x16.eolymp.atlas.TemplateR\btemplate\"8\n" +
+	"\x1aGenerateCodeTemplatesInput\x12\x1a\n" +
+	"\blanguage\x18\x01 \x03(\tR\blanguage\"\x1d\n" +
+	"\x1bGenerateCodeTemplatesOutput2\xe8\t\n" +
 	"\x13CodeTemplateService\x12\xa1\x01\n" +
 	"\x12CreateCodeTemplate\x12%.eolymp.atlas.CreateCodeTemplateInput\x1a&.eolymp.atlas.CreateCodeTemplateOutput\"<\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -652,7 +735,13 @@ const file_eolymp_atlas_code_template_service_proto_rawDesc = "" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\v\x12\t/template\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.ProblemB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\v\x12\t/template\x12\xb3\x01\n" +
+	"\x15GenerateCodeTemplates\x12(.eolymp.atlas.GenerateCodeTemplatesInput\x1a).eolymp.atlas.GenerateCodeTemplatesOutput\"E\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\x80?\xf8\xe2\n" +
+	"\x03\x82\xe3\n" +
+	"\x17\x8a\xe3\n" +
+	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\x15\"\x13/templates:generate\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.ProblemB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_code_template_service_proto_rawDescOnce sync.Once
@@ -666,42 +755,46 @@ func file_eolymp_atlas_code_template_service_proto_rawDescGZIP() []byte {
 	return file_eolymp_atlas_code_template_service_proto_rawDescData
 }
 
-var file_eolymp_atlas_code_template_service_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
+var file_eolymp_atlas_code_template_service_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
 var file_eolymp_atlas_code_template_service_proto_goTypes = []any{
-	(*CreateCodeTemplateInput)(nil),    // 0: eolymp.atlas.CreateCodeTemplateInput
-	(*CreateCodeTemplateOutput)(nil),   // 1: eolymp.atlas.CreateCodeTemplateOutput
-	(*UpdateCodeTemplateInput)(nil),    // 2: eolymp.atlas.UpdateCodeTemplateInput
-	(*UpdateCodeTemplateOutput)(nil),   // 3: eolymp.atlas.UpdateCodeTemplateOutput
-	(*DeleteCodeTemplateInput)(nil),    // 4: eolymp.atlas.DeleteCodeTemplateInput
-	(*DeleteCodeTemplateOutput)(nil),   // 5: eolymp.atlas.DeleteCodeTemplateOutput
-	(*ListCodeTemplatesInput)(nil),     // 6: eolymp.atlas.ListCodeTemplatesInput
-	(*ListCodeTemplatesOutput)(nil),    // 7: eolymp.atlas.ListCodeTemplatesOutput
-	(*DescribeCodeTemplateInput)(nil),  // 8: eolymp.atlas.DescribeCodeTemplateInput
-	(*DescribeCodeTemplateOutput)(nil), // 9: eolymp.atlas.DescribeCodeTemplateOutput
-	(*LookupCodeTemplateInput)(nil),    // 10: eolymp.atlas.LookupCodeTemplateInput
-	(*LookupCodeTemplateOutput)(nil),   // 11: eolymp.atlas.LookupCodeTemplateOutput
-	(*Template)(nil),                   // 12: eolymp.atlas.Template
+	(*CreateCodeTemplateInput)(nil),     // 0: eolymp.atlas.CreateCodeTemplateInput
+	(*CreateCodeTemplateOutput)(nil),    // 1: eolymp.atlas.CreateCodeTemplateOutput
+	(*UpdateCodeTemplateInput)(nil),     // 2: eolymp.atlas.UpdateCodeTemplateInput
+	(*UpdateCodeTemplateOutput)(nil),    // 3: eolymp.atlas.UpdateCodeTemplateOutput
+	(*DeleteCodeTemplateInput)(nil),     // 4: eolymp.atlas.DeleteCodeTemplateInput
+	(*DeleteCodeTemplateOutput)(nil),    // 5: eolymp.atlas.DeleteCodeTemplateOutput
+	(*ListCodeTemplatesInput)(nil),      // 6: eolymp.atlas.ListCodeTemplatesInput
+	(*ListCodeTemplatesOutput)(nil),     // 7: eolymp.atlas.ListCodeTemplatesOutput
+	(*DescribeCodeTemplateInput)(nil),   // 8: eolymp.atlas.DescribeCodeTemplateInput
+	(*DescribeCodeTemplateOutput)(nil),  // 9: eolymp.atlas.DescribeCodeTemplateOutput
+	(*LookupCodeTemplateInput)(nil),     // 10: eolymp.atlas.LookupCodeTemplateInput
+	(*LookupCodeTemplateOutput)(nil),    // 11: eolymp.atlas.LookupCodeTemplateOutput
+	(*GenerateCodeTemplatesInput)(nil),  // 12: eolymp.atlas.GenerateCodeTemplatesInput
+	(*GenerateCodeTemplatesOutput)(nil), // 13: eolymp.atlas.GenerateCodeTemplatesOutput
+	(*Template)(nil),                    // 14: eolymp.atlas.Template
 }
 var file_eolymp_atlas_code_template_service_proto_depIdxs = []int32{
-	12, // 0: eolymp.atlas.CreateCodeTemplateInput.template:type_name -> eolymp.atlas.Template
-	12, // 1: eolymp.atlas.UpdateCodeTemplateInput.template:type_name -> eolymp.atlas.Template
-	12, // 2: eolymp.atlas.ListCodeTemplatesOutput.items:type_name -> eolymp.atlas.Template
-	12, // 3: eolymp.atlas.DescribeCodeTemplateOutput.template:type_name -> eolymp.atlas.Template
-	12, // 4: eolymp.atlas.LookupCodeTemplateOutput.template:type_name -> eolymp.atlas.Template
+	14, // 0: eolymp.atlas.CreateCodeTemplateInput.template:type_name -> eolymp.atlas.Template
+	14, // 1: eolymp.atlas.UpdateCodeTemplateInput.template:type_name -> eolymp.atlas.Template
+	14, // 2: eolymp.atlas.ListCodeTemplatesOutput.items:type_name -> eolymp.atlas.Template
+	14, // 3: eolymp.atlas.DescribeCodeTemplateOutput.template:type_name -> eolymp.atlas.Template
+	14, // 4: eolymp.atlas.LookupCodeTemplateOutput.template:type_name -> eolymp.atlas.Template
 	0,  // 5: eolymp.atlas.CodeTemplateService.CreateCodeTemplate:input_type -> eolymp.atlas.CreateCodeTemplateInput
 	2,  // 6: eolymp.atlas.CodeTemplateService.UpdateCodeTemplate:input_type -> eolymp.atlas.UpdateCodeTemplateInput
 	4,  // 7: eolymp.atlas.CodeTemplateService.DeleteCodeTemplate:input_type -> eolymp.atlas.DeleteCodeTemplateInput
 	6,  // 8: eolymp.atlas.CodeTemplateService.ListCodeTemplates:input_type -> eolymp.atlas.ListCodeTemplatesInput
 	8,  // 9: eolymp.atlas.CodeTemplateService.DescribeCodeTemplate:input_type -> eolymp.atlas.DescribeCodeTemplateInput
 	10, // 10: eolymp.atlas.CodeTemplateService.LookupCodeTemplate:input_type -> eolymp.atlas.LookupCodeTemplateInput
-	1,  // 11: eolymp.atlas.CodeTemplateService.CreateCodeTemplate:output_type -> eolymp.atlas.CreateCodeTemplateOutput
-	3,  // 12: eolymp.atlas.CodeTemplateService.UpdateCodeTemplate:output_type -> eolymp.atlas.UpdateCodeTemplateOutput
-	5,  // 13: eolymp.atlas.CodeTemplateService.DeleteCodeTemplate:output_type -> eolymp.atlas.DeleteCodeTemplateOutput
-	7,  // 14: eolymp.atlas.CodeTemplateService.ListCodeTemplates:output_type -> eolymp.atlas.ListCodeTemplatesOutput
-	9,  // 15: eolymp.atlas.CodeTemplateService.DescribeCodeTemplate:output_type -> eolymp.atlas.DescribeCodeTemplateOutput
-	11, // 16: eolymp.atlas.CodeTemplateService.LookupCodeTemplate:output_type -> eolymp.atlas.LookupCodeTemplateOutput
-	11, // [11:17] is the sub-list for method output_type
-	5,  // [5:11] is the sub-list for method input_type
+	12, // 11: eolymp.atlas.CodeTemplateService.GenerateCodeTemplates:input_type -> eolymp.atlas.GenerateCodeTemplatesInput
+	1,  // 12: eolymp.atlas.CodeTemplateService.CreateCodeTemplate:output_type -> eolymp.atlas.CreateCodeTemplateOutput
+	3,  // 13: eolymp.atlas.CodeTemplateService.UpdateCodeTemplate:output_type -> eolymp.atlas.UpdateCodeTemplateOutput
+	5,  // 14: eolymp.atlas.CodeTemplateService.DeleteCodeTemplate:output_type -> eolymp.atlas.DeleteCodeTemplateOutput
+	7,  // 15: eolymp.atlas.CodeTemplateService.ListCodeTemplates:output_type -> eolymp.atlas.ListCodeTemplatesOutput
+	9,  // 16: eolymp.atlas.CodeTemplateService.DescribeCodeTemplate:output_type -> eolymp.atlas.DescribeCodeTemplateOutput
+	11, // 17: eolymp.atlas.CodeTemplateService.LookupCodeTemplate:output_type -> eolymp.atlas.LookupCodeTemplateOutput
+	13, // 18: eolymp.atlas.CodeTemplateService.GenerateCodeTemplates:output_type -> eolymp.atlas.GenerateCodeTemplatesOutput
+	12, // [12:19] is the sub-list for method output_type
+	5,  // [5:12] is the sub-list for method input_type
 	5,  // [5:5] is the sub-list for extension type_name
 	5,  // [5:5] is the sub-list for extension extendee
 	0,  // [0:5] is the sub-list for field type_name
@@ -719,7 +812,7 @@ func file_eolymp_atlas_code_template_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_atlas_code_template_service_proto_rawDesc), len(file_eolymp_atlas_code_template_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   12,
+			NumMessages:   14,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
