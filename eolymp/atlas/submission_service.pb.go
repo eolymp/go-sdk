@@ -128,6 +128,7 @@ const (
 	AggregateSubmissionsInput_UNKNOWN_DIMENSION AggregateSubmissionsInput_Dimension = 0
 	AggregateSubmissionsInput_SUBMITTED_AT      AggregateSubmissionsInput_Dimension = 1
 	AggregateSubmissionsInput_VERDICT           AggregateSubmissionsInput_Dimension = 2
+	AggregateSubmissionsInput_STATUS            AggregateSubmissionsInput_Dimension = 3
 )
 
 // Enum value maps for AggregateSubmissionsInput_Dimension.
@@ -136,11 +137,13 @@ var (
 		0: "UNKNOWN_DIMENSION",
 		1: "SUBMITTED_AT",
 		2: "VERDICT",
+		3: "STATUS",
 	}
 	AggregateSubmissionsInput_Dimension_value = map[string]int32{
 		"UNKNOWN_DIMENSION": 0,
 		"SUBMITTED_AT":      1,
 		"VERDICT":           2,
+		"STATUS":            3,
 	}
 )
 
@@ -1110,10 +1113,12 @@ func (x *ListProblemTopOutput) GetItems() []*Submission {
 }
 
 type AggregateSubmissionsInput struct {
-	state         protoimpl.MessageState              `protogen:"open.v1"`
-	Metric        AggregateSubmissionsInput_Metric    `protobuf:"varint,1,opt,name=metric,proto3,enum=eolymp.atlas.AggregateSubmissionsInput_Metric" json:"metric,omitempty"`
-	Filters       *AggregateSubmissionsInput_Filter   `protobuf:"bytes,40,opt,name=filters,proto3" json:"filters,omitempty"`
-	GroupBy       AggregateSubmissionsInput_Dimension `protobuf:"varint,2,opt,name=group_by,json=groupBy,proto3,enum=eolymp.atlas.AggregateSubmissionsInput_Dimension" json:"group_by,omitempty"`
+	state         protoimpl.MessageState                `protogen:"open.v1"`
+	Metric        AggregateSubmissionsInput_Metric      `protobuf:"varint,1,opt,name=metric,proto3,enum=eolymp.atlas.AggregateSubmissionsInput_Metric" json:"metric,omitempty"`
+	GroupBy       []AggregateSubmissionsInput_Dimension `protobuf:"varint,2,rep,packed,name=group_by,json=groupBy,proto3,enum=eolymp.atlas.AggregateSubmissionsInput_Dimension" json:"group_by,omitempty"`
+	RangeStart    *timestamppb.Timestamp                `protobuf:"bytes,3,opt,name=range_start,json=rangeStart,proto3" json:"range_start,omitempty"`
+	RangeEnd      *timestamppb.Timestamp                `protobuf:"bytes,4,opt,name=range_end,json=rangeEnd,proto3" json:"range_end,omitempty"`
+	Filters       *AggregateSubmissionsInput_Filter     `protobuf:"bytes,40,opt,name=filters,proto3" json:"filters,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1155,18 +1160,32 @@ func (x *AggregateSubmissionsInput) GetMetric() AggregateSubmissionsInput_Metric
 	return AggregateSubmissionsInput_UNKNOWN_METRIC
 }
 
+func (x *AggregateSubmissionsInput) GetGroupBy() []AggregateSubmissionsInput_Dimension {
+	if x != nil {
+		return x.GroupBy
+	}
+	return nil
+}
+
+func (x *AggregateSubmissionsInput) GetRangeStart() *timestamppb.Timestamp {
+	if x != nil {
+		return x.RangeStart
+	}
+	return nil
+}
+
+func (x *AggregateSubmissionsInput) GetRangeEnd() *timestamppb.Timestamp {
+	if x != nil {
+		return x.RangeEnd
+	}
+	return nil
+}
+
 func (x *AggregateSubmissionsInput) GetFilters() *AggregateSubmissionsInput_Filter {
 	if x != nil {
 		return x.Filters
 	}
 	return nil
-}
-
-func (x *AggregateSubmissionsInput) GetGroupBy() AggregateSubmissionsInput_Dimension {
-	if x != nil {
-		return x.GroupBy
-	}
-	return AggregateSubmissionsInput_UNKNOWN_DIMENSION
 }
 
 type AggregateSubmissionsOutput struct {
@@ -1330,16 +1349,16 @@ func (x *ListSubmissionsInput_Filter) GetPercentage() []*wellknown.ExpressionFlo
 }
 
 type AggregateSubmissionsInput_Filter struct {
-	state         protoimpl.MessageState           `protogen:"open.v1"`
-	ProblemId     []*wellknown.ExpressionID        `protobuf:"bytes,2,rep,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
-	MemberId      []*wellknown.ExpressionID        `protobuf:"bytes,9,rep,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
-	UserId        []*wellknown.ExpressionID        `protobuf:"bytes,3,rep,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	SubmittedAt   []*wellknown.ExpressionTimestamp `protobuf:"bytes,4,rep,name=submitted_at,json=submittedAt,proto3" json:"submitted_at,omitempty"`
-	Verdict       []*wellknown.ExpressionEnum      `protobuf:"bytes,10,rep,name=verdict,proto3" json:"verdict,omitempty"`
-	Runtime       []*wellknown.ExpressionEnum      `protobuf:"bytes,5,rep,name=runtime,proto3" json:"runtime,omitempty"`
-	Status        []*wellknown.ExpressionEnum      `protobuf:"bytes,6,rep,name=status,proto3" json:"status,omitempty"`
-	Score         []*wellknown.ExpressionFloat     `protobuf:"bytes,7,rep,name=score,proto3" json:"score,omitempty"`
-	Percentage    []*wellknown.ExpressionFloat     `protobuf:"bytes,8,rep,name=percentage,proto3" json:"percentage,omitempty"`
+	state     protoimpl.MessageState    `protogen:"open.v1"`
+	ProblemId []*wellknown.ExpressionID `protobuf:"bytes,2,rep,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
+	MemberId  []*wellknown.ExpressionID `protobuf:"bytes,9,rep,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
+	UserId    []*wellknown.ExpressionID `protobuf:"bytes,3,rep,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	// submitted_at = 4 retired
+	Verdict       []*wellknown.ExpressionEnum  `protobuf:"bytes,10,rep,name=verdict,proto3" json:"verdict,omitempty"`
+	Runtime       []*wellknown.ExpressionEnum  `protobuf:"bytes,5,rep,name=runtime,proto3" json:"runtime,omitempty"`
+	Status        []*wellknown.ExpressionEnum  `protobuf:"bytes,6,rep,name=status,proto3" json:"status,omitempty"`
+	Score         []*wellknown.ExpressionFloat `protobuf:"bytes,7,rep,name=score,proto3" json:"score,omitempty"`
+	Percentage    []*wellknown.ExpressionFloat `protobuf:"bytes,8,rep,name=percentage,proto3" json:"percentage,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1395,13 +1414,6 @@ func (x *AggregateSubmissionsInput_Filter) GetUserId() []*wellknown.ExpressionID
 	return nil
 }
 
-func (x *AggregateSubmissionsInput_Filter) GetSubmittedAt() []*wellknown.ExpressionTimestamp {
-	if x != nil {
-		return x.SubmittedAt
-	}
-	return nil
-}
-
 func (x *AggregateSubmissionsInput_Filter) GetVerdict() []*wellknown.ExpressionEnum {
 	if x != nil {
 		return x.Verdict
@@ -1438,9 +1450,10 @@ func (x *AggregateSubmissionsInput_Filter) GetPercentage() []*wellknown.Expressi
 }
 
 type AggregateSubmissionsOutput_Bucket struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	Count         uint32                 `protobuf:"varint,10,opt,name=count,proto3" json:"count,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// name = 1 retired
+	Dimensions    []string `protobuf:"bytes,2,rep,name=dimensions,proto3" json:"dimensions,omitempty"`
+	Count         uint32   `protobuf:"varint,10,opt,name=count,proto3" json:"count,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1475,11 +1488,11 @@ func (*AggregateSubmissionsOutput_Bucket) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_submission_service_proto_rawDescGZIP(), []int{19, 0}
 }
 
-func (x *AggregateSubmissionsOutput_Bucket) GetName() string {
+func (x *AggregateSubmissionsOutput_Bucket) GetDimensions() []string {
 	if x != nil {
-		return x.Name
+		return x.Dimensions
 	}
-	return ""
+	return nil
 }
 
 func (x *AggregateSubmissionsOutput_Bucket) GetCount() uint32 {
@@ -1579,17 +1592,19 @@ const file_eolymp_atlas_submission_service_proto_rawDesc = "" +
 	"\n" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\"F\n" +
 	"\x14ListProblemTopOutput\x12.\n" +
-	"\x05items\x18\x02 \x03(\v2\x18.eolymp.atlas.SubmissionR\x05items\"\x9f\a\n" +
+	"\x05items\x18\x02 \x03(\v2\x18.eolymp.atlas.SubmissionR\x05items\"\xd7\a\n" +
 	"\x19AggregateSubmissionsInput\x12F\n" +
-	"\x06metric\x18\x01 \x01(\x0e2..eolymp.atlas.AggregateSubmissionsInput.MetricR\x06metric\x12H\n" +
-	"\afilters\x18( \x01(\v2..eolymp.atlas.AggregateSubmissionsInput.FilterR\afilters\x12L\n" +
-	"\bgroup_by\x18\x02 \x01(\x0e21.eolymp.atlas.AggregateSubmissionsInput.DimensionR\agroupBy\x1a\xb5\x04\n" +
+	"\x06metric\x18\x01 \x01(\x0e2..eolymp.atlas.AggregateSubmissionsInput.MetricR\x06metric\x12L\n" +
+	"\bgroup_by\x18\x02 \x03(\x0e21.eolymp.atlas.AggregateSubmissionsInput.DimensionR\agroupBy\x12;\n" +
+	"\vrange_start\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\n" +
+	"rangeStart\x127\n" +
+	"\trange_end\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\brangeEnd\x12H\n" +
+	"\afilters\x18( \x01(\v2..eolymp.atlas.AggregateSubmissionsInput.FilterR\afilters\x1a\xeb\x03\n" +
 	"\x06Filter\x12=\n" +
 	"\n" +
 	"problem_id\x18\x02 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\tproblemId\x12;\n" +
 	"\tmember_id\x18\t \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\bmemberId\x127\n" +
-	"\auser_id\x18\x03 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x06userId\x12H\n" +
-	"\fsubmitted_at\x18\x04 \x03(\v2%.eolymp.wellknown.ExpressionTimestampR\vsubmittedAt\x12:\n" +
+	"\auser_id\x18\x03 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x06userId\x12:\n" +
 	"\averdict\x18\n" +
 	" \x03(\v2 .eolymp.wellknown.ExpressionEnumR\averdict\x12:\n" +
 	"\aruntime\x18\x05 \x03(\v2 .eolymp.wellknown.ExpressionEnumR\aruntime\x128\n" +
@@ -1600,15 +1615,19 @@ const file_eolymp_atlas_submission_service_proto_rawDesc = "" +
 	"percentage\"'\n" +
 	"\x06Metric\x12\x12\n" +
 	"\x0eUNKNOWN_METRIC\x10\x00\x12\t\n" +
-	"\x05COUNT\x10\x01\"A\n" +
+	"\x05COUNT\x10\x01\"M\n" +
 	"\tDimension\x12\x15\n" +
 	"\x11UNKNOWN_DIMENSION\x10\x00\x12\x10\n" +
 	"\fSUBMITTED_AT\x10\x01\x12\v\n" +
-	"\aVERDICT\x10\x02\"\x9b\x01\n" +
+	"\aVERDICT\x10\x02\x12\n" +
+	"\n" +
+	"\x06STATUS\x10\x03\"\xa7\x01\n" +
 	"\x1aAggregateSubmissionsOutput\x12I\n" +
-	"\abuckets\x18\x01 \x03(\v2/.eolymp.atlas.AggregateSubmissionsOutput.BucketR\abuckets\x1a2\n" +
-	"\x06Bucket\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04name\x12\x14\n" +
+	"\abuckets\x18\x01 \x03(\v2/.eolymp.atlas.AggregateSubmissionsOutput.BucketR\abuckets\x1a>\n" +
+	"\x06Bucket\x12\x1e\n" +
+	"\n" +
+	"dimensions\x18\x02 \x03(\tR\n" +
+	"dimensions\x12\x14\n" +
 	"\x05count\x18\n" +
 	" \x01(\rR\x05count2\xfc\v\n" +
 	"\x11SubmissionService\x12\xa7\x01\n" +
@@ -1732,51 +1751,52 @@ var file_eolymp_atlas_submission_service_proto_depIdxs = []int32{
 	29, // 15: eolymp.atlas.DescribeSubmissionUsageInput.period_end:type_name -> google.protobuf.Timestamp
 	26, // 16: eolymp.atlas.ListProblemTopOutput.items:type_name -> eolymp.atlas.Submission
 	1,  // 17: eolymp.atlas.AggregateSubmissionsInput.metric:type_name -> eolymp.atlas.AggregateSubmissionsInput.Metric
-	24, // 18: eolymp.atlas.AggregateSubmissionsInput.filters:type_name -> eolymp.atlas.AggregateSubmissionsInput.Filter
-	2,  // 19: eolymp.atlas.AggregateSubmissionsInput.group_by:type_name -> eolymp.atlas.AggregateSubmissionsInput.Dimension
-	25, // 20: eolymp.atlas.AggregateSubmissionsOutput.buckets:type_name -> eolymp.atlas.AggregateSubmissionsOutput.Bucket
-	30, // 21: eolymp.atlas.ListSubmissionsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	30, // 22: eolymp.atlas.ListSubmissionsInput.Filter.problem_id:type_name -> eolymp.wellknown.ExpressionID
-	30, // 23: eolymp.atlas.ListSubmissionsInput.Filter.user_id:type_name -> eolymp.wellknown.ExpressionID
-	30, // 24: eolymp.atlas.ListSubmissionsInput.Filter.member_id:type_name -> eolymp.wellknown.ExpressionID
-	31, // 25: eolymp.atlas.ListSubmissionsInput.Filter.submitted_at:type_name -> eolymp.wellknown.ExpressionTimestamp
-	32, // 26: eolymp.atlas.ListSubmissionsInput.Filter.runtime:type_name -> eolymp.wellknown.ExpressionEnum
-	32, // 27: eolymp.atlas.ListSubmissionsInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
-	32, // 28: eolymp.atlas.ListSubmissionsInput.Filter.verdict:type_name -> eolymp.wellknown.ExpressionEnum
-	33, // 29: eolymp.atlas.ListSubmissionsInput.Filter.score:type_name -> eolymp.wellknown.ExpressionFloat
-	33, // 30: eolymp.atlas.ListSubmissionsInput.Filter.percentage:type_name -> eolymp.wellknown.ExpressionFloat
-	30, // 31: eolymp.atlas.AggregateSubmissionsInput.Filter.problem_id:type_name -> eolymp.wellknown.ExpressionID
-	30, // 32: eolymp.atlas.AggregateSubmissionsInput.Filter.member_id:type_name -> eolymp.wellknown.ExpressionID
-	30, // 33: eolymp.atlas.AggregateSubmissionsInput.Filter.user_id:type_name -> eolymp.wellknown.ExpressionID
-	31, // 34: eolymp.atlas.AggregateSubmissionsInput.Filter.submitted_at:type_name -> eolymp.wellknown.ExpressionTimestamp
-	32, // 35: eolymp.atlas.AggregateSubmissionsInput.Filter.verdict:type_name -> eolymp.wellknown.ExpressionEnum
-	32, // 36: eolymp.atlas.AggregateSubmissionsInput.Filter.runtime:type_name -> eolymp.wellknown.ExpressionEnum
-	32, // 37: eolymp.atlas.AggregateSubmissionsInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
-	33, // 38: eolymp.atlas.AggregateSubmissionsInput.Filter.score:type_name -> eolymp.wellknown.ExpressionFloat
-	33, // 39: eolymp.atlas.AggregateSubmissionsInput.Filter.percentage:type_name -> eolymp.wellknown.ExpressionFloat
-	5,  // 40: eolymp.atlas.SubmissionService.CreateSubmission:input_type -> eolymp.atlas.CreateSubmissionInput
-	13, // 41: eolymp.atlas.SubmissionService.RetestSubmission:input_type -> eolymp.atlas.RetestSubmissionInput
-	7,  // 42: eolymp.atlas.SubmissionService.DescribeSubmission:input_type -> eolymp.atlas.DescribeSubmissionInput
-	9,  // 43: eolymp.atlas.SubmissionService.WatchSubmission:input_type -> eolymp.atlas.WatchSubmissionInput
-	11, // 44: eolymp.atlas.SubmissionService.WatchSubmissionList:input_type -> eolymp.atlas.WatchSubmissionListInput
-	15, // 45: eolymp.atlas.SubmissionService.ListSubmissions:input_type -> eolymp.atlas.ListSubmissionsInput
-	17, // 46: eolymp.atlas.SubmissionService.DescribeSubmissionUsage:input_type -> eolymp.atlas.DescribeSubmissionUsageInput
-	19, // 47: eolymp.atlas.SubmissionService.ListProblemTop:input_type -> eolymp.atlas.ListProblemTopInput
-	21, // 48: eolymp.atlas.SubmissionService.AggregateSubmissions:input_type -> eolymp.atlas.AggregateSubmissionsInput
-	6,  // 49: eolymp.atlas.SubmissionService.CreateSubmission:output_type -> eolymp.atlas.CreateSubmissionOutput
-	14, // 50: eolymp.atlas.SubmissionService.RetestSubmission:output_type -> eolymp.atlas.RetestSubmissionOutput
-	8,  // 51: eolymp.atlas.SubmissionService.DescribeSubmission:output_type -> eolymp.atlas.DescribeSubmissionOutput
-	10, // 52: eolymp.atlas.SubmissionService.WatchSubmission:output_type -> eolymp.atlas.WatchSubmissionOutput
-	12, // 53: eolymp.atlas.SubmissionService.WatchSubmissionList:output_type -> eolymp.atlas.WatchSubmissionListOutput
-	16, // 54: eolymp.atlas.SubmissionService.ListSubmissions:output_type -> eolymp.atlas.ListSubmissionsOutput
-	18, // 55: eolymp.atlas.SubmissionService.DescribeSubmissionUsage:output_type -> eolymp.atlas.DescribeSubmissionUsageOutput
-	20, // 56: eolymp.atlas.SubmissionService.ListProblemTop:output_type -> eolymp.atlas.ListProblemTopOutput
-	22, // 57: eolymp.atlas.SubmissionService.AggregateSubmissions:output_type -> eolymp.atlas.AggregateSubmissionsOutput
-	49, // [49:58] is the sub-list for method output_type
-	40, // [40:49] is the sub-list for method input_type
-	40, // [40:40] is the sub-list for extension type_name
-	40, // [40:40] is the sub-list for extension extendee
-	0,  // [0:40] is the sub-list for field type_name
+	2,  // 18: eolymp.atlas.AggregateSubmissionsInput.group_by:type_name -> eolymp.atlas.AggregateSubmissionsInput.Dimension
+	29, // 19: eolymp.atlas.AggregateSubmissionsInput.range_start:type_name -> google.protobuf.Timestamp
+	29, // 20: eolymp.atlas.AggregateSubmissionsInput.range_end:type_name -> google.protobuf.Timestamp
+	24, // 21: eolymp.atlas.AggregateSubmissionsInput.filters:type_name -> eolymp.atlas.AggregateSubmissionsInput.Filter
+	25, // 22: eolymp.atlas.AggregateSubmissionsOutput.buckets:type_name -> eolymp.atlas.AggregateSubmissionsOutput.Bucket
+	30, // 23: eolymp.atlas.ListSubmissionsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	30, // 24: eolymp.atlas.ListSubmissionsInput.Filter.problem_id:type_name -> eolymp.wellknown.ExpressionID
+	30, // 25: eolymp.atlas.ListSubmissionsInput.Filter.user_id:type_name -> eolymp.wellknown.ExpressionID
+	30, // 26: eolymp.atlas.ListSubmissionsInput.Filter.member_id:type_name -> eolymp.wellknown.ExpressionID
+	31, // 27: eolymp.atlas.ListSubmissionsInput.Filter.submitted_at:type_name -> eolymp.wellknown.ExpressionTimestamp
+	32, // 28: eolymp.atlas.ListSubmissionsInput.Filter.runtime:type_name -> eolymp.wellknown.ExpressionEnum
+	32, // 29: eolymp.atlas.ListSubmissionsInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
+	32, // 30: eolymp.atlas.ListSubmissionsInput.Filter.verdict:type_name -> eolymp.wellknown.ExpressionEnum
+	33, // 31: eolymp.atlas.ListSubmissionsInput.Filter.score:type_name -> eolymp.wellknown.ExpressionFloat
+	33, // 32: eolymp.atlas.ListSubmissionsInput.Filter.percentage:type_name -> eolymp.wellknown.ExpressionFloat
+	30, // 33: eolymp.atlas.AggregateSubmissionsInput.Filter.problem_id:type_name -> eolymp.wellknown.ExpressionID
+	30, // 34: eolymp.atlas.AggregateSubmissionsInput.Filter.member_id:type_name -> eolymp.wellknown.ExpressionID
+	30, // 35: eolymp.atlas.AggregateSubmissionsInput.Filter.user_id:type_name -> eolymp.wellknown.ExpressionID
+	32, // 36: eolymp.atlas.AggregateSubmissionsInput.Filter.verdict:type_name -> eolymp.wellknown.ExpressionEnum
+	32, // 37: eolymp.atlas.AggregateSubmissionsInput.Filter.runtime:type_name -> eolymp.wellknown.ExpressionEnum
+	32, // 38: eolymp.atlas.AggregateSubmissionsInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
+	33, // 39: eolymp.atlas.AggregateSubmissionsInput.Filter.score:type_name -> eolymp.wellknown.ExpressionFloat
+	33, // 40: eolymp.atlas.AggregateSubmissionsInput.Filter.percentage:type_name -> eolymp.wellknown.ExpressionFloat
+	5,  // 41: eolymp.atlas.SubmissionService.CreateSubmission:input_type -> eolymp.atlas.CreateSubmissionInput
+	13, // 42: eolymp.atlas.SubmissionService.RetestSubmission:input_type -> eolymp.atlas.RetestSubmissionInput
+	7,  // 43: eolymp.atlas.SubmissionService.DescribeSubmission:input_type -> eolymp.atlas.DescribeSubmissionInput
+	9,  // 44: eolymp.atlas.SubmissionService.WatchSubmission:input_type -> eolymp.atlas.WatchSubmissionInput
+	11, // 45: eolymp.atlas.SubmissionService.WatchSubmissionList:input_type -> eolymp.atlas.WatchSubmissionListInput
+	15, // 46: eolymp.atlas.SubmissionService.ListSubmissions:input_type -> eolymp.atlas.ListSubmissionsInput
+	17, // 47: eolymp.atlas.SubmissionService.DescribeSubmissionUsage:input_type -> eolymp.atlas.DescribeSubmissionUsageInput
+	19, // 48: eolymp.atlas.SubmissionService.ListProblemTop:input_type -> eolymp.atlas.ListProblemTopInput
+	21, // 49: eolymp.atlas.SubmissionService.AggregateSubmissions:input_type -> eolymp.atlas.AggregateSubmissionsInput
+	6,  // 50: eolymp.atlas.SubmissionService.CreateSubmission:output_type -> eolymp.atlas.CreateSubmissionOutput
+	14, // 51: eolymp.atlas.SubmissionService.RetestSubmission:output_type -> eolymp.atlas.RetestSubmissionOutput
+	8,  // 52: eolymp.atlas.SubmissionService.DescribeSubmission:output_type -> eolymp.atlas.DescribeSubmissionOutput
+	10, // 53: eolymp.atlas.SubmissionService.WatchSubmission:output_type -> eolymp.atlas.WatchSubmissionOutput
+	12, // 54: eolymp.atlas.SubmissionService.WatchSubmissionList:output_type -> eolymp.atlas.WatchSubmissionListOutput
+	16, // 55: eolymp.atlas.SubmissionService.ListSubmissions:output_type -> eolymp.atlas.ListSubmissionsOutput
+	18, // 56: eolymp.atlas.SubmissionService.DescribeSubmissionUsage:output_type -> eolymp.atlas.DescribeSubmissionUsageOutput
+	20, // 57: eolymp.atlas.SubmissionService.ListProblemTop:output_type -> eolymp.atlas.ListProblemTopOutput
+	22, // 58: eolymp.atlas.SubmissionService.AggregateSubmissions:output_type -> eolymp.atlas.AggregateSubmissionsOutput
+	50, // [50:59] is the sub-list for method output_type
+	41, // [41:50] is the sub-list for method input_type
+	41, // [41:41] is the sub-list for extension type_name
+	41, // [41:41] is the sub-list for extension extendee
+	0,  // [0:41] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_atlas_submission_service_proto_init() }
