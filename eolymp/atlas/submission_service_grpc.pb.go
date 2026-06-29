@@ -23,6 +23,7 @@ const (
 	SubmissionService_RetestSubmission_FullMethodName        = "/eolymp.atlas.SubmissionService/RetestSubmission"
 	SubmissionService_DescribeSubmission_FullMethodName      = "/eolymp.atlas.SubmissionService/DescribeSubmission"
 	SubmissionService_WatchSubmission_FullMethodName         = "/eolymp.atlas.SubmissionService/WatchSubmission"
+	SubmissionService_WatchSubmissionList_FullMethodName     = "/eolymp.atlas.SubmissionService/WatchSubmissionList"
 	SubmissionService_ListSubmissions_FullMethodName         = "/eolymp.atlas.SubmissionService/ListSubmissions"
 	SubmissionService_DescribeSubmissionUsage_FullMethodName = "/eolymp.atlas.SubmissionService/DescribeSubmissionUsage"
 	SubmissionService_ListProblemTop_FullMethodName          = "/eolymp.atlas.SubmissionService/ListProblemTop"
@@ -37,6 +38,7 @@ type SubmissionServiceClient interface {
 	RetestSubmission(ctx context.Context, in *RetestSubmissionInput, opts ...grpc.CallOption) (*RetestSubmissionOutput, error)
 	DescribeSubmission(ctx context.Context, in *DescribeSubmissionInput, opts ...grpc.CallOption) (*DescribeSubmissionOutput, error)
 	WatchSubmission(ctx context.Context, in *WatchSubmissionInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchSubmissionOutput], error)
+	WatchSubmissionList(ctx context.Context, in *WatchSubmissionListInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchSubmissionListOutput], error)
 	ListSubmissions(ctx context.Context, in *ListSubmissionsInput, opts ...grpc.CallOption) (*ListSubmissionsOutput, error)
 	DescribeSubmissionUsage(ctx context.Context, in *DescribeSubmissionUsageInput, opts ...grpc.CallOption) (*DescribeSubmissionUsageOutput, error)
 	ListProblemTop(ctx context.Context, in *ListProblemTopInput, opts ...grpc.CallOption) (*ListProblemTopOutput, error)
@@ -100,6 +102,25 @@ func (c *submissionServiceClient) WatchSubmission(ctx context.Context, in *Watch
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type SubmissionService_WatchSubmissionClient = grpc.ServerStreamingClient[WatchSubmissionOutput]
 
+func (c *submissionServiceClient) WatchSubmissionList(ctx context.Context, in *WatchSubmissionListInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchSubmissionListOutput], error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	stream, err := c.cc.NewStream(ctx, &SubmissionService_ServiceDesc.Streams[1], SubmissionService_WatchSubmissionList_FullMethodName, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &grpc.GenericClientStream[WatchSubmissionListInput, WatchSubmissionListOutput]{ClientStream: stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type SubmissionService_WatchSubmissionListClient = grpc.ServerStreamingClient[WatchSubmissionListOutput]
+
 func (c *submissionServiceClient) ListSubmissions(ctx context.Context, in *ListSubmissionsInput, opts ...grpc.CallOption) (*ListSubmissionsOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ListSubmissionsOutput)
@@ -148,6 +169,7 @@ type SubmissionServiceServer interface {
 	RetestSubmission(context.Context, *RetestSubmissionInput) (*RetestSubmissionOutput, error)
 	DescribeSubmission(context.Context, *DescribeSubmissionInput) (*DescribeSubmissionOutput, error)
 	WatchSubmission(*WatchSubmissionInput, grpc.ServerStreamingServer[WatchSubmissionOutput]) error
+	WatchSubmissionList(*WatchSubmissionListInput, grpc.ServerStreamingServer[WatchSubmissionListOutput]) error
 	ListSubmissions(context.Context, *ListSubmissionsInput) (*ListSubmissionsOutput, error)
 	DescribeSubmissionUsage(context.Context, *DescribeSubmissionUsageInput) (*DescribeSubmissionUsageOutput, error)
 	ListProblemTop(context.Context, *ListProblemTopInput) (*ListProblemTopOutput, error)
@@ -172,6 +194,9 @@ func (UnimplementedSubmissionServiceServer) DescribeSubmission(context.Context, 
 }
 func (UnimplementedSubmissionServiceServer) WatchSubmission(*WatchSubmissionInput, grpc.ServerStreamingServer[WatchSubmissionOutput]) error {
 	return status.Error(codes.Unimplemented, "method WatchSubmission not implemented")
+}
+func (UnimplementedSubmissionServiceServer) WatchSubmissionList(*WatchSubmissionListInput, grpc.ServerStreamingServer[WatchSubmissionListOutput]) error {
+	return status.Error(codes.Unimplemented, "method WatchSubmissionList not implemented")
 }
 func (UnimplementedSubmissionServiceServer) ListSubmissions(context.Context, *ListSubmissionsInput) (*ListSubmissionsOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListSubmissions not implemented")
@@ -269,6 +294,17 @@ func _SubmissionService_WatchSubmission_Handler(srv interface{}, stream grpc.Ser
 
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type SubmissionService_WatchSubmissionServer = grpc.ServerStreamingServer[WatchSubmissionOutput]
+
+func _SubmissionService_WatchSubmissionList_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(WatchSubmissionListInput)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(SubmissionServiceServer).WatchSubmissionList(m, &grpc.GenericServerStream[WatchSubmissionListInput, WatchSubmissionListOutput]{ServerStream: stream})
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type SubmissionService_WatchSubmissionListServer = grpc.ServerStreamingServer[WatchSubmissionListOutput]
 
 func _SubmissionService_ListSubmissions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListSubmissionsInput)
@@ -382,6 +418,11 @@ var SubmissionService_ServiceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "WatchSubmission",
 			Handler:       _SubmissionService_WatchSubmission_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "WatchSubmissionList",
+			Handler:       _SubmissionService_WatchSubmissionList_Handler,
 			ServerStreams: true,
 		},
 	},
