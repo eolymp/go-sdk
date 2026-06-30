@@ -19,16 +19,17 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	SubmissionService_CreateSubmission_FullMethodName   = "/eolymp.judge.SubmissionService/CreateSubmission"
-	SubmissionService_ListSubmissions_FullMethodName    = "/eolymp.judge.SubmissionService/ListSubmissions"
-	SubmissionService_DescribeSubmission_FullMethodName = "/eolymp.judge.SubmissionService/DescribeSubmission"
-	SubmissionService_PrintSubmission_FullMethodName    = "/eolymp.judge.SubmissionService/PrintSubmission"
-	SubmissionService_WatchSubmission_FullMethodName    = "/eolymp.judge.SubmissionService/WatchSubmission"
-	SubmissionService_RetestSubmission_FullMethodName   = "/eolymp.judge.SubmissionService/RetestSubmission"
-	SubmissionService_DeleteSubmission_FullMethodName   = "/eolymp.judge.SubmissionService/DeleteSubmission"
-	SubmissionService_RestoreSubmission_FullMethodName  = "/eolymp.judge.SubmissionService/RestoreSubmission"
-	SubmissionService_RetestProblem_FullMethodName      = "/eolymp.judge.SubmissionService/RetestProblem"
-	SubmissionService_AnalyzeSubmission_FullMethodName  = "/eolymp.judge.SubmissionService/AnalyzeSubmission"
+	SubmissionService_CreateSubmission_FullMethodName    = "/eolymp.judge.SubmissionService/CreateSubmission"
+	SubmissionService_ListSubmissions_FullMethodName     = "/eolymp.judge.SubmissionService/ListSubmissions"
+	SubmissionService_DescribeSubmission_FullMethodName  = "/eolymp.judge.SubmissionService/DescribeSubmission"
+	SubmissionService_PrintSubmission_FullMethodName     = "/eolymp.judge.SubmissionService/PrintSubmission"
+	SubmissionService_WatchSubmission_FullMethodName     = "/eolymp.judge.SubmissionService/WatchSubmission"
+	SubmissionService_WatchSubmissionList_FullMethodName = "/eolymp.judge.SubmissionService/WatchSubmissionList"
+	SubmissionService_RetestSubmission_FullMethodName    = "/eolymp.judge.SubmissionService/RetestSubmission"
+	SubmissionService_DeleteSubmission_FullMethodName    = "/eolymp.judge.SubmissionService/DeleteSubmission"
+	SubmissionService_RestoreSubmission_FullMethodName   = "/eolymp.judge.SubmissionService/RestoreSubmission"
+	SubmissionService_RetestProblem_FullMethodName       = "/eolymp.judge.SubmissionService/RetestProblem"
+	SubmissionService_AnalyzeSubmission_FullMethodName   = "/eolymp.judge.SubmissionService/AnalyzeSubmission"
 )
 
 // SubmissionServiceClient is the client API for SubmissionService service.
@@ -41,6 +42,7 @@ type SubmissionServiceClient interface {
 	DescribeSubmission(ctx context.Context, in *DescribeSubmissionInput, opts ...grpc.CallOption) (*DescribeSubmissionOutput, error)
 	PrintSubmission(ctx context.Context, in *PrintSubmissionInput, opts ...grpc.CallOption) (*PrintSubmissionOutput, error)
 	WatchSubmission(ctx context.Context, in *WatchSubmissionInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchSubmissionOutput], error)
+	WatchSubmissionList(ctx context.Context, in *WatchSubmissionListInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchSubmissionListOutput], error)
 	// Resets submission results and triggers testing process.
 	RetestSubmission(ctx context.Context, in *RetestSubmissionInput, opts ...grpc.CallOption) (*RetestSubmissionOutput, error)
 	DeleteSubmission(ctx context.Context, in *DeleteSubmissionInput, opts ...grpc.CallOption) (*DeleteSubmissionOutput, error)
@@ -117,6 +119,25 @@ func (c *submissionServiceClient) WatchSubmission(ctx context.Context, in *Watch
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type SubmissionService_WatchSubmissionClient = grpc.ServerStreamingClient[WatchSubmissionOutput]
 
+func (c *submissionServiceClient) WatchSubmissionList(ctx context.Context, in *WatchSubmissionListInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchSubmissionListOutput], error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	stream, err := c.cc.NewStream(ctx, &SubmissionService_ServiceDesc.Streams[1], SubmissionService_WatchSubmissionList_FullMethodName, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &grpc.GenericClientStream[WatchSubmissionListInput, WatchSubmissionListOutput]{ClientStream: stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type SubmissionService_WatchSubmissionListClient = grpc.ServerStreamingClient[WatchSubmissionListOutput]
+
 func (c *submissionServiceClient) RetestSubmission(ctx context.Context, in *RetestSubmissionInput, opts ...grpc.CallOption) (*RetestSubmissionOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(RetestSubmissionOutput)
@@ -177,6 +198,7 @@ type SubmissionServiceServer interface {
 	DescribeSubmission(context.Context, *DescribeSubmissionInput) (*DescribeSubmissionOutput, error)
 	PrintSubmission(context.Context, *PrintSubmissionInput) (*PrintSubmissionOutput, error)
 	WatchSubmission(*WatchSubmissionInput, grpc.ServerStreamingServer[WatchSubmissionOutput]) error
+	WatchSubmissionList(*WatchSubmissionListInput, grpc.ServerStreamingServer[WatchSubmissionListOutput]) error
 	// Resets submission results and triggers testing process.
 	RetestSubmission(context.Context, *RetestSubmissionInput) (*RetestSubmissionOutput, error)
 	DeleteSubmission(context.Context, *DeleteSubmissionInput) (*DeleteSubmissionOutput, error)
@@ -207,6 +229,9 @@ func (UnimplementedSubmissionServiceServer) PrintSubmission(context.Context, *Pr
 }
 func (UnimplementedSubmissionServiceServer) WatchSubmission(*WatchSubmissionInput, grpc.ServerStreamingServer[WatchSubmissionOutput]) error {
 	return status.Error(codes.Unimplemented, "method WatchSubmission not implemented")
+}
+func (UnimplementedSubmissionServiceServer) WatchSubmissionList(*WatchSubmissionListInput, grpc.ServerStreamingServer[WatchSubmissionListOutput]) error {
+	return status.Error(codes.Unimplemented, "method WatchSubmissionList not implemented")
 }
 func (UnimplementedSubmissionServiceServer) RetestSubmission(context.Context, *RetestSubmissionInput) (*RetestSubmissionOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method RetestSubmission not implemented")
@@ -325,6 +350,17 @@ func _SubmissionService_WatchSubmission_Handler(srv interface{}, stream grpc.Ser
 
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type SubmissionService_WatchSubmissionServer = grpc.ServerStreamingServer[WatchSubmissionOutput]
+
+func _SubmissionService_WatchSubmissionList_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(WatchSubmissionListInput)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(SubmissionServiceServer).WatchSubmissionList(m, &grpc.GenericServerStream[WatchSubmissionListInput, WatchSubmissionListOutput]{ServerStream: stream})
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type SubmissionService_WatchSubmissionListServer = grpc.ServerStreamingServer[WatchSubmissionListOutput]
 
 func _SubmissionService_RetestSubmission_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(RetestSubmissionInput)
@@ -464,6 +500,11 @@ var SubmissionService_ServiceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "WatchSubmission",
 			Handler:       _SubmissionService_WatchSubmission_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "WatchSubmissionList",
+			Handler:       _SubmissionService_WatchSubmissionList_Handler,
 			ServerStreams: true,
 		},
 	},
