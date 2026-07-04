@@ -127,11 +127,13 @@ func (x *DescribeContestSeriesOutput) GetSeries() *ContestSeries {
 }
 
 type ListContestSeriesInput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Offset        int32                  `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
-	Size          int32                  `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
-	Locale        string                 `protobuf:"bytes,21,opt,name=locale,proto3" json:"locale,omitempty"` // if set, load series name in a given locale
-	Extra         []ContestSeries_Extra  `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.judge.ContestSeries_Extra" json:"extra,omitempty"`
+	state  protoimpl.MessageState `protogen:"open.v1"`
+	Offset int32                  `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
+	Size   int32                  `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
+	Locale string                 `protobuf:"bytes,21,opt,name=locale,proto3" json:"locale,omitempty"` // if set, load series name in a given locale
+	// data filters
+	Search        string                `protobuf:"bytes,20,opt,name=search,proto3" json:"search,omitempty"` // if set, filter series by name
+	Extra         []ContestSeries_Extra `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.judge.ContestSeries_Extra" json:"extra,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -183,6 +185,13 @@ func (x *ListContestSeriesInput) GetSize() int32 {
 func (x *ListContestSeriesInput) GetLocale() string {
 	if x != nil {
 		return x.Locale
+	}
+	return ""
+}
+
+func (x *ListContestSeriesInput) GetSearch() string {
+	if x != nil {
+		return x.Search
 	}
 	return ""
 }
@@ -513,12 +522,13 @@ const file_eolymp_judge_contest_series_service_proto_rawDesc = "" +
 	" \x01(\tR\x06locale\x128\n" +
 	"\x05extra\x18\xe3\b \x03(\x0e2!.eolymp.judge.ContestSeries.ExtraR\x05extra\"R\n" +
 	"\x1bDescribeContestSeriesOutput\x123\n" +
-	"\x06series\x18\x01 \x01(\v2\x1b.eolymp.judge.ContestSeriesR\x06series\"\x96\x01\n" +
+	"\x06series\x18\x01 \x01(\v2\x1b.eolymp.judge.ContestSeriesR\x06series\"\xae\x01\n" +
 	"\x16ListContestSeriesInput\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
 	"\x04size\x18\v \x01(\x05R\x04size\x12\x16\n" +
-	"\x06locale\x18\x15 \x01(\tR\x06locale\x128\n" +
+	"\x06locale\x18\x15 \x01(\tR\x06locale\x12\x16\n" +
+	"\x06search\x18\x14 \x01(\tR\x06search\x128\n" +
 	"\x05extra\x18\xe3\b \x03(\x0e2!.eolymp.judge.ContestSeries.ExtraR\x05extra\"b\n" +
 	"\x17ListContestSeriesOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x121\n" +
