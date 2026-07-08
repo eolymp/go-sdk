@@ -77,11 +77,13 @@ func (UpdateProblemInput_Patch) EnumDescriptor() ([]byte, []int) {
 }
 
 type ImportProblemInput struct {
-	state              protoimpl.MessageState `protogen:"open.v1"`
-	ImportId           string                 `protobuf:"bytes,2,opt,name=import_id,json=importId,proto3" json:"import_id,omitempty"`
-	Index              uint32                 `protobuf:"varint,10,opt,name=index,proto3" json:"index,omitempty"`
-	SubmitLimit        uint32                 `protobuf:"varint,11,opt,name=submit_limit,json=submitLimit,proto3" json:"submit_limit,omitempty"`
-	ScoreByBestTestset bool                   `protobuf:"varint,12,opt,name=score_by_best_testset,json=scoreByBestTestset,proto3" json:"score_by_best_testset,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Deprecated: Marked as deprecated in eolymp/judge/problem_service.proto.
+	ImportId           string   `protobuf:"bytes,2,opt,name=import_id,json=importId,proto3" json:"import_id,omitempty"`
+	ImportIds          []string `protobuf:"bytes,3,rep,name=import_ids,json=importIds,proto3" json:"import_ids,omitempty"`
+	Index              uint32   `protobuf:"varint,10,opt,name=index,proto3" json:"index,omitempty"`
+	SubmitLimit        uint32   `protobuf:"varint,11,opt,name=submit_limit,json=submitLimit,proto3" json:"submit_limit,omitempty"`
+	ScoreByBestTestset bool     `protobuf:"varint,12,opt,name=score_by_best_testset,json=scoreByBestTestset,proto3" json:"score_by_best_testset,omitempty"`
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
 }
@@ -116,11 +118,19 @@ func (*ImportProblemInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_judge_problem_service_proto_rawDescGZIP(), []int{0}
 }
 
+// Deprecated: Marked as deprecated in eolymp/judge/problem_service.proto.
 func (x *ImportProblemInput) GetImportId() string {
 	if x != nil {
 		return x.ImportId
 	}
 	return ""
+}
+
+func (x *ImportProblemInput) GetImportIds() []string {
+	if x != nil {
+		return x.ImportIds
+	}
+	return nil
 }
 
 func (x *ImportProblemInput) GetIndex() uint32 {
@@ -145,8 +155,10 @@ func (x *ImportProblemInput) GetScoreByBestTestset() bool {
 }
 
 type ImportProblemOutput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	ProblemId     string                 `protobuf:"bytes,2,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Deprecated: Marked as deprecated in eolymp/judge/problem_service.proto.
+	ProblemId     string   `protobuf:"bytes,2,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
+	ProblemIds    []string `protobuf:"bytes,3,rep,name=problem_ids,json=problemIds,proto3" json:"problem_ids,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -181,11 +193,19 @@ func (*ImportProblemOutput) Descriptor() ([]byte, []int) {
 	return file_eolymp_judge_problem_service_proto_rawDescGZIP(), []int{1}
 }
 
+// Deprecated: Marked as deprecated in eolymp/judge/problem_service.proto.
 func (x *ImportProblemOutput) GetProblemId() string {
 	if x != nil {
 		return x.ProblemId
 	}
 	return ""
+}
+
+func (x *ImportProblemOutput) GetProblemIds() []string {
+	if x != nil {
+		return x.ProblemIds
+	}
+	return nil
 }
 
 type SyncProblemInput struct {
@@ -1449,16 +1469,20 @@ var File_eolymp_judge_problem_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_problem_service_proto_rawDesc = "" +
 	"\n" +
-	"\"eolymp/judge/problem_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1ceolymp/atlas/editorial.proto\x1a\x1aeolymp/atlas/problem.proto\x1a\x1aeolymp/judge/problem.proto\x1a\x1beolymp/judge/template.proto\x1a\x1ceolymp/runtime/runtime.proto\"\x9d\x01\n" +
-	"\x12ImportProblemInput\x12\x1b\n" +
-	"\timport_id\x18\x02 \x01(\tR\bimportId\x12\x14\n" +
+	"\"eolymp/judge/problem_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1ceolymp/atlas/editorial.proto\x1a\x1aeolymp/atlas/problem.proto\x1a\x1aeolymp/judge/problem.proto\x1a\x1beolymp/judge/template.proto\x1a\x1ceolymp/runtime/runtime.proto\"\xc0\x01\n" +
+	"\x12ImportProblemInput\x12\x1f\n" +
+	"\timport_id\x18\x02 \x01(\tB\x02\x18\x01R\bimportId\x12\x1d\n" +
+	"\n" +
+	"import_ids\x18\x03 \x03(\tR\timportIds\x12\x14\n" +
 	"\x05index\x18\n" +
 	" \x01(\rR\x05index\x12!\n" +
 	"\fsubmit_limit\x18\v \x01(\rR\vsubmitLimit\x121\n" +
-	"\x15score_by_best_testset\x18\f \x01(\bR\x12scoreByBestTestset\"4\n" +
-	"\x13ImportProblemOutput\x12\x1d\n" +
+	"\x15score_by_best_testset\x18\f \x01(\bR\x12scoreByBestTestset\"Y\n" +
+	"\x13ImportProblemOutput\x12!\n" +
 	"\n" +
-	"problem_id\x18\x02 \x01(\tR\tproblemId\"1\n" +
+	"problem_id\x18\x02 \x01(\tB\x02\x18\x01R\tproblemId\x12\x1f\n" +
+	"\vproblem_ids\x18\x03 \x03(\tR\n" +
+	"problemIds\"1\n" +
 	"\x10SyncProblemInput\x12\x1d\n" +
 	"\n" +
 	"problem_id\x18\x02 \x01(\tR\tproblemId\"\x13\n" +
