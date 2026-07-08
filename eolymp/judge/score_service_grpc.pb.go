@@ -19,14 +19,15 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	ScoreService_IntrospectScore_FullMethodName = "/eolymp.judge.ScoreService/IntrospectScore"
-	ScoreService_WatchScore_FullMethodName      = "/eolymp.judge.ScoreService/WatchScore"
-	ScoreService_DescribeScore_FullMethodName   = "/eolymp.judge.ScoreService/DescribeScore"
-	ScoreService_ImportScore_FullMethodName     = "/eolymp.judge.ScoreService/ImportScore"
-	ScoreService_ExportScore_FullMethodName     = "/eolymp.judge.ScoreService/ExportScore"
-	ScoreService_ListResult_FullMethodName      = "/eolymp.judge.ScoreService/ListResult"
-	ScoreService_ExportResult_FullMethodName    = "/eolymp.judge.ScoreService/ExportResult"
-	ScoreService_RebuildScore_FullMethodName    = "/eolymp.judge.ScoreService/RebuildScore"
+	ScoreService_IntrospectScore_FullMethodName   = "/eolymp.judge.ScoreService/IntrospectScore"
+	ScoreService_WatchScore_FullMethodName        = "/eolymp.judge.ScoreService/WatchScore"
+	ScoreService_DescribeScore_FullMethodName     = "/eolymp.judge.ScoreService/DescribeScore"
+	ScoreService_ListScoreTimeline_FullMethodName = "/eolymp.judge.ScoreService/ListScoreTimeline"
+	ScoreService_ImportScore_FullMethodName       = "/eolymp.judge.ScoreService/ImportScore"
+	ScoreService_ExportScore_FullMethodName       = "/eolymp.judge.ScoreService/ExportScore"
+	ScoreService_ListResult_FullMethodName        = "/eolymp.judge.ScoreService/ListResult"
+	ScoreService_ExportResult_FullMethodName      = "/eolymp.judge.ScoreService/ExportResult"
+	ScoreService_RebuildScore_FullMethodName      = "/eolymp.judge.ScoreService/RebuildScore"
 )
 
 // ScoreServiceClient is the client API for ScoreService service.
@@ -36,6 +37,7 @@ type ScoreServiceClient interface {
 	IntrospectScore(ctx context.Context, in *IntrospectScoreInput, opts ...grpc.CallOption) (*IntrospectScoreOutput, error)
 	WatchScore(ctx context.Context, in *WatchScoreInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchScoreOutput], error)
 	DescribeScore(ctx context.Context, in *DescribeScoreInput, opts ...grpc.CallOption) (*DescribeScoreOutput, error)
+	ListScoreTimeline(ctx context.Context, in *ListScoreTimelineInput, opts ...grpc.CallOption) (*ListScoreTimelineOutput, error)
 	// ImportScore for ghost participants
 	ImportScore(ctx context.Context, in *ImportScoreInput, opts ...grpc.CallOption) (*ImportScoreOutput, error)
 	// ExportScore for ghost participants
@@ -88,6 +90,16 @@ func (c *scoreServiceClient) DescribeScore(ctx context.Context, in *DescribeScor
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DescribeScoreOutput)
 	err := c.cc.Invoke(ctx, ScoreService_DescribeScore_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *scoreServiceClient) ListScoreTimeline(ctx context.Context, in *ListScoreTimelineInput, opts ...grpc.CallOption) (*ListScoreTimelineOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListScoreTimelineOutput)
+	err := c.cc.Invoke(ctx, ScoreService_ListScoreTimeline_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -151,6 +163,7 @@ type ScoreServiceServer interface {
 	IntrospectScore(context.Context, *IntrospectScoreInput) (*IntrospectScoreOutput, error)
 	WatchScore(*WatchScoreInput, grpc.ServerStreamingServer[WatchScoreOutput]) error
 	DescribeScore(context.Context, *DescribeScoreInput) (*DescribeScoreOutput, error)
+	ListScoreTimeline(context.Context, *ListScoreTimelineInput) (*ListScoreTimelineOutput, error)
 	// ImportScore for ghost participants
 	ImportScore(context.Context, *ImportScoreInput) (*ImportScoreOutput, error)
 	// ExportScore for ghost participants
@@ -177,6 +190,9 @@ func (UnimplementedScoreServiceServer) WatchScore(*WatchScoreInput, grpc.ServerS
 }
 func (UnimplementedScoreServiceServer) DescribeScore(context.Context, *DescribeScoreInput) (*DescribeScoreOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method DescribeScore not implemented")
+}
+func (UnimplementedScoreServiceServer) ListScoreTimeline(context.Context, *ListScoreTimelineInput) (*ListScoreTimelineOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListScoreTimeline not implemented")
 }
 func (UnimplementedScoreServiceServer) ImportScore(context.Context, *ImportScoreInput) (*ImportScoreOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method ImportScore not implemented")
@@ -256,6 +272,24 @@ func _ScoreService_DescribeScore_Handler(srv interface{}, ctx context.Context, d
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ScoreServiceServer).DescribeScore(ctx, req.(*DescribeScoreInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ScoreService_ListScoreTimeline_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListScoreTimelineInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ScoreServiceServer).ListScoreTimeline(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ScoreService_ListScoreTimeline_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ScoreServiceServer).ListScoreTimeline(ctx, req.(*ListScoreTimelineInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -364,6 +398,10 @@ var ScoreService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DescribeScore",
 			Handler:    _ScoreService_DescribeScore_Handler,
+		},
+		{
+			MethodName: "ListScoreTimeline",
+			Handler:    _ScoreService_ListScoreTimeline_Handler,
 		},
 		{
 			MethodName: "ImportScore",
