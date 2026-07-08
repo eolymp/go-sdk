@@ -1112,16 +1112,17 @@ func (x *Contest_Classification) GetCity() string {
 }
 
 type Contest_ScoreboardConfig struct {
-	state          protoimpl.MessageState              `protogen:"open.v1"`
-	Visibility     Contest_ScoreboardConfig_Visibility `protobuf:"varint,1,opt,name=visibility,proto3,enum=eolymp.judge.Contest_ScoreboardConfig_Visibility" json:"visibility,omitempty"`
-	FreezingTime   uint32                              `protobuf:"varint,2,opt,name=freezing_time,json=freezingTime,proto3" json:"freezing_time,omitempty"`    // time in seconds before end of the contest when results will be frozen (eg. 3600 means one hour before the end)
-	UnfreezeDelay  int32                               `protobuf:"varint,3,opt,name=unfreeze_delay,json=unfreezeDelay,proto3" json:"unfreeze_delay,omitempty"` // a delay in seconds after end of contest that board will remain frozen (eg. 600 means board will remain frozen for 10 minutes after end of contest)
-	AttemptPenalty uint32                              `protobuf:"varint,4,opt,name=attempt_penalty,json=attemptPenalty,proto3" json:"attempt_penalty,omitempty"`
-	TieBreaker     string                              `protobuf:"bytes,5,opt,name=tie_breaker,json=tieBreaker,proto3" json:"tie_breaker,omitempty"`       // tie breaker parameter
-	NoSpoilerUi    bool                                `protobuf:"varint,6,opt,name=no_spoiler_ui,json=noSpoilerUi,proto3" json:"no_spoiler_ui,omitempty"` // hides results in participant UI, to prevent one participant seeing result of another during onsite competitions
-	ShareKey       string                              `protobuf:"bytes,7,opt,name=share_key,json=shareKey,proto3" json:"share_key,omitempty"`             // key to share invisible and internal scoreboards with others
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
+	state            protoimpl.MessageState              `protogen:"open.v1"`
+	Visibility       Contest_ScoreboardConfig_Visibility `protobuf:"varint,1,opt,name=visibility,proto3,enum=eolymp.judge.Contest_ScoreboardConfig_Visibility" json:"visibility,omitempty"`
+	FreezingTime     uint32                              `protobuf:"varint,2,opt,name=freezing_time,json=freezingTime,proto3" json:"freezing_time,omitempty"`    // time in seconds before end of the contest when results will be frozen (eg. 3600 means one hour before the end)
+	UnfreezeDelay    int32                               `protobuf:"varint,3,opt,name=unfreeze_delay,json=unfreezeDelay,proto3" json:"unfreeze_delay,omitempty"` // a delay in seconds after end of contest that board will remain frozen (eg. 600 means board will remain frozen for 10 minutes after end of contest)
+	AttemptPenalty   uint32                              `protobuf:"varint,4,opt,name=attempt_penalty,json=attemptPenalty,proto3" json:"attempt_penalty,omitempty"`
+	TieBreaker       string                              `protobuf:"bytes,5,opt,name=tie_breaker,json=tieBreaker,proto3" json:"tie_breaker,omitempty"`                    // tie breaker parameter
+	NoSpoilerUi      bool                                `protobuf:"varint,6,opt,name=no_spoiler_ui,json=noSpoilerUi,proto3" json:"no_spoiler_ui,omitempty"`              // hides results in participant UI, to prevent one participant seeing result of another during onsite competitions
+	ShareKey         string                              `protobuf:"bytes,7,opt,name=share_key,json=shareKey,proto3" json:"share_key,omitempty"`                          // key to share invisible and internal scoreboards with others
+	HideDisqualified bool                                `protobuf:"varint,8,opt,name=hide_disqualified,json=hideDisqualified,proto3" json:"hide_disqualified,omitempty"` // When true, disqualified participants are excluded from scoreboard responses
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *Contest_ScoreboardConfig) Reset() {
@@ -1201,6 +1202,13 @@ func (x *Contest_ScoreboardConfig) GetShareKey() string {
 		return x.ShareKey
 	}
 	return ""
+}
+
+func (x *Contest_ScoreboardConfig) GetHideDisqualified() bool {
+	if x != nil {
+		return x.HideDisqualified
+	}
+	return false
 }
 
 type Contest_RatingConfig struct {
@@ -1519,7 +1527,7 @@ var File_eolymp_judge_contest_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\n" +
-	"\x1aeolymp/judge/contest.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1ceolymp/runtime/runtime.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xbf)\n" +
+	"\x1aeolymp/judge/contest.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1ceolymp/runtime/runtime.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xec)\n" +
 	"\aContest\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x18\n" +
 	"\x03url\x18\x02 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x03url\x12\x12\n" +
@@ -1623,7 +1631,7 @@ const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\x05LOCAL\x10\x01\x12\f\n" +
 	"\bREGIONAL\x10\x02\x12\f\n" +
 	"\bNATIONAL\x10\x03\x12\x11\n" +
-	"\rINTERNATIONAL\x10\x04\x1a\xf7\x03\n" +
+	"\rINTERNATIONAL\x10\x04\x1a\xa4\x04\n" +
 	"\x10ScoreboardConfig\x12Q\n" +
 	"\n" +
 	"visibility\x18\x01 \x01(\x0e21.eolymp.judge.Contest.ScoreboardConfig.VisibilityR\n" +
@@ -1634,7 +1642,8 @@ const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\vtie_breaker\x18\x05 \x01(\tR\n" +
 	"tieBreaker\x12\"\n" +
 	"\rno_spoiler_ui\x18\x06 \x01(\bR\vnoSpoilerUi\x12\x1b\n" +
-	"\tshare_key\x18\a \x01(\tR\bshareKey\"\xb8\x01\n" +
+	"\tshare_key\x18\a \x01(\tR\bshareKey\x12+\n" +
+	"\x11hide_disqualified\x18\b \x01(\bR\x10hideDisqualified\"\xb8\x01\n" +
 	"\n" +
 	"Visibility\x12\x16\n" +
 	"\x12UNKNOWN_VISIBILITY\x10\x00\x12/\n" +
