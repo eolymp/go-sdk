@@ -66,6 +66,9 @@ const (
 	Action_NEWSLETTER_LIST  Action = 162 // allows to list newsletters, automatically assigned if user has read access to any of the newsletters
 	Action_NEWSLETTER_READ  Action = 160
 	Action_NEWSLETTER_WRITE Action = 161
+	Action_AUTOMATION_LIST  Action = 172 // allows to list automation rules, automatically assigned if user has read access to automation
+	Action_AUTOMATION_READ  Action = 170 // view automation rules and execution logs
+	Action_AUTOMATION_WRITE Action = 171 // create/update/delete automation rules
 )
 
 // Enum value maps for Action.
@@ -113,6 +116,9 @@ var (
 		162: "NEWSLETTER_LIST",
 		160: "NEWSLETTER_READ",
 		161: "NEWSLETTER_WRITE",
+		172: "AUTOMATION_LIST",
+		170: "AUTOMATION_READ",
+		171: "AUTOMATION_WRITE",
 	}
 	Action_value = map[string]int32{
 		"UNKNOWN_ACTION":   0,
@@ -157,6 +163,9 @@ var (
 		"NEWSLETTER_LIST":  162,
 		"NEWSLETTER_READ":  160,
 		"NEWSLETTER_WRITE": 161,
+		"AUTOMATION_LIST":  172,
+		"AUTOMATION_READ":  170,
+		"AUTOMATION_WRITE": 171,
 	}
 )
 
@@ -192,7 +201,7 @@ var File_eolymp_acl_action_proto protoreflect.FileDescriptor
 const file_eolymp_acl_action_proto_rawDesc = "" +
 	"\n" +
 	"\x17eolymp/acl/action.proto\x12\n" +
-	"eolymp.acl*\x8f\x06\n" +
+	"eolymp.acl*\xd2\x06\n" +
 	"\x06Action\x12\x12\n" +
 	"\x0eUNKNOWN_ACTION\x10\x00\x12\x0e\n" +
 	"\n" +
@@ -240,7 +249,10 @@ const file_eolymp_acl_action_proto_rawDesc = "" +
 	"\vSTORE_WRITE\x10\x97\x01\x12\x14\n" +
 	"\x0fNEWSLETTER_LIST\x10\xa2\x01\x12\x14\n" +
 	"\x0fNEWSLETTER_READ\x10\xa0\x01\x12\x15\n" +
-	"\x10NEWSLETTER_WRITE\x10\xa1\x01B)Z'github.com/eolymp/go-sdk/eolymp/acl;aclb\x06proto3"
+	"\x10NEWSLETTER_WRITE\x10\xa1\x01\x12\x14\n" +
+	"\x0fAUTOMATION_LIST\x10\xac\x01\x12\x14\n" +
+	"\x0fAUTOMATION_READ\x10\xaa\x01\x12\x15\n" +
+	"\x10AUTOMATION_WRITE\x10\xab\x01B)Z'github.com/eolymp/go-sdk/eolymp/acl;aclb\x06proto3"
 
 var (
 	file_eolymp_acl_action_proto_rawDescOnce sync.Once

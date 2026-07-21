@@ -103,6 +103,7 @@ const (
 	Rule_Patch_ACTIONS       Rule_Patch_Field = 5
 	Rule_Patch_INACTIVE      Rule_Patch_Field = 6
 	Rule_Patch_DRY_RUN       Rule_Patch_Field = 7
+	Rule_Patch_DEBUG         Rule_Patch_Field = 8
 )
 
 // Enum value maps for Rule_Patch_Field.
@@ -115,6 +116,7 @@ var (
 		5: "ACTIONS",
 		6: "INACTIVE",
 		7: "DRY_RUN",
+		8: "DEBUG",
 	}
 	Rule_Patch_Field_value = map[string]int32{
 		"UNKNOWN_FIELD": 0,
@@ -124,6 +126,7 @@ var (
 		"ACTIONS":       5,
 		"INACTIVE":      6,
 		"DRY_RUN":       7,
+		"DEBUG":         8,
 	}
 )
 
@@ -162,6 +165,7 @@ type Rule struct {
 	Condition     *Condition             `protobuf:"bytes,4,opt,name=condition,proto3" json:"condition,omitempty"`
 	Inactive      bool                   `protobuf:"varint,5,opt,name=inactive,proto3" json:"inactive,omitempty"`
 	DryRun        bool                   `protobuf:"varint,6,opt,name=dry_run,json=dryRun,proto3" json:"dry_run,omitempty"`
+	Debug         bool                   `protobuf:"varint,8,opt,name=debug,proto3" json:"debug,omitempty"` // capture execution logs
 	TriggerCount  int32                  `protobuf:"varint,7,opt,name=trigger_count,json=triggerCount,proto3" json:"trigger_count,omitempty"`
 	Actions       []*Action              `protobuf:"bytes,100,rep,name=actions,proto3" json:"actions,omitempty"`
 	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,90,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
@@ -242,6 +246,13 @@ func (x *Rule) GetDryRun() bool {
 	return false
 }
 
+func (x *Rule) GetDebug() bool {
+	if x != nil {
+		return x.Debug
+	}
+	return false
+}
+
 func (x *Rule) GetTriggerCount() int32 {
 	if x != nil {
 		return x.TriggerCount
@@ -310,21 +321,22 @@ var File_eolymp_automation_rule_proto protoreflect.FileDescriptor
 
 const file_eolymp_automation_rule_proto_rawDesc = "" +
 	"\n" +
-	"\x1ceolymp/automation/rule.proto\x12\x11eolymp.automation\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1eeolymp/automation/action.proto\x1a!eolymp/automation/condition.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x8c\x06\n" +
+	"\x1ceolymp/automation/rule.proto\x12\x11eolymp.automation\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1eeolymp/automation/action.proto\x1a!eolymp/automation/condition.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xad\x06\n" +
 	"\x04Rule\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x129\n" +
 	"\atrigger\x18\x03 \x01(\x0e2\x1f.eolymp.automation.Rule.TriggerR\atrigger\x12:\n" +
 	"\tcondition\x18\x04 \x01(\v2\x1c.eolymp.automation.ConditionR\tcondition\x12\x1a\n" +
 	"\binactive\x18\x05 \x01(\bR\binactive\x12\x17\n" +
-	"\adry_run\x18\x06 \x01(\bR\x06dryRun\x12+\n" +
+	"\adry_run\x18\x06 \x01(\bR\x06dryRun\x12\x14\n" +
+	"\x05debug\x18\b \x01(\bR\x05debug\x12+\n" +
 	"\rtrigger_count\x18\a \x01(\x05B\x06\xa8\xf0\xf0\xe4\x01\x01R\ftriggerCount\x123\n" +
 	"\aactions\x18d \x03(\v2\x19.eolymp.automation.ActionR\aactions\x129\n" +
 	"\n" +
 	"created_at\x18Z \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
 	"\n" +
-	"updated_at\x18[ \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x1aq\n" +
-	"\x05Patch\"h\n" +
+	"updated_at\x18[ \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x1a|\n" +
+	"\x05Patch\"s\n" +
 	"\x05Field\x12\x11\n" +
 	"\rUNKNOWN_FIELD\x10\x00\x12\b\n" +
 	"\x04NAME\x10\x02\x12\v\n" +
@@ -332,7 +344,8 @@ const file_eolymp_automation_rule_proto_rawDesc = "" +
 	"\tCONDITION\x10\x04\x12\v\n" +
 	"\aACTIONS\x10\x05\x12\f\n" +
 	"\bINACTIVE\x10\x06\x12\v\n" +
-	"\aDRY_RUN\x10\a\"\xe8\x01\n" +
+	"\aDRY_RUN\x10\a\x12\t\n" +
+	"\x05DEBUG\x10\b\"\xe8\x01\n" +
 	"\aTrigger\x12\x13\n" +
 	"\x0fUNKNOWN_TRIGGER\x10\x00\x12\x18\n" +
 	"\x14SUBMISSION_COMPLETED\x10\x01\x12\x11\n" +
