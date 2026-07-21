@@ -99,7 +99,7 @@ const (
 	Rule_Patch_UNKNOWN_FIELD Rule_Patch_Field = 0
 	Rule_Patch_NAME          Rule_Patch_Field = 2
 	Rule_Patch_TRIGGER       Rule_Patch_Field = 3
-	Rule_Patch_CONDITION     Rule_Patch_Field = 4
+	Rule_Patch_CONDITIONS    Rule_Patch_Field = 4
 	Rule_Patch_ACTIONS       Rule_Patch_Field = 5
 	Rule_Patch_INACTIVE      Rule_Patch_Field = 6
 	Rule_Patch_DRY_RUN       Rule_Patch_Field = 7
@@ -112,7 +112,7 @@ var (
 		0: "UNKNOWN_FIELD",
 		2: "NAME",
 		3: "TRIGGER",
-		4: "CONDITION",
+		4: "CONDITIONS",
 		5: "ACTIONS",
 		6: "INACTIVE",
 		7: "DRY_RUN",
@@ -122,7 +122,7 @@ var (
 		"UNKNOWN_FIELD": 0,
 		"NAME":          2,
 		"TRIGGER":       3,
-		"CONDITION":     4,
+		"CONDITIONS":    4,
 		"ACTIONS":       5,
 		"INACTIVE":      6,
 		"DRY_RUN":       7,
@@ -162,7 +162,7 @@ type Rule struct {
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
 	Trigger       Rule_Trigger           `protobuf:"varint,3,opt,name=trigger,proto3,enum=eolymp.automation.Rule_Trigger" json:"trigger,omitempty"`
-	Condition     *Condition             `protobuf:"bytes,4,opt,name=condition,proto3" json:"condition,omitempty"`
+	Conditions    []*Condition           `protobuf:"bytes,4,rep,name=conditions,proto3" json:"conditions,omitempty"`
 	Inactive      bool                   `protobuf:"varint,5,opt,name=inactive,proto3" json:"inactive,omitempty"`
 	DryRun        bool                   `protobuf:"varint,6,opt,name=dry_run,json=dryRun,proto3" json:"dry_run,omitempty"`
 	Debug         bool                   `protobuf:"varint,8,opt,name=debug,proto3" json:"debug,omitempty"` // capture execution logs
@@ -225,9 +225,9 @@ func (x *Rule) GetTrigger() Rule_Trigger {
 	return Rule_UNKNOWN_TRIGGER
 }
 
-func (x *Rule) GetCondition() *Condition {
+func (x *Rule) GetConditions() []*Condition {
 	if x != nil {
-		return x.Condition
+		return x.Conditions
 	}
 	return nil
 }
@@ -321,12 +321,14 @@ var File_eolymp_automation_rule_proto protoreflect.FileDescriptor
 
 const file_eolymp_automation_rule_proto_rawDesc = "" +
 	"\n" +
-	"\x1ceolymp/automation/rule.proto\x12\x11eolymp.automation\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1eeolymp/automation/action.proto\x1a!eolymp/automation/condition.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xad\x06\n" +
+	"\x1ceolymp/automation/rule.proto\x12\x11eolymp.automation\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1eeolymp/automation/action.proto\x1a!eolymp/automation/condition.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xb0\x06\n" +
 	"\x04Rule\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x129\n" +
-	"\atrigger\x18\x03 \x01(\x0e2\x1f.eolymp.automation.Rule.TriggerR\atrigger\x12:\n" +
-	"\tcondition\x18\x04 \x01(\v2\x1c.eolymp.automation.ConditionR\tcondition\x12\x1a\n" +
+	"\atrigger\x18\x03 \x01(\x0e2\x1f.eolymp.automation.Rule.TriggerR\atrigger\x12<\n" +
+	"\n" +
+	"conditions\x18\x04 \x03(\v2\x1c.eolymp.automation.ConditionR\n" +
+	"conditions\x12\x1a\n" +
 	"\binactive\x18\x05 \x01(\bR\binactive\x12\x17\n" +
 	"\adry_run\x18\x06 \x01(\bR\x06dryRun\x12\x14\n" +
 	"\x05debug\x18\b \x01(\bR\x05debug\x12+\n" +
@@ -335,13 +337,14 @@ const file_eolymp_automation_rule_proto_rawDesc = "" +
 	"\n" +
 	"created_at\x18Z \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
 	"\n" +
-	"updated_at\x18[ \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x1a|\n" +
-	"\x05Patch\"s\n" +
+	"updated_at\x18[ \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x1a}\n" +
+	"\x05Patch\"t\n" +
 	"\x05Field\x12\x11\n" +
 	"\rUNKNOWN_FIELD\x10\x00\x12\b\n" +
 	"\x04NAME\x10\x02\x12\v\n" +
-	"\aTRIGGER\x10\x03\x12\r\n" +
-	"\tCONDITION\x10\x04\x12\v\n" +
+	"\aTRIGGER\x10\x03\x12\x0e\n" +
+	"\n" +
+	"CONDITIONS\x10\x04\x12\v\n" +
 	"\aACTIONS\x10\x05\x12\f\n" +
 	"\bINACTIVE\x10\x06\x12\v\n" +
 	"\aDRY_RUN\x10\a\x12\t\n" +
@@ -383,7 +386,7 @@ var file_eolymp_automation_rule_proto_goTypes = []any{
 }
 var file_eolymp_automation_rule_proto_depIdxs = []int32{
 	0, // 0: eolymp.automation.Rule.trigger:type_name -> eolymp.automation.Rule.Trigger
-	4, // 1: eolymp.automation.Rule.condition:type_name -> eolymp.automation.Condition
+	4, // 1: eolymp.automation.Rule.conditions:type_name -> eolymp.automation.Condition
 	5, // 2: eolymp.automation.Rule.actions:type_name -> eolymp.automation.Action
 	6, // 3: eolymp.automation.Rule.created_at:type_name -> google.protobuf.Timestamp
 	6, // 4: eolymp.automation.Rule.updated_at:type_name -> google.protobuf.Timestamp
