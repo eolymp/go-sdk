@@ -78,8 +78,10 @@ type Achievement struct {
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	Value         uint32                 `protobuf:"varint,2,opt,name=value,proto3" json:"value,omitempty"`                         // the estimated value of the achievement (the higher the more "prestigious")
 	Rarity        uint32                 `protobuf:"varint,3,opt,name=rarity,proto3" json:"rarity,omitempty"`                       // a number from 0 to 10 reflecting how many users have achievement (0 common, 10 very rare)
-	Quantity      uint32                 `protobuf:"varint,4,opt,name=quantity,proto3" json:"quantity,omitempty"`                   // how many times achievement was received
+	Quantity      uint32                 `protobuf:"varint,4,opt,name=quantity,proto3" json:"quantity,omitempty"`                   // how many times the award has been earned
 	AwardedAt     *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=awarded_at,json=awardedAt,proto3" json:"awarded_at,omitempty"` // when the achievement was awarded for the first time
+	Threshold     uint32                 `protobuf:"varint,6,opt,name=threshold,proto3" json:"threshold,omitempty"`                 // number of points required to earn the award
+	Score         uint32                 `protobuf:"varint,7,opt,name=score,proto3" json:"score,omitempty"`                         // current points toward the next award (total_points mod threshold)
 	Name          string                 `protobuf:"bytes,10,opt,name=name,proto3" json:"name,omitempty"`
 	ImageUrl      string                 `protobuf:"bytes,12,opt,name=image_url,json=imageUrl,proto3" json:"image_url,omitempty"`
 	Summary       *ecm.Content           `protobuf:"bytes,11,opt,name=summary,proto3" json:"summary,omitempty"`
@@ -153,6 +155,20 @@ func (x *Achievement) GetAwardedAt() *timestamppb.Timestamp {
 	return nil
 }
 
+func (x *Achievement) GetThreshold() uint32 {
+	if x != nil {
+		return x.Threshold
+	}
+	return 0
+}
+
+func (x *Achievement) GetScore() uint32 {
+	if x != nil {
+		return x.Score
+	}
+	return 0
+}
+
 func (x *Achievement) GetName() string {
 	if x != nil {
 		return x.Name
@@ -185,14 +201,16 @@ var File_eolymp_community_achievement_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_achievement_proto_rawDesc = "" +
 	"\n" +
-	"\"eolymp/community/achievement.proto\x12\x10eolymp.community\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xf0\x02\n" +
+	"\"eolymp/community/achievement.proto\x12\x10eolymp.community\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xbc\x03\n" +
 	"\vAchievement\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\rR\x05value\x12\x16\n" +
-	"\x06rarity\x18\x03 \x01(\rR\x06rarity\x12\x1a\n" +
-	"\bquantity\x18\x04 \x01(\rR\bquantity\x12A\n" +
+	"\x06rarity\x18\x03 \x01(\rR\x06rarity\x12\"\n" +
+	"\bquantity\x18\x04 \x01(\rB\x06\xa8\xf0\xf0\xe4\x01\x01R\bquantity\x12A\n" +
 	"\n" +
-	"awarded_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\tawardedAt\x12\x12\n" +
+	"awarded_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\tawardedAt\x12$\n" +
+	"\tthreshold\x18\x06 \x01(\rB\x06\xa8\xf0\xf0\xe4\x01\x01R\tthreshold\x12\x1c\n" +
+	"\x05score\x18\a \x01(\rB\x06\xa8\xf0\xf0\xe4\x01\x01R\x05score\x12\x12\n" +
 	"\x04name\x18\n" +
 	" \x01(\tR\x04name\x12\x1b\n" +
 	"\timage_url\x18\f \x01(\tR\bimageUrl\x12-\n" +

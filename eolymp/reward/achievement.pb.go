@@ -76,6 +76,8 @@ type Achievement struct {
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	Value         uint32                 `protobuf:"varint,2,opt,name=value,proto3" json:"value,omitempty"`
 	Rarity        uint32                 `protobuf:"varint,3,opt,name=rarity,proto3" json:"rarity,omitempty"`
+	Threshold     uint32                 `protobuf:"varint,4,opt,name=threshold,proto3" json:"threshold,omitempty"`                     // score required to earn this achievement (defaults to 1)
+	MultiAward    bool                   `protobuf:"varint,5,opt,name=multi_award,json=multiAward,proto3" json:"multi_award,omitempty"` // if true, awards = floor(quantity/threshold); if false, awards = min(1, floor(quantity/threshold))
 	Name          string                 `protobuf:"bytes,10,opt,name=name,proto3" json:"name,omitempty"`
 	ImageUrl      string                 `protobuf:"bytes,12,opt,name=image_url,json=imageUrl,proto3" json:"image_url,omitempty"`
 	Summary       *ecm.Content           `protobuf:"bytes,11,opt,name=summary,proto3" json:"summary,omitempty"`
@@ -133,6 +135,20 @@ func (x *Achievement) GetRarity() uint32 {
 		return x.Rarity
 	}
 	return 0
+}
+
+func (x *Achievement) GetThreshold() uint32 {
+	if x != nil {
+		return x.Threshold
+	}
+	return 0
+}
+
+func (x *Achievement) GetMultiAward() bool {
+	if x != nil {
+		return x.MultiAward
+	}
+	return false
 }
 
 func (x *Achievement) GetName() string {
@@ -235,11 +251,14 @@ var File_eolymp_reward_achievement_proto protoreflect.FileDescriptor
 
 const file_eolymp_reward_achievement_proto_rawDesc = "" +
 	"\n" +
-	"\x1feolymp/reward/achievement.proto\x12\reolymp.reward\x1a\x18eolymp/ecm/content.proto\"\xfb\x02\n" +
+	"\x1feolymp/reward/achievement.proto\x12\reolymp.reward\x1a\x18eolymp/ecm/content.proto\"\xba\x03\n" +
 	"\vAchievement\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\rR\x05value\x12\x16\n" +
-	"\x06rarity\x18\x03 \x01(\rR\x06rarity\x12\x12\n" +
+	"\x06rarity\x18\x03 \x01(\rR\x06rarity\x12\x1c\n" +
+	"\tthreshold\x18\x04 \x01(\rR\tthreshold\x12\x1f\n" +
+	"\vmulti_award\x18\x05 \x01(\bR\n" +
+	"multiAward\x12\x12\n" +
 	"\x04name\x18\n" +
 	" \x01(\tR\x04name\x12\x1b\n" +
 	"\timage_url\x18\f \x01(\tR\bimageUrl\x12-\n" +

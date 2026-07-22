@@ -31,6 +31,7 @@ type AssignAchievementInput struct {
 	//	*AssignAchievementInput_SetTo
 	//	*AssignAchievementInput_IncBy
 	Quantity      isAssignAchievementInput_Quantity `protobuf_oneof:"quantity"`
+	Reference     string                            `protobuf:"bytes,5,opt,name=reference,proto3" json:"reference,omitempty"` // optional reference key; the set_to/inc_by operation applies to this bucket only; defaults to ""
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -97,6 +98,13 @@ func (x *AssignAchievementInput) GetIncBy() int32 {
 	return 0
 }
 
+func (x *AssignAchievementInput) GetReference() string {
+	if x != nil {
+		return x.Reference
+	}
+	return ""
+}
+
 type isAssignAchievementInput_Quantity interface {
 	isAssignAchievementInput_Quantity()
 }
@@ -116,6 +124,7 @@ func (*AssignAchievementInput_IncBy) isAssignAchievementInput_Quantity() {}
 type AssignAchievementOutput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Quantity      int32                  `protobuf:"varint,3,opt,name=quantity,proto3" json:"quantity,omitempty"`
+	Score         uint32                 `protobuf:"varint,4,opt,name=score,proto3" json:"score,omitempty"` // current points toward the next award after this operation
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -153,6 +162,13 @@ func (*AssignAchievementOutput) Descriptor() ([]byte, []int) {
 func (x *AssignAchievementOutput) GetQuantity() int32 {
 	if x != nil {
 		return x.Quantity
+	}
+	return 0
+}
+
+func (x *AssignAchievementOutput) GetScore() uint32 {
+	if x != nil {
+		return x.Score
 	}
 	return 0
 }
@@ -437,15 +453,17 @@ var File_eolymp_community_achievement_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_achievement_service_proto_rawDesc = "" +
 	"\n" +
-	"*eolymp/community/achievement_service.proto\x12\x10eolymp.community\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\"eolymp/community/achievement.proto\x1a!eolymp/wellknown/expression.proto\"}\n" +
+	"*eolymp/community/achievement_service.proto\x12\x10eolymp.community\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\"eolymp/community/achievement.proto\x1a!eolymp/wellknown/expression.proto\"\x9b\x01\n" +
 	"\x16AssignAchievementInput\x12%\n" +
 	"\x0eachievement_id\x18\x02 \x01(\tR\rachievementId\x12\x17\n" +
 	"\x06set_to\x18\x03 \x01(\x05H\x00R\x05setTo\x12\x17\n" +
-	"\x06inc_by\x18\x04 \x01(\x05H\x00R\x05incByB\n" +
+	"\x06inc_by\x18\x04 \x01(\x05H\x00R\x05incBy\x12\x1c\n" +
+	"\treference\x18\x05 \x01(\tR\treferenceB\n" +
 	"\n" +
-	"\bquantity\"5\n" +
+	"\bquantity\"K\n" +
 	"\x17AssignAchievementOutput\x12\x1a\n" +
-	"\bquantity\x18\x03 \x01(\x05R\bquantity\"A\n" +
+	"\bquantity\x18\x03 \x01(\x05R\bquantity\x12\x14\n" +
+	"\x05score\x18\x04 \x01(\rR\x05score\"A\n" +
 	"\x18UnassignAchievementInput\x12%\n" +
 	"\x0eachievement_id\x18\x02 \x01(\tR\rachievementId\"\x1b\n" +
 	"\x19UnassignAchievementOutput\"\xc7\x02\n" +
