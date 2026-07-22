@@ -313,6 +313,7 @@ const (
 	Contest_Patch_REMINDER_NOTIFICATION    Contest_Patch_Field = 19
 	Contest_Patch_RESULT_NOTIFICATION      Contest_Patch_Field = 20
 	Contest_Patch_SLUG                     Contest_Patch_Field = 21
+	Contest_Patch_HIDE_JURY_IDENTITY       Contest_Patch_Field = 22
 	Contest_Patch_PRINTER                  Contest_Patch_Field = 15
 	Contest_Patch_CLASSIFICATION           Contest_Patch_Field = 100
 	Contest_Patch_SCOREBOARD_CONFIG        Contest_Patch_Field = 150
@@ -348,6 +349,7 @@ var (
 		19:  "REMINDER_NOTIFICATION",
 		20:  "RESULT_NOTIFICATION",
 		21:  "SLUG",
+		22:  "HIDE_JURY_IDENTITY",
 		15:  "PRINTER",
 		100: "CLASSIFICATION",
 		150: "SCOREBOARD_CONFIG",
@@ -380,6 +382,7 @@ var (
 		"REMINDER_NOTIFICATION":    19,
 		"RESULT_NOTIFICATION":      20,
 		"SLUG":                     21,
+		"HIDE_JURY_IDENTITY":       22,
 		"PRINTER":                  15,
 		"CLASSIFICATION":           100,
 		"SCOREBOARD_CONFIG":        150,
@@ -620,7 +623,8 @@ type Contest struct {
 	AllowFollowup     bool                      `protobuf:"varint,39,opt,name=allow_followup,json=allowFollowup,proto3" json:"allow_followup,omitempty"`             // Allow new participants to unofficially and virtually participate in contest after it's over
 	DisplayEditorials bool                      `protobuf:"varint,41,opt,name=display_editorials,json=displayEditorials,proto3" json:"display_editorials,omitempty"` // Display problem editorials after contest ends
 	// URL-friendly slug for the contest. Must match [a-z][a-z0-9\-_]+. Unique within a space.
-	Slug string `protobuf:"bytes,42,opt,name=slug,proto3" json:"slug,omitempty"`
+	Slug             string `protobuf:"bytes,42,opt,name=slug,proto3" json:"slug,omitempty"`
+	HideJuryIdentity bool   `protobuf:"varint,43,opt,name=hide_jury_identity,json=hideJuryIdentity,proto3" json:"hide_jury_identity,omitempty"` // When true, jury member identity is hidden from participants in ticket replies
 	// Format defines competition style IOI or ICPC.
 	Format Contest_Format `protobuf:"varint,32,opt,name=format,proto3,enum=eolymp.judge.Contest_Format" json:"format,omitempty"`
 	// Contest key used to make human friendly URLs.
@@ -812,6 +816,13 @@ func (x *Contest) GetSlug() string {
 		return x.Slug
 	}
 	return ""
+}
+
+func (x *Contest) GetHideJuryIdentity() bool {
+	if x != nil {
+		return x.HideJuryIdentity
+	}
+	return false
 }
 
 func (x *Contest) GetFormat() Contest_Format {
@@ -1527,7 +1538,7 @@ var File_eolymp_judge_contest_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\n" +
-	"\x1aeolymp/judge/contest.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1ceolymp/runtime/runtime.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xec)\n" +
+	"\x1aeolymp/judge/contest.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1ceolymp/runtime/runtime.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xb2*\n" +
 	"\aContest\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x18\n" +
 	"\x03url\x18\x02 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x03url\x12\x12\n" +
@@ -1550,7 +1561,8 @@ const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\rallow_upsolve\x18& \x01(\bR\fallowUpsolve\x12%\n" +
 	"\x0eallow_followup\x18' \x01(\bR\rallowFollowup\x12-\n" +
 	"\x12display_editorials\x18) \x01(\bR\x11displayEditorials\x12\x12\n" +
-	"\x04slug\x18* \x01(\tR\x04slug\x124\n" +
+	"\x04slug\x18* \x01(\tR\x04slug\x12,\n" +
+	"\x12hide_jury_identity\x18+ \x01(\bR\x10hideJuryIdentity\x124\n" +
 	"\x06format\x18  \x01(\x0e2\x1c.eolymp.judge.Contest.FormatR\x06format\x12\x10\n" +
 	"\x03key\x18( \x01(\tR\x03key\x12+\n" +
 	"\rproblem_count\x18< \x01(\rB\x06\xa8\xf0\xf0\xe4\x01\x01R\fproblemCount\x128\n" +
@@ -1570,8 +1582,8 @@ const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\x14certification_config\x18p \x01(\v2).eolymp.judge.Contest.CertificationConfigR\x13certificationConfig\x12S\n" +
 	"\x11plagiarism_config\x18q \x01(\v2&.eolymp.judge.Contest.PlagiarismConfigR\x10plagiarismConfig\x12G\n" +
 	"\rrating_config\x18r \x01(\v2\".eolymp.judge.Contest.RatingConfigR\fratingConfig\x129\n" +
-	"\x05staff\x18x \x03(\v2\x1b.eolymp.judge.Contest.StaffB\x06\xa8\xf0\xf0\xe4\x01\x01R\x05staff\x1a\xd7\x04\n" +
-	"\x05Patch\"\xcd\x04\n" +
+	"\x05staff\x18x \x03(\v2\x1b.eolymp.judge.Contest.StaffB\x06\xa8\xf0\xf0\xe4\x01\x01R\x05staff\x1a\xef\x04\n" +
+	"\x05Patch\"\xe5\x04\n" +
 	"\x05Field\x12\v\n" +
 	"\aUNKNOWN\x10\x00\x12\b\n" +
 	"\x04NAME\x10\x02\x12\r\n" +
@@ -1598,7 +1610,8 @@ const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\x0eFEATURED_UNTIL\x10\t\x12\x19\n" +
 	"\x15REMINDER_NOTIFICATION\x10\x13\x12\x17\n" +
 	"\x13RESULT_NOTIFICATION\x10\x14\x12\b\n" +
-	"\x04SLUG\x10\x15\x12\v\n" +
+	"\x04SLUG\x10\x15\x12\x16\n" +
+	"\x12HIDE_JURY_IDENTITY\x10\x16\x12\v\n" +
 	"\aPRINTER\x10\x0f\x12\x12\n" +
 	"\x0eCLASSIFICATION\x10d\x12\x16\n" +
 	"\x11SCOREBOARD_CONFIG\x10\x96\x01\x12\x19\n" +
