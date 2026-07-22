@@ -47,6 +47,8 @@ type Quota struct {
 	// automation quota and features
 	AutomationRulesPerSpace      uint32 `protobuf:"varint,210,opt,name=automation_rules_per_space,json=automationRulesPerSpace,proto3" json:"automation_rules_per_space,omitempty"`                // max number of automation rules (0 - automation is disabled)
 	AutomationExecutionsPerMonth uint32 `protobuf:"varint,211,opt,name=automation_executions_per_month,json=automationExecutionsPerMonth,proto3" json:"automation_executions_per_month,omitempty"` // max number of automation rule executions during current billing period
+	// AI quota and features
+	AiTokensPerMonth uint64 `protobuf:"varint,220,opt,name=ai_tokens_per_month,json=aiTokensPerMonth,proto3" json:"ai_tokens_per_month,omitempty"` // max number of AI tokens (prompt + completion) consumed via gaia during current billing period (0 - AI completions are disabled)
 	// scoreboard quota and features
 	ScoreboardsPerSpace uint32 `protobuf:"varint,5,opt,name=scoreboards_per_space,json=scoreboardsPerSpace,proto3" json:"scoreboards_per_space,omitempty"`
 	// courses quota and features
@@ -240,6 +242,13 @@ func (x *Quota) GetAutomationExecutionsPerMonth() uint32 {
 	return 0
 }
 
+func (x *Quota) GetAiTokensPerMonth() uint64 {
+	if x != nil {
+		return x.AiTokensPerMonth
+	}
+	return 0
+}
+
 func (x *Quota) GetScoreboardsPerSpace() uint32 {
 	if x != nil {
 		return x.ScoreboardsPerSpace
@@ -398,7 +407,7 @@ var File_eolymp_universe_quota_proto protoreflect.FileDescriptor
 
 const file_eolymp_universe_quota_proto_rawDesc = "" +
 	"\n" +
-	"\x1beolymp/universe/quota.proto\x12\x0feolymp.universe\"\xc4\x10\n" +
+	"\x1beolymp/universe/quota.proto\x12\x0feolymp.universe\"\xf4\x10\n" +
 	"\x05Quota\x122\n" +
 	"\x15permissions_per_space\x18\x06 \x01(\rR\x13permissionsPerSpace\x12$\n" +
 	"\x0esingle_sing_on\x18\x16 \x01(\bR\fsingleSingOn\x126\n" +
@@ -418,7 +427,8 @@ const file_eolymp_universe_quota_proto_rawDesc = "" +
 	"\x0eemails_per_day\x18\xc9\x01 \x01(\rR\femailsPerDay\x12)\n" +
 	"\x10emails_per_month\x18\xca\x01 \x01(\rR\x0eemailsPerMonth\x12<\n" +
 	"\x1aautomation_rules_per_space\x18\xd2\x01 \x01(\rR\x17automationRulesPerSpace\x12F\n" +
-	"\x1fautomation_executions_per_month\x18\xd3\x01 \x01(\rR\x1cautomationExecutionsPerMonth\x122\n" +
+	"\x1fautomation_executions_per_month\x18\xd3\x01 \x01(\rR\x1cautomationExecutionsPerMonth\x12.\n" +
+	"\x13ai_tokens_per_month\x18\xdc\x01 \x01(\x04R\x10aiTokensPerMonth\x122\n" +
 	"\x15scoreboards_per_space\x18\x05 \x01(\rR\x13scoreboardsPerSpace\x12*\n" +
 	"\x11courses_per_space\x18\f \x01(\rR\x0fcoursesPerSpace\x12,\n" +
 	"\x12problems_per_space\x18\x01 \x01(\rR\x10problemsPerSpace\x12*\n" +
