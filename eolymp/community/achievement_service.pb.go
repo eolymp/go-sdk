@@ -11,6 +11,7 @@ import (
 	wellknown "github.com/eolymp/go-sdk/eolymp/wellknown"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -22,6 +23,91 @@ const (
 	// Verify that runtime/protoimpl is sufficiently up-to-date.
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
+
+// AchievementAssignedEvent is published when a member's achievement award count increases (a new award is earned).
+type AchievementAssignedEvent struct {
+	state            protoimpl.MessageState `protogen:"open.v1"`
+	SpaceId          string                 `protobuf:"bytes,1,opt,name=space_id,json=spaceId,proto3" json:"space_id,omitempty"`
+	MemberId         string                 `protobuf:"bytes,2,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
+	AchievementId    string                 `protobuf:"bytes,3,opt,name=achievement_id,json=achievementId,proto3" json:"achievement_id,omitempty"`
+	Quantity         uint32                 `protobuf:"varint,4,opt,name=quantity,proto3" json:"quantity,omitempty"`                                         // award count after this operation
+	PreviousQuantity uint32                 `protobuf:"varint,5,opt,name=previous_quantity,json=previousQuantity,proto3" json:"previous_quantity,omitempty"` // award count before this operation
+	AwardedAt        *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=awarded_at,json=awardedAt,proto3" json:"awarded_at,omitempty"`                       // when the achievement was first awarded
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
+}
+
+func (x *AchievementAssignedEvent) Reset() {
+	*x = AchievementAssignedEvent{}
+	mi := &file_eolymp_community_achievement_service_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AchievementAssignedEvent) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AchievementAssignedEvent) ProtoMessage() {}
+
+func (x *AchievementAssignedEvent) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_community_achievement_service_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AchievementAssignedEvent.ProtoReflect.Descriptor instead.
+func (*AchievementAssignedEvent) Descriptor() ([]byte, []int) {
+	return file_eolymp_community_achievement_service_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *AchievementAssignedEvent) GetSpaceId() string {
+	if x != nil {
+		return x.SpaceId
+	}
+	return ""
+}
+
+func (x *AchievementAssignedEvent) GetMemberId() string {
+	if x != nil {
+		return x.MemberId
+	}
+	return ""
+}
+
+func (x *AchievementAssignedEvent) GetAchievementId() string {
+	if x != nil {
+		return x.AchievementId
+	}
+	return ""
+}
+
+func (x *AchievementAssignedEvent) GetQuantity() uint32 {
+	if x != nil {
+		return x.Quantity
+	}
+	return 0
+}
+
+func (x *AchievementAssignedEvent) GetPreviousQuantity() uint32 {
+	if x != nil {
+		return x.PreviousQuantity
+	}
+	return 0
+}
+
+func (x *AchievementAssignedEvent) GetAwardedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.AwardedAt
+	}
+	return nil
+}
 
 type AssignAchievementInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -38,7 +124,7 @@ type AssignAchievementInput struct {
 
 func (x *AssignAchievementInput) Reset() {
 	*x = AssignAchievementInput{}
-	mi := &file_eolymp_community_achievement_service_proto_msgTypes[0]
+	mi := &file_eolymp_community_achievement_service_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -50,7 +136,7 @@ func (x *AssignAchievementInput) String() string {
 func (*AssignAchievementInput) ProtoMessage() {}
 
 func (x *AssignAchievementInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_community_achievement_service_proto_msgTypes[0]
+	mi := &file_eolymp_community_achievement_service_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -63,7 +149,7 @@ func (x *AssignAchievementInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AssignAchievementInput.ProtoReflect.Descriptor instead.
 func (*AssignAchievementInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_community_achievement_service_proto_rawDescGZIP(), []int{0}
+	return file_eolymp_community_achievement_service_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *AssignAchievementInput) GetAchievementId() string {
@@ -131,7 +217,7 @@ type AssignAchievementOutput struct {
 
 func (x *AssignAchievementOutput) Reset() {
 	*x = AssignAchievementOutput{}
-	mi := &file_eolymp_community_achievement_service_proto_msgTypes[1]
+	mi := &file_eolymp_community_achievement_service_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -143,7 +229,7 @@ func (x *AssignAchievementOutput) String() string {
 func (*AssignAchievementOutput) ProtoMessage() {}
 
 func (x *AssignAchievementOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_community_achievement_service_proto_msgTypes[1]
+	mi := &file_eolymp_community_achievement_service_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -156,7 +242,7 @@ func (x *AssignAchievementOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AssignAchievementOutput.ProtoReflect.Descriptor instead.
 func (*AssignAchievementOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_community_achievement_service_proto_rawDescGZIP(), []int{1}
+	return file_eolymp_community_achievement_service_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *AssignAchievementOutput) GetQuantity() int32 {
@@ -182,7 +268,7 @@ type UnassignAchievementInput struct {
 
 func (x *UnassignAchievementInput) Reset() {
 	*x = UnassignAchievementInput{}
-	mi := &file_eolymp_community_achievement_service_proto_msgTypes[2]
+	mi := &file_eolymp_community_achievement_service_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -194,7 +280,7 @@ func (x *UnassignAchievementInput) String() string {
 func (*UnassignAchievementInput) ProtoMessage() {}
 
 func (x *UnassignAchievementInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_community_achievement_service_proto_msgTypes[2]
+	mi := &file_eolymp_community_achievement_service_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -207,7 +293,7 @@ func (x *UnassignAchievementInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UnassignAchievementInput.ProtoReflect.Descriptor instead.
 func (*UnassignAchievementInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_community_achievement_service_proto_rawDescGZIP(), []int{2}
+	return file_eolymp_community_achievement_service_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *UnassignAchievementInput) GetAchievementId() string {
@@ -225,7 +311,7 @@ type UnassignAchievementOutput struct {
 
 func (x *UnassignAchievementOutput) Reset() {
 	*x = UnassignAchievementOutput{}
-	mi := &file_eolymp_community_achievement_service_proto_msgTypes[3]
+	mi := &file_eolymp_community_achievement_service_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -237,7 +323,7 @@ func (x *UnassignAchievementOutput) String() string {
 func (*UnassignAchievementOutput) ProtoMessage() {}
 
 func (x *UnassignAchievementOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_community_achievement_service_proto_msgTypes[3]
+	mi := &file_eolymp_community_achievement_service_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -250,7 +336,7 @@ func (x *UnassignAchievementOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UnassignAchievementOutput.ProtoReflect.Descriptor instead.
 func (*UnassignAchievementOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_community_achievement_service_proto_rawDescGZIP(), []int{3}
+	return file_eolymp_community_achievement_service_proto_rawDescGZIP(), []int{4}
 }
 
 type ListAchievementsInput struct {
@@ -267,7 +353,7 @@ type ListAchievementsInput struct {
 
 func (x *ListAchievementsInput) Reset() {
 	*x = ListAchievementsInput{}
-	mi := &file_eolymp_community_achievement_service_proto_msgTypes[4]
+	mi := &file_eolymp_community_achievement_service_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -279,7 +365,7 @@ func (x *ListAchievementsInput) String() string {
 func (*ListAchievementsInput) ProtoMessage() {}
 
 func (x *ListAchievementsInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_community_achievement_service_proto_msgTypes[4]
+	mi := &file_eolymp_community_achievement_service_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -292,7 +378,7 @@ func (x *ListAchievementsInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListAchievementsInput.ProtoReflect.Descriptor instead.
 func (*ListAchievementsInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_community_achievement_service_proto_rawDescGZIP(), []int{4}
+	return file_eolymp_community_achievement_service_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *ListAchievementsInput) GetLocale() string {
@@ -348,7 +434,7 @@ type ListAchievementsOutput struct {
 
 func (x *ListAchievementsOutput) Reset() {
 	*x = ListAchievementsOutput{}
-	mi := &file_eolymp_community_achievement_service_proto_msgTypes[5]
+	mi := &file_eolymp_community_achievement_service_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -360,7 +446,7 @@ func (x *ListAchievementsOutput) String() string {
 func (*ListAchievementsOutput) ProtoMessage() {}
 
 func (x *ListAchievementsOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_community_achievement_service_proto_msgTypes[5]
+	mi := &file_eolymp_community_achievement_service_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -373,7 +459,7 @@ func (x *ListAchievementsOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListAchievementsOutput.ProtoReflect.Descriptor instead.
 func (*ListAchievementsOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_community_achievement_service_proto_rawDescGZIP(), []int{5}
+	return file_eolymp_community_achievement_service_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *ListAchievementsOutput) GetTotal() int32 {
@@ -407,7 +493,7 @@ type ListAchievementsInput_Filter struct {
 
 func (x *ListAchievementsInput_Filter) Reset() {
 	*x = ListAchievementsInput_Filter{}
-	mi := &file_eolymp_community_achievement_service_proto_msgTypes[6]
+	mi := &file_eolymp_community_achievement_service_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -419,7 +505,7 @@ func (x *ListAchievementsInput_Filter) String() string {
 func (*ListAchievementsInput_Filter) ProtoMessage() {}
 
 func (x *ListAchievementsInput_Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_community_achievement_service_proto_msgTypes[6]
+	mi := &file_eolymp_community_achievement_service_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -432,7 +518,7 @@ func (x *ListAchievementsInput_Filter) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListAchievementsInput_Filter.ProtoReflect.Descriptor instead.
 func (*ListAchievementsInput_Filter) Descriptor() ([]byte, []int) {
-	return file_eolymp_community_achievement_service_proto_rawDescGZIP(), []int{4, 0}
+	return file_eolymp_community_achievement_service_proto_rawDescGZIP(), []int{5, 0}
 }
 
 func (x *ListAchievementsInput_Filter) GetQuery() string {
@@ -453,7 +539,15 @@ var File_eolymp_community_achievement_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_achievement_service_proto_rawDesc = "" +
 	"\n" +
-	"*eolymp/community/achievement_service.proto\x12\x10eolymp.community\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\"eolymp/community/achievement.proto\x1a!eolymp/wellknown/expression.proto\"\x9b\x01\n" +
+	"*eolymp/community/achievement_service.proto\x12\x10eolymp.community\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\"eolymp/community/achievement.proto\x1a!eolymp/wellknown/expression.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xfd\x01\n" +
+	"\x18AchievementAssignedEvent\x12\x19\n" +
+	"\bspace_id\x18\x01 \x01(\tR\aspaceId\x12\x1b\n" +
+	"\tmember_id\x18\x02 \x01(\tR\bmemberId\x12%\n" +
+	"\x0eachievement_id\x18\x03 \x01(\tR\rachievementId\x12\x1a\n" +
+	"\bquantity\x18\x04 \x01(\rR\bquantity\x12+\n" +
+	"\x11previous_quantity\x18\x05 \x01(\rR\x10previousQuantity\x129\n" +
+	"\n" +
+	"awarded_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\tawardedAt\"\x9b\x01\n" +
 	"\x16AssignAchievementInput\x12%\n" +
 	"\x0eachievement_id\x18\x02 \x01(\tR\rachievementId\x12\x17\n" +
 	"\x06set_to\x18\x03 \x01(\x05H\x00R\x05setTo\x12\x17\n" +
@@ -514,35 +608,38 @@ func file_eolymp_community_achievement_service_proto_rawDescGZIP() []byte {
 	return file_eolymp_community_achievement_service_proto_rawDescData
 }
 
-var file_eolymp_community_achievement_service_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_eolymp_community_achievement_service_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_eolymp_community_achievement_service_proto_goTypes = []any{
-	(*AssignAchievementInput)(nil),       // 0: eolymp.community.AssignAchievementInput
-	(*AssignAchievementOutput)(nil),      // 1: eolymp.community.AssignAchievementOutput
-	(*UnassignAchievementInput)(nil),     // 2: eolymp.community.UnassignAchievementInput
-	(*UnassignAchievementOutput)(nil),    // 3: eolymp.community.UnassignAchievementOutput
-	(*ListAchievementsInput)(nil),        // 4: eolymp.community.ListAchievementsInput
-	(*ListAchievementsOutput)(nil),       // 5: eolymp.community.ListAchievementsOutput
-	(*ListAchievementsInput_Filter)(nil), // 6: eolymp.community.ListAchievementsInput.Filter
-	(Achievement_Extra)(0),               // 7: eolymp.community.Achievement.Extra
-	(*Achievement)(nil),                  // 8: eolymp.community.Achievement
-	(*wellknown.ExpressionID)(nil),       // 9: eolymp.wellknown.ExpressionID
+	(*AchievementAssignedEvent)(nil),     // 0: eolymp.community.AchievementAssignedEvent
+	(*AssignAchievementInput)(nil),       // 1: eolymp.community.AssignAchievementInput
+	(*AssignAchievementOutput)(nil),      // 2: eolymp.community.AssignAchievementOutput
+	(*UnassignAchievementInput)(nil),     // 3: eolymp.community.UnassignAchievementInput
+	(*UnassignAchievementOutput)(nil),    // 4: eolymp.community.UnassignAchievementOutput
+	(*ListAchievementsInput)(nil),        // 5: eolymp.community.ListAchievementsInput
+	(*ListAchievementsOutput)(nil),       // 6: eolymp.community.ListAchievementsOutput
+	(*ListAchievementsInput_Filter)(nil), // 7: eolymp.community.ListAchievementsInput.Filter
+	(*timestamppb.Timestamp)(nil),        // 8: google.protobuf.Timestamp
+	(Achievement_Extra)(0),               // 9: eolymp.community.Achievement.Extra
+	(*Achievement)(nil),                  // 10: eolymp.community.Achievement
+	(*wellknown.ExpressionID)(nil),       // 11: eolymp.wellknown.ExpressionID
 }
 var file_eolymp_community_achievement_service_proto_depIdxs = []int32{
-	6, // 0: eolymp.community.ListAchievementsInput.filters:type_name -> eolymp.community.ListAchievementsInput.Filter
-	7, // 1: eolymp.community.ListAchievementsInput.extra:type_name -> eolymp.community.Achievement.Extra
-	8, // 2: eolymp.community.ListAchievementsOutput.items:type_name -> eolymp.community.Achievement
-	9, // 3: eolymp.community.ListAchievementsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	0, // 4: eolymp.community.AchievementService.AssignAchievement:input_type -> eolymp.community.AssignAchievementInput
-	2, // 5: eolymp.community.AchievementService.UnassignAchievement:input_type -> eolymp.community.UnassignAchievementInput
-	4, // 6: eolymp.community.AchievementService.ListAchievements:input_type -> eolymp.community.ListAchievementsInput
-	1, // 7: eolymp.community.AchievementService.AssignAchievement:output_type -> eolymp.community.AssignAchievementOutput
-	3, // 8: eolymp.community.AchievementService.UnassignAchievement:output_type -> eolymp.community.UnassignAchievementOutput
-	5, // 9: eolymp.community.AchievementService.ListAchievements:output_type -> eolymp.community.ListAchievementsOutput
-	7, // [7:10] is the sub-list for method output_type
-	4, // [4:7] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	8,  // 0: eolymp.community.AchievementAssignedEvent.awarded_at:type_name -> google.protobuf.Timestamp
+	7,  // 1: eolymp.community.ListAchievementsInput.filters:type_name -> eolymp.community.ListAchievementsInput.Filter
+	9,  // 2: eolymp.community.ListAchievementsInput.extra:type_name -> eolymp.community.Achievement.Extra
+	10, // 3: eolymp.community.ListAchievementsOutput.items:type_name -> eolymp.community.Achievement
+	11, // 4: eolymp.community.ListAchievementsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	1,  // 5: eolymp.community.AchievementService.AssignAchievement:input_type -> eolymp.community.AssignAchievementInput
+	3,  // 6: eolymp.community.AchievementService.UnassignAchievement:input_type -> eolymp.community.UnassignAchievementInput
+	5,  // 7: eolymp.community.AchievementService.ListAchievements:input_type -> eolymp.community.ListAchievementsInput
+	2,  // 8: eolymp.community.AchievementService.AssignAchievement:output_type -> eolymp.community.AssignAchievementOutput
+	4,  // 9: eolymp.community.AchievementService.UnassignAchievement:output_type -> eolymp.community.UnassignAchievementOutput
+	6,  // 10: eolymp.community.AchievementService.ListAchievements:output_type -> eolymp.community.ListAchievementsOutput
+	8,  // [8:11] is the sub-list for method output_type
+	5,  // [5:8] is the sub-list for method input_type
+	5,  // [5:5] is the sub-list for extension type_name
+	5,  // [5:5] is the sub-list for extension extendee
+	0,  // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_community_achievement_service_proto_init() }
@@ -551,7 +648,7 @@ func file_eolymp_community_achievement_service_proto_init() {
 		return
 	}
 	file_eolymp_community_achievement_proto_init()
-	file_eolymp_community_achievement_service_proto_msgTypes[0].OneofWrappers = []any{
+	file_eolymp_community_achievement_service_proto_msgTypes[1].OneofWrappers = []any{
 		(*AssignAchievementInput_SetTo)(nil),
 		(*AssignAchievementInput_IncBy)(nil),
 	}
@@ -561,7 +658,7 @@ func file_eolymp_community_achievement_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_community_achievement_service_proto_rawDesc), len(file_eolymp_community_achievement_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   7,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
