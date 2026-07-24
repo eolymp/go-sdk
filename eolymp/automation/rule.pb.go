@@ -36,21 +36,23 @@ const (
 	Rule_MEMBER_CHANGED         Rule_Trigger = 7
 	Rule_STUDENT_CHANGED        Rule_Trigger = 8
 	Rule_ASSIGNMENT_CHANGED     Rule_Trigger = 9
+	Rule_PARTICIPANT_FINALIZED  Rule_Trigger = 10
 )
 
 // Enum value maps for Rule_Trigger.
 var (
 	Rule_Trigger_name = map[int32]string{
-		0: "UNKNOWN_TRIGGER",
-		1: "SUBMISSION_COMPLETED",
-		2: "SCORE_CHANGED",
-		3: "PARTICIPANT_REGISTERED",
-		4: "PARTICIPANT_CHANGED",
-		5: "TICKET_CHANGED",
-		6: "COMMENT_ADDED",
-		7: "MEMBER_CHANGED",
-		8: "STUDENT_CHANGED",
-		9: "ASSIGNMENT_CHANGED",
+		0:  "UNKNOWN_TRIGGER",
+		1:  "SUBMISSION_COMPLETED",
+		2:  "SCORE_CHANGED",
+		3:  "PARTICIPANT_REGISTERED",
+		4:  "PARTICIPANT_CHANGED",
+		5:  "TICKET_CHANGED",
+		6:  "COMMENT_ADDED",
+		7:  "MEMBER_CHANGED",
+		8:  "STUDENT_CHANGED",
+		9:  "ASSIGNMENT_CHANGED",
+		10: "PARTICIPANT_FINALIZED",
 	}
 	Rule_Trigger_value = map[string]int32{
 		"UNKNOWN_TRIGGER":        0,
@@ -63,6 +65,7 @@ var (
 		"MEMBER_CHANGED":         7,
 		"STUDENT_CHANGED":        8,
 		"ASSIGNMENT_CHANGED":     9,
+		"PARTICIPANT_FINALIZED":  10,
 	}
 )
 
@@ -321,7 +324,7 @@ var File_eolymp_automation_rule_proto protoreflect.FileDescriptor
 
 const file_eolymp_automation_rule_proto_rawDesc = "" +
 	"\n" +
-	"\x1ceolymp/automation/rule.proto\x12\x11eolymp.automation\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1eeolymp/automation/action.proto\x1a!eolymp/automation/condition.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xb0\x06\n" +
+	"\x1ceolymp/automation/rule.proto\x12\x11eolymp.automation\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1eeolymp/automation/action.proto\x1a!eolymp/automation/condition.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xcb\x06\n" +
 	"\x04Rule\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x129\n" +
@@ -348,7 +351,7 @@ const file_eolymp_automation_rule_proto_rawDesc = "" +
 	"\aACTIONS\x10\x05\x12\f\n" +
 	"\bINACTIVE\x10\x06\x12\v\n" +
 	"\aDRY_RUN\x10\a\x12\t\n" +
-	"\x05DEBUG\x10\b\"\xe8\x01\n" +
+	"\x05DEBUG\x10\b\"\x83\x02\n" +
 	"\aTrigger\x12\x13\n" +
 	"\x0fUNKNOWN_TRIGGER\x10\x00\x12\x18\n" +
 	"\x14SUBMISSION_COMPLETED\x10\x01\x12\x11\n" +
@@ -359,7 +362,9 @@ const file_eolymp_automation_rule_proto_rawDesc = "" +
 	"\rCOMMENT_ADDED\x10\x06\x12\x12\n" +
 	"\x0eMEMBER_CHANGED\x10\a\x12\x13\n" +
 	"\x0fSTUDENT_CHANGED\x10\b\x12\x16\n" +
-	"\x12ASSIGNMENT_CHANGED\x10\tB7Z5github.com/eolymp/go-sdk/eolymp/automation;automationb\x06proto3"
+	"\x12ASSIGNMENT_CHANGED\x10\t\x12\x19\n" +
+	"\x15PARTICIPANT_FINALIZED\x10\n" +
+	"B7Z5github.com/eolymp/go-sdk/eolymp/automation;automationb\x06proto3"
 
 var (
 	file_eolymp_automation_rule_proto_rawDescOnce sync.Once
