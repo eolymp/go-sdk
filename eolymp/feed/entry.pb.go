@@ -28,6 +28,7 @@ type Entry struct {
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	Type          string                 `protobuf:"bytes,2,opt,name=type,proto3" json:"type,omitempty"`
 	Timestamp     *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
+	MemberId      string                 `protobuf:"bytes,4,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
 	Attributes    map[string]string      `protobuf:"bytes,10,rep,name=attributes,proto3" json:"attributes,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	Links         []*wellknown.Link      `protobuf:"bytes,20,rep,name=links,proto3" json:"links,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -85,6 +86,13 @@ func (x *Entry) GetTimestamp() *timestamppb.Timestamp {
 	return nil
 }
 
+func (x *Entry) GetMemberId() string {
+	if x != nil {
+		return x.MemberId
+	}
+	return ""
+}
+
 func (x *Entry) GetAttributes() map[string]string {
 	if x != nil {
 		return x.Attributes
@@ -103,11 +111,12 @@ var File_eolymp_feed_entry_proto protoreflect.FileDescriptor
 
 const file_eolymp_feed_entry_proto_rawDesc = "" +
 	"\n" +
-	"\x17eolymp/feed/entry.proto\x12\veolymp.feed\x1a\x1beolymp/wellknown/link.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x96\x02\n" +
+	"\x17eolymp/feed/entry.proto\x12\veolymp.feed\x1a\x1beolymp/wellknown/link.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xb3\x02\n" +
 	"\x05Entry\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04type\x18\x02 \x01(\tR\x04type\x128\n" +
-	"\ttimestamp\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\ttimestamp\x12B\n" +
+	"\ttimestamp\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\ttimestamp\x12\x1b\n" +
+	"\tmember_id\x18\x04 \x01(\tR\bmemberId\x12B\n" +
 	"\n" +
 	"attributes\x18\n" +
 	" \x03(\v2\".eolymp.feed.Entry.AttributesEntryR\n" +

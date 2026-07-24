@@ -8,6 +8,7 @@ package feed
 
 import (
 	_ "github.com/eolymp/go-sdk/eolymp/annotations"
+	wellknown "github.com/eolymp/go-sdk/eolymp/wellknown"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -23,9 +24,10 @@ const (
 )
 
 type ListEntriesInput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Size          int32                  `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
-	After         string                 `protobuf:"bytes,12,opt,name=after,proto3" json:"after,omitempty"`
+	state         protoimpl.MessageState   `protogen:"open.v1"`
+	Size          int32                    `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
+	After         string                   `protobuf:"bytes,12,opt,name=after,proto3" json:"after,omitempty"`
+	Filters       *ListEntriesInput_Filter `protobuf:"bytes,40,opt,name=filters,proto3" json:"filters,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -72,6 +74,13 @@ func (x *ListEntriesInput) GetAfter() string {
 		return x.After
 	}
 	return ""
+}
+
+func (x *ListEntriesInput) GetFilters() *ListEntriesInput_Filter {
+	if x != nil {
+		return x.Filters
+	}
+	return nil
 }
 
 type ListEntriesOutput struct {
@@ -134,23 +143,79 @@ func (x *ListEntriesOutput) GetNextPageCursor() string {
 	return ""
 }
 
+type ListEntriesInput_Filter struct {
+	state         protoimpl.MessageState      `protogen:"open.v1"`
+	MemberId      []*wellknown.ExpressionID   `protobuf:"bytes,1,rep,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
+	Type          []*wellknown.ExpressionEnum `protobuf:"bytes,2,rep,name=type,proto3" json:"type,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListEntriesInput_Filter) Reset() {
+	*x = ListEntriesInput_Filter{}
+	mi := &file_eolymp_feed_feed_service_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListEntriesInput_Filter) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListEntriesInput_Filter) ProtoMessage() {}
+
+func (x *ListEntriesInput_Filter) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_feed_feed_service_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListEntriesInput_Filter.ProtoReflect.Descriptor instead.
+func (*ListEntriesInput_Filter) Descriptor() ([]byte, []int) {
+	return file_eolymp_feed_feed_service_proto_rawDescGZIP(), []int{0, 0}
+}
+
+func (x *ListEntriesInput_Filter) GetMemberId() []*wellknown.ExpressionID {
+	if x != nil {
+		return x.MemberId
+	}
+	return nil
+}
+
+func (x *ListEntriesInput_Filter) GetType() []*wellknown.ExpressionEnum {
+	if x != nil {
+		return x.Type
+	}
+	return nil
+}
+
 var File_eolymp_feed_feed_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_feed_feed_service_proto_rawDesc = "" +
 	"\n" +
-	"\x1eeolymp/feed/feed_service.proto\x12\veolymp.feed\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x17eolymp/feed/entry.proto\"<\n" +
+	"\x1eeolymp/feed/feed_service.proto\x12\veolymp.feed\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x17eolymp/feed/entry.proto\x1a!eolymp/wellknown/expression.proto\"\xf9\x01\n" +
 	"\x10ListEntriesInput\x12\x12\n" +
 	"\x04size\x18\v \x01(\x05R\x04size\x12\x14\n" +
-	"\x05after\x18\f \x01(\tR\x05after\"}\n" +
+	"\x05after\x18\f \x01(\tR\x05after\x12>\n" +
+	"\afilters\x18( \x01(\v2$.eolymp.feed.ListEntriesInput.FilterR\afilters\x1a{\n" +
+	"\x06Filter\x12;\n" +
+	"\tmember_id\x18\x01 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\bmemberId\x124\n" +
+	"\x04type\x18\x02 \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x04type\"}\n" +
 	"\x11ListEntriesOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12(\n" +
 	"\x05items\x18\x02 \x03(\v2\x12.eolymp.feed.EntryR\x05items\x12(\n" +
-	"\x10next_page_cursor\x18\x03 \x01(\tR\x0enextPageCursor2\x98\x01\n" +
+	"\x10next_page_cursor\x18\x03 \x01(\tR\x0enextPageCursor2\xb3\x01\n" +
 	"\vFeedService\x12j\n" +
 	"\vListEntries\x12\x1d.eolymp.feed.ListEntriesInput\x1a\x1e.eolymp.feed.ListEntriesOutput\"\x1c\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
-	"\x14\x82\xd3\xe4\x93\x02\a\x12\x05/feed\x1a\x1d\x82\xf0\xf0\xe4\x01\x17eolymp.community.MemberB+Z)github.com/eolymp/go-sdk/eolymp/feed;feedb\x06proto3"
+	"\x14\x82\xd3\xe4\x93\x02\a\x12\x05/feed\x1a8\x82\xf0\xf0\xe4\x01\x17eolymp.community.Member\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB+Z)github.com/eolymp/go-sdk/eolymp/feed;feedb\x06proto3"
 
 var (
 	file_eolymp_feed_feed_service_proto_rawDescOnce sync.Once
@@ -164,21 +229,27 @@ func file_eolymp_feed_feed_service_proto_rawDescGZIP() []byte {
 	return file_eolymp_feed_feed_service_proto_rawDescData
 }
 
-var file_eolymp_feed_feed_service_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_eolymp_feed_feed_service_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_eolymp_feed_feed_service_proto_goTypes = []any{
-	(*ListEntriesInput)(nil),  // 0: eolymp.feed.ListEntriesInput
-	(*ListEntriesOutput)(nil), // 1: eolymp.feed.ListEntriesOutput
-	(*Entry)(nil),             // 2: eolymp.feed.Entry
+	(*ListEntriesInput)(nil),         // 0: eolymp.feed.ListEntriesInput
+	(*ListEntriesOutput)(nil),        // 1: eolymp.feed.ListEntriesOutput
+	(*ListEntriesInput_Filter)(nil),  // 2: eolymp.feed.ListEntriesInput.Filter
+	(*Entry)(nil),                    // 3: eolymp.feed.Entry
+	(*wellknown.ExpressionID)(nil),   // 4: eolymp.wellknown.ExpressionID
+	(*wellknown.ExpressionEnum)(nil), // 5: eolymp.wellknown.ExpressionEnum
 }
 var file_eolymp_feed_feed_service_proto_depIdxs = []int32{
-	2, // 0: eolymp.feed.ListEntriesOutput.items:type_name -> eolymp.feed.Entry
-	0, // 1: eolymp.feed.FeedService.ListEntries:input_type -> eolymp.feed.ListEntriesInput
-	1, // 2: eolymp.feed.FeedService.ListEntries:output_type -> eolymp.feed.ListEntriesOutput
-	2, // [2:3] is the sub-list for method output_type
-	1, // [1:2] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	2, // 0: eolymp.feed.ListEntriesInput.filters:type_name -> eolymp.feed.ListEntriesInput.Filter
+	3, // 1: eolymp.feed.ListEntriesOutput.items:type_name -> eolymp.feed.Entry
+	4, // 2: eolymp.feed.ListEntriesInput.Filter.member_id:type_name -> eolymp.wellknown.ExpressionID
+	5, // 3: eolymp.feed.ListEntriesInput.Filter.type:type_name -> eolymp.wellknown.ExpressionEnum
+	0, // 4: eolymp.feed.FeedService.ListEntries:input_type -> eolymp.feed.ListEntriesInput
+	1, // 5: eolymp.feed.FeedService.ListEntries:output_type -> eolymp.feed.ListEntriesOutput
+	5, // [5:6] is the sub-list for method output_type
+	4, // [4:5] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_feed_feed_service_proto_init() }
@@ -193,7 +264,7 @@ func file_eolymp_feed_feed_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_feed_feed_service_proto_rawDesc), len(file_eolymp_feed_feed_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
