@@ -40,6 +40,7 @@ const (
 	UpdateAccountInput_USER_PREFERENCES_TIMEZONE UpdateAccountInput_Patch = 191
 	UpdateAccountInput_USER_PREFERENCES_RUNTIME  UpdateAccountInput_Patch = 192
 	UpdateAccountInput_USER_EMAIL_SUBSCRIPTIONS  UpdateAccountInput_Patch = 110
+	UpdateAccountInput_USER_PRONOUN              UpdateAccountInput_Patch = 111
 	UpdateAccountInput_ATTRIBUTES                UpdateAccountInput_Patch = 900
 )
 
@@ -60,6 +61,7 @@ var (
 		191: "USER_PREFERENCES_TIMEZONE",
 		192: "USER_PREFERENCES_RUNTIME",
 		110: "USER_EMAIL_SUBSCRIPTIONS",
+		111: "USER_PRONOUN",
 		900: "ATTRIBUTES",
 	}
 	UpdateAccountInput_Patch_value = map[string]int32{
@@ -77,6 +79,7 @@ var (
 		"USER_PREFERENCES_TIMEZONE": 191,
 		"USER_PREFERENCES_RUNTIME":  192,
 		"USER_EMAIL_SUBSCRIPTIONS":  110,
+		"USER_PRONOUN":              111,
 		"ATTRIBUTES":                900,
 	}
 )
@@ -1171,12 +1174,12 @@ const file_eolymp_community_account_service_proto_rawDesc = "" +
 	"\x15DescribeAccountOutput\x120\n" +
 	"\x06member\x18\x01 \x01(\v2\x18.eolymp.community.MemberR\x06member\x12,\n" +
 	"\x04team\x18\x02 \x01(\v2\x18.eolymp.community.MemberR\x04team\x125\n" +
-	"\x05extra\x18\xe3\b \x03(\v2\x1e.eolymp.community.Member.ExtraR\x05extra\"\xf3\x03\n" +
+	"\x05extra\x18\xe3\b \x03(\v2\x1e.eolymp.community.Member.ExtraR\x05extra\"\x85\x04\n" +
 	"\x12UpdateAccountInput\x12@\n" +
 	"\x05patch\x18\x01 \x03(\x0e2*.eolymp.community.UpdateAccountInput.PatchR\x05patch\x12)\n" +
 	"\x10current_password\x18\x02 \x01(\tR\x0fcurrentPassword\x120\n" +
 	"\x06member\x18\n" +
-	" \x01(\v2\x18.eolymp.community.MemberR\x06member\"\xbd\x02\n" +
+	" \x01(\v2\x18.eolymp.community.MemberR\x06member\"\xcf\x02\n" +
 	"\x05Patch\x12\a\n" +
 	"\x03ALL\x10\x00\x12\x11\n" +
 	"\rUSER_NICKNAME\x10e\x12\x0e\n" +
@@ -1192,7 +1195,8 @@ const file_eolymp_community_account_service_proto_rawDesc = "" +
 	"\x17USER_PREFERENCES_LOCALE\x10\xbe\x01\x12\x1e\n" +
 	"\x19USER_PREFERENCES_TIMEZONE\x10\xbf\x01\x12\x1d\n" +
 	"\x18USER_PREFERENCES_RUNTIME\x10\xc0\x01\x12\x1c\n" +
-	"\x18USER_EMAIL_SUBSCRIPTIONS\x10n\x12\x0f\n" +
+	"\x18USER_EMAIL_SUBSCRIPTIONS\x10n\x12\x10\n" +
+	"\fUSER_PRONOUN\x10o\x12\x0f\n" +
 	"\n" +
 	"ATTRIBUTES\x10\x84\a\")\n" +
 	"\x13UpdateAccountOutput\x12\x12\n" +

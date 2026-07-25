@@ -42,6 +42,7 @@ type User struct {
 	Birthday              *timestamppb.Timestamp `protobuf:"bytes,60,opt,name=birthday,proto3" json:"birthday,omitempty"`
 	Country               string                 `protobuf:"bytes,70,opt,name=country,proto3" json:"country,omitempty"`
 	City                  string                 `protobuf:"bytes,73,opt,name=city,proto3" json:"city,omitempty"`
+	Pronoun               string                 `protobuf:"bytes,80,opt,name=pronoun,proto3" json:"pronoun,omitempty"` // Pronoun: "he", "she", or "they" (default)
 	TeamId                string                 `protobuf:"bytes,100,opt,name=team_id,json=teamId,proto3" json:"team_id,omitempty"`
 	Preferences           *User_Preferences      `protobuf:"bytes,800,opt,name=preferences,proto3" json:"preferences,omitempty"`
 	unknownFields         protoimpl.UnknownFields
@@ -190,6 +191,13 @@ func (x *User) GetCity() string {
 	return ""
 }
 
+func (x *User) GetPronoun() string {
+	if x != nil {
+		return x.Pronoun
+	}
+	return ""
+}
+
 func (x *User) GetTeamId() string {
 	if x != nil {
 		return x.TeamId
@@ -320,7 +328,7 @@ var File_eolymp_community_member_user_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_member_user_proto_rawDesc = "" +
 	"\n" +
-	"\"eolymp/community/member_user.proto\x12\x10eolymp.community\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1ceolymp/mail/email_type.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x8d\a\n" +
+	"\"eolymp/community/member_user.proto\x12\x10eolymp.community\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1ceolymp/mail/email_type.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xa7\a\n" +
 	"\x04User\x12\x16\n" +
 	"\x06issuer\x18\x01 \x01(\tR\x06issuer\x12\x18\n" +
 	"\asubject\x18\x02 \x01(\tR\asubject\x12\x1a\n" +
@@ -338,7 +346,8 @@ const file_eolymp_community_member_user_proto_rawDesc = "" +
 	"\apicture\x182 \x01(\tR\apicture\x126\n" +
 	"\bbirthday\x18< \x01(\v2\x1a.google.protobuf.TimestampR\bbirthday\x12\x18\n" +
 	"\acountry\x18F \x01(\tR\acountry\x12\x12\n" +
-	"\x04city\x18I \x01(\tR\x04city\x12\x17\n" +
+	"\x04city\x18I \x01(\tR\x04city\x12\x18\n" +
+	"\apronoun\x18P \x01(\tR\apronoun\x12\x17\n" +
 	"\ateam_id\x18d \x01(\tR\x06teamId\x12E\n" +
 	"\vpreferences\x18\xa0\x06 \x01(\v2\".eolymp.community.User.PreferencesR\vpreferences\x1a[\n" +
 	"\vPreferences\x12\x16\n" +

@@ -43,6 +43,7 @@ type User struct {
 	UsernameChangedOn *timestamppb.Timestamp `protobuf:"bytes,36,opt,name=username_changed_on,json=usernameChangedOn,proto3" json:"username_changed_on,omitempty"` // Exact time when user has changed username last time
 	PasswordChangedOn *timestamppb.Timestamp `protobuf:"bytes,37,opt,name=password_changed_on,json=passwordChangedOn,proto3" json:"password_changed_on,omitempty"` // Exact time when user has changed password last time
 	Locale            string                 `protobuf:"bytes,40,opt,name=locale,proto3" json:"locale,omitempty"`                                                  // Locale
+	Pronoun           string                 `protobuf:"bytes,41,opt,name=pronoun,proto3" json:"pronoun,omitempty"`                                                // Pronoun: "he", "she", or "they" (default)
 	Aliases           []*User_Alias          `protobuf:"bytes,14,rep,name=aliases,proto3" json:"aliases,omitempty"`
 	DiscordUserId     string                 `protobuf:"bytes,100,opt,name=discord_user_id,json=discordUserId,proto3" json:"discord_user_id,omitempty"`
 	unknownFields     protoimpl.UnknownFields
@@ -212,6 +213,13 @@ func (x *User) GetLocale() string {
 	return ""
 }
 
+func (x *User) GetPronoun() string {
+	if x != nil {
+		return x.Pronoun
+	}
+	return ""
+}
+
 func (x *User) GetAliases() []*User_Alias {
 	if x != nil {
 		return x.Aliases
@@ -282,7 +290,7 @@ var File_eolymp_cognito_user_proto protoreflect.FileDescriptor
 
 const file_eolymp_cognito_user_proto_rawDesc = "" +
 	"\n" +
-	"\x19eolymp/cognito/user.proto\x12\x0eeolymp.cognito\x1a\x1fgoogle/protobuf/timestamp.proto\"\xe4\x06\n" +
+	"\x19eolymp/cognito/user.proto\x12\x0eeolymp.cognito\x1a\x1fgoogle/protobuf/timestamp.proto\"\xfe\x06\n" +
 	"\x04User\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1a\n" +
 	"\busername\x18\x02 \x01(\tR\busername\x12\x14\n" +
@@ -305,7 +313,8 @@ const file_eolymp_cognito_user_proto_rawDesc = "" +
 	"\rlast_activity\x18# \x01(\v2\x1a.google.protobuf.TimestampR\flastActivity\x12J\n" +
 	"\x13username_changed_on\x18$ \x01(\v2\x1a.google.protobuf.TimestampR\x11usernameChangedOn\x12J\n" +
 	"\x13password_changed_on\x18% \x01(\v2\x1a.google.protobuf.TimestampR\x11passwordChangedOn\x12\x16\n" +
-	"\x06locale\x18( \x01(\tR\x06locale\x124\n" +
+	"\x06locale\x18( \x01(\tR\x06locale\x12\x18\n" +
+	"\apronoun\x18) \x01(\tR\apronoun\x124\n" +
 	"\aaliases\x18\x0e \x03(\v2\x1a.eolymp.cognito.User.AliasR\aaliases\x12&\n" +
 	"\x0fdiscord_user_id\x18d \x01(\tR\rdiscordUserId\x1a^\n" +
 	"\x05Alias\x12\x1a\n" +

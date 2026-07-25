@@ -113,6 +113,7 @@ const (
 	Member_Patch_USER_PREFERENCES_TIMEZONE Member_Patch_Field = 191
 	Member_Patch_USER_PREFERENCES_RUNTIME  Member_Patch_Field = 192
 	Member_Patch_USER_EMAIL_SUBSCRIPTIONS  Member_Patch_Field = 110
+	Member_Patch_USER_PRONOUN              Member_Patch_Field = 111
 	Member_Patch_TEAM_NAME                 Member_Patch_Field = 200
 	Member_Patch_GHOST_NAME                Member_Patch_Field = 300
 	Member_Patch_ATTRIBUTES                Member_Patch_Field = 900
@@ -145,6 +146,7 @@ var (
 		191: "USER_PREFERENCES_TIMEZONE",
 		192: "USER_PREFERENCES_RUNTIME",
 		110: "USER_EMAIL_SUBSCRIPTIONS",
+		111: "USER_PRONOUN",
 		200: "TEAM_NAME",
 		300: "GHOST_NAME",
 		900: "ATTRIBUTES",
@@ -174,6 +176,7 @@ var (
 		"USER_PREFERENCES_TIMEZONE": 191,
 		"USER_PREFERENCES_RUNTIME":  192,
 		"USER_EMAIL_SUBSCRIPTIONS":  110,
+		"USER_PRONOUN":              111,
 		"TEAM_NAME":                 200,
 		"GHOST_NAME":                300,
 		"ATTRIBUTES":                900,
@@ -697,7 +700,7 @@ var File_eolymp_community_member_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_member_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/community/member.proto\x12\x10eolymp.community\x1a\x1ceolymp/annotations/mcp.proto\x1a eolymp/community/attribute.proto\x1a#eolymp/community/member_ghost.proto\x1a\"eolymp/community/member_team.proto\x1a\"eolymp/community/member_user.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xe2\x10\n" +
+	"\x1deolymp/community/member.proto\x12\x10eolymp.community\x1a\x1ceolymp/annotations/mcp.proto\x1a eolymp/community/attribute.proto\x1a#eolymp/community/member_ghost.proto\x1a\"eolymp/community/member_team.proto\x1a\"eolymp/community/member_user.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xf4\x10\n" +
 	"\x06Member\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x18\n" +
 	"\x03url\x18\x03 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x03url\x12!\n" +
@@ -748,8 +751,8 @@ const file_eolymp_community_member_proto_rawDesc = "" +
 	"ATTRIBUTES\x10\x04\x12\f\n" +
 	"\bMETADATA\x10\x05\x12\x10\n" +
 	"\fRESTRICTIONS\x10\x06\x12\x10\n" +
-	"\fPRIVATE_DATA\x10\a\x1a\x9d\x04\n" +
-	"\x05Patch\"\x93\x04\n" +
+	"\fPRIVATE_DATA\x10\a\x1a\xaf\x04\n" +
+	"\x05Patch\"\xa5\x04\n" +
 	"\x05Field\x12\x11\n" +
 	"\rUNKNOWN_PATCH\x10\x00\x12\x10\n" +
 	"\fEXTERNAL_REF\x10\x06\x12\f\n" +
@@ -777,7 +780,8 @@ const file_eolymp_community_member_proto_rawDesc = "" +
 	"\x17USER_PREFERENCES_LOCALE\x10\xbe\x01\x12\x1e\n" +
 	"\x19USER_PREFERENCES_TIMEZONE\x10\xbf\x01\x12\x1d\n" +
 	"\x18USER_PREFERENCES_RUNTIME\x10\xc0\x01\x12\x1c\n" +
-	"\x18USER_EMAIL_SUBSCRIPTIONS\x10n\x12\x0e\n" +
+	"\x18USER_EMAIL_SUBSCRIPTIONS\x10n\x12\x10\n" +
+	"\fUSER_PRONOUN\x10o\x12\x0e\n" +
 	"\tTEAM_NAME\x10\xc8\x01\x12\x0f\n" +
 	"\n" +
 	"GHOST_NAME\x10\xac\x02\x12\x0f\n" +

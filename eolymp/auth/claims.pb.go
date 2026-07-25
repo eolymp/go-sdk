@@ -38,6 +38,7 @@ type Claims struct {
 	Birthday         string                 `protobuf:"bytes,60,opt,name=birthday,proto3" json:"birthday,omitempty"`                                         // user's birthday in 2006-01-02 format
 	Minor            bool                   `protobuf:"varint,61,opt,name=minor,proto3" json:"minor,omitempty"`                                              // true if user is a minor
 	Country          string                 `protobuf:"bytes,70,opt,name=country,proto3" json:"country,omitempty"`                                           // country where the user is from
+	Pronoun          string                 `protobuf:"bytes,80,opt,name=pronoun,proto3" json:"pronoun,omitempty"`                                           // user's pronoun: "he", "she", or "they" (default)
 	PreferredRuntime string                 `protobuf:"bytes,90,opt,name=preferred_runtime,json=preferredRuntime,proto3" json:"preferred_runtime,omitempty"` // user's preferred runtime (programming language, compiler) at Eolymp
 	Restrictions     string                 `protobuf:"bytes,100,opt,name=restrictions,proto3" json:"restrictions,omitempty"`                                // user's restrictions
 	unknownFields    protoimpl.UnknownFields
@@ -179,6 +180,13 @@ func (x *Claims) GetCountry() string {
 	return ""
 }
 
+func (x *Claims) GetPronoun() string {
+	if x != nil {
+		return x.Pronoun
+	}
+	return ""
+}
+
 func (x *Claims) GetPreferredRuntime() string {
 	if x != nil {
 		return x.PreferredRuntime
@@ -197,7 +205,7 @@ var File_eolymp_auth_claims_proto protoreflect.FileDescriptor
 
 const file_eolymp_auth_claims_proto_rawDesc = "" +
 	"\n" +
-	"\x18eolymp/auth/claims.proto\x12\veolymp.auth\"\xed\x03\n" +
+	"\x18eolymp/auth/claims.proto\x12\veolymp.auth\"\x87\x04\n" +
 	"\x06Claims\x12\x0f\n" +
 	"\x02id\x18\xe8\a \x01(\tR\x02id\x12\x16\n" +
 	"\x06issuer\x18\x01 \x01(\tR\x06issuer\x12\x18\n" +
@@ -215,7 +223,8 @@ const file_eolymp_auth_claims_proto_rawDesc = "" +
 	"\btimezone\x183 \x01(\tR\btimezone\x12\x1a\n" +
 	"\bbirthday\x18< \x01(\tR\bbirthday\x12\x14\n" +
 	"\x05minor\x18= \x01(\bR\x05minor\x12\x18\n" +
-	"\acountry\x18F \x01(\tR\acountry\x12+\n" +
+	"\acountry\x18F \x01(\tR\acountry\x12\x18\n" +
+	"\apronoun\x18P \x01(\tR\apronoun\x12+\n" +
 	"\x11preferred_runtime\x18Z \x01(\tR\x10preferredRuntime\x12\"\n" +
 	"\frestrictions\x18d \x01(\tR\frestrictionsB+Z)github.com/eolymp/go-sdk/eolymp/auth;authb\x06proto3"
 
