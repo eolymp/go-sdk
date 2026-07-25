@@ -37,6 +37,7 @@ const (
 	Rule_STUDENT_CHANGED        Rule_Trigger = 8
 	Rule_ASSIGNMENT_CHANGED     Rule_Trigger = 9
 	Rule_PARTICIPANT_FINALIZED  Rule_Trigger = 10
+	Rule_CONTEST_FINALIZED      Rule_Trigger = 11
 )
 
 // Enum value maps for Rule_Trigger.
@@ -53,6 +54,7 @@ var (
 		8:  "STUDENT_CHANGED",
 		9:  "ASSIGNMENT_CHANGED",
 		10: "PARTICIPANT_FINALIZED",
+		11: "CONTEST_FINALIZED",
 	}
 	Rule_Trigger_value = map[string]int32{
 		"UNKNOWN_TRIGGER":        0,
@@ -66,6 +68,7 @@ var (
 		"STUDENT_CHANGED":        8,
 		"ASSIGNMENT_CHANGED":     9,
 		"PARTICIPANT_FINALIZED":  10,
+		"CONTEST_FINALIZED":      11,
 	}
 )
 
@@ -324,7 +327,7 @@ var File_eolymp_automation_rule_proto protoreflect.FileDescriptor
 
 const file_eolymp_automation_rule_proto_rawDesc = "" +
 	"\n" +
-	"\x1ceolymp/automation/rule.proto\x12\x11eolymp.automation\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1eeolymp/automation/action.proto\x1a!eolymp/automation/condition.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xcb\x06\n" +
+	"\x1ceolymp/automation/rule.proto\x12\x11eolymp.automation\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1eeolymp/automation/action.proto\x1a!eolymp/automation/condition.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xe2\x06\n" +
 	"\x04Rule\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x129\n" +
@@ -351,7 +354,7 @@ const file_eolymp_automation_rule_proto_rawDesc = "" +
 	"\aACTIONS\x10\x05\x12\f\n" +
 	"\bINACTIVE\x10\x06\x12\v\n" +
 	"\aDRY_RUN\x10\a\x12\t\n" +
-	"\x05DEBUG\x10\b\"\x83\x02\n" +
+	"\x05DEBUG\x10\b\"\x9a\x02\n" +
 	"\aTrigger\x12\x13\n" +
 	"\x0fUNKNOWN_TRIGGER\x10\x00\x12\x18\n" +
 	"\x14SUBMISSION_COMPLETED\x10\x01\x12\x11\n" +
@@ -364,7 +367,8 @@ const file_eolymp_automation_rule_proto_rawDesc = "" +
 	"\x0fSTUDENT_CHANGED\x10\b\x12\x16\n" +
 	"\x12ASSIGNMENT_CHANGED\x10\t\x12\x19\n" +
 	"\x15PARTICIPANT_FINALIZED\x10\n" +
-	"B7Z5github.com/eolymp/go-sdk/eolymp/automation;automationb\x06proto3"
+	"\x12\x15\n" +
+	"\x11CONTEST_FINALIZED\x10\vB7Z5github.com/eolymp/go-sdk/eolymp/automation;automationb\x06proto3"
 
 var (
 	file_eolymp_automation_rule_proto_rawDescOnce sync.Once
