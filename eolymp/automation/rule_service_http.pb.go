@@ -166,6 +166,9 @@ func RegisterRuleServiceHttpHandlers(router *mux.Router, prefix string, cli Rule
 	router.Handle(prefix+"/automation/rules/{rule_id}", _RuleService_DeleteRule_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.automation.RuleService.DeleteRule")
+	router.Handle(prefix+"/automation/rules/{rule_id}/trigger", _RuleService_TriggerRule_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.automation.RuleService.TriggerRule")
 }
 
 // RegisterRuleServiceHttpProxy adds proxy handlers for for RuleServiceClient
@@ -278,6 +281,30 @@ func _RuleService_DeleteRule_Rule0(cli RuleServiceClient) http.Handler {
 		var header, trailer metadata.MD
 
 		out, err := cli.DeleteRule(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_RuleService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_RuleService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _RuleService_TriggerRule_Rule0(cli RuleServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &TriggerRuleInput{}
+
+		if err := _RuleService_HTTPReadRequestBody(r, in, 1048576); err != nil {
+			_RuleService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.RuleId = vars["rule_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.TriggerRule(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_RuleService_HTTPWriteErrorResponse(w, err)
 			return

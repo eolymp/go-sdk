@@ -24,6 +24,7 @@ const (
 	RuleService_DescribeRule_FullMethodName = "/eolymp.automation.RuleService/DescribeRule"
 	RuleService_UpdateRule_FullMethodName   = "/eolymp.automation.RuleService/UpdateRule"
 	RuleService_DeleteRule_FullMethodName   = "/eolymp.automation.RuleService/DeleteRule"
+	RuleService_TriggerRule_FullMethodName  = "/eolymp.automation.RuleService/TriggerRule"
 )
 
 // RuleServiceClient is the client API for RuleService service.
@@ -35,6 +36,7 @@ type RuleServiceClient interface {
 	DescribeRule(ctx context.Context, in *DescribeRuleInput, opts ...grpc.CallOption) (*DescribeRuleOutput, error)
 	UpdateRule(ctx context.Context, in *UpdateRuleInput, opts ...grpc.CallOption) (*UpdateRuleOutput, error)
 	DeleteRule(ctx context.Context, in *DeleteRuleInput, opts ...grpc.CallOption) (*DeleteRuleOutput, error)
+	TriggerRule(ctx context.Context, in *TriggerRuleInput, opts ...grpc.CallOption) (*TriggerRuleOutput, error)
 }
 
 type ruleServiceClient struct {
@@ -95,6 +97,16 @@ func (c *ruleServiceClient) DeleteRule(ctx context.Context, in *DeleteRuleInput,
 	return out, nil
 }
 
+func (c *ruleServiceClient) TriggerRule(ctx context.Context, in *TriggerRuleInput, opts ...grpc.CallOption) (*TriggerRuleOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(TriggerRuleOutput)
+	err := c.cc.Invoke(ctx, RuleService_TriggerRule_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // RuleServiceServer is the server API for RuleService service.
 // All implementations should embed UnimplementedRuleServiceServer
 // for forward compatibility.
@@ -104,6 +116,7 @@ type RuleServiceServer interface {
 	DescribeRule(context.Context, *DescribeRuleInput) (*DescribeRuleOutput, error)
 	UpdateRule(context.Context, *UpdateRuleInput) (*UpdateRuleOutput, error)
 	DeleteRule(context.Context, *DeleteRuleInput) (*DeleteRuleOutput, error)
+	TriggerRule(context.Context, *TriggerRuleInput) (*TriggerRuleOutput, error)
 }
 
 // UnimplementedRuleServiceServer should be embedded to have
@@ -127,6 +140,9 @@ func (UnimplementedRuleServiceServer) UpdateRule(context.Context, *UpdateRuleInp
 }
 func (UnimplementedRuleServiceServer) DeleteRule(context.Context, *DeleteRuleInput) (*DeleteRuleOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method DeleteRule not implemented")
+}
+func (UnimplementedRuleServiceServer) TriggerRule(context.Context, *TriggerRuleInput) (*TriggerRuleOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method TriggerRule not implemented")
 }
 func (UnimplementedRuleServiceServer) testEmbeddedByValue() {}
 
@@ -238,6 +254,24 @@ func _RuleService_DeleteRule_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _RuleService_TriggerRule_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TriggerRuleInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RuleServiceServer).TriggerRule(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: RuleService_TriggerRule_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RuleServiceServer).TriggerRule(ctx, req.(*TriggerRuleInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // RuleService_ServiceDesc is the grpc.ServiceDesc for RuleService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -264,6 +298,10 @@ var RuleService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteRule",
 			Handler:    _RuleService_DeleteRule_Handler,
+		},
+		{
+			MethodName: "TriggerRule",
+			Handler:    _RuleService_TriggerRule_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

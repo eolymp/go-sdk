@@ -169,3 +169,19 @@ func (s *RuleServiceService) DeleteRule(ctx context.Context, in *DeleteRuleInput
 
 	return out, nil
 }
+
+func (s *RuleServiceService) TriggerRule(ctx context.Context, in *TriggerRuleInput) (*TriggerRuleOutput, error) {
+	out := &TriggerRuleOutput{}
+	path := "/automation/rules/" + url.PathEscape(in.GetRuleId()) + "/trigger"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.RuleId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
