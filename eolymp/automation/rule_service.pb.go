@@ -625,7 +625,6 @@ func (x *TriggerRuleInput) GetDryRun() bool {
 
 type TriggerRuleOutput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	LogId         string                 `protobuf:"bytes,1,opt,name=log_id,json=logId,proto3" json:"log_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -658,13 +657,6 @@ func (x *TriggerRuleOutput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use TriggerRuleOutput.ProtoReflect.Descriptor instead.
 func (*TriggerRuleOutput) Descriptor() ([]byte, []int) {
 	return file_eolymp_automation_rule_service_proto_rawDescGZIP(), []int{11}
-}
-
-func (x *TriggerRuleOutput) GetLogId() string {
-	if x != nil {
-		return x.LogId
-	}
-	return ""
 }
 
 type ListRulesInput_Filter struct {
@@ -786,9 +778,8 @@ const file_eolymp_automation_rule_service_proto_rawDesc = "" +
 	"\adry_run\x18\x03 \x01(\bR\x06dryRun\x1a=\n" +
 	"\x0fReferencesEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"*\n" +
-	"\x11TriggerRuleOutput\x12\x15\n" +
-	"\x06log_id\x18\x01 \x01(\tR\x05logId2\x98\b\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\x13\n" +
+	"\x11TriggerRuleOutput2\x98\b\n" +
 	"\vRuleService\x12\x98\x01\n" +
 	"\tListRules\x12!.eolymp.automation.ListRulesInput\x1a\".eolymp.automation.ListRulesOutput\"D\xea\xe2\n" +
 	"\v\xf5\xe2\n" +

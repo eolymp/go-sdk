@@ -127,6 +127,22 @@ func (s *ScoreServiceService) DescribeScore(ctx context.Context, in *DescribeSco
 	return out, nil
 }
 
+func (s *ScoreServiceService) DescribeResult(ctx context.Context, in *DescribeResultInput) (*DescribeResultOutput, error) {
+	out := &DescribeResultOutput{}
+	path := "/participants/" + url.PathEscape(in.GetParticipantId()) + "/result"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ParticipantId = ""
+	}
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *ScoreServiceService) ListScoreTimeline(ctx context.Context, in *ListScoreTimelineInput) (*ListScoreTimelineOutput, error) {
 	out := &ListScoreTimelineOutput{}
 	path := "/participants/" + url.PathEscape(in.GetParticipantId()) + "/score-timeline"

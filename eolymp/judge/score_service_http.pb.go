@@ -157,6 +157,9 @@ func RegisterScoreServiceHttpHandlers(router *mux.Router, prefix string, cli Sco
 	router.Handle(prefix+"/participants/{participant_id}/score", _ScoreService_DescribeScore_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ScoreService.DescribeScore")
+	router.Handle(prefix+"/participants/{participant_id}/result", _ScoreService_DescribeResult_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.judge.ScoreService.DescribeResult")
 	router.Handle(prefix+"/participants/{participant_id}/score-timeline", _ScoreService_ListScoreTimeline_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ScoreService.ListScoreTimeline")
@@ -218,6 +221,30 @@ func _ScoreService_DescribeScore_Rule0(cli ScoreServiceClient) http.Handler {
 		var header, trailer metadata.MD
 
 		out, err := cli.DescribeScore(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ScoreService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ScoreService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ScoreService_DescribeResult_Rule0(cli ScoreServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeResultInput{}
+
+		if err := _ScoreService_HTTPReadQueryString(r, in, 131072); err != nil {
+			_ScoreService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ParticipantId = vars["participant_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeResult(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ScoreService_HTTPWriteErrorResponse(w, err)
 			return

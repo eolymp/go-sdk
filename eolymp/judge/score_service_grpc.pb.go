@@ -22,6 +22,7 @@ const (
 	ScoreService_IntrospectScore_FullMethodName   = "/eolymp.judge.ScoreService/IntrospectScore"
 	ScoreService_WatchScore_FullMethodName        = "/eolymp.judge.ScoreService/WatchScore"
 	ScoreService_DescribeScore_FullMethodName     = "/eolymp.judge.ScoreService/DescribeScore"
+	ScoreService_DescribeResult_FullMethodName    = "/eolymp.judge.ScoreService/DescribeResult"
 	ScoreService_ListScoreTimeline_FullMethodName = "/eolymp.judge.ScoreService/ListScoreTimeline"
 	ScoreService_ImportScore_FullMethodName       = "/eolymp.judge.ScoreService/ImportScore"
 	ScoreService_ExportScore_FullMethodName       = "/eolymp.judge.ScoreService/ExportScore"
@@ -37,6 +38,8 @@ type ScoreServiceClient interface {
 	IntrospectScore(ctx context.Context, in *IntrospectScoreInput, opts ...grpc.CallOption) (*IntrospectScoreOutput, error)
 	WatchScore(ctx context.Context, in *WatchScoreInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchScoreOutput], error)
 	DescribeScore(ctx context.Context, in *DescribeScoreInput, opts ...grpc.CallOption) (*DescribeScoreOutput, error)
+	// DescribeResult retrieves a single participant's scoreboard result, including its rank.
+	DescribeResult(ctx context.Context, in *DescribeResultInput, opts ...grpc.CallOption) (*DescribeResultOutput, error)
 	ListScoreTimeline(ctx context.Context, in *ListScoreTimelineInput, opts ...grpc.CallOption) (*ListScoreTimelineOutput, error)
 	// ImportScore for ghost participants
 	ImportScore(ctx context.Context, in *ImportScoreInput, opts ...grpc.CallOption) (*ImportScoreOutput, error)
@@ -90,6 +93,16 @@ func (c *scoreServiceClient) DescribeScore(ctx context.Context, in *DescribeScor
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DescribeScoreOutput)
 	err := c.cc.Invoke(ctx, ScoreService_DescribeScore_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *scoreServiceClient) DescribeResult(ctx context.Context, in *DescribeResultInput, opts ...grpc.CallOption) (*DescribeResultOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DescribeResultOutput)
+	err := c.cc.Invoke(ctx, ScoreService_DescribeResult_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -163,6 +176,8 @@ type ScoreServiceServer interface {
 	IntrospectScore(context.Context, *IntrospectScoreInput) (*IntrospectScoreOutput, error)
 	WatchScore(*WatchScoreInput, grpc.ServerStreamingServer[WatchScoreOutput]) error
 	DescribeScore(context.Context, *DescribeScoreInput) (*DescribeScoreOutput, error)
+	// DescribeResult retrieves a single participant's scoreboard result, including its rank.
+	DescribeResult(context.Context, *DescribeResultInput) (*DescribeResultOutput, error)
 	ListScoreTimeline(context.Context, *ListScoreTimelineInput) (*ListScoreTimelineOutput, error)
 	// ImportScore for ghost participants
 	ImportScore(context.Context, *ImportScoreInput) (*ImportScoreOutput, error)
@@ -190,6 +205,9 @@ func (UnimplementedScoreServiceServer) WatchScore(*WatchScoreInput, grpc.ServerS
 }
 func (UnimplementedScoreServiceServer) DescribeScore(context.Context, *DescribeScoreInput) (*DescribeScoreOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method DescribeScore not implemented")
+}
+func (UnimplementedScoreServiceServer) DescribeResult(context.Context, *DescribeResultInput) (*DescribeResultOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method DescribeResult not implemented")
 }
 func (UnimplementedScoreServiceServer) ListScoreTimeline(context.Context, *ListScoreTimelineInput) (*ListScoreTimelineOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListScoreTimeline not implemented")
@@ -272,6 +290,24 @@ func _ScoreService_DescribeScore_Handler(srv interface{}, ctx context.Context, d
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ScoreServiceServer).DescribeScore(ctx, req.(*DescribeScoreInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ScoreService_DescribeResult_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeResultInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ScoreServiceServer).DescribeResult(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ScoreService_DescribeResult_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ScoreServiceServer).DescribeResult(ctx, req.(*DescribeResultInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -398,6 +434,10 @@ var ScoreService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DescribeScore",
 			Handler:    _ScoreService_DescribeScore_Handler,
+		},
+		{
+			MethodName: "DescribeResult",
+			Handler:    _ScoreService_DescribeResult_Handler,
 		},
 		{
 			MethodName: "ListScoreTimeline",
