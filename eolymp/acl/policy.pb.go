@@ -26,6 +26,7 @@ type Policy struct {
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
 	Principal     string                 `protobuf:"bytes,3,opt,name=principal,proto3" json:"principal,omitempty"`                           // policy principal (user id)
+	PrincipalId   string                 `protobuf:"bytes,4,opt,name=principal_id,json=principalId,proto3" json:"principal_id,omitempty"`    // id of the principal (see Principal) the policy is attached to
 	Resource      string                 `protobuf:"bytes,10,opt,name=resource,proto3" json:"resource,omitempty"`                            // policy resource url, for example /contests/xyz, empty means policy applies globally
 	AllowAll      bool                   `protobuf:"varint,12,opt,name=allow_all,json=allowAll,proto3" json:"allow_all,omitempty"`           // allow all actions
 	Allows        []Action               `protobuf:"varint,11,rep,packed,name=allows,proto3,enum=eolymp.acl.Action" json:"allows,omitempty"` // list of allowed actions
@@ -84,6 +85,13 @@ func (x *Policy) GetPrincipal() string {
 	return ""
 }
 
+func (x *Policy) GetPrincipalId() string {
+	if x != nil {
+		return x.PrincipalId
+	}
+	return ""
+}
+
 func (x *Policy) GetResource() string {
 	if x != nil {
 		return x.Resource
@@ -110,11 +118,12 @@ var File_eolymp_acl_policy_proto protoreflect.FileDescriptor
 const file_eolymp_acl_policy_proto_rawDesc = "" +
 	"\n" +
 	"\x17eolymp/acl/policy.proto\x12\n" +
-	"eolymp.acl\x1a\x17eolymp/acl/action.proto\"\xaf\x01\n" +
+	"eolymp.acl\x1a\x17eolymp/acl/action.proto\"\xd2\x01\n" +
 	"\x06Policy\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x1c\n" +
-	"\tprincipal\x18\x03 \x01(\tR\tprincipal\x12\x1a\n" +
+	"\tprincipal\x18\x03 \x01(\tR\tprincipal\x12!\n" +
+	"\fprincipal_id\x18\x04 \x01(\tR\vprincipalId\x12\x1a\n" +
 	"\bresource\x18\n" +
 	" \x01(\tR\bresource\x12\x1b\n" +
 	"\tallow_all\x18\f \x01(\bR\ballowAll\x12*\n" +

@@ -655,6 +655,7 @@ type ListPoliciesInput_Filter struct {
 	Principal     []*wellknown.ExpressionID     `protobuf:"bytes,2,rep,name=principal,proto3" json:"principal,omitempty"`
 	Name          []*wellknown.ExpressionString `protobuf:"bytes,3,rep,name=name,proto3" json:"name,omitempty"`
 	Resource      []*wellknown.ExpressionEnum   `protobuf:"bytes,4,rep,name=resource,proto3" json:"resource,omitempty"`
+	PrincipalId   []*wellknown.ExpressionID     `protobuf:"bytes,5,rep,name=principal_id,json=principalId,proto3" json:"principal_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -724,6 +725,13 @@ func (x *ListPoliciesInput_Filter) GetResource() []*wellknown.ExpressionEnum {
 	return nil
 }
 
+func (x *ListPoliciesInput_Filter) GetPrincipalId() []*wellknown.ExpressionID {
+	if x != nil {
+		return x.PrincipalId
+	}
+	return nil
+}
+
 var File_eolymp_acl_policy_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_acl_policy_service_proto_rawDesc = "" +
@@ -751,19 +759,20 @@ const file_eolymp_acl_policy_service_proto_rawDesc = "" +
 	"\x13DescribePolicyInput\x12\x1b\n" +
 	"\tpolicy_id\x18\x01 \x01(\tR\bpolicyId\"B\n" +
 	"\x14DescribePolicyOutput\x12*\n" +
-	"\x06policy\x18\x01 \x01(\v2\x12.eolymp.acl.PolicyR\x06policy\"\x84\x03\n" +
+	"\x06policy\x18\x01 \x01(\v2\x12.eolymp.acl.PolicyR\x06policy\"\xc7\x03\n" +
 	"\x11ListPoliciesInput\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
 	"\x04size\x18\v \x01(\x05R\x04size\x12>\n" +
-	"\afilters\x18( \x01(\v2$.eolymp.acl.ListPoliciesInput.FilterR\afilters\x1a\x82\x02\n" +
+	"\afilters\x18( \x01(\v2$.eolymp.acl.ListPoliciesInput.FilterR\afilters\x1a\xc5\x02\n" +
 	"\x06Filter\x12\x14\n" +
 	"\x05query\x18\n" +
 	" \x01(\tR\x05query\x12.\n" +
 	"\x02id\x18\x01 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\x12<\n" +
 	"\tprincipal\x18\x02 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\tprincipal\x126\n" +
 	"\x04name\x18\x03 \x03(\v2\".eolymp.wellknown.ExpressionStringR\x04name\x12<\n" +
-	"\bresource\x18\x04 \x03(\v2 .eolymp.wellknown.ExpressionEnumR\bresource\"T\n" +
+	"\bresource\x18\x04 \x03(\v2 .eolymp.wellknown.ExpressionEnumR\bresource\x12A\n" +
+	"\fprincipal_id\x18\x05 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\vprincipalId\"T\n" +
 	"\x12ListPoliciesOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12(\n" +
 	"\x05items\x18\x02 \x03(\v2\x12.eolymp.acl.PolicyR\x05items\"\xa3\x01\n" +
@@ -845,23 +854,24 @@ var file_eolymp_acl_policy_service_proto_depIdxs = []int32{
 	15, // 7: eolymp.acl.ListPoliciesInput.Filter.principal:type_name -> eolymp.wellknown.ExpressionID
 	16, // 8: eolymp.acl.ListPoliciesInput.Filter.name:type_name -> eolymp.wellknown.ExpressionString
 	17, // 9: eolymp.acl.ListPoliciesInput.Filter.resource:type_name -> eolymp.wellknown.ExpressionEnum
-	1,  // 10: eolymp.acl.PolicyService.CreatePolicy:input_type -> eolymp.acl.CreatePolicyInput
-	3,  // 11: eolymp.acl.PolicyService.UpdatePolicy:input_type -> eolymp.acl.UpdatePolicyInput
-	5,  // 12: eolymp.acl.PolicyService.DeletePolicy:input_type -> eolymp.acl.DeletePolicyInput
-	7,  // 13: eolymp.acl.PolicyService.DescribePolicy:input_type -> eolymp.acl.DescribePolicyInput
-	9,  // 14: eolymp.acl.PolicyService.ListPolicies:input_type -> eolymp.acl.ListPoliciesInput
-	11, // 15: eolymp.acl.PolicyService.CopyPolicies:input_type -> eolymp.acl.CopyPoliciesInput
-	2,  // 16: eolymp.acl.PolicyService.CreatePolicy:output_type -> eolymp.acl.CreatePolicyOutput
-	4,  // 17: eolymp.acl.PolicyService.UpdatePolicy:output_type -> eolymp.acl.UpdatePolicyOutput
-	6,  // 18: eolymp.acl.PolicyService.DeletePolicy:output_type -> eolymp.acl.DeletePolicyOutput
-	8,  // 19: eolymp.acl.PolicyService.DescribePolicy:output_type -> eolymp.acl.DescribePolicyOutput
-	10, // 20: eolymp.acl.PolicyService.ListPolicies:output_type -> eolymp.acl.ListPoliciesOutput
-	12, // 21: eolymp.acl.PolicyService.CopyPolicies:output_type -> eolymp.acl.CopyPoliciesOutput
-	16, // [16:22] is the sub-list for method output_type
-	10, // [10:16] is the sub-list for method input_type
-	10, // [10:10] is the sub-list for extension type_name
-	10, // [10:10] is the sub-list for extension extendee
-	0,  // [0:10] is the sub-list for field type_name
+	15, // 10: eolymp.acl.ListPoliciesInput.Filter.principal_id:type_name -> eolymp.wellknown.ExpressionID
+	1,  // 11: eolymp.acl.PolicyService.CreatePolicy:input_type -> eolymp.acl.CreatePolicyInput
+	3,  // 12: eolymp.acl.PolicyService.UpdatePolicy:input_type -> eolymp.acl.UpdatePolicyInput
+	5,  // 13: eolymp.acl.PolicyService.DeletePolicy:input_type -> eolymp.acl.DeletePolicyInput
+	7,  // 14: eolymp.acl.PolicyService.DescribePolicy:input_type -> eolymp.acl.DescribePolicyInput
+	9,  // 15: eolymp.acl.PolicyService.ListPolicies:input_type -> eolymp.acl.ListPoliciesInput
+	11, // 16: eolymp.acl.PolicyService.CopyPolicies:input_type -> eolymp.acl.CopyPoliciesInput
+	2,  // 17: eolymp.acl.PolicyService.CreatePolicy:output_type -> eolymp.acl.CreatePolicyOutput
+	4,  // 18: eolymp.acl.PolicyService.UpdatePolicy:output_type -> eolymp.acl.UpdatePolicyOutput
+	6,  // 19: eolymp.acl.PolicyService.DeletePolicy:output_type -> eolymp.acl.DeletePolicyOutput
+	8,  // 20: eolymp.acl.PolicyService.DescribePolicy:output_type -> eolymp.acl.DescribePolicyOutput
+	10, // 21: eolymp.acl.PolicyService.ListPolicies:output_type -> eolymp.acl.ListPoliciesOutput
+	12, // 22: eolymp.acl.PolicyService.CopyPolicies:output_type -> eolymp.acl.CopyPoliciesOutput
+	17, // [17:23] is the sub-list for method output_type
+	11, // [11:17] is the sub-list for method input_type
+	11, // [11:11] is the sub-list for extension type_name
+	11, // [11:11] is the sub-list for extension extendee
+	0,  // [0:11] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_acl_policy_service_proto_init() }
