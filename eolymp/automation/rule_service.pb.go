@@ -659,6 +659,94 @@ func (*TriggerRuleOutput) Descriptor() ([]byte, []int) {
 	return file_eolymp_automation_rule_service_proto_rawDescGZIP(), []int{11}
 }
 
+type ListActionsInput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	References    map[string]string      `protobuf:"bytes,1,rep,name=references,proto3" json:"references,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListActionsInput) Reset() {
+	*x = ListActionsInput{}
+	mi := &file_eolymp_automation_rule_service_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListActionsInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListActionsInput) ProtoMessage() {}
+
+func (x *ListActionsInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_automation_rule_service_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListActionsInput.ProtoReflect.Descriptor instead.
+func (*ListActionsInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_automation_rule_service_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *ListActionsInput) GetReferences() map[string]string {
+	if x != nil {
+		return x.References
+	}
+	return nil
+}
+
+type ListActionsOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Items         []*Rule                `protobuf:"bytes,1,rep,name=items,proto3" json:"items,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListActionsOutput) Reset() {
+	*x = ListActionsOutput{}
+	mi := &file_eolymp_automation_rule_service_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListActionsOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListActionsOutput) ProtoMessage() {}
+
+func (x *ListActionsOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_automation_rule_service_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListActionsOutput.ProtoReflect.Descriptor instead.
+func (*ListActionsOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_automation_rule_service_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *ListActionsOutput) GetItems() []*Rule {
+	if x != nil {
+		return x.Items
+	}
+	return nil
+}
+
 type ListRulesInput_Filter struct {
 	state         protoimpl.MessageState        `protogen:"open.v1"`
 	Id            []*wellknown.ExpressionID     `protobuf:"bytes,1,rep,name=id,proto3" json:"id,omitempty"`
@@ -671,7 +759,7 @@ type ListRulesInput_Filter struct {
 
 func (x *ListRulesInput_Filter) Reset() {
 	*x = ListRulesInput_Filter{}
-	mi := &file_eolymp_automation_rule_service_proto_msgTypes[12]
+	mi := &file_eolymp_automation_rule_service_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -683,7 +771,7 @@ func (x *ListRulesInput_Filter) String() string {
 func (*ListRulesInput_Filter) ProtoMessage() {}
 
 func (x *ListRulesInput_Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_automation_rule_service_proto_msgTypes[12]
+	mi := &file_eolymp_automation_rule_service_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -779,7 +867,16 @@ const file_eolymp_automation_rule_service_proto_rawDesc = "" +
 	"\x0fReferencesEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\x13\n" +
-	"\x11TriggerRuleOutput2\x98\b\n" +
+	"\x11TriggerRuleOutput\"\xa6\x01\n" +
+	"\x10ListActionsInput\x12S\n" +
+	"\n" +
+	"references\x18\x01 \x03(\v23.eolymp.automation.ListActionsInput.ReferencesEntryR\n" +
+	"references\x1a=\n" +
+	"\x0fReferencesEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"B\n" +
+	"\x11ListActionsOutput\x12-\n" +
+	"\x05items\x18\x01 \x03(\v2\x17.eolymp.automation.RuleR\x05items2\xbb\t\n" +
 	"\vRuleService\x12\x98\x01\n" +
 	"\tListRules\x12!.eolymp.automation.ListRulesInput\x1a\".eolymp.automation.ListRulesOutput\"D\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -823,7 +920,13 @@ const file_eolymp_automation_rule_service_proto_rawDesc = "" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15automation:rule:write\x82\xd3\xe4\x93\x02%\"#/automation/rules/{rule_id}/trigger\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB7Z5github.com/eolymp/go-sdk/eolymp/automation;automationb\x06proto3"
+	"\x15automation:rule:write\x82\xd3\xe4\x93\x02%\"#/automation/rules/{rule_id}/trigger\x12\xa0\x01\n" +
+	"\vListActions\x12#.eolymp.automation.ListActionsInput\x1a$.eolymp.automation.ListActionsOutput\"F\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00 A\xf8\xe2\n" +
+	"\x14\x82\xe3\n" +
+	"\x18\x8a\xe3\n" +
+	"\x14automation:rule:read\x82\xd3\xe4\x93\x02\x15\x12\x13/automation/actions\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB7Z5github.com/eolymp/go-sdk/eolymp/automation;automationb\x06proto3"
 
 var (
 	file_eolymp_automation_rule_service_proto_rawDescOnce sync.Once
@@ -838,7 +941,7 @@ func file_eolymp_automation_rule_service_proto_rawDescGZIP() []byte {
 }
 
 var file_eolymp_automation_rule_service_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_eolymp_automation_rule_service_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
+var file_eolymp_automation_rule_service_proto_msgTypes = make([]protoimpl.MessageInfo, 17)
 var file_eolymp_automation_rule_service_proto_goTypes = []any{
 	(ListRulesInput_Sortable)(0),       // 0: eolymp.automation.ListRulesInput.Sortable
 	(*ListRulesInput)(nil),             // 1: eolymp.automation.ListRulesInput
@@ -853,47 +956,54 @@ var file_eolymp_automation_rule_service_proto_goTypes = []any{
 	(*DeleteRuleOutput)(nil),           // 10: eolymp.automation.DeleteRuleOutput
 	(*TriggerRuleInput)(nil),           // 11: eolymp.automation.TriggerRuleInput
 	(*TriggerRuleOutput)(nil),          // 12: eolymp.automation.TriggerRuleOutput
-	(*ListRulesInput_Filter)(nil),      // 13: eolymp.automation.ListRulesInput.Filter
-	nil,                                // 14: eolymp.automation.TriggerRuleInput.ReferencesEntry
-	(wellknown.Direction)(0),           // 15: eolymp.wellknown.Direction
-	(*Rule)(nil),                       // 16: eolymp.automation.Rule
-	(Rule_Patch_Field)(0),              // 17: eolymp.automation.Rule.Patch.Field
-	(*wellknown.ExpressionID)(nil),     // 18: eolymp.wellknown.ExpressionID
-	(*wellknown.ExpressionString)(nil), // 19: eolymp.wellknown.ExpressionString
-	(*wellknown.ExpressionEnum)(nil),   // 20: eolymp.wellknown.ExpressionEnum
-	(*wellknown.ExpressionBool)(nil),   // 21: eolymp.wellknown.ExpressionBool
+	(*ListActionsInput)(nil),           // 13: eolymp.automation.ListActionsInput
+	(*ListActionsOutput)(nil),          // 14: eolymp.automation.ListActionsOutput
+	(*ListRulesInput_Filter)(nil),      // 15: eolymp.automation.ListRulesInput.Filter
+	nil,                                // 16: eolymp.automation.TriggerRuleInput.ReferencesEntry
+	nil,                                // 17: eolymp.automation.ListActionsInput.ReferencesEntry
+	(wellknown.Direction)(0),           // 18: eolymp.wellknown.Direction
+	(*Rule)(nil),                       // 19: eolymp.automation.Rule
+	(Rule_Patch_Field)(0),              // 20: eolymp.automation.Rule.Patch.Field
+	(*wellknown.ExpressionID)(nil),     // 21: eolymp.wellknown.ExpressionID
+	(*wellknown.ExpressionString)(nil), // 22: eolymp.wellknown.ExpressionString
+	(*wellknown.ExpressionEnum)(nil),   // 23: eolymp.wellknown.ExpressionEnum
+	(*wellknown.ExpressionBool)(nil),   // 24: eolymp.wellknown.ExpressionBool
 }
 var file_eolymp_automation_rule_service_proto_depIdxs = []int32{
-	13, // 0: eolymp.automation.ListRulesInput.filters:type_name -> eolymp.automation.ListRulesInput.Filter
+	15, // 0: eolymp.automation.ListRulesInput.filters:type_name -> eolymp.automation.ListRulesInput.Filter
 	0,  // 1: eolymp.automation.ListRulesInput.sort:type_name -> eolymp.automation.ListRulesInput.Sortable
-	15, // 2: eolymp.automation.ListRulesInput.order:type_name -> eolymp.wellknown.Direction
-	16, // 3: eolymp.automation.ListRulesOutput.items:type_name -> eolymp.automation.Rule
-	16, // 4: eolymp.automation.CreateRuleInput.rule:type_name -> eolymp.automation.Rule
-	16, // 5: eolymp.automation.DescribeRuleOutput.rule:type_name -> eolymp.automation.Rule
-	17, // 6: eolymp.automation.UpdateRuleInput.patch:type_name -> eolymp.automation.Rule.Patch.Field
-	16, // 7: eolymp.automation.UpdateRuleInput.rule:type_name -> eolymp.automation.Rule
-	14, // 8: eolymp.automation.TriggerRuleInput.references:type_name -> eolymp.automation.TriggerRuleInput.ReferencesEntry
-	18, // 9: eolymp.automation.ListRulesInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	19, // 10: eolymp.automation.ListRulesInput.Filter.name:type_name -> eolymp.wellknown.ExpressionString
-	20, // 11: eolymp.automation.ListRulesInput.Filter.trigger:type_name -> eolymp.wellknown.ExpressionEnum
-	21, // 12: eolymp.automation.ListRulesInput.Filter.inactive:type_name -> eolymp.wellknown.ExpressionBool
-	1,  // 13: eolymp.automation.RuleService.ListRules:input_type -> eolymp.automation.ListRulesInput
-	3,  // 14: eolymp.automation.RuleService.CreateRule:input_type -> eolymp.automation.CreateRuleInput
-	5,  // 15: eolymp.automation.RuleService.DescribeRule:input_type -> eolymp.automation.DescribeRuleInput
-	7,  // 16: eolymp.automation.RuleService.UpdateRule:input_type -> eolymp.automation.UpdateRuleInput
-	9,  // 17: eolymp.automation.RuleService.DeleteRule:input_type -> eolymp.automation.DeleteRuleInput
-	11, // 18: eolymp.automation.RuleService.TriggerRule:input_type -> eolymp.automation.TriggerRuleInput
-	2,  // 19: eolymp.automation.RuleService.ListRules:output_type -> eolymp.automation.ListRulesOutput
-	4,  // 20: eolymp.automation.RuleService.CreateRule:output_type -> eolymp.automation.CreateRuleOutput
-	6,  // 21: eolymp.automation.RuleService.DescribeRule:output_type -> eolymp.automation.DescribeRuleOutput
-	8,  // 22: eolymp.automation.RuleService.UpdateRule:output_type -> eolymp.automation.UpdateRuleOutput
-	10, // 23: eolymp.automation.RuleService.DeleteRule:output_type -> eolymp.automation.DeleteRuleOutput
-	12, // 24: eolymp.automation.RuleService.TriggerRule:output_type -> eolymp.automation.TriggerRuleOutput
-	19, // [19:25] is the sub-list for method output_type
-	13, // [13:19] is the sub-list for method input_type
-	13, // [13:13] is the sub-list for extension type_name
-	13, // [13:13] is the sub-list for extension extendee
-	0,  // [0:13] is the sub-list for field type_name
+	18, // 2: eolymp.automation.ListRulesInput.order:type_name -> eolymp.wellknown.Direction
+	19, // 3: eolymp.automation.ListRulesOutput.items:type_name -> eolymp.automation.Rule
+	19, // 4: eolymp.automation.CreateRuleInput.rule:type_name -> eolymp.automation.Rule
+	19, // 5: eolymp.automation.DescribeRuleOutput.rule:type_name -> eolymp.automation.Rule
+	20, // 6: eolymp.automation.UpdateRuleInput.patch:type_name -> eolymp.automation.Rule.Patch.Field
+	19, // 7: eolymp.automation.UpdateRuleInput.rule:type_name -> eolymp.automation.Rule
+	16, // 8: eolymp.automation.TriggerRuleInput.references:type_name -> eolymp.automation.TriggerRuleInput.ReferencesEntry
+	17, // 9: eolymp.automation.ListActionsInput.references:type_name -> eolymp.automation.ListActionsInput.ReferencesEntry
+	19, // 10: eolymp.automation.ListActionsOutput.items:type_name -> eolymp.automation.Rule
+	21, // 11: eolymp.automation.ListRulesInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	22, // 12: eolymp.automation.ListRulesInput.Filter.name:type_name -> eolymp.wellknown.ExpressionString
+	23, // 13: eolymp.automation.ListRulesInput.Filter.trigger:type_name -> eolymp.wellknown.ExpressionEnum
+	24, // 14: eolymp.automation.ListRulesInput.Filter.inactive:type_name -> eolymp.wellknown.ExpressionBool
+	1,  // 15: eolymp.automation.RuleService.ListRules:input_type -> eolymp.automation.ListRulesInput
+	3,  // 16: eolymp.automation.RuleService.CreateRule:input_type -> eolymp.automation.CreateRuleInput
+	5,  // 17: eolymp.automation.RuleService.DescribeRule:input_type -> eolymp.automation.DescribeRuleInput
+	7,  // 18: eolymp.automation.RuleService.UpdateRule:input_type -> eolymp.automation.UpdateRuleInput
+	9,  // 19: eolymp.automation.RuleService.DeleteRule:input_type -> eolymp.automation.DeleteRuleInput
+	11, // 20: eolymp.automation.RuleService.TriggerRule:input_type -> eolymp.automation.TriggerRuleInput
+	13, // 21: eolymp.automation.RuleService.ListActions:input_type -> eolymp.automation.ListActionsInput
+	2,  // 22: eolymp.automation.RuleService.ListRules:output_type -> eolymp.automation.ListRulesOutput
+	4,  // 23: eolymp.automation.RuleService.CreateRule:output_type -> eolymp.automation.CreateRuleOutput
+	6,  // 24: eolymp.automation.RuleService.DescribeRule:output_type -> eolymp.automation.DescribeRuleOutput
+	8,  // 25: eolymp.automation.RuleService.UpdateRule:output_type -> eolymp.automation.UpdateRuleOutput
+	10, // 26: eolymp.automation.RuleService.DeleteRule:output_type -> eolymp.automation.DeleteRuleOutput
+	12, // 27: eolymp.automation.RuleService.TriggerRule:output_type -> eolymp.automation.TriggerRuleOutput
+	14, // 28: eolymp.automation.RuleService.ListActions:output_type -> eolymp.automation.ListActionsOutput
+	22, // [22:29] is the sub-list for method output_type
+	15, // [15:22] is the sub-list for method input_type
+	15, // [15:15] is the sub-list for extension type_name
+	15, // [15:15] is the sub-list for extension extendee
+	0,  // [0:15] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_automation_rule_service_proto_init() }
@@ -908,7 +1018,7 @@ func file_eolymp_automation_rule_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_automation_rule_service_proto_rawDesc), len(file_eolymp_automation_rule_service_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   14,
+			NumMessages:   17,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

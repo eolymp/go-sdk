@@ -185,3 +185,14 @@ func (s *RuleServiceService) TriggerRule(ctx context.Context, in *TriggerRuleInp
 
 	return out, nil
 }
+
+func (s *RuleServiceService) ListActions(ctx context.Context, in *ListActionsInput) (*ListActionsOutput, error) {
+	out := &ListActionsOutput{}
+	path := "/automation/actions"
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

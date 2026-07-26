@@ -169,6 +169,9 @@ func RegisterRuleServiceHttpHandlers(router *mux.Router, prefix string, cli Rule
 	router.Handle(prefix+"/automation/rules/{rule_id}/trigger", _RuleService_TriggerRule_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.automation.RuleService.TriggerRule")
+	router.Handle(prefix+"/automation/actions", _RuleService_ListActions_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.automation.RuleService.ListActions")
 }
 
 // RegisterRuleServiceHttpProxy adds proxy handlers for for RuleServiceClient
@@ -305,6 +308,27 @@ func _RuleService_TriggerRule_Rule0(cli RuleServiceClient) http.Handler {
 		var header, trailer metadata.MD
 
 		out, err := cli.TriggerRule(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_RuleService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_RuleService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _RuleService_ListActions_Rule0(cli RuleServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListActionsInput{}
+
+		if err := _RuleService_HTTPReadQueryString(r, in, 131072); err != nil {
+			_RuleService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.ListActions(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_RuleService_HTTPWriteErrorResponse(w, err)
 			return

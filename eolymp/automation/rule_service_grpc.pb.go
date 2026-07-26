@@ -25,6 +25,7 @@ const (
 	RuleService_UpdateRule_FullMethodName   = "/eolymp.automation.RuleService/UpdateRule"
 	RuleService_DeleteRule_FullMethodName   = "/eolymp.automation.RuleService/DeleteRule"
 	RuleService_TriggerRule_FullMethodName  = "/eolymp.automation.RuleService/TriggerRule"
+	RuleService_ListActions_FullMethodName  = "/eolymp.automation.RuleService/ListActions"
 )
 
 // RuleServiceClient is the client API for RuleService service.
@@ -37,6 +38,9 @@ type RuleServiceClient interface {
 	UpdateRule(ctx context.Context, in *UpdateRuleInput, opts ...grpc.CallOption) (*UpdateRuleOutput, error)
 	DeleteRule(ctx context.Context, in *DeleteRuleInput, opts ...grpc.CallOption) (*DeleteRuleOutput, error)
 	TriggerRule(ctx context.Context, in *TriggerRuleInput, opts ...grpc.CallOption) (*TriggerRuleOutput, error)
+	// ListActions returns active action rules (CONTEST_ACTION/MEMBER_ACTION) applicable to the given
+	// references, so a client can show them as user-invoked actions for the referenced entity.
+	ListActions(ctx context.Context, in *ListActionsInput, opts ...grpc.CallOption) (*ListActionsOutput, error)
 }
 
 type ruleServiceClient struct {
@@ -107,6 +111,16 @@ func (c *ruleServiceClient) TriggerRule(ctx context.Context, in *TriggerRuleInpu
 	return out, nil
 }
 
+func (c *ruleServiceClient) ListActions(ctx context.Context, in *ListActionsInput, opts ...grpc.CallOption) (*ListActionsOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListActionsOutput)
+	err := c.cc.Invoke(ctx, RuleService_ListActions_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // RuleServiceServer is the server API for RuleService service.
 // All implementations should embed UnimplementedRuleServiceServer
 // for forward compatibility.
@@ -117,6 +131,9 @@ type RuleServiceServer interface {
 	UpdateRule(context.Context, *UpdateRuleInput) (*UpdateRuleOutput, error)
 	DeleteRule(context.Context, *DeleteRuleInput) (*DeleteRuleOutput, error)
 	TriggerRule(context.Context, *TriggerRuleInput) (*TriggerRuleOutput, error)
+	// ListActions returns active action rules (CONTEST_ACTION/MEMBER_ACTION) applicable to the given
+	// references, so a client can show them as user-invoked actions for the referenced entity.
+	ListActions(context.Context, *ListActionsInput) (*ListActionsOutput, error)
 }
 
 // UnimplementedRuleServiceServer should be embedded to have
@@ -143,6 +160,9 @@ func (UnimplementedRuleServiceServer) DeleteRule(context.Context, *DeleteRuleInp
 }
 func (UnimplementedRuleServiceServer) TriggerRule(context.Context, *TriggerRuleInput) (*TriggerRuleOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method TriggerRule not implemented")
+}
+func (UnimplementedRuleServiceServer) ListActions(context.Context, *ListActionsInput) (*ListActionsOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListActions not implemented")
 }
 func (UnimplementedRuleServiceServer) testEmbeddedByValue() {}
 
@@ -272,6 +292,24 @@ func _RuleService_TriggerRule_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _RuleService_ListActions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListActionsInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RuleServiceServer).ListActions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: RuleService_ListActions_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RuleServiceServer).ListActions(ctx, req.(*ListActionsInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // RuleService_ServiceDesc is the grpc.ServiceDesc for RuleService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -302,6 +340,10 @@ var RuleService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "TriggerRule",
 			Handler:    _RuleService_TriggerRule_Handler,
+		},
+		{
+			MethodName: "ListActions",
+			Handler:    _RuleService_ListActions_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
