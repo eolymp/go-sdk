@@ -166,6 +166,21 @@ func RegisterProductServiceHttpHandlers(router *mux.Router, prefix string, cli P
 	router.Handle(prefix+"/store/products", _ProductService_ListProducts_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.commerce.ProductService.ListProducts")
+	router.Handle(prefix+"/store/products/{product_id}/variants", _ProductService_CreateProductVariant_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.commerce.ProductService.CreateProductVariant")
+	router.Handle(prefix+"/store/products/{product_id}/variants/{variant_id}", _ProductService_UpdateProductVariant_Rule0(cli)).
+		Methods("PUT").
+		Name("eolymp.commerce.ProductService.UpdateProductVariant")
+	router.Handle(prefix+"/store/products/{product_id}/variants/{variant_id}", _ProductService_DeleteProductVariant_Rule0(cli)).
+		Methods("DELETE").
+		Name("eolymp.commerce.ProductService.DeleteProductVariant")
+	router.Handle(prefix+"/store/products/{product_id}/variants/{variant_id}", _ProductService_DescribeProductVariant_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.commerce.ProductService.DescribeProductVariant")
+	router.Handle(prefix+"/store/products/{product_id}/variants", _ProductService_ListProductVariants_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.commerce.ProductService.ListProductVariants")
 }
 
 // RegisterProductServiceHttpProxy adds proxy handlers for for ProductServiceClient
@@ -278,6 +293,129 @@ func _ProductService_ListProducts_Rule0(cli ProductServiceClient) http.Handler {
 		var header, trailer metadata.MD
 
 		out, err := cli.ListProducts(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ProductService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ProductService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ProductService_CreateProductVariant_Rule0(cli ProductServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &CreateProductVariantInput{}
+
+		if err := _ProductService_HTTPReadRequestBody(r, in, 1048576); err != nil {
+			_ProductService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ProductId = vars["product_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.CreateProductVariant(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ProductService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ProductService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ProductService_UpdateProductVariant_Rule0(cli ProductServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UpdateProductVariantInput{}
+
+		if err := _ProductService_HTTPReadRequestBody(r, in, 1048576); err != nil {
+			_ProductService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ProductId = vars["product_id"]
+		in.VariantId = vars["variant_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateProductVariant(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ProductService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ProductService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ProductService_DeleteProductVariant_Rule0(cli ProductServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DeleteProductVariantInput{}
+
+		if err := _ProductService_HTTPReadRequestBody(r, in, 1048576); err != nil {
+			_ProductService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ProductId = vars["product_id"]
+		in.VariantId = vars["variant_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.DeleteProductVariant(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ProductService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ProductService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ProductService_DescribeProductVariant_Rule0(cli ProductServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeProductVariantInput{}
+
+		if err := _ProductService_HTTPReadQueryString(r, in, 131072); err != nil {
+			_ProductService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ProductId = vars["product_id"]
+		in.VariantId = vars["variant_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeProductVariant(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ProductService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ProductService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ProductService_ListProductVariants_Rule0(cli ProductServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListProductVariantsInput{}
+
+		if err := _ProductService_HTTPReadQueryString(r, in, 131072); err != nil {
+			_ProductService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ProductId = vars["product_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.ListProductVariants(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ProductService_HTTPWriteErrorResponse(w, err)
 			return

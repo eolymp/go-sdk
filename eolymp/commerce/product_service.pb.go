@@ -66,6 +66,52 @@ func (ListProductsInput_Sortable) EnumDescriptor() ([]byte, []int) {
 	return file_eolymp_commerce_product_service_proto_rawDescGZIP(), []int{8, 0}
 }
 
+type ListProductVariantsInput_Sortable int32
+
+const (
+	ListProductVariantsInput_DEFAULT ListProductVariantsInput_Sortable = 0
+	ListProductVariantsInput_NAME    ListProductVariantsInput_Sortable = 1
+)
+
+// Enum value maps for ListProductVariantsInput_Sortable.
+var (
+	ListProductVariantsInput_Sortable_name = map[int32]string{
+		0: "DEFAULT",
+		1: "NAME",
+	}
+	ListProductVariantsInput_Sortable_value = map[string]int32{
+		"DEFAULT": 0,
+		"NAME":    1,
+	}
+)
+
+func (x ListProductVariantsInput_Sortable) Enum() *ListProductVariantsInput_Sortable {
+	p := new(ListProductVariantsInput_Sortable)
+	*p = x
+	return p
+}
+
+func (x ListProductVariantsInput_Sortable) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (ListProductVariantsInput_Sortable) Descriptor() protoreflect.EnumDescriptor {
+	return file_eolymp_commerce_product_service_proto_enumTypes[1].Descriptor()
+}
+
+func (ListProductVariantsInput_Sortable) Type() protoreflect.EnumType {
+	return &file_eolymp_commerce_product_service_proto_enumTypes[1]
+}
+
+func (x ListProductVariantsInput_Sortable) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use ListProductVariantsInput_Sortable.Descriptor instead.
+func (ListProductVariantsInput_Sortable) EnumDescriptor() ([]byte, []int) {
+	return file_eolymp_commerce_product_service_proto_rawDescGZIP(), []int{18, 0}
+}
+
 type CreateProductInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Product       *Product               `protobuf:"bytes,1,opt,name=product,proto3" json:"product,omitempty"`
@@ -596,6 +642,536 @@ func (x *ListProductsOutput) GetItems() []*Product {
 	return nil
 }
 
+type CreateProductVariantInput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProductId     string                 `protobuf:"bytes,1,opt,name=product_id,json=productId,proto3" json:"product_id,omitempty"`
+	Variant       *Product_Variant       `protobuf:"bytes,2,opt,name=variant,proto3" json:"variant,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateProductVariantInput) Reset() {
+	*x = CreateProductVariantInput{}
+	mi := &file_eolymp_commerce_product_service_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateProductVariantInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateProductVariantInput) ProtoMessage() {}
+
+func (x *CreateProductVariantInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_commerce_product_service_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateProductVariantInput.ProtoReflect.Descriptor instead.
+func (*CreateProductVariantInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_commerce_product_service_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *CreateProductVariantInput) GetProductId() string {
+	if x != nil {
+		return x.ProductId
+	}
+	return ""
+}
+
+func (x *CreateProductVariantInput) GetVariant() *Product_Variant {
+	if x != nil {
+		return x.Variant
+	}
+	return nil
+}
+
+type CreateProductVariantOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	VariantId     string                 `protobuf:"bytes,1,opt,name=variant_id,json=variantId,proto3" json:"variant_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateProductVariantOutput) Reset() {
+	*x = CreateProductVariantOutput{}
+	mi := &file_eolymp_commerce_product_service_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateProductVariantOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateProductVariantOutput) ProtoMessage() {}
+
+func (x *CreateProductVariantOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_commerce_product_service_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateProductVariantOutput.ProtoReflect.Descriptor instead.
+func (*CreateProductVariantOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_commerce_product_service_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *CreateProductVariantOutput) GetVariantId() string {
+	if x != nil {
+		return x.VariantId
+	}
+	return ""
+}
+
+type UpdateProductVariantInput struct {
+	state         protoimpl.MessageState        `protogen:"open.v1"`
+	Patch         []Product_Variant_Patch_Field `protobuf:"varint,1,rep,packed,name=patch,proto3,enum=eolymp.commerce.Product_Variant_Patch_Field" json:"patch,omitempty"`
+	ProductId     string                        `protobuf:"bytes,2,opt,name=product_id,json=productId,proto3" json:"product_id,omitempty"`
+	VariantId     string                        `protobuf:"bytes,3,opt,name=variant_id,json=variantId,proto3" json:"variant_id,omitempty"`
+	Variant       *Product_Variant              `protobuf:"bytes,4,opt,name=variant,proto3" json:"variant,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateProductVariantInput) Reset() {
+	*x = UpdateProductVariantInput{}
+	mi := &file_eolymp_commerce_product_service_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateProductVariantInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateProductVariantInput) ProtoMessage() {}
+
+func (x *UpdateProductVariantInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_commerce_product_service_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateProductVariantInput.ProtoReflect.Descriptor instead.
+func (*UpdateProductVariantInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_commerce_product_service_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *UpdateProductVariantInput) GetPatch() []Product_Variant_Patch_Field {
+	if x != nil {
+		return x.Patch
+	}
+	return nil
+}
+
+func (x *UpdateProductVariantInput) GetProductId() string {
+	if x != nil {
+		return x.ProductId
+	}
+	return ""
+}
+
+func (x *UpdateProductVariantInput) GetVariantId() string {
+	if x != nil {
+		return x.VariantId
+	}
+	return ""
+}
+
+func (x *UpdateProductVariantInput) GetVariant() *Product_Variant {
+	if x != nil {
+		return x.Variant
+	}
+	return nil
+}
+
+type UpdateProductVariantOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateProductVariantOutput) Reset() {
+	*x = UpdateProductVariantOutput{}
+	mi := &file_eolymp_commerce_product_service_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateProductVariantOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateProductVariantOutput) ProtoMessage() {}
+
+func (x *UpdateProductVariantOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_commerce_product_service_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateProductVariantOutput.ProtoReflect.Descriptor instead.
+func (*UpdateProductVariantOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_commerce_product_service_proto_rawDescGZIP(), []int{13}
+}
+
+type DeleteProductVariantInput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProductId     string                 `protobuf:"bytes,1,opt,name=product_id,json=productId,proto3" json:"product_id,omitempty"`
+	VariantId     string                 `protobuf:"bytes,2,opt,name=variant_id,json=variantId,proto3" json:"variant_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteProductVariantInput) Reset() {
+	*x = DeleteProductVariantInput{}
+	mi := &file_eolymp_commerce_product_service_proto_msgTypes[14]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteProductVariantInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteProductVariantInput) ProtoMessage() {}
+
+func (x *DeleteProductVariantInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_commerce_product_service_proto_msgTypes[14]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteProductVariantInput.ProtoReflect.Descriptor instead.
+func (*DeleteProductVariantInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_commerce_product_service_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *DeleteProductVariantInput) GetProductId() string {
+	if x != nil {
+		return x.ProductId
+	}
+	return ""
+}
+
+func (x *DeleteProductVariantInput) GetVariantId() string {
+	if x != nil {
+		return x.VariantId
+	}
+	return ""
+}
+
+type DeleteProductVariantOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteProductVariantOutput) Reset() {
+	*x = DeleteProductVariantOutput{}
+	mi := &file_eolymp_commerce_product_service_proto_msgTypes[15]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteProductVariantOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteProductVariantOutput) ProtoMessage() {}
+
+func (x *DeleteProductVariantOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_commerce_product_service_proto_msgTypes[15]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteProductVariantOutput.ProtoReflect.Descriptor instead.
+func (*DeleteProductVariantOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_commerce_product_service_proto_rawDescGZIP(), []int{15}
+}
+
+type DescribeProductVariantInput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProductId     string                 `protobuf:"bytes,1,opt,name=product_id,json=productId,proto3" json:"product_id,omitempty"`
+	VariantId     string                 `protobuf:"bytes,2,opt,name=variant_id,json=variantId,proto3" json:"variant_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DescribeProductVariantInput) Reset() {
+	*x = DescribeProductVariantInput{}
+	mi := &file_eolymp_commerce_product_service_proto_msgTypes[16]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DescribeProductVariantInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DescribeProductVariantInput) ProtoMessage() {}
+
+func (x *DescribeProductVariantInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_commerce_product_service_proto_msgTypes[16]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DescribeProductVariantInput.ProtoReflect.Descriptor instead.
+func (*DescribeProductVariantInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_commerce_product_service_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *DescribeProductVariantInput) GetProductId() string {
+	if x != nil {
+		return x.ProductId
+	}
+	return ""
+}
+
+func (x *DescribeProductVariantInput) GetVariantId() string {
+	if x != nil {
+		return x.VariantId
+	}
+	return ""
+}
+
+type DescribeProductVariantOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Variant       *Product_Variant       `protobuf:"bytes,1,opt,name=variant,proto3" json:"variant,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DescribeProductVariantOutput) Reset() {
+	*x = DescribeProductVariantOutput{}
+	mi := &file_eolymp_commerce_product_service_proto_msgTypes[17]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DescribeProductVariantOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DescribeProductVariantOutput) ProtoMessage() {}
+
+func (x *DescribeProductVariantOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_commerce_product_service_proto_msgTypes[17]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DescribeProductVariantOutput.ProtoReflect.Descriptor instead.
+func (*DescribeProductVariantOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_commerce_product_service_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *DescribeProductVariantOutput) GetVariant() *Product_Variant {
+	if x != nil {
+		return x.Variant
+	}
+	return nil
+}
+
+type ListProductVariantsInput struct {
+	state     protoimpl.MessageState `protogen:"open.v1"`
+	ProductId string                 `protobuf:"bytes,1,opt,name=product_id,json=productId,proto3" json:"product_id,omitempty"`
+	// pagination
+	Offset int32 `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
+	Size   int32 `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
+	// data filters
+	Search        string                            `protobuf:"bytes,20,opt,name=search,proto3" json:"search,omitempty"`
+	Filters       *ListProductVariantsInput_Filter  `protobuf:"bytes,40,opt,name=filters,proto3" json:"filters,omitempty"`
+	Sort          ListProductVariantsInput_Sortable `protobuf:"varint,50,opt,name=sort,proto3,enum=eolymp.commerce.ListProductVariantsInput_Sortable" json:"sort,omitempty"`
+	Order         wellknown.Direction               `protobuf:"varint,51,opt,name=order,proto3,enum=eolymp.wellknown.Direction" json:"order,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListProductVariantsInput) Reset() {
+	*x = ListProductVariantsInput{}
+	mi := &file_eolymp_commerce_product_service_proto_msgTypes[18]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListProductVariantsInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListProductVariantsInput) ProtoMessage() {}
+
+func (x *ListProductVariantsInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_commerce_product_service_proto_msgTypes[18]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListProductVariantsInput.ProtoReflect.Descriptor instead.
+func (*ListProductVariantsInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_commerce_product_service_proto_rawDescGZIP(), []int{18}
+}
+
+func (x *ListProductVariantsInput) GetProductId() string {
+	if x != nil {
+		return x.ProductId
+	}
+	return ""
+}
+
+func (x *ListProductVariantsInput) GetOffset() int32 {
+	if x != nil {
+		return x.Offset
+	}
+	return 0
+}
+
+func (x *ListProductVariantsInput) GetSize() int32 {
+	if x != nil {
+		return x.Size
+	}
+	return 0
+}
+
+func (x *ListProductVariantsInput) GetSearch() string {
+	if x != nil {
+		return x.Search
+	}
+	return ""
+}
+
+func (x *ListProductVariantsInput) GetFilters() *ListProductVariantsInput_Filter {
+	if x != nil {
+		return x.Filters
+	}
+	return nil
+}
+
+func (x *ListProductVariantsInput) GetSort() ListProductVariantsInput_Sortable {
+	if x != nil {
+		return x.Sort
+	}
+	return ListProductVariantsInput_DEFAULT
+}
+
+func (x *ListProductVariantsInput) GetOrder() wellknown.Direction {
+	if x != nil {
+		return x.Order
+	}
+	return wellknown.Direction(0)
+}
+
+type ListProductVariantsOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Total         int32                  `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty"`
+	Items         []*Product_Variant     `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListProductVariantsOutput) Reset() {
+	*x = ListProductVariantsOutput{}
+	mi := &file_eolymp_commerce_product_service_proto_msgTypes[19]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListProductVariantsOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListProductVariantsOutput) ProtoMessage() {}
+
+func (x *ListProductVariantsOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_commerce_product_service_proto_msgTypes[19]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListProductVariantsOutput.ProtoReflect.Descriptor instead.
+func (*ListProductVariantsOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_commerce_product_service_proto_rawDescGZIP(), []int{19}
+}
+
+func (x *ListProductVariantsOutput) GetTotal() int32 {
+	if x != nil {
+		return x.Total
+	}
+	return 0
+}
+
+func (x *ListProductVariantsOutput) GetItems() []*Product_Variant {
+	if x != nil {
+		return x.Items
+	}
+	return nil
+}
+
 type ListProductsInput_Filter struct {
 	state         protoimpl.MessageState        `protogen:"open.v1"`
 	Id            []*wellknown.ExpressionID     `protobuf:"bytes,1,rep,name=id,proto3" json:"id,omitempty"`
@@ -608,7 +1184,7 @@ type ListProductsInput_Filter struct {
 
 func (x *ListProductsInput_Filter) Reset() {
 	*x = ListProductsInput_Filter{}
-	mi := &file_eolymp_commerce_product_service_proto_msgTypes[10]
+	mi := &file_eolymp_commerce_product_service_proto_msgTypes[20]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -620,7 +1196,7 @@ func (x *ListProductsInput_Filter) String() string {
 func (*ListProductsInput_Filter) ProtoMessage() {}
 
 func (x *ListProductsInput_Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_commerce_product_service_proto_msgTypes[10]
+	mi := &file_eolymp_commerce_product_service_proto_msgTypes[20]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -660,6 +1236,66 @@ func (x *ListProductsInput_Filter) GetOutOfStock() []*wellknown.ExpressionBool {
 func (x *ListProductsInput_Filter) GetPrice() []*wellknown.ExpressionInt {
 	if x != nil {
 		return x.Price
+	}
+	return nil
+}
+
+type ListProductVariantsInput_Filter struct {
+	state         protoimpl.MessageState        `protogen:"open.v1"`
+	Id            []*wellknown.ExpressionID     `protobuf:"bytes,1,rep,name=id,proto3" json:"id,omitempty"`
+	Name          []*wellknown.ExpressionString `protobuf:"bytes,2,rep,name=name,proto3" json:"name,omitempty"`
+	OutOfStock    []*wellknown.ExpressionBool   `protobuf:"bytes,3,rep,name=out_of_stock,json=outOfStock,proto3" json:"out_of_stock,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListProductVariantsInput_Filter) Reset() {
+	*x = ListProductVariantsInput_Filter{}
+	mi := &file_eolymp_commerce_product_service_proto_msgTypes[21]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListProductVariantsInput_Filter) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListProductVariantsInput_Filter) ProtoMessage() {}
+
+func (x *ListProductVariantsInput_Filter) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_commerce_product_service_proto_msgTypes[21]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListProductVariantsInput_Filter.ProtoReflect.Descriptor instead.
+func (*ListProductVariantsInput_Filter) Descriptor() ([]byte, []int) {
+	return file_eolymp_commerce_product_service_proto_rawDescGZIP(), []int{18, 0}
+}
+
+func (x *ListProductVariantsInput_Filter) GetId() []*wellknown.ExpressionID {
+	if x != nil {
+		return x.Id
+	}
+	return nil
+}
+
+func (x *ListProductVariantsInput_Filter) GetName() []*wellknown.ExpressionString {
+	if x != nil {
+		return x.Name
+	}
+	return nil
+}
+
+func (x *ListProductVariantsInput_Filter) GetOutOfStock() []*wellknown.ExpressionBool {
+	if x != nil {
+		return x.OutOfStock
 	}
 	return nil
 }
@@ -712,7 +1348,56 @@ const file_eolymp_commerce_product_service_proto_rawDesc = "" +
 	"\aDEFAULT\x10\x00\"Z\n" +
 	"\x12ListProductsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12.\n" +
-	"\x05items\x18\x02 \x03(\v2\x18.eolymp.commerce.ProductR\x05items2\x84\a\n" +
+	"\x05items\x18\x02 \x03(\v2\x18.eolymp.commerce.ProductR\x05items\"v\n" +
+	"\x19CreateProductVariantInput\x12\x1d\n" +
+	"\n" +
+	"product_id\x18\x01 \x01(\tR\tproductId\x12:\n" +
+	"\avariant\x18\x02 \x01(\v2 .eolymp.commerce.Product.VariantR\avariant\";\n" +
+	"\x1aCreateProductVariantOutput\x12\x1d\n" +
+	"\n" +
+	"variant_id\x18\x01 \x01(\tR\tvariantId\"\xd9\x01\n" +
+	"\x19UpdateProductVariantInput\x12B\n" +
+	"\x05patch\x18\x01 \x03(\x0e2,.eolymp.commerce.Product.Variant.Patch.FieldR\x05patch\x12\x1d\n" +
+	"\n" +
+	"product_id\x18\x02 \x01(\tR\tproductId\x12\x1d\n" +
+	"\n" +
+	"variant_id\x18\x03 \x01(\tR\tvariantId\x12:\n" +
+	"\avariant\x18\x04 \x01(\v2 .eolymp.commerce.Product.VariantR\avariant\"\x1c\n" +
+	"\x1aUpdateProductVariantOutput\"Y\n" +
+	"\x19DeleteProductVariantInput\x12\x1d\n" +
+	"\n" +
+	"product_id\x18\x01 \x01(\tR\tproductId\x12\x1d\n" +
+	"\n" +
+	"variant_id\x18\x02 \x01(\tR\tvariantId\"\x1c\n" +
+	"\x1aDeleteProductVariantOutput\"[\n" +
+	"\x1bDescribeProductVariantInput\x12\x1d\n" +
+	"\n" +
+	"product_id\x18\x01 \x01(\tR\tproductId\x12\x1d\n" +
+	"\n" +
+	"variant_id\x18\x02 \x01(\tR\tvariantId\"Z\n" +
+	"\x1cDescribeProductVariantOutput\x12:\n" +
+	"\avariant\x18\x01 \x01(\v2 .eolymp.commerce.Product.VariantR\avariant\"\x9e\x04\n" +
+	"\x18ListProductVariantsInput\x12\x1d\n" +
+	"\n" +
+	"product_id\x18\x01 \x01(\tR\tproductId\x12\x16\n" +
+	"\x06offset\x18\n" +
+	" \x01(\x05R\x06offset\x12\x12\n" +
+	"\x04size\x18\v \x01(\x05R\x04size\x12\x16\n" +
+	"\x06search\x18\x14 \x01(\tR\x06search\x12J\n" +
+	"\afilters\x18( \x01(\v20.eolymp.commerce.ListProductVariantsInput.FilterR\afilters\x12F\n" +
+	"\x04sort\x182 \x01(\x0e22.eolymp.commerce.ListProductVariantsInput.SortableR\x04sort\x121\n" +
+	"\x05order\x183 \x01(\x0e2\x1b.eolymp.wellknown.DirectionR\x05order\x1a\xb4\x01\n" +
+	"\x06Filter\x12.\n" +
+	"\x02id\x18\x01 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\x126\n" +
+	"\x04name\x18\x02 \x03(\v2\".eolymp.wellknown.ExpressionStringR\x04name\x12B\n" +
+	"\fout_of_stock\x18\x03 \x03(\v2 .eolymp.wellknown.ExpressionBoolR\n" +
+	"outOfStock\"!\n" +
+	"\bSortable\x12\v\n" +
+	"\aDEFAULT\x10\x00\x12\b\n" +
+	"\x04NAME\x10\x01\"i\n" +
+	"\x19ListProductVariantsOutput\x12\x14\n" +
+	"\x05total\x18\x01 \x01(\x05R\x05total\x126\n" +
+	"\x05items\x18\x02 \x03(\v2 .eolymp.commerce.Product.VariantR\x05items2\xb2\x0f\n" +
 	"\x0eProductService\x12\xa0\x01\n" +
 	"\rCreateProduct\x12#.eolymp.commerce.CreateProductInput\x1a$.eolymp.commerce.CreateProductOutput\"D\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -743,7 +1428,37 @@ const file_eolymp_commerce_product_service_proto_rawDesc = "" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15commerce:catalog:read\x82\xd3\xe4\x93\x02\x11\x12\x0f/store/products\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB3Z1github.com/eolymp/go-sdk/eolymp/commerce;commerceb\x06proto3"
+	"\x15commerce:catalog:read\x82\xd3\xe4\x93\x02\x11\x12\x0f/store/products\x12\xcb\x01\n" +
+	"\x14CreateProductVariant\x12*.eolymp.commerce.CreateProductVariantInput\x1a+.eolymp.commerce.CreateProductVariantOutput\"Z\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\xa0@\xf8\xe2\n" +
+	"2\x82\xe3\n" +
+	"\x1a\x8a\xe3\n" +
+	"\x16commerce:catalog:write\x82\xd3\xe4\x93\x02'\"%/store/products/{product_id}/variants\x12\xd8\x01\n" +
+	"\x14UpdateProductVariant\x12*.eolymp.commerce.UpdateProductVariantInput\x1a+.eolymp.commerce.UpdateProductVariantOutput\"g\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\xa0@\xf8\xe2\n" +
+	"2\x82\xe3\n" +
+	"\x1a\x8a\xe3\n" +
+	"\x16commerce:catalog:write\x82\xd3\xe4\x93\x024\x1a2/store/products/{product_id}/variants/{variant_id}\x12\xd8\x01\n" +
+	"\x14DeleteProductVariant\x12*.eolymp.commerce.DeleteProductVariantInput\x1a+.eolymp.commerce.DeleteProductVariantOutput\"g\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\xa0@\xf8\xe2\n" +
+	"2\x82\xe3\n" +
+	"\x1a\x8a\xe3\n" +
+	"\x16commerce:catalog:write\x82\xd3\xe4\x93\x024*2/store/products/{product_id}/variants/{variant_id}\x12\xdd\x01\n" +
+	"\x16DescribeProductVariant\x12,.eolymp.commerce.DescribeProductVariantInput\x1a-.eolymp.commerce.DescribeProductVariantOutput\"f\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\xa0A\xf8\xe2\n" +
+	"d\x82\xe3\n" +
+	"\x19\x8a\xe3\n" +
+	"\x15commerce:catalog:read\x82\xd3\xe4\x93\x024\x122/store/products/{product_id}/variants/{variant_id}\x12\xc7\x01\n" +
+	"\x13ListProductVariants\x12).eolymp.commerce.ListProductVariantsInput\x1a*.eolymp.commerce.ListProductVariantsOutput\"Y\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\xa0A\xf8\xe2\n" +
+	"d\x82\xe3\n" +
+	"\x19\x8a\xe3\n" +
+	"\x15commerce:catalog:read\x82\xd3\xe4\x93\x02'\x12%/store/products/{product_id}/variants\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB3Z1github.com/eolymp/go-sdk/eolymp/commerce;commerceb\x06proto3"
 
 var (
 	file_eolymp_commerce_product_service_proto_rawDescOnce sync.Once
@@ -757,60 +1472,95 @@ func file_eolymp_commerce_product_service_proto_rawDescGZIP() []byte {
 	return file_eolymp_commerce_product_service_proto_rawDescData
 }
 
-var file_eolymp_commerce_product_service_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_eolymp_commerce_product_service_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
+var file_eolymp_commerce_product_service_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_eolymp_commerce_product_service_proto_msgTypes = make([]protoimpl.MessageInfo, 22)
 var file_eolymp_commerce_product_service_proto_goTypes = []any{
-	(ListProductsInput_Sortable)(0),    // 0: eolymp.commerce.ListProductsInput.Sortable
-	(*CreateProductInput)(nil),         // 1: eolymp.commerce.CreateProductInput
-	(*CreateProductOutput)(nil),        // 2: eolymp.commerce.CreateProductOutput
-	(*UpdateProductInput)(nil),         // 3: eolymp.commerce.UpdateProductInput
-	(*UpdateProductOutput)(nil),        // 4: eolymp.commerce.UpdateProductOutput
-	(*DeleteProductInput)(nil),         // 5: eolymp.commerce.DeleteProductInput
-	(*DeleteProductOutput)(nil),        // 6: eolymp.commerce.DeleteProductOutput
-	(*DescribeProductInput)(nil),       // 7: eolymp.commerce.DescribeProductInput
-	(*DescribeProductOutput)(nil),      // 8: eolymp.commerce.DescribeProductOutput
-	(*ListProductsInput)(nil),          // 9: eolymp.commerce.ListProductsInput
-	(*ListProductsOutput)(nil),         // 10: eolymp.commerce.ListProductsOutput
-	(*ListProductsInput_Filter)(nil),   // 11: eolymp.commerce.ListProductsInput.Filter
-	(*Product)(nil),                    // 12: eolymp.commerce.Product
-	(Product_Patch_Field)(0),           // 13: eolymp.commerce.Product.Patch.Field
-	(Product_Extra_Field)(0),           // 14: eolymp.commerce.Product.Extra.Field
-	(wellknown.Direction)(0),           // 15: eolymp.wellknown.Direction
-	(*wellknown.ExpressionID)(nil),     // 16: eolymp.wellknown.ExpressionID
-	(*wellknown.ExpressionString)(nil), // 17: eolymp.wellknown.ExpressionString
-	(*wellknown.ExpressionBool)(nil),   // 18: eolymp.wellknown.ExpressionBool
-	(*wellknown.ExpressionInt)(nil),    // 19: eolymp.wellknown.ExpressionInt
+	(ListProductsInput_Sortable)(0),         // 0: eolymp.commerce.ListProductsInput.Sortable
+	(ListProductVariantsInput_Sortable)(0),  // 1: eolymp.commerce.ListProductVariantsInput.Sortable
+	(*CreateProductInput)(nil),              // 2: eolymp.commerce.CreateProductInput
+	(*CreateProductOutput)(nil),             // 3: eolymp.commerce.CreateProductOutput
+	(*UpdateProductInput)(nil),              // 4: eolymp.commerce.UpdateProductInput
+	(*UpdateProductOutput)(nil),             // 5: eolymp.commerce.UpdateProductOutput
+	(*DeleteProductInput)(nil),              // 6: eolymp.commerce.DeleteProductInput
+	(*DeleteProductOutput)(nil),             // 7: eolymp.commerce.DeleteProductOutput
+	(*DescribeProductInput)(nil),            // 8: eolymp.commerce.DescribeProductInput
+	(*DescribeProductOutput)(nil),           // 9: eolymp.commerce.DescribeProductOutput
+	(*ListProductsInput)(nil),               // 10: eolymp.commerce.ListProductsInput
+	(*ListProductsOutput)(nil),              // 11: eolymp.commerce.ListProductsOutput
+	(*CreateProductVariantInput)(nil),       // 12: eolymp.commerce.CreateProductVariantInput
+	(*CreateProductVariantOutput)(nil),      // 13: eolymp.commerce.CreateProductVariantOutput
+	(*UpdateProductVariantInput)(nil),       // 14: eolymp.commerce.UpdateProductVariantInput
+	(*UpdateProductVariantOutput)(nil),      // 15: eolymp.commerce.UpdateProductVariantOutput
+	(*DeleteProductVariantInput)(nil),       // 16: eolymp.commerce.DeleteProductVariantInput
+	(*DeleteProductVariantOutput)(nil),      // 17: eolymp.commerce.DeleteProductVariantOutput
+	(*DescribeProductVariantInput)(nil),     // 18: eolymp.commerce.DescribeProductVariantInput
+	(*DescribeProductVariantOutput)(nil),    // 19: eolymp.commerce.DescribeProductVariantOutput
+	(*ListProductVariantsInput)(nil),        // 20: eolymp.commerce.ListProductVariantsInput
+	(*ListProductVariantsOutput)(nil),       // 21: eolymp.commerce.ListProductVariantsOutput
+	(*ListProductsInput_Filter)(nil),        // 22: eolymp.commerce.ListProductsInput.Filter
+	(*ListProductVariantsInput_Filter)(nil), // 23: eolymp.commerce.ListProductVariantsInput.Filter
+	(*Product)(nil),                         // 24: eolymp.commerce.Product
+	(Product_Patch_Field)(0),                // 25: eolymp.commerce.Product.Patch.Field
+	(Product_Extra_Field)(0),                // 26: eolymp.commerce.Product.Extra.Field
+	(wellknown.Direction)(0),                // 27: eolymp.wellknown.Direction
+	(*Product_Variant)(nil),                 // 28: eolymp.commerce.Product.Variant
+	(Product_Variant_Patch_Field)(0),        // 29: eolymp.commerce.Product.Variant.Patch.Field
+	(*wellknown.ExpressionID)(nil),          // 30: eolymp.wellknown.ExpressionID
+	(*wellknown.ExpressionString)(nil),      // 31: eolymp.wellknown.ExpressionString
+	(*wellknown.ExpressionBool)(nil),        // 32: eolymp.wellknown.ExpressionBool
+	(*wellknown.ExpressionInt)(nil),         // 33: eolymp.wellknown.ExpressionInt
 }
 var file_eolymp_commerce_product_service_proto_depIdxs = []int32{
-	12, // 0: eolymp.commerce.CreateProductInput.product:type_name -> eolymp.commerce.Product
-	13, // 1: eolymp.commerce.UpdateProductInput.patch:type_name -> eolymp.commerce.Product.Patch.Field
-	12, // 2: eolymp.commerce.UpdateProductInput.product:type_name -> eolymp.commerce.Product
-	14, // 3: eolymp.commerce.DescribeProductInput.extra:type_name -> eolymp.commerce.Product.Extra.Field
-	12, // 4: eolymp.commerce.DescribeProductOutput.product:type_name -> eolymp.commerce.Product
-	11, // 5: eolymp.commerce.ListProductsInput.filters:type_name -> eolymp.commerce.ListProductsInput.Filter
+	24, // 0: eolymp.commerce.CreateProductInput.product:type_name -> eolymp.commerce.Product
+	25, // 1: eolymp.commerce.UpdateProductInput.patch:type_name -> eolymp.commerce.Product.Patch.Field
+	24, // 2: eolymp.commerce.UpdateProductInput.product:type_name -> eolymp.commerce.Product
+	26, // 3: eolymp.commerce.DescribeProductInput.extra:type_name -> eolymp.commerce.Product.Extra.Field
+	24, // 4: eolymp.commerce.DescribeProductOutput.product:type_name -> eolymp.commerce.Product
+	22, // 5: eolymp.commerce.ListProductsInput.filters:type_name -> eolymp.commerce.ListProductsInput.Filter
 	0,  // 6: eolymp.commerce.ListProductsInput.sort:type_name -> eolymp.commerce.ListProductsInput.Sortable
-	15, // 7: eolymp.commerce.ListProductsInput.order:type_name -> eolymp.wellknown.Direction
-	14, // 8: eolymp.commerce.ListProductsInput.extra:type_name -> eolymp.commerce.Product.Extra.Field
-	12, // 9: eolymp.commerce.ListProductsOutput.items:type_name -> eolymp.commerce.Product
-	16, // 10: eolymp.commerce.ListProductsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	17, // 11: eolymp.commerce.ListProductsInput.Filter.name:type_name -> eolymp.wellknown.ExpressionString
-	18, // 12: eolymp.commerce.ListProductsInput.Filter.out_of_stock:type_name -> eolymp.wellknown.ExpressionBool
-	19, // 13: eolymp.commerce.ListProductsInput.Filter.price:type_name -> eolymp.wellknown.ExpressionInt
-	1,  // 14: eolymp.commerce.ProductService.CreateProduct:input_type -> eolymp.commerce.CreateProductInput
-	3,  // 15: eolymp.commerce.ProductService.UpdateProduct:input_type -> eolymp.commerce.UpdateProductInput
-	5,  // 16: eolymp.commerce.ProductService.DeleteProduct:input_type -> eolymp.commerce.DeleteProductInput
-	7,  // 17: eolymp.commerce.ProductService.DescribeProduct:input_type -> eolymp.commerce.DescribeProductInput
-	9,  // 18: eolymp.commerce.ProductService.ListProducts:input_type -> eolymp.commerce.ListProductsInput
-	2,  // 19: eolymp.commerce.ProductService.CreateProduct:output_type -> eolymp.commerce.CreateProductOutput
-	4,  // 20: eolymp.commerce.ProductService.UpdateProduct:output_type -> eolymp.commerce.UpdateProductOutput
-	6,  // 21: eolymp.commerce.ProductService.DeleteProduct:output_type -> eolymp.commerce.DeleteProductOutput
-	8,  // 22: eolymp.commerce.ProductService.DescribeProduct:output_type -> eolymp.commerce.DescribeProductOutput
-	10, // 23: eolymp.commerce.ProductService.ListProducts:output_type -> eolymp.commerce.ListProductsOutput
-	19, // [19:24] is the sub-list for method output_type
-	14, // [14:19] is the sub-list for method input_type
-	14, // [14:14] is the sub-list for extension type_name
-	14, // [14:14] is the sub-list for extension extendee
-	0,  // [0:14] is the sub-list for field type_name
+	27, // 7: eolymp.commerce.ListProductsInput.order:type_name -> eolymp.wellknown.Direction
+	26, // 8: eolymp.commerce.ListProductsInput.extra:type_name -> eolymp.commerce.Product.Extra.Field
+	24, // 9: eolymp.commerce.ListProductsOutput.items:type_name -> eolymp.commerce.Product
+	28, // 10: eolymp.commerce.CreateProductVariantInput.variant:type_name -> eolymp.commerce.Product.Variant
+	29, // 11: eolymp.commerce.UpdateProductVariantInput.patch:type_name -> eolymp.commerce.Product.Variant.Patch.Field
+	28, // 12: eolymp.commerce.UpdateProductVariantInput.variant:type_name -> eolymp.commerce.Product.Variant
+	28, // 13: eolymp.commerce.DescribeProductVariantOutput.variant:type_name -> eolymp.commerce.Product.Variant
+	23, // 14: eolymp.commerce.ListProductVariantsInput.filters:type_name -> eolymp.commerce.ListProductVariantsInput.Filter
+	1,  // 15: eolymp.commerce.ListProductVariantsInput.sort:type_name -> eolymp.commerce.ListProductVariantsInput.Sortable
+	27, // 16: eolymp.commerce.ListProductVariantsInput.order:type_name -> eolymp.wellknown.Direction
+	28, // 17: eolymp.commerce.ListProductVariantsOutput.items:type_name -> eolymp.commerce.Product.Variant
+	30, // 18: eolymp.commerce.ListProductsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	31, // 19: eolymp.commerce.ListProductsInput.Filter.name:type_name -> eolymp.wellknown.ExpressionString
+	32, // 20: eolymp.commerce.ListProductsInput.Filter.out_of_stock:type_name -> eolymp.wellknown.ExpressionBool
+	33, // 21: eolymp.commerce.ListProductsInput.Filter.price:type_name -> eolymp.wellknown.ExpressionInt
+	30, // 22: eolymp.commerce.ListProductVariantsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	31, // 23: eolymp.commerce.ListProductVariantsInput.Filter.name:type_name -> eolymp.wellknown.ExpressionString
+	32, // 24: eolymp.commerce.ListProductVariantsInput.Filter.out_of_stock:type_name -> eolymp.wellknown.ExpressionBool
+	2,  // 25: eolymp.commerce.ProductService.CreateProduct:input_type -> eolymp.commerce.CreateProductInput
+	4,  // 26: eolymp.commerce.ProductService.UpdateProduct:input_type -> eolymp.commerce.UpdateProductInput
+	6,  // 27: eolymp.commerce.ProductService.DeleteProduct:input_type -> eolymp.commerce.DeleteProductInput
+	8,  // 28: eolymp.commerce.ProductService.DescribeProduct:input_type -> eolymp.commerce.DescribeProductInput
+	10, // 29: eolymp.commerce.ProductService.ListProducts:input_type -> eolymp.commerce.ListProductsInput
+	12, // 30: eolymp.commerce.ProductService.CreateProductVariant:input_type -> eolymp.commerce.CreateProductVariantInput
+	14, // 31: eolymp.commerce.ProductService.UpdateProductVariant:input_type -> eolymp.commerce.UpdateProductVariantInput
+	16, // 32: eolymp.commerce.ProductService.DeleteProductVariant:input_type -> eolymp.commerce.DeleteProductVariantInput
+	18, // 33: eolymp.commerce.ProductService.DescribeProductVariant:input_type -> eolymp.commerce.DescribeProductVariantInput
+	20, // 34: eolymp.commerce.ProductService.ListProductVariants:input_type -> eolymp.commerce.ListProductVariantsInput
+	3,  // 35: eolymp.commerce.ProductService.CreateProduct:output_type -> eolymp.commerce.CreateProductOutput
+	5,  // 36: eolymp.commerce.ProductService.UpdateProduct:output_type -> eolymp.commerce.UpdateProductOutput
+	7,  // 37: eolymp.commerce.ProductService.DeleteProduct:output_type -> eolymp.commerce.DeleteProductOutput
+	9,  // 38: eolymp.commerce.ProductService.DescribeProduct:output_type -> eolymp.commerce.DescribeProductOutput
+	11, // 39: eolymp.commerce.ProductService.ListProducts:output_type -> eolymp.commerce.ListProductsOutput
+	13, // 40: eolymp.commerce.ProductService.CreateProductVariant:output_type -> eolymp.commerce.CreateProductVariantOutput
+	15, // 41: eolymp.commerce.ProductService.UpdateProductVariant:output_type -> eolymp.commerce.UpdateProductVariantOutput
+	17, // 42: eolymp.commerce.ProductService.DeleteProductVariant:output_type -> eolymp.commerce.DeleteProductVariantOutput
+	19, // 43: eolymp.commerce.ProductService.DescribeProductVariant:output_type -> eolymp.commerce.DescribeProductVariantOutput
+	21, // 44: eolymp.commerce.ProductService.ListProductVariants:output_type -> eolymp.commerce.ListProductVariantsOutput
+	35, // [35:45] is the sub-list for method output_type
+	25, // [25:35] is the sub-list for method input_type
+	25, // [25:25] is the sub-list for extension type_name
+	25, // [25:25] is the sub-list for extension extendee
+	0,  // [0:25] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_commerce_product_service_proto_init() }
@@ -824,8 +1574,8 @@ func file_eolymp_commerce_product_service_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_commerce_product_service_proto_rawDesc), len(file_eolymp_commerce_product_service_proto_rawDesc)),
-			NumEnums:      1,
-			NumMessages:   11,
+			NumEnums:      2,
+			NumMessages:   22,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

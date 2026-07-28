@@ -95,7 +95,6 @@ const (
 	Product_Patch_PRICE         Product_Patch_Field = 5
 	Product_Patch_REGULAR_PRICE Product_Patch_Field = 6
 	Product_Patch_ATTRIBUTES    Product_Patch_Field = 7
-	Product_Patch_VARIANTS      Product_Patch_Field = 8
 	Product_Patch_FEATURED      Product_Patch_Field = 9
 	Product_Patch_INACTIVE      Product_Patch_Field = 10
 	Product_Patch_BACKORDER     Product_Patch_Field = 12
@@ -113,7 +112,6 @@ var (
 		5:  "PRICE",
 		6:  "REGULAR_PRICE",
 		7:  "ATTRIBUTES",
-		8:  "VARIANTS",
 		9:  "FEATURED",
 		10: "INACTIVE",
 		12: "BACKORDER",
@@ -128,7 +126,6 @@ var (
 		"PRICE":         5,
 		"REGULAR_PRICE": 6,
 		"ATTRIBUTES":    7,
-		"VARIANTS":      8,
 		"FEATURED":      9,
 		"INACTIVE":      10,
 		"BACKORDER":     12,
@@ -160,6 +157,64 @@ func (x Product_Patch_Field) Number() protoreflect.EnumNumber {
 // Deprecated: Use Product_Patch_Field.Descriptor instead.
 func (Product_Patch_Field) EnumDescriptor() ([]byte, []int) {
 	return file_eolymp_commerce_product_proto_rawDescGZIP(), []int{0, 1, 0}
+}
+
+type Product_Variant_Patch_Field int32
+
+const (
+	Product_Variant_Patch_UNKNOWN_FIELD      Product_Variant_Patch_Field = 0
+	Product_Variant_Patch_ALL                Product_Variant_Patch_Field = 1
+	Product_Variant_Patch_NAME               Product_Variant_Patch_Field = 2
+	Product_Variant_Patch_VALUES             Product_Variant_Patch_Field = 3
+	Product_Variant_Patch_IMAGES             Product_Variant_Patch_Field = 4
+	Product_Variant_Patch_AVAILABLE_QUANTITY Product_Variant_Patch_Field = 5
+)
+
+// Enum value maps for Product_Variant_Patch_Field.
+var (
+	Product_Variant_Patch_Field_name = map[int32]string{
+		0: "UNKNOWN_FIELD",
+		1: "ALL",
+		2: "NAME",
+		3: "VALUES",
+		4: "IMAGES",
+		5: "AVAILABLE_QUANTITY",
+	}
+	Product_Variant_Patch_Field_value = map[string]int32{
+		"UNKNOWN_FIELD":      0,
+		"ALL":                1,
+		"NAME":               2,
+		"VALUES":             3,
+		"IMAGES":             4,
+		"AVAILABLE_QUANTITY": 5,
+	}
+)
+
+func (x Product_Variant_Patch_Field) Enum() *Product_Variant_Patch_Field {
+	p := new(Product_Variant_Patch_Field)
+	*p = x
+	return p
+}
+
+func (x Product_Variant_Patch_Field) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (Product_Variant_Patch_Field) Descriptor() protoreflect.EnumDescriptor {
+	return file_eolymp_commerce_product_proto_enumTypes[2].Descriptor()
+}
+
+func (Product_Variant_Patch_Field) Type() protoreflect.EnumType {
+	return &file_eolymp_commerce_product_proto_enumTypes[2]
+}
+
+func (x Product_Variant_Patch_Field) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use Product_Variant_Patch_Field.Descriptor instead.
+func (Product_Variant_Patch_Field) EnumDescriptor() ([]byte, []int) {
+	return file_eolymp_commerce_product_proto_rawDescGZIP(), []int{0, 3, 0, 0}
 }
 
 type Product struct {
@@ -447,6 +502,7 @@ func (x *Product_Attribute) GetLabel() string {
 type Product_Variant struct {
 	state             protoimpl.MessageState `protogen:"open.v1"`
 	Id                string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	ProductId         string                 `protobuf:"bytes,4,opt,name=product_id,json=productId,proto3" json:"product_id,omitempty"`
 	Name              string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
 	Values            map[string]string      `protobuf:"bytes,2,rep,name=values,proto3" json:"values,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	Images            []string               `protobuf:"bytes,10,rep,name=images,proto3" json:"images,omitempty"`
@@ -490,6 +546,13 @@ func (*Product_Variant) Descriptor() ([]byte, []int) {
 func (x *Product_Variant) GetId() string {
 	if x != nil {
 		return x.Id
+	}
+	return ""
+}
+
+func (x *Product_Variant) GetProductId() string {
+	if x != nil {
+		return x.ProductId
 	}
 	return ""
 }
@@ -620,11 +683,47 @@ func (x *Product_Translation) GetAttributes() []*Product_Attribute {
 	return nil
 }
 
+type Product_Variant_Patch struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Product_Variant_Patch) Reset() {
+	*x = Product_Variant_Patch{}
+	mi := &file_eolymp_commerce_product_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Product_Variant_Patch) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Product_Variant_Patch) ProtoMessage() {}
+
+func (x *Product_Variant_Patch) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_commerce_product_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Product_Variant_Patch.ProtoReflect.Descriptor instead.
+func (*Product_Variant_Patch) Descriptor() ([]byte, []int) {
+	return file_eolymp_commerce_product_proto_rawDescGZIP(), []int{0, 3, 0}
+}
+
 var File_eolymp_commerce_product_proto protoreflect.FileDescriptor
 
 const file_eolymp_commerce_product_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/commerce/product.proto\x12\x0feolymp.commerce\x1a\x18eolymp/ecm/content.proto\"\xe2\v\n" +
+	"\x1deolymp/commerce/product.proto\x12\x0feolymp.commerce\x1a\x18eolymp/ecm/content.proto\"\xdb\f\n" +
 	"\aProduct\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12-\n" +
@@ -654,8 +753,8 @@ const file_eolymp_commerce_product_proto_rawDesc = "" +
 	"\x12DESCRIPTION_RENDER\x10\x02\x12\x0e\n" +
 	"\n" +
 	"ATTRIBUTES\x10\x03\x12\f\n" +
-	"\bVARIANTS\x10\x04\x1a\xc8\x01\n" +
-	"\x05Patch\"\xbe\x01\n" +
+	"\bVARIANTS\x10\x04\x1a\xba\x01\n" +
+	"\x05Patch\"\xb0\x01\n" +
 	"\x05Field\x12\x11\n" +
 	"\rUNKNOWN_FIELD\x10\x00\x12\a\n" +
 	"\x03ALL\x10\x01\x12\b\n" +
@@ -668,16 +767,17 @@ const file_eolymp_commerce_product_proto_rawDesc = "" +
 	"\rREGULAR_PRICE\x10\x06\x12\x0e\n" +
 	"\n" +
 	"ATTRIBUTES\x10\a\x12\f\n" +
-	"\bVARIANTS\x10\b\x12\f\n" +
 	"\bFEATURED\x10\t\x12\f\n" +
 	"\bINACTIVE\x10\n" +
 	"\x12\r\n" +
 	"\tBACKORDER\x10\f\x1a3\n" +
 	"\tAttribute\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05label\x18\x02 \x01(\tR\x05label\x1a\xba\x02\n" +
+	"\x05label\x18\x02 \x01(\tR\x05label\x1a\xc1\x03\n" +
 	"\aVariant\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1d\n" +
+	"\n" +
+	"product_id\x18\x04 \x01(\tR\tproductId\x12\x12\n" +
 	"\x04name\x18\x03 \x01(\tR\x04name\x12D\n" +
 	"\x06values\x18\x02 \x03(\v2,.eolymp.commerce.Product.Variant.ValuesEntryR\x06values\x12\x16\n" +
 	"\x06images\x18\n" +
@@ -685,7 +785,17 @@ const file_eolymp_commerce_product_proto_rawDesc = "" +
 	"\fout_of_stock\x18\x1e \x01(\bR\n" +
 	"outOfStock\x12!\n" +
 	"\fmax_quantity\x18\" \x01(\x05R\vmaxQuantity\x12-\n" +
-	"\x12available_quantity\x18! \x01(\x05R\x11availableQuantity\x1a9\n" +
+	"\x12available_quantity\x18! \x01(\x05R\x11availableQuantity\x1af\n" +
+	"\x05Patch\"]\n" +
+	"\x05Field\x12\x11\n" +
+	"\rUNKNOWN_FIELD\x10\x00\x12\a\n" +
+	"\x03ALL\x10\x01\x12\b\n" +
+	"\x04NAME\x10\x02\x12\n" +
+	"\n" +
+	"\x06VALUES\x10\x03\x12\n" +
+	"\n" +
+	"\x06IMAGES\x10\x04\x12\x16\n" +
+	"\x12AVAILABLE_QUANTITY\x10\x05\x1a9\n" +
 	"\vValuesEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\x1a\xf3\x01\n" +
@@ -712,34 +822,36 @@ func file_eolymp_commerce_product_proto_rawDescGZIP() []byte {
 	return file_eolymp_commerce_product_proto_rawDescData
 }
 
-var file_eolymp_commerce_product_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_eolymp_commerce_product_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_eolymp_commerce_product_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
+var file_eolymp_commerce_product_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_eolymp_commerce_product_proto_goTypes = []any{
-	(Product_Extra_Field)(0),    // 0: eolymp.commerce.Product.Extra.Field
-	(Product_Patch_Field)(0),    // 1: eolymp.commerce.Product.Patch.Field
-	(*Product)(nil),             // 2: eolymp.commerce.Product
-	(*Product_Extra)(nil),       // 3: eolymp.commerce.Product.Extra
-	(*Product_Patch)(nil),       // 4: eolymp.commerce.Product.Patch
-	(*Product_Attribute)(nil),   // 5: eolymp.commerce.Product.Attribute
-	(*Product_Variant)(nil),     // 6: eolymp.commerce.Product.Variant
-	(*Product_Translation)(nil), // 7: eolymp.commerce.Product.Translation
-	nil,                         // 8: eolymp.commerce.Product.Variant.ValuesEntry
-	(*ecm.Content)(nil),         // 9: eolymp.ecm.Content
+	(Product_Extra_Field)(0),         // 0: eolymp.commerce.Product.Extra.Field
+	(Product_Patch_Field)(0),         // 1: eolymp.commerce.Product.Patch.Field
+	(Product_Variant_Patch_Field)(0), // 2: eolymp.commerce.Product.Variant.Patch.Field
+	(*Product)(nil),                  // 3: eolymp.commerce.Product
+	(*Product_Extra)(nil),            // 4: eolymp.commerce.Product.Extra
+	(*Product_Patch)(nil),            // 5: eolymp.commerce.Product.Patch
+	(*Product_Attribute)(nil),        // 6: eolymp.commerce.Product.Attribute
+	(*Product_Variant)(nil),          // 7: eolymp.commerce.Product.Variant
+	(*Product_Translation)(nil),      // 8: eolymp.commerce.Product.Translation
+	(*Product_Variant_Patch)(nil),    // 9: eolymp.commerce.Product.Variant.Patch
+	nil,                              // 10: eolymp.commerce.Product.Variant.ValuesEntry
+	(*ecm.Content)(nil),              // 11: eolymp.ecm.Content
 }
 var file_eolymp_commerce_product_proto_depIdxs = []int32{
-	9, // 0: eolymp.commerce.Product.summary:type_name -> eolymp.ecm.Content
-	9, // 1: eolymp.commerce.Product.description:type_name -> eolymp.ecm.Content
-	5, // 2: eolymp.commerce.Product.attributes:type_name -> eolymp.commerce.Product.Attribute
-	6, // 3: eolymp.commerce.Product.variants:type_name -> eolymp.commerce.Product.Variant
-	8, // 4: eolymp.commerce.Product.Variant.values:type_name -> eolymp.commerce.Product.Variant.ValuesEntry
-	9, // 5: eolymp.commerce.Product.Translation.summary:type_name -> eolymp.ecm.Content
-	9, // 6: eolymp.commerce.Product.Translation.description:type_name -> eolymp.ecm.Content
-	5, // 7: eolymp.commerce.Product.Translation.attributes:type_name -> eolymp.commerce.Product.Attribute
-	8, // [8:8] is the sub-list for method output_type
-	8, // [8:8] is the sub-list for method input_type
-	8, // [8:8] is the sub-list for extension type_name
-	8, // [8:8] is the sub-list for extension extendee
-	0, // [0:8] is the sub-list for field type_name
+	11, // 0: eolymp.commerce.Product.summary:type_name -> eolymp.ecm.Content
+	11, // 1: eolymp.commerce.Product.description:type_name -> eolymp.ecm.Content
+	6,  // 2: eolymp.commerce.Product.attributes:type_name -> eolymp.commerce.Product.Attribute
+	7,  // 3: eolymp.commerce.Product.variants:type_name -> eolymp.commerce.Product.Variant
+	10, // 4: eolymp.commerce.Product.Variant.values:type_name -> eolymp.commerce.Product.Variant.ValuesEntry
+	11, // 5: eolymp.commerce.Product.Translation.summary:type_name -> eolymp.ecm.Content
+	11, // 6: eolymp.commerce.Product.Translation.description:type_name -> eolymp.ecm.Content
+	6,  // 7: eolymp.commerce.Product.Translation.attributes:type_name -> eolymp.commerce.Product.Attribute
+	8,  // [8:8] is the sub-list for method output_type
+	8,  // [8:8] is the sub-list for method input_type
+	8,  // [8:8] is the sub-list for extension type_name
+	8,  // [8:8] is the sub-list for extension extendee
+	0,  // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_commerce_product_proto_init() }
@@ -752,8 +864,8 @@ func file_eolymp_commerce_product_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_commerce_product_proto_rawDesc), len(file_eolymp_commerce_product_proto_rawDesc)),
-			NumEnums:      2,
-			NumMessages:   7,
+			NumEnums:      3,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

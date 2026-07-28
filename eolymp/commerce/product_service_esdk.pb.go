@@ -169,3 +169,86 @@ func (s *ProductServiceService) ListProducts(ctx context.Context, in *ListProduc
 
 	return out, nil
 }
+
+func (s *ProductServiceService) CreateProductVariant(ctx context.Context, in *CreateProductVariantInput) (*CreateProductVariantOutput, error) {
+	out := &CreateProductVariantOutput{}
+	path := "/store/products/" + url.PathEscape(in.GetProductId()) + "/variants"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProductId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *ProductServiceService) UpdateProductVariant(ctx context.Context, in *UpdateProductVariantInput) (*UpdateProductVariantOutput, error) {
+	out := &UpdateProductVariantOutput{}
+	path := "/store/products/" + url.PathEscape(in.GetProductId()) + "/variants/" + url.PathEscape(in.GetVariantId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProductId = ""
+		in.VariantId = ""
+	}
+
+	if err := s.do(ctx, "PUT", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *ProductServiceService) DeleteProductVariant(ctx context.Context, in *DeleteProductVariantInput) (*DeleteProductVariantOutput, error) {
+	out := &DeleteProductVariantOutput{}
+	path := "/store/products/" + url.PathEscape(in.GetProductId()) + "/variants/" + url.PathEscape(in.GetVariantId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProductId = ""
+		in.VariantId = ""
+	}
+
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *ProductServiceService) DescribeProductVariant(ctx context.Context, in *DescribeProductVariantInput) (*DescribeProductVariantOutput, error) {
+	out := &DescribeProductVariantOutput{}
+	path := "/store/products/" + url.PathEscape(in.GetProductId()) + "/variants/" + url.PathEscape(in.GetVariantId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProductId = ""
+		in.VariantId = ""
+	}
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *ProductServiceService) ListProductVariants(ctx context.Context, in *ListProductVariantsInput) (*ListProductVariantsOutput, error) {
+	out := &ListProductVariantsOutput{}
+	path := "/store/products/" + url.PathEscape(in.GetProductId()) + "/variants"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProductId = ""
+	}
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
