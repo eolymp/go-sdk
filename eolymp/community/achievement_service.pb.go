@@ -484,9 +484,11 @@ func (x *ListAchievementsOutput) GetItems() []*Achievement {
 }
 
 type ListAchievementsInput_Filter struct {
-	state         protoimpl.MessageState    `protogen:"open.v1"`
-	Query         string                    `protobuf:"bytes,1,opt,name=query,proto3" json:"query,omitempty"`
-	Id            []*wellknown.ExpressionID `protobuf:"bytes,2,rep,name=id,proto3" json:"id,omitempty"`
+	state         protoimpl.MessageState     `protogen:"open.v1"`
+	Query         string                     `protobuf:"bytes,1,opt,name=query,proto3" json:"query,omitempty"`
+	Id            []*wellknown.ExpressionID  `protobuf:"bytes,2,rep,name=id,proto3" json:"id,omitempty"`
+	Quantity      []*wellknown.ExpressionInt `protobuf:"bytes,3,rep,name=quantity,proto3" json:"quantity,omitempty"`
+	Score         []*wellknown.ExpressionInt `protobuf:"bytes,4,rep,name=score,proto3" json:"score,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -535,6 +537,20 @@ func (x *ListAchievementsInput_Filter) GetId() []*wellknown.ExpressionID {
 	return nil
 }
 
+func (x *ListAchievementsInput_Filter) GetQuantity() []*wellknown.ExpressionInt {
+	if x != nil {
+		return x.Quantity
+	}
+	return nil
+}
+
+func (x *ListAchievementsInput_Filter) GetScore() []*wellknown.ExpressionInt {
+	if x != nil {
+		return x.Score
+	}
+	return nil
+}
+
 var File_eolymp_community_achievement_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_achievement_service_proto_rawDesc = "" +
@@ -560,7 +576,7 @@ const file_eolymp_community_achievement_service_proto_rawDesc = "" +
 	"\x05score\x18\x04 \x01(\rR\x05score\"A\n" +
 	"\x18UnassignAchievementInput\x12%\n" +
 	"\x0eachievement_id\x18\x02 \x01(\tR\rachievementId\"\x1b\n" +
-	"\x19UnassignAchievementOutput\"\xc7\x02\n" +
+	"\x19UnassignAchievementOutput\"\xbc\x03\n" +
 	"\x15ListAchievementsInput\x12\x16\n" +
 	"\x06locale\x18\x01 \x01(\tR\x06locale\x12\x14\n" +
 	"\x05after\x18\f \x01(\tR\x05after\x12\x12\n" +
@@ -568,10 +584,12 @@ const file_eolymp_community_achievement_service_proto_rawDesc = "" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12H\n" +
 	"\afilters\x18( \x01(\v2..eolymp.community.ListAchievementsInput.FilterR\afilters\x12:\n" +
-	"\x05extra\x18\xe3\b \x03(\x0e2#.eolymp.community.Achievement.ExtraR\x05extra\x1aN\n" +
+	"\x05extra\x18\xe3\b \x03(\x0e2#.eolymp.community.Achievement.ExtraR\x05extra\x1a\xc2\x01\n" +
 	"\x06Filter\x12\x14\n" +
 	"\x05query\x18\x01 \x01(\tR\x05query\x12.\n" +
-	"\x02id\x18\x02 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\"\x8d\x01\n" +
+	"\x02id\x18\x02 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\x12;\n" +
+	"\bquantity\x18\x03 \x03(\v2\x1f.eolymp.wellknown.ExpressionIntR\bquantity\x125\n" +
+	"\x05score\x18\x04 \x03(\v2\x1f.eolymp.wellknown.ExpressionIntR\x05score\"\x8d\x01\n" +
 	"\x16ListAchievementsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12(\n" +
 	"\x10next_page_cursor\x18\x03 \x01(\tR\x0enextPageCursor\x123\n" +
@@ -622,6 +640,7 @@ var file_eolymp_community_achievement_service_proto_goTypes = []any{
 	(Achievement_Extra)(0),               // 9: eolymp.community.Achievement.Extra
 	(*Achievement)(nil),                  // 10: eolymp.community.Achievement
 	(*wellknown.ExpressionID)(nil),       // 11: eolymp.wellknown.ExpressionID
+	(*wellknown.ExpressionInt)(nil),      // 12: eolymp.wellknown.ExpressionInt
 }
 var file_eolymp_community_achievement_service_proto_depIdxs = []int32{
 	8,  // 0: eolymp.community.AchievementAssignedEvent.awarded_at:type_name -> google.protobuf.Timestamp
@@ -629,17 +648,19 @@ var file_eolymp_community_achievement_service_proto_depIdxs = []int32{
 	9,  // 2: eolymp.community.ListAchievementsInput.extra:type_name -> eolymp.community.Achievement.Extra
 	10, // 3: eolymp.community.ListAchievementsOutput.items:type_name -> eolymp.community.Achievement
 	11, // 4: eolymp.community.ListAchievementsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	1,  // 5: eolymp.community.AchievementService.AssignAchievement:input_type -> eolymp.community.AssignAchievementInput
-	3,  // 6: eolymp.community.AchievementService.UnassignAchievement:input_type -> eolymp.community.UnassignAchievementInput
-	5,  // 7: eolymp.community.AchievementService.ListAchievements:input_type -> eolymp.community.ListAchievementsInput
-	2,  // 8: eolymp.community.AchievementService.AssignAchievement:output_type -> eolymp.community.AssignAchievementOutput
-	4,  // 9: eolymp.community.AchievementService.UnassignAchievement:output_type -> eolymp.community.UnassignAchievementOutput
-	6,  // 10: eolymp.community.AchievementService.ListAchievements:output_type -> eolymp.community.ListAchievementsOutput
-	8,  // [8:11] is the sub-list for method output_type
-	5,  // [5:8] is the sub-list for method input_type
-	5,  // [5:5] is the sub-list for extension type_name
-	5,  // [5:5] is the sub-list for extension extendee
-	0,  // [0:5] is the sub-list for field type_name
+	12, // 5: eolymp.community.ListAchievementsInput.Filter.quantity:type_name -> eolymp.wellknown.ExpressionInt
+	12, // 6: eolymp.community.ListAchievementsInput.Filter.score:type_name -> eolymp.wellknown.ExpressionInt
+	1,  // 7: eolymp.community.AchievementService.AssignAchievement:input_type -> eolymp.community.AssignAchievementInput
+	3,  // 8: eolymp.community.AchievementService.UnassignAchievement:input_type -> eolymp.community.UnassignAchievementInput
+	5,  // 9: eolymp.community.AchievementService.ListAchievements:input_type -> eolymp.community.ListAchievementsInput
+	2,  // 10: eolymp.community.AchievementService.AssignAchievement:output_type -> eolymp.community.AssignAchievementOutput
+	4,  // 11: eolymp.community.AchievementService.UnassignAchievement:output_type -> eolymp.community.UnassignAchievementOutput
+	6,  // 12: eolymp.community.AchievementService.ListAchievements:output_type -> eolymp.community.ListAchievementsOutput
+	10, // [10:13] is the sub-list for method output_type
+	7,  // [7:10] is the sub-list for method input_type
+	7,  // [7:7] is the sub-list for extension type_name
+	7,  // [7:7] is the sub-list for extension extendee
+	0,  // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_community_achievement_service_proto_init() }
