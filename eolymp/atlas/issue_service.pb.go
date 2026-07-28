@@ -29,6 +29,7 @@ const (
 	ListIssuesInput_DEFAULT    ListIssuesInput_Sortable = 0
 	ListIssuesInput_CREATED_AT ListIssuesInput_Sortable = 1
 	ListIssuesInput_UPDATED_AT ListIssuesInput_Sortable = 2
+	ListIssuesInput_NUMBER     ListIssuesInput_Sortable = 3
 )
 
 // Enum value maps for ListIssuesInput_Sortable.
@@ -37,11 +38,13 @@ var (
 		0: "DEFAULT",
 		1: "CREATED_AT",
 		2: "UPDATED_AT",
+		3: "NUMBER",
 	}
 	ListIssuesInput_Sortable_value = map[string]int32{
 		"DEFAULT":    0,
 		"CREATED_AT": 1,
 		"UPDATED_AT": 2,
+		"NUMBER":     3,
 	}
 )
 
@@ -574,8 +577,13 @@ func (*DeleteIssueOutput) Descriptor() ([]byte, []int) {
 type ListIssuesInput_Filter struct {
 	state         protoimpl.MessageState      `protogen:"open.v1"`
 	Id            []*wellknown.ExpressionID   `protobuf:"bytes,1,rep,name=id,proto3" json:"id,omitempty"`
+	ProblemId     []*wellknown.ExpressionID   `protobuf:"bytes,3,rep,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	Status        []*wellknown.ExpressionEnum `protobuf:"bytes,2,rep,name=status,proto3" json:"status,omitempty"`
-	UserId        []*wellknown.ExpressionID   `protobuf:"bytes,3,rep,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Number        []*wellknown.ExpressionInt  `protobuf:"bytes,4,rep,name=number,proto3" json:"number,omitempty"`
+	AssigneeId    []*wellknown.ExpressionID   `protobuf:"bytes,5,rep,name=assignee_id,json=assigneeId,proto3" json:"assignee_id,omitempty"`
+	ReporterId    []*wellknown.ExpressionID   `protobuf:"bytes,6,rep,name=reporter_id,json=reporterId,proto3" json:"reporter_id,omitempty"`
+	TesterId      []*wellknown.ExpressionID   `protobuf:"bytes,7,rep,name=tester_id,json=testerId,proto3" json:"tester_id,omitempty"`
+	Tags          []*wellknown.ExpressionEnum `protobuf:"bytes,8,rep,name=tags,proto3" json:"tags,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -617,6 +625,13 @@ func (x *ListIssuesInput_Filter) GetId() []*wellknown.ExpressionID {
 	return nil
 }
 
+func (x *ListIssuesInput_Filter) GetProblemId() []*wellknown.ExpressionID {
+	if x != nil {
+		return x.ProblemId
+	}
+	return nil
+}
+
 func (x *ListIssuesInput_Filter) GetStatus() []*wellknown.ExpressionEnum {
 	if x != nil {
 		return x.Status
@@ -624,9 +639,37 @@ func (x *ListIssuesInput_Filter) GetStatus() []*wellknown.ExpressionEnum {
 	return nil
 }
 
-func (x *ListIssuesInput_Filter) GetUserId() []*wellknown.ExpressionID {
+func (x *ListIssuesInput_Filter) GetNumber() []*wellknown.ExpressionInt {
 	if x != nil {
-		return x.UserId
+		return x.Number
+	}
+	return nil
+}
+
+func (x *ListIssuesInput_Filter) GetAssigneeId() []*wellknown.ExpressionID {
+	if x != nil {
+		return x.AssigneeId
+	}
+	return nil
+}
+
+func (x *ListIssuesInput_Filter) GetReporterId() []*wellknown.ExpressionID {
+	if x != nil {
+		return x.ReporterId
+	}
+	return nil
+}
+
+func (x *ListIssuesInput_Filter) GetTesterId() []*wellknown.ExpressionID {
+	if x != nil {
+		return x.TesterId
+	}
+	return nil
+}
+
+func (x *ListIssuesInput_Filter) GetTags() []*wellknown.ExpressionEnum {
+	if x != nil {
+		return x.Tags
 	}
 	return nil
 }
@@ -635,7 +678,7 @@ var File_eolymp_atlas_issue_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_issue_service_proto_rawDesc = "" +
 	"\n" +
-	" eolymp/atlas/issue_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x18eolymp/atlas/issue.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"\x8b\x04\n" +
+	" eolymp/atlas/issue_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x18eolymp/atlas/issue.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"\xcb\x06\n" +
 	"\x0fListIssuesInput\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
@@ -643,17 +686,27 @@ const file_eolymp_atlas_issue_service_proto_rawDesc = "" +
 	"\afilters\x18( \x01(\v2$.eolymp.atlas.ListIssuesInput.FilterR\afilters\x12:\n" +
 	"\x04sort\x182 \x01(\x0e2&.eolymp.atlas.ListIssuesInput.SortableR\x04sort\x121\n" +
 	"\x05order\x183 \x01(\x0e2\x1b.eolymp.wellknown.DirectionR\x05order\x126\n" +
-	"\x05extra\x18\xe3\b \x03(\x0e2\x1f.eolymp.atlas.Issue.Extra.FieldR\x05extra\x1a\xab\x01\n" +
+	"\x05extra\x18\xe3\b \x03(\x0e2\x1f.eolymp.atlas.Issue.Extra.FieldR\x05extra\x1a\xdf\x03\n" +
 	"\x06Filter\x12.\n" +
-	"\x02id\x18\x01 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\x128\n" +
+	"\x02id\x18\x01 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\x12=\n" +
+	"\n" +
+	"problem_id\x18\x03 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\tproblemId\x128\n" +
 	"\x06status\x18\x02 \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x06status\x127\n" +
-	"\auser_id\x18\x03 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x06userId\"7\n" +
+	"\x06number\x18\x04 \x03(\v2\x1f.eolymp.wellknown.ExpressionIntR\x06number\x12?\n" +
+	"\vassignee_id\x18\x05 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\n" +
+	"assigneeId\x12?\n" +
+	"\vreporter_id\x18\x06 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\n" +
+	"reporterId\x12;\n" +
+	"\ttester_id\x18\a \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\btesterId\x124\n" +
+	"\x04tags\x18\b \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x04tags\"C\n" +
 	"\bSortable\x12\v\n" +
 	"\aDEFAULT\x10\x00\x12\x0e\n" +
 	"\n" +
 	"CREATED_AT\x10\x01\x12\x0e\n" +
 	"\n" +
-	"UPDATED_AT\x10\x02\"S\n" +
+	"UPDATED_AT\x10\x02\x12\n" +
+	"\n" +
+	"\x06NUMBER\x10\x03\"S\n" +
 	"\x10ListIssuesOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12)\n" +
 	"\x05items\x18\x02 \x03(\v2\x13.eolymp.atlas.IssueR\x05items\"g\n" +
@@ -673,7 +726,7 @@ const file_eolymp_atlas_issue_service_proto_rawDesc = "" +
 	"\x11UpdateIssueOutput\"-\n" +
 	"\x10DeleteIssueInput\x12\x19\n" +
 	"\bissue_id\x18\x02 \x01(\tR\aissueId\"\x13\n" +
-	"\x11DeleteIssueOutput2\x88\x06\n" +
+	"\x11DeleteIssueOutput2\x89\x06\n" +
 	"\fIssueService\x12\x85\x01\n" +
 	"\n" +
 	"ListIssues\x12\x1d.eolymp.atlas.ListIssuesInput\x1a\x1e.eolymp.atlas.ListIssuesOutput\"8\xea\xe2\n" +
@@ -705,7 +758,7 @@ const file_eolymp_atlas_issue_service_proto_rawDesc = "" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\x14*\x12/issues/{issue_id}\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.ProblemB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\x14*\x12/issues/{issue_id}\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_issue_service_proto_rawDescOnce sync.Once
@@ -740,6 +793,7 @@ var file_eolymp_atlas_issue_service_proto_goTypes = []any{
 	(Issue_Patch_Field)(0),           // 15: eolymp.atlas.Issue.Patch.Field
 	(*wellknown.ExpressionID)(nil),   // 16: eolymp.wellknown.ExpressionID
 	(*wellknown.ExpressionEnum)(nil), // 17: eolymp.wellknown.ExpressionEnum
+	(*wellknown.ExpressionInt)(nil),  // 18: eolymp.wellknown.ExpressionInt
 }
 var file_eolymp_atlas_issue_service_proto_depIdxs = []int32{
 	11, // 0: eolymp.atlas.ListIssuesInput.filters:type_name -> eolymp.atlas.ListIssuesInput.Filter
@@ -753,23 +807,28 @@ var file_eolymp_atlas_issue_service_proto_depIdxs = []int32{
 	15, // 8: eolymp.atlas.UpdateIssueInput.patch:type_name -> eolymp.atlas.Issue.Patch.Field
 	14, // 9: eolymp.atlas.UpdateIssueInput.issue:type_name -> eolymp.atlas.Issue
 	16, // 10: eolymp.atlas.ListIssuesInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	17, // 11: eolymp.atlas.ListIssuesInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
-	16, // 12: eolymp.atlas.ListIssuesInput.Filter.user_id:type_name -> eolymp.wellknown.ExpressionID
-	1,  // 13: eolymp.atlas.IssueService.ListIssues:input_type -> eolymp.atlas.ListIssuesInput
-	3,  // 14: eolymp.atlas.IssueService.DescribeIssue:input_type -> eolymp.atlas.DescribeIssueInput
-	5,  // 15: eolymp.atlas.IssueService.CreateIssue:input_type -> eolymp.atlas.CreateIssueInput
-	7,  // 16: eolymp.atlas.IssueService.UpdateIssue:input_type -> eolymp.atlas.UpdateIssueInput
-	9,  // 17: eolymp.atlas.IssueService.DeleteIssue:input_type -> eolymp.atlas.DeleteIssueInput
-	2,  // 18: eolymp.atlas.IssueService.ListIssues:output_type -> eolymp.atlas.ListIssuesOutput
-	4,  // 19: eolymp.atlas.IssueService.DescribeIssue:output_type -> eolymp.atlas.DescribeIssueOutput
-	6,  // 20: eolymp.atlas.IssueService.CreateIssue:output_type -> eolymp.atlas.CreateIssueOutput
-	8,  // 21: eolymp.atlas.IssueService.UpdateIssue:output_type -> eolymp.atlas.UpdateIssueOutput
-	10, // 22: eolymp.atlas.IssueService.DeleteIssue:output_type -> eolymp.atlas.DeleteIssueOutput
-	18, // [18:23] is the sub-list for method output_type
-	13, // [13:18] is the sub-list for method input_type
-	13, // [13:13] is the sub-list for extension type_name
-	13, // [13:13] is the sub-list for extension extendee
-	0,  // [0:13] is the sub-list for field type_name
+	16, // 11: eolymp.atlas.ListIssuesInput.Filter.problem_id:type_name -> eolymp.wellknown.ExpressionID
+	17, // 12: eolymp.atlas.ListIssuesInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
+	18, // 13: eolymp.atlas.ListIssuesInput.Filter.number:type_name -> eolymp.wellknown.ExpressionInt
+	16, // 14: eolymp.atlas.ListIssuesInput.Filter.assignee_id:type_name -> eolymp.wellknown.ExpressionID
+	16, // 15: eolymp.atlas.ListIssuesInput.Filter.reporter_id:type_name -> eolymp.wellknown.ExpressionID
+	16, // 16: eolymp.atlas.ListIssuesInput.Filter.tester_id:type_name -> eolymp.wellknown.ExpressionID
+	17, // 17: eolymp.atlas.ListIssuesInput.Filter.tags:type_name -> eolymp.wellknown.ExpressionEnum
+	1,  // 18: eolymp.atlas.IssueService.ListIssues:input_type -> eolymp.atlas.ListIssuesInput
+	3,  // 19: eolymp.atlas.IssueService.DescribeIssue:input_type -> eolymp.atlas.DescribeIssueInput
+	5,  // 20: eolymp.atlas.IssueService.CreateIssue:input_type -> eolymp.atlas.CreateIssueInput
+	7,  // 21: eolymp.atlas.IssueService.UpdateIssue:input_type -> eolymp.atlas.UpdateIssueInput
+	9,  // 22: eolymp.atlas.IssueService.DeleteIssue:input_type -> eolymp.atlas.DeleteIssueInput
+	2,  // 23: eolymp.atlas.IssueService.ListIssues:output_type -> eolymp.atlas.ListIssuesOutput
+	4,  // 24: eolymp.atlas.IssueService.DescribeIssue:output_type -> eolymp.atlas.DescribeIssueOutput
+	6,  // 25: eolymp.atlas.IssueService.CreateIssue:output_type -> eolymp.atlas.CreateIssueOutput
+	8,  // 26: eolymp.atlas.IssueService.UpdateIssue:output_type -> eolymp.atlas.UpdateIssueOutput
+	10, // 27: eolymp.atlas.IssueService.DeleteIssue:output_type -> eolymp.atlas.DeleteIssueOutput
+	23, // [23:28] is the sub-list for method output_type
+	18, // [18:23] is the sub-list for method input_type
+	18, // [18:18] is the sub-list for extension type_name
+	18, // [18:18] is the sub-list for extension extendee
+	0,  // [0:18] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_atlas_issue_service_proto_init() }

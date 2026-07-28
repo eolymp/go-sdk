@@ -127,6 +127,9 @@ const (
 	Issue_Patch_UNKNOWN_FIELD Issue_Patch_Field = 0
 	Issue_Patch_STATUS        Issue_Patch_Field = 1
 	Issue_Patch_DESCRIPTION   Issue_Patch_Field = 2
+	Issue_Patch_TITLE         Issue_Patch_Field = 3
+	Issue_Patch_ASSIGNEE      Issue_Patch_Field = 4
+	Issue_Patch_TAGS          Issue_Patch_Field = 5
 )
 
 // Enum value maps for Issue_Patch_Field.
@@ -135,11 +138,17 @@ var (
 		0: "UNKNOWN_FIELD",
 		1: "STATUS",
 		2: "DESCRIPTION",
+		3: "TITLE",
+		4: "ASSIGNEE",
+		5: "TAGS",
 	}
 	Issue_Patch_Field_value = map[string]int32{
 		"UNKNOWN_FIELD": 0,
 		"STATUS":        1,
 		"DESCRIPTION":   2,
+		"TITLE":         3,
+		"ASSIGNEE":      4,
+		"TAGS":          5,
 	}
 )
 
@@ -171,11 +180,23 @@ func (Issue_Patch_Field) EnumDescriptor() ([]byte, []int) {
 }
 
 type Issue struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Status        Issue_Status           `protobuf:"varint,2,opt,name=status,proto3,enum=eolymp.atlas.Issue_Status" json:"status,omitempty"`
-	Description   *ecm.Content           `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
-	UserId        string                 `protobuf:"bytes,5,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	state       protoimpl.MessageState `protogen:"open.v1"`
+	Id          string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	ProblemId   string                 `protobuf:"bytes,12,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
+	Number      int64                  `protobuf:"varint,4,opt,name=number,proto3" json:"number,omitempty"`
+	Status      Issue_Status           `protobuf:"varint,2,opt,name=status,proto3,enum=eolymp.atlas.Issue_Status" json:"status,omitempty"`
+	Title       string                 `protobuf:"bytes,6,opt,name=title,proto3" json:"title,omitempty"`
+	Description *ecm.Content           `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	// cognito user_id the issue is assigned to
+	Assignee string `protobuf:"bytes,7,opt,name=assignee,proto3" json:"assignee,omitempty"`
+	// who reported the issue; empty for system issues
+	//
+	// Types that are valid to be assigned to Reporter:
+	//
+	//	*Issue_ReporterId
+	//	*Issue_TesterId
+	Reporter      isIssue_Reporter       `protobuf_oneof:"reporter"`
+	Tags          []string               `protobuf:"bytes,9,rep,name=tags,proto3" json:"tags,omitempty"`
 	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,10,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -219,11 +240,32 @@ func (x *Issue) GetId() string {
 	return ""
 }
 
+func (x *Issue) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
+}
+
+func (x *Issue) GetNumber() int64 {
+	if x != nil {
+		return x.Number
+	}
+	return 0
+}
+
 func (x *Issue) GetStatus() Issue_Status {
 	if x != nil {
 		return x.Status
 	}
 	return Issue_UNKNOWN_STATUS
+}
+
+func (x *Issue) GetTitle() string {
+	if x != nil {
+		return x.Title
+	}
+	return ""
 }
 
 func (x *Issue) GetDescription() *ecm.Content {
@@ -233,11 +275,43 @@ func (x *Issue) GetDescription() *ecm.Content {
 	return nil
 }
 
-func (x *Issue) GetUserId() string {
+func (x *Issue) GetAssignee() string {
 	if x != nil {
-		return x.UserId
+		return x.Assignee
 	}
 	return ""
+}
+
+func (x *Issue) GetReporter() isIssue_Reporter {
+	if x != nil {
+		return x.Reporter
+	}
+	return nil
+}
+
+func (x *Issue) GetReporterId() string {
+	if x != nil {
+		if x, ok := x.Reporter.(*Issue_ReporterId); ok {
+			return x.ReporterId
+		}
+	}
+	return ""
+}
+
+func (x *Issue) GetTesterId() string {
+	if x != nil {
+		if x, ok := x.Reporter.(*Issue_TesterId); ok {
+			return x.TesterId
+		}
+	}
+	return ""
+}
+
+func (x *Issue) GetTags() []string {
+	if x != nil {
+		return x.Tags
+	}
+	return nil
 }
 
 func (x *Issue) GetCreatedAt() *timestamppb.Timestamp {
@@ -253,6 +327,24 @@ func (x *Issue) GetUpdatedAt() *timestamppb.Timestamp {
 	}
 	return nil
 }
+
+type isIssue_Reporter interface {
+	isIssue_Reporter()
+}
+
+type Issue_ReporterId struct {
+	// cognito user_id, issue reported by a user from console
+	ReporterId string `protobuf:"bytes,5,opt,name=reporter_id,json=reporterId,proto3,oneof"`
+}
+
+type Issue_TesterId struct {
+	// community member_id, issue reported from space by a member/tester
+	TesterId string `protobuf:"bytes,8,opt,name=tester_id,json=testerId,proto3,oneof"`
+}
+
+func (*Issue_ReporterId) isIssue_Reporter() {}
+
+func (*Issue_TesterId) isIssue_Reporter() {}
 
 type Issue_Extra struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -330,12 +422,20 @@ var File_eolymp_atlas_issue_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_issue_proto_rawDesc = "" +
 	"\n" +
-	"\x18eolymp/atlas/issue.proto\x12\feolymp.atlas\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xdb\x03\n" +
+	"\x18eolymp/atlas/issue.proto\x12\feolymp.atlas\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xb0\x05\n" +
 	"\x05Issue\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x122\n" +
-	"\x06status\x18\x02 \x01(\x0e2\x1a.eolymp.atlas.Issue.StatusR\x06status\x125\n" +
-	"\vdescription\x18\x03 \x01(\v2\x13.eolymp.ecm.ContentR\vdescription\x12\x17\n" +
-	"\auser_id\x18\x05 \x01(\tR\x06userId\x129\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\f \x01(\tR\tproblemId\x12\x16\n" +
+	"\x06number\x18\x04 \x01(\x03R\x06number\x122\n" +
+	"\x06status\x18\x02 \x01(\x0e2\x1a.eolymp.atlas.Issue.StatusR\x06status\x12\x14\n" +
+	"\x05title\x18\x06 \x01(\tR\x05title\x125\n" +
+	"\vdescription\x18\x03 \x01(\v2\x13.eolymp.ecm.ContentR\vdescription\x12\x1a\n" +
+	"\bassignee\x18\a \x01(\tR\bassignee\x12!\n" +
+	"\vreporter_id\x18\x05 \x01(\tH\x00R\n" +
+	"reporterId\x12\x1d\n" +
+	"\ttester_id\x18\b \x01(\tH\x00R\btesterId\x12\x12\n" +
+	"\x04tags\x18\t \x03(\tR\x04tags\x129\n" +
 	"\n" +
 	"created_at\x18\n" +
 	" \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
@@ -345,18 +445,23 @@ const file_eolymp_atlas_issue_proto_rawDesc = "" +
 	"\x05Field\x12\x11\n" +
 	"\rUNKNOWN_FIELD\x10\x00\x12\x15\n" +
 	"\x11DESCRIPTION_VALUE\x10\x01\x12\x16\n" +
-	"\x12DESCRIPTION_RENDER\x10\x02\x1a@\n" +
-	"\x05Patch\"7\n" +
+	"\x12DESCRIPTION_RENDER\x10\x02\x1ac\n" +
+	"\x05Patch\"Z\n" +
 	"\x05Field\x12\x11\n" +
 	"\rUNKNOWN_FIELD\x10\x00\x12\n" +
 	"\n" +
 	"\x06STATUS\x10\x01\x12\x0f\n" +
-	"\vDESCRIPTION\x10\x02\"2\n" +
+	"\vDESCRIPTION\x10\x02\x12\t\n" +
+	"\x05TITLE\x10\x03\x12\f\n" +
+	"\bASSIGNEE\x10\x04\x12\b\n" +
+	"\x04TAGS\x10\x05\"2\n" +
 	"\x06Status\x12\x12\n" +
 	"\x0eUNKNOWN_STATUS\x10\x00\x12\b\n" +
 	"\x04OPEN\x10\x01\x12\n" +
 	"\n" +
-	"\x06CLOSED\x10\x02B-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x06CLOSED\x10\x02B\n" +
+	"\n" +
+	"\breporterB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_issue_proto_rawDescOnce sync.Once
@@ -398,6 +503,10 @@ func init() { file_eolymp_atlas_issue_proto_init() }
 func file_eolymp_atlas_issue_proto_init() {
 	if File_eolymp_atlas_issue_proto != nil {
 		return
+	}
+	file_eolymp_atlas_issue_proto_msgTypes[0].OneofWrappers = []any{
+		(*Issue_ReporterId)(nil),
+		(*Issue_TesterId)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
