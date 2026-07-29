@@ -26,18 +26,19 @@ const (
 type Rule_Trigger int32
 
 const (
-	Rule_UNKNOWN_TRIGGER        Rule_Trigger = 0
-	Rule_SUBMISSION_COMPLETED   Rule_Trigger = 1
-	Rule_SCORE_CHANGED          Rule_Trigger = 2
-	Rule_PARTICIPANT_REGISTERED Rule_Trigger = 3
-	Rule_PARTICIPANT_CHANGED    Rule_Trigger = 4
-	Rule_TICKET_CHANGED         Rule_Trigger = 5
-	Rule_COMMENT_ADDED          Rule_Trigger = 6
-	Rule_MEMBER_CHANGED         Rule_Trigger = 7
-	Rule_STUDENT_CHANGED        Rule_Trigger = 8
-	Rule_ASSIGNMENT_CHANGED     Rule_Trigger = 9
-	Rule_PARTICIPANT_FINALIZED  Rule_Trigger = 10
-	Rule_CONTEST_FINALIZED      Rule_Trigger = 11
+	Rule_UNKNOWN_TRIGGER              Rule_Trigger = 0
+	Rule_SUBMISSION_COMPLETED         Rule_Trigger = 1
+	Rule_SCORE_CHANGED                Rule_Trigger = 2
+	Rule_PARTICIPANT_REGISTERED       Rule_Trigger = 3
+	Rule_PARTICIPANT_CHANGED          Rule_Trigger = 4
+	Rule_TICKET_CHANGED               Rule_Trigger = 5
+	Rule_COMMENT_ADDED                Rule_Trigger = 6
+	Rule_MEMBER_CHANGED               Rule_Trigger = 7
+	Rule_STUDENT_CHANGED              Rule_Trigger = 8
+	Rule_ASSIGNMENT_CHANGED           Rule_Trigger = 9
+	Rule_PARTICIPANT_FINALIZED        Rule_Trigger = 10
+	Rule_CONTEST_FINALIZED            Rule_Trigger = 11
+	Rule_CONTEST_SUBMISSION_COMPLETED Rule_Trigger = 14 // a submission made within a contest has been judged
 	// User-invoked actions (run manually via TriggerRule, not by an event).
 	Rule_CONTEST_ACTION Rule_Trigger = 12
 	Rule_MEMBER_ACTION  Rule_Trigger = 13
@@ -58,24 +59,26 @@ var (
 		9:  "ASSIGNMENT_CHANGED",
 		10: "PARTICIPANT_FINALIZED",
 		11: "CONTEST_FINALIZED",
+		14: "CONTEST_SUBMISSION_COMPLETED",
 		12: "CONTEST_ACTION",
 		13: "MEMBER_ACTION",
 	}
 	Rule_Trigger_value = map[string]int32{
-		"UNKNOWN_TRIGGER":        0,
-		"SUBMISSION_COMPLETED":   1,
-		"SCORE_CHANGED":          2,
-		"PARTICIPANT_REGISTERED": 3,
-		"PARTICIPANT_CHANGED":    4,
-		"TICKET_CHANGED":         5,
-		"COMMENT_ADDED":          6,
-		"MEMBER_CHANGED":         7,
-		"STUDENT_CHANGED":        8,
-		"ASSIGNMENT_CHANGED":     9,
-		"PARTICIPANT_FINALIZED":  10,
-		"CONTEST_FINALIZED":      11,
-		"CONTEST_ACTION":         12,
-		"MEMBER_ACTION":          13,
+		"UNKNOWN_TRIGGER":              0,
+		"SUBMISSION_COMPLETED":         1,
+		"SCORE_CHANGED":                2,
+		"PARTICIPANT_REGISTERED":       3,
+		"PARTICIPANT_CHANGED":          4,
+		"TICKET_CHANGED":               5,
+		"COMMENT_ADDED":                6,
+		"MEMBER_CHANGED":               7,
+		"STUDENT_CHANGED":              8,
+		"ASSIGNMENT_CHANGED":           9,
+		"PARTICIPANT_FINALIZED":        10,
+		"CONTEST_FINALIZED":            11,
+		"CONTEST_SUBMISSION_COMPLETED": 14,
+		"CONTEST_ACTION":               12,
+		"MEMBER_ACTION":                13,
 	}
 )
 
@@ -334,7 +337,7 @@ var File_eolymp_automation_rule_proto protoreflect.FileDescriptor
 
 const file_eolymp_automation_rule_proto_rawDesc = "" +
 	"\n" +
-	"\x1ceolymp/automation/rule.proto\x12\x11eolymp.automation\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1eeolymp/automation/action.proto\x1a!eolymp/automation/condition.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x89\a\n" +
+	"\x1ceolymp/automation/rule.proto\x12\x11eolymp.automation\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1eeolymp/automation/action.proto\x1a!eolymp/automation/condition.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xab\a\n" +
 	"\x04Rule\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x129\n" +
@@ -361,7 +364,7 @@ const file_eolymp_automation_rule_proto_rawDesc = "" +
 	"\aACTIONS\x10\x05\x12\f\n" +
 	"\bINACTIVE\x10\x06\x12\v\n" +
 	"\aDRY_RUN\x10\a\x12\t\n" +
-	"\x05DEBUG\x10\b\"\xc1\x02\n" +
+	"\x05DEBUG\x10\b\"\xe3\x02\n" +
 	"\aTrigger\x12\x13\n" +
 	"\x0fUNKNOWN_TRIGGER\x10\x00\x12\x18\n" +
 	"\x14SUBMISSION_COMPLETED\x10\x01\x12\x11\n" +
@@ -375,7 +378,8 @@ const file_eolymp_automation_rule_proto_rawDesc = "" +
 	"\x12ASSIGNMENT_CHANGED\x10\t\x12\x19\n" +
 	"\x15PARTICIPANT_FINALIZED\x10\n" +
 	"\x12\x15\n" +
-	"\x11CONTEST_FINALIZED\x10\v\x12\x12\n" +
+	"\x11CONTEST_FINALIZED\x10\v\x12 \n" +
+	"\x1cCONTEST_SUBMISSION_COMPLETED\x10\x0e\x12\x12\n" +
 	"\x0eCONTEST_ACTION\x10\f\x12\x11\n" +
 	"\rMEMBER_ACTION\x10\rB7Z5github.com/eolymp/go-sdk/eolymp/automation;automationb\x06proto3"
 
