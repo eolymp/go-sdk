@@ -129,6 +129,8 @@ const (
 	AggregateSubmissionsInput_SUBMITTED_AT      AggregateSubmissionsInput_Dimension = 1
 	AggregateSubmissionsInput_VERDICT           AggregateSubmissionsInput_Dimension = 2
 	AggregateSubmissionsInput_STATUS            AggregateSubmissionsInput_Dimension = 3
+	AggregateSubmissionsInput_LANGUAGE          AggregateSubmissionsInput_Dimension = 4 // language family, the runtime without its version (cpp:20-gnu14 groups under cpp)
+	AggregateSubmissionsInput_RUNTIME           AggregateSubmissionsInput_Dimension = 5 // the full runtime, version included (cpp:20-gnu14)
 )
 
 // Enum value maps for AggregateSubmissionsInput_Dimension.
@@ -138,12 +140,16 @@ var (
 		1: "SUBMITTED_AT",
 		2: "VERDICT",
 		3: "STATUS",
+		4: "LANGUAGE",
+		5: "RUNTIME",
 	}
 	AggregateSubmissionsInput_Dimension_value = map[string]int32{
 		"UNKNOWN_DIMENSION": 0,
 		"SUBMITTED_AT":      1,
 		"VERDICT":           2,
 		"STATUS":            3,
+		"LANGUAGE":          4,
+		"RUNTIME":           5,
 	}
 )
 
@@ -1592,7 +1598,7 @@ const file_eolymp_atlas_submission_service_proto_rawDesc = "" +
 	"\n" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\"F\n" +
 	"\x14ListProblemTopOutput\x12.\n" +
-	"\x05items\x18\x02 \x03(\v2\x18.eolymp.atlas.SubmissionR\x05items\"\xd7\a\n" +
+	"\x05items\x18\x02 \x03(\v2\x18.eolymp.atlas.SubmissionR\x05items\"\xf2\a\n" +
 	"\x19AggregateSubmissionsInput\x12F\n" +
 	"\x06metric\x18\x01 \x01(\x0e2..eolymp.atlas.AggregateSubmissionsInput.MetricR\x06metric\x12L\n" +
 	"\bgroup_by\x18\x02 \x03(\x0e21.eolymp.atlas.AggregateSubmissionsInput.DimensionR\agroupBy\x12;\n" +
@@ -1615,13 +1621,15 @@ const file_eolymp_atlas_submission_service_proto_rawDesc = "" +
 	"percentage\"'\n" +
 	"\x06Metric\x12\x12\n" +
 	"\x0eUNKNOWN_METRIC\x10\x00\x12\t\n" +
-	"\x05COUNT\x10\x01\"M\n" +
+	"\x05COUNT\x10\x01\"h\n" +
 	"\tDimension\x12\x15\n" +
 	"\x11UNKNOWN_DIMENSION\x10\x00\x12\x10\n" +
 	"\fSUBMITTED_AT\x10\x01\x12\v\n" +
 	"\aVERDICT\x10\x02\x12\n" +
 	"\n" +
-	"\x06STATUS\x10\x03\"\xa7\x01\n" +
+	"\x06STATUS\x10\x03\x12\f\n" +
+	"\bLANGUAGE\x10\x04\x12\v\n" +
+	"\aRUNTIME\x10\x05\"\xa7\x01\n" +
 	"\x1aAggregateSubmissionsOutput\x12I\n" +
 	"\abuckets\x18\x01 \x03(\v2/.eolymp.atlas.AggregateSubmissionsOutput.BucketR\abuckets\x1a>\n" +
 	"\x06Bucket\x12\x1e\n" +
