@@ -46,15 +46,15 @@ func (s *ParticipantServiceService) do(ctx context.Context, verb, path string, i
 			return err
 		}
 
-		if verb != "GET" {
-			body = bytes.NewReader(data)
-		} else {
+		if verb == "GET" || verb == "DELETE" {
 			query := url.Values{"q": []string{string(data)}}
 			path = path + "?" + query.Encode()
+		} else {
+			body = bytes.NewReader(data)
 		}
 	}
 
-	if in == nil && verb != "GET" {
+	if in == nil && verb != "GET" && verb != "DELETE" {
 		body = bytes.NewReader([]byte("{}"))
 	}
 

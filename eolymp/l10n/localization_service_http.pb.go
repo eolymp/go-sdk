@@ -6,6 +6,7 @@ package l10n
 import (
 	errors "errors"
 	go_querystring "github.com/eolymp/go-querystring"
+	wellknown "github.com/eolymp/go-sdk/eolymp/wellknown"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -21,6 +22,19 @@ import (
 
 var errLocalizationServiceRequestTooLarge = errors.New("request too large")
 
+// _LocalizationService_HTTPInvalidArgument wraps a request parsing error into an InvalidArgument status
+// with structured details so it is reported as HTTP 400 instead of 500.
+func _LocalizationService_HTTPInvalidArgument(err error) error {
+	s, derr := status.New(codes.InvalidArgument, err.Error()).WithDetails(&wellknown.InvalidArgument{
+		Validation: []*wellknown.Validation{{ErrorMessage: err.Error()}},
+	})
+	if derr != nil {
+		return status.Error(codes.InvalidArgument, err.Error())
+	}
+
+	return s.Err()
+}
+
 // _LocalizationService_HTTPReadQueryString parses query string into proto.Message with size limit
 func _LocalizationService_HTTPReadQueryString(r *http.Request, v proto.Message, maxSize int64) error {
 	if int64(len(r.URL.RawQuery)) > maxSize {
@@ -30,20 +44,28 @@ func _LocalizationService_HTTPReadQueryString(r *http.Request, v proto.Message, 
 	if h := r.Header.Values("Strict-Parsing"); len(h) > 0 {
 		strict, err := strconv.ParseBool(h[len(h)-1])
 		if err != nil {
-			return err
+			return _LocalizationService_HTTPInvalidArgument(err)
 		}
 
 		if strict {
 			query, err := url.ParseQuery(r.URL.RawQuery)
 			if err != nil {
-				return err
+				return _LocalizationService_HTTPInvalidArgument(err)
 			}
 
-			return go_querystring.UnmarshalStrict(query, v)
+			if err := go_querystring.UnmarshalStrict(query, v); err != nil {
+				return _LocalizationService_HTTPInvalidArgument(err)
+			}
+
+			return nil
 		}
 	}
 
-	return go_querystring.Unmarshal(r.URL.Query(), v)
+	if err := go_querystring.Unmarshal(r.URL.Query(), v); err != nil {
+		return _LocalizationService_HTTPInvalidArgument(err)
+	}
+
+	return nil
 }
 
 // _LocalizationService_HTTPReadRequestBody parses body into proto.Message with size limit
@@ -56,11 +78,39 @@ func _LocalizationService_HTTPReadRequestBody(r *http.Request, v proto.Message, 
 		return err
 	}
 
+	// an empty body is a valid, empty message
+	if len(data) == 0 {
+		return nil
+	}
+
 	if err := (protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal(data, v)); err != nil {
-		return err
+		return _LocalizationService_HTTPInvalidArgument(err)
 	}
 
 	return nil
+}
+
+// _LocalizationService_HTTPReadRequest reads request parameters from the body when it is present,
+// otherwise it falls back to the query string. Used for verbs (DELETE) that may carry parameters either way.
+func _LocalizationService_HTTPReadRequest(r *http.Request, v proto.Message, bodyMaxSize, queryMaxSize int64) error {
+	data, err := io.ReadAll(http.MaxBytesReader(nil, r.Body, bodyMaxSize))
+	if err != nil {
+		if err.Error() == "http: request body too large" {
+			return errLocalizationServiceRequestTooLarge
+		}
+		return err
+	}
+
+	// when a body is present it takes precedence over the query string
+	if len(data) != 0 {
+		if err := (protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal(data, v)); err != nil {
+			return _LocalizationService_HTTPInvalidArgument(err)
+		}
+
+		return nil
+	}
+
+	return _LocalizationService_HTTPReadQueryString(r, v, queryMaxSize)
 }
 
 // _LocalizationService_HTTPWriteResponse writes proto.Message to HTTP response
@@ -339,7 +389,7 @@ func _LocalizationService_DeleteTerm_Rule0(cli LocalizationServiceClient) http.H
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteTermInput{}
 
-		if err := _LocalizationService_HTTPReadRequestBody(r, in, 1048576); err != nil {
+		if err := _LocalizationService_HTTPReadRequest(r, in, 1048576, 131072); err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -432,7 +482,7 @@ func _LocalizationService_RemoveLocale_Rule0(cli LocalizationServiceClient) http
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &RemoveLocaleInput{}
 
-		if err := _LocalizationService_HTTPReadRequestBody(r, in, 1048576); err != nil {
+		if err := _LocalizationService_HTTPReadRequest(r, in, 1048576, 131072); err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -525,7 +575,7 @@ func _LocalizationService_DeleteTranslation_Rule0(cli LocalizationServiceClient)
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteTranslationInput{}
 
-		if err := _LocalizationService_HTTPReadRequestBody(r, in, 1048576); err != nil {
+		if err := _LocalizationService_HTTPReadRequest(r, in, 1048576, 131072); err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
 		}

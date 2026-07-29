@@ -6,6 +6,7 @@ package helpdesk
 import (
 	errors "errors"
 	go_querystring "github.com/eolymp/go-querystring"
+	wellknown "github.com/eolymp/go-sdk/eolymp/wellknown"
 	mux "github.com/gorilla/mux"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -21,6 +22,19 @@ import (
 
 var errTicketServiceRequestTooLarge = errors.New("request too large")
 
+// _TicketService_HTTPInvalidArgument wraps a request parsing error into an InvalidArgument status
+// with structured details so it is reported as HTTP 400 instead of 500.
+func _TicketService_HTTPInvalidArgument(err error) error {
+	s, derr := status.New(codes.InvalidArgument, err.Error()).WithDetails(&wellknown.InvalidArgument{
+		Validation: []*wellknown.Validation{{ErrorMessage: err.Error()}},
+	})
+	if derr != nil {
+		return status.Error(codes.InvalidArgument, err.Error())
+	}
+
+	return s.Err()
+}
+
 // _TicketService_HTTPReadQueryString parses query string into proto.Message with size limit
 func _TicketService_HTTPReadQueryString(r *http.Request, v proto.Message, maxSize int64) error {
 	if int64(len(r.URL.RawQuery)) > maxSize {
@@ -30,20 +44,28 @@ func _TicketService_HTTPReadQueryString(r *http.Request, v proto.Message, maxSiz
 	if h := r.Header.Values("Strict-Parsing"); len(h) > 0 {
 		strict, err := strconv.ParseBool(h[len(h)-1])
 		if err != nil {
-			return err
+			return _TicketService_HTTPInvalidArgument(err)
 		}
 
 		if strict {
 			query, err := url.ParseQuery(r.URL.RawQuery)
 			if err != nil {
-				return err
+				return _TicketService_HTTPInvalidArgument(err)
 			}
 
-			return go_querystring.UnmarshalStrict(query, v)
+			if err := go_querystring.UnmarshalStrict(query, v); err != nil {
+				return _TicketService_HTTPInvalidArgument(err)
+			}
+
+			return nil
 		}
 	}
 
-	return go_querystring.Unmarshal(r.URL.Query(), v)
+	if err := go_querystring.Unmarshal(r.URL.Query(), v); err != nil {
+		return _TicketService_HTTPInvalidArgument(err)
+	}
+
+	return nil
 }
 
 // _TicketService_HTTPReadRequestBody parses body into proto.Message with size limit
@@ -56,11 +78,39 @@ func _TicketService_HTTPReadRequestBody(r *http.Request, v proto.Message, maxSiz
 		return err
 	}
 
+	// an empty body is a valid, empty message
+	if len(data) == 0 {
+		return nil
+	}
+
 	if err := (protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal(data, v)); err != nil {
-		return err
+		return _TicketService_HTTPInvalidArgument(err)
 	}
 
 	return nil
+}
+
+// _TicketService_HTTPReadRequest reads request parameters from the body when it is present,
+// otherwise it falls back to the query string. Used for verbs (DELETE) that may carry parameters either way.
+func _TicketService_HTTPReadRequest(r *http.Request, v proto.Message, bodyMaxSize, queryMaxSize int64) error {
+	data, err := io.ReadAll(http.MaxBytesReader(nil, r.Body, bodyMaxSize))
+	if err != nil {
+		if err.Error() == "http: request body too large" {
+			return errTicketServiceRequestTooLarge
+		}
+		return err
+	}
+
+	// when a body is present it takes precedence over the query string
+	if len(data) != 0 {
+		if err := (protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal(data, v)); err != nil {
+			return _TicketService_HTTPInvalidArgument(err)
+		}
+
+		return nil
+	}
+
+	return _TicketService_HTTPReadQueryString(r, v, queryMaxSize)
 }
 
 // _TicketService_HTTPWriteResponse writes proto.Message to HTTP response
@@ -249,7 +299,7 @@ func _TicketService_DeleteTicket_Rule0(cli TicketServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteTicketInput{}
 
-		if err := _TicketService_HTTPReadRequestBody(r, in, 1048576); err != nil {
+		if err := _TicketService_HTTPReadRequest(r, in, 1048576, 131072); err != nil {
 			_TicketService_HTTPWriteErrorResponse(w, err)
 			return
 		}
@@ -439,7 +489,7 @@ func _TicketService_DeleteComment_Rule0(cli TicketServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &DeleteCommentInput{}
 
-		if err := _TicketService_HTTPReadRequestBody(r, in, 1048576); err != nil {
+		if err := _TicketService_HTTPReadRequest(r, in, 1048576, 131072); err != nil {
 			_TicketService_HTTPWriteErrorResponse(w, err)
 			return
 		}
