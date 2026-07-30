@@ -122,7 +122,10 @@ type Run struct {
 	// Resource usage statistics as reported by getrusage
 	ResourceUsage *executor.ResourceUsage `protobuf:"bytes,35,opt,name=resource_usage,json=resourceUsage,proto3" json:"resource_usage,omitempty"`
 	// Combined output (data or blob)
-	OutputUrl     string `protobuf:"bytes,42,opt,name=output_url,json=outputUrl,proto3" json:"output_url,omitempty"`
+	OutputUrl string `protobuf:"bytes,42,opt,name=output_url,json=outputUrl,proto3" json:"output_url,omitempty"`
+	// Step by step execution trace (JSONL), set only when the run requested tracing
+	// and the runtime supports it.
+	TraceUrl      string `protobuf:"bytes,43,opt,name=trace_url,json=traceUrl,proto3" json:"trace_url,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -248,11 +251,18 @@ func (x *Run) GetOutputUrl() string {
 	return ""
 }
 
+func (x *Run) GetTraceUrl() string {
+	if x != nil {
+		return x.TraceUrl
+	}
+	return ""
+}
+
 var File_eolymp_playground_run_proto protoreflect.FileDescriptor
 
 const file_eolymp_playground_run_proto_rawDesc = "" +
 	"\n" +
-	"\x1beolymp/playground/run.proto\x12\x11eolymp.playground\x1a\x1beolymp/executor/usage.proto\"\xf4\x04\n" +
+	"\x1beolymp/playground/run.proto\x12\x11eolymp.playground\x1a\x1beolymp/executor/usage.proto\"\x91\x05\n" +
 	"\x03Run\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x18\n" +
 	"\aruntime\x18\n" +
@@ -269,7 +279,8 @@ const file_eolymp_playground_run_proto_rawDesc = "" +
 	"\fmemory_usage\x18\" \x01(\x04R\vmemoryUsage\x12E\n" +
 	"\x0eresource_usage\x18# \x01(\v2\x1e.eolymp.executor.ResourceUsageR\rresourceUsage\x12\x1d\n" +
 	"\n" +
-	"output_url\x18* \x01(\tR\toutputUrl\"\xad\x01\n" +
+	"output_url\x18* \x01(\tR\toutputUrl\x12\x1b\n" +
+	"\ttrace_url\x18+ \x01(\tR\btraceUrl\"\xad\x01\n" +
 	"\x06Status\x12\b\n" +
 	"\x04NONE\x10\x00\x12\v\n" +
 	"\aPENDING\x10\x01\x12\x10\n" +

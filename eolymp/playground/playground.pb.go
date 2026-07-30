@@ -25,6 +25,7 @@ const (
 type CreateRunInput struct {
 	state   protoimpl.MessageState `protogen:"open.v1"`
 	Runtime string                 `protobuf:"bytes,2,opt,name=runtime,proto3" json:"runtime,omitempty"`
+	Trace   bool                   `protobuf:"varint,3,opt,name=trace,proto3" json:"trace,omitempty"`
 	Source  string                 `protobuf:"bytes,100,opt,name=source,proto3" json:"source,omitempty"`
 	// Types that are valid to be assigned to Input:
 	//
@@ -70,6 +71,13 @@ func (x *CreateRunInput) GetRuntime() string {
 		return x.Runtime
 	}
 	return ""
+}
+
+func (x *CreateRunInput) GetTrace() bool {
+	if x != nil {
+		return x.Trace
+	}
+	return false
 }
 
 func (x *CreateRunInput) GetSource() string {
@@ -344,9 +352,10 @@ var File_eolymp_playground_playground_proto protoreflect.FileDescriptor
 
 const file_eolymp_playground_playground_proto_rawDesc = "" +
 	"\n" +
-	"\"eolymp/playground/playground.proto\x12\x11eolymp.playground\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1beolymp/playground/run.proto\"\x8b\x01\n" +
+	"\"eolymp/playground/playground.proto\x12\x11eolymp.playground\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1beolymp/playground/run.proto\"\xa1\x01\n" +
 	"\x0eCreateRunInput\x12\x18\n" +
-	"\aruntime\x18\x02 \x01(\tR\aruntime\x12\x16\n" +
+	"\aruntime\x18\x02 \x01(\tR\aruntime\x12\x14\n" +
+	"\x05trace\x18\x03 \x01(\bR\x05trace\x12\x16\n" +
 	"\x06source\x18d \x01(\tR\x06source\x12\x1f\n" +
 	"\n" +
 	"input_data\x18e \x01(\fH\x00R\tinputData\x12\x1d\n" +
