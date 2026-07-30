@@ -386,9 +386,11 @@ type EvaluationReport_Run struct {
 	InputUrl        string                      `protobuf:"bytes,10,opt,name=input_url,json=inputUrl,proto3" json:"input_url,omitempty"`
 	OutputUrl       string                      `protobuf:"bytes,11,opt,name=output_url,json=outputUrl,proto3" json:"output_url,omitempty"`
 	AnswerUrl       string                      `protobuf:"bytes,12,opt,name=answer_url,json=answerUrl,proto3" json:"answer_url,omitempty"`
-	DebugStats      *Stats                      `protobuf:"bytes,90,opt,name=debug_stats,json=debugStats,proto3" json:"debug_stats,omitempty"`                // execution stats
-	CheckerStats    *Stats                      `protobuf:"bytes,35,opt,name=checker_stats,json=checkerStats,proto3" json:"checker_stats,omitempty"`          // checker stats
-	InteractorStats *Stats                      `protobuf:"bytes,45,opt,name=interactor_stats,json=interactorStats,proto3" json:"interactor_stats,omitempty"` // interactor stats
+	// Execution trace (JSONL), set only when task requested tracing and the runtime supports it.
+	TraceUrl        string `protobuf:"bytes,13,opt,name=trace_url,json=traceUrl,proto3" json:"trace_url,omitempty"`
+	DebugStats      *Stats `protobuf:"bytes,90,opt,name=debug_stats,json=debugStats,proto3" json:"debug_stats,omitempty"`                // execution stats
+	CheckerStats    *Stats `protobuf:"bytes,35,opt,name=checker_stats,json=checkerStats,proto3" json:"checker_stats,omitempty"`          // checker stats
+	InteractorStats *Stats `protobuf:"bytes,45,opt,name=interactor_stats,json=interactorStats,proto3" json:"interactor_stats,omitempty"` // interactor stats
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -521,6 +523,13 @@ func (x *EvaluationReport_Run) GetAnswerUrl() string {
 	return ""
 }
 
+func (x *EvaluationReport_Run) GetTraceUrl() string {
+	if x != nil {
+		return x.TraceUrl
+	}
+	return ""
+}
+
 func (x *EvaluationReport_Run) GetDebugStats() *Stats {
 	if x != nil {
 		return x.DebugStats
@@ -546,7 +555,7 @@ var File_eolymp_executor_evaluation_report_proto protoreflect.FileDescriptor
 
 const file_eolymp_executor_evaluation_report_proto_rawDesc = "" +
 	"\n" +
-	"'eolymp/executor/evaluation_report.proto\x12\x0feolymp.executor\x1a\x1beolymp/executor/stats.proto\"\xef\f\n" +
+	"'eolymp/executor/evaluation_report.proto\x12\x0feolymp.executor\x1a\x1beolymp/executor/stats.proto\"\x8c\r\n" +
 	"\x10EvaluationReport\x12\x17\n" +
 	"\atask_id\x18\x01 \x01(\tR\x06taskId\x12\x1c\n" +
 	"\treference\x18\x02 \x01(\tR\treference\x12\x16\n" +
@@ -559,7 +568,7 @@ const file_eolymp_executor_evaluation_report_proto_rawDesc = "" +
 	" \x01(\x0e2&.eolymp.executor.EvaluationReport.TypeR\x04type\x12@\n" +
 	"\x06status\x18\v \x01(\x0e2(.eolymp.executor.EvaluationReport.StatusR\x06status\x12#\n" +
 	"\rerror_message\x18\x14 \x01(\tR\ferrorMessage\x129\n" +
-	"\x04runs\x18( \x03(\v2%.eolymp.executor.EvaluationReport.RunR\x04runs\x1a\x84\a\n" +
+	"\x04runs\x18( \x03(\v2%.eolymp.executor.EvaluationReport.RunR\x04runs\x1a\xa1\a\n" +
 	"\x03Run\x12\x1c\n" +
 	"\treference\x18\x01 \x01(\tR\treference\x12D\n" +
 	"\x06status\x18\x02 \x01(\x0e2,.eolymp.executor.EvaluationReport.Run.StatusR\x06status\x12\x14\n" +
@@ -579,7 +588,8 @@ const file_eolymp_executor_evaluation_report_proto_rawDesc = "" +
 	"\n" +
 	"output_url\x18\v \x01(\tR\toutputUrl\x12\x1d\n" +
 	"\n" +
-	"answer_url\x18\f \x01(\tR\tanswerUrl\x127\n" +
+	"answer_url\x18\f \x01(\tR\tanswerUrl\x12\x1b\n" +
+	"\ttrace_url\x18\r \x01(\tR\btraceUrl\x127\n" +
 	"\vdebug_stats\x18Z \x01(\v2\x16.eolymp.executor.StatsR\n" +
 	"debugStats\x12;\n" +
 	"\rchecker_stats\x18# \x01(\v2\x16.eolymp.executor.StatsR\fcheckerStats\x12A\n" +

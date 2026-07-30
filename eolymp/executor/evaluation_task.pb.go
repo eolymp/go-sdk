@@ -84,6 +84,12 @@ type EvaluationTask struct {
 	// Combine stderr and stdout when capturing output. Checker will use combined output as answer. Status will capture
 	// both stderr and stdout in output field while stderr will be empty.
 	RedirectStderrToStdout bool `protobuf:"varint,13,opt,name=redirect_stderr_to_stdout,json=redirectStderrToStdout,proto3" json:"redirect_stderr_to_stdout,omitempty"`
+	// Record an execution trace for each run and report it as trace_url.
+	//
+	// Tracing changes how the submission is built and executed (debug symbols, no optimization, runs under a debugger),
+	// so a traced run is a different binary than a judged one and is orders of magnitude slower. Not all runtimes
+	// support it; those that don't ignore the flag. This is a task-level flag, it applies to every run.
+	Trace bool `protobuf:"varint,18,opt,name=trace,proto3" json:"trace,omitempty"`
 	// The agent will normalize execution time of each run within deviation range.
 	//
 	// Each agent calculates a time coefficient (a multiplier) based on the evaluation time of benchmark solution. This coefficient is used to normalize execution time of each run.
@@ -174,6 +180,13 @@ func (x *EvaluationTask) GetPriority() uint32 {
 func (x *EvaluationTask) GetRedirectStderrToStdout() bool {
 	if x != nil {
 		return x.RedirectStderrToStdout
+	}
+	return false
+}
+
+func (x *EvaluationTask) GetTrace() bool {
+	if x != nil {
+		return x.Trace
 	}
 	return false
 }
@@ -751,14 +764,15 @@ var File_eolymp_executor_evaluation_task_proto protoreflect.FileDescriptor
 
 const file_eolymp_executor_evaluation_task_proto_rawDesc = "" +
 	"\n" +
-	"%eolymp/executor/evaluation_task.proto\x12\x0feolymp.executor\x1a\x1deolymp/executor/checker.proto\x1a\x1ceolymp/executor/script.proto\"\xa6\x11\n" +
+	"%eolymp/executor/evaluation_task.proto\x12\x0feolymp.executor\x1a\x1deolymp/executor/checker.proto\x1a\x1ceolymp/executor/script.proto\"\xbc\x11\n" +
 	"\x0eEvaluationTask\x12\x17\n" +
 	"\atask_id\x18\x01 \x01(\tR\x06taskId\x12\x1c\n" +
 	"\treference\x18\x02 \x01(\tR\treference\x12\x16\n" +
 	"\x06origin\x18\x03 \x01(\tR\x06origin\x12I\n" +
 	"\bmetadata\x18\x05 \x03(\v2-.eolymp.executor.EvaluationTask.MetadataEntryR\bmetadata\x12\x1a\n" +
 	"\bpriority\x18\x04 \x01(\rR\bpriority\x129\n" +
-	"\x19redirect_stderr_to_stdout\x18\r \x01(\bR\x16redirectStderrToStdout\x12<\n" +
+	"\x19redirect_stderr_to_stdout\x18\r \x01(\bR\x16redirectStderrToStdout\x12\x14\n" +
+	"\x05trace\x18\x12 \x01(\bR\x05trace\x12<\n" +
 	"\x1atime_coefficient_deviation\x18\x0e \x01(\x02R\x18timeCoefficientDeviation\x12\x1b\n" +
 	"\trun_count\x18\x10 \x01(\rR\brunCount\x121\n" +
 	"\x14interactive_followup\x18\x11 \x01(\bR\x13interactiveFollowup\x12R\n" +
