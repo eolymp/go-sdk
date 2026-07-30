@@ -25,6 +25,7 @@ const (
 	FulfillmentService_ShipOrder_FullMethodName         = "/eolymp.commerce.FulfillmentService/ShipOrder"
 	FulfillmentService_CompleteOrder_FullMethodName     = "/eolymp.commerce.FulfillmentService/CompleteOrder"
 	FulfillmentService_MarkReturnedOrder_FullMethodName = "/eolymp.commerce.FulfillmentService/MarkReturnedOrder"
+	FulfillmentService_ExportOrderLabels_FullMethodName = "/eolymp.commerce.FulfillmentService/ExportOrderLabels"
 )
 
 // FulfillmentServiceClient is the client API for FulfillmentService service.
@@ -39,6 +40,9 @@ type FulfillmentServiceClient interface {
 	ShipOrder(ctx context.Context, in *ShipOrderInput, opts ...grpc.CallOption) (*ShipOrderOutput, error)
 	CompleteOrder(ctx context.Context, in *CompleteOrderInput, opts ...grpc.CallOption) (*CompleteOrderOutput, error)
 	MarkReturnedOrder(ctx context.Context, in *MarkReturnedOrderInput, opts ...grpc.CallOption) (*MarkReturnedOrderOutput, error)
+	// ExportOrderLabels renders a printable pick list of shipping labels for the given orders
+	// to a PDF, uploads it as an asset and returns a temporary download URL.
+	ExportOrderLabels(ctx context.Context, in *ExportOrderLabelsInput, opts ...grpc.CallOption) (*ExportOrderLabelsOutput, error)
 }
 
 type fulfillmentServiceClient struct {
@@ -109,6 +113,16 @@ func (c *fulfillmentServiceClient) MarkReturnedOrder(ctx context.Context, in *Ma
 	return out, nil
 }
 
+func (c *fulfillmentServiceClient) ExportOrderLabels(ctx context.Context, in *ExportOrderLabelsInput, opts ...grpc.CallOption) (*ExportOrderLabelsOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ExportOrderLabelsOutput)
+	err := c.cc.Invoke(ctx, FulfillmentService_ExportOrderLabels_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // FulfillmentServiceServer is the server API for FulfillmentService service.
 // All implementations should embed UnimplementedFulfillmentServiceServer
 // for forward compatibility.
@@ -121,6 +135,9 @@ type FulfillmentServiceServer interface {
 	ShipOrder(context.Context, *ShipOrderInput) (*ShipOrderOutput, error)
 	CompleteOrder(context.Context, *CompleteOrderInput) (*CompleteOrderOutput, error)
 	MarkReturnedOrder(context.Context, *MarkReturnedOrderInput) (*MarkReturnedOrderOutput, error)
+	// ExportOrderLabels renders a printable pick list of shipping labels for the given orders
+	// to a PDF, uploads it as an asset and returns a temporary download URL.
+	ExportOrderLabels(context.Context, *ExportOrderLabelsInput) (*ExportOrderLabelsOutput, error)
 }
 
 // UnimplementedFulfillmentServiceServer should be embedded to have
@@ -147,6 +164,9 @@ func (UnimplementedFulfillmentServiceServer) CompleteOrder(context.Context, *Com
 }
 func (UnimplementedFulfillmentServiceServer) MarkReturnedOrder(context.Context, *MarkReturnedOrderInput) (*MarkReturnedOrderOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method MarkReturnedOrder not implemented")
+}
+func (UnimplementedFulfillmentServiceServer) ExportOrderLabels(context.Context, *ExportOrderLabelsInput) (*ExportOrderLabelsOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method ExportOrderLabels not implemented")
 }
 func (UnimplementedFulfillmentServiceServer) testEmbeddedByValue() {}
 
@@ -276,6 +296,24 @@ func _FulfillmentService_MarkReturnedOrder_Handler(srv interface{}, ctx context.
 	return interceptor(ctx, in, info, handler)
 }
 
+func _FulfillmentService_ExportOrderLabels_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ExportOrderLabelsInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FulfillmentServiceServer).ExportOrderLabels(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: FulfillmentService_ExportOrderLabels_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FulfillmentServiceServer).ExportOrderLabels(ctx, req.(*ExportOrderLabelsInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // FulfillmentService_ServiceDesc is the grpc.ServiceDesc for FulfillmentService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -306,6 +344,10 @@ var FulfillmentService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "MarkReturnedOrder",
 			Handler:    _FulfillmentService_MarkReturnedOrder_Handler,
+		},
+		{
+			MethodName: "ExportOrderLabels",
+			Handler:    _FulfillmentService_ExportOrderLabels_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

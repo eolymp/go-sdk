@@ -219,6 +219,9 @@ func RegisterFulfillmentServiceHttpHandlers(router *mux.Router, prefix string, c
 	router.Handle(prefix+"/store/orders/{order_id}/return", _FulfillmentService_MarkReturnedOrder_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.commerce.FulfillmentService.MarkReturnedOrder")
+	router.Handle(prefix+"/store/orders:export-labels", _FulfillmentService_ExportOrderLabels_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.commerce.FulfillmentService.ExportOrderLabels")
 }
 
 // RegisterFulfillmentServiceHttpProxy adds proxy handlers for for FulfillmentServiceClient
@@ -361,6 +364,27 @@ func _FulfillmentService_MarkReturnedOrder_Rule0(cli FulfillmentServiceClient) h
 		var header, trailer metadata.MD
 
 		out, err := cli.MarkReturnedOrder(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_FulfillmentService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_FulfillmentService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _FulfillmentService_ExportOrderLabels_Rule0(cli FulfillmentServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ExportOrderLabelsInput{}
+
+		if err := _FulfillmentService_HTTPReadRequestBody(r, in, 1048576); err != nil {
+			_FulfillmentService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.ExportOrderLabels(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_FulfillmentService_HTTPWriteErrorResponse(w, err)
 			return

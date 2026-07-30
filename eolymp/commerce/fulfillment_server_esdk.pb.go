@@ -195,3 +195,14 @@ func (s *FulfillmentServiceService) MarkReturnedOrder(ctx context.Context, in *M
 
 	return out, nil
 }
+
+func (s *FulfillmentServiceService) ExportOrderLabels(ctx context.Context, in *ExportOrderLabelsInput) (*ExportOrderLabelsOutput, error) {
+	out := &ExportOrderLabelsOutput{}
+	path := "/store/orders:export-labels"
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
