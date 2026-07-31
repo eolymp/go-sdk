@@ -21,56 +21,70 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type GenerationReport_Run_Status int32
+// Status is shared by the report and its runs. Values 1-3 keep the numbers
+// GenerationReport.Run.status has always used, so old agents stay readable.
+type GenerationReport_Status int32
 
 const (
-	GenerationReport_Run_NONE     GenerationReport_Run_Status = 0
-	GenerationReport_Run_PENDING  GenerationReport_Run_Status = 1
-	GenerationReport_Run_COMPLETE GenerationReport_Run_Status = 2
-	GenerationReport_Run_FAILED   GenerationReport_Run_Status = 3
+	GenerationReport_UNKNOWN_STATUS GenerationReport_Status = 0 // should not be used
+	GenerationReport_PENDING        GenerationReport_Status = 1 // not yet picked up by agent
+	GenerationReport_COMPLETE       GenerationReport_Status = 2 // complete
+	GenerationReport_FAILED         GenerationReport_Status = 3 // failed due to an internal error
+	GenerationReport_PROVISIONING   GenerationReport_Status = 4 // agent is provisioning the environment
+	GenerationReport_INITIALIZING   GenerationReport_Status = 5 // agent is compiling scripts and the validator
+	GenerationReport_EXECUTING      GenerationReport_Status = 6 // agent is generating tests
+	GenerationReport_ERROR          GenerationReport_Status = 7 // failed due to an error in the task, such as a validator compilation error
 )
 
-// Enum value maps for GenerationReport_Run_Status.
+// Enum value maps for GenerationReport_Status.
 var (
-	GenerationReport_Run_Status_name = map[int32]string{
-		0: "NONE",
+	GenerationReport_Status_name = map[int32]string{
+		0: "UNKNOWN_STATUS",
 		1: "PENDING",
 		2: "COMPLETE",
 		3: "FAILED",
+		4: "PROVISIONING",
+		5: "INITIALIZING",
+		6: "EXECUTING",
+		7: "ERROR",
 	}
-	GenerationReport_Run_Status_value = map[string]int32{
-		"NONE":     0,
-		"PENDING":  1,
-		"COMPLETE": 2,
-		"FAILED":   3,
+	GenerationReport_Status_value = map[string]int32{
+		"UNKNOWN_STATUS": 0,
+		"PENDING":        1,
+		"COMPLETE":       2,
+		"FAILED":         3,
+		"PROVISIONING":   4,
+		"INITIALIZING":   5,
+		"EXECUTING":      6,
+		"ERROR":          7,
 	}
 )
 
-func (x GenerationReport_Run_Status) Enum() *GenerationReport_Run_Status {
-	p := new(GenerationReport_Run_Status)
+func (x GenerationReport_Status) Enum() *GenerationReport_Status {
+	p := new(GenerationReport_Status)
 	*p = x
 	return p
 }
 
-func (x GenerationReport_Run_Status) String() string {
+func (x GenerationReport_Status) String() string {
 	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
 }
 
-func (GenerationReport_Run_Status) Descriptor() protoreflect.EnumDescriptor {
+func (GenerationReport_Status) Descriptor() protoreflect.EnumDescriptor {
 	return file_eolymp_executor_generation_report_proto_enumTypes[0].Descriptor()
 }
 
-func (GenerationReport_Run_Status) Type() protoreflect.EnumType {
+func (GenerationReport_Status) Type() protoreflect.EnumType {
 	return &file_eolymp_executor_generation_report_proto_enumTypes[0]
 }
 
-func (x GenerationReport_Run_Status) Number() protoreflect.EnumNumber {
+func (x GenerationReport_Status) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use GenerationReport_Run_Status.Descriptor instead.
-func (GenerationReport_Run_Status) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_executor_generation_report_proto_rawDescGZIP(), []int{0, 0, 0}
+// Deprecated: Use GenerationReport_Status.Descriptor instead.
+func (GenerationReport_Status) EnumDescriptor() ([]byte, []int) {
+	return file_eolymp_executor_generation_report_proto_rawDescGZIP(), []int{0, 0}
 }
 
 type GenerationReport struct {
@@ -80,6 +94,7 @@ type GenerationReport struct {
 	Origin        string                  `protobuf:"bytes,3,opt,name=origin,proto3" json:"origin,omitempty"`
 	Metadata      map[string]string       `protobuf:"bytes,5,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	Agent         string                  `protobuf:"bytes,4,opt,name=agent,proto3" json:"agent,omitempty"`
+	Status        GenerationReport_Status `protobuf:"varint,11,opt,name=status,proto3,enum=eolymp.executor.GenerationReport_Status" json:"status,omitempty"`
 	Runs          []*GenerationReport_Run `protobuf:"bytes,40,rep,name=runs,proto3" json:"runs,omitempty"`
 	ErrorMessage  string                  `protobuf:"bytes,50,opt,name=error_message,json=errorMessage,proto3" json:"error_message,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -151,6 +166,13 @@ func (x *GenerationReport) GetAgent() string {
 	return ""
 }
 
+func (x *GenerationReport) GetStatus() GenerationReport_Status {
+	if x != nil {
+		return x.Status
+	}
+	return GenerationReport_UNKNOWN_STATUS
+}
+
 func (x *GenerationReport) GetRuns() []*GenerationReport_Run {
 	if x != nil {
 		return x.Runs
@@ -167,16 +189,16 @@ func (x *GenerationReport) GetErrorMessage() string {
 
 // Run represents a single execution
 type GenerationReport_Run struct {
-	state                protoimpl.MessageState      `protogen:"open.v1"`
-	Reference            string                      `protobuf:"bytes,1,opt,name=reference,proto3" json:"reference,omitempty"`
-	Status               GenerationReport_Run_Status `protobuf:"varint,2,opt,name=status,proto3,enum=eolymp.executor.GenerationReport_Run_Status" json:"status,omitempty"`
-	Valid                bool                        `protobuf:"varint,31,opt,name=valid,proto3" json:"valid,omitempty"`
-	InputUrl             string                      `protobuf:"bytes,10,opt,name=input_url,json=inputUrl,proto3" json:"input_url,omitempty"`
-	AnswerUrl            string                      `protobuf:"bytes,11,opt,name=answer_url,json=answerUrl,proto3" json:"answer_url,omitempty"`
-	InputGeneratorStats  *Stats                      `protobuf:"bytes,20,opt,name=input_generator_stats,json=inputGeneratorStats,proto3" json:"input_generator_stats,omitempty"`
-	AnswerGeneratorStats *Stats                      `protobuf:"bytes,30,opt,name=answer_generator_stats,json=answerGeneratorStats,proto3" json:"answer_generator_stats,omitempty"`
-	ValidatorStats       *Stats                      `protobuf:"bytes,35,opt,name=validator_stats,json=validatorStats,proto3" json:"validator_stats,omitempty"`
-	ErrorMessage         string                      `protobuf:"bytes,40,opt,name=error_message,json=errorMessage,proto3" json:"error_message,omitempty"`
+	state                protoimpl.MessageState  `protogen:"open.v1"`
+	Reference            string                  `protobuf:"bytes,1,opt,name=reference,proto3" json:"reference,omitempty"`
+	Status               GenerationReport_Status `protobuf:"varint,2,opt,name=status,proto3,enum=eolymp.executor.GenerationReport_Status" json:"status,omitempty"`
+	Valid                bool                    `protobuf:"varint,31,opt,name=valid,proto3" json:"valid,omitempty"`
+	InputUrl             string                  `protobuf:"bytes,10,opt,name=input_url,json=inputUrl,proto3" json:"input_url,omitempty"`
+	AnswerUrl            string                  `protobuf:"bytes,11,opt,name=answer_url,json=answerUrl,proto3" json:"answer_url,omitempty"`
+	InputGeneratorStats  *Stats                  `protobuf:"bytes,20,opt,name=input_generator_stats,json=inputGeneratorStats,proto3" json:"input_generator_stats,omitempty"`
+	AnswerGeneratorStats *Stats                  `protobuf:"bytes,30,opt,name=answer_generator_stats,json=answerGeneratorStats,proto3" json:"answer_generator_stats,omitempty"`
+	ValidatorStats       *Stats                  `protobuf:"bytes,35,opt,name=validator_stats,json=validatorStats,proto3" json:"validator_stats,omitempty"`
+	ErrorMessage         string                  `protobuf:"bytes,40,opt,name=error_message,json=errorMessage,proto3" json:"error_message,omitempty"`
 	unknownFields        protoimpl.UnknownFields
 	sizeCache            protoimpl.SizeCache
 }
@@ -218,11 +240,11 @@ func (x *GenerationReport_Run) GetReference() string {
 	return ""
 }
 
-func (x *GenerationReport_Run) GetStatus() GenerationReport_Run_Status {
+func (x *GenerationReport_Run) GetStatus() GenerationReport_Status {
 	if x != nil {
 		return x.Status
 	}
-	return GenerationReport_Run_NONE
+	return GenerationReport_UNKNOWN_STATUS
 }
 
 func (x *GenerationReport_Run) GetValid() bool {
@@ -278,18 +300,19 @@ var File_eolymp_executor_generation_report_proto protoreflect.FileDescriptor
 
 const file_eolymp_executor_generation_report_proto_rawDesc = "" +
 	"\n" +
-	"'eolymp/executor/generation_report.proto\x12\x0feolymp.executor\x1a\x1beolymp/executor/stats.proto\"\xda\x06\n" +
+	"'eolymp/executor/generation_report.proto\x12\x0feolymp.executor\x1a\x1beolymp/executor/stats.proto\"\xe1\a\n" +
 	"\x10GenerationReport\x12\x17\n" +
 	"\atask_id\x18\x01 \x01(\tR\x06taskId\x12\x1c\n" +
 	"\treference\x18\x02 \x01(\tR\treference\x12\x16\n" +
 	"\x06origin\x18\x03 \x01(\tR\x06origin\x12K\n" +
 	"\bmetadata\x18\x05 \x03(\v2/.eolymp.executor.GenerationReport.MetadataEntryR\bmetadata\x12\x14\n" +
-	"\x05agent\x18\x04 \x01(\tR\x05agent\x129\n" +
+	"\x05agent\x18\x04 \x01(\tR\x05agent\x12@\n" +
+	"\x06status\x18\v \x01(\x0e2(.eolymp.executor.GenerationReport.StatusR\x06status\x129\n" +
 	"\x04runs\x18( \x03(\v2%.eolymp.executor.GenerationReport.RunR\x04runs\x12#\n" +
-	"\rerror_message\x182 \x01(\tR\ferrorMessage\x1a\xf6\x03\n" +
+	"\rerror_message\x182 \x01(\tR\ferrorMessage\x1a\xb7\x03\n" +
 	"\x03Run\x12\x1c\n" +
-	"\treference\x18\x01 \x01(\tR\treference\x12D\n" +
-	"\x06status\x18\x02 \x01(\x0e2,.eolymp.executor.GenerationReport.Run.StatusR\x06status\x12\x14\n" +
+	"\treference\x18\x01 \x01(\tR\treference\x12@\n" +
+	"\x06status\x18\x02 \x01(\x0e2(.eolymp.executor.GenerationReport.StatusR\x06status\x12\x14\n" +
 	"\x05valid\x18\x1f \x01(\bR\x05valid\x12\x1b\n" +
 	"\tinput_url\x18\n" +
 	" \x01(\tR\binputUrl\x12\x1d\n" +
@@ -298,16 +321,20 @@ const file_eolymp_executor_generation_report_proto_rawDesc = "" +
 	"\x15input_generator_stats\x18\x14 \x01(\v2\x16.eolymp.executor.StatsR\x13inputGeneratorStats\x12L\n" +
 	"\x16answer_generator_stats\x18\x1e \x01(\v2\x16.eolymp.executor.StatsR\x14answerGeneratorStats\x12?\n" +
 	"\x0fvalidator_stats\x18# \x01(\v2\x16.eolymp.executor.StatsR\x0evalidatorStats\x12#\n" +
-	"\rerror_message\x18( \x01(\tR\ferrorMessage\"9\n" +
-	"\x06Status\x12\b\n" +
-	"\x04NONE\x10\x00\x12\v\n" +
+	"\rerror_message\x18( \x01(\tR\ferrorMessage\x1a;\n" +
+	"\rMetadataEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\x81\x01\n" +
+	"\x06Status\x12\x12\n" +
+	"\x0eUNKNOWN_STATUS\x10\x00\x12\v\n" +
 	"\aPENDING\x10\x01\x12\f\n" +
 	"\bCOMPLETE\x10\x02\x12\n" +
 	"\n" +
-	"\x06FAILED\x10\x03\x1a;\n" +
-	"\rMetadataEntry\x12\x10\n" +
-	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01B3Z1github.com/eolymp/go-sdk/eolymp/executor;executorb\x06proto3"
+	"\x06FAILED\x10\x03\x12\x10\n" +
+	"\fPROVISIONING\x10\x04\x12\x10\n" +
+	"\fINITIALIZING\x10\x05\x12\r\n" +
+	"\tEXECUTING\x10\x06\x12\t\n" +
+	"\x05ERROR\x10\aB3Z1github.com/eolymp/go-sdk/eolymp/executor;executorb\x06proto3"
 
 var (
 	file_eolymp_executor_generation_report_proto_rawDescOnce sync.Once
@@ -324,24 +351,25 @@ func file_eolymp_executor_generation_report_proto_rawDescGZIP() []byte {
 var file_eolymp_executor_generation_report_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_eolymp_executor_generation_report_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_eolymp_executor_generation_report_proto_goTypes = []any{
-	(GenerationReport_Run_Status)(0), // 0: eolymp.executor.GenerationReport.Run.Status
-	(*GenerationReport)(nil),         // 1: eolymp.executor.GenerationReport
-	(*GenerationReport_Run)(nil),     // 2: eolymp.executor.GenerationReport.Run
-	nil,                              // 3: eolymp.executor.GenerationReport.MetadataEntry
-	(*Stats)(nil),                    // 4: eolymp.executor.Stats
+	(GenerationReport_Status)(0), // 0: eolymp.executor.GenerationReport.Status
+	(*GenerationReport)(nil),     // 1: eolymp.executor.GenerationReport
+	(*GenerationReport_Run)(nil), // 2: eolymp.executor.GenerationReport.Run
+	nil,                          // 3: eolymp.executor.GenerationReport.MetadataEntry
+	(*Stats)(nil),                // 4: eolymp.executor.Stats
 }
 var file_eolymp_executor_generation_report_proto_depIdxs = []int32{
 	3, // 0: eolymp.executor.GenerationReport.metadata:type_name -> eolymp.executor.GenerationReport.MetadataEntry
-	2, // 1: eolymp.executor.GenerationReport.runs:type_name -> eolymp.executor.GenerationReport.Run
-	0, // 2: eolymp.executor.GenerationReport.Run.status:type_name -> eolymp.executor.GenerationReport.Run.Status
-	4, // 3: eolymp.executor.GenerationReport.Run.input_generator_stats:type_name -> eolymp.executor.Stats
-	4, // 4: eolymp.executor.GenerationReport.Run.answer_generator_stats:type_name -> eolymp.executor.Stats
-	4, // 5: eolymp.executor.GenerationReport.Run.validator_stats:type_name -> eolymp.executor.Stats
-	6, // [6:6] is the sub-list for method output_type
-	6, // [6:6] is the sub-list for method input_type
-	6, // [6:6] is the sub-list for extension type_name
-	6, // [6:6] is the sub-list for extension extendee
-	0, // [0:6] is the sub-list for field type_name
+	0, // 1: eolymp.executor.GenerationReport.status:type_name -> eolymp.executor.GenerationReport.Status
+	2, // 2: eolymp.executor.GenerationReport.runs:type_name -> eolymp.executor.GenerationReport.Run
+	0, // 3: eolymp.executor.GenerationReport.Run.status:type_name -> eolymp.executor.GenerationReport.Status
+	4, // 4: eolymp.executor.GenerationReport.Run.input_generator_stats:type_name -> eolymp.executor.Stats
+	4, // 5: eolymp.executor.GenerationReport.Run.answer_generator_stats:type_name -> eolymp.executor.Stats
+	4, // 6: eolymp.executor.GenerationReport.Run.validator_stats:type_name -> eolymp.executor.Stats
+	7, // [7:7] is the sub-list for method output_type
+	7, // [7:7] is the sub-list for method input_type
+	7, // [7:7] is the sub-list for extension type_name
+	7, // [7:7] is the sub-list for extension extendee
+	0, // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_executor_generation_report_proto_init() }
