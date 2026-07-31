@@ -72,7 +72,67 @@ func (x ListIssuesInput_Sortable) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use ListIssuesInput_Sortable.Descriptor instead.
 func (ListIssuesInput_Sortable) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_atlas_issue_service_proto_rawDescGZIP(), []int{0, 0}
+	return file_eolymp_atlas_issue_service_proto_rawDescGZIP(), []int{1, 0}
+}
+
+type IssueChangedEvent struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
+	Before        *Issue                 `protobuf:"bytes,2,opt,name=before,proto3" json:"before,omitempty"`
+	After         *Issue                 `protobuf:"bytes,3,opt,name=after,proto3" json:"after,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *IssueChangedEvent) Reset() {
+	*x = IssueChangedEvent{}
+	mi := &file_eolymp_atlas_issue_service_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *IssueChangedEvent) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*IssueChangedEvent) ProtoMessage() {}
+
+func (x *IssueChangedEvent) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_issue_service_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use IssueChangedEvent.ProtoReflect.Descriptor instead.
+func (*IssueChangedEvent) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_issue_service_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *IssueChangedEvent) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
+}
+
+func (x *IssueChangedEvent) GetBefore() *Issue {
+	if x != nil {
+		return x.Before
+	}
+	return nil
+}
+
+func (x *IssueChangedEvent) GetAfter() *Issue {
+	if x != nil {
+		return x.After
+	}
+	return nil
 }
 
 type ListIssuesInput struct {
@@ -92,7 +152,7 @@ type ListIssuesInput struct {
 
 func (x *ListIssuesInput) Reset() {
 	*x = ListIssuesInput{}
-	mi := &file_eolymp_atlas_issue_service_proto_msgTypes[0]
+	mi := &file_eolymp_atlas_issue_service_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -104,7 +164,7 @@ func (x *ListIssuesInput) String() string {
 func (*ListIssuesInput) ProtoMessage() {}
 
 func (x *ListIssuesInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_issue_service_proto_msgTypes[0]
+	mi := &file_eolymp_atlas_issue_service_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -117,7 +177,7 @@ func (x *ListIssuesInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListIssuesInput.ProtoReflect.Descriptor instead.
 func (*ListIssuesInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_issue_service_proto_rawDescGZIP(), []int{0}
+	return file_eolymp_atlas_issue_service_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *ListIssuesInput) GetOffset() int32 {
@@ -172,7 +232,7 @@ type ListIssuesOutput struct {
 
 func (x *ListIssuesOutput) Reset() {
 	*x = ListIssuesOutput{}
-	mi := &file_eolymp_atlas_issue_service_proto_msgTypes[1]
+	mi := &file_eolymp_atlas_issue_service_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -184,7 +244,7 @@ func (x *ListIssuesOutput) String() string {
 func (*ListIssuesOutput) ProtoMessage() {}
 
 func (x *ListIssuesOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_issue_service_proto_msgTypes[1]
+	mi := &file_eolymp_atlas_issue_service_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -197,7 +257,7 @@ func (x *ListIssuesOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListIssuesOutput.ProtoReflect.Descriptor instead.
 func (*ListIssuesOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_issue_service_proto_rawDescGZIP(), []int{1}
+	return file_eolymp_atlas_issue_service_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *ListIssuesOutput) GetTotal() int32 {
@@ -224,7 +284,7 @@ type DescribeIssueInput struct {
 
 func (x *DescribeIssueInput) Reset() {
 	*x = DescribeIssueInput{}
-	mi := &file_eolymp_atlas_issue_service_proto_msgTypes[2]
+	mi := &file_eolymp_atlas_issue_service_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -236,7 +296,7 @@ func (x *DescribeIssueInput) String() string {
 func (*DescribeIssueInput) ProtoMessage() {}
 
 func (x *DescribeIssueInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_issue_service_proto_msgTypes[2]
+	mi := &file_eolymp_atlas_issue_service_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -249,7 +309,7 @@ func (x *DescribeIssueInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribeIssueInput.ProtoReflect.Descriptor instead.
 func (*DescribeIssueInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_issue_service_proto_rawDescGZIP(), []int{2}
+	return file_eolymp_atlas_issue_service_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *DescribeIssueInput) GetIssueId() string {
@@ -275,7 +335,7 @@ type DescribeIssueOutput struct {
 
 func (x *DescribeIssueOutput) Reset() {
 	*x = DescribeIssueOutput{}
-	mi := &file_eolymp_atlas_issue_service_proto_msgTypes[3]
+	mi := &file_eolymp_atlas_issue_service_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -287,7 +347,7 @@ func (x *DescribeIssueOutput) String() string {
 func (*DescribeIssueOutput) ProtoMessage() {}
 
 func (x *DescribeIssueOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_issue_service_proto_msgTypes[3]
+	mi := &file_eolymp_atlas_issue_service_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -300,7 +360,7 @@ func (x *DescribeIssueOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribeIssueOutput.ProtoReflect.Descriptor instead.
 func (*DescribeIssueOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_issue_service_proto_rawDescGZIP(), []int{3}
+	return file_eolymp_atlas_issue_service_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *DescribeIssueOutput) GetIssue() *Issue {
@@ -319,7 +379,7 @@ type CreateIssueInput struct {
 
 func (x *CreateIssueInput) Reset() {
 	*x = CreateIssueInput{}
-	mi := &file_eolymp_atlas_issue_service_proto_msgTypes[4]
+	mi := &file_eolymp_atlas_issue_service_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -331,7 +391,7 @@ func (x *CreateIssueInput) String() string {
 func (*CreateIssueInput) ProtoMessage() {}
 
 func (x *CreateIssueInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_issue_service_proto_msgTypes[4]
+	mi := &file_eolymp_atlas_issue_service_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -344,7 +404,7 @@ func (x *CreateIssueInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateIssueInput.ProtoReflect.Descriptor instead.
 func (*CreateIssueInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_issue_service_proto_rawDescGZIP(), []int{4}
+	return file_eolymp_atlas_issue_service_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *CreateIssueInput) GetIssue() *Issue {
@@ -363,7 +423,7 @@ type CreateIssueOutput struct {
 
 func (x *CreateIssueOutput) Reset() {
 	*x = CreateIssueOutput{}
-	mi := &file_eolymp_atlas_issue_service_proto_msgTypes[5]
+	mi := &file_eolymp_atlas_issue_service_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -375,7 +435,7 @@ func (x *CreateIssueOutput) String() string {
 func (*CreateIssueOutput) ProtoMessage() {}
 
 func (x *CreateIssueOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_issue_service_proto_msgTypes[5]
+	mi := &file_eolymp_atlas_issue_service_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -388,7 +448,7 @@ func (x *CreateIssueOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateIssueOutput.ProtoReflect.Descriptor instead.
 func (*CreateIssueOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_issue_service_proto_rawDescGZIP(), []int{5}
+	return file_eolymp_atlas_issue_service_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *CreateIssueOutput) GetIssueId() string {
@@ -409,7 +469,7 @@ type UpdateIssueInput struct {
 
 func (x *UpdateIssueInput) Reset() {
 	*x = UpdateIssueInput{}
-	mi := &file_eolymp_atlas_issue_service_proto_msgTypes[6]
+	mi := &file_eolymp_atlas_issue_service_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -421,7 +481,7 @@ func (x *UpdateIssueInput) String() string {
 func (*UpdateIssueInput) ProtoMessage() {}
 
 func (x *UpdateIssueInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_issue_service_proto_msgTypes[6]
+	mi := &file_eolymp_atlas_issue_service_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -434,7 +494,7 @@ func (x *UpdateIssueInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateIssueInput.ProtoReflect.Descriptor instead.
 func (*UpdateIssueInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_issue_service_proto_rawDescGZIP(), []int{6}
+	return file_eolymp_atlas_issue_service_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *UpdateIssueInput) GetPatch() []Issue_Patch_Field {
@@ -466,7 +526,7 @@ type UpdateIssueOutput struct {
 
 func (x *UpdateIssueOutput) Reset() {
 	*x = UpdateIssueOutput{}
-	mi := &file_eolymp_atlas_issue_service_proto_msgTypes[7]
+	mi := &file_eolymp_atlas_issue_service_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -478,7 +538,7 @@ func (x *UpdateIssueOutput) String() string {
 func (*UpdateIssueOutput) ProtoMessage() {}
 
 func (x *UpdateIssueOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_issue_service_proto_msgTypes[7]
+	mi := &file_eolymp_atlas_issue_service_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -491,7 +551,7 @@ func (x *UpdateIssueOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateIssueOutput.ProtoReflect.Descriptor instead.
 func (*UpdateIssueOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_issue_service_proto_rawDescGZIP(), []int{7}
+	return file_eolymp_atlas_issue_service_proto_rawDescGZIP(), []int{8}
 }
 
 type DeleteIssueInput struct {
@@ -503,7 +563,7 @@ type DeleteIssueInput struct {
 
 func (x *DeleteIssueInput) Reset() {
 	*x = DeleteIssueInput{}
-	mi := &file_eolymp_atlas_issue_service_proto_msgTypes[8]
+	mi := &file_eolymp_atlas_issue_service_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -515,7 +575,7 @@ func (x *DeleteIssueInput) String() string {
 func (*DeleteIssueInput) ProtoMessage() {}
 
 func (x *DeleteIssueInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_issue_service_proto_msgTypes[8]
+	mi := &file_eolymp_atlas_issue_service_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -528,7 +588,7 @@ func (x *DeleteIssueInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteIssueInput.ProtoReflect.Descriptor instead.
 func (*DeleteIssueInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_issue_service_proto_rawDescGZIP(), []int{8}
+	return file_eolymp_atlas_issue_service_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *DeleteIssueInput) GetIssueId() string {
@@ -546,7 +606,7 @@ type DeleteIssueOutput struct {
 
 func (x *DeleteIssueOutput) Reset() {
 	*x = DeleteIssueOutput{}
-	mi := &file_eolymp_atlas_issue_service_proto_msgTypes[9]
+	mi := &file_eolymp_atlas_issue_service_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -558,7 +618,7 @@ func (x *DeleteIssueOutput) String() string {
 func (*DeleteIssueOutput) ProtoMessage() {}
 
 func (x *DeleteIssueOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_issue_service_proto_msgTypes[9]
+	mi := &file_eolymp_atlas_issue_service_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -571,7 +631,7 @@ func (x *DeleteIssueOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteIssueOutput.ProtoReflect.Descriptor instead.
 func (*DeleteIssueOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_issue_service_proto_rawDescGZIP(), []int{9}
+	return file_eolymp_atlas_issue_service_proto_rawDescGZIP(), []int{10}
 }
 
 type ListIssuesInput_Filter struct {
@@ -590,7 +650,7 @@ type ListIssuesInput_Filter struct {
 
 func (x *ListIssuesInput_Filter) Reset() {
 	*x = ListIssuesInput_Filter{}
-	mi := &file_eolymp_atlas_issue_service_proto_msgTypes[10]
+	mi := &file_eolymp_atlas_issue_service_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -602,7 +662,7 @@ func (x *ListIssuesInput_Filter) String() string {
 func (*ListIssuesInput_Filter) ProtoMessage() {}
 
 func (x *ListIssuesInput_Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_issue_service_proto_msgTypes[10]
+	mi := &file_eolymp_atlas_issue_service_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -615,7 +675,7 @@ func (x *ListIssuesInput_Filter) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListIssuesInput_Filter.ProtoReflect.Descriptor instead.
 func (*ListIssuesInput_Filter) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_issue_service_proto_rawDescGZIP(), []int{0, 0}
+	return file_eolymp_atlas_issue_service_proto_rawDescGZIP(), []int{1, 0}
 }
 
 func (x *ListIssuesInput_Filter) GetId() []*wellknown.ExpressionID {
@@ -678,7 +738,12 @@ var File_eolymp_atlas_issue_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_issue_service_proto_rawDesc = "" +
 	"\n" +
-	" eolymp/atlas/issue_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x18eolymp/atlas/issue.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"\xcb\x06\n" +
+	" eolymp/atlas/issue_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x18eolymp/atlas/issue.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"\x8a\x01\n" +
+	"\x11IssueChangedEvent\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12+\n" +
+	"\x06before\x18\x02 \x01(\v2\x13.eolymp.atlas.IssueR\x06before\x12)\n" +
+	"\x05after\x18\x03 \x01(\v2\x13.eolymp.atlas.IssueR\x05after\"\xcb\x06\n" +
 	"\x0fListIssuesInput\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
@@ -773,62 +838,65 @@ func file_eolymp_atlas_issue_service_proto_rawDescGZIP() []byte {
 }
 
 var file_eolymp_atlas_issue_service_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_eolymp_atlas_issue_service_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
+var file_eolymp_atlas_issue_service_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
 var file_eolymp_atlas_issue_service_proto_goTypes = []any{
 	(ListIssuesInput_Sortable)(0),    // 0: eolymp.atlas.ListIssuesInput.Sortable
-	(*ListIssuesInput)(nil),          // 1: eolymp.atlas.ListIssuesInput
-	(*ListIssuesOutput)(nil),         // 2: eolymp.atlas.ListIssuesOutput
-	(*DescribeIssueInput)(nil),       // 3: eolymp.atlas.DescribeIssueInput
-	(*DescribeIssueOutput)(nil),      // 4: eolymp.atlas.DescribeIssueOutput
-	(*CreateIssueInput)(nil),         // 5: eolymp.atlas.CreateIssueInput
-	(*CreateIssueOutput)(nil),        // 6: eolymp.atlas.CreateIssueOutput
-	(*UpdateIssueInput)(nil),         // 7: eolymp.atlas.UpdateIssueInput
-	(*UpdateIssueOutput)(nil),        // 8: eolymp.atlas.UpdateIssueOutput
-	(*DeleteIssueInput)(nil),         // 9: eolymp.atlas.DeleteIssueInput
-	(*DeleteIssueOutput)(nil),        // 10: eolymp.atlas.DeleteIssueOutput
-	(*ListIssuesInput_Filter)(nil),   // 11: eolymp.atlas.ListIssuesInput.Filter
-	(wellknown.Direction)(0),         // 12: eolymp.wellknown.Direction
-	(Issue_Extra_Field)(0),           // 13: eolymp.atlas.Issue.Extra.Field
-	(*Issue)(nil),                    // 14: eolymp.atlas.Issue
-	(Issue_Patch_Field)(0),           // 15: eolymp.atlas.Issue.Patch.Field
-	(*wellknown.ExpressionID)(nil),   // 16: eolymp.wellknown.ExpressionID
-	(*wellknown.ExpressionEnum)(nil), // 17: eolymp.wellknown.ExpressionEnum
-	(*wellknown.ExpressionInt)(nil),  // 18: eolymp.wellknown.ExpressionInt
+	(*IssueChangedEvent)(nil),        // 1: eolymp.atlas.IssueChangedEvent
+	(*ListIssuesInput)(nil),          // 2: eolymp.atlas.ListIssuesInput
+	(*ListIssuesOutput)(nil),         // 3: eolymp.atlas.ListIssuesOutput
+	(*DescribeIssueInput)(nil),       // 4: eolymp.atlas.DescribeIssueInput
+	(*DescribeIssueOutput)(nil),      // 5: eolymp.atlas.DescribeIssueOutput
+	(*CreateIssueInput)(nil),         // 6: eolymp.atlas.CreateIssueInput
+	(*CreateIssueOutput)(nil),        // 7: eolymp.atlas.CreateIssueOutput
+	(*UpdateIssueInput)(nil),         // 8: eolymp.atlas.UpdateIssueInput
+	(*UpdateIssueOutput)(nil),        // 9: eolymp.atlas.UpdateIssueOutput
+	(*DeleteIssueInput)(nil),         // 10: eolymp.atlas.DeleteIssueInput
+	(*DeleteIssueOutput)(nil),        // 11: eolymp.atlas.DeleteIssueOutput
+	(*ListIssuesInput_Filter)(nil),   // 12: eolymp.atlas.ListIssuesInput.Filter
+	(*Issue)(nil),                    // 13: eolymp.atlas.Issue
+	(wellknown.Direction)(0),         // 14: eolymp.wellknown.Direction
+	(Issue_Extra_Field)(0),           // 15: eolymp.atlas.Issue.Extra.Field
+	(Issue_Patch_Field)(0),           // 16: eolymp.atlas.Issue.Patch.Field
+	(*wellknown.ExpressionID)(nil),   // 17: eolymp.wellknown.ExpressionID
+	(*wellknown.ExpressionEnum)(nil), // 18: eolymp.wellknown.ExpressionEnum
+	(*wellknown.ExpressionInt)(nil),  // 19: eolymp.wellknown.ExpressionInt
 }
 var file_eolymp_atlas_issue_service_proto_depIdxs = []int32{
-	11, // 0: eolymp.atlas.ListIssuesInput.filters:type_name -> eolymp.atlas.ListIssuesInput.Filter
-	0,  // 1: eolymp.atlas.ListIssuesInput.sort:type_name -> eolymp.atlas.ListIssuesInput.Sortable
-	12, // 2: eolymp.atlas.ListIssuesInput.order:type_name -> eolymp.wellknown.Direction
-	13, // 3: eolymp.atlas.ListIssuesInput.extra:type_name -> eolymp.atlas.Issue.Extra.Field
-	14, // 4: eolymp.atlas.ListIssuesOutput.items:type_name -> eolymp.atlas.Issue
-	13, // 5: eolymp.atlas.DescribeIssueInput.extra:type_name -> eolymp.atlas.Issue.Extra.Field
-	14, // 6: eolymp.atlas.DescribeIssueOutput.issue:type_name -> eolymp.atlas.Issue
-	14, // 7: eolymp.atlas.CreateIssueInput.issue:type_name -> eolymp.atlas.Issue
-	15, // 8: eolymp.atlas.UpdateIssueInput.patch:type_name -> eolymp.atlas.Issue.Patch.Field
-	14, // 9: eolymp.atlas.UpdateIssueInput.issue:type_name -> eolymp.atlas.Issue
-	16, // 10: eolymp.atlas.ListIssuesInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	16, // 11: eolymp.atlas.ListIssuesInput.Filter.problem_id:type_name -> eolymp.wellknown.ExpressionID
-	17, // 12: eolymp.atlas.ListIssuesInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
-	18, // 13: eolymp.atlas.ListIssuesInput.Filter.number:type_name -> eolymp.wellknown.ExpressionInt
-	16, // 14: eolymp.atlas.ListIssuesInput.Filter.assignee_id:type_name -> eolymp.wellknown.ExpressionID
-	16, // 15: eolymp.atlas.ListIssuesInput.Filter.reporter_id:type_name -> eolymp.wellknown.ExpressionID
-	16, // 16: eolymp.atlas.ListIssuesInput.Filter.tester_id:type_name -> eolymp.wellknown.ExpressionID
-	17, // 17: eolymp.atlas.ListIssuesInput.Filter.tags:type_name -> eolymp.wellknown.ExpressionEnum
-	1,  // 18: eolymp.atlas.IssueService.ListIssues:input_type -> eolymp.atlas.ListIssuesInput
-	3,  // 19: eolymp.atlas.IssueService.DescribeIssue:input_type -> eolymp.atlas.DescribeIssueInput
-	5,  // 20: eolymp.atlas.IssueService.CreateIssue:input_type -> eolymp.atlas.CreateIssueInput
-	7,  // 21: eolymp.atlas.IssueService.UpdateIssue:input_type -> eolymp.atlas.UpdateIssueInput
-	9,  // 22: eolymp.atlas.IssueService.DeleteIssue:input_type -> eolymp.atlas.DeleteIssueInput
-	2,  // 23: eolymp.atlas.IssueService.ListIssues:output_type -> eolymp.atlas.ListIssuesOutput
-	4,  // 24: eolymp.atlas.IssueService.DescribeIssue:output_type -> eolymp.atlas.DescribeIssueOutput
-	6,  // 25: eolymp.atlas.IssueService.CreateIssue:output_type -> eolymp.atlas.CreateIssueOutput
-	8,  // 26: eolymp.atlas.IssueService.UpdateIssue:output_type -> eolymp.atlas.UpdateIssueOutput
-	10, // 27: eolymp.atlas.IssueService.DeleteIssue:output_type -> eolymp.atlas.DeleteIssueOutput
-	23, // [23:28] is the sub-list for method output_type
-	18, // [18:23] is the sub-list for method input_type
-	18, // [18:18] is the sub-list for extension type_name
-	18, // [18:18] is the sub-list for extension extendee
-	0,  // [0:18] is the sub-list for field type_name
+	13, // 0: eolymp.atlas.IssueChangedEvent.before:type_name -> eolymp.atlas.Issue
+	13, // 1: eolymp.atlas.IssueChangedEvent.after:type_name -> eolymp.atlas.Issue
+	12, // 2: eolymp.atlas.ListIssuesInput.filters:type_name -> eolymp.atlas.ListIssuesInput.Filter
+	0,  // 3: eolymp.atlas.ListIssuesInput.sort:type_name -> eolymp.atlas.ListIssuesInput.Sortable
+	14, // 4: eolymp.atlas.ListIssuesInput.order:type_name -> eolymp.wellknown.Direction
+	15, // 5: eolymp.atlas.ListIssuesInput.extra:type_name -> eolymp.atlas.Issue.Extra.Field
+	13, // 6: eolymp.atlas.ListIssuesOutput.items:type_name -> eolymp.atlas.Issue
+	15, // 7: eolymp.atlas.DescribeIssueInput.extra:type_name -> eolymp.atlas.Issue.Extra.Field
+	13, // 8: eolymp.atlas.DescribeIssueOutput.issue:type_name -> eolymp.atlas.Issue
+	13, // 9: eolymp.atlas.CreateIssueInput.issue:type_name -> eolymp.atlas.Issue
+	16, // 10: eolymp.atlas.UpdateIssueInput.patch:type_name -> eolymp.atlas.Issue.Patch.Field
+	13, // 11: eolymp.atlas.UpdateIssueInput.issue:type_name -> eolymp.atlas.Issue
+	17, // 12: eolymp.atlas.ListIssuesInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	17, // 13: eolymp.atlas.ListIssuesInput.Filter.problem_id:type_name -> eolymp.wellknown.ExpressionID
+	18, // 14: eolymp.atlas.ListIssuesInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
+	19, // 15: eolymp.atlas.ListIssuesInput.Filter.number:type_name -> eolymp.wellknown.ExpressionInt
+	17, // 16: eolymp.atlas.ListIssuesInput.Filter.assignee_id:type_name -> eolymp.wellknown.ExpressionID
+	17, // 17: eolymp.atlas.ListIssuesInput.Filter.reporter_id:type_name -> eolymp.wellknown.ExpressionID
+	17, // 18: eolymp.atlas.ListIssuesInput.Filter.tester_id:type_name -> eolymp.wellknown.ExpressionID
+	18, // 19: eolymp.atlas.ListIssuesInput.Filter.tags:type_name -> eolymp.wellknown.ExpressionEnum
+	2,  // 20: eolymp.atlas.IssueService.ListIssues:input_type -> eolymp.atlas.ListIssuesInput
+	4,  // 21: eolymp.atlas.IssueService.DescribeIssue:input_type -> eolymp.atlas.DescribeIssueInput
+	6,  // 22: eolymp.atlas.IssueService.CreateIssue:input_type -> eolymp.atlas.CreateIssueInput
+	8,  // 23: eolymp.atlas.IssueService.UpdateIssue:input_type -> eolymp.atlas.UpdateIssueInput
+	10, // 24: eolymp.atlas.IssueService.DeleteIssue:input_type -> eolymp.atlas.DeleteIssueInput
+	3,  // 25: eolymp.atlas.IssueService.ListIssues:output_type -> eolymp.atlas.ListIssuesOutput
+	5,  // 26: eolymp.atlas.IssueService.DescribeIssue:output_type -> eolymp.atlas.DescribeIssueOutput
+	7,  // 27: eolymp.atlas.IssueService.CreateIssue:output_type -> eolymp.atlas.CreateIssueOutput
+	9,  // 28: eolymp.atlas.IssueService.UpdateIssue:output_type -> eolymp.atlas.UpdateIssueOutput
+	11, // 29: eolymp.atlas.IssueService.DeleteIssue:output_type -> eolymp.atlas.DeleteIssueOutput
+	25, // [25:30] is the sub-list for method output_type
+	20, // [20:25] is the sub-list for method input_type
+	20, // [20:20] is the sub-list for extension type_name
+	20, // [20:20] is the sub-list for extension extendee
+	0,  // [0:20] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_atlas_issue_service_proto_init() }
@@ -843,7 +911,7 @@ func file_eolymp_atlas_issue_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_atlas_issue_service_proto_rawDesc), len(file_eolymp_atlas_issue_service_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   11,
+			NumMessages:   12,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
