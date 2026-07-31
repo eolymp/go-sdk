@@ -152,11 +152,7 @@ type Validation struct {
 	Verdict       Validation_Verdict     `protobuf:"varint,22,opt,name=verdict,proto3,enum=eolymp.atlas.Validation_Verdict" json:"verdict,omitempty"` // overall verdict based on verdicts in groups / runs
 	Error         string                 `protobuf:"bytes,21,opt,name=error,proto3" json:"error,omitempty"`                                           // error message in case status is ERROR
 	ErrorUrl      string                 `protobuf:"bytes,23,opt,name=error_url,json=errorUrl,proto3" json:"error_url,omitempty"`                     // a URL with error output, eg. compiler log
-	Total         uint32                 `protobuf:"varint,30,opt,name=total,proto3" json:"total,omitempty"`
-	Checked       uint32                 `protobuf:"varint,31,opt,name=checked,proto3" json:"checked,omitempty"`
-	Valid         uint32                 `protobuf:"varint,32,opt,name=valid,proto3" json:"valid,omitempty"`
-	Invalid       uint32                 `protobuf:"varint,33,opt,name=invalid,proto3" json:"invalid,omitempty"`
-	Groups        []*Validation_Group    `protobuf:"bytes,50,rep,name=groups,proto3" json:"groups,omitempty"` // status for each run by group
+	Groups        []*Validation_Group    `protobuf:"bytes,50,rep,name=groups,proto3" json:"groups,omitempty"`                                         // status for each run by group
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -238,34 +234,6 @@ func (x *Validation) GetErrorUrl() string {
 		return x.ErrorUrl
 	}
 	return ""
-}
-
-func (x *Validation) GetTotal() uint32 {
-	if x != nil {
-		return x.Total
-	}
-	return 0
-}
-
-func (x *Validation) GetChecked() uint32 {
-	if x != nil {
-		return x.Checked
-	}
-	return 0
-}
-
-func (x *Validation) GetValid() uint32 {
-	if x != nil {
-		return x.Valid
-	}
-	return 0
-}
-
-func (x *Validation) GetInvalid() uint32 {
-	if x != nil {
-		return x.Invalid
-	}
-	return 0
 }
 
 func (x *Validation) GetGroups() []*Validation_Group {
@@ -423,7 +391,7 @@ var File_eolymp_atlas_validation_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_validation_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/atlas/validation.proto\x12\feolymp.atlas\"\xb8\a\n" +
+	"\x1deolymp/atlas/validation.proto\x12\feolymp.atlas\"\xde\x06\n" +
 	"\n" +
 	"Validation\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1d\n" +
@@ -433,11 +401,7 @@ const file_eolymp_atlas_validation_proto_rawDesc = "" +
 	"\x06status\x18\x14 \x01(\x0e2\x1f.eolymp.atlas.Validation.StatusR\x06status\x12:\n" +
 	"\averdict\x18\x16 \x01(\x0e2 .eolymp.atlas.Validation.VerdictR\averdict\x12\x14\n" +
 	"\x05error\x18\x15 \x01(\tR\x05error\x12\x1b\n" +
-	"\terror_url\x18\x17 \x01(\tR\berrorUrl\x12\x14\n" +
-	"\x05total\x18\x1e \x01(\rR\x05total\x12\x18\n" +
-	"\achecked\x18\x1f \x01(\rR\achecked\x12\x14\n" +
-	"\x05valid\x18  \x01(\rR\x05valid\x12\x18\n" +
-	"\ainvalid\x18! \x01(\rR\ainvalid\x126\n" +
+	"\terror_url\x18\x17 \x01(\tR\berrorUrl\x126\n" +
 	"\x06groups\x182 \x03(\v2\x1e.eolymp.atlas.Validation.GroupR\x06groups\x1a\xdc\x01\n" +
 	"\x03Run\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x14\n" +
@@ -471,7 +435,7 @@ const file_eolymp_atlas_validation_proto_rawDesc = "" +
 	"\x05VALID\x10\x01\x12\v\n" +
 	"\aINVALID\x10\x02\x12\n" +
 	"\n" +
-	"\x06BROKEN\x10\x03B-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x06BROKEN\x10\x03J\x04\b\x1e\x10\"B-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_validation_proto_rawDescOnce sync.Once

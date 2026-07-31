@@ -24,7 +24,7 @@ const (
 
 type RunValidationInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Validator     *Validator             `protobuf:"bytes,1,opt,name=validator,proto3" json:"validator,omitempty"` // only runtime, source and files are read; unset means use the saved one
+	Validator     *Validator             `protobuf:"bytes,1,opt,name=validator,proto3" json:"validator,omitempty"` // required; only runtime, source and files are read
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
