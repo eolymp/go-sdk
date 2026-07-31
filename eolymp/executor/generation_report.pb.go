@@ -175,6 +175,7 @@ type GenerationReport_Run struct {
 	AnswerUrl            string                      `protobuf:"bytes,11,opt,name=answer_url,json=answerUrl,proto3" json:"answer_url,omitempty"`
 	InputGeneratorStats  *Stats                      `protobuf:"bytes,20,opt,name=input_generator_stats,json=inputGeneratorStats,proto3" json:"input_generator_stats,omitempty"`
 	AnswerGeneratorStats *Stats                      `protobuf:"bytes,30,opt,name=answer_generator_stats,json=answerGeneratorStats,proto3" json:"answer_generator_stats,omitempty"`
+	ValidatorStats       *Stats                      `protobuf:"bytes,35,opt,name=validator_stats,json=validatorStats,proto3" json:"validator_stats,omitempty"`
 	ErrorMessage         string                      `protobuf:"bytes,40,opt,name=error_message,json=errorMessage,proto3" json:"error_message,omitempty"`
 	unknownFields        protoimpl.UnknownFields
 	sizeCache            protoimpl.SizeCache
@@ -259,6 +260,13 @@ func (x *GenerationReport_Run) GetAnswerGeneratorStats() *Stats {
 	return nil
 }
 
+func (x *GenerationReport_Run) GetValidatorStats() *Stats {
+	if x != nil {
+		return x.ValidatorStats
+	}
+	return nil
+}
+
 func (x *GenerationReport_Run) GetErrorMessage() string {
 	if x != nil {
 		return x.ErrorMessage
@@ -270,7 +278,7 @@ var File_eolymp_executor_generation_report_proto protoreflect.FileDescriptor
 
 const file_eolymp_executor_generation_report_proto_rawDesc = "" +
 	"\n" +
-	"'eolymp/executor/generation_report.proto\x12\x0feolymp.executor\x1a\x1beolymp/executor/stats.proto\"\x99\x06\n" +
+	"'eolymp/executor/generation_report.proto\x12\x0feolymp.executor\x1a\x1beolymp/executor/stats.proto\"\xda\x06\n" +
 	"\x10GenerationReport\x12\x17\n" +
 	"\atask_id\x18\x01 \x01(\tR\x06taskId\x12\x1c\n" +
 	"\treference\x18\x02 \x01(\tR\treference\x12\x16\n" +
@@ -278,7 +286,7 @@ const file_eolymp_executor_generation_report_proto_rawDesc = "" +
 	"\bmetadata\x18\x05 \x03(\v2/.eolymp.executor.GenerationReport.MetadataEntryR\bmetadata\x12\x14\n" +
 	"\x05agent\x18\x04 \x01(\tR\x05agent\x129\n" +
 	"\x04runs\x18( \x03(\v2%.eolymp.executor.GenerationReport.RunR\x04runs\x12#\n" +
-	"\rerror_message\x182 \x01(\tR\ferrorMessage\x1a\xb5\x03\n" +
+	"\rerror_message\x182 \x01(\tR\ferrorMessage\x1a\xf6\x03\n" +
 	"\x03Run\x12\x1c\n" +
 	"\treference\x18\x01 \x01(\tR\treference\x12D\n" +
 	"\x06status\x18\x02 \x01(\x0e2,.eolymp.executor.GenerationReport.Run.StatusR\x06status\x12\x14\n" +
@@ -288,7 +296,8 @@ const file_eolymp_executor_generation_report_proto_rawDesc = "" +
 	"\n" +
 	"answer_url\x18\v \x01(\tR\tanswerUrl\x12J\n" +
 	"\x15input_generator_stats\x18\x14 \x01(\v2\x16.eolymp.executor.StatsR\x13inputGeneratorStats\x12L\n" +
-	"\x16answer_generator_stats\x18\x1e \x01(\v2\x16.eolymp.executor.StatsR\x14answerGeneratorStats\x12#\n" +
+	"\x16answer_generator_stats\x18\x1e \x01(\v2\x16.eolymp.executor.StatsR\x14answerGeneratorStats\x12?\n" +
+	"\x0fvalidator_stats\x18# \x01(\v2\x16.eolymp.executor.StatsR\x0evalidatorStats\x12#\n" +
 	"\rerror_message\x18( \x01(\tR\ferrorMessage\"9\n" +
 	"\x06Status\x12\b\n" +
 	"\x04NONE\x10\x00\x12\v\n" +
@@ -327,11 +336,12 @@ var file_eolymp_executor_generation_report_proto_depIdxs = []int32{
 	0, // 2: eolymp.executor.GenerationReport.Run.status:type_name -> eolymp.executor.GenerationReport.Run.Status
 	4, // 3: eolymp.executor.GenerationReport.Run.input_generator_stats:type_name -> eolymp.executor.Stats
 	4, // 4: eolymp.executor.GenerationReport.Run.answer_generator_stats:type_name -> eolymp.executor.Stats
-	5, // [5:5] is the sub-list for method output_type
-	5, // [5:5] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	4, // 5: eolymp.executor.GenerationReport.Run.validator_stats:type_name -> eolymp.executor.Stats
+	6, // [6:6] is the sub-list for method output_type
+	6, // [6:6] is the sub-list for method input_type
+	6, // [6:6] is the sub-list for extension type_name
+	6, // [6:6] is the sub-list for extension extendee
+	0, // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_executor_generation_report_proto_init() }
