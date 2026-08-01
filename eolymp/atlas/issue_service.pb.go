@@ -76,10 +76,12 @@ func (ListIssuesInput_Sortable) EnumDescriptor() ([]byte, []int) {
 }
 
 type IssueChangedEvent struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
-	Before        *Issue                 `protobuf:"bytes,2,opt,name=before,proto3" json:"before,omitempty"`
-	After         *Issue                 `protobuf:"bytes,3,opt,name=after,proto3" json:"after,omitempty"`
+	state     protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
+	Before    *Issue                 `protobuf:"bytes,2,opt,name=before,proto3" json:"before,omitempty"`
+	After     *Issue                 `protobuf:"bytes,3,opt,name=after,proto3" json:"after,omitempty"`
+	// Cognito user_id of the user who performed the change. Empty for member/tester callers or service (non-user) calls.
+	ActorId       string `protobuf:"bytes,4,opt,name=actor_id,json=actorId,proto3" json:"actor_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -133,6 +135,13 @@ func (x *IssueChangedEvent) GetAfter() *Issue {
 		return x.After
 	}
 	return nil
+}
+
+func (x *IssueChangedEvent) GetActorId() string {
+	if x != nil {
+		return x.ActorId
+	}
+	return ""
 }
 
 type ListIssuesInput struct {
@@ -738,12 +747,13 @@ var File_eolymp_atlas_issue_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_issue_service_proto_rawDesc = "" +
 	"\n" +
-	" eolymp/atlas/issue_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x18eolymp/atlas/issue.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"\x8a\x01\n" +
+	" eolymp/atlas/issue_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x18eolymp/atlas/issue.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"\xa5\x01\n" +
 	"\x11IssueChangedEvent\x12\x1d\n" +
 	"\n" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\x12+\n" +
 	"\x06before\x18\x02 \x01(\v2\x13.eolymp.atlas.IssueR\x06before\x12)\n" +
-	"\x05after\x18\x03 \x01(\v2\x13.eolymp.atlas.IssueR\x05after\"\xcb\x06\n" +
+	"\x05after\x18\x03 \x01(\v2\x13.eolymp.atlas.IssueR\x05after\x12\x19\n" +
+	"\bactor_id\x18\x04 \x01(\tR\aactorId\"\xcb\x06\n" +
 	"\x0fListIssuesInput\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
