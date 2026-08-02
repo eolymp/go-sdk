@@ -169,3 +169,69 @@ func (s *IssueServiceService) DeleteIssue(ctx context.Context, in *DeleteIssueIn
 
 	return out, nil
 }
+
+func (s *IssueServiceService) ListIssueActivities(ctx context.Context, in *ListIssueActivitiesInput) (*ListIssueActivitiesOutput, error) {
+	out := &ListIssueActivitiesOutput{}
+	path := "/issues/" + url.PathEscape(in.GetIssueId()) + "/activities"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.IssueId = ""
+	}
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *IssueServiceService) CreateIssueComment(ctx context.Context, in *CreateIssueCommentInput) (*CreateIssueCommentOutput, error) {
+	out := &CreateIssueCommentOutput{}
+	path := "/issues/" + url.PathEscape(in.GetIssueId()) + "/comments"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.IssueId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *IssueServiceService) UpdateIssueComment(ctx context.Context, in *UpdateIssueCommentInput) (*UpdateIssueCommentOutput, error) {
+	out := &UpdateIssueCommentOutput{}
+	path := "/issues/" + url.PathEscape(in.GetIssueId()) + "/comments/" + url.PathEscape(in.GetCommentId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.IssueId = ""
+		in.CommentId = ""
+	}
+
+	if err := s.do(ctx, "PUT", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *IssueServiceService) DeleteIssueComment(ctx context.Context, in *DeleteIssueCommentInput) (*DeleteIssueCommentOutput, error) {
+	out := &DeleteIssueCommentOutput{}
+	path := "/issues/" + url.PathEscape(in.GetIssueId()) + "/comments/" + url.PathEscape(in.GetCommentId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.IssueId = ""
+		in.CommentId = ""
+	}
+
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

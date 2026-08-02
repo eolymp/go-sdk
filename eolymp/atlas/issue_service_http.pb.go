@@ -216,6 +216,18 @@ func RegisterIssueServiceHttpHandlers(router *mux.Router, prefix string, cli Iss
 	router.Handle(prefix+"/issues/{issue_id}", _IssueService_DeleteIssue_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.atlas.IssueService.DeleteIssue")
+	router.Handle(prefix+"/issues/{issue_id}/activities", _IssueService_ListIssueActivities_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.atlas.IssueService.ListIssueActivities")
+	router.Handle(prefix+"/issues/{issue_id}/comments", _IssueService_CreateIssueComment_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.atlas.IssueService.CreateIssueComment")
+	router.Handle(prefix+"/issues/{issue_id}/comments/{comment_id}", _IssueService_UpdateIssueComment_Rule0(cli)).
+		Methods("PUT").
+		Name("eolymp.atlas.IssueService.UpdateIssueComment")
+	router.Handle(prefix+"/issues/{issue_id}/comments/{comment_id}", _IssueService_DeleteIssueComment_Rule0(cli)).
+		Methods("DELETE").
+		Name("eolymp.atlas.IssueService.DeleteIssueComment")
 }
 
 // RegisterIssueServiceHttpProxy adds proxy handlers for for IssueServiceClient
@@ -328,6 +340,104 @@ func _IssueService_DeleteIssue_Rule0(cli IssueServiceClient) http.Handler {
 		var header, trailer metadata.MD
 
 		out, err := cli.DeleteIssue(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_IssueService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_IssueService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _IssueService_ListIssueActivities_Rule0(cli IssueServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListIssueActivitiesInput{}
+
+		if err := _IssueService_HTTPReadQueryString(r, in, 131072); err != nil {
+			_IssueService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.IssueId = vars["issue_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.ListIssueActivities(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_IssueService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_IssueService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _IssueService_CreateIssueComment_Rule0(cli IssueServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &CreateIssueCommentInput{}
+
+		if err := _IssueService_HTTPReadRequestBody(r, in, 1048576); err != nil {
+			_IssueService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.IssueId = vars["issue_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.CreateIssueComment(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_IssueService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_IssueService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _IssueService_UpdateIssueComment_Rule0(cli IssueServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UpdateIssueCommentInput{}
+
+		if err := _IssueService_HTTPReadRequestBody(r, in, 1048576); err != nil {
+			_IssueService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.IssueId = vars["issue_id"]
+		in.CommentId = vars["comment_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateIssueComment(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_IssueService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_IssueService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _IssueService_DeleteIssueComment_Rule0(cli IssueServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DeleteIssueCommentInput{}
+
+		if err := _IssueService_HTTPReadRequest(r, in, 1048576, 131072); err != nil {
+			_IssueService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.IssueId = vars["issue_id"]
+		in.CommentId = vars["comment_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.DeleteIssueComment(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_IssueService_HTTPWriteErrorResponse(w, err)
 			return

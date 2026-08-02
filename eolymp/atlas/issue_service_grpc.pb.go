@@ -19,11 +19,15 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	IssueService_ListIssues_FullMethodName    = "/eolymp.atlas.IssueService/ListIssues"
-	IssueService_DescribeIssue_FullMethodName = "/eolymp.atlas.IssueService/DescribeIssue"
-	IssueService_CreateIssue_FullMethodName   = "/eolymp.atlas.IssueService/CreateIssue"
-	IssueService_UpdateIssue_FullMethodName   = "/eolymp.atlas.IssueService/UpdateIssue"
-	IssueService_DeleteIssue_FullMethodName   = "/eolymp.atlas.IssueService/DeleteIssue"
+	IssueService_ListIssues_FullMethodName          = "/eolymp.atlas.IssueService/ListIssues"
+	IssueService_DescribeIssue_FullMethodName       = "/eolymp.atlas.IssueService/DescribeIssue"
+	IssueService_CreateIssue_FullMethodName         = "/eolymp.atlas.IssueService/CreateIssue"
+	IssueService_UpdateIssue_FullMethodName         = "/eolymp.atlas.IssueService/UpdateIssue"
+	IssueService_DeleteIssue_FullMethodName         = "/eolymp.atlas.IssueService/DeleteIssue"
+	IssueService_ListIssueActivities_FullMethodName = "/eolymp.atlas.IssueService/ListIssueActivities"
+	IssueService_CreateIssueComment_FullMethodName  = "/eolymp.atlas.IssueService/CreateIssueComment"
+	IssueService_UpdateIssueComment_FullMethodName  = "/eolymp.atlas.IssueService/UpdateIssueComment"
+	IssueService_DeleteIssueComment_FullMethodName  = "/eolymp.atlas.IssueService/DeleteIssueComment"
 )
 
 // IssueServiceClient is the client API for IssueService service.
@@ -35,6 +39,10 @@ type IssueServiceClient interface {
 	CreateIssue(ctx context.Context, in *CreateIssueInput, opts ...grpc.CallOption) (*CreateIssueOutput, error)
 	UpdateIssue(ctx context.Context, in *UpdateIssueInput, opts ...grpc.CallOption) (*UpdateIssueOutput, error)
 	DeleteIssue(ctx context.Context, in *DeleteIssueInput, opts ...grpc.CallOption) (*DeleteIssueOutput, error)
+	ListIssueActivities(ctx context.Context, in *ListIssueActivitiesInput, opts ...grpc.CallOption) (*ListIssueActivitiesOutput, error)
+	CreateIssueComment(ctx context.Context, in *CreateIssueCommentInput, opts ...grpc.CallOption) (*CreateIssueCommentOutput, error)
+	UpdateIssueComment(ctx context.Context, in *UpdateIssueCommentInput, opts ...grpc.CallOption) (*UpdateIssueCommentOutput, error)
+	DeleteIssueComment(ctx context.Context, in *DeleteIssueCommentInput, opts ...grpc.CallOption) (*DeleteIssueCommentOutput, error)
 }
 
 type issueServiceClient struct {
@@ -95,6 +103,46 @@ func (c *issueServiceClient) DeleteIssue(ctx context.Context, in *DeleteIssueInp
 	return out, nil
 }
 
+func (c *issueServiceClient) ListIssueActivities(ctx context.Context, in *ListIssueActivitiesInput, opts ...grpc.CallOption) (*ListIssueActivitiesOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListIssueActivitiesOutput)
+	err := c.cc.Invoke(ctx, IssueService_ListIssueActivities_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *issueServiceClient) CreateIssueComment(ctx context.Context, in *CreateIssueCommentInput, opts ...grpc.CallOption) (*CreateIssueCommentOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateIssueCommentOutput)
+	err := c.cc.Invoke(ctx, IssueService_CreateIssueComment_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *issueServiceClient) UpdateIssueComment(ctx context.Context, in *UpdateIssueCommentInput, opts ...grpc.CallOption) (*UpdateIssueCommentOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateIssueCommentOutput)
+	err := c.cc.Invoke(ctx, IssueService_UpdateIssueComment_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *issueServiceClient) DeleteIssueComment(ctx context.Context, in *DeleteIssueCommentInput, opts ...grpc.CallOption) (*DeleteIssueCommentOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteIssueCommentOutput)
+	err := c.cc.Invoke(ctx, IssueService_DeleteIssueComment_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // IssueServiceServer is the server API for IssueService service.
 // All implementations should embed UnimplementedIssueServiceServer
 // for forward compatibility.
@@ -104,6 +152,10 @@ type IssueServiceServer interface {
 	CreateIssue(context.Context, *CreateIssueInput) (*CreateIssueOutput, error)
 	UpdateIssue(context.Context, *UpdateIssueInput) (*UpdateIssueOutput, error)
 	DeleteIssue(context.Context, *DeleteIssueInput) (*DeleteIssueOutput, error)
+	ListIssueActivities(context.Context, *ListIssueActivitiesInput) (*ListIssueActivitiesOutput, error)
+	CreateIssueComment(context.Context, *CreateIssueCommentInput) (*CreateIssueCommentOutput, error)
+	UpdateIssueComment(context.Context, *UpdateIssueCommentInput) (*UpdateIssueCommentOutput, error)
+	DeleteIssueComment(context.Context, *DeleteIssueCommentInput) (*DeleteIssueCommentOutput, error)
 }
 
 // UnimplementedIssueServiceServer should be embedded to have
@@ -127,6 +179,18 @@ func (UnimplementedIssueServiceServer) UpdateIssue(context.Context, *UpdateIssue
 }
 func (UnimplementedIssueServiceServer) DeleteIssue(context.Context, *DeleteIssueInput) (*DeleteIssueOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method DeleteIssue not implemented")
+}
+func (UnimplementedIssueServiceServer) ListIssueActivities(context.Context, *ListIssueActivitiesInput) (*ListIssueActivitiesOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListIssueActivities not implemented")
+}
+func (UnimplementedIssueServiceServer) CreateIssueComment(context.Context, *CreateIssueCommentInput) (*CreateIssueCommentOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateIssueComment not implemented")
+}
+func (UnimplementedIssueServiceServer) UpdateIssueComment(context.Context, *UpdateIssueCommentInput) (*UpdateIssueCommentOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpdateIssueComment not implemented")
+}
+func (UnimplementedIssueServiceServer) DeleteIssueComment(context.Context, *DeleteIssueCommentInput) (*DeleteIssueCommentOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method DeleteIssueComment not implemented")
 }
 func (UnimplementedIssueServiceServer) testEmbeddedByValue() {}
 
@@ -238,6 +302,78 @@ func _IssueService_DeleteIssue_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _IssueService_ListIssueActivities_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListIssueActivitiesInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(IssueServiceServer).ListIssueActivities(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: IssueService_ListIssueActivities_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(IssueServiceServer).ListIssueActivities(ctx, req.(*ListIssueActivitiesInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _IssueService_CreateIssueComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateIssueCommentInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(IssueServiceServer).CreateIssueComment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: IssueService_CreateIssueComment_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(IssueServiceServer).CreateIssueComment(ctx, req.(*CreateIssueCommentInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _IssueService_UpdateIssueComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateIssueCommentInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(IssueServiceServer).UpdateIssueComment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: IssueService_UpdateIssueComment_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(IssueServiceServer).UpdateIssueComment(ctx, req.(*UpdateIssueCommentInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _IssueService_DeleteIssueComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteIssueCommentInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(IssueServiceServer).DeleteIssueComment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: IssueService_DeleteIssueComment_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(IssueServiceServer).DeleteIssueComment(ctx, req.(*DeleteIssueCommentInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // IssueService_ServiceDesc is the grpc.ServiceDesc for IssueService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -264,6 +400,22 @@ var IssueService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteIssue",
 			Handler:    _IssueService_DeleteIssue_Handler,
+		},
+		{
+			MethodName: "ListIssueActivities",
+			Handler:    _IssueService_ListIssueActivities_Handler,
+		},
+		{
+			MethodName: "CreateIssueComment",
+			Handler:    _IssueService_CreateIssueComment_Handler,
+		},
+		{
+			MethodName: "UpdateIssueComment",
+			Handler:    _IssueService_UpdateIssueComment_Handler,
+		},
+		{
+			MethodName: "DeleteIssueComment",
+			Handler:    _IssueService_DeleteIssueComment_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
