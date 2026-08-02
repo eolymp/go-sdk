@@ -31,6 +31,7 @@ const (
 	Editor_RUN_CODE        Editor_Feature = 2 // show run code button
 	Editor_UPLOAD_CODE     Editor_Feature = 3 // show upload code button
 	Editor_EDIT_CODE       Editor_Feature = 4 // allow to edit code inline
+	Editor_TRACE_CODE      Editor_Feature = 5 // offer a traced run and show the execution trace
 )
 
 // Enum value maps for Editor_Feature.
@@ -41,6 +42,7 @@ var (
 		2: "RUN_CODE",
 		3: "UPLOAD_CODE",
 		4: "EDIT_CODE",
+		5: "TRACE_CODE",
 	}
 	Editor_Feature_value = map[string]int32{
 		"UNKNOWN_FEATURE": 0,
@@ -48,6 +50,7 @@ var (
 		"RUN_CODE":        2,
 		"UPLOAD_CODE":     3,
 		"EDIT_CODE":       4,
+		"TRACE_CODE":      5,
 	}
 )
 
@@ -602,7 +605,7 @@ var File_eolymp_atlas_editor_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_editor_service_proto_rawDesc = "" +
 	"\n" +
-	"!eolymp/atlas/editor_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x17eolymp/atlas/form.proto\x1a\x1ceolymp/runtime/runtime.proto\"\xcf\x03\n" +
+	"!eolymp/atlas/editor_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x17eolymp/atlas/form.proto\x1a\x1ceolymp/runtime/runtime.proto\"\xdf\x03\n" +
 	"\x06Editor\x120\n" +
 	"\x05state\x18\x01 \x01(\v2\x1a.eolymp.atlas.Editor.StateR\x05state\x128\n" +
 	"\bfeatures\x18\n" +
@@ -616,14 +619,16 @@ const file_eolymp_atlas_editor_service_proto_rawDesc = "" +
 	"\n" +
 	"input_data\x18\x03 \x01(\tR\tinputData\x120\n" +
 	"\x06values\x18\n" +
-	" \x03(\v2\x18.eolymp.atlas.Form.ValueR\x06values\"\\\n" +
+	" \x03(\v2\x18.eolymp.atlas.Form.ValueR\x06values\"l\n" +
 	"\aFeature\x12\x13\n" +
 	"\x0fUNKNOWN_FEATURE\x10\x00\x12\x0e\n" +
 	"\n" +
 	"PRINT_CODE\x10\x01\x12\f\n" +
 	"\bRUN_CODE\x10\x02\x12\x0f\n" +
 	"\vUPLOAD_CODE\x10\x03\x12\r\n" +
-	"\tEDIT_CODE\x10\x04\"\x15\n" +
+	"\tEDIT_CODE\x10\x04\x12\x0e\n" +
+	"\n" +
+	"TRACE_CODE\x10\x05\"\x15\n" +
 	"\x13DescribeEditorInput\"D\n" +
 	"\x14DescribeEditorOutput\x12,\n" +
 	"\x06editor\x18\x01 \x01(\v2\x14.eolymp.atlas.EditorR\x06editor\"\x1a\n" +
