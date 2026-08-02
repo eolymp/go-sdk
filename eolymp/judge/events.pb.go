@@ -21,6 +21,58 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type ScoreboardRowChangedEvent_Kind int32
+
+const (
+	ScoreboardRowChangedEvent_UNKNOWN_KIND ScoreboardRowChangedEvent_Kind = 0
+	ScoreboardRowChangedEvent_RESULT       ScoreboardRowChangedEvent_Kind = 1
+	ScoreboardRowChangedEvent_FROZEN       ScoreboardRowChangedEvent_Kind = 2
+	ScoreboardRowChangedEvent_UPSOLVE      ScoreboardRowChangedEvent_Kind = 3
+)
+
+// Enum value maps for ScoreboardRowChangedEvent_Kind.
+var (
+	ScoreboardRowChangedEvent_Kind_name = map[int32]string{
+		0: "UNKNOWN_KIND",
+		1: "RESULT",
+		2: "FROZEN",
+		3: "UPSOLVE",
+	}
+	ScoreboardRowChangedEvent_Kind_value = map[string]int32{
+		"UNKNOWN_KIND": 0,
+		"RESULT":       1,
+		"FROZEN":       2,
+		"UPSOLVE":      3,
+	}
+)
+
+func (x ScoreboardRowChangedEvent_Kind) Enum() *ScoreboardRowChangedEvent_Kind {
+	p := new(ScoreboardRowChangedEvent_Kind)
+	*p = x
+	return p
+}
+
+func (x ScoreboardRowChangedEvent_Kind) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (ScoreboardRowChangedEvent_Kind) Descriptor() protoreflect.EnumDescriptor {
+	return file_eolymp_judge_events_proto_enumTypes[0].Descriptor()
+}
+
+func (ScoreboardRowChangedEvent_Kind) Type() protoreflect.EnumType {
+	return &file_eolymp_judge_events_proto_enumTypes[0]
+}
+
+func (x ScoreboardRowChangedEvent_Kind) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use ScoreboardRowChangedEvent_Kind.Descriptor instead.
+func (ScoreboardRowChangedEvent_Kind) EnumDescriptor() ([]byte, []int) {
+	return file_eolymp_judge_events_proto_rawDescGZIP(), []int{4, 0}
+}
+
 type SubmissionCompletedEvent struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ContestId     string                 `protobuf:"bytes,10,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
@@ -193,85 +245,6 @@ func (x *ScoreChangedEvent) GetScore() *Score {
 	return nil
 }
 
-// ScoreboardRowChangedEvent is published after a materialized scoreboard row is committed (and after rank
-// label changes), so consumers can re-read the row and are guaranteed to see at least this version.
-// It is a trigger, not a payload: consumers must pull the row via the API rather than apply event data.
-type ScoreboardRowChangedEvent struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	ContestId     string                 `protobuf:"bytes,1,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
-	Kind          Scoreboard_Mode        `protobuf:"varint,2,opt,name=kind,proto3,enum=eolymp.judge.Scoreboard_Mode" json:"kind,omitempty"`
-	ParticipantId string                 `protobuf:"bytes,3,opt,name=participant_id,json=participantId,proto3" json:"participant_id,omitempty"`
-	MemberId      string                 `protobuf:"bytes,4,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"` // empty for ghost participants
-	Version       int64                  `protobuf:"varint,5,opt,name=version,proto3" json:"version,omitempty"`                  // scoreboard version after the committed write (board-global, monotonic)
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *ScoreboardRowChangedEvent) Reset() {
-	*x = ScoreboardRowChangedEvent{}
-	mi := &file_eolymp_judge_events_proto_msgTypes[3]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ScoreboardRowChangedEvent) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ScoreboardRowChangedEvent) ProtoMessage() {}
-
-func (x *ScoreboardRowChangedEvent) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_events_proto_msgTypes[3]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ScoreboardRowChangedEvent.ProtoReflect.Descriptor instead.
-func (*ScoreboardRowChangedEvent) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_events_proto_rawDescGZIP(), []int{3}
-}
-
-func (x *ScoreboardRowChangedEvent) GetContestId() string {
-	if x != nil {
-		return x.ContestId
-	}
-	return ""
-}
-
-func (x *ScoreboardRowChangedEvent) GetKind() Scoreboard_Mode {
-	if x != nil {
-		return x.Kind
-	}
-	return Scoreboard_RESULT
-}
-
-func (x *ScoreboardRowChangedEvent) GetParticipantId() string {
-	if x != nil {
-		return x.ParticipantId
-	}
-	return ""
-}
-
-func (x *ScoreboardRowChangedEvent) GetMemberId() string {
-	if x != nil {
-		return x.MemberId
-	}
-	return ""
-}
-
-func (x *ScoreboardRowChangedEvent) GetVersion() int64 {
-	if x != nil {
-		return x.Version
-	}
-	return 0
-}
-
 type RetestProblemEvent struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ContestId     string                 `protobuf:"bytes,1,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
@@ -283,7 +256,7 @@ type RetestProblemEvent struct {
 
 func (x *RetestProblemEvent) Reset() {
 	*x = RetestProblemEvent{}
-	mi := &file_eolymp_judge_events_proto_msgTypes[4]
+	mi := &file_eolymp_judge_events_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -295,7 +268,7 @@ func (x *RetestProblemEvent) String() string {
 func (*RetestProblemEvent) ProtoMessage() {}
 
 func (x *RetestProblemEvent) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_events_proto_msgTypes[4]
+	mi := &file_eolymp_judge_events_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -308,7 +281,7 @@ func (x *RetestProblemEvent) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RetestProblemEvent.ProtoReflect.Descriptor instead.
 func (*RetestProblemEvent) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_events_proto_rawDescGZIP(), []int{4}
+	return file_eolymp_judge_events_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *RetestProblemEvent) GetContestId() string {
@@ -332,11 +305,87 @@ func (x *RetestProblemEvent) GetActivityId() string {
 	return ""
 }
 
+type ScoreboardRowChangedEvent struct {
+	state         protoimpl.MessageState         `protogen:"open.v1"`
+	ContestId     string                         `protobuf:"bytes,1,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
+	Kind          ScoreboardRowChangedEvent_Kind `protobuf:"varint,2,opt,name=kind,proto3,enum=eolymp.judge.ScoreboardRowChangedEvent_Kind" json:"kind,omitempty"`
+	ParticipantId string                         `protobuf:"bytes,3,opt,name=participant_id,json=participantId,proto3" json:"participant_id,omitempty"`
+	MemberId      string                         `protobuf:"bytes,4,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"` // empty for ghost participants
+	Version       int64                          `protobuf:"varint,5,opt,name=version,proto3" json:"version,omitempty"`                  // scoreboard board version after the committed write
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ScoreboardRowChangedEvent) Reset() {
+	*x = ScoreboardRowChangedEvent{}
+	mi := &file_eolymp_judge_events_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ScoreboardRowChangedEvent) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ScoreboardRowChangedEvent) ProtoMessage() {}
+
+func (x *ScoreboardRowChangedEvent) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_judge_events_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ScoreboardRowChangedEvent.ProtoReflect.Descriptor instead.
+func (*ScoreboardRowChangedEvent) Descriptor() ([]byte, []int) {
+	return file_eolymp_judge_events_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *ScoreboardRowChangedEvent) GetContestId() string {
+	if x != nil {
+		return x.ContestId
+	}
+	return ""
+}
+
+func (x *ScoreboardRowChangedEvent) GetKind() ScoreboardRowChangedEvent_Kind {
+	if x != nil {
+		return x.Kind
+	}
+	return ScoreboardRowChangedEvent_UNKNOWN_KIND
+}
+
+func (x *ScoreboardRowChangedEvent) GetParticipantId() string {
+	if x != nil {
+		return x.ParticipantId
+	}
+	return ""
+}
+
+func (x *ScoreboardRowChangedEvent) GetMemberId() string {
+	if x != nil {
+		return x.MemberId
+	}
+	return ""
+}
+
+func (x *ScoreboardRowChangedEvent) GetVersion() int64 {
+	if x != nil {
+		return x.Version
+	}
+	return 0
+}
+
 var File_eolymp_judge_events_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_events_proto_rawDesc = "" +
 	"\n" +
-	"\x19eolymp/judge/events.proto\x12\feolymp.judge\x1a\x18eolymp/judge/score.proto\x1a\x1deolymp/judge/scoreboard.proto\x1a\x1deolymp/judge/submission.proto\"s\n" +
+	"\x19eolymp/judge/events.proto\x12\feolymp.judge\x1a\x18eolymp/judge/score.proto\x1a\x1deolymp/judge/submission.proto\"s\n" +
 	"\x18SubmissionCompletedEvent\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\n" +
@@ -356,21 +405,28 @@ const file_eolymp_judge_events_proto_rawDesc = "" +
 	"\n" +
 	"unofficial\x18\x04 \x01(\bR\n" +
 	"unofficial\x12)\n" +
-	"\x05score\x18\x03 \x01(\v2\x13.eolymp.judge.ScoreR\x05score\"\xcb\x01\n" +
-	"\x19ScoreboardRowChangedEvent\x12\x1d\n" +
-	"\n" +
-	"contest_id\x18\x01 \x01(\tR\tcontestId\x121\n" +
-	"\x04kind\x18\x02 \x01(\x0e2\x1d.eolymp.judge.Scoreboard.ModeR\x04kind\x12%\n" +
-	"\x0eparticipant_id\x18\x03 \x01(\tR\rparticipantId\x12\x1b\n" +
-	"\tmember_id\x18\x04 \x01(\tR\bmemberId\x12\x18\n" +
-	"\aversion\x18\x05 \x01(\x03R\aversion\"s\n" +
+	"\x05score\x18\x03 \x01(\v2\x13.eolymp.judge.ScoreR\x05score\"s\n" +
 	"\x12RetestProblemEvent\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\x12\x1d\n" +
 	"\n" +
 	"problem_id\x18\x02 \x01(\tR\tproblemId\x12\x1f\n" +
 	"\vactivity_id\x18\x03 \x01(\tR\n" +
-	"activityIdB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
+	"activityId\"\x99\x02\n" +
+	"\x19ScoreboardRowChangedEvent\x12\x1d\n" +
+	"\n" +
+	"contest_id\x18\x01 \x01(\tR\tcontestId\x12@\n" +
+	"\x04kind\x18\x02 \x01(\x0e2,.eolymp.judge.ScoreboardRowChangedEvent.KindR\x04kind\x12%\n" +
+	"\x0eparticipant_id\x18\x03 \x01(\tR\rparticipantId\x12\x1b\n" +
+	"\tmember_id\x18\x04 \x01(\tR\bmemberId\x12\x18\n" +
+	"\aversion\x18\x05 \x01(\x03R\aversion\"=\n" +
+	"\x04Kind\x12\x10\n" +
+	"\fUNKNOWN_KIND\x10\x00\x12\n" +
+	"\n" +
+	"\x06RESULT\x10\x01\x12\n" +
+	"\n" +
+	"\x06FROZEN\x10\x02\x12\v\n" +
+	"\aUPSOLVE\x10\x03B-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
 
 var (
 	file_eolymp_judge_events_proto_rawDescOnce sync.Once
@@ -384,21 +440,22 @@ func file_eolymp_judge_events_proto_rawDescGZIP() []byte {
 	return file_eolymp_judge_events_proto_rawDescData
 }
 
+var file_eolymp_judge_events_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_eolymp_judge_events_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_eolymp_judge_events_proto_goTypes = []any{
-	(*SubmissionCompletedEvent)(nil),  // 0: eolymp.judge.SubmissionCompletedEvent
-	(*RebuildScoreEvent)(nil),         // 1: eolymp.judge.RebuildScoreEvent
-	(*ScoreChangedEvent)(nil),         // 2: eolymp.judge.ScoreChangedEvent
-	(*ScoreboardRowChangedEvent)(nil), // 3: eolymp.judge.ScoreboardRowChangedEvent
-	(*RetestProblemEvent)(nil),        // 4: eolymp.judge.RetestProblemEvent
-	(*Submission)(nil),                // 5: eolymp.judge.Submission
-	(*Score)(nil),                     // 6: eolymp.judge.Score
-	(Scoreboard_Mode)(0),              // 7: eolymp.judge.Scoreboard.Mode
+	(ScoreboardRowChangedEvent_Kind)(0), // 0: eolymp.judge.ScoreboardRowChangedEvent.Kind
+	(*SubmissionCompletedEvent)(nil),    // 1: eolymp.judge.SubmissionCompletedEvent
+	(*RebuildScoreEvent)(nil),           // 2: eolymp.judge.RebuildScoreEvent
+	(*ScoreChangedEvent)(nil),           // 3: eolymp.judge.ScoreChangedEvent
+	(*RetestProblemEvent)(nil),          // 4: eolymp.judge.RetestProblemEvent
+	(*ScoreboardRowChangedEvent)(nil),   // 5: eolymp.judge.ScoreboardRowChangedEvent
+	(*Submission)(nil),                  // 6: eolymp.judge.Submission
+	(*Score)(nil),                       // 7: eolymp.judge.Score
 }
 var file_eolymp_judge_events_proto_depIdxs = []int32{
-	5, // 0: eolymp.judge.SubmissionCompletedEvent.submission:type_name -> eolymp.judge.Submission
-	6, // 1: eolymp.judge.ScoreChangedEvent.score:type_name -> eolymp.judge.Score
-	7, // 2: eolymp.judge.ScoreboardRowChangedEvent.kind:type_name -> eolymp.judge.Scoreboard.Mode
+	6, // 0: eolymp.judge.SubmissionCompletedEvent.submission:type_name -> eolymp.judge.Submission
+	7, // 1: eolymp.judge.ScoreChangedEvent.score:type_name -> eolymp.judge.Score
+	0, // 2: eolymp.judge.ScoreboardRowChangedEvent.kind:type_name -> eolymp.judge.ScoreboardRowChangedEvent.Kind
 	3, // [3:3] is the sub-list for method output_type
 	3, // [3:3] is the sub-list for method input_type
 	3, // [3:3] is the sub-list for extension type_name
@@ -412,20 +469,20 @@ func file_eolymp_judge_events_proto_init() {
 		return
 	}
 	file_eolymp_judge_score_proto_init()
-	file_eolymp_judge_scoreboard_proto_init()
 	file_eolymp_judge_submission_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_judge_events_proto_rawDesc), len(file_eolymp_judge_events_proto_rawDesc)),
-			NumEnums:      0,
+			NumEnums:      1,
 			NumMessages:   5,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
 		GoTypes:           file_eolymp_judge_events_proto_goTypes,
 		DependencyIndexes: file_eolymp_judge_events_proto_depIdxs,
+		EnumInfos:         file_eolymp_judge_events_proto_enumTypes,
 		MessageInfos:      file_eolymp_judge_events_proto_msgTypes,
 	}.Build()
 	File_eolymp_judge_events_proto = out.File
