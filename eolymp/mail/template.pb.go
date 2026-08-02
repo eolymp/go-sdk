@@ -8,7 +8,6 @@ package mail
 
 import (
 	_ "github.com/eolymp/go-sdk/eolymp/annotations"
-	ecm "github.com/eolymp/go-sdk/eolymp/ecm"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
@@ -27,22 +26,19 @@ const (
 type Template_Extra_Field int32
 
 const (
-	Template_Extra_UNKNOWN_EXTRA  Template_Extra_Field = 0
-	Template_Extra_CONTENT_VALUE  Template_Extra_Field = 1
-	Template_Extra_CONTENT_RENDER Template_Extra_Field = 2
+	Template_Extra_UNKNOWN_EXTRA Template_Extra_Field = 0
+	Template_Extra_CONTENT       Template_Extra_Field = 1
 )
 
 // Enum value maps for Template_Extra_Field.
 var (
 	Template_Extra_Field_name = map[int32]string{
 		0: "UNKNOWN_EXTRA",
-		1: "CONTENT_VALUE",
-		2: "CONTENT_RENDER",
+		1: "CONTENT",
 	}
 	Template_Extra_Field_value = map[string]int32{
-		"UNKNOWN_EXTRA":  0,
-		"CONTENT_VALUE":  1,
-		"CONTENT_RENDER": 2,
+		"UNKNOWN_EXTRA": 0,
+		"CONTENT":       1,
 	}
 )
 
@@ -81,10 +77,10 @@ type Template struct {
 	Key                string                 `protobuf:"bytes,10,opt,name=key,proto3" json:"key,omitempty"`
 	Draft              bool                   `protobuf:"varint,13,opt,name=draft,proto3" json:"draft,omitempty"`
 	Subject            string                 `protobuf:"bytes,12,opt,name=subject,proto3" json:"subject,omitempty"`
-	Content            *ecm.Content           `protobuf:"bytes,51,opt,name=content,proto3" json:"content,omitempty"`
 	Automatic          bool                   `protobuf:"varint,15,opt,name=automatic,proto3" json:"automatic,omitempty"`
 	Locale             string                 `protobuf:"bytes,11,opt,name=locale,proto3" json:"locale,omitempty"`
 	AlternativeLocales []string               `protobuf:"bytes,14,rep,name=alternative_locales,json=alternativeLocales,proto3" json:"alternative_locales,omitempty"`
+	Content            string                 `protobuf:"bytes,52,opt,name=content,proto3" json:"content,omitempty"`
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
 }
@@ -161,13 +157,6 @@ func (x *Template) GetSubject() string {
 	return ""
 }
 
-func (x *Template) GetContent() *ecm.Content {
-	if x != nil {
-		return x.Content
-	}
-	return nil
-}
-
 func (x *Template) GetAutomatic() bool {
 	if x != nil {
 		return x.Automatic
@@ -187,6 +176,13 @@ func (x *Template) GetAlternativeLocales() []string {
 		return x.AlternativeLocales
 	}
 	return nil
+}
+
+func (x *Template) GetContent() string {
+	if x != nil {
+		return x.Content
+	}
+	return ""
 }
 
 type Template_Extra struct {
@@ -230,8 +226,8 @@ type Template_Patch struct {
 	Key           *string                `protobuf:"bytes,10,opt,name=key,proto3,oneof" json:"key,omitempty"`
 	Draft         *bool                  `protobuf:"varint,13,opt,name=draft,proto3,oneof" json:"draft,omitempty"`
 	Subject       *string                `protobuf:"bytes,12,opt,name=subject,proto3,oneof" json:"subject,omitempty"`
-	Content       *ecm.Content           `protobuf:"bytes,51,opt,name=content,proto3,oneof" json:"content,omitempty"`
 	Automatic     *bool                  `protobuf:"varint,15,opt,name=automatic,proto3,oneof" json:"automatic,omitempty"`
+	Content       *string                `protobuf:"bytes,52,opt,name=content,proto3,oneof" json:"content,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -287,13 +283,6 @@ func (x *Template_Patch) GetSubject() string {
 	return ""
 }
 
-func (x *Template_Patch) GetContent() *ecm.Content {
-	if x != nil {
-		return x.Content
-	}
-	return nil
-}
-
 func (x *Template_Patch) GetAutomatic() bool {
 	if x != nil && x.Automatic != nil {
 		return *x.Automatic
@@ -301,11 +290,18 @@ func (x *Template_Patch) GetAutomatic() bool {
 	return false
 }
 
+func (x *Template_Patch) GetContent() string {
+	if x != nil && x.Content != nil {
+		return *x.Content
+	}
+	return ""
+}
+
 var File_eolymp_mail_template_proto protoreflect.FileDescriptor
 
 const file_eolymp_mail_template_proto_rawDesc = "" +
 	"\n" +
-	"\x1aeolymp/mail/template.proto\x12\veolymp.mail\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xb6\x05\n" +
+	"\x1aeolymp/mail/template.proto\x12\veolymp.mail\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x84\x05\n" +
 	"\bTemplate\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12A\n" +
 	"\n" +
@@ -315,31 +311,30 @@ const file_eolymp_mail_template_proto_rawDesc = "" +
 	"\x03key\x18\n" +
 	" \x01(\tR\x03key\x12\x14\n" +
 	"\x05draft\x18\r \x01(\bR\x05draft\x12\x18\n" +
-	"\asubject\x18\f \x01(\tR\asubject\x12-\n" +
-	"\acontent\x183 \x01(\v2\x13.eolymp.ecm.ContentR\acontent\x12\x1c\n" +
+	"\asubject\x18\f \x01(\tR\asubject\x12\x1c\n" +
 	"\tautomatic\x18\x0f \x01(\bR\tautomatic\x12\x16\n" +
 	"\x06locale\x18\v \x01(\tR\x06locale\x12/\n" +
-	"\x13alternative_locales\x18\x0e \x03(\tR\x12alternativeLocales\x1aJ\n" +
-	"\x05Extra\"A\n" +
+	"\x13alternative_locales\x18\x0e \x03(\tR\x12alternativeLocales\x12\x18\n" +
+	"\acontent\x184 \x01(\tR\acontent\x1a6\n" +
+	"\x05Extra\"-\n" +
 	"\x05Field\x12\x11\n" +
-	"\rUNKNOWN_EXTRA\x10\x00\x12\x11\n" +
-	"\rCONTENT_VALUE\x10\x01\x12\x12\n" +
-	"\x0eCONTENT_RENDER\x10\x02\x1a\xe7\x01\n" +
+	"\rUNKNOWN_EXTRA\x10\x00\x12\v\n" +
+	"\aCONTENT\x10\x01\"\x04\b\x02\x10\x02\x1a\xd8\x01\n" +
 	"\x05Patch\x12\x15\n" +
 	"\x03key\x18\n" +
 	" \x01(\tH\x00R\x03key\x88\x01\x01\x12\x19\n" +
 	"\x05draft\x18\r \x01(\bH\x01R\x05draft\x88\x01\x01\x12\x1d\n" +
-	"\asubject\x18\f \x01(\tH\x02R\asubject\x88\x01\x01\x122\n" +
-	"\acontent\x183 \x01(\v2\x13.eolymp.ecm.ContentH\x03R\acontent\x88\x01\x01\x12!\n" +
-	"\tautomatic\x18\x0f \x01(\bH\x04R\tautomatic\x88\x01\x01B\x06\n" +
+	"\asubject\x18\f \x01(\tH\x02R\asubject\x88\x01\x01\x12!\n" +
+	"\tautomatic\x18\x0f \x01(\bH\x03R\tautomatic\x88\x01\x01\x12\x1d\n" +
+	"\acontent\x184 \x01(\tH\x04R\acontent\x88\x01\x01B\x06\n" +
 	"\x04_keyB\b\n" +
 	"\x06_draftB\n" +
 	"\n" +
-	"\b_subjectB\n" +
+	"\b_subjectB\f\n" +
 	"\n" +
-	"\b_contentB\f\n" +
+	"_automaticB\n" +
 	"\n" +
-	"_automaticB+Z)github.com/eolymp/go-sdk/eolymp/mail;mailb\x06proto3"
+	"\b_contentJ\x04\b3\x104J\x04\b3\x104B+Z)github.com/eolymp/go-sdk/eolymp/mail;mailb\x06proto3"
 
 var (
 	file_eolymp_mail_template_proto_rawDescOnce sync.Once
@@ -361,18 +356,15 @@ var file_eolymp_mail_template_proto_goTypes = []any{
 	(*Template_Extra)(nil),        // 2: eolymp.mail.Template.Extra
 	(*Template_Patch)(nil),        // 3: eolymp.mail.Template.Patch
 	(*timestamppb.Timestamp)(nil), // 4: google.protobuf.Timestamp
-	(*ecm.Content)(nil),           // 5: eolymp.ecm.Content
 }
 var file_eolymp_mail_template_proto_depIdxs = []int32{
 	4, // 0: eolymp.mail.Template.created_at:type_name -> google.protobuf.Timestamp
 	4, // 1: eolymp.mail.Template.updated_at:type_name -> google.protobuf.Timestamp
-	5, // 2: eolymp.mail.Template.content:type_name -> eolymp.ecm.Content
-	5, // 3: eolymp.mail.Template.Patch.content:type_name -> eolymp.ecm.Content
-	4, // [4:4] is the sub-list for method output_type
-	4, // [4:4] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	2, // [2:2] is the sub-list for method output_type
+	2, // [2:2] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_mail_template_proto_init() }
