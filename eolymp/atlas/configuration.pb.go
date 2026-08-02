@@ -27,6 +27,7 @@ const (
 	Config_Patch_UNKNOWN_PATCH              Config_Patch_Field = 0
 	Config_Patch_HOURLY_IP_SUBMISSION_LIMIT Config_Patch_Field = 1 // update hourly per-IP submission limit
 	Config_Patch_DAILY_IP_SUBMISSION_LIMIT  Config_Patch_Field = 2 // update daily per-IP submission limit
+	Config_Patch_TRACING_ENABLED            Config_Patch_Field = 3 // update whether traced runs are offered
 )
 
 // Enum value maps for Config_Patch_Field.
@@ -35,11 +36,13 @@ var (
 		0: "UNKNOWN_PATCH",
 		1: "HOURLY_IP_SUBMISSION_LIMIT",
 		2: "DAILY_IP_SUBMISSION_LIMIT",
+		3: "TRACING_ENABLED",
 	}
 	Config_Patch_Field_value = map[string]int32{
 		"UNKNOWN_PATCH":              0,
 		"HOURLY_IP_SUBMISSION_LIMIT": 1,
 		"DAILY_IP_SUBMISSION_LIMIT":  2,
+		"TRACING_ENABLED":            3,
 	}
 )
 
@@ -74,8 +77,11 @@ type Config struct {
 	state                   protoimpl.MessageState `protogen:"open.v1"`
 	HourlyIpSubmissionLimit uint32                 `protobuf:"varint,1,opt,name=hourly_ip_submission_limit,json=hourlyIpSubmissionLimit,proto3" json:"hourly_ip_submission_limit,omitempty"` // max submissions per IP per hour; 0 = unlimited
 	DailyIpSubmissionLimit  uint32                 `protobuf:"varint,2,opt,name=daily_ip_submission_limit,json=dailyIpSubmissionLimit,proto3" json:"daily_ip_submission_limit,omitempty"`    // max submissions per IP per day; 0 = unlimited
-	unknownFields           protoimpl.UnknownFields
-	sizeCache               protoimpl.SizeCache
+	// Offer traced runs in the editor. A traced run is built and executed differently and
+	// costs orders of magnitude more CPU, so it is opt-in per space.
+	TracingEnabled bool `protobuf:"varint,3,opt,name=tracing_enabled,json=tracingEnabled,proto3" json:"tracing_enabled,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *Config) Reset() {
@@ -122,6 +128,13 @@ func (x *Config) GetDailyIpSubmissionLimit() uint32 {
 	return 0
 }
 
+func (x *Config) GetTracingEnabled() bool {
+	if x != nil {
+		return x.TracingEnabled
+	}
+	return false
+}
+
 type Config_Patch struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
@@ -162,15 +175,17 @@ var File_eolymp_atlas_configuration_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_configuration_proto_rawDesc = "" +
 	"\n" +
-	" eolymp/atlas/configuration.proto\x12\feolymp.atlas\"\xe4\x01\n" +
+	" eolymp/atlas/configuration.proto\x12\feolymp.atlas\"\xa2\x02\n" +
 	"\x06Config\x12;\n" +
 	"\x1ahourly_ip_submission_limit\x18\x01 \x01(\rR\x17hourlyIpSubmissionLimit\x129\n" +
-	"\x19daily_ip_submission_limit\x18\x02 \x01(\rR\x16dailyIpSubmissionLimit\x1ab\n" +
-	"\x05Patch\"Y\n" +
+	"\x19daily_ip_submission_limit\x18\x02 \x01(\rR\x16dailyIpSubmissionLimit\x12'\n" +
+	"\x0ftracing_enabled\x18\x03 \x01(\bR\x0etracingEnabled\x1aw\n" +
+	"\x05Patch\"n\n" +
 	"\x05Field\x12\x11\n" +
 	"\rUNKNOWN_PATCH\x10\x00\x12\x1e\n" +
 	"\x1aHOURLY_IP_SUBMISSION_LIMIT\x10\x01\x12\x1d\n" +
-	"\x19DAILY_IP_SUBMISSION_LIMIT\x10\x02B-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x19DAILY_IP_SUBMISSION_LIMIT\x10\x02\x12\x13\n" +
+	"\x0fTRACING_ENABLED\x10\x03B-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_configuration_proto_rawDescOnce sync.Once
