@@ -215,6 +215,105 @@ func (x *TranslateEditorialsTask) GetOverrideManual() bool {
 	return false
 }
 
+// GenerateTestsTask is the payload of the background task which generates test data. The task is
+// executed remotely by the executor service; its progress is driven by generation reports.
+type GenerateTestsTask struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId      string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
+	TestReferences []string               `protobuf:"bytes,2,rep,name=test_references,json=testReferences,proto3" json:"test_references,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *GenerateTestsTask) Reset() {
+	*x = GenerateTestsTask{}
+	mi := &file_eolymp_atlas_tasks_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GenerateTestsTask) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GenerateTestsTask) ProtoMessage() {}
+
+func (x *GenerateTestsTask) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_tasks_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GenerateTestsTask.ProtoReflect.Descriptor instead.
+func (*GenerateTestsTask) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_tasks_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *GenerateTestsTask) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
+}
+
+func (x *GenerateTestsTask) GetTestReferences() []string {
+	if x != nil {
+		return x.TestReferences
+	}
+	return nil
+}
+
+// Checkpoint tracks test references which have not been generated yet.
+type GenerateTestsTask_Checkpoint struct {
+	state                 protoimpl.MessageState `protogen:"open.v1"`
+	PendingTestReferences []string               `protobuf:"bytes,1,rep,name=pending_test_references,json=pendingTestReferences,proto3" json:"pending_test_references,omitempty"`
+	unknownFields         protoimpl.UnknownFields
+	sizeCache             protoimpl.SizeCache
+}
+
+func (x *GenerateTestsTask_Checkpoint) Reset() {
+	*x = GenerateTestsTask_Checkpoint{}
+	mi := &file_eolymp_atlas_tasks_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GenerateTestsTask_Checkpoint) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GenerateTestsTask_Checkpoint) ProtoMessage() {}
+
+func (x *GenerateTestsTask_Checkpoint) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_tasks_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GenerateTestsTask_Checkpoint.ProtoReflect.Descriptor instead.
+func (*GenerateTestsTask_Checkpoint) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_tasks_proto_rawDescGZIP(), []int{3, 0}
+}
+
+func (x *GenerateTestsTask_Checkpoint) GetPendingTestReferences() []string {
+	if x != nil {
+		return x.PendingTestReferences
+	}
+	return nil
+}
+
 var File_eolymp_atlas_tasks_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_tasks_proto_rawDesc = "" +
@@ -235,7 +334,14 @@ const file_eolymp_atlas_tasks_proto_rawDesc = "" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\x12#\n" +
 	"\rsource_locale\x18\x02 \x01(\tR\fsourceLocale\x12%\n" +
 	"\x0etarget_locales\x18\x03 \x03(\tR\rtargetLocales\x12'\n" +
-	"\x0foverride_manual\x18\x04 \x01(\bR\x0eoverrideManualB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x0foverride_manual\x18\x04 \x01(\bR\x0eoverrideManual\"\xa1\x01\n" +
+	"\x11GenerateTestsTask\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12'\n" +
+	"\x0ftest_references\x18\x02 \x03(\tR\x0etestReferences\x1aD\n" +
+	"\n" +
+	"Checkpoint\x126\n" +
+	"\x17pending_test_references\x18\x01 \x03(\tR\x15pendingTestReferencesB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_tasks_proto_rawDescOnce sync.Once
@@ -249,11 +355,13 @@ func file_eolymp_atlas_tasks_proto_rawDescGZIP() []byte {
 	return file_eolymp_atlas_tasks_proto_rawDescData
 }
 
-var file_eolymp_atlas_tasks_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_eolymp_atlas_tasks_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_eolymp_atlas_tasks_proto_goTypes = []any{
-	(*ImportProblemTask)(nil),       // 0: eolymp.atlas.ImportProblemTask
-	(*TranslateStatementsTask)(nil), // 1: eolymp.atlas.TranslateStatementsTask
-	(*TranslateEditorialsTask)(nil), // 2: eolymp.atlas.TranslateEditorialsTask
+	(*ImportProblemTask)(nil),            // 0: eolymp.atlas.ImportProblemTask
+	(*TranslateStatementsTask)(nil),      // 1: eolymp.atlas.TranslateStatementsTask
+	(*TranslateEditorialsTask)(nil),      // 2: eolymp.atlas.TranslateEditorialsTask
+	(*GenerateTestsTask)(nil),            // 3: eolymp.atlas.GenerateTestsTask
+	(*GenerateTestsTask_Checkpoint)(nil), // 4: eolymp.atlas.GenerateTestsTask.Checkpoint
 }
 var file_eolymp_atlas_tasks_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
@@ -274,7 +382,7 @@ func file_eolymp_atlas_tasks_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_atlas_tasks_proto_rawDesc), len(file_eolymp_atlas_tasks_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   3,
+			NumMessages:   5,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
