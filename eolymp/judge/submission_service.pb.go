@@ -1060,6 +1060,7 @@ func (x *RetestProblemInput) GetProblemId() string {
 
 type RetestProblemOutput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	TaskId        string                 `protobuf:"bytes,1,opt,name=task_id,json=taskId,proto3" json:"task_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1092,6 +1093,13 @@ func (x *RetestProblemOutput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use RetestProblemOutput.ProtoReflect.Descriptor instead.
 func (*RetestProblemOutput) Descriptor() ([]byte, []int) {
 	return file_eolymp_judge_submission_service_proto_rawDescGZIP(), []int{19}
+}
+
+func (x *RetestProblemOutput) GetTaskId() string {
+	if x != nil {
+		return x.TaskId
+	}
+	return ""
 }
 
 type AnalyzeSubmissionInput struct {
@@ -1391,8 +1399,9 @@ const file_eolymp_judge_submission_service_proto_rawDesc = "" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\x12\x1d\n" +
 	"\n" +
-	"problem_id\x18\x02 \x01(\tR\tproblemId\"\x15\n" +
-	"\x13RetestProblemOutput\"=\n" +
+	"problem_id\x18\x02 \x01(\tR\tproblemId\".\n" +
+	"\x13RetestProblemOutput\x12\x17\n" +
+	"\atask_id\x18\x01 \x01(\tR\x06taskId\"=\n" +
 	"\x16AnalyzeSubmissionInput\x12#\n" +
 	"\rsubmission_id\x18\n" +
 	" \x01(\tR\fsubmissionId\"\x19\n" +

@@ -68,7 +68,7 @@ func (x *RebuildScoreInput) GetContestId() string {
 
 type RebuildScoreOutput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	ActivityId    string                 `protobuf:"bytes,1,opt,name=activity_id,json=activityId,proto3" json:"activity_id,omitempty"`
+	TaskId        string                 `protobuf:"bytes,1,opt,name=task_id,json=taskId,proto3" json:"task_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -103,9 +103,9 @@ func (*RebuildScoreOutput) Descriptor() ([]byte, []int) {
 	return file_eolymp_judge_score_service_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *RebuildScoreOutput) GetActivityId() string {
+func (x *RebuildScoreOutput) GetTaskId() string {
 	if x != nil {
-		return x.ActivityId
+		return x.TaskId
 	}
 	return ""
 }
@@ -1088,10 +1088,9 @@ const file_eolymp_judge_score_service_proto_rawDesc = "" +
 	" eolymp/judge/score_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\x1ceolymp/annotations/mcp.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x19eolymp/judge/result.proto\x1a\x18eolymp/judge/score.proto\x1a!eolymp/judge/score_timeline.proto\"2\n" +
 	"\x11RebuildScoreInput\x12\x1d\n" +
 	"\n" +
-	"contest_id\x18\x01 \x01(\tR\tcontestId\"5\n" +
-	"\x12RebuildScoreOutput\x12\x1f\n" +
-	"\vactivity_id\x18\x01 \x01(\tR\n" +
-	"activityId\"5\n" +
+	"contest_id\x18\x01 \x01(\tR\tcontestId\"-\n" +
+	"\x12RebuildScoreOutput\x12\x17\n" +
+	"\atask_id\x18\x01 \x01(\tR\x06taskId\"5\n" +
 	"\x14IntrospectScoreInput\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\"B\n" +
