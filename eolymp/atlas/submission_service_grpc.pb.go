@@ -43,8 +43,11 @@ const (
 // to completion and is unset until then.
 type SubmissionServiceClient interface {
 	// CreateSubmission queues a program for evaluation and returns its ID; follow it with DescribeSubmission
-	// or WatchSubmission. Submissions are rate limited per account and, when the space configures it through
-	// the atlas ConfigurationService, per client IP.
+	// or WatchSubmission. What travels in the request depends on the type of the problem: a program in `source`
+	// for the programming types, files in `values` for an output-only problem, and the answers in `quiz` for a
+	// quiz — a quiz is graded while the call is being served, so its submission comes back already judged.
+	// Submissions are rate limited per account and, when the space configures it through the atlas
+	// ConfigurationService, per client IP.
 	CreateSubmission(ctx context.Context, in *CreateSubmissionInput, opts ...grpc.CallOption) (*CreateSubmissionOutput, error)
 	// RetestSubmission re-runs the evaluation of an existing submission, which is what the console calls
 	// "rejudge": the result is recomputed in place, while the submission ID, its submission time and its
@@ -214,8 +217,11 @@ func (c *submissionServiceClient) AggregateSubmissions(ctx context.Context, in *
 // to completion and is unset until then.
 type SubmissionServiceServer interface {
 	// CreateSubmission queues a program for evaluation and returns its ID; follow it with DescribeSubmission
-	// or WatchSubmission. Submissions are rate limited per account and, when the space configures it through
-	// the atlas ConfigurationService, per client IP.
+	// or WatchSubmission. What travels in the request depends on the type of the problem: a program in `source`
+	// for the programming types, files in `values` for an output-only problem, and the answers in `quiz` for a
+	// quiz — a quiz is graded while the call is being served, so its submission comes back already judged.
+	// Submissions are rate limited per account and, when the space configures it through the atlas
+	// ConfigurationService, per client IP.
 	CreateSubmission(context.Context, *CreateSubmissionInput) (*CreateSubmissionOutput, error)
 	// RetestSubmission re-runs the evaluation of an existing submission, which is what the console calls
 	// "rejudge": the result is recomputed in place, while the submission ID, its submission time and its

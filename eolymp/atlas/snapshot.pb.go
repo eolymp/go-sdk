@@ -36,6 +36,7 @@ type Snapshot struct {
 	Editorials    []*Editorial           `protobuf:"bytes,9,rep,name=editorials,proto3" json:"editorials,omitempty"`
 	Solutions     []*Solution            `protobuf:"bytes,11,rep,name=solutions,proto3" json:"solutions,omitempty"`
 	Scripts       []*Script              `protobuf:"bytes,12,rep,name=scripts,proto3" json:"scripts,omitempty"`
+	Questions     []*Question            `protobuf:"bytes,14,rep,name=questions,proto3" json:"questions,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -161,11 +162,18 @@ func (x *Snapshot) GetScripts() []*Script {
 	return nil
 }
 
+func (x *Snapshot) GetQuestions() []*Question {
+	if x != nil {
+		return x.Questions
+	}
+	return nil
+}
+
 var File_eolymp_atlas_snapshot_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_snapshot_proto_rawDesc = "" +
 	"\n" +
-	"\x1beolymp/atlas/snapshot.proto\x12\feolymp.atlas\x1a\x1deolymp/atlas/attachment.proto\x1a eolymp/atlas/code_template.proto\x1a\x1ceolymp/atlas/editorial.proto\x1a\x1aeolymp/atlas/problem.proto\x1a\x19eolymp/atlas/script.proto\x1a\x1beolymp/atlas/solution.proto\x1a\x1ceolymp/atlas/statement.proto\x1a\"eolymp/atlas/testing_checker.proto\x1a!eolymp/atlas/testing_config.proto\x1a%eolymp/atlas/testing_interactor.proto\x1a\x1feolymp/atlas/testing_test.proto\x1a\"eolymp/atlas/testing_testset.proto\x1a$eolymp/atlas/testing_validator.proto\"\xbb\x05\n" +
+	"\x1beolymp/atlas/snapshot.proto\x12\feolymp.atlas\x1a\x1deolymp/atlas/attachment.proto\x1a eolymp/atlas/code_template.proto\x1a\x1ceolymp/atlas/editorial.proto\x1a\x1aeolymp/atlas/problem.proto\x1a\x1beolymp/atlas/question.proto\x1a\x19eolymp/atlas/script.proto\x1a\x1beolymp/atlas/solution.proto\x1a\x1ceolymp/atlas/statement.proto\x1a\"eolymp/atlas/testing_checker.proto\x1a!eolymp/atlas/testing_config.proto\x1a%eolymp/atlas/testing_interactor.proto\x1a\x1feolymp/atlas/testing_test.proto\x1a\"eolymp/atlas/testing_testset.proto\x1a$eolymp/atlas/testing_validator.proto\"\xf1\x05\n" +
 	"\bSnapshot\x12/\n" +
 	"\aproblem\x18\x01 \x01(\v2\x15.eolymp.atlas.ProblemR\aproblem\x125\n" +
 	"\atesting\x18\n" +
@@ -186,7 +194,8 @@ const file_eolymp_atlas_snapshot_proto_rawDesc = "" +
 	"editorials\x18\t \x03(\v2\x17.eolymp.atlas.EditorialR\n" +
 	"editorials\x124\n" +
 	"\tsolutions\x18\v \x03(\v2\x16.eolymp.atlas.SolutionR\tsolutions\x12.\n" +
-	"\ascripts\x18\f \x03(\v2\x14.eolymp.atlas.ScriptR\ascriptsB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\ascripts\x18\f \x03(\v2\x14.eolymp.atlas.ScriptR\ascripts\x124\n" +
+	"\tquestions\x18\x0e \x03(\v2\x16.eolymp.atlas.QuestionR\tquestionsB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_snapshot_proto_rawDescOnce sync.Once
@@ -216,6 +225,7 @@ var file_eolymp_atlas_snapshot_proto_goTypes = []any{
 	(*Editorial)(nil),     // 11: eolymp.atlas.Editorial
 	(*Solution)(nil),      // 12: eolymp.atlas.Solution
 	(*Script)(nil),        // 13: eolymp.atlas.Script
+	(*Question)(nil),      // 14: eolymp.atlas.Question
 }
 var file_eolymp_atlas_snapshot_proto_depIdxs = []int32{
 	1,  // 0: eolymp.atlas.Snapshot.problem:type_name -> eolymp.atlas.Problem
@@ -231,11 +241,12 @@ var file_eolymp_atlas_snapshot_proto_depIdxs = []int32{
 	11, // 10: eolymp.atlas.Snapshot.editorials:type_name -> eolymp.atlas.Editorial
 	12, // 11: eolymp.atlas.Snapshot.solutions:type_name -> eolymp.atlas.Solution
 	13, // 12: eolymp.atlas.Snapshot.scripts:type_name -> eolymp.atlas.Script
-	13, // [13:13] is the sub-list for method output_type
-	13, // [13:13] is the sub-list for method input_type
-	13, // [13:13] is the sub-list for extension type_name
-	13, // [13:13] is the sub-list for extension extendee
-	0,  // [0:13] is the sub-list for field type_name
+	14, // 13: eolymp.atlas.Snapshot.questions:type_name -> eolymp.atlas.Question
+	14, // [14:14] is the sub-list for method output_type
+	14, // [14:14] is the sub-list for method input_type
+	14, // [14:14] is the sub-list for extension type_name
+	14, // [14:14] is the sub-list for extension extendee
+	0,  // [0:14] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_atlas_snapshot_proto_init() }
@@ -247,6 +258,7 @@ func file_eolymp_atlas_snapshot_proto_init() {
 	file_eolymp_atlas_code_template_proto_init()
 	file_eolymp_atlas_editorial_proto_init()
 	file_eolymp_atlas_problem_proto_init()
+	file_eolymp_atlas_question_proto_init()
 	file_eolymp_atlas_script_proto_init()
 	file_eolymp_atlas_solution_proto_init()
 	file_eolymp_atlas_statement_proto_init()
