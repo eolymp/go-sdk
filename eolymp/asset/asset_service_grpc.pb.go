@@ -36,9 +36,13 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AssetServiceClient interface {
-	// deprecated, use universal UploadAsset API instead
+	// deprecated
+	//
+	// Use universal UploadAsset API instead.
 	UploadImage(ctx context.Context, in *UploadImageInput, opts ...grpc.CallOption) (*UploadImageOutput, error)
-	// deprecated, use universal UploadAsset API instead
+	// deprecated
+	//
+	// Use universal UploadAsset API instead.
 	UploadFile(ctx context.Context, in *UploadFileInput, opts ...grpc.CallOption) (*UploadFileOutput, error)
 	// UploadAsset allows to upload a file under 5 MB, files over 5MB must be uploaded using multipart upload API
 	UploadAsset(ctx context.Context, in *UploadAssetInput, opts ...grpc.CallOption) (*UploadAssetOutput, error)
@@ -187,9 +191,13 @@ func (c *assetServiceClient) CloseStream(ctx context.Context, in *CloseStreamInp
 // All implementations should embed UnimplementedAssetServiceServer
 // for forward compatibility.
 type AssetServiceServer interface {
-	// deprecated, use universal UploadAsset API instead
+	// deprecated
+	//
+	// Use universal UploadAsset API instead.
 	UploadImage(context.Context, *UploadImageInput) (*UploadImageOutput, error)
-	// deprecated, use universal UploadAsset API instead
+	// deprecated
+	//
+	// Use universal UploadAsset API instead.
 	UploadFile(context.Context, *UploadFileInput) (*UploadFileOutput, error)
 	// UploadAsset allows to upload a file under 5 MB, files over 5MB must be uploaded using multipart upload API
 	UploadAsset(context.Context, *UploadAssetInput) (*UploadAssetOutput, error)

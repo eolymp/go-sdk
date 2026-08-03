@@ -41,9 +41,13 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ParticipantServiceClient interface {
 	AssignParticipant(ctx context.Context, in *AssignParticipantInput, opts ...grpc.CallOption) (*AssignParticipantOutput, error)
-	// deprecated, use UpdateParticipant instead
+	// deprecated
+	//
+	// Use UpdateParticipant instead.
 	EnableParticipant(ctx context.Context, in *EnableParticipantInput, opts ...grpc.CallOption) (*EnableParticipantOutput, error)
-	// deprecated, use UpdateParticipant instead
+	// deprecated
+	//
+	// Use UpdateParticipant instead.
 	DisableParticipant(ctx context.Context, in *DisableParticipantInput, opts ...grpc.CallOption) (*DisableParticipantOutput, error)
 	UpdateParticipant(ctx context.Context, in *UpdateParticipantInput, opts ...grpc.CallOption) (*UpdateParticipantOutput, error)
 	AnalyzeParticipant(ctx context.Context, in *AnalyzeParticipantInput, opts ...grpc.CallOption) (*AnalyzeParticipantOutput, error)
@@ -52,8 +56,10 @@ type ParticipantServiceClient interface {
 	DescribeParticipant(ctx context.Context, in *DescribeParticipantInput, opts ...grpc.CallOption) (*DescribeParticipantOutput, error)
 	ListParticipants(ctx context.Context, in *ListParticipantsInput, opts ...grpc.CallOption) (*ListParticipantsOutput, error)
 	WatchParticipant(ctx context.Context, in *WatchParticipantInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchParticipantOutput], error)
+	// deprecated
+	//
 	// Allows a participant (currently authorized user) to join (add himself to) a public contest.
-	// deprecated: use registration service instead
+	// Use registration service instead.
 	JoinContest(ctx context.Context, in *JoinContestInput, opts ...grpc.CallOption) (*JoinContestOutput, error)
 	// DescribeViewer allows to fetch participant data for a currently authorized user.
 	DescribeViewer(ctx context.Context, in *DescribeViewerInput, opts ...grpc.CallOption) (*DescribeViewerOutput, error)
@@ -237,9 +243,13 @@ func (c *participantServiceClient) FinishContest(ctx context.Context, in *Finish
 // for forward compatibility.
 type ParticipantServiceServer interface {
 	AssignParticipant(context.Context, *AssignParticipantInput) (*AssignParticipantOutput, error)
-	// deprecated, use UpdateParticipant instead
+	// deprecated
+	//
+	// Use UpdateParticipant instead.
 	EnableParticipant(context.Context, *EnableParticipantInput) (*EnableParticipantOutput, error)
-	// deprecated, use UpdateParticipant instead
+	// deprecated
+	//
+	// Use UpdateParticipant instead.
 	DisableParticipant(context.Context, *DisableParticipantInput) (*DisableParticipantOutput, error)
 	UpdateParticipant(context.Context, *UpdateParticipantInput) (*UpdateParticipantOutput, error)
 	AnalyzeParticipant(context.Context, *AnalyzeParticipantInput) (*AnalyzeParticipantOutput, error)
@@ -248,8 +258,10 @@ type ParticipantServiceServer interface {
 	DescribeParticipant(context.Context, *DescribeParticipantInput) (*DescribeParticipantOutput, error)
 	ListParticipants(context.Context, *ListParticipantsInput) (*ListParticipantsOutput, error)
 	WatchParticipant(*WatchParticipantInput, grpc.ServerStreamingServer[WatchParticipantOutput]) error
+	// deprecated
+	//
 	// Allows a participant (currently authorized user) to join (add himself to) a public contest.
-	// deprecated: use registration service instead
+	// Use registration service instead.
 	JoinContest(context.Context, *JoinContestInput) (*JoinContestOutput, error)
 	// DescribeViewer allows to fetch participant data for a currently authorized user.
 	DescribeViewer(context.Context, *DescribeViewerInput) (*DescribeViewerOutput, error)
