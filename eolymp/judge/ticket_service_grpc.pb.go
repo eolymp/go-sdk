@@ -49,7 +49,7 @@ const (
 // identity, in which case participants never learn which person answered them. A ticket also carries a
 // status saying whether the jury still owes an answer, and marking a question resolved, reopened or
 // closed is an update of that status rather than a dedicated call. Every call is addressed to one contest
-// inside a space, and the streaming calls have no HTTP binding, so they exist only in the SDKs.
+// inside a space.
 type TicketServiceClient interface {
 	// CreateTicket opens a new question in the contest on behalf of the calling participant. The subject
 	// and message passed here become the head of the ticket's thread; everything said afterwards is a
@@ -338,7 +338,7 @@ type TicketService_WatchRepliesClient = grpc.ServerStreamingClient[WatchRepliesO
 // identity, in which case participants never learn which person answered them. A ticket also carries a
 // status saying whether the jury still owes an answer, and marking a question resolved, reopened or
 // closed is an update of that status rather than a dedicated call. Every call is addressed to one contest
-// inside a space, and the streaming calls have no HTTP binding, so they exist only in the SDKs.
+// inside a space.
 type TicketServiceServer interface {
 	// CreateTicket opens a new question in the contest on behalf of the calling participant. The subject
 	// and message passed here become the head of the ticket's thread; everything said afterwards is a

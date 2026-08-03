@@ -43,8 +43,7 @@ const (
 // one participant is a ticket instead (see TicketService). Besides creating, reading, updating and
 // deleting them, the service tracks which announcements the calling participant has already seen, which
 // exists so a client can badge the unread ones — the console does not use that part, the contest client
-// does. Every call is addressed to one contest inside a space, and the streaming calls have no HTTP
-// binding, so they exist only in the SDKs.
+// does. Every call is addressed to one contest inside a space.
 type AnnouncementServiceClient interface {
 	// CreateAnnouncement publishes a message to the participants of the contest. It takes effect
 	// immediately — there is no draft or scheduled state — and starts out unread for everyone. The body is
@@ -236,8 +235,7 @@ type AnnouncementService_WatchAnnouncementSummaryClient = grpc.ServerStreamingCl
 // one participant is a ticket instead (see TicketService). Besides creating, reading, updating and
 // deleting them, the service tracks which announcements the calling participant has already seen, which
 // exists so a client can badge the unread ones — the console does not use that part, the contest client
-// does. Every call is addressed to one contest inside a space, and the streaming calls have no HTTP
-// binding, so they exist only in the SDKs.
+// does. Every call is addressed to one contest inside a space.
 type AnnouncementServiceServer interface {
 	// CreateAnnouncement publishes a message to the participants of the contest. It takes effect
 	// immediately — there is no draft or scheduled state — and starts out unread for everyone. The body is
