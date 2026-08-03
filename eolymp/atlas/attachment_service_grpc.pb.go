@@ -29,11 +29,29 @@ const (
 // AttachmentServiceClient is the client API for AttachmentService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// AttachmentService manages the extra files published with a problem, the console's "Additional files".
+//
+// Uploads happen outside this service: upload the file through eolymp.asset.AssetService first, then
+// register the link it returns here. Every method works on the problem addressed by the request path,
+// and attachments are never shared between problems. Read methods can also target an earlier problem
+// version, which requires permission to read the problem history.
 type AttachmentServiceClient interface {
+	// CreateAttachment registers an already uploaded file with the problem. It uploads nothing itself:
+	// upload the file through eolymp.asset.AssetService first, most conveniently with UploadAsset, and
+	// register the link it returns here.
 	CreateAttachment(ctx context.Context, in *CreateAttachmentInput, opts ...grpc.CallOption) (*CreateAttachmentOutput, error)
+	// UpdateAttachment replaces an attachment; there is no field mask, so anything omitted from the request
+	// is cleared rather than kept.
 	UpdateAttachment(ctx context.Context, in *UpdateAttachmentInput, opts ...grpc.CallOption) (*UpdateAttachmentOutput, error)
+	// DeleteAttachment detaches the file from the problem so it is no longer published with it. Only the
+	// problem's reference is removed; the linked file itself is left in storage untouched.
 	DeleteAttachment(ctx context.Context, in *DeleteAttachmentInput, opts ...grpc.CallOption) (*DeleteAttachmentOutput, error)
+	// ListAttachments returns the problem's attachments sorted by name. Only the declared filter
+	// expressions are supported; there is no free-text search here.
 	ListAttachments(ctx context.Context, in *ListAttachmentsInput, opts ...grpc.CallOption) (*ListAttachmentsOutput, error)
+	// DescribeAttachment returns a single attachment of this problem, optionally as it looked in an earlier
+	// problem version.
 	DescribeAttachment(ctx context.Context, in *DescribeAttachmentInput, opts ...grpc.CallOption) (*DescribeAttachmentOutput, error)
 }
 
@@ -98,11 +116,29 @@ func (c *attachmentServiceClient) DescribeAttachment(ctx context.Context, in *De
 // AttachmentServiceServer is the server API for AttachmentService service.
 // All implementations should embed UnimplementedAttachmentServiceServer
 // for forward compatibility.
+//
+// AttachmentService manages the extra files published with a problem, the console's "Additional files".
+//
+// Uploads happen outside this service: upload the file through eolymp.asset.AssetService first, then
+// register the link it returns here. Every method works on the problem addressed by the request path,
+// and attachments are never shared between problems. Read methods can also target an earlier problem
+// version, which requires permission to read the problem history.
 type AttachmentServiceServer interface {
+	// CreateAttachment registers an already uploaded file with the problem. It uploads nothing itself:
+	// upload the file through eolymp.asset.AssetService first, most conveniently with UploadAsset, and
+	// register the link it returns here.
 	CreateAttachment(context.Context, *CreateAttachmentInput) (*CreateAttachmentOutput, error)
+	// UpdateAttachment replaces an attachment; there is no field mask, so anything omitted from the request
+	// is cleared rather than kept.
 	UpdateAttachment(context.Context, *UpdateAttachmentInput) (*UpdateAttachmentOutput, error)
+	// DeleteAttachment detaches the file from the problem so it is no longer published with it. Only the
+	// problem's reference is removed; the linked file itself is left in storage untouched.
 	DeleteAttachment(context.Context, *DeleteAttachmentInput) (*DeleteAttachmentOutput, error)
+	// ListAttachments returns the problem's attachments sorted by name. Only the declared filter
+	// expressions are supported; there is no free-text search here.
 	ListAttachments(context.Context, *ListAttachmentsInput) (*ListAttachmentsOutput, error)
+	// DescribeAttachment returns a single attachment of this problem, optionally as it looked in an earlier
+	// problem version.
 	DescribeAttachment(context.Context, *DescribeAttachmentInput) (*DescribeAttachmentOutput, error)
 }
 

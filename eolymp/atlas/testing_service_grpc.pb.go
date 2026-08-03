@@ -43,25 +43,95 @@ const (
 // TestingServiceClient is the client API for TestingService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// TestingService configures how a problem is evaluated: its testsets, tests and the programs which grade
+// them.
+//
+// Tests are the input/answer pairs a solution is run against, and every test belongs to a testset which
+// groups them into a sub-task with its own limits, scoring mode and feedback policy; a testset may also
+// depend on other testsets and stay unevaluated unless those passed. Three optional programs complete the
+// setup: a checker, which compares the solution's output with the expected answer, an interactor, which
+// talks to the solution while it runs (interactive problems), and a validator, which asserts that test
+// inputs respect the problem's constraints. Alongside them sits a problem-wide testing configuration with
+// the defaults shared by all runs. Every method operates on the problem addressed by the request path, and
+// the read methods accept a `version` to inspect a specific problem version instead of the current draft.
 type TestingServiceClient interface {
+	// UpdateTestingConfig replaces the problem-wide testing configuration as a whole — there is no patch
+	// mask, so send back what DescribeTestingConfig returned with your changes applied. Testsets carry their
+	// own limits, which is what the executor uses for their runs.
 	UpdateTestingConfig(ctx context.Context, in *UpdateTestingConfigInput, opts ...grpc.CallOption) (*UpdateTestingConfigOutput, error)
+	// DescribeTestingConfig returns the problem-wide testing configuration. Its limits are the problem-level
+	// defaults, not the effective limits of any particular run — read those from the testsets.
 	DescribeTestingConfig(ctx context.Context, in *DescribeTestingConfigInput, opts ...grpc.CallOption) (*DescribeTestingConfigOutput, error)
+	// UpdateChecker replaces the stored checker configuration in full. There is no DeleteChecker: reset a
+	// problem to plain comparison by updating the checker to the line-by-line type, and keep in mind that a
+	// problem with neither checker nor interactor cannot grade. A program checker runs only for solutions
+	// which finished without a runtime error, timeout or memory violation.
 	UpdateChecker(ctx context.Context, in *UpdateCheckerInput, opts ...grpc.CallOption) (*UpdateCheckerOutput, error)
+	// DescribeChecker returns the checker configuration, including the source code of program checkers, so
+	// respect the `secret` flag before showing the response to participants.
 	DescribeChecker(ctx context.Context, in *DescribeCheckerInput, opts ...grpc.CallOption) (*DescribeCheckerOutput, error)
+	// UpdateInteractor replaces the stored interactor, which starts on every test just before the solution
+	// with the two processes' stdin and stdout wired to each other. There is no DeleteInteractor, so an
+	// interactor is removed by calling this method with an empty payload. Exit code 0 means the interaction
+	// succeeded and the checker then grades the test, 1 fails that test as a wrong answer, and any other
+	// code fails the whole submission as a system error.
 	UpdateInteractor(ctx context.Context, in *UpdateInteractorInput, opts ...grpc.CallOption) (*UpdateInteractorOutput, error)
+	// DescribeInteractor returns the interactor configuration, empty when the problem is not interactive.
+	// Its source code is part of the response, so respect the `secret` flag before exposing it.
 	DescribeInteractor(ctx context.Context, in *DescribeInteractorInput, opts ...grpc.CallOption) (*DescribeInteractorOutput, error)
+	// UpdateValidator replaces the stored validator. There is no DeleteValidator, so a validator is removed
+	// by calling this method with an empty payload. Saving a validator does not run it over the problem's
+	// tests: that is ValidationService.RunValidation.
 	UpdateValidator(ctx context.Context, in *UpdateValidatorInput, opts ...grpc.CallOption) (*UpdateValidatorOutput, error)
+	// DescribeValidator returns the validator configuration, empty when the problem has no validator. It
+	// reports no validation outcome — run the validator and read its results through ValidationService.
 	DescribeValidator(ctx context.Context, in *DescribeValidatorInput, opts ...grpc.CallOption) (*DescribeValidatorOutput, error)
+	// CreateTestset adds an empty testset and returns its generated id; add tests to it with CreateTest. Its
+	// index both orders the testset within the problem and is how other testsets reference it as a
+	// dependency.
 	CreateTestset(ctx context.Context, in *CreateTestsetInput, opts ...grpc.CallOption) (*CreateTestsetOutput, error)
+	// UpdateTestset replaces a testset's configuration; the whole payload is written, so omitted settings
+	// are cleared. Dependencies name other testsets by index rather than id.
 	UpdateTestset(ctx context.Context, in *UpdateTestsetInput, opts ...grpc.CallOption) (*UpdateTestsetOutput, error)
+	// DeleteTestset removes the testset from the problem, so the tests it grouped stop taking part in
+	// testing and its score no longer contributes to a submission's result. Other testsets reference their
+	// dependencies by index rather than by id, so review those afterwards. Already published problem
+	// versions keep the testset.
 	DeleteTestset(ctx context.Context, in *DeleteTestsetInput, opts ...grpc.CallOption) (*DeleteTestsetOutput, error)
+	// DescribeTestset returns one testset. The tests it contains are not included — list them with
+	// ListTests.
 	DescribeTestset(ctx context.Context, in *DescribeTestsetInput, opts ...grpc.CallOption) (*DescribeTestsetOutput, error)
+	// ListTestsets returns the problem's testsets, paginated. Their indices establish the testing order and
+	// resolve the references dependencies are given by. Tests are not included.
 	ListTestsets(ctx context.Context, in *ListTestsetsInput, opts ...grpc.CallOption) (*ListTestsetsOutput, error)
+	// CreateTest adds a test to a testset and returns the new test id; on the /tests binding the testset
+	// comes from the payload instead of the path. Input and answer are each supplied as a URL, as inline
+	// content, or as a generator invocation; generated data is produced asynchronously, so such a test stays
+	// pending until generation and validation succeed, and a submission arriving earlier triggers the
+	// generation inline.
 	CreateTest(ctx context.Context, in *CreateTestInput, opts ...grpc.CallOption) (*CreateTestOutput, error)
+	// UpdateTest is the only method in this service with a patch mask: only the fields it lists are written,
+	// and patching the testset moves the test into another one. Pointing the input or answer at a generator
+	// makes the data regenerate asynchronously, putting the test back into pending status. The example
+	// overrides change only what the statement displays, which is what interactive problems need when the
+	// stored input and answer are instructions for the interactor rather than real data.
 	UpdateTest(ctx context.Context, in *UpdateTestInput, opts ...grpc.CallOption) (*UpdateTestOutput, error)
+	// DeleteTest removes a single test, leaving its testset in place; the testset in the alternative path is
+	// not needed to find the test. Indices are assigned explicitly rather than derived, so the surviving
+	// tests keep theirs and a gap is left behind.
 	DeleteTest(ctx context.Context, in *DeleteTestInput, opts ...grpc.CallOption) (*DeleteTestOutput, error)
+	// DescribeTest returns one test as stored, with a status explaining why generated data is still pending
+	// or came out invalid. Tests marked `secret` never come back with input or answer data.
 	DescribeTest(ctx context.Context, in *DescribeTestInput, opts ...grpc.CallOption) (*DescribeTestOutput, error)
+	// ListTests returns the tests of one testset, or of the whole problem when no testset is given; there is
+	// no pagination, so expect the full set in one response. Tests marked `secret` are listed without their
+	// input and answer.
 	ListTests(ctx context.Context, in *ListTestsInput, opts ...grpc.CallOption) (*ListTestsOutput, error)
+	// ListExamples returns the tests flagged as examples across all of the problem's testsets — the sample
+	// data shown in the statement. Unlike the rest of this service it needs only read access to the problem,
+	// which makes it the method for participant-facing views; render a test's example overrides in place of
+	// its input and answer wherever they are set.
 	ListExamples(ctx context.Context, in *ListExamplesInput, opts ...grpc.CallOption) (*ListExamplesOutput, error)
 }
 
@@ -266,25 +336,95 @@ func (c *testingServiceClient) ListExamples(ctx context.Context, in *ListExample
 // TestingServiceServer is the server API for TestingService service.
 // All implementations should embed UnimplementedTestingServiceServer
 // for forward compatibility.
+//
+// TestingService configures how a problem is evaluated: its testsets, tests and the programs which grade
+// them.
+//
+// Tests are the input/answer pairs a solution is run against, and every test belongs to a testset which
+// groups them into a sub-task with its own limits, scoring mode and feedback policy; a testset may also
+// depend on other testsets and stay unevaluated unless those passed. Three optional programs complete the
+// setup: a checker, which compares the solution's output with the expected answer, an interactor, which
+// talks to the solution while it runs (interactive problems), and a validator, which asserts that test
+// inputs respect the problem's constraints. Alongside them sits a problem-wide testing configuration with
+// the defaults shared by all runs. Every method operates on the problem addressed by the request path, and
+// the read methods accept a `version` to inspect a specific problem version instead of the current draft.
 type TestingServiceServer interface {
+	// UpdateTestingConfig replaces the problem-wide testing configuration as a whole — there is no patch
+	// mask, so send back what DescribeTestingConfig returned with your changes applied. Testsets carry their
+	// own limits, which is what the executor uses for their runs.
 	UpdateTestingConfig(context.Context, *UpdateTestingConfigInput) (*UpdateTestingConfigOutput, error)
+	// DescribeTestingConfig returns the problem-wide testing configuration. Its limits are the problem-level
+	// defaults, not the effective limits of any particular run — read those from the testsets.
 	DescribeTestingConfig(context.Context, *DescribeTestingConfigInput) (*DescribeTestingConfigOutput, error)
+	// UpdateChecker replaces the stored checker configuration in full. There is no DeleteChecker: reset a
+	// problem to plain comparison by updating the checker to the line-by-line type, and keep in mind that a
+	// problem with neither checker nor interactor cannot grade. A program checker runs only for solutions
+	// which finished without a runtime error, timeout or memory violation.
 	UpdateChecker(context.Context, *UpdateCheckerInput) (*UpdateCheckerOutput, error)
+	// DescribeChecker returns the checker configuration, including the source code of program checkers, so
+	// respect the `secret` flag before showing the response to participants.
 	DescribeChecker(context.Context, *DescribeCheckerInput) (*DescribeCheckerOutput, error)
+	// UpdateInteractor replaces the stored interactor, which starts on every test just before the solution
+	// with the two processes' stdin and stdout wired to each other. There is no DeleteInteractor, so an
+	// interactor is removed by calling this method with an empty payload. Exit code 0 means the interaction
+	// succeeded and the checker then grades the test, 1 fails that test as a wrong answer, and any other
+	// code fails the whole submission as a system error.
 	UpdateInteractor(context.Context, *UpdateInteractorInput) (*UpdateInteractorOutput, error)
+	// DescribeInteractor returns the interactor configuration, empty when the problem is not interactive.
+	// Its source code is part of the response, so respect the `secret` flag before exposing it.
 	DescribeInteractor(context.Context, *DescribeInteractorInput) (*DescribeInteractorOutput, error)
+	// UpdateValidator replaces the stored validator. There is no DeleteValidator, so a validator is removed
+	// by calling this method with an empty payload. Saving a validator does not run it over the problem's
+	// tests: that is ValidationService.RunValidation.
 	UpdateValidator(context.Context, *UpdateValidatorInput) (*UpdateValidatorOutput, error)
+	// DescribeValidator returns the validator configuration, empty when the problem has no validator. It
+	// reports no validation outcome — run the validator and read its results through ValidationService.
 	DescribeValidator(context.Context, *DescribeValidatorInput) (*DescribeValidatorOutput, error)
+	// CreateTestset adds an empty testset and returns its generated id; add tests to it with CreateTest. Its
+	// index both orders the testset within the problem and is how other testsets reference it as a
+	// dependency.
 	CreateTestset(context.Context, *CreateTestsetInput) (*CreateTestsetOutput, error)
+	// UpdateTestset replaces a testset's configuration; the whole payload is written, so omitted settings
+	// are cleared. Dependencies name other testsets by index rather than id.
 	UpdateTestset(context.Context, *UpdateTestsetInput) (*UpdateTestsetOutput, error)
+	// DeleteTestset removes the testset from the problem, so the tests it grouped stop taking part in
+	// testing and its score no longer contributes to a submission's result. Other testsets reference their
+	// dependencies by index rather than by id, so review those afterwards. Already published problem
+	// versions keep the testset.
 	DeleteTestset(context.Context, *DeleteTestsetInput) (*DeleteTestsetOutput, error)
+	// DescribeTestset returns one testset. The tests it contains are not included — list them with
+	// ListTests.
 	DescribeTestset(context.Context, *DescribeTestsetInput) (*DescribeTestsetOutput, error)
+	// ListTestsets returns the problem's testsets, paginated. Their indices establish the testing order and
+	// resolve the references dependencies are given by. Tests are not included.
 	ListTestsets(context.Context, *ListTestsetsInput) (*ListTestsetsOutput, error)
+	// CreateTest adds a test to a testset and returns the new test id; on the /tests binding the testset
+	// comes from the payload instead of the path. Input and answer are each supplied as a URL, as inline
+	// content, or as a generator invocation; generated data is produced asynchronously, so such a test stays
+	// pending until generation and validation succeed, and a submission arriving earlier triggers the
+	// generation inline.
 	CreateTest(context.Context, *CreateTestInput) (*CreateTestOutput, error)
+	// UpdateTest is the only method in this service with a patch mask: only the fields it lists are written,
+	// and patching the testset moves the test into another one. Pointing the input or answer at a generator
+	// makes the data regenerate asynchronously, putting the test back into pending status. The example
+	// overrides change only what the statement displays, which is what interactive problems need when the
+	// stored input and answer are instructions for the interactor rather than real data.
 	UpdateTest(context.Context, *UpdateTestInput) (*UpdateTestOutput, error)
+	// DeleteTest removes a single test, leaving its testset in place; the testset in the alternative path is
+	// not needed to find the test. Indices are assigned explicitly rather than derived, so the surviving
+	// tests keep theirs and a gap is left behind.
 	DeleteTest(context.Context, *DeleteTestInput) (*DeleteTestOutput, error)
+	// DescribeTest returns one test as stored, with a status explaining why generated data is still pending
+	// or came out invalid. Tests marked `secret` never come back with input or answer data.
 	DescribeTest(context.Context, *DescribeTestInput) (*DescribeTestOutput, error)
+	// ListTests returns the tests of one testset, or of the whole problem when no testset is given; there is
+	// no pagination, so expect the full set in one response. Tests marked `secret` are listed without their
+	// input and answer.
 	ListTests(context.Context, *ListTestsInput) (*ListTestsOutput, error)
+	// ListExamples returns the tests flagged as examples across all of the problem's testsets — the sample
+	// data shown in the statement. Unlike the rest of this service it needs only read access to the problem,
+	// which makes it the method for participant-facing views; render a test's example overrides in place of
+	// its input and answer wherever they are set.
 	ListExamples(context.Context, *ListExamplesInput) (*ListExamplesOutput, error)
 }
 

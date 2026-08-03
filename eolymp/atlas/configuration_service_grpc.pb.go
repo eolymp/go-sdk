@@ -26,10 +26,19 @@ const (
 // ConfigurationServiceClient is the client API for ConfigurationService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// ConfigurationService reads and updates the atlas configuration of a space.
+//
+// The configuration holds settings which apply to every problem and every submission of the space instead of
+// to a single problem. Each space has exactly one configuration which always exists, so there is nothing to
+// create or delete here — only describe and update.
 type ConfigurationServiceClient interface {
-	// Describe atlas configuration for the space
+	// DescribeConfig returns the atlas configuration of the space. A submission limit of 0 means unlimited, not
+	// "no submissions allowed". Unlike UpdateConfig this method requires no particular scope.
 	DescribeConfig(ctx context.Context, in *DescribeConfigInput, opts ...grpc.CallOption) (*DescribeConfigOutput, error)
-	// Update atlas configuration for the space
+	// UpdateConfig writes the atlas configuration of the space and applies only the fields named in the patch
+	// mask. An empty mask writes all fields, which silently resets the settings left blank in the request, so
+	// name the fields explicitly when changing a single setting.
 	UpdateConfig(ctx context.Context, in *UpdateConfigInput, opts ...grpc.CallOption) (*UpdateConfigOutput, error)
 }
 
@@ -64,10 +73,19 @@ func (c *configurationServiceClient) UpdateConfig(ctx context.Context, in *Updat
 // ConfigurationServiceServer is the server API for ConfigurationService service.
 // All implementations should embed UnimplementedConfigurationServiceServer
 // for forward compatibility.
+//
+// ConfigurationService reads and updates the atlas configuration of a space.
+//
+// The configuration holds settings which apply to every problem and every submission of the space instead of
+// to a single problem. Each space has exactly one configuration which always exists, so there is nothing to
+// create or delete here — only describe and update.
 type ConfigurationServiceServer interface {
-	// Describe atlas configuration for the space
+	// DescribeConfig returns the atlas configuration of the space. A submission limit of 0 means unlimited, not
+	// "no submissions allowed". Unlike UpdateConfig this method requires no particular scope.
 	DescribeConfig(context.Context, *DescribeConfigInput) (*DescribeConfigOutput, error)
-	// Update atlas configuration for the space
+	// UpdateConfig writes the atlas configuration of the space and applies only the fields named in the patch
+	// mask. An empty mask writes all fields, which silently resets the settings left blank in the request, so
+	// name the fields explicitly when changing a single setting.
 	UpdateConfig(context.Context, *UpdateConfigInput) (*UpdateConfigOutput, error)
 }
 

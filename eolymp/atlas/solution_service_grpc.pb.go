@@ -30,12 +30,41 @@ const (
 // SolutionServiceClient is the client API for SolutionService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// SolutionService manages the problem author's own reference programs, each stored together with the
+// verdict the author expects it to receive.
+//
+// A solution here is neither a participant submission nor the editorial (the prose write-up explaining how
+// to solve the problem, see EditorialService). It exists so the author can prove the problem grades as
+// intended: CheckSolutions runs the solutions and compares the verdicts they actually get against the
+// expected ones. Solutions marked secret hide their source, runtime and check status from callers who may
+// not see problem secrets. Solutions belong to a problem version, so an older revision can be read back.
 type SolutionServiceClient interface {
+	// CreateSolution stores a new reference program for the problem and returns its ID. Nothing is executed
+	// at creation time, call CheckSolutions to run it.
 	CreateSolution(ctx context.Context, in *CreateSolutionInput, opts ...grpc.CallOption) (*CreateSolutionOutput, error)
+	// UpdateSolution rewrites only the patched fields and leaves the rest as they were. It never re-runs
+	// anything, so the recorded status keeps describing the previous check until CheckSolutions is called
+	// again. Beware of clearing the secret flag: unpublishing a secret solution erases its source and runtime
+	// rather than revealing them.
 	UpdateSolution(ctx context.Context, in *UpdateSolutionInput, opts ...grpc.CallOption) (*UpdateSolutionOutput, error)
+	// DeleteSolution drops the solution from the problem's current version, so it is no longer picked up by
+	// CheckSolutions. Submissions that earlier checks created for it are not removed and stay listed among the
+	// problem's submissions.
 	DeleteSolution(ctx context.Context, in *DeleteSolutionInput, opts ...grpc.CallOption) (*DeleteSolutionOutput, error)
+	// DescribeSolution returns one solution together with the outcome of its last check. It can also read the
+	// solution as it stood in an earlier problem version, which requires permission to browse problem
+	// history.
 	DescribeSolution(ctx context.Context, in *DescribeSolutionInput, opts ...grpc.CallOption) (*DescribeSolutionOutput, error)
+	// ListSolutions returns the problem's solutions with the outcome of their last check. Since
+	// CheckSolutions reports nothing itself, this is also how its outcome is collected: poll until no
+	// solution is left pending.
 	ListSolutions(ctx context.Context, in *ListSolutionsInput, opts ...grpc.CallOption) (*ListSolutionsOutput, error)
+	// CheckSolutions submits the matching solutions against the problem's tests and, as each submission
+	// finishes, records whether the verdict it got matched the expected one. It answers immediately with an
+	// empty body: checking is asynchronous, so poll ListSolutions until nothing is pending any more.
+	// Solutions of the do-not-run type are always skipped, and for output-only problems the call is a no-op
+	// because they cannot be executed.
 	CheckSolutions(ctx context.Context, in *CheckSolutionsInput, opts ...grpc.CallOption) (*CheckSolutionsOutput, error)
 }
 
@@ -110,12 +139,41 @@ func (c *solutionServiceClient) CheckSolutions(ctx context.Context, in *CheckSol
 // SolutionServiceServer is the server API for SolutionService service.
 // All implementations should embed UnimplementedSolutionServiceServer
 // for forward compatibility.
+//
+// SolutionService manages the problem author's own reference programs, each stored together with the
+// verdict the author expects it to receive.
+//
+// A solution here is neither a participant submission nor the editorial (the prose write-up explaining how
+// to solve the problem, see EditorialService). It exists so the author can prove the problem grades as
+// intended: CheckSolutions runs the solutions and compares the verdicts they actually get against the
+// expected ones. Solutions marked secret hide their source, runtime and check status from callers who may
+// not see problem secrets. Solutions belong to a problem version, so an older revision can be read back.
 type SolutionServiceServer interface {
+	// CreateSolution stores a new reference program for the problem and returns its ID. Nothing is executed
+	// at creation time, call CheckSolutions to run it.
 	CreateSolution(context.Context, *CreateSolutionInput) (*CreateSolutionOutput, error)
+	// UpdateSolution rewrites only the patched fields and leaves the rest as they were. It never re-runs
+	// anything, so the recorded status keeps describing the previous check until CheckSolutions is called
+	// again. Beware of clearing the secret flag: unpublishing a secret solution erases its source and runtime
+	// rather than revealing them.
 	UpdateSolution(context.Context, *UpdateSolutionInput) (*UpdateSolutionOutput, error)
+	// DeleteSolution drops the solution from the problem's current version, so it is no longer picked up by
+	// CheckSolutions. Submissions that earlier checks created for it are not removed and stay listed among the
+	// problem's submissions.
 	DeleteSolution(context.Context, *DeleteSolutionInput) (*DeleteSolutionOutput, error)
+	// DescribeSolution returns one solution together with the outcome of its last check. It can also read the
+	// solution as it stood in an earlier problem version, which requires permission to browse problem
+	// history.
 	DescribeSolution(context.Context, *DescribeSolutionInput) (*DescribeSolutionOutput, error)
+	// ListSolutions returns the problem's solutions with the outcome of their last check. Since
+	// CheckSolutions reports nothing itself, this is also how its outcome is collected: poll until no
+	// solution is left pending.
 	ListSolutions(context.Context, *ListSolutionsInput) (*ListSolutionsOutput, error)
+	// CheckSolutions submits the matching solutions against the problem's tests and, as each submission
+	// finishes, records whether the verdict it got matched the expected one. It answers immediately with an
+	// empty body: checking is asynchronous, so poll ListSolutions until nothing is pending any more.
+	// Solutions of the do-not-run type are always skipped, and for output-only problems the call is a no-op
+	// because they cannot be executed.
 	CheckSolutions(context.Context, *CheckSolutionsInput) (*CheckSolutionsOutput, error)
 }
 

@@ -34,16 +34,57 @@ const (
 // ProblemServiceClient is the client API for ProblemService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// ProblemService manages problems in a space.
+//
+// A problem is a task participants solve by submitting a program which has to produce correct output for a
+// set of tests. Beyond its own metadata a problem owns per-language statements, testsets with tests, a
+// checker and optionally an interactor and a validator, generator scripts, code templates, reference
+// solutions and editorials — each of those is managed by its own service (StatementService, TestingService,
+// ScriptService, CodeTemplateService, SolutionService, ...). Every method here is scoped to one space, which
+// is part of the request URL.
 type ProblemServiceClient interface {
+	// CreateProblem adds a new problem to the space and returns its ID. A first statement can be created along
+	// with it, otherwise statements are added later through StatementService. Giving the problem an origin
+	// imports it from Polygon, from Basecamp or from another space instead of creating an empty one; that copy
+	// is made asynchronously, so the imported content shows up some time after this call has returned.
 	CreateProblem(ctx context.Context, in *CreateProblemInput, opts ...grpc.CallOption) (*CreateProblemOutput, error)
+	// UpdateProblem changes problem metadata, which is also how a problem is published or unpublished in the
+	// catalog. Only fields named in the patch mask are written, and an empty mask writes all of them, blanking
+	// whatever the request left empty. Problem content such as statements and testsets belongs to other
+	// services and is untouched.
 	UpdateProblem(ctx context.Context, in *UpdateProblemInput, opts ...grpc.CallOption) (*UpdateProblemOutput, error)
+	// DeleteProblem permanently removes the problem together with all content attached to it, and there is no
+	// restore. To take a problem out of the catalog while keeping it, make it invisible with UpdateProblem
+	// instead.
 	DeleteProblem(ctx context.Context, in *DeleteProblemInput, opts ...grpc.CallOption) (*DeleteProblemOutput, error)
+	// DescribeProblem returns one problem, along with the statistics the platform computes for it. Statement
+	// text comes back only when asked for, either as raw markup for editing or as a parsed tree for display,
+	// and the requested locale decides which statement supplies the title and content.
 	DescribeProblem(ctx context.Context, in *DescribeProblemInput, opts ...grpc.CallOption) (*DescribeProblemOutput, error)
+	// ListProblems returns a page of the space's problems; page over the reported total rather than the number
+	// of items returned. Statement content is left out unless it is asked for, and the requested locale decides
+	// which statement supplies the title.
 	ListProblems(ctx context.Context, in *ListProblemsInput, opts ...grpc.CallOption) (*ListProblemsOutput, error)
+	// SyncProblem pulls an imported problem from its origin again, so it applies only to problems which were
+	// created with an origin. The pulled copy replaces the local one: modifications made to the problem in this
+	// space are overwritten and cannot be recovered afterwards.
 	SyncProblem(ctx context.Context, in *SyncProblemInput, opts ...grpc.CallOption) (*SyncProblemOutput, error)
+	// VoteProblem records how the calling user rates the problem — the difficulty and quality signal shown next
+	// to the problem in the archive — and returns the resulting number of votes. The aggregate is also readable
+	// on the problem itself, where it is read-only.
 	VoteProblem(ctx context.Context, in *VoteProblemInput, opts ...grpc.CallOption) (*VoteProblemOutput, error)
+	// ListVersions returns the changelog of edits made to the problem. It can be paged either by offset or by
+	// feeding the returned cursor back into the next request. The change history is editor-facing, so this read
+	// requires the write scope, and its version numbers are what ExportProblem takes.
 	ListVersions(ctx context.Context, in *ListVersionsInput, opts ...grpc.CallOption) (*ListVersionsOutput, error)
+	// ListRuntimes returns the runtimes enabled for this problem, that is the language and compiler versions a
+	// participant may pick when submitting — a subset of the platform's runtimes, not the full catalog.
+	// Runtimes marked deprecated are still offered.
 	ListRuntimes(ctx context.Context, in *ListRuntimesInput, opts ...grpc.CallOption) (*ListRuntimesOutput, error)
+	// ExportProblem produces a downloadable snapshot of the whole problem, content included, and returns a URL
+	// to download it from rather than the data itself. Given a version number from ListVersions it exports the
+	// problem as it was at that revision instead of its current state.
 	ExportProblem(ctx context.Context, in *ExportProblemInput, opts ...grpc.CallOption) (*ExportProblemOutput, error)
 }
 
@@ -158,16 +199,57 @@ func (c *problemServiceClient) ExportProblem(ctx context.Context, in *ExportProb
 // ProblemServiceServer is the server API for ProblemService service.
 // All implementations should embed UnimplementedProblemServiceServer
 // for forward compatibility.
+//
+// ProblemService manages problems in a space.
+//
+// A problem is a task participants solve by submitting a program which has to produce correct output for a
+// set of tests. Beyond its own metadata a problem owns per-language statements, testsets with tests, a
+// checker and optionally an interactor and a validator, generator scripts, code templates, reference
+// solutions and editorials — each of those is managed by its own service (StatementService, TestingService,
+// ScriptService, CodeTemplateService, SolutionService, ...). Every method here is scoped to one space, which
+// is part of the request URL.
 type ProblemServiceServer interface {
+	// CreateProblem adds a new problem to the space and returns its ID. A first statement can be created along
+	// with it, otherwise statements are added later through StatementService. Giving the problem an origin
+	// imports it from Polygon, from Basecamp or from another space instead of creating an empty one; that copy
+	// is made asynchronously, so the imported content shows up some time after this call has returned.
 	CreateProblem(context.Context, *CreateProblemInput) (*CreateProblemOutput, error)
+	// UpdateProblem changes problem metadata, which is also how a problem is published or unpublished in the
+	// catalog. Only fields named in the patch mask are written, and an empty mask writes all of them, blanking
+	// whatever the request left empty. Problem content such as statements and testsets belongs to other
+	// services and is untouched.
 	UpdateProblem(context.Context, *UpdateProblemInput) (*UpdateProblemOutput, error)
+	// DeleteProblem permanently removes the problem together with all content attached to it, and there is no
+	// restore. To take a problem out of the catalog while keeping it, make it invisible with UpdateProblem
+	// instead.
 	DeleteProblem(context.Context, *DeleteProblemInput) (*DeleteProblemOutput, error)
+	// DescribeProblem returns one problem, along with the statistics the platform computes for it. Statement
+	// text comes back only when asked for, either as raw markup for editing or as a parsed tree for display,
+	// and the requested locale decides which statement supplies the title and content.
 	DescribeProblem(context.Context, *DescribeProblemInput) (*DescribeProblemOutput, error)
+	// ListProblems returns a page of the space's problems; page over the reported total rather than the number
+	// of items returned. Statement content is left out unless it is asked for, and the requested locale decides
+	// which statement supplies the title.
 	ListProblems(context.Context, *ListProblemsInput) (*ListProblemsOutput, error)
+	// SyncProblem pulls an imported problem from its origin again, so it applies only to problems which were
+	// created with an origin. The pulled copy replaces the local one: modifications made to the problem in this
+	// space are overwritten and cannot be recovered afterwards.
 	SyncProblem(context.Context, *SyncProblemInput) (*SyncProblemOutput, error)
+	// VoteProblem records how the calling user rates the problem — the difficulty and quality signal shown next
+	// to the problem in the archive — and returns the resulting number of votes. The aggregate is also readable
+	// on the problem itself, where it is read-only.
 	VoteProblem(context.Context, *VoteProblemInput) (*VoteProblemOutput, error)
+	// ListVersions returns the changelog of edits made to the problem. It can be paged either by offset or by
+	// feeding the returned cursor back into the next request. The change history is editor-facing, so this read
+	// requires the write scope, and its version numbers are what ExportProblem takes.
 	ListVersions(context.Context, *ListVersionsInput) (*ListVersionsOutput, error)
+	// ListRuntimes returns the runtimes enabled for this problem, that is the language and compiler versions a
+	// participant may pick when submitting — a subset of the platform's runtimes, not the full catalog.
+	// Runtimes marked deprecated are still offered.
 	ListRuntimes(context.Context, *ListRuntimesInput) (*ListRuntimesOutput, error)
+	// ExportProblem produces a downloadable snapshot of the whole problem, content included, and returns a URL
+	// to download it from rather than the data itself. Given a version number from ListVersions it exports the
+	// problem as it was at that revision instead of its current state.
 	ExportProblem(context.Context, *ExportProblemInput) (*ExportProblemOutput, error)
 }
 

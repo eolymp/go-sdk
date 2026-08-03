@@ -26,8 +26,19 @@ const (
 // BookmarkServiceClient is the client API for BookmarkService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// BookmarkService tracks problems a member saved for later.
+//
+// A bookmark is a per-member flag on a single problem, which the public archive renders as a star on the
+// problem and which ProblemService.ListProblems can filter on. Both methods are bound to the problem
+// addressed in the request URL and to the member making the call, so neither takes a problem or a member in
+// the request body and neither can read or change another member's bookmarks.
 type BookmarkServiceClient interface {
+	// GetBookmark tells whether the calling member has this problem bookmarked. A problem never bookmarked and
+	// one whose bookmark was removed are indistinguishable.
 	GetBookmark(ctx context.Context, in *GetBookmarkInput, opts ...grpc.CallOption) (*GetBookmarkOutput, error)
+	// SetBookmark both stars and unstars the problem for the calling member, depending on the value sent. It
+	// sets an absolute state, not a toggle, so repeating it with the same value has no further effect.
 	SetBookmark(ctx context.Context, in *SetBookmarkInput, opts ...grpc.CallOption) (*SetBookmarkOutput, error)
 }
 
@@ -62,8 +73,19 @@ func (c *bookmarkServiceClient) SetBookmark(ctx context.Context, in *SetBookmark
 // BookmarkServiceServer is the server API for BookmarkService service.
 // All implementations should embed UnimplementedBookmarkServiceServer
 // for forward compatibility.
+//
+// BookmarkService tracks problems a member saved for later.
+//
+// A bookmark is a per-member flag on a single problem, which the public archive renders as a star on the
+// problem and which ProblemService.ListProblems can filter on. Both methods are bound to the problem
+// addressed in the request URL and to the member making the call, so neither takes a problem or a member in
+// the request body and neither can read or change another member's bookmarks.
 type BookmarkServiceServer interface {
+	// GetBookmark tells whether the calling member has this problem bookmarked. A problem never bookmarked and
+	// one whose bookmark was removed are indistinguishable.
 	GetBookmark(context.Context, *GetBookmarkInput) (*GetBookmarkOutput, error)
+	// SetBookmark both stars and unstars the problem for the calling member, depending on the value sent. It
+	// sets an absolute state, not a toggle, so repeating it with the same value has no further effect.
 	SetBookmark(context.Context, *SetBookmarkInput) (*SetBookmarkOutput, error)
 }
 

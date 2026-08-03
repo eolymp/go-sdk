@@ -30,12 +30,38 @@ const (
 // ScriptServiceClient is the client API for ScriptService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// ScriptService manages the generator scripts of a problem.
+//
+// Scripts are what the product calls "generators": programs which print input or answer data to their
+// standard output. An answer generator additionally receives the input data on its standard input, so the
+// author's solution can be used as an answer generator without modification. A test points at a generator
+// with a command such as `gen 200000 42`. Generation is asynchronous — progress appears in the problem's
+// activity feed and data is generated once and then reused — but a submission arriving before generation has
+// finished triggers it inline as part of its evaluation. Generators must be deterministic: the same command
+// has to produce the same data every time.
 type ScriptServiceClient interface {
+	// CreateScript adds a generator to the problem and returns its id. Tests invoke a generator by name rather
+	// than by id, so give it a distinct name.
 	CreateScript(ctx context.Context, in *CreateScriptInput, opts ...grpc.CallOption) (*CreateScriptOutput, error)
+	// UpdateScript writes the fields listed in the patch, or every field when the patch is empty, overwriting
+	// the ones left blank in the request. Mind that source code is patched under `SOURCE_URL` even though the
+	// code itself travels in `script.source`. Renaming a generator changes the name tests have to invoke, so
+	// fix up the commands of the tests which still refer to the old one.
 	UpdateScript(ctx context.Context, in *UpdateScriptInput, opts ...grpc.CallOption) (*UpdateScriptOutput, error)
+	// DeleteScript removes a generator from the problem. Tests refer to generators by name rather than by id,
+	// so check that no test still invokes this one: a test whose command names a generator which no longer
+	// exists has no way to produce its data.
 	DeleteScript(ctx context.Context, in *DeleteScriptInput, opts ...grpc.CallOption) (*DeleteScriptOutput, error)
+	// DescribeScript returns a single generator, with its source code left out unless requested. A version can
+	// be given to read the generator as it was in that version of the problem rather than in the current one.
 	DescribeScript(ctx context.Context, in *DescribeScriptInput, opts ...grpc.CallOption) (*DescribeScriptOutput, error)
+	// ListScripts returns the generators of the problem. As in DescribeScript, source code comes back only when
+	// requested and a version reads a past state of the problem.
 	ListScripts(ctx context.Context, in *ListScriptsInput, opts ...grpc.CallOption) (*ListScriptsOutput, error)
+	// ExecuteStressCheck invokes a generator repeatedly and runs the data it produces against the problem's
+	// solutions. The generator is addressed by name rather than by id, and the check runs in the background, so
+	// its progress and findings have to be followed through the problem's activity feed.
 	ExecuteStressCheck(ctx context.Context, in *ExecuteStressCheckInput, opts ...grpc.CallOption) (*ExecuteStressCheckOutput, error)
 }
 
@@ -110,12 +136,38 @@ func (c *scriptServiceClient) ExecuteStressCheck(ctx context.Context, in *Execut
 // ScriptServiceServer is the server API for ScriptService service.
 // All implementations should embed UnimplementedScriptServiceServer
 // for forward compatibility.
+//
+// ScriptService manages the generator scripts of a problem.
+//
+// Scripts are what the product calls "generators": programs which print input or answer data to their
+// standard output. An answer generator additionally receives the input data on its standard input, so the
+// author's solution can be used as an answer generator without modification. A test points at a generator
+// with a command such as `gen 200000 42`. Generation is asynchronous — progress appears in the problem's
+// activity feed and data is generated once and then reused — but a submission arriving before generation has
+// finished triggers it inline as part of its evaluation. Generators must be deterministic: the same command
+// has to produce the same data every time.
 type ScriptServiceServer interface {
+	// CreateScript adds a generator to the problem and returns its id. Tests invoke a generator by name rather
+	// than by id, so give it a distinct name.
 	CreateScript(context.Context, *CreateScriptInput) (*CreateScriptOutput, error)
+	// UpdateScript writes the fields listed in the patch, or every field when the patch is empty, overwriting
+	// the ones left blank in the request. Mind that source code is patched under `SOURCE_URL` even though the
+	// code itself travels in `script.source`. Renaming a generator changes the name tests have to invoke, so
+	// fix up the commands of the tests which still refer to the old one.
 	UpdateScript(context.Context, *UpdateScriptInput) (*UpdateScriptOutput, error)
+	// DeleteScript removes a generator from the problem. Tests refer to generators by name rather than by id,
+	// so check that no test still invokes this one: a test whose command names a generator which no longer
+	// exists has no way to produce its data.
 	DeleteScript(context.Context, *DeleteScriptInput) (*DeleteScriptOutput, error)
+	// DescribeScript returns a single generator, with its source code left out unless requested. A version can
+	// be given to read the generator as it was in that version of the problem rather than in the current one.
 	DescribeScript(context.Context, *DescribeScriptInput) (*DescribeScriptOutput, error)
+	// ListScripts returns the generators of the problem. As in DescribeScript, source code comes back only when
+	// requested and a version reads a past state of the problem.
 	ListScripts(context.Context, *ListScriptsInput) (*ListScriptsOutput, error)
+	// ExecuteStressCheck invokes a generator repeatedly and runs the data it produces against the problem's
+	// solutions. The generator is addressed by name rather than by id, and the check runs in the background, so
+	// its progress and findings have to be followed through the problem's activity feed.
 	ExecuteStressCheck(context.Context, *ExecuteStressCheckInput) (*ExecuteStressCheckOutput, error)
 }
 

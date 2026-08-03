@@ -32,19 +32,43 @@ const (
 // EditorialServiceClient is the client API for EditorialService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// EditorialService manages problem editorials.
+//
+// An editorial is the write-up shown to users explaining how the problem is solved, stored per locale like a
+// statement and using the same content, preview and translation model — its content is Markdown or LaTeX and
+// comes back only when requested, in raw or rendered form. An editorial is not a solution: in this API a
+// solution is the author's reference program together with its expected outcome, while an editorial is prose
+// for readers. Unlike a statement an editorial has no title of its own, and there is no call to export one or
+// to read its earlier revisions. Every method acts on the problem addressed by the request path, which is why
+// no request carries a problem id.
 type EditorialServiceClient interface {
+	// CreateEditorial adds the editorial for one locale and returns its id. Other languages are separate
+	// editorials, created by calling this again.
 	CreateEditorial(ctx context.Context, in *CreateEditorialInput, opts ...grpc.CallOption) (*CreateEditorialOutput, error)
+	// UpdateEditorial writes new values into an existing editorial. Fields outside the patch mask keep the
+	// values they already have, unless the mask selects them all, which also overwrites the ones left empty in
+	// the request.
 	UpdateEditorial(ctx context.Context, in *UpdateEditorialInput, opts ...grpc.CallOption) (*UpdateEditorialOutput, error)
+	// DeleteEditorial permanently removes the write-up for a single locale. The problem, its statements, its
+	// solutions and the editorials in other locales are untouched.
 	DeleteEditorial(ctx context.Context, in *DeleteEditorialInput, opts ...grpc.CallOption) (*DeleteEditorialOutput, error)
-	// DescribeEditorial returns editorial.
+	// DescribeEditorial returns a single editorial by id, for callers that already know which locale they want;
+	// its content is left out unless requested, in raw or rendered form.
 	DescribeEditorial(ctx context.Context, in *DescribeEditorialInput, opts ...grpc.CallOption) (*DescribeEditorialOutput, error)
-	// LookupEditorial finds an editorial for the requested locale.
+	// LookupEditorial finds an editorial by locale instead of by id, which is what a client calls to show the
+	// write-up to a reader in their language.
 	LookupEditorial(ctx context.Context, in *LookupEditorialInput, opts ...grpc.CallOption) (*LookupEditorialOutput, error)
-	// PreviewEditorial renders unsaved editorial.
-	//
-	// This method can be used to render editorial before it has been saved.
+	// PreviewEditorial renders a draft editorial sent in the request, before it has been saved. Stored data is
+	// neither read nor modified, so this is what drives a live preview pane while the write-up is being edited.
 	PreviewEditorial(ctx context.Context, in *PreviewEditorialInput, opts ...grpc.CallOption) (*PreviewEditorialOutput, error)
+	// ListEditorials returns the problem's editorials, one per locale, which is how to discover the languages the
+	// write-up exists in. Their content is left out unless requested.
 	ListEditorials(ctx context.Context, in *ListEditorialsInput, opts ...grpc.CallOption) (*ListEditorialsOutput, error)
+	// TranslateEditorials starts automatic translation of an editorial into other locales and returns a job id;
+	// the translation runs asynchronously, so the target editorials appear some time after the call returns and
+	// are found by listing them again. Editorials written by hand are not overwritten unless the request asks for
+	// it, and the produced editorials are marked as automatic.
 	TranslateEditorials(ctx context.Context, in *TranslateEditorialsInput, opts ...grpc.CallOption) (*TranslateEditorialsOutput, error)
 }
 
@@ -139,19 +163,43 @@ func (c *editorialServiceClient) TranslateEditorials(ctx context.Context, in *Tr
 // EditorialServiceServer is the server API for EditorialService service.
 // All implementations should embed UnimplementedEditorialServiceServer
 // for forward compatibility.
+//
+// EditorialService manages problem editorials.
+//
+// An editorial is the write-up shown to users explaining how the problem is solved, stored per locale like a
+// statement and using the same content, preview and translation model — its content is Markdown or LaTeX and
+// comes back only when requested, in raw or rendered form. An editorial is not a solution: in this API a
+// solution is the author's reference program together with its expected outcome, while an editorial is prose
+// for readers. Unlike a statement an editorial has no title of its own, and there is no call to export one or
+// to read its earlier revisions. Every method acts on the problem addressed by the request path, which is why
+// no request carries a problem id.
 type EditorialServiceServer interface {
+	// CreateEditorial adds the editorial for one locale and returns its id. Other languages are separate
+	// editorials, created by calling this again.
 	CreateEditorial(context.Context, *CreateEditorialInput) (*CreateEditorialOutput, error)
+	// UpdateEditorial writes new values into an existing editorial. Fields outside the patch mask keep the
+	// values they already have, unless the mask selects them all, which also overwrites the ones left empty in
+	// the request.
 	UpdateEditorial(context.Context, *UpdateEditorialInput) (*UpdateEditorialOutput, error)
+	// DeleteEditorial permanently removes the write-up for a single locale. The problem, its statements, its
+	// solutions and the editorials in other locales are untouched.
 	DeleteEditorial(context.Context, *DeleteEditorialInput) (*DeleteEditorialOutput, error)
-	// DescribeEditorial returns editorial.
+	// DescribeEditorial returns a single editorial by id, for callers that already know which locale they want;
+	// its content is left out unless requested, in raw or rendered form.
 	DescribeEditorial(context.Context, *DescribeEditorialInput) (*DescribeEditorialOutput, error)
-	// LookupEditorial finds an editorial for the requested locale.
+	// LookupEditorial finds an editorial by locale instead of by id, which is what a client calls to show the
+	// write-up to a reader in their language.
 	LookupEditorial(context.Context, *LookupEditorialInput) (*LookupEditorialOutput, error)
-	// PreviewEditorial renders unsaved editorial.
-	//
-	// This method can be used to render editorial before it has been saved.
+	// PreviewEditorial renders a draft editorial sent in the request, before it has been saved. Stored data is
+	// neither read nor modified, so this is what drives a live preview pane while the write-up is being edited.
 	PreviewEditorial(context.Context, *PreviewEditorialInput) (*PreviewEditorialOutput, error)
+	// ListEditorials returns the problem's editorials, one per locale, which is how to discover the languages the
+	// write-up exists in. Their content is left out unless requested.
 	ListEditorials(context.Context, *ListEditorialsInput) (*ListEditorialsOutput, error)
+	// TranslateEditorials starts automatic translation of an editorial into other locales and returns a job id;
+	// the translation runs asynchronously, so the target editorials appear some time after the call returns and
+	// are found by listing them again. Editorials written by hand are not overwritten unless the request asks for
+	// it, and the produced editorials are marked as automatic.
 	TranslateEditorials(context.Context, *TranslateEditorialsInput) (*TranslateEditorialsOutput, error)
 }
 

@@ -34,21 +34,49 @@ const (
 // StatementServiceClient is the client API for StatementService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// StatementService manages problem statements.
+//
+// A statement is the problem text for one locale, and a problem normally has one statement per language so a
+// participant can read it in their own. Content is Markdown or LaTeX, split into sections by markers placed on
+// their own line (`\InputFile`, `\Interaction`, `\OutputFile`, `\Examples`, `\Note`, `\Scoring`), and the text
+// before the first marker is the introduction. Never write the `\Examples` section by hand: it is generated
+// from the tests marked as examples. Content is returned only when requested, either in its raw form for
+// editing or as a parsed tree for display. Every method acts on the problem addressed by the request path,
+// which is why no request carries a problem id.
 type StatementServiceClient interface {
+	// CreateStatement adds the statement for one locale and returns its id. Publishing the same problem in
+	// another language means creating another statement, not editing this one.
 	CreateStatement(ctx context.Context, in *CreateStatementInput, opts ...grpc.CallOption) (*CreateStatementOutput, error)
+	// UpdateStatement writes new values into an existing statement. Fields outside the patch mask keep the
+	// values they already have, so a title fix does not require resending the content.
 	UpdateStatement(ctx context.Context, in *UpdateStatementInput, opts ...grpc.CallOption) (*UpdateStatementOutput, error)
+	// DeleteStatement permanently removes a single locale of the problem text. The problem itself and its
+	// statements in other locales are left untouched.
 	DeleteStatement(ctx context.Context, in *DeleteStatementInput, opts ...grpc.CallOption) (*DeleteStatementOutput, error)
-	// DescribeStatement returns statement.
+	// DescribeStatement returns a single statement by id, for callers that already know which locale they want;
+	// its content is left out unless requested, in raw or rendered form.
 	DescribeStatement(ctx context.Context, in *DescribeStatementInput, opts ...grpc.CallOption) (*DescribeStatementOutput, error)
-	// LookupStatement finds a statement in one of the requested languages.
+	// LookupStatement finds a statement by locale instead of by id, and the server falls back to another locale
+	// when the requested one does not exist — this is how a client renders a problem for a particular reader.
 	LookupStatement(ctx context.Context, in *LookupStatementInput, opts ...grpc.CallOption) (*LookupStatementOutput, error)
-	// PreviewStatement renders unsaved statement.
-	//
-	// This method can be used to render statement before it has been saved.
+	// PreviewStatement renders a draft statement sent in the request, before it has been saved. Nothing is read
+	// from or written to stored data, which makes it suitable for a live preview pane next to the editor.
 	PreviewStatement(ctx context.Context, in *PreviewStatementInput, opts ...grpc.CallOption) (*PreviewStatementOutput, error)
+	// ListStatements returns the problem's statements, one per locale, which is how to discover the languages a
+	// problem is available in. Their content is left out unless requested.
 	ListStatements(ctx context.Context, in *ListStatementsInput, opts ...grpc.CallOption) (*ListStatementsOutput, error)
+	// TranslateStatements starts automatic translation of a statement into other locales and returns a job id;
+	// the translation runs asynchronously, so the target statements appear some time after the call returns and
+	// are found by listing them again. Statements written by hand are not overwritten unless the request asks
+	// for it, and the produced statements are marked as automatic.
 	TranslateStatements(ctx context.Context, in *TranslateStatementsInput, opts ...grpc.CallOption) (*TranslateStatementsOutput, error)
+	// ExportStatement renders a saved statement into a downloadable document, offered in the console as
+	// "Export to PDF". The response carries a link to fetch the document, not the document itself.
 	ExportStatement(ctx context.Context, in *ExportStatementInput, opts ...grpc.CallOption) (*ExportStatementOutput, error)
+	// ListStatementVersions returns earlier revisions of one statement, so a client can show a history or
+	// compare two revisions. Each revision comes back as a whole statement rather than as version metadata, with
+	// its content left out unless requested.
 	ListStatementVersions(ctx context.Context, in *ListStatementVersionsInput, opts ...grpc.CallOption) (*ListStatementVersionsOutput, error)
 }
 
@@ -163,21 +191,49 @@ func (c *statementServiceClient) ListStatementVersions(ctx context.Context, in *
 // StatementServiceServer is the server API for StatementService service.
 // All implementations should embed UnimplementedStatementServiceServer
 // for forward compatibility.
+//
+// StatementService manages problem statements.
+//
+// A statement is the problem text for one locale, and a problem normally has one statement per language so a
+// participant can read it in their own. Content is Markdown or LaTeX, split into sections by markers placed on
+// their own line (`\InputFile`, `\Interaction`, `\OutputFile`, `\Examples`, `\Note`, `\Scoring`), and the text
+// before the first marker is the introduction. Never write the `\Examples` section by hand: it is generated
+// from the tests marked as examples. Content is returned only when requested, either in its raw form for
+// editing or as a parsed tree for display. Every method acts on the problem addressed by the request path,
+// which is why no request carries a problem id.
 type StatementServiceServer interface {
+	// CreateStatement adds the statement for one locale and returns its id. Publishing the same problem in
+	// another language means creating another statement, not editing this one.
 	CreateStatement(context.Context, *CreateStatementInput) (*CreateStatementOutput, error)
+	// UpdateStatement writes new values into an existing statement. Fields outside the patch mask keep the
+	// values they already have, so a title fix does not require resending the content.
 	UpdateStatement(context.Context, *UpdateStatementInput) (*UpdateStatementOutput, error)
+	// DeleteStatement permanently removes a single locale of the problem text. The problem itself and its
+	// statements in other locales are left untouched.
 	DeleteStatement(context.Context, *DeleteStatementInput) (*DeleteStatementOutput, error)
-	// DescribeStatement returns statement.
+	// DescribeStatement returns a single statement by id, for callers that already know which locale they want;
+	// its content is left out unless requested, in raw or rendered form.
 	DescribeStatement(context.Context, *DescribeStatementInput) (*DescribeStatementOutput, error)
-	// LookupStatement finds a statement in one of the requested languages.
+	// LookupStatement finds a statement by locale instead of by id, and the server falls back to another locale
+	// when the requested one does not exist — this is how a client renders a problem for a particular reader.
 	LookupStatement(context.Context, *LookupStatementInput) (*LookupStatementOutput, error)
-	// PreviewStatement renders unsaved statement.
-	//
-	// This method can be used to render statement before it has been saved.
+	// PreviewStatement renders a draft statement sent in the request, before it has been saved. Nothing is read
+	// from or written to stored data, which makes it suitable for a live preview pane next to the editor.
 	PreviewStatement(context.Context, *PreviewStatementInput) (*PreviewStatementOutput, error)
+	// ListStatements returns the problem's statements, one per locale, which is how to discover the languages a
+	// problem is available in. Their content is left out unless requested.
 	ListStatements(context.Context, *ListStatementsInput) (*ListStatementsOutput, error)
+	// TranslateStatements starts automatic translation of a statement into other locales and returns a job id;
+	// the translation runs asynchronously, so the target statements appear some time after the call returns and
+	// are found by listing them again. Statements written by hand are not overwritten unless the request asks
+	// for it, and the produced statements are marked as automatic.
 	TranslateStatements(context.Context, *TranslateStatementsInput) (*TranslateStatementsOutput, error)
+	// ExportStatement renders a saved statement into a downloadable document, offered in the console as
+	// "Export to PDF". The response carries a link to fetch the document, not the document itself.
 	ExportStatement(context.Context, *ExportStatementInput) (*ExportStatementOutput, error)
+	// ListStatementVersions returns earlier revisions of one statement, so a client can show a history or
+	// compare two revisions. Each revision comes back as a whole statement rather than as version metadata, with
+	// its content left out unless requested.
 	ListStatementVersions(context.Context, *ListStatementVersionsInput) (*ListStatementVersionsOutput, error)
 }
 

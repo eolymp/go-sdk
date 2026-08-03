@@ -33,15 +33,55 @@ const (
 // SubmissionServiceClient is the client API for SubmissionService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// SubmissionService handles submissions: programs sent in by participants for a problem, then compiled and
+// run against the problem's testset.
+//
+// Use it to submit a program, follow its evaluation, rejudge it, and list or aggregate the submissions of a
+// space. Evaluation is asynchronous, so every method here can hand back a submission which is not judged
+// yet: `status` says how far evaluation has got, while `verdict` is the outcome of an evaluation which ran
+// to completion and is unset until then.
 type SubmissionServiceClient interface {
+	// CreateSubmission queues a program for evaluation and returns its ID; follow it with DescribeSubmission
+	// or WatchSubmission. Submissions are rate limited per account and, when the space configures it through
+	// the atlas ConfigurationService, per client IP.
 	CreateSubmission(ctx context.Context, in *CreateSubmissionInput, opts ...grpc.CallOption) (*CreateSubmissionOutput, error)
+	// RetestSubmission re-runs the evaluation of an existing submission, which is what the console calls
+	// "rejudge": the result is recomputed in place, while the submission ID, its submission time and its
+	// position in listings stay the same. The call returns as soon as evaluation is queued.
 	RetestSubmission(ctx context.Context, in *RetestSubmissionInput, opts ...grpc.CallOption) (*RetestSubmissionOutput, error)
+	// DescribeSubmission returns one submission along with the breakdown of its test groups. How much
+	// per-test detail a group carries is decided by the testset's feedback policy and not by anything in the
+	// request: callers who may edit the problem always get every run, a participant may see much less. Source
+	// code and debug output are omitted for callers who are not allowed to see them.
 	DescribeSubmission(ctx context.Context, in *DescribeSubmissionInput, opts ...grpc.CallOption) (*DescribeSubmissionOutput, error)
+	// WatchSubmission streams the submission every time its evaluation advances, beginning with the state it
+	// is in when the stream opens, and closes the stream once the submission reaches a final status. This is
+	// how a UI shows a verdict appearing live instead of polling DescribeSubmission. Server streaming only:
+	// there is no HTTP binding, the method is reachable through the SDKs.
 	WatchSubmission(ctx context.Context, in *WatchSubmissionInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchSubmissionOutput], error)
+	// WatchSubmissionList streams every submission of the space as it is created, updated or deleted, and
+	// keeps the stream open until the client goes away. It feeds live judge and monitoring screens, and unlike
+	// ListSubmissions it cannot be narrowed down and requires the space-wide permission to read submissions.
+	// Server streaming only: there is no HTTP binding, the method is reachable through the SDKs.
 	WatchSubmissionList(ctx context.Context, in *WatchSubmissionListInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchSubmissionListOutput], error)
+	// ListSubmissions returns submissions of the space, newest first. A caller without the space-wide
+	// permission to read submissions gets only their own, silently. Deep listings are best walked by feeding
+	// the previous page's cursor back into the next request, which skips counting the total.
 	ListSubmissions(ctx context.Context, in *ListSubmissionsInput, opts ...grpc.CallOption) (*ListSubmissionsOutput, error)
+	// DescribeSubmissionUsage reports how much evaluation the space has consumed within a period, against the
+	// allowance its subscription grants. The period defaults to the subscription's current quota period, or
+	// the last 30 days if the space has no subscription; the lifetime submission counter ignores it.
 	DescribeSubmissionUsage(ctx context.Context, in *DescribeSubmissionUsageInput, opts ...grpc.CallOption) (*DescribeSubmissionUsageOutput, error)
+	// ListProblemTop returns up to 25 submissions which scored the problem in full, most efficient first —
+	// ranked by resource usage, ties broken in favour of whoever solved it earlier. It backs "best solutions"
+	// boards; partially scored and unfinished submissions never appear, and the list can be neither filtered
+	// nor paged, so use ListSubmissions for anything else.
 	ListProblemTop(ctx context.Context, in *ListProblemTopInput, opts ...grpc.CallOption) (*ListProblemTopOutput, error)
+	// AggregateSubmissions reports a metric per group over a time range and is what charts use instead of
+	// listing every submission. Up to two grouping dimensions are allowed, and time buckets with no
+	// submissions come back as zeroes rather than being skipped. Reading analytics needs its own permission,
+	// which is broader than being able to see the submissions themselves.
 	AggregateSubmissions(ctx context.Context, in *AggregateSubmissionsInput, opts ...grpc.CallOption) (*AggregateSubmissionsOutput, error)
 }
 
@@ -164,15 +204,55 @@ func (c *submissionServiceClient) AggregateSubmissions(ctx context.Context, in *
 // SubmissionServiceServer is the server API for SubmissionService service.
 // All implementations should embed UnimplementedSubmissionServiceServer
 // for forward compatibility.
+//
+// SubmissionService handles submissions: programs sent in by participants for a problem, then compiled and
+// run against the problem's testset.
+//
+// Use it to submit a program, follow its evaluation, rejudge it, and list or aggregate the submissions of a
+// space. Evaluation is asynchronous, so every method here can hand back a submission which is not judged
+// yet: `status` says how far evaluation has got, while `verdict` is the outcome of an evaluation which ran
+// to completion and is unset until then.
 type SubmissionServiceServer interface {
+	// CreateSubmission queues a program for evaluation and returns its ID; follow it with DescribeSubmission
+	// or WatchSubmission. Submissions are rate limited per account and, when the space configures it through
+	// the atlas ConfigurationService, per client IP.
 	CreateSubmission(context.Context, *CreateSubmissionInput) (*CreateSubmissionOutput, error)
+	// RetestSubmission re-runs the evaluation of an existing submission, which is what the console calls
+	// "rejudge": the result is recomputed in place, while the submission ID, its submission time and its
+	// position in listings stay the same. The call returns as soon as evaluation is queued.
 	RetestSubmission(context.Context, *RetestSubmissionInput) (*RetestSubmissionOutput, error)
+	// DescribeSubmission returns one submission along with the breakdown of its test groups. How much
+	// per-test detail a group carries is decided by the testset's feedback policy and not by anything in the
+	// request: callers who may edit the problem always get every run, a participant may see much less. Source
+	// code and debug output are omitted for callers who are not allowed to see them.
 	DescribeSubmission(context.Context, *DescribeSubmissionInput) (*DescribeSubmissionOutput, error)
+	// WatchSubmission streams the submission every time its evaluation advances, beginning with the state it
+	// is in when the stream opens, and closes the stream once the submission reaches a final status. This is
+	// how a UI shows a verdict appearing live instead of polling DescribeSubmission. Server streaming only:
+	// there is no HTTP binding, the method is reachable through the SDKs.
 	WatchSubmission(*WatchSubmissionInput, grpc.ServerStreamingServer[WatchSubmissionOutput]) error
+	// WatchSubmissionList streams every submission of the space as it is created, updated or deleted, and
+	// keeps the stream open until the client goes away. It feeds live judge and monitoring screens, and unlike
+	// ListSubmissions it cannot be narrowed down and requires the space-wide permission to read submissions.
+	// Server streaming only: there is no HTTP binding, the method is reachable through the SDKs.
 	WatchSubmissionList(*WatchSubmissionListInput, grpc.ServerStreamingServer[WatchSubmissionListOutput]) error
+	// ListSubmissions returns submissions of the space, newest first. A caller without the space-wide
+	// permission to read submissions gets only their own, silently. Deep listings are best walked by feeding
+	// the previous page's cursor back into the next request, which skips counting the total.
 	ListSubmissions(context.Context, *ListSubmissionsInput) (*ListSubmissionsOutput, error)
+	// DescribeSubmissionUsage reports how much evaluation the space has consumed within a period, against the
+	// allowance its subscription grants. The period defaults to the subscription's current quota period, or
+	// the last 30 days if the space has no subscription; the lifetime submission counter ignores it.
 	DescribeSubmissionUsage(context.Context, *DescribeSubmissionUsageInput) (*DescribeSubmissionUsageOutput, error)
+	// ListProblemTop returns up to 25 submissions which scored the problem in full, most efficient first —
+	// ranked by resource usage, ties broken in favour of whoever solved it earlier. It backs "best solutions"
+	// boards; partially scored and unfinished submissions never appear, and the list can be neither filtered
+	// nor paged, so use ListSubmissions for anything else.
 	ListProblemTop(context.Context, *ListProblemTopInput) (*ListProblemTopOutput, error)
+	// AggregateSubmissions reports a metric per group over a time range and is what charts use instead of
+	// listing every submission. Up to two grouping dimensions are allowed, and time buckets with no
+	// submissions come back as zeroes rather than being skipped. Reading analytics needs its own permission,
+	// which is broader than being able to see the submissions themselves.
 	AggregateSubmissions(context.Context, *AggregateSubmissionsInput) (*AggregateSubmissionsOutput, error)
 }
 

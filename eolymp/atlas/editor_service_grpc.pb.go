@@ -28,10 +28,30 @@ const (
 // EditorServiceClient is the client API for EditorService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// EditorService drives the participant-side code editor of a problem, not the authoring console.
+//
+// It answers two things for the caller's own account: how the editor should be set up on this problem, and
+// what the participant was last working on. That work in progress is a private per-user, per-problem draft
+// kept so it survives a reload or navigating away. Saving a draft is not a submission and is never
+// compiled or graded; use SubmissionService to actually submit.
 type EditorServiceClient interface {
+	// DescribeEditor returns everything needed to open the editor for the current user on this problem.
+	// Which features are enabled varies with problem type and space or contest setup, so drive the editor's
+	// controls off the response rather than assuming.
 	DescribeEditor(ctx context.Context, in *DescribeEditorInput, opts ...grpc.CallOption) (*DescribeEditorOutput, error)
+	// DescribeEditorState returns only the current user's saved draft for this problem, for restoring the
+	// editor without re-reading its whole configuration. A user who never worked on the problem simply gets
+	// an empty draft, not an error.
 	DescribeEditorState(ctx context.Context, in *DescribeEditorStateInput, opts ...grpc.CallOption) (*DescribeEditorStateOutput, error)
+	// UpdateEditorState replaces the current user's draft; there is no field mask, so anything omitted from
+	// the request is cleared rather than kept. Submitted values are only kept when they are file uploads
+	// naming a field the problem's submission form declares, the rest are silently dropped.
 	UpdateEditorState(ctx context.Context, in *UpdateEditorStateInput, opts ...grpc.CallOption) (*UpdateEditorStateOutput, error)
+	// PrintEditorCode queues the code passed in for printing on behalf of the current user, on the printer
+	// of the contest being solved; the code is printed as given and is not submitted or saved as a draft.
+	// Printing is only available where a printer is configured and fails as a precondition error otherwise,
+	// so only call it when DescribeEditor reports the printing feature.
 	PrintEditorCode(ctx context.Context, in *PrintEditorCodeInput, opts ...grpc.CallOption) (*PrintEditorCodeOutput, error)
 }
 
@@ -86,10 +106,30 @@ func (c *editorServiceClient) PrintEditorCode(ctx context.Context, in *PrintEdit
 // EditorServiceServer is the server API for EditorService service.
 // All implementations should embed UnimplementedEditorServiceServer
 // for forward compatibility.
+//
+// EditorService drives the participant-side code editor of a problem, not the authoring console.
+//
+// It answers two things for the caller's own account: how the editor should be set up on this problem, and
+// what the participant was last working on. That work in progress is a private per-user, per-problem draft
+// kept so it survives a reload or navigating away. Saving a draft is not a submission and is never
+// compiled or graded; use SubmissionService to actually submit.
 type EditorServiceServer interface {
+	// DescribeEditor returns everything needed to open the editor for the current user on this problem.
+	// Which features are enabled varies with problem type and space or contest setup, so drive the editor's
+	// controls off the response rather than assuming.
 	DescribeEditor(context.Context, *DescribeEditorInput) (*DescribeEditorOutput, error)
+	// DescribeEditorState returns only the current user's saved draft for this problem, for restoring the
+	// editor without re-reading its whole configuration. A user who never worked on the problem simply gets
+	// an empty draft, not an error.
 	DescribeEditorState(context.Context, *DescribeEditorStateInput) (*DescribeEditorStateOutput, error)
+	// UpdateEditorState replaces the current user's draft; there is no field mask, so anything omitted from
+	// the request is cleared rather than kept. Submitted values are only kept when they are file uploads
+	// naming a field the problem's submission form declares, the rest are silently dropped.
 	UpdateEditorState(context.Context, *UpdateEditorStateInput) (*UpdateEditorStateOutput, error)
+	// PrintEditorCode queues the code passed in for printing on behalf of the current user, on the printer
+	// of the contest being solved; the code is printed as given and is not submitted or saved as a draft.
+	// Printing is only available where a printer is configured and fails as a precondition error otherwise,
+	// so only call it when DescribeEditor reports the printing feature.
 	PrintEditorCode(context.Context, *PrintEditorCodeInput) (*PrintEditorCodeOutput, error)
 }
 

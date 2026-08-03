@@ -33,15 +33,43 @@ const (
 // IssueServiceClient is the client API for IssueService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// IssueService tracks issues reported against the problems of a space.
+//
+// An issue is a defect somebody found in a problem — a mistake in the statement, a broken test, a wrong
+// answer. It is raised either by a person, a user working in the console or a member reporting from within
+// the space, or by the platform itself. Every issue owns a thread of activity: comments posted through the
+// Create/Update/DeleteIssueComment rpcs, interleaved with entries the platform records whenever the issue
+// changes, all read back through ListIssueActivities. The service is scoped to a space rather than to a
+// single problem.
 type IssueServiceClient interface {
+	// ListIssues returns issues across the whole space, so narrowing to a single problem is a matter of
+	// filtering. Issue descriptions are left out unless requested, in raw or rendered form.
 	ListIssues(ctx context.Context, in *ListIssuesInput, opts ...grpc.CallOption) (*ListIssuesOutput, error)
+	// DescribeIssue returns a single issue. The description is left out unless requested, in raw or rendered
+	// form, and the comment thread is not part of the response — read it through ListIssueActivities.
 	DescribeIssue(ctx context.Context, in *DescribeIssueInput, opts ...grpc.CallOption) (*DescribeIssueOutput, error)
+	// CreateIssue reports a new issue and returns its id. The reporter is taken from the caller rather than from
+	// the request.
 	CreateIssue(ctx context.Context, in *CreateIssueInput, opts ...grpc.CallOption) (*CreateIssueOutput, error)
+	// UpdateIssue writes the fields named in the patch, or all of them when the patch is empty, blanking
+	// whatever the request left out. There is no separate close or reopen rpc, both are status updates. Each
+	// change is appended to the issue's activity thread as a before/after snapshot of the fields which moved.
 	UpdateIssue(ctx context.Context, in *UpdateIssueInput, opts ...grpc.CallOption) (*UpdateIssueOutput, error)
+	// DeleteIssue removes the issue permanently, discarding its activity thread with it. When a report has simply
+	// been dealt with, close it instead: a closed issue keeps the discussion around.
 	DeleteIssue(ctx context.Context, in *DeleteIssueInput, opts ...grpc.CallOption) (*DeleteIssueOutput, error)
+	// ListIssueActivities returns the issue's thread in creation order, mixing the comments people wrote with the
+	// changes the platform recorded. Comment bodies arrive only when requested, in raw or rendered form.
 	ListIssueActivities(ctx context.Context, in *ListIssueActivitiesInput, opts ...grpc.CallOption) (*ListIssueActivitiesOutput, error)
+	// CreateIssueComment appends a comment to the issue's thread and returns the id of the activity entry it
+	// produced. Only comments can be created this way, change entries are written by the platform.
 	CreateIssueComment(ctx context.Context, in *CreateIssueCommentInput, opts ...grpc.CallOption) (*CreateIssueCommentOutput, error)
+	// UpdateIssueComment replaces the body of a comment already in the thread. Only comment entries can be
+	// edited, the change entries the platform records are not addressable here.
 	UpdateIssueComment(ctx context.Context, in *UpdateIssueCommentInput, opts ...grpc.CallOption) (*UpdateIssueCommentOutput, error)
+	// DeleteIssueComment drops a single comment from the thread, leaving the issue and the rest of the thread
+	// untouched. A comment is addressed by the id of the activity entry holding it.
 	DeleteIssueComment(ctx context.Context, in *DeleteIssueCommentInput, opts ...grpc.CallOption) (*DeleteIssueCommentOutput, error)
 }
 
@@ -146,15 +174,43 @@ func (c *issueServiceClient) DeleteIssueComment(ctx context.Context, in *DeleteI
 // IssueServiceServer is the server API for IssueService service.
 // All implementations should embed UnimplementedIssueServiceServer
 // for forward compatibility.
+//
+// IssueService tracks issues reported against the problems of a space.
+//
+// An issue is a defect somebody found in a problem — a mistake in the statement, a broken test, a wrong
+// answer. It is raised either by a person, a user working in the console or a member reporting from within
+// the space, or by the platform itself. Every issue owns a thread of activity: comments posted through the
+// Create/Update/DeleteIssueComment rpcs, interleaved with entries the platform records whenever the issue
+// changes, all read back through ListIssueActivities. The service is scoped to a space rather than to a
+// single problem.
 type IssueServiceServer interface {
+	// ListIssues returns issues across the whole space, so narrowing to a single problem is a matter of
+	// filtering. Issue descriptions are left out unless requested, in raw or rendered form.
 	ListIssues(context.Context, *ListIssuesInput) (*ListIssuesOutput, error)
+	// DescribeIssue returns a single issue. The description is left out unless requested, in raw or rendered
+	// form, and the comment thread is not part of the response — read it through ListIssueActivities.
 	DescribeIssue(context.Context, *DescribeIssueInput) (*DescribeIssueOutput, error)
+	// CreateIssue reports a new issue and returns its id. The reporter is taken from the caller rather than from
+	// the request.
 	CreateIssue(context.Context, *CreateIssueInput) (*CreateIssueOutput, error)
+	// UpdateIssue writes the fields named in the patch, or all of them when the patch is empty, blanking
+	// whatever the request left out. There is no separate close or reopen rpc, both are status updates. Each
+	// change is appended to the issue's activity thread as a before/after snapshot of the fields which moved.
 	UpdateIssue(context.Context, *UpdateIssueInput) (*UpdateIssueOutput, error)
+	// DeleteIssue removes the issue permanently, discarding its activity thread with it. When a report has simply
+	// been dealt with, close it instead: a closed issue keeps the discussion around.
 	DeleteIssue(context.Context, *DeleteIssueInput) (*DeleteIssueOutput, error)
+	// ListIssueActivities returns the issue's thread in creation order, mixing the comments people wrote with the
+	// changes the platform recorded. Comment bodies arrive only when requested, in raw or rendered form.
 	ListIssueActivities(context.Context, *ListIssueActivitiesInput) (*ListIssueActivitiesOutput, error)
+	// CreateIssueComment appends a comment to the issue's thread and returns the id of the activity entry it
+	// produced. Only comments can be created this way, change entries are written by the platform.
 	CreateIssueComment(context.Context, *CreateIssueCommentInput) (*CreateIssueCommentOutput, error)
+	// UpdateIssueComment replaces the body of a comment already in the thread. Only comment entries can be
+	// edited, the change entries the platform records are not addressable here.
 	UpdateIssueComment(context.Context, *UpdateIssueCommentInput) (*UpdateIssueCommentOutput, error)
+	// DeleteIssueComment drops a single comment from the thread, leaving the issue and the rest of the thread
+	// untouched. A comment is addressed by the id of the activity entry holding it.
 	DeleteIssueComment(context.Context, *DeleteIssueCommentInput) (*DeleteIssueCommentOutput, error)
 }
 

@@ -31,13 +31,40 @@ const (
 // SuggestionServiceClient is the client API for SuggestionService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// SuggestionService collects community-proposed changes to a problem and drives their review.
+//
+// A suggestion is an edit proposed by a user of the public archive rather than by the problem's own owners: a
+// corrected statement for one locale, a new or improved editorial, or a different classification. It records
+// who wrote it and the problem version it was written against, and moves from pending through review to
+// approved or rejected. A moderator settles it with ReviewSuggestion, and the author can revise a rejected one
+// and send it back with ResubmitSuggestion. In practice this is the archive-curation API: the console only
+// exposes the review side of it, for the Basecamp space.
 type SuggestionServiceClient interface {
+	// CreateSuggestion submits a proposed change to the problem and returns its id. A suggestion carries exactly
+	// one kind of change, so proposing two kinds means two suggestions. It changes nothing about the problem on
+	// its own, it waits for review.
 	CreateSuggestion(ctx context.Context, in *CreateSuggestionInput, opts ...grpc.CallOption) (*CreateSuggestionOutput, error)
+	// UpdateSuggestion replaces the change a suggestion carries, which is how its author revises it. There is no
+	// patch here, the suggestion in the request is taken as a whole, so resend the complete change.
 	UpdateSuggestion(ctx context.Context, in *UpdateSuggestionInput, opts ...grpc.CallOption) (*UpdateSuggestionOutput, error)
+	// ReviewSuggestion is how a moderator rules on a suggestion. Approving and rejecting are the same call with a
+	// different review outcome rather than two separate rpcs, and a suggestion can also be flagged as being
+	// looked at. The contribution scores how much the suggestion was worth, from 0 for insignificant to 5 for
+	// major.
 	ReviewSuggestion(ctx context.Context, in *ReviewSuggestionInput, opts ...grpc.CallOption) (*ReviewSuggestionOutput, error)
+	// ResubmitSuggestion puts a suggestion back in front of the moderators, which is how a rejected one re-enters
+	// the queue. It carries no content, so write the revised change with UpdateSuggestion first.
 	ResubmitSuggestion(ctx context.Context, in *ResubmitSuggestionInput, opts ...grpc.CallOption) (*ResubmitSuggestionOutput, error)
+	// DeleteSuggestion removes a suggestion outright, leaving no record that it was ever made. Prefer rejecting it
+	// when the decision is worth keeping: a rejected suggestion can still be revised and resubmitted, a deleted
+	// one cannot.
 	DeleteSuggestion(ctx context.Context, in *DeleteSuggestionInput, opts ...grpc.CallOption) (*DeleteSuggestionOutput, error)
+	// ListSuggestions returns the suggestions made for one problem; filtering on the pending ones gives the review
+	// queue. Items are complete, including the change proposed, so triage rarely needs DescribeSuggestion.
 	ListSuggestions(ctx context.Context, in *ListSuggestionsInput, opts ...grpc.CallOption) (*ListSuggestionsOutput, error)
+	// DescribeSuggestion returns one suggestion together with the change it proposes. Compare the problem version
+	// it was written against with the problem's current version to see whether the problem has moved on since.
 	DescribeSuggestion(ctx context.Context, in *DescribeSuggestionInput, opts ...grpc.CallOption) (*DescribeSuggestionOutput, error)
 }
 
@@ -122,13 +149,40 @@ func (c *suggestionServiceClient) DescribeSuggestion(ctx context.Context, in *De
 // SuggestionServiceServer is the server API for SuggestionService service.
 // All implementations should embed UnimplementedSuggestionServiceServer
 // for forward compatibility.
+//
+// SuggestionService collects community-proposed changes to a problem and drives their review.
+//
+// A suggestion is an edit proposed by a user of the public archive rather than by the problem's own owners: a
+// corrected statement for one locale, a new or improved editorial, or a different classification. It records
+// who wrote it and the problem version it was written against, and moves from pending through review to
+// approved or rejected. A moderator settles it with ReviewSuggestion, and the author can revise a rejected one
+// and send it back with ResubmitSuggestion. In practice this is the archive-curation API: the console only
+// exposes the review side of it, for the Basecamp space.
 type SuggestionServiceServer interface {
+	// CreateSuggestion submits a proposed change to the problem and returns its id. A suggestion carries exactly
+	// one kind of change, so proposing two kinds means two suggestions. It changes nothing about the problem on
+	// its own, it waits for review.
 	CreateSuggestion(context.Context, *CreateSuggestionInput) (*CreateSuggestionOutput, error)
+	// UpdateSuggestion replaces the change a suggestion carries, which is how its author revises it. There is no
+	// patch here, the suggestion in the request is taken as a whole, so resend the complete change.
 	UpdateSuggestion(context.Context, *UpdateSuggestionInput) (*UpdateSuggestionOutput, error)
+	// ReviewSuggestion is how a moderator rules on a suggestion. Approving and rejecting are the same call with a
+	// different review outcome rather than two separate rpcs, and a suggestion can also be flagged as being
+	// looked at. The contribution scores how much the suggestion was worth, from 0 for insignificant to 5 for
+	// major.
 	ReviewSuggestion(context.Context, *ReviewSuggestionInput) (*ReviewSuggestionOutput, error)
+	// ResubmitSuggestion puts a suggestion back in front of the moderators, which is how a rejected one re-enters
+	// the queue. It carries no content, so write the revised change with UpdateSuggestion first.
 	ResubmitSuggestion(context.Context, *ResubmitSuggestionInput) (*ResubmitSuggestionOutput, error)
+	// DeleteSuggestion removes a suggestion outright, leaving no record that it was ever made. Prefer rejecting it
+	// when the decision is worth keeping: a rejected suggestion can still be revised and resubmitted, a deleted
+	// one cannot.
 	DeleteSuggestion(context.Context, *DeleteSuggestionInput) (*DeleteSuggestionOutput, error)
+	// ListSuggestions returns the suggestions made for one problem; filtering on the pending ones gives the review
+	// queue. Items are complete, including the change proposed, so triage rarely needs DescribeSuggestion.
 	ListSuggestions(context.Context, *ListSuggestionsInput) (*ListSuggestionsOutput, error)
+	// DescribeSuggestion returns one suggestion together with the change it proposes. Compare the problem version
+	// it was written against with the problem's current version to see whether the problem has moved on since.
 	DescribeSuggestion(context.Context, *DescribeSuggestionInput) (*DescribeSuggestionOutput, error)
 }
 

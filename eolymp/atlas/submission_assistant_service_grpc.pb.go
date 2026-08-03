@@ -27,9 +27,31 @@ const (
 // SubmissionAssistantServiceClient is the client API for SubmissionAssistantService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// SubmissionAssistantService offers AI-assisted debugging help for a single submission.
+//
+// The flow is request, read, rate: RequestDebugAssistance produces the explanation of why a submission
+// failed, DescribeDebugAssistance reads it back afterwards, and RateDebugAssistance records whether it
+// helped. A submission carries at most one explanation, generated on the first request and returned
+// unchanged by every later call, so this is not a chat. The explanation is an ECM document and is rendered
+// like any other Eolymp content. Whether a submission can be assisted at all is reported by
+// `Submission.assistant_available`; the feature also has to be enabled by the space's subscription.
 type SubmissionAssistantServiceClient interface {
+	// RequestDebugAssistance generates the explanation of a submission's failure and returns it; the work
+	// happens inline, so the call is slow, and only the first request for a submission generates anything —
+	// later ones hand back the stored message, in the locale it was first generated for. Only some failures
+	// can actually be analysed: other outcomes, interactive problems and oversized test data get a short "not
+	// available" message instead. Each caller also has a daily allowance of requests, which surfaces as a
+	// quota error.
 	RequestDebugAssistance(ctx context.Context, in *RequestDebugAssistanceInput, opts ...grpc.CallOption) (*RequestDebugAssistanceOutput, error)
+	// DescribeDebugAssistance returns the explanation already stored for a submission and generates nothing
+	// itself: if RequestDebugAssistance has never been called for this submission, the call fails with a
+	// not-found error.
 	DescribeDebugAssistance(ctx context.Context, in *DescribeDebugAssistanceInput, opts ...grpc.CallOption) (*DescribeDebugAssistanceOutput, error)
+	// RateDebugAssistance records how useful the explanation was, replacing any earlier rating. Only the sign
+	// of the rating is kept: anything positive is a thumbs up, anything negative a thumbs down, and zero
+	// clears it. The submission must already have an explanation, otherwise the call fails with a
+	// precondition error.
 	RateDebugAssistance(ctx context.Context, in *RateDebugAssistanceInput, opts ...grpc.CallOption) (*RateDebugAssistanceOutput, error)
 }
 
@@ -74,9 +96,31 @@ func (c *submissionAssistantServiceClient) RateDebugAssistance(ctx context.Conte
 // SubmissionAssistantServiceServer is the server API for SubmissionAssistantService service.
 // All implementations should embed UnimplementedSubmissionAssistantServiceServer
 // for forward compatibility.
+//
+// SubmissionAssistantService offers AI-assisted debugging help for a single submission.
+//
+// The flow is request, read, rate: RequestDebugAssistance produces the explanation of why a submission
+// failed, DescribeDebugAssistance reads it back afterwards, and RateDebugAssistance records whether it
+// helped. A submission carries at most one explanation, generated on the first request and returned
+// unchanged by every later call, so this is not a chat. The explanation is an ECM document and is rendered
+// like any other Eolymp content. Whether a submission can be assisted at all is reported by
+// `Submission.assistant_available`; the feature also has to be enabled by the space's subscription.
 type SubmissionAssistantServiceServer interface {
+	// RequestDebugAssistance generates the explanation of a submission's failure and returns it; the work
+	// happens inline, so the call is slow, and only the first request for a submission generates anything —
+	// later ones hand back the stored message, in the locale it was first generated for. Only some failures
+	// can actually be analysed: other outcomes, interactive problems and oversized test data get a short "not
+	// available" message instead. Each caller also has a daily allowance of requests, which surfaces as a
+	// quota error.
 	RequestDebugAssistance(context.Context, *RequestDebugAssistanceInput) (*RequestDebugAssistanceOutput, error)
+	// DescribeDebugAssistance returns the explanation already stored for a submission and generates nothing
+	// itself: if RequestDebugAssistance has never been called for this submission, the call fails with a
+	// not-found error.
 	DescribeDebugAssistance(context.Context, *DescribeDebugAssistanceInput) (*DescribeDebugAssistanceOutput, error)
+	// RateDebugAssistance records how useful the explanation was, replacing any earlier rating. Only the sign
+	// of the rating is kept: anything positive is a thumbs up, anything negative a thumbs down, and zero
+	// clears it. The submission must already have an explanation, otherwise the call fails with a
+	// precondition error.
 	RateDebugAssistance(context.Context, *RateDebugAssistanceInput) (*RateDebugAssistanceOutput, error)
 }
 

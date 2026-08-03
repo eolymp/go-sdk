@@ -27,9 +27,30 @@ const (
 // ValidationServiceClient is the client API for ValidationService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// ValidationService runs a validator across the tests of a problem and reports the outcome test by test.
+//
+// A validator is a program which verifies that a test's input satisfies the constraints the statement
+// promises; it never looks at the answer. This service does not store the validator — RunValidation reads it
+// straight out of the request, so a validator can be tried before it is saved anywhere, and the validator kept
+// with the problem is created and edited through TestingService, not here. Validation is asynchronous:
+// RunValidation hands back an id, DescribeValidation polls it and WatchValidation streams updates until it
+// settles.
 type ValidationServiceClient interface {
+	// RunValidation compiles the validator given in the request, starts checking every test of the problem with
+	// it, and returns the new validation id together with its initial state. The validator is not written to the
+	// problem — this is how a candidate is tried out before TestingService.UpdateValidator stores it. Starting a
+	// validation supersedes any earlier one still in flight, which ends up cancelled.
 	RunValidation(ctx context.Context, in *RunValidationInput, opts ...grpc.CallOption) (*RunValidationOutput, error)
+	// DescribeValidation returns the current state of a validation, broken down test by test, each run pointing
+	// at the input it was fed and at the validator's own output with stderr merged in. Keep polling until the
+	// status settles. A per-test verdict distinguishes an input the validator rejected from one which could not
+	// be produced at all, because a generator or a download failed.
 	DescribeValidation(ctx context.Context, in *DescribeValidationInput, opts ...grpc.CallOption) (*DescribeValidationOutput, error)
+	// WatchValidation streams a validation as it progresses instead of having the caller poll DescribeValidation.
+	// Every message carries a whole snapshot and the version only ever increases, so a snapshot older than the
+	// last one seen can be discarded. It has no HTTP binding and is therefore available through the gRPC and SDK
+	// clients only, not in the REST reference.
 	WatchValidation(ctx context.Context, in *WatchValidationInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchValidationOutput], error)
 }
 
@@ -83,9 +104,30 @@ type ValidationService_WatchValidationClient = grpc.ServerStreamingClient[WatchV
 // ValidationServiceServer is the server API for ValidationService service.
 // All implementations should embed UnimplementedValidationServiceServer
 // for forward compatibility.
+//
+// ValidationService runs a validator across the tests of a problem and reports the outcome test by test.
+//
+// A validator is a program which verifies that a test's input satisfies the constraints the statement
+// promises; it never looks at the answer. This service does not store the validator — RunValidation reads it
+// straight out of the request, so a validator can be tried before it is saved anywhere, and the validator kept
+// with the problem is created and edited through TestingService, not here. Validation is asynchronous:
+// RunValidation hands back an id, DescribeValidation polls it and WatchValidation streams updates until it
+// settles.
 type ValidationServiceServer interface {
+	// RunValidation compiles the validator given in the request, starts checking every test of the problem with
+	// it, and returns the new validation id together with its initial state. The validator is not written to the
+	// problem — this is how a candidate is tried out before TestingService.UpdateValidator stores it. Starting a
+	// validation supersedes any earlier one still in flight, which ends up cancelled.
 	RunValidation(context.Context, *RunValidationInput) (*RunValidationOutput, error)
+	// DescribeValidation returns the current state of a validation, broken down test by test, each run pointing
+	// at the input it was fed and at the validator's own output with stderr merged in. Keep polling until the
+	// status settles. A per-test verdict distinguishes an input the validator rejected from one which could not
+	// be produced at all, because a generator or a download failed.
 	DescribeValidation(context.Context, *DescribeValidationInput) (*DescribeValidationOutput, error)
+	// WatchValidation streams a validation as it progresses instead of having the caller poll DescribeValidation.
+	// Every message carries a whole snapshot and the version only ever increases, so a snapshot older than the
+	// last one seen can be discarded. It has no HTTP binding and is therefore available through the gRPC and SDK
+	// clients only, not in the REST reference.
 	WatchValidation(*WatchValidationInput, grpc.ServerStreamingServer[WatchValidationOutput]) error
 }
 

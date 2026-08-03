@@ -26,8 +26,20 @@ const (
 // ScoringServiceClient is the client API for ScoringService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// ScoringService reports scoring data for the single problem addressed by the request path: how far a
+// member has got on it, and how the problem turns a submission's resource usage into a grade.
+//
+// Both methods are read-only and report what has already been recorded — they never retest or recompute a
+// score. A member score covers the problem as a whole rather than an individual submission; per-submission
+// results come from SubmissionService instead.
 type ScoringServiceClient interface {
+	// DescribeScore returns the score recorded for one member on this problem. A member with nothing
+	// recorded is not an error: the response simply comes back empty.
 	DescribeScore(ctx context.Context, in *DescribeScoreInput, opts ...grpc.CallOption) (*DescribeScoreOutput, error)
+	// DescribeProblemGrading returns the problem's grade ranges, so a caller can map a submission's resource
+	// usage onto a grade itself using the algorithm documented on the ranges field. It grades nothing on its
+	// own, and a problem with no grading configured returns an empty response rather than an error.
 	DescribeProblemGrading(ctx context.Context, in *DescribeProblemGradingInput, opts ...grpc.CallOption) (*DescribeProblemGradingOutput, error)
 }
 
@@ -62,8 +74,20 @@ func (c *scoringServiceClient) DescribeProblemGrading(ctx context.Context, in *D
 // ScoringServiceServer is the server API for ScoringService service.
 // All implementations should embed UnimplementedScoringServiceServer
 // for forward compatibility.
+//
+// ScoringService reports scoring data for the single problem addressed by the request path: how far a
+// member has got on it, and how the problem turns a submission's resource usage into a grade.
+//
+// Both methods are read-only and report what has already been recorded — they never retest or recompute a
+// score. A member score covers the problem as a whole rather than an individual submission; per-submission
+// results come from SubmissionService instead.
 type ScoringServiceServer interface {
+	// DescribeScore returns the score recorded for one member on this problem. A member with nothing
+	// recorded is not an error: the response simply comes back empty.
 	DescribeScore(context.Context, *DescribeScoreInput) (*DescribeScoreOutput, error)
+	// DescribeProblemGrading returns the problem's grade ranges, so a caller can map a submission's resource
+	// usage onto a grade itself using the algorithm documented on the ranges field. It grades nothing on its
+	// own, and a problem with no grading configured returns an empty response rather than an error.
 	DescribeProblemGrading(context.Context, *DescribeProblemGradingInput) (*DescribeProblemGradingOutput, error)
 }
 
