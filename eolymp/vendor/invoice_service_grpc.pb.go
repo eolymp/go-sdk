@@ -34,6 +34,8 @@ const (
 // InvoiceServiceClient is the client API for InvoiceService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// internal
 type InvoiceServiceClient interface {
 	ListInvoices(ctx context.Context, in *ListInvoicesInput, opts ...grpc.CallOption) (*ListInvoicesOutput, error)
 	DescribeInvoice(ctx context.Context, in *DescribeInvoiceInput, opts ...grpc.CallOption) (*DescribeInvoiceOutput, error)
@@ -158,6 +160,8 @@ func (c *invoiceServiceClient) PayInvoice(ctx context.Context, in *PayInvoiceInp
 // InvoiceServiceServer is the server API for InvoiceService service.
 // All implementations should embed UnimplementedInvoiceServiceServer
 // for forward compatibility.
+//
+// internal
 type InvoiceServiceServer interface {
 	ListInvoices(context.Context, *ListInvoicesInput) (*ListInvoicesOutput, error)
 	DescribeInvoice(context.Context, *DescribeInvoiceInput) (*DescribeInvoiceOutput, error)

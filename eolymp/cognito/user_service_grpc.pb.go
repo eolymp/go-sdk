@@ -26,6 +26,8 @@ const (
 // UserServiceClient is the client API for UserService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// internal
 type UserServiceClient interface {
 	// Describe user by ID.
 	DescribeUser(ctx context.Context, in *DescribeUserInput, opts ...grpc.CallOption) (*DescribeUserOutput, error)
@@ -64,6 +66,8 @@ func (c *userServiceClient) ListUsers(ctx context.Context, in *ListUsersInput, o
 // UserServiceServer is the server API for UserService service.
 // All implementations should embed UnimplementedUserServiceServer
 // for forward compatibility.
+//
+// internal
 type UserServiceServer interface {
 	// Describe user by ID.
 	DescribeUser(context.Context, *DescribeUserInput) (*DescribeUserOutput, error)

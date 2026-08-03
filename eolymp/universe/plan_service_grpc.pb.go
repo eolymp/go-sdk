@@ -26,6 +26,8 @@ const (
 // PlanServiceClient is the client API for PlanService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// internal
 type PlanServiceClient interface {
 	DescribePlan(ctx context.Context, in *DescribePlanInput, opts ...grpc.CallOption) (*DescribePlanOutput, error)
 	ListPlans(ctx context.Context, in *ListPlansInput, opts ...grpc.CallOption) (*ListPlansOutput, error)
@@ -62,6 +64,8 @@ func (c *planServiceClient) ListPlans(ctx context.Context, in *ListPlansInput, o
 // PlanServiceServer is the server API for PlanService service.
 // All implementations should embed UnimplementedPlanServiceServer
 // for forward compatibility.
+//
+// internal
 type PlanServiceServer interface {
 	DescribePlan(context.Context, *DescribePlanInput) (*DescribePlanOutput, error)
 	ListPlans(context.Context, *ListPlansInput) (*ListPlansOutput, error)

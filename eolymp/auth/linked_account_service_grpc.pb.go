@@ -30,6 +30,8 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 //
+// internal
+//
 // LinkedAccountService provides API to manage linked accounts.
 type LinkedAccountServiceClient interface {
 	RequestLinkedAccount(ctx context.Context, in *RequestLinkedAccountInput, opts ...grpc.CallOption) (*RequestLinkedAccountOutput, error)
@@ -100,6 +102,8 @@ func (c *linkedAccountServiceClient) ListLinkedAccounts(ctx context.Context, in 
 // LinkedAccountServiceServer is the server API for LinkedAccountService service.
 // All implementations should embed UnimplementedLinkedAccountServiceServer
 // for forward compatibility.
+//
+// internal
 //
 // LinkedAccountService provides API to manage linked accounts.
 type LinkedAccountServiceServer interface {

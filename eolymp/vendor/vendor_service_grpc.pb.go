@@ -28,6 +28,8 @@ const (
 // VendorServiceClient is the client API for VendorService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// internal
 type VendorServiceClient interface {
 	ListVendors(ctx context.Context, in *ListVendorsInput, opts ...grpc.CallOption) (*ListVendorsOutput, error)
 	DescribeVendor(ctx context.Context, in *DescribeVendorInput, opts ...grpc.CallOption) (*DescribeVendorOutput, error)
@@ -86,6 +88,8 @@ func (c *vendorServiceClient) RejectVendor(ctx context.Context, in *RejectVendor
 // VendorServiceServer is the server API for VendorService service.
 // All implementations should embed UnimplementedVendorServiceServer
 // for forward compatibility.
+//
+// internal
 type VendorServiceServer interface {
 	ListVendors(context.Context, *ListVendorsInput) (*ListVendorsOutput, error)
 	DescribeVendor(context.Context, *DescribeVendorInput) (*DescribeVendorOutput, error)

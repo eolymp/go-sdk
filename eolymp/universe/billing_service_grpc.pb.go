@@ -39,6 +39,8 @@ const (
 // BillingServiceClient is the client API for BillingService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// internal
 type BillingServiceClient interface {
 	DescribeBillingInformation(ctx context.Context, in *DescribeBillingInformationInput, opts ...grpc.CallOption) (*DescribeBillingInformationOutput, error)
 	UpdateBillingInformation(ctx context.Context, in *UpdateBillingInformationInput, opts ...grpc.CallOption) (*UpdateBillingInformationOutput, error)
@@ -218,6 +220,8 @@ func (c *billingServiceClient) ListAvailablePlans(ctx context.Context, in *ListA
 // BillingServiceServer is the server API for BillingService service.
 // All implementations should embed UnimplementedBillingServiceServer
 // for forward compatibility.
+//
+// internal
 type BillingServiceServer interface {
 	DescribeBillingInformation(context.Context, *DescribeBillingInformationInput) (*DescribeBillingInformationOutput, error)
 	UpdateBillingInformation(context.Context, *UpdateBillingInformationInput) (*UpdateBillingInformationOutput, error)

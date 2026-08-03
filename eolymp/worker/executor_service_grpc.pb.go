@@ -25,6 +25,8 @@ const (
 // ExecutorServiceClient is the client API for ExecutorService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// internal
 type ExecutorServiceClient interface {
 	ExecuteJob(ctx context.Context, in *ExecuteJobInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[ExecuteJobUpdate], error)
 }
@@ -59,6 +61,8 @@ type ExecutorService_ExecuteJobClient = grpc.ServerStreamingClient[ExecuteJobUpd
 // ExecutorServiceServer is the server API for ExecutorService service.
 // All implementations should embed UnimplementedExecutorServiceServer
 // for forward compatibility.
+//
+// internal
 type ExecutorServiceServer interface {
 	ExecuteJob(*ExecuteJobInput, grpc.ServerStreamingServer[ExecuteJobUpdate]) error
 }

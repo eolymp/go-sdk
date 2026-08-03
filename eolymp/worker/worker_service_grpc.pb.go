@@ -27,6 +27,8 @@ const (
 // WorkerServiceClient is the client API for WorkerService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// internal
 type WorkerServiceClient interface {
 	CreateJob(ctx context.Context, in *CreateJobInput, opts ...grpc.CallOption) (*CreateJobOutput, error)
 	DescribeJob(ctx context.Context, in *DescribeJobInput, opts ...grpc.CallOption) (*DescribeJobOutput, error)
@@ -74,6 +76,8 @@ func (c *workerServiceClient) ListJobs(ctx context.Context, in *ListJobsInput, o
 // WorkerServiceServer is the server API for WorkerService service.
 // All implementations should embed UnimplementedWorkerServiceServer
 // for forward compatibility.
+//
+// internal
 type WorkerServiceServer interface {
 	CreateJob(context.Context, *CreateJobInput) (*CreateJobOutput, error)
 	DescribeJob(context.Context, *DescribeJobInput) (*DescribeJobOutput, error)

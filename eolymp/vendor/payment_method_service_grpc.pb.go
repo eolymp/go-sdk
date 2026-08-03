@@ -29,6 +29,8 @@ const (
 // PaymentMethodServiceClient is the client API for PaymentMethodService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// internal
 type PaymentMethodServiceClient interface {
 	CreatePaymentMethod(ctx context.Context, in *CreatePaymentMethodInput, opts ...grpc.CallOption) (*CreatePaymentMethodOutput, error)
 	UpdatePaymentMethod(ctx context.Context, in *UpdatePaymentMethodInput, opts ...grpc.CallOption) (*UpdatePaymentMethodOutput, error)
@@ -98,6 +100,8 @@ func (c *paymentMethodServiceClient) ListPaymentMethods(ctx context.Context, in 
 // PaymentMethodServiceServer is the server API for PaymentMethodService service.
 // All implementations should embed UnimplementedPaymentMethodServiceServer
 // for forward compatibility.
+//
+// internal
 type PaymentMethodServiceServer interface {
 	CreatePaymentMethod(context.Context, *CreatePaymentMethodInput) (*CreatePaymentMethodOutput, error)
 	UpdatePaymentMethod(context.Context, *UpdatePaymentMethodInput) (*UpdatePaymentMethodOutput, error)

@@ -26,6 +26,8 @@ const (
 // SSOServiceClient is the client API for SSOService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// internal
 type SSOServiceClient interface {
 	SignonRequest(ctx context.Context, in *SignonRequestInput, opts ...grpc.CallOption) (*SignonRequestOutput, error)
 	SignonExchange(ctx context.Context, in *SignonExchangeInput, opts ...grpc.CallOption) (*SignonExchangeOutput, error)
@@ -62,6 +64,8 @@ func (c *sSOServiceClient) SignonExchange(ctx context.Context, in *SignonExchang
 // SSOServiceServer is the server API for SSOService service.
 // All implementations should embed UnimplementedSSOServiceServer
 // for forward compatibility.
+//
+// internal
 type SSOServiceServer interface {
 	SignonRequest(context.Context, *SignonRequestInput) (*SignonRequestOutput, error)
 	SignonExchange(context.Context, *SignonExchangeInput) (*SignonExchangeOutput, error)

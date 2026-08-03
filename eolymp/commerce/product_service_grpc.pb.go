@@ -34,6 +34,8 @@ const (
 // ProductServiceClient is the client API for ProductService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// internal
 type ProductServiceClient interface {
 	CreateProduct(ctx context.Context, in *CreateProductInput, opts ...grpc.CallOption) (*CreateProductOutput, error)
 	UpdateProduct(ctx context.Context, in *UpdateProductInput, opts ...grpc.CallOption) (*UpdateProductOutput, error)
@@ -158,6 +160,8 @@ func (c *productServiceClient) ListProductVariants(ctx context.Context, in *List
 // ProductServiceServer is the server API for ProductService service.
 // All implementations should embed UnimplementedProductServiceServer
 // for forward compatibility.
+//
+// internal
 type ProductServiceServer interface {
 	CreateProduct(context.Context, *CreateProductInput) (*CreateProductOutput, error)
 	UpdateProduct(context.Context, *UpdateProductInput) (*UpdateProductOutput, error)

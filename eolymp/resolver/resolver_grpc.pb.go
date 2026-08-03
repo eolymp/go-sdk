@@ -25,6 +25,8 @@ const (
 // ResolverClient is the client API for Resolver service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// internal
 type ResolverClient interface {
 	ResolveName(ctx context.Context, in *ResolveNameInput, opts ...grpc.CallOption) (*ResolveNameOutput, error)
 }
@@ -50,6 +52,8 @@ func (c *resolverClient) ResolveName(ctx context.Context, in *ResolveNameInput, 
 // ResolverServer is the server API for Resolver service.
 // All implementations should embed UnimplementedResolverServer
 // for forward compatibility.
+//
+// internal
 type ResolverServer interface {
 	ResolveName(context.Context, *ResolveNameInput) (*ResolveNameOutput, error)
 }

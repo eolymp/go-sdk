@@ -27,6 +27,8 @@ const (
 // ProfileServiceClient is the client API for ProfileService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// internal
 type ProfileServiceClient interface {
 	DescribeProfile(ctx context.Context, in *DescribeProfileInput, opts ...grpc.CallOption) (*DescribeProfileOutput, error)
 	UpdateProfile(ctx context.Context, in *UpdateProfileInput, opts ...grpc.CallOption) (*UpdateProfileOutput, error)
@@ -74,6 +76,8 @@ func (c *profileServiceClient) SubmitProfile(ctx context.Context, in *SubmitProf
 // ProfileServiceServer is the server API for ProfileService service.
 // All implementations should embed UnimplementedProfileServiceServer
 // for forward compatibility.
+//
+// internal
 type ProfileServiceServer interface {
 	DescribeProfile(context.Context, *DescribeProfileInput) (*DescribeProfileOutput, error)
 	UpdateProfile(context.Context, *UpdateProfileInput) (*UpdateProfileOutput, error)

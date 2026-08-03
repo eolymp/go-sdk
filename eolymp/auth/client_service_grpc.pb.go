@@ -31,6 +31,8 @@ const (
 // ClientServiceClient is the client API for ClientService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// internal
 type ClientServiceClient interface {
 	ListClients(ctx context.Context, in *ListClientsInput, opts ...grpc.CallOption) (*ListClientsOutput, error)
 	DescribeClient(ctx context.Context, in *DescribeClientInput, opts ...grpc.CallOption) (*DescribeClientOutput, error)
@@ -123,6 +125,8 @@ func (c *clientServiceClient) RegisterClient(ctx context.Context, in *RegisterCl
 // ClientServiceServer is the server API for ClientService service.
 // All implementations should embed UnimplementedClientServiceServer
 // for forward compatibility.
+//
+// internal
 type ClientServiceServer interface {
 	ListClients(context.Context, *ListClientsInput) (*ListClientsOutput, error)
 	DescribeClient(context.Context, *DescribeClientInput) (*DescribeClientOutput, error)

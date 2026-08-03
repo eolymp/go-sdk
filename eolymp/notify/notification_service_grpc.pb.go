@@ -31,6 +31,8 @@ const (
 // NotificationServiceClient is the client API for NotificationService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// internal
 type NotificationServiceClient interface {
 	CreateNotification(ctx context.Context, in *CreateNotificationInput, opts ...grpc.CallOption) (*CreateNotificationOutput, error)
 	DescribeNotification(ctx context.Context, in *DescribeNotificationInput, opts ...grpc.CallOption) (*DescribeNotificationOutput, error)
@@ -122,6 +124,8 @@ func (c *notificationServiceClient) UpdatePreferences(ctx context.Context, in *U
 // NotificationServiceServer is the server API for NotificationService service.
 // All implementations should embed UnimplementedNotificationServiceServer
 // for forward compatibility.
+//
+// internal
 type NotificationServiceServer interface {
 	CreateNotification(context.Context, *CreateNotificationInput) (*CreateNotificationOutput, error)
 	DescribeNotification(context.Context, *DescribeNotificationInput) (*DescribeNotificationOutput, error)

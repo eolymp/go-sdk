@@ -38,6 +38,8 @@ const (
 // TicketServiceClient is the client API for TicketService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// internal
 type TicketServiceClient interface {
 	CreateTicket(ctx context.Context, in *CreateTicketInput, opts ...grpc.CallOption) (*CreateTicketOutput, error)
 	UpdateTicket(ctx context.Context, in *UpdateTicketInput, opts ...grpc.CallOption) (*UpdateTicketOutput, error)
@@ -206,6 +208,8 @@ func (c *ticketServiceClient) UploadAttachment(ctx context.Context, in *UploadAt
 // TicketServiceServer is the server API for TicketService service.
 // All implementations should embed UnimplementedTicketServiceServer
 // for forward compatibility.
+//
+// internal
 type TicketServiceServer interface {
 	CreateTicket(context.Context, *CreateTicketInput) (*CreateTicketOutput, error)
 	UpdateTicket(context.Context, *UpdateTicketInput) (*UpdateTicketOutput, error)

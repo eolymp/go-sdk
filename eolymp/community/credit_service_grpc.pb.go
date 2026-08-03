@@ -32,6 +32,8 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 //
+// internal
+//
 // CreditService provides methods to manage members "credits", a point based system of rewards.
 // Members can be rewarded credits for various actions, and these credits can be redeemed for rewards.
 type CreditServiceClient interface {
@@ -136,6 +138,8 @@ func (c *creditServiceClient) RefundCredit(ctx context.Context, in *RefundCredit
 // CreditServiceServer is the server API for CreditService service.
 // All implementations should embed UnimplementedCreditServiceServer
 // for forward compatibility.
+//
+// internal
 //
 // CreditService provides methods to manage members "credits", a point based system of rewards.
 // Members can be rewarded credits for various actions, and these credits can be redeemed for rewards.

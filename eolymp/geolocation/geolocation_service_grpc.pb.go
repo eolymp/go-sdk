@@ -25,6 +25,8 @@ const (
 // GeolocationServiceClient is the client API for GeolocationService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// internal
 type GeolocationServiceClient interface {
 	LookupAddress(ctx context.Context, in *LookupAddressInput, opts ...grpc.CallOption) (*LookupAddressOutput, error)
 }
@@ -50,6 +52,8 @@ func (c *geolocationServiceClient) LookupAddress(ctx context.Context, in *Lookup
 // GeolocationServiceServer is the server API for GeolocationService service.
 // All implementations should embed UnimplementedGeolocationServiceServer
 // for forward compatibility.
+//
+// internal
 type GeolocationServiceServer interface {
 	LookupAddress(context.Context, *LookupAddressInput) (*LookupAddressOutput, error)
 }

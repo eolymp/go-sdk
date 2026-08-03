@@ -31,6 +31,8 @@ const (
 // FulfillmentServiceClient is the client API for FulfillmentService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// internal
 type FulfillmentServiceClient interface {
 	AllocateStock(ctx context.Context, in *AllocateStockInput, opts ...grpc.CallOption) (*AllocateStockOutput, error)
 	// RejectOrder allows admin to reject an order with a reason that will be shown to the user.
@@ -126,6 +128,8 @@ func (c *fulfillmentServiceClient) ExportOrderLabels(ctx context.Context, in *Ex
 // FulfillmentServiceServer is the server API for FulfillmentService service.
 // All implementations should embed UnimplementedFulfillmentServiceServer
 // for forward compatibility.
+//
+// internal
 type FulfillmentServiceServer interface {
 	AllocateStock(context.Context, *AllocateStockInput) (*AllocateStockOutput, error)
 	// RejectOrder allows admin to reject an order with a reason that will be shown to the user.

@@ -33,6 +33,8 @@ const (
 // ShoppingServiceClient is the client API for ShoppingService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// internal
 type ShoppingServiceClient interface {
 	DescribeShoppingCart(ctx context.Context, in *DescribeShoppingCartInput, opts ...grpc.CallOption) (*DescribeShoppingCartOutput, error)
 	CreateShoppingCartItem(ctx context.Context, in *CreateShoppingCartItemInput, opts ...grpc.CallOption) (*CreateShoppingCartItemOutput, error)
@@ -146,6 +148,8 @@ func (c *shoppingServiceClient) PlaceOrder(ctx context.Context, in *PlaceOrderIn
 // ShoppingServiceServer is the server API for ShoppingService service.
 // All implementations should embed UnimplementedShoppingServiceServer
 // for forward compatibility.
+//
+// internal
 type ShoppingServiceServer interface {
 	DescribeShoppingCart(context.Context, *DescribeShoppingCartInput) (*DescribeShoppingCartOutput, error)
 	CreateShoppingCartItem(context.Context, *CreateShoppingCartItemInput) (*CreateShoppingCartItemOutput, error)

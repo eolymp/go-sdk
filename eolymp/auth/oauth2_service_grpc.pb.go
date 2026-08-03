@@ -30,6 +30,8 @@ const (
 // OAuth2ServiceClient is the client API for OAuth2Service service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// internal
 type OAuth2ServiceClient interface {
 	// issue a new token
 	IssueToken(ctx context.Context, in *IssueTokenInput, opts ...grpc.CallOption) (*IssueTokenOutput, error)
@@ -116,6 +118,8 @@ func (c *oAuth2ServiceClient) ListCertificates(ctx context.Context, in *ListCert
 // OAuth2ServiceServer is the server API for OAuth2Service service.
 // All implementations should embed UnimplementedOAuth2ServiceServer
 // for forward compatibility.
+//
+// internal
 type OAuth2ServiceServer interface {
 	// issue a new token
 	IssueToken(context.Context, *IssueTokenInput) (*IssueTokenOutput, error)

@@ -27,6 +27,8 @@ const (
 // OrderServiceClient is the client API for OrderService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// internal
 type OrderServiceClient interface {
 	CancelOrder(ctx context.Context, in *CancelOrderInput, opts ...grpc.CallOption) (*CancelOrderOutput, error)
 	DescribeOrder(ctx context.Context, in *DescribeOrderInput, opts ...grpc.CallOption) (*DescribeOrderOutput, error)
@@ -74,6 +76,8 @@ func (c *orderServiceClient) ListOrders(ctx context.Context, in *ListOrdersInput
 // OrderServiceServer is the server API for OrderService service.
 // All implementations should embed UnimplementedOrderServiceServer
 // for forward compatibility.
+//
+// internal
 type OrderServiceServer interface {
 	CancelOrder(context.Context, *CancelOrderInput) (*CancelOrderOutput, error)
 	DescribeOrder(context.Context, *DescribeOrderInput) (*DescribeOrderOutput, error)

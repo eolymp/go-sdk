@@ -45,6 +45,8 @@ const (
 // LocalizationServiceClient is the client API for LocalizationService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// internal
 type LocalizationServiceClient interface {
 	CreateTerm(ctx context.Context, in *CreateTermInput, opts ...grpc.CallOption) (*CreateTermOutput, error)
 	ListTerms(ctx context.Context, in *ListTermsInput, opts ...grpc.CallOption) (*ListTermsOutput, error)
@@ -290,6 +292,8 @@ func (c *localizationServiceClient) ListTranslationPairs(ctx context.Context, in
 // LocalizationServiceServer is the server API for LocalizationService service.
 // All implementations should embed UnimplementedLocalizationServiceServer
 // for forward compatibility.
+//
+// internal
 type LocalizationServiceServer interface {
 	CreateTerm(context.Context, *CreateTermInput) (*CreateTermOutput, error)
 	ListTerms(context.Context, *ListTermsInput) (*ListTermsOutput, error)

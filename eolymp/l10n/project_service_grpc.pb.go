@@ -26,6 +26,8 @@ const (
 // ProjectServiceClient is the client API for ProjectService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// internal
 type ProjectServiceClient interface {
 	ListProjects(ctx context.Context, in *ListProjectsInput, opts ...grpc.CallOption) (*ListProjectsOutput, error)
 	DescribeProject(ctx context.Context, in *DescribeProjectInput, opts ...grpc.CallOption) (*DescribeProjectOutput, error)
@@ -62,6 +64,8 @@ func (c *projectServiceClient) DescribeProject(ctx context.Context, in *Describe
 // ProjectServiceServer is the server API for ProjectService service.
 // All implementations should embed UnimplementedProjectServiceServer
 // for forward compatibility.
+//
+// internal
 type ProjectServiceServer interface {
 	ListProjects(context.Context, *ListProjectsInput) (*ListProjectsOutput, error)
 	DescribeProject(context.Context, *DescribeProjectInput) (*DescribeProjectOutput, error)
