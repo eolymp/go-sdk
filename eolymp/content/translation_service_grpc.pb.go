@@ -25,7 +25,17 @@ const (
 // TranslateServiceClient is the client API for TranslateService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// TranslateService translates a piece of rich content passed in the request.
+//
+// The content is not tied to any entity: nothing is read from or written to stored data, and the translated
+// content comes straight back for the caller to keep or discard. The request carries the content and
+// nothing else — neither a source nor a target locale — so the languages involved cannot be chosen through
+// this call. Entities that keep translations of their own, such as pages or problem statements, are
+// translated through their own services, which store what they produce.
 type TranslateServiceClient interface {
+	// TranslateContent returns a translated copy of the content it is given, in the same shape as the input.
+	// The result is not saved anywhere, so a caller that wants to keep it has to write it back itself.
 	TranslateContent(ctx context.Context, in *TranslateContentInput, opts ...grpc.CallOption) (*TranslateContentOutput, error)
 }
 
@@ -50,7 +60,17 @@ func (c *translateServiceClient) TranslateContent(ctx context.Context, in *Trans
 // TranslateServiceServer is the server API for TranslateService service.
 // All implementations should embed UnimplementedTranslateServiceServer
 // for forward compatibility.
+//
+// TranslateService translates a piece of rich content passed in the request.
+//
+// The content is not tied to any entity: nothing is read from or written to stored data, and the translated
+// content comes straight back for the caller to keep or discard. The request carries the content and
+// nothing else — neither a source nor a target locale — so the languages involved cannot be chosen through
+// this call. Entities that keep translations of their own, such as pages or problem statements, are
+// translated through their own services, which store what they produce.
 type TranslateServiceServer interface {
+	// TranslateContent returns a translated copy of the content it is given, in the same shape as the input.
+	// The result is not saved anywhere, so a caller that wants to keep it has to write it back itself.
 	TranslateContent(context.Context, *TranslateContentInput) (*TranslateContentOutput, error)
 }
 

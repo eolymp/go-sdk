@@ -37,19 +37,76 @@ const (
 // ContentServiceClient is the client API for ContentService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// ContentService manages the pages of a space or of a contest.
+//
+// A page — a fragment on the wire — is content an admin writes for members: space information, rules,
+// contact details, a schedule. What places a page on the site is its path rather than its title: a path
+// under `/pages/` is published on the space site with that prefix stripped, so `/pages/rules` is served at
+// `<space>.eolymp.space/rules`; `/index` replaces the site home page and `/nav` replaces the navigation
+// menu, whose Markdown body is read as link lists rather than as prose. Crucially, the same service works
+// at two scopes and the base URL decides which: addressed to a space it manages that space's site pages,
+// addressed to a contest it manages that contest's own pages, where `/overview` is the contest home page,
+// anything below `/overview/...` becomes an extra tab, and both remain reachable before the contest starts
+// and after it ends — a space and a contest each keep their own independent set of pages, so aiming a
+// client at the wrong base URL quietly reads and writes the wrong ones. A page has a base locale plus
+// translations, managed by their own methods here instead of by patching the page, and reading a locale
+// that has no translation returns the base-locale page rather than an error or an empty result. Page
+// content is rich content — Markdown or LaTeX with a parsed tree alongside it — and reads leave it out
+// unless it is asked for, as the raw value, as the tree, or as both.
 type ContentServiceClient interface {
+	// DescribeFragment returns a single page by id, for callers that already hold an id rather than only a
+	// path. The requested locale selects a translation and falls back to the base-locale page when that
+	// translation does not exist, so this is also the read to use when rendering a page for a particular
+	// reader.
 	DescribeFragment(ctx context.Context, in *DescribeFragmentInput, opts ...grpc.CallOption) (*DescribeFragmentOutput, error)
+	// ListFragments enumerates the pages of the space or contest being addressed, which is how to discover
+	// what paths exist there. Labels are free-form strings a client attaches to organise pages and listing
+	// can be narrowed by them; prefixed conventions seen in Eolymp's own content are a client convention
+	// only, as the platform attaches no meaning to a label and never acts on one.
 	ListFragments(ctx context.Context, in *ListFragmentsInput, opts ...grpc.CallOption) (*ListFragmentsOutput, error)
+	// CreateFragment adds a page to the space or contest being addressed and returns its id. The path given
+	// here is what makes the page reachable, and a page marked as a draft is visible to admins only, which is
+	// how a page can be written before members are meant to see it.
 	CreateFragment(ctx context.Context, in *CreateFragmentInput, opts ...grpc.CallOption) (*CreateFragmentOutput, error)
+	// UpdateFragment writes new values into an existing page. Fields outside the patch mask keep the values
+	// they already have, so moving a page to another path does not mean resending its content. The same call
+	// can be aimed at one locale of the page instead of its base locale, which edits that translation.
 	UpdateFragment(ctx context.Context, in *UpdateFragmentInput, opts ...grpc.CallOption) (*UpdateFragmentOutput, error)
+	// DeleteFragment permanently removes a page, freeing its path and with it the URL the page was served at.
+	// Aimed at a single locale it removes only that translation and leaves the page itself in place.
 	DeleteFragment(ctx context.Context, in *DeleteFragmentInput, opts ...grpc.CallOption) (*DeleteFragmentOutput, error)
+	// TranslateFragment starts automatic translation of a page into other locales and returns a job id; the
+	// work runs asynchronously, so the translations appear some time after the call returns and are found by
+	// listing them again. Translations written by hand are left alone unless the request asks for them to be
+	// overwritten, and whatever this produces is marked as automatic.
 	TranslateFragment(ctx context.Context, in *TranslateFragmentInput, opts ...grpc.CallOption) (*TranslateFragmentOutput, error)
+	// DescribeFragmentTranslation returns one translation by its own id. It addresses that translation
+	// directly, so unlike asking a page for a locale there is nothing here to fall back to when it is absent.
 	DescribeFragmentTranslation(ctx context.Context, in *DescribeFragmentTranslationInput, opts ...grpc.CallOption) (*DescribeFragmentTranslationOutput, error)
+	// ListFragmentTranslations returns the translations of one page, which is how to discover the locales it
+	// is available in besides its base one, and which of them were produced automatically.
 	ListFragmentTranslations(ctx context.Context, in *ListFragmentTranslationsInput, opts ...grpc.CallOption) (*ListFragmentTranslationsOutput, error)
+	// CreateFragmentTranslation adds one locale of a page and returns its id. A translation carries its own
+	// title and content but no path of its own, so it is served at the page's path and reached by readers of
+	// that locale.
 	CreateFragmentTranslation(ctx context.Context, in *CreateFragmentTranslationInput, opts ...grpc.CallOption) (*CreateFragmentTranslationOutput, error)
+	// UpdateFragmentTranslation replaces an existing translation; there is no patch mask here, so the request
+	// has to carry the whole translation rather than the fields that changed. Whether a translation counts as
+	// automatic is part of what is written, and a translation that is not automatic survives a later
+	// translation run unless that run is told to override manual work.
 	UpdateFragmentTranslation(ctx context.Context, in *UpdateFragmentTranslationInput, opts ...grpc.CallOption) (*UpdateFragmentTranslationOutput, error)
+	// DeleteFragmentTranslation drops one locale of a page, leaving the page and its other locales untouched.
+	// Readers of that locale are served the base-locale page afterwards, since a missing translation falls
+	// back instead of failing.
 	DeleteFragmentTranslation(ctx context.Context, in *DeleteFragmentTranslationInput, opts ...grpc.CallOption) (*DeleteFragmentTranslationOutput, error)
+	// DescribePath looks a page up by the path it is served at instead of by id, which is what a front-end
+	// has to work with when all it knows is the URL a visitor asked for. Otherwise it behaves like
+	// DescribeFragment, honouring the requested locale and its fallback.
 	DescribePath(ctx context.Context, in *DescribePathInput, opts ...grpc.CallOption) (*DescribePathOutput, error)
+	// ListParents returns the pages lying above a path — the ancestors of `/overview/rules/scoring`, not the
+	// pages nested under it — which is what building a breadcrumb trail or a surrounding menu needs. Whole
+	// pages come back, so a path segment that has no page of its own cannot appear among them.
 	ListParents(ctx context.Context, in *ListParentsInput, opts ...grpc.CallOption) (*ListParentsOutput, error)
 }
 
@@ -194,19 +251,76 @@ func (c *contentServiceClient) ListParents(ctx context.Context, in *ListParentsI
 // ContentServiceServer is the server API for ContentService service.
 // All implementations should embed UnimplementedContentServiceServer
 // for forward compatibility.
+//
+// ContentService manages the pages of a space or of a contest.
+//
+// A page — a fragment on the wire — is content an admin writes for members: space information, rules,
+// contact details, a schedule. What places a page on the site is its path rather than its title: a path
+// under `/pages/` is published on the space site with that prefix stripped, so `/pages/rules` is served at
+// `<space>.eolymp.space/rules`; `/index` replaces the site home page and `/nav` replaces the navigation
+// menu, whose Markdown body is read as link lists rather than as prose. Crucially, the same service works
+// at two scopes and the base URL decides which: addressed to a space it manages that space's site pages,
+// addressed to a contest it manages that contest's own pages, where `/overview` is the contest home page,
+// anything below `/overview/...` becomes an extra tab, and both remain reachable before the contest starts
+// and after it ends — a space and a contest each keep their own independent set of pages, so aiming a
+// client at the wrong base URL quietly reads and writes the wrong ones. A page has a base locale plus
+// translations, managed by their own methods here instead of by patching the page, and reading a locale
+// that has no translation returns the base-locale page rather than an error or an empty result. Page
+// content is rich content — Markdown or LaTeX with a parsed tree alongside it — and reads leave it out
+// unless it is asked for, as the raw value, as the tree, or as both.
 type ContentServiceServer interface {
+	// DescribeFragment returns a single page by id, for callers that already hold an id rather than only a
+	// path. The requested locale selects a translation and falls back to the base-locale page when that
+	// translation does not exist, so this is also the read to use when rendering a page for a particular
+	// reader.
 	DescribeFragment(context.Context, *DescribeFragmentInput) (*DescribeFragmentOutput, error)
+	// ListFragments enumerates the pages of the space or contest being addressed, which is how to discover
+	// what paths exist there. Labels are free-form strings a client attaches to organise pages and listing
+	// can be narrowed by them; prefixed conventions seen in Eolymp's own content are a client convention
+	// only, as the platform attaches no meaning to a label and never acts on one.
 	ListFragments(context.Context, *ListFragmentsInput) (*ListFragmentsOutput, error)
+	// CreateFragment adds a page to the space or contest being addressed and returns its id. The path given
+	// here is what makes the page reachable, and a page marked as a draft is visible to admins only, which is
+	// how a page can be written before members are meant to see it.
 	CreateFragment(context.Context, *CreateFragmentInput) (*CreateFragmentOutput, error)
+	// UpdateFragment writes new values into an existing page. Fields outside the patch mask keep the values
+	// they already have, so moving a page to another path does not mean resending its content. The same call
+	// can be aimed at one locale of the page instead of its base locale, which edits that translation.
 	UpdateFragment(context.Context, *UpdateFragmentInput) (*UpdateFragmentOutput, error)
+	// DeleteFragment permanently removes a page, freeing its path and with it the URL the page was served at.
+	// Aimed at a single locale it removes only that translation and leaves the page itself in place.
 	DeleteFragment(context.Context, *DeleteFragmentInput) (*DeleteFragmentOutput, error)
+	// TranslateFragment starts automatic translation of a page into other locales and returns a job id; the
+	// work runs asynchronously, so the translations appear some time after the call returns and are found by
+	// listing them again. Translations written by hand are left alone unless the request asks for them to be
+	// overwritten, and whatever this produces is marked as automatic.
 	TranslateFragment(context.Context, *TranslateFragmentInput) (*TranslateFragmentOutput, error)
+	// DescribeFragmentTranslation returns one translation by its own id. It addresses that translation
+	// directly, so unlike asking a page for a locale there is nothing here to fall back to when it is absent.
 	DescribeFragmentTranslation(context.Context, *DescribeFragmentTranslationInput) (*DescribeFragmentTranslationOutput, error)
+	// ListFragmentTranslations returns the translations of one page, which is how to discover the locales it
+	// is available in besides its base one, and which of them were produced automatically.
 	ListFragmentTranslations(context.Context, *ListFragmentTranslationsInput) (*ListFragmentTranslationsOutput, error)
+	// CreateFragmentTranslation adds one locale of a page and returns its id. A translation carries its own
+	// title and content but no path of its own, so it is served at the page's path and reached by readers of
+	// that locale.
 	CreateFragmentTranslation(context.Context, *CreateFragmentTranslationInput) (*CreateFragmentTranslationOutput, error)
+	// UpdateFragmentTranslation replaces an existing translation; there is no patch mask here, so the request
+	// has to carry the whole translation rather than the fields that changed. Whether a translation counts as
+	// automatic is part of what is written, and a translation that is not automatic survives a later
+	// translation run unless that run is told to override manual work.
 	UpdateFragmentTranslation(context.Context, *UpdateFragmentTranslationInput) (*UpdateFragmentTranslationOutput, error)
+	// DeleteFragmentTranslation drops one locale of a page, leaving the page and its other locales untouched.
+	// Readers of that locale are served the base-locale page afterwards, since a missing translation falls
+	// back instead of failing.
 	DeleteFragmentTranslation(context.Context, *DeleteFragmentTranslationInput) (*DeleteFragmentTranslationOutput, error)
+	// DescribePath looks a page up by the path it is served at instead of by id, which is what a front-end
+	// has to work with when all it knows is the URL a visitor asked for. Otherwise it behaves like
+	// DescribeFragment, honouring the requested locale and its fallback.
 	DescribePath(context.Context, *DescribePathInput) (*DescribePathOutput, error)
+	// ListParents returns the pages lying above a path — the ancestors of `/overview/rules/scoring`, not the
+	// pages nested under it — which is what building a breadcrumb trail or a surrounding menu needs. Whole
+	// pages come back, so a path segment that has no page of its own cannot appear among them.
 	ListParents(context.Context, *ListParentsInput) (*ListParentsOutput, error)
 }
 

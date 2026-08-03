@@ -29,11 +29,28 @@ const (
 // PostTypeServiceClient is the client API for PostTypeService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// PostTypeService manages the categories a space files its posts under, news and articles for example.
+//
+// Types belong to the space instead of being platform-wide values, so each space defines the set it needs, and
+// a post carries at most one of them — which is what lets its post listing be filtered or split by category. A
+// type's display name can be given per locale, so the category still reads correctly in every language the
+// space publishes in.
 type PostTypeServiceClient interface {
+	// DescribePostType returns a single type, resolving its display name into a locale when the request asks for
+	// one instead of leaving the caller to pick from the per-locale names.
 	DescribePostType(ctx context.Context, in *DescribePostTypeInput, opts ...grpc.CallOption) (*DescribePostTypeOutput, error)
+	// ListPostTypes returns the categories a space has defined, which is what fills a category selector while a
+	// post is being written and the category filter over its post listing.
 	ListPostTypes(ctx context.Context, in *ListPostTypesInput, opts ...grpc.CallOption) (*ListPostTypesOutput, error)
+	// CreatePostType defines one more category for the space and returns the id by which a post refers to it.
 	CreatePostType(ctx context.Context, in *CreatePostTypeInput, opts ...grpc.CallOption) (*CreatePostTypeOutput, error)
+	// UpdatePostType changes a type; unlike most update calls in this API there is no patch mask, so the type is
+	// written as a whole rather than field by field. Posts stay filed under it either way, since they refer to its
+	// id and not to its name.
 	UpdatePostType(ctx context.Context, in *UpdatePostTypeInput, opts ...grpc.CallOption) (*UpdatePostTypeOutput, error)
+	// DeletePostType takes a category out of the space altogether. A category which should merely stop being
+	// offered can be hidden through UpdatePostType instead.
 	DeletePostType(ctx context.Context, in *DeletePostTypeInput, opts ...grpc.CallOption) (*DeletePostTypeOutput, error)
 }
 
@@ -98,11 +115,28 @@ func (c *postTypeServiceClient) DeletePostType(ctx context.Context, in *DeletePo
 // PostTypeServiceServer is the server API for PostTypeService service.
 // All implementations should embed UnimplementedPostTypeServiceServer
 // for forward compatibility.
+//
+// PostTypeService manages the categories a space files its posts under, news and articles for example.
+//
+// Types belong to the space instead of being platform-wide values, so each space defines the set it needs, and
+// a post carries at most one of them — which is what lets its post listing be filtered or split by category. A
+// type's display name can be given per locale, so the category still reads correctly in every language the
+// space publishes in.
 type PostTypeServiceServer interface {
+	// DescribePostType returns a single type, resolving its display name into a locale when the request asks for
+	// one instead of leaving the caller to pick from the per-locale names.
 	DescribePostType(context.Context, *DescribePostTypeInput) (*DescribePostTypeOutput, error)
+	// ListPostTypes returns the categories a space has defined, which is what fills a category selector while a
+	// post is being written and the category filter over its post listing.
 	ListPostTypes(context.Context, *ListPostTypesInput) (*ListPostTypesOutput, error)
+	// CreatePostType defines one more category for the space and returns the id by which a post refers to it.
 	CreatePostType(context.Context, *CreatePostTypeInput) (*CreatePostTypeOutput, error)
+	// UpdatePostType changes a type; unlike most update calls in this API there is no patch mask, so the type is
+	// written as a whole rather than field by field. Posts stay filed under it either way, since they refer to its
+	// id and not to its name.
 	UpdatePostType(context.Context, *UpdatePostTypeInput) (*UpdatePostTypeOutput, error)
+	// DeletePostType takes a category out of the space altogether. A category which should merely stop being
+	// offered can be hidden through UpdatePostType instead.
 	DeletePostType(context.Context, *DeletePostTypeInput) (*DeletePostTypeOutput, error)
 }
 

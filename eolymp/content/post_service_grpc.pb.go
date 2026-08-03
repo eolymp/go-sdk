@@ -39,21 +39,73 @@ const (
 // PostServiceClient is the client API for PostService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// PostService manages the posts of a space: dated, authored entries — news, articles, other information —
+// which appear in the space's own post listing.
+//
+// A post is addressed by id and carries an author, a type, labels, an image and rich content, Markdown or
+// LaTeX with a parsed tree alongside, which reads return only when asked for: as the raw value, as the tree,
+// or as a short rendered excerpt meant for listings. It is not a page — a page (ContentService) is addressed
+// by a path and takes its place in the site structure, while a post stands on its own in the listing — and it
+// is not a contest announcement, which is a separate feature (eolymp.judge.AnnouncementService). Whether
+// readers see a post depends on three independent things: whether the author still keeps it as a draft,
+// whether it has been published, and how moderation ruled on it; the post's public flag reports the
+// combination and cannot be written directly. Comments on a post belong to eolymp.discussion, which is also
+// where the space-wide policy deciding when posts are moderated is configured.
 type PostServiceClient interface {
+	// DescribePost returns a single post by id. A locale can be given to read the post in that language rather
+	// than the one it was written in, and content is left out unless the request asks for it.
 	DescribePost(ctx context.Context, in *DescribePostInput, opts ...grpc.CallOption) (*DescribePostOutput, error)
+	// ListPosts returns the posts of a space, the call behind a feed page or the console's post table. Asking
+	// for the rendered excerpt here saves describing every post separately just to render the listing.
 	ListPosts(ctx context.Context, in *ListPostsInput, opts ...grpc.CallOption) (*ListPostsOutput, error)
+	// CreatePost stores a new post and returns its id. There is no title to set: the title and the image shown
+	// for the post are derived from its content. Making the post visible is not part of this call, see
+	// PublishPost.
 	CreatePost(ctx context.Context, in *CreatePostInput, opts ...grpc.CallOption) (*CreatePostOutput, error)
+	// UpdatePost writes new values into a post, and is also how a post is kept as a draft, featured on the home
+	// page or pinned on top of the listing. Fields outside the patch mask keep the values they already have. The
+	// title and the image still cannot be set: they follow the content, so editing the content changes them.
 	UpdatePost(ctx context.Context, in *UpdatePostInput, opts ...grpc.CallOption) (*UpdatePostOutput, error)
+	// PublishPost is the transition which sends a post out, recording when that happened, rather than a flag on
+	// the post that UpdatePost could write. Whether readers then see it still depends on the draft flag and on
+	// moderation.
 	PublishPost(ctx context.Context, in *PublishPostInput, opts ...grpc.CallOption) (*PublishPostOutput, error)
+	// UnpublishPost is the reverse transition: it takes a post back out without destroying it, so it can be
+	// corrected and sent out again. A reason for the withdrawal can be attached to the call.
 	UnpublishPost(ctx context.Context, in *UnpublishPostInput, opts ...grpc.CallOption) (*UnpublishPostOutput, error)
+	// ModeratePost records a moderator's outcome for a post, together with a reason when the post is turned down.
+	// Whether a post has to pass moderation before it appears, only afterwards, or not at all, is a space-wide
+	// setting of eolymp.discussion.ConfigurationService rather than anything carried by the post.
 	ModeratePost(ctx context.Context, in *ModeratePostInput, opts ...grpc.CallOption) (*ModeratePostOutput, error)
+	// DeletePost removes a post for good. Reach for UnpublishPost instead whenever the post only has to stop
+	// being shown, since that transition can be undone and this call cannot.
 	DeletePost(ctx context.Context, in *DeletePostInput, opts ...grpc.CallOption) (*DeletePostOutput, error)
+	// VotePost casts the calling user's own vote, up or down, on a post and returns the post's new total. This is
+	// a reader action rather than an editorial one: a caller votes only for themselves, reads back their own vote
+	// as an extra on the post, and sees everyone's votes summed into an ordinary field.
 	VotePost(ctx context.Context, in *VotePostInput, opts ...grpc.CallOption) (*VotePostOutput, error)
+	// TranslatePost hands a post to automatic translation for several locales at once and returns a job id: the
+	// work runs in the background, so the translations turn up some time after the call returns and are found by
+	// listing them again. It can additionally take in every translation an earlier automatic run produced, to
+	// refresh them, and can be told to overwrite translations a person wrote, which it otherwise leaves alone.
 	TranslatePost(ctx context.Context, in *TranslatePostInput, opts ...grpc.CallOption) (*TranslatePostOutput, error)
+	// DescribePostTranslation returns one translation addressed by its own id rather than by locale, and accepts
+	// the same content extras as reading the post itself.
 	DescribePostTranslation(ctx context.Context, in *DescribePostTranslationInput, opts ...grpc.CallOption) (*DescribePostTranslationOutput, error)
+	// ListPostTranslations reports which languages a post exists in besides the one it was written in, and is how
+	// to find a translation's id before updating or deleting it.
 	ListPostTranslations(ctx context.Context, in *ListPostTranslationsInput, opts ...grpc.CallOption) (*ListPostTranslationsOutput, error)
+	// CreatePostTranslation adds the post's content in one further language and returns the translation's id;
+	// each locale is a translation of its own, added by calling this again, not by patching the post. A
+	// translation also carries the flag which separates machine output from human work, the one TranslatePost
+	// consults before refreshing or overwriting anything.
 	CreatePostTranslation(ctx context.Context, in *CreatePostTranslationInput, opts ...grpc.CallOption) (*CreatePostTranslationOutput, error)
+	// UpdatePostTranslation writes new values into one translation, leaving the post's own content and its other
+	// languages alone. Fields outside the patch mask keep the values they already have.
 	UpdatePostTranslation(ctx context.Context, in *UpdatePostTranslationInput, opts ...grpc.CallOption) (*UpdatePostTranslationOutput, error)
+	// DeletePostTranslation drops a single language while the post and its remaining languages stay as they are.
+	// Removing them all still leaves the post readable, in the language it was written in.
 	DeletePostTranslation(ctx context.Context, in *DeletePostTranslationInput, opts ...grpc.CallOption) (*DeletePostTranslationOutput, error)
 }
 
@@ -218,21 +270,73 @@ func (c *postServiceClient) DeletePostTranslation(ctx context.Context, in *Delet
 // PostServiceServer is the server API for PostService service.
 // All implementations should embed UnimplementedPostServiceServer
 // for forward compatibility.
+//
+// PostService manages the posts of a space: dated, authored entries — news, articles, other information —
+// which appear in the space's own post listing.
+//
+// A post is addressed by id and carries an author, a type, labels, an image and rich content, Markdown or
+// LaTeX with a parsed tree alongside, which reads return only when asked for: as the raw value, as the tree,
+// or as a short rendered excerpt meant for listings. It is not a page — a page (ContentService) is addressed
+// by a path and takes its place in the site structure, while a post stands on its own in the listing — and it
+// is not a contest announcement, which is a separate feature (eolymp.judge.AnnouncementService). Whether
+// readers see a post depends on three independent things: whether the author still keeps it as a draft,
+// whether it has been published, and how moderation ruled on it; the post's public flag reports the
+// combination and cannot be written directly. Comments on a post belong to eolymp.discussion, which is also
+// where the space-wide policy deciding when posts are moderated is configured.
 type PostServiceServer interface {
+	// DescribePost returns a single post by id. A locale can be given to read the post in that language rather
+	// than the one it was written in, and content is left out unless the request asks for it.
 	DescribePost(context.Context, *DescribePostInput) (*DescribePostOutput, error)
+	// ListPosts returns the posts of a space, the call behind a feed page or the console's post table. Asking
+	// for the rendered excerpt here saves describing every post separately just to render the listing.
 	ListPosts(context.Context, *ListPostsInput) (*ListPostsOutput, error)
+	// CreatePost stores a new post and returns its id. There is no title to set: the title and the image shown
+	// for the post are derived from its content. Making the post visible is not part of this call, see
+	// PublishPost.
 	CreatePost(context.Context, *CreatePostInput) (*CreatePostOutput, error)
+	// UpdatePost writes new values into a post, and is also how a post is kept as a draft, featured on the home
+	// page or pinned on top of the listing. Fields outside the patch mask keep the values they already have. The
+	// title and the image still cannot be set: they follow the content, so editing the content changes them.
 	UpdatePost(context.Context, *UpdatePostInput) (*UpdatePostOutput, error)
+	// PublishPost is the transition which sends a post out, recording when that happened, rather than a flag on
+	// the post that UpdatePost could write. Whether readers then see it still depends on the draft flag and on
+	// moderation.
 	PublishPost(context.Context, *PublishPostInput) (*PublishPostOutput, error)
+	// UnpublishPost is the reverse transition: it takes a post back out without destroying it, so it can be
+	// corrected and sent out again. A reason for the withdrawal can be attached to the call.
 	UnpublishPost(context.Context, *UnpublishPostInput) (*UnpublishPostOutput, error)
+	// ModeratePost records a moderator's outcome for a post, together with a reason when the post is turned down.
+	// Whether a post has to pass moderation before it appears, only afterwards, or not at all, is a space-wide
+	// setting of eolymp.discussion.ConfigurationService rather than anything carried by the post.
 	ModeratePost(context.Context, *ModeratePostInput) (*ModeratePostOutput, error)
+	// DeletePost removes a post for good. Reach for UnpublishPost instead whenever the post only has to stop
+	// being shown, since that transition can be undone and this call cannot.
 	DeletePost(context.Context, *DeletePostInput) (*DeletePostOutput, error)
+	// VotePost casts the calling user's own vote, up or down, on a post and returns the post's new total. This is
+	// a reader action rather than an editorial one: a caller votes only for themselves, reads back their own vote
+	// as an extra on the post, and sees everyone's votes summed into an ordinary field.
 	VotePost(context.Context, *VotePostInput) (*VotePostOutput, error)
+	// TranslatePost hands a post to automatic translation for several locales at once and returns a job id: the
+	// work runs in the background, so the translations turn up some time after the call returns and are found by
+	// listing them again. It can additionally take in every translation an earlier automatic run produced, to
+	// refresh them, and can be told to overwrite translations a person wrote, which it otherwise leaves alone.
 	TranslatePost(context.Context, *TranslatePostInput) (*TranslatePostOutput, error)
+	// DescribePostTranslation returns one translation addressed by its own id rather than by locale, and accepts
+	// the same content extras as reading the post itself.
 	DescribePostTranslation(context.Context, *DescribePostTranslationInput) (*DescribePostTranslationOutput, error)
+	// ListPostTranslations reports which languages a post exists in besides the one it was written in, and is how
+	// to find a translation's id before updating or deleting it.
 	ListPostTranslations(context.Context, *ListPostTranslationsInput) (*ListPostTranslationsOutput, error)
+	// CreatePostTranslation adds the post's content in one further language and returns the translation's id;
+	// each locale is a translation of its own, added by calling this again, not by patching the post. A
+	// translation also carries the flag which separates machine output from human work, the one TranslatePost
+	// consults before refreshing or overwriting anything.
 	CreatePostTranslation(context.Context, *CreatePostTranslationInput) (*CreatePostTranslationOutput, error)
+	// UpdatePostTranslation writes new values into one translation, leaving the post's own content and its other
+	// languages alone. Fields outside the patch mask keep the values they already have.
 	UpdatePostTranslation(context.Context, *UpdatePostTranslationInput) (*UpdatePostTranslationOutput, error)
+	// DeletePostTranslation drops a single language while the post and its remaining languages stay as they are.
+	// Removing them all still leaves the post readable, in the language it was written in.
 	DeletePostTranslation(context.Context, *DeletePostTranslationInput) (*DeletePostTranslationOutput, error)
 }
 
