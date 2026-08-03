@@ -76,11 +76,10 @@ type AccountServiceClient interface {
 	// to at most 300 pixels a side, and a request over the endpoint's 2 MiB limit is rejected. It is refused
 	// when the space's identity configuration does not let members edit their own basic details.
 	UploadPicture(ctx context.Context, in *UploadPictureInput, opts ...grpc.CallOption) (*UploadPictureOutput, error)
-	// DeleteAccount asks for the caller's own account to be closed, and what that achieves depends on which
-	// implementation answers: an Eolymp account is scheduled for deletion in seven days, is refused sign in
-	// from that moment, and is told so by email. A space member is only marked, and the mark currently has no
-	// further effect — the member keeps their access — so do not rely on this to remove someone from a space.
-	// An administrator clears the mark with MemberService.RestoreMember.
+	// DeleteAccount closes the caller's own account, and does so only for an Eolymp account: it is scheduled
+	// for deletion in seven days, refused sign in, and emailed a notice, and signing in again cancels it.
+	// Against a space it is refused — a space membership is ended by an administrator through
+	// MemberService.DeleteMember.
 	DeleteAccount(ctx context.Context, in *DeleteAccountInput, opts ...grpc.CallOption) (*DeleteAccountOutput, error)
 	// ResendVerification sends the caller a new email verification code, for the case where the first message
 	// never arrived, and the code it replaces stops working. It does nothing when the address is already
@@ -275,11 +274,10 @@ type AccountServiceServer interface {
 	// to at most 300 pixels a side, and a request over the endpoint's 2 MiB limit is rejected. It is refused
 	// when the space's identity configuration does not let members edit their own basic details.
 	UploadPicture(context.Context, *UploadPictureInput) (*UploadPictureOutput, error)
-	// DeleteAccount asks for the caller's own account to be closed, and what that achieves depends on which
-	// implementation answers: an Eolymp account is scheduled for deletion in seven days, is refused sign in
-	// from that moment, and is told so by email. A space member is only marked, and the mark currently has no
-	// further effect — the member keeps their access — so do not rely on this to remove someone from a space.
-	// An administrator clears the mark with MemberService.RestoreMember.
+	// DeleteAccount closes the caller's own account, and does so only for an Eolymp account: it is scheduled
+	// for deletion in seven days, refused sign in, and emailed a notice, and signing in again cancels it.
+	// Against a space it is refused — a space membership is ended by an administrator through
+	// MemberService.DeleteMember.
 	DeleteAccount(context.Context, *DeleteAccountInput) (*DeleteAccountOutput, error)
 	// ResendVerification sends the caller a new email verification code, for the case where the first message
 	// never arrived, and the code it replaces stops working. It does nothing when the address is already

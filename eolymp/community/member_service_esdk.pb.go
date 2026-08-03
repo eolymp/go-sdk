@@ -159,22 +159,6 @@ func (s *MemberServiceService) DeleteMember(ctx context.Context, in *DeleteMembe
 	return out, nil
 }
 
-func (s *MemberServiceService) RestoreMember(ctx context.Context, in *RestoreMemberInput) (*RestoreMemberOutput, error) {
-	out := &RestoreMemberOutput{}
-	path := "/members/" + url.PathEscape(in.GetMemberId()) + "/restore"
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.MemberId = ""
-	}
-
-	if err := s.do(ctx, "POST", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
 func (s *MemberServiceService) DescribeMember(ctx context.Context, in *DescribeMemberInput) (*DescribeMemberOutput, error) {
 	out := &DescribeMemberOutput{}
 	path := "/members/" + url.PathEscape(in.GetMemberId())

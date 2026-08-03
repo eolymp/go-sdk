@@ -213,9 +213,6 @@ func RegisterMemberServiceHttpHandlers(router *mux.Router, prefix string, cli Me
 	router.Handle(prefix+"/members/{member_id}", _MemberService_DeleteMember_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.community.MemberService.DeleteMember")
-	router.Handle(prefix+"/members/{member_id}/restore", _MemberService_RestoreMember_Rule0(cli)).
-		Methods("POST").
-		Name("eolymp.community.MemberService.RestoreMember")
 	router.Handle(prefix+"/members/{member_id}", _MemberService_DescribeMember_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.community.MemberService.DescribeMember")
@@ -322,30 +319,6 @@ func _MemberService_DeleteMember_Rule0(cli MemberServiceClient) http.Handler {
 		var header, trailer metadata.MD
 
 		out, err := cli.DeleteMember(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
-		if err != nil {
-			_MemberService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_MemberService_HTTPWriteResponse(w, out, header, trailer)
-	})
-}
-
-func _MemberService_RestoreMember_Rule0(cli MemberServiceClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &RestoreMemberInput{}
-
-		if err := _MemberService_HTTPReadRequestBody(r, in, 1048576); err != nil {
-			_MemberService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.MemberId = vars["member_id"]
-
-		var header, trailer metadata.MD
-
-		out, err := cli.RestoreMember(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_MemberService_HTTPWriteErrorResponse(w, err)
 			return

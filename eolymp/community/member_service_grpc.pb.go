@@ -23,7 +23,6 @@ const (
 	MemberService_UpdateMember_FullMethodName           = "/eolymp.community.MemberService/UpdateMember"
 	MemberService_UpdateMemberPicture_FullMethodName    = "/eolymp.community.MemberService/UpdateMemberPicture"
 	MemberService_DeleteMember_FullMethodName           = "/eolymp.community.MemberService/DeleteMember"
-	MemberService_RestoreMember_FullMethodName          = "/eolymp.community.MemberService/RestoreMember"
 	MemberService_DescribeMember_FullMethodName         = "/eolymp.community.MemberService/DescribeMember"
 	MemberService_ListMembers_FullMethodName            = "/eolymp.community.MemberService/ListMembers"
 	MemberService_AssignMember_FullMethodName           = "/eolymp.community.MemberService/AssignMember"
@@ -68,16 +67,11 @@ type MemberServiceClient interface {
 	// discarding the previous one unless that was an external URL. Only PNG and JPEG are accepted; the image
 	// is cropped to the square described by the request and stored downscaled to at most 300 pixels a side.
 	UpdateMemberPicture(ctx context.Context, in *UpdateMemberPictureInput, opts ...grpc.CallOption) (*UpdateMemberPictureOutput, error)
-	// DeleteMember removes the record from the space's user database, ending the membership. Nothing happens
-	// to the person's Eolymp account or to their membership of other spaces; where identity comes from an
-	// external provider, only the membership in this space ends. Deleting a member that is not there succeeds
-	// quietly.
+	// DeleteMember removes the record from the space's user database, ending the membership; it cannot be
+	// undone. Nothing happens to the person's Eolymp account or to their membership of other spaces; where
+	// identity comes from an external provider, only the membership in this space ends. Deleting a member that
+	// is not there succeeds quietly.
 	DeleteMember(ctx context.Context, in *DeleteMemberInput, opts ...grpc.CallOption) (*DeleteMemberOutput, error)
-	// RestoreMember clears the mark left when a member asked to close their own account through
-	// AccountService. Since that mark does not currently withdraw anything from the member, this restores
-	// nothing beyond their intent. A record removed by DeleteMember is gone for good and cannot be brought
-	// back this way.
-	RestoreMember(ctx context.Context, in *RestoreMemberInput, opts ...grpc.CallOption) (*RestoreMemberOutput, error)
 	// DescribeMember returns one member by id. The additional data covered by the read extras is left out
 	// unless the request asks for it, and the extras carrying private information are dropped for a caller
 	// not entitled to them rather than refused. A member the caller is not allowed to see is reported as not
@@ -154,16 +148,6 @@ func (c *memberServiceClient) DeleteMember(ctx context.Context, in *DeleteMember
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DeleteMemberOutput)
 	err := c.cc.Invoke(ctx, MemberService_DeleteMember_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *memberServiceClient) RestoreMember(ctx context.Context, in *RestoreMemberInput, opts ...grpc.CallOption) (*RestoreMemberOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(RestoreMemberOutput)
-	err := c.cc.Invoke(ctx, MemberService_RestoreMember_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -275,16 +259,11 @@ type MemberServiceServer interface {
 	// discarding the previous one unless that was an external URL. Only PNG and JPEG are accepted; the image
 	// is cropped to the square described by the request and stored downscaled to at most 300 pixels a side.
 	UpdateMemberPicture(context.Context, *UpdateMemberPictureInput) (*UpdateMemberPictureOutput, error)
-	// DeleteMember removes the record from the space's user database, ending the membership. Nothing happens
-	// to the person's Eolymp account or to their membership of other spaces; where identity comes from an
-	// external provider, only the membership in this space ends. Deleting a member that is not there succeeds
-	// quietly.
+	// DeleteMember removes the record from the space's user database, ending the membership; it cannot be
+	// undone. Nothing happens to the person's Eolymp account or to their membership of other spaces; where
+	// identity comes from an external provider, only the membership in this space ends. Deleting a member that
+	// is not there succeeds quietly.
 	DeleteMember(context.Context, *DeleteMemberInput) (*DeleteMemberOutput, error)
-	// RestoreMember clears the mark left when a member asked to close their own account through
-	// AccountService. Since that mark does not currently withdraw anything from the member, this restores
-	// nothing beyond their intent. A record removed by DeleteMember is gone for good and cannot be brought
-	// back this way.
-	RestoreMember(context.Context, *RestoreMemberInput) (*RestoreMemberOutput, error)
 	// DescribeMember returns one member by id. The additional data covered by the read extras is left out
 	// unless the request asks for it, and the extras carrying private information are dropped for a caller
 	// not entitled to them rather than refused. A member the caller is not allowed to see is reported as not
@@ -337,9 +316,6 @@ func (UnimplementedMemberServiceServer) UpdateMemberPicture(context.Context, *Up
 }
 func (UnimplementedMemberServiceServer) DeleteMember(context.Context, *DeleteMemberInput) (*DeleteMemberOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method DeleteMember not implemented")
-}
-func (UnimplementedMemberServiceServer) RestoreMember(context.Context, *RestoreMemberInput) (*RestoreMemberOutput, error) {
-	return nil, status.Error(codes.Unimplemented, "method RestoreMember not implemented")
 }
 func (UnimplementedMemberServiceServer) DescribeMember(context.Context, *DescribeMemberInput) (*DescribeMemberOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method DescribeMember not implemented")
@@ -447,24 +423,6 @@ func _MemberService_DeleteMember_Handler(srv interface{}, ctx context.Context, d
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(MemberServiceServer).DeleteMember(ctx, req.(*DeleteMemberInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _MemberService_RestoreMember_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RestoreMemberInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(MemberServiceServer).RestoreMember(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: MemberService_RestoreMember_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MemberServiceServer).RestoreMember(ctx, req.(*RestoreMemberInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -592,10 +550,6 @@ var MemberService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteMember",
 			Handler:    _MemberService_DeleteMember_Handler,
-		},
-		{
-			MethodName: "RestoreMember",
-			Handler:    _MemberService_RestoreMember_Handler,
 		},
 		{
 			MethodName: "DescribeMember",
