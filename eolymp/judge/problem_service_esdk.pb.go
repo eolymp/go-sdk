@@ -111,22 +111,6 @@ func (s *ProblemServiceService) ImportProblem(ctx context.Context, in *ImportPro
 	return out, nil
 }
 
-func (s *ProblemServiceService) SyncProblem(ctx context.Context, in *SyncProblemInput) (*SyncProblemOutput, error) {
-	out := &SyncProblemOutput{}
-	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/sync"
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.ProblemId = ""
-	}
-
-	if err := s.do(ctx, "POST", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
 func (s *ProblemServiceService) UpdateProblem(ctx context.Context, in *UpdateProblemInput) (*UpdateProblemOutput, error) {
 	out := &UpdateProblemOutput{}
 	path := "/problems/" + url.PathEscape(in.GetProblemId())

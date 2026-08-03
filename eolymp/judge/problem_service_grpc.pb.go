@@ -20,7 +20,6 @@ const _ = grpc.SupportPackageIsVersion9
 
 const (
 	ProblemService_ImportProblem_FullMethodName        = "/eolymp.judge.ProblemService/ImportProblem"
-	ProblemService_SyncProblem_FullMethodName          = "/eolymp.judge.ProblemService/SyncProblem"
 	ProblemService_UpdateProblem_FullMethodName        = "/eolymp.judge.ProblemService/UpdateProblem"
 	ProblemService_ListProblems_FullMethodName         = "/eolymp.judge.ProblemService/ListProblems"
 	ProblemService_DescribeProblem_FullMethodName      = "/eolymp.judge.ProblemService/DescribeProblem"
@@ -55,10 +54,6 @@ type ProblemServiceClient interface {
 	// problem untouched, so it may be added again here or to any other contest. The call is rejected when the
 	// space's quota of problems per contest is exhausted, or once the contest has been finalized.
 	ImportProblem(ctx context.Context, in *ImportProblemInput, opts ...grpc.CallOption) (*ImportProblemOutput, error)
-	// SyncProblem is kept for backwards compatibility and does nothing. A contest problem holds no copy of
-	// the archive problem's statements, tests, attachments or templates, nor of its limits and score — all
-	// of that is read from the archive problem on every request, so there is never anything to pull in.
-	SyncProblem(ctx context.Context, in *SyncProblemInput, opts ...grpc.CallOption) (*SyncProblemOutput, error)
 	// UpdateProblem writes the few settings the contest keeps for a problem of its own; anything else about
 	// the problem is edited in the archive instead. Reordering happens here too and there is no separate
 	// move method: writing an index moves the problem to that position and the problems it passes shift to
@@ -129,16 +124,6 @@ func (c *problemServiceClient) ImportProblem(ctx context.Context, in *ImportProb
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ImportProblemOutput)
 	err := c.cc.Invoke(ctx, ProblemService_ImportProblem_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *problemServiceClient) SyncProblem(ctx context.Context, in *SyncProblemInput, opts ...grpc.CallOption) (*SyncProblemOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(SyncProblemOutput)
-	err := c.cc.Invoke(ctx, ProblemService_SyncProblem_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -285,10 +270,6 @@ type ProblemServiceServer interface {
 	// problem untouched, so it may be added again here or to any other contest. The call is rejected when the
 	// space's quota of problems per contest is exhausted, or once the contest has been finalized.
 	ImportProblem(context.Context, *ImportProblemInput) (*ImportProblemOutput, error)
-	// SyncProblem is kept for backwards compatibility and does nothing. A contest problem holds no copy of
-	// the archive problem's statements, tests, attachments or templates, nor of its limits and score — all
-	// of that is read from the archive problem on every request, so there is never anything to pull in.
-	SyncProblem(context.Context, *SyncProblemInput) (*SyncProblemOutput, error)
 	// UpdateProblem writes the few settings the contest keeps for a problem of its own; anything else about
 	// the problem is edited in the archive instead. Reordering happens here too and there is no separate
 	// move method: writing an index moves the problem to that position and the problems it passes shift to
@@ -356,9 +337,6 @@ type UnimplementedProblemServiceServer struct{}
 
 func (UnimplementedProblemServiceServer) ImportProblem(context.Context, *ImportProblemInput) (*ImportProblemOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method ImportProblem not implemented")
-}
-func (UnimplementedProblemServiceServer) SyncProblem(context.Context, *SyncProblemInput) (*SyncProblemOutput, error) {
-	return nil, status.Error(codes.Unimplemented, "method SyncProblem not implemented")
 }
 func (UnimplementedProblemServiceServer) UpdateProblem(context.Context, *UpdateProblemInput) (*UpdateProblemOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method UpdateProblem not implemented")
@@ -430,24 +408,6 @@ func _ProblemService_ImportProblem_Handler(srv interface{}, ctx context.Context,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ProblemServiceServer).ImportProblem(ctx, req.(*ImportProblemInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ProblemService_SyncProblem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SyncProblemInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ProblemServiceServer).SyncProblem(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ProblemService_SyncProblem_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProblemServiceServer).SyncProblem(ctx, req.(*SyncProblemInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -678,10 +638,6 @@ var ProblemService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ImportProblem",
 			Handler:    _ProblemService_ImportProblem_Handler,
-		},
-		{
-			MethodName: "SyncProblem",
-			Handler:    _ProblemService_SyncProblem_Handler,
 		},
 		{
 			MethodName: "UpdateProblem",

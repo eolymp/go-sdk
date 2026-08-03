@@ -73,7 +73,7 @@ func (x UpdateProblemInput_Patch) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use UpdateProblemInput_Patch.Descriptor instead.
 func (UpdateProblemInput_Patch) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_judge_problem_service_proto_rawDescGZIP(), []int{4, 0}
+	return file_eolymp_judge_problem_service_proto_rawDescGZIP(), []int{2, 0}
 }
 
 type ImportProblemInput struct {
@@ -208,86 +208,6 @@ func (x *ImportProblemOutput) GetProblemIds() []string {
 	return nil
 }
 
-type SyncProblemInput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	ProblemId     string                 `protobuf:"bytes,2,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *SyncProblemInput) Reset() {
-	*x = SyncProblemInput{}
-	mi := &file_eolymp_judge_problem_service_proto_msgTypes[2]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *SyncProblemInput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*SyncProblemInput) ProtoMessage() {}
-
-func (x *SyncProblemInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_problem_service_proto_msgTypes[2]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use SyncProblemInput.ProtoReflect.Descriptor instead.
-func (*SyncProblemInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_problem_service_proto_rawDescGZIP(), []int{2}
-}
-
-func (x *SyncProblemInput) GetProblemId() string {
-	if x != nil {
-		return x.ProblemId
-	}
-	return ""
-}
-
-type SyncProblemOutput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *SyncProblemOutput) Reset() {
-	*x = SyncProblemOutput{}
-	mi := &file_eolymp_judge_problem_service_proto_msgTypes[3]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *SyncProblemOutput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*SyncProblemOutput) ProtoMessage() {}
-
-func (x *SyncProblemOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_problem_service_proto_msgTypes[3]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use SyncProblemOutput.ProtoReflect.Descriptor instead.
-func (*SyncProblemOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_problem_service_proto_rawDescGZIP(), []int{3}
-}
-
 type UpdateProblemInput struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Patch request to update participant partially (all fields are updated if not specified)
@@ -300,7 +220,7 @@ type UpdateProblemInput struct {
 
 func (x *UpdateProblemInput) Reset() {
 	*x = UpdateProblemInput{}
-	mi := &file_eolymp_judge_problem_service_proto_msgTypes[4]
+	mi := &file_eolymp_judge_problem_service_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -312,7 +232,7 @@ func (x *UpdateProblemInput) String() string {
 func (*UpdateProblemInput) ProtoMessage() {}
 
 func (x *UpdateProblemInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_problem_service_proto_msgTypes[4]
+	mi := &file_eolymp_judge_problem_service_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -325,7 +245,7 @@ func (x *UpdateProblemInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateProblemInput.ProtoReflect.Descriptor instead.
 func (*UpdateProblemInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_problem_service_proto_rawDescGZIP(), []int{4}
+	return file_eolymp_judge_problem_service_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *UpdateProblemInput) GetPatch() []UpdateProblemInput_Patch {
@@ -357,7 +277,7 @@ type UpdateProblemOutput struct {
 
 func (x *UpdateProblemOutput) Reset() {
 	*x = UpdateProblemOutput{}
-	mi := &file_eolymp_judge_problem_service_proto_msgTypes[5]
+	mi := &file_eolymp_judge_problem_service_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -369,7 +289,7 @@ func (x *UpdateProblemOutput) String() string {
 func (*UpdateProblemOutput) ProtoMessage() {}
 
 func (x *UpdateProblemOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_problem_service_proto_msgTypes[5]
+	mi := &file_eolymp_judge_problem_service_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -382,7 +302,7 @@ func (x *UpdateProblemOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateProblemOutput.ProtoReflect.Descriptor instead.
 func (*UpdateProblemOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_problem_service_proto_rawDescGZIP(), []int{5}
+	return file_eolymp_judge_problem_service_proto_rawDescGZIP(), []int{3}
 }
 
 type DeleteProblemInput struct {
@@ -394,7 +314,7 @@ type DeleteProblemInput struct {
 
 func (x *DeleteProblemInput) Reset() {
 	*x = DeleteProblemInput{}
-	mi := &file_eolymp_judge_problem_service_proto_msgTypes[6]
+	mi := &file_eolymp_judge_problem_service_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -406,7 +326,7 @@ func (x *DeleteProblemInput) String() string {
 func (*DeleteProblemInput) ProtoMessage() {}
 
 func (x *DeleteProblemInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_problem_service_proto_msgTypes[6]
+	mi := &file_eolymp_judge_problem_service_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -419,7 +339,7 @@ func (x *DeleteProblemInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteProblemInput.ProtoReflect.Descriptor instead.
 func (*DeleteProblemInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_problem_service_proto_rawDescGZIP(), []int{6}
+	return file_eolymp_judge_problem_service_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *DeleteProblemInput) GetProblemId() string {
@@ -437,7 +357,7 @@ type DeleteProblemOutput struct {
 
 func (x *DeleteProblemOutput) Reset() {
 	*x = DeleteProblemOutput{}
-	mi := &file_eolymp_judge_problem_service_proto_msgTypes[7]
+	mi := &file_eolymp_judge_problem_service_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -449,7 +369,7 @@ func (x *DeleteProblemOutput) String() string {
 func (*DeleteProblemOutput) ProtoMessage() {}
 
 func (x *DeleteProblemOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_problem_service_proto_msgTypes[7]
+	mi := &file_eolymp_judge_problem_service_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -462,7 +382,7 @@ func (x *DeleteProblemOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteProblemOutput.ProtoReflect.Descriptor instead.
 func (*DeleteProblemOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_problem_service_proto_rawDescGZIP(), []int{7}
+	return file_eolymp_judge_problem_service_proto_rawDescGZIP(), []int{5}
 }
 
 type ListProblemsInput struct {
@@ -477,7 +397,7 @@ type ListProblemsInput struct {
 
 func (x *ListProblemsInput) Reset() {
 	*x = ListProblemsInput{}
-	mi := &file_eolymp_judge_problem_service_proto_msgTypes[8]
+	mi := &file_eolymp_judge_problem_service_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -489,7 +409,7 @@ func (x *ListProblemsInput) String() string {
 func (*ListProblemsInput) ProtoMessage() {}
 
 func (x *ListProblemsInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_problem_service_proto_msgTypes[8]
+	mi := &file_eolymp_judge_problem_service_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -502,7 +422,7 @@ func (x *ListProblemsInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListProblemsInput.ProtoReflect.Descriptor instead.
 func (*ListProblemsInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_problem_service_proto_rawDescGZIP(), []int{8}
+	return file_eolymp_judge_problem_service_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *ListProblemsInput) GetOffset() int32 {
@@ -543,7 +463,7 @@ type ListProblemsOutput struct {
 
 func (x *ListProblemsOutput) Reset() {
 	*x = ListProblemsOutput{}
-	mi := &file_eolymp_judge_problem_service_proto_msgTypes[9]
+	mi := &file_eolymp_judge_problem_service_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -555,7 +475,7 @@ func (x *ListProblemsOutput) String() string {
 func (*ListProblemsOutput) ProtoMessage() {}
 
 func (x *ListProblemsOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_problem_service_proto_msgTypes[9]
+	mi := &file_eolymp_judge_problem_service_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -568,7 +488,7 @@ func (x *ListProblemsOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListProblemsOutput.ProtoReflect.Descriptor instead.
 func (*ListProblemsOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_problem_service_proto_rawDescGZIP(), []int{9}
+	return file_eolymp_judge_problem_service_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *ListProblemsOutput) GetTotal() int32 {
@@ -596,7 +516,7 @@ type DescribeProblemInput struct {
 
 func (x *DescribeProblemInput) Reset() {
 	*x = DescribeProblemInput{}
-	mi := &file_eolymp_judge_problem_service_proto_msgTypes[10]
+	mi := &file_eolymp_judge_problem_service_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -608,7 +528,7 @@ func (x *DescribeProblemInput) String() string {
 func (*DescribeProblemInput) ProtoMessage() {}
 
 func (x *DescribeProblemInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_problem_service_proto_msgTypes[10]
+	mi := &file_eolymp_judge_problem_service_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -621,7 +541,7 @@ func (x *DescribeProblemInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribeProblemInput.ProtoReflect.Descriptor instead.
 func (*DescribeProblemInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_problem_service_proto_rawDescGZIP(), []int{10}
+	return file_eolymp_judge_problem_service_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *DescribeProblemInput) GetProblemId() string {
@@ -654,7 +574,7 @@ type DescribeProblemOutput struct {
 
 func (x *DescribeProblemOutput) Reset() {
 	*x = DescribeProblemOutput{}
-	mi := &file_eolymp_judge_problem_service_proto_msgTypes[11]
+	mi := &file_eolymp_judge_problem_service_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -666,7 +586,7 @@ func (x *DescribeProblemOutput) String() string {
 func (*DescribeProblemOutput) ProtoMessage() {}
 
 func (x *DescribeProblemOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_problem_service_proto_msgTypes[11]
+	mi := &file_eolymp_judge_problem_service_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -679,7 +599,7 @@ func (x *DescribeProblemOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribeProblemOutput.ProtoReflect.Descriptor instead.
 func (*DescribeProblemOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_problem_service_proto_rawDescGZIP(), []int{11}
+	return file_eolymp_judge_problem_service_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *DescribeProblemOutput) GetProblem() *Problem {
@@ -699,7 +619,7 @@ type DescribeCodeTemplateInput struct {
 
 func (x *DescribeCodeTemplateInput) Reset() {
 	*x = DescribeCodeTemplateInput{}
-	mi := &file_eolymp_judge_problem_service_proto_msgTypes[12]
+	mi := &file_eolymp_judge_problem_service_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -711,7 +631,7 @@ func (x *DescribeCodeTemplateInput) String() string {
 func (*DescribeCodeTemplateInput) ProtoMessage() {}
 
 func (x *DescribeCodeTemplateInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_problem_service_proto_msgTypes[12]
+	mi := &file_eolymp_judge_problem_service_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -724,7 +644,7 @@ func (x *DescribeCodeTemplateInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribeCodeTemplateInput.ProtoReflect.Descriptor instead.
 func (*DescribeCodeTemplateInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_problem_service_proto_rawDescGZIP(), []int{12}
+	return file_eolymp_judge_problem_service_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *DescribeCodeTemplateInput) GetProblemId() string {
@@ -750,7 +670,7 @@ type DescribeCodeTemplateOutput struct {
 
 func (x *DescribeCodeTemplateOutput) Reset() {
 	*x = DescribeCodeTemplateOutput{}
-	mi := &file_eolymp_judge_problem_service_proto_msgTypes[13]
+	mi := &file_eolymp_judge_problem_service_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -762,7 +682,7 @@ func (x *DescribeCodeTemplateOutput) String() string {
 func (*DescribeCodeTemplateOutput) ProtoMessage() {}
 
 func (x *DescribeCodeTemplateOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_problem_service_proto_msgTypes[13]
+	mi := &file_eolymp_judge_problem_service_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -775,7 +695,7 @@ func (x *DescribeCodeTemplateOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribeCodeTemplateOutput.ProtoReflect.Descriptor instead.
 func (*DescribeCodeTemplateOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_problem_service_proto_rawDescGZIP(), []int{13}
+	return file_eolymp_judge_problem_service_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *DescribeCodeTemplateOutput) GetTemplate() *Template {
@@ -795,7 +715,7 @@ type LookupCodeTemplateInput struct {
 
 func (x *LookupCodeTemplateInput) Reset() {
 	*x = LookupCodeTemplateInput{}
-	mi := &file_eolymp_judge_problem_service_proto_msgTypes[14]
+	mi := &file_eolymp_judge_problem_service_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -807,7 +727,7 @@ func (x *LookupCodeTemplateInput) String() string {
 func (*LookupCodeTemplateInput) ProtoMessage() {}
 
 func (x *LookupCodeTemplateInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_problem_service_proto_msgTypes[14]
+	mi := &file_eolymp_judge_problem_service_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -820,7 +740,7 @@ func (x *LookupCodeTemplateInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LookupCodeTemplateInput.ProtoReflect.Descriptor instead.
 func (*LookupCodeTemplateInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_problem_service_proto_rawDescGZIP(), []int{14}
+	return file_eolymp_judge_problem_service_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *LookupCodeTemplateInput) GetProblemId() string {
@@ -846,7 +766,7 @@ type LookupCodeTemplateOutput struct {
 
 func (x *LookupCodeTemplateOutput) Reset() {
 	*x = LookupCodeTemplateOutput{}
-	mi := &file_eolymp_judge_problem_service_proto_msgTypes[15]
+	mi := &file_eolymp_judge_problem_service_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -858,7 +778,7 @@ func (x *LookupCodeTemplateOutput) String() string {
 func (*LookupCodeTemplateOutput) ProtoMessage() {}
 
 func (x *LookupCodeTemplateOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_problem_service_proto_msgTypes[15]
+	mi := &file_eolymp_judge_problem_service_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -871,7 +791,7 @@ func (x *LookupCodeTemplateOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LookupCodeTemplateOutput.ProtoReflect.Descriptor instead.
 func (*LookupCodeTemplateOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_problem_service_proto_rawDescGZIP(), []int{15}
+	return file_eolymp_judge_problem_service_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *LookupCodeTemplateOutput) GetTemplate() *Template {
@@ -890,7 +810,7 @@ type ListStatementsInput struct {
 
 func (x *ListStatementsInput) Reset() {
 	*x = ListStatementsInput{}
-	mi := &file_eolymp_judge_problem_service_proto_msgTypes[16]
+	mi := &file_eolymp_judge_problem_service_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -902,7 +822,7 @@ func (x *ListStatementsInput) String() string {
 func (*ListStatementsInput) ProtoMessage() {}
 
 func (x *ListStatementsInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_problem_service_proto_msgTypes[16]
+	mi := &file_eolymp_judge_problem_service_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -915,7 +835,7 @@ func (x *ListStatementsInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListStatementsInput.ProtoReflect.Descriptor instead.
 func (*ListStatementsInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_problem_service_proto_rawDescGZIP(), []int{16}
+	return file_eolymp_judge_problem_service_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *ListStatementsInput) GetProblemId() string {
@@ -935,7 +855,7 @@ type ListStatementsOutput struct {
 
 func (x *ListStatementsOutput) Reset() {
 	*x = ListStatementsOutput{}
-	mi := &file_eolymp_judge_problem_service_proto_msgTypes[17]
+	mi := &file_eolymp_judge_problem_service_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -947,7 +867,7 @@ func (x *ListStatementsOutput) String() string {
 func (*ListStatementsOutput) ProtoMessage() {}
 
 func (x *ListStatementsOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_problem_service_proto_msgTypes[17]
+	mi := &file_eolymp_judge_problem_service_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -960,7 +880,7 @@ func (x *ListStatementsOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListStatementsOutput.ProtoReflect.Descriptor instead.
 func (*ListStatementsOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_problem_service_proto_rawDescGZIP(), []int{17}
+	return file_eolymp_judge_problem_service_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *ListStatementsOutput) GetTotal() int32 {
@@ -988,7 +908,7 @@ type DescribeEditorialInput struct {
 
 func (x *DescribeEditorialInput) Reset() {
 	*x = DescribeEditorialInput{}
-	mi := &file_eolymp_judge_problem_service_proto_msgTypes[18]
+	mi := &file_eolymp_judge_problem_service_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1000,7 +920,7 @@ func (x *DescribeEditorialInput) String() string {
 func (*DescribeEditorialInput) ProtoMessage() {}
 
 func (x *DescribeEditorialInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_problem_service_proto_msgTypes[18]
+	mi := &file_eolymp_judge_problem_service_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1013,7 +933,7 @@ func (x *DescribeEditorialInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribeEditorialInput.ProtoReflect.Descriptor instead.
 func (*DescribeEditorialInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_problem_service_proto_rawDescGZIP(), []int{18}
+	return file_eolymp_judge_problem_service_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *DescribeEditorialInput) GetProblemId() string {
@@ -1046,7 +966,7 @@ type DescribeEditorialOutput struct {
 
 func (x *DescribeEditorialOutput) Reset() {
 	*x = DescribeEditorialOutput{}
-	mi := &file_eolymp_judge_problem_service_proto_msgTypes[19]
+	mi := &file_eolymp_judge_problem_service_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1058,7 +978,7 @@ func (x *DescribeEditorialOutput) String() string {
 func (*DescribeEditorialOutput) ProtoMessage() {}
 
 func (x *DescribeEditorialOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_problem_service_proto_msgTypes[19]
+	mi := &file_eolymp_judge_problem_service_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1071,7 +991,7 @@ func (x *DescribeEditorialOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribeEditorialOutput.ProtoReflect.Descriptor instead.
 func (*DescribeEditorialOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_problem_service_proto_rawDescGZIP(), []int{19}
+	return file_eolymp_judge_problem_service_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *DescribeEditorialOutput) GetEditorial() *atlas.Editorial {
@@ -1090,7 +1010,7 @@ type ListAttachmentsInput struct {
 
 func (x *ListAttachmentsInput) Reset() {
 	*x = ListAttachmentsInput{}
-	mi := &file_eolymp_judge_problem_service_proto_msgTypes[20]
+	mi := &file_eolymp_judge_problem_service_proto_msgTypes[18]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1102,7 +1022,7 @@ func (x *ListAttachmentsInput) String() string {
 func (*ListAttachmentsInput) ProtoMessage() {}
 
 func (x *ListAttachmentsInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_problem_service_proto_msgTypes[20]
+	mi := &file_eolymp_judge_problem_service_proto_msgTypes[18]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1115,7 +1035,7 @@ func (x *ListAttachmentsInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListAttachmentsInput.ProtoReflect.Descriptor instead.
 func (*ListAttachmentsInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_problem_service_proto_rawDescGZIP(), []int{20}
+	return file_eolymp_judge_problem_service_proto_rawDescGZIP(), []int{18}
 }
 
 func (x *ListAttachmentsInput) GetProblemId() string {
@@ -1135,7 +1055,7 @@ type ListAttachmentsOutput struct {
 
 func (x *ListAttachmentsOutput) Reset() {
 	*x = ListAttachmentsOutput{}
-	mi := &file_eolymp_judge_problem_service_proto_msgTypes[21]
+	mi := &file_eolymp_judge_problem_service_proto_msgTypes[19]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1147,7 +1067,7 @@ func (x *ListAttachmentsOutput) String() string {
 func (*ListAttachmentsOutput) ProtoMessage() {}
 
 func (x *ListAttachmentsOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_problem_service_proto_msgTypes[21]
+	mi := &file_eolymp_judge_problem_service_proto_msgTypes[19]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1160,7 +1080,7 @@ func (x *ListAttachmentsOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListAttachmentsOutput.ProtoReflect.Descriptor instead.
 func (*ListAttachmentsOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_problem_service_proto_rawDescGZIP(), []int{21}
+	return file_eolymp_judge_problem_service_proto_rawDescGZIP(), []int{19}
 }
 
 func (x *ListAttachmentsOutput) GetTotal() int32 {
@@ -1186,7 +1106,7 @@ type ListExamplesInput struct {
 
 func (x *ListExamplesInput) Reset() {
 	*x = ListExamplesInput{}
-	mi := &file_eolymp_judge_problem_service_proto_msgTypes[22]
+	mi := &file_eolymp_judge_problem_service_proto_msgTypes[20]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1198,7 +1118,7 @@ func (x *ListExamplesInput) String() string {
 func (*ListExamplesInput) ProtoMessage() {}
 
 func (x *ListExamplesInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_problem_service_proto_msgTypes[22]
+	mi := &file_eolymp_judge_problem_service_proto_msgTypes[20]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1211,7 +1131,7 @@ func (x *ListExamplesInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListExamplesInput.ProtoReflect.Descriptor instead.
 func (*ListExamplesInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_problem_service_proto_rawDescGZIP(), []int{22}
+	return file_eolymp_judge_problem_service_proto_rawDescGZIP(), []int{20}
 }
 
 func (x *ListExamplesInput) GetProblemId() string {
@@ -1231,7 +1151,7 @@ type ListExamplesOutput struct {
 
 func (x *ListExamplesOutput) Reset() {
 	*x = ListExamplesOutput{}
-	mi := &file_eolymp_judge_problem_service_proto_msgTypes[23]
+	mi := &file_eolymp_judge_problem_service_proto_msgTypes[21]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1243,7 +1163,7 @@ func (x *ListExamplesOutput) String() string {
 func (*ListExamplesOutput) ProtoMessage() {}
 
 func (x *ListExamplesOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_problem_service_proto_msgTypes[23]
+	mi := &file_eolymp_judge_problem_service_proto_msgTypes[21]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1256,7 +1176,7 @@ func (x *ListExamplesOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListExamplesOutput.ProtoReflect.Descriptor instead.
 func (*ListExamplesOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_problem_service_proto_rawDescGZIP(), []int{23}
+	return file_eolymp_judge_problem_service_proto_rawDescGZIP(), []int{21}
 }
 
 func (x *ListExamplesOutput) GetTotal() int32 {
@@ -1282,7 +1202,7 @@ type ListRuntimesInput struct {
 
 func (x *ListRuntimesInput) Reset() {
 	*x = ListRuntimesInput{}
-	mi := &file_eolymp_judge_problem_service_proto_msgTypes[24]
+	mi := &file_eolymp_judge_problem_service_proto_msgTypes[22]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1294,7 +1214,7 @@ func (x *ListRuntimesInput) String() string {
 func (*ListRuntimesInput) ProtoMessage() {}
 
 func (x *ListRuntimesInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_problem_service_proto_msgTypes[24]
+	mi := &file_eolymp_judge_problem_service_proto_msgTypes[22]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1307,7 +1227,7 @@ func (x *ListRuntimesInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListRuntimesInput.ProtoReflect.Descriptor instead.
 func (*ListRuntimesInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_problem_service_proto_rawDescGZIP(), []int{24}
+	return file_eolymp_judge_problem_service_proto_rawDescGZIP(), []int{22}
 }
 
 func (x *ListRuntimesInput) GetProblemId() string {
@@ -1327,7 +1247,7 @@ type ListRuntimesOutput struct {
 
 func (x *ListRuntimesOutput) Reset() {
 	*x = ListRuntimesOutput{}
-	mi := &file_eolymp_judge_problem_service_proto_msgTypes[25]
+	mi := &file_eolymp_judge_problem_service_proto_msgTypes[23]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1339,7 +1259,7 @@ func (x *ListRuntimesOutput) String() string {
 func (*ListRuntimesOutput) ProtoMessage() {}
 
 func (x *ListRuntimesOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_problem_service_proto_msgTypes[25]
+	mi := &file_eolymp_judge_problem_service_proto_msgTypes[23]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1352,7 +1272,7 @@ func (x *ListRuntimesOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListRuntimesOutput.ProtoReflect.Descriptor instead.
 func (*ListRuntimesOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_problem_service_proto_rawDescGZIP(), []int{25}
+	return file_eolymp_judge_problem_service_proto_rawDescGZIP(), []int{23}
 }
 
 func (x *ListRuntimesOutput) GetTotal() int32 {
@@ -1379,7 +1299,7 @@ type ExportProblemsInput struct {
 
 func (x *ExportProblemsInput) Reset() {
 	*x = ExportProblemsInput{}
-	mi := &file_eolymp_judge_problem_service_proto_msgTypes[26]
+	mi := &file_eolymp_judge_problem_service_proto_msgTypes[24]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1391,7 +1311,7 @@ func (x *ExportProblemsInput) String() string {
 func (*ExportProblemsInput) ProtoMessage() {}
 
 func (x *ExportProblemsInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_problem_service_proto_msgTypes[26]
+	mi := &file_eolymp_judge_problem_service_proto_msgTypes[24]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1404,7 +1324,7 @@ func (x *ExportProblemsInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ExportProblemsInput.ProtoReflect.Descriptor instead.
 func (*ExportProblemsInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_problem_service_proto_rawDescGZIP(), []int{26}
+	return file_eolymp_judge_problem_service_proto_rawDescGZIP(), []int{24}
 }
 
 func (x *ExportProblemsInput) GetProblems() []string {
@@ -1430,7 +1350,7 @@ type ExportProblemsOutput struct {
 
 func (x *ExportProblemsOutput) Reset() {
 	*x = ExportProblemsOutput{}
-	mi := &file_eolymp_judge_problem_service_proto_msgTypes[27]
+	mi := &file_eolymp_judge_problem_service_proto_msgTypes[25]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1442,7 +1362,7 @@ func (x *ExportProblemsOutput) String() string {
 func (*ExportProblemsOutput) ProtoMessage() {}
 
 func (x *ExportProblemsOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_problem_service_proto_msgTypes[27]
+	mi := &file_eolymp_judge_problem_service_proto_msgTypes[25]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1455,7 +1375,7 @@ func (x *ExportProblemsOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ExportProblemsOutput.ProtoReflect.Descriptor instead.
 func (*ExportProblemsOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_problem_service_proto_rawDescGZIP(), []int{27}
+	return file_eolymp_judge_problem_service_proto_rawDescGZIP(), []int{25}
 }
 
 func (x *ExportProblemsOutput) GetDownloadUrl() string {
@@ -1482,11 +1402,7 @@ const file_eolymp_judge_problem_service_proto_rawDesc = "" +
 	"\n" +
 	"problem_id\x18\x02 \x01(\tB\x02\x18\x01R\tproblemId\x12\x1f\n" +
 	"\vproblem_ids\x18\x03 \x03(\tR\n" +
-	"problemIds\"1\n" +
-	"\x10SyncProblemInput\x12\x1d\n" +
-	"\n" +
-	"problem_id\x18\x02 \x01(\tR\tproblemId\"\x13\n" +
-	"\x11SyncProblemOutput\"\xec\x01\n" +
+	"problemIds\"\xec\x01\n" +
 	"\x12UpdateProblemInput\x12<\n" +
 	"\x05patch\x18\x03 \x03(\x0e2&.eolymp.judge.UpdateProblemInput.PatchR\x05patch\x12\x1d\n" +
 	"\n" +
@@ -1568,20 +1484,14 @@ const file_eolymp_judge_problem_service_proto_rawDesc = "" +
 	"\bproblems\x18\x01 \x03(\tR\bproblems\x12\x16\n" +
 	"\x06locale\x18\x02 \x01(\tR\x06locale\"9\n" +
 	"\x14ExportProblemsOutput\x12!\n" +
-	"\fdownload_url\x18\x01 \x01(\tR\vdownloadUrl2\xe3\x12\n" +
+	"\fdownload_url\x18\x01 \x01(\tR\vdownloadUrl2\xc3\x11\n" +
 	"\x0eProblemService\x12\x91\x01\n" +
 	"\rImportProblem\x12 .eolymp.judge.ImportProblemInput\x1a!.eolymp.judge.ImportProblemOutput\";\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13judge:contest:write\x82\xd3\xe4\x93\x02\v\"\t/problems\x12\x9d\x01\n" +
-	"\vSyncProblem\x12\x1e.eolymp.judge.SyncProblemInput\x1a\x1f.eolymp.judge.SyncProblemOutput\"M\xea\xe2\n" +
-	"\v\xf5\xe2\n" +
-	"\x00\x00\x80?\xf8\xe2\n" +
-	"\x05\x82\xe3\n" +
-	"\x17\x8a\xe3\n" +
-	"\x13judge:contest:write\x82\xd3\xe4\x93\x02\x1d\"\x1b/problems/{problem_id}/sync\x12\x9e\x01\n" +
+	"\x13judge:contest:write\x82\xd3\xe4\x93\x02\v\"\t/problems\x12\x9e\x01\n" +
 	"\rUpdateProblem\x12 .eolymp.judge.UpdateProblemInput\x1a!.eolymp.judge.UpdateProblemOutput\"H\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
@@ -1670,92 +1580,88 @@ func file_eolymp_judge_problem_service_proto_rawDescGZIP() []byte {
 }
 
 var file_eolymp_judge_problem_service_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_eolymp_judge_problem_service_proto_msgTypes = make([]protoimpl.MessageInfo, 28)
+var file_eolymp_judge_problem_service_proto_msgTypes = make([]protoimpl.MessageInfo, 26)
 var file_eolymp_judge_problem_service_proto_goTypes = []any{
 	(UpdateProblemInput_Patch)(0),      // 0: eolymp.judge.UpdateProblemInput.Patch
 	(*ImportProblemInput)(nil),         // 1: eolymp.judge.ImportProblemInput
 	(*ImportProblemOutput)(nil),        // 2: eolymp.judge.ImportProblemOutput
-	(*SyncProblemInput)(nil),           // 3: eolymp.judge.SyncProblemInput
-	(*SyncProblemOutput)(nil),          // 4: eolymp.judge.SyncProblemOutput
-	(*UpdateProblemInput)(nil),         // 5: eolymp.judge.UpdateProblemInput
-	(*UpdateProblemOutput)(nil),        // 6: eolymp.judge.UpdateProblemOutput
-	(*DeleteProblemInput)(nil),         // 7: eolymp.judge.DeleteProblemInput
-	(*DeleteProblemOutput)(nil),        // 8: eolymp.judge.DeleteProblemOutput
-	(*ListProblemsInput)(nil),          // 9: eolymp.judge.ListProblemsInput
-	(*ListProblemsOutput)(nil),         // 10: eolymp.judge.ListProblemsOutput
-	(*DescribeProblemInput)(nil),       // 11: eolymp.judge.DescribeProblemInput
-	(*DescribeProblemOutput)(nil),      // 12: eolymp.judge.DescribeProblemOutput
-	(*DescribeCodeTemplateInput)(nil),  // 13: eolymp.judge.DescribeCodeTemplateInput
-	(*DescribeCodeTemplateOutput)(nil), // 14: eolymp.judge.DescribeCodeTemplateOutput
-	(*LookupCodeTemplateInput)(nil),    // 15: eolymp.judge.LookupCodeTemplateInput
-	(*LookupCodeTemplateOutput)(nil),   // 16: eolymp.judge.LookupCodeTemplateOutput
-	(*ListStatementsInput)(nil),        // 17: eolymp.judge.ListStatementsInput
-	(*ListStatementsOutput)(nil),       // 18: eolymp.judge.ListStatementsOutput
-	(*DescribeEditorialInput)(nil),     // 19: eolymp.judge.DescribeEditorialInput
-	(*DescribeEditorialOutput)(nil),    // 20: eolymp.judge.DescribeEditorialOutput
-	(*ListAttachmentsInput)(nil),       // 21: eolymp.judge.ListAttachmentsInput
-	(*ListAttachmentsOutput)(nil),      // 22: eolymp.judge.ListAttachmentsOutput
-	(*ListExamplesInput)(nil),          // 23: eolymp.judge.ListExamplesInput
-	(*ListExamplesOutput)(nil),         // 24: eolymp.judge.ListExamplesOutput
-	(*ListRuntimesInput)(nil),          // 25: eolymp.judge.ListRuntimesInput
-	(*ListRuntimesOutput)(nil),         // 26: eolymp.judge.ListRuntimesOutput
-	(*ExportProblemsInput)(nil),        // 27: eolymp.judge.ExportProblemsInput
-	(*ExportProblemsOutput)(nil),       // 28: eolymp.judge.ExportProblemsOutput
-	(*Problem)(nil),                    // 29: eolymp.judge.Problem
-	(atlas.Problem_Extra_Field)(0),     // 30: eolymp.atlas.Problem.Extra.Field
-	(*Template)(nil),                   // 31: eolymp.judge.Template
-	(*Problem_Statement)(nil),          // 32: eolymp.judge.Problem.Statement
-	(atlas.Editorial_Extra_Field)(0),   // 33: eolymp.atlas.Editorial.Extra.Field
-	(*atlas.Editorial)(nil),            // 34: eolymp.atlas.Editorial
-	(*Problem_Attachment)(nil),         // 35: eolymp.judge.Problem.Attachment
-	(*Problem_Test)(nil),               // 36: eolymp.judge.Problem.Test
-	(*runtime.Runtime)(nil),            // 37: eolymp.runtime.Runtime
+	(*UpdateProblemInput)(nil),         // 3: eolymp.judge.UpdateProblemInput
+	(*UpdateProblemOutput)(nil),        // 4: eolymp.judge.UpdateProblemOutput
+	(*DeleteProblemInput)(nil),         // 5: eolymp.judge.DeleteProblemInput
+	(*DeleteProblemOutput)(nil),        // 6: eolymp.judge.DeleteProblemOutput
+	(*ListProblemsInput)(nil),          // 7: eolymp.judge.ListProblemsInput
+	(*ListProblemsOutput)(nil),         // 8: eolymp.judge.ListProblemsOutput
+	(*DescribeProblemInput)(nil),       // 9: eolymp.judge.DescribeProblemInput
+	(*DescribeProblemOutput)(nil),      // 10: eolymp.judge.DescribeProblemOutput
+	(*DescribeCodeTemplateInput)(nil),  // 11: eolymp.judge.DescribeCodeTemplateInput
+	(*DescribeCodeTemplateOutput)(nil), // 12: eolymp.judge.DescribeCodeTemplateOutput
+	(*LookupCodeTemplateInput)(nil),    // 13: eolymp.judge.LookupCodeTemplateInput
+	(*LookupCodeTemplateOutput)(nil),   // 14: eolymp.judge.LookupCodeTemplateOutput
+	(*ListStatementsInput)(nil),        // 15: eolymp.judge.ListStatementsInput
+	(*ListStatementsOutput)(nil),       // 16: eolymp.judge.ListStatementsOutput
+	(*DescribeEditorialInput)(nil),     // 17: eolymp.judge.DescribeEditorialInput
+	(*DescribeEditorialOutput)(nil),    // 18: eolymp.judge.DescribeEditorialOutput
+	(*ListAttachmentsInput)(nil),       // 19: eolymp.judge.ListAttachmentsInput
+	(*ListAttachmentsOutput)(nil),      // 20: eolymp.judge.ListAttachmentsOutput
+	(*ListExamplesInput)(nil),          // 21: eolymp.judge.ListExamplesInput
+	(*ListExamplesOutput)(nil),         // 22: eolymp.judge.ListExamplesOutput
+	(*ListRuntimesInput)(nil),          // 23: eolymp.judge.ListRuntimesInput
+	(*ListRuntimesOutput)(nil),         // 24: eolymp.judge.ListRuntimesOutput
+	(*ExportProblemsInput)(nil),        // 25: eolymp.judge.ExportProblemsInput
+	(*ExportProblemsOutput)(nil),       // 26: eolymp.judge.ExportProblemsOutput
+	(*Problem)(nil),                    // 27: eolymp.judge.Problem
+	(atlas.Problem_Extra_Field)(0),     // 28: eolymp.atlas.Problem.Extra.Field
+	(*Template)(nil),                   // 29: eolymp.judge.Template
+	(*Problem_Statement)(nil),          // 30: eolymp.judge.Problem.Statement
+	(atlas.Editorial_Extra_Field)(0),   // 31: eolymp.atlas.Editorial.Extra.Field
+	(*atlas.Editorial)(nil),            // 32: eolymp.atlas.Editorial
+	(*Problem_Attachment)(nil),         // 33: eolymp.judge.Problem.Attachment
+	(*Problem_Test)(nil),               // 34: eolymp.judge.Problem.Test
+	(*runtime.Runtime)(nil),            // 35: eolymp.runtime.Runtime
 }
 var file_eolymp_judge_problem_service_proto_depIdxs = []int32{
 	0,  // 0: eolymp.judge.UpdateProblemInput.patch:type_name -> eolymp.judge.UpdateProblemInput.Patch
-	29, // 1: eolymp.judge.UpdateProblemInput.problem:type_name -> eolymp.judge.Problem
-	30, // 2: eolymp.judge.ListProblemsInput.extra:type_name -> eolymp.atlas.Problem.Extra.Field
-	29, // 3: eolymp.judge.ListProblemsOutput.items:type_name -> eolymp.judge.Problem
-	30, // 4: eolymp.judge.DescribeProblemInput.extra:type_name -> eolymp.atlas.Problem.Extra.Field
-	29, // 5: eolymp.judge.DescribeProblemOutput.problem:type_name -> eolymp.judge.Problem
-	31, // 6: eolymp.judge.DescribeCodeTemplateOutput.template:type_name -> eolymp.judge.Template
-	31, // 7: eolymp.judge.LookupCodeTemplateOutput.template:type_name -> eolymp.judge.Template
-	32, // 8: eolymp.judge.ListStatementsOutput.items:type_name -> eolymp.judge.Problem.Statement
-	33, // 9: eolymp.judge.DescribeEditorialInput.extra:type_name -> eolymp.atlas.Editorial.Extra.Field
-	34, // 10: eolymp.judge.DescribeEditorialOutput.editorial:type_name -> eolymp.atlas.Editorial
-	35, // 11: eolymp.judge.ListAttachmentsOutput.items:type_name -> eolymp.judge.Problem.Attachment
-	36, // 12: eolymp.judge.ListExamplesOutput.items:type_name -> eolymp.judge.Problem.Test
-	37, // 13: eolymp.judge.ListRuntimesOutput.items:type_name -> eolymp.runtime.Runtime
+	27, // 1: eolymp.judge.UpdateProblemInput.problem:type_name -> eolymp.judge.Problem
+	28, // 2: eolymp.judge.ListProblemsInput.extra:type_name -> eolymp.atlas.Problem.Extra.Field
+	27, // 3: eolymp.judge.ListProblemsOutput.items:type_name -> eolymp.judge.Problem
+	28, // 4: eolymp.judge.DescribeProblemInput.extra:type_name -> eolymp.atlas.Problem.Extra.Field
+	27, // 5: eolymp.judge.DescribeProblemOutput.problem:type_name -> eolymp.judge.Problem
+	29, // 6: eolymp.judge.DescribeCodeTemplateOutput.template:type_name -> eolymp.judge.Template
+	29, // 7: eolymp.judge.LookupCodeTemplateOutput.template:type_name -> eolymp.judge.Template
+	30, // 8: eolymp.judge.ListStatementsOutput.items:type_name -> eolymp.judge.Problem.Statement
+	31, // 9: eolymp.judge.DescribeEditorialInput.extra:type_name -> eolymp.atlas.Editorial.Extra.Field
+	32, // 10: eolymp.judge.DescribeEditorialOutput.editorial:type_name -> eolymp.atlas.Editorial
+	33, // 11: eolymp.judge.ListAttachmentsOutput.items:type_name -> eolymp.judge.Problem.Attachment
+	34, // 12: eolymp.judge.ListExamplesOutput.items:type_name -> eolymp.judge.Problem.Test
+	35, // 13: eolymp.judge.ListRuntimesOutput.items:type_name -> eolymp.runtime.Runtime
 	1,  // 14: eolymp.judge.ProblemService.ImportProblem:input_type -> eolymp.judge.ImportProblemInput
-	3,  // 15: eolymp.judge.ProblemService.SyncProblem:input_type -> eolymp.judge.SyncProblemInput
-	5,  // 16: eolymp.judge.ProblemService.UpdateProblem:input_type -> eolymp.judge.UpdateProblemInput
-	9,  // 17: eolymp.judge.ProblemService.ListProblems:input_type -> eolymp.judge.ListProblemsInput
-	11, // 18: eolymp.judge.ProblemService.DescribeProblem:input_type -> eolymp.judge.DescribeProblemInput
-	7,  // 19: eolymp.judge.ProblemService.DeleteProblem:input_type -> eolymp.judge.DeleteProblemInput
-	15, // 20: eolymp.judge.ProblemService.LookupCodeTemplate:input_type -> eolymp.judge.LookupCodeTemplateInput
-	13, // 21: eolymp.judge.ProblemService.DescribeCodeTemplate:input_type -> eolymp.judge.DescribeCodeTemplateInput
-	17, // 22: eolymp.judge.ProblemService.ListStatements:input_type -> eolymp.judge.ListStatementsInput
-	19, // 23: eolymp.judge.ProblemService.DescribeEditorial:input_type -> eolymp.judge.DescribeEditorialInput
-	21, // 24: eolymp.judge.ProblemService.ListAttachments:input_type -> eolymp.judge.ListAttachmentsInput
-	23, // 25: eolymp.judge.ProblemService.ListExamples:input_type -> eolymp.judge.ListExamplesInput
-	25, // 26: eolymp.judge.ProblemService.ListRuntimes:input_type -> eolymp.judge.ListRuntimesInput
-	27, // 27: eolymp.judge.ProblemService.ExportProblems:input_type -> eolymp.judge.ExportProblemsInput
-	2,  // 28: eolymp.judge.ProblemService.ImportProblem:output_type -> eolymp.judge.ImportProblemOutput
-	4,  // 29: eolymp.judge.ProblemService.SyncProblem:output_type -> eolymp.judge.SyncProblemOutput
-	6,  // 30: eolymp.judge.ProblemService.UpdateProblem:output_type -> eolymp.judge.UpdateProblemOutput
-	10, // 31: eolymp.judge.ProblemService.ListProblems:output_type -> eolymp.judge.ListProblemsOutput
-	12, // 32: eolymp.judge.ProblemService.DescribeProblem:output_type -> eolymp.judge.DescribeProblemOutput
-	8,  // 33: eolymp.judge.ProblemService.DeleteProblem:output_type -> eolymp.judge.DeleteProblemOutput
-	16, // 34: eolymp.judge.ProblemService.LookupCodeTemplate:output_type -> eolymp.judge.LookupCodeTemplateOutput
-	14, // 35: eolymp.judge.ProblemService.DescribeCodeTemplate:output_type -> eolymp.judge.DescribeCodeTemplateOutput
-	18, // 36: eolymp.judge.ProblemService.ListStatements:output_type -> eolymp.judge.ListStatementsOutput
-	20, // 37: eolymp.judge.ProblemService.DescribeEditorial:output_type -> eolymp.judge.DescribeEditorialOutput
-	22, // 38: eolymp.judge.ProblemService.ListAttachments:output_type -> eolymp.judge.ListAttachmentsOutput
-	24, // 39: eolymp.judge.ProblemService.ListExamples:output_type -> eolymp.judge.ListExamplesOutput
-	26, // 40: eolymp.judge.ProblemService.ListRuntimes:output_type -> eolymp.judge.ListRuntimesOutput
-	28, // 41: eolymp.judge.ProblemService.ExportProblems:output_type -> eolymp.judge.ExportProblemsOutput
-	28, // [28:42] is the sub-list for method output_type
-	14, // [14:28] is the sub-list for method input_type
+	3,  // 15: eolymp.judge.ProblemService.UpdateProblem:input_type -> eolymp.judge.UpdateProblemInput
+	7,  // 16: eolymp.judge.ProblemService.ListProblems:input_type -> eolymp.judge.ListProblemsInput
+	9,  // 17: eolymp.judge.ProblemService.DescribeProblem:input_type -> eolymp.judge.DescribeProblemInput
+	5,  // 18: eolymp.judge.ProblemService.DeleteProblem:input_type -> eolymp.judge.DeleteProblemInput
+	13, // 19: eolymp.judge.ProblemService.LookupCodeTemplate:input_type -> eolymp.judge.LookupCodeTemplateInput
+	11, // 20: eolymp.judge.ProblemService.DescribeCodeTemplate:input_type -> eolymp.judge.DescribeCodeTemplateInput
+	15, // 21: eolymp.judge.ProblemService.ListStatements:input_type -> eolymp.judge.ListStatementsInput
+	17, // 22: eolymp.judge.ProblemService.DescribeEditorial:input_type -> eolymp.judge.DescribeEditorialInput
+	19, // 23: eolymp.judge.ProblemService.ListAttachments:input_type -> eolymp.judge.ListAttachmentsInput
+	21, // 24: eolymp.judge.ProblemService.ListExamples:input_type -> eolymp.judge.ListExamplesInput
+	23, // 25: eolymp.judge.ProblemService.ListRuntimes:input_type -> eolymp.judge.ListRuntimesInput
+	25, // 26: eolymp.judge.ProblemService.ExportProblems:input_type -> eolymp.judge.ExportProblemsInput
+	2,  // 27: eolymp.judge.ProblemService.ImportProblem:output_type -> eolymp.judge.ImportProblemOutput
+	4,  // 28: eolymp.judge.ProblemService.UpdateProblem:output_type -> eolymp.judge.UpdateProblemOutput
+	8,  // 29: eolymp.judge.ProblemService.ListProblems:output_type -> eolymp.judge.ListProblemsOutput
+	10, // 30: eolymp.judge.ProblemService.DescribeProblem:output_type -> eolymp.judge.DescribeProblemOutput
+	6,  // 31: eolymp.judge.ProblemService.DeleteProblem:output_type -> eolymp.judge.DeleteProblemOutput
+	14, // 32: eolymp.judge.ProblemService.LookupCodeTemplate:output_type -> eolymp.judge.LookupCodeTemplateOutput
+	12, // 33: eolymp.judge.ProblemService.DescribeCodeTemplate:output_type -> eolymp.judge.DescribeCodeTemplateOutput
+	16, // 34: eolymp.judge.ProblemService.ListStatements:output_type -> eolymp.judge.ListStatementsOutput
+	18, // 35: eolymp.judge.ProblemService.DescribeEditorial:output_type -> eolymp.judge.DescribeEditorialOutput
+	20, // 36: eolymp.judge.ProblemService.ListAttachments:output_type -> eolymp.judge.ListAttachmentsOutput
+	22, // 37: eolymp.judge.ProblemService.ListExamples:output_type -> eolymp.judge.ListExamplesOutput
+	24, // 38: eolymp.judge.ProblemService.ListRuntimes:output_type -> eolymp.judge.ListRuntimesOutput
+	26, // 39: eolymp.judge.ProblemService.ExportProblems:output_type -> eolymp.judge.ExportProblemsOutput
+	27, // [27:40] is the sub-list for method output_type
+	14, // [14:27] is the sub-list for method input_type
 	14, // [14:14] is the sub-list for extension type_name
 	14, // [14:14] is the sub-list for extension extendee
 	0,  // [0:14] is the sub-list for field type_name
@@ -1774,7 +1680,7 @@ func file_eolymp_judge_problem_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_judge_problem_service_proto_rawDesc), len(file_eolymp_judge_problem_service_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   28,
+			NumMessages:   26,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
