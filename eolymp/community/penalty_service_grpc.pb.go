@@ -29,11 +29,33 @@ const (
 // PenaltyServiceClient is the client API for PenaltyService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// PenaltyService restricts what a single member is allowed to do in a space, for a period of time.
+//
+// A penalty is a list of scopes, each naming one thing the member loses — from signing in at all down to
+// individual actions such as commenting or submitting — with a summary and a description explaining it,
+// and a time at which it stops applying. Several can be in force at once and they add up rather than
+// replace each other. In practice penalties are add-only and lapse on their own: the console only lists
+// and creates them, and the methods that revise or remove one are rarely reached for. Being
+// member-scoped, these calls are addressed through the base url a member carries in its read-only url
+// field.
 type PenaltyServiceClient interface {
+	// CreatePenalty puts a restriction in force and returns its id. It takes effect without any separate
+	// activation step, and leaves penalties already on the member alone, so restricting two things on
+	// different timelines means two penalties rather than one.
 	CreatePenalty(ctx context.Context, in *CreatePenaltyInput, opts ...grpc.CallOption) (*CreatePenaltyOutput, error)
+	// UpdatePenalty revises a penalty that is already in force instead of cancelling it and issuing a
+	// replacement, and is the only way to re-time one after the fact. Only what the patch names is touched.
 	UpdatePenalty(ctx context.Context, in *UpdatePenaltyInput, opts ...grpc.CallOption) (*UpdatePenaltyOutput, error)
+	// DeletePenalty lifts a penalty ahead of its time, restoring whatever it withheld. Seldom needed, since a
+	// penalty carries its own end and is normally left to run out.
 	DeletePenalty(ctx context.Context, in *DeletePenaltyInput, opts ...grpc.CallOption) (*DeletePenaltyOutput, error)
+	// DescribePenalty reads one penalty by id, which is mostly how a restricted member is shown the reason
+	// for it: the explanation is rich content and comes back only when asked for as an extra.
 	DescribePenalty(ctx context.Context, in *DescribePenaltyInput, opts ...grpc.CallOption) (*DescribePenaltyOutput, error)
+	// ListPenalties walks everything ever recorded against the member, so it reads as a disciplinary
+	// history rather than a view of what applies right now. There is nothing to filter on, and a caller
+	// that only cares about live restrictions compares each penalty's end itself.
 	ListPenalties(ctx context.Context, in *ListPenaltiesInput, opts ...grpc.CallOption) (*ListPenaltiesOutput, error)
 }
 
@@ -98,11 +120,33 @@ func (c *penaltyServiceClient) ListPenalties(ctx context.Context, in *ListPenalt
 // PenaltyServiceServer is the server API for PenaltyService service.
 // All implementations should embed UnimplementedPenaltyServiceServer
 // for forward compatibility.
+//
+// PenaltyService restricts what a single member is allowed to do in a space, for a period of time.
+//
+// A penalty is a list of scopes, each naming one thing the member loses — from signing in at all down to
+// individual actions such as commenting or submitting — with a summary and a description explaining it,
+// and a time at which it stops applying. Several can be in force at once and they add up rather than
+// replace each other. In practice penalties are add-only and lapse on their own: the console only lists
+// and creates them, and the methods that revise or remove one are rarely reached for. Being
+// member-scoped, these calls are addressed through the base url a member carries in its read-only url
+// field.
 type PenaltyServiceServer interface {
+	// CreatePenalty puts a restriction in force and returns its id. It takes effect without any separate
+	// activation step, and leaves penalties already on the member alone, so restricting two things on
+	// different timelines means two penalties rather than one.
 	CreatePenalty(context.Context, *CreatePenaltyInput) (*CreatePenaltyOutput, error)
+	// UpdatePenalty revises a penalty that is already in force instead of cancelling it and issuing a
+	// replacement, and is the only way to re-time one after the fact. Only what the patch names is touched.
 	UpdatePenalty(context.Context, *UpdatePenaltyInput) (*UpdatePenaltyOutput, error)
+	// DeletePenalty lifts a penalty ahead of its time, restoring whatever it withheld. Seldom needed, since a
+	// penalty carries its own end and is normally left to run out.
 	DeletePenalty(context.Context, *DeletePenaltyInput) (*DeletePenaltyOutput, error)
+	// DescribePenalty reads one penalty by id, which is mostly how a restricted member is shown the reason
+	// for it: the explanation is rich content and comes back only when asked for as an extra.
 	DescribePenalty(context.Context, *DescribePenaltyInput) (*DescribePenaltyOutput, error)
+	// ListPenalties walks everything ever recorded against the member, so it reads as a disciplinary
+	// history rather than a view of what applies right now. There is nothing to filter on, and a caller
+	// that only cares about live restrictions compares each penalty's end itself.
 	ListPenalties(context.Context, *ListPenaltiesInput) (*ListPenaltiesOutput, error)
 }
 

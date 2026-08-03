@@ -26,8 +26,23 @@ const (
 // ScoreboardServiceClient is the client API for ScoreboardService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// ScoreboardService presents standings as a generic table: a description of how the board is built, then the
+// ranked rows themselves, each cell tagged with the column it belongs to.
+//
+// Other things in eolymp are called a scoreboard too, so mind which one is wanted: a contest's own ranking is
+// read from ScoreService, and the standalone boards that combine results across several contests belong to
+// `eolymp.ranker.ScoreboardService`. What this service adds is the shape of its answer — because the columns
+// are described rather than fixed, a client can render and sort the table without knowing what any particular
+// column stands for.
 type ScoreboardServiceClient interface {
+	// DescribeScoreboard returns the board's layout rather than any standings — what a row will be made of, and
+	// which of those parts may be sorted or filtered on. A client fetches it once and uses it to interpret and
+	// drive ListScoreboardRows.
 	DescribeScoreboard(ctx context.Context, in *DescribeScoreboardInput, opts ...grpc.CallOption) (*DescribeScoreboardOutput, error)
+	// ListScoreboardRows returns the ranked rows a page at a time, with each cell keyed by its column, so a
+	// response only makes sense alongside the layout from DescribeScoreboard. The requested mode decides which
+	// recorded scores the rows are built on, and a row's rank spans several positions when participants tie.
 	ListScoreboardRows(ctx context.Context, in *ListScoreboardRowsInput, opts ...grpc.CallOption) (*ListScoreboardRowsOutput, error)
 }
 
@@ -62,8 +77,23 @@ func (c *scoreboardServiceClient) ListScoreboardRows(ctx context.Context, in *Li
 // ScoreboardServiceServer is the server API for ScoreboardService service.
 // All implementations should embed UnimplementedScoreboardServiceServer
 // for forward compatibility.
+//
+// ScoreboardService presents standings as a generic table: a description of how the board is built, then the
+// ranked rows themselves, each cell tagged with the column it belongs to.
+//
+// Other things in eolymp are called a scoreboard too, so mind which one is wanted: a contest's own ranking is
+// read from ScoreService, and the standalone boards that combine results across several contests belong to
+// `eolymp.ranker.ScoreboardService`. What this service adds is the shape of its answer — because the columns
+// are described rather than fixed, a client can render and sort the table without knowing what any particular
+// column stands for.
 type ScoreboardServiceServer interface {
+	// DescribeScoreboard returns the board's layout rather than any standings — what a row will be made of, and
+	// which of those parts may be sorted or filtered on. A client fetches it once and uses it to interpret and
+	// drive ListScoreboardRows.
 	DescribeScoreboard(context.Context, *DescribeScoreboardInput) (*DescribeScoreboardOutput, error)
+	// ListScoreboardRows returns the ranked rows a page at a time, with each cell keyed by its column, so a
+	// response only makes sense alongside the layout from DescribeScoreboard. The requested mode decides which
+	// recorded scores the rows are built on, and a row's rank spans several positions when participants tie.
 	ListScoreboardRows(context.Context, *ListScoreboardRowsInput) (*ListScoreboardRowsOutput, error)
 }
 

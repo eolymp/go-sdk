@@ -25,7 +25,19 @@ const (
 // ActivityGraphServiceClient is the client API for ActivityGraphService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// ActivityGraphService reports how busy one member has been over a stretch of time.
+//
+// Its single method returns a bare series of counts, which clients draw as the contribution-style graph
+// on a member's profile. The counter being measured is chosen per call and is a free-form string rather
+// than an enum — the console offers variations around accepted, submitted and solved counts. Being
+// member-scoped, the call is addressed through the base url a member carries in its read-only url field.
 type ActivityGraphServiceClient interface {
+	// DescribeActivityGraph buckets one metric over the requested window and returns the counts as a flat
+	// array in chronological order, with no timestamps and no bucket size attached, so the caller maps
+	// positions back to dates from the window it asked for. The largest count in the series comes back
+	// alongside it, which is what a heat map needs to scale its shading without a second pass over the
+	// values.
 	DescribeActivityGraph(ctx context.Context, in *DescribeActivityGraphInput, opts ...grpc.CallOption) (*DescribeActivityGraphOutput, error)
 }
 
@@ -50,7 +62,19 @@ func (c *activityGraphServiceClient) DescribeActivityGraph(ctx context.Context, 
 // ActivityGraphServiceServer is the server API for ActivityGraphService service.
 // All implementations should embed UnimplementedActivityGraphServiceServer
 // for forward compatibility.
+//
+// ActivityGraphService reports how busy one member has been over a stretch of time.
+//
+// Its single method returns a bare series of counts, which clients draw as the contribution-style graph
+// on a member's profile. The counter being measured is chosen per call and is a free-form string rather
+// than an enum — the console offers variations around accepted, submitted and solved counts. Being
+// member-scoped, the call is addressed through the base url a member carries in its read-only url field.
 type ActivityGraphServiceServer interface {
+	// DescribeActivityGraph buckets one metric over the requested window and returns the counts as a flat
+	// array in chronological order, with no timestamps and no bucket size attached, so the caller maps
+	// positions back to dates from the window it asked for. The largest count in the series comes back
+	// alongside it, which is what a heat map needs to scale its shading without a second pass over the
+	// values.
 	DescribeActivityGraph(context.Context, *DescribeActivityGraphInput) (*DescribeActivityGraphOutput, error)
 }
 

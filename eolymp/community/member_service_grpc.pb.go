@@ -36,18 +36,78 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 //
-// MemberService provides API to manage space members.
+// MemberService manages the members of a space, the records in that space's own database of users.
+//
+// Anyone taking part in a space needs a member record in it, and membership does not travel between spaces:
+// the same person in two spaces is two unrelated members. A member is one of three kinds, all of them
+// created by CreateMember — a user, a real account backed either by an Eolymp account or by credentials the
+// space itself keeps; a team, which is a member in its own right that other members are assigned into; or a
+// ghost, a bare name with no account standing in for someone whose results were imported from elsewhere.
+// Each record carries identity details, the space's own profile fields and the person's preferences, though
+// whether the space may edit the identity details at all depends on the identity provider it runs, which is
+// configured through ConfigurationService. Turning a member on or off and moving them between official and
+// unofficial standing have no methods of their own and are reached through UpdateMember's patch mask. What
+// someone is allowed to administer is not part of their member record: administrators are Eolymp identities
+// governed by eolymp.acl policies.
 type MemberServiceClient interface {
+	// CreateMember adds a record to the space's user database and returns its id. Which kind of member
+	// appears depends on which arm of the account oneof the request fills in — user, team or ghost — and a
+	// request that fills in none of them is rejected. Users count against the space's member quota and a user
+	// can be placed into an existing team as it is created; teams and ghosts consume no quota.
 	CreateMember(ctx context.Context, in *CreateMemberInput, opts ...grpc.CallOption) (*CreateMemberOutput, error)
+	// UpdateMember writes the values selected by the patch mask, and this is where most administration of a
+	// member happens: disabling a member so they can no longer sign in or reach the space, and marking them
+	// unofficial so they are left out of official rankings, are patches rather than methods of their own.
+	// Disabling can be immediate or scheduled through separate fields — a scheduled deactivation never raises
+	// the inactive flag, although a read still reports a member outside their active period as inactive.
+	// Identity details of a member owned by an external identity provider cannot be changed here, and asking
+	// for them is ignored rather than refused.
 	UpdateMember(ctx context.Context, in *UpdateMemberInput, opts ...grpc.CallOption) (*UpdateMemberOutput, error)
+	// UpdateMemberPicture stores a new profile picture for a member and returns the URL it was saved at,
+	// discarding the previous one unless that was an external URL. Only PNG and JPEG are accepted; the image
+	// is cropped to the square described by the request and stored downscaled to at most 300 pixels a side.
 	UpdateMemberPicture(ctx context.Context, in *UpdateMemberPictureInput, opts ...grpc.CallOption) (*UpdateMemberPictureOutput, error)
+	// DeleteMember removes the record from the space's user database, ending the membership. Nothing happens
+	// to the person's Eolymp account or to their membership of other spaces; where identity comes from an
+	// external provider, only the membership in this space ends. Deleting a member that is not there succeeds
+	// quietly.
 	DeleteMember(ctx context.Context, in *DeleteMemberInput, opts ...grpc.CallOption) (*DeleteMemberOutput, error)
+	// RestoreMember clears the mark left when a member asked to close their own account through
+	// AccountService. Since that mark does not currently withdraw anything from the member, this restores
+	// nothing beyond their intent. A record removed by DeleteMember is gone for good and cannot be brought
+	// back this way.
 	RestoreMember(ctx context.Context, in *RestoreMemberInput, opts ...grpc.CallOption) (*RestoreMemberOutput, error)
+	// DescribeMember returns one member by id. The additional data covered by the read extras is left out
+	// unless the request asks for it, and the extras carrying private information are dropped for a caller
+	// not entitled to them rather than refused. A member the caller is not allowed to see is reported as not
+	// found.
 	DescribeMember(ctx context.Context, in *DescribeMemberInput, opts ...grpc.CallOption) (*DescribeMemberOutput, error)
+	// ListMembers pages through the space's members and is the way to resolve names, teams and groups in
+	// bulk; as with a single read, the extras come back only when asked for. A caller without administrative
+	// access sees active members only and cannot filter on identity details such as an email address.
+	// Conditions on groups and on profile fields are capped at five each, and filtering or sorting by display
+	// name follows whichever field the space derives display names from.
 	ListMembers(ctx context.Context, in *ListMembersInput, opts ...grpc.CallOption) (*ListMembersOutput, error)
+	// AssignMember puts a member into a team, which is how team composition is managed — a team record has no
+	// member list of its own to edit. A member belongs to at most one team, so assigning them to another
+	// moves them out of the first, and the target must be a team that is not itself inside a team, since
+	// teams do not nest.
 	AssignMember(ctx context.Context, in *AssignMemberInput, opts ...grpc.CallOption) (*AssignMemberOutput, error)
+	// UnassignMember clears a member's team assignment, leaving both the member record and the team record in
+	// place. Since a member can only be in one team, the call simply empties whichever assignment the member
+	// currently has.
 	UnassignMember(ctx context.Context, in *UnassignMemberInput, opts ...grpc.CallOption) (*UnassignMemberOutput, error)
+	// DescribeMemberUsage reports how many seats the space consumes, for billing and quota screens rather
+	// than for looking members up; only users are counted, so teams and ghosts are free. The active count
+	// covers the members seated during a period, which defaults to the space's current quota period, or to
+	// the last thirty days when it has no subscription. Access follows the space's billing permission rather
+	// than the permission to read members.
 	DescribeMemberUsage(ctx context.Context, in *DescribeMemberUsageInput, opts ...grpc.CallOption) (*DescribeMemberUsageOutput, error)
+	// StreamMemberReferences streams the whole filtered set of members as bare references instead of full
+	// records, in batches, for bulk work such as exports and cross-service lookups where paging through
+	// ListMembers would be too slow; there is no pagination and no sorting. Being a streaming method it has
+	// no HTTP binding, so it exists only in the SDKs, and it is reserved for calls made by Eolymp's own
+	// services.
 	StreamMemberReferences(ctx context.Context, in *StreamMemberReferencesInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[StreamMemberReferencesOutput], error)
 }
 
@@ -182,18 +242,78 @@ type MemberService_StreamMemberReferencesClient = grpc.ServerStreamingClient[Str
 // All implementations should embed UnimplementedMemberServiceServer
 // for forward compatibility.
 //
-// MemberService provides API to manage space members.
+// MemberService manages the members of a space, the records in that space's own database of users.
+//
+// Anyone taking part in a space needs a member record in it, and membership does not travel between spaces:
+// the same person in two spaces is two unrelated members. A member is one of three kinds, all of them
+// created by CreateMember — a user, a real account backed either by an Eolymp account or by credentials the
+// space itself keeps; a team, which is a member in its own right that other members are assigned into; or a
+// ghost, a bare name with no account standing in for someone whose results were imported from elsewhere.
+// Each record carries identity details, the space's own profile fields and the person's preferences, though
+// whether the space may edit the identity details at all depends on the identity provider it runs, which is
+// configured through ConfigurationService. Turning a member on or off and moving them between official and
+// unofficial standing have no methods of their own and are reached through UpdateMember's patch mask. What
+// someone is allowed to administer is not part of their member record: administrators are Eolymp identities
+// governed by eolymp.acl policies.
 type MemberServiceServer interface {
+	// CreateMember adds a record to the space's user database and returns its id. Which kind of member
+	// appears depends on which arm of the account oneof the request fills in — user, team or ghost — and a
+	// request that fills in none of them is rejected. Users count against the space's member quota and a user
+	// can be placed into an existing team as it is created; teams and ghosts consume no quota.
 	CreateMember(context.Context, *CreateMemberInput) (*CreateMemberOutput, error)
+	// UpdateMember writes the values selected by the patch mask, and this is where most administration of a
+	// member happens: disabling a member so they can no longer sign in or reach the space, and marking them
+	// unofficial so they are left out of official rankings, are patches rather than methods of their own.
+	// Disabling can be immediate or scheduled through separate fields — a scheduled deactivation never raises
+	// the inactive flag, although a read still reports a member outside their active period as inactive.
+	// Identity details of a member owned by an external identity provider cannot be changed here, and asking
+	// for them is ignored rather than refused.
 	UpdateMember(context.Context, *UpdateMemberInput) (*UpdateMemberOutput, error)
+	// UpdateMemberPicture stores a new profile picture for a member and returns the URL it was saved at,
+	// discarding the previous one unless that was an external URL. Only PNG and JPEG are accepted; the image
+	// is cropped to the square described by the request and stored downscaled to at most 300 pixels a side.
 	UpdateMemberPicture(context.Context, *UpdateMemberPictureInput) (*UpdateMemberPictureOutput, error)
+	// DeleteMember removes the record from the space's user database, ending the membership. Nothing happens
+	// to the person's Eolymp account or to their membership of other spaces; where identity comes from an
+	// external provider, only the membership in this space ends. Deleting a member that is not there succeeds
+	// quietly.
 	DeleteMember(context.Context, *DeleteMemberInput) (*DeleteMemberOutput, error)
+	// RestoreMember clears the mark left when a member asked to close their own account through
+	// AccountService. Since that mark does not currently withdraw anything from the member, this restores
+	// nothing beyond their intent. A record removed by DeleteMember is gone for good and cannot be brought
+	// back this way.
 	RestoreMember(context.Context, *RestoreMemberInput) (*RestoreMemberOutput, error)
+	// DescribeMember returns one member by id. The additional data covered by the read extras is left out
+	// unless the request asks for it, and the extras carrying private information are dropped for a caller
+	// not entitled to them rather than refused. A member the caller is not allowed to see is reported as not
+	// found.
 	DescribeMember(context.Context, *DescribeMemberInput) (*DescribeMemberOutput, error)
+	// ListMembers pages through the space's members and is the way to resolve names, teams and groups in
+	// bulk; as with a single read, the extras come back only when asked for. A caller without administrative
+	// access sees active members only and cannot filter on identity details such as an email address.
+	// Conditions on groups and on profile fields are capped at five each, and filtering or sorting by display
+	// name follows whichever field the space derives display names from.
 	ListMembers(context.Context, *ListMembersInput) (*ListMembersOutput, error)
+	// AssignMember puts a member into a team, which is how team composition is managed — a team record has no
+	// member list of its own to edit. A member belongs to at most one team, so assigning them to another
+	// moves them out of the first, and the target must be a team that is not itself inside a team, since
+	// teams do not nest.
 	AssignMember(context.Context, *AssignMemberInput) (*AssignMemberOutput, error)
+	// UnassignMember clears a member's team assignment, leaving both the member record and the team record in
+	// place. Since a member can only be in one team, the call simply empties whichever assignment the member
+	// currently has.
 	UnassignMember(context.Context, *UnassignMemberInput) (*UnassignMemberOutput, error)
+	// DescribeMemberUsage reports how many seats the space consumes, for billing and quota screens rather
+	// than for looking members up; only users are counted, so teams and ghosts are free. The active count
+	// covers the members seated during a period, which defaults to the space's current quota period, or to
+	// the last thirty days when it has no subscription. Access follows the space's billing permission rather
+	// than the permission to read members.
 	DescribeMemberUsage(context.Context, *DescribeMemberUsageInput) (*DescribeMemberUsageOutput, error)
+	// StreamMemberReferences streams the whole filtered set of members as bare references instead of full
+	// records, in batches, for bulk work such as exports and cross-service lookups where paging through
+	// ListMembers would be too slow; there is no pagination and no sorting. Being a streaming method it has
+	// no HTTP binding, so it exists only in the SDKs, and it is reserved for calls made by Eolymp's own
+	// services.
 	StreamMemberReferences(*StreamMemberReferencesInput, grpc.ServerStreamingServer[StreamMemberReferencesOutput]) error
 }
 

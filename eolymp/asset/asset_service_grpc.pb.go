@@ -63,9 +63,13 @@ type AssetServiceClient interface {
 	UploadPart(ctx context.Context, in *UploadPartInput, opts ...grpc.CallOption) (*UploadPartOutput, error)
 	// CompleteMultipartUpload finalizes upload process and generates asset_url.
 	CompleteMultipartUpload(ctx context.Context, in *CompleteMultipartUploadInput, opts ...grpc.CallOption) (*CompleteMultipartUploadOutput, error)
+	// internal
+	//
 	// StartStream creates a data stream, which then can be used with AppendStream API to upload data
 	StartStream(ctx context.Context, in *StartStreamInput, opts ...grpc.CallOption) (*StartStreamOutput, error)
+	// internal
 	AppendStream(ctx context.Context, in *AppendStreamInput, opts ...grpc.CallOption) (*AppendStreamOutput, error)
+	// internal
 	CloseStream(ctx context.Context, in *CloseStreamInput, opts ...grpc.CallOption) (*CloseStreamOutput, error)
 }
 
@@ -218,9 +222,13 @@ type AssetServiceServer interface {
 	UploadPart(context.Context, *UploadPartInput) (*UploadPartOutput, error)
 	// CompleteMultipartUpload finalizes upload process and generates asset_url.
 	CompleteMultipartUpload(context.Context, *CompleteMultipartUploadInput) (*CompleteMultipartUploadOutput, error)
+	// internal
+	//
 	// StartStream creates a data stream, which then can be used with AppendStream API to upload data
 	StartStream(context.Context, *StartStreamInput) (*StartStreamOutput, error)
+	// internal
 	AppendStream(context.Context, *AppendStreamInput) (*AppendStreamOutput, error)
+	// internal
 	CloseStream(context.Context, *CloseStreamInput) (*CloseStreamOutput, error)
 }
 

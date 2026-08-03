@@ -34,23 +34,58 @@ const (
 // AnnouncementServiceClient is the client API for AnnouncementService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// AnnouncementService handles announcements: messages an organiser publishes to everyone taking part in a
+// contest while it is running.
+//
+// They are how the jury corrects a mistake in a statement or tells participants the contest has been
+// extended; participants see them as soon as they are published and cannot reply, so a question raised by
+// one participant is a ticket instead (see TicketService). Besides creating, reading, updating and
+// deleting them, the service tracks which announcements the calling participant has already seen, which
+// exists so a client can badge the unread ones — the console does not use that part, the contest client
+// does. Every call is addressed to one contest inside a space, and the streaming calls have no HTTP
+// binding, so they exist only in the SDKs.
 type AnnouncementServiceClient interface {
-	// Create announcement for a contest
+	// CreateAnnouncement publishes a message to the participants of the contest. It takes effect
+	// immediately — there is no draft or scheduled state — and starts out unread for everyone. The body is
+	// rich content, so an announcement can carry the same formatting and formulas as a problem statement.
 	CreateAnnouncement(ctx context.Context, in *CreateAnnouncementInput, opts ...grpc.CallOption) (*CreateAnnouncementOutput, error)
-	// Update existing announcement in a contest
+	// UpdateAnnouncement rewrites an announcement which is already published, which is how a typo or a
+	// wrong detail is fixed without sending a second message. The announcement keeps its identifier and the
+	// time it was originally created, so it stays where participants have already seen it.
 	UpdateAnnouncement(ctx context.Context, in *UpdateAnnouncementInput, opts ...grpc.CallOption) (*UpdateAnnouncementOutput, error)
-	// Delete announcement
+	// DeleteAnnouncement withdraws an announcement from the contest for every participant, including those who
+	// have already read it. There is no restore, so an announcement which is merely worded badly is better
+	// corrected with UpdateAnnouncement than deleted and republished.
 	DeleteAnnouncement(ctx context.Context, in *DeleteAnnouncementInput, opts ...grpc.CallOption) (*DeleteAnnouncementOutput, error)
-	// Mark announcement as read by authenticated participant
+	// ReadAnnouncement records that the calling participant has seen the announcement, and is what the read
+	// flag and the unread count reported by the other calls are built from. Read state is per participant
+	// and the client has to send this itself: fetching an announcement does not mark it read.
 	ReadAnnouncement(ctx context.Context, in *ReadAnnouncementInput, opts ...grpc.CallOption) (*ReadAnnouncementOutput, error)
-	// Describe announcement
+	// DescribeAnnouncement returns one announcement of the contest. It neither reports nor changes whether the
+	// caller has read it — DescribeAnnouncementStatus and ReadAnnouncement do that — so showing an announcement
+	// and marking it seen are separate calls.
 	DescribeAnnouncement(ctx context.Context, in *DescribeAnnouncementInput, opts ...grpc.CallOption) (*DescribeAnnouncementOutput, error)
-	// Describe announcement status
+	// DescribeAnnouncementStatus reports whether the calling participant has already read one announcement,
+	// for a client that wants the read flag without fetching the message again. It answers only for the
+	// caller: there is no way to ask whether some other participant has read an announcement.
 	DescribeAnnouncementStatus(ctx context.Context, in *DescribeAnnouncementStatusInput, opts ...grpc.CallOption) (*DescribeAnnouncementStatusOutput, error)
-	// List announcements of a contest
+	// ListAnnouncements returns the announcements of the contest, and backs both the participant's announcement
+	// panel and the organiser's list. The result can be narrowed to what the calling participant has not read
+	// yet, which is how a client shows only what is new to the person in front of it.
 	ListAnnouncements(ctx context.Context, in *ListAnnouncementsInput, opts ...grpc.CallOption) (*ListAnnouncementsOutput, error)
+	// WatchAnnouncement streams one announcement again whenever it changes, so a client showing it picks up
+	// a correction the organiser makes without polling. Server streaming only: there is no HTTP binding,
+	// the method is reachable through the SDKs.
 	WatchAnnouncement(ctx context.Context, in *WatchAnnouncementInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchAnnouncementOutput], error)
+	// WatchAnnouncements streams the contest's announcements as they are published, changed and withdrawn,
+	// which is how a participant sees an announcement appear mid-contest instead of polling
+	// ListAnnouncements. Server streaming only: there is no HTTP binding, the method is reachable through
+	// the SDKs.
 	WatchAnnouncements(ctx context.Context, in *WatchAnnouncementsInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchAnnouncementsOutput], error)
+	// WatchAnnouncementSummary streams how many announcements the calling participant has not read yet, so
+	// a UI can keep an unread badge current without listing anything. Server streaming only: there is no
+	// HTTP binding, the method is reachable through the SDKs.
 	WatchAnnouncementSummary(ctx context.Context, in *WatchAnnouncementSummaryInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchAnnouncementSummaryOutput], error)
 }
 
@@ -192,23 +227,58 @@ type AnnouncementService_WatchAnnouncementSummaryClient = grpc.ServerStreamingCl
 // AnnouncementServiceServer is the server API for AnnouncementService service.
 // All implementations should embed UnimplementedAnnouncementServiceServer
 // for forward compatibility.
+//
+// AnnouncementService handles announcements: messages an organiser publishes to everyone taking part in a
+// contest while it is running.
+//
+// They are how the jury corrects a mistake in a statement or tells participants the contest has been
+// extended; participants see them as soon as they are published and cannot reply, so a question raised by
+// one participant is a ticket instead (see TicketService). Besides creating, reading, updating and
+// deleting them, the service tracks which announcements the calling participant has already seen, which
+// exists so a client can badge the unread ones — the console does not use that part, the contest client
+// does. Every call is addressed to one contest inside a space, and the streaming calls have no HTTP
+// binding, so they exist only in the SDKs.
 type AnnouncementServiceServer interface {
-	// Create announcement for a contest
+	// CreateAnnouncement publishes a message to the participants of the contest. It takes effect
+	// immediately — there is no draft or scheduled state — and starts out unread for everyone. The body is
+	// rich content, so an announcement can carry the same formatting and formulas as a problem statement.
 	CreateAnnouncement(context.Context, *CreateAnnouncementInput) (*CreateAnnouncementOutput, error)
-	// Update existing announcement in a contest
+	// UpdateAnnouncement rewrites an announcement which is already published, which is how a typo or a
+	// wrong detail is fixed without sending a second message. The announcement keeps its identifier and the
+	// time it was originally created, so it stays where participants have already seen it.
 	UpdateAnnouncement(context.Context, *UpdateAnnouncementInput) (*UpdateAnnouncementOutput, error)
-	// Delete announcement
+	// DeleteAnnouncement withdraws an announcement from the contest for every participant, including those who
+	// have already read it. There is no restore, so an announcement which is merely worded badly is better
+	// corrected with UpdateAnnouncement than deleted and republished.
 	DeleteAnnouncement(context.Context, *DeleteAnnouncementInput) (*DeleteAnnouncementOutput, error)
-	// Mark announcement as read by authenticated participant
+	// ReadAnnouncement records that the calling participant has seen the announcement, and is what the read
+	// flag and the unread count reported by the other calls are built from. Read state is per participant
+	// and the client has to send this itself: fetching an announcement does not mark it read.
 	ReadAnnouncement(context.Context, *ReadAnnouncementInput) (*ReadAnnouncementOutput, error)
-	// Describe announcement
+	// DescribeAnnouncement returns one announcement of the contest. It neither reports nor changes whether the
+	// caller has read it — DescribeAnnouncementStatus and ReadAnnouncement do that — so showing an announcement
+	// and marking it seen are separate calls.
 	DescribeAnnouncement(context.Context, *DescribeAnnouncementInput) (*DescribeAnnouncementOutput, error)
-	// Describe announcement status
+	// DescribeAnnouncementStatus reports whether the calling participant has already read one announcement,
+	// for a client that wants the read flag without fetching the message again. It answers only for the
+	// caller: there is no way to ask whether some other participant has read an announcement.
 	DescribeAnnouncementStatus(context.Context, *DescribeAnnouncementStatusInput) (*DescribeAnnouncementStatusOutput, error)
-	// List announcements of a contest
+	// ListAnnouncements returns the announcements of the contest, and backs both the participant's announcement
+	// panel and the organiser's list. The result can be narrowed to what the calling participant has not read
+	// yet, which is how a client shows only what is new to the person in front of it.
 	ListAnnouncements(context.Context, *ListAnnouncementsInput) (*ListAnnouncementsOutput, error)
+	// WatchAnnouncement streams one announcement again whenever it changes, so a client showing it picks up
+	// a correction the organiser makes without polling. Server streaming only: there is no HTTP binding,
+	// the method is reachable through the SDKs.
 	WatchAnnouncement(*WatchAnnouncementInput, grpc.ServerStreamingServer[WatchAnnouncementOutput]) error
+	// WatchAnnouncements streams the contest's announcements as they are published, changed and withdrawn,
+	// which is how a participant sees an announcement appear mid-contest instead of polling
+	// ListAnnouncements. Server streaming only: there is no HTTP binding, the method is reachable through
+	// the SDKs.
 	WatchAnnouncements(*WatchAnnouncementsInput, grpc.ServerStreamingServer[WatchAnnouncementsOutput]) error
+	// WatchAnnouncementSummary streams how many announcements the calling participant has not read yet, so
+	// a UI can keep an unread badge current without listing anything. Server streaming only: there is no
+	// HTTP binding, the method is reachable through the SDKs.
 	WatchAnnouncementSummary(*WatchAnnouncementSummaryInput, grpc.ServerStreamingServer[WatchAnnouncementSummaryOutput]) error
 }
 

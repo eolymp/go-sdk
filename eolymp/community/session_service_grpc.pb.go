@@ -28,10 +28,29 @@ const (
 // SessionServiceClient is the client API for SessionService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// SessionService lets a signed-in user review and end their own sign-ins.
+//
+// A session records one sign-in of the caller's own account, with the address, device and approximate
+// location it was seen from and when it was first and last seen; the device and the location are derived
+// from the address and the user agent rather than reported by the client. Every method is self-service and
+// takes the account from the request's credentials: there is no administrative form of these calls, and a
+// session belonging to someone else is refused even when its id is known. Sessions belong to the account
+// rather than to a space, so the same sessions come back whichever space the request is addressed to.
 type SessionServiceClient interface {
+	// DescribeSession returns one of the caller's own sessions. A session which belongs to another account is
+	// refused rather than reported as missing.
 	DescribeSession(ctx context.Context, in *DescribeSessionInput, opts ...grpc.CallOption) (*DescribeSessionOutput, error)
+	// ListSessions returns the caller's own sessions, most recently seen first. It cannot be pointed at
+	// another account, which is why it takes no member in the request.
 	ListSessions(ctx context.Context, in *ListSessionsInput, opts ...grpc.CallOption) (*ListSessionsOutput, error)
+	// TerminateSession ends one of the caller's own sessions and revokes the access granted through it,
+	// signing that device out. The session is deleted rather than marked as ended, so it stops appearing in
+	// ListSessions.
 	TerminateSession(ctx context.Context, in *TerminateSessionInput, opts ...grpc.CallOption) (*TerminateSessionOutput, error)
+	// TerminateAllSessions ends every session of the caller except the one the request itself is made from,
+	// which it takes from the request's credentials rather than from the request body. The caller stays
+	// signed in where they are while every other device is signed out.
 	TerminateAllSessions(ctx context.Context, in *TerminateAllSessionsInput, opts ...grpc.CallOption) (*TerminateAllSessionsOutput, error)
 }
 
@@ -86,10 +105,29 @@ func (c *sessionServiceClient) TerminateAllSessions(ctx context.Context, in *Ter
 // SessionServiceServer is the server API for SessionService service.
 // All implementations should embed UnimplementedSessionServiceServer
 // for forward compatibility.
+//
+// SessionService lets a signed-in user review and end their own sign-ins.
+//
+// A session records one sign-in of the caller's own account, with the address, device and approximate
+// location it was seen from and when it was first and last seen; the device and the location are derived
+// from the address and the user agent rather than reported by the client. Every method is self-service and
+// takes the account from the request's credentials: there is no administrative form of these calls, and a
+// session belonging to someone else is refused even when its id is known. Sessions belong to the account
+// rather than to a space, so the same sessions come back whichever space the request is addressed to.
 type SessionServiceServer interface {
+	// DescribeSession returns one of the caller's own sessions. A session which belongs to another account is
+	// refused rather than reported as missing.
 	DescribeSession(context.Context, *DescribeSessionInput) (*DescribeSessionOutput, error)
+	// ListSessions returns the caller's own sessions, most recently seen first. It cannot be pointed at
+	// another account, which is why it takes no member in the request.
 	ListSessions(context.Context, *ListSessionsInput) (*ListSessionsOutput, error)
+	// TerminateSession ends one of the caller's own sessions and revokes the access granted through it,
+	// signing that device out. The session is deleted rather than marked as ended, so it stops appearing in
+	// ListSessions.
 	TerminateSession(context.Context, *TerminateSessionInput) (*TerminateSessionOutput, error)
+	// TerminateAllSessions ends every session of the caller except the one the request itself is made from,
+	// which it takes from the request's credentials rather than from the request body. The caller stays
+	// signed in where they are while every other device is signed out.
 	TerminateAllSessions(context.Context, *TerminateAllSessionsInput) (*TerminateAllSessionsOutput, error)
 }
 

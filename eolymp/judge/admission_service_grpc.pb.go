@@ -28,13 +28,35 @@ const (
 // AdmissionServiceClient is the client API for AdmissionService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// AdmissionService admits a participant into a contest in person, checked off by an organiser on site.
+//
+// It serves the contest setting which demands manual admission: while that is on, a registered
+// participant is held out of the contest — no problems, no submissions — until someone entitled to admit
+// has accepted them. Admission runs on a short-lived code the participant's client asks for and presents,
+// which the organiser looks up to see who is behind it and then accepts; the console describes presenting
+// it as scanning a QR code. What is admitted is one session rather than the participant, and only for a
+// limited time, so the same person on a second device has to be admitted again. Joining the contest at
+// all is a separate step and belongs to RegistrationService.
 type AdmissionServiceClient interface {
-	// Request admission code, if necessary for the contest and if authenticated token has been admitted already.
+	// RequestAdmission is called by the participant's own client to obtain the code it then shows to an
+	// organiser, and it also answers whether admission is needed at all: a contest which does not demand
+	// it, or a session already admitted, comes back with no code. Asking again from the same session hands
+	// back the same code for as long as it lives.
 	RequestAdmission(ctx context.Context, in *RequestAdmissionInput, opts ...grpc.CallOption) (*RequestAdmissionOutput, error)
-	// Watch admission request for any changes
+	// WatchAdmission is the streaming counterpart of RequestAdmission, meant to tell a waiting participant
+	// that their code has been accepted or has expired without polling for it. It has no HTTP binding, and
+	// the server currently ends the stream at once without reporting anything, so a client cannot rely on
+	// it yet.
 	WatchAdmission(ctx context.Context, in *WatchAdmissionInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchAdmissionOutput], error)
+	// DescribeAdmission resolves a code a participant is presenting into the participant behind it and their
+	// member profile, so an organiser can check the identity of the person in front of them before letting them
+	// in. It only reads the pending request and changes nothing; AcceptAdmission is what admits.
 	DescribeAdmission(ctx context.Context, in *DescribeAdmissionInput, opts ...grpc.CallOption) (*DescribeAdmissionOutput, error)
-	// Accept admission code
+	// AcceptAdmission is the organiser's side of the flow: it admits the session which requested the code,
+	// which is what unblocks the contest for that participant on that device. It succeeds without effect on
+	// a contest which does not demand admission, and it does not check who presented the code —
+	// DescribeAdmission is there for that.
 	AcceptAdmission(ctx context.Context, in *AcceptAdmissionInput, opts ...grpc.CallOption) (*AcceptAdmissionOutput, error)
 }
 
@@ -98,13 +120,35 @@ func (c *admissionServiceClient) AcceptAdmission(ctx context.Context, in *Accept
 // AdmissionServiceServer is the server API for AdmissionService service.
 // All implementations should embed UnimplementedAdmissionServiceServer
 // for forward compatibility.
+//
+// AdmissionService admits a participant into a contest in person, checked off by an organiser on site.
+//
+// It serves the contest setting which demands manual admission: while that is on, a registered
+// participant is held out of the contest — no problems, no submissions — until someone entitled to admit
+// has accepted them. Admission runs on a short-lived code the participant's client asks for and presents,
+// which the organiser looks up to see who is behind it and then accepts; the console describes presenting
+// it as scanning a QR code. What is admitted is one session rather than the participant, and only for a
+// limited time, so the same person on a second device has to be admitted again. Joining the contest at
+// all is a separate step and belongs to RegistrationService.
 type AdmissionServiceServer interface {
-	// Request admission code, if necessary for the contest and if authenticated token has been admitted already.
+	// RequestAdmission is called by the participant's own client to obtain the code it then shows to an
+	// organiser, and it also answers whether admission is needed at all: a contest which does not demand
+	// it, or a session already admitted, comes back with no code. Asking again from the same session hands
+	// back the same code for as long as it lives.
 	RequestAdmission(context.Context, *RequestAdmissionInput) (*RequestAdmissionOutput, error)
-	// Watch admission request for any changes
+	// WatchAdmission is the streaming counterpart of RequestAdmission, meant to tell a waiting participant
+	// that their code has been accepted or has expired without polling for it. It has no HTTP binding, and
+	// the server currently ends the stream at once without reporting anything, so a client cannot rely on
+	// it yet.
 	WatchAdmission(*WatchAdmissionInput, grpc.ServerStreamingServer[WatchAdmissionOutput]) error
+	// DescribeAdmission resolves a code a participant is presenting into the participant behind it and their
+	// member profile, so an organiser can check the identity of the person in front of them before letting them
+	// in. It only reads the pending request and changes nothing; AcceptAdmission is what admits.
 	DescribeAdmission(context.Context, *DescribeAdmissionInput) (*DescribeAdmissionOutput, error)
-	// Accept admission code
+	// AcceptAdmission is the organiser's side of the flow: it admits the session which requested the code,
+	// which is what unblocks the contest for that participant on that device. It succeeds without effect on
+	// a contest which does not demand admission, and it does not check who presented the code —
+	// DescribeAdmission is there for that.
 	AcceptAdmission(context.Context, *AcceptAdmissionInput) (*AcceptAdmissionOutput, error)
 }
 

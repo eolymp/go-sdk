@@ -36,18 +36,78 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 //
-// AccountService provides API to create and manage your own account.
+// AccountService lets a person manage their own account.
+//
+// The same contract is served by two implementations, and the base URL decides which one answers: addressed
+// to a space it manages that person's membership of it, while accounts.eolymp.com serves their Eolymp account
+// instead. The two are not equally complete — closing an account is only carried out for an Eolymp account —
+// so read each method for what it does in the context you are calling it in.
+//
+// Most of it acts on the member the caller is authenticated as, which is why no method names a member to
+// act upon; the exceptions are the methods that finish a flow started by email, which identify the member
+// by the secret from that message instead of by a session. The service only works where the space keeps its
+// own user database: signing up, verifying an email address and recovering a password are all refused when
+// identity is delegated to an external provider, and the person manages those details with that provider
+// instead — at accounts.eolymp.com for a space backed by Eolymp accounts. Which of their own details a
+// member may change is part of the space's identity configuration, and patches for anything it withholds
+// are ignored rather than refused. Everything an administrator does to other members lives in
+// MemberService.
 type AccountServiceClient interface {
+	// CreateAccount signs a person up as a new member of the space and is the one method here an anonymous
+	// caller uses, so it requires a captcha solution. It works only where the space keeps its own user
+	// database and its identity configuration allows sign-up, and it is refused once the space has run out of
+	// member quota. The new member starts out unverified and is sent a verification code, so a sign-up flow
+	// carries on into CompleteVerification using the member id returned here.
 	CreateAccount(ctx context.Context, in *CreateAccountInput, opts ...grpc.CallOption) (*CreateAccountOutput, error)
+	// DescribeAccount returns the caller's own member record, including the private details and profile
+	// fields that MemberService only shows to administrators, plus the team record when the caller belongs to
+	// a team. The caller must be authenticated as a member of the space; there is nothing to ask for and no
+	// extras to select.
 	DescribeAccount(ctx context.Context, in *DescribeAccountInput, opts ...grpc.CallOption) (*DescribeAccountOutput, error)
+	// UpdateAccount writes the caller's own details as selected by the patch mask. Changing the nickname, the
+	// email address or the password requires the current password in the same request, and a nickname may
+	// only be changed once a year. A new email address leaves the account unverified again and sends a fresh
+	// code, so the change is complete only once CompleteVerification has run.
 	UpdateAccount(ctx context.Context, in *UpdateAccountInput, opts ...grpc.CallOption) (*UpdateAccountOutput, error)
+	// UploadPicture replaces the caller's own profile picture and returns the URL it was saved at. Only PNG
+	// and JPEG are accepted; the image is cropped to the square described by the request, stored downscaled
+	// to at most 300 pixels a side, and a request over the endpoint's 2 MiB limit is rejected. It is refused
+	// when the space's identity configuration does not let members edit their own basic details.
 	UploadPicture(ctx context.Context, in *UploadPictureInput, opts ...grpc.CallOption) (*UploadPictureOutput, error)
+	// DeleteAccount asks for the caller's own account to be closed, and what that achieves depends on which
+	// implementation answers: an Eolymp account is scheduled for deletion in seven days, is refused sign in
+	// from that moment, and is told so by email. A space member is only marked, and the mark currently has no
+	// further effect — the member keeps their access — so do not rely on this to remove someone from a space.
+	// An administrator clears the mark with MemberService.RestoreMember.
 	DeleteAccount(ctx context.Context, in *DeleteAccountInput, opts ...grpc.CallOption) (*DeleteAccountOutput, error)
+	// ResendVerification sends the caller a new email verification code, for the case where the first message
+	// never arrived, and the code it replaces stops working. It does nothing when the address is already
+	// verified, and is refused when the member has no address or when a code was already sent in the last ten
+	// minutes.
 	ResendVerification(ctx context.Context, in *ResendVerificationInput, opts ...grpc.CallOption) (*ResendVerificationOutput, error)
+	// CompleteVerification marks a member's email address as verified once the code from the message matches,
+	// and consumes the code so it cannot be used twice. It names the member explicitly and needs no session,
+	// which is what lets a link in the message work in a browser nobody is signed in to. It applies only to
+	// members the space's own user database owns.
 	CompleteVerification(ctx context.Context, in *CompleteVerificationInput, opts ...grpc.CallOption) (*CompleteVerificationOutput, error)
+	// StartRecovery begins password recovery for the member holding the given address in this space and sends
+	// them a code; it needs no session and requires a captcha solution. It is refused when the space does not
+	// keep its own passwords, when an administrator has turned recovery off, and when recovery was already
+	// started within the last ten minutes. The response identifies the member found for that address, which is
+	// what CompleteRecovery needs alongside the code.
 	StartRecovery(ctx context.Context, in *StartRecoveryInput, opts ...grpc.CallOption) (*StartRecoveryOutput, error)
+	// CompleteRecovery sets a new password once the code from the recovery message matches, and consumes the
+	// code. Like the method that started the flow it needs no session, since the code and the member identity
+	// carried by the message stand in for one, and it is refused when the space does not allow password
+	// changes.
 	CompleteRecovery(ctx context.Context, in *CompleteRecoverInput, opts ...grpc.CallOption) (*CompleteRecoverOutput, error)
+	// DescribeEmailSubscription reads the mailing topics a member is subscribed to, identifying them by a
+	// token taken from one of those emails rather than by a session, so an unsubscribe page works without
+	// signing in.
 	DescribeEmailSubscription(ctx context.Context, in *DescribeEmailSubscriptionInput, opts ...grpc.CallOption) (*DescribeEmailSubscriptionOutput, error)
+	// UpdateEmailSubscription replaces the member's set of mailing topics with the one in the request, using
+	// the same token from an email as the read does. The set is replaced rather than merged: a topic left out
+	// of the request is unsubscribed, and an empty request unsubscribes from everything.
 	UpdateEmailSubscription(ctx context.Context, in *UpdateEmailSubscriptionInput, opts ...grpc.CallOption) (*UpdateEmailSubscriptionOutput, error)
 }
 
@@ -173,18 +233,78 @@ func (c *accountServiceClient) UpdateEmailSubscription(ctx context.Context, in *
 // All implementations should embed UnimplementedAccountServiceServer
 // for forward compatibility.
 //
-// AccountService provides API to create and manage your own account.
+// AccountService lets a person manage their own account.
+//
+// The same contract is served by two implementations, and the base URL decides which one answers: addressed
+// to a space it manages that person's membership of it, while accounts.eolymp.com serves their Eolymp account
+// instead. The two are not equally complete — closing an account is only carried out for an Eolymp account —
+// so read each method for what it does in the context you are calling it in.
+//
+// Most of it acts on the member the caller is authenticated as, which is why no method names a member to
+// act upon; the exceptions are the methods that finish a flow started by email, which identify the member
+// by the secret from that message instead of by a session. The service only works where the space keeps its
+// own user database: signing up, verifying an email address and recovering a password are all refused when
+// identity is delegated to an external provider, and the person manages those details with that provider
+// instead — at accounts.eolymp.com for a space backed by Eolymp accounts. Which of their own details a
+// member may change is part of the space's identity configuration, and patches for anything it withholds
+// are ignored rather than refused. Everything an administrator does to other members lives in
+// MemberService.
 type AccountServiceServer interface {
+	// CreateAccount signs a person up as a new member of the space and is the one method here an anonymous
+	// caller uses, so it requires a captcha solution. It works only where the space keeps its own user
+	// database and its identity configuration allows sign-up, and it is refused once the space has run out of
+	// member quota. The new member starts out unverified and is sent a verification code, so a sign-up flow
+	// carries on into CompleteVerification using the member id returned here.
 	CreateAccount(context.Context, *CreateAccountInput) (*CreateAccountOutput, error)
+	// DescribeAccount returns the caller's own member record, including the private details and profile
+	// fields that MemberService only shows to administrators, plus the team record when the caller belongs to
+	// a team. The caller must be authenticated as a member of the space; there is nothing to ask for and no
+	// extras to select.
 	DescribeAccount(context.Context, *DescribeAccountInput) (*DescribeAccountOutput, error)
+	// UpdateAccount writes the caller's own details as selected by the patch mask. Changing the nickname, the
+	// email address or the password requires the current password in the same request, and a nickname may
+	// only be changed once a year. A new email address leaves the account unverified again and sends a fresh
+	// code, so the change is complete only once CompleteVerification has run.
 	UpdateAccount(context.Context, *UpdateAccountInput) (*UpdateAccountOutput, error)
+	// UploadPicture replaces the caller's own profile picture and returns the URL it was saved at. Only PNG
+	// and JPEG are accepted; the image is cropped to the square described by the request, stored downscaled
+	// to at most 300 pixels a side, and a request over the endpoint's 2 MiB limit is rejected. It is refused
+	// when the space's identity configuration does not let members edit their own basic details.
 	UploadPicture(context.Context, *UploadPictureInput) (*UploadPictureOutput, error)
+	// DeleteAccount asks for the caller's own account to be closed, and what that achieves depends on which
+	// implementation answers: an Eolymp account is scheduled for deletion in seven days, is refused sign in
+	// from that moment, and is told so by email. A space member is only marked, and the mark currently has no
+	// further effect — the member keeps their access — so do not rely on this to remove someone from a space.
+	// An administrator clears the mark with MemberService.RestoreMember.
 	DeleteAccount(context.Context, *DeleteAccountInput) (*DeleteAccountOutput, error)
+	// ResendVerification sends the caller a new email verification code, for the case where the first message
+	// never arrived, and the code it replaces stops working. It does nothing when the address is already
+	// verified, and is refused when the member has no address or when a code was already sent in the last ten
+	// minutes.
 	ResendVerification(context.Context, *ResendVerificationInput) (*ResendVerificationOutput, error)
+	// CompleteVerification marks a member's email address as verified once the code from the message matches,
+	// and consumes the code so it cannot be used twice. It names the member explicitly and needs no session,
+	// which is what lets a link in the message work in a browser nobody is signed in to. It applies only to
+	// members the space's own user database owns.
 	CompleteVerification(context.Context, *CompleteVerificationInput) (*CompleteVerificationOutput, error)
+	// StartRecovery begins password recovery for the member holding the given address in this space and sends
+	// them a code; it needs no session and requires a captcha solution. It is refused when the space does not
+	// keep its own passwords, when an administrator has turned recovery off, and when recovery was already
+	// started within the last ten minutes. The response identifies the member found for that address, which is
+	// what CompleteRecovery needs alongside the code.
 	StartRecovery(context.Context, *StartRecoveryInput) (*StartRecoveryOutput, error)
+	// CompleteRecovery sets a new password once the code from the recovery message matches, and consumes the
+	// code. Like the method that started the flow it needs no session, since the code and the member identity
+	// carried by the message stand in for one, and it is refused when the space does not allow password
+	// changes.
 	CompleteRecovery(context.Context, *CompleteRecoverInput) (*CompleteRecoverOutput, error)
+	// DescribeEmailSubscription reads the mailing topics a member is subscribed to, identifying them by a
+	// token taken from one of those emails rather than by a session, so an unsubscribe page works without
+	// signing in.
 	DescribeEmailSubscription(context.Context, *DescribeEmailSubscriptionInput) (*DescribeEmailSubscriptionOutput, error)
+	// UpdateEmailSubscription replaces the member's set of mailing topics with the one in the request, using
+	// the same token from an email as the read does. The set is replaced rather than merged: a topic left out
+	// of the request is unsubscribed, and an empty request unsubscribes from everything.
 	UpdateEmailSubscription(context.Context, *UpdateEmailSubscriptionInput) (*UpdateEmailSubscriptionOutput, error)
 }
 

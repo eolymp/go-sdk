@@ -40,35 +40,98 @@ const (
 // ContestServiceClient is the client API for ContestService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// ContestService manages contests in a space.
+//
+// A contest is a container in which participants solve a series of problems; the space around it owns the
+// member database and the problem archive the contest draws on, and a single contest scales from a small
+// practice session to an olympiad with tens of thousands of participants. Contest status is a state machine —
+// SCHEDULED before the start, OPEN while it runs, COMPLETE once it is over, SUSPENDED or FROZEN while
+// organizers hold participants back, FINALIZED once results are permanent — and several methods here are the
+// transitions between those states; there is no draft status, an unlisted or private contest which has not
+// started plays that role. Almost every setting a contest has, from participation and scoreboard behaviour to
+// rating, plagiarism, certification, classification and available runtimes, is written through UpdateContest
+// with a patch mask rather than through a method of its own. Unlike most other judge services this one is
+// scoped to a space, so its calls sit under the space rather than under a contest, and each contest carries a
+// read-only url field holding its own base URL to use with the contest-scoped services. Note that judge has
+// its own ProblemService and SubmissionService, distinct from the same-named services in atlas: atlas owns
+// the problem archive, judge owns what a contest does with it.
 type ContestServiceClient interface {
+	// CreateContest adds a new contest to the space and returns its ID. The contest is created SCHEDULED and is
+	// exposed to participants according to the visibility it is given, so a private or unlisted contest is how
+	// one is prepared before announcing it. The competition format is picked here and can no longer be changed
+	// once the contest has its first submission.
 	CreateContest(ctx context.Context, in *CreateContestInput, opts ...grpc.CallOption) (*CreateContestOutput, error)
+	// DeleteContest permanently removes the contest together with the participants, submissions and results
+	// recorded inside it, and there is no restore. To take a contest out of sight while keeping what happened
+	// in it, change its visibility with UpdateContest instead.
 	DeleteContest(ctx context.Context, in *DeleteContestInput, opts ...grpc.CallOption) (*DeleteContestOutput, error)
+	// UpdateContest is the single entry point for contest settings, from schedule and visibility down to each
+	// of the configuration blocks. Only fields named in the patch mask are written, and an empty mask writes
+	// all of them, blanking whatever the request left empty. It never moves the contest between statuses — the
+	// transition methods below do that — and it cannot change the format of a contest which already has
+	// submissions.
 	UpdateContest(ctx context.Context, in *UpdateContestInput, opts ...grpc.CallOption) (*UpdateContestOutput, error)
+	// CopyContest duplicates an existing contest into a new one in the same space and returns the new ID, which
+	// is the usual way to run the same set of problems again. The requested copy scopes decide how much of the
+	// source is carried over; results of past participation are never copied, so copied participants start
+	// clean. The name and visibility of the copy are given in the request rather than inherited.
 	CopyContest(ctx context.Context, in *CopyContestInput, opts ...grpc.CallOption) (*CopyContestOutput, error)
+	// DescribeContest returns a single contest with its current status, its read-only counters and the base URL
+	// to address the contest-scoped services with. The configuration blocks and the staff list are left out
+	// unless they are asked for as extras.
 	DescribeContest(ctx context.Context, in *DescribeContestInput, opts ...grpc.CallOption) (*DescribeContestOutput, error)
+	// ListContests returns a page of the space's contests; page over the reported total rather than over the
+	// number of items returned. Which contests a caller sees depends on their visibility and on the caller's
+	// permissions, and as in DescribeContest the configuration blocks come back only when requested as extras.
 	ListContests(ctx context.Context, in *ListContestsInput, opts ...grpc.CallOption) (*ListContestsOutput, error)
-	// Force-starts scheduled contest, this call also automatically changes starts_at to current time and adjusts
-	// ends_at to match original date range of the contest.
+	// OpenContest takes a SCHEDULED contest to OPEN ahead of its schedule, which is the transition the console
+	// offers as "Start": participants can read problems and submit from that moment on. The start time is
+	// rewritten to now and the end time is shifted to preserve the contest's original length, so the planned
+	// schedule is replaced rather than kept. A contest reaching its start time opens on its own, this call is
+	// only needed to start one early.
 	OpenContest(ctx context.Context, in *OpenContestInput, opts ...grpc.CallOption) (*OpenContestOutput, error)
-	// Force-finishes open contest, this method automatically changes ends_at to current time.
+	// CloseContest takes an OPEN contest to COMPLETE ahead of its schedule, the transition the console labels
+	// "Stop", and rewrites the end time to now so later submissions no longer count towards the official score.
+	// Results remain editable afterwards — rejudging, penalties and disqualifications are all still possible
+	// until the contest is finalized — and participants may keep solving if upsolving is allowed.
 	CloseContest(ctx context.Context, in *CloseContestInput, opts ...grpc.CallOption) (*CloseContestOutput, error)
-	// Temporarily stop contest and block participant's interface
-	// Use ResumeContest to switch contest back to a normal mode.
+	// SuspendContest takes a running contest to SUSPENDED, which withdraws the participant interface entirely —
+	// problems cannot be read and nothing can be submitted. It is the heavy-handed response to an incident
+	// mid-contest, where FreezeContest is the milder one, and only ResumeContest undoes it.
 	SuspendContest(ctx context.Context, in *SuspendContestInput, opts ...grpc.CallOption) (*SuspendContestOutput, error)
-	// Temporarily restrict submission function
-	// Use ResumeContest to switch contest back to a normal mode.
+	// FreezeContest takes a running contest to FROZEN, leaving the participant interface reachable while
+	// restricting submitting, so participants keep access to problems and to what they have already done. This
+	// is a manual status change and is a different thing from the scoreboard freezing configured through
+	// UpdateContest, which hides standings near the end of a contest by itself. Use ResumeContest to lift it.
 	FreezeContest(ctx context.Context, in *FreezeContestInput, opts ...grpc.CallOption) (*FreezeContestOutput, error)
-	// Finalize contest results.
-	// This action finalizes contest standings, issues participation certificates and awards medals etc.
-	// After finalizing a contest it is not possible to change any parameters or results.
-	// This action is irreversible.
+	// FinalizeContest takes a COMPLETE contest to FINALIZED, and is therefore offered only once the contest is
+	// over. Finalizing fixes the standings, awards medals, issues the participation certificates if
+	// certification is configured, and sends the result notification if it was enabled. Neither settings nor
+	// results can be changed afterwards and there is no way back, so finish any rejudging, disqualification and
+	// plagiarism review first.
 	FinalizeContest(ctx context.Context, in *FinalizeContestInput, opts ...grpc.CallOption) (*FinalizeContestOutput, error)
-	// Re-start suspended or frozen contest
+	// ResumeContest brings a SUSPENDED or FROZEN contest back to OPEN, restoring the participant interface and
+	// accepting submissions again; it is the counterpart of both SuspendContest and FreezeContest. It resumes a
+	// contest which is still running and does not reopen one which has already finished.
 	ResumeContest(ctx context.Context, in *ResumeContestInput, opts ...grpc.CallOption) (*ResumeContestOutput, error)
-	// Analyze contest submissions for plagiarism, cheating and other violations.
+	// AnalyzeContest examines the contest's submissions for plagiarism and, when the contest's plagiarism
+	// configuration asks for it, for signs that code was produced by generative AI; it requires a space which
+	// supports plagiarism detection. The work is asynchronous, so this call only starts it: follow the progress
+	// as an activity, and read what was found as automatically detected violations through ViolationService.
 	AnalyzeContest(ctx context.Context, in *AnalyzeContestInput, opts ...grpc.CallOption) (*AnalyzeContestOutput, error)
+	// WatchContest streams the contest again every time it changes, which keeps a participant or jury interface
+	// in step with status transitions and setting changes without polling DescribeContest. It has no HTTP
+	// binding, so it is reachable over gRPC rather than through the REST API and the generated HTTP clients.
 	WatchContest(ctx context.Context, in *WatchContestInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchContestOutput], error)
+	// ListActivities returns a page of the long-running background jobs of one contest — problem retests,
+	// scoreboard rebuilds, plagiarism analysis — with the progress each made and the error which stopped it.
+	// This is how the completion of an asynchronous operation such as AnalyzeContest is observed, since those
+	// calls return as soon as the job is scheduled.
 	ListActivities(ctx context.Context, in *ListActivitiesInput, opts ...grpc.CallOption) (*ListActivitiesOutput, error)
+	// DescribeContestUsage reports how many contests the space has consumed, which is what contest quota and
+	// billing are measured against. It counts contests across the whole space rather than describing any single
+	// contest, and the requested period selects which contests the period-based counts cover.
 	DescribeContestUsage(ctx context.Context, in *DescribeContestUsageInput, opts ...grpc.CallOption) (*DescribeContestUsageOutput, error)
 }
 
@@ -252,35 +315,98 @@ func (c *contestServiceClient) DescribeContestUsage(ctx context.Context, in *Des
 // ContestServiceServer is the server API for ContestService service.
 // All implementations should embed UnimplementedContestServiceServer
 // for forward compatibility.
+//
+// ContestService manages contests in a space.
+//
+// A contest is a container in which participants solve a series of problems; the space around it owns the
+// member database and the problem archive the contest draws on, and a single contest scales from a small
+// practice session to an olympiad with tens of thousands of participants. Contest status is a state machine —
+// SCHEDULED before the start, OPEN while it runs, COMPLETE once it is over, SUSPENDED or FROZEN while
+// organizers hold participants back, FINALIZED once results are permanent — and several methods here are the
+// transitions between those states; there is no draft status, an unlisted or private contest which has not
+// started plays that role. Almost every setting a contest has, from participation and scoreboard behaviour to
+// rating, plagiarism, certification, classification and available runtimes, is written through UpdateContest
+// with a patch mask rather than through a method of its own. Unlike most other judge services this one is
+// scoped to a space, so its calls sit under the space rather than under a contest, and each contest carries a
+// read-only url field holding its own base URL to use with the contest-scoped services. Note that judge has
+// its own ProblemService and SubmissionService, distinct from the same-named services in atlas: atlas owns
+// the problem archive, judge owns what a contest does with it.
 type ContestServiceServer interface {
+	// CreateContest adds a new contest to the space and returns its ID. The contest is created SCHEDULED and is
+	// exposed to participants according to the visibility it is given, so a private or unlisted contest is how
+	// one is prepared before announcing it. The competition format is picked here and can no longer be changed
+	// once the contest has its first submission.
 	CreateContest(context.Context, *CreateContestInput) (*CreateContestOutput, error)
+	// DeleteContest permanently removes the contest together with the participants, submissions and results
+	// recorded inside it, and there is no restore. To take a contest out of sight while keeping what happened
+	// in it, change its visibility with UpdateContest instead.
 	DeleteContest(context.Context, *DeleteContestInput) (*DeleteContestOutput, error)
+	// UpdateContest is the single entry point for contest settings, from schedule and visibility down to each
+	// of the configuration blocks. Only fields named in the patch mask are written, and an empty mask writes
+	// all of them, blanking whatever the request left empty. It never moves the contest between statuses — the
+	// transition methods below do that — and it cannot change the format of a contest which already has
+	// submissions.
 	UpdateContest(context.Context, *UpdateContestInput) (*UpdateContestOutput, error)
+	// CopyContest duplicates an existing contest into a new one in the same space and returns the new ID, which
+	// is the usual way to run the same set of problems again. The requested copy scopes decide how much of the
+	// source is carried over; results of past participation are never copied, so copied participants start
+	// clean. The name and visibility of the copy are given in the request rather than inherited.
 	CopyContest(context.Context, *CopyContestInput) (*CopyContestOutput, error)
+	// DescribeContest returns a single contest with its current status, its read-only counters and the base URL
+	// to address the contest-scoped services with. The configuration blocks and the staff list are left out
+	// unless they are asked for as extras.
 	DescribeContest(context.Context, *DescribeContestInput) (*DescribeContestOutput, error)
+	// ListContests returns a page of the space's contests; page over the reported total rather than over the
+	// number of items returned. Which contests a caller sees depends on their visibility and on the caller's
+	// permissions, and as in DescribeContest the configuration blocks come back only when requested as extras.
 	ListContests(context.Context, *ListContestsInput) (*ListContestsOutput, error)
-	// Force-starts scheduled contest, this call also automatically changes starts_at to current time and adjusts
-	// ends_at to match original date range of the contest.
+	// OpenContest takes a SCHEDULED contest to OPEN ahead of its schedule, which is the transition the console
+	// offers as "Start": participants can read problems and submit from that moment on. The start time is
+	// rewritten to now and the end time is shifted to preserve the contest's original length, so the planned
+	// schedule is replaced rather than kept. A contest reaching its start time opens on its own, this call is
+	// only needed to start one early.
 	OpenContest(context.Context, *OpenContestInput) (*OpenContestOutput, error)
-	// Force-finishes open contest, this method automatically changes ends_at to current time.
+	// CloseContest takes an OPEN contest to COMPLETE ahead of its schedule, the transition the console labels
+	// "Stop", and rewrites the end time to now so later submissions no longer count towards the official score.
+	// Results remain editable afterwards — rejudging, penalties and disqualifications are all still possible
+	// until the contest is finalized — and participants may keep solving if upsolving is allowed.
 	CloseContest(context.Context, *CloseContestInput) (*CloseContestOutput, error)
-	// Temporarily stop contest and block participant's interface
-	// Use ResumeContest to switch contest back to a normal mode.
+	// SuspendContest takes a running contest to SUSPENDED, which withdraws the participant interface entirely —
+	// problems cannot be read and nothing can be submitted. It is the heavy-handed response to an incident
+	// mid-contest, where FreezeContest is the milder one, and only ResumeContest undoes it.
 	SuspendContest(context.Context, *SuspendContestInput) (*SuspendContestOutput, error)
-	// Temporarily restrict submission function
-	// Use ResumeContest to switch contest back to a normal mode.
+	// FreezeContest takes a running contest to FROZEN, leaving the participant interface reachable while
+	// restricting submitting, so participants keep access to problems and to what they have already done. This
+	// is a manual status change and is a different thing from the scoreboard freezing configured through
+	// UpdateContest, which hides standings near the end of a contest by itself. Use ResumeContest to lift it.
 	FreezeContest(context.Context, *FreezeContestInput) (*FreezeContestOutput, error)
-	// Finalize contest results.
-	// This action finalizes contest standings, issues participation certificates and awards medals etc.
-	// After finalizing a contest it is not possible to change any parameters or results.
-	// This action is irreversible.
+	// FinalizeContest takes a COMPLETE contest to FINALIZED, and is therefore offered only once the contest is
+	// over. Finalizing fixes the standings, awards medals, issues the participation certificates if
+	// certification is configured, and sends the result notification if it was enabled. Neither settings nor
+	// results can be changed afterwards and there is no way back, so finish any rejudging, disqualification and
+	// plagiarism review first.
 	FinalizeContest(context.Context, *FinalizeContestInput) (*FinalizeContestOutput, error)
-	// Re-start suspended or frozen contest
+	// ResumeContest brings a SUSPENDED or FROZEN contest back to OPEN, restoring the participant interface and
+	// accepting submissions again; it is the counterpart of both SuspendContest and FreezeContest. It resumes a
+	// contest which is still running and does not reopen one which has already finished.
 	ResumeContest(context.Context, *ResumeContestInput) (*ResumeContestOutput, error)
-	// Analyze contest submissions for plagiarism, cheating and other violations.
+	// AnalyzeContest examines the contest's submissions for plagiarism and, when the contest's plagiarism
+	// configuration asks for it, for signs that code was produced by generative AI; it requires a space which
+	// supports plagiarism detection. The work is asynchronous, so this call only starts it: follow the progress
+	// as an activity, and read what was found as automatically detected violations through ViolationService.
 	AnalyzeContest(context.Context, *AnalyzeContestInput) (*AnalyzeContestOutput, error)
+	// WatchContest streams the contest again every time it changes, which keeps a participant or jury interface
+	// in step with status transitions and setting changes without polling DescribeContest. It has no HTTP
+	// binding, so it is reachable over gRPC rather than through the REST API and the generated HTTP clients.
 	WatchContest(*WatchContestInput, grpc.ServerStreamingServer[WatchContestOutput]) error
+	// ListActivities returns a page of the long-running background jobs of one contest — problem retests,
+	// scoreboard rebuilds, plagiarism analysis — with the progress each made and the error which stopped it.
+	// This is how the completion of an asynchronous operation such as AnalyzeContest is observed, since those
+	// calls return as soon as the job is scheduled.
 	ListActivities(context.Context, *ListActivitiesInput) (*ListActivitiesOutput, error)
+	// DescribeContestUsage reports how many contests the space has consumed, which is what contest quota and
+	// billing are measured against. It counts contests across the whole space rather than describing any single
+	// contest, and the requested period selects which contests the period-based counts cover.
 	DescribeContestUsage(context.Context, *DescribeContestUsageInput) (*DescribeContestUsageOutput, error)
 }
 

@@ -35,20 +35,68 @@ const (
 // SubmissionServiceClient is the client API for SubmissionService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// SubmissionService handles submissions made inside a contest: a participant's program, compiled and run
+// against the tests of the contest problem it was sent to.
+//
+// This is not eolymp.atlas.SubmissionService, which covers submissions against problems in the archive:
+// every submission here belongs to one contest and references the contest's own problem rather than the
+// archive problem that problem was imported from. Evaluation is asynchronous, so any method can hand back
+// a submission which is not judged yet: `status` says how far evaluation has got, while `verdict` is the
+// outcome of an evaluation which ran to completion. Besides submitting and reading, the service
+// re-evaluates submissions, takes them out of scoring and analyses them for misconduct.
 type SubmissionServiceClient interface {
-	// Creates submissions and triggers test process.
+	// CreateSubmission sends a program in for one of the contest's problems on behalf of the calling
+	// participant and queues its evaluation, returning the new submission's ID; follow it with
+	// DescribeSubmission or WatchSubmission. It carries the participate scope rather than contest write,
+	// needs the participant to have started the contest (see ParticipantService.StartContest), and is
+	// restricted while the contest is frozen.
 	CreateSubmission(ctx context.Context, in *CreateSubmissionInput, opts ...grpc.CallOption) (*CreateSubmissionOutput, error)
+	// ListSubmissions returns the submissions of one contest, newest first, and is what a jury submission
+	// table or a participant's own submission history is built on. Deep listings are best walked by feeding
+	// the cursor of the previous page back into the next request instead of growing the offset.
 	ListSubmissions(ctx context.Context, in *ListSubmissionsInput, opts ...grpc.CallOption) (*ListSubmissionsOutput, error)
+	// DescribeSubmission returns one submission of the contest together with the breakdown of its test groups.
+	// How much per-test detail a group carries is decided by the feedback policy configured on the problem's
+	// testset and not by anything in the request, so for the same submission a participant may see considerably
+	// less than the jury does.
 	DescribeSubmission(ctx context.Context, in *DescribeSubmissionInput, opts ...grpc.CallOption) (*DescribeSubmissionOutput, error)
+	// PrintSubmission queues the source code of a submission for printing on the printer the contest is
+	// configured with, and does nothing else to the submission. Contests without a printer cannot print; to
+	// print code a participant has not submitted, use atlas EditorService.PrintEditorCode instead.
 	PrintSubmission(ctx context.Context, in *PrintSubmissionInput, opts ...grpc.CallOption) (*PrintSubmissionOutput, error)
+	// WatchSubmission streams one submission again every time its evaluation advances, which is how a client
+	// shows a verdict appearing live instead of polling DescribeSubmission. Server streaming only: there is no
+	// HTTP binding, the method is reachable through the SDKs.
 	WatchSubmission(ctx context.Context, in *WatchSubmissionInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchSubmissionOutput], error)
+	// WatchSubmissionList streams the contest's submissions as they are created, updated and deleted, which is
+	// what live jury and monitoring screens are built on; unlike ListSubmissions it cannot be narrowed down.
+	// Server streaming only: there is no HTTP binding, the method is reachable through the SDKs.
 	WatchSubmissionList(ctx context.Context, in *WatchSubmissionListInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchSubmissionListOutput], error)
-	// Resets submission results and triggers testing process.
+	// RetestSubmission re-evaluates an existing submission in place, which is what the console calls
+	// "rejudge": the previous results are discarded while the submission keeps its ID, its submission time
+	// and its position in listings. The score it contributes can come out different, so the participant's
+	// standing may move; the call returns as soon as evaluation is queued.
 	RetestSubmission(ctx context.Context, in *RetestSubmissionInput, opts ...grpc.CallOption) (*RetestSubmissionOutput, error)
+	// DeleteSubmission excludes a submission from score calculation without destroying it: the submission
+	// is flagged as deleted, keeps its ID and can be brought back by RestoreSubmission. It needs the
+	// contest write scope, so it is a jury tool for discarding a submission which should not count, not a
+	// way for participants to withdraw their own.
 	DeleteSubmission(ctx context.Context, in *DeleteSubmissionInput, opts ...grpc.CallOption) (*DeleteSubmissionOutput, error)
+	// RestoreSubmission undoes DeleteSubmission, clearing the deleted flag so the submission counts towards the
+	// score again as it did before. Nothing about the submission itself was lost while it was deleted, so no
+	// re-evaluation is involved.
 	RestoreSubmission(ctx context.Context, in *RestoreSubmissionInput, opts ...grpc.CallOption) (*RestoreSubmissionOutput, error)
-	// RetestProblem resets existing submissions for the problem and triggers testing process again.
+	// RetestProblem re-evaluates every submission made for one problem of the contest, and is the bulk form
+	// of RetestSubmission — reach for it after correcting tests or limits while the contest is under way.
+	// The score of everyone who attempted the problem may change, and the work is queued in the background,
+	// so the call returns long before the last submission has been retested.
 	RetestProblem(ctx context.Context, in *RetestProblemInput, opts ...grpc.CallOption) (*RetestProblemOutput, error)
+	// AnalyzeSubmission runs the contest's misconduct analysis over a single submission, looking for
+	// plagiarism and for signs the code was generated by an AI; it is the per-submission form of
+	// ContestService.AnalyzeContest. The response is empty and findings are reported elsewhere: an estimate
+	// of AI authorship lands on the submission itself, and anything worth acting on becomes a violation
+	// flagged as automatically detected, read through ViolationService.
 	AnalyzeSubmission(ctx context.Context, in *AnalyzeSubmissionInput, opts ...grpc.CallOption) (*AnalyzeSubmissionOutput, error)
 }
 
@@ -191,20 +239,68 @@ func (c *submissionServiceClient) AnalyzeSubmission(ctx context.Context, in *Ana
 // SubmissionServiceServer is the server API for SubmissionService service.
 // All implementations should embed UnimplementedSubmissionServiceServer
 // for forward compatibility.
+//
+// SubmissionService handles submissions made inside a contest: a participant's program, compiled and run
+// against the tests of the contest problem it was sent to.
+//
+// This is not eolymp.atlas.SubmissionService, which covers submissions against problems in the archive:
+// every submission here belongs to one contest and references the contest's own problem rather than the
+// archive problem that problem was imported from. Evaluation is asynchronous, so any method can hand back
+// a submission which is not judged yet: `status` says how far evaluation has got, while `verdict` is the
+// outcome of an evaluation which ran to completion. Besides submitting and reading, the service
+// re-evaluates submissions, takes them out of scoring and analyses them for misconduct.
 type SubmissionServiceServer interface {
-	// Creates submissions and triggers test process.
+	// CreateSubmission sends a program in for one of the contest's problems on behalf of the calling
+	// participant and queues its evaluation, returning the new submission's ID; follow it with
+	// DescribeSubmission or WatchSubmission. It carries the participate scope rather than contest write,
+	// needs the participant to have started the contest (see ParticipantService.StartContest), and is
+	// restricted while the contest is frozen.
 	CreateSubmission(context.Context, *CreateSubmissionInput) (*CreateSubmissionOutput, error)
+	// ListSubmissions returns the submissions of one contest, newest first, and is what a jury submission
+	// table or a participant's own submission history is built on. Deep listings are best walked by feeding
+	// the cursor of the previous page back into the next request instead of growing the offset.
 	ListSubmissions(context.Context, *ListSubmissionsInput) (*ListSubmissionsOutput, error)
+	// DescribeSubmission returns one submission of the contest together with the breakdown of its test groups.
+	// How much per-test detail a group carries is decided by the feedback policy configured on the problem's
+	// testset and not by anything in the request, so for the same submission a participant may see considerably
+	// less than the jury does.
 	DescribeSubmission(context.Context, *DescribeSubmissionInput) (*DescribeSubmissionOutput, error)
+	// PrintSubmission queues the source code of a submission for printing on the printer the contest is
+	// configured with, and does nothing else to the submission. Contests without a printer cannot print; to
+	// print code a participant has not submitted, use atlas EditorService.PrintEditorCode instead.
 	PrintSubmission(context.Context, *PrintSubmissionInput) (*PrintSubmissionOutput, error)
+	// WatchSubmission streams one submission again every time its evaluation advances, which is how a client
+	// shows a verdict appearing live instead of polling DescribeSubmission. Server streaming only: there is no
+	// HTTP binding, the method is reachable through the SDKs.
 	WatchSubmission(*WatchSubmissionInput, grpc.ServerStreamingServer[WatchSubmissionOutput]) error
+	// WatchSubmissionList streams the contest's submissions as they are created, updated and deleted, which is
+	// what live jury and monitoring screens are built on; unlike ListSubmissions it cannot be narrowed down.
+	// Server streaming only: there is no HTTP binding, the method is reachable through the SDKs.
 	WatchSubmissionList(*WatchSubmissionListInput, grpc.ServerStreamingServer[WatchSubmissionListOutput]) error
-	// Resets submission results and triggers testing process.
+	// RetestSubmission re-evaluates an existing submission in place, which is what the console calls
+	// "rejudge": the previous results are discarded while the submission keeps its ID, its submission time
+	// and its position in listings. The score it contributes can come out different, so the participant's
+	// standing may move; the call returns as soon as evaluation is queued.
 	RetestSubmission(context.Context, *RetestSubmissionInput) (*RetestSubmissionOutput, error)
+	// DeleteSubmission excludes a submission from score calculation without destroying it: the submission
+	// is flagged as deleted, keeps its ID and can be brought back by RestoreSubmission. It needs the
+	// contest write scope, so it is a jury tool for discarding a submission which should not count, not a
+	// way for participants to withdraw their own.
 	DeleteSubmission(context.Context, *DeleteSubmissionInput) (*DeleteSubmissionOutput, error)
+	// RestoreSubmission undoes DeleteSubmission, clearing the deleted flag so the submission counts towards the
+	// score again as it did before. Nothing about the submission itself was lost while it was deleted, so no
+	// re-evaluation is involved.
 	RestoreSubmission(context.Context, *RestoreSubmissionInput) (*RestoreSubmissionOutput, error)
-	// RetestProblem resets existing submissions for the problem and triggers testing process again.
+	// RetestProblem re-evaluates every submission made for one problem of the contest, and is the bulk form
+	// of RetestSubmission — reach for it after correcting tests or limits while the contest is under way.
+	// The score of everyone who attempted the problem may change, and the work is queued in the background,
+	// so the call returns long before the last submission has been retested.
 	RetestProblem(context.Context, *RetestProblemInput) (*RetestProblemOutput, error)
+	// AnalyzeSubmission runs the contest's misconduct analysis over a single submission, looking for
+	// plagiarism and for signs the code was generated by an AI; it is the per-submission form of
+	// ContestService.AnalyzeContest. The response is empty and findings are reported elsewhere: an estimate
+	// of AI authorship lands on the submission itself, and anything worth acting on becomes a violation
+	// flagged as automatically detected, read through ViolationService.
 	AnalyzeSubmission(context.Context, *AnalyzeSubmissionInput) (*AnalyzeSubmissionOutput, error)
 }
 

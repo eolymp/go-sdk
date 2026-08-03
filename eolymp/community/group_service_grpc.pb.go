@@ -30,12 +30,32 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 //
-// GroupService provides API to manage space groups.
+// GroupService manages the groups a space organises its members into.
+//
+// A group is a named label, optionally decorating its members with an icon, badge and colour, and it
+// carries no member list of its own: membership is a property of the member, written and filtered on
+// through eolymp.community.MemberService. What a group is used for downstream behaves differently and
+// catches people out — assigning contest participants from a group copies the members it holds at that
+// moment and never updates them again, while a course class built on a group keeps enrolling members as
+// they join it later. Groups grant no permissions, access is granted by eolymp.acl policies attached to
+// users, and a group exists only in the space it was created in.
 type GroupServiceClient interface {
+	// CreateGroup declares a new group in the space and returns its id. The group starts out with no members:
+	// put members into it by writing their groups through eolymp.community.MemberService.
 	CreateGroup(ctx context.Context, in *CreateGroupInput, opts ...grpc.CallOption) (*CreateGroupOutput, error)
+	// UpdateGroup applies only the properties named in the patch. An empty patch writes all of them, which
+	// resets the properties left blank in the request, so name the fields explicitly when changing a single
+	// one.
 	UpdateGroup(ctx context.Context, in *UpdateGroupInput, opts ...grpc.CallOption) (*UpdateGroupOutput, error)
+	// DeleteGroup removes the group and every member's membership of it, leaving the members themselves in
+	// the space, and succeeds even when the group is already gone. Course classes built on the group are
+	// deleted with it, along with their assignments, while contest participants copied from it earlier stay.
 	DeleteGroup(ctx context.Context, in *DeleteGroupInput, opts ...grpc.CallOption) (*DeleteGroupOutput, error)
+	// DescribeGroup returns a single group of this space. It does not return the group's members; read those
+	// from eolymp.community.MemberService filtered by this group.
 	DescribeGroup(ctx context.Context, in *DescribeGroupInput, opts ...grpc.CallOption) (*DescribeGroupOutput, error)
+	// ListGroups returns the groups of this space ordered by name. The free-text query matches the group name
+	// only; groups of other spaces are never returned, whatever the filters ask for.
 	ListGroups(ctx context.Context, in *ListGroupsInput, opts ...grpc.CallOption) (*ListGroupsOutput, error)
 }
 
@@ -101,12 +121,32 @@ func (c *groupServiceClient) ListGroups(ctx context.Context, in *ListGroupsInput
 // All implementations should embed UnimplementedGroupServiceServer
 // for forward compatibility.
 //
-// GroupService provides API to manage space groups.
+// GroupService manages the groups a space organises its members into.
+//
+// A group is a named label, optionally decorating its members with an icon, badge and colour, and it
+// carries no member list of its own: membership is a property of the member, written and filtered on
+// through eolymp.community.MemberService. What a group is used for downstream behaves differently and
+// catches people out — assigning contest participants from a group copies the members it holds at that
+// moment and never updates them again, while a course class built on a group keeps enrolling members as
+// they join it later. Groups grant no permissions, access is granted by eolymp.acl policies attached to
+// users, and a group exists only in the space it was created in.
 type GroupServiceServer interface {
+	// CreateGroup declares a new group in the space and returns its id. The group starts out with no members:
+	// put members into it by writing their groups through eolymp.community.MemberService.
 	CreateGroup(context.Context, *CreateGroupInput) (*CreateGroupOutput, error)
+	// UpdateGroup applies only the properties named in the patch. An empty patch writes all of them, which
+	// resets the properties left blank in the request, so name the fields explicitly when changing a single
+	// one.
 	UpdateGroup(context.Context, *UpdateGroupInput) (*UpdateGroupOutput, error)
+	// DeleteGroup removes the group and every member's membership of it, leaving the members themselves in
+	// the space, and succeeds even when the group is already gone. Course classes built on the group are
+	// deleted with it, along with their assignments, while contest participants copied from it earlier stay.
 	DeleteGroup(context.Context, *DeleteGroupInput) (*DeleteGroupOutput, error)
+	// DescribeGroup returns a single group of this space. It does not return the group's members; read those
+	// from eolymp.community.MemberService filtered by this group.
 	DescribeGroup(context.Context, *DescribeGroupInput) (*DescribeGroupOutput, error)
+	// ListGroups returns the groups of this space ordered by name. The free-text query matches the group name
+	// only; groups of other spaces are never returned, whatever the filters ask for.
 	ListGroups(context.Context, *ListGroupsInput) (*ListGroupsOutput, error)
 }
 

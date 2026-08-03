@@ -28,6 +28,8 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 //
+// internal
+//
 // SubmissionAssistantService offers AI-assisted debugging help for a single submission.
 //
 // The flow is request, read, rate: RequestDebugAssistance produces the explanation of why a submission
@@ -96,6 +98,8 @@ func (c *submissionAssistantServiceClient) RateDebugAssistance(ctx context.Conte
 // SubmissionAssistantServiceServer is the server API for SubmissionAssistantService service.
 // All implementations should embed UnimplementedSubmissionAssistantServiceServer
 // for forward compatibility.
+//
+// internal
 //
 // SubmissionAssistantService offers AI-assisted debugging help for a single submission.
 //

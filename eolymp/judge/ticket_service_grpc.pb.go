@@ -40,30 +40,85 @@ const (
 // TicketServiceClient is the client API for TicketService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// TicketService handles the clarification requests participants raise while a contest is running.
+//
+// Participants and the console call these questions, while the API object is a ticket. A ticket belongs
+// to the participant who opened it, starts from a subject and a message, and grows into a thread of
+// replies written either by that participant or by the jury; a contest can be configured to hide jury
+// identity, in which case participants never learn which person answered them. A ticket also carries a
+// status saying whether the jury still owes an answer, and marking a question resolved, reopened or
+// closed is an update of that status rather than a dedicated call. Every call is addressed to one contest
+// inside a space, and the streaming calls have no HTTP binding, so they exist only in the SDKs.
 type TicketServiceClient interface {
+	// CreateTicket opens a new question in the contest on behalf of the calling participant. The subject
+	// and message passed here become the head of the ticket's thread; everything said afterwards is a
+	// reply.
 	CreateTicket(ctx context.Context, in *CreateTicketInput, opts ...grpc.CallOption) (*CreateTicketOutput, error)
+	// UpdateTicket changes the editable attributes of a ticket, above all its status: resolving, reopening
+	// or closing a question all happen through this call, there is no separate rpc for them. Only the
+	// attributes named in the patch are written, so changing the status leaves the rest of the ticket
+	// untouched.
 	UpdateTicket(ctx context.Context, in *UpdateTicketInput, opts ...grpc.CallOption) (*UpdateTicketOutput, error)
-	// ReadTicket marks ticket as read by participant (sets is_read flag to true).
+	// ReadTicket records that the caller has seen the ticket, which is what the per-viewer read state and
+	// the unread counters are built from — a ticket read by the jury stays unread for its participant. The
+	// console sends it when the message scrolls into view rather than on an explicit action, and the
+	// request may state the moment the ticket was seen.
 	ReadTicket(ctx context.Context, in *ReadTicketInput, opts ...grpc.CallOption) (*ReadTicketOutput, error)
+	// DeleteTicket takes a question out of the contest for everyone, jury and participant alike. Unlike
+	// opening a ticket or replying to one it needs the contest write scope, so it is a moderation tool and
+	// not a way for a participant to retract a question they already asked.
 	DeleteTicket(ctx context.Context, in *DeleteTicketInput, opts ...grpc.CallOption) (*DeleteTicketOutput, error)
+	// DescribeTicket returns a single question with its own attributes but without the conversation it
+	// started; the replies are fetched separately with ListReplies. The original message is rich content
+	// and can be asked for either rendered for display or in its raw form for editing.
 	DescribeTicket(ctx context.Context, in *DescribeTicketInput, opts ...grpc.CallOption) (*DescribeTicketOutput, error)
-	// ListTickets fetches tickets matching criteria in the input parameter.
+	// ListTickets backs both the jury inbox and a participant's list of their own questions, the difference
+	// being the filters applied — by author, by state or by whether the caller owns the ticket. Results can
+	// be paged by offset or by cursor, the cursor being the safer choice for an inbox that keeps receiving
+	// new questions.
 	ListTickets(ctx context.Context, in *ListTicketsInput, opts ...grpc.CallOption) (*ListTicketsOutput, error)
-	// ReplyTicket allows to add reply to a ticket. If reply is added by participant it sets is_read and needs_reply to
-	// true, otherwise, if reply added by contest administrator, this method sets these flags to false.
+	// ReplyTicket appends a message to a ticket's thread, attributed to the participant or to the jury
+	// depending on who calls it. The same request may hand the ticket a new status, which is how the jury
+	// answers and resolves a question in one round trip; this is the only way to add a reply, replies have
+	// no create rpc.
 	ReplyTicket(ctx context.Context, in *ReplyTicketInput, opts ...grpc.CallOption) (*ReplyTicketOutput, error)
+	// WatchTicket keeps a stream open for one ticket and pushes a fresh copy of it every time it changes,
+	// so an open conversation stays current without polling. Being server-streaming it has no HTTP binding
+	// and is reachable only through the SDKs.
 	WatchTicket(ctx context.Context, in *WatchTicketInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchTicketOutput], error)
+	// WatchTickets is the live counterpart of ListTickets: it streams an event whenever a matching question
+	// appears, changes or disappears, which is what keeps a jury inbox up to date. Being server-streaming
+	// it has no HTTP binding and is reachable only through the SDKs.
 	WatchTickets(ctx context.Context, in *WatchTicketsInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchTicketsOutput], error)
+	// WatchTicketSummary streams running totals of how much of the inbox is unread and how much still waits
+	// for an answer, which is enough to drive a badge without listing any tickets. Being server-streaming
+	// it has no HTTP binding and is reachable only through the SDKs.
 	WatchTicketSummary(ctx context.Context, in *WatchTicketSummaryInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchTicketSummaryOutput], error)
-	// ListReplies fetches replies for a particular ticket.
+	// ListReplies returns the conversation held on one ticket, each message attributed either to the
+	// participant who asked or to the jury member who answered. In a contest configured to hide jury
+	// identity, participants see the jury side of the thread without the person behind it.
 	ListReplies(ctx context.Context, in *ListRepliesInput, opts ...grpc.CallOption) (*ListRepliesOutput, error)
-	// DeleteReply allows author to delete his own reply.
+	// DescribeReply picks one message out of a ticket's thread by its identifier, without pulling the rest
+	// of the conversation. Unlike the other read calls here it asks for the contest write scope, so it
+	// suits editing tools rather than the participant-facing view.
 	DescribeReply(ctx context.Context, in *DescribeReplyInput, opts ...grpc.CallOption) (*DescribeReplyOutput, error)
-	// DeleteReply allows author to delete his own reply.
+	// DeleteReply drops a single message from a thread, intended for an author retracting what they wrote,
+	// and leaves the ticket itself and the surrounding messages in place. Replies are managed on their own,
+	// so this is a separate call from deleting the question.
 	DeleteReply(ctx context.Context, in *DeleteReplyInput, opts ...grpc.CallOption) (*DeleteReplyOutput, error)
-	// UpdateReply allows author to update his own reply.
+	// UpdateReply rewrites the body of a message already in the thread, letting an author correct
+	// themselves instead of posting a follow-up. It replaces the message outright and does not touch the
+	// ticket around it.
 	UpdateReply(ctx context.Context, in *UpdateReplyInput, opts ...grpc.CallOption) (*UpdateReplyOutput, error)
+	// SuggestReply drafts an answer to a question and returns it in the response instead of adding it to
+	// the thread. The jury is expected to review or edit the suggestion and then post it with ReplyTicket,
+	// so nothing reaches the participant until that happens.
 	SuggestReply(ctx context.Context, in *SuggestReplyInput, opts ...grpc.CallOption) (*SuggestReplyOutput, error)
+	// WatchReplies streams the conversation of one ticket as it unfolds, which is how a chat view stays
+	// live while both sides are writing. A client that already holds part of the thread can resume after
+	// the last reply it received; being server-streaming, the call has no HTTP binding and is reachable
+	// only through the SDKs.
 	WatchReplies(ctx context.Context, in *WatchRepliesInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchRepliesOutput], error)
 }
 
@@ -274,30 +329,85 @@ type TicketService_WatchRepliesClient = grpc.ServerStreamingClient[WatchRepliesO
 // TicketServiceServer is the server API for TicketService service.
 // All implementations should embed UnimplementedTicketServiceServer
 // for forward compatibility.
+//
+// TicketService handles the clarification requests participants raise while a contest is running.
+//
+// Participants and the console call these questions, while the API object is a ticket. A ticket belongs
+// to the participant who opened it, starts from a subject and a message, and grows into a thread of
+// replies written either by that participant or by the jury; a contest can be configured to hide jury
+// identity, in which case participants never learn which person answered them. A ticket also carries a
+// status saying whether the jury still owes an answer, and marking a question resolved, reopened or
+// closed is an update of that status rather than a dedicated call. Every call is addressed to one contest
+// inside a space, and the streaming calls have no HTTP binding, so they exist only in the SDKs.
 type TicketServiceServer interface {
+	// CreateTicket opens a new question in the contest on behalf of the calling participant. The subject
+	// and message passed here become the head of the ticket's thread; everything said afterwards is a
+	// reply.
 	CreateTicket(context.Context, *CreateTicketInput) (*CreateTicketOutput, error)
+	// UpdateTicket changes the editable attributes of a ticket, above all its status: resolving, reopening
+	// or closing a question all happen through this call, there is no separate rpc for them. Only the
+	// attributes named in the patch are written, so changing the status leaves the rest of the ticket
+	// untouched.
 	UpdateTicket(context.Context, *UpdateTicketInput) (*UpdateTicketOutput, error)
-	// ReadTicket marks ticket as read by participant (sets is_read flag to true).
+	// ReadTicket records that the caller has seen the ticket, which is what the per-viewer read state and
+	// the unread counters are built from — a ticket read by the jury stays unread for its participant. The
+	// console sends it when the message scrolls into view rather than on an explicit action, and the
+	// request may state the moment the ticket was seen.
 	ReadTicket(context.Context, *ReadTicketInput) (*ReadTicketOutput, error)
+	// DeleteTicket takes a question out of the contest for everyone, jury and participant alike. Unlike
+	// opening a ticket or replying to one it needs the contest write scope, so it is a moderation tool and
+	// not a way for a participant to retract a question they already asked.
 	DeleteTicket(context.Context, *DeleteTicketInput) (*DeleteTicketOutput, error)
+	// DescribeTicket returns a single question with its own attributes but without the conversation it
+	// started; the replies are fetched separately with ListReplies. The original message is rich content
+	// and can be asked for either rendered for display or in its raw form for editing.
 	DescribeTicket(context.Context, *DescribeTicketInput) (*DescribeTicketOutput, error)
-	// ListTickets fetches tickets matching criteria in the input parameter.
+	// ListTickets backs both the jury inbox and a participant's list of their own questions, the difference
+	// being the filters applied — by author, by state or by whether the caller owns the ticket. Results can
+	// be paged by offset or by cursor, the cursor being the safer choice for an inbox that keeps receiving
+	// new questions.
 	ListTickets(context.Context, *ListTicketsInput) (*ListTicketsOutput, error)
-	// ReplyTicket allows to add reply to a ticket. If reply is added by participant it sets is_read and needs_reply to
-	// true, otherwise, if reply added by contest administrator, this method sets these flags to false.
+	// ReplyTicket appends a message to a ticket's thread, attributed to the participant or to the jury
+	// depending on who calls it. The same request may hand the ticket a new status, which is how the jury
+	// answers and resolves a question in one round trip; this is the only way to add a reply, replies have
+	// no create rpc.
 	ReplyTicket(context.Context, *ReplyTicketInput) (*ReplyTicketOutput, error)
+	// WatchTicket keeps a stream open for one ticket and pushes a fresh copy of it every time it changes,
+	// so an open conversation stays current without polling. Being server-streaming it has no HTTP binding
+	// and is reachable only through the SDKs.
 	WatchTicket(*WatchTicketInput, grpc.ServerStreamingServer[WatchTicketOutput]) error
+	// WatchTickets is the live counterpart of ListTickets: it streams an event whenever a matching question
+	// appears, changes or disappears, which is what keeps a jury inbox up to date. Being server-streaming
+	// it has no HTTP binding and is reachable only through the SDKs.
 	WatchTickets(*WatchTicketsInput, grpc.ServerStreamingServer[WatchTicketsOutput]) error
+	// WatchTicketSummary streams running totals of how much of the inbox is unread and how much still waits
+	// for an answer, which is enough to drive a badge without listing any tickets. Being server-streaming
+	// it has no HTTP binding and is reachable only through the SDKs.
 	WatchTicketSummary(*WatchTicketSummaryInput, grpc.ServerStreamingServer[WatchTicketSummaryOutput]) error
-	// ListReplies fetches replies for a particular ticket.
+	// ListReplies returns the conversation held on one ticket, each message attributed either to the
+	// participant who asked or to the jury member who answered. In a contest configured to hide jury
+	// identity, participants see the jury side of the thread without the person behind it.
 	ListReplies(context.Context, *ListRepliesInput) (*ListRepliesOutput, error)
-	// DeleteReply allows author to delete his own reply.
+	// DescribeReply picks one message out of a ticket's thread by its identifier, without pulling the rest
+	// of the conversation. Unlike the other read calls here it asks for the contest write scope, so it
+	// suits editing tools rather than the participant-facing view.
 	DescribeReply(context.Context, *DescribeReplyInput) (*DescribeReplyOutput, error)
-	// DeleteReply allows author to delete his own reply.
+	// DeleteReply drops a single message from a thread, intended for an author retracting what they wrote,
+	// and leaves the ticket itself and the surrounding messages in place. Replies are managed on their own,
+	// so this is a separate call from deleting the question.
 	DeleteReply(context.Context, *DeleteReplyInput) (*DeleteReplyOutput, error)
-	// UpdateReply allows author to update his own reply.
+	// UpdateReply rewrites the body of a message already in the thread, letting an author correct
+	// themselves instead of posting a follow-up. It replaces the message outright and does not touch the
+	// ticket around it.
 	UpdateReply(context.Context, *UpdateReplyInput) (*UpdateReplyOutput, error)
+	// SuggestReply drafts an answer to a question and returns it in the response instead of adding it to
+	// the thread. The jury is expected to review or edit the suggestion and then post it with ReplyTicket,
+	// so nothing reaches the participant until that happens.
 	SuggestReply(context.Context, *SuggestReplyInput) (*SuggestReplyOutput, error)
+	// WatchReplies streams the conversation of one ticket as it unfolds, which is how a chat view stays
+	// live while both sides are writing. A client that already holds part of the thread can resume after
+	// the last reply it received; being server-streaming, the call has no HTTP binding and is reachable
+	// only through the SDKs.
 	WatchReplies(*WatchRepliesInput, grpc.ServerStreamingServer[WatchRepliesOutput]) error
 }
 

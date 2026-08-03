@@ -28,13 +28,32 @@ const (
 // AccessKeyServiceClient is the client API for AccessKeyService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// internal
+//
+// AccessKeyService manages the long-lived API keys belonging to one member.
+//
+// An access key is the alternative to OAuth 2.0 for server-to-server use: rather than running an
+// authorization flow, a script presents the key and is authenticated as the member it was created under,
+// allowed to do only what the key's scopes cover and only until the key expires. Keys are held by a
+// member, so these calls are addressed through the base url a member carries in its read-only url field.
+// The secret is handed out once, in the response to CreateAccessKey, and no method returns it afterwards.
 type AccessKeyServiceClient interface {
-	// Create API key.
+	// CreateAccessKey issues a key for the member it is called under and returns its secret. This is the
+	// only response that ever carries the secret, so it has to be kept at this point — a lost secret cannot
+	// be looked up. The lifetime is given as a duration counted from now rather than as an expiry date.
 	CreateAccessKey(ctx context.Context, in *CreateAccessKeyInput, opts ...grpc.CallOption) (*CreateAccessKeyOutput, error)
-	// Update API key name and scopes.
+	// UpdateAccessKey re-labels a key and widens or narrows what it may do. There is no patch here, the key
+	// in the request is taken as a whole. It cannot rotate the secret, so a leaked key is replaced rather
+	// than updated.
 	UpdateAccessKey(ctx context.Context, in *UpdateAccessKeyInput, opts ...grpc.CallOption) (*UpdateAccessKeyOutput, error)
-	// Delete API key.
+	// DeleteAccessKey revokes a key for good, and everything still authenticating with its secret stops
+	// working. Since a secret can be neither recovered nor rotated, this is also the answer to a
+	// compromised key: delete it, then create a fresh one.
 	DeleteAccessKey(ctx context.Context, in *DeleteAccessKeyInput, opts ...grpc.CallOption) (*DeleteAccessKeyOutput, error)
+	// ListAccessKeys enumerates the keys the member holds without their secrets, which makes it the audit
+	// view: it shows which keys exist, what they are allowed to do and when they lapse, never how to use
+	// them.
 	ListAccessKeys(ctx context.Context, in *ListAccessKeysInput, opts ...grpc.CallOption) (*ListAccessKeysOutput, error)
 }
 
@@ -89,13 +108,32 @@ func (c *accessKeyServiceClient) ListAccessKeys(ctx context.Context, in *ListAcc
 // AccessKeyServiceServer is the server API for AccessKeyService service.
 // All implementations should embed UnimplementedAccessKeyServiceServer
 // for forward compatibility.
+//
+// internal
+//
+// AccessKeyService manages the long-lived API keys belonging to one member.
+//
+// An access key is the alternative to OAuth 2.0 for server-to-server use: rather than running an
+// authorization flow, a script presents the key and is authenticated as the member it was created under,
+// allowed to do only what the key's scopes cover and only until the key expires. Keys are held by a
+// member, so these calls are addressed through the base url a member carries in its read-only url field.
+// The secret is handed out once, in the response to CreateAccessKey, and no method returns it afterwards.
 type AccessKeyServiceServer interface {
-	// Create API key.
+	// CreateAccessKey issues a key for the member it is called under and returns its secret. This is the
+	// only response that ever carries the secret, so it has to be kept at this point — a lost secret cannot
+	// be looked up. The lifetime is given as a duration counted from now rather than as an expiry date.
 	CreateAccessKey(context.Context, *CreateAccessKeyInput) (*CreateAccessKeyOutput, error)
-	// Update API key name and scopes.
+	// UpdateAccessKey re-labels a key and widens or narrows what it may do. There is no patch here, the key
+	// in the request is taken as a whole. It cannot rotate the secret, so a leaked key is replaced rather
+	// than updated.
 	UpdateAccessKey(context.Context, *UpdateAccessKeyInput) (*UpdateAccessKeyOutput, error)
-	// Delete API key.
+	// DeleteAccessKey revokes a key for good, and everything still authenticating with its secret stops
+	// working. Since a secret can be neither recovered nor rotated, this is also the answer to a
+	// compromised key: delete it, then create a fresh one.
 	DeleteAccessKey(context.Context, *DeleteAccessKeyInput) (*DeleteAccessKeyOutput, error)
+	// ListAccessKeys enumerates the keys the member holds without their secrets, which makes it the audit
+	// view: it shows which keys exist, what they are allowed to do and when they lapse, never how to use
+	// them.
 	ListAccessKeys(context.Context, *ListAccessKeysInput) (*ListAccessKeysOutput, error)
 }
 

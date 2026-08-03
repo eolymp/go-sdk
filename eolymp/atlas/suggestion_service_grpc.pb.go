@@ -32,6 +32,8 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 //
+// internal
+//
 // SuggestionService collects community-proposed changes to a problem and drives their review.
 //
 // A suggestion is an edit proposed by a user of the public archive rather than by the problem's own owners: a
@@ -149,6 +151,8 @@ func (c *suggestionServiceClient) DescribeSuggestion(ctx context.Context, in *De
 // SuggestionServiceServer is the server API for SuggestionService service.
 // All implementations should embed UnimplementedSuggestionServiceServer
 // for forward compatibility.
+//
+// internal
 //
 // SuggestionService collects community-proposed changes to a problem and drives their review.
 //

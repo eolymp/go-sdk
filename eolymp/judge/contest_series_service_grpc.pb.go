@@ -29,11 +29,34 @@ const (
 // ContestSeriesServiceClient is the client API for ContestSeriesService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// ContestSeriesService keeps the named series a space groups related contests into — the yearly editions of
+// the same olympiad, the stages of one championship, the contests of a training programme.
+//
+// A series belongs to the space rather than to a contest: it is defined once here, and any number of contests
+// then point at it from their classification, which is what lets contests be listed and filtered by series
+// and keeps every edition of an olympiad together. A series name is translatable, so the same grouping reads
+// correctly in each language a space publishes in.
 type ContestSeriesServiceClient interface {
+	// DescribeContestSeries returns one series, either resolved into a single language or carrying all of its
+	// translations — the first is what a page showing the series needs, the second what a form editing it
+	// needs.
 	DescribeContestSeries(ctx context.Context, in *DescribeContestSeriesInput, opts ...grpc.CallOption) (*DescribeContestSeriesOutput, error)
+	// ListContestSeries pages through the series a space has defined, which is what fills the series settings
+	// of a space and the choice of series offered when a contest is classified. Names can be resolved for a
+	// chosen language, so the list reads the way it will be shown.
 	ListContestSeries(ctx context.Context, in *ListContestSeriesInput, opts ...grpc.CallOption) (*ListContestSeriesOutput, error)
+	// CreateContestSeries defines a new series in the space and returns its identifier. Creating it groups
+	// nothing by itself: the contests that belong to the series still have to be pointed at it through their
+	// classification.
 	CreateContestSeries(ctx context.Context, in *CreateContestSeriesInput, opts ...grpc.CallOption) (*CreateContestSeriesOutput, error)
+	// UpdateContestSeries rewrites a series in place, so the change surfaces on every contest already
+	// classified under it without any of them being touched. There is no field mask here, the series is written
+	// whole, so send the complete record even when only one language of the name changes.
 	UpdateContestSeries(ctx context.Context, in *UpdateContestSeriesInput, opts ...grpc.CallOption) (*UpdateContestSeriesOutput, error)
+	// DeleteContestSeries removes the series definition from the space, leaving the contests themselves in
+	// place. Whatever was grouped under the series stops being grouped, so it is worth checking which contests
+	// refer to it before retiring one.
 	DeleteContestSeries(ctx context.Context, in *DeleteContestSeriesInput, opts ...grpc.CallOption) (*DeleteContestSeriesOutput, error)
 }
 
@@ -98,11 +121,34 @@ func (c *contestSeriesServiceClient) DeleteContestSeries(ctx context.Context, in
 // ContestSeriesServiceServer is the server API for ContestSeriesService service.
 // All implementations should embed UnimplementedContestSeriesServiceServer
 // for forward compatibility.
+//
+// ContestSeriesService keeps the named series a space groups related contests into — the yearly editions of
+// the same olympiad, the stages of one championship, the contests of a training programme.
+//
+// A series belongs to the space rather than to a contest: it is defined once here, and any number of contests
+// then point at it from their classification, which is what lets contests be listed and filtered by series
+// and keeps every edition of an olympiad together. A series name is translatable, so the same grouping reads
+// correctly in each language a space publishes in.
 type ContestSeriesServiceServer interface {
+	// DescribeContestSeries returns one series, either resolved into a single language or carrying all of its
+	// translations — the first is what a page showing the series needs, the second what a form editing it
+	// needs.
 	DescribeContestSeries(context.Context, *DescribeContestSeriesInput) (*DescribeContestSeriesOutput, error)
+	// ListContestSeries pages through the series a space has defined, which is what fills the series settings
+	// of a space and the choice of series offered when a contest is classified. Names can be resolved for a
+	// chosen language, so the list reads the way it will be shown.
 	ListContestSeries(context.Context, *ListContestSeriesInput) (*ListContestSeriesOutput, error)
+	// CreateContestSeries defines a new series in the space and returns its identifier. Creating it groups
+	// nothing by itself: the contests that belong to the series still have to be pointed at it through their
+	// classification.
 	CreateContestSeries(context.Context, *CreateContestSeriesInput) (*CreateContestSeriesOutput, error)
+	// UpdateContestSeries rewrites a series in place, so the change surfaces on every contest already
+	// classified under it without any of them being touched. There is no field mask here, the series is written
+	// whole, so send the complete record even when only one language of the name changes.
 	UpdateContestSeries(context.Context, *UpdateContestSeriesInput) (*UpdateContestSeriesOutput, error)
+	// DeleteContestSeries removes the series definition from the space, leaving the contests themselves in
+	// place. Whatever was grouped under the series stops being grouped, so it is worth checking which contests
+	// refer to it before retiring one.
 	DeleteContestSeries(context.Context, *DeleteContestSeriesInput) (*DeleteContestSeriesOutput, error)
 }
 

@@ -38,25 +38,82 @@ const (
 // ProblemServiceClient is the client API for ProblemService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// ProblemService manages the problems of one contest.
+//
+// This is not eolymp.atlas.ProblemService, which owns the space's problem archive: a contest problem is an
+// entity of its own which merely references an archive problem, and it is the contest problem a contest
+// submission points at, so the same archive problem used in two contests has a different ID in each of them.
+// Problems are authored or imported into the archive first and only then added to a contest, and nearly every
+// setting — statements, tests, limits, checkers, code templates — stays on the archive problem, so this
+// service carries only what is specific to the contest. Its read methods are also what a contest client uses
+// to render a problem: they resolve the archive problem on the fly and answer under the contest's own rules,
+// so a participant sees content only while their participation allows it.
 type ProblemServiceClient interface {
-	// ImportProblem from Atlas (problem catalog)
+	// ImportProblem adds one or more archive problems to the contest, the operation the console labels "Add
+	// problem". Every import creates an independent contest problem with a fresh ID and leaves the archive
+	// problem untouched, so it may be added again here or to any other contest. The call is rejected when the
+	// space's quota of problems per contest is exhausted, or once the contest has been finalized.
 	ImportProblem(ctx context.Context, in *ImportProblemInput, opts ...grpc.CallOption) (*ImportProblemOutput, error)
-	// SyncProblem with Atlas (problem catalog)
+	// SyncProblem is kept for backwards compatibility and does nothing. A contest problem holds no copy of
+	// the archive problem's statements, tests, attachments or templates, nor of its limits and score — all
+	// of that is read from the archive problem on every request, so there is never anything to pull in.
 	SyncProblem(ctx context.Context, in *SyncProblemInput, opts ...grpc.CallOption) (*SyncProblemOutput, error)
+	// UpdateProblem writes the few settings the contest keeps for a problem of its own; anything else about
+	// the problem is edited in the archive instead. Reordering happens here too and there is no separate
+	// move method: writing an index moves the problem to that position and the problems it passes shift to
+	// keep the numbering contiguous, while an index of zero or beyond the last position puts the problem at
+	// the end. Only fields named in the patch are written, an empty patch writes all of them, and a
+	// finalized contest rejects the call.
 	UpdateProblem(ctx context.Context, in *UpdateProblemInput, opts ...grpc.CallOption) (*UpdateProblemOutput, error)
+	// ListProblems returns the contest's problems in contest order, each one merged with the archive
+	// problem it references. A caller who may see the contest but is not yet allowed to see its problems —
+	// a participant who has not started, for instance — gets an empty list instead of an error.
 	ListProblems(ctx context.Context, in *ListProblemsInput, opts ...grpc.CallOption) (*ListProblemsOutput, error)
+	// DescribeProblem returns one contest problem, filled in from the archive problem behind it: the requested
+	// locale decides which statement supplies the title and content, and statement text comes back only when it
+	// is asked for. If that archive problem has been deleted or is not readable, the contest problem is still
+	// returned, just without the parts which come from the archive.
 	DescribeProblem(ctx context.Context, in *DescribeProblemInput, opts ...grpc.CallOption) (*DescribeProblemOutput, error)
+	// DeleteProblem takes the problem out of the contest and renumbers the remaining ones to close the gap it
+	// leaves behind. The archive problem is not affected and can be added again, but it comes back as a new
+	// contest problem, so the submissions made against the deleted one are not picked up by it. A finalized
+	// contest rejects the call.
 	DeleteProblem(ctx context.Context, in *DeleteProblemInput, opts ...grpc.CallOption) (*DeleteProblemOutput, error)
-	// Lookup template for a given runtime/language
+	// LookupCodeTemplate returns the starter source offered to a participant who picked a given runtime,
+	// which is what an editor needs when the language is chosen but no template ID is known. A problem
+	// without a template for that runtime is not an error: the response simply carries an empty template.
 	LookupCodeTemplate(ctx context.Context, in *LookupCodeTemplateInput, opts ...grpc.CallOption) (*LookupCodeTemplateOutput, error)
-	// Return code template for problem
+	// DescribeCodeTemplate returns one code template of the archive problem by its ID, as the archive
+	// assigned it. Prefer LookupCodeTemplate in a contest client, which resolves the template from the
+	// runtime the participant selected and does not require knowing template IDs.
 	DescribeCodeTemplate(ctx context.Context, in *DescribeCodeTemplateInput, opts ...grpc.CallOption) (*DescribeCodeTemplateOutput, error)
+	// ListStatements returns every localized statement of the problem, already parsed for display, so a contest
+	// client can offer the participant a choice of language. Unlike DescribeProblem it resolves no locale and
+	// picks no favourite among them.
 	ListStatements(ctx context.Context, in *ListStatementsInput, opts ...grpc.CallOption) (*ListStatementsOutput, error)
+	// DescribeEditorial returns the author's write-up of how the problem is solved, in the requested locale
+	// when the archive has one. Because it gives the solution away, a participant may read it only after
+	// their participation is over and only while the contest is configured to display editorials.
 	DescribeEditorial(ctx context.Context, in *DescribeEditorialInput, opts ...grpc.CallOption) (*DescribeEditorialOutput, error)
+	// ListAttachments returns the files the archive publishes alongside the problem statement for
+	// participants to download, each with a link to fetch it. They are the statement's attachments, not the
+	// problem's test data.
 	ListAttachments(ctx context.Context, in *ListAttachmentsInput, opts ...grpc.CallOption) (*ListAttachmentsOutput, error)
+	// ListExamples returns the sample tests shown with the statement, with links to their input and answer
+	// data. Only tests the archive marks as examples are exposed; the rest of the testset is never readable
+	// through a contest.
 	ListExamples(ctx context.Context, in *ListExamplesInput, opts ...grpc.CallOption) (*ListExamplesOutput, error)
+	// ListRuntimes returns the languages and compiler versions a participant may submit this problem in:
+	// the runtimes enabled on the archive problem, narrowed down to those the contest permits. Use it to
+	// populate the language picker, since a runtime the archive problem allows can still be barred by the
+	// contest.
 	ListRuntimes(ctx context.Context, in *ListRuntimesInput, opts ...grpc.CallOption) (*ListRuntimesOutput, error)
-	// ExportProblems generates a PDF bundle for the given problem IDs (or all problems if none specified)
+	// ExportProblems renders problem statements into a single printable PDF booklet and returns a link to
+	// download it rather than the document itself. Statements are taken in contest order and in one locale,
+	// the space's primary one unless another is requested, and problems with no statement in that locale
+	// are left out. Rendering is slow and tightly rate-limited, so keep the returned URL instead of
+	// exporting again.
 	ExportProblems(ctx context.Context, in *ExportProblemsInput, opts ...grpc.CallOption) (*ExportProblemsOutput, error)
 }
 
@@ -211,25 +268,82 @@ func (c *problemServiceClient) ExportProblems(ctx context.Context, in *ExportPro
 // ProblemServiceServer is the server API for ProblemService service.
 // All implementations should embed UnimplementedProblemServiceServer
 // for forward compatibility.
+//
+// ProblemService manages the problems of one contest.
+//
+// This is not eolymp.atlas.ProblemService, which owns the space's problem archive: a contest problem is an
+// entity of its own which merely references an archive problem, and it is the contest problem a contest
+// submission points at, so the same archive problem used in two contests has a different ID in each of them.
+// Problems are authored or imported into the archive first and only then added to a contest, and nearly every
+// setting — statements, tests, limits, checkers, code templates — stays on the archive problem, so this
+// service carries only what is specific to the contest. Its read methods are also what a contest client uses
+// to render a problem: they resolve the archive problem on the fly and answer under the contest's own rules,
+// so a participant sees content only while their participation allows it.
 type ProblemServiceServer interface {
-	// ImportProblem from Atlas (problem catalog)
+	// ImportProblem adds one or more archive problems to the contest, the operation the console labels "Add
+	// problem". Every import creates an independent contest problem with a fresh ID and leaves the archive
+	// problem untouched, so it may be added again here or to any other contest. The call is rejected when the
+	// space's quota of problems per contest is exhausted, or once the contest has been finalized.
 	ImportProblem(context.Context, *ImportProblemInput) (*ImportProblemOutput, error)
-	// SyncProblem with Atlas (problem catalog)
+	// SyncProblem is kept for backwards compatibility and does nothing. A contest problem holds no copy of
+	// the archive problem's statements, tests, attachments or templates, nor of its limits and score — all
+	// of that is read from the archive problem on every request, so there is never anything to pull in.
 	SyncProblem(context.Context, *SyncProblemInput) (*SyncProblemOutput, error)
+	// UpdateProblem writes the few settings the contest keeps for a problem of its own; anything else about
+	// the problem is edited in the archive instead. Reordering happens here too and there is no separate
+	// move method: writing an index moves the problem to that position and the problems it passes shift to
+	// keep the numbering contiguous, while an index of zero or beyond the last position puts the problem at
+	// the end. Only fields named in the patch are written, an empty patch writes all of them, and a
+	// finalized contest rejects the call.
 	UpdateProblem(context.Context, *UpdateProblemInput) (*UpdateProblemOutput, error)
+	// ListProblems returns the contest's problems in contest order, each one merged with the archive
+	// problem it references. A caller who may see the contest but is not yet allowed to see its problems —
+	// a participant who has not started, for instance — gets an empty list instead of an error.
 	ListProblems(context.Context, *ListProblemsInput) (*ListProblemsOutput, error)
+	// DescribeProblem returns one contest problem, filled in from the archive problem behind it: the requested
+	// locale decides which statement supplies the title and content, and statement text comes back only when it
+	// is asked for. If that archive problem has been deleted or is not readable, the contest problem is still
+	// returned, just without the parts which come from the archive.
 	DescribeProblem(context.Context, *DescribeProblemInput) (*DescribeProblemOutput, error)
+	// DeleteProblem takes the problem out of the contest and renumbers the remaining ones to close the gap it
+	// leaves behind. The archive problem is not affected and can be added again, but it comes back as a new
+	// contest problem, so the submissions made against the deleted one are not picked up by it. A finalized
+	// contest rejects the call.
 	DeleteProblem(context.Context, *DeleteProblemInput) (*DeleteProblemOutput, error)
-	// Lookup template for a given runtime/language
+	// LookupCodeTemplate returns the starter source offered to a participant who picked a given runtime,
+	// which is what an editor needs when the language is chosen but no template ID is known. A problem
+	// without a template for that runtime is not an error: the response simply carries an empty template.
 	LookupCodeTemplate(context.Context, *LookupCodeTemplateInput) (*LookupCodeTemplateOutput, error)
-	// Return code template for problem
+	// DescribeCodeTemplate returns one code template of the archive problem by its ID, as the archive
+	// assigned it. Prefer LookupCodeTemplate in a contest client, which resolves the template from the
+	// runtime the participant selected and does not require knowing template IDs.
 	DescribeCodeTemplate(context.Context, *DescribeCodeTemplateInput) (*DescribeCodeTemplateOutput, error)
+	// ListStatements returns every localized statement of the problem, already parsed for display, so a contest
+	// client can offer the participant a choice of language. Unlike DescribeProblem it resolves no locale and
+	// picks no favourite among them.
 	ListStatements(context.Context, *ListStatementsInput) (*ListStatementsOutput, error)
+	// DescribeEditorial returns the author's write-up of how the problem is solved, in the requested locale
+	// when the archive has one. Because it gives the solution away, a participant may read it only after
+	// their participation is over and only while the contest is configured to display editorials.
 	DescribeEditorial(context.Context, *DescribeEditorialInput) (*DescribeEditorialOutput, error)
+	// ListAttachments returns the files the archive publishes alongside the problem statement for
+	// participants to download, each with a link to fetch it. They are the statement's attachments, not the
+	// problem's test data.
 	ListAttachments(context.Context, *ListAttachmentsInput) (*ListAttachmentsOutput, error)
+	// ListExamples returns the sample tests shown with the statement, with links to their input and answer
+	// data. Only tests the archive marks as examples are exposed; the rest of the testset is never readable
+	// through a contest.
 	ListExamples(context.Context, *ListExamplesInput) (*ListExamplesOutput, error)
+	// ListRuntimes returns the languages and compiler versions a participant may submit this problem in:
+	// the runtimes enabled on the archive problem, narrowed down to those the contest permits. Use it to
+	// populate the language picker, since a runtime the archive problem allows can still be barred by the
+	// contest.
 	ListRuntimes(context.Context, *ListRuntimesInput) (*ListRuntimesOutput, error)
-	// ExportProblems generates a PDF bundle for the given problem IDs (or all problems if none specified)
+	// ExportProblems renders problem statements into a single printable PDF booklet and returns a link to
+	// download it rather than the document itself. Statements are taken in contest order and in one locale,
+	// the space's primary one unless another is requested, and problems with no statement in that locale
+	// are left out. Rendering is slow and tightly rate-limited, so keep the returned URL instead of
+	// exporting again.
 	ExportProblems(context.Context, *ExportProblemsInput) (*ExportProblemsOutput, error)
 }
 

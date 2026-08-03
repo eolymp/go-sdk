@@ -39,35 +39,86 @@ const (
 // ParticipantServiceClient is the client API for ParticipantService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// ParticipantService manages the per-contest records of the people taking part in a contest.
+//
+// A participant is a contest-scoped record for a space member: it carries the role that member plays in
+// the contest, their official standing, when they started and finished, and how much they submitted.
+// Records come into existence either because an organiser assigned someone, or because a member added
+// themselves where the contest visibility permits it. Most methods here are organiser-facing, but the
+// ones acting on the caller's own participation are meant for the contest client instead.
 type ParticipantServiceClient interface {
+	// AssignParticipant adds a member to the contest, and the same call adds an entire community group at once
+	// when given a group instead of a member. A group is expanded once, at the moment of the call: members who
+	// join or leave the group afterwards are not added to or removed from the contest. It can also create a
+	// ghost, a placeholder standing in for a result imported from elsewhere rather than for a real member.
 	AssignParticipant(ctx context.Context, in *AssignParticipantInput, opts ...grpc.CallOption) (*AssignParticipantOutput, error)
 	// deprecated
 	//
-	// Use UpdateParticipant instead.
+	// EnableParticipant gives a participant back the access to the contest that was previously
+	// withheld, leaving their score, start time and submissions as they were. Use UpdateParticipant
+	// instead, which reaches the same state through the patch mask.
 	EnableParticipant(ctx context.Context, in *EnableParticipantInput, opts ...grpc.CallOption) (*EnableParticipantOutput, error)
 	// deprecated
 	//
-	// Use UpdateParticipant instead.
+	// DisableParticipant withdraws a participant's access to the contest while keeping their record
+	// intact, which is neither a deletion nor a disqualification. Use UpdateParticipant instead, which
+	// reaches the same state through the patch mask.
 	DisableParticipant(ctx context.Context, in *DisableParticipantInput, opts ...grpc.CallOption) (*DisableParticipantOutput, error)
+	// UpdateParticipant writes the fields selected by the patch mask, and is where most organiser
+	// actions on a participant live: there is no dedicated method for moving someone between official
+	// and unofficial ranking, for awarding a medal or for granting extra time on top of the contest
+	// duration. Extra time is counted in seconds, whereas organiser tooling normally asks for it in
+	// minutes. Once a contest is finalized the results of its official participants are final, and
+	// organiser tooling stops offering edits for them.
 	UpdateParticipant(ctx context.Context, in *UpdateParticipantInput, opts ...grpc.CallOption) (*UpdateParticipantOutput, error)
+	// AnalyzeParticipant looks for plagiarism, cheating and other violations in this one participant's
+	// submissions, rather than across the whole contest as AnalyzeContest does. Whatever it finds is
+	// recorded as a violation against the participant instead of being returned in the response.
 	AnalyzeParticipant(ctx context.Context, in *AnalyzeParticipantInput, opts ...grpc.CallOption) (*AnalyzeParticipantOutput, error)
+	// DisqualifyParticipant marks a participant as disqualified and records the reason behind the
+	// decision, which stays with the record. There is no separate method to reverse it: call this one
+	// again with disqualification turned off to reinstate the participant.
 	DisqualifyParticipant(ctx context.Context, in *DisqualifyParticipantInput, opts ...grpc.CallOption) (*DisqualifyParticipantOutput, error)
+	// DeleteParticipant removes the contest record and with it the participant's standing in the
+	// contest; the space member behind it is left alone and can be assigned again later. Prefer
+	// disqualification or withdrawing access when the record itself should survive.
 	DeleteParticipant(ctx context.Context, in *DeleteParticipantInput, opts ...grpc.CallOption) (*DeleteParticipantOutput, error)
+	// DescribeParticipant reads one contest record by its contest-scoped identifier, which is not the member
+	// identifier the rest of the space uses. Use DescribeViewer when the caller is the participant and no
+	// participant identifier is at hand.
 	DescribeParticipant(ctx context.Context, in *DescribeParticipantInput, opts ...grpc.CallOption) (*DescribeParticipantOutput, error)
+	// ListParticipants pages through the whole contest roster, which mixes competitors with the
+	// organising roles that are also recorded as participants, so narrow it down by role when only
+	// competitors are wanted. Disqualified, inactive and unofficial records belong to the roster too
+	// and are returned by default.
 	ListParticipants(ctx context.Context, in *ListParticipantsInput, opts ...grpc.CallOption) (*ListParticipantsOutput, error)
+	// WatchParticipant streams a fresh copy of the record every time it changes, so a client can follow
+	// a start, a pause, a completion or an organiser's intervention without polling. Unlike the rest of
+	// the service it carries no HTTP binding.
 	WatchParticipant(ctx context.Context, in *WatchParticipantInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchParticipantOutput], error)
 	// deprecated
 	//
-	// Allows a participant (currently authorized user) to join (add himself to) a public contest.
-	// Use registration service instead.
+	// JoinContest creates a participant record for the calling user without an organiser being involved,
+	// and only in a contest whose visibility lets people in on their own. The contest decides whether
+	// such self-joined participants compete officially. Use RegistrationService instead, which also
+	// collects whatever details the contest asks of its registrants.
 	JoinContest(ctx context.Context, in *JoinContestInput, opts ...grpc.CallOption) (*JoinContestOutput, error)
-	// DescribeViewer allows to fetch participant data for a currently authorized user.
+	// DescribeViewer returns the calling user's own record in the contest, which is how a contest client
+	// finds out whether the viewer may start, is competing, is paused or has already finished, without
+	// knowing any participant identifier. Organiser tooling reads other records via DescribeParticipant.
 	DescribeViewer(ctx context.Context, in *DescribeViewerInput, opts ...grpc.CallOption) (*DescribeViewerOutput, error)
-	// Allows a participant (currently authorized user) to start participating in the contest, see problems and submit solutions.
+	// StartContest begins the calling participant's own participation, which is what makes the problems
+	// readable and submissions possible; in a contest where everyone runs on their own clock it also
+	// starts that clock. The same call resumes participation that the participant paused earlier.
 	StartContest(ctx context.Context, in *StartContestInput, opts ...grpc.CallOption) (*StartContestOutput, error)
-	// Allows a participant to temporarily stop participating in the contest. Participation can be restarted using StartContest API.
+	// PauseContest lets the calling participant step out of the contest for a while, giving up access to
+	// the problems until they call StartContest again. It is a voluntary act by the participant and is
+	// distinct from being blocked by an organiser; participation is suspended rather than finished.
 	PauseContest(ctx context.Context, in *PauseContestInput, opts ...grpc.CallOption) (*PauseContestOutput, error)
-	// FinishContest allows to finish contest before the end time.
+	// FinishContest ends the calling participant's own participation ahead of the scheduled end, instead
+	// of waiting for the clock to run out, and unlike a pause it is not meant to be resumed. Where the
+	// contest permits upsolving, the participant may go on solving problems after finishing.
 	FinishContest(ctx context.Context, in *FinishContestInput, opts ...grpc.CallOption) (*FinishContestOutput, error)
 }
 
@@ -241,35 +292,86 @@ func (c *participantServiceClient) FinishContest(ctx context.Context, in *Finish
 // ParticipantServiceServer is the server API for ParticipantService service.
 // All implementations should embed UnimplementedParticipantServiceServer
 // for forward compatibility.
+//
+// ParticipantService manages the per-contest records of the people taking part in a contest.
+//
+// A participant is a contest-scoped record for a space member: it carries the role that member plays in
+// the contest, their official standing, when they started and finished, and how much they submitted.
+// Records come into existence either because an organiser assigned someone, or because a member added
+// themselves where the contest visibility permits it. Most methods here are organiser-facing, but the
+// ones acting on the caller's own participation are meant for the contest client instead.
 type ParticipantServiceServer interface {
+	// AssignParticipant adds a member to the contest, and the same call adds an entire community group at once
+	// when given a group instead of a member. A group is expanded once, at the moment of the call: members who
+	// join or leave the group afterwards are not added to or removed from the contest. It can also create a
+	// ghost, a placeholder standing in for a result imported from elsewhere rather than for a real member.
 	AssignParticipant(context.Context, *AssignParticipantInput) (*AssignParticipantOutput, error)
 	// deprecated
 	//
-	// Use UpdateParticipant instead.
+	// EnableParticipant gives a participant back the access to the contest that was previously
+	// withheld, leaving their score, start time and submissions as they were. Use UpdateParticipant
+	// instead, which reaches the same state through the patch mask.
 	EnableParticipant(context.Context, *EnableParticipantInput) (*EnableParticipantOutput, error)
 	// deprecated
 	//
-	// Use UpdateParticipant instead.
+	// DisableParticipant withdraws a participant's access to the contest while keeping their record
+	// intact, which is neither a deletion nor a disqualification. Use UpdateParticipant instead, which
+	// reaches the same state through the patch mask.
 	DisableParticipant(context.Context, *DisableParticipantInput) (*DisableParticipantOutput, error)
+	// UpdateParticipant writes the fields selected by the patch mask, and is where most organiser
+	// actions on a participant live: there is no dedicated method for moving someone between official
+	// and unofficial ranking, for awarding a medal or for granting extra time on top of the contest
+	// duration. Extra time is counted in seconds, whereas organiser tooling normally asks for it in
+	// minutes. Once a contest is finalized the results of its official participants are final, and
+	// organiser tooling stops offering edits for them.
 	UpdateParticipant(context.Context, *UpdateParticipantInput) (*UpdateParticipantOutput, error)
+	// AnalyzeParticipant looks for plagiarism, cheating and other violations in this one participant's
+	// submissions, rather than across the whole contest as AnalyzeContest does. Whatever it finds is
+	// recorded as a violation against the participant instead of being returned in the response.
 	AnalyzeParticipant(context.Context, *AnalyzeParticipantInput) (*AnalyzeParticipantOutput, error)
+	// DisqualifyParticipant marks a participant as disqualified and records the reason behind the
+	// decision, which stays with the record. There is no separate method to reverse it: call this one
+	// again with disqualification turned off to reinstate the participant.
 	DisqualifyParticipant(context.Context, *DisqualifyParticipantInput) (*DisqualifyParticipantOutput, error)
+	// DeleteParticipant removes the contest record and with it the participant's standing in the
+	// contest; the space member behind it is left alone and can be assigned again later. Prefer
+	// disqualification or withdrawing access when the record itself should survive.
 	DeleteParticipant(context.Context, *DeleteParticipantInput) (*DeleteParticipantOutput, error)
+	// DescribeParticipant reads one contest record by its contest-scoped identifier, which is not the member
+	// identifier the rest of the space uses. Use DescribeViewer when the caller is the participant and no
+	// participant identifier is at hand.
 	DescribeParticipant(context.Context, *DescribeParticipantInput) (*DescribeParticipantOutput, error)
+	// ListParticipants pages through the whole contest roster, which mixes competitors with the
+	// organising roles that are also recorded as participants, so narrow it down by role when only
+	// competitors are wanted. Disqualified, inactive and unofficial records belong to the roster too
+	// and are returned by default.
 	ListParticipants(context.Context, *ListParticipantsInput) (*ListParticipantsOutput, error)
+	// WatchParticipant streams a fresh copy of the record every time it changes, so a client can follow
+	// a start, a pause, a completion or an organiser's intervention without polling. Unlike the rest of
+	// the service it carries no HTTP binding.
 	WatchParticipant(*WatchParticipantInput, grpc.ServerStreamingServer[WatchParticipantOutput]) error
 	// deprecated
 	//
-	// Allows a participant (currently authorized user) to join (add himself to) a public contest.
-	// Use registration service instead.
+	// JoinContest creates a participant record for the calling user without an organiser being involved,
+	// and only in a contest whose visibility lets people in on their own. The contest decides whether
+	// such self-joined participants compete officially. Use RegistrationService instead, which also
+	// collects whatever details the contest asks of its registrants.
 	JoinContest(context.Context, *JoinContestInput) (*JoinContestOutput, error)
-	// DescribeViewer allows to fetch participant data for a currently authorized user.
+	// DescribeViewer returns the calling user's own record in the contest, which is how a contest client
+	// finds out whether the viewer may start, is competing, is paused or has already finished, without
+	// knowing any participant identifier. Organiser tooling reads other records via DescribeParticipant.
 	DescribeViewer(context.Context, *DescribeViewerInput) (*DescribeViewerOutput, error)
-	// Allows a participant (currently authorized user) to start participating in the contest, see problems and submit solutions.
+	// StartContest begins the calling participant's own participation, which is what makes the problems
+	// readable and submissions possible; in a contest where everyone runs on their own clock it also
+	// starts that clock. The same call resumes participation that the participant paused earlier.
 	StartContest(context.Context, *StartContestInput) (*StartContestOutput, error)
-	// Allows a participant to temporarily stop participating in the contest. Participation can be restarted using StartContest API.
+	// PauseContest lets the calling participant step out of the contest for a while, giving up access to
+	// the problems until they call StartContest again. It is a voluntary act by the participant and is
+	// distinct from being blocked by an organiser; participation is suspended rather than finished.
 	PauseContest(context.Context, *PauseContestInput) (*PauseContestOutput, error)
-	// FinishContest allows to finish contest before the end time.
+	// FinishContest ends the calling participant's own participation ahead of the scheduled end, instead
+	// of waiting for the clock to run out, and unlike a pause it is not meant to be resumed. Where the
+	// contest permits upsolving, the participant may go on solving problems after finishing.
 	FinishContest(context.Context, *FinishContestInput) (*FinishContestOutput, error)
 }
 

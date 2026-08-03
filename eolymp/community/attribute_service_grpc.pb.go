@@ -29,11 +29,36 @@ const (
 // AttributeServiceClient is the client API for AttributeService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// AttributeService defines the custom profile fields a space collects about its members.
+//
+// A field is declared once for the whole space by an administrator, with the key it is stored under, a
+// label, a type and a position among the other fields; the values themselves belong to the member and are
+// read and written through eolymp.community.MemberService. Marking a field required does not prevent an
+// incomplete member record from being created — a member whose required field is empty is asked for it on a
+// registration form when they enter the space, which lets an administrator import partial records and have
+// the members finish them, and administrators themselves are exempt. Fields declared with internal
+// visibility are readable by administrators only, and how many fields a space may declare is capped by its
+// subscription quota.
 type AttributeServiceClient interface {
+	// CreateAttribute declares a new field for member profiles. It returns no identifier of its own: the key
+	// the field is declared with is what addresses it from then on. Existing members are not touched; their
+	// value for the new field is simply empty.
 	CreateAttribute(ctx context.Context, in *CreateAttributeInput, opts ...grpc.CallOption) (*CreateAttributeOutput, error)
+	// UpdateAttribute redeclares a field, applying only the properties named in the patch; an empty patch
+	// writes all of them and so resets whatever the request left blank. Moving a field within the profile is
+	// an ordinary write of its position here rather than a dedicated operation, and since positions stay
+	// contiguous the other fields shift to make room.
 	UpdateAttribute(ctx context.Context, in *UpdateAttributeInput, opts ...grpc.CallOption) (*UpdateAttributeOutput, error)
+	// RemoveAttribute deletes the field declaration together with the values every member had stored for it,
+	// and closes the gap it leaves in the ordering of the remaining fields.
 	RemoveAttribute(ctx context.Context, in *RemoveAttributeInput, opts ...grpc.CallOption) (*RemoveAttributeOutput, error)
+	// DescribeAttribute returns one field declaration of this space, addressed by its key rather than by its
+	// id. A field with internal visibility is returned only to a caller allowed to read the space
+	// configuration.
 	DescribeAttribute(ctx context.Context, in *DescribeAttributeInput, opts ...grpc.CallOption) (*DescribeAttributeOutput, error)
+	// ListAttributes returns the field declarations of this space in the order a profile displays them.
+	// Fields with internal visibility are left out for callers who are merely members of the space.
 	ListAttributes(ctx context.Context, in *ListAttributesInput, opts ...grpc.CallOption) (*ListAttributesOutput, error)
 }
 
@@ -98,11 +123,36 @@ func (c *attributeServiceClient) ListAttributes(ctx context.Context, in *ListAtt
 // AttributeServiceServer is the server API for AttributeService service.
 // All implementations should embed UnimplementedAttributeServiceServer
 // for forward compatibility.
+//
+// AttributeService defines the custom profile fields a space collects about its members.
+//
+// A field is declared once for the whole space by an administrator, with the key it is stored under, a
+// label, a type and a position among the other fields; the values themselves belong to the member and are
+// read and written through eolymp.community.MemberService. Marking a field required does not prevent an
+// incomplete member record from being created — a member whose required field is empty is asked for it on a
+// registration form when they enter the space, which lets an administrator import partial records and have
+// the members finish them, and administrators themselves are exempt. Fields declared with internal
+// visibility are readable by administrators only, and how many fields a space may declare is capped by its
+// subscription quota.
 type AttributeServiceServer interface {
+	// CreateAttribute declares a new field for member profiles. It returns no identifier of its own: the key
+	// the field is declared with is what addresses it from then on. Existing members are not touched; their
+	// value for the new field is simply empty.
 	CreateAttribute(context.Context, *CreateAttributeInput) (*CreateAttributeOutput, error)
+	// UpdateAttribute redeclares a field, applying only the properties named in the patch; an empty patch
+	// writes all of them and so resets whatever the request left blank. Moving a field within the profile is
+	// an ordinary write of its position here rather than a dedicated operation, and since positions stay
+	// contiguous the other fields shift to make room.
 	UpdateAttribute(context.Context, *UpdateAttributeInput) (*UpdateAttributeOutput, error)
+	// RemoveAttribute deletes the field declaration together with the values every member had stored for it,
+	// and closes the gap it leaves in the ordering of the remaining fields.
 	RemoveAttribute(context.Context, *RemoveAttributeInput) (*RemoveAttributeOutput, error)
+	// DescribeAttribute returns one field declaration of this space, addressed by its key rather than by its
+	// id. A field with internal visibility is returned only to a caller allowed to read the space
+	// configuration.
 	DescribeAttribute(context.Context, *DescribeAttributeInput) (*DescribeAttributeOutput, error)
+	// ListAttributes returns the field declarations of this space in the order a profile displays them.
+	// Fields with internal visibility are left out for callers who are merely members of the space.
 	ListAttributes(context.Context, *ListAttributesInput) (*ListAttributesOutput, error)
 }
 

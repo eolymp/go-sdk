@@ -29,6 +29,10 @@ const (
 //
 // EmailService provides API to send member emails.
 type EmailServiceClient interface {
+	// internal
+	//
+	// SendEmail sends an email to a member of the space on the space's behalf, counting against its email
+	// allowance.
 	SendEmail(ctx context.Context, in *SendEmailInput, opts ...grpc.CallOption) (*SendEmailOutput, error)
 	DescribeEmailUsage(ctx context.Context, in *DescribeEmailUsageInput, opts ...grpc.CallOption) (*DescribeEmailUsageOutput, error)
 }
@@ -67,6 +71,10 @@ func (c *emailServiceClient) DescribeEmailUsage(ctx context.Context, in *Describ
 //
 // EmailService provides API to send member emails.
 type EmailServiceServer interface {
+	// internal
+	//
+	// SendEmail sends an email to a member of the space on the space's behalf, counting against its email
+	// allowance.
 	SendEmail(context.Context, *SendEmailInput) (*SendEmailOutput, error)
 	DescribeEmailUsage(context.Context, *DescribeEmailUsageInput) (*DescribeEmailUsageOutput, error)
 }
