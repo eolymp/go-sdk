@@ -87,7 +87,8 @@ func (Group_Patch_Field) EnumDescriptor() ([]byte, []int) {
 
 // Group describes a group of members in the space.
 //
-// Members can belong to multiple groups.
+// A member can belong to at most 10 groups, a fixed platform limit. A group itself has no size limit and
+// can hold any number of members.
 //
 // Groups may give members "decorations" (icons, badges and color highlights). If multiple groups define decorations,
 // the one with highest index takes over.

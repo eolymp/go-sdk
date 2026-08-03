@@ -61,7 +61,8 @@ type MemberServiceClient interface {
 	// Disabling can be immediate or scheduled through separate fields — a scheduled deactivation never raises
 	// the inactive flag, although a read still reports a member outside their active period as inactive.
 	// Identity details of a member owned by an external identity provider cannot be changed here, and asking
-	// for them is ignored rather than refused.
+	// for them is ignored rather than refused. A member can belong to at most 10 groups, and a patch that
+	// would take them past that is rejected with InvalidArgument on the groups argument.
 	UpdateMember(ctx context.Context, in *UpdateMemberInput, opts ...grpc.CallOption) (*UpdateMemberOutput, error)
 	// UpdateMemberPicture stores a new profile picture for a member and returns the URL it was saved at,
 	// discarding the previous one unless that was an external URL. Only PNG and JPEG are accepted; the image
@@ -267,7 +268,8 @@ type MemberServiceServer interface {
 	// Disabling can be immediate or scheduled through separate fields — a scheduled deactivation never raises
 	// the inactive flag, although a read still reports a member outside their active period as inactive.
 	// Identity details of a member owned by an external identity provider cannot be changed here, and asking
-	// for them is ignored rather than refused.
+	// for them is ignored rather than refused. A member can belong to at most 10 groups, and a patch that
+	// would take them past that is rejected with InvalidArgument on the groups argument.
 	UpdateMember(context.Context, *UpdateMemberInput) (*UpdateMemberOutput, error)
 	// UpdateMemberPicture stores a new profile picture for a member and returns the URL it was saved at,
 	// discarding the previous one unless that was an external URL. Only PNG and JPEG are accepted; the image

@@ -244,7 +244,8 @@ type Member struct {
 	// Member statistics.
 	// Requires STATS extra.
 	Stats *Member_Stats `protobuf:"bytes,300,opt,name=stats,proto3" json:"stats,omitempty"`
-	// List of groups IDs assigned to the member.
+	// List of groups IDs assigned to the member. At most 10 group ids may be written; writing more fails
+	// validation with InvalidArgument on the "groups" argument. A group can hold any number of members.
 	// Requires GROUPS extra.
 	Groups []string `protobuf:"bytes,200,rep,name=groups,proto3" json:"groups,omitempty"`
 	// Additional profile attributes about the member.

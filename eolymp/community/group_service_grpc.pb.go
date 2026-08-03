@@ -34,11 +34,12 @@ const (
 //
 // A group is a named label, optionally decorating its members with an icon, badge and colour, and it
 // carries no member list of its own: membership is a property of the member, written and filtered on
-// through eolymp.community.MemberService. What a group is used for downstream behaves differently and
-// catches people out — assigning contest participants from a group copies the members it holds at that
-// moment and never updates them again, while a course class built on a group keeps enrolling members as
-// they join it later. Groups grant no permissions, access is granted by eolymp.acl policies attached to
-// users, and a group exists only in the space it was created in.
+// through eolymp.community.MemberService. A member can belong to at most 10 groups, a fixed platform
+// limit, while a group can hold any number of members — there is no members-per-group limit. What a group
+// is used for downstream behaves differently and catches people out — assigning contest participants from
+// a group copies the members it holds at that moment and never updates them again, while a course class
+// built on a group keeps enrolling members as they join it later. Groups grant no permissions, access is
+// granted by eolymp.acl policies attached to users, and a group exists only in the space it was created in.
 type GroupServiceClient interface {
 	// CreateGroup declares a new group in the space and returns its id. The group starts out with no members:
 	// put members into it by writing their groups through eolymp.community.MemberService.
@@ -125,11 +126,12 @@ func (c *groupServiceClient) ListGroups(ctx context.Context, in *ListGroupsInput
 //
 // A group is a named label, optionally decorating its members with an icon, badge and colour, and it
 // carries no member list of its own: membership is a property of the member, written and filtered on
-// through eolymp.community.MemberService. What a group is used for downstream behaves differently and
-// catches people out — assigning contest participants from a group copies the members it holds at that
-// moment and never updates them again, while a course class built on a group keeps enrolling members as
-// they join it later. Groups grant no permissions, access is granted by eolymp.acl policies attached to
-// users, and a group exists only in the space it was created in.
+// through eolymp.community.MemberService. A member can belong to at most 10 groups, a fixed platform
+// limit, while a group can hold any number of members — there is no members-per-group limit. What a group
+// is used for downstream behaves differently and catches people out — assigning contest participants from
+// a group copies the members it holds at that moment and never updates them again, while a course class
+// built on a group keeps enrolling members as they join it later. Groups grant no permissions, access is
+// granted by eolymp.acl policies attached to users, and a group exists only in the space it was created in.
 type GroupServiceServer interface {
 	// CreateGroup declares a new group in the space and returns its id. The group starts out with no members:
 	// put members into it by writing their groups through eolymp.community.MemberService.
