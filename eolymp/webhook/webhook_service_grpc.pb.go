@@ -30,6 +30,8 @@ const (
 // WebhookServiceClient is the client API for WebhookService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// internal
 type WebhookServiceClient interface {
 	CreateWebhook(ctx context.Context, in *CreateWebhookInput, opts ...grpc.CallOption) (*CreateWebhookOutput, error)
 	UpdateWebhook(ctx context.Context, in *UpdateWebhookInput, opts ...grpc.CallOption) (*UpdateWebhookOutput, error)
@@ -110,6 +112,8 @@ func (c *webhookServiceClient) TestWebhook(ctx context.Context, in *TestWebhookI
 // WebhookServiceServer is the server API for WebhookService service.
 // All implementations should embed UnimplementedWebhookServiceServer
 // for forward compatibility.
+//
+// internal
 type WebhookServiceServer interface {
 	CreateWebhook(context.Context, *CreateWebhookInput) (*CreateWebhookOutput, error)
 	UpdateWebhook(context.Context, *UpdateWebhookInput) (*UpdateWebhookOutput, error)

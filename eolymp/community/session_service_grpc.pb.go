@@ -29,6 +29,8 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 //
+// internal
+//
 // SessionService lets a signed-in user review and end their own sign-ins.
 //
 // A session records one sign-in of the caller's own account, with the address, device and approximate
@@ -105,6 +107,8 @@ func (c *sessionServiceClient) TerminateAllSessions(ctx context.Context, in *Ter
 // SessionServiceServer is the server API for SessionService service.
 // All implementations should embed UnimplementedSessionServiceServer
 // for forward compatibility.
+//
+// internal
 //
 // SessionService lets a signed-in user review and end their own sign-ins.
 //

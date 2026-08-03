@@ -26,6 +26,8 @@ const (
 // InstitutionServiceClient is the client API for InstitutionService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// internal
 type InstitutionServiceClient interface {
 	ListInstitutions(ctx context.Context, in *ListInstitutionsInput, opts ...grpc.CallOption) (*ListInstitutionsOutput, error)
 	DescribeInstitution(ctx context.Context, in *DescribeInstitutionInput, opts ...grpc.CallOption) (*DescribeInstitutionOutput, error)
@@ -62,6 +64,8 @@ func (c *institutionServiceClient) DescribeInstitution(ctx context.Context, in *
 // InstitutionServiceServer is the server API for InstitutionService service.
 // All implementations should embed UnimplementedInstitutionServiceServer
 // for forward compatibility.
+//
+// internal
 type InstitutionServiceServer interface {
 	ListInstitutions(context.Context, *ListInstitutionsInput) (*ListInstitutionsOutput, error)
 	DescribeInstitution(context.Context, *DescribeInstitutionInput) (*DescribeInstitutionOutput, error)

@@ -38,6 +38,8 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 //
+// internal
+//
 // EnumService allows to manage taxonomy enums and values.
 type EnumServiceClient interface {
 	CreateEnum(ctx context.Context, in *CreateEnumInput, opts ...grpc.CallOption) (*CreateEnumOutput, error)
@@ -196,6 +198,8 @@ func (c *enumServiceClient) ListTranslations(ctx context.Context, in *ListTransl
 // EnumServiceServer is the server API for EnumService service.
 // All implementations should embed UnimplementedEnumServiceServer
 // for forward compatibility.
+//
+// internal
 //
 // EnumService allows to manage taxonomy enums and values.
 type EnumServiceServer interface {

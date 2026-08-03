@@ -28,6 +28,8 @@ const (
 // GeographyServiceClient is the client API for GeographyService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// internal
 type GeographyServiceClient interface {
 	ListCountries(ctx context.Context, in *ListCountriesInput, opts ...grpc.CallOption) (*ListCountriesOutput, error)
 	DescribeCountry(ctx context.Context, in *DescribeCountryInput, opts ...grpc.CallOption) (*DescribeCountryOutput, error)
@@ -86,6 +88,8 @@ func (c *geographyServiceClient) DescribeRegion(ctx context.Context, in *Describ
 // GeographyServiceServer is the server API for GeographyService service.
 // All implementations should embed UnimplementedGeographyServiceServer
 // for forward compatibility.
+//
+// internal
 type GeographyServiceServer interface {
 	ListCountries(context.Context, *ListCountriesInput) (*ListCountriesOutput, error)
 	DescribeCountry(context.Context, *DescribeCountryInput) (*DescribeCountryOutput, error)

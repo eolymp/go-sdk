@@ -36,6 +36,8 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 //
+// internal
+//
 // AccountService lets a person manage their own account.
 //
 // The same contract is served by two implementations, and the base URL decides which one answers: addressed
@@ -232,6 +234,8 @@ func (c *accountServiceClient) UpdateEmailSubscription(ctx context.Context, in *
 // AccountServiceServer is the server API for AccountService service.
 // All implementations should embed UnimplementedAccountServiceServer
 // for forward compatibility.
+//
+// internal
 //
 // AccountService lets a person manage their own account.
 //
