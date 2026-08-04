@@ -343,12 +343,16 @@ func (x *Scoreboard_Column) GetFilterable() bool {
 }
 
 type Scoreboard_Row struct {
-	state         protoimpl.MessageState  `protogen:"open.v1"`
-	Id            string                  `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	MemberId      string                  `protobuf:"bytes,2,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
-	Index         uint32                  `protobuf:"varint,10,opt,name=index,proto3" json:"index,omitempty"`
-	Rank          uint32                  `protobuf:"varint,11,opt,name=rank,proto3" json:"rank,omitempty"`
-	RankLength    uint32                  `protobuf:"varint,12,opt,name=rank_length,json=rankLength,proto3" json:"rank_length,omitempty"`
+	state    protoimpl.MessageState `protogen:"open.v1"`
+	Id       string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	MemberId string                 `protobuf:"bytes,2,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
+	Index    uint32                 `protobuf:"varint,10,opt,name=index,proto3" json:"index,omitempty"`
+	// Rank among officially ranked participants only; zero when the row itself is unofficial or disqualified.
+	Rank       uint32 `protobuf:"varint,11,opt,name=rank,proto3" json:"rank,omitempty"`
+	RankLength uint32 `protobuf:"varint,12,opt,name=rank_length,json=rankLength,proto3" json:"rank_length,omitempty"`
+	// Rank among every participant, including unofficial and disqualified ones. Always set.
+	RankAll       uint32                  `protobuf:"varint,13,opt,name=rank_all,json=rankAll,proto3" json:"rank_all,omitempty"`
+	RankAllLength uint32                  `protobuf:"varint,14,opt,name=rank_all_length,json=rankAllLength,proto3" json:"rank_all_length,omitempty"`
 	Score         float32                 `protobuf:"fixed32,20,opt,name=score,proto3" json:"score,omitempty"`
 	Penalty       float32                 `protobuf:"fixed32,21,opt,name=penalty,proto3" json:"penalty,omitempty"`
 	TieBreaker    uint32                  `protobuf:"varint,22,opt,name=tie_breaker,json=tieBreaker,proto3" json:"tie_breaker,omitempty"`
@@ -421,6 +425,20 @@ func (x *Scoreboard_Row) GetRank() uint32 {
 func (x *Scoreboard_Row) GetRankLength() uint32 {
 	if x != nil {
 		return x.RankLength
+	}
+	return 0
+}
+
+func (x *Scoreboard_Row) GetRankAll() uint32 {
+	if x != nil {
+		return x.RankAll
+	}
+	return 0
+}
+
+func (x *Scoreboard_Row) GetRankAllLength() uint32 {
+	if x != nil {
+		return x.RankAllLength
 	}
 	return 0
 }
@@ -681,12 +699,18 @@ func (x *Scoreboard_Row_RoundScore) GetMedal() Medal {
 }
 
 type Scoreboard_Row_ProblemScore struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Score         float32                `protobuf:"fixed32,1,opt,name=score,proto3" json:"score,omitempty"`
-	Penalty       float32                `protobuf:"fixed32,2,opt,name=penalty,proto3" json:"penalty,omitempty"`
-	Attempts      uint32                 `protobuf:"varint,3,opt,name=attempts,proto3" json:"attempts,omitempty"`
-	Percentage    float32                `protobuf:"fixed32,4,opt,name=percentage,proto3" json:"percentage,omitempty"`
-	Time          uint32                 `protobuf:"varint,5,opt,name=time,proto3" json:"time,omitempty"`
+	state      protoimpl.MessageState `protogen:"open.v1"`
+	Score      float32                `protobuf:"fixed32,1,opt,name=score,proto3" json:"score,omitempty"`
+	Penalty    float32                `protobuf:"fixed32,2,opt,name=penalty,proto3" json:"penalty,omitempty"`
+	Attempts   uint32                 `protobuf:"varint,3,opt,name=attempts,proto3" json:"attempts,omitempty"`
+	Percentage float32                `protobuf:"fixed32,4,opt,name=percentage,proto3" json:"percentage,omitempty"`
+	Time       uint32                 `protobuf:"varint,5,opt,name=time,proto3" json:"time,omitempty"`
+	// Attempts made after the scoreboard was frozen and therefore not reflected in score. Highlight a cell
+	// as stale when pending is above zero OR changed is set: a problem solved after the freeze reports no
+	// pending attempts, because attempts stop counting once a problem is solved.
+	Pending       uint32 `protobuf:"varint,6,opt,name=pending,proto3" json:"pending,omitempty"`
+	Changed       bool   `protobuf:"varint,7,opt,name=changed,proto3" json:"changed,omitempty"`
+	FirstToSolve  bool   `protobuf:"varint,8,opt,name=first_to_solve,json=firstToSolve,proto3" json:"first_to_solve,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -756,11 +780,32 @@ func (x *Scoreboard_Row_ProblemScore) GetTime() uint32 {
 	return 0
 }
 
+func (x *Scoreboard_Row_ProblemScore) GetPending() uint32 {
+	if x != nil {
+		return x.Pending
+	}
+	return 0
+}
+
+func (x *Scoreboard_Row_ProblemScore) GetChanged() bool {
+	if x != nil {
+		return x.Changed
+	}
+	return false
+}
+
+func (x *Scoreboard_Row_ProblemScore) GetFirstToSolve() bool {
+	if x != nil {
+		return x.FirstToSolve
+	}
+	return false
+}
+
 var File_eolymp_judge_scoreboard_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_scoreboard_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/judge/scoreboard.proto\x12\feolymp.judge\x1a\x18eolymp/judge/medal.proto\"\xdf\f\n" +
+	"\x1deolymp/judge/scoreboard.proto\x12\feolymp.judge\x1a\x18eolymp/judge/medal.proto\"\xfc\r\n" +
 	"\n" +
 	"Scoreboard\x123\n" +
 	"\x05modes\x18\n" +
@@ -797,7 +842,7 @@ const file_eolymp_judge_scoreboard_proto_rawDesc = "" +
 	"\aCOUNTRY\x10\x10\x12\n" +
 	"\n" +
 	"\x06REGION\x10\x11\x12\x0f\n" +
-	"\vINSTITUTION\x10\x12\x1a\xdb\a\n" +
+	"\vINSTITUTION\x10\x12\x1a\xf8\b\n" +
 	"\x03Row\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1b\n" +
 	"\tmember_id\x18\x02 \x01(\tR\bmemberId\x12\x14\n" +
@@ -805,7 +850,9 @@ const file_eolymp_judge_scoreboard_proto_rawDesc = "" +
 	" \x01(\rR\x05index\x12\x12\n" +
 	"\x04rank\x18\v \x01(\rR\x04rank\x12\x1f\n" +
 	"\vrank_length\x18\f \x01(\rR\n" +
-	"rankLength\x12\x14\n" +
+	"rankLength\x12\x19\n" +
+	"\brank_all\x18\r \x01(\rR\arankAll\x12&\n" +
+	"\x0frank_all_length\x18\x0e \x01(\rR\rrankAllLength\x12\x14\n" +
 	"\x05score\x18\x14 \x01(\x02R\x05score\x12\x18\n" +
 	"\apenalty\x18\x15 \x01(\x02R\apenalty\x12\x1f\n" +
 	"\vtie_breaker\x18\x16 \x01(\rR\n" +
@@ -835,7 +882,7 @@ const file_eolymp_judge_scoreboard_proto_rawDesc = "" +
 	" \x01(\bR\n" +
 	"unofficial\x12\"\n" +
 	"\fdisqualified\x18\v \x01(\bR\fdisqualified\x12)\n" +
-	"\x05medal\x18  \x01(\x0e2\x13.eolymp.judge.MedalR\x05medal\x1a\x8e\x01\n" +
+	"\x05medal\x18  \x01(\x0e2\x13.eolymp.judge.MedalR\x05medal\x1a\xe8\x01\n" +
 	"\fProblemScore\x12\x14\n" +
 	"\x05score\x18\x01 \x01(\x02R\x05score\x12\x18\n" +
 	"\apenalty\x18\x02 \x01(\x02R\apenalty\x12\x1a\n" +
@@ -843,7 +890,10 @@ const file_eolymp_judge_scoreboard_proto_rawDesc = "" +
 	"\n" +
 	"percentage\x18\x04 \x01(\x02R\n" +
 	"percentage\x12\x12\n" +
-	"\x04time\x18\x05 \x01(\rR\x04time\"+\n" +
+	"\x04time\x18\x05 \x01(\rR\x04time\x12\x18\n" +
+	"\apending\x18\x06 \x01(\rR\apending\x12\x18\n" +
+	"\achanged\x18\a \x01(\bR\achanged\x12$\n" +
+	"\x0efirst_to_solve\x18\b \x01(\bR\ffirstToSolve\"+\n" +
 	"\x04Mode\x12\n" +
 	"\n" +
 	"\x06RESULT\x10\x00\x12\n" +
