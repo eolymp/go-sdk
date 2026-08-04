@@ -21,83 +21,28 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type SpaceChangeRecord_Operation int32
-
-const (
-	SpaceChangeRecord_NO_OPERATION SpaceChangeRecord_Operation = 0
-	SpaceChangeRecord_CREATE       SpaceChangeRecord_Operation = 1
-	SpaceChangeRecord_UPDATE       SpaceChangeRecord_Operation = 2
-	SpaceChangeRecord_DELETE       SpaceChangeRecord_Operation = 3
-	SpaceChangeRecord_SOFT_DELETE  SpaceChangeRecord_Operation = 4
-)
-
-// Enum value maps for SpaceChangeRecord_Operation.
-var (
-	SpaceChangeRecord_Operation_name = map[int32]string{
-		0: "NO_OPERATION",
-		1: "CREATE",
-		2: "UPDATE",
-		3: "DELETE",
-		4: "SOFT_DELETE",
-	}
-	SpaceChangeRecord_Operation_value = map[string]int32{
-		"NO_OPERATION": 0,
-		"CREATE":       1,
-		"UPDATE":       2,
-		"DELETE":       3,
-		"SOFT_DELETE":  4,
-	}
-)
-
-func (x SpaceChangeRecord_Operation) Enum() *SpaceChangeRecord_Operation {
-	p := new(SpaceChangeRecord_Operation)
-	*p = x
-	return p
-}
-
-func (x SpaceChangeRecord_Operation) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (SpaceChangeRecord_Operation) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_universe_events_proto_enumTypes[0].Descriptor()
-}
-
-func (SpaceChangeRecord_Operation) Type() protoreflect.EnumType {
-	return &file_eolymp_universe_events_proto_enumTypes[0]
-}
-
-func (x SpaceChangeRecord_Operation) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use SpaceChangeRecord_Operation.Descriptor instead.
-func (SpaceChangeRecord_Operation) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_universe_events_proto_rawDescGZIP(), []int{0, 0}
-}
-
-type SpaceChangeRecord struct {
-	state         protoimpl.MessageState      `protogen:"open.v1"`
-	Op            SpaceChangeRecord_Operation `protobuf:"varint,1,opt,name=op,proto3,enum=eolymp.universe.SpaceChangeRecord_Operation" json:"op,omitempty"`
-	Space         *Space                      `protobuf:"bytes,2,opt,name=space,proto3" json:"space,omitempty"`
+type SpaceChangedEvent struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Before        *Space                 `protobuf:"bytes,1,opt,name=before,proto3" json:"before,omitempty"`
+	After         *Space                 `protobuf:"bytes,2,opt,name=after,proto3" json:"after,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *SpaceChangeRecord) Reset() {
-	*x = SpaceChangeRecord{}
+func (x *SpaceChangedEvent) Reset() {
+	*x = SpaceChangedEvent{}
 	mi := &file_eolymp_universe_events_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *SpaceChangeRecord) String() string {
+func (x *SpaceChangedEvent) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*SpaceChangeRecord) ProtoMessage() {}
+func (*SpaceChangedEvent) ProtoMessage() {}
 
-func (x *SpaceChangeRecord) ProtoReflect() protoreflect.Message {
+func (x *SpaceChangedEvent) ProtoReflect() protoreflect.Message {
 	mi := &file_eolymp_universe_events_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -109,21 +54,21 @@ func (x *SpaceChangeRecord) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use SpaceChangeRecord.ProtoReflect.Descriptor instead.
-func (*SpaceChangeRecord) Descriptor() ([]byte, []int) {
+// Deprecated: Use SpaceChangedEvent.ProtoReflect.Descriptor instead.
+func (*SpaceChangedEvent) Descriptor() ([]byte, []int) {
 	return file_eolymp_universe_events_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *SpaceChangeRecord) GetOp() SpaceChangeRecord_Operation {
+func (x *SpaceChangedEvent) GetBefore() *Space {
 	if x != nil {
-		return x.Op
+		return x.Before
 	}
-	return SpaceChangeRecord_NO_OPERATION
+	return nil
 }
 
-func (x *SpaceChangeRecord) GetSpace() *Space {
+func (x *SpaceChangedEvent) GetAfter() *Space {
 	if x != nil {
-		return x.Space
+		return x.After
 	}
 	return nil
 }
@@ -132,19 +77,10 @@ var File_eolymp_universe_events_proto protoreflect.FileDescriptor
 
 const file_eolymp_universe_events_proto_rawDesc = "" +
 	"\n" +
-	"\x1ceolymp/universe/events.proto\x12\x0feolymp.universe\x1a\x1beolymp/universe/space.proto\"\xd3\x01\n" +
-	"\x11SpaceChangeRecord\x12<\n" +
-	"\x02op\x18\x01 \x01(\x0e2,.eolymp.universe.SpaceChangeRecord.OperationR\x02op\x12,\n" +
-	"\x05space\x18\x02 \x01(\v2\x16.eolymp.universe.SpaceR\x05space\"R\n" +
-	"\tOperation\x12\x10\n" +
-	"\fNO_OPERATION\x10\x00\x12\n" +
-	"\n" +
-	"\x06CREATE\x10\x01\x12\n" +
-	"\n" +
-	"\x06UPDATE\x10\x02\x12\n" +
-	"\n" +
-	"\x06DELETE\x10\x03\x12\x0f\n" +
-	"\vSOFT_DELETE\x10\x04B3Z1github.com/eolymp/go-sdk/eolymp/universe;universeb\x06proto3"
+	"\x1ceolymp/universe/events.proto\x12\x0feolymp.universe\x1a\x1beolymp/universe/space.proto\"q\n" +
+	"\x11SpaceChangedEvent\x12.\n" +
+	"\x06before\x18\x01 \x01(\v2\x16.eolymp.universe.SpaceR\x06before\x12,\n" +
+	"\x05after\x18\x02 \x01(\v2\x16.eolymp.universe.SpaceR\x05afterB3Z1github.com/eolymp/go-sdk/eolymp/universe;universeb\x06proto3"
 
 var (
 	file_eolymp_universe_events_proto_rawDescOnce sync.Once
@@ -158,16 +94,14 @@ func file_eolymp_universe_events_proto_rawDescGZIP() []byte {
 	return file_eolymp_universe_events_proto_rawDescData
 }
 
-var file_eolymp_universe_events_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_eolymp_universe_events_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_eolymp_universe_events_proto_goTypes = []any{
-	(SpaceChangeRecord_Operation)(0), // 0: eolymp.universe.SpaceChangeRecord.Operation
-	(*SpaceChangeRecord)(nil),        // 1: eolymp.universe.SpaceChangeRecord
-	(*Space)(nil),                    // 2: eolymp.universe.Space
+	(*SpaceChangedEvent)(nil), // 0: eolymp.universe.SpaceChangedEvent
+	(*Space)(nil),             // 1: eolymp.universe.Space
 }
 var file_eolymp_universe_events_proto_depIdxs = []int32{
-	0, // 0: eolymp.universe.SpaceChangeRecord.op:type_name -> eolymp.universe.SpaceChangeRecord.Operation
-	2, // 1: eolymp.universe.SpaceChangeRecord.space:type_name -> eolymp.universe.Space
+	1, // 0: eolymp.universe.SpaceChangedEvent.before:type_name -> eolymp.universe.Space
+	1, // 1: eolymp.universe.SpaceChangedEvent.after:type_name -> eolymp.universe.Space
 	2, // [2:2] is the sub-list for method output_type
 	2, // [2:2] is the sub-list for method input_type
 	2, // [2:2] is the sub-list for extension type_name
@@ -186,14 +120,13 @@ func file_eolymp_universe_events_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_universe_events_proto_rawDesc), len(file_eolymp_universe_events_proto_rawDesc)),
-			NumEnums:      1,
+			NumEnums:      0,
 			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
 		GoTypes:           file_eolymp_universe_events_proto_goTypes,
 		DependencyIndexes: file_eolymp_universe_events_proto_depIdxs,
-		EnumInfos:         file_eolymp_universe_events_proto_enumTypes,
 		MessageInfos:      file_eolymp_universe_events_proto_msgTypes,
 	}.Build()
 	File_eolymp_universe_events_proto = out.File
