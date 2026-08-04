@@ -154,8 +154,10 @@ type Post struct {
 	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,20,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	PublishedAt   *timestamppb.Timestamp `protobuf:"bytes,21,opt,name=published_at,json=publishedAt,proto3" json:"published_at,omitempty"`
 	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,22,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
-	TypeId        string                 `protobuf:"bytes,6,opt,name=type_id,json=typeId,proto3" json:"type_id,omitempty"` // optionally, post type from PostTypeService
-	Locale        string                 `protobuf:"bytes,102,opt,name=locale,proto3" json:"locale,omitempty"`
+	TypeId        string                 `protobuf:"bytes,6,opt,name=type_id,json=typeId,proto3" json:"type_id,omitempty"`         // optionally, post type from PostTypeService
+	Locale        string                 `protobuf:"bytes,102,opt,name=locale,proto3" json:"locale,omitempty"`                     // locale of the translation being read, empty when reading the post itself
+	Locales       []string               `protobuf:"bytes,15,rep,name=locales,proto3" json:"locales,omitempty"`                    // locales this post has translations for
+	Automatic     bool                   `protobuf:"varint,14,opt,name=automatic,proto3" json:"automatic,omitempty"`               // content generated automatically
 	Title         string                 `protobuf:"bytes,103,opt,name=title,proto3" json:"title,omitempty"`                       // automatically populated from content
 	ImageUrl      string                 `protobuf:"bytes,104,opt,name=image_url,json=imageUrl,proto3" json:"image_url,omitempty"` // automatically populated from content
 	Content       *ecm.Content           `protobuf:"bytes,101,opt,name=content,proto3" json:"content,omitempty"`
@@ -322,6 +324,20 @@ func (x *Post) GetLocale() string {
 	return ""
 }
 
+func (x *Post) GetLocales() []string {
+	if x != nil {
+		return x.Locales
+	}
+	return nil
+}
+
+func (x *Post) GetAutomatic() bool {
+	if x != nil {
+		return x.Automatic
+	}
+	return false
+}
+
 func (x *Post) GetTitle() string {
 	if x != nil {
 		return x.Title
@@ -401,31 +417,33 @@ func (*Post_UserId) isPost_Author() {}
 
 func (*Post_MemberId) isPost_Author() {}
 
-type Post_Translation struct {
+type Post_Patch struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Locale        string                 `protobuf:"bytes,102,opt,name=locale,proto3" json:"locale,omitempty"`
+	TypeId        *string                `protobuf:"bytes,6,opt,name=type_id,json=typeId,proto3,oneof" json:"type_id,omitempty"`
+	Featured      *bool                  `protobuf:"varint,9,opt,name=featured,proto3,oneof" json:"featured,omitempty"`
+	Pinned        *bool                  `protobuf:"varint,13,opt,name=pinned,proto3,oneof" json:"pinned,omitempty"`
+	Automatic     *bool                  `protobuf:"varint,14,opt,name=automatic,proto3,oneof" json:"automatic,omitempty"`
 	Content       *ecm.Content           `protobuf:"bytes,101,opt,name=content,proto3" json:"content,omitempty"`
 	Labels        []string               `protobuf:"bytes,120,rep,name=labels,proto3" json:"labels,omitempty"`
-	Automatic     bool                   `protobuf:"varint,103,opt,name=automatic,proto3" json:"automatic,omitempty"`
+	Unlabel       *bool                  `protobuf:"varint,121,opt,name=unlabel,proto3,oneof" json:"unlabel,omitempty"` // clears the labels, which an empty list cannot express
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *Post_Translation) Reset() {
-	*x = Post_Translation{}
+func (x *Post_Patch) Reset() {
+	*x = Post_Patch{}
 	mi := &file_eolymp_content_post_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *Post_Translation) String() string {
+func (x *Post_Patch) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*Post_Translation) ProtoMessage() {}
+func (*Post_Patch) ProtoMessage() {}
 
-func (x *Post_Translation) ProtoReflect() protoreflect.Message {
+func (x *Post_Patch) ProtoReflect() protoreflect.Message {
 	mi := &file_eolymp_content_post_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -437,42 +455,56 @@ func (x *Post_Translation) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Post_Translation.ProtoReflect.Descriptor instead.
-func (*Post_Translation) Descriptor() ([]byte, []int) {
+// Deprecated: Use Post_Patch.ProtoReflect.Descriptor instead.
+func (*Post_Patch) Descriptor() ([]byte, []int) {
 	return file_eolymp_content_post_proto_rawDescGZIP(), []int{0, 0}
 }
 
-func (x *Post_Translation) GetId() string {
-	if x != nil {
-		return x.Id
+func (x *Post_Patch) GetTypeId() string {
+	if x != nil && x.TypeId != nil {
+		return *x.TypeId
 	}
 	return ""
 }
 
-func (x *Post_Translation) GetLocale() string {
-	if x != nil {
-		return x.Locale
+func (x *Post_Patch) GetFeatured() bool {
+	if x != nil && x.Featured != nil {
+		return *x.Featured
 	}
-	return ""
+	return false
 }
 
-func (x *Post_Translation) GetContent() *ecm.Content {
+func (x *Post_Patch) GetPinned() bool {
+	if x != nil && x.Pinned != nil {
+		return *x.Pinned
+	}
+	return false
+}
+
+func (x *Post_Patch) GetAutomatic() bool {
+	if x != nil && x.Automatic != nil {
+		return *x.Automatic
+	}
+	return false
+}
+
+func (x *Post_Patch) GetContent() *ecm.Content {
 	if x != nil {
 		return x.Content
 	}
 	return nil
 }
 
-func (x *Post_Translation) GetLabels() []string {
+func (x *Post_Patch) GetLabels() []string {
 	if x != nil {
 		return x.Labels
 	}
 	return nil
 }
 
-func (x *Post_Translation) GetAutomatic() bool {
-	if x != nil {
-		return x.Automatic
+func (x *Post_Patch) GetUnlabel() bool {
+	if x != nil && x.Unlabel != nil {
+		return *x.Unlabel
 	}
 	return false
 }
@@ -609,7 +641,7 @@ var File_eolymp_content_post_proto protoreflect.FileDescriptor
 
 const file_eolymp_content_post_proto_rawDesc = "" +
 	"\n" +
-	"\x19eolymp/content/post.proto\x12\x0eeolymp.content\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\x1a\x15eolymp/ecm/node.proto\x1a\x1beolymp/wellknown/link.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x99\f\n" +
+	"\x19eolymp/content/post.proto\x12\x0eeolymp.content\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\x1a\x15eolymp/ecm/node.proto\x1a\x1beolymp/wellknown/link.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xe1\r\n" +
 	"\x04Post\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x18\n" +
 	"\x03url\x18\x02 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x03url\x12#\n" +
@@ -632,7 +664,9 @@ const file_eolymp_content_post_proto_rawDesc = "" +
 	"\n" +
 	"updated_at\x18\x16 \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\tupdatedAt\x12\x17\n" +
 	"\atype_id\x18\x06 \x01(\tR\x06typeId\x12\x16\n" +
-	"\x06locale\x18f \x01(\tR\x06locale\x12\x14\n" +
+	"\x06locale\x18f \x01(\tR\x06locale\x12\x18\n" +
+	"\alocales\x18\x0f \x03(\tR\alocales\x12\x1c\n" +
+	"\tautomatic\x18\x0e \x01(\bR\tautomatic\x12\x14\n" +
 	"\x05title\x18g \x01(\tR\x05title\x12\x1b\n" +
 	"\timage_url\x18h \x01(\tR\bimageUrl\x12-\n" +
 	"\acontent\x18e \x01(\v2\x13.eolymp.ecm.ContentR\acontent\x12>\n" +
@@ -643,13 +677,23 @@ const file_eolymp_content_post_proto_rawDesc = "" +
 	"\vreply_count\x18\x1f \x01(\x05B\x06\xa8\xf0\xf0\xe4\x01\x01R\n" +
 	"replyCount\x12\x16\n" +
 	"\x06labels\x18x \x03(\tR\x06labels\x125\n" +
-	"\x05links\x18\xc8\x01 \x03(\v2\x16.eolymp.wellknown.LinkB\x06\xa8\xf0\xf0\xe4\x01\x01R\x05links\x1a\x9a\x01\n" +
-	"\vTranslation\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x16\n" +
-	"\x06locale\x18f \x01(\tR\x06locale\x12-\n" +
+	"\x05links\x18\xc8\x01 \x03(\v2\x16.eolymp.wellknown.LinkB\x06\xa8\xf0\xf0\xe4\x01\x01R\x05links\x1a\xaa\x02\n" +
+	"\x05Patch\x12\x1c\n" +
+	"\atype_id\x18\x06 \x01(\tH\x00R\x06typeId\x88\x01\x01\x12\x1f\n" +
+	"\bfeatured\x18\t \x01(\bH\x01R\bfeatured\x88\x01\x01\x12\x1b\n" +
+	"\x06pinned\x18\r \x01(\bH\x02R\x06pinned\x88\x01\x01\x12!\n" +
+	"\tautomatic\x18\x0e \x01(\bH\x03R\tautomatic\x88\x01\x01\x12-\n" +
 	"\acontent\x18e \x01(\v2\x13.eolymp.ecm.ContentR\acontent\x12\x16\n" +
-	"\x06labels\x18x \x03(\tR\x06labels\x12\x1c\n" +
-	"\tautomatic\x18g \x01(\bR\tautomatic\x1a]\n" +
+	"\x06labels\x18x \x03(\tR\x06labels\x12\x1d\n" +
+	"\aunlabel\x18y \x01(\bH\x04R\aunlabel\x88\x01\x01B\n" +
+	"\n" +
+	"\b_type_idB\v\n" +
+	"\t_featuredB\t\n" +
+	"\a_pinnedB\f\n" +
+	"\n" +
+	"_automaticB\n" +
+	"\n" +
+	"\b_unlabel\x1a]\n" +
 	"\x05Image\x12\x10\n" +
 	"\x03src\x18\x01 \x01(\tR\x03src\x12\x14\n" +
 	"\x05width\x18\x02 \x01(\x05R\x05width\x12\x16\n" +
@@ -692,7 +736,7 @@ var file_eolymp_content_post_proto_goTypes = []any{
 	(Post_Moderation)(0),          // 0: eolymp.content.Post.Moderation
 	(Post_Extra)(0),               // 1: eolymp.content.Post.Extra
 	(*Post)(nil),                  // 2: eolymp.content.Post
-	(*Post_Translation)(nil),      // 3: eolymp.content.Post.Translation
+	(*Post_Patch)(nil),            // 3: eolymp.content.Post.Patch
 	(*Post_Image)(nil),            // 4: eolymp.content.Post.Image
 	(*Post_Preview)(nil),          // 5: eolymp.content.Post.Preview
 	(*timestamppb.Timestamp)(nil), // 6: google.protobuf.Timestamp
@@ -708,7 +752,7 @@ var file_eolymp_content_post_proto_depIdxs = []int32{
 	7,  // 4: eolymp.content.Post.content:type_name -> eolymp.ecm.Content
 	5,  // 5: eolymp.content.Post.preview:type_name -> eolymp.content.Post.Preview
 	8,  // 6: eolymp.content.Post.links:type_name -> eolymp.wellknown.Link
-	7,  // 7: eolymp.content.Post.Translation.content:type_name -> eolymp.ecm.Content
+	7,  // 7: eolymp.content.Post.Patch.content:type_name -> eolymp.ecm.Content
 	4,  // 8: eolymp.content.Post.Preview.image:type_name -> eolymp.content.Post.Image
 	9,  // 9: eolymp.content.Post.Preview.content:type_name -> eolymp.ecm.Node
 	10, // [10:10] is the sub-list for method output_type
@@ -727,6 +771,7 @@ func file_eolymp_content_post_proto_init() {
 		(*Post_UserId)(nil),
 		(*Post_MemberId)(nil),
 	}
+	file_eolymp_content_post_proto_msgTypes[1].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

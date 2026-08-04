@@ -19,21 +19,16 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	PostService_DescribePost_FullMethodName            = "/eolymp.content.PostService/DescribePost"
-	PostService_ListPosts_FullMethodName               = "/eolymp.content.PostService/ListPosts"
-	PostService_CreatePost_FullMethodName              = "/eolymp.content.PostService/CreatePost"
-	PostService_UpdatePost_FullMethodName              = "/eolymp.content.PostService/UpdatePost"
-	PostService_PublishPost_FullMethodName             = "/eolymp.content.PostService/PublishPost"
-	PostService_UnpublishPost_FullMethodName           = "/eolymp.content.PostService/UnpublishPost"
-	PostService_ModeratePost_FullMethodName            = "/eolymp.content.PostService/ModeratePost"
-	PostService_DeletePost_FullMethodName              = "/eolymp.content.PostService/DeletePost"
-	PostService_VotePost_FullMethodName                = "/eolymp.content.PostService/VotePost"
-	PostService_TranslatePost_FullMethodName           = "/eolymp.content.PostService/TranslatePost"
-	PostService_DescribePostTranslation_FullMethodName = "/eolymp.content.PostService/DescribePostTranslation"
-	PostService_ListPostTranslations_FullMethodName    = "/eolymp.content.PostService/ListPostTranslations"
-	PostService_CreatePostTranslation_FullMethodName   = "/eolymp.content.PostService/CreatePostTranslation"
-	PostService_UpdatePostTranslation_FullMethodName   = "/eolymp.content.PostService/UpdatePostTranslation"
-	PostService_DeletePostTranslation_FullMethodName   = "/eolymp.content.PostService/DeletePostTranslation"
+	PostService_DescribePost_FullMethodName  = "/eolymp.content.PostService/DescribePost"
+	PostService_ListPosts_FullMethodName     = "/eolymp.content.PostService/ListPosts"
+	PostService_CreatePost_FullMethodName    = "/eolymp.content.PostService/CreatePost"
+	PostService_UpdatePost_FullMethodName    = "/eolymp.content.PostService/UpdatePost"
+	PostService_PublishPost_FullMethodName   = "/eolymp.content.PostService/PublishPost"
+	PostService_UnpublishPost_FullMethodName = "/eolymp.content.PostService/UnpublishPost"
+	PostService_ModeratePost_FullMethodName  = "/eolymp.content.PostService/ModeratePost"
+	PostService_DeletePost_FullMethodName    = "/eolymp.content.PostService/DeletePost"
+	PostService_VotePost_FullMethodName      = "/eolymp.content.PostService/VotePost"
+	PostService_TranslatePost_FullMethodName = "/eolymp.content.PostService/TranslatePost"
 )
 
 // PostServiceClient is the client API for PostService service.
@@ -52,9 +47,14 @@ const (
 // whether it has been published, and how moderation ruled on it; the post's public flag reports the
 // combination and cannot be written directly. Comments on a post belong to eolymp.discussion, which is also
 // where the space-wide policy deciding when posts are moderated is configured.
+//
+// A post has no locale of its own. It holds the source content and labels plus a complete translation of
+// them per locale, and the locale on a request picks between them: reading falls back to the post when the
+// translation does not exist, writing creates it from the post. The type and the editorial flags are not
+// translatable and always belong to the post.
 type PostServiceClient interface {
-	// DescribePost returns a single post by id. A locale can be given to read the post in that language rather
-	// than the one it was written in, and content is left out unless the request asks for it.
+	// DescribePost returns a single post by id. The requested locale selects a translation and falls back to
+	// the post itself when that translation does not exist, and content is left out unless asked for.
 	DescribePost(ctx context.Context, in *DescribePostInput, opts ...grpc.CallOption) (*DescribePostOutput, error)
 	// ListPosts returns the posts of a space, the call behind a feed page or the console's post table. Asking
 	// for the rendered excerpt here saves describing every post separately just to render the listing.
@@ -63,9 +63,10 @@ type PostServiceClient interface {
 	// for the post are derived from its content. Making the post visible is not part of this call, see
 	// PublishPost.
 	CreatePost(ctx context.Context, in *CreatePostInput, opts ...grpc.CallOption) (*CreatePostOutput, error)
-	// UpdatePost writes new values into a post, and is also how a post is kept as a draft, featured on the home
-	// page or pinned on top of the listing. Fields outside the patch mask keep the values they already have. The
-	// title and the image still cannot be set: they follow the content, so editing the content changes them.
+	// UpdatePost writes new values into a post, and is also how a post is featured on the home page or pinned on
+	// top of the listing. Fields left out of the patch keep the values they already have. The title and the image
+	// still cannot be set: they follow the content, so editing the content changes them. Given a locale, the
+	// content is written to that translation instead, which is created from the post if it does not exist yet.
 	UpdatePost(ctx context.Context, in *UpdatePostInput, opts ...grpc.CallOption) (*UpdatePostOutput, error)
 	// PublishPost is the transition which sends a post out, recording when that happened, rather than a flag on
 	// the post that UpdatePost could write. Whether readers then see it still depends on the draft flag and on
@@ -78,8 +79,9 @@ type PostServiceClient interface {
 	// Whether a post has to pass moderation before it appears, only afterwards, or not at all, is a space-wide
 	// setting of eolymp.discussion.ConfigurationService rather than anything carried by the post.
 	ModeratePost(ctx context.Context, in *ModeratePostInput, opts ...grpc.CallOption) (*ModeratePostOutput, error)
-	// DeletePost removes a post for good. Reach for UnpublishPost instead whenever the post only has to stop
-	// being shown, since that transition can be undone and this call cannot.
+	// DeletePost removes a post for good, or only its translation for one locale when a locale is given. Reach
+	// for UnpublishPost instead whenever the post only has to stop being shown, since that transition can be
+	// undone and this call cannot.
 	DeletePost(ctx context.Context, in *DeletePostInput, opts ...grpc.CallOption) (*DeletePostOutput, error)
 	// VotePost casts the calling user's own vote, up or down, on a post and returns the post's new total. This is
 	// a reader action rather than an editorial one: a caller votes only for themselves, reads back their own vote
@@ -87,26 +89,10 @@ type PostServiceClient interface {
 	VotePost(ctx context.Context, in *VotePostInput, opts ...grpc.CallOption) (*VotePostOutput, error)
 	// TranslatePost hands a post to automatic translation for several locales at once and returns a task id: the
 	// work runs in the background, so the translations turn up some time after the call returns and are found by
-	// listing them again. It can additionally take in every translation an earlier automatic run produced, to
-	// refresh them, and can be told to overwrite translations a person wrote, which it otherwise leaves alone.
+	// reading the post in those locales. It can additionally take in every translation an earlier automatic run
+	// produced, to refresh them, and can be told to overwrite translations a person wrote, which it otherwise
+	// leaves alone.
 	TranslatePost(ctx context.Context, in *TranslatePostInput, opts ...grpc.CallOption) (*TranslatePostOutput, error)
-	// DescribePostTranslation returns one translation addressed by its own id rather than by locale, and accepts
-	// the same content extras as reading the post itself.
-	DescribePostTranslation(ctx context.Context, in *DescribePostTranslationInput, opts ...grpc.CallOption) (*DescribePostTranslationOutput, error)
-	// ListPostTranslations reports which languages a post exists in besides the one it was written in, and is how
-	// to find a translation's id before updating or deleting it.
-	ListPostTranslations(ctx context.Context, in *ListPostTranslationsInput, opts ...grpc.CallOption) (*ListPostTranslationsOutput, error)
-	// CreatePostTranslation adds the post's content in one further language and returns the translation's id;
-	// each locale is a translation of its own, added by calling this again, not by patching the post. A
-	// translation also carries the flag which separates machine output from human work, the one TranslatePost
-	// consults before refreshing or overwriting anything.
-	CreatePostTranslation(ctx context.Context, in *CreatePostTranslationInput, opts ...grpc.CallOption) (*CreatePostTranslationOutput, error)
-	// UpdatePostTranslation writes new values into one translation, leaving the post's own content and its other
-	// languages alone. Fields outside the patch mask keep the values they already have.
-	UpdatePostTranslation(ctx context.Context, in *UpdatePostTranslationInput, opts ...grpc.CallOption) (*UpdatePostTranslationOutput, error)
-	// DeletePostTranslation drops a single language while the post and its remaining languages stay as they are.
-	// Removing them all still leaves the post readable, in the language it was written in.
-	DeletePostTranslation(ctx context.Context, in *DeletePostTranslationInput, opts ...grpc.CallOption) (*DeletePostTranslationOutput, error)
 }
 
 type postServiceClient struct {
@@ -217,56 +203,6 @@ func (c *postServiceClient) TranslatePost(ctx context.Context, in *TranslatePost
 	return out, nil
 }
 
-func (c *postServiceClient) DescribePostTranslation(ctx context.Context, in *DescribePostTranslationInput, opts ...grpc.CallOption) (*DescribePostTranslationOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DescribePostTranslationOutput)
-	err := c.cc.Invoke(ctx, PostService_DescribePostTranslation_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *postServiceClient) ListPostTranslations(ctx context.Context, in *ListPostTranslationsInput, opts ...grpc.CallOption) (*ListPostTranslationsOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ListPostTranslationsOutput)
-	err := c.cc.Invoke(ctx, PostService_ListPostTranslations_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *postServiceClient) CreatePostTranslation(ctx context.Context, in *CreatePostTranslationInput, opts ...grpc.CallOption) (*CreatePostTranslationOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(CreatePostTranslationOutput)
-	err := c.cc.Invoke(ctx, PostService_CreatePostTranslation_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *postServiceClient) UpdatePostTranslation(ctx context.Context, in *UpdatePostTranslationInput, opts ...grpc.CallOption) (*UpdatePostTranslationOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(UpdatePostTranslationOutput)
-	err := c.cc.Invoke(ctx, PostService_UpdatePostTranslation_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *postServiceClient) DeletePostTranslation(ctx context.Context, in *DeletePostTranslationInput, opts ...grpc.CallOption) (*DeletePostTranslationOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DeletePostTranslationOutput)
-	err := c.cc.Invoke(ctx, PostService_DeletePostTranslation_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // PostServiceServer is the server API for PostService service.
 // All implementations should embed UnimplementedPostServiceServer
 // for forward compatibility.
@@ -283,9 +219,14 @@ func (c *postServiceClient) DeletePostTranslation(ctx context.Context, in *Delet
 // whether it has been published, and how moderation ruled on it; the post's public flag reports the
 // combination and cannot be written directly. Comments on a post belong to eolymp.discussion, which is also
 // where the space-wide policy deciding when posts are moderated is configured.
+//
+// A post has no locale of its own. It holds the source content and labels plus a complete translation of
+// them per locale, and the locale on a request picks between them: reading falls back to the post when the
+// translation does not exist, writing creates it from the post. The type and the editorial flags are not
+// translatable and always belong to the post.
 type PostServiceServer interface {
-	// DescribePost returns a single post by id. A locale can be given to read the post in that language rather
-	// than the one it was written in, and content is left out unless the request asks for it.
+	// DescribePost returns a single post by id. The requested locale selects a translation and falls back to
+	// the post itself when that translation does not exist, and content is left out unless asked for.
 	DescribePost(context.Context, *DescribePostInput) (*DescribePostOutput, error)
 	// ListPosts returns the posts of a space, the call behind a feed page or the console's post table. Asking
 	// for the rendered excerpt here saves describing every post separately just to render the listing.
@@ -294,9 +235,10 @@ type PostServiceServer interface {
 	// for the post are derived from its content. Making the post visible is not part of this call, see
 	// PublishPost.
 	CreatePost(context.Context, *CreatePostInput) (*CreatePostOutput, error)
-	// UpdatePost writes new values into a post, and is also how a post is kept as a draft, featured on the home
-	// page or pinned on top of the listing. Fields outside the patch mask keep the values they already have. The
-	// title and the image still cannot be set: they follow the content, so editing the content changes them.
+	// UpdatePost writes new values into a post, and is also how a post is featured on the home page or pinned on
+	// top of the listing. Fields left out of the patch keep the values they already have. The title and the image
+	// still cannot be set: they follow the content, so editing the content changes them. Given a locale, the
+	// content is written to that translation instead, which is created from the post if it does not exist yet.
 	UpdatePost(context.Context, *UpdatePostInput) (*UpdatePostOutput, error)
 	// PublishPost is the transition which sends a post out, recording when that happened, rather than a flag on
 	// the post that UpdatePost could write. Whether readers then see it still depends on the draft flag and on
@@ -309,8 +251,9 @@ type PostServiceServer interface {
 	// Whether a post has to pass moderation before it appears, only afterwards, or not at all, is a space-wide
 	// setting of eolymp.discussion.ConfigurationService rather than anything carried by the post.
 	ModeratePost(context.Context, *ModeratePostInput) (*ModeratePostOutput, error)
-	// DeletePost removes a post for good. Reach for UnpublishPost instead whenever the post only has to stop
-	// being shown, since that transition can be undone and this call cannot.
+	// DeletePost removes a post for good, or only its translation for one locale when a locale is given. Reach
+	// for UnpublishPost instead whenever the post only has to stop being shown, since that transition can be
+	// undone and this call cannot.
 	DeletePost(context.Context, *DeletePostInput) (*DeletePostOutput, error)
 	// VotePost casts the calling user's own vote, up or down, on a post and returns the post's new total. This is
 	// a reader action rather than an editorial one: a caller votes only for themselves, reads back their own vote
@@ -318,26 +261,10 @@ type PostServiceServer interface {
 	VotePost(context.Context, *VotePostInput) (*VotePostOutput, error)
 	// TranslatePost hands a post to automatic translation for several locales at once and returns a task id: the
 	// work runs in the background, so the translations turn up some time after the call returns and are found by
-	// listing them again. It can additionally take in every translation an earlier automatic run produced, to
-	// refresh them, and can be told to overwrite translations a person wrote, which it otherwise leaves alone.
+	// reading the post in those locales. It can additionally take in every translation an earlier automatic run
+	// produced, to refresh them, and can be told to overwrite translations a person wrote, which it otherwise
+	// leaves alone.
 	TranslatePost(context.Context, *TranslatePostInput) (*TranslatePostOutput, error)
-	// DescribePostTranslation returns one translation addressed by its own id rather than by locale, and accepts
-	// the same content extras as reading the post itself.
-	DescribePostTranslation(context.Context, *DescribePostTranslationInput) (*DescribePostTranslationOutput, error)
-	// ListPostTranslations reports which languages a post exists in besides the one it was written in, and is how
-	// to find a translation's id before updating or deleting it.
-	ListPostTranslations(context.Context, *ListPostTranslationsInput) (*ListPostTranslationsOutput, error)
-	// CreatePostTranslation adds the post's content in one further language and returns the translation's id;
-	// each locale is a translation of its own, added by calling this again, not by patching the post. A
-	// translation also carries the flag which separates machine output from human work, the one TranslatePost
-	// consults before refreshing or overwriting anything.
-	CreatePostTranslation(context.Context, *CreatePostTranslationInput) (*CreatePostTranslationOutput, error)
-	// UpdatePostTranslation writes new values into one translation, leaving the post's own content and its other
-	// languages alone. Fields outside the patch mask keep the values they already have.
-	UpdatePostTranslation(context.Context, *UpdatePostTranslationInput) (*UpdatePostTranslationOutput, error)
-	// DeletePostTranslation drops a single language while the post and its remaining languages stay as they are.
-	// Removing them all still leaves the post readable, in the language it was written in.
-	DeletePostTranslation(context.Context, *DeletePostTranslationInput) (*DeletePostTranslationOutput, error)
 }
 
 // UnimplementedPostServiceServer should be embedded to have
@@ -376,21 +303,6 @@ func (UnimplementedPostServiceServer) VotePost(context.Context, *VotePostInput) 
 }
 func (UnimplementedPostServiceServer) TranslatePost(context.Context, *TranslatePostInput) (*TranslatePostOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method TranslatePost not implemented")
-}
-func (UnimplementedPostServiceServer) DescribePostTranslation(context.Context, *DescribePostTranslationInput) (*DescribePostTranslationOutput, error) {
-	return nil, status.Error(codes.Unimplemented, "method DescribePostTranslation not implemented")
-}
-func (UnimplementedPostServiceServer) ListPostTranslations(context.Context, *ListPostTranslationsInput) (*ListPostTranslationsOutput, error) {
-	return nil, status.Error(codes.Unimplemented, "method ListPostTranslations not implemented")
-}
-func (UnimplementedPostServiceServer) CreatePostTranslation(context.Context, *CreatePostTranslationInput) (*CreatePostTranslationOutput, error) {
-	return nil, status.Error(codes.Unimplemented, "method CreatePostTranslation not implemented")
-}
-func (UnimplementedPostServiceServer) UpdatePostTranslation(context.Context, *UpdatePostTranslationInput) (*UpdatePostTranslationOutput, error) {
-	return nil, status.Error(codes.Unimplemented, "method UpdatePostTranslation not implemented")
-}
-func (UnimplementedPostServiceServer) DeletePostTranslation(context.Context, *DeletePostTranslationInput) (*DeletePostTranslationOutput, error) {
-	return nil, status.Error(codes.Unimplemented, "method DeletePostTranslation not implemented")
 }
 func (UnimplementedPostServiceServer) testEmbeddedByValue() {}
 
@@ -592,96 +504,6 @@ func _PostService_TranslatePost_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
-func _PostService_DescribePostTranslation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DescribePostTranslationInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(PostServiceServer).DescribePostTranslation(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: PostService_DescribePostTranslation_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PostServiceServer).DescribePostTranslation(ctx, req.(*DescribePostTranslationInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _PostService_ListPostTranslations_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListPostTranslationsInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(PostServiceServer).ListPostTranslations(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: PostService_ListPostTranslations_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PostServiceServer).ListPostTranslations(ctx, req.(*ListPostTranslationsInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _PostService_CreatePostTranslation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreatePostTranslationInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(PostServiceServer).CreatePostTranslation(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: PostService_CreatePostTranslation_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PostServiceServer).CreatePostTranslation(ctx, req.(*CreatePostTranslationInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _PostService_UpdatePostTranslation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdatePostTranslationInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(PostServiceServer).UpdatePostTranslation(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: PostService_UpdatePostTranslation_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PostServiceServer).UpdatePostTranslation(ctx, req.(*UpdatePostTranslationInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _PostService_DeletePostTranslation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeletePostTranslationInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(PostServiceServer).DeletePostTranslation(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: PostService_DeletePostTranslation_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PostServiceServer).DeletePostTranslation(ctx, req.(*DeletePostTranslationInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // PostService_ServiceDesc is the grpc.ServiceDesc for PostService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -728,26 +550,6 @@ var PostService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "TranslatePost",
 			Handler:    _PostService_TranslatePost_Handler,
-		},
-		{
-			MethodName: "DescribePostTranslation",
-			Handler:    _PostService_DescribePostTranslation_Handler,
-		},
-		{
-			MethodName: "ListPostTranslations",
-			Handler:    _PostService_ListPostTranslations_Handler,
-		},
-		{
-			MethodName: "CreatePostTranslation",
-			Handler:    _PostService_CreatePostTranslation_Handler,
-		},
-		{
-			MethodName: "UpdatePostTranslation",
-			Handler:    _PostService_UpdatePostTranslation_Handler,
-		},
-		{
-			MethodName: "DeletePostTranslation",
-			Handler:    _PostService_DeletePostTranslation_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

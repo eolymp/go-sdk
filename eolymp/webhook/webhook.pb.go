@@ -39,7 +39,7 @@ const (
 	Webhook_COURSE_ASSIGNMENT_CHANGED    Webhook_Event = 403 // course assignment properties changed (course.AssignmentChangedEvent)
 	Webhook_DISCUSSION_MESSAGE_CHANGED   Webhook_Event = 500 // discussion message (comments) properties changed (discussion.MessageChangedEvent)
 	Webhook_POST_CHANGED                 Webhook_Event = 600 // post properties changed (content.PostChangedEvent)
-	Webhook_POST_TRANSLATION_CHANGED     Webhook_Event = 601 // post translation properties changed (content.PostTranslationChangedEvent)
+	Webhook_POST_TRANSLATION_CHANGED     Webhook_Event = 601 // no longer emitted, a translation is part of the post and raises POST_CHANGED
 	Webhook_POST_PUBLISHED               Webhook_Event = 602 // post published (content.PostPublishedEvent)
 	Webhook_TICKET_CHANGED               Webhook_Event = 700 // ticket properties changed (judge.TicketChangedEvent)
 	Webhook_TICKET_REPLY_CHANGED         Webhook_Event = 701 // ticket reply properties changed (judge.ReplyChangedEvent)
